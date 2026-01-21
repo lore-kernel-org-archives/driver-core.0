@@ -1,75 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D5042E004;
-	Tue, 20 Jan 2026 14:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF01343D60;
+	Wed, 21 Jan 2026 10:29:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768920999; cv=none; b=H3d1BOMjJMHIcHxLUXbkh6ift595UrxY4sciw/A68NN1Ij+H4nclir8HfZa/nWA7Miz5HncuQ9tURdwt4/VUzgxITKZXjrq8HYVvh7fSseSRlZ5pwLif5RyQcyC7oXfy5cJpUJiKf6PD+SaEW1bWcJbVRynrhdY+cmaUIu1C6fE=
+	t=1768991397; cv=none; b=FjgTp/VXMdtKmjlp+PvmPLjvPPtrBPQ2HcDY4oMiAVQcaFz8yLST4AZbqXX4pJZYtrPvv1HxNYJLnmaPl77XXbOs2fnB1N5rfPF8sIoZpSzXUuxzU9z1+fXIE2+hZU+X+dnpIMPyw0w9974hMGSnMzCaRAodzUQGJ4X/ddQ9fiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768920999; c=relaxed/simple;
-	bh=hYBxrKwlGFESwgv/D3uZHn65HlUs2A0S20/ytl6lbBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CEeEJm8nvoLTMf3mdAVCo5i0sLu7JXawv/LTZQPcfl+Ge3gHzX3PDMUcpcQR6b2dNnsjW7j3IffVmwf6gVSj4F0/XBgBa2kz6w9LqenP6/Qan9nF9m4FQAXUlNL0DK4Q4dDJsDQBFHLwVS9pCrSk38T5bTibU4BoKwRGVjcG7ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NL3FWvR9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768991397; c=relaxed/simple;
+	bh=VtkSXzXkjDbXBLKR4EA5zU5zmWvAtuAwf7CSmbXS9Zs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KpvZUuuU42DYA/K+sDcOLo8GHuxsXjvhd55uEQJuRyVlLXtM4Fpv9JuRlxvwCREeKR70gPj+wqUZrL2jhDMvyQGLqTh0VEo1DCP99XTo2iW5fTbWO1qmb+wsSdeLhYbJQ2IJnyZ4Ky2LA9cjIVX9gE9ZPkGq6XkVMp1TFCl9e/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QmTSBw8k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NL3FWvR9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17FEAC16AAE;
-	Tue, 20 Jan 2026 14:56:38 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QmTSBw8k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA52C116D0;
+	Wed, 21 Jan 2026 10:29:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768920998;
-	bh=hYBxrKwlGFESwgv/D3uZHn65HlUs2A0S20/ytl6lbBs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NL3FWvR9F0aav65DQbu0FXI2YUmoTB7Q99pVvq2b5Mbya8Jv+BgdMwd6sQsPbt+Sf
-	 ZU1sMc7STb4/wacVHW7g6BNyrgf6DHBILtJbYdYIOokpVU1Jxu4ZaTXm12ZkYs3P/y
-	 aR/hN2rFhuRiwgEZf+YYxVllJb+01TvRI69g2ms0=
-Date: Tue, 20 Jan 2026 15:56:35 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: rafael@kernel.org, david.m.ertman@intel.com, ira.weiny@intel.com,
-	leon@kernel.org, aliceryhl@google.com, daniel.almeida@collabora.com,
-	abdiel.janulgue@gmail.com, robin.murphy@arm.com,
-	a.hindborg@kernel.org, russ.weight@linux.dev, mcgrof@kernel.org,
-	tj@kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 2/2] MAINTAINERS: Add missing T: entry for FIRMWARE LOADER
-Message-ID: <2026012030-contently-viewpoint-8a9b@gregkh>
-References: <20260120123925.28267-1-dakr@kernel.org>
- <20260120123925.28267-2-dakr@kernel.org>
+	s=korg; t=1768991396;
+	bh=VtkSXzXkjDbXBLKR4EA5zU5zmWvAtuAwf7CSmbXS9Zs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QmTSBw8kk9PJjrvXzO5U04npEwbUPQWw6UWqZHzYVQyO38tx15vLOqDjgszXSbFl4
+	 BvHfZbeHz/YHULCTV/2Hc0n/hixyMJ0meGbcQe18N8y1vUYdZzXBCzsV1Lc/FClfny
+	 YnCiC2M9Pis7s/HgmB+/i7ZuWGA5H0zXVi29IYgA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: dakr@kernel.org,
+	rafael@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gui-Dong Han <hanguidong02@gmail.com>
+Subject: [PATCH] driver core: faux: stop using static struct device
+Date: Wed, 21 Jan 2026 11:29:45 +0100
+Message-ID: <2026012145-lapping-countless-ef81@gregkh>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120123925.28267-2-dakr@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1887; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=VtkSXzXkjDbXBLKR4EA5zU5zmWvAtuAwf7CSmbXS9Zs=; b=owGbwMvMwCRo6H6F97bub03G02pJDJkFq2Ye3Z589ijThZ9qk61ZyxaFeQptqXt+/lTV8779k V+Y56eHdcSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEXrQxLDigY3trbb72+rTN 1g67py3eI+kbNI1hfiCLvnnnMl6LXGYVhe/1BcLie34/BwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 20, 2026 at 01:38:53PM +0100, Danilo Krummrich wrote:
-> The firmware loader is maintained through the driver-core tree, hence
-> add a corresponding T: entry.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1f15d4a5b9a5..7faf04cc4278 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9830,6 +9830,7 @@ M:	Russ Weight <russ.weight@linux.dev>
->  M:	Danilo Krummrich <dakr@kernel.org>
->  L:	driver-core@lists.linux.dev
->  S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
->  F:	Documentation/firmware_class/
->  F:	drivers/base/firmware_loader/
->  F:	rust/kernel/firmware.rs
-> -- 
-> 2.52.0
-> 
-> 
+faux_bus_root should not have been a static struct device, but rather a
+dynamically created structure so that lockdep and other testing tools do
+not trip over it (as well as being the right thing overall to do.)  Fix
+this up by making it properly dynamic.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/base/faux.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/base/faux.c b/drivers/base/faux.c
+index 21dd02124231..23d725817232 100644
+--- a/drivers/base/faux.c
++++ b/drivers/base/faux.c
+@@ -29,9 +29,7 @@ struct faux_object {
+ };
+ #define to_faux_object(dev) container_of_const(dev, struct faux_object, faux_dev.dev)
+ 
+-static struct device faux_bus_root = {
+-	.init_name	= "faux",
+-};
++static struct device *faux_bus_root;
+ 
+ static int faux_match(struct device *dev, const struct device_driver *drv)
+ {
+@@ -152,7 +150,7 @@ struct faux_device *faux_device_create_with_groups(const char *name,
+ 	if (parent)
+ 		dev->parent = parent;
+ 	else
+-		dev->parent = &faux_bus_root;
++		dev->parent = faux_bus_root;
+ 	dev->bus = &faux_bus_type;
+ 	dev_set_name(dev, "%s", name);
+ 	device_set_pm_not_required(dev);
+@@ -236,9 +234,15 @@ int __init faux_bus_init(void)
+ {
+ 	int ret;
+ 
+-	ret = device_register(&faux_bus_root);
++	faux_bus_root = kzalloc(sizeof(*faux_bus_root), GFP_KERNEL);
++	if (!faux_bus_root)
++		return -ENOMEM;
++
++	dev_set_name(faux_bus_root, "faux");
++
++	ret = device_register(faux_bus_root);
+ 	if (ret) {
+-		put_device(&faux_bus_root);
++		put_device(faux_bus_root);
+ 		return ret;
+ 	}
+ 
+@@ -256,6 +260,6 @@ int __init faux_bus_init(void)
+ 	bus_unregister(&faux_bus_type);
+ 
+ error_bus:
+-	device_unregister(&faux_bus_root);
++	device_unregister(faux_bus_root);
+ 	return ret;
+ }
+-- 
+2.52.0
+
