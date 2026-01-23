@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E902EFDA4;
-	Fri, 23 Jan 2026 10:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431D6262808;
+	Fri, 23 Jan 2026 12:18:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769165308; cv=none; b=SbJjeZXNSjE77oJ1oOqRsvPF81wUud70YZdKUR1KoVjAzfG9BugmYO3bQuEaWxd5BhhGanHn54PvszLU/djYKxh/8vpcy+y3xZlpMXS/3dHEh0XFOr5pfwVix3QvmM7qUFZOqLqt00EDJAefY7wyQhTNgwaYeAA+v0PlkdBbdA4=
+	t=1769170685; cv=none; b=SZE82oHnkDAIHpMkeNd9RyBbQcXIo0XHwLWtNFa0bFh4rRk1gJKnC/eiEk7uUvvSRANkZs+tSGRZunp5kTxo+8kzF9m5QicDzM5q+IjnP/0dQuHnPvrOR+NwgglcbCk2JBPt9NW8sOeNldYUlWI6Qo4UgWfcOimFBeQ1geWLTsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769165308; c=relaxed/simple;
-	bh=+DOa4z65K5OWCRDlx1EP7PPZTz/EVsald6c5wTD1L+w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=AoMjCNBl4QZYbgad4jQ6LRljTOVSkb1ctpCliO7Gb8TRjPoQo3AlPylsJPv7LQfdPnhOGgOwYYKnzm0EoY+VErk4ZhOWATjwDh4g0896m123n3+DX+TSpC55vYyuRXwfeCsOmAw3ni14RggsK8uEluoNZVkmpi7v9eELN3O/9tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/6KZKoK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769170685; c=relaxed/simple;
+	bh=4uarZVU2/pQ5rxEHxaHDG0OIe4K0Z3y8JHlPwjRsvw0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=KTiJmC9YKjhK9OpISRvsB/V6YuX0fxiDjNub+bzuOguwS8UVx2ydcRbHfyQ+hm4+40jc/TGZDcfmeju0ajF0IAxbG1wj/BpyzuPUFcPWBtL6wtgTvZ5xLM7E5CassuPXdD5GPkyqmae1+s2xl5BxZk2HiOmDCnfqFTvoyLwVYSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cK+C2t5O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/6KZKoK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40B9EC4CEF1;
-	Fri, 23 Jan 2026 10:48:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cK+C2t5O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D6AC4CEF1;
+	Fri, 23 Jan 2026 12:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769165308;
-	bh=+DOa4z65K5OWCRDlx1EP7PPZTz/EVsald6c5wTD1L+w=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=A/6KZKoKvT5DxiFf+eGxa3jN3zreT1lxLgZ7mQ/zNu1VcbnMUU2bLnA7n1QM0C0o5
-	 sF941bSs0i6xikMDL74uTZCHV3e70kWNVlHQyWH7xu/Ew89m7xCOMKuT0PmdkhFyuk
-	 3VtYkU1OSyiu3MRwEDrVa4HDtNyOshoXrXOTQtq5DcLMRTWTcBCDcyw15tbp/lfHXk
-	 46HCzefQYli6+kFwKlJGUpkguZr3yd5dLUDncGbUuplHfSZ9KYPdEN2ueyFL9MszaX
-	 4uEqpHXNOl3GWUZrmQr+H99E3A9mKbHAYelIVfE2G0wPKVrnuPBKFSqW8/gNeLJUWu
-	 Hdq4a8fCQZZbw==
+	s=k20201202; t=1769170684;
+	bh=4uarZVU2/pQ5rxEHxaHDG0OIe4K0Z3y8JHlPwjRsvw0=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+	b=cK+C2t5Oas3nFF6xAYAIQT00W+VkEmgoOWVqS6IZbGCvGygOKTN2+Tm99YT8xxa37
+	 ABABcQNB7dNNb5yx068ZH3HGJf8y/GejMtPdCyfHF2uGj77uhhp4uZjTxkfFAUCoJ2
+	 61jEsSeelKxMFfEDXU9C3xrcMK/Lgsc+yvanKdimCT3HjDPrNLPC0McxsRMOVbqff3
+	 fQbePPWjdhvaK9NADVKmVEuY5PpwB1Q1xJw0eojKQ2KpIK2tOhUWaUdfu8RwNpkr+n
+	 GmneiRBez8hQhQZ+w13jl4s6sxPxSwFydrT7UADXkGbnFlHqVDkkckdrKc+zOmwCtX
+	 uVOiMufRAnhOw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,21 +34,26 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 23 Jan 2026 11:48:25 +0100
-Message-Id: <DFVWRD987H08.JG64OAFXPL9R@kernel.org>
-Subject: Re: [PATCH] driver-core: move devres_for_each_res() to base.h
-Cc: <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>
-To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>
+Date: Fri, 23 Jan 2026 13:17:59 +0100
+Message-Id: <DFVYNY1XJRGO.2FY7J9EP5FA39@kernel.org>
+Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, "Danilo Krummrich" <dakr@kernel.org>
+To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <david.m.ertman@intel.com>, <ira.weiny@intel.com>, <leon@kernel.org>,
+ <aliceryhl@google.com>, <daniel.almeida@collabora.com>,
+ <abdiel.janulgue@gmail.com>, <robin.murphy@arm.com>,
+ <a.hindborg@kernel.org>, <russ.weight@linux.dev>, <mcgrof@kernel.org>,
+ <tj@kernel.org>
 From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260119162920.77189-1-dakr@kernel.org>
-In-Reply-To: <20260119162920.77189-1-dakr@kernel.org>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Add missing T: entry for FIRMWARE
+ LOADER
+References: <20260120123925.28267-1-dakr@kernel.org>
+ <20260120123925.28267-2-dakr@kernel.org>
+In-Reply-To: <20260120123925.28267-2-dakr@kernel.org>
 
-On Mon Jan 19, 2026 at 5:27 PM CET, Danilo Krummrich wrote:
-> devres_for_each_res() is only used by .../firmware_loader/main.c, which
-> already includes base.h.
->
-> The usage of devres_for_each_res() by code outside of driver-core is
-> questionable, hence move it to base.h.
+On Tue Jan 20, 2026 at 1:38 PM CET, Danilo Krummrich wrote:
+> The firmware loader is maintained through the driver-core tree, hence
+> add a corresponding T: entry.
 >
 > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
