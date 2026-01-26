@@ -1,64 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E641F136358;
-	Sat, 24 Jan 2026 19:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF37E17C69
+	for <driver-core@lists.linux.dev>; Mon, 26 Jan 2026 09:06:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769283837; cv=none; b=UtSeT1R7Y+iwaky38P+i0rmPw2RPhk1rGAn13dyY61TWCmTlFVyzNEzOwOpn/xorg/JyJ/4pnMl5nxkMdKvqm9R1krqSM33EmkFOCSkTNJ2MYxSOD8VESUB1wX4sNqz18vYMhfUt9f7OnHkSNKh0sf9iiml9V4c73q9t0LEJjj4=
+	t=1769418419; cv=none; b=drChyxlOoynsC/a2+oQvI43A0GWPFCSWSHov2BwDOLs+v/cQmhpZ7gDiOWTSUxaJHIk0CoKanQtkk6jeGOw3Ko978fBkoP4/Io4Pp/u3tKrsMsHicpuFcd4Mh41ruls6bb4qt8ImVuWVlNBGvJVz44bseppV4cdVqgsW10s+F9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769283837; c=relaxed/simple;
-	bh=ndR7EAzoNSa+05WA8Q0lmOjfIVyphmNxyYVTaKQdyAs=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=cy/jWp6C8vtu/Q4k9oMYCO1N5nyDT+yghRLGoF4g5IslQyyAc+NcPjBk/FAf1jyAUNZeeLbeUoUUmveGn9Qz/3Xn9g+dCkUOceseQxU93u3ehuo2irKo5VSFev18lMIYu5MOpZBeNBrzRBtSrKr4rO4MoL/rvnEMwDgysXTxqYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wc93BrRk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769418419; c=relaxed/simple;
+	bh=v55gJJHvJ9Mw7NDsEoeRvb1I2iFj0dkmEX3rOHLwg9k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ocLbQoIqGJZlQjIQK1HYewVhPn/Bm+sPB3h9V+G8GS+7Y62yDsst6+bojzkbVSqGy7DNDOcLdKqoLTa0iMA4w1XECJmMalOypisFXdgonrXY79X61nbnEukfGHtE1o3nSlYDvPPvT4vRyTlDuuMZMmLBH9+bSW5fA/pO6lLO9OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pSiOab9z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wc93BrRk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8804C116D0;
-	Sat, 24 Jan 2026 19:43:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pSiOab9z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D259C2BCB3
+	for <driver-core@lists.linux.dev>; Mon, 26 Jan 2026 09:06:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769283836;
-	bh=ndR7EAzoNSa+05WA8Q0lmOjfIVyphmNxyYVTaKQdyAs=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Wc93BrRkPPhThFSPbzI/1ijsAL+8uYotgPbYqexb2a+z481aQqruWiowYY8F0J+oq
-	 9mzsuGkCxnT43BC2QQbYY6471aU0/28+S5+bK1nyK1tx43QdAQq9GUWAmyW2iyFvyX
-	 isb3Dg4FFigKzQ8PL2Re6x/QAzhv4iAM0rx986unjanFwq36SRPp9/vRH6tR1lifqt
-	 hG0ly2cN5M57Edp36VNdgxNFp7arB7ho63ZaEggm1014NRRGFhPrE0CS7zeW9KLBzN
-	 +WLLZ0q0mRnFYGYrvywriAaGubpMUmb41ppyo3a+0VZNva/7E8kpKlW7hjJ0eXI5lq
-	 G8KMochcztw2Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 4EE48380820E;
-	Sat, 24 Jan 2026 19:43:53 +0000 (UTC)
-Subject: Re: [GIT PULL] Driver core fixes for 6.19-rc7
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <DFWVL46MM928.V9LOBRWI8BLZ@kernel.org>
-References: <DFWVL46MM928.V9LOBRWI8BLZ@kernel.org>
-X-PR-Tracked-List-Id: <rust-for-linux.vger.kernel.org>
-X-PR-Tracked-Message-Id: <DFWVL46MM928.V9LOBRWI8BLZ@kernel.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-6.19-rc7
-X-PR-Tracked-Commit-Id: a995fe1a3aa78b7d06cc1cc7b6b8436c5e93b07f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5dbeeb268b63ea2d9795b3e5e8ffb48c236f5bb0
-Message-Id: <176928383189.3355073.8552712992970781355.pr-tracker-bot@kernel.org>
-Date: Sat, 24 Jan 2026 19:43:51 +0000
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+	s=k20201202; t=1769418419;
+	bh=v55gJJHvJ9Mw7NDsEoeRvb1I2iFj0dkmEX3rOHLwg9k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pSiOab9zz78r6AF8rg38kSbdx+xDdbedRy4DNIo70fU+3afgVnV+IQaNcH40yb4VH
+	 O2xdsiiD5U9W7H5NffKRstWfTZbrpOq1Y23URhjwW5My5qpbotxxMXWk3OFuI2kFlk
+	 n7o+OMeX6UmryWcoji7camFZKlTp0KNn8rz1cAKPsnElRzSsd4Eoep2vnDpU7CvHnJ
+	 jCUefkJmtLB3VglGHc31BRxEqYZw4MBTUyVOzCkTk8jpPynzrwOpD6bQEleSoXEM3A
+	 Fegzpl/w4arx7qCa0iBq6gyWyvUYZwki4JGuRPTYCBDfjOCkpOBgTL4hQFU3eRnjxa
+	 VoyxHv8yuUwmw==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59dd7bfeb8aso5296413e87.0
+        for <driver-core@lists.linux.dev>; Mon, 26 Jan 2026 01:06:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVyvFFOz/Y0677OCG/T11Bzzb3kuRaZaz8dSelwtSW4/DzVG+VcQX0J22oLC1bjg8XiIucjxsi9WM7e5w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWZBsRCVE38cgD3dk49TQXVqPg24YcxZ6uJlOwJH2w0LBkKz/F
+	NZ0ju/r3gmSARIJJCRxvXy0HMFylA4SNECK8giecgqKzDqFUlN7jBFQGXHpbOCTqFbGk67I73EO
+	u94tXWiMS3xYDCF6hygRkh/I1815Vg0qlJA1LhczA5g==
+X-Received: by 2002:ac2:51c4:0:b0:59d:e5e0:f962 with SMTP id
+ 2adb3069b0e04-59df3a2060bmr1269509e87.32.1769418417999; Mon, 26 Jan 2026
+ 01:06:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260123133614.72586-1-dakr@kernel.org> <DFW0HVK6AF0G.TW6R157R8O27@kernel.org>
+In-Reply-To: <DFW0HVK6AF0G.TW6R157R8O27@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 26 Jan 2026 10:06:41 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MctBqEcoDOG6BGtd=ri-c9X9awnfrojtYRVPQfp8EfGdQ@mail.gmail.com>
+X-Gm-Features: AZwV_QjJQcS-YTz7pMN63EdVshPvZ8cjnQzfsDEbS0FnwMyUJXwj1PqCjnf-GKA
+Message-ID: <CAMRc=MctBqEcoDOG6BGtd=ri-c9X9awnfrojtYRVPQfp8EfGdQ@mail.gmail.com>
+Subject: Re: [PATCH] gpio: omap: do not register driver in probe()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, broonie@kernel.org, 
+	will@kernel.org, grygorii.strashko@ti.com, ssantosh@kernel.org, 
+	khilman@kernel.org, linusw@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Sat, 24 Jan 2026 15:05:54 +0100:
+On Fri, Jan 23, 2026 at 2:44=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Fri Jan 23, 2026 at 2:31 PM CET, Danilo Krummrich wrote:
+> > However, for the purpose of avoiding the described potential deadlock i=
+n
+> > combination with commit dc23806a7c47 ("driver core: enforce device_lock=
+ for
+> > driver_match_device()"), this patch only addresses the driver registrat=
+ion
+> > issue.
+>
+> I.e. unless there are any concerns, I'd like to take this one through the
+> driver-core tree.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-6.19-rc7
+It looks good to me, but it's a GPIO driver, this can go together with
+GPIO fixes for v6.19-rc8 as usual.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5dbeeb268b63ea2d9795b3e5e8ffb48c236f5bb0
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Bart
