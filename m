@@ -1,102 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7A7341046
-	for <driver-core@lists.linux.dev>; Tue, 27 Jan 2026 10:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4573587CA;
+	Tue, 27 Jan 2026 13:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769510067; cv=none; b=leGZA4zum3ODzt9DtmSNs0NNia7YFj7oCMWiqnhp2fZ3N+PFjMBx2Jud11qSNqx25+IfhFROKiDGF2yF/n6bvCHnmHvE0eWvj5pH3d9DlJIttWDOvS3+llfUubRn3tgkrwz+qG0HNV3heerbFBvY34quMa7ABXMB56pYS4V92g8=
+	t=1769521080; cv=none; b=t03YDcJYFfz2Qhvi/W4Uy4JJBa3bXyZoYMA6fB6RvEPB9ljC/HymA6Cs4tg71JMIe42pf9TIWppkwTz1DkVcelMxFyjWsjGFpdJ4wJKyuw/xP5qHC2OaVSGw+4yz8fREy41RrMxa9BtKkVwm4mWfqtG42Y+TZt/Gq9O1BiBr1Ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769510067; c=relaxed/simple;
-	bh=yp6cq73p/uk1O1TFJ6RmBr3+yKelBL1anGwU/ljcG6o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=myYBNXg74fkyo506ImjN3ScmwgJvSh0Uvlz2Kv8EI9a93KAagOMWa5TlipYUveSPKr01gZh9fbBq4S+yHSII+dUMiDq/GKhi6LXg30R17IGIGJEMMt/h7pbiRZ4mMsLYtiXSv4FNJagnApweyCiqnEkZJcANALjZ5QmuBEHbXMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMpEQGpu; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769521080; c=relaxed/simple;
+	bh=2o9XeiaV+pV1m7JV1xysf2I4EcAw0dYDb9YlHz6XTow=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=W/pO+EQWBYXqFa83z+BzslmW6XqF0KHrugsB5bMLS7OutDaFCf7xXvVvVKnyX3Qah5Bp5mHVnZbgnr2/FCtSxKRPopl43Uj3fNKsg5sD78ykgs+OFdUQgg0sBT0KBZQFezhbOljzJ3TprMaz8AskPBxgLedxC/7kF02eFYwBNv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChYnVqwN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMpEQGpu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769510066; x=1801046066;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yp6cq73p/uk1O1TFJ6RmBr3+yKelBL1anGwU/ljcG6o=;
-  b=JMpEQGpu3HWrQUCdDRbXOZgNPSv+CJm50bMKAHsLlQiJdeA6eS3+KfeO
-   XdQdRmg0iro2OGgesnVyKdpVAk+wDEC8zznCIzqM6eROkMiLSFnz6oGBM
-   xNP3Iq82oaicG0iv6nLX78FKN3bemVpHHyzbeNADg50eNi8zAsHvIESIl
-   IBKHAPkrXhvCc34iNLBt/+j8+IJgKy/tzn38E3BRaIxWw3BNv9qb0C5pI
-   Qsf523eJsonDYUtEBSBLwWhCgtD50nAOjQPEfW/1RqCa/RrWDvJkn55c0
-   4XlQLsC1hp3kr8ZNbkDP4y4HvkY6Ofrqv8G1bViw9TrJlA7Wk1ucHPe6G
-   g==;
-X-CSE-ConnectionGUID: 9Rub3U4gS9OASdv+76UO+A==
-X-CSE-MsgGUID: 84w+1886Roa0wAcJMTmqZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="88117949"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="88117949"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:34:26 -0800
-X-CSE-ConnectionGUID: wpXaZd6zQ2acKug1vMjGgg==
-X-CSE-MsgGUID: d5ofc/8MQlSgLTZZozAtjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="207069724"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jan 2026 02:33:28 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 9DDA89D; Tue, 27 Jan 2026 11:33:26 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v1 3/3] pinctrl: core: Remove duplicate error messages
-Date: Tue, 27 Jan 2026 11:32:08 +0100
-Message-ID: <20260127103325.3925173-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
-References: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChYnVqwN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77B4FC116C6;
+	Tue, 27 Jan 2026 13:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769521080;
+	bh=2o9XeiaV+pV1m7JV1xysf2I4EcAw0dYDb9YlHz6XTow=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+	b=ChYnVqwNpVDugUrDdZgiGSiXdpOB0lzmvSQTNGypGi9uSB345QwCpeKyVwh9JSLZ2
+	 AtEWFMU+ZdO1LWnJcYviWH+/EOsMuvd/CZ9SnSN1rRfoKs2pEcCW6yqN+ghPaYruB0
+	 ItHkeVaB0IfHSUAISyujeJK6wqhgZf3cEVkoSmya58enc46jl42+5rPcLKCAUoo+j6
+	 wAJwHH1bauMxKo+A3UkqYtlrT3bMZxikAGkSSKG5jUEbcFF2wq0fZSR18dedAuRa2y
+	 4+WiJesTIjwS5c+mZwR61h+eOUuHvWj6p2TNA4OpFrBJkMzQBMxTilE5BVRWBxG9Su
+	 747+EvnFVdMwg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 27 Jan 2026 14:37:55 +0100
+Message-Id: <DFZEVBSZTGK8.2227V5O5GQS9T@kernel.org>
+To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] gpio: omap: do not register driver in probe()
+Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <broonie@kernel.org>,
+ <will@kernel.org>, <grygorii.strashko@ti.com>, <ssantosh@kernel.org>,
+ <khilman@kernel.org>, <linusw@kernel.org>, <brgl@kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-omap@vger.kernel.org>, <linux-gpio@vger.kernel.org>
+References: <20260123133614.72586-1-dakr@kernel.org>
+ <176950495232.13307.15142034347404555496.b4-ty@oss.qualcomm.com>
+In-Reply-To: <176950495232.13307.15142034347404555496.b4-ty@oss.qualcomm.com>
 
-pinctrl_claim_hogs() is covered to report any error via message.
-Since that it's not needed in the callers.
+On Tue Jan 27, 2026 at 10:09 AM CET, Bartosz Golaszewski wrote:
+> Applied, thanks!
+>
+> [1/1] gpio: omap: do not register driver in probe()
+>       commit: 3cb53b083fa665ec14c52962f50b9c1df48cf87b
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/pinctrl/core.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I think you missed to pick up the diff in [1]. Please let me know if you wa=
+nt a
+fixup patch for this.
 
-diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
-index ebf803bff867..342bda2a1bd6 100644
---- a/drivers/pinctrl/core.c
-+++ b/drivers/pinctrl/core.c
-@@ -2187,10 +2187,8 @@ int pinctrl_enable(struct pinctrl_dev *pctldev)
- 	int error;
- 
- 	error = pinctrl_claim_hogs(pctldev);
--	if (error) {
--		dev_err(pctldev->dev, "could not claim hogs: %i\n", error);
-+	if (error)
- 		return error;
--	}
- 
- 	mutex_lock(&pinctrldev_list_mutex);
- 	list_add_tail(&pctldev->node, &pinctrldev_list);
--- 
-2.50.1
+(One unrelated note, just be because I noticed by accident. Your applied pa=
+tches
+seem to use https://lore.kernel.org for Link: tags, while it has been agree=
+d to
+use https://patch.msgid.link instead [2].
 
+I just mention it since it might be unintentional, i.e. it might be that yo=
+ur
+tooling does not consider it.
+
+Personally, I use b4 and have the following in my .gitconfig:
+
+	[b4]
+		linkmask =3D https://patch.msgid.link/%s
+
+Not sure this is still necessary in the latest version though.)
+
+[1] https://lore.kernel.org/all/DFW0SC4QG4W8.C7BRHX02W3IK@kernel.org/
+[2] https://lore.kernel.org/all/CAHk-=3Dwj5MATvT-FR8qNpXuuBGiJdjY1kRfhtzuyB=
+SpTKR+=3DVtw@mail.gmail.com/
