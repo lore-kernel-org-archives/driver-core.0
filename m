@@ -1,95 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F313B29E113
-	for <driver-core@lists.linux.dev>; Wed, 28 Jan 2026 09:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6066B353EE5
+	for <driver-core@lists.linux.dev>; Wed, 28 Jan 2026 13:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769590855; cv=none; b=IqRlAVN68rw2ibK9ywWPeFT6h/A3nK+tziO9OfxK67GQUYhx509xH2B/aiR4SRpGKlqM9rzklOkXqPna5pN+nZFnFDYnjGnha3gZGxoXO3IGODwm5NRMBbMj7nTgh9ELwwvk34g08hjja/7Pw7vAyM+jTUajQayq+NXq8tl8w3o=
+	t=1769607041; cv=none; b=eFrkQF0W/0sBreh05MdxaX5N8bEeoVpOMYs9a/yn7J9Xh0HvgSjOYrZTMl7TgGES301rmsPxOm/AWY4uofIk1ZnpbGe1y5Sk5W5b4AzuFkQR20FER00Ht6YGUhn4bjRuPNutDCBViVuixU3b6QT3S5IMVtHNQ0TfUoRAs2fectk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769590855; c=relaxed/simple;
-	bh=YkYiwZJ4ojXAQuS02Y+mHBCwUemZk4jG0C5zsxDwbFI=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OqGVFlc1JnvhhfGaZA11e32rngMUQJxjjTDxghOGFuv5hhqbPLt96vD11OzURE9gDAa0XxZ6E5kbf7I25aMm0NLFX86Z1X+F/O/vjxa9KAhG+Z5X7uQ8lwSRHVxWLGDs5PSmiAkBo6a1vokRWO2+V8UC8z3pPNEXUvqobJsq3lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TAZsYk1i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769607041; c=relaxed/simple;
+	bh=IDYHDopI3+3e/DN4UhXY1TbLHXHicduyojfH6SkpXYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G2FTMan2nlyi+2+SXu+3LP0KQE4h6V4a9xSZrHv4ZO5myKpJWfZqMFjkEkTGDDw8fI9NGQhf61a4ug4mDHe12kPCGx/7Vj4scu9u2IHs2Cv0P8yPxaR3h1Jwxc4gmIJRaNAJgms7nMmHdVCpJocpM/2CFvDfKq9eITVDwnyNOfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqMiss83; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TAZsYk1i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D890EC19421
-	for <driver-core@lists.linux.dev>; Wed, 28 Jan 2026 09:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769590854;
-	bh=YkYiwZJ4ojXAQuS02Y+mHBCwUemZk4jG0C5zsxDwbFI=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=TAZsYk1iDwiIXE1+QTMCZ5wTmf52LhyFDB8E1NesOAaPATcumQmx2lQw3q7HRdUDl
-	 Z+sLIdwg+wSsypMtmQPsvBH1b7nmJDZQJVCgsGDlA9Y/vUXjnrHjva6TS7Ne4Ukz8S
-	 1v8pe+jCOw/3FIcVSMdbA7v3NTKxnrp0VuJMYcVRewi1dI4VMD/0WoHDjdsJhOSrYg
-	 Ul/mslh3AudBrpu1CmUWEozxXpI6xraeh9goF6axkVqHUiKUpzOlSCjZFFVgqvGYzP
-	 JEp+4GfdcWlueYIJeoys85m6vnkrAWXc1/iIAjIoz31JNC1nPCrm+Fs+i6dvq/kruz
-	 8NeSPZzd/8fkg==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59b6d5bd575so6759158e87.1
-        for <driver-core@lists.linux.dev>; Wed, 28 Jan 2026 01:00:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV5Pn1ULJ1ZBRwO4N7U6hck7RAhDbFhvoPn5XyRQArtuFoPMjNat/3J+AJMYv8p7fX8mxS/swvXdi4brA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzg8DOOOruR5JnewJX8NxTOUT7ZbJA4/+db2+ttDdmhTXhQMxu5
-	DhXT8Q3Klmaq5yVeWwyyL/ivZ4XzwKkk6rTJNwoUVB6QcoPpPg7beCYBJrWWm7Ecst19yCyk8C+
-	bmMxFnMbK8XwDV9McNTv6Z3Q2v0Hx9b8dlXRoDGSlTg==
-X-Received: by 2002:a05:6512:3b97:b0:59d:f71d:1efa with SMTP id
- 2adb3069b0e04-59e04034c72mr1898225e87.47.1769590853533; Wed, 28 Jan 2026
- 01:00:53 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 28 Jan 2026 01:00:52 -0800
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 28 Jan 2026 01:00:52 -0800
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260127103325.3925173-4-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqMiss83"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769607037; x=1801143037;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IDYHDopI3+3e/DN4UhXY1TbLHXHicduyojfH6SkpXYk=;
+  b=IqMiss8359GzGQ0gIYOV38y0JeD/K/omIsToiToTaXKUTYbCyOPp1oxp
+   w360MptXNIsXvFmJFnEUq4CMZcI2pSTKj2Vgp2ciVMEbG8hqFpMGvDCW/
+   KvRyjpTAAJcEfZ9jcWmHU5B0FnLVwH8QBSgRfQjwTDzJKouKzVqMcMUL7
+   Q3x5c+Dg+U0XPkOc6xqr1Qi/ec7sFhLfkG479JXrzA1RL5OJawBv5NUpb
+   wsW5hbKN/uyOYrp8Rdy6ml18kngEMy/fh1LgH+WLi2PvUokPQDmyeKlkl
+   BtpUBiHFEiwspeBnhvT4QCL3AaIJRo3wTQCTjcpq4eGkjpHY0KSuUxVuu
+   A==;
+X-CSE-ConnectionGUID: d1Y2gNlETl+v17OGjkVcjg==
+X-CSE-MsgGUID: na/nOTYsR/67Ukp3a9fzRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="82184982"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="82184982"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 05:30:33 -0800
+X-CSE-ConnectionGUID: pUF+UhNpQ7yTUx5Sc6mAxA==
+X-CSE-MsgGUID: DknCndgcQMyzHynYUUCfRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="208336215"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.196])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 05:30:31 -0800
+Date: Wed, 28 Jan 2026 15:30:28 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Philipp Stanner <phasta@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v1 0/3] pinctrl: core: managed resource handling cleanup
+Message-ID: <aXoPdC3AM0L8Ozkj@smile.fi.intel.com>
+References: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com> <20260127103325.3925173-4-andriy.shevchenko@linux.intel.com>
-Date: Wed, 28 Jan 2026 01:00:52 -0800
-X-Gmail-Original-Message-ID: <CAMRc=MfraMGeuO7PBgEBaDQDd-mMk2HWTGx5KW_RczLuae0_5Q@mail.gmail.com>
-X-Gm-Features: AZwV_QgzYEB-p2gDQDkFLVB2gsO13yEVklP57u2_diTMi53GncC9pVBMOHbPT1I
-Message-ID: <CAMRc=MfraMGeuO7PBgEBaDQDd-mMk2HWTGx5KW_RczLuae0_5Q@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] pinctrl: core: Remove duplicate error messages
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Philipp Stanner <phasta@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, 27 Jan 2026 11:32:08 +0100, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> pinctrl_claim_hogs() is covered to report any error via message.
-> Since that it's not needed in the callers.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/pinctrl/core.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
-> index ebf803bff867..342bda2a1bd6 100644
-> --- a/drivers/pinctrl/core.c
-> +++ b/drivers/pinctrl/core.c
-> @@ -2187,10 +2187,8 @@ int pinctrl_enable(struct pinctrl_dev *pctldev)
->  	int error;
->
->  	error = pinctrl_claim_hogs(pctldev);
-> -	if (error) {
-> -		dev_err(pctldev->dev, "could not claim hogs: %i\n", error);
-> +	if (error)
->  		return error;
-> -	}
->
->  	mutex_lock(&pinctrldev_list_mutex);
->  	list_add_tail(&pctldev->node, &pinctrldev_list);
-> --
-> 2.50.1
->
->
+On Tue, Jan 27, 2026 at 11:32:05AM +0100, Andy Shevchenko wrote:
+> I have stumbled over low-level APIs used for managed API implementations.
+> Here is a clean up along with a drop of some duplicate messages.
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Thanks, Bart, for the prompt review!
+
+Linus, if you want this to take via my Intel PR, please tell me, otherwise
+I consider you take it via your tree directly. Whatever works for you!
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
