@@ -1,144 +1,308 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011044.outbound.protection.outlook.com [52.101.62.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0CC3451CE
-	for <driver-core@lists.linux.dev>; Fri, 30 Jan 2026 10:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA8B23EAB2
+	for <driver-core@lists.linux.dev>; Fri, 30 Jan 2026 13:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769768819; cv=pass; b=OzO+JZQj7ZbLBuZzcoksqlmLYcG5oeN7JKsP/QTyU2zdFufoLtHO2RYkIzQcvN/T60yPBGIVx4SeGZH/8hs8hJkqeDS+W6i7y8ob5rxsqosMI/ISRcyb0uk0iGoauEhRYLR9z235fDjwTrZyypFPHJRebVx7alVhGa0bAb4PN5g=
+	t=1769779993; cv=fail; b=HxyAGaFsYgTB5xERlIu0bWP9EFb4965A7otkR1SdXwlnkqnxxj/hMGHy/7NKlcGNoVvvNoHvl6rNiKPon4iEE1VL5lnFYGg3izcfFFu6zy2K8nDM3WU8gwQA+Hs7DXWWN5iq7p3gg6DGTU503DYW7ChN6oRtlc62kPFVdZ8Ksps=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769768819; c=relaxed/simple;
-	bh=keKwmUlZ7OSonG/lmZBAIMewZ5+4Yjw3f7MIUH9AdaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ctT49edLCDE0s5njf5Qr5TpUTpsUuMOjwW77N15S9QHv/iqAdCGt1OdFSMuaVDS7xQn1AZpu0GY9KCsJaxy7z9VTrM7BJI+2q9n8xzgx6CS/+5suBFKIa9Eim4W3Q2v1erKqRLt2K9vayvEmzNb5+Qpm+DRnPaO2Bdy3DVkda28=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eSuGPjow; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1769779993; c=relaxed/simple;
+	bh=4yB/FFCkyk6FyLOHcT4vQ3iETzmi4BRvSsR61xjFdck=;
+	h=From:Date:Subject:Content-Type:Message-Id:To:Cc:MIME-Version; b=uTuQLQad5j7e5AhkjCsKX3/y2oTOE+R5UqpE+X6iSAZxcyNDIIgHZ2EpoTJLoqyBHgY6fyN0YFD/1H/5yRwQGVR8aFuNVBtQLULFFEBckO8RjoFk4buRVkjf4aTXUSSsvSEzfShZw5J/Ykt7qYoSmggHxA1SsoH2XWW7jg1h9QY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Z0nORIzs; arc=fail smtp.client-ip=52.101.62.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eSuGPjow"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4359228b7c6so1430241f8f.2
-        for <driver-core@lists.linux.dev>; Fri, 30 Jan 2026 02:26:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769768816; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NPGTy8h9VwxeFnudR++8EEcr005R2SlwjN0CA2Chf40qAuNQWC1FR+N9p2zL6g3+L0
-         764wZYVnmRg0WGNpal7LXMW7QMF7OHoep9JDRzXSGyG5G7gWNZb2MAgzCXvbVqMz7Q0q
-         TYDNJe8IzIjXsCiBM6TRBQXR2TtrUpzAyW1XChYtu2Nuh+hg/ipsqVp/YnY+3v7LZ8KN
-         iv4j7WWN9tl1nuOWdOJ/yZTMoP5c+o9K04Zk5h1tc1yOBf4CokVj4WLR830p8llIK1kn
-         5lZQNm5hzOw4VYuv8ZQ1Rhk3lxaaDgCVxs9dUr8uazr9o4oltaTT/C1QPSy/L41iWKLu
-         ZGQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qKGf5ayE/1fi3WtglGaStB/NskmIOWGBfGvj57gDQYY=;
-        fh=CcxFmYCE6E/EzqM5yHcpXu1ptYHWp8Azn1cyFs9LbAA=;
-        b=KrJ00avBVQxw2GqR326o0LlIrgdqZlyCKBu6RPaKD050E1cgFEA0WBpt8+HvnhE9sq
-         l5QsgI4War+65RVDAygv83DRZLXopBOb3L5vKEX6vhl8GHr8Z+BAhrTQKHuU4gNGNbMT
-         xwCjb+A1rKIyxhU7W/kOz00HCOXkJTIkeL32b4awkh6eP1U1SJxQjuCPz3l5VxXDaY7e
-         z2bsHip3AhuFclE5p9RoZizmOt2Iy5gySy+oj/D/fKZcDU3H5ZY7lTJijizL7DXF/egg
-         D/W3Tzw5eenWCU9gtvMdxg8ERp5wBNX9BzaYcSqQhb/dDdbi6Jm1ktAQRI5jafg4xjlZ
-         209A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769768816; x=1770373616; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qKGf5ayE/1fi3WtglGaStB/NskmIOWGBfGvj57gDQYY=;
-        b=eSuGPjowuyAn+8CF4trGJfJgrxXFiAzwrepyc309jqkhffr1qncmL+rMxJbRawHbRy
-         OjLGQxJFGPZAq4iql4jdo+2iv5vFRQsY3oJgpaVqB/GpABr7aoRjaqSth3U6rY2KPyNj
-         lVwCPqB5A2USsmqkIDX82R9pdC5AmbCmxdYBuwR/u+1r/QKw3x98Ype8DAPH7fK7wjGy
-         +Nfj/EYUDbVsAgeFjxhE97sFWQyWQpbXZ3QytckgRp5kCs23nrFlsgmZ4/IFL11hUG6U
-         4yA2cfln6mFNK0yq70laJHzxa3mlO9p2NU1JcSg94Q5ND1DiG3twnx+Ctn7tz1BpQhbA
-         knBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769768816; x=1770373616;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qKGf5ayE/1fi3WtglGaStB/NskmIOWGBfGvj57gDQYY=;
-        b=nCGnOyalybJJXUe2dAk0UxkQBvB4CwxZAVbg9oocgt/FNeTi9EKgAfjS/GOvWgUHP3
-         C4C6xvsaKVTNjDXoz+C/JOjJN6lhIUPar6pVG0Xnxi255cKoF+Np0U+1DgL1mdJSXKcY
-         0aaZxsVUUBFomXqgN0CpwJLjSva/0OqBfomhDZZwfvN6p3BqtK9/noNIXSVOJYc3rGZo
-         v8pTT8RMTnk9oKC9x4t6GMskGotzBUCGr40f1gbiwsUlSirvqSHAS5e2NC1XrnZRIQFA
-         3p0GkW4LWcROz7YjNhWO/Af5n1rjYVdAoS5tK983mSTj5MtoEzdzlTidKeoQJkv0Z9T7
-         BT+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWobbAQg6bwJAdBgAa96LiAnR4TqBlSWIyTtNNBY8t9kISICwayJ2Q+S38yprBEAFN2jzdG+7KcLzJcCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz/w9E2UESeqYid+0dpVg7Dyz3z0QvB9XvYNA592kmnWy/Fhtwm
-	E08LC/BJaQDwOQZtEGybPv3auoeNQ1Qd+J0w/7bLYQBdKm2DLr8ZTuWhfvcXvH74WnRA6mj4Z68
-	/PBjNXRk3aHcOA54cBxZvRoKFMsDZCIME+UYZVBUi
-X-Gm-Gg: AZuq6aL850uVXpc/9fNXLqNHA5pwxl3X8yfrFXeDS4z6N+9yJD4fGeF6U8wgxXv/Jb6
-	tkWVyK6OvZ5MqHLczfS+4rxNvKE1ItekAXyUGb/NZ6d2Mer+noZ5rjNYWmbqyRofIe6CC7yDS5k
-	XirW73yPujav9lb6Yr6Kv9GccQKzmEcl239dOhg3CYUbFoBBf2PXv2FJ5EqSG96ZYYLHGwrpoYC
-	2/mIwB0ko7nJIStCtvl27ORg12Skr8NBxh9YXbnc6K+GIHzKtfBIM2BUj3rTDNXzRqbEdSuoYx9
-	84+VlCPbUmon5VuXtnJQX1O8kA==
-X-Received: by 2002:a05:6000:144a:b0:432:8504:a383 with SMTP id
- ffacd0b85a97d-435f3ab53cfmr3434365f8f.45.1769768815664; Fri, 30 Jan 2026
- 02:26:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Z0nORIzs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=h3B1EGe0Aye4EIUq0SJFdLJfJ6vIJgOroCNdxV6eoVh7fDZYoQihoItUcnxBurOGXQRH+Zt7rA3BDfUUS1OfEHROiIqOeftTwInzVXysTo1WUxf5WwhABcvNLXRNaPLW3qebIZlK3qWHGycLKQO6bwJ4HUKMxulHht15VPDJoiiLQ/ijSl5lyWdAIa1s1Ozj8JvNqLRjGYVEXh4wM+9hqomxAofnqFveEA3ieks3XKlny3egLVMaalW0USOp4u4XFAVKIJTuay0dhPDaRb6ZD0s+fEGGqyoxo+c8hUEkArMXMbRPE0WIOCD41mNBG45k8CnFkCW0Is8MwJKNFJ2mqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a19byuoTHXL3ssNpRJtujZZjdiT2bWZZ2x8GJL3PJcc=;
+ b=Clt65BSEtRS46DDxfJc0c4lwfjJcnxQJIHcsQCF5GXyIoJZnFSjjTPR8hZmgw6KYL8Sl4PgpYNpBmNEBNB7ZUTpfEiQHCB4sdHm+CtZM7EdOdFBJ+Th++ZaAdjv/gp22KKVnTR6FWKO0vf7CMbH6xYsXzAJ8DpAEC0bUWLsAi5o94S3hsLn/Lt3k/bPdcj90ZxwHH4mlXS90fc6eMjaCS/0oK5+4bMtBmQPRkdL8WuS67+wAP1j5vhj3wNswz8oxLlgbbJh8LtO7ycNgMIUGOJ2KKng3gVDmtoQ3man1dNQUUYMcUbrjS2zJVElwZgsjeXuabFu0WHqNtgMqoXTHzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a19byuoTHXL3ssNpRJtujZZjdiT2bWZZ2x8GJL3PJcc=;
+ b=Z0nORIzsquCqxFMWGsTxz9PfqsI/bvH08Ax0f8FAOIj9vXb6DxyKg8aNmcDlEU3NXXdq4x35nPkunUnJHvuN5wZ8L31nTrmmAF1TI7YlUtm3A+oaYDaCzeiXmZa6w4TXpSjkjAZZVKNAe+Kk2Kn5p6kpqlY76/X5YYkcsudSUQrdS//gey20wMBb9JlGFT5wx6jXA0DsaqcH9IRZ2qlnGzeLzbGseYwCK6qIgFgLCp5Spo7gHzJI0PiIUDiCrvLgQV6c0NdY+kmt1b0O1FQj2ZcgNPIFoFdKMhuwsNwzcHRNjQqfMmyUYK4F7lEF1pDAVrxcQzx7nQDnMnnUA0oG0Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CY5PR12MB6084.namprd12.prod.outlook.com (2603:10b6:930:28::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
+ 2026 13:33:08 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%3]) with mapi id 15.20.9564.010; Fri, 30 Jan 2026
+ 13:33:07 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Date: Fri, 30 Jan 2026 22:32:46 +0900
+Subject: [PATCH] rust: io: move MIN_SIZE and io_addr_assert to IoKnownSize
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260130-io-min-size-v1-1-65a546e3104d@nvidia.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQ2MD3cx83dzMPN3izKpU3TTjZCMLy2RDE4vEVCWgjoKi1LTMCrBp0bG
+ 1tQBsTUJbXQAAAA==
+X-Change-ID: 20260130-io-min-size-f3c289c148ae
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Zhi Wang <zhiw@nvidia.com>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+ Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: TYCP286CA0253.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:456::11) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com> <20260130-coherent-array-v1-6-bcd672dacc70@nvidia.com>
-In-Reply-To: <20260130-coherent-array-v1-6-bcd672dacc70@nvidia.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 30 Jan 2026 11:26:44 +0100
-X-Gm-Features: AZwV_QjIZnbbm9xp8XOB5ABAESxw5YmRd900W4CPJMrijbzi9HEw_BSq-MEG1sk
-Message-ID: <CAH5fLggBd6s5MooGPfUaoarNF651BjTyBt+KcuJc0zdx5xg7cg@mail.gmail.com>
-Subject: Re: [PATCH 6/9] rust: dma: add dma_read! and dma_write! macros
-To: Eliot Courtney <ecourtney@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY5PR12MB6084:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd6cee6f-468a-499a-819a-08de60041a89
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|10070799003|7416014|376014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?R3cvMCtKQm9tWkJ1cW95Szl1YXpzcTFtMlRIdXJvdTUreDdwK2g3VlVXU2RD?=
+ =?utf-8?B?Y2ViY3ArbFFlQmxXenppTHAyWEpwZHF0L2dhTkJIaGQyY3JObElJQ2oxdjNL?=
+ =?utf-8?B?OEcxWkNNMEpOMTVJdllOaWtLeVV5Rzk2T3czZXcvVmRQZEpObHJLMXRCenZx?=
+ =?utf-8?B?d2U4Q3BKem5hNmh0RzJpbGFYc1hpUGZUVEZGRURndnNKR2Qyc1o0cE9VNjdo?=
+ =?utf-8?B?NVhTRnQ0SzVIR2RwV3lGUEVlMHpXMDRXby84WXdEMVhDMElzL09pZ1hiMVVj?=
+ =?utf-8?B?UVNuN1lzNnRKQUw5RW1wTE1xRk0wc0J0TWU3YXUvakdGdy9oNDZ6NnIwc3NY?=
+ =?utf-8?B?YW5vQzRIdGx1YnpZL01zU0VaVHY4TFlQQW5GRHRtbVg4VVVKcDF5WVFtajVn?=
+ =?utf-8?B?ODQ1b1lSRTM5QkQwaEUwQ1JkaWxXYnBpbmZnMzVPT0FXNkh0OW4raDBZNGth?=
+ =?utf-8?B?WjVpSWVnR0VuU2w0Y2NMN0hnUUNYOUZhZXpRYlNkNXIrUEN1Mmp4RmEydEpi?=
+ =?utf-8?B?dUVFUFcwZ2tlVU1yMy9LL3ZBWnNobk1FREVHR1NjcDdySDdXUzM3TjBScWdW?=
+ =?utf-8?B?WWlOeElhYVppR3NNUU9LOWxtYTRiWUhQWHpIZDZOZFZCOHh6TmNnMko5cEQz?=
+ =?utf-8?B?enU5ZEJFeFRwczc1dFRla1E0aWljSmttODRMTDYzaHp5cGRhTVBTajlzZm5u?=
+ =?utf-8?B?Yy8rZnZ4YW9WOHB2M3NqRUxKODlsL0lwaUZtLzV3YUM4K0NwTWZUb3gwS3Ew?=
+ =?utf-8?B?WVdlbVZodUdaNzU4U1UydnIxQWdLQW5lV1MycEZ1T2ErWFVYV0pUcmxtRTdC?=
+ =?utf-8?B?SFYvSitpdXd6WHBpdWE5a3FlWmFLamIyenJaYkU4ZDBXNXhxMC9vSG54U2Ft?=
+ =?utf-8?B?RWZxMGlQR3IzNnhjeWEvWmk0Z3R4Z1RFaGJ5azduWEw2ZjJZLzAzbjJmKzNL?=
+ =?utf-8?B?QzhPcWMxRU1ib2VWMmpVOTFud1RKd2hRL2paSWNtcExLckYzelFRZk5ZdVo5?=
+ =?utf-8?B?Q216YTlrQ0J4bUozMjBNblc4UEVrVHcrM1A1akJ5YmdsYlBqUFl1VkEwZVJC?=
+ =?utf-8?B?WHpKbnlWWVhLUlZsMmQ0d2J1eGtwbXB1ZjVlRWtyZ1JNYkhUVk5zZjdPZmVs?=
+ =?utf-8?B?cUxHVXhuenUrd0NwS0ZENnE3STlySHg3YzFJUkFrcFgrOG0vNUJ6TGpDMTRH?=
+ =?utf-8?B?anRBYXFYVmRFNW01dlp3U2htbjBVWWUyTlM5UmthRVB0aGc1YTRJWHo0ZVVn?=
+ =?utf-8?B?ZjZGdy8vN2RrcVovSEFGUTJ1cUl2TUhNM2F6TmFXN0hnQjZNWHRVbnNIZjhu?=
+ =?utf-8?B?clB1UjMwd1ZRc3hSaE9MWENKc2QwSVFKdEw3dXdDb2duN1NDaGw4NUdiQUNu?=
+ =?utf-8?B?SW5IT3A4a1U3QWw0Q3BsVU1zTVpzSk85cVZJeVg0TFlPRzZIVGRkTVoyNUFq?=
+ =?utf-8?B?V0tiSUIwTWJuUVFzUWNjalljY3JZQjFXSWNqZEFRTHE5SUtqeW9sTmIvdlY2?=
+ =?utf-8?B?VjROWkVpT2ZnQzZQMlNHbWpWd2xxeUo2WUNyMjdqc0RrNml5L2JYRGE0bld1?=
+ =?utf-8?B?Z3hJMzEvZTBMQXE2ZkZnVkZpd24vT2xOTVVCWU5jSTRER05NWGNDeG1YQVVR?=
+ =?utf-8?B?T2xjVUVhbWM3Q0dla1BCcERDbWR0MGo5eUVsREdLMXRTNysrUVlJT3pKR1Zx?=
+ =?utf-8?B?TzZ2QVYvTVYrU0VCZlBzL1I4aVk4M0JBQmJqOXhlYVBLQUd4STJtSzRuRjBC?=
+ =?utf-8?B?WmJ2YmpTREZQSUFSVUhGUUQ2NWxVU2x1ZGhaQ3F0cEJ1b2tkeStKYWRBUVpl?=
+ =?utf-8?B?Uk1xSjJtUlQ2aEtaVW82VXArSlhLMzZWWW5JRXlsVHpOR3B2SEhCdGhOcGdh?=
+ =?utf-8?B?Z1g4MEpmZmFXZWxlejhQRWdnVnRnbXBCYXVyVlFJQms2UGxxUitWUzh0bWRm?=
+ =?utf-8?B?RFVSNzZDYnRwcllGaXUzek1uWG5FUklTaVk0SGszbEkxU09wQjRUSUhvTWZU?=
+ =?utf-8?B?eU91azhnemlJUmgxQ1g3b3ZPMm5Ydm5XU1I2Zm5NTFR6dDB1dlF4WGxrRHIz?=
+ =?utf-8?B?TFpUNjZPZ2tDZ2EvYldCRFVNNkRZWjFWMW5YYkswYmp4eFBCM0RmTzlhQlE2?=
+ =?utf-8?B?RjZoOUpocXhrZHFSKzZQaXNjTTRxUk9kc3UzY3V3cU15dHNJSUZNSlE5VnR4?=
+ =?utf-8?B?WlE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RFA1UlVza0xVajE1d3NNTm01NEVFTFh4UTVjQy9yek1QaE01T3ptck9vWVFU?=
+ =?utf-8?B?U0U0cVBuTkJCU3lGazM3OXhOeGNKMU1lWjJDbmgvZWkzYTY1UmlHOVdKV0tJ?=
+ =?utf-8?B?c3U2R0RvVjMvdXc3TGhzM0lVMDJYeUJxZTlqbnVNallmRmpaOUxDUkZIT0xk?=
+ =?utf-8?B?a0xMOUpHVFhWS25yZ2g5eTR4eGFXemU0QlEvbHYxVXNTaVF3UVdYNnA5dzdk?=
+ =?utf-8?B?WGhUMGRIaGxuOGVZRUR2UkNtaExJVDB3UVJRN1c4ditKNTJheXN4c2R3MXpv?=
+ =?utf-8?B?cnV0d1dQc1dIZlN6VGVnZjVMajRmYnVDOU9JcEJsLzVFeFVvSkFqdkpiWFBu?=
+ =?utf-8?B?eFBPWHBTZWNON0kwQ2hOcVhnZkFORC9FVHFrVUNlU0toMmdDaHVmd3l5d1k3?=
+ =?utf-8?B?dmV5Y0hMODlBdXNtZHlXVGdvQkk2WnhJK3JEQ25UUkQvaWtJM3NPWDVqK3Vy?=
+ =?utf-8?B?SGhhRnMxcjREblNtbm81SDlPRC9uYWVXUXJUWnJVQnI1VVpzRmdxNnU3Tmpr?=
+ =?utf-8?B?cWordmRWczRENjJBckhqbUdXUy9nL09HNkVwT2lycW1QdytMSDhTbkh3Y0Vy?=
+ =?utf-8?B?TSsrM2phOGpSQldmUGNPWnV4THdJYjFvQUdvcm5IMnMzcHZybCtEb2hNK2xE?=
+ =?utf-8?B?TW4zVitxUVZvRzRmSjNTNUNOK0pQTkhkUjhxb3JRdGswcS9Hb0k0Tm94ejQ5?=
+ =?utf-8?B?RHhUQ0kxNkJ2bGFVZXFOTExXTk4zbk5RQ1phcEg0WGswTzNUeVgxN0VnVVlq?=
+ =?utf-8?B?UGpPdzVWcytCSUlmdDRla3JhbWlWVzlxN2phSFhwWER0NjdLOENTNTdRTWpi?=
+ =?utf-8?B?MHBPSjQvc215VHVUTUNWc3JLTWRwb1ZMaXpweE1OdDNwcTdkUlNkbUlPOUQ0?=
+ =?utf-8?B?djI4eExaQ2doYTAyU2VFeDU5Rk1WWTVmVGc0YjcveTlyUGFZYk5ZSFFpUHp3?=
+ =?utf-8?B?bkxOTlliOGxuZGtMOStEaHZjOEIzSk5qRk1jZW82cEc4bG1JVVFMV3VRZUw4?=
+ =?utf-8?B?STJYODlrdk1oNWF2UDRFZWpmNmdSV2Z5cGtwZDBlaTliZXJXUjUwSEdyQ3N5?=
+ =?utf-8?B?eEszMTJlcGs0OWNKd1pvMG1DWDUwU0xsWkFFbmVDYnRpaEpCbDZ0UVNxTjVz?=
+ =?utf-8?B?eEVvL3ZSaUd4U0VCTzFXcHZNRmtMZlkvQU8wSkFQUTZqU0tqOHYwc01EZDJn?=
+ =?utf-8?B?UVJ6djZuUE50SmlucTFXWHlKZDYyRy9heXM3VTVlanZ3TW5YSGJWV2ZiMEJR?=
+ =?utf-8?B?YkpTYWhMS2FUTTBBL0F5WGZyM014b3JBNkNWOGVaMjhqL0gxcTQ2UnRpNU9B?=
+ =?utf-8?B?cVk3R2VVRWdQTEJ2aE1pWWhDWG0vQm02SS83NHR2ZXJaemc1bVNrVk9qcFpz?=
+ =?utf-8?B?cEJzOHRqS1lFSDJwRVM2MGYzQXJCM3MxclY0c3VGOFhGbmV5Y0gxNHpjK2JE?=
+ =?utf-8?B?R3BNUVU2ckJFVWN2YkZ0Mk5pYmgwdWlYVHlnRkJ5UTN0ZTNSQm5NOWdPK0ZT?=
+ =?utf-8?B?WWlhS1U2Z1ErdEtuaElUSkhPNVllZjVSdWZyUGZ6UmpRTldBTnJyK2U4NWhw?=
+ =?utf-8?B?OW1wYUhXRlJSRzMxdDUzYXUrNzNla3d1RWFOWDg1bDVMS0xYYWJXa2tmV3Fq?=
+ =?utf-8?B?eFYrazZiU3NYUjdrYXVqUklWbHpkUGtsYWNsRVNBRG5pT2xHL2gxQlErbGp3?=
+ =?utf-8?B?SitmcitWRk5RZzQ3aDZVUlhtak92K1FJS3FzNU14MkJaR053K2wrczd4TGpS?=
+ =?utf-8?B?bDhNZ1A5eFJUMVlkamp1ZlF2cENWenIxQm9vTUZnYXlrWkdEY3N3MzJhOVZX?=
+ =?utf-8?B?Y2dOSGNhY3E0K2xqejRzaGYwU3RoZktBTVdBTnN4M0NUWk5GVHFZQU9kSkd1?=
+ =?utf-8?B?NWJoQ3BsMzRoTXVMQjJCKzBLV1hBNTBtSkxuTTF6aGJkQ3lrVFhBNmRZYXND?=
+ =?utf-8?B?UXBzVmpqeEx1eW91dCt3NE9meDMwN2RrZFRaZFJNeDBTeVBwb2RzL3F4N2ZO?=
+ =?utf-8?B?c3lYaVdyV1ArR2htV2hyQmtWd21pSVlCL0VOUG9YV2ZXZ29scG1LM2FxVkc4?=
+ =?utf-8?B?QWg1YzJnQzBJYmFRWklmNXM2ZkErcmpQemhzMzd4aUtMb29yTVQyRVhSRFJY?=
+ =?utf-8?B?QnhkUXdQUWpFdlNXOVFvNlErbktpUnRQa3BINmhJdVdJeU81SEdHV2xzeTJP?=
+ =?utf-8?B?R205WkR6Skw4VWx0bm1Wenpkc3k5SHVHakVRUW82a080WU9KWmhsQm5IVDkw?=
+ =?utf-8?B?NTJVeHBvSDZyMkNQaFVtb0ROZlY5R2pHRysxNlF0VGhGK25EVVFDbzk5VGJW?=
+ =?utf-8?B?aWJRRmtXdUNmaUM5djlCNGpmOVFpZGkvQWpXSHMyREowYzlIM1RpblRBeUFG?=
+ =?utf-8?Q?YWIn5cFXksLn+JBr+41xzMo9rghUV2ajJgs9MpkkXwjRa?=
+X-MS-Exchange-AntiSpam-MessageData-1: Wur8ZGCIlXbxUw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd6cee6f-468a-499a-819a-08de60041a89
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 13:33:07.6623
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mUYqF8blqitz/OKO73KPdZ4CU5ic/ZYEQNBO2laeceOUP0px5xIbbqpLIlZIKYhCHEOT5eZg9eTCQvrB0wuu4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6084
 
-On Fri, Jan 30, 2026 at 9:35=E2=80=AFAM Eliot Courtney <ecourtney@nvidia.co=
-m> wrote:
->
-> Add dma_read! and dma_write! macros using the new infallible methods
-> on CoherentArray.
->
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
-> ---
->  rust/kernel/dma.rs | 103 +++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 103 insertions(+)
->
-> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-> index e4bca7a18ac1..f3920f74583a 100644
-> --- a/rust/kernel/dma.rs
-> +++ b/rust/kernel/dma.rs
-> @@ -811,6 +811,24 @@ pub unsafe fn as_slice_mut<const OFFSET: usize, cons=
-t COUNT: usize>(&mut self) -
->              )
->          };
->      }
-> +
-> +    /// Returns a pointer to an element from the region with bounds chec=
-king. `OFFSET` is in
-> +    /// units of `T`, not the number of bytes.
-> +    ///
-> +    /// Public but hidden since it should only be used from [`dma_read`]=
- and [`dma_write`] macros.
-> +    #[doc(hidden)]
-> +    pub fn ptr_at<const OFFSET: usize>(&self) -> *mut T {
-> +        build_assert!(
-> +            OFFSET < N,
-> +            "Index out of bounds when accessing CoherentArray"
-> +        );
+`MIN_SIZE` are `io_addr_assert` only ever used for IO types which
+implement `IoKnownSize` and do not make sense for types that don't.
 
-This build assert does not depend on runtime values, so it can be
-written as a const block:
-const { assert!(OFFSET < N, "Index out of bounds when accessing
-CoherentArray"); }
+It looks like they should have been there since the beginning, so move
+them while the code is still fresh.
 
-Alice
+Also update `IoKnownSize`'s documentation since it is not just a marker
+trait anymore.
+
+Fixes: 121d87b28e1d ("rust: io: separate generic I/O helpers from MMIO implementation")
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+ rust/kernel/io.rs     | 36 ++++++++++++++++++------------------
+ rust/kernel/pci/io.rs |  7 +++----
+ 2 files changed, 21 insertions(+), 22 deletions(-)
+
+diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+index 056a3ec71647..c1cca7b438c3 100644
+--- a/rust/kernel/io.rs
++++ b/rust/kernel/io.rs
+@@ -301,9 +301,6 @@ pub trait IoCapable<T> {}
+ /// For MMIO regions, all widths (u8, u16, u32, and u64 on 64-bit systems) are typically
+ /// supported. For PCI configuration space, u8, u16, and u32 are supported but u64 is not.
+ pub trait Io {
+-    /// Minimum usable size of this region.
+-    const MIN_SIZE: usize;
+-
+     /// Returns the base address of this mapping.
+     fn addr(&self) -> usize;
+ 
+@@ -323,16 +320,6 @@ fn io_addr<U>(&self, offset: usize) -> Result<usize> {
+         self.addr().checked_add(offset).ok_or(EINVAL)
+     }
+ 
+-    /// Returns the absolute I/O address for a given `offset`,
+-    /// performing compile-time bound checks.
+-    // Always inline to optimize out error path of `build_assert`.
+-    #[inline(always)]
+-    fn io_addr_assert<U>(&self, offset: usize) -> usize {
+-        build_assert!(offset_valid::<U>(offset, Self::MIN_SIZE));
+-
+-        self.addr() + offset
+-    }
+-
+     /// Fallible 8-bit read with runtime bounds check.
+     #[inline(always)]
+     fn try_read8(&self, _offset: usize) -> Result<u8>
+@@ -478,14 +465,27 @@ fn write64(&self, _value: u64, _offset: usize)
+     }
+ }
+ 
+-/// Marker trait for types with a known size at compile time.
++/// Trait for types with a known size at compile time.
+ ///
+ /// This trait is implemented by I/O backends that have a compile-time known size,
+ /// enabling the use of infallible I/O accessors with compile-time bounds checking.
+ ///
+ /// Types implementing this trait can use the infallible methods in [`Io`] trait
+ /// (e.g., `read8`, `write32`), which require `Self: IoKnownSize` bound.
+-pub trait IoKnownSize: Io {}
++pub trait IoKnownSize: Io {
++    /// Minimum usable size of this region.
++    const MIN_SIZE: usize;
++
++    /// Returns the absolute I/O address for a given `offset`,
++    /// performing compile-time bound checks.
++    // Always inline to optimize out error path of `build_assert`.
++    #[inline(always)]
++    fn io_addr_assert<U>(&self, offset: usize) -> usize {
++        build_assert!(offset_valid::<U>(offset, Self::MIN_SIZE));
++
++        self.addr() + offset
++    }
++}
+ 
+ // MMIO regions support 8, 16, and 32-bit accesses.
+ impl<const SIZE: usize> IoCapable<u8> for Mmio<SIZE> {}
+@@ -497,8 +497,6 @@ impl<const SIZE: usize> IoCapable<u32> for Mmio<SIZE> {}
+ impl<const SIZE: usize> IoCapable<u64> for Mmio<SIZE> {}
+ 
+ impl<const SIZE: usize> Io for Mmio<SIZE> {
+-    const MIN_SIZE: usize = SIZE;
+-
+     /// Returns the base address of this mapping.
+     #[inline]
+     fn addr(&self) -> usize {
+@@ -552,7 +550,9 @@ fn maxsize(&self) -> usize {
+     );
+ }
+ 
+-impl<const SIZE: usize> IoKnownSize for Mmio<SIZE> {}
++impl<const SIZE: usize> IoKnownSize for Mmio<SIZE> {
++    const MIN_SIZE: usize = SIZE;
++}
+ 
+ impl<const SIZE: usize> Mmio<SIZE> {
+     /// Converts an `MmioRaw` into an `Mmio` instance, providing the accessors to the MMIO mapping.
+diff --git a/rust/kernel/pci/io.rs b/rust/kernel/pci/io.rs
+index 026e7a3b69bd..6ca4cf75594c 100644
+--- a/rust/kernel/pci/io.rs
++++ b/rust/kernel/pci/io.rs
+@@ -148,8 +148,6 @@ impl<'a, S: ConfigSpaceKind> IoCapable<u16> for ConfigSpace<'a, S> {}
+ impl<'a, S: ConfigSpaceKind> IoCapable<u32> for ConfigSpace<'a, S> {}
+ 
+ impl<'a, S: ConfigSpaceKind> Io for ConfigSpace<'a, S> {
+-    const MIN_SIZE: usize = S::SIZE;
+-
+     /// Returns the base address of the I/O region. It is always 0 for configuration space.
+     #[inline]
+     fn addr(&self) -> usize {
+@@ -174,8 +172,9 @@ fn maxsize(&self) -> usize {
+     define_write!(infallible, write32, call_config_write(pci_write_config_dword) <- u32);
+ }
+ 
+-/// Marker trait indicating ConfigSpace has a known size at compile time.
+-impl<'a, S: ConfigSpaceKind> IoKnownSize for ConfigSpace<'a, S> {}
++impl<'a, S: ConfigSpaceKind> IoKnownSize for ConfigSpace<'a, S> {
++    const MIN_SIZE: usize = S::SIZE;
++}
+ 
+ /// A PCI BAR to perform I/O-Operations on.
+ ///
+
+---
+base-commit: c71257394bc9c59ea727803f6e55e83fe63db74e
+change-id: 20260130-io-min-size-f3c289c148ae
+
+Best regards,
+-- 
+Alexandre Courbot <acourbot@nvidia.com>
+
