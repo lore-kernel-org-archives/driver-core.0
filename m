@@ -1,130 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DB3224249;
-	Sat, 31 Jan 2026 01:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769823964; cv=none; b=gmCTRvAkI7SEp1RNM2EnrA6RCJAyMNZyNj6JkMYB4k8fg5O/6tKNyZx2QKLaWPJUEVsCbzRfOidmBN34QvtFFMIBUA4fddIyGSXPs1xDogLdmSOwIxoS9kzqQJoD5wtRHPzIMMHYYBGqeGrk4PSAukryQuxM7i6nQZc43S7qRJw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769823964; c=relaxed/simple;
-	bh=1jLYKHYGZK2YMpMFiW1IciW/WgGISoE5iU1DWo9/76U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sfveDEAHkqyiQTrEYkCcMyW78/r0koZqAhjRCH2tXQDfdNfF/dQ3hBSxk6XMKe0k0tBpgySuEcHDHvDf3Gwx9PIQI7iuBYqP2UTRUTzuuQB8T3MnEwvWA4t01wbPgr2tiytY1nIvE7PGG8KIplUMlm69ORCJhR3Cgxy1X3QPePw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0BBcBdD; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658DB288C2B
+	for <driver-core@lists.linux.dev>; Sat, 31 Jan 2026 05:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769837791; cv=pass; b=PM0aolHPFOP3FcSdO1KdBqD+ukny1WzV6cuveaDjl7gBjB0XOua3/61f20WfSnT0d9OY0edBg1wrUla8gDjH1RaLyj3ZJpX7rcwYZxPe+fPT++VrBdREdy2fnEnFPq+sYLbmKmLYtdmFIf2Q9EwGJioZf3Yinj1sJsQ4J7E7Bbc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769837791; c=relaxed/simple;
+	bh=L5lCCJeawGC9hJJCA5fbpN5uW+ZSANYkxwSHzQ8MpGI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uXdLTfoFWZO5JmEN0cJtkUj1GDkZWcB2Aoj9naeIoWkXot7QBJNHus9tiLcuhu5Z21i+Ale5q8kBYXQEOGyH5QlvS4+JDfuXPq0AALkmchNGFh5nI1DzYLSgoBwbr0v6/Ph2uYZDQYGogC04TFffbMpQnntwGzjbKN+F/p4xVaY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5d2Npkk; arc=pass smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0BBcBdD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 061CAC116D0;
-	Sat, 31 Jan 2026 01:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769823964;
-	bh=1jLYKHYGZK2YMpMFiW1IciW/WgGISoE5iU1DWo9/76U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=S0BBcBdD125HZDCK4bo3Vjqj1rYM2ES1AHnpBepyHXmxpqEE8137ahGjFjAazENAC
-	 zn/Bws4Wisuu6dFhOBTtNcisC3LQzjyBYqBEao7clBx6ZDdANYpoYcW+U0z1K21FBw
-	 BF0JxIzuB4J2xeZPnuaIGHGWhguaBXoVj4SkruL0xty7JWXJEadGMZPcugbWMlses2
-	 GKMFSjkXJXBRUxDVMgNDcvquBwd6UhIxI8qcO2bK5knTBbmMwl9IChcvSeASVKL383
-	 L0uHVm4hY9k1ftptlywhS62U8QpPGLms0dJ25Pr2PDPXHHYVD0f6ICdkU8SdM5CZC3
-	 NaeGUpYuKQtSQ==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	hanguidong02@gmail.com
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH] driver core: fix inverted "locked" suffix of driver_match_device()
-Date: Sat, 31 Jan 2026 02:42:07 +0100
-Message-ID: <20260131014211.12841-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5d2Npkk"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d19d3c7208so1503877a34.0
+        for <driver-core@lists.linux.dev>; Fri, 30 Jan 2026 21:36:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769837789; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SaRuZ9gCzgsYd0/AQmjm4qgQEQ5sMIB8YxXT6ZewwJuziTrn01DuGGk2yuVpT2DZYG
+         oIRDo8TMdrjEnqLylHQuBAsnsn3oDz85SVrZLJjbbq80tOu/4sZ7SyY66lDmz9q+0OEV
+         ohPtN3QalYnQJjg3licFcbb/SycRAwFf9JbUa5ymUArpPeC9yoA5wR/GRK3BRYIovxRL
+         7a23jo8/CJ9i+QuFUK9UP3DNJy/thRilpJSsRJvCFZZb6blbtoUMB0BQISYP2ZnLuJD+
+         +skgpQzrMFiwHXprlyFGdBG9uAsJBp8vctuwL0RocKW2WuA/aZMYri784cEqdLo0hKPq
+         7heA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=L5lCCJeawGC9hJJCA5fbpN5uW+ZSANYkxwSHzQ8MpGI=;
+        fh=chqeh8EYGiXE1pa2t1jiNVKnbGCfwvZM1MVoCFFK7+k=;
+        b=WSIs1lsrDUt/OKScwjjb9ZjCuo71MUOJYsRtGkwXsBBdU3t1a6xhmZgjLJngGFDLM8
+         Q/kt3U4YMII8Z4o5BHoBxe6V5wpSBj9vaog2neFMiW7y1TdKHbAr62X91PQ7AcYp7P0q
+         sV+mPuHQZWTqsPA0oz2FwpISzfJPBqfxIIwkzzvhVu7BRmvE5Kq9DjiCNrPhbzj8uIKl
+         BmEQIOUPzt0+ffrjAhy3xp80Z1VV7E2AzB4LSJnmjluC6Wu8tH3jWrGSDo6ynx2/jWEk
+         GfE8NkhL051qPzneqV4+fS07A9FyHQCQawBOeCK1Rx3GuvmvZXIkMvlcIWtTLGxMaRnC
+         ZdKQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769837789; x=1770442589; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L5lCCJeawGC9hJJCA5fbpN5uW+ZSANYkxwSHzQ8MpGI=;
+        b=T5d2Npkkho6vESRgsUUY/h8DgcH52rpBmmExGEfyIKT7zLSoSyiAL57pxKMAiH8UYu
+         ZAeBQ9c2YIuFW/p4+pkvA4EDJ1mCERkXgT5GBKTZ1yjpDBF844bZ9DsEGwv9jcQnFBrG
+         r1+JRyI8TriT94ClGsf+BbXa2nkwC8a/g7t1NnFhuN4rgyhpSyURRsM2/5Imw6f5cChP
+         VCN7TuuJ6JRQT7/bj2eZVXCYFxHvee1b6gtw2QTGKgvp5wlVagNoVOiv58+hItSXK5KI
+         SbmgvJsZAWXnQLuctgzx5nQsORsKbn6beY9/ZAHWQi77ILq7ldGaEUDKfbDdzlj/n5Sm
+         +UfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769837789; x=1770442589;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=L5lCCJeawGC9hJJCA5fbpN5uW+ZSANYkxwSHzQ8MpGI=;
+        b=hSF5Oj2/3005Ln58tZk0VVR/Es9bojjkP1fOpRWyEdFHXxs4tas5CR84spQZ6sTxCl
+         BtSxJ1+LYr0hlHKD3g0xlHvnzVlphBLnW1piP8ZWYBojoi4vtXUpDEVyqMzCyBEKsQee
+         1K3SL3oVgzAOZZTPXURFTvB1evlfzXhISHb5DjXYyBFCrL+fJquShOYUWhhuYRoxoRXt
+         RhUmkgn8upmA7u+YR7lAwjaxr/WSgqkhMcEPZOEvXya8UpeibH4xyJRc9kMRdkfwPOw0
+         KRZ7M1AHcut8HHtGbt4hk826+/zg7k7MBkZuP+YexevyQretX0aV+c71kJ461EDSp7zF
+         kFcA==
+X-Forwarded-Encrypted: i=1; AJvYcCVh29nx/vE31X+u081xRSw6y1q9ZwRTm3qMV34bazBVsjILnyxeooCh78MR9+5xxVcSXSk/rqnBPtVC/g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJGUB0bE9B69GlCY3U1WQ5AN0e7EV7JtDFla75bUeys3rlBKG6
+	JefhLbeggWZwO92FtZndgTkQoKCFJq67lTZWdXjaLqVNe4yv0QwrJSoddlZscEcr181XNy+zv9k
+	NqOr0OFNY6jlU2UhXs3Ejbz+bwVZV1z0=
+X-Gm-Gg: AZuq6aIeo0ngbzm1t6iFSp6yutSzBKteNjNx7l0KGPNjTugLeZIcqFxhtQnAgVXJHrl
+	41q+Fkwe9zRfVd0N9e5d1U3UIVguj1RFVKO9aRpDq765LdYAkdMK6xGCaxdfRc1ZiPMugjZvD1z
+	ZohQ2l/Z0HLUWq2c1A4U2QGgoSFqvZPObnNJpdKUvdtdhjo0+dNDJuOex2bho5PN6U/x8yl3P62
+	TWL1z9EI9wqSjJCUHwSFZW34m2CUW93UwYq3kY6ZeiWzVR02sw+V6jEB/mzImnfi2mwG8zn6xX6
+	fJoSGKXvHpODie668PxBDxdPWfpVsRSOQ4kfbg4jaEfE4GBH5uUSeUq9kNSaq9xt3Q0RbQ==
+X-Received: by 2002:a05:6830:6add:b0:7cf:e539:dcf0 with SMTP id
+ 46e09a7af769-7d1a52974b0mr3607758a34.10.1769837788987; Fri, 30 Jan 2026
+ 21:36:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260131014211.12841-1-dakr@kernel.org>
+In-Reply-To: <20260131014211.12841-1-dakr@kernel.org>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Sat, 31 Jan 2026 13:36:18 +0800
+X-Gm-Features: AZwV_QhVaYryFhMMxbjOpEYEHkLqFrY_eyNp51JLbJAmjU0TreB3QjSreMSuAPw
+Message-ID: <CALbr=La5dzZL5EP_x8tcvUWTqfbxPS6T3ZGT520m0Um2voUt=g@mail.gmail.com>
+Subject: Re: [PATCH] driver core: fix inverted "locked" suffix of driver_match_device()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the current implementation driver_match_device() expects the device
-lock to be held, while driver_match_device_locked() acquires the device
-lock.
+On Sat, Jan 31, 2026 at 9:46=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> In the current implementation driver_match_device() expects the device
+> lock to be held, while driver_match_device_locked() acquires the device
+> lock.
+>
+> By convention it should be the other way around, hence swap the name of
+> both functions.
+>
+> Fixes: dc23806a7c47 ("driver core: enforce device_lock for driver_match_d=
+evice()")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-By convention it should be the other way around, hence swap the name of
-both functions.
+Looks good to me. Thanks for fixing the naming convention.
 
-Fixes: dc23806a7c47 ("driver core: enforce device_lock for driver_match_device()")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- drivers/base/base.h | 10 +++++-----
- drivers/base/bus.c  |  2 +-
- drivers/base/dd.c   |  4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 5bc1439d3498..8c2175820da9 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -179,19 +179,19 @@ void device_release_driver_internal(struct device *dev, const struct device_driv
- void driver_detach(const struct device_driver *drv);
- void driver_deferred_probe_del(struct device *dev);
- void device_set_deferred_probe_reason(const struct device *dev, struct va_format *vaf);
--static inline int driver_match_device(const struct device_driver *drv,
--				      struct device *dev)
-+static inline int driver_match_device_locked(const struct device_driver *drv,
-+					     struct device *dev)
- {
- 	device_lock_assert(dev);
- 
- 	return drv->bus->match ? drv->bus->match(dev, drv) : 1;
- }
- 
--static inline int driver_match_device_locked(const struct device_driver *drv,
--					     struct device *dev)
-+static inline int driver_match_device(const struct device_driver *drv,
-+				      struct device *dev)
- {
- 	guard(device)(dev);
--	return driver_match_device(drv, dev);
-+	return driver_match_device_locked(drv, dev);
- }
- 
- static inline void dev_sync_state(struct device *dev)
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index 331d750465e2..9eb7771706f0 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -263,7 +263,7 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
- 	int err = -ENODEV;
- 
- 	dev = bus_find_device_by_name(bus, NULL, buf);
--	if (dev && driver_match_device_locked(drv, dev)) {
-+	if (dev && driver_match_device(drv, dev)) {
- 		err = device_driver_attach(drv, dev);
- 		if (!err) {
- 			/* success */
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index ed3a07624816..0354f209529c 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -928,7 +928,7 @@ static int __device_attach_driver(struct device_driver *drv, void *_data)
- 	bool async_allowed;
- 	int ret;
- 
--	ret = driver_match_device(drv, dev);
-+	ret = driver_match_device_locked(drv, dev);
- 	if (ret == 0) {
- 		/* no match */
- 		return 0;
-@@ -1180,7 +1180,7 @@ static int __driver_attach(struct device *dev, void *data)
- 	 * is an error.
- 	 */
- 
--	ret = driver_match_device_locked(drv, dev);
-+	ret = driver_match_device(drv, dev);
- 	if (ret == 0) {
- 		/* no match */
- 		return 0;
-
-base-commit: c71257394bc9c59ea727803f6e55e83fe63db74e
--- 
-2.52.0
-
+Reviewed-by: Gui-Dong Han <hanguidong02@gmail.com>
