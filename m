@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC4334E765;
-	Sat, 31 Jan 2026 13:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D99359F9E;
+	Sat, 31 Jan 2026 14:26:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769867800; cv=none; b=hx9GNveX/MqnQa4fSjDWokONlUb4w34AqncevsjCxFj4yjLBIELU2/8pXXguvLkuF8GN5n6Ob0ahvHVUi442pqa3oaQg8ZQPM0XTX9S7N+KHygntY9d7cMc4TG8cNxH3CBJbJYUi82qOckexw9kUUp0iJ/fHvF5tlcCHuzdBpdI=
+	t=1769869587; cv=none; b=OsrbrCs/iQSplrIFVYFvViOfaGygCaPg//Bn3E3h5nIt+YxBwpLsNUM8ro0M7a9a0EbUrZhsz310X7Ccg9wghsakncP6J/k33mG/CQu6/Rh6ly0RUykpiIMX/mcw92lTVo/m7CEmYmYga1m1JFbFd3FNbd5wT/uM1/MNdanpkiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769867800; c=relaxed/simple;
-	bh=Va3K+D30hZz0SN78oYxnmFtW/3mJg2NP0XZBLy7kYno=;
+	s=arc-20240116; t=1769869587; c=relaxed/simple;
+	bh=u3VhyHPpmSgE968spvdigjspg7knx3QFio0q8K5leto=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=qUCvHcBZTuFS7G3pREPNN7adK+t2K3rGfM+8QC4c/C27W92mRn7Hm4lespStHzUO05dAH6ckzwVceHDHCjfKPBXZwzBOuURJwNzmovnHqjn8x201lQ6KgGneYwey7tt8pUe1GfJOM51WAoGOWtndYEpV329ZjAjLBrR215kZHss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxtdhDRa; arc=none smtp.client-ip=10.30.226.201
+	 References:In-Reply-To; b=ms+Cu/n0pzmJ3dV1NhN128i2c1gjPwEx9JTUvOJSo4i1Jmx4R8W/xe4OLAiYjlWR0cvQyD08rVRBK1cWWG5iFZcSSX3Z+oiVxUnkqzA6vbCbBEHfCYdBVfyDWbwV+S5C3xg8OyvFGlCEPdMzv5hndU5fdRE8xs21CxLjjyz8+1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VcciIHyJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxtdhDRa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 349E6C4CEF1;
-	Sat, 31 Jan 2026 13:56:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VcciIHyJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3456C4CEF1;
+	Sat, 31 Jan 2026 14:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769867800;
-	bh=Va3K+D30hZz0SN78oYxnmFtW/3mJg2NP0XZBLy7kYno=;
+	s=k20201202; t=1769869587;
+	bh=u3VhyHPpmSgE968spvdigjspg7knx3QFio0q8K5leto=;
 	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=XxtdhDRaTFlFWArBkMQIoiYLwTVbVvlnRVj+oPvTRh6VHhtPmeTeAg0yCVPFs1tTm
-	 2a35Vw6bDtIhUW5ADup/M9vKLuZZNdl1jqsnaoKnsmKbXgJN9jt2zqiACkxr48wgs1
-	 1mEXdiwB2feodPC0/3tYGW9twh2lDcqpJuNzlTWf7JYwEuZBGxg70IRb+TJ9YgiPtv
-	 T75RMvNu5A7rE/1lU0Z9SzPj4GFsBzXQHKhz/KVE2PJPUkwGrqW8nAqhIDOUnV4kp/
-	 6N7dzdNBXZh23OKUXsG5ACyh72nzOcTPkU8bmgvP4VRojpviA3rPogml3K+ggpRe99
-	 SFvPWcNLbzQtA==
+	b=VcciIHyJvfLK+/b83PlK2qWRxzBf8mvZxkhLtVHz1W3yVuQzesPNl7ebTgY3mYs8X
+	 r6bGc8qR9kWOFx9ASfWhHsg/as/AXp4CBzKSQiog8FhDEHUefB+23XWHFApzzqaRpF
+	 pl53FNcwlxFFudv20nW+2T9yQ+PXmQU+VTBhZNGYFecJPpoyecVGDzdB5uRRg8JeJA
+	 uy+y6r5dHbB3PnABIK3JipiTVn6SsV2hf+MgUpgWh8EULY79vSyJa7Ow6m0RwV71S0
+	 EXm20oxkmf7Sa9VPPvu0fL7Z+GhcQpEdr3bQwp8b/CVIuiPzbF25/Vs0fLmTNn/Yer
+	 iEUDsmIzEvBiQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,85 +34,96 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Jan 2026 14:56:34 +0100
-Message-Id: <DG2TRSA2LOJ4.3PMICD9ORSB5R@kernel.org>
-Subject: Re: [PATCH 0/9] rust: dma: add CoherentArray for compile-time sized
- allocations
-Cc: "Eliot Courtney" <ecourtney@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Simona Vetter" <simona@ffwll.ch>, "Abdiel
- Janulgue" <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, <lyude@redhat.com>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>
-To: "Alexandre Courbot" <acourbot@nvidia.com>
+Date: Sat, 31 Jan 2026 15:26:22 +0100
+Message-Id: <DG2UELGNDQDS.1LR5TLOZTSC29@kernel.org>
+Subject: Re: [PATCH 0/5] rust: extend I2C functionality
+Cc: <igor.korotin.linux@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Wolfram
+ Sang" <wsa+renesas@sang-engineering.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+ <markus.probst@posteo.de>, <brgl@kernel.org>, <gregkh@linuxfoundation.org>,
+ <rafael@kernel.org>, <driver-core@lists.linux.dev>
+To: "Igor Korotin via B4 Relay"
+ <devnull+igor.korotin.linux.gmail.com@kernel.org>
 From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
- <DG2RVAALGX4W.1L637C8NXXEEM@kernel.org>
- <DG2SXGUZPEUW.3SYUJHY0GZUWT@nvidia.com>
-In-Reply-To: <DG2SXGUZPEUW.3SYUJHY0GZUWT@nvidia.com>
+References: <20260131-i2c-adapter-v1-0-5a436e34cd1a@gmail.com>
+In-Reply-To: <20260131-i2c-adapter-v1-0-5a436e34cd1a@gmail.com>
 
-(Cc: Lyude)
+(Cc: Bartosz, Greg, Rafael, driver-core)
 
-I assume something odd is going on with your mail client for people that ha=
-ve
-been added to a thread later on?
-
-On Sat Jan 31, 2026 at 2:16 PM CET, Alexandre Courbot wrote:
-> On Sat Jan 31, 2026 at 9:27 PM JST, Danilo Krummrich wrote:
->> We've just generalized I/O to support arbitrary I/O backends (busses, ba=
-cking
->> storage, etc.).
->>
->> With this we can wire up the I/O traits to DMA and generalize the dma_re=
-ad() and
->> dma_write() macros accordingly. I.e. we can extend the I/O traits with
->> field_write() and field_read().
+On Sat Jan 31, 2026 at 3:12 PM CET, Igor Korotin via B4 Relay wrote:
+> This patch series extend the existing I2C functionality with:
+> - Abstractions allowing to implement I2C algorithms used by I2C adapters;
+> - Abstractions allowing to create and add new I2C adapters;
+> - Safe wrappers upon I2C and SMbus transferring C API: read/write
+>   bytes/words/byte arrays.
 >
-> With the caveat that the I/O traits for now only support accessing
-> primitive types; is the plan to add a function to read any type
-> implementing `FromBytes`?
+> The patch series contains additional new sample driver `rust_i2c_adapter`
+> presenting the new functionality.=20
 
-That's exactly what I say above: generalize the dma_read!() and dma_write!(=
-)
-macros by adding field_write() and field_read() to the I/O traits. :)
+The i2c_adapter code on the C side has some lifetime issues, Bartosz looks =
+into
+resolving.
 
-For reference, this is where I brought this up originally [1].
+My biggest concern is that struct i2c_adapter is a bus device implementatio=
+n,
+but does not use the reference count of the embedded struct device.
 
-[1] https://lore.kernel.org/all/DFOP5BY09539.AFY5L5FV1HNV@kernel.org/
+Instead, I2C bus drivers embedd the i2c_adapter in their driver specific
+structure, which is typically freed in the I2C bus driver's remove() callba=
+ck.
 
->> (Lyude is going to work on this as a more integrated alternative to iosy=
-s_map.
->> It would be good to align with her regarding this work.)
+This violates struct device reference counts.
+
+Until this is fixed, the Rust abstractions should probably work around this=
+, to
+subsequent painful rework.
+
+> Patch series depend on=20
+> message-id: <20260107103511.570525-1-dakr@kernel.org>
 >
-> Heads up, I am also doing some plumbing in `io.rs` related to the
-> register macro. Maybe we should have a thread on Zulip to discuss what
-> everyone is working on.
-
-Done!
-
-Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/t=
-opic/Generic.20I.2FO.20backends/with/571198078
-
->> This has the advantage that we don't have to duplicate all this infrastr=
-ucture
->> for I/O memory, DMA, etc.
->>
->> I also think that CoherentSlice is too specific of a type. I'd rather ha=
-ve a
->> generic type, maybe UnsafeSlice or IoSlice, that just uses the I/O backe=
-nd for
->> accesses.
+> Signed-off-by: Igor Korotin <igor.korotin.linux@gmail.com>
+> ---
+> Igor Korotin (5):
+>       rust: i2c: split client and adapter code into separate files
+>       rust: bits: add define_flags macro
+>       rust: i2c: Add I2C Adapter registration abstractions
+>       rust: i2c: add I2C wrappers
+>       samples: rust: add Rust I2C adapter registration sample
 >
-> For me the main appeal of this patchset is that it provides a way to
-> work infallibly with a single object or a fixed-size array. I hope
-> that's something we can preserve.
+>  MAINTAINERS                      |   4 +-
+>  include/linux/i2c.h              |   6 +
+>  rust/helpers/helpers.c           |   1 +
+>  rust/helpers/i2c.c               |  15 ++
+>  rust/kernel/bits.rs              |  57 ++++++++
+>  rust/kernel/i2c.rs               | 254 ++-------------------------------
+>  rust/kernel/i2c/adapter.rs       | 200 ++++++++++++++++++++++++++
+>  rust/kernel/i2c/algo.rs          | 300 +++++++++++++++++++++++++++++++++=
+++++++
+>  rust/kernel/i2c/client.rs        | 284 +++++++++++++++++++++++++++++++++=
++++
+>  samples/rust/Kconfig             |  12 ++
+>  samples/rust/Makefile            |   1 +
+>  samples/rust/rust_driver_i2c.rs  |  10 +-
+>  samples/rust/rust_i2c_adapter.rs | 170 ++++++++++++++++++++++
+>  samples/rust/rust_i2c_client.rs  |  15 +-
+>  14 files changed, 1069 insertions(+), 260 deletions(-)
+> ---
+> base-commit: a7c013f779530190d0c1e1aa5e7c8a61f0bd479e
+> change-id: 20260131-i2c-adapter-d38d330c4c25
+> prerequisite-message-id: <20260107103511.570525-1-dakr@kernel.org>
+> prerequisite-patch-id: 6e4d28a06d842ddfc7db82f410532a35b8fe317d
+> prerequisite-patch-id: 9739295d85b688257fca29be1e1217a05a69c9e7
+> prerequisite-patch-id: 78eaed3746a40713f44f13508fcf43653b0a4528
+> prerequisite-patch-id: 99f1881bc896896297a903affcfa4f62cab1a307
+> prerequisite-patch-id: ea8baa9d648f1178d6f39d140b98bddf3c183f6f
+> prerequisite-patch-id: f8a9e049d204bde04e80151a67dfff5ec2633e7a
+>
+> Best regards,
+> --=20
+> Igor Korotin <igor.korotin.linux@gmail.com>
 
-Of course, the generic I/O backend infrastructure is based on the distincti=
-on
-between compile-time and run-time.
