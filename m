@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C3036073D;
-	Mon,  2 Feb 2026 23:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21AD361650;
+	Mon,  2 Feb 2026 23:52:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770076344; cv=none; b=bWjFXgJ7HIKvTIjJdSCB93NUHxNguioRuag1IL5V6LnfbIZmwh4mtkVaHmZ5jXCQH+xcIHhAkFCba+3qmUhMNo4jakJuTNvjFJshfg1pxrQXSlXi0RwXmRhd7ipcHknqpe5rcKmAUZtaEg6mULZo0+Ux80k0ct1IcAqgWgz6pVQ=
+	t=1770076345; cv=none; b=ClT6jrFHecDpRSat718AqJZ+fe+dXiHoEPr3Zk+9kgup+d2HJE6NV2ryEh+3nfPurwHDfMwAL6KNK4Bhj0hf+aVzJnE28JfLI807oLiHrU7HmFoDsQ2MiQl5WW2R0Cp/mChokUGSR0HKF46OVsJ+3y/3s+wvHO9ucim45CyNHMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770076344; c=relaxed/simple;
-	bh=3qAGt3di1e2bar6yPpvHKQ//pI4RJnwYRhbAoAEPvLg=;
+	s=arc-20240116; t=1770076345; c=relaxed/simple;
+	bh=Ks6rrunQRP0qbtAVunnS+WmB4noM4QsRlKAiMCdyh40=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BpR0LvKW/4WRkiEJzbjl8VnEYD4B8gI5sXxZgQnX+smI8DFliVQPGt9PFW86xh5fqCVOuwavvMkDa4ERzAlzYZTXPEs6496W2hqT4PoY74ZdouqqE/LzZuV1mbzdaKFgn0wG+GET0kMlf/BC4Lh9gyc5L5nyzdb3ezK0ALLtVTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANWhiFDT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=eFbe04dQbJcyFL5/MzGSSYHc3q/lJfea5NPNhWNLmYgycGCkX7fb+KrSIt+RU0UCENK6HCWrFyUEUX2edTmi29fMrdejo5eYQIo64n7kKrhs4DYXQI0Tw/TwmVXFqVd3kM0BDqLTSkCz1DGMzZMG/lByeDyJm5bjPpdJn8kV9xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4PyTXr1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANWhiFDT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2059C19421;
-	Mon,  2 Feb 2026 23:52:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4PyTXr1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A6B5C19425;
+	Mon,  2 Feb 2026 23:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770076344;
-	bh=3qAGt3di1e2bar6yPpvHKQ//pI4RJnwYRhbAoAEPvLg=;
+	s=k20201202; t=1770076345;
+	bh=Ks6rrunQRP0qbtAVunnS+WmB4noM4QsRlKAiMCdyh40=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ANWhiFDTRIqJPpKzeY8GY55GldisGXoAsdDO5RY2shMkDjtw96jQS30KRhnw7OjY9
-	 yG+Ch7/9sEEvD0oWdRPOmhncM3O/ehQ1I9pXFNsHI0oAllzyZsOu55AxewNgUQOrfe
-	 cffHgCokq7gc232nZI08JEVkghvUGPQiD6Uu0RMGhtPtGZV21JGxqxyYVRb/OUttwW
-	 5Wh51TpHbhkI+hB1LrA64ne7dkbvMtkXLzwW+wt68U4dq99Ip6KdTqirG8qJe31pYH
-	 el9EeJ2W5MZfNAbe38iPU8ELOGglvXWqnbBKrA5o8NHrPJLNGky8WcNIWSBVF2Sysv
-	 51CeuHlk6qOYw==
+	b=G4PyTXr1y3fe66pzD+sY1tVWPRYHB3uik6pdmg97OqrhE0zktIMIV0xl/2qMeH32x
+	 kcr3iRjEj0HujRKFszFF0pKCx2kJBfiFiApz3Nz5i4DVMIeMQJE672bi3akQHccoAg
+	 PEN+5e4PI6j2uidrJ8wHqKuywVAQBrwTiLrzihEf3yE/CIfog5YY3xjYi8Cbz2OIBu
+	 GKIiUe5G1YLGG9fofJ411Ioivl/T28oos0VEJd2PqZRWyHtXfc+aCfnwvlccITdq2P
+	 5NmlkBgA/UhNerFYKpsDuMiNspx9waiUxjMG1b/0tSYY5RxSLZZpLugKQtC2R0CY2O
+	 Lmd6buiZVwCsw==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org
 Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 1/7] devres: fix missing node debug info in devm_krealloc()
-Date: Tue,  3 Feb 2026 00:48:14 +0100
-Message-ID: <20260202235210.55176-2-dakr@kernel.org>
+Subject: [PATCH 2/7] devres: add devres_node_add()
+Date: Tue,  3 Feb 2026 00:48:15 +0100
+Message-ID: <20260202235210.55176-3-dakr@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260202235210.55176-1-dakr@kernel.org>
 References: <20260202235210.55176-1-dakr@kernel.org>
@@ -46,28 +46,67 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix missing call to set_node_dbginfo() for new devres nodes created by
-devm_krealloc().
+Both devres_add() and devres_open_group() acquire the devres_lock and
+call add_dr(). Add a helper, devres_node_add(), for this pattern.
 
-Fixes: f82485722e5d ("devres: provide devm_krealloc()")
+Use guard(spinlock_irqsave) to avoid the explicit unlock call and local
+flag variables.
+
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- drivers/base/devres.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/base/devres.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/base/devres.c b/drivers/base/devres.c
-index f54db6d138ab..1a972f47916e 100644
+index 1a972f47916e..0061c6564469 100644
 --- a/drivers/base/devres.c
 +++ b/drivers/base/devres.c
-@@ -940,6 +940,8 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
- 	if (!new_dr)
- 		return NULL;
+@@ -231,6 +231,13 @@ void devres_free(void *res)
+ }
+ EXPORT_SYMBOL_GPL(devres_free);
  
-+	set_node_dbginfo(&new_dr->node, "devm_krealloc_release", new_size);
++static void devres_node_add(struct device *dev, struct devres_node *node)
++{
++	guard(spinlock_irqsave)(&dev->devres_lock);
 +
- 	/*
- 	 * The spinlock protects the linked list against concurrent
- 	 * modifications but not the resource itself.
++	add_dr(dev, node);
++}
++
+ /**
+  * devres_add - Register device resource
+  * @dev: Device to add resource to
+@@ -243,11 +250,8 @@ EXPORT_SYMBOL_GPL(devres_free);
+ void devres_add(struct device *dev, void *res)
+ {
+ 	struct devres *dr = container_of(res, struct devres, data);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	add_dr(dev, &dr->node);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
++	devres_node_add(dev, &dr->node);
+ }
+ EXPORT_SYMBOL_GPL(devres_add);
+ 
+@@ -552,7 +556,6 @@ int devres_release_all(struct device *dev)
+ void *devres_open_group(struct device *dev, void *id, gfp_t gfp)
+ {
+ 	struct devres_group *grp;
+-	unsigned long flags;
+ 
+ 	grp = kmalloc(sizeof(*grp), gfp);
+ 	if (unlikely(!grp))
+@@ -569,9 +572,7 @@ void *devres_open_group(struct device *dev, void *id, gfp_t gfp)
+ 		grp->id = id;
+ 	grp->color = 0;
+ 
+-	spin_lock_irqsave(&dev->devres_lock, flags);
+-	add_dr(dev, &grp->node[0]);
+-	spin_unlock_irqrestore(&dev->devres_lock, flags);
++	devres_node_add(dev, &grp->node[0]);
+ 	return grp->id;
+ }
+ EXPORT_SYMBOL_GPL(devres_open_group);
 -- 
 2.52.0
 
