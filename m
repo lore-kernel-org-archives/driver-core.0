@@ -1,167 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90138299927;
-	Tue,  3 Feb 2026 16:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D313B299927;
+	Tue,  3 Feb 2026 16:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770136138; cv=none; b=EAcHRMl1alMMxmLDndb7IDSUE9ogk/RVGvWRxTtsJwLo10Hv1Ca6XXOfwhp4xBRZTZmJARAQAyuWxnppk0s7XUuO0O935T5KXTBmUXvccIdbtbg4VqxLEdcm3DPgZbjJnJwGkZ6BHlU4VmelrutQfJ5ls4tyCw3CK8UjjW0p/Qg=
+	t=1770136163; cv=none; b=SRjvqGRotBCTwiOT5GjsOplsCzT1u7+VyODnf7y2oEtSjk4EQoqV5gxVBX7wsCM8/mQP6gm9hQEOIfEoY36ZAAdUDjYfn4TWUCGmRuWw2klZageTv7s+Yg+e4miw3vu7VVUiOtm0weQMJuo3s2iNgxhvGRZK979uHZtfO0kzJU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770136138; c=relaxed/simple;
-	bh=QLM8Cd4lYQ1gk9LxsTCcNODV4GYG29LzN7JYwrYqBvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bFMR0pq/AsYiC4cR8Oq1UhYmG58dUa4hFgT6BqLP5XARTO7DRqnxUuczJnpJd33I767J7FUrRCQIB3kMYQ8SXkt0WVWk0kl91eLQGCjz3lShithbYWsdE76zux1tg+iY+/DkI6rCZqwY6SvxFzjQZRDhf8S0wtajU1sHla/Ss5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=n7Ei7/gK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770136163; c=relaxed/simple;
+	bh=FfyDH8l1QGBNfc5KpjHWRkafoUyts8NRjsB26ikGaJE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=jLrNYGqY4v0f9vSEZ1+P94NWjeEs9im78zTUp9VdRVzkTEGUL8BijLya6vw87aVDcRMH8wwvQgT1DQIBdpH0Rt5N9eT/5HyCZL8A2o6Sgc8Wpg8kAqPf00gEwvDAy4vvSLFEAvmFfDLEMgOnNufsCzFhU+G5KR8Zxzh+PTjEMAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvJBgqVq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="n7Ei7/gK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89252C16AAE;
-	Tue,  3 Feb 2026 16:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770136138;
-	bh=QLM8Cd4lYQ1gk9LxsTCcNODV4GYG29LzN7JYwrYqBvw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n7Ei7/gK+3w3UVBbUFYUxCIGM74q6ghSuVmLT0GQjrLcpb2DVYFuvyEc4Fg2Oe5BZ
-	 9DA+SBIsrifVQiytUfgIkTTc876TPTUpb4vCU0rYb6BFbCe/K45ih3+SEqJQ9E8Vtb
-	 O4GGnM46moFdad62LnviYrIFwfSWdEShKShFmqEQ=
-Date: Tue, 3 Feb 2026 17:28:55 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Satya Durga Srinivasu Prabhala <satyap@quicinc.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Michal Wilczynski <m.wilczynski@samsung.com>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
-	Trilok Soni <tsoni@quicinc.com>, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] soc: qcom: socinfo: Convert to Rust
-Message-ID: <2026020315-conch-trickle-2d84@gregkh>
-References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
- <20260203-qcom-socinfo-v2-6-d6719db85637@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvJBgqVq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66768C2BC87;
+	Tue,  3 Feb 2026 16:29:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770136163;
+	bh=FfyDH8l1QGBNfc5KpjHWRkafoUyts8NRjsB26ikGaJE=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=lvJBgqVqLGE1cn54IpO/ZvWT7HCDjwhSe0NV+7zLwq2OSZUiSvim6tQcfsG+H/wAr
+	 75a5LOf6zBQinjg9f7w9Lt8x/vhkzHKR3Tk1+TaGjny+WDx1KYiwQbtnJqCcc7ikV8
+	 ovxyy8wNUCuYCeo+8uvoZlHL++Ru+wB4mIogM2IOGzaH8SlNW2cBlFLQlBgQfNNtaN
+	 R7zfDICXAUXilWzSjmUjBE02NemSuXfIeoiNkOg/cYo+RRbF6EZb0y5BPdSH1YaIRu
+	 BLBe73JsutlYeqMXGzn35W1nTk3FsSWrhvkK1HnHRwbUnC2cdrUmL5oyCZukfcQ/ME
+	 BfKqg1OGG3lQw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203-qcom-socinfo-v2-6-d6719db85637@google.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Feb 2026 17:29:16 +0100
+Message-Id: <DG5GWC5MR1ZC.3VFVRL0G0NMUW@kernel.org>
+Subject: Re: [PATCH v2 3/6] rust: device: Support testing devices for
+ equality
+Cc: "Matthew Maurer" <mmaurer@google.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Konrad Dybcio" <konradybcio@kernel.org>, "Satya
+ Durga Srinivasu Prabhala" <satyap@quicinc.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Michal Wilczynski" <m.wilczynski@samsung.com>, "Dave Ertman"
+ <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "Leon
+ Romanovsky" <leon@kernel.org>, "Trilok Soni" <tsoni@quicinc.com>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-pwm@vger.kernel.org>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
+ <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
+ <2026020338-gratitude-overplay-98b0@gregkh>
+In-Reply-To: <2026020338-gratitude-overplay-98b0@gregkh>
 
-On Tue, Feb 03, 2026 at 03:46:35PM +0000, Matthew Maurer wrote:
-> Convert the socinfo driver to Rust for a number of improvements:
-> * Accessing IO mapped regions through the IO subsystem, rather than
->   through regular memory accesses.
+On Tue Feb 3, 2026 at 5:17 PM CET, Greg Kroah-Hartman wrote:
+> And I don't see what patch in this series uses this, am I missing it?
 
-That's good, but the C code could also be "fixed" to do this, right?
+	impl Smem {
+	    pub(crate) fn access<'a>(&'a self, dev: &'a Device<Bound>) -> Option<&=
+'a Mmio> {
+	        if *dev !=3D *self.dev {
+	            return None;
+	        }
+=09
+	        // SAFETY: By our invariant, this was a subrange of what was retur=
+ned by smem_aux_get, for
+	        // self.dev, and by our above check, that auxdev is still availabl=
+e.
+	        Some(unsafe { Mmio::from_raw(&self.raw) })
+	    }
+	}
 
-> * Binds the device as an auxiliary device rather than a platform device,
->   ensuring the mapped IO regions cannot be accessed after the smem
->   device is removed.
-
-I'm all for this, but is this really an aux device?  What is the
-"parent" device of this aux device?  Where are the "siblings"?  What
-does sysfs look like before/after this?
-
-> * Adds bounds-checking to all accesses, hardening against a repeat of
->   CVE-2024-58007
-
-How do you now "know" that the bounds checking is correct?  The C
-version also had this, it was just "not correct" :)
-
-And which accesses are you referring to?  From userspace?  From the
-kernel?  That CVE looks very odd, it's probably not even a real one and
-should be revoked, right?
-
-
-> diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
-> index fef840b5457407a85051ded0e835430dbebfe8bb..dcea2d7f37067b0b6f801b3d2b457422ad9f342c 100644
-> --- a/drivers/soc/qcom/smem.c
-> +++ b/drivers/soc/qcom/smem.c
-> @@ -4,6 +4,7 @@
->   * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
->   */
->  
-> +#include <linux/auxiliary_bus.h>
->  #include <linux/hwspinlock.h>
->  #include <linux/io.h>
->  #include <linux/module.h>
-> @@ -279,7 +280,6 @@ struct qcom_smem {
->  	struct hwspinlock *hwlock;
->  
->  	u32 item_count;
-> -	struct platform_device *socinfo;
->  	struct smem_ptable *ptable;
->  	struct smem_partition global_partition;
->  	struct smem_partition partitions[SMEM_HOST_COUNT];
-> @@ -675,6 +675,32 @@ static void *qcom_smem_get_private(struct qcom_smem *smem,
->  	return ERR_PTR(-EINVAL);
->  }
->  
-> +/**
-> + * qcom_smem_get_aux() - resolve ptr of size of a smem item
-> + * @aux:        an aux device that should be our child
-> + * @host:	the remote processor, or -1
-> + * @item:	smem item handle
-> + * @size:	pointer to be filled out with size of the item
-> + *
-> + * Looks up smem item and returns pointer to it. Size of smem
-> + * item is returned in @size.
-> + *
-> + * The caller may take the loaded state of the provided aux device as
-> + * an acceptable proxy for this memory being valid.
-> + *
-> + * Return: a pointer to an SMEM item on success, ERR_PTR() on failure.
-> + */
-> +void *qcom_smem_get_aux(struct auxiliary_device *aux, unsigned int host,
-> +		unsigned int item, size_t *size)
-> +{
-> +	if (IS_ERR(__smem))
-> +		return __smem;
-> +	if (aux->dev.parent != __smem->dev)
-> +		return ERR_PTR(-EINVAL);
-> +	return qcom_smem_get(host, item, size);
-
-So you are returning a void pointer?  But don't you really know the
-"type" of what is being asked here?  It's a memory chunk, so u8?  Or
-something else?  void * feels "rough" here.
-
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_smem_get_aux);
-> +
->  /**
->   * qcom_smem_get() - resolve ptr of size of a smem item
->   * @host:	the remote processor, or -1
-> @@ -684,6 +710,9 @@ static void *qcom_smem_get_private(struct qcom_smem *smem,
->   * Looks up smem item and returns pointer to it. Size of smem
->   * item is returned in @size.
->   *
-> + * It is up to the caller to ensure that the qcom_smem device remains
-> + * loaded by some mechanism when accessing returned memory.
-
-What do you mean by "loaded"?  You are saying that the caller needs to
-rely on this driver remaining in memory for that memory to be "valid"?
-
-If this is the case, why not take a reference count?
-
-> +impl Smem {
-> +    pub(crate) fn access<'a>(&'a self, dev: &'a Device<Bound>) -> Option<&'a Mmio> {
-> +        if *dev != *self.dev {
-
-How can this ever happen?
-
-thanks,
-
-greg k-h
+It's used to ensure that the Smem provided by the auxiliary parent can only=
+ be
+accessed as long as the auxiliary parent device is bound.
