@@ -1,41 +1,41 @@
-Received: from sender4-pp-e106.zoho.com (sender4-pp-e106.zoho.com [136.143.188.106])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05D219DFAB
-	for <driver-core@lists.linux.dev>; Wed,  4 Feb 2026 15:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC95C4218A4
+	for <driver-core@lists.linux.dev>; Wed,  4 Feb 2026 15:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770217243; cv=pass; b=PbtdRO25KJyGj2vON+Nroqx02m24Dse+DUW0R0680rUkQHafuGiI9FOU8I6b2cUHWb+a4ri7EnRQcImNrVP7rIWIPG+14mVW8pAyicCaPXQgyzOnJ0aTRKf4GodLiuhAHNx0KtJdqQ4MtFChoKnPOllolaB76Mh8RnQqLa5cK4Q=
+	t=1770218425; cv=pass; b=O0fpNWsyFeDA0mPa3MmQdofjDcnx52K0RtcInxt0TtovbvKQxeOV7FXfdxpUhdffOIwtrJ9bWCt+xgo9OSba1mhlp2SHqOFYyrYr15T3kNXWNHbxtVinMawDCPYYBavvsoy+/sMtqq7N5M+Uyo1wDarRWM8b1xR3HZ5J9pjVt3k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770217243; c=relaxed/simple;
-	bh=SuL6GDe9u99Pic+D6yF6G+7xbdRs0e7NhtkVcVixgZg=;
+	s=arc-20240116; t=1770218425; c=relaxed/simple;
+	bh=xdQ7IEnWUm9frL9EWFAzHBsR40y0ym+5rVIYfbksmis=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=YlsQY8woDGPN4m2tzDXQTaVRaCM4Do1LHLPL95XGyHL6c04Jk+ioYRw+f+CxFktVfhk+ZnjdGCvWy/iYb0Yzo/NFgFt6glPhd7qZTJxES+UxdroUzPyKe+Lt1xWo5EG8WOLoM5LKN40m01iAlEZxerrqvPIyzRx8Mz37ITrtXiQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=AE3xhG4J; arc=pass smtp.client-ip=136.143.188.106
+	 Message-Id:References:To; b=OAShCZ2Ooak5rsT20SrSTVI2vR7y0nMaJWLjD3sTXHIzTJQr1VYJqRUB0C66WzhXptweJmkJXauOVgVvdYLVpHvkU3MjiXlD6irYh4luSOFiGXDiTGJMw4uWEHse9cEI5tjsbM1SFMp0xrYqCT4PoIPCrWV2tTPKq1Sjv2EXNuo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=f4VXM0AU; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="AE3xhG4J"
-ARC-Seal: i=1; a=rsa-sha256; t=1770217234; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="f4VXM0AU"
+ARC-Seal: i=1; a=rsa-sha256; t=1770218411; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=lpBz/qTbF8vKosrFDbiN75V13G0IO6+hQX38EiKODMjmKjBNXKTPIOHS0iAAy8fz9k7pRYU1lY0MtpdPPc8X/b+SdcoiIRFRAuDDKOHpFyn4YCfoK297Vy5WC4vJXCsdVxlhjyDQX8HSGj1v5CtFuaJX5mlMizslX3hupOSjUgE=
+	b=LkL7v0DighD2mvfxFHzjF0UjtmnZ29u1sf5vELZq3wlp8Fd6za7FAy71XiFLHeqMVvKKYZKSdObKXsOvD7ZPbuqF0h7tjMkDQ1pRq5rQzCBnRF+ojlCBuzK/0WPdfzOnBqhHabQfhiRUM9yRFkbxeWwhYKg9EqclwOgvZ2TdwJE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1770217234; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=pweZ7QgQzfYiYd/GcOGqcHQ4SaTbilLC6NRVhQTWwJA=; 
-	b=GukGS8YRFCSt4M8Grf1ZIqmjO8cv9KIfAPAUpqQo8dt5U3TPfCdAb57x8uoXqVs4J4SxF2e7jXFPPDil/O3on9txC5kVXTQmLrvfHiWwMn6QAG11sO7ZKEXSKcNq/gYlum8yFp7CIBaL5dd0nM51h76dz/LuFqLBtaXcqHnS66U=
+	t=1770218411; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GMS2v19i2T6rYSBMcR/sXPSiFNzgoydVxzUY+ieFNbg=; 
+	b=dxBeiYp7dLtRKc3R4ddguqax8EBFwSqmYCFhfKF09jF7hHVC6BtDhEPak0xnKK2ApZI3973Qr0LlgvPAXqe3iTP+EXsqp7ByXjuaN1vC8HKSRyI8LEoyrYirqfTorGrqBfyudQc6F0mq1c1502H0rOE0pYLsVGLSFdGlM5JQHBI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
 	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770217234;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770218411;
 	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
 	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=pweZ7QgQzfYiYd/GcOGqcHQ4SaTbilLC6NRVhQTWwJA=;
-	b=AE3xhG4JfU6AjG6KT4GReBxtIiBQJA7gMn/1p+yrWKeF3VQKNVUt1ugsY6c/DJsX
-	K7og0dFQwAaw/19LgwHXX1YAHoqgH2IpE3RQaApYGTv++NjcupTl5K+W/uk7Qr8ykBj
-	IYPt6kB5Bo35MGkb9+mKXJuOG71bGU6ZxvzszagM=
-Received: by mx.zohomail.com with SMTPS id 1770217233327908.9116052510911;
-	Wed, 4 Feb 2026 07:00:33 -0800 (PST)
+	bh=GMS2v19i2T6rYSBMcR/sXPSiFNzgoydVxzUY+ieFNbg=;
+	b=f4VXM0AUI/fLoZVoCxt51LBEamHj9NHZ4nzVDaX0tv7YW4g5herm+Ea73DOQxzui
+	yz4eszsEwkKqerD7uJiJkZ4nnrWVbmwj+vfhjZXhPQDRH6wFJu2GsPeSaqv2UvWAwmW
+	Xe1atiP2k2tqShu5Z98Z0JcQQbKMl5/21Bc9xBgg=
+Received: by mx.zohomail.com with SMTPS id 1770218408981350.9294090611644;
+	Wed, 4 Feb 2026 07:20:08 -0800 (PST)
 Content-Type: text/plain;
 	charset=us-ascii
 Precedence: bulk
@@ -44,10 +44,10 @@ List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH 2/6] rust: io: mem: use non-relaxed I/O ops in examples
+Subject: Re: [PATCH 4/6] rust: io: remove legacy relaxed accessors of Mmio
 From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260202-io-v1-2-9bb2177d23be@nvidia.com>
-Date: Wed, 4 Feb 2026 12:00:17 -0300
+In-Reply-To: <20260202-io-v1-4-9bb2177d23be@nvidia.com>
+Date: Wed, 4 Feb 2026 12:19:52 -0300
 Cc: Danilo Krummrich <dakr@kernel.org>,
  Alice Ryhl <aliceryhl@google.com>,
  Miguel Ojeda <ojeda@kernel.org>,
@@ -67,9 +67,9 @@ Cc: Danilo Krummrich <dakr@kernel.org>,
  Lyude Paul <lyude@redhat.com>,
  Eliot Courtney <ecourtney@nvidia.com>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <B50EAE3F-A424-4DC9-A2B0-7D9A8529B496@collabora.com>
+Message-Id: <7E5C2D1B-C876-4F73-A497-338128F38E59@collabora.com>
 References: <20260202-io-v1-0-9bb2177d23be@nvidia.com>
- <20260202-io-v1-2-9bb2177d23be@nvidia.com>
+ <20260202-io-v1-4-9bb2177d23be@nvidia.com>
 To: Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: Apple Mail (2.3826.700.81)
 X-ZohoMailClient: External
@@ -79,66 +79,79 @@ X-ZohoMailClient: External
 > On 2 Feb 2026, at 05:13, Alexandre Courbot <acourbot@nvidia.com> =
 wrote:
 >=20
-> The `_relaxed` I/O variant methods are about to be replaced by a =
-wrapper
-> type exposing this access pattern with the regular methods of the `Io`
-> trait. Thus replace the examples to use the regular I/O methods.
->=20
-> Since these are examples, we want them to use the most standard ops
-> anyway, and the relaxed variants were but an addition that was
-> MMIO-specific.
+> The relaxed access functionality is now provided by the `RelaxedMmio`
+> wrapper type, and we don't have any user of the legacy methods left.
+> Remove them.
 >=20
 > Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 > ---
-> rust/kernel/io/mem.rs | 10 ++++++----
-> 1 file changed, 6 insertions(+), 4 deletions(-)
+> rust/kernel/io.rs | 40 ----------------------------------------
+> 1 file changed, 40 deletions(-)
 >=20
-> diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
-> index 620022cff401..7dc78d547f7a 100644
-> --- a/rust/kernel/io/mem.rs
-> +++ b/rust/kernel/io/mem.rs
-> @@ -54,6 +54,7 @@ pub(crate) unsafe fn new(device: &'a Device<Bound>, =
-resource: &'a Resource) -> S
->     /// use kernel::{
->     ///     bindings,
->     ///     device::Core,
-> +    ///     io::Io,
->     ///     of,
->     ///     platform,
->     /// };
-> @@ -78,9 +79,9 @@ pub(crate) unsafe fn new(device: &'a Device<Bound>, =
-resource: &'a Resource) -> S
->     ///       let io =3D iomem.access(pdev.as_ref())?;
->     ///
->     ///       // Read and write a 32-bit value at `offset`.
-> -    ///       let data =3D io.read32_relaxed(offset);
-> +    ///       let data =3D io.read32(offset);
->     ///
-> -    ///       io.write32_relaxed(data, offset);
-> +    ///       io.write32(data, offset);
->     ///
->     ///       # Ok(SampleDriver)
->     ///     }
-> @@ -117,6 +118,7 @@ pub fn iomap_exclusive_sized<const SIZE: usize>(
->     /// use kernel::{
->     ///     bindings,
->     ///     device::Core,
-> +    ///     io::Io,
->     ///     of,
->     ///     platform,
->     /// };
-> @@ -141,9 +143,9 @@ pub fn iomap_exclusive_sized<const SIZE: usize>(
->     ///
->     ///       let io =3D iomem.access(pdev.as_ref())?;
->     ///
-> -    ///       let data =3D io.try_read32_relaxed(offset)?;
-> +    ///       let data =3D io.try_read32(offset)?;
->     ///
-> -    ///       io.try_write32_relaxed(data, offset)?;
-> +    ///       io.try_write32(data, offset)?;
->     ///
->     ///       # Ok(SampleDriver)
->     ///     }
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index baa8d3baa20c..e1094a237ff7 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -660,46 +660,6 @@ pub unsafe fn from_raw(raw: &MmioRaw<SIZE>) -> =
+&Self {
+>         // SAFETY: `Mmio` is a transparent wrapper around `MmioRaw`.
+>         unsafe { &*core::ptr::from_ref(raw).cast() }
+>     }
+> -
+> -    define_read!(infallible, pub read8_relaxed, =
+call_mmio_read(readb_relaxed) -> u8);
+> -    define_read!(infallible, pub read16_relaxed, =
+call_mmio_read(readw_relaxed) -> u16);
+> -    define_read!(infallible, pub read32_relaxed, =
+call_mmio_read(readl_relaxed) -> u32);
+> -    define_read!(
+> -        infallible,
+> -        #[cfg(CONFIG_64BIT)]
+> -        pub read64_relaxed,
+> -        call_mmio_read(readq_relaxed) -> u64
+> -    );
+> -
+> -    define_read!(fallible, pub try_read8_relaxed, =
+call_mmio_read(readb_relaxed) -> u8);
+> -    define_read!(fallible, pub try_read16_relaxed, =
+call_mmio_read(readw_relaxed) -> u16);
+> -    define_read!(fallible, pub try_read32_relaxed, =
+call_mmio_read(readl_relaxed) -> u32);
+> -    define_read!(
+> -        fallible,
+> -        #[cfg(CONFIG_64BIT)]
+> -        pub try_read64_relaxed,
+> -        call_mmio_read(readq_relaxed) -> u64
+> -    );
+> -
+> -    define_write!(infallible, pub write8_relaxed, =
+call_mmio_write(writeb_relaxed) <- u8);
+> -    define_write!(infallible, pub write16_relaxed, =
+call_mmio_write(writew_relaxed) <- u16);
+> -    define_write!(infallible, pub write32_relaxed, =
+call_mmio_write(writel_relaxed) <- u32);
+> -    define_write!(
+> -        infallible,
+> -        #[cfg(CONFIG_64BIT)]
+> -        pub write64_relaxed,
+> -        call_mmio_write(writeq_relaxed) <- u64
+> -    );
+> -
+> -    define_write!(fallible, pub try_write8_relaxed, =
+call_mmio_write(writeb_relaxed) <- u8);
+> -    define_write!(fallible, pub try_write16_relaxed, =
+call_mmio_write(writew_relaxed) <- u16);
+> -    define_write!(fallible, pub try_write32_relaxed, =
+call_mmio_write(writel_relaxed) <- u32);
+> -    define_write!(
+> -        fallible,
+> -        #[cfg(CONFIG_64BIT)]
+> -        pub try_write64_relaxed,
+> -        call_mmio_write(writeq_relaxed) <- u64
+> -    );
+> }
+>=20
+> /// [`Mmio`] wrapper using relaxed accessors.
 >=20
 > --=20
 > 2.52.0
