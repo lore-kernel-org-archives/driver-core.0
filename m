@@ -1,423 +1,262 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB23330C630
-	for <driver-core@lists.linux.dev>; Fri,  6 Feb 2026 20:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0182D2264D9;
+	Fri,  6 Feb 2026 22:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770409757; cv=none; b=f0UFYU3O4W4IafLtBKw+OABWRxURhwI+puVue4ItgVmNAgw8yWTQVNMGONv0F9Sto89qXlSiTR43R/6070oW0wpn0wW8i5QwHWQiV6rSJQm54gsQZG9sULo5vpo/OeJSGnU3xuzLxXKtwGM6F/FbBsy9Tgi6iDDkdOVZLF2MfYg=
+	t=1770415365; cv=none; b=Z2gRSu88NA526c+X+ywOpAzNVFi5I5xoi/jNDjA3Ozj/QxR2h7JVmwbUb9h1wEQkhjOwzmqsbPlXzHVhKzfprJ0k8xRI4rmGhwaOfJliSmaVejnzwuD0K8kFqnHes9MtTBQFFaX5EKlt72ojzHH9GomGPKO9cDClBoBNFKyX4nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770409757; c=relaxed/simple;
-	bh=1po7Z6IzaXchl7VCrUwXdBTHISM9LyFX43WMoRRRa1k=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cSCo8w7ssv3slYD8Zs2sb4Bqj0zAIkLvvJjj0yPyd5INgWFVSrp3vaLaNyoSx/Vmjp7PiMZkG53RcsEkp0MykKff/tYblh93DWUXXXVkb4v5gyFVekMe8zfSMLvX7hF3GW8x7/PUTSILUVLeX9v1y2QJFHW/NZPrniAdDVRfziA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NXlfibok; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1770415365; c=relaxed/simple;
+	bh=bfPUMs2b42VX42YQ1nfGegyoQworNugo/zCJtYGGP3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oTxFZf6y2ywiCa7v3tuY5ThEr0YSdU5t9F5SxJjvare5j+VVJwG6dtEXmH6/QceyqYExxltiUWTD6jg3oqHZD/48PnmiDYhbZrFtFI69tO2ulTjZCbiVq1vITF3fCXO0hCYp/ecGmzNCeevNjAWZBm6Lu0Zt3qUMd3dI0jZL6KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m5lNQAGP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NXlfibok"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770409755;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1po7Z6IzaXchl7VCrUwXdBTHISM9LyFX43WMoRRRa1k=;
-	b=NXlfibokbuq1dO6tHsvK36vrjxXQUDiuUwLAvmQu//Jchqd7gD6a/w/iDeEHnvCOj7aZKp
-	zxTYjNIUp1Rw7cozKYrBc6XoPzvCTsFHaEDYFMAeQi6MlXs0tF1ELc2ebYBqhwJN75NeAi
-	16e+sFIpVEG48IkeFb0B7ZQwVx/Zoyk=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-695-wJi-CebqPySxuDbGQ2IHvg-1; Fri, 06 Feb 2026 15:29:14 -0500
-X-MC-Unique: wJi-CebqPySxuDbGQ2IHvg-1
-X-Mimecast-MFC-AGG-ID: wJi-CebqPySxuDbGQ2IHvg_1770409754
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50148a2a5baso72126411cf.2
-        for <driver-core@lists.linux.dev>; Fri, 06 Feb 2026 12:29:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770409754; x=1771014554;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1po7Z6IzaXchl7VCrUwXdBTHISM9LyFX43WMoRRRa1k=;
-        b=XzikewwR6lNDmFu4NQilBvk05S1hH+ddQVkL4s7blowm3Ft0vSClL5hvHrRCzvl1fX
-         QTr6PiQNLAGnV7/serWMUKJz4CMZtP+DJ3Vn2FQEm+kTQbqcWmMciKMrs0vLgzxkr6I0
-         ZXLGrFuVFrYYcWbkLuTkjN/mK+spg1bYGrxGRSPHoxva0wrvLpvHBOYwrZpzqXowNUaI
-         eLKZcLOxuewaXoVNNyRecKGaflX72lCy+59r5QYCvT5AKEo05IPxvuN4hLBg6x/r+I2m
-         sQmkJ5bmwfvEzPzjfK1P8V2cafrMd0AMbbl4edQtPEWapywJ2NQL45d6zBooa8Dvyx39
-         CvHw==
-X-Gm-Message-State: AOJu0YyzugiOT5NhKWKCy3NUTGHNqNXMCSZ1/h7RXoRFNQ/MMJVp6yHo
-	hjaXzSUUf7YE1JgYQUe3OOCZGdXfy5Qi1a120R3y2qmX8KeBpiAj8jQCY/pKB2RBPo8GgLirpxz
-	FBNrq8voalawnIKZKhT2OK85XGWol1qWCEX633kdE+whNwHldRLylFeD2JKEQzYOU
-X-Gm-Gg: AZuq6aKI4S4CoAhb0LGV1frdqbtsuNUqEeuZ4J179LT4R2mPT+oYgQ4oeSQr3LSI6Y4
-	sSGb0sR/zCfwJBaHj30EepJiHgjDcDByjcj6fxxDhZMIMw90Yke3gy90/YaHs/7+WlnhSo4xHaB
-	+1GOs1iWpJ3tD7sD2GCnovTOouNay4nzBXR7YoE2jfoBD3XJ1mQeLONj2i+vvWlHkK9Nw8Ekw7b
-	ZB8hm3bbVr9kPndm4UvCv/gmzZhIASXKxWKe2cBUiO/FVdwQVw6b7b1KAUSb405SKVNg8FnEXCO
-	2bWEZtF9tg4StkbeNCkJnoquwhHW0r9f61teVB8TZFtXEjqahmhCrvfeSdfCK+/NrzgqMjGEufW
-	2vW5x5w==
-X-Received: by 2002:a05:622a:1809:b0:502:a3b:f367 with SMTP id d75a77b69052e-5063995495bmr43666331cf.51.1770409753924;
-        Fri, 06 Feb 2026 12:29:13 -0800 (PST)
-X-Received: by 2002:a05:622a:1809:b0:502:a3b:f367 with SMTP id d75a77b69052e-5063995495bmr43665841cf.51.1770409753305;
-        Fri, 06 Feb 2026 12:29:13 -0800 (PST)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf9a1575asm244403385a.32.2026.02.06.12.29.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 12:29:12 -0800 (PST)
-Message-ID: <97fc6c36933522eaf75f34f8fcd445715432fde4.camel@redhat.com>
-Subject: Re: [PATCH v2 1/6] rust: io: turn IoCapable into a functional trait
-From: lyude@redhat.com
-To: Alexandre Courbot <acourbot@nvidia.com>, Danilo Krummrich
- <dakr@kernel.org>,  Alice Ryhl <aliceryhl@google.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Miguel Ojeda	 <ojeda@kernel.org>, Boqun
- Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Andreas Hindborg	 <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Bjorn Helgaas	 <bhelgaas@google.com>,
- Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=	 <kwilczynski@kernel.org>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, Zhi Wang
- <zhiw@nvidia.com>,  Eliot Courtney <ecourtney@nvidia.com>
-Date: Fri, 06 Feb 2026 15:29:11 -0500
-In-Reply-To: <20260206-io-v2-1-71dea20a06e6@nvidia.com>
-References: <20260206-io-v2-0-71dea20a06e6@nvidia.com>
-	 <20260206-io-v2-1-71dea20a06e6@nvidia.com>
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m5lNQAGP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A22C6C116C6;
+	Fri,  6 Feb 2026 22:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770415364;
+	bh=bfPUMs2b42VX42YQ1nfGegyoQworNugo/zCJtYGGP3M=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=m5lNQAGPw4lfc9EU6KMQLYf4GvC5QUtL4EmGcfqHX3kyv1EgRLJAsPMMLRmetZETB
+	 Py4hL0wyqbotb889upEQTYijoAKtK3xNpDPOBvYcKKDeoFVq9j/PG04wuzjqHMlXkm
+	 fLJIureI8XXAt0xkRxkPi4ApRgXQ3dizqGr0Vry6g8Z7nUZS1aUIp+1+I8TtFi1dkQ
+	 ZGLaImNn5OhMije3K+CGQPHAY7l/LL5wJhV0oVT/yWbakcBYROJ688LXNWCSQoVb9I
+	 18B0rkEmGrxe85jUXQ05Z2C8Bv9SvpvhuYEvb8EaCWNLzPsj26vrIz4xzrZ9Yu6V88
+	 X35JGr6jhZmZg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 29797CE0F9F; Fri,  6 Feb 2026 14:02:44 -0800 (PST)
+Date: Fri, 6 Feb 2026 14:02:44 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Johan Hovold <johan@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH] revocable: hide the implementation details from users
+Message-ID: <fc68da89-7c2b-432b-9a78-6ab55fcb0e9e@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260206103216.38623-1-bartosz.golaszewski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 6dKEv9ojZl-zUrhDkyrlfjCqUrKjSR142avA3QYPGw8_1770409754
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206103216.38623-1-bartosz.golaszewski@oss.qualcomm.com>
 
-T24gRnJpLCAyMDI2LTAyLTA2IGF0IDE1OjAwICswOTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90
-ZToKPiBgSW9DYXBhYmxlPFQ+YCBpcyBjdXJyZW50bHkgdXNlZCBhcyBhIG1hcmtlciB0cmFpdCB0
-byBzaWduYWwgdGhhdCB0aGUKPiBtZXRob2RzIG9mIHRoZSBgSW9gIHRyYWl0IGNvcnJlc3BvbmRp
-bmcgdG8gYFRgIGhhdmUgYmVlbiBvdmVycmlkZGVuCj4gYnkKPiB0aGUgaW1wbGVtZW50b3IgKHRo
-ZSBkZWZhdWx0IGltcGxlbWVudGF0aW9ucyB0cmlnZ2VyaW5nIGEgYnVpbGQtdGltZQo+IGVycm9y
-KS4KPiAKPiBUaGlzIGdvZXMgYWdhaW5zdCB0aGUgRFJZIHByaW5jaXBsZSBhbmQgc2VwYXJhdGVz
-IHRoZSBzaWduYWxpbmcgb2YKPiB0aGUKPiBjYXBhYmlsaXR5IGZyb20gaXRzIGltcGxlbWVudGF0
-aW9uLCBtYWtpbmcgaXQgcG9zc2libGUgdG8gZm9yZ2V0IGEKPiBzdGVwCj4gd2hpbGUgaW1wbGVt
-ZW50aW5nIGEgbmV3IGBJb2AuCgpJIHJlYWxpemVkIGFub3RoZXIgdGhpbmcgdGhhdCBtaWdodCBi
-ZSBtaXNzaW5nIGZyb20gdGhpcyBzZXJpZXMgd2hpbGUKcG9ydGluZyB0aGUgaW9zeXNfbWFwIGNv
-ZGUgb3ZlcjogaXQgc2VlbXMgbGlrZSBJb0NhcGFibGUgaXMgZmluZSBiZWluZwphIHNhZmUgdHJh
-aXQsIGJ1dCBJbyBhbmQgSW9Lbm93blNpemUgYm90aCBzZWVtIGxpa2UgdGhleSBzaG91bGQKYWN0
-dWFsbHkgYmUgdW5zYWZlIHRyYWl0cy4gVGhlIG1haW4gcmVhc29uIGJlaW5nIHRoYXQgSW9DYXBh
-YmxlIGRvZXNuJ3QKYWN0dWFsbHkgcHJvdmlkZSBhbnkgbWV0aG9kcyB0aGF0IHByb3ZpZGUgYSBn
-dWFyYW50ZWUgb2YgYmVpbmcgYWJsZSB0bwpyZWFkL3dyaXRlIGZyb20gdGhlIElPIHNwYWNlLCBi
-dXQgSW8gZG9lcyAtIGFuZCBJb0tub3duU2l6ZSBpcyBtYWtpbmcKdGhlIGd1YXJhbnRlZSB0aGUg
-SU8gc3BhY2UgaXMgYXQgbGVhc3Qgb2Ygc2l6ZSBJb0tub3duU2l6ZTo6TUlOX1NJWkUuCgo+IAo+
-IEFub3RoZXIgdW5kZXNpcmFibGUgc2lkZS1lZmZlY3QgaXMgdGhhdCBpdCBtYWtlcyB0aGUgaW1w
-bGVtZW50YXRpb24KPiBvZgo+IEkvTyBiYWNrZW5kcyBib2lsZXJwbGF0ZS15IGFuZCBjb252b2x1
-dGVkOiBjdXJyZW50bHkgdGhpcyBpcyBkb25lCj4gdXNpbmcKPiB0d28gbGV2ZWxzIG9mIGltYnJp
-Y2F0ZWQgbWFjcm9zIHRoYXQgZ2VuZXJhdGUgdW5zYWZlIGNvZGUuCj4gCj4gRml4IHRoZXNlIGlz
-c3VlcyBieSB0dXJuaW5nIGBJb0NhcGFibGVgIGludG8gYSBmdW5jdGlvbmFsIHRyYWl0IHRoYXQK
-PiBpbmNsdWRlcyB0aGUgcmF3IGltcGxlbWVudGF0aW9uIG9mIHRoZSBJL08gYWNjZXNzIGZvciBg
-VGAgdXNpbmcKPiB1bnNhZmUgbWV0aG9kcyB0aGF0IHdvcmsgd2l0aCBhbiBhcmJpdHJhcnkgYWRk
-cmVzcy4KPiAKPiBUaGlzIGFsbG93cyB1cyB0byB0dXJuIHRoZSBkZWZhdWx0IG1ldGhvZHMgb2Yg
-YElvYCBpbnRvIHJlZ3VsYXIKPiBtZXRob2RzCj4gdGhhdCBjaGVjayB0aGUgcGFzc2VkIG9mZnNl
-dCwgdHVybiBpdCBpbnRvIGFuIGFkZHJlc3MsIGFuZCBjYWxsIGludG8KPiB0aGUKPiBjb3JyZXNw
-b25kaW5nIGBJb0NhcGFibGVgIGZ1bmN0aW9ucywgcmVtb3ZpbmcgdGhlIG5lZWQgdG8gb3Zlcmxv
-YWQKPiB0aGVtCj4gYXQgYWxsLgo+IAo+IGBJb0NhcGFibGVgIG11c3Qgc3RpbGwgYmUgaW1wbGVt
-ZW50ZWQgZm9yIGFsbCBzdXBwb3J0ZWQgcHJpbWl0aXZlCj4gdHlwZXMsCj4gd2hpY2ggaXMgc3Rp
-bGwgZG9uZSBtb3JlIGNvbmNpc2VseSB1c2luZyBhIG1hY3JvLCBidXQgdGhpcyBtYWNybwo+IGJl
-Y29tZXMKPiBtdWNoIHNpbXBsZXIgYW5kIGRvZXMgbm90IHJlcXVpcmUgY2FsbGluZyBpbnRvIGFu
-b3RoZXIgb25lLgo+IAo+IFJldmlld2VkLWJ5OiBEYW5pZWwgQWxtZWlkYSA8ZGFuaWVsLmFsbWVp
-ZGFAY29sbGFib3JhLmNvbT4KPiBBY2tlZC1ieTogQWxpY2UgUnlobCA8YWxpY2VyeWhsQGdvb2ds
-ZS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogQWxleGFuZHJlIENvdXJib3QgPGFjb3VyYm90QG52aWRp
-YS5jb20+Cj4gLS0tCj4gwqBydXN0L2tlcm5lbC9pby5yc8KgwqDCoMKgIHwgMTY5ICsrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0KPiAtLS0tLS0tLS0tCj4gwqBydXN0L2tl
-cm5lbC9wY2kvaW8ucnMgfMKgIDM3ICsrKysrKysrKystCj4gwqAyIGZpbGVzIGNoYW5nZWQsIDE2
-MyBpbnNlcnRpb25zKCspLCA0MyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvcnVzdC9r
-ZXJuZWwvaW8ucnMgYi9ydXN0L2tlcm5lbC9pby5ycwo+IGluZGV4IGMxY2NhN2I0MzhjMy4uZGM4
-OTRhNDViYmNjIDEwMDY0NAo+IC0tLSBhL3J1c3Qva2VybmVsL2lvLnJzCj4gKysrIGIvcnVzdC9r
-ZXJuZWwvaW8ucnMKPiBAQCAtMjczLDE0ICsyNzMsMjkgQEAgY29uc3QgZm4gb2Zmc2V0X3ZhbGlk
-PFU+KG9mZnNldDogdXNpemUsIHNpemU6Cj4gdXNpemUpIC0+IGJvb2wgewo+IMKgwqDCoMKgIH0K
-PiDCoH0KPiDCoAo+IC0vLy8gTWFya2VyIHRyYWl0IGluZGljYXRpbmcgdGhhdCBhbiBJL08gYmFj
-a2VuZCBzdXBwb3J0cyBvcGVyYXRpb25zCj4gb2YgYSBjZXJ0YWluIHR5cGUuCj4gKy8vLyBUcmFp
-dCBpbmRpY2F0aW5nIHRoYXQgYW4gSS9PIGJhY2tlbmQgc3VwcG9ydHMgb3BlcmF0aW9ucyBvZiBh
-Cj4gY2VydGFpbiB0eXBlIGFuZCBwcm92aWRpbmcgYW4KPiArLy8vIGltcGxlbWVudGF0aW9uIGZv
-ciB0aGVzZSBvcGVyYXRpb25zLgo+IMKgLy8vCj4gwqAvLy8gRGlmZmVyZW50IEkvTyBiYWNrZW5k
-cyBjYW4gaW1wbGVtZW50IHRoaXMgdHJhaXQgdG8gZXhwb3NlIG9ubHkKPiB0aGUgb3BlcmF0aW9u
-cyB0aGV5IHN1cHBvcnQuCj4gwqAvLy8KPiDCoC8vLyBGb3IgZXhhbXBsZSwgYSBQQ0kgY29uZmln
-dXJhdGlvbiBzcGFjZSBtYXkgaW1wbGVtZW50Cj4gYElvQ2FwYWJsZTx1OD5gLCBgSW9DYXBhYmxl
-PHUxNj5gLAo+IMKgLy8vIGFuZCBgSW9DYXBhYmxlPHUzMj5gLCBidXQgbm90IGBJb0NhcGFibGU8
-dTY0PmAsIHdoaWxlIGFuIE1NSU8KPiByZWdpb24gb24gYSA2NC1iaXQKPiDCoC8vLyBzeXN0ZW0g
-bWlnaHQgaW1wbGVtZW50IGFsbCBmb3VyLgo+IC1wdWIgdHJhaXQgSW9DYXBhYmxlPFQ+IHt9Cj4g
-K3B1YiB0cmFpdCBJb0NhcGFibGU8VD4gewo+ICvCoMKgwqAgLy8vIFBlcmZvcm1zIGFuIEkvTyBy
-ZWFkIG9mIHR5cGUgYFRgIGF0IGBhZGRyZXNzYCBhbmQgcmV0dXJucwo+IHRoZSByZXN1bHQuCj4g
-K8KgwqDCoCAvLy8KPiArwqDCoMKgIC8vLyAjIFNhZmV0eQo+ICvCoMKgwqAgLy8vCj4gK8KgwqDC
-oCAvLy8gVGhlIHJhbmdlIGBbYWRkcmVzcy4uYWRkcmVzcyArIHNpemVfb2Y6OjxUPigpXWAgbXVz
-dCBiZQo+IHdpdGhpbiB0aGUgYm91bmRzIG9mIGBTZWxmYC4KPiArwqDCoMKgIHVuc2FmZSBmbiBp
-b19yZWFkKCZzZWxmLCBhZGRyZXNzOiB1c2l6ZSkgLT4gVDsKPiArCj4gK8KgwqDCoCAvLy8gUGVy
-Zm9ybXMgYW4gSS9PIHdyaXRlIG9mIGB2YWx1ZWAgYXQgYGFkZHJlc3NgLgo+ICvCoMKgwqAgLy8v
-Cj4gK8KgwqDCoCAvLy8gIyBTYWZldHkKPiArwqDCoMKgIC8vLwo+ICvCoMKgwqAgLy8vIFRoZSBy
-YW5nZSBgW2FkZHJlc3MuLmFkZHJlc3MgKyBzaXplX29mOjo8VD4oKV1gIG11c3QgYmUKPiB3aXRo
-aW4gdGhlIGJvdW5kcyBvZiBgU2VsZmAuCj4gK8KgwqDCoCB1bnNhZmUgZm4gaW9fd3JpdGUoJnNl
-bGYsIHZhbHVlOiBULCBhZGRyZXNzOiB1c2l6ZSk7Cj4gK30KPiDCoAo+IMKgLy8vIFR5cGVzIGlt
-cGxlbWVudGluZyB0aGlzIHRyYWl0IChlLmcuIE1NSU8gQkFScyBvciBQQ0kgY29uZmlnCj4gcmVn
-aW9ucykKPiDCoC8vLyBjYW4gcGVyZm9ybSBJL08gb3BlcmF0aW9ucyBvbiByZWdpb25zIG9mIG1l
-bW9yeS4KPiBAQCAtMzIyLDE0NiArMzM3LDE5OCBAQCBmbiBpb19hZGRyPFU+KCZzZWxmLCBvZmZz
-ZXQ6IHVzaXplKSAtPgo+IFJlc3VsdDx1c2l6ZT4gewo+IMKgCj4gwqDCoMKgwqAgLy8vIEZhbGxp
-YmxlIDgtYml0IHJlYWQgd2l0aCBydW50aW1lIGJvdW5kcyBjaGVjay4KPiDCoMKgwqDCoCAjW2lu
-bGluZShhbHdheXMpXQo+IC3CoMKgwqAgZm4gdHJ5X3JlYWQ4KCZzZWxmLCBfb2Zmc2V0OiB1c2l6
-ZSkgLT4gUmVzdWx0PHU4Pgo+ICvCoMKgwqAgZm4gdHJ5X3JlYWQ4KCZzZWxmLCBvZmZzZXQ6IHVz
-aXplKSAtPiBSZXN1bHQ8dTg+Cj4gwqDCoMKgwqAgd2hlcmUKPiDCoMKgwqDCoMKgwqDCoMKgIFNl
-bGY6IElvQ2FwYWJsZTx1OD4sCj4gwqDCoMKgwqAgewo+IC3CoMKgwqDCoMKgwqDCoCBidWlsZF9l
-cnJvciEoIkJhY2tlbmQgZG9lcyBub3Qgc3VwcG9ydCBmYWxsaWJsZSA4LWJpdCByZWFkIikKPiAr
-wqDCoMKgwqDCoMKgwqAgbGV0IGFkZHJlc3MgPSBzZWxmLmlvX2FkZHI6Ojx1OD4ob2Zmc2V0KT87
-Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6IGBhZGRyZXNzYCBoYXMgYmVlbiB2YWxp
-ZGF0ZWQgYnkgYGlvX2FkZHJgLgo+ICvCoMKgwqDCoMKgwqDCoCBPayh1bnNhZmUgeyBzZWxmLmlv
-X3JlYWQoYWRkcmVzcykgfSkKPiDCoMKgwqDCoCB9Cj4gwqAKPiDCoMKgwqDCoCAvLy8gRmFsbGli
-bGUgMTYtYml0IHJlYWQgd2l0aCBydW50aW1lIGJvdW5kcyBjaGVjay4KPiDCoMKgwqDCoCAjW2lu
-bGluZShhbHdheXMpXQo+IC3CoMKgwqAgZm4gdHJ5X3JlYWQxNigmc2VsZiwgX29mZnNldDogdXNp
-emUpIC0+IFJlc3VsdDx1MTY+Cj4gK8KgwqDCoCBmbiB0cnlfcmVhZDE2KCZzZWxmLCBvZmZzZXQ6
-IHVzaXplKSAtPiBSZXN1bHQ8dTE2Pgo+IMKgwqDCoMKgIHdoZXJlCj4gwqDCoMKgwqDCoMKgwqDC
-oCBTZWxmOiBJb0NhcGFibGU8dTE2PiwKPiDCoMKgwqDCoCB7Cj4gLcKgwqDCoMKgwqDCoMKgIGJ1
-aWxkX2Vycm9yISgiQmFja2VuZCBkb2VzIG5vdCBzdXBwb3J0IGZhbGxpYmxlIDE2LWJpdAo+IHJl
-YWQiKQo+ICvCoMKgwqDCoMKgwqDCoCBsZXQgYWRkcmVzcyA9IHNlbGYuaW9fYWRkcjo6PHUxNj4o
-b2Zmc2V0KT87Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6IGBhZGRyZXNzYCBoYXMg
-YmVlbiB2YWxpZGF0ZWQgYnkgYGlvX2FkZHJgLgo+ICvCoMKgwqDCoMKgwqDCoCBPayh1bnNhZmUg
-eyBzZWxmLmlvX3JlYWQoYWRkcmVzcykgfSkKPiDCoMKgwqDCoCB9Cj4gwqAKPiDCoMKgwqDCoCAv
-Ly8gRmFsbGlibGUgMzItYml0IHJlYWQgd2l0aCBydW50aW1lIGJvdW5kcyBjaGVjay4KPiDCoMKg
-wqDCoCAjW2lubGluZShhbHdheXMpXQo+IC3CoMKgwqAgZm4gdHJ5X3JlYWQzMigmc2VsZiwgX29m
-ZnNldDogdXNpemUpIC0+IFJlc3VsdDx1MzI+Cj4gK8KgwqDCoCBmbiB0cnlfcmVhZDMyKCZzZWxm
-LCBvZmZzZXQ6IHVzaXplKSAtPiBSZXN1bHQ8dTMyPgo+IMKgwqDCoMKgIHdoZXJlCj4gwqDCoMKg
-wqDCoMKgwqDCoCBTZWxmOiBJb0NhcGFibGU8dTMyPiwKPiDCoMKgwqDCoCB7Cj4gLcKgwqDCoMKg
-wqDCoMKgIGJ1aWxkX2Vycm9yISgiQmFja2VuZCBkb2VzIG5vdCBzdXBwb3J0IGZhbGxpYmxlIDMy
-LWJpdAo+IHJlYWQiKQo+ICvCoMKgwqDCoMKgwqDCoCBsZXQgYWRkcmVzcyA9IHNlbGYuaW9fYWRk
-cjo6PHUzMj4ob2Zmc2V0KT87Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6IGBhZGRy
-ZXNzYCBoYXMgYmVlbiB2YWxpZGF0ZWQgYnkgYGlvX2FkZHJgLgo+ICvCoMKgwqDCoMKgwqDCoCBP
-ayh1bnNhZmUgeyBzZWxmLmlvX3JlYWQoYWRkcmVzcykgfSkKPiDCoMKgwqDCoCB9Cj4gwqAKPiDC
-oMKgwqDCoCAvLy8gRmFsbGlibGUgNjQtYml0IHJlYWQgd2l0aCBydW50aW1lIGJvdW5kcyBjaGVj
-ay4KPiDCoMKgwqDCoCAjW2lubGluZShhbHdheXMpXQo+IC3CoMKgwqAgZm4gdHJ5X3JlYWQ2NCgm
-c2VsZiwgX29mZnNldDogdXNpemUpIC0+IFJlc3VsdDx1NjQ+Cj4gK8KgwqDCoCBmbiB0cnlfcmVh
-ZDY0KCZzZWxmLCBvZmZzZXQ6IHVzaXplKSAtPiBSZXN1bHQ8dTY0Pgo+IMKgwqDCoMKgIHdoZXJl
-Cj4gwqDCoMKgwqDCoMKgwqDCoCBTZWxmOiBJb0NhcGFibGU8dTY0PiwKPiDCoMKgwqDCoCB7Cj4g
-LcKgwqDCoMKgwqDCoMKgIGJ1aWxkX2Vycm9yISgiQmFja2VuZCBkb2VzIG5vdCBzdXBwb3J0IGZh
-bGxpYmxlIDY0LWJpdAo+IHJlYWQiKQo+ICvCoMKgwqDCoMKgwqDCoCBsZXQgYWRkcmVzcyA9IHNl
-bGYuaW9fYWRkcjo6PHU2ND4ob2Zmc2V0KT87Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAvLyBTQUZF
-VFk6IGBhZGRyZXNzYCBoYXMgYmVlbiB2YWxpZGF0ZWQgYnkgYGlvX2FkZHJgLgo+ICvCoMKgwqDC
-oMKgwqDCoCBPayh1bnNhZmUgeyBzZWxmLmlvX3JlYWQoYWRkcmVzcykgfSkKPiDCoMKgwqDCoCB9
-Cj4gwqAKPiDCoMKgwqDCoCAvLy8gRmFsbGlibGUgOC1iaXQgd3JpdGUgd2l0aCBydW50aW1lIGJv
-dW5kcyBjaGVjay4KPiDCoMKgwqDCoCAjW2lubGluZShhbHdheXMpXQo+IC3CoMKgwqAgZm4gdHJ5
-X3dyaXRlOCgmc2VsZiwgX3ZhbHVlOiB1OCwgX29mZnNldDogdXNpemUpIC0+IFJlc3VsdAo+ICvC
-oMKgwqAgZm4gdHJ5X3dyaXRlOCgmc2VsZiwgdmFsdWU6IHU4LCBvZmZzZXQ6IHVzaXplKSAtPiBS
-ZXN1bHQKPiDCoMKgwqDCoCB3aGVyZQo+IMKgwqDCoMKgwqDCoMKgwqAgU2VsZjogSW9DYXBhYmxl
-PHU4PiwKPiDCoMKgwqDCoCB7Cj4gLcKgwqDCoMKgwqDCoMKgIGJ1aWxkX2Vycm9yISgiQmFja2Vu
-ZCBkb2VzIG5vdCBzdXBwb3J0IGZhbGxpYmxlIDgtYml0Cj4gd3JpdGUiKQo+ICvCoMKgwqDCoMKg
-wqDCoCBsZXQgYWRkcmVzcyA9IHNlbGYuaW9fYWRkcjo6PHU4PihvZmZzZXQpPzsKPiArCj4gK8Kg
-wqDCoMKgwqDCoMKgIC8vIFNBRkVUWTogYGFkZHJlc3NgIGhhcyBiZWVuIHZhbGlkYXRlZCBieSBg
-aW9fYWRkcmAuCj4gK8KgwqDCoMKgwqDCoMKgIHVuc2FmZSB7IHNlbGYuaW9fd3JpdGUodmFsdWUs
-IGFkZHJlc3MpIH07Cj4gK8KgwqDCoMKgwqDCoMKgIE9rKCgpKQo+IMKgwqDCoMKgIH0KPiDCoAo+
-IMKgwqDCoMKgIC8vLyBGYWxsaWJsZSAxNi1iaXQgd3JpdGUgd2l0aCBydW50aW1lIGJvdW5kcyBj
-aGVjay4KPiDCoMKgwqDCoCAjW2lubGluZShhbHdheXMpXQo+IC3CoMKgwqAgZm4gdHJ5X3dyaXRl
-MTYoJnNlbGYsIF92YWx1ZTogdTE2LCBfb2Zmc2V0OiB1c2l6ZSkgLT4gUmVzdWx0Cj4gK8KgwqDC
-oCBmbiB0cnlfd3JpdGUxNigmc2VsZiwgdmFsdWU6IHUxNiwgb2Zmc2V0OiB1c2l6ZSkgLT4gUmVz
-dWx0Cj4gwqDCoMKgwqAgd2hlcmUKPiDCoMKgwqDCoMKgwqDCoMKgIFNlbGY6IElvQ2FwYWJsZTx1
-MTY+LAo+IMKgwqDCoMKgIHsKPiAtwqDCoMKgwqDCoMKgwqAgYnVpbGRfZXJyb3IhKCJCYWNrZW5k
-IGRvZXMgbm90IHN1cHBvcnQgZmFsbGlibGUgMTYtYml0Cj4gd3JpdGUiKQo+ICvCoMKgwqDCoMKg
-wqDCoCBsZXQgYWRkcmVzcyA9IHNlbGYuaW9fYWRkcjo6PHUxNj4ob2Zmc2V0KT87Cj4gKwo+ICvC
-oMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6IGBhZGRyZXNzYCBoYXMgYmVlbiB2YWxpZGF0ZWQgYnkg
-YGlvX2FkZHJgLgo+ICvCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBzZWxmLmlvX3dyaXRlKHZhbHVl
-LCBhZGRyZXNzKSB9Owo+ICvCoMKgwqDCoMKgwqDCoCBPaygoKSkKPiDCoMKgwqDCoCB9Cj4gwqAK
-PiDCoMKgwqDCoCAvLy8gRmFsbGlibGUgMzItYml0IHdyaXRlIHdpdGggcnVudGltZSBib3VuZHMg
-Y2hlY2suCj4gwqDCoMKgwqAgI1tpbmxpbmUoYWx3YXlzKV0KPiAtwqDCoMKgIGZuIHRyeV93cml0
-ZTMyKCZzZWxmLCBfdmFsdWU6IHUzMiwgX29mZnNldDogdXNpemUpIC0+IFJlc3VsdAo+ICvCoMKg
-wqAgZm4gdHJ5X3dyaXRlMzIoJnNlbGYsIHZhbHVlOiB1MzIsIG9mZnNldDogdXNpemUpIC0+IFJl
-c3VsdAo+IMKgwqDCoMKgIHdoZXJlCj4gwqDCoMKgwqDCoMKgwqDCoCBTZWxmOiBJb0NhcGFibGU8
-dTMyPiwKPiDCoMKgwqDCoCB7Cj4gLcKgwqDCoMKgwqDCoMKgIGJ1aWxkX2Vycm9yISgiQmFja2Vu
-ZCBkb2VzIG5vdCBzdXBwb3J0IGZhbGxpYmxlIDMyLWJpdAo+IHdyaXRlIikKPiArwqDCoMKgwqDC
-oMKgwqAgbGV0IGFkZHJlc3MgPSBzZWxmLmlvX2FkZHI6Ojx1MzI+KG9mZnNldCk/Owo+ICsKPiAr
-wqDCoMKgwqDCoMKgwqAgLy8gU0FGRVRZOiBgYWRkcmVzc2AgaGFzIGJlZW4gdmFsaWRhdGVkIGJ5
-IGBpb19hZGRyYC4KPiArwqDCoMKgwqDCoMKgwqAgdW5zYWZlIHsgc2VsZi5pb193cml0ZSh2YWx1
-ZSwgYWRkcmVzcykgfTsKPiArwqDCoMKgwqDCoMKgwqAgT2soKCkpCj4gwqDCoMKgwqAgfQo+IMKg
-Cj4gwqDCoMKgwqAgLy8vIEZhbGxpYmxlIDY0LWJpdCB3cml0ZSB3aXRoIHJ1bnRpbWUgYm91bmRz
-IGNoZWNrLgo+IMKgwqDCoMKgICNbaW5saW5lKGFsd2F5cyldCj4gLcKgwqDCoCBmbiB0cnlfd3Jp
-dGU2NCgmc2VsZiwgX3ZhbHVlOiB1NjQsIF9vZmZzZXQ6IHVzaXplKSAtPiBSZXN1bHQKPiArwqDC
-oMKgIGZuIHRyeV93cml0ZTY0KCZzZWxmLCB2YWx1ZTogdTY0LCBvZmZzZXQ6IHVzaXplKSAtPiBS
-ZXN1bHQKPiDCoMKgwqDCoCB3aGVyZQo+IMKgwqDCoMKgwqDCoMKgwqAgU2VsZjogSW9DYXBhYmxl
-PHU2ND4sCj4gwqDCoMKgwqAgewo+IC3CoMKgwqDCoMKgwqDCoCBidWlsZF9lcnJvciEoIkJhY2tl
-bmQgZG9lcyBub3Qgc3VwcG9ydCBmYWxsaWJsZSA2NC1iaXQKPiB3cml0ZSIpCj4gK8KgwqDCoMKg
-wqDCoMKgIGxldCBhZGRyZXNzID0gc2VsZi5pb19hZGRyOjo8dTY0PihvZmZzZXQpPzsKPiArCj4g
-K8KgwqDCoMKgwqDCoMKgIC8vIFNBRkVUWTogYGFkZHJlc3NgIGhhcyBiZWVuIHZhbGlkYXRlZCBi
-eSBgaW9fYWRkcmAuCj4gK8KgwqDCoMKgwqDCoMKgIHVuc2FmZSB7IHNlbGYuaW9fd3JpdGUodmFs
-dWUsIGFkZHJlc3MpIH07Cj4gK8KgwqDCoMKgwqDCoMKgIE9rKCgpKQo+IMKgwqDCoMKgIH0KPiDC
-oAo+IMKgwqDCoMKgIC8vLyBJbmZhbGxpYmxlIDgtYml0IHJlYWQgd2l0aCBjb21waWxlLXRpbWUg
-Ym91bmRzIGNoZWNrLgo+IMKgwqDCoMKgICNbaW5saW5lKGFsd2F5cyldCj4gLcKgwqDCoCBmbiBy
-ZWFkOCgmc2VsZiwgX29mZnNldDogdXNpemUpIC0+IHU4Cj4gK8KgwqDCoCBmbiByZWFkOCgmc2Vs
-Ziwgb2Zmc2V0OiB1c2l6ZSkgLT4gdTgKPiDCoMKgwqDCoCB3aGVyZQo+IMKgwqDCoMKgwqDCoMKg
-wqAgU2VsZjogSW9Lbm93blNpemUgKyBJb0NhcGFibGU8dTg+LAo+IMKgwqDCoMKgIHsKPiAtwqDC
-oMKgwqDCoMKgwqAgYnVpbGRfZXJyb3IhKCJCYWNrZW5kIGRvZXMgbm90IHN1cHBvcnQgaW5mYWxs
-aWJsZSA4LWJpdAo+IHJlYWQiKQo+ICvCoMKgwqDCoMKgwqDCoCBsZXQgYWRkcmVzcyA9IHNlbGYu
-aW9fYWRkcl9hc3NlcnQ6Ojx1OD4ob2Zmc2V0KTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgIC8vIFNB
-RkVUWTogYGFkZHJlc3NgIGhhcyBiZWVuIHZhbGlkYXRlZCBieSBgaW9fYWRkcl9hc3NlcnRgLgo+
-ICvCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBzZWxmLmlvX3JlYWQoYWRkcmVzcykgfQo+IMKgwqDC
-oMKgIH0KPiDCoAo+IMKgwqDCoMKgIC8vLyBJbmZhbGxpYmxlIDE2LWJpdCByZWFkIHdpdGggY29t
-cGlsZS10aW1lIGJvdW5kcyBjaGVjay4KPiDCoMKgwqDCoCAjW2lubGluZShhbHdheXMpXQo+IC3C
-oMKgwqAgZm4gcmVhZDE2KCZzZWxmLCBfb2Zmc2V0OiB1c2l6ZSkgLT4gdTE2Cj4gK8KgwqDCoCBm
-biByZWFkMTYoJnNlbGYsIG9mZnNldDogdXNpemUpIC0+IHUxNgo+IMKgwqDCoMKgIHdoZXJlCj4g
-wqDCoMKgwqDCoMKgwqDCoCBTZWxmOiBJb0tub3duU2l6ZSArIElvQ2FwYWJsZTx1MTY+LAo+IMKg
-wqDCoMKgIHsKPiAtwqDCoMKgwqDCoMKgwqAgYnVpbGRfZXJyb3IhKCJCYWNrZW5kIGRvZXMgbm90
-IHN1cHBvcnQgaW5mYWxsaWJsZSAxNi1iaXQKPiByZWFkIikKPiArwqDCoMKgwqDCoMKgwqAgbGV0
-IGFkZHJlc3MgPSBzZWxmLmlvX2FkZHJfYXNzZXJ0Ojo8dTE2PihvZmZzZXQpOwo+ICsKPiArwqDC
-oMKgwqDCoMKgwqAgLy8gU0FGRVRZOiBgYWRkcmVzc2AgaGFzIGJlZW4gdmFsaWRhdGVkIGJ5IGBp
-b19hZGRyX2Fzc2VydGAuCj4gK8KgwqDCoMKgwqDCoMKgIHVuc2FmZSB7IHNlbGYuaW9fcmVhZChh
-ZGRyZXNzKSB9Cj4gwqDCoMKgwqAgfQo+IMKgCj4gwqDCoMKgwqAgLy8vIEluZmFsbGlibGUgMzIt
-Yml0IHJlYWQgd2l0aCBjb21waWxlLXRpbWUgYm91bmRzIGNoZWNrLgo+IMKgwqDCoMKgICNbaW5s
-aW5lKGFsd2F5cyldCj4gLcKgwqDCoCBmbiByZWFkMzIoJnNlbGYsIF9vZmZzZXQ6IHVzaXplKSAt
-PiB1MzIKPiArwqDCoMKgIGZuIHJlYWQzMigmc2VsZiwgb2Zmc2V0OiB1c2l6ZSkgLT4gdTMyCj4g
-wqDCoMKgwqAgd2hlcmUKPiDCoMKgwqDCoMKgwqDCoMKgIFNlbGY6IElvS25vd25TaXplICsgSW9D
-YXBhYmxlPHUzMj4sCj4gwqDCoMKgwqAgewo+IC3CoMKgwqDCoMKgwqDCoCBidWlsZF9lcnJvciEo
-IkJhY2tlbmQgZG9lcyBub3Qgc3VwcG9ydCBpbmZhbGxpYmxlIDMyLWJpdAo+IHJlYWQiKQo+ICvC
-oMKgwqDCoMKgwqDCoCBsZXQgYWRkcmVzcyA9IHNlbGYuaW9fYWRkcl9hc3NlcnQ6Ojx1MzI+KG9m
-ZnNldCk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6IGBhZGRyZXNzYCBoYXMgYmVl
-biB2YWxpZGF0ZWQgYnkgYGlvX2FkZHJfYXNzZXJ0YC4KPiArwqDCoMKgwqDCoMKgwqAgdW5zYWZl
-IHsgc2VsZi5pb19yZWFkKGFkZHJlc3MpIH0KPiDCoMKgwqDCoCB9Cj4gwqAKPiDCoMKgwqDCoCAv
-Ly8gSW5mYWxsaWJsZSA2NC1iaXQgcmVhZCB3aXRoIGNvbXBpbGUtdGltZSBib3VuZHMgY2hlY2su
-Cj4gwqDCoMKgwqAgI1tpbmxpbmUoYWx3YXlzKV0KPiAtwqDCoMKgIGZuIHJlYWQ2NCgmc2VsZiwg
-X29mZnNldDogdXNpemUpIC0+IHU2NAo+ICvCoMKgwqAgZm4gcmVhZDY0KCZzZWxmLCBvZmZzZXQ6
-IHVzaXplKSAtPiB1NjQKPiDCoMKgwqDCoCB3aGVyZQo+IMKgwqDCoMKgwqDCoMKgwqAgU2VsZjog
-SW9Lbm93blNpemUgKyBJb0NhcGFibGU8dTY0PiwKPiDCoMKgwqDCoCB7Cj4gLcKgwqDCoMKgwqDC
-oMKgIGJ1aWxkX2Vycm9yISgiQmFja2VuZCBkb2VzIG5vdCBzdXBwb3J0IGluZmFsbGlibGUgNjQt
-Yml0Cj4gcmVhZCIpCj4gK8KgwqDCoMKgwqDCoMKgIGxldCBhZGRyZXNzID0gc2VsZi5pb19hZGRy
-X2Fzc2VydDo6PHU2ND4ob2Zmc2V0KTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgIC8vIFNBRkVUWTog
-YGFkZHJlc3NgIGhhcyBiZWVuIHZhbGlkYXRlZCBieSBgaW9fYWRkcl9hc3NlcnRgLgo+ICvCoMKg
-wqDCoMKgwqDCoCB1bnNhZmUgeyBzZWxmLmlvX3JlYWQoYWRkcmVzcykgfQo+IMKgwqDCoMKgIH0K
-PiDCoAo+IMKgwqDCoMKgIC8vLyBJbmZhbGxpYmxlIDgtYml0IHdyaXRlIHdpdGggY29tcGlsZS10
-aW1lIGJvdW5kcyBjaGVjay4KPiDCoMKgwqDCoCAjW2lubGluZShhbHdheXMpXQo+IC3CoMKgwqAg
-Zm4gd3JpdGU4KCZzZWxmLCBfdmFsdWU6IHU4LCBfb2Zmc2V0OiB1c2l6ZSkKPiArwqDCoMKgIGZu
-IHdyaXRlOCgmc2VsZiwgdmFsdWU6IHU4LCBvZmZzZXQ6IHVzaXplKQo+IMKgwqDCoMKgIHdoZXJl
-Cj4gwqDCoMKgwqDCoMKgwqDCoCBTZWxmOiBJb0tub3duU2l6ZSArIElvQ2FwYWJsZTx1OD4sCj4g
-wqDCoMKgwqAgewo+IC3CoMKgwqDCoMKgwqDCoCBidWlsZF9lcnJvciEoIkJhY2tlbmQgZG9lcyBu
-b3Qgc3VwcG9ydCBpbmZhbGxpYmxlIDgtYml0Cj4gd3JpdGUiKQo+ICvCoMKgwqDCoMKgwqDCoCBs
-ZXQgYWRkcmVzcyA9IHNlbGYuaW9fYWRkcl9hc3NlcnQ6Ojx1OD4ob2Zmc2V0KTsKPiArCj4gK8Kg
-wqDCoMKgwqDCoMKgIC8vIFNBRkVUWTogYGFkZHJlc3NgIGhhcyBiZWVuIHZhbGlkYXRlZCBieSBg
-aW9fYWRkcl9hc3NlcnRgLgo+ICvCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBzZWxmLmlvX3dyaXRl
-KHZhbHVlLCBhZGRyZXNzKSB9Cj4gwqDCoMKgwqAgfQo+IMKgCj4gwqDCoMKgwqAgLy8vIEluZmFs
-bGlibGUgMTYtYml0IHdyaXRlIHdpdGggY29tcGlsZS10aW1lIGJvdW5kcyBjaGVjay4KPiDCoMKg
-wqDCoCAjW2lubGluZShhbHdheXMpXQo+IC3CoMKgwqAgZm4gd3JpdGUxNigmc2VsZiwgX3ZhbHVl
-OiB1MTYsIF9vZmZzZXQ6IHVzaXplKQo+ICvCoMKgwqAgZm4gd3JpdGUxNigmc2VsZiwgdmFsdWU6
-IHUxNiwgb2Zmc2V0OiB1c2l6ZSkKPiDCoMKgwqDCoCB3aGVyZQo+IMKgwqDCoMKgwqDCoMKgwqAg
-U2VsZjogSW9Lbm93blNpemUgKyBJb0NhcGFibGU8dTE2PiwKPiDCoMKgwqDCoCB7Cj4gLcKgwqDC
-oMKgwqDCoMKgIGJ1aWxkX2Vycm9yISgiQmFja2VuZCBkb2VzIG5vdCBzdXBwb3J0IGluZmFsbGli
-bGUgMTYtYml0Cj4gd3JpdGUiKQo+ICvCoMKgwqDCoMKgwqDCoCBsZXQgYWRkcmVzcyA9IHNlbGYu
-aW9fYWRkcl9hc3NlcnQ6Ojx1MTY+KG9mZnNldCk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoCAvLyBT
-QUZFVFk6IGBhZGRyZXNzYCBoYXMgYmVlbiB2YWxpZGF0ZWQgYnkgYGlvX2FkZHJfYXNzZXJ0YC4K
-PiArwqDCoMKgwqDCoMKgwqAgdW5zYWZlIHsgc2VsZi5pb193cml0ZSh2YWx1ZSwgYWRkcmVzcykg
-fQo+IMKgwqDCoMKgIH0KPiDCoAo+IMKgwqDCoMKgIC8vLyBJbmZhbGxpYmxlIDMyLWJpdCB3cml0
-ZSB3aXRoIGNvbXBpbGUtdGltZSBib3VuZHMgY2hlY2suCj4gwqDCoMKgwqAgI1tpbmxpbmUoYWx3
-YXlzKV0KPiAtwqDCoMKgIGZuIHdyaXRlMzIoJnNlbGYsIF92YWx1ZTogdTMyLCBfb2Zmc2V0OiB1
-c2l6ZSkKPiArwqDCoMKgIGZuIHdyaXRlMzIoJnNlbGYsIHZhbHVlOiB1MzIsIG9mZnNldDogdXNp
-emUpCj4gwqDCoMKgwqAgd2hlcmUKPiDCoMKgwqDCoMKgwqDCoMKgIFNlbGY6IElvS25vd25TaXpl
-ICsgSW9DYXBhYmxlPHUzMj4sCj4gwqDCoMKgwqAgewo+IC3CoMKgwqDCoMKgwqDCoCBidWlsZF9l
-cnJvciEoIkJhY2tlbmQgZG9lcyBub3Qgc3VwcG9ydCBpbmZhbGxpYmxlIDMyLWJpdAo+IHdyaXRl
-IikKPiArwqDCoMKgwqDCoMKgwqAgbGV0IGFkZHJlc3MgPSBzZWxmLmlvX2FkZHJfYXNzZXJ0Ojo8
-dTMyPihvZmZzZXQpOwo+ICsKPiArwqDCoMKgwqDCoMKgwqAgLy8gU0FGRVRZOiBgYWRkcmVzc2Ag
-aGFzIGJlZW4gdmFsaWRhdGVkIGJ5IGBpb19hZGRyX2Fzc2VydGAuCj4gK8KgwqDCoMKgwqDCoMKg
-IHVuc2FmZSB7IHNlbGYuaW9fd3JpdGUodmFsdWUsIGFkZHJlc3MpIH0KPiDCoMKgwqDCoCB9Cj4g
-wqAKPiDCoMKgwqDCoCAvLy8gSW5mYWxsaWJsZSA2NC1iaXQgd3JpdGUgd2l0aCBjb21waWxlLXRp
-bWUgYm91bmRzIGNoZWNrLgo+IMKgwqDCoMKgICNbaW5saW5lKGFsd2F5cyldCj4gLcKgwqDCoCBm
-biB3cml0ZTY0KCZzZWxmLCBfdmFsdWU6IHU2NCwgX29mZnNldDogdXNpemUpCj4gK8KgwqDCoCBm
-biB3cml0ZTY0KCZzZWxmLCB2YWx1ZTogdTY0LCBvZmZzZXQ6IHVzaXplKQo+IMKgwqDCoMKgIHdo
-ZXJlCj4gwqDCoMKgwqDCoMKgwqDCoCBTZWxmOiBJb0tub3duU2l6ZSArIElvQ2FwYWJsZTx1NjQ+
-LAo+IMKgwqDCoMKgIHsKPiAtwqDCoMKgwqDCoMKgwqAgYnVpbGRfZXJyb3IhKCJCYWNrZW5kIGRv
-ZXMgbm90IHN1cHBvcnQgaW5mYWxsaWJsZSA2NC1iaXQKPiB3cml0ZSIpCj4gK8KgwqDCoMKgwqDC
-oMKgIGxldCBhZGRyZXNzID0gc2VsZi5pb19hZGRyX2Fzc2VydDo6PHU2ND4ob2Zmc2V0KTsKPiAr
-Cj4gK8KgwqDCoMKgwqDCoMKgIC8vIFNBRkVUWTogYGFkZHJlc3NgIGhhcyBiZWVuIHZhbGlkYXRl
-ZCBieSBgaW9fYWRkcl9hc3NlcnRgLgo+ICvCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBzZWxmLmlv
-X3dyaXRlKHZhbHVlLCBhZGRyZXNzKSB9Cj4gwqDCoMKgwqAgfQo+IMKgfQo+IMKgCj4gQEAgLTQ4
-NywxNCArNTU0LDM2IEBAIGZuIGlvX2FkZHJfYXNzZXJ0PFU+KCZzZWxmLCBvZmZzZXQ6IHVzaXpl
-KSAtPgo+IHVzaXplIHsKPiDCoMKgwqDCoCB9Cj4gwqB9Cj4gwqAKPiAtLy8gTU1JTyByZWdpb25z
-IHN1cHBvcnQgOCwgMTYsIGFuZCAzMi1iaXQgYWNjZXNzZXMuCj4gLWltcGw8Y29uc3QgU0laRTog
-dXNpemU+IElvQ2FwYWJsZTx1OD4gZm9yIE1taW88U0laRT4ge30KPiAtaW1wbDxjb25zdCBTSVpF
-OiB1c2l6ZT4gSW9DYXBhYmxlPHUxNj4gZm9yIE1taW88U0laRT4ge30KPiAtaW1wbDxjb25zdCBT
-SVpFOiB1c2l6ZT4gSW9DYXBhYmxlPHUzMj4gZm9yIE1taW88U0laRT4ge30KPiArLy8vIEltcGxl
-bWVudHMgW2BJb0NhcGFibGVgXSBvbiBgJG1taW9gIGZvciBgJHR5YCB1c2luZyBgJHJlYWRfZm5g
-Cj4gYW5kIGAkd3JpdGVfZm5gLgo+ICttYWNyb19ydWxlcyEgaW1wbF9tbWlvX2lvX2NhcGFibGUg
-ewo+ICvCoMKgwqAgKCRtbWlvOmlkZW50LCAkKCNbJGF0dHI6bWV0YV0pKiAkdHk6dHksICRyZWFk
-X2ZuOmlkZW50LAo+ICR3cml0ZV9mbjppZGVudCkgPT4gewo+ICvCoMKgwqDCoMKgwqDCoCAkKCNb
-JGF0dHJdKSoKPiArwqDCoMKgwqDCoMKgwqAgaW1wbDxjb25zdCBTSVpFOiB1c2l6ZT4gSW9DYXBh
-YmxlPCR0eT4gZm9yICRtbWlvPFNJWkU+IHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNh
-ZmUgZm4gaW9fcmVhZCgmc2VsZiwgYWRkcmVzczogdXNpemUpIC0+ICR0eSB7Cj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6IEJ5IHRoZSB0cmFpdCBpbnZhcmlhbnQg
-YGFkZHJlc3NgIGlzIGEKPiB2YWxpZCBhZGRyZXNzIGZvciBNTUlPIG9wZXJhdGlvbnMuCj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBiaW5kaW5nczo6JHJlYWRfZm4o
-YWRkcmVzcyBhcyAqY29uc3QKPiBjX3ZvaWQpIH0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9
-Cj4gwqAKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNhZmUgZm4gaW9fd3JpdGUoJnNlbGYs
-IHZhbHVlOiAkdHksIGFkZHJlc3M6IHVzaXplKSB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAvLyBTQUZFVFk6IEJ5IHRoZSB0cmFpdCBpbnZhcmlhbnQgYGFkZHJlc3NgIGlzIGEK
-PiB2YWxpZCBhZGRyZXNzIGZvciBNTUlPIG9wZXJhdGlvbnMuCj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBiaW5kaW5nczo6JHdyaXRlX2ZuKHZhbHVlLCBhZGRyZXNz
-IGFzICptdXQKPiBjX3ZvaWQpIH0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4gK8KgwqDC
-oMKgwqDCoMKgIH0KPiArwqDCoMKgIH07Cj4gK30KPiArCj4gKy8vIE1NSU8gcmVnaW9ucyBzdXBw
-b3J0IDgsIDE2LCBhbmQgMzItYml0IGFjY2Vzc2VzLgo+ICtpbXBsX21taW9faW9fY2FwYWJsZSEo
-TW1pbywgdTgsIHJlYWRiLCB3cml0ZWIpOwo+ICtpbXBsX21taW9faW9fY2FwYWJsZSEoTW1pbywg
-dTE2LCByZWFkdywgd3JpdGV3KTsKPiAraW1wbF9tbWlvX2lvX2NhcGFibGUhKE1taW8sIHUzMiwg
-cmVhZGwsIHdyaXRlbCk7Cj4gwqAvLyBNTUlPIHJlZ2lvbnMgb24gNjQtYml0IHN5c3RlbXMgYWxz
-byBzdXBwb3J0IDY0LWJpdCBhY2Nlc3Nlcy4KPiAtI1tjZmcoQ09ORklHXzY0QklUKV0KPiAtaW1w
-bDxjb25zdCBTSVpFOiB1c2l6ZT4gSW9DYXBhYmxlPHU2ND4gZm9yIE1taW88U0laRT4ge30KPiAr
-aW1wbF9tbWlvX2lvX2NhcGFibGUhKAo+ICvCoMKgwqAgTW1pbywKPiArwqDCoMKgICNbY2ZnKENP
-TkZJR182NEJJVCldCj4gK8KgwqDCoCB1NjQsCj4gK8KgwqDCoCByZWFkcSwKPiArwqDCoMKgIHdy
-aXRlcQo+ICspOwo+IMKgCj4gwqBpbXBsPGNvbnN0IFNJWkU6IHVzaXplPiBJbyBmb3IgTW1pbzxT
-SVpFPiB7Cj4gwqDCoMKgwqAgLy8vIFJldHVybnMgdGhlIGJhc2UgYWRkcmVzcyBvZiB0aGlzIG1h
-cHBpbmcuCj4gZGlmZiAtLWdpdCBhL3J1c3Qva2VybmVsL3BjaS9pby5ycyBiL3J1c3Qva2VybmVs
-L3BjaS9pby5ycwo+IGluZGV4IDZjYTRjZjc1NTk0Yy4uOGM4YWFiMmUzZjIyIDEwMDY0NAo+IC0t
-LSBhL3J1c3Qva2VybmVsL3BjaS9pby5ycwo+ICsrKyBiL3J1c3Qva2VybmVsL3BjaS9pby5ycwo+
-IEBAIC0xNDIsMTAgKzE0Miw0MSBAQCBtYWNyb19ydWxlcyEgY2FsbF9jb25maWdfd3JpdGUgewo+
-IMKgwqDCoMKgIH07Cj4gwqB9Cj4gwqAKPiArLy8vIEltcGxlbWVudHMgW2BJb0NhcGFibGVgXSBv
-biBbYENvbmZpZ1NwYWNlYF0gZm9yIGAkdHlgIHVzaW5nCj4gYCRyZWFkX2ZuYCBhbmQgYCR3cml0
-ZV9mbmAuCj4gK21hY3JvX3J1bGVzISBpbXBsX2NvbmZpZ19zcGFjZV9pb19jYXBhYmxlIHsKPiAr
-wqDCoMKgICgkdHk6dHksICRyZWFkX2ZuOmlkZW50LCAkd3JpdGVfZm46aWRlbnQpID0+IHsKPiAr
-wqDCoMKgwqDCoMKgwqAgaW1wbDwnYSwgUzogQ29uZmlnU3BhY2VLaW5kPiBJb0NhcGFibGU8JHR5
-PiBmb3IKPiBDb25maWdTcGFjZTwnYSwgUz4gewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVu
-c2FmZSBmbiBpb19yZWFkKCZzZWxmLCBhZGRyZXNzOiB1c2l6ZSkgLT4gJHR5IHsKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGxldCBtdXQgdmFsOiAkdHkgPSAwOwo+ICsKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8vIFJldHVybiB2YWx1ZSBmcm9tIEMgZnVuY3Rp
-b24gaXMgaWdub3JlZCBpbgo+IGluZmFsbGlibGUgYWNjZXNzb3JzLgo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgbGV0IF9yZXQgPQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAvLyBTQUZFVFk6IEJ5IHRoZSB0eXBlIGludmFyaWFudCBgc2VsZi5wZGV2
-YCBpcwo+IGEgdmFsaWQgYWRkcmVzcy4KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgLy8gQ0FTVDogVGhlIG9mZnNldCBpcyBjYXN0IHRvIGBpMzJgIGJlY2F1c2UgdGhl
-Cj4gQyBmdW5jdGlvbnMgZXhwZWN0IGEgMzItYml0Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIC8vIHNpZ25lZCBvZmZzZXQgcGFyYW1ldGVyLiBQQ0kgY29uZmlndXJh
-dGlvbgo+IHNwYWNlIHNpemUgaXMgYXQgbW9zdCA0MDk2IGJ5dGVzLAo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvLyBzbyB0aGUgdmFsdWUgYWx3YXlzIGZpdHMgd2l0
-aGluIGBpMzJgIHdpdGhvdXQKPiB0cnVuY2F0aW9uIG9yIHNpZ24gY2hhbmdlLgo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBiaW5kaW5nczo6JHJlYWRf
-Zm4oc2VsZi5wZGV2LmFzX3JhdygpLAo+IGFkZHJlc3MgYXMgaTMyLCAmbXV0IHZhbCkgfTsKPiAr
-Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB2YWwKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB9Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVuc2FmZSBmbiBpb193cml0
-ZSgmc2VsZiwgdmFsdWU6ICR0eSwgYWRkcmVzczogdXNpemUpIHsKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIC8vIFJldHVybiB2YWx1ZSBmcm9tIEMgZnVuY3Rpb24gaXMgaWdub3Jl
-ZCBpbgo+IGluZmFsbGlibGUgYWNjZXNzb3JzLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgbGV0IF9yZXQgPQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAvLyBTQUZFVFk6IEJ5IHRoZSB0eXBlIGludmFyaWFudCBgc2VsZi5wZGV2YCBpcwo+IGEgdmFs
-aWQgYWRkcmVzcy4KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLy8g
-Q0FTVDogVGhlIG9mZnNldCBpcyBjYXN0IHRvIGBpMzJgIGJlY2F1c2UgdGhlCj4gQyBmdW5jdGlv
-bnMgZXhwZWN0IGEgMzItYml0Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIC8vIHNpZ25lZCBvZmZzZXQgcGFyYW1ldGVyLiBQQ0kgY29uZmlndXJhdGlvbgo+IHNwYWNl
-IHNpemUgaXMgYXQgbW9zdCA0MDk2IGJ5dGVzLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAvLyBzbyB0aGUgdmFsdWUgYWx3YXlzIGZpdHMgd2l0aGluIGBpMzJgIHdp
-dGhvdXQKPiB0cnVuY2F0aW9uIG9yIHNpZ24gY2hhbmdlLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB1bnNhZmUgeyBiaW5kaW5nczo6JHdyaXRlX2ZuKHNlbGYucGRl
-di5hc19yYXcoKSwKPiBhZGRyZXNzIGFzIGkzMiwgdmFsdWUpIH07Cj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgfQo+ICvCoMKgwqDCoMKgwqDCoCB9Cj4gK8KgwqDCoCB9Owo+ICt9Cj4gKwo+IMKg
-Ly8gUENJIGNvbmZpZ3VyYXRpb24gc3BhY2Ugc3VwcG9ydHMgOCwgMTYsIGFuZCAzMi1iaXQgYWNj
-ZXNzZXMuCj4gLWltcGw8J2EsIFM6IENvbmZpZ1NwYWNlS2luZD4gSW9DYXBhYmxlPHU4PiBmb3Ig
-Q29uZmlnU3BhY2U8J2EsIFM+IHt9Cj4gLWltcGw8J2EsIFM6IENvbmZpZ1NwYWNlS2luZD4gSW9D
-YXBhYmxlPHUxNj4gZm9yIENvbmZpZ1NwYWNlPCdhLCBTPgo+IHt9Cj4gLWltcGw8J2EsIFM6IENv
-bmZpZ1NwYWNlS2luZD4gSW9DYXBhYmxlPHUzMj4gZm9yIENvbmZpZ1NwYWNlPCdhLCBTPgo+IHt9
-Cj4gK2ltcGxfY29uZmlnX3NwYWNlX2lvX2NhcGFibGUhKHU4LCBwY2lfcmVhZF9jb25maWdfYnl0
-ZSwKPiBwY2lfd3JpdGVfY29uZmlnX2J5dGUpOwo+ICtpbXBsX2NvbmZpZ19zcGFjZV9pb19jYXBh
-YmxlISh1MTYsIHBjaV9yZWFkX2NvbmZpZ193b3JkLAo+IHBjaV93cml0ZV9jb25maWdfd29yZCk7
-Cj4gK2ltcGxfY29uZmlnX3NwYWNlX2lvX2NhcGFibGUhKHUzMiwgcGNpX3JlYWRfY29uZmlnX2R3
-b3JkLAo+IHBjaV93cml0ZV9jb25maWdfZHdvcmQpOwo+IMKgCj4gwqBpbXBsPCdhLCBTOiBDb25m
-aWdTcGFjZUtpbmQ+IElvIGZvciBDb25maWdTcGFjZTwnYSwgUz4gewo+IMKgwqDCoMKgIC8vLyBS
-ZXR1cm5zIHRoZSBiYXNlIGFkZHJlc3Mgb2YgdGhlIEkvTyByZWdpb24uIEl0IGlzIGFsd2F5cyAw
-Cj4gZm9yIGNvbmZpZ3VyYXRpb24gc3BhY2UuCg==
+On Fri, Feb 06, 2026 at 11:32:06AM +0100, Bartosz Golaszewski wrote:
+> Revocable stacks two layers of SRCU on top of each other: one to protect
+> the actual revocable resource and another to synchronize the revoking.
+> While this design itself is questionable, it also forces the user of
+> revokable to think about the implementation details and annotate the
+> pointer holding the address of the revocable_provider struct with __rcu.
+> Hide the real type of struct revokable_provider behind a typedef to free
+> the users from this responsability. While adding new typedefs goes
+> against current guidelines, it's still better than the current
+> requirement.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+> I realized that one important person was missing from the whole review
+> process: Paul E. McKenney who wrote and maintains SRCU. I had Paul look
+> at the SRCU usage in GPIO and I think he should have also signed off on
+> revocable before it got queued.
+> 
+> Paul: I'm Cc'ing you on this patch to bring revocable to your attention.
+> The series that implemented it and made its way into v7.0 is here:
+> 
+>   https://lore.kernel.org/all/20260116080235.350305-1-tzungbi@kernel.org/
+> 
+> Could you please take a look and say if the design looks sane to you?
+> Especially the double SRCU on the revocable_provider.
 
+The first patch in the above URL adds SRCU, and the other
+two add various tests.  I do not see a double SRCU, just an
+srcu_read_lock() in revocable_try_access() and an srcu_read_unlock()
+in revocable_withdraw_access().
+
+You are allowed to nest srcu_read_lock(), if that is what you are asking.
+*However*, nesting revocable_try_access() on the same revocable structure
+is buggy because the second call to revocable_try_access() would overwrite
+the rp->srcu value written by the first call.  This could result in both
+SRCU grace-period hangs and too-short SRCU grace periods, more likely
+the former than the latter.
+
+Or do you mean something else by "double SRCU"?
+
+							Thanx, Paul
+
+>  drivers/base/revocable.c                           |  8 ++++----
+>  drivers/base/revocable_test.c                      | 14 +++++++-------
+>  include/linux/revocable.h                          |  8 +++++---
+>  .../base/revocable/test_modules/revocable_test.c   |  4 ++--
+>  4 files changed, 18 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/base/revocable.c b/drivers/base/revocable.c
+> index 8532ca6a371c..02dd3ec2c9ad 100644
+> --- a/drivers/base/revocable.c
+> +++ b/drivers/base/revocable.c
+> @@ -82,7 +82,7 @@ struct revocable_provider {
+>   * Return: The pointer of struct revocable_provider.  NULL on errors.
+>   * It enforces the caller handles the returned pointer in RCU ways.
+>   */
+> -struct revocable_provider __rcu *revocable_provider_alloc(void *res)
+> +revocable_provider_t revocable_provider_alloc(void *res)
+>  {
+>  	struct revocable_provider *rp;
+>  
+> @@ -94,7 +94,7 @@ struct revocable_provider __rcu *revocable_provider_alloc(void *res)
+>  	RCU_INIT_POINTER(rp->res, res);
+>  	kref_init(&rp->kref);
+>  
+> -	return (struct revocable_provider __rcu *)rp;
+> +	return (revocable_provider_t)rp;
+>  }
+>  EXPORT_SYMBOL_GPL(revocable_provider_alloc);
+>  
+> @@ -120,7 +120,7 @@ static void revocable_provider_release(struct kref *kref)
+>   * It enforces the caller to pass a pointer of pointer of resource provider so
+>   * that it sets \*rp_ptr to NULL to prevent from keeping a dangling pointer.
+>   */
+> -void revocable_provider_revoke(struct revocable_provider __rcu **rp_ptr)
+> +void revocable_provider_revoke(revocable_provider_t *rp_ptr)
+>  {
+>  	struct revocable_provider *rp;
+>  
+> @@ -143,7 +143,7 @@ EXPORT_SYMBOL_GPL(revocable_provider_revoke);
+>   *
+>   * Return: 0 on success, -errno otherwise.
+>   */
+> -int revocable_init(struct revocable_provider __rcu *_rp, struct revocable *rev)
+> +int revocable_init(revocable_provider_t _rp, struct revocable *rev)
+>  {
+>  	struct revocable_provider *rp;
+>  
+> diff --git a/drivers/base/revocable_test.c b/drivers/base/revocable_test.c
+> index 27f5d7d96f4b..732197c887ef 100644
+> --- a/drivers/base/revocable_test.c
+> +++ b/drivers/base/revocable_test.c
+> @@ -30,7 +30,7 @@
+>  
+>  static void revocable_test_basic(struct kunit *test)
+>  {
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	struct revocable rev;
+>  	void *real_res = (void *)0x12345678, *res;
+>  	int ret;
+> @@ -52,7 +52,7 @@ static void revocable_test_basic(struct kunit *test)
+>  
+>  static void revocable_test_revocation(struct kunit *test)
+>  {
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	struct revocable rev;
+>  	void *real_res = (void *)0x12345678, *res;
+>  	int ret;
+> @@ -79,7 +79,7 @@ static void revocable_test_revocation(struct kunit *test)
+>  
+>  static void revocable_test_try_access_macro(struct kunit *test)
+>  {
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	void *real_res = (void *)0x12345678, *res;
+>  
+>  	rp = revocable_provider_alloc(real_res);
+> @@ -101,7 +101,7 @@ static void revocable_test_try_access_macro(struct kunit *test)
+>  
+>  static void revocable_test_try_access_macro2(struct kunit *test)
+>  {
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	void *real_res = (void *)0x12345678, *res;
+>  	bool accessed;
+>  
+> @@ -128,7 +128,7 @@ static void revocable_test_try_access_macro2(struct kunit *test)
+>  
+>  static void revocable_test_provider_use_after_free(struct kunit *test)
+>  {
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	struct revocable_provider *old_rp;
+>  	struct revocable rev;
+>  	void *real_res = (void *)0x12345678;
+> @@ -167,7 +167,7 @@ static void revocable_test_provider_use_after_free(struct kunit *test)
+>  
+>  struct test_concurrent_access_context {
+>  	struct kunit *test;
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	struct revocable rev;
+>  	struct completion started, enter, exit;
+>  	struct task_struct *thread;
+> @@ -206,7 +206,7 @@ static int test_concurrent_access_consumer(void *data)
+>  
+>  static void revocable_test_concurrent_access(struct kunit *test)
+>  {
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	void *real_res = (void *)0x12345678;
+>  	struct test_concurrent_access_context *ctx;
+>  	int ret, i;
+> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
+> index e3d6d2c953a3..f0aea6f56a25 100644
+> --- a/include/linux/revocable.h
+> +++ b/include/linux/revocable.h
+> @@ -12,6 +12,8 @@
+>  struct device;
+>  struct revocable_provider;
+>  
+> +typedef struct revocable_provider __rcu *revocable_provider_t;
+> +
+>  /**
+>   * struct revocable - A handle for resource consumer.
+>   * @rp: The pointer of resource provider.
+> @@ -22,10 +24,10 @@ struct revocable {
+>  	int idx;
+>  };
+>  
+> -struct revocable_provider __rcu *revocable_provider_alloc(void *res);
+> -void revocable_provider_revoke(struct revocable_provider __rcu **rp);
+> +revocable_provider_t revocable_provider_alloc(void *res);
+> +void revocable_provider_revoke(revocable_provider_t *rp);
+>  
+> -int revocable_init(struct revocable_provider __rcu *rp, struct revocable *rev);
+> +int revocable_init(revocable_provider_t rp, struct revocable *rev);
+>  void revocable_deinit(struct revocable *rev);
+>  void *revocable_try_access(struct revocable *rev) __acquires(&rev->rp->srcu);
+>  void revocable_withdraw_access(struct revocable *rev) __releases(&rev->rp->srcu);
+> diff --git a/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c b/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
+> index a560ceda7318..30cc9c145725 100644
+> --- a/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
+> +++ b/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
+> @@ -17,7 +17,7 @@
+>  static struct dentry *debugfs_dir;
+>  
+>  struct revocable_test_provider_priv {
+> -	struct revocable_provider __rcu *rp;
+> +	revocable_provider_t rp;
+>  	struct dentry *dentry;
+>  	char res[16];
+>  };
+> @@ -37,7 +37,7 @@ static ssize_t revocable_test_consumer_read(struct file *filp,
+>  	char data[16];
+>  	size_t len;
+>  	struct revocable rev;
+> -	struct revocable_provider __rcu *rp = filp->private_data;
+> +	revocable_provider_t rp = filp->private_data;
+>  
+>  	switch (*offset) {
+>  	case 0:
+> -- 
+> 2.47.3
+> 
