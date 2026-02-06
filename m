@@ -1,65 +1,173 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B291428847;
-	Fri,  6 Feb 2026 19:12:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CF5309F0D
+	for <driver-core@lists.linux.dev>; Fri,  6 Feb 2026 19:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770405151; cv=none; b=o+rMghUJLKFEuP8OUFB6gewLnSD7+A5Mt9BPR4UMnXQ9lka61oIB8El7UuZtx2lrWZt1A46I2DG0R+MXRJ0AFbWdxFHSwZ+y1FkcS7r9svUoMzx5RXfxHQp1A8llJSlOhFoB2peGC1c83BC4usg1V84/cjUtftjPgqb1rVjJdfk=
+	t=1770406856; cv=none; b=i2KYTeysDsUCGa+3cR4Ez3h11BLvhgzUbb6sfx1NYOy8vHcAz+HFWs9+aWpKxZyJxbW5SAC1AOLUtpc/d3pi7Ey1hNujDBTPZlsDPx1KUcnKZLSg2tGcv6V3sBn4r/PeE6ZrG1EXqISkNJnnE7Ez/BUhq3wcYaNGHjS6lRVqtzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770405151; c=relaxed/simple;
-	bh=P1TkKLjYrVeOCW4ifo90YRtpuovg0RxaxUBLJTxmVeU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=rDJvqlN1YoaXF2nO/UbhUIRJ2v7RwQGe/baydgOkpPPS0HRe/Ab7oRblyL2gVqNvCGSCKRkv9k+7sPROhCQQGYnCi9OPHvei6slGmkC7UqYzXbGbjTtunhJbOpm1/6sJKfnN4evRHOG69tR3MuNYFfBJd6RdnWMDurxCneH38n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLcsje0K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770406856; c=relaxed/simple;
+	bh=IEQSbo9h9+yvZ98xxxBIycLena/WpJQOlCQSJKHWVPQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c0MYLhxCX10Qr2uSOA5MO63hRYrD1ZFG1CPCC3PjoPkH0Y5vFAUNQUnN6rdd1BM4917o/5LC4CpH1XJhjRMaB2XlCagLPGhfHj1egZ2yNqLOmDB03x0rwAvpiYsHQlam8ZitmqxzztVQGbnuZ8e8uJLYqJVqGFj+pnvaJtRrhxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tgsBEUKL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLcsje0K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AE5C116C6;
-	Fri,  6 Feb 2026 19:12:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tgsBEUKL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1646C19423
+	for <driver-core@lists.linux.dev>; Fri,  6 Feb 2026 19:40:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770405150;
-	bh=P1TkKLjYrVeOCW4ifo90YRtpuovg0RxaxUBLJTxmVeU=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=bLcsje0Kh4jsGX32qGmVL6urmcAuztjxqgZ6xV+0J9hFvGBlLqT96yomw2/xBXhaq
-	 Ok4w7HNgEaUGlVORM8kdSDRNdN5eZ+SYZdg7N46r0FCMuRrLRdExEmMsQP08m4huLE
-	 4+Ccc51CBF+p35pZcmRQhfr07NrBM0snhDPj1B+RNutRJMH3u1G/Or41xh6lLmJOM7
-	 sn1PCxfKFM4o7DsJiMLcemNjxRz++4L0Ks9M7bZehc0dwXd3TFIsRP4YhK6kgMeBAy
-	 u/imgHMwzVLqZGgpZdELcY37por/zm8Ako8CkJEvJq1xeBXKzU4W3gUtSIWDrahP1D
-	 ct3c8znhGsgSg==
+	s=k20201202; t=1770406855;
+	bh=IEQSbo9h9+yvZ98xxxBIycLena/WpJQOlCQSJKHWVPQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tgsBEUKLyW5KPAuND4P6ACg1Ys6kmWROh2aZEVOirJ4OKzA6ALlSNUPt2wRfn7kSC
+	 Q3mMGQm7y7/FsMyMFp0COFi1WRL2UEC879s5CaRmRnNEwxMypgSSqbwKtYTpA82swE
+	 kX2ivTWv+L8Pv+B0A46/TFqdIZqs6YVmzxkfU+HamgsqIPaXV0PN0h0sydyBFNQqQ7
+	 s5XI9OD+yCtXJ5nPxcS0SfBZEIRJJeKp7nNLthFEfusA1yz2QZc9bKjci09hwAaHt3
+	 Bd1qGXx+RMTeM4HZR+2fetMPJ1Fpc9mXVhsxYBj9Gut/jTZzfOeyLDhexTZZAxOMJP
+	 Kve896NcgwuXg==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-40429b1d8baso864160fac.0
+        for <driver-core@lists.linux.dev>; Fri, 06 Feb 2026 11:40:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUJDITrGFRl2535nvNKu+g1hn5SYQ0l+fesSV2vnvOCEMTt2j4w6j1X7hIrNokTNS/FiwMnzWyucnRlbw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIkQ//cA9Ipu3Uq4ohwItkVrU5ghZlHtDZbPtuwAm3RYR7a0bS
+	8A+lEhaY1gbkvG3V1ZKOq7SVAXttKF6N5JGauWRGoAQfLdDDxrLq7EMJ3jC9W1QaGzxQBYgDxq6
+	mOR2h9WbJGxFNcsNMtAtVM7M8C7ZbiFE=
+X-Received: by 2002:a05:6870:44c9:b0:40a:62b7:1619 with SMTP id
+ 586e51a60fabf-40a96f90eacmr2285019fac.46.1770406854855; Fri, 06 Feb 2026
+ 11:40:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260206-noirq_async_suspend-v1-1-d10f2418df4c@nxp.com>
+In-Reply-To: <20260206-noirq_async_suspend-v1-1-d10f2418df4c@nxp.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 6 Feb 2026 20:40:42 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0i7zuAmvWGPjGKkMKV=qmpc6dJOQXRUVUoqtzd1bdeEdw@mail.gmail.com>
+X-Gm-Features: AZwV_Qhckt70t2bi-9O-bxdlqcv5NjF49hN3W2p-Zq1pDjHXSwssofw3i8fgzD8
+Message-ID: <CAJZ5v0i7zuAmvWGPjGKkMKV=qmpc6dJOQXRUVUoqtzd1bdeEdw@mail.gmail.com>
+Subject: Re: [PATCH] PM: sleep: core: Fix race condition in async noirq suspend
+To: Jacky Bai <ping.bai@nxp.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Feb 2026 20:12:23 +0100
-Message-Id: <DG848V6RE1UW.PSGVUI0ZEDWL@kernel.org>
-Subject: Re: [PATCH v2 0/6] rust: io: turn IoCapable into a functional trait
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Zhi Wang"
- <zhiw@nvidia.com>, "Lyude Paul" <lyude@redhat.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>
-To: "Alexandre Courbot" <acourbot@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260206-io-v2-0-71dea20a06e6@nvidia.com>
-In-Reply-To: <20260206-io-v2-0-71dea20a06e6@nvidia.com>
 
-On Fri Feb 6, 2026 at 7:00 AM CET, Alexandre Courbot wrote:
-> Alexandre Courbot (6):
->       rust: io: turn IoCapable into a functional trait
->       rust: io: mem: use non-relaxed I/O ops in examples
->       rust: io: provide Mmio relaxed ops through a wrapper type
->       rust: io: remove legacy relaxed accessors of Mmio
->       rust: pci: io: remove overloaded Io methods of ConfigSpace
->       rust: io: remove overloaded Io methods of Mmio
+On Fri, Feb 6, 2026 at 4:03=E2=80=AFPM Jacky Bai <ping.bai@nxp.com> wrote:
+>
+> A race condition occurs during the noirq suspend stage when accessing
+> bitfields in struct dev_pm_info, causing system suspend to hang.
+>
+> During async noirq suspend, leaf devices are queued for asynchronous
+> processing while the main suspend thread continues clearing the
+> 'work_in_progress' flag of other devices, including potential parents
+> of those leaf devices.
+>
+> In struct dev_pm_info, 'work_in_progress' and 'must_resume' are
+> bitfields stored in the same byte. This creates a race when:
+>
+> 1. A leaf device's async thread sets its parent's 'must_resume' flag
+>    via dpm_superior_set_must_resume()
+> 2. Simultaneously, the main thread clears the parent's
+>    'work_in_progress' flag
+>
+> Since bitfield operations are not atomic, concurrent modifications to
+> the same byte can corrupt both fields. This leaves the parent device
+> in an incorrect state, causing the system suspend to hang.
+>
+> Fix this by adding lock protection around the bitfield accesses to
+> ensure atomic read-modify-write operations.
+>
+> Fixes: 443046d1ad66 ("PM: sleep: Make suspend of devices more asynchronou=
+s")
+> Signed-off-by: Jacky Bai <ping.bai@nxp.com>
 
-I will queue this up once -rc1 is out.
+There is a fix for this already in my tree, see
+
+https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/=
+?h=3Dpm&id=3D0491f3f9f664e7e0131eb4d2a8b19c49562e5c64
+
+> ---
+>  drivers/base/power/main.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index 189de5250f256bdc1cdc33006b2c386d0794485f..561e24c257d779db51a0f0d50=
+dcfee61e98de64f 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -633,7 +633,9 @@ static bool __dpm_async(struct device *dev, async_fun=
+c_t func)
+>         if (!is_async(dev))
+>                 return false;
+>
+> +       spin_lock_irq(&dev->power.lock);
+>         dev->power.work_in_progress =3D true;
+> +       spin_unlock_irq(&dev->power.lock);
+>
+>         get_device(dev);
+>
+> @@ -656,8 +658,11 @@ static int dpm_async_with_cleanup(struct device *dev=
+, void *fn)
+>  {
+>         guard(mutex)(&async_wip_mtx);
+>
+> -       if (!__dpm_async(dev, fn))
+> +       if (!__dpm_async(dev, fn)) {
+> +               spin_lock_irq(&dev->power.lock);
+>                 dev->power.work_in_progress =3D false;
+> +               spin_unlock_irq(&dev->power.lock);
+> +       }
+>
+>         return 0;
+>  }
+> @@ -698,7 +703,10 @@ static void dpm_async_resume_subordinate(struct devi=
+ce *dev, async_func_t func)
+>  static void dpm_clear_async_state(struct device *dev)
+>  {
+>         reinit_completion(&dev->power.completion);
+> +
+> +       spin_lock_irq(&dev->power.lock);
+>         dev->power.work_in_progress =3D false;
+> +       spin_unlock_irq(&dev->power.lock);
+>  }
+>
+>  static bool dpm_root_device(struct device *dev)
+> @@ -1407,13 +1415,19 @@ static void dpm_superior_set_must_resume(struct d=
+evice *dev)
+>         struct device_link *link;
+>         int idx;
+>
+> -       if (dev->parent)
+> +       if (dev->parent) {
+> +               spin_lock_irq(&dev->parent->power.lock);
+>                 dev->parent->power.must_resume =3D true;
+> +               spin_unlock_irq(&dev->parent->power.lock);
+> +       }
+>
+>         idx =3D device_links_read_lock();
+>
+> -       dev_for_each_link_to_supplier(link, dev)
+> +       dev_for_each_link_to_supplier(link, dev) {
+> +               spin_lock_irq(&link->supplier->power.lock);
+>                 link->supplier->power.must_resume =3D true;
+> +               spin_unlock_irq(&link->supplier->power.lock);
+> +       }
+>
+>         device_links_read_unlock(idx);
+>  }
+>
+> ---
+> base-commit: 9845cf73f7db6094c0d8419d6adb848028f4a921
+> change-id: 20260206-noirq_async_suspend-645bd6b8305e
+>
+> Best regards,
+> --
+> Jacky Bai <ping.bai@nxp.com>
+>
+>
