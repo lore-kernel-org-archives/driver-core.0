@@ -1,353 +1,313 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B21345CAF
-	for <driver-core@lists.linux.dev>; Fri,  6 Feb 2026 07:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7598309EE7
+	for <driver-core@lists.linux.dev>; Fri,  6 Feb 2026 10:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770364436; cv=none; b=QT3FlYADj3Qt40hPjBPzXD7zVIOTnbeHqBFSLtoE6hxm9gDNLEZwVhF245EusYHy6Vu/xu/5r+Mabwi86U5T0q8wqsh3jLoiPFqklQs0UhfQWP0LHqVWVSPVTDX4ypev5OhxT5EWpUTz8UMjj1yw4Wz/G1x0Yo9PfyOAkAL+mRI=
+	t=1770373972; cv=none; b=JIs3PCpj2jzsjAsbwsJBlAZGjRqwgzqIPK1S6KCwnmZaM6+LrkkTJRtow0JwKexFap+uepVUjzy3fwAI+pXNhVxZ9HisvgIJjUxLeyr87KhbwOiVQ7BsH6cCAXWVhgCmFt9xGERwKudZb3sgxTPupnhubZuBR6ja5WrbXHP+Bcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770364436; c=relaxed/simple;
-	bh=m4cWgc4LDTHareEHz+5x97wcVU4nLN++KhsOx8f9moE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mn+U8J7JIc4WU+cMfrmkoHR/LV8cIrmUQtI/tozFJzxWSzoZxCfq9gRDpQ0Xy669wob743Eo8GdPmpxN+cGgNI3IYXZCm/2uuUn/OdpJqxaRTSagpj0j8LVkDn+WoyBqZyby6znQSU4ZlrhfS9cWwMbMnzqgskeXgElk7vWrFfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IG0hvRYu; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1770373972; c=relaxed/simple;
+	bh=hEmoAVYuBDzIxr9eEjk+1WK2ho+HzV/anGLC5ujrk4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I0vZhWPjxI8yZri6FpmkTGvhWzuu8cNByREorLL1J4kytXCrhndZgKg2z0/ZPDI0Ori9e41Zk2TTbRNXkjDOmiP8EVI9gCRwuLp0RaZ7J9jjV1FgvI04NRSayWCUA44o2dI5BpR3iAjeDDEWZQMUW9N2+X5ys2lI3fAjG3u9Ub8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SwoFupaJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bcV8jp5m; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IG0hvRYu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1770364427;
-	bh=m4cWgc4LDTHareEHz+5x97wcVU4nLN++KhsOx8f9moE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IG0hvRYuypLCsp5pSJ0MxEFpRT/GNK9i61V+0v2ZrhG56EjbzdihbbLRlVqvQ9qCt
-	 9VeZRzTaPYkZtkgeqXypDe2qcTGS585KnWnEC5EWhwOsCLsC/B+mJAbvIOwe6g8YMT
-	 mLNG1ZlFNz1LJsqF4F6vHumcMKK1Ica+WrqoziVxWHCLmmgRtC0aX2gbnwKVB2nJIK
-	 V/QWvJcvv8n/QggPW3aS2LnmJW4bWHz67hQy+sF2E/QtT6v8ef/r8vNtjHcDC+Q1dK
-	 rd1esEeaH65v+eoKkbHNRK+SQ1UGaIhbGH8ePTPnssehUsrRmBOlVoeAFcnuJEp4Qw
-	 u6EnuVuIjewXA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1E0BB17E1301;
-	Fri,  6 Feb 2026 08:53:47 +0100 (CET)
-Date: Fri, 6 Feb 2026 08:53:42 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, ojeda@kernel.org,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, driver-core@lists.linux.dev,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, Markus Probst
- <markus.probst@posteo.de>
-Subject: Re: [PATCH] rust: devres: fix race condition due to nesting
-Message-ID: <20260206085342.609ab3a1@fedora>
-In-Reply-To: <20260205222529.91465-1-dakr@kernel.org>
-References: <20260205222529.91465-1-dakr@kernel.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SwoFupaJ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bcV8jp5m"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6167Xd881852685
+	for <driver-core@lists.linux.dev>; Fri, 6 Feb 2026 10:32:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=31g9Av7sRhnAfddToHVTSlKjo7DknHOeQFk
+	NSP0IhnI=; b=SwoFupaJqU1RJ9WID25bFPrTeflj4FpYu6r6acgNjJi1CRP1khm
+	DAYnUfSW1kB1AnCOc5ABgr1F1At0K9avLXWdKcZMI+3HhgYocciLQt7kSp4imXiP
+	AjxhkKO8yvpwKJuN3+ZZE/KOupOIN1s7akydm0SO937IthBS+wG6fvuSjH1/32uQ
+	rKIkII+y02gocd0KuiTmkvWmnM/Zkl+ntRF2oBoao5FnFtdhPekjW1/QOf2kNfYt
+	DYHNykQuHFawtgQ0DLAWlCdNGhDkTBjpgjjFDI0dGBfmcpk5+tVVpMT151jMKms7
+	bCtgKMgfU5wq84kPVpLQ/RJGyZ2AoLtohcA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c5c148k1a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Fri, 06 Feb 2026 10:32:51 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8bb9f029f31so686638785a.2
+        for <driver-core@lists.linux.dev>; Fri, 06 Feb 2026 02:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1770373971; x=1770978771; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=31g9Av7sRhnAfddToHVTSlKjo7DknHOeQFkNSP0IhnI=;
+        b=bcV8jp5m5/qlJjxUH9Hg1KMt9X1Z4wOKhI9rgbAT4HTJogzINIjd/CpkevA+PNPuJ8
+         swlLfTEb65iJHDWAC9cstgxJy3mkMyWJivu2MYp6fy5serRSXV9jR7xfk1YaA/rrTFQH
+         WjYM0gpRbQT5eHHdpCtHnVm6pfDapuj682UV4WEqJ0FhGIg+jAAMNgeiYwxvm9cJBc8+
+         7pNaixs7R/DqjmxTdx3XodOMsz15DXt/sw4iMRxkc25j2+S/lar5R77K+bkgTkfltEwL
+         QPoXQxx8mIOHtmiXg1Ekvyogf9bAS4O8ssf7hYpLoci/KksmSE0qyIrG3fXHdz3gkv51
+         +McQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770373971; x=1770978771;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=31g9Av7sRhnAfddToHVTSlKjo7DknHOeQFkNSP0IhnI=;
+        b=sgqkvqacuCAAMYcXYlOjjCTrj/59TUMwY0cnQO56pq0Q65C4cVgNA0SjeSRVbr23WZ
+         PMWlPCxbFIsP7ybDvQytT6YqI8Qu1XP2hilH4AxBuAvdUUw9YMYY97wzqD55PSCzUULx
+         jIHY/ptZ0aObzTtjQQIUVQfYV6pfTf0bOT9XF/1T4GkDr0jjhpfhQvZQ4Cy0nY9Xu1Z8
+         iOHh/pacr+6pZcy2uG3B/Vm6SzsyuoGXH5O8C0+UQ/JAS/VD6zYkeUuzAlaqPOJDatyW
+         /IP4EcTU5A7Fzi9oiK/g9lJJ5Zg77cxZYyl8qMiojApmbkIh3AaLudML6RCmLM+Vl08v
+         D4WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCRA5X6DAQbkdt2FPQ/mfCiEm8f2HhszDavOH0OVRpVPkIRYDOE7GtBI4it/IAJX2g8JuQKzNmvyhxPQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxN4ZWvPSnP0aGjdwJ7FYlyAL0bKWO1sb2nlz8uFdYSS8rF+YdZ
+	pu/Icm5bxwpfgbp5PTnMvFIiwwt8RGO7SiJqny9nxzynXinPaJOtBd3VkJ0PdN28IFgxh1FodZW
+	UazrFEk8uyEDiPaLqN32hztJkkvVig+6bBrdo7k4/8m40TfDiRt1IXEjj9gExPcucWg==
+X-Gm-Gg: AZuq6aIfTJadXnYUkdoRwYeM4+m+gMEjWmrfw/a3usM5KE9KzNY+h5kxFP0wkffMkAJ
+	Mc/LGtRIds9+Kgrp+A5cjm9LswUHjFJEYZAENqJKkOFGCTokJKekv48Pib/BsQapQ6Cgb5RkEFU
+	gmi2KLfYuigafW60/6Zw6zM1NTpZK6KU3BNVMyOYqn0gqxLFXY2Hs3xwCq+7k+7sOREOhnycPZ3
+	S//uANgBVBiUz1VXt149F2xckNPiXuvH3HLgD7XRMpjEnkydSVspkVXnt31qjvyGhePFtGf1DJj
+	6xASVfXR7n49J1q3At9VgfBVxiivOj3CC+OsH3eLsT6jHhUKBNmfrHrDjC1iXRwifSGEbtIntMb
+	nqoy5oeW+aTcykV4u7sspSdwDXrlH+wsptDppZzSeKmUd0/SfrA==
+X-Received: by 2002:a05:620a:2a0a:b0:8ca:105a:f5ca with SMTP id af79cd13be357-8caf0d3d0dcmr251353885a.47.1770373970735;
+        Fri, 06 Feb 2026 02:32:50 -0800 (PST)
+X-Received: by 2002:a05:620a:2a0a:b0:8ca:105a:f5ca with SMTP id af79cd13be357-8caf0d3d0dcmr251351385a.47.1770373970244;
+        Fri, 06 Feb 2026 02:32:50 -0800 (PST)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:fa9:b625:6a3a:d8c9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b34d2sm5263028f8f.1.2026.02.06.02.32.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 02:32:49 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Johan Hovold <johan@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-kselftest@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH] revocable: hide the implementation details from users
+Date: Fri,  6 Feb 2026 11:32:06 +0100
+Message-ID: <20260206103216.38623-1-bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=P5k3RyAu c=1 sm=1 tr=0 ts=6985c353 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22
+ a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=AY_JnWu9_Drb-cVd1FUA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDA3MSBTYWx0ZWRfX5h6ba1bv/BFA
+ 2+vunF1ZK4YqEX0UMcfgmsFbICIM5SZgc/j5Q8+phEtQ2ql4ZYlfb50zr9i2SroGeUKxV4uCc53
+ QJkjrhFfJkefgEQdYjb+BQtAV1XWrfZgMdTe0iCudFzjsEioQWJsgXxaEth6cPlz5VMAVkEv4rF
+ pFu+DgusVC2BqFSjLLW1ILPPbzo4ietonrq8zj+07CDreZnLGSnLULpv+Og2D184sCUYcX/lGD2
+ L/D1GcOr9JDLhP7ILuJdSkM0mkKnDhkoyjXR8hzk7/+TEuahCHqNACFbNw28NuozNAQZ9Hf3beJ
+ 8RswM9XBNN3a4fWiZxqbxO2qgNOnUKsmPBVBAbKtEy2p+p89VDAw3H+gBCYGIUye/Yfx7rXAQ0n
+ cCM154iR0X5qTtZbrT/5C+JNW+lVl7Tdj9N9p3nbcqlaDWvaKLYNoZ73PcPKoTBApBt+dhFXA6H
+ nzAhIRs1qAp8xBrTAWQ==
+X-Proofpoint-ORIG-GUID: ZSGTztpo3GWyxq-jvteXlfdcu4_oqD6J
+X-Proofpoint-GUID: ZSGTztpo3GWyxq-jvteXlfdcu4_oqD6J
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-06_03,2026-02-05_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602060071
 
-On Thu,  5 Feb 2026 23:25:15 +0100
-Danilo Krummrich <dakr@kernel.org> wrote:
+Revocable stacks two layers of SRCU on top of each other: one to protect
+the actual revocable resource and another to synchronize the revoking.
+While this design itself is questionable, it also forces the user of
+revokable to think about the implementation details and annotate the
+pointer holding the address of the revocable_provider struct with __rcu.
+Hide the real type of struct revokable_provider behind a typedef to free
+the users from this responsability. While adding new typedefs goes
+against current guidelines, it's still better than the current
+requirement.
 
-> Commit f5d3ef25d238 ("rust: devres: get rid of Devres' inner Arc") did
-> attempt to optimize away the internal reference count of Devres.
-> 
-> However, without an internal reference count, we can't support cases
-> where Devres is indirectly nested, resulting into a deadlock.
-> 
-> Such indirect nesting easily happens in the following way:
-> 
-> A registration object (which is guarded by devres) hold a reference
-> count of an object that holds a device resource guarded by devres
-> itself.
-> 
-> For instance a drm::Registration holds a reference of a drm::Device. The
-> drm::Device itself holds a device resource in its private data.
-> 
-> When the drm::Registration is dropped by devres, and it happens that it
-> did hold the last reference count of the drm::Device, it also drops the
-> device resource, which is guarded by devres itself.
-> 
-> Thus, resulting into a deadlock in the Devres destructor of the device
-> resource, as in the following backtrace.
-> 
-> 	sysrq: Show Blocked State
-> 	task:rmmod           state:D stack:0     pid:1331  tgid:1331  ppid:1330   task_flags:0x400100 flags:0x00000010
-> 	Call trace:
-> 	 __switch_to+0x190/0x294 (T)
-> 	 __schedule+0x878/0xf10
-> 	 schedule+0x4c/0xcc
-> 	 schedule_timeout+0x44/0x118
-> 	 wait_for_common+0xc0/0x18c
-> 	 wait_for_completion+0x18/0x24
-> 	 _RINvNtCs4gKlGRWyJ5S_4core3ptr13drop_in_placeINtNtNtCsgzhNYVB7wSz_6kernel4sync3arc3ArcINtNtBN_6devres6DevresmEEECsRdyc7Hyps3_15rust_driver_pci+0x68/0xe8 [rust_driver_pci]
-> 	 _RINvNvNtCsgzhNYVB7wSz_6kernel6devres16register_foreign8callbackINtNtCs4gKlGRWyJ5S_4core3pin3PinINtNtNtB6_5alloc4kbox3BoxINtNtNtB6_4sync3arc3ArcINtB4_6DevresmEENtNtB1A_9allocator7KmallocEEECsRdyc7Hyps3_15rust_driver_pci+0x34/0xc8 [rust_driver_pci]
-> 	 devm_action_release+0x14/0x20
-> 	 devres_release_all+0xb8/0x118
-> 	 device_release_driver_internal+0x1c4/0x28c
-> 	 driver_detach+0x94/0xd4
-> 	 bus_remove_driver+0xdc/0x11c
-> 	 driver_unregister+0x34/0x58
-> 	 pci_unregister_driver+0x20/0x80
-> 	 __arm64_sys_delete_module+0x1d8/0x254
-> 	 invoke_syscall+0x40/0xcc
-> 	 el0_svc_common+0x8c/0xd8
-> 	 do_el0_svc+0x1c/0x28
-> 	 el0_svc+0x54/0x1d4
-> 	 el0t_64_sync_handler+0x84/0x12c
-> 	 el0t_64_sync+0x198/0x19c
-> 
-> In order to fix this, re-introduce the internal reference count.
-> 
-> Reported-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/.E2.9C.94.20Deadlock.20caused.20by.20nested.20Devres/with/571242651
-> Reported-by: Markus Probst <markus.probst@posteo.de>
-> Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/.E2.9C.94.20Devres.20inside.20Devres.20stuck.20on.20cleanup/with/571239721
-> Reported-by: Alice Ryhl <aliceryhl@google.com>
-> Closes: https://gitlab.freedesktop.org/panfrost/linux/-/merge_requests/56#note_3282757
-> Fixes: f5d3ef25d238 ("rust: devres: get rid of Devres' inner Arc")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+I realized that one important person was missing from the whole review
+process: Paul E. McKenney who wrote and maintains SRCU. I had Paul look
+at the SRCU usage in GPIO and I think he should have also signed off on
+revocable before it got queued.
 
-Tested-by: Boris Brezillon <boris.brezillon@collabora.com>
+Paul: I'm Cc'ing you on this patch to bring revocable to your attention.
+The series that implemented it and made its way into v7.0 is here:
 
-> ---
->  rust/kernel/devres.rs | 148 +++++++++++-------------------------------
->  1 file changed, 39 insertions(+), 109 deletions(-)
-> 
-> diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
-> index cdc49677022a..ff66f561740a 100644
-> --- a/rust/kernel/devres.rs
-> +++ b/rust/kernel/devres.rs
-> @@ -21,30 +21,11 @@
->      sync::{
->          aref::ARef,
->          rcu,
-> -        Completion, //
-> -    },
-> -    types::{
-> -        ForeignOwnable,
-> -        Opaque,
-> -        ScopeGuard, //
-> +        Arc, //
->      },
-> +    types::ForeignOwnable,
->  };
->  
-> -use pin_init::Wrapper;
-> -
-> -/// [`Devres`] inner data accessed from [`Devres::callback`].
-> -#[pin_data]
-> -struct Inner<T: Send> {
-> -    #[pin]
-> -    data: Revocable<T>,
-> -    /// Tracks whether [`Devres::callback`] has been completed.
-> -    #[pin]
-> -    devm: Completion,
-> -    /// Tracks whether revoking [`Self::data`] has been completed.
-> -    #[pin]
-> -    revoke: Completion,
-> -}
-> -
->  /// This abstraction is meant to be used by subsystems to containerize [`Device`] bound resources to
->  /// manage their lifetime.
->  ///
-> @@ -121,18 +102,13 @@ struct Inner<T: Send> {
->  /// # fn no_run(dev: &Device<Bound>) -> Result<(), Error> {
->  /// // SAFETY: Invalid usage for example purposes.
->  /// let iomem = unsafe { IoMem::<{ core::mem::size_of::<u32>() }>::new(0xBAAAAAAD)? };
-> -/// let devres = KBox::pin_init(Devres::new(dev, iomem), GFP_KERNEL)?;
-> +/// let devres = Devres::new(dev, iomem)?;
->  ///
->  /// let res = devres.try_access().ok_or(ENXIO)?;
->  /// res.write8(0x42, 0x0);
->  /// # Ok(())
->  /// # }
->  /// ```
-> -///
-> -/// # Invariants
-> -///
-> -/// `Self::inner` is guaranteed to be initialized and is always accessed read-only.
-> -#[pin_data(PinnedDrop)]
->  pub struct Devres<T: Send> {
->      dev: ARef<Device>,
->      /// Pointer to [`Self::devres_callback`].
-> @@ -140,14 +116,7 @@ pub struct Devres<T: Send> {
->      /// Has to be stored, since Rust does not guarantee to always return the same address for a
->      /// function. However, the C API uses the address as a key.
->      callback: unsafe extern "C" fn(*mut c_void),
-> -    /// Contains all the fields shared with [`Self::callback`].
-> -    // TODO: Replace with `UnsafePinned`, once available.
-> -    //
-> -    // Subsequently, the `drop_in_place()` in `Devres::drop` and `Devres::new` as well as the
-> -    // explicit `Send` and `Sync' impls can be removed.
-> -    #[pin]
-> -    inner: Opaque<Inner<T>>,
-> -    _add_action: (),
-> +    data: Arc<Revocable<T>>,
->  }
->  
->  impl<T: Send> Devres<T> {
-> @@ -155,74 +124,47 @@ impl<T: Send> Devres<T> {
->      ///
->      /// The `data` encapsulated within the returned `Devres` instance' `data` will be
->      /// (revoked)[`Revocable`] once the device is detached.
-> -    pub fn new<'a, E>(
-> -        dev: &'a Device<Bound>,
-> -        data: impl PinInit<T, E> + 'a,
-> -    ) -> impl PinInit<Self, Error> + 'a
-> +    pub fn new<E>(dev: &Device<Bound>, data: impl PinInit<T, E>) -> Result<Self>
->      where
-> -        T: 'a,
->          Error: From<E>,
->      {
-> -        try_pin_init!(&this in Self {
-> -            dev: dev.into(),
-> -            callback: Self::devres_callback,
-> -            // INVARIANT: `inner` is properly initialized.
-> -            inner <- Opaque::pin_init(try_pin_init!(Inner {
-> -                    devm <- Completion::new(),
-> -                    revoke <- Completion::new(),
-> -                    data <- Revocable::new(data),
-> -            })),
-> -            // TODO: Replace with "initializer code blocks" [1] once available.
-> -            //
-> -            // [1] https://github.com/Rust-for-Linux/pin-init/pull/69
-> -            _add_action: {
-> -                // SAFETY: `this` is a valid pointer to uninitialized memory.
-> -                let inner = unsafe { &raw mut (*this.as_ptr()).inner };
-> +        let callback = Self::devres_callback;
-> +        let data = Arc::pin_init(Revocable::new(data), GFP_KERNEL)?;
->  
-> -                // SAFETY:
-> -                // - `dev.as_raw()` is a pointer to a valid bound device.
-> -                // - `inner` is guaranteed to be a valid for the duration of the lifetime of `Self`.
-> -                // - `devm_add_action()` is guaranteed not to call `callback` until `this` has been
-> -                //    properly initialized, because we require `dev` (i.e. the *bound* device) to
-> -                //    live at least as long as the returned `impl PinInit<Self, Error>`.
-> -                to_result(unsafe {
-> -                    bindings::devm_add_action(dev.as_raw(), Some(*callback), inner.cast())
-> -                }).inspect_err(|_| {
-> -                    let inner = Opaque::cast_into(inner);
-> +        // SAFETY:
-> +        // - `dev.as_raw()` is a pointer to a valid bound device.
-> +        // - `data` is guaranteed to be a valid for the duration of the lifetime of `Self`.
-> +        // - `devm_add_action()` is guaranteed not to call `callback` for the entire lifetime of
-> +        //   `dev`.
-> +        to_result(unsafe {
-> +            bindings::devm_add_action(
-> +                dev.as_raw(),
-> +                Some(callback),
-> +                Arc::as_ptr(&data).cast_mut().cast(),
-> +            )
-> +        })?;
->  
-> -                    // SAFETY: `inner` is a valid pointer to an `Inner<T>` and valid for both reads
-> -                    // and writes.
-> -                    unsafe { core::ptr::drop_in_place(inner) };
-> -                })?;
-> -            },
-> -        })
-> -    }
-> +        // Take additional reference count for `devm_add_action()`.
-> +        core::mem::forget(data.clone());
->  
-> -    fn inner(&self) -> &Inner<T> {
-> -        // SAFETY: By the type invairants of `Self`, `inner` is properly initialized and always
-> -        // accessed read-only.
-> -        unsafe { &*self.inner.get() }
-> +        Ok(Self {
-> +            dev: dev.into(),
-> +            callback,
-> +            data,
-> +        })
->      }
->  
->      fn data(&self) -> &Revocable<T> {
-> -        &self.inner().data
-> +        &self.data
->      }
->  
->      #[allow(clippy::missing_safety_doc)]
->      unsafe extern "C" fn devres_callback(ptr: *mut kernel::ffi::c_void) {
-> -        // SAFETY: In `Self::new` we've passed a valid pointer to `Inner` to `devm_add_action()`,
-> -        // hence `ptr` must be a valid pointer to `Inner`.
-> -        let inner = unsafe { &*ptr.cast::<Inner<T>>() };
-> +        // SAFETY: In `Self::new` we've passed a valid pointer of `Revocable<T>` to
-> +        // `devm_add_action()`, hence `ptr` must be a valid pointer to `Revocable<T>`.
-> +        let data = unsafe { Arc::from_raw(ptr.cast::<Revocable<T>>()) };
->  
-> -        // Ensure that `inner` can't be used anymore after we signal completion of this callback.
-> -        let inner = ScopeGuard::new_with_data(inner, |inner| inner.devm.complete_all());
-> -
-> -        if !inner.data.revoke() {
-> -            // If `revoke()` returns false, it means that `Devres::drop` already started revoking
-> -            // `data` for us. Hence we have to wait until `Devres::drop` signals that it
-> -            // completed revoking `data`.
-> -            inner.revoke.wait_for_completion();
-> -        }
-> +        data.revoke();
->      }
->  
->      fn remove_action(&self) -> bool {
-> @@ -234,7 +176,7 @@ fn remove_action(&self) -> bool {
->              bindings::devm_remove_action_nowarn(
->                  self.dev.as_raw(),
->                  Some(self.callback),
-> -                core::ptr::from_ref(self.inner()).cast_mut().cast(),
-> +                core::ptr::from_ref(self.data()).cast_mut().cast(),
->              )
->          } == 0)
->      }
-> @@ -313,31 +255,19 @@ unsafe impl<T: Send> Send for Devres<T> {}
->  // SAFETY: `Devres` can be shared with any task, if `T: Sync`.
->  unsafe impl<T: Send + Sync> Sync for Devres<T> {}
->  
-> -#[pinned_drop]
-> -impl<T: Send> PinnedDrop for Devres<T> {
-> -    fn drop(self: Pin<&mut Self>) {
-> +impl<T: Send> Drop for Devres<T> {
-> +    fn drop(&mut self) {
->          // SAFETY: When `drop` runs, it is guaranteed that nobody is accessing the revocable data
->          // anymore, hence it is safe not to wait for the grace period to finish.
->          if unsafe { self.data().revoke_nosync() } {
->              // We revoked `self.data` before the devres action did, hence try to remove it.
-> -            if !self.remove_action() {
-> -                // We could not remove the devres action, which means that it now runs concurrently,
-> -                // hence signal that `self.data` has been revoked by us successfully.
-> -                self.inner().revoke.complete_all();
-> -
-> -                // Wait for `Self::devres_callback` to be done using this object.
-> -                self.inner().devm.wait_for_completion();
-> +            if self.remove_action() {
-> +                // SAFETY: In `Self::new` we have taken an additional reference count of `self.data`
-> +                // for `devm_add_action()`. Since `remove_action()` was successful, we have to drop
-> +                // this additional reference count.
-> +                drop(unsafe { Arc::from_raw(Arc::as_ptr(&self.data)) });
->              }
-> -        } else {
-> -            // `Self::devres_callback` revokes `self.data` for us, hence wait for it to be done
-> -            // using this object.
-> -            self.inner().devm.wait_for_completion();
->          }
-> -
-> -        // INVARIANT: At this point it is guaranteed that `inner` can't be accessed any more.
-> -        //
-> -        // SAFETY: `inner` is valid for dropping.
-> -        unsafe { core::ptr::drop_in_place(self.inner.get()) };
->      }
->  }
->  
-> 
-> base-commit: f55ae0bfa00e446ea751d09f468daeafc303e03f
+  https://lore.kernel.org/all/20260116080235.350305-1-tzungbi@kernel.org/
+
+Could you please take a look and say if the design looks sane to you?
+Especially the double SRCU on the revocable_provider.
+
+ drivers/base/revocable.c                           |  8 ++++----
+ drivers/base/revocable_test.c                      | 14 +++++++-------
+ include/linux/revocable.h                          |  8 +++++---
+ .../base/revocable/test_modules/revocable_test.c   |  4 ++--
+ 4 files changed, 18 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/base/revocable.c b/drivers/base/revocable.c
+index 8532ca6a371c..02dd3ec2c9ad 100644
+--- a/drivers/base/revocable.c
++++ b/drivers/base/revocable.c
+@@ -82,7 +82,7 @@ struct revocable_provider {
+  * Return: The pointer of struct revocable_provider.  NULL on errors.
+  * It enforces the caller handles the returned pointer in RCU ways.
+  */
+-struct revocable_provider __rcu *revocable_provider_alloc(void *res)
++revocable_provider_t revocable_provider_alloc(void *res)
+ {
+ 	struct revocable_provider *rp;
+ 
+@@ -94,7 +94,7 @@ struct revocable_provider __rcu *revocable_provider_alloc(void *res)
+ 	RCU_INIT_POINTER(rp->res, res);
+ 	kref_init(&rp->kref);
+ 
+-	return (struct revocable_provider __rcu *)rp;
++	return (revocable_provider_t)rp;
+ }
+ EXPORT_SYMBOL_GPL(revocable_provider_alloc);
+ 
+@@ -120,7 +120,7 @@ static void revocable_provider_release(struct kref *kref)
+  * It enforces the caller to pass a pointer of pointer of resource provider so
+  * that it sets \*rp_ptr to NULL to prevent from keeping a dangling pointer.
+  */
+-void revocable_provider_revoke(struct revocable_provider __rcu **rp_ptr)
++void revocable_provider_revoke(revocable_provider_t *rp_ptr)
+ {
+ 	struct revocable_provider *rp;
+ 
+@@ -143,7 +143,7 @@ EXPORT_SYMBOL_GPL(revocable_provider_revoke);
+  *
+  * Return: 0 on success, -errno otherwise.
+  */
+-int revocable_init(struct revocable_provider __rcu *_rp, struct revocable *rev)
++int revocable_init(revocable_provider_t _rp, struct revocable *rev)
+ {
+ 	struct revocable_provider *rp;
+ 
+diff --git a/drivers/base/revocable_test.c b/drivers/base/revocable_test.c
+index 27f5d7d96f4b..732197c887ef 100644
+--- a/drivers/base/revocable_test.c
++++ b/drivers/base/revocable_test.c
+@@ -30,7 +30,7 @@
+ 
+ static void revocable_test_basic(struct kunit *test)
+ {
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	struct revocable rev;
+ 	void *real_res = (void *)0x12345678, *res;
+ 	int ret;
+@@ -52,7 +52,7 @@ static void revocable_test_basic(struct kunit *test)
+ 
+ static void revocable_test_revocation(struct kunit *test)
+ {
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	struct revocable rev;
+ 	void *real_res = (void *)0x12345678, *res;
+ 	int ret;
+@@ -79,7 +79,7 @@ static void revocable_test_revocation(struct kunit *test)
+ 
+ static void revocable_test_try_access_macro(struct kunit *test)
+ {
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	void *real_res = (void *)0x12345678, *res;
+ 
+ 	rp = revocable_provider_alloc(real_res);
+@@ -101,7 +101,7 @@ static void revocable_test_try_access_macro(struct kunit *test)
+ 
+ static void revocable_test_try_access_macro2(struct kunit *test)
+ {
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	void *real_res = (void *)0x12345678, *res;
+ 	bool accessed;
+ 
+@@ -128,7 +128,7 @@ static void revocable_test_try_access_macro2(struct kunit *test)
+ 
+ static void revocable_test_provider_use_after_free(struct kunit *test)
+ {
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	struct revocable_provider *old_rp;
+ 	struct revocable rev;
+ 	void *real_res = (void *)0x12345678;
+@@ -167,7 +167,7 @@ static void revocable_test_provider_use_after_free(struct kunit *test)
+ 
+ struct test_concurrent_access_context {
+ 	struct kunit *test;
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	struct revocable rev;
+ 	struct completion started, enter, exit;
+ 	struct task_struct *thread;
+@@ -206,7 +206,7 @@ static int test_concurrent_access_consumer(void *data)
+ 
+ static void revocable_test_concurrent_access(struct kunit *test)
+ {
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	void *real_res = (void *)0x12345678;
+ 	struct test_concurrent_access_context *ctx;
+ 	int ret, i;
+diff --git a/include/linux/revocable.h b/include/linux/revocable.h
+index e3d6d2c953a3..f0aea6f56a25 100644
+--- a/include/linux/revocable.h
++++ b/include/linux/revocable.h
+@@ -12,6 +12,8 @@
+ struct device;
+ struct revocable_provider;
+ 
++typedef struct revocable_provider __rcu *revocable_provider_t;
++
+ /**
+  * struct revocable - A handle for resource consumer.
+  * @rp: The pointer of resource provider.
+@@ -22,10 +24,10 @@ struct revocable {
+ 	int idx;
+ };
+ 
+-struct revocable_provider __rcu *revocable_provider_alloc(void *res);
+-void revocable_provider_revoke(struct revocable_provider __rcu **rp);
++revocable_provider_t revocable_provider_alloc(void *res);
++void revocable_provider_revoke(revocable_provider_t *rp);
+ 
+-int revocable_init(struct revocable_provider __rcu *rp, struct revocable *rev);
++int revocable_init(revocable_provider_t rp, struct revocable *rev);
+ void revocable_deinit(struct revocable *rev);
+ void *revocable_try_access(struct revocable *rev) __acquires(&rev->rp->srcu);
+ void revocable_withdraw_access(struct revocable *rev) __releases(&rev->rp->srcu);
+diff --git a/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c b/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
+index a560ceda7318..30cc9c145725 100644
+--- a/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
++++ b/tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
+@@ -17,7 +17,7 @@
+ static struct dentry *debugfs_dir;
+ 
+ struct revocable_test_provider_priv {
+-	struct revocable_provider __rcu *rp;
++	revocable_provider_t rp;
+ 	struct dentry *dentry;
+ 	char res[16];
+ };
+@@ -37,7 +37,7 @@ static ssize_t revocable_test_consumer_read(struct file *filp,
+ 	char data[16];
+ 	size_t len;
+ 	struct revocable rev;
+-	struct revocable_provider __rcu *rp = filp->private_data;
++	revocable_provider_t rp = filp->private_data;
+ 
+ 	switch (*offset) {
+ 	case 0:
+-- 
+2.47.3
 
