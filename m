@@ -1,111 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1476136CDFC
-	for <driver-core@lists.linux.dev>; Mon,  9 Feb 2026 11:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043B421883E
+	for <driver-core@lists.linux.dev>; Tue, 10 Feb 2026 00:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770636675; cv=none; b=kexEh4O4MO8fYtUExx8JxxGpq8cH70j/LqwRh6rlGT/POlXQ4KTrDs3VAp3G8wiWTBRaIejB5ucV5AxSTuPn2w9aMIxT3b6o/smG/jms86p1vJFkzQEF46OtNUYT0zPsVGTeizZeUvLrBq8SEjFffDvYa/t7bNbtVzNkhF1H0l0=
+	t=1770683907; cv=none; b=tPBkl9D++Eu+ebjGmxW7xruBTgMcKJGbcRVhiWm1M/jmSrby3bT0X1KJAJu9RSaKNWlYGROXjl/68GU0CSskrqYp92lJnPalTfcfqsH+mYZc26RTv94WabZPRwXXP0L5uwzDh489ZH3r3b2W1H4pbnAZE+FGwoaYgk8/U16RZX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770636675; c=relaxed/simple;
-	bh=F7CgYeYFczAzufbFEfMETyEe9HD9YnDdtisLZR34ADQ=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sfrIT+naUzWdWzli/b/QddE+AehSX4Uzo2CimXXsuif2rdO5B18HOkbmwYITctkOVcAR0IRxVXwttVtQz8aFLoiKJjE83Y889Lpu+z/kz6QIdxUe1uH0/7gcOOKMaWfi0+HlW9z/cuvmIuFN5oTQjF0T7OrqUwmssvwOG7GAjTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VhXJqY7p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770683907; c=relaxed/simple;
+	bh=PJxIqY9BILo/Wb6xL9poQCQMqT1HyNX/z+OFEJERO1Y=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=aRCoQDIeU7gtwDP0O+uNqt/OzR9dXJHh7goYIRj+mV6axkAdve9kwAUPlh3zc19kw1QZDXUCxtSmsuGcXEOQdba7sqNMj6bkXph45MOFewZjcv2kiDwgowf0FgkgkRoa+E2wudR/1kwp59ftjxdWJHM4jkTb/yauZwB7POImkVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2mMpTKov; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VhXJqY7p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFFF9C2BC9E
-	for <driver-core@lists.linux.dev>; Mon,  9 Feb 2026 11:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770636674;
-	bh=F7CgYeYFczAzufbFEfMETyEe9HD9YnDdtisLZR34ADQ=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=VhXJqY7p+48InMR3+GrsHgpinSngqGHWnP3WEZ8D4Ziwl0mD1ljFilJxmLKOKcSXE
-	 s8hhKQA0am/e0uRixyXxP0XqqeLZcBUorl3N4Til3E2XYSUHTNUW38yA38gyfeU1yT
-	 87I78/9AFhwd7GeIR/PKRl8JSYwoD6JpOHcELQ3eLSw9vNAyob8qfEVwf/4g0O52xS
-	 bDHzfUg+7lglPWLLZIV9fyS0yR8++5Rvpv+pYU/e8Day02CeOSH2UJ84OFxxv3wUcW
-	 kBOCu9bqiPOEvpLIM4vXVyAqJg76jFFuotXoyjyX7KcKVAs9BreStfM2eC5ndqgBqr
-	 Na0hFZtKbXW/g==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-385bdc72422so38618921fa.1
-        for <driver-core@lists.linux.dev>; Mon, 09 Feb 2026 03:31:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWRunw+vSUNHdmU4T4k0/vGxqV350WdT/oK11Xxjnd6aAGdz7Xi/7CYuDB2bnsCZ+P+BCPcDPapQjkW2g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw17CqIRxPCyqN9/AKIRQWCbQlewth8zLPhTgdy2v5ujTm6NN6q
-	86TNPBeOol9qtvsxh4EdvROhBJMihXkKYqV0w2g/B9L/LWj3237SjSLzJCV0labV78sT0Z7/kpA
-	dnJb/6cZyZq8s5F62rUF8tmpI7pdpUQ7ZF64TInk37g==
-X-Received: by 2002:a2e:bc10:0:b0:386:e765:e359 with SMTP id
- 38308e7fff4ca-386e765fff6mr1384061fa.12.1770636673314; Mon, 09 Feb 2026
- 03:31:13 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 9 Feb 2026 05:31:11 -0600
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 9 Feb 2026 05:31:11 -0600
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <DG2UELGNDQDS.1LR5TLOZTSC29@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2mMpTKov"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c6df833e1efso2144592a12.2
+        for <driver-core@lists.linux.dev>; Mon, 09 Feb 2026 16:38:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770683905; x=1771288705; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ToFxyLXirio/gELGdBsIPVriUiQfEmrOHh3uciwjmrI=;
+        b=2mMpTKov22ibKJu+xZ7qFoQCdc2apUPOrt56RnJE9MIgQ0qqMQ6Q7j9wF3uHQksva4
+         D0I60g/tCa8xF4sLv7SlTyjTMS2bh8ECftM8fhL7BFrHhBjxcdOJhPmNzMPmhnnBxRpG
+         R9Fiz88mszHprRE/vLdf4sZ53P6V3Zraq1Pd7wW1EAZeV28nYl7l2ILkDgBN7l+gHPDv
+         Nwe8KtWRzmwOsNy9DhlaO9LRq4SXmNaShTMps5vMn4k8F0U9ACftOIkOpO/WBEjH2n3v
+         3BFi3nJ9ZbjK7fp+vGq5Y1llutpntpLTJ7nNEB19MPZQWqoYTechmzuUJcH7HWd3Oje5
+         ei1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770683905; x=1771288705;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ToFxyLXirio/gELGdBsIPVriUiQfEmrOHh3uciwjmrI=;
+        b=TZ/NrmGOEIx7DIe5tz/9eaFltIKfWzZWXvVON/PamHsF/nvq4YCjmNV4/LULUVZGhI
+         StjV1p/kbKNAXZ0isEUvM9uIaS9hgAjQ/dBkEX/SQP70VTzQsv1kOZr4H9MQJnvS/zWA
+         F6Qh19Li9qMtkuj4AIqWMWOFq1u3YM0iJvfhwOEi8L+Rf2b136SUMmhA6HsmzTPekY3e
+         c804JtPOmvBUWBplhwQUV/IYwg+klpPTtWmQdus8Mr+bOcesJvgDZt1sNFy9+nE5cqoL
+         Wrj4It6MpLHPBQo1AhmeaOJbhDHZR86CTtTX0a91OnJvwJTEJWufcgAGbkp6fQLH97Tx
+         13qg==
+X-Forwarded-Encrypted: i=1; AJvYcCUrnkV9297Fq3fHU6g9YCkybxkzxzEpesP0pPb/EhyEe/1XaMUIdnZXKrcQkhUwMLiu9CflBO++tT2ycw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFsxXbBgIFGIJxfXBvIJlvsDsXCejL4mfiyujbLSGaRYtAT60c
+	waPAS9nd/WOOpknFVO9oAS0nOnjQtFSsVFOyYQFIBvLTDiMTJk9giPop2CYOYSMMqZH8OXAzhzh
+	FSew/DxmaL+ztAzDmyA==
+X-Received: from pgbee11.prod.google.com ([2002:a05:6a02:458b:b0:c66:e5c8:842b])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a20:9c9b:b0:35d:d477:a7d7 with SMTP id adf61e73a8af0-39417855226mr372906637.7.1770683905284;
+ Mon, 09 Feb 2026 16:38:25 -0800 (PST)
+Date: Mon,  9 Feb 2026 16:37:58 -0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260131-i2c-adapter-v1-0-5a436e34cd1a@gmail.com> <DG2UELGNDQDS.1LR5TLOZTSC29@kernel.org>
-Date: Mon, 9 Feb 2026 05:31:11 -0600
-X-Gmail-Original-Message-ID: <CAMRc=Mc8x4gZu-ALA_c85djWHT6TinBK3KuLGQqMALWA477bMg@mail.gmail.com>
-X-Gm-Features: AZwV_QihqdBsSecx2hKeC8xcTUDilEQ9rqhBDbEDj7GnSFAOP8qJjVk8adtyk-I
-Message-ID: <CAMRc=Mc8x4gZu-ALA_c85djWHT6TinBK3KuLGQqMALWA477bMg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] rust: extend I2C functionality
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: igor.korotin.linux@gmail.com, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	markus.probst@posteo.de, brgl@kernel.org, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, driver-core@lists.linux.dev, 
-	Igor Korotin via B4 Relay <devnull+igor.korotin.linux.gmail.com@kernel.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
+Message-ID: <20260210003801.2834976-1-tjmercier@google.com>
+Subject: [PATCH 0/3] kernfs: Add inotify IN_DELETE_SELF, IN_IGNORED support
+ for files
+From: "T.J. Mercier" <tjmercier@google.com>
+To: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, shuah@kernel.org, 
+	linux-kselftest@vger.kernel.org
+Cc: "T.J. Mercier" <tjmercier@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 31 Jan 2026 15:26:22 +0100, Danilo Krummrich <dakr@kernel.org> said:
-> (Cc: Bartosz, Greg, Rafael, driver-core)
->
-> On Sat Jan 31, 2026 at 3:12 PM CET, Igor Korotin via B4 Relay wrote:
->> This patch series extend the existing I2C functionality with:
->> - Abstractions allowing to implement I2C algorithms used by I2C adapters;
->> - Abstractions allowing to create and add new I2C adapters;
->> - Safe wrappers upon I2C and SMbus transferring C API: read/write
->>   bytes/words/byte arrays.
->>
->> The patch series contains additional new sample driver `rust_i2c_adapter`
->> presenting the new functionality.
->
-> The i2c_adapter code on the C side has some lifetime issues, Bartosz looks into
-> resolving.
->
-> My biggest concern is that struct i2c_adapter is a bus device implementation,
-> but does not use the reference count of the embedded struct device.
->
-> Instead, I2C bus drivers embedd the i2c_adapter in their driver specific
-> structure, which is typically freed in the I2C bus driver's remove() callback.
->
+This series adds support for IN_DELETE_SELF and IN_IGNORED inotify
+events to kernfs files.
 
-Correct.
+Currently, kernfs (used by cgroup and others) supports IN_MODIFY events
+but fails to notify watchers when the file is removed (e.g. during
+cgroup destruction). This forces userspace monitors to maintain resource
+intensive side-channels like pidfds, procfs polling, or redundant
+directory watches to detect when a cgroup dies and a watched file is
+removed.
 
-> This violates struct device reference counts.
->
+By generating IN_DELETE_SELF events on destruction, we allow watchers to
+rely on a single watch descriptor for the entire lifecycle of the
+monitored file, reducing resource usage (file descriptors, CPU cycles)
+and complexity in userspace.
 
-What's currently done in order to not crash is: we wait forever until all users
-release their references[1].
+The series is structured as follows:
+Patch 1 refactors kernfs_elem_attr to support arbitrary event types.
+Patch 2 implements the logic to generate DELETE_SELF and IGNORED events
+        on file removal.
+Patch 3 adds selftests to verify the new behavior.
 
-> Until this is fixed, the Rust abstractions should probably work around this, to
-> subsequent painful rework.
->
+T.J. Mercier (3):
+  kernfs: allow passing fsnotify event types
+  kernfs: send IN_DELETE_SELF and IN_IGNORED on file deletion
+  selftests: memcg: Add tests IN_DELETE_SELF and IN_IGNORED on
+    memory.events
 
-The rework of the C part will be long an painful already. I estimated the work
-will take at least a year. More info here[2].
+ fs/kernfs/dir.c                               |  21 +++
+ fs/kernfs/file.c                              |  35 ++++-
+ fs/kernfs/kernfs-internal.h                   |   3 +
+ include/linux/kernfs.h                        |   1 +
+ .../selftests/cgroup/test_memcontrol.c        | 126 ++++++++++++++++++
+ 5 files changed, 179 insertions(+), 7 deletions(-)
 
-Bart
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i2c/i2c-core-base.c#n1814
-[2] https://lore.kernel.org/all/aWYYZEPX-_1GfQtL@ninjato/
+base-commit: ba268514ea14b44570030e8ed2aef92a38679e85
+-- 
+2.53.0.rc2.204.g2597b5adb4-goog
+
