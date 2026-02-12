@@ -1,127 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A6D3164D9;
-	Thu, 12 Feb 2026 10:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF02C3542EF
+	for <driver-core@lists.linux.dev>; Thu, 12 Feb 2026 12:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770893882; cv=none; b=sIl6C/xiHKBYJdofy73FPTcMs6Jh2lCAWUKLO3erOhDHZQ9GXHiOMLKSR7UTOfqR2D0t26tDfkwMj09XFfhP6KiFyQDonKser3uNxYK89P43JOc8zB6hgD0f3oFDkU4k8eA+LdvzdGiGWrFRb+X0Ofo0w2DDEg0YxJZqDxPEe3Q=
+	t=1770897619; cv=none; b=tEV0qC7Nhk9gihCj7CNSbRBWnx9WrmP2aPDF6w2vCTU+Dja169qfp2ycQwIlLoANI3acphtRtA4HZgbooT5GNbSJNnqZ+cTac1wJfX90pNKl1vG4S5jNFpLPFtP8ZJe7JGBMHgg0ZS0ngkaZ+g+ulyg6sa98UPnP1nCt0XlyiNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770893882; c=relaxed/simple;
-	bh=a10gybJK/rglyWHCmyBwBN8EflBOeOZkgZ5xBklxWGE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=JFdHRObDrfK+pq/75/IR8UQOq2k4fs9zRrJaOBXwFlk3/nGuafWukjOf6kjYTwnHvDURdPB0QdYctbGoTx8L1w8EJ7qmbmtQ/dX5m3sM2zuRM/LO1FQ7lIw8wmSeVzh1QhVM64CjnD2MZ/bHeTzWcpkEg5bsLtuH94nMvK+XJrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GzKFBSxg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770897619; c=relaxed/simple;
+	bh=/9fzX1FIeyFKMfmdibQk2ZzEBtDaKcIkc8f0e+/BPYQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ecn++M1de+PUrK6xa8LasyUoa5p8NXKVtiFSNe2tWonDiWMjssa6RFPfArS65y1jshplE67yU8uzRS/3LaDDXjyQAvW71wcSkhcLv4tmAA2VaimVJnMlnDZWC4+Hv0UYfh/afTNQU8K4qQXV6wrfk8Tg6tdbnbkohH4Y3GVA5QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BoaWklEQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GzKFBSxg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09EF2C4CEF7;
-	Thu, 12 Feb 2026 10:57:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BoaWklEQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E04C4AF09
+	for <driver-core@lists.linux.dev>; Thu, 12 Feb 2026 12:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770893882;
-	bh=a10gybJK/rglyWHCmyBwBN8EflBOeOZkgZ5xBklxWGE=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=GzKFBSxgykC0qt/3n9plxUDNDHJJHjV6L5z37PAXqjd/B7Ep1XKSfD1faRoke3gIY
-	 Y4CRX1UbfJ59/w+AUfPT9nAKyCHmSGB9igBhNEsRULaAeYfDjYfZ4huGbHD71p4quE
-	 yOdDZiwuK/yAQlP07y7wa4cOc50ejAe0FmyjEUwW8QrhQEg5FSy8EjS5+FW7fDKFh1
-	 k8Kw81xtMrzmv7GdRhXd6kq4GymfZFiX+DeeTAkDrDwFUdmL76c5eBmMn8E0tJ+wMv
-	 n02Cc1XYoMXu9f5RoenP84OkDyz+YQg3r8vWgw9Rz7Krw4RuQZIZgSS7Asyi7PtBxC
-	 +Fmdop0DMe7qQ==
+	s=k20201202; t=1770897619;
+	bh=/9fzX1FIeyFKMfmdibQk2ZzEBtDaKcIkc8f0e+/BPYQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BoaWklEQA7RQNp4zUcpRGxBWZ5pbNCot32xeI+q5JwNUKMQxkRp3Bhwqjq8gUrvo/
+	 IeX3SYzQnr3hXliu+9AX2WgTRTO6G7ChLQteHQoo1oYS+fyq31m+bm01dIGuhojyZg
+	 Sg3X7rbfIIFCtPcj92UwR9uURVNZT3OyTj71b/+IR8sX5rT0TIW+q0td53dobVtD7C
+	 NBjeHkrA/F+mmk7v+lX/USlR5FgyJHOzfiQCkg/4mARwLmrSG8vxRqO2+p7NAwil7p
+	 Mpd8SZTZpXMGDn/XofyhqLuBODtWUWKl5n+ipg3FQXIlE+FnzcyrZJ/9dT+9OiR7i8
+	 0Xsn+TgcuKS9A==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-40ea36b56b7so1788576fac.3
+        for <driver-core@lists.linux.dev>; Thu, 12 Feb 2026 04:00:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUUsZ7e9MSnHGATW50e4br6EYv4/AoM+BDPfzNGTkJVylQaBEUq4jnuStA+nMPFW74ltO2tr262bT3q5w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMCwoWUOfBEsU8JVX3ensfPqp9eVgtpZCSPgIytJNtyz7irJyU
+	UMVabatt68eXrNLKRNP6dLh7sdpxevO/VUaw/Hg/Ph1zcCIl+fbvbRziHVhILvD0g2MnUqMOpkv
+	KNSZlpA4yzUoxypG2ASXzqo93qrazKUg=
+X-Received: by 2002:a05:6871:20c6:b0:2e9:93c6:6e4a with SMTP id
+ 586e51a60fabf-40eca282ebemr1017635fac.38.1770897618642; Thu, 12 Feb 2026
+ 04:00:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260210135822.47335-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260210135822.47335-1-andriy.shevchenko@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 12 Feb 2026 13:00:06 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jZ=jya8LK4mOZATnoDr9raA-M=ZuV89RyPkAZ2Beecog@mail.gmail.com>
+X-Gm-Features: AZwV_QiYzkz3nsO-m35CjZgxkZYP35-Ch_Gf9Qz7-zUfAglxUWL4Kj48O5PoNj4
+Message-ID: <CAJZ5v0jZ=jya8LK4mOZATnoDr9raA-M=ZuV89RyPkAZ2Beecog@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] device property: Allow secondary lookup in fwnode_get_next_child_node()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Driver core list <driver-core@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Feb 2026 11:57:56 +0100
-Message-Id: <DGCXHJSE6HF8.1UVG9WV27XEK@kernel.org>
-Subject: Re: [PATCH] clk: scu/imx8qxp: do not register driver in probe()
-Cc: "Alexander Stein" <alexander.stein@ew.tq-group.com>,
- <abelvesa@kernel.org>, <peng.fan@nxp.com>, <mturquette@baylibre.com>,
- <sboyd@kernel.org>, <Frank.Li@nxp.com>, <s.hauer@pengutronix.de>,
- <kernel@pengutronix.de>, <festevam@gmail.com>,
- <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <hanguidong02@gmail.com>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
-To: "Daniel Baluta" <daniel.baluta@oss.nxp.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260211142321.55404-1-dakr@kernel.org>
- <10809444.nUPlyArG6x@steina-w>
- <9e33e5e5-76cd-4395-acb4-e2e03e436bf5@oss.nxp.com>
-In-Reply-To: <9e33e5e5-76cd-4395-acb4-e2e03e436bf5@oss.nxp.com>
 
-On Wed Feb 11, 2026 at 3:59 PM CET, Daniel Baluta wrote:
-> On 2/11/26 16:43, Alexander Stein wrote:
->> Am Mittwoch, 11. Februar 2026, 15:23:16 CET schrieb Danilo Krummrich:
->>> imx_clk_scu_init() registers the imx_clk_scu_driver while commonly bein=
-g
->>> called from IMX driver's probe() callbacks.
->>>
->>> However, it neither makes sense to register drivers from probe()
->>> callbacks of other drivers, nor does the driver core allow registering
->>> drivers with a device lock already being held.
->>>
->>> The latter was revealed by commit dc23806a7c47 ("driver core: enforce
->>> device_lock for driver_match_device()") leading to a deadlock condition
->>> described in [1].
->>>
->>> Additionally, nothing seems to unregister the imx_clk_scu_driver once
->>> the corresponding driver module is unloaded, which leaves the
->>> driver-core with a dangling pointer.
+Cc: driver-core
 
-Actually, this fixes a third bug: If there are multiple matching devices fo=
-r the
-imx8qxp_clk_driver, imx8qxp_clk_probe() calls imx_clk_scu_init() multiple t=
-imes.
-However, any subsequent call after the first one will fail, since the drive=
-r
-core does not allow to register the same struct platform_driver multiple ti=
-mes.
-
->>> diff --git a/drivers/clk/imx/clk-imx8qxp.c b/drivers/clk/imx/clk-imx8qx=
-p.c
->>> index 3ae162625bb1..d89a2f40771e 100644
->>> --- a/drivers/clk/imx/clk-imx8qxp.c
->>> +++ b/drivers/clk/imx/clk-imx8qxp.c
->>> @@ -346,7 +346,29 @@ static struct platform_driver imx8qxp_clk_driver =
-=3D {
->>>  	},
->>>  	.probe =3D imx8qxp_clk_probe,
->>>  };
->>> -module_platform_driver(imx8qxp_clk_driver);
->>> +
->>> +static int __init imx8qxp_init(void)
->>>
->>>
-> I would call this imx8qxp_clk_init. Same for=C2=A0imx8qxp_exit.
-
-Sure.
-
->>> +{
->>> +	int ret;
->>> +
->>> +	ret =3D platform_driver_register(&imx8qxp_clk_driver);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret =3D imx_clk_scu_module_init();
->>> +	if (ret)
->>> +		platform_driver_unregister(&imx8qxp_clk_driver);
->>> +
->>> +	return ret;
->>>
-> Also, because the logical flow is that CLK driver is uing SCU for calls I=
- would first call
-> imx_clk_scu_module_init and then register the imx8qxp_clk driver.=20
+On Tue, Feb 10, 2026 at 2:58=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> But there is no functionality issues your your approach too, just a bette=
-r logical flow.
+> When device_get_child_node_count() got split to the fwnode and device
+> respective APIs, the fwnode didn't inherit the ability to traverse over
+> the secondary fwnode. Hence any user, that switches from device to fwnode
+> API misses this feature. In particular, this was revealed by the commit
+> 1490cbb9dbfd ("device property: Split fwnode_get_child_node_count()")
+> that effectively broke the GPIO enumeration on Intel Galileo boards.
+> Fix this by moving the secondary lookup from device to fwnode API.
+>
+> Note, in general no device_*() API should go into the depth of the fwnode
+> implementation.
+>
+> Fixes: 114dbb4fa7c4 ("drivers property: When no children in primary, try =
+secondary")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Sure, I will send a v2 shortly, as it would be good to get this into an ear=
-ly
--fixes PR.
+Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-Thanks,
-Danilo
+> ---
+>  drivers/base/property.c | 27 +++++++++++++--------------
+>  1 file changed, 13 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index 6a63860579dd..8d9a34be57fb 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -797,7 +797,18 @@ struct fwnode_handle *
+>  fwnode_get_next_child_node(const struct fwnode_handle *fwnode,
+>                            struct fwnode_handle *child)
+>  {
+> -       return fwnode_call_ptr_op(fwnode, get_next_child_node, child);
+> +       struct fwnode_handle *next;
+> +
+> +       if (IS_ERR_OR_NULL(fwnode))
+> +               return NULL;
+> +
+> +       /* Try to find a child in primary fwnode */
+> +       next =3D fwnode_call_ptr_op(fwnode, get_next_child_node, child);
+> +       if (next)
+> +               return next;
+> +
+> +       /* When no more children in primary, continue with secondary */
+> +       return fwnode_call_ptr_op(fwnode->secondary, get_next_child_node,=
+ child);
+>  }
+>  EXPORT_SYMBOL_GPL(fwnode_get_next_child_node);
+>
+> @@ -841,19 +852,7 @@ EXPORT_SYMBOL_GPL(fwnode_get_next_available_child_no=
+de);
+>  struct fwnode_handle *device_get_next_child_node(const struct device *de=
+v,
+>                                                  struct fwnode_handle *ch=
+ild)
+>  {
+> -       const struct fwnode_handle *fwnode =3D dev_fwnode(dev);
+> -       struct fwnode_handle *next;
+> -
+> -       if (IS_ERR_OR_NULL(fwnode))
+> -               return NULL;
+> -
+> -       /* Try to find a child in primary fwnode */
+> -       next =3D fwnode_get_next_child_node(fwnode, child);
+> -       if (next)
+> -               return next;
+> -
+> -       /* When no more children in primary, continue with secondary */
+> -       return fwnode_get_next_child_node(fwnode->secondary, child);
+> +       return fwnode_get_next_child_node(dev_fwnode(dev), child);
+>  }
+>  EXPORT_SYMBOL_GPL(device_get_next_child_node);
+>
+> --
+> 2.50.1
+>
