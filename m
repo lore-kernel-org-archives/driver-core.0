@@ -1,228 +1,190 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90AB35EDAE
-	for <driver-core@lists.linux.dev>; Thu, 12 Feb 2026 21:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB704E571;
+	Thu, 12 Feb 2026 23:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770933519; cv=none; b=Lqxkv2JjPePeYJkBjbYfS8lHgl9rdHoTCrvPXI4MIRaHuLotCwV/pbRZElDLmVNWx0xZWa92aV0/XaNIfpcIKyuANVNQPWQZiM4pQCbPB81TkSrUckodrAT42mzcQcfQ3XBLM0ayYtihDLCzRMb9nRUBIepaD6jrVFuRMocGlzc=
+	t=1770940730; cv=none; b=Ct2EwxuNfDsI5NwTNCdMuciB+LlpdUqX3TE4+kZR6kMdE1r/EfoTWXq8T5hcUgebYmBp0t5/EomVPDMr0NVu06oX7uZuCGWrzNRADkmAO75im02DsdjxNNkR0kJFhO+9TNAGqzIjt+9415feJfax0OEK/W1S6nt1a+9g4IW7lpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770933519; c=relaxed/simple;
-	bh=ezbBm/Tq1NbOZNYchfM5BrbiYJXHM46rp75jJpESgIM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=YdnO2A4ETM0LMbQiy+djLJx/woZa8FoLWcdwEtxvgrK4gVi1Ymx7R5/FNOibnU3q1l8JLHqSBFWU0fS1HGEhVK1rPLIQaNvvEpNZGd2DLYSMTp1pMssW/eeeVPdpKAZb+gs06uUW/GUwrzxVL+A+Jxrn1EbnyVEr5Cd6TxkSU4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c63LqJrE; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1770940730; c=relaxed/simple;
+	bh=PSdEnJFZUekkW4mxLl10WRiKBAEZWcD3+p/6dcf11yM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MWdWAdV60Q0mMKADsMsGo7Bp2kEaUKvRLGCojg8h/C4WC75C4ag+1CUl+v2lN73s8ZqyzrmuBiCeg1d+CuBipB7hW18XJPN5LiBBSs/KTZYSOGu9BQbx0OYBk9414HvY9a5jAXTkKhonOcqpUnnbnraL75UJMpGi14vEwF00kdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3K4/Dkh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c63LqJrE"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-354c0234c1fso260513a91.2
-        for <driver-core@lists.linux.dev>; Thu, 12 Feb 2026 13:58:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770933518; x=1771538318; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/49beE9xrDbjk2PTkq3bWwQqpKtfvuvBtaf8t9tZ8yg=;
-        b=c63LqJrEZQQWlbqFqlZ6B/ec6hMvxCdAtScv7u5dSgl+B2vqeG0XkbAW5gjmTBjH9G
-         qq7Kb6ZvEWpjP/pj7CJk1B8XgqqXnjgmcITFt5NsyZhkaKWqjsSYvtY44QSVbOVO5gSr
-         9nint0fYBZGcGLMoqRIy4120h6YWNmny2T/vHliqC0jjyEI4HyTlsdLN/yTYT3W06h8G
-         s+NlFu07GWDSkDsyrTGQvCuV4oYDT0VWSLajul8DRIMPOe/J6xUIMItV1ATsza1el9pA
-         WwCLaFSMsj85s/reqoC/XeYniBHF82t4+SIn2ySdr5+GNKI47R5mSr069TPaWEgWhbET
-         K6aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770933518; x=1771538318;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/49beE9xrDbjk2PTkq3bWwQqpKtfvuvBtaf8t9tZ8yg=;
-        b=F3uFap9lpS1cJYsUO61fpmuRuhTNKiwipzKN0frSvVePreR1O3GTQ8z3HdjNeI3NFe
-         a/pf4U3dXcCABwb53Kk1S2zxCe/ojxVugJzNIanDoi5FvGlRmk8srF9xeyU3GVJ87Z8v
-         mNVhcizyfpWykLwIIPXPmrCQE3tlS6Vq0sPpUxYF+p3JAPUaqolHiU5lrhkA/j7UKXp/
-         Aw1jx4bMkE/k3xlPWM86Ydh+pWvvWAn5iZo7oNwAXeZX2zFs8sYCaQZklVTZAptPDBEu
-         0LvhWARpkRekQGena5CDbvJX4HLvWCSnNoli4SJBqspVOqNTOztR0kDK4j6+yt8Eu/bD
-         7cxA==
-X-Forwarded-Encrypted: i=1; AJvYcCV+5ShO6UkrjcD2bw0EXOUELDmyoGhkvasQeEYpz0Ew7UgqqUbWJ+UqjzF8jRVh8ELLOQ8vaSXF9SOuRg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yysrlwulf3b6q+2Ujyuk4fe3rXr4EI6H1f+R2SweTtq3iWRaUnb
-	1/aEgYSgfCM2/0qmUgDCHUwqf5QFYq1gYKknwAseS0VA4+ALkVe2Wii74ZH6qjBnbnYxaUctyDU
-	7wXZ7Xt/WxIT2wbi4kw==
-X-Received: from pjbqx6.prod.google.com ([2002:a17:90b:3e46:b0:354:c41d:dd42])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:544e:b0:356:268e:ff97 with SMTP id 98e67ed59e1d1-356a792ab7fmr512870a91.20.1770933517978;
- Thu, 12 Feb 2026 13:58:37 -0800 (PST)
-Date: Thu, 12 Feb 2026 13:58:14 -0800
-In-Reply-To: <20260212215814.629709-1-tjmercier@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3K4/Dkh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F1DCC4CEF7;
+	Thu, 12 Feb 2026 23:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770940730;
+	bh=PSdEnJFZUekkW4mxLl10WRiKBAEZWcD3+p/6dcf11yM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U3K4/DkheRkd/e/QGs2FW/3TZ47pSmFDOjL2JGU+tQR+2SKUCgjSqDeSDJp6gdTvn
+	 oZVRY7h15Qj2Y0N2615Jp056hgTSqgyOozdBa6UAnE9Tie7DTOlDEgLsuB0gWkJhhY
+	 g0JIGTr7W6KQhUdYHLzuh0LzTWRevIAGWSbsny5+L1pcop8PukOlQB1U1LipOnSb1h
+	 +ydOeyjTzlshjYzW3O9ZHbUK81x9ZUvXuQebIvvP90zP5N5DeEkMJfuBXbE9s25HP6
+	 9zGkmhr7l/ldDqWFVeQ/31xT5eBFAmQj/x7Y96Q1IT96VmmUGBn8CY4wpj90nr1Yjt
+	 CBEgcTb1TbJng==
+From: Danilo Krummrich <dakr@kernel.org>
+To: abelvesa@kernel.org,
+	peng.fan@nxp.com,
+	daniel.baluta@oss.nxp.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	Frank.Li@nxp.com,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	hanguidong02@gmail.com
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: [PATCH v2] clk: scu/imx8qxp: do not register driver in probe()
+Date: Fri, 13 Feb 2026 00:58:11 +0100
+Message-ID: <20260212235842.85934-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260212215814.629709-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.53.0.273.g2a3d683680-goog
-Message-ID: <20260212215814.629709-4-tjmercier@google.com>
-Subject: [PATCH v2 3/3] selftests: memcg: Add tests IN_DELETE_SELF and
- IN_IGNORED on memory.events
-From: "T.J. Mercier" <tjmercier@google.com>
-To: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, shuah@kernel.org, 
-	linux-kselftest@vger.kernel.org
-Cc: "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Add two new tests that verify inotify events are sent when memcg files
-are removed.
+imx_clk_scu_init() registers the imx_clk_scu_driver while commonly being
+called from IMX driver's probe() callbacks.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
+However, it neither makes sense to register drivers from probe()
+callbacks of other drivers, nor does the driver core allow registering
+drivers with a device lock already being held.
+
+The latter was revealed by commit dc23806a7c47 ("driver core: enforce
+device_lock for driver_match_device()") leading to a deadlock condition
+described in [1].
+
+Besides that, nothing seems to unregister the imx_clk_scu_driver once
+the corresponding driver module is unloaded, which leaves the
+driver-core with a dangling pointer.
+
+Also, if there are multiple matching devices for the imx8qxp_clk_driver,
+imx8qxp_clk_probe() calls imx_clk_scu_init() multiple times.  However,
+any subsequent call after the first one will fail, since the driver-core
+does not allow to register the same struct platform_driver multiple
+times.
+
+Hence, register the imx_clk_scu_driver from module_init() and unregister
+it in module_exit().
+
+Note that we first register the imx8qxp_clk_driver and then call
+imx_clk_scu_module_init() to avoid having to call
+imx_clk_scu_module_exit() in the unwind path of imx8qxp_clk_init().
+
+Fixes: dc23806a7c47 ("driver core: enforce device_lock for driver_match_device()")
+Fixes: 220175cd3979 ("clk: imx: scu: fix build break when compiled as modules")
+Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Closes: https://lore.kernel.org/lkml/13955113.uLZWGnKmhe@steina-w/
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com> # TQMa8x/MBa8x
+Link: https://lore.kernel.org/lkml/DFU7CEPUSG9A.1KKGVW4HIPMSH@kernel.org/ [1]
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- .../selftests/cgroup/test_memcontrol.c        | 122 ++++++++++++++++++
- 1 file changed, 122 insertions(+)
+Changes in v2:
+  - Expand commit message, mentioning a third bug fixed by this patch and noting
+    the order of platform_driver_register() and imx_clk_scu_module_init() in
+    imx8qxp_clk_init().
+  - Rename imx8qxp_{init,exit} to imx8qxp_clk_{init,exit}.
+  - Link to v1: https://lore.kernel.org/driver-core/20260211142321.55404-1-dakr@kernel.org/
+---
+ drivers/clk/imx/clk-imx8qxp.c | 24 +++++++++++++++++++++++-
+ drivers/clk/imx/clk-scu.c     | 12 +++++++++++-
+ drivers/clk/imx/clk-scu.h     |  2 ++
+ 3 files changed, 36 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/testing/selftests/cgroup/test_memcontrol.c
-index 4e1647568c5b..be0e78809494 100644
---- a/tools/testing/selftests/cgroup/test_memcontrol.c
-+++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-@@ -10,6 +10,7 @@
- #include <sys/stat.h>
- #include <sys/types.h>
- #include <unistd.h>
-+#include <sys/inotify.h>
- #include <sys/socket.h>
- #include <sys/wait.h>
- #include <arpa/inet.h>
-@@ -1625,6 +1626,125 @@ static int test_memcg_oom_group_score_events(const char *root)
- 	return ret;
+diff --git a/drivers/clk/imx/clk-imx8qxp.c b/drivers/clk/imx/clk-imx8qxp.c
+index 3ae162625bb1..c781425a005e 100644
+--- a/drivers/clk/imx/clk-imx8qxp.c
++++ b/drivers/clk/imx/clk-imx8qxp.c
+@@ -346,7 +346,29 @@ static struct platform_driver imx8qxp_clk_driver = {
+ 	},
+ 	.probe = imx8qxp_clk_probe,
+ };
+-module_platform_driver(imx8qxp_clk_driver);
++
++static int __init imx8qxp_clk_init(void)
++{
++	int ret;
++
++	ret = platform_driver_register(&imx8qxp_clk_driver);
++	if (ret)
++		return ret;
++
++	ret = imx_clk_scu_module_init();
++	if (ret)
++		platform_driver_unregister(&imx8qxp_clk_driver);
++
++	return ret;
++}
++module_init(imx8qxp_clk_init);
++
++static void __exit imx8qxp_clk_exit(void)
++{
++	imx_clk_scu_module_exit();
++	platform_driver_unregister(&imx8qxp_clk_driver);
++}
++module_exit(imx8qxp_clk_exit);
+ 
+ MODULE_AUTHOR("Aisheng Dong <aisheng.dong@nxp.com>");
+ MODULE_DESCRIPTION("NXP i.MX8QXP clock driver");
+diff --git a/drivers/clk/imx/clk-scu.c b/drivers/clk/imx/clk-scu.c
+index 34c9dc1fb20e..c90d21e05f91 100644
+--- a/drivers/clk/imx/clk-scu.c
++++ b/drivers/clk/imx/clk-scu.c
+@@ -191,6 +191,16 @@ static bool imx_scu_clk_is_valid(u32 rsrc_id)
+ 	return p != NULL;
  }
  
-+static int read_event(int inotify_fd, int expected_event, int expected_wd)
++int __init imx_clk_scu_module_init(void)
 +{
-+	struct inotify_event event;
-+	ssize_t len = 0;
-+
-+	len = read(inotify_fd, &event, sizeof(event));
-+	if (len < (ssize_t)sizeof(event))
-+		return -1;
-+
-+	if (event.mask != expected_event || event.wd != expected_wd) {
-+		fprintf(stderr,
-+			"event does not match expected values: mask %d (expected %d) wd %d (expected %d)\n",
-+			event.mask, expected_event, event.wd, expected_wd);
-+		return -1;
-+	}
-+
-+	return 0;
++	return platform_driver_register(&imx_clk_scu_driver);
 +}
 +
-+static int test_memcg_inotify_delete_file(const char *root)
++void __exit imx_clk_scu_module_exit(void)
 +{
-+	int ret = KSFT_FAIL;
-+	char *memcg, *child_memcg;
-+	int fd, wd;
-+
-+	memcg = cg_name(root, "memcg_test_0");
-+
-+	if (!memcg)
-+		goto cleanup;
-+
-+	if (cg_create(memcg))
-+		goto cleanup;
-+
-+	if (cg_write(memcg, "cgroup.subtree_control", "+memory"))
-+		goto cleanup;
-+
-+	child_memcg = cg_name(memcg, "child");
-+	if (!child_memcg)
-+		goto cleanup;
-+
-+	if (cg_create(child_memcg))
-+		goto cleanup;
-+
-+	fd = inotify_init1(0);
-+	if (fd == -1)
-+		goto cleanup;
-+
-+	wd = inotify_add_watch(fd, cg_control(child_memcg, "memory.events"), IN_DELETE_SELF);
-+	if (wd == -1)
-+		goto cleanup;
-+
-+	cg_write(memcg, "cgroup.subtree_control", "-memory");
-+
-+	if (read_event(fd, IN_DELETE_SELF, wd))
-+		goto cleanup;
-+
-+	if (read_event(fd, IN_IGNORED, wd))
-+		goto cleanup;
-+
-+	ret = KSFT_PASS;
-+
-+cleanup:
-+	if (fd >= 0)
-+		close(fd);
-+	if (child_memcg)
-+		cg_destroy(child_memcg);
-+	free(child_memcg);
-+	if (memcg)
-+		cg_destroy(memcg);
-+	free(memcg);
-+
-+	return ret;
++	return platform_driver_unregister(&imx_clk_scu_driver);
 +}
 +
-+static int test_memcg_inotify_delete_rmdir(const char *root)
-+{
-+	int ret = KSFT_FAIL;
-+	char *memcg;
-+	int fd, wd;
-+
-+	memcg = cg_name(root, "memcg_test_0");
-+
-+	if (!memcg)
-+		goto cleanup;
-+
-+	if (cg_create(memcg))
-+		goto cleanup;
-+
-+	fd = inotify_init1(0);
-+	if (fd == -1)
-+		goto cleanup;
-+
-+	wd = inotify_add_watch(fd, cg_control(memcg, "memory.events"), IN_DELETE_SELF);
-+	if (wd == -1)
-+		goto cleanup;
-+
-+	if (cg_destroy(memcg))
-+		goto cleanup;
-+	free(memcg);
-+	memcg = NULL;
-+
-+	if (read_event(fd, IN_DELETE_SELF, wd))
-+		goto cleanup;
-+
-+	if (read_event(fd, IN_IGNORED, wd))
-+		goto cleanup;
-+
-+	ret = KSFT_PASS;
-+
-+cleanup:
-+	if (fd >= 0)
-+		close(fd);
-+	if (memcg)
-+		cg_destroy(memcg);
-+	free(memcg);
-+
-+	return ret;
-+}
-+
- #define T(x) { x, #x }
- struct memcg_test {
- 	int (*fn)(const char *root);
-@@ -1644,6 +1764,8 @@ struct memcg_test {
- 	T(test_memcg_oom_group_leaf_events),
- 	T(test_memcg_oom_group_parent_events),
- 	T(test_memcg_oom_group_score_events),
-+	T(test_memcg_inotify_delete_file),
-+	T(test_memcg_inotify_delete_rmdir),
- };
- #undef T
+ int imx_clk_scu_init(struct device_node *np,
+ 		     const struct imx_clk_scu_rsrc_table *data)
+ {
+@@ -215,7 +225,7 @@ int imx_clk_scu_init(struct device_node *np,
+ 		rsrc_table = data;
+ 	}
  
+-	return platform_driver_register(&imx_clk_scu_driver);
++	return 0;
+ }
+ 
+ /*
+diff --git a/drivers/clk/imx/clk-scu.h b/drivers/clk/imx/clk-scu.h
+index af7b697f51ca..ca82f2cce897 100644
+--- a/drivers/clk/imx/clk-scu.h
++++ b/drivers/clk/imx/clk-scu.h
+@@ -25,6 +25,8 @@ extern const struct imx_clk_scu_rsrc_table imx_clk_scu_rsrc_imx8dxl;
+ extern const struct imx_clk_scu_rsrc_table imx_clk_scu_rsrc_imx8qxp;
+ extern const struct imx_clk_scu_rsrc_table imx_clk_scu_rsrc_imx8qm;
+ 
++int __init imx_clk_scu_module_init(void);
++void __exit imx_clk_scu_module_exit(void);
+ int imx_clk_scu_init(struct device_node *np,
+ 		     const struct imx_clk_scu_rsrc_table *data);
+ struct clk_hw *imx_scu_of_clk_src_get(struct of_phandle_args *clkspec,
+
+base-commit: 192c0159402e6bfbe13de6f8379546943297783d
 -- 
-2.53.0.273.g2a3d683680-goog
+2.53.0
 
