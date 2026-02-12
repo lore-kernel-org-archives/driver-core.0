@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D59935502A;
-	Thu, 12 Feb 2026 14:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93998224D6;
+	Thu, 12 Feb 2026 17:22:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770907938; cv=none; b=P6fhKJH+iSrHXFRk9tlEhyz+Iaiv+JoJ/kTP6aczIU0PnXz7yoWCaForsbs1//TLJheUDJktdtgiqLIMXsLzP23Lt6ragI4PsITE4vjJRWTAypX5Jjzr4IVS/GNJDIC5KLOrDuNYcLaQyu0fa9j8KtKj8gAm8IkyQNtJVs/q7og=
+	t=1770916962; cv=none; b=M9nD/8XLYL9NydwZ1pp96KtsJA/EhG4NbiosZbIPvv38Sy0nX5oUbqQcUiUqGdd9nCtpe8pRQ1Sk9AloopUMFzFqZRpt32mdAxmkfFurTcsrSFoRSgWSGrg6HozHPcMjT9rp/1+fLX4NQhUW3ivejNeBzke5U2ZM/Oi9bNHQQok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770907938; c=relaxed/simple;
-	bh=FprYWKygNJPq7PUAUklRaIb91RAGAYHV0c2MwoLzPPY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=T+N+E2CLIDFaPnnyPpfr8zqm3lY4dqSgTuuWWumDW6L0ADmX2T3NO2t3x0eLKKaMrE9afPUD+ykJYqC9a9YtNLVKNE5tB5vsBmn1UjfbczGRAsKsQwv8W02CpvwIytkDKSN4k6/ogvfCrUIgRMdM34DrAQGTAGipDAbVMFI+YzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lWaZ1C/v; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770916962; c=relaxed/simple;
+	bh=iJ0YRwN6PPvgdP4k/lovtQlvdW0CLzt86NfrNxQIu/8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=WLRqaFVoaYg61kfKZe8jzBTUh+WXEu2lY89eanAs4Tob+uzEu7/gh9UBGXNYZVBcGRInVYbEI/XcyQuYdsZeYlC1NhUSp4r81n8Qn89xLybxgccxdL7/rz9OpJPw9yxd0LeGkIGuVKXyDy6tBR8IYGYm3Y1rz8BpZH45MtzdmnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkZ5cBQ3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lWaZ1C/v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4574C4CEF7;
-	Thu, 12 Feb 2026 14:52:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkZ5cBQ3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E756DC4CEF7;
+	Thu, 12 Feb 2026 17:22:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770907938;
-	bh=FprYWKygNJPq7PUAUklRaIb91RAGAYHV0c2MwoLzPPY=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
-	b=lWaZ1C/vbSTcO7PTz/qZ6kKfSx8ssuN+x0Cd1KAL7TlRCVPafdwuXSo3ZlG8UnGgN
-	 DS8jTLX17IfdYQRjEeWimPd72mo5wIeybsfQ3jlTcrLBAkGfv2FyMQtjJXTun9yabk
-	 R0z5g+1q20YLMTNPYlZWO3Jap4d14Zi5azQFl1oBIAwm3tJSq0zk3PYG4vFi2H/iDn
-	 Ydf9v66GbGjEDpP2uU9TQIJP112CzKSKnZUSxhaQJVBJ0pWa8H7D7MUaCfwcrs8Z4/
-	 mDNY1hxGGScKeLjZ477iqmgS0kacriIvQsa75tnz1dbUdCVF60sFQbPxXNtTWTLMIE
-	 pqB+x7089Xagg==
+	s=k20201202; t=1770916962;
+	bh=iJ0YRwN6PPvgdP4k/lovtQlvdW0CLzt86NfrNxQIu/8=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=ZkZ5cBQ3hyW23ADEtMnxvnYidWMgFpWd/qpO4NBEQdkN/Fpd4BTZTfxQFKmpv8xlU
+	 lGN9WpLvgHpEyjuBBzuAd6U4x2dxvYoIH6QExSSRqEEcudovh5/wclWwTnXRlA32PE
+	 7h73aXZBYBCzG4rQAiLn+wlAz7dN4fFuXr96aTjd85kPcscNzOdu0ZsaVhjdUiiw/3
+	 yK3LxPopF9GJOtUefQ3gncnS1MiJXaCtvWTL7qn3Za5PkNWIJ1GhryEMSv7Y6ExMA0
+	 Z/OwNJkIKqPbIYDN1IB3figktfMLyu2siT9IHPPZ2NBRGRgFMWZ7PzK/50QIJtzbuH
+	 sYMLCC3h42Zxw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,42 +34,52 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Feb 2026 15:52:12 +0100
-Message-Id: <DGD2GXAFO99J.1Y3BA26PBVTAC@kernel.org>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, <lyude@redhat.com>, "Alice
- Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun.feng@gmail.com>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Zhi Wang"
- <zhiw@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
+Date: Thu, 12 Feb 2026 18:22:37 +0100
+Message-Id: <DGD5O31G6G9X.R8G6EBXXFKAH@kernel.org>
+Subject: Re: [PATCH] clk: scu/imx8qxp: do not register driver in probe()
+Cc: "Alexander Stein" <alexander.stein@ew.tq-group.com>,
+ <abelvesa@kernel.org>, <peng.fan@nxp.com>, <mturquette@baylibre.com>,
+ <sboyd@kernel.org>, <Frank.Li@nxp.com>, <s.hauer@pengutronix.de>,
+ <kernel@pengutronix.de>, <festevam@gmail.com>,
+ <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <hanguidong02@gmail.com>, <driver-core@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
+To: "Daniel Baluta" <daniel.baluta@oss.nxp.com>
 From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 1/6] rust: io: turn IoCapable into a functional trait
-References: <20260206-io-v2-0-71dea20a06e6@nvidia.com>
- <20260206-io-v2-1-71dea20a06e6@nvidia.com>
- <97fc6c36933522eaf75f34f8fcd445715432fde4.camel@redhat.com>
- <DGCYWK1UF76I.A565AK23DZXS@nvidia.com>
- <DGD1LDCXJZR6.32S0Z7EHGYDUN@garyguo.net>
-In-Reply-To: <DGD1LDCXJZR6.32S0Z7EHGYDUN@garyguo.net>
+References: <20260211142321.55404-1-dakr@kernel.org>
+ <10809444.nUPlyArG6x@steina-w>
+ <9e33e5e5-76cd-4395-acb4-e2e03e436bf5@oss.nxp.com>
+In-Reply-To: <9e33e5e5-76cd-4395-acb4-e2e03e436bf5@oss.nxp.com>
 
-On Thu Feb 12, 2026 at 3:11 PM CET, Gary Guo wrote:
-> They can, but the `Io` trait just passes the wrong address to the `IoCapa=
-ble`
-> trait, and nothing horrible can happen without doing things unsafely insi=
-de
-> `IoCapable` impl, which is controlled by the user who implements `Io`. It=
- looks
-> to me that unsafe code is still needed to do bogus things.
+On Wed Feb 11, 2026 at 3:59 PM CET, Daniel Baluta wrote:
+> On 2/11/26 16:43, Alexander Stein wrote:
+>> Am Mittwoch, 11. Februar 2026, 15:23:16 CET schrieb Danilo Krummrich:
+>>> +{
+>>> +	int ret;
+>>> +
+>>> +	ret =3D platform_driver_register(&imx8qxp_clk_driver);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	ret =3D imx_clk_scu_module_init();
+>>> +	if (ret)
+>>> +		platform_driver_unregister(&imx8qxp_clk_driver);
+>>> +
+>>> +	return ret;
+>>>
+> Also, because the logical flow is that CLK driver is uing SCU for calls I=
+ would first call
+> imx_clk_scu_module_init and then register the imx8qxp_clk driver.=20
+>
+> But there is no functionality issues your your approach too, just a bette=
+r logical flow.
 
-I think what you mean is that the invariant of `addr` and `maxsize` being v=
-alid
-is on the implementing type of `Io`, e.g. `MmioRaw` and `Mmio`. The same ap=
-plies
-to IoKnownSize::MIN_SIZE.
+I now remember why I kept it this way around. If we swap it we have to call
+imx_clk_scu_module_exit() in the unwind path of imx8qxp_clk_init().
+Consequently, we'd have to drop __exit from imx_clk_scu_module_exit().
 
-To me this seems like a valid way of arguing.
+Please let me know what you prefer.
+
+Thanks,
+Danilo
