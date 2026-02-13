@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3C4303A01;
-	Fri, 13 Feb 2026 22:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4754303A01;
+	Fri, 13 Feb 2026 22:07:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771020458; cv=none; b=IuJ1jUCWPGS0HgVqz/eUZ+fa4mPmneZDJ9smnkE115ckmwwJTXNpemEn1/zqTZlRepqLp73qS6JWlfLnb1aebi1Wnh1ottizhDdOil8uACfhK3O311Yl9TwTNSYCQ36cvxaGdWFG4Z0Fw2hrNzFf/7WV0ID767lhnjcc9tRnXyo=
+	t=1771020462; cv=none; b=FY1Mt1zgTqOz4OROToRaIQkGKjaBJYMSmh/b6SCmwFiW3FrcaNLplF1TtEG9JmfMDmOIb8oYWGN6xgJ+VG6kaAPgVTPqON7V7Fyz7Hj9cIxlQlaLVMeyXYD0mkdwylDrbKWTWU8lck71VbiPfEFvPDekq+7FlzY7AAhL/g2hsuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771020458; c=relaxed/simple;
-	bh=xTZQEObhLQk1t7qft0AgT5jc/nmzg9hJRLdW3uNk2L4=;
+	s=arc-20240116; t=1771020462; c=relaxed/simple;
+	bh=v6pYErK32CTDUWUPlbCOsjcpr4M6bc3WqnIvsYorakM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ct+3pwiWMeNVPwopMnzUo4QHrHBPFxzPxU3cQfsTCfQF0zHP8EwgwciT5xTD3WIT94o9lKh1paTKDDGDxgzCEqKCP7yOjWupqZP9x7kv69vcJFVyzrO/mN/7/+hnut57Z+ox1/97qC+7JluZ75LwP2T4Q9Cfy3a8VUIB51yrHDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eH9YiW5u; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=bXml8EdoEBr8TMlZWPyrKG1s6Vu8o1+bHwoZ+K/yt2SFBW2GgfMTc/9CVyKxn07ptA7JToC4bZ9TppRIIY6HcIVczylQ4ZtyL3iHse7JIHT5e+Q0PNk7oEdU/257HDvkTOCdeB3Wfg1022flwZVYtFeM5PV9nANtrhBYZVYWLQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kzNPP7OU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eH9YiW5u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35069C116C6;
-	Fri, 13 Feb 2026 22:07:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kzNPP7OU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6291C116C6;
+	Fri, 13 Feb 2026 22:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771020458;
-	bh=xTZQEObhLQk1t7qft0AgT5jc/nmzg9hJRLdW3uNk2L4=;
+	s=k20201202; t=1771020461;
+	bh=v6pYErK32CTDUWUPlbCOsjcpr4M6bc3WqnIvsYorakM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eH9YiW5uG+tD2D/0+GjEb+a93+CdXhkw+OxvR+jNbq/eM9pzSnC9NTuSjm85lGvhT
-	 9JwWxseWpVRwK47GTjrycnVyDjKdnd5jFIFhIlki0zUsUNh77MQm7iUqRcacmIP5/r
-	 96mSQu4mGEYfmvS34wZ/ipDJqIKPCziv2CPAvAqSM8RReaOgQN5v+I3NJk6/oN+Uwc
-	 IuBff638i1qOs1FvNst5IB5pbf8tTumGLxcq5+F7P61XaM8JwDy/fygbYhjF7idKCT
-	 XA6TpIzq/CNODWgPc9mZDQ01Mc00m6amtZ/pQwwxPmzrxELhZzKRf4mPEoiuaPFA3/
-	 7DmkJKIJv5HIQ==
+	b=kzNPP7OUXUfex6xFGKrwB0Jt69w++sRmwHxwYcqU0wm13nRV2rEfT4Q4ATS/FYCiM
+	 jpfknroj6hdVN9QHNa48sINlgviXSbKPQ0t0253/Lwl1mkwTVpiLFWa43/dGHS9PNJ
+	 lYAIOY8oX1udaX2hldQ7+bfz3RLPcKX9v8N1BlHu3DrnrClzNZlL2dRPBxWWrhnwlT
+	 DK34tnSaRyxaSmfp2+Ufhg0tLiDjXPCrp6Yerxbo2wj2S6XJP9LsC3IHWDbYrG4mdM
+	 +OER+zLfmaDxmIo52QuSPjqeKdn5rI1r91wI7fBgkv19KQ43ehW1yDYJNBJ376ng/g
+	 urM6ESOo5avJA==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -41,9 +41,9 @@ Cc: driver-core@lists.linux.dev,
 	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v2 4/5] devres: rename and export set_node_dbginfo()
-Date: Fri, 13 Feb 2026 23:07:14 +0100
-Message-ID: <20260213220718.82835-5-dakr@kernel.org>
+Subject: [PATCH v2 5/5] rust: devres: embed struct devres_node directly
+Date: Fri, 13 Feb 2026 23:07:15 +0100
+Message-ID: <20260213220718.82835-6-dakr@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260213220718.82835-1-dakr@kernel.org>
 References: <20260213220718.82835-1-dakr@kernel.org>
@@ -55,88 +55,264 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename set_node_dbginfo() to devres_set_node_dbginfo() and export it
-through base.h, such that we can access is from the Rust devres code.
+Currently, the Devres<T> container uses devm_add_action() to register a
+devres callback.
+
+devm_add_action() allocates a struct action_devres, which on top of
+struct devres_node, just keeps a data pointer and release function
+pointer.
+
+This is an unnecessary indirection, given that analogous to struct
+devres, the Devres<T> container can just embed a struct devres_node
+directly without an additional allocation.
+
+In contrast to struct devres, we don't need to force an alignment of
+ARCH_DMA_MINALIGN (as struct devres does to account for the worst case)
+since we have generics in Rust. I.e. the compiler already ensures
+correct alignment of the embedded T in Devres<T>.
+
+Thus, get rid of devm_add_action() and instead embed a struct
+devres_node directly.
 
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- drivers/base/base.h   |  2 ++
- drivers/base/devres.c | 14 +++++++-------
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ rust/kernel/devres.rs | 182 +++++++++++++++++++++++++++++++-----------
+ 1 file changed, 135 insertions(+), 47 deletions(-)
 
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 93b2020baa99..9aed7e2c78ef 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -238,6 +238,8 @@ void devres_node_init(struct devres_node *node, dr_node_release_t release,
- 		      dr_node_free_t free_node);
- void devres_node_add(struct device *dev, struct devres_node *node);
- bool devres_node_remove(struct device *dev, struct devres_node *node);
-+void devres_set_node_dbginfo(struct devres_node *node, const char *name,
-+			     size_t size);
- void devres_for_each_res(struct device *dev, dr_release_t release,
- 			 dr_match_t match, void *match_data,
- 			 void (*fn)(struct device *, void *, void *),
-diff --git a/drivers/base/devres.c b/drivers/base/devres.c
-index bf51404e2bf4..e36d2cc7723d 100644
---- a/drivers/base/devres.c
-+++ b/drivers/base/devres.c
-@@ -50,7 +50,7 @@ static inline void free_node(struct devres_node *node)
- 	node->free_node(node);
+diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+index 6afe196be42c..4c1efad758c7 100644
+--- a/rust/kernel/devres.rs
++++ b/rust/kernel/devres.rs
+@@ -23,9 +23,22 @@
+         rcu,
+         Arc, //
+     },
+-    types::ForeignOwnable,
++    types::{
++        ForeignOwnable,
++        Opaque, //
++    },
+ };
+ 
++/// Inner type that embeds a `struct devres_node` and the `Revocable<T>`.
++#[repr(C)]
++#[pin_data]
++struct Inner<T> {
++    #[pin]
++    node: Opaque<bindings::devres_node>,
++    #[pin]
++    data: Revocable<T>,
++}
++
+ /// This abstraction is meant to be used by subsystems to containerize [`Device`] bound resources to
+ /// manage their lifetime.
+ ///
+@@ -111,12 +124,63 @@
+ /// ```
+ pub struct Devres<T: Send> {
+     dev: ARef<Device>,
+-    /// Pointer to [`Self::devres_callback`].
+-    ///
+-    /// Has to be stored, since Rust does not guarantee to always return the same address for a
+-    /// function. However, the C API uses the address as a key.
+-    callback: unsafe extern "C" fn(*mut c_void),
+-    data: Arc<Revocable<T>>,
++    inner: Arc<Inner<T>>,
++}
++
++// Calling the FFI functions from the `base` module directly from the `Devres<T>` impl may result in
++// them being called directly from driver modules. This happens since the Rust compiler will use
++// monomorphisation, so it might happen that functions are instantiated within the calling driver
++// module. For now, work around this with `#[inline(never)]` helpers.
++//
++// TODO: Remove once a more generic solution has been implemented. For instance, we may be able to
++// leverage `bindgen` to take care of this depending on whether a symbol is (already) exported.
++mod base {
++    use kernel::{
++        bindings,
++        prelude::*, //
++    };
++
++    #[inline(never)]
++    #[allow(clippy::missing_safety_doc)]
++    pub(super) unsafe fn devres_node_init(
++        node: *mut bindings::devres_node,
++        release: bindings::dr_node_release_t,
++        free: bindings::dr_node_free_t,
++    ) {
++        // SAFETY: Safety requirements are the same as `bindings::devres_node_init`.
++        unsafe { bindings::devres_node_init(node, release, free) }
++    }
++
++    #[inline(never)]
++    #[allow(clippy::missing_safety_doc)]
++    pub(super) unsafe fn devres_set_node_dbginfo(
++        node: *mut bindings::devres_node,
++        name: *const c_char,
++        size: usize,
++    ) {
++        // SAFETY: Safety requirements are the same as `bindings::devres_set_node_dbginfo`.
++        unsafe { bindings::devres_set_node_dbginfo(node, name, size) }
++    }
++
++    #[inline(never)]
++    #[allow(clippy::missing_safety_doc)]
++    pub(super) unsafe fn devres_node_add(
++        dev: *mut bindings::device,
++        node: *mut bindings::devres_node,
++    ) {
++        // SAFETY: Safety requirements are the same as `bindings::devres_node_add`.
++        unsafe { bindings::devres_node_add(dev, node) }
++    }
++
++    #[inline(never)]
++    #[allow(clippy::missing_safety_doc)]
++    pub(super) unsafe fn devres_node_remove(
++        dev: *mut bindings::device,
++        node: *mut bindings::devres_node,
++    ) -> bool {
++        // SAFETY: Safety requirements are the same as `bindings::devres_node_remove`.
++        unsafe { bindings::devres_node_remove(dev, node) }
++    }
  }
  
--static void set_node_dbginfo(struct devres_node *node, const char *name,
-+void devres_set_node_dbginfo(struct devres_node *node, const char *name,
- 			     size_t size)
- {
- 	node->name = name;
-@@ -189,7 +189,7 @@ void *__devres_alloc_node(dr_release_t release, size_t size, gfp_t gfp, int nid,
- 	dr = alloc_dr(release, size, gfp | __GFP_ZERO, nid);
- 	if (unlikely(!dr))
- 		return NULL;
--	set_node_dbginfo(&dr->node, name, size);
-+	devres_set_node_dbginfo(&dr->node, name, size);
- 	return dr->data;
- }
- EXPORT_SYMBOL_GPL(__devres_alloc_node);
-@@ -603,8 +603,8 @@ void *devres_open_group(struct device *dev, void *id, gfp_t gfp)
+ impl<T: Send> Devres<T> {
+@@ -128,58 +192,82 @@ pub fn new<E>(dev: &Device<Bound>, data: impl PinInit<T, E>) -> Result<Self>
+     where
+         Error: From<E>,
+     {
+-        let callback = Self::devres_callback;
+-        let data = Arc::pin_init(Revocable::new(data), GFP_KERNEL)?;
+-        let devres_data = data.clone();
++        let inner = Arc::pin_init::<Error>(
++            try_pin_init!(Inner {
++                node <- Opaque::ffi_init(|node: *mut bindings::devres_node| {
++                    // SAFETY: `node` is a valid pointer to an uninitialized `struct devres_node`.
++                    unsafe {
++                        base::devres_node_init(
++                            node,
++                            Some(Self::devres_node_release),
++                            Some(Self::devres_node_free_node),
++                        )
++                    };
++
++                    // SAFETY: `node` is a valid pointer to an uninitialized `struct devres_node`.
++                    unsafe {
++                        base::devres_set_node_dbginfo(
++                            node,
++                            // TODO: Use `core::any::type_name::<T>()` once we are able to convert
++                            // the `&str` to a NULL terminated `&CStr` without additional
++                            // allocation.
++                            c"Devres<T>".as_char_ptr(),
++                            core::mem::size_of::<Revocable<T>>(),
++                        )
++                    };
++                }),
++                data <- Revocable::new(data),
++            }),
++            GFP_KERNEL,
++        )?;
  
- 	devres_node_init(&grp->node[0], &group_open_release, devres_group_free);
- 	devres_node_init(&grp->node[1], &group_close_release, NULL);
--	set_node_dbginfo(&grp->node[0], "grp<", 0);
--	set_node_dbginfo(&grp->node[1], "grp>", 0);
-+	devres_set_node_dbginfo(&grp->node[0], "grp<", 0);
-+	devres_set_node_dbginfo(&grp->node[1], "grp>", 0);
- 	grp->id = grp;
- 	if (id)
- 		grp->id = id;
-@@ -792,7 +792,7 @@ int __devm_add_action(struct device *dev, void (*action)(void *), void *data, co
- 		return -ENOMEM;
+         // SAFETY:
+-        // - `dev.as_raw()` is a pointer to a valid bound device.
+-        // - `data` is guaranteed to be a valid for the duration of the lifetime of `Self`.
+-        // - `devm_add_action()` is guaranteed not to call `callback` for the entire lifetime of
+-        //   `dev`.
+-        to_result(unsafe {
+-            bindings::devm_add_action(
+-                dev.as_raw(),
+-                Some(callback),
+-                Arc::as_ptr(&data).cast_mut().cast(),
+-            )
+-        })?;
+-
+-        // `devm_add_action()` was successful and has consumed the reference count.
+-        core::mem::forget(devres_data);
++        // - `dev` is a valid pointer to a bound `struct device`.
++        // - `node` is a valid pointer to a `struct devres_node`.
++        // - `devres_node_add()` is guaranteed not to call `devres_node_release()` for the entire
++        //    lifetime of `dev`.
++        unsafe { base::devres_node_add(dev.as_raw(), inner.node.get()) };
++
++        // Take additional reference count for `devres_node_add()`.
++        core::mem::forget(inner.clone());
  
- 	devres_node_init(&devres->node, devm_action_release, devm_action_free);
--	set_node_dbginfo(&devres->node, name, sizeof(*devres));
-+	devres_set_node_dbginfo(&devres->node, name, sizeof(*devres));
+         Ok(Self {
+             dev: dev.into(),
+-            callback,
+-            data,
++            inner,
+         })
+     }
  
- 	devres->action.data = data;
- 	devres->action.action = action;
-@@ -953,7 +953,7 @@ void *devm_kmalloc(struct device *dev, size_t size, gfp_t gfp)
- 	 * This is named devm_kzalloc_release for historical reasons
- 	 * The initial implementation did not support kmalloc, only kzalloc
- 	 */
--	set_node_dbginfo(&dr->node, "devm_kzalloc_release", size);
-+	devres_set_node_dbginfo(&dr->node, "devm_kzalloc_release", size);
- 	devres_add(dev, dr->data);
- 	return dr->data;
- }
-@@ -1024,7 +1024,7 @@ void *devm_krealloc(struct device *dev, void *ptr, size_t new_size, gfp_t gfp)
- 	if (!new_dr)
- 		return NULL;
+     fn data(&self) -> &Revocable<T> {
+-        &self.data
++        &self.inner.data
+     }
  
--	set_node_dbginfo(&new_dr->node, "devm_krealloc_release", new_size);
-+	devres_set_node_dbginfo(&new_dr->node, "devm_krealloc_release", new_size);
+     #[allow(clippy::missing_safety_doc)]
+-    unsafe extern "C" fn devres_callback(ptr: *mut kernel::ffi::c_void) {
+-        // SAFETY: In `Self::new` we've passed a valid pointer of `Revocable<T>` to
+-        // `devm_add_action()`, hence `ptr` must be a valid pointer to `Revocable<T>`.
+-        let data = unsafe { Arc::from_raw(ptr.cast::<Revocable<T>>()) };
++    unsafe extern "C" fn devres_node_release(
++        _dev: *mut bindings::device,
++        node: *mut bindings::devres_node,
++    ) {
++        let node = Opaque::cast_from(node);
++
++        // SAFETY: `node` is in the same allocation as its container.
++        let inner = unsafe { kernel::container_of!(node, Inner<T>, node) };
++
++        // SAFETY: `inner` is a valid `Inner<T>` pointer.
++        let inner = unsafe { &*inner };
  
- 	/*
- 	 * The spinlock protects the linked list against concurrent
+-        data.revoke();
++        inner.data.revoke();
++    }
++
++    #[allow(clippy::missing_safety_doc)]
++    unsafe extern "C" fn devres_node_free_node(node: *mut bindings::devres_node) {
++        // SAFETY: `node` points to the entire `Inner<T>` allocation.
++        drop(unsafe { Arc::from_raw(node.cast::<Inner<T>>()) });
+     }
+ 
+-    fn remove_action(&self) -> bool {
++    fn remove_node(&self) -> bool {
+         // SAFETY:
+-        // - `self.dev` is a valid `Device`,
+-        // - the `action` and `data` pointers are the exact same ones as given to
+-        //   `devm_add_action()` previously,
+-        (unsafe {
+-            bindings::devm_remove_action_nowarn(
+-                self.dev.as_raw(),
+-                Some(self.callback),
+-                core::ptr::from_ref(self.data()).cast_mut().cast(),
+-            )
+-        } == 0)
++        // - `self.device().as_raw()` is a valid pointer to a bound `struct device`.
++        // - `self.inner.node.get()` is a valid pointer to a `struct devres_node`.
++        unsafe { base::devres_node_remove(self.device().as_raw(), self.inner.node.get()) }
+     }
+ 
+     /// Return a reference of the [`Device`] this [`Devres`] instance has been created with.
+@@ -261,12 +349,12 @@ fn drop(&mut self) {
+         // SAFETY: When `drop` runs, it is guaranteed that nobody is accessing the revocable data
+         // anymore, hence it is safe not to wait for the grace period to finish.
+         if unsafe { self.data().revoke_nosync() } {
+-            // We revoked `self.data` before the devres action did, hence try to remove it.
+-            if self.remove_action() {
++            // We revoked `self.data` before devres did, hence try to remove it.
++            if self.remove_node() {
+                 // SAFETY: In `Self::new` we have taken an additional reference count of `self.data`
+-                // for `devm_add_action()`. Since `remove_action()` was successful, we have to drop
++                // for `devres_node_add()`. Since `remove_node()` was successful, we have to drop
+                 // this additional reference count.
+-                drop(unsafe { Arc::from_raw(Arc::as_ptr(&self.data)) });
++                drop(unsafe { Arc::from_raw(Arc::as_ptr(&self.inner)) });
+             }
+         }
+     }
 -- 
 2.53.0
 
