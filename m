@@ -1,150 +1,172 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A355925A357
-	for <driver-core@lists.linux.dev>; Sun, 15 Feb 2026 14:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771164705; cv=pass; b=tZjY1f7F5czC3RlyKCYqxCSkQNOvA+GqttZ5yFoh7f5yNnVArNMgdwOozQE5Z8+AN9KSnnlXHRzJKNRnj+9xKMv3KS2g33smdq9ylsznDUFHyxc0abv9fCl3VsbTcAxn6YvbW75bX3NMETUVRqNAru+G90hoMcOsHqdL5/dWyNI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771164705; c=relaxed/simple;
-	bh=IS67sc4Ha9dtdSU+DoGA1J2xownlpl0HA1i2nBo07Do=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=iDjjHvQmYFvFr8ZYwZYfWrC9wwbTkzfmj5Gc7ppEcUGc6HbUPG0KrXfmJlIigFcJ5WoPnk5rDZxWPOUPo1EkiFHq/INf0EG1TcfFp9u02rqTuzv4PHlrwPw+5+x9Fv/ImzEa++OoK7d2lfOiIonZ1NB/f4a1SBrMa3FX2hoP7SA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l9/3Ddxt; arc=pass smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788543043C9
+	for <driver-core@lists.linux.dev>; Sun, 15 Feb 2026 22:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771196118; cv=none; b=VXnQXcFG1NoR9pjhyj4b+o/HcWHKTvVEuHJpt8npltEKVItX7sVVlFJJqdomHteR1rnnIR4Pv6P4tA7FUm/9ipq1GGrj9bDeUS1VqDlqJ0jnLs1+56ejX7KXG3xNQkVS6g8OhmdpNathe7+WKaktPhM2p3Jp1xg/dyls4SWkqlA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771196118; c=relaxed/simple;
+	bh=TNyRzSBr/AtNCce67q749OZFUSphAmrWNkHgydf587w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pugB8OQTiyO4HNQhVnv4qw314ZAVN9a4y/7FwFLPXPd8NtIelrk1mOzhrSzDma42gEcS71akiQbCOPiCDY9N8TrSYrfbMOAty2CR5pNhcold81mFcdj4BgcyygLplKJtugNLinv95qFpx88x6V46W6QpcwV2FmUmtQGjMKHWx0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Khem6T/L; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9/3Ddxt"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2ba716126f5so125991eec.3
-        for <driver-core@lists.linux.dev>; Sun, 15 Feb 2026 06:11:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771164704; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AxraoJizgOob4ThYO5kWB1PZFPOLEbFSWZBJJrvKpGCTJm26oOCohng957onBTeNZq
-         cXASM7yNwvJvzO3jOSMw+QNkQz3ii1PJChovky+fq8uYFPqKLNonfX9sBYitVgY9c+2j
-         E1QLQDjgRLBTZ9djMXysALNnxtbaIKeuwGQZUeClyD/4EpaoLIEMIhv7C2ZBft4IrhqL
-         i9yquvg92s4HByH88B4VFnyenZIYdnZZ5yVsVVGzW/xV+i9nB1RyN5bZA+WMt6rjhhCU
-         T6JmFeKqq+WZNVatcQJaRC7Xdy59XIAfl3gA7OtmAdzJfO16PQe7Mp3StPnatJcRjck/
-         i+3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=lmAu+Za+Ffpbk5WZHW0bF6Gwlmx16jAYsYG2pCm96Tk=;
-        fh=xLVn4uctQcxWTUGCJ8DcqzOzDQkKtO4ZEWMWLD+KsU0=;
-        b=MEPAFF2mE4wODyZ3zofVWkDO/miusAmI2c+MBwKiR9eJYRTf+P3uIqtno17bD7dg4c
-         DZUGUz92Ggzw75ddcUPGT1/AlRU9KS3UPbhsU7AEaz89s3B87JYe3GNtc6Pzr6sKldcj
-         V/kE0rACguv+/aWeWcDnyCa0fDsTjOROnkkFoYltuoZmKD51O4FKTeK4Cyp8hpko97Ag
-         qqbZYTAlkVYPg3q56qozmhL75uQ+1AiPL49emn41k03F3d03xKElMoG5FvA/vHa5iblz
-         sDBIJPfjqbcadntnwOur9rb+ALRPywEDOvArKscCAyLXkstpmHxNOOkD6UTcCSgvzO8r
-         gHxw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771164704; x=1771769504; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lmAu+Za+Ffpbk5WZHW0bF6Gwlmx16jAYsYG2pCm96Tk=;
-        b=l9/3DdxtAnO3mup6q7POjILB/j7ArT7q7cp6MWyxNC3CnpTdoUmm4HVi9d+uImm5l+
-         5f2UINJNUyg9INBGnkbAshl0Kph3QzER9hyretYYKTg6upZTj16edMCWkPjNmKO7IC1U
-         amhRj81hGI1p1Fw5vozN6QXaTj2qgyZFsdTUgJs2edyCQwn8F/FwPe9iZktR2abP3Ls9
-         DKfHd5NFFUlro2OaYYOeN60MP/5Ozj93XlraCN12kn3ZCs2rvlPVMM+wPSQp+BpIF3Ej
-         zLo30criTuSSsip0cfVimIozLROh/c+i4Bg8Zdpo8R2h+xjKYOdhYEfJG23upEFHhO/t
-         Y85g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771164704; x=1771769504;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lmAu+Za+Ffpbk5WZHW0bF6Gwlmx16jAYsYG2pCm96Tk=;
-        b=HAgHhMO1ykcc1ZyTOXWZprFsqKzlAJTdMbaGzrtJZYN3+zqnJCGxQ6KFBzwwtIV4tH
-         TKptuPFxJS61P7TZK7ePTuklYWBN1N2vWGciElwdC+oX19KFrNNsc5ivwWrCoM/K9nx0
-         85EiwvoXJP0aONRBABbZIp95XVxUBcrhrp7nZEDS8INhZcID+p8HJPIfzLKMVYNbe49k
-         ea8c1qLrbSLSgeIljtvh8P472d8N5dRsgfksUTNJjunTR1jJ+A6MrtHoxaQ9B20gpjjv
-         x1Z4yeJDUWwb596ULebEr6IY6untKv7DUoMG4e8Uba/3mYi99yP8LlCdpVs3MftzkPnF
-         X1Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCVgtv9pNg7iSZPOg840l4w0HaAwBSTuSRutY2UMIQA4k2VluP5Yu1vrB7g4wMYnaxUlTw22pDp6dUbrdg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmXLTW4LJVw+qepVnXNG7h9e6mY0D/b0sgYXkHnQL76MKaZhSp
-	J9CYQhIQkUfSXQHrOeuXlZYoz/QA/YGZK/8DPjhQZ6qb/mbZrHfwDgSsqiwJ9ISH4AF0RxZLEyr
-	6zrfh/Q49T+HWp5O5vhkhKF+W0l2JWBk=
-X-Gm-Gg: AZuq6aIoSF7WwS6nuri/c4NDGwj5QrqKIUFcyia3o6nIjoFc+2JUVQiT29hjDqlQWXi
-	kXCkaWHgZ4tR9nNtOg/c+yXEVpcjvN1wjMaH1ynjCqmdwxR3o0/bu/Jei/xKQrS+Vu6amBPIAnj
-	u12L2PAhD8JlWWnhlCOHXqm7BPF7KfHAq6XFAhsmuHCC/P9q7iXJrYnLkCl5u8/98jgVoDbDWsw
-	BZfXND9cbIRc0VJBdAUF4DDGXcO9IP4SYFq6StV/x3++wzbc4F9XLadzqVx7LJvKmnlqf8FL9X+
-	49P4UFfJijKHi7yAok0Hm8aP9xWNj1Z/b3rOydyNjkC5w2N0LKPQB+7ckUA6mV0vPiBjzgABxsO
-	GsUErHQvt2j8V/r2HY3cjuMKV
-X-Received: by 2002:a05:7300:bc0e:b0:2ba:b16f:8092 with SMTP id
- 5a478bee46e88-2bab9ec5ef6mr1638797eec.0.1771164703649; Sun, 15 Feb 2026
- 06:11:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Khem6T/L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=fjqK1CnmMLnynK
+	mUkq2NGNXQxQWHiqDXRDV1cxXQMFc=; b=Khem6T/LPXw9DcbGo2IAw6sOzSG6U5
+	H+3X7IjRDdV59N8cB8IV56DQabVc5sY0EGs7isNQKWgzIcrflS0xfTsyWykrOCIN
+	uXqpNDup5wRHcdl/ovjJEz4Kph6I3yNxxllxraRzP/cLNeSBfT24ixK4hIpVTbFu
+	KPhRq0XDDSGz0w/xy9Jv1AYH2A9nrni1JQ2Z+U+GiSqkbGNbWo9dEOvx68PTFusm
+	BA+a4Gt8A7K2lky5w3aEzE14WxR8ylMT5G5nh+AxRcgKht+aPrFfq2KQigyR28W+
+	r4SDphAActIw7+YT8hOnwMb1RpfMPbwjCPddRcsyeOy0MBMvVqYD3Zag==
+Received: (qmail 3011230 invoked from network); 15 Feb 2026 23:55:04 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Feb 2026 23:55:04 +0100
+X-UD-Smtp-Session: l3s3148p1@reycuuRKXIQujns5
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [RFC v2 PATCH 00/13] hwspinlock: move device alloc into core and refactor includes
+Date: Sun, 15 Feb 2026 23:54:40 +0100
+Message-ID: <20260215225501.6365-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 15 Feb 2026 15:11:31 +0100
-X-Gm-Features: AaiRm51kWsntpYAMki_wBOn4FdlRNmJALQ-XrmQQ5z16DZEm77O5QapQ1SrWrNI
-Message-ID: <CANiq72n3qPsoy2u1KxfyV4ZCjJyDZLkK-54i7EesTH=TE9h1jw@mail.gmail.com>
-Subject: Consider backporting rustdoc fixes for 6.18.y
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>, 
-	David Gow <davidgow@google.com>
-Cc: stable@vger.kernel.org, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	linux-pci@vger.kernel.org, driver-core@lists.linux.dev, 
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Greg, Sasha, David,
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structure need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
 
-I have been seeing these warnings (errors with `WERROR=y`) in stable
-6.18 UML + Rust on the `rustdoc` target [1].
+This series does all that. Patches 1-7 abstract access to internal
+structures away using helpers. Patch 8 then move hwspinlock device
+handling to the core, simplifying drivers. The remaining patches
+refactor the headers until the internal one is gone and the public ones
+are divided into provider and consumer parts. More details are given in
+the patch descriptions.
 
-Unless David (who works around UML + Rust) or the different
-maintainers (Cc'd) have a concern, please consider backporting:
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
 
-  a9a42f0754b6 ("rust: device: fix broken intra-doc links")
-  32cb3840386f ("rust: dma: fix broken intra-doc links")
-  4c9f6a782f60 ("rust: driver: fix broken intra-doc links to example
-driver types")
+This series is based on the cleanup series "hwspinlock: remove
+platform_data from subsystem" and has been tested on a Renesas
+SparrowHawk board (R-Car V4H) with a yet-to-be-upstreamed hwspinlock
+driver for the MFIS IP core. A branch can be found here (the MFIS driver
+is still WIP):
 
-They had Fixes tags, but not Cc: stable tags.
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
 
-I hope that helps & thanks!
+Buildbots seem to be happy, too.
 
-Cheers,
-Miguel
+Looking forward to comments. I especially wonder if the last patch
+should stay as-is or if it should be broken out, so individual
+subsystems can pick up their part (with a fallback in place, of course,
+until the last user is converted).
 
-[1]
+Happy hacking,
 
-    error: unresolved link to `kernel::pci::Device`
-       --> rust/kernel/device.rs:158:22
-        |
-    158 | /// [`pci::Device`]: kernel::pci::Device
-        |                      ^^^^^^^^^^^^^^^^^^^ no item named `pci`
-in module `kernel`
-        |
-        = note: `-D rustdoc::broken-intra-doc-links` implied by `-D warnings`
-        = help: to override `-D warnings` add
-`#[allow(rustdoc::broken_intra_doc_links)]`
+   Wolfram
 
-    error: unresolved link to `::kernel::pci::Device`
-      --> rust/kernel/dma.rs:29:70
-       |
-    29 | /// where the underlying bus is DMA capable, such as
-[`pci::Device`](::kernel::pci::Device) or
-       |
-       ^^^^^^^^^^^^^^^^^^^^^ no item named `pci` in module `kernel`
 
-    error: unresolved link to `kernel::auxiliary::Driver`
-      --> rust/kernel/driver.rs:82:28
-       |
-    82 | //! [`auxiliary::Driver`]: kernel::auxiliary::Driver
-       |                            ^^^^^^^^^^^^^^^^^^^^^^^^^ no item
-named `auxiliary` in module `kernel`
+Wolfram Sang (13):
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock: refactor consumer.h from public header
 
-    error: unresolved link to `kernel::pci::Driver`
-      --> rust/kernel/driver.rs:90:22
-       |
-    90 | //! [`pci::Driver`]: kernel::pci::Driver
-       |                      ^^^^^^^^^^^^^^^^^^^ no item named `pci`
-in module `kernel`
+ Documentation/locking/hwspinlock.rst          |   2 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++++-----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 ----------
+ drivers/hwspinlock/omap_hwspinlock.c          |  29 ++--
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 +++++-----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  41 +++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  28 ++--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  38 ++----
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  29 +---
+ include/linux/hwspinlock/provider.h           |  60 ++++++++
+ 20 files changed, 268 insertions(+), 249 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (93%)
+ create mode 100644 include/linux/hwspinlock/provider.h
+
+-- 
+2.51.0
+
