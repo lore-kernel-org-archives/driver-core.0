@@ -1,175 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAFC28134C;
-	Sat, 14 Feb 2026 21:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBC91B7F4
+	for <driver-core@lists.linux.dev>; Sun, 15 Feb 2026 05:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771104318; cv=none; b=NI8PQepWkPDMqFJ8W3lYBVSAailguimEUCjK/CQb1ajvUWn1Hdsa3xgPJKZSu9IILFBRBNtdastkiV+sJwNxdkhLYb85lL2B6CiAZq3XlwV7q0ZBXPmbBIzsHk2WwPhhfRZIbhyAG8r42+N1fMOhIeZJSbBJ2ycdtw72LVossyw=
+	t=1771134144; cv=none; b=ha8ooTeGtBkn3LQpTbVc0ikGGECmICGvY0RcKqlSzl+olWlMLvt8TBPZqEVkpmLXU5OPHMHLCRiz2tp1xhMNHjOUEynsHu36oDU8Jwq3AtM52ZiFJ4eVj68XwmPdGk/n+0BjmrkCQ48M3ixs0M5RvNEeA3+XviG9R5c8c5QusQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771104318; c=relaxed/simple;
-	bh=4xzav0BA4B7+VgAX4B0hEbO01AeRk2vnpR6CaYtY7bc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dabAz7tmR4GxtNvaN8TrZVM5Mz+r64XYEz6rDA11euTGJZWImJZDHHeQnJ4ImcqBa3YeDxIueVXIRBaC9jt+hjRAit1fHajpSPKLqwLK+OCPkAD72ogwhn7lUraCrWJIHnA3du5ZAqC6+W/nOxyBbK05xgEqqa5HjBYrFuhasBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaOCd/yR; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaOCd/yR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83406C19423;
-	Sat, 14 Feb 2026 21:25:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771104318;
-	bh=4xzav0BA4B7+VgAX4B0hEbO01AeRk2vnpR6CaYtY7bc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GaOCd/yR3LEUG+67UC0y1QIkq2a89lxGbN8zsBjqAbYZP2BlmKSlctlvVs4PvMGS5
-	 ko4hEXoXFQPXKsqePIvPCYnhLr32FVOo3OqkkhxFR3EZntsgVmzRIP0tJxeScufBtW
-	 osbMCnxSAaV80Xaa+lLl0m2jaB1B142VxE/psQAdjYTk4+aqVoHYb97CO28EPqCktZ
-	 m39/r8CkVhJS8tKaEfLURRNd/3ePi72I6vHcD1FTIGEtXvFHUoz3/3g8b0hz98jqQo
-	 9JoglwIVUNKl2wYMnWANHS4hxiBT3F3fECMKYpCQrunTwL5g3nQLOihpnh7w+8DcqK
-	 4LfBOI5ew1eSw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gui-Dong Han <hanguidong02@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	rafael@kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.19-6.18] driver core: faux: stop using static struct device
-Date: Sat, 14 Feb 2026 16:22:38 -0500
-Message-ID: <20260214212452.782265-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260214212452.782265-1-sashal@kernel.org>
-References: <20260214212452.782265-1-sashal@kernel.org>
+	s=arc-20240116; t=1771134144; c=relaxed/simple;
+	bh=MzyqnMDKNx/HANQvDwSq8pqIhkvw5nwaf3bUX133VkQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=nfZ4E7hmZe+dX/niNb24k/6pBHA9wCmWjjY0DnnxWHW57+vzl1Y0pDVCRNeKo+amq5eXqZXDv3hxIQ2Oj37aqs35Rnwbbicwl4IkfF357GAqQQ3naLUWBCLLAqm3hhjOaRZRnHyH/6Lr7YGAJe2o1kRrB9GjKgngi+qW5xM5SwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-678e130a87fso10835370eaf.3
+        for <driver-core@lists.linux.dev>; Sat, 14 Feb 2026 21:42:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771134142; x=1771738942;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CoQ/Ap6BVtRhVNflygAxI5dfzW7LzJ9IDoOS60zUKUw=;
+        b=CvNnP96o7iVqNnBYkyh0Htam0GhuKFUp1eAGn4CLdm5dSHAGG5WAZHvwMLCfgRio7f
+         mNabV7eiKhkOIytWsdWYcvrI/WMcDCB9X5lYpYgEl9rfejIVHGk71/BcJJ/jmaGSfPKq
+         pXD/CuaAcXuw/KbF/UrmTa0/9pfuQcmYaen6Z6p2WHc+5Oqns7T27EGqSYM58sX5of+g
+         Dm9e9LHRHY4tKgZXTyrgdMhl1FxK+lMsOhk0mT3DFf1EpngtCgy4LqCZSq72F8SM3xBB
+         uQKQ7NymrN/BtoO7lWIK4tctW8NhujnVv4NJJBlE8t2MJYE6L/pCnNqAVc2fmmpb1d2Q
+         hnKw==
+X-Gm-Message-State: AOJu0Yw8VLVp3DybSNkeBU72UhTF2XwB/Q633KzYC8nBZY+aaB9rFTPd
+	KznU7LaCb3seW9yXcfvwmdLsYzWNq7R1Y2Z+YM5mBl0U4jCdSrBvrtPvHm/eXO7zfmymt/EDM3P
+	c/RAmU3zwsEleUnZk7rpn7BHygMGB3uF6abL4WwYlLNG8kqHxCEUQ03K/vwQ=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:2207:b0:66e:3015:ca58 with SMTP id
+ 006d021491bc7-67720560a92mr3708322eaf.18.1771134141966; Sat, 14 Feb 2026
+ 21:42:21 -0800 (PST)
+Date: Sat, 14 Feb 2026 21:42:21 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69915cbd.050a0220.2757fb.002f.GAE@google.com>
+Subject: [syzbot] [kernfs?] KMSAN: uninit-value in inode_set_ctime_to_ts
+From: syzbot <syzbot+e2fd93a2773af7f9ea51@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hello,
 
-[ Upstream commit 61b76d07d2b46a86ea91267d36449fc78f8a1f6e ]
+syzbot found the following issue on:
 
-faux_bus_root should not have been a static struct device, but rather a
-dynamically created structure so that lockdep and other testing tools do
-not trip over it (as well as being the right thing overall to do.)  Fix
-this up by making it properly dynamic.
+HEAD commit:    cd7a5651db26 alpha: add missing address argument in call t..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1037415a580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=50148b563a4d5941
+dashboard link: https://syzkaller.appspot.com/bug?extid=e2fd93a2773af7f9ea51
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
 
-Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
-Closes: https://lore.kernel.org/lkml/CALbr=LYKJsj6cbrDLA07qioKhWJcRj+gW8=bq5=4ZvpEe2c4Yg@mail.gmail.com/
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-Link: https://patch.msgid.link/2026012145-lapping-countless-ef81@gregkh
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/23c623fcb1bf/disk-cd7a5651.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/5128bb44f38d/vmlinux-cd7a5651.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a65d6b263e08/bzImage-cd7a5651.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e2fd93a2773af7f9ea51@syzkaller.appspotmail.com
+
+=====================================================
+BUG: KMSAN: uninit-value in inode_set_ctime_to_ts+0x1eb/0x3a0 fs/inode.c:2777
+ inode_set_ctime_to_ts+0x1eb/0x3a0 fs/inode.c:2777
+ inode_set_ctime_current+0x646/0x1690 fs/inode.c:2842
+ simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
+ set_default_inode_attr fs/kernfs/inode.c:155 [inline]
+ kernfs_init_inode fs/kernfs/inode.c:209 [inline]
+ kernfs_get_inode+0x23a/0xb60 fs/kernfs/inode.c:255
+ kernfs_iop_lookup+0x2ff/0x600 fs/kernfs/dir.c:1241
+ __lookup_slow+0x56a/0x770 fs/namei.c:1916
+ lookup_slow+0x6a/0xd0 fs/namei.c:1933
+ walk_component fs/namei.c:2279 [inline]
+ link_path_walk+0x170f/0x2650 fs/namei.c:2647
+ path_lookupat+0x107/0xdf0 fs/namei.c:2803
+ filename_lookup+0x2bc/0x800 fs/namei.c:2833
+ vfs_statx+0xcf/0x290 fs/stat.c:353
+ vfs_fstatat+0x2dc/0x400 fs/stat.c:373
+ __do_sys_newfstatat fs/stat.c:538 [inline]
+ __se_sys_newfstatat+0x64/0x870 fs/stat.c:532
+ __x64_sys_newfstatat+0xbd/0x120 fs/stat.c:532
+ x64_sys_call+0x3824/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:263
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Uninit was stored to memory at:
+ inode_set_ctime_to_ts+0x1e4/0x3a0 fs/inode.c:2777
+ inode_set_ctime_current+0x646/0x1690 fs/inode.c:2842
+ simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
+ set_default_inode_attr fs/kernfs/inode.c:155 [inline]
+ kernfs_init_inode fs/kernfs/inode.c:209 [inline]
+ kernfs_get_inode+0x23a/0xb60 fs/kernfs/inode.c:255
+ kernfs_iop_lookup+0x2ff/0x600 fs/kernfs/dir.c:1241
+ __lookup_slow+0x56a/0x770 fs/namei.c:1916
+ lookup_slow+0x6a/0xd0 fs/namei.c:1933
+ walk_component fs/namei.c:2279 [inline]
+ link_path_walk+0x170f/0x2650 fs/namei.c:2647
+ path_lookupat+0x107/0xdf0 fs/namei.c:2803
+ filename_lookup+0x2bc/0x800 fs/namei.c:2833
+ vfs_statx+0xcf/0x290 fs/stat.c:353
+ vfs_fstatat+0x2dc/0x400 fs/stat.c:373
+ __do_sys_newfstatat fs/stat.c:538 [inline]
+ __se_sys_newfstatat+0x64/0x870 fs/stat.c:532
+ __x64_sys_newfstatat+0xbd/0x120 fs/stat.c:532
+ x64_sys_call+0x3824/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:263
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Uninit was stored to memory at:
+ inode_set_ctime_to_ts+0x19f/0x3a0 fs/inode.c:-1
+ inode_set_ctime_current+0x646/0x1690 fs/inode.c:2842
+ simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
+ set_default_inode_attr fs/kernfs/inode.c:155 [inline]
+ kernfs_init_inode fs/kernfs/inode.c:209 [inline]
+ kernfs_get_inode+0x23a/0xb60 fs/kernfs/inode.c:255
+ kernfs_iop_lookup+0x2ff/0x600 fs/kernfs/dir.c:1241
+ __lookup_slow+0x56a/0x770 fs/namei.c:1916
+ lookup_slow+0x6a/0xd0 fs/namei.c:1933
+ walk_component fs/namei.c:2279 [inline]
+ link_path_walk+0x170f/0x2650 fs/namei.c:2647
+ path_lookupat+0x107/0xdf0 fs/namei.c:2803
+ filename_lookup+0x2bc/0x800 fs/namei.c:2833
+ vfs_statx+0xcf/0x290 fs/stat.c:353
+ vfs_fstatat+0x2dc/0x400 fs/stat.c:373
+ __do_sys_newfstatat fs/stat.c:538 [inline]
+ __se_sys_newfstatat+0x64/0x870 fs/stat.c:532
+ __x64_sys_newfstatat+0xbd/0x120 fs/stat.c:532
+ x64_sys_call+0x3824/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:263
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Local variable retval created at:
+ inode_set_ctime_current+0x3b/0x1690 fs/inode.c:2833
+ simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
+
+CPU: 0 UID: 0 PID: 5142 Comm: udevadm Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
+=====================================================
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-LLM Generated explanations, may be completely bogus:
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-### Key Findings
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-1. **The faux bus (`drivers/base/faux.c`) was introduced in v6.14.** It
-   would be present in stable trees 6.14.y, 6.15.y, 6.16.y, 6.17.y, and
-   6.18.y (if those are maintained).
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-2. **The fix itself is legitimate**: Static `struct device` is a well-
-   known anti-pattern that causes real lockdep issues. This was reported
-   by a real user and fixed by the driver core maintainer (Greg KH
-   himself).
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-3. **The fix is small and contained**: ~20 lines changed in a single
-   file, converting a static struct to a dynamically allocated one. The
-   logic is straightforward.
-
-4. **Risk assessment**: LOW risk. The change is mechanical — converting
-   static to dynamic allocation with proper init. Greg KH authored it
-   and Danilo Krummrich reviewed it. The faux bus is infrastructure used
-   by other drivers, so correctness matters.
-
-5. **Bug impact**: Without this fix, lockdep and other testing/debugging
-   tools produce false warnings or miss real bugs when the faux bus is
-   used. This is a real correctness issue for kernel developers and CI
-   systems testing on stable kernels.
-
-### Stability Concerns
-
-- The faux bus is relatively new infrastructure (v6.14+), so it only
-  applies to very recent stable trees.
-- The fix is self-contained — no dependencies on other commits.
-- The commit is authored by Greg Kroah-Hartman, the stable tree
-  maintainer himself, which adds confidence.
-
-### Conclusion
-
-This commit fixes a real bug (lockdep/testing tool issues caused by
-using a static struct device, which is a known anti-pattern). It's a
-small, contained fix authored by the driver core maintainer, reviewed by
-another maintainer, and reported by a real user. It applies to stable
-trees v6.14+ where the faux bus exists. The risk is low and the benefit
-is clear — it prevents false lockdep warnings and potential issues with
-testing tools.
-
-**YES**
-
- drivers/base/faux.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/base/faux.c b/drivers/base/faux.c
-index 21dd02124231a..23d7258172325 100644
---- a/drivers/base/faux.c
-+++ b/drivers/base/faux.c
-@@ -29,9 +29,7 @@ struct faux_object {
- };
- #define to_faux_object(dev) container_of_const(dev, struct faux_object, faux_dev.dev)
- 
--static struct device faux_bus_root = {
--	.init_name	= "faux",
--};
-+static struct device *faux_bus_root;
- 
- static int faux_match(struct device *dev, const struct device_driver *drv)
- {
-@@ -152,7 +150,7 @@ struct faux_device *faux_device_create_with_groups(const char *name,
- 	if (parent)
- 		dev->parent = parent;
- 	else
--		dev->parent = &faux_bus_root;
-+		dev->parent = faux_bus_root;
- 	dev->bus = &faux_bus_type;
- 	dev_set_name(dev, "%s", name);
- 	device_set_pm_not_required(dev);
-@@ -236,9 +234,15 @@ int __init faux_bus_init(void)
- {
- 	int ret;
- 
--	ret = device_register(&faux_bus_root);
-+	faux_bus_root = kzalloc(sizeof(*faux_bus_root), GFP_KERNEL);
-+	if (!faux_bus_root)
-+		return -ENOMEM;
-+
-+	dev_set_name(faux_bus_root, "faux");
-+
-+	ret = device_register(faux_bus_root);
- 	if (ret) {
--		put_device(&faux_bus_root);
-+		put_device(faux_bus_root);
- 		return ret;
- 	}
- 
-@@ -256,6 +260,6 @@ int __init faux_bus_init(void)
- 	bus_unregister(&faux_bus_type);
- 
- error_bus:
--	device_unregister(&faux_bus_root);
-+	device_unregister(faux_bus_root);
- 	return ret;
- }
--- 
-2.51.0
-
+If you want to undo deduplication, reply with:
+#syz undup
