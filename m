@@ -1,173 +1,116 @@
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBC91B7F4
-	for <driver-core@lists.linux.dev>; Sun, 15 Feb 2026 05:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771134144; cv=none; b=ha8ooTeGtBkn3LQpTbVc0ikGGECmICGvY0RcKqlSzl+olWlMLvt8TBPZqEVkpmLXU5OPHMHLCRiz2tp1xhMNHjOUEynsHu36oDU8Jwq3AtM52ZiFJ4eVj68XwmPdGk/n+0BjmrkCQ48M3ixs0M5RvNEeA3+XviG9R5c8c5QusQQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771134144; c=relaxed/simple;
-	bh=MzyqnMDKNx/HANQvDwSq8pqIhkvw5nwaf3bUX133VkQ=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=nfZ4E7hmZe+dX/niNb24k/6pBHA9wCmWjjY0DnnxWHW57+vzl1Y0pDVCRNeKo+amq5eXqZXDv3hxIQ2Oj37aqs35Rnwbbicwl4IkfF357GAqQQ3naLUWBCLLAqm3hhjOaRZRnHyH/6Lr7YGAJe2o1kRrB9GjKgngi+qW5xM5SwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-678e130a87fso10835370eaf.3
-        for <driver-core@lists.linux.dev>; Sat, 14 Feb 2026 21:42:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E3D17A303
+	for <driver-core@lists.linux.dev>; Sun, 15 Feb 2026 12:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771159639; cv=pass; b=r/9Ph15LpTVDWe/9/3yaByh2M1rf+RpLBtfTSbP9KN+8sBc5cECqvivaQsvYEyV1JSJIQp8mflg3jfMgaHDtnrXZLqOUO9cDCsPYnzJczegcVWvsSgR0Sq1cXZ3Cv1SQnofJ2tyKzhMXmYA5r/98RJygPHyKrYLsNJFyj8JpTVo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771159639; c=relaxed/simple;
+	bh=B4uqGI0KWBIUJL6YDXBlbt8QMQCu/u6x+jYyWmIroY4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=tPKdm0NpMN32OUaoMJXreuU/wevLnSx4XTzgd9+OcLHqDxDtCxtMS3oF79QKY+K6C9mqNg1AifPPHPRgjPfj6KjWWi51/HsADPKq630D+Gmp5VLcKs0gbIluPlZF4f7Y1GKvHAZGQIjwuEdWtDRr94gQ04aR+eQnNkMVw7K7o2E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VQHUx05M; arc=pass smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQHUx05M"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2b86a9613d8so202954eec.2
+        for <driver-core@lists.linux.dev>; Sun, 15 Feb 2026 04:47:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771159638; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YdU/rMijZ4ZE2FhR2CAOEuPFCD4nHYGBWhw1XhmRS5lPLcdjRhPxEY09V+yPcpi8Xi
+         SCIAETWBw1PfUttkRGE4hBOvt6OWr3mEwIRpCVGsG8faklQpFaSxTKvJtLpzaHgfOS2v
+         ijenkI4XE1/p6E/fDAsD771Gk33qTtD5uKg0fr7xsewyzAFWa2M+yss8VU/HQSXY2Gfs
+         bdd0oNj7wbn6ppNOb5ALLQtgNM1pVnTpEmkhiUmbaQrJS0zbc073Gqg6JKiHzx8QH0T4
+         /VGU8THVv7WIAO51H7OcrSCDQdv/YBJ3JFLVI0bt4Mwiy223Kn0P88NvOT8IgUI7LTt5
+         2/mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=555QthD3BOi0oKnL9Ait9gVqXQiUN7RsLDwjha1Lgzs=;
+        fh=Vov5ncGfUDHfC8J+xSVmlzL1rMeBRuZOaagTdy9veuE=;
+        b=cp6hKePzy7d0tESk66cOk59qGYSuOesf22ItSUxZwfCbF+xPBsEriiXfjhqOt3Zpdb
+         Qd4++ItnVHFOn/3IM3U4EFKpGOl9/ynM/eC3UH2QZY9wW61CyH4gH9S/1YeoXP5onTro
+         JygUo4MXFHo5SKdaJkFOsBsmUHOc76CvtUOlYtiVk/MvEn/6C5wpZ21lhX1BIpd58Etq
+         23Glz+2/Ael5TIaErCPFbSQjkdtpX1rBH73iar+CwfQwp8n3MJh2BV3Emt9B2C8GpqRo
+         4CSBiGNUBAchboufqG3ggzZEq27ueTpYFrMUF8alDLFRuvK6z1rdkGOasDqspCsc/yks
+         f+Zw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771159638; x=1771764438; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=555QthD3BOi0oKnL9Ait9gVqXQiUN7RsLDwjha1Lgzs=;
+        b=VQHUx05MU7xGK1UhksY6zb4mTcQzvWf4vmrQv/vqBTlm9YjC4NG01JQfL2L4CSCenv
+         RTWQNUuCKlMO9KbFlg6KnkSISoV4u0iP9Wc/HzE4kcVNodjsXkZqN2HoaoPrV+DQVN8L
+         M29EcYYxqPXvfcNI6ZvEXmBePdHS2R/9zQvMJkHHrOBtx/8yp8F6VFqicsNtNxGlyVGq
+         EMgGTOyGrZzJiusLTTNCt+8jdYmTCZ7aw13pxWbJGWi8/ArHnd+uLvT24eN/srDY71D8
+         UJhCY//RjlOhRQM+DBMleaUXadAkLbKwGJqTxWTRlatyDeCUghls2GJPvpPazRJn/Ds/
+         TeYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771134142; x=1771738942;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CoQ/Ap6BVtRhVNflygAxI5dfzW7LzJ9IDoOS60zUKUw=;
-        b=CvNnP96o7iVqNnBYkyh0Htam0GhuKFUp1eAGn4CLdm5dSHAGG5WAZHvwMLCfgRio7f
-         mNabV7eiKhkOIytWsdWYcvrI/WMcDCB9X5lYpYgEl9rfejIVHGk71/BcJJ/jmaGSfPKq
-         pXD/CuaAcXuw/KbF/UrmTa0/9pfuQcmYaen6Z6p2WHc+5Oqns7T27EGqSYM58sX5of+g
-         Dm9e9LHRHY4tKgZXTyrgdMhl1FxK+lMsOhk0mT3DFf1EpngtCgy4LqCZSq72F8SM3xBB
-         uQKQ7NymrN/BtoO7lWIK4tctW8NhujnVv4NJJBlE8t2MJYE6L/pCnNqAVc2fmmpb1d2Q
-         hnKw==
-X-Gm-Message-State: AOJu0Yw8VLVp3DybSNkeBU72UhTF2XwB/Q633KzYC8nBZY+aaB9rFTPd
-	KznU7LaCb3seW9yXcfvwmdLsYzWNq7R1Y2Z+YM5mBl0U4jCdSrBvrtPvHm/eXO7zfmymt/EDM3P
-	c/RAmU3zwsEleUnZk7rpn7BHygMGB3uF6abL4WwYlLNG8kqHxCEUQ03K/vwQ=
+        d=1e100.net; s=20230601; t=1771159638; x=1771764438;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=555QthD3BOi0oKnL9Ait9gVqXQiUN7RsLDwjha1Lgzs=;
+        b=CGkdDsjKV1Jj6SaoBv49vlWzYlded1zTrEtWl4lQfwPCHXPh3pS91FBGHv8RWoPGGL
+         8INnzP+EsvDaUCfLC2+YD63a2snOzn5dqIb8VtNdsDg5NXw4mdkcXV82ytNdEPL7yfMW
+         TF2b1ua10VBVzmjlWJ/CLh78/y8QK5oLhKMQRKQlR4Wrzm6/TudVoAA0m4OqJBJ2ZNKJ
+         iM7kUIjNd1uZS8eeuxUKlpZAjx3WP+B3FnGCRqxtTp0fiUIRVgyPQaBWqGz6WamKz/sm
+         F/1g65P+D3uprGd8kcWqI7+GEyuLH2ab2vNj5bVWXcGkXnR8siLN5S+lvO53MX8xyAhz
+         fXCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJhzbwverQvUYt3/SdVBmTQ5Du3Fipqr2wTTzMMRef3H+dw0kOHd7b4zaJujjoEOrQEJuAhyPtM4+7vw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBJR9YaLCXYgJ8Gzczog9B+EuYiX234JfAZ13o3NMqUj4TIUa6
+	jT3ro0XgqCf0dO7Bs8WIZW0CWv+k+B4zzQJpLFQwFMShcfn3meQtfexuuaQueOQ00wj0RiansdW
+	Aj9okcsX0V9NVHIGjNL42zoIA0Rt7IuI=
+X-Gm-Gg: AZuq6aIYhyyauEKhEA1Fs38he2Pj0F/ob2YuvR52Dw5Jc+U50DOOKFlOevmIkHEHRXk
+	1SUkABWw1SB4KvEC/IlW021Zn3aYL76wQeebI7HFGqZL7yhqpc6oj7WB1dr8K/D+EV3l8dSAPh1
+	UApNMoiDgG5W5mZuzJ0ef89xJS3VFjfDtVsP0oOSqhClwRuGuDUKYkDHkuOsTYv+Y8aKlCAzWcA
+	GBDN0npnz7yI3DjT/SIm+WhxYaBWqXVy3E10ViP80YDbJSV91ihGiufCf9KKY/UatO0c3OftwkW
+	/8GGNqlvlUnJk8qejN1ia1VyYaOMnRw19zoR1V30noPvLEUUvDQJH/QUW5GAaR67ecmLZFJUNQu
+	GVhX1p4+W1MUUQNvOOAeyAfuoHSvXi+PfmZ0=
+X-Received: by 2002:a05:693c:3747:b0:2b7:f145:a98 with SMTP id
+ 5a478bee46e88-2baba010c63mr1740180eec.2.1771159637646; Sun, 15 Feb 2026
+ 04:47:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:2207:b0:66e:3015:ca58 with SMTP id
- 006d021491bc7-67720560a92mr3708322eaf.18.1771134141966; Sat, 14 Feb 2026
- 21:42:21 -0800 (PST)
-Date: Sat, 14 Feb 2026 21:42:21 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69915cbd.050a0220.2757fb.002f.GAE@google.com>
-Subject: [syzbot] [kernfs?] KMSAN: uninit-value in inode_set_ctime_to_ts
-From: syzbot <syzbot+e2fd93a2773af7f9ea51@syzkaller.appspotmail.com>
-To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com, tj@kernel.org
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 15 Feb 2026 13:47:05 +0100
+X-Gm-Features: AaiRm52xhFAYmyYTEXemxfhC4DHyUHZ4W6znoAlEOviZgMAfjb63hI2InUlCZ8g
+Message-ID: <CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com>
+Subject: Mainline UML Rust stable io.rs unused imports
+To: David Gow <davidgow@google.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, driver-core@lists.linux.dev, 
+	linux-um <linux-um@lists.infradead.org>, 
+	rust-for-linux <rust-for-linux@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hi all,
 
-syzbot found the following issue on:
+In mainline and next, for UML with Rust stable (but not with Rust
+minimum), I am seeing:
 
-HEAD commit:    cd7a5651db26 alpha: add missing address argument in call t..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1037415a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=50148b563a4d5941
-dashboard link: https://syzkaller.appspot.com/bug?extid=e2fd93a2773af7f9ea51
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+      RUSTC L rust/kernel.o - due to target missing
+    error: unused import: `define_read`
+       --> rust/kernel/io.rs:229:16
+        |
+    229 | pub(crate) use define_read;
+        |                ^^^^^^^^^^^
+        |
+        = note: `-D unused-imports` implied by `-D warnings`
+        = help: to override `-D warnings` add `#[allow(unused_imports)]`
 
-Unfortunately, I don't have any reproducer for this issue yet.
+    error: unused import: `define_write`
+       --> rust/kernel/io.rs:262:16
+        |
+    262 | pub(crate) use define_write;
+        |                ^^^^^^^^^^^
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/23c623fcb1bf/disk-cd7a5651.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5128bb44f38d/vmlinux-cd7a5651.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a65d6b263e08/bzImage-cd7a5651.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e2fd93a2773af7f9ea51@syzkaller.appspotmail.com
-
-=====================================================
-BUG: KMSAN: uninit-value in inode_set_ctime_to_ts+0x1eb/0x3a0 fs/inode.c:2777
- inode_set_ctime_to_ts+0x1eb/0x3a0 fs/inode.c:2777
- inode_set_ctime_current+0x646/0x1690 fs/inode.c:2842
- simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
- set_default_inode_attr fs/kernfs/inode.c:155 [inline]
- kernfs_init_inode fs/kernfs/inode.c:209 [inline]
- kernfs_get_inode+0x23a/0xb60 fs/kernfs/inode.c:255
- kernfs_iop_lookup+0x2ff/0x600 fs/kernfs/dir.c:1241
- __lookup_slow+0x56a/0x770 fs/namei.c:1916
- lookup_slow+0x6a/0xd0 fs/namei.c:1933
- walk_component fs/namei.c:2279 [inline]
- link_path_walk+0x170f/0x2650 fs/namei.c:2647
- path_lookupat+0x107/0xdf0 fs/namei.c:2803
- filename_lookup+0x2bc/0x800 fs/namei.c:2833
- vfs_statx+0xcf/0x290 fs/stat.c:353
- vfs_fstatat+0x2dc/0x400 fs/stat.c:373
- __do_sys_newfstatat fs/stat.c:538 [inline]
- __se_sys_newfstatat+0x64/0x870 fs/stat.c:532
- __x64_sys_newfstatat+0xbd/0x120 fs/stat.c:532
- x64_sys_call+0x3824/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:263
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Uninit was stored to memory at:
- inode_set_ctime_to_ts+0x1e4/0x3a0 fs/inode.c:2777
- inode_set_ctime_current+0x646/0x1690 fs/inode.c:2842
- simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
- set_default_inode_attr fs/kernfs/inode.c:155 [inline]
- kernfs_init_inode fs/kernfs/inode.c:209 [inline]
- kernfs_get_inode+0x23a/0xb60 fs/kernfs/inode.c:255
- kernfs_iop_lookup+0x2ff/0x600 fs/kernfs/dir.c:1241
- __lookup_slow+0x56a/0x770 fs/namei.c:1916
- lookup_slow+0x6a/0xd0 fs/namei.c:1933
- walk_component fs/namei.c:2279 [inline]
- link_path_walk+0x170f/0x2650 fs/namei.c:2647
- path_lookupat+0x107/0xdf0 fs/namei.c:2803
- filename_lookup+0x2bc/0x800 fs/namei.c:2833
- vfs_statx+0xcf/0x290 fs/stat.c:353
- vfs_fstatat+0x2dc/0x400 fs/stat.c:373
- __do_sys_newfstatat fs/stat.c:538 [inline]
- __se_sys_newfstatat+0x64/0x870 fs/stat.c:532
- __x64_sys_newfstatat+0xbd/0x120 fs/stat.c:532
- x64_sys_call+0x3824/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:263
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Uninit was stored to memory at:
- inode_set_ctime_to_ts+0x19f/0x3a0 fs/inode.c:-1
- inode_set_ctime_current+0x646/0x1690 fs/inode.c:2842
- simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
- set_default_inode_attr fs/kernfs/inode.c:155 [inline]
- kernfs_init_inode fs/kernfs/inode.c:209 [inline]
- kernfs_get_inode+0x23a/0xb60 fs/kernfs/inode.c:255
- kernfs_iop_lookup+0x2ff/0x600 fs/kernfs/dir.c:1241
- __lookup_slow+0x56a/0x770 fs/namei.c:1916
- lookup_slow+0x6a/0xd0 fs/namei.c:1933
- walk_component fs/namei.c:2279 [inline]
- link_path_walk+0x170f/0x2650 fs/namei.c:2647
- path_lookupat+0x107/0xdf0 fs/namei.c:2803
- filename_lookup+0x2bc/0x800 fs/namei.c:2833
- vfs_statx+0xcf/0x290 fs/stat.c:353
- vfs_fstatat+0x2dc/0x400 fs/stat.c:373
- __do_sys_newfstatat fs/stat.c:538 [inline]
- __se_sys_newfstatat+0x64/0x870 fs/stat.c:532
- __x64_sys_newfstatat+0xbd/0x120 fs/stat.c:532
- x64_sys_call+0x3824/0x3ea0 arch/x86/include/generated/asm/syscalls_64.h:263
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x134/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Local variable retval created at:
- inode_set_ctime_current+0x3b/0x1690 fs/inode.c:2833
- simple_inode_init_ts+0x43/0x180 fs/libfs.c:2133
-
-CPU: 0 UID: 0 PID: 5142 Comm: udevadm Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-=====================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Cheers,
+Miguel
