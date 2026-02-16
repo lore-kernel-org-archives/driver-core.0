@@ -1,144 +1,98 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDA91F7569
-	for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 08:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574362F12AC
+	for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 08:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771230568; cv=none; b=dEdJlZsZPDegzXCloqHXoOlQBHaJ9EV3UeQ47dY5Mol84RkIcP2KJ4a2QHdc6k0S9K3SYavonqMD6dq5D4AHHs6gwmNYFRtGp+lIZ8T0+NswiVZOYbncXKOwMfs6TmYgiNmsqFeTu73y1JncOxLCEh7mrGYpYNxAClDIiYXYCfs=
+	t=1771230889; cv=none; b=sRyryl2JtHM2GIKtCv9OEuvGtMGyUhvjWt+I6ZlF1ffyJqEy67B581mDLNFhz/icMSxjUJ/IEThWY8A876E+/aMwlaMEqJanhKKBbRbDKvd8m68qoUJo/xfubR53lgssSLw9D2jDfwnLhqfg+6nWKzurxW6in02BmH/tfTmaKIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771230568; c=relaxed/simple;
-	bh=ra1V5naSBIa3oKdC22ngSjF+njr2h+bn056HhsDqPMY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=bQRH7R/qL/DNBiICuVm+D5lwvIJVBQU2ymT0cztGiQgDlRHlZBk01QLdeZYC5OVwnmCTPAO3Df0vJZzY8Kd8XxmqBQw4RY9IeLrjGBn1sULE78bSOEDCaUuyRrl8vikyjEzlBE88Bg9vK4gnwXD0l7uIcJg68tv0V0ZhNECR9Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vIyuQG6V; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1771230889; c=relaxed/simple;
+	bh=dvQgcaenU0SHlZ2HJsbaNWEWu0qsn7uquDLz40HRHfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VmZaUuJtaobEbBgv08+F8kYzmMX+7LuJtFWYIxt/kxyMFBkl8npHH+ePVPDte5M76q+xt+QL/xiE19JptYlaE1l44HZSob1+zgiJIoGVadRWIqWXGTamMmK8meDMy+UoThBsWWTY/Ca+dQp7umd6exxXypgpPYs4SryYO2VF6WU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JiawxJRN; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vIyuQG6V"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4837bfcfe0dso10854885e9.1
-        for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 00:29:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771230566; x=1771835366; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dw73ohv4pJTcmw9KbhINi0iCnAI6CO1W3op7q8abiDI=;
-        b=vIyuQG6VmxgSGwElytK588Q2JYuK4vM6oHVzO8Br/ZhA1E1uNZcyGvhRlQmzLwcxRW
-         DPpd2yq3MC29f569lq5LWpa3pub3T6BWoxYWnpNlYeC1rky0HmouL00mnv5sOk4sVvNJ
-         1LYbUGZ0jrZGfYb208g7T+ObIu+JBgfMTQeXOUgbQM2FyxVYEqxFEQNa+r2h+yCUP+nK
-         BNeuxBQdOadIge70Fu/9oRWkAGijH7emy/FSbeOHfjIHKpbB5XkEh4HM85lJFxEDZcJu
-         NiCr6zQUHXGOUf5+qtaG1mqKtMAF//YA10lvufwbwP26EvcSlGqKGim/YIMyTY9L3f0d
-         xrJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771230566; x=1771835366;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dw73ohv4pJTcmw9KbhINi0iCnAI6CO1W3op7q8abiDI=;
-        b=IXVsrT77Cyt1sWI9if0IR5jvoZWL61ENfEcpx9jOaBj82UucVlDKfKf6lvVA7Ojy/F
-         43l9LHMtyOHVj9+BmW0TNEVRJcvUQcYK3uv0cllGEhIOpaxq2UWv10K5ELd3gk8h3DB+
-         +ZCsPfq5UH5F5EQ4HpIkxMN/KD13YLhdmuQrAs0Dw6bMMzipB81oQ1Mu4PrOBtvctQxR
-         UGaSXU86QxZ8Caka/FZWtGe9zpTZd8Dr8lsJki5SZBGSagBl6T4TKfSVuVE4dWrSx/XR
-         aMX4yalrekpA9V/EfJZB49lShKAo4Ya1dpt6b6xiZ3qYDdcs+XUPKZiD+++wfFuJyMQd
-         +w2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUhMLeVvLcZ2fzG/iUBmxn70blcanRz9UVJpQvf5piHqYr4JbWdv41bkS8IVu99uN2FBPBZYm55KxWXUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyyfXYXt5Kvpi56NL274gSErTa5mlNXaK2aL7zhDQyahBwLAmI7
-	rii4NvHYle4Bbqncijbuoi1iSHhipjWryT29pW01/lg7GhBGmysqs/Bz9/j45HBoQQ30jUdk4ck
-	CcPJjs44LHoKtaG2pMA==
-X-Received: from wmbiv15.prod.google.com ([2002:a05:600c:548f:b0:483:5ee6:9c8b])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:37cc:b0:477:58af:a91d with SMTP id 5b1f17b1804b1-48379b93370mr118294095e9.5.1771230565675;
- Mon, 16 Feb 2026 00:29:25 -0800 (PST)
-Date: Mon, 16 Feb 2026 08:29:24 +0000
-In-Reply-To: <20260213220718.82835-6-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JiawxJRN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=udWn
+	s0/tE9VKlKkv9PZVrjAGz6UPCuc03cHhjm82iJE=; b=JiawxJRNnzOnh5J1hVMh
+	E5duxMm3nyH2uDC+IPLFgg3q1xpmC7YqD9esUnX1lU/oL7BU9hRdwHsHasD69/fa
+	gfyDd7xv69iBMmdpaeoSlfesWXrKB35LRWiALI/TJIhAAteXx697Uw6Z2QsWpNxZ
+	JYobhZkrtlvxpVbjZ9nsh3dB+cpmAtgEt0WmB0vSJXkVOGRhxu93MVFPt7papNLM
+	ZSfv0rFQ4rku+pla5XnOn7G+ab5NbnREMvkE/EBWTAGSP/AkabrJ6weMmqYFysIJ
+	orrqckAcPD/DdHyruK3K0KYRCMwldOcIUxYCus5bHrfo8yM1kzBAT+jvmKSAcDiE
+	vg==
+Received: (qmail 3164830 invoked from network); 16 Feb 2026 09:34:44 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Feb 2026 09:34:44 +0100
+X-UD-Smtp-Session: l3s3148p1@2umq0+xKxoEujnu0
+Date: Mon, 16 Feb 2026 09:34:44 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>, driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [RFC v2 PATCH 00/13] hwspinlock: move device alloc into core and
+ refactor includes
+Message-ID: <aZLWpM8XOvidXJl7@ninjato>
+References: <20260215225501.6365-1-wsa+renesas@sang-engineering.com>
+ <aZLJ8Z4XOTEUJfmh@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260213220718.82835-1-dakr@kernel.org> <20260213220718.82835-6-dakr@kernel.org>
-Message-ID: <aZLVZMHzAPnY03Oe@google.com>
-Subject: Re: [PATCH v2 5/5] rust: devres: embed struct devres_node directly
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, ojeda@kernel.org, 
-	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aZLJ8Z4XOTEUJfmh@smile.fi.intel.com>
 
-On Fri, Feb 13, 2026 at 11:07:15PM +0100, Danilo Krummrich wrote:
-> Currently, the Devres<T> container uses devm_add_action() to register a
-> devres callback.
+
+> > Looking forward to comments. I especially wonder if the last patch
+> > should stay as-is or if it should be broken out, so individual
+> > subsystems can pick up their part (with a fallback in place, of course,
+> > until the last user is converted).
 > 
-> devm_add_action() allocates a struct action_devres, which on top of
-> struct devres_node, just keeps a data pointer and release function
-> pointer.
-> 
-> This is an unnecessary indirection, given that analogous to struct
-> devres, the Devres<T> container can just embed a struct devres_node
-> directly without an additional allocation.
-> 
-> In contrast to struct devres, we don't need to force an alignment of
-> ARCH_DMA_MINALIGN (as struct devres does to account for the worst case)
-> since we have generics in Rust. I.e. the compiler already ensures
-> correct alignment of the embedded T in Devres<T>.
-> 
-> Thus, get rid of devm_add_action() and instead embed a struct
-> devres_node directly.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> Coincidentally I have briefly reviewed it in the Git tree before you have sent
+> this to ML. I like the whole series, but what I have missed is the explanation
+> of the removal of Contact: comment in some of the files.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Ah, thanks! True, documenting it slipped through the cracks. Sorry about
+that. The reason is, of course, we have MAINTAINERS for this kind of
+information. Plus, Ohad Ben-Cohen hasn't been commiting upstream to 10+
+years according to git history.
 
->  /// This abstraction is meant to be used by subsystems to containerize [`Device`] bound resources to
->  /// manage their lifetime.
->  ///
-> @@ -111,12 +124,63 @@
->  /// ```
->  pub struct Devres<T: Send> {
->      dev: ARef<Device>,
-
-Wouldn't it be nicer to move this into the Arc? Most of the time, it
-would probably fit in the kmalloc bucket without enlarging it, so it
-seems like that would be better for most scenarios.
-
-> +// Calling the FFI functions from the `base` module directly from the `Devres<T>` impl may result in
-> +// them being called directly from driver modules. This happens since the Rust compiler will use
-> +// monomorphisation, so it might happen that functions are instantiated within the calling driver
-> +// module. For now, work around this with `#[inline(never)]` helpers.
-> +//
-> +// TODO: Remove once a more generic solution has been implemented. For instance, we may be able to
-> +// leverage `bindgen` to take care of this depending on whether a symbol is (already) exported.
-
-I'm not sure what a generic solution would look like. There is an
-assumption that if A can call B and B can call C, then A can call C.
-Other than just exporting the C methods, possibly for Rust only?
-
-What happens in C when you turn on LTO and core kernel methods get
-inlined into modules?
-
-> +    #[inline(never)]
-> +    #[allow(clippy::missing_safety_doc)]
-> +    pub(super) unsafe fn devres_node_remove(
-> +        dev: *mut bindings::device,
-> +        node: *mut bindings::devres_node,
-> +    ) -> bool {
-
-Since you're taking the opportunity to wrap these, I'd consider adding
-#[must_use] here.
-
-> +                    // SAFETY: `node` is a valid pointer to an uninitialized `struct devres_node`.
-> +                    unsafe {
-> +                        base::devres_set_node_dbginfo(
-> +                            node,
-> +                            // TODO: Use `core::any::type_name::<T>()` once we are able to convert
-> +                            // the `&str` to a NULL terminated `&CStr` without additional
-> +                            // allocation.
-> +                            c"Devres<T>".as_char_ptr(),
-
-The problem is that type_name() is not const. We can convert a const
-&str to &CStr with no problems already.
-
-Alice
