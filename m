@@ -1,68 +1,71 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AD5223708;
-	Mon, 16 Feb 2026 10:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41AE29E101;
+	Mon, 16 Feb 2026 10:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771237156; cv=none; b=OFRog+nXZ5PdfzfFyYohbNIB5ErI21BnhCPX+0vMPeyYEn1XozX9CcExM+aPQF0nJoKgLLxRXJSjeIyB4OtYtME4oMAF5BNoSk1x9R/MzFecg5Hu5XVQSZ13VjWxC7zeOO7ZrqfQLAeyJhfzRREfzFpDwJyG0xYhMb86ueiNSuA=
+	t=1771238100; cv=none; b=BXDMFP/q2k4cErxSJNcJGqnDPt8/0otcXYf9HzbdKqbYrPrU0Bofw9Z5Va/y/6tNqaGh/aC87ZZc+bDNDiRBBnZt90E1b/bFsk9F4thr/zeyUEEPg4z92Y89NjG+okBEirhffEaA3JuyEuCVcR4NEztZjQ9NxLqNGA7KF1hhcAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771237156; c=relaxed/simple;
-	bh=foN7eBSH/BQQH6FijjnQmtw6BFXfrNqt0XLjalP+Pb0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=C+peNLKxgU7EesNk+DwCe1z/wzmd/+KL8z5xPQh3IPpKejsiE8uzxysiLWzaOS+6pRNXPos+nsCJipmsf7vreNGYPbTbMtMnSUwFF0uC9nhAU3vufUqUtlR9dHLZeI7LqnSuSDztsN2NCpOhqkbFHB+1kG43f/WPbKksB+xnNac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=x4fRjI7i; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	s=arc-20240116; t=1771238100; c=relaxed/simple;
+	bh=/2BeNWAlYULFR5Q9wmcHGInhRij16LyccZTNcZ6eQgw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=joLKsnF6R8M3IA+6j/83gHtqZqu22sUkSEq3rAFDC+WobUMbURftRYEctE5uKdK/OOvzu9f4OdLr3k/V4df5nZLjiaAzBSIjvoo3IjVgbTfnryOFxzLIxNSJJpcPAb1+9MFW/O9JjOoeH1OpNAKpvs8wlfY+8UtptWNgu8eTjwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9AxuLzH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="x4fRjI7i"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=fPpuQghjjBLmwcDQFbY9dhkiK1rjd17YsAWDWoD7RXA=;
-	t=1771237155; x=1772446755; b=x4fRjI7iO9V13nyZqv+Q+V8FIqRIyQBQ6Iq8H1NqOXQQF95
-	TClLOrj6IDk5z10jf/FyHqKkTL2ukV9i5TTREqaTfsIxfts+diiB4P1bBC/EcBZTgegpe1OPSwjQD
-	AZUs7dH9hSj/m6pRMGQI61K6X+dT5N2o+cDfsWzRcYTJLtqZWrBbQXiP3e4ol85MdqMRCNfwtSdZM
-	tmsp7xTXLj2gbNN/4zJWjH7imfH19S5lNzNFjeGjI5+PwAO7osLWFt9ybd003WTCPOw+Dftg3ABHA
-	1mfz0w522PBOx/cwfjXmc7eO4og6ZfTokp1MNYuo7JN2ii5Z0vLopQk3ldmaAaBg==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.2)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1vrvh8-0000000APgG-009C;
-	Mon, 16 Feb 2026 11:19:10 +0100
-Message-ID: <9fc2586e16c2a0fa3599432b19fa7049e561a7f6.camel@sipsolutions.net>
-Subject: Re: Mainline UML Rust stable io.rs unused imports
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, David Gow
-	 <davidgow@google.com>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl
-	 <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Richard Weinberger <richard@nod.at>, Anton Ivanov	
- <anton.ivanov@cambridgegreys.com>, driver-core@lists.linux.dev, linux-um	
- <linux-um@lists.infradead.org>, rust-for-linux
- <rust-for-linux@vger.kernel.org>
-Date: Mon, 16 Feb 2026 11:19:08 +0100
-In-Reply-To: <CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com> (sfid-20260215_134720_322640_B137859C)
-References: 
-	<CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com>
-	 (sfid-20260215_134720_322640_B137859C)
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9AxuLzH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C35BC116C6;
+	Mon, 16 Feb 2026 10:34:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771238100;
+	bh=/2BeNWAlYULFR5Q9wmcHGInhRij16LyccZTNcZ6eQgw=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=m9AxuLzHIgr3xO9OFc2qdTDZdU9q3uDf7VT3t+O6Z2MFLcYsjVCEaRxBXyTHgAoDz
+	 nGdjlC3S+0j1XDSWwTRFHYafAgAaoiwuJAUeryx9rD20VJYec2k3BBCu66ZNrUPddZ
+	 ZKSrKZSa97bZ1oQQuT/xpiAPn+gPl6aY9KCmhT1lHb6t8VyPF+rB0KDIlnUWNqtQfg
+	 5038nF//wM+5V7y98haM/upymMNLFoDp2DJZqb5vWXY3XJsoOm3ZBe2MfVMdR8mCFl
+	 3lYP0VtMecMEzwkHvlnTjJU6D+4ThoR6bU55mrgIxX4PZJu0UMOn/1s1/QjO6AdrOv
+	 oaUPjtV4X4d3w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 16 Feb 2026 11:34:56 +0100
+Message-Id: <DGGBI4DU4J4U.2JOBHL5IFUCTL@kernel.org>
+Subject: Re: Mainline UML Rust stable io.rs unused imports
+Cc: "David Gow" <davidgow@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>, "Richard Weinberger"
+ <richard@nod.at>, "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
+ "Johannes Berg" <johannes@sipsolutions.net>, <driver-core@lists.linux.dev>,
+ "linux-um" <linux-um@lists.infradead.org>, "rust-for-linux"
+ <rust-for-linux@vger.kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com>
+In-Reply-To: <CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com>
 
-On Sun, 2026-02-15 at 13:47 +0100, Miguel Ojeda wrote:
+On Sun Feb 15, 2026 at 1:47 PM CET, Miguel Ojeda wrote:
 > Hi all,
->=20
+>
 > In mainline and next, for UML with Rust stable (but not with Rust
 > minimum), I am seeing:
->=20
+
+I think the problem is not UML specific, it is about define_read!() and
+define_write!() being crate public, while the only user is PCI.
+
+So, if CONFIG_PCI=3Dn, we get this warning.
+
+I will send a fix soon.
+
+Thanks for reporting!
+
+- Danilo
+
+>
 >       RUSTC L rust/kernel.o - due to target missing
 >     error: unused import: `define_read`
 >        --> rust/kernel/io.rs:229:16
@@ -73,17 +76,13 @@ On Sun, 2026-02-15 at 13:47 +0100, Miguel Ojeda wrote:
 >         =3D note: `-D unused-imports` implied by `-D warnings`
 >         =3D help: to override `-D warnings` add `#[allow(unused_imports)]=
 `
->=20
+>
 >     error: unused import: `define_write`
 >        --> rust/kernel/io.rs:262:16
 >         |
 >     262 | pub(crate) use define_write;
 >         |                ^^^^^^^^^^^
+>
+> Cheers,
+> Miguel
 
-Not sure I understand, the cfg() seems to only be fore 64-bit, but it
-_is_ possible to build UML without IO accessors at all, since it's just
-virtual, but I don't see how that would reflect in io.rs.
-
-Not sure I can say anything else about it, sorry.
-
-johannes
