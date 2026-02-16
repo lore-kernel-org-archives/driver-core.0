@@ -1,54 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE7F78F2F;
-	Mon, 16 Feb 2026 13:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771248146; cv=none; b=q7ohEDkToyPW4VCwUdKhLyf7oUFVtPvcXp3d5u2YXXrLO+D3pv7CsE1+zRS9zO0sHvFCzk57toZw/DP8jyIcuIy7O7Z/0djO+pYix2uidBIX8BY773QZKkvU1F5GXLI/WeQeonW6UHgOlH+VspZOuj9BCVXUqTiJ/xpPNoYu3E4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771248146; c=relaxed/simple;
-	bh=wq+Zr6L88Web7nSkY4eKcKCq9RujjgnqldokSx/qmRA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=b6DtbRY4RoqP7POQVFiCl45AeEkvBH3rZrzAC17B8mAun8qy58GDAwuyfJ9hnQl4Lfg2Zt9tk+WnDr4FyQ0n5ea3gmaJL+lMbpk4Er0ovL4L3dy2YBGCvpGG8N2UymtvZElddp3fnCIMcSye+bhP+oHnFy/mFy+9+f8ZTj4G5Bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frRDEktT; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45E378F2F
+	for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 13:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771248150; cv=pass; b=oTlbZYmUYbPtP+oPgrdMrIcwr82MjvAxAnPY2ZweXvy23rCBpsjbx3/hkGI6dER5WiHyhMA5XhfRPn2zJ3EODhi9kl5ropDZVKauf46aex0AJi1av88UmlGGvrJbBeURmBffBIBf9Ervq1MfO2KeIpYSm2hUlV+u+iwiLjetWXs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771248150; c=relaxed/simple;
+	bh=KbfoHwiUYTfn0aGfT4Pi1rTgfaW/JssTGENDraiOZQ8=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=AF91M4A8GvwMeQZDR9DAct9Bo4WT19F9k3I1vokRCXcSzX2J2cmoUElmnNmxuLJfWs68lBMoZZX07p+h+XT9Lzy/94iYAEVLkLS7UlBcQGFkA3lJn4tPpvpQ91eInPh5TIHiePLRaS4PCFxPGdofa9yOvnV/8slmP23OMYnzHwA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=BmSlIgeg; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frRDEktT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8765CC116C6;
-	Mon, 16 Feb 2026 13:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771248146;
-	bh=wq+Zr6L88Web7nSkY4eKcKCq9RujjgnqldokSx/qmRA=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=frRDEktTVlJUto0BcqBtYAJGbVuzLzbUuaBjm/ndTovt7+86WajDsEmpOaJoX7xAK
-	 xTuwIxVxoQlu5fSVLLaaHyXm2GDSE/HyLg2wrKJDxDzpaasnXFZ2FVOH248N/z6uMI
-	 0wNjy2OX1hksnkGA2pvBOU/GUcP6A3k5S3lERUUJ9EAqnN23B1t09kzEL2gxgHHUl2
-	 LlFtWvMTOg8qwCAEOmPYl1B2EKR7tk/AqnFSLM5hr9/RedmP4Q6TTomHQYX57FzzaH
-	 g57X2Our9caSrPyL3BzddhAwD3BftWxAdtsR70fIQcoup19/YNrBB6YL5gq1utdI0L
-	 +Lz7BIEH9Jt6g==
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="BmSlIgeg"
+ARC-Seal: i=1; a=rsa-sha256; t=1771248141; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=OOIQTuxrd1+7J3G6JDaGYiTFIlhmW0cJxdXi5No/CRHbs1V/aF7CazjotX/fQDW3Ov10fdqSbw5EWP4qggPkSTkN2azp1JTl+7Mkeid7wExubKaYVdOGJDqREwyB4gSjvPZ81Vwj0fWeIeRzNgb6F2yUjy3MeYipibNmSqoDL1I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1771248141; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=KbfoHwiUYTfn0aGfT4Pi1rTgfaW/JssTGENDraiOZQ8=; 
+	b=XxOuerdXLV0bmJSIlb/I2iJigD9cbXrlpR0wRyIXSP1d5FtTfuqRg70tDmQtt7rFi48rB5XW+pmYLjJ9l1MHvz0wZHJcq6FJZrzhFey+yTUgD2j+m2LxFh8FD7bnXY4uvENXcUPGH11n7g2EFX0tHpTYiVc0yI8f7QfQrZ1pFdI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771248141;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=KbfoHwiUYTfn0aGfT4Pi1rTgfaW/JssTGENDraiOZQ8=;
+	b=BmSlIgegoIcVRaC7EivEQdhZoV+6vbVhVhArqNsgpg3IxeyBTBaCD6jn9T4oqcS5
+	OK68k82ZJpevaDs7Rhuwtug9gMx8Y4nvmqEGucIpOmSYjCBnhCwdFw++QL4m7EcSEAp
+	2Eqwl7C3ZD97KZd4xF7B5vIzvW/GX0hV0GWq7YKw=
+Received: by mx.zohomail.com with SMTPS id 1771248140234149.76169704302697;
+	Mon, 16 Feb 2026 05:22:20 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Feb 2026 14:22:22 +0100
-Message-Id: <DGGF2BKJP4BS.1CZFWVQTK144G@kernel.org>
-Subject: Re: Mainline UML Rust stable io.rs unused imports
-Cc: "David Gow" <davidgow@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Richard Weinberger"
- <richard@nod.at>, "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
- "Johannes Berg" <johannes@sipsolutions.net>, <driver-core@lists.linux.dev>,
- "linux-um" <linux-um@lists.infradead.org>, "rust-for-linux"
- <rust-for-linux@vger.kernel.org>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com> <DGGBI4DU4J4U.2JOBHL5IFUCTL@kernel.org>
-In-Reply-To: <DGGBI4DU4J4U.2JOBHL5IFUCTL@kernel.org>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH] rust: io: macro_export io_define_read!() and
+ io_define_write!()
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260216131534.65008-1-dakr@kernel.org>
+Date: Mon, 16 Feb 2026 10:22:01 -0300
+Cc: aliceryhl@google.com,
+ bhelgaas@google.com,
+ kwilczynski@kernel.org,
+ ojeda@kernel.org,
+ boqun.feng@gmail.com,
+ gary@garyguo.net,
+ bjorn3_gh@protonmail.com,
+ lossin@kernel.org,
+ a.hindborg@kernel.org,
+ tmgross@umich.edu,
+ zhiw@nvidia.com,
+ acourbot@nvidia.com,
+ driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <9DD438A4-809A-4DC7-AFF4-44AF7176CBA4@collabora.com>
+References: <20260216131534.65008-1-dakr@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 
-On Mon Feb 16, 2026 at 11:34 AM CET, Danilo Krummrich wrote:
-> I will send a fix soon.
 
-https://lore.kernel.org/driver-core/20260216131534.65008-1-dakr@kernel.org/
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
