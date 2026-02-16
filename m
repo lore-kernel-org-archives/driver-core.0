@@ -1,72 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852491DDC2B;
-	Mon, 16 Feb 2026 09:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AD5223708;
+	Mon, 16 Feb 2026 10:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771235128; cv=none; b=AXGKKgq5qp27ZASQZrRnTHHOLIKt3VMZJJAoreLwtkPHTGXtRqU9q85vpxer/+i28JHoUJVeI35Ozh3AuZLb7m8Dv/BOyA8CAmICztyNI6zcMjdHgzzXhQ42xxJBo2UQX5Xu3VRBuB4FKQTD8ImyZ14eq/yj4eopTA8M1LW5xCY=
+	t=1771237156; cv=none; b=OFRog+nXZ5PdfzfFyYohbNIB5ErI21BnhCPX+0vMPeyYEn1XozX9CcExM+aPQF0nJoKgLLxRXJSjeIyB4OtYtME4oMAF5BNoSk1x9R/MzFecg5Hu5XVQSZ13VjWxC7zeOO7ZrqfQLAeyJhfzRREfzFpDwJyG0xYhMb86ueiNSuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771235128; c=relaxed/simple;
-	bh=7NunW6RQ2SBImUQczKO4pkXAhCVgbYmwdk+s/Y6+W4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E9cMKuDmrPvxcy47VcSEc9xvOyLzkcw2s1K49fjqZf/Qy0VWT2DFObH0I4pZ7bnLJWx1PwBVA4qyqpa88ER7XhMGkdmIzFSpVwjK9Vxt1KboTXOwMNIoU2twzR9ME6o36d+5nIqFaSYwMTXtSe6Hrwv9+XNMek92UXLiaPXvThQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xNL5Ln/G; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771237156; c=relaxed/simple;
+	bh=foN7eBSH/BQQH6FijjnQmtw6BFXfrNqt0XLjalP+Pb0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=C+peNLKxgU7EesNk+DwCe1z/wzmd/+KL8z5xPQh3IPpKejsiE8uzxysiLWzaOS+6pRNXPos+nsCJipmsf7vreNGYPbTbMtMnSUwFF0uC9nhAU3vufUqUtlR9dHLZeI7LqnSuSDztsN2NCpOhqkbFHB+1kG43f/WPbKksB+xnNac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=x4fRjI7i; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xNL5Ln/G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8543C116C6;
-	Mon, 16 Feb 2026 09:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771235128;
-	bh=7NunW6RQ2SBImUQczKO4pkXAhCVgbYmwdk+s/Y6+W4c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xNL5Ln/GHbKcYxO9OK9TGyqNcd/W3Shk6BTBuL2YDjBV27c6Vz4DDyLGjzv+io9hQ
-	 PdOiDxodlXjS4AQt6gi27iSLT1dCqRXkcJQqVxWZzKI70+VtmhSilMxCY2wh/9oCBZ
-	 WKCQU1RzcPAKLDryNuS/m9oJEqItky7rfCgukamY=
-Date: Mon, 16 Feb 2026 10:45:19 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Sasha Levin <sashal@kernel.org>, David Gow <davidgow@google.com>,
-	stable@vger.kernel.org, FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Subject: Re: Consider backporting rustdoc fixes for 6.18.y
-Message-ID: <2026021612-hazy-stank-831c@gregkh>
-References: <CANiq72n3qPsoy2u1KxfyV4ZCjJyDZLkK-54i7EesTH=TE9h1jw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="x4fRjI7i"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=fPpuQghjjBLmwcDQFbY9dhkiK1rjd17YsAWDWoD7RXA=;
+	t=1771237155; x=1772446755; b=x4fRjI7iO9V13nyZqv+Q+V8FIqRIyQBQ6Iq8H1NqOXQQF95
+	TClLOrj6IDk5z10jf/FyHqKkTL2ukV9i5TTREqaTfsIxfts+diiB4P1bBC/EcBZTgegpe1OPSwjQD
+	AZUs7dH9hSj/m6pRMGQI61K6X+dT5N2o+cDfsWzRcYTJLtqZWrBbQXiP3e4ol85MdqMRCNfwtSdZM
+	tmsp7xTXLj2gbNN/4zJWjH7imfH19S5lNzNFjeGjI5+PwAO7osLWFt9ybd003WTCPOw+Dftg3ABHA
+	1mfz0w522PBOx/cwfjXmc7eO4og6ZfTokp1MNYuo7JN2ii5Z0vLopQk3ldmaAaBg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.2)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1vrvh8-0000000APgG-009C;
+	Mon, 16 Feb 2026 11:19:10 +0100
+Message-ID: <9fc2586e16c2a0fa3599432b19fa7049e561a7f6.camel@sipsolutions.net>
+Subject: Re: Mainline UML Rust stable io.rs unused imports
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, David Gow
+	 <davidgow@google.com>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl
+	 <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Richard Weinberger <richard@nod.at>, Anton Ivanov	
+ <anton.ivanov@cambridgegreys.com>, driver-core@lists.linux.dev, linux-um	
+ <linux-um@lists.infradead.org>, rust-for-linux
+ <rust-for-linux@vger.kernel.org>
+Date: Mon, 16 Feb 2026 11:19:08 +0100
+In-Reply-To: <CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com> (sfid-20260215_134720_322640_B137859C)
+References: 
+	<CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com>
+	 (sfid-20260215_134720_322640_B137859C)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72n3qPsoy2u1KxfyV4ZCjJyDZLkK-54i7EesTH=TE9h1jw@mail.gmail.com>
+X-malware-bazaar: not-scanned
 
-On Sun, Feb 15, 2026 at 03:11:31PM +0100, Miguel Ojeda wrote:
-> Hi Greg, Sasha, David,
-> 
-> I have been seeing these warnings (errors with `WERROR=y`) in stable
-> 6.18 UML + Rust on the `rustdoc` target [1].
-> 
-> Unless David (who works around UML + Rust) or the different
-> maintainers (Cc'd) have a concern, please consider backporting:
-> 
->   a9a42f0754b6 ("rust: device: fix broken intra-doc links")
->   32cb3840386f ("rust: dma: fix broken intra-doc links")
->   4c9f6a782f60 ("rust: driver: fix broken intra-doc links to example
-> driver types")
-> 
-> They had Fixes tags, but not Cc: stable tags.
+On Sun, 2026-02-15 at 13:47 +0100, Miguel Ojeda wrote:
+> Hi all,
+>=20
+> In mainline and next, for UML with Rust stable (but not with Rust
+> minimum), I am seeing:
+>=20
+>       RUSTC L rust/kernel.o - due to target missing
+>     error: unused import: `define_read`
+>        --> rust/kernel/io.rs:229:16
+>         |
+>     229 | pub(crate) use define_read;
+>         |                ^^^^^^^^^^^
+>         |
+>         =3D note: `-D unused-imports` implied by `-D warnings`
+>         =3D help: to override `-D warnings` add `#[allow(unused_imports)]=
+`
+>=20
+>     error: unused import: `define_write`
+>        --> rust/kernel/io.rs:262:16
+>         |
+>     262 | pub(crate) use define_write;
+>         |                ^^^^^^^^^^^
 
-All now queued up, thanks.
+Not sure I understand, the cfg() seems to only be fore 64-bit, but it
+_is_ possible to build UML without IO accessors at all, since it's just
+virtual, but I don't see how that would reflect in io.rs.
 
-greg k-h
+Not sure I can say anything else about it, sorry.
+
+johannes
