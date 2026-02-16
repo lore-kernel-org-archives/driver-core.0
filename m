@@ -1,77 +1,105 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45E378F2F
-	for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 13:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771248150; cv=pass; b=oTlbZYmUYbPtP+oPgrdMrIcwr82MjvAxAnPY2ZweXvy23rCBpsjbx3/hkGI6dER5WiHyhMA5XhfRPn2zJ3EODhi9kl5ropDZVKauf46aex0AJi1av88UmlGGvrJbBeURmBffBIBf9Ervq1MfO2KeIpYSm2hUlV+u+iwiLjetWXs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771248150; c=relaxed/simple;
-	bh=KbfoHwiUYTfn0aGfT4Pi1rTgfaW/JssTGENDraiOZQ8=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=AF91M4A8GvwMeQZDR9DAct9Bo4WT19F9k3I1vokRCXcSzX2J2cmoUElmnNmxuLJfWs68lBMoZZX07p+h+XT9Lzy/94iYAEVLkLS7UlBcQGFkA3lJn4tPpvpQ91eInPh5TIHiePLRaS4PCFxPGdofa9yOvnV/8slmP23OMYnzHwA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=BmSlIgeg; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BF92E717B
+	for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 13:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771248155; cv=none; b=R7MI8gjl2/3B0W5OZNoBA/ME9LrYIhxm3ompuZG64YmuyWar/2hVzycmZzCcacgFTJEAMey6Da3+zuqfHWrNLFXNxH7jmW6T2AQcik4mOYmgtqWgLYFmcTAJzE8CZF3AbckBtt9k+o+GYK2pvAVgREtBggIjj1Rhlkz3RYC/Qr8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771248155; c=relaxed/simple;
+	bh=V5PyQQvgVLRArBUaO0H6XDypFxZ4oZWPK4ihpQOsK/g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=I9br+o9meNcCOeH/EYxAeHF8W67ti0OijtRBUCLrT7LWA06/Ys/F092RficLa/tdv6asyfh5yGutQsyC6bszujApSDT9Ro5Dyds974261spsnZgwgIyEGyyP2XicT+D5dx8w+4Wm5vn0X2IlqPRVciB4i6tAk/CDlJx5KTo9Juc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QCUZM5qv; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="BmSlIgeg"
-ARC-Seal: i=1; a=rsa-sha256; t=1771248141; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=OOIQTuxrd1+7J3G6JDaGYiTFIlhmW0cJxdXi5No/CRHbs1V/aF7CazjotX/fQDW3Ov10fdqSbw5EWP4qggPkSTkN2azp1JTl+7Mkeid7wExubKaYVdOGJDqREwyB4gSjvPZ81Vwj0fWeIeRzNgb6F2yUjy3MeYipibNmSqoDL1I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1771248141; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=KbfoHwiUYTfn0aGfT4Pi1rTgfaW/JssTGENDraiOZQ8=; 
-	b=XxOuerdXLV0bmJSIlb/I2iJigD9cbXrlpR0wRyIXSP1d5FtTfuqRg70tDmQtt7rFi48rB5XW+pmYLjJ9l1MHvz0wZHJcq6FJZrzhFey+yTUgD2j+m2LxFh8FD7bnXY4uvENXcUPGH11n7g2EFX0tHpTYiVc0yI8f7QfQrZ1pFdI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771248141;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=KbfoHwiUYTfn0aGfT4Pi1rTgfaW/JssTGENDraiOZQ8=;
-	b=BmSlIgegoIcVRaC7EivEQdhZoV+6vbVhVhArqNsgpg3IxeyBTBaCD6jn9T4oqcS5
-	OK68k82ZJpevaDs7Rhuwtug9gMx8Y4nvmqEGucIpOmSYjCBnhCwdFw++QL4m7EcSEAp
-	2Eqwl7C3ZD97KZd4xF7B5vIzvW/GX0hV0GWq7YKw=
-Received: by mx.zohomail.com with SMTPS id 1771248140234149.76169704302697;
-	Mon, 16 Feb 2026 05:22:20 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QCUZM5qv"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-435ab907109so2142207f8f.3
+        for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 05:22:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771248152; x=1771852952; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ElKyrfCE+7loQXJG3oD3y1xXHkPN8AgZyfzmDqci610=;
+        b=QCUZM5qvf2TFdkM1GihxU1KpvaNwimxUBtEzIUmQiEwJ4mr0xcpqSbnFGs2A+MMYtE
+         Q+4DHX6p/0Xq3SXd/r598jlCfyw9L21r+f6qOwSwI01ykTaQeC4nw8JtlBzYy4fU9pMv
+         jT3pCpT2F/k/G4DqpX4r/FHvLYij4CM+gwscLELu6RIocejhwQobV1tZRr6VN2fKykCc
+         nJ06/2vO4PY5grAn/U4tIGSnnOLoI8+PdZ9eHZ6XlEpJIHJpyYPaO05EthYMX6QeL40B
+         5Iy/zgNvznIG4DM7y6METC7WOaJzYNEhfnU0QZGoeADP5n/zhCyRs165nHCmvHySb79B
+         oytg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771248152; x=1771852952;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ElKyrfCE+7loQXJG3oD3y1xXHkPN8AgZyfzmDqci610=;
+        b=ESnuJWIg0ue3fiP2j+eApFiFNEIYPlcL6R8zDfzNJ6dAL28myzfVh7G5y0syuwBdFn
+         7UAy4S3Y35bnrmd4EFN8/bJAB/XbqXgfcLefxdnXyymKbqUtPAgCMNxMopDYBrGGJVwp
+         +XIUBpIdQxW9Ou+rFFdtkqWGm13x2J+OTcYPQKxOTNnTR0A3BdoKQnAZzqhajg2sGmo7
+         22lq3RUuF+AXIgBGhQP3VooaPo5zCJNywhVlOoIHazAhDtZISg07nw5y9iWLquJtv7SB
+         Vj8Z9LF6jBUF6bEl3SopvNca5DZY2Wm6pKMSPG8oC8gqOYH3FGuIHeJPcDpRldxMQW1R
+         +Udg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhr2RCp8SkcpW5YhUEE8oqUd0FUpWcorXi11KxYgwiqgHiMaEdqndZYk3KKqyu/Agx02XGl1hAB/NKBw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzY2rd+NcuCm/I/UgoMwp3qVOidTqNhRWxDsm4sQw5eNTCtzHRw
+	pK1yDLrN5go3mVxauzm8/c++t3l2UdPfhyRDgx+kU7Kw2xuAZDXZgdXbhOHhK7cebCQBisV+lyi
+	Z5EFMjv/OHHtYd8N13A==
+X-Received: from wrbeh10.prod.google.com ([2002:a05:6000:410a:b0:42f:b6ec:c515])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:310c:b0:437:70d3:44ec with SMTP id ffacd0b85a97d-437979189c5mr17087369f8f.43.1771248151307;
+ Mon, 16 Feb 2026 05:22:31 -0800 (PST)
+Date: Mon, 16 Feb 2026 13:22:30 +0000
+In-Reply-To: <20260216131534.65008-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH] rust: io: macro_export io_define_read!() and
- io_define_write!()
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260216131534.65008-1-dakr@kernel.org>
-Date: Mon, 16 Feb 2026 10:22:01 -0300
-Cc: aliceryhl@google.com,
- bhelgaas@google.com,
- kwilczynski@kernel.org,
- ojeda@kernel.org,
- boqun.feng@gmail.com,
- gary@garyguo.net,
- bjorn3_gh@protonmail.com,
- lossin@kernel.org,
- a.hindborg@kernel.org,
- tmgross@umich.edu,
- zhiw@nvidia.com,
- acourbot@nvidia.com,
- driver-core@lists.linux.dev,
- rust-for-linux@vger.kernel.org,
- linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Content-Transfer-Encoding: 7bit
-Message-Id: <9DD438A4-809A-4DC7-AFF4-44AF7176CBA4@collabora.com>
+Mime-Version: 1.0
 References: <20260216131534.65008-1-dakr@kernel.org>
+Message-ID: <aZMaFhvZWiknu8UK@google.com>
+Subject: Re: [PATCH] rust: io: macro_export io_define_read!() and io_define_write!()
+From: Alice Ryhl <aliceryhl@google.com>
 To: Danilo Krummrich <dakr@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Cc: daniel.almeida@collabora.com, bhelgaas@google.com, kwilczynski@kernel.org, 
+	ojeda@kernel.org, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
+	tmgross@umich.edu, zhiw@nvidia.com, acourbot@nvidia.com, 
+	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 
+On Mon, Feb 16, 2026 at 02:14:33PM +0100, Danilo Krummrich wrote:
+> Currently, the define_read!() and define_write!() I/O macros are crate
+> public. The only user outside of the I/O module is PCI (for the
+> configurations space I/O backend). Consequently, when CONFIG_PCI=n this
+> causes a compile time warning [1].
+> 
+> In order to fix this, rename the macros to io_define_read!() and
+> io_define_write!() and use #[macro_export] to export them.
+> 
+> This is better than making the crate public visibility conditional, as
+> eventually subsystems will have their own crate.
+> 
+> Also, I/O backends are valid to be implemented by drivers as well. For
+> instance, there are devices (such as GPUs) that run firmware which
+> allows to program other devices only accessible through the primary
+> device through indirect I/O.
+> 
+> Since the macros are now public, also add the corresponding
+> documentation.
+> 
+> Fixes: 121d87b28e1d ("rust: io: separate generic I/O helpers from MMIO implementation")
+> Reported-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> Closes: https://lore.kernel.org/driver-core/CANiq72khOYkt6t5zwMvSiyZvWWHMZuNCMERXu=7K=_5tT-8Pgg@mail.gmail.com/ [1]
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> -pub(crate) use define_read;
+> -pub(crate) use define_write;
+
+You should keep these re-exports (as full `pub`) so that they can be
+accessed from kernel::io. Exposing all macros from crate root via
+#[macro_export] is legacy approach.
+
+Alice
