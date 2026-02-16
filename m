@@ -1,113 +1,143 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B173329E53
-	for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 16:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B37C2BE031;
+	Mon, 16 Feb 2026 17:04:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771259873; cv=none; b=P55j1gr8M2EqxFqF1OIL+LNwolzm0CzvCc0E84b6GtUOHiecYz8+I2Qvn2FIPec7x7qdWd03kMzlFPc6jfwgpjH6x0nf2yYMafMBQMOQKVJfLfgK3TbJ9Ev+14Rcgdqydq8NQuzcoShqfC2aFykvK1+zXBSLulsF98sJMAImls0=
+	t=1771261484; cv=none; b=apYEHKH+PHXa981INVazxFarcRUUNGdeQK2qjb8FCTyoVO8zC0IKw14xN69cAKMpHoB175OYrghVd3t+Lnpr/bWCM+EEEIRwrEXQ+hPAOo300YLmn+KWJ5CuT21r25JEeYNZNRY7on4AxvVdceIPIa8buAtPhHSsg1rxY/9Im+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771259873; c=relaxed/simple;
-	bh=0YFt5L3EQYeiE8fs3QZfHq0TJ01fe9XjKhIj4SeKC94=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NI7f0mImrmSE5NlcZdtziikjENZEqaDk0aUC9P+wEOix/sk1BV1KMB8mDbDPA41sp5t5UysUlxYA2cguAoiBE/oxQvToDXozwU6YB7hUcmQOsIiD8lo+PI5uE4HtXtjxGPWI+lMcUQ+RlJGspvtFX2sewxgYxqY3kQ4NRRkTt8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T8uNSReO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771261484; c=relaxed/simple;
+	bh=fN5JjLCjpdCRGL8UVVcChKscU8oAZ1nIYRtQqGpg8DE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=Cz+dZA2JRtcZrj+EJygvn9O3LAWlNibxkBwA1U177wZZsCEzTtrFWl8eqHsXdfAWLYtZ0OLflxey6+hEO13vFC7knFLsZftq3VIEi6TKPBSla5ZlyL/56JNeG+4IfWIyCIbS4J16zeE/wptCXgdMEJefGwJYx6tbJdvad+cAZHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SDsemPcM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8uNSReO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7544DC4AF09
-	for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 16:37:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SDsemPcM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F211C116C6;
+	Mon, 16 Feb 2026 17:04:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771259873;
-	bh=0YFt5L3EQYeiE8fs3QZfHq0TJ01fe9XjKhIj4SeKC94=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=T8uNSReO4+XWronF/gXm9bxFNLiY2ZIeC2fPAkyd+pZGKDZaVWj8ThDqlLQ90sCsM
-	 vmh/2NDzuAFBhCWGhneNPjbGF1r3pf3xtrXpXQKofb6ooJ0palLwTbiAJjY3xb08Zs
-	 zzp1Ujn5WNs8LK3s9e9zOmgx7FES+p3xsInJHnl2CmlaiSvs5yvlg0Qf2hA8qQCYAj
-	 bHmg07lcCCIn9fd8puPLLHcJ9GUMX0uTki0os4Yd8rNpvfL7kfufLkYPuz0IPTm0Nj
-	 4FAUStwRZNW33BG9nDBbAyPuuP7w434YH9hF2Q7x8PPJj6KvqsOHCGfjZtPcb9HMOO
-	 7BPGrZYyhli3A==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-59e63b427aaso3657798e87.2
-        for <driver-core@lists.linux.dev>; Mon, 16 Feb 2026 08:37:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW8E+y59v+BA3mw2LYOCI2Cor3aotjq05hant6O8XwzgY7N9tFnd8XgU08eSoJGInXZZG73YfWDITuWPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwCzUOODY9nGCjmly+ELYjbP0J3UPHX9Z3HGxQVknYL0QdAPEU
-	O+klsxUIXnN/Fr7bHfStA6KpxoH+BGWD4YUdxHCo4rUMQsHSyieVt5YAq42z4zIK+xcEQa2gfwx
-	E2qJut2rF2J/iwsd0qQaeteYQsRu84GO0B7pOe0JsWA==
-X-Received: by 2002:a05:6512:b02:b0:59e:4ce1:fe10 with SMTP id
- 2adb3069b0e04-59f69c4e93dmr3612497e87.14.1771259871880; Mon, 16 Feb 2026
- 08:37:51 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 16 Feb 2026 08:37:50 -0800
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 16 Feb 2026 08:37:50 -0800
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260213092307.858908-2-tzungbi@kernel.org>
+	s=k20201202; t=1771261483;
+	bh=fN5JjLCjpdCRGL8UVVcChKscU8oAZ1nIYRtQqGpg8DE=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+	b=SDsemPcMW0lEMvqG9LwpxHJwmCqbET1DVGEncInMhtOmczQqTgv0/1Wiu6pEp+LVl
+	 faBM25oavIloFAALlOR1DOrlqWVEUnvNm694S/AfsFxdLrQqXkMhw1tbXwfpZoqqHK
+	 UntJeOG5Z7lQoIF7csP84Tu6Wfl9Q8jKv1dFVQJ386yyFFbWbsja3fFH5QmOwpoiRh
+	 p9OFsWBQOMbHV70TvznVOPh1wVENde8qP27/l66yuCGfzI8nBjdgY62iYENsDCXx6L
+	 DANxy/CzvbwT+F3a3y+Ok+MDzjJe/KDuvqGIzHxCEoTmkOelOIgzEtAno/Nno9Fxkz
+	 qM2cAwgwqQCmg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260213092307.858908-1-tzungbi@kernel.org> <20260213092307.858908-2-tzungbi@kernel.org>
-Date: Mon, 16 Feb 2026 08:37:50 -0800
-X-Gmail-Original-Message-ID: <CAMRc=MehkJc-js=Wk9vBAcXOpazqjtYDLPUEhmbN8U7Wu2YpgA@mail.gmail.com>
-X-Gm-Features: AaiRm50BJf12deibLZSaH_InveKQYoLD86Ydy4bIVqFsywRt6lKDcedjAv_Vvxc
-Message-ID: <CAMRc=MehkJc-js=Wk9vBAcXOpazqjtYDLPUEhmbN8U7Wu2YpgA@mail.gmail.com>
-Subject: Re: [PATCH v8 1/3] revocable: Revocable resource management
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Linus Walleij <linusw@kernel.org>, 
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 16 Feb 2026 18:04:38 +0100
+Message-Id: <DGGJSHVZB6U5.2V8OMF5N3KZNZ@kernel.org>
+Cc: "Gary Guo" <gary@garyguo.net>, <lyude@redhat.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Zhi Wang"
+ <zhiw@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 1/6] rust: io: turn IoCapable into a functional trait
+References: <20260206-io-v2-0-71dea20a06e6@nvidia.com>
+ <20260206-io-v2-1-71dea20a06e6@nvidia.com>
+ <97fc6c36933522eaf75f34f8fcd445715432fde4.camel@redhat.com>
+ <DGCYWK1UF76I.A565AK23DZXS@nvidia.com>
+ <DGD1LDCXJZR6.32S0Z7EHGYDUN@garyguo.net>
+ <DGD2GXAFO99J.1Y3BA26PBVTAC@kernel.org>
+ <DGGD4JTGJYXR.3THD2I3AA61PN@nvidia.com>
+ <DGGDHY4582D1.1GZGZ7P98OKWO@kernel.org>
+ <DGGF65JPF8S6.268LR7YDPTWMQ@nvidia.com>
+In-Reply-To: <DGGF65JPF8S6.268LR7YDPTWMQ@nvidia.com>
 
-On Fri, 13 Feb 2026 10:23:05 +0100, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> The "revocable" mechanism is a synchronization primitive designed to
-> manage safe access to resources that can be asynchronously removed or
-> invalidated.  Its primary purpose is to prevent Use-After-Free (UAF)
-> errors when interacting with resources whose lifetimes are not
-> guaranteed to outlast their consumers.
+On Mon Feb 16, 2026 at 2:27 PM CET, Alexandre Courbot wrote:
+> It doesn't - here is the implementation of Io for Mmio:
 >
+>     impl<const SIZE: usize> Io for Mmio<SIZE> {
+>         /// Returns the base address of this mapping.
+>         #[inline]
+>         fn addr(&self) -> usize {
+>             self.0.addr()
+>         }
+>
+>         /// Returns the maximum size of this mapping.
+>         #[inline]
+>         fn maxsize(&self) -> usize {
+>             self.0.maxsize()
+>         }
+>     }
+>
+> Now what prevents me from doing this:
+>
+>     impl<const SIZE: usize> Io for YoloMmio<SIZE> {
+>         fn addr(&self) -> usize {
+>             self.0.addr()
+>         }
+>
+>         fn maxsize(&self) -> usize {
+>             self.0.maxsize() + 0x10000
+>         }
+>     }
+>
+> With that, I have allowed callers to invoke the unsafe methods of
+> `IoCapable` on an extra 0x10000 bytes of I/O I don't own, without any
+> unsafe code.
 
-[snip]
+I don't think you did, as you only present half of your counter example; yo=
+u
+left out the IoCapable part.
 
-> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
-> +
+I.e. with what you have above cannot uphold the safety justification in the
+corresponding IoCapable implementation:
 
-[snip]
+This is the invariant on struct Mmio:
 
-> +/**
-> + * struct revocable_consumer - A handle for resource consumer.
-> + * @rp: The pointer of resource provider.
-> + * @idx: The index for the SRCU critical section.
-> + */
-> +struct revocable_consumer {
-> +	struct revocable *rp;
-> +	int idx;
-> +};
-> +
-> +void revocable_get(struct revocable *rp);
-> +void revocable_put(struct revocable *rp);
-> +struct revocable *revocable_alloc(void *res);
+	/// # Invariant
+	///
+	/// `addr` is the start and `maxsize` the length of valid I/O mapped memor=
+y region of size
+	/// `maxsize`.
 
-Is there any reason why we couldn't do:
+And in impl_mmio_io_capable!() you refer to this invariant:
 
-int revocable_init(struct revocable *rp, void *res);
+	macro_rules! impl_mmio_io_capable {
+	    ($mmio:ident, $(#[$attr:meta])* $ty:ty, $read_fn:ident, $write_fn:iden=
+t) =3D> {
+	        $(#[$attr])*
+	        impl<const SIZE: usize> IoCapable<$ty> for $mmio<SIZE> {
+	            unsafe fn io_read(&self, address: usize) -> $ty {
+	                // SAFETY: By the trait invariant `address` is a valid add=
+ress for MMIO operations.
+	                unsafe { bindings::$read_fn(address as *const c_void) }
+	            }
+=09
+	            unsafe fn io_write(&self, value: $ty, address: usize) {
+	                // SAFETY: By the trait invariant `address` is a valid add=
+ress for MMIO operations.
+	                unsafe { bindings::$write_fn(value, address as *mut c_void=
+) }
+	            }
+	        }
+	    };
+	}
 
-and then:
+But your YoloMmio implementation doesn't provide this invariant (because it
+can't).
 
-struct gpio_device {
-	struct revocable rp;
-	...
-};
+So, how do you justify the unsafe call to bindings::$write_fn and
+bindings::$read_fn now that you have to call impl_mmio_io_capable!() for
+YoloMmio?
 
-revocable_init(&gdev->rp, gc);
-
-? It would be functionally equivalent to what we're doing now in GPIO.
-
-Bartosz
+Again, you can't justify it, which proves that it doesn't matter what YoloM=
+mio
+returns, it matters how you can justify it in io_read() and io_write().
