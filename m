@@ -1,104 +1,102 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC31836A03D
-	for <driver-core@lists.linux.dev>; Tue, 17 Feb 2026 19:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6456436E491
+	for <driver-core@lists.linux.dev>; Tue, 17 Feb 2026 19:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771356327; cv=pass; b=Qiwa9XwxiZc7VXxzy/Ns7MLuHbJsvZhJukRupCJ+M1AI7Cr3w0IxUn0HTG8++FMkyFSo4+xm2Jri7Yf06lM65oz24/3KE74bIjz3NX/fnj4uNRN+3/syCnV19glAEQ2PyMQHKObNBmuU3YIOnx3ktNGtvlAtqGS15D7r/9PZtc0=
+	t=1771356331; cv=pass; b=uFfd/JBRGNR+5kUcKK8UqpM06/IP4UCoX+DGtO+kMOlqQzkOHMaSaBNBs/vfE5wPqbW19UKZz2rcvrSzxr8cEDOJW6sCgdoKgRI1FG1bUCZ7tSMsqllBh4JNqcT8hjz1jYtI22PMV63yyW8nRnMq4Rm+edHQePgRQxgqAo3EoIw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771356327; c=relaxed/simple;
-	bh=sewE/sl1jGzvTdHwbA17sP0tHhoksdxDyaxVGzvfzrE=;
+	s=arc-20240116; t=1771356331; c=relaxed/simple;
+	bh=CwHGDX0I/MtzPYs24hZSqz0/ri7iZjm7LIBdNw2JZ84=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hFcYHin7oWmGgJvC8t3wYy5K5zloj+P602krcL1okTduZY257NdW2eQC/TyW1VYspwFtG/zGLvKdKTUUxJJ9y90nrxak3s/kCpXasl6YEf26IQvLVuZJ/DhRvNFaf2iGpQOst+PQuNr4gEmKoXNKVV0Ujl77HtggbgMxCceviUw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N0bbq3lA; arc=pass smtp.client-ip=209.85.128.52
+	 To:Cc:Content-Type; b=NntNr8ve91Q6oKHoxw4mcg0zBTSHu+DZn3CrmygEXpaXCm+Y2y3CFQIOF5JpMc0OGaAQ3HtuKoevF/sqJLdp9nev90m+6RcUj4/Juq+o+npjO0VunWKg79L6lpV31KlN3LbUzZ27IqLeH18ugNDptjgdkJSOAZ9HE8kpKk+uUfM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x1Axn+4T; arc=pass smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N0bbq3lA"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48371d2f661so8065e9.1
-        for <driver-core@lists.linux.dev>; Tue, 17 Feb 2026 11:25:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771356324; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x1Axn+4T"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48318d08ec2so7545e9.1
+        for <driver-core@lists.linux.dev>; Tue, 17 Feb 2026 11:25:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771356329; cv=none;
         d=google.com; s=arc-20240605;
-        b=Tnue+hiQUQ2d3v2qF63/sidbBUnc3m23R57uD7Y67WdroS7BEzEMSMpWbB8JjeU0ca
-         o4qevSa6m9Vw8nqsTRIdNK1/gLNwz0Abz7n1OOTPQIkH5odl3MlqbFFtqhunqmYt1I+M
-         eshDFwAsY0pRtdUsI62cGaFukkmEPcyCVfhxSvbk7+4RMQLTHy3ATZ7WfG0yhU2aVAkn
-         NQJkipzstqCJ9v/kLpLv4BKAYCM07UYTv3GMzX8eAqxg4hYogt//2nUYAwJk0qAwjDhs
-         QzhzeFhPmIlHj+2QmTrYCbreHHhgvaJreVgS1rbExEwat8tFVIKPNymworQ5U9zGwasy
-         /xrA==
+        b=Ohl7AUfmIzazUD2Ea7DoKY2q5qhq0hEnA5a9EYn0xncM6H7qtgoP1vn7fqcWF3XwQb
+         V3Y+23EWpeQhWfvSO+eK1aTwwqtcaitbyWzORyFg7tOvOtcRJAfqaA76EJTqw3ajSFU/
+         K4U270c4sAcqg33fnUnJEDwOtjnZiHCLDm5wgWyuVtR5DzKeet5OQU50c3fAabIaC1Y2
+         T0IXC/NsRVfCdBLCPVrsq6hYIVwtywfTXYPSUsJE3zzb8AXNBIoVM1RURXxXeZh32g1Y
+         WsReQ2iAf4gQO97WISBsQfn+WO6Fp+1wCge3fCOpC35j8aGKEVvtG2XKJoWi+mfKwFEd
+         hoKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=g0ibeNCc7R8HXhy/DdkWxEPCCxKLgy5A2bxR1yxzMM4=;
-        fh=nrjkE40vYMsJF9aJTLuDi+MtYLSZWdroEtgvRG6gDr8=;
-        b=ldRZrVR/34doDfyQ3/uvU4R9fEf9OUHuziSrP9lqdxkJ5eQpeqHJX0AScuDoRRfPMZ
-         xsXjVHUccY2lUYh0iMtTmWebVbYt2nc2wvbwCDY7ORSjq3VAuqpHZLKJpXPLSRJ/RTpd
-         i78zCtmTwnu9sEU9CQsyF079/Kb+Oq37x4hzQhVTQe+3TiUCLHycrI/1PpYYA3Ngwszz
-         Ava4ZPtIOjvoi0oWvpPUoot2q6jB7HDDB50smQscC3qVyx7krDrGkkHW60iqE20hSlEm
-         h26aW7uMZuXUHlccRH8wDQhSp43umFC94BzaCcxvS13ZZFht7UdkAP4J9hLElOgb4PpY
-         vNMg==;
+        bh=agcE7U0hHa2jey3GOzRKRM6iuQj3YGWAyKNtM05bfZQ=;
+        fh=6ZwIG5idj4GbAe3rEmg8W0cerkSJ5/LhdTxp/D199qY=;
+        b=lvJy4pEHcYLigqJtxyNvsrSvCm41iH9RxSH8pM8ir5KFFGJHM4zsBHjGKLGY3z1jxF
+         TrvUralEMsa9zVITZ3PK08aloLxZ4nibTP0+2bSPkWISgDxb26diz+6b8pMHYhl/KnXr
+         HpiQLQXU510DpRVwzJeEvod9vBVFf17EfeqSDsj7wckCP2UWZnzUjwxzd900mzcBEFRh
+         PSJgYDfQhtHaSneH8O0FuZ9nCMy4pCKXb5cT8NfiUgvnEPMuM3ssEU66zWHaw+zeIOJK
+         Dnfs6APckUr8bgEac9l1q7zbg1pWzGksdRLoQBkxN8FT0M1IejYj8mftpGqQLllhLvnL
+         HftQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771356324; x=1771961124; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1771356329; x=1771961129; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g0ibeNCc7R8HXhy/DdkWxEPCCxKLgy5A2bxR1yxzMM4=;
-        b=N0bbq3lAs8itrUBdpP1FJJjmdPDlMMw6ky1dNbwpjt92KBicgQP9LvxGm4YmghbODR
-         ejO2kNvCIvcVZgVacrk45tyu97QPKpskSaLPp5Gou/A+F9qUebJ+tSG7MMXhKi4W+mPN
-         6NbKywTtlyyEJLBtUNZQS9+LOddPdL6FQUZVYU8tuRwLjewNMXavJ5mF+NIa8uGwI0a0
-         hxWH8haS2o9/7PiKbgDxE306fw3q4lA9le9AzhFlwp5LlEV+sEdkEJL9hluv85T/BMFQ
-         aMFLvWQspGoOprbNx0qDCXu2QB7psKnbR775YKgJu5ClWek+OfAKZ8JhIOJqes29yuQ8
-         11wQ==
+        bh=agcE7U0hHa2jey3GOzRKRM6iuQj3YGWAyKNtM05bfZQ=;
+        b=x1Axn+4TqWkYvrHQLUFNUMNmyETdKlo10urj/Ll9Zqjcu6dzs4D4vTO2Z4V1GRt90T
+         Lj8nx24J1rnKDTvH/00MrzvcHjExCCaqWuaESDexBfdU0/41GCV7G+n86AKbuPMn8Wi1
+         kI7nJsoksIH6cWH96hOVRxu0B+yGwUMWpweBcookG23lu1j2JHOWkn+JivAzWKW4XWea
+         gNSMx95M+Bbhablkjx0IVXWBN/oIDg4jnflmsWcxxUmzxnKjYHq3/+dqlJOgAgtIYhGb
+         P0CU0H0uffs5YqbmIUSOSwOKNtN5MKgTeLWIWlBZIyDEsuy/sJGBuErFQ6P0934wHPug
+         TUow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771356324; x=1771961124;
+        d=1e100.net; s=20230601; t=1771356329; x=1771961129;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=g0ibeNCc7R8HXhy/DdkWxEPCCxKLgy5A2bxR1yxzMM4=;
-        b=BE6+o9Trf5SNOCSEElLQum6AwBlownbV/ltadEL1scDdF8wMcr+fL9zFq03juQnzVg
-         rZb4th3Gx6zqD8ebXMX6RkdUww6p42VltLfVByToYTyAMEi0J1uNDQBdjYm3WQX+AM85
-         JkhSrtOgJ9Snh9cVrk8h6eOhNJ8eND90UPkBHdhdOHzVzLGqWNL3T/CpGrLmG2s0ZW3z
-         omWQ6YH+bDl/jbh8HXnQ2D1/3rlLHuvAwjf2RMvDtRYgy8SNpazrxdiNPpd5oLcStgLW
-         fWekptZvX7o03YbST7kX2MZDzZDXW2dXUAPdmgvidTYG9odC5GVjlVzl8vK0KiEn8p0d
-         1pxA==
-X-Forwarded-Encrypted: i=1; AJvYcCUh6bqWC9TktYp3FTygz8k37PSbXZ5JT6FAwDau0EgoSnwo9ih0otAo7Q0/tTyjSw2GvGwLutnKuGRlNQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTiK0s64mdC8EdIhpDp6+BlLnOlFnKk8Pvr0YvgQqMqkHVv+df
-	wpC58D2S90mxVMUjzq3Nsu5Ngd9l5/17igszulBZDFniNkmjojD/rLLBU+66qjZBx/g5ndOob3O
-	JjIvxVhqPT7twQxlGFusjxttyq0sWZcxHrI+rxrMO
-X-Gm-Gg: AZuq6aIGW7xM7etaURslWgp+CEN4EgukJQQLieiRKE6jjxx0m08/ne5zTczIcfhdF5Y
-	4lvyygpN/0gD8++oUSmkrpZF4VsEyZUSco5/+hMPrwM4tT3yS+6E8EA5gQ6Xys0tID/UqgMnrUt
-	BZOFGFhbolPnwcQzKQaX4GbJ94th95Fbgn6MtYD/qlQlrm8S9EGD3Z5ykn2FFiKrE7nIGdxClp0
-	cxuvEDDngyLwW41Hwz4fdslrldAQWDlXJ21V852jjAmSt7bwEK5z5i10/GvB4+d+bEBOLbUg+gL
-	wzp0zQn15mYcuObqQz2a2fwR4c3snXjrhPnlcGPdrpQph8dMoVHcgXxCunfetPs0vmqung==
-X-Received: by 2002:a05:600c:63da:b0:480:4a7b:228 with SMTP id
- 5b1f17b1804b1-483885e39f1mr1287205e9.1.1771356323780; Tue, 17 Feb 2026
- 11:25:23 -0800 (PST)
+        bh=agcE7U0hHa2jey3GOzRKRM6iuQj3YGWAyKNtM05bfZQ=;
+        b=Eczdj95jqsn/nbBFip0ynwtjPgdmBYq5aV39+ZRTG3yq3ZyzdheZXQ/RnbG1yOntrY
+         5vX8zAI7aQFCswzQaDVJfNZlGzHhit4AwB4ePl42JWFkzl2wbfVw/Q5u64U/8qxZsV4k
+         7R5BtKK7T666qrMYxNWKXrP+N/z4Ig6qx78isc6Xm+CSbK5oLvuTBnVQb3PtH0hYGDLd
+         1CBkjSlxS7Dx9WUXERyrwlOEJOYffR3Mk7q+xl8fs1I5jPbwEg+izh/xwzbpi8OeLiPO
+         /fnhIHXrH57iuKQRuIvpgHLNbtbBk+C2Vvn4IGMP7vQ2q8awCxGN07zI5Ic4GPSLZKv1
+         pN1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWr0NmbJriB7n/YLKT4L/q290qvClqXwiaLMNCMhaFiS2VbuPsU3DDh1HD82Lg7lKNA2wPO0HM4zEflTg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YydQVNZwbaz/LGtfLz4yLpx05nEb8/FDVgb8rdE+cyEWZlvqPnl
+	1L2xawcw6k9o7o3Rw56OjaB4q1DWZha3KvtFRlVPJaUB8O3NWcTKg+zAcY7neHbKl0vxo2ZWNq1
+	9oEkmCAnbvzN7+9ydWIfdWGemxSs+8kVmxZr9dsD3
+X-Gm-Gg: AZuq6aJyBW4pcWiSOCh1tB/Ak/QvCsZQeim/mQYXRxq2fcBgnjfpceUl2Y6wgAMVECF
+	WuNWVohi/rl4czjuJ/CHKst/7Rx69cCwRQBluqYuwMRL1JTaAT2UTK0mdmTj85MAA01Npd1hKt1
+	r4gg8lzwJCymp3wjyiN5hf1u43K9YAufIZtI88SLd54FoF5bcQcSyqEFme7njw7GHbVv6Xll/s9
+	zCoiCecw0XX+sXonSYyxlrYEhuasPGSdTlnnvoMsfi75SvGBlf5A1g3L58fD5/Cvot2DTRHqUr5
+	TJEBpwZ/w/bp4YmewpYlqXAq1U4rmrSAnSmCHhi8xQcCn8y6Dl3oSNbGNWbZFsiglS5Rjw==
+X-Received: by 2002:a05:600c:a218:b0:47b:e29f:c63f with SMTP id
+ 5b1f17b1804b1-4838883cf98mr866745e9.11.1771356328550; Tue, 17 Feb 2026
+ 11:25:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260212215814.629709-1-tjmercier@google.com> <aZNDSl3GPrNBGwmL@amir-ThinkPad-T480>
-In-Reply-To: <aZNDSl3GPrNBGwmL@amir-ThinkPad-T480>
+References: <20260212215814.629709-1-tjmercier@google.com> <aZQOK_xnxQn09qmP@slm.duckdns.org>
+In-Reply-To: <aZQOK_xnxQn09qmP@slm.duckdns.org>
 From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 17 Feb 2026 11:25:11 -0800
-X-Gm-Features: AaiRm53P6sMj72saz2iRJgcKdNr5FDsRWfFewzT5upX4tAB-ZB6-gxFZCLtvsrU
-Message-ID: <CABdmKX0CU+bOVDdq0V50TfP6RHr23EJj5XeA_e66BC45gLDsFw@mail.gmail.com>
+Date: Tue, 17 Feb 2026 11:25:16 -0800
+X-Gm-Features: AaiRm50sXuWpunQQOD6edntmpve7h-Rlruw-KS0KVWY35EyoF20ve32-aeJ4CtQ
+Message-ID: <CABdmKX0o60fP+ub4w9PBqZ8_5fR-X3RBy1x+XVzekvQP4WAysg@mail.gmail.com>
 Subject: Re: [PATCH v2 0/3] kernfs: Add inotify IN_DELETE_SELF, IN_IGNORED
  support for files
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, shuah@kernel.org, 
+To: Tejun Heo <tj@kernel.org>
+Cc: gregkh@linuxfoundation.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, shuah@kernel.org, 
 	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 16, 2026 at 8:21=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+On Mon, Feb 16, 2026 at 10:43=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
 >
 > On Thu, Feb 12, 2026 at 01:58:11PM -0800, T.J. Mercier wrote:
 > > This series adds support for IN_DELETE_SELF and IN_IGNORED inotify
@@ -123,34 +121,22 @@ o
 > > Patch 2 implements the logic to generate DELETE_SELF and IGNORED events
 > >         on file removal.
 > > Patch 3 adds selftests to verify the new behavior.
-> >
-> > ---
-> > Changes in v2:
-> > Remove unused variables from new selftests per kernel test robot
-> > Fix kernfs_type argument per Tejun
-> > Inline checks for FS_MODIFY, FS_DELETE in kernfs_notify_workfn per Teju=
-n
-> >
-> > T.J. Mercier (3):
-> >   kernfs: allow passing fsnotify event types
-> >   kernfs: send IN_DELETE_SELF and IN_IGNORED on file deletion
-> >   selftests: memcg: Add tests IN_DELETE_SELF and IN_IGNORED on
-> >     memory.events
-> >
-> >  fs/kernfs/dir.c                               |  21 +++
-> >  fs/kernfs/file.c                              |  20 ++-
-> >  fs/kernfs/kernfs-internal.h                   |   3 +
-> >  include/linux/kernfs.h                        |   1 +
-> >  .../selftests/cgroup/test_memcontrol.c        | 122 ++++++++++++++++++
-> >  5 files changed, 161 insertions(+), 6 deletions(-)
-> >
-> >
-> > base-commit: ba268514ea14b44570030e8ed2aef92a38679e85
-> > --
-> > 2.53.0.273.g2a3d683680-goog
-> >
 >
-> In future posts, please CC inotify patches to fsdevel and inotify maintai=
-ners.
+> The patchset looks good to me.
+>
+> Acked-by: Tejun Heo <tj@kernel.org>
+>
+> Thanks.
+>
+> --
+> tejun
 
-Got it, will do.
+Thanks Tejun.
+
+Amir would prefer I remove the new DELETE event support and keep only
+the part for DELETE_SELF + IGNORED since adding only DELETE would
+create an asymmetry with the missing CREATE support. So I will plan to
+do that in V3 for this series.
+
+Thanks,
+T.J.
