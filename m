@@ -1,100 +1,89 @@
-Received: from mail.unwrap.rs (mail.unwrap.rs [172.232.15.166])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8FC28641F
-	for <driver-core@lists.linux.dev>; Tue, 17 Feb 2026 22:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.232.15.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A1C3168F6;
+	Tue, 17 Feb 2026 22:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771367075; cv=none; b=man/4jiTF+u7IAXKBAhEGPgYCs+oCxTy1tZvkXJrsKPvMi5PzpA823ubw/y/wcGPBxAL8qq3vcXE508r5sX2z/Bl8kG4XAr4xBXBep/2pYySEyAx67egOyuLabNuvcvEYSiXURhpEOO8q42Gy5oNvNe9yhNw+ZS+Ii/w4Up34bE=
+	t=1771367124; cv=none; b=KeTvCLDaJNGoaHe/5ttpSgZtbJG89/Ot4jGjPxtG1eYFnCpCN3UAz0NmKmsa3g6NOu0MqGHZYZFfud3k1EIAAoieojtWJefC9Cal+Ane6+85Jj7MlmYH0KEH3JSf4wHP03Er8SJPLE174MGyMt+Ro+Wkcn03U6YVsVXYTLL9a4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771367075; c=relaxed/simple;
-	bh=wtHpZ4xJf2I080ZaOgCSmBuS1t4rJepU1hmjLHbMsYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O5E5uBZVNMLMC2bsrL9h5ponDFc02AgIvYM7GaQG2BG8PxSZbuvM67k1qxej6fxhVZREPq15b69f6Xmkxsgf7c3KBxgSOdhYu2UQZFPMzvIJOHOM5rbYLJbZ0Zw54wSm52AZIGOM9c4ObaJuGx/zhpZDOgTDJtC0qATv45/cosI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs; spf=pass smtp.mailfrom=unwrap.rs; arc=none smtp.client-ip=172.232.15.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unwrap.rs
-From: Cole Leavitt <cole@unwrap.rs>
-To: Danilo Krummrich <dakr@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	Cole Leavitt <cole@unwrap.rs>
-Subject: [PATCH] rust: irq: add missing 'static bound to IRQ callback functions
-Date: Tue, 17 Feb 2026 15:24:25 -0700
-Message-ID: <20260217222425.8755-1-cole@unwrap.rs>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1771367124; c=relaxed/simple;
+	bh=0G2Wu+ork4b43/V01ieIEc5auZF0HDjfDOooAbQRvMM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=EUh1YefRn1eKUdemgT9InFwYKGpO5GxmDB8y1QuL5izBNa5AERwu2Sw/iTpRhP3cpPKDVn9nFeQ6MraPSm6ilQk2ASCu8/49742KYBrijg+61wyrKiW6hYho2yaNo3tN6C21CN5xs1NeHiEAzE859tDLGBqfLVtn2Lz1ksy4/rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAlsSxkx; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAlsSxkx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068F6C4CEF7;
+	Tue, 17 Feb 2026 22:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771367124;
+	bh=0G2Wu+ork4b43/V01ieIEc5auZF0HDjfDOooAbQRvMM=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=fAlsSxkx3sLN1/XXD48wAPoUeZ0r4sVnEKY6+VKVBhuy8RpHRmSEhRe1lkt3tEyNg
+	 /LedgzgSS5NGp9xE1W4+i8YlIXKztRgomPnxA6O1Y8Hs4jCoq99BVs/SR5C5u4HnVb
+	 P2ZXY0mZiuwY4TTKJZJxgNFw5awwgws+M0zZSh88lotDKrc9F1fiOWaIyHlYTPzNg7
+	 EP/dCOHKOPpP6eYrPGOCx41xRRMXNOnW2Ed3zk0w3ewO5EO+QAYnMvDJ3TPtHdoG3m
+	 vPZ9gIHqLZWWYtx5eszqFFrUhdiRsWiGpt/ivPwPLArGm7UA/bsLJguqAIcJVIMmfY
+	 mno9B+KD0ipJw==
+Message-ID: <0f7f4ffa-1465-4c54-8d3d-e9b551136669@kernel.org>
+Date: Tue, 17 Feb 2026 23:25:20 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH RFC 01/10] IB/core: Prepare for immutable device groups
+From: Heiner Kallweit <hkall@kernel.org>
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: driver-core@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org
+References: <5d0951ec-42c9-453f-9966-ecca593c4153@kernel.org>
+Content-Language: en-US
+In-Reply-To: <5d0951ec-42c9-453f-9966-ecca593c4153@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The Registration<T> and ThreadedRegistration<T> structs require
-T: Handler + 'static and T: ThreadedHandler + 'static respectively.
-However, the callback functions that are used with these registrations
-were missing the corresponding 'static bound:
+This prepares for making struct device member groups a constant array.
+No functional change intended.
 
-  - handle_irq_callback<T: Handler>
-  - handle_threaded_irq_callback<T: ThreadedHandler>
-  - thread_fn_callback<T: ThreadedHandler>
-
-This bound inconsistency was previously accepted by rustc, but recent
-compiler versions (1.93+) enforce E0310 more strictly when casting
-raw pointers to references in generic contexts. The callbacks cast a
-*mut c_void to a reference of the registration type, which requires
-T to be valid for 'static when the registration struct requires it.
-
-Add the missing 'static bound to all three callback functions to match
-their registration struct requirements and fix compilation with recent
-rustc versions.
-
-Fixes: 135d40523244 ("rust: irq: add threaded handler support")
-Signed-off-by: Cole Leavitt <cole@unwrap.rs>
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- rust/kernel/irq/request.rs | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/infiniband/core/device.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/rust/kernel/irq/request.rs b/rust/kernel/irq/request.rs
-index 67769800117c..7a36f790593e 100644
---- a/rust/kernel/irq/request.rs
-+++ b/rust/kernel/irq/request.rs
-@@ -260,7 +260,10 @@ pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
- /// # Safety
- ///
- /// This function should be only used as the callback in `request_irq`.
--unsafe extern "C" fn handle_irq_callback<T: Handler>(_irq: i32, ptr: *mut c_void) -> c_uint {
-+unsafe extern "C" fn handle_irq_callback<T: Handler + 'static>(
-+    _irq: i32,
-+    ptr: *mut c_void,
-+) -> c_uint {
-     // SAFETY: `ptr` is a pointer to `Registration<T>` set in `Registration::new`
-     let registration = unsafe { &*(ptr as *const Registration<T>) };
-     // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
-@@ -478,7 +481,7 @@ pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
- /// # Safety
- ///
- /// This function should be only used as the callback in `request_threaded_irq`.
--unsafe extern "C" fn handle_threaded_irq_callback<T: ThreadedHandler>(
-+unsafe extern "C" fn handle_threaded_irq_callback<T: ThreadedHandler + 'static>(
-     _irq: i32,
-     ptr: *mut c_void,
- ) -> c_uint {
-@@ -494,7 +497,10 @@ pub fn synchronize(&self, dev: &Device<Bound>) -> Result {
- /// # Safety
- ///
- /// This function should be only used as the callback in `request_threaded_irq`.
--unsafe extern "C" fn thread_fn_callback<T: ThreadedHandler>(_irq: i32, ptr: *mut c_void) -> c_uint {
-+unsafe extern "C" fn thread_fn_callback<T: ThreadedHandler + 'static>(
-+    _irq: i32,
-+    ptr: *mut c_void,
-+) -> c_uint {
-     // SAFETY: `ptr` is a pointer to `ThreadedRegistration<T>` set in `ThreadedRegistration::new`
-     let registration = unsafe { &*(ptr as *const ThreadedRegistration<T>) };
-     // SAFETY: The irq callback is removed before the device is unbound, so the fact that the irq
+diff --git a/drivers/infiniband/core/device.c b/drivers/infiniband/core/device.c
+index 1174ab7da62..f967ad534fc 100644
+--- a/drivers/infiniband/core/device.c
++++ b/drivers/infiniband/core/device.c
+@@ -565,15 +565,14 @@ static void rdma_init_coredev(struct ib_core_device *coredev,
+ 	 */
+ 	BUILD_BUG_ON(offsetof(struct ib_device, coredev.dev) !=
+ 		     offsetof(struct ib_device, dev));
+-
+-	coredev->dev.class = &ib_class;
+-	coredev->dev.groups = dev->groups;
+-
+ 	/*
+ 	 * Don't expose hw counters outside of the init namespace.
+ 	 */
+ 	if (!is_full_dev && dev->hw_stats_attr_index)
+-		coredev->dev.groups[dev->hw_stats_attr_index] = NULL;
++		dev->groups[dev->hw_stats_attr_index] = NULL;
++
++	coredev->dev.class = &ib_class;
++	coredev->dev.groups = dev->groups;
+ 
+ 	device_initialize(&coredev->dev);
+ 	coredev->owner = dev;
 -- 
-2.52.0
+2.53.0
+
 
