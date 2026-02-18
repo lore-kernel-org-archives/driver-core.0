@@ -1,164 +1,141 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462EC346E58
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 18:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771439874; cv=none; b=MrXRhiSJPd318nO0Ijd8A2v9xni3wyXXIKssU/0qr5b8kSnQsK1biCBakIBek0FunHkKDus4sLiM3DHXYyZ73+3wwpWSU3QiEg4f2bctZb3/r6yb2+sxumucFNWbP3LKmG07OgPQ9PL3XMsOz8565n/iYQx19kAOmXaAyFVomXY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771439874; c=relaxed/simple;
-	bh=Hoz9/57FagEVnDWp7H/V5BXnUKfy/zj09aMxPs+0OBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wqp6F1slI9g3rLsc6swZKtF3/Vp+dBl3QH0ceVdj+PfYpya+XDEOeGAcgv+OJhXzIcM15gPTUssQiMkg+ZVS7Snci/rN9qM+dniio4ed3qdOEdzYQcVuUZEFgdipjTXOROljjwdyqA6atIrm6cPbOasgrQlCGIo9eywf2350X8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OtZTOy/3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mf/PDw2W; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OtZTOy/3; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Mf/PDw2W; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B122FE060
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 19:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771442145; cv=pass; b=FUxRQgpf5j4keasgB5xvoZKucyg2bkOZDVg/Q0b8Od42A0a8I4caZyrtb9LblMUwQ+l7AwOvtVqHzYu1nQawqxD3AohiAYReKcYiC+J+4UzZz+EDROSzasnybugqO2Bb6i5aFJLDyd+i3hMe+s5RVXsDb948LJRJphC9G4zDBU4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771442145; c=relaxed/simple;
+	bh=wBFNCt7xEGs0VQ8C7Z13cB9OU5SAamOgWMLc8IFwhTg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FZwpmfSuPHGmOvuFpMc6x9vqVvaoIIIh2TQXheTQda6MgaBzAblRoKpSDRG7CdNnEnYkQNrndHDg738L30AVbNAi6xEeqPh1Fal+3ZVtO3HNNz+cx4uQgZ7Pa1fboxdgLv4GseIyR2nZqW33vzV00JPVv4yR8GAH5AR+adRAJug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Dl83+PVB; arc=pass smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OtZTOy/3";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mf/PDw2W";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OtZTOy/3";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Mf/PDw2W"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8703D5BCF1;
-	Wed, 18 Feb 2026 18:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1771439871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfS8AmrSc+X9FbAAoqibWbz6uZy/Jb/EL6+KvzsaBJw=;
-	b=OtZTOy/3X0kNu4KFK4Nc9mB8/KLx8n6x6vxaXxkhhYu/wcNYb0riBlXH4NMqNWbpNOHY2t
-	ZzlPEdOs1sqHCL3Xfku9Eq7yCCDexGg02L1Ya23dq6yz5C5ojrf8htLzLaeXE9j0iPXwDx
-	yJhmTqC1Ty9oLfE0jrDq7X+gQwmsmJo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1771439871;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfS8AmrSc+X9FbAAoqibWbz6uZy/Jb/EL6+KvzsaBJw=;
-	b=Mf/PDw2Ws4OsG2AsftyfDuSwSwT7vmGCfAvF3NxL0YUVc4XeGCqsV/JzTRyBgTGLDl0Vl/
-	GK+hWgQaY+dMW4Cg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="OtZTOy/3";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="Mf/PDw2W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1771439871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfS8AmrSc+X9FbAAoqibWbz6uZy/Jb/EL6+KvzsaBJw=;
-	b=OtZTOy/3X0kNu4KFK4Nc9mB8/KLx8n6x6vxaXxkhhYu/wcNYb0riBlXH4NMqNWbpNOHY2t
-	ZzlPEdOs1sqHCL3Xfku9Eq7yCCDexGg02L1Ya23dq6yz5C5ojrf8htLzLaeXE9j0iPXwDx
-	yJhmTqC1Ty9oLfE0jrDq7X+gQwmsmJo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1771439871;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfS8AmrSc+X9FbAAoqibWbz6uZy/Jb/EL6+KvzsaBJw=;
-	b=Mf/PDw2Ws4OsG2AsftyfDuSwSwT7vmGCfAvF3NxL0YUVc4XeGCqsV/JzTRyBgTGLDl0Vl/
-	GK+hWgQaY+dMW4Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DF183EA65;
-	Wed, 18 Feb 2026 18:37:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PR7PGv8GlmlLKAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 18 Feb 2026 18:37:51 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 13EADA08CF; Wed, 18 Feb 2026 19:37:51 +0100 (CET)
-Date: Wed, 18 Feb 2026 19:37:51 +0100
-From: Jan Kara <jack@suse.cz>
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Jan Kara <jack@suse.cz>, gregkh@linuxfoundation.org, tj@kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, amir73il@gmail.com, shuah@kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] kernfs: send IN_DELETE_SELF and IN_IGNORED on
- file deletion
-Message-ID: <s4vb5vshejyasdw2tkydhhk4m6p3ybexoi254qjiqexzgcxb5c@ctazolc3nh6f>
-References: <20260218032232.4049467-1-tjmercier@google.com>
- <20260218032232.4049467-3-tjmercier@google.com>
- <e7b4xiqvh76jvqukvcocblq5lrc5hldoiiexjlo5fmagbv3mgn@zhpzm4jwx3kg>
- <CABdmKX1S4wWFdsUOFOQ=_uVbmQVcQk0+VUVQjgAx_yqUcEd60A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dl83+PVB"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48373ad38d2so11185e9.0
+        for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 11:15:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771442142; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bKjCf16woseuTWgPo6cnIOs1o8Z6oCTmVgH9UMMxcstPZsx/w+vPW5SFTsdKyGHoD1
+         ijdW0evDkB9r18Jg1s0v+QM7fT2Z85Tc3jDWAsa6gfBCdIc0YfA1YSU3BpjRqVgNLVuH
+         i1xOBXjuv2teb9U+CwKoDdIGzAbtvLTl/LERuyR+axPZEmIbSRvfBuvI+TarvwmXrF0r
+         xLKKlgllV/YxpZZI0ucA3bE6GaaMPKtkp2l+Nxy1ndHGT0sV7aF8RTMLCpwBzUWvQWNo
+         a9fzYB36FxZG9Ds7m5esAVU5d5V+Qo2cg0QowVKDbd1fgzcRh/WCuZpUsC0VMbOCIq76
+         5xDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uYEklyyKGYW2ZvnMpqijJPxd6tx0mQrMdEMbyIKAW9M=;
+        fh=9E87yxG/QR+hgjmij8Vl9oU1z9vAkoMV+DpDbQ9JGKE=;
+        b=lgtz5QgUNcjL1YkdgYLpPjFbxtglMkCBQtWniHgziugecZpI20veFFEdKOFXhAWvdO
+         aOXS+WTMlrQpR0C15NV3NB8ioY4hvQ7DDcCKidv24JPEPwi/wPxXqO7Zr4CGpsRAWkHe
+         LvK+OHV/sp+yvUYvpTZxTX1F4XBcE/uFp77NWItfuid746e+bZ/IDxAdjEiKz8SCjyFM
+         xUPoDAWAOrrIlfIc+gUWDseYo9uGhhnjLLq58fox1dTPLII21e3rqjAHUOqzHqhPzOMU
+         +FObukvemyFi6L7ZrQMC8U09eGydI32AhJR5LUNKtHHFaYgFtU0Zazx3qnfTfyEOmoVZ
+         ATYA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771442142; x=1772046942; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uYEklyyKGYW2ZvnMpqijJPxd6tx0mQrMdEMbyIKAW9M=;
+        b=Dl83+PVBOlrYRZVHZwGWN+oYQazLI9+VMJ8mT0faLq+s4x/eMoWJv7BbMYc0dD3/eY
+         4l+9y/kiB72/CUkWpZmwTr2eyH2ZAJ7a/QU2hvWIRiTEML5Ol5070JfSnXdiLm/lE8gF
+         zad2Pbtrg2jf2QpWwGsbfwt9GnJ47FWuj+acdem/vC83fmbJB8t3cNJvMsOCJQzKiRGu
+         w3Q2CjblmF2dKj5x1mIaqV+0CmOeemUKlfjtN0OG1yDd/Fk34tV/BzXR4NHJRDqDsph5
+         0pkrhGHP7/SrI1VF5c+oTw5noC/amxs/jo8avQq9x1SA4HIHC3KNIN1fzwsxtAwvC1AY
+         0b/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771442142; x=1772046942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uYEklyyKGYW2ZvnMpqijJPxd6tx0mQrMdEMbyIKAW9M=;
+        b=f5HP80TXP18Dn/Ul0JIvb1z+mLncy/eueFMY8PMwiR/lQYkiDK1GAKE7SHRLWF5a2s
+         EXgkwcoLmJTNQnttPIxNalWHoI8lg7zh2d7PXmvb6FG11Z7KAlDPtIaQ0+bX7+p33Bl0
+         cIMzaVZxAM5bjv959RvLpyi4vv5aH9ofGqVAGDC6iiwm7yMocO6s01c/G4a6kbyEFw4V
+         UGYyeCloxFKu0ozMY0eC48jPeLSAmdJy68LBQ8JNzmr39bGfXaEfXLunNbORH9DqI3jv
+         BAktlEnHaAlmIlqv5+O5s7ZR5V+4lsdbZWr4BvGhtGq9ziAsqiXig4f2f+ts/Re6XQX/
+         7MIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUx1k+41gLg5ekBnA9sKnqnHhqug/IHmdO1Vc7fGo9q6mUp2BEBeJY2eS8XkarQduUxPKTio+Z8BrsXlg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywh/AFVVRaleh/99ypocqBu+kkPDHza2lwPLfGSvj1IWWluszBx
+	W/CjsYZxz54MVrTuOvLJiExFH6J+bWc1XZhTt6L1pborq+dU/prHUZGMqWc/Q3USfnWJdQpoBqe
+	kLiVsjIrFtCtrRkd/jN0X0RduLiBfPjJY6Ex0XOIb
+X-Gm-Gg: AZuq6aIg40pV9kd6ta+MuTWYy25BpKjMEpGnAXm4aeYgRMNbpBITukHfpd0IuT+F/Zw
+	5Cc0+n1XsCEL8zng0c7wg6YLICSnXLCW99JD5VpD7lApa6a10+Tu1kVPExKojmnQ2tnNMREneEd
+	mzUdlLGEoqA7tAyA8xh4UESknkJYazfynuYLCIbb3hCkRjvyaWm46ndK8spfLHVL/4iE/aIpji0
+	5Izw0CC+k19PfXqVWhI6cAzUUrt6s7t0r5NenVcrtX7gHkwaLAaVlKn3DhnXY/z3pkeU8UdHfnb
+	dlELZcyAOUq4yjY6G8cLXbTqH2M6txKYeRfZ6enD3YStc8US4pLi5SF60qgIgnbI8gSnaQ==
+X-Received: by 2002:a05:600d:4452:10b0:483:6a76:11a6 with SMTP id
+ 5b1f17b1804b1-4839e6312famr23405e9.5.1771442142133; Wed, 18 Feb 2026 11:15:42
+ -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABdmKX1S4wWFdsUOFOQ=_uVbmQVcQk0+VUVQjgAx_yqUcEd60A@mail.gmail.com>
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,linuxfoundation.org,kernel.org,lists.linux.dev,vger.kernel.org,gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email]
-X-Rspamd-Queue-Id: 8703D5BCF1
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
+References: <20260218032232.4049467-1-tjmercier@google.com>
+ <20260218032232.4049467-3-tjmercier@google.com> <e7b4xiqvh76jvqukvcocblq5lrc5hldoiiexjlo5fmagbv3mgn@zhpzm4jwx3kg>
+ <CABdmKX1S4wWFdsUOFOQ=_uVbmQVcQk0+VUVQjgAx_yqUcEd60A@mail.gmail.com> <s4vb5vshejyasdw2tkydhhk4m6p3ybexoi254qjiqexzgcxb5c@ctazolc3nh6f>
+In-Reply-To: <s4vb5vshejyasdw2tkydhhk4m6p3ybexoi254qjiqexzgcxb5c@ctazolc3nh6f>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 18 Feb 2026 11:15:30 -0800
+X-Gm-Features: AaiRm53wtP0XVPm7Td49NxqM3FHtwAMm9Y-nYQJjMavu1aBdzT7jkoJc9BaBFyc
+Message-ID: <CABdmKX2cQCneFyZhTWmWYz-RTmAOQcEKh5ZQewz25E6Xfok1tQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] kernfs: send IN_DELETE_SELF and IN_IGNORED on file deletion
+To: Jan Kara <jack@suse.cz>
+Cc: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, amir73il@gmail.com, shuah@kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed 18-02-26 10:06:35, T.J. Mercier wrote:
-> On Wed, Feb 18, 2026 at 10:01 AM Jan Kara <jack@suse.cz> wrote:
+On Wed, Feb 18, 2026 at 10:37=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
+>
+> On Wed 18-02-26 10:06:35, T.J. Mercier wrote:
+> > On Wed, Feb 18, 2026 at 10:01=E2=80=AFAM Jan Kara <jack@suse.cz> wrote:
+> > >
+> > > On Tue 17-02-26 19:22:31, T.J. Mercier wrote:
+> > > > Currently some kernfs files (e.g. cgroup.events, memory.events) sup=
+port
+> > > > inotify watches for IN_MODIFY, but unlike with regular filesystems,=
+ they
+> > > > do not receive IN_DELETE_SELF or IN_IGNORED events when they are
+> > > > removed.
+> > >
+> > > Please see my email:
+> > > https://lore.kernel.org/all/lc2jgt3yrvuvtdj2kk7q3rloie2c5mzyhfdy4zvxy=
+lx732voet@ol3kl4ackrpb
+> > >
+> > > I think this is actually a bug in kernfs...
+> > >
+> > >                                                                 Honza
 > >
-> > On Tue 17-02-26 19:22:31, T.J. Mercier wrote:
-> > > Currently some kernfs files (e.g. cgroup.events, memory.events) support
-> > > inotify watches for IN_MODIFY, but unlike with regular filesystems, they
-> > > do not receive IN_DELETE_SELF or IN_IGNORED events when they are
-> > > removed.
-> >
-> > Please see my email:
-> > https://lore.kernel.org/all/lc2jgt3yrvuvtdj2kk7q3rloie2c5mzyhfdy4zvxylx732voet@ol3kl4ackrpb
-> >
-> > I think this is actually a bug in kernfs...
-> >
-> >                                                                 Honza
-> 
-> Thanks, I'm looking at this now. I've tried calling clear_nlink in
-> kernfs_iop_rmdir, but I've found that when we get back to vfs_rmdir
-> and shrink_dcache_parent is called, d_walk doesn't find any entries,
-> so shrink_kill->__dentry_kill is not called. I'm investigating why
-> that is...
+> > Thanks, I'm looking at this now. I've tried calling clear_nlink in
+> > kernfs_iop_rmdir, but I've found that when we get back to vfs_rmdir
+> > and shrink_dcache_parent is called, d_walk doesn't find any entries,
+> > so shrink_kill->__dentry_kill is not called. I'm investigating why
+> > that is...
+>
+> Strange because when I was experimenting with this in my VM I have seen
+> __dentry_kill being called (if the dentries were created by someone looki=
+ng
+> up the names).
 
-Strange because when I was experimenting with this in my VM I have seen
-__dentry_kill being called (if the dentries were created by someone looking
-up the names).
+Ahh yes, that's the difference. I was just doing mkdir
+/sys/fs/cgroup/foo immediately followed by rmdir /sys/fs/cgroup/foo.
+kernfs creates the dentries in kernfs_iop_lookup, so there were none
+when I did the rmdir because I didn't cause any lookups.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+If I actually have a program watching
+/sys/fs/cgroup/foo/memory.events, then I do see the __dentry_kill kill
+calls, but despite the prior clear_nlink call i_nlink is 1 so
+fsnotify_inoderemove is skipped. Something must be incrementing it.
