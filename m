@@ -1,357 +1,288 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71528287263
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 08:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771402375; cv=none; b=jNMmgyXEinUKKRsRENnzJpMpgG2lg9V3nU0kcOPXVd8jcpUHuZuUE1pQNGzoNkdtOup5xmMNkQL0Eo9iBsqQreZ04F5GI1qfKG9iE95HMGJMWP0KhZdqs1jQRCPI5Bbum/aBPPe/GvDOt5pDFu7Swn1/ptFt+JI5/hcODd5dWHc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771402375; c=relaxed/simple;
-	bh=YyvIpWrTFLi6XlA78epLgR4oDc+qO1nmiVhSzx9chWw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TRAFuHRjbVY9/cJ7yIKlVmTOV8X1gWApL81izsZEtPDsOU1CRC4A0UDNdA8dV3ljq/tMwtGfiBkB6Mnt3w7bU3Pfxu9P+vhR5b/yodLZzU00XkRizLnHQhJ0lribdVYPApUL46uvnqiJD4u1wmH/I1Zkc4f/eJCskMarDXoXZi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bQcCVZVL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cpvk5/xs; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772B8303C88
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 08:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771403468; cv=pass; b=AozSNP3kjSmnLq4qvDQuWz+FTTLtJnb9kcbRw0CSOUOY8B0KhBvRi3lIZ3jeKMpsYuOA4AfmhtkeuxgZcFDF8euvu9amvUnUBg6K6CK748+QujtU7O24augzGVmu7BCzg8RIYlxAOOnmtnjd3Ja1WFQXOY2o6oaFczGY11AsgPQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771403468; c=relaxed/simple;
+	bh=pOcrR9g/30b877GWLIQEiogDavQ6piFbc5NysJoGEjE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i1aNYDbHmGv7X+nsKC8P7LI4JBxcPoXhUVGDcHoedXYQxEZIlQBHWt3bbfcNx+oXenfT91TRFbgucFB+ExpVdDkx9nz4N0au9G2Ee0S699mltVjAJy3iikSJD0i280+p1FNACZpVuXt2JMdorLwF21tcZWvzhfaCvMNB9vDYg3g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WWJbT8ys; arc=pass smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bQcCVZVL";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cpvk5/xs"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61HMOr5H1030280
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 08:12:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fygRWP8pcLbQ34jhJxnxGK22lbC+YAxbQQyhOVa/yJs=; b=bQcCVZVLa3xhQUCe
-	cX0vsq84LQfdwfq8BWnjE3XhMCpMDjPCWIOEONVNqGX2vVug6wBSVClvAbUMd5da
-	uSHUvUm5DVOASlwu1gKUfrb9uxuYYhmOsTQvFdK28gz85sbnaUTqhLfp+TcZedbF
-	g15TAoGBcfLoz1d6MAPBle88GHbGywPQ6WJU8MOrOUWJPRxcpM9h4sDDBX6Xja4r
-	dfb9FxTRu7u/0n4hVBGFzyNQorReOtAL2Z/37ep9vGdsosL60mTd5sqymb4xF9NX
-	BIP/F013UK1n4yF+SDsGUCCfVQm752UdSg/VH3LMT58pFb6nUCJeC8RNaQPV1gNZ
-	nU8oCg==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cd13rs4w2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 08:12:52 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2a863be8508so56634195ad.2
-        for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 00:12:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WWJbT8ys"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-65b9608a9adso8691614a12.3
+        for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 00:31:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771403465; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XsSuAa+C7fx1gzXCbMP7HfEaZnST2SjW809lkAqduOVrVy/RsLCSgYyKS6fTjCrydF
+         5rhslzDP2hEjXcHu3pc727T8T6zBfnmzG/Jcko59iGX9lBX+29X6vLWClzbK4OoytaIL
+         TVPl4MWyoO0N+FcLuebx/l0H+RYD+D8/FtES2jYzctx9guzb3pQd5HCPAM7NHANOzGBW
+         TkrIGK70moqYltPqLEU7ROybdMhxRjrpUoLxsC9mp+95M4lvrstpn9MppNlLTA5uCI6Z
+         fWZXSXKWDBGsq4F2Qmn7TrPeN80u5HXFZzfE+zizAifV4O39vVmMxGoGAcFnMHw3GmAD
+         I3jA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Cd+FmpSKeZY657ydPhpXWP28mI30FM0F7sFttu1MBmg=;
+        fh=HH1hwKhNljueG8w1wIXZhJinGS9ciQ3wUCb5WrmxTAQ=;
+        b=CwwrNZtoR1X914Wxf4C7fWo3+6p+ATrvWXemvQzH56SuFeN6tqFNXLDhokGhJt/wo0
+         TvAtIOmtSPX55O8BX4ybnbwxFdUOIUj0cLojUUBLyZjxmdJ6dUV3hR9v96f0P0FVRcgO
+         Kd0FkLDoCCxR8kjwDxrxX13XjBzeiRxjt1YgwRk8XmuM530X1tHbWfgGqRePLwxByIEC
+         IJMGX698m4Nog0Lt2zUNyhuC5JJUOd4SXluIMukwWLAoyf1QS6oySvUgrCYT6WYc/gNV
+         XgFf2P4wuzkBlci7MLfiKFG/59WHfd+c1Roxj/7oI1tYh/pA1X4FpstnSAX616rGRcXh
+         /KTQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771402371; x=1772007171; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fygRWP8pcLbQ34jhJxnxGK22lbC+YAxbQQyhOVa/yJs=;
-        b=cpvk5/xsPOcmbNUF2yziqad83DblXy3UrsEdIULDJdnNbbtVAvPbbEgvXiEOudo2XK
-         LX2+blQYjh6PTiN9e8JSWNvi3KwXdO5rHwmldWTW9PPold5Nj+T7ZsFVOrBV36rI0stB
-         kGPlhcBjq4d3MT1ACKRsdMDE0yyB9umoeP3XZoGQ0l0Z+gaBAcJ5kps/2mf9TV82EYgq
-         RY/yrai7p02zH8ivBH9gafxZTY6s3A7vnvtlegPwByAGNZRzEFFWuhigT89VOaSB/VTV
-         lZxND2ww0fGRn2p6OSIghpmJpYHv3kmYP0wJFUGTKwtqAelwECiJD6/EMBWZwzDYnCEb
-         V3jg==
+        d=gmail.com; s=20230601; t=1771403465; x=1772008265; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cd+FmpSKeZY657ydPhpXWP28mI30FM0F7sFttu1MBmg=;
+        b=WWJbT8ysOPeQ/Eydyy4t/sAjvV1uz7EPMFuy0BjJzKiqdG++zWwh4P66vt5kDrbngp
+         LetOWF0UpU1QGQa7rUZDgqrj1V89k/YBzedqFJhasmLmu6aENB6E2dxgrysOQ+g98e/L
+         kJEOB01WHmtozcws976sZqQh2cJ8Qnckv2w2H1NUTle7M7pEti1IusiuNGVcgYvqc01l
+         2amnkvhhsKjfbxzIWnSDzUj1vzCw8sjqm4pW5Z2I53t3cA/lzi/x7mmwX6ApjzCGQQ0L
+         Vr6cGw9Cxso9MTpA9WSeoUvmyHd4Xt0kfKK/1s2k7l4WgRSJmNzot5b1QaoaxH6njeum
+         CWxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771402371; x=1772007171;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fygRWP8pcLbQ34jhJxnxGK22lbC+YAxbQQyhOVa/yJs=;
-        b=j/aMyqf58ODmXIMQws6e86zuoPVi/6997qXRu9PmiVW4kx/Nn6vqa6b8Xv7Lmx3sqS
-         35QbGYnyuv0Alc3VSO1prSl0bvZtSxVe1OHlEE6FUnleKfPsMu8aKsD2yXmyPZDzhpo6
-         gNejq6aWffUQ5GXUEkLbvERR2BAAoNvu98zShAb/2AYw16Xa1nnIDTAoGHSr9kSgFLkT
-         NsOPOX64iFg7cukK4V3yp8fAjtjE6qQXaXMdUFlCRSk62GsPgZc30AxnUJgcpe2OzCjN
-         xqH4aL0z5dYGIuCTNvJRAbFsAcET0mda0QkZvfrIA9+DadQH1R2brkx6m2CQNLn+UTrq
-         1xdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHK61/Ei2BhgqMnp/MqebuStzcDt3xEWGQLSws5UF0f92cBxLRdwy2oY3wxAfuaq7E9r/tZhvJY5gBSQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxA/dJaMqtLiKfBfwczZN1CwJvMFuJ/+WoPigMVPiw9f3zfDC2E
-	OQB5k/F6s0FaT8oZ22h1FACENRKQx39awfiZ13BYoy17c3WLcrwZTg+COPkO+gOdRiBlMqYECz9
-	zP4EEliU0VqDFcxsBR49w8+892VTRCboTkDvHfpT1fN2MPKRJVX4JWcZo9gasfJV2zw==
-X-Gm-Gg: AZuq6aJxcR73agldPno82rYhqRZ1mJZ7C/weJL2xGUBewPRf/0i8lzxScxkYJo5LVr4
-	zzzzbl6P5NuN5GMGRNMqanaFsG7nLZJ/F8jRaoary/S6vHjKPhwhVEoinb5jgpZV6VX+oCeD52y
-	eFlviIJbv2zfp6glH9y5rN99tNwxYTLcHyzqMuoQ6Us6UK9fUi+qOBuCcp5c2VXWtL5sTxNK2mw
-	atYNWLnXdXiIv9uYB0yUjXxjVAWIrqUXtmMcPEEkMbW4HK5XLWMdUM2/g+vSXimIR58lhoXFwZ7
-	NFwG/HRGqygn5ZzFG9vbRRxwPSkTBHZSmZAFzIBILl3nqXi9bXQaiYVhe9zVAiRru8XwyHuS4eO
-	Ap0NTYDUQ2GNAI7BP7/nIGT2TumhtsmNdZ1/V1ZfteZjZW/B8+war/Xy3
-X-Received: by 2002:a17:903:2b10:b0:2a9:5b48:2b57 with SMTP id d9443c01a7336-2ad1754a10cmr133301955ad.45.1771402371312;
-        Wed, 18 Feb 2026 00:12:51 -0800 (PST)
-X-Received: by 2002:a17:903:2b10:b0:2a9:5b48:2b57 with SMTP id d9443c01a7336-2ad1754a10cmr133301625ad.45.1771402370825;
-        Wed, 18 Feb 2026 00:12:50 -0800 (PST)
-Received: from hu-krichai-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1a9d624esm118123685ad.49.2026.02.18.00.12.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 00:12:50 -0800 (PST)
-From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Date: Wed, 18 Feb 2026 13:42:25 +0530
-Subject: [PATCH v7 3/3] PCI: Add support for PCIe WAKE# interrupt
+        d=1e100.net; s=20230601; t=1771403465; x=1772008265;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Cd+FmpSKeZY657ydPhpXWP28mI30FM0F7sFttu1MBmg=;
+        b=FZHgpo2ruCk50qBjKaivuSCV4RCoIFHY7PY0d4VhPRGidVcBawJO0865SDx48wBSQ7
+         2ABdkNxeanfVbgx15tBEczEyV5O4pr6XriDXM9jZ4wyh6BEpZ1YD1eN42kqSWsD8c8Dx
+         rSwj82xWUQn87/6/9R98XosQcYg6oaQG9c54gQbwjl9IlgOXqN5NRdMpfasxI6hdIUaI
+         BGl4r2aEZti926b0epaEW+QytFTOD8pvjtxEiyHHC/POH0gjy7bvpv3LZWW3UFY+Im7c
+         corE4Lzu40ws4IuMm0AMFTdN4D4a8Z+zJQy5yGSDraVNC4ck5J3O4wwpHd5DHaefsnrb
+         usBw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4lYElNybBJ4CELKue0UHAEWQYaYRHeCZzfTUc3OJdRLvS57PpVScqTEcLZH6a+YSRuZXtlDH3ajhurg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8Xl7pQQB4DPa6lqm2+AYwBIkQ1ZIiiX7jrVZmA0DLi7Ym+lZ2
+	VLcrqnBxcmejqoH4PV7RjPMNZgv/tvlTl+0H10rzeV37RS7leMZwjhxBUfOEzUusnQexyD/UTlk
+	PkmL77gJdXDY/u4ZanX8jnq+W5xsZpho=
+X-Gm-Gg: AZuq6aLHi6TMj032ilnvAJ/MfGXu0+DYZGlbZBtZLqSQxLI1Vzmym9e8KV8UIWQ/Dgh
+	g8PE2e2Ag5ZwhgJGFT8XbVRjfoOC8MoZxkUztVKUbFidKowDCRwxqKC+Ho3a9IuMAB8y0gDuZYT
+	yjlTfvAL+yqIMod2DY9tMx53k34qQVbREzvAk11xbysUIQ9a3rIkc9kZpXNxxbHEcWRo78ExJ+i
+	UN0UpMzlCl03NKEeK+5bVoXX2kKlZ08Nntf1LGSaU/ppMZA7rurhnCtztiwA5liN3uSHISmErKS
+	JegHMgaW
+X-Received: by 2002:a17:907:c23:b0:b87:3beb:194a with SMTP id
+ a640c23a62f3a-b8fc3cb90cfmr783252566b.44.1771403464353; Wed, 18 Feb 2026
+ 00:31:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260218-wakeirq_support-v7-3-0d4689830207@oss.qualcomm.com>
-References: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
-In-Reply-To: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>,
-        Linus Walleij <linusw@kernel.org>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
-        quic_vbadigan@quicinc.com, quic_mrana@quicinc.com, sherry.sun@nxp.com,
-        driver-core@lists.linux.dev,
-        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771402347; l=7967;
- i=krishna.chundru@oss.qualcomm.com; s=20230907; h=from:subject:message-id;
- bh=YyvIpWrTFLi6XlA78epLgR4oDc+qO1nmiVhSzx9chWw=;
- b=T9yc43Z0e8+NjXJSIlHu3tdFO6HaY32cKsWHdKZZ2VqhHBCDBrlY90crKCb6DxcOXTnxOfSLF
- 9SUKBwO4bV5D1Zrj1R2rRIXSVgYARNPyuZm3lMN/9oxEZq/mzzo65Bk
-X-Developer-Key: i=krishna.chundru@oss.qualcomm.com; a=ed25519;
- pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
-X-Proofpoint-GUID: RYXiI4-jBpiPCq2fLWLZMn2vltZGnBbl
-X-Proofpoint-ORIG-GUID: RYXiI4-jBpiPCq2fLWLZMn2vltZGnBbl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE4MDA3MSBTYWx0ZWRfX6tIGtfi0y8Ow
- cx3sfACDN5t4+5w6qrZec675+C/Fcii9MfiDN1kvqKotPTcc66u2kTOh+LCGo1IDkEtYCGo/PtS
- ekdYM3LaFM1CXFrYni7m2tNO1UPWkawl4PYaDVZxHVOetfh1eWoNF+QceTj6jVgyeyQq6v9QRYO
- PJNgvf5zDG7PDeGJhBQdr2LQXMMZSUDS+DP3DfJARo3HoflJur8jHAwUWA7lU9jJYlXs2RnJ7ad
- HDAmeSsY6xMYgbKAv+uL7Ezby2nNWkmSVIVKkWORXa5Kuzl4ddtZ5+V+eRpZcNlFqXXsGYUo3oF
- 8n2AXbA1HlDyaeiQRvGlXGBgobrlo5ot5tQX+lRRfE+8DYwDo1F4K0lx67p1Q1W9pr5tHhng4wS
- jbCG7Z8ySWZaYxsKVTKC3p6AW/ptYGLNAyaHeYHd08kjCPjY+FjXiF3TuGRxhOoCFomjd4Q0Nfz
- Wte26Y6PneJOTsTCd6w==
-X-Authority-Analysis: v=2.4 cv=Q8rfIo2a c=1 sm=1 tr=0 ts=69957484 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=NEAV23lmAAAA:8 a=KKAkSRfTAAAA:8
- a=ttF918e8ocTVMR-R1j4A:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-17_04,2026-02-16_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 clxscore=1015 bulkscore=0 suspectscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602180071
+References: <20260218032232.4049467-1-tjmercier@google.com> <20260218032232.4049467-3-tjmercier@google.com>
+In-Reply-To: <20260218032232.4049467-3-tjmercier@google.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 18 Feb 2026 09:30:52 +0100
+X-Gm-Features: AaiRm52rcAO1uVM86zLcvkOqxQIDflGCfwWsZ-SPyqDCOtD9nqwyY5fQY1S-rmY
+Message-ID: <CAOQ4uxjwO6JVy5GKJ6k+Rm4Ey1=TD9=gXMiuB=JvwQSA13iXjA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] kernfs: send IN_DELETE_SELF and IN_IGNORED on file deletion
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, jack@suse.cz, shuah@kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-According to the PCI Express specification (PCIe r7.0, Section 5.3.3.2),
-two link wakeup mechanisms are defined: Beacon and WAKE#. Beacon is a
-hardware-only mechanism and is invisible to software (PCIe r7.0,
-Section 4.2.7.8.1). This change adds support for the WAKE# mechanism in
-the PCI core.
+On Wed, Feb 18, 2026 at 5:22=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+>
+> Currently some kernfs files (e.g. cgroup.events, memory.events) support
+> inotify watches for IN_MODIFY, but unlike with regular filesystems, they
+> do not receive IN_DELETE_SELF or IN_IGNORED events when they are
+> removed.
+>
+> This creates a problem for processes monitoring cgroups. For example, a
+> service monitoring memory.events for memory.high breaches needs to know
+> when a cgroup is removed to clean up its state. Where it's known that a
+> cgroup is removed when all processes die, without IN_DELETE_SELF the
+> service must resort to inefficient workarounds such as:
+> 1.  Periodically scanning procfs to detect process death (wastes CPU and
+>     is susceptible to PID reuse).
+> 2.  Placing an additional IN_DELETE watch on the parent directory
+>     (wastes resources managing double the watches).
 
-According to the PCIe specification, multiple WAKE# signals can exist in
-a system or each component in the hierarchy could share a single WAKE#
-signal. In configurations involving a PCIe switch, each downstream port
-(DSP) of the switch may be connected to a separate WAKE# line, allowing
-each endpoint to signal WAKE# independently. From figure 5.4 in sec
-5.3.3.2, WAKE# can also be terminated at the switch itself. To support
-this, the WAKE# should be described in the device tree node of the
-endpoint/bridge. If all endpoints share a single WAKE# line, then each
-endpoint node should describe the same WAKE# signal or a single WAKE# in
-the Root Port node.
+This sentence is a red flag for me.
+"wastes resources"? What resources are you talking about?
+A single inotify watch? That's nothing.
+This is not a valid argument IMO.
+I fail to see how managing N watches is different than managing 2N watches.
+I have no objection to your patch, but we need to keep our arguments honest=
+.
 
-In pci_device_add(), PCI framework will search for the WAKE# in device
-node, If not found, it searches in its upstream port only if upstream port
-is Root Port. Once found, register for the wake IRQ in shared mode, as the
-WAKE# may be shared among multiple endpoints.
+> 3.  Holding a pidfd for every monitored cgroup (can exhaust file
+>     descriptors).
+>
+> This patch enables kernfs to send IN_DELETE_SELF and IN_IGNORED events.
+> This allows applications to rely on a single existing watch on the file
+> of interest (e.g. memory.events) to receive notifications for both
+> modifications and the eventual removal of the file, as well as automatic
+> watch descriptor cleanup, simplifying userspace logic and improving
+> resource efficiency.
+>
+> Implementation details:
+> The kernfs notification worker is updated to handle file deletion.
+> The optimized single call for MODIFY events to both the parent and the
+> file is retained, however because CREATE (parent) events remain
+> unsupported for kernfs files, support for DELETE (parent) events is not
 
-When a device asserts WAKE#, PM core will wakeup the system, resume the
-device and its parent(s) in the hierarchy, which will cause the restoration
-of power and refclk to the device.
+Either drop this story about DELETE or expand it.
+inotify does not generate a DELETE event when watching a file,
+because DELETE is an event notifying a change of a directory.
+If you would have kept your DELETE implementation that would have
+broken this rule.
 
-WAKE# is added in dts schema and merged based on below links.
+> added here to retain symmetry. Only support for DELETE_SELF events is
+> added.
+>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> Acked-by: Tejun Heo <tj@kernel.org>
+> ---
+>  fs/kernfs/dir.c             | 21 +++++++++++++++++
+>  fs/kernfs/file.c            | 45 ++++++++++++++++++++-----------------
+>  fs/kernfs/kernfs-internal.h |  3 +++
+>  3 files changed, 48 insertions(+), 21 deletions(-)
+>
+> diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+> index 29baeeb97871..e5bda829fcb8 100644
+> --- a/fs/kernfs/dir.c
+> +++ b/fs/kernfs/dir.c
+> @@ -9,6 +9,7 @@
+>
+>  #include <linux/sched.h>
+>  #include <linux/fs.h>
+> +#include <linux/fsnotify_backend.h>
+>  #include <linux/namei.h>
+>  #include <linux/idr.h>
+>  #include <linux/slab.h>
+> @@ -1471,6 +1472,23 @@ void kernfs_show(struct kernfs_node *kn, bool show=
+)
+>         up_write(&root->kernfs_rwsem);
+>  }
+>
+> +static void kernfs_notify_file_deleted(struct kernfs_node *kn)
+> +{
+> +       static DECLARE_WORK(kernfs_notify_deleted_work,
+> +                           kernfs_notify_workfn);
+> +
+> +       guard(spinlock_irqsave)(&kernfs_notify_lock);
+> +       /* may overwite already pending FS_MODIFY events */
 
-Link: https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
-Link: https://github.com/devicetree-org/dt-schema/pull/170
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
----
- drivers/pci/of.c     | 55 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/pci/pci.c    |  9 +++++++++
- drivers/pci/pci.h    |  8 ++++++++
- drivers/pci/probe.c  |  2 ++
- drivers/pci/remove.c |  1 +
- include/linux/pci.h  |  2 ++
- 6 files changed, 77 insertions(+)
+Typo: overwite
 
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 9bb5f258759be3f1e23496f083353600a4ef6743..23248900253faafaf9509d87c531b454fca41798 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -7,6 +7,7 @@
- #define pr_fmt(fmt)	"PCI: OF: " fmt
- 
- #include <linux/cleanup.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/irqdomain.h>
- #include <linux/kernel.h>
- #include <linux/pci.h>
-@@ -15,6 +16,7 @@
- #include <linux/of_address.h>
- #include <linux/of_pci.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_wakeirq.h>
- #include "pci.h"
- 
- #ifdef CONFIG_PCI
-@@ -586,6 +588,59 @@ int of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin)
- 	return irq_create_of_mapping(&oirq);
- }
- EXPORT_SYMBOL_GPL(of_irq_parse_and_map_pci);
-+
-+static void pci_configure_wake_irq(struct pci_dev *pdev, struct gpio_desc *wake)
-+{
-+	int ret, wake_irq;
-+
-+	wake_irq = gpiod_to_irq(wake);
-+	if (wake_irq < 0) {
-+		pci_err(pdev, "Failed to get wake irq: %d\n", wake_irq);
-+		return;
-+	}
-+
-+	device_init_wakeup(&pdev->dev, true);
-+
-+	ret = dev_pm_set_dedicated_shared_wake_irq(&pdev->dev, wake_irq,
-+						   IRQ_TYPE_EDGE_FALLING);
-+	if (ret < 0) {
-+		pci_err(pdev, "Failed to set wake IRQ: %d\n", ret);
-+		device_init_wakeup(&pdev->dev, false);
-+	}
-+}
-+
-+void pci_configure_of_wake_gpio(struct pci_dev *dev)
-+{
-+	struct device_node *dn = pci_device_to_OF_node(dev);
-+	struct pci_dev *upstream;
-+	struct gpio_desc *gpio;
-+
-+	if (!dn)
-+		return;
-+
-+	gpio = fwnode_gpiod_get(of_fwnode_handle(dn), "wake",
-+				GPIOD_IN | GPIOD_FLAGS_BIT_NONEXCLUSIVE, NULL);
-+	if (IS_ERR(gpio)) {
-+		/*
-+		 * In case the entire topology shares a single WAKE# signal, look for it
-+		 * in the upstream bridge node. But if it is not Root Port, then skip it.
-+		 */
-+		upstream = pci_upstream_bridge(dev);
-+		if (upstream && pci_is_root_bus(upstream->bus) && upstream->wake)
-+			pci_configure_wake_irq(dev, upstream->wake);
-+	} else {
-+		dev->wake = gpio;
-+		pci_configure_wake_irq(dev, gpio);
-+	}
-+}
-+
-+void pci_remove_of_wake_gpio(struct pci_dev *dev)
-+{
-+	dev_pm_clear_wake_irq(&dev->dev);
-+	device_init_wakeup(&dev->dev, false);
-+	gpiod_put(dev->wake);
-+	dev->wake = NULL;
-+}
- #endif	/* CONFIG_OF_IRQ */
- 
- static int pci_parse_request_of_pci_ranges(struct device *dev,
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index f3244630bfd05b15d52f866d80a015ed21f98f49..225cb861b3425700fc0d9d4805f5d9efcaab6f56 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1123,6 +1123,15 @@ static inline bool platform_pci_bridge_d3(struct pci_dev *dev)
- 	return acpi_pci_bridge_d3(dev);
- }
- 
-+void platform_pci_configure_wake(struct pci_dev *dev)
-+{
-+	return pci_configure_of_wake_gpio(dev);
-+}
-+
-+void platform_pci_remove_wake(struct pci_dev *dev)
-+{
-+	return pci_remove_of_wake_gpio(dev);
-+}
- /**
-  * pci_update_current_state - Read power state of given device and cache it
-  * @dev: PCI device to handle.
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 13d998fbacce6698514d92500dfea03cc562cdc2..22709573e41caf0ed45b20ee7ded5963f55aa9fe 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -282,6 +282,8 @@ void pci_msix_init(struct pci_dev *dev);
- bool pci_bridge_d3_possible(struct pci_dev *dev);
- void pci_bridge_d3_update(struct pci_dev *dev);
- int pci_bridge_wait_for_secondary_bus(struct pci_dev *dev, char *reset_type);
-+void platform_pci_configure_wake(struct pci_dev *dev);
-+void platform_pci_remove_wake(struct pci_dev *dev);
- 
- static inline bool pci_bus_rrs_vendor_id(u32 l)
- {
-@@ -1195,6 +1197,9 @@ void pci_release_of_node(struct pci_dev *dev);
- void pci_set_bus_of_node(struct pci_bus *bus);
- void pci_release_bus_of_node(struct pci_bus *bus);
- 
-+void pci_configure_of_wake_gpio(struct pci_dev *dev);
-+void pci_remove_of_wake_gpio(struct pci_dev *dev);
-+
- int devm_of_pci_bridge_init(struct device *dev, struct pci_host_bridge *bridge);
- bool of_pci_supply_present(struct device_node *np);
- int of_pci_get_equalization_presets(struct device *dev,
-@@ -1240,6 +1245,9 @@ static inline int devm_of_pci_bridge_init(struct device *dev, struct pci_host_br
- 	return 0;
- }
- 
-+static inline void pci_configure_of_wake_gpio(struct pci_dev *dev) { }
-+static inline void pci_remove_of_wake_gpio(struct pci_dev *dev) { }
-+
- static inline bool of_pci_supply_present(struct device_node *np)
- {
- 	return false;
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 2975974f35e88b5025701d2b721df8386419de8d..7f5132c0c8de36a6ec2775468a3d4e5156a046d0 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2771,6 +2771,8 @@ void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
- 	/* Establish pdev->tsm for newly added (e.g. new SR-IOV VFs) */
- 	pci_tsm_init(dev);
- 
-+	platform_pci_configure_wake(dev);
-+
- 	pci_npem_create(dev);
- 
- 	pci_doe_sysfs_init(dev);
-diff --git a/drivers/pci/remove.c b/drivers/pci/remove.c
-index e9d519993853f92f1810d3eff9f44ca7e3e1abd9..d781b41e57c4444077075690cec926a9fe15334f 100644
---- a/drivers/pci/remove.c
-+++ b/drivers/pci/remove.c
-@@ -35,6 +35,7 @@ static void pci_destroy_dev(struct pci_dev *dev)
- 	if (pci_dev_test_and_set_removed(dev))
- 		return;
- 
-+	platform_pci_remove_wake(dev);
- 	pci_doe_sysfs_teardown(dev);
- 	pci_npem_remove(dev);
- 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 1c270f1d512301de4d462fe7e5097c32af5c6f8d..d1e08df8a8deaa87780589f23242767fdcdba541 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -586,6 +586,8 @@ struct pci_dev {
- 	/* These methods index pci_reset_fn_methods[] */
- 	u8 reset_methods[PCI_NUM_RESET_METHODS]; /* In priority order */
- 
-+	struct gpio_desc *wake; /* Holds WAKE# gpio */
-+
- #ifdef CONFIG_PCIE_TPH
- 	u16		tph_cap;	/* TPH capability offset */
- 	u8		tph_mode;	/* TPH mode */
+> +       kn->attr.notify_event =3D FS_DELETE;
 
--- 
-2.34.1
+FS_DELETE_SELF
 
+> +
+> +       if (!kn->attr.notify_next) {
+> +               kernfs_get(kn);
+> +               kn->attr.notify_next =3D kernfs_notify_list;
+> +               kernfs_notify_list =3D kn;
+> +               schedule_work(&kernfs_notify_deleted_work);
+> +       }
+> +}
+> +
+>  static void __kernfs_remove(struct kernfs_node *kn)
+>  {
+>         struct kernfs_node *pos, *parent;
+> @@ -1520,6 +1538,9 @@ static void __kernfs_remove(struct kernfs_node *kn)
+>                         struct kernfs_iattrs *ps_iattr =3D
+>                                 parent ? parent->iattr : NULL;
+>
+> +                       if (kernfs_type(pos) =3D=3D KERNFS_FILE)
+> +                               kernfs_notify_file_deleted(pos);
+> +
+
+Why are we not notifying a deleted directory?
+If users expect DELETE_SELF on a watched cgroup file
+they would definitely expect DELETE_SELF on a watched cgroup dir
+when the cgroup is destroyed.
+
+I claim that *this* should be the standard way to monitor
+destroyed cgroups.
+
+>                         /* update timestamps on the parent */
+>                         down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+>
+> diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+> index e978284ff983..4be9bbe29378 100644
+> --- a/fs/kernfs/file.c
+> +++ b/fs/kernfs/file.c
+> @@ -37,8 +37,8 @@ struct kernfs_open_node {
+>   */
+>  #define KERNFS_NOTIFY_EOL                      ((void *)&kernfs_notify_l=
+ist)
+>
+> -static DEFINE_SPINLOCK(kernfs_notify_lock);
+> -static struct kernfs_node *kernfs_notify_list =3D KERNFS_NOTIFY_EOL;
+> +DEFINE_SPINLOCK(kernfs_notify_lock);
+> +struct kernfs_node *kernfs_notify_list =3D KERNFS_NOTIFY_EOL;
+>
+>  static inline struct mutex *kernfs_open_file_mutex_ptr(struct kernfs_nod=
+e *kn)
+>  {
+> @@ -909,7 +909,7 @@ static loff_t kernfs_fop_llseek(struct file *file, lo=
+ff_t offset, int whence)
+>         return ret;
+>  }
+>
+> -static void kernfs_notify_workfn(struct work_struct *work)
+> +void kernfs_notify_workfn(struct work_struct *work)
+>  {
+>         struct kernfs_node *kn;
+>         struct kernfs_super_info *info;
+> @@ -935,11 +935,7 @@ static void kernfs_notify_workfn(struct work_struct =
+*work)
+>         down_read(&root->kernfs_supers_rwsem);
+>         down_read(&root->kernfs_rwsem);
+>         list_for_each_entry(info, &kernfs_root(kn)->supers, node) {
+> -               struct kernfs_node *parent;
+> -               struct inode *p_inode =3D NULL;
+> -               const char *kn_name;
+>                 struct inode *inode;
+> -               struct qstr name;
+>
+>                 /*
+>                  * We want fsnotify_modify() on @kn but as the
+> @@ -951,24 +947,31 @@ static void kernfs_notify_workfn(struct work_struct=
+ *work)
+>                 if (!inode)
+>                         continue;
+>
+> -               kn_name =3D kernfs_rcu_name(kn);
+> -               name =3D QSTR(kn_name);
+> -               parent =3D kernfs_get_parent(kn);
+> -               if (parent) {
+> -                       p_inode =3D ilookup(info->sb, kernfs_ino(parent))=
+;
+> -                       if (p_inode) {
+> -                               fsnotify(notify_event | FS_EVENT_ON_CHILD=
+,
+> -                                        inode, FSNOTIFY_EVENT_INODE,
+> -                                        p_inode, &name, inode, 0);
+> -                               iput(p_inode);
+> +               if (notify_event =3D=3D FS_DELETE) {
+FS_DELETE_SELF
+
+> +                       fsnotify_inoderemove(inode);
+                            iput(inode);
+                            continue;
+                    }
+
+Avoids all the churn and unneeded extra indentation that follows.
+
+Thanks,
+Amir.
