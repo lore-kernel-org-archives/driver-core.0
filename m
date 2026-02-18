@@ -1,92 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388C3211A14
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 10:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283F42F3C37
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 11:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771408898; cv=none; b=jHcIJsxH0bWvfKEntjMb+ePsxaZvYhDRi/m7v3FKPndi83vBfAy5eSYsxznCA4kiXWABgH1S9f0yNjoyBopYixv3mN5DZmEl9/k8yk91amsnYfBguomjUxiLeZNVfyNeis5vyAC+USY6XsU8iaHLZK3urgWlBilaY8jUNcKDuzA=
+	t=1771413817; cv=none; b=LkoR+qDPn/wDyf4cCwzWObBemC4qlYWLTM2g/35O4Xd2UQC5C3/tirE90G3j6c9b6003zLAi7lcB6jBv4yX1J+T4RzWzNeyAlxuGxHSocQ+bFVU021PCBF34fDPSTA3IVNvjEtjrL4fa0xCrq55uHKzMZKlgPhoiYoHcepmrBA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771408898; c=relaxed/simple;
-	bh=m58O7PVPOQr0/+2MnMIyHDol0SFhNpA2733D8qV8B5A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m4RA5lHFXHZoU99cNGzRpAmDSKml7SMNVJlDxX2rBqqfnYsvjNAfKJJ/6BNqHEwd94aHlxbVejnCdN8LG8BjMcPP1Q1z1dte2MT7k4GJqUAOgWTVx0o2/NkTAEtNcRU1IX6xasAaNyAiNP6EGJRWppgzzQqd894AGHKDvOWSTRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FBIWtVEa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771413817; c=relaxed/simple;
+	bh=yFzmeKNc7jZe/g1nyERcuQ8+IviWJtyHr9DjwQGUEAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PRU8MrneQqH2zN7cyTWTU2aMV/7/TExqDpbqhROTMkcqg+UKcHqOLoBiSIGV9ie3pANPGr2qi631oCFeWw97Ek3lUV63M2Hut6wQz37nyz1CA8Lm2ETOY3LMAQCvxQ5xueaVSX8oMKJ2EyJpxxyxo0C4LHIRRlgrZLldLA8NA7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TEf8au3N; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IEKUNOlE; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=YjVaDXeO; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GkEcKhNC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FBIWtVEa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C459C2BCB0
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 10:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771408898;
-	bh=m58O7PVPOQr0/+2MnMIyHDol0SFhNpA2733D8qV8B5A=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FBIWtVEagYxNybbLeWFhSmozTuipcKaksil5psxnXXKZdeZ6TH1QB+vUnDzAZe2Eq
-	 3Jr9UZKg0+Wm02q4UCDdV7yNRPCmqPpJJrFM6QYPNexflgnjrbU6rUWwXi4IYGPPEb
-	 FzAduE8g5S3AzZ/AEbbZuolWfEd6LXqZGw4WuNkeOud+uFEyjTGHXV/QOO5h5qntgs
-	 76TlLr2pfgNnzLry0jn8uafDfjMDItJSjHGRZ4Inqq6qxrohI15UmpwtHR6uRgszQa
-	 uChviY2PLQ/sLRCfTlx/rx41TK11jnVlhCElVfs20ZbaNl3WHCYNNMQ8SvRJFsZxVr
-	 DAxjEmVdTTTRQ==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59dea72099eso5955631e87.0
-        for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 02:01:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUFSytuAmUNwT4R6TpzZXCnaISg4PHE/EJxztm1djfv6SYIFp/KEz3bw5mn8QpRIqyiGqQQn2b5DEiFUw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywq77JNeSVz4tEA1fmh+nZ0SN4Ois6lOr5VhjEetNFjS/aMvC0w
-	UwWLC4sfVEmzczwsT3oW1Nk5we2d6JadpxIZUKPAQMoBXsI7xRuDNQrhA7Cf424JfdJ58SRJ2cX
-	4RAX7oracVcKwvwlcGNuMzjPNfUdBnuBfgMLO2n2jEw==
-X-Received: by 2002:a05:6512:39cb:b0:59f:6a01:c18a with SMTP id
- 2adb3069b0e04-59f6d38d6c2mr5090738e87.50.1771408896561; Wed, 18 Feb 2026
- 02:01:36 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TEf8au3N";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IEKUNOlE";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="YjVaDXeO";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GkEcKhNC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 14C715BCC2;
+	Wed, 18 Feb 2026 11:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771413814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3ZiElcFxYYD1oatQKw1wrqUrp5IBMjHeUNq0WywWxgo=;
+	b=TEf8au3NMnRwYsR5VLtTfIB1DZ+18/4Rt/F1tKfE7C4/yNBLd5Vm5xZCUQkkaTWioKLmvA
+	V0Qpq8BEB0Q9Kb3nJLXnSfdHdT9Hd6uu4PMhNx8owN2P/TSVOKOMEqzO2IfSFWEn0BFvEF
+	LXLfZslfLXmf43hE+T5S10h9gZ4QsvY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771413814;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3ZiElcFxYYD1oatQKw1wrqUrp5IBMjHeUNq0WywWxgo=;
+	b=IEKUNOlER5U2c3PQj2qeSVKFZBC+6dXuXR33rQI1WFI0VB5BDA2D2mQhrfJ1vBeP334LDz
+	XfhzcvhCDx2FK9AA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=YjVaDXeO;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=GkEcKhNC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771413813; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3ZiElcFxYYD1oatQKw1wrqUrp5IBMjHeUNq0WywWxgo=;
+	b=YjVaDXeO/Lsd9R+YvmCO66ynrx6X05ZBkYJ6nplpf64mkS0CSUw3D9vR/w3CVrza61iNp7
+	/NKfg9fS+YUfofVDV66vtA1hNZxL/rBegeM3a7Rtj8MbSEcgRkGxjSFDIyIKXtm925Wi7X
+	KeTps1vjPVpLWrTQv+CBzQQN24MDkCk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771413813;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3ZiElcFxYYD1oatQKw1wrqUrp5IBMjHeUNq0WywWxgo=;
+	b=GkEcKhNCHlUvv2oHbiYdczS5bXSsoxmza9fBW2vL9mK0WTurj5f/GKF41y9L26cFnQu1j0
+	TCDXmqdPUO+zHLCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED05F3EA65;
+	Wed, 18 Feb 2026 11:23:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aDjGOTShlWlCWQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 18 Feb 2026 11:23:32 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 92B8AA08CF; Wed, 18 Feb 2026 12:23:32 +0100 (CET)
+Date: Wed, 18 Feb 2026 12:23:32 +0100
+From: Jan Kara <jack@suse.cz>
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Amir Goldstein <amir73il@gmail.com>, gregkh@linuxfoundation.org, 
+	tj@kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, jack@suse.cz, shuah@kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] kernfs: send IN_DELETE_SELF and IN_IGNORED on
+ file deletion
+Message-ID: <lc2jgt3yrvuvtdj2kk7q3rloie2c5mzyhfdy4zvxylx732voet@ol3kl4ackrpb>
+References: <20260212215814.629709-1-tjmercier@google.com>
+ <20260212215814.629709-3-tjmercier@google.com>
+ <aZRAkalnJCxSp7ne@amir-ThinkPad-T480>
+ <CABdmKX3wsWphRTDanKwGGiUWoO0xTaC8L_QxjHzhpxfZn256MQ@mail.gmail.com>
+ <CAOQ4uxgrP=VdTKZXKcRE8BeWv6wZy7aFkUF-VoEpRSxVnHZi2w@mail.gmail.com>
+ <CABdmKX1ztzJ6B13uzdDtN-uVWbdWuYJ6PMvjGoAfu40MMHCpaA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
-In-Reply-To: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 18 Feb 2026 11:01:23 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MdF92kriuT_-Fbk3pj6YeJiNv6RSiDE7aB0AKL9oFZg5w@mail.gmail.com>
-X-Gm-Features: AaiRm53iJbAvCfNi8W89R1ZOmelHBmdb900XClGvZBpW4TQR7OEInUOA7xLLbTI
-Message-ID: <CAMRc=MdF92kriuT_-Fbk3pj6YeJiNv6RSiDE7aB0AKL9oFZg5w@mail.gmail.com>
-Subject: Re: [PATCH v7 0/3] PCI: Add support for PCIe WAKE# interrupt
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Linus Walleij <linusw@kernel.org>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com, quic_mrana@quicinc.com, 
-	sherry.sun@nxp.com, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABdmKX1ztzJ6B13uzdDtN-uVWbdWuYJ6PMvjGoAfu40MMHCpaA@mail.gmail.com>
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,linuxfoundation.org,kernel.org,lists.linux.dev,vger.kernel.org,suse.cz];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 14C715BCC2
 
-On Wed, Feb 18, 2026 at 9:12=E2=80=AFAM Krishna Chaitanya Chundru
-<krishna.chundru@oss.qualcomm.com> wrote:
->
-> PCIe WAKE# interrupt is needed for bringing back PCIe device state from
-> D3cold to D0.
->
-> This is pending from long time, there was two attempts done previously to
-> add WAKE# support[1], [2]. Those series tried to add support for legacy
-> interrupts along with WAKE#. Legacy interrupts are already available in
-> the latest kernel and we can ignore them. For the wake IRQ the series is
-> trying to use interrupts property define in the device tree.
->
-> This series is using gpio property instead of interrupts, from
-> gpio desc driver will allocate the dedicate IRQ.
->
-> WAKE# is added in dts schema and merged based on this patch.
-> https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.=
-qualcomm.com/
->
-> [1]: https://lore.kernel.org/all/b2b91240-95fe-145d-502c-d52225497a34@nvi=
-dia.com/T/
-> [2]: https://lore.kernel.org/all/20171226023646.17722-1-jeffy.chen@rock-c=
-hips.com/
->
-> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.co=
-m>
-> ---
+On Tue 17-02-26 14:32:25, T.J. Mercier wrote:
+> On Tue, Feb 17, 2026 at 1:25 PM Amir Goldstein <amir73il@gmail.com> wrote:
+> > > > Are you expecting to get IN_IGNORED|IN_DELETE_SELF on an entry
+> > > > while watching the parent? Because this is not how the API works.
+> > >
+> > > No, only on the file being watched. The parent should only get
+> > > IN_DELETE, but I read your feedback below and I'm fine with removing
+> > > that part and just sending the DELETE_SELF and IN_IGNORED events.
+> > >
+> >
+> > So if the file was being watched, some application needed to call
+> > inotify_add_watch() with the user path to the cgroupfs inode
+> > and inotify watch keeps a live reference to this vfs inode.
+> >
+> > When the cgroup is being destroyed something needs to drop
+> > this vfs inode and call __destroy_inode() -> fsnotify_inode_delete()
+> > which should remove the inotify watch and result in IN_IGNORED.
+> 
+> Nothing like this exists before this patch.
+> 
+> > IN_DELETE_SELF is a different story, because the inode does not
+> > have zero i_nlink.
+> >
+> > I did not try to follow the code path of cgroupfs destroy when an
+> > inotify watch on a cgroup file exists, but this is what I expect.
+> > Please explain - what am I missing?
+> 
+> Yes that's the problem here. The inode isn't dropped unless the watch
+> is removed, and the watch isn't removed because kernfs doesn't go
+> through vfs to notify about file removal. There is nothing to trigger
+> dropping the watch and the associated inode reference except this
+> patch calling into fsnotify_inoderemove which both sends
+> IN_DELETE_SELF and calls __fsnotify_inode_delete for the IN_IGNORED
+> and inode cleanup.
+> 
+> Without this, the watch and inode persist after file deletion until
+> the process exits and file descriptors are cleaned up, or until
+> inotify_rm_watch gets called manually.
 
-This spans three subsystems, how do you want to get it upstream?
+Hrm. I was scratching my head how it is possible VFS isn't involved for a
+while. So let me share what I found:
 
-Bartosz
+Normally fsnotify_inoderemove() is called from dentry_unlink_inode() which
+is called from d_delete() (name unlinked) and __dentry_kill() (last dput()).
+Now it is true that kernfs doesn't bother with pruning child dentries from
+its rmdir implementation. It just marks all corresponding kernfs_nodes
+(inodes) as dead and that's it so d_delete() isn't called. But vfs_rmdir()
+makes up for this by calling shrink_dcache_parent() on the removed
+directory so the child dentries end up going through __dentry_kill(). *But*
+kernfs also doesn't bother to set i_nlink for these child dentries to 0
+when marking them as dead and so __dentry_kill() doesn't call
+fsnotify_inoderemove(). So at this point it seems more like a kernfs bug
+that children inodes aren't properly cleaned up by setting i_nlink to 0 and
+I don't think we should paper over this by calling fsnotify_inoderemove()
+explicitely.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
