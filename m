@@ -1,71 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A961344037;
-	Wed, 18 Feb 2026 16:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B40330665
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 18:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771433947; cv=none; b=DZ/s0hqpE2e2k08jo52eHghbp/jFqLHpN1+SdybJmkLpC4mp3YxFzDYhjPOAsaU1wECfWyI0el8NsHLingX2Vfrf1dQBlagVBBQjcwSTcpozYdki2kWRDS2CjUQDt9r6zQxNLqwGEcY9N+YoJXbvrwihe55/2JLj06/p5ZbyGA4=
+	t=1771437687; cv=none; b=oh001sbH8ju8MYJc+zLG0nOa96hS1UCxFt70sl75iMhKtY9iEZ1J0CJLp2W8Pttbp5wXLiOy+P+vbRpiH2jlgFRo4xS6s726/8PKbuQGwwnfPJ8oKZkJU2py09JAsI+xq6rGOD/sMg+PIZrPyWuAH48+L6u/nplQU7aKKH4MA0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771433947; c=relaxed/simple;
-	bh=rv0N2rf5GatvQtHBquY8uQJtkNYnn9jlDezi83Fnk1w=;
+	s=arc-20240116; t=1771437687; c=relaxed/simple;
+	bh=r5p50fgxeqnRiI3HqOy198KdIobanwWL7ySX9YuA5V0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bRIn2mSDjPUEk6cw281rwBhrxGhrHQT7Y1q0Z46FrpDMOz2kt/BerRSnYFo/svN9Sz/d2sfjpqRlEzTA/5wHAdJnVmzhH3HGSf8xd+qI0yxbL3tIR28XKSxZk9W+8dpv/ZWyc9ff8jsP6xBtRxWa/zKYbZ8uHNKmIZzLbp0Y7wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVd1CVn9; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DAxqWY10ySdT7IPHiLbbha3s70W0lfZ3wzOc0YrCof+KVslW9PoAQbDHpOD/EdsY8rlYa5dXH/fZc3M6dv6ScZOGe08hSsVRXcJcOQ6DJB0nSqaL+PZELp3mTWc7KOa6OhIh91xnPnKmd2SEKw4guGK6AA10eO6EfBVEz4Q/0Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=mjpdT6tG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qCL7wy1T; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=fGMQnK0b; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=XxWWEmeq; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVd1CVn9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771433946; x=1802969946;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rv0N2rf5GatvQtHBquY8uQJtkNYnn9jlDezi83Fnk1w=;
-  b=iVd1CVn9BnXCiDkQjaOe7DhL7staLTqHY6jFPCMlGaeEMUfDrJkpOVT4
-   +iHIzFD0x+kIK4vxE251YMaimrebjbV00YFnig3IVLOP74cAqDhNVxjrW
-   ukp/bunmRvssV4tm6u5uk7azxo4YHmVbexgasQUSVLmyTZbSKOqSR5Vp8
-   AlEKnsrA0AFWdmNVUyeO5nVg2LOSxdaq+2hpTw2xNg6tEtlzDYCOyiqwc
-   kVfzQ4qNr5cQQJJsvPRcHAFR6mWCLVn0V/RGk/RhE79kGgM59+dbdbBLW
-   HC0HbJ2e0fPIMXwk1mTcbHfpEXw1ac9NKDT9oBBSfgBRLaQ1t0c/dDNPU
-   Q==;
-X-CSE-ConnectionGUID: CC0BIBBCROeC9q5dhH4f8w==
-X-CSE-MsgGUID: ZwoBdnP8R8Gqw9j7dkRUHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11705"; a="83964068"
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="83964068"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 08:59:06 -0800
-X-CSE-ConnectionGUID: pDJla79oSkW0ateKXGfvvw==
-X-CSE-MsgGUID: cNlPIIxzRGO6mWXNNZtOgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
-   d="scan'208";a="218775369"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Feb 2026 08:59:01 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vskt8-000000012Yu-3H6h;
-	Wed, 18 Feb 2026 16:58:58 +0000
-Date: Thu, 19 Feb 2026 00:58:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com,
-	quic_mrana@quicinc.com, sherry.sun@nxp.com,
-	driver-core@lists.linux.dev,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Subject: Re: [PATCH v7 3/3] PCI: Add support for PCIe WAKE# interrupt
-Message-ID: <202602190038.BHg9UcM5-lkp@intel.com>
-References: <20260218-wakeirq_support-v7-3-0d4689830207@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="mjpdT6tG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qCL7wy1T";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="fGMQnK0b";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="XxWWEmeq"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D41D43E6D8;
+	Wed, 18 Feb 2026 18:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771437681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tVTFDTNTc6+RIvbxQ7QRFu31DqKI++gAI+qJn+h3EHc=;
+	b=mjpdT6tGzyYI3XPb6YQjMdE15d9eljLOPVH9P5sqUSV6mp3/hyrpLGWjnTHFSv1+zJzGDD
+	654S8OzTfcI2ybmiqprIpJu8vGy2v/+dz3fvKiD7G7supLr+pIaxe8Oq/gwYwRa3BgBfP/
+	EEx0W66BKBcvZmMX312Z8fHo3GfxSE0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771437681;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tVTFDTNTc6+RIvbxQ7QRFu31DqKI++gAI+qJn+h3EHc=;
+	b=qCL7wy1ToylRDoC1qsyG0YWxXdWK8M+ywobiCJ9w7Kzr6pt0TMpcPA3WLurCiF0ZGO4RRL
+	aVR5pXWSrb7aYZBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=fGMQnK0b;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=XxWWEmeq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771437676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tVTFDTNTc6+RIvbxQ7QRFu31DqKI++gAI+qJn+h3EHc=;
+	b=fGMQnK0bvfah91LKcsyLElbOhhK7wU41dNnQ2L/SrUeeqnfS6ss6M8z3a1E8PNNprHX1m9
+	Ed/0ElGLqw/d5YZldE9PA0bD4GV7HtncvtbBbi+UqxIn2Zv4WjM7CB7YS09LxckB9db+CC
+	yaybrZsUuFLyS4MD8+Njic1JquywssY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771437676;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tVTFDTNTc6+RIvbxQ7QRFu31DqKI++gAI+qJn+h3EHc=;
+	b=XxWWEmeqNddVM4vHWNiY2yayzEvcFE5TKOIpAyzEwmTJbRPXz4tfolTCrvL0sVLNd30DgU
+	NW4QwzJXY7qiK9CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B59643EA65;
+	Wed, 18 Feb 2026 18:01:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tyNSLGz+lWnFAgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 18 Feb 2026 18:01:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 55F73A08CF; Wed, 18 Feb 2026 19:01:12 +0100 (CET)
+Date: Wed, 18 Feb 2026 19:01:12 +0100
+From: Jan Kara <jack@suse.cz>
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	jack@suse.cz, amir73il@gmail.com, shuah@kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] kernfs: send IN_DELETE_SELF and IN_IGNORED on
+ file deletion
+Message-ID: <e7b4xiqvh76jvqukvcocblq5lrc5hldoiiexjlo5fmagbv3mgn@zhpzm4jwx3kg>
+References: <20260218032232.4049467-1-tjmercier@google.com>
+ <20260218032232.4049467-3-tjmercier@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -74,78 +92,241 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260218-wakeirq_support-v7-3-0d4689830207@oss.qualcomm.com>
+In-Reply-To: <20260218032232.4049467-3-tjmercier@google.com>
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,lists.linux.dev,vger.kernel.org,suse.cz,gmail.com];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email,memory.events:url]
+X-Rspamd-Queue-Id: D41D43E6D8
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
 
-Hi Krishna,
+On Tue 17-02-26 19:22:31, T.J. Mercier wrote:
+> Currently some kernfs files (e.g. cgroup.events, memory.events) support
+> inotify watches for IN_MODIFY, but unlike with regular filesystems, they
+> do not receive IN_DELETE_SELF or IN_IGNORED events when they are
+> removed.
 
-kernel test robot noticed the following build errors:
+Please see my email:
+https://lore.kernel.org/all/lc2jgt3yrvuvtdj2kk7q3rloie2c5mzyhfdy4zvxylx732voet@ol3kl4ackrpb
 
-[auto build test ERROR on cee73b1e840c154f64ace682cb477c1ae2e29cc4]
+I think this is actually a bug in kernfs...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PM-sleep-wakeirq-Add-support-for-dedicated-shared-wake-IRQ-setup/20260218-162247
-base:   cee73b1e840c154f64ace682cb477c1ae2e29cc4
-patch link:    https://lore.kernel.org/r/20260218-wakeirq_support-v7-3-0d4689830207%40oss.qualcomm.com
-patch subject: [PATCH v7 3/3] PCI: Add support for PCIe WAKE# interrupt
-config: sparc64-randconfig-002-20260218 (https://download.01.org/0day-ci/archive/20260219/202602190038.BHg9UcM5-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260219/202602190038.BHg9UcM5-lkp@intel.com/reproduce)
+								Honza
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602190038.BHg9UcM5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   sparc64-linux-ld: drivers/pci/pci.o: in function `platform_pci_configure_wake':
->> drivers/pci/pci.c:1128:(.text+0x39c8): undefined reference to `pci_configure_of_wake_gpio'
-   sparc64-linux-ld: drivers/pci/pci.o: in function `platform_pci_remove_wake':
->> drivers/pci/pci.c:1133:(.text+0x39d4): undefined reference to `pci_remove_of_wake_gpio'
-
-
-vim +1128 drivers/pci/pci.c
-
-  1125	
-  1126	void platform_pci_configure_wake(struct pci_dev *dev)
-  1127	{
-> 1128		return pci_configure_of_wake_gpio(dev);
-  1129	}
-  1130	
-  1131	void platform_pci_remove_wake(struct pci_dev *dev)
-  1132	{
-> 1133		return pci_remove_of_wake_gpio(dev);
-  1134	}
-  1135	/**
-  1136	 * pci_update_current_state - Read power state of given device and cache it
-  1137	 * @dev: PCI device to handle.
-  1138	 * @state: State to cache in case the device doesn't have the PM capability
-  1139	 *
-  1140	 * The power state is read from the PMCSR register, which however is
-  1141	 * inaccessible in D3cold.  The platform firmware is therefore queried first
-  1142	 * to detect accessibility of the register.  In case the platform firmware
-  1143	 * reports an incorrect state or the device isn't power manageable by the
-  1144	 * platform at all, we try to detect D3cold by testing accessibility of the
-  1145	 * vendor ID in config space.
-  1146	 */
-  1147	void pci_update_current_state(struct pci_dev *dev, pci_power_t state)
-  1148	{
-  1149		if (platform_pci_get_power_state(dev) == PCI_D3cold) {
-  1150			dev->current_state = PCI_D3cold;
-  1151		} else if (dev->pm_cap) {
-  1152			u16 pmcsr;
-  1153	
-  1154			pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
-  1155			if (PCI_POSSIBLE_ERROR(pmcsr)) {
-  1156				dev->current_state = PCI_D3cold;
-  1157				return;
-  1158			}
-  1159			dev->current_state = pmcsr & PCI_PM_CTRL_STATE_MASK;
-  1160		} else {
-  1161			dev->current_state = state;
-  1162		}
-  1163	}
-  1164	
-
+> 
+> This creates a problem for processes monitoring cgroups. For example, a
+> service monitoring memory.events for memory.high breaches needs to know
+> when a cgroup is removed to clean up its state. Where it's known that a
+> cgroup is removed when all processes die, without IN_DELETE_SELF the
+> service must resort to inefficient workarounds such as:
+> 1.  Periodically scanning procfs to detect process death (wastes CPU and
+>     is susceptible to PID reuse).
+> 2.  Placing an additional IN_DELETE watch on the parent directory
+>     (wastes resources managing double the watches).
+> 3.  Holding a pidfd for every monitored cgroup (can exhaust file
+>     descriptors).
+> 
+> This patch enables kernfs to send IN_DELETE_SELF and IN_IGNORED events.
+> This allows applications to rely on a single existing watch on the file
+> of interest (e.g. memory.events) to receive notifications for both
+> modifications and the eventual removal of the file, as well as automatic
+> watch descriptor cleanup, simplifying userspace logic and improving
+> resource efficiency.
+> 
+> Implementation details:
+> The kernfs notification worker is updated to handle file deletion.
+> The optimized single call for MODIFY events to both the parent and the
+> file is retained, however because CREATE (parent) events remain
+> unsupported for kernfs files, support for DELETE (parent) events is not
+> added here to retain symmetry. Only support for DELETE_SELF events is
+> added.
+> 
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> Acked-by: Tejun Heo <tj@kernel.org>
+> ---
+>  fs/kernfs/dir.c             | 21 +++++++++++++++++
+>  fs/kernfs/file.c            | 45 ++++++++++++++++++++-----------------
+>  fs/kernfs/kernfs-internal.h |  3 +++
+>  3 files changed, 48 insertions(+), 21 deletions(-)
+> 
+> diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+> index 29baeeb97871..e5bda829fcb8 100644
+> --- a/fs/kernfs/dir.c
+> +++ b/fs/kernfs/dir.c
+> @@ -9,6 +9,7 @@
+>  
+>  #include <linux/sched.h>
+>  #include <linux/fs.h>
+> +#include <linux/fsnotify_backend.h>
+>  #include <linux/namei.h>
+>  #include <linux/idr.h>
+>  #include <linux/slab.h>
+> @@ -1471,6 +1472,23 @@ void kernfs_show(struct kernfs_node *kn, bool show)
+>  	up_write(&root->kernfs_rwsem);
+>  }
+>  
+> +static void kernfs_notify_file_deleted(struct kernfs_node *kn)
+> +{
+> +	static DECLARE_WORK(kernfs_notify_deleted_work,
+> +			    kernfs_notify_workfn);
+> +
+> +	guard(spinlock_irqsave)(&kernfs_notify_lock);
+> +	/* may overwite already pending FS_MODIFY events */
+> +	kn->attr.notify_event = FS_DELETE;
+> +
+> +	if (!kn->attr.notify_next) {
+> +		kernfs_get(kn);
+> +		kn->attr.notify_next = kernfs_notify_list;
+> +		kernfs_notify_list = kn;
+> +		schedule_work(&kernfs_notify_deleted_work);
+> +	}
+> +}
+> +
+>  static void __kernfs_remove(struct kernfs_node *kn)
+>  {
+>  	struct kernfs_node *pos, *parent;
+> @@ -1520,6 +1538,9 @@ static void __kernfs_remove(struct kernfs_node *kn)
+>  			struct kernfs_iattrs *ps_iattr =
+>  				parent ? parent->iattr : NULL;
+>  
+> +			if (kernfs_type(pos) == KERNFS_FILE)
+> +				kernfs_notify_file_deleted(pos);
+> +
+>  			/* update timestamps on the parent */
+>  			down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+>  
+> diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+> index e978284ff983..4be9bbe29378 100644
+> --- a/fs/kernfs/file.c
+> +++ b/fs/kernfs/file.c
+> @@ -37,8 +37,8 @@ struct kernfs_open_node {
+>   */
+>  #define KERNFS_NOTIFY_EOL			((void *)&kernfs_notify_list)
+>  
+> -static DEFINE_SPINLOCK(kernfs_notify_lock);
+> -static struct kernfs_node *kernfs_notify_list = KERNFS_NOTIFY_EOL;
+> +DEFINE_SPINLOCK(kernfs_notify_lock);
+> +struct kernfs_node *kernfs_notify_list = KERNFS_NOTIFY_EOL;
+>  
+>  static inline struct mutex *kernfs_open_file_mutex_ptr(struct kernfs_node *kn)
+>  {
+> @@ -909,7 +909,7 @@ static loff_t kernfs_fop_llseek(struct file *file, loff_t offset, int whence)
+>  	return ret;
+>  }
+>  
+> -static void kernfs_notify_workfn(struct work_struct *work)
+> +void kernfs_notify_workfn(struct work_struct *work)
+>  {
+>  	struct kernfs_node *kn;
+>  	struct kernfs_super_info *info;
+> @@ -935,11 +935,7 @@ static void kernfs_notify_workfn(struct work_struct *work)
+>  	down_read(&root->kernfs_supers_rwsem);
+>  	down_read(&root->kernfs_rwsem);
+>  	list_for_each_entry(info, &kernfs_root(kn)->supers, node) {
+> -		struct kernfs_node *parent;
+> -		struct inode *p_inode = NULL;
+> -		const char *kn_name;
+>  		struct inode *inode;
+> -		struct qstr name;
+>  
+>  		/*
+>  		 * We want fsnotify_modify() on @kn but as the
+> @@ -951,24 +947,31 @@ static void kernfs_notify_workfn(struct work_struct *work)
+>  		if (!inode)
+>  			continue;
+>  
+> -		kn_name = kernfs_rcu_name(kn);
+> -		name = QSTR(kn_name);
+> -		parent = kernfs_get_parent(kn);
+> -		if (parent) {
+> -			p_inode = ilookup(info->sb, kernfs_ino(parent));
+> -			if (p_inode) {
+> -				fsnotify(notify_event | FS_EVENT_ON_CHILD,
+> -					 inode, FSNOTIFY_EVENT_INODE,
+> -					 p_inode, &name, inode, 0);
+> -				iput(p_inode);
+> +		if (notify_event == FS_DELETE) {
+> +			fsnotify_inoderemove(inode);
+> +		} else {
+> +			struct kernfs_node *parent = kernfs_get_parent(kn);
+> +			struct inode *p_inode = NULL;
+> +
+> +			if (parent) {
+> +				p_inode = ilookup(info->sb, kernfs_ino(parent));
+> +				if (p_inode) {
+> +					const char *kn_name = kernfs_rcu_name(kn);
+> +					struct qstr name = QSTR(kn_name);
+> +
+> +					fsnotify(notify_event | FS_EVENT_ON_CHILD,
+> +						 inode, FSNOTIFY_EVENT_INODE,
+> +						 p_inode, &name, inode, 0);
+> +					iput(p_inode);
+> +				}
+> +
+> +				kernfs_put(parent);
+>  			}
+>  
+> -			kernfs_put(parent);
+> +			if (!p_inode)
+> +				fsnotify_inode(inode, notify_event);
+>  		}
+>  
+> -		if (!p_inode)
+> -			fsnotify_inode(inode, notify_event);
+> -
+>  		iput(inode);
+>  	}
+>  
+> diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
+> index 6061b6f70d2a..cf4b21f4f3b6 100644
+> --- a/fs/kernfs/kernfs-internal.h
+> +++ b/fs/kernfs/kernfs-internal.h
+> @@ -199,6 +199,8 @@ struct kernfs_node *kernfs_new_node(struct kernfs_node *parent,
+>   * file.c
+>   */
+>  extern const struct file_operations kernfs_file_fops;
+> +extern struct kernfs_node *kernfs_notify_list;
+> +extern void kernfs_notify_workfn(struct work_struct *work);
+>  
+>  bool kernfs_should_drain_open_files(struct kernfs_node *kn);
+>  void kernfs_drain_open_files(struct kernfs_node *kn);
+> @@ -212,4 +214,5 @@ extern const struct inode_operations kernfs_symlink_iops;
+>   * kernfs locks
+>   */
+>  extern struct kernfs_global_locks *kernfs_locks;
+> +extern spinlock_t kernfs_notify_lock;
+>  #endif	/* __KERNFS_INTERNAL_H */
+> -- 
+> 2.53.0.310.g728cabbaf7-goog
+> 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
