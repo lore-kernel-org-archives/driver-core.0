@@ -1,230 +1,227 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DABB2E7F39
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 03:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35490315D31
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 08:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771384980; cv=none; b=hf8qNkZ33EzqZSZ0T3gXII/cVyKHHF5QTkid+tSTYxqqqWy+8Ompz5TpJVReR5B9xywZ0/kjJHrytVhWgFwWrQ5ixB4mSclqvyxPep8hRElcLjJ2kSnKw02LRAkqccj/iqzX0BGJaYlTYuc1vSwUWIJmjr0S/rq8XTKOy/fGZkY=
+	t=1771402357; cv=none; b=pm7nO9Uf7dBaaISPW9j4aJleXBu+ibMNrrDMeoCH+PoCpK9WyPjC2+dzC15pxPYDLGwUY/GgND8eT+8na5yAguLEY1I/0Mt8AP6/aEepz9ZOXe5y9j1dRCnTw6QWAu9SZFGQ7ONxf5yaaCUy9MAdsxxFRMHSyQlpDSrHY9ng8k4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771384980; c=relaxed/simple;
-	bh=amJ6sTsdRzljNmWNFyyNWbH0+wmhpkN9l7CXsUdsmJY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=t0CCWBq4sK8Y4HUnXlUv9mEqSl+0swy0pOJP1gdb/tImDly3AN5RUOwg6GRkW2l7Oe5SNPkZ3+E9VAqr5zHKocXJZG8EWx6tkAHWRkfT+/TN0EMW8Y0nRNCvOaPcrOpzNeMCaxm4f3WfnrindGEamxt8Wv4e9036LlXMKR5R6u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Zl68rHy+; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1771402357; c=relaxed/simple;
+	bh=cn9bRtPL63s+L/kliS2QPtYEnu9wEkOpMMxQLo4/E2w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=a+Axe4CqPwdPIlG5Xz/BviwRYI3RRi8+H1Yc6T8J82UcFvy+pLvrOL4qC7GJxeEKgOC0wsbYtfSYQ2VRXNvfB38fcm6xcP6RS4lLxlBm1/9rCI/NMumRDFjIcBSkq57iYITf7BgMFQPLjmQCOo0phseQRundJHaU3alXXuX7nLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SoudCh3i; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Nyg4+RjO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zl68rHy+"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2aad3f8367bso57707385ad.0
-        for <driver-core@lists.linux.dev>; Tue, 17 Feb 2026 19:22:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SoudCh3i";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Nyg4+RjO"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61I7WKsN1944069
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 08:12:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=hKZlV/zjE2Jec2OpeZ2fnA
+	tbU0O5jNpjC5Zzj54JMio=; b=SoudCh3imLq2oU6ZjxDWGq5hV9LuNb8hMdba9z
+	ojq/3g7mEHZFFRrl7y4UDbtNPY/XiG64lwQ2k9BtGNwW5OYYBkE5QN1otE5j5jZT
+	BkRYQsdXmEH4MOvyGcvN62/T5T3HXp4PiqY9bF1nyek6QB4wBNL2Hf/57/G+wmtz
+	8yKPlODlzOCYDEU194hbfNTMPAPwpEWB5ISxRLg+4aDuhxBGneql9PnIiPd2xPYx
+	flTG5nDtiJ27GB4oe1E5m+ksN+faIlKBEMnTNpVRKP+s7fgKZlBA2kBrO5XMuaG2
+	KzvcyLTjUIiRrOgHtXNVqTPgrO+46Cvl6WDrKOWI7nnOIMkA==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ccq4g3b5b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 08:12:35 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2aad5fec175so202626685ad.2
+        for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 00:12:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771384979; x=1771989779; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fK/D1opWbvNOOx0YfmI5FNRjOmnqGdMEH8VMO81NrfE=;
-        b=Zl68rHy+03HZNX3xc8odPQypkjJp9ikoTD+xiHAWXBNuw/bYhyyUZWnaTcUksaIHPz
-         cR2743s8TA4hahoJBFVZnSc+rCtKITFaGQ28hY98kBLL3L0VpyVYSZxVqFn+43OG2uih
-         bNKCMhQLbb4qG5rWkiHdMU04E/gkSvordTQbx6TjIxPsI/Q4UFNUSMSGVNiDWMGaVrg+
-         rWHkVK5yylEbRMbyi1U4fwmrXfY0zfuTmPrESsx8flttUBRMMXxWmK3sqLXVZH6Pnq1l
-         VELBoUO+cEDsmpP000dJ3AytPWgjB6rOtLbw/h8xrVwnDvx4LV8rdjUlQCsdqc6kcr72
-         GoxQ==
+        d=oss.qualcomm.com; s=google; t=1771402354; x=1772007154; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hKZlV/zjE2Jec2OpeZ2fnAtbU0O5jNpjC5Zzj54JMio=;
+        b=Nyg4+RjODrDxiPW5qCo0cUB+tjjn27EWeJghdUYJ+2f1HzVZvnDezXmgRG5P7xHC2M
+         cPO7NUFMqgQXbFiJr78kPd54cY+H7Wjb9xlXIwcKjHI6KMbbKeKK5XhullaXd3AXmyJf
+         RVpvw4kSOY3v5O1Wt6sB9jWBuUe5jjZcRn4VxMmCjF/4JdDOzpjOuHPkkl8BkoPafpqh
+         CojTmmV+wdtn6gcBU6+TtHwM43mUNgrevsO5TXYXJwTqLQsLPNZGJE0iV6ErVgNy4hSQ
+         itBaUKEXOtwDyR/5DhypVq4CssBYVgXmO2qN//VXk4DIxU7acr4WpjIhrNHkcFV130ZN
+         JPbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771384979; x=1771989779;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fK/D1opWbvNOOx0YfmI5FNRjOmnqGdMEH8VMO81NrfE=;
-        b=ht4+GgGCFxuqFwAmEv27G+XPvgkrKvteEB9GKYfQOUKCLdDhSFCj0ZzPpa1A9KnLjE
-         erT47qdK3cQBLIR59yISdkgg7cOy5q8jTfyF3YCpMlYOwclG5WwpRQTC2QmM/ClbbA2p
-         GueH2YVD4hekhFB4gStEGHS6tL+PInuh0jYi7zTJLKnkYoumrLHhVlQAbt/i+RnQC3ZI
-         +UFzO47YljopVF0Q3nVdJuHw5AVOyJt3qHhZ5wZxIebhFMOUL/awjZXNPfEtS0TfqMnv
-         pLN6VVIJLsdKyX5iyuM3hAN+vHoq9yaxsKAsRd7nD3KhDRidRkO7XMaikZ7ntfRUWs13
-         mWwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSN61FHwn7AuOA+MJjmdKF5OLpPMzBPnfe2ETx8LQmJzuVYEbRT7MO4Nr6FXNV+6VXlI5+8eZsk2e97Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxtwnLfZfj7lpy4E0okKtrkDQ+fvjiGJfcvyGXKb49UjT5cH3qT
-	WAY/O2CbYDGdUZ85vt7WftoviYkuoOHjk7U0djL57Wze5i5UySvcKKhDYZQRhiAjZGkc4i6/4uu
-	0XGfDfwY4OxGvbbVK8Q==
-X-Received: from pfbhc6.prod.google.com ([2002:a05:6a00:6506:b0:823:c4bd:60eb])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:f8f:b0:81d:a1b1:731b with SMTP id d2e1a72fcca58-824d951b02dmr12246190b3a.19.1771384978430;
- Tue, 17 Feb 2026 19:22:58 -0800 (PST)
-Date: Tue, 17 Feb 2026 19:22:32 -0800
-In-Reply-To: <20260218032232.4049467-1-tjmercier@google.com>
+        d=1e100.net; s=20230601; t=1771402354; x=1772007154;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hKZlV/zjE2Jec2OpeZ2fnAtbU0O5jNpjC5Zzj54JMio=;
+        b=L93JJaQXl3F+RvxoqdOyBDtAEa2vA7pT0YQMaeE+UN0LWmI8q75sIOUm8sDSSdKYwl
+         giNAsmIT8EXQh96aoxC6jL1OX3vTiOa3n1L6J06UiOAE4Rdg52KHn3Aj/gq3UOBHdK1/
+         1O2U7CCaqgG0ciDF11n4lkHkec9FApciU1Y+1gFNgFpXIovY+tK7u2EufNNCclQlOe8d
+         T1QvsByrEPXw354IxF+NLXRx6xyBjBHIdTrtHgFlme5Eq6YwuXYldytJJNOmUCpGPxYT
+         H0+mPke+zYMGupgTmT9A2pr7ZiE6vD0JeYNjKAfZ1iiVNVrGCSkEI/ik01BzzHNtQES5
+         XCjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVsCY+PnXbB3JhE0tu2vRqWS2rkADtlVxl3pnXT5OOOdmh6ghiVYa2MdeJTP1vdpxzizsmo6BYkcWSlCQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEn1l6rHVjdodVI1veFoVaHt7+EDpHBEfIyR30pOGWtIcjKb23
+	nSbD/kAOnIgIP3hWwrwO7l85FLZQnk6tPZj1wD/tDL6YIpdQ5/tgeUhNovF3umwtHSQHIrwp7tM
+	YRi+5D+JOQBWjLfN+rnhFlECDDzzhYvRuGINpOtY9wQbKIwUrdTTy7ICzJVunIFLGLA==
+X-Gm-Gg: AZuq6aIDrr/6X/g4I6Lz1c69QzESdSeFUIWHnk80gDqAFHGP90VNke9kXAikG4pdSBl
+	MBL2AeSmx1X3bbeAvKJN1chyEGuewMUDWM4jRL+wof+pjwXyjaSWGB8QED7GagPkchMXj1GPOWY
+	D4pHnVRVS7fg2Fyfz26ctvBd06sxqPoIAOGQAoCJuJLhBT0AdOqVxtpAKvb2mKNNu7Vc8Q6O6qO
+	ZQK2PcHA1lvd9IJm+DH1P6NES1Y2qdnQaFaPmWzBAn7PdsrhmK/wmQFZVo8VWEIiFmQZ6FURK6R
+	Iyejv9GOyH8VhIsFpZs15WmswVxV5aF+CpJUoooHL4m2Z0Y/9SxsIYKKr29K2jZ0Ws+pljJej/A
+	swTAXZUKCtgYC0rTtV1xR7OtdIBg6iRmcm3X4CU45LKzWmZwQDMO+pKNx
+X-Received: by 2002:a17:903:2b05:b0:2aa:3b3:d633 with SMTP id d9443c01a7336-2ad50ff1164mr12524715ad.61.1771402353748;
+        Wed, 18 Feb 2026 00:12:33 -0800 (PST)
+X-Received: by 2002:a17:903:2b05:b0:2aa:3b3:d633 with SMTP id d9443c01a7336-2ad50ff1164mr12524395ad.61.1771402353204;
+        Wed, 18 Feb 2026 00:12:33 -0800 (PST)
+Received: from hu-krichai-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1a9d624esm118123685ad.49.2026.02.18.00.12.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 00:12:32 -0800 (PST)
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Subject: [PATCH v7 0/3] PCI: Add support for PCIe WAKE# interrupt
+Date: Wed, 18 Feb 2026 13:42:22 +0530
+Message-Id: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260218032232.4049467-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.53.0.310.g728cabbaf7-goog
-Message-ID: <20260218032232.4049467-4-tjmercier@google.com>
-Subject: [PATCH v3 3/3] selftests: memcg: Add tests IN_DELETE_SELF and
- IN_IGNORED on memory.events
-From: "T.J. Mercier" <tjmercier@google.com>
-To: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, jack@suse.cz, amir73il@gmail.com, 
-	shuah@kernel.org, linux-kselftest@vger.kernel.org
-Cc: "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGZ0lWkC/23N0QrCIBSA4VcZXudQUbe62ntEhJm2Q21uulkx9
+ u65QRC0mwP/gfOdCQXjwQR0yCbkTYQArk1R7DKka9XeDIZrasQIE5QSjp/qbsD35zB2nfMDtoJ
+ rflGKllqgdNV5Y+G1isdT6hrC4Px7fRDFsv1axZ8VBSaYS25oYZlmRFcuhLwf1UO7psnTQAsZ5
+ Q/DNhiZGEmsKKndc0bEBjPP8wdTuRzb/AAAAA==
+X-Change-ID: 20251104-wakeirq_support-f54c4baa18c5
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Linus Walleij <linusw@kernel.org>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
+        quic_vbadigan@quicinc.com, quic_mrana@quicinc.com, sherry.sun@nxp.com,
+        driver-core@lists.linux.dev,
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771402347; l=3933;
+ i=krishna.chundru@oss.qualcomm.com; s=20230907; h=from:subject:message-id;
+ bh=cn9bRtPL63s+L/kliS2QPtYEnu9wEkOpMMxQLo4/E2w=;
+ b=1NrTUTrlOuXkM10nOweTJb+5me+RqaT/bCS5HXsMXfsEdvuIFx663a7YJjaz1VTUelwNaOP1Q
+ nggN0JcfMQ3DKk5PZt6fd2/sIATbUJC/GcjnDkQjc++4i37OtQ/mhLg
+X-Developer-Key: i=krishna.chundru@oss.qualcomm.com; a=ed25519;
+ pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE4MDA3MSBTYWx0ZWRfXyiGOW5+ck+Zv
+ VAQ4NuKo3bmv99GQbjR8ATlCcHTRTUMCqBfc3bFaSuHBAe655y6l4BCnVSqsv7xL69Afc3YpV5j
+ Z0l6NcwTvnKFHDFN3f1xVqEPOoItQ3e9kM7Tz4Kqh7chMLDONGWGwvqxbONDPluA0r+js2fOwXN
+ MRg+Hz2jtqfOaLfa7GGp04wRwW3w5T0fZAhXx72fv5SfTHO93S+EAzbmGO/Oaczz2ekR6pwJjTY
+ E/+4XyfQ3lG2EvNR3UqyhGbOXtop/xX8lKxFDatiQtY1MU3yYW9vfQA+snKqeltmmVvVmiu/dPo
+ 9cPe/MfYodbBT+cpHQqvK2j3iM6mSTB1hP5vnQD2A4SzilRbQnugnFX8q+5k9U3ZOm3ArbkN7Cj
+ scAKN3iiGuZJCt3qbaSdQU6SAR7OajP5tf+GcSc7oYDDEk9LkmLAO5opvPjNtgmwaFALEyvDSyg
+ NRB9PSolv2g6v9LRhYA==
+X-Proofpoint-ORIG-GUID: enTm9K9lRKaitpPvAG_1l_pjTIjlu8Rw
+X-Proofpoint-GUID: enTm9K9lRKaitpPvAG_1l_pjTIjlu8Rw
+X-Authority-Analysis: v=2.4 cv=YdiwJgRf c=1 sm=1 tr=0 ts=69957473 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Ikd4Dj_1AAAA:8 a=s8YR1HE3AAAA:8
+ a=7FPx-eIICnbx9kjoaAIA:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+ a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-17_04,2026-02-16_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1011 priorityscore=1501 suspectscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602180071
 
-Add two new tests that verify inotify events are sent when memcg files
-are removed.
+PCIe WAKE# interrupt is needed for bringing back PCIe device state from
+D3cold to D0.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
-Acked-by: Tejun Heo <tj@kernel.org>
+This is pending from long time, there was two attempts done previously to
+add WAKE# support[1], [2]. Those series tried to add support for legacy
+interrupts along with WAKE#. Legacy interrupts are already available in
+the latest kernel and we can ignore them. For the wake IRQ the series is
+trying to use interrupts property define in the device tree.
+
+This series is using gpio property instead of interrupts, from
+gpio desc driver will allocate the dedicate IRQ.
+
+WAKE# is added in dts schema and merged based on this patch.
+https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
+
+[1]: https://lore.kernel.org/all/b2b91240-95fe-145d-502c-d52225497a34@nvidia.com/T/
+[2]: https://lore.kernel.org/all/20171226023646.17722-1-jeffy.chen@rock-chips.com/
+
+Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 ---
- .../selftests/cgroup/test_memcontrol.c        | 122 ++++++++++++++++++
- 1 file changed, 122 insertions(+)
+Changes in v7:
+- Updated the commit text (Mani).
+- Couple of nits like using pci_err instead of dev_err,
+  use platform_pci_configure_wake(), platform_pci_remove_wake() instead
+  of calling directly calling pci_configure_of_wake_gpio() & pci_remove_of_wake_gpio() etc (Mani).
+- Add a new fwnode_gpiod_get() API that wraps fwnode_gpiod_get_index(..0..), similar to
+  devm_fwnode_gpiod_get() (Mani).
+- Link to v6: https://lore.kernel.org/r/20251127-wakeirq_support-v6-0-60f581f94205@oss.qualcomm.com
 
-diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/testing/selftests/cgroup/test_memcontrol.c
-index 4e1647568c5b..2b065d03b730 100644
---- a/tools/testing/selftests/cgroup/test_memcontrol.c
-+++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-@@ -10,6 +10,7 @@
- #include <sys/stat.h>
- #include <sys/types.h>
- #include <unistd.h>
-+#include <sys/inotify.h>
- #include <sys/socket.h>
- #include <sys/wait.h>
- #include <arpa/inet.h>
-@@ -1625,6 +1626,125 @@ static int test_memcg_oom_group_score_events(const char *root)
- 	return ret;
- }
- 
-+static int read_event(int inotify_fd, int expected_event, int expected_wd)
-+{
-+	struct inotify_event event;
-+	ssize_t len = 0;
-+
-+	len = read(inotify_fd, &event, sizeof(event));
-+	if (len < (ssize_t)sizeof(event))
-+		return -1;
-+
-+	if (event.mask != expected_event || event.wd != expected_wd) {
-+		fprintf(stderr,
-+			"event does not match expected values: mask %d (expected %d) wd %d (expected %d)\n",
-+			event.mask, expected_event, event.wd, expected_wd);
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int test_memcg_inotify_delete_file(const char *root)
-+{
-+	int ret = KSFT_FAIL;
-+	char *memcg = NULL, *child_memcg = NULL;
-+	int fd, wd;
-+
-+	memcg = cg_name(root, "memcg_test_0");
-+
-+	if (!memcg)
-+		goto cleanup;
-+
-+	if (cg_create(memcg))
-+		goto cleanup;
-+
-+	if (cg_write(memcg, "cgroup.subtree_control", "+memory"))
-+		goto cleanup;
-+
-+	child_memcg = cg_name(memcg, "child");
-+	if (!child_memcg)
-+		goto cleanup;
-+
-+	if (cg_create(child_memcg))
-+		goto cleanup;
-+
-+	fd = inotify_init1(0);
-+	if (fd == -1)
-+		goto cleanup;
-+
-+	wd = inotify_add_watch(fd, cg_control(child_memcg, "memory.events"), IN_DELETE_SELF);
-+	if (wd == -1)
-+		goto cleanup;
-+
-+	cg_write(memcg, "cgroup.subtree_control", "-memory");
-+
-+	if (read_event(fd, IN_DELETE_SELF, wd))
-+		goto cleanup;
-+
-+	if (read_event(fd, IN_IGNORED, wd))
-+		goto cleanup;
-+
-+	ret = KSFT_PASS;
-+
-+cleanup:
-+	if (fd >= 0)
-+		close(fd);
-+	if (child_memcg)
-+		cg_destroy(child_memcg);
-+	free(child_memcg);
-+	if (memcg)
-+		cg_destroy(memcg);
-+	free(memcg);
-+
-+	return ret;
-+}
-+
-+static int test_memcg_inotify_delete_rmdir(const char *root)
-+{
-+	int ret = KSFT_FAIL;
-+	char *memcg = NULL;
-+	int fd, wd;
-+
-+	memcg = cg_name(root, "memcg_test_0");
-+
-+	if (!memcg)
-+		goto cleanup;
-+
-+	if (cg_create(memcg))
-+		goto cleanup;
-+
-+	fd = inotify_init1(0);
-+	if (fd == -1)
-+		goto cleanup;
-+
-+	wd = inotify_add_watch(fd, cg_control(memcg, "memory.events"), IN_DELETE_SELF);
-+	if (wd == -1)
-+		goto cleanup;
-+
-+	if (cg_destroy(memcg))
-+		goto cleanup;
-+	free(memcg);
-+	memcg = NULL;
-+
-+	if (read_event(fd, IN_DELETE_SELF, wd))
-+		goto cleanup;
-+
-+	if (read_event(fd, IN_IGNORED, wd))
-+		goto cleanup;
-+
-+	ret = KSFT_PASS;
-+
-+cleanup:
-+	if (fd >= 0)
-+		close(fd);
-+	if (memcg)
-+		cg_destroy(memcg);
-+	free(memcg);
-+
-+	return ret;
-+}
-+
- #define T(x) { x, #x }
- struct memcg_test {
- 	int (*fn)(const char *root);
-@@ -1644,6 +1764,8 @@ struct memcg_test {
- 	T(test_memcg_oom_group_leaf_events),
- 	T(test_memcg_oom_group_parent_events),
- 	T(test_memcg_oom_group_score_events),
-+	T(test_memcg_inotify_delete_file),
-+	T(test_memcg_inotify_delete_rmdir),
- };
- #undef T
- 
+Changes in v6:
+- Change the name to dev_pm_set_dedicated_shared_wake_irq() and make the
+  changes pointed by (Rafael). 
+- Link to v5: https://lore.kernel.org/r/20251107-wakeirq_support-v5-0-464e17f2c20c@oss.qualcomm.com
+
+Changes in v5:
+- Enable WAKE# irq only when there is wake -gpios defined in its device
+  tree node (Bjorn).
+- For legacy bindings for direct atach check in root port if we haven't
+  find the wake in the endpoint node.
+- Instead of hooking wake in driver bound case, do it in the framework
+  irrespective of the driver state (Bjorn).
+- Link to v4: https://lore.kernel.org/r/20250801-wake_irq_support-v4-0-6b6639013a1a@oss.qualcomm.com
+
+Changes in v4:
+- Move wake from portdrv to core framework to endpoint (Bjorn).
+- Added support for multiple WAKE# case (Bjorn). But traverse from
+  endpoint upstream port to root port till you get WAKE#. And use
+  IRQF_SHARED flag for requesting interrupts.
+- Link to v3: https://lore.kernel.org/r/20250605-wake_irq_support-v3-0-7ba56dc909a5@oss.qualcomm.com
+
+Changes in v3:
+- Update the commit messages, function names etc as suggested by Mani.
+- return wake_irq if returns error (Neil).
+- Link to v2: https://lore.kernel.org/r/20250419-wake_irq_support-v2-0-06baed9a87a1@oss.qualcomm.com
+
+Changes in v2:
+- Move the wake irq teardown after pcie_port_device_remove
+  and move of_pci_setup_wake_irq before pcie_link_rcec (Lukas)
+- teardown wake irq in shutdown also.
+- Link to v1: https://lore.kernel.org/r/20250401-wake_irq_support-v1-0-d2e22f4a0efd@oss.qualcomm.com
+
+---
+Krishna Chaitanya Chundru (3):
+      PM: sleep: wakeirq: Add support for dedicated shared wake IRQ setup
+      gpio: Add fwnode_gpiod_get() helper
+      PCI: Add support for PCIe WAKE# interrupt
+
+ drivers/base/power/wakeirq.c  | 39 ++++++++++++++++++++++++++----
+ drivers/pci/of.c              | 55 +++++++++++++++++++++++++++++++++++++++++++
+ drivers/pci/pci.c             |  9 +++++++
+ drivers/pci/pci.h             |  8 +++++++
+ drivers/pci/probe.c           |  2 ++
+ drivers/pci/remove.c          |  1 +
+ include/linux/gpio/consumer.h |  9 +++++++
+ include/linux/pci.h           |  2 ++
+ include/linux/pm_wakeirq.h    |  6 +++++
+ 9 files changed, 126 insertions(+), 5 deletions(-)
+---
+base-commit: cee73b1e840c154f64ace682cb477c1ae2e29cc4
+change-id: 20251104-wakeirq_support-f54c4baa18c5
+
+Best regards,
 -- 
-2.53.0.310.g728cabbaf7-goog
+Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
 
