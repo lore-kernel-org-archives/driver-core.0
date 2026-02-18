@@ -1,65 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31A432D0DD;
-	Wed, 18 Feb 2026 08:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388C3211A14
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 10:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771404861; cv=none; b=Fwws6HsLHhVCjzu9wxaYQgJ1sMHjkBLVY5pkfahcf9ahlZCKu/saC7Yo4f7kW0Im8qenlWUKJwX9NkXFWjTrPHQd5uCKHia4owd23sBJyhRHrxIyDoIrb4Nd9wVHYvamjFFaNJce5hz0pqpaOPG7eRY9GpivaeeTudbmOZWV0No=
+	t=1771408898; cv=none; b=jHcIJsxH0bWvfKEntjMb+ePsxaZvYhDRi/m7v3FKPndi83vBfAy5eSYsxznCA4kiXWABgH1S9f0yNjoyBopYixv3mN5DZmEl9/k8yk91amsnYfBguomjUxiLeZNVfyNeis5vyAC+USY6XsU8iaHLZK3urgWlBilaY8jUNcKDuzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771404861; c=relaxed/simple;
-	bh=c6kyjTN08CGLmgUPWzMU7Y0uAbmelFRNXoqWtG0drVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U6zfpAZsQ54cCy8FsOsL9olOK8+TJaZErLJe8dcJ0FsTs9EYqglmTcEFKeZEeGXjmVhQgpN56nDVc3NEi1Yna5gEnCHYbZ6Io0epLm7f5CUcPguWYGQw1hkiq63VtmxU9K44UpH30Eih9K/VJPHY4/MJJLuwdKJImXQMUmIs/3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TtMYlV+0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771408898; c=relaxed/simple;
+	bh=m58O7PVPOQr0/+2MnMIyHDol0SFhNpA2733D8qV8B5A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m4RA5lHFXHZoU99cNGzRpAmDSKml7SMNVJlDxX2rBqqfnYsvjNAfKJJ/6BNqHEwd94aHlxbVejnCdN8LG8BjMcPP1Q1z1dte2MT7k4GJqUAOgWTVx0o2/NkTAEtNcRU1IX6xasAaNyAiNP6EGJRWppgzzQqd894AGHKDvOWSTRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FBIWtVEa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TtMYlV+0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74864C19421;
-	Wed, 18 Feb 2026 08:54:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FBIWtVEa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C459C2BCB0
+	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 10:01:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771404861;
-	bh=c6kyjTN08CGLmgUPWzMU7Y0uAbmelFRNXoqWtG0drVU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TtMYlV+06QRZg4oc8GiTs+PAxi6fgLCX0n4Mk4JblFbWazpGb4LrvHEVajzQZVs35
-	 9iROox/VFWMRhLyf7QXt/v0DdSokw74WnH8c3fcv2+wWrpVvslA/dZrERvQjW8BtQW
-	 0i9XdLKd9P5/Pp6piBcboieX3/QUjhISYuqQC0i7u17W8n3bNbJQJFLrg5tlqzbCvI
-	 364cVIXSkBrMHtOfPS5ob6AnJAtawS/JoLqCdmiKJ4SWb+Lkzx3CgFM95pA+tQSjtJ
-	 LhOYgx2GHwjcTbg2Qk6TlVHuKP2JpYUGH5N+Pybovnm7iH3fcK+LDjwUjRiREEBWbR
-	 gqk16mT9s9aNA==
-Date: Wed, 18 Feb 2026 10:54:17 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Heiner Kallweit <hkall@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	driver-core@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH RFC 01/10] IB/core: Prepare for immutable device groups
-Message-ID: <20260218085417.GC10368@unreal>
-References: <5d0951ec-42c9-453f-9966-ecca593c4153@kernel.org>
- <0f7f4ffa-1465-4c54-8d3d-e9b551136669@kernel.org>
+	s=k20201202; t=1771408898;
+	bh=m58O7PVPOQr0/+2MnMIyHDol0SFhNpA2733D8qV8B5A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=FBIWtVEagYxNybbLeWFhSmozTuipcKaksil5psxnXXKZdeZ6TH1QB+vUnDzAZe2Eq
+	 3Jr9UZKg0+Wm02q4UCDdV7yNRPCmqPpJJrFM6QYPNexflgnjrbU6rUWwXi4IYGPPEb
+	 FzAduE8g5S3AzZ/AEbbZuolWfEd6LXqZGw4WuNkeOud+uFEyjTGHXV/QOO5h5qntgs
+	 76TlLr2pfgNnzLry0jn8uafDfjMDItJSjHGRZ4Inqq6qxrohI15UmpwtHR6uRgszQa
+	 uChviY2PLQ/sLRCfTlx/rx41TK11jnVlhCElVfs20ZbaNl3WHCYNNMQ8SvRJFsZxVr
+	 DAxjEmVdTTTRQ==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-59dea72099eso5955631e87.0
+        for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 02:01:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUFSytuAmUNwT4R6TpzZXCnaISg4PHE/EJxztm1djfv6SYIFp/KEz3bw5mn8QpRIqyiGqQQn2b5DEiFUw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywq77JNeSVz4tEA1fmh+nZ0SN4Ois6lOr5VhjEetNFjS/aMvC0w
+	UwWLC4sfVEmzczwsT3oW1Nk5we2d6JadpxIZUKPAQMoBXsI7xRuDNQrhA7Cf424JfdJ58SRJ2cX
+	4RAX7oracVcKwvwlcGNuMzjPNfUdBnuBfgMLO2n2jEw==
+X-Received: by 2002:a05:6512:39cb:b0:59f:6a01:c18a with SMTP id
+ 2adb3069b0e04-59f6d38d6c2mr5090738e87.50.1771408896561; Wed, 18 Feb 2026
+ 02:01:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f7f4ffa-1465-4c54-8d3d-e9b551136669@kernel.org>
+References: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
+In-Reply-To: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 18 Feb 2026 11:01:23 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MdF92kriuT_-Fbk3pj6YeJiNv6RSiDE7aB0AKL9oFZg5w@mail.gmail.com>
+X-Gm-Features: AaiRm53iJbAvCfNi8W89R1ZOmelHBmdb900XClGvZBpW4TQR7OEInUOA7xLLbTI
+Message-ID: <CAMRc=MdF92kriuT_-Fbk3pj6YeJiNv6RSiDE7aB0AKL9oFZg5w@mail.gmail.com>
+Subject: Re: [PATCH v7 0/3] PCI: Add support for PCIe WAKE# interrupt
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Linus Walleij <linusw@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com, quic_mrana@quicinc.com, 
+	sherry.sun@nxp.com, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 17, 2026 at 11:25:20PM +0100, Heiner Kallweit wrote:
-> This prepares for making struct device member groups a constant array.
-> No functional change intended.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+On Wed, Feb 18, 2026 at 9:12=E2=80=AFAM Krishna Chaitanya Chundru
+<krishna.chundru@oss.qualcomm.com> wrote:
+>
+> PCIe WAKE# interrupt is needed for bringing back PCIe device state from
+> D3cold to D0.
+>
+> This is pending from long time, there was two attempts done previously to
+> add WAKE# support[1], [2]. Those series tried to add support for legacy
+> interrupts along with WAKE#. Legacy interrupts are already available in
+> the latest kernel and we can ignore them. For the wake IRQ the series is
+> trying to use interrupts property define in the device tree.
+>
+> This series is using gpio property instead of interrupts, from
+> gpio desc driver will allocate the dedicate IRQ.
+>
+> WAKE# is added in dts schema and merged based on this patch.
+> https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.=
+qualcomm.com/
+>
+> [1]: https://lore.kernel.org/all/b2b91240-95fe-145d-502c-d52225497a34@nvi=
+dia.com/T/
+> [2]: https://lore.kernel.org/all/20171226023646.17722-1-jeffy.chen@rock-c=
+hips.com/
+>
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.co=
+m>
 > ---
->  drivers/infiniband/core/device.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
 
-Thanks,
-Acked-by: Leon Romanovsky <leon@kernel.org>
+This spans three subsystems, how do you want to get it upstream?
+
+Bartosz
