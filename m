@@ -1,303 +1,106 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A67633893D
-	for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 22:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771455373; cv=pass; b=shEDSlJZ4AB1BZKiB050Wfh+a8IMPgT2udebDoiFu7tUXRwxhRjLlUT+b6rove5IxRsAvFnLGjDhe6lJ0fwyWT6nWdVS0A+2Ra8CIZHCTfMgwXZyDQrgjYQv9W4MOakWCgd9i9+bjJ8/TDWklKYuPErpZsp7JXBUWbi5SComS6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771455373; c=relaxed/simple;
-	bh=JCFoaESIl/QxCrjmGNPhcuSnGB4Slki2xY4HPtQx/4s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f6KLqMLOAfyRpg0sIzmsYP0ZzfaZMqyxaduds3u2QuFjM2nLetF8lB4OrICqSlieBRM3Low8qRmsfM59rQu0ZAuGza0TNCRvxGS2UpdYkLoa92BsLcTGfAVpli0eQJHuRsEgM+GbBHMf+sSbIfpj+Fv1fYsD52wOxd0immlspvU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FsA72jLO; arc=pass smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E57D35977
+	for <driver-core@lists.linux.dev>; Thu, 19 Feb 2026 00:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771462413; cv=none; b=fM9NeOIkyDQR8Gmenm9gvp4rE6dYUn8c4eYD0tG5XaZ2cjZG4Vfc815iw/ClOv/ZUhorGREK/K1xzkaWQgrKXjkN7cIv/EcR3qZZU0wsY+kJu8das7fms64H1CcaYhiCAv+807QbHCq9WqRTbovc1dCpBN8O5vuvfiiB3Tpl5AM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771462413; c=relaxed/simple;
+	bh=m6jU20WcnewWYKvUIp3/P1bCRaKEllC10X46P1g87r4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oQzMTHxjDGqs+Ir547Mgr3IQ5k51exw4OmRxCvNt663/tnr9PbxF/AwPq9tIHmE3cnGYWdTkrGcwGhBfuMUyxx2gBgIGwUyfk0AediH19WfDmS+5c8g8UTMYLGjyAdHs1j9zu4SouTV5lcIWG5sKBzBZdZq4ViAHiKRiyZcDsrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PStQ3nA3; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FsA72jLO"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4806b0963a9so27065e9.0
-        for <driver-core@lists.linux.dev>; Wed, 18 Feb 2026 14:56:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771455370; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dn4nsqxGP3M0fkWkLqxVmZYgR2c3mW5KaLFS93efY/vbaurQ42GjdZr3gWVuvZ3g63
-         tryx5RtXrA9o736CJPE7NPZVSEX1RQQ0B/IPLWXvDTXyR5bOG+PEw4wkvsm9Gsxl5YJ3
-         noj9fFjDgcMi4TgeNwtGeNS7PcXJXWWi0kp6BhflMlS6eAlTHMIvD66y+9zNmfZgsyd3
-         iRDzePQziEyBcDcZYZyH8ac5B2gOUEYBvMzPTc8F4XUTpYWZxWne12H8JQs0Bb25o6IX
-         KDJA4xDDIQr0GP6GNmh8SC4NwRNoynYm2iVv7UAO48aeBB+BUvP+Gw8xt5nYRLaA3n4K
-         nk+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ObMI2eFUctqy8D6J4/YNbtZUvjU4iP4F1TUzixbIpBQ=;
-        fh=ZMY1QmmnaSTxywj2ErvkUbTjRpb5FfRvdrG5xNvoHpA=;
-        b=CR7k1vrdR3sDPDY//4avLoYWdubccXS7pCUETUcOFjtSwSpf6kfLO07xgCserGHk9y
-         8BPTgZc38nw5ouqrS2N8Rh1JfW8dW17PlpAl3UPntvgAozNV4xh48SftW4dfL0ejZawP
-         dZpPg4gKGUKFr9GS47H1UuD2oAnTlAXOFT5n8bm5fMffUTC1P6JIVaG3uqcQNBO7D/Cw
-         iHl50ozZorkYAuL3hCu6+iLElA8VK43WCrSid9CUxZMYN5pMo+GUeu/1rfGDHqUINsHa
-         cwaL0qIvSpBmnlQxKS0Kr78Pe6dm8r+G8p1ndAUDjG5FxXhwYGkbMICnerRlYOGZl/DR
-         Mlkg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771455370; x=1772060170; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ObMI2eFUctqy8D6J4/YNbtZUvjU4iP4F1TUzixbIpBQ=;
-        b=FsA72jLOM8LdLMyOnrcb/112RWnUZlYKYe69iGLwcaRmRXvfpOtt1nsGoSUUV8GoAv
-         Y2dElZTaKHEGsCJxbvCfehWY6/DV8SQg5oHLGbubBBJtuMNea2M9hHD/qWrLsfZG2xck
-         ZClAxdrCk46BscweAEa3VmdP3wEC0ybkU6UTycJBaf4jrcjtCvqo3AHBFDBKeqnKPw68
-         7h2CC96Jyi/jpMhe43h8li3sPpQlFm0nq/PQYUuULHHu10mPeRm+qe70gNGMetl9PPwV
-         WbwQ5bPprIm6UGpmlogPmP9iyAOG/IQ+WDi3OqWcWjz+qIz7QUzkrlcmEffoDqrj7ik9
-         H8SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771455370; x=1772060170;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ObMI2eFUctqy8D6J4/YNbtZUvjU4iP4F1TUzixbIpBQ=;
-        b=ELFV1V7qQZvivZIXjo6EPuczHV1pqxE4lbo02NVzaeRQX91SP5q9pfVMW76XpjGcna
-         Sy0JnOrpFTAWGMm1wnjstppDBbwkYD6O3sJytpkfAahfMsRigT4QNGslqRofvbINiv41
-         A80+T/66kkch+qtKL0FL5o3lHhp7Gz7DIQz7M4vOI6FmUf6gRXvT6pTWrMbpn+vruLvY
-         QZwP3wW16cO9ZoM7K+fElkReoV4wvkDcZGvuCp8l+DZnTx2ShZSyfZZBUnoTV7/7GoFG
-         ZafCKvJPCJxhGoOcbyVAEySSKIFedtpHiOdjnRbYtEm2/VdsT3eIq8wjXTGRl1qOI7R4
-         HXxw==
-X-Forwarded-Encrypted: i=1; AJvYcCUulnH1gTUjZIIb8FFdUdvTEZYsllqpv1UDRCpsLDa98YwzgJMGJLfyFOIltDTTVljP+M9NrdnCRJl0YA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+VIUxa1xNkkzRx740xrdoE/u1d0yKJzwG7Le4ECXmoGOkWxZs
-	YzoIn7kNd55bNEcsojZnJbFukxY1sRCIbVC+Qn+kh1U+ZQ2saFMFk5DIG1Lo+tjp/kpuKnL3wQu
-	Z/T5UIIH4LvVIGbzMz7UtM4lJfjB3GTrHh+Jnv9+u
-X-Gm-Gg: AZuq6aK1Xws5nW5TWLKg8jGy/Nfw2aVu4FfKTuzRz5Kpgbl4jq5SPLJX2s1KcJKG58w
-	6Y48wPB0aCs2qOSGvj7vbYLiErI+71VIddMipkW/vtD1yQJ2mV0HZe2/IWBxPgddqkQHnzZOoSd
-	O6W9liJgAFVxh+E0nKLHhd/FvSN5xbbGfKCjMJSgA3FLHRd6UA/Yer5kMMFz41lajCacw/fEabW
-	fE9TYYVE5d9YjURVE3bzUXD9VescofD3oxwUIynLvsgJ4snr5EmZwNA0wfVdU3VSRdTtEF7dFZY
-	1Tv5MEZ7XpJNbsmNjfizKxFDRGRfv054OsTANMoR2i1MDfk3MzDuLMsBq/r6HDzmF8kXeQvZcze
-	mncuO
-X-Received: by 2002:a05:600c:b4c:b0:477:2f6f:44db with SMTP id
- 5b1f17b1804b1-4839fc2b05cmr17515e9.5.1771455370121; Wed, 18 Feb 2026 14:56:10
- -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PStQ3nA3"
+Message-ID: <392127ee-11ad-4517-bb72-91af64fd191e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1771462409;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KrEmRGC944GsP7Yyeaksj64lgATVALEMxqI+i3nVu7M=;
+	b=PStQ3nA3k1XjLI7RSZE66IuNbAuXdRUzufe4PePop166kxHT9aFwljBfEzjfU/UUvZUh6M
+	h9XYYsbV2kpJBEA6myoP3f676UL3xdhJz52sqhqr5uiIDrWVtxX83Q2CknT03RjKzLxeOZ
+	J+bxNzYtcLTcsOiqYXzNSb0XHbXT07g=
+Date: Wed, 18 Feb 2026 16:53:00 -0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260218032232.4049467-1-tjmercier@google.com>
- <20260218032232.4049467-4-tjmercier@google.com> <CAOQ4uxh4js=3yk_RxjY5AZmC4kCMVJzbq+4Wnn3mky-_i75QMw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxh4js=3yk_RxjY5AZmC4kCMVJzbq+4Wnn3mky-_i75QMw@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 18 Feb 2026 14:55:58 -0800
-X-Gm-Features: AaiRm50YpaIIErmI92nhYeTavLIal9YPKGY4uR1R97u7wbwoJ0wYYjhpDKRvR7o
-Message-ID: <CABdmKX08hFBq3myZqecr1rEYpGMo5xBGJVfB1aNz7t95-8bySQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] selftests: memcg: Add tests IN_DELETE_SELF and
- IN_IGNORED on memory.events
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, jack@suse.cz, shuah@kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC 02/10] rtc: prepare for struct device member groups
+ becoming a constant array
+To: Heiner Kallweit <hkall@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: driver-core@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org
+References: <5d0951ec-42c9-453f-9966-ecca593c4153@kernel.org>
+ <95e5af90-ed53-4009-a4ea-19ed04499ecc@kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "yanjun.zhu" <yanjun.zhu@linux.dev>
+In-Reply-To: <95e5af90-ed53-4009-a4ea-19ed04499ecc@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Feb 18, 2026 at 12:31=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
-> wrote:
->
-> On Wed, Feb 18, 2026 at 5:22=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> >
-> > Add two new tests that verify inotify events are sent when memcg files
-> > are removed.
-> >
-> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > Acked-by: Tejun Heo <tj@kernel.org>
->
-> Feel free to add:
-> Acked-by: Amir Goldstein <amir73il@gmail.com>
+On 2/17/26 2:26 PM, Heiner Kallweit wrote:
+> This prepares for making struct device member groups a constant array.
+> The assignment groups = rtc->dev.groups would result in a "discarding
+> const qualifier" warning with this change.
+> No functional change intended.
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
+>   drivers/rtc/sysfs.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/rtc/sysfs.c b/drivers/rtc/sysfs.c
+> index 4ab05e105a7..ae5e1252b4c 100644
+> --- a/drivers/rtc/sysfs.c
+> +++ b/drivers/rtc/sysfs.c
+> @@ -308,7 +308,7 @@ const struct attribute_group **rtc_get_dev_attribute_groups(void)
+>   int rtc_add_groups(struct rtc_device *rtc, const struct attribute_group **grps)
+>   {
+>   	size_t old_cnt = 0, add_cnt = 0, new_cnt;
+> -	const struct attribute_group **groups, **old;
+> +	const struct attribute_group **groups, *const *old;
+>   
+>   	if (grps) {
+>   		for (groups = grps; *groups; groups++)
+> @@ -320,9 +320,9 @@ int rtc_add_groups(struct rtc_device *rtc, const struct attribute_group **grps)
+>   		return -EINVAL;
+>   	}
+>   
+> -	groups = rtc->dev.groups;
+> -	if (groups)
+> -		for (; *groups; groups++)
+> +	old = rtc->dev.groups;
+> +	if (old)
+> +		while (*old++)
+>   			old_cnt++;
 
-Thanks!
+The change from for (; *groups; groups++) to while (*old++) is not 
+functionally equivalent. In the while version, the post-increment old++ 
+executes even when *old is NULL. This leaves the pointer old pointing 
+one element past the NULL terminator. While old_cnt remains correct, 
+this is a side-effect-heavy idiom that differs from standard kernel 
+patterns and could be fragile if old is used later in the function.
 
-> Although...
->
-> > ---
-> >  .../selftests/cgroup/test_memcontrol.c        | 122 ++++++++++++++++++
-> >  1 file changed, 122 insertions(+)
-> >
-> > diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/t=
-esting/selftests/cgroup/test_memcontrol.c
-> > index 4e1647568c5b..2b065d03b730 100644
-> > --- a/tools/testing/selftests/cgroup/test_memcontrol.c
-> > +++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-> > @@ -10,6 +10,7 @@
-> >  #include <sys/stat.h>
-> >  #include <sys/types.h>
-> >  #include <unistd.h>
-> > +#include <sys/inotify.h>
-> >  #include <sys/socket.h>
-> >  #include <sys/wait.h>
-> >  #include <arpa/inet.h>
-> > @@ -1625,6 +1626,125 @@ static int test_memcg_oom_group_score_events(co=
-nst char *root)
-> >         return ret;
-> >  }
-> >
-> > +static int read_event(int inotify_fd, int expected_event, int expected=
-_wd)
-> > +{
-> > +       struct inotify_event event;
-> > +       ssize_t len =3D 0;
-> > +
-> > +       len =3D read(inotify_fd, &event, sizeof(event));
-> > +       if (len < (ssize_t)sizeof(event))
-> > +               return -1;
-> > +
-> > +       if (event.mask !=3D expected_event || event.wd !=3D expected_wd=
-) {
-> > +               fprintf(stderr,
-> > +                       "event does not match expected values: mask %d =
-(expected %d) wd %d (expected %d)\n",
-> > +                       event.mask, expected_event, event.wd, expected_=
-wd);
-> > +               return -1;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int test_memcg_inotify_delete_file(const char *root)
-> > +{
-> > +       int ret =3D KSFT_FAIL;
-> > +       char *memcg =3D NULL, *child_memcg =3D NULL;
-> > +       int fd, wd;
-> > +
-> > +       memcg =3D cg_name(root, "memcg_test_0");
-> > +
-> > +       if (!memcg)
-> > +               goto cleanup;
-> > +
-> > +       if (cg_create(memcg))
-> > +               goto cleanup;
-> > +
-> > +       if (cg_write(memcg, "cgroup.subtree_control", "+memory"))
-> > +               goto cleanup;
-> > +
-> > +       child_memcg =3D cg_name(memcg, "child");
-> > +       if (!child_memcg)
-> > +               goto cleanup;
-> > +
-> > +       if (cg_create(child_memcg))
-> > +               goto cleanup;
-> > +
-> > +       fd =3D inotify_init1(0);
-> > +       if (fd =3D=3D -1)
-> > +               goto cleanup;
-> > +
-> > +       wd =3D inotify_add_watch(fd, cg_control(child_memcg, "memory.ev=
-ents"), IN_DELETE_SELF);
-> > +       if (wd =3D=3D -1)
-> > +               goto cleanup;
-> > +
-> > +       cg_write(memcg, "cgroup.subtree_control", "-memory");
-> > +
-> > +       if (read_event(fd, IN_DELETE_SELF, wd))
-> > +               goto cleanup;
-> > +
-> > +       if (read_event(fd, IN_IGNORED, wd))
-> > +               goto cleanup;
-> > +
-> > +       ret =3D KSFT_PASS;
-> > +
-> > +cleanup:
-> > +       if (fd >=3D 0)
-> > +               close(fd);
-> > +       if (child_memcg)
-> > +               cg_destroy(child_memcg);
-> > +       free(child_memcg);
-> > +       if (memcg)
-> > +               cg_destroy(memcg);
-> > +       free(memcg);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +static int test_memcg_inotify_delete_rmdir(const char *root)
-> > +{
-> > +       int ret =3D KSFT_FAIL;
-> > +       char *memcg =3D NULL;
-> > +       int fd, wd;
-> > +
-> > +       memcg =3D cg_name(root, "memcg_test_0");
-> > +
-> > +       if (!memcg)
-> > +               goto cleanup;
-> > +
-> > +       if (cg_create(memcg))
-> > +               goto cleanup;
-> > +
-> > +       fd =3D inotify_init1(0);
-> > +       if (fd =3D=3D -1)
-> > +               goto cleanup;
-> > +
-> > +       wd =3D inotify_add_watch(fd, cg_control(memcg, "memory.events")=
-, IN_DELETE_SELF);
-> > +       if (wd =3D=3D -1)
-> > +               goto cleanup;
-> > +
-> > +       if (cg_destroy(memcg))
-> > +               goto cleanup;
-> > +       free(memcg);
-> > +       memcg =3D NULL;
-> > +
-> > +       if (read_event(fd, IN_DELETE_SELF, wd))
-> > +               goto cleanup;
-> > +
-> > +       if (read_event(fd, IN_IGNORED, wd))
-> > +               goto cleanup;
-> > +
-> > +       ret =3D KSFT_PASS;
-> > +
-> > +cleanup:
-> > +       if (fd >=3D 0)
-> > +               close(fd);
-> > +       if (memcg)
-> > +               cg_destroy(memcg);
-> > +       free(memcg);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> >  #define T(x) { x, #x }
-> >  struct memcg_test {
-> >         int (*fn)(const char *root);
-> > @@ -1644,6 +1764,8 @@ struct memcg_test {
-> >         T(test_memcg_oom_group_leaf_events),
-> >         T(test_memcg_oom_group_parent_events),
-> >         T(test_memcg_oom_group_score_events),
-> > +       T(test_memcg_inotify_delete_file),
-> > +       T(test_memcg_inotify_delete_rmdir),
->
-> How about another test case:
-> - Watch the cgroup directory (not the child file)
-> - Destroy cgroup
-> - Expect IN_DELETE_SELF | IN_ISDIR
->
-> I realize that this test won't pass with your implementation (right?)
-> but that is not ok IMO.
+Best Regards,
+Zhu Yanjun
 
-Yes, that is correct, but I don't think any docs mention support for
-monitoring kernfs directories, only files.
+>   
+>   	new_cnt = old_cnt + add_cnt + 1;
 
-> If we wish to make IN_DELETE_SELF available for kernfs,
-> it should not be confined to regular files IMO.
-
-Based on what Honza discovered about i_nlink, it looks like we could
-get VFS to send IN_DELETE_SELF for kernfs dirs with something like
-this:
-
-@@ -1540,6 +1558,9 @@ static void __kernfs_remove(struct kernfs_node *kn)
-                         if (kernfs_type(pos) =3D=3D KERNFS_FILE)
-                                kernfs_notify_file_deleted(pos);
-+                        else if (kernfs_type(pos) =3D=3D KERNFS_DIR)
-+                               kernfs_clear_inode_nlink(pos); <--
-calls clear_nlink(inode); for every super
-
-But I don't have a use for it at the moment.
