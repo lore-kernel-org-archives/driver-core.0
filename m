@@ -1,47 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60961D555;
-	Fri, 20 Feb 2026 06:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7C732D0F5
+	for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 07:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771569245; cv=none; b=WahIVQI47Q55CSFc1udc8paWKMHCtZSwy9tHbFKwSc/JpZ0HDeBm2MF3iJVsD5Hc1K/Z/j523qEQ6JjsuoIlAznMgvHF72NMmViVq0G/hD4NkSfptcxlX81vjh20e5+53TH/nopO/+XihlD4+3xAFDFwl49aO3xAJudMwJFCS3Y=
+	t=1771572464; cv=none; b=ZOyEHg3fF+xvA5u5mJypwjdvmNCW7fzxt0Hmlz/c7WUYUh1Ce1RDe4JHOWpiR2j2f6Nh5c5eelB1ljLl+vrtjuP7PipU3x54/Y2vaVVNqrp79fZttRK8mFGQIEz6TQqJd2QOHOoCffOcEY5/OG+/UarT6UQGXKhyE1p+kcyUo1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771569245; c=relaxed/simple;
-	bh=Ial17sfZgdVRiZ5JFwlMSLgTFo1LPcexMHaX94onETg=;
+	s=arc-20240116; t=1771572464; c=relaxed/simple;
+	bh=F6diqkqvRQUF5aCphfdCgVc/gEY+1RjmepA7FFYGg7Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EaKhh8VE288m0eWH7LRIaKcgC6cBcPCt3so3uponeLN33D/7uD4Tuy8eGpS/BtkJ5aFn8mCf5aq1q/tNkuLpneztQKDwVoBAYCMJn0IW1vi5ErFVLl847hjQKyTXXB3XgX7aMRW74hwbZqZjkZvPAoo8bmPoiIXdTDsjcOqlbPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EBZTLNua; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gV3OkFX7Lh8K0Gj8GhUwUeaFTRIZxSgq1lKbYbOIO42y1L/9tEOfkpEz+477+kholm1ZoxC4uW5V4ZaPDEjD9VCAxaSXQiWzgKMj3CtTJ9Eqvrsps+gQmz7hVG/+wYRYNzhUu6I9MpJCGdlwp3T4q7jzQlRXKjQrSG2LsxAXOEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kV9UL7Mu; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EBZTLNua"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A349DC116D0;
-	Fri, 20 Feb 2026 06:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1771569245;
-	bh=Ial17sfZgdVRiZ5JFwlMSLgTFo1LPcexMHaX94onETg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EBZTLNuay2yyKESIcWpEoKJGo4zBffSI2G6ymTPRJKLu8EuK6qk9cn+K+b8PyMmKp
-	 plAp5fIjthS+U/Ei/t32XPcpzz6MbCPJuTVZjCOgCCqS9kwQrGvma9WOTpLDVFhZUf
-	 Xr1/SToJ9JyGZCP1mOfOjglWaUbH/cM5KfDRuGhs=
-Date: Fri, 20 Feb 2026 07:34:02 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Tariq Toukan <tariqt@nvidia.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kV9UL7Mu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771572463; x=1803108463;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F6diqkqvRQUF5aCphfdCgVc/gEY+1RjmepA7FFYGg7Q=;
+  b=kV9UL7MucLHjlvwq1iafQjaXIVSa+Rj2KEbsCyjrVwFtlLbCnVppJEJd
+   YChorNKTdcdQ2B+H8lYWVqeOBq+86BnsKjNH07pvFlYsS84FJLRtqo29i
+   C8QWFbv0/IQvonuV3WAMl4PxwWZ3LgTMvLoWB7MNF8emWMop4Yjj95Htu
+   MkbgkAeF/cGQIEGMyHU2jSilfpMjssiC3pDOaKfDvK4cMeWkpmQkAJhKI
+   bfq+iNlo7QL7lYMfzgQyc0XDSfoCHCThAG7Qmll4SPqpMyaG0s0lQgHXf
+   PVS/KulJGhqQmBg6QmPpTFyPzkwjf9dJEgoDY5JXssNmzHAkzVQF0D0mm
+   Q==;
+X-CSE-ConnectionGUID: 1EuzN/HCRLSDVCF0wTxm2Q==
+X-CSE-MsgGUID: lhuPR03SQ+e7BStmO+yXsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="76502918"
+X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
+   d="scan'208";a="76502918"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 23:27:43 -0800
+X-CSE-ConnectionGUID: B9/FGEQFTou31++ImBN50w==
+X-CSE-MsgGUID: A/iwGRTKS5u+W/F9c66spg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
+   d="scan'208";a="218915969"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.25])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 23:27:40 -0800
+Date: Fri, 20 Feb 2026 09:27:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
-	Amir Tzin <amirtz@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>
-Subject: Re: [PATCH V2] driver core: auxiliary bus: Fix sysfs creation on bind
-Message-ID: <2026022040-casualty-dexterity-543c@gregkh>
-References: <20260219210435.1769394-1-tariqt@nvidia.com>
- <DGJCHYS3SKIQ.1TIHQCMEOCRC@kernel.org>
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/2] driver core: provide device_match_fwnode_ext()
+Message-ID: <aZgM6ZaBrwM6H1_i@smile.fi.intel.com>
+References: <20260219-device-match-secondary-fwnode-v1-0-a64e8d4754bc@oss.qualcomm.com>
+ <20260219-device-match-secondary-fwnode-v1-1-a64e8d4754bc@oss.qualcomm.com>
+ <2026021900-trekker-twenty-9daa@gregkh>
+ <CAMRc=MekX-pXJEs7W9vn8-exAXyfNN3JMwrVNDPXg0b77X1NNw@mail.gmail.com>
+ <aZc_P9PcXdlJHqrK@google.com>
+ <CAMRc=MewpkVkrr-srOzx0iudwOJyrzeBErbF_-BR-oTo5_KyEg@mail.gmail.com>
+ <aZeu11bBxxgXNMyd@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -50,97 +70,37 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DGJCHYS3SKIQ.1TIHQCMEOCRC@kernel.org>
+In-Reply-To: <aZeu11bBxxgXNMyd@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Feb 20, 2026 at 12:59:45AM +0100, Danilo Krummrich wrote:
-> On Thu Feb 19, 2026 at 10:04 PM CET, Tariq Toukan wrote:
-> > +/**
-> > + * auxiliary_device_sysfs_irq_dir_init - initialize the IRQ sysfs directory
-> > + * @auxdev: auxiliary bus device to initialize the sysfs directory.
-> > + *
-> > + * This function should be called by drivers to initialize the IRQ directory
-> > + * before adding any IRQ sysfs entries. The driver is responsible for ensuring
-> > + * this function is called only once and for handling any concurrency control
-> > + * if needed.
-> > + *
-> > + * Drivers must call auxiliary_device_sysfs_irq_dir_destroy() to clean up when
-> > + * done.
-> > + *
-> > + * Return: zero on success or an error code on failure.
-> > + */
-> > +int auxiliary_device_sysfs_irq_dir_init(struct auxiliary_device *auxdev)
-> >  {
-> > -	int ret = 0;
-> > -
-> > -	guard(mutex)(&auxdev->sysfs.lock);
-> > -	if (auxdev->sysfs.irq_dir_exists)
-> > -		return 0;
-> > +	int ret;
-> >  
-> > -	ret = devm_device_add_group(&auxdev->dev, &auxiliary_irqs_group);
-> > +	ret = sysfs_create_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -	auxdev->sysfs.irq_dir_exists = true;
-> >  	xa_init(&auxdev->sysfs.irqs);
-> >  	return 0;
-> >  }
-> > +EXPORT_SYMBOL_GPL(auxiliary_device_sysfs_irq_dir_init);
-> > +
-> > +/**
-> > + * auxiliary_device_sysfs_irq_dir_destroy - destroy the IRQ sysfs directory
-> > + * @auxdev: auxiliary bus device to destroy the sysfs directory.
-> > + *
-> > + * This function should be called by drivers to clean up the IRQ directory
-> > + * after all IRQ sysfs entries have been removed. The driver is responsible
-> > + * for ensuring all IRQs are removed before calling this function.
-> > + */
-> > +void auxiliary_device_sysfs_irq_dir_destroy(struct auxiliary_device *auxdev)
-> > +{
-> > +	xa_destroy(&auxdev->sysfs.irqs);
-> > +	sysfs_remove_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
-> > +}
-> > +EXPORT_SYMBOL_GPL(auxiliary_device_sysfs_irq_dir_destroy);
-> >  
-> >  /**
-> >   * auxiliary_device_sysfs_irq_add - add a sysfs entry for the given IRQ
-> > @@ -45,7 +70,8 @@ static int auxiliary_irq_dir_prepare(struct auxiliary_device *auxdev)
-> >   * @irq: The associated interrupt number.
-> >   *
-> >   * This function should be called after auxiliary device have successfully
-> > - * received the irq.
-> > + * received the irq. The driver must call auxiliary_device_sysfs_irq_dir_init()
-> > + * before calling this function for the first time.
-> 
-> I'm not convinced by this approach. This adds two new sources of bugs for
-> drivers.
-> 
->   1. Drivers can now forget to call auxiliary_device_sysfs_irq_dir_init()
->      *before* auxiliary_device_sysfs_irq_add().
-> 
->   2. Drivers can forget to call auxiliary_device_sysfs_irq_dir_destroy().
-> 
-> Instead, I suggest to keep the current approach and just replace
-> devm_device_add_group() with devm_auxiliary_device_add_group(), which in its
-> devres callback additionally clears auxdev->sysfs.irq_dir_exists.
-> 
-> In terms of the auxdev->sysfs.lock, I think this can still be removed, as it
-> wasn't needed in the first place.
-> 
-> auxiliary_device_sysfs_irq_add() must only be called from a scope where the
-> auxiliary device is guaranteed to be bound, so there can't be a concurrent
-> unbind.
-> 
-> There may only be multiple concurrent calls to auxiliary_device_sysfs_irq_add()
-> itself, and in this case irq_dir_exists can just be an atomic.
-> 
-> Yes, we're still stuck with an atomic for irq_dir_exists, but the driver API
-> remains much simpler and less error prone.
+On Thu, Feb 19, 2026 at 04:47:59PM -0800, Dmitry Torokhov wrote:
+> On Thu, Feb 19, 2026 at 03:15:53PM -0600, Bartosz Golaszewski wrote:
+> > On Thu, 19 Feb 2026 17:54:24 +0100, Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> said:
+> > > On Thu, Feb 19, 2026 at 05:39:47PM +0100, Bartosz Golaszewski wrote:
 
-I agree, your recommendations make sense.  And I still hate this irq
-addition to auxdevices :(
+...
 
-thanks,
+> > > I think it really needs a good explanation given how it goes through
+> > > secondaries on one side but not on the other (but maybe it should? Why
+> > > one would not want to match secondary?)
+> > >
+> > 
+> > I don't think it should. You have one, concrete fwnode and you want to match
+> > it against a struct device: in this variant both its primary and secondary
+> > nodes. I don't think we should do a four-way matching.
+> 
+> I wonder why you consider these 2 distinct fwnodes instead of a single
+> object that has multiple components? After all in device we have a
+> pointer to fwnode, and not list of fwnodes....
 
-greg k-h
+For the matter of fact the struct fwnode_handle is a single-linked list with
+a limitation to have up to two entries. And the second one is a problematic
+design as these years showed.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
