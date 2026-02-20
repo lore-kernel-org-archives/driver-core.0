@@ -1,62 +1,65 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BE4315D35
-	for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 05:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6166532BF41
+	for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 05:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771566909; cv=none; b=GB/ju/Lp0R4UFLBv7zfnBt6oLUGKDcSwFZDwkbOtIYH7VPyP4eXaTjqR0Xr33ZQLKgWFU6byNsIze77VgIV/OpIXT8E/dvZcuhI7KwNfT9Om7Dh/esjU3DrxSMD9pIY1ApIJIrmEs+I2t2myKlJbRGjkIdG24riiHozJCnDy1UY=
+	t=1771566916; cv=none; b=Ol36VCrF57ks4apbzrJ6ICoXk3a80SmirSjAQBdUU+pJM2y/HHjagBMuPjkcOsODiICNmczDPItyhdF+J3pJS0uZqqwwuQUFNpoEqxjplLLsl4rXM11yacNma0HegK/wZ3+jANyHeahT+h9qF8nCwrVHBoKT6AGJGmoDzVBsrLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771566909; c=relaxed/simple;
-	bh=SETEcec1D+mm0BU0dgNl2Gb3HG9APdLtZ19G+u8CMQc=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=c96SyqSIgHBAoXC6qbs1fyoHr+Lvoo10mTRD+2zalSsg0wcLnonTa2Oj1uzTxh8pq14JOjYDJ80Aww6SWdJWUG2/NI9ltlHyZktaIJDjTPBR2A2WOjadfkylblKyIo5O6jVhRUdAB1SRaVkBQ7o3YySRSeV84/DCB6B4nnitrXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=re4orYks; arc=none smtp.client-ip=209.85.216.73
+	s=arc-20240116; t=1771566916; c=relaxed/simple;
+	bh=d/Njxo6LsxfyrmnJNgQrbf4Jrkxu+B4X3AZ0DsjVEVo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jI2BPBtnxfv27S/ArK8ygHYPtaw5/ASQPlNaZ32ci5EPOpcVbgVUCORfFRQrPMQodozU4aNYFBI6htBz1HYEZIbVy5rZ8AZdyTt0iPA95IlM02gNTw3uh7+9NV2RRkFRgGbbVOBdsTXbP3N64ozm9qukXMckK4kFrF9zqHPe/pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=btW932Zy; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="re4orYks"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-352e214cce9so1259584a91.1
-        for <driver-core@lists.linux.dev>; Thu, 19 Feb 2026 21:55:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="btW932Zy"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2ab0b2e804cso21005675ad.3
+        for <driver-core@lists.linux.dev>; Thu, 19 Feb 2026 21:55:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771566908; x=1772171708; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PhOr9xc8hsjU1exlkJ9o+lRZ6CwgWrB0En0qqwGcrsk=;
-        b=re4orYksvPD+q3UUEix5kmhp6F6QmUafSbwvmhCgK9vcxTG5hNB9NL0btaRvSbZAxz
-         mn43Le0xDf/5QoscYDBjmmS3reH+kH3RfP1vAuBT4cNDO3TVCV+Hxm7YSPIqMtFt+S0t
-         ojfzwsiuEFjLoMVuwEA1dd2dTjkdsl9eaT2MVLBMauogAYuJmrXNCFmASk0mZq4cYsiL
-         c8kbsfny7AqtaV9RmMzI2qDemuCs7rqhgdKe87LpPyWRzp4wyL43KRbvFPZRRylBO5jS
-         iXYmbgtle7cARtaOs6fJ9Ti6g/6ojRHC6vLcLqALYQtUMffiRwTHjhkKdlB0rzucg3xS
-         ri1w==
+        d=google.com; s=20230601; t=1771566915; x=1772171715; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ej8LZF1b2o/Ks4R9g/3WwRmZsBfUCiZmdJJkOcGo2tM=;
+        b=btW932Zy7RtQ6ZduMCB8lj9xFdavmTrPNZNHP/8ij/6VrN+wC2ij44KIwL3im5xzUV
+         +jGEeES26goNbMKdto9zKUwNFY4mM3FvDeRY6X4jICBWiCBIo8plbajMO8NPPXsrgrS4
+         5bPe0ViHvHo1qhDeTXdznFKJPSdOQ9wxLwv0oH/7gqtCB/+KO9y8Oxns4l/Rw4Dhpm23
+         JE8d/Ku06GnZKgUD2ORN0IpUUOXBztEhFVLrdkZVn6FBTkZjAsyIbkuCnyRFtThVJkSi
+         v8TvtNCgw9381ZPqgLZ/WzNgwn7GCiAb/CG6sk8a6PWBm9Z99RxjSNDLMaMgm+5uMW8k
+         6Q7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771566908; x=1772171708;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PhOr9xc8hsjU1exlkJ9o+lRZ6CwgWrB0En0qqwGcrsk=;
-        b=WW0bEvgr/UyzHhc6GiV1wcgAoAfRyGzL70LnT75D/jlZjeTUoK92egbXBwFcl6BNYt
-         AIUwn1v2vzRevnMxFlEuu7n3g22XOArvXZhdHeeL2grQ5xdBp9z4A3SCz6LjTLOb2OJ7
-         QO5rSpZzddr4pZNli7zBnfyYh3emO1/4Dn6apAgBK6lhBtGQtIYOSktY9BZJxadS2OJd
-         4Qhn60OyZeXdtbJVhSM2/Dihq3CN+D6IcwszvNBqShJ4zfGEERnxvPsHOUu8NhI3AkMf
-         H4d6DpxHEqLcxXTNA48F5KONDWZwSEVDp4YIc7cf3+m/N8rJEAjaiY7o+lvW+2xCFRl0
-         x85A==
-X-Forwarded-Encrypted: i=1; AJvYcCWvRy6MKk19nRSQopPjsyJCAxEGZftu/YtB3nQCVFcInM7mkWZ7VbK9fmcsRGTD/0jYTI/YfuoMRlmvUA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy301d2GXKM8TgHpXMHycROpgVUsgJqVlJpBKi66tQthjup5Fp9
-	umpCZZa2XhPGSMgmgIzoWcbKsAUP+tfBOi1QKphsIfKU0wrPhztotewGpjSJpv2zGOkuKddT6QO
-	0oY7iHA1ZI6T9SQFJVQ==
-X-Received: from pjbsj6.prod.google.com ([2002:a17:90b:2d86:b0:34e:90d2:55c0])
+        d=1e100.net; s=20230601; t=1771566915; x=1772171715;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ej8LZF1b2o/Ks4R9g/3WwRmZsBfUCiZmdJJkOcGo2tM=;
+        b=KvA2mfn/t3Vlciks9VrFGvm2tnkcJ9m16h5SBR87IF2GDYZRG4OuvL68w/ZD6qsarr
+         oPbgeB6H7jWPinwhmjmJKqfWNsw5Uxl16v9utb8kjwd1otmwMCM6AZFRBWEf9PSR5ask
+         ROxmtShZAQTrVj5Kv/FUg9Hjhgn6eUjujyJ6LsG4IaJoasx6J0zWw7vl5t6c0so5fqDN
+         AD4X3yAxcoC1JzsKB26HoHow+Trtzc8v/DrFW1y0eEPuBErpJOTNUIAeomOgjkPl6puC
+         ebl3/uM2vm2+e2YZ19qnajLE3l1l+o8eT7QNx8CSdNYW4MF9z5ckr0E7uNLrYK3oApHS
+         aeBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUd2U7/wje3kwiU+hG7PRUCv1TzPRHUBK3R9o6DGAM1BtJgxy01a64iKvWgequ28KuPweScd1dI49KP7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwAl4JvRGXOrf74r4F/HuVDGULJIfAVHYrpd4jsOTDi2opzO+Cx
+	2lcFsZAc1r92nf3LVJRStqQHXRE4Vkkl99BYvSbXPM51mb1OjT9rlj/7gtlpraSsy4GpIHAgkSO
+	Dj7A8NB+sIhSdQA2A6Q==
+X-Received: from plma8.prod.google.com ([2002:a17:902:7d88:b0:2a0:92b7:79c1])
  (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90a:da86:b0:354:a9f3:68bc with SMTP id 98e67ed59e1d1-358891cb92bmr6358367a91.30.1771566907697;
- Thu, 19 Feb 2026 21:55:07 -0800 (PST)
-Date: Thu, 19 Feb 2026 21:54:45 -0800
+ 2002:a17:903:3bd0:b0:2aa:dc84:251f with SMTP id d9443c01a7336-2ad5aec750dmr47251955ad.2.1771566914488;
+ Thu, 19 Feb 2026 21:55:14 -0800 (PST)
+Date: Thu, 19 Feb 2026 21:54:46 -0800
+In-Reply-To: <20260220055449.3073-1-tjmercier@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
+References: <20260220055449.3073-1-tjmercier@google.com>
 X-Mailer: git-send-email 2.53.0.414.gf7e9f6c205-goog
-Message-ID: <20260220055449.3073-1-tjmercier@google.com>
-Subject: [PATCH v4 0/3] kernfs: Add inotify IN_DELETE_SELF, IN_IGNORED support
+Message-ID: <20260220055449.3073-2-tjmercier@google.com>
+Subject: [PATCH v4 1/3] kernfs: Don't set_nlink for directories being removed
 From: "T.J. Mercier" <tjmercier@google.com>
 To: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
 	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
@@ -65,62 +68,56 @@ To: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev,
 Cc: "T.J. Mercier" <tjmercier@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-This series adds support for IN_DELETE_SELF and IN_IGNORED inotify
-events to kernfs files and directories.
+If a directory is already in the process of removal its i_nlink count
+becomes irrelevant because its contents are also about to be removed and
+any pending filesystem operations on it or its contents will soon start
+to fail. So we can avoid setting it for directories already flagged for
+removal.
 
-Currently, kernfs (used by cgroup and others) supports IN_MODIFY events
-but fails to notify watchers when the file is removed (e.g. during
-cgroup destruction). This forces userspace monitors to maintain resource
-intensive side-channels like pidfds, procfs polling, or redundant
-directory watches to detect when a cgroup dies and a watched file is
-removed.
+This avoids a race in the next patch, which adds clearing of the i_nlink
+count for kernfs nodes being removed to support inotify delete events.
 
-By generating IN_DELETE_SELF events on destruction, we allow watchers to
-rely on a single watch descriptor for the entire lifecycle of the
-monitored file, reducing resource usage (file descriptors, CPU cycles)
-and complexity in userspace.
+Use protection from the kernfs_iattr_rwsem to avoid adding more
+contention to the kernfs_rwsem for calls to kernfs_refresh_inode.
 
-The series is structured as follows:
-Patch 1 preemptively addresses a race to set/clear i_nlink that would
-        arise in patch 2.
-Patch 2 implements the logic to generate DELETE_SELF and IGNORED events
-        on file / dir removal.
-Patch 3 adds selftests to verify the new behavior.
-
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
 ---
-Changes in v4:
-Clear inode i_nlink upon kernfs removal instead of calling fsnotify
-from kernfs per Jan. This adds support for directories.
-Abandon support for files removed from vfs_writes.
-Add selftest for directory watch per Amir.
-Add Amir's Ack to selftests.
+ fs/kernfs/dir.c   | 2 ++
+ fs/kernfs/inode.c | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Changes in v3:
-Remove parent IN_DELETE notification per Amir.
-  Refactored kernfs_notify_workfn to avoid grabbing parent when
-  unnecessary for DELETE events as a result.
-Use notify_event for fsnotify_inode call per Amir
-Initialize memcg pointers to NULL in selftests
-Add Amir's Ack
-Add Tejun's Acks to the series
-
-Changes in v2:
-Remove unused variables from new selftests per kernel test robot
-Fix kernfs_type argument per Tejun
-Inline checks for FS_MODIFY, FS_DELETE in kernfs_notify_workfn per Tejun
-
-T.J. Mercier (3):
-  kernfs: Don't set_nlink for directories being removed
-  kernfs: Send IN_DELETE_SELF and IN_IGNORED
-  selftests: memcg: Add tests for IN_DELETE_SELF and IN_IGNORED
-
- fs/kernfs/dir.c                               |  32 ++++-
- fs/kernfs/inode.c                             |   2 +-
- .../selftests/cgroup/test_memcontrol.c        | 112 ++++++++++++++++++
- 3 files changed, 144 insertions(+), 2 deletions(-)
-
-
-base-commit: ba268514ea14b44570030e8ed2aef92a38679e85
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 29baeeb97871..5b6ce2351a53 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -1491,12 +1491,14 @@ static void __kernfs_remove(struct kernfs_node *kn)
+ 	pr_debug("kernfs %s: removing\n", kernfs_rcu_name(kn));
+ 
+ 	/* prevent new usage by marking all nodes removing and deactivating */
++	down_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+ 	pos = NULL;
+ 	while ((pos = kernfs_next_descendant_post(pos, kn))) {
+ 		pos->flags |= KERNFS_REMOVING;
+ 		if (kernfs_active(pos))
+ 			atomic_add(KN_DEACTIVATED_BIAS, &pos->active);
+ 	}
++	up_write(&kernfs_root(kn)->kernfs_iattr_rwsem);
+ 
+ 	/* deactivate and unlink the subtree node-by-node */
+ 	do {
+diff --git a/fs/kernfs/inode.c b/fs/kernfs/inode.c
+index a36aaee98dce..afdc4021e81a 100644
+--- a/fs/kernfs/inode.c
++++ b/fs/kernfs/inode.c
+@@ -178,7 +178,7 @@ static void kernfs_refresh_inode(struct kernfs_node *kn, struct inode *inode)
+ 		 */
+ 		set_inode_attr(inode, attrs);
+ 
+-	if (kernfs_type(kn) == KERNFS_DIR)
++	if (kernfs_type(kn) == KERNFS_DIR && !(kn->flags & KERNFS_REMOVING))
+ 		set_nlink(inode, kn->dir.subdirs + 2);
+ }
+ 
 -- 
 2.53.0.414.gf7e9f6c205-goog
 
