@@ -1,154 +1,257 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3525F2F6927;
-	Fri, 20 Feb 2026 08:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB633323411
+	for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 10:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771574944; cv=none; b=H3E5B1T8yef1wKLQRmOGRDUYjIfnYBpifPQie+eJZFDWj0niD4b5zt9u6iEyppACj4LAYjV5lxykDl3tqM1cKlQBvt6UNt9X1eyZjWVd9WBUbF+nyjWBFEw0PY2bMDUdO62kGOjvfxD85li3VGdBNPxPoEqb1616nLL6MEyVwwE=
+	t=1771582463; cv=none; b=fNeRaznx38pXVu3M79mP7hKDYARCZXRMawwk/2o6UiCr8J9JMPkByOYiN1lKbNM3ICD1rchqn2n5msRasxowMTYQ6JkvxCzF9DLYyTOnUupw9mavfpeEzfiOOYvnluCz42IsenwT8hPLk54gO5P+xCu/9xPTpbqFXKlFV3Awm+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771574944; c=relaxed/simple;
-	bh=1HS/wrclX+zdBDMRkBqcSBoNROJP2Zzl7lcfOnIClI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H0+Kkx8g3DsFI5++mCWXNOSU6gFHMRGs4+L/tnXmI6ns231tDcIyqAq1Z1edALDwQdtJPJNbrh/pE8KhFECuBci63i5Wt9NKlYNHX7wKr++Cf+V+PWo8QMc4ump9Ir5s8YlMaeTRfp46e9P2AxGCfUiUbWHYHbO+CZkELf4WZqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i9k8QsPH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i9k8QsPH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E49C116C6;
-	Fri, 20 Feb 2026 08:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771574943;
-	bh=1HS/wrclX+zdBDMRkBqcSBoNROJP2Zzl7lcfOnIClI0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i9k8QsPH3jUczGmdVZTZ040HMP9Pg/E3YzPymgLrNPXVUZe8xBYeVaDhJCbVFZBLK
-	 UtxMyiZJQcFIljlU269aSAlrUUZ7vVCyh37YCYz2s5fCp3dUHkhY2nhS/5HMe9L++H
-	 zSrO9hAvVG+8aGkjYPoTxfdTLqi/BOuQIB4eC59MqsHLlGjmylFBs5yX4H7P3oI4bq
-	 Ith4AvTOkjKeZINMtlQnKJz+iZ1n66EAwp/0GUrazSrAQA6yP0vuXYENeebI6L9w5N
-	 5GkO5tHJIxjv8L+rbI3MowGYSroSosFi+HFibfMKyhPGG3f1I/WYD6pHJNBUz8Pu44
-	 SG8xX4+HKwxdg==
-Date: Fri, 20 Feb 2026 10:08:59 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
-	Amir Tzin <amirtz@nvidia.com>
-Subject: Re: [PATCH V2] driver core: auxiliary bus: Fix sysfs creation on bind
-Message-ID: <20260220080859.GC10607@unreal>
-References: <20260219210435.1769394-1-tariqt@nvidia.com>
- <DGJCHYS3SKIQ.1TIHQCMEOCRC@kernel.org>
- <2026022040-casualty-dexterity-543c@gregkh>
+	s=arc-20240116; t=1771582463; c=relaxed/simple;
+	bh=gcsXTMo7iqO4Pg3sVMoOLMSk7eLVL7Ljh8aJq2IakFM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=LNRvEY8x9Y6QOAzc3QByPel4GpL+a1h+e2B7Yeq4Nuqoz8578YZoV9fgIXFx4ptwYB5kGxNV2QN0BAIxlgUErDYPdEfXrXfOX9biV7u5Wapn4yc9T3pcohSEjL2wkDPWATJeVSZxUFhc5J9r/MO5CPd1Xk91WFUWxkDAsHHCsKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-679ae8ba9d8so29400694eaf.2
+        for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 02:14:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771582461; x=1772187261;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JMNiebd2whpNinmgx82cwNyRYJ5UqFJmTJ6XQA4gK7o=;
+        b=BLdqqIQc3IwPNzzvqk3uhHxvmZ1g4M2jADANfl/UJsBztMUyvxufxyEDOlYSo39xK/
+         Ewew99mVOGjKZJ6kLVGoufyfK5aJ/t3azsZ4Hb2ajo9e2GHHjEObrs+Vq/Zsm5spRQPp
+         xM81sDfDBhPCt1gABEB4lR00Rvr0uSbYANxUmNovpXFbihb+32RcGgVZWaWfoNQZnjfL
+         vCYIbzex/xlXeLng4Vt+x0fNClbsfDFKNig6DB501AFP8giqfG/Wii+GzG67yE+s7vUc
+         OzM52E+wfvld6NPBLLEuE4JivcP8JXv1Vic/CNnH1mysUeTTlSfn4B0RJ7iefSvebkiV
+         tReA==
+X-Forwarded-Encrypted: i=1; AJvYcCUF3jadca011J0UM6sDIrPsxWVKQdgiXfWUWTYROJYbQD1iVPToGZWrkVzbzJYIAR3w7NYAHeK3gba+FA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YycSXUWtJaFEOeNFy+S8VsO/JCElgYxpmyoCu95+edW8IGeo27O
+	4u+n1WQHA2qBTao9pPJsK5+UsMpMmL2JxCAVO928M1rI1twJtxIU5hPnBS1n7ESDV79maSAyVSX
+	oPytR59e2MjEtJHwfGvuhuO5YFrPu6OAd6QnJd2E6bhi57RNa3GXV9fN8XxE=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026022040-casualty-dexterity-543c@gregkh>
+X-Received: by 2002:a05:6820:2108:b0:66e:66b1:963f with SMTP id
+ 006d021491bc7-679aeec7538mr3091201eaf.18.1771582461010; Fri, 20 Feb 2026
+ 02:14:21 -0800 (PST)
+Date: Fri, 20 Feb 2026 02:14:20 -0800
+In-Reply-To: <20260220055449.3073-1-tjmercier@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <699833fc.050a0220.b01bb.0039.GAE@google.com>
+Subject: [syzbot ci] Re: kernfs: Add inotify IN_DELETE_SELF, IN_IGNORED support
+From: syzbot ci <syzbot+cif2121bcf05a8d84e@syzkaller.appspotmail.com>
+To: amir73il@gmail.com, cgroups@vger.kernel.org, driver-core@lists.linux.dev, 
+	gregkh@linuxfoundation.org, jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	shuah@kernel.org, tj@kernel.org, tjmercier@google.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Feb 20, 2026 at 07:34:02AM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Feb 20, 2026 at 12:59:45AM +0100, Danilo Krummrich wrote:
-> > On Thu Feb 19, 2026 at 10:04 PM CET, Tariq Toukan wrote:
-> > > +/**
-> > > + * auxiliary_device_sysfs_irq_dir_init - initialize the IRQ sysfs directory
-> > > + * @auxdev: auxiliary bus device to initialize the sysfs directory.
-> > > + *
-> > > + * This function should be called by drivers to initialize the IRQ directory
-> > > + * before adding any IRQ sysfs entries. The driver is responsible for ensuring
-> > > + * this function is called only once and for handling any concurrency control
-> > > + * if needed.
-> > > + *
-> > > + * Drivers must call auxiliary_device_sysfs_irq_dir_destroy() to clean up when
-> > > + * done.
-> > > + *
-> > > + * Return: zero on success or an error code on failure.
-> > > + */
-> > > +int auxiliary_device_sysfs_irq_dir_init(struct auxiliary_device *auxdev)
-> > >  {
-> > > -	int ret = 0;
-> > > -
-> > > -	guard(mutex)(&auxdev->sysfs.lock);
-> > > -	if (auxdev->sysfs.irq_dir_exists)
-> > > -		return 0;
-> > > +	int ret;
-> > >  
-> > > -	ret = devm_device_add_group(&auxdev->dev, &auxiliary_irqs_group);
-> > > +	ret = sysfs_create_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
-> > >  	if (ret)
-> > >  		return ret;
-> > >  
-> > > -	auxdev->sysfs.irq_dir_exists = true;
-> > >  	xa_init(&auxdev->sysfs.irqs);
-> > >  	return 0;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(auxiliary_device_sysfs_irq_dir_init);
-> > > +
-> > > +/**
-> > > + * auxiliary_device_sysfs_irq_dir_destroy - destroy the IRQ sysfs directory
-> > > + * @auxdev: auxiliary bus device to destroy the sysfs directory.
-> > > + *
-> > > + * This function should be called by drivers to clean up the IRQ directory
-> > > + * after all IRQ sysfs entries have been removed. The driver is responsible
-> > > + * for ensuring all IRQs are removed before calling this function.
-> > > + */
-> > > +void auxiliary_device_sysfs_irq_dir_destroy(struct auxiliary_device *auxdev)
-> > > +{
-> > > +	xa_destroy(&auxdev->sysfs.irqs);
-> > > +	sysfs_remove_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(auxiliary_device_sysfs_irq_dir_destroy);
-> > >  
-> > >  /**
-> > >   * auxiliary_device_sysfs_irq_add - add a sysfs entry for the given IRQ
-> > > @@ -45,7 +70,8 @@ static int auxiliary_irq_dir_prepare(struct auxiliary_device *auxdev)
-> > >   * @irq: The associated interrupt number.
-> > >   *
-> > >   * This function should be called after auxiliary device have successfully
-> > > - * received the irq.
-> > > + * received the irq. The driver must call auxiliary_device_sysfs_irq_dir_init()
-> > > + * before calling this function for the first time.
-> > 
-> > I'm not convinced by this approach. This adds two new sources of bugs for
-> > drivers.
-> > 
-> >   1. Drivers can now forget to call auxiliary_device_sysfs_irq_dir_init()
-> >      *before* auxiliary_device_sysfs_irq_add().
-> > 
-> >   2. Drivers can forget to call auxiliary_device_sysfs_irq_dir_destroy().
-> > 
-> > Instead, I suggest to keep the current approach and just replace
-> > devm_device_add_group() with devm_auxiliary_device_add_group(), which in its
-> > devres callback additionally clears auxdev->sysfs.irq_dir_exists.
-> > 
-> > In terms of the auxdev->sysfs.lock, I think this can still be removed, as it
-> > wasn't needed in the first place.
-> > 
-> > auxiliary_device_sysfs_irq_add() must only be called from a scope where the
-> > auxiliary device is guaranteed to be bound, so there can't be a concurrent
-> > unbind.
-> > 
-> > There may only be multiple concurrent calls to auxiliary_device_sysfs_irq_add()
-> > itself, and in this case irq_dir_exists can just be an atomic.
-> > 
-> > Yes, we're still stuck with an atomic for irq_dir_exists, but the driver API
-> > remains much simpler and less error prone.
-> 
-> I agree, your recommendations make sense.
+syzbot ci has tested the following series
 
-Unfortunately no, https://lore.kernel.org/all/20260220080413.GB10607@unreal/.
+[v4] kernfs: Add inotify IN_DELETE_SELF, IN_IGNORED support
+https://lore.kernel.org/all/20260220055449.3073-1-tjmercier@google.com
+* [PATCH v4 1/3] kernfs: Don't set_nlink for directories being removed
+* [PATCH v4 2/3] kernfs: Send IN_DELETE_SELF and IN_IGNORED
+* [PATCH v4 3/3] selftests: memcg: Add tests for IN_DELETE_SELF and IN_IGNORED
 
-Just to summarize:
-1. atomic is not a replacement for locking.
-2. drivers already handle this irq thing.
-3. init->add->remove->destroy is standard Linux kernel coding pattern.
+and found the following issue:
+possible deadlock in __kernfs_remove
 
-Thanks
+Full report is available here:
+https://ci.syzbot.org/series/4b44d5c2-c2eb-4425-a19a-f9963b64f74f
+
+***
+
+possible deadlock in __kernfs_remove
+
+tree:      bpf-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/bpf/bpf-next.git
+base:      ba268514ea14b44570030e8ed2aef92a38679e85
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/45ab774f-e8d7-4def-8279-888a5cb2d01e/config
+syz repro: https://ci.syzbot.org/findings/b74cbc6a-1cef-4ae9-be46-dd9e8b29b648/syz_repro
+
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+kworker/u8:1/13 is trying to acquire lock:
+ffff88816ef2b878 (kn->active#5){++++}-{0:0}, at: __kernfs_remove+0x47e/0x8c0 fs/kernfs/dir.c:1533
+
+but task is already holding lock:
+ffff8881012e8ab8 (&root->kernfs_supers_rwsem){++++}-{4:4}, at: kernfs_remove_by_name_ns+0x3f/0x140 fs/kernfs/dir.c:1745
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (&root->kernfs_supers_rwsem){++++}-{4:4}:
+       down_read+0x47/0x2e0 kernel/locking/rwsem.c:1537
+       kernfs_remove_by_name_ns+0x3f/0x140 fs/kernfs/dir.c:1745
+       acpi_unbind_one+0x2d8/0x3b0 drivers/acpi/glue.c:337
+       device_platform_notify_remove drivers/base/core.c:2386 [inline]
+       device_del+0x547/0x8f0 drivers/base/core.c:3881
+       serdev_controller_add+0x46f/0x640 drivers/tty/serdev/core.c:785
+       serdev_tty_port_register+0x159/0x260 drivers/tty/serdev/serdev-ttyport.c:291
+       tty_port_register_device_attr_serdev+0xe7/0x170 drivers/tty/tty_port.c:187
+       serial_core_add_one_port drivers/tty/serial/serial_core.c:3107 [inline]
+       serial_core_register_port+0x103a/0x28b0 drivers/tty/serial/serial_core.c:3305
+       serial8250_register_8250_port+0x1658/0x1fd0 drivers/tty/serial/8250/8250_core.c:822
+       serial_pnp_probe+0x568/0x7f0 drivers/tty/serial/8250/8250_pnp.c:480
+       pnp_device_probe+0x30b/0x4c0 drivers/pnp/driver.c:111
+       call_driver_probe drivers/base/dd.c:-1 [inline]
+       really_probe+0x267/0xaf0 drivers/base/dd.c:661
+       __driver_probe_device+0x18c/0x320 drivers/base/dd.c:803
+       driver_probe_device+0x4f/0x240 drivers/base/dd.c:833
+       __driver_attach+0x3e7/0x710 drivers/base/dd.c:1227
+       bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:383
+       bus_add_driver+0x345/0x670 drivers/base/bus.c:715
+       driver_register+0x23a/0x320 drivers/base/driver.c:249
+       serial8250_init+0x8f/0x160 drivers/tty/serial/8250/8250_platform.c:317
+       do_one_initcall+0x250/0x840 init/main.c:1378
+       do_initcall_level+0x104/0x190 init/main.c:1440
+       do_initcalls+0x59/0xa0 init/main.c:1456
+       kernel_init_freeable+0x2a6/0x3d0 init/main.c:1688
+       kernel_init+0x1d/0x1d0 init/main.c:1578
+       ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+-> #1 (&device->physical_node_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:614 [inline]
+       __mutex_lock+0x19f/0x1300 kernel/locking/mutex.c:776
+       acpi_get_first_physical_node drivers/acpi/bus.c:691 [inline]
+       acpi_primary_dev_companion drivers/acpi/bus.c:710 [inline]
+       acpi_companion_match+0x8a/0x120 drivers/acpi/bus.c:764
+       acpi_device_uevent_modalias+0x1a/0x30 drivers/acpi/device_sysfs.c:280
+       platform_uevent+0x3c/0xb0 drivers/base/platform.c:1411
+       dev_uevent+0x446/0x8a0 drivers/base/core.c:2692
+       kobject_uevent_env+0x477/0x9e0 lib/kobject_uevent.c:573
+       kobject_synth_uevent+0x585/0xbd0 lib/kobject_uevent.c:207
+       uevent_store+0x26/0x70 drivers/base/core.c:2773
+       kernfs_fop_write_iter+0x3af/0x540 fs/kernfs/file.c:352
+       new_sync_write fs/read_write.c:593 [inline]
+       vfs_write+0x61d/0xb90 fs/read_write.c:686
+       ksys_write+0x150/0x270 fs/read_write.c:738
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (kn->active#5){++++}-{0:0}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0x106/0x330 kernel/locking/lockdep.c:5868
+       kernfs_drain+0x27c/0x5f0 fs/kernfs/dir.c:511
+       __kernfs_remove+0x47e/0x8c0 fs/kernfs/dir.c:1533
+       kernfs_remove_by_name_ns+0xc0/0x140 fs/kernfs/dir.c:1751
+       sysfs_remove_file include/linux/sysfs.h:780 [inline]
+       device_remove_file drivers/base/core.c:3071 [inline]
+       device_del+0x506/0x8f0 drivers/base/core.c:3876
+       device_unregister+0x21/0xf0 drivers/base/core.c:3919
+       mac80211_hwsim_del_radio+0x2dc/0x490 drivers/net/wireless/virtual/mac80211_hwsim.c:5918
+       hwsim_exit_net+0xede/0xfa0 drivers/net/wireless/virtual/mac80211_hwsim.c:6807
+       ops_exit_list net/core/net_namespace.c:199 [inline]
+       ops_undo_list+0x49f/0x940 net/core/net_namespace.c:252
+       cleanup_net+0x4df/0x7b0 net/core/net_namespace.c:696
+       process_one_work kernel/workqueue.c:3257 [inline]
+       process_scheduled_works+0xaec/0x17a0 kernel/workqueue.c:3340
+       worker_thread+0xda6/0x1360 kernel/workqueue.c:3421
+       kthread+0x726/0x8b0 kernel/kthread.c:463
+       ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+other info that might help us debug this:
+
+Chain exists of:
+  kn->active#5 --> &device->physical_node_lock --> &root->kernfs_supers_rwsem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&root->kernfs_supers_rwsem);
+                               lock(&device->physical_node_lock);
+                               lock(&root->kernfs_supers_rwsem);
+  lock(kn->active#5);
+
+ *** DEADLOCK ***
+
+4 locks held by kworker/u8:1/13:
+ #0: ffff888100ef7948 ((wq_completion)netns){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3232 [inline]
+ #0: ffff888100ef7948 ((wq_completion)netns){+.+.}-{0:0}, at: process_scheduled_works+0x9d4/0x17a0 kernel/workqueue.c:3340
+ #1: ffffc90000127bc0 (net_cleanup_work){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3233 [inline]
+ #1: ffffc90000127bc0 (net_cleanup_work){+.+.}-{0:0}, at: process_scheduled_works+0xa0f/0x17a0 kernel/workqueue.c:3340
+ #2: ffffffff8f99d2d0 (pernet_ops_rwsem){++++}-{4:4}, at: cleanup_net+0xfe/0x7b0 net/core/net_namespace.c:670
+ #3: ffff8881012e8ab8 (&root->kernfs_supers_rwsem){++++}-{4:4}, at: kernfs_remove_by_name_ns+0x3f/0x140 fs/kernfs/dir.c:1745
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 13 Comm: kworker/u8:1 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Workqueue: netns cleanup_net
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x106/0x330 kernel/locking/lockdep.c:5868
+ kernfs_drain+0x27c/0x5f0 fs/kernfs/dir.c:511
+ __kernfs_remove+0x47e/0x8c0 fs/kernfs/dir.c:1533
+ kernfs_remove_by_name_ns+0xc0/0x140 fs/kernfs/dir.c:1751
+ sysfs_remove_file include/linux/sysfs.h:780 [inline]
+ device_remove_file drivers/base/core.c:3071 [inline]
+ device_del+0x506/0x8f0 drivers/base/core.c:3876
+ device_unregister+0x21/0xf0 drivers/base/core.c:3919
+ mac80211_hwsim_del_radio+0x2dc/0x490 drivers/net/wireless/virtual/mac80211_hwsim.c:5918
+ hwsim_exit_net+0xede/0xfa0 drivers/net/wireless/virtual/mac80211_hwsim.c:6807
+ ops_exit_list net/core/net_namespace.c:199 [inline]
+ ops_undo_list+0x49f/0x940 net/core/net_namespace.c:252
+ cleanup_net+0x4df/0x7b0 net/core/net_namespace.c:696
+ process_one_work kernel/workqueue.c:3257 [inline]
+ process_scheduled_works+0xaec/0x17a0 kernel/workqueue.c:3340
+ worker_thread+0xda6/0x1360 kernel/workqueue.c:3421
+ kthread+0x726/0x8b0 kernel/kthread.c:463
+ ret_from_fork+0x51b/0xa40 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+ </TASK>
+hsr_slave_0: left promiscuous mode
+hsr_slave_1: left promiscuous mode
+batman_adv: batadv0: Interface deactivated: batadv_slave_0
+batman_adv: batadv0: Removing interface: batadv_slave_0
+batman_adv: batadv0: Interface deactivated: batadv_slave_1
+batman_adv: batadv0: Removing interface: batadv_slave_1
+veth1_macvtap: left promiscuous mode
+veth0_macvtap: left promiscuous mode
+veth1_vlan: left promiscuous mode
+veth0_vlan: left promiscuous mode
+team0 (unregistering): Port device team_slave_1 removed
+team0 (unregistering): Port device team_slave_0 removed
+netdevsim netdevsim2 netdevsim0: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim1: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim2: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim3: set [1, 0] type 2 family 0 port 6081 - 0
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
