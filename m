@@ -1,88 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25617341ACA;
-	Fri, 20 Feb 2026 11:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFA132FA21
+	for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 11:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771586058; cv=none; b=C+jY7N2XxjVXq5LZJFIkouc9jxaGPBILeNM5bATNqN0+9bb/ptTVbHvzrrwW0+gczcOW73iR/xOM0B5srr3UFyqf6VJ/m5zZAwv0lgaSQWUxsiqku08jswh+nxjG4OfocNp3dSuE1ia0hpKoNpMOvQe00tK+HP5S7LjHqLFTdSs=
+	t=1771586481; cv=none; b=PrV7OWTzVoAeb2whMq6IZoJomYWUOU8yobP+1pTLabk8oZlo8xP8LdhabPtWQx5Xsg0u0NmMQUFu5vSPX3w/3XbpWWQXfgynIFCsg7c+JeX2dhH0LGQ3OmZyyHLt9PuiPz/yA2yleWAlrdjeMftm/Bi3YXsg4UySOAfCtMCiG0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771586058; c=relaxed/simple;
-	bh=OBIwovGiLEgk9sxiCKOM48/c82NKWhf+xBbPy5J21OY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=S+qJiODOy44CeHtLCD+0DkbjbWBFaWQzZb3jYQtT0xapBmSIquY4sRaAO0dfIQyW0WtZMmxK96/wV0sLcFNVv+ySXNzbACG41TRH6Az5sqGsEvGlvmaUXINH6niWKbWSCSbTtQipYCkb/IjisqZ3F72QeO7bGHieiU6LNHpx5Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gfPun1Jc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771586481; c=relaxed/simple;
+	bh=mlADFL2/DWhCwhbGO29DDwfB21//2slPoxx16AIxgBk=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PWDjB5d2EOETZF6kOWhyl6p4Ig9RnU0oJtL30UxJk8GExQheOBenWqWgGeB6pRsmWUwY7/0sa+3Msvji2o9hhUVGjNdhzrn0+AbWAwuB0oXrO1JcZGk5HbRdLxQG5TKTv6EZ4YzDcryB5bb/YwbE/V+4Dh5HQcnCgZaTx8fiYVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ny/Y35Eq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gfPun1Jc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 981C6C116C6;
-	Fri, 20 Feb 2026 11:14:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ny/Y35Eq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88830C116D0
+	for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 11:21:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771586058;
-	bh=OBIwovGiLEgk9sxiCKOM48/c82NKWhf+xBbPy5J21OY=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=gfPun1JctNvoNIPU18uGCxIMd5aHiT6dlrmj2bsqLAyavEu8synMj7lWsFKeZXRGe
-	 2Ct9Zau5qkp2RGx60hxrlRnWk2pql8eJaaMg7VDRPkmx9vl7oYB9EiQrfHWiWDClNI
-	 epLqINoePUTxsjEVMnF3aXbzG0cL+ZDDE21nmHe2GjTf5UuKRo3+afXOpGYryxTUiy
-	 3bnMj7tn0ROxyUkCt5R9Q7+7EUQo2EiZ1p8doDxcASopRTcPqmbosOUSng3pwf9F8r
-	 9it9JfwQvqkFvY1m8DW6yYf9trdQEriJWze7GP1c65mUJhsz2kL5OiLm+faDY8Pect
-	 NCXlJg33ToXqw==
+	s=k20201202; t=1771586480;
+	bh=mlADFL2/DWhCwhbGO29DDwfB21//2slPoxx16AIxgBk=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=ny/Y35EqvhqZvCM+7tbcH+quG0erQhEVEisby62UGuOteXJWhTT/qtjqS+qzpdpBb
+	 UBvbS+IPI24mzJ8rY0atoJrumQya6O1AoEc/cbitaOmCwLyfi2/4nIzVbBI9JW6BNi
+	 wtK0RB2nFi0lnBeXA2bav0bDAjecmWb1nCzhv5EX2MqeaExip9zluL7JKX4mDOmr91
+	 q4hWT9RKTDcsVrWliVUrCc7Z+SgxkFY3B9SFWfdEvzZsSKwiTGx0oZMjrcek2UQ++H
+	 o+M1BsBVxN4Dh5ZJv0iqmXb0sFX5zkfjltPIP8T4EBOobk9nBs9+E88ta4sz51Oz9K
+	 1dMY/V8o7Xp4w==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59e60b3ccdfso2881578e87.0
+        for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 03:21:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVDDPgC8ZmNHRYCOWTQaotAuTlcZHjfRHEuQ9ysdiG2szk+Qc0VXnz89i5CWiOozbqmMgWZiL41mbBJjQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5ENarPMMOKtkBNv86pPq8r87EZRIV9rLmtCplxHU6VlZPlCnE
+	FKO7ElkL3kjkwWdEJi098UnFWF39GaGAkK+cEPvoZceuHIokZOl+gzCIGPwp3mivmjes4dTgQ91
+	0QzsC4LZ8pGoSDqMNiPwOm5yJ2HgiTMesi+FVLdY0kw==
+X-Received: by 2002:a05:6512:1595:b0:59e:1954:1d3f with SMTP id
+ 2adb3069b0e04-59f6d386ae5mr7459308e87.44.1771586479101; Fri, 20 Feb 2026
+ 03:21:19 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 20 Feb 2026 03:21:17 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 20 Feb 2026 03:21:17 -0800
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <aZgQSJULgJTxOVn8@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Feb 2026 12:14:12 +0100
-Message-Id: <DGJQUDBN8WQ2.BPQRSNNGMH6X@kernel.org>
-To: "Leon Romanovsky" <leon@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH V2] driver core: auxiliary bus: Fix sysfs creation on
- bind
-Cc: "Tariq Toukan" <tariqt@nvidia.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Saeed Mahameed" <saeedm@nvidia.com>, "Mark Bloch" <mbloch@nvidia.com>,
- "Andrew Lunn" <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>, "Gal Pressman"
- <gal@nvidia.com>, "Moshe Shemesh" <moshe@nvidia.com>, "Amir Tzin"
- <amirtz@nvidia.com>
-References: <20260219210435.1769394-1-tariqt@nvidia.com>
- <DGJCHYS3SKIQ.1TIHQCMEOCRC@kernel.org> <20260220080413.GB10607@unreal>
-In-Reply-To: <20260220080413.GB10607@unreal>
+MIME-Version: 1.0
+References: <20260219-device-match-secondary-fwnode-v1-0-a64e8d4754bc@oss.qualcomm.com>
+ <20260219-device-match-secondary-fwnode-v1-1-a64e8d4754bc@oss.qualcomm.com>
+ <2026021900-trekker-twenty-9daa@gregkh> <CAMRc=MekX-pXJEs7W9vn8-exAXyfNN3JMwrVNDPXg0b77X1NNw@mail.gmail.com>
+ <DGJ3H078RVW8.28AJL6FR3OKOO@kernel.org> <aZdkN2zje5CEaar_@smile.fi.intel.com>
+ <CAMRc=MfcrD8NNh+8WaO_3BYG8Eqoi5wz__s7AeCR=rt1NkWrkA@mail.gmail.com> <aZgQSJULgJTxOVn8@smile.fi.intel.com>
+Date: Fri, 20 Feb 2026 03:21:17 -0800
+X-Gmail-Original-Message-ID: <CAMRc=Mc6bVxTwMU=O1B3jisxtMoKdEGSFPgtQysNURn4+xeL=Q@mail.gmail.com>
+X-Gm-Features: AaiRm51rVXZBfAP7gJs7TsQVEq8NhT9rXCWD9Sls-tb7T2RcyquI25FOFohnpGM
+Message-ID: <CAMRc=Mc6bVxTwMU=O1B3jisxtMoKdEGSFPgtQysNURn4+xeL=Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] driver core: provide device_match_fwnode_ext()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Danilo Krummrich <dakr@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri Feb 20, 2026 at 9:04 AM CET, Leon Romanovsky wrote:
-> This init->add->remove->destroy pattern follows standard Linux kernel pra=
-ctice.
-> I expect all current review tools to flag any missing function call
-> among these three.
+On Fri, 20 Feb 2026 08:42:00 +0100, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> said:
+> On Thu, Feb 19, 2026 at 03:18:24PM -0600, Bartosz Golaszewski wrote:
+>> On Thu, 19 Feb 2026 20:27:51 +0100, Andy Shevchenko
+>> <andriy.shevchenko@linux.intel.com> said:
+>> > On Thu, Feb 19, 2026 at 05:55:20PM +0100, Danilo Krummrich wrote:
+>> >> On Thu Feb 19, 2026 at 5:39 PM CET, Bartosz Golaszewski wrote:
+>
+> ...
+>
+>> >> Also, is there a reason why we need both device_match_fwnode() *and*
+>> >> device_match_fwnode_ext()?
+>> >
+>> > Yes. We don't want (at least for now) to dive into bug hunting in a 2+ years
+>> > horizon if something goes wrong with [currently] working drivers that use
+>> > device_match_fwnode() against the cases when there are primary and secondary
+>> > fwnodes present.
+>> >
+>> > I won't put my bet that extending device_match_fwnode() won't break anything.
+>> > And I don't want to invest (waste?) my time to learn each of the existing cases.
+>> >
+>> > The proposed way is robust and safest. And for the record, I will be the first
+>> > person to push back device_match_fwnode() upgrade without a comprehensive testing
+>> > on real (affected) HW.
+>>
+>> Who's got the final word here? I responded to Danilo's email saying I can fold
+>> the new code into the existing function but you are against it.
+>
+> Of course I am not a maintainer, but as I said, I will be not okay without
+> proven tests on the real HW. It's non-trivial change as it may lead to
+> a problematic behaviour that one may not observe immediately (it might affect
+> 1 out of 100s platforms). So, it will be hidden till unknown point in time
+> in the future.
+>
+> I prefer safest way. And then we can convert case-by-case without hurry, which
+> is the usual cause of the subtle bugs.
+>
 
-I'm not saying that the flow is not logical, goes against existing patterns=
-,
-etc., I'm saying that it is unnecessary to expose a new API to drivers, sin=
-ce
-this is already handled internally.
+I agree, given how many problem some GPIO patches cause on x86 platforms months
+after getting upstream.
 
-I.e. we can easily fix the bug without increasing the API surface exposing =
-a new
-API to drivers.
-
-> It is not, atomic is not a replacement for locking and this hunk is
-> going to be racy as hell:
-
-No, of course not, but it is sufficient to ensure that something runs only =
-once.
-
-However, you are still right, since sysfs_create_group() can still fail, we
-still need the mutex, because we may need to unwind.
-
-> In the proposed patch, locking is handled by the driver, which understand=
-s the
-> flow far better than the driver core.
-
-I don't think so, the driver core (or actually the auxiliary bus code) is
-perfectly aware of the flow, i.e. create the attribute group once actually
-needed by auxiliary_device_sysfs_irq_add(), remove it on driver unbind.
+Bartosz
