@@ -1,220 +1,146 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C14732E6AB
-	for <driver-core@lists.linux.dev>; Fri, 20 Feb 2026 05:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60961D555;
+	Fri, 20 Feb 2026 06:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771566927; cv=none; b=KCBYlmauBK2E5+ovKmJFHOWZzRM8TnnlQ+eYFkGlaWhzlyo1ZliRp5Y3xpkfgjwtKp1ZF9kzHu6w8j8T6D43JSFrr2msts1pUrJa9Qaq26BPSVG6mx985VgZYgR9cr1ry79lAFfINXrvVR2hoDLDAbm6jkQxoWBia0/4HINf+sI=
+	t=1771569245; cv=none; b=WahIVQI47Q55CSFc1udc8paWKMHCtZSwy9tHbFKwSc/JpZ0HDeBm2MF3iJVsD5Hc1K/Z/j523qEQ6JjsuoIlAznMgvHF72NMmViVq0G/hD4NkSfptcxlX81vjh20e5+53TH/nopO/+XihlD4+3xAFDFwl49aO3xAJudMwJFCS3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771566927; c=relaxed/simple;
-	bh=ymKrZvnn1wXoX3MO7tLDPSCDvegTjqhP4f2VwqTSGPs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CjrMjztg2WuuShQCvmsD7txlJ+cOTZnvpeST1lD8xoRs6z7nMPErPkzpndazUa4yhAlPzeaAasBTj0B0mZacqhWgWc2jupYginnBNB943zhExv2ElrAI2Dyb82OaM/vpALUNz+NV0GobxunvcpI4W59qkHzUMOqnPk53nZoAzy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=j5QE0wXq; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1771569245; c=relaxed/simple;
+	bh=Ial17sfZgdVRiZ5JFwlMSLgTFo1LPcexMHaX94onETg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EaKhh8VE288m0eWH7LRIaKcgC6cBcPCt3so3uponeLN33D/7uD4Tuy8eGpS/BtkJ5aFn8mCf5aq1q/tNkuLpneztQKDwVoBAYCMJn0IW1vi5ErFVLl847hjQKyTXXB3XgX7aMRW74hwbZqZjkZvPAoo8bmPoiIXdTDsjcOqlbPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EBZTLNua; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="j5QE0wXq"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-353c9d644b0so1218658a91.2
-        for <driver-core@lists.linux.dev>; Thu, 19 Feb 2026 21:55:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771566922; x=1772171722; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VLezOUj++5KtU+iy76kNFYSHOIOxW3z9n/oglLgyr0s=;
-        b=j5QE0wXqwbiwymZzBHlY+7Spq7ObTf0C5wPPazW239cW+ZRMgu6+5S3ZtnTVeaE33s
-         FG2kXmO1yIhxNt+C9t70qLj8+3bHpBM9w/AiDaBXg0+K1ve0Agtj5+w1CewAMyN41Q/T
-         Ad5A5wAf2mHK0w1mUl/a7nbkO9aB/7vSptmAsC1ORF2gMUfMxeW8EPMU01eEbEMo4hki
-         POjD/anbjoIjW01+YiqGxBm3QsPJWhrbCu4x4frelLZhx9bG3J2qqhLEXQRY8MYq11ne
-         68bb7oKr9+kCwhcPsCP7kXw6R1LNwzzoawBTBtBxlK9FT7+B4RkcWy6FNyOyVePZySJ+
-         MgIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771566922; x=1772171722;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VLezOUj++5KtU+iy76kNFYSHOIOxW3z9n/oglLgyr0s=;
-        b=OpFkddSZHSk3NtzGiQwGlVn3J7zqbvGdOkM11IvaXsKyb1D2Z7J/jUxFBLh8ZVHekK
-         7Xi8pr9KGVVDocn9EK2KrFv/2orJzNqLStJv4Rue6T48nRFDewieVJZJpcLj+tc3sSVK
-         VR7Y1dtMcrSrHK87suWz4se+IxP4WUmFeanF/Bify6IpwY+j2eWHxmm0UxPZJIltJ1eS
-         YZjWhTd13hoxKbP5yL/oh6nsymmr/OePWC/PA86hdAf/40tbgYMb/t9dDeVWc5SYzFaJ
-         XA48sYa7oQMv+b8VUfQExTiw83AyLD23McyDgxtbhLTYbjDkVUsDuD1GGi21yc0avD8I
-         9zcA==
-X-Forwarded-Encrypted: i=1; AJvYcCXAcZtdZgF6Ul3YCxugVBuyjwPAvF56VsgztGs7ibmZzekLe2fZvKlxN3yLjMJ/RQK/qys/quyKp9f8Mg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxxjxzntvpanIyatM/e2eM+t5jc85HAuGGsIZ094oboM91lUg4E
-	SC0iQMrsBay9y4OVkUy9O1khbjB8mWVRNOUxcRYYYaBQOpp3cfDCcrwrHrUaP5n0Yw77rFQnms6
-	xj7K2gi2pUPn/7rcV/g==
-X-Received: from pjmm7.prod.google.com ([2002:a17:90b:5807:b0:349:8a6d:dfd1])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:274c:b0:343:c3d1:8b9b with SMTP id 98e67ed59e1d1-35844f85b15mr17487949a91.19.1771566921614;
- Thu, 19 Feb 2026 21:55:21 -0800 (PST)
-Date: Thu, 19 Feb 2026 21:54:48 -0800
-In-Reply-To: <20260220055449.3073-1-tjmercier@google.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EBZTLNua"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A349DC116D0;
+	Fri, 20 Feb 2026 06:34:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1771569245;
+	bh=Ial17sfZgdVRiZ5JFwlMSLgTFo1LPcexMHaX94onETg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EBZTLNuay2yyKESIcWpEoKJGo4zBffSI2G6ymTPRJKLu8EuK6qk9cn+K+b8PyMmKp
+	 plAp5fIjthS+U/Ei/t32XPcpzz6MbCPJuTVZjCOgCCqS9kwQrGvma9WOTpLDVFhZUf
+	 Xr1/SToJ9JyGZCP1mOfOjglWaUbH/cM5KfDRuGhs=
+Date: Fri, 20 Feb 2026 07:34:02 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Tariq Toukan <tariqt@nvidia.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
+	Amir Tzin <amirtz@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>
+Subject: Re: [PATCH V2] driver core: auxiliary bus: Fix sysfs creation on bind
+Message-ID: <2026022040-casualty-dexterity-543c@gregkh>
+References: <20260219210435.1769394-1-tariqt@nvidia.com>
+ <DGJCHYS3SKIQ.1TIHQCMEOCRC@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260220055449.3073-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.53.0.414.gf7e9f6c205-goog
-Message-ID: <20260220055449.3073-4-tjmercier@google.com>
-Subject: [PATCH v4 3/3] selftests: memcg: Add tests for IN_DELETE_SELF and IN_IGNORED
-From: "T.J. Mercier" <tjmercier@google.com>
-To: gregkh@linuxfoundation.org, tj@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, jack@suse.cz, amir73il@gmail.com, 
-	shuah@kernel.org, linux-kselftest@vger.kernel.org
-Cc: "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DGJCHYS3SKIQ.1TIHQCMEOCRC@kernel.org>
 
-Add two new tests that verify inotify events are sent when memcg files
-or directories are removed with rmdir.
+On Fri, Feb 20, 2026 at 12:59:45AM +0100, Danilo Krummrich wrote:
+> On Thu Feb 19, 2026 at 10:04 PM CET, Tariq Toukan wrote:
+> > +/**
+> > + * auxiliary_device_sysfs_irq_dir_init - initialize the IRQ sysfs directory
+> > + * @auxdev: auxiliary bus device to initialize the sysfs directory.
+> > + *
+> > + * This function should be called by drivers to initialize the IRQ directory
+> > + * before adding any IRQ sysfs entries. The driver is responsible for ensuring
+> > + * this function is called only once and for handling any concurrency control
+> > + * if needed.
+> > + *
+> > + * Drivers must call auxiliary_device_sysfs_irq_dir_destroy() to clean up when
+> > + * done.
+> > + *
+> > + * Return: zero on success or an error code on failure.
+> > + */
+> > +int auxiliary_device_sysfs_irq_dir_init(struct auxiliary_device *auxdev)
+> >  {
+> > -	int ret = 0;
+> > -
+> > -	guard(mutex)(&auxdev->sysfs.lock);
+> > -	if (auxdev->sysfs.irq_dir_exists)
+> > -		return 0;
+> > +	int ret;
+> >  
+> > -	ret = devm_device_add_group(&auxdev->dev, &auxiliary_irqs_group);
+> > +	ret = sysfs_create_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > -	auxdev->sysfs.irq_dir_exists = true;
+> >  	xa_init(&auxdev->sysfs.irqs);
+> >  	return 0;
+> >  }
+> > +EXPORT_SYMBOL_GPL(auxiliary_device_sysfs_irq_dir_init);
+> > +
+> > +/**
+> > + * auxiliary_device_sysfs_irq_dir_destroy - destroy the IRQ sysfs directory
+> > + * @auxdev: auxiliary bus device to destroy the sysfs directory.
+> > + *
+> > + * This function should be called by drivers to clean up the IRQ directory
+> > + * after all IRQ sysfs entries have been removed. The driver is responsible
+> > + * for ensuring all IRQs are removed before calling this function.
+> > + */
+> > +void auxiliary_device_sysfs_irq_dir_destroy(struct auxiliary_device *auxdev)
+> > +{
+> > +	xa_destroy(&auxdev->sysfs.irqs);
+> > +	sysfs_remove_group(&auxdev->dev.kobj, &auxiliary_irqs_group);
+> > +}
+> > +EXPORT_SYMBOL_GPL(auxiliary_device_sysfs_irq_dir_destroy);
+> >  
+> >  /**
+> >   * auxiliary_device_sysfs_irq_add - add a sysfs entry for the given IRQ
+> > @@ -45,7 +70,8 @@ static int auxiliary_irq_dir_prepare(struct auxiliary_device *auxdev)
+> >   * @irq: The associated interrupt number.
+> >   *
+> >   * This function should be called after auxiliary device have successfully
+> > - * received the irq.
+> > + * received the irq. The driver must call auxiliary_device_sysfs_irq_dir_init()
+> > + * before calling this function for the first time.
+> 
+> I'm not convinced by this approach. This adds two new sources of bugs for
+> drivers.
+> 
+>   1. Drivers can now forget to call auxiliary_device_sysfs_irq_dir_init()
+>      *before* auxiliary_device_sysfs_irq_add().
+> 
+>   2. Drivers can forget to call auxiliary_device_sysfs_irq_dir_destroy().
+> 
+> Instead, I suggest to keep the current approach and just replace
+> devm_device_add_group() with devm_auxiliary_device_add_group(), which in its
+> devres callback additionally clears auxdev->sysfs.irq_dir_exists.
+> 
+> In terms of the auxdev->sysfs.lock, I think this can still be removed, as it
+> wasn't needed in the first place.
+> 
+> auxiliary_device_sysfs_irq_add() must only be called from a scope where the
+> auxiliary device is guaranteed to be bound, so there can't be a concurrent
+> unbind.
+> 
+> There may only be multiple concurrent calls to auxiliary_device_sysfs_irq_add()
+> itself, and in this case irq_dir_exists can just be an atomic.
+> 
+> Yes, we're still stuck with an atomic for irq_dir_exists, but the driver API
+> remains much simpler and less error prone.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
-Acked-by: Tejun Heo <tj@kernel.org>
-Acked-by: Amir Goldstein <amir73il@gmail.com>
----
- .../selftests/cgroup/test_memcontrol.c        | 112 ++++++++++++++++++
- 1 file changed, 112 insertions(+)
+I agree, your recommendations make sense.  And I still hate this irq
+addition to auxdevices :(
 
-diff --git a/tools/testing/selftests/cgroup/test_memcontrol.c b/tools/testing/selftests/cgroup/test_memcontrol.c
-index 4e1647568c5b..57726bc82757 100644
---- a/tools/testing/selftests/cgroup/test_memcontrol.c
-+++ b/tools/testing/selftests/cgroup/test_memcontrol.c
-@@ -10,6 +10,7 @@
- #include <sys/stat.h>
- #include <sys/types.h>
- #include <unistd.h>
-+#include <sys/inotify.h>
- #include <sys/socket.h>
- #include <sys/wait.h>
- #include <arpa/inet.h>
-@@ -1625,6 +1626,115 @@ static int test_memcg_oom_group_score_events(const char *root)
- 	return ret;
- }
- 
-+static int read_event(int inotify_fd, int expected_event, int expected_wd)
-+{
-+	struct inotify_event event;
-+	ssize_t len = 0;
-+
-+	len = read(inotify_fd, &event, sizeof(event));
-+	if (len < (ssize_t)sizeof(event))
-+		return -1;
-+
-+	if (event.mask != expected_event || event.wd != expected_wd) {
-+		fprintf(stderr,
-+			"event does not match expected values: mask %d (expected %d) wd %d (expected %d)\n",
-+			event.mask, expected_event, event.wd, expected_wd);
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int test_memcg_inotify_delete_file(const char *root)
-+{
-+	int ret = KSFT_FAIL;
-+	char *memcg = NULL;
-+	int fd, wd;
-+
-+	memcg = cg_name(root, "memcg_test_0");
-+
-+	if (!memcg)
-+		goto cleanup;
-+
-+	if (cg_create(memcg))
-+		goto cleanup;
-+
-+	fd = inotify_init1(0);
-+	if (fd == -1)
-+		goto cleanup;
-+
-+	wd = inotify_add_watch(fd, cg_control(memcg, "memory.events"), IN_DELETE_SELF);
-+	if (wd == -1)
-+		goto cleanup;
-+
-+	if (cg_destroy(memcg))
-+		goto cleanup;
-+	free(memcg);
-+	memcg = NULL;
-+
-+	if (read_event(fd, IN_DELETE_SELF, wd))
-+		goto cleanup;
-+
-+	if (read_event(fd, IN_IGNORED, wd))
-+		goto cleanup;
-+
-+	ret = KSFT_PASS;
-+
-+cleanup:
-+	if (fd >= 0)
-+		close(fd);
-+	if (memcg)
-+		cg_destroy(memcg);
-+	free(memcg);
-+
-+	return ret;
-+}
-+
-+static int test_memcg_inotify_delete_dir(const char *root)
-+{
-+	int ret = KSFT_FAIL;
-+	char *memcg = NULL;
-+	int fd, wd;
-+
-+	memcg = cg_name(root, "memcg_test_0");
-+
-+	if (!memcg)
-+		goto cleanup;
-+
-+	if (cg_create(memcg))
-+		goto cleanup;
-+
-+	fd = inotify_init1(0);
-+	if (fd == -1)
-+		goto cleanup;
-+
-+	wd = inotify_add_watch(fd, memcg, IN_DELETE_SELF);
-+	if (wd == -1)
-+		goto cleanup;
-+
-+	if (cg_destroy(memcg))
-+		goto cleanup;
-+	free(memcg);
-+	memcg = NULL;
-+
-+	if (read_event(fd, IN_DELETE_SELF, wd))
-+		goto cleanup;
-+
-+	if (read_event(fd, IN_IGNORED, wd))
-+		goto cleanup;
-+
-+	ret = KSFT_PASS;
-+
-+cleanup:
-+	if (fd >= 0)
-+		close(fd);
-+	if (memcg)
-+		cg_destroy(memcg);
-+	free(memcg);
-+
-+	return ret;
-+}
-+
- #define T(x) { x, #x }
- struct memcg_test {
- 	int (*fn)(const char *root);
-@@ -1644,6 +1754,8 @@ struct memcg_test {
- 	T(test_memcg_oom_group_leaf_events),
- 	T(test_memcg_oom_group_parent_events),
- 	T(test_memcg_oom_group_score_events),
-+	T(test_memcg_inotify_delete_file),
-+	T(test_memcg_inotify_delete_dir),
- };
- #undef T
- 
--- 
-2.53.0.414.gf7e9f6c205-goog
+thanks,
 
+greg k-h
