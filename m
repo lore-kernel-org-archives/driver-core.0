@@ -1,114 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1436410FD;
-	Sat, 21 Feb 2026 14:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771682664; cv=none; b=eq2UUdsUnb3hvRCyehrpE+36Y7/kXndTvjEpr9dG327do3IUPnYmX8CJxgnrcYqyWKhJxOI6S6ULrJ2Nc2DZ91lAb0NJOTBJlJDWB7dEMyY+dU7hPEC6w8unY+dZGZ6QzEoIdxKX0zdvw/ToUfC9cYeB4wgfAzYbrBRVsC84EY0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771682664; c=relaxed/simple;
-	bh=7dszeMmlZLI8gAeNlbjsoqmiu35q8bwMF1qIay5Q0bk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RaEKq5mSA+yq/V+VHQxaM0XftaHZ7hMdKUMPGMQ+WiLtAIYLwza4MNMYXnUnyNCyabvLfL6VtrUyp5TIGp+SmRitUb9u9bmJuJW+7wJbpeepciME1s7kQmc4Y27Q/ozasgKkLi73WRyWHFF/DGAFGuYe01eKavhPXWgbQpDRy/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tP2o/tzJ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669C7199252
+	for <driver-core@lists.linux.dev>; Sat, 21 Feb 2026 16:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771690303; cv=pass; b=tSjP6SYjol+HMIAOiEOIxB0f37uBjBTv059RRaUaGr0FGCNWU27L2Ci/WRThkLyRbrBeZlxk1CvXKrvhseaK+zW2Eti2dmaxX5ufRGOgTOksNyDK04RcAabR51Oum1YH9T0xVToEpYetiCbKsfsNClNL407pT7rV/QJWzhG034Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771690303; c=relaxed/simple;
+	bh=WFk2dMGDXodWdBOsas5Wh8VEIYFRodTYZpiky7YPwy4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z6ji4E5FGj04iJ0OMegusKCeh7fz/pAmin9tfDMKsSDlor8NFnI7J12ycVaNI0G/YklY6kmVOGqw0UH0NYLHW0A9R5P1ArpfKhxm404BODmrPogL676mFpNucBzWChbKJsaT0g7O8oe+8sC1+L9fR5yfJPaArnMmsu/nWT5LYdo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YdWY+iYL; arc=pass smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tP2o/tzJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28D77C4CEF7;
-	Sat, 21 Feb 2026 14:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771682663;
-	bh=7dszeMmlZLI8gAeNlbjsoqmiu35q8bwMF1qIay5Q0bk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tP2o/tzJXZVFvJ4/nsQHMIAm1Leiu7L0ipRdnR/vll11kB7GtzWHyHY9Hd6LswAI+
-	 j71Gnxa/R2otVZ47bwpnAi/313o7r2jxxcC5vxulEAzB8AJ9FJ20EisbTUbtE7bfAS
-	 lgzVWeIricmzP+owPku79KJBgLI22eIP+XUC4R/yP9mjhGC7HKGHf0vwqx6n5klYdj
-	 ceAptDDntFZPQlctZwDIsYtGlc0q+bUQq/Z0segYTxcHrHqL5VMfMohtT3phCICuA+
-	 9/8siDuGv9yiTZ2wmRbe5YNI19PxPw4idsEhpLHPA9UhrG2HCCTXZTXa2IE534Dkey
-	 csFIqgueSyYWg==
-Message-ID: <f0286fcc-0408-4e65-9a2b-85aa1c21fdb8@kernel.org>
-Date: Sat, 21 Feb 2026 15:04:18 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YdWY+iYL"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b904e1cd038so429596666b.1
+        for <driver-core@lists.linux.dev>; Sat, 21 Feb 2026 08:11:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771690301; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Wodmqm/rjz8p0rsmp6sqX87TQwfLO+3cP6Ca7Vgm8m6qlUkHCi/TzwO4eVgqxdbGvo
+         O7Qd4ZTQ2+QJWASkJPmGMoK20VbiXJnt4ARGWo+RYqq3zXj+TGU0lX4JW8cM0GJWQ+Rp
+         IdP+yecegWd1vhnfYru6ZTzoTuQJhGB/eEjDp8S0aRAPTUr8vPKVQwkezLe+rSIHOssJ
+         lJIbz7K6iQVw4apgR/bqiNSk3AemNryiJhDG5L3EBUu4HUBf5xTBS+I7fniLxovzmNK5
+         /DanPhdCvWQeqkSEVqIcSHghmVtl9klLFhGkJJf/cu+kECAs7sAOCBA4MG8wUxqN4cU0
+         9FXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WFk2dMGDXodWdBOsas5Wh8VEIYFRodTYZpiky7YPwy4=;
+        fh=QCKBs2JJzkFwuF4zIFo6Zex1M7Jn7ikwPQWCzNd2uBI=;
+        b=eURJbu4FhwzjWtr1F8LE1F+n2nXVejVECcu4NP6BBJ2tg/BBHB1MJagjxNL3pkT1Lh
+         m8MVPeFdhxA1kRdV0LnagQKGcQCyY+AfKaX93AQfaDA8IjJ0qMRrbudegJp4Ef/a55V6
+         vyAH+wHU2q1mVCtJY36Nyb+X1pxWpoIPg61Kxh49aqnLvYoM3dOio33O6pLPIFh7jste
+         C5Pj38pOgvaZYVhxJDUl7MUJ8TdD+fqpSkdbcCM7epkwHwHSSVkOKV2msLe3IIXnyuoZ
+         NuRBvOZsTwSNS7P/QLNsp2wMY58wh6ACGcC+5nlz68JKUML+7WDrTp73s8SlZdPtwWID
+         OwcA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771690301; x=1772295101; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WFk2dMGDXodWdBOsas5Wh8VEIYFRodTYZpiky7YPwy4=;
+        b=YdWY+iYLn4WrngHbAKbXkc62VfUyKsY6hdWXr5E6dILLrH/hEADYxWO/IFCqIehZLp
+         QJ1/++GjXH45nUp7f3lElVOHqnxSvhM7dSrCsLNI6+bsXIW656wYf4ClBvL6dLB6azp0
+         hn4sx1xnLMhGoK2TWN2U+t3kR458RfVyj1HP2JPlX7N5Q23LzYAGSNf5SzEC8H4vEuuZ
+         Aha3pzy+mDFY1QOItUWQ4jgCSqM4T9MG8VWEiPqSLJcQBpWAr2jVmS6U+tCw+iQA3hMc
+         igsDtzmQ78nPJ4MfCxuWQViokQcLA6nt14S+ojZuPI+y8Bs1ncvBwDn98aGk/T7AQVcd
+         McXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771690301; x=1772295101;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WFk2dMGDXodWdBOsas5Wh8VEIYFRodTYZpiky7YPwy4=;
+        b=cIHgP89EE25cg0H5X5K5NEWY4+BIyDUmnvq7k3XFc0g3hS1L3l1oPCAbOpMDwpKlIB
+         EDYBRMl541TqWlJHLWA06tdhn3bEl/W3f0F9sc5ByQ+1VjrSg1b4MlXuibGEoTtv6lLm
+         Yf4oGG7IRkl0GY+JPll9z8UWiXh2lecpou+1blemZ/1w6tKMmUA7bzvLZZYD2NSwlWF0
+         GY62p8KjRuNWhY7X9Z8nufcL9fro+SI8SvxNmuCn9DHbLF77fWuSoun9x4ZRKrD0abI+
+         4JnLSvfVfI7eLKc7jNLh7SNf8oLaRzhnxCRR6YDBRtTdnF+1UWkXf0cxy3lW9QDaAK5O
+         EcIA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9Ei3RBBOVxK5vNj86rVFUVFGIhswWYD4kcDiuueNDF7huG1ULBUQbl7kRWx9M35TW0nIyZP4Vdxw3RQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxcKezUQTzyDXjfS/quXgBiPt3/TtAdE3/eYk2Rvp+D05yhEOtj
+	Ha582hICZYfmCGHF/ETOcImiCXyy2d3bDDFKAcS7AaazjiwhK0qfO0stn6ilARo4wR9D4LoCl+L
+	tkOm3itGWy0IF+hufPD8xEt3fQbLhk3Y=
+X-Gm-Gg: AZuq6aJuLP7mki7dOnT1Sro5SaIGaahAu2VOSM4BR5ErMu0sbFqQvKxZjDG2U//8/hL
+	octq6FO4Huk53p2U/eZ4xHYqIsmKghA63s+0Y4iFmjtLZbDI48FiyfUwRcbXw5TaIfgB1Bz2BdC
+	byy+iy0dNYBIz9mTp0bXdIb1KyOoz/IUSspPtrKSsF3MuUKryIpmwTlty3phAMfVaBMN+RQ2lme
+	ZwG4eh4F3RqpHxDCe5A//gjSF95TpHD6Qsu4kyIdbkBdyf4c1hKyYsDJnES1iLzgV4/DDu7oGwR
+	Ju3ItlQ6DhtPiJlwBxit0EDWmy3p2JLqXLkxeBuB
+X-Received: by 2002:a17:906:474a:b0:b87:7938:7b77 with SMTP id
+ a640c23a62f3a-b9081b4adbfmr135784766b.30.1771690300450; Sat, 21 Feb 2026
+ 08:11:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 10/10] kobject: make struct kobject member
- default_groups a constant array
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- driver-core@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org
-References: <5d0951ec-42c9-453f-9966-ecca593c4153@kernel.org>
- <04c85242-dc51-4ddf-9920-4dab57f2498f@kernel.org>
- <f18e8c2f-28b0-4905-87c2-a16dd54c53d1@t-8ch.de>
-Content-Language: en-US
-From: Heiner Kallweit <hkall@kernel.org>
-In-Reply-To: <f18e8c2f-28b0-4905-87c2-a16dd54c53d1@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260220055449.3073-1-tjmercier@google.com> <20260220055449.3073-3-tjmercier@google.com>
+ <aZh-orwoaeAh52Bf@slm.duckdns.org> <CAOQ4uxjgXa1q-8-ajSBwza-Tkv91tFP-_wWzCQPW+PwJMehEWA@mail.gmail.com>
+ <aZi6_K-pSRwAe7F5@slm.duckdns.org> <CAOQ4uxjZZSRBwZ2ZL31juAUu0-sAUnPrJWvQuJ2NDaWZMeq0Fg@mail.gmail.com>
+ <aZju-GFHf8Eez-07@slm.duckdns.org>
+In-Reply-To: <aZju-GFHf8Eez-07@slm.duckdns.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sat, 21 Feb 2026 18:11:28 +0200
+X-Gm-Features: AaiRm50siD9H0RcvpiyV5fyHjGmjcm9TLE2lBYwftlepNHL-uvxe1pX7UaXUvqc
+Message-ID: <CAOQ4uxgzuxaLt2xs5a5snu9CBA_4esQ_+t0Wb6CX4M5OqM5AOA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] kernfs: Send IN_DELETE_SELF and IN_IGNORED
+To: Tejun Heo <tj@kernel.org>
+Cc: "T.J. Mercier" <tjmercier@google.com>, gregkh@linuxfoundation.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, jack@suse.cz, 
+	shuah@kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 21.02.2026 14:27, Thomas Weißschuh wrote:
-> Hello Heiner,
-> 
-> On 2026-02-17 23:32:46+0100, Heiner Kallweit wrote:
->> Constify the default_groups array, allowing to assign constant arrays.
->>
->> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> 
-> (The patch author/From header and Signed-off-by line do not match)
-> 
-Right, have to fix this once series is out of RFC state.
+On Sat, Feb 21, 2026 at 12:32=E2=80=AFAM Tejun Heo <tj@kernel.org> wrote:
+>
+> Hello, Amir.
+>
+> On Fri, Feb 20, 2026 at 10:11:15PM +0200, Amir Goldstein wrote:
+> > > Yeah, that can be useful. For cgroupfs, there would probably need to =
+be a
+> > > way to scope it so that it can be used on delegation boundaries too (=
+which
+> > > we can require to coincide with cgroup NS boundaries).
+> >
+> > I have no idea what the above means.
+> > I could ask Gemini or you and I prefer the latter ;)
+>
+> Ah, you chose wrong. :)
+>
+> > What are delegation boundaries and NFS boundaries in this context?
+>
+> cgroup delegation is giving control of a subtree to someone else:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git/tree/Docume=
+ntation/admin-guide/cgroup-v2.rst#n537
+>
+> There's an old way of doing it by changing perms on some files and new wa=
+y
+> using cgroup namespace.
+>
+> > > Would it be possible to make FAN_MNT_ATTACH work for that?
+> >
+> > FAN_MNT_ATTACH is an event generated on a mntns object.
+> > If "cgroup NS boundaries" is referring to a mntns object and if
+> > this object is available in the context of cgroup create/destroy
+> > then it should be possible.
+>
+> Great, yes, cgroup namespace way should work then.
+>
+> > But FAN_MNT_ATTACH reports a mountid. Is there a mountid
+> > to report on cgroup create? Probably not?
+>
+> Sorry, I thought that was per-mount recursive file event monitoring.
+> FAN_MARK_MOUNT looks like the right thing if we want to allow monitoring
+> cgroup creations / destructions in a subtree without recursively watching
+> each cgroup.
 
->> ---
->>  include/linux/kobject.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/linux/kobject.h b/include/linux/kobject.h
->> index c8219505a79..e45ee843931 100644
->> --- a/include/linux/kobject.h
->> +++ b/include/linux/kobject.h
->> @@ -116,7 +116,7 @@ char *kobject_get_path(const struct kobject *kobj, gfp_t flag);
->>  struct kobj_type {
->>  	void (*release)(struct kobject *kobj);
->>  	const struct sysfs_ops *sysfs_ops;
->> -	const struct attribute_group **default_groups;
->> +	const struct attribute_group *const *default_groups;
-> 
-> Thanks for working on this!
-> 
-> Personally I try to constify the attribute structures together with
-> their corresponding callbacks. This ensures that no structure is
-> constified which its callback then tries to modify.
-> Currently there is no support for const arguments to the callbacks of
-> 'struct kobj_attribute' and 'struct device_attribute'. I am wondering
-> if the changes to kobject and device groups should be kept out for now
-> and be added together with the support for their const callback arguments.
-> 
+The problem sounds very similar to subtree monitoring for mkdir/rmdir on
+a filesystem, which is a problem that we have not yet solved.
 
-I think we have to be precise what exactly gets constified:
-In the series here it's about arrays of pointers to attribute groups.
-Just these arrays can't be modified any longer. This includes no change
-to whether data in the attribute groups and attributes can be modified.
+The problem with FAN_MARK_MOUNT is that it does not support the
+events CREATE/DELETE, because those events are currently
+monitored in context where the mount is not available and anyway
+what users want to get notified on a deleted file/dir in a subtree
+regardless of the mount through which the create/delete was done.
 
-These arrays of pointers to attribute groups are used in calls to
-sysfs_create_groups() and device_add_groups(), e.g. from create_dir()
-for kobject's, and from device_add_attrs().
-And sysfs_create_groups() and device_add_groups() are changed accordingly
-in this series.
+Since commit 58f5fbeb367ff ("fanotify: support watching filesystems
+and mounts inside userns") and fnaotify groups can be associated
+with a userns.
 
-Does this answer your question?
+I was thinking that we can have a model where events are delivered
+to a listener based on whether or not the uid/gid of the object are
+mappable to the userns of the group.
 
-> 
-> Thomas
-> 
->>  	const struct kobj_ns_type_operations *(*child_ns_type)(const struct kobject *kobj);
->>  	const void *(*namespace)(const struct kobject *kobj);
->>  	void (*get_ownership)(const struct kobject *kobj, kuid_t *uid, kgid_t *gid);
+In a filesystem, this criteria cannot guarantee the subtree isolation.
+I imagine that for delegated cgroups this criteria could match what
+you need, but I am basing this on pure speculation.
 
+Thanks,
+Amir.
