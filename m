@@ -1,46 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E37A450FE;
-	Fri, 20 Feb 2026 23:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7337F131E49
+	for <driver-core@lists.linux.dev>; Sat, 21 Feb 2026 13:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771630329; cv=none; b=SN4sTVF0dB7o/QzeUYYGCVzU0fQ8QX6hJzDgnZ3zMyIBChw0tvEx9z9RJCKJalqBwwR9gPQ+ca3OZBdH7exIGjaVISiNhzczZbl2zk+VY8DqyY15sxT38fY4OAWfXI6FRFqvK0EBjvwA2dgV/P6473/yq5GKjvrRewzuukVcPZM=
+	t=1771680440; cv=none; b=PmdQPXHXDVPhoKx6PpVCwJQpDuVb8iGuRxeHraIJowbdpAAoPZ6eQpquuLMcrUptJWEU42j5FFePusOXmVGupgwr9ESFNmdOVk6345CrMgZkuZ0CNH2TBOLmMUp716kPwi2ena0mDFuoP2ncFqyfQck2AVi9bJv8eRYwKm01yv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771630329; c=relaxed/simple;
-	bh=/bSsXEdaIKKeFGiASesky/KjEVa6IyrjpIr3goO6XWI=;
+	s=arc-20240116; t=1771680440; c=relaxed/simple;
+	bh=+RLhKizSUU0RD82hH4IJ3BEYEuDBffSzSEqmHdM/tjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NM4AfdXkvchrFYRtGxGoVViNe2R8tnMaXAf3aVYeYIOSLFSCLnD8HgVSsn/nvCgy7AN5M81nZ9RNvoHwNxnTBf3Ar8Zipt83E9edJJNCDi8JU4deOU/fLqSBcqI7Ovgcgp+rK/fiETZEvo2CnI3YEp/rQ513PqG3HuMxJPjrCAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EAbKHIDQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=iwuZS1K5JcG6izAHq7CHSSwxJQRVFPBNI5OCoOKy1ONlwfJnobnxehCcxHrdl0+EF4933Y575vBOfrrzyH0pYerypiaY9WUTyZ95AR5yd/NKNAQ24baBgfQeq0z/zICKK5SxDbCrfqsUD5YmRA/flDtn//WJETQ0XHCjiCJzCgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=k9ahXrda; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EAbKHIDQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1258AC116C6;
-	Fri, 20 Feb 2026 23:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771630329;
-	bh=/bSsXEdaIKKeFGiASesky/KjEVa6IyrjpIr3goO6XWI=;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="k9ahXrda"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1771680430;
+	bh=+RLhKizSUU0RD82hH4IJ3BEYEuDBffSzSEqmHdM/tjI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EAbKHIDQi3vLekKzDjHKpJqvvmgaoTdMRRaZcLZ61LLO73si/qTO476lY7fbRrB8b
-	 +dp6bct1/IKE55kmm1exaApfAaP60F8SmPnLh2omFNch7Ou61a/WpFHB5DHHLxqeXk
-	 e44E6Kcs4AXVUa9svtmZ2WCpZT9/tMN2499yKhNrb9ZMuVuu9wcRGXX9w6It2/qpLg
-	 R+KnQb/vCpicLo0bcOFAt74d7kYXD1PAponMy8VmXizG1i+6b2hym459mo4GiSsH4p
-	 Q4TCr7iXt0Gx6c+XEySzkqbArftF6PVBYYye/4V8xkntisHcDBZBRVJbFrl55SfMFq
-	 IrQQNZ7jH4ZDw==
-Date: Fri, 20 Feb 2026 13:32:08 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>, gregkh@linuxfoundation.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	jack@suse.cz, shuah@kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] kernfs: Send IN_DELETE_SELF and IN_IGNORED
-Message-ID: <aZju-GFHf8Eez-07@slm.duckdns.org>
-References: <20260220055449.3073-1-tjmercier@google.com>
- <20260220055449.3073-3-tjmercier@google.com>
- <aZh-orwoaeAh52Bf@slm.duckdns.org>
- <CAOQ4uxjgXa1q-8-ajSBwza-Tkv91tFP-_wWzCQPW+PwJMehEWA@mail.gmail.com>
- <aZi6_K-pSRwAe7F5@slm.duckdns.org>
- <CAOQ4uxjZZSRBwZ2ZL31juAUu0-sAUnPrJWvQuJ2NDaWZMeq0Fg@mail.gmail.com>
+	b=k9ahXrdaR+dTDJ3SEmQ6t2D6DQDuE9fH2bWPRdwz5XAUa5/OICpXn+PeHCNLtUN7k
+	 nBdSLAgXpeJ9ZvtK4u6DLa2aSbgxtJUh+2Ac+h0s7PgPyoUo5y9fjsWJy1R0S5LciR
+	 in7sfp35zZLzcjHj7FXnhIZjmrExZKMzL5RinId4=
+Date: Sat, 21 Feb 2026 14:27:09 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Heiner Kallweit <hkall@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, driver-core@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH RFC 10/10] kobject: make struct kobject member
+ default_groups a constant array
+Message-ID: <f18e8c2f-28b0-4905-87c2-a16dd54c53d1@t-8ch.de>
+References: <5d0951ec-42c9-453f-9966-ecca593c4153@kernel.org>
+ <04c85242-dc51-4ddf-9920-4dab57f2498f@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -49,47 +44,45 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjZZSRBwZ2ZL31juAUu0-sAUnPrJWvQuJ2NDaWZMeq0Fg@mail.gmail.com>
+In-Reply-To: <04c85242-dc51-4ddf-9920-4dab57f2498f@kernel.org>
 
-Hello, Amir.
+Hello Heiner,
 
-On Fri, Feb 20, 2026 at 10:11:15PM +0200, Amir Goldstein wrote:
-> > Yeah, that can be useful. For cgroupfs, there would probably need to be a
-> > way to scope it so that it can be used on delegation boundaries too (which
-> > we can require to coincide with cgroup NS boundaries).
+On 2026-02-17 23:32:46+0100, Heiner Kallweit wrote:
+> Constify the default_groups array, allowing to assign constant arrays.
 > 
-> I have no idea what the above means.
-> I could ask Gemini or you and I prefer the latter ;)
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Ah, you chose wrong. :)
+(The patch author/From header and Signed-off-by line do not match)
 
-> What are delegation boundaries and NFS boundaries in this context?
-
-cgroup delegation is giving control of a subtree to someone else:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git/tree/Documentation/admin-guide/cgroup-v2.rst#n537
-
-There's an old way of doing it by changing perms on some files and new way
-using cgroup namespace.
-
-> > Would it be possible to make FAN_MNT_ATTACH work for that?
+> ---
+>  include/linux/kobject.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> FAN_MNT_ATTACH is an event generated on a mntns object.
-> If "cgroup NS boundaries" is referring to a mntns object and if
-> this object is available in the context of cgroup create/destroy
-> then it should be possible.
+> diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+> index c8219505a79..e45ee843931 100644
+> --- a/include/linux/kobject.h
+> +++ b/include/linux/kobject.h
+> @@ -116,7 +116,7 @@ char *kobject_get_path(const struct kobject *kobj, gfp_t flag);
+>  struct kobj_type {
+>  	void (*release)(struct kobject *kobj);
+>  	const struct sysfs_ops *sysfs_ops;
+> -	const struct attribute_group **default_groups;
+> +	const struct attribute_group *const *default_groups;
 
-Great, yes, cgroup namespace way should work then.
+Thanks for working on this!
 
-> But FAN_MNT_ATTACH reports a mountid. Is there a mountid
-> to report on cgroup create? Probably not?
+Personally I try to constify the attribute structures together with
+their corresponding callbacks. This ensures that no structure is
+constified which its callback then tries to modify.
+Currently there is no support for const arguments to the callbacks of
+'struct kobj_attribute' and 'struct device_attribute'. I am wondering
+if the changes to kobject and device groups should be kept out for now
+and be added together with the support for their const callback arguments.
 
-Sorry, I thought that was per-mount recursive file event monitoring.
-FAN_MARK_MOUNT looks like the right thing if we want to allow monitoring
-cgroup creations / destructions in a subtree without recursively watching
-each cgroup.
 
-Thanks.
+Thomas
 
--- 
-tejun
+>  	const struct kobj_ns_type_operations *(*child_ns_type)(const struct kobject *kobj);
+>  	const void *(*namespace)(const struct kobject *kobj);
+>  	void (*get_ownership)(const struct kobject *kobj, kuid_t *uid, kgid_t *gid);
