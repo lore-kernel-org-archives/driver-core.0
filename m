@@ -1,162 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B80A35BDA7;
-	Mon, 23 Feb 2026 10:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD198361642;
+	Mon, 23 Feb 2026 11:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771843489; cv=none; b=MGUto7Ykn7jBVhoYH1rMUUPDYCJH0g5SzNdBwpXMes6Zl5wHSQL6p03pAfCoQ3wm9d2E17rUeHlgIUbEnizzWxSTOMoJZXX4CpaY4OT12LJwsTVbgw9PusoxBACDZWjzKYaBrIdDJYDZ2pOhTcZ4SaF7yGuBNc3pkMpE39lyh2k=
+	t=1771846153; cv=none; b=VULDWEPJrARM4R5jdtFjF5mjj17bH6rFMgj6i7TaVofj5ZHJ4f8o9VBYKiaZpJCeJ37HuaCc/W0qNsrerC9fsYSJeDT1TGA2zOe0N+tTTU44DIOzXIrJ5QW6/TfnwJsmIoHKa6hvAJe5EuCePE8te/tLKQOcFLsMY2jhF2nrXcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771843489; c=relaxed/simple;
-	bh=U3uZ/m6WL6vhuqlVvk4N1REvKJGTee1dBWqzamU05lQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JGqsw6Z1n3luVBNXiyyquSIi/Qv+zLO42YpRcsRyyNWNJRVSxElSK67kYiNYdwQ6zwY+4jknXxb6/eEgE2MDL7KdoPjqUtu1D1Z6grqpLzfBsrwhKa3q4aCGrEEdDVA3714voZEkmHQ1BnznaI99vMwQvfZ1F9YAtuXkOlYg2uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GjObXvQh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771846153; c=relaxed/simple;
+	bh=fEP1EqpU5pWdSqvz/h+F1omgn6WyLNssApYypg0Qt4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArjmXwCN4jJuzta9t3CnbyJGaxpepgMSmj5rXADzgDenC0O9M1J2v5yjCIMCYW2ALACUbx/nUkTIza/ORkqJCTgWzJARDZK/ntLaQDoj4U1KcZQqN4e1IYrZtMV4kruLpVJHzXpMDykMcG0xIHQUGM9f73SMio43Hf0MqIf4L8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIaDl4MU; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GjObXvQh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005E6C116C6;
-	Mon, 23 Feb 2026 10:44:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771843489;
-	bh=U3uZ/m6WL6vhuqlVvk4N1REvKJGTee1dBWqzamU05lQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GjObXvQh+XcEFZxMdwj1fCT77G7dIM8o3tnYvqyCB7CZYDfDueLADGTsutq8/vC/H
-	 YWoBG5oTnBJnB3fSdRcAhcDviWKIggsj7DVVE4j8TXszvKGLQ6WeTvtqV1rdOfNKKI
-	 rRGinfVPOVNwmtzLPimdj9p2ebtPlXLrNFAp1yrsGufJa6fTYMj/7noqkJxJhzmBNi
-	 p21tacj3CjyT52vdwC46vblGIedvTNymTz8spRd3Ri8fbW738c4rGMrx6XV9+zgs69
-	 xxIdj6ulWwGi9FcJ4orBgx3nUZbSIhD/IAcQ1qWCiuBxYAvc4PUlBnMb9z21AFh3MT
-	 Tqp+P9naEjbCw==
-Message-ID: <71d92039-44ab-4154-9716-03634c491c48@kernel.org>
-Date: Mon, 23 Feb 2026 11:44:42 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIaDl4MU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771846151; x=1803382151;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fEP1EqpU5pWdSqvz/h+F1omgn6WyLNssApYypg0Qt4Y=;
+  b=nIaDl4MUnZSH+9aHmx7a1H1PStBtMOMYwEDuRzUvA8SP/qczofMkTM2d
+   af0J3+uZaEvl303nRAFXDQUp1XUioA30GfjEfSELULm1rAW6FYGl5yjKG
+   x85zoKpmjFg/s4IUZmTvBK+2XEM2P177UZgO+C1rB5k3AdnDbl3RSEHI5
+   yDKpiTe2QmsyAmNhlRJgdxd3ScptriO7zVYFWfxTn3oc1zz0/Z7S59UW7
+   X785rb0gt4UA3bxkaLwtpmhDaFoh8luRTqBB0uH3rdjJ4nWxJQlGgWo82
+   Hf+JM3K8sVnfWpuvU+EFdeOYrbzUwqcXTuygvg/BDIDnbZnGIWr5396mC
+   g==;
+X-CSE-ConnectionGUID: mzEbEWgHS9GbIPQ58ViSSw==
+X-CSE-MsgGUID: zt/XjXoqSomh7xS5CRDaVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="72877450"
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
+   d="scan'208";a="72877450"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 03:29:11 -0800
+X-CSE-ConnectionGUID: hD9iXHfERW+iK52sDEl2XQ==
+X-CSE-MsgGUID: vl4NaUoVTxiGaBJ/ElX4hQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
+   d="scan'208";a="253256215"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.222])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 03:29:06 -0800
+Date: Mon, 23 Feb 2026 13:29:03 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Tobias Schrammm <t.schramm@manjaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Lee Jones <lee@kernel.org>,
+	Dzmitry Sankouski <dsankouski@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 3/9] power: supply: max77705: Free allocated workqueue
+ and fix removal order
+Message-ID: <aZw5_66M3jV30c1l@smile.fi.intel.com>
+References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
+ <20260223-workqueue-devm-v1-3-10b3a6087586@oss.qualcomm.com>
+ <aZwWl57oJln1xH5m@smile.fi.intel.com>
+ <388e52a2-4537-46f0-84d9-eb7a1f3b1660@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate
- workqueue
-To: Danilo Krummrich <dakr@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
- <DGM9WUWC4ZE8.1A08TAKKT4FLJ@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <DGM9WUWC4ZE8.1A08TAKKT4FLJ@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <388e52a2-4537-46f0-84d9-eb7a1f3b1660@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 23/02/2026 11:36, Danilo Krummrich wrote:
-> On Mon Feb 23, 2026 at 8:27 AM CET, Krzysztof Kozlowski wrote:
->> +__printf(2, 5) struct workqueue_struct *
->> +devm_alloc_workqueue(struct device *dev, const char *fmt, unsigned int flags,
->> +		     int max_active, ...)
->> +{
->> +	struct workqueue_struct **ptr, *wq;
->> +	va_list args;
->> +
->> +	ptr = devres_alloc(devm_destroy_workqueue, sizeof(*ptr), GFP_KERNEL);
-> 
-> The function pointer passed to devres_alloc() is commonly named *_release().
+On Mon, Feb 23, 2026 at 11:19:13AM +0100, Krzysztof Kozlowski wrote:
+> On 23/02/2026 09:57, Andy Shevchenko wrote:
+> > On Mon, Feb 23, 2026 at 08:27:31AM +0100, Krzysztof Kozlowski wrote:
 
-devm-helpers.h disagree :), but I understand poor patterns spread all
-over. I will use the release name.
+...
 
+> >>  	ret = devm_request_threaded_irq(dev, regmap_irq_get_virq(irq_data, MAX77705_CHGIN_I),
+> >>  					NULL, max77705_chgin_irq,
+> >>  					IRQF_TRIGGER_NONE,
+> >>  					"chgin-irq", chg);
+> >> -	if (ret) {
+> >> -		dev_err_probe(dev, ret, "Failed to Request chgin IRQ\n");
+> >> -		goto destroy_wq;
+> >> -	}
+> >> +	if (ret)
+> >> +		return dev_err_probe(dev, ret, "Failed to Request chgin IRQ\n");
+> > 
+> > This should be just
+> > 
+> > 		return ret;
+> > 
+> > 
+> > devm_*_irq() prints the message. No need to repeat this in the caller(s).
+> > 
 > 
->> +	if (!ptr)
->> +		return NULL;
->> +
->> +	va_start(args, max_active);
->> +	wq = alloc_workqueue(fmt, flags, max_active, args);
->> +	va_end(args);
->> +	if (wq) {
->> +		*ptr = wq;
->> +		devres_add(dev, ptr);
->> +	} else {
->> +		devres_free(ptr);
->> +	}
->> +
->> +	return wq;
->> +}
->> +EXPORT_SYMBOL_GPL(devm_alloc_workqueue);
-> 
-> <snip>
-> 
->> +void devm_destroy_workqueue(struct device *dev, void *res)
->> +{
->> +	destroy_workqueue(*(struct workqueue_struct **)res);
->> +}
->> +EXPORT_SYMBOL_GPL(devm_destroy_workqueue);
-> 
-> I assume you did not mean to export the release callback (which doesn't seem to
-> be useful), but a function that calls devres_destroy(), i.e. something analogous
-> to devm_remove_action().
-> 
-> If you don't actually need it, I would prefer not to add something that calls
-> devres_destroy() for now.
+> I guess separate commit then.
 
-Andy pointed out EXPORT is not actually needed, so I will just drop it.
+WFM!
 
-Best regards,
-Krzysztof
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
