@@ -1,330 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B94B379999
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 20:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA31C3783DE
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 20:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771879479; cv=none; b=FD94NJB38rKLtZk1bbSs8zl/ZSa9ehAbmJHZ4lKouMeAZRqgoVP5NpxQn+ekZDRZbFNM4oyPEZhCPMbPySJwEES/ROzM+HjMBhkPl06wAdy6P3eENPJNWe2X109sfmxhINODfJCfwrs8nh+VEjP1FyyMg3S5SEw5KLyXy9INFR8=
+	t=1771879588; cv=none; b=ugCguSwlVv2EwHve4AJghcGS+/tCfU6gqk9pLi8SgRW/xhi6fLZJLebPgfon1pfbIL7YucYeaExqJoZyf6j4Vh/jRESOuHvrNZQcY2rsfMpFDzuKCmgfOSvrRkwTcoUT9sLojHzlsf9GORDuI7Zl+LvSR0qptV0P3zRKZ+7EzE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771879479; c=relaxed/simple;
-	bh=vsMyTY0R8IZvaS+rnwr/l8q2Ckjqj2nsO6DWVc9C3qA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QjDQPJJBOg5tC8zJFeqY/7ra1rLpCZstjxkbIK29cyQrRXK+1eirkiXwkfyb2SbTX/Op8V7HfWAd6Ncj7fz7UoD/Tul4Ef52BQW8ao6aiWIn5VlN7wDYDc5H6y0Mmehu5WdXENAMYH3Do3ZmKmBDXGR7/YZVH+TBHI/8AsC5do8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nhisNCTR; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1771879588; c=relaxed/simple;
+	bh=jBLcyP02/sek7zk4NqxV5S1bZCQap/LZYHzTBfHrwTU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rjLAIG3k4tl/T5ol+NmZ2wLz2t43OFNe3CXu/AGAVXvUaAQs+HYgIopyorgqSV05MWZX2hoHZsHF/hBEs8jWhNvxf98pl9UDmxyRsmHOdC+LlCkbfLyMB95fMB8Fsv420lIFFfjLGhjofqUjnIL0WuqYfro04A/rvOFZ/wrDdFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fhoaT+ij; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nhisNCTR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771879466; x=1803415466;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=vsMyTY0R8IZvaS+rnwr/l8q2Ckjqj2nsO6DWVc9C3qA=;
-  b=nhisNCTRmBic1rGJpUAmJlGTw9y766Vd5zb8Y/P20IEwaEclzoQ9G0zw
-   8pihAc5Oaa69JOHzKqKHVaD0vW/m9RGqzX+1J3FpH75foFHsov+MbtegO
-   8Cmds+s/FaY/4oS+n89gYP+uDb+DNO86rteYFCSgw1E3JiUL0qVP0pwIE
-   4oBhHF86px7shL1B/hNRdXtg1EeEvH8vbteGAUy5vBgBhsPjA5iUeqZYA
-   7sllsw5mXD30+rczdlLb359KotAnkVIyIhP30eVTG6GIq+NtuYLnIYz1z
-   R2FpVUjmotYB1V6Wbez1Y13E58wI8YJSXgI0+woCMfzGinxGK1bLuzYgd
-   A==;
-X-CSE-ConnectionGUID: PNtFtmmSQiaQUibqGTJrBA==
-X-CSE-MsgGUID: +9inJrX4Qmuv98hqbW5xBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="72795343"
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="72795343"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 12:44:22 -0800
-X-CSE-ConnectionGUID: WuHfqXq0S/S1/4R+Yx+hGw==
-X-CSE-MsgGUID: +DFjjOBNQsKyNKO1nC6mnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
-   d="scan'208";a="215700223"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 23 Feb 2026 12:44:19 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 358B699; Mon, 23 Feb 2026 21:44:18 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Zijun Hu <zijun.hu@oss.qualcomm.com>,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-acpi@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v1 2/3] driver core: Split device link data types and API to device/devlink.h
-Date: Mon, 23 Feb 2026 21:30:31 +0100
-Message-ID: <20260223204412.3298508-3-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260223204412.3298508-1-andriy.shevchenko@linux.intel.com>
-References: <20260223204412.3298508-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fhoaT+ij"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9919FC2BC86
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 20:46:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771879588;
+	bh=jBLcyP02/sek7zk4NqxV5S1bZCQap/LZYHzTBfHrwTU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fhoaT+ij5oMRcYXaq+w8wFWGRoQwgDZeg5WYEVYFm995Dz5HH5fJI5bK+H2hK7N0O
+	 P1rQhoYJqKAy0ya+CvvGpiSiqh+f91Yu1pZARCV5EHpmZDiOvpA7Xt3imYEeOSNbbL
+	 sOiggXe7+97uwPLnyAxVmncmWLNGL5g6zdk/5FdU6027it/YLoSIOi3j0vSf3YsHr4
+	 yJgTJuRCEJPUxBMBKINkpGpXAXN9B/2TNYLjji+JHPDA+l3ds0a+l5+AWwfNowMvCE
+	 EtPEeM3jsaKisuJHd1LTeDs6KQDjTQEWC90jTQ4K3NP419zYGPe2z0++ZhN8lI9aBw
+	 W3GiKZb3KsFNw==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-677a11d11e0so1793798eaf.2
+        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 12:46:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXmOPPTGZP3hO10BFtk2LEutANWLOF/bOsJ9KUQHtl2g8DbScsfjU7DqlWTe0wT28Z2y46vqM+WgqVH2w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZVESBXKJAmBuwMfQroG477FDDyEthADay5xUxVDq4c2VeL9gC
+	w3bbs6iVpQPLrjF0XDnb7k8S6h1C1r0qhCvMAbVNCVJgEFSeEpeJ3bKgyDR+mvHcuDRnF+IRh/3
+	PZwnZQMZOMXYuJOWuC/IXS1uBePX7T1U=
+X-Received: by 2002:a05:6820:460a:b0:679:8b1d:ba00 with SMTP id
+ 006d021491bc7-679c470f3f0mr3886821eaf.55.1771879587668; Mon, 23 Feb 2026
+ 12:46:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
+ <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
+In-Reply-To: <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 23 Feb 2026 21:46:16 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hgjGinrM_SMTAv27No=b__HUQ-9W18rHzNNiM-TnpQmA@mail.gmail.com>
+X-Gm-Features: AaiRm51MQYy4860EILV63_T3N_-5AgKrlcj9pG9QN8uuwuEr3GzncbmkDDBN4X0
+Message-ID: <CAJZ5v0hgjGinrM_SMTAv27No=b__HUQ-9W18rHzNNiM-TnpQmA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-device.h is a huge header which is hard to follow and easy to miss
-something. Improve that by splitting device link data types and API
-to device/devlink.h.
+On Mon, Feb 23, 2026 at 4:41=E2=80=AFPM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+>
+> In GPIOLIB, during fwnode lookup, after having resolved the consumer's
+> reference to a specific fwnode, we only match it against the primary
+> node of the controllers. Let's extend that to also the secondary node by
+> reworking gpio_chip_match_by_fwnode()
+>
+> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/gpio/gpiolib.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index c52200eaaaff82b12f22dd1ee8459bdd8ec10d81..7fe1d9ab1281d6c5022b9bdd8=
+909fef2cb74122e 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/errno.h>
+>  #include <linux/file.h>
+>  #include <linux/fs.h>
+> +#include <linux/fwnode.h>
+>  #include <linux/idr.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/irq.h>
+> @@ -1395,7 +1396,16 @@ EXPORT_SYMBOL_GPL(gpio_device_find_by_label);
+>
+>  static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *f=
+wnode)
+>  {
+> -       return device_match_fwnode(&gc->gpiodev->dev, fwnode);
+> +       struct device *dev =3D &gc->gpiodev->dev;
+> +       struct fwnode_handle *node =3D dev_fwnode(dev);
+> +
+> +       if (IS_ERR(fwnode))
+> +               return 0;
+> +
+> +       if (device_match_fwnode(dev, fwnode))
+> +               return 1;
+> +
+> +       return fwnode_is_primary(node) && node->secondary =3D=3D fwnode;
 
-In particular this helps to speedup the build of the code that includes
-device.h solely for a device link data types and/or API.
+Actually, you can replace the above statement with
 
-Note, get_dev_from_fwnode() goes to include/linux/fwnode.h as it seems
-better to be there (it is on one hand related to device link, but it
-is a getter for struct fwnode_handle respective field).
+      return node && node->secondary =3D=3D fwnode;
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/device.h         | 86 +-----------------------------
- include/linux/device/devlink.h | 97 ++++++++++++++++++++++++++++++++++
- include/linux/fwnode.h         |  2 +
- 3 files changed, 100 insertions(+), 85 deletions(-)
- create mode 100644 include/linux/device/devlink.h
+because fwnode_is_primary(node) expands to (node &&
+!IS_ERR(node->secondary)), but since you compare node->secondary to
+fwnode, the IS_ERR() check on it is redundant (fwnode is known to be
+non-error already at this point).
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 8c85ee363567..4ba6ae72ddf6 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -28,6 +28,7 @@
- #include <linux/gfp.h>
- #include <linux/device/bus.h>
- #include <linux/device/class.h>
-+#include <linux/device/devlink.h>
- #include <linux/device/devres.h>
- #include <linux/device/driver.h>
- #include <linux/device/types.h>
-@@ -254,76 +255,6 @@ int __must_check device_create_bin_file(struct device *dev,
- void device_remove_bin_file(struct device *dev,
- 			    const struct bin_attribute *attr);
- 
--/**
-- * enum device_link_state - Device link states.
-- * @DL_STATE_NONE: The presence of the drivers is not being tracked.
-- * @DL_STATE_DORMANT: None of the supplier/consumer drivers is present.
-- * @DL_STATE_AVAILABLE: The supplier driver is present, but the consumer is not.
-- * @DL_STATE_CONSUMER_PROBE: The consumer is probing (supplier driver present).
-- * @DL_STATE_ACTIVE: Both the supplier and consumer drivers are present.
-- * @DL_STATE_SUPPLIER_UNBIND: The supplier driver is unbinding.
-- */
--enum device_link_state {
--	DL_STATE_NONE = -1,
--	DL_STATE_DORMANT = 0,
--	DL_STATE_AVAILABLE,
--	DL_STATE_CONSUMER_PROBE,
--	DL_STATE_ACTIVE,
--	DL_STATE_SUPPLIER_UNBIND,
--};
--
--/*
-- * Device link flags.
-- *
-- * STATELESS: The core will not remove this link automatically.
-- * AUTOREMOVE_CONSUMER: Remove the link automatically on consumer driver unbind.
-- * PM_RUNTIME: If set, the runtime PM framework will use this link.
-- * RPM_ACTIVE: Run pm_runtime_get_sync() on the supplier during link creation.
-- * AUTOREMOVE_SUPPLIER: Remove the link automatically on supplier driver unbind.
-- * AUTOPROBE_CONSUMER: Probe consumer driver automatically after supplier binds.
-- * MANAGED: The core tracks presence of supplier/consumer drivers (internal).
-- * SYNC_STATE_ONLY: Link only affects sync_state() behavior.
-- * INFERRED: Inferred from data (eg: firmware) and not from driver actions.
-- */
--#define DL_FLAG_STATELESS		BIT(0)
--#define DL_FLAG_AUTOREMOVE_CONSUMER	BIT(1)
--#define DL_FLAG_PM_RUNTIME		BIT(2)
--#define DL_FLAG_RPM_ACTIVE		BIT(3)
--#define DL_FLAG_AUTOREMOVE_SUPPLIER	BIT(4)
--#define DL_FLAG_AUTOPROBE_CONSUMER	BIT(5)
--#define DL_FLAG_MANAGED			BIT(6)
--#define DL_FLAG_SYNC_STATE_ONLY		BIT(7)
--#define DL_FLAG_INFERRED		BIT(8)
--#define DL_FLAG_CYCLE			BIT(9)
--
--/**
-- * struct device_link - Device link representation.
-- * @supplier: The device on the supplier end of the link.
-- * @s_node: Hook to the supplier device's list of links to consumers.
-- * @consumer: The device on the consumer end of the link.
-- * @c_node: Hook to the consumer device's list of links to suppliers.
-- * @link_dev: device used to expose link details in sysfs
-- * @status: The state of the link (with respect to the presence of drivers).
-- * @flags: Link flags.
-- * @rpm_active: Whether or not the consumer device is runtime-PM-active.
-- * @kref: Count repeated addition of the same link.
-- * @rm_work: Work structure used for removing the link.
-- * @supplier_preactivated: Supplier has been made active before consumer probe.
-- */
--struct device_link {
--	struct device *supplier;
--	struct list_head s_node;
--	struct device *consumer;
--	struct list_head c_node;
--	struct device link_dev;
--	enum device_link_state status;
--	u32 flags;
--	refcount_t rpm_active;
--	struct kref kref;
--	struct work_struct rm_work;
--	bool supplier_preactivated; /* Owned by consumer probe. */
--};
--
- /**
-  * device_iommu_mapped - Returns true when the device DMA is translated
-  *			 by an IOMMU
-@@ -678,7 +609,6 @@ void device_set_node(struct device *dev, struct fwnode_handle *fwnode);
- int device_add_of_node(struct device *dev, struct device_node *of_node);
- void device_remove_of_node(struct device *dev);
- void device_set_of_node_from_dev(struct device *dev, const struct device *dev2);
--struct device *get_dev_from_fwnode(struct fwnode_handle *fwnode);
- 
- static inline struct device_node *dev_of_node(struct device *dev)
- {
-@@ -784,20 +714,6 @@ void device_shutdown(void);
- /* debugging and troubleshooting/diagnostic helpers. */
- const char *dev_driver_string(const struct device *dev);
- 
--/* Device links interface. */
--struct device_link *device_link_add(struct device *consumer,
--				    struct device *supplier, u32 flags);
--void device_link_del(struct device_link *link);
--void device_link_remove(void *consumer, struct device *supplier);
--void device_links_supplier_sync_state_pause(void);
--void device_links_supplier_sync_state_resume(void);
--void device_link_wait_removal(void);
--
--static inline bool device_link_test(const struct device_link *link, u32 flags)
--{
--	return !!(link->flags & flags);
--}
--
- /* Create alias, so I can be autoloaded. */
- #define MODULE_ALIAS_CHARDEV(major,minor) \
- 	MODULE_ALIAS("char-major-" __stringify(major) "-" __stringify(minor))
-diff --git a/include/linux/device/devlink.h b/include/linux/device/devlink.h
-new file mode 100644
-index 000000000000..88e645bab303
---- /dev/null
-+++ b/include/linux/device/devlink.h
-@@ -0,0 +1,97 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _DEVICE_LINK_H_
-+#define _DEVICE_LINK_H_
-+
-+#include <linux/bits.h>
-+#include <linux/kref.h>
-+#include <linux/refcount_types.h>
-+#include <linux/types.h>
-+#include <linux/workqueue_types.h>
-+
-+#include "types.h"
-+
-+/**
-+ * enum device_link_state - Device link states.
-+ * @DL_STATE_NONE: The presence of the drivers is not being tracked.
-+ * @DL_STATE_DORMANT: None of the supplier/consumer drivers is present.
-+ * @DL_STATE_AVAILABLE: The supplier driver is present, but the consumer is not.
-+ * @DL_STATE_CONSUMER_PROBE: The consumer is probing (supplier driver present).
-+ * @DL_STATE_ACTIVE: Both the supplier and consumer drivers are present.
-+ * @DL_STATE_SUPPLIER_UNBIND: The supplier driver is unbinding.
-+ */
-+enum device_link_state {
-+	DL_STATE_NONE = -1,
-+	DL_STATE_DORMANT = 0,
-+	DL_STATE_AVAILABLE,
-+	DL_STATE_CONSUMER_PROBE,
-+	DL_STATE_ACTIVE,
-+	DL_STATE_SUPPLIER_UNBIND,
-+};
-+
-+/*
-+ * Device link flags.
-+ *
-+ * STATELESS: The core will not remove this link automatically.
-+ * AUTOREMOVE_CONSUMER: Remove the link automatically on consumer driver unbind.
-+ * PM_RUNTIME: If set, the runtime PM framework will use this link.
-+ * RPM_ACTIVE: Run pm_runtime_get_sync() on the supplier during link creation.
-+ * AUTOREMOVE_SUPPLIER: Remove the link automatically on supplier driver unbind.
-+ * AUTOPROBE_CONSUMER: Probe consumer driver automatically after supplier binds.
-+ * MANAGED: The core tracks presence of supplier/consumer drivers (internal).
-+ * SYNC_STATE_ONLY: Link only affects sync_state() behavior.
-+ * INFERRED: Inferred from data (eg: firmware) and not from driver actions.
-+ */
-+#define DL_FLAG_STATELESS		BIT(0)
-+#define DL_FLAG_AUTOREMOVE_CONSUMER	BIT(1)
-+#define DL_FLAG_PM_RUNTIME		BIT(2)
-+#define DL_FLAG_RPM_ACTIVE		BIT(3)
-+#define DL_FLAG_AUTOREMOVE_SUPPLIER	BIT(4)
-+#define DL_FLAG_AUTOPROBE_CONSUMER	BIT(5)
-+#define DL_FLAG_MANAGED			BIT(6)
-+#define DL_FLAG_SYNC_STATE_ONLY		BIT(7)
-+#define DL_FLAG_INFERRED		BIT(8)
-+#define DL_FLAG_CYCLE			BIT(9)
-+
-+/**
-+ * struct device_link - Device link representation.
-+ * @supplier: The device on the supplier end of the link.
-+ * @s_node: Hook to the supplier device's list of links to consumers.
-+ * @consumer: The device on the consumer end of the link.
-+ * @c_node: Hook to the consumer device's list of links to suppliers.
-+ * @link_dev: device used to expose link details in sysfs
-+ * @status: The state of the link (with respect to the presence of drivers).
-+ * @flags: Link flags.
-+ * @rpm_active: Whether or not the consumer device is runtime-PM-active.
-+ * @kref: Count repeated addition of the same link.
-+ * @rm_work: Work structure used for removing the link.
-+ * @supplier_preactivated: Supplier has been made active before consumer probe.
-+ */
-+struct device_link {
-+	struct device *supplier;
-+	struct list_head s_node;
-+	struct device *consumer;
-+	struct list_head c_node;
-+	struct device link_dev;
-+	enum device_link_state status;
-+	u32 flags;
-+	refcount_t rpm_active;
-+	struct kref kref;
-+	struct work_struct rm_work;
-+	bool supplier_preactivated; /* Owned by consumer probe. */
-+};
-+
-+/* Device links interface. */
-+struct device_link *device_link_add(struct device *consumer,
-+				    struct device *supplier, u32 flags);
-+void device_link_del(struct device_link *link);
-+void device_link_remove(void *consumer, struct device *supplier);
-+void device_links_supplier_sync_state_pause(void);
-+void device_links_supplier_sync_state_resume(void);
-+void device_link_wait_removal(void);
-+
-+static inline bool device_link_test(const struct device_link *link, u32 flags)
-+{
-+	return !!(link->flags & flags);
-+}
-+
-+#endif /* _DEVICE_LINK_H_ */
-diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
-index 097be89487bf..38ebd810c1ec 100644
---- a/include/linux/fwnode.h
-+++ b/include/linux/fwnode.h
-@@ -60,6 +60,8 @@ struct fwnode_handle {
- 	u8 flags;
- };
- 
-+struct device *get_dev_from_fwnode(struct fwnode_handle *fwnode);
-+
- /*
-  * fwnode link flags
-  *
--- 
-2.50.1
+That would allow you to avoid exporting fwnode_is_primary() (which is
+kind of useful given the review comments).
 
+>  }
+>
+>  /**
+>
+> --
