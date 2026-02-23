@@ -1,158 +1,149 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0918B3783D5
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 21:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771882056; cv=pass; b=hXfzIfUngCKKE+Rovb7kgNSIEM6A2tWWnkNpsIIriT64yjPpxsUQp6b5DlOJkuaDllNTWJY48sIyK7OX4r0NyL/XaZqQUA3FV66RmwMTSMB5oPqbw88lQvg2LPCTHwAhas1jw7UTBCTLaiouHeCHoP80dOfK3Ko1IV3Kly8m4eQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771882056; c=relaxed/simple;
-	bh=didkkmMeA554Dxj/ZdCbtum+QUKQIqmhPv1W1r9HzYY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V9AUfmbrzNvBXka4iNIHG0siCDqpAv7Zd38LAL03/XWhkUQgp4ukG+DbKrkzowNsH/hqWlt4DfMY5bZLf0bWO/3w+YKygtHBsZj8oyl0nczv9kOh6Qx6az2Kg5CqaBXIDJXCPhD2cxxTwJM8ypg84QDcv1p7ptVHhA0itrvJ8+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t47EGx2d; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8791B37A49F
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 22:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771884444; cv=none; b=tJq6OHnbyGpiv7ZaXUePRqdDwdiCJZBq42ZO/BscoYaJKcVC1vQXV6o172seIpdl5a//JtAHMt0I0BHRjmd+gCCazLOthjZfkB0YJ1MZXzsFSjjHF1MQ1NGErtuvPKpsapB04GHf6yZmsgREY6zPFYcSgxHmV/wvm5/h++gyj0E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771884444; c=relaxed/simple;
+	bh=QLRt1ihCEGutlnY3VQn0B0BPbTeJrNzIfTdx0Vhb06U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ki5LCMg7Jqs/+/vXH7fTV+OPdpsPE02XZe8Ivi3iP7Tjw3e4SuKtL4UYAJiOzmLj2eMA0yTm1Li3gAstPE8A4RIMUqCt3aRHc5s04AWFTq1q4TzGa1SibaJBUVC7gVa43Qsc94CYLd84mYXNZNnCt5X6pUhURNnD3FBX/PX45RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+kLtfyv; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t47EGx2d"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4376de3f128so3439178f8f.0
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 13:27:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771882053; cv=none;
-        d=google.com; s=arc-20240605;
-        b=N1m4RqafFgRqAyrmntSDbygEUo9kV5vTBjDR5hrR9KUzk7bVxUmKwN48MNC1szxm5u
-         +vYUSwOWMCp/1q+fQdAuOPGHC/TboSBPMF/UoQy0nCZJqc/5+MrKa06VZAq8YXFazDS2
-         QYu9vTjEF+lNOFlps6is2XOq6Jc991sKRyhhb6VXfxtPSrSbkJF9C1vgHXeSh8V+ysEb
-         vUV5di3Og0c8OC3HCp8wcy6zovj0+qmtlTRk6Zq3QHQblgganDNKi4AEG7js86VihzuS
-         sw3+2q6/A4GxODejRwBseUetaWfqL5v1L75dNBzftCTS8mMrEZGDfcDa5Jh4qtmw8SqL
-         eeDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3TLtkDhp5yvjNfBzirqBO5/FyIhc8TMr7bRoRTvtMt0=;
-        fh=XHEc/d0F45IdW0Jw5l0QWfIhnnSw7WJC1SAzIeDj/qQ=;
-        b=XckvY7UXar+MpXRZQGMyBRdC9qO2p3uG2BuUzJg6/SzQzXu2yRbsyRhnitVZ4zweBk
-         SLkAF2pP60KcNrgpnGpz0VjF24u/ovB3kjDy3YZF0jcRXzhjQn2QV79YLOMwgFg+NxjJ
-         Bva6c1e71XvIs3n7VtT3esXXe48fbiKs6k3yMIFxM4TBO6eW4Cd53pnSPpzM8es8Lgad
-         aryve8cekE+GH/gutAYuymXNx9CyBmuqS6GglrpSPotn0UxWjZPmTky+ghNrbyZFHFvz
-         g/f3g2/gTK+7YVwW0u5w1HAISNgiLoIL21abeTRP48CIAKL5pEfYwjRpYMAOFTVvyeGR
-         Kz4Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771882053; x=1772486853; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3TLtkDhp5yvjNfBzirqBO5/FyIhc8TMr7bRoRTvtMt0=;
-        b=t47EGx2d42cDAfX6q9ze3hzXF4bN3AaYR0s0tDrf2k4xlrvrIg4EdEEtTVzDzQfSvu
-         DJwoj8bPuTqz2s+Thwd4spmavDT6XiekfqAjKDRdcvPJbss919bD6QONFxv38dyO3w53
-         jpK6sc4sT1ZcZTsGtyo+ar9ZA0HH3b7lzgY7uwoyy8kHHJiH/xPDXiBBSsFBnpCfIf0K
-         nIeDkzHu/pgZtj3+znqA6bLhlx4GzV82LD6nH8uZ5tconhf1iaDwlQl5+GJvV39UlI5e
-         3WBC+iiwP6DodJbaxwKP9C69sBZfdp+w1stKk7LpmzevDA+sG3W4P25cxHojA+G6Gr2W
-         lvgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771882053; x=1772486853;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3TLtkDhp5yvjNfBzirqBO5/FyIhc8TMr7bRoRTvtMt0=;
-        b=mePBwTXAjQM5ZTFFO1zVt3AlqUecdZ+HSSwvILMeTb/V7i4MX31tD9Bsq54gNObaw3
-         jDRzuXacWZHEfARilQyPRzrDtjAWsVLFnDPb0YLWKz9R0rsCq5dp8PvNgeJYvyM9t8rT
-         43O3aVFiusq5Z9RM5Di6M8EzxrDXT4L0qaSD2T3TQ8QhGlSSAu+Mnt5n8bnPo155oAGi
-         XS3+/Au2+FqsBmZduabiiHK+4vwfcTUXppySncgEve1ClUgOWOm/8YocKrtx5XUFpG9J
-         Tboo4Mj77tP3uwvc8ftu1c4PtT5BDlilxu0NbU2MFV67Eso6F/X+8310glGyPKzNTkJx
-         9ohg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcSoYaQq+Lh7bbmbIeMipqheykkOMqS2TZb5BmfNFeJFZzBPxmXpdrlUHQoIOlvQPXoevxl9ur8QN7SA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwefKllnhB4PSpU7EXy+F2qksIYfealAk34Ex2wF+K2XwUwAVAK
-	xnSjHc0JyxSHF9/4L4kgI4hThqH64U/pmQz+Nmuf2ilrUeI2/7xC3hMmNsFWFyBCRBIJ2/pYZHb
-	TrvUV2zvC4IqY5nzv9AM5NoY6CMnlhvnAqd8o6bkM
-X-Gm-Gg: ATEYQzxCX+H/dCXjhrav3qTYbz6k6suXhYUxycuu5qnqNfEsHgkgnexkCwqT8x5gYf0
-	ukyudGjEi5PA3UinOW9KfTJVrRDtfY9qjGXXOyGzTe0WY5l/H/zK0ZWm7IGH5vYQWcgbGgWFSNU
-	QNl+SWuH31CSByie4sTAkVfRbWe53WWoTLtEP0e2sp5tTkH+0DDwjoY6GunM2G9B2QsqdCferhS
-	XGCDAEmGtuMvke4Gf7YDTjo0gynMHuGzzTRc/Q4cv5zhqxL06C6NKHmJ8w37nrdkXwECxNGspuc
-	z+RIm8acPKp2wn6pere2AMlvHFORVHJ17YTxDQ==
-X-Received: by 2002:a05:6000:26c2:b0:435:a8e7:62de with SMTP id
- ffacd0b85a97d-4396f18f942mr16385137f8f.58.1771882053091; Mon, 23 Feb 2026
- 13:27:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+kLtfyv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771884441; x=1803420441;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=QLRt1ihCEGutlnY3VQn0B0BPbTeJrNzIfTdx0Vhb06U=;
+  b=R+kLtfyvEtXsdCY/M0eHFqVz3wRwb9ujjWL9BkjZoDVhAfJJn8z0WEV/
+   zgW1HuiNpb1WV0stFQsyi2740J5FpdUzhEh0qlUc3YhjeMQJD+vKkTfOd
+   OQm8Dzl5JEoabwNQ5yJfGExzW4x9uOOeLOUQ7lS7ETI8MthSrW6u5x6yG
+   RPT2986V6khCmaMqUrScK/AAQS2R/usfYWeV7oD+IHu1YjmbhDnfn+REw
+   XZKveas9QOxlIdAFLhF15tbI/4rUuWbnQh27x1mWsykCyQtG+tMTTzojr
+   hwPjza8B4ViH69S2dfgrSwRQzn/kthmfsnWFBtMc1wvSviPqJG+v6gxV7
+   w==;
+X-CSE-ConnectionGUID: 7Nmj4aHmRuSLWfoQiT3D+A==
+X-CSE-MsgGUID: FJFUdxYzTai8YWoBPj3OYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="75498112"
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="75498112"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 14:07:16 -0800
+X-CSE-ConnectionGUID: bZBxDYz7QnO7HwaONAAgpw==
+X-CSE-MsgGUID: 2d7dg5weRAWji89mBhuZzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="215849310"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.61])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 14:07:12 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id C8D9C11FC4C;
+	Tue, 24 Feb 2026 00:07:37 +0200 (EET)
+Date: Tue, 24 Feb 2026 00:07:37 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] gpiolib: match secondary fwnode too in
+ gpio_device_find_by_fwnode()
+Message-ID: <aZzPqbXH79Q6GvEn@kekkonen.localdomain>
+References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
+ <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
+ <aZyNErXB_acR3yYq@kekkonen.localdomain>
+ <CAJZ5v0ibXKiUNf5Fvj=q=f9JbHT=w3j3h=33ri_awzEHm_dBng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260216131534.65008-1-dakr@kernel.org> <aZMaFhvZWiknu8UK@google.com>
- <DGGF97AAA3HF.3DSNMFJTCNI9Z@kernel.org>
-In-Reply-To: <DGGF97AAA3HF.3DSNMFJTCNI9Z@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 23 Feb 2026 22:27:21 +0100
-X-Gm-Features: AaiRm51eKGoP_MuYqn_kp-y0-YSen_uHZo47Hlce9OFpI8_rE8a7FBFjXKSXZpk
-Message-ID: <CAH5fLgh6MvjN3AHCVUROeYFWr+0CPxoYcgFfa99wu1EaNJAn-g@mail.gmail.com>
-Subject: Re: [PATCH] rust: io: macro_export io_define_read!() and io_define_write!()
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: daniel.almeida@collabora.com, bhelgaas@google.com, kwilczynski@kernel.org, 
-	ojeda@kernel.org, boqun.feng@gmail.com, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
-	tmgross@umich.edu, zhiw@nvidia.com, acourbot@nvidia.com, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0ibXKiUNf5Fvj=q=f9JbHT=w3j3h=33ri_awzEHm_dBng@mail.gmail.com>
 
-On Mon, Feb 16, 2026 at 2:31=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
-wrote:
->
-> On Mon Feb 16, 2026 at 2:22 PM CET, Alice Ryhl wrote:
-> > You should keep these re-exports (as full `pub`) so that they can be
-> > accessed from kernel::io. Exposing all macros from crate root via
-> > #[macro_export] is legacy approach.
->
-> Good catch!
->
-> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-> index 58f464cf5efd..e5fba6bf6db0 100644
-> --- a/rust/kernel/io.rs
-> +++ b/rust/kernel/io.rs
-> @@ -249,6 +249,7 @@ macro_rules! io_define_read {
->          }
->      };
->  }
-> +pub use io_define_read;
->
->  /// Generates an accessor method for writing to an I/O backend.
->  ///
-> @@ -305,6 +306,7 @@ macro_rules! io_define_write {
->          }
->      };
->  }
-> +pub use io_define_write;
->
->  /// Checks whether an access of type `U` at the given `offset`
->  /// is valid within this region.
-> diff --git a/rust/kernel/pci/io.rs b/rust/kernel/pci/io.rs
-> index 2c8d7d00e54d..fb6edab2aea7 100644
-> --- a/rust/kernel/pci/io.rs
-> +++ b/rust/kernel/pci/io.rs
-> @@ -8,14 +8,14 @@
->      device,
->      devres::Devres,
->      io::{
-> +        io_define_read,
-> +        io_define_write,
->          Io,
->          IoCapable,
->          IoKnownSize,
->          Mmio,
->          MmioRaw, //
->      },
-> -    io_define_read,
-> -    io_define_write,
->      prelude::*,
->      sync::aref::ARef, //
->  };
->
->
-> (I'd still keep the `io_` prefix though.)
+Hi Rafael,
 
-With the above change: RB
+On Mon, Feb 23, 2026 at 06:46:38PM +0100, Rafael J. Wysocki wrote:
+> On Mon, Feb 23, 2026 at 6:23 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Bartosz,
+> >
+> > Thanks for the patch.
+> >
+> > On Mon, Feb 23, 2026 at 04:40:53PM +0100, Bartosz Golaszewski wrote:
+> > > In GPIOLIB, during fwnode lookup, after having resolved the consumer's
+> > > reference to a specific fwnode, we only match it against the primary
+> > > node of the controllers. Let's extend that to also the secondary node by
+> > > reworking gpio_chip_match_by_fwnode()
+> > >
+> > > Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> > > ---
+> > >  drivers/gpio/gpiolib.c | 12 +++++++++++-
+> > >  1 file changed, 11 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> > > index c52200eaaaff82b12f22dd1ee8459bdd8ec10d81..7fe1d9ab1281d6c5022b9bdd8909fef2cb74122e 100644
+> > > --- a/drivers/gpio/gpiolib.c
+> > > +++ b/drivers/gpio/gpiolib.c
+> > > @@ -11,6 +11,7 @@
+> > >  #include <linux/errno.h>
+> > >  #include <linux/file.h>
+> > >  #include <linux/fs.h>
+> > > +#include <linux/fwnode.h>
+> > >  #include <linux/idr.h>
+> > >  #include <linux/interrupt.h>
+> > >  #include <linux/irq.h>
+> > > @@ -1395,7 +1396,16 @@ EXPORT_SYMBOL_GPL(gpio_device_find_by_label);
+> > >
+> > >  static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *fwnode)
+> > >  {
+> > > -     return device_match_fwnode(&gc->gpiodev->dev, fwnode);
+> > > +     struct device *dev = &gc->gpiodev->dev;
+> > > +     struct fwnode_handle *node = dev_fwnode(dev);
+> > > +
+> > > +     if (IS_ERR(fwnode))
+> > > +             return 0;
+> > > +
+> > > +     if (device_match_fwnode(dev, fwnode))
+> >
+> > Could device_match_fwnode() match secondary fwnode as well?
+> 
+> In the previous discussion on this, Andy was against doing that due to
+> the concern that it might introduce subtle bugs, which I agree with.
+
+Could you elaborate or provide an example?
+
+The function has some 27 users although few are individual drivers.
+
+My understanding is that we only have the secondary fwnode for being able
+to attach objects from different backend to the same node. The fwnode API
+in the meantime generally tries to hide the existence of the secondary
+fwnode; a rewrite (which ideally would have happened perhaps a few years
+ago?) would probably make the fwnode a linked list instead so we'd lose
+that secondary pointer in the process.
+
+-- 
+Kind regards,
+
+Sakari Ailus
