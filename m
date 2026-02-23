@@ -1,197 +1,83 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07612FAC14
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE652EBBA4;
+	Mon, 23 Feb 2026 15:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771861286; cv=none; b=vGgmn2+1TtDsLqdx92Rz3WIWixfxEFSszQUCuUmto+bpe9bRdNb8Fxz61tw1uA0tnpOGFefcYKmad2fHEQLvdAdIB3m6sBvW3vwc4BfLjcZ4Cwj4PjDcAfiZPgYkDl0hQu3LGS1s0rb45M8PBn05E5J3P4mDVZdLcqRkzCQxLVQ=
+	t=1771861331; cv=none; b=W1pgNbitVY1QsiSC7DftZ1PNxJhKBtVkDsVGv7oEjCfiRCeW6nnTsWVmihNbm9QkQ3hSp8IKumVexhytFEM32S34qtfPWosZj1vgVULmNOU/1vl7hKWXq0vd29RXFr+AqxdHtuV8uxtuUGEuJF5zHeN2siuTcKY2hRYr/NaDaFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771861286; c=relaxed/simple;
-	bh=BNNIjvS76V/Hdkeg6mk+QBQ5AT8jv6jaK5X2R0TgRPI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tKUfgLefv9ZlM6RzfxX2AWHna3SJiItMOeNwa6Oa7nAxcDg4/39rBAcYtL0/J98nBN4knzKU1fCYUYe90KGve8t4mLj31Qq56c23xW2HK2FKrqFXJHXM9yzX30y4dmUE1jaoEdR7Sb/RJo0KshUQMeuCE3mO5PhLoIS4D3Lm+v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=e/cAMltJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MmIvYIdL; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1771861331; c=relaxed/simple;
+	bh=yurSs7VYMIRx+Jmbg9pFFMOien12/FbdH7HI65YtUAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwNxj0HbIxQ/a1J++I2/OkuxKBJL4TRT96sqBz1XoqIZT3MQr7yo/cU5IEr/ychoM3WRjVv8Wh7NXZL65+288bb+LWrw+Ptqg0hJM2BrXu7wqCYyxzCplisiT3kJsPloaUA8NR1ofgQjgIq+pncmtvj1WhzbpVe8i+4M60Zsm9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4XEVoLj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="e/cAMltJ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MmIvYIdL"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61N9mIUv1752687
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:41:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZjEW/a3QR9rT3ZJb9meXpjWiYGeiMJNq2GHOjywEIkI=; b=e/cAMltJvYlAY5t3
-	RzXeXW7YXpeLYFk7Z2h5TyBrxRfGfbSDnwl3xq50n87WPkP4GAgoQnHan8HOmpuq
-	8FE/cvIxyHjLhWaTQ/zcHJkRL/2uKVyDu+i9C8Azr+1AK7szEe7Loe0tJEWDmfQf
-	XzRh3yh+Z/sBlZkqwgfa9/ptJl+uazOoJFrL7kQ8RimnX2aSTCHjxeXW5sC9ywvw
-	pjM0520XLXTcbl5OKvGWk8OUy58W2d8POFw5fK2umMgjwUoWoR85r16YcQEtwhXi
-	TFIb8+LID3ThAA+sIyPksNVoRKdZlSnyJ3Zv9jG2KWF3P/8wAmiTa+cLks8fOQOa
-	/l5STw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf5waw9yp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:41:24 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8c71500f274so503544685a.1
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 07:41:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771861283; x=1772466083; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZjEW/a3QR9rT3ZJb9meXpjWiYGeiMJNq2GHOjywEIkI=;
-        b=MmIvYIdLQsyjyWT43xOPjq4BdeLH1UzGB3W50vubi/qzeaJd9zKXqjVUL4aCyWmVGQ
-         BA1gZB7nEyJNxqcclBNvnHZMlrLBlbw2YX9/NdjKO/3CSwbWSt6P4z6oeXC9SvZPeTnl
-         ePU8qTZInGfze8e04QLBWFvW5Td9/9B9C7Sg1razvNuucPG1c1nRhc3UnijoqWVBytM6
-         f/OSDz2wbsnyIYrQbWECjiiiWf+uVaG7V+pkJUjBmbXX0GJVQCIE90a+EQCCH1dhvjMJ
-         RkGJA1HJ3U5rUjTuaIYa7ymiQRWK06glp17SEFF4b+lU3/EpnOI3wKz2UAhinO6CIoCj
-         qkTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771861283; x=1772466083;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZjEW/a3QR9rT3ZJb9meXpjWiYGeiMJNq2GHOjywEIkI=;
-        b=C6s6Ojv22JBIJiJbOFK9zV0ab6D+DLwDzXUh6aBkkwjkt3wS6TH9aihyrFw41Y18IX
-         VrEMTGYPlifM0ZkO6DktFBpkiXl+albmS+LfcO81aTLw5NPe0sn2/gfIOsWxl2fWTdvw
-         oRWxx0Su7ltApvYxSzPKJFwiM72GZiOtzrVp+vdBk/7LOpPwKThdPmKHUMn9HzxqfYsJ
-         gqonCrxaWSo+RHwbeeD0+WZAg/Xpq+DC6MgYu5T0sPrsISya7hq0W6Ub0MxNlec8aloW
-         yTKygZHlmZyI0IcnZ+yWYBeGezVEig7gtaeUcNfGqfbeRLps+17WxHphSUeUgQTcE6nI
-         zGSw==
-X-Gm-Message-State: AOJu0YyJMer6fLxWC0h4W52O9k+ScGXB2bRnnWhNCerHDgBWx5ROr2i7
-	vnyTAH9JfTwT6HiLvLQHGlyqTPSBHrhq66DZfR/pxPCioW/MxoXnU1cQK2pT2pV9GFoiq18tPQS
-	fqlqiduhwB1IeHZxs3Sy+khPoas5R6dLmUgHQkP9oEPw+kgiIBEGV3NV5heX07GSj2A==
-X-Gm-Gg: AZuq6aITTo8M+UNxhKVg3IqoCpZ8VD9UiV4rpWCZ4+Vk9L6VjXcVt7VIQpm8ko5uubZ
-	hVE498fEx3cb6NkAuz4vjJpk7mlJQ4Yj7Zl2GQosfM1tvV4lqcNb/3E2JtD8mKyaDppuRvSjJRf
-	LcPIqf+uK/zdCi2ImLNtphgxMsgP293N51u8ZUqMbtED7L+9Hn86H7n3rK1wezdW7Blgp2v1Eim
-	85aTNcJuzn6wFFGnHnBVT43ix0fz0ATo2ORszIYFOFpPpfJdDQP+2hO8pSlfKDZ4ylsMVH5Ls4v
-	ci/B7bKqUuYMwd7PzQVx+tlHdblsHkq6YjDuEmoZc/AcYMrXQGkuavoMGKJ1ebCI3bvuEcODqpE
-	h8gGxCu4CSIUAQknNKR2kKiJVtEWVVinfE4GEdmNP3w0sPei3dTs2
-X-Received: by 2002:a05:620a:4691:b0:8b1:1585:225d with SMTP id af79cd13be357-8cb8caa16femr980032785a.82.1771861283250;
-        Mon, 23 Feb 2026 07:41:23 -0800 (PST)
-X-Received: by 2002:a05:620a:4691:b0:8b1:1585:225d with SMTP id af79cd13be357-8cb8caa16femr980028085a.82.1771861282763;
-        Mon, 23 Feb 2026 07:41:22 -0800 (PST)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:3fa4:55d7:7aa4:50d6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31b3d88sm295266755e9.3.2026.02.23.07.41.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 07:41:22 -0800 (PST)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 23 Feb 2026 16:40:53 +0100
-Subject: [PATCH v2 2/2] gpiolib: match secondary fwnode too in
- gpio_device_find_by_fwnode()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4XEVoLj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13CECC116C6;
+	Mon, 23 Feb 2026 15:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771861331;
+	bh=yurSs7VYMIRx+Jmbg9pFFMOien12/FbdH7HI65YtUAA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T4XEVoLjwgsQ7ovKA7xtbUTIVcHWVCyV6pn7LOJ292tti18smMR8wnG77SxgalbDg
+	 RfgNRI6zvKs/8cXZyOMCiLBb0YqaZH9xuRDx2MY4NeupnNbZFjJqhMaJ8YeAvg7B5v
+	 VBYPz9rOAI/WFv0qLsSJzaRmANj4Tm0r0GykuOYk2PjjD3h+49jCkt2p5FSw0rNbk5
+	 z3KuS76ScNLrjShfi32YBoHfRV9eG09CMT3drMUaizPybn/yJnzaV8C4ege2Vjb7v4
+	 wPmK9fQ3opNtBptr+RX6VE2r07joRxsro9c4TFt4tqOEhoN/+cg4n1U/D5sWlOyEsE
+	 hV1PcbRbJs2aw==
+Date: Mon, 23 Feb 2026 05:42:10 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Tobias Schrammm <t.schramm@manjaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+	Dzmitry Sankouski <dsankouski@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
+Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate
+ workqueue
+Message-ID: <aZx1UpYSNmapYBpU@slm.duckdns.org>
+References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
+ <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
-References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
-In-Reply-To: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Len Brown <lenb@kernel.org>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, brgl@kernel.org,
-        linux-acpi@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1416;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=BNNIjvS76V/Hdkeg6mk+QBQ5AT8jv6jaK5X2R0TgRPI=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpnHUcXGUZFY2bJGG6ak3/hcC6aURUqtliv5WGm
- JaCvkmr3UuJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaZx1HAAKCRAFnS7L/zaE
- wx7iD/9Ox2KjiCRYRPB7DEiGMzPK7yYFaZJwMiRI3r2n1MY5PCTCkPqxCpTyZBUW/XsuZ4uTbom
- dlangVitHGjm3QhThgnK6uNDUiEdtyth9gm2ocqbQClRWeLxdzJnDZBpIgoujcI2otS2KbvkEJV
- C6XZRSKZVqDTZ4bY9XoB4bq9YTjcxe0AWPflUfh3fdgTq3I3HpNDoX3bZeOrWmVVzhmTiD/bbe3
- Qiq9ZmPU00EjzKWv/8upoOuOjr9Uv9P7Kfig9CC503P2ekwI36Bp2scgbdn/2ZKW6Bo7p0LWsUq
- cQc+POtJWewxGnjgGp3SWagAOecMdlP5RaiWRN+1nWxOK84Occ7JBOSpo9j1wzcoitQxyRakns9
- 4fXj2P/eQZF7ssehnRGbCsuJd+lY1Ia4KUz6VYBAbG3VzimBbazJxUwI8D6493EgeRViKlK60m9
- 7ri2wg5PVBd0RkOepLgh2MudpvSq5sYFV8pg3LogJmD/stJWcCVI0KjcAdCW1WQZJZXXOeGthel
- tUccrql7+xx4xP/EgGjc0CttNv8Afd0ti2Cpi2fsaO8iqbXV1okEGJKNleljY1aNnHIyvsNY3Zz
- GlfW2OhexWouW+TtWQB6zZ2ioq6EeY2YYEIGUGjcN5OSmgTKtMKGD5tzvKSwxAMz2X+dFsQGtfo
- QQs8Pj4fcG0WFpQ==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Authority-Analysis: v=2.4 cv=KJVXzVFo c=1 sm=1 tr=0 ts=699c7524 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=pGLkceISAAAA:8
- a=EUspDBNiAAAA:8 a=h1C75ECfyOkdviiQQ0oA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDEzNCBTYWx0ZWRfX0fd8QQG1JTkX
- qeTK3OhqMxlSNk/RP18tRoU2G/fUbx91EaD6I87LE4Re7TEuOg490vRg96xozoVWIqiXWv4wRgZ
- K7QkPK2Omn7LCJV+GKsgquuZVJnzu4/Lxl3ylUgtT+nb9IyIwyDVtDTVresZp2LeY0JVZ/YcpMG
- CqnMCtipjqnyQ2hjKt7+m4yHpF8ratdRXxDx/O2OhaumHB7U6bCmqxmIBc+FMqNFbu0DLCUFxRW
- 2MtAH+OOZcxxCI5xcNFziAgE5EgNAxpl7/39p7GoPIBMIVR3ma/LqXKnlqm3uA6Ij4kuSpWNBo6
- vzZM4Pq1xcX0ZHfuCmI/PInm00eO2e9tt0KqLC2refZPXMPux2TLx8aoHpPq95varzHzYl21Pxa
- pEy8TT/cXn/WZlU1jVmvWgXJZ4iq4fMu2v4z/Ler8KV55ho+cKroGaKV1Tm/v82bQD8Jxckrh0c
- Pk/UyYU0aEnQAuXekKg==
-X-Proofpoint-ORIG-GUID: s-jHc7Xk38uhoqB1pwbSCm4OvkEjYMx-
-X-Proofpoint-GUID: s-jHc7Xk38uhoqB1pwbSCm4OvkEjYMx-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_03,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602230134
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
 
-In GPIOLIB, during fwnode lookup, after having resolved the consumer's
-reference to a specific fwnode, we only match it against the primary
-node of the controllers. Let's extend that to also the secondary node by
-reworking gpio_chip_match_by_fwnode()
+Hello,
 
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- drivers/gpio/gpiolib.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
+> @@ -568,19 +588,31 @@ alloc_workqueue_lockdep_map(const char *fmt, unsigned int flags, int max_active,
+>   */
+>  #define alloc_ordered_workqueue(fmt, flags, args...)			\
+>  	alloc_workqueue(fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
+> +#define devm_alloc_ordered_workqueue(dev, fmt, flags, args...)		\
+> +	devm_alloc_workqueue(dev, fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index c52200eaaaff82b12f22dd1ee8459bdd8ec10d81..7fe1d9ab1281d6c5022b9bdd8909fef2cb74122e 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -11,6 +11,7 @@
- #include <linux/errno.h>
- #include <linux/file.h>
- #include <linux/fs.h>
-+#include <linux/fwnode.h>
- #include <linux/idr.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
-@@ -1395,7 +1396,16 @@ EXPORT_SYMBOL_GPL(gpio_device_find_by_label);
- 
- static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *fwnode)
- {
--	return device_match_fwnode(&gc->gpiodev->dev, fwnode);
-+	struct device *dev = &gc->gpiodev->dev;
-+	struct fwnode_handle *node = dev_fwnode(dev);
-+
-+	if (IS_ERR(fwnode))
-+		return 0;
-+
-+	if (device_match_fwnode(dev, fwnode))
-+		return 1;
-+
-+	return fwnode_is_primary(node) && node->secondary == fwnode;
- }
- 
- /**
+Let's just add devm_alloc_workqueue() and devm_alloc_ordered_workqueue() and
+skip the legacy wrappers.
+
+Thanks.
 
 -- 
-2.47.3
-
+tejun
