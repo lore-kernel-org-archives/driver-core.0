@@ -1,90 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E0630596D
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 16:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D93C30FC2E;
+	Mon, 23 Feb 2026 16:27:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771862434; cv=none; b=KsEd2YUTmiZ76cUvo9GSHgqSHxIRIXUgV9bCo7cLZxpoXM+IhdLg96xeaqm65GvqA1reLJ5EUP9/9x0XiAzPiOgb/2YHMCaBlPZgb/TqLqh+igvqiEX6BqiyLAlw25XrvzyUF8sk+NVJdQMqkWtqOMixdHMrcnlqEmYC3DmaNR0=
+	t=1771864052; cv=none; b=JqOgCqmYyjX8/w7Sjg0Z+6iMQgnZa/1Fb5RSHDDh4cZFxovGSodxonTrFxaQY83HjYHKG1ty6mBGdlI5jbV3zvzyTzWnswfx5FLCIgdvtAIhwwFJGSeMuWJWNo1ZCk/+2b2V6EJuz2Sgd3AhBDUil2qyToszR6MfAZgUO1wztmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771862434; c=relaxed/simple;
-	bh=EstmXOsompBSlyg7uWOQ8eWvFFkyH0qpqEJz+d2SKUU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cm2ujT6udzAsU9sZSPaP8mwy8GSjDopibARwqpv3zUqCcvUA2Ud4p491fJmwY4fKvqRd4hg0QWEonS5iqeoVZyp+nzV82gLPMaS033NlEM9UHq0goIyMWEO4x5LStiis1g6WQNDUGfaSeEmDGEDolB0fQaOCl6ER6/qk9N09uM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nGe54xrw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771864052; c=relaxed/simple;
+	bh=lE9B6+H9HeJSppu/EN5YwZOLzN80IR/3aJG1alsniHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eyn3OoiwG54VbnSI601CZaGT7LNghRs5la9bBaD62f9GZaNMX2G1QHj1rceViIKgDJwwl+2tlRVch/O3eVYJJl8Iw4Y19EbXV2WFGxPrbwsEucHi8B9Hy9EDKby42RKiuSeJPwkK+Ic7QuunZZ3RM7iJKRvqG6zVu8PoLJL/R+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTtXnrul; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nGe54xrw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BC53C2BCAF
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 16:00:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTtXnrul"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15EBAC116C6;
+	Mon, 23 Feb 2026 16:27:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771862434;
-	bh=EstmXOsompBSlyg7uWOQ8eWvFFkyH0qpqEJz+d2SKUU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nGe54xrw35oEsbsLputQfSHXX7wKHjNsbJAOL6IzBD4mF066MA6zEOV8kyjcVrijA
-	 ma0jETT4xEKUaMvqBC0A1fG1USw0MT5Id9oaJi9kTuJoeFycqxEfqvPXUhmGVUF8Mx
-	 UkB+hONE8Jf6ljY2SX5nZQpARy+ve55xJZ9bLS2Kx5mCDWSzhmilfg6X5gkKdAByeW
-	 xLNYaEwFRbqNnioypbvVhEJHJzzXWYorAg6sAxLiMa42Msx0SpTWGUA7ado/FnyVhn
-	 EM48QAdfEG/LUg7eREwPK9v5Si+4WpDIbKwCcCL7uRaIx8QSBu3atDiAFRRlYQZkJx
-	 HRoC633IgcxwQ==
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-40fb2789476so4605331fac.1
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 08:00:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWbvUF46D0zE3GiyUh6Q8S4BM4JaM07v0CqfNotxd8/qJVQXEyaPpMF7Wz+thY2hbPDKDYl0B5nUKofXg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPUHuxTIonWIyncSzliF5z95iTIUENP0++wwp397QeDVE8Jh/z
-	6/3efQyvsgjvd1WGM7TQ3ZlJW3Myv9rFwpFEZn1ZAvlGbitVBzvZIXOhgewR0R0G9rs8biHd5/G
-	hJ2as87d7SEMbBv00kKiKvlxEWZ4I9nY=
-X-Received: by 2002:a05:6870:824c:b0:40e:f203:eb4d with SMTP id
- 586e51a60fabf-4154539eb81mr7760671fac.2.1771862433404; Mon, 23 Feb 2026
- 08:00:33 -0800 (PST)
+	s=k20201202; t=1771864052;
+	bh=lE9B6+H9HeJSppu/EN5YwZOLzN80IR/3aJG1alsniHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZTtXnrulLOI8zAjoZ46Ozt1xST1Zn9e5Pu0lemviHRUGhPwJBJBDsdLaZG0Drf9ry
+	 oaNXof1lbmtSzHF/0UdVFKILUr4xtPeJnAh0VmRfPaJrFPQDJIuFIUmLC/xrJdzAZ5
+	 TDkN77sp8+8kdnF6qAjh/1hLiT0pTn3s5QamaK0uX/XZi+ClkhpPjEbMZtgxAGSh3Z
+	 3oZQl1xN0vI0mxUbxevg/g6lqzMKtSC8zGUtpi2JM+tm0VuHspdH8vi/dFXL75HBny
+	 vqCmbhCYblIPptQdi4ZsEJ8x/GyVPXFRZz/IuXNOFdHtc0s5VC0Kqafn9XiU62q7W2
+	 XEQaCNDir2iIA==
+Date: Mon, 23 Feb 2026 06:27:31 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: "T.J. Mercier" <tjmercier@google.com>, gregkh@linuxfoundation.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	jack@suse.cz, shuah@kernel.org, linux-kselftest@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v4 2/3] kernfs: Send IN_DELETE_SELF and IN_IGNORED
+Message-ID: <aZx_8_rJNPF2EYgn@slm.duckdns.org>
+References: <20260220055449.3073-1-tjmercier@google.com>
+ <20260220055449.3073-3-tjmercier@google.com>
+ <aZh-orwoaeAh52Bf@slm.duckdns.org>
+ <CAOQ4uxjgXa1q-8-ajSBwza-Tkv91tFP-_wWzCQPW+PwJMehEWA@mail.gmail.com>
+ <aZi6_K-pSRwAe7F5@slm.duckdns.org>
+ <CAOQ4uxjZZSRBwZ2ZL31juAUu0-sAUnPrJWvQuJ2NDaWZMeq0Fg@mail.gmail.com>
+ <aZju-GFHf8Eez-07@slm.duckdns.org>
+ <CAOQ4uxgzuxaLt2xs5a5snu9CBA_4esQ_+t0Wb6CX4M5OqM5AOA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
- <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
-In-Reply-To: <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 23 Feb 2026 17:00:22 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0j+DuaDcZ7N2gh1mbrYvgNSBDtmhmSEsw8Y=yFvW16iow@mail.gmail.com>
-X-Gm-Features: AaiRm51Sk5zSDw10OTJvpIzbnWzryvjP6Hmt7k5VN_hzFAPM7iZFp8x-QaBqi10
-Message-ID: <CAJZ5v0j+DuaDcZ7N2gh1mbrYvgNSBDtmhmSEsw8Y=yFvW16iow@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] driver core: provide and use device_match_fwnode_ext()
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxgzuxaLt2xs5a5snu9CBA_4esQ_+t0Wb6CX4M5OqM5AOA@mail.gmail.com>
 
-On Mon, Feb 23, 2026 at 4:46=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
-g> wrote:
->
-> On Mon, Feb 23, 2026 at 4:41=E2=80=AFPM Bartosz Golaszewski
-> <bartosz.golaszewski@oss.qualcomm.com> wrote:
-> >
-> > In GPIOLIB, during fwnode lookup, after having resolved the consumer's
-> > reference to a specific fwnode, we only match it against the primary
-> > node of the controllers. Let's extend that to also the secondary node b=
-y
-> > exposing fwnode_is_primary() to drivers and reworking
-> > gpio_chip_match_by_fwnode().
-> >
-> > Link: https://lore.kernel.org/all/aZUIFiOYt6GOlDQx@google.com/
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
-> > ---
->
-> Forgot to pick up Linus' R-b:
->
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
->
-> Rafael: is it fine if I take it through the GPIO tree?
+(cc'ing Christian Brauner)
 
-Sure, no problem.
+On Sat, Feb 21, 2026 at 06:11:28PM +0200, Amir Goldstein wrote:
+> On Sat, Feb 21, 2026 at 12:32 AM Tejun Heo <tj@kernel.org> wrote:
+> >
+> > Hello, Amir.
+> >
+> > On Fri, Feb 20, 2026 at 10:11:15PM +0200, Amir Goldstein wrote:
+> > > > Yeah, that can be useful. For cgroupfs, there would probably need to be a
+> > > > way to scope it so that it can be used on delegation boundaries too (which
+> > > > we can require to coincide with cgroup NS boundaries).
+> > >
+> > > I have no idea what the above means.
+> > > I could ask Gemini or you and I prefer the latter ;)
+> >
+> > Ah, you chose wrong. :)
+> >
+> > > What are delegation boundaries and NFS boundaries in this context?
+> >
+> > cgroup delegation is giving control of a subtree to someone else:
+> >
+> > https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git/tree/Documentation/admin-guide/cgroup-v2.rst#n537
+> >
+> > There's an old way of doing it by changing perms on some files and new way
+> > using cgroup namespace.
+> >
+> > > > Would it be possible to make FAN_MNT_ATTACH work for that?
+> > >
+> > > FAN_MNT_ATTACH is an event generated on a mntns object.
+> > > If "cgroup NS boundaries" is referring to a mntns object and if
+> > > this object is available in the context of cgroup create/destroy
+> > > then it should be possible.
+> >
+> > Great, yes, cgroup namespace way should work then.
+> >
+> > > But FAN_MNT_ATTACH reports a mountid. Is there a mountid
+> > > to report on cgroup create? Probably not?
+> >
+> > Sorry, I thought that was per-mount recursive file event monitoring.
+> > FAN_MARK_MOUNT looks like the right thing if we want to allow monitoring
+> > cgroup creations / destructions in a subtree without recursively watching
+> > each cgroup.
+> 
+> The problem sounds very similar to subtree monitoring for mkdir/rmdir on
+> a filesystem, which is a problem that we have not yet solved.
+> 
+> The problem with FAN_MARK_MOUNT is that it does not support the
+> events CREATE/DELETE, because those events are currently
+
+Ah, bummer.
+
+> monitored in context where the mount is not available and anyway
+> what users want to get notified on a deleted file/dir in a subtree
+> regardless of the mount through which the create/delete was done.
+> 
+> Since commit 58f5fbeb367ff ("fanotify: support watching filesystems
+> and mounts inside userns") and fnaotify groups can be associated
+> with a userns.
+> 
+> I was thinking that we can have a model where events are delivered
+> to a listener based on whether or not the uid/gid of the object are
+> mappable to the userns of the group.
+
+Given how different NSes can be used independently of each other, it'd
+probably be cleaner if it doesn't have to depend on another NS.
+
+> In a filesystem, this criteria cannot guarantee the subtree isolation.
+> I imagine that for delegated cgroups this criteria could match what
+> you need, but I am basing this on pure speculation.
+
+There's a lot of flexibility in the mechanism, so it's difficult to tell.
+e.g. There's nothing preventing somebody from creating two separate subtrees
+delegated to the same user.
+
+Christian was mentioning allowing separate super for different cgroup mounts
+in another thread. cc'ing him for context.
+
+Thanks.
+
+-- 
+tejun
