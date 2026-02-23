@@ -1,102 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64A0192B7D;
-	Mon, 23 Feb 2026 20:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AFA36BCCC
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 20:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771878095; cv=none; b=OETgRGPtqn7BnoZM1G2g6CdZqKLqYl9UC3lLVMTUtLA29TDvlhAEYse1ky7+qjsiiFgtsbRHcu1JgRDXjKzbSEHZ9bHrCAkp+JJXCV24MXoxUFq+BzC5ZIOUFXb9KlhtyhK+vjserZ3b4lD7nzdU5CovtS72Rp170e4H70hfzWc=
+	t=1771878263; cv=none; b=dLI9gXvjIm0vCPcE8l4Rztmjq32w1t6eejcJk/qfIQ/isrO5h7QMQ01zUEWx6wDa+ZsB5hE/NC1+676viFtOGIAcfACD22HMBqtsrQsPRy4/shgZnBeKEOUPoXT5dCt+M8eteTcJjy///fASqf3MjhEacXwulXL3A1ma++X2oMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771878095; c=relaxed/simple;
-	bh=+Hpm57PQ6z66kTV3VzXaXYxWnyZULtnHD8/mYcKUJIg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=dwBefT2QRv/3EzjIrSR7FVDGGXGIeH2Shixy3hC6GvF+x56EpYI1n/CIgeiY/mOaiaCuLH2fuGvTmmbzSUHAphzGAcTnt/UX5L5nFfv751wbQvy19rE7A70XlonpiklAvL++rwi6JAactCR89WhQyn0I9TjjN76YWnOZdFZ2UfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKqpdt9P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771878263; c=relaxed/simple;
+	bh=UG4Ae2B1bf+fYvg+n7r+yfZdgjJr+7l0NYPIOp4X3q8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LXvetALXP9pb5IP/k5s2D9mjYzFIwelMj97HGUZ7CsnANzUowctqyYMrvlDMPececfjyD2ExfxvHjwM6/fOX2xp5rDZZvY+NfU9Yk/nm6bOrc8NtOZhxTgKJc6PVid4oDCb85BMsyqoM+Ksz6tdweTeCqCYyQcFt2lQzkGC2bGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3lFWuqe; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKqpdt9P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB62C116C6;
-	Mon, 23 Feb 2026 20:21:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771878094;
-	bh=+Hpm57PQ6z66kTV3VzXaXYxWnyZULtnHD8/mYcKUJIg=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=TKqpdt9PHM4za72yOLzVtNwrZq5WJg2ASV3s6HMZ0oAmLepstc7UW+CAzK4CJSkuS
-	 4vDMxhAiSEzVzQIFTYhbQ9CdREhpJ6KDgmCuiOEZHZK4bSwbWr9tlKEnMfUPyRQM4W
-	 tH+P1HG1QUcTfvMYhBmICuPntIehwXtXIZ8U80osgKPN9GipQR/TUKvQr+qgH8VltC
-	 oUk1kaL8Ay+grNYXrH5B8AT7TNUFw9xEUU0SK4meGBIumiw/c8u4R1+lToYRVb/j4/
-	 hay6pn6QB0eXFPV4MxwfLw0GMEs97n6F5DBjH5BYPAEUOUMOUxuyBLTIfKli5wqHQQ
-	 MRe1jukhUyB8g==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3lFWuqe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771878262; x=1803414262;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=UG4Ae2B1bf+fYvg+n7r+yfZdgjJr+7l0NYPIOp4X3q8=;
+  b=M3lFWuqekQSLYpVrI9zjJURH/fhjvVSx1uszl0rc8AFrQ4M9531D5WFK
+   IoI1kO5+EIlUNl9s07mxGCT2JKxyENw24E0b85QrUrIhhnXMBJsgglhWL
+   SOWPWmPKOa5HPHkXQymobCaBv6MlZoafb0WVSyUKJ4EhmioUZmwGT1lKP
+   EReBIwvgoTcW/9r6R+455bsnht9ZLrEgmmpboY5fdeJdvNMastMlUdlCj
+   PzCYWuXhBNS8y+K42Fiw8W0UJ2/lMKofdGJJg4piuFt4MgQiXCFOnJywo
+   rrscV5zCHobp5vF0Ier99N55NSd6BoSTnen+n6lgcqLeyuDQGszrq2Pj4
+   Q==;
+X-CSE-ConnectionGUID: Vd7pEwptRJKT3h++XQmLUg==
+X-CSE-MsgGUID: IpPrtD2pRreHFXk1VxUB1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="71912462"
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="71912462"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 12:24:21 -0800
+X-CSE-ConnectionGUID: pkaYP0i0TWeItj3eeahs/Q==
+X-CSE-MsgGUID: kmSDxVkkQpSq0BHmkuT8+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="214747266"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.222])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 12:24:17 -0800
+Date: Mon, 23 Feb 2026 22:24:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] driver core: make fwnode_is_primary() public
+Message-ID: <aZy3bu-W2KkFbJHO@smile.fi.intel.com>
+References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
+ <20260223-device-match-secondary-fwnode-v2-1-966c00c9eeeb@oss.qualcomm.com>
+ <aZyUY3ZsmrwHw4X_@smile.fi.intel.com>
+ <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
+ <aZyrVWYQKT-JUYR3@smile.fi.intel.com>
+ <CAJZ5v0ivGazojW0BfSh7HzWyu+1ij6p=KbpwsmZPJ5YuTSahDw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Feb 2026 21:21:29 +0100
-Message-Id: <DGMMD195G9VX.245Z0JMIYO9HV@kernel.org>
-Subject: Re: [PATCH v2] clk: scu/imx8qxp: do not register driver in probe()
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-clk@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, "Alexander Stein"
- <alexander.stein@ew.tq-group.com>
-To: <abelvesa@kernel.org>, <peng.fan@nxp.com>, <daniel.baluta@oss.nxp.com>,
- <mturquette@baylibre.com>, <sboyd@kernel.org>, <Frank.Li@nxp.com>,
- <s.hauer@pengutronix.de>, <kernel@pengutronix.de>, <festevam@gmail.com>,
- <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <hanguidong02@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260212235842.85934-1-dakr@kernel.org>
-In-Reply-To: <20260212235842.85934-1-dakr@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0ivGazojW0BfSh7HzWyu+1ij6p=KbpwsmZPJ5YuTSahDw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri Feb 13, 2026 at 12:58 AM CET, Danilo Krummrich wrote:
-> imx_clk_scu_init() registers the imx_clk_scu_driver while commonly being
-> called from IMX driver's probe() callbacks.
->
-> However, it neither makes sense to register drivers from probe()
-> callbacks of other drivers, nor does the driver core allow registering
-> drivers with a device lock already being held.
->
-> The latter was revealed by commit dc23806a7c47 ("driver core: enforce
-> device_lock for driver_match_device()") leading to a deadlock condition
-> described in [1].
->
-> Besides that, nothing seems to unregister the imx_clk_scu_driver once
-> the corresponding driver module is unloaded, which leaves the
-> driver-core with a dangling pointer.
->
-> Also, if there are multiple matching devices for the imx8qxp_clk_driver,
-> imx8qxp_clk_probe() calls imx_clk_scu_init() multiple times.  However,
-> any subsequent call after the first one will fail, since the driver-core
-> does not allow to register the same struct platform_driver multiple
-> times.
->
-> Hence, register the imx_clk_scu_driver from module_init() and unregister
-> it in module_exit().
->
-> Note that we first register the imx8qxp_clk_driver and then call
-> imx_clk_scu_module_init() to avoid having to call
-> imx_clk_scu_module_exit() in the unwind path of imx8qxp_clk_init().
->
-> Fixes: dc23806a7c47 ("driver core: enforce device_lock for driver_match_d=
-evice()")
-> Fixes: 220175cd3979 ("clk: imx: scu: fix build break when compiled as mod=
-ules")
-> Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Closes: https://lore.kernel.org/lkml/13955113.uLZWGnKmhe@steina-w/
-> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com> # TQMa8x/MBa=
-8x
-> Link: https://lore.kernel.org/lkml/DFU7CEPUSG9A.1KKGVW4HIPMSH@kernel.org/=
- [1]
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On Mon, Feb 23, 2026 at 08:45:42PM +0100, Rafael J. Wysocki wrote:
+> On Mon, Feb 23, 2026 at 8:32 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Mon, Feb 23, 2026 at 07:28:48PM +0100, Bartosz Golaszewski wrote:
+> > > On Mon, Feb 23, 2026 at 6:54 PM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > On Mon, Feb 23, 2026 at 04:40:52PM +0100, Bartosz Golaszewski wrote:
+> > > > > Export fwnode_is_primary() in fwnode.h for use in driver code.
 
-Just a quick reminder now that -rc1 is out; I think it would be good if thi=
-s
-could go to Linus for -rc2.
+...
 
-(Just in case it helps, please let me know if you want me to take it throug=
-h the
-driver-core tree for this purpose.)
+> > > > > --- a/include/linux/fwnode.h
+> > > > > +++ b/include/linux/fwnode.h
+> > > > > @@ -230,4 +230,9 @@ void fwnode_links_purge(struct fwnode_handle *fwnode);
+> > > > >  void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
+> > > > >  bool fw_devlink_is_strict(void);
+> > > > >
+> > > > > +static inline bool fwnode_is_primary(struct fwnode_handle *fwnode)
+> > > > > +{
+> > > > > +     return fwnode && !IS_ERR(fwnode->secondary);
+> > > > > +}
+> > > >
+> > > > This is inconsistent. Please, split out fwnode stuff from device.h to
+> > > > device/fwnode.h and share it there.
+> > > >
+> > > > This reminds me to look what I have locally in development...
+> > > >
+> > > > (With your patch it will be in device.h and fwnode.h and in the latter
+> > > >  it's even not properly grouped with other non-fwdevlink related stuff.)
+> > >
+> > > Please rephrase the entire email because I have no idea what you mean. :(
+> >
+> > The primary/secondary and other device-fwnode related stuff is currently
+> > exposed via include/linux/device.h. The problem is that device.h is overloaded
+> > and starves for more splitting, which I'm doing (very slowly, though).
+> > The idea is to have all device-fwnode  (and maybe of_node) stuff to be gathered in
+> > include/linux/device/fwnode.h
+> 
+> I don't see "struct device" anywhere in fwnode_is_primary().  This
+> check is only about whether or not the given fwnode has a valid
+> secondary fwnode.
 
-Thanks,
-Danilo
+I am talking about splitting device-fwnode related API to
+include/linux/device/fwnode.h. The idea of primary/secondary comes from the
+upper layer (device) as struct fwnode_handle just defines a 'secondary' member
+for a single linked list. It doesn't seem to limit anyhow the list.
+
+My understanding is that the fwnode_is_primary() belongs to the device layer more
+than to fwnode one. fwnode layer doesn't (clearly?) define the use cases
+and in my opinion should not, fwnode_handle is more abstract and shouldn't
+be limited to primary/secondary division that is currently related to the
+device. Maybe I am missing something obvious... but to me spreading these
+APIs into fwnode.h sounds like layering violation (especially if we think
+of the future decoupling fwnode from struct device and making it a separate
+entity).
+
+> > You, guys, missed the keyword 'device' in the pathname for the proposed
+> > [include/linux/device/]fwnode.h.
+> 
+> Why do you think we missed it?
+
+Because of the previous comment that suggest that I wanted to move the code to
+fwnode.h, but I was talking about device/fwnode.h (which is currently absent).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
