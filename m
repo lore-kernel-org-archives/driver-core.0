@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3F62FDC53
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4252D307AF4
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:46:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771861439; cv=none; b=SraSGUyLBXlaGUwsl+pnKOCzRxaMPXV+AHRTGNrYN5YUpvl7/6JFAvWI4MV06J1lkmEVY5H9VyURI20d6OYNa3vNOk4N/YavsPWbmz7zaE+4SUHTKyHxfN90U9Qfn3ZSmRYBx+eWdeC3TpCMFcQ79u02NNsZLv2k4t7htinNP6w=
+	t=1771861614; cv=none; b=scPAl6xOj5LZCguzt6Llf5A9GjXJ+eARf8OGZ4IpdDwWakK8xz6Co+txAByDgDR55avYfGpIIRmwQnqofFaGB8fW5wkCRSfleWxcwviTCqGTjb1ANq1NZmoU98V5tZDg4a3KYTx3GRZLOJf1QVdBHcNkTFP1wwuFw6yfHMOly/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771861439; c=relaxed/simple;
-	bh=8czFU0PFFNeLe2IHOwuuzhSptFPBTzYTIl1RudgyFRA=;
+	s=arc-20240116; t=1771861614; c=relaxed/simple;
+	bh=OwsJXB6gmp+51u4gkX/upB/JmZ17y6He9o9hy9XvXIU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MJoreu6xJEv/ah4eyOQvpPwXmwfCMFp7WLamN2ZusQQNH7ncgsT3cXKbqY6P0rKVA7Gq/s1oPWxOj4+8s6SFxpyCaDTtyhiH6SpUZWqFH498ewDhQmWl9TQWXhfJGLYskplS0deteml+MO7XsBLQxDBtFCtsVJgD8K6MjDLWe88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DjAJuDvk; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=twTiXicv6vG7wboud0Jc+4QFhXuJG5M5PGLsZ+fdaot6JimGUfIr6GnO4wWir8molkm/WU4cWRi1k/DLqtZ52OYAotdpU/L0PNyTswocZl+SRNRBT0N6yyaGPURT129ulQ657kcZVfRu/PpfrQW4TCuIkShqKw6qpiQ7ak5B6/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=icTLiDqg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DjAJuDvk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D6CC2BCB0
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:43:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="icTLiDqg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22EEEC2BCB7
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:46:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771861439;
-	bh=8czFU0PFFNeLe2IHOwuuzhSptFPBTzYTIl1RudgyFRA=;
+	s=k20201202; t=1771861614;
+	bh=OwsJXB6gmp+51u4gkX/upB/JmZ17y6He9o9hy9XvXIU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DjAJuDvkqNHSjOn5nNkghdD/i+xpyzQbKfobxta1Fspj06QC/r6NIotfXTWpbbtqf
-	 KB85X4UvjVt0ntKC0R22jsyPGQQqsEe3bmgkcb32zWvz0Kwy64k80lBGiH9KCZWwFV
-	 IoRWQmrFnM/RJLP27o97AXtky0yJtT7UoRI1dcvjDFC/9Ee92Ff9EWt0iOWoMpyP+p
-	 lypThoJ9dw6pay2gOWC8w1eEZoY9JVAp8B8kDRAgJ/Ml43yu9GfUw9MAjtehvKvrGU
-	 evKbrXtANRF1LsElAEE8WicMIrpgjjVfoLLZfbR7ykjzePK6QtzdSXMwrGKbbRqqbx
-	 q0+EwA4fxBNRg==
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-662f9aeb782so2793303eaf.3
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 07:43:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUDkr7nKaEBLnLXg5bJIbEy3f6o4Rc9C5bc/gnus0h69ekUOkYTQ3vIIpwH9nxvcdl6z/AxV9erH1EL4w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOdEhGRxs+VJsyWTR0NozFIDMVL3ury7JUFVrmtvpFVkDbt/SW
-	eourqIe+j4l3xKQaoFvsI1Nx64i1RGqAZ11qz/xAf5vJK0Mssr9FezOUq0iggSuGhhd8k+jJYDT
-	84xdYcfU/UBSKKqHi+Dx9iKT9lbuAYcg=
-X-Received: by 2002:a05:6820:2229:b0:668:d715:109c with SMTP id
- 006d021491bc7-679c47082fcmr5113172eaf.65.1771861438273; Mon, 23 Feb 2026
- 07:43:58 -0800 (PST)
+	b=icTLiDqgGQ7kcDcujVK3v75S03E3/UEN+N0vEZwtIbIFpGXhvWV2SbtX5r6Y0GXbr
+	 Q6Gupp8aWWHR7F6Q6L9cyUtrzUXxqCyKBtpjGt7raKyHuOSj6sr83XZGI/L236/8CK
+	 SXkdyATnm7ihxvOP4QnZGCx8nbIIYzXVTTwxohCVgfk5WH5ldP0bcSC2eHxw0rSkpw
+	 YXyv+VhgA3J54TuoSgkQZRYpk5fwnv9uBG3f8GU85pCuElkWgEYt8vhchNZFxBAhrD
+	 mg+0jZMUQ20+DDlSQHiXJvshrS4gq2GMGdoB9EYdrVVr7j/Dfqgo8Nq8mgXYFG/w5m
+	 Yt6ycdmB7rHOw==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-385bc6910eeso42251941fa.2
+        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 07:46:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUX6NmU7Z4LUmbgNYpjuUZv/S9PxWDSDPk8rTYCY9vX3i3/4NFnrsTKUm1KeXr5rjrqF0Uvun8Y/hteEQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxowY+oGrVRPX2+J9/uOAtbluMHMG0jvMcdbJRUn3JIglQ+pPzJ
+	MSzXzpSXy0wDHsnX+/ivkklhj/zm7rJwPeKnPavlrPA/fw+9eR+fF/hx21G66241EQdSoghWeb4
+	2z9MFDpdCi19GIs2bqJDQyj7VzQB/+qKm2s3IXoX0kg==
+X-Received: by 2002:a05:651c:3242:b0:387:b8d:60ee with SMTP id
+ 38308e7fff4ca-389a5e71eb2mr26870921fa.39.1771861612709; Mon, 23 Feb 2026
+ 07:46:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,23 +42,22 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
- <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
-In-Reply-To: <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 23 Feb 2026 16:43:46 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hS2g5fBUs3_fnwCMahureKbUz0dvjF=ceqmWo1deSzTg@mail.gmail.com>
-X-Gm-Features: AaiRm526O19x_rkXpkbBT67XI2NrKB_3flBkNcd2XNq78uzF7DQrf0MxaeBiifY
-Message-ID: <CAJZ5v0hS2g5fBUs3_fnwCMahureKbUz0dvjF=ceqmWo1deSzTg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+In-Reply-To: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 23 Feb 2026 16:46:41 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
+X-Gm-Features: AaiRm53u2VzxtaU8fDoU5Ly_le2s4UuFJ2dZdVbC4DtH8UHIknSGZH0qCCWbN1s
+Message-ID: <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] driver core: provide and use device_match_fwnode_ext()
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Linus Walleij <linusw@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
 	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -68,51 +67,17 @@ On Mon, Feb 23, 2026 at 4:41=E2=80=AFPM Bartosz Golaszewski
 > In GPIOLIB, during fwnode lookup, after having resolved the consumer's
 > reference to a specific fwnode, we only match it against the primary
 > node of the controllers. Let's extend that to also the secondary node by
-> reworking gpio_chip_match_by_fwnode()
+> exposing fwnode_is_primary() to drivers and reworking
+> gpio_chip_match_by_fwnode().
 >
-> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Link: https://lore.kernel.org/all/aZUIFiOYt6GOlDQx@google.com/
 > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-
-Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-
 > ---
->  drivers/gpio/gpiolib.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index c52200eaaaff82b12f22dd1ee8459bdd8ec10d81..7fe1d9ab1281d6c5022b9bdd8=
-909fef2cb74122e 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -11,6 +11,7 @@
->  #include <linux/errno.h>
->  #include <linux/file.h>
->  #include <linux/fs.h>
-> +#include <linux/fwnode.h>
->  #include <linux/idr.h>
->  #include <linux/interrupt.h>
->  #include <linux/irq.h>
-> @@ -1395,7 +1396,16 @@ EXPORT_SYMBOL_GPL(gpio_device_find_by_label);
->
->  static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *f=
-wnode)
->  {
-> -       return device_match_fwnode(&gc->gpiodev->dev, fwnode);
-> +       struct device *dev =3D &gc->gpiodev->dev;
-> +       struct fwnode_handle *node =3D dev_fwnode(dev);
-> +
-> +       if (IS_ERR(fwnode))
-> +               return 0;
-> +
-> +       if (device_match_fwnode(dev, fwnode))
-> +               return 1;
-> +
-> +       return fwnode_is_primary(node) && node->secondary =3D=3D fwnode;
->  }
->
->  /**
->
-> --
-> 2.47.3
->
->
+
+Forgot to pick up Linus' R-b:
+
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+
+Rafael: is it fine if I take it through the GPIO tree?
+
+Bart
