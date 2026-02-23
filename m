@@ -1,152 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AA4361DC4;
-	Mon, 23 Feb 2026 12:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908C718C008;
+	Mon, 23 Feb 2026 12:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771848789; cv=none; b=MLVXqTSzbJbTUXPahr4l5q9boES0uZgqfTxTsCLc4nyEqhmt8Dq04EjgRe2zOGJVhIyCVGLHxA8oP65hGHPij0RrY6m2LagGCDD7QLzizoOOU8p3Us6C9yW56Q2ZNHzU3vpQubIhdPDSXal7O+E2DoDkANLSwJGST1eWD8yzrbI=
+	t=1771851248; cv=none; b=bR68pRGtCeKgT2pnuXmnWOHPH5LC7L87ckJ1Now+lAMC/uFWYqJIDyIadoxkwfc+TppUGGXUujPh3/SbyNDDEqt1W41vkMQBaFAZ8DMYvY8DtYMZDEuDzx7o4G8dKPF8Hvb/HrM6IFc7kSp6dJol/aSfTUWlCF8hY5UONV/4FcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771848789; c=relaxed/simple;
-	bh=3n9HI5ycnkli5W6BGGU+azDBkZ+AMvJ95kVejaXce4U=;
+	s=arc-20240116; t=1771851248; c=relaxed/simple;
+	bh=gLAwsoUfCx8iL0s8jP2+WxA04Yxo814hukZ3aYQ/5yc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S4zc20roBHiLedq6YoXNeXqaFypy6wCTSrWy/zc/vTqSoDznKEK56f9ZBMrzeIJWLW93d5GfX4y2pc6FsEaWcqhBZALlKRCpTmGIP561uR3KTwV64WA8NdYju6G2bs6OymJLZhHoePB7hOygDImPBknRvDs5tFDJJRZmmSIU3DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyxU4bjc; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQ4DaUjVThuOL3noLYsfOkWI0htOWMHKXlrpXmfuExz6NCLH//fuJPBWh2JVsfziNxLYo/c0yiFsgjrEXif2t8izUWMGNHNxNJBD0ZqVc9HlfPH23yObmfELPfjOrgnO8nX1hUQnHh+yYWkEs/2xiF49Y+jnvTc6hjaw0pjnu7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TPoQAUdg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyxU4bjc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771848788; x=1803384788;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3n9HI5ycnkli5W6BGGU+azDBkZ+AMvJ95kVejaXce4U=;
-  b=EyxU4bjcae4lQFq0yqLlBCyreZmL3VzMpGEypt7fUTu4HUpFelgMrUUj
-   RB9bf4Tv3tJUHDu+MlNw8H2y/ztU6+TYZQN36PfVq8nWyVYDG8BRoRzp7
-   WU/NoqqqZAAj2SO5m7mauF31Nb71wbd7mAXyCv98MCcFaMEhFLlaJk4Hb
-   q4PUrdBGeWo45qdAtqsrXpuYm+vXLn/XivBsI4rOlkpSIe8SAdyy1fTna
-   EGH62ZPqJrakkgzTlayF913oieXc0RtcyMjYUyDXiV1nBXL8bFKtCnuPk
-   xsayOjyTHW4wWDaxOfLR42dBoSXp4hKfPL8zjC/Okj2S7y1+TZXRZp0qO
-   g==;
-X-CSE-ConnectionGUID: P3LB5mipTvKzIBPTgWjGkQ==
-X-CSE-MsgGUID: Z0Aj2s/vSciv5dN9d6cTkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="90247554"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="90247554"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 04:13:08 -0800
-X-CSE-ConnectionGUID: K2itwqXdR8a5WDW9LgYZPw==
-X-CSE-MsgGUID: 63CQjMeZR761DzImy1sYWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="220091804"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.222])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 04:13:02 -0800
-Date: Mon, 23 Feb 2026 14:12:59 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate
- workqueue
-Message-ID: <aZxES35K3hSX4KEx@smile.fi.intel.com>
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
- <aZwWMiYEvr3DXi3E@smile.fi.intel.com>
- <9dd377f6-3565-4c0c-8c98-1b5ac4982f5b@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TPoQAUdg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB435C116C6;
+	Mon, 23 Feb 2026 12:54:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771851248;
+	bh=gLAwsoUfCx8iL0s8jP2+WxA04Yxo814hukZ3aYQ/5yc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TPoQAUdgE6SHEpmPkTyh4ibdwAfyK0zuzPDyAbV6PnvlE0rIHj8pAg+BmhLodjo4k
+	 1s6GPEtatvIyM48M7y+XhXqs1hXWJWdwlgljotqme7VxyX3yTHCs2UO3+Gm9cTW8Bu
+	 xqF3Akaoc2RdT5s4GZ1HI3rOCqz9/+iZn3WgTpVkW/WqMnX4nOdnIKX6Bmz/mXNYYC
+	 6wpo5VzToyQq6nrOh+DogRCp5o5zUmP4H9B/eLYpjCxWM9cyziqszwUvDT6E1l70vj
+	 ZH9KLRMdw7cKo7mNkA5jJJjBrhyX3QZbrZjX6P69QcPqlo8eXYvOdJyDEosOJY9jHZ
+	 NDVU1mGzJK6+Q==
+Date: Mon, 23 Feb 2026 18:23:54 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com, 
+	quic_mrana@quicinc.com, sherry.sun@nxp.com, driver-core@lists.linux.dev
+Subject: Re: [PATCH v7 2/3] gpio: Add fwnode_gpiod_get() helper
+Message-ID: <tzk3sdv5o3ncsidpwu2vttrdbc753jryk7q5cxgju5q44dvfoi@6x6waofxlqic>
+References: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
+ <20260218-wakeirq_support-v7-2-0d4689830207@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9dd377f6-3565-4c0c-8c98-1b5ac4982f5b@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260218-wakeirq_support-v7-2-0d4689830207@oss.qualcomm.com>
 
-+Cc: devm-helpers maintainers/reviewers
-
-On Mon, Feb 23, 2026 at 12:52:14PM +0100, Krzysztof Kozlowski wrote:
-> On 23/02/2026 09:56, Andy Shevchenko wrote:
-> > On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
-> >> Add a Resource-managed version of alloc_workqueue() to fix common
-> >> problem of drivers mixing devm() calls with destroy_workqueue.  Such
-> >> naive and discouraged driver approach leads to difficult to debug bugs
-> >> when the driver:
-> >>
-> >> 1. Allocates workqueue in standard way and destroys it in driver
-> >>    remove() callback,
-> >> 2. Sets work struct with devm_work_autocancel(),
-> >> 3. Registers interrupt handler with devm_request_threaded_irq().
-> >>
-> >> Which leads to following unbind/removal path:
-> >>
-> >> 1. destroy_workqueue() via driver remove(),
-> >>    Any interrupt coming now would still execute the interrupt handler,
-> >>    which queues work on destroyed workqueue.
-> >> 2. devm_irq_release(),
-> >> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
-> >>
-> >> devm_alloc_workqueue() has two benefits:
-> >> 1. Solves above problem of mix-and-match devres and non-devres code in
-> >>    driver,
-> >> 2. Simplify any sane drivers which were correctly using
-> >>    alloc_workqueue() + devm_add_action_or_reset().
-> > 
-> >>  include/linux/workqueue.h                        | 32 ++++++++++++++++++++++++
-> >>  kernel/workqueue.c                               | 32 ++++++++++++++++++++++++
-> > 
-> > Hmm... We have devm-helpers.h. Why the new one is in workqueue.h?
-> > Can we have some consistency here?
+On Wed, Feb 18, 2026 at 01:42:24PM +0530, Krishna Chaitanya Chundru wrote:
+> Add fwnode_gpiod_get() as a convenience wrapper around
+> fwnode_gpiod_get_index() for the common case where only the
+> first GPIO is required.
 > 
-> Answering with update:
-> I don't think this should go to devm-helpers.h. The definition is in
-> workqueue.c, thus the declaration should be in corresponding header.
-> It's logical and consistent.
+> This mirrors existing gpiod_get() and devm_gpiod_get() helpers
+> and avoids open-coding index 0 at call sites.
 > 
-> Otherwise, I could move it entirely - definition and declaration - to
-> devm-helpers.h, but then the release (devm_destroy_workqueue()) will be
-> essentially exported to everyone through the header.
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+
+Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
+Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+
+- Mani
+
+> ---
+>  include/linux/gpio/consumer.h | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> So kind of conflicting choices.
-
-Hmm... An alternative I see is more intrusive but should make it less
-inconsistent: Treat the devm-helpers as devres like header for workqueue
-and collect there all devm_*wq* related stuff with maybe something putting
-back to / holding in the c-file.
-
-OTOH we may leave devm_destroy_workqueue() visible for now with a comment
-saying do not use, it's internal or something like that.
-
-Hans, what would be your opinion as you IIRC is the author of devm-helpers.h?
-
-Matti, I also Cc'ed to you, you have usually non-standard thinkig and
-insightful solutions (besides being reviewer of devm-helpers).
+> diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+> index 0d8408582918680bfea6a04ccedfc0c75211907a..fee926c0262ce9dc4b9a3c151e74f2cf37470a49 100644
+> --- a/include/linux/gpio/consumer.h
+> +++ b/include/linux/gpio/consumer.h
+> @@ -596,6 +596,15 @@ static inline int gpiod_disable_hw_timestamp_ns(struct gpio_desc *desc,
+>  }
+>  #endif /* CONFIG_GPIOLIB && CONFIG_HTE */
+>  
+> +static inline
+> +struct gpio_desc *fwnode_gpiod_get(struct fwnode_handle *fwnode,
+> +				   const char *con_id,
+> +				   enum gpiod_flags flags,
+> +				   const char *label)
+> +{
+> +	return fwnode_gpiod_get_index(fwnode, con_id, 0, flags, label);
+> +}
+> +
+>  static inline
+>  struct gpio_desc *devm_fwnode_gpiod_get(struct device *dev,
+>  					struct fwnode_handle *fwnode,
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+மணிவண்ணன் சதாசிவம்
