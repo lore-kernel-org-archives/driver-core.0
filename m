@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4252D307AF4
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E0630596D
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 16:00:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771861614; cv=none; b=scPAl6xOj5LZCguzt6Llf5A9GjXJ+eARf8OGZ4IpdDwWakK8xz6Co+txAByDgDR55avYfGpIIRmwQnqofFaGB8fW5wkCRSfleWxcwviTCqGTjb1ANq1NZmoU98V5tZDg4a3KYTx3GRZLOJf1QVdBHcNkTFP1wwuFw6yfHMOly/c=
+	t=1771862434; cv=none; b=KsEd2YUTmiZ76cUvo9GSHgqSHxIRIXUgV9bCo7cLZxpoXM+IhdLg96xeaqm65GvqA1reLJ5EUP9/9x0XiAzPiOgb/2YHMCaBlPZgb/TqLqh+igvqiEX6BqiyLAlw25XrvzyUF8sk+NVJdQMqkWtqOMixdHMrcnlqEmYC3DmaNR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771861614; c=relaxed/simple;
-	bh=OwsJXB6gmp+51u4gkX/upB/JmZ17y6He9o9hy9XvXIU=;
+	s=arc-20240116; t=1771862434; c=relaxed/simple;
+	bh=EstmXOsompBSlyg7uWOQ8eWvFFkyH0qpqEJz+d2SKUU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=twTiXicv6vG7wboud0Jc+4QFhXuJG5M5PGLsZ+fdaot6JimGUfIr6GnO4wWir8molkm/WU4cWRi1k/DLqtZ52OYAotdpU/L0PNyTswocZl+SRNRBT0N6yyaGPURT129ulQ657kcZVfRu/PpfrQW4TCuIkShqKw6qpiQ7ak5B6/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=icTLiDqg; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=cm2ujT6udzAsU9sZSPaP8mwy8GSjDopibARwqpv3zUqCcvUA2Ud4p491fJmwY4fKvqRd4hg0QWEonS5iqeoVZyp+nzV82gLPMaS033NlEM9UHq0goIyMWEO4x5LStiis1g6WQNDUGfaSeEmDGEDolB0fQaOCl6ER6/qk9N09uM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nGe54xrw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="icTLiDqg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22EEEC2BCB7
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 15:46:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nGe54xrw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BC53C2BCAF
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 16:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771861614;
-	bh=OwsJXB6gmp+51u4gkX/upB/JmZ17y6He9o9hy9XvXIU=;
+	s=k20201202; t=1771862434;
+	bh=EstmXOsompBSlyg7uWOQ8eWvFFkyH0qpqEJz+d2SKUU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=icTLiDqgGQ7kcDcujVK3v75S03E3/UEN+N0vEZwtIbIFpGXhvWV2SbtX5r6Y0GXbr
-	 Q6Gupp8aWWHR7F6Q6L9cyUtrzUXxqCyKBtpjGt7raKyHuOSj6sr83XZGI/L236/8CK
-	 SXkdyATnm7ihxvOP4QnZGCx8nbIIYzXVTTwxohCVgfk5WH5ldP0bcSC2eHxw0rSkpw
-	 YXyv+VhgA3J54TuoSgkQZRYpk5fwnv9uBG3f8GU85pCuElkWgEYt8vhchNZFxBAhrD
-	 mg+0jZMUQ20+DDlSQHiXJvshrS4gq2GMGdoB9EYdrVVr7j/Dfqgo8Nq8mgXYFG/w5m
-	 Yt6ycdmB7rHOw==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-385bc6910eeso42251941fa.2
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 07:46:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUX6NmU7Z4LUmbgNYpjuUZv/S9PxWDSDPk8rTYCY9vX3i3/4NFnrsTKUm1KeXr5rjrqF0Uvun8Y/hteEQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxowY+oGrVRPX2+J9/uOAtbluMHMG0jvMcdbJRUn3JIglQ+pPzJ
-	MSzXzpSXy0wDHsnX+/ivkklhj/zm7rJwPeKnPavlrPA/fw+9eR+fF/hx21G66241EQdSoghWeb4
-	2z9MFDpdCi19GIs2bqJDQyj7VzQB/+qKm2s3IXoX0kg==
-X-Received: by 2002:a05:651c:3242:b0:387:b8d:60ee with SMTP id
- 38308e7fff4ca-389a5e71eb2mr26870921fa.39.1771861612709; Mon, 23 Feb 2026
- 07:46:52 -0800 (PST)
+	b=nGe54xrw35oEsbsLputQfSHXX7wKHjNsbJAOL6IzBD4mF066MA6zEOV8kyjcVrijA
+	 ma0jETT4xEKUaMvqBC0A1fG1USw0MT5Id9oaJi9kTuJoeFycqxEfqvPXUhmGVUF8Mx
+	 UkB+hONE8Jf6ljY2SX5nZQpARy+ve55xJZ9bLS2Kx5mCDWSzhmilfg6X5gkKdAByeW
+	 xLNYaEwFRbqNnioypbvVhEJHJzzXWYorAg6sAxLiMa42Msx0SpTWGUA7ado/FnyVhn
+	 EM48QAdfEG/LUg7eREwPK9v5Si+4WpDIbKwCcCL7uRaIx8QSBu3atDiAFRRlYQZkJx
+	 HRoC633IgcxwQ==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-40fb2789476so4605331fac.1
+        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 08:00:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWbvUF46D0zE3GiyUh6Q8S4BM4JaM07v0CqfNotxd8/qJVQXEyaPpMF7Wz+thY2hbPDKDYl0B5nUKofXg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPUHuxTIonWIyncSzliF5z95iTIUENP0++wwp397QeDVE8Jh/z
+	6/3efQyvsgjvd1WGM7TQ3ZlJW3Myv9rFwpFEZn1ZAvlGbitVBzvZIXOhgewR0R0G9rs8biHd5/G
+	hJ2as87d7SEMbBv00kKiKvlxEWZ4I9nY=
+X-Received: by 2002:a05:6870:824c:b0:40e:f203:eb4d with SMTP id
+ 586e51a60fabf-4154539eb81mr7760671fac.2.1771862433404; Mon, 23 Feb 2026
+ 08:00:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,15 +42,17 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
-In-Reply-To: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 23 Feb 2026 16:46:41 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
-X-Gm-Features: AaiRm53u2VzxtaU8fDoU5Ly_le2s4UuFJ2dZdVbC4DtH8UHIknSGZH0qCCWbN1s
-Message-ID: <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
+ <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
+In-Reply-To: <CAMRc=MeD6rMQ2dU2mjS36=i3eXSs2HVG+qgAL3rsuvpQL0nCsQ@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 23 Feb 2026 17:00:22 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0j+DuaDcZ7N2gh1mbrYvgNSBDtmhmSEsw8Y=yFvW16iow@mail.gmail.com>
+X-Gm-Features: AaiRm51Sk5zSDw10OTJvpIzbnWzryvjP6Hmt7k5VN_hzFAPM7iZFp8x-QaBqi10
+Message-ID: <CAJZ5v0j+DuaDcZ7N2gh1mbrYvgNSBDtmhmSEsw8Y=yFvW16iow@mail.gmail.com>
 Subject: Re: [PATCH v2 0/2] driver core: provide and use device_match_fwnode_ext()
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Linus Walleij <linusw@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -61,23 +63,28 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kern
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 23, 2026 at 4:41=E2=80=AFPM Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
+On Mon, Feb 23, 2026 at 4:46=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
 >
-> In GPIOLIB, during fwnode lookup, after having resolved the consumer's
-> reference to a specific fwnode, we only match it against the primary
-> node of the controllers. Let's extend that to also the secondary node by
-> exposing fwnode_is_primary() to drivers and reworking
-> gpio_chip_match_by_fwnode().
+> On Mon, Feb 23, 2026 at 4:41=E2=80=AFPM Bartosz Golaszewski
+> <bartosz.golaszewski@oss.qualcomm.com> wrote:
+> >
+> > In GPIOLIB, during fwnode lookup, after having resolved the consumer's
+> > reference to a specific fwnode, we only match it against the primary
+> > node of the controllers. Let's extend that to also the secondary node b=
+y
+> > exposing fwnode_is_primary() to drivers and reworking
+> > gpio_chip_match_by_fwnode().
+> >
+> > Link: https://lore.kernel.org/all/aZUIFiOYt6GOlDQx@google.com/
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
+> > ---
 >
-> Link: https://lore.kernel.org/all/aZUIFiOYt6GOlDQx@google.com/
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
+> Forgot to pick up Linus' R-b:
+>
+> Reviewed-by: Linus Walleij <linusw@kernel.org>
+>
+> Rafael: is it fine if I take it through the GPIO tree?
 
-Forgot to pick up Linus' R-b:
-
-Reviewed-by: Linus Walleij <linusw@kernel.org>
-
-Rafael: is it fine if I take it through the GPIO tree?
-
-Bart
+Sure, no problem.
