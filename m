@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA068340A41
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 18:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB0E19D065
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 18:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771871343; cv=none; b=hlKhhp1rhGAAfzDtMBcR4BtO5cONEPVeAlZOBi15U1ENfyWPmPq0ILH0zjMxBAYo2boEabn6zjtdkNuY4fF4SnFQiDevE+v9rQpesi2OEhTg+vvCt7evepDphHJLfbFdrE3CzFIUFbB62s83ElzEvuERgG5pgJrestKviAuI14I=
+	t=1771872597; cv=none; b=T9iRA1tGOmNSODOGtJ3Nxk2GtZicqPS9nPA6FFE5NTOww80evjki13HxCeZYV3ligxxcscnN1YlBfHI06VWfuqHfNB6ZwP71KlBOJLqJarZF/UQ70vkNWOKQPuFmjnC9JijIi3cRpIN4ZMtL6sdrNXVQT2+SYRJVv3xIRpPBa4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771871343; c=relaxed/simple;
-	bh=mzfCjS37q2cu7V2ENDhFi7Xh2Xke6aNT6a5HvYIrLb0=;
+	s=arc-20240116; t=1771872597; c=relaxed/simple;
+	bh=7DaqiEUgibTsJqalZ4wGFzvtp5Xgz3X9JGL6Y760bBQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ujc9+EHabDIZBTrTCOHOo5FO9GdviBdWaV5/f1kxNLMb3IAydSnQWLFVgzGmElwJ+ckbikEpBn6B+0nXj+rjupcvPo6/nKvwhQUhp6Kz/+hG+nirVY8uUOjopUGGkilX4H3sxfwQSFVInYnY4szFxC4hJoUcSJM5Fegt6r55cws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iTELZAyA; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=Jn2pbr1sOX2BNYbZd8zyOdI0+C9YM0e8nL5USDkFVE79nuyQqCbd9XpaCWqyIe7Ra5T8iFyYcY1IMAa7uwvoj46D6VvgChzaPIphQOgkaiVWeCOLGPJ/qDFw3zhvUW/mUMZpClCX+W6W3x5N9Dc9sqTTZNvl6FLcY0TXDaqZFG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I6h5r4jV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iTELZAyA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C4EC2BC9E
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 18:29:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I6h5r4jV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C798C4AF09
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 18:49:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771871343;
-	bh=mzfCjS37q2cu7V2ENDhFi7Xh2Xke6aNT6a5HvYIrLb0=;
+	s=k20201202; t=1771872597;
+	bh=7DaqiEUgibTsJqalZ4wGFzvtp5Xgz3X9JGL6Y760bBQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=iTELZAyAPi5Fd2XI7t2BCcnfsxRr4r9ZzHNDzvDQzhU2dLMnYmLW2yBKndZDpCWli
-	 8Rdg1mtPSQKglFR2dx3YvugdxT3Dyg9f63oFI0SYJGIs//KFtxZEXnIh4IYIvT0StR
-	 1QfbEl6rCJk6BykHtJD7Pk4kIQ0Owmp/U1n9EEwzbh5EzARZLit9tUO1Oo0oWqaSzj
-	 M7bYSDXTC04eRu5xV2OsjJo2Xz5/d1nTJg6fhetLo6A8/AJSoqrs/PG9s1czDwSxK7
-	 6slN6qeaYTDN6z85IHeAAIb3c46aDhZxTAmwKfkt092l7TQ0YFA66Vs9ZQVqMb6Qph
-	 q27kyvsaJA7XA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3871a08189aso38317411fa.1
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 10:29:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVoppS8Kb4ywyGAzt+SzdGk67yUNyOEBzXQBUQrjbuz6ZC7Gpws24QQ9vEWYeU7ScC817CWFVC25udokg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOvo/7uJhj6RkrFS+M9g3eNC3G4uUtKvIZJW6Cxd3GDBzlzj5c
-	gxuacu9oAt6SS/xYPdUehQ/Tdyhv8y/1x+i80sYk52l0sy5bep+cCVWCHyN8WpCiJ1wzgyFP6Df
-	yWMwKfW7CgdiFkzXvApooZAhi24laJULoXS5+QXdkbQ==
-X-Received: by 2002:a05:651c:198c:b0:385:dd91:a6ce with SMTP id
- 38308e7fff4ca-389a5c4c7a0mr35763781fa.38.1771871342013; Mon, 23 Feb 2026
- 10:29:02 -0800 (PST)
+	b=I6h5r4jVv+b7cNEKyGOi0FtRe84O62nV9C+toE4O6is5hbWoK1vP5I60qXDFvo81q
+	 qlXsU8Z2DrWAB2AzuRkCoCpM7R0j+8FJmu97byHtdqHf7WXxvVi2VivtiArflh2rC1
+	 62lBs6U4CPWlQhdwmqSCB9gdgnpc9yjkSm+xwsd/YHcsVRMIDTwSQVK06LloI5EIm6
+	 68NDAJnvhDE9bVgyJaT0Je7TjTF4MjzIAwgT+OR78koVrJbYXPQbzBhm14OytKsNVZ
+	 vCjjg8zOTbjyU4j8uAXaJ51Cv9BJyJG+zv4vhE01xIfrl8/7uieM4P1oUDBTKw+Zzg
+	 0tdcdqNZfb6MQ==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-40429b1d8baso1520728fac.0
+        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 10:49:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVaXIARDhJAiHhhP3aG6vmiEqqezQtMgO7W75jQnHhdJPywm8sfDxVaCA1zbD3S0YBjUpBkxpgxdplahQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0+peWuMGM2CC3C5LMFRq3bvktMghmlOyI9lyyqp/UJ+5VQxhm
+	phodTpixnV2D4v990IC6lxtjqE8Ua3Drj8TGVkdcrQCzxgh4cfeS2PHa8J045A+b2xy4eLDbTET
+	6DoUl0HWGBrktJrCfKtGBgTqi/mP3KPs=
+X-Received: by 2002:a05:6820:150a:b0:676:6570:209c with SMTP id
+ 006d021491bc7-679c466f67dmr6020732eaf.10.1771872596714; Mon, 23 Feb 2026
+ 10:49:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,15 +42,16 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
- <20260223-device-match-secondary-fwnode-v2-1-966c00c9eeeb@oss.qualcomm.com> <aZyUY3ZsmrwHw4X_@smile.fi.intel.com>
-In-Reply-To: <aZyUY3ZsmrwHw4X_@smile.fi.intel.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 23 Feb 2026 19:28:48 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
-X-Gm-Features: AaiRm537I4oIfjLvMIcGhYYnIzZ2C1QZQmqaYwSbwb8V6Bm_JwM3OvKhUk5BeoY
-Message-ID: <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
+ <20260223-device-match-secondary-fwnode-v2-1-966c00c9eeeb@oss.qualcomm.com>
+ <aZyUY3ZsmrwHw4X_@smile.fi.intel.com> <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
+In-Reply-To: <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 23 Feb 2026 19:49:45 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0g_BfgFV1xyGfZWTi1OQwmH3pgChfsp9ry0-UAX-+QFxQ@mail.gmail.com>
+X-Gm-Features: AaiRm502Num48PMPO1JQfMnvo3vl_Oxj_rvuhaTNwdJvlG8-GDC8O80mapS98QY
+Message-ID: <CAJZ5v0g_BfgFV1xyGfZWTi1OQwmH3pgChfsp9ry0-UAX-+QFxQ@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] driver core: make fwnode_is_primary() public
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
@@ -62,35 +63,41 @@ Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 23, 2026 at 6:54=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Mon, Feb 23, 2026 at 7:29=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
 >
-> On Mon, Feb 23, 2026 at 04:40:52PM +0100, Bartosz Golaszewski wrote:
-> > Export fwnode_is_primary() in fwnode.h for use in driver code.
->
-> ...
->
-> > --- a/include/linux/fwnode.h
-> > +++ b/include/linux/fwnode.h
-> > @@ -230,4 +230,9 @@ void fwnode_links_purge(struct fwnode_handle *fwnod=
-e);
-> >  void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
-> >  bool fw_devlink_is_strict(void);
+> On Mon, Feb 23, 2026 at 6:54=E2=80=AFPM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
 > >
-> > +static inline bool fwnode_is_primary(struct fwnode_handle *fwnode)
-> > +{
-> > +     return fwnode && !IS_ERR(fwnode->secondary);
-> > +}
+> > On Mon, Feb 23, 2026 at 04:40:52PM +0100, Bartosz Golaszewski wrote:
+> > > Export fwnode_is_primary() in fwnode.h for use in driver code.
+> >
+> > ...
+> >
+> > > --- a/include/linux/fwnode.h
+> > > +++ b/include/linux/fwnode.h
+> > > @@ -230,4 +230,9 @@ void fwnode_links_purge(struct fwnode_handle *fwn=
+ode);
+> > >  void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode)=
+;
+> > >  bool fw_devlink_is_strict(void);
+> > >
+> > > +static inline bool fwnode_is_primary(struct fwnode_handle *fwnode)
+> > > +{
+> > > +     return fwnode && !IS_ERR(fwnode->secondary);
+> > > +}
+> >
+> > This is inconsistent. Please, split out fwnode stuff from device.h to
+> > device/fwnode.h and share it there.
+> >
+> > This reminds me to look what I have locally in development...
+> >
+> >
+> > (With your patch it will be in device.h and fwnode.h and in the latter
+> >  it's even not properly grouped with other non-fwdevlink related stuff.=
+)
 >
-> This is inconsistent. Please, split out fwnode stuff from device.h to
-> device/fwnode.h and share it there.
->
-> This reminds me to look what I have locally in development...
->
->
-> (With your patch it will be in device.h and fwnode.h and in the latter
->  it's even not properly grouped with other non-fwdevlink related stuff.)
+> Please rephrase the entire email because I have no idea what you mean. :(
 
-Please rephrase the entire email because I have no idea what you mean. :(
-
-Bart
+I thought Andy wanted fwnode_is_primary() to go into fwnode.h, but
+that's where it is already going.  Confused. :-/
