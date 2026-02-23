@@ -1,85 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB0E19D065
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 18:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050663358BE
+	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 19:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771872597; cv=none; b=T9iRA1tGOmNSODOGtJ3Nxk2GtZicqPS9nPA6FFE5NTOww80evjki13HxCeZYV3ligxxcscnN1YlBfHI06VWfuqHfNB6ZwP71KlBOJLqJarZF/UQ70vkNWOKQPuFmjnC9JijIi3cRpIN4ZMtL6sdrNXVQT2+SYRJVv3xIRpPBa4A=
+	t=1771875164; cv=none; b=Lb5OFVLj4/XsEt/QN0/PV1+kxk90CU2mq06hNkYBpIiRfJlm+mGN8LXRhLQZET8Qs4g0QLVdXakzTO0uIWwS0H2g/CybzdkBdcmV3DxJkoLuTwl7RnLJLBqb8A2HSTFdRGojBRnt3p/UyINQEIwHxk/LQGL49pomDaVJrk9ey0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771872597; c=relaxed/simple;
-	bh=7DaqiEUgibTsJqalZ4wGFzvtp5Xgz3X9JGL6Y760bBQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jn2pbr1sOX2BNYbZd8zyOdI0+C9YM0e8nL5USDkFVE79nuyQqCbd9XpaCWqyIe7Ra5T8iFyYcY1IMAa7uwvoj46D6VvgChzaPIphQOgkaiVWeCOLGPJ/qDFw3zhvUW/mUMZpClCX+W6W3x5N9Dc9sqTTZNvl6FLcY0TXDaqZFG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I6h5r4jV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771875164; c=relaxed/simple;
+	bh=lem6w1jewrFyvuZOTw9pH+Kcu+aFFKzXD6fyndfz50c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PIobdkQsJQe7QGbsuvvUKcPDokYZAoJpC+EHIEFTmaK9260L7ZCh3Rs3RY8srf+YObeCTjksM5oEimZULZGSM1LsvB1NIDK/bYpV2fo6UTDP+gCwXedH6H5G0+Yob7OvKud5cLnCDHtH/JeraamrL22Hn0iBzxitcjCan66/OiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSWZpJdo; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I6h5r4jV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C798C4AF09
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 18:49:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771872597;
-	bh=7DaqiEUgibTsJqalZ4wGFzvtp5Xgz3X9JGL6Y760bBQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=I6h5r4jVv+b7cNEKyGOi0FtRe84O62nV9C+toE4O6is5hbWoK1vP5I60qXDFvo81q
-	 qlXsU8Z2DrWAB2AzuRkCoCpM7R0j+8FJmu97byHtdqHf7WXxvVi2VivtiArflh2rC1
-	 62lBs6U4CPWlQhdwmqSCB9gdgnpc9yjkSm+xwsd/YHcsVRMIDTwSQVK06LloI5EIm6
-	 68NDAJnvhDE9bVgyJaT0Je7TjTF4MjzIAwgT+OR78koVrJbYXPQbzBhm14OytKsNVZ
-	 vCjjg8zOTbjyU4j8uAXaJ51Cv9BJyJG+zv4vhE01xIfrl8/7uieM4P1oUDBTKw+Zzg
-	 0tdcdqNZfb6MQ==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-40429b1d8baso1520728fac.0
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 10:49:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVaXIARDhJAiHhhP3aG6vmiEqqezQtMgO7W75jQnHhdJPywm8sfDxVaCA1zbD3S0YBjUpBkxpgxdplahQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0+peWuMGM2CC3C5LMFRq3bvktMghmlOyI9lyyqp/UJ+5VQxhm
-	phodTpixnV2D4v990IC6lxtjqE8Ua3Drj8TGVkdcrQCzxgh4cfeS2PHa8J045A+b2xy4eLDbTET
-	6DoUl0HWGBrktJrCfKtGBgTqi/mP3KPs=
-X-Received: by 2002:a05:6820:150a:b0:676:6570:209c with SMTP id
- 006d021491bc7-679c466f67dmr6020732eaf.10.1771872596714; Mon, 23 Feb 2026
- 10:49:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSWZpJdo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771875163; x=1803411163;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=lem6w1jewrFyvuZOTw9pH+Kcu+aFFKzXD6fyndfz50c=;
+  b=RSWZpJdoV4fHKlu8XPMOpK3HNok44qO+uubp7M6UEnNByLYun3Hleznr
+   fzyw0HB+5sTPDWBvbR1kDdLnQhFONSVgbBeSJDxKbQniOBNsIvAuRLgzu
+   +S3ZEw3TKeg0XYmm5ke+b+SexWlbJD0trGjpCKJgsctvaqQxDtNKF2I6q
+   jG+yiQEExdzr7hRegMjlm7mDACjW/khF/aprdIT78tLgxUq6OM9a6Bjhu
+   qCPHVQ3J+UsBB/+hI424efsHmx5lk4BLdYznSZANRaFpYVurfKJkIBHBl
+   Dk3ZTEZA3U8k34Y5+BRZvIv2buruGmC3nUBvNPxvOqe/X91et+SYXoeuy
+   Q==;
+X-CSE-ConnectionGUID: jtEwY3zuRLqppHlfpicIPg==
+X-CSE-MsgGUID: I/0MDn5UTsqSj72TKQKrlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="60455407"
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="60455407"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 11:32:42 -0800
+X-CSE-ConnectionGUID: vaBrAISISVK8UhZN1Vuo4g==
+X-CSE-MsgGUID: GYWSkmxBTpyBxpFgOtsRUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,307,1763452800"; 
+   d="scan'208";a="213022002"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.222])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 11:32:39 -0800
+Date: Mon, 23 Feb 2026 21:32:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] driver core: make fwnode_is_primary() public
+Message-ID: <aZyrVWYQKT-JUYR3@smile.fi.intel.com>
+References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
+ <20260223-device-match-secondary-fwnode-v2-1-966c00c9eeeb@oss.qualcomm.com>
+ <aZyUY3ZsmrwHw4X_@smile.fi.intel.com>
+ <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
- <20260223-device-match-secondary-fwnode-v2-1-966c00c9eeeb@oss.qualcomm.com>
- <aZyUY3ZsmrwHw4X_@smile.fi.intel.com> <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <CAMRc=MfpzgOPf4pkHd_tNQ4wBNMhfUBOh=ptajhhZwDpFUPGBQ@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 23 Feb 2026 19:49:45 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0g_BfgFV1xyGfZWTi1OQwmH3pgChfsp9ry0-UAX-+QFxQ@mail.gmail.com>
-X-Gm-Features: AaiRm502Num48PMPO1JQfMnvo3vl_Oxj_rvuhaTNwdJvlG8-GDC8O80mapS98QY
-Message-ID: <CAJZ5v0g_BfgFV1xyGfZWTi1OQwmH3pgChfsp9ry0-UAX-+QFxQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] driver core: make fwnode_is_primary() public
-To: Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Feb 23, 2026 at 7:29=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
-g> wrote:
->
-> On Mon, Feb 23, 2026 at 6:54=E2=80=AFPM Andy Shevchenko
+On Mon, Feb 23, 2026 at 07:28:48PM +0100, Bartosz Golaszewski wrote:
+> On Mon, Feb 23, 2026 at 6:54 PM Andy Shevchenko
 > <andriy.shevchenko@linux.intel.com> wrote:
 > >
 > > On Mon, Feb 23, 2026 at 04:40:52PM +0100, Bartosz Golaszewski wrote:
 > > > Export fwnode_is_primary() in fwnode.h for use in driver code.
-> >
-> > ...
-> >
+
+...
+
 > > > --- a/include/linux/fwnode.h
 > > > +++ b/include/linux/fwnode.h
-> > > @@ -230,4 +230,9 @@ void fwnode_links_purge(struct fwnode_handle *fwn=
-ode);
-> > >  void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode)=
-;
+> > > @@ -230,4 +230,9 @@ void fwnode_links_purge(struct fwnode_handle *fwnode);
+> > >  void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
 > > >  bool fw_devlink_is_strict(void);
 > > >
 > > > +static inline bool fwnode_is_primary(struct fwnode_handle *fwnode)
@@ -94,10 +104,21 @@ ode);
 > >
 > >
 > > (With your patch it will be in device.h and fwnode.h and in the latter
-> >  it's even not properly grouped with other non-fwdevlink related stuff.=
-)
->
+> >  it's even not properly grouped with other non-fwdevlink related stuff.)
+> 
 > Please rephrase the entire email because I have no idea what you mean. :(
 
-I thought Andy wanted fwnode_is_primary() to go into fwnode.h, but
-that's where it is already going.  Confused. :-/
+The primary/secondary and other device-fwnode related stuff is currently
+exposed via include/linux/device.h. The problem is that device.h is overloaded
+and starves for more splitting, which I'm doing (very slowly, though).
+The idea is to have all device-fwnode  (and maybe of_node) stuff to be gathered in
+include/linux/device/fwnode.h
+
+You, guys, missed the keyword 'device' in the pathname for the proposed
+[include/linux/device/]fwnode.h.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
