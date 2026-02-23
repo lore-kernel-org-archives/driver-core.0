@@ -1,202 +1,332 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E511F2B8D
-	for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 13:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854758; cv=pass; b=FFH+h/B9mpGKATxsiDRIXdX6iajP/xKKsWfD8BausDfBKRA2y0yXJDA8WHYvxBbZB6u9djeluVbql/eur2yErI582xx4m5f6w74aqYFJ9vpZ2fiWHR6fOq/io1ixEZnmnPiCZWKZ6S1K8SDZwyhOh3RVdcElzoI5zKlFhwoo1u4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854758; c=relaxed/simple;
-	bh=EzUfziwHN4t+6rCJqNdkZVs8Vyi2IIgFGGSz1ptRO/E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ri0C/Teo8kFDVANBXoAHt2W5OPsP5b0m62PId3rwym+SaFNLISNMaausx4ufJJD5e0DH9ALbBXu5BnTA7L96w5Hj0HkrqGngA8Xx3LxvvaZNnzLgGWqa0YHCkp+P/DNErwpbtddQNTrczVdWsDJ/fD21fwgyowO02cwvDtYKv1s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N97TUSmx; arc=pass smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267F226ADC;
+	Mon, 23 Feb 2026 14:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771855668; cv=none; b=MRMaobHGcmvJmlCXn7lg1TJ4fyJiZRMwKsRdHcRrJ0qv9ogQD1KylLs+wW/IJ8Xp5K/uap9mey4me33VIUlFKDOV6hfbQPp7eRrnzmOskDc9nwloYKR5kd322UAxn19HtXG5BjCLHuI9Ljll7RrD+Mr/kLfocod2qhiyW4HRdBw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771855668; c=relaxed/simple;
+	bh=dDYPhdIEdbDF1rBlpY/BXOms6MErEYtGXlLpzU7HHOg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h84yd4ao88Mhv7FtIYEGtFxInBCV2Nid89Wa2JFzSRHoFdUKnWwgnVd52+4ZZFMUEA+OnFD8w3Xcs4hJJwb8vXh1EEW9XACpu0KgCyzrGykSFC10bBVE7b2pZVUN0m5fG5MM+Tb1AJ7D54+cMfFIlm8r37JvQeXgR4f+4K+LC5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IPvGrBGV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N97TUSmx"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-352dda4a34eso1804109a91.1
-        for <driver-core@lists.linux.dev>; Mon, 23 Feb 2026 05:52:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771854757; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UfuzOBcGSOWuzAfT+JSNmQs8oAC38H7NdiQgBmImtb6qsPqjfMQkK8aicPKXeT/iXt
-         3S9b+lsybWt0XEDBE/nz7RHlb9lftd/GP28fqGlztX2Qq47ActlvQb5hm/eSH9B/gWxs
-         G3L8lqrnStnow0ebPq2gWJC3uHegK9+3WmZnFZeKb5KLQDYDkTK374Zi0EUBHcCY4kwS
-         ToesNwSlzQ5gKnXDMgPJp8OOcvs1aPBGXnzXiy66dkr9JCb3OVBSt0hTcRa3j6WUthUR
-         a12QgMtKLlFoDaYGhiQ6JJcJjz1pdKoeZfO2U4ybS4al/koebVtfGNl52O6e8/HDW9BR
-         vwpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
-        fh=sqi4VDvoF06VeLSXkcm585K0zcWKPOWrB+45LuC/pXo=;
-        b=EYg0ciMOT64AgC8u3YJ6XkaTCSuTy1HewhxAPVoFjiy83qrwJivMJVNTAdTiM/fSQL
-         uXGtLZNqLmmfSPeC+MTuMQgPtR42KAb0ABN6/ePT4yAoPe5mQJODGoIpE7I0cXmvlT39
-         1xq+fZRnT6ChmBwknuF8Vt3bdRYJG+CSeZWD5pg0bsmbtRM3mmhA2u/Prq4JCesHugHf
-         xF/WxUbhloE4KlY5AH5NBB/uDITBYKewPFyRsIQKR9yLWZN2BFGSZteLDZJsynDR6AlE
-         gxSHOvp3j5c7zIvHxk7W9wkNAksWVW/ohBRg2zvVesmYQJVNqEQASXnypSgdLM2Xs2u8
-         ctOQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771854757; x=1772459557; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
-        b=N97TUSmxvm4VSQMgN58+Un7zQJEDgUaScgP8hLQN//LmDRNlj1RLMA8u4rZle7uYZc
-         e+n6/goLd/8uuQ/lxxdqVgFByjBe0CJgML4niVFh6HGAKY4Z512J7GP+oQUtzSp3ga/I
-         sZkE1nzgGACtcxzjHYfTKfzjQwcZwEIiTshPIAch55WXVQEdozTp4HmUYKTOw8o4GYT5
-         /ufpiazZYecLRoMLOT1/SZPg6ZUxIhqhmKrIyI2tNnrq1xpz5fhBap+ZfIZFJ6qZnXVt
-         hSmbFJy2s/NWO1nyUGCtHggqKPgHj2Tod5XKBcvmsyYkc9aPzGXI/HvcdxlmkzHfOYJy
-         PgAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771854757; x=1772459557;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
-        b=S0g5BfLD/7OLXjgCkwHpRtRswxGpY0Fev/GzxudIejU3o3WGRD14qLzBAqASgwKLGj
-         7opkcFo28IyQoZoseUKqFas4U1dY6GCP0bqHpiitkPSsgEVAlM/zmPf7ZyjOsNWLb+Zn
-         ZrnlchNotKuiDPA8SxoNuG21hRY3SqJbAAfxgoUEm6ucOT8mJQzgzfF3lTvcsRWBAgtc
-         EOWOSG3gt51IZHlp5Jq5qWb1nL9FHthheS33XNU7kUAD2TzoL7Y6GBIzF5cDhFkpecvu
-         L7o/7TW2i2Y2cE/TowcvgiYLDLf1lKtIbY1BrYN4v9xRj09fUpAPYTqebgUhGqYCnD2b
-         Gi6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXq88oR2s85BgZHAa5m6CM9PmQ3VRHDNiK/Cdb6jbYY4BsO/B+sou843DpALBep8Lllbhz+vtBy7Lc45w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy848kVl4HC/BqI9119jQo+bkqGRPW4700ogEsBNVSuXYV+Ux03
-	bDIVJhkcl7YHyqylTBC5n6GtAsVss0HOmiy5QZt1h75KkgJbPWbFpWlpRldrh2q9sdoPDkzL9D3
-	RQFntTYE7/BRshpqwrRtnNSRjfOADaFM=
-X-Gm-Gg: ATEYQzywe+S5IId8Ky0PEjct+Hk962DtYcs29m0Bll8W8XKdaDm+pLIUUXCiI0cb2od
-	724GJ5xuWQ9f/RT4COHaUTlelU5fj312tHYgsjRH0xK25UYTgRjzFUMcydjwkHGnj5OIe7IsOyp
-	mV1rTFecleBIUdtC6D6CA5dS4TkHLRwu0tP7wr2hntq4157YChIgi/cV6xPBgPIgz0BiVE6yJdK
-	6CO2/oRQmq22mdGENKbk/eIsksKotooxIGg8pU08dOMWo5DbpmqIgW79b9Pe7FmHDhpOxvSOjT6
-	zF4eajsk
-X-Received: by 2002:a17:90b:5447:b0:356:4ea0:e9e2 with SMTP id
- 98e67ed59e1d1-358ae8d3a09mr6084454a91.34.1771854756912; Mon, 23 Feb 2026
- 05:52:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IPvGrBGV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AB57C116C6;
+	Mon, 23 Feb 2026 14:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771855667;
+	bh=dDYPhdIEdbDF1rBlpY/BXOms6MErEYtGXlLpzU7HHOg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IPvGrBGVF2v2yL4LlrsF4wTm4ZSPbuU5uhI4xZRidahK7i+xK2gFONhYyWixOSR7w
+	 uwR50Gu/pvCbYRwmTqqPvOm2cz87aC92HlGM5RhbrluJn5Ajm8MBI5ZbdTDs4Y6HG/
+	 weBTiPqXjogD9se7vo1/t6z5HglySBCLoQ0BAi1wo031yUGUvqgF1wc8OlLlB62711
+	 h/ezyUMJ5XU6tJm5D94aFY27d++FL4P4FuTjwiguSy/0l6vRVwjaDz7eJnjRtRUlc5
+	 rS3x9aMk4BiKlXGuNKP88zrkoFIlcwjBkDYwQuqJelUv+jTRfemBY8I88ZlPcgsve1
+	 evLYbqrm7U1cw==
+Date: Mon, 23 Feb 2026 19:37:34 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com, 
+	quic_mrana@quicinc.com, sherry.sun@nxp.com, driver-core@lists.linux.dev
+Subject: Re: [PATCH v7 3/3] PCI: Add support for PCIe WAKE# interrupt
+Message-ID: <pjeee3vwggsrvp4kxarc46vjx2igk53xd6eoxjqh7ri5rf6fhi@5d3ccirqnxu6>
+References: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
+ <20260218-wakeirq_support-v7-3-0d4689830207@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
- <aZwWMiYEvr3DXi3E@smile.fi.intel.com> <9dd377f6-3565-4c0c-8c98-1b5ac4982f5b@kernel.org>
- <aZxES35K3hSX4KEx@smile.fi.intel.com>
-In-Reply-To: <aZxES35K3hSX4KEx@smile.fi.intel.com>
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-Date: Mon, 23 Feb 2026 15:52:25 +0200
-X-Gm-Features: AaiRm53PjY3r4YJJgRdEcXeF3wEcS_dn51myeI6Bp2rdVCy5EIQxm03JMpsksBU
-Message-ID: <CANhJrGPWxgFddKaqdFM+DGKYTXaPxeBZLMhxBfXT-ZU6SrsbPA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate workqueue
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>, 
-	Dzmitry Sankouski <dsankouski@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260218-wakeirq_support-v7-3-0d4689830207@oss.qualcomm.com>
 
-ma 23.2.2026 klo 14.13 Andy Shevchenko
-(andriy.shevchenko@linux.intel.com) kirjoitti:
->
-> +Cc: devm-helpers maintainers/reviewers
->
-> On Mon, Feb 23, 2026 at 12:52:14PM +0100, Krzysztof Kozlowski wrote:
-> > On 23/02/2026 09:56, Andy Shevchenko wrote:
-> > > On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
-> > >> Add a Resource-managed version of alloc_workqueue() to fix common
-> > >> problem of drivers mixing devm() calls with destroy_workqueue.  Such
-> > >> naive and discouraged driver approach leads to difficult to debug bugs
-> > >> when the driver:
-> > >>
-> > >> 1. Allocates workqueue in standard way and destroys it in driver
-> > >>    remove() callback,
-> > >> 2. Sets work struct with devm_work_autocancel(),
-> > >> 3. Registers interrupt handler with devm_request_threaded_irq().
-> > >>
-> > >> Which leads to following unbind/removal path:
-> > >>
-> > >> 1. destroy_workqueue() via driver remove(),
-> > >>    Any interrupt coming now would still execute the interrupt handler,
-> > >>    which queues work on destroyed workqueue.
-> > >> 2. devm_irq_release(),
-> > >> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
-> > >>
-> > >> devm_alloc_workqueue() has two benefits:
-> > >> 1. Solves above problem of mix-and-match devres and non-devres code in
-> > >>    driver,
-> > >> 2. Simplify any sane drivers which were correctly using
-> > >>    alloc_workqueue() + devm_add_action_or_reset().
-> > >
-> > >>  include/linux/workqueue.h                        | 32 ++++++++++++++++++++++++
-> > >>  kernel/workqueue.c                               | 32 ++++++++++++++++++++++++
-> > >
-> > > Hmm... We have devm-helpers.h. Why the new one is in workqueue.h?
-> > > Can we have some consistency here?
-> >
-> > Answering with update:
-> > I don't think this should go to devm-helpers.h. The definition is in
-> > workqueue.c, thus the declaration should be in corresponding header.
-> > It's logical and consistent.
-> >
-> > Otherwise, I could move it entirely - definition and declaration - to
-> > devm-helpers.h, but then the release (devm_destroy_workqueue()) will be
-> > essentially exported to everyone through the header.
-> >
-> > So kind of conflicting choices.
->
-> Hmm... An alternative I see is more intrusive but should make it less
-> inconsistent: Treat the devm-helpers as devres like header for workqueue
-> and collect there all devm_*wq* related stuff with maybe something putting
-> back to / holding in the c-file.
->
-> OTOH we may leave devm_destroy_workqueue() visible for now with a comment
-> saying do not use, it's internal or something like that.
->
-> Hans, what would be your opinion as you IIRC is the author of devm-helpers.h?
->
-> Matti, I also Cc'ed to you, you have usually non-standard thinkig and
-> insightful solutions (besides being reviewer of devm-helpers).
+On Wed, Feb 18, 2026 at 01:42:25PM +0530, Krishna Chaitanya Chundru wrote:
+> According to the PCI Express specification (PCIe r7.0, Section 5.3.3.2),
+> two link wakeup mechanisms are defined: Beacon and WAKE#. Beacon is a
+> hardware-only mechanism and is invisible to software (PCIe r7.0,
+> Section 4.2.7.8.1). This change adds support for the WAKE# mechanism in
+> the PCI core.
+> 
+> According to the PCIe specification, multiple WAKE# signals can exist in
+> a system or each component in the hierarchy could share a single WAKE#
+> signal. In configurations involving a PCIe switch, each downstream port
+> (DSP) of the switch may be connected to a separate WAKE# line, allowing
+> each endpoint to signal WAKE# independently. From figure 5.4 in sec
+> 5.3.3.2, WAKE# can also be terminated at the switch itself. To support
+> this, the WAKE# should be described in the device tree node of the
+> endpoint/bridge. If all endpoints share a single WAKE# line, then each
+> endpoint node should describe the same WAKE# signal or a single WAKE# in
+> the Root Port node.
+> 
+> In pci_device_add(), PCI framework will search for the WAKE# in device
+> node, If not found, it searches in its upstream port only if upstream port
+> is Root Port. Once found, register for the wake IRQ in shared mode, as the
+> WAKE# may be shared among multiple endpoints.
+> 
+> When a device asserts WAKE#, PM core will wakeup the system, resume the
+> device and its parent(s) in the hierarchy, which will cause the restoration
+> of power and refclk to the device.
+> 
+> WAKE# is added in dts schema and merged based on below links.
+> 
+> Link: https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
+> Link: https://github.com/devicetree-org/dt-schema/pull/170
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+>  drivers/pci/of.c     | 55 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/pci/pci.c    |  9 +++++++++
+>  drivers/pci/pci.h    |  8 ++++++++
+>  drivers/pci/probe.c  |  2 ++
+>  drivers/pci/remove.c |  1 +
+>  include/linux/pci.h  |  2 ++
+>  6 files changed, 77 insertions(+)
+> 
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index 9bb5f258759be3f1e23496f083353600a4ef6743..23248900253faafaf9509d87c531b454fca41798 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -7,6 +7,7 @@
+>  #define pr_fmt(fmt)	"PCI: OF: " fmt
+>  
+>  #include <linux/cleanup.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/irqdomain.h>
+>  #include <linux/kernel.h>
+>  #include <linux/pci.h>
+> @@ -15,6 +16,7 @@
+>  #include <linux/of_address.h>
+>  #include <linux/of_pci.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_wakeirq.h>
+>  #include "pci.h"
+>  
+>  #ifdef CONFIG_PCI
+> @@ -586,6 +588,59 @@ int of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin)
+>  	return irq_create_of_mapping(&oirq);
+>  }
+>  EXPORT_SYMBOL_GPL(of_irq_parse_and_map_pci);
+> +
+> +static void pci_configure_wake_irq(struct pci_dev *pdev, struct gpio_desc *wake)
+> +{
+> +	int ret, wake_irq;
+> +
+> +	wake_irq = gpiod_to_irq(wake);
+> +	if (wake_irq < 0) {
+> +		pci_err(pdev, "Failed to get wake irq: %d\n", wake_irq);
+> +		return;
+> +	}
+> +
+> +	device_init_wakeup(&pdev->dev, true);
+> +
+> +	ret = dev_pm_set_dedicated_shared_wake_irq(&pdev->dev, wake_irq,
+> +						   IRQ_TYPE_EDGE_FALLING);
+> +	if (ret < 0) {
+> +		pci_err(pdev, "Failed to set wake IRQ: %d\n", ret);
+> +		device_init_wakeup(&pdev->dev, false);
+> +	}
+> +}
+> +
+> +void pci_configure_of_wake_gpio(struct pci_dev *dev)
+> +{
+> +	struct device_node *dn = pci_device_to_OF_node(dev);
+> +	struct pci_dev *upstream;
+> +	struct gpio_desc *gpio;
+> +
+> +	if (!dn)
+> +		return;
+> +
+> +	gpio = fwnode_gpiod_get(of_fwnode_handle(dn), "wake",
+> +				GPIOD_IN | GPIOD_FLAGS_BIT_NONEXCLUSIVE, NULL);
+> +	if (IS_ERR(gpio)) {
+> +		/*
+> +		 * In case the entire topology shares a single WAKE# signal, look for it
+> +		 * in the upstream bridge node. But if it is not Root Port, then skip it.
+> +		 */
 
-Thanks Andy for Cc'ing (and flattering!) me ;)
+This comment need to be a bit more verbose. Something like,
 
-My personal opinion is that the devm-helpers.h as a "collect 'em all
-here" -place might not have been the best idea. Perhaps the original
-author didn't know what he was doing :) Problem lurking there is that
-such a file collecting misc devm -interfaces in one place, will end up
-slowing down the compilation while some people put effort on splitting
-the headers.
+"The devices in a hierarchy expose wakeup capability through the 'wake-gpios'
+property defined either in the device node or in the Slot node. So first check
+for the property in device node and if not available, check in the Slot node."
 
-Currently the devm-helpers.h contains only workqueue related
-devm-helpers. I'd consider renaming it to something like "devm-wq.h" -
-and then just stuffing the devm-wq stuff in it. Optionally, I'd
-considered adding all the wq-devm stiff from the devm-helpers.h to the
-regular workqueue headers - but I think this was not liked by
-everyone.
+Also, move it above fwnode_gpiod_get().
 
-So sorry, I have no helpful or strong opinion on this. Besides, You,
-Krzysztof and Hans all probably have better insight on this than I do.
+> +		upstream = pci_upstream_bridge(dev);
+> +		if (upstream && pci_is_root_bus(upstream->bus) && upstream->wake)
 
-Yours,
-    -- Matti
+Check directly in the Root Port (Slot) node.
+
+> +			pci_configure_wake_irq(dev, upstream->wake);
+
+I don't think we need to request an IRQ in the fallback case. Let's assume that
+there is a single device in hierarchy and the wake-gpios property is defined in
+the Slot node. So here, we should just let the PCI/PM core know that this device
+supports wakeup and PME_EN needs to be set (if the device is also capable of
+generating PME#).
+
+And then we should call pci_configure_wake_irq() from platform_pci_set_wakeup()
+to setup the IRQ handler only for the device which has the wake-gpios property.
+
+So the flow would be:
+
+pci_device_add()->platform_pci_init_wakeup()->of_pci_init_wakeup():
+Request fwnode_gpiod_get() and call device_init_wakeup()
+and set 'dev->wake' if WAKE# is available in the device node. If not, then check
+the Root Port (Slot) node and if WAKE# is available, then just call
+device_init_wakeup() to indicate the PCI and PM cores that this device *may*
+support wakeup.
+
+pci_enable_wake()->platform_pci_set_wakeup()->of_pci_set_wakeup():
+Request WAKE# IRQ only if the device has the wake-gpios property ie., dev->wake
+set. If only the Slot supports wakeup, then the IRQ should be requested for the
+Root Port device. This will allow us to keep both the ACPI and OF platform code
+in sync to some extent.
+
+Then once the WAKE# is asserted, the platform will wakeup with the help of the
+above wakeup event and the host controller driver will apply power to the
+hierarchy.
+
+But you do not seem to call pci_pme_wakeup_bus() after resume...
+
+> +	} else {
+> +		dev->wake = gpio;
+> +		pci_configure_wake_irq(dev, gpio);
+> +	}
+> +}
+> +
+> +void pci_remove_of_wake_gpio(struct pci_dev *dev)
+> +{
+
+Missing of_node check.
+
+> +	dev_pm_clear_wake_irq(&dev->dev);
+> +	device_init_wakeup(&dev->dev, false);
+> +	gpiod_put(dev->wake);
+> +	dev->wake = NULL;
+> +}
+>  #endif	/* CONFIG_OF_IRQ */
+>  
+>  static int pci_parse_request_of_pci_ranges(struct device *dev,
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index f3244630bfd05b15d52f866d80a015ed21f98f49..225cb861b3425700fc0d9d4805f5d9efcaab6f56 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1123,6 +1123,15 @@ static inline bool platform_pci_bridge_d3(struct pci_dev *dev)
+>  	return acpi_pci_bridge_d3(dev);
+>  }
+>  
+> +void platform_pci_configure_wake(struct pci_dev *dev)
+> +{
+> +	return pci_configure_of_wake_gpio(dev);
+> +}
+> +
+> +void platform_pci_remove_wake(struct pci_dev *dev)
+> +{
+> +	return pci_remove_of_wake_gpio(dev);
+> +}
+
+As mentioned above, these should go away and be part of
+platform_pci_set_wakeup().
+
+>  /**
+>   * pci_update_current_state - Read power state of given device and cache it
+>   * @dev: PCI device to handle.
+> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+> index 13d998fbacce6698514d92500dfea03cc562cdc2..22709573e41caf0ed45b20ee7ded5963f55aa9fe 100644
+> --- a/drivers/pci/pci.h
+> +++ b/drivers/pci/pci.h
+> @@ -282,6 +282,8 @@ void pci_msix_init(struct pci_dev *dev);
+>  bool pci_bridge_d3_possible(struct pci_dev *dev);
+>  void pci_bridge_d3_update(struct pci_dev *dev);
+>  int pci_bridge_wait_for_secondary_bus(struct pci_dev *dev, char *reset_type);
+> +void platform_pci_configure_wake(struct pci_dev *dev);
+> +void platform_pci_remove_wake(struct pci_dev *dev);
+>  
+>  static inline bool pci_bus_rrs_vendor_id(u32 l)
+>  {
+> @@ -1195,6 +1197,9 @@ void pci_release_of_node(struct pci_dev *dev);
+>  void pci_set_bus_of_node(struct pci_bus *bus);
+>  void pci_release_bus_of_node(struct pci_bus *bus);
+>  
+> +void pci_configure_of_wake_gpio(struct pci_dev *dev);
+> +void pci_remove_of_wake_gpio(struct pci_dev *dev);
+> +
+>  int devm_of_pci_bridge_init(struct device *dev, struct pci_host_bridge *bridge);
+>  bool of_pci_supply_present(struct device_node *np);
+>  int of_pci_get_equalization_presets(struct device *dev,
+> @@ -1240,6 +1245,9 @@ static inline int devm_of_pci_bridge_init(struct device *dev, struct pci_host_br
+>  	return 0;
+>  }
+>  
+> +static inline void pci_configure_of_wake_gpio(struct pci_dev *dev) { }
+> +static inline void pci_remove_of_wake_gpio(struct pci_dev *dev) { }
+> +
+
+You've added function definitions under CONFIG_OF_IRQ, but stubs under
+CONFIG_OF. This is why kernel robot also barks at you.
+
+Move the stubs to include/linux/of_pci.h under CONFIG_OF_IRQ guard.
+
+- Mani
+
+>  static inline bool of_pci_supply_present(struct device_node *np)
+>  {
+>  	return false;
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 2975974f35e88b5025701d2b721df8386419de8d..7f5132c0c8de36a6ec2775468a3d4e5156a046d0 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2771,6 +2771,8 @@ void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
+>  	/* Establish pdev->tsm for newly added (e.g. new SR-IOV VFs) */
+>  	pci_tsm_init(dev);
+>  
+> +	platform_pci_configure_wake(dev);
+> +
+>  	pci_npem_create(dev);
+>  
+>  	pci_doe_sysfs_init(dev);
+> diff --git a/drivers/pci/remove.c b/drivers/pci/remove.c
+> index e9d519993853f92f1810d3eff9f44ca7e3e1abd9..d781b41e57c4444077075690cec926a9fe15334f 100644
+> --- a/drivers/pci/remove.c
+> +++ b/drivers/pci/remove.c
+> @@ -35,6 +35,7 @@ static void pci_destroy_dev(struct pci_dev *dev)
+>  	if (pci_dev_test_and_set_removed(dev))
+>  		return;
+>  
+> +	platform_pci_remove_wake(dev);
+>  	pci_doe_sysfs_teardown(dev);
+>  	pci_npem_remove(dev);
+>  
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 1c270f1d512301de4d462fe7e5097c32af5c6f8d..d1e08df8a8deaa87780589f23242767fdcdba541 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -586,6 +586,8 @@ struct pci_dev {
+>  	/* These methods index pci_reset_fn_methods[] */
+>  	u8 reset_methods[PCI_NUM_RESET_METHODS]; /* In priority order */
+>  
+> +	struct gpio_desc *wake; /* Holds WAKE# gpio */
+> +
+>  #ifdef CONFIG_PCIE_TPH
+>  	u16		tph_cap;	/* TPH capability offset */
+>  	u8		tph_mode;	/* TPH mode */
+> 
+> -- 
+> 2.34.1
+> 
+> 
+
 -- 
-
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
-Discuss - Estimate - Plan - Report and finally accomplish this:
-void do_work(int time) __attribute__ ((const));
+மணிவண்ணன் சதாசிவம்
