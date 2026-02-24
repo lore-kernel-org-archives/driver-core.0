@@ -1,224 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64620366DD7;
-	Tue, 24 Feb 2026 11:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE993803F7
+	for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 11:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771931027; cv=none; b=g1A8p70XnIM38rP+ZGlj+9fzBQrXs00Ter+lRkgt8jIiQRnTzzwztjduWhUoMsqRZ5e4g3Ig6tuE/1gxiKKyKXjSUr4WNY7mnDr6krlJmSaFPrqeMPIHZ2TY/EaYOviaJwXus4pRBMeRcwCEGhlp01w2l58FxP+lvpoePYvMtzg=
+	t=1771933987; cv=none; b=IGbG6MfCccYR6u3Up18ZVoJEiq4xkUXnXbF4DDyQZaFjSw9wEbbwyykqgnjOGspd8itEYxg0OGIYIZsicLM+NITlCwpLp8VvZQVC8rL9wFtLtktvje9Piu7ANXC/GIRYM29e7Uwq2K4qbYSZo7r+jc5n17x+rg1ybk/YzQGRT+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771931027; c=relaxed/simple;
-	bh=xc9tOHEoBqnEbHQXyEIaPNc/6FOE58Pin4eiMfQKIyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RfuTQkWizZj0x0kE2D2AgsfOCmlH4SbhVoqdiiX7pW9Q6Zi8Rzf2EIjbSiIUDkXEQ122eZJkoNtg6tZOsVimWmkK92V8bEhCfDK0tGHVZTSUEBWHNmxa84EMWRl3j3LxVnanQh6vDStTJL9fmpZB1bvY2dKDOl0bi4oc/vwxnoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PIOs8VFh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771933987; c=relaxed/simple;
+	bh=UPrvamPx2bdnYf13mAoDTJRr+sBPiAGv7kZvkbWhsY0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aehWMe+snx1bXLC2GBWU5pODFtMMP5QOXxZEZyOXBntDzsjUWx/v2f5TQOAs1RxY+EskTtPEx3GbFCvVMITSB5VvJrm9zybf+xsdAz+7en+lehomkJOfYm5DwbIkiC6G3YPlWsXt1AoZcquEkEJLy086WiT499WM19CmCcThFD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=hTVw92Xy; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PIOs8VFh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA79FC116D0;
-	Tue, 24 Feb 2026 11:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771931026;
-	bh=xc9tOHEoBqnEbHQXyEIaPNc/6FOE58Pin4eiMfQKIyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PIOs8VFhoIgMEJEk3EHm4P20aNj8DxI9RIUHqvvs0pcgpnTcIBFZildQe2kk/l+wO
-	 GBObBm54Eug6jMLQZAj+45b5t8AHFD5skbrNG6+57cWnkygTxPDDgmOeMHMpOLT1T4
-	 I5xvrMmG1AkVZ/00WI6OWZkLTvFdwPegt0ZW8AlppHR5G1uHffYOnsxztD2kGg4XnV
-	 RVZUkxFNDRnbXDd0AsdgMmWy6yiVbnSYZicCNNyRmvcL884ysRjQT6a/W7g5Qeowrb
-	 37w68c0msP0L+IZy8XYOy8YfN2zqDKa7UxTvxXNsBolWPST/5+AJPG6slp5znPzNKD
-	 SYY12SOI0f91w==
-Date: Tue, 24 Feb 2026 12:03:41 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Tejun Heo <tj@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, gregkh@linuxfoundation.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	jack@suse.cz, shuah@kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] kernfs: Send IN_DELETE_SELF and IN_IGNORED
-Message-ID: <20260224-hetzen-zeitnah-a3e1e08367cc@brauner>
-References: <20260220055449.3073-1-tjmercier@google.com>
- <20260220055449.3073-3-tjmercier@google.com>
- <aZh-orwoaeAh52Bf@slm.duckdns.org>
- <CAOQ4uxjgXa1q-8-ajSBwza-Tkv91tFP-_wWzCQPW+PwJMehEWA@mail.gmail.com>
- <aZi6_K-pSRwAe7F5@slm.duckdns.org>
- <CAOQ4uxjZZSRBwZ2ZL31juAUu0-sAUnPrJWvQuJ2NDaWZMeq0Fg@mail.gmail.com>
- <aZju-GFHf8Eez-07@slm.duckdns.org>
- <CAOQ4uxgzuxaLt2xs5a5snu9CBA_4esQ_+t0Wb6CX4M5OqM5AOA@mail.gmail.com>
- <aZx_8_rJNPF2EYgn@slm.duckdns.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="hTVw92Xy"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O0XVWW1136392;
+	Tue, 24 Feb 2026 11:52:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=90RmZX
+	MgR/YLYjJTsQQHIO+fS98Ds+i8QeWjIyPS18A=; b=hTVw92XyOnKOQtXPs3grBM
+	tlfoGTVURi7l1MLe3KkVGdfs75DVOxrXK23Ciw9TNyEynC1aO9Xl7aKh/zBm99u4
+	v3XpJwgkPvYONKsR4to58eo758++QxIHFx14o4VNEVFwFBolmc0Pq3y3vDbIlCwp
+	YAmE9i84R+/tkomfTa3oFQBupoK2voozS0Y2A4HjVcBDhCb2pOYLL5Fhd2+djnY/
+	t/Iu5Vt1dilZlFqgC18jBTe5RM2LRTk1CZmWPuSo3hX8AEmqpLgnXttWxZoEhJMu
+	hlRiw9GUsq6HokMb2eV/McDAGCXrz3MeOpoxzqGjFq/yWvm2ut+szws+7/kM32cA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf4brtqgq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Feb 2026 11:52:30 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61O6t4K8013411;
+	Tue, 24 Feb 2026 11:52:30 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cfqdy0st0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Feb 2026 11:52:30 +0000
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61OBqSYZ50201006
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Feb 2026 11:52:28 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6F32A58053;
+	Tue, 24 Feb 2026 11:52:28 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BEE6958043;
+	Tue, 24 Feb 2026 11:52:25 +0000 (GMT)
+Received: from [9.61.28.161] (unknown [9.61.28.161])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 24 Feb 2026 11:52:25 +0000 (GMT)
+Message-ID: <9d21b38f-e974-4620-90f1-61f6fd6f56ad@linux.ibm.com>
+Date: Tue, 24 Feb 2026 06:52:41 -0500
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] treewide: fix duplicated word "the" in comments
+To: Yousef El Bouzidi <elbouzidyyousef@gmail.com>,
+        linux-kernel@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+        tglx@kernel.org, herbert@gondor.apana.org.au, davem@davemloft.net,
+        lee@kernel.org, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
+        ansuelsmth@gmail.com, atenart@kernel.org, wens@kernel.org,
+        hauke@hauke-m.de, andrew+netdev@lunn.ch, kuba@kernel.org,
+        david.e.box@linux.intel.com, pasic@linux.ibm.com,
+        jjherne@linux.ibm.com, hca@linux.ibm.com, driver-core@lists.linux.dev,
+        linux-crypto@vger.kernel.org, netdev@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, linux-s390@vger.kernel.org
+References: <20260224065300.454633-1-elbouzidyyousef@gmail.com>
+Content-Language: en-US
+From: Anthony Krowiak <akrowiak@linux.ibm.com>
+In-Reply-To: <20260224065300.454633-1-elbouzidyyousef@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aZx_8_rJNPF2EYgn@slm.duckdns.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: yOHnHnyuErcAPBjNGdkLN8955PElSAU3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDA5MyBTYWx0ZWRfXw1z9ie31xtTn
+ W4L1FiXiUDhIeo/ab7uUqzy25zjCbgGySpOFDoRJQH2vp65Z6hRVfJ61tkRMlr/FBCxyKmBBlIQ
+ T2fvunl0TiuMY5FmfwPd6j0bGQgFij5IQL+cFgbBgNq0p59crDanB3wyN9/yvR92omVQeNEJPJv
+ 0WeegMsKNyZ2lxnlH9borA2Z+i8qDfLo/s2NLxYy4ua6tLcuwTEoAXYngMwqb37XEzYGAZw/35q
+ jFJAHSJ9PDpLhoTcUyclQzUbNYgZVAtiC98MDp+kBesEvWzY2oNZmkxbDpJ6r9sEChw0W4Qu0Ae
+ aIO60zK/tGGZwLUo8mM7xLMlHN5gQp6VVCBOPI2W/yS6UKhI4UbyomLtY2F7l5zrRv24KZ9u0Mg
+ WEXUC6w2jxLNQeHsNKSexlg7Pdp+YdtVzPgvnxLdNgDC+NcoBJ3Ad2Zv3ydR9QQO+PNOpUGt6vE
+ k370UtZY9Vwu0JVHX3Q==
+X-Authority-Analysis: v=2.4 cv=eNceTXp1 c=1 sm=1 tr=0 ts=699d90ff cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=pGLkceISAAAA:8
+ a=VnNF1IyMAAAA:8 a=-HbPlMZHRNqPhV-FfxwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: FUoaeiQA5jPvJwkpqWIrdb2ypQ6LU8O7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-24_01,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602240093
 
-On Mon, Feb 23, 2026 at 06:27:31AM -1000, Tejun Heo wrote:
-> (cc'ing Christian Brauner)
-> 
-> On Sat, Feb 21, 2026 at 06:11:28PM +0200, Amir Goldstein wrote:
-> > On Sat, Feb 21, 2026 at 12:32 AM Tejun Heo <tj@kernel.org> wrote:
-> > >
-> > > Hello, Amir.
-> > >
-> > > On Fri, Feb 20, 2026 at 10:11:15PM +0200, Amir Goldstein wrote:
-> > > > > Yeah, that can be useful. For cgroupfs, there would probably need to be a
-> > > > > way to scope it so that it can be used on delegation boundaries too (which
-> > > > > we can require to coincide with cgroup NS boundaries).
-> > > >
-> > > > I have no idea what the above means.
-> > > > I could ask Gemini or you and I prefer the latter ;)
-> > >
-> > > Ah, you chose wrong. :)
-> > >
-> > > > What are delegation boundaries and NFS boundaries in this context?
-> > >
-> > > cgroup delegation is giving control of a subtree to someone else:
-> > >
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git/tree/Documentation/admin-guide/cgroup-v2.rst#n537
-> > >
-> > > There's an old way of doing it by changing perms on some files and new way
-> > > using cgroup namespace.
-> > >
-> > > > > Would it be possible to make FAN_MNT_ATTACH work for that?
-> > > >
-> > > > FAN_MNT_ATTACH is an event generated on a mntns object.
-> > > > If "cgroup NS boundaries" is referring to a mntns object and if
-> > > > this object is available in the context of cgroup create/destroy
-> > > > then it should be possible.
-> > >
-> > > Great, yes, cgroup namespace way should work then.
-> > >
-> > > > But FAN_MNT_ATTACH reports a mountid. Is there a mountid
-> > > > to report on cgroup create? Probably not?
-> > >
-> > > Sorry, I thought that was per-mount recursive file event monitoring.
-> > > FAN_MARK_MOUNT looks like the right thing if we want to allow monitoring
-> > > cgroup creations / destructions in a subtree without recursively watching
-> > > each cgroup.
-> > 
-> > The problem sounds very similar to subtree monitoring for mkdir/rmdir on
-> > a filesystem, which is a problem that we have not yet solved.
-> > 
-> > The problem with FAN_MARK_MOUNT is that it does not support the
-> > events CREATE/DELETE, because those events are currently
-> 
-> Ah, bummer.
-> 
-> > monitored in context where the mount is not available and anyway
-> > what users want to get notified on a deleted file/dir in a subtree
-> > regardless of the mount through which the create/delete was done.
-> > 
-> > Since commit 58f5fbeb367ff ("fanotify: support watching filesystems
-> > and mounts inside userns") and fnaotify groups can be associated
-> > with a userns.
-> > 
-> > I was thinking that we can have a model where events are delivered
-> > to a listener based on whether or not the uid/gid of the object are
-> > mappable to the userns of the group.
-> 
-> Given how different NSes can be used independently of each other, it'd
-> probably be cleaner if it doesn't have to depend on another NS.
-> 
-> > In a filesystem, this criteria cannot guarantee the subtree isolation.
-> > I imagine that for delegated cgroups this criteria could match what
-> > you need, but I am basing this on pure speculation.
-> 
-> There's a lot of flexibility in the mechanism, so it's difficult to tell.
-> e.g. There's nothing preventing somebody from creating two separate subtrees
-> delegated to the same user.
 
-Delegation is based on inode ownership I'm not sure how well this will
-fit into the fanotify model. Maybe the group logic for userns that
-fanotify added works. I'm not super sure.
 
-> Christian was mentioning allowing separate super for different cgroup mounts
-> in another thread. cc'ing him for context.
+On 2/24/26 1:52 AM, Yousef El Bouzidi wrote:
+> Remove duplicated word "the" from comments across various subsystems.
+> All instances are clear typos where "the" appeared twice in
+> succession, often merged with the following word (e.g. "the they",
+> "the there", "the these", "the them").
+>
+> Files fixed:
+>    - drivers/base/platform.c
+>    - drivers/crypto/inside-secure/eip93/eip93-hash.c
+>    - drivers/mfd/axp20x.c
+>    - drivers/net/ethernet/lantiq_xrx200.c
+>    - drivers/platform/x86/intel/chtwc_int33fe.c
+>    - drivers/platform/x86/intel/pmt/class.c
+>    - drivers/s390/crypto/vfio_ap_ops.c
+>    - kernel/irq/migration.c
+>
+> Signed-off-by: Yousef El Bouzidi <elbouzidyyousef@gmail.com>
+> ---
+>   drivers/base/platform.c                         | 2 +-
+>   drivers/crypto/inside-secure/eip93/eip93-hash.c | 2 +-
+>   drivers/mfd/axp20x.c                            | 2 +-
+>   drivers/net/ethernet/lantiq_xrx200.c            | 2 +-
+>   drivers/platform/x86/intel/chtwc_int33fe.c      | 2 +-
+>   drivers/platform/x86/intel/pmt/class.c          | 2 +-
+>   drivers/s390/crypto/vfio_ap_ops.c               | 2 +-
+>   kernel/irq/migration.c                          | 2 +-
+>   8 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> index b45d41b018ca..3e3b6fcfa194 100644
+> --- a/drivers/base/platform.c
+> +++ b/drivers/base/platform.c
+> @@ -565,7 +565,7 @@ struct platform_object {
+>   };
+>   
+>   /*
+> - * Set up default DMA mask for platform devices if the they weren't
+> + * Set up default DMA mask for platform devices if they weren't
+>    * previously set by the architecture / DT.
+>    */
+>   static void setup_pdev_dma_masks(struct platform_device *pdev)
+> diff --git a/drivers/crypto/inside-secure/eip93/eip93-hash.c b/drivers/crypto/inside-secure/eip93/eip93-hash.c
+> index 2705855475b2..d91a1ac152f0 100644
+> --- a/drivers/crypto/inside-secure/eip93/eip93-hash.c
+> +++ b/drivers/crypto/inside-secure/eip93/eip93-hash.c
+> @@ -432,7 +432,7 @@ static int eip93_hash_update(struct ahash_request *req)
+>   
+>   /*
+>    * With map_data true, we map the sa_record and sa_state. This is needed
+> - * for finup() as the they are mapped before calling update()
+> + * for finup() as they are mapped before calling update()
+>    */
+>   static int __eip93_hash_final(struct ahash_request *req, bool map_dma)
+>   {
+> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+> index 679364189ea5..0c6e93eb3955 100644
+> --- a/drivers/mfd/axp20x.c
+> +++ b/drivers/mfd/axp20x.c
+> @@ -1417,7 +1417,7 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
+>   	 * 1 bit customizable at the factory, and 1 bit depending on the
+>   	 * state of an external pin. The latter is writable. The device
+>   	 * will only respond to operations to its other registers when
+> -	 * the these device addressing bits (in the upper 4 bits of the
+> +	 * these device addressing bits (in the upper 4 bits of the
+>   	 * registers) match.
+>   	 *
+>   	 * By default we support an AXP806 chained to an AXP809 in slave
+> diff --git a/drivers/net/ethernet/lantiq_xrx200.c b/drivers/net/ethernet/lantiq_xrx200.c
+> index b8766fb7a844..dde651d901c8 100644
+> --- a/drivers/net/ethernet/lantiq_xrx200.c
+> +++ b/drivers/net/ethernet/lantiq_xrx200.c
+> @@ -157,7 +157,7 @@ static int xrx200_open(struct net_device *net_dev)
+>   	/* The boot loader does not always deactivate the receiving of frames
+>   	 * on the ports and then some packets queue up in the PPE buffers.
+>   	 * They already passed the PMAC so they do not have the tags
+> -	 * configured here. Read the these packets here and drop them.
+> +	 * configured here. Read these packets here and drop them.
+>   	 * The HW should have written them into memory after 10us
+>   	 */
+>   	usleep_range(20, 40);
+> diff --git a/drivers/platform/x86/intel/chtwc_int33fe.c b/drivers/platform/x86/intel/chtwc_int33fe.c
+> index d183aa53c318..1fca9fdd8f5b 100644
+> --- a/drivers/platform/x86/intel/chtwc_int33fe.c
+> +++ b/drivers/platform/x86/intel/chtwc_int33fe.c
+> @@ -14,7 +14,7 @@
+>    *
+>    * So this driver is a stub / pseudo driver whose only purpose is to
+>    * instantiate I²C clients for chips 2 - 4, so that standard I²C drivers
+> - * for these chips can bind to the them.
+> + * for these chips can bind to them.
+>    */
+>   
+>   #include <linux/dmi.h>
+> diff --git a/drivers/platform/x86/intel/pmt/class.c b/drivers/platform/x86/intel/pmt/class.c
+> index be3c8d9e4fff..99bf7e0afdf1 100644
+> --- a/drivers/platform/x86/intel/pmt/class.c
+> +++ b/drivers/platform/x86/intel/pmt/class.c
+> @@ -239,7 +239,7 @@ static int intel_pmt_populate_entry(struct intel_pmt_entry *entry,
+>   
+>   		/*
+>   		 * Some hardware use a different calculation for the base address
+> -		 * when access_type == ACCESS_LOCAL. On the these systems
+> +		 * when access_type == ACCESS_LOCAL. On these systems
+>   		 * ACCESS_LOCAL refers to an address in the same BAR as the
+>   		 * header but at a fixed offset. But as the header address was
+>   		 * supplied to the driver, we don't know which BAR it was in.
+> diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
+> index 44b3a1dcc1b3..334aaa2d97b2 100644
+> --- a/drivers/s390/crypto/vfio_ap_ops.c
+> +++ b/drivers/s390/crypto/vfio_ap_ops.c
+> @@ -610,7 +610,7 @@ static int handle_pqap(struct kvm_vcpu *vcpu)
+>   	matrix_mdev = container_of(vcpu->kvm->arch.crypto.pqap_hook,
+>   				   struct ap_matrix_mdev, pqap_hook);
+>   
+> -	/* If the there is no guest using the mdev, there is nothing to do */
+> +	/* If there is no guest using the mdev, there is nothing to do */
 
-If cgroupfs changes to tmpfs semantics where each mount gives you a new
-superblock then it's possible to give each container its own superblock.
-That in turn would make it possible to place fanotify watches on the
-superblock itself. I think you'd roughly need something like the
-following permission model:
+Reviewed-by: Anthony Krowiak <akrowiak@linux.ibm.com>
 
-* Cgroupfs mounted on the host -> would require global CAP_SYS_ADMIN as
-  you'd get notified about all tree changes ofc.
-* If cgroupfs is mounted in user namespace with a cgroup namespace then
-  allow the container to monitor the whole superblock.
+>   	if (!matrix_mdev->kvm) {
+>   		vfio_ap_le_guid_to_be_uuid(&matrix_mdev->mdev->uuid, uuid);
+>   		VFIO_AP_DBF_WARN("%s: mdev %08lx-%04lx-%04lx-%04lx-%04lx%08lx not in use: apqn=0x%04x\n",
+> diff --git a/kernel/irq/migration.c b/kernel/irq/migration.c
+> index f2b2929986ff..b29d13baee55 100644
+> --- a/kernel/irq/migration.c
+> +++ b/kernel/irq/migration.c
+> @@ -89,7 +89,7 @@ void irq_move_masked_irq(struct irq_data *idata)
+>   
+>   		ret = irq_do_set_affinity(data, desc->pending_mask, false);
+>   		/*
+> -		 * If the there is a cleanup pending in the underlying
+> +		 * If there is a cleanup pending in the underlying
+>   		 * vector management, reschedule the move for the next
+>   		 * interrupt. Leave desc->pending_mask intact.
+>   		 */
 
-I think kernfs currently has logic to gate mounting of sysfs in a
-container on the network namespace. We would need similar logic to gate
-creation of a new superblock for cgroupfs behind the cgroup namespace
-(that's the kernfs tagging mechanism iirc).
-
-There's some more annoyance ofc: the current model has one superblock
-for the whole system. As such each cgroup is associated with exactly one
-inode. So any ownership changes to a given inode are visible _system
-wide_. That leads to problems such as an unpriv user having a hard time
-deleting cgroups that were delegated to an unprivileged container that
-it owns - at least not without setting up a helper userns and running rm
--rf in it.
-
-Note, if we allow separate cgroup superblocks then this automatically
-entails that multiple inodes from different superblocks refer to the
-same underlying cgroup - like separate procfs instances have different
-inodes that refere to the same task struct or whatever. This should be
-fine locking wise because you serialize on locks associated with the
-underlying cgroup - which would be referenced by all inodes.
-
-With this possible cgroupfs will be able to be mounted inside of a
-container with a separate inode/dentry tree where each
-inode->i_{uid,gid} can be set according to the containers user
-namespace.
-
-That also gets rid of the aforementioned problem where an unprivileged
-container user on the host cannot remove cgroups that were delegated to
-the container.
-
-It also introduces a change in the delegation model that is worth
-considering:
-
-Right now if you delegate ownership it means chown()ing a bunch of files
-to the relevant user. With separate superblocks mountable in containers
-you could technically delegate write access to multiple containers at
-the same time even though they might have completely distinct user
-namespaces with isolated idmappings (iow, they're global uid/gid ranges
-don't overlap and so they can't meaningfully interact with each other).
-
-If container A mounts a new cgroupfs instance and container B mounts a
-new cgroupfs instance and someone was crazy enough to let both A and B
-share the same cgroup they could both write around in it. It would also
-mean that all files in a given cgroup change ownership _within the
-superblock that was mounted_ - other superblocks are ofc unaffected:
-
-  mkdir /sys/fs/cgroup/lets/go/deeper/
-
-delegate the cgroup
-
-  echo 1234 > /sys/fs/cgroup/lets/go/deeper
-
-Now the container payload running as 1234 does:
-
-  unshare(CLONE_NEWUSER | CLONE_NEWNS | CLONE_NEWCGROUP);
-
-Set ups the rootfs and chroots into it and then mounts cgroupfs within
-its namespaces:
-
-  mount("cgroup", "/sys/fs/cgroup", "cgroup2", 0, NULL);
-
-This would create a new cgroupfs superblock with "deeper" being the
-root dentry - similar to how "remounting" changes the visibility. Then
-the idmapping associated with the user namespace is taken into account
-and all files under "deeper" will be owned by the container root making
-it all writable for the container (That is different from today where
-you need to chown around.).
-
-TL;DR:
-
-* multi-instance cgroupfs implies multiple inodes for the same cgroup
-  with custom ownership for each inode
-* multi-instance cgroupfs means per-container superblock fanotify
-  watches
-* multi-instance cgroupfs means per-container superblock mount options
