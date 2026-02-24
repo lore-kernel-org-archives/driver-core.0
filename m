@@ -1,105 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE6438B7C3;
-	Tue, 24 Feb 2026 12:04:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE1A394494
+	for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 12:21:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771934695; cv=none; b=gbs0fbDDT4GAXWhB74vTsWIc3tvIpFAiELPkSlW8PLUrAzaI98EEHdk31VEYbGkKGTAp277hBeccqCE40yV0t+sYydcrDgXoeF1s1uMUOybYX4mLRLfqaLuY9ocYAsV8UQbn+T9TUeXsn9JA7mp7VPxOsJzBu5VzsKqYEYNhxYw=
+	t=1771935683; cv=none; b=TBGWAGzEu6qS/f0lwdVUO7DUMiMtJUCgfohml1ZQCR+tczUN2b0HkMHwyGfSY9RbbDNnAEk0Ra1HZgkZlUaD+tKZFvMXgvBqBJ645B/dHTBOc4jLGhaLhBEnTwfbPBTr77p97qr1Nn48du8e937h6btvQuu4viFYpgQV2qzbDVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771934695; c=relaxed/simple;
-	bh=Qz9qdMX+vBbJV6Arts3WVnCOBY9g2cEaJRQR11r+cxw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=rPGL609MQXDN0aXTcZN9AWgsVANdCdAR5Yc+cb+/4qxEHHHvjRjaAKrVLzwYsjvvj7Np22kglT52hZ0LmoWfXpraE1j5/6II87Z+kXg0+u3S+yyrJ4T5JJ1roWC1oLh2W45/no2rkLinUt3prIHixTqczzapT1bAYx+dsD5jSi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZiR7Axq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771935683; c=relaxed/simple;
+	bh=qeiE8prTSBBAw3kzkORhXcd0llIS/zF9fU+idkLpvc0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I26Rn99dhQCBhT/2wr0+jGwS0wcwdD/BlM+8lSTn+9mlDmNHnKCusnLvbKqQd3/umFckohEnid9Vh4lYQoUNuTy55oWo8L/5Wlo5HXzz3ncFHxIXPVP7rP4swohEP0XV/RHg3XUC2Pp3/cnyznhzFXuVHS3Bo8z2lNwKuFiRphs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLfbpEwP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZiR7Axq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FBF3C19424;
-	Tue, 24 Feb 2026 12:04:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLfbpEwP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B97FC4AF09
+	for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 12:21:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771934695;
-	bh=Qz9qdMX+vBbJV6Arts3WVnCOBY9g2cEaJRQR11r+cxw=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
-	b=lZiR7AxqIghjBpkiiGPbBNU5t/SUaLyeoB/0nQt2fSrl1Beg4CgujW9KAO47LRyGB
-	 gRMEnoLvxX/Sk1/OmRxBRu9b9fjgMF0N/JReEMBg52nVnVgyZONl7bJM1LU0wpbtof
-	 BUwAM3slBbS+Og0xUMNsx7hI6+TsNz83haBAjl5Nf2JGdoQuzPbHVpF27vtd94qnup
-	 ByA+2P/nqhdUIiANEa/jqtWGbg1TTOlE3p2hWNf/tlxsHQczMXoaO6+iR93fHSN90J
-	 Da3VCwvil8CKtBctvBhguUvplmPGEMPP2AOfgoxBdFtoGRQGvRx/PfQ5zfTRdZBBLj
-	 Hs6tAA3QVwr/A==
+	s=k20201202; t=1771935683;
+	bh=qeiE8prTSBBAw3kzkORhXcd0llIS/zF9fU+idkLpvc0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OLfbpEwP34kfma9oJIt/FpcFz79Oi+NcwY5X25e/q+58YlQoPCL+gTJmaivq36xic
+	 4/bVGe1xIOXu9R9Z6Hrl1ZV29j77Uorr+2OECYiHGS9bMxGPVBaEf7g8BvyX4ibPwj
+	 CzCmqHk6Eyvc8GSZT2yvRxW9H02+OmZdyXkmCH68kUy0UIL0MxUDBBJmgDUDdqTh4j
+	 DKjB0f+qpyrd0Y7QbPmzmjmtLmvuoRyv2mpf7srhGEyykHVpzhECz2zSQ7zSzJc4ew
+	 QVy6tZpDF/RKyiJhX/u+Q/Y83eZQxHshF6Ucr4P7lfp3WuqhHCFziqu4jY1WK0QaTX
+	 hXNUopFnF8N1w==
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7d4c68f0e47so3252689a34.1
+        for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 04:21:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUjdGkW53upTuQRHgjlf2rTLB1j+fmiIj4/0DVTgpLcEWHg7nWoWlAvG74xK3VuqbfhP9BIwNMrbuYd6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZkrG4T+omTEwVcr5gSpNMFO0qBI28n8QYvta8NvAwp1552Fe4
+	A+tgMmmljbyGrHjC21WYPhf9tohTKzlCn+YFbjbkhkvp5G33bIT82EAvjWcIGB9uLQjcAiCnr/J
+	aNGeq4b8j078Am3Db4/Iq00oHjWILD1w=
+X-Received: by 2002:a05:6830:7181:b0:7c7:2d7d:5d0f with SMTP id
+ 46e09a7af769-7d52bf3ea23mr6651601a34.20.1771935682677; Tue, 24 Feb 2026
+ 04:21:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260223204412.3298508-1-andriy.shevchenko@linux.intel.com>
+ <20260223204412.3298508-2-andriy.shevchenko@linux.intel.com>
+ <CAJZ5v0gS6kyCOmwL-9JYiaxCDVubtBoK6Rb5NSgHD1GwkGoCRA@mail.gmail.com> <aZ1p4lgioFlxhFr_@smile.fi.intel.com>
+In-Reply-To: <aZ1p4lgioFlxhFr_@smile.fi.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 24 Feb 2026 13:21:10 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hUwCFKH3f6pCW1idquyJ-93wtXzO70tq6D+ruU17+oGw@mail.gmail.com>
+X-Gm-Features: AaiRm50Lc8LqRacvNU19wNDDonluoX7up49q2kXb2dcY2nK4iMjMXkGPP-hHwCQ
+Message-ID: <CAJZ5v0hUwCFKH3f6pCW1idquyJ-93wtXzO70tq6D+ruU17+oGw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] driver core: Split device data types to device/types.h
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Zijun Hu <zijun.hu@oss.qualcomm.com>, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Feb 2026 13:04:49 +0100
-Message-Id: <DGN6FANOYD3K.AFFNS0QXPCQW@kernel.org>
-Cc: <abelvesa@kernel.org>, <peng.fan@nxp.com>, <daniel.baluta@oss.nxp.com>,
- <mturquette@baylibre.com>, <sboyd@kernel.org>, <Frank.Li@nxp.com>,
- <s.hauer@pengutronix.de>, <kernel@pengutronix.de>, <festevam@gmail.com>,
- <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <hanguidong02@gmail.com>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>, "Alexander
- Stein" <alexander.stein@ew.tq-group.com>
-To: "Abel Vesa" <abel.vesa@oss.qualcomm.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2] clk: scu/imx8qxp: do not register driver in probe()
-References: <20260212235842.85934-1-dakr@kernel.org>
- <DGMMD195G9VX.245Z0JMIYO9HV@kernel.org>
- <66i6cgh5zmz32ikwjvrz3gtezjotltqmfzdai7ybwjhanx3bif@i5g62ziautwq>
-In-Reply-To: <66i6cgh5zmz32ikwjvrz3gtezjotltqmfzdai7ybwjhanx3bif@i5g62ziautwq>
 
-On Tue Feb 24, 2026 at 10:57 AM CET, Abel Vesa wrote:
-> On 26-02-23 21:21:29, Danilo Krummrich wrote:
->> On Fri Feb 13, 2026 at 12:58 AM CET, Danilo Krummrich wrote:
->> > imx_clk_scu_init() registers the imx_clk_scu_driver while commonly bei=
-ng
->> > called from IMX driver's probe() callbacks.
->> >
->> > However, it neither makes sense to register drivers from probe()
->> > callbacks of other drivers, nor does the driver core allow registering
->> > drivers with a device lock already being held.
->> >
->> > The latter was revealed by commit dc23806a7c47 ("driver core: enforce
->> > device_lock for driver_match_device()") leading to a deadlock conditio=
-n
->> > described in [1].
->> >
->> > Besides that, nothing seems to unregister the imx_clk_scu_driver once
->> > the corresponding driver module is unloaded, which leaves the
->> > driver-core with a dangling pointer.
->> >
->> > Also, if there are multiple matching devices for the imx8qxp_clk_drive=
-r,
->> > imx8qxp_clk_probe() calls imx_clk_scu_init() multiple times.  However,
->> > any subsequent call after the first one will fail, since the driver-co=
-re
->> > does not allow to register the same struct platform_driver multiple
->> > times.
->> >
->> > Hence, register the imx_clk_scu_driver from module_init() and unregist=
-er
->> > it in module_exit().
->> >
->> > Note that we first register the imx8qxp_clk_driver and then call
->> > imx_clk_scu_module_init() to avoid having to call
->> > imx_clk_scu_module_exit() in the unwind path of imx8qxp_clk_init().
->> >
->> > Fixes: dc23806a7c47 ("driver core: enforce device_lock for driver_matc=
-h_device()")
->> > Fixes: 220175cd3979 ("clk: imx: scu: fix build break when compiled as =
-modules")
->> > Reported-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->> > Closes: https://lore.kernel.org/lkml/13955113.uLZWGnKmhe@steina-w/
->> > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com> # TQMa8x/=
-MBa8x
->> > Link: https://lore.kernel.org/lkml/DFU7CEPUSG9A.1KKGVW4HIPMSH@kernel.o=
-rg/ [1]
->> > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On Tue, Feb 24, 2026 at 10:05=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> Acked-by: Abel Vesa <abelvesa@kernel.org>
+> On Mon, Feb 23, 2026 at 09:53:17PM +0100, Rafael J. Wysocki wrote:
+> > On Mon, Feb 23, 2026 at 9:44=E2=80=AFPM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > >
+> > > device.h is a huge header which is hard to follow and easy to miss
+> > > something. Improve that by splitting device data types to device/type=
+s.h.
+> > >
+> > > In particular this helps to speedup the build of the code that includ=
+es
+> > > device.h solely for a device data types.
+> > >
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> >
+> > But why do you want to move the struct device definition out of device.=
+h?
+>
+> Because it's a data type, and we have many drivers that may require it
+> (embed the struct device), but no device.h API is called directly =E2=80=
+=94
+> only via a certain framework).
+>
+> device.h also includes many unrelated headers in such a case.
 
-Applied to driver-core-linus, thanks!
+Why is this a problem?
+
+Could those headers be moved to different header files instead?
+
+device.h is mostly about the struct device definition and the other
+stuff in it is more or less additional.  Why do you want to make it
+the other way around?
