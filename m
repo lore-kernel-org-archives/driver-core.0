@@ -1,96 +1,95 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D58329E62;
-	Tue, 24 Feb 2026 07:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D53364E8F;
+	Tue, 24 Feb 2026 08:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771917196; cv=none; b=A1VSqkdGrj3jj/P9fEp7Mau3ECMStu3Qpd+z0y9Ktb7NvtT88w8any7awMoo7TUOVjqKaozt0FPb9BPJnXORKKeP1B2r7vn4gWas+oGUcahbTEMHi2+DeSAsiEjzPBvRnwreNTgnmvNEuKT6O6aigN9cC7rjq8cEnmE8HlIe9mY=
+	t=1771920827; cv=none; b=cKtUkHdsS40QwcM2AWSkBeXezo89SfHzynGAAvGlT5RR2QG7IP4XX8pWnSAXPfynvkrQAYZ2tgX9J99A1sSJN/PH4nGeed5Q4FYT77h4uwfohVzlFvmn0uggiBxdh0KVsMTH1h6Q/yWevutTTJfg2ViPoABG+tNbgpDqHibxkgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771917196; c=relaxed/simple;
-	bh=gT3Z9VwacZLiPojVKV1a555VltfgJdVLIdkkGbn0zUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aauMHT2UDM06N0BZubk1G+gc6OFENv060bTst/Lywgi0RWomJs1hJhgwBb9P4pQypSuBPoe99rYGrePx1HEjyIrJ8E1wzmUqM417oi3jbaGNxhlBu4ZMi9rge6TIumSKvQVtam9VzaZb/L3DXMVNfXrLGp9Q5BwuEAR9Bm+Bh4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=to8P4uko; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1771920827; c=relaxed/simple;
+	bh=Gg+RXtOcR0DYpMZ9ChetNvxgvGLU4ili+KJ+Dxx7nFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hb6oESfubT+N3KyA6UWHHGor7pYApP9S+JTJEz/Ih3LqLXu3MIXzzUpeTjRZBZ0SoD4lEdzRtdefGNO74j1nyAbzYObno4eJRYGI344mVTIOzrXAqjmZIMkf86F5Avs1jyzUJkRga5OPUfZi3V00pHg7BIyqKP84FN+vXuerW5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvoQ/gME; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="to8P4uko"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=iiGyVPiVaNs3lC363rqu96E2n22OG530jrIJC4IgC24=; b=to8P4ukoTLZi9W5jUBXQeG5TwC
-	T7Njbi6xQr8t7OeusqPNE7WdZejtJ14bXPwGJ5r124xHTuWnYnwM2dAyDDOpIo3v8btZ1OmeHg1O9
-	Lt6ibXFGVU94Cq9nRH2HWZY4ZTxzuqXsbRDTFYtBp2txHmQ0DS3fPSKYNWt9PwB7+GE3s4qIY0uOz
-	0JIwm+GxpmMeo7lCrZTRLgxwwC1fQK/gv45khcdCQ1zBG0xC+EAIeZ+bbDjpdPt9FlrgwK6vrkcUG
-	XvZBeg6nROoinU48VoM5Rk3yrbEjZJlmC36N12f3AAeWC8t6rjQMrlncbbO7tK3J9VZFAihikDIF7
-	s6/mInnw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vumbV-00000001Z9Y-3GhX;
-	Tue, 24 Feb 2026 07:13:09 +0000
-Message-ID: <baa318b3-e3b5-4320-828f-dc41c3a5f9da@infradead.org>
-Date: Mon, 23 Feb 2026 23:13:06 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvoQ/gME"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AD28C116D0;
+	Tue, 24 Feb 2026 08:13:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771920826;
+	bh=Gg+RXtOcR0DYpMZ9ChetNvxgvGLU4ili+KJ+Dxx7nFU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KvoQ/gMEOxCf62Y3lZL83ldy7+xKDPw5aHxGgacDwD6aJw6gW+lCeh6nTO7zHmHy9
+	 AF3ECTYr/LY6cHr1sb0SUo6kv9LSU87qFVl+qUCXBMuewv6WLJ48ylunfHG4h1hkXl
+	 iOQIXU3aJmQP2mKC+2Nich1uN67XjGuoFEexJKaO0C7l3VA55uPK7LxzsesEH1Mh+r
+	 BBUquYsybNh2/ApPz4MFmY9iA1D/09AsaQUxZW9s0KKW0HnljWbmJP7aEbuFb4wkTt
+	 rjRCDB8omTb91xEKRpv7pEU+8rsP0ptqcWsW2ga4YNiv31IWZvVWRXmHz1nY4RvMDy
+	 CV9Cpibrr/sMQ==
+Received: by wens.tw (Postfix, from userid 1000)
+	id C59095FAAF; Tue, 24 Feb 2026 16:13:43 +0800 (CST)
+Date: Tue, 24 Feb 2026 16:13:43 +0800
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Linus Walleij <linusw@kernel.org>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_mrana@quicinc.com, sherry.sun@nxp.com,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v7 0/3] PCI: Add support for PCIe WAKE# interrupt
+Message-ID: <aZ1dt626iivieo5r@wens.tw>
+References: <20260218-wakeirq_support-v7-0-0d4689830207@oss.qualcomm.com>
+ <CAMRc=MdF92kriuT_-Fbk3pj6YeJiNv6RSiDE7aB0AKL9oFZg5w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] treewide: fix duplicated word "the" in comments
-To: Yousef El Bouzidi <elbouzidyyousef@gmail.com>,
- linux-kernel@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
- tglx@kernel.org, herbert@gondor.apana.org.au, davem@davemloft.net,
- lee@kernel.org, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
- ansuelsmth@gmail.com, atenart@kernel.org, wens@kernel.org, hauke@hauke-m.de,
- andrew+netdev@lunn.ch, kuba@kernel.org, david.e.box@linux.intel.com,
- akrowiak@linux.ibm.com, pasic@linux.ibm.com, jjherne@linux.ibm.com,
- hca@linux.ibm.com, driver-core@lists.linux.dev,
- linux-crypto@vger.kernel.org, netdev@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-s390@vger.kernel.org
-References: <20260224065300.454633-1-elbouzidyyousef@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260224065300.454633-1-elbouzidyyousef@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MdF92kriuT_-Fbk3pj6YeJiNv6RSiDE7aB0AKL9oFZg5w@mail.gmail.com>
 
-
-
-On 2/23/26 10:52 PM, Yousef El Bouzidi wrote:
-> Remove duplicated word "the" from comments across various subsystems.
-> All instances are clear typos where "the" appeared twice in
-> succession, often merged with the following word (e.g. "the they",
-> "the there", "the these", "the them").
+On Wed, Feb 18, 2026 at 11:01:23AM +0100, Bartosz Golaszewski wrote:
+> On Wed, Feb 18, 2026 at 9:12 AM Krishna Chaitanya Chundru
+> <krishna.chundru@oss.qualcomm.com> wrote:
+> >
+> > PCIe WAKE# interrupt is needed for bringing back PCIe device state from
+> > D3cold to D0.
+> >
+> > This is pending from long time, there was two attempts done previously to
+> > add WAKE# support[1], [2]. Those series tried to add support for legacy
+> > interrupts along with WAKE#. Legacy interrupts are already available in
+> > the latest kernel and we can ignore them. For the wake IRQ the series is
+> > trying to use interrupts property define in the device tree.
+> >
+> > This series is using gpio property instead of interrupts, from
+> > gpio desc driver will allocate the dedicate IRQ.
+> >
+> > WAKE# is added in dts schema and merged based on this patch.
+> > https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
+> >
+> > [1]: https://lore.kernel.org/all/b2b91240-95fe-145d-502c-d52225497a34@nvidia.com/T/
+> > [2]: https://lore.kernel.org/all/20171226023646.17722-1-jeffy.chen@rock-chips.com/
+> >
+> > Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> > ---
 > 
-> Files fixed:
->   - drivers/base/platform.c
->   - drivers/crypto/inside-secure/eip93/eip93-hash.c
->   - drivers/mfd/axp20x.c
->   - drivers/net/ethernet/lantiq_xrx200.c
->   - drivers/platform/x86/intel/chtwc_int33fe.c
->   - drivers/platform/x86/intel/pmt/class.c
->   - drivers/s390/crypto/vfio_ap_ops.c
->   - kernel/irq/migration.c
-> 
-> Signed-off-by: Yousef El Bouzidi <elbouzidyyousef@gmail.com>
+> This spans three subsystems, how do you want to get it upstream?
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+FWIW, I'm interested in using fwnode_gpiod_get() in the net subsystem
+for the same reasons as the author. I could just use
+fwnode_gpiod_get_index() and convert later though.
 
-> ---
->  drivers/base/platform.c                         | 2 +-
->  drivers/crypto/inside-secure/eip93/eip93-hash.c | 2 +-
->  drivers/mfd/axp20x.c                            | 2 +-
->  drivers/net/ethernet/lantiq_xrx200.c            | 2 +-
->  drivers/platform/x86/intel/chtwc_int33fe.c      | 2 +-
->  drivers/platform/x86/intel/pmt/class.c          | 2 +-
->  drivers/s390/crypto/vfio_ap_ops.c               | 2 +-
->  kernel/irq/migration.c                          | 2 +-
->  8 files changed, 8 insertions(+), 8 deletions(-)
-> 
 
--- 
-~Randy
+ChenYu
+
+
+> Bartosz
