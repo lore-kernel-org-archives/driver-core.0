@@ -1,97 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE1A394494
-	for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 12:21:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D337B39A809
+	for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 12:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771935683; cv=none; b=TBGWAGzEu6qS/f0lwdVUO7DUMiMtJUCgfohml1ZQCR+tczUN2b0HkMHwyGfSY9RbbDNnAEk0Ra1HZgkZlUaD+tKZFvMXgvBqBJ645B/dHTBOc4jLGhaLhBEnTwfbPBTr77p97qr1Nn48du8e937h6btvQuu4viFYpgQV2qzbDVY=
+	t=1771937313; cv=none; b=BYCe2jl5mE1zuFdrVs858t6FlN9St33hRh+JszMHK40TiH4DQqNphs2nxUdg5tyy+szfuvDm1aovPqlat7VOmxttoSAAsQLufic50N21u6NCJKx/yinHuAE4aPfC34ymrrWUSQZxyyBAqxr4cwuTujvckWrtAhNzswJ3GM5B9K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771935683; c=relaxed/simple;
-	bh=qeiE8prTSBBAw3kzkORhXcd0llIS/zF9fU+idkLpvc0=;
+	s=arc-20240116; t=1771937313; c=relaxed/simple;
+	bh=aflIfx5ERM/5bdJ8gQdy/W52mjzv5JimWrzqh2L7BU4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I26Rn99dhQCBhT/2wr0+jGwS0wcwdD/BlM+8lSTn+9mlDmNHnKCusnLvbKqQd3/umFckohEnid9Vh4lYQoUNuTy55oWo8L/5Wlo5HXzz3ncFHxIXPVP7rP4swohEP0XV/RHg3XUC2Pp3/cnyznhzFXuVHS3Bo8z2lNwKuFiRphs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLfbpEwP; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=lwmgm3JXPZKVdaLGzi/HXny5a8jTlv0byWHIcvl4DzFL3XA1W3mzFVg5PeTze4qAxeVquqm0ykZRAzAFRi+LVfwQyLmAMHIH1Ui2dK7Mg30id3GaJgVuMzgc8xRqqqj8mRKRw9kJv5IL6AJXvjqXp3YQ4gFNT4mKd9zUpgV/gCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LLgmVenD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLfbpEwP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B97FC4AF09
-	for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 12:21:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LLgmVenD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DAAC4AF09
+	for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 12:48:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771935683;
-	bh=qeiE8prTSBBAw3kzkORhXcd0llIS/zF9fU+idkLpvc0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OLfbpEwP34kfma9oJIt/FpcFz79Oi+NcwY5X25e/q+58YlQoPCL+gTJmaivq36xic
-	 4/bVGe1xIOXu9R9Z6Hrl1ZV29j77Uorr+2OECYiHGS9bMxGPVBaEf7g8BvyX4ibPwj
-	 CzCmqHk6Eyvc8GSZT2yvRxW9H02+OmZdyXkmCH68kUy0UIL0MxUDBBJmgDUDdqTh4j
-	 DKjB0f+qpyrd0Y7QbPmzmjmtLmvuoRyv2mpf7srhGEyykHVpzhECz2zSQ7zSzJc4ew
-	 QVy6tZpDF/RKyiJhX/u+Q/Y83eZQxHshF6Ucr4P7lfp3WuqhHCFziqu4jY1WK0QaTX
-	 hXNUopFnF8N1w==
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7d4c68f0e47so3252689a34.1
-        for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 04:21:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUjdGkW53upTuQRHgjlf2rTLB1j+fmiIj4/0DVTgpLcEWHg7nWoWlAvG74xK3VuqbfhP9BIwNMrbuYd6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZkrG4T+omTEwVcr5gSpNMFO0qBI28n8QYvta8NvAwp1552Fe4
-	A+tgMmmljbyGrHjC21WYPhf9tohTKzlCn+YFbjbkhkvp5G33bIT82EAvjWcIGB9uLQjcAiCnr/J
-	aNGeq4b8j078Am3Db4/Iq00oHjWILD1w=
-X-Received: by 2002:a05:6830:7181:b0:7c7:2d7d:5d0f with SMTP id
- 46e09a7af769-7d52bf3ea23mr6651601a34.20.1771935682677; Tue, 24 Feb 2026
- 04:21:22 -0800 (PST)
+	s=k20201202; t=1771937313;
+	bh=aflIfx5ERM/5bdJ8gQdy/W52mjzv5JimWrzqh2L7BU4=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=LLgmVenD0eSEVDWGi9zaRtrbAHIkzb6KKrzM0MNZxSpiap7VewBJXhZLn2vGUNyaF
+	 jLPefguf99w+8XViXkRbiU9+Q5JRzPfGAhCTc1j4KwKGe40DuycXcTS8Tf/y4J2mlu
+	 ANjS/QDne3Vqhu+9DDrGXKapn7CNRxQ7kMixuheyjxdFWtEObGpaaOB7IzsQsZAbcS
+	 dR+UA2oA2bhgOBEC1ntEXxd/J3vs54pNVCzR3iVGAo7/qkqWsCg0AfDGC9wLIkuzgm
+	 8eSk5KLgPWS2W8whrj+kltg2w1hRQFyCldT9OiNNz9n8cP1sw0eOpLqjxGl2d6zC0I
+	 HaPU8pW7G39mQ==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-388126f79bcso46709401fa.0
+        for <driver-core@lists.linux.dev>; Tue, 24 Feb 2026 04:48:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXWsb1sYZWiKkkxOj9fBoox6rlUSyXSlVxMjFgfr+0YNrG8M+BZ6Gkuz938cI9q0QZw3Ah/tSYn1k0Q3g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YycjtSxN9NqubUds2HOTnFvKJFxFc5Y6KSBakGJP82DswfdXNFZ
+	27fv9a8k2z0rq9I42Syqc//3144l5f2FTiYiqmQLPO//516d8oHqe11CVCPfDnqH0nmy6CFHum+
+	66PTR3m0zdKLjznEaB/RCDAO8PeWIkD4=
+X-Received: by 2002:a2e:be20:0:b0:383:1dff:8a8c with SMTP id
+ 38308e7fff4ca-389a5ce5cc2mr42306741fa.8.1771937311611; Tue, 24 Feb 2026
+ 04:48:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223204412.3298508-1-andriy.shevchenko@linux.intel.com>
- <20260223204412.3298508-2-andriy.shevchenko@linux.intel.com>
- <CAJZ5v0gS6kyCOmwL-9JYiaxCDVubtBoK6Rb5NSgHD1GwkGoCRA@mail.gmail.com> <aZ1p4lgioFlxhFr_@smile.fi.intel.com>
-In-Reply-To: <aZ1p4lgioFlxhFr_@smile.fi.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 24 Feb 2026 13:21:10 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hUwCFKH3f6pCW1idquyJ-93wtXzO70tq6D+ruU17+oGw@mail.gmail.com>
-X-Gm-Features: AaiRm50Lc8LqRacvNU19wNDDonluoX7up49q2kXb2dcY2nK4iMjMXkGPP-hHwCQ
-Message-ID: <CAJZ5v0hUwCFKH3f6pCW1idquyJ-93wtXzO70tq6D+ruU17+oGw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] driver core: Split device data types to device/types.h
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Zijun Hu <zijun.hu@oss.qualcomm.com>, 
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20260224065300.454633-1-elbouzidyyousef@gmail.com>
+In-Reply-To: <20260224065300.454633-1-elbouzidyyousef@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 24 Feb 2026 20:48:17 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67DqH_KZztbjSqDuY7oWFHHAVOeP90TRgMtvGY_S3yxYA@mail.gmail.com>
+X-Gm-Features: AaiRm517BUFVK2rEmIEUlpOSHSx45u7wemYSLoyXgpzeoB9ggodJniZKlrNMOzc
+Message-ID: <CAGb2v67DqH_KZztbjSqDuY7oWFHHAVOeP90TRgMtvGY_S3yxYA@mail.gmail.com>
+Subject: Re: [PATCH] treewide: fix duplicated word "the" in comments
+To: Yousef El Bouzidi <elbouzidyyousef@gmail.com>
+Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, dakr@kernel.org, tglx@kernel.org, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, lee@kernel.org, 
+	hansg@kernel.org, ilpo.jarvinen@linux.intel.com, ansuelsmth@gmail.com, 
+	atenart@kernel.org, hauke@hauke-m.de, andrew+netdev@lunn.ch, kuba@kernel.org, 
+	david.e.box@linux.intel.com, akrowiak@linux.ibm.com, pasic@linux.ibm.com, 
+	jjherne@linux.ibm.com, hca@linux.ibm.com, driver-core@lists.linux.dev, 
+	linux-crypto@vger.kernel.org, netdev@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-s390@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 24, 2026 at 10:05=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Tue, Feb 24, 2026 at 2:53=E2=80=AFPM Yousef El Bouzidi
+<elbouzidyyousef@gmail.com> wrote:
 >
-> On Mon, Feb 23, 2026 at 09:53:17PM +0100, Rafael J. Wysocki wrote:
-> > On Mon, Feb 23, 2026 at 9:44=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > >
-> > > device.h is a huge header which is hard to follow and easy to miss
-> > > something. Improve that by splitting device data types to device/type=
-s.h.
-> > >
-> > > In particular this helps to speedup the build of the code that includ=
-es
-> > > device.h solely for a device data types.
-> > >
-> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >
-> > But why do you want to move the struct device definition out of device.=
-h?
+> Remove duplicated word "the" from comments across various subsystems.
+> All instances are clear typos where "the" appeared twice in
+> succession, often merged with the following word (e.g. "the they",
+> "the there", "the these", "the them").
 >
-> Because it's a data type, and we have many drivers that may require it
-> (embed the struct device), but no device.h API is called directly =E2=80=
-=94
-> only via a certain framework).
+> Files fixed:
+>   - drivers/base/platform.c
+>   - drivers/crypto/inside-secure/eip93/eip93-hash.c
+>   - drivers/mfd/axp20x.c
+>   - drivers/net/ethernet/lantiq_xrx200.c
+>   - drivers/platform/x86/intel/chtwc_int33fe.c
+>   - drivers/platform/x86/intel/pmt/class.c
+>   - drivers/s390/crypto/vfio_ap_ops.c
+>   - kernel/irq/migration.c
 >
-> device.h also includes many unrelated headers in such a case.
+> Signed-off-by: Yousef El Bouzidi <elbouzidyyousef@gmail.com>
+> ---
+>  drivers/base/platform.c                         | 2 +-
+>  drivers/crypto/inside-secure/eip93/eip93-hash.c | 2 +-
 
-Why is this a problem?
 
-Could those headers be moved to different header files instead?
+>  drivers/mfd/axp20x.c                            | 2 +-
 
-device.h is mostly about the struct device definition and the other
-stuff in it is more or less additional.  Why do you want to make it
-the other way around?
+Acked-by: Chen-Yu Tsai <wens@kernel.org> # axp20x
