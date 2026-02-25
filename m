@@ -1,169 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB8C3B8BB2
-	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 12:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2892D3D34B2
+	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 16:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772023464; cv=none; b=Eu+9XAyr9xKirKXsUkVOlx0hw45fNDzke93akW0S/SH3fNAg/yNRhbWhieZzbeGsDvmJK43qMitcqSmr/hHaL5Tqwf1f+aaoSmu3nn7k/dXPtU0YZVw32aqqJfPijmCl/gVPdUXfPTdQEfd8zf3caQc182LpOXYZffcAIw01MVc=
+	t=1772036228; cv=none; b=Uw5wlhjoOLyRIea6dSByYzodkQu4viPiH6GfdyNdIgyETAYBl7rSHtYxM6X1l0GT8NSvMGfcA39IA4/dYyUf26b3Go4SFID2JWFdJX6/BX0uoPBK3geaVVyfza2G8gEW14E5HpRg3uKmoCJfil/zw0LNv/qoQtTMOJH8kOwRo84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772023464; c=relaxed/simple;
-	bh=0c26n0WNIysPuIx6eQZ1sQxY8cPMIhbeuo2iuZHdRd4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nl+yyck6csbVAUjuiasmRcSWXRufTySNNvVmqKUvR/Knd+OWqRjWf+KbWMudDCrlDZOgabo2reUcGdOS0SpnRFt3yMC8cSW6BxdbOFi7I/f7ZA6yIm1qSh3CHKoAjTR0DBFtvlgkoxDRSvQXVV4H/YYQqr+93/ytR0iia5X7340=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juljAskH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772036228; c=relaxed/simple;
+	bh=pSMGSYAXd7SYnY+dr0hI5UuXS3I9ARZIjw5YmikXJwY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=r5lphyckr6I++3a4HkV4+Zsb5IsnqROZ1m1gicHsJ2Y6IQtvRRgDkW+F84O0xDCExuURrjqpDv2ss0byzBPHUJozqngKquGdEhWKkq+clRAZBJVBtaoqDQTPDj5S47+zuJGbFXAOUF2EUe9SkARTGWaz9me2gxeq0eEbczwf5Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXF5Cvet; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juljAskH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9C8C2BCB1
-	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 12:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772023463;
-	bh=0c26n0WNIysPuIx6eQZ1sQxY8cPMIhbeuo2iuZHdRd4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=juljAskHr3ty9TGTKUzzURf5muokH5kXH1l7Wo7BlzUS4y2zA7Bl9Qyp+qWxcjfl+
-	 62wf67MUPGdtNHKfEIN8Pz9eUbB1ZzWJ8iD4C5l1ZOP1HijG6vVBdgi1f8Zx8XIrrI
-	 wOorW3Cx1h/d7W+9amN9ZvsELzRRxgqL5cC3tOAzbtFtKbKR3ei1z7cvic/qwAVsI8
-	 /mm4qA4AYE0a5NYU7ri+611KyxPSP5NXoBE3rvc077zZKS5sDKHa+aGJg7jPQIIK9H
-	 Mj/GOFZo6PoRqPFBu7B5GiyHrocuiDcwk8AdrxCvWnJJSpRgWK5A18hkYAsp3R5aL3
-	 v5TuBpNbMaz8A==
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-463a0e14abfso4855690b6e.2
-        for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 04:44:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUvtloEnKuLi+zFMOWsmX9iGQw0/upqAPZhJ5XvT1KSYCCDoISjRLGUSuMtDH8uXtVxPxWWNKeIu4Pkaw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWA2TMx3O9Z8cfbUOdh2K5OpIyrd8cWFAPsMO32RCAVd8VoZMm
-	0mfQ836uZWJSuXAqsch9YJ8pi3QCVmElVxLfIkE00VkR6/bGsxvbswedK/4qjB4l48Um31BSJau
-	sibtG9RT36PecFJICYjNYxCk6pHD6Zzc=
-X-Received: by 2002:a05:6871:378b:b0:40e:dadc:49f5 with SMTP id
- 586e51a60fabf-4157b20bc21mr9023562fac.51.1772023462839; Wed, 25 Feb 2026
- 04:44:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXF5Cvet"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772036224; x=1803572224;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=pSMGSYAXd7SYnY+dr0hI5UuXS3I9ARZIjw5YmikXJwY=;
+  b=bXF5CvetYtSzQlTWOd0WoysDIzRSIVFaxx9ZPEKIbF+jDVPJsE9PZ6m6
+   IimLmIcPg5HqdGl6Fw77Q/zcSB7xKpRBAcFF5noz57sxUC7ejBvBhD5vw
+   7PePm4weGCUa5PkkxPaY3VCL3Wujxsn6+KLNiL7bNC73eLiqldnxoKCdp
+   IVT5qPd80iEejG0wrNIneEcb6RnScqc7iPl87MOGqPQwhS3hL/+jSD08W
+   w4Uu5XgoSYbuWTzLYsHJgRjR+n5y5BWbu13CcxKK/zhVFA8JmxDTep0vR
+   PfbdzVh3MhFb6LYBxGvRl4y6njChfi/+lPaLmLwj35b0D7UkWhtfs3ui5
+   A==;
+X-CSE-ConnectionGUID: zuqwM+ARRNWk6m62VkJVrg==
+X-CSE-MsgGUID: 8y/z0JapQAuQ0Um1/iEQjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72783292"
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
+   d="scan'208";a="72783292"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 08:17:03 -0800
+X-CSE-ConnectionGUID: o1CG5Qo8RVKTMMihFu0oJw==
+X-CSE-MsgGUID: AcEMU4XWQD+sH1ZIO7TXzg==
+X-ExtLoop1: 1
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 25 Feb 2026 08:17:02 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id C12139D; Wed, 25 Feb 2026 17:17:00 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v2 3/5] regcache: Move HW readback after cache initialisation
+Date: Wed, 25 Feb 2026 17:15:57 +0100
+Message-ID: <20260225161659.3811671-4-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
+References: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260225-device-match-secondary-fwnode-v3-1-a7152054135a@oss.qualcomm.com>
- <CAJZ5v0j0-7WPVY_YYHyjNZenBAaXD1awLHq-cKmLKce4hw-7Uw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0j0-7WPVY_YYHyjNZenBAaXD1awLHq-cKmLKce4hw-7Uw@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 25 Feb 2026 13:44:10 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jf-S-=H7Dyan0aBhOX5jeg-UNgg_P-Lh46SWHH+Z2fDQ@mail.gmail.com>
-X-Gm-Features: AaiRm51tLDyRlI4KH_mdkjIcxnVZmFU3vH8x5MnqtIIsDiZDmKGhfdt63ODV6wY
-Message-ID: <CAJZ5v0jf-S-=H7Dyan0aBhOX5jeg-UNgg_P-Lh46SWHH+Z2fDQ@mail.gmail.com>
-Subject: Re: [PATCH v3] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 25, 2026 at 1:36=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
-g> wrote:
->
-> On Wed, Feb 25, 2026 at 11:12=E2=80=AFAM Bartosz Golaszewski
-> <bartosz.golaszewski@oss.qualcomm.com> wrote:
-> >
-> > In GPIOLIB, during fwnode lookup, after having resolved the consumer's
-> > reference to a specific fwnode, we only match it against the primary
-> > node of the controllers. Let's extend that to also the secondary node b=
-y
-> > reworking gpio_chip_match_by_fwnode()
-> >
-> > Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-> > Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-> > Reviewed-by: Linus Walleij <linusw@kernel.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
-> > ---
-> > Link: https://lore.kernel.org/all/aZUIFiOYt6GOlDQx@google.com/
-> > ---
-> > Changes in v3:
-> > - Remove the controversial patch 1/2 in favor of hand-coding its
-> >   functionality in patch 2/2
-> > - Link to v2: https://patch.msgid.link/20260223-device-match-secondary-=
-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com
-> >
-> > Changes in v2:
-> > - Fold the code initially put into driver code into GPIOLIB as advised
-> >   by Rafael
-> > - Rework the logic as suggested by Andy
-> > - To that end: make fwnode_is_primary() public
-> > - Link to v1: https://patch.msgid.link/20260219-device-match-secondary-=
-fwnode-v1-0-a64e8d4754bc@oss.qualcomm.com
-> > ---
-> >  drivers/gpio/gpiolib.c | 12 +++++++++++-
-> >  1 file changed, 11 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> > index c52200eaaaff82b12f22dd1ee8459bdd8ec10d81..0182603de368f2125baf174=
-fcf5f1e893917c154 100644
-> > --- a/drivers/gpio/gpiolib.c
-> > +++ b/drivers/gpio/gpiolib.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/errno.h>
-> >  #include <linux/file.h>
-> >  #include <linux/fs.h>
-> > +#include <linux/fwnode.h>
-> >  #include <linux/idr.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/irq.h>
-> > @@ -1395,7 +1396,16 @@ EXPORT_SYMBOL_GPL(gpio_device_find_by_label);
-> >
-> >  static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void =
-*fwnode)
-> >  {
-> > -       return device_match_fwnode(&gc->gpiodev->dev, fwnode);
-> > +       struct device *dev =3D &gc->gpiodev->dev;
-> > +       struct fwnode_handle *node =3D dev_fwnode(dev);
-> > +
-> > +       if (IS_ERR(fwnode))
-> > +               return 0;
-> > +
-> > +       if (device_match_fwnode(dev, fwnode))
-> > +               return 1;
-> > +
-> > +       return node && !IS_ERR(node->secondary) && node->secondary =3D=
-=3D fwnode;
->
-> The second check is redundant because fwnode cannot be an error
-> pointer (it has been checked against that already above) and so if
-> node->secondary =3D=3D fwnode, then node->secondary is not an error
-> pointer.
->
-> I'm not sure if fwnode can be NULL here, but if it can, it should be
-> checked against NULL.  Alternatively, node->secondary can be checked
-> against NULL and compared to fwnode.
->
-> So, if fwnode !=3D NULL cannot be guaranteed,
->
->         return fwnode && node && node->secondary =3D=3D fwnode;
->
-> or
->
->         return node && node->secondary && node->secondary =3D=3D fwnode;
->
-> The overhead of the former may be a bit lower because it avoids
-> dereferencing node when fwnode is NULL, but the compiler should be
-> able to optimize this anyway.
+Make sure that cache is initialised before calling any IO
+using regmap, this makes sure that we won't access NULL or
+invalid pointers in the cache which hasn't been initialised.
 
-Or even the device_match_fwnode() check can be folded into the last line:
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/base/regmap/regcache.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *fwno=
-de)
- {
--       return device_match_fwnode(&gc->gpiodev->dev, fwnode);
-+       struct device *dev =3D &gc->gpiodev->dev;
-+       struct fwnode_handle *node =3D dev_fwnode(dev);
+diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
+index 73cfe8120669..de03b090f152 100644
+--- a/drivers/base/regmap/regcache.c
++++ b/drivers/base/regmap/regcache.c
+@@ -202,14 +202,6 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ 		count = regcache_count_cacheable_registers(map);
+ 		if (map->cache_bypass)
+ 			return 0;
+-
+-		/* Some devices such as PMICs don't have cache defaults,
+-		 * we cope with this by reading back the HW registers and
+-		 * crafting the cache defaults by hand.
+-		 */
+-		ret = regcache_hw_init(map, count);
+-		if (ret < 0)
+-			return ret;
+ 	}
+ 
+ 	if (!map->max_register_is_set && map->num_reg_defaults_raw) {
+@@ -227,6 +219,15 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ 			goto err_free;
+ 	}
+ 
++	/*
++	 * Some devices such as PMICs don't have cache defaults,
++	 * we cope with this by reading back the HW registers and
++	 * crafting the cache defaults by hand.
++	 */
++	ret = regcache_hw_init(map, count);
++	if (ret)
++		goto err_exit;
 +
-+       if (IS_ERR_OR_NULL(fwnode))
-+               return 0;
-+
-+       return node =3D=3D fwnode || (node && node->secondary =3D=3D fwnode=
-);
- }
+ 	if (map->cache_ops->populate &&
+ 	    (map->num_reg_defaults || map->reg_default_cb)) {
+ 		dev_dbg(map->dev, "Populating %s cache\n", map->cache_ops->name);
+-- 
+2.50.1
+
