@@ -1,119 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CBB38E5F2
-	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 09:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6001C385500
+	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 10:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772012562; cv=none; b=P/J/FyHUVnTp0k9e4lXU3iHRxGNHbO84jENT2uc/Yzl53VH8QSDrYUtSCUms7wc89Tx+V4WVe8O7zVO++2FuHgwPE+6d8ItRQAwm8KdcCthJEGmZHPEypMTqzm151U7vJn5gRlBTi30q7wCSh6OUs7UO/FZ4kTo/hPUTn+PCKIw=
+	t=1772014088; cv=none; b=adgs4rbmOLkFKegJnBVkC1c1xxunoVzQKX40XXb2SCJPK88FYE4GC3E+9sBEwXFVkMJOztsDVfOtFi+CjqiBUnwi7hdIv2Q9IHy68vpGJqnIXnsVfLEDL0pJwZSho+ez667Neltngmf5DL+ngkcHXn9I+g/5SEofokftba3mmDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772012562; c=relaxed/simple;
-	bh=K9a2s9JYkj0KSLlC0p3v78WuyHO3yDxajztaUeqowf4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RBbhcU3ix600e9sTM9Nu6VkDf3diT+mlqxgPHIUKFRKujeQFl0ZviBXh1/7GKrn2kPmNjfVR+TsmRQi9OiYDQThQdDmWK/S10UTEWSs8+FO4VPFGIowVwLECS1FCt9KMsFEfCDUru0ht98dI2rk7qdf/wx8tJtYc+vFqT2O+Ttc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mT9Spqfg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772014088; c=relaxed/simple;
+	bh=NhNADHZtrkaH6ZBxLSszfkkgrCDJiaNEMQSTgfzNx/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pIMvCISGc/HeLMZBFOaHtIawtcWzxA6mBhvsPUCMH8P/peoW3LZvMcr+0rvFnajr1FaEWegyTilP9G7YPZtC0yqZ4M0kMxNDO+J3L0XuKnjCG9lwx0nK24EcTKFSa1oKzWO1hMgvSj/A78n5JMVs+tcHKmTlkuKZ7BLmI+t/W1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4WNWPw8; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mT9Spqfg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DC2EC2BCB4
-	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 09:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772012562;
-	bh=K9a2s9JYkj0KSLlC0p3v78WuyHO3yDxajztaUeqowf4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=mT9SpqfgCsu/X3E++A3RmEyNDeS1Jlb38T25+6EctL4aTNtrYmIn9sJwobi0Kjivc
-	 SIWlIil8HD6rI4tZWkASdHUvWoNLME+BBS77ASy39EdP9AEAvu8Grv97sZx0mgt4gA
-	 FeuVzd0nOinFN0twGSxBNd48CSosm2UTZtSO4BSCkLC9t3U6SY6VNPtrfdwBTtZPix
-	 cjoD2KrAApoFMf/6vraGzPtSqKDsk0JAwdh9JUpg0jU9012elBvMgLfvKfToNyDphC
-	 cRF+6q6DtW/u0Fl2wkp2IU3lxk1cSXZg3CgiNc7XIWbaJI8xW6WZRbGZZKtucy4U+G
-	 mWWi1ENNudy+g==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-389e139ee5eso5180371fa.0
-        for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 01:42:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXYDEtXw2Iw6ae5xYfZGVLO+Ite4u/Tdt8HzZLVVslr5eQCIFseh1LDzoj4Crj1ocVT9rlMc4Hqv0pcEQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQ0naUx/lhnpV4Km76ic5n6BaIHx/lUj6/1Y37Y1Y8+BIxAlhT
-	uKbdV7WKOhn/WQdTrLdNf6yQJgUl4Cp6c3jKGD99gaMkK5QSY9QcBHp1ka+8cP4GvYCxodvZj3J
-	s1LsaY9VlCXfDZ8MRlIOkILCxOmfPFWNZSZxgF6GkwQ==
-X-Received: by 2002:a2e:9e46:0:b0:388:25c1:d969 with SMTP id
- 38308e7fff4ca-389a5d14de0mr32354961fa.9.1772012560925; Wed, 25 Feb 2026
- 01:42:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4WNWPw8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772014087; x=1803550087;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NhNADHZtrkaH6ZBxLSszfkkgrCDJiaNEMQSTgfzNx/A=;
+  b=U4WNWPw8NTkZp59Nbv0iu/wptglgbXz6poZsSJFM3JmwCB7iem/UBC3r
+   xhqtE6P2yQTYR/jUrQ/AzlkjTAtO4J/HtAzJdHhrcfznODIWUmztyUT+l
+   IPTG9bHLeV6SXmLS71moO4W0sEiYWUbsGEA7sIJ0orE+ItIGjSChTYf/v
+   /kEVBCBrmJ8BRZ34qUXEGRi26ik4hHBgPvibmZdCQhlPlt7zrxRra6rOM
+   HMkVJxB8FrxIyCON8PV+W2kH2MjJzpvOb+jvk0bfbtZdECXCItOngVkOE
+   r1j/IoHGHPPuv2mSqUD7RPEZ371w7qbn4IzQvNQn/gouHhT5UXMux3+id
+   w==;
+X-CSE-ConnectionGUID: kBKsJwVHQVy4M6Y51fEocA==
+X-CSE-MsgGUID: aoi2vYO0TIuDaOItlP/ZAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="83371584"
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
+   d="scan'208";a="83371584"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 02:08:07 -0800
+X-CSE-ConnectionGUID: Lpb7nOl7S3u3KJFmAU75hA==
+X-CSE-MsgGUID: o1HJoIYgRfO6cGd9/qGKsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
+   d="scan'208";a="253948929"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha) ([10.124.223.10])
+  by orviesa001.jf.intel.com with SMTP; 25 Feb 2026 02:08:01 -0800
+Received: by kuha (sSMTP sendmail emulation); Wed, 25 Feb 2026 12:07:25 +0200
+Date: Wed, 25 Feb 2026 12:07:25 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>, Len Brown <lenb@kernel.org>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] gpiolib: match secondary fwnode too in
+ gpio_device_find_by_fwnode()
+Message-ID: <aZ7J3aPURDNXK6ab@kuha>
+References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
+ <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
+ <aZyNErXB_acR3yYq@kekkonen.localdomain>
+ <CAJZ5v0ibXKiUNf5Fvj=q=f9JbHT=w3j3h=33ri_awzEHm_dBng@mail.gmail.com>
+ <aZzPqbXH79Q6GvEn@kekkonen.localdomain>
+ <CAMRc=MeSbRySCe9wuEUifhOxzX2PydsjnttAJ_n=Nr1NdU6W5w@mail.gmail.com>
+ <aZ1nsPX36Y5DuDpr@kekkonen.localdomain>
+ <aZ1yyxshteYU2BAg@smile.fi.intel.com>
+ <aZ6nIK2AbPBHUVfq@kekkonen.localdomain>
+ <aZ7DC_46vxzU3_0J@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
- <20260223-soc-of-root-v2-8-b45da45903c8@oss.qualcomm.com> <20260224183213.GA3239922-robh@kernel.org>
-In-Reply-To: <20260224183213.GA3239922-robh@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 25 Feb 2026 10:42:26 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfAuDqQZQAPXnJPJ9P1OV38dsQb0CWCh_EtZVq_G9dwsA@mail.gmail.com>
-X-Gm-Features: AaiRm52qiNgvNEan0Ja9tgnzlKTIzAcLn92f5zLzhmXEy4_h8wLWb64Qeoqf4C4
-Message-ID: <CAMRc=MfAuDqQZQAPXnJPJ9P1OV38dsQb0CWCh_EtZVq_G9dwsA@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] soc: renesas: don't access of_root directly
-To: Rob Herring <robh@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aZ7DC_46vxzU3_0J@smile.fi.intel.com>
 
-On Tue, Feb 24, 2026 at 7:32=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Mon, Feb 23, 2026 at 02:37:23PM +0100, Bartosz Golaszewski wrote:
-> > Don't access of_root directly as it reduces the build test coverage for
-> > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper funct=
-ions
-> > to retrieve the relevant information.
-> >
-> > Suggested-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
-> > ---
-> >  drivers/soc/renesas/renesas-soc.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/re=
-nesas-soc.c
-> > index 38ff0b823bdaf1ba106bfb57ed423158d9103f8d..bd8ba0ac30fa91fcf2a10ed=
-d0d58b064650085cf 100644
-> > --- a/drivers/soc/renesas/renesas-soc.c
-> > +++ b/drivers/soc/renesas/renesas-soc.c
-> > @@ -6,6 +6,7 @@
-> >   */
-> >
-> >  #include <linux/bitfield.h>
-> > +#include <linux/cleanup.h>
-> >  #include <linux/io.h>
-> >  #include <linux/of.h>
-> >  #include <linux/of_address.h>
-> > @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
-> >       const char *soc_id;
-> >       int ret;
-> >
-> > -     match =3D of_match_node(renesas_socs, of_root);
-> > +     struct device_node *root __free(device_node) =3D of_find_node_by_=
-path("/");
-> > +     if (!root)
-> > +             return -ENOENT;
-> > +
-> > +     match =3D of_match_node(renesas_socs, root);
->
-> Doesn't of_machine_device_match() work here?
->
+Hi Sakari, Andy,
 
-No, because we're using the returned address of the matching struct
-of_device_id later in the function. If you think it's a better idea to
-introduce of_machine_match_node(), let me know but I think that should
-be done separately.
+> > > What I don't know is USB Type-C and USB DWC3 code where it's much more
+> > > complicated. And I'm not in a position to state that the change won't
+> > > affect those.
+> > 
+> > Any idea who has the hardware in these cases? There aren't that many users
+> > of this function out there and I think at some point we do need to fix
+> > this.
+> 
+> Ask Heikki?
 
-Bart
+I can test any fixes or changes that you guys want to propose for
+this, np.
+
+Br,
+
+-- 
+heikki
