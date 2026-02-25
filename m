@@ -1,81 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8FC21257F;
-	Wed, 25 Feb 2026 19:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B60A26C3BD
+	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 19:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772046922; cv=none; b=Dcv+LMH+u3c1tBeIIRWAJ3opO0crYlv5lDgqzVWsSLzh2VhXcgThwyaZ/hYQ6BJQuV3cDX2SePjMkt/poxUPuOMf4pkwvmEbGS5Apk8+AFNc+FCAgqFN8yYt+6OCKaigC1IPqmHXGA/3SF99Dk7KHe6kyTDgdNSayGnC5vTxXLU=
+	t=1772047478; cv=none; b=IlxT8HlIJp83HkXyRwk3r2aoaqb9+Mz1moIlgAmx/ljFmwPiuTXVycj8j8n0+pw7I0N9RD4Gd0B+tLBYfqaB70rqZ67K5xfK3CZjhCVc0LvWKMGru1NV/W3+jBJjMZzD7TDCQT6RYEwH0mLl7zTZbQh2vU5rUI9r/zhMV0xFu+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772046922; c=relaxed/simple;
-	bh=regoUCoDhvY3xcr+eRdpR/Fk6Qj/cGKH9p9REkSMmsA=;
+	s=arc-20240116; t=1772047478; c=relaxed/simple;
+	bh=5e3nQ394jT1s5ZI4k8N0VKdWMU3Hx+G+51Hsw08u8vU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ei1Kg4M3yFrEI5Zm+DSZ3DnDQmH1kWLI6knGBSHVuK/fmWaiNQy4sqLg0xTdStOcE8geI+hOEUWSS/itSoFGyd5FSINk7Ia/r4AyHRnUMIJ2O0Kh/m+5sjsTwGKV7oJoc/cuSO84lzPdu9uBsj2oKPyyVjU3gQ+idz7B8yY6BSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBT7ulMq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dg/kq1WOKz/WFpoSpMBi9zHJBhf3LNahhdquDPN8BEMMSaF8O0z260lXAUR2aF9PVb9XOY59uvRYD7Apb2PWYD+7RwX0QBN6deB+e9jHZ0+CtZwh+Maqt+tIgFbhG8mz6IR8jfGqlkr6O/M54fZSi7jpyckPV1p69agdiLGZ0Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kglRH2dc; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBT7ulMq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A85FEC116D0;
-	Wed, 25 Feb 2026 19:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772046922;
-	bh=regoUCoDhvY3xcr+eRdpR/Fk6Qj/cGKH9p9REkSMmsA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kBT7ulMq5detbrjYPnVyFTAl4rHkjz8uC45oA8a7hK2lqkhWxGVswCePOL904JXrd
-	 VKwAn98dUe2+pLqMJFzVYTwo1otlEvMGiyIx5eVmgpdXTbClv6CXGGSmIWQshr6dco
-	 nwy8clJ8SVwM1CXsDWfnVSOppdZYP+vRbW1EJvNlqs9I38lHgew3/IwMPY1YeHrjqw
-	 0OLshHRsQjpmkKQH8z21VRLHExQqArDbV2t9Ug2NSJ2dbAuH5zGn0wlKUAqSyNwld5
-	 PDpH5db7+pU/mCiHYIwcwbZs9461MHHpwVDT4PFUBPImjb5/vhcmFEuia1K7RmrnZd
-	 AZ06sZyNmJdAA==
-Date: Wed, 25 Feb 2026 19:15:18 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kglRH2dc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772047477; x=1803583477;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5e3nQ394jT1s5ZI4k8N0VKdWMU3Hx+G+51Hsw08u8vU=;
+  b=kglRH2dcJVIjFVTvYo1d5Awrs4OmncYcrspnkfNn4JESaeuEF46pi6F2
+   f+yjvsGQU113Z9t0zwTsPP8lnHXg/H4tKjOgW+BmPee9nGeK1GL8QE1vb
+   cOEVn1C8f5FkK8JB6rJ1Ypt36+ssvPovBCU+iVPE+PBrcZtSMUDblkHy5
+   o5Q9JpzZzQ/h4Ull5wJ3L/WaJB+TGWoxTnPWZBuyPLOL9qvkbmvhAj21c
+   JTW9Suq5c3YQLeZ/7zfYVz9uzBjzhb2v9e8paPc0bnVRr5OgugesJkFGM
+   F80bNdYN17YJl9V0pJPh04zHZnqXkvFH9/Y07XZKrlacmp2OzhIPdtY+c
+   w==;
+X-CSE-ConnectionGUID: heuCkk1oRZKUgojcchKS/g==
+X-CSE-MsgGUID: dwNcREt4T+u2FdHeeuZd4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="76703398"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="76703398"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 11:24:37 -0800
+X-CSE-ConnectionGUID: a42milijTdyj8ApFfWYVIA==
+X-CSE-MsgGUID: Ewfflg5oSy+WVk6kF/Eq3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="213417444"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.71])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 11:24:35 -0800
+Date: Wed, 25 Feb 2026 21:24:32 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
 Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>
 Subject: Re: [PATCH v2 5/5] regcache: Amend printf() specifiers when printing
  registers
-Message-ID: <a2e1dc8d-584c-4c72-8e9c-558a220ab5d4@sirena.org.uk>
+Message-ID: <aZ9McAzXLejc3Ttl@smile.fi.intel.com>
 References: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
  <20260225161659.3811671-6-andriy.shevchenko@linux.intel.com>
+ <a2e1dc8d-584c-4c72-8e9c-558a220ab5d4@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YTu20LK8GRwhJ7v/"
-Content-Disposition: inline
-In-Reply-To: <20260225161659.3811671-6-andriy.shevchenko@linux.intel.com>
-X-Cookie: From concentrate.
-
-
---YTu20LK8GRwhJ7v/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a2e1dc8d-584c-4c72-8e9c-558a220ab5d4@sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Feb 25, 2026 at 05:15:59PM +0100, Andy Shevchenko wrote:
+On Wed, Feb 25, 2026 at 07:15:18PM +0000, Mark Brown wrote:
+> On Wed, Feb 25, 2026 at 05:15:59PM +0100, Andy Shevchenko wrote:
 
-> -	dev_dbg(map->dev, "Writing %zu bytes for %d registers from 0x%x-0x%x\n",
-> +	dev_dbg(map->dev, "Writing %zu bytes for %d registers from %#x-%#x\n",
->  		count * val_bytes, count, base, cur - map->reg_stride);
+...
 
-I'm really not convinced this is helping legibility.
+> > -	dev_dbg(map->dev, "Writing %zu bytes for %d registers from 0x%x-0x%x\n",
+> > +	dev_dbg(map->dev, "Writing %zu bytes for %d registers from %#x-%#x\n",
+> >  		count * val_bytes, count, base, cur - map->reg_stride);
+> 
+> I'm really not convinced this is helping legibility.
 
---YTu20LK8GRwhJ7v/
-Content-Type: application/pgp-signature; name="signature.asc"
+You mean the only this hunk, or the entire patch?
 
------BEGIN PGP SIGNATURE-----
+If the former, I have no strong opinion, can drop it as 0x%x is (almost)
+an equivalent to %#x. For the %d --> %x I think it needs to be applied as
+it makes harder to debug and follow when some of the messages use register
+printed in decimal.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmfSkUACgkQJNaLcl1U
-h9DqnQf9GUCgJStmY4ZZEaTClRRbt8fmOHBPuyXT3sBN7/ltXfFU3vcpox7LrvjA
-mpxxMhqvtNZf8Iaw/zfWaJJScNLwdh6u8CdzvdScJx+gFEcJwdLRFRbUfVmX65zY
-kO/bkxOnBvwANgeXgsgNaAlBF2jsdaCZah5ecgLEuPE3hgcZWAHIFtzzw0IOp5ha
-gVn2iJO9Kta0wu6c46c9CYYp0GL7sh1eBFsWrFLZrEE47M3hJq4KX/+Nv/yEwaLT
-4THZpc7GONIPq+FKIjxs0YOjIbRgTZhVWjrjBHJJSXhqnBTkIUL3tIVr68WM+Cla
-kYsFQVypJIphN3MHtdmRidFL7o9EEw==
-=eXAp
------END PGP SIGNATURE-----
+-- 
+With Best Regards,
+Andy Shevchenko
 
---YTu20LK8GRwhJ7v/--
+
