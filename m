@@ -1,172 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011066.outbound.protection.outlook.com [52.101.65.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA018262FE7
-	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 07:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772005131; cv=none; b=JC2UO4bOboXhxdZ9wIDE6jrp+b5URAuLmTSqtX7kAlXVKQV5PsIha2pxc8l8sLJxwJCJDCf9qyzya0IHyFDUNpUeX+nvsBbXI/VTNzyPmwyEf9L4MiPbFT9WqV3Kl+9sp0oRoI6pZNDQpTVRL7wL9Yn6P7rciZnahMZ3BrLZ2xE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772005131; c=relaxed/simple;
-	bh=lS4yqBnLA6YNBCx1H7wIWvSQxywB8aLgaTJUNH0vjIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SPcAnSGDvfH0wnMKuR54S+c64FRzlD107+Sqhc5OG9Z5Qvmn6ny0lFvq1pyojcyyI7DR5YXBzo1Bgut81q2o3zEEnIrkKApr86eMDwji/R0GE5wfgfkO/GsqdJ5Ogx2E3yoGugx2HZucP5awCxnQyoYrH4Xs7++BmKLZ4s+s10s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdXqckg4; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBCF306486;
+	Wed, 25 Feb 2026 07:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772006033; cv=fail; b=uC9kFeNGoGtG33wBJE1OK6wsEFdBKuOm+e4B2APF13G/HEE92S8ot+kD44zaLSp/xSBezQPIoAZpab9+l0vtKMacdGYa+OHNChxgqASc4NSngL7OcvOfhz9OASZhMqOa2I+IoTdQgxmdHPrhwKnlE/4KOagYZfY0XEqcLu22CLQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772006033; c=relaxed/simple;
+	bh=M3+hZPGm0Pkp449OwrQkAQ5JKTuceovjlftenT8atwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ZMhHZoqLoMGMlxO6BgO14mK5lX+vn5nvRqq4TSUuHvt9spyooNpcEVGRv1mG2/2JGf03q0GbAxwQoZPRZDMAklWRH/e7VdKZ1YFKkC5KgQmSmlvF31rMO8Hab55ZkQdvUzk2VskPxHJS0vQsX0jCC761KQxDr1HTTU+piAhqP58=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=kMJUDRi4; arc=fail smtp.client-ip=52.101.65.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdXqckg4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772005130; x=1803541130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=lS4yqBnLA6YNBCx1H7wIWvSQxywB8aLgaTJUNH0vjIo=;
-  b=OdXqckg47NT/aFc07DJpdRrzZ3k6olAHsEb/rHUTH8ZpO57D69U4f4IQ
-   PoZWJVQAA8ysF8lU8dNkHyk4PcTJFyCGg/QjK3s7Fu0wISCD+PE7bMo0T
-   isw3BAuYTOouCga7TUx45JrlGxoOio7bX1g6yxAeRCxtXi1ub6pnJhjnz
-   P4lG8TfhL2S2uWJTJaCQ7q72+c12W9X0o0csrU56GvY/VTRFW0N3m8GJ3
-   5rsUHmwknV/TyIbkWuvRWg5bACDOAnHj3WyjRvlUUqkby2UyeHKC1uDok
-   r/EHZ+1sK3pYd6JNDQhVmw5bpLBdPZ5pnNH5WCisXl9Sc3Gt2XmSaOpOG
-   Q==;
-X-CSE-ConnectionGUID: 9JypptfXSdKY5o+7zQ+puw==
-X-CSE-MsgGUID: UoLtgy4oTyyx/qJ+1wxKlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="76904377"
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="76904377"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 23:38:49 -0800
-X-CSE-ConnectionGUID: lGSkHTVCSEKimV9xNHzgZw==
-X-CSE-MsgGUID: hhvdLbXJQemhwzdfPFPKiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="216034318"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.32])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 23:38:45 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 63E7A121D20;
-	Wed, 25 Feb 2026 09:39:12 +0200 (EET)
-Date: Wed, 25 Feb 2026 09:39:12 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="kMJUDRi4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nqe3/Jr/plmvQLdWXvwhPZYF4z86uY1buT+DvLVkEVhE2KSz1BEaG2k0KBdDbZbL/MdPNJM6pTvQjMPrCx9ERvRcCgXwydZiSAglLG+i7cdjBi94i3layXunoeetiY/FlUHzTzfxX4LJ5nOIRYQkyXeFVJHYrhZCySBcm1wN8QTuYu+oXHjhywPS7QrzlTzxD5v4nHEmdhU0zHredyvsJrcRZieDuFIrFtdqk1WO2Uaf1UKGtcBiwrnTfyBVbaMTFqUyGmribEkQX34UmsxiQJzpWujcXTPjELECyN7zapgjbVOdArwtia7D5UCzrBM3PoifwcT3mF+wI0YZwwhFag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M3+hZPGm0Pkp449OwrQkAQ5JKTuceovjlftenT8atwQ=;
+ b=g+35mKSQEKmH0XQ3jsG8zYVlIJ6knihQI/Fl+b4vJXC0b9cD9MsHYOgOTgiMBl49ZmLAuVt18trTyID+L3jYEankzqdyTWxSdJ/mgy3ePlNY/cbv8Z+s9J6ffDguQV9JpoXrrgmZ5JeuuA4y2/7PwMeWF/qoMbiRI2daDLlLvIWhZxfB7XGfkN7LLV86B7T296igcGqznroqHnao3gYczOK2AjQKr6fZe5IDu6VhIJTCAU7QIfvD1YLHP0w6scYOSGSEyz2dHINj5B7QiJNw0VWU84PPEJ0AF6f26AoAJW5UbMsHrHZwHlzCzYQrYCp7bpx1ZetAFei6UcqLrw1b0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M3+hZPGm0Pkp449OwrQkAQ5JKTuceovjlftenT8atwQ=;
+ b=kMJUDRi4tM3Z9S+6W0cS+F/36qC4mt86nujH+SBYpzAWYRXaDYuOE6YDnQfp5KCUQPSLbZoxput7BjQ48xW8deEmnUK7hdt2lzmWpLE4qy8uaQMbIxT/kjmoYwFCzUtAZy2Wlk4SIEgOhIgXN0l4cuzz1orB5zUfQ/lW6zrAhFJuVHl2ABqGbcbndDIKwMvHcl8A903/rBB/e//vFAv/pwv95Ni5qB0hPNEu3e1lcAs1dJo2XOSfinbctIVK0xqtDJz5fwK3B9oAbOJRLnDE8EHfsO2dbGxIjYZhy/cvicSy3afMhi+F3R0ewqBzZjDWIObGggEo57ckQDF/pjfHtA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by VI1PR04MB6830.eurprd04.prod.outlook.com (2603:10a6:803:132::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Wed, 25 Feb
+ 2026 07:53:47 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::4972:7eaa:b9f6:7b5e]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::4972:7eaa:b9f6:7b5e%7]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
+ 07:53:47 +0000
+Date: Wed, 25 Feb 2026 15:55:38 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] gpiolib: match secondary fwnode too in
- gpio_device_find_by_fwnode()
-Message-ID: <aZ6nIK2AbPBHUVfq@kekkonen.localdomain>
-References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
- <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
- <aZyNErXB_acR3yYq@kekkonen.localdomain>
- <CAJZ5v0ibXKiUNf5Fvj=q=f9JbHT=w3j3h=33ri_awzEHm_dBng@mail.gmail.com>
- <aZzPqbXH79Q6GvEn@kekkonen.localdomain>
- <CAMRc=MeSbRySCe9wuEUifhOxzX2PydsjnttAJ_n=Nr1NdU6W5w@mail.gmail.com>
- <aZ1nsPX36Y5DuDpr@kekkonen.localdomain>
- <aZ1yyxshteYU2BAg@smile.fi.intel.com>
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev
+Subject: Re: [PATCH v2 6/9] soc: imx8m: don't access of_root directly
+Message-ID: <aZ6q+tVoJFslHIcP@shlinux89>
+References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+ <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
+X-ClientProxiedBy: SI2PR02CA0015.apcprd02.prod.outlook.com
+ (2603:1096:4:194::16) To PAXPR04MB8459.eurprd04.prod.outlook.com
+ (2603:10a6:102:1da::15)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aZ1yyxshteYU2BAg@smile.fi.intel.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8459:EE_|VI1PR04MB6830:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3649d7b0-9a1b-4fda-decc-08de744301a3
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|7416014|19092799006|376014|366016|1800799024|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?83Y14lvjQKUqWFyIUcPHqzNt4fcDk+6y6vq6WR0RwXxfvg/2EOlC0yJTtbV2?=
+ =?us-ascii?Q?fWlpnC8dsLYUfj2Tc0/n5sgdmL6KwGGH8AM5VzqStpOS2ohOE0+8af9L3L5R?=
+ =?us-ascii?Q?PnqBn1USKIhcM+tCmeR3+sOEtVphrajyfFNmnX32C0A14QtggsgEAp5ZGGmc?=
+ =?us-ascii?Q?Y/sVtqXkX9xsbh5UvVnz8Ga+8fzC3gajnxiFdblCc3pUfmUEHkcgkldOUuw3?=
+ =?us-ascii?Q?4fXwN21Drcu8NfLgDDtX8RmamlzMK88ORGR6z3BnYvo2o5fJvEAzxiqLkh9P?=
+ =?us-ascii?Q?XPRX3HEcvcVV5r4dJ1VBdMaThfS2w/LnXGVyn5oOXJa1tKP2EZWvc7aG/bBY?=
+ =?us-ascii?Q?FEvzijLXZEXuSfAXHjfaSX6pR+5s56spTg4KXmnXJRpBlmzy/5YCche7lkX9?=
+ =?us-ascii?Q?hHqFv18KQ0JLKGe44+cOPAcR8QGzbLdbJgn7jVl9E5TWOvHh9DuMHlAP2/WZ?=
+ =?us-ascii?Q?8M7BYlZTrcX8wPoqYo7oOtxUjp+OpTcALtMqibrqNpriSLkKK3PGDQz5UMFW?=
+ =?us-ascii?Q?WBssa6Ad67KXNlfVsUpz8O+NhsZcx678/AlYQqPGU3nZOqFkWR9oNrPE/t/7?=
+ =?us-ascii?Q?8ItvyLV1xmUGrCfNbZv5XWGx4khCI0cZM2KwBm7HtL3Jo2/ILTDcoWskoNLi?=
+ =?us-ascii?Q?e/CYpN0TniZVe+ApCgvFUk7fVskrSOPLKuJumYqtgEKgoCR58E32bOCQsx0V?=
+ =?us-ascii?Q?4KnoTIyJoVEsV345y/elzEIlmQtvHTkI+LDb7+pG4KU6KkrJ35iXoRY1qL3O?=
+ =?us-ascii?Q?sSCod3CayzdFCw6F0fdpS/aMXHIDkBwesreRYaVCzdRztQ4ABWRtDsbrfjFA?=
+ =?us-ascii?Q?pUpp5LVAAITGiLHr4HwbfGptIOdun2AyZOa8hlWjeSQoj7ij9QvMjZmHYaS9?=
+ =?us-ascii?Q?yRm9tE5IWXiMptaQxXY/y7yJF5SCfZD8YWkLGuDrpTnwuHIM8KGJwfqvjRFj?=
+ =?us-ascii?Q?Su5JteznoFga8d5Zd4ULGq2oDfS50tPTPkv9eLw5N+Fh50QRqzkDPVpt5Qy+?=
+ =?us-ascii?Q?O81AnTFGkakFcb9yMbkblJIwIvOj7d5bDt+ueaYeDaAqmDg01BWavwDiqj7Y?=
+ =?us-ascii?Q?fxnOSMWofwb5qnmY8CepcjFX/pEUbhM/qzf2Ce6AHbcwwBTXFYcNWQS6OLI8?=
+ =?us-ascii?Q?SnxrwUZArXu0di8AHtPxVkQVQahDhQ7ZXfatt8teudwSv/PMDu+zZO4dVLG+?=
+ =?us-ascii?Q?IwiAym1Hg9XOoEt6VjPyeaBeaR5dWpRSLzfLq5wBj3t2AgMr5WVJaJiwqcIM?=
+ =?us-ascii?Q?Pu3Dz12gvboiAvhh0pTluWa0IohKStWEreJDhO6Aq3QggoN0hGIgK3LF5Idt?=
+ =?us-ascii?Q?tCpw6x9dDwK/r9YKo0CKwOlRYW2P86ES1hLmCI7A29zmCd56gB7PsCOjGm20?=
+ =?us-ascii?Q?aqvmuAB00SCpLXeapXHjfNpAprH+vTuxOTr9O/CunS/4jwiNjHzwp/i1Rny4?=
+ =?us-ascii?Q?YnXcUna8ZrwpLOhP49nRbkvHkPqtatYA9cowyfF5mLaZZjGbiF00v3QVGZmI?=
+ =?us-ascii?Q?LPhMkHdJMBGtL9tZuy8khFZPZ77da1nXamf9n70PBBb3jfHFOaIgrA9ac3KO?=
+ =?us-ascii?Q?xb7OwoVMzjf/A7cK4U5WrQNnyB+GdIa55cVO/b1c3+R8aiiT89dnQsALukk/?=
+ =?us-ascii?Q?MwYxJJAdU7gdfE8XIFIxxE4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(19092799006)(376014)(366016)(1800799024)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?XQwZbRbLd5ZMfYbE8awsc1Ifk8jjoufYdkCnjHzolNMISXpq8hD3qPaL/wG0?=
+ =?us-ascii?Q?rrukLGl3TbT5Lu1iSaMW1mhocicW3ktkVxM9VZ+inSvILv6G3u8mOhCOnfqg?=
+ =?us-ascii?Q?ye8VrmA5zk8anuiYjTrrKHFZuZLIgLjG8JMhsFA0Tr3fzK9oKxBtDhWryffB?=
+ =?us-ascii?Q?5pVF8F6CUtgyApSgXOgTb0PNQCX7CZ823wsERUhw1DLX1B9OfYg9tdfxXY5g?=
+ =?us-ascii?Q?A6Qw/iXg7J57V7G72nu7yxjGlHQo5JZYnnRP7wGsHp61vGys6hByVKmsymX3?=
+ =?us-ascii?Q?UX7lPgcy0FxEGbsTCn12SohTugTHbyMSbRzmipYC/oFWrRPmfATKuaZ9sM5d?=
+ =?us-ascii?Q?raAhmBEw6mH0qy2U4eFeOluaAc3kkLvtHTYJXUBtgf9QDEEGHYLpVHzWCBIw?=
+ =?us-ascii?Q?k4QuzrM5mv3dGDE7vFswN/rOE0ySU3iQEFyTrxM7eCWpl/HuXqP8q7gLcjeA?=
+ =?us-ascii?Q?x/ZdPIMMojI0wZdFErfvrs125R0OpZfgkGTtHTe90FT07V0Ss27JJD19BeZt?=
+ =?us-ascii?Q?uc0bUVQU4yYCAaNYgvz0vr2spfLdLRipcHgRbODtW/rdvMMtNH3Fq2NG6Lkf?=
+ =?us-ascii?Q?Y8UcTaWbGDa16CgzO8cH6HcIHhcUAyRcfRdK0YtB/qlFgfE6mXDJVbGTiuFd?=
+ =?us-ascii?Q?yCED/hhWXx8SoQPzPtDWy7grzkyBUtqu4VIQhrjgzOEDi+VGulManwPMU/YS?=
+ =?us-ascii?Q?IVfiNqICV7kWHocH9aFpWPuglI32IIzzoSdxtDUULHK2i0FgUIWMcHsyPM9X?=
+ =?us-ascii?Q?91tFLecCriNeb/DpChcxJetVz6Weyb4rf5sHtWpwcHqfCMMqUG3mO0xEMBhh?=
+ =?us-ascii?Q?U3Pzsqto491G2H11zaug/MATGFCgn0zxQIdS4ORcWeCRO8wUpJH9rn4o/tWh?=
+ =?us-ascii?Q?EQNn/XF4sWroRpodqZGXXyiGANxgq6N9gPiIYjn2ifbZChDyT7ZmlroxOTd4?=
+ =?us-ascii?Q?Kez/AB3ZJEKRdoVVHXZdQxKFnplRsnFQnG1sv6SEAg8geLhKfDVEiFv5Hf++?=
+ =?us-ascii?Q?dHxS0riR3hXJPDuNRZLmNYfAjVzpW/mwRUI9RJIPl+sHBmqv1fcLYi1eEdZ7?=
+ =?us-ascii?Q?h16fEq8RWTwn9GKGRLLoy5DyFkrDnAEMR97wHwdz1FaoSHNVgQ2Veg6++dFy?=
+ =?us-ascii?Q?bJqWjACbbt1+tpwgB/7eYntXlaS28GvVYtkNvNWYSY5JEvwcqy16OjLR+TMp?=
+ =?us-ascii?Q?q6EbbUV65KX4sgDNJ3BHmlXXx+fP3WZkNtcDGTYeK3vGTCWE24o+br20KRCT?=
+ =?us-ascii?Q?rBfE2PoQ0WFn6J3yRxVoQDcywllmOhfmffXLHZmWCBrAzply4wkOKyuZBmvJ?=
+ =?us-ascii?Q?yNaVfj6sOCDeR1SDYIjK9GAau3CcDIhW2CIFcochRhENHb9mzbXlm8UrbYVV?=
+ =?us-ascii?Q?BNf5VMvY0IOeOIMTUGiNimXeeBtj3VQ3nP5IH636hipU66/TKZX/b4MT1Ljj?=
+ =?us-ascii?Q?Hf9jMn+KOFQbKI1X+10qG1gV82ECsNuyOfmRsIgteU2rZWa9MHfpyTnWoiNH?=
+ =?us-ascii?Q?U1VpALc2WH/LcVsVhvdZ/t+vBY8HZz5FU+v1oYuplQQ585e7C8VYQ5A0V2L8?=
+ =?us-ascii?Q?421kpOCm15IKrgikjjG8XY5AjT/3F6kORDrqSwH9MYOrQSQ9+jHDbxifypXS?=
+ =?us-ascii?Q?THcFrCIyDWeV51lubdC8YSTj7rjJGY9Z5SSdpBfd9aoRiJDBoFfkhy7jp4h4?=
+ =?us-ascii?Q?0F11MSYboLcpQfydZk63aF6u0csnZXZCOaYRgdLGtSwwVhLgxF63EbHiGjPR?=
+ =?us-ascii?Q?AUekt2FD6Q=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3649d7b0-9a1b-4fda-decc-08de744301a3
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 07:53:47.5204
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 882pbkHIOZlFN04X6CRhM5HiQpa7m0OgTzKmulFmof3qVqVMwqIPl/i+BvPzoNk2LW6H9tH95kqP+068oUTx5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6830
 
-Hi Andy,
+On Mon, Feb 23, 2026 at 02:37:21PM +0100, Bartosz Golaszewski wrote:
+>Don't access of_root directly as it reduces the build test coverage for
+>this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
+>to retrieve the relevant information.
+>
+>Suggested-by: Rob Herring <robh@kernel.org>
+>Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-On Tue, Feb 24, 2026 at 11:43:39AM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 24, 2026 at 10:56:16AM +0200, Sakari Ailus wrote:
-> > On Tue, Feb 24, 2026 at 09:47:57AM +0100, Bartosz Golaszewski wrote:
-> > > On Mon, Feb 23, 2026 at 11:07 PM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> 
-> ...
-> 
-> > > > > > >  static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *fwnode)
-> > > > > > >  {
-> > > > > > > -     return device_match_fwnode(&gc->gpiodev->dev, fwnode);
-> > > > > > > +     struct device *dev = &gc->gpiodev->dev;
-> > > > > > > +     struct fwnode_handle *node = dev_fwnode(dev);
-> > > > > > > +
-> > > > > > > +     if (IS_ERR(fwnode))
-> > > > > > > +             return 0;
-> > > > > > > +
-> > > > > > > +     if (device_match_fwnode(dev, fwnode))
-> > > > > >
-> > > > > > Could device_match_fwnode() match secondary fwnode as well?
-> > > > >
-> > > > > In the previous discussion on this, Andy was against doing that due to
-> > > > > the concern that it might introduce subtle bugs, which I agree with.
-> > > >
-> > > > Could you elaborate or provide an example?
-> 
-> I believe you ask me. Okay, the sophisticated case I have in mind is the
-> intel_quark_i2c_gpio.c which provides a GPIO device with a list of children.
-> 
-> First of all, it seems broken as it rewrites the secondary link for the
-> I²C device. (Which makes me think that we need to have a copy of the
-> [primary] fwnode in the children devices of MFD, but I don't know how
-> to refcount that properly). The gpiolib-acpi-core.c has a matching function
-> via ACPI_HANDLE(). So it might be not affected by this.
-> 
-> What I don't know is USB Type-C and USB DWC3 code where it's much more
-> complicated. And I'm not in a position to state that the change won't
-> affect those.
-
-Any idea who has the hardware in these cases? There aren't that many users
-of this function out there and I think at some point we do need to fix
-this.
-
-What we could also do is that we add another function that only cares about
-the very fwnode you have at hand, switch the dubious cases to use that and
-have the proper function test both available fwnodes. That'd get us on the
-right path to fix this eventually, if not now.
-
-> 
-> > > > The function has some 27 users although few are individual drivers.
-> > > >
-> > > > My understanding is that we only have the secondary fwnode for being able
-> > > > to attach objects from different backend to the same node. The fwnode API
-> > > > in the meantime generally tries to hide the existence of the secondary
-> > > > fwnode; a rewrite (which ideally would have happened perhaps a few years
-> > > > ago?) would probably make the fwnode a linked list instead so we'd lose
-> > > > that secondary pointer in the process.
-> > > 
-> > > It already is a (singly) linked list. Ideally it would be a
-> > 
-> > With two entries at most.
-> 
-> There is no technical limitation based on the data type.
-
-There aren't any, no, but the current implementation assumes this, and I
-wouldn't change this without changing the data structure as well.
-
-> 
-> > > doubly-linked list moved into struct device with struct fwnode_handle
-> > > having no concept of primary and secondary nodes.
-> > 
-> > I'd think we had that list in struct fwnode_handle, which will still
-> > represent nodes. But let's see the details when someone gets to implement
-> > it. :-)
-> 
-> In the case above single or double linked list doesn't solve the issue of
-> the corrupted (parent) fwnode. We need also to have a siblings list so it
-> looks more like a tree.
-> 
-
--- 
-Regards,
-
-Sakari Ailus
+Reviewed-by: Peng Fan <peng.fan@nxp.com>
