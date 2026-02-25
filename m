@@ -1,110 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851593A785B;
-	Tue, 24 Feb 2026 18:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA018262FE7
+	for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 07:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771958313; cv=none; b=LH3xenxiaMyhFpy5Gu8zImUz5E8jlJujD8b1R3GG8DQUG+tZVL2jnd2tBa2zskH+qzjj+CqTUUjEwoyMeC+NH9JXHUWoMbKl1pNkpAtqmQ9hSCUQ7XIcTXG6jS9mJr25hgiCajWOLMsJtczn7koXxgRnhBcouRLaN+MHWtQeTTQ=
+	t=1772005131; cv=none; b=JC2UO4bOboXhxdZ9wIDE6jrp+b5URAuLmTSqtX7kAlXVKQV5PsIha2pxc8l8sLJxwJCJDCf9qyzya0IHyFDUNpUeX+nvsBbXI/VTNzyPmwyEf9L4MiPbFT9WqV3Kl+9sp0oRoI6pZNDQpTVRL7wL9Yn6P7rciZnahMZ3BrLZ2xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771958313; c=relaxed/simple;
-	bh=dS/PeNeD3SjxSqxDdPYuOcwLO2rhR2F/UDY4OUrE8go=;
+	s=arc-20240116; t=1772005131; c=relaxed/simple;
+	bh=lS4yqBnLA6YNBCx1H7wIWvSQxywB8aLgaTJUNH0vjIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AuErAAKnm1cui7MuANypcYdoMZv2HpvNkf+WevZaT0e+j/JjHlov8tiWeEkyF8UG2VBsytd256ZegkVFQxP3f8dAIfnRhLQH5o5V5HYJs31IHKPlBgmvMEE13HNEdhu1LXO8sGwIv0as7z8/EcPmASJ30vnfQHDef0swIqYhs4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NeVWlmTO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPcAnSGDvfH0wnMKuR54S+c64FRzlD107+Sqhc5OG9Z5Qvmn6ny0lFvq1pyojcyyI7DR5YXBzo1Bgut81q2o3zEEnIrkKApr86eMDwji/R0GE5wfgfkO/GsqdJ5Ogx2E3yoGugx2HZucP5awCxnQyoYrH4Xs7++BmKLZ4s+s10s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdXqckg4; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NeVWlmTO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4B2DC116D0;
-	Tue, 24 Feb 2026 18:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771958313;
-	bh=dS/PeNeD3SjxSqxDdPYuOcwLO2rhR2F/UDY4OUrE8go=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NeVWlmTOJhJlcf2PmA7E4NC6gNxINhb72p4NHtgkyLKaCJYMzQAy/keCJnA2KK+D4
-	 Mf0HKgARJSzH2/4R4f40d31RyUB9qGr3mFYQrsP3gxEg+O4XWATTxQHXdNslk5f+yv
-	 w2pFlwO5vAp9GZHfw6EXQ0O5P5At56q/eE3dWguZ64rHK/ZtFclnJZZaFmSBaKdvv6
-	 rtQ1AGhipiTlK6H9Xbigxs2zEBQUPcF79m1CMwGc0e6oxJHnP96DtyoNcxU1LGg/3j
-	 D0QGJ6559cz1b6h6MDNhDBN2F0l6CZzeazoO+GDCuTQ3g0z4Od6TmS4qZI3gX1qV7f
-	 Ejfo/J/YfSL7w==
-Date: Tue, 24 Feb 2026 12:38:32 -0600
-From: Rob Herring <robh@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdXqckg4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772005130; x=1803541130;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=lS4yqBnLA6YNBCx1H7wIWvSQxywB8aLgaTJUNH0vjIo=;
+  b=OdXqckg47NT/aFc07DJpdRrzZ3k6olAHsEb/rHUTH8ZpO57D69U4f4IQ
+   PoZWJVQAA8ysF8lU8dNkHyk4PcTJFyCGg/QjK3s7Fu0wISCD+PE7bMo0T
+   isw3BAuYTOouCga7TUx45JrlGxoOio7bX1g6yxAeRCxtXi1ub6pnJhjnz
+   P4lG8TfhL2S2uWJTJaCQ7q72+c12W9X0o0csrU56GvY/VTRFW0N3m8GJ3
+   5rsUHmwknV/TyIbkWuvRWg5bACDOAnHj3WyjRvlUUqkby2UyeHKC1uDok
+   r/EHZ+1sK3pYd6JNDQhVmw5bpLBdPZ5pnNH5WCisXl9Sc3Gt2XmSaOpOG
+   Q==;
+X-CSE-ConnectionGUID: 9JypptfXSdKY5o+7zQ+puw==
+X-CSE-MsgGUID: UoLtgy4oTyyx/qJ+1wxKlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="76904377"
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
+   d="scan'208";a="76904377"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 23:38:49 -0800
+X-CSE-ConnectionGUID: lGSkHTVCSEKimV9xNHzgZw==
+X-CSE-MsgGUID: hhvdLbXJQemhwzdfPFPKiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
+   d="scan'208";a="216034318"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.32])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 23:38:45 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 63E7A121D20;
+	Wed, 25 Feb 2026 09:39:12 +0200 (EET)
+Date: Wed, 25 Feb 2026 09:39:12 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v2 0/9] soc: remove direct accesses to of_root from
- drivers/soc/
-Message-ID: <20260224183832.GB3239922-robh@kernel.org>
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+	Linus Walleij <linusw@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] gpiolib: match secondary fwnode too in
+ gpio_device_find_by_fwnode()
+Message-ID: <aZ6nIK2AbPBHUVfq@kekkonen.localdomain>
+References: <20260223-device-match-secondary-fwnode-v2-0-966c00c9eeeb@oss.qualcomm.com>
+ <20260223-device-match-secondary-fwnode-v2-2-966c00c9eeeb@oss.qualcomm.com>
+ <aZyNErXB_acR3yYq@kekkonen.localdomain>
+ <CAJZ5v0ibXKiUNf5Fvj=q=f9JbHT=w3j3h=33ri_awzEHm_dBng@mail.gmail.com>
+ <aZzPqbXH79Q6GvEn@kekkonen.localdomain>
+ <CAMRc=MeSbRySCe9wuEUifhOxzX2PydsjnttAJ_n=Nr1NdU6W5w@mail.gmail.com>
+ <aZ1nsPX36Y5DuDpr@kekkonen.localdomain>
+ <aZ1yyxshteYU2BAg@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aZ1yyxshteYU2BAg@smile.fi.intel.com>
 
-On Mon, Feb 23, 2026 at 02:37:15PM +0100, Bartosz Golaszewski wrote:
-> linux/of.h declares a set of variables providing addresses of certain
-> key OF nodes. The pointers being variables can't profit from stubs
-> provided for when CONFIG_OF is disabled which means that drivers
-> accessing these variables can't profit from CONFIG_COMPILE_TEST=y
-> coverage.
+Hi Andy,
+
+On Tue, Feb 24, 2026 at 11:43:39AM +0200, Andy Shevchenko wrote:
+> On Tue, Feb 24, 2026 at 10:56:16AM +0200, Sakari Ailus wrote:
+> > On Tue, Feb 24, 2026 at 09:47:57AM +0100, Bartosz Golaszewski wrote:
+> > > On Mon, Feb 23, 2026 at 11:07 PM Sakari Ailus
+> > > <sakari.ailus@linux.intel.com> wrote:
 > 
-> There are drivers under drivers/soc/ that access the of_root node. This
-> series introduces new OF helpers for reading the machine compatible and
-> model strings, exports an existing SoC helper that reads the machine
-> string from the root node and finally replaces all direct accesses to
-> of_root with new or already existing helper functions.
+> ...
 > 
-> Merging strategy: first two patches should be either acked by Rob or
-> picked up into an immutable branch based on v7.0-rc1, the rest can go
-> through the SoC tree.
+> > > > > > >  static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *fwnode)
+> > > > > > >  {
+> > > > > > > -     return device_match_fwnode(&gc->gpiodev->dev, fwnode);
+> > > > > > > +     struct device *dev = &gc->gpiodev->dev;
+> > > > > > > +     struct fwnode_handle *node = dev_fwnode(dev);
+> > > > > > > +
+> > > > > > > +     if (IS_ERR(fwnode))
+> > > > > > > +             return 0;
+> > > > > > > +
+> > > > > > > +     if (device_match_fwnode(dev, fwnode))
+> > > > > >
+> > > > > > Could device_match_fwnode() match secondary fwnode as well?
+> > > > >
+> > > > > In the previous discussion on this, Andy was against doing that due to
+> > > > > the concern that it might introduce subtle bugs, which I agree with.
+> > > >
+> > > > Could you elaborate or provide an example?
+> 
+> I believe you ask me. Okay, the sophisticated case I have in mind is the
+> intel_quark_i2c_gpio.c which provides a GPIO device with a list of children.
+> 
+> First of all, it seems broken as it rewrites the secondary link for the
+> I²C device. (Which makes me think that we need to have a copy of the
+> [primary] fwnode in the children devices of MFD, but I don't know how
+> to refcount that properly). The gpiolib-acpi-core.c has a matching function
+> via ACPI_HANDLE(). So it might be not affected by this.
+> 
+> What I don't know is USB Type-C and USB DWC3 code where it's much more
+> complicated. And I'm not in a position to state that the change won't
+> affect those.
 
-SoC tree is good.
+Any idea who has the hardware in these cases? There aren't that many users
+of this function out there and I think at some point we do need to fix
+this.
+
+What we could also do is that we add another function that only cares about
+the very fwnode you have at hand, switch the dubious cases to use that and
+have the proper function test both available fwnodes. That'd get us on the
+right path to fix this eventually, if not now.
 
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - rename of_machine_get_compatible() to of_machine_read_compatible() and
->   add the index argument
-> - add a stub for of_machine_read_compatible() for !CONFIG_OF
-> - provide of_machine_read_model() to avoid having to look-up the root
->   node via of_find_node_by_path("/")
-> - rename soc_device_get_machine() to soc_attr_read_machine() before
->   making it an exported symbol
-> - Link to v1: https://lore.kernel.org/r/20260119-soc-of-root-v1-0-32a0fa9a78b4@oss.qualcomm.com
+> > > > The function has some 27 users although few are individual drivers.
+> > > >
+> > > > My understanding is that we only have the secondary fwnode for being able
+> > > > to attach objects from different backend to the same node. The fwnode API
+> > > > in the meantime generally tries to hide the existence of the secondary
+> > > > fwnode; a rewrite (which ideally would have happened perhaps a few years
+> > > > ago?) would probably make the fwnode a linked list instead so we'd lose
+> > > > that secondary pointer in the process.
+> > > 
+> > > It already is a (singly) linked list. Ideally it would be a
+> > 
+> > With two entries at most.
 > 
-> ---
-> Bartosz Golaszewski (9):
->       of: provide of_machine_read_compatible()
->       of: provide of_machine_read_model()
->       base: soc: order includes alphabetically
->       base: soc: rename and export soc_device_get_machine()
->       soc: fsl: guts: don't access of_root directly
->       soc: imx8m: don't access of_root directly
->       soc: imx9: don't access of_root directly
->       soc: renesas: don't access of_root directly
->       soc: sunxi: mbus: don't access of_root directly
+> There is no technical limitation based on the data type.
 
-For all but patch 8,
+There aren't any, no, but the current implementation assumes this, and I
+wouldn't change this without changing the data structure as well.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+> > > doubly-linked list moved into struct device with struct fwnode_handle
+> > > having no concept of primary and secondary nodes.
+> > 
+> > I'd think we had that list in struct fwnode_handle, which will still
+> > represent nodes. But let's see the details when someone gets to implement
+> > it. :-)
+> 
+> In the case above single or double linked list doesn't solve the issue of
+> the corrupted (parent) fwnode. We need also to have a siblings list so it
+> looks more like a tree.
+> 
+
+-- 
+Regards,
+
+Sakari Ailus
