@@ -1,100 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA983A1A42
-	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 10:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074A0313E31;
+	Thu, 26 Feb 2026 11:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772102400; cv=none; b=Vh5tovmCXj899rfukXezt/SXoe6L4/CAAWflS+NlLyZ99L+CbQxSCZeqIPC0LtYU02Cbyo098todnMfXMBHeUEQOXoKihTVskN+Lxuz6QQyfh39j0zZ1m7WDU8UFdQ+1WlDvbAl8Rpc3gmxZDVi3xBzNw0ozknjM4aMhG3eFGT0=
+	t=1772104242; cv=none; b=nN3iM5lc253/UAlG2T+2H3QkavBbNQFbPxhl0UkWycV1FJaaGb+x7F45nCKg0GCcu0Nulqyv6bPbWQri5QCiGnIjOBDfG5BG1MB9F8borXpXdZrf85Wj82ocoZtJtW1+xeM3q2qOf1535ffmFKK3PsjNBbjfeoCYn1CCRnbs0uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772102400; c=relaxed/simple;
-	bh=+aJzA5ViUvlKgBJcGoAel/ZoO/g+kP6obBbuX3CEJnc=;
+	s=arc-20240116; t=1772104242; c=relaxed/simple;
+	bh=jlWRUAGOk0gQUZjfpvrO3WSndc1G/a3HOfEro/1SNZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aro+wWS8TxECBQ8W7eSldf+Ui4LQhNscXi0XvTYe8ZzKh816KwXOznv2ppmGNTbe7syJ8BPohQIynifAKHBy79mAIEJgVGt5gfvyTyTY+Sqz2ZxzYc2RqvIxtN/X2+FF1b2mE9N2DsIGGgwP9Znoj6nJIV06Vm/GBaVv9toBm+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mARa/vGy; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YlxLUKrsdNM9B8Xk3egEDmGkqf0fanXNBMZB6riNdTwx7B4KLZ7I4p7cufO4/4Bzq5guqPhWeWZiZWvz5dHEnNtgc4UI6J5IYVHQy+3TwDDuYeQhXlExwrZbCnxh2ZGCJu0mh+gd5uuv1MenL34JH2aLE4OfmPWTG93d9u1w0gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpqS5Yt8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mARa/vGy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772102400; x=1803638400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+aJzA5ViUvlKgBJcGoAel/ZoO/g+kP6obBbuX3CEJnc=;
-  b=mARa/vGyiIeHL3gcr+RSjecImzvHinF066eYKoRTCZ6HF4g97FuErEep
-   4wzK9+n1/h8o8SwNY76F1cGKV6SbarFjjmC7xRinD+JQGoK8piEN7fqbc
-   3YAfLIktmFDl2TlH8av3xYsJCi87+O+lNBgK+jBfXTN3Je22Me65tHCiv
-   4NEQFmxoDGm2LhlCi8yCewpnnZ8cNkafCzY8AArvKVXEHKc5v/PhUmr8U
-   gZq9ZBO4P1FMYIoQaDTPwWcYTxArwxfwGsw9mxnmYPijDCQ0Cyacna0Vz
-   TJJAnvkwuk/cImbw6sb59bQO/5FDSoXqVRMc1xmtO6t6nRc+GI0inRS/x
-   A==;
-X-CSE-ConnectionGUID: lcE6bGpURleUdkmxJM2x8w==
-X-CSE-MsgGUID: WbfzT5DTQFaVpIfbvHVifw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="90569120"
-X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="90569120"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 02:40:00 -0800
-X-CSE-ConnectionGUID: bHa6tfM2RPOqdqOJqXaCcQ==
-X-CSE-MsgGUID: 6JjRpUMQRcSwLZy9aB7i7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
-   d="scan'208";a="216433257"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.210])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 02:39:55 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0D1F311FA45;
-	Thu, 26 Feb 2026 12:40:23 +0200 (EET)
-Date: Thu, 26 Feb 2026 12:40:22 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpqS5Yt8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B9C6C116C6;
+	Thu, 26 Feb 2026 11:10:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772104241;
+	bh=jlWRUAGOk0gQUZjfpvrO3WSndc1G/a3HOfEro/1SNZE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CpqS5Yt8phKt6gZNLP19c+arzih2UaGMPgwF3mFQP2/cS9K8W0/pQ4iNqKOKU6+bh
+	 9gZI1mgvWfLckENwGPJqRuchTg0cVHZvfEBB2mLBgdoHwE/tUrdzV2fkXikn8V9y3A
+	 tLeAj/OdxyLxZqyKvgSkegpIxGabhKpsqk9WdQWW9dw042VCOl02JqJbjZwzOl2R6o
+	 wIpP0xSeGoMksf3bxqraNJLr6qnmWkMJKKaXpwVdp39m0QL1yKOOpq6vPQTY3u5T4z
+	 pxMlj3kP7ke8i9KVzye6m5+L0cLhceLlmJFjXCRAP24TohSJLRpbXl5+OxoCqeJAKt
+	 zfGeilfHK7sfg==
+Date: Thu, 26 Feb 2026 11:10:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v4] gpiolib: match secondary fwnode too in
- gpio_device_find_by_fwnode()
-Message-ID: <aaAjFkGEhTDkbEXD@kekkonen.localdomain>
-References: <20260226-device-match-secondary-fwnode-v4-1-27bd0cfbd8c6@oss.qualcomm.com>
+	Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v2 5/5] regcache: Amend printf() specifiers when printing
+ registers
+Message-ID: <0eff41b7-d2df-48ff-83b4-c1100e83daee@sirena.org.uk>
+References: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
+ <20260225161659.3811671-6-andriy.shevchenko@linux.intel.com>
+ <a2e1dc8d-584c-4c72-8e9c-558a220ab5d4@sirena.org.uk>
+ <aZ9McAzXLejc3Ttl@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3EM3kJomJqEqtt+H"
+Content-Disposition: inline
+In-Reply-To: <aZ9McAzXLejc3Ttl@smile.fi.intel.com>
+X-Cookie: Honk if you love peace and quiet.
+
+
+--3EM3kJomJqEqtt+H
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260226-device-match-secondary-fwnode-v4-1-27bd0cfbd8c6@oss.qualcomm.com>
 
-Hi Bartosz,
+On Wed, Feb 25, 2026 at 09:24:32PM +0200, Andy Shevchenko wrote:
+> On Wed, Feb 25, 2026 at 07:15:18PM +0000, Mark Brown wrote:
+> > On Wed, Feb 25, 2026 at 05:15:59PM +0100, Andy Shevchenko wrote:
 
-Thanks for the update.
+> > > -	dev_dbg(map->dev, "Writing %zu bytes for %d registers from 0x%x-0x%x\n",
+> > > +	dev_dbg(map->dev, "Writing %zu bytes for %d registers from %#x-%#x\n",
+> > >  		count * val_bytes, count, base, cur - map->reg_stride);
 
-On Thu, Feb 26, 2026 at 10:56:36AM +0100, Bartosz Golaszewski wrote:
-> In GPIOLIB, during fwnode lookup, after having resolved the consumer's
-> reference to a specific fwnode, we only match it against the primary
-> node of the controllers. Let's extend that to also the secondary node by
-> reworking gpio_chip_match_by_fwnode()
-> 
-> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-> Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> > I'm really not convinced this is helping legibility.
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> You mean the only this hunk, or the entire patch?
 
--- 
-Kind regards,
+Just that hunk, it's new and unusual, reads less cleanly and I can't
+identify any problem it solves.
 
-Sakari Ailus
+--3EM3kJomJqEqtt+H
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmgKi0ACgkQJNaLcl1U
+h9CShQf/SVRUqEiQO16sD4HXmGG/so1xBw4UrCmPOdtdvKAnsEb+RIZ9Js7WTFrC
+NKD51eUbB9uqTrIQ3BHt+HQ2ZeRxQQ6ho8tq0Slz0AL+HG8KqE34vLnSsOJheB7b
+q5KRUSODPCiEWBHiMb5w2ItiKhKf6NL2wFWJE60Lqfecx5njAZFThs7k9HAlY5Mr
+lLe+qoOEDvd/Vyqh77c3j2zvZH6XQo88WKvMD313qXgZC/iwbQKK7mioEoTCVeHQ
+tksFMb/En3f7u17alkLCCCfVGyesC/FBPEcCQclSGXUdcOOPZ6u5XKlayuD+4oyL
+8Hd3N4LB6E9/lkqaRfSJtNCqX/v7xw==
+=Q2tJ
+-----END PGP SIGNATURE-----
+
+--3EM3kJomJqEqtt+H--
