@@ -1,274 +1,157 @@
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13BA2FBDFD
-	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 06:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFE0283FCF
+	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 07:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772086047; cv=none; b=qdbh44BiYjPrJt+Bv/zeX0Ls/cgxTQ3FP3ipLs5nbR45jQHNZ+ya9O39xzUJIre/Rr8RYx4RpWvZg6HURv5+87NEpzZTWIqQAnK+nhTtM/XXmjNPnlk5ahVSKw/Pp77NwZUtDohJS0zBtsI1hLCwgP0R43/7xR48ZjhLk8MfccM=
+	t=1772090337; cv=none; b=QUUNntgwx0oApNCBllMVLW+IriJWki66IlA9habrMRS4Jw5VALuwsU2JS4t/U0l9vUKF0ZVzGGVvQAd+A4hDJnFgdR50XtZtkDI2JRystL8uhl7/IsyQ9vpAyOOJbw27qiyWONilVoByHm/KjmNLTC5Db8VgK6zDpD3IYOf970o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772086047; c=relaxed/simple;
-	bh=Ggw6zAI22toJswX3uAomFTmkYCm4O9c72cL+2FfP3+0=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=eRTEWdior4Awgepsu+dbUIdR6CakbUAKxoMfcpczxlccxgpGbZQWnx/W6maej+zXkpegz/6LqZBHE3Ih3xpC6Pqp1T6GFmfklBeOabLk7/zrGRQHBH9W2sw0okpOWDg494YJQ3TqTIbP36MlsbMHAp1kpsVtCk4GuMQIDCaY5gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-6798747187eso4981068eaf.1
-        for <driver-core@lists.linux.dev>; Wed, 25 Feb 2026 22:07:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772086045; x=1772690845;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MatsSPIVtuY+WUTnEXIa4ztuXljbJyhy3ptWfpIfBts=;
-        b=azok8CPQDN1bmId5LsjFbHhszgw7IyzkcWTx2Qe0yStvIcfCs2pWARe7cYzkuSWiUg
-         CiS5N8vaXWO2iBb77F528/0GnPgXA00Uv99+/HbC8LClSrFsYTePKqN70EEIhHS/DMPZ
-         4y0uok1WA2lmlQlVl1Qx/DyfwB4E59p0cQW0F0e7PDWap2bg/c4JWt6hquydzvPtAPaZ
-         T5yoM8T05z8/S8E9SUaOq+WbkdoaI/w/GP7Jx0TXG8Ge/Hled2+rVepeCTKSRe2Qru3l
-         PCtRHT2sJs9CSiRtDJEv3WitS8Z4MZhIOJSTtKLwe2Mw2+tTotVj92Ct/lKLSBbiVcZA
-         JfkA==
-X-Gm-Message-State: AOJu0Yz14mw/x1jT8WSIuUXKa9RBpqk2pxeCR0WSbqZlCEvODUccqhKp
-	t7lWbkBVk9JGTLXYq1kLiQCIgHKRf8y0ltcgcRimTEagrpJ0FqvxnOyYn5hq5OCjAke5ifrxM/v
-	1FK3GcwdL6OW3P/+IQdVdzpOgURjcqWr+08tfLqL6sgFESflXc9LAhwIOLOU=
+	s=arc-20240116; t=1772090337; c=relaxed/simple;
+	bh=rVWWGoLzfnEr4YZDjcPykaqYCDvmIZeFsihBUzb3/3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jkulEcZsrCpYA7xleu3XeCrZdVsZag0EWpd5rxfHzaBgOAlUveA8L8aKU7MW/XtvN1lHl0ysUzAFbrIZMTjmIJngohi4eoJoG0SZ+XJ20EoI/B2hAwt7YImrFqPdMUNlYzHBOOJjNS967Bmcr2tPWaKLqiiJsxYR2zB7lJBRIOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iaT6n/0f; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaT6n/0f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772090336; x=1803626336;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rVWWGoLzfnEr4YZDjcPykaqYCDvmIZeFsihBUzb3/3w=;
+  b=iaT6n/0fVlopl97mA648y131clFvguPXVEnFnVy+JDuG04NNkYIsYD9C
+   4n/oIG4pGU1kqc7uGk0VVwx92MetDchbCt0L5Me3Zlq/n//HaSXGMCCqA
+   7yuwgryS4ugBH2qCspNuWdjI00oBMNuwvmiv953rb4WlEPQvh4aD/oiRW
+   KJLS8pVvb0dRk+FY5zXBeYKcQzqBySEFx6oBS3IqzAE05ywuC1kizCO0m
+   D6ET+5lYBO9qSeZUKnUlcr9SpdOBR1zbQrJEfr2kVfK6yavYqTQ0dz/AC
+   2pFqk4Sdh/t2egxxmPyiDyUgarblvOxmLXAslLSMRH9wpDJjh4roRgHeH
+   Q==;
+X-CSE-ConnectionGUID: sCvxGIywQji80ncjtGfkVA==
+X-CSE-MsgGUID: OdTFMVJrSp2JQO+fye64Yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11712"; a="72354098"
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="72354098"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 23:18:55 -0800
+X-CSE-ConnectionGUID: tzLjy4iLShKJpLYq/aCM9w==
+X-CSE-MsgGUID: ZC3eU4WWRpiXnwMax+3VUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,311,1763452800"; 
+   d="scan'208";a="220617388"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa003.jf.intel.com with ESMTP; 25 Feb 2026 23:18:46 -0800
+Date: Thu, 26 Feb 2026 14:59:12 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Peter Colberg <pcolberg@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+	driver-core@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v2 02/10] fpga: dfl-pci: set driver flag to disable
+ SR-IOV on remove()
+Message-ID: <aZ/vQHV3zr49r7E+@yilunxu-OptiPlex-7050>
+References: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
+ <20260205-rust-pci-sriov-v2-2-ef9400c7767b@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:4a87:b0:679:a463:c933 with SMTP id
- 006d021491bc7-679f3dd6923mr401671eaf.71.1772086044827; Wed, 25 Feb 2026
- 22:07:24 -0800 (PST)
-Date: Wed, 25 Feb 2026 22:07:24 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <699fe31c.050a0220.2fcbed.0002.GAE@google.com>
-Subject: [syzbot] [kernfs?] possible deadlock in __kernfs_remove (3)
-From: syzbot <syzbot+1075f6dc93f398c1857e@syzkaller.appspotmail.com>
-To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com, tj@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205-rust-pci-sriov-v2-2-ef9400c7767b@redhat.com>
 
-Hello,
+On Thu, Feb 05, 2026 at 03:59:49PM -0500, Peter Colberg wrote:
+> Set the flag managed_sriov in the pci_driver structure to show how a
+> PCI driver may opt into disabling the Single Root I/O Virtualization
+> (SR-IOV) capability of the device when the driver is removed.
+> 
+> Merge the function cci_remove_feature_devs() into cci_pci_remove().
 
-syzbot found the following issue on:
+I think it makes much clearer demonstration if you split the unrelated
+changes out.
 
-HEAD commit:    d4f687fbbce4 ovpn: tcp - fix packet extraction from stream
-git tree:       net
-console output: https://syzkaller.appspot.com/x/log.txt?x=12dba44a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=665cbf0979cda6c5
-dashboard link: https://syzkaller.appspot.com/bug?extid=1075f6dc93f398c1857e
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ee42a61b2ee7/disk-d4f687fb.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e5470ff18ff8/vmlinux-d4f687fb.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d50957aaabf2/bzImage-d4f687fb.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1075f6dc93f398c1857e@syzkaller.appspotmail.com
-
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.2.13134/20856 is trying to acquire lock:
-ffff888064e8e3c8 (kn->active#14){++++}-{0:0}, at: __kernfs_remove+0x3cf/0x660 fs/kernfs/dir.c:1513
-
-but task is already holding lock:
-ffff888033048788 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: class_wiphy_constructor include/net/cfg80211.h:6441 [inline]
-ffff888033048788 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: ieee80211_remove_interfaces+0x132/0x6d0 net/mac80211/iface.c:2415
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #2 (&rdev->wiphy.mtx){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/mutex.c:614 [inline]
-       __mutex_lock+0x19f/0x1300 kernel/locking/mutex.c:776
-       class_wiphy_constructor include/net/cfg80211.h:6441 [inline]
-       ieee80211_change_mac+0xb5/0x1410 net/mac80211/iface.c:324
-       netif_set_mac_address+0x317/0x4e0 net/core/dev.c:9989
-       do_setlink+0x9b1/0x4590 net/core/rtnetlink.c:3110
-       rtnl_changelink net/core/rtnetlink.c:3776 [inline]
-       __rtnl_newlink net/core/rtnetlink.c:3935 [inline]
-       rtnl_newlink+0x15a9/0x1be0 net/core/rtnetlink.c:4072
-       rtnetlink_rcv_msg+0x7d5/0xbe0 net/core/rtnetlink.c:6958
-       netlink_rcv_skb+0x232/0x4b0 net/netlink/af_netlink.c:2550
-       netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
-       netlink_unicast+0x80f/0x9b0 net/netlink/af_netlink.c:1344
-       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1894
-       sock_sendmsg_nosec net/socket.c:727 [inline]
-       __sock_sendmsg net/socket.c:742 [inline]
-       ____sys_sendmsg+0xa68/0xad0 net/socket.c:2592
-       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2646
-       __sys_sendmsg net/socket.c:2678 [inline]
-       __do_sys_sendmsg net/socket.c:2683 [inline]
-       __se_sys_sendmsg net/socket.c:2681 [inline]
-       __x64_sys_sendmsg+0x1bd/0x2a0 net/socket.c:2681
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (dev_addr_sem){++++}-{4:4}:
-       down_read+0x47/0x2e0 kernel/locking/rwsem.c:1537
-       address_show+0x25/0x250 net/core/net-sysfs.c:266
-       dev_attr_show+0x58/0xc0 drivers/base/core.c:2421
-       sysfs_kf_seq_show+0x310/0x490 fs/sysfs/file.c:65
-       seq_read_iter+0x4ef/0xe10 fs/seq_file.c:231
-       new_sync_read fs/read_write.c:493 [inline]
-       vfs_read+0x582/0xa70 fs/read_write.c:574
-       ksys_read+0x150/0x270 fs/read_write.c:717
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (kn->active#14){++++}-{0:0}:
-       check_prev_add kernel/locking/lockdep.c:3165 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
-       lock_acquire+0xf0/0x2e0 kernel/locking/lockdep.c:5868
-       kernfs_drain+0x284/0x600 fs/kernfs/dir.c:511
-       __kernfs_remove+0x3cf/0x660 fs/kernfs/dir.c:1513
-       kernfs_remove_by_name_ns+0xaf/0x130 fs/kernfs/dir.c:1722
-       kernfs_remove_by_name include/linux/kernfs.h:633 [inline]
-       remove_files fs/sysfs/group.c:28 [inline]
-       sysfs_remove_group+0xfc/0x2e0 fs/sysfs/group.c:328
-       sysfs_remove_groups+0x54/0xb0 fs/sysfs/group.c:352
-       device_remove_groups drivers/base/core.c:2843 [inline]
-       device_remove_attrs+0x229/0x280 drivers/base/core.c:2979
-       device_del+0x51f/0x8f0 drivers/base/core.c:3877
-       unregister_netdevice_many_notify+0x1e0e/0x2370 net/core/dev.c:12438
-       unregister_netdevice_many net/core/dev.c:12466 [inline]
-       unregister_netdevice_queue+0x31f/0x360 net/core/dev.c:12280
-       unregister_netdevice include/linux/netdevice.h:3408 [inline]
-       _cfg80211_unregister_wdev+0x155/0x570 net/wireless/core.c:1297
-       ieee80211_remove_interfaces+0x49c/0x6d0 net/mac80211/iface.c:2440
-       ieee80211_unregister_hw+0x5d/0x2c0 net/mac80211/main.c:1691
-       mac80211_hwsim_del_radio+0x28a/0x490 drivers/net/wireless/virtual/mac80211_hwsim.c:5916
-       remove_user_radios drivers/net/wireless/virtual/mac80211_hwsim.c:6727 [inline]
-       mac80211_hwsim_netlink_notify+0xfae/0x1310 drivers/net/wireless/virtual/mac80211_hwsim.c:6741
-       notifier_call_chain+0x1be/0x400 kernel/notifier.c:85
-       blocking_notifier_call_chain+0x6a/0x90 kernel/notifier.c:380
-       netlink_release+0x123b/0x1ad0 net/netlink/af_netlink.c:761
-       __sock_release net/socket.c:662 [inline]
-       sock_close+0xc3/0x240 net/socket.c:1455
-       __fput+0x44f/0xa70 fs/file_table.c:469
-       task_work_run+0x1d9/0x270 kernel/task_work.c:233
-       resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
-       __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
-       exit_to_user_mode_loop+0xed/0x480 kernel/entry/common.c:98
-       __exit_to_user_mode_prepare include/linux/irq-entry-common.h:226 [inline]
-       syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:256 [inline]
-       syscall_exit_to_user_mode include/linux/entry-common.h:325 [inline]
-       do_syscall_64+0x32d/0xf80 arch/x86/entry/syscall_64.c:100
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  kn->active#14 --> dev_addr_sem --> &rdev->wiphy.mtx
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&rdev->wiphy.mtx);
-                               lock(dev_addr_sem);
-                               lock(&rdev->wiphy.mtx);
-  lock(kn->active#14);
-
- *** DEADLOCK ***
-
-4 locks held by syz.2.13134/20856:
- #0: ffff88809099c708 (&sb->s_type->i_mutex_key#14){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1028 [inline]
- #0: ffff88809099c708 (&sb->s_type->i_mutex_key#14){+.+.}-{4:4}, at: __sock_release net/socket.c:661 [inline]
- #0: ffff88809099c708 (&sb->s_type->i_mutex_key#14){+.+.}-{4:4}, at: sock_close+0x9b/0x240 net/socket.c:1455
- #1: ffffffff8fc374b0 ((netlink_chain).rwsem){++++}-{4:4}, at: blocking_notifier_call_chain+0x54/0x90 kernel/notifier.c:379
- #2: ffffffff8fbcb808 (rtnl_mutex){+.+.}-{4:4}, at: ieee80211_unregister_hw+0x55/0x2c0 net/mac80211/main.c:1684
- #3: ffff888033048788 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: class_wiphy_constructor include/net/cfg80211.h:6441 [inline]
- #3: ffff888033048788 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: ieee80211_remove_interfaces+0x132/0x6d0 net/mac80211/iface.c:2415
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 20856 Comm: syz.2.13134 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
- check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
- check_prev_add kernel/locking/lockdep.c:3165 [inline]
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
- lock_acquire+0xf0/0x2e0 kernel/locking/lockdep.c:5868
- kernfs_drain+0x284/0x600 fs/kernfs/dir.c:511
- __kernfs_remove+0x3cf/0x660 fs/kernfs/dir.c:1513
- kernfs_remove_by_name_ns+0xaf/0x130 fs/kernfs/dir.c:1722
- kernfs_remove_by_name include/linux/kernfs.h:633 [inline]
- remove_files fs/sysfs/group.c:28 [inline]
- sysfs_remove_group+0xfc/0x2e0 fs/sysfs/group.c:328
- sysfs_remove_groups+0x54/0xb0 fs/sysfs/group.c:352
- device_remove_groups drivers/base/core.c:2843 [inline]
- device_remove_attrs+0x229/0x280 drivers/base/core.c:2979
- device_del+0x51f/0x8f0 drivers/base/core.c:3877
- unregister_netdevice_many_notify+0x1e0e/0x2370 net/core/dev.c:12438
- unregister_netdevice_many net/core/dev.c:12466 [inline]
- unregister_netdevice_queue+0x31f/0x360 net/core/dev.c:12280
- unregister_netdevice include/linux/netdevice.h:3408 [inline]
- _cfg80211_unregister_wdev+0x155/0x570 net/wireless/core.c:1297
- ieee80211_remove_interfaces+0x49c/0x6d0 net/mac80211/iface.c:2440
- ieee80211_unregister_hw+0x5d/0x2c0 net/mac80211/main.c:1691
- mac80211_hwsim_del_radio+0x28a/0x490 drivers/net/wireless/virtual/mac80211_hwsim.c:5916
- remove_user_radios drivers/net/wireless/virtual/mac80211_hwsim.c:6727 [inline]
- mac80211_hwsim_netlink_notify+0xfae/0x1310 drivers/net/wireless/virtual/mac80211_hwsim.c:6741
- notifier_call_chain+0x1be/0x400 kernel/notifier.c:85
- blocking_notifier_call_chain+0x6a/0x90 kernel/notifier.c:380
- netlink_release+0x123b/0x1ad0 net/netlink/af_netlink.c:761
- __sock_release net/socket.c:662 [inline]
- sock_close+0xc3/0x240 net/socket.c:1455
- __fput+0x44f/0xa70 fs/file_table.c:469
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
- exit_to_user_mode_loop+0xed/0x480 kernel/entry/common.c:98
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:226 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:256 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:325 [inline]
- do_syscall_64+0x32d/0xf80 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f182d99c629
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f182e8af028 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
-RAX: 0000000000000018 RBX: 00007f182dc15fa0 RCX: 00007f182d99c629
-RDX: 0000000000000300 RSI: 0000200000000040 RDI: 0000000000000004
-RBP: 00007f182da32b39 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f182dc16038 R14: 00007f182dc15fa0 R15: 00007fff4353ce78
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+> 
+> Signed-off-by: Peter Colberg <pcolberg@redhat.com>
+> ---
+> Changes in v2:
+> - Demonstrate flag managed_sriov for dfl-pci driver.
+> ---
+>  drivers/fpga/dfl-pci.c | 17 +++++------------
+>  1 file changed, 5 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+> index 602807d6afcc09af9e1d53368b41460ef86545d8..7965c307f9b79bdd2c2c3277d519ab2c4e701797 100644
+> --- a/drivers/fpga/dfl-pci.c
+> +++ b/drivers/fpga/dfl-pci.c
+> @@ -125,15 +125,6 @@ static int cci_init_drvdata(struct pci_dev *pcidev)
+>  	return 0;
+>  }
+>  
+> -static void cci_remove_feature_devs(struct pci_dev *pcidev)
+> -{
+> -	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
+> -
+> -	/* remove all children feature devices */
+> -	dfl_fpga_feature_devs_remove(drvdata->cdev);
+> -	cci_pci_free_irq(pcidev);
+> -}
+> -
+>  static int *cci_pci_create_irq_table(struct pci_dev *pcidev, unsigned int nvec)
+>  {
+>  	unsigned int i;
+> @@ -425,10 +416,11 @@ static int cci_pci_sriov_configure(struct pci_dev *pcidev, int num_vfs)
+>  
+>  static void cci_pci_remove(struct pci_dev *pcidev)
+>  {
+> -	if (dev_is_pf(&pcidev->dev))
+> -		cci_pci_sriov_configure(pcidev, 0);
+> +	struct cci_drvdata *drvdata = pci_get_drvdata(pcidev);
+>  
+> -	cci_remove_feature_devs(pcidev);
+> +	/* remove all children feature devices */
+> +	dfl_fpga_feature_devs_remove(drvdata->cdev);
+> +	cci_pci_free_irq(pcidev);
+>  }
+>  
+>  static struct pci_driver cci_pci_driver = {
+> @@ -437,6 +429,7 @@ static struct pci_driver cci_pci_driver = {
+>  	.probe = cci_pci_probe,
+>  	.remove = cci_pci_remove,
+>  	.sriov_configure = cci_pci_sriov_configure,
+> +	.managed_sriov = true,
+>  };
+>  
+>  module_pci_driver(cci_pci_driver);
+> 
+> -- 
+> 2.52.0
+> 
+> 
