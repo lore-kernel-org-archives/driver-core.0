@@ -1,90 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074A0313E31;
-	Thu, 26 Feb 2026 11:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D978364EBA;
+	Thu, 26 Feb 2026 11:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772104242; cv=none; b=nN3iM5lc253/UAlG2T+2H3QkavBbNQFbPxhl0UkWycV1FJaaGb+x7F45nCKg0GCcu0Nulqyv6bPbWQri5QCiGnIjOBDfG5BG1MB9F8borXpXdZrf85Wj82ocoZtJtW1+xeM3q2qOf1535ffmFKK3PsjNBbjfeoCYn1CCRnbs0uY=
+	t=1772106429; cv=none; b=bAbI8uSWkYYy8MtREdOQUkBpKE1ZdDFH37a898bslOLwtZuUSTTJgO/xbI9Knphg/XdkxT+ZmHKBl31+4EpfyaWMpjX9i+szugRdYojUhHY3as/dwHmFqtOHhunwIDfsX0LZzbf+7KpxwFlFE2tUdfJAYLTchLP/5mqz6hmIJ18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772104242; c=relaxed/simple;
-	bh=jlWRUAGOk0gQUZjfpvrO3WSndc1G/a3HOfEro/1SNZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YlxLUKrsdNM9B8Xk3egEDmGkqf0fanXNBMZB6riNdTwx7B4KLZ7I4p7cufO4/4Bzq5guqPhWeWZiZWvz5dHEnNtgc4UI6J5IYVHQy+3TwDDuYeQhXlExwrZbCnxh2ZGCJu0mh+gd5uuv1MenL34JH2aLE4OfmPWTG93d9u1w0gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpqS5Yt8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772106429; c=relaxed/simple;
+	bh=wD7YlZhBWMIySNbPdJ9JMRGS7xOoVIp+/zV3qDywtA0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jKg6sePojY4iaT4kPUWHVkFSaYcC2YPaM6QvopwaRUUfXBjDlvfyX9vzAMrb0cDftrxUQBuJ0p6jOzQS0pt19RH6cvmWSVn/Hwd5h9jJBiEqJIOJSmb3AI45qXAN3yplXDdYLIZqIbz8JtbmjLALInL6fXdQHsL4gQ2brNWPCHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AD6wrDMW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpqS5Yt8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B9C6C116C6;
-	Thu, 26 Feb 2026 11:10:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AD6wrDMW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C4B7C19422;
+	Thu, 26 Feb 2026 11:47:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772104241;
-	bh=jlWRUAGOk0gQUZjfpvrO3WSndc1G/a3HOfEro/1SNZE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CpqS5Yt8phKt6gZNLP19c+arzih2UaGMPgwF3mFQP2/cS9K8W0/pQ4iNqKOKU6+bh
-	 9gZI1mgvWfLckENwGPJqRuchTg0cVHZvfEBB2mLBgdoHwE/tUrdzV2fkXikn8V9y3A
-	 tLeAj/OdxyLxZqyKvgSkegpIxGabhKpsqk9WdQWW9dw042VCOl02JqJbjZwzOl2R6o
-	 wIpP0xSeGoMksf3bxqraNJLr6qnmWkMJKKaXpwVdp39m0QL1yKOOpq6vPQTY3u5T4z
-	 pxMlj3kP7ke8i9KVzye6m5+L0cLhceLlmJFjXCRAP24TohSJLRpbXl5+OxoCqeJAKt
-	 zfGeilfHK7sfg==
-Date: Thu, 26 Feb 2026 11:10:37 +0000
+	s=k20201202; t=1772106429;
+	bh=wD7YlZhBWMIySNbPdJ9JMRGS7xOoVIp+/zV3qDywtA0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=AD6wrDMWT2hctrPz4T2G72LHrKxx7z7AVxqaDvsfUMzaF0YDA4NRTwmW/qX3XM+oz
+	 UY+VHPA3HePNR3/QiPfI741IaQfaX+wvof8KsBJ0HnvH5UVws/VZ1BqPe1TmLkcjH0
+	 UZf6X0+ZDNvwdKciyGkAx70phXJUmf3fOfNUijuThSjD255DINc3jSi7DdFdCjz+Fu
+	 1khk6pF8m35rHtdq0k22hk0biYTHlBPw3PFCdquyHsdvkmjsvMuLQrSacbQCxDB2i7
+	 gQm/rVsgVDO2oEDg1uRBTZ4OUwlJutTikapJPQWv/aizFhPzy2arGXTxK8rYQUWDOh
+	 ygfbT6zu6DYKA==
 From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v2 5/5] regcache: Amend printf() specifiers when printing
- registers
-Message-ID: <0eff41b7-d2df-48ff-83b4-c1100e83daee@sirena.org.uk>
+To: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+In-Reply-To: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
 References: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
- <20260225161659.3811671-6-andriy.shevchenko@linux.intel.com>
- <a2e1dc8d-584c-4c72-8e9c-558a220ab5d4@sirena.org.uk>
- <aZ9McAzXLejc3Ttl@smile.fi.intel.com>
+Subject: Re: (subset) [PATCH v2 0/5] regcache: Avoid accessing
+ non-initialised cache
+Message-Id: <177210642785.56240.14456507795542446077.b4-ty@kernel.org>
+Date: Thu, 26 Feb 2026 11:47:07 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3EM3kJomJqEqtt+H"
-Content-Disposition: inline
-In-Reply-To: <aZ9McAzXLejc3Ttl@smile.fi.intel.com>
-X-Cookie: Honk if you love peace and quiet.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-47773
 
+On Wed, 25 Feb 2026 17:15:54 +0100, Andy Shevchenko wrote:
+> Refactor regcache flow that populates cache on initialisation phase
+> based on the values in HW. This makes code robust against any possible
+> accesses to not-fully initialised caches.
+> 
+> Changelog v2:
+> - rebased on top of the latest regmap changes (Mark)
+> - added two more little cleanups (patches 4 & 5)
+> 
+> [...]
 
---3EM3kJomJqEqtt+H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Wed, Feb 25, 2026 at 09:24:32PM +0200, Andy Shevchenko wrote:
-> On Wed, Feb 25, 2026 at 07:15:18PM +0000, Mark Brown wrote:
-> > On Wed, Feb 25, 2026 at 05:15:59PM +0100, Andy Shevchenko wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
 
-> > > -	dev_dbg(map->dev, "Writing %zu bytes for %d registers from 0x%x-0x%x\n",
-> > > +	dev_dbg(map->dev, "Writing %zu bytes for %d registers from %#x-%#x\n",
-> > >  		count * val_bytes, count, base, cur - map->reg_stride);
+Thanks!
 
-> > I'm really not convinced this is helping legibility.
+[1/5] regcache: Remove duplicate check in regcache_hw_init()
+      commit: 1fcf171178f021ef2005d47e281544624b93c5a5
+[2/5] regcache: Split regcache_count_cacheable_registers() helper
+      commit: c2bcf62ca75c541ec4297e6ff02a68ddc2e02029
+[3/5] regcache: Move HW readback after cache initialisation
+      (no commit info)
+[4/5] regcache: Define iterator inside for-loop and align their types
+      (no commit info)
 
-> You mean the only this hunk, or the entire patch?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Just that hunk, it's new and unusual, reads less cleanly and I can't
-identify any problem it solves.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---3EM3kJomJqEqtt+H
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmgKi0ACgkQJNaLcl1U
-h9CShQf/SVRUqEiQO16sD4HXmGG/so1xBw4UrCmPOdtdvKAnsEb+RIZ9Js7WTFrC
-NKD51eUbB9uqTrIQ3BHt+HQ2ZeRxQQ6ho8tq0Slz0AL+HG8KqE34vLnSsOJheB7b
-q5KRUSODPCiEWBHiMb5w2ItiKhKf6NL2wFWJE60Lqfecx5njAZFThs7k9HAlY5Mr
-lLe+qoOEDvd/Vyqh77c3j2zvZH6XQo88WKvMD313qXgZC/iwbQKK7mioEoTCVeHQ
-tksFMb/En3f7u17alkLCCCfVGyesC/FBPEcCQclSGXUdcOOPZ6u5XKlayuD+4oyL
-8Hd3N4LB6E9/lkqaRfSJtNCqX/v7xw==
-=Q2tJ
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---3EM3kJomJqEqtt+H--
