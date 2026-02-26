@@ -1,124 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FEB37B3F0
-	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 12:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2D123C368;
+	Thu, 26 Feb 2026 12:20:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772107767; cv=none; b=FH4wYVIEIoIrziMoY+4yd1D9GmRgNCRLS7JL+OgwKm8Rc3RpG56CkDMGs6HckP/2QeH3qqgbwHje0sfz66W6iZl1E/hYDoKR664UDtmWgCb56zT5A61Qm3FsX2TzUZTlhRYe7UsKoGjMcHDQTjhVJW9uJy/66EMU2WHYhGimjWM=
+	t=1772108449; cv=none; b=sf6JNyo7ygTY44mEFOtLJjrHHohnu/sLkhX4YJWlqh2U/GYtTtR17V/rNswO3iIKTEq1k0qmy+RlBV8qe08jYTJZb/TUsquHd22a02SefEQ9K4WK6RSv0AvjgxXSwdQCxy+kGWFoCf3aL+7nJ2xXVC9I80HXSTAzLqLbx6XVEvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772107767; c=relaxed/simple;
-	bh=vKkUe97N0G5LO6wiJ5EcKin2Xz6zGq+CEVpaKixKkR8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VJ+4XMlM7g0QWD8MLcy5OD7zpUHw4XIuctODjc5CUsplpzy/+FpHdZW2ALWXwdNc7M+/KYl695hz2UCXG2LI5v+HkJSli+IPnFnofwhiQg9WI/3NqEo6OBdRSUSw7ixhABr+3V0RDaBA+z/ryPYweEOZezrmWaNc9duFePK7r8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QuwL5L0J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772108449; c=relaxed/simple;
+	bh=8uQJiNQVj1CGXNrtBS4cm9ee+OnH9RnvFIxb2YUAMY4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xn3/OKBMO4n2J1TZlaBLCQQhiRWnxV+FbPayPzYD5dHBqbHzl5v0hUO9IgBM/BHUBfraNrm/KiVgLk+j2S5j8/QOn9V/Pn0S8GVX3VsSfmFtNH7abzgOUFrulpnJI5xCKs53r5PjiZ4DyiPX4+gbY8iJIMcdaj0nLGW7nAjAOMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bc8zUeey; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QuwL5L0J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54604C19422
-	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 12:09:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bc8zUeey"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3DDAC116C6;
+	Thu, 26 Feb 2026 12:20:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772107767;
-	bh=vKkUe97N0G5LO6wiJ5EcKin2Xz6zGq+CEVpaKixKkR8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QuwL5L0J9LFaYWEk9Ram8d5e7YJlXaalLL2VzqbThmrV//BchIjktwkys93W6ZMyi
-	 2tVHu4C9ScLJGtIlBt5PdJysItVT+I+U5QfOkwyn4zA1e/89t5erH5QHr9/mCyXxGH
-	 ekLTwQOYDuAIi9OWC/iWqe1CticDOjCfYnWk0Aheg3qiWKRcS4oGVGEhogjVVjlKdV
-	 FyeG0UwtzBvc1ZqgJUoKxvsRhAYg6t5Ivyw3a4aPpNfPNrV7Od5H/CXNW1dTsqyPhu
-	 xLB2oKSYcPjtRhWPe5WZPG5eUySfJ9VGLhkGcFObYW0WAV9IUtauBRJkeC7dxGl8m7
-	 S2h3EMSq2pxyg==
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7d18d02af68so566161a34.2
-        for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 04:09:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCURA8nbv96+F9l9LSiuummempo4PuBahYSqORQY1orbgMxr+BoqB++1QaJiPxsgLE6g76rdnmo1ZTnzqw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVdNj42gS9b7p27FeCzoiZ93a2ZnslFO+qHMtYPk3mgYAA10vd
-	vTY4bb+ClgW31l5fze0ahIahi22e0JSpJH6JYI8+Eto0OrA9vCvkuIj1hWHhM/+LMTn3IyTFzDs
-	oht621JA9ljFbMi+tZ5fsnTXukLuL6vY=
-X-Received: by 2002:a05:6870:6492:b0:3fd:a31d:104e with SMTP id
- 586e51a60fabf-4157ac24e54mr10050319fac.11.1772107766448; Thu, 26 Feb 2026
- 04:09:26 -0800 (PST)
+	s=k20201202; t=1772108449;
+	bh=8uQJiNQVj1CGXNrtBS4cm9ee+OnH9RnvFIxb2YUAMY4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bc8zUeeyF3GuNjLUnomakMZ+NG5/YI4OBzRiR9Obl2HC5A3+yZyt6ZtogQ1ASqdMQ
+	 SbpjQjCDhuOMMArMOF4b7j5m5bItwSCvCfSFxKwZC8OG9I8FypcW2tQrJsaFVtkq3l
+	 bA8rMDk10kOkCzyhgNkaPRwYU3YFJwWTNRHArx1zCBihxTC3ZWFrbnmHq4h3mFRS/o
+	 /W/eSNVqEmUz39A3F6kYlwXPnOC/UyBIn24bkNnrOMpQGeBk3k9NVttziqcomNfr22
+	 gcGXlWF1BpJ5FXpf8UQFM0j62S28+121Aagtq3Iw7Jp1WY8xLgnjSTtWOGg29jCbEA
+	 /xjxbjZrpJmMA==
+Date: Thu, 26 Feb 2026 12:20:44 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v2 3/5] regcache: Move HW readback after cache
+ initialisation
+Message-ID: <ea6308f8-2a70-4b46-8052-b98d6f5ca5c9@sirena.org.uk>
+References: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
+ <20260225161659.3811671-4-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260225-device-match-secondary-fwnode-v3-1-a7152054135a@oss.qualcomm.com>
- <CAJZ5v0j0-7WPVY_YYHyjNZenBAaXD1awLHq-cKmLKce4hw-7Uw@mail.gmail.com>
- <CAJZ5v0jf-S-=H7Dyan0aBhOX5jeg-UNgg_P-Lh46SWHH+Z2fDQ@mail.gmail.com> <CAMRc=McgW9WTJG4MWZqB4MKKOzRVeAKwVY=qLaWyB2gq-J9Zzw@mail.gmail.com>
-In-Reply-To: <CAMRc=McgW9WTJG4MWZqB4MKKOzRVeAKwVY=qLaWyB2gq-J9Zzw@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 26 Feb 2026 13:09:14 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0jOaVPNtbOf3Lra4Tz8-JDyxn=bHh8y6jb45KHF=MQ20g@mail.gmail.com>
-X-Gm-Features: AaiRm52YP8w3gzEByVAid25YEyQGlO_Vxhn_qJv-R2-cC3N01TzmGmsSEzFMTAY
-Message-ID: <CAJZ5v0jOaVPNtbOf3Lra4Tz8-JDyxn=bHh8y6jb45KHF=MQ20g@mail.gmail.com>
-Subject: Re: [PATCH v3] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="457S+ae8RXgt+A52"
+Content-Disposition: inline
+In-Reply-To: <20260225161659.3811671-4-andriy.shevchenko@linux.intel.com>
+X-Cookie: They also surf who only stand on waves.
 
-On Thu, Feb 26, 2026 at 10:55=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.o=
-rg> wrote:
->
-> On Wed, Feb 25, 2026 at 1:44=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
-org> wrote:
-> > >
-> > > The second check is redundant because fwnode cannot be an error
-> > > pointer (it has been checked against that already above) and so if
-> > > node->secondary =3D=3D fwnode, then node->secondary is not an error
-> > > pointer.
-> > >
-> > > I'm not sure if fwnode can be NULL here, but if it can, it should be
-> > > checked against NULL.  Alternatively, node->secondary can be checked
-> > > against NULL and compared to fwnode.
-> > >
-> > > So, if fwnode !=3D NULL cannot be guaranteed,
-> > >
-> > >         return fwnode && node && node->secondary =3D=3D fwnode;
-> > >
-> > > or
-> > >
-> > >         return node && node->secondary && node->secondary =3D=3D fwno=
-de;
-> > >
-> > > The overhead of the former may be a bit lower because it avoids
-> > > dereferencing node when fwnode is NULL, but the compiler should be
-> > > able to optimize this anyway.
-> >
-> > Or even the device_match_fwnode() check can be folded into the last lin=
-e:
-> >
-> > static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *=
-fwnode)
-> >  {
-> > -       return device_match_fwnode(&gc->gpiodev->dev, fwnode);
-> > +       struct device *dev =3D &gc->gpiodev->dev;
-> > +       struct fwnode_handle *node =3D dev_fwnode(dev);
-> > +
-> > +       if (IS_ERR_OR_NULL(fwnode))
-> > +               return 0;
-> > +
-> > +       return node =3D=3D fwnode || (node && node->secondary =3D=3D fw=
-node);
-> >  }
->
-> device_match_fwnode() already contains the NULL check for fwnode.
 
-Yes, it does, but if device_match_fwnode() returns false, you don't
-know the exact reason: fwnode may be NULL or it may be non-NULL, but
-different from the device's one.  You can't generally assume that
-fwnode is not NULL in that case.
+--457S+ae8RXgt+A52
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> I'm sending a v4 with the IS_ERR() check for secondary dropped I hope thi=
-s
-> is the final one.
+On Wed, Feb 25, 2026 at 05:15:57PM +0100, Andy Shevchenko wrote:
+> Make sure that cache is initialised before calling any IO
+> using regmap, this makes sure that we won't access NULL or
+> invalid pointers in the cache which hasn't been initialised.
 
-This one is fine with me so long as NULL is never passed as fwnode to
-this function.
+Either this (I suspect it's this) or the subsequent patch is introducing
+regressions in the ASoC tests on several of my systems in the form:
+
+# ok 1 get_value.AT91SAMG20EK.13
+# # AT91SAMG20EK.13 Inpwm8731 1-001b: ASoC error (-5): at soc_component_read_no_lock() on wm8731.1-001b for register: [0x00000004]
+ut Mux
+
+  https://lava.sirena.org.uk/scheduler/job/2498613#L1549
+
+It's not absolutely everything but it's multiple systems (several with
+Wolfson devices, plus the Pine64 Plus which has an integrated Allwinner
+CODEC).  I didn't check beyond seeing the failures yet.
+
+--457S+ae8RXgt+A52
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmgOpwACgkQJNaLcl1U
+h9CqogfzBPqEToeUG3H0yxWAi3jZvnJcfzOmpgXapBEBhYgZEGFgdjs74U/lhq7z
+Ow28g1U1qzEVhJ1PrT2hkQrhb2+LrWkegKxi/bXI6pgb6f0YumeawdWwNPwDt3im
+rz52i+jTUBo8bDGYdBfa7AeAdOk5gqUT/ReQHeUpQQBGXcm+ob5FKZgi0A42PjkH
+JwvA7RDCru6IqBoEMtCJCQewA9aEpJq4ejV/8ZlH21VWS6CPuFfSwh+aB3O/M/Xn
+3xhKj5rVsuhWdWgqu/wjP80U7QjdXAz4XK80TqyKWw/40BBxfemkL6wqHnMlMnre
+sYfCL7tK7hRLb7oxY5jx7Vy825MD
+=KHPe
+-----END PGP SIGNATURE-----
+
+--457S+ae8RXgt+A52--
