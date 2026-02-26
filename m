@@ -1,94 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D978364EBA;
-	Thu, 26 Feb 2026 11:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FEB37B3F0
+	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 12:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772106429; cv=none; b=bAbI8uSWkYYy8MtREdOQUkBpKE1ZdDFH37a898bslOLwtZuUSTTJgO/xbI9Knphg/XdkxT+ZmHKBl31+4EpfyaWMpjX9i+szugRdYojUhHY3as/dwHmFqtOHhunwIDfsX0LZzbf+7KpxwFlFE2tUdfJAYLTchLP/5mqz6hmIJ18=
+	t=1772107767; cv=none; b=FH4wYVIEIoIrziMoY+4yd1D9GmRgNCRLS7JL+OgwKm8Rc3RpG56CkDMGs6HckP/2QeH3qqgbwHje0sfz66W6iZl1E/hYDoKR664UDtmWgCb56zT5A61Qm3FsX2TzUZTlhRYe7UsKoGjMcHDQTjhVJW9uJy/66EMU2WHYhGimjWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772106429; c=relaxed/simple;
-	bh=wD7YlZhBWMIySNbPdJ9JMRGS7xOoVIp+/zV3qDywtA0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jKg6sePojY4iaT4kPUWHVkFSaYcC2YPaM6QvopwaRUUfXBjDlvfyX9vzAMrb0cDftrxUQBuJ0p6jOzQS0pt19RH6cvmWSVn/Hwd5h9jJBiEqJIOJSmb3AI45qXAN3yplXDdYLIZqIbz8JtbmjLALInL6fXdQHsL4gQ2brNWPCHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AD6wrDMW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772107767; c=relaxed/simple;
+	bh=vKkUe97N0G5LO6wiJ5EcKin2Xz6zGq+CEVpaKixKkR8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VJ+4XMlM7g0QWD8MLcy5OD7zpUHw4XIuctODjc5CUsplpzy/+FpHdZW2ALWXwdNc7M+/KYl695hz2UCXG2LI5v+HkJSli+IPnFnofwhiQg9WI/3NqEo6OBdRSUSw7ixhABr+3V0RDaBA+z/ryPYweEOZezrmWaNc9duFePK7r8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QuwL5L0J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AD6wrDMW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C4B7C19422;
-	Thu, 26 Feb 2026 11:47:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QuwL5L0J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54604C19422
+	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 12:09:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772106429;
-	bh=wD7YlZhBWMIySNbPdJ9JMRGS7xOoVIp+/zV3qDywtA0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=AD6wrDMWT2hctrPz4T2G72LHrKxx7z7AVxqaDvsfUMzaF0YDA4NRTwmW/qX3XM+oz
-	 UY+VHPA3HePNR3/QiPfI741IaQfaX+wvof8KsBJ0HnvH5UVws/VZ1BqPe1TmLkcjH0
-	 UZf6X0+ZDNvwdKciyGkAx70phXJUmf3fOfNUijuThSjD255DINc3jSi7DdFdCjz+Fu
-	 1khk6pF8m35rHtdq0k22hk0biYTHlBPw3PFCdquyHsdvkmjsvMuLQrSacbQCxDB2i7
-	 gQm/rVsgVDO2oEDg1uRBTZ4OUwlJutTikapJPQWv/aizFhPzy2arGXTxK8rYQUWDOh
-	 ygfbT6zu6DYKA==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-In-Reply-To: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
-References: <20260225161659.3811671-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: (subset) [PATCH v2 0/5] regcache: Avoid accessing
- non-initialised cache
-Message-Id: <177210642785.56240.14456507795542446077.b4-ty@kernel.org>
-Date: Thu, 26 Feb 2026 11:47:07 +0000
+	s=k20201202; t=1772107767;
+	bh=vKkUe97N0G5LO6wiJ5EcKin2Xz6zGq+CEVpaKixKkR8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QuwL5L0J9LFaYWEk9Ram8d5e7YJlXaalLL2VzqbThmrV//BchIjktwkys93W6ZMyi
+	 2tVHu4C9ScLJGtIlBt5PdJysItVT+I+U5QfOkwyn4zA1e/89t5erH5QHr9/mCyXxGH
+	 ekLTwQOYDuAIi9OWC/iWqe1CticDOjCfYnWk0Aheg3qiWKRcS4oGVGEhogjVVjlKdV
+	 FyeG0UwtzBvc1ZqgJUoKxvsRhAYg6t5Ivyw3a4aPpNfPNrV7Od5H/CXNW1dTsqyPhu
+	 xLB2oKSYcPjtRhWPe5WZPG5eUySfJ9VGLhkGcFObYW0WAV9IUtauBRJkeC7dxGl8m7
+	 S2h3EMSq2pxyg==
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7d18d02af68so566161a34.2
+        for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 04:09:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCURA8nbv96+F9l9LSiuummempo4PuBahYSqORQY1orbgMxr+BoqB++1QaJiPxsgLE6g76rdnmo1ZTnzqw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwVdNj42gS9b7p27FeCzoiZ93a2ZnslFO+qHMtYPk3mgYAA10vd
+	vTY4bb+ClgW31l5fze0ahIahi22e0JSpJH6JYI8+Eto0OrA9vCvkuIj1hWHhM/+LMTn3IyTFzDs
+	oht621JA9ljFbMi+tZ5fsnTXukLuL6vY=
+X-Received: by 2002:a05:6870:6492:b0:3fd:a31d:104e with SMTP id
+ 586e51a60fabf-4157ac24e54mr10050319fac.11.1772107766448; Thu, 26 Feb 2026
+ 04:09:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+References: <20260225-device-match-secondary-fwnode-v3-1-a7152054135a@oss.qualcomm.com>
+ <CAJZ5v0j0-7WPVY_YYHyjNZenBAaXD1awLHq-cKmLKce4hw-7Uw@mail.gmail.com>
+ <CAJZ5v0jf-S-=H7Dyan0aBhOX5jeg-UNgg_P-Lh46SWHH+Z2fDQ@mail.gmail.com> <CAMRc=McgW9WTJG4MWZqB4MKKOzRVeAKwVY=qLaWyB2gq-J9Zzw@mail.gmail.com>
+In-Reply-To: <CAMRc=McgW9WTJG4MWZqB4MKKOzRVeAKwVY=qLaWyB2gq-J9Zzw@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 26 Feb 2026 13:09:14 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jOaVPNtbOf3Lra4Tz8-JDyxn=bHh8y6jb45KHF=MQ20g@mail.gmail.com>
+X-Gm-Features: AaiRm52YP8w3gzEByVAid25YEyQGlO_Vxhn_qJv-R2-cC3N01TzmGmsSEzFMTAY
+Message-ID: <CAJZ5v0jOaVPNtbOf3Lra4Tz8-JDyxn=bHh8y6jb45KHF=MQ20g@mail.gmail.com>
+Subject: Re: [PATCH v3] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 25 Feb 2026 17:15:54 +0100, Andy Shevchenko wrote:
-> Refactor regcache flow that populates cache on initialisation phase
-> based on the values in HW. This makes code robust against any possible
-> accesses to not-fully initialised caches.
-> 
-> Changelog v2:
-> - rebased on top of the latest regmap changes (Mark)
-> - added two more little cleanups (patches 4 & 5)
-> 
-> [...]
+On Thu, Feb 26, 2026 at 10:55=E2=80=AFAM Bartosz Golaszewski <brgl@kernel.o=
+rg> wrote:
+>
+> On Wed, Feb 25, 2026 at 1:44=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.=
+org> wrote:
+> > >
+> > > The second check is redundant because fwnode cannot be an error
+> > > pointer (it has been checked against that already above) and so if
+> > > node->secondary =3D=3D fwnode, then node->secondary is not an error
+> > > pointer.
+> > >
+> > > I'm not sure if fwnode can be NULL here, but if it can, it should be
+> > > checked against NULL.  Alternatively, node->secondary can be checked
+> > > against NULL and compared to fwnode.
+> > >
+> > > So, if fwnode !=3D NULL cannot be guaranteed,
+> > >
+> > >         return fwnode && node && node->secondary =3D=3D fwnode;
+> > >
+> > > or
+> > >
+> > >         return node && node->secondary && node->secondary =3D=3D fwno=
+de;
+> > >
+> > > The overhead of the former may be a bit lower because it avoids
+> > > dereferencing node when fwnode is NULL, but the compiler should be
+> > > able to optimize this anyway.
+> >
+> > Or even the device_match_fwnode() check can be folded into the last lin=
+e:
+> >
+> > static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *=
+fwnode)
+> >  {
+> > -       return device_match_fwnode(&gc->gpiodev->dev, fwnode);
+> > +       struct device *dev =3D &gc->gpiodev->dev;
+> > +       struct fwnode_handle *node =3D dev_fwnode(dev);
+> > +
+> > +       if (IS_ERR_OR_NULL(fwnode))
+> > +               return 0;
+> > +
+> > +       return node =3D=3D fwnode || (node && node->secondary =3D=3D fw=
+node);
+> >  }
+>
+> device_match_fwnode() already contains the NULL check for fwnode.
 
-Applied to
+Yes, it does, but if device_match_fwnode() returns false, you don't
+know the exact reason: fwnode may be NULL or it may be non-NULL, but
+different from the device's one.  You can't generally assume that
+fwnode is not NULL in that case.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+> I'm sending a v4 with the IS_ERR() check for secondary dropped I hope thi=
+s
+> is the final one.
 
-Thanks!
-
-[1/5] regcache: Remove duplicate check in regcache_hw_init()
-      commit: 1fcf171178f021ef2005d47e281544624b93c5a5
-[2/5] regcache: Split regcache_count_cacheable_registers() helper
-      commit: c2bcf62ca75c541ec4297e6ff02a68ddc2e02029
-[3/5] regcache: Move HW readback after cache initialisation
-      (no commit info)
-[4/5] regcache: Define iterator inside for-loop and align their types
-      (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+This one is fine with me so long as NULL is never passed as fwnode to
+this function.
