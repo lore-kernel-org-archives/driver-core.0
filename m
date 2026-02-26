@@ -1,100 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C1D3A0EA1
-	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 09:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E7539281D
+	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 09:55:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772098119; cv=none; b=WN7aL663zX+wXKKKWBQzyz7GSNvqF9JRJDtE/zyEz6/eMHChmDGbCcU+W7MFpqTljFKg7OjK23c0TeUMEbTih1WMKwJ2WiMYQUIBJUFDdvqD00dV7DepDL5Dog1xD/bdrf9tJxL2o0+iV8d6efalpzzOtLh2N8z3cTqvEygR61Q=
+	t=1772099757; cv=none; b=iVfKBpNiR1rJIaatN4kKCOS1MeQdHq43zDlltbRUuMBU/sS7zN6ACIEIwTvcDRKXrThMLEkApsXmkwu4EzAR6v64peGXSOQsxeCwjXehlUdmtpMAGfChYXSxTGlOtsmmpEAMbzVIbOHB9z7xaokddEo4wBxF1wbN0lfhIsirB5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772098119; c=relaxed/simple;
-	bh=Q+JPGjs/pGTsOGNIOl36KuUbk8oNei+wKcehtvsLCRI=;
+	s=arc-20240116; t=1772099757; c=relaxed/simple;
+	bh=QEZxnJMrH0Qa2UVeDbP+54yDMgZNzL6WAowXNzcKlLg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KBjSzK5qK9nY2qLaaZA0Mw//4Nu3q013UZ1s/CsKbcaSkA9cDaArHMNdJF1wUZvmt2tlQEwZfwzmhr7UTZwNf+L3x9wEh9E21VKNvWQhtsk5VlDnYdKzCkObJtYOsh8cOz3LKJ08JAi3wZW7lqaGaEzmfk1Hk4E97XJz25i/JZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGu5+ci+; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=k+f/Cs8YfWBqZBvsnbHdiLE/+oobamRqgMb3+hgz4BAinCQFSf7uDLMwsjY1dN/n1zIckxxHNg9dkGHq8wAbrmqc6i5TbxPL0G4nVAVzbWTFh/+Vpn3HPNetLq1LuMXiv9vcO8TIasNH1ejjdj6QFIL8W96I831mFAJms8RUQAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hTOJs0JE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGu5+ci+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C2EEC19422
-	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 09:28:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hTOJs0JE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 975ACC19422
+	for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 09:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772098119;
-	bh=Q+JPGjs/pGTsOGNIOl36KuUbk8oNei+wKcehtvsLCRI=;
+	s=k20201202; t=1772099757;
+	bh=QEZxnJMrH0Qa2UVeDbP+54yDMgZNzL6WAowXNzcKlLg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pGu5+ci+Wn2JAlztc6J6f17nc1u7YqME6JKT+8WKxBgc0aHcELhW8ukVtK0us1QEk
-	 vZNR+ptEg/K6oY7fx9VRoFz+7glIPSL8J/f3xTV38nfSLG2Pn+yOHDraiExxbpKF7/
-	 RMy3y7yR6cPFN3QrnZsiNvy5AjcqAc72iEN6B5FcJuEqSOhXp2VLav781RZKXGrhyp
-	 i9Dll60Oag+79Jj6SFxp8iQwslow7Q5Tc5X3tHYLya1ez1aOHjdGBcNxkq/3lzqwPX
-	 wA2XfnV170zB6ymSkxYEUufb58p0kTvV/FvZXmY++w5oMjSHRFhKZm882IOP6064bh
-	 MDBQX4QmjpAWQ==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a10a1617d0so508472e87.0
-        for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 01:28:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXaz/MhJv46bs0ZnLcbTr8m6A8omCwgkK+TV1uZgWoWn7dbhhMgLb62UlgRUAGq3cv2NuWQxaGrxQ3ZSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzr3hSo5dScnXgK14dE8fho4tadihmTzOA6LzdQq+fqROt++A6g
-	ctAm8R8soscX3/i1cDfxEFz47OzLrggPEbo3fzrzWkkHQQfioQ3ACG0YD1uNUuKB/kH2Sg36oad
-	XqwLdU9IF85t0aaokHWf6c+JiRIdh6BdCY/jGQutOKA==
-X-Received: by 2002:ac2:4bc6:0:b0:595:9d6b:1178 with SMTP id
- 2adb3069b0e04-5a105eb321amr948844e87.40.1772098117903; Thu, 26 Feb 2026
- 01:28:37 -0800 (PST)
+	b=hTOJs0JEdsdCKSn77dFPDgamFNy53m6MBrJoZ7/pgpFSHo7LBsMzLRXFF9D8wAkO9
+	 eUcmUVSyIw9pdRhkV8gEn42GLwz1bwgL/B0pjQZybJa6aLWPjy44eBCTTBm34Q+6Mm
+	 Cr7YtwWgRaxfJeZjs0FWn6uzbylODgRATkSvinUzoJkGtWLsQQzUX1HKH3+cyFsr2+
+	 UknPipxBvxVDamDpRNNW2IQAFSJoz9C+jzIeDVRrd4M7XPJwtKuUILX+i2/Wdr4f2t
+	 0qbtHp6x0X2GXjEwuR+Wd91TOTg0RtsuoiGSgWZs8ZOAXOqHrcVXz5Pl2+e0TvMCoX
+	 LFsgG12HOz7GQ==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a10d311c79so237541e87.1
+        for <driver-core@lists.linux.dev>; Thu, 26 Feb 2026 01:55:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVDPVjo8soZWd6S2gqxEP1GyBee27BUiStPddXsIL2Sds6cUsQIcC24ZV5d3nCKxjdGBdMEO8uUkizP8Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzzn0Ff7jtaDXED1gTjFOuelix09+4lTzbFzobHelqlCgXVprsE
+	feuqVmTJnqOTcvgRn8O48PFjql0VJ8bLzq+6QzCTtJjf8eBVqO5QiJmuMAN3r8r+tj+iyi2zz9Z
+	v5zWpe/M4kwfnvgQBSCbeEaIQCXMxZ4wvHo9woZj65w==
+X-Received: by 2002:a05:6512:1087:b0:59e:46c6:9081 with SMTP id
+ 2adb3069b0e04-5a105d8acf7mr1235592e87.2.1772099756151; Thu, 26 Feb 2026
+ 01:55:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com> <20260224183832.GB3239922-robh@kernel.org>
-In-Reply-To: <20260224183832.GB3239922-robh@kernel.org>
+References: <20260225-device-match-secondary-fwnode-v3-1-a7152054135a@oss.qualcomm.com>
+ <CAJZ5v0j0-7WPVY_YYHyjNZenBAaXD1awLHq-cKmLKce4hw-7Uw@mail.gmail.com> <CAJZ5v0jf-S-=H7Dyan0aBhOX5jeg-UNgg_P-Lh46SWHH+Z2fDQ@mail.gmail.com>
+In-Reply-To: <CAJZ5v0jf-S-=H7Dyan0aBhOX5jeg-UNgg_P-Lh46SWHH+Z2fDQ@mail.gmail.com>
 From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 26 Feb 2026 10:28:26 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mft5vc-C8miKVdw6C-qRdYsqfgm-UgLZJOctFwagMF0iA@mail.gmail.com>
-X-Gm-Features: AaiRm51IEGv2tkqYAUL_wlvSqsaBCZdXcGaMbPUU4umqiYT87HTd0LJXBirO8Tg
-Message-ID: <CAMRc=Mft5vc-C8miKVdw6C-qRdYsqfgm-UgLZJOctFwagMF0iA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/9] soc: remove direct accesses to of_root from drivers/soc/
-To: Rob Herring <robh@kernel.org>
+Date: Thu, 26 Feb 2026 10:55:40 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McgW9WTJG4MWZqB4MKKOzRVeAKwVY=qLaWyB2gq-J9Zzw@mail.gmail.com>
+X-Gm-Features: AaiRm52gnf_4Dkoa9pIuN6uKyeXWIu8fiVe2nAGPSzw7Y3KCHUX2x4m3tk7bONQ
+Message-ID: <CAMRc=McgW9WTJG4MWZqB4MKKOzRVeAKwVY=qLaWyB2gq-J9Zzw@mail.gmail.com>
+Subject: Re: [PATCH v3] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
+To: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev, 
-	Peng Fan <peng.fan@nxp.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 24, 2026 at 7:38=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
->
-> On Mon, Feb 23, 2026 at 02:37:15PM +0100, Bartosz Golaszewski wrote:
-> > linux/of.h declares a set of variables providing addresses of certain
-> > key OF nodes. The pointers being variables can't profit from stubs
-> > provided for when CONFIG_OF is disabled which means that drivers
-> > accessing these variables can't profit from CONFIG_COMPILE_TEST=3Dy
-> > coverage.
+On Wed, Feb 25, 2026 at 1:44=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.or=
+g> wrote:
 > >
-> > There are drivers under drivers/soc/ that access the of_root node. This
-> > series introduces new OF helpers for reading the machine compatible and
-> > model strings, exports an existing SoC helper that reads the machine
-> > string from the root node and finally replaces all direct accesses to
-> > of_root with new or already existing helper functions.
+> > The second check is redundant because fwnode cannot be an error
+> > pointer (it has been checked against that already above) and so if
+> > node->secondary =3D=3D fwnode, then node->secondary is not an error
+> > pointer.
 > >
-> > Merging strategy: first two patches should be either acked by Rob or
-> > picked up into an immutable branch based on v7.0-rc1, the rest can go
-> > through the SoC tree.
+> > I'm not sure if fwnode can be NULL here, but if it can, it should be
+> > checked against NULL.  Alternatively, node->secondary can be checked
+> > against NULL and compared to fwnode.
+> >
+> > So, if fwnode !=3D NULL cannot be guaranteed,
+> >
+> >         return fwnode && node && node->secondary =3D=3D fwnode;
+> >
+> > or
+> >
+> >         return node && node->secondary && node->secondary =3D=3D fwnode=
+;
+> >
+> > The overhead of the former may be a bit lower because it avoids
+> > dereferencing node when fwnode is NULL, but the compiler should be
+> > able to optimize this anyway.
 >
-> SoC tree is good.
+> Or even the device_match_fwnode() check can be folded into the last line:
 >
-> For all but patch 8,
->
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->
+> static int gpio_chip_match_by_fwnode(struct gpio_chip *gc, const void *fw=
+node)
+>  {
+> -       return device_match_fwnode(&gc->gpiodev->dev, fwnode);
+> +       struct device *dev =3D &gc->gpiodev->dev;
+> +       struct fwnode_handle *node =3D dev_fwnode(dev);
+> +
+> +       if (IS_ERR_OR_NULL(fwnode))
+> +               return 0;
+> +
+> +       return node =3D=3D fwnode || (node && node->secondary =3D=3D fwno=
+de);
+>  }
 
-FYI Rob also reviewed patch 8 now. Who would pick the patches up? Greg
-KH? There does not seem to be a centralized SoC maintainer in
-MAINTAINERS?
+device_match_fwnode() already contains the NULL check for fwnode. I'm
+sending a v4 with the IS_ERR() check for secondary dropped I hope this
+is the final one.
 
 Bart
