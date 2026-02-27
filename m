@@ -1,119 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5EE333725
-	for <driver-core@lists.linux.dev>; Fri, 27 Feb 2026 05:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9E23B52ED
+	for <driver-core@lists.linux.dev>; Fri, 27 Feb 2026 08:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772171045; cv=none; b=XMKGfRh9u2wsx8/YXpXCwGkaODuOpmyhBRUgBaRFMNl/rQkuVka0cn6Q9XAFsq0R9m8JpLigvr+DvrMkMpsPaRvlhK8VinZS4jauKJdqR547+XsItno/R1Rdw0QktazKfI4YUg3nE++NX2etPIIb7nlXPYxOv1grlcTZzxdAAGo=
+	t=1772182746; cv=none; b=omADSW6PuSy9goLXKQfq1NRwIw7acICaI58f/FbWaRSCTcWaaw9VO2FFaWFAM3eoKSUJyUT4QXyfSqz/GUVSKoutqTUSmAIoQWZWGz7LOUfvkyiPJt4llmto+9W4PBKpf3y8Sf1R9rY4eHJFkXS7wyB9PXYijsljUwCkpaezKDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772171045; c=relaxed/simple;
-	bh=Urdf9IrYPZBmcHGZK6oZC6AvfEW8tNfV1PeNUDUyL3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9eD/6fPeAox4zOSpPEtus/L07PPIXBObUhsdrI8aIFqMdA1GrI53YixGOLi1Pgl8NYuj5g8BKwRwP8xMi/3Xkk2qqn6q9NsGHp3X/ctbFc3r7aTQOOhaud7BCHqY6+YY6xHdmrWSEY/kAXhztmsSTRTqc4XU42wSt5ZiAqOv9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCgIMztx; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772182746; c=relaxed/simple;
+	bh=fB5UjQPpD+D9qZyDCB8SYs/gFWNRAvvueceaPw1cEQI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GxKfGfQnyrHfAxipO/zqg3Lw+D8OrIuNnBNZeY1JJZh+Ca2ZqlHbxGd0scD6Kfa2mvOVFdGxM1gLUo8Hen/jMNWtOxFUI0973ttiMB3oM4OJkGLgxSDXbyGB9JN8UqEY28QodUhEOwyKrY8ScHjt7R8cIWn4FCQfEYtbArlCito=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=R4/1+DXQ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fvFzTW7U; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCgIMztx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772171044; x=1803707044;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Urdf9IrYPZBmcHGZK6oZC6AvfEW8tNfV1PeNUDUyL3Y=;
-  b=oCgIMztxlRJ8ihObSRQUTFQ4iE7x7U4LCfDOs0ep9+FY+PEhgwm5ArNm
-   qaB6UPWhTi1ZyPHiwHqbHO4mzSpLCdnQm1V2YBh28DdLF/GonOA7M90+w
-   fBGWnvO2PYhy79lr6we6Kq9lPJaaJw2/3LPzcHhzujw3cyLHooCCXILSM
-   AipBaOEwuVf+wTZdAeZvwwXGnNUeVcYnOKQ3ZhU0txLm8IZPqhxD9N2aP
-   nZkKec+PbAFTBmGl2EuNsDHTx3llfgmlR6SUhp0J+pox7QHTh0cYhm1tv
-   U7n47aa8KcsBS8Na2qSB6ADzXZlt3LDhjyJFvVqlTDwH9E8Zhw3kSVZY7
-   g==;
-X-CSE-ConnectionGUID: U3SHhRPtTASAc0QaXsQ3Nw==
-X-CSE-MsgGUID: 1NvU4ytaTUO8pBauSoQs2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="73121454"
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="73121454"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 21:44:04 -0800
-X-CSE-ConnectionGUID: aIcOXHdASrWeWKCKSTCzTw==
-X-CSE-MsgGUID: MLy3wzaPTlOdZ/adJ4t/Sw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="213702182"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.65])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 21:44:02 -0800
-Date: Fri, 27 Feb 2026 07:43:59 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v3 1/3] regcache: Move HW readback after cache
- initialisation
-Message-ID: <aaEvH2dk9yTwaUc8@smile.fi.intel.com>
-References: <20260226135918.381979-1-andriy.shevchenko@linux.intel.com>
- <20260226135918.381979-2-andriy.shevchenko@linux.intel.com>
- <0c5bdf5a-459b-4ef8-95cb-3d1c0ad867bb@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="R4/1+DXQ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fvFzTW7U"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61R2JvJB2982225
+	for <driver-core@lists.linux.dev>; Fri, 27 Feb 2026 08:59:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	xa2xwKsAARO5/o99tsp0/G2WXxT4BDvg1rDv8++bkVk=; b=R4/1+DXQpBbCj2El
+	llgdt2vPmQDBD8CFDy0MVKnkTd6eQXyKPPjuJVc6VvjxtX+SNfJ1XVcP96ZnlQIq
+	C14W/xWsGKw1PkGbAG8UTQhqJXfuCdwWA345FOqCMniL/G0ZgxHgRWh7g7ltJ7Ot
+	ouerbdN7CU70HTNcHDmT6yKgpIE9iYLS8kKU9hwoOnYI8ubZ0ZNvKrgvjy3mn2eV
+	Uf7WgWvNaZx79bXOI0Hx7QYJNAwjcqsT5SBietDJzXJyahRuFdjXEUakcKDo+X0i
+	sDIcqTa6/RKUILUhW93HBCN40FaiQaUrXHR2kF/uN+JHktF4fT9UZpmSF9jDA+ZJ
+	fVHd+A==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cjk2v4f1s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Fri, 27 Feb 2026 08:59:05 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cb390a0c4eso1918803785a.1
+        for <driver-core@lists.linux.dev>; Fri, 27 Feb 2026 00:59:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772182744; x=1772787544; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xa2xwKsAARO5/o99tsp0/G2WXxT4BDvg1rDv8++bkVk=;
+        b=fvFzTW7Uo0mZGRwO6o5nuSRUSXB/J7zcXJFrhXK28ybcPP2olF2Bqg2ob/qsNydYiD
+         dblcjHjBqyrwaG9C4Zm0WxDEoR7Am8ipy+njQV5d780NYydKyK8TCIYfqE953dj9a33V
+         TLNIpV/Nx8RImbUBh5T6N/ciqWLm+6TsseGJ2Hh17WzKjRmsX8P9vuFqa6POIPfVm8JL
+         zzpGv3m1ADkD0CSF8gx4dWS/VlQlR4bIxFeDSpSIlqO8vVo1ybjwoJq3Ntm+OGV59MeY
+         dilCaBJL5K5nuJENmzJ4IxrMpSEHJtTgBNu839pjsthcl3JR0eopEoqKvI70YWIoeej1
+         JkDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772182744; x=1772787544;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xa2xwKsAARO5/o99tsp0/G2WXxT4BDvg1rDv8++bkVk=;
+        b=XVQHR7OySWLLXWro2HAb/VVmPg6yrWpi7+rnQeeoxRwwJuhaYlIhqyvFA5cJt4t2pG
+         nDwenHgC0pa0Pi1OcOUvNbaCng7Qg5c7o6L8GHC29Yc7LMakRBCENtWbKtyPJ8domtib
+         +hrAHvIdaD2DOgFi7ppaPo7eX+PH9cB0ssCJZNAHzDKkK+3QPchDEmmFr9YYvecHQPw2
+         CirzOgP1R9/zFbmvvVEzbdbISC/gpj7v0yQU8/wxeZoSAa1BjRh5cams/BpGZAhfwQsL
+         rONjKAymskOv/kCOcaDhdvdXYIfzm2BqrnYKIAL0U+44juqpw3o24y5RTIHtgDjjezYD
+         dkHQ==
+X-Gm-Message-State: AOJu0YzdyNdB8j6AKfljmC5t0UmmQtLa4wn/MM4xmSri94GhsXn7xY4v
+	gRRpwR3/ba0CGcknes6LI+zspJOT7EfMbYIYKpL7bfH9ZS5emSBkuMaIzz7G8lZKtDsJ3gWdp6V
+	FzJpP069ySyh3vIP2xv1ppuzmxQCgH7/tY8fRQdYpYQbOws+CH5paCD97IUtWI4KeAw==
+X-Gm-Gg: ATEYQzzwdXnZSmWHyVs5TunVNCwFypK3PG/9qOlANenxXkTKprRcqs4bS4n15CVN2Dh
+	EhLLvq2sc8w6zuwN8lwL9m6rsigXf/zFZJ5xaD+tg6Y1/7WoP8ZtLLjk89OmzrtKwVw6tqBOzxE
+	Tu5UKwoAurLCm6wL+7s6f/VizN6B5VBvH4yl30LasqfDDMO9Tytas+R0SFvi+TuVnj+kDv4+HLr
+	BY8eVxQBa6ZLpwOVeDdM8UALEcODlPBiqIhSOFoyYg//7CIefZjzgrnYkalq8FeaoJy3Vt88gkG
+	iwp0Z8CIWrs+e++KvhXlx7r97Twko//+OvUA9L1b3eB9jL0xsbA/VRhqJ4yGESkVSPQyqQpF5VC
+	29LrlU1hHZ/xCPsdUtTEt/PIwORuA0Xryb1MGGtny/kNdLf4qS8s=
+X-Received: by 2002:a05:620a:1726:b0:8ca:2e37:ad08 with SMTP id af79cd13be357-8cbc8d9d7d0mr259516185a.34.1772182744210;
+        Fri, 27 Feb 2026 00:59:04 -0800 (PST)
+X-Received: by 2002:a05:620a:1726:b0:8ca:2e37:ad08 with SMTP id af79cd13be357-8cbc8d9d7d0mr259512585a.34.1772182743777;
+        Fri, 27 Feb 2026 00:59:03 -0800 (PST)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:8bcf:177b:d085:ed57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd702e7bsm224129855e9.5.2026.02.27.00.59.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Feb 2026 00:59:03 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Len Brown <lenb@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v4] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
+Date: Fri, 27 Feb 2026 09:58:57 +0100
+Message-ID: <177218264423.8055.13971416115087410858.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260226-device-match-secondary-fwnode-v4-1-27bd0cfbd8c6@oss.qualcomm.com>
+References: <20260226-device-match-secondary-fwnode-v4-1-27bd0cfbd8c6@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c5bdf5a-459b-4ef8-95cb-3d1c0ad867bb@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: H4iJ8Z3yzqpaQdYehVwIN07ZQphJvrNo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDA3NyBTYWx0ZWRfX+cHR0OX09bLe
+ dY0eYQMkgasCITimuEEUkTwLcxTzK3F+aeNFtdmdieFCx1UxTISr8wVOr1UCDzsaBxs00ZGrDpF
+ MDzliYyklQGfjTs1menkiT8TwOSyaoFhNmBVC1G/74TSadwyC2/igAfUy+RTjJUhmi7o8Osd8o0
+ NaPTzAfpoMGSqXG/Q/W3gAoSeFi0GbQbelfujm/mRixzmKFY7XKGs5YN9xKaQ7eWgS09+GuYVS3
+ gr4UhACHyGdELUd9OPVETCNBTENqKxkztlRJmb3H5uKQL3KPDJgnX8Lw+8VzMrkmDKTd2s3+JRK
+ tylvGAGsAoIR9vukvJO/vTHBCUzT/jNLa4eRpftlwQdvwaOWdgi343vAlRO2jtpymBiPnpDM4AL
+ P4lUHihg8KLPWOf9FOErs1KxJREB9r2itfREjR3fJaQpHcx7Vz584VWp+dY/q6cQHK4HsQ/ztyL
+ b64CM0JiVdMn4eDwKfg==
+X-Authority-Analysis: v=2.4 cv=PO8COPqC c=1 sm=1 tr=0 ts=69a15cd9 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=riAGlF5WBYjY1qQTpiUA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: H4iJ8Z3yzqpaQdYehVwIN07ZQphJvrNo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-27_01,2026-02-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602270077
 
-On Thu, Feb 26, 2026 at 10:14:55PM +0000, Mark Brown wrote:
-> On Thu, Feb 26, 2026 at 02:57:09PM +0100, Andy Shevchenko wrote:
-> > Make sure that cache is initialised before calling any IO
-> > using regmap, this makes sure that we won't access NULL or
-> > invalid pointers in the cache which hasn't been initialised.
 
-...
-
-> > @@ -202,14 +210,6 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
-> >  		count = regcache_count_cacheable_registers(map);
-> >  		if (map->cache_bypass)
-> >  			return 0;
+On Thu, 26 Feb 2026 10:56:36 +0100, Bartosz Golaszewski wrote:
+> In GPIOLIB, during fwnode lookup, after having resolved the consumer's
+> reference to a specific fwnode, we only match it against the primary
+> node of the controllers. Let's extend that to also the secondary node by
+> reworking gpio_chip_match_by_fwnode()
 > 
-> This is in the case where num_reg_defaults_raw != 0 (and we didn't have
-> any explicit defaults!), it's the only place where count gets set...
-
-Actually the check in the regmap_hw_init() should be done against count,
-indeed.
-
-> > +	/*
-> > +	 * Some devices such as PMICs don't have cache defaults,
-> > +	 * we cope with this by reading back the HW registers and
-> > +	 * crafting the cache defaults by hand.
-> > +	 */
-> > +	ret = regcache_hw_init(map, count);
-> > +	if (ret)
-> > +		goto err_exit;
 > 
-> ...and we now pass count off to regcache_hw_init() which will attempt to
-> allocate a zero length array and presumably faceplant if that happens.
-> I don't *think* we should ever hit that case (at least not for a
-> sensible regmap), but I'm having to think far too hard about the whole
-> thing to convince myself it's safe.  I think we should keep the counting
-> of registers to allocate and the decision to call regcache_hw_init()
-> more joined up.
 
-Is it possible to allocate something, then count, then reallocate
-in the existing caches and in the potential future ones?
+Applied, thanks!
 
-I think it's the patter that we first count the size of the allocation,
-do the allocation, and only then fill up the allocated area with data.
+[1/1] gpiolib: match secondary fwnode too in gpio_device_find_by_fwnode()
+      https://git.kernel.org/brgl/c/eb58f2b9bb0909ebce64e1a90b21b5cc2c9f17df
 
-Otherwise we came back to the chicken-egg issue this patch tries to solve.
-
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
