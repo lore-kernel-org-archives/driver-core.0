@@ -1,65 +1,65 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD402E65D
-	for <driver-core@lists.linux.dev>; Sun,  1 Mar 2026 12:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DE81FC101
+	for <driver-core@lists.linux.dev>; Sun,  1 Mar 2026 12:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772368221; cv=none; b=qAkCrhsLTeUp/lwicshGEa3cEJPCzYiyZtBRfaIDX2IIkvst71KnLbxcVT5lafum05C6E4fjf5cV3tG8bciJCqI90hOzsSMCPhaozlBgWwxeTgVpgbbckcSrRycPELDaOKk2J0Kog68Z0v6FEajXW4GrbbKewE84yF4YVjgCZ5g=
+	t=1772368265; cv=none; b=p046bWAGMiITL0FtgX4fzVnFkNK2ZDbd8IB1m0jKgNaeD5jp8i40ZjZku6oHEigrs4IDRZS+WMtT4Q77Apm+hHvlubuxg+gl3FVZ/pAax3A4XG6R72u+Bm3gvjzruEz3VJEr+qv3XunP1F4mJVdy8BH41Rz+5qu9zsD2oySsvuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772368221; c=relaxed/simple;
-	bh=Qlxf4vGP0s+oYc7nTK+dIxJjKgrkya9GImiujsOZ3vk=;
+	s=arc-20240116; t=1772368265; c=relaxed/simple;
+	bh=e8H4avRFlAUOV699FyBASvVpYwgBt329l3QdH0BnKgg=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=HVoRlEnzlB99pD+FSthNs+IDB0Ltla9ps1vG3vLdeGSkJv44uJayrG/bXcPI+OqIfqHAbzOUN2sWM/Jnf3OThGIP1Za6GgUsluhzZGaEGtWpnsdYH0lrINAyh1ZKAGwLmTlv7J+Eo+UazXv3Kw+lkcpsF7d4hVN3Wgfsa8h9WrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWCJ+bFy; arc=none smtp.client-ip=209.85.128.41
+	 In-Reply-To:Content-Type; b=GJf+QeT8dTm8/BQcWzkvANBfjb6efIkmjwSPA477oO2zNQbJtTDfPNXV0AJjRImF06NkJTLKzuCEM48TISxMY9SzQaqaik0ZsM9vPbBXZ2eqN9aHaVvIvMDiWeXTd55TSJZqDDZ/4Wq2i4qm67vwlEBhtcGShDqXnjOmh3JPtEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdG02e3T; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWCJ+bFy"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4834826e5a0so40189555e9.2
-        for <driver-core@lists.linux.dev>; Sun, 01 Mar 2026 04:30:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdG02e3T"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439aa2f8ebaso522094f8f.2
+        for <driver-core@lists.linux.dev>; Sun, 01 Mar 2026 04:31:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772368219; x=1772973019; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772368263; x=1772973063; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=IH7s13CuB6X9sNPcDjs79QdKxXWKmWCf+uImrAdahLc=;
-        b=mWCJ+bFyMSKkeEYKV6PF1ne6pM4eNj2T0Pq3wDRyxESbR7pjfLEoQMs778+nNbvmwS
-         OAHqyqzF+0scg3a+4hj57TdHEdt4NWT/hy1jPS091KEokuiyjLGoYpeN6YzhpwFUv2ZZ
-         QVtvaMZpukBUkZf89KeKDRYMkeSPiUKYJHjGQ5jWs0cB925/Q/JAfbolk3foi40yTBeV
-         hmioRan28kRzf6R5f6Ni+ouAyUQ1fYRFBsyhdSg3EenpmOwWxBIk2lSr9wEZczIld4lj
-         OAL16nGt3QW8ukRiIxgPHeGsTvyGqzkHyvsV8gKianztplPuywHsa+OwTjMJDytOi5JZ
-         WB5g==
+        bh=IV8LIVJYlIzCJ+pXwZ3nFU4gVyFjVKrpHPPGWI1pXSY=;
+        b=QdG02e3T+rus10yJ90PbUtScwyzfFHAkBLjRCxqfHgL0HbsZMxzbXpkLmsNXTZ3ldy
+         gbUEmrPWE/JkLdtgFvtSwdCFOZqw8146hm0UDNM0VDhVlVBOMbTh7/6NTbQ7MSgYWIx1
+         EMHxh6olNaKmWYOqhZ3QM6iZwHfxOJBtesyT367gOrbxngKGAD299QEUqv23KdvzO9Gi
+         My0xS6mhvov1ytBhcVFa3zh3zMceOHYuj60Tp1ObBrAucfGnl1T58XAZ0RoSCPQm2kww
+         ga0p9aVMiK8sFhBXIBzo3JmgNpVZgWe8u4N+XtpDWknaW5KvXIFwh+5djb1ZJZg4Q41j
+         PWug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772368219; x=1772973019;
+        d=1e100.net; s=20230601; t=1772368263; x=1772973063;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IH7s13CuB6X9sNPcDjs79QdKxXWKmWCf+uImrAdahLc=;
-        b=i87cuQXG5vxahmTryhCGs70v+PNgnB5D9Ogq41VqpSGK/+e+VuYdoOHX3tyMrH0agh
-         LWh2TVzW7UAlDoIs8VKW8S1CjMPF4VD8X/8/faLjO6PS3fg2pXglk16nE24DLlGthFN1
-         7AiDOa4K5unhHRIPlQRmJnSGxMwKdhHMj331AeRGc1FXerbjpnOJlCrCDt9BJawXPdii
-         kF29SAEtNu1TNFrtjjq0Ka+U2onkqaHNJa4Kawf3E3ctOFjs66XMMjuSwQsGffOSdGkW
-         uHryXSRWtTMg3daZc+cGafs2k9OlUjBc4uXLSjmegnI+MUJrvoIQRM9ZMVsD5vjKwSH5
-         Gqyw==
-X-Gm-Message-State: AOJu0Yxph7CJ0M7xiEVdAZR3ddhj8jRrrOmWCBcfXQ1Ox6ifM8Z2IkAM
-	ORMs3dV1laXtoWMMPEEV6Niq0N8CqKLxKuHpbPCfUlIWDDQ6KYTfGOkg
-X-Gm-Gg: ATEYQzyi0mVnSKVDcw4ceQ5VOoR3aNFcZFU4UVt6WAF5fhD21MvhsntFjgj6UIfPv2J
-	P5YCSw61Sk6wdNaNuzpDthIn/ahWCCCZFdcDYCuoanCAClI9hr8XSKVfiK6AqlvMkZ1gYQ4erCX
-	2vcFUHa5ASEnYqzjEjFthNDfVTKBsYDGpTlFcm/XJECH2uD0r36YFQt0jeqApmVEnb5wNNaDqtz
-	7OFPwZAqV1mCg2uVTpKA36tMkOooPTz9xWAc0RXIHmE//H2AfMWsYpWn4nRx8hESU8Rv1TK8d8y
-	jOUHWCJwvaIr7rb06YkP0wPKKb7WCmIpLfvDBmjglmW/4obGj8KX0J12wrYN5/0Vc87//SX3Io6
-	ZKUXcsE5nISpTKLHoa/zOTkAwdQVbKS7z++yu/8XAskWlBBGyLBN9+XIFADe78gBu5BszkqKKD7
-	M6/pI+98Vk4vb63ZT8q+AYAgJ6TKv5WeXR6E15jbPILFwTXz750SJaVeo97iaFiOQ7pzU198sZA
-	8/HmWDUUSeiwSoPjcq0GIM08M/gEYXJ3EK492wgzepejECmD5HLA9h6On6TUeBTPK/iHNDXKEbT
-X-Received: by 2002:a05:600c:3e12:b0:477:9eb8:97d2 with SMTP id 5b1f17b1804b1-483c9bb1e09mr148646305e9.8.1772368218757;
-        Sun, 01 Mar 2026 04:30:18 -0800 (PST)
+        bh=IV8LIVJYlIzCJ+pXwZ3nFU4gVyFjVKrpHPPGWI1pXSY=;
+        b=O98XwWZmQDBrLX/EDZVdl+1tNPdyQMiOyVw0B6k3gEpjNBEGjTmwmtSOsGkdzvT17L
+         u98d6NiDm60dkkj56YCfE3zgJfmtOW/0kpbvKnvhajbpafd2ALKiRDC38gZLdGlLCKKc
+         ZRZLnSlbTyT9wWHEoT7hE7P8WQkXBvj5VA9rKwYKZlTqgAPI5Q4ALX90Wm1cJK0l8vuX
+         jWlV0ooeJTS2bgaVgVOk5ttuhs+FfPbg69Vqzbh/yNCxWEXfVSmAdW//9vKELf4lnyg4
+         HU1f8q/xpzgGktKO3TNbB41rxoqxg/DiVJMiTS6CfzJQrxYka9t43wzv1hGpf4OP280G
+         bpHQ==
+X-Gm-Message-State: AOJu0Yz0y1vkmJz2aBi2FvBNXiFlCFy0fG9425M0F8PqDfPZAs//1D1U
+	yyw4WPn+h8Ut9JyrIjG3W5Zb4rSURjCvMcQUK6rejMGTfGb2XjJrhYv1
+X-Gm-Gg: ATEYQzw07KW4GV1sMW8MpYMNidz0W0seDxp6ZYAnKPmoQHmRqWPcm67lFu39bZDc2hM
+	MrUUU7LDJcJa9oVzsNJ115y6M+17fXr69RXfQT0eDIr6GeKfEKbciSC1DTE1E8fQgYYsM39IkJS
+	390NQCHGQ+iZ218mSaDP3YzYRdgGkfQZwL+sxz7nvofZ7ERGhq5zRMuim1nonRuo+nzqWv5+IQA
+	l2qPv+BJEG1rFP64lT8TA9Rz8QR4Frn98xjvnTUaAX5n2rULxBcLMIBCL7NJswTl9DfUmI9IlIN
+	j825G0kVvph7fBMYVa1NRwNVmLCYqUSxGwT+H4qtVKSPzAHuEJCF5MSoXkH4ub4ku04+pwVVJMX
+	Dy+Kg/fjj/Di3eaHq2Yv4a8/UCdd7qjPOXD1zbRGsmSg/kWZKtCPaM4CBUE2hoHLUo0ZH1l1nIb
+	UBIbI0/WrPugnd5soyJmBLAfmtg1l0unJmO+PuPhjTAl4+w+CtSVEC3nhtDY4rGxAwQBlZMWHek
+	Ue7aLZORJFYS1G3MARZKWTn+t8eLNvJeiLTC9nc7FWkqabGKJpIlwvlCOCKzTPoyg==
+X-Received: by 2002:a05:600c:34d6:b0:477:7af8:c8ad with SMTP id 5b1f17b1804b1-483c9c1cc59mr160599545e9.31.1772368262780;
+        Sun, 01 Mar 2026 04:31:02 -0800 (PST)
 Received: from ?IPV6:2003:ea:8f04:4d00:b8f3:c9fe:a208:3449? (p200300ea8f044d00b8f3c9fea2083449.dip0.t-ipconnect.de. [2003:ea:8f04:4d00:b8f3:c9fe:a208:3449])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b770e7sm237976555e9.9.2026.03.01.04.30.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b841absm255176275e9.13.2026.03.01.04.31.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Mar 2026 04:30:17 -0800 (PST)
-Message-ID: <17035265-8882-4101-b7a7-16b3eb94f8b5@gmail.com>
-Date: Sun, 1 Mar 2026 13:30:17 +0100
+        Sun, 01 Mar 2026 04:31:02 -0800 (PST)
+Message-ID: <8ea2d6d1-0adb-4d7f-92bc-751e93ce08d6@gmail.com>
+Date: Sun, 1 Mar 2026 13:31:02 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -67,7 +67,8 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH 1/3] sysfs: constify group arrays in function arguments
+Subject: [PATCH 2/3] driver: core: constify groups array argument in
+ device_add_groups and device_remove_groups
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
@@ -79,130 +80,54 @@ In-Reply-To: <d13ed3da-898e-4b73-a98c-76a671258757@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Constify the groups array argument where applicable. This allows to
-pass constant arrays as arguments.
+Now that sysfs_create_groups() and sysfs_remove_groups() allow to
+pass constant groups arrays, we can constify the groups array argument
+also here.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- fs/sysfs/group.c      | 10 +++++-----
- include/linux/sysfs.h | 16 ++++++++--------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/base/core.c    | 5 +++--
+ include/linux/device.h | 4 ++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-index e1e639f515a..b3edae0578c 100644
---- a/fs/sysfs/group.c
-+++ b/fs/sysfs/group.c
-@@ -217,7 +217,7 @@ int sysfs_create_group(struct kobject *kobj,
- EXPORT_SYMBOL_GPL(sysfs_create_group);
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 791f9e444df..f497b724332 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2831,14 +2831,15 @@ static ssize_t removable_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_RO(removable);
  
- static int internal_create_groups(struct kobject *kobj, int update,
--				  const struct attribute_group **groups)
-+				  const struct attribute_group *const *groups)
+-int device_add_groups(struct device *dev, const struct attribute_group **groups)
++int device_add_groups(struct device *dev,
++		      const struct attribute_group *const *groups)
  {
- 	int error = 0;
- 	int i;
-@@ -250,7 +250,7 @@ static int internal_create_groups(struct kobject *kobj, int update,
-  * Returns 0 on success or error code from sysfs_create_group on failure.
-  */
- int sysfs_create_groups(struct kobject *kobj,
--			const struct attribute_group **groups)
-+			const struct attribute_group *const *groups)
- {
- 	return internal_create_groups(kobj, 0, groups);
+ 	return sysfs_create_groups(&dev->kobj, groups);
  }
-@@ -268,7 +268,7 @@ EXPORT_SYMBOL_GPL(sysfs_create_groups);
-  * Returns 0 on success or error code from sysfs_update_group on failure.
-  */
- int sysfs_update_groups(struct kobject *kobj,
--			const struct attribute_group **groups)
-+			const struct attribute_group *const *groups)
- {
- 	return internal_create_groups(kobj, 1, groups);
- }
-@@ -342,7 +342,7 @@ EXPORT_SYMBOL_GPL(sysfs_remove_group);
-  * If groups is not NULL, remove the specified groups from the kobject.
-  */
- void sysfs_remove_groups(struct kobject *kobj,
--			 const struct attribute_group **groups)
-+			 const struct attribute_group *const *groups)
- {
- 	int i;
+ EXPORT_SYMBOL_GPL(device_add_groups);
  
-@@ -613,7 +613,7 @@ EXPORT_SYMBOL_GPL(sysfs_group_change_owner);
-  * Returns 0 on success or error code on failure.
-  */
- int sysfs_groups_change_owner(struct kobject *kobj,
--			      const struct attribute_group **groups,
-+			      const struct attribute_group *const *groups,
- 			      kuid_t kuid, kgid_t kgid)
+ void device_remove_groups(struct device *dev,
+-			  const struct attribute_group **groups)
++			  const struct attribute_group *const *groups)
  {
- 	int error = 0, i;
-diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-index 99b775f3ff4..9777e9445dd 100644
---- a/include/linux/sysfs.h
-+++ b/include/linux/sysfs.h
-@@ -445,15 +445,15 @@ void sysfs_delete_link(struct kobject *dir, struct kobject *targ,
- int __must_check sysfs_create_group(struct kobject *kobj,
- 				    const struct attribute_group *grp);
- int __must_check sysfs_create_groups(struct kobject *kobj,
--				     const struct attribute_group **groups);
-+				     const struct attribute_group *const *groups);
- int __must_check sysfs_update_groups(struct kobject *kobj,
--				     const struct attribute_group **groups);
-+				     const struct attribute_group *const *groups);
- int sysfs_update_group(struct kobject *kobj,
- 		       const struct attribute_group *grp);
- void sysfs_remove_group(struct kobject *kobj,
- 			const struct attribute_group *grp);
- void sysfs_remove_groups(struct kobject *kobj,
--			 const struct attribute_group **groups);
-+			 const struct attribute_group *const *groups);
- int sysfs_add_file_to_group(struct kobject *kobj,
- 			const struct attribute *attr, const char *group);
- void sysfs_remove_file_from_group(struct kobject *kobj,
-@@ -486,7 +486,7 @@ int sysfs_change_owner(struct kobject *kobj, kuid_t kuid, kgid_t kgid);
- int sysfs_link_change_owner(struct kobject *kobj, struct kobject *targ,
- 			    const char *name, kuid_t kuid, kgid_t kgid);
- int sysfs_groups_change_owner(struct kobject *kobj,
--			      const struct attribute_group **groups,
-+			      const struct attribute_group *const *groups,
- 			      kuid_t kuid, kgid_t kgid);
- int sysfs_group_change_owner(struct kobject *kobj,
- 			     const struct attribute_group *groups, kuid_t kuid,
-@@ -629,13 +629,13 @@ static inline int sysfs_create_group(struct kobject *kobj,
+ 	sysfs_remove_groups(&dev->kobj, groups);
  }
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 0be95294b6e..48a0444ccc1 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1131,9 +1131,9 @@ device_create_with_groups(const struct class *cls, struct device *parent, dev_t
+ void device_destroy(const struct class *cls, dev_t devt);
  
- static inline int sysfs_create_groups(struct kobject *kobj,
--				      const struct attribute_group **groups)
-+				      const struct attribute_group *const *groups)
- {
- 	return 0;
- }
+ int __must_check device_add_groups(struct device *dev,
+-				   const struct attribute_group **groups);
++				   const struct attribute_group *const *groups);
+ void device_remove_groups(struct device *dev,
+-			  const struct attribute_group **groups);
++			  const struct attribute_group *const *groups);
  
- static inline int sysfs_update_groups(struct kobject *kobj,
--				      const struct attribute_group **groups)
-+				      const struct attribute_group *const *groups)
- {
- 	return 0;
- }
-@@ -652,7 +652,7 @@ static inline void sysfs_remove_group(struct kobject *kobj,
- }
- 
- static inline void sysfs_remove_groups(struct kobject *kobj,
--				       const struct attribute_group **groups)
-+				       const struct attribute_group *const *groups)
- {
- }
- 
-@@ -733,7 +733,7 @@ static inline int sysfs_change_owner(struct kobject *kobj, kuid_t kuid, kgid_t k
- }
- 
- static inline int sysfs_groups_change_owner(struct kobject *kobj,
--			  const struct attribute_group **groups,
-+			  const struct attribute_group *const *groups,
- 			  kuid_t kuid, kgid_t kgid)
- {
- 	return 0;
+ static inline int __must_check device_add_group(struct device *dev,
+ 					const struct attribute_group *grp)
 -- 
 2.53.0
 
