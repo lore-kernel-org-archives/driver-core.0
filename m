@@ -1,111 +1,99 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A1D231836
-	for <driver-core@lists.linux.dev>; Sun,  1 Mar 2026 07:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9333101A5
+	for <driver-core@lists.linux.dev>; Sun,  1 Mar 2026 12:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772351810; cv=none; b=PWj7MTCJ5nGzZCotRGi2qXwHmMWwOvWAybA82/gSaqQRshn1bATB/u85Pn3Q5JdXqTCqG8EbVwowwsC36QutPRuQu127sbLkJV5xZJ2ZXRJjOAD0F1g8x0mXEEu7Th7zzZX+YOqHQcai1cRrqGkx2Vdx0CYF+eMw1M77wR2lmTM=
+	t=1772368162; cv=none; b=rip4Q3MjEmfeUMgSiqBoeZPgvJQpuEgsCgxWRHtyWruPXyO8jRgpPhIhnztIXCRW9Tt3V/e3AlB+eUm16Yf0L48EDGV423pWd/hWeMxN/EXZNQTcRyCZI5CA4U3Cg3ae+EpabJfS62aKzWzUqZj73d/GGtTqt9gkWEFvrX5fWTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772351810; c=relaxed/simple;
-	bh=fHPJXMlciHnObqoUj2uJ4M6Qdtd38LNuqyUK0JBiZh0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HtHDVjZWW/Xt1SnPnzu5axw9cQVaQVWa3j3CJfuJpWw0kFcDi5gaZvjZI/4DCvww/2PLEyCwGTPcUMocSDXlB3kJY+kVEiGj4ITArmiGpLZC36Pci040XyEIlKQ8ZVpFdJtlo44fuiRaZJYjt7Z/lAfGF2lbSr3VPHS7Y3VVm/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=KpHQJLK3; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1772368162; c=relaxed/simple;
+	bh=uoOvHbI7OulEZmrZegcSJe+eY/h9scoP7mkIZ6KAkmk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Xwq9J2ro3NuqhEPCvz2+QFuLqoFagNEvLBJ8KDQluTAWxgsFRfWa2K1VLjfvThxO4nM82DnSe8UaYijeWwWF9Y/YavbGlcGAMW2iQyUJaP++bpRLGABDAoOTcEG+UT1MxYlD9r8geQEHUM9SdE/AlWspxV3sjSVBUqUkR52H1/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OuE22CPd; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="KpHQJLK3"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b8f992167dcso363911266b.1
-        for <driver-core@lists.linux.dev>; Sat, 28 Feb 2026 23:56:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OuE22CPd"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48372efa020so28357445e9.2
+        for <driver-core@lists.linux.dev>; Sun, 01 Mar 2026 04:29:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1772351806; x=1772956606; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UAkqncwaBSQm61ty4+VcxJqmyotEfziP+tLQOjI6vHM=;
-        b=KpHQJLK338TT0LTeD4BsDuPSaZU+LI1C+IuOXlp3UF3OtcrvfTG80hyUYR+5IorRQY
-         rlfzLSDs8EBLa/brgyU21XnCmiGW9hE93/Us0Ccwjfzwn7IYkfkfc7QXjY5wzUS/F51O
-         aOolbsYbiNJqSCaQjs3DuUxB6q/960IIv12BE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772351806; x=1772956606;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772368159; x=1772972959; darn=lists.linux.dev;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UAkqncwaBSQm61ty4+VcxJqmyotEfziP+tLQOjI6vHM=;
-        b=pPzCaIWuuUyGQ52UnlgoGEZUSui7bpYRRVYZrTdWWcxENMpraqRpozoqmTvlcAo51L
-         k+yKh3gTvkyFr0g9K3w8jKrBEMIb4emws4Vf6q3aDuAnmx5ooYcTkZsHN8ClA2uRgrtY
-         wWT9YYAQl6GFHp+Bsrak6BT9siQu5G2KW1zGKPEwXrxVpg7nHcwf297V/Rl6XqKUoKMG
-         57pWszv3U9uxEeUgPE9mxfXm1l8U59SVHRFeZlSMPrXJf4JXXBMQcJJ6kXa/v3wyPlJT
-         rxW/fsUhS2mYEwMaAx1guQDnw8za5zQMKAvBVuRWCzEXPjLJ1M9ApkkILoHFPwSJs3NN
-         +jYw==
-X-Forwarded-Encrypted: i=1; AJvYcCV8nm4yErXxkRFG2heTkJ+vALEWEO7LJHG8P0nQ68BUYRowvDyR5QrRNWbC1OIEmVbhAUAz5Wh/G7pkfg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhzR8cE5wdwERnTEnsh4AnvBBgmYBlT/O7xyjFnHToUy/hIgzl
-	OW5lGVuVEPMCwGI0NpnHAU75QLOMDn0cdZL+og43EobBNExczdZcRYREsuhDvmY1QWtDkDiXQsq
-	ENzJmPUQ=
-X-Gm-Gg: ATEYQzyD/nPS4z1qP0u2xgyZO4S8kt11Tp/zG/jQgJ7DQg6H86z4vQ7+iZ6+rBlQR3D
-	7wyPL39U07JBPLxhwYRa1p5Qei0/O1Cl904vHL9F+H+ciLNecfqIUht5RNBEDTt/aQ+6KaJj4fh
-	c4UKxxDLxRw1zbwsuxT8nVodutoxr1dk18Tu2gzpKu3ioHAtc8X5ulF2iuhbwDj2TWtDKOOl5f3
-	+K/bHEiH2WmwZbAuv52nEupXGfIsfkoK/YY9moAdPuT4Gpy80tMPh6i8ubKaKS6z1QZk56Be6GB
-	qoOaXpGnnEmltE4s19IrZmcty135z1xbvdZj1NishwWqo/IYT3O5VDGC1jwBi/zTKxDTwxw+9Fo
-	4WyjTSmVGMJgeIFRtkqVvr4LG3kL6zpxLC4jELQKxPbEIjOz8z+EOpGCtRmb5DmerRN6aAH9X+b
-	uFio64dmjdxnHta2K7Y3y2oHIsMR83BQqm1BPJ6tipRpYNsjk8CDU/048DV4TB+khz1mNo7byZ
-X-Received: by 2002:a17:907:3e9c:b0:b87:39d:2b9b with SMTP id a640c23a62f3a-b9376510a71mr614039166b.28.1772351806455;
-        Sat, 28 Feb 2026 23:56:46 -0800 (PST)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ae65662sm337436166b.41.2026.02.28.23.56.45
-        for <driver-core@lists.linux.dev>
+        bh=zhoTxHiccHvFWgX0qy2WFpEX8y8xdCAgaJN4O6q+Nus=;
+        b=OuE22CPdF7rApbldPGA/5UPc5LsWAr3yXrhTIs+0Fm40SgPVNlp3CGXq/RzfJpquGP
+         QXyEGS2VWyF3m/d3+VxspqhaZ+KhGweIS7XKID5DtGxiVFatcz3Abg9O/GerDSIIpuLn
+         qurQRnUxjtJQQfHNu8nU2qAxl/4NTOKDZPegMUvfIVGztt2Wg7uup+ctWr/XPYM8cOGD
+         9cPciYoDMGrJyyzdv4PABYKTZNmYk3DcowOBR2/4nIcz8lCfDCPO9IYZT9QJR/IYBOkP
+         qypDWie1SHI7/cK03or+kKO6XarP3OJiEquglx1sAq1gqL9SRG5pIuEbotqzxMQaOncv
+         t8oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772368159; x=1772972959;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zhoTxHiccHvFWgX0qy2WFpEX8y8xdCAgaJN4O6q+Nus=;
+        b=vBf4BnJiJvJSS9gctm4GgUCPOTUynsNV5K+Zd9cjBio48lQ9QNHpWED+dWvfYECZ0/
+         azxiunzMRYJ3B1nx/9ZE901uobaqbMZa5h3jEybrPk63u7GwlSF6kRKbj96qVLU6nwX0
+         HQ0Lp2GV+W5eT5FLqsnTLLxfc/PMQi+qC2YzMsCoZ5l+G6tDkTlNDxBEYxNq4qRFQvvF
+         DHZO8pRduaDB2YqVkxLormuiFWlGAe0nQ8u16CGFTzNBt+tWImke7yByfQuZg9BqwXWO
+         7fma+vFo01rbbHnNJRJz5jPHnwa2PQBp2AHzeY7oXpVE2W7QhUdB77n/a/yeA/Vjwg8M
+         YcaA==
+X-Gm-Message-State: AOJu0YzvFwxgaUENyTikn7dwOBbPPlatoZs97Aspzlh91Jaez4BgTCJv
+	8Lx8MZlQVbwLGXuouqeRAXnoVneK0kvst7iLm8o13mZ/uDTXMkxBcDKDDlal1Q==
+X-Gm-Gg: ATEYQzzZAVWbM9HeWlxGFSSKrBM3i3OCbH3zgUBELzbsWt2/o1tHIKLegaYYQM/+yhC
+	29zo6A+GP1v6oHlQscUzYiiGp6871tEKRM4J2hqqi4ZCfVedjxZN4UJMIVqxpSqUkQSKlw55lga
+	xelARyCpdscmk7zdXUNsDOnUwC4ewQhwWQXBEyHZeWL/pMwoeGjgRjk98MGKOtqaPaMUss8lgt/
+	wXKOXgtczAnlf8whAFM1/sjnu3pBkzLYouzrA+fJaqGaW6i3iMK+Xk2HxxvxLo02G+Fp9+afUKA
+	GKCdi+htOYDBkYL6AhJ23QcZuBylxNHioG6Tm26xI/LCYjKQ8lRs+gmjVWP6DDSfksAbP2BeFNK
+	UpN34eAwb3ZKMudHao595CXXOF2e55XO703/W6bERs4E+ZJlCQ14bPL1I3zyom2g8Q5Sf9xKMeL
+	sSqBWCsIpg7rUI1Bs+IPpiz52YNce6xBSlwmbbVJJXLrkUuXnYEPBT4pRlzDLpsc+WbyopHwG8i
+	qlcb9Wszjbm1sUjjGI5vuVPXYqZ00qW6rXiABI5bNwUSJgvUMnZ8T7Q8RCo1RShBQ==
+X-Received: by 2002:a05:600c:1f95:b0:45d:f81d:eae7 with SMTP id 5b1f17b1804b1-483c9c100aemr154751935e9.28.1772368158617;
+        Sun, 01 Mar 2026 04:29:18 -0800 (PST)
+Received: from ?IPV6:2003:ea:8f04:4d00:b8f3:c9fe:a208:3449? (p200300ea8f044d00b8f3c9fea2083449.dip0.t-ipconnect.de. [2003:ea:8f04:4d00:b8f3:c9fe:a208:3449])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd75df90sm353287645e9.14.2026.03.01.04.29.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Feb 2026 23:56:46 -0800 (PST)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-65f980cea07so4939674a12.0
-        for <driver-core@lists.linux.dev>; Sat, 28 Feb 2026 23:56:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUzhCZk3KNb82oiP08P6t/vBd7+IckSgw1PElORMoA+OFNdCF+K2sWPPJ63ks0PUEomBhd/9W1fa9+lIw==@lists.linux.dev
-X-Received: by 2002:a17:907:7f8f:b0:b83:95ca:23e7 with SMTP id
- a640c23a62f3a-b937636cee5mr554496966b.4.1772351805687; Sat, 28 Feb 2026
- 23:56:45 -0800 (PST)
+        Sun, 01 Mar 2026 04:29:18 -0800 (PST)
+Message-ID: <d13ed3da-898e-4b73-a98c-76a671258757@gmail.com>
+Date: Sun, 1 Mar 2026 13:29:16 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <DGCIBIK52SF8.3FVF3GR1R2302@kernel.org> <CAHk-=wgJ_L1C=HjcYJotg_zrZEmiLFJaoic+PWthjuQrutrfJw@mail.gmail.com>
-In-Reply-To: <CAHk-=wgJ_L1C=HjcYJotg_zrZEmiLFJaoic+PWthjuQrutrfJw@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 28 Feb 2026 23:56:29 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whLdS-5DhAfJVOp_fXJcM2sx-V0DAocuwA20s3JcA-d6g@mail.gmail.com>
-X-Gm-Features: AaiRm53QeH4tfXx0plcR1AZBTlH4cv4p0UAXb6D3niDubjG28DjQBxzo-g0ywYg
-Message-ID: <CAHk-=whLdS-5DhAfJVOp_fXJcM2sx-V0DAocuwA20s3JcA-d6g@mail.gmail.com>
-Subject: Re: [GIT PULL] Driver core changes for 7.0-rc1
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH 0/3] driver core: constify groups arrays in few functions and
+ struct class
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 28 Feb 2026 at 23:44, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> In other words, it makes fragile drivers go from "you get an oops" to
-> something much worse. The oops becomes unrecoverable - with typically
-> a black screen at boot - because the probe is holding a lock that then
-> makes everything else come to a grinding halt when the driver fails.
+This series constifies the attribute group groups arrays in a number
+of functions, and in struct class. This allows to assign constant
+arrays, w/o "discards const qualifier" compiler warning.
 
-See this message:
+Heiner Kallweit (3):
+  sysfs: constify group arrays in function arguments
+  driver: core: constify groups array argument in device_add_groups and
+    device_remove_groups
+  driver core: make struct class groups members constant arrays
 
-    https://lore.kernel.org/all/67f655bb-4d81-4609-b008-68d200255dd2@davidgow.net/
+ drivers/base/core.c          |  5 +++--
+ fs/sysfs/group.c             | 10 +++++-----
+ include/linux/device.h       |  4 ++--
+ include/linux/device/class.h |  4 ++--
+ include/linux/sysfs.h        | 16 ++++++++--------
+ 5 files changed, 20 insertions(+), 19 deletions(-)
 
-on the interaction with the driver core merge with the firewire oops bug.
+-- 
+2.53.0
 
-In this case we were actually somewhat lucky, in that the hardware is
-fairly common, but seldom actually used - a combination that meant tht
-wer had several people who caught it fairly quickly and were willing
-and able to bisect it. I had the first report the day after -rc1 was
-released.
-
-IOW, it could have been *so* much worse. Imagine some random driver
-bug on hardware that isn't common and just causes inexplicable boot
-failures for the people who see it and are likely using distro
-kernels.
-
-              Linus
