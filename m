@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E2126ED35;
-	Sun,  1 Mar 2026 01:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FF52D6407;
+	Sun,  1 Mar 2026 01:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329333; cv=none; b=OA6QSIb+Y+tfu0y4W7b6Pq6Ud+L0VQtcj9sKgW3B9jlPrqcTjPakTAksde44oQA8C4Q/ftv4SToIesO0WcrVs6zye4g374GylXKxIK3XuJWUbeiWjyRRCq9vVGgNynpczsavWfUAGjQ4MkTdzAnbqBjUM5KFxLWSf9gQ392fzd0=
+	t=1772329825; cv=none; b=Vxbv1gm4LS0tIcJSDHgRsKR80wQDiyt/WjZ3mkXb23IyZEFBOZOH19WsQEQaoNNClfe3bQ1e3+fd0XR9UdmbyhCLx9qqORFZ2tkeTCHtdV7NLxm7DEAq6kp75DYQ3REzKGQQ8QcDrpeto93S9m85F+qPGtTBSWhGkRzPphHRC8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329333; c=relaxed/simple;
-	bh=djY/qEnvJwAh4Mv+PxkSPSC/UKvrs/iSznQm8r1ej3o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MT8xyJcijP4w6Mf865xxN0+1N5rAYfYGttZRXNWX8lULxOB24waxiJflAxpmGzhftAfc/hA4KWkDvL098H8aUjb4knDZv/N0iMGpRznUZIYX8rnxrXrFaydzi+fDs7LtXdhA3CBxfVJeuPNdIVLlTUh7p3qOfeo0KQTvm7MaScI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3IHf9X+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772329825; c=relaxed/simple;
+	bh=p/24TmXKNNhsZhJdjj6N18LxqVhetbyXN10wAcAU5Bk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f0LWBP3XO0HYUkCXexC2vc/n7Tnq4gJcgj9CClx2GOYgcnb3dscplkMoMpTGOSyhsRj3bHpCTg4uTShxhJN6lEzJJOW+szMOSQpjwrxdblHH2Io4BkpvlSmdgxPdIpCX/lWuyUx700tGvgVgqBRFm/M99QZF5ida+qFWN3O5HJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQkoB+9c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3IHf9X+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B55BBC19421;
-	Sun,  1 Mar 2026 01:42:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQkoB+9c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F10A5C19421;
+	Sun,  1 Mar 2026 01:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329333;
-	bh=djY/qEnvJwAh4Mv+PxkSPSC/UKvrs/iSznQm8r1ej3o=;
+	s=k20201202; t=1772329825;
+	bh=p/24TmXKNNhsZhJdjj6N18LxqVhetbyXN10wAcAU5Bk=;
 	h=From:To:Cc:Subject:Date:From;
-	b=B3IHf9X+zmxk6tmnCPhQ+ZvXD6nU1JxAn6D6HxoFvCRsn1oNNXGJtJCrrx/euynWH
-	 ARXiHHGVzwIcBRIsJ7v05myBlzBOqCyn72hgJ1r9sPVVXvfTl5eegt4knQpbjYXBce
-	 sd2aLlXZ+XjYZv8OAzKh7ZcL6czD7uHsoZ5nCx/mToXPllgudNxeZhznTMqReGrlHL
-	 NE+zqP8o5cBjRcf1iJ6g6kMav2SRrt3Ummp6VzFh8I6ZxtTQbPVRVAhAy2urDlClYZ
-	 q+81Qz06oKfWm9MbsgW/XaH6/kvv/pSWyyOYv4J5I1xYKZMjV38YRG/qB+48J4I9ma
-	 5ydpsfz7ONMLQ==
+	b=OQkoB+9cQ+UjJp8UtzE0cVjgzpceeD8rPi4m6LQC8W64n6foRxxO2nIFhsbErwMEH
+	 sk+Ux4hDiEKLPE6CREcGJvbs04ChNiI1nD9a0pQnS7zsZwt+p6OZi0dAp8OmDMEvM6
+	 B8XeQakSybp0+GVtv0yojicVPcIaKCWrrJTuIjI/2xY4GFRxTyCQnjLrfg3jJ2M5tv
+	 6X4klpVPGpR7r2DWCarbMuDAMfqJyCMa16AWxkzx91HMsY3S2xf7X2BtBKV765MLaS
+	 pyi50R5MjTpoZGeSg/8efRAxKta6b1Ntz7T2kKJQlJRqAcKgwGPG/DdvG1J4iq16l0
+	 Xid4Df1w9a6+Q==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	hanguidong02@gmail.com
@@ -33,9 +33,9 @@ Cc: Qiu-ji Chen <chenqiuji666@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>,
 	driver-core@lists.linux.dev
-Subject: FAILED: Patch "driver core: enforce device_lock for driver_match_device()" failed to apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:42:11 -0500
-Message-ID: <20260301014211.1703992-1-sashal@kernel.org>
+Subject: FAILED: Patch "driver core: enforce device_lock for driver_match_device()" failed to apply to 5.15-stable tree
+Date: Sat, 28 Feb 2026 20:50:23 -0500
+Message-ID: <20260301015023.1716361-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -47,7 +47,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the 6.1-stable tree.
+The patch below does not apply to the 5.15-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
