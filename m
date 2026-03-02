@@ -1,102 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA2F280035
-	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 15:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C001DF261
+	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 15:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772464166; cv=none; b=i1zIBomSUdySep5MOI2jVhY9Bek4R9Wr9Gd45KcNUVc6GsK6cfZYltp2y4XbRJ5z8s2UI4IfInHp1ENMVF3UnnTo54wFtvq4zUaTYXN9DHZtwK+D6+c1BZFQCuPgmVfvyUmRMWnZDqTR8X6aBKg/tAJcAqb+ZfVNIysrJigJ38k=
+	t=1772465524; cv=none; b=Mg6E3bin9rSXTlMpyrNCEfdLk2aE8faHnZOS4XgxAQOM+W/5Oom+oge/H/JYciypn6GvTzOpeWeWxjQtEgmVFkgzg4USdDJpcN2rB16ccMseqMHpaJTBvvYte339o1Ln7F3JFCIuD3MF3Qr5N0/+nnhK/m+YNJ/9Vm2C5rWZZjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772464166; c=relaxed/simple;
-	bh=UL3h6xwVbOb8wQTkfrNJHrlQDwvqJBlklayYiPUNgnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ighWQRlwpaWUXglx4mqKL7xis0nttq0Hm5w6YcKp+tmaE9bNdRha7hLJ+VdOTEgNxZVchpsM/8zRyCSM+dg3OZdA+xWFS1aYCwAyl7uw7kbFSuma8CXAunAglvPeZLVMm9WtBWylvGY5038HNjXOkrD0uIbX+Y4yidO202YYXPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hTr5SWOM; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772465524; c=relaxed/simple;
+	bh=Q1XeXOHSN5foHMlKxY6LGOCCkJslEsgcVVtkZPljV6A=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Content-Type; b=AcJy5vR5FyoX0By1oMLt9eY4FHVGlWbvU/J4wd/YUvtTfivT/vDDBQmtFgysWH+mKG8tVCv1KxQhYEU3eFlon7Vq1J/M/Rt6d95giwdqSXDp2EMeAFV+9gvXmYoUfpGcVjFjFU9TeOq8KcjigD8b01LhiVtq2Vre9xpmUBbwjYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FxkSmWpX; arc=none smtp.client-ip=209.85.208.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hTr5SWOM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772464165; x=1804000165;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UL3h6xwVbOb8wQTkfrNJHrlQDwvqJBlklayYiPUNgnw=;
-  b=hTr5SWOMvoGycIpFHE+TZ/bxkgF/yZrvSGhi9axd2Rq5VZXPjbY4h2po
-   su2ZOu3tt04oyb9nV8jH6gMy+iHIPoHzFA0TsQw2gaLOuzsM56hBXKlvT
-   d6F8vMSqpOdOC5x038BDEngjq2BPY88jimBY36tWcAcdRoW8/mW3v1npK
-   n+fvHeXQPZ/NmDiMVRMCxQIOgTCWODVLYun/++YXPwkx6tOmFh9vNI3Y9
-   iLlHsW8WvWc7JbYlvWbjMOKqUuytNDG5DYupUxeki2KIE9jRBKbrvNDwK
-   vcMsPR4hDNL5TzrWC8um7MImxodW4PjsvjL+TtK8AfW7CTW89+dsnM6gd
-   Q==;
-X-CSE-ConnectionGUID: MJBcEc1VRr2wFcMAf47NXg==
-X-CSE-MsgGUID: +6Fl9ER5SOGlYdAxIWJmlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73374377"
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="73374377"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 07:09:25 -0800
-X-CSE-ConnectionGUID: jj+gmaeIT/GXTmjvYRllog==
-X-CSE-MsgGUID: Acr+AjS8S1eqvXFZKXWfdA==
-X-ExtLoop1: 1
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.52])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 07:09:23 -0800
-Date: Mon, 2 Mar 2026 17:09:20 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v4 1/3] regcache: Move HW readback after cache
- initialisation
-Message-ID: <aaWoIPZWIzPv1t5d@ashevche-desk.local>
-References: <20260302095847.2310066-1-andriy.shevchenko@linux.intel.com>
- <20260302095847.2310066-2-andriy.shevchenko@linux.intel.com>
- <90f16d38-b698-4a84-b4f7-49597f353dfa@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FxkSmWpX"
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-65fbe7734e7so178042a12.1
+        for <driver-core@lists.linux.dev>; Mon, 02 Mar 2026 07:32:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772465521; x=1773070321; darn=lists.linux.dev;
+        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JCMweb9hlRg+8+20ghRvH2/c00sb3Ca5NclY/h1apTQ=;
+        b=FxkSmWpXCU8QVFmPEWeBgQjFSLNAuS9fyLjAEP5eEYLf8fGRAhg7G6zHyCyaV1TPg3
+         nPw+aWDCuQaMGwelqxfkZpD2kVOnIMLdkNEA0blmQwyAgen/S0C8LboWO0tmNBhVCoLM
+         AcPBqTzP9wrRK9kirIM0Osr5JJ1oCPAh+OedNTbBRWYdA27EMYIxyvt5sk5tYoKfnrPe
+         GV4+gNM4UdZICWvQo7EqZylaIFBJwlekClM+oRm1SB9w7zHPaoCskFrhhAn0iQF0Cjji
+         3TOYNHAPBTJRodtYD19WwTNrwuch1R8Rjybq0+KIola29omUbfdikVkHTINcNwyehL8D
+         EkjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772465521; x=1773070321;
+        h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JCMweb9hlRg+8+20ghRvH2/c00sb3Ca5NclY/h1apTQ=;
+        b=nAbI1CFcxdkt0TIP8a00DzRRPalscgV4XhN0DLusEBNGZ+5bh2oOREtQk5KwBr1xJI
+         Wyqk6INKM8IN61489GNRd5E5CTa0BX9kD/B0NPo35b3LvhnOK0KDBwKLiRqeDRYmAEOc
+         wRDAGjIInV1RlcX0Rc5LyWQdsjilvtg6x3um9LKH4bwTYU7+40a5wiZsbIhLv2TNpT19
+         HEjXW+eK2TqNeWewaUKIh8J6FjWfdpL/gLfyltSjzS7f5JYCkO/RSvzZ/eWeV/2laMtB
+         h+eSqSVOai5GMaWXb6rAkVv0NAxe49qnxiLLOKSfBQOYUCZm1jZFwnAHp0+6BoL1goJN
+         yHNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvuAoQFgJmq9P3Br/psAnFgLVRhQsUdB1D2FI1zjEDfkBi3kL6V1J0uF+TjZmIN6e10l0NbkZuZQRRNg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5dMWv4x5+b/2bUXOX4u0e3/6FpCKkZg/q8AEh6O2fs5zG5Q06
+	Lrx+7SAnlnh5r6f9PipW/66aHWdrnKQL33y4SxvB9yg7Pry/K3rjdoEcURlaBQY4B0N22f+EBBV
+	ElVanF1UG+EK4kEnVsw==
+X-Received: from eddb16.prod.google.com ([2002:a05:6402:3510:b0:658:b02b:9437])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:274e:b0:65f:ade0:f8a5 with SMTP id 4fb4d7f45d1cf-65fde4bb445mr7682024a12.24.1772465521130;
+ Mon, 02 Mar 2026 07:32:01 -0800 (PST)
+Date: Mon, 2 Mar 2026 15:32:00 +0000
+In-Reply-To: <aaRH-aXYKntYyjRS@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90f16d38-b698-4a84-b4f7-49597f353dfa@sirena.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+References: <aaRH-aXYKntYyjRS@google.com>
+Message-ID: <aaWtcMpwHUt9E5bD@google.com>
+Subject: Re: [CRASH] kunit failures in platform-device-devm
+From: Alice Ryhl <aliceryhl@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Frederic Weisbecker <frederic@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Marco Crivellari <marco.crivellari@suse.com>, 
+	Michal Hocko <mhocko@suse.com>, Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Vlastimil Babka <vbabka@suse.cz>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Mar 02, 2026 at 02:49:49PM +0000, Mark Brown wrote:
-> On Mon, Mar 02, 2026 at 10:56:55AM +0100, Andy Shevchenko wrote:
-
-...
-
-> > +	/*
-> > +	 * Some devices such as PMICs don't have cache defaults,
-> > +	 * we cope with this by reading back the HW registers and
-> > +	 * crafting the cache defaults by hand.
-> > +	 */
-> > +	ret = regcache_hw_init(map, count);
-> > +	if (ret)
-> > +		goto err_exit;
-> > +
+On Sun, Mar 01, 2026 at 02:06:49PM +0000, Alice Ryhl wrote:
+> Hi DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS,
 > 
-> We need to delete the free of reg_defaults from regcache_hw_init() when
-> it fails, the error handling for err_exit also frees that so we'd end up
-> with a double free.  Which is awfully error prone and part of what
-> you're trying to fix here :/
+> I've experienced a fair number of different crashes when running kunit
+> locally. I just ran this command on v7.0-rc1 or upstream/master:
+> 
+> ./tools/testing/kunit/kunit.py run --make_options LLVM=1 --arch x86_64 --kconfig_add CONFIG_RUST=y --kconfig_add CONFIG_PCI=y
 
-Ah, looking again at it I see your point.
+Bisection has been carried out!
 
-Indeed, in the error path of regcache_hw_init() we free the reg_defaults,
-but the same is also done at err_free label of regcache_init().
+The culprit is commit 5564c12385b7 ("kthread: Include unbound kthreads
+in the managed affinity list"). Cc'ing everyone from this commit.
 
-NULLifying it at regcache_hw_init() doesn't sound like a good idea as
-you pointed out as error prone case. I will think more about it, thanks
-for catching this (I dunno why I missed that one)!
+On this commit, kunit (executed using above command) crashes for me 70%
+of the time (14 out of 20 runs) with kernel crashes (Oops) and
+refcount_t use-after-free warnings in pm_runtime_test_cases and
+platform-device-devm. On the parent commit, I was able to run kunit 24
+times in a row with zero kunit failures.
 
--- 
-With Best Regards,
-Andy Shevchenko
+The same crashes occur on tag v7.0-rc2, so this issue is not fixed.
 
-
+Alice
