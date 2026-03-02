@@ -1,30 +1,30 @@
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225DE30C60D;
-	Mon,  2 Mar 2026 12:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FF1363C68;
+	Mon,  2 Mar 2026 12:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772454108; cv=none; b=PPP08Og/1gH1/K62ETyk5q0nntSnrREZKSLsIuSOAPYrIbnsnlPCUTBwvev47uO+c0iRJBflLRqtQyv3pxciQmNtxBYyaPA3TBH08U2o2asUmKjIWOqPfcgiQQ6DaiNewBoK1In8WAvhBbDSclPuHMKvCKGmOBszrWV1G66hpN8=
+	t=1772454224; cv=none; b=f9JWHhTi1A6toMMWKqCqIlOVM0S4K3/p3tngO98omcdnucwYBLg5+vPF1aP/mcnhboeMPDnmjIV+f8yz5z2HaCfwJEqc3b4qLVyBwip1ZdErghvsNoCZCNvPI6UoTIz/myyAA0eU+2c5uW1hs9uhfHEWOSngV9V0opA5eyd5hVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772454108; c=relaxed/simple;
-	bh=hY4/1V4CPkbzOM46xddbLCRjIns1Rne2oR81yNkRkMQ=;
+	s=arc-20240116; t=1772454224; c=relaxed/simple;
+	bh=9F5qVvxWqgllHaVQRQ186J27Mo9BDQLO2p1Y55OAssQ=;
 	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YXMjU5Hq9AE3bsB294B4236N4D6zdsubwL35rYZKCmeowgGhlDwOKrL+bXNkATE6eVKnzy+lv3fAIeQ5AVtjFIwku9Kq794lJRatVPi4Oj6282df3I+kz+VdNuu3EUq8MoS2eD9zQH1L3llLbN5eCmUGhVHWeTLT32/5Gz1wKZQ=
+	 MIME-Version:Content-Type; b=cAjxYE/CfsPeib17zS+F0igXCE0bGijnGTkEa7yGZcPSc6xe/oO205cvuolJftkxE5mAAybJ7ofgEWY5qqo23j5mOgRdEoWHcHPxFbeJ8WooRqKWYTS0kbOTf4k1gOpPV0mtFK7uMawIJAd4+ZbDASp6MJy0yc93aVJlVQaIwZk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fPdLq4LTKzHnGhl;
-	Mon,  2 Mar 2026 20:20:51 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fPdP43LCXzHnHDJ;
+	Mon,  2 Mar 2026 20:22:48 +0800 (CST)
 Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 53AA54056B;
-	Mon,  2 Mar 2026 20:21:43 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 3222740086;
+	Mon,  2 Mar 2026 20:23:40 +0800 (CST)
 Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
  (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Mar
- 2026 12:21:41 +0000
-Date: Mon, 2 Mar 2026 12:21:39 +0000
+ 2026 12:23:37 +0000
+Date: Mon, 2 Mar 2026 12:23:36 +0000
 From: Jonathan Cameron <jonathan.cameron@huawei.com>
 To: Herve Codina <herve.codina@bootlin.com>
 CC: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, "Krzysztof
@@ -60,11 +60,12 @@ CC: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, "Krzysztof
 	<allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>,
 	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli
 	<luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 10/28] cxl/test: Use device_set_node()
-Message-ID: <20260302122139.00000041@huawei.com>
-In-Reply-To: <20260227135428.783983-11-herve.codina@bootlin.com>
+Subject: Re: [PATCH v5 07/28] driver core: fw_devlink: Introduce
+ fw_devlink_set_device()
+Message-ID: <20260302122336.00006bd8@huawei.com>
+In-Reply-To: <20260227135428.783983-8-herve.codina@bootlin.com>
 References: <20260227135428.783983-1-herve.codina@bootlin.com>
-	<20260227135428.783983-11-herve.codina@bootlin.com>
+	<20260227135428.783983-8-herve.codina@bootlin.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -77,33 +78,39 @@ Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
  dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Fri, 27 Feb 2026 14:54:07 +0100
+On Fri, 27 Feb 2026 14:54:04 +0100
 Herve Codina <herve.codina@bootlin.com> wrote:
 
-> The code set directly dev->fwnode.
+> Setting fwnode->dev is specific to fw_devlink.
 > 
-> Use the dedicated helper to perform this operation.
+> In order to avoid having a direct 'fwnode->dev = dev;' in several
+> place in the kernel, introduce fw_devlink_set_device() helper to perform
+> this operation.
 > 
+I don't mind the helper, but the description could do with a little
+detail on why.  Is it just to avoid visibility of internal details, or
+is there a stronger reason?
+
 > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 > ---
->  tools/testing/cxl/test/cxl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/linux/fwnode.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/tools/testing/cxl/test/cxl.c b/tools/testing/cxl/test/cxl.c
-> index 81e2aef3627a..3d9107b2661c 100644
-> --- a/tools/testing/cxl/test/cxl.c
-> +++ b/tools/testing/cxl/test/cxl.c
-> @@ -1136,7 +1136,7 @@ static void mock_companion(struct acpi_device *adev, struct device *dev)
->  {
->  	device_initialize(&adev->dev);
->  	fwnode_init(&adev->fwnode, NULL);
-> -	dev->fwnode = &adev->fwnode;
-> +	device_set_node(dev, &adev->fwnode);
->  	adev->fwnode.dev = dev;
->  }
+> diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
+> index a921ca2fe940..a1345e274125 100644
+> --- a/include/linux/fwnode.h
+> +++ b/include/linux/fwnode.h
+> @@ -231,4 +231,10 @@ void fw_devlink_purge_absent_suppliers(struct fwnode_handle *fwnode);
+>  void fw_devlink_refresh_fwnode(struct fwnode_handle *fwnode);
+>  bool fw_devlink_is_strict(void);
 >  
+> +static inline void fw_devlink_set_device(struct fwnode_handle *fwnode,
+> +					 struct device *dev)
+> +{
+> +	fwnode->dev = dev;
+> +}
+> +
+>  #endif
 
