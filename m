@@ -1,97 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A78392800
-	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 09:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08A8394470;
+	Mon,  2 Mar 2026 10:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772445548; cv=none; b=JDVsQ000JGPo4r8TWSWUhVTph4LTUCqRiK+ufaaQTeVihEe4AKTqFd/pwgIw1C4sttkoQ/txDqT2A7KDt4LiiWc9ztwK5MhXA7hRZL9xnnySiA1b8b2DojLOlKKjJIPqkW40M92LBsPtgAQcUeHIVszrLa2f2vgANY9oVsD3Kpw=
+	t=1772445618; cv=none; b=fQWDxbR0beLrJPmpeqOW7xds5CRaEZSydXpMRjapRZQihkINih2XIexEFa8rqaN17pUtsZ3euBG24mc7WlzzOa7V7fJWf3H6wSbkPuIPqxGM70ZmaZBldR01D7FlwQ9phW3nYE8u7kH+3IiwhezhvmVHzlEQqLg2BYTv5up3FFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772445548; c=relaxed/simple;
-	bh=eRJWGojM49Ji/+2iZ0H6trQJMLyUoGk/ENbpTtxpdOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VgP3jSeYzhXoVPPHmNz9JxiY+1yY8d+aelBQc63pCqJIaNdSDM43HaSbkyYJyP6kmKdhEHry2VJUaJPLqhoiBcRRy/2V+Cetk/Qb721NAJSm77fXtOhpJS2wLVOJNwHn/+ObLVCaKxBaBuHHjIKez++XqGHU5jLMgIQzPWnxAn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RY1ksUu/; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772445618; c=relaxed/simple;
+	bh=e/TEh7ZqKfPuFm00gSswDeyldFcC48wopGgZH80C/Uk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=pQ5NGwTATRtgsb7OgVcahBZwIfuf/2u7K4wbkqH9NMN+0kzi4gudWekvuGzcDHGlLP3CBvF8iPiWsNBd5b+Olt7asDxnZfcrnGXJGKU5jz8fImmH+kVVnbqLtyHzzmig5eWz4TsbeyosbxZ0J2L6NrSDqjv/PBGY/q4aeebwPyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YM4kjIj6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RY1ksUu/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772445544; x=1803981544;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eRJWGojM49Ji/+2iZ0H6trQJMLyUoGk/ENbpTtxpdOE=;
-  b=RY1ksUu/RjwZ0F9o1eEUFd1me47k6enzHHOu3N7XFrefQXAj0vPgttqu
-   bHQ2rjqasDYJOLEEB8n6F8AaGjMpAzZLUlhqTMrKAc/eAbm1tDtLtSmAR
-   IU3nKmhkxvOvCNDvpsuUpqpn3bVGe2u2WNJkrsaKrZASvMthWgQHYCwRt
-   Jjg91qvFQKiBhI0b5MD3FuV6P9GmmwKuWgBM5bwu7jXB2PYJrhlGMoYJK
-   p+o0cEN1hEtbHOnyI5bZwp/gu36FsRFF9xglSDfAiJED7oWDpfrkmSLvz
-   Bpj/mTTpRlXKhK+xEkKaKXyBr+QStAxezDJrr1dAD5UDo+vAZOUhOsNyy
-   w==;
-X-CSE-ConnectionGUID: kAEIpDZUSqakWo2uwkNv0w==
-X-CSE-MsgGUID: w7XZ153+RlCg3Dp239XKkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="96066040"
-X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="96066040"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 01:58:52 -0800
-X-CSE-ConnectionGUID: b0KjjVgESZWNnRQDWxqE2g==
-X-CSE-MsgGUID: WHxmzjh/TcCwcGTqJER82Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="217628236"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 02 Mar 2026 01:58:51 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id EE13C95; Mon, 02 Mar 2026 10:58:49 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v4 0/3] regcache: Avoid accessing non-initialised cache
-Date: Mon,  2 Mar 2026 10:56:54 +0100
-Message-ID: <20260302095847.2310066-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YM4kjIj6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7209C2BCB1;
+	Mon,  2 Mar 2026 10:00:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772445618;
+	bh=e/TEh7ZqKfPuFm00gSswDeyldFcC48wopGgZH80C/Uk=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=YM4kjIj6/R5dtJKjlcWSksIHH061WoO1JG2fUP448eMXnW1s1DJbGMmGWiZc2nhht
+	 H/Z7ie+r6GJLVoGkzwWhZOxDhDEowtydyNcsxaI/tywRUrXAx3juDGI5JGx2waAC67
+	 PYD0pLdzzIITBbff5LU7hVBySpj95fFZ8/BQ2oE6QPfdUTXaMftQEV5+PhVql+OqTN
+	 DhaRshEweRxClQhsM1OLqVsiZ24Smi4uap0gecixpNmd7azL5EeIq6Mc+8WD1vYQur
+	 PeIKzSIyPIsbGKe4U1FSlw0ofHMGjMqDLbSglERLm6AM3WJPmhOpQuaIfQuq4sgjH6
+	 ksiliNUOwHvMQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 02 Mar 2026 11:00:13 +0100
+Message-Id: <DGS7J5TC7WPA.17DR914PV3IJN@kernel.org>
+Subject: Re: [PATCH 2/3] hwmon: axi-fan: don't use driver_override as IRQ
+ name
+Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <hanguidong02@gmail.com>, <ysato@users.sourceforge.jp>, <dalias@libc.org>,
+ <glaubitz@physik.fu-berlin.de>, <abelvesa@kernel.org>, <srini@kernel.org>,
+ <s.nawrocki@samsung.com>, <nuno.sa@analog.com>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-hwmon@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <linux-sh@vger.kernel.org>, "Guenter Roeck" <groeck7@gmail.com>
+To: "Guenter Roeck" <linux@roeck-us.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260302002729.19438-1-dakr@kernel.org>
+ <20260302002729.19438-3-dakr@kernel.org>
+ <6e1c57f6-ac82-4e64-a49a-8b3ddc782b54@roeck-us.net>
+In-Reply-To: <6e1c57f6-ac82-4e64-a49a-8b3ddc782b54@roeck-us.net>
 
-Refactor regcache flow that populates cache on initialisation phase
-based on the values in HW. This makes code robust against any possible
-accesses to not-fully initialised caches.
+On Mon Mar 2, 2026 at 1:51 AM CET, Guenter Roeck wrote:
+> On 3/1/26 16:25, Danilo Krummrich wrote:
+>> Do not use driver_override as IRQ name, as it is not guaranteed to point
+>> to a valid string; use dev_name() instead.
+>>=20
+>> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
+>> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+>> ---
+>>   drivers/hwmon/axi-fan-control.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/drivers/hwmon/axi-fan-control.c b/drivers/hwmon/axi-fan-con=
+trol.c
+>> index b7bb325c3ad9..ec4bbb104449 100644
+>> --- a/drivers/hwmon/axi-fan-control.c
+>> +++ b/drivers/hwmon/axi-fan-control.c
+>> @@ -507,7 +507,7 @@ static int axi_fan_control_probe(struct platform_dev=
+ice *pdev)
+>>   	ret =3D devm_request_threaded_irq(&pdev->dev, ctl->irq, NULL,
+>>   					axi_fan_control_irq_handler,
+>>   					IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
+>> -					pdev->driver_override, ctl);
+>> +					dev_name(&pdev->dev), ctl);
+>
+> The devm_request_threaded_irq() API documentation says:
+>
+> @devname:    An ascii name for the claiming device, dev_name(dev) if NULL
+>
+> So NULL should be sufficient.
 
-Changelog v4:
-- made conditional against 'count' to make it less dependent to the previous code path
+I usually prefer to be explicit, but I can change it to NULL.
 
-v3: 20260226135918.381979-1-andriy.shevchenko@linux.intel.com
-
-Changelog v3:
-- dropped unneeded churn in patch 3 (Mark)
-- fixed code to pass kunit test cases (Mark)
-
-v2: 20260225161659.3811671-1-andriy.shevchenko@linux.intel.com
-
-Changelog v2:
-- rebased on top of the latest regmap changes (Mark)
-- added two more little cleanups (patches 4 & 5)
-
-Andy Shevchenko (3):
-  regcache: Move HW readback after cache initialisation
-  regcache: Define iterator inside for-loop and align their types
-  regcache: Amend printf() specifiers when printing registers
-
- drivers/base/regmap/internal.h |  2 +-
- drivers/base/regmap/regcache.c | 42 ++++++++++++++++++++--------------
- 2 files changed, 26 insertions(+), 18 deletions(-)
-
--- 
-2.50.1
-
+Thanks,
+Danilo
