@@ -1,131 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601BF42982C
-	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 17:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B6E2E8B83
+	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 18:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772471901; cv=none; b=RmMyQmIOV6HOANbT9sjbRoGKOJQT5P1Dc4tcAcCNGZJr18XcTPJj5Ja6CdOZjGdxcAxsn2SfRMHH/zPZsaUtOZq4pkf0QLah2D0eluJ1bx4X+whB3wkal/4b65BgUwsN/OMT2M2vy+s5RlkYuVHHYU6ogdq6n5LzJ1ZQsIx92HA=
+	t=1772477280; cv=none; b=ewc28PVhbOx/wiOjZrSke0zFKk+sizeCJHd56s5FAmDpka3epAdEVQkQbg851mHbz8Ih/d94s7BameGqcKZL5wmphUojkV40Y1hbQU+N39Pp7IDBiPtmJEkVgTJhVWb3eyIvxZusjm4BUZmaP7p4Ep0AByo9rWyKhx3KRC35tnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772471901; c=relaxed/simple;
-	bh=+MqM9KmRITyYRwaK2vO3M8KAYNBFVTYRhLwmb87Tibc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DadlDj43IlO6TsZ1WhR6av1zs8wyrviJP2QNK9gx7ELHlpJoOJ97CiOpxsC5fNT6etRzbkSMkAmgIKmEKdMubg7mp+r4N4Cx827uW5xytsH4uAIonXZE4qg2fTggTi/YYCIf7mEAJkwwGdDi/ZaOqBicLs6F/UdO/7SjYbPSUgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kb3Nqe5R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772477280; c=relaxed/simple;
+	bh=ZBUwEmFFn/Kb8j/bpJISJv0/ObspuRoYuea/IKSFX5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pyhve3MfFj6Vef67Nr1ZmQiqvN6EtU84MpHZ6C6geJqTN+oTFtHBUNSm2NyRTV5HbkSK6NpBSL40S6ieq8cAJ++1R8k5I80G6bKuoCU08ka/0Wj/riBgMjcocHOeRWWIXKDzMq820HlHAmFWqZ0c6nQKrar0ix4ggq+eBEZP4Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AfGhKyKx; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kb3Nqe5R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146B2C2BCB3
-	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 17:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772471901;
-	bh=+MqM9KmRITyYRwaK2vO3M8KAYNBFVTYRhLwmb87Tibc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kb3Nqe5RRQ6fZzn0hWpidUfbL2ksozo7iqaxctiNEtWQg41IQH7CybnHljjB6FoYE
-	 tSqIamkvZDxigySxPoGdI/0koM8f95QpBE1nv/YQ6xf+CWYKIwIQT17nJnZKj9D1uU
-	 gHmiMDtDSr6R8cgZGprDUbS0MDKyrdTvYRBJo4AKX5I3FqPu6dPUeUdM6EfGSah9/c
-	 K7u5M5qykk2BStQ3UsxRnqWs0FXcuJhgCnawQcW6y5xsruO5RS0j4A0zGSRKHHFd/Y
-	 ixHTWvP+28P17nLzxy813d5t+NivpygbdSHdkY8Wb8aGpAKPaQEClVjIjgG5G7dP4G
-	 ZRjj3CL+wcY0w==
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1279eced0b9so1685439c88.0
-        for <driver-core@lists.linux.dev>; Mon, 02 Mar 2026 09:18:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVqVv0/txKgk7O5lGuRiz0sMRbNF7+GC8sFvvFyFd6r++iQEXm0pRuSWOlzFf0qZc3eMWyEYdIoYLDoWA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxtJqBjCsBVUgyzLfrvGKG+SWUsnx455HwUj00f/VXsP7pKRyYa
-	ghUNqbH5eoDgiGGVjVgVg/TSheWB7nhCh4Z/16nvAWybaEwELBA6ZpYEkV//2CuqTOO4DjNE6qN
-	J02WMu7xPxKjReMaPUGXytiHf/8Ha8mRfmpYCol97TQ==
-X-Received: by 2002:a05:7022:2524:b0:11b:c2fd:3960 with SMTP id
- a92af1059eb24-1278fbff709mr5725970c88.28.1772471900307; Mon, 02 Mar 2026
- 09:18:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfGhKyKx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772477278; x=1804013278;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZBUwEmFFn/Kb8j/bpJISJv0/ObspuRoYuea/IKSFX5A=;
+  b=AfGhKyKxX/24iomb2TNgooXaJn/yb84cTyNsas+7GCfpma0e5NMOjeDO
+   3wrCBtVPJ4/NFB+UZxptKUAAYY5Qf9S9yo+Tk9qb5iDNFlSyLnIK9DNYY
+   S/6UAeXDkWaA5XR4VpeTEJoSSIU9rMQH6XBmJHCcNZ/KtmVV25CDgJE+U
+   dNQ7yoc8H0H1HMG5hynI/PLhQU9Y37GFUaNnY8uIDUk1gE8eY5CNK/iNL
+   JgU+MfdbrdThnrE+wUDUA3fSRldYJE6KJdCGwDfybs7rL8CSpDIEozNQN
+   3njM2KZo+wRmZQKJrV2TYLRk1UjF+HTFMLIqNAh58TdAbt+bsjbdgt2KU
+   w==;
+X-CSE-ConnectionGUID: K+/bFWKwQSWIZTCZqs0Jkg==
+X-CSE-MsgGUID: qEV/nIi+RhitltVDyhqEgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="83832661"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="83832661"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 10:47:57 -0800
+X-CSE-ConnectionGUID: kFQduER/SCCKm9kZzcwL1w==
+X-CSE-MsgGUID: Yk8a4YoJTp+1+5YF61jlEQ==
+X-ExtLoop1: 1
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 02 Mar 2026 10:47:55 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 9A7C498; Mon, 02 Mar 2026 19:47:54 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Cc: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH v5 1/1] regmap: Synchronize cache for the page selector
+Date: Mon,  2 Mar 2026 19:43:31 +0100
+Message-ID: <20260302184753.2693803-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
- <20260223-soc-of-root-v2-8-b45da45903c8@oss.qualcomm.com> <CAMuHMdX-rdzLhOFEJYBXzCYX5jH2E1=ydGWKgNkD0Nqx-tGr4Q@mail.gmail.com>
-In-Reply-To: <CAMuHMdX-rdzLhOFEJYBXzCYX5jH2E1=ydGWKgNkD0Nqx-tGr4Q@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 2 Mar 2026 18:18:06 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfwQm58Md+rH0gfwAdKf2mdtZ=2VRDzXQOZpGVcQgeyMw@mail.gmail.com>
-X-Gm-Features: AaiRm50zY2ACynZYq07UnZgsPpbD86ujojZTOhhFyYjI7hbWVv0-GS9VJ_fMHck
-Message-ID: <CAMRc=MfwQm58Md+rH0gfwAdKf2mdtZ=2VRDzXQOZpGVcQgeyMw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] soc: renesas: don't access of_root directly
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 2, 2026 at 5:47=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
->
-> Hi Bartosz,
->
-> On Mon, 23 Feb 2026 at 14:38, Bartosz Golaszewski
-> <bartosz.golaszewski@oss.qualcomm.com> wrote:
-> > Don't access of_root directly as it reduces the build test coverage for
-> > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper funct=
-ions
-> > to retrieve the relevant information.
-> >
-> > Suggested-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
->
-> > --- a/drivers/soc/renesas/renesas-soc.c
-> > +++ b/drivers/soc/renesas/renesas-soc.c
->
-> > @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
-> >         const char *soc_id;
-> >         int ret;
-> >
-> > -       match =3D of_match_node(renesas_socs, of_root);
-> > +       struct device_node *root __free(device_node) =3D of_find_node_b=
-y_path("/");
-> > +       if (!root)
-> > +               return -ENOENT;
-> > +
-> > +       match =3D of_match_node(renesas_socs, root);
-> >         if (!match)
-> >                 return -ENODEV;
-> >
->
-> I still find it silly to add a call to of_find_node_by_path().
-> In your reply to my comment on v1, you said you don't want to add
-> another helper.
->
-> Currently we have two helpers in this area:
->   1. of_machine_device_match(), which returns bool, and tells if a
->      match is available,
->   2. of_machine_get_match_data(), which returns the match data, if a
->      match is available.
-> But there is no helper to return the actual match?
-> of_machine_device_match() would be fine, if it wouldn't cast the result
-> to bool...
->
-> As there is no cost (binary size-wise) in having the helper that returns
-> the match, too, I have sent a series[1] to do that. The last patch[2]
-> is an alternative to this patch, avoiding the need to add a call to
-> of_find_node_by_path().
->
-> [1] "[PATCH 0/7] of: Add and use of_machine_get_match() helper"
->     https://lore.kernel.org/cover.1772468323.git.geert+renesas@glider.be
-> [2] "[PATCH 7/7] soc: renesas: Convert to of_machine_get_match()"
->     https://lore.kernel.org/10876b30a8bdb7d1cfcc2f23fb859f2ffea335fe.1772=
-468323.git.geert+renesas@glider.be
->
+If the selector register is represented in each page, its value
+according to the debugfs is stale because it gets synchronized
+only after the real page switch happens. Hence the regmap cache
+initialisation from the HW inherits outdated data in the selector
+register.
 
-Sure, I'm fine with this patch being dropped and your series queued instead=
-.
+Synchronize cache for the page selector just in time.
 
-Bart
+Before (offset followed by hexdump, the first byte is selector):
+
+    // Real registers
+    18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
+    ...
+    // Virtual (per port)
+    40: 05 ff 00 00 e0 e0 00 00 00 00 00 1f
+    50: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
+    60: 01 ff 00 00 ff ff 00 00 00 00 00 00
+    70: 02 ff 00 00 cf f3 00 00 00 00 00 0c
+    80: 03 ff 00 00 00 00 00 00 00 00 00 ff
+    90: 04 ff 00 00 ff 0f 00 00 f0 00 00 00
+
+After:
+
+    // Real registers
+    18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
+    ...
+    // Virtual (per port)
+    40: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
+    50: 01 ff 00 00 e0 e0 00 00 00 00 00 1f
+    60: 02 ff 00 00 ff ff 00 00 00 00 00 00
+    70: 03 ff 00 00 cf f3 00 00 00 00 00 0c
+    80: 04 ff 00 00 00 00 00 00 00 00 00 ff
+    90: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
+
+Fixes: 6863ca622759 ("regmap: Add support for register indirect addressing.")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+
+v5: applied fix to avoid circular dependency (infinite loop)
+v4: reworked the approach completely
+
+Dmitry,
+Please, test on your HW to be sure this will have no side effects
+in your case with LT9611.
+
+Marek, this is the same version I sent you earlier off the list.
+I haven't added any tag (while knowing that you tested it, so please
+confirm it by providing a formal Tested-by, thanks!
+
+FWIW, I have tested it on Intel Galileo board with Cypress CY8C9540 chip.
+
+ drivers/base/regmap/regmap.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index c299218849a1..13f994429b38 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -1509,6 +1509,7 @@ static int _regmap_select_page(struct regmap *map, unsigned int *reg,
+ 			       unsigned int val_num)
+ {
+ 	void *orig_work_buf;
++	unsigned int selector_reg;
+ 	unsigned int win_offset;
+ 	unsigned int win_page;
+ 	bool page_chg;
+@@ -1527,10 +1528,31 @@ static int _regmap_select_page(struct regmap *map, unsigned int *reg,
+ 			return -EINVAL;
+ 	}
+ 
+-	/* It is possible to have selector register inside data window.
+-	   In that case, selector register is located on every page and
+-	   it needs no page switching, when accessed alone. */
++	/*
++	 * Calculate the address of the selector register in the corresponding
++	 * data window if it is located on every page.
++	 */
++	page_chg = in_range(range->selector_reg, range->window_start, range->window_len);
++	if (page_chg)
++		selector_reg = range->range_min + win_page * range->window_len +
++			       range->selector_reg - range->window_start;
++
++	/*
++	 * It is possible to have selector register inside data window.
++	 * In that case, selector register is located on every page and it
++	 * needs no page switching, when accessed alone.
++	 *
++	 * Nevertheless we should synchronize the cache values for it.
++	 * This can't be properly achieved if the selector register is
++	 * the first and the only one to be read inside the data window.
++	 * That's why we update it in that case as well.
++	 *
++	 * However, we specifically avoid updating it for the default page,
++	 * when it's overlapped with the real data window, to prevent from
++	 * infinite looping.
++	 */
+ 	if (val_num > 1 ||
++	    (page_chg && selector_reg != range->selector_reg) ||
+ 	    range->window_start + win_offset != range->selector_reg) {
+ 		/* Use separate work_buf during page switching */
+ 		orig_work_buf = map->work_buf;
+@@ -1539,7 +1561,7 @@ static int _regmap_select_page(struct regmap *map, unsigned int *reg,
+ 		ret = _regmap_update_bits(map, range->selector_reg,
+ 					  range->selector_mask,
+ 					  win_page << range->selector_shift,
+-					  &page_chg, false);
++					  NULL, false);
+ 
+ 		map->work_buf = orig_work_buf;
+ 
+-- 
+2.50.1
+
