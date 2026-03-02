@@ -1,400 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2862EB5AF;
-	Mon,  2 Mar 2026 16:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601BF42982C
+	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 17:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772469792; cv=none; b=J5DRpHq2Vb3Eq8gq2CSOJBL21zlBp4r6N1XRGHlPJR1Fu+2tLOv5TTsrUN6uM0e79msn2nu+yxp+D5zQsQaTijqHIF3YU25a8gkO3mqgkH8VC0hpoSMg60AQ2xpbEM8Wo2BPSgL2cjZOuDkpBak1pi9/JK6sIEngT6jMZvT3yVM=
+	t=1772471901; cv=none; b=RmMyQmIOV6HOANbT9sjbRoGKOJQT5P1Dc4tcAcCNGZJr18XcTPJj5Ja6CdOZjGdxcAxsn2SfRMHH/zPZsaUtOZq4pkf0QLah2D0eluJ1bx4X+whB3wkal/4b65BgUwsN/OMT2M2vy+s5RlkYuVHHYU6ogdq6n5LzJ1ZQsIx92HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772469792; c=relaxed/simple;
-	bh=8nh3hymlyltME4I9xeH3zOZgVs8HpkIasrY2doCacdI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dniw+nADbbwJU3r7upBgOU0KjzM4YpGnjmv6ryeHpJ51AVIU5J3YC/VMNnshN2e+oLUkzfdixLF9wWiyOGYOODdM4I3RqhBL+aJh8RwPFcE9qmYP0ed/3keL1KEIDO2hgLNva1reqmMs1yz0+MvSqUIeCxP21S2ApqELoJTrgB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efeAB9Yg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772471901; c=relaxed/simple;
+	bh=+MqM9KmRITyYRwaK2vO3M8KAYNBFVTYRhLwmb87Tibc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DadlDj43IlO6TsZ1WhR6av1zs8wyrviJP2QNK9gx7ELHlpJoOJ97CiOpxsC5fNT6etRzbkSMkAmgIKmEKdMubg7mp+r4N4Cx827uW5xytsH4uAIonXZE4qg2fTggTi/YYCIf7mEAJkwwGdDi/ZaOqBicLs6F/UdO/7SjYbPSUgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kb3Nqe5R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efeAB9Yg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C99C19423;
-	Mon,  2 Mar 2026 16:43:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kb3Nqe5R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 146B2C2BCB3
+	for <driver-core@lists.linux.dev>; Mon,  2 Mar 2026 17:18:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772469792;
-	bh=8nh3hymlyltME4I9xeH3zOZgVs8HpkIasrY2doCacdI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-	b=efeAB9YgSyV9B3sjLiPgj0EVAPhdbnqrH0oB+ysgwzf/R6/k0ic49mTfKvvuFUWIa
-	 bxdb7sGJbMTk93cvzXcYNLu/bGosI16C9o4jhlbAJttQIZn7n0iLanr5s0fd097v8F
-	 zeTLLhfvRq9sI/tGreBlGZr1g6M6XipciovjFjXwAC8N6K/QKZvYV6ujdE25qantEn
-	 fpnR8IughGf1X1LsUgmxtYAFEVaFGdebmnaZzNeYo9xNYBs10KSyvwEGxmJvDvy4RG
-	 ErXIX+riDICtshAz7PUro9pu+n1m1K37AkPHdBfnzkiMnnpherI9iTXgRpsDePenN6
-	 UryYP9hcAYlUw==
-From: Gary Guo <gary@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: rust-for-linux@vger.kernel.org,
-	nouveau@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH v4 3/3] rust: dma: use pointer projection infra for `dma_{read,write}` macro
-Date: Mon,  2 Mar 2026 16:42:36 +0000
-Message-ID: <20260302164239.284084-4-gary@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260302164239.284084-1-gary@kernel.org>
-References: <20260302164239.284084-1-gary@kernel.org>
-Reply-To: Gary Guo <gary@garyguo.net>
+	s=k20201202; t=1772471901;
+	bh=+MqM9KmRITyYRwaK2vO3M8KAYNBFVTYRhLwmb87Tibc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kb3Nqe5RRQ6fZzn0hWpidUfbL2ksozo7iqaxctiNEtWQg41IQH7CybnHljjB6FoYE
+	 tSqIamkvZDxigySxPoGdI/0koM8f95QpBE1nv/YQ6xf+CWYKIwIQT17nJnZKj9D1uU
+	 gHmiMDtDSr6R8cgZGprDUbS0MDKyrdTvYRBJo4AKX5I3FqPu6dPUeUdM6EfGSah9/c
+	 K7u5M5qykk2BStQ3UsxRnqWs0FXcuJhgCnawQcW6y5xsruO5RS0j4A0zGSRKHHFd/Y
+	 ixHTWvP+28P17nLzxy813d5t+NivpygbdSHdkY8Wb8aGpAKPaQEClVjIjgG5G7dP4G
+	 ZRjj3CL+wcY0w==
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1279eced0b9so1685439c88.0
+        for <driver-core@lists.linux.dev>; Mon, 02 Mar 2026 09:18:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVqVv0/txKgk7O5lGuRiz0sMRbNF7+GC8sFvvFyFd6r++iQEXm0pRuSWOlzFf0qZc3eMWyEYdIoYLDoWA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtJqBjCsBVUgyzLfrvGKG+SWUsnx455HwUj00f/VXsP7pKRyYa
+	ghUNqbH5eoDgiGGVjVgVg/TSheWB7nhCh4Z/16nvAWybaEwELBA6ZpYEkV//2CuqTOO4DjNE6qN
+	J02WMu7xPxKjReMaPUGXytiHf/8Ha8mRfmpYCol97TQ==
+X-Received: by 2002:a05:7022:2524:b0:11b:c2fd:3960 with SMTP id
+ a92af1059eb24-1278fbff709mr5725970c88.28.1772471900307; Mon, 02 Mar 2026
+ 09:18:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+ <20260223-soc-of-root-v2-8-b45da45903c8@oss.qualcomm.com> <CAMuHMdX-rdzLhOFEJYBXzCYX5jH2E1=ydGWKgNkD0Nqx-tGr4Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdX-rdzLhOFEJYBXzCYX5jH2E1=ydGWKgNkD0Nqx-tGr4Q@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 2 Mar 2026 18:18:06 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MfwQm58Md+rH0gfwAdKf2mdtZ=2VRDzXQOZpGVcQgeyMw@mail.gmail.com>
+X-Gm-Features: AaiRm50zY2ACynZYq07UnZgsPpbD86ujojZTOhhFyYjI7hbWVv0-GS9VJ_fMHck
+Message-ID: <CAMRc=MfwQm58Md+rH0gfwAdKf2mdtZ=2VRDzXQOZpGVcQgeyMw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] soc: renesas: don't access of_root directly
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Frank Li <Frank.Li@nxp.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Gary Guo <gary@garyguo.net>
+On Mon, Mar 2, 2026 at 5:47=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Bartosz,
+>
+> On Mon, 23 Feb 2026 at 14:38, Bartosz Golaszewski
+> <bartosz.golaszewski@oss.qualcomm.com> wrote:
+> > Don't access of_root directly as it reduces the build test coverage for
+> > this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper funct=
+ions
+> > to retrieve the relevant information.
+> >
+> > Suggested-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
+>
+> > --- a/drivers/soc/renesas/renesas-soc.c
+> > +++ b/drivers/soc/renesas/renesas-soc.c
+>
+> > @@ -468,7 +469,11 @@ static int __init renesas_soc_init(void)
+> >         const char *soc_id;
+> >         int ret;
+> >
+> > -       match =3D of_match_node(renesas_socs, of_root);
+> > +       struct device_node *root __free(device_node) =3D of_find_node_b=
+y_path("/");
+> > +       if (!root)
+> > +               return -ENOENT;
+> > +
+> > +       match =3D of_match_node(renesas_socs, root);
+> >         if (!match)
+> >                 return -ENODEV;
+> >
+>
+> I still find it silly to add a call to of_find_node_by_path().
+> In your reply to my comment on v1, you said you don't want to add
+> another helper.
+>
+> Currently we have two helpers in this area:
+>   1. of_machine_device_match(), which returns bool, and tells if a
+>      match is available,
+>   2. of_machine_get_match_data(), which returns the match data, if a
+>      match is available.
+> But there is no helper to return the actual match?
+> of_machine_device_match() would be fine, if it wouldn't cast the result
+> to bool...
+>
+> As there is no cost (binary size-wise) in having the helper that returns
+> the match, too, I have sent a series[1] to do that. The last patch[2]
+> is an alternative to this patch, avoiding the need to add a call to
+> of_find_node_by_path().
+>
+> [1] "[PATCH 0/7] of: Add and use of_machine_get_match() helper"
+>     https://lore.kernel.org/cover.1772468323.git.geert+renesas@glider.be
+> [2] "[PATCH 7/7] soc: renesas: Convert to of_machine_get_match()"
+>     https://lore.kernel.org/10876b30a8bdb7d1cfcc2f23fb859f2ffea335fe.1772=
+468323.git.geert+renesas@glider.be
+>
 
-Current `dma_read!`, `dma_write!` macros also use a custom
-`addr_of!()`-based implementation for projecting pointers, which has
-soundness issue as it relies on absence of `Deref` implementation on types.
-It also has a soundness issue where it does not protect against unaligned
-fields (when `#[repr(packed)]` is used) so it can generate misaligned
-accesses.
+Sure, I'm fine with this patch being dropped and your series queued instead=
+.
 
-This commit migrates them to use the general pointer projection
-infrastructure, which handles these cases correctly.
-
-As part of migration, the macro is updated to have an improved surface
-syntax. The current macro have
-
-    dma_read!(a.b.c[d].e.f)
-
-to mean `a.b.c` is a DMA coherent allocation and it should project into it
-with `[d].e.f` and do a read, which is confusing as it makes the indexing
-operator integral to the macro (so it will break if you have an array of
-`CoherentAllocation`, for example).
-
-This also is problematic as we would like to generalize
-`CoherentAllocation` from just slices to arbitrary types.
-
-Make the macro expects `dma_read!(path.to.dma, .path.inside.dma)` as the
-canonical syntax. The index operator is no longer special and is just one
-type of projection (in additional to field projection). Similarly, make
-`dma_write!(path.to.dma, .path.inside.dma, value)` become the canonical
-syntax for writing.
-
-Another issue of the current macro is that it is always fallible. This
-makes sense with existing design of `CoherentAllocation`, but once we
-support fixed size arrays with `CoherentAllocation`, it is desirable to
-have the ability to perform infallible indexing as well, e.g. doing a `[0]`
-index of `[Foo; 2]` is okay and can be checked at build-time, so forcing
-falliblity is non-ideal. To capture this, the macro is changed to use
-`[idx]` as infallible projection and `[idx]?` as fallible index projection
-(those syntax are part of the general projection infra). A benefit of this
-is that while individual indexing operation may fail, the overall
-read/write operation is not fallible.
-
-Fixes: ad2907b4e308 ("rust: add dma coherent allocator abstraction")
-Reviewed-by: Benno Lossin <lossin@kernel.org>
-Signed-off-by: Gary Guo <gary@garyguo.net>
----
- drivers/gpu/nova-core/gsp.rs      |  14 ++--
- drivers/gpu/nova-core/gsp/boot.rs |   2 +-
- drivers/gpu/nova-core/gsp/cmdq.rs |  10 ++-
- rust/kernel/dma.rs                | 114 +++++++++++++-----------------
- samples/rust/rust_dma.rs          |  30 ++++----
- 5 files changed, 81 insertions(+), 89 deletions(-)
-
-diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 174feaca0a6b..25cd48514c77 100644
---- a/drivers/gpu/nova-core/gsp.rs
-+++ b/drivers/gpu/nova-core/gsp.rs
-@@ -143,14 +143,14 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> impl PinInit<Self, Error
-                     // _kgspInitLibosLoggingStructures (allocates memory for buffers)
-                     // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] array)
-                     dma_write!(
--                        libos[0] = LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0)
--                    )?;
-+                        libos, [0]?, LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0)
-+                    );
-                     dma_write!(
--                        libos[1] = LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0)
--                    )?;
--                    dma_write!(libos[2] = LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
--                    dma_write!(rmargs[0].inner = fw::GspArgumentsCached::new(cmdq))?;
--                    dma_write!(libos[3] = LibosMemoryRegionInitArgument::new("RMARGS", rmargs))?;
-+                        libos, [1]?, LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0)
-+                    );
-+                    dma_write!(libos, [2]?, LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0));
-+                    dma_write!(rmargs, [0]?.inner, fw::GspArgumentsCached::new(cmdq));
-+                    dma_write!(libos, [3]?, LibosMemoryRegionInitArgument::new("RMARGS", rmargs));
-                 },
-             }))
-         })
-diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
-index c56029f444cb..7f46fa5e9b50 100644
---- a/drivers/gpu/nova-core/gsp/boot.rs
-+++ b/drivers/gpu/nova-core/gsp/boot.rs
-@@ -157,7 +157,7 @@ pub(crate) fn boot(
- 
-         let wpr_meta =
-             CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
-+        dma_write!(wpr_meta, [0]?, GspFwWprMeta::new(&gsp_fw, &fb_layout));
- 
-         self.cmdq
-             .send_command(bar, commands::SetSystemInfo::new(pdev))?;
-diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 87dbbd6d1be9..0056bfbf0a44 100644
---- a/drivers/gpu/nova-core/gsp/cmdq.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -202,9 +202,13 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
- 
-         let gsp_mem =
-             CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        dma_write!(gsp_mem[0].ptes = PteArray::new(gsp_mem.dma_handle())?)?;
--        dma_write!(gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES))?;
--        dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new())?;
-+        dma_write!(gsp_mem, [0]?.ptes, PteArray::new(gsp_mem.dma_handle())?);
-+        dma_write!(
-+            gsp_mem,
-+            [0]?.cpuq.tx,
-+            MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES)
-+        );
-+        dma_write!(gsp_mem, [0]?.cpuq.rx, MsgqRxHeader::new());
- 
-         Ok(Self(gsp_mem))
-     }
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 909d56fd5118..cd2957b5f260 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -461,6 +461,19 @@ pub fn size(&self) -> usize {
-         self.count * core::mem::size_of::<T>()
-     }
- 
-+    /// Returns the raw pointer to the allocated region in the CPU's virtual address space.
-+    #[inline]
-+    pub fn as_ptr(&self) -> *const [T] {
-+        core::ptr::slice_from_raw_parts(self.cpu_addr.as_ptr(), self.count)
-+    }
-+
-+    /// Returns the raw pointer to the allocated region in the CPU's virtual address space as
-+    /// a mutable pointer.
-+    #[inline]
-+    pub fn as_mut_ptr(&self) -> *mut [T] {
-+        core::ptr::slice_from_raw_parts_mut(self.cpu_addr.as_ptr(), self.count)
-+    }
-+
-     /// Returns the base address to the allocated region in the CPU's virtual address space.
-     pub fn start_ptr(&self) -> *const T {
-         self.cpu_addr.as_ptr()
-@@ -581,23 +594,6 @@ pub unsafe fn write(&mut self, src: &[T], offset: usize) -> Result {
-         Ok(())
-     }
- 
--    /// Returns a pointer to an element from the region with bounds checking. `offset` is in
--    /// units of `T`, not the number of bytes.
--    ///
--    /// Public but hidden since it should only be used from [`dma_read`] and [`dma_write`] macros.
--    #[doc(hidden)]
--    pub fn item_from_index(&self, offset: usize) -> Result<*mut T> {
--        if offset >= self.count {
--            return Err(EINVAL);
--        }
--        // SAFETY:
--        // - The pointer is valid due to type invariant on `CoherentAllocation`
--        // and we've just checked that the range and index is within bounds.
--        // - `offset` can't overflow since it is smaller than `self.count` and we've checked
--        // that `self.count` won't overflow early in the constructor.
--        Ok(unsafe { self.cpu_addr.as_ptr().add(offset) })
--    }
--
-     /// Reads the value of `field` and ensures that its type is [`FromBytes`].
-     ///
-     /// # Safety
-@@ -670,6 +666,9 @@ unsafe impl<T: AsBytes + FromBytes + Send> Send for CoherentAllocation<T> {}
- 
- /// Reads a field of an item from an allocated region of structs.
- ///
-+/// The syntax is of form `kernel::dma_read!(dma, proj)` where `dma` is an expression to an
-+/// [`CoherentAllocation`] and `proj` is a [projection specification](kernel::ptr::project!).
-+///
- /// # Examples
- ///
- /// ```
-@@ -684,36 +683,29 @@ unsafe impl<T: AsBytes + FromBytes + Send> Send for CoherentAllocation<T> {}
- /// unsafe impl kernel::transmute::AsBytes for MyStruct{};
- ///
- /// # fn test(alloc: &kernel::dma::CoherentAllocation<MyStruct>) -> Result {
--/// let whole = kernel::dma_read!(alloc[2]);
--/// let field = kernel::dma_read!(alloc[1].field);
-+/// let whole = kernel::dma_read!(alloc, [2]?);
-+/// let field = kernel::dma_read!(alloc, [1]?.field);
- /// # Ok::<(), Error>(()) }
- /// ```
- #[macro_export]
- macro_rules! dma_read {
--    ($dma:expr, $idx: expr, $($field:tt)*) => {{
--        (|| -> ::core::result::Result<_, $crate::error::Error> {
--            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
--            // SAFETY: `item_from_index` ensures that `item` is always a valid pointer and can be
--            // dereferenced. The compiler also further validates the expression on whether `field`
--            // is a member of `item` when expanded by the macro.
--            unsafe {
--                let ptr_field = ::core::ptr::addr_of!((*item) $($field)*);
--                ::core::result::Result::Ok(
--                    $crate::dma::CoherentAllocation::field_read(&$dma, ptr_field)
--                )
--            }
--        })()
-+    ($dma:expr, $($proj:tt)*) => {{
-+        let dma = &$dma;
-+        let ptr = $crate::ptr::project!(
-+            $crate::dma::CoherentAllocation::as_ptr(dma), $($proj)*
-+        );
-+        // SAFETY: pointer created by projection is within DMA region.
-+        unsafe { $crate::dma::CoherentAllocation::field_read(dma, ptr) }
-     }};
--    ($dma:ident [ $idx:expr ] $($field:tt)* ) => {
--        $crate::dma_read!($dma, $idx, $($field)*)
--    };
--    ($($dma:ident).* [ $idx:expr ] $($field:tt)* ) => {
--        $crate::dma_read!($($dma).*, $idx, $($field)*)
--    };
- }
- 
- /// Writes to a field of an item from an allocated region of structs.
- ///
-+/// The syntax is of form `kernel::dma_write!(dma, proj, val)` where `dma` is an expression to an
-+/// [`CoherentAllocation`] and `proj` is a [projection specification](kernel::ptr::project!),
-+/// and `val` is the value to be written to the projected location.
-+///
-+///
- /// # Examples
- ///
- /// ```
-@@ -728,37 +720,31 @@ macro_rules! dma_read {
- /// unsafe impl kernel::transmute::AsBytes for MyStruct{};
- ///
- /// # fn test(alloc: &kernel::dma::CoherentAllocation<MyStruct>) -> Result {
--/// kernel::dma_write!(alloc[2].member = 0xf);
--/// kernel::dma_write!(alloc[1] = MyStruct { member: 0xf });
-+/// kernel::dma_write!(alloc, [2]?.member, 0xf);
-+/// kernel::dma_write!(alloc, [1]?, MyStruct { member: 0xf });
- /// # Ok::<(), Error>(()) }
- /// ```
- #[macro_export]
- macro_rules! dma_write {
--    ($dma:ident [ $idx:expr ] $($field:tt)*) => {{
--        $crate::dma_write!($dma, $idx, $($field)*)
--    }};
--    ($($dma:ident).* [ $idx:expr ] $($field:tt)* ) => {{
--        $crate::dma_write!($($dma).*, $idx, $($field)*)
-+    (@parse [$dma:expr] [$($proj:tt)*] [, $val:expr]) => {{
-+        let dma = &$dma;
-+        let ptr = $crate::ptr::project!(
-+            mut $crate::dma::CoherentAllocation::as_mut_ptr(dma), $($proj)*
-+        );
-+        let val = $val;
-+        // SAFETY: pointer created by projection is within DMA region.
-+        unsafe { $crate::dma::CoherentAllocation::field_write(dma, ptr, val) }
-     }};
--    ($dma:expr, $idx: expr, = $val:expr) => {
--        (|| -> ::core::result::Result<_, $crate::error::Error> {
--            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
--            // SAFETY: `item_from_index` ensures that `item` is always a valid item.
--            unsafe { $crate::dma::CoherentAllocation::field_write(&$dma, item, $val) }
--            ::core::result::Result::Ok(())
--        })()
-+    (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) => {
-+        $crate::dma_write!(@parse [$dma] [$($proj)* .$field] [$($rest)*])
-+    };
-+    (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr]? $($rest:tt)*]) => {
-+        $crate::dma_write!(@parse [$dma] [$($proj)* [$index]?] [$($rest)*])
-+    };
-+    (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr] $($rest:tt)*]) => {
-+        $crate::dma_write!(@parse [$dma] [$($proj)* [$index]] [$($rest)*])
-     };
--    ($dma:expr, $idx: expr, $(.$field:ident)* = $val:expr) => {
--        (|| -> ::core::result::Result<_, $crate::error::Error> {
--            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
--            // SAFETY: `item_from_index` ensures that `item` is always a valid pointer and can be
--            // dereferenced. The compiler also further validates the expression on whether `field`
--            // is a member of `item` when expanded by the macro.
--            unsafe {
--                let ptr_field = ::core::ptr::addr_of_mut!((*item) $(.$field)*);
--                $crate::dma::CoherentAllocation::field_write(&$dma, ptr_field, $val)
--            }
--            ::core::result::Result::Ok(())
--        })()
-+    ($dma:expr, $($rest:tt)*) => {
-+        $crate::dma_write!(@parse [$dma] [] [$($rest)*])
-     };
- }
-diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
-index 9c45851c876e..ce39b5545097 100644
---- a/samples/rust/rust_dma.rs
-+++ b/samples/rust/rust_dma.rs
-@@ -68,7 +68,7 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
-                 CoherentAllocation::alloc_coherent(pdev.as_ref(), TEST_VALUES.len(), GFP_KERNEL)?;
- 
-             for (i, value) in TEST_VALUES.into_iter().enumerate() {
--                kernel::dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
-+                kernel::dma_write!(ca, [i]?, MyStruct::new(value.0, value.1));
-             }
- 
-             let size = 4 * page::PAGE_SIZE;
-@@ -85,24 +85,26 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
-     }
- }
- 
-+impl DmaSampleDriver {
-+    fn check_dma(&self) -> Result {
-+        for (i, value) in TEST_VALUES.into_iter().enumerate() {
-+            let val0 = kernel::dma_read!(self.ca, [i]?.h);
-+            let val1 = kernel::dma_read!(self.ca, [i]?.b);
-+
-+            assert_eq!(val0, value.0);
-+            assert_eq!(val1, value.1);
-+        }
-+
-+        Ok(())
-+    }
-+}
-+
- #[pinned_drop]
- impl PinnedDrop for DmaSampleDriver {
-     fn drop(self: Pin<&mut Self>) {
-         dev_info!(self.pdev, "Unload DMA test driver.\n");
- 
--        for (i, value) in TEST_VALUES.into_iter().enumerate() {
--            let val0 = kernel::dma_read!(self.ca[i].h);
--            let val1 = kernel::dma_read!(self.ca[i].b);
--            assert!(val0.is_ok());
--            assert!(val1.is_ok());
--
--            if let Ok(val0) = val0 {
--                assert_eq!(val0, value.0);
--            }
--            if let Ok(val1) = val1 {
--                assert_eq!(val1, value.1);
--            }
--        }
-+        assert!(self.check_dma().is_ok());
- 
-         for (i, entry) in self.sgt.iter().enumerate() {
-             dev_info!(
--- 
-2.51.2
-
+Bart
