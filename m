@@ -1,115 +1,227 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1F536C9C6;
-	Mon,  2 Mar 2026 12:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794083630A4;
+	Mon,  2 Mar 2026 12:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772454296; cv=none; b=sFG+ZKX1azKLtlt+wPLDPXjbsqOjKHNzi37yveuRd8y3gHNzq3T3ijmr8bRUbWU1OXUKxtBca/krx8EPz3UVBiyv+feEjFNc7pFspc3fiVbVWaoVKJqCkHVQvi87lvccuo+uPWuh53a3bwan+/8RZHYxJHAiBjXCRGWrkiOqJa0=
+	t=1772454693; cv=none; b=ZdDyGvDunnMypxl8GBrSbvzBF3uAegBxF6zB+r0oUUw2tmcpFqpf7fOnWkTF/grsp3jGxXyTZsbksbCPC18uATrE0/aRhDxfknIJOFSy5tJe1pyd+/fzZGihEBJ4h9gwyPoCBfU1vBDRDQC1aya5vVs50cGZLZ2U3G5EMBvH09A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772454296; c=relaxed/simple;
-	bh=x7t/iAkWcnd9QyYdAw+6vUuJizpL9ieaOGsdRW/mZTI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nARK7p/dt1QpDCYCUv5+4jhUqv33aIzcFdnKrAOdEKyFTVRHfSAX4L0ZC25tTaJNihoW1CLpnFY4YsBFWdHtMDp5To+/jwanNfvKP77y1CUOr7LR+lDiT/QqszsXZ9aQ1ucknHs+IRYX7pWdzzP3qDyo/VudTtP8+QgiQzZ0oEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fPdQs3pfrzJ46p4;
-	Mon,  2 Mar 2026 20:24:21 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id E1AB340584;
-	Mon,  2 Mar 2026 20:24:52 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Mar
- 2026 12:24:50 +0000
-Date: Mon, 2 Mar 2026 12:24:49 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Herve Codina <herve.codina@bootlin.com>
-CC: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Geert
- Uytterhoeven" <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, "Sascha Hauer"
-	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, "Michael Turquette"
-	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Andi Shyti"
-	<andi.shyti@kernel.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Peter Rosin <peda@axentia.se>, "Arnd Bergmann" <arnd@arndb.de>, Saravana
- Kannan <saravanak@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>, Charles
- Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
-	<rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, "Linus
- Walleij" <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, "Mark
- Brown" <broonie@kernel.org>, Len Brown <lenb@kernel.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, "Dave
- Jiang" <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, "Ira Weiny" <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>, "Shawn Guo" <shawnguo@kernel.org>,
-	Wolfram Sang <wsa@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <imx@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>,
-	<linux-i2c@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-pci@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<patches@opensource.cirrus.com>, <linux-gpio@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-cxl@vger.kernel.org>, Allan Nielsen
-	<allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli
-	<luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 11/28] cxl/test: Use fw_devlink_set_device()
-Message-ID: <20260302122449.00006c77@huawei.com>
-In-Reply-To: <20260227135428.783983-12-herve.codina@bootlin.com>
-References: <20260227135428.783983-1-herve.codina@bootlin.com>
-	<20260227135428.783983-12-herve.codina@bootlin.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1772454693; c=relaxed/simple;
+	bh=Bz91gw/UFgJy37FjCpjZnDjcUFp6jGwPHip7wh8mhkY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Kr2+iq45Jjf5nPtOnMAWPFsgkw6N2EfgBjqvoLQOYfVws860TWGMGXeAcqipXsmULZ9wj3PnJEYmj+1OkuEbtLVYYNm0kUdt+cwmxsEBUfIPzUMb9VgXYOeBD/1oJrYPQnsHD+JqNMY3jLf/iuo+cyAyDmhxEUd6GrRXutX4ixc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BYc6sk1G; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BYc6sk1G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EEF3C19423;
+	Mon,  2 Mar 2026 12:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772454693;
+	bh=Bz91gw/UFgJy37FjCpjZnDjcUFp6jGwPHip7wh8mhkY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BYc6sk1G5JvXe7EV0bBXgeIvOmOm/aBTwORKYd9hCZIlNl+PTdMYZPH8K7ATEf+ZT
+	 7RDFyc3omEwFCNL5HOQ6+PO+CHPdwl4bNxnaV9wD8cqmbyGhyRhKN1ThlsJhglR9J8
+	 cZ90WsIh2yHgB+9b9CrEkLswK4N7ptAR81imTGF6QRRx/zWX5fAJ4gdmvWORVoLGNN
+	 6dsP184C78kNi+t3iBreiZFL2iICfIDSQfhrRYsQ7Tek78zQfnDh0RLH00ZlFghJOv
+	 0UtJyoW5mwUvkGE59emtQvMpYVP2x/wOhV3dhrOJPAuCzmtIyClYkyF/2ezcI6M+s2
+	 aMOnOMKFWhVGg==
+From: Sasha Levin <sashal@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Gow <davidgow@google.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brendan Higgins <brendanhiggins@google.com>,
+	Rae Moar <rmoar@google.com>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com
+Subject: Re: [CRASH] kunit failures in platform-device-devm
+Date: Mon,  2 Mar 2026 07:31:24 -0500
+Message-ID: <20260302123125.2282292-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <aaRH-aXYKntYyjRS@google.com>
+References: <aaRH-aXYKntYyjRS@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 27 Feb 2026 14:54:08 +0100
-Herve Codina <herve.codina@bootlin.com> wrote:
+This response was AI-generated by bug-bot. The analysis may contain errors - please verify independently.
 
-> The code set directly fwnode.dev field.
->=20
-> Use the dedicated fw_devlink_set_device() helper to perform this
-> operation.
->=20
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+Hi Alice,
 
-=46rom practical point of view, what path do you expect this to take?
-Is there urgency to make the change, or does it make more sense to
-add the helper this cycle and cleanup up the various places it can be
-used next?
+Thanks for the detailed report. Here is my analysis.
 
-> ---
->  tools/testing/cxl/test/cxl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/tools/testing/cxl/test/cxl.c b/tools/testing/cxl/test/cxl.c
-> index 3d9107b2661c..7f232a869389 100644
-> --- a/tools/testing/cxl/test/cxl.c
-> +++ b/tools/testing/cxl/test/cxl.c
-> @@ -1137,7 +1137,7 @@ static void mock_companion(struct acpi_device *adev=
-, struct device *dev)
->  	device_initialize(&adev->dev);
->  	fwnode_init(&adev->fwnode, NULL);
->  	device_set_node(dev, &adev->fwnode);
-> -	adev->fwnode.dev =3D dev;
-> +	fw_devlink_set_device(&adev->fwnode, dev);
->  }
-> =20
->  #ifndef SZ_64G
+___
+
+1. Bug Summary
+
+The platform-device-devm kunit test suite crashes with a general
+protection fault in queued_spin_lock_slowpath() during device
+registration, followed by cascading failures including sysfs duplicate
+filename errors. The root issue is test isolation: earlier kunit tests
+(including the intentional NULL dereference in kunit_test_null_dereference)
+corrupt kernel state, and the platform-device-devm tests use raw
+platform device APIs without kunit-managed cleanup, so they cannot
+recover from or survive this corrupted state. The severity is a test
+infrastructure issue, not a driver core bug.
+
+2. Stack Trace Analysis
+
+First crash (Oops #3 — two earlier oopses already occurred):
+
+  Oops: general protection fault, probably for non-canonical address 0xb4c3c33fcc9f57f6: 0000 [#3] SMP PTI
+  CPU: 0 UID: 0 PID: 2500 Comm: kunit_try_catch Tainted: G      D  W        N  7.0.0-rc1-00138-g0c21570fbd3d-dirty #3 PREEMPT(lazy)
+  Tainted: [D]=DIE, [W]=WARN, [N]=TEST
+  RIP: 0010:queued_spin_lock_slowpath+0x120/0x1c0
+  RAX: b4c3c340405a5a26 RBX: ffffb222800e3ce8 RCX: 0000000000050000
+  RDX: ffffa0a4fec1ddd0 RSI: 0000000000000010 RDI: ffffa0a4c2b43340
+  Call Trace:
+   <TASK>
+   klist_iter_exit+0x2c/0x70
+   ? __pfx___device_attach_driver+0x10/0x10
+   bus_for_each_drv+0x12a/0x160
+   __device_attach+0xbf/0x160
+   device_initial_probe+0x2f/0x50
+   bus_probe_device+0x8f/0x110
+   device_add+0x23f/0x3d0
+   platform_device_add+0x137/0x1d0
+   platform_device_devm_register_unregister_test+0x6c/0x2e0
+   kunit_try_run_case+0x8f/0x190
+   kunit_generic_run_threadfn_adapter+0x1d/0x40
+   kthread+0x142/0x160
+   ret_from_fork+0xc7/0x1f0
+   ret_from_fork_asm+0x1a/0x30
+   </TASK>
+
+The crash point is in queued_spin_lock_slowpath() at
+kernel/locking/qspinlock.c, called from klist_iter_exit() at
+lib/klist.c:311. RAX holds non-canonical address 0xb4c3c340405a5a26,
+indicating corrupted klist data. The calling chain is process context:
+platform_device_devm_register_unregister_test() calls
+platform_device_add() -> device_add() -> bus_probe_device() ->
+__device_attach() -> bus_for_each_drv() (drivers/base/bus.c:420)
+which iterates the bus's klist_drivers. During klist_iter_exit(),
+it tries to acquire the klist spinlock and hits corrupted memory.
+
+Second failure (duplicate sysfs entry):
+
+  sysfs: cannot create duplicate filename '/devices/platform/test'
+  Call Trace:
+   <TASK>
+   dump_stack_lvl+0x2d/0x70
+   sysfs_create_dir_ns+0xe8/0x130
+   kobject_add_internal+0x1dd/0x360
+   kobject_add+0x88/0xf0
+   device_add+0x171/0x3d0
+   platform_device_add+0x137/0x1d0
+   platform_device_devm_register_get_unregister_with_devm_test+0x6c/0x2f0
+   kunit_try_run_case+0x8f/0x190
+   kunit_generic_run_threadfn_adapter+0x1d/0x40
+   kthread+0x142/0x160
+   ret_from_fork+0xc7/0x1f0
+   ret_from_fork_asm+0x1a/0x30
+   </TASK>
+
+The assertion at drivers/base/test/platform-device-test.c:97 fails
+with ret == -17 (EEXIST) because the first test crashed without
+unregistering its device, leaving "/devices/platform/test" in sysfs.
+
+3. Root Cause Analysis
+
+This is a test isolation problem, not a driver core bug. Two issues
+combine to cause the failures:
+
+(a) Corrupted kernel state from earlier oopses. The Oops header shows
+"[#3]" meaning this is the third kernel oops during the boot. The
+taint flags [D]=DIE and [W]=WARN confirm prior fatal faults. The
+kunit_test_null_dereference() function in lib/kunit/kunit-test.c:117
+intentionally dereferences NULL to test kunit's fault handling. After
+multiple oopses, kernel data structures (including the platform bus
+klist) can be corrupted, which explains the non-canonical address
+(0xb4c3c33fcc9f57f6) seen during spinlock acquisition.
+
+(b) Missing test-managed cleanup. The four tests in
+platform_device_devm_test_suite all use the raw kernel APIs
+platform_device_alloc() and platform_device_add() directly, and all
+use the same hardcoded name "test" with PLATFORM_DEVID_NONE
+(drivers/base/test/platform-device-test.c:62-77). If a test crashes
+before reaching platform_device_unregister(), the device remains
+registered and subsequent tests cannot register a device with the
+same name.
+
+By contrast, the platform_device_find_by_null_test() in the same
+file already uses the kunit-managed helpers kunit_platform_device_alloc()
+and kunit_platform_device_add() from lib/kunit/platform.c (added in
+commit 5ac79730324c "platform: Add test managed platform_device/driver
+APIs"), which automatically unregister the device when the test exits,
+even on crash.
+
+4. Affected Versions
+
+The platform-device-devm tests were introduced in commit b4cc44301b9d
+("drivers: base: Add basic devm tests for platform devices") by
+Maxime Ripard, which predates the kunit-managed platform device helpers
+from commit 5ac79730324c. All kernel versions containing these tests
+are affected by this test isolation issue. This is not a regression in
+the driver core itself.
+
+5. Relevant Commits and Fixes
+
+- b4cc44301b9d ("drivers: base: Add basic devm tests for platform devices")
+  Introduced the test suite with raw platform device APIs.
+
+- 699fb50d99039 ("drivers: base: Free devm resources when unregistering a device")
+  Fixed devm resource release for unprobed devices; updated test expectations.
+
+- 5ac79730324c ("platform: Add test managed platform_device/driver APIs")
+  Added kunit_platform_device_alloc()/kunit_platform_device_add()
+  helpers that automatically clean up on test exit.
+
+- 86a5f32ed8813 ("drivers: base: test: Add ...find_device_by...(... NULL) tests")
+  Added platform_device_find_by_null_test which already uses the
+  kunit-managed helpers correctly.
+
+No fix for this specific test isolation issue exists in mainline yet.
+
+6. Suggested Actions
+
+The devm tests should be updated to use the kunit-managed platform
+device helpers (kunit_platform_device_alloc/kunit_platform_device_add)
+from include/kunit/platform_device.h, similar to how
+platform_device_find_by_null_test() already does. This would ensure
+proper cleanup even when tests crash.
+
+One subtlety: the devm tests specifically test the behavior of
+platform_device_unregister() releasing devm resources, so
+kunit_platform_device_add() (which auto-unregisters) needs to be
+used carefully — the kunit cleanup action should be removed or
+disabled before the explicit unregister call to avoid double-free.
+Alternatively, each test could use a unique device name via
+PLATFORM_DEVID_AUTO to at least prevent the cascading sysfs duplicate
+errors.
+
+For the probed tests (probed_platform_device_devm_register_unregister_test
+and probed_platform_device_devm_register_get_unregister_with_devm_test),
+there is a similar need to register/unregister the fake_driver with
+kunit-managed helpers like kunit_platform_driver_register().
+
+In the short term, you can work around this by running the
+platform-device-devm suite in isolation:
+
+  ./tools/testing/kunit/kunit.py run --make_options LLVM=1 \
+    --arch x86_64 --kconfig_add CONFIG_RUST=y \
+    --kconfig_add CONFIG_PCI=y platform-device-devm
+
+This avoids the corrupted state from earlier intentional-crash tests.
 
