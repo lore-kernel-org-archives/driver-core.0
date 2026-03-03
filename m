@@ -1,426 +1,87 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022116.outbound.protection.outlook.com [52.101.101.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B275C351C1B
-	for <driver-core@lists.linux.dev>; Tue,  3 Mar 2026 17:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.116
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772559211; cv=fail; b=W2wDmoJRGAT+Wfl9nOUo/frFrUaQngVar6WyzXOK89IUGPGCgeMNRrfYdro0mWhlS7E821NGPOCtUN1XUIWJ0FZGdwj9li2oebSieOfLGN/D0a2ehEfFiRo6/h3kRWhUpQ+JF/1XZizJD0P850h9M+mzW6pccNdLlDeCw5fWnw4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772559211; c=relaxed/simple;
-	bh=X3pLxJ6O0+kimQaczxHqB4lGI8U9EmYqvxwbD+eRjho=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=Ti70bHjdrjwHc1sNgg1e75tXhfQw9u62mBScQaU2ME1QrhsRsQCEZrfecozafC8N3KZaMJuBqzAvdwCQUxNhvjVxUgo0LTNpXqSlWhbV0NUBQvTli6KalNtwOCa3YxSbXbEf/hrB9E3hDX+uR6t4b0nigpiyYtyEhVr9W+J/YGM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=iaG78nhP; arc=fail smtp.client-ip=52.101.101.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938D8396564;
+	Tue,  3 Mar 2026 19:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772565487; cv=none; b=LYsJHnTHx3FJHM5tZp1E0XjeXjHzhWdfkMVQMxUdUkLMUM0g/CD/Uzf/FXwlr83y9x7Qi0m08XmxiBC/6VNmgkic8oQVJPEL2ak2bfr0DWXT7sAg5gooYvDKSjFtYPKI88wST3MS2rFeqobS6Maqu9wwo/YhT27DN9owHqUm820=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772565487; c=relaxed/simple;
+	bh=BoXGBCau5r1s+WRSBZCVeE9Fm89KK3KvHWbTxi92Xto=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=Yg8exQYjbfeDbtsempnSIJMcSt5Znmuop7TIycPkLeU8ZrYfrMGvf0RbXpiAvXIdHLHhgK48ejdR/w367ntbIUFKFGFUI9ij6/yQeiQt/8ziPNvq61pD6UCE0Qfo7/d4Kc1c34obfLLovZKuOHey9krz3JAvIGFARfS8sugOUPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q6JqshVM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="iaG78nhP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h41p/HdVLooi1k7PI1+aqFyRHD+FxBInrclXBmpKsrUzaTgn3D9jiGHtb3ahsGRhUiujUQ0YO4IB4/Vu6mdcXZ9jYuPImhQJGuHLcwb2+UBYPpqcot4LFWWTaZC4a3k0GNd7Qf34buM2x7U5n2LgJBe42kiO9A77Z46CmYGQg+/XMTReGy5dntxZevFlrQ16gNkSS9mv5bWp6SbamkKT5w5KSjiAZuh+ThcCSc0oz5ZS9ldo+YrRFZAg/vdmAx8pL5GXE/CNXQbyMUg5JspdBXdzb6w9ZWxIT87qLdfJmEP9rAmXA3ZpRyu2dJbdSM13W9mNLRT58wlNpps54faLsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hlTiPhS794fhWxyIG+rGyfIeP6pUrLWtu+Ujm/QiDcI=;
- b=dbDVXZvvLhyIYZD5ayGQYij2gIEq/NKdjjOQhSbSMv1gSSiLMR2JViNQGqP5xjpsgiApKO5pQwpzYNv6oSQRKuNiD7GIzq4yKtcnM1aWFUM+I6Kx2oYPbiyPFL0a+mL2o/Ik3YImu8+At+g7ABzVWwTth8LhOQibkxZ6oJqXMN0RO74b3N1EvmiXK/fVZHKXNGxndU9Bznq9d/OSNECgEAlhoI0VrMS1RaZskCC/8JIDmNIMdngHzgPn5IASlcyx5LksIwFWr34qGnzOHlSWxNVDYn2rZzfEmU82BD6L3BMw+5AOwOmr+NrDqUpsAP3G0Zlc2YqJ7RzFJiAP44xmCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hlTiPhS794fhWxyIG+rGyfIeP6pUrLWtu+Ujm/QiDcI=;
- b=iaG78nhPpWt60Q0QmwnKJ/aQ9x+8Hr836H79nHqP74HZRzsEpR+aiAHbe/nUJtbu0PHsH3B4q7VOpQV2GWRlzv702NzjEsHUmcBvbpo4E8zu36ldp2WuSYRnNHun/zmTm6uKG6KfXOne7lSE9mXbgaHAK5I8x/H0myol7ms3kYo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO2P265MB2431.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:12b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 17:33:26 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
- 17:33:26 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 17:33:25 +0000
-Message-Id: <DGTBSPDSQKA0.LG8DPD4GT4CM@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 7/8] gpu: nova-core: convert Gsp::new() to use
- CoherentInit
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <aliceryhl@google.com>,
- <acourbot@nvidia.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>
-X-Mailer: aerc 0.21.0
-References: <20260303162314.94363-1-dakr@kernel.org>
- <20260303162314.94363-8-dakr@kernel.org>
-In-Reply-To: <20260303162314.94363-8-dakr@kernel.org>
-X-ClientProxiedBy: PAZP264CA0044.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:1fc::17) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6JqshVM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5BF0C116C6;
+	Tue,  3 Mar 2026 19:18:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772565487;
+	bh=BoXGBCau5r1s+WRSBZCVeE9Fm89KK3KvHWbTxi92Xto=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=q6JqshVMljVfv8Cd2y14LY/Fw+tfw4Z3Qg3z5MkVCBZhhe0ogNqXS6OLV/Ivla58I
+	 CeTdH8njEHd6YOE1TyLfCCsn+lKGDuDzIFavZ7Cq5Yd8IM+2+5iw+fq6XjPxMflqVM
+	 Le/bWg9TcGuCaLAg1eTtVEJYp+wKLTSiKdwWGlXggTlGwKIdlePgrw+UiEWb7+aBfV
+	 6CndtHTuoBJwaPgwpiKAq9mMsB3z0w1CzgGQ5UvG3R9gAim36pjDmjYQwJsQevqfpc
+	 h6p4mNHEcWhnJMLVZcmu3tL7Z3yAPQL3z9qrSnADIOgO0REq0Z+Y+WFSDp1QS5/b7r
+	 ThUsp43QE4TSw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB2431:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb1dbf51-7813-48cb-861a-08de794afa18
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	7mrfKyQjqYFrsaDkFnFHQ+n4VORZ+Q8jloQnxxldGGv13qWIGkKsP+Whh+W+Kk21+PKq7RMOP2xuaWm78R7eh39okumNnIQZQdM5Npc/owE9/70KuWckr7RA2bmrTU7orwiaPkfgb6SU0eae8rJsZ6aJUF2ysCMomg+Xhnn9EyB+N/MT89Dk4YKWqOv7xad0jUAzym0F4kmrmHROKwMETKa1Ff6yq+SVP5Z2Fw+vyQ4oSs68e98YozelLDfgagiCl1KhclTMIJ0DWU0ChQ+T9kItILGE2jh4NMS1YDoUzhoOGSXQ90L22H1zKXihnrtife6NNkN7WqwaOEdpl8qYMu4VQDApKYOMW9jbKt3YZzzFGvHMvX4vxKUK1Camdozfr0J81E6bLloh5aG8Ens4ZgZvHP+g3W7vcTxCeuxc9GQHqye7+8kTKN31MzxooDRlXptycgppoAO4RjJozvr8jgxIa+o9kqvYCkDcKM7ACz8LdHPV+xOVYYmTv2qXw4W8EApVouGq/+amqMA1NwiVNVGUz2mAsbEOT3o92YZn3qiHuSJL2vR8zLPHDhyfu09iLYD0kGRkmMkVULMK6J2Haf78NyB39RV3V7ElZWKlE7+W3DXz2CetyibMrMwT3060x+J0ykN6oaNHSyI178RdA63IeYd+LR95Z7/U7nvwEkEyB9r7tx7LcoM1vAeaXEDtJNvAd4m/SLQf2JZI5aGQ/ZLNZ82Ijd3ExWeu+N5TFpIY3fD8zr0IQwKKlD0clJ033IWWvVJOF2vJ7Xp5p2TqZYc2uxWcM/dGBhexs2C6Yq4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(921020)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?a1VSZzFsbGJ6ZjFpZ2RSRjl2dThJN3BPUkR3SmhaWWZjdnZhbGRhUCtiOHVp?=
- =?utf-8?B?K245ejRXdk1lSThKSGhNbGJUb2t2dk02VW9JbUNUd1NVY0o2dy9hSTJvUjl2?=
- =?utf-8?B?MituU3F6V3A4V3FnUGNydG12c1c1SEMya2pwVnlncWlwaSthb3R4M3RJRkVq?=
- =?utf-8?B?WW9rMU1pWnV3QVFQYndvTkdObEpRK1I4SGt6dnY1aFNHd29xOVBMWUMxSkU3?=
- =?utf-8?B?dWdYbDVYaTlqallmRkh5d0hVMW9zcW1pS3NEZmd3WFlGV1lMVXpKTUFWSkJI?=
- =?utf-8?B?UXhCNDZmRUtMSldWdDlJSk9tTGRpS1NYT1VHMXo3UGZXRks2Tkh3MGJ1cWtI?=
- =?utf-8?B?WmVVakFVaEJsNDBrT1N6MWFaOW0wMGRPd3NaMWxKNEg5WjlpZksvMEFLaTdN?=
- =?utf-8?B?YVJXRnl2djhlbWNmSUtZV3F1elRBcnlyQ3B5V3A1NExTZmw3SU03ZFkvZG9q?=
- =?utf-8?B?T0hBUDBkLzVsRC9LdmhPRGdSSjY0bjZGWjJveitjUFBUS2htZ3RUOUJLM1I3?=
- =?utf-8?B?dHFlTG1zMXduajZlMFBHNHdCTVI1RHJ2SVE0ei9PQmJKVlMwN2c5VG1haytw?=
- =?utf-8?B?YXlhQU9ldTI3Z21mcTI2bFNNQ25FMEl1WFVLckY0YjRET3NWVmNhL1R3M0pS?=
- =?utf-8?B?RHJnNXRQbVoreFdCY21TNy9LUDBJYUZrQ0owMjc4NHNXQThYQ1B0a2t0Z1hK?=
- =?utf-8?B?bTQzR1R6QU1WMmg1U2ZPSndRRTMrTmNTQVdBUVlweWxaY3UyZDNGR3dDQ3J3?=
- =?utf-8?B?UzQ2RkhRVzZQTFZQUS9OSUp6b1R1blFpNytUamY1cHYrSE1LektEc24xQWUx?=
- =?utf-8?B?WGpQNjF6TkZjNHA0azN3QVlPb3JDN3pxUEo4V1VkT0hjNUJmZzE2UEdkaDE3?=
- =?utf-8?B?K1ZmNTJBU09VS1grcXo1WGdYU0NtclpjWk4reUdwTG81WndqSS9CWGRiZWxJ?=
- =?utf-8?B?VVBuNitVbkdCS0ExblRUOEZrWFQxSmJ3ODgxcjNOa2t3N3BWbWIvNUt3cnFC?=
- =?utf-8?B?OGFBZnBucWVESGRqU2pSYXNMVXFkdE1QemhHSVpqUHdtQjNERU8wSE53Nm9Q?=
- =?utf-8?B?MG1FR0E1dks0NFVyMCtIWjlSQXlYRVRWcng2TytmQjNTZ0dJMXI5bzVRZHdk?=
- =?utf-8?B?K3pVbHRscmViUHROeDRVeDR3S1FwcmVFMFhYcUVjcEU2N2FTYTY4NHZHS3cx?=
- =?utf-8?B?bzdrUy8zYzBZYWFyUS9wMmRyQnl1ckRJS2gxYXI3ck9yMnZRV204V2p5b1FU?=
- =?utf-8?B?MmF6VGxjKzl1dEJ6OXB6N2t1OC9qU3g0U0FwTjl5TUNjTnpzRGJ4Z0ExdG1Z?=
- =?utf-8?B?R1BkVG1GRXIwOGF1VUJKNHBiU0orcWJuNXRyaUVCSzNHS2ZqcGQzdGxYN0Nl?=
- =?utf-8?B?VkhZd0xUN3pWajBlUFZrTktQeFRZWUM4TGhlalJ3MWpMTkpaV1cyZTFjMHpn?=
- =?utf-8?B?ODBTLy9hQ1gvcUpOMzhHaEN5NGJxTFdPb1ArbEwwN2xyNkpZSEtUR1JZSVNF?=
- =?utf-8?B?MEE5UTM1RVlkQnhnMytsUU9iZDZ0aThtZEJYQjFaTTZCVTkxTktjeWNXNkdU?=
- =?utf-8?B?WDM2aWFwelhhcmFkWnc4U05KN2dtRjhvQlcwNDBWa1pTYzE4ZXBHMWsweTRB?=
- =?utf-8?B?bU5rSExFd0szRXJBeDBpNXJwWmpPWXA3ODRkOFVNMm5lOCs3K3VuaUlzbUFO?=
- =?utf-8?B?NHpLcWhERDMybFU2VGROUkxOUVExMWNEZWlXbXBoUGIvbFl6RmlseUt6S1RX?=
- =?utf-8?B?cS9nRHhyZ3lQbnZWaVVETThNK25hSTNOOWNKMVpMd2gwdllQRHEzS3k3cis4?=
- =?utf-8?B?L2sxTTRsMmpsTlNrM3I3RW9ZWks0Q2ZnUWMyWDJmQ2dGcmkvMndURWJlSE5Y?=
- =?utf-8?B?QmJOUmdIV1BNNUFGNkNKVE8xZkhsR2poMk9DVkRsS2w0SUVGNm5sK2x6NXpk?=
- =?utf-8?B?ZE5qZ0I0ODh2NDh2VndraWJpTW4vRzJXVHZ4cHdzR25xdUNyL3ZQWFdOZzRy?=
- =?utf-8?B?cDRrTFlkM3J4eXJhSXpmNGpLcTQzT3pyUGlBVmZyL0w5empGcHVsbHZmRG14?=
- =?utf-8?B?bkE4akVkNUtxU2VFTmdaSGRuWm1GdzBqMzZwd2RuN2IvMGZ5KzN6dW5zcVg0?=
- =?utf-8?B?eWFxbFJkRnVQKy9TK2FUa2grSUVSNWovcGE2N0daRmZiSHRpSFR4VnNMQVJo?=
- =?utf-8?B?V1hhMjNlTWh4cHVMcE51eUgySm1ac2NNeWVnNStlNithQXRXSlFHWFAyMEth?=
- =?utf-8?B?WFcvR2FyTGtKTEpoOU14cjBONytidlZ0cVg3MDVzMEd6dDRIQjkxWWV3dnBx?=
- =?utf-8?B?b1YveDJTclpUUXVib3MwaEcxVjYrNUhrYnNuZ3dDaU1LSjRGbHlBdz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb1dbf51-7813-48cb-861a-08de794afa18
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 17:33:26.4503
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JvGkia3CeczyuIC+vCxWJv+Cg9KETMpUguSJBxJhXD3IFZkpg50vwIqRWINxpB2wwwaaRSQQWsz2Lu3aXA7RMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB2431
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Mar 2026 20:18:01 +0100
+Message-Id: <DGTE0SSHFRC9.U45YIYN3PZ8I@kernel.org>
+Subject: Re: [PATCH v2 3/4] hwmon: axi-fan: don't use driver_override as IRQ
+ name
+Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <hanguidong02@gmail.com>, <ysato@users.sourceforge.jp>, <dalias@libc.org>,
+ <glaubitz@physik.fu-berlin.de>, <abelvesa@kernel.org>, <srini@kernel.org>,
+ <s.nawrocki@samsung.com>, <nuno.sa@analog.com>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-hwmon@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <linux-sh@vger.kernel.org>, "Guenter Roeck" <groeck7@gmail.com>
+To: "Guenter Roeck" <linux@roeck-us.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260303115720.48783-1-dakr@kernel.org>
+ <20260303115720.48783-4-dakr@kernel.org>
+ <b46c5757-b67d-4949-b8d8-54b799464b5d@roeck-us.net>
+ <DGTACERFTTCV.29XON9ZLYAEQL@kernel.org>
+ <4a7ac923-0f1a-431f-a029-8843a8eddca3@roeck-us.net>
+In-Reply-To: <4a7ac923-0f1a-431f-a029-8843a8eddca3@roeck-us.net>
 
-On Tue Mar 3, 2026 at 4:22 PM GMT, Danilo Krummrich wrote:
-> Convert libos (LibosMemoryRegionInitArgument) and rmargs
-> (GspArgumentsPadded) to use CoherentInit / Coherent::init() and simplify
-> the initialization. This also avoids separate initialization on the
-> stack.
+On Tue Mar 3, 2026 at 5:57 PM CET, Guenter Roeck wrote:
+> On 3/3/26 08:25, Danilo Krummrich wrote:
+>> On Tue Mar 3, 2026 at 5:23 PM CET, Guenter Roeck wrote:
+>>> On Tue, Mar 03, 2026 at 12:53:20PM +0100, Danilo Krummrich wrote:
+>>>> Do not use driver_override as IRQ name, as it is not guaranteed to poi=
+nt
+>>>> to a valid string; use NULL instead (which makes the devm IRQ helpers
+>>>> use dev_name()).
+>>>>
+>>>> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
+>>>> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+>>>> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+>>>
+>>> Applied.
+>>=20
+>> I need this patch in the driver-core tree, otherwise I can't land patch =
+4 of
+>> this series [1]. :(
+>>=20
+>> Any chance you can drop it from your tree?
+>>=20
+>> [1] https://lore.kernel.org/driver-core/20260303115720.48783-5-dakr@kern=
+el.org/
+>>=20
 >
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  drivers/gpu/nova-core/gsp.rs    | 47 +++++++++++--------------
->  drivers/gpu/nova-core/gsp/fw.rs | 62 +++++++++++++++++++++++----------
->  2 files changed, 65 insertions(+), 44 deletions(-)
+> Sure, I'll drop it. Please add
 >
-> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-> index 25cd48514c77..cb7f6b4dc0f8 100644
-> --- a/drivers/gpu/nova-core/gsp.rs
-> +++ b/drivers/gpu/nova-core/gsp.rs
-> @@ -5,10 +5,11 @@
->  use kernel::{
->      device,
->      dma::{
-> +        Coherent,
->          CoherentAllocation,
-> +        CoherentInit,
->          DmaAddress, //
->      },
-> -    dma_write,
->      pci,
->      prelude::*,
->      transmute::AsBytes, //
-> @@ -104,7 +105,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result=
-<Self> {
->  #[pin_data]
->  pub(crate) struct Gsp {
->      /// Libos arguments.
-> -    pub(crate) libos: CoherentAllocation<LibosMemoryRegionInitArgument>,
-> +    pub(crate) libos: Coherent<[LibosMemoryRegionInitArgument]>,
->      /// Init log buffer.
->      loginit: LogBuffer,
->      /// Interrupts log buffer.
-> @@ -114,7 +115,7 @@ pub(crate) struct Gsp {
->      /// Command queue.
->      pub(crate) cmdq: Cmdq,
->      /// RM arguments.
-> -    rmargs: CoherentAllocation<GspArgumentsPadded>,
-> +    rmargs: Coherent<GspArgumentsPadded>,
->  }
-> =20
->  impl Gsp {
-> @@ -123,34 +124,28 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>=
-) -> impl PinInit<Self, Error
->          pin_init::pin_init_scope(move || {
->              let dev =3D pdev.as_ref();
-> =20
-> +            // Initialise the logging structures. The OpenRM equivalents=
- are in:
-> +            // _kgspInitLibosLoggingStructures (allocates memory for buf=
-fers)
-> +            // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] arr=
-ay)
->              Ok(try_pin_init!(Self {
-> -                libos: CoherentAllocation::<LibosMemoryRegionInitArgumen=
-t>::alloc_coherent(
-> -                    dev,
-> -                    GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgum=
-ent>(),
-> -                    GFP_KERNEL | __GFP_ZERO,
-> -                )?,
->                  loginit: LogBuffer::new(dev)?,
->                  logintr: LogBuffer::new(dev)?,
->                  logrm: LogBuffer::new(dev)?,
->                  cmdq: Cmdq::new(dev)?,
-> -                rmargs: CoherentAllocation::<GspArgumentsPadded>::alloc_=
-coherent(
-> -                    dev,
-> -                    1,
-> -                    GFP_KERNEL | __GFP_ZERO,
-> -                )?,
-> -                _: {
-> -                    // Initialise the logging structures. The OpenRM equ=
-ivalents are in:
-> -                    // _kgspInitLibosLoggingStructures (allocates memory=
- for buffers)
-> -                    // kgspSetupLibosInitArgs_IMPL (creates pLibosInitAr=
-gs[] array)
-> -                    dma_write!(
-> -                        libos, [0]?, LibosMemoryRegionInitArgument::new(=
-"LOGINIT", &loginit.0)
-> -                    );
-> -                    dma_write!(
-> -                        libos, [1]?, LibosMemoryRegionInitArgument::new(=
-"LOGINTR", &logintr.0)
-> -                    );
-> -                    dma_write!(libos, [2]?, LibosMemoryRegionInitArgumen=
-t::new("LOGRM", &logrm.0));
-> -                    dma_write!(rmargs, [0]?.inner, fw::GspArgumentsCache=
-d::new(cmdq));
-> -                    dma_write!(libos, [3]?, LibosMemoryRegionInitArgumen=
-t::new("RMARGS", rmargs));
-> +                rmargs: Coherent::init(dev, GFP_KERNEL, GspArgumentsPadd=
-ed::new(cmdq))?,
-> +                libos: {
-> +                    let mut libos =3D CoherentInit::zeroed_slice(
-> +                        dev,
-> +                        GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitA=
-rgument>(),
-> +                        GFP_KERNEL,
-> +                    )?;
-> +
-> +                    libos.init_at(0, LibosMemoryRegionInitArgument::new(=
-"LOGINIT", &loginit.0))?;
-> +                    libos.init_at(1, LibosMemoryRegionInitArgument::new(=
-"LOGINTR", &logintr.0))?;
-> +                    libos.init_at(2, LibosMemoryRegionInitArgument::new(=
-"LOGRM", &logrm.0))?;
-> +                    libos.init_at(3, LibosMemoryRegionInitArgument::new(=
-"RMARGS", rmargs))?;
-> +
-> +                    libos.into()
->                  },
->              }))
->          })
-> diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/=
-fw.rs
-> index 751d5447214d..59cb03a9b238 100644
-> --- a/drivers/gpu/nova-core/gsp/fw.rs
-> +++ b/drivers/gpu/nova-core/gsp/fw.rs
-> @@ -9,11 +9,12 @@
->  use core::ops::Range;
-> =20
->  use kernel::{
-> -    dma::CoherentAllocation,
-> +    dma::Coherent,
->      prelude::*,
->      ptr::{
->          Alignable,
-> -        Alignment, //
-> +        Alignment,
-> +        KnownSize, //
->      },
->      sizes::{
->          SZ_128K,
-> @@ -568,7 +569,9 @@ unsafe impl AsBytes for RunCpuSequencer {}
->  /// The memory allocated for the arguments must remain until the GSP sen=
-ds the
->  /// init_done RPC.
->  #[repr(transparent)]
-> -pub(crate) struct LibosMemoryRegionInitArgument(bindings::LibosMemoryReg=
-ionInitArgument);
-> +pub(crate) struct LibosMemoryRegionInitArgument {
-> +    inner: bindings::LibosMemoryRegionInitArgument,
-> +}
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-FYI tuple struct construction is being worked at now:
-https://github.com/Rust-for-Linux/pin-init/pull/113
-
-> =20
->  // SAFETY: Padding is explicit and does not contain uninitialized data.
->  unsafe impl AsBytes for LibosMemoryRegionInitArgument {}
-> @@ -578,10 +581,10 @@ unsafe impl AsBytes for LibosMemoryRegionInitArgume=
-nt {}
->  unsafe impl FromBytes for LibosMemoryRegionInitArgument {}
-> =20
->  impl LibosMemoryRegionInitArgument {
-> -    pub(crate) fn new<A: AsBytes + FromBytes>(
-> +    pub(crate) fn new<'a, A: AsBytes + FromBytes + KnownSize + ?Sized>(
->          name: &'static str,
-> -        obj: &CoherentAllocation<A>,
-> -    ) -> Self {
-> +        obj: &'a Coherent<A>,
-> +    ) -> impl Init<Self> + 'a {
->          /// Generates the `ID8` identifier required for some GSP objects=
-.
->          fn id8(name: &str) -> u64 {
->              let mut bytes =3D [0u8; core::mem::size_of::<u64>()];
-> @@ -593,7 +596,8 @@ fn id8(name: &str) -> u64 {
->              u64::from_ne_bytes(bytes)
->          }
-> =20
-> -        Self(bindings::LibosMemoryRegionInitArgument {
-> +        #[allow(non_snake_case)]
-> +        let init_inner =3D init!(bindings::LibosMemoryRegionInitArgument=
- {
->              id8: id8(name),
->              pa: obj.dma_handle(),
->              size: num::usize_as_u64(obj.size()),
-> @@ -603,7 +607,11 @@ fn id8(name: &str) -> u64 {
->              loc: num::u32_into_u8::<
->                  { bindings::LibosMemoryRegionLoc_LIBOS_MEMORY_REGION_LOC=
-_SYSMEM },
->              >(),
-> -            ..Default::default()
-> +            ..Zeroable::init_zeroed()
-> +        });
-> +
-> +        init!(LibosMemoryRegionInitArgument {
-> +            inner <- init_inner,
->          })
->      }
->  }
-> @@ -814,15 +822,23 @@ unsafe impl FromBytes for GspMsgElement {}
-> =20
->  /// Arguments for GSP startup.
->  #[repr(transparent)]
-> -pub(crate) struct GspArgumentsCached(bindings::GSP_ARGUMENTS_CACHED);
-> +#[derive(Zeroable)]
-> +pub(crate) struct GspArgumentsCached {
-> +    inner: bindings::GSP_ARGUMENTS_CACHED,
-> +}
-> =20
->  impl GspArgumentsCached {
->      /// Creates the arguments for starting the GSP up using `cmdq` as it=
-s command queue.
-> -    pub(crate) fn new(cmdq: &Cmdq) -> Self {
-> -        Self(bindings::GSP_ARGUMENTS_CACHED {
-> -            messageQueueInitArguments: MessageQueueInitArguments::new(cm=
-dq).0,
-> +    pub(crate) fn new(cmdq: &Cmdq) -> impl Init<Self> + '_ {
-
-This struct is not that big, so I think we can just keep the by-value
-constructor.
-
-Best,
-Gary
-
-> +        #[allow(non_snake_case)]
-> +        let init_inner =3D init!(bindings::GSP_ARGUMENTS_CACHED {
-> +            messageQueueInitArguments <- MessageQueueInitArguments::new(=
-cmdq),
->              bDmemStack: 1,
-> -            ..Default::default()
-> +            ..Zeroable::init_zeroed()
-> +        });
-> +
-> +        init!(GspArgumentsCached {
-> +            inner <- init_inner,
->          })
->      }
->  }
-> @@ -834,11 +850,21 @@ unsafe impl AsBytes for GspArgumentsCached {}
->  /// must all be a multiple of GSP_PAGE_SIZE in size, so add padding to f=
-orce it
->  /// to that size.
->  #[repr(C)]
-> +#[derive(Zeroable)]
->  pub(crate) struct GspArgumentsPadded {
->      pub(crate) inner: GspArgumentsCached,
->      _padding: [u8; GSP_PAGE_SIZE - core::mem::size_of::<bindings::GSP_AR=
-GUMENTS_CACHED>()],
->  }
-> =20
-> +impl GspArgumentsPadded {
-> +    pub(crate) fn new(cmdq: &Cmdq) -> impl Init<Self> + '_ {
-> +        init!(GspArgumentsPadded {
-> +            inner <- GspArgumentsCached::new(cmdq),
-> +            ..Zeroable::init_zeroed()
-> +        })
-> +    }
-> +}
-> +
->  // SAFETY: Padding is explicit and will not contain uninitialized data.
->  unsafe impl AsBytes for GspArgumentsPadded {}
-> =20
-> @@ -847,18 +873,18 @@ unsafe impl AsBytes for GspArgumentsPadded {}
->  unsafe impl FromBytes for GspArgumentsPadded {}
-> =20
->  /// Init arguments for the message queue.
-> -#[repr(transparent)]
-> -struct MessageQueueInitArguments(bindings::MESSAGE_QUEUE_INIT_ARGUMENTS)=
-;
-> +type MessageQueueInitArguments =3D bindings::MESSAGE_QUEUE_INIT_ARGUMENT=
-S;
-> =20
->  impl MessageQueueInitArguments {
->      /// Creates a new init arguments structure for `cmdq`.
-> -    fn new(cmdq: &Cmdq) -> Self {
-> -        Self(bindings::MESSAGE_QUEUE_INIT_ARGUMENTS {
-> +    #[allow(non_snake_case)]
-> +    fn new(cmdq: &Cmdq) -> impl Init<Self> + '_ {
-> +        init!(MessageQueueInitArguments {
->              sharedMemPhysAddr: cmdq.dma_handle(),
->              pageTableEntryCount: num::usize_into_u32::<{ Cmdq::NUM_PTES =
-}>(),
->              cmdQueueOffset: num::usize_as_u64(Cmdq::CMDQ_OFFSET),
->              statQueueOffset: num::usize_as_u64(Cmdq::STATQ_OFFSET),
-> -            ..Default::default()
-> +            ..Zeroable::init_zeroed()
->          })
->      }
->  }
-
+Thanks!
