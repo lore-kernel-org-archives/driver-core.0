@@ -1,99 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BD5377025;
-	Tue,  3 Mar 2026 10:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC07642316B;
+	Tue,  3 Mar 2026 11:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772533969; cv=none; b=rBkW2vQHz9m26detg7Nz6wAeJKl9Hc0g/TFqfAzaHkZCHccFO8o1SGG8xjdKuhb1SJ9xuqYc0OBQcPOuzAAQrlMlQG1XpCxd1Wo0wEjjRK0b2NoeooZGJm7GMpEovKJTrAqU4u+NB+yqXO77tqzh0/amhcfyh5gVYAAq7PneTOU=
+	t=1772536825; cv=none; b=J+Gm9wodsR+mV2Jf+himGbBg/XY2nQufAumJtG9mirB1U1fhGReG0lW8vlB14W1LOXqD1DsMa+QNb7pw5yDRBj2NcnZ9mTtVB0E1dgDz7QhlfXmlge0o5RQgAPnWYBSSYWAUp5zsPhaGbYeHZaVVjKxSpe4pzKdzokUSH8LN9Bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772533969; c=relaxed/simple;
-	bh=EDvMjE8DAEwwmRSfP1PM9PwrpEXL/gwHBXXohn8alyU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pX1MboUGAcjFtzJQk30WQx36DbjDHZgITFFAWTFxuluLvR29X7kClhQhmopfshMqq/8PIoxyR4b5M26gQhJpupswjNDS4eufpTfP08rihD/7y2rXLDjAjDG8qdbukOJ31aIIMt58STztp3uuV2XH4I86+DV72moOF1qSRtBelp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hrMl22AN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772536825; c=relaxed/simple;
+	bh=pHes8BwuxHHeTbf2z5UcrAdxAGxn01lvUFPtVAnrXm4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IcfeY7MwgKdUlP7i/xzyXJumjBdvT7sYq99WrrYCokWqfwwO8j2Jow3nJVOVCeAIT7XFMxi9UvrHFpiQq+QJkrQAlqAFRZw4h9s7kX+k3sCV2X+H0wDrLNRYa1e2Ojo4SDtitS4eJASkRZZzojM30tQ91XV3DmugpvYFgq+wSZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g0BN+rl8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hrMl22AN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B68C7C116C6;
-	Tue,  3 Mar 2026 10:32:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g0BN+rl8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59559C4AF09;
+	Tue,  3 Mar 2026 11:20:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772533969;
-	bh=EDvMjE8DAEwwmRSfP1PM9PwrpEXL/gwHBXXohn8alyU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hrMl22ANFatlEUW+sgfR9vcfzLyOmJi91GT0qukpfaFe8OG7A6xGnj0Tk9TNotm75
-	 Z2Dm0JR03UJs8Zx6IEsOMuARGjOLd1Xj57lg2x1NCm7UMpJnb9FYDKU/527HN2DsR9
-	 NqAWWCX+WzlXcRjCYKX4Zun9UH8uK6WuGVzhMZ6hmT+wuCURTrG3KWxqeOPcrI71Gj
-	 uWVAM02Zp/y0mH7vGbUtqLo5QcozV5JW6SZ5lxu301655xMU5+PqA0hHpfSwqShBLV
-	 3NaeYRjg17+GNhveckBIa/TLDjcp+K7H79tURJSt+yKKZ4MGjsiQ+ZXY9ay/eENLZc
-	 Pit+eoLXXa3XA==
-Date: Tue, 3 Mar 2026 11:32:46 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: David Gow <david@davidgow.net>, Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Alice Ryhl <aliceryhl@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Waiman Long <longman@redhat.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [CRASH] kunit failures in platform-device-devm
-Message-ID: <aaa4ztnTrK3CIbhS@pavilion.home>
-References: <aaRH-aXYKntYyjRS@google.com>
- <aaWtcMpwHUt9E5bD@google.com>
- <a5e8670e-1b39-4b83-bd65-2584fa382d5e@davidgow.net>
+	s=k20201202; t=1772536824;
+	bh=pHes8BwuxHHeTbf2z5UcrAdxAGxn01lvUFPtVAnrXm4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=g0BN+rl8vVahBElqQ2k4iNq6QXS3JcqUj/PsKXzvLNXuL5UiV64622zX1HVCNUEcz
+	 YCGiBCY8lSv6fghlBKEksQjwSclqIMPrDHQ7zXuEb5hdE08R/9vBTElFzyVRYjQZRN
+	 ytIOww+1D7ISrVdhjJ0X2BwGe7bm3MBUqqpyQcmrBieKO2DPnnMpsUwypui9VNGzgD
+	 ISMXcO0HKQjZ65OTssHfQXWDt6zhDqr01f1HILNfBdUjQk5a1mOFm1ZPRG0ApmpWNH
+	 MnvgWa/4Ur92m8KF7d2FPO+vm5XqUFvvD2xNl83cGwvt+jpY53Oat7xKojHV30yQHR
+	 eQy3lbrkxICLA==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+In-Reply-To: <20260226135918.381979-1-andriy.shevchenko@linux.intel.com>
+References: <20260226135918.381979-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v3 0/3] regcache: Avoid accessing non-initialised cache
+Message-Id: <177253682310.22980.18277668572941309756.b4-ty@kernel.org>
+Date: Tue, 03 Mar 2026 11:20:23 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a5e8670e-1b39-4b83-bd65-2584fa382d5e@davidgow.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-38bf1
 
-Le Tue, Mar 03, 2026 at 08:45:42AM +0800, David Gow a écrit :
-> Le 02/03/2026 à 11:32 PM, Alice Ryhl a écrit :
-> > On Sun, Mar 01, 2026 at 02:06:49PM +0000, Alice Ryhl wrote:
-> > > Hi DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS,
-> > > 
-> > > I've experienced a fair number of different crashes when running kunit
-> > > locally. I just ran this command on v7.0-rc1 or upstream/master:
-> > > 
-> > > ./tools/testing/kunit/kunit.py run --make_options LLVM=1 --arch x86_64 --kconfig_add CONFIG_RUST=y --kconfig_add CONFIG_PCI=y
-> > 
-> > Bisection has been carried out!
-> > 
-> > The culprit is commit 5564c12385b7 ("kthread: Include unbound kthreads
-> > in the managed affinity list"). Cc'ing everyone from this commit.
-> > 
-> > On this commit, kunit (executed using above command) crashes for me 70%
-> > of the time (14 out of 20 runs) with kernel crashes (Oops) and
-> > refcount_t use-after-free warnings in pm_runtime_test_cases and
-> > platform-device-devm. On the parent commit, I was able to run kunit 24
-> > times in a row with zero kunit failures.
-> > 
-> > The same crashes occur on tag v7.0-rc2, so this issue is not fixed.
-> > 
+On Thu, 26 Feb 2026 14:57:08 +0100, Andy Shevchenko wrote:
+> Refactor regcache flow that populates cache on initialisation phase
+> based on the values in HW. This makes code robust against any possible
+> accesses to not-fully initialised caches.
 > 
-> Hmm... I've not been able to reproduce any crashes with stacktraces which
-> look similar to yours, but given the bisection, could this be the kthread
-> exit use-after-free?
+> Changelog v3:
+> - dropped unneeded churn in patch 3 (Mark)
+> - fixed code to pass kunit test cases (Mark)
 > 
-> Could you try the patch here, and see if that fixes it:
-> https://lore.kernel.org/all/20260226-ungeziefer-erzfeind-13425179c7b2@brauner/
+> [...]
 
-Urgh, I missed that one. Thanks a lot! Can someone bounce it to me for review as
-it's not on LKML? Namely it would be nice to remove kthread_exit() on the
-callsites (there aren't that many) and call do_exit() directly?
+Applied to
 
-Thanks.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
 
--- 
-Frederic Weisbecker
-SUSE Labs
+Thanks!
+
+[1/3] regcache: Move HW readback after cache initialisation
+      (no commit info)
+[2/3] regcache: Define iterator inside for-loop and align their types
+      commit: 8e29bc88e11928926fd97fc9acd58b8afa38de9d
+[3/3] regcache: Amend printf() specifiers when printing registers
+      commit: 9ab637ac5d3826606947f4e861107da958eda324
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
