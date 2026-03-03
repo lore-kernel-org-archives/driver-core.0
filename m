@@ -1,85 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A66364EA5;
-	Tue,  3 Mar 2026 01:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E65382F04
+	for <driver-core@lists.linux.dev>; Tue,  3 Mar 2026 09:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772502574; cv=none; b=rHZdVIGbc+3tT1kS7v3vBFz0La7VelXCVX933eJi6hMsvyf0NSmyfWUYoyz8bKz9djLlU4/9hMz4Y1qSJE+aRyBsye8XJsyR30vsbJWP6U2laaNumSPR0L5Rn+if9rnYZ5FzzkTUbLRKMBJ6jlY78UjXLwJ0wR624/+W/GuA3Hs=
+	t=1772530106; cv=none; b=T0RMrbG3uqPTG30YP0LDi9tnpnJ3eqAQpCeMDnkMPX3YzK38zSWX683C5T1GPVsZLtXdRft1NHZplClBRQpe4gaiUPXp4ySzfZbQTPmG0OEbWOxgwzed0I3tXl7NlhzAgtbBPDiEKzLAyhzmZC2VVSMjDpIGZueMhh/tli3fQfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772502574; c=relaxed/simple;
-	bh=Ww9GVsNKYrqVpQmsAtuHYERRrGX01gaWlgq77HrY/40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U2ooaSAvQFO5xlzLRHjzpJe2eTZZoHxdeD++RSmWZUVcxWV8mVrbGr/58G8VFboWBiWcOk2w3QqQVhEwitABNiqR2XUUb92eBqAZm9LTaKmimMqlf5u69snDzal2XFJb/9kmmZNHkqTca2hIK+cWC36LkCy3c/x2m/p4bwhd8eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hYQMWZnd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772530106; c=relaxed/simple;
+	bh=Qd9DBS18m/CUGyyErtvMZXRZeolk997D0Nzh7CbbEY0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X+FHeYzSwoMweV3U/XeZCzB7p3YNU6Ir2vpfXFi3BqSqWhU709LYJgVTq9e6shXPYZ0tU1y7QYcjfcLArEKGYJzRh0HzcQ1aRFCxx3c7BmRJeju0saSqSlHvHooH/VqlKFu/i1KSkQ1vInVlw3nErrJHcA59ZrwHz6kKAF4+yUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRG8T2cJ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hYQMWZnd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07596C19423;
-	Tue,  3 Mar 2026 01:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1772502574;
-	bh=Ww9GVsNKYrqVpQmsAtuHYERRrGX01gaWlgq77HrY/40=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hYQMWZndArrkLFcrG+lRfr/GA4QVKEKT82iGJ4OBTW6fj5fikbCgeqwVnw0sUfSil
-	 kQLmkiAlcJ5XleyOIutW0uJ5+lj9sDoLfBRmA9WMwq2+/G7HXQVUQQ73GrnWL0M8O0
-	 VqOz7O8NNrrL5e6EmXJiwewzSLuLme29bECRyNOk=
-Date: Mon, 2 Mar 2026 20:49:22 -0500
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: rafael@kernel.org, hanguidong02@gmail.com, driver-core@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRG8T2cJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772530105; x=1804066105;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Qd9DBS18m/CUGyyErtvMZXRZeolk997D0Nzh7CbbEY0=;
+  b=KRG8T2cJXaelqjpok6xgVZRzxm5DDtd6QxfLaj2ipAkyyfOxbEvK1yG/
+   nbUMtwOgzQ77v+QFcir6FuTrDs34fYYYEwHS9QIN2e0HSb3f6QdrGdRzw
+   NBh6QISWpH9VooRwUszxB3zxIFcuPnosR4si0w5dbgJvYIOOQAnzw20MW
+   A159GhNS0lWCUcVpzutNmZyX/NLkwsoE97JKvXCvzJ9UtvvOLGgAbho7q
+   aJdIp5wTjwPXurJgzRr95jrXOaIoJCsR1xKXZYRWyK4kBuYXlCoulSEXm
+   ULO/a+csfh/Mbz8FVQyQoAeRYGnWOVwNnB4nz+dazYA+jqmg+TMKtvBGi
+   g==;
+X-CSE-ConnectionGUID: zzMCd4vkQ1ufl1ZURZcOcA==
+X-CSE-MsgGUID: 0fyLXYWHTOqEBSHJGx6tAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="76158827"
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="76158827"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 01:28:24 -0800
+X-CSE-ConnectionGUID: lPrGuFCHR4+7Nle2+C5YYw==
+X-CSE-MsgGUID: z0IUxQKCQXyRpIe1DR4IWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,321,1763452800"; 
+   d="scan'208";a="222095483"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa003.jf.intel.com with ESMTP; 03 Mar 2026 01:28:23 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 2C37795; Tue, 03 Mar 2026 10:28:21 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-kernel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] Revert "driver core: enforce device_lock for
- driver_match_device()"
-Message-ID: <2026030215-valid-ricotta-c54b@gregkh>
-References: <20260302002545.19389-1-dakr@kernel.org>
+	driver-core@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v5 0/2] regcache: Avoid accessing non-initialised cache
+Date: Tue,  3 Mar 2026 10:26:23 +0100
+Message-ID: <20260303092820.2818138-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302002545.19389-1-dakr@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 02, 2026 at 01:25:44AM +0100, Danilo Krummrich wrote:
-> This reverts commit dc23806a7c47 ("driver core: enforce device_lock for
-> driver_match_device()") and commit 289b14592cef ("driver core: fix
-> inverted "locked" suffix of driver_match_device()").
-> 
-> While technically correct, there is a major downside to this approach:
-> 
-> When a device is already present in the system and a driver is
-> registered on the same bus, we iterate over all devices registered on
-> this bus to see if one of them matches. If we come across an already
-> bound one where the corresponding driver crashed while holding the
-> device lock (e.g. in probe()) we can't make any progress anymore.
-> 
-> However, drivers are typically the least tested code in the kernel and
-> hence it is a case that is likely to happen regularly. Besides hurting
-> developer ergonomics, it potentially decreases chances of shutting
-> things down cleanly and obtaining logs in production environments as
-> well. [1]
-> 
-> This came up in the context of a firewire bug, which only in combination
-> with the reverted commit, caused the machine to hang. [2]
-> 
-> Thus, revert commit dc23806a7c47 ("driver core: enforce device_lock for
-> driver_match_device()") and add a brief note clarifying that an
-> implementer of struct bus_type must not expect match() to be called with
-> the device lock held.
-> 
-> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/ [1]
-> Link: https://lore.kernel.org/all/67f655bb-4d81-4609-b008-68d200255dd2@davidgow.net/ [2]
-> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Closes: https://lore.kernel.org/driver-core/CAHk-=wgJ_L1C=HjcYJotg_zrZEmiLFJaoic+PWthjuQrutrfJw@mail.gmail.com/
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  drivers/base/base.h        | 11 +----------
->  drivers/base/dd.c          |  2 +-
->  include/linux/device/bus.h |  2 ++
->  3 files changed, 4 insertions(+), 11 deletions(-)
+Refactor regcache flow that populates cache on initialisation phase
+based on the values in HW. This makes code robust against any possible
+accesses to not-fully initialised caches.
 
+Changelog v5:
+- added a precursor patch to make things clearer
+- also put the freeing resources into an order (Mark)
+- dropped applied patches
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+v4: 20260302095847.2310066-1-andriy.shevchenko@linux.intel.com
+
+Changelog v4:
+- made conditional against 'count' to make it less dependent to the previous code path
+
+v3: 20260226135918.381979-1-andriy.shevchenko@linux.intel.com
+
+Changelog v3:
+- dropped unneeded churn in patch 3 (Mark)
+- fixed code to pass kunit test cases (Mark)
+
+v2: 20260225161659.3811671-1-andriy.shevchenko@linux.intel.com
+
+Changelog v2:
+- rebased on top of the latest regmap changes (Mark)
+- added two more little cleanups (patches 4 & 5)
+
+Andy Shevchenko (2):
+  regcache: Factor out regcache_hw_exit() helper
+  regcache: Move HW readback after cache initialisation
+
+ drivers/base/regmap/regcache.c | 46 +++++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
+
+-- 
+2.50.1
+
