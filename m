@@ -1,114 +1,184 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CB947DD59
-	for <driver-core@lists.linux.dev>; Tue,  3 Mar 2026 14:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC74B35F608
+	for <driver-core@lists.linux.dev>; Tue,  3 Mar 2026 14:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772549564; cv=none; b=Jq2++fG7Lf8QWvE/pMc2k8HwiFGaXuDBk8P6pk+TM2/ZNrWH7egVAkvY4JJmQjwByltAq1ZBfnWcaXQDOomvYBO32IAz7C8hfl2TO/aDbNCW7yoKX+azE2pFYhmG5wktiUTBQM086dG2d9xgxvw19UbrhTfKvaVcOH9vIM8zp7c=
+	t=1772549929; cv=none; b=YLT5Pi6xWvA/KLhR9JJVi5Oovwz2uw/Sgrt002c+JtK1KTa2McBkjf5sZ1vtUZiKrECqlgFJqSXBGkd/bw8jA2OlMgnqrYqG9UrFm0CvRYJpgZXD+JejGPb4tz2EKTlZOHTzl3NKjinoVQJ24Lpog96RcTM+mthZqIkSxQbRqPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772549564; c=relaxed/simple;
-	bh=mSRQ1eMomHCwVtqBWfZCdjiyysv7g8iYFUzJOGWZess=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hyHa94eT6UYdDqqiy0cU7Z79S6kiklr/IXUyDbwwNufsV4X4AfQ0vC7CzEcQzlIeCyyE2Q0ADtM2HywSCVp+yfhg6JGX7VqsNVcMEBb43Yo2aQYeE/GRyo8NyRkyWDo6uxxn+BEeP+kpAejZYwhbR36PN8LvPVAdtv4ZJtxRPsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJlGbsYi; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1772549929; c=relaxed/simple;
+	bh=oGjc1yjeiIqz4fk/uBDQWtGhcY0iItbRMgLP4C00KAw=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=qEDK81W+R7TyUDpfPDMo9sGLh3Bl83fGjX2Cvg/gwBASkV8ueJA5S7+2QN4hTpSs4L9aMMh7jNBwqQGdJFRMWNwPqs8VIObXdwGFaEqvHAZuCQZoBpU83ZnwdUSsobgFsFGVlH1bGizwzK3b5vrESuLizINCCVXWg5xHhGo5zIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/FSgjs0; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJlGbsYi"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439b2965d4bso2398525f8f.2
-        for <driver-core@lists.linux.dev>; Tue, 03 Mar 2026 06:52:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/FSgjs0"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-389f2c46d80so84067171fa.3
+        for <driver-core@lists.linux.dev>; Tue, 03 Mar 2026 06:58:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772549561; x=1773154361; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=h+8QbcRC2pjzuahdlMd9N/WzqWRbPt5M/XdWso0LY5g=;
-        b=iJlGbsYij98khT/9/gyjmim1V6G0Ewm2IeD2QZCZZaki4fFk+hdWh+ENx2WTQKYKk+
-         fZURZV6Ld2Yqn6XfuW2L7O0KvjsCmeZUCeVyD/7CQ5uuB619vJ7drBlwM60WnD32215r
-         Qv+JjphDGTlS97bBpwqODiCvhvP/tc6KGY2nBz1oihFypdJaSpKiZA9ByIQEyS/nV0UO
-         m7FTPqOr17sNAfmHDolimH8u1neSLLr0jYrM3q/fcyUAtD+XqacatikvdE6ve7F0JOy8
-         cKF+PDhqv2CboIGblHxL5pBeejFZvz3ieyhcCBEaDhhd8SR/KnTwwX7c0/80hPCqfAv/
-         2K8Q==
+        d=gmail.com; s=20230601; t=1772549924; x=1773154724; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oGjc1yjeiIqz4fk/uBDQWtGhcY0iItbRMgLP4C00KAw=;
+        b=H/FSgjs0GrURwItF84T6N/PPaZ1PSixdYmOq60R+mczmQaokdn6cGX8VcFQWvH2pxz
+         mTt36Plrla/UO7KKsbao5W1vB7iLMCoFoL2YkwpYijEcG9PI9ooq4wfv5tDLXtrzW2qd
+         5qaF22N8A+k6TW793bv9PAffMWfQzU6Q34e21se3brNSY5l1Rbh8ne42Um5WQtbVipj8
+         eH0FcXB+GcCg/mEnwMOiocaLbcrTCpnJ0+3wKcxpxYSBSokEASaj1Tx1sGs+1qxpIVgm
+         T566g2bm/dzjLL2SgcA6T4ukeHcFLPUAHg0GL/CQja7eqvOZjM3xrzkLwBYsv+1+zv86
+         4YqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772549561; x=1773154361;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h+8QbcRC2pjzuahdlMd9N/WzqWRbPt5M/XdWso0LY5g=;
-        b=bsfk9DC4o/n9oy13g4n24qQadG8PqZ/5M/Rlgy/ErsHetbfaQd+nlTnHFx5SbJ1IGn
-         LFa50O/akmwgfLIkeNhrkKs7M0gvmLQpH9/LmI7aHOU7iAJaOb6FjiU+k7vA8qZ5ItSR
-         j3Tnh6cLaQp7fRpnoO0Y+De7mI59iHZaZhOVvdgiGcMRFBOf7NVDhsUqdk6VL6TOeJVo
-         alBMtR9q1gVMemo9i79RgpzS73mv+BFJ7RhmS9aacnaXC9knTkWgqwys29bV5Q5g22gX
-         sO67QM28yrFb3VefMF+3QUqJf2QUlK45cQ2EhWQxaj3lppDRJMNoraRVBCSJXcMcJeWw
-         7J8A==
-X-Gm-Message-State: AOJu0Yy8hzDrJ+rZ/QFDM5nWbydHglqE1SnuTMpdgmQY/BWqqf7WZBde
-	YJAOqO/nEMSTmcBxuwcBZOd0i5WpOeBOND+JSIVFWhEf3j9CFPtP7BmH
-X-Gm-Gg: ATEYQzxKy5u3uZcf08vJn/ne/ASpe/VJyTQ18+ijzUYjEla2DLHBvWM3+TFwuogND3U
-	z8flTvR7v4MpVCkgIjp9QwiemdDCZdmFucYRJ9AKXCgf985A7RPVfu7Sk/w+GN0v8cmTLKkB6xW
-	ty6qRiHSnvypMGIrtDUUWtBUXYIy1VgfdDur12GLkY8pI4HMRY8gIX7xbrDtTADw4mxasRhk3bB
-	NtyhwZmRCHVXw8tzPTnZpp45ytNT+d01GSep84fLGh/VKMP+1AVMxx4ktIudYEXagFpxWIBt0P+
-	nmst78Ej9LsTFSs8H7PibIrMdKpIZD1947+sXzZtLtDCfvvyy53b0jpOUf457tAVKVme6el7L3f
-	6hpvexgXoBS2+zx8ZyCPXvDLELH0upGihBEfhk3hh8/Fd/tKZa6tUcR5nsMHwnzNqCkaIM3ftQM
-	1ps/KHbIaUEELPlf9lH50WqlZ9lfghP2w=
-X-Received: by 2002:a05:6000:4387:b0:439:c279:32ea with SMTP id ffacd0b85a97d-439c27935b1mr3280566f8f.39.1772549560930;
-        Tue, 03 Mar 2026 06:52:40 -0800 (PST)
-Received: from [192.168.1.187] ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b03db76bsm20531779f8f.18.2026.03.03.06.52.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 06:52:40 -0800 (PST)
-Message-ID: <bddd7c86f5d9535ce5fe58e6271396da40750cb0.camel@gmail.com>
-Subject: Re: [PATCH v2 3/4] hwmon: axi-fan: don't use driver_override as IRQ
- name
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, hanguidong02@gmail.com, ysato@users.sourceforge.jp, 
-	dalias@libc.org, glaubitz@physik.fu-berlin.de, abelvesa@kernel.org, 
-	srini@kernel.org, s.nawrocki@samsung.com, nuno.sa@analog.com
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	imx@lists.linux.dev, linux-hwmon@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, 	linux-sound@vger.kernel.org,
- linux-sh@vger.kernel.org
-Date: Tue, 03 Mar 2026 14:53:24 +0000
-In-Reply-To: <20260303115720.48783-4-dakr@kernel.org>
-References: <20260303115720.48783-1-dakr@kernel.org>
-	 <20260303115720.48783-4-dakr@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+        d=1e100.net; s=20230601; t=1772549924; x=1773154724;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oGjc1yjeiIqz4fk/uBDQWtGhcY0iItbRMgLP4C00KAw=;
+        b=czidzuftthvzNsv0DN8To/Eor+669gNDeGFX01cgchJA156zAjGliaPLRm9rDrkEqr
+         /YojfY58IRUM+P3IJL0vbFQSZtyd4l26LcTYW9n6rPLQ2j/DVFMkx/aPtIzuDorJrMSd
+         2ffDd8AAxf+TD6ikgGPHce0vd0ZdjKZvgDJxtw2qtALfNaHb4Vudj1gNBIFnfosOmrdo
+         dXQhEd7XmKjqMD7L0WETKgQvM5lYBQR1o8lbq8gtGsxNzkRQXeBd38vSs7LAPJtTsiqs
+         e+A+dgOMV9oTRrRyM8RgPQl9Xy7RHa1Lnr0RF7y/dMR+PM5C51oSZMOAX7aoAAdDLCgN
+         Ahyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfWp34Z88YtQxWgwJCXn4XUfYyJFsBkSM0l8wojs0IXQiGl9ulr0E+uZoJi+yT5kafFO+CS/P87074bw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzixbpDRPpa0ASqVJN9yjRyVbxxRd2VWuyn/V9jqPTEi+bUHuWO
+	tgyZ6ilq8Z0cskHq+FSd8UFmil3fY/o9VW8Z/HTzRHUt3ckywVPkkuJu
+X-Gm-Gg: ATEYQzyewGBWCmbLsUKyNAec72h0FRIl1eozKuF62tv5HvgYqP4X3e34VoDaYZHFcen
+	KnUBaOV/i8yF/ifNojsVFfcAkmBAA5xlhJG9bcxtUppVOjgBMEWRZUOJwz8g8Qg02hR+SwA6Awq
+	BongzygcM1YZjeMIhGdeNY3uQ20m7hqZbIS6uIAB/Tm+ZLs/gQfi4ShtoJeemMpnD3IMd1gdsnI
+	XIBq/7CSzxgb6GiM6gToH+jK3NERJBRZEVjq6dAoVohWoOawxuqfMTQQXXoi7kJJ5blYCMQGwA8
+	BZIb/XmjVrVGDa5w6DUDnbi6aP8KGpzf7kP9z6IDrTBF6ePtM9E4RXYT/iwpvHU3V6fMW+Xe2rA
+	mvnqtDFiMJC6s6DS/Dp5XAJg01qA3A9TgnC3pu7E4jfdMeUZGrXSww8ije6y0/Ilu9CPtjpBP7C
+	1DKESHFVU0sl/Jq0W9wsrOrjt1NDa6HPgp/pyaJZ1AomxdjX3aDW2JrZoKmGtfvRrCSI6Q3oXnm
+	X0hKtqletlPoofLdO8T0G/5jeSZxI+lfkJti1L4/4Gilfo=
+X-Received: by 2002:a2e:80cf:0:b0:37b:aaf7:f022 with SMTP id 38308e7fff4ca-389ff3644bemr93473051fa.35.1772549923580;
+        Tue, 03 Mar 2026 06:58:43 -0800 (PST)
+Received: from smtpclient.apple (2001-14ba-437-c00-1991-9ef0-d3f1-621a.rev.dnainternet.fi. [2001:14ba:437:c00:1991:9ef0:d3f1:621a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a124d7fd31sm359172e87.68.2026.03.03.06.58.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Mar 2026 06:58:43 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
+Subject: Re: [PATCH v5 03/28] of: dynamic: Fix overlayed devices not probing
+ because of fw_devlink
+From: Kalle Niemi <kaleposti@gmail.com>
+In-Reply-To: <20260227135428.783983-4-herve.codina@bootlin.com>
+Date: Tue, 3 Mar 2026 16:58:30 +0200
+Cc: Andrew Lunn <andrew@lunn.ch>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Peter Rosin <peda@axentia.se>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Linus Walleij <linusw@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Mark Brown <broonie@kernel.org>,
+ Len Brown <lenb@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Wolfram Sang <wsa@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev,
+ imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com,
+ linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org,
+ linux-cxl@vger.kernel.org,
+ Allan Nielsen <allan.nielsen@microchip.com>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ Steen Hegelund <steen.hegelund@microchip.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Saravana Kannan <saravanak@google.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E7575FC9-7D0D-43E8-A477-4DEE79101C13@gmail.com>
+References: <20260227135428.783983-1-herve.codina@bootlin.com>
+ <20260227135428.783983-4-herve.codina@bootlin.com>
+To: Herve Codina <herve.codina@bootlin.com>
+X-Mailer: Apple Mail (2.3864.400.21)
 
-On Tue, 2026-03-03 at 12:53 +0100, Danilo Krummrich wrote:
-> Do not use driver_override as IRQ name, as it is not guaranteed to point
-> to a valid string; use NULL instead (which makes the devm IRQ helpers
-> use dev_name()).
+On 27. Feb 2026, at 15.54, Herve Codina <herve.codina@bootlin.com> =
+wrote:
 >=20
-> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
-
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-
-> =C2=A0drivers/hwmon/axi-fan-control.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> From: Saravana Kannan <saravanak@google.com>
 >=20
-> diff --git a/drivers/hwmon/axi-fan-control.c b/drivers/hwmon/axi-fan-cont=
-rol.c
-> index b7bb325c3ad9..01590dfa55e6 100644
-> --- a/drivers/hwmon/axi-fan-control.c
-> +++ b/drivers/hwmon/axi-fan-control.c
-> @@ -507,7 +507,7 @@ static int axi_fan_control_probe(struct platform_devi=
-ce *pdev)
-> =C2=A0	ret =3D devm_request_threaded_irq(&pdev->dev, ctl->irq, NULL,
-> =C2=A0					axi_fan_control_irq_handler,
-> =C2=A0					IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-> -					pdev->driver_override, ctl);
-> +					NULL, ctl);
-> =C2=A0	if (ret)
-> =C2=A0		return dev_err_probe(&pdev->dev, ret,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "failed to request an irq\n");
+> When an overlay is applied, if the target device has already probed
+> successfully and bound to a device, then some of the fw_devlink logic
+> that ran when the device was probed needs to be rerun. This allows =
+newly
+> created dangling consumers of the overlayed device tree nodes to be
+> moved to become consumers of the target device.
+>=20
+> Fixes: 1a50d9403fb9 ("treewide: Fix probing of devices in DT =
+overlays")
+> Reported-by: Herve Codina <herve.codina@bootlin.com>
+> Closes: =
+https://lore.kernel.org/lkml/CAMuHMdXEnSD4rRJ-o90x4OprUacN_rJgyo8x6=3D9F9r=
+Z+-KzjOg@mail.gmail.com/
+> Closes: =
+https://lore.kernel.org/all/20240221095137.616d2aaa@bootlin.com/
+> Closes: =
+https://lore.kernel.org/lkml/20240312151835.29ef62a0@bootlin.com/
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+> Link: =
+https://lore.kernel.org/lkml/20240411235623.1260061-3-saravanak@google.com=
+/
+> [Herve: Rebase on top of recent kernel and use =
+get_device_from_fwnode()]
+> [Herve: Add the call to driver_deferred_probe_trigger()]
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+>=20
+
+Hello Herv=C3=A9,
+
+Tested this patch series with BeagleBone Black and all tests pass. =
+bd718x7 driver probes.
+
+Tested-by: Kalle Niemi <kaleposti@gmail.com>
+
+BR
+Kalle=
