@@ -1,83 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030811A680C;
-	Tue,  3 Mar 2026 00:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A66364EA5;
+	Tue,  3 Mar 2026 01:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772499034; cv=none; b=SaCbTljr5VPWGtMNFoLtYGAy8dsWrbP+dIsNdSy4CDytGwiMEIrjoBvTdGjcvaom+43L9pfsKtuCdgEY8S0wo+Zc2ZqOpph39Wxt/fCGDL6u/v99cLPlt68ugt/KbOOLwfkbMm5CEgKXl2TVeRTwmyr2b0mrW2icBDpXWsVGCdU=
+	t=1772502574; cv=none; b=rHZdVIGbc+3tT1kS7v3vBFz0La7VelXCVX933eJi6hMsvyf0NSmyfWUYoyz8bKz9djLlU4/9hMz4Y1qSJE+aRyBsye8XJsyR30vsbJWP6U2laaNumSPR0L5Rn+if9rnYZ5FzzkTUbLRKMBJ6jlY78UjXLwJ0wR624/+W/GuA3Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772499034; c=relaxed/simple;
-	bh=h+78EiHyB0I5nisIBybBPnwcYzEdq1t7W4p2/UIF1tc=;
+	s=arc-20240116; t=1772502574; c=relaxed/simple;
+	bh=Ww9GVsNKYrqVpQmsAtuHYERRrGX01gaWlgq77HrY/40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NVl5xf6ufXmOh1WrftDbFzR57w9RoudYR2zcDEpr/vp4aTxzvSPUApSxirfP69kGDC+bjKBxc4a1oOr346t2zhRVFToO8NkqyA2Tjattbk+BzxIUfdb1kR3bFticgG2kCirc1jOXObmxjf/aaPT9iMR926h5knCUboIBpn6qnZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqDwjzCg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=U2ooaSAvQFO5xlzLRHjzpJe2eTZZoHxdeD++RSmWZUVcxWV8mVrbGr/58G8VFboWBiWcOk2w3QqQVhEwitABNiqR2XUUb92eBqAZm9LTaKmimMqlf5u69snDzal2XFJb/9kmmZNHkqTca2hIK+cWC36LkCy3c/x2m/p4bwhd8eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hYQMWZnd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqDwjzCg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21530C19423;
-	Tue,  3 Mar 2026 00:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772499033;
-	bh=h+78EiHyB0I5nisIBybBPnwcYzEdq1t7W4p2/UIF1tc=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hYQMWZnd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07596C19423;
+	Tue,  3 Mar 2026 01:49:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1772502574;
+	bh=Ww9GVsNKYrqVpQmsAtuHYERRrGX01gaWlgq77HrY/40=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lqDwjzCgCtsw1q/ZRRSp4stYrNI3LRN9QKxzvwlQ83HnsbgExBxsg3zRkyC5Xupxy
-	 pvRGBwnB2CsDg4kvd25Kk67KIXUkhz5KOKPDCjmwXNzQdn1jfaJ+TSQgg4VefH2uQ5
-	 IypU90CssEFgLCaGvNB9aG/6zGK7OZNzJ7y8HuZ32b6PvP+aGIfDUREorBYbxNEFIQ
-	 Y1BugHlQtJQf2nzgRKc1pumV4IDjLrPgIsogmtXwyq5FXE9sxzOx2uO7BYBZKUa0xA
-	 oEm0E0CEifE2aRKnZ019u/CLZr8doZ2xBVxMW/Muau9Ub3Nd3u7OTPMjqRgjPqKAgr
-	 UU8KxEHjVHiOA==
-Date: Tue, 3 Mar 2026 01:50:30 +0100
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Waiman Long <longman@redhat.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>, Tejun Heo <tj@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [CRASH] kunit failures in platform-device-devm
-Message-ID: <aaYwVseQBPiJDA0M@pavilion.home>
-References: <aaRH-aXYKntYyjRS@google.com>
- <aaWtcMpwHUt9E5bD@google.com>
+	b=hYQMWZndArrkLFcrG+lRfr/GA4QVKEKT82iGJ4OBTW6fj5fikbCgeqwVnw0sUfSil
+	 kQLmkiAlcJ5XleyOIutW0uJ5+lj9sDoLfBRmA9WMwq2+/G7HXQVUQQ73GrnWL0M8O0
+	 VqOz7O8NNrrL5e6EmXJiwewzSLuLme29bECRyNOk=
+Date: Mon, 2 Mar 2026 20:49:22 -0500
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: rafael@kernel.org, hanguidong02@gmail.com, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] Revert "driver core: enforce device_lock for
+ driver_match_device()"
+Message-ID: <2026030215-valid-ricotta-c54b@gregkh>
+References: <20260302002545.19389-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aaWtcMpwHUt9E5bD@google.com>
+In-Reply-To: <20260302002545.19389-1-dakr@kernel.org>
 
-Le Mon, Mar 02, 2026 at 03:32:00PM +0000, Alice Ryhl a écrit :
-> On Sun, Mar 01, 2026 at 02:06:49PM +0000, Alice Ryhl wrote:
-> > Hi DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS,
-> > 
-> > I've experienced a fair number of different crashes when running kunit
-> > locally. I just ran this command on v7.0-rc1 or upstream/master:
-> > 
-> > ./tools/testing/kunit/kunit.py run --make_options LLVM=1 --arch x86_64 --kconfig_add CONFIG_RUST=y --kconfig_add CONFIG_PCI=y
+On Mon, Mar 02, 2026 at 01:25:44AM +0100, Danilo Krummrich wrote:
+> This reverts commit dc23806a7c47 ("driver core: enforce device_lock for
+> driver_match_device()") and commit 289b14592cef ("driver core: fix
+> inverted "locked" suffix of driver_match_device()").
 > 
-> Bisection has been carried out!
+> While technically correct, there is a major downside to this approach:
 > 
-> The culprit is commit 5564c12385b7 ("kthread: Include unbound kthreads
-> in the managed affinity list"). Cc'ing everyone from this commit.
+> When a device is already present in the system and a driver is
+> registered on the same bus, we iterate over all devices registered on
+> this bus to see if one of them matches. If we come across an already
+> bound one where the corresponding driver crashed while holding the
+> device lock (e.g. in probe()) we can't make any progress anymore.
 > 
-> On this commit, kunit (executed using above command) crashes for me 70%
-> of the time (14 out of 20 runs) with kernel crashes (Oops) and
-> refcount_t use-after-free warnings in pm_runtime_test_cases and
-> platform-device-devm. On the parent commit, I was able to run kunit 24
-> times in a row with zero kunit failures.
+> However, drivers are typically the least tested code in the kernel and
+> hence it is a case that is likely to happen regularly. Besides hurting
+> developer ergonomics, it potentially decreases chances of shutting
+> things down cleanly and obtaining logs in production environments as
+> well. [1]
 > 
-> The same crashes occur on tag v7.0-rc2, so this issue is not fixed.
+> This came up in the context of a firewire bug, which only in combination
+> with the reverted commit, caused the machine to hang. [2]
+> 
+> Thus, revert commit dc23806a7c47 ("driver core: enforce device_lock for
+> driver_match_device()") and add a brief note clarifying that an
+> implementer of struct bus_type must not expect match() to be called with
+> the device lock held.
+> 
+> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/ [1]
+> Link: https://lore.kernel.org/all/67f655bb-4d81-4609-b008-68d200255dd2@davidgow.net/ [2]
+> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Closes: https://lore.kernel.org/driver-core/CAHk-=wgJ_L1C=HjcYJotg_zrZEmiLFJaoic+PWthjuQrutrfJw@mail.gmail.com/
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  drivers/base/base.h        | 11 +----------
+>  drivers/base/dd.c          |  2 +-
+>  include/linux/device/bus.h |  2 ++
+>  3 files changed, 4 insertions(+), 11 deletions(-)
 
-I can reproduce (though rather 10% of the time). Investigating...
 
--- 
-Frederic Weisbecker
-SUSE Labs
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
