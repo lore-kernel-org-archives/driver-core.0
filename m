@@ -1,87 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938D8396564;
-	Tue,  3 Mar 2026 19:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B7839656D;
+	Tue,  3 Mar 2026 19:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772565487; cv=none; b=LYsJHnTHx3FJHM5tZp1E0XjeXjHzhWdfkMVQMxUdUkLMUM0g/CD/Uzf/FXwlr83y9x7Qi0m08XmxiBC/6VNmgkic8oQVJPEL2ak2bfr0DWXT7sAg5gooYvDKSjFtYPKI88wST3MS2rFeqobS6Maqu9wwo/YhT27DN9owHqUm820=
+	t=1772565655; cv=none; b=I/8lFdmirGAJfCoikZh/Il0Z/WsG0EdgSMAOAFLQ5+NSGoiqIhWHNaaD6/WgKWgFRgOrVV6TbF4Cde+m94c4jp3GHmHWdB0mkbb/FKBoqP6jO9mhs+gO9xRtFRtImXMF08HFiXprX1q4fFUpzH7yfe6OcJvPtyOA7JRF2fluTO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772565487; c=relaxed/simple;
-	bh=BoXGBCau5r1s+WRSBZCVeE9Fm89KK3KvHWbTxi92Xto=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Yg8exQYjbfeDbtsempnSIJMcSt5Znmuop7TIycPkLeU8ZrYfrMGvf0RbXpiAvXIdHLHhgK48ejdR/w367ntbIUFKFGFUI9ij6/yQeiQt/8ziPNvq61pD6UCE0Qfo7/d4Kc1c34obfLLovZKuOHey9krz3JAvIGFARfS8sugOUPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q6JqshVM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772565655; c=relaxed/simple;
+	bh=xPyzrXXknDGlQAabDR8G3bl9jKR7Mg3LJjOznNcqx70=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OFuWtQALIr5NwKLbREGsDRE9bNnWSatoyjv5hhthBCL8ip2mkknJ5f+cP0MIyXRlfnlv02ic3qVTDTapg/9eCk/V1IkHSVJSbKmaeBuxXm+00VXUid2wTCFecBNi41j5T2vHFk0pYG8o4JCaQicnbjr7A8Hbr5fz1Yhy9r2nv00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cjEtUje3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6JqshVM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5BF0C116C6;
-	Tue,  3 Mar 2026 19:18:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cjEtUje3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59E47C116C6;
+	Tue,  3 Mar 2026 19:20:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772565487;
-	bh=BoXGBCau5r1s+WRSBZCVeE9Fm89KK3KvHWbTxi92Xto=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=q6JqshVMljVfv8Cd2y14LY/Fw+tfw4Z3Qg3z5MkVCBZhhe0ogNqXS6OLV/Ivla58I
-	 CeTdH8njEHd6YOE1TyLfCCsn+lKGDuDzIFavZ7Cq5Yd8IM+2+5iw+fq6XjPxMflqVM
-	 Le/bWg9TcGuCaLAg1eTtVEJYp+wKLTSiKdwWGlXggTlGwKIdlePgrw+UiEWb7+aBfV
-	 6CndtHTuoBJwaPgwpiKAq9mMsB3z0w1CzgGQ5UvG3R9gAim36pjDmjYQwJsQevqfpc
-	 h6p4mNHEcWhnJMLVZcmu3tL7Z3yAPQL3z9qrSnADIOgO0REq0Z+Y+WFSDp1QS5/b7r
-	 ThUsp43QE4TSw==
+	s=k20201202; t=1772565655;
+	bh=xPyzrXXknDGlQAabDR8G3bl9jKR7Mg3LJjOznNcqx70=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=cjEtUje3/Rd5zi8iCGaEl6wr/hcK4x7YLKLJkfKUoM9zE4pyfr5dGAatd5citKAHf
+	 btQ2mYwXdbC2XQTV3GSDRoUidvcl3v+ujq2MyMPtgMI+TqcH6hAc2zApY6dcAgyxYT
+	 p1UwAekV7Fr9v+UNBtozfvDcSYX5uWFGaeio0IQzpZARK45dSZaEllmi/wuiZWkPQh
+	 Ad6kCCiVsHhvI8GLG3l97k8QGcI5opw4LcvbPBT95HGxDbiUKkBRyq3EZ2cQpr5b9A
+	 rdByrMCuhMBpxdpwg7UuEPpD7Pd/g241SmVe7eM7bLMiXmsiaNlRUhcbWC2ZqGS+Sh
+	 TRAhS1P55P3Qg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+In-Reply-To: <20260303092820.2818138-1-andriy.shevchenko@linux.intel.com>
+References: <20260303092820.2818138-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v5 0/2] regcache: Avoid accessing non-initialised cache
+Message-Id: <177256565408.593362.14430861700818639895.b4-ty@kernel.org>
+Date: Tue, 03 Mar 2026 19:20:54 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Mar 2026 20:18:01 +0100
-Message-Id: <DGTE0SSHFRC9.U45YIYN3PZ8I@kernel.org>
-Subject: Re: [PATCH v2 3/4] hwmon: axi-fan: don't use driver_override as IRQ
- name
-Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <hanguidong02@gmail.com>, <ysato@users.sourceforge.jp>, <dalias@libc.org>,
- <glaubitz@physik.fu-berlin.de>, <abelvesa@kernel.org>, <srini@kernel.org>,
- <s.nawrocki@samsung.com>, <nuno.sa@analog.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-hwmon@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <linux-sh@vger.kernel.org>, "Guenter Roeck" <groeck7@gmail.com>
-To: "Guenter Roeck" <linux@roeck-us.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260303115720.48783-1-dakr@kernel.org>
- <20260303115720.48783-4-dakr@kernel.org>
- <b46c5757-b67d-4949-b8d8-54b799464b5d@roeck-us.net>
- <DGTACERFTTCV.29XON9ZLYAEQL@kernel.org>
- <4a7ac923-0f1a-431f-a029-8843a8eddca3@roeck-us.net>
-In-Reply-To: <4a7ac923-0f1a-431f-a029-8843a8eddca3@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-6ac23
 
-On Tue Mar 3, 2026 at 5:57 PM CET, Guenter Roeck wrote:
-> On 3/3/26 08:25, Danilo Krummrich wrote:
->> On Tue Mar 3, 2026 at 5:23 PM CET, Guenter Roeck wrote:
->>> On Tue, Mar 03, 2026 at 12:53:20PM +0100, Danilo Krummrich wrote:
->>>> Do not use driver_override as IRQ name, as it is not guaranteed to poi=
-nt
->>>> to a valid string; use NULL instead (which makes the devm IRQ helpers
->>>> use dev_name()).
->>>>
->>>> Fixes: 8412b410fa5e ("hwmon: Support ADI Fan Control IP")
->>>> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
->>>> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
->>>
->>> Applied.
->>=20
->> I need this patch in the driver-core tree, otherwise I can't land patch =
-4 of
->> this series [1]. :(
->>=20
->> Any chance you can drop it from your tree?
->>=20
->> [1] https://lore.kernel.org/driver-core/20260303115720.48783-5-dakr@kern=
-el.org/
->>=20
->
-> Sure, I'll drop it. Please add
->
-> Acked-by: Guenter Roeck <linux@roeck-us.net>
+On Tue, 03 Mar 2026 10:26:23 +0100, Andy Shevchenko wrote:
+> Refactor regcache flow that populates cache on initialisation phase
+> based on the values in HW. This makes code robust against any possible
+> accesses to not-fully initialised caches.
+> 
+> Changelog v5:
+> - added a precursor patch to make things clearer
+> - also put the freeing resources into an order (Mark)
+> - dropped applied patches
+> 
+> [...]
+
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
 
 Thanks!
+
+[1/2] regcache: Factor out regcache_hw_exit() helper
+      commit: 9891b52ba12e9d5fed5901b6b5f6e0cdcd424390
+[2/2] regcache: Move HW readback after cache initialisation
+      (no commit info)
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
