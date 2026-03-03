@@ -1,217 +1,210 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010055.outbound.protection.outlook.com [52.101.84.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B37390228;
-	Tue,  3 Mar 2026 21:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772571768; cv=fail; b=hnjZVvrqpOdswCk5H39Jj+OXvgZ9M30UtnqebnEyulJQupuSXvnugSR8PEWT8kmlxbqcfq3dNsWxiv4B3TsndM2g7/EM0zuPRF6Bi2ngzBHBXvmDYiNnMe5Fjq8c6QN+UYkWzWRsVLT1Pnehl45Ijict7/RF57fjmmd/xV02h9c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772571768; c=relaxed/simple;
-	bh=MUlDoyltl3J0tGSNHbXFItHdczZ2M4EpccDpbctPrBc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Tpqef1SZ9Z6wDE5paoSckh09U3rKbswQTFV9u0AD5TgRltYlsJ6YvkR6ZHVw2M59EGxsKJ+OQ8mz+pAPTGWgxYWMWf4i12eTer3++BUUc0uVQM7nucT1m/UKLXrkqCGB0YJIWBcoB8OSs/LodTW54dD9iyGc7nyKHKd4CG0nvxY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=AnkmFCsD; arc=fail smtp.client-ip=52.101.84.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0219B38C2AB
+	for <driver-core@lists.linux.dev>; Tue,  3 Mar 2026 21:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772572536; cv=none; b=Nt20184vx0hBnRKn5sHyQxIn7nbe7qI7lec7tha/C69smykWhEMa6GvUPcnEMOy1eoHjbHcnS3RWvg8wOfl3lNVYrFKxp1+unX3fp3C1G4VYZej9+vck8T4SQsPZwYB3VBN9q9uR7nrH0hLWh6vctpXVM3+uUWHjGiCk/MNswT4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772572536; c=relaxed/simple;
+	bh=S/uQnRBX7EM2s7NdwB1h0Zvrd47E5NDlePG8Fysu8x8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=rkT+40KYElf6fdcsDefmKXtw2HEyafUHmpUwLhGWhMXA/pluoN8ttLA4yGF/PGSA5NBkzAfk6SUpxJ/X8pOHodeikqr3wTne7Xj92J91N73qIglPMTvU6wsJYIZxFrKePFC5iId1NtQWMx2gV0nkBr+te97XgOqJWRBa9BSk9D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iGkVIflW; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="AnkmFCsD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q1LED9ReRtBTPWt+djnA10fjDGTXC/lstGHUDkkEYztwae8bUDPpfeETLjV5pInu/FK/ey4PfojYkD624Y9OLP62KHmYracF7k2xXLePcIJ/4LvXtcxAnrXr1Ga3X9R+s2C3EFZMfs0PZCE6aFi5HO7n9jRtGp/aIE0AVqypGlG3XMh8ekF/yHZIAk3I5oeUW3BhD6LdVu/kkUTC3gGsrDMfXiPw/PkJu98LY+Uwd3A0XiNaiHnB77o1aTovoyl3aKL4KzbnVUEH6FmheV5BSCvKF2xr+x53rr044OZnjB+rgzWnom70Rvv7iHIO+qjaaX0tcDeAkwR6um+QNJ5s7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9IvPhxB0FTI1LMWJ+oG+P7j1PpUMH5T1yWBxdQ5xxaA=;
- b=zOi3/VpvK1kBKbFtf1I2WDRUsj901ewy+VmG7km3/kb++1mt0IRjtqhatr9OHjBAfo2R6QJHFYFI1Eua8PomTpKnyLzk+qV45JIjBjBXTh5VtlQfI8WZh1UuX6Q40fXs97CCOuVwFA9PQcNJwUkpcywN2CVH3oA+8+U4AUB3GsS+fqhdT6mTHK33X2R7fjWqybN0JmzhcHqq8tTvuRxXXl77yhZSa78E8YfjYXuX2tBZ5B9HOGlJBPwxxVyZmgj5tYh7CN1+YGiq3zPgAJyJ00RITykX/RIgD+WRBC6+ePY1fBmBdIlh/z2SSLwZaJSpSnjahGhKVlYB5vFh4+KnTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9IvPhxB0FTI1LMWJ+oG+P7j1PpUMH5T1yWBxdQ5xxaA=;
- b=AnkmFCsDxy7Bi9XcI5diF7fvltvEvA98TNvEMNVTmiF4YzEbdFKIvYjRfd4wiHaJM4nsk7NwPZJnRy3oCoEZAF8AcnJC8EFdfGEuzxI1SScIvLHKhCzYcGdcDuTuQ/fK6R0dAyK6GxZZFbVTyOzkc/kZbKGSCH/fT+vZy6+GkKHH84eMyOOIdh/Nyzyvy35HZqMQF50yQxOlsAYme7VTEIS09d8GFeInVyU9ylUr3aLOMdUCr6etpi4NdgZeHXZXHt8dR97CPL5olQQHY602mhr0Fl5u2ZNsrENGxblGosmhmUsjcIPV16nPntSklN6VtE7dynsnGOhbG/L3+78n6Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by DB8PR04MB6858.eurprd04.prod.outlook.com (2603:10a6:10:113::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Tue, 3 Mar
- 2026 21:02:42 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Tue, 3 Mar 2026
- 21:02:42 +0000
-From: Frank Li <Frank.Li@nxp.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	hanguidong02@gmail.com,
-	ysato@users.sourceforge.jp,
-	dalias@libc.org,
-	glaubitz@physik.fu-berlin.de,
-	abelvesa@kernel.org,
-	srini@kernel.org,
-	s.nawrocki@samsung.com,
-	nuno.sa@analog.com
-Cc: Frank Li <frank.li@nxp.com>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-hwmon@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v2 4/4] driver core: platform: use generic driver_override infrastructure
-Date: Tue,  3 Mar 2026 16:01:08 -0500
-Message-ID: <20260303210131.2966214-13-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260303115720.48783-5-dakr@kernel.org>
-References: <20260303115720.48783-5-dakr@kernel.org>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SA1PR05CA0014.namprd05.prod.outlook.com
- (2603:10b6:806:2d2::23) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iGkVIflW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772572534;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wrmpWbz/D0LbSjhwAo9Mxe/RiGjDGWcxtMIqyIp8KYQ=;
+	b=iGkVIflW/q203O//UxT3xpDOHkD/nUl7boXfrz/w+3PDbWQIAILlJU1Qa6DGysR6mfLOMW
+	Gp3i6LZpxgi8RBwTazB95oC1Vw7FG+qTlRoDq1Iilron7wSZTQ96BBa8ZVbEm3yddp+9b2
+	7mAMiBlqhxcDxBHHWbN26vMJAWZgRJE=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-541-2HSD5PuhMqKmRAzT1XggkQ-1; Tue, 03 Mar 2026 16:15:33 -0500
+X-MC-Unique: 2HSD5PuhMqKmRAzT1XggkQ-1
+X-Mimecast-MFC-AGG-ID: 2HSD5PuhMqKmRAzT1XggkQ_1772572532
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50335bd75bdso528270111cf.0
+        for <driver-core@lists.linux.dev>; Tue, 03 Mar 2026 13:15:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772572532; x=1773177332;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wrmpWbz/D0LbSjhwAo9Mxe/RiGjDGWcxtMIqyIp8KYQ=;
+        b=NE+HQrBEhC23dyVt7vrA8XHzuaMHn5ZjKoN41jzdPnDdxKlmlgghiq5LrxcJN+Qtfs
+         JIdN0ai8ABg3E071zBjAXi5dllo1OVuJc7WFtyWVeOnW4gbxT8rargPfqiWqHmMD4BGC
+         IVUFGlpcvrzPWQNEuXmBbbmRzW4LM6IGC9Q7G/cz6G6OAnTzt2k+/6VWGHNWVX3bo5Yi
+         4UDXt7vWPLJJU6zoTHb4Rg3k67zy5sNA0jp/4HB9/ZM7f/L+EOaAGp9PaEApyBcx3v9u
+         dUIjzJOvR8raXZJtyODGdRBCHKi2e37YNRNDlFSfx52B37+z7yiFFO5OkGxI955egj1M
+         r4eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW3MPco1L3/SrsujOKMLS+HznddTBfjdpEQb1aJh5Uc9zo42++BV5+7x6Slfc7SibDQXkO9Q9kLlsquWw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeLrmR2xaYPX4hXDISPxDhXVHg1q0uklLzpXW1myKopgedyh75
+	wQz4035lPkTkuqSIQO7C1ieeIeZ+/Zf5YmcoE+KCkBL6MyhkgSAygi4sypjf9+z/fEqr1BoII9k
+	X26ZXbIJWS9nVRnEk7Go9F4rNpxgN/2mjQboSHVZ9dgGPGvUeKz+GN/yrijwTzr+I
+X-Gm-Gg: ATEYQzxSK6/ZijuEC4Z5qPt1bgSJRoNe1v3lg56ntB3fAovdtrmr9T0Rl5BG2Mdu1M3
+	iMuwc8nk7VVuZoHdXL74Tagk4iBGirFlie3ZdcocskU2CdesHzsK2JbF7nz0zL0kg6XkM/zj2O/
+	ey85uNIyCeKmVFxUF4DhV3T+9/vKJ5ewDE8nLNRJk94eL358PQjwN2LI7qMxkGW8BJAau/5mV1o
+	VOx4tk3QEOK1lcuDwO4UKgIn0qqWRqsH7RzVsl6+wqRRvu0O6GxhYKIiQz5IPVqja7UGe+vKnnb
+	HGQ7+GH+IVjUqVrS6N3J/ZsQ9y+H26fv7ky+B7sUd+Dd+2O9Vnl+Qz1S4DQMDVA+gQpGaUpNHUN
+	vhu7vwKd8gcHMGnpTEzVIIKelpg==
+X-Received: by 2002:a05:622a:214:b0:4f1:83e4:6f55 with SMTP id d75a77b69052e-5075273cf0dmr220407731cf.16.1772572532263;
+        Tue, 03 Mar 2026 13:15:32 -0800 (PST)
+X-Received: by 2002:a05:622a:214:b0:4f1:83e4:6f55 with SMTP id d75a77b69052e-5075273cf0dmr220406951cf.16.1772572531594;
+        Tue, 03 Mar 2026 13:15:31 -0800 (PST)
+Received: from [172.16.1.8] ([2607:f2c0:b1e3:9a00:3c7:56c2:f819:96d2])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 13:15:31 -0800 (PST)
+From: Peter Colberg <pcolberg@redhat.com>
+Subject: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV capability
+Date: Tue, 03 Mar 2026 16:15:20 -0500
+Message-Id: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB8PR04MB6858:EE_
-X-MS-Office365-Filtering-Correlation-Id: 665f394c-14d6-43db-0f59-08de796835fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|366016|1800799024|52116014|376014|7416014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	up88aMgCoqiQqHz8UjGcpAJPx0etdOldnj70ptPFxQbNXfkqrGJ5xCACYatZaxSto58yU5R7l9Epm170X7B8XVYnNJuuKxab8QueXNE4e8NcWZF4zpy0kQBBCDD7mXz8k3JFHNzGMuCt/K9l+xdKfCYCwtVTcz42pQs09THF74ccTxpiHhGndPdkUtvRnbbrro62IiehedyzulApwrkOMSikwKNqD12UCcDfqtuYwsPxBVYc0jIiWpXOTSNJWLK0uGcIhL3Xt/6eyDwUERRQSrkiv3mGP68LYZ4/0zR95qFnMR9SpH1oOxZFvG+zcNvkgy/Idy+pdKXqOPVBWql+PxdZvD3rabS3fMVGPSuF+lPbADzzHNuIj2qP6a963jevs6KyESzWM0Y2Gj+hbqe3QehW5CcMsFuH+6vL2sSJNXoGOQLR9wlBpXREWqsFU9QnAoDWzDEq+ym0pXgg/eCECyY0pIVp52yEiWqeWbr0gzfD8x397qTPfuhj8tCAde6kGkJg/CigdEeQUuG5fqMn+1JxVbNfHTr/VTfsg+mrJ7kXTT9vd6FBpdatb0hN1sZjxfwnc+v4HfR2W5Zthr20Jnkq/cs/tD1p7k2oeGbYYOF3lrqEx0qNcmAV1LtiOwQrilMNhS2rO183HC1w0vr6khuiYfZsXUMxPZy5vj2YE4HPAWYCwnFNFqR3+b9EjCE8TVPd8z7yE/lmqZssFxvfEWQ66IpZdhysyk519zxHACKg4OmGHv3CS20GXtwU4OiQO2R78cA1nPRRtHP0/xgXO8D/igOphB/YsXH4v7J3qQXGTTMjrXy4TX34Q0AD0JCR
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(1800799024)(52116014)(376014)(7416014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?e9GtLAW0aszRVhvglm7ZxLs8BwjUVMAG/KCw3aUHFNgXD3PtOZDsj4VpZSZx?=
- =?us-ascii?Q?dI1tlJhGUpBsZaKBG3hOzapZPRSsnZcAyvk8XBdKWxOIr9vrE1LSoJQQxn8i?=
- =?us-ascii?Q?97pBTUnd2+ng9WKBGlpLwHOVUeOf9P/ZVnKDSheeQmdvASSaMzbwgZJaSLWf?=
- =?us-ascii?Q?1FVhvAsRu+fMlRzixqsIlczXhWPvv5RZLJeKpdXVtQ1QDz/dzMogtShTVIoj?=
- =?us-ascii?Q?YoN3knQZNkEL6PHPgbQO9a+ELdwgffrwcnxK4bMqSI7WAbKFOC1N1dVLJQI/?=
- =?us-ascii?Q?6zs/7wTl/cqmFsUhfBHxYsDWvxzmuFoGfjSvoUZ3Qn/1GCOgHA3yj7QPWKk3?=
- =?us-ascii?Q?rjAjdjygMUzXt2TL+A/dZBjfTN4uHQwivfjZAp/kH9C1rba4LeGv3LhZEouX?=
- =?us-ascii?Q?IbAlO6f762ZF0mMrJw2n0/KAAoDbxchuC7blBktd1Tgk8IGDP1z3UOY9w8gl?=
- =?us-ascii?Q?ri9s9oCAKhS8gfVVPuC40Fr7fgx+k5R3qLOPwxJCCVt31ucBXmI1L+QQOrlz?=
- =?us-ascii?Q?su2WboHJ/F4BWHr0mfXwKtDZyIoEYW0ccuLmbg+HIwmarZaCp8VB7cdJpLFB?=
- =?us-ascii?Q?sGfDQ9smDdDVRF6SEysozWQHdpXLECryU+cOQP8/pVyU6p64BXh30F3BEpi0?=
- =?us-ascii?Q?Y+gTE/imBshi0b8fUexoatCIvyzofaxK9WJMHAn7qGWSMqloybtSAbOU1ezr?=
- =?us-ascii?Q?yPlPNwpmOD2owQdymss0f/VAbp2XaJzizCR23xavJNisHPdyy0rpItkYZzF9?=
- =?us-ascii?Q?AhbZJ4g/iqbujwE1s5suqGPcswgXjaOB3KttWfhkQfzBmPzrqWpfHx/icvFH?=
- =?us-ascii?Q?8V2YdEV2bH9zosZ8VPzqA9M6wBs9kfouCtGi5v86Qn3ObOhT07Pb/46vprrr?=
- =?us-ascii?Q?Rzc3vUHIvGNdr5jjuvHJJMFZ5lbZHER/I2pVv/s8gUmSgBZD1ySra+3mtQ/b?=
- =?us-ascii?Q?xrYFl+AV3I0QhVxP5jJbg56mZG588Ax2NHcF9pHgOcF0Fi+Xb06/rSnT7rRJ?=
- =?us-ascii?Q?F6Ahvg8RmUEQd5eP0JoPDgOmpS7+4EUsQ5GjvnYEd2BxADT8of5zYPYnURBy?=
- =?us-ascii?Q?a7j0F9lgiDEk7LtzUUAVNNS1mS828TLVVU7W+LJNBJZxhvp58XQvOy9ImtSz?=
- =?us-ascii?Q?spD/3zzk86N16bKyOMIe+NX3pkXZy+ZY6w6sZ8PeFXM2xG+W+5jpPyB0CjwR?=
- =?us-ascii?Q?Uen0Xwi/8fCqxu5a2qiaHUuAzS/OCUnWNc9OgipxkHWCuN9ow+FCn2oOtPt2?=
- =?us-ascii?Q?r9L8Y86CHeFX14U7qXS7tnga/RZ13+92Qsu5uZFI1aparqP+p+qTW+1y+bYp?=
- =?us-ascii?Q?NEC+IHjr2I6GI5XbFDGEYNS0KguZZ+UUvDtbkubOqDFnOZrX9XDoNjB9QJOm?=
- =?us-ascii?Q?GIdkOGVy3NdwO9vswv2OQBDR2Oj7uJOraozTOOjBg4JGY/hlmYujoOFtCA/H?=
- =?us-ascii?Q?R9tixc3l0a+eJx0RQ/0FjrtyZ7P3X8x78nI9mJcJjgLRcAZAyTr71P02+C1t?=
- =?us-ascii?Q?2gGp/QXwcBVS1e6yjckecnA69R3dehmu0wxOh48thEPT/SwgT8OyOwPJexq6?=
- =?us-ascii?Q?f4DVmpsDVGGfEq+KwJx375b6/7/Vtp6pzUESRnU0jXEdSSuHM/4iPcE4d0L8?=
- =?us-ascii?Q?jfA9ukK0X2XRxSJr0qPm6t5X18cssFC7mYIqFNV1/9a5t2XzFkX0oTNaB4lC?=
- =?us-ascii?Q?649ZuRrFpHi58RHwSvysIjRnmR0tVuSu49fIQYorYKG921CifANexcWEClop?=
- =?us-ascii?Q?mgzWcmKAvw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 665f394c-14d6-43db-0f59-08de796835fd
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 21:02:42.4809
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UjiJ6ipUnmpP0McvKJPWG/sRbImke9FyYqMiiCQSpghBKc5TtZ65lC/4DMcSTyZ6zE42O5JG0Onx2PCsIAdcHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6858
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2XMQQ6CMBCF4auQrh0zLZRSV97DuChlkFlITYtND
+ OHuNhoX6urlX3xvFYkiUxKHahWRMicOc4l6Vwk/uflCwENpoVBpiaqFeE8L3DxDihwyeNeNGmW
+ vHNWioInTEuLj9ZdlmdObSml/aZaA0HW1s4221llzjDRMbtn7cBXn8pXVx7eoUP95VTyNtkH0x
+ rSm//Lbtj0BNUVq1N0AAAA=
+X-Change-ID: 20251026-rust-pci-sriov-ca8f501b2ae3
+To: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>, 
+ Moritz Fischer <mdf@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>
+Cc: linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, John Hubbard <jhubbard@nvidia.com>, 
+ Zhi Wang <zhiw@nvidia.com>, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-fpga@vger.kernel.org, driver-core@lists.linux.dev, 
+ Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
+X-Mailer: b4 0.14.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: rEDlCy6SKI6emi-d1zh0NdYN5Q8ZcB_braaoWxFV8vw_1772572532
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Frank Li (AI-BOT) <frank.li@nxp.com>
+Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV)
+capability of a PCI device. Provide a minimal set of wrappers for the
+SR-IOV C API to enable and disable SR-IOV for a device, and query if
+a PCI device is a Physical Function (PF) or Virtual Function (VF).
 
-AI bot review and may be useless.
+Using the #[vtable] attribute, extend the pci::Driver trait with an
+optional bus callback sriov_configure() that is invoked when a
+user-space application writes the number of VFs to the sysfs file
+`sriov_numvfs` to enable SR-IOV, or zero to disable SR-IOV [1].
 
-> @@ -25,10 +25,12 @@ static int platform_match(struct device *dev, struct device_driver *drv)
->  {
->  	struct platform_device *pdev = to_platform_device(dev);
->  	struct platform_driver *pdrv = to_platform_driver(drv);
-> +	int ret;
->  
->  	/* When driver_override is set, only bind to the matching driver */
-> -	if (pdev->driver_override)
-> -		return !strcmp(pdev->driver_override, drv->name);
-> +	ret = device_match_driver_override(dev, drv);
-> +	if (ret >= 0)
-> +		return ret;
+Add a method physfn() to return the Physical Function (PF) device for a
+Virtual Function (VF) device in the bound device context. Unlike for a
+PCI driver written in C, guarantee that when a VF device is bound to a
+driver, the underlying PF device is bound to a driver, too.
 
-Good: centralizes locking logic. Verify device_match_driver_override()
-handles -1 return for "not set" case consistently across all callers.
+When a device with enabled VFs is unbound from a driver, invoke the
+sriov_configure() callback to disable SR-IOV before the remove()
+callback. To ensure the guarantee is upheld, call disable_sriov()
+to remove all VF devices if the driver has not done so already.
 
-> @@ -603,7 +603,6 @@ static void platform_device_release(struct device *dev)
->  	kfree(pa->pdev.dev.platform_data);
->  	kfree(pa->pdev.mfd_cell);
->  	kfree(pa->pdev.resource);
-> -	kfree(pa->pdev.driver_override);
+For PF drivers written in C, disabling SR-IOV on remove() may be opted
+into by setting the flag managed_sriov in the pci_driver structure. For
+PF drivers written in Rust, disabling SR-IOV on unbind() is mandatory.
 
-Correct: driver_override now managed by generic infrastructure, not
-platform_device. Ensure device_release() in driver-core handles cleanup.
+This series is based on Danilo Krummrich's series "Device::drvdata() and
+driver/driver interaction (auxiliary)" applied to driver-core-next,
+which similarly guarantees that when an auxiliary bus device is bound to
+a driver, the underlying parent device is bound to a driver, too [2, 3].
 
-> -static ssize_t driver_override_show(struct device *dev,
-> -				    struct device_attribute *attr, char *buf)
-> -{
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	ssize_t len;
-> -
-> -	device_lock(dev);
-> -	len = sysfs_emit(buf, "%s\n", pdev->driver_override);
-> -	device_unlock(dev);
-> -
-> -	return len;
-> -}
+Add an SR-IOV driver sample that exercises the SR-IOV capability using
+QEMU's 82576 (igb) emulation and was used to test the abstractions [4].
 
-Good: removes duplicate sysfs attribute. Verify generic implementation
-in device-core provides equivalent locking and sysfs_emit() behavior.
+[1] https://docs.kernel.org/PCI/pci-iov-howto.html
+[2] https://lore.kernel.org/rust-for-linux/20251020223516.241050-1-dakr@kernel.org/
+[3] https://lore.kernel.org/rust-for-linux/20260107103511.570525-7-dakr@kernel.org/
+[4] https://www.qemu.org/docs/master/system/devices/igb.html
 
-> @@ -1377,10 +1347,12 @@ static int platform_match(struct device *dev, const struct device_driver *drv)
->  {
->  	struct platform_device *pdev = to_platform_device(dev);
->  	struct platform_driver *pdrv = to_platform_driver(drv);
-> +	int ret;
->  
->  	/* When driver_override is set, only bind to the matching driver */
-> -	if (pdev->driver_override)
-> -		return !strcmp(pdev->driver_override, drv->name);
-> +	ret = device_match_driver_override(dev, drv);
-> +	if (ret >= 0)
-> +		return ret;
+Signed-off-by: Peter Colberg <pcolberg@redhat.com>
+---
+Changes in v3:
+- Replace SR_IOV -> SR-IOV in description.
+- Drop redundant `.as_ref()` for `dev_*` prints.
+- Link to v2: https://lore.kernel.org/r/20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com
 
-Same pattern as arch/sh. Consistent refactoring across platform code.
+Changes in v2:
+- Move logic to disable SR-IOV on remove() from Rust to C.
+- Add driver flag managed_sriov to opt into disabling SR-IOV on remove().
+- Demonstrate flag managed_sriov for dfl-pci driver.
+- Uphold safety guarantee for physfn() when PF driver is written in C.
+- Let physfn() return error if driver flag managed_sriov is unset.
+- Use "kernel vertical" style on imports.
+- Use to_result() to handle error in enable_sriov().
+- Note Bound device context in SAFETY comments for {enable,disable}_sriov().
+- Demonstrate how to reach driver data of PF device from VF device.
+- Add missing #[vtable] attribute in PCI driver trait example.
+- Add missing #[vtable] attribute in nova-core driver.
+- Define struct MyDriver such that physfn() example compiles.
+- Replace VF -> PF in doc comment of is_physfn().
+- Add #[inline] to is_physfn() and is_virtfn().
+- Link to v1: https://lore.kernel.org/r/20251119-rust-pci-sriov-v1-0-883a94599a97@redhat.com
 
-> +	.driver_override = true,
+---
+John Hubbard (1):
+      rust: pci: add is_virtfn(), to check for VFs
 
-Verify this flag is documented in struct bus_type definition and that
-all bus_type users expecting driver_override support have this set.
+Peter Colberg (9):
+      PCI: add driver flag to opt into disabling SR-IOV on remove()
+      fpga: dfl-pci: set driver flag to disable SR-IOV on remove()
+      rust: pci: add {enable,disable}_sriov(), to control SR-IOV capability
+      rust: pci: add vtable attribute to pci::Driver trait
+      rust: pci: add bus callback sriov_configure(), to control SR-IOV from sysfs
+      rust: pci: add is_physfn(), to check for PFs
+      rust: pci: add num_vf(), to return number of VFs
+      rust: pci: add physfn(), to return PF device for VF device
+      samples: rust: add SR-IOV driver sample
 
-> -	if (pdev->driver_override)
-> +	if (device_has_driver_override(&pdev->dev))
+ MAINTAINERS                           |   1 +
+ drivers/fpga/dfl-pci.c                |  17 ++--
+ drivers/gpu/nova-core/driver.rs       |   1 +
+ drivers/pci/iov.c                     |  41 ++++++++-
+ drivers/pci/pci-driver.c              |   3 +-
+ drivers/pci/pci.h                     |   2 +
+ include/linux/pci.h                   |   8 ++
+ rust/kernel/pci.rs                    | 165 ++++++++++++++++++++++++++++++++++
+ samples/rust/Kconfig                  |  11 +++
+ samples/rust/Makefile                 |   1 +
+ samples/rust/rust_dma.rs              |   1 +
+ samples/rust/rust_driver_auxiliary.rs |   1 +
+ samples/rust/rust_driver_pci.rs       |   1 +
+ samples/rust/rust_driver_sriov.rs     | 127 ++++++++++++++++++++++++++
+ 14 files changed, 366 insertions(+), 14 deletions(-)
+---
+base-commit: 1b9a5bc8513d081c1bfe2c096b6dc502a4660f47
+change-id: 20251026-rust-pci-sriov-ca8f501b2ae3
 
-Good: accessor function prevents direct field access. Confirm
-device_has_driver_override() is properly exported and inlined where
-needed for performance.
+Best regards,
+-- 
+Peter Colberg <pcolberg@redhat.com>
 
-> -	ret = driver_set_override(&pdev->dev, &pdev->driver_override,
-> -				  "imx-scu-clk", strlen("imx-scu-clk"));
-> +	ret = device_set_driver_override(&pdev->dev, "imx-scu-clk");
-
-Good: removes strlen() call; generic function should handle length
-internally. Verify no callers relied on old signature.
-
-> -	pdev_sec->driver_override = kstrdup("samsung-i2s", GFP_KERNEL);
-> -	if (!pdev_sec->driver_override) {
-> +	ret = device_set_driver_override(&pdev_sec->dev, "samsung
