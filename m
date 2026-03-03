@@ -1,90 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B758D429834;
-	Tue,  3 Mar 2026 11:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B43633F383;
+	Tue,  3 Mar 2026 11:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772536826; cv=none; b=byaQ1swwI7sBzI9doMsNrJjj3ObJh1o769q+RM7JynRFrtF7VfU8f+TB4zvHk/4VOCgxvjSvytBbPLuRl4PBt7insghGnTJzQS6l/m6O09u+e6Fvur0UToxSlS696ntqdfUFBQNQdbBqDmdu2pJW12yXHOBsxn0vFXOWp6rTQdY=
+	t=1772539051; cv=none; b=MNwlTF36O620k4TrwVMh2+m+JwrulypwQDVL5YQgwNIdOKbuBhw9o67Ogl6GA0owlijK1UueaaepmBjYHHJZyJNmhGNcclKuc2OYQDXIahW8M0bSGbNctrr5UXGgvPj19FLOug6WdRwc0TVxk/gjOnFCBHIxylkyEhcMLhE4804=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772536826; c=relaxed/simple;
-	bh=L3V4tJYX07pPZskL3yyr+i9g3iTS12jNKVP58j6D198=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=stfAYqipT/lAvGaKekfGGDiKB87WlUUoIS/ZHQ4fCpdPoStrnwHwR0LPHHESBr347l5xFjHnu1udfB8Vod9wwrQC+tOWP7CUnGtJx+8XxXva9hmnhXBb+1ZqMut7ezMKu+MG3BrZe2u1E2LUWvXgakB18E8N60VfNeCAVB1pbi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAgMo3q2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772539051; c=relaxed/simple;
+	bh=vXaHvCEHJXa60E12gJk4qXYIo6yuZXE+bxs1JmCmVKI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fnMhORnIDoCroHZqMJcdlhK99E/snPeCUX1fq1CmTj0SDR2cVHQydvAyzqCUN/j8ykvqX9L63uXwOZsXP3i0PWpDZY56Ajou2jVyJEAxZv4AMf6cjtYuBPG4BVEryvSPjkm3q3ecoh9rIlCyJdCg4VitHz+lrTeUE2mB5RxarMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMEYOJMB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAgMo3q2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7976C19422;
-	Tue,  3 Mar 2026 11:20:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMEYOJMB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1895CC116C6;
+	Tue,  3 Mar 2026 11:57:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772536826;
-	bh=L3V4tJYX07pPZskL3yyr+i9g3iTS12jNKVP58j6D198=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DAgMo3q2vZkUhJW9ZxQ7gVubQXpqG3zekLqH7naviIUyH3KiMIku3zHYy2Pm8fk9w
-	 ICSAanSJUG/Yoy4HOQ+HWvd27EiI0KqtywWo+A1UhV1v/G6M52z5k4TbZanSlZQRqa
-	 lmn+XK969vOrH0FD+/Vq79SvUEZSp83k8sviguvWSOHvf+TrKowGqyBOQwcG6Ms+vx
-	 g2oB0E7ZMxbEtrZHzstJLLVF88TJx8ZdlhfpBs/oXIX5drJ7KgdPbpxoUbtEoOIFut
-	 TGJwZpBj7zQgmQRv0R132qy+WTLVcsTA8NJOUcZUXMrsbJwkczLqjpvr2u2x4Fa7Ma
-	 rno6P3wXsgyRw==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-In-Reply-To: <20260302095847.2310066-1-andriy.shevchenko@linux.intel.com>
-References: <20260302095847.2310066-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 0/3] regcache: Avoid accessing non-initialised cache
-Message-Id: <177253682469.22980.6848298061373148002.b4-ty@kernel.org>
-Date: Tue, 03 Mar 2026 11:20:24 +0000
+	s=k20201202; t=1772539050;
+	bh=vXaHvCEHJXa60E12gJk4qXYIo6yuZXE+bxs1JmCmVKI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QMEYOJMB3DeR1jQdolTaUXAdR0T4xlXJUqmGaZ2z2Fb7auuJToYN8vNDDx5lCCpAw
+	 SzgzOogn/OsS2Jhw2ROKEJHX1igHMLBUIzsJ4PhyQXfWxAEXBblCVI1g/YZY/To7i3
+	 qRZT4rb7NcxkziIe0UHAQQk93MJFTpMb+eX8SYirsJu89Bq5Do/w+fdv9vLeDq/hic
+	 Ey2QaLrbeiIZPs7s0MgK2/gUNVBnFTmcBYXQ/ovv1PWIO1EGIg0PF4co8x1vGQhCKt
+	 Mlr8UIgcT6EMfLzt2opMnPSXylZB+OU5L4qsYgU0RHDi2317uZgnJecmrc16iu2rVo
+	 KaL/iRCcpArqA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	hanguidong02@gmail.com,
+	ysato@users.sourceforge.jp,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	abelvesa@kernel.org,
+	srini@kernel.org,
+	s.nawrocki@samsung.com,
+	nuno.sa@analog.com
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-hwmon@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v2 0/4] driver core: generalize driver_override infrastructure
+Date: Tue,  3 Mar 2026 12:53:17 +0100
+Message-ID: <20260303115720.48783-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-38bf1
+Content-Transfer-Encoding: 8bit
 
-On Mon, 02 Mar 2026 10:56:54 +0100, Andy Shevchenko wrote:
-> Refactor regcache flow that populates cache on initialisation phase
-> based on the values in HW. This makes code robust against any possible
-> accesses to not-fully initialised caches.
-> 
-> Changelog v4:
-> - made conditional against 'count' to make it less dependent to the previous code path
-> 
-> [...]
+Currently, there are 12 busses (including platform and PCI) that duplicate the
+driver_override logic for their individual devices.
 
-Applied to
+All of them seem to be prone to the bug described in [1].
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+While this could be solved for every bus individually using a separate lock,
+solving this in the driver-core generically results in less (and cleaner)
+changes overall.
 
-Thanks!
+Thus, move driver_override to struct device, provide corresponding accessors for
+busses and handle locking with a separate lock internally.
 
-[1/3] regcache: Move HW readback after cache initialisation
-      (no commit info)
-[2/3] regcache: Define iterator inside for-loop and align their types
-      commit: 8e29bc88e11928926fd97fc9acd58b8afa38de9d
-[3/3] regcache: Amend printf() specifiers when printing registers
-      commit: 9ab637ac5d3826606947f4e861107da958eda324
+In particular, add device_set_driver_override(), device_has_driver_override(),
+device_match_driver_override() and a helper, DEVICE_ATTR_DRIVER_OVERRIDE(), to
+declare the corresponding sysfs store() and show() callbacks.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Until all busses have migrated, keep driver_set_override() in place.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Note that we can't use the device lock for the reasons described in [2].
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+This patch series includes the migration of the platform bus; patches for all
+other affected busses still need to be extracted as a follow-up of the WIP
+treewide patch in [3].
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=220789
+[2] https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=driver_override
 
-Thanks,
-Mark
+Changes in v2:
+  - Drop DEVICE_ATTR_DRIVER_OVERRIDE() and make driver_override a
+    struct bus_type feature instead.
+  - Add driver_override documentation in .../driver-model/binding.rst.
+  - Move kfree(dev->driver_override.name) before release().
+  - hwmon: axi-fan: Use NULL instead of dev_name() in
+    devm_request_threaded_irq().
+
+Danilo Krummrich (4):
+  driver core: generalize driver_override in struct device
+  docs: driver-model: document driver_override
+  hwmon: axi-fan: don't use driver_override as IRQ name
+  driver core: platform: use generic driver_override infrastructure
+
+ .../driver-api/driver-model/binding.rst       | 48 +++++++++++++++
+ arch/sh/drivers/platform_early.c              |  6 +-
+ drivers/base/bus.c                            | 43 ++++++++++++-
+ drivers/base/core.c                           |  2 +
+ drivers/base/dd.c                             | 60 +++++++++++++++++++
+ drivers/base/platform.c                       | 37 ++----------
+ drivers/bus/simple-pm-bus.c                   |  4 +-
+ drivers/clk/imx/clk-scu.c                     |  3 +-
+ drivers/hwmon/axi-fan-control.c               |  2 +-
+ drivers/slimbus/qcom-ngd-ctrl.c               |  6 +-
+ include/linux/device.h                        | 54 +++++++++++++++++
+ include/linux/device/bus.h                    |  4 ++
+ include/linux/platform_device.h               |  5 --
+ sound/soc/samsung/i2s.c                       |  6 +-
+ 14 files changed, 228 insertions(+), 52 deletions(-)
+
+
+base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+-- 
+2.53.0
 
