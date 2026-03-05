@@ -1,127 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B708238C15;
-	Thu,  5 Mar 2026 20:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0AB3563C2;
+	Thu,  5 Mar 2026 21:14:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772741827; cv=none; b=SHKVOkbflEvGQG7arYB1i300xK0/c4tP2XynO9S+E5mB47rWbRX4yJfEmThfEDaExQ3uDHvcqw/YNVuUL+Ye1YjJuYhrbea+QDDrI3JfPhHbUdu44S0vgGeYZGiQ7n8rpZgz7JS0LaqGFCPGWxh5GGPvSJHoBnAh8LlBieHWv74=
+	t=1772745248; cv=none; b=jpZ6Ae6BukJPzz2AgQSKJOcixYKnvn7jHKhFmw4sjtDCvDvBZwoWxRIY52JC/83mR3eQ8yIPd4aKPtxuOkBc4QCACwXgpBccSZZB3sMUnN+aP9mZGoJsNmIrXtMcf0Gl4/xcRito32If9YyKCd/2mkEEHpHHQMtDg+vZkyNDb9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772741827; c=relaxed/simple;
-	bh=T49Iokg4MDGYhn1yBad35qamzXQshEHGXwEOPwmI3qI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p9PKvcA9Gwcm4+RIOl104j6qvTtf0CjE9SqeY8kqc1ESP++0jXhduB/fT/mzTEg6bYG41kT/aiayeyITat6X+EBayGsU/x+yWA6twFQPlQQfqqNiSYu7SKW91+ubWibCypR4CtxVLz2U8BzigRFjccksIiS4xb0A/nQrHrH8yf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RyPvU7EQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772745248; c=relaxed/simple;
+	bh=o7SvsDX/Z0CGm1kMo2nNS+eOhJ1B4ZN680h0Vvw+fYY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FztmR8JIYeASq1+3SvkbrEhz1PRzOJGV1AAFLz9HebRdZVfv5B9xQyWfUFyZSG9KzwZjbUgnjTnmxEfzNTUbzBepdCg9iheklaVODbIUsW38nrKVYElcG9hSkgDdGLfr4XhJxhXOniTOP8Y4BKzqpqeOO0U0CCdiSm5jru0RUcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUhBhY5b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RyPvU7EQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 859B5C116C6;
-	Thu,  5 Mar 2026 20:17:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUhBhY5b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42C1C19425;
+	Thu,  5 Mar 2026 21:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772741826;
-	bh=T49Iokg4MDGYhn1yBad35qamzXQshEHGXwEOPwmI3qI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RyPvU7EQwmXTLBgsFNsqCesrW94aFdSnTPuhMfRkVQs3IPEHwhSG0VA0vvfl85p+5
-	 2KyVkoJBNT/FibDuxz1j1FlBwRRigxaagrx5IbqQFGMIJF+Uqk8Mrpb7JPgx/FfpWP
-	 IK1GMx4q1W0/ObUbB5Mr1gkM8Q5VxsmFUSnTAOHHRAZYSMlpoOUNYnSQk2Z/0GuPiE
-	 QanIU3+uSEP+51789ZlKF94SLrFObTufBiZOxeA8a9Ah7dlo4mgACYMWvAdx6nm/Xa
-	 QffmgxuKjJpzgkSixU1AOnXYislkN1A8uXMxe2dL9QGMVg9sdeBmqQqQzW1owpDHdd
-	 C9Vg4BpvhYEOA==
-Message-ID: <cf757315-06a2-4d8c-8b9d-f478b431822e@kernel.org>
-Date: Thu, 5 Mar 2026 21:16:59 +0100
+	s=k20201202; t=1772745247;
+	bh=o7SvsDX/Z0CGm1kMo2nNS+eOhJ1B4ZN680h0Vvw+fYY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KUhBhY5bxFy8E+O1cE6Y4sRKxFwaWjBRpOoNLh9I9iO8Pf95c05OaH2xmyj8v5acF
+	 GRFKDoZgja7pcaKU3yuTzuL8LDsTE10XjIvLY6rvYLhavNb7qGYhyB4TiI0TeRmIHw
+	 c+LyMREGJUpPdyr3YDMU+KZnoz2gipLMOuwmr4UbOE+licdT7GESk3vsrZsByNhYkj
+	 pE4vaOF+/FqJhcdnyJ3RjCnh/dM9jL6/uzB+PpaHaeMe0gaHfwRguDPiPDKX9XFN1T
+	 jKxdJu429jUQjdRp+4yHM8JE5cP9QrykWWDBg+8yTi6aJpfytkLSkvjjdvgII1iWfp
+	 qOmphPHpuV6Lg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+In-Reply-To: <20260305085449.3184020-1-andriy.shevchenko@linux.intel.com>
+References: <20260305085449.3184020-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v6 0/3] regcache: Avoid accessing non-initialised cache
+Message-Id: <177274524654.231455.8271605638828669582.b4-ty@kernel.org>
+Date: Thu, 05 Mar 2026 21:14:06 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate
- workqueue
-To: Tejun Heo <tj@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
- <aZx1UpYSNmapYBpU@slm.duckdns.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aZx1UpYSNmapYBpU@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-6ac23
 
-On 23/02/2026 16:42, Tejun Heo wrote:
-> Hello,
+On Thu, 05 Mar 2026 09:52:59 +0100, Andy Shevchenko wrote:
+> Refactor regcache flow that populates cache on initialisation phase
+> based on the values in HW. This makes code robust against any possible
+> accesses to not-fully initialised caches.
 > 
-> On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
->> @@ -568,19 +588,31 @@ alloc_workqueue_lockdep_map(const char *fmt, unsigned int flags, int max_active,
->>   */
->>  #define alloc_ordered_workqueue(fmt, flags, args...)			\
->>  	alloc_workqueue(fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
->> +#define devm_alloc_ordered_workqueue(dev, fmt, flags, args...)		\
->> +	devm_alloc_workqueue(dev, fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
+> Changelog v6:
+> - refactored to make sure we always clean up the allocated resources (Mark)
+> - dropped applied patches
 > 
-> Let's just add devm_alloc_workqueue() and devm_alloc_ordered_workqueue() and
-> skip the legacy wrappers.
+> [...]
 
-Ack, I will replace legacy calls then in the drivers.
+Applied to
 
-Best regards,
-Krzysztof
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+
+Thanks!
+
+[1/3] regcache: Move count check and cache_bypass assignment to the caller
+      commit: 8e2d279724944f788edc633e4888107eae666a37
+[2/3] regcache: Allocate and free reg_defaults on the same level
+      commit: 0cb7ae981894ff1fd0283813a17253250a747cf5
+[3/3] regcache: Move HW readback after cache initialisation
+      commit: e7662bced2e98ffa2c572126677deb9cf55d43b3
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
