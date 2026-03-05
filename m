@@ -1,134 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC768351C1F;
-	Wed,  4 Mar 2026 18:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDB430FC26
+	for <driver-core@lists.linux.dev>; Thu,  5 Mar 2026 08:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772649031; cv=none; b=Y/UWwo1BNLEqWiicU2sg6RvDEv9uTnvqlj9Uie8QYs0Oy4mKP++hm6UOUgfhrscdJy4Y49iRGpACNHf2AONBigUOubkNCDY6FVuI/hwPr26DTyn4hEkTQDPS2xpc36C0ldVhmcWTKRcJE7v6HgSfYC7OsF38X63sYYnHL8mGGt8=
+	t=1772700895; cv=none; b=bP02GD8cRYOF+0c0AexyVS3B7YCwJyT6faxvEZIep7hNZn2/P1+D5Sz/obsi7xU/ev+GRFAmQoHROf3RBnAGZ4ofelVTN5TrTiygL+1XBxgLWiqsncU+l+u7DGUoI9PatJTO0gkqJcN61vzIbK9+aonNT81cgyfBUz++uw+emKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772649031; c=relaxed/simple;
-	bh=3A4++snizBAapyNv68E4VeyeJMe0EyUIxq7+6aoLznk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LXRk/VdMZBzOC3D0aoM9OR+eucAZStdiIHNVxy+nHPu8R07lnV4S6A+5Xz9/wGqNZaRc5Nnbct10AibUQmmTvEC/db9pr2on8+2wllNt5Lzf9nyECbYTN3wDKWLrCZbOQPddxxBaKqEeCPUZbA9r7mvzgn4B+0vWbC3dSG4eMoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMsxj+87; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772700895; c=relaxed/simple;
+	bh=uCDhRz/YziYy/ZVEBYIphoKDsEPiZhCr4o+SajIrYBE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sNdbNphAaQ1NqsZzKqS972BJEY1uSq52dwtioelrT9YSr01mydi3JQdEOiYbXD39EGF6F05OQUqNQmD1VFhXkXVODRTQetZFHgGvW0tSzfgprRC+3X9yQRSCADRKWf/ChN6mYvTOgPfOdusdKqf2WqRjildO+RC/rwSYxQd/Ubo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iWa6eYC8; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMsxj+87"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAFFC4CEF7;
-	Wed,  4 Mar 2026 18:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772649031;
-	bh=3A4++snizBAapyNv68E4VeyeJMe0EyUIxq7+6aoLznk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fMsxj+87FNW8R3BcSUdbOojVubkEI7VXqH9UxVPAUOcHueIEQb1GIz8KKHKTqAqVI
-	 ZDRh6/Vy76t5TbW5ooVwhfM0Z1eW1sFBb4/qX60gdJcTJqEeOzxmT+Q5rZF2AOCy8G
-	 SFhg73lSDr9D807CtE3lcQWrkydaLeVwlwOM7w2II9Caujs0XZ48t60V1T5Lqtx7I6
-	 JB7gaZJmOIGcqdGDqBw7Hh5T6/RknLhXcAs+TTtXbXnqK4xKDfYm2dZFlVDn3jdGaf
-	 VT13DGOk6qaZibn5zURj9ob4JTHGwSpmaCf6WHh8IG1eub1Y1luUumT3GWiFSaZcLq
-	 ACufVT2HiwNJw==
-Date: Wed, 4 Mar 2026 20:30:26 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Peter Colberg <pcolberg@redhat.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	Moritz Fischer <mdf@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, linux-pci@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
-	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iWa6eYC8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772700894; x=1804236894;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=uCDhRz/YziYy/ZVEBYIphoKDsEPiZhCr4o+SajIrYBE=;
+  b=iWa6eYC811kZVggjpOvGvrQ9ykfpghACdAs9e0uXEKRV3xZ7ultsEwuf
+   lU0W+MRJ2fmbQlkXaSgtB08Epf7qbx2i+g5XNYBIDOhBawMvFgldPByIv
+   sFpryvO7hcFFwgRFJ4tbkHO/xWAzTnP89CpvdBM3U0sebR5TmX51mVgu/
+   GwZ+LI6qYTrOZZvkUoMlJydubxTJAbIbWW8cUI3UiwripXIJRKfUiwRlR
+   wlJ/tCVo9q0Ksdi+H6nEct3Z+rTEdYGj1AL2/3pACkHasidfrX+Yms4F0
+   1RlaTNbd1yoGtVsOiIVgAmyb+Nni2Pjjc2UvU5ZE4ZeG/WbXU3DGfQbRh
+   Q==;
+X-CSE-ConnectionGUID: 1GF7louOQ4iYWV2gh41AKw==
+X-CSE-MsgGUID: MeyH1VTDSz+MmNR+wzZsEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73687427"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="73687427"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:54:53 -0800
+X-CSE-ConnectionGUID: YJoJmXfuThK8fR1PVAxIsw==
+X-CSE-MsgGUID: Njl/CuhtQt694S2ELTb/Hg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="216425990"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Mar 2026 00:54:51 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 5FA579B; Thu, 05 Mar 2026 09:54:50 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev
-Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV
- capability
-Message-ID: <20260304183026.GK12611@unreal>
-References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
- <20260304084750.GW12611@unreal>
- <20260304141852.GF964116@ziepe.ca>
- <20260304142600.GB12611@unreal>
- <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
- <20260304162711.GI12611@unreal>
- <20260304164551.GG964116@ziepe.ca>
- <20260304170249.GJ12611@unreal>
- <DGU6RZ7MWNAV.21PQC3NNK05D6@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v6 3/3] regcache: Move HW readback after cache initialisation
+Date: Thu,  5 Mar 2026 09:53:02 +0100
+Message-ID: <20260305085449.3184020-4-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260305085449.3184020-1-andriy.shevchenko@linux.intel.com>
+References: <20260305085449.3184020-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DGU6RZ7MWNAV.21PQC3NNK05D6@kernel.org>
 
-On Wed, Mar 04, 2026 at 06:50:02PM +0100, Danilo Krummrich wrote:
-> On Wed Mar 4, 2026 at 6:02 PM CET, Leon Romanovsky wrote:
-> > On Wed, Mar 04, 2026 at 12:45:51PM -0400, Jason Gunthorpe wrote:
-> >> On Wed, Mar 04, 2026 at 06:27:11PM +0200, Leon Romanovsky wrote:
-> >> > On Wed, Mar 04, 2026 at 03:57:57PM +0100, Danilo Krummrich wrote:
-> >> > > On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
-> >> > > > On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
-> >> > > >> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
-> >> > > >> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
-> >> > > >> > > Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV)
-> >> > > >> > > capability of a PCI device. Provide a minimal set of wrappers for the
-> >> > > >> > > SR-IOV C API to enable and disable SR-IOV for a device, and query if
-> >> > > >> > > a PCI device is a Physical Function (PF) or Virtual Function (VF).
-> >> > > >> > 
-> >> > > >> > <...>
-> >> > > >> > 
-> >> > > >> > > For PF drivers written in C, disabling SR-IOV on remove() may be opted
-> >> > > >> > > into by setting the flag managed_sriov in the pci_driver structure. For
-> >> > > >> > > PF drivers written in Rust, disabling SR-IOV on unbind() is mandatory.
-> >> > > >> > 
-> >> > > >> > Why? Could you explain the rationale behind this difference between C and
-> >> > > >> > Rust? Let me remind you that SR‑IOV devices which do not disable VFs do so
-> >> > > >> > for a practical and well‑established reason: maximizing hardware
-> >> > > >> > utilization.
-> >> > > >> 
-> >> > > >> Personally I think drivers doing this are wrong. That such a driver
-> >> > > >> bug was allowed to become UAPI is pretty bad. The rust approach is
-> >> > > >> better.
-> >> > > >
-> >> > > > We already had this discussion. I see this as a perfectly valid
-> >> > > > use-case.
-> >> > > 
-> >> > > Can you remind about a specific use-case for this please? (Ideally, one that
-> >> > > can't be solved otherwise.)
-> >> > 
-> >> > You create X VFs through sriov_configure, unbind PF, bind it to vfio
-> >> > instead and forward (X + 1) functions to different VMs.
-> >> 
-> >> No, illegal, and it doesn't even work right. When VFIO FLRs the PF it
-> >> will blow up the half baked SRIOV and break everything.
-> >
-> > The FLR can be disabled. For example, PCI_DEV_FLAGS_NO_FLR_RESET flag
-> > will do it.
-> 
-> But this is a quirk and not a feature, no? So, we shouldn't use it as a baseline
-> for actual features.
+Make sure that cache is initialised before calling any IO
+using regmap, this makes sure that we won't access NULL or
+invalid pointers in the cache which hasn't been initialised.
 
-My point is slightly different. I was trying to explain the rationale for
-preserving VFs after the PF is unbound, a design choice that predates the
-introduction of the VFIO .srio_configure callback.
+As a side effect it also makes the ordering of cleaning up
+the resources in regcache_exit() to be the same (and correct)
+as in the error path of regcache_init(). This is not a problem
+right now as they do not have dependencies, but it makes code
+robust against potential changes in the future.
 
-Thanks
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/base/regmap/regcache.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
+index e9d95aa63938..27616b05111c 100644
+--- a/drivers/base/regmap/regcache.c
++++ b/drivers/base/regmap/regcache.c
+@@ -200,14 +200,6 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ 		map->reg_defaults = kmalloc_objs(struct reg_default, count);
+ 		if (!map->reg_defaults)
+ 			return -ENOMEM;
+-
+-		/* Some devices such as PMICs don't have cache defaults,
+-		 * we cope with this by reading back the HW registers and
+-		 * crafting the cache defaults by hand.
+-		 */
+-		ret = regcache_hw_init(map);
+-		if (ret < 0)
+-			goto err_free_reg_defaults;
+ 	}
+ 
+ 	if (!map->max_register_is_set && map->num_reg_defaults_raw) {
+@@ -222,7 +214,18 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ 		ret = map->cache_ops->init(map);
+ 		map->unlock(map->lock_arg);
+ 		if (ret)
+-			goto err_free;
++			goto err_free_reg_defaults;
++	}
++
++	/*
++	 * Some devices such as PMICs don't have cache defaults,
++	 * we cope with this by reading back the HW registers and
++	 * crafting the cache defaults by hand.
++	 */
++	if (count) {
++		ret = regcache_hw_init(map);
++		if (ret)
++			goto err_exit;
+ 	}
+ 
+ 	if (map->cache_ops->populate &&
+@@ -232,10 +235,12 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ 		ret = map->cache_ops->populate(map);
+ 		map->unlock(map->lock_arg);
+ 		if (ret)
+-			goto err_exit;
++			goto err_free;
+ 	}
+ 	return 0;
+ 
++err_free:
++	regcache_hw_exit(map);
+ err_exit:
+ 	if (map->cache_ops->exit) {
+ 		dev_dbg(map->dev, "Destroying %s cache\n", map->cache_ops->name);
+@@ -243,8 +248,6 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+ 		ret = map->cache_ops->exit(map);
+ 		map->unlock(map->lock_arg);
+ 	}
+-err_free:
+-	regcache_hw_exit(map);
+ err_free_reg_defaults:
+ 	kfree(map->reg_defaults);
+ 
+-- 
+2.50.1
+
