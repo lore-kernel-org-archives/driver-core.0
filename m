@@ -1,103 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8432369992;
-	Fri,  6 Mar 2026 04:08:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A23A3596E1;
+	Fri,  6 Mar 2026 11:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772770124; cv=none; b=sisoCdxOtCL1ifnyGVFWmExGmevZ/y35B2x1Lq8l8odr1dCNul2ZQZP8NcyYz1xtXidVfQldDFyp+2gYx6gP/fTvSU0aQOrLx/i0WIj+5INJHwrnDx6UOPhWZ/+ACdluwG6f5Sq5iFf54Yq81W2CTeNxmyq0I8obL1G52i0wBKQ=
+	t=1772796570; cv=none; b=lEA/pu8Gln3vfFrUNo9kVSkGJypqgV7aRlZKXF2gxl/94B9E5DOOWXmUFZg2SLX4j2wADgcaNhKzPfHRGJvEeAKh4RJq18t1i0jbFl64EQdnFJx8OTP+UIxJKsT/TuHDmF7gMv0Oxs5XWq7Xq+NMoF9toVU+JirL557jkozoGeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772770124; c=relaxed/simple;
-	bh=2PV8N8MDNTOIV9r2E8N///4zaacKBlEGosc7fKjx3Ks=;
+	s=arc-20240116; t=1772796570; c=relaxed/simple;
+	bh=XryNqzJpAbwoPPJDceu+o/RMktCv0sL78kkwIFXfp2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s9johSnYA8dEtGmYUeApgoeeQp9dGus9/kuk9DA0q4PRp5jLFK0quefh84qtH7l7WPOCW3r2pCkm8l6X5IxnuV+7fqeM/+Ew5nfU434TrU6olMXfJMDOO8QCwx7nndGo+9IMbz2grgpqv1ZAVPGDvoAF4nSAUCIXgJ1u8RqHivk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tmxtOwOh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOgBWwgizguscq8jIQ/mwve/p7V2i1CfEyscdd9Zld2jYhWiFZLu6ZIs0kwIj6ZgIgfakqnXBMSo4ndggom8aCFNBAcx/3l99c0O6iQGfKw9ZojNHYWuCKpU2P8E3mq+nLz5D4cexIIfHoImLfNqS/jl1BQCDIH0tpMoLGFWFwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqRr2BgD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tmxtOwOh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27164C4CEF7;
-	Fri,  6 Mar 2026 04:08:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqRr2BgD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE51C4CEF7;
+	Fri,  6 Mar 2026 11:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772770124;
-	bh=2PV8N8MDNTOIV9r2E8N///4zaacKBlEGosc7fKjx3Ks=;
+	s=k20201202; t=1772796569;
+	bh=XryNqzJpAbwoPPJDceu+o/RMktCv0sL78kkwIFXfp2Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tmxtOwOhkKzMEj+l4kjbSGSuOg7q9bHOnXBu+LsMBBRZo8TYzqttB3ZNEaxUX6m28
-	 igTKTyxj3cQRvmuvLaRvYHJw+nt5jnTp7wXY0m0QnUm8yu091nD34pKpvnSAIgAccP
-	 uGSdwoFTKF/uACYkjMzjVw6CB1kQiTp6zQpGjdX/pX/SAiO6clV+uztpVXo+ZntuvP
-	 agHB0e4n7vRHhepIRQFJ6LpOgMB2Be8yKcppfPk6Jvp/CpYr9ZeC46kfu4CB73QFsA
-	 XOow38xou8xbkFJRc/SM44AAtfsLR94yXX8ZlwSrgYBRZWXksYlLpcZSRrXYMwN8DN
-	 J+X+j28Gsr7mQ==
-Date: Thu, 5 Mar 2026 18:08:43 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
+	b=KqRr2BgDwmSvs5Hlh9XDngsdSc53G1yIc7aGX1uFjRRiZqnxwB1lRMQoq7QTxqesg
+	 JLfbnw7piKywWe9WtsSPASsCyxqBVPcdadgdgT3IM8ZM5CnX6N5rvkonx1QbasGG2s
+	 rOhRetD5OuGYkCOvvj+lWOYRVK7S6HfjiFhA0xcOZd9JPaT8sATuB85OOD8aiJnfRX
+	 y5ayFUc3Fe6Q8fXtNA6kFZrQTFk7fF/KAxeM4RQp7S34+xaBsSDpmKw6i5ncas/DuK
+	 yUG1/h2o/p2YUu+Yaxam0qqlC+uixpO1i7fkgLzVRc7uyVhZAefMsB+SrgcbquCpaD
+	 A65RtASmO4M2g==
+Date: Fri, 6 Mar 2026 11:29:18 +0000
+From: Lee Jones <lee@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 01/10] workqueue: devres: Add device-managed allocate
- workqueue
-Message-ID: <aapTSyrkqqZ8j_XL@slm.duckdns.org>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
- <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] hwspinlock/treewide: refactor consumer.h from
+ public header
+Message-ID: <20260306112918.GG183676@google.com>
+References: <20260303192600.7224-17-wsa+renesas@sang-engineering.com>
+ <20260303192600.7224-32-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260303192600.7224-32-wsa+renesas@sang-engineering.com>
 
-On Thu, Mar 05, 2026 at 10:45:40PM +0100, Krzysztof Kozlowski wrote:
-> Add a Resource-managed version of alloc_workqueue() to fix common
-> problem of drivers mixing devm() calls with destroy_workqueue.  Such
-> naive and discouraged driver approach leads to difficult to debug bugs
-> when the driver:
-> 
-> 1. Allocates workqueue in standard way and destroys it in driver
->    remove() callback,
-> 2. Sets work struct with devm_work_autocancel(),
-> 3. Registers interrupt handler with devm_request_threaded_irq().
-> 
-> Which leads to following unbind/removal path:
-> 
-> 1. destroy_workqueue() via driver remove(),
->    Any interrupt coming now would still execute the interrupt handler,
->    which queues work on destroyed workqueue.
-> 2. devm_irq_release(),
-> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
-> 
-> devm_alloc_workqueue() has two benefits:
-> 1. Solves above problem of mix-and-match devres and non-devres code in
->    driver,
-> 2. Simplify any sane drivers which were correctly using
->    alloc_workqueue() + devm_add_action_or_reset().
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+On Tue, 03 Mar 2026, Wolfram Sang wrote:
 
-Acked-by: Tejun Heo <tj@kernel.org>
+> Factor out the entries only needed for consumers from the generic public
+> header. This allows for a clean separation between providers and
+> consumers. Also remove contact field in favor of MAINTAINERS entries.
+> Fix the users, too.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> # for IIO
+> ---
+>  Documentation/locking/hwspinlock.rst              |  2 +-
+>  MAINTAINERS                                       |  1 -
+>  drivers/base/regmap/regmap.c                      |  2 +-
+>  drivers/hwspinlock/hwspinlock_core.c              |  2 +-
+>  drivers/iio/adc/sc27xx_adc.c                      |  2 +-
+>  drivers/irqchip/irq-stm32mp-exti.c                |  2 +-
+>  drivers/mfd/syscon.c                              |  2 +-
 
-Please let me know how you wanna route the patch.
+Acked-by: Lee Jones <lee@kernel.org>
 
-Thanks.
+>  drivers/nvmem/sc27xx-efuse.c                      |  2 +-
+>  drivers/nvmem/sprd-efuse.c                        |  2 +-
+>  drivers/pinctrl/stm32/pinctrl-stm32.c             |  2 +-
+>  drivers/soc/qcom/smem.c                           |  2 +-
+>  drivers/spi/spi-sprd-adi.c                        |  2 +-
+>  .../linux/{hwspinlock.h => hwspinlock/consumer.h} | 15 ++++++---------
 
 -- 
-tejun
+Lee Jones [李琼斯]
