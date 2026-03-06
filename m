@@ -1,120 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8081D359714
-	for <driver-core@lists.linux.dev>; Fri,  6 Mar 2026 14:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3262E3A874F;
+	Fri,  6 Mar 2026 14:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772807084; cv=none; b=JTwbSUBYXJZYU+/6RqrbozgI41JhVa7Fl9E1qR+AUKyozRzodayzDmcgWhEV0pifdoDcxKeZM+sx89BTivp98gJCpbHUGonjwHSGHPzIWPZF4qTSow5KoMARAWRZ2dEg2BTS7xkjltJS8aS8fccIU5DybQxgD+XyRJ8/6GLDBBY=
+	t=1772807344; cv=none; b=sfTg8SPy/6kTk0Cnj4XMTdyEdJnw71ikrTZQeZbH4H9nO5aET9WLOIK2UfZrXTDN/98xxC47sPKYuE+qANQl6G6UKgDjAohOCWNUVF8ziwvuPJ3JPqoUb0LIZpZ99LAaGqAWUwRmvH2BxQ0Bo5f4MrkzoL54l/cwRaas1jMMt2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772807084; c=relaxed/simple;
-	bh=hl6pFNxP7jj3KljVsJ9bKVelwITBWKRNPNiCZgqMdC4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lLuR8/EpTaEQnAhRDrSTX89o7JxAw3pVMc4pVb7Rb1MyfBGkZ4i0IAxmoz6HZoWZh3uALvJVRwZBkxQY+gyo0LoBnoGvaGa4kHWeAcykeTYh0DT6Le3rpxdRbyFCti/Swhu3kc8qw2zhNCvBLVjgBrIo2hCeteFinhYXBowuqSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ex0nrsjO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772807344; c=relaxed/simple;
+	bh=hKQUf5WDJPETTYg6XgZVG0XAdpM/T+JEq/CFscr1Cys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDdRIQEH8qDF+v5FZPD37eVIkrOoPUxQfjU9iab/2WJV6IIvmG0LZYAiCgytTl2zPnAak2ec5e5lK0kvg6PyqKSjA8IsjVFMvppCrFcf3a7/tAJSaaLD4sPQASvMF0p7GzN8LbsXPIaImzh31kV7JPW1Bj8mFofCZ2GyQl0SEPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IuzkZO1E; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ex0nrsjO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67933C2BCB0
-	for <driver-core@lists.linux.dev>; Fri,  6 Mar 2026 14:24:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772807084;
-	bh=hl6pFNxP7jj3KljVsJ9bKVelwITBWKRNPNiCZgqMdC4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ex0nrsjO43dbmooTnx5o0/AEl7X+jdgE94PqzTsTl+41YJjU5EDnDYTQ52xd7g6ok
-	 CQPFs0Bk25y5o93zkEr6+0d1KDLWkGtSa/VfBDadTXbNOW/P0FUpDaZjXH0MHJkvJy
-	 SlCo4CGTTe1E9aeR5az3mNtjZTWgMIPPeSmDt/GVm630opgiFspS7kqOKpeyhs+qId
-	 KvXJfp/+oDuWzA/hdDfSjPdmCtAb8P5GeZ6UTbGBJQz1GsoD0L0Uva8oAKaThQqgF1
-	 sjwhpVe8ESFPQ3MDxCcjvpBCmABu0nZJsp+35JjnMky8s1uW5f+LDz84td49w/4MNU
-	 ARj5usrEo30XQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38a41026318so5051741fa.0
-        for <driver-core@lists.linux.dev>; Fri, 06 Mar 2026 06:24:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXLRUeRdmyPVBXO4Dg3TlIJ3TCZkKFzfIIMEbWaJWAu+oJYeVucMTo1EnYwAdNtO7DN04es55U5RcQTVg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOXqJOdDiUmxc8NYebDII6qf8kC+9VK+ISX6XYyT5M9hbCkjQy
-	KCdDB9lImUi9kn4mpmmC5OboPMCSt5FYIH5dcH/H8jrAEmfnywa2OBjmzZY1UJwmn2JbYgJVQGe
-	2yr4TObXRxodS7nxQ99wW8FNkbKKzoKf/sc9D8LoqLg==
-X-Received: by 2002:a2e:ab10:0:b0:38a:27e:b931 with SMTP id
- 38308e7fff4ca-38a40b388bcmr8447511fa.6.1772807083040; Fri, 06 Mar 2026
- 06:24:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuzkZO1E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772807344; x=1804343344;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hKQUf5WDJPETTYg6XgZVG0XAdpM/T+JEq/CFscr1Cys=;
+  b=IuzkZO1EJD/4tXc15zuuTyyzZVlNFdPYjAjEnW28dUdMDQ5VXjKGb9U9
+   blr8VwB/RR/jDLIniwejueBhPcSKPIu9jUKiCuYU14OLJRQHF0nkpTd/H
+   6dwEFH43CKqeMtk8dk5Qd1poHY+7l6jDBnVQW1EzeX7WVogbQ/zEVY9lm
+   Id9ut8UWgDE5sOC4LbsVKG0MCgTBgfYlhCrhd9u1JLiFCzoFDEZN/l8JO
+   pLyyFMw9/ahFhwUeyyJ+kftYVeWmZ9Du6NgVIt/kuJuo7ioeqs8IujHhb
+   mXceXIm3PEdtzUZoRHROo8LLhttddb4v892kTLyAkOCJHhejycCi00bT2
+   g==;
+X-CSE-ConnectionGUID: 1ZIHGI/WQayt85yFU+Xe6w==
+X-CSE-MsgGUID: +rnNsKZhR3O2EMSDJBQSxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11721"; a="73788754"
+X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
+   d="scan'208";a="73788754"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 06:29:03 -0800
+X-CSE-ConnectionGUID: MTr7+eJASyulE9m7KCUGvw==
+X-CSE-MsgGUID: CljKMFE5RsuatuijuZIEVg==
+X-ExtLoop1: 1
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.1])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 06:28:56 -0800
+Date: Fri, 6 Mar 2026 16:28:54 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Tobias Schrammm <t.schramm@manjaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+	Dzmitry Sankouski <dsankouski@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] workqueue / drivers: Add device-managed
+ allocate workqueue
+Message-ID: <aarkpqHShro9kE6-@ashevche-desk.local>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260306-faux-dev-with-fwnode-v1-1-792a86a62530@oss.qualcomm.com>
- <2026030649-evacuate-emotion-422c@gregkh> <CAMRc=MebWaGPG=jMP-QbDsF+uaOSQFQyQ+T8Nhoh2jgo7VrFHg@mail.gmail.com>
- <2026030612-collapse-empower-285f@gregkh>
-In-Reply-To: <2026030612-collapse-empower-285f@gregkh>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 6 Mar 2026 15:24:30 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mdyu=vHEOSfh6wuDaEW_XXS5gi+JO3PvgHB0q4+J+GMZg@mail.gmail.com>
-X-Gm-Features: AaiRm52THfaU4XmFd6fm4aH4qJ4NVJZEh6FshZ52F96OCJ8r_i80QV9Cq3KMVvQ
-Message-ID: <CAMRc=Mdyu=vHEOSfh6wuDaEW_XXS5gi+JO3PvgHB0q4+J+GMZg@mail.gmail.com>
-Subject: Re: [PATCH RFT] driver core: faux: allow to set the firmware node for
- a faux device
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Mar 6, 2026 at 3:13=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Mar 06, 2026 at 03:07:03PM +0100, Bartosz Golaszewski wrote:
-> > On Fri, Mar 6, 2026 at 2:54=E2=80=AFPM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Fri, Mar 06, 2026 at 02:45:56PM +0100, Bartosz Golaszewski wrote:
-> > > > Add a new variant of faux_device_create() taking a firmware node ha=
-ndle
-> > > > as argument and attaching it to the created faux device. This allow=
-s
-> > > > users to define and read device properties using the standard prope=
-rty
-> > > > accessors.
-> > >
-> > > Why would a faux device have firmware backing?  Doesn't that mean it
-> > > should be a platform device?
-> > >
-> > > > While at it: order includes in faux.c alphabetically for easier
-> > > > maintenance.
-> > >
-> > > Hint, that should be a separate patch, and is never something that I
-> > > enforce or require in .c files I maintain :)
-> > >
-> > > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcom=
-m.com>
-> > > > ---
-> > > > Hi Shivendra et al!
-> > > >
-> > > > This patch is related to my response to your reboot-mode patch[1].
-> > > >
-> > > > You should be able to use the new function like:
-> > > >
-> > > >   faux_device_create_full("psci-reboot-mode", NULL, NULL, NULL, of_=
-fwnode_handle(np));
-> > >
-> > > What is the fwnode handle here for?  Why is it required at all?  What
-> > > resources are involved that would want this?
-> > >
-> >
-> > Shivendra creates a faux device that registers with the reboot-mode
-> > subsystem which reads the reboot-mode definitions from devicetree. The
-> > faux device needs to have the "reboot-mode" OF-node attached. In his
-> > current proposal, Shivenda had to bypass faux device's probe() because
-> > he can't have the fwnode attached before probe() is called.
->
-> Why would a firmware device be attached to a faux device?  A firmware
-> device is, implicitly, already part of the firmware "device tree", so
-> there should be something for it to be a child of already in the system.
->
+On Thu, Mar 05, 2026 at 10:45:39PM +0100, Krzysztof Kozlowski wrote:
+> Merging / Dependency
+> ====================
+> All further patches depend on the first one, thus this probably should
+> go via one tree, e.g. power supply.  The first patch might be needed for
+> other trees as well, e.g. if more drivers are discovered, so the best if
+> it is on dedicated branch in case it has to be shared.
+> 
+> Changes in v2:
+> ==============
+> - See individual patches
+> - Link to v1: https://patch.msgid.link/20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com
+> 
+> Description
+> ===========
+> Add a Resource-managed version of alloc_workqueue() to fix common
+> problem of drivers mixing devm() calls with destroy_workqueue.  Such
+> naive and discouraged driver approach leads to difficult to debug bugs
+> when the driver:
+> 
+> 1. Allocates workqueue in standard way and destroys it in driver
+> remove() callback,
+> 2. Sets work struct with devm_work_autocancel(),
+> 3. Registers interrupt handler with devm_request_threaded_irq().
+> 
+> Which leads to following unbind/removal path:
+> 
+> 1. destroy_workqueue() via driver remove(),
+> Any interrupt coming now would still execute the interrupt handler,
+> which queues work on destroyed workqueue.
+> 2. devm_irq_release(),
+> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
+> 
+> devm_alloc_workqueue() has two benefits:
+> 1. Solves above problem of mix-and-match devres and non-devres code in
+> driver,
+> 2. Simplify any sane drivers which were correctly using
+> alloc_workqueue() + devm_add_action_or_reset().
 
-Shivendra: I rememeber there was an issue with using any proper
-devices like platform or auxiliary with this but - as the series is
-already at v20 - I can't find the actual discussion. Could you please
-describe what the issue with driver matching was?
+Thanks, this version LGTM, FWIW,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Bartosz
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
