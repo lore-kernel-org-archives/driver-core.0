@@ -1,77 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F3D3D810C;
-	Tue, 10 Mar 2026 12:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C3C2BEC55
+	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 13:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773146615; cv=none; b=qMXWyYAyDxRqoR8vjbRMBwNXZt3PG2avp5eCa6sj8c6ji0TRFdq+94VinkNQIn8FiKSjZUxR0VKw5cC/yIhaTvr4Q41Vh4e+A/rz3KUHXQisEefRG+KXXMbT1Aun3Kf3NtSTnkJgRSdyPYZYgpVbikTIu4MaBA6I5LBATnh99Po=
+	t=1773148604; cv=none; b=pJXzOXM/lM6V5tzb99lbnomWRf12oLGWpgzBCM2UOGqWH4uleMowpGv3ZHjOkeZIyUCivTbuvbKONH8zgkjt3ssmXXnxmyz/BM57gsyO8pDHS9eaSwFrzOTtAuvcyMe3ekgBKVPJV9FUIbjI3NMLq4oSD9wC6LVy5fdHLA9Eujs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773146615; c=relaxed/simple;
-	bh=LVPNiYTqGtHPeL+FR4qA9NYw3ULapGvTze4WNtxtu64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdTimgD7BC8W6vDtIFFKZR3PswF2NY1hC3n5hxzdt2H0oXrnHGVUIqYtLeg26sQD1MkGQoRjkvBAUFhjZXU8los07V2iNahWlGmWuVW/6FDLSQtNml8AoZDhQo4MYA1kEUGHKsTnEyE3LFHM3WJSrhxgCbqfFKJvxDf8EBzGaEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qqzhxbMw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773148604; c=relaxed/simple;
+	bh=KoB46FfEreNzIXKYkRBsHB9bpvfPrYdBFafRK1zHlD0=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sOcFvlufhjtLSCZ/ZGbHUgu5OdLKyYKHadv73Y2GG655h/Fnh7JUCX11It+JJEx7HT+K66N6jzXRxEgM2HooFq+agB4IFaiy80KvUK55kkw7A8WIeIzgJKwEPu2+PteJFJ3zLzJ93FX3hAF2Z0q1QXQ4wNwXFBhyo43Er8IetRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RmakfBYR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qqzhxbMw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 929AFC19423;
-	Tue, 10 Mar 2026 12:43:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773146615;
-	bh=LVPNiYTqGtHPeL+FR4qA9NYw3ULapGvTze4WNtxtu64=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qqzhxbMwKN74gphIwNVxc4uFq3iclMN08wc6YRPjCwHSD9/TW3uDaOPEli993Jc0S
-	 0XaymFQMQ8CDOuo30GkusxQ2X8bjZTd3gYYqQ1ef4ZrvFdEe94jwn/KcG4vuIKi4g9
-	 y+kbmWD6JYym7d+RCmPu9oKxRxvbDp5hnTOUpyMI=
-Date: Tue, 10 Mar 2026 13:43:18 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, linux-arm-msm@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFT] driver core: faux: allow to set the firmware node
- for a faux device
-Message-ID: <2026031034-blazer-equal-871e@gregkh>
-References: <20260306-faux-dev-with-fwnode-v1-1-792a86a62530@oss.qualcomm.com>
- <2026030649-evacuate-emotion-422c@gregkh>
- <CAMRc=MebWaGPG=jMP-QbDsF+uaOSQFQyQ+T8Nhoh2jgo7VrFHg@mail.gmail.com>
- <2026030612-collapse-empower-285f@gregkh>
- <CAMRc=Mdyu=vHEOSfh6wuDaEW_XXS5gi+JO3PvgHB0q4+J+GMZg@mail.gmail.com>
- <5488a169-777b-4bb3-9566-78083613d40a@oss.qualcomm.com>
- <2026030921-dwindling-tarnish-6141@gregkh>
- <CAMRc=MdWMMi0wP8jd9YMOLqfafwWf5TTbd4diM-fJKk72XVQBA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RmakfBYR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 568BDC2BCB1
+	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 13:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773148604;
+	bh=KoB46FfEreNzIXKYkRBsHB9bpvfPrYdBFafRK1zHlD0=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=RmakfBYRe15zaIKA/rkUVISZw/OXDE4fkDQQBdyXF1zsRRK3XlguZLOidixULSbw5
+	 ptQ9zA+3T2hL28MqxZ9t7rS4ueKVmJW7FcyOJSSmsGBNEU3rSZoAmp58xa9kknP8R8
+	 JjJzq7tqPooByz2mrMiVe7mkEomPTLRNCX/CKYTQMEJ+AGKaYDr3mXjvjpm1Br4S+c
+	 zPnCM56YYH2bzGPU7fKjAy/rkyO76glxnFhZh4WmrDQYUqs/aJfKFyxo0CPCCBLuEp
+	 iuQXZqCqCyqHQsiznGg4U3n7Cplp64qMTCkHDTRrJ0xUiUTKJgap6l5I3o8m/GAW/M
+	 odJ7nmlP/yNmg==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-38a3066b68bso66416441fa.3
+        for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 06:16:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUAHu/p84E8FzDpvo6c5yWfoZfIADKlPJveyRS+B8wTUwrNW7G4vAsYg0PladxKpWXGgfrop4GFAv8WNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuqIVHoslsmVuDZHtunux4I2ghtrzxAuUfu+ycEyPRVhwk0WV/
+	E0CN8nSuqy74vpPvjPQ9i6XMZ3QMjHCNMaNbHBLILub6+YV9a7l6B9LlWW9ZcCf2b+ldGhjKQsX
+	yVqyBGjNZNzmOP/7DjSp+7rf66qy0Diu41ttoITvQoQ==
+X-Received: by 2002:a05:651c:2114:b0:38a:3ad8:6f32 with SMTP id
+ 38308e7fff4ca-38a40d9efb3mr54337311fa.30.1773148602807; Tue, 10 Mar 2026
+ 06:16:42 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 Mar 2026 06:16:40 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 Mar 2026 06:16:40 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <CAMRc=MdWMMi0wP8jd9YMOLqfafwWf5TTbd4diM-fJKk72XVQBA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdWMMi0wP8jd9YMOLqfafwWf5TTbd4diM-fJKk72XVQBA@mail.gmail.com>
+References: <20260306-faux-dev-with-fwnode-v1-1-792a86a62530@oss.qualcomm.com>
+ <2026030649-evacuate-emotion-422c@gregkh> <CAMRc=MebWaGPG=jMP-QbDsF+uaOSQFQyQ+T8Nhoh2jgo7VrFHg@mail.gmail.com>
+ <2026030612-collapse-empower-285f@gregkh> <CAMRc=Mdyu=vHEOSfh6wuDaEW_XXS5gi+JO3PvgHB0q4+J+GMZg@mail.gmail.com>
+ <5488a169-777b-4bb3-9566-78083613d40a@oss.qualcomm.com> <2026030921-dwindling-tarnish-6141@gregkh>
+ <CAMRc=MdWMMi0wP8jd9YMOLqfafwWf5TTbd4diM-fJKk72XVQBA@mail.gmail.com>
+Date: Tue, 10 Mar 2026 06:16:40 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MfxV+rBb5YGOObBZfoTcaSCbXAPjkaEUTpTD0qhLwrFnw@mail.gmail.com>
+X-Gm-Features: AaiRm52yRpM3Fp2VDWrkX4ZaE9iRMXTSnxn0Svb8AF-kstJQXgU_P3bGrG8eWxw
+Message-ID: <CAMRc=MfxV+rBb5YGOObBZfoTcaSCbXAPjkaEUTpTD0qhLwrFnw@mail.gmail.com>
+Subject: Re: [PATCH RFT] driver core: faux: allow to set the firmware node for
+ a faux device
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, linux-arm-msm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 10, 2026 at 01:29:53PM +0100, Bartosz Golaszewski wrote:
-> On a completely unrelated note though - Greg: I think this patch could
-> still be considered because we now have quite a lot of functionality
-> put into software nodes and already have some auxiliary devices that
-> use software nodes as a source of device properties/config using the
-> same API as platform devices (fwnode). I think faux devices could also
-> profit from it and not necessairly use custom struct. If that sounds
-> good to you, I may convert one or two faux devices and send a series
-> with actual users of this.
+On Tue, 10 Mar 2026 13:29:53 +0100, Bartosz Golaszewski <brgl@kernel.org> s=
+aid:
+>> > >
+>> > > Shivendra: I rememeber there was an issue with using any proper
+>> > > devices like platform or auxiliary with this but - as the series is
+>> > > already at v20 - I can't find the actual discussion. Could you pleas=
+e
+>> > > describe what the issue with driver matching was?
+>> >
+>> > reboot-mode node is a property of psci which defines the reboot comman=
+ds.=E2=80=8C As
+>> > its not an actual device we wanted to avoid creating platform or aux d=
+evice.
+>> > few references here:
+>> >
+>> > https://lore.kernel.org/all/rz7tnl5gg73gtyij3kmwk6hubikfsvu3krekjkpoof=
+pdio6cwe@innio7qvotye/
+>> >
+>> > Till v17, we were exposing an explicit of_node based registration in r=
+eboot
+>> > mode and then registering it from psci driver.
+>> > Post this, Lorenzo suggested to move this outside of psci and use a fa=
+ux
+>> > device instead.
+>>
+>> As this is a "real" device that talks to hardware (i.e. you have a
+>> firmware device representation), please do not use a faux device, that
+>> is not what that interface is for.  Instead, as it is a firmware device,
+>> just use a platform one as you already have a representation of it
+>> somewhere in the system, right?
+>
+> While there is indeed a psci node on arm64 platforms, psci itself must
+> be brought up very early - specifically in setup_arch() - so there's
+> no platform device associated with it as the driver is called into
+> before the driver core is initialized. It's just a function called for
+> a specific compatible value.
+>
+> Now looking again at Shivendra's patch, the faux device in question is
+> created from a device_initcall() which makes me think it's not needed
+> very early. It can actually come up quite late. What I would suggest
+> is to create a psci platform device (reusing the existing
+> of_device_id) that would populate its child OF nodes in probe(), in
+> this case: the reboot-mode driver, which could then also become a real
+> platform device.
+>
 
-I don't understand why a device that has a fwnode would ever be a "faux"
-device?  Why wouldn't that just be a normal platform device?
+Actually, the cpuidle-psci-domain driver already binds to that node so it
+would need something like:
 
-faux devices were created to be not platform devices, to take away the
-abuse where platform devices were being used because the api was simple
-and people wanted a device in the tree somewhere, but there was not
-actually any backing platform device present.
+diff --git a/drivers/cpuidle/cpuidle-psci-domain.c
+b/drivers/cpuidle/cpuidle-psci-domain.c
+index b9e4ad7d43a3..f583156a6f41 100644
+--- a/drivers/cpuidle/cpuidle-psci-domain.c
++++ b/drivers/cpuidle/cpuidle-psci-domain.c
+@@ -165,6 +165,10 @@ static int psci_cpuidle_domain_probe(struct
+platform_device *pdev)
+	if (ret)
+		goto remove_pd;
 
-So the use of a fwnode here feels very odd to me, what am I missing?
++       ret =3D devm_of_platform_populate(&pdev->dev);
++       if (ret)
++	       return ret;
++
+	pr_info("Initialized CPU PM domain topology using %s mode\n",
+		use_osi ? "OSI" : "PC");
+	return 0;
 
-thanks,
+Though that also depends on whether we can live with the fact that it can
+be disabled in Kconfig.
 
-greg k-h
+Bartosz
