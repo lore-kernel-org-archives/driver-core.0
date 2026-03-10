@@ -1,108 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5464B33A717;
-	Tue, 10 Mar 2026 17:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880B63D47D8
+	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 17:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773164435; cv=none; b=GajNEKGxyFAuJeZU12K1ICucZqEABgGlQDet3lyGYvJhHIG12TUpEoaZpYmmU4/E86vwVK5Q3/kZNWkAIbw6ry64AbtcQ2XSPFzLmyO3xwxjUZ0U34uL+bKhsnwQZBfian8kFUH0R1oBPKGf+bJYg6xG8mYh/yuqVlj4zO1F6fA=
+	t=1773164707; cv=none; b=VGxE+bN5V5kL6fRYrnxmfLX7roC3+8t0UE0uBVRDizDGKiGvBrtIom1yy9vAzUq/qoqXZjTXpwgF4Vfl1FV1BX0DYhxLkdLwrYT68YnyNr2JJZAJ3vT/6YIcKSxBt0XLzSCTMx6hMGLdQge7o/kj01cRXZO918CpJojKjQ7IXSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773164435; c=relaxed/simple;
-	bh=dZcsL0fWmyyyT+dQAR3Tw27jgu+4nBjdpMoWNfXiRGE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=o8tpO5Ds1SZTCGl0LSk7wUR/wJH0Pw4U6ETFUXzWW8bIRtEdCGGs+0LbNFvCCwQL61Q8Td5U4kcbZx/Sm+RmaCRMpW9sqsPHwbZim3YNAvhhjy63ZOxM/ITkeqWqGx3vDZID7fuTf7RPpYRMmJnm8AcNofF4eyAH1SzUvoU8jTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IU6ukDu/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773164707; c=relaxed/simple;
+	bh=zrAjDthZ4Kq4r9YPrygf3o8/fCs2tJdl3q25xZVyrho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PUytsCbd9j1B6qJjoLaTGPD51qn5q8Rg3tjUEPeFGYarMQ1nmymj1cA9z/jO6EF/heQCo19bGJGujJNyelnv010IcFVCYxEoiOEZ0CENkVeSx8IGbnyD4z/fTz3wxp7q7Sxq9l3Sc+SPbTb9wJlD1XEy0PEOahj2vHKARnUaIAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F9UK2d/S; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IU6ukDu/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93826C19423;
-	Tue, 10 Mar 2026 17:40:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773164435;
-	bh=dZcsL0fWmyyyT+dQAR3Tw27jgu+4nBjdpMoWNfXiRGE=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=IU6ukDu/7o3EsXY4ZbhK5KDzIDLwThH1lDsx5GEybwp0pY4JtE+FqnjeTXLapyu70
-	 f6b/+h80mFDLbb9oEuxyxCqCGPzxmPQS4uBmAF9nbFcT4+APDum+cBkozCm6OW72eL
-	 vWiaomYoj/Mn4OtvuNbv4Z0FS19z652Dqq4SpYm2MCYsvdOiUdIeA544+6sbHYMXRG
-	 akqOK+rUEWkHw4KjvBvGGOuMs1j9tjWoUeXEsM3bTqwaicly4Ul2eldP71Plh1vDCS
-	 18xiQLe0ebXJYGo6uRbM2az2OZuHgvOjFsF5rNVVVsEQlLIu3cXa9K1xn9sQiS7jYo
-	 Ffx0ONT0DD1gg==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9UK2d/S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773164705; x=1804700705;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=zrAjDthZ4Kq4r9YPrygf3o8/fCs2tJdl3q25xZVyrho=;
+  b=F9UK2d/SkQT3RDCShW7Of5Bfsky3UvaFdeuoIf+nuo6rRP7lYcW/uUBt
+   laH/0kVsmhiGOfMj2JRjBlIek6I3RtHgHGwUxu97r4/Lzsm/6oQV/Qsts
+   bEiW+ze+DJrXTHdbGjb9t0ToqLW6VNAC7erp8qLhtC0ZyGh4ZkV71CUfb
+   WxfPgQObwK+5fQZW5bdnpC/7vWG0u+haSk5Z4VjeJVSM/uoNNuBg3GRXE
+   w3TYPERIAIF64DMvAB5DjiIpnNeuTgiuo1VD55MOMjYEvHshqAXQf9uy3
+   U4NI5HBzLUgF0zn0SyAX7KJir2oAwVeLIdM8qYn1hT395LLWoFb/hKNzY
+   w==;
+X-CSE-ConnectionGUID: nYWH3GQuQ36+0kzgp8JCpQ==
+X-CSE-MsgGUID: 7hCq016HQ4q8jPgtbyUIfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85698282"
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="85698282"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 10:45:05 -0700
+X-CSE-ConnectionGUID: XcSFCj1WSQKjf6Oe8WvCwQ==
+X-CSE-MsgGUID: kFSs6Xf2TYK9J+CSw/NQrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
+   d="scan'208";a="215546761"
+Received: from aduenasd-mobl5.amr.corp.intel.com (HELO [10.125.110.11]) ([10.125.110.11])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 10:45:04 -0700
+Message-ID: <127f99e8-f673-4cec-a573-be2257134f59@intel.com>
+Date: Tue, 10 Mar 2026 10:45:02 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] driver core: Add conditional guard support for
+ device_lock()
+To: Li Ming <ming.li@zohomail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Ben Cheatham <benjamin.cheatham@amd.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org
+References: <20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com>
+ <20260310-fix_access_endpoint_without_drv_check-v1-1-94fe919a0b87@zohomail.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20260310-fix_access_endpoint_without_drv_check-v1-1-94fe919a0b87@zohomail.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Mar 2026 18:40:28 +0100
-Message-Id: <DGZABX6ABLN8.SBT6J72KH8YH@kernel.org>
-Subject: Re: [PATCH v4 4/4] gpu: nova-core: fix stack overflow in GSP memory
- allocation
-Cc: <tim.kovalenko@proton.me>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "Alice Ryhl" <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Boqun Feng" <boqun@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nsc@kernel.org>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, <driver-core@lists.linux.dev>
-To: "Tim Kovalenko via B4 Relay"
- <devnull+tim.kovalenko.proton.me@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
- <20260309-drm-rust-next-v4-4-4ef485b19a4c@proton.me>
-In-Reply-To: <20260309-drm-rust-next-v4-4-4ef485b19a4c@proton.me>
+Content-Transfer-Encoding: 7bit
 
-On Mon Mar 9, 2026 at 5:34 PM CET, Tim Kovalenko via B4 Relay wrote:
-> From: Tim Kovalenko <tim.kovalenko@proton.me>
->
-> The `Cmdq::new` function was allocating a `PteArray` struct on the stack
-> and was causing a stack overflow with 8216 bytes.
->
-> Modify the `PteArray` to calculate and write the Page Table Entries
-> directly into the coherent DMA buffer one-by-one. This reduces the stack
-> usage quite a lot.
->
-> Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
 
-Applied to drm-rust-fixes, thanks!
 
---- commit ---
+On 3/10/26 8:57 AM, Li Ming wrote:
+> Introduce conditional guard version of device_lock() for scenarios that
+> require conditional device lock holding.
+> 
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Li Ming <ming.li@zohomail.com>
+> ---
+>  include/linux/device.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 0be95294b6e6..4fafee80524b 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -911,6 +911,7 @@ static inline void device_unlock(struct device *dev)
+>  }
+>  
+>  DEFINE_GUARD(device, struct device *, device_lock(_T), device_unlock(_T))
+> +DEFINE_GUARD_COND(device, _intr, device_lock_interruptible(_T), _RET == 0)
 
-commit c7940c8bf215b9dc6211781c77ce80e76982a723
-Author: Tim Kovalenko <tim.kovalenko@proton.me>
-Date:   Mon Mar 9 12:34:21 2026 -0400
+Can you please just squash this small change to the same patch that is using it? Thanks!
 
-    gpu: nova-core: fix stack overflow in GSP memory allocation
+>  
+>  static inline void device_lock_assert(struct device *dev)
+>  {
+> 
 
-    The `Cmdq::new` function was allocating a `PteArray` struct on the stac=
-k
-    and was causing a stack overflow with 8216 bytes.
-
-    Modify the `PteArray` to calculate and write the Page Table Entries
-    directly into the coherent DMA buffer one-by-one. This reduces the stac=
-k
-    usage quite a lot.
-
-    Reported-by: Gary Guo <gary@garyguo.net>
-    Closes: https://rust-for-linux.zulipchat.com/#narrow/channel/509436-Nov=
-a/topic/.60Cmdq.3A.3Anew.60.20uses.20excessive.20stack.20size/near/57037554=
-9
-    Link: https://lore.kernel.org/rust-for-linux/CANiq72mAQxbRJZDnik3Qmd4ph=
-vFwPA01O2jwaaXRh_T+2=3DL-qA@mail.gmail.com/
-    Fixes: f38b4f105cfc ("gpu: nova-core: Create initial Gsp")
-    Acked-by: Alexandre Courbot <acourbot@nvidia.com>
-    Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
-    Link: https://patch.msgid.link/20260309-drm-rust-next-v4-4-4ef485b19a4c=
-@proton.me
-    [ * Use PteArray::entry() in LogBuffer::new(),
-      * Add TODO comment to use IoView projections once available,
-      * Add PTE_ARRAY_SIZE constant to avoid duplication.
-
-        - Danilo ]
-    Signed-off-by: Danilo Krummrich <dakr@kernel.org>
