@@ -1,79 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73713AE191;
-	Tue, 10 Mar 2026 03:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0144A3659FF
+	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 07:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773113181; cv=none; b=iVCUkrGyQa3/S1yf9NR3idFv2BXvsqKYES1tKhNOjrXJMU7C/Zld09GgYgHGZq86JIhnkDEN8B8I0qTkC4+O/mirKVJdgwPaqjRtMNLTzTvwXG1Mk4th/LGwlOXOgFXwyiux2lupfCPY263whuh1Fg070s+t/l8XHU8TTCcWL/I=
+	t=1773129363; cv=none; b=DRuTkX4Lz0NpV6bQrjlXxy7/RFVHkw1YftLw9JO4BAwNoAT4lvrN6SaRjESJdBYrUxCG3g+rj6J7kh2/Ar+xG7Zkk1yflcPKCjW70C0f9K6wigZp0upfkxshuuA1bFw4XDU9nLz3IWChNRkze0CX3P8fhLKiXsEvfxDSPZchf5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773113181; c=relaxed/simple;
-	bh=CGUraFSadO6xwK8hyPzW2nYZizEbPRWyDuSeFqHRTi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=noORVqIFLpl1/xleDTGFDa57LPvRZX5iUA6Qh572SkiQZ0Zt6/+WPk1n+3UgOBdVdH34MAKPscFtRr+1fsh7WCudZ0l6tAgomJMuUPXZtIw8jwbm1fKRuc50WvtkYmuzI4JZbNpRnm0/LPERNdpvZQRCnuZv3DmQeQk15/aNFyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9f+oybQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773129363; c=relaxed/simple;
+	bh=FMS4BVUajKAUxKcjzcddBgaLVt+yOxMuuGFj9UUkSaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h61hy4QoPb/j0Kbgzr0TZkk0CHAZE3nV5MXCtFM4opygcodGu2D5ZGU8scWjXVBFk1Vh7ql6c/oyxoJFBYnGF4y+E7poVomca/RxR2iwiFjy83tXrFyAgeF6o1dT44dJBFHO/iFpxpeK+d2HIYLkHk0PDu8512tWP2uUFrtu7Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=grFET2Q/; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9f+oybQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63FEAC4CEF7;
-	Tue, 10 Mar 2026 03:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773113180;
-	bh=CGUraFSadO6xwK8hyPzW2nYZizEbPRWyDuSeFqHRTi8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G9f+oybQ39xBTyHNnSSDheYXZsp8GFVDPYcsxsfvYUkmJAY3jmrxUmGkMAnGRLmxj
-	 F4emLXKKU0sgpNy+zSHKXDvyMmmZJ0KtYP84ceCrFU+85OMgjmCk1WgZEcwm4/cjSS
-	 XaumY3JY1DVAPL9VGuQZa8IAPP/U8OoqtKDmN9C2OE3HqhQQEwP1KQjqiMnHUWakRA
-	 y7NrWrWv4CfaDy/cUAcqt/D8DsRdRw40FvVXSKkH3lPuBPUsWg+2eKatLJrZZn/UNs
-	 QsGtZ3DQCc2xcAC/DWLQ62n6e3OcJl3FPKPFoawsV147xwy1ba8qrStY6iNDV2eEhp
-	 +UJ1MboPrYxHg==
-Date: Tue, 10 Mar 2026 03:26:14 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="grFET2Q/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=/a0tRwE4WB1N7m
+	bM38o7pQ2y610kAMXzD8AqisAnlgU=; b=grFET2Q/L5BDbD2xTndWCxfWXxtyl2
+	MrNW6Nu3qAN1EmBl/MYyb9CKwe54CLj7IvlqLMC5IMLgb11+UnMtwsIpNOpeZHWa
+	GVPU+ybqbKsVtIcDblhf8AAmfEvK69zbgwZTCdiSqJFfuZQ3G9lnG2U3m4tzAMVJ
+	QnwiFLc/jqMR9GpmUHV3igEQ4pjuUCRsM0Hm2OZQ1Li9cwvsXq2py2+kvdhFHYP2
+	jC6TKSVnNybFyfIppa6NtLkCKTYZrYUqHsFkz7SYD5URwCS66vb5yN0vG/p3qKDq
+	87t1xNh8zF1QjL/xdXPPlibUyKgxw31YNVsxPQuxV575FpunGlhflHgw==
+Received: (qmail 3112474 invoked from network); 10 Mar 2026 08:55:47 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2026 08:55:47 +0100
+X-UD-Smtp-Session: l3s3148p1@UTnb2KZMmJAujntP
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
 	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 10/10] platform/chrome: cros_usbpd_logger: Simplify
- with devm
-Message-ID: <aa-PViGyA2CTVxHv@google.com>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
- <20260305-workqueue-devm-v2-10-66a38741c652@oss.qualcomm.com>
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v4 00/15] hwspinlock: move device alloc into core and refactor includes
+Date: Tue, 10 Mar 2026 08:55:15 +0100
+Message-ID: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305-workqueue-devm-v2-10-66a38741c652@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 05, 2026 at 10:45:49PM +0100, Krzysztof Kozlowski wrote:
-> Simplify the driver by using devm interfaces, which allow to drop
-> probe() error paths and the remove() callback.
-> 
-> Change is not equivalent in the workqueue itself: use non-legacy API
-> which does not set (__WQ_LEGACY | WQ_MEM_RECLAIM).  The workqueue is
-> used to update logs, thus there is no point to run it for memory
-> reclaim.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Changes since v3:
 
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+* removed useless __iomem annotations (Thanks, sparse + buildbots)
+  So, the newly introduced callback only operates on void* and doesn't
+  use __iomem annotations now. Note that most of the drivers will still
+  trigger a sparse warning because they use an __iomem pointer in
+  .con_priv. But they also did so before this series, so it keeps
+  current behaviour. Fixing these sparse warnings should be done
+  independently IMO.
+* rebased to 7.0-rc3
+* added tags (Thanks!)
+
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structures need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
+
+This series does all that. Patches 1-2 remove the meanwhile unused
+platform_data to ease further refactoring. Patches 3-9 abstract access
+to internal structures away using helpers. Patch 10 then moves
+hwspinlock device handling to the core, simplifying drivers. The
+remaining patches refactor the headers until the internal one is gone
+and the public ones are divided into provider and consumer parts. More
+details are given in the patch descriptions.
+
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
+
+This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
+with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
+branch can be found here (without the MFIS driver currently):
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (15):
+  hwspinlock: u8500: delete driver
+  hwspinlock: remove now unused pdata from header file
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock/treewide: refactor consumer.h from public header
+
+ Documentation/locking/hwspinlock.rst          |   2 +-
+ MAINTAINERS                                   |   3 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/Kconfig                    |  10 --
+ drivers/hwspinlock/Makefile                   |   1 -
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 --------
+ drivers/hwspinlock/omap_hwspinlock.c          |  27 ++-
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 ++++----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  39 ++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  26 +--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  36 ++--
+ drivers/hwspinlock/u8500_hsem.c               | 155 ------------------
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  57 +------
+ include/linux/hwspinlock/provider.h           |  60 +++++++
+ 23 files changed, 260 insertions(+), 444 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ delete mode 100644 drivers/hwspinlock/u8500_hsem.c
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (87%)
+ create mode 100644 include/linux/hwspinlock/provider.h
+
+-- 
+2.47.3
+
