@@ -1,140 +1,80 @@
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76923BB9E6
-	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 16:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773158455; cv=pass; b=Ql/AIeKnqFvn3zQOTOLrYgNdFZwhj2y8UHpsHylv79WG6tQBfGWFxqRauWsy78FoH+0gmoYN434MP6WgwIOfQhrTKs9VOC7zcn3WGuLLWavWCj0Vnrn91WuPqsG7ufL6bZMbTZl7cQM4LRBW0eBQvNGBS6GNY7miKAHIymIKpUA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773158455; c=relaxed/simple;
-	bh=l0EZGmsTcf36X0E0XndNYafXUD0iSTFs/Ybsl7j/4wg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ji12nSCownOoojvUpEOKFaTB6cEFDLNndhKFVX0ZL3taeYCCE1Q+pbtc2WMpv8IAHg6dbNtpcXSRTkKa8waRtrKFr06+MW5gD4x5FFU0zgWz7hCeAjzaM9e7KkbM9OcBwheip7kvdtfvEl5J3rgoU6T5b1JM2jWKhn7ohahaEf4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=aloDEkfq; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18FA28B7DA;
+	Tue, 10 Mar 2026 17:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773162328; cv=none; b=Oz9dvn1pVS7pqAVXyOTtWgo3MwsfDrhhKPLNwhAViatAEZUQgGJxXpBQOrP/njSnp8cWseiNDtxr6GRUc7eqm7PYysCuMybbExrQ2iIbLbaJvdR7GzSDk+ALlnKTaaZ4l2UEOWbx9c1lPbla4VRjXOxAjgQ6SnjiMWrIDcwaJo0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773162328; c=relaxed/simple;
+	bh=8XCjPyMkbQAR6V06f2fG0uPF2MRjPbY71EQ3H3l08wc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=nW0C9Q0CKU+LHhYLKFESVnbNim66QSESUWmsqrje3oMFtGBf7JF2hflwet1+RKTH+Kl3pXKhq1I7covjJ47fXz7LVB6BhtpcFPRFEr230SiwJtdvCR3vRzwi5JlqVt1sQthm1U4/3p/tAHm8m+wAC9mW7C36QOwv01SAOTo59Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qZ5/ht5m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="aloDEkfq"
-ARC-Seal: i=1; a=rsa-sha256; t=1773158329; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FzM16uaNRsGEmv1j0sKR+oAZ35eM6X+xCaV5ghJt6NoXwzAJEdqNnQzRQKx0tYhdR3xKBPA6hd3SgvOOCS5nag1FQbU711rvajWtZHc1LHJLW9L6piyf3W9D2Ocm73SPAfep3OMRg80Ivvxdwr3Y0TrwL3dz5KoJjldQXHMI8/c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1773158329; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Or+ZhAMTBzvjsWuvdXuHp+0M//ZrD+z05kSAxIka534=; 
-	b=n75BaAJKbWdR0WgT4GGYoF8ZrTHIiZtTqhKLrpdt2LdxNhry9K9QrZjvx9Z95jkSJIx0OP3BdwMJlgewwpGt7KwIPQsNDzGaqMDfVrnmliv/Dn0bDYGMBvN1feycNr8brmOdRYpXEUb3DIlqReNfEeFE9dIvdWX5uy/iWQRELH8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
-	dmarc=pass header.from=<ming.li@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773158329;
-	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Feedback-ID:Reply-To;
-	bh=Or+ZhAMTBzvjsWuvdXuHp+0M//ZrD+z05kSAxIka534=;
-	b=aloDEkfqnQ6nql7y0ZQSmqdgK0YRJqPp//XKfVKo7imGRexqrrzwB1spNvdMy9MQ
-	iGOYW84j5M+sFcJ6vltcIfd/jFWwwsODGubZHbKUJMg2Rfo/y2oCFF4g43yoBR5qN/i
-	nYP9JzrKS25tHIAOwBQzPXIZcXg+tGrI+9w+24eM=
-Received: by mx.zohomail.com with SMTPS id 1773158327256164.06898766243387;
-	Tue, 10 Mar 2026 08:58:47 -0700 (PDT)
-From: Li Ming <ming.li@zohomail.com>
-Date: Tue, 10 Mar 2026 23:57:59 +0800
-Subject: [PATCH 7/7] cxl/port: Reset cxlmd->endpoint to -ENXIO by default
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qZ5/ht5m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 696D5C19423;
+	Tue, 10 Mar 2026 17:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773162327;
+	bh=8XCjPyMkbQAR6V06f2fG0uPF2MRjPbY71EQ3H3l08wc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qZ5/ht5ms3Ah+oFoR/5B9Dny7+sVYRd64j9tx0UbyLTN5ydGYKcqcc8UYVYZmdo9h
+	 JculUWPgrSWBRgcKDmNLF4ARZwFYnylvvX9A0HBBAlTivNHNUgng7HGNn6NY08A199
+	 fPaNHAIfOE8WxNzV1SvFrHZeMyp5u9rC234fMx66Ak+fG2xlF02u2be/gaz/CKPGss
+	 T4YRI2hNojcq7tcDO5umYTA2VlMfcFrzrWnBxOth6JQ/nHHaI4EeMwA53uCNFERGHk
+	 Bx4LUhkAPLjF4+vNZT4IyHVTcylZU8ZeCZUFSusapGeLId7xjxCmhrQ5Fx9hicI94B
+	 kh+RHV00suSWA==
+Date: Tue, 10 Mar 2026 07:05:26 -1000
+Message-ID: <1e1412049d60bec19363c3121b19fd48@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Sebastian Reichel <sre@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ Tobias Schrammm <t.schramm@manjaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Lee Jones <lee@kernel.org>,
+ Dzmitry Sankouski <dsankouski@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benson Leung <bleung@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ driver-core@lists.linux.dev,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2 01/10] workqueue: devres: Add device-managed
+ allocate workqueue
+In-Reply-To: <9a9cb7f8-54cc-4c43-a5a0-f022394351eb@oss.qualcomm.com>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+ <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+ <aapTSyrkqqZ8j_XL@slm.duckdns.org>
+ <9a9cb7f8-54cc-4c43-a5a0-f022394351eb@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-fix_access_endpoint_without_drv_check-v1-7-94fe919a0b87@zohomail.com>
-References: <20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com>
-In-Reply-To: <20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Davidlohr Bueso <dave@stgolabs.net>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- Dave Jiang <dave.jiang@intel.com>, 
- Alison Schofield <alison.schofield@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Dan Williams <dan.j.williams@intel.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Ben Cheatham <benjamin.cheatham@amd.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-cxl@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
- Li Ming <ming.li@zohomail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773158297; l=2159;
- i=ming.li@zohomail.com; s=20260210; h=from:subject:message-id;
- bh=l0EZGmsTcf36X0E0XndNYafXUD0iSTFs/Ybsl7j/4wg=;
- b=SrHZ707az/xs/EYPUmfboK4WJhBsFW4feGbAP53xKzFaac55tdRs78uFwwB1wYsmxVR60tIuy
- fC8PSE+Mz/cD19Fcm3vAkCquwVBPHkKCBTVvmJxmYFhZlozATq1+tEn
-X-Developer-Key: i=ming.li@zohomail.com; a=ed25519;
- pk=JfhrdHjyYJMXt47Hy8d/fsqZuhGPD4Z3whV5lTfVvhE=
-Feedback-ID: rr080112282b6530e94dae5804efd3785600006e31b47c2b5aae09232b254a4bd9182b080334dd0fd824d33a8d:zu08011227cbbb50cae64841755ed0894b0000dad46b9af661aeafbcd8e5f654639e165bf1ba1f0bef593437:rf0801122d5ca919e7d48e4540bef9d3c900009b6666f33cd9046ca19669f18119022ca337c4ed2b79b7a1166c7bee699a2e:ZohoMail
-X-ZohoMailClient: External
 
-cxlmd->endpoint is set to -ENXIO by default, This intentional invalid
-value ensures that any unintended access to the endpoint will be
-detectable. But CXL driver didn't reset it to the default value when the
-endpoint is released in delete_endpoint().
+Hello,
 
-Besides, cxlmd->endpoint is updated to point to an valid endpoint in
-cxl_port_add(), but if the device_add() in cxl_port_add() fails, the
-endpoint will be released, but cxlmd->endpoint remains pointing to the
-released endpoint, it may introduce a potential use-after-free issue.
+Applied the first patch to a dedicated branch. Please pull from:
 
-Fixes: 3d8be8b398e3 ("cxl: Set cxlmd->endpoint before adding port device")
-Fixes: 29317f8dc6ed ("cxl/mem: Introduce cxl_memdev_attach for CXL-dependent operation")
-Signed-off-by: Li Ming <ming.li@zohomail.com>
----
- drivers/cxl/core/port.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+  git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-7.1-devm-alloc-wq
 
-diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
-index 0c5957d1d329..ec3cb62b44b7 100644
---- a/drivers/cxl/core/port.c
-+++ b/drivers/cxl/core/port.c
-@@ -834,11 +834,14 @@ static int cxl_port_add(struct cxl_port *port,
- 			struct cxl_dport *parent_dport)
- {
- 	struct device *dev __free(put_device) = &port->dev;
-+	struct cxl_memdev *cxlmd = NULL;
- 	int rc;
- 
- 	if (is_cxl_memdev(port->uport_dev)) {
--		struct cxl_memdev *cxlmd = to_cxl_memdev(port->uport_dev);
--		struct cxl_dev_state *cxlds = cxlmd->cxlds;
-+		struct cxl_dev_state *cxlds;
-+
-+		cxlmd = to_cxl_memdev(port->uport_dev);
-+		cxlds = cxlmd->cxlds;
- 
- 		rc = dev_set_name(dev, "endpoint%d", port->id);
- 		if (rc)
-@@ -865,8 +868,11 @@ static int cxl_port_add(struct cxl_port *port,
- 	}
- 
- 	rc = device_add(dev);
--	if (rc)
-+	if (rc) {
-+		if (cxlmd)
-+			cxlmd->endpoint = ERR_PTR(-ENXIO);
- 		return rc;
-+	}
- 
- 	/* Inhibit the cleanup function invoked */
- 	dev = NULL;
-@@ -1425,7 +1431,7 @@ static void delete_endpoint(void *data)
- 			devm_release_action(host, cxl_unlink_uport, endpoint);
- 			devm_release_action(host, unregister_port, endpoint);
- 		}
--		cxlmd->endpoint = NULL;
-+		cxlmd->endpoint = ERR_PTR(-ENXIO);
- 	}
- 	put_device(&endpoint->dev);
- 	put_device(host);
+Thanks.
 
--- 
-2.43.0
-
+--
+tejun
