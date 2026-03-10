@@ -1,98 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C533AB27B
-	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 13:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD2E199D8
+	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 15:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773148908; cv=none; b=LGV9jfX4p9fRWC+2fHtA9rJmSOEH9ggSUiC7U/zz1nRxupYqIT/xTQBROV615I/VAe9G0o/w6XwKewfteukRhSwDSz0WQ0WstabjjuxFL3yDlI5H3/Q5o52VtZc4giQh9eyFbx3LP2ynvqNBR8VhkFdzWpbyHKLuhO9YL1wD+88=
+	t=1773155404; cv=none; b=sINAWDFnE57CcVLjrgX20yZ1YyaO7Yuw3b/BbUgfRye5h1Wrm2EfYFzZhnVMhAeHPM/4cLRtZNMKRRGN/ZlkmktMR7OBtrGsTvNGY13SfxleeGoS+8sOBDww09guG8KznFr5LFE+A4Q2FIHdyyvn+TJqVIGifFlMSpdQ/5/p5Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773148908; c=relaxed/simple;
-	bh=Hc2i1i6qj/8C5856w2BZ/6732B5yplOCjTNCTOxWPbg=;
+	s=arc-20240116; t=1773155404; c=relaxed/simple;
+	bh=QEW3lhhJANPdrCVBmAIqH1dXUDPD23689ylzZ5dnJco=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tdCsQceD/E5l94njXhAiMwok/LDo2qYU4ZlBgKEGruSJBPKgtGjnDsWhND1VSJ+cLXupi3tutqCKnXDhgf7atGK5nmgsoYTd03mIW11cq7OkgLk0En0MnuKm4QhF4YJSZZqAEZDnJ7ulk0VWSFcfuo7dLf+I5yhAwTK3uada1mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzzJYUSp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzzJYUSp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D6DEC2BC9E
-	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 13:21:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773148908;
-	bh=Hc2i1i6qj/8C5856w2BZ/6732B5yplOCjTNCTOxWPbg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RzzJYUSpKuHtfGDCLbbs8oCtVZ5SoiwVDx1+EdhrVCN4UcHhZ8oBEhkLZzQ3VaOBh
-	 3ACjCge5BR4YJxp9pE1EMl5U0mMCGsxPC/BrGG8gD5FcjDoj8y3XFWQGoMmiYqzWyg
-	 slzGjDLc4lAv2nhaFRdGcIK7BfEzFsDxGAhTHaeOBT6urvxiPJ8LcUKGqz087CLJP+
-	 TMXGTDEypDWu5FYT2nBC3jvhyHXGkDKKh0kVPhnCiMpRbZElzCRQd03io6zWVMBVFo
-	 d8WKPetNOcnvTtcM9gZCua/NaxS8+h+JoLc383Hhriwp4v8fcltVFi0ed7FNfnnZ+H
-	 UQylkXREeA4lw==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a1443780c4so3159521e87.0
-        for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 06:21:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVtZx8bhS6GkWb94Eg6IG8qK4ICJZz4/VQ28RoOH1ZJyaO2C1p9oLeSPBGQzgt3/LlSc1hJ34h9sFXgkg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4dz7iIwoLO5Gl8Fy0Ar3IiUakpxb0KYe3gaWcT1gcc92QGcSn
-	ZJ+QhIMS6DxLQy5fvcVO7xxT8jcysWEhmtcFi7SjyZg4LBylvAaQZ3RT3lOVPwhjAa5etYl4eJM
-	oNRbnoN0NC5VgFstiSCWtp7NlG+cAENLaJsUWNpxYpA==
-X-Received: by 2002:a05:6512:61c2:20b0:5a1:3d15:2861 with SMTP id
- 2adb3069b0e04-5a14e47483dmr949405e87.6.1773148907079; Tue, 10 Mar 2026
- 06:21:47 -0700 (PDT)
+	 To:Cc:Content-Type; b=UZDM7zPXDVncZ8maxoeMBjbr8LQT8ZFLPzfZwH60nR2+17qg9S2AAIZv2p0M1Uxa7999xHyagmS1mGYt3rcbCa2Lspix7NNjtSs3+XKU0xU/PH0zRjNyuwEb5HxhRrvc6MmyrsZIndSwML2MrN5uqXWYHYDwA1hvS8pRVgNcVG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8cd80f56b27so285519885a.1
+        for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 08:10:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773155403; x=1773760203;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Ru18n38/qbgrYN5XhGLEd0K3IukQ/mw6D37X8x0z/qo=;
+        b=FfJSyhmgVgAwpM+Pm3nUU7lmXfvNqBupKdvJY7t2aOJHaDuoyHkTd0gCxEThP9F/QV
+         lpusqF5Lr4wZYu9KRXBdByJ0pA80N0pBkZzJ81m3ZXtZVSrMx1TrrIveHy1vfzwIoWJ8
+         L55YzqfrV2DOKL8WLa6op4L6vfT7IwXacyJWW8HdRDeKx38C/F5RcEheElCnnHzulD0e
+         RLDfa3ycGZLvCX5yk103GKftrqqhu1Vthptpf9J4UpCJe72xUBJ99ym2Y67uNTh3qd9w
+         abxO6Q2QHrb9wSqhV+PN4UPfZ65nSHQALqTF6siPakJuU6JvjM5/xiK4krLmp0BZMpL7
+         5cfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXHO980YPaJQyc5GBBkeNl/RqiSl59WnEazYj1wFFkiJpCHhBTTqpoVPzZOKTZUuAoZxdGCC+5VNhumA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxkk6pCDzILkwXx1yiZByeYkP89ne5zSugotbdwC1tpRhtfTLys
+	dVody9/OSfIEMeV2f+IxFdf+vbUIeqXHrwLaTjZPuBh2HPNidZ05uzh9g5E3q9TV
+X-Gm-Gg: ATEYQzzSp9lf3Bwve5C7WW5Uxt9z0xHfT66bnNjuIdjQvbzL6+PA7dvIZao4rDQI8FU
+	s0v6CeOK9bbjIxWLfhfkFLeJO/ujlaFmUDsxmjR3dZ94Au4ArwFTsHsDqDsmRksaLBQJGSRmkm0
+	vZQ/oZOJJDm2FWhtCmScR0aKXl7KNhcYQhLaZ9CGVn8CaRqy1PhAGr2NE28Pbh2gW1/dJA4V9sx
+	LcWi1GpBTIL9FSLmKRs4lFWsCfopOBd6D9sBVZoMkHUql9Tj1R1F9LUgjpWQi9aRBNYaoxbUzWf
+	5NGPi9xaOKEqJEs1fBKpt2S0Ymt9cYaZ7SmGaF5cDGlAybdtsV+53v1zm9SkUPypPsBMTdx8TGm
+	1Jb2fVys9gubKSMizPky6/Xi5ulqXiiSJY+zK+Slk5TJvXBeTNrW+0zzuE9QQeWMs2SfRaMBoVJ
+	FxAJD6ZPnkjUTJF3bcUsc1LPzKxuLpcb/JsQHpqjOX7wswcSNMptPD0UYx3E0+MCCb
+X-Received: by 2002:a05:620a:468d:b0:8cd:926f:6474 with SMTP id af79cd13be357-8cd926f6747mr579599685a.25.1773155402305;
+        Tue, 10 Mar 2026 08:10:02 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cd7ea02664sm580729685a.5.2026.03.10.08.10.02
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Mar 2026 08:10:02 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-506251815a3so116517321cf.0
+        for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 08:10:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXoQm4bQLE5/SgVW/tKD9uSs+PgTl9H9TnH0ZB2AULBKcwjQxsIo5F2f78GKOdKxaXEyA0yUO1QZft/tw==@lists.linux.dev
+X-Received: by 2002:a05:6102:c8f:b0:5f1:70fe:3027 with SMTP id
+ ada2fe7eead31-5ffe6121c90mr5181206137.24.1773155033187; Tue, 10 Mar 2026
+ 08:03:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260306-faux-dev-with-fwnode-v1-1-792a86a62530@oss.qualcomm.com>
- <2026030649-evacuate-emotion-422c@gregkh> <CAMRc=MebWaGPG=jMP-QbDsF+uaOSQFQyQ+T8Nhoh2jgo7VrFHg@mail.gmail.com>
- <2026030612-collapse-empower-285f@gregkh> <CAMRc=Mdyu=vHEOSfh6wuDaEW_XXS5gi+JO3PvgHB0q4+J+GMZg@mail.gmail.com>
- <5488a169-777b-4bb3-9566-78083613d40a@oss.qualcomm.com> <2026030921-dwindling-tarnish-6141@gregkh>
- <CAMRc=MdWMMi0wP8jd9YMOLqfafwWf5TTbd4diM-fJKk72XVQBA@mail.gmail.com> <CAMRc=MfxV+rBb5YGOObBZfoTcaSCbXAPjkaEUTpTD0qhLwrFnw@mail.gmail.com>
-In-Reply-To: <CAMRc=MfxV+rBb5YGOObBZfoTcaSCbXAPjkaEUTpTD0qhLwrFnw@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 10 Mar 2026 14:21:35 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MdGKu-3eV2kNKvZz6eDbtcGfOCOyA3XZxRXKoGh6RjaOA@mail.gmail.com>
-X-Gm-Features: AaiRm53c8PWjGI40GND30ZAMlC7ysJ8tfbal5hr0nmVntTMkoBLWXSsvA37N_B8
-Message-ID: <CAMRc=MdGKu-3eV2kNKvZz6eDbtcGfOCOyA3XZxRXKoGh6RjaOA@mail.gmail.com>
-Subject: Re: [PATCH RFT] driver core: faux: allow to set the firmware node for
- a faux device
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20260227135428.783983-1-herve.codina@bootlin.com> <20260227135428.783983-3-herve.codina@bootlin.com>
+In-Reply-To: <20260227135428.783983-3-herve.codina@bootlin.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 10 Mar 2026 16:03:42 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVVsEB-xb8Jz4ujBam2NxtxAOb7byYa3VR_eHsbTD5rXw@mail.gmail.com>
+X-Gm-Features: AaiRm53b7liJL7XJhyMA-JPl81LkjhC0Orfn04kAcG7__Cf3-wDY5cIOlphhcC4
+Message-ID: <CAMuHMdVVsEB-xb8Jz4ujBam2NxtxAOb7byYa3VR_eHsbTD5rXw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/28] driver core: Rename get_dev_from_fwnode()
+ wrapper to get_device_from_fwnode()
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Kalle Niemi <kaleposti@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
+	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Mark Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Saravana Kannan <saravanak@google.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 10, 2026 at 2:16=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
-g> wrote:
->
-> Actually, the cpuidle-psci-domain driver already binds to that node so it
-> would need something like:
->
-> diff --git a/drivers/cpuidle/cpuidle-psci-domain.c b/drivers/cpuidle/cpui=
-dle-psci-domain.c
-> index b9e4ad7d43a3..f583156a6f41 100644
-> --- a/drivers/cpuidle/cpuidle-psci-domain.c
-> +++ b/drivers/cpuidle/cpuidle-psci-domain.c
-> @@ -165,6 +165,10 @@ static int psci_cpuidle_domain_probe(struct platform=
-_device *pdev)
->         if (ret)
->                 goto remove_pd;
->
-> +       ret =3D devm_of_platform_populate(&pdev->dev);
-> +       if (ret)
-> +              return ret;
-> +
->         pr_info("Initialized CPU PM domain topology using %s mode\n",
->                 use_osi ? "OSI" : "PC");
->         return 0;
->
-> Though that also depends on whether we can live with the fact that it can
-> be disabled in Kconfig.
->
+Hi Herv=C3=A9,
 
-Sorry for the noise but I forgot to add that in that case, maybe it
-would be better to provide an MFD driver binding to the psci node and
-creating separate cells for cpuidle-domain and reboot-mode.
+On Fri, 27 Feb 2026 at 14:55, Herve Codina <herve.codina@bootlin.com> wrote=
+:
+> get_dev_from_fwnode() calls get_device() and so it acquires a reference
+> on the device returned.
+>
+> In order to be more obvious that this wrapper is a get_device() variant,
+> rename it to get_device_from_fwnode().
+>
+> Suggested-by: Mark Brown <broonie@kernel.org>
+> Link: https://lore.kernel.org/lkml/CAGETcx97QjnjVR8Z5g0ndLHpK96hLd4aYSV=
+=3DiEkKPNbNOccYmA@mail.gmail.com/
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Saravana Kannan <saravanak@google.com>
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-Bart
+FTR, one more user of get_dev_from_fwnode() appeared in commit
+9035073d0ef1de81 ("reset: convert reset core to using firmware nodes")
+in reset/next.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
