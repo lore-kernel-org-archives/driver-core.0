@@ -1,50 +1,25 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3D036B076
-	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 20:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71756274658
+	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 21:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773176014; cv=none; b=NRLY8cFnra4LWh5XUaHxTSZy7/45y13gXQnGH+gchib6qIvW6SOMBkHh6ti/cE99NeCyutHleqiORSVa5UMzHq2T2AJZjQXSjWoWw0UpsaWlzqrXRtR8U6FRMPjNVoz//evA2BQP5ecwIniCXW/Am9KxWsgR6hzJj0vi+xmNtP4=
+	t=1773176628; cv=none; b=YlQGyHtAOuV6ycbmoNo+X7F+vmcRZBQt6OADU+269EyfsRA4xVDHLd2+RTO573ZxR1B2bpPGp3pFlLUHX6Xvi05RwkCfzy0iTAA2zU/1Akntv+xiKWbAbyXw7F9uy+JVTtTkptCkZ7dUOsn4pSRbOFCjgrtR7xcU6JerXuq+YcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773176014; c=relaxed/simple;
-	bh=XjgbHG3+bY+m5/EqVhFiacMUIZTgRuvCTMrdWRiuymU=;
+	s=arc-20240116; t=1773176628; c=relaxed/simple;
+	bh=wvFFbyl5VN0FXyuzOFNsi/DYncegnMaFuWdcoiLeGdk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jTyvpj4Y59idps6yan6QfjhGUBZIDNdZKI/JOTlYgja77CdYFuMXeQlcgytYSrvrdaUjoF0bszq+SUkmajkPXDlT8lc0TTppwOn45TPeVC3mx+odz9XSsuJQfZiles6ijFh2tMPsLmja7C7hbcy46TdU6sUmhFwwLfREvLm28Yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LppxghGq; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LppxghGq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773176012; x=1804712012;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=XjgbHG3+bY+m5/EqVhFiacMUIZTgRuvCTMrdWRiuymU=;
-  b=LppxghGqfpDsP8bgEu8yFjZSZEsrxq7YCEuoe17vqdUVgcMQid+nyPlQ
-   s87QbWzhLkCPzYuLYOePu2CrFrSFlpY6UVjx/i7SmTNI/dwOIbf6F+Ebf
-   ybZZLuZw1Iw9XyXXtflGTQIF2BqwwH6psdAA3D4/USbMu4qKPtI1jlLbT
-   pdBxYA68yfa/t2xmHjtoTjfQuYKT25c7a5uYVOCJb+lJQKr6VIMK/uDL5
-   wTMXElYhG82tNsbWcOmiHqEN3nqOvHo4jKqSRvt6pA+gmj6bfxwjQgVuo
-   l2wcBi0aUoDx0F8fCil+v3CK7C/m2W9uGZKNeG4eDRYpIlrHCwRCb3OuC
-   Q==;
-X-CSE-ConnectionGUID: //GmgJ6lTaKiaJAJroMg6w==
-X-CSE-MsgGUID: 1WDNQ/NUQgm8/Wod/1bCow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85711949"
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="85711949"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 13:53:31 -0700
-X-CSE-ConnectionGUID: HaTlWljNQYeJRE8YX4igfw==
-X-CSE-MsgGUID: Dt5UyB3rSXCKBoTB2iCrfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="216975314"
-Received: from aduenasd-mobl5.amr.corp.intel.com (HELO [10.125.110.11]) ([10.125.110.11])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 13:53:29 -0700
-Message-ID: <791eb867-4f60-4634-8776-b670a62a8468@intel.com>
-Date: Tue, 10 Mar 2026 13:53:28 -0700
+	 In-Reply-To:Content-Type; b=gVW1LNw3uE8HrTXmqoRybG0wNr+PDJcBuW8WdG5TIvZ0i8eNM19uGnAwqz3BWqtyZh7RK0/CjuEQH6cKyTFkdbL5dQJbJPvsy6wUF0B3qWSALiVVQodCWBk/J6Yd04OzAXe+57dkON9knOFDUWYnTWkY8OiaqSmkFqDoBf7Na6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 577941596;
+	Tue, 10 Mar 2026 14:03:34 -0700 (PDT)
+Received: from [10.57.58.37] (unknown [10.57.58.37])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A1E93F694;
+	Tue, 10 Mar 2026 14:03:35 -0700 (PDT)
+Message-ID: <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+Date: Tue, 10 Mar 2026 21:03:32 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -52,103 +27,114 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] cxl/region: Ensure endpoint is valid in
- cxl_dpa_to_region()
-To: Li Ming <ming.li@zohomail.com>,
+Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Heiko Stuebner <heiko@sntech.de>, Niklas Cassel <cassel@kernel.org>,
+ Shawn Lin <shawn.lin@rock-chips.com>, Hans Zhang <18255117159@163.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>, linux-pci@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>,
+ Grimmauld <grimmauld@grimmauld.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Ben Cheatham <benjamin.cheatham@amd.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org
-References: <20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com>
- <20260310-fix_access_endpoint_without_drv_check-v1-5-94fe919a0b87@zohomail.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260310-fix_access_endpoint_without_drv_check-v1-5-94fe919a0b87@zohomail.com>
-Content-Type: text/plain; charset=UTF-8
+ driver-core@lists.linux.dev, Lukas Wunner <lukas@wunner.de>
+References: <20260226101032.1042-1-linux.amoon@gmail.com>
+ <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
+ <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
+ <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+[ +driver-core maintainers - async probe question below ]
 
-
-On 3/10/26 8:57 AM, Li Ming wrote:
-> cxl_dpa_to_region() needs to access the endpoint of the given CXL memdev
-> to confirm whether the CXL memdev has memory range attached to a CXL
-> region. But it is possible to be called before endpoint allocation or
-> after the CXL memdev probing failure.  In these two cases,
-> cxlmd->endpoint is invalid.
+On 2026-03-10 3:30 pm, Manivannan Sadhasivam wrote:
+> Hi Robin,
 > 
-> To solve the problem, cxl_dpa_to_region() requires that callers have to
-> hold the given CXL memdev lock, it guarantees the CXL memdev probing has
-> completed. And cxl_dpa_to_region() will check the given CXL memdev
-> driver binding status, if the memdev has bound to the driver, the
-> endpoint is guaranteed to be valid. This checking also requires the CXL
-> memdev lock held.
+> On Tue, Mar 10, 2026 at 01:41:56PM +0000, Robin Murphy wrote:
+>> Hi Mani,
+>>
+>> On 2026-03-04 6:48 am, Manivannan Sadhasivam wrote:
+>>>
+>>> On Thu, 26 Feb 2026 15:40:23 +0530, Anand Moon wrote:
+>>>> Rockchip DWC PCIe driver currently performs synchronous link training for
+>>>> combo PHYs (PCIe 3.0/2.0 and SATA 3.0) during boot. This process waits for
+>>>> the link to be fully established, adding several milliseconds to the boot
+>>>> sequence. To optimize boot time, this change enables asynchronous probing,
+>>>> allowing link establishment to proceed in the background while the kernel
+>>>> continues probing other devices.
+>>>>
+>>>> [...]
+>>>
+>>> Applied, thanks!
+>>>
+>>> [1/1] PCI: dw-rockchip: Enable async probe by default
+>>>         commit: ec392abc95932838bf7e3d659d358f4df9ff5a0a
+>>
+>> This appears to have the side-effect that calling pci_host_probe() from
+>> async context can effectively force async probe for the endpoint drivers
+>> as well, but some drivers are not OK with that, as our CI has just
+>> flagged up.
+>>
 > 
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Li Ming <ming.li@zohomail.com>
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-
-> ---
->  drivers/cxl/core/core.h   |  4 ++--
->  drivers/cxl/core/region.c | 11 +++++++----
->  2 files changed, 9 insertions(+), 6 deletions(-)
+> Thanks for reporting!
 > 
-> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
-> index 5b0570df0fd9..fa8402be860f 100644
-> --- a/drivers/cxl/core/core.h
-> +++ b/drivers/cxl/core/core.h
-> @@ -47,7 +47,7 @@ int cxl_decoder_detach(struct cxl_region *cxlr,
->  int cxl_region_init(void);
->  void cxl_region_exit(void);
->  int cxl_get_poison_by_endpoint(struct cxl_port *port);
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa);
-> +struct cxl_region *cxl_dpa_to_region(struct cxl_memdev *cxlmd, u64 dpa);
->  u64 cxl_dpa_to_hpa(struct cxl_region *cxlr, const struct cxl_memdev *cxlmd,
->  		   u64 dpa);
->  
-> @@ -58,7 +58,7 @@ static inline u64 cxl_dpa_to_hpa(struct cxl_region *cxlr,
->  	return ULLONG_MAX;
->  }
->  static inline
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-> +struct cxl_region *cxl_dpa_to_region(struct cxl_memdev *cxlmd, u64 dpa)
->  {
->  	return NULL;
->  }
-> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-> index 806512dfab07..c555e3ae8b62 100644
-> --- a/drivers/cxl/core/region.c
-> +++ b/drivers/cxl/core/region.c
-> @@ -2947,16 +2947,19 @@ static int __cxl_dpa_to_region(struct device *dev, void *arg)
->  	return 1;
->  }
->  
-> -struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa)
-> +struct cxl_region *cxl_dpa_to_region(struct cxl_memdev *cxlmd, u64 dpa)
->  {
->  	struct cxl_dpa_to_region_context ctx;
-> -	struct cxl_port *port;
-> +	struct cxl_port *port = cxlmd->endpoint;
-> +
-> +	device_lock_assert(&cxlmd->dev);
-> +	if (!cxlmd->dev.driver)
-> +		return NULL;
->  
->  	ctx = (struct cxl_dpa_to_region_context) {
->  		.dpa = dpa,
->  	};
-> -	port = cxlmd->endpoint;
-> -	if (port && is_cxl_endpoint(port) && cxl_num_decoders_committed(port))
-> +	if (cxl_num_decoders_committed(port))
->  		device_for_each_child(&port->dev, &ctx, __cxl_dpa_to_region);
->  
->  	return ctx.cxlr;
+>> (And as for that particular warning, ISTR last time I looked into it
+>> another context, the opinion of the MDIO/phy maintainers seemed to be
+>> "don't force async probe".)
+>>
+> 
+> This was discussed during v2 [1] and concluded that the async probe benefits
+> outweigh the unharmful splat from phylib. I also agree with the above conclusion
+> that this splat should not prevent us from enabling async probe for PCI
+> controller drivers. It can easily save a few 100ms during boot.
+
+The problem is not an "unharmful splat" from one driver on one board - 
+that's *a* symptom, and the fact that it happens to be a relatively 
+benign one does not dismiss the problem that forcing async probe upon 
+drivers that are not designed to support async probe cannot in general 
+be assumed to be safe, so is not OK. It's one thing if a user brings it 
+upon themselves by explicitly using the "driver_async_probe=" option, 
+but it's very different if some other driver starts doing it for them.
+
+Looking closer, it seems like the fundamental issue might be when we've 
+got this far (simplified for clarity):
+
+- async_run_entry_fn
+   - rockchip_pcie_probe
+     - pci_host_probe
+      - pci_bus_add_device
+        - device_initial_probe
+          - __device_attach_driver
+
+wherein we then reach the "if (data->check_async && async_allowed != 
+data->want_async)" condition, at which point check_async is true (from 
+device_initial_probe()), while async_allowed and want_async are *both* 
+false, but that leads us to actually go ahead and call 
+driver_probe_device() for the child device despite being in async 
+context. That doesn't seem right to me - I'm guessing it maybe wasn't 
+anticipated to have bus drivers calling device_initial_probe() from 
+within async in the first place?
+
+It may not strictly be the fault of this patch - clearly 91703041697c 
+("PCI: Allow built-in drivers to use async initial probing") is 
+implicated in this too - but the fact is that it *has* exposed a bug 
+that needs fixing one way or another, it can't just be left hanging and 
+impacting end users.
+
+Thanks,
+Robin.
+
+> 
+> - Mani
+> 
+> [1] https://lore.kernel.org/linux-pci/aYHVlS1nbCMMyF04@ryzen
 > 
 
