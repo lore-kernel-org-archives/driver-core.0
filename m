@@ -1,51 +1,54 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011043.outbound.protection.outlook.com [40.93.194.43])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021125.outbound.protection.outlook.com [52.101.100.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639FB2D94BA
-	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 01:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5822E9749
+	for <driver-core@lists.linux.dev>; Tue, 10 Mar 2026 01:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.125
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773106864; cv=fail; b=mFb19EuIW5/qtyBEE7/wwwjaxsro4WcvVfIVp+KN+gNgkY4f/paL5Nqef6PVyLrfxt8EO8XdWZvW+R93SNrPKB+EokxOGMCSMILQJgTHtDEcG0nx7j0NxPeyAK1LZhSn1RNuF3oqYcWcgft7I16UucS7E3jh2k8fXfLfJL88MA8=
+	t=1773107503; cv=fail; b=j3DTwA18q5ZnfWIX2T0I2EHJBx2R37ai6hUuUXr/4saBWCEwAUq/fqEGmBMMnb0ETTE1j1FSGvh5wO4tiPNjwMJ7Q/DLaq6cx11+6ZVDA5y/KDrBFA1i58YK24Yr2rMq5dmsPuk5nE2C3WYzPQBmdOl9GyfvbYlndr4sAsA09tY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773106864; c=relaxed/simple;
-	bh=mYDdY0Hx2n5/uzLB6kKrmKY5LJALV1nuMupoLmfinRI=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=kVEQ2jPujik2yYZwbc161zLHIUJBDNS4NbtWWMLnsgdJKwvyHKYta/19CVQCQmx+wtPfMDyhcn+REhch5GWBHIOIRzmZV7YuXUWo5x0BpUca6vdDE8sLS0Q7+7LMRf7ccclfqYE/bC7vgbofB4ALmAEY2+MjHTdvPGLoKlIymCI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Uuk8VWP9; arc=fail smtp.client-ip=40.93.194.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1773107503; c=relaxed/simple;
+	bh=0EpLjToYatR7LMKtit2CszTUoCTW9nf/9XNe2TL38Ko=;
+	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
+	 In-Reply-To:MIME-Version; b=pyFPi0BgSYIQ3L97fuXFtNLY7BMd0bNMX49Z7GIdY+JzcCKyQLUQ/6BOgUp3VkEEjoCT3fxV7Ij8Keih5URLMP6OUaqDCxbVeRwuD4zcNO46GetHhDY/ZLkB9hZ1OMhr1/rlNXul4sifYjjOk8x1DGkDHexUYQL0HVV2w75zNyk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=khVBwx+D; arc=fail smtp.client-ip=52.101.100.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Uuk8VWP9"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="khVBwx+D"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iK10hO8OIX3FkGW8lnXtwrl+gSAzknDnMx/wYvV8msVxYt1RePVWKStUvSY4RY0fza9z7k98DgXcv3xB5s+53XebQzuthT+UySEr8L/yLrb0Un0CvNkPqJPwSsI3iMAZeVNak5J1pHFTti+Vt90TmcQvvQ65IzVPRKQsDq8iniTG7UnZeiH4E382Ze2MMfqlU65EJw+qRXoJeHzBeMOsA9jmtrdC0LVinwmyUF0sTC6hLrVdtoZLoGrSl5SwCJN75RUmsHroPjB45EV5lqo5RT3fNyhJcB5vWrXmcyLNKJ8xfQ9WbjZp7IEokRg2S5zgBDk6KYh5x5/rNgUH4sVvOg==
+ b=W5bC4NrXCra5Gei9J+Zg4nceQ51bJEIq0k/Pz28S0JFnUNiYmQPpmxrIwGE7efpx0lWydljhbwnVcyIEFD5gMfUrCq35GC+OEGyyORUWBVLzuUNkIZzNEfHFIiiZC1LoIP2FJY2YzluNNyrqRhjkekyP+xSnksnnlvyA0DKPkPMz1ugw/XPZJDtpSUsdcL1ty6j0u1SAPyV8fxHlQtHU/LDp0Ll2Kqb9LotIthEzo3f6EsWF24ASYK6IWSKyhg9GBMV2nenNl5KYqRwmN/hSWPXFHBfaX5I1qWGX8YKwzjOIgEk6M3nfyuNmch+FOsjH2kOFlmV1YcoT/sUCX0exog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L2foxQqAy+Ta3qfPEORkdZVPXoJvJbLFBMY90fSmfgo=;
- b=UfPGMyEUGBPZiwCXs0jX5b0o79IW05zFzg8Wd4Jj8wP+DqLxHYAr2qBD+Yk+8ApPsYE8I2IzO19mJovBGzMf5pY+7nDlfQLIc0fzHcNc5gbRdqxihnompjv8sgxJhHiufZTkQn/dmO+aY/qjbFYYLiQ6NH/XBaGEbtquBeav7r0LunYBnrTjkJNScaoD5RYKZ+y1yR68ZtBEqD8ChKwtLbqopsKIibOUy1Fq7nw9ARTTsFYjva3VXxnbgasfjSnoMfddVtSBzjqG/3af3D0Ytnjmm5uptePLK5zMweFqqe2WgsPyHfupEiPC/HcrClAYR7LEWZIl3xLjDFgGy6eoAA==
+ bh=VAa5Uq2ShCUgqc8O+WS4odVB9frWq6QG95twxwSypHg=;
+ b=zBrunOHLHpqIStAl1czpigR2AYicwp0m4pQRWjBff1iYyANyoPoqhAXlRPnnjNT0fPYg7XsMfJwJbNAtjVwQb4O4P6Vh1uo0AJSvQ98U288avzj0Oh/WM9FXWNALxk5GLG721FTWwAFp+NzdpP/jdlsTv/MN6Ij5IatYA5XDYJ9s6huQnrfHcD+5Lkbig/HZaWOC62gpWIPDBTHMmAASQwJYgWqdJ3NQV36uoUr+0TFZt52mTzVhfS8XNn3/zYuHqRFXBINfpPeK2GPytu+qlqzWCZ5Tv3y/U9OwdSHhJvjrXdi3yJpXNyA/Q8ZSCC2szDrKT80ej1Of9su99zj21A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L2foxQqAy+Ta3qfPEORkdZVPXoJvJbLFBMY90fSmfgo=;
- b=Uuk8VWP91xpfhr9TMJgLAXkv87DaGxiUqlLNLbIK1chADfH0V+sNW47CivHiz6qLd83FVmwFO2r7d/D3Bc02JrWmcN2kynOtPg55NZ+avl4dBgzb5tUrEi/VOaFTP+OFPi6GuwThGHv2uLl3zopKzY10om5457U03QQic3fFzi66WuAPZOTGBSRzJrGDaICkcA2NfFOA21fFP0MhcDrQtdOsxVvZtskKPez8DJ0RF8Vdweuof2sDEK4kWFF/1UkIjX3hUtrNJHDDdVwul0ZADaDaQmk3bQHY/PCZRXJyftyO3PHjPy2b2YrKsYVFUKwJXIGUJsK25LKJge536wMAzA==
+ bh=VAa5Uq2ShCUgqc8O+WS4odVB9frWq6QG95twxwSypHg=;
+ b=khVBwx+D+/BYPK5BQz0TNUTlQ66A1O+4oFpDxolyNd9Mn3B5bHUDnrErc/EnLt9PORoM3gDuecmMaitexqwlr4isycElmKVU4TZU0iUaVNsRAiDabgN9oIVYijTsh9HxxhqhBJdgS3hc1zPln3EeBs6JL9ukTUTwrcrRHkWw6s8=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by SJ2PR12MB7918.namprd12.prod.outlook.com (2603:10b6:a03:4cc::20) with
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO6P265MB6490.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2df::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.6; Tue, 10 Mar
- 2026 01:40:58 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9700.009; Tue, 10 Mar 2026
- 01:40:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 01:51:37 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
+ 01:51:37 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Mar 2026 10:40:54 +0900
-Message-Id: <DGYPX7TT8A4E.3KTO5Z5RS17B4@nvidia.com>
+Date: Tue, 10 Mar 2026 01:51:36 +0000
+Message-Id: <DGYQ5EYS1LB0.TP93SPR5Q3BX@garyguo.net>
+From: "Gary Guo" <gary@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Tim Kovalenko via B4 Relay"
+ <devnull+tim.kovalenko.proton.me@kernel.org>
 Cc: <tim.kovalenko@proton.me>, "Danilo Krummrich" <dakr@kernel.org>, "Alice
  Ryhl" <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona
  Vetter" <simona@ffwll.ch>, "Miguel Ojeda" <ojeda@kernel.org>, "Gary Guo"
@@ -61,15 +64,14 @@ Cc: <tim.kovalenko@proton.me>, "Danilo Krummrich" <dakr@kernel.org>, "Alice
  <linux-kbuild@vger.kernel.org>, <driver-core@lists.linux.dev>
 Subject: Re: [PATCH v4 4/4] gpu: nova-core: fix stack overflow in GSP memory
  allocation
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Tim Kovalenko via B4 Relay"
- <devnull+tim.kovalenko.proton.me@kernel.org>
+X-Mailer: aerc 0.21.0
 References: <20260309-drm-rust-next-v4-0-4ef485b19a4c@proton.me>
  <20260309-drm-rust-next-v4-4-4ef485b19a4c@proton.me>
-In-Reply-To: <20260309-drm-rust-next-v4-4-4ef485b19a4c@proton.me>
-X-ClientProxiedBy: TYCPR01CA0201.jpnprd01.prod.outlook.com
- (2603:1096:405:7a::18) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+ <DGYPX7TT8A4E.3KTO5Z5RS17B4@nvidia.com>
+In-Reply-To: <DGYPX7TT8A4E.3KTO5Z5RS17B4@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0559.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:33b::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -77,185 +79,196 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ2PR12MB7918:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f4c0c29-068c-4d7e-e5dd-08de7e4613f4
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6490:EE_
+X-MS-Office365-Filtering-Correlation-Id: c68c2c87-750d-4453-2b68-08de7e4790f7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|1800799024|366016;
+	BCL:0;ARA:13230040|366016|10070799003|376014|1800799024|7416014;
 X-Microsoft-Antispam-Message-Info:
-	kueFiwBGT7vN/5evoqc2YOUHMU7oHk4k1JPbcDRuhNqAdso70x+IVrddE1sIk/RIFId7l7l12Vaa5LGHdVJl9YfTqCKdy9GZepHsg80HRbh/79HgOPohGzLWQYx74XtzWWfcwjPBUJdy+L+EDXOe+5zMuVlxIgTDG0JKFioZrUZ4ma7Jzs0Unpne7v0DZbgree4g29xeztZaGOylucOY4CeTUKnftsk/Iq8D4+2uHFlJy+8p9S33en3cT9VqY7kFIlyGlkOlwdil49gNqQv7db4W2KAz0Q5ULSb9VNByOcbh8B3PkQNiXHjbPq6F1vqqvUp2XsaLRKm15k8pPPO2E1DFVJXxn3AVKO+VE8eHBqMI+QGkM/4BxfdQpCxneHs0Cmd0+agcXPb3SRlLt4tLlLO3FBrBy2ZclmAPFjNvvE9nH3jXtRrnxfGBeim7RsPIvBlVoaroMz403POXAfpnmu0RgN1rWGktqXXGjMk6T8cX5Xx2d/M/JLbzzzzhViLv29s9rTelQRTZ9TVorzfJUOTwoTdKtzW6ARLX/QMJ/Nh6QMFcWV9PgezkIguNT5YfxECPpZ2Icqy6PW+7t4Yap1TFC/BqOC0SPstbdkefZMfDpeGF7PRycxsk01tFUF0Yo3PNAC746kEt9Vy0JzajH8g5lbHz5xA0t3ChxJqi2ynizNyoDhm+u5yv5edUBX2XA5ngawgOGb5X2yyX4iIhwC/trGAbEJEJmBRXzR39F7o=
+	ZTGUcAFgcs83B5Rsy2y6PRe78TE3lRQ/JrJLjZTuJwjt0jxAYwhpguGkVHJvgD7sut+7CHSetVPpvv37DqhEl7Sa4yX6zWNFUTr1fhhhop+QI5wZNCX1UH9NubpkZkUXCBfg1aKHfHBCqbQjhP3NtJ8WDvom4gquc0K/s+p3OVraGXwYfBw1XYdBUqWtE2zhfe4q/lnfZ47tSZ0zIPn4gLyD8h73rzVQ/wLuFGQKG/Wm5qMGdANYbLnHN0q2dsdvnvm8VM+LBKjirlLRNS6mVw8QWVFWnLlrk/RFhfb7YcxvVvnojzyxYNn3sB6zaYPnWi0anrRSSlqiFqXjqmXWRjqRT7lmeg2TzBx6uGwNbRaj46xH1U6eYRBIRrV/0HFanc0dn4RRQb26VdnYhugpAWusX7ghWOtrRQ1cJRgs79EKWJO031gkqmUpB0EtgI8hTtCPsk5TB30vNxAt0bm7UDddEhn1mCMjxLMQVm9EB6NJpZscrXgZlsl5Bf9gf6itg43iTbDhyW6ntT4pimmUg2sALqFPYw+aiAt3n5y/pqXN9eIt8/ZEHCCdViHu3H9Q72I7o7j0kgflnVFaGNF2CXjF/2RX/hVra8NcEMNI2Br3bOdlspLW93NQrZugkY0xdJJhosfYCvyrB5WRQyYd/OxlIaSCx3KOHSTq5iJCZCij50f7EtntZg0jag91zST7v2n2VrqlEd/BPUl4CAvDZp8yP1PxfLq/Tqx6lhk6+V0=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(1800799024)(7416014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SWNPU3N3ZzA0bzFlaU9leXBlN242MTkvaXVaR2hvaGVoVVJ4TWU0QkdhT2V1?=
- =?utf-8?B?MmJpbjJ3UkRXZzlWRmlNaityTElDa2RKNnpOM1JzclhUT2JESExmREFQSU1z?=
- =?utf-8?B?RmNnWHJnVEdXK2cxQkcxN3l4TDc4UStRVVgyS2V3aDJwaTVra1Zybm5CTzJP?=
- =?utf-8?B?eTNmaDE1a3JDN2g5ZlpVeE94aExnaHFZU1pacEN5U3U4Mm9jQWlzYlc5UWZa?=
- =?utf-8?B?ajYzTjVZOWhpR0F2dVY2WlhXL3oxbjluNmViZTU4UnhYaHVManNwK1Niamgr?=
- =?utf-8?B?MFJFNmxQbXdDVDNjREoxTzhZakRoNFFVb0FnOHl0QURMZjFydmRVVUVRd09X?=
- =?utf-8?B?REdkNTJIZTl2R085cDlYdVlpWFNUVGVXaENibXB2UHorRzBJVVNHRWxRUEp0?=
- =?utf-8?B?N0ZRZG1vUTZHZjJMY1Q1cW9zeTZLT3BtaUgrdU0zeTJPcFhEUGxDQXFIRkk4?=
- =?utf-8?B?VEphOHZSS2pEdk5EL1p5UW1hUjN4RkVvcGhIZWxTMlR2M0ttRE5zcUZuUkhl?=
- =?utf-8?B?eDhOK0ovTmpmQUEzUCtqb1p0RlNrbEpET2xDRnlXVEI2Rm5JZ25WN25MSWxH?=
- =?utf-8?B?UG5STExFaFFHU09QM0p5eGIrd0tsbERlb3Y1cGhhTFVFQUUrMVpOeFpFRTFU?=
- =?utf-8?B?dEF5bUlXaDNoelpmekduNG9tVUZTVzgvNzM1ZGtMejgrcDJCME9wYVdrdGRm?=
- =?utf-8?B?ZFpBZ1JDMVBJN21lazdrOHNmK0ZPSjNzWG9SSTRsSTVTcFA2TU40RkRJTjJl?=
- =?utf-8?B?akNQM0dBSEpML21pNW1wTGRxOWlMQzF2enRuN21Wb25Na21TczkzQ09pSGFi?=
- =?utf-8?B?SEFNNERSQUJOcEdkUFNhQmlaOHpWVmZ1ZWM3elgzeHdQNjcvZzQ0M0gvNEhz?=
- =?utf-8?B?QTJLN25uOXI3WjJiM0ZHUFIxUU83OFRaVGxzbWVIRFprbGF5cXM0bmtSc3JK?=
- =?utf-8?B?b0dhMjZnUEhHSnFvUFd3K2ZOdzdOOEV6MndSRU1QdWMwKzRKcG8xYUF1N1hL?=
- =?utf-8?B?WWt1b2xCeVRNOFp1MzFQbFk3QnNHNmc0UUJORWtueEEvUm1MYlJOWVNVZ3Ji?=
- =?utf-8?B?R1oyNmtLUzBwM0Z4WWhOd0pMY0JMcU1YQzN3eU5hcUpETmJvT0lZK3ptUWk0?=
- =?utf-8?B?TjFjVVBHbFM3MXZsTVhORmlwOEhmb0hIeCtoSjNBcGF4cEZzZWRQWmN3aTBq?=
- =?utf-8?B?R2NpMm5taTdNYStrVW13aUMxYmdLVU5rUU9VWWZZbzdRay9VVjM2WVF1Y2tD?=
- =?utf-8?B?Y3JtRFBidm8yUXlqSVJxem5ZNHJ5U2NaOVo4bS9ITjZLQXB3N0ErWDF3a1VN?=
- =?utf-8?B?Ti9VMmJFaEV3RitaUlg1djF0UW5HK29GUjdjdEZZcGVacnV6UCtyQkk4ck05?=
- =?utf-8?B?MW0waFFGTDllbVFUaUpZTGVXeEFtUllvdVd6Z2pZR2EyNGNVTE9XYU10Vlg4?=
- =?utf-8?B?ZDhQT0RjeDF6Sk9iQi9YQkhWdTJrMGNIZm1XR0xKdTF4RnU0RCtmdXBpQTcr?=
- =?utf-8?B?dmU2WUw2S0J1czdPK2pLR2tmVmw5Q3Q3M09GWDY0dWNaNVlJNzVLZ1EyVkpE?=
- =?utf-8?B?K3RLeE9vWTBReGxmOUM2UlVkVlVTNmFwSWtqZ1ZYSzZ2UERHdGkrS0Z0SmJO?=
- =?utf-8?B?dytMQTZ2UWtRL282TkszeXNyNkl2L3REbm5ta3F4Ujk4dFBPZlBzbjVzYzZm?=
- =?utf-8?B?NHo1RFRxVlI5T2FIYTFvUDBwQ3ZEZHJ0UWhvMGxudFN4cndJQW1xUitPcXla?=
- =?utf-8?B?TExjZHRDTWE3VXl1c0UyQTV6ZFAwc0l1bjNDR3MybFVPbGE2cm43UzY4KzJz?=
- =?utf-8?B?QlloNEN2WVV5Qkc0T1pTWFB0Vk1jSFlGdFZvYWkzbkxPSUNvU2l2MVJybmNt?=
- =?utf-8?B?NjRkTjM1eTJIcUNPTUxFb0l5aEprS3FnaEo5ZkNISm9ncVEwMGJKeUUzdTl2?=
- =?utf-8?B?L3g0Tm5odFY5MHhlR200NHpZaUNnOVRrQ3pPMFBKdVlGNDFXbHFqa1FtVzNl?=
- =?utf-8?B?UjRSUEF1VHRPL2tYNVV6bDEraHE1QXNKSy9PaG5DZXJic2RsVTlOYUEvazh4?=
- =?utf-8?B?ZWQwWkcxaXVUWkVvWC9KaUh5K0lJaU03S0wrOUhkZjQ0WGtnSHI5NmdsQTRW?=
- =?utf-8?B?aDJFbVZDYlJOSE50V3BINHhQRTRsb3Z4WjFMSlVPNzRtc29hUjhHMHJuN09u?=
- =?utf-8?B?M0FVR2JjZzU1RnlEbEwxYzkxRU1aZUFUY2xVSmVKRUNaclZvRmowUWs5TnhO?=
- =?utf-8?B?d3o5WEJiSnB3Z0RiUDNOclRlM0JIdUltaXNHY01nUThOWjdPWnlSbkNGSzVX?=
- =?utf-8?B?ZUVsZERJL3ExblUzVkZLNTE5SG9Xd2FucmhLSFZ6TzZsWWgrLzZyVXM2STU4?=
- =?utf-8?Q?vIIx6ObB8fX70je/yRR1Hvnyra9e77Kn8ckVDt6ZMYKNc?=
-X-MS-Exchange-AntiSpam-MessageData-1: tQLEJh85wW0Ucw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f4c0c29-068c-4d7e-e5dd-08de7e4613f4
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+	=?utf-8?B?M21SS0ZWY0ZCa203bkY2RzFKQUgyd1ViRjVrT09VWERUV2kzTFZvWEVGUHBx?=
+ =?utf-8?B?M2NwMHlZQnhuQW02OXowMFg2Y21sUklkUFNvWWZPK2dkRE9NeXpVWHJpQ2Rv?=
+ =?utf-8?B?ZFcyWGpGZ0tMTDY1dk9ETE45eU5wZElEbkNJdG5XK3UxalNaZXNSZGVEZTFu?=
+ =?utf-8?B?Rkl2NlBXT1RZbE5GbHNSWW42QzBsVHM4elhjYTh3dTkwUWI1MFJzdm9hOTg1?=
+ =?utf-8?B?a1JJMFZaKzBRVHh2QlZwQURGa3IycEZXYUdldG1hS2tlRXA1a252bHFaSnhP?=
+ =?utf-8?B?NXl1cUFnc3NOb28reEhaaEZtcjdGblJ5ckQ5b2RtYTliSU5pOVJ0ZUVleTFI?=
+ =?utf-8?B?RmVxYStuWE02bEFOWUVySmZzQW9UeXRXZGkvd3JPNGwwTzUvRWQrUnFmelpG?=
+ =?utf-8?B?VFlETHpQLzJyZ2NvVGxwM2IweHAxdGNGNWJIYlNZM3YrS1VqNENKUDFscmxD?=
+ =?utf-8?B?ejFoczh3bFEyc0RFOHphaHNTT2ZUSGhqZzR1dFJSU2FiNS9HOVJBZHV6VXN2?=
+ =?utf-8?B?RllwdnVvR1dLQ1d6S3BuUU5Hb0pTWDloclU2bjFjNnFGLzBGRmFaNFY4Qjdn?=
+ =?utf-8?B?K3BjNFRqbjllTktqUE11RGZUNjJYczlJN0FuU2oxWFY3aXp2ZnhqNU52N1Nn?=
+ =?utf-8?B?RVdSOUtGUWdZSThjM0lFOHVYSTRlYjBrR3BSUFZJTnVORGc1WjEwWHV0M1lU?=
+ =?utf-8?B?V0pkdlpHNEVFZVZ6bE96cHJMZS90SHFFc0pqNnNJYnJ6SHc4WE8yNzVsb1FG?=
+ =?utf-8?B?bnZBbDI2WEY0bHZMYjYvL2IvZ2dWVVZ3Y2tXdTZ2dTBoT3hzM3RpdXdFaVg5?=
+ =?utf-8?B?VFpTRmtZRjFIaHMvL0ZkUjVJa3lweWt0QVFsVlVJeVl5K2lldWtpYzNpcitx?=
+ =?utf-8?B?WUpBUFZMVlo2RVlkL0RnZFRpMWRrVFU1aUJmMnBNN3ZBU3NLSi9yKzVVNlJm?=
+ =?utf-8?B?eUF1KzdSTDBYemxUc0FHMWtVT2RXT1pSUVMrWmlqaEs0aUk4aVg3Y3VhcU1p?=
+ =?utf-8?B?Ly9FYWN0SW1aYjg1VHk1N1NvdG9oY1BpSlA2LzlId05OVURYYnNWdXBmOEta?=
+ =?utf-8?B?RHNvMnNOWmRWZ2EwTnBZSXFzSUp6eitqQlZ4OHBGWkVpcmdzMmluVEFGWCtP?=
+ =?utf-8?B?ckd5dkpDWGkxM0NwNWN1d1lVajVsQjBVYUxLK2pYT0RFOEhmMTJQTURwWGls?=
+ =?utf-8?B?a3BTV1YxeEFVTCtjVkV6N1Nrbk0xbTJYOVdQakw1MjFKRkc1ODZZcFlycG10?=
+ =?utf-8?B?ZjcvQ0lUUTRHUkVNZDc5L3h2YmZlTm9EUG41R2RoZ1lnVXlnSE8xWWlCeENm?=
+ =?utf-8?B?bGdPdEg0V0U1MGpUUlVjQXcxRHZleDMvWWlrK01FUVV5VVZyWDJXWGovcnZj?=
+ =?utf-8?B?T1pDUzB4amkyNmRnMGVUcHVMTEdxSDUrVHdKdUVKYm5BTXZjVmdYdlVDNmpv?=
+ =?utf-8?B?VUtKMStZVGVRQWpKMEtjOUlSSDF0U1JadHhOODZvWGhGMXBnamhMRmgwNlFG?=
+ =?utf-8?B?a1c0TFhyQUZtVlFMNW4vUVBvM0pDQU9kTjNzWG45OUY3aTNXZ3pRdmMxd0Jx?=
+ =?utf-8?B?ZDlsenRzNHpFMUk1bE4zdGhHbnFCT1FyWWROVkVLRWNBNEpDZVl5dTVDTnFM?=
+ =?utf-8?B?Mkt0QWFwVXBqNXNJMC9GWUFRWVVkd211c1pQSWFLOTZ3MTU2bnNCUi9mcE52?=
+ =?utf-8?B?WWppTzhFY2dZc1N1U3lQUUMrUzBaa2NOd0FLaVo0S0ZMam10ZWUzN0d3eThW?=
+ =?utf-8?B?cTAzdHNKekFGeEYrRUJHYW5Xdk5sT0xmUElrQkVXcXlKTzNSQXBWU2UrZGM2?=
+ =?utf-8?B?YzNYamp1ejh5elpDMFo4a0gzUWNLYmZlbUZSbVlBNE1FVzJOQ1N1QVRrRTY2?=
+ =?utf-8?B?WEhwVk1vZXNGbnFsYkNCeFNpQ1pmTVNiU2xDZDVGUjkyNUpHaDNlenAwdjJm?=
+ =?utf-8?B?MFNLTW9RN1FKQUxnZkR1K3RKWk1IVXZYcHpNcFI1aDBNRE96eGRSd3dGR2Ry?=
+ =?utf-8?B?UjJ6ejI5Syt2RFF5NFdrc1UraW0zM3dlTGRvYUJ3ZkNac0VOWG52UWFnL2lY?=
+ =?utf-8?B?Z21aNXFnbzgxYnhGNWFtVXZiL0dWSnpObXNJWC9oOVN2THRVYUdXRGlZUHpN?=
+ =?utf-8?B?MzhIRWhiRkNaSHEvL0wyaDF5NVAvbnVLdXE4Uk8vVitzVDVhZDJHMFA5OXNo?=
+ =?utf-8?B?MmRsemlBTHNSeEhGdnorWmJud3p1VllTMWZrNzdJMVBkb1pHWnVndVpXRFlV?=
+ =?utf-8?B?ZTVhODBuK1RVaFFldTMwUEdsbGlONEozVklTUDA5Q3ByNEtpYVl1UWE5RmQ5?=
+ =?utf-8?B?Y1I4UmYyditBa1ptVnhneGdpL05NaDltaDZ0Y0w4UjVrUFJsNndnUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: c68c2c87-750d-4453-2b68-08de7e4790f7
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 01:40:58.4457
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 01:51:37.4138
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: thze7yAZ87BPsHQBuuMYEevqS0ylKWoYez0zA+wzWW/9F6w4aMyTG5HAjxXAXIQvLCW6mNtUqsp9i935iXMR5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7918
+X-MS-Exchange-CrossTenant-UserPrincipalName: yDKXrqDo2KO7rhBin3P7GGz6Jg4XP8RURASgpma231AOgm4ctZ3c7lBN9JDAV8xl80X8YxSXdsgrLKUTIb6/ww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6490
 
-On Tue Mar 10, 2026 at 1:34 AM JST, Tim Kovalenko via B4 Relay wrote:
-> From: Tim Kovalenko <tim.kovalenko@proton.me>
->
-> The `Cmdq::new` function was allocating a `PteArray` struct on the stack
-> and was causing a stack overflow with 8216 bytes.
->
-> Modify the `PteArray` to calculate and write the Page Table Entries
-> directly into the coherent DMA buffer one-by-one. This reduces the stack
-> usage quite a lot.
->
-> Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
-> ---
->  drivers/gpu/nova-core/gsp.rs      | 34 +++++++++++++++++++--------------=
--
->  drivers/gpu/nova-core/gsp/cmdq.rs | 15 ++++++++++++++-
->  2 files changed, 33 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-> index 25cd48514c777cb405a2af0acf57196b2e2e7837..20170e483e04c476efce8997b=
-3916b0ad829ed38 100644
-> --- a/drivers/gpu/nova-core/gsp.rs
-> +++ b/drivers/gpu/nova-core/gsp.rs
-> @@ -47,16 +47,11 @@
->  unsafe impl<const NUM_ENTRIES: usize> AsBytes for PteArray<NUM_ENTRIES> =
-{}
-> =20
->  impl<const NUM_PAGES: usize> PteArray<NUM_PAGES> {
-> -    /// Creates a new page table array mapping `NUM_PAGES` GSP pages sta=
-rting at address `start`.
-> -    fn new(start: DmaAddress) -> Result<Self> {
-> -        let mut ptes =3D [0u64; NUM_PAGES];
-> -        for (i, pte) in ptes.iter_mut().enumerate() {
-> -            *pte =3D start
-> -                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
-> -                .ok_or(EOVERFLOW)?;
-> -        }
-> -
-> -        Ok(Self(ptes))
-> +    /// Returns the page table entry for `index`, for a mapping starting=
- at `start` DmaAddress.
-> +    fn entry(start: DmaAddress, index: usize) -> Result<u64> {
-> +        start
-> +            .checked_add(num::usize_as_u64(index) << GSP_PAGE_SHIFT)
-> +            .ok_or(EOVERFLOW)
->      }
->  }
-> =20
-> @@ -86,16 +81,25 @@ fn new(dev: &device::Device<device::Bound>) -> Result=
-<Self> {
->              NUM_PAGES * GSP_PAGE_SIZE,
->              GFP_KERNEL | __GFP_ZERO,
->          )?);
-> -        let ptes =3D PteArray::<NUM_PAGES>::new(obj.0.dma_handle())?;
-> +
-> +        let start_addr =3D obj.0.dma_handle();
-> =20
->          // SAFETY: `obj` has just been created and we are its sole user.
-> -        unsafe {
-> -            // Copy the self-mapping PTE at the expected location.
-> +        let pte_region =3D unsafe {
->              obj.0
-> -                .as_slice_mut(size_of::<u64>(), size_of_val(&ptes))?
-> -                .copy_from_slice(ptes.as_bytes())
-> +                .as_slice_mut(size_of::<u64>(), NUM_PAGES * size_of::<u6=
-4>())?
->          };
-> =20
-> +        // This is a  one by one GSP Page write to the memory
-> +        // to avoid stack overflow when allocating the whole array at on=
-ce.
-> +        for (i, chunk) in pte_region.chunks_exact_mut(size_of::<u64>()).=
-enumerate() {
-> +            let pte_value =3D start_addr
-> +                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
-> +                .ok_or(EOVERFLOW)?;
-> +
-> +            chunk.copy_from_slice(&pte_value.to_ne_bytes());
-> +        }
-> +
->          Ok(obj)
->      }
->  }
-> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gs=
-p/cmdq.rs
-> index 0056bfbf0a44cfbc5a0ca08d069f881b877e1edc..c8327d3098f73f9b880eee990=
-38ad10a16e1e32d 100644
-> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
-> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-> @@ -202,7 +202,20 @@ fn new(dev: &device::Device<device::Bound>) -> Resul=
+On Tue Mar 10, 2026 at 1:40 AM GMT, Alexandre Courbot wrote:
+> On Tue Mar 10, 2026 at 1:34 AM JST, Tim Kovalenko via B4 Relay wrote:
+>> From: Tim Kovalenko <tim.kovalenko@proton.me>
+>>
+>> The `Cmdq::new` function was allocating a `PteArray` struct on the stack
+>> and was causing a stack overflow with 8216 bytes.
+>>
+>> Modify the `PteArray` to calculate and write the Page Table Entries
+>> directly into the coherent DMA buffer one-by-one. This reduces the stack
+>> usage quite a lot.
+>>
+>> Signed-off-by: Tim Kovalenko <tim.kovalenko@proton.me>
+>> ---
+>>  drivers/gpu/nova-core/gsp.rs      | 34 +++++++++++++++++++-------------=
+--
+>>  drivers/gpu/nova-core/gsp/cmdq.rs | 15 ++++++++++++++-
+>>  2 files changed, 33 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+>> index 25cd48514c777cb405a2af0acf57196b2e2e7837..20170e483e04c476efce8997=
+b3916b0ad829ed38 100644
+>> --- a/drivers/gpu/nova-core/gsp.rs
+>> +++ b/drivers/gpu/nova-core/gsp.rs
+>> @@ -47,16 +47,11 @@
+>>  unsafe impl<const NUM_ENTRIES: usize> AsBytes for PteArray<NUM_ENTRIES>=
+ {}
+>> =20
+>>  impl<const NUM_PAGES: usize> PteArray<NUM_PAGES> {
+>> -    /// Creates a new page table array mapping `NUM_PAGES` GSP pages st=
+arting at address `start`.
+>> -    fn new(start: DmaAddress) -> Result<Self> {
+>> -        let mut ptes =3D [0u64; NUM_PAGES];
+>> -        for (i, pte) in ptes.iter_mut().enumerate() {
+>> -            *pte =3D start
+>> -                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
+>> -                .ok_or(EOVERFLOW)?;
+>> -        }
+>> -
+>> -        Ok(Self(ptes))
+>> +    /// Returns the page table entry for `index`, for a mapping startin=
+g at `start` DmaAddress.
+>> +    fn entry(start: DmaAddress, index: usize) -> Result<u64> {
+>> +        start
+>> +            .checked_add(num::usize_as_u64(index) << GSP_PAGE_SHIFT)
+>> +            .ok_or(EOVERFLOW)
+>>      }
+>>  }
+>> =20
+>> @@ -86,16 +81,25 @@ fn new(dev: &device::Device<device::Bound>) -> Resul=
 t<Self> {
-> =20
->          let gsp_mem =3D
->              CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KER=
-NEL | __GFP_ZERO)?;
-> -        dma_write!(gsp_mem, [0]?.ptes, PteArray::new(gsp_mem.dma_handle(=
-))?);
-> +
-> +        const NUM_PTES: usize =3D GSP_PAGE_SIZE / size_of::<u64>();
-> +
-> +        let start =3D gsp_mem.dma_handle();
-> +        // One by one GSP Page write to the memory to avoid stack overfl=
-ow when allocating
-> +        // the whole array at once.
-> +        for i in 0..NUM_PTES {
-> +            dma_write!(
-> +                gsp_mem,
-> +                [0]?.ptes.0[i],
-> +                PteArray::<NUM_PTES>::entry(start, i)?
+>>              NUM_PAGES * GSP_PAGE_SIZE,
+>>              GFP_KERNEL | __GFP_ZERO,
+>>          )?);
+>> -        let ptes =3D PteArray::<NUM_PAGES>::new(obj.0.dma_handle())?;
+>> +
+>> +        let start_addr =3D obj.0.dma_handle();
+>> =20
+>>          // SAFETY: `obj` has just been created and we are its sole user=
+.
+>> -        unsafe {
+>> -            // Copy the self-mapping PTE at the expected location.
+>> +        let pte_region =3D unsafe {
+>>              obj.0
+>> -                .as_slice_mut(size_of::<u64>(), size_of_val(&ptes))?
+>> -                .copy_from_slice(ptes.as_bytes())
+>> +                .as_slice_mut(size_of::<u64>(), NUM_PAGES * size_of::<u=
+64>())?
+>>          };
+>> =20
+>> +        // This is a  one by one GSP Page write to the memory
+>> +        // to avoid stack overflow when allocating the whole array at o=
+nce.
+>> +        for (i, chunk) in pte_region.chunks_exact_mut(size_of::<u64>())=
+.enumerate() {
+>> +            let pte_value =3D start_addr
+>> +                .checked_add(num::usize_as_u64(i) << GSP_PAGE_SHIFT)
+>> +                .ok_or(EOVERFLOW)?;
+>> +
+>> +            chunk.copy_from_slice(&pte_value.to_ne_bytes());
+>> +        }
+>> +
+>>          Ok(obj)
+>>      }
+>>  }
+>> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/g=
+sp/cmdq.rs
+>> index 0056bfbf0a44cfbc5a0ca08d069f881b877e1edc..c8327d3098f73f9b880eee99=
+038ad10a16e1e32d 100644
+>> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
+>> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+>> @@ -202,7 +202,20 @@ fn new(dev: &device::Device<device::Bound>) -> Resu=
+lt<Self> {
+>> =20
+>>          let gsp_mem =3D
+>>              CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KE=
+RNEL | __GFP_ZERO)?;
+>> -        dma_write!(gsp_mem, [0]?.ptes, PteArray::new(gsp_mem.dma_handle=
+())?);
+>> +
+>> +        const NUM_PTES: usize =3D GSP_PAGE_SIZE / size_of::<u64>();
+>> +
+>> +        let start =3D gsp_mem.dma_handle();
+>> +        // One by one GSP Page write to the memory to avoid stack overf=
+low when allocating
+>> +        // the whole array at once.
+>> +        for i in 0..NUM_PTES {
+>> +            dma_write!(
+>> +                gsp_mem,
+>> +                [0]?.ptes.0[i],
+>> +                PteArray::<NUM_PTES>::entry(start, i)?
+>
+> Does `::<NUM_PTES>` need to be mentioned here, or is the compiler able
+> to infer it?
 
-Does `::<NUM_PTES>` need to be mentioned here, or is the compiler able
-to infer it?
+The function signature doesn't mention NUM_PTES at all, so no. In fact, per=
+haps
+the `entry` shouldn't be an associated method at all (even if is, it probab=
+ly
+should be of `PteArray::<0>` or something.
 
-In any case, the updated patch
+Best,
+Gary
 
-Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+>
+> In any case, the updated patch
+>
+> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+>
+> Thanks!
 
-Thanks!
