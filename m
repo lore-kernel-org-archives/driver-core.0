@@ -1,275 +1,97 @@
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393A93D6CA4
-	for <driver-core@lists.linux.dev>; Wed, 11 Mar 2026 12:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773231284; cv=pass; b=Yd56IbnDWiJ1vlXpu41wgjf1FNCSGkNL6Wiu4dqpNysytsRl24raVIC3uun90I+6Ie1UGe0vIJbYCO43yW/sYEE5wnfpFUDRFwzR4uIhPY7u/dMUx15j+L/zjKgZbqBsQQKarLxV/1ulH0Rl7SsyAE5PJYPodyounyBcfLfoJt8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773231284; c=relaxed/simple;
-	bh=cQFdqfyRRdVnqefhpnw7NEK1LIwUldxQn135EiSSrdM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rpMCsdSugH+9BqpWaKe+O1oFOpWvqbp0FNl2aA4mkSNi9dPGnfaLXNRomR4VxTyhLqjgHrcFxs78yHqkCPmDPZvprn78U5bgDxV1W4n4N+qvlsCDjjbc2ZSNoQsYrzzJcDy39KBUshHKUa630fTjCiQiIgntUvjEQqhGca6Ih+s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=NXdVGDLc; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE903DD510;
+	Wed, 11 Mar 2026 12:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773232125; cv=none; b=VLNHk2IyxhNEnzOLVz6cElNlbnC20WlxQeLoK6TFURX46Niwehxazgz7vJOWjI67bl8UDfeZHdxmTFGUIs2C5vJs3zf1Crk8hITNKhAVQtbrk1PvTPBPp4yf13VSl5O3ZkL7FudnYqqMb4n+nq40u4c4wxgk5OKbj5pyhkmBJso=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773232125; c=relaxed/simple;
+	bh=WuY0INtBXp4bdO1U7Nbe5xqaanpsrysVxQk4S6c9FJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jPTliCv81nzVJu3+x6Iu0nTZvRk2Qg+YcrnPAzslnqSwsLqgXUGJWmwjcaxc+Dr8opyOt6DTY9pdJozF+bQMD5e89UprYmVZPmKlp7uutRu7CS4lRGCQS7V/XGbOpKjSEHl6LWCDaYaEP8FQcK+pExVCrMHquSR+onyeEaCH+JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kzdROzh4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="NXdVGDLc"
-ARC-Seal: i=1; a=rsa-sha256; t=1773231274; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XWlYtK5aK+SRvRuKztWKOi3OFFBpkKQtyz0gWXnknHvFcWeqDHL29rCGcI6oAMDaf1tui/Wf4E+LrL7M8MTGwJrs3N3hf9eKYL11Mr1/sraGrVBtb8YZuOLyQxEhkjZGIGbcHXZ/OEhxHQwB3kt6PKDfZccnKdbznn7wSU5TqOo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1773231274; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Sy2m7bKImumsyawAbMNKsSZQTErbBmtwkQgsvEodRgw=; 
-	b=eiwyaeGyDAsx2XBLt8aSFgjWPeehJN1Fo96fgQ2zU1Jy5XHciZU7iCzboDiPeX0oikhY/U/+zb6iSV/9RUcBmr/3xT8ykNDFbkuNu56BRFKuHyXOgt5nKGjdPVlaN+ZllGl8ZMFqPgHQ8oeG4PucPP2rWUZWHUCSkKx4GcWH1b0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
-	dmarc=pass header.from=<ming.li@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773231274;
-	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=Sy2m7bKImumsyawAbMNKsSZQTErbBmtwkQgsvEodRgw=;
-	b=NXdVGDLcQQQPYUq4gjS3FTd0IoiTrqYzZOYCA8/ul/ALJ6w72nl5mvXEmjA6MWPJ
-	CFXRkzniOLbMUOS0TDSQpRlF7Sd2xWDnqZ7KuPK4nDljSFXZFX9N8rTbyYoA00krjjh
-	EkAVyn9t0JBIEIFdB7VYbi4l4L2uq7Q6iZfE4NGg=
-Received: by mx.zohomail.com with SMTPS id 1773231273311898.1297188468374;
-	Wed, 11 Mar 2026 05:14:33 -0700 (PDT)
-Message-ID: <1ac904b4-cc40-4586-b3fa-2b1020cca931@zohomail.com>
-Date: Wed, 11 Mar 2026 20:14:28 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kzdROzh4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E196C4CEF7;
+	Wed, 11 Mar 2026 12:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773232125;
+	bh=WuY0INtBXp4bdO1U7Nbe5xqaanpsrysVxQk4S6c9FJY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kzdROzh4Rp4Awq3KG6vcTN0jZmJEl9lTvk2wAzo/euSWUrAGp/0mG1zTn5WTwyPBS
+	 qIy0pOO4VNPy4Mob6sato7lSAcfmKli4OidYuI0tO78gBVvkeamOJ3ZbBElZciUoRm
+	 4h5ygxchTqQeBrn59Aw7z/dE6vb9l5sAc68YhkFpfL6Q/5/TULltm4Qo5SXCIoC8+L
+	 /cIgawapsiF0AE5tXzGdBfwqhKixaleuz1bq0kUfmOwEVQLzbD/HEIfhRUu0J4ya1y
+	 ffzAe3+ukODyjdlYDcoawMqEWuhS5NryHvzXkGgkUeAXsQgvKPzYm5voX5udL+vCSZ
+	 8ybyTcxHtD6bQ==
+Date: Wed, 11 Mar 2026 17:58:26 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Niklas Cassel <cassel@kernel.org>, Shawn Lin <shawn.lin@rock-chips.com>, 
+	Hans Zhang <18255117159@163.com>, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>, linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>, 
+	Grimmauld <grimmauld@grimmauld.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
+Message-ID: <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
+References: <20260226101032.1042-1-linux.amoon@gmail.com>
+ <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
+ <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
+ <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+ <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+ <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
+ <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] cxl/port: Reset cxlmd->endpoint to -ENXIO by default
-To: Dan Williams <dan.j.williams@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Ben Cheatham <benjamin.cheatham@amd.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org
-References: <20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com>
- <20260310-fix_access_endpoint_without_drv_check-v1-7-94fe919a0b87@zohomail.com>
- <69b071373ffca_490a100d@dwillia2-mobl4.notmuch>
-From: Li Ming <ming.li@zohomail.com>
-In-Reply-To: <69b071373ffca_490a100d@dwillia2-mobl4.notmuch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Feedback-ID: rr080112289a9defbe3617a52e8d801ee200003d266d474e9e3267afa053d7fbd8d32053abb23b9c212c2dd01d:zu08011227293f02dfc1e0e979bad2936d000047df8d1599e7d478bf77a684d5868c4eb73ec97ab75cc3e3b9:rf0801122d6829f8860ad52f83990ce93b0000a118f4f00e2611fa73211a1935710411257e9812d64332ccaf14f87eab75ae:ZohoMail
-X-ZohoMailClient: External
+In-Reply-To: <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
 
+On Wed, Mar 11, 2026 at 12:46:03PM +0100, Danilo Krummrich wrote:
+> On Wed Mar 11, 2026 at 6:24 AM CET, Manivannan Sadhasivam wrote:
+> > I have a contrary view here. If just a single driver or lib doesn't handle async
+> > probe, it cannot just force other drivers to not take the advantage of async
+> > probe. As I said above, enabling async probe easily saves a few hunderd ms or
+> > even more if there are more than one Root Port or Root Complex in an SoC.
+> 
+> Then the driver or lib has to be fixed / improved first or the driver core has
+> to be enabled to deal with a case where PROBE_FORCE_SYNCHRONOUS is requested
+> from an async path, etc.
+> 
+> In any case, applying the patch and breaking things (knowingly?) doesn't seem
+> like the correct approach.
+> 
+> > I strongly agree with you here that the underlying issue should be fixed. But
+> > the real impact to end users is not this splat, but not having the boot time
+> > optimization that this patch brings in. As an end user, one would want their
+> > systems to boot quickly and they wouldn't bother much about a harmless warning
+> > splat appearing in the dmesg log.
+> 
+> You mean quickly booting into a "harmless" potential deadlock condition the
+> warning splat tries to make people aware of? :)
+> 
 
-在 2026/3/11 03:29, Dan Williams 写道:
-> Li Ming wrote:
->> cxlmd->endpoint is set to -ENXIO by default, This intentional invalid
->> value ensures that any unintended access to the endpoint will be
->> detectable. But CXL driver didn't reset it to the default value when the
->> endpoint is released in delete_endpoint().
->>
->> Besides, cxlmd->endpoint is updated to point to an valid endpoint in
->> cxl_port_add(), but if the device_add() in cxl_port_add() fails, the
->> endpoint will be released, but cxlmd->endpoint remains pointing to the
->> released endpoint, it may introduce a potential use-after-free issue.
->>
->> Fixes: 3d8be8b398e3 ("cxl: Set cxlmd->endpoint before adding port device")
->> Fixes: 29317f8dc6ed ("cxl/mem: Introduce cxl_memdev_attach for CXL-dependent operation")
-> So I disagree that this is a fix. It may be a consistency change to make
-> sure that all invalid ->endpoint accesses have the same result, but it
-> is not a fix for any discernable end user problem.
-Will change it in V2.
->
->> Signed-off-by: Li Ming <ming.li@zohomail.com>
->> ---
->>   drivers/cxl/core/port.c | 14 ++++++++++----
->>   1 file changed, 10 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
->> index 0c5957d1d329..ec3cb62b44b7 100644
->> --- a/drivers/cxl/core/port.c
->> +++ b/drivers/cxl/core/port.c
->> @@ -834,11 +834,14 @@ static int cxl_port_add(struct cxl_port *port,
->>   			struct cxl_dport *parent_dport)
->>   {
->>   	struct device *dev __free(put_device) = &port->dev;
->> +	struct cxl_memdev *cxlmd = NULL;
->>   	int rc;
->>   
->>   	if (is_cxl_memdev(port->uport_dev)) {
->> -		struct cxl_memdev *cxlmd = to_cxl_memdev(port->uport_dev);
->> -		struct cxl_dev_state *cxlds = cxlmd->cxlds;
->> +		struct cxl_dev_state *cxlds;
->> +
->> +		cxlmd = to_cxl_memdev(port->uport_dev);
->> +		cxlds = cxlmd->cxlds;
->>   
->>   		rc = dev_set_name(dev, "endpoint%d", port->id);
->>   		if (rc)
->> @@ -865,8 +868,11 @@ static int cxl_port_add(struct cxl_port *port,
->>   	}
->>   
->>   	rc = device_add(dev);
->> -	if (rc)
->> +	if (rc) {
->> +		if (cxlmd)
->> +			cxlmd->endpoint = ERR_PTR(-ENXIO);
-> I see no need for this. All of the upper levels paths ensure that all
-> the results of setup are torn down on failure. Consider that if
-> device_add() succeeds and any of the follow on functions in
-> __devm_cxl_add_port() then this cleanup will also not happen.
->
-> So you must rely on upper level cleanup. This is similar to the
-> semantics of dev_set_drvdata(). That is only reset up after _probe()
-> finishes failing.
->
->
->
-> Now, if you want to do some separate cleanups in this space I would redo
-> the anti-patterns of scope-based cleanup in cxl_port_alloc() and
-> cxl_port_add(). cxl_port_alloc() does the "__free = NULL" anti-pattern.
-> It appears to be doing that to avoid adding a DEFINE_FREE() for ida
-> cleanup if the port allocation fails.
->
-> Also, if the cxl_port_alloc() call became something like:
->
-> struct cxl_port *port __free(put_cxl_port) = cxl_port_alloc(...)
->
-> ...then I do not think cxl_port_add() would need to do the odd
-> __free(put_device()) initialization without a corresponding
-> get_device(). Nor the odd "dev = NULL" at the end.
+Hmm, I overlooked the built-as-module part where the deadlock could be possible
+as indicated by the comment about the WARN_ON_ONCE().
 
-To make sure that I didn't misunderstand your comment, I draft the 
-following changes.
+But what is the path forward here? Do you want the phylib to fix the
+request_module() call or fix the driver core instead?
 
-The changes also fix an issue that the unregister_port() was not invoked 
-to release port if devm_cxl_link_uport() or devm_cxl_link_parent_dport() 
-failed in __devm_cxl_add_port() .
+I can drop this patch in the meantime. But holding this prolong wouldn't help.
 
-If the changes are OK, I think they should be in a separate 
-patchset(including reset cxlmd->endpoint to -ENXIO if adding endpoint 
-failed)
+- Mani
 
-
-diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
-index 0c5957d1d329..c1975b28b570 100644
---- a/drivers/cxl/core/port.c
-+++ b/drivers/cxl/core/port.c
-@@ -552,10 +552,13 @@ static void cxl_port_release(struct device *dev)
-      xa_destroy(&port->dports);
-      xa_destroy(&port->regions);
-      ida_free(&cxl_port_ida, port->id);
--    if (is_cxl_root(port))
-+    if (is_cxl_root(port)) {
-          kfree(to_cxl_root(port));
--    else
-+    } else {
-+        if (is_cxl_endpoint(port))
-+            to_cxl_memdev(&port->dev)->endpoint = ERR_PTR(-ENXIO);
-          kfree(port);
-+    }
-  }
-
-  static ssize_t decoders_committed_show(struct device *dev,
-@@ -833,7 +836,7 @@ static int cxl_port_add(struct cxl_port *port,
-              resource_size_t component_reg_phys,
-              struct cxl_dport *parent_dport)
-  {
--    struct device *dev __free(put_device) = &port->dev;
-+    struct device *dev = &port->dev;
-      int rc;
-
-      if (is_cxl_memdev(port->uport_dev)) {
-@@ -864,47 +867,53 @@ static int cxl_port_add(struct cxl_port *port,
-              return rc;
-      }
-
--    rc = device_add(dev);
--    if (rc)
--        return rc;
--
--    /* Inhibit the cleanup function invoked */
--    dev = NULL;
--    return 0;
-+    return device_add(dev);
-  }
-
-+DEFINE_FREE(cxl_port_host_release_dr_group, struct cxl_port *,
-+        if (_T) devres_release_group(port_to_host(_T), _T))
-+
-  static struct cxl_port *__devm_cxl_add_port(struct device *host,
-                          struct device *uport_dev,
-                          resource_size_t component_reg_phys,
-                          struct cxl_dport *parent_dport)
-  {
--    struct cxl_port *port;
-+    struct cxl_port *_port;
-      int rc;
-
--    port = cxl_port_alloc(uport_dev, parent_dport);
-+    struct cxl_port *port __free(put_cxl_port) =
-+        cxl_port_alloc(uport_dev, parent_dport);
-      if (IS_ERR(port))
-          return port;
-
-+    void *port_dr_group __free(cxl_port_host_release_dr_group) =
-+        devres_open_group(host, port, GFP_KERNEL);
-+    if (!port_dr_group)
-+        return ERR_PTR(-ENOMEM);
-+
-      rc = cxl_port_add(port, component_reg_phys, parent_dport);
-      if (rc)
-          return ERR_PTR(rc);
-
--    rc = devm_add_action_or_reset(host, unregister_port, port);
-+    _port = no_free_ptr(port);
-+    rc = devm_add_action_or_reset(host, unregister_port, _port);
-      if (rc)
-          return ERR_PTR(rc);
-
--    rc = devm_cxl_link_uport(host, port);
-+    rc = devm_cxl_link_uport(host, _port);
-      if (rc)
-          return ERR_PTR(rc);
-
--    rc = devm_cxl_link_parent_dport(host, port, parent_dport);
-+    rc = devm_cxl_link_parent_dport(host, _port, parent_dport);
-      if (rc)
-          return ERR_PTR(rc);
-
-+    devres_remove_group(host, no_free_ptr(port_dr_group));
-+
-      if (parent_dport && dev_is_pci(uport_dev))
--        port->pci_latency = cxl_pci_get_latency(to_pci_dev(uport_dev));
-+        _port->pci_latency = cxl_pci_get_latency(to_pci_dev(uport_dev));
-
--    return port;
-+    return _port;
-  }
-
->>   		return rc;
->> +	}
->>   
->>   	/* Inhibit the cleanup function invoked */
->>   	dev = NULL;
->> @@ -1425,7 +1431,7 @@ static void delete_endpoint(void *data)
->>   			devm_release_action(host, cxl_unlink_uport, endpoint);
->>   			devm_release_action(host, unregister_port, endpoint);
->>   		}
->> -		cxlmd->endpoint = NULL;
->> +		cxlmd->endpoint = ERR_PTR(-ENXIO);
-> I also see no need for this. Either dereferencing NULL or ERR_PTR() will
-> result in what is needed, a kernel crash. How the use after-free crash
-> is signalled does not really matter. The only expectation that other
-> code has is that "->endpoint != NULL" does not mean ->endpoint is valid.
-> Nothing should care about that though because cxlmd->dev.driver is the
-> authoritative gate for ->endpoint validity.
->
-OK, will remove it in v2.
+-- 
+மணிவண்ணன் சதாசிவம்
