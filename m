@@ -1,81 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABE138D016;
-	Wed, 11 Mar 2026 07:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCFC3B636B
+	for <driver-core@lists.linux.dev>; Wed, 11 Mar 2026 08:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773213054; cv=none; b=BYJ0eM2I5+6aK131/dg+uHD8vK/H5LTTRUf15lnNFt2TnSMqZdmL4vTuBECce/xx1k8XaAX2RGsD5H9DDNJCT8rVM+oSV9ZwRmVoVXJXheN8saIVflXU2xWus8AjCRbeDPfr41Q8iTitfYx84WQUU/d+c9C8d7mjorxBAWN0+DI=
+	t=1773216307; cv=none; b=XAMUGR/N0FC8ayQ5w9GsN6yASylpgl/IAgFpyd4oIrQYLkckago2r3QKa9Z7rrSURhh+u/tZOr6DGMXJLkVWBh3pA5NoWQOrvmhqNMuHVTzeCHQeJqei7JKzQA8BClp0wMdEi9m73SLo4AkNo21F0qpPJETcouun7eX1iEYB3T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773213054; c=relaxed/simple;
-	bh=nG5QpDl0WwXxxEUbvogAjWfL4X9xBVWgNKIGnVanW5k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=pqWVdk65oZGxfL9ZZMbTpM6XAOqVNTe5z23vzLWmM5iBNydIn1cho1sVStt/Vv9v3ZJ3eLR9cPoQ9zLpMUZdn5aD3uIwlH6eTfeQlSld1rMFn5hh97we7iTZJvSiIkTri6GgIT7Ez5M6vDs7aNtY3LOou9crCSSlf63tQA8aEjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4469EC4CEF7;
-	Wed, 11 Mar 2026 07:10:53 +0000 (UTC)
-Received: by venus (Postfix, from userid 1000)
-	id 7A22B180696; Wed, 11 Mar 2026 08:10:45 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>, driver-core@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
- stable@vger.kernel.org
-In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v2 00/10] workqueue / drivers: Add
- device-managed allocate workqueue
-Message-Id: <177321304548.505649.413926339032568347.b4-ty@collabora.com>
-Date: Wed, 11 Mar 2026 08:10:45 +0100
+	s=arc-20240116; t=1773216307; c=relaxed/simple;
+	bh=oZX4ayMIufI52STs6KSNM/xHpH99DGI6l1fwhjaFlpo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fEykZCNFBGAKz6pJ6r7VURR6q7l/NtkMs4lavwDgpdddWz6m2fcTAk4Vlee8tj9St9UGZz+UEY6VRYhImZmoAvkVUpKDtPZXs29I70TpRSeDBgEGEdxMxaoemawKyzr++sIUz9DjLhXM9o0eOgoPkLEUABQBOcZ4aJl9MT+Oh98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by bmailout1.hostsharing.net (Postfix) with ESMTPS id 7116020202BA;
+	Wed, 11 Mar 2026 08:56:19 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 54BFA61F83; Wed, 11 Mar 2026 08:56:19 +0100 (CET)
+Date: Wed, 11 Mar 2026 08:56:19 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Heiko Stuebner <heiko@sntech.de>, Niklas Cassel <cassel@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Hans Zhang <18255117159@163.com>,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Anand Moon <linux.amoon@gmail.com>,
+	Grimmauld <grimmauld@grimmauld.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
+Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
+Message-ID: <abEgI2Q52C-p6cs1@wunner.de>
+References: <20260226101032.1042-1-linux.amoon@gmail.com>
+ <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
+ <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
+ <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+ <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+ <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
 
+On Wed, Mar 11, 2026 at 10:54:59AM +0530, Manivannan Sadhasivam wrote:
+> But isn't the underlying issue is with phylib calling request_module()
+> while the driver core performs async probing?
 
-On Thu, 05 Mar 2026 22:45:39 +0100, Krzysztof Kozlowski wrote:
-> Merging / Dependency
-> ====================
-> All further patches depend on the first one, thus this probably should
-> go via one tree, e.g. power supply.  The first patch might be needed for
-> other trees as well, e.g. if more drivers are discovered, so the best if
-> it is on dedicated branch in case it has to be shared.
-> 
-> [...]
+I'd say the underlying issue is the call to async_synchronize_full()
+in do_init_module().  That's very coarse-grained.  Maybe it can be
+replaced with async_synchronize_full_domain() or async_synchronize_cookie()
+to perform a more targeted wait?
 
-Applied, thanks!
+Thanks,
 
-[02/10] power: supply: cw2015: Free allocated workqueue
-        commit: db254b0b232358ab1aeadebe8d147c99a3569559
-[03/10] power: supply: max77705: Drop duplicated IRQ error message
-        commit: 2064c64ceb1996ee02a6bbb1de05fd6e8028e3e4
-[04/10] power: supply: max77705: Free allocated workqueue and fix removal order
-        commit: 1e668baadefb16e81269dbfebf3ffc2672e3a3bb
-[05/10] power: supply: mt6370: Simplify with devm_alloc_ordered_workqueue()
-        commit: f23afa01040a41882a048e4957a7acac1426da6f
-[06/10] power: supply: ipaq_micro: Simplify with devm
-        commit: 2cfc7cac68e19c4acb236b8db6065bbaff5deee8
-
-Best regards,
--- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
-
+Lukas
