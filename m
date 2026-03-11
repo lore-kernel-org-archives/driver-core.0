@@ -1,94 +1,99 @@
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0873B2FF0
-	for <driver-core@lists.linux.dev>; Wed, 11 Mar 2026 11:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773227713; cv=pass; b=pwAccCBDlmBS23zIyj9lTEpMHcFjYpG186JDUEx1ku3I6vuq0V2rXKqt7VUAOO4mpMhLERikpYXZa50syHCUps8rDoVIPsdVyE1NuNj8oD68mJjHrfruxft6edqtsa3CjQaW85Z73gzRRPyDGgkbVmlkf6kQ2+8dWMdmTblJUWE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773227713; c=relaxed/simple;
-	bh=oQ9AY8yyQkzL7aPCR0fgTcLgHESCks1t3Sdwu+AzGh0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lx1U//VEG19LvqghVjwULGcviH+zc9FLh6AMwN2rRJHbB53TKkxW+mFzsnMm1FlKywdJ8Rc4RSJ7sXIsvhJHmq29Hixz3tEs32ANGP4klUn629A8MadGSujgVLn0g3xurDmCJQGWfyr3qwQTqdmq35XYP+bQ4ZvhjoB+/+uv0aM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=eGW4Apr1; arc=pass smtp.client-ip=136.143.188.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F31A3DDDDB;
+	Wed, 11 Mar 2026 11:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773229569; cv=none; b=FPG2t8gaiWf1e3FRhK8qs/sxqwfDGyV4YDF7If3ShoulC0waV3v7vs6JX1mq8Zs9aG6q8j8yKLqU7wAyF92qazedOYL7e6Xsv/89SBGrNRj1/19QzYNbZB8Ewn2e7iP3Oz8smP/qWSG1jpmhXYcQMBady1jgZ7laXrATKSZeqCA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773229569; c=relaxed/simple;
+	bh=mePPF9zcPSvtBJqRo2t1V0QkuJgJRZztiTUUZcbcg0Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=XEvAKwX/pm/27/pG6SFRl0kQNCJ7LT4xiNKSTLWAJxhubxnKmS1o07OwwFuuRhBz7iubelnr3nzbmOzqoxKQp3mkBX++jAjfsX+8YSgsokjRRKt5gE4FmVOuUmvfHOiWVCOhwOI71ladStdTpAFIA4Yuiy16DOcGEcO9Z+Aoh9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LL43S37g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="eGW4Apr1"
-ARC-Seal: i=1; a=rsa-sha256; t=1773227548; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=HKxz33duucArsuXaLMF4ks6fU68zQPb6ghOzK9209b/3w62NPIGDCrReEES6udOzt33Zus6Iq30+WsyNj/Z0a87/C6RyfmnorhZii9jtIZEeamCTHmrO7ncQZjh0tWxOCZramAlOD3+l4gARrfiI/BHb3XVgSrS+M9+YIOlwra4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1773227548; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=oQ9AY8yyQkzL7aPCR0fgTcLgHESCks1t3Sdwu+AzGh0=; 
-	b=CZ9vcYJv51xiFzecBEvxvhqMsrFBjUEVORlUpA9SvLOVHpl+eIaRM7P4JJVFGdg+PmQ45GHtVZnUAiGpqRuoZ1ZXxD966xkyGvubGLUeBxKKe5suc/v45Yhhq5jXGBxcO79iFW8Vy11FjqX5iVgYjIxbrxFt3nRR2J3t1CJHhzI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
-	dmarc=pass header.from=<ming.li@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773227548;
-	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=oQ9AY8yyQkzL7aPCR0fgTcLgHESCks1t3Sdwu+AzGh0=;
-	b=eGW4Apr16LkMDhre1XcCWZKnXfJRM+0jaVfkoTMvjP/hgcWGsTDrIDxRJgl8u386
-	UjGERYk1HFESsN43/+Bsk4tjnJpMlcVd4F4T2/E2DQxZEQ0x3J99dP0VPTQK+M7QHWO
-	qvTp+vE6JIkYytMDrlr+DmN6yTahq7r3C2+LTvnM=
-Received: by mx.zohomail.com with SMTPS id 1773227548047581.9752619810631;
-	Wed, 11 Mar 2026 04:12:28 -0700 (PDT)
-Message-ID: <a9e76776-66ca-432b-9e09-0d16a09b8d5b@zohomail.com>
-Date: Wed, 11 Mar 2026 19:12:24 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LL43S37g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79082C4CEF7;
+	Wed, 11 Mar 2026 11:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773229568;
+	bh=mePPF9zcPSvtBJqRo2t1V0QkuJgJRZztiTUUZcbcg0Y=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=LL43S37gfzT/Tm97KcgLsUXSfiOoxXzNEvUrv5x20U2bjXaNgs2ZEmAgEqPArpUoO
+	 jMRBsFO1rtnAFbU7NnV1UYL2ZLu78aO4zL8Y7m8Bk2MEOzq5U5kiR9/6SUzZYukt7x
+	 YCTfvAKZMs3yfoGP49cGvPDmIt42flrR6PfRuh5zAIQmyzPxgztNsbO/gK+Je4YLce
+	 ciCMdoBBXH0iGc+dE87FOkoBu6Uce/jRT/Ya7GEyH4/7KkWuHPyqX8nSztSBQvw3vL
+	 L8FegqH/dGZqRNCpbuvVZrTfiR676Um5mvDDVFYh66XpUXS9leC3rE1c8nNUescbmb
+	 xFoVtT4VD+7vg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] cxl/pci: Hold memdev lock in cxl_event_trace_record()
-To: Dave Jiang <dave.jiang@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Ben Cheatham <benjamin.cheatham@amd.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org
-References: <20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com>
- <20260310-fix_access_endpoint_without_drv_check-v1-4-94fe919a0b87@zohomail.com>
- <b348fe73-401a-4352-a6b7-adb42e0e4641@intel.com>
-From: Li Ming <ming.li@zohomail.com>
-In-Reply-To: <b348fe73-401a-4352-a6b7-adb42e0e4641@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Feedback-ID: rr0801122895a4557629c712e89d6db0220000d8bbfbdf6360d400233b83c4d462fba8db33537bc0b6ef679e77:zu080112279c22be99a643eb8349959d7b000029a178ff6205152be5157bae46d13b5c6509ae8f0002a87668:rf0801122d0553cd34dc0163f8c29826f9000041fbbc16fcdc759d254883a60042dcf9de77e9f69239fe2a4b7cf5fce23864:ZohoMail
-X-ZohoMailClient: External
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Mar 2026 12:46:03 +0100
+Message-Id: <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
+Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
+Cc: "Robin Murphy" <robin.murphy@arm.com>, "Manivannan Sadhasivam"
+ <manivannan.sadhasivam@oss.qualcomm.com>, "Lorenzo Pieralisi"
+ <lpieralisi@kernel.org>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Rob Herring" <robh@kernel.org>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, "Heiko Stuebner" <heiko@sntech.de>, "Niklas Cassel"
+ <cassel@kernel.org>, "Shawn Lin" <shawn.lin@rock-chips.com>, "Hans Zhang"
+ <18255117159@163.com>, "Nicolas Frattaroli"
+ <nicolas.frattaroli@collabora.com>, "Wilfred Mallawa"
+ <wilfred.mallawa@wdc.com>, <linux-pci@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ "Anand Moon" <linux.amoon@gmail.com>, "Grimmauld" <grimmauld@grimmauld.de>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, <driver-core@lists.linux.dev>, "Lukas Wunner"
+ <lukas@wunner.de>
+To: "Manivannan Sadhasivam" <mani@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260226101032.1042-1-linux.amoon@gmail.com>
+ <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
+ <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
+ <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+ <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+ <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
+In-Reply-To: <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
 
+On Wed Mar 11, 2026 at 6:24 AM CET, Manivannan Sadhasivam wrote:
+> I have a contrary view here. If just a single driver or lib doesn't handl=
+e async
+> probe, it cannot just force other drivers to not take the advantage of as=
+ync
+> probe. As I said above, enabling async probe easily saves a few hunderd m=
+s or
+> even more if there are more than one Root Port or Root Complex in an SoC.
 
-在 2026/3/11 04:52, Dave Jiang 写道:
->
-> On 3/10/26 8:57 AM, Li Ming wrote:
->> This is a preparatory patch for the following changes.
->>
->> To enable endpoint validity checks in cxl_dpa_to_region().
->> cxl_dpa_to_region() has to require caller to hold CXL memdev lock to
->> ensure the CXL memdev probing is completed.
->>
->> So holding the given CXL memdev lock before invoking cxl_dpa_to_region()
->> in cxl_event_trace_record().
->>
->> Suggested-by: Dan Williams <dan.j.williams@intel.com>
->> Signed-off-by: Li Ming <ming.li@zohomail.com>
-> With what Dan said,
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+Then the driver or lib has to be fixed / improved first or the driver core =
+has
+to be enabled to deal with a case where PROBE_FORCE_SYNCHRONOUS is requeste=
+d
+from an async path, etc.
 
-Thanks for review.
+In any case, applying the patch and breaking things (knowingly?) doesn't se=
+em
+like the correct approach.
 
+> I strongly agree with you here that the underlying issue should be fixed.=
+ But
+> the real impact to end users is not this splat, but not having the boot t=
+ime
+> optimization that this patch brings in. As an end user, one would want th=
+eir
+> systems to boot quickly and they wouldn't bother much about a harmless wa=
+rning
+> splat appearing in the dmesg log.
 
-Ming
+You mean quickly booting into a "harmless" potential deadlock condition the
+warning splat tries to make people aware of? :)
 
-[snip]
-
+(Or am I missing a subtle detail and we can never actually end up in a dead=
+lock
+for some reason?)
