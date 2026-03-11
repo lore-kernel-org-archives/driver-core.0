@@ -1,62 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F6336A03F
-	for <driver-core@lists.linux.dev>; Wed, 11 Mar 2026 21:51:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4330935DA41;
+	Wed, 11 Mar 2026 23:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773265912; cv=none; b=khN03VbL5QMy8HVlqFVcNOnzzj0jGVboHMQboSyfk3yIr9JedfEo0Lp8b11yRyoN5LuUM1WxZ76XbBtmyISObpKFkSrnlh8Bz6k7at50Ob4xPd5tqA1fEi1jCmT7ecDU/ZevPszOMSDekbxhpdq5K5Xef/Vk/JJRhihUFzczD/E=
+	t=1773270325; cv=none; b=gNS4ZNYxAqFUMs80Fcnecgudq/Mvz/nXxc0WvC6SfRdhtjf/JTRy1XE8ob2eYVDsx/U0qeEMgh+XQ3diDuSNKx41owlBpDSwDxugEeJ4VTMs7xu2Tt0KWMOCDvywFizwPKo2LZagAJj1/Lp2VirYG8tgFqzt5hYRA9LZ4NoOts4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773265912; c=relaxed/simple;
-	bh=ZQqs+HEOeWUb0Cw0+m2jd+kqOqB1vhyl0L72WLeeThw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nPfSE+1EU5teGlLY0ojr2uXDi47kirOWW5pQFkVvXQ01NHthgRl92L2tVAZr4COG6b6Fg+W4QcjukiFwm71V2DMJJ7TXTjInMrBzzltHk58I1IfqBxCsPAjPuAWVrRTx2Tvz/APSjpQXu8d4/bndKZ+Fi3oHXUEROe7kzTyn36A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nR+Z+7Si; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773270325; c=relaxed/simple;
+	bh=+Xdaz6TjXDeSBjicHgJcIcgm3xaVP2Q3x9OzMalMLmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=W+qiMQ4pmH4CXNLLtXBxnLrYm8GWThwJqR9lcpoRD3HPx8BFrC/POglr/O2O6FFG3sRrDCJ4I5Dm6Wbj8mOdhiXjj4ZUPNPedgCa+Z4GaTK3GXCfEnLBtptFYuUqFOQ5LkuPlxxnpzyoqpLdyvredszcg1oGbTZSzXu/Y2TeWUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJkZVarq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nR+Z+7Si"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773265910; x=1804801910;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZQqs+HEOeWUb0Cw0+m2jd+kqOqB1vhyl0L72WLeeThw=;
-  b=nR+Z+7SimJ2wYwsyU/3DTXghueW0rUfVXWNnhJcQRNmR9Y85uYKo2oSX
-   2PslhPvbjdkSVDtRdKTrQb1IUxxXoPIT8/581vbcEna1wXwl0m3fRnIT1
-   MbNi2a2xEOwwH/FuHX4OgBfNPbhgGM0PJMjIw1NXA7SIYHrPkWcJ8MJYE
-   c2NNGOoQ9qVHDMmMA6uv/YQLHVQTxDZTVYEJyMvfPTCF2UwFEfkoUOViI
-   j4vjAS2ZzB4LsUuqQSNv49uZktEqKsKzdvAguHplfifd69IKyeuEQqieI
-   6RwlM9BKI+Sim6BS0vfAzM+f8jUOofLE/RO0WJDbZQQXOZaVirEFDTa6D
-   Q==;
-X-CSE-ConnectionGUID: udHkPczrRdmADaPy9F/nww==
-X-CSE-MsgGUID: igbUvxbcTfGNYwHIUK6fRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="77955231"
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="77955231"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 14:51:49 -0700
-X-CSE-ConnectionGUID: aR/vhJY9Q7ehb0YYp1xWGw==
-X-CSE-MsgGUID: j4ria7X6Qkqw7ZAIcDZGiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="243628006"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.178])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 14:51:46 -0700
-Date: Wed, 11 Mar 2026 23:51:44 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJkZVarq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA8DC4CEF7;
+	Wed, 11 Mar 2026 23:05:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773270324;
+	bh=+Xdaz6TjXDeSBjicHgJcIcgm3xaVP2Q3x9OzMalMLmY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=ZJkZVarqszqrEo8rmY19514BXG3iosYQMDqVgMdmCS5YJAcJsLyAQg6VhsDnwEjF9
+	 wx2npMbohs39Tjr6WBI+GjRVHWm8OWqELfcYICTx1P+PPxV/Or4WxrfGpFa+QNLfrz
+	 EkIqePEt++V7d60VTxj91jAuj/HBoLYrkdBazzrakJiWN+i4gra4c0PZ43XE5qksml
+	 Nfm3tu1YU9GrQ9gambB/Dxsxs/FLnoBA2vGH85y5CyqG2MnJiRECns41cOaIh8J7hp
+	 T4Em9XjomPvcL3MxaNY6V20de2CjLyW6JhGG47/FZgSM2hkLc8TMrTXk4VDw6fe3UI
+	 r9vW+DxgAcg3w==
+Date: Wed, 11 Mar 2026 18:05:23 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: David Jeffery <djeffery@redhat.com>
 Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>,
+	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v5 1/1] regmap: Synchronize cache for the page selector
-Message-ID: <abHj8CSDg25AjFMX@ashevche-desk.local>
-References: <CGME20260302184802eucas1p2704b309b3953b523d816b51e9b49b196@eucas1p2.samsung.com>
- <20260302184753.2693803-1-andriy.shevchenko@linux.intel.com>
- <a9625fdd-62e8-4dc0-817c-9f8df505069f@samsung.com>
+	Tarun Sahu <tarunsahu@google.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	=?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>,
+	Jordan Richards <jordanrichards@google.com>,
+	Ewan Milne <emilne@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>
+Subject: Re: [PATCH 3/5] driver core: async device shutdown infrastructure
+Message-ID: <20260311230523.GA1066455@bhelgaas>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -65,60 +53,57 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a9625fdd-62e8-4dc0-817c-9f8df505069f@samsung.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260311171209.9205-3-djeffery@redhat.com>
 
-On Mon, Mar 02, 2026 at 08:03:11PM +0100, Marek Szyprowski wrote:
-> On 02.03.2026 19:43, Andy Shevchenko wrote:
-> > If the selector register is represented in each page, its value
-> > according to the debugfs is stale because it gets synchronized
-> > only after the real page switch happens. Hence the regmap cache
-> > initialisation from the HW inherits outdated data in the selector
-> > register.
-> >
-> > Synchronize cache for the page selector just in time.
-> >
-> > Before (offset followed by hexdump, the first byte is selector):
-> >
-> >      // Real registers
-> >      18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >      ...
-> >      // Virtual (per port)
-> >      40: 05 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      50: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      60: 01 ff 00 00 ff ff 00 00 00 00 00 00
-> >      70: 02 ff 00 00 cf f3 00 00 00 00 00 0c
-> >      80: 03 ff 00 00 00 00 00 00 00 00 00 ff
-> >      90: 04 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >
-> > After:
-> >
-> >      // Real registers
-> >      18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >      ...
-> >      // Virtual (per port)
-> >      40: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      50: 01 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      60: 02 ff 00 00 ff ff 00 00 00 00 00 00
-> >      70: 03 ff 00 00 cf f3 00 00 00 00 00 0c
-> >      80: 04 ff 00 00 00 00 00 00 00 00 00 ff
-> >      90: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >
-> > Fixes: 6863ca622759 ("regmap: Add support for register indirect addressing.")
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Wed, Mar 11, 2026 at 01:12:07PM -0400, David Jeffery wrote:
+> Patterned after async suspend, allow devices to mark themselves as wanting
+> to perform async shutdown. Devices using async shutdown wait only for their
+> dependencies to shutdown before executing their shutdown routine.
 
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+I'm not an expert on dependencies.  Is it obvious to everybody else
+how these dependencies are expressed?  What would I look at to verify
+that, for example, PCI devices are dependencies of the PCI bridges
+leading to them?  I suppose it's the same dependencies used for
+suspend?
 
-Thank you!
+From wait_for_shutdown_dependencies() below, it looks like we'll wait
+for each child of dev and then wait for each consumer of dev before
+shutting down dev itself.
 
-Not sure if Dmitry will be able to test this, he didn't react to this message,
-but at least the Marek's case is confirmed to working. Can we take this in?
+> Sync shutdown devices are shut down one at a time and will only wait for an
+> async shutdown device if the async device is a dependency.
 
-Dmitry, would you be able to test this change?
+> @@ -132,6 +133,7 @@ struct device_private {
+>  #ifdef CONFIG_RUST
+>  	struct driver_type driver_type;
+>  #endif
+> +	struct completion complete;
 
--- 
-With Best Regards,
-Andy Shevchenko
+I thought "complete" might be a little too generic, but I guess async
+suspend uses "dev->power.completion" :)
 
+> +static void wait_for_shutdown_dependencies(struct device *dev, bool async)
+> +{
+> +	struct device_link *link;
+> +	int idx;
+> +
+> +	device_for_each_child(dev, &async, wait_for_device_shutdown);
+> +
+> +	idx = device_links_read_lock();
+> +
+> +	dev_for_each_link_to_consumer(link, dev)
+> +		if (!device_link_flag_is_sync_state_only(link->flags))
+> +			wait_for_device_shutdown(link->consumer, &async);
+> +
+> +	device_links_read_unlock(idx);
+> +}
 
+> @@ -4828,6 +4919,12 @@ void device_shutdown(void)
+>  
+>  	cpufreq_suspend();
+>  
+> +	/*
+> +	 * Start async device threads where possible to maximize potential
+> +	 * paralellism and minimize false dependency on unrelated sync devices
+
+s/paralellism/parallelism/
