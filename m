@@ -1,159 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008C3299A94;
-	Wed, 11 Mar 2026 05:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABE138D016;
+	Wed, 11 Mar 2026 07:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773206716; cv=none; b=GwZtYXYjtI4uK3QywJS+zLa4X+e+FLYn5Bg7Q7HkjEU5HltxgLRRzv3ygi44Wygi7Po+Gyk9CeM4Mp6CAlGhXwo7Nq4OikLX5fvrAMcPZX3ojcf/rhV224+4dFLTtzEWA0aNgRtTJwyXprfOdrc110pZ+ehWjvXi9h25dpJOun4=
+	t=1773213054; cv=none; b=BYJ0eM2I5+6aK131/dg+uHD8vK/H5LTTRUf15lnNFt2TnSMqZdmL4vTuBECce/xx1k8XaAX2RGsD5H9DDNJCT8rVM+oSV9ZwRmVoVXJXheN8saIVflXU2xWus8AjCRbeDPfr41Q8iTitfYx84WQUU/d+c9C8d7mjorxBAWN0+DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773206716; c=relaxed/simple;
-	bh=Lz9CL6rzdbiGSs2MlZc2h5jp54acjzYn9zhxUZhjCSE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WoSpxFMql30dgpGSlNaJhGBMsYMm7gQA5B9wv/NSTS3CiezuwQWYOdJq0ik0854yslLOiPfaWqvW45TjkFQ3/2FzaunS8LrlKfd4uJ14UzJstILEcB7AVBuJU+gJ89wuQDkYlkcUpAALsXz2osq4UxKh1kuuEYHlfQVuXhsuy0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EdjU4UpZ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdjU4UpZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A392C4CEF7;
-	Wed, 11 Mar 2026 05:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773206715;
-	bh=Lz9CL6rzdbiGSs2MlZc2h5jp54acjzYn9zhxUZhjCSE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EdjU4UpZvCZbIz4IVjbWg8bEigB3Il9TDaxRPMNRYXAG6xI2m5oVM27GWJq9zR/hH
-	 8Ty+XAHDBc4IUpQM8TdwFjmSF4DaxoA0q72QiB0raWNfuMJ4QZoYnb1hcXum40d/Sz
-	 0czfouRTFALAxFnaQi0PvKTVzE2B1cAP/3MX5rWbrFPZZZ9rPBzE+9Hirvq5N2ItzK
-	 UTE/x50P9uX3bI8lKJEFcYCb4wRUjI3INck/AuD0xtc05ojvJAqYALfkhZDrk+q0xK
-	 fJH78WljXcK36ZUbkStnvdCkZOBhl9NtbnuzcSAWrIB8kJvVdk3UTbP58N16nx/tdr
-	 mhCw5KctX23kw==
-Date: Wed, 11 Mar 2026 10:54:59 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Niklas Cassel <cassel@kernel.org>, 
-	Shawn Lin <shawn.lin@rock-chips.com>, Hans Zhang <18255117159@163.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Wilfred Mallawa <wilfred.mallawa@wdc.com>, 
-	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>, 
-	Grimmauld <grimmauld@grimmauld.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
-Message-ID: <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
-References: <20260226101032.1042-1-linux.amoon@gmail.com>
- <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
- <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
- <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
- <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+	s=arc-20240116; t=1773213054; c=relaxed/simple;
+	bh=nG5QpDl0WwXxxEUbvogAjWfL4X9xBVWgNKIGnVanW5k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pqWVdk65oZGxfL9ZZMbTpM6XAOqVNTe5z23vzLWmM5iBNydIn1cho1sVStt/Vv9v3ZJ3eLR9cPoQ9zLpMUZdn5aD3uIwlH6eTfeQlSld1rMFn5hh97we7iTZJvSiIkTri6GgIT7Ez5M6vDs7aNtY3LOou9crCSSlf63tQA8aEjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4469EC4CEF7;
+	Wed, 11 Mar 2026 07:10:53 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id 7A22B180696; Wed, 11 Mar 2026 08:10:45 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, driver-core@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
+ stable@vger.kernel.org
+In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v2 00/10] workqueue / drivers: Add
+ device-managed allocate workqueue
+Message-Id: <177321304548.505649.413926339032568347.b4-ty@collabora.com>
+Date: Wed, 11 Mar 2026 08:10:45 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Tue, Mar 10, 2026 at 09:03:32PM +0000, Robin Murphy wrote:
-> [ +driver-core maintainers - async probe question below ]
+
+On Thu, 05 Mar 2026 22:45:39 +0100, Krzysztof Kozlowski wrote:
+> Merging / Dependency
+> ====================
+> All further patches depend on the first one, thus this probably should
+> go via one tree, e.g. power supply.  The first patch might be needed for
+> other trees as well, e.g. if more drivers are discovered, so the best if
+> it is on dedicated branch in case it has to be shared.
 > 
-> On 2026-03-10 3:30 pm, Manivannan Sadhasivam wrote:
-> > Hi Robin,
-> > 
-> > On Tue, Mar 10, 2026 at 01:41:56PM +0000, Robin Murphy wrote:
-> > > Hi Mani,
-> > > 
-> > > On 2026-03-04 6:48 am, Manivannan Sadhasivam wrote:
-> > > > 
-> > > > On Thu, 26 Feb 2026 15:40:23 +0530, Anand Moon wrote:
-> > > > > Rockchip DWC PCIe driver currently performs synchronous link training for
-> > > > > combo PHYs (PCIe 3.0/2.0 and SATA 3.0) during boot. This process waits for
-> > > > > the link to be fully established, adding several milliseconds to the boot
-> > > > > sequence. To optimize boot time, this change enables asynchronous probing,
-> > > > > allowing link establishment to proceed in the background while the kernel
-> > > > > continues probing other devices.
-> > > > > 
-> > > > > [...]
-> > > > 
-> > > > Applied, thanks!
-> > > > 
-> > > > [1/1] PCI: dw-rockchip: Enable async probe by default
-> > > >         commit: ec392abc95932838bf7e3d659d358f4df9ff5a0a
-> > > 
-> > > This appears to have the side-effect that calling pci_host_probe() from
-> > > async context can effectively force async probe for the endpoint drivers
-> > > as well, but some drivers are not OK with that, as our CI has just
-> > > flagged up.
-> > > 
-> > 
-> > Thanks for reporting!
-> > 
-> > > (And as for that particular warning, ISTR last time I looked into it
-> > > another context, the opinion of the MDIO/phy maintainers seemed to be
-> > > "don't force async probe".)
-> > > 
-> > 
-> > This was discussed during v2 [1] and concluded that the async probe benefits
-> > outweigh the unharmful splat from phylib. I also agree with the above conclusion
-> > that this splat should not prevent us from enabling async probe for PCI
-> > controller drivers. It can easily save a few 100ms during boot.
-> 
-> The problem is not an "unharmful splat" from one driver on one board -
-> that's *a* symptom, and the fact that it happens to be a relatively benign
-> one does not dismiss the problem that forcing async probe upon drivers that
-> are not designed to support async probe cannot in general be assumed to be
-> safe, so is not OK. It's one thing if a user brings it upon themselves by
-> explicitly using the "driver_async_probe=" option, but it's very different
-> if some other driver starts doing it for them.
-> 
+> [...]
 
-I have a contrary view here. If just a single driver or lib doesn't handle async
-probe, it cannot just force other drivers to not take the advantage of async
-probe. As I said above, enabling async probe easily saves a few hunderd ms or
-even more if there are more than one Root Port or Root Complex in an SoC.
+Applied, thanks!
 
-Moreover, there are multiple ways this splat could be triggered as reported in:
-https://lore.kernel.org/netdev/7103704.9J7NaK4W3v@fedora.fritz.box
+[02/10] power: supply: cw2015: Free allocated workqueue
+        commit: db254b0b232358ab1aeadebe8d147c99a3569559
+[03/10] power: supply: max77705: Drop duplicated IRQ error message
+        commit: 2064c64ceb1996ee02a6bbb1de05fd6e8028e3e4
+[04/10] power: supply: max77705: Free allocated workqueue and fix removal order
+        commit: 1e668baadefb16e81269dbfebf3ffc2672e3a3bb
+[05/10] power: supply: mt6370: Simplify with devm_alloc_ordered_workqueue()
+        commit: f23afa01040a41882a048e4957a7acac1426da6f
+[06/10] power: supply: ipaq_micro: Simplify with devm
+        commit: 2cfc7cac68e19c4acb236b8db6065bbaff5deee8
 
-> Looking closer, it seems like the fundamental issue might be when we've got
-> this far (simplified for clarity):
-> 
-> - async_run_entry_fn
->   - rockchip_pcie_probe
->     - pci_host_probe
->      - pci_bus_add_device
->        - device_initial_probe
->          - __device_attach_driver
-> 
-> wherein we then reach the "if (data->check_async && async_allowed !=
-> data->want_async)" condition, at which point check_async is true (from
-> device_initial_probe()), while async_allowed and want_async are *both*
-> false, but that leads us to actually go ahead and call driver_probe_device()
-> for the child device despite being in async context. That doesn't seem right
-> to me - I'm guessing it maybe wasn't anticipated to have bus drivers calling
-> device_initial_probe() from within async in the first place?
-> 
-
-But isn't the underlying issue is with phylib calling request_module() while the
-driver core performs async probing?
-
-> It may not strictly be the fault of this patch - clearly 91703041697c ("PCI:
-> Allow built-in drivers to use async initial probing") is implicated in this
-> too - but the fact is that it *has* exposed a bug that needs fixing one way
-> or another, it can't just be left hanging and impacting end users.
-> 
-
-I strongly agree with you here that the underlying issue should be fixed. But
-the real impact to end users is not this splat, but not having the boot time
-optimization that this patch brings in. As an end user, one would want their
-systems to boot quickly and they wouldn't bother much about a harmless warning
-splat appearing in the dmesg log.
-
-- Mani
-
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Sebastian Reichel <sebastian.reichel@collabora.com>
+
