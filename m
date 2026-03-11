@@ -1,95 +1,150 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF9F2F4A14;
-	Wed, 11 Mar 2026 19:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BDC324716;
+	Wed, 11 Mar 2026 21:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773258042; cv=none; b=KnXXNv4+I12bh8XDmQc6VSi5GNx4QodsWGmhMQDUsfw0WTlqZJpFNT75C6cVJlBQym4ueQOuQDVgxL+WfB8aIve8v/XIWmvFviSj6+WA+b6qetLgOUEAbzJlt+0S/Mri0tJRQQQz0zz2xxdW9eSY6RmH25/FXKPfInvzo6Pr3ss=
+	t=1773263365; cv=none; b=PFa6GxemjTfx9ymK4h6v/rzBirTmAWh+BgfgFdciag1vQqw3Z/5kBB7poeoKcVuAJYfdQcQfmWU8IhV1n9EJ9ZtfMHP4goITFX5hJ1/CAvAI78crI0niihD5OTQuOc4SA3Idj7T8ArEhWBmdyC0bQ3XLFt6FauEMh8E4G1nI888=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773258042; c=relaxed/simple;
-	bh=cqcs0kdiwCEbSZ6YAhhVTcmjX99KADHLItChmhGh1fs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sD16HXcuhaWpGiWmsSYCgh/dr4Vi4mcWu2QSqqfS4k03HKiAvVZV6jjrh+eNQay3n6bpvoNcqR+BwboaUnAdvT0mnfj8dV5tngxH1+BJqpNCTgW2MbLAZzpH1pkZF2A3KBvkevknZh/qLUMt1AmVFLSbLn2Rw1ER3sZnbD+53Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pKcY2qJb; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1773263365; c=relaxed/simple;
+	bh=0rXaMvGNi4+OvPnGl2fgoLlfPW/6GtuSV3FJJcwDS9M=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=Qw0DeQWZToxXzygkcqpCusukGVQaBPZUEhBJZ8wHm/hbjQ0K6bBp3m3g3OGsDpGGLLf0mPCZxU9Ur/gC01DY+JJXnnYxqqkwt7IGXqiyxr5WzCqpocEZJIOIGSfI39KvwQoj9iBwxY99cWgCwiMhcyG/ADfHL5WY704HSV0sCzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nTY9OMOC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pKcY2qJb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=UauR/UJlDBZ2dBizfiwZm7RvW4m8pMIUl2WRKBObDYM=; b=pKcY2qJbMrXpROU41g8NTDShBe
-	SJ7aODbeYHjAdkcD9fbpK4bb27SZdJrCihd4lZ/f7g462tkmKSVAovx0jxQTPP/97rwO2qNTTMixE
-	MU2wqxPtf0omdAGrkGMSHdCqEjResGWrLjq0Esq3PTOsvSntU6eZeQMg+fYFelVjRjeB7p8JrwGY/
-	cPkdJJDUDrObyaU2K1rp0w9jQ6OUJPyEOO6suxGf3XhciNSIwU1OHfhIHJupl8oJ3x/NGIc4hUdhu
-	mXh8DN8ZFmPjK8dMNRxsiGnXeaEbb36jcV7Po1zlKCyiAhykCe4vj8rC2qrxsicH4C6syO+vkUxvM
-	Wwlkr2YQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0PQ5-0000000CNMf-12Ug;
-	Wed, 11 Mar 2026 19:40:37 +0000
-Message-ID: <a15d4e2f-4a6f-4bf5-bc07-c4a1d38e8dda@infradead.org>
-Date: Wed, 11 Mar 2026 12:40:36 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nTY9OMOC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED2FC4CEF7;
+	Wed, 11 Mar 2026 21:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773263365;
+	bh=0rXaMvGNi4+OvPnGl2fgoLlfPW/6GtuSV3FJJcwDS9M=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=nTY9OMOC9F7kBpERi6z30FTuaZPxVl5Fv76LmjUo5otKD3FEeRahGXzKjzBHLciW/
+	 vsFHQE05z41uqlhKhSf82H6e/E4Nzu9yGSGunIZ9o4u6pDNHpQYJyKgpZB6+0m5s1D
+	 cAewcAljEd7Hj7kuJulzboI2aN1KxsQbjjxPrm3U6Pu/bOyjMJ6EBuAu7Zg/qeb4B0
+	 f6ToSmUPcZdepsHbptQjimEa08e1m8i4KaHUqNpNAR6l4j2zh0wNXnIpDSkMMMCK27
+	 3T5aLWdjgAYUE16y8cGqZfrCI7WYozbJwRtjgPtBEKCMJrNi+E6cOP74wmmn8fZt4t
+	 s51IXrEVJ8MCw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] driver core: async device shutdown infrastructure
-To: David Jeffery <djeffery@redhat.com>, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
- linux-scsi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: Tarun Sahu <tarunsahu@google.com>, Pasha Tatashin <tatashin@google.com>,
- =?UTF-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>,
- Jordan Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>,
- John Meneghini <jmeneghi@redhat.com>,
- "Lombardi, Maurizio" <mlombard@redhat.com>,
- Stuart Hayes <stuart.w.hayes@gmail.com>,
- Laurence Oberman <loberman@redhat.com>
-References: <20260311171209.9205-1-djeffery@redhat.com>
- <20260311171209.9205-3-djeffery@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260311171209.9205-3-djeffery@redhat.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 11 Mar 2026 22:09:19 +0100
+Message-Id: <DH09EDBW3X6T.2996UB1CFCAW2@kernel.org>
+Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
+Cc: "Robin Murphy" <robin.murphy@arm.com>, "Manivannan Sadhasivam"
+ <manivannan.sadhasivam@oss.qualcomm.com>, "Lorenzo Pieralisi"
+ <lpieralisi@kernel.org>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Rob Herring" <robh@kernel.org>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, "Heiko Stuebner" <heiko@sntech.de>, "Niklas Cassel"
+ <cassel@kernel.org>, "Shawn Lin" <shawn.lin@rock-chips.com>, "Hans Zhang"
+ <18255117159@163.com>, "Nicolas Frattaroli"
+ <nicolas.frattaroli@collabora.com>, "Wilfred Mallawa"
+ <wilfred.mallawa@wdc.com>, <linux-pci@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ "Anand Moon" <linux.amoon@gmail.com>, "Grimmauld" <grimmauld@grimmauld.de>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, <driver-core@lists.linux.dev>, "Lukas Wunner"
+ <lukas@wunner.de>
+To: "Manivannan Sadhasivam" <mani@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260226101032.1042-1-linux.amoon@gmail.com>
+ <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
+ <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
+ <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+ <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+ <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
+ <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
+ <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
+In-Reply-To: <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
 
-Hi,
+On Wed Mar 11, 2026 at 1:28 PM CET, Manivannan Sadhasivam wrote:
+> On Wed, Mar 11, 2026 at 12:46:03PM +0100, Danilo Krummrich wrote:
+>> On Wed Mar 11, 2026 at 6:24 AM CET, Manivannan Sadhasivam wrote:
+>> > I have a contrary view here. If just a single driver or lib doesn't ha=
+ndle async
+>> > probe, it cannot just force other drivers to not take the advantage of=
+ async
+>> > probe. As I said above, enabling async probe easily saves a few hunder=
+d ms or
+>> > even more if there are more than one Root Port or Root Complex in an S=
+oC.
+>>=20
+>> Then the driver or lib has to be fixed / improved first or the driver co=
+re has
+>> to be enabled to deal with a case where PROBE_FORCE_SYNCHRONOUS is reque=
+sted
+>> from an async path, etc.
+>>=20
+>> In any case, applying the patch and breaking things (knowingly?) doesn't=
+ seem
+>> like the correct approach.
+>>=20
+>> > I strongly agree with you here that the underlying issue should be fix=
+ed. But
+>> > the real impact to end users is not this splat, but not having the boo=
+t time
+>> > optimization that this patch brings in. As an end user, one would want=
+ their
+>> > systems to boot quickly and they wouldn't bother much about a harmless=
+ warning
+>> > splat appearing in the dmesg log.
+>>=20
+>> You mean quickly booting into a "harmless" potential deadlock condition =
+the
+>> warning splat tries to make people aware of? :)
+>>=20
+>
+> Hmm, I overlooked the built-as-module part where the deadlock could be po=
+ssible
+> as indicated by the comment about the WARN_ON_ONCE().
+>
+> But what is the path forward here? Do you want the phylib to fix the
+> request_module() call or fix the driver core instead?
 
-On 3/11/26 10:12 AM, David Jeffery wrote:
-> Patterned after async suspend, allow devices to mark themselves as wanting
-> to perform async shutdown. Devices using async shutdown wait only for their
-> dependencies to shutdown before executing their shutdown routine.
-> 
-> Sync shutdown devices are shut down one at a time and will only wait for an
-> async shutdown device if the async device is a dependency.
-> 
-> Signed-off-by: David Jeffery <djeffery@redhat.com>
-> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-> Tested-by: Laurence Oberman <loberman@redhat.com>
-> ---
->  drivers/base/base.h    |   2 +
->  drivers/base/core.c    | 104 ++++++++++++++++++++++++++++++++++++++++-
->  include/linux/device.h |  13 ++++++
->  3 files changed, 118 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/base/base.h b/drivers/base/base.h
-> index 79d031d2d845..ea2a039e7907 100644
-> --- a/drivers/base/base.h
-> +++ b/drivers/base/base.h
+Here are a few thoughts.
 
-I know this isn't directly about this patch, but would you mind adding
-descriptions that are currently missing for a couple of struct member fields?
+In general, I think the best would be to get rid of the (affected)
+PROBE_FORCE_SYNCHRONOUS cases.
 
-Warning: drivers/base/base.h:59 struct member 'drivers_autoprobe' not described in 'subsys_private'
-Warning: drivers/base/base.h:135 struct member 'deferred_probe_reason' not described in 'device_private'
+Now, I guess this can be pretty hard for a PCI controller driver, as you ca=
+n't
+really predict what ends up being probed from you async context, i.e. it co=
+uld
+even be some other bus controller and things could even propagate further.
 
-thanks.
--- 
-~Randy
+Not sure how big of a deal it is in practice though, there are not a lot of
+PROBE_FORCE_SYNCHRONOUS drivers (left), but note that specifying neither
+PROBE_FORCE_SYNCHRONOUS nor PROBE_PREFER_ASYNCHRONOUS currently results in
+synchronous by default.
 
+(Also, quite some other PCI controller drivers do set PROBE_PREFER_ASYNCHRO=
+NOUS
+and apparently got lucky with it.)
+
+From a driver-core perspective I think we're rather limited on what we can =
+do;
+we are already in async context at this point and can't magically go back t=
+o
+initcall context.
+
+So, the only thing I can think of is to kick off work on a workqueue, which=
+ in
+the end would be the same as the deferred probe handling.
+
+Another alternative would be to let the subsystem handle such cases, which =
+in
+this case would probably mean to handle the current_is_async() case in
+pci_host_probe() or pci_bus_add_devices().
+
+On the other hand, this would probably end up to be a subsystem specific
+implementation of "kick of work on a workqueue".
+
+> I can drop this patch in the meantime. But holding this prolong wouldn't =
+help.
