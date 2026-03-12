@@ -1,39 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1633D3BB9F9;
-	Thu, 12 Mar 2026 15:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA7931F997;
+	Thu, 12 Mar 2026 15:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773328348; cv=none; b=bYIgMArR5V55NfEh73j0E7v6gvcUposToHAvnV/T3bbsM+I9e/BxAvpAgwCXYvxI/qMfQDkn273f3ypvgFEhdDjqCBlLsGLHDc0QJ0Xyqy+9RiQZpVz6TegW8+37615fAgcnm5srYfiL+6V/cZ2Ek34vICdR26TfQu+fQjwgyA0=
+	t=1773328409; cv=none; b=hEWGjvIuXNJFZmIeW7qUkktkv45KndHHCzza5xLRQlyUmQV8sARYTRbzlUmnsB2gulcDIVmkdZ5WnvJN+vNfwnvToC1wqmsRThVQx/dfL6cVIBsfHlrcr0QPHDb+yS6cte8uwozDGjayOXDye8OC/mtdpfL8MiczUXwoBB2oJjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773328348; c=relaxed/simple;
-	bh=tUwAGIZmse7FuYmZfe+nQ5jEykWKewsr62HzUQfTTuQ=;
+	s=arc-20240116; t=1773328409; c=relaxed/simple;
+	bh=2qQTPZCB1wxl6IMcUBhVy6dND0iZbZTpo+CfpYcvMxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A14Bw4FCduQSdPmtN7Dh0n8qEoJ3whhQ2CRavtnWdFpxuARVch3X9GcLv2HYALFro9MzPHsm8r7ZBvT78PXDRS+hksPcw/IwaGppV6me95s7A0v5UZvH0lStUfY+QgB6+5pLigzp4a47ToSBilHIdxaNL0RRHdQ+H/pC1g1VrZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pMY6gViI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBTB/WZK1MBfcjtJXZpQKd/j+YJNVla1A5xYJtaFOp9p55VikPefrjmfzPLVw+BbdwFXZG2t4wnyMi6lqIsoTsHhvibPOkhR1dYba1dw/FU3/7fMP79kwWvzckJwvvOIcV+BZx0JNdg7uqKdwiPwe25ZOJrYNuAXvuB8wJdDDng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0vDcZsIC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pMY6gViI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17EA9C4CEF7;
-	Thu, 12 Mar 2026 15:12:27 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0vDcZsIC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9A64C4CEF7;
+	Thu, 12 Mar 2026 15:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773328347;
-	bh=tUwAGIZmse7FuYmZfe+nQ5jEykWKewsr62HzUQfTTuQ=;
+	s=korg; t=1773328408;
+	bh=2qQTPZCB1wxl6IMcUBhVy6dND0iZbZTpo+CfpYcvMxA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pMY6gViIXd9OB0NGAC1PrH4otyQcfIfcnfi0dJi4gOuC9KcctlWAxz0+fBEcqNl8C
-	 u4fa9NohFErKvS4I3ZN9az+vSU/0ECQMgVIcRKAx6tzgxwSoaYdcjK7SRZO/In2Awx
-	 IJDQDc3qOd46Od6ajJDjmPQjB3r9QRaB7llAn8lI=
-Date: Thu, 12 Mar 2026 16:12:21 +0100
+	b=0vDcZsICzECgtcVKHoAnBMgINkVcI3RmoN3LlnvlGlekO1GhKQnEOF59TnZG07SKx
+	 S1s/lnExNxYpDtgGX/gmO1NsJEHfBhT2RSzGkWgMD2CBXfPbe/dOV1rAWMDnn/MwKg
+	 AByhg14qfPLw+Jdw2Q4wCH6OrUgOeBa2EjP6LdhE=
+Date: Thu, 12 Mar 2026 16:13:24 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Danilo Krummrich <dakr@kernel.org>
-Cc: rafael@kernel.org, ojeda@kernel.org, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
+Cc: rafael@kernel.org, driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Use struct devres_node in Devres<T>
-Message-ID: <2026031213-appendage-procedure-0dab@gregkh>
-References: <20260213220718.82835-1-dakr@kernel.org>
+Subject: Re: [PATCH 0/7] Miscellaneous devres improvements
+Message-ID: <2026031218-uniformly-bobcat-8e2d@gregkh>
+References: <20260202235210.55176-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,47 +39,48 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260213220718.82835-1-dakr@kernel.org>
+In-Reply-To: <20260202235210.55176-1-dakr@kernel.org>
 
-On Fri, Feb 13, 2026 at 11:07:10PM +0100, Danilo Krummrich wrote:
-> Currently, the Devres<T> container uses devm_add_action() to register a
-> devres callback.
+On Tue, Feb 03, 2026 at 12:48:13AM +0100, Danilo Krummrich wrote:
+> This patch series provides some miscellaneous devres improvements.
 > 
-> devm_add_action() allocates a struct action_devres, which on top of
-> struct devres_node, just keeps a data pointer and release function
-> pointer.
+> The most notable change is a more clear separation between the base struct
+> devres_node and its "subclasses" (such as struct devres and struct devres_group)
+> as well as the mixup between struct devres and struct devres_group.
 > 
-> This is an unnecessary indirection, given that analogous to struct
-> devres, the Devres<T> container can just embed a struct devres_node
-> directly without an additional allocation.
+> This serves three purposes.
 > 
-> In contrast to struct devres, we don't need to force an alignment of
-> ARCH_DMA_MINALIGN (as struct devres does to account for the worst case)
-> since we have generics in Rust. I.e. the compiler already ensures
-> correct alignment of the embedded T in Devres<T>.
+>   (1) Better maintainability due to clear type separation.
 > 
-> Thus, get rid of devm_add_action() and instead embed a struct
-> devres_node directly.
+>   (2) No waste of memory due to unnecessary minimal alignment for devres
+>       actions, by introducing its own struct devres_action "subclass".
 > 
-> This patch series is based on [1].
+>   (3) Bootstrapping for Rust devres code to embed a struct devres_node itself
+>       to avoid both the unnecessary minimum alignment of struct devres and the
+>       indirection through devres action avoiding unnecessary additional memory
+>       allocations. [1]
 > 
-> [1] https://lore.kernel.org/lkml/20260202235210.55176-1-dakr@kernel.org/
+> However, (3) is just for completeness, the series also stands on its own.
 > 
-> Changes in v2:
->   - Prevent driver-core internal C APIs from potentially being called directly
->     from driver modules due to monomorphisation, to prevent unnecessary symbol
->     exports.
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/commit/?h=devres/devres_node&id=6da8ca499fa65992d71c5cb7a51df7260666e695
 > 
-> Danilo Krummrich (5):
->   devres: move struct devres_node into base.h
->   devres: export devres_node_init() and devres_node_add()
->   devres: add devres_node_remove()
->   devres: rename and export set_node_dbginfo()
->   rust: devres: embed struct devres_node directly
+> Danilo Krummrich (7):
+>   devres: fix missing node debug info in devm_krealloc()
+>   devres: add devres_node_add()
+>   devres: add devres_node_init()
+>   devres: don't require ARCH_DMA_MINALIGN for devres actions
+>   devres: add free_node callback to struct devres_node
+>   devres: use guard(spinlock_irqsave) where applicable
+>   devres: remove unnecessary unlocks in devres_release_group()
 > 
->  drivers/base/base.h   |  18 +++++
->  drivers/base/devres.c |  50 ++++++------
->  rust/kernel/devres.rs | 182 +++++++++++++++++++++++++++++++-----------
->  3 files changed, 180 insertions(+), 70 deletions(-)
+>  drivers/base/devres.c | 248 ++++++++++++++++++++++++++++--------------
+>  1 file changed, 165 insertions(+), 83 deletions(-)
+> 
+> 
+> base-commit: 289b14592cefe95f7d0ef334873c12b96ce3824f
+> -- 
+> 2.52.0
+> 
+> 
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
