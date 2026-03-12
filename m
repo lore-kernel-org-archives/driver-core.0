@@ -1,162 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8036838C2C2;
-	Thu, 12 Mar 2026 05:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DC73AD51B;
+	Thu, 12 Mar 2026 09:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773292268; cv=none; b=nIT2n8ACfNLYD4x6DI1InC9JyrFRp7DIdXrmevpZzLqIZHRk0LvxE4m23rg2LvXitIbjAhSPUAovgo9DK1eQBXxqAv/dXZmRex8zO6dfp9PerXz1KD5FNMf/FC70+yDqXC38Kt+7M9iwGBLmQ4VPjUSXwzfd/DdxRQwm7S4oUfY=
+	t=1773309244; cv=none; b=ghdcvLKx29s/zD0F39bK3YqaDFUIMgkHin237+xSpYpKfPEJjPi9v15uifubMMG1Z4vdGk5VUcViU99A0U6n0+PjclDoWTtwTqBsGSqKKZSmk92dn1dhn1moHqfxoFX/jpnnTPugPNBMGeGoXFqv0BBsAKDLbums9MsG/7jL2/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773292268; c=relaxed/simple;
-	bh=p5/WrTMgXaFFzActxG74w2aUPlAbHxR5XrnLZAuEJD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bkZph/KYEVCDdqDUgd3z2sY/NB2HACLGrEA3Ev/KzGATUdZFUAOXibXHZWzE/xSn3+cMXmHC1l674i+waIbiIXUTwdZDI7jjQ/okoI8RxTkJ3mxm5vZchJ5dzQsrfus2OonXuk1gsUjQJXk6sEabqYA+pCD1/xWj+eaAvJZ68Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jryJekUG; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jryJekUG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773292267; x=1804828267;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p5/WrTMgXaFFzActxG74w2aUPlAbHxR5XrnLZAuEJD4=;
-  b=jryJekUGGGQwJhN1Up51Ntr+ECDVH3AW5S0pBTbmTZoWVb6oAweGlimN
-   PlfUUGyr24dsIvFNzjaqYbMBAMR146ZlLc1m1NEJ0tnfBol3DIJuzVy3s
-   69c7MWOZ7qGlP5uiP7zKO+3DUYJk757ztwt1LfNvXlfyh/dJoe4eUgxGD
-   pePic4UnxkEh10FhAYBjNma+yT/f7/UeGDI3ltJwwLFbAAJEYBybf/INV
-   sxvpvHg5O/ujpRBAkkHhHowqcMWAnFNgCN5/2w5VgOQ05pdd9YA4wZhm5
-   VSDi0wFb50kHf8aXy5x1XLVpI+2FxRcyaDcW89DohYgalI/SYIXRn+Owq
-   w==;
-X-CSE-ConnectionGUID: Ft1LENsPTmWcAJdukAyT3A==
-X-CSE-MsgGUID: iGGwyYiqT/a9IyLQr3GJ4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="74341839"
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="74341839"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 22:11:06 -0700
-X-CSE-ConnectionGUID: 87LtlV16RoaXm4u1eKexlA==
-X-CSE-MsgGUID: 0BwqtQi+S0iWJ8cMC6bcOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="258605653"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 11 Mar 2026 22:11:02 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w0YK3-000000003SX-0PTy;
-	Thu, 12 Mar 2026 05:10:59 +0000
-Date: Thu, 12 Mar 2026 06:10:51 +0100
-From: kernel test robot <lkp@intel.com>
-To: David Jeffery <djeffery@redhat.com>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
+	s=arc-20240116; t=1773309244; c=relaxed/simple;
+	bh=lHZVhCzulzdzkAtiVdpksnpGYjt4BLJ/buQ/uz/EETg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lqxv4fV6N/Z8+LDMDjExn12QOPw4UjXjkEcvu7tgmc/VhOaGWb1YlUwwWDh7R/SaAZXfxWPoQjfGEFwkCJL7PeqJOJooNypCZMwM/rlmjPxCSt+sDmB3sFHpWn9iULwuXnA8prtcYHfSHt0xktkX2Z4uVlJ31+//ryEZZSD2i0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27515C19424;
+	Thu, 12 Mar 2026 09:54:00 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Tarun Sahu <tarunsahu@google.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	=?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>,
-	Jordan Richards <jordanrichards@google.com>,
-	Ewan Milne <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	David Jeffery <djeffery@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>
-Subject: Re: [PATCH 2/5] driver core: separate function to shutdown one device
-Message-ID: <202603120643.h7j4avWA-lkp@intel.com>
-References: <20260311171209.9205-2-djeffery@redhat.com>
+	Danilo Krummrich <dakr@kernel.org>,
+	Frank Binns <frank.binns@imgtec.com>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] PM: domains: Call pm_runtime_barrier() before dev_pm_domain_{attach*,detach}()
+Date: Thu, 12 Mar 2026 10:53:39 +0100
+Message-ID: <15510cee649959281d9554965cacd0c06531c1f3.1773308898.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260311171209.9205-2-djeffery@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+If a device has multiple PM Domains, dev_pm_domain_detach() is called
+multiple times on unbind or probe failure.  If the PM Domain is also a
+Clock Domain, and thus calls pm_clk_destroy() from its .detach()
+callback, dev_pm_put_subsys_data() will set dev->power.subsys_data to
+NULL when psd->refcount reaches zero.
 
-kernel test robot noticed the following build warnings:
+Later/in parallel, default_suspend_ok() calls dev_gpd_data():
 
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus jejb-scsi/for-next mkp-scsi/for-next linus/master v7.0-rc3 next-20260311]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+    static inline struct generic_pm_domain_data *dev_gpd_data(struct device *dev)
+    {
+	    return to_gpd_data(dev->power.subsys_data->domain_data);
+    }
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Jeffery/driver-core-separate-function-to-shutdown-one-device/20260312-011646
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20260311171209.9205-2-djeffery%40redhat.com
-patch subject: [PATCH 2/5] driver core: separate function to shutdown one device
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260312/202603120643.h7j4avWA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603120643.h7j4avWA-lkp@intel.com/reproduce)
+which may trigger a NULL pointer dereference.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120643.h7j4avWA-lkp@intel.com/
+All dev_pm_domain_{at,de}tach*() functions document that callers must
+ensure proper synchronization of these functions with power management
+callbacks.  Unfortunately no callers seem to actually do so.  This
+includes dev_pm_domain_attach_list() and dev_pm_domain_detach_list():
+they call dev_pm_domain_{attach*,detach}() internally, which means they
+should take care of this synchronization themselves.
 
-All warnings (new ones prefixed by >>):
+Add synchronization to dev_pm_domain_{at,de}tach_list() by calling
+pm_runtime_barrier() before dev_pm_domain_{attach*,detach}(), and drop
+the now obsolete comments.
 
->> drivers/base/core.c:4824:23: warning: variable 'parent' set but not used [-Wunused-but-set-variable]
-    4824 |         struct device *dev, *parent;
-         |                              ^
-   1 warning generated.
+Suggested-by: Marek Vasut <marek.vasut@mailbox.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This issue was reported first in "drm/imagination:
+genpd_runtime_suspend() crash"[1] and "Re: [PATCH 2/5] arm64: dts:
+renesas: r8a77960-salvator-x: Enable GPU support"[2].
+Unfortunately this patch does not fix the issue for good, it just
+becomes much harder to trigger (like needing tens of thousands of
+tries).
 
+How to trigger:
 
-vim +/parent +4824 drivers/base/core.c
+  1. Check out drm-next[3]
 
-f9dcdf9ae03c404 David Jeffery      2026-03-11  4818  
-37b0c0203430802 Greg Kroah-Hartman 2007-11-26  4819  /**
-37b0c0203430802 Greg Kroah-Hartman 2007-11-26  4820   * device_shutdown - call ->shutdown() on each device to shutdown.
-37b0c0203430802 Greg Kroah-Hartman 2007-11-26  4821   */
-37b0c0203430802 Greg Kroah-Hartman 2007-11-26  4822  void device_shutdown(void)
-37b0c0203430802 Greg Kroah-Hartman 2007-11-26  4823  {
-f123db8e9d6c84c Benson Leung       2013-09-24 @4824  	struct device *dev, *parent;
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4825  
-3297c8fc65af5d4 Pingfan Liu        2018-07-19  4826  	wait_for_device_probe();
-3297c8fc65af5d4 Pingfan Liu        2018-07-19  4827  	device_block_probing();
-3297c8fc65af5d4 Pingfan Liu        2018-07-19  4828  
-65650b35133ff20 Rafael J. Wysocki  2019-10-09  4829  	cpufreq_suspend();
-65650b35133ff20 Rafael J. Wysocki  2019-10-09  4830  
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4831  	spin_lock(&devices_kset->list_lock);
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4832  	/*
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4833  	 * Walk the devices list backward, shutting down each in turn.
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4834  	 * Beware that device unplug events may also start pulling
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4835  	 * devices offline, even as the system is shutting down.
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4836  	 */
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4837  	while (!list_empty(&devices_kset->list)) {
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4838  		dev = list_entry(devices_kset->list.prev, struct device,
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4839  				kobj.entry);
-d1c6c030fcec6f8 Ming Lei           2012-06-22  4840  
-d1c6c030fcec6f8 Ming Lei           2012-06-22  4841  		/*
-d1c6c030fcec6f8 Ming Lei           2012-06-22  4842  		 * hold reference count of device's parent to
-d1c6c030fcec6f8 Ming Lei           2012-06-22  4843  		 * prevent it from being freed because parent's
-d1c6c030fcec6f8 Ming Lei           2012-06-22  4844  		 * lock is to be held
-d1c6c030fcec6f8 Ming Lei           2012-06-22  4845  		 */
-f123db8e9d6c84c Benson Leung       2013-09-24  4846  		parent = get_device(dev->parent);
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4847  		get_device(dev);
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4848  		/*
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4849  		 * Make sure the device is off the kset list, in the
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4850  		 * event that dev->*->shutdown() doesn't remove it.
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4851  		 */
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4852  		list_del_init(&dev->kobj.entry);
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4853  		spin_unlock(&devices_kset->list_lock);
-fe6b91f47080eb1 Alan Stern         2011-12-06  4854  
-f9dcdf9ae03c404 David Jeffery      2026-03-11  4855  		shutdown_one_device(dev);
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4856  
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4857  		spin_lock(&devices_kset->list_lock);
-37b0c0203430802 Greg Kroah-Hartman 2007-11-26  4858  	}
-6245838fe4d2ce4 Hugh Daschbach     2010-03-22  4859  	spin_unlock(&devices_kset->list_lock);
-37b0c0203430802 Greg Kroah-Hartman 2007-11-26  4860  }
-99bcf217183e02e Joe Perches        2010-06-27  4861  
+  2. Enable the gpu node in one of the following DTS files, depending on
+     your board (Salvator-X(S), ULCB, or Falcon):
 
+	 arch/arm64/boot/dts/renesas/r8a77960.dtsi
+	 arch/arm64/boot/dts/renesas/r8a77961.dtsi
+	 arch/arm64/boot/dts/renesas/r8a77965.dtsi
+	 arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+
+     These nodes are not yet enabled in any board DTS because of this
+     crash.
+
+  3. Build and boot a kernel using renesas_defconfig[4]
+
+  4. The PowerVR driver will fail to probe (since [5], which is IMHO a
+     regression):
+
+	 powervr fd000000.gpu: [drm] *ERROR* Unknown GPU! Set 'exp_hw_support' to bypass this check.
+
+  5. Try to bind the driver again:
+
+      $ for i in $(seq 1000000); do echo $i; echo fd000000.gpu > /sys/bus/platform/drivers/powervr/bind; done
+
+     Eventually, the kernel will crash:
+
+         [...]
+         powervr fd000000.gpu: [drm] *ERROR* Unknown GPU! Set 'exp_hw_support' to bypass this check.
+         Unable to handle kernel NULL pointer dereference at virtual address 0000000000000040
+         Mem abort info:
+           ESR = 0x0000000096000004
+           EC = 0x25: DABT (current EL), IL = 32 bits
+           SET = 0, FnV = 0
+           EA = 0, S1PTW = 0
+           FSC = 0x04: level 0 translation fault
+         Data abort info:
+           ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+           CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+           GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+         user pgtable: 4k pages, 48-bit VAs, pgdp=0000000049993000
+         [0000000000000040] pgd=0000000000000000, p4d=0000000000000000
+         Internal error: Oops: 0000000096000004 [#1]  SMP
+         CPU: 1 UID: 0 PID: 12 Comm: kworker/u8:0 Not tainted 7.0.0-rc2-arm64-renesas-00540-g5f0a63f81a02-dirty #3502 PREEMPT
+         Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+         Workqueue: pm pm_runtime_work
+         pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+         pc : genpd_runtime_suspend+0x134/0x28c
+         lr : genpd_runtime_suspend+0x124/0x28c
+         sp : ffff80008174bc50
+         x29: ffff80008174bc50 x28: 0000000000000000 x27: 0000000000000000
+         x26: 0000003ca1f7104b x25: ffff0000090ba580 x24: ffff00000e7d92a0
+         x23: ffff0000081612f8 x22: 0000000000000001 x21: ffff000008161000
+         x20: 0000000000000000 x19: ffff00000b6ef400 x18: 0000000000000000
+         x17: 0000000000000000 x16: 0000000000000000 x15: ffff000008065600
+         x14: 0000000000000058 x13: ffff0000080254e0 x12: 0000000000000000
+         x11: ffff000008065608 x10: 00000000001343d0 x9 : ffff0000080656c0
+         x8 : ffff000008161800 x7 : 000001f3fffffc18 x6 : 0000000000000000
+         x5 : ffff000008161c10 x4 : 0000000000000000 x3 : 0000000000000000
+         x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
+         Call trace:
+          genpd_runtime_suspend+0x134/0x28c (P)
+          __rpm_callback+0x44/0x1cc
+          rpm_callback+0x6c/0x78
+          rpm_suspend+0x108/0x564
+          pm_runtime_work+0xb8/0xbc
+          process_one_work+0x144/0x280
+          worker_thread+0x180/0x2f8
+          kthread+0x114/0x120
+          ret_from_fork+0x10/0x20
+         Code: d503201f f940fe60 52800002 f9410e61 (f9402003)
+         ---[ end trace 0000000000000000 ]---
+
+The issue is easier to trigger, and may prevent the kernel from booting
+at all, by adding extra debug prints like:
+
+    diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+    index 52ea84e548ff6d27..2fe666c2170194ab 100644
+    --- a/drivers/pmdomain/core.c
+    +++ b/drivers/pmdomain/core.c
+    @@ -256,12 +256,14 @@ struct device *dev_to_genpd_dev(struct device *dev)
+     static int genpd_stop_dev(const struct generic_pm_domain *genpd,
+			      struct device *dev)
+     {
+    +pr_info("==== %s/%s: stop\n", genpd->name, dev_name(dev));
+	    return GENPD_DEV_CALLBACK(genpd, int, stop, dev);
+     }
+
+     static int genpd_start_dev(const struct generic_pm_domain *genpd,
+			       struct device *dev)
+     {
+    +pr_info("==== %s/%s: start\n", genpd->name, dev_name(dev));
+	    return GENPD_DEV_CALLBACK(genpd, int, start, dev);
+     }
+
+Thanks for your comments and suggestions!
+
+[1] https://lore.kernel.org/CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com
+[2] https://lore.kernel.org/CAMuHMdWyKeQq31GEK+-y4BoaZFcCxJNac63S7NoocMj1cYKniw@mail.gmail.com/
+[3] commit 5f0a63f81a027bec ("Merge tag 'drm-misc-next-2026-03-05' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next")
+[4] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/tree/arch/arm64/configs/renesas_defconfig?h=topic/renesas-defconfig
+[5] commit 1c21f240fbc1e47b ("drm/imagination: Warn or error on unsupported hardware") in v7.0-rc1
+---
+ drivers/base/power/common.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
+index 9bef9248a70529bf..af690ce38ac3a086 100644
+--- a/drivers/base/power/common.c
++++ b/drivers/base/power/common.c
+@@ -12,6 +12,7 @@
+ #include <linux/acpi.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_opp.h>
++#include <linux/pm_runtime.h>
+ 
+ #include "power.h"
+ 
+@@ -183,9 +184,6 @@ EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_name);
+  * may also provide an empty list, in case the attach should be done for all of
+  * the available PM domains.
+  *
+- * Callers must ensure proper synchronization of this function with power
+- * management callbacks.
+- *
+  * Returns the number of attached PM domains or a negative error code in case of
+  * a failure. Note that, to detach the list of PM domains, the driver shall call
+  * dev_pm_domain_detach_list(), typically during the remove phase.
+@@ -240,6 +238,7 @@ int dev_pm_domain_attach_list(struct device *dev,
+ 		link_flags |= DL_FLAG_RPM_ACTIVE;
+ 
+ 	for (i = 0; i < num_pds; i++) {
++		pm_runtime_barrier(dev);
+ 		if (by_id)
+ 			pd_dev = dev_pm_domain_attach_by_id(dev, i);
+ 		else
+@@ -284,12 +283,14 @@ int dev_pm_domain_attach_list(struct device *dev,
+ 
+ err_link:
+ 	dev_pm_opp_clear_config(pds->opp_tokens[i]);
++	pm_runtime_barrier(pd_dev);
+ 	dev_pm_domain_detach(pd_dev, true);
+ err_attach:
+ 	while (--i >= 0) {
+ 		dev_pm_opp_clear_config(pds->opp_tokens[i]);
+ 		if (pds->pd_links[i])
+ 			device_link_del(pds->pd_links[i]);
++		pm_runtime_barrier(pds->pd_devs[i]);
+ 		dev_pm_domain_detach(pds->pd_devs[i], true);
+ 	}
+ 	kfree(pds->pd_devs);
+@@ -370,9 +371,6 @@ EXPORT_SYMBOL_GPL(dev_pm_domain_detach);
+  *
+  * This function reverse the actions from dev_pm_domain_attach_list().
+  * Typically it should be invoked during the remove phase from drivers.
+- *
+- * Callers must ensure proper synchronization of this function with power
+- * management callbacks.
+  */
+ void dev_pm_domain_detach_list(struct dev_pm_domain_list *list)
+ {
+@@ -385,6 +383,7 @@ void dev_pm_domain_detach_list(struct dev_pm_domain_list *list)
+ 		dev_pm_opp_clear_config(list->opp_tokens[i]);
+ 		if (list->pd_links[i])
+ 			device_link_del(list->pd_links[i]);
++		pm_runtime_barrier(list->pd_devs[i]);
+ 		dev_pm_domain_detach(list->pd_devs[i], true);
+ 	}
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
