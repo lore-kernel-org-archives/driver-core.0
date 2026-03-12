@@ -1,123 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DB4375F88;
-	Thu, 12 Mar 2026 15:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAF0145FE0;
+	Thu, 12 Mar 2026 20:15:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773329239; cv=none; b=VhY9aUeSXBmsNXFmR+5Q4zRrPnR90RKGGV+EAmLkhpyOwQ+2kGcnztzwHdahjArPovFekJrHGjly6w4eEQqoAxRRIq0jYYZtPy+0Rmm/elToZSg8aNY4Qq6F45TeHhcLD5Gzfgzb3eayc4UfAjxyu22HrEa5rlnxvIBrVAendV4=
+	t=1773346539; cv=none; b=YL/l7/SpRgSv4y7R7hQYf+TKR5RYiGjNXDRbByPTMoBSzobNgCwHZaM+Ksel0lvSi3Xdx0qU3VrXHe/4EdZWdx87heDq9QaCaC2DdnY2ijsCkhrhdVm9Ek2QJSLjfk+mKFVXHhfZHeScQkEy8HxA77iUlsOEQ3X6HG2ObeLhDEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773329239; c=relaxed/simple;
-	bh=3gNgYTTVULTKANJUJ/9Pi3V8zjzLXODn4zDu8DouePU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDnkaJjtI7/uS6gnJpKts2PayWJr/Jx0EowyggnWArpZf46fFcYPV11cYFLPrSDvKlRylbUAwoD90tiNPOZ15PZE5A30IjuAlQTHgw1pe6qWtZ82f0q65EbY/IpIDSxTJXudc0sPhVvyt/r+Z0JO4RtQ/JkWuwowOtuvf1kQ4DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kM8HjATG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773346539; c=relaxed/simple;
+	bh=HrOFyT1mkelJqN8jGvgQvPsCgvOzSZJphOurWCaFA2o=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=vEVei2s0Id46mpEhYuoS4gIyF+m/VWu07Oj24r1+miVuLRjj7lD1rc6qN7TmSphx66d0ay4SSuA+/m944eU7oEJHIhRuP5b1JnjLerKGVWFWclON3RQpwwCaSUe3y953rkLH6ksTFw+ghCi3eGyBT323tbVlUuIopveFBf4vq5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkjDkjoo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kM8HjATG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FAE7C4CEF7;
-	Thu, 12 Mar 2026 15:27:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773329239;
-	bh=3gNgYTTVULTKANJUJ/9Pi3V8zjzLXODn4zDu8DouePU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kM8HjATG79tRKUGkuqfgkwFddma+9QRl1vjcNBOKPetSajqw1znNWVuws9HsU0mq/
-	 DHMjUSFr0wmKflSkf5i/6IO5CBWS3kHWFN/QrdZwXyWaOZbpLFdbaZBac7Tt/w/ov8
-	 pz30LFNoTFHMP1XgPK2joLFiKrlfolOA88SuJ2QA=
-Date: Thu, 12 Mar 2026 16:27:07 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Herve Codina <herve.codina@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kalle Niemi <kaleposti@gmail.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Peter Rosin <peda@axentia.se>, Arnd Bergmann <arnd@arndb.de>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mark Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Shawn Guo <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v5 02/28] driver core: Rename get_dev_from_fwnode()
- wrapper to get_device_from_fwnode()
-Message-ID: <2026031242-debug-aviation-19b8@gregkh>
-References: <20260227135428.783983-1-herve.codina@bootlin.com>
- <20260227135428.783983-3-herve.codina@bootlin.com>
- <CAMuHMdVVsEB-xb8Jz4ujBam2NxtxAOb7byYa3VR_eHsbTD5rXw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkjDkjoo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1AAAC19425;
+	Thu, 12 Mar 2026 20:15:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773346538;
+	bh=HrOFyT1mkelJqN8jGvgQvPsCgvOzSZJphOurWCaFA2o=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+	b=IkjDkjooZTZgrCrA+Rda8txmysbqsyTTsb22w0OBa6A4vLjJGA1eGLV+5TuznbMzl
+	 gv9LET4Xnz71scBmubiUF/NtK68fae706v+4vHRWHTnMHqhu6va/0PyrfakKphirB1
+	 dgvf/ZN+9t+D7/mTRUgJVlxTAcMB2B/tzoa0Y1+IdmId2ylYs2p1/TGwA8XZ+msYMs
+	 lpp06P/OEbe8n/Kr1KiMFxG3/Eu7cLlIIL+GoM8u2A15PXJsCJRdDD6uurY2RUWAqy
+	 OoLRdJPZC+o7846fqXlmR0LxAr0/GV5xditIuaAWYwkRakrk+mnL0+xzCCbbDiIhXr
+	 7vZYz66R8vozQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdVVsEB-xb8Jz4ujBam2NxtxAOb7byYa3VR_eHsbTD5rXw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 12 Mar 2026 21:15:33 +0100
+Message-Id: <DH12VR46PG5L.HJHWKJL8TXBO@kernel.org>
+To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <hanguidong02@gmail.com>, <ysato@users.sourceforge.jp>, <dalias@libc.org>,
+ <glaubitz@physik.fu-berlin.de>, <abelvesa@kernel.org>, <srini@kernel.org>,
+ <s.nawrocki@samsung.com>, <nuno.sa@analog.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 4/4] driver core: platform: use generic
+ driver_override infrastructure
+Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-hwmon@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <linux-sh@vger.kernel.org>
+References: <20260303115720.48783-1-dakr@kernel.org>
+ <20260303115720.48783-5-dakr@kernel.org>
+ <DGUUVEFWIFCF.RX8CSJ96ZHMC@kernel.org>
+In-Reply-To: <DGUUVEFWIFCF.RX8CSJ96ZHMC@kernel.org>
 
-On Tue, Mar 10, 2026 at 04:03:42PM +0100, Geert Uytterhoeven wrote:
-> Hi Hervé,
-> 
-> On Fri, 27 Feb 2026 at 14:55, Herve Codina <herve.codina@bootlin.com> wrote:
-> > get_dev_from_fwnode() calls get_device() and so it acquires a reference
-> > on the device returned.
-> >
-> > In order to be more obvious that this wrapper is a get_device() variant,
-> > rename it to get_device_from_fwnode().
-> >
-> > Suggested-by: Mark Brown <broonie@kernel.org>
-> > Link: https://lore.kernel.org/lkml/CAGETcx97QjnjVR8Z5g0ndLHpK96hLd4aYSV=iEkKPNbNOccYmA@mail.gmail.com/
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Reviewed-by: Saravana Kannan <saravanak@google.com>
-> > Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
-> 
-> FTR, one more user of get_dev_from_fwnode() appeared in commit
-> 9035073d0ef1de81 ("reset: convert reset core to using firmware nodes")
-> in reset/next.
+On Thu Mar 5, 2026 at 1:42 PM CET, Danilo Krummrich wrote:
+> On Tue Mar 3, 2026 at 12:53 PM CET, Danilo Krummrich wrote:
+>>  arch/sh/drivers/platform_early.c |  6 ++++--
+>>  drivers/clk/imx/clk-scu.c        |  3 +--
+>>  drivers/slimbus/qcom-ngd-ctrl.c  |  6 ++----
+>>  sound/soc/samsung/i2s.c          |  6 +++---
+>
+> Some ACKs would be appreciated. :)
 
-Ick, that's going to make this hard to land anywhere.  This is a rough
-series, perhaps it should be split up to make it easier somehow?
+Looking forward to pick this up soon, please let me know if there are any
+concerns.
 
-thanks,
-
-greg k-h
+Thanks,
+Danilo
