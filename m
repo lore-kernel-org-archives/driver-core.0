@@ -1,251 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DC73AD51B;
-	Thu, 12 Mar 2026 09:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773309244; cv=none; b=ghdcvLKx29s/zD0F39bK3YqaDFUIMgkHin237+xSpYpKfPEJjPi9v15uifubMMG1Z4vdGk5VUcViU99A0U6n0+PjclDoWTtwTqBsGSqKKZSmk92dn1dhn1moHqfxoFX/jpnnTPugPNBMGeGoXFqv0BBsAKDLbums9MsG/7jL2/o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773309244; c=relaxed/simple;
-	bh=lHZVhCzulzdzkAtiVdpksnpGYjt4BLJ/buQ/uz/EETg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lqxv4fV6N/Z8+LDMDjExn12QOPw4UjXjkEcvu7tgmc/VhOaGWb1YlUwwWDh7R/SaAZXfxWPoQjfGEFwkCJL7PeqJOJooNypCZMwM/rlmjPxCSt+sDmB3sFHpWn9iULwuXnA8prtcYHfSHt0xktkX2Z4uVlJ31+//ryEZZSD2i0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27515C19424;
-	Thu, 12 Mar 2026 09:54:00 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Ulf Hansson <ulf.hansson@linaro.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC] PM: domains: Call pm_runtime_barrier() before dev_pm_domain_{attach*,detach}()
-Date: Thu, 12 Mar 2026 10:53:39 +0100
-Message-ID: <15510cee649959281d9554965cacd0c06531c1f3.1773308898.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F5E2F0C7E
+	for <driver-core@lists.linux.dev>; Thu, 12 Mar 2026 10:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773312346; cv=pass; b=sDdOZObSHBViOgGdI/ZGJkStiXWFWI2eZPWOA5amrHgh7pBSJH7W3hAN1O1Ukuy4XoxiWvux0Mgqu5186i8qARTGrPmDR5kSlTmtvT94L7+zln5GZZX2cItK/ZOT9mh8sQ4g419WsJaQahb09/dZZwKoLXnGUihW4XS7HVI9UQ0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773312346; c=relaxed/simple;
+	bh=ib2azcB45rykD4WCSQuYUaYpoHmNoOAdlZ24E96ltUk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mxFsKGulpvTJCrh99km77B9xbxfiVgbTUZdvYHbX7XTbBUvJB0b/H0WMEB5i0Yc7/2v7K2yybKFwXNjBBa0BWWAYWpnqsN0YMOlBdWF5pGMpYUCaBg/FP2HUVewrcsognkpUEIGrmOgFnfJDhWpnz55MPJ2G7HGLH1wNUOqiCpw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=FmJ/ii+R; arc=pass smtp.client-ip=136.143.188.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="FmJ/ii+R"
+ARC-Seal: i=1; a=rsa-sha256; t=1773312340; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Ee4+jJs5r4hLWEmnBORasq1vqS9GUq870K8zuySo0+nj8E1CEhF4FhOlMNiOHPcpuNm43iqWKjwYYFcwPwp/5GA+z0En4KxsbzitP92YDDytspcO1isy9d8YOhnXdnCDgphnQ2wXyFSqFNVUDTvBKLEJmXxt1ayyZQ1LFS8XGik=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1773312340; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=6le+Umu5ShQgMTwQqCqPJCiPEPbCR/gc5k2zDVuJEGs=; 
+	b=NvZqzLf6xdkcxBQD/JHvgPhqZFo1r98+I4jKnreA+Mvs3/uC8uLayPJaeDm4kW8uz1+H5IQg8ni460murpVtXXUFe+q/aKcwuNoSUApq973e+j3V7ZjGMJEZP+4ZypbJ0qqY6zGyzcmBJZAPORHBW4EQ2hmxPuuBp6/YDXWNwEQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
+	dmarc=pass header.from=<ming.li@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773312340;
+	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=6le+Umu5ShQgMTwQqCqPJCiPEPbCR/gc5k2zDVuJEGs=;
+	b=FmJ/ii+R/PUnq3LF6c6dT/mvF0lwZHufBkQhhJNJ3UE8nQAF4VANI25oSNPKotKI
+	BZeOe2fmbPOYL28mnMP4yTWPHsYWEFW+8dMTICkgVkipkmOV2mZm5et2dbJqjecpebp
+	4+x4auK+k8wQqkFSvo7qn209sU62K1QE1dKqGs5Y=
+Received: by mx.zohomail.com with SMTPS id 1773312338962431.72554716052593;
+	Thu, 12 Mar 2026 03:45:38 -0700 (PDT)
+Message-ID: <a1b3f694-523a-4817-b9d2-d8b8ec0f2927@zohomail.com>
+Date: Thu, 12 Mar 2026 18:45:33 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/7] cxl/memdev: Hold memdev lock during memdev poison
+ injection/clear
+To: Alison Schofield <alison.schofield@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Dave Jiang <dave.jiang@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Ben Cheatham
+ <benjamin.cheatham@amd.com>, driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org
+References: <20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com>
+ <20260310-fix_access_endpoint_without_drv_check-v1-2-94fe919a0b87@zohomail.com>
+ <abCOZf9vkau0AyWL@aschofie-mobl2.lan>
+ <530f0541-851a-4201-98f3-93439825c6c7@zohomail.com>
+ <abI7g5xdfQTERoKX@aschofie-mobl2.lan>
+From: Li Ming <ming.li@zohomail.com>
+In-Reply-To: <abI7g5xdfQTERoKX@aschofie-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Feedback-ID: rr080112282aedaa9d9a996371b0a9e20600002e56a6eb943c701379f7d0ecc0eb3d564041a69f47bd5c4e6303:zu0801122711c9217af5f8056d275faae5000099752f3f65d2a010ad7a48c30036a04b14b8ff6509c57aef4e:rf0801122d48aada44e05273a830d796540000756f3feaa4c9fb1e5d06b880bd48431837016ae84fa927dfcd607bfc6c7cd5:ZohoMail
+X-ZohoMailClient: External
 
-If a device has multiple PM Domains, dev_pm_domain_detach() is called
-multiple times on unbind or probe failure.  If the PM Domain is also a
-Clock Domain, and thus calls pm_clk_destroy() from its .detach()
-callback, dev_pm_put_subsys_data() will set dev->power.subsys_data to
-NULL when psd->refcount reaches zero.
 
-Later/in parallel, default_suspend_ok() calls dev_gpd_data():
+在 2026/3/12 12:05, Alison Schofield 写道:
+> On Wed, Mar 11, 2026 at 06:53:26PM +0800, Li Ming wrote:
+>> 在 2026/3/11 05:34, Alison Schofield 写道:
+>>> On Tue, Mar 10, 2026 at 11:57:54PM +0800, Li Ming wrote:
+>>>> CXL memdev poison injection/clearing debugfs interfaces are visible
+>>>> before the CXL memdev endpoint initialization, If user accesses the
+>>>> interfaces before cxlmd->endpoint updated, it is possible to access an
+>>>> invalid endpoint in cxl_dpa_to_region().
+>>>>
+>>>> Hold CXL memdev lock at the beginning of the interfaces, this blocks the
+>>>> interfaces until CXL memdev probing completed.
+>>>>
+>>>> The following patch will check the given endpoint validity in
+>>>> cxl_dpa_to_region().
+>>>>
+>>>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>>>> Signed-off-by: Li Ming <ming.li@zohomail.com>
+>>>> ---
+>>>>    drivers/cxl/core/memdev.c | 10 ++++++++++
+>>>>    1 file changed, 10 insertions(+)
+>>>>
+>>>> diff --git a/drivers/cxl/core/memdev.c b/drivers/cxl/core/memdev.c
+>>>> index 273c22118d3d..8ebaf9e96035 100644
+>>>> --- a/drivers/cxl/core/memdev.c
+>>>> +++ b/drivers/cxl/core/memdev.c
+>>>> @@ -295,6 +295,7 @@ int cxl_inject_poison_locked(struct cxl_memdev *cxlmd, u64 dpa)
+>>>>    	if (!IS_ENABLED(CONFIG_DEBUG_FS))
+>>>>    		return 0;
+>>>> +	device_lock_assert(&cxlmd->dev);
+>>>>    	lockdep_assert_held(&cxl_rwsem.dpa);
+>>>>    	lockdep_assert_held(&cxl_rwsem.region);
+>>> I'm having second thoughts about this since this call site is not
+>>> the 'beginning of the interfaces' as the commit msg suggests.
+>>>
+>>> What about taking the device lock in the debugfs func, ie -
+>>> mem.c : cxl_inject_poison. If the goal is to avoid using the debugfs
+>>> interface before probe completes, that does it.
+>>>
+>>> At this callsite, we make sure nothing changes out from under us,
+>>> no endpoints attach or detach during the work.
+>>>
+>> Thanks for taking time to dive into this issue.
+>>
+>> But I don't quite understand your comment, do you mean that we don't need
+>> above device_lock_assert() in cxl_inject/clear_poison_locked()?
+>>
+>> You mentioned that taking the device lock in cxl_inject_poison() to ensure
+>> endpoint won't be changed during the debugfs interfaces calling,
+>>
+>> That is right and that is what this patch does. So I am a little bit
+>> confused.
+> I was only thinking of moving the ACQUIRE one level up, to here:
+> drivers/cxl/mem.c: cxl_debugfs_poison_inject|clear ()
+>
+> That would mean dropping the assert in clear_poison_locked().
 
-    static inline struct generic_pm_domain_data *dev_gpd_data(struct device *dev)
-    {
-	    return to_gpd_data(dev->power.subsys_data->domain_data);
-    }
+Oh, got it, will do that in v2, thanks for your explaination.
 
-which may trigger a NULL pointer dereference.
 
-All dev_pm_domain_{at,de}tach*() functions document that callers must
-ensure proper synchronization of these functions with power management
-callbacks.  Unfortunately no callers seem to actually do so.  This
-includes dev_pm_domain_attach_list() and dev_pm_domain_detach_list():
-they call dev_pm_domain_{attach*,detach}() internally, which means they
-should take care of this synchronization themselves.
+Ming
 
-Add synchronization to dev_pm_domain_{at,de}tach_list() by calling
-pm_runtime_barrier() before dev_pm_domain_{attach*,detach}(), and drop
-the now obsolete comments.
-
-Suggested-by: Marek Vasut <marek.vasut@mailbox.org>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This issue was reported first in "drm/imagination:
-genpd_runtime_suspend() crash"[1] and "Re: [PATCH 2/5] arm64: dts:
-renesas: r8a77960-salvator-x: Enable GPU support"[2].
-Unfortunately this patch does not fix the issue for good, it just
-becomes much harder to trigger (like needing tens of thousands of
-tries).
-
-How to trigger:
-
-  1. Check out drm-next[3]
-
-  2. Enable the gpu node in one of the following DTS files, depending on
-     your board (Salvator-X(S), ULCB, or Falcon):
-
-	 arch/arm64/boot/dts/renesas/r8a77960.dtsi
-	 arch/arm64/boot/dts/renesas/r8a77961.dtsi
-	 arch/arm64/boot/dts/renesas/r8a77965.dtsi
-	 arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-
-     These nodes are not yet enabled in any board DTS because of this
-     crash.
-
-  3. Build and boot a kernel using renesas_defconfig[4]
-
-  4. The PowerVR driver will fail to probe (since [5], which is IMHO a
-     regression):
-
-	 powervr fd000000.gpu: [drm] *ERROR* Unknown GPU! Set 'exp_hw_support' to bypass this check.
-
-  5. Try to bind the driver again:
-
-      $ for i in $(seq 1000000); do echo $i; echo fd000000.gpu > /sys/bus/platform/drivers/powervr/bind; done
-
-     Eventually, the kernel will crash:
-
-         [...]
-         powervr fd000000.gpu: [drm] *ERROR* Unknown GPU! Set 'exp_hw_support' to bypass this check.
-         Unable to handle kernel NULL pointer dereference at virtual address 0000000000000040
-         Mem abort info:
-           ESR = 0x0000000096000004
-           EC = 0x25: DABT (current EL), IL = 32 bits
-           SET = 0, FnV = 0
-           EA = 0, S1PTW = 0
-           FSC = 0x04: level 0 translation fault
-         Data abort info:
-           ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-           CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-           GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-         user pgtable: 4k pages, 48-bit VAs, pgdp=0000000049993000
-         [0000000000000040] pgd=0000000000000000, p4d=0000000000000000
-         Internal error: Oops: 0000000096000004 [#1]  SMP
-         CPU: 1 UID: 0 PID: 12 Comm: kworker/u8:0 Not tainted 7.0.0-rc2-arm64-renesas-00540-g5f0a63f81a02-dirty #3502 PREEMPT
-         Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
-         Workqueue: pm pm_runtime_work
-         pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-         pc : genpd_runtime_suspend+0x134/0x28c
-         lr : genpd_runtime_suspend+0x124/0x28c
-         sp : ffff80008174bc50
-         x29: ffff80008174bc50 x28: 0000000000000000 x27: 0000000000000000
-         x26: 0000003ca1f7104b x25: ffff0000090ba580 x24: ffff00000e7d92a0
-         x23: ffff0000081612f8 x22: 0000000000000001 x21: ffff000008161000
-         x20: 0000000000000000 x19: ffff00000b6ef400 x18: 0000000000000000
-         x17: 0000000000000000 x16: 0000000000000000 x15: ffff000008065600
-         x14: 0000000000000058 x13: ffff0000080254e0 x12: 0000000000000000
-         x11: ffff000008065608 x10: 00000000001343d0 x9 : ffff0000080656c0
-         x8 : ffff000008161800 x7 : 000001f3fffffc18 x6 : 0000000000000000
-         x5 : ffff000008161c10 x4 : 0000000000000000 x3 : 0000000000000000
-         x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
-         Call trace:
-          genpd_runtime_suspend+0x134/0x28c (P)
-          __rpm_callback+0x44/0x1cc
-          rpm_callback+0x6c/0x78
-          rpm_suspend+0x108/0x564
-          pm_runtime_work+0xb8/0xbc
-          process_one_work+0x144/0x280
-          worker_thread+0x180/0x2f8
-          kthread+0x114/0x120
-          ret_from_fork+0x10/0x20
-         Code: d503201f f940fe60 52800002 f9410e61 (f9402003)
-         ---[ end trace 0000000000000000 ]---
-
-The issue is easier to trigger, and may prevent the kernel from booting
-at all, by adding extra debug prints like:
-
-    diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-    index 52ea84e548ff6d27..2fe666c2170194ab 100644
-    --- a/drivers/pmdomain/core.c
-    +++ b/drivers/pmdomain/core.c
-    @@ -256,12 +256,14 @@ struct device *dev_to_genpd_dev(struct device *dev)
-     static int genpd_stop_dev(const struct generic_pm_domain *genpd,
-			      struct device *dev)
-     {
-    +pr_info("==== %s/%s: stop\n", genpd->name, dev_name(dev));
-	    return GENPD_DEV_CALLBACK(genpd, int, stop, dev);
-     }
-
-     static int genpd_start_dev(const struct generic_pm_domain *genpd,
-			       struct device *dev)
-     {
-    +pr_info("==== %s/%s: start\n", genpd->name, dev_name(dev));
-	    return GENPD_DEV_CALLBACK(genpd, int, start, dev);
-     }
-
-Thanks for your comments and suggestions!
-
-[1] https://lore.kernel.org/CAMuHMdWapT40hV3c+CSBqFOW05aWcV1a6v_NiJYgoYi0i9_PDQ@mail.gmail.com
-[2] https://lore.kernel.org/CAMuHMdWyKeQq31GEK+-y4BoaZFcCxJNac63S7NoocMj1cYKniw@mail.gmail.com/
-[3] commit 5f0a63f81a027bec ("Merge tag 'drm-misc-next-2026-03-05' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next")
-[4] https://web.git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/tree/arch/arm64/configs/renesas_defconfig?h=topic/renesas-defconfig
-[5] commit 1c21f240fbc1e47b ("drm/imagination: Warn or error on unsupported hardware") in v7.0-rc1
----
- drivers/base/power/common.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/base/power/common.c b/drivers/base/power/common.c
-index 9bef9248a70529bf..af690ce38ac3a086 100644
---- a/drivers/base/power/common.c
-+++ b/drivers/base/power/common.c
-@@ -12,6 +12,7 @@
- #include <linux/acpi.h>
- #include <linux/pm_domain.h>
- #include <linux/pm_opp.h>
-+#include <linux/pm_runtime.h>
- 
- #include "power.h"
- 
-@@ -183,9 +184,6 @@ EXPORT_SYMBOL_GPL(dev_pm_domain_attach_by_name);
-  * may also provide an empty list, in case the attach should be done for all of
-  * the available PM domains.
-  *
-- * Callers must ensure proper synchronization of this function with power
-- * management callbacks.
-- *
-  * Returns the number of attached PM domains or a negative error code in case of
-  * a failure. Note that, to detach the list of PM domains, the driver shall call
-  * dev_pm_domain_detach_list(), typically during the remove phase.
-@@ -240,6 +238,7 @@ int dev_pm_domain_attach_list(struct device *dev,
- 		link_flags |= DL_FLAG_RPM_ACTIVE;
- 
- 	for (i = 0; i < num_pds; i++) {
-+		pm_runtime_barrier(dev);
- 		if (by_id)
- 			pd_dev = dev_pm_domain_attach_by_id(dev, i);
- 		else
-@@ -284,12 +283,14 @@ int dev_pm_domain_attach_list(struct device *dev,
- 
- err_link:
- 	dev_pm_opp_clear_config(pds->opp_tokens[i]);
-+	pm_runtime_barrier(pd_dev);
- 	dev_pm_domain_detach(pd_dev, true);
- err_attach:
- 	while (--i >= 0) {
- 		dev_pm_opp_clear_config(pds->opp_tokens[i]);
- 		if (pds->pd_links[i])
- 			device_link_del(pds->pd_links[i]);
-+		pm_runtime_barrier(pds->pd_devs[i]);
- 		dev_pm_domain_detach(pds->pd_devs[i], true);
- 	}
- 	kfree(pds->pd_devs);
-@@ -370,9 +371,6 @@ EXPORT_SYMBOL_GPL(dev_pm_domain_detach);
-  *
-  * This function reverse the actions from dev_pm_domain_attach_list().
-  * Typically it should be invoked during the remove phase from drivers.
-- *
-- * Callers must ensure proper synchronization of this function with power
-- * management callbacks.
-  */
- void dev_pm_domain_detach_list(struct dev_pm_domain_list *list)
- {
-@@ -385,6 +383,7 @@ void dev_pm_domain_detach_list(struct dev_pm_domain_list *list)
- 		dev_pm_opp_clear_config(list->opp_tokens[i]);
- 		if (list->pd_links[i])
- 			device_link_del(list->pd_links[i]);
-+		pm_runtime_barrier(list->pd_devs[i]);
- 		dev_pm_domain_detach(list->pd_devs[i], true);
- 	}
- 
--- 
-2.43.0
+[snip]
 
