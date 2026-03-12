@@ -1,79 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799CA3845B9;
-	Thu, 12 Mar 2026 15:21:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8703D35AC25;
+	Thu, 12 Mar 2026 15:25:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773328884; cv=none; b=ZpYMbL3kK4XhAPOZ/kX1rKyji8/eSHJAGOXUq5QkaqwUSI1eQLcH3CHedOHn1FPCDwgtgw8xdnOv1O4oLLWKP31TsCm9/PTOy4/ZI+Rz+41eAkIM0xh2bLvt7YdHKLNd9B7DDtFiIk3y/a4IAOCyMkHxkpmCiXBFec6Wliokx6g=
+	t=1773329120; cv=none; b=Uz80KAhk4qJCrgKRBaZ61424kE3kq1bInTc2TvBFbhsTvFTCzQ05MS18NxO3RHgL4++d9Fo4UCoA0NSk1qLHQjp27h8tRgZudEKoRHZmy+wScLWJAM4eFaRyUjGqoyfLKTYKziK/JRLTSECi28C+wE+3bffmZg0DoB8I5XVSu7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773328884; c=relaxed/simple;
-	bh=YTAxrKfaWlpyf0/MK7MHIXvdGyAf3SGdE+RVhDUnn4k=;
+	s=arc-20240116; t=1773329120; c=relaxed/simple;
+	bh=PRo1H3AkrAn5CN91lSlcAttTHvGYCwJejSgeqavNRoI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cctAT8BaCIYDl84OjHPi4uoxMxHrGOW48u7ToIYVMH52rrl+q8AbbaJ3xjkPVxYmRrTHyvZYCAoOeNuOZJ6bhJqQpMcYueE4l2WeLs6VxBWPrbR9GNxR8pv1LKSiWh4/RH5wvhzUaat1pANAHYjk/NsFIihnwFqt27DfsyHabjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=H9Q9X2T3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=t9F7oqxrKFb4NIh91HjddwLNlYQe/zzgGZu0Sb/gwiYcX6nqPdijMu2x1hvq5eh0SDQ7JfJF6vDAxkaGtdG69clMv3NAlleHRUlIep8TPUAJqrKTTt+SzoxzTj4mm6c76UzWkJTmPAhUGro1BTT5R5Vo2gAePv2b5if2ylNWYNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lql86yy2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="H9Q9X2T3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A01FC4CEF7;
-	Thu, 12 Mar 2026 15:21:23 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lql86yy2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FDDBC19424;
+	Thu, 12 Mar 2026 15:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1773328884;
-	bh=YTAxrKfaWlpyf0/MK7MHIXvdGyAf3SGdE+RVhDUnn4k=;
+	s=korg; t=1773329120;
+	bh=PRo1H3AkrAn5CN91lSlcAttTHvGYCwJejSgeqavNRoI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H9Q9X2T3SiKNqN8iRSmDM2YLLYjtuMVcUUEgGBorB2p3By5rIVUWBVkHKRrccuaK1
-	 AmHkVUXLmmm3QX1mxuG5EGKkoxKrI4B6D46oXzR5d/qXCINt3gjp4P1p21uUJU/xRc
-	 7G5wmia3BsnaRZZBII3WDSOtyYry38I/7UO63WB0=
-Date: Thu, 12 Mar 2026 16:21:19 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: rafael@kernel.org, hanguidong02@gmail.com, ysato@users.sourceforge.jp,
-	dalias@libc.org, glaubitz@physik.fu-berlin.de, abelvesa@kernel.org,
-	srini@kernel.org, s.nawrocki@samsung.com, nuno.sa@analog.com,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-sh@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] driver core: generalize driver_override
- infrastructure
-Message-ID: <2026031211-landside-subtype-5750@gregkh>
-References: <20260303115720.48783-1-dakr@kernel.org>
+	b=lql86yy2FN8tLqLicquRdgpjggL2vrKdD60VbViutWeYzWjb3pVajNhWIpEalgkZa
+	 SfTBrlGWdJRdzpBoRbIIWAUMAE9nFttpvTYi1cmhoJ6oqku+dxeFZGeSFewu+KfU9E
+	 RcqAoTiwPARxL4OF64EzwIvZnVpcGX4XJfxD6tQE=
+Date: Thu, 12 Mar 2026 16:25:14 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, linux-arm-msm@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFT] driver core: faux: allow to set the firmware node
+ for a faux device
+Message-ID: <2026031209-detoxify-rubbing-1e6b@gregkh>
+References: <20260306-faux-dev-with-fwnode-v1-1-792a86a62530@oss.qualcomm.com>
+ <2026030649-evacuate-emotion-422c@gregkh>
+ <CAMRc=MebWaGPG=jMP-QbDsF+uaOSQFQyQ+T8Nhoh2jgo7VrFHg@mail.gmail.com>
+ <2026030612-collapse-empower-285f@gregkh>
+ <CAMRc=Mdyu=vHEOSfh6wuDaEW_XXS5gi+JO3PvgHB0q4+J+GMZg@mail.gmail.com>
+ <5488a169-777b-4bb3-9566-78083613d40a@oss.qualcomm.com>
+ <2026030921-dwindling-tarnish-6141@gregkh>
+ <CAMRc=MdWMMi0wP8jd9YMOLqfafwWf5TTbd4diM-fJKk72XVQBA@mail.gmail.com>
+ <2026031034-blazer-equal-871e@gregkh>
+ <CAMRc=McwBYFrsxYYYjZG=0bnkaC2R4cYkKmusQBJ1H_dfcCH2w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260303115720.48783-1-dakr@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=McwBYFrsxYYYjZG=0bnkaC2R4cYkKmusQBJ1H_dfcCH2w@mail.gmail.com>
 
-On Tue, Mar 03, 2026 at 12:53:17PM +0100, Danilo Krummrich wrote:
-> Currently, there are 12 busses (including platform and PCI) that duplicate the
-> driver_override logic for their individual devices.
+On Tue, Mar 10, 2026 at 02:18:36PM +0100, Bartosz Golaszewski wrote:
+> On Tue, Mar 10, 2026 at 1:43 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Mar 10, 2026 at 01:29:53PM +0100, Bartosz Golaszewski wrote:
+> > > On a completely unrelated note though - Greg: I think this patch could
+> > > still be considered because we now have quite a lot of functionality
+> > > put into software nodes and already have some auxiliary devices that
+> > > use software nodes as a source of device properties/config using the
+> > > same API as platform devices (fwnode). I think faux devices could also
+> > > profit from it and not necessairly use custom struct. If that sounds
+> > > good to you, I may convert one or two faux devices and send a series
+> > > with actual users of this.
+> >
+> > I don't understand why a device that has a fwnode would ever be a "faux"
+> > device?  Why wouldn't that just be a normal platform device?
+> >
+> > faux devices were created to be not platform devices, to take away the
+> > abuse where platform devices were being used because the api was simple
+> > and people wanted a device in the tree somewhere, but there was not
+> > actually any backing platform device present.
+> >
+> > So the use of a fwnode here feels very odd to me, what am I missing?
+> >
 > 
-> All of them seem to be prone to the bug described in [1].
-> 
-> While this could be solved for every bus individually using a separate lock,
-> solving this in the driver-core generically results in less (and cleaner)
-> changes overall.
-> 
-> Thus, move driver_override to struct device, provide corresponding accessors for
-> busses and handle locking with a separate lock internally.
-> 
-> In particular, add device_set_driver_override(), device_has_driver_override(),
-> device_match_driver_override() and a helper, DEVICE_ATTR_DRIVER_OVERRIDE(), to
-> declare the corresponding sysfs store() and show() callbacks.
-> 
-> Until all busses have migrated, keep driver_set_override() in place.
-> 
-> Note that we can't use the device lock for the reasons described in [2].
-> 
-> This patch series includes the migration of the platform bus; patches for all
-> other affected busses still need to be extracted as a follow-up of the WIP
-> treewide patch in [3].
-> 
-> [1] https://bugzilla.kernel.org/show_bug.cgi?id=220789
-> [2] https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=driver_override
+> A firmware node can be a dynamic software node created just for that
+> faux device to pass to it its configuration instead of using a custom
+> platform data structure.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Ah, ok, that makes a bit more sense, but faux devices should not need
+any "configuration" passed to it that I can see, as that would imply
+some sort of "resource" that it needs, which implies it has some backing
+hardware (i.e. a platform device) :)
+
+Maybe I'm just missing something here, have a real example (other than
+this one, which everyone seems confused about) that would need this?
+
+thanks,
+
+greg k-h
