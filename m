@@ -1,101 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8A2272E56;
-	Fri, 13 Mar 2026 13:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45AD03164A9
+	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 13:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773407079; cv=none; b=on92CPeA8JlBgX7LpL9HSCUFfU+M+urp50yWyDpqhqMDe+sh4Qs/TS92WRGOa7yNNKhN4isfx8V3cHxI25Nmu/8c142zPPOVmPmlxrWxkdaNmZHqR3a42eLhA2O3/ea0gAecT309r6p+1fFi+7gfsn065Ky0fMkhKBnY3UGcgnI=
+	t=1773407755; cv=none; b=hYyzmXRImkQKHVBytfqboezOSIauo/ajBy8A6MHg3++PjD60Lr5NmUDeM9vRP+EgNQXAWfltt0si8Vzz3yX4NFUxX4jbqp7E1YVj+KRcQp4OkPCDxpMG/rTTPseoT72ekfwUTumAiEOGlvdgsMXwk6oQkTbq7flrKTNz0EZ+moA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773407079; c=relaxed/simple;
-	bh=C3Ic2bjaZP+Oml7vLA57zqG396WSoFwe59qAqPPunlE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JoWLB2qLjyi6JH30Yyschs264qTrqA+zIqY7pSJruUIJUrz36etWYZHsX/7XNur4cSCyteq/DK5ZeTwJ6XXOckrMvT3CohrYOA+Jxlis/aYkw5iNetWzN97xFzsftITCtK46vLTDvdmK64CThKbcqs77/ic8sM2Hl/2/nyhyUXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LQeQjwQI; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LQeQjwQI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3246CC19425;
-	Fri, 13 Mar 2026 13:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773407079;
-	bh=C3Ic2bjaZP+Oml7vLA57zqG396WSoFwe59qAqPPunlE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LQeQjwQI7CsY7sZaF9Kjg0LfOQkNsopzqNt+qf0GBdnYN2Fm8oH4GAznjYYHdYgeb
-	 kAg10/mvbsZWgUs0JLhLh4gnP6RamCWySBPnw3K4+WSIrutxvU7kHO8Lx4OfKVSJM0
-	 Tujx/rJG4jqabzKKZIILWFbEuOaGXgUx+ao0y+lWG8KBQqDhkqJVH9YvK91WLzJWww
-	 zR0Un2wOS+zyNR+onTecBPAmtdxw+vg7wSGhYgYPiJ8vLvYPZosa8zKumG9BCDX4ec
-	 d2GJGr3U8tcF6IRZR0eIOMTZ49si+GuGDEBRbSsSbr1yxMy0B4vFVvqTWHsDvbSs8f
-	 pFoUrJz3Ss8ig==
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Linux ACPI <linux-acpi@vger.kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hansg@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
-Subject:
- [PATCH v2 1/8] driver core: auxiliary bus: Introduce dev_is_auxiliary()
-Date: Fri, 13 Mar 2026 13:53:03 +0100
-Message-ID: <5079467.GXAFRqVoOG@rafael.j.wysocki>
-Organization: Linux Kernel Development
-In-Reply-To: <6271415.lOV4Wx5bFT@rafael.j.wysocki>
-References: <6271415.lOV4Wx5bFT@rafael.j.wysocki>
+	s=arc-20240116; t=1773407755; c=relaxed/simple;
+	bh=wxlHc9c7iJN3g9SDWUpvLcjyUqW7JOefkKsYFpY2Y1E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cLBVICKwEzJSuwDvCn/erOBD5UB0dKjIFAgQoTSItBwHpEiwi5sMcDZ4Fn5rKrwZLwNemBLp/ZbaWkFme6AFpInXXlE3xHq1ZqYL4SX6VQ4EgEIOvkuJMZ4M1/RWWPO7sxEGMsmw1/R9N1mM0K4NKHNayO6ehx9FQYAsnxabyUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 558D8497;
+	Fri, 13 Mar 2026 06:15:45 -0700 (PDT)
+Received: from [10.57.59.200] (unknown [10.57.59.200])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D39153F73B;
+	Fri, 13 Mar 2026 06:15:47 -0700 (PDT)
+Message-ID: <6cfe4bda-036f-4bb9-8a08-ed75f61cae24@arm.com>
+Date: Fri, 13 Mar 2026 13:15:45 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Heiko Stuebner <heiko@sntech.de>, Niklas Cassel <cassel@kernel.org>,
+ Shawn Lin <shawn.lin@rock-chips.com>, Hans Zhang <18255117159@163.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>, linux-pci@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>,
+ Grimmauld <grimmauld@grimmauld.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev,
+ Lukas Wunner <lukas@wunner.de>
+References: <20260226101032.1042-1-linux.amoon@gmail.com>
+ <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
+ <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
+ <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+ <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+ <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
+ <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
+ <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
+ <DH09EDBW3X6T.2996UB1CFCAW2@kernel.org>
+ <55c28218-1638-4b90-a9cd-a177fb5abcb6@arm.com>
+ <DH0TM60TVX5D.20W4O1X696ALA@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <DH0TM60TVX5D.20W4O1X696ALA@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On 2026-03-12 12:59 pm, Danilo Krummrich wrote:
+> On Thu Mar 12, 2026 at 1:48 PM CET, Robin Murphy wrote:
+>> On 2026-03-11 9:09 pm, Danilo Krummrich wrote:
+>>>   From a driver-core perspective I think we're rather limited on what we can do;
+>>> we are already in async context at this point and can't magically go back to
+>>> initcall context.
+>>>
+>>> So, the only thing I can think of is to kick off work on a workqueue, which in
+>>> the end would be the same as the deferred probe handling.
+>>
+>> Hmm, in fact, isn't the deferred probe mechanism itself actually quite
+>> appropriate?
+> 
+> Yes, I've also mentioned this in [1], including the fact that it technically
+> even complies with the guarantees given by PROBE_FORCE_SYNCHRONOUS. I.e. the
+> documentation says:
+> 
+> 	Use this to annotate drivers that need their probe routines to run
+> 	synchronously with driver and device registration (with the exception of
+> 	-EPROBE_DEFER handling - re-probing always ends up being done
+> 	asynchronously).
+> 
+> However, I'm still not sure how I feel about this, since I consider this to be
+> more like a workaround that just moves things to a "more approprite" async
+> context.
 
-Introduce dev_is_auxiliary() in analogy with dev_is_platform() to
-facilitate subsequent changes.
+I guess the underlying problem there is that there are at least 3 
+different significant aspects to what "synchronous" can mean:
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
+- literally in the context or device/driver registration as documented. 
+Off-hand I'm not really sure what useful property may be *specific* to 
+those conditions that a driver might rely on, other than for 
+super-special cases like platform_driver_probe().
 
-Danilo, Greg, please let me know if you have objections or concerns
-regarding this one.
+- serialised, i.e. probes of multiple devices won't happen concurrently 
+on multiple threads. This is probably the one hiding the most driver 
+bugs, e.g. internal shared/global state without sufficient 
+synchronisation. I guess this falls out as a side-effect of the first 
+condition, but AFAICS it *can* also still provided by deferred probe 
+(given that it's a single work item iterating a list one-by-one)
 
-The new function is used in the next patch to limit the scope of the
-search when looking for duplicates of the device being probed.
+- in some regular thread context that isn't liable to have issues 
+synchronising against other async_func workers (i.e. the request_module 
+case). Again, deferred can't have a problem here, or it wouldn't have 
+worked properly in general for the last decade.
 
----
- drivers/base/auxiliary.c      |   10 ++++++++++
- include/linux/auxiliary_bus.h |    2 ++
- 2 files changed, 12 insertions(+)
+So it's not that we'd be relying on some dubious "deferred is always 
+synchronous" assumption - AFAICS deferred *can* launch async if the 
+driver permits it - more just ratifying that deferred is still able to 
+effectively honour all the useful properties of PROBE_FORCE_SYNCHRONOUS 
+other than "during registration of the thing". And where people do want 
+the semantics for a platform_driver_probe()-like thing, then I think 
+it's reasonable to say that they should definitely never be invoking 
+that from the probe routine of some other driver which permits async itself.
 
---- a/drivers/base/auxiliary.c
-+++ b/drivers/base/auxiliary.c
-@@ -502,6 +502,16 @@ struct auxiliary_device *__devm_auxiliar
- }
- EXPORT_SYMBOL_GPL(__devm_auxiliary_device_create);
- 
-+/**
-+ * dev_is_auxiliary - check if the device is an auxiliary one
-+ * @dev: device to check
-+ */
-+bool dev_is_auxiliary(struct device *dev)
-+{
-+	return dev->bus == &auxiliary_bus_type;
-+}
-+EXPORT_SYMBOL_GPL(dev_is_auxiliary);
-+
- void __init auxiliary_bus_init(void)
- {
- 	WARN_ON(bus_register(&auxiliary_bus_type));
---- a/include/linux/auxiliary_bus.h
-+++ b/include/linux/auxiliary_bus.h
-@@ -271,6 +271,8 @@ struct auxiliary_device *__devm_auxiliar
- 	__devm_auxiliary_device_create(dev, KBUILD_MODNAME, devname,  \
- 				       platform_data, 0)
- 
-+bool dev_is_auxiliary(struct device *dev);
-+
- /**
-  * module_auxiliary_driver() - Helper macro for registering an auxiliary driver
-  * @__auxiliary_driver: auxiliary driver struct
+Thanks,
+Robin.
 
-
+> 
+> On the other hand, eventually we want everything to work with
+> PROBE_PREFER_ASYNCHRONOUS, so maybe it's also good enough for the time being.
+> 
+> [1] https://lore.kernel.org/driver-core/DGZJBMG2Y738.2MU5LXVGEDD47@kernel.org/
 
