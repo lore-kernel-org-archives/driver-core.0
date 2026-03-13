@@ -1,79 +1,79 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F8D37FF69
-	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 09:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCDF36F432
+	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 09:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773393944; cv=pass; b=IDg90EGhW688rgr78h8p/5TSlWK032u4AgCbTp2zn8qUnFkNA1m6bLIDpMRM4CodcBtaoVR4FryWAe/IcMS+tILWwUqRsIhmVQey1EkA3Rz0O98Bju17c24rZkUgLoxyxKZAsoP+bKTYQuYy70Y82sTvu1JRblMtv2dR0xkY3C4=
+	t=1773394006; cv=pass; b=rOZctKe+C27cS953LGT4csXUfwDSo+KvlGw80OCGW4SERCg0iLXjkOlVMqDFAQu62eyxmX4RcTdq8B1cX0iPvbipIHc2tb4qlHbEO/q4TIEoJvHfbL+f8mI6yX9Ho3j0W4iaPiGmK8VjetynCW7d/bQ/wN1fynrHJxzzDRsIQ1E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773393944; c=relaxed/simple;
-	bh=/uB/tPENyS//AaalGzBZqiwLhleo5hjikLnLUq4+/Gg=;
+	s=arc-20240116; t=1773394006; c=relaxed/simple;
+	bh=9zhdSL5TZ0+7QU3R0xnxIo4ImepctE4X0d6M5LPIqcs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NnKl5tWoufukiMBUN/3vre/AbzljV9cq2qUmTU00eaBT6/AWBOL/ckXAdGQHOGoX7WxxKsjNoORCVyPfFFf/Xp7h1+R4eAu0JS5A1/W8R+TNEPHCFgNZGdm4FQSfPF92/2ZknQ8+3+vt+Sf36L9+eqkkR7oiy3SsS4gIrccXgOk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1Cz3qDe; arc=pass smtp.client-ip=209.85.218.51
+	 To:Cc:Content-Type; b=edWfxyngrSm5rQdO5PgCiiwKm78oYhNKBVART7zTspOtVrgEjY2/dL9cN09IwfHYbWjzd9NSehM9Mmq9WnUye6euq8U3xnJHct3zdM0le4cqvQrmujn9CQ0+VJJzV1aTtpwzhZkMThhZke+szZJ9cM8Su86Z0Ha14A6xMU4Tq4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tzi36Dkw; arc=pass smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1Cz3qDe"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b94358796a1so268277866b.2
-        for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 02:25:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773393941; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tzi36Dkw"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-661be3380adso3387126a12.3
+        for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 02:26:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773394004; cv=none;
         d=google.com; s=arc-20240605;
-        b=YVXz6YbBZ3eLUPTc1nla8jdEJ+TME+locCNz7RvtfZ8NV7jyW4kEHJNG16ryvqQS9q
-         wQTN0HyWweepOnjdABnVgMg0uQq+QG5SDix54YYYjmK0WFNiqcgtuum6eDdOFU1uRehx
-         TKvPWPmkMZ2ZbAZZvkuUS+UZ4Addmc/BolGFzoxs8gIVsfFSgamtkrZJ1XtmqJhfslkC
-         JG41IVowciMoJW7CLQkO6uEDGrlJ37XtnOOwgDsatgveSUMcNNGtIJGm09AMXpmFUlEZ
-         AbSxx1uZFgDvSsQQkdQCy0Rf0xy663VInZDF/BEupZ4nsBLuHumD8CJFBcC0igOxg3Cx
-         wKdA==
+        b=EA0+77bZJvyHmdIwluPqz4BKBTCiJTD6y5N5wCrfs5bjTgEO5fQgRNNgLekapCHAoi
+         INK4tUkYWmDsY41Rc2sBhfSk6v/59fUZjIY4yzTSuw/PjV7zOjEwbif8Qqr9j6uBXDFK
+         Opnd9RVUvVZe2/OKhCesyypsxXgLwnS/hepR+GFz+1rjkg4mv02JRNsMa8uV2+XThNkh
+         uvCPQIKoEOIlPjQ2Y/SdPcIKqyGzE/d6Y3Y5FQi6R19/OA0tnowVT/Oqhe5xsXrPtyCQ
+         6NhhNlN8svbyzvLoQeHUmlMrlrB8siVBwAxYFKsVyfXWilhIDgtU9UG8CnNnqxTno7c4
+         NvqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=skapIsZV+2WP9UcczRrFkVT7zb1t6DskdiJBKEA1lOE=;
-        fh=O9t/dw5oLk0G1YarKEa0aC0i8ovcdc7S4+6exwYB1UE=;
-        b=DvX5TY2Vau6Zrpfu5QgjOI9vTEGMzerUTUc3/U+FlsZFAoN7aLvJdSgqxs7qsIR/jq
-         n1gnsCoMHYL5Wbj6ZOR/8aZggxRtD8xR0ley0I9XpqXyb6mbxUhdUFa9P4Amd5w6p1Zk
-         ptxV2hTye7rezKCuZBzHO3ONKFJkDhnkjSHQGf5Cnqj+33thyMOg5GXnLbI5IhNW5B7r
-         sa8oZ5HF52zxRH+6AmHGtGHuBKgtXgSlVjLhJRKqvsiu94lqxTs3TkhJRlgwYlPLlM6g
-         nV9KMqNL7lZRw66F6x2lg3wdSHLalQ03xEy4bfgOSOGmf68ubUAitTmtO+zWyK3iee+w
-         0ZAg==;
+        bh=9zhdSL5TZ0+7QU3R0xnxIo4ImepctE4X0d6M5LPIqcs=;
+        fh=ohPMVwyLvIqygrggfAzlm9b64ev5QFgif15eDpiqlPo=;
+        b=CnGW2PV+CwDxzDQf7mTAso3fU0B+WVChEEjD5+CEEmhGXVF8hcT4GYKRQ4uQ7IHJpc
+         0tDobMLXTg7ksvK5eNP72x9GOvy/LQgE1M8HV3FZB5X8gTXO6K25B/ogoBFVa4OeuPIN
+         rQm3n8zvVxEesF8xuGET0sxXhLA6dc/lxM8twMZOY+YMv+kYfthjAtv2BJqxwdtUd8HD
+         TlGr6fXP0C8Te8S1ud2629KMJwPMbi/izGQ41HiLdGc7GCDEU4oabfdVZ/ebauplC0jN
+         Me3p/IRoXywHicF1m/4FEQIqbs09/YHscu7yCb3KOpTQtMElWu0BeXtVdJB3Me4G2sRl
+         aBgQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773393940; x=1773998740; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773394004; x=1773998804; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=skapIsZV+2WP9UcczRrFkVT7zb1t6DskdiJBKEA1lOE=;
-        b=C1Cz3qDeWUiWQnxkZBuosKmEQhr+sa04S3S4RN/p3GMDZTCpQZ8zDwNuBKHVJ1R7Nx
-         VKfjKoA40CWPNx+2OZ1rwe85+wBk/2MSjo3xIUUzbmCR+4bm5rJRVB4irvG9YiAF+y3n
-         5Y/tGUd2tDtZm1OPZlyRY7jXUeILTA93OlILIG5RA5BGNGf/clhPMJXI0WIIx2F0nlH1
-         WtPmUNeVeB1stir9PVEHV027rtpqzHUCkdWLfHDuc+nMLZz6YznbqkvgxJDMI6/+Th/W
-         7D6wU4Uz3Nt8oOjv8CJAp4WTtnfCeaJcaxC/RDykpSNjv3YSGhMNR8L8ZZAbzWiYySqZ
-         yZZA==
+        bh=9zhdSL5TZ0+7QU3R0xnxIo4ImepctE4X0d6M5LPIqcs=;
+        b=Tzi36DkwN4SqqKoTjTpU4iskePw6xt7ZDnjj4SOmjDFSKucjkDU51wKUYbzCdej9Yz
+         p+h3hCX45D6uujkMb5OzvLCRXUh61efFuqaWxS2+ZzAZ0Y9l6j2di/mQcRR7xj/50GC9
+         ygucRw4Wiw4JcuQG+MXcYgI993t0P58xPzqlsxVwKwyc7+zPIVcCVW4SmTFrdHgm733L
+         ix+JQMhjrHpYW5Ha+vu5oXII1A/fFSrXlu3cSof0Wac9+ASSWPrQVYNa5C5qZm3zlTna
+         j/x1dpOKYPfKEtcj6vHjPVP1D/bES6tLhCGmKjwjw7s4pepoouD41ISTuXjbLdPcW90Q
+         c62w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773393941; x=1773998741;
+        d=1e100.net; s=20251104; t=1773394004; x=1773998804;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=skapIsZV+2WP9UcczRrFkVT7zb1t6DskdiJBKEA1lOE=;
-        b=s8/PKPAhRth5jVw70CP9KF+NRwYP7e2Za+yYvHwPF4XnNT9GdR+eLjqqh0AVCEKHbW
-         binrsxcXtocoZwArd73+VyBi8ibXaQNsfimLzBiB210lekB1fxz/sCWr96Ez8kfRVN+x
-         bdaCE3oz8KgTS6pOZjejBrQykwlPDZRM8FQhqqF5Lf4iVI68e7M7Zl1qs2+dAYj42ExV
-         iwUqs2Nb2f9cEj4DUGgMdA0QHdr+OQ/74dF6F+xFhgeA/ilv53m0DOf6tLFQTA1PQwer
-         b7Kg8y2psG6iU4oTwheZOIWbmeBuFEDoO0Up1fzTlg1r/yD+ukkJZkKC8o+IgKRnA8xE
-         kjyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+l38JAYC+NuKY/NCef1+Pb9xUZG0PuZJg9yHmbl9fQvzVE8LffsP/Vg/9WmK3c/m2qyKX2+uDVi6DFA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzO5byE5l/bM4jPYUhjPyjETFwgPMOW9/rOGl/FMGbr/+o2sfRD
-	PKGBMupKOjZajHRj1DODbFRwvLLjePcK/A7BOSejwZgtp9jFik1d5pxmXkcNiFxk9+NezI/QhmR
-	Dj4hCUEa/TnCRUaOns+kZQaile9Wz6j4=
-X-Gm-Gg: ATEYQzy8n/j053jN+TlrIkduI7/NhAHriBtMREp8tiZMbmft5lvS3QQH4A8JEvNOx4l
-	SXABgdNgnKblsnwJsmR1pn/6I9Wve74SHZGdS35y6KVOACrMyF7sihx/cO2vX6xOus3JrBVGoTt
-	sc7tSwQns6xkEYDj1It0jcr6zBiKYqQGwsoMXQfhwa0gBhzL7LlXvYlqb3g/a2hKnOpGBXnGlAh
-	0UXeKcdTS82hTD9heyHtEjL6Njr2Tnd9Aie4iQzeVH8uvn4PSPwFBN1tyTsLM13flOCNWcFOXo4
-	lDZlQQ==
-X-Received: by 2002:a17:907:8dcd:b0:b93:81e7:845a with SMTP id
- a640c23a62f3a-b976507ad70mr126077666b.9.1773393940274; Fri, 13 Mar 2026
- 02:25:40 -0700 (PDT)
+        bh=9zhdSL5TZ0+7QU3R0xnxIo4ImepctE4X0d6M5LPIqcs=;
+        b=FCdPzzwGVsZHRpippa66Tlt46FxRdLmwlAXYeb9Lv4SDU7jOrfQqTOXVBvTUdQKie/
+         0NTFSzCoeeEs8ssoAprpjrH/Q10Dz4lMSXPU08esZMRwdvQwuqSTu8qPomY5ir4g+b/t
+         wFuFY29QIh4R25jypAvOoH2B2lMt4WBj2LK62LuosZHmTN7uLAqT9wDtRDBo7YXAqYY2
+         Rxg5DusQWXVI71MBQsde07j6Wq1dqqvqv/DVeWZipDK5nmO245GXutZueIvnC/BBTaCX
+         VUArrqpOgyAqC2BYm+GdBzLb6RDwhfmnXGeN/qnJjLJoaBI9NWkQmhDXVY7UlunpRGgi
+         n3oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVFXvYTD/1aqGV8Y8ZXB1wLvw2i1zterXUwoT1DXl7ztmFnq6Rmr/ERTfBnLl6omMlLUuFyuNi8IvFQRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAipdD35JTIgYgdy3Qz8tayGLZt6iNcV5hc+1XTzGJ9eRE5hLm
+	KojnX5ULUczBq5tGtAHZ5++WAa4/VdrLOA2cNQY0Zb4cCLbts6RW8BXMaWt4igqnSzqK9NueTcp
+	sGv9CnZUD0UlOc3yk1KOOoYCxnOig0r0=
+X-Gm-Gg: ATEYQzxo4we2tFUxM0S5O5VOIlIs+12eL9iy1sA/XmLLLRNxBmFUI6MI1u2Vh3YzpmM
+	nexREcsCpk1m/bgp3IKxWuW1BK8bW80JBW8tBI+taf7OQ/J3rrZj9+c/T9wYrpJ8liEDP/9AFbh
+	yDiduZSCUVcrdKBkz6Vx24EepL/5lIByQp3ktkEJrFIivyR8urOb3rfSiGO9If6qOY5JfhQXX/J
+	Meel9o3eOc87D4h5diNF1i0oaxuJgRSghtmE11bxCQTChhM4bU6HbeWJeBD8EqphZMAhK8LZU4a
+	18TwUg==
+X-Received: by 2002:a17:907:6d24:b0:b95:53ff:5e00 with SMTP id
+ a640c23a62f3a-b97651ec2fcmr160615366b.58.1773394003605; Fri, 13 Mar 2026
+ 02:26:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -84,20 +84,22 @@ References: <20260226101032.1042-1-linux.amoon@gmail.com> <177260693908.10259.13
  <87bc37ee-234c-4568-b72e-955c130a6838@arm.com> <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
  <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com> <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
  <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org> <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
- <DH09EDBW3X6T.2996UB1CFCAW2@kernel.org> <55c28218-1638-4b90-a9cd-a177fb5abcb6@arm.com>
-In-Reply-To: <55c28218-1638-4b90-a9cd-a177fb5abcb6@arm.com>
+ <DH09EDBW3X6T.2996UB1CFCAW2@kernel.org> <7b5592e7-8a9d-2cf0-bb3e-e306a6337165@rock-chips.com>
+ <CANAwSgTaZqsHYXD_ACkJGGLgk4knc7N72f4qrJaaenE-cXM8BA@mail.gmail.com> <DH0S7TSFKDJV.2YPSBH9F142LL@kernel.org>
+In-Reply-To: <DH0S7TSFKDJV.2YPSBH9F142LL@kernel.org>
 From: Anand Moon <linux.amoon@gmail.com>
-Date: Fri, 13 Mar 2026 14:55:23 +0530
-X-Gm-Features: AaiRm52hlbsJk0-LJBm1qE_mVZnVv4Bhkj1fxNTd0yyF5TYOEj4LUpGTe5M1isE
-Message-ID: <CANAwSgTxsDB0t1vj--uvYCCxf4NhnjhBEDLqdevLnGAiuU6_pw@mail.gmail.com>
+Date: Fri, 13 Mar 2026 14:56:28 +0530
+X-Gm-Features: AaiRm53rZCLp_kErJJxBMXMWmeLwePiSPPATSICps4w1XibNQCvpnT-mxDnWsvY
+Message-ID: <CANAwSgQCQ4z7p7Z8qe2mRqUY7zKe0w0wE+1RfYtD4NePzoit3A@mail.gmail.com>
 Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Shawn Lin <shawn.lin@rock-chips.com>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, 
 	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, 
 	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Niklas Cassel <cassel@kernel.org>, Shawn Lin <shawn.lin@rock-chips.com>, 
-	Hans Zhang <18255117159@163.com>, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+	Niklas Cassel <cassel@kernel.org>, Hans Zhang <18255117159@163.com>, 
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
 	Wilfred Mallawa <wilfred.mallawa@wdc.com>, linux-pci@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
 	linux-kernel@vger.kernel.org, Grimmauld <grimmauld@grimmauld.de>, 
@@ -105,104 +107,19 @@ Cc: Danilo Krummrich <dakr@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
 	driver-core@lists.linux.dev, Lukas Wunner <lukas@wunner.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Robin,
+Hi Danilo,
 
-On Thu, 12 Mar 2026 at 18:18, Robin Murphy <robin.murphy@arm.com> wrote:
+On Thu, 12 Mar 2026 at 17:24, Danilo Krummrich <dakr@kernel.org> wrote:
 >
-> On 2026-03-11 9:09 pm, Danilo Krummrich wrote:
-> > On Wed Mar 11, 2026 at 1:28 PM CET, Manivannan Sadhasivam wrote:
-> >> On Wed, Mar 11, 2026 at 12:46:03PM +0100, Danilo Krummrich wrote:
-> >>> On Wed Mar 11, 2026 at 6:24 AM CET, Manivannan Sadhasivam wrote:
-> >>>> I have a contrary view here. If just a single driver or lib doesn't handle async
-> >>>> probe, it cannot just force other drivers to not take the advantage of async
-> >>>> probe. As I said above, enabling async probe easily saves a few hunderd ms or
-> >>>> even more if there are more than one Root Port or Root Complex in an SoC.
-> >>>
-> >>> Then the driver or lib has to be fixed / improved first or the driver core has
-> >>> to be enabled to deal with a case where PROBE_FORCE_SYNCHRONOUS is requested
-> >>> from an async path, etc.
-> >>>
-> >>> In any case, applying the patch and breaking things (knowingly?) doesn't seem
-> >>> like the correct approach.
-> >>>
-> >>>> I strongly agree with you here that the underlying issue should be fixed. But
-> >>>> the real impact to end users is not this splat, but not having the boot time
-> >>>> optimization that this patch brings in. As an end user, one would want their
-> >>>> systems to boot quickly and they wouldn't bother much about a harmless warning
-> >>>> splat appearing in the dmesg log.
-> >>>
-> >>> You mean quickly booting into a "harmless" potential deadlock condition the
-> >>> warning splat tries to make people aware of? :)
-> >>>
-> >>
-> >> Hmm, I overlooked the built-as-module part where the deadlock could be possible
-> >> as indicated by the comment about the WARN_ON_ONCE().
-> >>
-> >> But what is the path forward here? Do you want the phylib to fix the
-> >> request_module() call or fix the driver core instead?
-> >
-> > Here are a few thoughts.
-> >
-> > In general, I think the best would be to get rid of the (affected)
-> > PROBE_FORCE_SYNCHRONOUS cases.
-> >
-> > Now, I guess this can be pretty hard for a PCI controller driver, as you can't
-> > really predict what ends up being probed from you async context, i.e. it could
-> > even be some other bus controller and things could even propagate further.
-> >
-> > Not sure how big of a deal it is in practice though, there are not a lot of
-> > PROBE_FORCE_SYNCHRONOUS drivers (left), but note that specifying neither
-> > PROBE_FORCE_SYNCHRONOUS nor PROBE_PREFER_ASYNCHRONOUS currently results in
-> > synchronous by default.
-> >
-> > (Also, quite some other PCI controller drivers do set PROBE_PREFER_ASYNCHRONOUS
-> > and apparently got lucky with it.)
-> >
-> >  From a driver-core perspective I think we're rather limited on what we can do;
-> > we are already in async context at this point and can't magically go back to
-> > initcall context.
-> >
-> > So, the only thing I can think of is to kick off work on a workqueue, which in
-> > the end would be the same as the deferred probe handling.
+> On Thu Mar 12, 2026 at 12:40 PM CET, Anand Moon wrote:
+> > I've reproduced the issue on my end. Following Danilo's suggestion,
+> > I used PROBE_FORCE_SYNCHRONOUS to resolve the warning.
 >
-> Hmm, in fact, isn't the deferred probe mechanism itself actually quite
-> appropriate? A suitable calling context isn't the most obvious "resource
-> provider" to wait for, but ultimately it's still a case of "we don't
-> have everything we need right now, but it's worth trying again soon".
-> I may have missed some subtleties, but my instinct is that it could
-> perhaps be as simple as something like this (completely untested).
->
-> Cheers,
-> Robin.
->
-> ----->8-----
->
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index bea8da5f8a3a..3c4a0207ae3f 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -954,6 +954,16 @@ static int __device_attach_driver(struct device_driver *drv, void *_data)
->         if (data->check_async && async_allowed != data->want_async)
->                 return 0;
->
-> +       /*
-> +        * Bus drivers may probe asynchronously, but be adding a child device
-> +        * whose driver still wants a synchronous probe. In this case, just
-> +        * defer it, to be triggered by the parent driver probe succeeding.
-> +        */
-> +       if (!async_allowed && current_is_async()) {
-> +               driver_deferred_probe_add(dev);
-> +               return 0;
-> +       }
-> +
->         /*
->          * Ignore errors returned by ->probe so that the next driver can try
->          * its luck.
->
+> I did not propose to add PROBE_FORCE_SYNCHRONOUS, I just noted that we should
+> not force all subsequent drivers into async probe() by adding
+> PROBE_PREFER_ASYNCHRONOUS before the issue is resolved.
 
-Thanks, these changes help fix the warning.
-Please add my
-Tested-by: Anand Moon <linux.amoon@gmail.com>
+My apologies,Thanks for clarifying. I misunderstood your point.
 
 Thanks
 -Anand
