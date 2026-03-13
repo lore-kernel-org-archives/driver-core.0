@@ -1,127 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45AD03164A9
-	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 13:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64419396565
+	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 13:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773407755; cv=none; b=hYyzmXRImkQKHVBytfqboezOSIauo/ajBy8A6MHg3++PjD60Lr5NmUDeM9vRP+EgNQXAWfltt0si8Vzz3yX4NFUxX4jbqp7E1YVj+KRcQp4OkPCDxpMG/rTTPseoT72ekfwUTumAiEOGlvdgsMXwk6oQkTbq7flrKTNz0EZ+moA=
+	t=1773410143; cv=none; b=Lsl7lRaKTz70YkLd5TiDjgdrMwKVLc1NDRO/w4e0X4/OEt1ACZsH13KczRP7lIDrufmFk+QwSMBHDzwY0LyYo43cseu8k6YpPaLedRdkgiphVSKaNoWAMvtdYVga7VZw21tA9gCZhrQRO5mDe+VsJJrEnzVvKCib7TmaaoB7C80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773407755; c=relaxed/simple;
-	bh=wxlHc9c7iJN3g9SDWUpvLcjyUqW7JOefkKsYFpY2Y1E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cLBVICKwEzJSuwDvCn/erOBD5UB0dKjIFAgQoTSItBwHpEiwi5sMcDZ4Fn5rKrwZLwNemBLp/ZbaWkFme6AFpInXXlE3xHq1ZqYL4SX6VQ4EgEIOvkuJMZ4M1/RWWPO7sxEGMsmw1/R9N1mM0K4NKHNayO6ehx9FQYAsnxabyUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 558D8497;
-	Fri, 13 Mar 2026 06:15:45 -0700 (PDT)
-Received: from [10.57.59.200] (unknown [10.57.59.200])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D39153F73B;
-	Fri, 13 Mar 2026 06:15:47 -0700 (PDT)
-Message-ID: <6cfe4bda-036f-4bb9-8a08-ed75f61cae24@arm.com>
-Date: Fri, 13 Mar 2026 13:15:45 +0000
+	s=arc-20240116; t=1773410143; c=relaxed/simple;
+	bh=kBRAddIXHUXh1NrMwwK+Q3Uc5sar9/R6FymD2E+StZk=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k7UoJ/VjSIC67TDDvYB3s/6BUX1/XMKFGFOfP8qrglB8WMkGb8eBgKlycWg979/Fs6jaEm9PSTwvKEET6eZ8dO7EB/+CtBjIFzimqdXF6/yzs7U3Ziwm5qqa60p1umPEObDL9HTM3zDLMZpXFd4uS/GcIQSdRoUdAhef3itKZs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlHHHOwu; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlHHHOwu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12EDFC2BCB3
+	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 13:55:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773410143;
+	bh=kBRAddIXHUXh1NrMwwK+Q3Uc5sar9/R6FymD2E+StZk=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=dlHHHOwuas5iEiZYDfllPvgOC3GmZN4gPESsU/pK/+/y9TjVAYFpmMYGAY4asjiDj
+	 OoDUnUSYn9XGzH8WIe9LxrJOqv1YJ7ddkpm/AWyvge/Zh06BQaIg0neSOIgTdWvhJy
+	 G3rwOYAIIQdEal9Ge0wVjM9uE9huzivT2drwH7B+fk0ttJGXKv74xEgx3NfXX3wT9J
+	 vdb3miCRTZ8mz0FcEpV6WcY863bmBN/B6vqKhdlha8kD84tkO0dhDV//tCFLaNSUS1
+	 uJkeB7MV6c/iJxvcA73YH+7Zq307wQdPgQBLcDe0Lrn6hVoUI8GLz5SA1bqc0zFikO
+	 q8CGGmE0LLY3A==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38a3fd333eeso19047941fa.1
+        for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 06:55:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXaCzByUfycrKna1nkY6SW+MYLD8zW8X3yTExNxYbiXQNO7RCvTgSeMOLVuYh167QmRmQME12bjjWEEMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwN4R/tt7xGwRzNyGZCEQ/5waSvZuETKaHz4oc+Iog8+NXv6d+G
+	iMyLPSsYUTq5Fjxl5f9useDj9Ns12vkmilz5ffggKSXNXk3wRA2b/h1fnwa0l8G0CLXna+IDzrv
+	R0wLg+MUDx7uyHxeRdRN6pfMSzXi9wdr2A+sDshNcIg==
+X-Received: by 2002:a05:651c:4417:10b0:38a:83f0:541b with SMTP id
+ 38308e7fff4ca-38a83f05651mr14520871fa.17.1773410141391; Fri, 13 Mar 2026
+ 06:55:41 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 13 Mar 2026 06:55:40 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 13 Mar 2026 06:55:39 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260313-wakeirq_support-v8-2-48a0a702518a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Heiko Stuebner <heiko@sntech.de>, Niklas Cassel <cassel@kernel.org>,
- Shawn Lin <shawn.lin@rock-chips.com>, Hans Zhang <18255117159@163.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>, linux-pci@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>,
- Grimmauld <grimmauld@grimmauld.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev,
- Lukas Wunner <lukas@wunner.de>
-References: <20260226101032.1042-1-linux.amoon@gmail.com>
- <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
- <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
- <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
- <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
- <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
- <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
- <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
- <DH09EDBW3X6T.2996UB1CFCAW2@kernel.org>
- <55c28218-1638-4b90-a9cd-a177fb5abcb6@arm.com>
- <DH0TM60TVX5D.20W4O1X696ALA@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <DH0TM60TVX5D.20W4O1X696ALA@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260313-wakeirq_support-v8-0-48a0a702518a@oss.qualcomm.com> <20260313-wakeirq_support-v8-2-48a0a702518a@oss.qualcomm.com>
+Date: Fri, 13 Mar 2026 06:55:39 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Md3MK_YUPxx3rh9dGOfjBBxMBT1MNVAT-XZd=kD-qQj8A@mail.gmail.com>
+X-Gm-Features: AaiRm53a0ohWjYAXC_3b1_a1P_9x823vkvlD9HHudwcsHk9RyRRh0D6CSmM68NE
+Message-ID: <CAMRc=Md3MK_YUPxx3rh9dGOfjBBxMBT1MNVAT-XZd=kD-qQj8A@mail.gmail.com>
+Subject: Re: [PATCH v8 2/3] gpio: Add fwnode_gpiod_get() helper
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	quic_vbadigan@quicinc.com, sherry.sun@nxp.com, driver-core@lists.linux.dev, 
+	devicetree@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-03-12 12:59 pm, Danilo Krummrich wrote:
-> On Thu Mar 12, 2026 at 1:48 PM CET, Robin Murphy wrote:
->> On 2026-03-11 9:09 pm, Danilo Krummrich wrote:
->>>   From a driver-core perspective I think we're rather limited on what we can do;
->>> we are already in async context at this point and can't magically go back to
->>> initcall context.
->>>
->>> So, the only thing I can think of is to kick off work on a workqueue, which in
->>> the end would be the same as the deferred probe handling.
->>
->> Hmm, in fact, isn't the deferred probe mechanism itself actually quite
->> appropriate?
-> 
-> Yes, I've also mentioned this in [1], including the fact that it technically
-> even complies with the guarantees given by PROBE_FORCE_SYNCHRONOUS. I.e. the
-> documentation says:
-> 
-> 	Use this to annotate drivers that need their probe routines to run
-> 	synchronously with driver and device registration (with the exception of
-> 	-EPROBE_DEFER handling - re-probing always ends up being done
-> 	asynchronously).
-> 
-> However, I'm still not sure how I feel about this, since I consider this to be
-> more like a workaround that just moves things to a "more approprite" async
-> context.
+On Fri, 13 Mar 2026 08:08:41 +0100, Krishna Chaitanya Chundru
+<krishna.chundru@oss.qualcomm.com> said:
+> Add fwnode_gpiod_get() as a convenience wrapper around
+> fwnode_gpiod_get_index() for the common case where only the
+> first GPIO is required.
+>
+> This mirrors existing gpiod_get() and devm_gpiod_get() helpers
+> and avoids open-coding index 0 at call sites.
+>
+> Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
+> Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+> Reviewed-by: Linus Walleij <linusw@kernel.org>
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+>  include/linux/gpio/consumer.h | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+> index 0d8408582918680bfea6a04ccedfc0c75211907a..fee926c0262ce9dc4b9a3c151e74f2cf37470a49 100644
+> --- a/include/linux/gpio/consumer.h
+> +++ b/include/linux/gpio/consumer.h
+> @@ -596,6 +596,15 @@ static inline int gpiod_disable_hw_timestamp_ns(struct gpio_desc *desc,
+>  }
+>  #endif /* CONFIG_GPIOLIB && CONFIG_HTE */
+>
+> +static inline
+> +struct gpio_desc *fwnode_gpiod_get(struct fwnode_handle *fwnode,
+> +				   const char *con_id,
+> +				   enum gpiod_flags flags,
+> +				   const char *label)
+> +{
+> +	return fwnode_gpiod_get_index(fwnode, con_id, 0, flags, label);
+> +}
+> +
+>  static inline
+>  struct gpio_desc *devm_fwnode_gpiod_get(struct device *dev,
+>  					struct fwnode_handle *fwnode,
+>
+> --
+> 2.34.1
+>
+>
 
-I guess the underlying problem there is that there are at least 3 
-different significant aspects to what "synchronous" can mean:
-
-- literally in the context or device/driver registration as documented. 
-Off-hand I'm not really sure what useful property may be *specific* to 
-those conditions that a driver might rely on, other than for 
-super-special cases like platform_driver_probe().
-
-- serialised, i.e. probes of multiple devices won't happen concurrently 
-on multiple threads. This is probably the one hiding the most driver 
-bugs, e.g. internal shared/global state without sufficient 
-synchronisation. I guess this falls out as a side-effect of the first 
-condition, but AFAICS it *can* also still provided by deferred probe 
-(given that it's a single work item iterating a list one-by-one)
-
-- in some regular thread context that isn't liable to have issues 
-synchronising against other async_func workers (i.e. the request_module 
-case). Again, deferred can't have a problem here, or it wouldn't have 
-worked properly in general for the last decade.
-
-So it's not that we'd be relying on some dubious "deferred is always 
-synchronous" assumption - AFAICS deferred *can* launch async if the 
-driver permits it - more just ratifying that deferred is still able to 
-effectively honour all the useful properties of PROBE_FORCE_SYNCHRONOUS 
-other than "during registration of the thing". And where people do want 
-the semantics for a platform_driver_probe()-like thing, then I think 
-it's reasonable to say that they should definitely never be invoking 
-that from the probe routine of some other driver which permits async itself.
-
-Thanks,
-Robin.
-
-> 
-> On the other hand, eventually we want everything to work with
-> PROBE_PREFER_ASYNCHRONOUS, so maybe it's also good enough for the time being.
-> 
-> [1] https://lore.kernel.org/driver-core/DGZJBMG2Y738.2MU5LXVGEDD47@kernel.org/
-
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
