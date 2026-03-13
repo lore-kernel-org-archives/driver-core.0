@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D6D3E022C;
-	Fri, 13 Mar 2026 19:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB712DF12F;
+	Fri, 13 Mar 2026 19:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773428609; cv=none; b=q6fTF1rBC+mgr2C4C7Ny027B6Cp1UQnej8d6tLVUG0HkbfYc6hzvw0diVBmMAzw5+6uieWGIHWaPHNxZC8xMDAWBRLO2JmlJhzh0I1FEL8XA0nwxN9s9zLQUvqiw73e8xRH6Agdv8KoBlmpqg6E78c6VYpRGp4AAjEezCQa6RKg=
+	t=1773428609; cv=none; b=Eti2YmGyEVFKlhutBwZEmZszlp2I5/IJGEaleCuU99PJmep1ezAT9h+TliUQtjugqG0f/Ych0HuMhCEbp08+gXNnnzW3ZDPWu/Y98/SArBkybo+5mJssy4ME2AbocxcA6D7AA0aXzKPNdx4D5PJGIY7lIO4ccounc/m+1eouBkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773428609; c=relaxed/simple;
-	bh=WNyrV6cUJd1MCtALLHhcaw4UwpQ9xMid5GgH1ipI1uw=;
+	bh=Jx7UrUTas1KVn/N4PI1g4X8WSfQKM/+cArejjQk62XM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jF5rl/XeHg3ANCzicet7zrfddVmgEOO6EaGubRcjVo5jYcP/HkLTfZi5cvMmRHK0PhyJFo4Hyf9YJTWWeIVReCt2DB4EoNbPKYphAhSYr/hKcXScyuibOGqPCfeAm2blrITU9ZJlMFZRgUTj60494GhiX8Bei9eYlt3H/It1gic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9WEgRCQ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=URvK54FmBLhY5BlpIqQ6Tw2h9pS7zfOgFvEC/BR/NxGazJsE8POadZQqsck6lW+6iMUKIUi9mEin2YHPH3eCu9KsMdqZMkDN0azl4BIrFL7fqFbloiI5W0DUg1k2w79moVHzmBnOtjhR5ghjlhTLiwGa6Td+8XIml/cf3Ai4s2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGoB1gTC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9WEgRCQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 46122C4AF0C;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGoB1gTC"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BE56C2BCB4;
 	Fri, 13 Mar 2026 19:03:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773428608;
-	bh=WNyrV6cUJd1MCtALLHhcaw4UwpQ9xMid5GgH1ipI1uw=;
+	bh=Jx7UrUTas1KVn/N4PI1g4X8WSfQKM/+cArejjQk62XM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=c9WEgRCQSq0ifZQWywjVc93Z4fYUZfib6INXYaPZOf4Pa07RWRBgAQo6rdA69IR3C
-	 /e0W74+8qD9M9iFkQf/OHGvTBDalTsAzS9MO1mzEuPQyzkv0lB7DsSukQ40E25mtcs
-	 1vAjkr4SRdqEZRL6gHINzpxeMPyMIp4NbNizKPStf7kIc2DqxJt/TRv0udYzSdbjxR
-	 k+pdn0ihLfhq+uDFN0sMJ76X+bKTeuLDmAUECr8BRrbjtZwxNkaiWFVK7iAUGsBOGm
-	 iu9gdTHTLqnnTMlqlvShhYuC0rFEHRNDXLuaURofx+R+VN2obdUZ/xZ9YkNTqqBJvv
-	 mc5hYKW8XSocQ==
+	b=hGoB1gTCzNofnwtvKWS4UPRREqrNBAStY344sOOB2vOb0N46Rk5CguD9Iuy8d6X6x
+	 GQll9c+1BxFq97mTrp15I2NiSTnFEQ5FtwNqxT+TEnBigxFaCQqXSCJs2xBw6pMz0G
+	 ODLtZmU6S47bRHLus0q2VazCDEbPuJyceZWuLlP69e+KYFh0BCqP0PlmK051dHWFRG
+	 zdMNHioNSFfWJN9oqHW/DNdIDPkR5A7jBwuK1kqKP8P1zZ6MCS0y05ffhoAZX0Zvj4
+	 7ibcUMDC4ehENvrMwCrTS3WCWxhb0iMn1L6t+SA/0Tn296sRmdsdPvXo41zoBOKT7L
+	 jOsYBVFHPfZBQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0F7107BCDD;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 824AE107BCDF;
 	Fri, 13 Mar 2026 19:03:28 +0000 (UTC)
 From: Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>
-Date: Fri, 13 Mar 2026 20:03:07 +0100
-Subject: [PATCH v3 3/7] acpi: add acpi_of_match_device_ids
+Date: Fri, 13 Mar 2026 20:03:09 +0100
+Subject: [PATCH v3 5/7] dt-bindings: mfd: Add synology,microp device
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260313-synology_microp_initial-v3-3-ad6ac463a201@posteo.de>
+Message-Id: <20260313-synology_microp_initial-v3-5-ad6ac463a201@posteo.de>
 References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
 In-Reply-To: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
 To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -65,21 +65,21 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, 
  Markus Probst <markus.probst@posteo.de>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1613;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3421;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=GJ3md6hqtAxzfdBZYmqM+I2WL+pybDm9TmsuESz9lJ4=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBptF913ngpPcMcdUQwBIgHq7F7VzFVgL/AY67jx
- svY0kKc3OKJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCabRfdRsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9LkNg//bCn1Kd+N6ljQZDQEebMvChN3dphvi1c
- JNF9qbgFodbcU4BIFx7T8XQ8KXpBoORI0YxeXgRHUnqGbPpcyeCObRFd7ciSKCMpniWpzDuN1GE
- 55vld+kUH+kCJCAHxj3uD3aPxn8e7ewuDXqns8NaqWxPsDHE0mjkuKLtUoLdi0m8p0tCV1KNrF3
- WWQWPtoa0MpaVlIz68xUxfpKkWcwXSKisntVCuHRB7fUGbkoBG6ewFPxai7OwVz58wYYF8qaMY0
- KtM6BU6H2FBNZMZ4BXj/TkKtX9IXz2dhwacbiAXlICtp36ZFtDQDiqQdgKpbKg/U3A1bmDZoJev
- XWoeg+XwuLcI6BIRCSTnsWShSO8gZtCBSpjR8zIR96fADSNuSvNwze128AS4h2ApAf2a20w00FB
- JG983Sp8SXAezefYSb54K7tp3WJ7RSl9NXahg69vtzWSoLB9uU0p+0WlwJ9cF7mb3Xnkp34GgxJ
- fwN9IhRLjSZFFdF+9oXeNNdaob6iHiP4M1qZSFFK1cjV8vQ5t7Wpj/DGU+8EMKkN6/cOKdJZZd4
- A5g32ESjeTedyxOxFIOi1oD39zEBZCd7fiIqYj4uxT8tCLsYslNbegGBON1a2xTChUUOxAZ1yG0
- gtgcL/kW7JQ3IMZf4yAC3sOtDJwLqZ2CWL1uesYUXGav6f2WlaAI=
+ bh=BWCjYQBHaSfDWg8Gx+1WSTdoVU+3MjA/rzyHsPChX7o=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBptF95QKk57C5wGYpOrgF+665YuLzVFk9/o6152
+ RHv7L3t4L+JAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCabRfeRsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9LkWQ/+I5FvYw6cc5ThLEBTFpIlGUb3vXxj0s5
+ CMgyALXltBdsVCG2cfRtMB29vkjz+PvR6DyghJpfPk8T8gO6XZWmqEh4op9aX4e535Hz4UIEITw
+ HMU2whDV/W88fVa9PFICGUOZPSqs44t5Mp3Hwb0OFeOyUdXZine/3B7uPy6X8zCzgj5aGklO8z9
+ olqCaoOR98NeWTlu+MP1jj6nPeG6scgII52M7pmsb2cSV3AX2sNmJPvq6f4nHE5t1F9ILwNDM70
+ VLBbMCsZeM75Lbq1bhGiHw78C+zeVv0Qov4JQuajcVwFSVVsa8zi9kEpP4ZhZo905JDuXvokEGI
+ 7Ah3Vcu51/8I9yF0ettPL1L8WuRbuIrwSJoyNleb/lA+8TzdyWFMIxL+fUXfH8llWvnj8/S77CF
+ Y/YmR2IFxAorinV8vwHyIhf4cCXp7KAu+Ia1MdM6ADMDVIvFHzgNQKKjZQ//iEX6B6vuzi0xrVo
+ ad4DSpIcRrN8JlLB3gePGKehcoM5ahQHE4oF18ASh0kq7xsPRGL77wXnHzLAGz+WTUi4I+Q7UnZ
+ Z5N4OKW6s5iKcD+Zyp65fNxkAg4wGHOaabS7sEaTjNxROsBlCWF9llL60oYal2Pqb2nMQWXC2ue
+ LKVuxQ7jsuxM3+O9Oh3SSF7DNcqCzl3xkbEUt6VOe2GgyXZ3FtG4=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 X-Endpoint-Received: by B4 Relay for markus.probst@posteo.de/default with
@@ -89,47 +89,123 @@ Reply-To: markus.probst@posteo.de
 
 From: Markus Probst <markus.probst@posteo.de>
 
-Add a function to match acpi devices against of_device_ids. This will be
-used in the following commit ("mfd: match acpi devices against PRP0001")
-to match mfd sub-devices against a of compatible string.
+Add the Synology Microp devicetree bindings. Those devices are
+microcontrollers found on Synology NAS devices. They are connected to a
+serial port on the host device.
+
+Those devices are used to control certain LEDs, fan speeds, a beeper, to
+handle buttons, fan failures and to properly shutdown and reboot the
+device.
 
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- drivers/acpi/bus.c      | 7 +++++++
- include/acpi/acpi_bus.h | 2 ++
- 2 files changed, 9 insertions(+)
+ .../devicetree/bindings/leds/synology,microp.yaml  | 40 +++++++++++++++++
+ .../devicetree/bindings/mfd/synology,microp.yaml   | 51 ++++++++++++++++++++++
+ 2 files changed, 91 insertions(+)
 
-diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-index f6707325f582..5ddcc56edc87 100644
---- a/drivers/acpi/bus.c
-+++ b/drivers/acpi/bus.c
-@@ -1044,6 +1044,13 @@ int acpi_match_device_ids(struct acpi_device *device,
- }
- EXPORT_SYMBOL(acpi_match_device_ids);
- 
-+int acpi_of_match_device_ids(struct acpi_device *device,
-+			  const struct of_device_id *ids)
-+{
-+	return __acpi_match_device(device, NULL, ids, NULL, NULL) ? 0 : -ENOENT;
-+}
-+EXPORT_SYMBOL(acpi_of_match_device_ids);
+diff --git a/Documentation/devicetree/bindings/leds/synology,microp.yaml b/Documentation/devicetree/bindings/leds/synology,microp.yaml
+new file mode 100644
+index 000000000000..f7bf32c240f7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/synology,microp.yaml
+@@ -0,0 +1,40 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/synology,microp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- bool acpi_driver_match_device(struct device *dev,
- 			      const struct device_driver *drv)
- {
-diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-index aad1a95e6863..0081b9e4aaee 100644
---- a/include/acpi/acpi_bus.h
-+++ b/include/acpi/acpi_bus.h
-@@ -677,6 +677,8 @@ void acpi_bus_trim(struct acpi_device *start);
- acpi_status acpi_bus_get_ejd(acpi_handle handle, acpi_handle * ejd);
- int acpi_match_device_ids(struct acpi_device *device,
- 			  const struct acpi_device_id *ids);
-+int acpi_of_match_device_ids(struct acpi_device *device,
-+			  const struct of_device_id *ids);
- void acpi_set_modalias(struct acpi_device *adev, const char *default_id,
- 		       char *modalias, size_t len);
- 
++title: Synology NAS on-board Microcontroller LEDs
++
++maintainers:
++  - Markus Probst <markus.probst@posteo.de>
++
++description: |
++  This is part of device tree bindings for Synology NAS on-board
++  Microcontroller.
++
++  This device can manage up to 4 leds in Synology NAS devices:
++  - Power
++  - Status
++  - Alert
++  - USB
++
++  The Power and Status LEDs are available on every Synology NAS model,
++  therefore the associated child nodes are mandatory. If the NAS also has
++  a alert or usb led, the associated child nodes need to be added.
++
++properties:
++  compatible:
++    const: synology,microp-leds
++
++patternProperties:
++  "^(power|status|alert|usb)-led$":
++    $ref: /schemas/leds/common.yaml
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - power-led
++  - status-led
++
++additionalProperties: false
+diff --git a/Documentation/devicetree/bindings/mfd/synology,microp.yaml b/Documentation/devicetree/bindings/mfd/synology,microp.yaml
+new file mode 100644
+index 000000000000..57bb986d24f7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/synology,microp.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/synology,microp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Synology NAS on-board Microcontroller
++
++maintainers:
++  - Markus Probst <markus.probst@posteo.de>
++
++description: |
++  Synology Microp is a microcontroller found in Synology NAS devices.
++  It is connected to a serial port on the host device.
++
++  It is a multifunction device with the following sub modules:
++  - LEDs
++
++properties:
++  compatible:
++    const: synology,microp
++
++  leds:
++    $ref: /schemas/leds/synology,microp.yaml
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/leds/common.h>
++
++    mcu {
++      compatible = "synology,microp";
++
++      leds {
++        compatible = "synology,microp-leds";
++
++        power-led {
++          color = <LED_COLOR_ID_BLUE>;
++          function = LED_FUNCTION_POWER;
++        };
++
++        status-led {
++          color = <LED_COLOR_ID_MULTI>;
++          function = LED_FUNCTION_STATUS;
++        };
++      };
++    };
 
 -- 
 2.52.0
