@@ -1,149 +1,197 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50093319858
-	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 17:37:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD273DD51A
+	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 18:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773423423; cv=none; b=Kiw8PVZ64oSL2M18OuEzQSFNzkPBaypNRW52KWwPqrZHb3GLnmG94qZMdjr7uYGExABn7zFnYasswFEg1q159pThg7ShFPLLuSmk7YN9xBlFZ2TKJNnpvEchazJdndPuuLrXGKQ3sb6wEovxaPjLzkSTPsKK1U6ABdOyXG71Ilw=
+	t=1773425557; cv=none; b=SlQlI1hYF9Ihzy8MVeKhhBkEKtTxt+o/EVOJcc73Ws0G/AkHq3kyXteoIgWf1SbfJQLGEnx3p0VX6zsrZvHN8Pq6OIm9I36W+fJw/F06XtuT/UBo1h1kus+KgSfBSlvyP+2CgailqhNsILiK5zp7jn5wlfQok4W6cji/SvMe+WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773423423; c=relaxed/simple;
-	bh=hZeTLwStoZmvizMYnkC+7A2WwPp7RBp/jC0CRCby5jM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b4gc4CJI1MsPr6LZf6pVAhK1J+ptFz4C1my9faqIB5CzDWPSnzPJYRsm6pR6v+Mwk1xNXUd65rTp7sBoaqzC5S0xVqz68/Hm1IcNvN85jQvcH59JgfAW4hNwo+d6I39u/bGPJTqklsnKdwpAFWQKqb4tpPs3ELSv04WOFRPRP08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82FC4176A;
-	Fri, 13 Mar 2026 10:36:55 -0700 (PDT)
-Received: from [10.57.59.200] (unknown [10.57.59.200])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E8C03F73B;
-	Fri, 13 Mar 2026 10:36:58 -0700 (PDT)
-Message-ID: <4f9fdfc9-f2ad-49b1-a6b9-ae64aaa47cfd@arm.com>
-Date: Fri, 13 Mar 2026 17:36:56 +0000
+	s=arc-20240116; t=1773425557; c=relaxed/simple;
+	bh=nhzCKHcpSQOEzqoUhprA9k7Hu+jE/8eApFY1eIPTW04=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bG5p8vOGc73t5uaptwN/iqyNPvIiS0gk4NC3EDEuk2AAH6rUwlVkOPpZR2GHR9OL+Oo6hcxlRYm5j3b2YaZpn5DAI8Q/1zJ9W4TeETDtjkv+LNDb4my3I1sQRzFSHcXnWD78OBoTSMx63J/HvgPlUszcYJcV7eRGbRIqHilk+Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=oPres7mu; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="oPres7mu"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id B0440240028
+	for <driver-core@lists.linux.dev>; Fri, 13 Mar 2026 19:12:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1773425548; bh=oP1CwqkAzPip8KPnsHIuwNOs+ExBzvZniOq/Ft8GfNI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:To:Cc:Autocrypt:OpenPGP:From;
+	b=oPres7muxfKgHkLoJKVK63A39hZGGygi5uuWSFBvf5SxSn3MPn8DLzcF0hfwxZvoZ
+	 oq0WlI2jpTJ8N9qFvNzM+7Tgx6QVlFcEURamIkGIhCcwiaO+6nPuPN2f85b2YeNgnO
+	 2KZ+m7muoxLXK6Fb3jpxIK4iQjV8bLuzXwUnOwFGt07Erdtpc8FLiYXq8aj3EyzgG9
+	 ZPqOz4XIUeW2T9EqZl9ls23g3Zz+IjpUQT7b7X4CSZnmNW3Wawe+WqfVphkHrslEhq
+	 0ClK0OyrCswmxYDtxVK8TcJZzCTczV8aBB0ygEXi2pncrcslxTyzmbdqKKiZiTpTqX
+	 c88F5T0crqg4g==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4fXXdN4yr5z6txb;
+	Fri, 13 Mar 2026 19:12:24 +0100 (CET)
+From: Markus Probst <markus.probst@posteo.de>
+Subject: [PATCH v3 0/4] rust: add basic serial device bus abstractions
+Date: Fri, 13 Mar 2026 18:12:27 +0000
+Message-Id: <20260313-rust_serdev-v3-0-c9a3af214f7f@posteo.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Manivannan Sadhasivam <mani@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Heiko Stuebner <heiko@sntech.de>, Niklas Cassel <cassel@kernel.org>,
- Shawn Lin <shawn.lin@rock-chips.com>, Hans Zhang <18255117159@163.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>, linux-pci@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>,
- Grimmauld <grimmauld@grimmauld.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev,
- Lukas Wunner <lukas@wunner.de>
-References: <20260226101032.1042-1-linux.amoon@gmail.com>
- <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
- <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
- <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
- <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
- <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
- <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
- <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
- <DH09EDBW3X6T.2996UB1CFCAW2@kernel.org>
- <55c28218-1638-4b90-a9cd-a177fb5abcb6@arm.com>
- <DH0TM60TVX5D.20W4O1X696ALA@kernel.org>
- <6cfe4bda-036f-4bb9-8a08-ed75f61cae24@arm.com>
- <DH1QCLS89ADR.3H0XABP0GEFQT@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <DH1QCLS89ADR.3H0XABP0GEFQT@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG9TtGkC/1XMSw6CMBSF4a2QO7amvX0BI/dhjBG4SieUtNhoC
+ Hu3EE1keE7y/TNECo4i1MUMgZKLzg95yEMBbX8bHsRclzcgRy1QWBaecbpm1FFiRFqVgipe6ha
+ yGAPd3WurnS959y5OPry3eBLr++0g33WSYJyRUkZpa6xBcRp9nMgfO4K1k/BnDZfc7C2utmpQN
+ gob1PrfLsvyAVQlkmfiAAAA
+X-Change-ID: 20251217-rust_serdev-ee5481e9085c
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Kari Argillander <kari.argillander@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boqun Feng <boqun@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2932;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=nhzCKHcpSQOEzqoUhprA9k7Hu+jE/8eApFY1eIPTW04=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBptFN6g+aGMPfixr0XlcGVBcwNy4Px4KRsaJTEd
+ y5+CVZ53IeJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCabRTehsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9J54A//SNYv1EpOne/57kO88w2ksXoyXY7kXkV
+ Cbcc0EWbCMlSTYBx5ykIKtal9EW5qNYyZlI2D4l4JePfwwDcMQd0a92N5w1AJScLHpmYVmATcjb
+ zv6O4ICOe3+IeH4XCgOeeav2/QlvvrBUTdw1W4st49/AJlbfoh6trp5C+PjtsIxwGPVGc2iiOzM
+ YuSq4Bz35DzWCaxLTcbkv638fz+Jho95OXKNDlu8IT7NFmnc/nTo2aBLkhPIq9WqZFxldwPe/Rb
+ IdMA6Du9fTa0xqMcX6bXZWaiG5azCODp8T+EKv8np7gYqT0n556lKsKGy0GaVtjA2m73huEm6eU
+ fncI10o2p8MGi1YlhRFV5pD52BXpzwi3Q/HfZwHi0ypKxeM82vDlqyZVWyXESPBycIzkC2Mql+Y
+ YK5lQi7B/0AA8rJp+w2md0yIx+1GcxrmqrMbbvjksY0ccZMqClfZWobWPq0lgpsB1G5z1Ta4obd
+ FcbMPk9pQzI5rcH4ucD9Hm+CPsEfLoDZxtWEsg9SJsNKbLvW9P77p5emtyPB8Pf7yb7eHin8guL
+ j9C719KgHJD+MB6yC9HFKNrA7sA5kLH6PWej0Rm3ZPzkOApB9mEzzFqtzxOsdvHd/u3DG7kO7fK
+ PP6cBdVc82/KjwcFIIuWWta9gLQiFN5HrTZw6yh7ZXEk7Mx7tsEQ=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On 2026-03-13 2:39 pm, Danilo Krummrich wrote:
-> On Fri Mar 13, 2026 at 2:15 PM CET, Robin Murphy wrote:
->> On 2026-03-12 12:59 pm, Danilo Krummrich wrote:
->>> On Thu Mar 12, 2026 at 1:48 PM CET, Robin Murphy wrote:
->>>> On 2026-03-11 9:09 pm, Danilo Krummrich wrote:
->>>>>    From a driver-core perspective I think we're rather limited on what we can do;
->>>>> we are already in async context at this point and can't magically go back to
->>>>> initcall context.
->>>>>
->>>>> So, the only thing I can think of is to kick off work on a workqueue, which in
->>>>> the end would be the same as the deferred probe handling.
->>>>
->>>> Hmm, in fact, isn't the deferred probe mechanism itself actually quite
->>>> appropriate?
->>>
->>> Yes, I've also mentioned this in [1], including the fact that it technically
->>> even complies with the guarantees given by PROBE_FORCE_SYNCHRONOUS. I.e. the
->>> documentation says:
->>>
->>> 	Use this to annotate drivers that need their probe routines to run
->>> 	synchronously with driver and device registration (with the exception of
->>> 	-EPROBE_DEFER handling - re-probing always ends up being done
->>> 	asynchronously).
->>>
->>> However, I'm still not sure how I feel about this, since I consider this to be
->>> more like a workaround that just moves things to a "more approprite" async
->>> context.
->>
->> I guess the underlying problem there is that there are at least 3
->> different significant aspects to what "synchronous" can mean:
->>
->> - literally in the context or device/driver registration as documented.
->> Off-hand I'm not really sure what useful property may be *specific* to
->> those conditions that a driver might rely on, other than for
->> super-special cases like platform_driver_probe().
-> 
-> I'm not worried about this one, as it is already special by not being compatible
-> with deferred probe. I.e. the caller already has to promise that the
-> corresponding probe() call will never return -EPROBE_DEFER.
-> 
-> This is a much more error prone requirement than just "don't call this from
-> async" already.
-> 
->> - serialised, i.e. probes of multiple devices won't happen concurrently
->> on multiple threads. This is probably the one hiding the most driver
->> bugs, e.g. internal shared/global state without sufficient
->> synchronisation. I guess this falls out as a side-effect of the first
->> condition, but AFAICS it *can* also still provided by deferred probe
->> (given that it's a single work item iterating a list one-by-one)
->>
->> - in some regular thread context that isn't liable to have issues
->> synchronising against other async_func workers (i.e. the request_module
->> case). Again, deferred can't have a problem here, or it wouldn't have
->> worked properly in general for the last decade.
->>
->> So it's not that we'd be relying on some dubious "deferred is always
->> synchronous" assumption - AFAICS deferred *can* launch async if the
->> driver permits it - more just ratifying that deferred is still able to
->> effectively honour all the useful properties of PROBE_FORCE_SYNCHRONOUS
->> other than "during registration of the thing".
-> 
-> Yes, and as mentioned above, EPROBE_DEFER has always been a valid path for
-> PROBE_FORCE_SYNCHRONOUS, which is why I brought it up as a a workaround in the
-> first place.
-> 
-> (The reason why I still say "workaround" is because nothing actually needs to be
-> deferred.)
-> 
-> Anyways, as I mentioned...
-> 
->>> On the other hand, eventually we want everything to work with
->>> PROBE_PREFER_ASYNCHRONOUS, so maybe it's also good enough for the time being.
-> 
-> ...plus there are not a lot of PROBE_FORCE_SYNCHRONOUS left anyways.
-> 
-> Do you want to send a patch?
+This patch series adds the serdev device bus rust abstraction into the
+kernel.
 
-Sure, I just wanted to check that you didn't see anything obviously 
-wrong with my reasoning-by-inspection - if you're sufficiently happy 
-then I'll write this up as a proper commit message and post the patch 
-(likely on Monday now) so we can all nit-pick the details :)
+This abstraction will be used by a driver,
+which targets the MCU devices in Synology devices.
 
-Cheers,
-Robin.
+Kari Argillander also messaged me, stating that he wants to write a
+watchdog driver with this abstraction (needing initial device data).
+
+@Rob: Are you willing to maintain these rust abstractions yourself,
+as you are the expert on this subsystem, otherwise I would take care of
+it with a "SERIAL DEVICE BUS [RUST]" section in the MAINTAINERS file. In
+the second case, I assume you are going to pick those patches as-is into
+your tree, after they have been reviewed?
+
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+Changes in v3:
+- fix vertical import style
+- add Kconfig entry for the rust abstraction
+- fix documentation in include/linux/serdev.h
+- rename private_data to rust_private_data
+- fix `complete_all` <-> `wait_for_completion` typo
+- move drvdata_borrow call after the completion
+- Link to v2: https://lore.kernel.org/r/20260306-rust_serdev-v2-0-e9b23b42b255@posteo.de
+
+Changes in v2:
+- fix documentation in `serdev::Driver::write` and
+  `serdev::Driver::write_all`
+- remove use of `dev_info` in probe from the sample
+- remove `properties_parse` from the sample
+- add optional `baudrate` property to the sample
+- remove 1. patch
+- remove `TryFrom<&device::Device<Ctx>> for &serdev::Device<Ctx>`
+  implementation
+- fix import style
+- add patch to return reference in `devres::register` to fix safety
+  issue
+- add patch to add private data to serdev_device, to fix
+  `Device.drvdata()` from failing
+- simplify abstraction by removing ability to receive the initial
+  transmission. It may be added later in a separate patch series if
+  needed.
+- Link to v1: https://lore.kernel.org/r/20251220-rust_serdev-v1-0-e44645767621@posteo.de
+
+---
+Markus Probst (4):
+      rust: devres: return reference in `devres::register`
+      serdev: add rust private data to serdev_device
+      rust: add basic serial device bus abstractions
+      samples: rust: add Rust serial device bus sample device driver
+
+ drivers/tty/serdev/Kconfig         |   7 +
+ include/linux/serdev.h             |  15 +-
+ rust/bindings/bindings_helper.h    |   1 +
+ rust/helpers/helpers.c             |   1 +
+ rust/helpers/serdev.c              |  22 ++
+ rust/kernel/cpufreq.rs             |   3 +-
+ rust/kernel/devres.rs              |  15 +-
+ rust/kernel/drm/driver.rs          |   3 +-
+ rust/kernel/lib.rs                 |   2 +
+ rust/kernel/serdev.rs              | 536 +++++++++++++++++++++++++++++++++++++
+ samples/rust/Kconfig               |  11 +
+ samples/rust/Makefile              |   1 +
+ samples/rust/rust_driver_serdev.rs |  86 ++++++
+ 13 files changed, 693 insertions(+), 10 deletions(-)
+---
+base-commit: 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
+change-id: 20251217-rust_serdev-ee5481e9085c
+
