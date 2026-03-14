@@ -1,67 +1,65 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D085C37A494
-	for <driver-core@lists.linux.dev>; Sat, 14 Mar 2026 14:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948EF26F288
+	for <driver-core@lists.linux.dev>; Sat, 14 Mar 2026 14:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773500080; cv=none; b=jF6f8i02dQ4qehGl1DIT09g/VsIcCsd8sVyb2ciP9ZXbyc3HJrSoVdpz/brudAeDJ+iE62S1aOeXuta9wa8rYZvyMXLHnEi2J2hBmLbOdDt+8DSy3EeV3ded2zHHcgVjV1FhJKxvQ/FiC7MELL0Dw7blyDZDLcNSsDyTflvyJOg=
+	t=1773500304; cv=none; b=Zt5nX5jCmi8pGA5lNyminXuE8lF0RUumHgyF47LKDnpe6/oWDvhvmeFnV0UCzmspUdOdCbvvt0IH+/ciEtj/4Esb2JO7oZUrQAqNxklGgTp4laJPXhUJCPeVzpydKP/9zDk9n6UTpfszXOGxRuBLF6Cf/lHeblgQxtRjIA46npo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773500080; c=relaxed/simple;
-	bh=nWQ4iF7/s/o03eYJ/7OuMPspkBb+SsFghcFHcgyEvpU=;
+	s=arc-20240116; t=1773500304; c=relaxed/simple;
+	bh=WHX81IXuCn3B/1vcG27p4owYdIVoJ6R0mG/lPEMylfc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TRcbefw+RIKmZQs/XFPNese022YBeesOX2KHrioaM4XbrSt/3gIVn2raK5V/eNq106nM4YV5b6Cl9kxxBF1MKyF90n6WCKATLBAdd5tSqFdEgyrM3Rwm1V+/dom0EsZp0us6h4f/m9C8HiapHrdWn1C+glUUjFjXNlC+Pddw0s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=CdGmOQE8; arc=none smtp.client-ip=185.67.36.65
+	 Content-Type:MIME-Version; b=foZIP67QwylcIdOr9nUF9iySzWylSmNlC+y3Pwy+ysJ9aKpi/QcgDLxN/WTBkt+aXKfx7JRHe3gyvjccJ56DsDXipO3JqKI326+Tsj0DypohRMP0tXu+tsv95v4xwX2HsS1S4QpncAqYA9+xdccDHD+8+kshBQ+znJ1g+KmqYAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=ILLRPcto; arc=none smtp.client-ip=185.67.36.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="CdGmOQE8"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="ILLRPcto"
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 2FF48240029
-	for <driver-core@lists.linux.dev>; Sat, 14 Mar 2026 15:54:37 +0100 (CET)
+	by mout02.posteo.de (Postfix) with ESMTPS id 2CF19240104
+	for <driver-core@lists.linux.dev>; Sat, 14 Mar 2026 15:58:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1773500077; bh=VvvBVmAhBK+BfYL4RCixfcFOqntOkNLVZGklQlrRSr8=;
+	t=1773500301; bh=m3f1myYQm+jc217x+0j6Wppdm0EP6jCFnngmRvQ0j2A=;
 	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
 	 MIME-Version:OpenPGP:From;
-	b=CdGmOQE8vVyJfEgCouyxm5p3JbAdnr2kKuqpRnTAl8MJzzRIO0TGczHiomxkYAJjk
-	 G/wEjgHlJz1x7BNlMAazCNR8jnVce7Bkk4BsytMYBdst9+HNaJ2lDW1B6DX4ACwbLW
-	 /HSGTKCUSXAgp0BlaaVViIJWb0lEoDlZ+NpdCKXORJDklal+EuZL31kS2BA/YsI77q
-	 YKNDMFi4+jAYB61FNnInW075/1B1kDnvU3uMpzmreWwLAwlO01hztp7ey5qrjuxT8T
-	 9D2dSMzWOJ1rueTZ5rgIFWnwkEEMOhGWFnaAhPj+X2AbXL2sA7pvclvKWh3kMp4ime
-	 n5ksJlBdhd63A==
+	b=ILLRPctoC7Cm6NwmNr1VX9fIjBdVr5bgdlCCiKPHHhm69vwOW2l2zorrV2fK8A94a
+	 21ff+STMqf9vXz7SwXjCsZ70VNaFNbHtncwfaxX6x58m1oIKQSbQldfks4lR8+Qx8m
+	 bSKzjHM/fGjFeVqNZFjM0LhtQxX4ZwZlRtpzK+trenSGGfxZ7RxKLriQALqdLEeRHe
+	 nPXI4uLo2kQdfIpWmpXppX2ydAw1vFusvo3zXPwa+g/tT2Yh6S91Gs5QeVKSvgW+CL
+	 QVKw9d5DroyZS0JDZADO1rndxnlmHJucTa6xoHZtUzLo5PD5SYLP74cjxVhw64BTpa
+	 2MJOFaUNwC2xg==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fY4Bf1jRsz6tvk;
-	Sat, 14 Mar 2026 15:54:34 +0100 (CET)
-Message-ID: <0e133c383374e73990be0d402b6b908e8050e5ae.camel@posteo.de>
-Subject: Re: [PATCH v3 5/7] dt-bindings: mfd: Add synology,microp device
+	by submission (posteo.de) with ESMTPSA id 4fY4Gy1rQqz9rxD;
+	Sat, 14 Mar 2026 15:58:17 +0100 (CET)
+Message-ID: <50e46b76d14b250f0700f5585d459017b716c07c.camel@posteo.de>
+Subject: Re: [PATCH v3 2/4] serdev: add rust private data to serdev_device
 From: Markus Probst <markus.probst@posteo.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley	 <conor+dt@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?=
- Roy Baron	 <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring	
+ <robh@kernel.org>, Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda	
+ <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?=
+ Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
  Andreas Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, "Rafael J. Wysocki"	 <rafael@kernel.org>, Igor Korotin
- <igor.korotin.linux@gmail.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=	 <kwilczynski@kernel.org>, Pavel
- Machek <pavel@kernel.org>, Len Brown	 <lenb@kernel.org>, Robert Moore
- <robert.moore@intel.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pci@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev
-Date: Sat, 14 Mar 2026 14:54:36 +0000
-In-Reply-To: <88f53ef1-5c3c-44d7-a749-a03b9563a552@kernel.org>
-References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
-	 <20260313-synology_microp_initial-v3-5-ad6ac463a201@posteo.de>
-	 <02e0772d-ba65-4eb8-8453-e0b3eaa4af96@kernel.org>
-	 <6f2298f3298dc81e6e2ed34ca43424fc39ce3518.camel@posteo.de>
-	 <336523bb-615b-451b-8681-c965bf579203@kernel.org>
-	 <97c64ee64734debae475716b4d588dee59889f70.camel@posteo.de>
-	 <88f53ef1-5c3c-44d7-a749-a03b9563a552@kernel.org>
+ <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Kari Argillander
+ <kari.argillander@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-serial@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, 	linux-pm@vger.kernel.org,
+ driver-core@lists.linux.dev, 	dri-devel@lists.freedesktop.org
+Date: Sat, 14 Mar 2026 14:58:20 +0000
+In-Reply-To: <DH2K1DMGFWYR.1E2UZFI1IUZ0N@kernel.org>
+References: <20260313-rust_serdev-v3-0-c9a3af214f7f@posteo.de>
+	 <20260313-rust_serdev-v3-2-c9a3af214f7f@posteo.de>
+	 <2026031402-absence-graph-af5d@gregkh>
+	 <a9618d034bd48ec21bd26060573770a548619402.camel@posteo.de>
+	 <2026031422-shaded-matchbook-5078@gregkh>
+	 <fa25ed4ff4688a40bd601d695804def772e47af9.camel@posteo.de>
+	 <2026031447-margarita-untamed-e976@gregkh>
+	 <DH2JS8YL1NXY.VRKLBSTZ5ZYI@kernel.org>
+	 <cd773d17f15f3f2e5d047236721a882c35f64595.camel@posteo.de>
+	 <DH2K1DMGFWYR.1E2UZFI1IUZ0N@kernel.org>
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  keydata=mQINBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93
  qReNLkOWguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVA
@@ -107,7 +105,7 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
  dQNGrZ91M9nlIBKw8Y7c7xZ4098qX2b8JX/CxD+gC1r4C8vuA3GkhFLx+KlkON7LyiJPkrePp6Qky
  jfGillcaQOqFZ3WwVqyzG1BUfTow==
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-jah4XBQMXauDN9UbTzR7"
+	protocol="application/pgp-signature"; boundary="=-peC4TxaQkAO/hAhDTXuc"
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -117,163 +115,150 @@ MIME-Version: 1.0
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
 
---=-jah4XBQMXauDN9UbTzR7
+--=-peC4TxaQkAO/hAhDTXuc
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2026-03-14 at 14:59 +0100, Krzysztof Kozlowski wrote:
-> On 14/03/2026 13:31, Markus Probst wrote:
-> > On Sat, 2026-03-14 at 09:49 +0100, Krzysztof Kozlowski wrote:
-> > > On 13/03/2026 21:29, Markus Probst wrote:
+On Sat, 2026-03-14 at 14:54 +0100, Danilo Krummrich wrote:
+> On Sat Mar 14, 2026 at 2:49 PM CET, Markus Probst wrote:
+> > On Sat, 2026-03-14 at 14:42 +0100, Danilo Krummrich wrote:
+> > > On Sat Mar 14, 2026 at 2:31 PM CET, Greg Kroah-Hartman wrote:
+> > > > On Sat, Mar 14, 2026 at 12:08:09PM +0000, Markus Probst wrote:
+> > > > > On Sat, 2026-03-14 at 12:52 +0100, Greg Kroah-Hartman wrote:
+> > > > > > On Sat, Mar 14, 2026 at 11:42:02AM +0000, Markus Probst wrote:
+> > > > > > > On Sat, 2026-03-14 at 09:07 +0100, Greg Kroah-Hartman wrote:
+> > > > > > > > On Fri, Mar 13, 2026 at 06:12:31PM +0000, Markus Probst wro=
+te:
+> > > > > > > > > Add rust private data to `struct serdev_device`, as it is=
+ required by the
+> > > > > > > > > rust abstraction added in the following commit
+> > > > > > > > > (rust: add basic serial device bus abstractions).
+> > > > > > > >=20
+> > > > > > > > why is rust "special" here?  What's wrong with the existing=
+ private
+> > > > > > > > pointer in this structure?  Why must we add another one?
+> > > > > > > Because in rust, the device drvdata will be set after probe h=
+as run. In
+> > > > > > > serdev, once the device has been opened, it can receive data.=
+ It must
+> > > > > > > be opened either inside probe or before probe, because it can=
+ only be
+> > > > > > > configured (baudrate, flow control etc.) and data written to =
+after it
+> > > > > > > has been opened. Because it can receive data before drvdata h=
+as been
+> > > > > > > set yet, we need to ensure it waits on data receival for the =
+probe to
+> > > > > > > be finished. Otherwise this would be a null pointer dereferen=
+ce. To do
+> > > > > > > this, we need to store a `Completion` for it to wait and a `b=
+ool` in
+> > > > > > > case the probe exits with an error. We cannot store this data=
+ in the
+> > > > > > > device drvdata, because this is where the drivers drvdata goe=
+s. We also
+> > > > > > > cannot create a wrapper of the drivers drvdata, because
+> > > > > > > `Device::drvdata::<T>()` would always fail in that case. That=
+ is why we
+> > > > > > > need a "rust_private_data" for this abstraction to store the
+> > > > > > > `Completion` and `bool`.
+> > > > > >=20
+> > > > > > So why is this any different from any other bus type?  I don't =
+see the
+> > > > > > "uniqueness" here that has not required this to happen for PCI =
+or USB or
+> > > > > > anything else.
+> > > > > >=20
+> > > > > > What am I missing?
+> > > > > In Short:
+> > > > > In serdev, we have to handle incoming device data (serdev calls o=
+n a
+> > > > > function pointer we provide in advance), even in the case that th=
+e
+> > > > > driver hasn't completed probe yet.
 > > > >=20
-> > > > > This is not an "MFD" device.
-> > > > It now uses the MFD APIs. By the definiton of @Lee (assuming I
-> > > > understood it correctly), this device should now qualify as "MFD"
-> > > > device.
+> > > > But how is that any different from a USB or PCI driver doing the sa=
+me
+> > > > thing?  Why is serdev so unique here?  What specific serdev functio=
+n
+> > > > causes this and why isn't it an issue with the C api?  Can we chang=
+e the
+> > > > C code to not require this?
 > > >=20
-> > > No. Using Linux framework does not make this device MFD, since there =
-is
-> > > no such term of hardware as MFD. Otherwise please explain or link to
-> > > verifiable external source describing what sort of device class is MF=
-D
-> > I assumed these comments would also apply for the dt bindings:
-> > -
-> > https://lore.kernel.org/rust-for-linux/DGYAFNSJ7576.1E0JZ2W499ZQ7@kerne=
-l.org/
-> > -
-> > https://lore.kernel.org/rust-for-linux/20260309151555.GU183676@google.c=
-om/
->=20
-> I don't understand your question. We talk here about bindings, so why do
-> you ask if the comments are about bindings?
->=20
-> >=20
-> > given that using linux MFD APIs also changes the structure of the dt
-> > bindings with added sub-devices.
-> >=20
-> > But it seems no?
->=20
-> >=20
-> > > because for sure this is not MFD how Wikipedia defines it.
-> >=20
-> > Wikipedia defines it as a synonym for a "multi-function
-> > product/printer/peripheral"
-> > https://en.wikipedia.org/wiki/Multifunction_device
->=20
-> I know, not need to state obvious. And this is not a printer.
->=20
->=20
->=20
-> >=20
+> > > I think the idea is to avoid bugs as in the mhz19b driver [1].
 > > >=20
-> > > >=20
-> > > > > > +
-> > > > > > +    mcu {
-> > > > >=20
-> > > > > Please read previous comments.
-> > > >=20
-> > > > You are likly trying to refer to this comment from you:
-> > > > > Depending what this is. MCU is generic purpose unit where you loa=
-d
-> > > > your
-> > > > > different FW for different purposes and you have here specific - =
-to
-> > > > > handle certain aspects of this entire machine. This looks like EC=
-, so
-> > > > > should be called embedded-controller and placed in that directory=
-.
-> > > > Synology uses Microchip PIC for this purpose. On a Synology DS215j,=
- it
-> > > > uses a "Microchip PIC16F1829". At least to me, this looks like a
+> > > This driver's probe() looks like this:
 > > >=20
-> > > It does not matter what chip is used. Every component uses some sort =
-of
-> > > chip.
-> > I would be interested in what does matter then.
-> >=20
-> > I did not actually find an exact definition for what
-> > Documentation/devicetree/bindings/mfd
+> > >=20
+> > > 	serdev_device_set_client_ops(serdev, &mhz19b_ops);
+> > > 	ret =3D devm_serdev_device_open(dev, serdev);
+> > >=20
+> > > 	// Lots of other initialization.
+> > >=20
+> > > 	serdev_device_set_drvdata(serdev, indio_dev);
+> > >=20
+> > > But the receive_buf() callback from mhz19b_ops dereferences the drive=
+r's private
+> > > data.
+> > >=20
+> > > Now, maybe this is actually prevented to become an actual race, since=
+ some
+> > > regulator is only enabled subsequently:
+> > >=20
+> > > 	devm_regulator_get_enable(dev, "vin");
+> > >=20
+> > > But in any case in Rust it would be unsound as with this a driver cou=
+ld easily
+> > > cause undefined behavior with safe APIs.
+> > >=20
+> > > Maybe it is as simple as letting the abstraction call serdev_device_o=
+pen() only
+> > > after the driver's probe() has completed, but maybe there are reasons=
+ why that
+> > > is not an option, that's a serdev question.
+> > If we call it after probe, calls to `serdev_device_set_baudrate`,
+> > `serdev_device_set_flow_control`, `serdev_device_set_parity`,
+> > `serdev_device_write_buf`, `serdev_device_write`,
+> > `serdev_device_write_flush`, which are exposed via the rust abstraction
+> > would result in a null pointer dereference.
 >=20
-> Because there is no such hardware as MFD.
->=20
-> > and
-> > Documentation/devicetree/bindings/embedded-controller
-> > is for in the kernel tree or in the devicetree spec.
->=20
-> Commit msg moving several devices there explained, no?
-yes.
+> Then maybe ensure that the driver's receive_buf() callback can only ever =
+be
+> called after probe() has been completed? E.g. receive_buf() could be opti=
+onal
+> and swapped out later on.
+I am not exactly sure what you mean by "could be optional and swapped
+out later on".
 
->=20
->=20
-> >=20
-> > >=20
-> > > > general purpose microcontroller with firmware from synology flashed
-> > > > onto it. Therefore it is a MCU.
-> > >=20
-> > > Every chip is then an MCU with such logic. Every PMIC, every EC.
-> > >=20
-> > > This is for me clearly embedded controller and that's where this shou=
-ld
-> > > be placed and called.
-> > In that case I will move it to
-> > Documentation/devicetree/bindings/embedded-controller and update the
-> > node name used in the example.
-> >=20
-> > I will wait a bit for the other patches to be reviewed before sending a
-> > next revision.
-> >=20
-> > But I wonder how
-> > Documentation/devicetree/bindings/mfd/qnap,ts433-mcu.yaml
-> > got in there then, given it is pretty similar to this device in the
-> > functionality it provides.
->=20
-> Great question. How do any bugs, mistakes, different judgments or
-> imperfectness got merged?  How is it possible that code for example is
-> reviewed but has a bug? Don't ever use arguments that something
-> somewhere happened, so you can do the same.
-I was not trying to use this as an argument. As you can see above I
-already agreed to put it into embedded-controller.
-
-I was interested in knowing, if there was a difference between the two
-devices I did not know of, as the bindings for this device go into
-another directory despite the similarity (no need to answer it anymore,
-see below).
-
-But I see why that hasn't been clear.
-
->=20
-> Not mentioning that if you even question this, you could at least look
-> at the history which would tell you if "embedded-controller" directory
-> existed that time or not.
-yes, that would have made my question entirely obsolete.
-
->=20
-> Best regards,
-> Krzysztof
+Also,
+the function pointer cannot be changed while the device is open, as
+this could introduce a race condition. In addition if it was prior set
+to NULL and data was received, this data would be lost.
 
 Thanks
 - Markus Probst
 
---=-jah4XBQMXauDN9UbTzR7
+
+--=-peC4TxaQkAO/hAhDTXuc
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmm1dqYbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSJjwQAJEB9jDWsxrdZroEiEit
-SPqHXkXhYz4X9Z4xtgAX34xBDU1VjP3meDZgw/Xbejljw71XY2p0JDPUKWbpE0/q
-wPIAOE2afEr7fK3PLw8b0wKe+jmZVHMqKq984gRFlM34cqrZy+Ny5YiG4xIeWPnu
-xvq6KKuWGYQs76wzaw5GsxrhkTtzUB3cuIS1ExFRh8VeITFwnjtFoVnAk0zLWKIn
-ZynZEf5mDnlzNgBCeaPyIZtvO6a+oQtmyBPO7taNEuy7zUyUZZNHIQrlXbaxo9MP
-7F9WL8cb7ARvwJTk08nwUhA6pWE2RDbza8qdDOMXRr/nsEGnWiWIMgOWI5srBLcb
-wq9B0P07M+XafkcZWUMk+kjVrTU6m/CJtX++ESNUVo/hUPmeEfvQ4VhDS7uyLY9+
-5XvMb4YgmF8rbWBZzAebwqYji4k2t9gWhqsK/PpISbfGtJy2uC5XIrEYJlNBg5rJ
-FNjKVW8AE+EtDTH884Z7mPM+nkDIMmVPnBdCUuVQIyu6KN/g38pAn5hjmBzzIAhL
-SgVLx7DOjHGOOL0V0K9EJGoNUaIyGqUuFtOr8Cyv9QLunevMpusMd46hjDTeAAq+
-JWc+lHzS6VAbJheceeQbO9KSSiLUc/qytYEfufDRYGj1B1MEVYZoXqT/UdlPcNIM
-uyetEx6zv4L8GqhrxzHLXu3+
-=At9Y
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmm1d4UbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSxjkQAJQ58HdNG3LmyHvZUbXB
+r7OfNAWeB+hwNISJyKwE1MMHHln1dXfl2GNEo7sUyEtXom/TEQB79JFYDUEBlu9r
+GtYraE+HvSWvKlD/RgYxqDFZNet5846bCjkuXd50FB8ZOSn56lYe2DcA+RJR6zRq
+YkfrW/apt/vjiaho0Nsholo+OO4uJrE26YheRomjisLq/9yaWnQlwtGzTWhZLtlS
+Q65B6gI7dnL7AlUOfNelR0yru0/ss63UZuRCaw4G0h6hHL3cXtdAFA6baWDXuTLz
+KfdnEnpVFXUmbpvUviMw5oGGNi5JiRzqN+TlvE3fUmFwwAk1kLv0bIse2pcvfArf
+yFCqEKSVBhpZViWymFSzmZ7uVqJCZsMrzDDEEbvjFxolsX0UqGOZ+KzFcPkoXuCX
+S0AqFEEmbXNo6FW26nXgBejytml+Vuuv4eIi6z4yjKJtvgRHmOIE6K+M80Fmg9w/
+rm+GfC/a/16v1OGyqrn8YF6MHzn2ZM/Gy6j/50h20dfiCZBRQM/P9bO0ApROgSOg
+rg8uuZR5fkvIAdI4aw4WyXOCa5BfgK9E0vwhZGzhOHczKBrBTM3S94F7OeiPyZim
+CknGAXVXW95SOmzTRsl0uzsRoj2JyDKW7CDr9yi7taSkSPpj6sm2gCWsrjZNwRrl
+W7XFNhjOBtlU+2hETtofbmKx
+=/5kW
 -----END PGP SIGNATURE-----
 
---=-jah4XBQMXauDN9UbTzR7--
+--=-peC4TxaQkAO/hAhDTXuc--
