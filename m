@@ -1,137 +1,184 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4436623741
-	for <driver-core@lists.linux.dev>; Sun, 15 Mar 2026 16:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDE82853E0;
+	Sun, 15 Mar 2026 18:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773593404; cv=none; b=Ivy9qFkU7svPJXm53+CXmoXfE4CuSDNEeBM/lLXRksM+7jGKZ/UHUM9s2jYGZF6sYqgzZAz6MNMW0sRxFF+ukEpR/ont8msE9ZtLLp5ew8FHrC65SpBEg225KUPFsL4kV7ov31PiCTdpg9/MxD/PZlPVtYvGOKnh4sKQf4KkGYY=
+	t=1773598809; cv=none; b=Gp1JBvQcKx8LNHvFRiPgcGuIzYiC3N+PnIYOaop5dxS0aBqq3LFz5Kj76LKR3z2ykx5BSE/891pksdpUFPIW/WazTa5DJHHK3e9vg2OcfZxhoFwbx3yvgKbWSqXuswRB8EyJSj8xpB8mL8IQ71wxdZPxZtdR3AJOL2F6Y52rk4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773593404; c=relaxed/simple;
-	bh=oHRt6X+F7bpekcJPDP7wcH7Yh5wtJFBOaws5B2wE4h4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TS2jLWTeHbTZ2s15t8NBWIMArgQzFl4GEcIBB9Gb76K1vk9e9BrLexU3I8q1fX5P77s4uaSG/FNB7MyWjEef5W8Hrc/z2oubMycyj3pyk3by6Xicpd7zVnxBqsJrTMu2s+30r+uphwyHll9JkccwxxiYqju7ZJCKTHTtkBlbIXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mBw+4tgJ; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773598809; c=relaxed/simple;
+	bh=k5nmlFwR93uO29L3+t9OVb6SIgBdLQJt+42Hsj0MBCE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=nobuZhrye7kRxgc4xd+iCNTSpSN5ftk53cmSNtGBjX2aRHypL/xeCh5Ugc5mXjxZzM82FD3WnXqlRmDD0BegbC74N2ixgklgbgJMMCzlovcF2PKAEflVjH72zGP2NdXvUPd8ELJCOOiobZ/hrgGstWoJFqbm33EYeoaaFnZn888=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7c4A8au; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBw+4tgJ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4852f8ac7e9so45058705e9.1
-        for <driver-core@lists.linux.dev>; Sun, 15 Mar 2026 09:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773593402; x=1774198202; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rObUljC38Hdry53z0R6PTBszYRze3OJesm0j2L/VR9g=;
-        b=mBw+4tgJvqOgYiScq/uF18m8hYIm6pCW5nblA3AkYyrcqPQwiUhK3h7WJMWdRQMFG6
-         ncen/Xx4IYt+QPjV4nbWzfeGNtMzJL5iEgPJb6OKVs3esudoyaeAPSe2Lf9qecoja7Md
-         V6SqfD/l4oWqCrvvM6FBsk4aVE+giSKn/rbUvlXYFfSpvB9l7K6Qt6M9edAhRtjzX9R6
-         KXVIYg/wtRjO/ZC8pj5qwi0O6ti9kzdG6VAKUKSAiQngPtqVwYG+TQSGKPZobUxdEqNJ
-         bY+e+t4I7qhrg8OSGj7i0NvBZeJJqYOBoegOPKgOd19tU/14u0LBkXCqhudSYfuqMjNG
-         s4GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773593402; x=1774198202;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rObUljC38Hdry53z0R6PTBszYRze3OJesm0j2L/VR9g=;
-        b=GcfbfJOhfCJAGUXq4yMEHZXKoQbCkbuAHq5pPJIH52ufuWGULrRUdE1FugflklbKIc
-         wizhzK7Gc/BqfwBqp8svUjFOLFULvYR00EGk+gTViDPQhiebyL5F2vVjxHFbZ1WL8VKp
-         rUBH6sXdNL5HLzAjF3t6LEgAV9l/ulQNf8zVvSOeCpnZCGiBiwJ9w5mKVYdLDiP/iqvo
-         kyNKMdxBRl540KRU0nEu6/AYGAWUCmpJYun1KN1zBg0ivZaY3PEEo7BnH8/XQqVm1US0
-         DgveyGqN1iRJJ+A8vl+SW9j1fdmVWHbGRkLqn331271o5mDDlPNCRPH52BcLuwX9eQOf
-         dF4A==
-X-Forwarded-Encrypted: i=1; AJvYcCUOw1obIE/UxJKf1+u06XbJ6M42xes9gTJNRGlddvCXeQTY2EbS+X2jtdXgJqViyr4oQGmji/hOgNVaCA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YztcISzL7Mpe4zdWff+sJFNBYtNKqnUPGLE72aQWjoHrCDOUkXQ
-	fbHVzwfkEbxGKnI+d+prGowHmlsMAIoQBkEaZAvSwU7Tb6svEIt92+rq
-X-Gm-Gg: ATEYQzxT6HJpYnW0/uSiNzvWC09eFQqcBEEKeG+XK3KAWwnSkLw9b7CVdSi6mic7uN/
-	8fbysVBnFSW9zvbhaPrdvGW5mJ9LHfM9ude828NeOPsr+0Ik9xEjTw1u+KzlpwVM9gFnZI9pho3
-	DAmBzmMCplMNPCLU58WUuKVpmZGZlfM+jBhM/cXwEmWmIf45CkADlhstWyKQIKYyswZDcK4rv9p
-	qTqIPEVa7fYVFbRnCP7hjXQR/UM9oJyyEhWzMOKm3amkR8/HHkyNbgzWyeAdLK/R7ckbKqMmnXz
-	KgVnbSw/FcxP3tF1mFv+KrbI0TAAw3oppc/CNqfwgIz+9YeDHdno8N0qxIPver8/xmVF3WF1j4f
-	uPZ8bxglZJnrkNEzG9uXyXDqx/XKZB1SC1LLh5QDpat9MfessmKMy1bBw18uEWTP65jCMaoxS+9
-	PLOgDVqEgGq52jquPG7uOuiRgyxOiI/Y58z/knThGSujdPw93JCzENdr7kRo2Rg9+5c1lP4FZOI
-	5aRFpnirdBBmKMMpcJYrLpWN6CVicFbfmAbxgIpEvgjEncbxOLgxLvHf1NZakEOfw==
-X-Received: by 2002:a05:600c:3550:b0:483:709e:f238 with SMTP id 5b1f17b1804b1-4855670c971mr182570875e9.29.1773593401569;
-        Sun, 15 Mar 2026 09:50:01 -0700 (PDT)
-Received: from ?IPV6:2003:ea:8f19:c400:5d7d:7d8b:dc1a:ae45? (p200300ea8f19c4005d7d7d8bdc1aae45.dip0.t-ipconnect.de. [2003:ea:8f19:c400:5d7d:7d8b:dc1a:ae45])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b3a09e453sm13284167f8f.0.2026.03.15.09.50.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Mar 2026 09:50:01 -0700 (PDT)
-Message-ID: <9cdf83e9-470d-45da-8efe-ace0decf0204@gmail.com>
-Date: Sun, 15 Mar 2026 17:50:00 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7c4A8au"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B904EC4CEF7;
+	Sun, 15 Mar 2026 18:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773598808;
+	bh=k5nmlFwR93uO29L3+t9OVb6SIgBdLQJt+42Hsj0MBCE=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=N7c4A8aunkRAz3nkWaAbXMQq01jb9nENV9ky+1V888Cg/WYTL6CilzRtfj35GvntC
+	 IOF/fhg4TwDCjd+s7yPma2fU35NwP0fjlp0TnwGD9pOwys22dRxYYdnd73QEOLTopb
+	 ztiv2e2I3/vmMWNaz4tXGGkYC+kk3khyQ15bLwFIehXkiI+ylymK226fZBKkJaGgWq
+	 606O43iKEOeT5SZRUvnrnAmdSoK+MpshsoOdfi2LjtfW+l2FVre50jH/lk1WsFA4sO
+	 Wu/bd0kQoC3vFPct69uRmX4Cb24WCFqFeixzMItzccXn48H+gbf/viNWrQD2Utu6kE
+	 raopReF1OrG5w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH net-next 2/2] net: phy: remove Kconfig symbol MDIO_BUS
-From: Heiner Kallweit <hkallweit1@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>,
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
- David Miller <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Mark Brown <broonie@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- driver-core@lists.linux.dev
-References: <bc63cf87-3dba-4ab6-9c84-caa7357c3273@gmail.com>
-Content-Language: en-US
-In-Reply-To: <bc63cf87-3dba-4ab6-9c84-caa7357c3273@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Sun, 15 Mar 2026 19:20:00 +0100
+Message-Id: <DH3KAWWLECYW.3VBH7PIE7ZE20@kernel.org>
+Subject: Re: [PATCH v3 7/7] leds: add synology microp led driver
+Cc: "Markus Probst via B4 Relay"
+ <devnull+markus.probst.posteo.de@kernel.org>, "Lee Jones" <lee@kernel.org>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Igor Korotin" <igor.korotin.linux@gmail.com>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Len Brown"
+ <lenb@kernel.org>, "Robert Moore" <robert.moore@intel.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-pci@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+ <linux-acpi@vger.kernel.org>, <acpica-devel@lists.linux.dev>
+To: "Markus Probst" <markus.probst@posteo.de>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
+ <20260313-synology_microp_initial-v3-7-ad6ac463a201@posteo.de>
+ <DH1YH0GO75H8.18YSW2VMKRB3C@kernel.org>
+ <39f1c9bb0dbde9f1b60785f8e838289c888ffdb0.camel@posteo.de>
+In-Reply-To: <39f1c9bb0dbde9f1b60785f8e838289c888ffdb0.camel@posteo.de>
 
-After usage of config symbol MDIO_BUS has been removed from REGMAP_MIO
-as last user, the symbol can be removed.
+On Sun Mar 15, 2026 at 4:15 PM CET, Markus Probst wrote:
+> On Fri, 2026-03-13 at 22:00 +0100, Danilo Krummrich wrote:
+>> On Fri Mar 13, 2026 at 8:03 PM CET, Markus Probst via B4 Relay wrote:
+>> > +impl Command {
+>> > +    fn write(self, dev: &platform::Device<Bound>) -> Result {
+>> > +        // SAFETY: Since we have no of and no acpi match table, we as=
+sume this is a mfd sub-device
+>> > +        // and our parent is a serial device bus device, bound to the=
+ synology microp core driver.
+>> > +        let parent =3D unsafe { dev.as_ref().parent_unchecked::<serde=
+v::Device<Bound>>() };
+>>=20
+>> Despite being accurate description, "assume" is not what you want to rea=
+d for a
+>> safety justification. :)
+>>=20
+>> We don't want to directly access the serial device from this driver. Ins=
+tead,
+>> there should be an abstraction layer of the resource you are accessing.
+>>=20
+>> If this would be I2C or SPI you would request the regmap of the parent a=
+t this
+>> point, e.g.
+>>=20
+>> 	dev.parent().regmap("led_registers")
+>>=20
+>> Now, this is a serial device, but regmap still works perfectly fine for =
+this
+>> case. It even allows you to ensure from the MFD driver to restrict the L=
+ED
+>> driver of sending commands that are not LED specific by exposing a LED s=
+pecific
+>> regmap. Additionally, if you need additional locking etc. it can all be =
+done
+>> within the regmap implementation, so you entirely avoid custom APIs.
+>>=20
+>> I'm not sure how common regmap is for serial devices to be honest, but
+>> apparently there are drivers doing this and I don't really see a reason =
+against
+>> it.
+>>=20
+>> For instance, there is drivers/iio/imu/bno055/, which is a chip that wor=
+ks on
+>> both serial and I2C busses and fully abstracts this fact with regmap.
+> How would this work with handling incoming data?
+>
+> For example, once the power button on the NAS device is pressed, the
+> serdev device would receive a `0x30` byte.
+>
+> Regmap seems like it can only do read and write after it has been
+> requested. No event handling.
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/net/phy/Kconfig  | 6 ------
- drivers/net/phy/Makefile | 2 +-
- 2 files changed, 1 insertion(+), 7 deletions(-)
+That's orthogonal, directly accessing the struct serdev doesn't help with t=
+his
+either.
 
-diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-index 7b73332a13d..b5ee338b620 100644
---- a/drivers/net/phy/Kconfig
-+++ b/drivers/net/phy/Kconfig
-@@ -3,11 +3,6 @@
- # PHY Layer Configuration
- #
- 
--config MDIO_BUS
--	tristate "MDIO bus consumer layer"
--	help
--	  MDIO bus consumer layer
--
- config PHYLINK
- 	tristate
- 	select PHYLIB
-@@ -19,7 +14,6 @@ config PHYLINK
- 
- menuconfig PHYLIB
- 	tristate "PHY Device support and infrastructure"
--	select MDIO_BUS
- 	help
- 	  Ethernet controllers are usually attached to PHY
- 	  devices.  This option provides infrastructure for
-diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
-index 8d262b4e2be..05e4878af27 100644
---- a/drivers/net/phy/Makefile
-+++ b/drivers/net/phy/Makefile
-@@ -15,7 +15,7 @@ libphy-$(CONFIG_SWPHY)		+= swphy.o
- libphy-$(CONFIG_LED_TRIGGER_PHY)	+= phy_led_triggers.o
- libphy-$(CONFIG_OPEN_ALLIANCE_HELPERS) += open_alliance_helpers.o
- 
--obj-$(CONFIG_MDIO_BUS)		+= mdio_bus.o
-+obj-$(CONFIG_PHYLIB)		+= mdio_bus.o
- obj-$(CONFIG_PHYLINK)		+= phylink.o
- obj-$(CONFIG_PHYLIB)		+= libphy.o
- obj-$(CONFIG_PHYLIB)		+= mdio_devres.o
--- 
-2.53.0
+Isn't this handled through IRQs, i.e. you device issues an IRQ and then you=
+ read
+from the serial bus?
 
+(I'm asking since such chips can usually be connected via different busses,=
+ e.g.
+serial and I2C. And with I2C the slave can't issue a transfer by itself.)
+
+Other MFD drivers register their own IRQ chip for this. I.e. one would regi=
+ster
+an IRQ chip in the MFD driver and pass it to the sub-devices created throug=
+h
+mfd_add_devices(). Then the sub-device receives an IRQ and reads the regmap=
+.
+
+Now, if you don't have IRQs at all and the only event you get is through
+receive_buf() (which implies that the chip is only compatible with a serial=
+ bus)
+this technically still works, but might be a bit overkill.
+
+In this case, maybe a monolithic driver would even be better; no idea where=
+ it
+would live though.
+
+>> In Rust a regmap will probably become a backend of the generic I/O
+>> infrastructure we are working on, which will also allow you to use the
+>> register!() infrastructure, etc.
+>>=20
+>> register!() and some other generic I/O improvements will land this cycle=
+, I/O
+>> projections are more likely to land next cycle.
+>>=20
+>> > +        parent.write_all(
+>> > +            match self {
+>> > +                Self::Power(State::On) =3D> &[0x34],
+>> > +                Self::Power(State::Blink) =3D> &[0x35],
+>> > +                Self::Power(State::Off) =3D> &[0x36],
+>> > +
+>> > +                Self::Status(_, State::Off) =3D> &[0x37],
+>> > +                Self::Status(StatusLedColor::Green, State::On) =3D> &=
+[0x38],
+>> > +                Self::Status(StatusLedColor::Green, State::Blink) =3D=
+> &[0x39],
+>> > +                Self::Status(StatusLedColor::Orange, State::On) =3D> =
+&[0x3A],
+>> > +                Self::Status(StatusLedColor::Orange, State::Blink) =
+=3D> &[0x3B],
+>> > +
+>> > +                Self::Alert(State::On) =3D> &[0x4C, 0x41, 0x31],
+>> > +                Self::Alert(State::Blink) =3D> &[0x4C, 0x41, 0x32],
+>> > +                Self::Alert(State::Off) =3D> &[0x4C, 0x41, 0x33],
+>> > +
+>> > +                Self::Usb(State::On) =3D> &[0x40],
+>> > +                Self::Usb(State::Blink) =3D> &[0x41],
+>> > +                Self::Usb(State::Off) =3D> &[0x42],
+>> > +            },
+>> > +            serdev::Timeout::Max,
+>> > +        )?;
+>> > +        Ok(())
+>> > +    }
+>> > +}
 
