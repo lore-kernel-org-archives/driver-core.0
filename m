@@ -1,104 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799451A9FAF;
-	Mon, 16 Mar 2026 17:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A56224AF9
+	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 17:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773683100; cv=none; b=FZo+5P7XDv6V29LkG5MYU6SHRBZPjGT8Nrcq+9B5vTHPQIOQjr5fti6uvarmYCrqiVyDVbFaHvr/5I5rR6PXJzXYB7YZOevLrtBcX6zwkAcPupl3VEt6+rIHfrwuqEpyRgWGmuJCID7zaNoyJ0Q10wAyYFNRRGD3Xw6fhBPvQA4=
+	t=1773683828; cv=none; b=Z8RagJGpPGvHG5nsoiSmJq1HJuhN9dzg3+uFH3gXeCiwPAZVdDciahFDjAkFBAWtsuhvf9rb896CjTNT+65UyuhqFCHhh31qguV77eos0U9i/iTV6vtw3j0p6gfJcQXqYdiuNYaL5yGQkL3Gw9CAs8ZFlJ9WHN8O3SNVxQlD0ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773683100; c=relaxed/simple;
-	bh=w/zVmIvVRlvAcWc/q7hSUbNiIiAMLEpfTODNGbRGoAc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=a3oeOIlEowqmjiYslgQMX1uXhNk3izohujfMqHXhRXvBIqUXfEvAjoCrK7DqD2qszOOpSNzUWzf0slwv+4Q48LceYes6deuLtcz2rtxyfupo73/YjMAi15C4MrjF8uMVcWJ/rvySNEjajIlH+OgBZuV9f7fbPCFwcYF4DrRbjRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTui4M+W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773683828; c=relaxed/simple;
+	bh=Nlplb5+HwGh8P6cDCekUQFDlxbYcp0XH6IADUuLUk1c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WRZlVMX9OkftMjirgSyQuHXede+XCDMWWIuU3BXwN+l0HrPSEBNqB/PavmNJ75yjlh2EJeqvPtoPNcU+L69+liJsD++eHjgp/uwGnmIMUqWFqw/fWTt0qD00A7GFL1x0xQXf7rLW6iTjwtC+GrV8cO699ZQZzBaKoD5Gr0hzsjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AI6qDLv9; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTui4M+W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FE15C19425;
-	Mon, 16 Mar 2026 17:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773683100;
-	bh=w/zVmIvVRlvAcWc/q7hSUbNiIiAMLEpfTODNGbRGoAc=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=UTui4M+W3iOIDWHV8IOGKrODOXifnDow2/g26R09U8g0c/Vx3WQdgiWgenmlPVAc9
-	 QYqd6kV0Qj2Np+uS3y7FGQrJTrHS3kNGCAjbz0NbNMTX8nXsLtlpmy1ojPqr0svgcR
-	 3TOKVcRsi3r9p+CLo3KKNVg/xeV3gbfHc0d/EfbS4aOEZ/yiB2iAPKwUmh/2b9K30E
-	 tgtrtNNDDUhK12SCk5UxVKEL1++oODOOk3itsnTfSdfYCEuZ29cY4RRZHhGga4VEAR
-	 Acn5k0H7kPQZmPIeL65B591jZqcxeltiPsR6bbOyw7k2cqsng3RDnuatbxnQUeGBe7
-	 mk7BlSvU0+0rg==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AI6qDLv9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773683827; x=1805219827;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Nlplb5+HwGh8P6cDCekUQFDlxbYcp0XH6IADUuLUk1c=;
+  b=AI6qDLv9Gi2iegNylbrF/mXdRmhR9wTOC4z8vjIDo36M5TMjMzecWNr5
+   CjdsEdpH2qcvOy2+UP2X7+DHTxrnY2cWEiRGsk90hOYPq56Gr1EolUahF
+   ODJFT9behhkY8sOq+eiHNOVARiiuWBR0/rg250J7Dg+/+v4hPuGUhmRE1
+   BN968fR6ST/NmrMKvtb4jYV98zWJ2ZfijPINWV9VXtDKCu32CDGxs5zsH
+   yUfDljPShUmS2+Zo0NhKlVlJOjIsgqzlh3f+HAtOhFqjkhsTvPE/nmiO4
+   7jO6O/LIaf8UeFHZ/m0iUKJ2VlePEeprIgqpOqVnXSPUdXHg9YMZ5qQDR
+   Q==;
+X-CSE-ConnectionGUID: zvKwEq9yTjapUHnTTyISLQ==
+X-CSE-MsgGUID: tYTqn5epRvitLh6Wy34akQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74414668"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="74414668"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 10:57:07 -0700
+X-CSE-ConnectionGUID: trjGfTf9SS6uoracVSVxVw==
+X-CSE-MsgGUID: wL+SxLvMQlSWZDUGbfPdMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="259888120"
+Received: from lstrano-mobl6.amr.corp.intel.com (HELO [10.124.223.96]) ([10.124.223.96])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 10:57:05 -0700
+Message-ID: <49d8215f-7a4b-4f0c-a062-3edf7d5c06c0@intel.com>
+Date: Mon, 16 Mar 2026 10:57:04 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] cxl: Consolidate cxlmd->endpoint accessing
+To: Li Ming <ming.li@zohomail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Ben Cheatham <benjamin.cheatham@amd.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org
+References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Mar 2026 18:44:53 +0100
-Message-Id: <DH4E6KJDQJBP.1UR72LIQA0Q92@kernel.org>
-Subject: Re: [PATCH v2 4/4] rust: make `build_assert` module the home of
- related macros
-Cc: "Gary Guo" <gary@garyguo.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "FUJITA Tomonori" <fujita.tomonori@gmail.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "Yury Norov" <yury.norov@gmail.com>, "Will Deacon"
- <will@kernel.org>, "Peter Zijlstra" <peterz@infradead.org>, "Mark Rutland"
- <mark.rutland@arm.com>, "Ingo Molnar" <mingo@redhat.com>, "Waiman Long"
- <longman@redhat.com>, "Tamir Duberstein" <tamird@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <netdev@vger.kernel.org>
-To: "Gary Guo" <gary@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260316150720.1646109-1-gary@kernel.org>
- <20260316150720.1646109-5-gary@kernel.org>
-In-Reply-To: <20260316150720.1646109-5-gary@kernel.org>
+Content-Transfer-Encoding: 7bit
 
-On Mon Mar 16, 2026 at 4:07 PM CET, Gary Guo wrote:
-> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-> index a396f8435739..bef3f33cf2ea 100644
-> --- a/rust/kernel/dma.rs
-> +++ b/rust/kernel/dma.rs
-> @@ -5,12 +5,14 @@
->  //! C header: [`include/linux/dma-mapping.h`](srctree/include/linux/dma-=
-mapping.h)
-> =20
->  use crate::{
-> -    bindings, build_assert, device,
-> +    bindings,
-> +    build_assert::build_assert,
 
-I think we can just drop it, as we already include prelude.
 
-> +    device,
->      device::{Bound, Core},
->      error::{to_result, Result},
->      prelude::*,
->      sync::aref::ARef,
-> -    transmute::{AsBytes, FromBytes},
-> +    transmute::{AsBytes, FromBytes}, //
->  };
->  use core::ptr::NonNull;
-> =20
-> diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-> index b7ac9faf141d..9cb18ce1c479 100644
-> --- a/rust/kernel/io/resource.rs
-> +++ b/rust/kernel/io/resource.rs
-> @@ -229,7 +229,7 @@ impl Flags {
->      // Always inline to optimize out error path of `build_assert`.
->      #[inline(always)]
->      const fn new(value: u32) -> Self {
-> -        crate::build_assert!(value as u64 <=3D c_ulong::MAX as u64);
-> +        crate::build_assert::build_assert!(value as u64 <=3D c_ulong::MA=
-X as u64);
+On 3/14/26 12:06 AM, Li Ming wrote:
+> Currently, CXL subsystem implementation has some functions that may
+> access CXL memdev's endpoint before the endpoint initialization
+> completed or without checking the CXL memdev endpoint validity. 
+> This patchset fixes three scenarios as above description.
+> 
+> 1. cxl_dpa_to_region() is possible to access an invalid CXL memdev
+>    endpoint.
+>    there are two scenarios that can trigger this issue:
+>    a. memdev poison injection/clearing debugfs interfaces:
+>       devm_cxl_add_endpoint() is used to register CXL memdev endpoint
+>       and update cxlmd->endpoint from -ENXIO to the endpoint structure.
+>       memdev poison injection/clearing debugfs interfaces are registered
+>       before devm_cxl_add_endpoint() is invoked in cxl_mem_probe().
+>       There is a small window where user can use the debugfs interfaces
+>       to access an invalid endpoint.
+>    b. cxl_event_config() in the end of cxl_pci_probe():
+>       cxl_event_config() invokes cxl_mem_get_event_record() to get
+>       remain event logs from CXL device during cxl_pci_probe(). If CXL
+>       memdev probing failed before that, it is also possible to access
+>       an invalid endpoint.
+>    To fix these two cases, cxl_dpa_to_region() requires callers holding
+>    CXL memdev lock to access it and check if CXL memdev driver bingding
+>    status. Holding CXL memdev lock ensures that CXL memdev probing has
+>    completed, and if CXL memdev driver is bound, it will mean
+>    cxlmd->endpoint is valid. (PATCH #1-#3)
+> 
+> 2. cxl_reset_done() callback in cxl_pci module.
+>    cxl_reset_done() callback also accesses cxlmd->endpoint without any
+>    checking. If CXL memdev probing fails, then cxl_reset_done() is
+>    called by PCI subsystem, it will access an invalid endpoint. The
+>    solution is adding a CXL memdev driver binding status inside
+>    cxl_reset_done(). (PATCH #4)
+> 
+> ---
+> Changes in v2:
+> - Move hoding CXL memdev lock to cxl_debugfs_poison_inject/clear(). (Alison)
+> - Drop device_lock_assert() in cxl_inject/clear_poison_locked(). (Alison)
+> - Remove device_lock_assert() in cxl_dpa_to_region() to remove patch
+>   "cxl/region: Hold memdev lock during region poison injection/clear". (Alison)
+> - Squash patch "cxl/pci: Hold memdev lock in cxl_event_trace_record()"
+>   and patch "cxl/region: Ensure endpoint is valid in cxl_dpa_to_region()". (Dan & Dave)
+> - Remove patch "cxl/port: Reset cxlmd->endpoint to -ENXIO by default".
+> - Link to v1: https://lore.kernel.org/r/20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com
+> 
+> ---
+> Li Ming (4):
+>       driver core: Add conditional guard support for device_lock()
+>       cxl/memdev: Hold memdev lock during memdev poison injection/clear
+>       cxl/pci: Hold memdev lock in cxl_event_trace_record()
+>       cxl/pci: Check memdev driver binding status in cxl_reset_done()
+> 
+>  drivers/cxl/core/mbox.c   |  5 +++--
+>  drivers/cxl/core/region.c |  8 +++++---
+>  drivers/cxl/cxlmem.h      |  2 +-
+>  drivers/cxl/mem.c         | 10 ++++++++++
+>  drivers/cxl/pci.c         |  3 +++
+>  include/linux/device.h    |  1 +
+>  6 files changed, 23 insertions(+), 6 deletions(-)
+> ---
+> base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+> change-id: 20260308-fix_access_endpoint_without_drv_check-f2e6ff4bdc48
 
-We include the prelude here as well, so this should also be just
-build_assert!().
+Applied to cxl/next
+43e4c205197e cxl/pci: Check memdev driver binding status in cxl_reset_done()
+11ce2524b7f3 cxl/pci: Hold memdev lock in cxl_event_trace_record()
+b227d1faed0a cxl/memdev: Hold memdev lock during memdev poison injection/clear
+e5564e392075 Merge tag 'device_lock_cond_guard-7.1-rc1' into for-7.1/cxl-consolidate-endpoint
 
->          Flags(value as c_ulong)
->      }
->  }
+> 
+> Best regards,
+
