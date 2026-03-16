@@ -1,147 +1,272 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A56224AF9
-	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 17:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABA833F8C4
+	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 18:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773683828; cv=none; b=Z8RagJGpPGvHG5nsoiSmJq1HJuhN9dzg3+uFH3gXeCiwPAZVdDciahFDjAkFBAWtsuhvf9rb896CjTNT+65UyuhqFCHhh31qguV77eos0U9i/iTV6vtw3j0p6gfJcQXqYdiuNYaL5yGQkL3Gw9CAs8ZFlJ9WHN8O3SNVxQlD0ew=
+	t=1773684389; cv=none; b=XwaefqB6VZpVkNHxeZY7zOPx6CAUgCwsA4lLX/HwoP4QLsGCafYSWPsjUjPqId6tH6naxA8qYq8+wtKTurlxo91n/tLr4ADRqIZR9Cx3iBsn4J7Yz7m/ejcugyS9v8MZcK0y7m2DJ8Z4z1bLOs+wOonO3IyxQnBQ39lVUd6pzjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773683828; c=relaxed/simple;
-	bh=Nlplb5+HwGh8P6cDCekUQFDlxbYcp0XH6IADUuLUk1c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WRZlVMX9OkftMjirgSyQuHXede+XCDMWWIuU3BXwN+l0HrPSEBNqB/PavmNJ75yjlh2EJeqvPtoPNcU+L69+liJsD++eHjgp/uwGnmIMUqWFqw/fWTt0qD00A7GFL1x0xQXf7rLW6iTjwtC+GrV8cO699ZQZzBaKoD5Gr0hzsjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AI6qDLv9; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773684389; c=relaxed/simple;
+	bh=vsCerXvNI66p0WQN4f2HWtkZDjbz/hrQ/GAa3UbU95M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UftTcF/P8e1D6Dho68IQRd26iVwhY1Fibsj77V8VvaK6DYy4dCaYh3uKGjkXp5daKggstPZO9esZN/9jFMupmHDYAx2so5lQUuVxKWzB/uICBDyzKB8ttrjMm8dLTf+uSHuie5nt+CNKDPuZZO92LQGrSC3AvQfZTi1eyF4/rDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=qO6Lk7rT; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AI6qDLv9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773683827; x=1805219827;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Nlplb5+HwGh8P6cDCekUQFDlxbYcp0XH6IADUuLUk1c=;
-  b=AI6qDLv9Gi2iegNylbrF/mXdRmhR9wTOC4z8vjIDo36M5TMjMzecWNr5
-   CjdsEdpH2qcvOy2+UP2X7+DHTxrnY2cWEiRGsk90hOYPq56Gr1EolUahF
-   ODJFT9behhkY8sOq+eiHNOVARiiuWBR0/rg250J7Dg+/+v4hPuGUhmRE1
-   BN968fR6ST/NmrMKvtb4jYV98zWJ2ZfijPINWV9VXtDKCu32CDGxs5zsH
-   yUfDljPShUmS2+Zo0NhKlVlJOjIsgqzlh3f+HAtOhFqjkhsTvPE/nmiO4
-   7jO6O/LIaf8UeFHZ/m0iUKJ2VlePEeprIgqpOqVnXSPUdXHg9YMZ5qQDR
-   Q==;
-X-CSE-ConnectionGUID: zvKwEq9yTjapUHnTTyISLQ==
-X-CSE-MsgGUID: tYTqn5epRvitLh6Wy34akQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74414668"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74414668"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 10:57:07 -0700
-X-CSE-ConnectionGUID: trjGfTf9SS6uoracVSVxVw==
-X-CSE-MsgGUID: wL+SxLvMQlSWZDUGbfPdMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="259888120"
-Received: from lstrano-mobl6.amr.corp.intel.com (HELO [10.124.223.96]) ([10.124.223.96])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 10:57:05 -0700
-Message-ID: <49d8215f-7a4b-4f0c-a062-3edf7d5c06c0@intel.com>
-Date: Mon, 16 Mar 2026 10:57:04 -0700
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="qO6Lk7rT"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 2059F240028
+	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 19:06:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1773684385; bh=w4aMMeXH0b7JgTSQ3j7crI/pRlF2UNUuOM0hPyY2020=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=qO6Lk7rTUW3H0fPPJfL0YGhRHR1XTS90SrfRDYE8pBk9gt5ZhKNsQAfy69KXzCiao
+	 pjGRF3NZJtST7bhPpXSAMH/DrAAvN1ENGG+ZNaaGay7YhOoKiODycXsj6QWCqG2yRa
+	 dSkp3WxoDzxayQaYAEe362SdqM2jxkoD5sxPxIKzlD9QwZtGB6XxK/3yQz0o7OS975
+	 r2fFLZ1DvGEli+vPgFyP/m+GQwIBDjYIWpY+p8Z6G3IKZTJaxBq+AIoWoNzua6OdDc
+	 blIqYZ7il8b7kff3JP3SQ5CH8dNeALlsb4bUa7Xt+AniyB/FVn66MRVd3HE5JMBA0g
+	 miEXkT04RIr6Q==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4fZNM142Ltz9rxF;
+	Mon, 16 Mar 2026 19:06:21 +0100 (CET)
+Message-ID: <3ca65f7d0b00c93c91563bc29198f18d5a30eeae.camel@posteo.de>
+Subject: Re: [PATCH v3 7/7] leds: add synology microp led driver
+From: Markus Probst <markus.probst@posteo.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Markus Probst via B4 Relay	
+ <devnull+markus.probst.posteo.de@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,  Miguel Ojeda <ojeda@kernel.org>, Boqun
+ Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
+ Lossin <lossin@kernel.org>, Andreas Hindborg	 <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Igor Korotin	
+ <igor.korotin.linux@gmail.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>,  Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Pavel
+ Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, Robert Moore
+ <robert.moore@intel.com>, 	devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
+ driver-core@lists.linux.dev, 	linux-pci@vger.kernel.org,
+ linux-leds@vger.kernel.org, 	linux-acpi@vger.kernel.org,
+ acpica-devel@lists.linux.dev
+Date: Mon, 16 Mar 2026 18:06:23 +0000
+In-Reply-To: <2026031602-drove-timothy-1bb1@gregkh>
+References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
+	 <20260313-synology_microp_initial-v3-7-ad6ac463a201@posteo.de>
+	 <DH1YH0GO75H8.18YSW2VMKRB3C@kernel.org>
+	 <39f1c9bb0dbde9f1b60785f8e838289c888ffdb0.camel@posteo.de>
+	 <DH3KAWWLECYW.3VBH7PIE7ZE20@kernel.org>
+	 <eb2f7498c5f3247265effc47b3445a04ac71956e.camel@posteo.de>
+	 <DH3M1023PCBI.1HYYZU93NS1JX@kernel.org>
+	 <2026031645-unplowed-purist-9c4b@gregkh>
+	 <a4fb56d5eea790b51aa3623044e5d774a6bab47f.camel@posteo.de>
+	 <2026031602-drove-timothy-1bb1@gregkh>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-akERDsl+g92JaDyAMR+U"
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] cxl: Consolidate cxlmd->endpoint accessing
-To: Li Ming <ming.li@zohomail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Ben Cheatham <benjamin.cheatham@amd.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org
-References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
 
+--=-akERDsl+g92JaDyAMR+U
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/14/26 12:06 AM, Li Ming wrote:
-> Currently, CXL subsystem implementation has some functions that may
-> access CXL memdev's endpoint before the endpoint initialization
-> completed or without checking the CXL memdev endpoint validity. 
-> This patchset fixes three scenarios as above description.
-> 
-> 1. cxl_dpa_to_region() is possible to access an invalid CXL memdev
->    endpoint.
->    there are two scenarios that can trigger this issue:
->    a. memdev poison injection/clearing debugfs interfaces:
->       devm_cxl_add_endpoint() is used to register CXL memdev endpoint
->       and update cxlmd->endpoint from -ENXIO to the endpoint structure.
->       memdev poison injection/clearing debugfs interfaces are registered
->       before devm_cxl_add_endpoint() is invoked in cxl_mem_probe().
->       There is a small window where user can use the debugfs interfaces
->       to access an invalid endpoint.
->    b. cxl_event_config() in the end of cxl_pci_probe():
->       cxl_event_config() invokes cxl_mem_get_event_record() to get
->       remain event logs from CXL device during cxl_pci_probe(). If CXL
->       memdev probing failed before that, it is also possible to access
->       an invalid endpoint.
->    To fix these two cases, cxl_dpa_to_region() requires callers holding
->    CXL memdev lock to access it and check if CXL memdev driver bingding
->    status. Holding CXL memdev lock ensures that CXL memdev probing has
->    completed, and if CXL memdev driver is bound, it will mean
->    cxlmd->endpoint is valid. (PATCH #1-#3)
-> 
-> 2. cxl_reset_done() callback in cxl_pci module.
->    cxl_reset_done() callback also accesses cxlmd->endpoint without any
->    checking. If CXL memdev probing fails, then cxl_reset_done() is
->    called by PCI subsystem, it will access an invalid endpoint. The
->    solution is adding a CXL memdev driver binding status inside
->    cxl_reset_done(). (PATCH #4)
-> 
-> ---
-> Changes in v2:
-> - Move hoding CXL memdev lock to cxl_debugfs_poison_inject/clear(). (Alison)
-> - Drop device_lock_assert() in cxl_inject/clear_poison_locked(). (Alison)
-> - Remove device_lock_assert() in cxl_dpa_to_region() to remove patch
->   "cxl/region: Hold memdev lock during region poison injection/clear". (Alison)
-> - Squash patch "cxl/pci: Hold memdev lock in cxl_event_trace_record()"
->   and patch "cxl/region: Ensure endpoint is valid in cxl_dpa_to_region()". (Dan & Dave)
-> - Remove patch "cxl/port: Reset cxlmd->endpoint to -ENXIO by default".
-> - Link to v1: https://lore.kernel.org/r/20260310-fix_access_endpoint_without_drv_check-v1-0-94fe919a0b87@zohomail.com
-> 
-> ---
-> Li Ming (4):
->       driver core: Add conditional guard support for device_lock()
->       cxl/memdev: Hold memdev lock during memdev poison injection/clear
->       cxl/pci: Hold memdev lock in cxl_event_trace_record()
->       cxl/pci: Check memdev driver binding status in cxl_reset_done()
-> 
->  drivers/cxl/core/mbox.c   |  5 +++--
->  drivers/cxl/core/region.c |  8 +++++---
->  drivers/cxl/cxlmem.h      |  2 +-
->  drivers/cxl/mem.c         | 10 ++++++++++
->  drivers/cxl/pci.c         |  3 +++
->  include/linux/device.h    |  1 +
->  6 files changed, 23 insertions(+), 6 deletions(-)
-> ---
-> base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
-> change-id: 20260308-fix_access_endpoint_without_drv_check-f2e6ff4bdc48
+On Mon, 2026-03-16 at 14:58 +0100, Greg Kroah-Hartman wrote:
+> On Mon, Mar 16, 2026 at 01:43:44PM +0000, Markus Probst wrote:
+> > On Mon, 2026-03-16 at 07:33 +0100, Greg Kroah-Hartman wrote:
+> > > On Sun, Mar 15, 2026 at 08:41:06PM +0100, Danilo Krummrich wrote:
+> > > > I.e. if we can't (easily) use mfd cells and would need a custom API=
+, then why
+> > > > even split it up at all, given that splitting it up would probably =
+the most
+> > > > complicated part of the whole driver.
+> > > >=20
+> > > > Greg, what do you think?
+> > >=20
+> > > I think this has yet to be proven to be a kernel driver at all at thi=
+s
+> > > point, and not just a userspace daemon that listens to the serial por=
+t
+> > > and then does what is needed from there :)
+> > >=20
+> > > Or, if someone can prove that the operations on this serial data stre=
+am
+> > > actually do require it to be in the kernel (which I have yet to see a
+> > > list of what this connection does, did I miss it?) then a single driv=
+er,
+> > > under the drivers/platform section of the kernel tree makes sense.
+> > The sysoff component is strictly necessary for poweroff and reboot.
+> >=20
+> > On ARM64 Synology NAS devices it is needed so the device actually
+> > powers off after calling
+> > `syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2,
+> > LINUX_REBOOT_CMD_POWER_OFF, NULL);`
+> > . Otherwise it would stay on.
+> > Same applies to reboot.
+>=20
+> So that means a write of a set of bytes to the serial port will cause
+> the machine to reboot or shutdown?
+Yes.
+>=20
+> > On x86 it isn't clearly documented what sending the poweroff and reboot
+> > command to the microp device exactly does, so this is based on
+> > observations. It should be sent before issuing a poweroff or reboot via
+> > ACPI Sleep. On reboot it resets various device states, so fan speeds go
+> > to default, leds turn off etc., so it behaves like a coldboot.
+> > On poweroff it will mark it as graceful shutdown (i. e. the device
+> > won't turn automatically on, because it thinks a power-loss happend).
+> >=20
+> > For the other components:
+> > - leds
+> > - hwmon
+> > - input
+>=20
+> For "input" what exactly does the input device show up as?  A power
+> button?  Something else?
 
-Applied to cxl/next
-43e4c205197e cxl/pci: Check memdev driver binding status in cxl_reset_done()
-11ce2524b7f3 cxl/pci: Hold memdev lock in cxl_event_trace_record()
-b227d1faed0a cxl/memdev: Hold memdev lock during memdev poison injection/clear
-e5564e392075 Merge tag 'device_lock_cond_guard-7.1-rc1' into for-7.1/cxl-consolidate-endpoint
+Well there are a few other things besides a power button:
 
-> 
-> Best regards,
+- beeper (short and long variant)
+- factory reset button
+- "USB Copy" button. Not present on all devices (including not present
+on my testing device). It is meant for copying data from or to a usb
+stick.
 
+Both of these buttons don't have a keycode in include/uapi/linux/input-
+event-codes.h, which is suprising given how many devices have a factory
+reset button. So I am not sure if I can handle them in this driver.
+
+=46rom what I can tell, there isn't actually a input device type I could
+specify on registering a input device. But it would be considered a
+misc input device.
+
+>=20
+> For hwmon, that makes sense to have a kernel driver.
+>=20
+> For leds, that depends on what you want to do with the led, as in the
+> end you are just controlling it from userspace anyway :)
+
+
+>=20
+> > It could theoratically be implemented in userspace. A userspace daemon
+> > could theoratically control the fan speeds directly, issue a systemd
+> > shutdown on power button press, control the leds directly etc.
+> >=20
+> > But honestly, I don't understand why this is an argument.
+> > With that argument drivers/leds, drivers/hwmon and drivers/input would
+> > not even exist, because everything could be implemented in userspace
+> > via
+> > - I2C: /dev/i2c-* (drivers/i2c/i2c-dev.c)
+> > - MMIO: /dev/ioport and /dev/mem (drivers/char/mem.c)
+> > - GPIO: /sys/class/gpio (drivers/gpio/gpiolib-sysfs.c)
+> > - SPI: /dev/spidev* (drivers/spi/spidev.c)
+> > - PCI: /sys/class/pci_bus/ (drivers/pci/pci-sysfs.c)
+> > - Serial: /dev/ttyS*
+> > and likely almost any other bus device too.
+> >=20
+> > Generally speaking, the kernel and its drivers is the layer between
+> > hardware and software. It provides the hardware abstractions as
+> > userspace interfaces. So any software on the same cpu architecture can
+> > work with any hardware, as long as there is a kernel driver.
+>=20
+> Yes, I kind of know what drivers and classes do and why they are needed,
+> that's not the point here. :)
+>=20
+> > In the case of this driver, it means
+> > - *any* led daemon can control the leds
+> > - *any* fan control daemon can control the fan speed and frequency
+> > - *any* monitoring software can view the provided sensors
+> > - *any* init system can react to the power button
+> > - *any* process can request a reboot or shutdown
+> > .
+> > I think this is the expected behaviour.
+>=20
+> Ok great, then make a single driver that handles all of this, like other
+> drivers/platform/ drivers do today, and all should be fine.
+Great, I will.
+
+Thanks
+- Markus Probst
+
+>=20
+> thanks,
+>=20
+> greg k-h
+
+--=-akERDsl+g92JaDyAMR+U
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmm4RoobFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSsUIQAJeCzIeF7FxfVLPKwAJv
+sYO9ZXh6FWfGwq+zzAzAXqlhJQWtoptqBFhmWtrGiAEUYFDMlEG2jO9t4zE9cQiR
+O+QVCX1qWxERY0X4gbrT0GEcHuZpB7eqDRpHqQ1edsZrrbjD0LJl2GwrR+juH3p+
+J0H6qYNP0BP5I2Ox7pt3Wjw942RE8yV99ReJX15i7IseMtToK170J0yfLhV9EYdD
+ti/CzYvzqLndEhHRCVDrJhqRkUY7ffDrb/xir2FRqRmEnMw8Tyyy05eBccafoX4K
+bhb+cld/DtCZYR2BL2wyj6PVV6EYOjInchNDRa9T1txQ/yAd/s0yx2znesXtj2Kt
+xGn4A82oT4q84JtGyz4SCTvhAFMtle+23zmYHGgsJGjWLV2rAFLrTplZErqZWtCo
+UYNRzDvzksVnGSp05DeVmM1qZp8PZtfG/UlIfEYCbkkQVT8LZVb6/2BAzGdbmjMk
+LBI9lI95d17uCyxp9+1Pb1fls+XD25b0v1Qv6U5/YJPAwbyGAW3JtGsVhb0vhpdI
+hxTeJKlM1qq9voRoRWSDq+CSYGbNtQCvpjderejTY5otR9Ip1h+HAhTa8326QFmp
+OxOfwBf0ZcvmnxG4bIHDiySMdXLMSNzgAyGlZfcfI0rhEWazQktxJncKWn7D7VWP
+ojdLA9L7y+sXPTSIujFHYCZA
+=q1ya
+-----END PGP SIGNATURE-----
+
+--=-akERDsl+g92JaDyAMR+U--
