@@ -1,64 +1,65 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F5E36F42A
-	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 22:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BC0364E99
+	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 22:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773698918; cv=none; b=omflmtFMisMEuLoQM4yeEajfdJgRq3D+52eTSKkfdJ24f1d9omV1X6sa4Anrw92+1zLHlROe82tBGsYtoaTx/lU9BNxOxpvhNmem8d93ajstbvPvsOJDdCgF8RQ3SS7HXKcaXotoe5UKeLbIuOElTWrvSsLfYVc1RFbCwlgE7n8=
+	t=1773698981; cv=none; b=WkoiXvvHtiVM/742/gU6sF1hPcwCKbguuVzWt+on0/bRzXxcprE1/JldcL20JICqQQ7mJHnvcM/X01wCsObMj5VigZAueb4NihyU7+nDIU4SIHrkayGM9BU3fiURTkNnVqG0tqQzhIlYgSkltLKlyx5Sh4LQm4pfCF/8TawkSTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773698918; c=relaxed/simple;
-	bh=9Hq26TRhSBUT+kUtGoB5gXXS240oov8HRauCeIqWiEo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=M03MPdCNGkzq0UfIrulwJAPpyENgxVpb9AGdvtM/840IPu2rHih1On4BYXg8ABu5S23YCU3LRZEf+ZbFpdk8C/i07Oza7RZuBrVFcfEFU7peuA4yFrOo/I1JGLEJyODytwZ0ej2E7tGkvIX4nM0v1JGnLn3u6tsNi7mFjUpOHT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JRYGzgYB; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1773698981; c=relaxed/simple;
+	bh=TSXknyOLd+kJOiJqihMJLD/LuAHzVsUgouKl8cwf0Vg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ILAe3Rvx8eaDDIh+NdvZnFP1bioUOMik9+SUBU0wSxj6BlxS8Ro6uOsYXpQ+Y+aZ/YHEAfWiWfzkihTkscW+hexBeEYtJGDXV6cSiJwLtdWPthne67Ua6PBPkd7oFCGGJ2z9EdIb/+XM9xL5gkNB+TuzrPk/Qb2XqS6eaTSfP1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5q5M1xG; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRYGzgYB"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso45822555e9.3
-        for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 15:08:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5q5M1xG"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so46307285e9.2
+        for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 15:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773698916; x=1774303716; darn=lists.linux.dev;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dxsgDpGimFZWfn0fLlyFu/9xJqh6zQ+0+L7YzkdiFGM=;
-        b=JRYGzgYBD7ylzpr6nR5uHsgTx+Erzbc6ed9S9vOx7flmqKAfQdnw84YsSWy+oK5RPB
-         T3TbINrXdxaOdarUf3LKSXHLaykGVauqcvcCtf01SahgmaMOL7M1h9WMeD2iwGYYC71S
-         qJkn48mlVlk6cyzbjFcMdQdHat6PHfPBugiSp/V3K83cyyH+ZJIkimzFS8VnzxaxEgdn
-         eYIxMhW866tRJUhzUkn3HxA+zj2cd/A4yTr6c3y1reg+I/3FNCJ5IAA0AHulSsXc4oI9
-         XClPIUf6YI5AxBh/sq/gVfTZO6h6+4m0EaPD1HgsmV8bBkqcWF4A4KtfAyUi2n65ZPBx
-         DvFQ==
+        d=gmail.com; s=20230601; t=1773698979; x=1774303779; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6vAIV8t4fRKPki63G6ghTdF4yApt0g7vn/TGcMMAIE0=;
+        b=F5q5M1xGo3DUjmtzPXSfPECHwl33duDTYkINEUa0I96ZAcpEbvYDpUcQgofINEw2+E
+         dHd4tKEhvShdx8BU0YJFnjGRCGWxmwM5pAK0wEQBKOwtLQmeboXcJGjA9c7cJ7B+53wt
+         p/O8UK/CMW5Ra5OVPfWSAKA4AUSdktyMMq/2wl0d4rRxROGjRo6HkWymjsPIUUxcjzCT
+         66ppDOMinPRWq+nOMmmsA94i+g5U376VEV19VHaaJmlzpUOEAytu4xpLN2Hhishu5Vq9
+         mawJibmoP06c4xy5lBfFTQffBdg6uTw9t216CU3znYsl0dCiWR8ZMkmKSzTz+y30W8Yd
+         E/YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773698916; x=1774303716;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dxsgDpGimFZWfn0fLlyFu/9xJqh6zQ+0+L7YzkdiFGM=;
-        b=KtFfNsXo3cQRUQL7GAac4Si0RdBEIok/RisqtOlmB/dV8PXen6wNWLCnBO82kQ5oAO
-         P3nyj2UkBEcXrSVf/cjT+MqDCYGH/51L1AAM8gIO8yVYc7q6mnHBNsTPTa+byI1RAB1H
-         u65WMtX2YcR8MMGbyG4sf4z8iqh6E3vLXU/4uKvt1YyI5VpTL9j/OSdqqbBsCOakRCsW
-         gZVy/UoBecP/pFJA2ZrJ23XRbcccTFYbwVJx7vGJoXPN0rfph+4Epq+NQbDj0HCEbcZJ
-         JHtLz3L76VCmvRcbbRqLFd5bkfIs7T1dIuJFGpr4VqzHms9NnNdEpr9Ds8ZQNxw81WMq
-         m2fQ==
-X-Gm-Message-State: AOJu0Yw/M6vkB4froAeTOGxaLvpDghxN9OymzZHb+Z1fko7xCY+ZH5/G
-	blzhAFHExKy5gUBfcsdxLPMWQlMyjwgONmsPDk5ttMMBdDhl4rqO/XFV3ObEZw==
-X-Gm-Gg: ATEYQzzSL5IUoO9WBDY9E6agh1HKq0rD3zsD/jnHmq+Mqmc3Ehfqmaz9rr9l3ZGwBig
-	sdl9lQiBUbR6EnhGHL+pT7o1n1sOZl47c+iBXh0pFNJKxRPv+868ZcvcRAY2hsheSnkC3v8Ecid
-	jy0Ye7jZfYx7Qg2IfRwcBAS4YRFgdpnuDaVhSAZKpBrCb10992TJWQ6rmXT/akPQe1ZYVckxcCU
-	GXLIwcDr5XYUFzyRN+mT7wDzP+zmk8NfdEJl/0QEEvAf+nARu0XYgJ6AlqMZu5n/dZ8TVS27kKW
-	ecRjFfIstUrWLV2rHe7llPnSE0SLI7y6yEe1gjSiriB42UvL/caucDUwgzHwfqDm/373DQJB+c0
-	LFVByfFnof2wvpE7DWkeU5XsZu8Oth278MLejmcsCqdVfu++PBTgQw257sUHpexEI0b2/qkm4+0
-	JEbByZGI3PoWzBZk+V4XZMijnCSAi7NfdrfJFwBMtRVLVcm6hqlmkQqDeNj54WnZ+oCwm6VmKv7
-	ca4okZ4+NJ0/8QEnrZAWlJNswsaeoOWue3fILlc/2dzAz9fGT0OffzODAGqCyiL2m841gZMLRGT
-X-Received: by 2002:a05:600c:8488:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-485566d5162mr235354165e9.13.1773698915643;
-        Mon, 16 Mar 2026 15:08:35 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773698979; x=1774303779;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6vAIV8t4fRKPki63G6ghTdF4yApt0g7vn/TGcMMAIE0=;
+        b=dSo8a13RVDkyFOkeEvb5aNSiRcKoaJaXg9gZ/U5ZdtZz9eGpaBbGESphtHkQy0rGfT
+         LwNXGPO9jFT9wSPCu8GcDeP4O7QHpHRjix1c9fWEca5CvIuW0NjVr6aSGVIg/wp102Gz
+         Mai3EPf2PyUQXvPCibdhM4syJ49yocVr0afasvpkX0eXiL2LIzMSBXEpKtyWaGn1ccqq
+         AuYI016ZcGweLSiGZfmxdaRYIjr0RBzXk1fdu/KAjc4spEpvFeW9X8+qB0Q5r6zkhzUp
+         1ji/a8Chg5ZcI4Pm/JYwC3TkASdCDiX8lttwYKLpMYXhaCqEiwxpJn7IUkbB8+nye3O3
+         RncQ==
+X-Gm-Message-State: AOJu0YwrE75frvgiYyDpf6YZxNRq1oQ5ROdVYZhEDrFefsWNXgjBdSyp
+	fruLcdy1s0ixVQSUkDE5m74fElKftjzy1Od39/ICsYlA1x/de8NGZZS+
+X-Gm-Gg: ATEYQzz3xfXL9645/Uy/nxvVK+pjfdmKQrrCQ3BCc0jNsHtdS7efuKeMBocrp0I+wHU
+	erVmydIL+L1bf0TAe6Kv39jKsP5n9GkBLYGXhMXcu54IxtIhT0hFbjD4Tdyx2MWcMz8WcfWzCdx
+	T9N1srF1p/2M/F/SLaJ3scHwN5syuVjNm0JukOkjKpmhFoMpe9seoM3uV2xet0kKqhhKRpAu/qc
+	TXpGzD84/jKkWmw2cZZjfV7Q5FeMyyIoIpSTi3XczYvfDW7nUfuNY4tvMMnE5pgF1EVmQb4db23
+	RJ6nTgQv6i5NUO02QbH3CGoWkX7pUJdIyvxHWmOHzRqX0aiLJhgmk+WFWZJ3i8COGl5kWYjRVZE
+	FPQqyNKLWy/Sdbnyaw1CjdtKkxH9EbHuLjhExOWpAhNKaBJ5jeFsPSiS6BSsPN7NF1BK/MNwNu8
+	StNUgFsSPkoBJNIs4JnlL2xtqM4lT5xc7bgKBuTaF5ETxS72kzYu32UcTS4w+ZKngA/ExgSnEu4
+	WLvldcqsTFClEZ6eLvf5GxBwjRc0wpZP8Yhf6jxVD9MZ5+YNKqzgOum6Xq5w691gA==
+X-Received: by 2002:a05:600c:4752:b0:485:3dfc:569 with SMTP id 5b1f17b1804b1-48556700c54mr249244615e9.16.1773698978608;
+        Mon, 16 Mar 2026 15:09:38 -0700 (PDT)
 Received: from ?IPV6:2003:ea:8f1d:a900:d899:a285:c20c:fd3f? (p200300ea8f1da900d899a285c20cfd3f.dip0.t-ipconnect.de. [2003:ea:8f1d:a900:d899:a285:c20c:fd3f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2186e3sm50842426f8f.26.2026.03.16.15.08.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b3d87b1fbsm22327071f8f.7.2026.03.16.15.09.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 15:08:35 -0700 (PDT)
-Message-ID: <fae35d74-f1b9-4785-8d7b-e553c22387ce@gmail.com>
-Date: Mon, 16 Mar 2026 23:08:34 +0100
+        Mon, 16 Mar 2026 15:09:38 -0700 (PDT)
+Message-ID: <21a1e5f1-c6a0-4f6f-aa86-1e6abd25f9c6@gmail.com>
+Date: Mon, 16 Mar 2026 23:09:37 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -66,31 +67,66 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
+Subject: [PATCH 1/3] driver core: constify group arrays arguments in
+ driver_add_groups and driver_remove_groups
+From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
 Cc: driver-core@lists.linux.dev
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH 0/3] driver core: make struct device_driver and bus_type
- groups members constant arrays
+References: <fae35d74-f1b9-4785-8d7b-e553c22387ce@gmail.com>
+Content-Language: en-US
+In-Reply-To: <fae35d74-f1b9-4785-8d7b-e553c22387ce@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-This series constifies the attribute group groups arrays in struct
-device_driver and bus_type, allowing to assign constant arrays.
+Constify the groups array argument in driver_add_groups and
+driver_remove_groups. This allows to pass constant arrays as
+arguments.
 
-Heiner Kallweit (3):
-  driver core: constify group arrays arguments in driver_add_groups and
-    driver_remove_groups
-  driver core: make struct bus_type groups members constant arrays
-  device core: make struct device_driver groups members constant arrays
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/base/base.h   | 6 ++++--
+ drivers/base/driver.c | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
- drivers/base/base.h           | 6 ++++--
- drivers/base/driver.c         | 4 ++--
- include/linux/device/bus.h    | 6 +++---
- include/linux/device/driver.h | 4 ++--
- 4 files changed, 11 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 3bc8e6fd0..747530465 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -196,8 +196,10 @@ static inline void dev_sync_state(struct device *dev)
+ 		dev->driver->sync_state(dev);
+ }
+ 
+-int driver_add_groups(const struct device_driver *drv, const struct attribute_group **groups);
+-void driver_remove_groups(const struct device_driver *drv, const struct attribute_group **groups);
++int driver_add_groups(const struct device_driver *drv,
++		      const struct attribute_group *const *groups);
++void driver_remove_groups(const struct device_driver *drv,
++			  const struct attribute_group *const *groups);
+ void device_driver_detach(struct device *dev);
+ 
+ static inline void device_set_driver(struct device *dev, const struct device_driver *drv)
+diff --git a/drivers/base/driver.c b/drivers/base/driver.c
+index 8ab010ddf..c5ebf1fda 100644
+--- a/drivers/base/driver.c
++++ b/drivers/base/driver.c
+@@ -203,13 +203,13 @@ void driver_remove_file(const struct device_driver *drv,
+ EXPORT_SYMBOL_GPL(driver_remove_file);
+ 
+ int driver_add_groups(const struct device_driver *drv,
+-		      const struct attribute_group **groups)
++		      const struct attribute_group *const *groups)
+ {
+ 	return sysfs_create_groups(&drv->p->kobj, groups);
+ }
+ 
+ void driver_remove_groups(const struct device_driver *drv,
+-			  const struct attribute_group **groups)
++			  const struct attribute_group *const *groups)
+ {
+ 	sysfs_remove_groups(&drv->p->kobj, groups);
+ }
 -- 
 2.53.0
+
 
