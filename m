@@ -1,419 +1,408 @@
-Received: from mail-ot1-f78.google.com (mail-ot1-f78.google.com [209.85.210.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3D3392C20
-	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 12:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFD2394795
+	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 12:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773662545; cv=none; b=t0m4c4bOAOtoj4/pYtsXyRzAvShk2JUQAEZbKwuAp2Edw19OwNJfegXzNyJg/570bUrZXZpf6mzqrx/qivkE7V/IDfT7v+ldYOmo98lPzb7HKmbuYdzoG9mehJy/HopAxW13cCr/UCwJmtvNvxRBj0+QtAuQeDzgbAV9NVVzKMc=
+	t=1773663432; cv=none; b=CZssUriSrhE8qZgf99H1sK5BFRBmtxr4zerA1lmZSTOuppdg88L4lw9NTwBth+xWqwTDeDf+agKfSwgMjPd5fz/pU0j2a1TT+E9kuMSr0SMY+I/QqZeog6m7oRks0Aw2heV5EM4dBMPMTS4JJK5Nw/iw6/FJcxwWgBg/ZJOz3hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773662545; c=relaxed/simple;
-	bh=igZw+d46yvbJOsjKBjv40MT1n0Qwt/+a3rH6JKFK/7w=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Ew2wFuUBP4KI9jt83LYOFsGYKeuFWqmspkgubiZyfQWvUVDecGUT0DyBawvs9T2ioElxmMdUm3EIn/A+QRpf8ZX2N+oqsP0VULNmkMZYbSjkhOgCIW+E1DOzkqJUcRYxLU8g1ivuLZpMc3B4bWImtUj7SeQdHzBGz1HoKHxp5II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f78.google.com with SMTP id 46e09a7af769-7d74cd19998so61102920a34.2
-        for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 05:02:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773662542; x=1774267342;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+	s=arc-20240116; t=1773663432; c=relaxed/simple;
+	bh=E55bN9iW19XsJWzBcJqKLE6Ogli6gKuGJDKZG9Fzeag=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OJPMAVYKkru0ebutgvnbxlp0voaUbWeu1WEgbB3YDzd377c6jx/ES8MNKru5L3JF1SUY/QC2RYhyWKeDCltW5yEtIBIKUQ1DiA40T4b4HuIpruwZOk573ULvgfrjk8QeU49NMRbWsAsfbJJVEuf1TvCQFNxqRLx4L+BDLNyJkyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KM6BIK3B; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=PTyw8MHp; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KM6BIK3B";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PTyw8MHp"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62G7n3eS042125
+	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 12:17:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ipatG7a3HYT4bdIPE/LlrD52g+DKPy1sHWyztRHf978=; b=KM6BIK3B4udk7+JD
+	n64QxcuJFwNhr+4bjYCrqkYB27NFTraytwGFjQAVAyKiGE3eZSPl7DMEHC0wnn+0
+	eUzaV6hkBfD82BjxtKk0x5bPP8l/nb6k1qvq/NxFj3E2IVPpvLbBkam2o3TTJfds
+	Owq8b/AssEo3gU0tbBRWXIPj6gvHVx1NcAh0ZliYJcZjIDjTze70BfS9HzG7ETtJ
+	P13mHS6tUecrMkSoWP04UaNquv24EEKg0CyLy0k1lL7qqNmZ6Vn7ElRj3A7k9r01
+	UskA1qyqyBIHzcVqQg6BTB0t3oNmHh5PAg+DoKz/yF2a3uZOegc2M7ta9HTl7FJU
+	kdrSlQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxdt812bb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 12:17:09 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-35842aa350fso31789216a91.0
+        for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 05:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773663428; x=1774268228; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lxLpN4U3Cphxh4Wh3bfLWg5im4cwZ1APokA6M9ffMEY=;
-        b=gSRAg22GoG/rMWbxMfj71ZdeZeNmsx6wtGhj8V4zOyg7OsI6HJUZ0h+76GsOC8Xile
-         b4DoZ1m6a8ik8Rhco45hapi8LTLkeLMKwrVv4O7OwOgujgs9B/j1LXm96Obzen6kD3RV
-         HvC2fKRbNaBbl7IJiUsaOXlcq5xQxRWoibyXU5yLspTS6Yacq2IyixRzY8loUYcqFbPq
-         Zxo4+nlb1j37gL5KKIv26zmLof2yHOBoipcOQldOrL1lHiOriJjsuLcaK30l6CxQQpEu
-         C8nj7EDzDUzg4711jJQ+Ov2PtJdXFxAcvwfPdEyWJSSje9M9sOaMjyNSJgxvZCifkD2d
-         ZK8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWVw0J5ofWJqUGp4YxVvdsPW0qCAwNo1T9XGnIgTEo3E7446TUT+18jj0YOCCH28bJhQ+f/nf9RikIfWw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+/kvBp/Izeilz+HDuRPPoTf85h5aMSiAxH3jSvE8iBlaBw2zm
-	Y0ki8HEo7xBlgv6QjtrPFk0N40JFwPEE7ehOLc5yE6Cb+ZGzsjMcPqJmBj8HGI/7Jpsej8cle0k
-	NCBcgtNyd8kXo1CI5vFIc/0BDaJAWv1X3R/A8F/jsyn58CRBavXzAS7sgA5M=
+        bh=ipatG7a3HYT4bdIPE/LlrD52g+DKPy1sHWyztRHf978=;
+        b=PTyw8MHpj1mi7E/lg+EFGxB3NpdUQdIViqGLiCwTET1lns/jv+WMZ3dD9gnQ/O2j18
+         urruNx8kzEyh+Shqizk9NYzLKAlyf52jr1E/TYKzxO34GN/t+VnoTzSMjyInX3tMtxKu
+         ucQWzcCBQOx3sAEnoyyuvvc3W4N/LZWXs/7NRTP18u1HHyAASY50swABU4M9N8BDZnza
+         UuhHNADC0yv7jCblJTNIADbn14IMk8FhifX1LgKOGPzwIvZAgjS0kQNqoThdAlbnlVcU
+         H0imrVxsLSFh34FSmQnVmgv/sM4T6WjJDWuewb55LfNS1sK7imAHdWYfnRjxaY1dMbnX
+         LFxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773663428; x=1774268228;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ipatG7a3HYT4bdIPE/LlrD52g+DKPy1sHWyztRHf978=;
+        b=Sju1ZDG3F+XPX1a0+oEHbPqRQRm07iiScNUzB1aIXOUa40BqQUCWnvRNxT/9/iciJR
+         2x8oAGMQqETmvxI+Cf2zOm+fcFIGFAalqz5yRRvI4I7Nt+A2jP1aPd8EGAUDp1ndqjF1
+         noanth/iEACNii5eQGrXvrNswgkLNfnmZRYccZzR3VqI01VtBbgf+CMPQUPGhLKgfma/
+         3zjmMey4y8GqUZuMfUCDcfQj1K+SsC1zJ/ZNNg9XOg82h3x1G5qHL3uUzs+e4d8z1mJQ
+         rLz3PdfhNoui4m90I8wLYGeRTwu3g0esCUcobQgc5XC7hbLzKyWLMPXiy+eX4k21vTnE
+         D+MQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU9kb2msEPBTs56bMQfw0b8Jr1lCjDxfEFEkv37XctVq6tAnsveHfWIrMuVL+dhjXWRXE6gnTLC02jULw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOp24BHSTUVxvIP3Dh7+qZBGvNE3RO3tOfcMtt+2qNFBxwge0q
+	i+6nqHzi5xyd8bdILfrYP8lbzwePI7zKsmoXtkynIfcj3xsD4CztnUjcJoEPWH/zEDwnLD2Vlty
+	q/VuAnNeqei1wXvoCNtTo46NE5o2hz7dEhhFy7bOzAUkFDczXou1T3fjVwVkexBp8Pw==
+X-Gm-Gg: ATEYQzxpehCvfEvkrLBdiLWTtJhPJislF5NMMBSTeXM8bS9K3WkA2K4OWCOjsuUWCgb
+	EUsUgyf1FiO7m+YrcrqbUfyNdAZG08PBevKyN6t5+QbiGHChMl73hVEWZxULeKG0dkLNbmfG5No
+	kzKsr83PsZuOfXO6r0UxaljxCPNT1uxc3mOOY8WIcpGzOnHwT6/ivKrmNQN4LxPoJuLtj4htUpE
+	f9l+2Q0GHf0GfVO1bbxMI9DB7ie7iWs41lQYbe22Smgi+HzXJoDyyIePokzfab1omdwJn5znAxQ
+	kaDijUkUfCC9CTQ6AZMX8NF3DAh5Z14x8qAdUdp6Xua5PlFZlnXj6KaE8fCX2qY94KPqDW0RV9a
+	IOUoS/ZUUMrDpWub10U+7KU/YHQTzmCiAgAw45sp+gBQka+rIvOit6A==
+X-Received: by 2002:a17:90b:52c3:b0:33e:2d0f:479b with SMTP id 98e67ed59e1d1-35a21e4ee23mr11585465a91.6.1773663428073;
+        Mon, 16 Mar 2026 05:17:08 -0700 (PDT)
+X-Received: by 2002:a17:90b:52c3:b0:33e:2d0f:479b with SMTP id 98e67ed59e1d1-35a21e4ee23mr11585431a91.6.1773663427458;
+        Mon, 16 Mar 2026 05:17:07 -0700 (PDT)
+Received: from [10.218.35.45] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35b9303eb9bsm5036680a91.8.2026.03.16.05.17.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 05:17:06 -0700 (PDT)
+Message-ID: <be9980f3-f036-4260-980f-5d996bc034cb@oss.qualcomm.com>
+Date: Mon, 16 Mar 2026 17:46:58 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:5186:b0:467:3f4:907c with SMTP id
- 5614622812f47-46757402a73mr6690598b6e.47.1773662541977; Mon, 16 Mar 2026
- 05:02:21 -0700 (PDT)
-Date: Mon, 16 Mar 2026 05:02:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69b7f14d.050a0220.12d28.015e.GAE@google.com>
-Subject: [syzbot] [kernel?] possible deadlock in device_create (3)
-From: syzbot <syzbot+4ba8a624812f10a13c48@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    0257f64bdac7 Merge tag 'pm-7.0-rc4' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17f444d6580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2b9fbb898accd2e4
-dashboard link: https://syzkaller.appspot.com/bug?extid=4ba8a624812f10a13c48
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/fe2c2d3a356f/disk-0257f64b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/814567bbd30d/vmlinux-0257f64b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5cecf46c0268/bzImage-0257f64b.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4ba8a624812f10a13c48@syzkaller.appspotmail.com
-
-Dev nbd6: unable to read RDB block 0
- nbd6: unable to read partition table
-ldm_validate_partition_table(): Disk read failed.
-Dev nbd6: unable to read RDB block 0
- nbd6: unable to read partition table
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Tainted: G             L     
-------------------------------------------------------
-udevd/17714 is trying to acquire lock:
-ffffffff8deedda0 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:317 [inline]
-ffffffff8deedda0 (fs_reclaim){+.+.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:4493 [inline]
-ffffffff8deedda0 (fs_reclaim){+.+.}-{0:0}, at: slab_alloc_node mm/slub.c:4846 [inline]
-ffffffff8deedda0 (fs_reclaim){+.+.}-{0:0}, at: kmem_cache_alloc_node_noprof+0x4b/0x6e0 mm/slub.c:4921
-
-but task is already holding lock:
-ffffffff8f50f6f8 (uevent_sock_mutex){+.+.}-{4:4}, at: uevent_net_broadcast_untagged lib/kobject_uevent.c:317 [inline]
-ffffffff8f50f6f8 (uevent_sock_mutex){+.+.}-{4:4}, at: kobject_uevent_net_broadcast+0x281/0x560 lib/kobject_uevent.c:410
-
-which lock already depends on the new lock.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 3/3] PCI: Add support for PCIe WAKE# interrupt
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com,
+        sherry.sun@nxp.com, driver-core@lists.linux.dev,
+        devicetree@vger.kernel.org
+References: <20260313-wakeirq_support-v8-0-48a0a702518a@oss.qualcomm.com>
+ <20260313-wakeirq_support-v8-3-48a0a702518a@oss.qualcomm.com>
+ <53uy2vdzc25frf5rpwbybaor5n6jesapl2x7xusnn5zfaqnfy7@udq7ln2a42n5>
+Content-Language: en-US
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <53uy2vdzc25frf5rpwbybaor5n6jesapl2x7xusnn5zfaqnfy7@udq7ln2a42n5>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: qTgEJQLMSJCkF6Ammf5V0mFMjNZ04OkT
+X-Authority-Analysis: v=2.4 cv=CKInnBrD c=1 sm=1 tr=0 ts=69b7f4c5 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8
+ a=KKAkSRfTAAAA:8 a=gsM10RqGDrudvkRFLVwA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: qTgEJQLMSJCkF6Ammf5V0mFMjNZ04OkT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDA5MyBTYWx0ZWRfXzRWm0/4I5xTh
+ go8hOjG8P3LX1kLLIaMEefHBB07AgxFHyiwrOHdqie3tcPInA7B0/9RHlFqtMydrLWlBGt881Yx
+ kWSLQK/Juu2DwVBfhfOBqH+t2kuIf5RGt88iIz/bUygi7XpgN2L32V+EGyShAkE/kmuJruB5Ro9
+ e5dw0v4PABloOpK71vfERSfTzW8pfqH0fz3I6hjWpemi3R7oKIpJFMQ36d337tRASgbR8ZJbSmJ
+ fPQFzkimzBPaD5gEMriGI+yuzNhNmb9gc7gB2eGvP3z7KKttcoNu0vWwQcdrOoYNRaFJjv7NAFr
+ bUu+0eWXKS7tTq5Q2ABRcIlrmeue432g1yS1H/eWKWf6WNIilp06FS4/KXC8FwPCpxlctuXs0xC
+ nUBcxtSJnZnOeLipT4MVOD0LbA4kgWWjXqjIPj7m0jbn5jsMFp5PfS5P23oF2nZty2/M+ETKaA1
+ Vrrk7WulX5VbbfioCFA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-16_04,2026-03-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 impostorscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160093
 
 
-the existing dependency chain (in reverse order) is:
 
--> #9 (uevent_sock_mutex){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:533 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:552
-       uevent_net_broadcast_untagged lib/kobject_uevent.c:317 [inline]
-       kobject_uevent_net_broadcast+0x281/0x560 lib/kobject_uevent.c:410
-       kobject_uevent_env+0x55f/0x9e0 lib/kobject_uevent.c:608
-       device_add+0x557/0xb80 drivers/base/core.c:3670
-       device_create_groups_vargs drivers/base/core.c:4371 [inline]
-       device_create+0x269/0x300 drivers/base/core.c:4410
-       msr_device_create+0x33/0x50 arch/x86/kernel/msr.c:251
-       cpuhp_invoke_callback+0x445/0x860 kernel/cpu.c:194
-       cpuhp_thread_fun+0x36b/0x780 kernel/cpu.c:1109
-       smpboot_thread_fn+0x541/0xa50 kernel/smpboot.c:160
-       kthread+0x388/0x470 kernel/kthread.c:436
-       ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+On 3/13/2026 7:28 PM, Manivannan Sadhasivam wrote:
+> On Fri, Mar 13, 2026 at 12:38:42PM +0530, Krishna Chaitanya Chundru wrote:
+>> According to the PCI Express specification (PCIe r7.0, Section 5.3.3.2),
+>> two link wakeup mechanisms are defined: Beacon and WAKE#. Beacon is a
+>> hardware-only mechanism and is invisible to software (PCIe r7.0,
+>> Section 4.2.7.8.1). This change adds support for the WAKE# mechanism in
+>> the PCI core.
+>>
+>> According to the PCIe specification, multiple WAKE# signals can exist in
+>> a system or each component in the hierarchy could share a single WAKE#
+>> signal. In configurations involving a PCIe switch, each downstream port
+>> (DSP) of the switch may be connected to a separate WAKE# line, allowing
+>> each endpoint to signal WAKE# independently. From figure 5.4 in sec
+>> 5.3.3.2, WAKE# can also be terminated at the switch itself. To support
+>> this, the WAKE# should be described in the device tree node of the
+>> endpoint/bridge. If all endpoints share a single WAKE# line, then each
+>> endpoint node should describe the same WAKE# signal or a single WAKE# in
+>> the Root Port node.
+>>
+>> In pci_device_add(), PCI framework will search for the WAKE# in device
+>> node, If not found, it searches in its upstream port only if upstream port
+>> is Root Port. Once found, register for the wake IRQ in shared mode, as the
+>> WAKE# may be shared among multiple endpoints.
+>>
+>> dev_pm_set_dedicated_shared_wake_irq() associates a wakeup IRQ with a
+>> device and requests it, but the PM core keeps the IRQ disabled by default.
+>> The IRQ is enabled only when the device is permitted to wake the system,
+>> i.e. during system suspend and after runtime suspend, and only when device
+>> wakeup is enabled.
+>>
+>> When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume() to
+>> bring the device back to an active power state, such as transitioning from
+>> D3cold to D0. Once the device is active and the link is usable, the
+>> endpoint may generate a PME, which is then handled by the PCI core through
+>> PME polling or the PCIe PME service driver to complete the wakeup of the
+>> endpoint.
+>>
+>> WAKE# is added in dts schema and merged based on below links.
+>>
+>> Link: https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
+>> Link: https://github.com/devicetree-org/dt-schema/pull/170
+>> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> No. Linus never gave this tag for *this* patch.
+Linus gave this on v5 [1], might be a overlook.
 
--> #8 (cpuhp_state-up){+.+.}-{0:0}:
-       cpuhp_lock_acquire kernel/cpu.c:103 [inline]
-       cpuhp_thread_fun+0x127/0x780 kernel/cpu.c:1086
-       smpboot_thread_fn+0x541/0xa50 kernel/smpboot.c:160
-       kthread+0x388/0x470 kernel/kthread.c:436
-       ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+[1] Re: [PATCH v5 2/2] PCI: Add support for PCIe WAKE# interrupt - Linus 
+Walleij 
+<https://lore.kernel.org/all/CACRpkdY9HsnG=xo=swnMcVha+unmvmxR6e6Ynsj09srM_tPmWA@mail.gmail.com/>
 
--> #7 (cpu_hotplug_lock){++++}-{0:0}:
-       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
-       percpu_down_read include/linux/percpu-rwsem.h:77 [inline]
-       cpus_read_lock+0x42/0x160 kernel/cpu.c:490
-       static_key_slow_inc+0x12/0x30 kernel/jump_label.c:190
-       fl_create net/ipv6/ip6_flowlabel.c:457 [inline]
-       ipv6_flowlabel_get net/ipv6/ip6_flowlabel.c:637 [inline]
-       ipv6_flowlabel_opt+0x160a/0x2340 net/ipv6/ip6_flowlabel.c:740
-       do_ipv6_setsockopt+0xda7/0x31c0 net/ipv6/ipv6_sockglue.c:936
-       ipv6_setsockopt+0x59/0x170 net/ipv6/ipv6_sockglue.c:973
-       do_sock_setsockopt+0x17c/0x1b0 net/socket.c:2322
-       __sys_setsockopt net/socket.c:2347 [inline]
-       __do_sys_setsockopt net/socket.c:2353 [inline]
-       __se_sys_setsockopt net/socket.c:2350 [inline]
-       __x64_sys_setsockopt+0x143/0x1b0 net/socket.c:2350
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+- Krishna Chaitanya.
+> - Mani
+>
+>> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+>> ---
+>>   drivers/pci/of.c       | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   drivers/pci/pci.c      | 10 +++++++
+>>   drivers/pci/pci.h      |  2 ++
+>>   drivers/pci/probe.c    |  2 ++
+>>   drivers/pci/remove.c   |  1 +
+>>   include/linux/of_pci.h |  4 +++
+>>   include/linux/pci.h    |  2 ++
+>>   7 files changed, 95 insertions(+)
+>>
+>> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+>> index 9f8eb5df279ed28db7a3b2fd29c65da9975c2efa..b7199d3598b31b62245716c178a5a73565efc89e 100644
+>> --- a/drivers/pci/of.c
+>> +++ b/drivers/pci/of.c
+>> @@ -7,6 +7,7 @@
+>>   #define pr_fmt(fmt)	"PCI: OF: " fmt
+>>   
+>>   #include <linux/cleanup.h>
+>> +#include <linux/gpio/consumer.h>
+>>   #include <linux/irqdomain.h>
+>>   #include <linux/kernel.h>
+>>   #include <linux/pci.h>
+>> @@ -15,6 +16,7 @@
+>>   #include <linux/of_address.h>
+>>   #include <linux/of_pci.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/pm_wakeirq.h>
+>>   #include "pci.h"
+>>   
+>>   #ifdef CONFIG_PCI
+>> @@ -586,6 +588,78 @@ int of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin)
+>>   	return irq_create_of_mapping(&oirq);
+>>   }
+>>   EXPORT_SYMBOL_GPL(of_irq_parse_and_map_pci);
+>> +
+>> +static void pci_configure_wake_irq(struct pci_dev *pdev, struct gpio_desc *wake)
+>> +{
+>> +	int ret, wake_irq;
+>> +
+>> +	wake_irq = gpiod_to_irq(wake);
+>> +	if (wake_irq < 0) {
+>> +		pci_err(pdev, "Failed to get wake irq: %d\n", wake_irq);
+>> +		return;
+>> +	}
+>> +
+>> +	device_init_wakeup(&pdev->dev, true);
+>> +
+>> +	/*
+>> +	 * dev_pm_set_dedicated_shared_wake_irq() associates a wakeup IRQ with the
+>> +	 * device and requests it, but the PM core keeps it disabled by default.
+>> +	 * The IRQ is enabled only when the device is allowed to wake the system
+>> +	 * (during system suspend and after runtime suspend), and only if device
+>> +	 * wakeup is enabled.
+>> +	 *
+>> +	 * When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume()
+>> +	 * to bring the device back to an active power state (e.g. from D3cold to D0).
+>> +	 * Once the device is active and the link is usable, the endpoint may signal
+>> +	 * a PME, which is then handled by the PCI core (either via PME polling or the
+>> +	 * PCIe PME service driver) to wakeup particular endpoint.
+>> +	 */
+>> +	ret = dev_pm_set_dedicated_shared_wake_irq(&pdev->dev, wake_irq,
+>> +						   IRQ_TYPE_EDGE_FALLING);
+>> +	if (ret < 0) {
+>> +		pci_err(pdev, "Failed to set wake IRQ: %d\n", ret);
+>> +		device_init_wakeup(&pdev->dev, false);
+>> +	}
+>> +}
+>> +
+>> +void pci_configure_of_wake_gpio(struct pci_dev *dev)
+>> +{
+>> +	struct device_node *dn = pci_device_to_OF_node(dev);
+>> +	struct pci_dev *upstream;
+>> +	struct gpio_desc *gpio;
+>> +
+>> +	if (!dn)
+>> +		return;
+>> +
+>> +	/*
+>> +	 * The devices in a hierarchy expose wakeup capability through the 'wake-gpios'
+>> +	 * property defined either in the device node or in the Slot node. So first check
+>> +	 * for the property in device node and if not available, check in the Slot node.
+>> +	 */
+>> +	gpio = fwnode_gpiod_get(of_fwnode_handle(dn), "wake",
+>> +				GPIOD_IN | GPIOD_FLAGS_BIT_NONEXCLUSIVE, NULL);
+>> +	if (IS_ERR(gpio)) {
+>> +		upstream = pci_upstream_bridge(dev);
+>> +		if (upstream && pci_is_root_bus(upstream->bus) && upstream->wake)
+>> +			pci_configure_wake_irq(dev, upstream->wake);
+>> +	} else {
+>> +		dev->wake = gpio;
+>> +		pci_configure_wake_irq(dev, gpio);
+>> +	}
+>> +}
+>> +
+>> +void pci_remove_of_wake_gpio(struct pci_dev *dev)
+>> +{
+>> +	struct device_node *dn = pci_device_to_OF_node(dev);
+>> +
+>> +	if (!dn)
+>> +		return;
+>> +
+>> +	dev_pm_clear_wake_irq(&dev->dev);
+>> +	device_init_wakeup(&dev->dev, false);
+>> +	gpiod_put(dev->wake);
+>> +	dev->wake = NULL;
+>> +}
+>>   #endif	/* CONFIG_OF_IRQ */
+>>   
+>>   static int pci_parse_request_of_pci_ranges(struct device *dev,
+>> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+>> index 8479c2e1f74f1044416281aba11bf071ea89488a..3d858f36ab48a6daec645574ca9027d9d6f071de 100644
+>> --- a/drivers/pci/pci.c
+>> +++ b/drivers/pci/pci.c
+>> @@ -17,6 +17,7 @@
+>>   #include <linux/lockdep.h>
+>>   #include <linux/msi.h>
+>>   #include <linux/of.h>
+>> +#include <linux/of_pci.h>
+>>   #include <linux/pci.h>
+>>   #include <linux/pm.h>
+>>   #include <linux/slab.h>
+>> @@ -1123,6 +1124,15 @@ static inline bool platform_pci_bridge_d3(struct pci_dev *dev)
+>>   	return acpi_pci_bridge_d3(dev);
+>>   }
+>>   
+>> +void platform_pci_configure_wake(struct pci_dev *dev)
+>> +{
+>> +	return pci_configure_of_wake_gpio(dev);
+>> +}
+>> +
+>> +void platform_pci_remove_wake(struct pci_dev *dev)
+>> +{
+>> +	return pci_remove_of_wake_gpio(dev);
+>> +}
+>>   /**
+>>    * pci_update_current_state - Read power state of given device and cache it
+>>    * @dev: PCI device to handle.
+>> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+>> index 13d998fbacce6698514d92500dfea03cc562cdc2..65ca9551e558d2e3331fab0a968620d6b2a2522a 100644
+>> --- a/drivers/pci/pci.h
+>> +++ b/drivers/pci/pci.h
+>> @@ -282,6 +282,8 @@ void pci_msix_init(struct pci_dev *dev);
+>>   bool pci_bridge_d3_possible(struct pci_dev *dev);
+>>   void pci_bridge_d3_update(struct pci_dev *dev);
+>>   int pci_bridge_wait_for_secondary_bus(struct pci_dev *dev, char *reset_type);
+>> +void platform_pci_configure_wake(struct pci_dev *dev);
+>> +void platform_pci_remove_wake(struct pci_dev *dev);
+>>   
+>>   static inline bool pci_bus_rrs_vendor_id(u32 l)
+>>   {
+>> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+>> index bccc7a4bdd794384b7877d453c7989941471c999..372b0d2f4531ea53c0570608306a547101d59e7b 100644
+>> --- a/drivers/pci/probe.c
+>> +++ b/drivers/pci/probe.c
+>> @@ -2771,6 +2771,8 @@ void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
+>>   	/* Establish pdev->tsm for newly added (e.g. new SR-IOV VFs) */
+>>   	pci_tsm_init(dev);
+>>   
+>> +	platform_pci_configure_wake(dev);
+>> +
+>>   	pci_npem_create(dev);
+>>   
+>>   	pci_doe_sysfs_init(dev);
+>> diff --git a/drivers/pci/remove.c b/drivers/pci/remove.c
+>> index e9d519993853f92f1810d3eff9f44ca7e3e1abd9..d781b41e57c4444077075690cec926a9fe15334f 100644
+>> --- a/drivers/pci/remove.c
+>> +++ b/drivers/pci/remove.c
+>> @@ -35,6 +35,7 @@ static void pci_destroy_dev(struct pci_dev *dev)
+>>   	if (pci_dev_test_and_set_removed(dev))
+>>   		return;
+>>   
+>> +	platform_pci_remove_wake(dev);
+>>   	pci_doe_sysfs_teardown(dev);
+>>   	pci_npem_remove(dev);
+>>   
+>> diff --git a/include/linux/of_pci.h b/include/linux/of_pci.h
+>> index 29658c0ee71ff10122760214d04ee2bab01709fd..0efd6e9cb4d3d3beaafb42ea411303139f1150d5 100644
+>> --- a/include/linux/of_pci.h
+>> +++ b/include/linux/of_pci.h
+>> @@ -30,12 +30,16 @@ static inline void of_pci_check_probe_only(void) { }
+>>   
+>>   #if IS_ENABLED(CONFIG_OF_IRQ)
+>>   int of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin);
+>> +void pci_configure_of_wake_gpio(struct pci_dev *dev);
+>> +void pci_remove_of_wake_gpio(struct pci_dev *dev);
+>>   #else
+>>   static inline int
+>>   of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin)
+>>   {
+>>   	return 0;
+>>   }
+>> +static inline void pci_configure_of_wake_gpio(struct pci_dev *dev) { }
+>> +static inline void pci_remove_of_wake_gpio(struct pci_dev *dev) { }
+>>   #endif
+>>   
+>>   #endif
+>> diff --git a/include/linux/pci.h b/include/linux/pci.h
+>> index 1c270f1d512301de4d462fe7e5097c32af5c6f8d..d1e08df8a8deaa87780589f23242767fdcdba541 100644
+>> --- a/include/linux/pci.h
+>> +++ b/include/linux/pci.h
+>> @@ -586,6 +586,8 @@ struct pci_dev {
+>>   	/* These methods index pci_reset_fn_methods[] */
+>>   	u8 reset_methods[PCI_NUM_RESET_METHODS]; /* In priority order */
+>>   
+>> +	struct gpio_desc *wake; /* Holds WAKE# gpio */
+>> +
+>>   #ifdef CONFIG_PCIE_TPH
+>>   	u16		tph_cap;	/* TPH capability offset */
+>>   	u8		tph_mode;	/* TPH mode */
+>>
+>> -- 
+>> 2.34.1
+>>
+>>
 
--> #6 (sk_lock-AF_INET6){+.+.}-{0:0}:
-       lock_sock_nested+0x3e/0x130 net/core/sock.c:3780
-       lock_sock include/net/sock.h:1709 [inline]
-       inet_shutdown+0x6a/0x390 net/ipv4/af_inet.c:919
-       nbd_mark_nsock_dead+0x2e9/0x560 drivers/block/nbd.c:318
-       recv_work+0x1c9d/0x1dc0 drivers/block/nbd.c:1021
-       process_one_work kernel/workqueue.c:3275 [inline]
-       process_scheduled_works+0xb02/0x1830 kernel/workqueue.c:3358
-       worker_thread+0xa50/0xfc0 kernel/workqueue.c:3439
-       kthread+0x388/0x470 kernel/kthread.c:436
-       ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #5 (&nsock->tx_lock){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:533 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:552
-       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
-       nbd_queue_rq+0x37b/0x1100 drivers/block/nbd.c:1207
-       blk_mq_dispatch_rq_list+0xa77/0x1910 block/blk-mq.c:2148
-       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
-       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
-       __blk_mq_sched_dispatch_requests+0xddb/0x1610 block/blk-mq-sched.c:307
-       blk_mq_sched_dispatch_requests+0xda/0x1a0 block/blk-mq-sched.c:329
-       blk_mq_run_hw_queue+0x368/0x520 block/blk-mq.c:2386
-       blk_mq_dispatch_list+0xd1f/0xe20 include/linux/spinlock_rt.h:-1
-       blk_mq_flush_plug_list+0x48d/0x570 block/blk-mq.c:2997
-       __blk_flush_plug+0x3ed/0x4d0 block/blk-core.c:1230
-       blk_finish_plug block/blk-core.c:1257 [inline]
-       __submit_bio+0x28d/0x580 block/blk-core.c:649
-       __submit_bio_noacct_mq block/blk-core.c:722 [inline]
-       submit_bio_noacct_nocheck+0x2f4/0xa70 block/blk-core.c:753
-       submit_bh fs/buffer.c:2826 [inline]
-       block_read_full_folio+0x599/0x830 fs/buffer.c:2444
-       filemap_read_folio+0x137/0x3b0 mm/filemap.c:2501
-       do_read_cache_folio+0x2bf/0x560 mm/filemap.c:4101
-       read_mapping_folio include/linux/pagemap.h:1028 [inline]
-       read_part_sector+0xb8/0x2b0 block/partitions/core.c:723
-       adfspart_check_ICS+0xa5/0xa40 block/partitions/acorn.c:360
-       check_partition block/partitions/core.c:142 [inline]
-       blk_add_partitions block/partitions/core.c:590 [inline]
-       bdev_disk_changed+0x7ba/0x1550 block/partitions/core.c:694
-       blkdev_get_whole+0x2e5/0x480 block/bdev.c:764
-       bdev_open+0x31e/0xcc0 block/bdev.c:973
-       blkdev_open+0x485/0x620 block/fops.c:697
-       do_dentry_open+0x83d/0x13e0 fs/open.c:949
-       vfs_open+0x3b/0x350 fs/open.c:1081
-       do_open fs/namei.c:4671 [inline]
-       path_openat+0x2e43/0x38a0 fs/namei.c:4830
-       do_file_open+0x23e/0x4a0 fs/namei.c:4859
-       do_sys_openat2+0x113/0x200 fs/open.c:1366
-       do_sys_open fs/open.c:1372 [inline]
-       __do_sys_openat fs/open.c:1388 [inline]
-       __se_sys_openat fs/open.c:1383 [inline]
-       __x64_sys_openat+0x138/0x170 fs/open.c:1383
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #4 (&cmd->lock){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:533 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:552
-       nbd_queue_rq+0xc6/0x1100 drivers/block/nbd.c:1199
-       blk_mq_dispatch_rq_list+0xa77/0x1910 block/blk-mq.c:2148
-       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
-       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
-       __blk_mq_sched_dispatch_requests+0xddb/0x1610 block/blk-mq-sched.c:307
-       blk_mq_sched_dispatch_requests+0xda/0x1a0 block/blk-mq-sched.c:329
-       blk_mq_run_hw_queue+0x368/0x520 block/blk-mq.c:2386
-       blk_mq_dispatch_list+0xd1f/0xe20 include/linux/spinlock_rt.h:-1
-       blk_mq_flush_plug_list+0x48d/0x570 block/blk-mq.c:2997
-       __blk_flush_plug+0x3ed/0x4d0 block/blk-core.c:1230
-       blk_finish_plug block/blk-core.c:1257 [inline]
-       __submit_bio+0x28d/0x580 block/blk-core.c:649
-       __submit_bio_noacct_mq block/blk-core.c:722 [inline]
-       submit_bio_noacct_nocheck+0x2f4/0xa70 block/blk-core.c:753
-       submit_bh fs/buffer.c:2826 [inline]
-       block_read_full_folio+0x599/0x830 fs/buffer.c:2444
-       filemap_read_folio+0x137/0x3b0 mm/filemap.c:2501
-       do_read_cache_folio+0x2bf/0x560 mm/filemap.c:4101
-       read_mapping_folio include/linux/pagemap.h:1028 [inline]
-       read_part_sector+0xb8/0x2b0 block/partitions/core.c:723
-       adfspart_check_ICS+0xa5/0xa40 block/partitions/acorn.c:360
-       check_partition block/partitions/core.c:142 [inline]
-       blk_add_partitions block/partitions/core.c:590 [inline]
-       bdev_disk_changed+0x7ba/0x1550 block/partitions/core.c:694
-       blkdev_get_whole+0x2e5/0x480 block/bdev.c:764
-       bdev_open+0x31e/0xcc0 block/bdev.c:973
-       blkdev_open+0x485/0x620 block/fops.c:697
-       do_dentry_open+0x83d/0x13e0 fs/open.c:949
-       vfs_open+0x3b/0x350 fs/open.c:1081
-       do_open fs/namei.c:4671 [inline]
-       path_openat+0x2e43/0x38a0 fs/namei.c:4830
-       do_file_open+0x23e/0x4a0 fs/namei.c:4859
-       do_sys_openat2+0x113/0x200 fs/open.c:1366
-       do_sys_open fs/open.c:1372 [inline]
-       __do_sys_openat fs/open.c:1388 [inline]
-       __se_sys_openat fs/open.c:1383 [inline]
-       __x64_sys_openat+0x138/0x170 fs/open.c:1383
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #3 (set->srcu){.+.+}-{0:0}:
-       srcu_lock_sync include/linux/srcu.h:199 [inline]
-       __synchronize_srcu+0xca/0x3e0 kernel/rcu/srcutree.c:1505
-       elevator_switch+0x1e8/0x7a0 block/elevator.c:576
-       elevator_change+0x2cc/0x450 block/elevator.c:681
-       elevator_set_default+0x36c/0x430 block/elevator.c:754
-       blk_register_queue+0x366/0x430 block/blk-sysfs.c:946
-       __add_disk+0x677/0xd50 block/genhd.c:528
-       add_disk_fwnode+0xfb/0x480 block/genhd.c:597
-       add_disk include/linux/blkdev.h:785 [inline]
-       nbd_dev_add+0x72c/0xb50 drivers/block/nbd.c:1984
-       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2692
-       do_one_initcall+0x250/0x8d0 init/main.c:1382
-       do_initcall_level+0x104/0x190 init/main.c:1444
-       do_initcalls+0x59/0xa0 init/main.c:1460
-       kernel_init_freeable+0x2a6/0x3e0 init/main.c:1692
-       kernel_init+0x1d/0x1d0 init/main.c:1582
-       ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #2 (&q->elevator_lock){+.+.}-{4:4}:
-       __mutex_lock_common kernel/locking/rtmutex_api.c:533 [inline]
-       mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:552
-       elevator_change+0x1b3/0x450 block/elevator.c:679
-       elevator_set_none+0xb5/0x140 block/elevator.c:769
-       blk_mq_elv_switch_none block/blk-mq.c:5110 [inline]
-       __blk_mq_update_nr_hw_queues block/blk-mq.c:5155 [inline]
-       blk_mq_update_nr_hw_queues+0x607/0x1a80 block/blk-mq.c:5220
-       nbd_start_device+0x17f/0xb20 drivers/block/nbd.c:1489
-       nbd_start_device_ioctl drivers/block/nbd.c:1548 [inline]
-       __nbd_ioctl drivers/block/nbd.c:1623 [inline]
-       nbd_ioctl+0x57b/0xe40 drivers/block/nbd.c:1663
-       blkdev_ioctl+0x5e6/0x750 block/ioctl.c:804
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:597 [inline]
-       __se_sys_ioctl+0xff/0x170 fs/ioctl.c:583
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&q->q_usage_counter(io)#53){++++}-{0:0}:
-       blk_alloc_queue+0x54e/0x690 block/blk-core.c:461
-       blk_mq_alloc_queue block/blk-mq.c:4429 [inline]
-       __blk_mq_alloc_disk+0x197/0x390 block/blk-mq.c:4476
-       nbd_dev_add+0x499/0xb50 drivers/block/nbd.c:1954
-       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2692
-       do_one_initcall+0x250/0x8d0 init/main.c:1382
-       do_initcall_level+0x104/0x190 init/main.c:1444
-       do_initcalls+0x59/0xa0 init/main.c:1460
-       kernel_init_freeable+0x2a6/0x3e0 init/main.c:1692
-       kernel_init+0x1d/0x1d0 init/main.c:1582
-       ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #0 (fs_reclaim){+.+.}-{0:0}:
-       check_prev_add kernel/locking/lockdep.c:3165 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
-       lock_acquire+0xf0/0x2e0 kernel/locking/lockdep.c:5868
-       __fs_reclaim_acquire mm/page_alloc.c:4348 [inline]
-       fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4362
-       might_alloc include/linux/sched/mm.h:317 [inline]
-       slab_pre_alloc_hook mm/slub.c:4493 [inline]
-       slab_alloc_node mm/slub.c:4846 [inline]
-       kmem_cache_alloc_node_noprof+0x4b/0x6e0 mm/slub.c:4921
-       __alloc_skb+0x1d0/0x7d0 net/core/skbuff.c:702
-       alloc_skb include/linux/skbuff.h:1383 [inline]
-       alloc_uevent_skb+0x7d/0x230 lib/kobject_uevent.c:289
-       uevent_net_broadcast_untagged lib/kobject_uevent.c:326 [inline]
-       kobject_uevent_net_broadcast+0x2fd/0x560 lib/kobject_uevent.c:410
-       kobject_uevent_env+0x55f/0x9e0 lib/kobject_uevent.c:608
-       nbd_config_put+0x14e/0x580 drivers/block/nbd.c:1440
-       nbd_release+0x101/0x140 drivers/block/nbd.c:1756
-       bdev_release+0x541/0x660 block/bdev.c:-1
-       blkdev_release+0x15/0x20 block/fops.c:705
-       __fput+0x461/0xa90 fs/file_table.c:469
-       fput_close_sync+0x11f/0x240 fs/file_table.c:574
-       __do_sys_close fs/open.c:1509 [inline]
-       __se_sys_close fs/open.c:1494 [inline]
-       __x64_sys_close+0x7e/0x110 fs/open.c:1494
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  fs_reclaim --> cpuhp_state-up --> uevent_sock_mutex
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(uevent_sock_mutex);
-                               lock(cpuhp_state-up);
-                               lock(uevent_sock_mutex);
-  lock(fs_reclaim);
-
- *** DEADLOCK ***
-
-3 locks held by udevd/17714:
- #0: ffff8880265394c8 (&disk->open_mutex){+.+.}-{4:4}, at: bdev_release+0x1af/0x660 block/bdev.c:1144
- #1: ffff888026357a48 (&nbd->config_lock){+.+.}-{4:4}, at: refcount_dec_and_mutex_lock+0x30/0xa0 lib/refcount.c:118
- #2: ffffffff8f50f6f8 (uevent_sock_mutex){+.+.}-{4:4}, at: uevent_net_broadcast_untagged lib/kobject_uevent.c:317 [inline]
- #2: ffffffff8f50f6f8 (uevent_sock_mutex){+.+.}-{4:4}, at: kobject_uevent_net_broadcast+0x281/0x560 lib/kobject_uevent.c:410
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 17714 Comm: udevd Tainted: G             L      syzkaller #0 PREEMPT_{RT,(full)} 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/27/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
- check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
- check_prev_add kernel/locking/lockdep.c:3165 [inline]
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
- lock_acquire+0xf0/0x2e0 kernel/locking/lockdep.c:5868
- __fs_reclaim_acquire mm/page_alloc.c:4348 [inline]
- fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4362
- might_alloc include/linux/sched/mm.h:317 [inline]
- slab_pre_alloc_hook mm/slub.c:4493 [inline]
- slab_alloc_node mm/slub.c:4846 [inline]
- kmem_cache_alloc_node_noprof+0x4b/0x6e0 mm/slub.c:4921
- __alloc_skb+0x1d0/0x7d0 net/core/skbuff.c:702
- alloc_skb include/linux/skbuff.h:1383 [inline]
- alloc_uevent_skb+0x7d/0x230 lib/kobject_uevent.c:289
- uevent_net_broadcast_untagged lib/kobject_uevent.c:326 [inline]
- kobject_uevent_net_broadcast+0x2fd/0x560 lib/kobject_uevent.c:410
- kobject_uevent_env+0x55f/0x9e0 lib/kobject_uevent.c:608
- nbd_config_put+0x14e/0x580 drivers/block/nbd.c:1440
- nbd_release+0x101/0x140 drivers/block/nbd.c:1756
- bdev_release+0x541/0x660 block/bdev.c:-1
- blkdev_release+0x15/0x20 block/fops.c:705
- __fput+0x461/0xa90 fs/file_table.c:469
- fput_close_sync+0x11f/0x240 fs/file_table.c:574
- __do_sys_close fs/open.c:1509 [inline]
- __se_sys_close fs/open.c:1494 [inline]
- __x64_sys_close+0x7e/0x110 fs/open.c:1494
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f8673677407
-Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffde0577e70 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
-RAX: ffffffffffffffda RBX: 00007f8673589880 RCX: 00007f8673677407
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000008
-RBP: 00007f86735896e8 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000002
-R13: 0000560ef6049190 R14: 0000000000000008 R15: 0000560ef607f370
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
