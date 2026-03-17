@@ -1,116 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8A93491C4;
-	Tue, 17 Mar 2026 08:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AEF395DB6
+	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 08:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773734767; cv=none; b=S+5KVdnCAjJFLlghcHPFfLRK5vb4g9QHar9saXFVqRTRo+RlzZ4pFHsz4mLFncQvTjZ+IkEoRR82sfceRDry6zn0jW8AicRD1GA3Gfh1ZI/WQWRjQf5P3Qa08MgeXGE+Du9VRslBiolxxin4+Ylo4nJCEN5gzpcscLqyHU2itkc=
+	t=1773736588; cv=none; b=bO4yA9dbK97N13e02IdC2/X8v066336hC0NEUjIa6M2kRItcj4PEBE2AHM1SDiTQCJgOzD0+Jn0K7OPJYGwYjiVHAwcj1Z4/8SC166YCEMgyEzCLyY3ey6spB7hSSdIvg4PyY2ep/52ATDQp42KKxStoP4OmG0fZtSvk1a5sx00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773734767; c=relaxed/simple;
-	bh=iMURNNM9AIH1rsZHJq+NkuOt1cRxxMqU8WKIAQJWBhY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HU5u5OEPnl0hB2zO3f3fBM/GOtxZ2RAK+cnHETEO1kIfdiqKWx1YiSgex8LTqp8KnKHyXkyzRxKCOwij4XSgXBCdPaQhWL1bVCdf9SqES02SZKC8rJKdXyklJ9p62saPkj9+0JXBHIfLOAnV40q8px80mWZ8TbSyr0zS/2lgQP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eN/Vw3xF; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eN/Vw3xF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773734766; x=1805270766;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iMURNNM9AIH1rsZHJq+NkuOt1cRxxMqU8WKIAQJWBhY=;
-  b=eN/Vw3xFo6L0Ez9LtUIqf1D5kZzucJMPpNuE9c49quSkRiwp3hvUMTkM
-   OQ3Wd+uWy61SaY1m0Z/oHWqI9w2yHilgmMWtssQNnOIUDFq0hpdvmc4a1
-   U3uiI0wNM8hA2vvvyjaB4DPKHiM4c+ctbAhvax0uL4/0I1ioXL9q4i9Rg
-   vqRz0tPoOKSGsaE8zcZmDt7eWJktHfC5sAHThlm0TQnpOh6ehZEDZQDcz
-   LrGV2cFt495+Ryl4BF109D2BIIAyyzhHkztBK90b4xMBuGJ8dAY3SCuhE
-   E2bbv/nJ3KpFDskz/KdRL/ImefS5EbusHDRdDZkwpAy6PGOT6THx5y2zY
-   g==;
-X-CSE-ConnectionGUID: DsdEzhorQU60lJp9LFTLpQ==
-X-CSE-MsgGUID: kvtD0LyJS36BoF9fn/prwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="73777650"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="73777650"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:06:05 -0700
-X-CSE-ConnectionGUID: B6sce5gfS3eYat7KD1IA9A==
-X-CSE-MsgGUID: 7EgpgieoQr+l3rFUEy13xA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="221425403"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:05:58 -0700
-Date: Tue, 17 Mar 2026 10:05:55 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Douglas Anderson <dianders@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, stable@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>, Daniel Scally <djrscally@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>, Len Brown <lenb@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org,
-	driver-core@lists.linux.dev, imx@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] device property: Make modifications of fwnode "flags"
- thread safe
-Message-ID: <abkLY4AAQuFlTRC7@ashevche-desk.local>
-References: <20260316154159.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
- <abkCPU3rxHI49N4_@shikoro>
- <abkD-VLprcbbEbB1@ashevche-desk.local>
- <abkF0GO01sMcOhvb@shikoro>
- <abkLEgrZbdb03VWg@ashevche-desk.local>
+	s=arc-20240116; t=1773736588; c=relaxed/simple;
+	bh=1IbAI1LF70M+Kjw+h3BaLZwBsh7cf418N6PFDl+oOnk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R7nfew/Uo9R/y/VMisq1r08MUZtqU2p9PxGfRheWaU2euCcop1Hlew+TMcGx0xoAs8DkCVy/vtFtECFyh25GWCYQg6BnIHg4pz/zN1wDOM+LQes+IwhbV11GjUKLKzVUBlFhVklC6SqKH+k+jYLFQnPMtnDTdTw0fX4W2sO5c5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-5fff77ff69bso1155003137.2
+        for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 01:36:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773736586; x=1774341386;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=idH2bB7nbOzzZw2WFTC74GwVow5g1kiitlzGsuFZK5o=;
+        b=VBZVh8VwFQaAY7Gvr7RIU2n3yh3MT5uTSo+qBDn6h/1DKAGpgg2so/ZQ2A+x1vJ09a
+         Gec4GtR6KaSRpIOyBoi0j/KsDqBU8aBbTBiPsteUic/08apbOtqocss+zowCNbTBHWC+
+         XcnQiZItgWtzVAQGi4eXpzqD046hXfOBgp/sSUeTz3aq6XQwrvhua9h9qTZCDcOBjPG1
+         L5OevSY523LENYYMY5SNhGXpehHrJ2ipqeNVeOAaJf7PqPf+7kvs2JflHlTgKyanljY7
+         IOXFdiHgCmqTQFHgDKp8qh9bog665s513bORkO4rRW6/2w1NY3cvDrOwbEdXdJB0LL+a
+         LyDg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxKZK5lPUyG+Aogm9BQCM2DW8UVDF28sfiIel8FTIIwy8jMo6IB5FlnIlBXaaEQYO4bnRRXUUtzmvCJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYrZKFr+P5p1sa4JW/JlzaiEUQCHakX61wiGu+QYR63/KJm39A
+	WYum4XNY1SIy2PCo+X8/XH8ycB1xwXyaDUbwgCXoXu0zuMlHxiEmDErRcHj28fOY
+X-Gm-Gg: ATEYQzzbA++bq7YXtYr49wucgaWojuqMFxEvrE+7LUEmLKJzUcRxlGn1ev0vAZwQ9MO
+	xptZN4JOf6+uFsCmVdWD0GkM+zKoPwi6FYgPLLVuk/EfOgIdc4ohHtl4FiKBLh2BnRYvO2QpYfJ
+	8ES9e8vNr67YJ3UmWZBTTWXKnakCVZWIJydktU8qsajqQhId1Qw5yy92deLjKk3ZvvxQ92zfpTY
+	rtT2DKip+vKE4sQCkKIe48uw62VhBqRNcBf9YlYIxMjqib72gizesJcrG6/B0+pDT2gDWtT6E/h
+	i7M8N+fl8auhH9zxwBgft2OU0Jd0bR/KZOKbyOd0Mw0A+uHc3azDI1CgHHMQaxoQ2OfKXVOoUAo
+	/lbmzcI1i80OruRSsbkh4zTtiUDSUZoWFbQv4fIxm+yNWgkkoTSRQYJ4lpkRyPowQvjREi7lAtM
+	MAaEHEFjYKhGeECHxbjgRjtc6+6ytIpnGOSxct/kYg+bKFdkH5wgGubIqXakhR
+X-Received: by 2002:a05:6102:3a12:b0:5ff:c831:b986 with SMTP id ada2fe7eead31-6020e1a90ecmr6002309137.8.1773736586334;
+        Tue, 17 Mar 2026 01:36:26 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-601deb0278csm7797176137.11.2026.03.17.01.36.24
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Mar 2026 01:36:25 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5fff77ff69bso1154999137.2
+        for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 01:36:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXzkS0JWCdXkR1vBQLZ7bA2FxPK5721a8pPQ47Wt+6TXuAAtxsD00XAbjeJQ4LV+UZPrXIsqkDYmMJ25Q==@lists.linux.dev
+X-Received: by 2002:a05:6102:5127:b0:5ff:2569:cfe7 with SMTP id
+ ada2fe7eead31-6020e2129e6mr6024902137.10.1773736584585; Tue, 17 Mar 2026
+ 01:36:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <abkLEgrZbdb03VWg@ashevche-desk.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260303115720.48783-1-dakr@kernel.org> <20260303115720.48783-5-dakr@kernel.org>
+ <DH4M3DJ4P58T.1BGVAVXN71Z09@kernel.org>
+In-Reply-To: <DH4M3DJ4P58T.1BGVAVXN71Z09@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Mar 2026 09:36:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW=hfK82_QKXL=n-nMos-HjScKuw9jNTy4xsxJ2qnPYyA@mail.gmail.com>
+X-Gm-Features: AaiRm50LJFP1R3ITAUSRjqb1napf13plX5N5KjefHP89RPorlF5H9VKuGn2urAs
+Message-ID: <CAMuHMdW=hfK82_QKXL=n-nMos-HjScKuw9jNTy4xsxJ2qnPYyA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] driver core: platform: use generic driver_override infrastructure
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, hanguidong02@gmail.com, 
+	ysato@users.sourceforge.jp, dalias@libc.org, glaubitz@physik.fu-berlin.de, 
+	abelvesa@kernel.org, srini@kernel.org, s.nawrocki@samsung.com, 
+	nuno.sa@analog.com, brgl@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	linux-hwmon@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-sh@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 17, 2026 at 10:04:43AM +0200, Andy Shevchenko wrote:
-> On Tue, Mar 17, 2026 at 08:42:08AM +0100, Wolfram Sang wrote:
-> 
-> > > > ... this change costs some memory on every system. Maybe it can be
-> > > > avoided?
-> > > 
-> > > How much memory does it cost? On most 64-bit architectures is +4 bytes,
-> > > rarely +0 bytes, on m68k it might be +2bytes. On 32-bit it most likely
-> > > +0 bytes. I expect that 64-bit machines will cope with this bump.
-> > 
-> > I am not opposing that the issue should be fixed. If it is not possible
-> > to take the lock everywhere, this is a proper solution. But if we don't
-> > have to use more memory, then we could save it. Our new SoC easily has
-> > 'struct device' in the hundreds.
-> 
-> What's the alignment for the u8 member in your SoC? 4 bytes or 8 bytes?
-> (I assume it's 64-bit SoC.)
+Hi Danilo,
 
-FWIW, with the given change it will be still inside 64-byte data structure
-which most likely occupies a single cache line (before this patch and after
-as well).
+On Tue, 17 Mar 2026 at 00:57, Danilo Krummrich <dakr@kernel.org> wrote:
+> On Tue Mar 3, 2026 at 12:53 PM CET, Danilo Krummrich wrote:
+> > diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_early.c
+> > index 143747c45206..3cd17bb0be67 100644
+> > --- a/arch/sh/drivers/platform_early.c
+> > +++ b/arch/sh/drivers/platform_early.c
+> > @@ -25,10 +25,12 @@ static int platform_match(struct device *dev, struct device_driver *drv)
+> >  {
+> >       struct platform_device *pdev = to_platform_device(dev);
+> >       struct platform_driver *pdrv = to_platform_driver(drv);
+> > +     int ret;
+> >
+> >       /* When driver_override is set, only bind to the matching driver */
+> > -     if (pdev->driver_override)
+> > -             return !strcmp(pdev->driver_override, drv->name);
+> > +     ret = device_match_driver_override(dev, drv);
+> > +     if (ret >= 0)
+> > +             return ret;
+> >
+> >       /* Then try to match against the id table */
+> >       if (pdrv->id_table)
+>
+> I was just about to pick up this series, but then noticed that checking for
+> driver_override in the platform_early case doesn't make sense in the first place
+> and was accidentally added when the platform_match() callback was copied over in
+> commit 507fd01d5333 ("drivers: move the early platform device support to
+> arch/sh").
+>
+> Thus, I'm going to drop this hunk and add in the following patch; please let me
+> know if there are any concerns.
+>
+> commit 39cae4095efda4b00b436c0fc46f21de84128969
+> Author: Danilo Krummrich <dakr@kernel.org>
+> Date:   Tue Mar 17 00:37:15 2026 +0100
+>
+>     sh: platform_early: remove pdev->driver_override check
+>
+>     In commit 507fd01d5333 ("drivers: move the early platform device support to
+>     arch/sh") platform_match() was copied over to the sh platform_early
+>     code, accidentally including the driver_override check.
+>
+>     This check does not make sense for platform_early, as sysfs is not even
+>     available in first place at this point in the boot process, hence remove
+>     the check.
+>
+>     Fixes: 507fd01d5333 ("drivers: move the early platform device support to arch/sh")
+>     Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+>
+> diff --git a/arch/sh/drivers/platform_early.c b/arch/sh/drivers/platform_early.c
+> index 143747c45206..48ddbc547bd9 100644
+> --- a/arch/sh/drivers/platform_early.c
+> +++ b/arch/sh/drivers/platform_early.c
+> @@ -26,10 +26,6 @@ static int platform_match(struct device *dev, struct device_driver *drv)
+>         struct platform_device *pdev = to_platform_device(dev);
+>         struct platform_driver *pdrv = to_platform_driver(drv);
+>
+> -       /* When driver_override is set, only bind to the matching driver */
+> -       if (pdev->driver_override)
+> -               return !strcmp(pdev->driver_override, drv->name);
+> -
+>         /* Then try to match against the id table */
+>         if (pdrv->id_table)
+>                 return platform_match_id(pdrv->id_table, pdev) != NULL;
 
--- 
-With Best Regards,
-Andy Shevchenko
+Nice catch!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
