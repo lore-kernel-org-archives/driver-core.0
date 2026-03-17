@@ -1,64 +1,64 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E1C3F7AA5
-	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 19:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31D83F87E0
+	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 19:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773774029; cv=none; b=Xn0IzgVkD1k+0Y938JR+ytHfjQUVhIUEZ/vRtQgsRvqBX0V701mr5nVXCsWxud1SHezyff3Fnqj9pf/1yra4tJdGrUN5piSXkZlCWpGLS4k8e0Qdi06MuOHRBMyA4/op5JIKZ0umfDL9265DJawUew9bFV9OSNLd1Jx3UgPJFrc=
+	t=1773774049; cv=none; b=sGER8aPYuX6Vt9UcHsHbBSlBJVb2Gn9AqmYia10cZBUSt7kpq8hK7hwleTo8YyFxyMi2M31aDtlcZ3GPZj7Z/Ad3xa4x4ZcvAiCn04tD/HVGJaOU4Pv7O4BGCnJ05VyL7m8+LOkSrnqiEBWe4G+JNXeXLnnSbXsad8UTeGs3GO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773774029; c=relaxed/simple;
-	bh=IMmJ1Uxode6XtjAurdNk51CWF8bJbOqEiTkikuLK0kA=;
+	s=arc-20240116; t=1773774049; c=relaxed/simple;
+	bh=u7g7PqC1ksiTGawd2FT2mK39JtKLQRmCXd42/gsT/iA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZA3lMlVFlASysKG056I6qi+z5bs4bht0y7ZKz9LPR7hxtHk+Q/tLFUeOmisWeg+KB20tz/lthIj7ksWNZdiaPZ8B0SGNTCwbEQmm332fIJSR+aQfz6ylKBxyK76qZKmUFLJtMrEOM6ro5LB6b3KXt3T8ksHf8jgBQc28mM0eWTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPVD7USf; arc=none smtp.client-ip=209.85.216.41
+	 MIME-Version; b=aU7NR20jIpcUwxbpZIDAl7l1e/FQhoLKe9XGzQ3cyjrHyjMmcI3Sw/buHNdvxHLi2hw+YQdz8V+7qX3DniK4ymBqy50w7FBCcXGylaji5aFHLKv57ooJ9YZxIDeCpMzwu9924No52gAaqKoyN14PsvEWrRkw9QVpw2Iog8i9UT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gml4QNXK; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPVD7USf"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35b95e21ccaso101524a91.0
-        for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 12:00:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gml4QNXK"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-35b95e21ccaso101641a91.0
+        for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 12:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773774028; x=1774378828; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1773774047; x=1774378847; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N2RhT/UW1C987y6pJfFZ8RN5SYowSBt72Kbbj9XR2UU=;
-        b=KPVD7USf81UaSfLbVyIhsNAmVvjQHmhcL3HuaOd786Ei2TnKqyky4YTyurHSXVgMeO
-         eUAHYDQRqRtDVcVLKuUkF8sCGYzhW/Tie9QR70M6NadEztRGJVVpowUTArXhsXD+7dY7
-         gx0pPj1AdZAlo8Je39ydCm1deU+xwyqkMVt81ntGL8TRSE+sGvHfujjbpTKSZH0O8ng8
-         UzKv0qE3npdjziJgl2euSKT1ZhhxcWHuaVLc/3JfgOSO4aMZFVq7rDXBIVjfcHGdWrh0
-         nCXiEuZF+QiMP/OprI9BwaQyxlEkSWk1e8R1sJJuVeCXPwMtIhFgjdJtYKws4p+mI/Df
-         g98w==
+        bh=G5pUoPYvzvdY/i+3VyCKmXdQJFa9RgqmeQepWrHmR+w=;
+        b=Gml4QNXKBflv7OUJbPPuiu22eSw3SHibYIYui2wyCFEw3hQLxXnXLuVfYi51+2CBcu
+         lzoe0LSITuEah/arr25YgB/H2GeNfzQ0qx1wktevjb/01MbXeMqoZq4qMTJpsfZMrGqI
+         nSw9ypuG6mZpKHUd9Wo3lrCdqfQOtTwGaIQoY5jLYUhFp53/5uDKlS9iNYSzeZ3Uvl38
+         RrnRQrWWKWr/5LLbrzhG+AZ53dq1JDBrMRihJEg0cyCknbRNVBAzeZXcf8QDowaen/xZ
+         poGDqbE3VCUN9jhXT3ns2LsJ1f9czDQc9xl3VyxU7vJkmcrpbJImFIkQS5xvgC8P7/hX
+         LbAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773774028; x=1774378828;
+        d=1e100.net; s=20251104; t=1773774047; x=1774378847;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=N2RhT/UW1C987y6pJfFZ8RN5SYowSBt72Kbbj9XR2UU=;
-        b=gYSh5k+S14vP+jmFasBjvcy+axnbjqQmYJF8y83+y6LxIlnnCMgzVso5NumgDkDwUo
-         ajIAH1KK8+mZLqNivT8tyUYmFMlU0JDv8vj5HD+ztyOH5R8vIuHThpz+FNfIag5WvTPk
-         eEmrAlAbDJOpkvv7cqSE7tv1KbOSBjxMXmcGCuPKrPGJ3GcSB+HtGcGjvt36ZFQ3rQxS
-         WenSNSK4dOsK08Bg+wQ0GHVAzNq2x5u6HevvzkgH5AJV9ytnOojn3VaHACRn1+YKKOp+
-         /AvC5AFP0lkjCe9+aerqCiZWzhIrBOw6MoUkFnB1SZiYMVcZhbcQLM9CUy9XguQqflUy
-         jmqA==
-X-Forwarded-Encrypted: i=1; AJvYcCVxLv2TOHrZOV/G6Zka9aTxhiZviIdUZisV1nwUcUVASaupx6VCV7ZL4YEmAm5oWAqqhWkj2avVONXXLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/8liF1wcHDtjUfnCaq+A01MxefFJb1x67t8gGq5T9YzND3Bxf
-	6dvOxMyrsM60RMiLHrPQldR1sFYpe8SA1qXyHO9ZodcRynJpgrz2MuTZ
-X-Gm-Gg: ATEYQzx83wyg5xwyp6XY9E9lapeBr8eONizOXqse5SZIfLWAftvJ/9elbtvAZGNpuB1
-	uOeP4yG5d+4whAOFEpYrPAfogNJyD+hCBZwPjLS5aqT5ysiIiz+k+qm+p+XVWwi8mSlpcd6q48v
-	zCGVyZthFBO6WYDvB7MsCYzOzpweTGX2TgXlhA53P0koTaTzWLH9Pk6G07EmWLGOn+0AWSw45yF
-	TrqeDTs8/HomgDPl+6J0GB3tBXQpprKGL1OnQt5ic+7A+Eh5LXY3pdQaNVk58tl+25JpCH5gqSB
-	WesMxCD4T60/bZhFicWgGCuKz4aC1aFmzTGD6AQ/sUK70GUC23+AZe9zpl7kT1gje8Xo5YDrpMU
-	lw9n2vX5WkHhg7Ol18Mg/ApGQKoxrNA5W8EIIKJ3GXau/ks2GyscH3dIXgLSuSnSaHhtsSpKhrm
-	/M64EbCOUoWap/5JlLK1tj/aLzfaLA4xozdp7xNv6dIT1kRnl/Ybbygeo7VH7rldbDh+y3R70BA
-	YPvPFJnns4Lx3/bYuCu9KRcHw+VlMfBLDnz1KJDbOOXc7z9hyyQhl/R0fus+yKHCwqVFA==
-X-Received: by 2002:a17:90b:35cb:b0:35b:92ba:66e4 with SMTP id 98e67ed59e1d1-35bb99b2ce2mr555490a91.7.1773774027874;
-        Tue, 17 Mar 2026 12:00:27 -0700 (PDT)
+        bh=G5pUoPYvzvdY/i+3VyCKmXdQJFa9RgqmeQepWrHmR+w=;
+        b=M/szUmsM4jNrK2tyQpdF9BRlS4nQn9F/o3NsydJdJyCmxrg6CMH3x/bLgOD7BWmS1F
+         SUv3s+j/6vA96NJAwgO8njh4e21KCKULZTdmpzZYh99kcGu6WTfQZ3Z4tmLnrvcd2W9e
+         UT4kqSJDkkb9eprJG+mBB/VqtRynDUoxYZeSd1i2zjMCM7QvKhq5M6SxcTYvFh5sdrHg
+         W/Amigp/ws4sDq3Zaigv6gE0K68DMkeePd1ufgom3XAlqN94L7HGjEXaU94M4LQGG6GD
+         PGxRozbzxVYLpUycWTIbXPjBgBa0E62pmUC2GQvLODtctKnZmJokA7/o2hirV35oysf7
+         G68w==
+X-Forwarded-Encrypted: i=1; AJvYcCX7AtUAKBcAomtqhSO9ooMpAGaommEknIg7UUvZt/TAHY773fmHeBwDt0xEEca38TDMc9w5Y9xadX8bDA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTdVJkKCD+XENMtBgc8oMpniu+y/4xkRz/bkNcshBymGPF0lz5
+	AzekWExxtFFd4q4j4LKNFwbOIse1tkD8N8LJrccjINUM3bIRTvCywavs+avzNw==
+X-Gm-Gg: ATEYQzw2Fd9oWcFLIsSyLOzXz17ECePqOGIipBUhXnATwPOW6d8Le0AHouyd4e0cr1Q
+	JZBF4VJELXjfnYZ9GvH7roK4SS70LN4EFtnIaGnJvdQnZ6SgDct8FY9eouDfanklPlVnk2kVZJo
+	wSA2ESYttbRBaQIqv4Ml6PxqdtpmkG7GevdHZEUNHi6GXJsIUJk7FWT94ZMdqNMv4kf7HWaGeWi
+	rR0Cl6nlXwRQbtnQiyE9kNY8q5aadyIkWKF2gAEcIifK0K2Id30KZYJl0C2DqWMukMxKfvO7fNE
+	0+99trkZ2HRLwq1kavEADSpg/JuiMfwkhtxCy8sOVB+6GarxGsWBSConh+L6RazzC0K++HwXbrx
+	gA7gTthY6IvzncP6pObxCmk4YiSsPfqQrcc7H5FW8ZTKgnegsJXBAP8/SpIjGV2XbcvVLXsAcHe
+	Gmp4cIUESfQeU3VX2/X2+aBo0yYQA4+AurmorbEyP1BmxXm9r5a6Q/NFVprzJe2u5ceXrf6NM7Y
+	56AaKfMK4Lp2JVeFVfDPzMBcf478gyAOJ8y2BQvWV3N2n7VBaEar/q71AgH0JT+UdEpQg==
+X-Received: by 2002:a17:90b:3a47:b0:35b:9f51:a755 with SMTP id 98e67ed59e1d1-35badc14391mr3481930a91.18.1773774047144;
+        Tue, 17 Mar 2026 12:00:47 -0700 (PDT)
 Received: from 2045D.localdomain (76.sub-72-110-123.myvzw.com. [72.110.123.76])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bba5a2c60sm196240a91.9.2026.03.17.12.00.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bba5a2c60sm196240a91.9.2026.03.17.12.00.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 12:00:27 -0700 (PDT)
+        Tue, 17 Mar 2026 12:00:46 -0700 (PDT)
 From: Gui-Dong Han <hanguidong02@gmail.com>
 To: gregkh@linuxfoundation.org,
 	dakr@kernel.org,
@@ -71,11 +71,10 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	akaieurus@gmail.com,
 	me@ziyao.cc,
-	Gui-Dong Han <hanguidong02@gmail.com>,
-	yangshiguang <yangshiguang@xiaomi.com>
-Subject: [PATCH 1/4] debugfs: check for NULL pointer in debugfs_create_str()
-Date: Wed, 18 Mar 2026 02:59:10 +0800
-Message-ID: <20260317185920.43387-2-hanguidong02@gmail.com>
+	Gui-Dong Han <hanguidong02@gmail.com>
+Subject: [PATCH 2/4] debugfs: fix placement of EXPORT_SYMBOL_GPL for debugfs_create_str()
+Date: Wed, 18 Mar 2026 02:59:11 +0800
+Message-ID: <20260317185920.43387-3-hanguidong02@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260317185920.43387-1-hanguidong02@gmail.com>
 References: <20260317185920.43387-1-hanguidong02@gmail.com>
@@ -87,43 +86,36 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Passing a NULL pointer to debugfs_create_str() leads to a NULL pointer
-dereference when the debugfs file is read. Following upstream
-discussions, forbid the creation of debugfs string files with NULL
-pointers. Add a WARN_ON() to expose offending callers and return early.
+The EXPORT_SYMBOL_GPL() for debugfs_create_str was placed incorrectly
+away from the function definition. Move it immediately below the
+debugfs_create_str() function where it belongs.
 
-Fixes: 9af0440ec86e ("debugfs: Implement debugfs_create_str()")
-Reported-by: yangshiguang <yangshiguang@xiaomi.com>
-Closes: https://lore.kernel.org/lkml/2025122221-gag-malt-75ba@gregkh/
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Fixes: d60b59b96795 ("debugfs: Export debugfs_create_str symbol")
 Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
 ---
- fs/debugfs/file.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ fs/debugfs/file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index 3376ab6a519d..a941d73251b0 100644
+index a941d73251b0..edd6aafbfbaa 100644
 --- a/fs/debugfs/file.c
 +++ b/fs/debugfs/file.c
-@@ -1127,7 +1127,7 @@ static const struct file_operations fops_str_wo = {
-  *          directory dentry if set.  If this parameter is %NULL, then the
-  *          file will be created in the root of the debugfs filesystem.
-  * @value: a pointer to the variable that the file should read to and write
-- *         from.
-+ *         from. This pointer and the string it points to must not be %NULL.
-  *
-  * This function creates a file in debugfs with the given name that
-  * contains the value of the variable @value.  If the @mode variable is so
-@@ -1136,6 +1136,9 @@ static const struct file_operations fops_str_wo = {
- void debugfs_create_str(const char *name, umode_t mode,
- 			struct dentry *parent, char **value)
- {
-+	if (WARN_ON(!value || !*value))
-+		return;
-+
+@@ -1047,7 +1047,6 @@ ssize_t debugfs_read_file_str(struct file *file, char __user *user_buf,
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(debugfs_create_str);
+ 
+ static ssize_t debugfs_write_file_str(struct file *file, const char __user *user_buf,
+ 				      size_t count, loff_t *ppos)
+@@ -1142,6 +1141,7 @@ void debugfs_create_str(const char *name, umode_t mode,
  	debugfs_create_mode_unsafe(name, mode, parent, value, &fops_str,
  				   &fops_str_ro, &fops_str_wo);
  }
++EXPORT_SYMBOL_GPL(debugfs_create_str);
+ 
+ static ssize_t read_file_blob(struct file *file, char __user *user_buf,
+ 			      size_t count, loff_t *ppos)
 -- 
 2.43.0
 
