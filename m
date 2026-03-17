@@ -1,96 +1,114 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401BE3806A0
-	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 06:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAFB346FAB;
+	Tue, 17 Mar 2026 07:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773730344; cv=none; b=V1wkiVVrekguk0rNRFVHyyCFkxJqiPUnybGLcqkUDdRw+hNXalfdPJi5Da5H8v2bkP6QkXJFhm6P65PKY344g6FLj6CbPWjoCvPaZuChAzER+3xU3EWRXLY1jieoHX6BDCXwyfNfPMCm0ia0HA4yQRhoG8XWiHh6O5sykxXXv+E=
+	t=1773731256; cv=none; b=eHEE+dCp3DfgEEdT12LcySNtU9Q2yGD9I8Up9yYAKs7qEYw4cesEg/L0+H1Hbq1NkQaT1AygsZEvyUgX2RcN2HDEDEgRPwot6BOsODnCGNBGuSkVnOoPQhEbQ1GRHndnR/2ge57TJShKMDxkTWhD2MpUrttmkOc2/zP4ybqwwxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773730344; c=relaxed/simple;
-	bh=3R1SS/JCZM/Lfoc9w7kAsHUSiEC8aTlug28cBDnn6ZI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=enco7/tUbrxCIn7Uy4ew6ysnQQnomfKQDIbr4LCoP2p4IITTXwNf2ZNXoEi8wtUkD7JBzL+2ALF1xY0Pq+tvP26UflbQMe4ts4boYCuNTeNi8NveTD6rwm5eEN71q0UA8Dnfku30iKUxTbxxTOQ+KP1PTloEtoBKd6uyut4KoD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XpxW1DdX; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1773731256; c=relaxed/simple;
+	bh=D9EpaUqvtcLalg9vu0z9KVXubLh0G2Y4S2QGVe1FmXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ooEZe9v1UFSReRCnzriyTehMVpnv4y73qCIn+M7mO0ohWQdYV/sgcPN7tDg7A4hYpbHYlfEsnZknZXk6Hy78INBAewQJB6WZu8bD+E145xtEz9S6wV3YkaBJ1UJZrQsFAwSDL7Szgm8kC+nFZdOENdS9F42krVn7A8v2uHrCyeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kECZo+jQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XpxW1DdX"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-660fa747a8aso4791910a12.2
-        for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 23:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773730340; x=1774335140; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FV64adRB9qOuDZltuxVkHORmf9URma8WDk8N3r49JmA=;
-        b=XpxW1DdXpzyTOcUDAxLMvpgIpCIF0Y1NOJJ+fTbjjVwxyw1KNfpJXROuaIhq2IloCx
-         HFMRhZyH+ntRSIgXMu5aHtuWwiuivmj86UmTe6ULP9FwSnfMBZqhkhawyIGiaNgPWRZR
-         Mgn1pYBsWOvrS76TpW+eHuz/Nj2+HiB8YgJUPVmJihh/8ugOWWk6Q7z0moZmR1jadmq0
-         ULJq5473dX9FBYq2I3rzg7feUj64SuisyPcoLuifcbhthrZNktbasI2Lgnfa8lXxrjEK
-         Nf8prAG5Oyav9gxmeYtwAux/xXkld2c+H1iL7VDYIQQlklJWQvdZ2ZzOmR9BqC5U/8Hn
-         vznw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773730340; x=1774335140;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FV64adRB9qOuDZltuxVkHORmf9URma8WDk8N3r49JmA=;
-        b=nkBzlKOpbAVn1lyqf6oIOhy0GWEH5U9i3/u+l2GNoPVI9FGpCO/ypfO0yelkhay/hT
-         Xk2/XcSjcGwEyHt3jq+Z8QieGc7vA3YOeBodere3k9aeiMp7vyNUVpGNncHZ3nLV6wZ6
-         8y0C7lrkiSkdTPREcosT2MSzz9XiStNOCgNgpeyNmdcXDrmqrt2O3X8EdgRjS7iqbTVQ
-         PYiu8mF/2YeGPn6gkXOxSrJJM12lH1B8KYiXAkoqXK6tWRQxUMiO30oJYNrCOZsOox3e
-         tzvjrpLuWQY3IMrgPo7oQAnGO3/jENJAMkPKF7cTMxNre4DrQ8kXuqwfgvB2MqyDvTmD
-         nqaw==
-X-Forwarded-Encrypted: i=1; AJvYcCVXxNxLMr4qPqmmFfMTMJ5H1iWKfqfHGStyt7zy9DyuHGp3mBqtCzyZhD9sDaq8Vw4B7x+BgVK33GJBGA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHgDBMndYgNOr4wLOsy6zJOZ2UxtCHOySZ3s+PYbiYfRQcK9Vu
-	Z8JAdOINnWZGOwf8sg96Po22ori7HyGwAEIO/YftAnrxTpxCp45f8xP4F4pj/HaEpe4Ilmbjkc9
-	J6J3aFehS0pmhLmkEEQ==
-X-Received: from edrd8.prod.google.com ([2002:aa7:d688:0:b0:660:cd0d:914e])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:27ce:b0:663:8841:17c9 with SMTP id 4fb4d7f45d1cf-663babc44ecmr8734757a12.10.1773730340157;
- Mon, 16 Mar 2026 23:52:20 -0700 (PDT)
-Date: Tue, 17 Mar 2026 06:52:19 +0000
-In-Reply-To: <20260303162314.94363-5-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kECZo+jQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10B9C19424;
+	Tue, 17 Mar 2026 07:07:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773731256;
+	bh=D9EpaUqvtcLalg9vu0z9KVXubLh0G2Y4S2QGVe1FmXU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kECZo+jQZtr/cvbmxQXZPIZ1bKB73tIOLL2u5vTYPfngdAK4xGdveXIDla97NNL1D
+	 42cTL02hYvtj/0FovFN7yRBkwKx6mnX/YBYRzHqceCC0FiMz5dfDHIsdka3osr+WxU
+	 4Cc+IwBJo3BkK+FD7qNscvaRPlACRAQG/crYa1R8pvJe5RWqJjpM1vO4NAhG7IdrXk
+	 7KbzTSXljgN3bYKlSbp47EAepF+v/X/W+lGZg79X1OXKupZIgDyY5l4TGi8YsRI84Y
+	 JgQRHIIFEjj13GVE284n1VgvwCChC3g8JEIM5m7Oh6j0f9TwEzPg6ezwYzSXAV0duz
+	 4NuQg/drPOEdw==
+Date: Tue, 17 Mar 2026 12:37:25 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com, 
+	sherry.sun@nxp.com, driver-core@lists.linux.dev, devicetree@vger.kernel.org
+Subject: Re: [PATCH v8 3/3] PCI: Add support for PCIe WAKE# interrupt
+Message-ID: <t2yjuw4ca4tskzocv65m4jjmp2wfjkpymduhbv76actfybzklv@h5qavg2uzhjc>
+References: <20260313-wakeirq_support-v8-0-48a0a702518a@oss.qualcomm.com>
+ <20260313-wakeirq_support-v8-3-48a0a702518a@oss.qualcomm.com>
+ <53uy2vdzc25frf5rpwbybaor5n6jesapl2x7xusnn5zfaqnfy7@udq7ln2a42n5>
+ <be9980f3-f036-4260-980f-5d996bc034cb@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260303162314.94363-1-dakr@kernel.org> <20260303162314.94363-5-dakr@kernel.org>
-Message-ID: <abj6I9c_2IR0cKJ6@google.com>
-Subject: Re: [PATCH 4/8] rust: dma: introduce dma::CoherentInit for memory initialization
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: acourbot@nvidia.com, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
-	tmgross@umich.edu, abdiel.janulgue@gmail.com, daniel.almeida@collabora.com, 
-	robin.murphy@arm.com, driver-core@lists.linux.dev, 
-	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <be9980f3-f036-4260-980f-5d996bc034cb@oss.qualcomm.com>
 
-On Tue, Mar 03, 2026 at 05:22:55PM +0100, Danilo Krummrich wrote:
-> Currently, dma::Coherent cannot safely provide (mutable) access to its
-> underlying memory because the memory might be concurrently accessed by a
-> DMA device. This makes it difficult to safely initialize the memory
-> before handing it over to the hardware.
+On Mon, Mar 16, 2026 at 05:46:58PM +0530, Krishna Chaitanya Chundru wrote:
 > 
-> Introduce dma::CoherentInit, a type that encapsulates a dma::Coherent
-> before its DMA address is exposed to the device. dma::CoherentInit can
-> guarantee exclusive access to the inner dma::Coherent and implement
-> Deref and DerefMut.
 > 
-> Once the memory is properly initialized, dma::CoherentInit can be
-> converted into a regular dma::Coherent.
+> On 3/13/2026 7:28 PM, Manivannan Sadhasivam wrote:
+> > On Fri, Mar 13, 2026 at 12:38:42PM +0530, Krishna Chaitanya Chundru wrote:
+> > > According to the PCI Express specification (PCIe r7.0, Section 5.3.3.2),
+> > > two link wakeup mechanisms are defined: Beacon and WAKE#. Beacon is a
+> > > hardware-only mechanism and is invisible to software (PCIe r7.0,
+> > > Section 4.2.7.8.1). This change adds support for the WAKE# mechanism in
+> > > the PCI core.
+> > > 
+> > > According to the PCIe specification, multiple WAKE# signals can exist in
+> > > a system or each component in the hierarchy could share a single WAKE#
+> > > signal. In configurations involving a PCIe switch, each downstream port
+> > > (DSP) of the switch may be connected to a separate WAKE# line, allowing
+> > > each endpoint to signal WAKE# independently. From figure 5.4 in sec
+> > > 5.3.3.2, WAKE# can also be terminated at the switch itself. To support
+> > > this, the WAKE# should be described in the device tree node of the
+> > > endpoint/bridge. If all endpoints share a single WAKE# line, then each
+> > > endpoint node should describe the same WAKE# signal or a single WAKE# in
+> > > the Root Port node.
+> > > 
+> > > In pci_device_add(), PCI framework will search for the WAKE# in device
+> > > node, If not found, it searches in its upstream port only if upstream port
+> > > is Root Port. Once found, register for the wake IRQ in shared mode, as the
+> > > WAKE# may be shared among multiple endpoints.
+> > > 
+> > > dev_pm_set_dedicated_shared_wake_irq() associates a wakeup IRQ with a
+> > > device and requests it, but the PM core keeps the IRQ disabled by default.
+> > > The IRQ is enabled only when the device is permitted to wake the system,
+> > > i.e. during system suspend and after runtime suspend, and only when device
+> > > wakeup is enabled.
+> > > 
+> > > When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume() to
+> > > bring the device back to an active power state, such as transitioning from
+> > > D3cold to D0. Once the device is active and the link is usable, the
+> > > endpoint may generate a PME, which is then handled by the PCI core through
+> > > PME polling or the PCIe PME service driver to complete the wakeup of the
+> > > endpoint.
+> > > 
+> > > WAKE# is added in dts schema and merged based on below links.
+> > > 
+> > > Link: https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
+> > > Link: https://github.com/devicetree-org/dt-schema/pull/170
+> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > No. Linus never gave this tag for *this* patch.
+> Linus gave this on v5 [1], might be a overlook.
 > 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> [1] Re: [PATCH v5 2/2] PCI: Add support for PCIe WAKE# interrupt - Linus
+> Walleij <https://lore.kernel.org/all/CACRpkdY9HsnG=xo=swnMcVha+unmvmxR6e6Ynsj09srM_tPmWA@mail.gmail.com/>
+> 
 
-overall LGTM
+Oh yes. I didn't check it properly. Please ignore my comment.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+- Mani
 
-> +        let ptr = core::ptr::from_mut(&mut self[i]);
-
-&raw mut self[i].
-
-Alice
+-- 
+மணிவண்ணன் சதாசிவம்
