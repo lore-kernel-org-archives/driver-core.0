@@ -1,114 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAFB346FAB;
-	Tue, 17 Mar 2026 07:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F4130C61B;
+	Tue, 17 Mar 2026 07:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773731256; cv=none; b=eHEE+dCp3DfgEEdT12LcySNtU9Q2yGD9I8Up9yYAKs7qEYw4cesEg/L0+H1Hbq1NkQaT1AygsZEvyUgX2RcN2HDEDEgRPwot6BOsODnCGNBGuSkVnOoPQhEbQ1GRHndnR/2ge57TJShKMDxkTWhD2MpUrttmkOc2/zP4ybqwwxk=
+	t=1773731438; cv=none; b=h1dy+VhVeSfkykRa6fjpbx+7MRNq/NogOTq+VOvcwjNe7fW/vFPc/OSOWR5JOxxEJ+TnIVfjdcK+g7l0Z7Z8fvjRfJbSoYbGZemVOo8StC4pYNKAWLzu8uSwuaGoEnwvDZjleqJ9Sger6yBkF+DGuUbx4KptLRgMw9Hy/9iLMuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773731256; c=relaxed/simple;
-	bh=D9EpaUqvtcLalg9vu0z9KVXubLh0G2Y4S2QGVe1FmXU=;
+	s=arc-20240116; t=1773731438; c=relaxed/simple;
+	bh=R7+uigS6RvsoYyWW802Gylu1VZG5usDe19K1H9gY0l4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ooEZe9v1UFSReRCnzriyTehMVpnv4y73qCIn+M7mO0ohWQdYV/sgcPN7tDg7A4hYpbHYlfEsnZknZXk6Hy78INBAewQJB6WZu8bD+E145xtEz9S6wV3YkaBJ1UJZrQsFAwSDL7Szgm8kC+nFZdOENdS9F42krVn7A8v2uHrCyeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kECZo+jQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bROJCB0y8/wYQ17A7oHdVK98Zkw7xS+dnNKI7MbuRYvLUuqVLZesX+NxjICEYEGx12XRIGg3QcyYw6N+OG79+VZVsEG66VBdZ4skNI2vVAKEiubau18CbyRdEbx571NYrLjddBxCAQ9U7DEssfIdb9yKPNn3OSMc5XV/Sc5Z/5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5k/VtwJ; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kECZo+jQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10B9C19424;
-	Tue, 17 Mar 2026 07:07:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773731256;
-	bh=D9EpaUqvtcLalg9vu0z9KVXubLh0G2Y4S2QGVe1FmXU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kECZo+jQZtr/cvbmxQXZPIZ1bKB73tIOLL2u5vTYPfngdAK4xGdveXIDla97NNL1D
-	 42cTL02hYvtj/0FovFN7yRBkwKx6mnX/YBYRzHqceCC0FiMz5dfDHIsdka3osr+WxU
-	 4Cc+IwBJo3BkK+FD7qNscvaRPlACRAQG/crYa1R8pvJe5RWqJjpM1vO4NAhG7IdrXk
-	 7KbzTSXljgN3bYKlSbp47EAepF+v/X/W+lGZg79X1OXKupZIgDyY5l4TGi8YsRI84Y
-	 JgQRHIIFEjj13GVE284n1VgvwCChC3g8JEIM5m7Oh6j0f9TwEzPg6ezwYzSXAV0duz
-	 4NuQg/drPOEdw==
-Date: Tue, 17 Mar 2026 12:37:25 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com, 
-	sherry.sun@nxp.com, driver-core@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH v8 3/3] PCI: Add support for PCIe WAKE# interrupt
-Message-ID: <t2yjuw4ca4tskzocv65m4jjmp2wfjkpymduhbv76actfybzklv@h5qavg2uzhjc>
-References: <20260313-wakeirq_support-v8-0-48a0a702518a@oss.qualcomm.com>
- <20260313-wakeirq_support-v8-3-48a0a702518a@oss.qualcomm.com>
- <53uy2vdzc25frf5rpwbybaor5n6jesapl2x7xusnn5zfaqnfy7@udq7ln2a42n5>
- <be9980f3-f036-4260-980f-5d996bc034cb@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5k/VtwJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773731437; x=1805267437;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R7+uigS6RvsoYyWW802Gylu1VZG5usDe19K1H9gY0l4=;
+  b=F5k/VtwJow7BqbYDH9rlY9sD/s4T6YmSZTtFsG0wC+59HMZUYkzAVvl/
+   yQD7XuspMSWPCd103AbvQ8zJkyNFQmZI8OImquvQJK9EK7y+8J77+C/RW
+   nEjZM4jB4i4fsYkMBVrc0TmyoW5Ib6xwrLWjQeIGAoHp3GSENCyMEPfW6
+   hiYsTv/Z9aAnNzDGwNsETtZCSUu47kY0lfbpyXpCZLEsAZ6ciClYBcq1O
+   hmSVv2xKcvq/ik6legiTR41L8nOn0wAU/NuqayHEyNh3mhIlJLWoIA0SJ
+   hksD9L1urCxwDbKKkheKZnOMCU+nscKGbwxYhrkGkITPiM4QoHE3abpfw
+   g==;
+X-CSE-ConnectionGUID: Anjne+OyRB2kwpF4EGWGcw==
+X-CSE-MsgGUID: +9Ti5C+pQOaOhdd3o6bOQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="92138492"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="92138492"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 00:10:37 -0700
+X-CSE-ConnectionGUID: 8SCEUEfxRtmk1tqABg3+qA==
+X-CSE-MsgGUID: nY7xou3+QbiCy45uqFfElw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="221200793"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 00:10:28 -0700
+Date: Tue, 17 Mar 2026 09:10:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, stable@vger.kernel.org,
+	Andrew Lunn <andrew@lunn.ch>, Daniel Scally <djrscally@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, Len Brown <lenb@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	devicetree@vger.kernel.org, driver-core@lists.linux.dev,
+	imx@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH] device property: Make modifications of fwnode "flags"
+ thread safe
+Message-ID: <abj-YqUP97dcSwEf@ashevche-desk.local>
+References: <20260316154159.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <be9980f3-f036-4260-980f-5d996bc034cb@oss.qualcomm.com>
+In-Reply-To: <20260316154159.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Mar 16, 2026 at 05:46:58PM +0530, Krishna Chaitanya Chundru wrote:
+On Mon, Mar 16, 2026 at 03:42:06PM -0700, Douglas Anderson wrote:
+> In various places in the kernel, we modify the fwnode "flags" member
+> by doing either:
+>   fwnode->flags |= SOME_FLAG;
+>   fwnode->flags &= ~SOME_FLAG;
 > 
+> This type of modification is not thread-safe. If two threads are both
+> mucking with the flags at the same time then one can clobber the
+> other.
 > 
-> On 3/13/2026 7:28 PM, Manivannan Sadhasivam wrote:
-> > On Fri, Mar 13, 2026 at 12:38:42PM +0530, Krishna Chaitanya Chundru wrote:
-> > > According to the PCI Express specification (PCIe r7.0, Section 5.3.3.2),
-> > > two link wakeup mechanisms are defined: Beacon and WAKE#. Beacon is a
-> > > hardware-only mechanism and is invisible to software (PCIe r7.0,
-> > > Section 4.2.7.8.1). This change adds support for the WAKE# mechanism in
-> > > the PCI core.
-> > > 
-> > > According to the PCIe specification, multiple WAKE# signals can exist in
-> > > a system or each component in the hierarchy could share a single WAKE#
-> > > signal. In configurations involving a PCIe switch, each downstream port
-> > > (DSP) of the switch may be connected to a separate WAKE# line, allowing
-> > > each endpoint to signal WAKE# independently. From figure 5.4 in sec
-> > > 5.3.3.2, WAKE# can also be terminated at the switch itself. To support
-> > > this, the WAKE# should be described in the device tree node of the
-> > > endpoint/bridge. If all endpoints share a single WAKE# line, then each
-> > > endpoint node should describe the same WAKE# signal or a single WAKE# in
-> > > the Root Port node.
-> > > 
-> > > In pci_device_add(), PCI framework will search for the WAKE# in device
-> > > node, If not found, it searches in its upstream port only if upstream port
-> > > is Root Port. Once found, register for the wake IRQ in shared mode, as the
-> > > WAKE# may be shared among multiple endpoints.
-> > > 
-> > > dev_pm_set_dedicated_shared_wake_irq() associates a wakeup IRQ with a
-> > > device and requests it, but the PM core keeps the IRQ disabled by default.
-> > > The IRQ is enabled only when the device is permitted to wake the system,
-> > > i.e. during system suspend and after runtime suspend, and only when device
-> > > wakeup is enabled.
-> > > 
-> > > When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume() to
-> > > bring the device back to an active power state, such as transitioning from
-> > > D3cold to D0. Once the device is active and the link is usable, the
-> > > endpoint may generate a PME, which is then handled by the PCI core through
-> > > PME polling or the PCIe PME service driver to complete the wakeup of the
-> > > endpoint.
-> > > 
-> > > WAKE# is added in dts schema and merged based on below links.
-> > > 
-> > > Link: https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
-> > > Link: https://github.com/devicetree-org/dt-schema/pull/170
-> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > No. Linus never gave this tag for *this* patch.
-> Linus gave this on v5 [1], might be a overlook.
+> While flags are often modified while under the "fwnode_link_lock",
+> this is not universally true.
 > 
-> [1] Re: [PATCH v5 2/2] PCI: Add support for PCIe WAKE# interrupt - Linus
-> Walleij <https://lore.kernel.org/all/CACRpkdY9HsnG=xo=swnMcVha+unmvmxR6e6Ynsj09srM_tPmWA@mail.gmail.com/>
-> 
+> Create some accessor functions for setting, clearing, and testing the
+> FWNODE flags and move all users to these accessor functions. New
+> accessor functions use set_bit() and clear_bit(), which are
+> thread-safe.
 
-Oh yes. I didn't check it properly. Please ignore my comment.
+In general I like the idea (independently on the treewide patch or a series).
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-- Mani
+See one nit-pick below, though.
+
+...
+
+> While this patch is not known for sure to fix any specific issues, it
+> seems possible that it could fix some rare problems. I'm currently
+> trying to track down a hard-to-reproduce heisenbug and one (currently
+> unproven) theory I had was that the fwnode flags could be getting
+> messed up like this. Even if turns out not to fix my heisenbug,
+> though, this seems like a worthwhile change to take.
+
+Totally agree. This makes code more OOP like and robust against subtle
+modifications.
+
+...
+
+> +static inline void fwnode_set_flag(struct fwnode_handle *fwnode,
+> +				   unsigned int bit)
+> +{
+> +	set_bit(bit, &fwnode->flags);
+> +}
+> +
+> +static inline void fwnode_clear_flag(struct fwnode_handle *fwnode,
+> +				   unsigned int bit)
+> +{
+> +	clear_bit(bit, &fwnode->flags);
+> +}
+
+Perhaps you also want to have fwnode_assign_flag() (assign_bit() underneath)
+as...
+
+> +static inline bool fwnode_test_flag(struct fwnode_handle *fwnode,
+> +				    unsigned int bit)
+> +{
+> +	return test_bit(bit, &fwnode->flags);
+> +}
+
+>  	if (initialized)
+> -		fwnode->flags |= FWNODE_FLAG_INITIALIZED;
+> +		fwnode_set_flag(fwnode, FWNODE_FLAG_INITIALIZED);
+>  	else
+> -		fwnode->flags &= ~FWNODE_FLAG_INITIALIZED;
+> +		fwnode_clear_flag(fwnode, FWNODE_FLAG_INITIALIZED);
+
+...at least one immediate user here.
 
 -- 
-மணிவண்ணன் சதாசிவம்
+With Best Regards,
+Andy Shevchenko
+
+
