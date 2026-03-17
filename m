@@ -1,281 +1,61 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782133E3C5D
-	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 22:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE5E39EF1F;
+	Tue, 17 Mar 2026 22:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773786747; cv=none; b=UhwHmIbWLtLzTpwPSDl4c3dF/eZPkoGTQB7mqipneb3Mra557fsUSlIMTaIP16Vn0A7MWhGSffOCAFDg13zKmFwYbr+4SQoW8KobTJ7sAF7ZprKBQXF3w7+NZvwgQ7ZEUVRthoHHUwsaMgZ/xGDn2vBzuZor9iNRxModRR52jfs=
+	t=1773788372; cv=none; b=rpHu1tM6Fcy5ZHEbSP9EcxLbIW9M6KNuDK9ILJhoyCoAdA2/5lBakKeL50ft1BA2T2yx7bXLewTHzurgeFH4XCm07ZCBOfSudaNKKJa+EYZsxFMvUlWOwmbDLgSAraoAMnTfd+pXUlVLuXu8OKq1Nmd2XpiS8jUWFTXWdlL6OB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773786747; c=relaxed/simple;
-	bh=bG+hTNWMzGrg079BXBRYNEblNYWj1cltTajIQ+7v8iI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cl/YBY7azSVsKOMGOM5Ioa/bzRj4f1YsTxLgkjXM3tpVCuwk/OgCIB2sOQMN1XlB4hh0cekyCEA1fw9T7i7HJY7AcvvTu0jR4X6H8Vxlif4AfZ853PRPw+rfhHIRn5U/yl76pyaOQT2tI/tRQoMFX6jHE8zOxfV3E+/dE07JXJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jLxIAcX4; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773788372; c=relaxed/simple;
+	bh=KsHFovT6HtCuvOR1gM+fl5Ra+CbSGlrhzcxLdnFmNb4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=aNpzOUm0rNlBUgBDKy58ExCOluCvrkGqb0QrLJV6Hsl+rB8p2Dow8xgsBdgGAAJVXEuBnBuy9zy9+B3/4MFJ+aqV9REQFFv43JTVwt3fwTsLiUqDs+F0lG+6P9Uzhacc4tyHjQbgp/SqjzGzJKfpNhXNjxxf0MwVwxxiw6qF7C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aXKPPOGz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jLxIAcX4"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2c0e38f3f60so206056eec.1
-        for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 15:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773786744; x=1774391544; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ymK/WXrvnQRQNcjkDZqhK3+1bVgaaqfQJXaBMmzV9+M=;
-        b=jLxIAcX4012LOcq9xqFlR3A5TFE2im6nKCsWv4W72FxYqkGRVgZlXb3u7gNaf0XiEQ
-         /R8A8e+Q5+JjM/VCS9dtlsUTisREb7PJafrYC3iEt+qQimtpq0Ti4kk15OqjjOWd1vTR
-         njIIQDvU19XyEPKhhJKgPutqFGznEwa+DWhywXnbbN6uQRjgL+5XB2OQjLRPnpWv2LsZ
-         duADC3BPhNLQjFFV/toNCFSYp8TzSXVo5l+ggzCUIuQekQ/JSHgAkej/VLMlukLzV0lb
-         z9DL+60HNiUuh75JZCOn1RskZNyuEIGSkvtjFWbhCnH6P4/yNt3P1e/gGv/TOzKqqXQB
-         8X7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773786744; x=1774391544;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ymK/WXrvnQRQNcjkDZqhK3+1bVgaaqfQJXaBMmzV9+M=;
-        b=OEMUWlXjbgzKmT3s6iTqZaGSwkYMg7NBPx06vIyqWg1sPcASU6U84KpTs3NzBd9wm1
-         yercpMGtiGRuIMOaxz4s2yFpdw7BbVxYqkwbf3JA5Poq7HYtQHYbKkrsH+Yi5LKBwRmQ
-         hfbPm6lQGgNXxz/Ubbt2D4xFDj/y12w54bKQZ7v36tTa8qFhfsg2tGEwC50MmO0igFLd
-         tmSjp112yFATmIDAdOaxKSYgV0BqUWtuRAjzP+etnivmNa6SnszfxGMfVYy+9R8rBcP5
-         6sSIyro/BUH41pxF2+eHweYs8ta0KgMzymrZnk23/gAZrZrT7u19nI9HUHThJfQ035Wm
-         JBlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXBa93tbjLnXDH1ajckBAl05IOP+5mt+b3Hdn0F2zlOwl8Eq+GU6e9r3S75U23mntBgwipE/hesUlB25g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHT6VVwRBMlUE79Exh2sSJqlUQH/YjYIdsgnOSg7SX39h3/dUS
-	f3ex7Btnsba11nJgR5+ie5SA+FlyVEwICS3SyQi/38YXNri8ZzaVTihj
-X-Gm-Gg: ATEYQzz7prDv9nEpNKhoA41QJLUecV5qey+9WhRtEaa+rftJ5SA0/8xSuYyYVDf/KWd
-	BHNd3gbCQwDDNlgqtKZBx/1jqJuYWtILDeEk2fT6MTZeTeURHlzKpdSRJ1cRODQAH35Q4FsGZ6F
-	nxFl8JOeUwRsFytdTRpZiSBzfH76J6KsmTP5cSoIJWDhs1GNpO3KIOG7qRWL2/1e71CIxZnjQlP
-	mOf3CMBqs+M1R6wz6t6zBuZCBynYTZRnlwDFxBiPnu4JTs/Jp8vSBG0EpukLZ8OB6OokukBzQRo
-	ZAPR2rh0qn57Y17U1e1adTZbkY/zvHIVaTlggFVqNVSEAJcJtfUzx23QVYfJkKMkN58WtCrccKP
-	ss52pxVkPMEUQt019VzVgo4Q/MbR9JeQK0E0/w+rAM/G/R7VGcvfxohXxPIZYTqdU8ptsahxkMI
-	dFUnzMnn8cZGnDhHRV0+X+/crQSxq9bDngM8OG
-X-Received: by 2002:a05:7300:80c4:b0:2c0:e2e3:491 with SMTP id 5a478bee46e88-2c0e2e306a7mr791236eec.10.1773786744282;
-        Tue, 17 Mar 2026 15:32:24 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e53bc9dbsm1232352eec.11.2026.03.17.15.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 15:32:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 17 Mar 2026 15:32:23 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v1 1/1] device property: Document how to check for the
- property presence
-Message-ID: <bd1eee84-6e5f-48c0-89a0-6f022dfbfb51@roeck-us.net>
-References: <20260317210828.2117631-1-andriy.shevchenko@linux.intel.com>
- <abnVTODs9fOqF9eV@kekkonen.localdomain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aXKPPOGz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8007BC4CEF7;
+	Tue, 17 Mar 2026 22:59:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773788372;
+	bh=KsHFovT6HtCuvOR1gM+fl5Ra+CbSGlrhzcxLdnFmNb4=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+	b=aXKPPOGzKErQnf9L3RzFU+mz9mhpp68WZmQOaQ15YcZpRIVaLDUPV3IYgpGok/3xj
+	 WivjV5ymwLw3oiuuhrhmOEswM791TOGJKEOVWnGlZ8ZbTC63Ujw/afknQX+e6KMLFF
+	 GwugAfV5dwY6TpiCLLaLBIwtYs9OVLwJHLW9EhWaGCNbvQDqQmeEWmISXil/D0q037
+	 C2T1eBb0C1yMWYZtMYCFcAffkKMZpMRPNQLuHXDpre5UQHbPKtbEKwlUciQcQMkdjX
+	 yhu0Bm1kquEw03tWDY3NOrG7a9nmAYjnF9sscWjXaqfTToNTlFu8dZU4QqQVmsUd5Q
+	 JLSY/rVuP+d8g==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <abnVTODs9fOqF9eV@kekkonen.localdomain>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 17 Mar 2026 23:59:29 +0100
+Message-Id: <DH5FHZQ0NHDW.1EW10ZC8AM13@kernel.org>
+To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 0/7] Miscellaneous devres improvements
+Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260202235210.55176-1-dakr@kernel.org>
+In-Reply-To: <20260202235210.55176-1-dakr@kernel.org>
 
-On Wed, Mar 18, 2026 at 12:27:24AM +0200, Sakari Ailus wrote:
-> Hi Andy,
-> 
-> Thanks for the patch.
-> 
-> On Tue, Mar 17, 2026 at 10:08:28PM +0100, Andy Shevchenko wrote:
-> > Currently it's unclear if one may or may not rely on the error codes
-> > returned from the property getters to check for the property presence.
-> > Clarify this by mass updating kernel-doc for fwnode_property_*() and
-> > device_property_*() where it's applicable.
-> > 
-> > Reported-by: Guenter Roeck <linux@roeck-us.net>
-> > Closes: 4b24f1f4-b395-467a-81b7-1334a2d48845@roeck-us.net
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  drivers/base/property.c | 38 +++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 35 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/base/property.c b/drivers/base/property.c
-> > index 8d9a34be57fb..bffa0070ab13 100644
-> > --- a/drivers/base/property.c
-> > +++ b/drivers/base/property.c
-> > @@ -38,6 +38,8 @@ EXPORT_SYMBOL_GPL(__dev_fwnode_const);
-> >   * @propname: Name of the property
-> >   *
-> >   * Check if property @propname is present in the device firmware description.
-> > + * This function is the correct way to check that given property is present
-> > + * in the device firmware description.
-> >   *
-> >   * Return: true if property @propname is present. Otherwise, returns false.
-> >   */
-> > @@ -52,6 +54,10 @@ EXPORT_SYMBOL_GPL(device_property_present);
-> >   * @fwnode: Firmware node whose property to check
-> >   * @propname: Name of the property
-> >   *
-> > + * Check if property @propname is present in the firmware node description.
-> > + * This function is the correct way to check that given property is present
-> > + * in the firmware node description.
-> > + *
-> >   * Return: true if property @propname is present. Otherwise, returns false.
-> >   */
-> >  bool fwnode_property_present(const struct fwnode_handle *fwnode,
-> > @@ -75,9 +81,9 @@ EXPORT_SYMBOL_GPL(fwnode_property_present);
-> >   * @dev: Device whose property is being checked
-> >   * @propname: Name of the property
-> >   *
-> > - * Return if property @propname is true or false in the device firmware description.
-> > + * Use device_property_present() to check for the property presence.
-> >   *
-> > - * Return: true if property @propname is present. Otherwise, returns false.
-> > + * Return: if property @propname is true or false in the device firmware description.
-> >   */
-> >  bool device_property_read_bool(const struct device *dev, const char *propname)
-> >  {
-> > @@ -90,7 +96,9 @@ EXPORT_SYMBOL_GPL(device_property_read_bool);
-> >   * @fwnode: Firmware node whose property to check
-> >   * @propname: Name of the property
-> >   *
-> > - * Return if property @propname is true or false in the firmware description.
-> > + * Use fwnode_property_present() to check for the property presence.
-> > + *
-> > + * Return: if property @propname is true or false in the firmware node description.
-> >   */
-> >  bool fwnode_property_read_bool(const struct fwnode_handle *fwnode,
-> >  			     const char *propname)
-> > @@ -121,6 +129,8 @@ EXPORT_SYMBOL_GPL(fwnode_property_read_bool);
-> >   * It's recommended to call device_property_count_u8() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use device_property_present().
-> 
-> Do you really think we should add this clause for each of these functions?
-> I don't think it belongs here.
-> 
-> The error code list doesn't document what is returned if a property doesn't
-> exist (-EINVAL) and it'd be helpful to add this. It would have been best to
-> have a separate error code for this albeit changing this now might not be
-> that troublesome either: very, very few callers depend on receiving such an
-> error code but there are still many callers.
-> 
+On Tue Feb 3, 2026 at 12:48 AM CET, Danilo Krummrich wrote:
 
-I also find it a bit confusing since the _bool functions are defined to return
-false if the property is not present, and true if it is.
+Applied to driver-core-testing, thanks!
 
-Guenter
+> Danilo Krummrich (7):
+>   devres: fix missing node debug info in devm_krealloc()
+>   devres: add devres_node_add()
+>   devres: add devres_node_init()
+>   devres: don't require ARCH_DMA_MINALIGN for devres actions
 
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -149,6 +159,8 @@ EXPORT_SYMBOL_GPL(device_property_read_u8_array);
-> >   * It's recommended to call device_property_count_u16() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use device_property_present().
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -177,6 +189,8 @@ EXPORT_SYMBOL_GPL(device_property_read_u16_array);
-> >   * It's recommended to call device_property_count_u32() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use device_property_present().
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -205,6 +219,8 @@ EXPORT_SYMBOL_GPL(device_property_read_u32_array);
-> >   * It's recommended to call device_property_count_u64() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use device_property_present().
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -233,6 +249,8 @@ EXPORT_SYMBOL_GPL(device_property_read_u64_array);
-> >   * It's recommended to call device_property_string_array_count() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use device_property_present().
-> > + *
-> >   * Return: number of values read on success if @val is non-NULL,
-> >   *	   number of values available on success if @val is NULL,
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -257,6 +275,8 @@ EXPORT_SYMBOL_GPL(device_property_read_string_array);
-> >   * Function reads property @propname from the device firmware description and
-> >   * stores the value into @val if found. The value is checked to be a string.
-> >   *
-> > + * In order to check for the property presence, use device_property_present().
-> > + *
-> >   * Return: %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> >   *	   %-ENODATA if the property does not have a value,
-> > @@ -324,6 +344,8 @@ static int fwnode_property_read_int_array(const struct fwnode_handle *fwnode,
-> >   * It's recommended to call fwnode_property_count_u8() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use fwnode_property_present().
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -353,6 +375,8 @@ EXPORT_SYMBOL_GPL(fwnode_property_read_u8_array);
-> >   * It's recommended to call fwnode_property_count_u16() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use fwnode_property_present().
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -382,6 +406,8 @@ EXPORT_SYMBOL_GPL(fwnode_property_read_u16_array);
-> >   * It's recommended to call fwnode_property_count_u32() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use fwnode_property_present().
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -411,6 +437,8 @@ EXPORT_SYMBOL_GPL(fwnode_property_read_u32_array);
-> >   * It's recommended to call fwnode_property_count_u64() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use fwnode_property_present().
-> > + *
-> >   * Return: number of values if @val was %NULL,
-> >   *         %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -440,6 +468,8 @@ EXPORT_SYMBOL_GPL(fwnode_property_read_u64_array);
-> >   * It's recommended to call fwnode_property_string_array_count() instead of calling
-> >   * this function with @val equals %NULL and @nval equals 0.
-> >   *
-> > + * In order to check for the property presence, use fwnode_property_present().
-> > + *
-> >   * Return: number of values read on success if @val is non-NULL,
-> >   *	   number of values available on success if @val is NULL,
-> >   *	   %-EINVAL if given arguments are not valid,
-> > @@ -476,6 +506,8 @@ EXPORT_SYMBOL_GPL(fwnode_property_read_string_array);
-> >   * Read property @propname from the given firmware node and store the value into
-> >   * @val if found.  The value is checked to be a string.
-> >   *
-> > + * In order to check for the property presence, use fwnode_property_present().
-> > + *
-> >   * Return: %0 if the property was found (success),
-> >   *	   %-EINVAL if given arguments are not valid,
-> >   *	   %-ENODATA if the property does not have a value,
-> 
-> -- 
-> Kind regards,
-> 
-> Sakari Ailus
+    [ Add missing node->release check in devres_for_each_res() and
+      find_dr(); use kzalloc_obj(). - Danilo ]
+
+>   devres: add free_node callback to struct devres_node
+>   devres: use guard(spinlock_irqsave) where applicable
+>   devres: remove unnecessary unlocks in devres_release_group()
