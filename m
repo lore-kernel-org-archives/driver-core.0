@@ -1,173 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC6A38CFF8;
-	Tue, 17 Mar 2026 07:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2F338CFEA
+	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 07:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773732374; cv=none; b=i17YtOWfpPBGLmCX5c+Qh1QEof8uZhp/oBUaOoq4lq8pR+GBofIHxWtw4RZ5xxJCWzbdx59Sebf9lzaYizR5YMiC3L+N9nEH98bwIuGIz3FCtK53vbWzubonP5wJzuwaR/Tg2VWx/ZMp9NDlCLT53vMl2uYRDhnyxUAUNx8VZKs=
+	t=1773732426; cv=none; b=IRdCHR8smMl3+cioh0VnC8Y+uc4CQ6iz7pQCo8+gzgGtcMD1mEBk8RIEsaPi3wECK5rgnZGzQ1j6Rmk1qpn/Zpi4jeoDFoOGD7MUdB03YkDEvTK7TGaRWOP+TN7Wn6p2205w4ZZ7NHUbYImdxGMgxQLXXMQT8CVC1Y4amdzNvKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773732374; c=relaxed/simple;
-	bh=mNqvJDKHyXiTa8kul3MGyMaf5OVXv6+qsssX/KV3fuw=;
+	s=arc-20240116; t=1773732426; c=relaxed/simple;
+	bh=uK/yatnqUfTvDqI7YxNLRspu58OylQogpc14FiQPe68=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IXM3bjotxGUDXzuxhRzIyMg5f0/dYsm3ZCNgIcfn0CtvZd/DmA7/NuFg3wEW/vFz1BVuaX3cIepBxesFRaZI8+D4uNRtm/BMWKcibI2AqHjpeXDBpMisrQCDDUkswhcXNbhZM21yTDvl3YLsLp5YmgxSrwbLj4bibf4mGY3DunQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RslkB4NJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CskANBE42lUO0HCnN4APBBVLP1U+49Bfmkainw8eHeP9qNPwaWlEMIXSvK7MMDeovhMs9OtuM2qxdXdln8zAreyy9tOn/xhgmmoOkrERTueHM4G8aOw3bMzPkGAxMjTN4dZIOJ7U5/WrRz7H13ZTuLZhzL27j0QTIQu8ry7I1EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=G1SOiayi; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RslkB4NJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6B48C4CEF7;
-	Tue, 17 Mar 2026 07:26:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773732373;
-	bh=mNqvJDKHyXiTa8kul3MGyMaf5OVXv6+qsssX/KV3fuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RslkB4NJgbnLbXzvVE942uVUDJx8Pgq/+YQV5qIUmk+sME2OKnjh4wF7luqJJtxds
-	 oYbh6kg8hPf7zFvyIOkWiP5CeoamoGi7CWuInj5xY7k0QZBnEOnFVhLo55VmwkcBZa
-	 SzEAmYZfwn95GbWE6s1PWUlDc3VM8NUBKZ1JMexN1U3VHMtfCqXvDTn4ZY5zLclhNU
-	 0sP9CZvoPj53S0c1zuJpBGgFxarId0UwNaymaovsyQquMjJEfup4DIJY+DVZU0P1Jk
-	 t6ASUjrNLp0jp66zTMhVEyVBFx60N90FEsAVWXHiOFbtUgzvRiRdZCgXpB9xT1NceX
-	 8j+/844jXBIiQ==
-Date: Tue, 17 Mar 2026 12:56:03 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com, 
-	sherry.sun@nxp.com, driver-core@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH v8 3/3] PCI: Add support for PCIe WAKE# interrupt
-Message-ID: <4n5heks4oymfz75wiajyc5zuzzulmwyfj2couudbi7gi67h2rk@smpnmyhdjkns>
-References: <20260313-wakeirq_support-v8-0-48a0a702518a@oss.qualcomm.com>
- <20260313-wakeirq_support-v8-3-48a0a702518a@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="G1SOiayi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=+E5J
+	ExlH1gsTbrfMSDrOrCsvoCvNuc0M7joRkI7q/a0=; b=G1SOiayi7IoPrStzYmkA
+	vE7X7q92XlvwYuEl9Qq+m43cNpJ1xkkG+3XSjgJJ6u1gQUoFRCQaWvd0ltaIwWz/
+	HONuSZqyrenHqXgFemBvGilKgGqmEuKXcnp8Z15LGRMALDs51AhRCugiRG2ZV4Px
+	7B8PLtMebupyzkbYa1PW8sHAh8ZqVD5/mREnBxYk3r9vU+BvmA5PxdwAF0in6ofA
+	GidGANePhLce/03m5Xss1p3CFf+7JesvhB182Kx4jRpvr5t72lro76lUMfRTZflS
+	96CCkOxwe23kNqh//4oAvR+2RX1AQZM5LMQLBymy9yiVdMAaxP+s1rKPe3u/WBsI
+	nA==
+Received: (qmail 162337 invoked from network); 17 Mar 2026 08:26:53 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Mar 2026 08:26:53 +0100
+X-UD-Smtp-Session: l3s3148p1@khhxQjNNeKhSwmvS
+Date: Tue, 17 Mar 2026 08:26:53 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, stable@vger.kernel.org,
+	Andrew Lunn <andrew@lunn.ch>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, Len Brown <lenb@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org,
+	driver-core@lists.linux.dev, imx@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] device property: Make modifications of fwnode "flags"
+ thread safe
+Message-ID: <abkCPU3rxHI49N4_@shikoro>
+References: <20260316154159.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260313-wakeirq_support-v8-3-48a0a702518a@oss.qualcomm.com>
+In-Reply-To: <20260316154159.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
 
-On Fri, Mar 13, 2026 at 12:38:42PM +0530, Krishna Chaitanya Chundru wrote:
-> According to the PCI Express specification (PCIe r7.0, Section 5.3.3.2),
-> two link wakeup mechanisms are defined: Beacon and WAKE#. Beacon is a
-> hardware-only mechanism and is invisible to software (PCIe r7.0,
-> Section 4.2.7.8.1). This change adds support for the WAKE# mechanism in
-> the PCI core.
-> 
-> According to the PCIe specification, multiple WAKE# signals can exist in
-> a system or each component in the hierarchy could share a single WAKE#
-> signal. In configurations involving a PCIe switch, each downstream port
-> (DSP) of the switch may be connected to a separate WAKE# line, allowing
-> each endpoint to signal WAKE# independently. From figure 5.4 in sec
-> 5.3.3.2, WAKE# can also be terminated at the switch itself. To support
-> this, the WAKE# should be described in the device tree node of the
-> endpoint/bridge. If all endpoints share a single WAKE# line, then each
-> endpoint node should describe the same WAKE# signal or a single WAKE# in
-> the Root Port node.
-> 
-> In pci_device_add(), PCI framework will search for the WAKE# in device
-> node, If not found, it searches in its upstream port only if upstream port
-> is Root Port. Once found, register for the wake IRQ in shared mode, as the
-> WAKE# may be shared among multiple endpoints.
-> 
-> dev_pm_set_dedicated_shared_wake_irq() associates a wakeup IRQ with a
-> device and requests it, but the PM core keeps the IRQ disabled by default.
-> The IRQ is enabled only when the device is permitted to wake the system,
-> i.e. during system suspend and after runtime suspend, and only when device
-> wakeup is enabled.
-> 
-> When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume() to
-> bring the device back to an active power state, such as transitioning from
-> D3cold to D0. Once the device is active and the link is usable, the
-> endpoint may generate a PME, which is then handled by the PCI core through
-> PME polling or the PCIe PME service driver to complete the wakeup of the
-> endpoint.
-> 
-> WAKE# is added in dts schema and merged based on below links.
-> 
-> Link: https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
-> Link: https://github.com/devicetree-org/dt-schema/pull/170
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-> ---
->  drivers/pci/of.c       | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/pci/pci.c      | 10 +++++++
->  drivers/pci/pci.h      |  2 ++
->  drivers/pci/probe.c    |  2 ++
->  drivers/pci/remove.c   |  1 +
->  include/linux/of_pci.h |  4 +++
->  include/linux/pci.h    |  2 ++
->  7 files changed, 95 insertions(+)
-> 
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index 9f8eb5df279ed28db7a3b2fd29c65da9975c2efa..b7199d3598b31b62245716c178a5a73565efc89e 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -7,6 +7,7 @@
->  #define pr_fmt(fmt)	"PCI: OF: " fmt
->  
->  #include <linux/cleanup.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/irqdomain.h>
->  #include <linux/kernel.h>
->  #include <linux/pci.h>
-> @@ -15,6 +16,7 @@
->  #include <linux/of_address.h>
->  #include <linux/of_pci.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_wakeirq.h>
->  #include "pci.h"
->  
->  #ifdef CONFIG_PCI
-> @@ -586,6 +588,78 @@ int of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin)
->  	return irq_create_of_mapping(&oirq);
->  }
->  EXPORT_SYMBOL_GPL(of_irq_parse_and_map_pci);
-> +
-> +static void pci_configure_wake_irq(struct pci_dev *pdev, struct gpio_desc *wake)
-> +{
-> +	int ret, wake_irq;
-> +
-> +	wake_irq = gpiod_to_irq(wake);
-> +	if (wake_irq < 0) {
-> +		pci_err(pdev, "Failed to get wake irq: %d\n", wake_irq);
-> +		return;
-> +	}
-> +
-> +	device_init_wakeup(&pdev->dev, true);
+Hi Doug,
 
-Just set wakeup only if dev_pm_set_dedicated_shared_wake_irq() succeeds.
+thanks for tackling this issue! I agree it should be fixed, just
+wondered about one thing:
 
-> +
-> +	/*
-> +	 * dev_pm_set_dedicated_shared_wake_irq() associates a wakeup IRQ with the
-> +	 * device and requests it, but the PM core keeps it disabled by default.
-> +	 * The IRQ is enabled only when the device is allowed to wake the system
-> +	 * (during system suspend and after runtime suspend), and only if device
-> +	 * wakeup is enabled.
-> +	 *
-> +	 * When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume()
-> +	 * to bring the device back to an active power state (e.g. from D3cold to D0).
-> +	 * Once the device is active and the link is usable, the endpoint may signal
-> +	 * a PME, which is then handled by the PCI core (either via PME polling or the
-> +	 * PCIe PME service driver) to wakeup particular endpoint.
-> +	 */
-> +	ret = dev_pm_set_dedicated_shared_wake_irq(&pdev->dev, wake_irq,
-> +						   IRQ_TYPE_EDGE_FALLING);
+> While flags are often modified while under the "fwnode_link_lock",
+> this is not universally true.
 
-Isn't WAKE# a level triggered signal?
+Is it a possibility to use the lock in all code paths instead?
+Because...
 
-> +	if (ret < 0) {
-> +		pci_err(pdev, "Failed to set wake IRQ: %d\n", ret);
+>  	struct list_head consumers;
+> -	u8 flags;
+> +	unsigned long flags;
 
-s/wake/WAKE#
+... this change costs some memory on every system. Maybe it can be
+avoided?
 
-- Mani
+Happy hacking,
 
--- 
-மணிவண்ணன் சதாசிவம்
+   Wolfram
+
