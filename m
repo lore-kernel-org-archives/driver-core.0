@@ -1,65 +1,64 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A40D344DA9
-	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 06:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401BE3806A0
+	for <driver-core@lists.linux.dev>; Tue, 17 Mar 2026 06:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773730204; cv=none; b=JwN374Pr1kbI8+UMNi8yIZsfFa5tgZ8qroB/ZNO+b4+DZrFKVCItKBQfr1HStD1T1gJNRpSGsR2DiSpETocO89Fqu+fugql0d5mmeiYdVGOi2maIOLuJSmSHiyipaAnj2UMVB7tP/6eje2Lg0z8qgS3wGqQsimBxbX5e1EQAwJk=
+	t=1773730344; cv=none; b=V1wkiVVrekguk0rNRFVHyyCFkxJqiPUnybGLcqkUDdRw+hNXalfdPJi5Da5H8v2bkP6QkXJFhm6P65PKY344g6FLj6CbPWjoCvPaZuChAzER+3xU3EWRXLY1jieoHX6BDCXwyfNfPMCm0ia0HA4yQRhoG8XWiHh6O5sykxXXv+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773730204; c=relaxed/simple;
-	bh=gkJ+po5fQzbwv+veCId4gGGL4Xp4wQrz+F+leY/d2+c=;
+	s=arc-20240116; t=1773730344; c=relaxed/simple;
+	bh=3R1SS/JCZM/Lfoc9w7kAsHUSiEC8aTlug28cBDnn6ZI=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Syb0dkdOlDCwFYenHM9gDzGekqz+MTmRjFCNLnlqdM+THI/yYvW2Uy1we9X55Cl8ozWzJRCVLLRQxRWvagFU4Dmt0ggrkkxpyeczJCru0qF2ESyyzwWRW8xRwCGUFG2fGM4d59jiNHSdTfFP96CkgtozOfm+vPJnrH/CldrRxzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IVZ/mGJK; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=enco7/tUbrxCIn7Uy4ew6ysnQQnomfKQDIbr4LCoP2p4IITTXwNf2ZNXoEi8wtUkD7JBzL+2ALF1xY0Pq+tvP26UflbQMe4ts4boYCuNTeNi8NveTD6rwm5eEN71q0UA8Dnfku30iKUxTbxxTOQ+KP1PTloEtoBKd6uyut4KoD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XpxW1DdX; arc=none smtp.client-ip=209.85.208.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IVZ/mGJK"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4853a9467c5so29962825e9.2
-        for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 23:50:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XpxW1DdX"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-660fa747a8aso4791910a12.2
+        for <driver-core@lists.linux.dev>; Mon, 16 Mar 2026 23:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773730201; x=1774335001; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1773730340; x=1774335140; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FxvRr8+lOBB6LohtXEdeEzhkagUanjKQw+ztADkvzGQ=;
-        b=IVZ/mGJK8Bk93TYeQNMHgbY3JHwMEl05lmbm4p7uqPIbxqRWYBaCAKIieurMu0t8uv
-         92iu5tBaQ+VkRelZRkEX4GXI4K9pjdBuYVNuBmE86D32dnVoR5brjvC3SVNW4wlcLpKY
-         InudsbaHVHNvi8EnuMtqmkNo5/PNKil0sI4+aoHCpPetHaaEXOPcXpi7MGAG/MkuRCAc
-         J8KRMiWuOu7eiws8JibFpLqf0ZVQq15QR/5g/Q1iHZdto513Y2XUY2mFRDTyXlgccyJd
-         Itu1rM1P/kK850GJ0MNecfblv161BDhZRRtnRkwgbL0ESorS2N15nq6p/McfG1mFbV4c
-         ayjA==
+        bh=FV64adRB9qOuDZltuxVkHORmf9URma8WDk8N3r49JmA=;
+        b=XpxW1DdXpzyTOcUDAxLMvpgIpCIF0Y1NOJJ+fTbjjVwxyw1KNfpJXROuaIhq2IloCx
+         HFMRhZyH+ntRSIgXMu5aHtuWwiuivmj86UmTe6ULP9FwSnfMBZqhkhawyIGiaNgPWRZR
+         Mgn1pYBsWOvrS76TpW+eHuz/Nj2+HiB8YgJUPVmJihh/8ugOWWk6Q7z0moZmR1jadmq0
+         ULJq5473dX9FBYq2I3rzg7feUj64SuisyPcoLuifcbhthrZNktbasI2Lgnfa8lXxrjEK
+         Nf8prAG5Oyav9gxmeYtwAux/xXkld2c+H1iL7VDYIQQlklJWQvdZ2ZzOmR9BqC5U/8Hn
+         vznw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773730201; x=1774335001;
+        d=1e100.net; s=20251104; t=1773730340; x=1774335140;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FxvRr8+lOBB6LohtXEdeEzhkagUanjKQw+ztADkvzGQ=;
-        b=Ded+J95vIpF9jlIH6+v5RHr0CqHuCm2fGu9FJRsPOaIqVq37ubhkYu43IuCstpOzn7
-         ZgOjBwCwNt5QMeOOdKwAEamSo3DdxE/Hl12SNVXvt27i+J89EXzkkaeCmJz0JAJ/mnUd
-         Z5jMViPPPRjcA3LnxI3U/vkWiwCBTVZTYLY81JwOwKLA1Sl/q77gaBUNJQ6wmYVZJPDK
-         4NteWbkLMeV0iAumkMxZnNfzkvWK35cooQZMmRuE/cnMdnZnPGERFxrPn3BpzfUOdFuD
-         K+mawEPlRZvrmvi+wV7rXSSaGXnL6jCwGROTJjVnWOYTz1aXcgqXzuNyLjucwPhDGvlN
-         rxdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVLC86Dd2mO1HRveWXhBpmz6UJqOVypQDMai93zhRH3DCCFE+X5i4MsZF6HO6aYBPkibH269RNue6syA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcarBdWMX24GYvzqKk4K1gFFadSvRBsMhuwEBn3Mw+GOGXYPpW
-	X//T7lZZO/erebY4Hz+jt2xRCQepClGsTGj7xMqBacm18oeg/W7x5hjl++g9cQQH2lrMSXE2PkB
-	rrGLj1x6qJZ+++YZtqQ==
-X-Received: from wmop12.prod.google.com ([2002:a05:600c:468c:b0:485:40d2:1eb1])
+        bh=FV64adRB9qOuDZltuxVkHORmf9URma8WDk8N3r49JmA=;
+        b=nkBzlKOpbAVn1lyqf6oIOhy0GWEH5U9i3/u+l2GNoPVI9FGpCO/ypfO0yelkhay/hT
+         Xk2/XcSjcGwEyHt3jq+Z8QieGc7vA3YOeBodere3k9aeiMp7vyNUVpGNncHZ3nLV6wZ6
+         8y0C7lrkiSkdTPREcosT2MSzz9XiStNOCgNgpeyNmdcXDrmqrt2O3X8EdgRjS7iqbTVQ
+         PYiu8mF/2YeGPn6gkXOxSrJJM12lH1B8KYiXAkoqXK6tWRQxUMiO30oJYNrCOZsOox3e
+         tzvjrpLuWQY3IMrgPo7oQAnGO3/jENJAMkPKF7cTMxNre4DrQ8kXuqwfgvB2MqyDvTmD
+         nqaw==
+X-Forwarded-Encrypted: i=1; AJvYcCVXxNxLMr4qPqmmFfMTMJ5H1iWKfqfHGStyt7zy9DyuHGp3mBqtCzyZhD9sDaq8Vw4B7x+BgVK33GJBGA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHgDBMndYgNOr4wLOsy6zJOZ2UxtCHOySZ3s+PYbiYfRQcK9Vu
+	Z8JAdOINnWZGOwf8sg96Po22ori7HyGwAEIO/YftAnrxTpxCp45f8xP4F4pj/HaEpe4Ilmbjkc9
+	J6J3aFehS0pmhLmkEEQ==
+X-Received: from edrd8.prod.google.com ([2002:aa7:d688:0:b0:660:cd0d:914e])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8519:b0:485:5812:bb9e with SMTP id 5b1f17b1804b1-4855812bbddmr300430745e9.0.1773730201517;
- Mon, 16 Mar 2026 23:50:01 -0700 (PDT)
-Date: Tue, 17 Mar 2026 06:50:00 +0000
-In-Reply-To: <20260303162314.94363-3-dakr@kernel.org>
+ 2002:a05:6402:27ce:b0:663:8841:17c9 with SMTP id 4fb4d7f45d1cf-663babc44ecmr8734757a12.10.1773730340157;
+ Mon, 16 Mar 2026 23:52:20 -0700 (PDT)
+Date: Tue, 17 Mar 2026 06:52:19 +0000
+In-Reply-To: <20260303162314.94363-5-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260303162314.94363-1-dakr@kernel.org> <20260303162314.94363-3-dakr@kernel.org>
-Message-ID: <abj5mOYQAY290nqY@google.com>
-Subject: Re: [PATCH 2/8] rust: dma: add generalized container for types other
- than slices
+References: <20260303162314.94363-1-dakr@kernel.org> <20260303162314.94363-5-dakr@kernel.org>
+Message-ID: <abj6I9c_2IR0cKJ6@google.com>
+Subject: Re: [PATCH 4/8] rust: dma: introduce dma::CoherentInit for memory initialization
 From: Alice Ryhl <aliceryhl@google.com>
 To: Danilo Krummrich <dakr@kernel.org>
 Cc: acourbot@nvidia.com, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
@@ -70,30 +69,28 @@ Cc: acourbot@nvidia.com, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 
-On Tue, Mar 03, 2026 at 05:22:53PM +0100, Danilo Krummrich wrote:
-> From: Gary Guo <gary@garyguo.net>
+On Tue, Mar 03, 2026 at 05:22:55PM +0100, Danilo Krummrich wrote:
+> Currently, dma::Coherent cannot safely provide (mutable) access to its
+> underlying memory because the memory might be concurrently accessed by a
+> DMA device. This makes it difficult to safely initialize the memory
+> before handing it over to the hardware.
 > 
-> Currently, `CoherentAllocation` is concecptually a DMA coherent container
-> of a slice of `[T]` of runtime-checked length. Generalize it by creating
-> `dma::Coherent<T>` which can hold any value of `T`.
-> `Coherent::alloc_with_attrs` is implemented but not yet exposed, as I
-> believe we should not expose the way to obtain an uninitialized coherent
-> region.
+> Introduce dma::CoherentInit, a type that encapsulates a dma::Coherent
+> before its DMA address is exposed to the device. dma::CoherentInit can
+> guarantee exclusive access to the inner dma::Coherent and implement
+> Deref and DerefMut.
 > 
-> `Coherent<[T]>` provides a `len` method instead of the previous `count()`
-> method to be consistent with methods on slices.
+> Once the memory is properly initialized, dma::CoherentInit can be
+> converted into a regular dma::Coherent.
 > 
-> The existing type is re-defined as a type alias of `Coherent<[T]>` to ease
-> transition. Methods in use are not yet removed.
-> 
-> Signed-off-by: Gary Guo <gary@garyguo.net>
 > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-I see you have both `size()` and `len()`. I think it would be clearer to
-rename `size()` to `len_bytes()`.
+overall LGTM
 
-Otherwise LGTM.
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
-Alice
+> +        let ptr = core::ptr::from_mut(&mut self[i]);
 
+&raw mut self[i].
+
+Alice
