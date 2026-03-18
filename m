@@ -1,141 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B80A3CCFB5
-	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 14:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72D32BEC2B
+	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 15:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773843853; cv=none; b=PLXDyvZyDguFN1+FGRlibZHdJtD+3Z25enKNhP2ASedAATWl1wpIes9Vct/XfxT88Z9XqXv6fq/kG53UjkP8AIJm2gzuQ1oGfTx/mDlPLGr6Mm4yOdlXvy6F/s93pluWj9v7aQx7y3HJiFDrBWefyOVFEHrXwbPrC/dP/vzCviU=
+	t=1773848197; cv=none; b=p5Od17lwkYBfT2IlpeKeQJimYPu0nqCV29LAWY4ue8lkc2sffE8taXrGT09yI94XwW8hags/bKPiMvxPISC5dcu8m/Z9Etj14RRv5rO2gSV7oBDebybkz9JCD+WdertNbt9R8jLwFcoH7gr1+VMbf/i1SZ6fXamONCFtVpQT/mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773843853; c=relaxed/simple;
-	bh=pugTX89iJRjbHjTU0WAVgbPEN3I3RiY1egvayprlrg8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=to//qunX5yEStGEopO5aDDpk7UIq3MKm3bzxJ3eNfl5D7onNrON3PKHirXA9Om9Ql70kQfzS9vFebC5nN5KlKy8Xue2J7yHAG9//5rEXuZIPmqVJmUix3tQITNd8vPlmIxG4PFEt97w/6DksxpcsMhTPE15IKIk5xI51MSglkG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jb41noOa; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773848197; c=relaxed/simple;
+	bh=chZYyE6hrMdw9v7LMhfqbhyRHomXT6H7c48K9IGf3/g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MVAvBRt3SYRRiVWktyginCjnTSQOtL00yB1cJNJZfjsb+1vz+xdcuLTr3zZHcL1Q/QdHeLleYuRTK+2q0ZDGkaEgTQIK/EtdccYBokShLUIOFLEdZvbgKy5iJ0eIhw8TlnxrZDafnbiBJ5/QLCZfoDruWSoqU4t8jUBz46lbIhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7Gmp21Z; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jb41noOa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7Gmp21Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773843852; x=1805379852;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pugTX89iJRjbHjTU0WAVgbPEN3I3RiY1egvayprlrg8=;
-  b=jb41noOaPzVl1zkvjwflVjHctzzpxD96f/Vg2mrcLCDO/928ZmEMruT/
-   h5pm4zYnnzCqfGaK6kLLw3WNMSAkUC8jSHkxawZ945Ms02S4xOIH8eT/6
-   FVvrgoIiFkZ6bI3xqLjkQD9SeH66yZplLLS3SOLceAYiFkNL+4S3cCdLu
-   8obByBl9w3FUog30OiSGA44PunkJ1+7ALSk4B3Vn0vkxdOrAgLoITj2u4
-   R2ykzAw360Y70qQplvdXvYGE+d1np+PTPOZo+RbRVhcvgGlzuDvX4bago
-   zDsjcKmZcXxNthrdKrZ13CwILbPYI9lwIwrhMqTYyNcVdRJQ6kR5Y8TLt
-   w==;
-X-CSE-ConnectionGUID: 4A1N4smASk+aSoscnuovCw==
-X-CSE-MsgGUID: iZUHJVXnRF6A8oDfaCoCwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="85598052"
+  t=1773848195; x=1805384195;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=chZYyE6hrMdw9v7LMhfqbhyRHomXT6H7c48K9IGf3/g=;
+  b=S7Gmp21Zd2mshdnbto/qi8GgmRCgPKoQq7/m5TdRM4OIU4HWWzTGKuB7
+   j5+7PtqNLzK2FRZBr5gZcQbSkjLQgq7qm+g0WOR5t/qLjjG0IyLzoQ1ai
+   etIqAGErseGONkZq5Itj1ohTDVly005jFC8KQb/ow+IdRw8+MHJ8Q1uzq
+   umTJy2+7d4I3QToVvmJ3uxfeFWOLToko7EgvbQ1hteVBJbVz4Lzens6/+
+   IiBXBDO665Cegh7rcVkCXhb/f/gczFccG/ZpCMmkaa+VAs2d3h1KZVCWh
+   A7DzHRrdVsw+/XZjmcGQ2t60t+VxOjP5bCvCGCDmLbO/SJ8GIyj2Yz2EC
+   Q==;
+X-CSE-ConnectionGUID: xyS9j6p+SKWRXjihS98fCg==
+X-CSE-MsgGUID: FZVXVfsCQCa+PxleXCm4Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="97515726"
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="85598052"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 07:24:11 -0700
-X-CSE-ConnectionGUID: s7V3ewFLS5a4q7ReC+aijQ==
-X-CSE-MsgGUID: T/wVz5kvR/28R1O2vSV/HQ==
+   d="scan'208";a="97515726"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:36:34 -0700
+X-CSE-ConnectionGUID: qmUk7wztSfCy+qozkrFSBg==
+X-CSE-MsgGUID: RyESH96FQuC5d8FOEHZu8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="260544997"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2026 07:24:08 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 6B4CD99; Wed, 18 Mar 2026 15:24:07 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	devicetree@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH v2 1/1] device property: Document how to check for the property presence
-Date: Wed, 18 Mar 2026 15:21:40 +0100
-Message-ID: <20260318142404.2526642-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+   d="scan'208";a="216840653"
+Received: from sghuge-mobl2.amr.corp.intel.com (HELO [10.125.108.242]) ([10.125.108.242])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:36:32 -0700
+Message-ID: <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
+Date: Wed, 18 Mar 2026 08:36:31 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
+ injection/clear
+To: Li Ming <ming.li@zohomail.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Ben Cheatham <benjamin.cheatham@amd.com>
+References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
+ <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
+ <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
+ <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Currently it's unclear if one may or may not rely on the error codes
-returned from the property getters to check for the property presence.
-Clarify this by updating kernel-doc for fwnode_property_*() and
-device_property_*() where it's applicable.
 
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Closes: https://lore.kernel.org/r/4b24f1f4-b395-467a-81b7-1334a2d48845@roeck-us.net
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
 
-In v2:
-- dropped "In order to ..." in *_property_read_*() docs (Sakari)
-- replaced 'correct' with 'unambiguous' in the doc for *_property_present()
-- fixed Closes link (Geert)
-- Cc'ed to DT (Geert)
+On 3/18/26 4:59 AM, Li Ming wrote:
+> 
+> 在 2026/3/17 23:00, Dave Jiang 写道:
+>>
+>> On 3/14/26 12:06 AM, Li Ming wrote:
+>>> CXL memdev poison injection/clearing debugfs interfaces are visible
+>>> before the CXL memdev endpoint initialization, If user accesses the
+>>> interfaces before cxlmd->endpoint updated, it is possible to access an
+>>> invalid endpoint in cxl_dpa_to_region().
+>>>
+>>> Hold CXL memdev lock at the beginning of the interfaces, this blocks the
+>>> interfaces until CXL memdev probing completed.
+>>>
+>>> The following patch will check the given endpoint validity in
+>>> cxl_dpa_to_region().
+>>>
+>>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+>>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+>>> Signed-off-by: Li Ming <ming.li@zohomail.com>
+>> Hi Ming, I dropped this patch with Dan's comments [1] and updated cxl/next. Please check and make sure everything looks ok to you. Thanks!
+>>
+>> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwillia2-mobl4.notmuch/
+> 
+> Hi Dave,
+> 
+> I think there is no change needed in this patch, just need a independent patch for holding memdev lock in cxl_region_debugfs_poison_inject/clear.
+> 
+> Or you want to review this patch again?
 
- drivers/base/property.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+No. Maybe I misunderstood the comment from Dan. So we should keep this patch?
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 8d9a34be57fb..d16e9c5f1921 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -38,6 +38,8 @@ EXPORT_SYMBOL_GPL(__dev_fwnode_const);
-  * @propname: Name of the property
-  *
-  * Check if property @propname is present in the device firmware description.
-+ * This function is the unambiguous way to check that given property is present
-+ * in the device firmware description.
-  *
-  * Return: true if property @propname is present. Otherwise, returns false.
-  */
-@@ -52,6 +54,10 @@ EXPORT_SYMBOL_GPL(device_property_present);
-  * @fwnode: Firmware node whose property to check
-  * @propname: Name of the property
-  *
-+ * Check if property @propname is present in the firmware node description.
-+ * This function is the unambiguous way to check that given property is present
-+ * in the firmware node description.
-+ *
-  * Return: true if property @propname is present. Otherwise, returns false.
-  */
- bool fwnode_property_present(const struct fwnode_handle *fwnode,
-@@ -75,9 +81,9 @@ EXPORT_SYMBOL_GPL(fwnode_property_present);
-  * @dev: Device whose property is being checked
-  * @propname: Name of the property
-  *
-- * Return if property @propname is true or false in the device firmware description.
-+ * Use device_property_present() to check for the property presence.
-  *
-- * Return: true if property @propname is present. Otherwise, returns false.
-+ * Return: if property @propname is true or false in the device firmware description.
-  */
- bool device_property_read_bool(const struct device *dev, const char *propname)
- {
-@@ -90,7 +96,9 @@ EXPORT_SYMBOL_GPL(device_property_read_bool);
-  * @fwnode: Firmware node whose property to check
-  * @propname: Name of the property
-  *
-- * Return if property @propname is true or false in the firmware description.
-+ * Use fwnode_property_present() to check for the property presence.
-+ *
-+ * Return: if property @propname is true or false in the firmware node description.
-  */
- bool fwnode_property_read_bool(const struct fwnode_handle *fwnode,
- 			     const char *propname)
--- 
-2.50.1
-
+DJ
