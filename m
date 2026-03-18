@@ -1,112 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72D32BEC2B
-	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 15:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3893B5308
+	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 15:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773848197; cv=none; b=p5Od17lwkYBfT2IlpeKeQJimYPu0nqCV29LAWY4ue8lkc2sffE8taXrGT09yI94XwW8hags/bKPiMvxPISC5dcu8m/Z9Etj14RRv5rO2gSV7oBDebybkz9JCD+WdertNbt9R8jLwFcoH7gr1+VMbf/i1SZ6fXamONCFtVpQT/mg=
+	t=1773848404; cv=none; b=F02eRbiAn+YibKj5IHySYILQA6SZBneOB76a2jMUS4DXDyCYzQSwxfcuHlvRBJGnZoPPwhjh3beKEVJsIwMoGlUzo37ac6KwiAlytgaYxJ+cHztAgJx1yEjy5OE2yl7f+AS1SPme1KTrmTmDfA92NBiuQLgfTQi9R7eHvJ43LfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773848197; c=relaxed/simple;
-	bh=chZYyE6hrMdw9v7LMhfqbhyRHomXT6H7c48K9IGf3/g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MVAvBRt3SYRRiVWktyginCjnTSQOtL00yB1cJNJZfjsb+1vz+xdcuLTr3zZHcL1Q/QdHeLleYuRTK+2q0ZDGkaEgTQIK/EtdccYBokShLUIOFLEdZvbgKy5iJ0eIhw8TlnxrZDafnbiBJ5/QLCZfoDruWSoqU4t8jUBz46lbIhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7Gmp21Z; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773848404; c=relaxed/simple;
+	bh=fq8QMgxGO4I1bjwsFUxPjh0/fYBLSgr2n/oC9r9H/4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=A9Ay3wrKL6vvBs/qjoHB9f31XfPIuasAnO2ECJiUfjA8t1VnjCIHCLc6Ja2arTHc2+sqdlu9kc9lODc3yZGm2nw583HiDRSVopN5v6Q6mF/6k+m+EEL9nJWKw6mKaZI8n2OrOZAWcSzXnQMKj8XjeN9xzm5qzDzt7x/9dHx9pO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=g7Qc9Gzq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ao5fUbr8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7Gmp21Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773848195; x=1805384195;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=chZYyE6hrMdw9v7LMhfqbhyRHomXT6H7c48K9IGf3/g=;
-  b=S7Gmp21Zd2mshdnbto/qi8GgmRCgPKoQq7/m5TdRM4OIU4HWWzTGKuB7
-   j5+7PtqNLzK2FRZBr5gZcQbSkjLQgq7qm+g0WOR5t/qLjjG0IyLzoQ1ai
-   etIqAGErseGONkZq5Itj1ohTDVly005jFC8KQb/ow+IdRw8+MHJ8Q1uzq
-   umTJy2+7d4I3QToVvmJ3uxfeFWOLToko7EgvbQ1hteVBJbVz4Lzens6/+
-   IiBXBDO665Cegh7rcVkCXhb/f/gczFccG/ZpCMmkaa+VAs2d3h1KZVCWh
-   A7DzHRrdVsw+/XZjmcGQ2t60t+VxOjP5bCvCGCDmLbO/SJ8GIyj2Yz2EC
-   Q==;
-X-CSE-ConnectionGUID: xyS9j6p+SKWRXjihS98fCg==
-X-CSE-MsgGUID: FZVXVfsCQCa+PxleXCm4Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="97515726"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="97515726"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:36:34 -0700
-X-CSE-ConnectionGUID: qmUk7wztSfCy+qozkrFSBg==
-X-CSE-MsgGUID: RyESH96FQuC5d8FOEHZu8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="216840653"
-Received: from sghuge-mobl2.amr.corp.intel.com (HELO [10.125.108.242]) ([10.125.108.242])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:36:32 -0700
-Message-ID: <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
-Date: Wed, 18 Mar 2026 08:36:31 -0700
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="g7Qc9Gzq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ao5fUbr8"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62IFXkLH3963654
+	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 15:39:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	e7PSEs4PQLk/CUQtS2pu7HepYiSKsXDEHL/qILTq9dE=; b=g7Qc9Gzqv7FTuSVV
+	sx5RAE1TLnpBzhaV8WNbGJTH+G426L1AjdZhaiBTjFyHjYTVj3iof5a8Rbn+UsPr
+	1cLq69tAJB8S5os7xGHoAR26JGe6g7Fzg3fcoW2cF/ACthdf7BGy6O7QIoNp9dOh
+	rwuzw58pQX2PI4Fs0j2za/no/mXbJPf04h9BPRgpIf560jhzeV8ontGzssoqEKP6
+	ou6PRFqyJaqmyqNXVMP85bOrSxEvABpgSGlEBOstj4elQBd5yE3GO+M0aU4Em0df
+	aOZUwoxIIs/bYcz4PvxyOxI5EzhhzsVBh8NnD5rRAcmslFWWcxpDoZ2eOhVO1Wdn
+	wQ8vAw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cyak3vwd3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 15:39:58 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-509007aea22so325110331cf.0
+        for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 08:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773848397; x=1774453197; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e7PSEs4PQLk/CUQtS2pu7HepYiSKsXDEHL/qILTq9dE=;
+        b=ao5fUbr814l7w7zDg89TQ2+yhUX+OVjH+6mWbDmSMbxzNAahOIAug+V2w3BAvPjfvy
+         ub439zjl8DmUabLqPj9ff1HwrbV7WXZSIoP7kcCGZlfiOKe5kJYnZzG7qxujVLSJxHQ4
+         8rC0jKTV6WGYUmAStEUSHFybJo0e5Hlk+6wmp8bph06CZsbadkqU0rjnq81ZhpwXlp4P
+         79kr2yHqYJAFeUBNaLs4GtRNBa27nbB5LfwUp9wEp43w8UGUzveerynhbrYkPXMp52Gq
+         +wVoSchaOaLEHkaP5kbEWITeZAYicsfwgR791ZZnvOHD0sSlTVCXj/W6/VPZpEWj2KM3
+         A/yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773848397; x=1774453197;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=e7PSEs4PQLk/CUQtS2pu7HepYiSKsXDEHL/qILTq9dE=;
+        b=CdZ/hFji9/4dA5xBi/DE0Dixwkt6qgBTuC2OjSsAPqYHxdopD30/1UWsDbMnWqBXFk
+         OtpgWXawNpZ8/9tAJL8onqePjzIpKnxKx8kNawV6i4BgAcxTHdz7UneT6sm7aGQqoXgT
+         BWKg0qz59NtqrDF+8Pxam15Dsn3/bVA37BumxGXfOjPWS+kR2iw4mZcH8Bha29uFc8s+
+         dafHwZVHqiaBqManWRpSy4bwBKG0WhW4X6kj1cygFrfmbm+7ReskgvY7swP14aHPsmTD
+         LZfLWJ1hVOlQyfweCYi6U/iE7AcJGDzLf+rY1vcDm6yileWLdIHo/oxw0cW77KS41ItT
+         DzMg==
+X-Gm-Message-State: AOJu0YyLrWG1eBWuG7aaD3tZQMVGvpNQLidomYbhrmw9JVxWaXWa0ViR
+	bgL9XCcnKkGP3RJHYNWF6/r41QzOliL62mSsOFZ2GwV/YVR3yfxtkXnPIMDohHJVGnbeCMlRbPf
+	MeXqwgCCLPwT3EG4kk6Ni0dFrJq/oSZO2nX6aCViZH9l86eWXQ8A1o6oRS79MiOR2jQ==
+X-Gm-Gg: ATEYQzwTMebayktx0P6Fa5IpCi8PF3a03CrCumowk3spgTntiMXS9Sq4LU49T96++gN
+	1KQ0WmaA8Cjz78nTl/l3Y1jYodOdAJyYJpwAndhYL9h8rn3KmhT2GP9s0H7WfXsQRXaGDHn+lus
+	mHUhf6P6/EmBtPWXwcnlvrrKjNJ2xZ//4z/yH7cUEJ4mymbEjrEQJiVhPfn7ZeVqJotPRrVaMLM
+	ceGyMkBgF7qj/lPlE1BqdvawoILjpH4jEZFbFjoXw/HOi9FATFbBT0R3GdQIEE7n5TcdNSt5XqM
+	c/1M/XJVERd6N5WZAWILZdfwF0aZlD+qga4FltdvZVJjIMENhSaRp5G8j53VuEIPvprfXakQbQ4
+	X5hgTchpVyV+BFGO9SHkkCwdVhuo=
+X-Received: by 2002:ac8:7dc2:0:b0:509:473e:2a12 with SMTP id d75a77b69052e-50b148a2691mr46167651cf.48.1773848396979;
+        Wed, 18 Mar 2026 08:39:56 -0700 (PDT)
+X-Received: by 2002:ac8:7dc2:0:b0:509:473e:2a12 with SMTP id d75a77b69052e-50b148a2691mr46167001cf.48.1773848396367;
+        Wed, 18 Mar 2026 08:39:56 -0700 (PDT)
+Received: from hackbox.lan ([82.79.95.133])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b51892161sm9227560f8f.21.2026.03.18.08.39.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 08:39:55 -0700 (PDT)
+From: Abel Vesa <abel.vesa@oss.qualcomm.com>
+To: abelvesa@kernel.org, peng.fan@nxp.com, daniel.baluta@oss.nxp.com,
+        mturquette@baylibre.com, sboyd@kernel.org, Frank.Li@nxp.com,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        gregkh@linuxfoundation.org, rafael@kernel.org, hanguidong02@gmail.com,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH v2] clk: scu/imx8qxp: do not register driver in probe()
+Date: Wed, 18 Mar 2026 17:39:32 +0200
+Message-ID: <177384710701.3709943.608237959975537642.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20260212235842.85934-1-dakr@kernel.org>
+References: <20260212235842.85934-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
- injection/clear
-To: Li Ming <ming.li@zohomail.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Dan Williams <dan.j.williams@intel.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Ben Cheatham <benjamin.cheatham@amd.com>
-References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
- <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
- <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
- <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=A7Zh/qWG c=1 sm=1 tr=0 ts=69bac74e cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=iKs3dpp2RB4k51ZqCjcyjQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=EUspDBNiAAAA:8 a=bTwR5g6i7njH7xachKcA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: kpyUugCOWFy_9dffYdCtUssR4bEpinmi
+X-Proofpoint-ORIG-GUID: kpyUugCOWFy_9dffYdCtUssR4bEpinmi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE4MDEzMiBTYWx0ZWRfX7i+E9ejH1L2W
+ XkWXmbB+YVKjstqq4dMwUhnrNJi1nNyocC8UfiNSdF7CRov1xweCWEfWBBzMj5HahD45nsOE/z2
+ oFvI1dmAgkW9YMBRofk3Rhs6/Ft8z7qsQaojGRFGFueVZzLq1Cp08vr4aVNZX7QcbXmPN4AQl8f
+ oxjmmSazVZAjNgAf2UyEfWXv9FJQwM0PniwxaBmPP0n8m7xb+kAvtfjCcDP7sDTcajZO3gJSI/6
+ Lcr0CkNYR7F2sXUDV+0VAoXHF0GZ/Ot3zxBz1mua+450qqG2rXisbgKqBRxxNVZgWLgskohJwRT
+ iNzadN+lB6w+SVKtjNrRBa00pffCe3p+qX4gOMpfyUDPvgoWtBMRWCJdJsKQ/mwOhWmOrrWfGTD
+ cTNWUyskDK5LBWpJJ4b2U5XOsNDYp+oTevxWV646ffv8bCG4uC8z6DfHr9o6F/o8mtE+so54jFJ
+ Ev8xyeo4xgmDyqF2qDg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-18_01,2026-03-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 malwarescore=0 phishscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 clxscore=1015
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603180132
 
 
-
-On 3/18/26 4:59 AM, Li Ming wrote:
+On Fri, 13 Feb 2026 00:58:11 +0100, Danilo Krummrich wrote:
+> imx_clk_scu_init() registers the imx_clk_scu_driver while commonly being
+> called from IMX driver's probe() callbacks.
 > 
-> 在 2026/3/17 23:00, Dave Jiang 写道:
->>
->> On 3/14/26 12:06 AM, Li Ming wrote:
->>> CXL memdev poison injection/clearing debugfs interfaces are visible
->>> before the CXL memdev endpoint initialization, If user accesses the
->>> interfaces before cxlmd->endpoint updated, it is possible to access an
->>> invalid endpoint in cxl_dpa_to_region().
->>>
->>> Hold CXL memdev lock at the beginning of the interfaces, this blocks the
->>> interfaces until CXL memdev probing completed.
->>>
->>> The following patch will check the given endpoint validity in
->>> cxl_dpa_to_region().
->>>
->>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
->>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
->>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
->>> Signed-off-by: Li Ming <ming.li@zohomail.com>
->> Hi Ming, I dropped this patch with Dan's comments [1] and updated cxl/next. Please check and make sure everything looks ok to you. Thanks!
->>
->> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwillia2-mobl4.notmuch/
+> However, it neither makes sense to register drivers from probe()
+> callbacks of other drivers, nor does the driver core allow registering
+> drivers with a device lock already being held.
 > 
-> Hi Dave,
-> 
-> I think there is no change needed in this patch, just need a independent patch for holding memdev lock in cxl_region_debugfs_poison_inject/clear.
-> 
-> Or you want to review this patch again?
+> [...]
 
-No. Maybe I misunderstood the comment from Dan. So we should keep this patch?
+Applied, thanks!
 
-DJ
+[1/1] clk: scu/imx8qxp: do not register driver in probe()
+      commit: 93a6d39e78bfa78b2160621aafbb490e063f12d9
+
+Best regards,
+-- 
+Abel Vesa <abel.vesa@oss.qualcomm.com>
