@@ -1,152 +1,360 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65744226CFE
-	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 16:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADB8319852;
+	Wed, 18 Mar 2026 19:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773851839; cv=none; b=jMuIuYf4Sht2g9NZ59RPONQgdVSI+aF/xibumWiFRAmVOELucbvWcXK9iOgG8YN9w0q+E7EVDi8ASUVyAUKKfMWl9GLxfic7QVFxQW3duFwaput2rpN5jTcZRI+TtHN4zZU9bB8xu9xx0fg0AxQk511MKM4AV8aBejYlEjTJTA0=
+	t=1773863656; cv=none; b=gIz6khSHLy02eWV5slFv9waG7vUb7xQM4zF4ySyupgnMopI5dDeM+W4HDw4Mhj5QoufPkBOEmTS8dydNFN2XPklMZ/3cnWeSMROJCZ2ct6Bg0pM3i67hzvHHRfxM8kdSkbJBS6acbMcp4LXyn5jXvtXh2tk0haxh/sI7PjnNroE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773851839; c=relaxed/simple;
-	bh=cNmiagvpItNjpR2jJijzr0scGysr1BHS9wTSy+mUF0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p5dHshnfsZkV1sK2MRoYMRyAM4gMxM9yEAlRsVLi7hNStTl2AmOpMWeWYntufEYuGlX3Z6JOrSApDkzgg2P8iWdX/rcF1Ig6bsbBLM7qkZa+2AAZe9Z3P6gcEyy5Jg+qsIu5Tnp74t20lw0AfR37cXnChUheFBf37k1SyeucmTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=S+jKua1E; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FdRbGMol; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773863656; c=relaxed/simple;
+	bh=VFYm78bHcffsCZuS77OCf78K71eXo2oflMbNCecz/I0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pjz+YFea61RwDVNKqxMUWa0lt3ZBCrI7csbtxPxjzIulO4kL8F0fiVTgYd6Kc3NPm0kaTNwWf5RHx7gREN04JLLA5uj/YnEtxQhllTdK6QzwGnA3oN3XhlHk3+uCJ2vkCeyd8Ce4UCtFjfcTtNcan3wBPm76D62SGEtS0qPLQ90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pxK9DWFK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="S+jKua1E";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FdRbGMol"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62IG1TW24024046
-	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 16:37:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=qko/YRXofL0g7xK31fRPrNzf
-	jiKro7Z+in3JRlMOoE0=; b=S+jKua1ES82ossdgH1hPCw4HPR239ijv3WGXmk0p
-	iN18XhT4T+64frVMobCY/kpiwPx9t7/a+5D7FynGCL33iokELy26eHx8U36fh7q+
-	F6QKQYijdPZIcAyOAmqiGeZnwIOW96RO/YRVB4No6kPsg7c/RdxD/k9qOHaTQEku
-	Ud0m+Uhfk5g/i8P8c4oDWXWXbWAP74ORPa13QkJRG2jhw0Qsc3ttNT40MwYzSngT
-	4PLDmY+7RCPOm0e212i3Qv9D90S2hNah3VQg7TuhYOtw7UO1+8nRGDhCeJH3iOR7
-	DxcSf1eNEa+fqwW7KVoTwwR6Ly/fUDVbza21Y1fnby4JNg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cyy75r580-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 16:37:15 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-509162597f9so156505871cf.2
-        for <driver-core@lists.linux.dev>; Wed, 18 Mar 2026 09:37:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773851835; x=1774456635; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qko/YRXofL0g7xK31fRPrNzfjiKro7Z+in3JRlMOoE0=;
-        b=FdRbGMolqu4eY/G5obDwFVz4B2LTcp03wFX91cB7gFB5BOLiXBFFHB/jBtCG6cove/
-         usFC7WK7OsqtUNUgnf9kRlp8wYsqe9C9pFfi5kRpCvb2b5uLLkZsGaugYQii3QdA0pj0
-         I2OR8K0k4D0uaw3OV2mNu84WrdxJArspVXcJ6S56rfcvNbwyZHk38eLwotoOpX1PWOfe
-         tZZPWIQs0x+cKi8rRf6lKSFpszh5YsiNZCQw1yGz67EnW6xMRzb7MFIPXyirygaspIZu
-         0iT+zoMgocPXobKZfyOYJ/Pd+PyRL+NW65MTtkSOEX0ODss0H6q89ucTGFl1RE4nO64D
-         y7Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773851835; x=1774456635;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qko/YRXofL0g7xK31fRPrNzfjiKro7Z+in3JRlMOoE0=;
-        b=gvbAoAu5m87DOWuKvnVma/racbAh/PycGK5yk/m+huZyxjjISfZSfswihg3wGeoZ8W
-         Lvhx2nUXXcYzE80MP+iMYxOXpb+UNUtAM7RFnbJxdNzWMSk3flX1WswdKubOYaGKVyn9
-         gzT1NStTs6/LbwxoI0SZxG/X6eL4cRt7yscB27MnOl7vyq2wQuK+i+TlVjlYn8k+kfFJ
-         4UiS2D0jfKuKQhL5YUQu4govM0P2dFO14JM7h5YyLmWLq6tmX301m0g8oVXHisrz6rcC
-         ibaRn0kcVKa8Oj5uADAJZCNgpvvQ5C2jVN9WIA1oOf6hRMUfdf08lAXLyMBuPlMMPH9z
-         5h+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXWj70EXiYWsseWBw9EfFruDH2WoB0zugJlrbDyjDnqrEFSWwJhB3RboV2yqCz1LK4nKMaezSaWgO2jzg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+3g8H/+Q6osxUol59qz+bTR1X1FaCfuN4Srm31gg/3s3sKaHX
-	Hu8Gc5CiccaRniLSm649iXZXdyn2H+8e3EdoUqWiGS0c2zWR7gnbSsCVVKGC1Dw1u4zVtpUzzoc
-	H4m57++gusi97Kg0ADQTLMzsHhSK4FCz05l98qDkLXYnQkVSKRR/FKWROblbEuYIxYw==
-X-Gm-Gg: ATEYQzzY+4m49lLphbOZfQ9WPsaAs9iaBMl38xL+EbGbX0R76hffs55gaOdB1daIxa+
-	96baOHuOrMEDHyQJ6etONp5VnKm+3PJMnGQU5GmwQqZi0rlRoa90teAVK3HdolvzL2TObCoZMHa
-	wWDY4LYjhL5yn1xmaYXA+TV8UMOXzLQvACz+21vvysh1LY51RNLo1E2WVzqN5ZT1BZcMIMEuq5G
-	Yc8fmAJzHt3W+d2wB5zMnQ8nkPXTvW9WMMad9QQDdYGz/4DqQGSa69uinbo2kwhLQKwkyeYTtJV
-	X/kczWCATZ2a5z4NVvVpGaB2yX7Xjf/4E7l3N+1JUf5DtuQwNjnzz+RG+7QJBcJFoUSpmUBTj1t
-	L+vA3MGtXBjFVMWGt91dSKwTHQN2zk/g64Q==
-X-Received: by 2002:a05:622a:295:b0:509:2655:a95e with SMTP id d75a77b69052e-50b148b14e6mr50661631cf.62.1773851834659;
-        Wed, 18 Mar 2026 09:37:14 -0700 (PDT)
-X-Received: by 2002:a05:622a:295:b0:509:2655:a95e with SMTP id d75a77b69052e-50b148b14e6mr50661201cf.62.1773851834101;
-        Wed, 18 Mar 2026 09:37:14 -0700 (PDT)
-Received: from oss.qualcomm.com ([82.79.95.133])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8c53153sm2136765e9.13.2026.03.18.09.37.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 09:37:12 -0700 (PDT)
-Date: Wed, 18 Mar 2026 18:37:11 +0200
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: abelvesa@kernel.org, peng.fan@nxp.com, daniel.baluta@oss.nxp.com,
-        mturquette@baylibre.com, sboyd@kernel.org, Frank.Li@nxp.com,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        gregkh@linuxfoundation.org, rafael@kernel.org, hanguidong02@gmail.com,
-        driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, imx@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH v2] clk: scu/imx8qxp: do not register driver in probe()
-Message-ID: <sfo2ib7segaqnpzd3u22k42od5cp4mrz72h3nwp2ihrds7l7uk@6xvkvonk2sg4>
-References: <20260212235842.85934-1-dakr@kernel.org>
- <177384710701.3709943.608237959975537642.b4-ty@oss.qualcomm.com>
- <DH60U76GPPWN.1UJJ89FKSXOWL@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pxK9DWFK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E85DC19421;
+	Wed, 18 Mar 2026 19:54:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773863656;
+	bh=VFYm78bHcffsCZuS77OCf78K71eXo2oflMbNCecz/I0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=pxK9DWFK8J0OWL9TDADWgE/3jXA3Ggr9seih7CmDQkHcNIbaye6za14ULJok3WqtT
+	 qoXxmfLKMTTOyC4UIn1YKfU/ipEc362bMkpT7r0oGQB1vGwrNlrxJxyH4tRb2hRKsT
+	 nhJ0mUytty5mSFOhqBINk5bk6qtomNMSLNbrl8lM28Km2D6HrO2JOfolKh/FFy6dvG
+	 qPY/1zKir9H/GVqTmTfAWn1NFy9B0S0X59yKphFyEFbeImn3Xec1zwgGfPcXk5gb4t
+	 p3AWYs+r0omYVgMXTW1OldCSgB7iEbDEMvx8G/fPCvdkc4v8wZFlz5ttYU9WRPRXGs
+	 hFgyIK3WDR+kg==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Wed, 18 Mar 2026 15:54:02 -0400
+Subject: [PATCH v3] firmware_loader: allow firmware_class.path to take
+ multiple paths
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DH60U76GPPWN.1UJJ89FKSXOWL@kernel.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE4MDE0MiBTYWx0ZWRfX7QU0FpIE8xwQ
- xNgVRR8hlimn4J/4Ks09yJxBsII300laBdQhFxV9a6ZyIRk7ZRoQdb8irkiRnvuMw6owVoQsix0
- YqQ3Jscr2SySBYTES3wwwDr4doTXxrV7txxaqri+HiBAIiT/avdY7reF3dS588GApP08WXas/Wt
- WF8R2KmLyTApE3eoYfBnUn/3+PSjJp4Oz0umjGrWa2BkVBmfsU5uTCZsv1Em9jIYauED0qxmpqp
- nbmPrY/iU4II2xIqpP5yBL5JzPHehC/4nVzr0O3RTvMgBNQwzQSZUtLmhSMVhh2q138I5WyNer7
- AdVUXzyb1eax4FY1aFpGr+ZhjgzyALz53IqstKFs676z7rVWjeOvhNl/GQxGRvXubLgf1urx70e
- mjD/hF/dOhkIr6lezq23W4hsDhGtYZWqJa+LWYLcU24ONMSZ8C55tjURqUOYonCXgZSb7XyLuSC
- 6Oy5b6ZNPt5oFNmpGNQ==
-X-Proofpoint-ORIG-GUID: jks7yzI2YDsuPUsfzasKWTfI60iUVv-1
-X-Authority-Analysis: v=2.4 cv=A7hh/qWG c=1 sm=1 tr=0 ts=69bad4bb cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=iKs3dpp2RB4k51ZqCjcyjQ==:17
- a=kj9zAlcOel0A:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=CELFId4UG5F86OlxqCwA:9 a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-GUID: jks7yzI2YDsuPUsfzasKWTfI60iUVv-1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-18_01,2026-03-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 bulkscore=0
- suspectscore=0 impostorscore=0 spamscore=0 phishscore=0 adultscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603180142
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260318-fw-path-v3-1-a701a08bc025@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WMyw6CMBBFf4XM2ppOebWu/A/josAUGg0lLakaw
+ r9bSDRx4fLc3HMWCOQtBThlC3iKNlg3JsgPGbSDHntitksMgouK51gz82CTngemuSranItS6RL
+ Se/Jk7HMvXa6JBxtm5197OOK2fhry24jIkNVSFp1qTIXSnG/kR7ofne9hi0TxRxRJlBp5RY1Ca
+ oofcV3XN1qKGovYAAAA
+X-Change-ID: 20260317-fw-path-a094c30259a5
+To: Luis Chamberlain <mcgrof@kernel.org>, 
+ Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Michal Grzedzicki <mge@meta.com>, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8788; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=VFYm78bHcffsCZuS77OCf78K71eXo2oflMbNCecz/I0=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpuwLhnWdALnCQu+catL1L4cK6IxSI0+ZuxaDq2
+ uef/7PZ4XCJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCabsC4QAKCRAADmhBGVaC
+ FYvoEAC2QwC+Dpd+5BDuq0W4FO20C+b3ky/uH1PWymrM4TVLQiZNMPwxMGxjI0GUDrwZs4+SJdQ
+ /vawV6AV/Iks+8PSS8Yil8b1Uxotsx74+3D3fUsHvPB9hN3TdDL9UAOimnFDKj4qeFnRy8/xcp5
+ ZLZzCeXOFrWjRckJFravWyH1lXeOf5Wq7o1+VA2/wXxhCj+vGNl5++O0qoQEs8fAsZA4JRSSvR9
+ NfcI+e4Sz3j02th8TJOym1uUkE7gApP+ySUFTMD0W3RBRp9v6OwEWDJuv1ex+pg2eJRQmQEiS4m
+ pWf4Cj6R4sR5nlJ2i+JIJ8zWsAuoTl5Es7v/p4NXTLa4e52h+4+q74ffWlMZQxbXtRyMyBRbfIW
+ P9IjieW2IA2+ArOQibzLK69NXk9IeLUxyKLDACngibuHiAQ6ezvsmX1oSiD4HDG1x/xR9FrIwpm
+ hVdDQjiN3NjmyQolOy6oInTmsVBRFQ819Gwwr4pKB3oupvWbeiQNdrHWtA2cD9U3ARise7UGch3
+ 9mbqU2Q5JCiC6DPXuuT1nqd9y5IO1hvBYfeYI9VwXBjdX8kYJHxV4gc2L3z17YdQ80a9RnTe45B
+ 97SDoQQFM4tC+rvzcDjFNxEmssrQzftk6RxDZXRSZWPEyHUMk5htLRi6QSkPZLDgmfjGq8VUile
+ xa2L3n9fSvzGyUA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On 26-03-18 16:42:49, Danilo Krummrich wrote:
-> On Wed Mar 18, 2026 at 4:39 PM CET, Abel Vesa wrote:
-> >
-> > On Fri, 13 Feb 2026 00:58:11 +0100, Danilo Krummrich wrote:
-> >> imx_clk_scu_init() registers the imx_clk_scu_driver while commonly being
-> >> called from IMX driver's probe() callbacks.
-> >> 
-> >> However, it neither makes sense to register drivers from probe()
-> >> callbacks of other drivers, nor does the driver core allow registering
-> >> drivers with a device lock already being held.
-> >> 
-> >> [...]
-> >
-> > Applied, thanks!
-> >
-> > [1/1] clk: scu/imx8qxp: do not register driver in probe()
-> >       commit: 93a6d39e78bfa78b2160621aafbb490e063f12d9
-> 
-> This is already in Linus' tree, you gave your ACK in [1] for me to take it
-> through the driver-core tree.
+Refactor fw_get_filesystem_firmware() by extracting the per-path
+firmware loading logic into a new fw_try_firmware_path() helper.
 
-Will drop from my tree then. Sorry about that.
+Use this helper to parse fw_path_para for ':'-separated paths,
+trying each one before falling through to the default firmware
+search paths. This allows users to specify multiple custom firmware
+directories via firmware_class.path, e.g.:
 
-Thanks for pointing this out.
+  firmware_class.path=/custom/path1:/custom/path2
+
+A backslash can be used as an escape character, allowing a literal
+':' ("\:") or literal '\' ("\\") to be embedded in a pathname.
+
+Suggested-by: Michal Grzedzicki <mge@meta.com>
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Michal privately pointed out that this didn't have provision to handle
+an embedded ':' in the filename. This version adds support for escaping
+':' and '\' in the filename via backslash characters.
+---
+Changes in v3:
+- Allow '\' to escape a literal ':' or '\' in the string
+- Link to v2: https://lore.kernel.org/r/20260318-fw-path-v2-1-8a106eb91eb4@kernel.org
+
+Changes in v2:
+- switch to using ':' as path delimiter
+- Link to v1: https://lore.kernel.org/r/20260318-fw-path-v1-1-7884d9bf618f@kernel.org
+---
+ drivers/base/firmware_loader/main.c | 209 +++++++++++++++++++++++-------------
+ 1 file changed, 133 insertions(+), 76 deletions(-)
+
+diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
+index a11b30dda23be563bd55f25474ceff2153ddd667..7f35100ae1a7575deed57bdf9b5823f87ce5d115 100644
+--- a/drivers/base/firmware_loader/main.c
++++ b/drivers/base/firmware_loader/main.c
+@@ -470,7 +470,6 @@ static int fw_decompress_xz(struct device *dev, struct fw_priv *fw_priv,
+ /* direct firmware loading support */
+ static char fw_path_para[256];
+ static const char * const fw_path[] = {
+-	fw_path_para,
+ 	"/lib/firmware/updates/" UTS_RELEASE,
+ 	"/lib/firmware/updates",
+ 	"/lib/firmware/" UTS_RELEASE,
+@@ -480,10 +479,83 @@ static const char * const fw_path[] = {
+ /*
+  * Typical usage is that passing 'firmware_class.path=$CUSTOMIZED_PATH'
+  * from kernel command line because firmware_class is generally built in
+- * kernel instead of module.
++ * kernel instead of module. Multiple paths can be separated by ':'.
+  */
+ module_param_string(path, fw_path_para, sizeof(fw_path_para), 0644);
+-MODULE_PARM_DESC(path, "customized firmware image search path with a higher priority than default path");
++MODULE_PARM_DESC(path, "customized firmware image search path with a higher priority than default path, multiple paths can be separated by ':' (use '\\:' for literal ':', '\\\\' for literal '\\')");
++
++static int
++fw_try_firmware_path(struct device *device, struct fw_priv *fw_priv,
++		     const char *suffix,
++		     int (*decompress)(struct device *dev,
++				       struct fw_priv *fw_priv,
++				       size_t in_size,
++				       const void *in_buffer),
++		     const char *dir, int dirlen,
++		     char *path, void **bufp, size_t msize)
++{
++	size_t file_size = 0;
++	size_t *file_size_ptr = NULL;
++	size_t size;
++	int len, rc;
++
++	len = snprintf(path, PATH_MAX, "%.*s/%s%s",
++		       dirlen, dir, fw_priv->fw_name, suffix);
++	if (len >= PATH_MAX)
++		return -ENAMETOOLONG;
++
++	fw_priv->size = 0;
++
++	/*
++	 * The total file size is only examined when doing a partial
++	 * read; the "full read" case needs to fail if the whole
++	 * firmware was not completely loaded.
++	 */
++	if ((fw_priv->opt_flags & FW_OPT_PARTIAL) && *bufp)
++		file_size_ptr = &file_size;
++
++	/* load firmware files from the mount namespace of init */
++	rc = kernel_read_file_from_path_initns(path, fw_priv->offset,
++					       bufp, msize,
++					       file_size_ptr,
++					       READING_FIRMWARE);
++	if (rc < 0) {
++		if (!(fw_priv->opt_flags & FW_OPT_NO_WARN)) {
++			if (rc != -ENOENT)
++				dev_warn(device,
++					 "loading %s failed with error %d\n",
++					 path, rc);
++			else
++				dev_dbg(device,
++					"loading %s failed for no such file or directory.\n",
++					path);
++		}
++		return rc;
++	}
++	size = rc;
++
++	dev_dbg(device, "Loading firmware from %s\n", path);
++	if (decompress) {
++		dev_dbg(device, "f/w decompressing %s\n",
++			fw_priv->fw_name);
++		rc = decompress(device, fw_priv, size, *bufp);
++		/* discard the superfluous original content */
++		vfree(*bufp);
++		*bufp = NULL;
++		if (rc) {
++			fw_free_paged_buf(fw_priv);
++			return rc;
++		}
++	} else {
++		dev_dbg(device, "direct-loading %s\n",
++			fw_priv->fw_name);
++		if (!fw_priv->data)
++			fw_priv->data = *bufp;
++		fw_priv->size = size;
++	}
++	fw_state_done(fw_priv);
++	return 0;
++}
+ 
+ static int
+ fw_get_filesystem_firmware(struct device *device, struct fw_priv *fw_priv,
+@@ -493,10 +565,9 @@ fw_get_filesystem_firmware(struct device *device, struct fw_priv *fw_priv,
+ 					     size_t in_size,
+ 					     const void *in_buffer))
+ {
+-	size_t size;
+-	int i, len, maxlen = 0;
++	int i;
+ 	int rc = -ENOENT;
+-	char *path, *nt = NULL;
++	char *path;
+ 	size_t msize = INT_MAX;
+ 	void *buffer = NULL;
+ 
+@@ -511,83 +582,69 @@ fw_get_filesystem_firmware(struct device *device, struct fw_priv *fw_priv,
+ 		return -ENOMEM;
+ 
+ 	wait_for_initramfs();
+-	for (i = 0; i < ARRAY_SIZE(fw_path); i++) {
+-		size_t file_size = 0;
+-		size_t *file_size_ptr = NULL;
+-
+-		/* skip the unset customized path */
+-		if (!fw_path[i][0])
+-			continue;
+-
+-		/* strip off \n from customized path */
+-		maxlen = strlen(fw_path[i]);
+-		if (i == 0) {
+-			nt = strchr(fw_path[i], '\n');
+-			if (nt)
+-				maxlen = nt - fw_path[i];
+-		}
+ 
+-		len = snprintf(path, PATH_MAX, "%.*s/%s%s",
+-			       maxlen, fw_path[i],
+-			       fw_priv->fw_name, suffix);
+-		if (len >= PATH_MAX) {
+-			rc = -ENAMETOOLONG;
+-			break;
+-		}
++	/* Try each ':'-separated path in fw_path_para first */
++	if (fw_path_para[0]) {
++		const char *start = fw_path_para;
++		const char *p;
++		char *dir;
+ 
+-		fw_priv->size = 0;
++		dir = __getname();
++		if (!dir) {
++			rc = -ENOMEM;
++			goto done;
++		}
+ 
+-		/*
+-		 * The total file size is only examined when doing a partial
+-		 * read; the "full read" case needs to fail if the whole
+-		 * firmware was not completely loaded.
+-		 */
+-		if ((fw_priv->opt_flags & FW_OPT_PARTIAL) && buffer)
+-			file_size_ptr = &file_size;
+-
+-		/* load firmware files from the mount namespace of init */
+-		rc = kernel_read_file_from_path_initns(path, fw_priv->offset,
+-						       &buffer, msize,
+-						       file_size_ptr,
+-						       READING_FIRMWARE);
+-		if (rc < 0) {
+-			if (!(fw_priv->opt_flags & FW_OPT_NO_WARN)) {
+-				if (rc != -ENOENT)
+-					dev_warn(device,
+-						 "loading %s failed with error %d\n",
+-						 path, rc);
+-				else
+-					dev_dbg(device,
+-						"loading %s failed for no such file or directory.\n",
+-						path);
++		while (*start) {
++			int dirlen = 0;
++
++			/*
++			 * Parse the next path component. A backslash
++			 * escapes the following character, allowing
++			 * literal ':' ('\:') and literal '\' ('\\')
++			 * to be embedded in a path.
++			 */
++			for (p = start; *p && *p != ':'; p++) {
++				if (p[0] == '\\' && (p[1] == ':' || p[1] == '\\'))
++					p++;
++				if (dirlen < PATH_MAX - 1)
++					dir[dirlen++] = *p;
+ 			}
+-			continue;
+-		}
+-		size = rc;
+-		rc = 0;
+-
+-		dev_dbg(device, "Loading firmware from %s\n", path);
+-		if (decompress) {
+-			dev_dbg(device, "f/w decompressing %s\n",
+-				fw_priv->fw_name);
+-			rc = decompress(device, fw_priv, size, buffer);
+-			/* discard the superfluous original content */
+-			vfree(buffer);
+-			buffer = NULL;
+-			if (rc) {
+-				fw_free_paged_buf(fw_priv);
+-				continue;
++
++			/* strip trailing newline */
++			if (dirlen > 0 && dir[dirlen - 1] == '\n')
++				dirlen--;
++
++			if (dirlen > 0) {
++				dir[dirlen] = '\0';
++				rc = fw_try_firmware_path(device, fw_priv,
++							  suffix, decompress,
++							  dir, dirlen,
++							  path, &buffer,
++							  msize);
++				if (!rc) {
++					__putname(dir);
++					goto done;
++				}
+ 			}
+-		} else {
+-			dev_dbg(device, "direct-loading %s\n",
+-				fw_priv->fw_name);
+-			if (!fw_priv->data)
+-				fw_priv->data = buffer;
+-			fw_priv->size = size;
++
++			if (!*p)
++				break;
++			start = p + 1;
+ 		}
+-		fw_state_done(fw_priv);
+-		break;
++		__putname(dir);
+ 	}
++
++	/* Try default firmware paths */
++	for (i = 0; i < ARRAY_SIZE(fw_path); i++) {
++		rc = fw_try_firmware_path(device, fw_priv, suffix, decompress,
++					  fw_path[i], strlen(fw_path[i]),
++					  path, &buffer, msize);
++		if (!rc)
++			break;
++	}
++
++done:
+ 	__putname(path);
+ 
+ 	return rc;
+
+---
+base-commit: 2d1373e4246da3b58e1df058374ed6b101804e07
+change-id: 20260317-fw-path-a094c30259a5
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
