@@ -1,460 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEFA4C81;
-	Thu, 19 Mar 2026 12:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304C43064A0
+	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 14:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773922673; cv=none; b=W3eZRRiORgAAzi/tey68/3TFN9Id7V7ICt/XDb4dQEM2mnHMHWOaSpwPhH2KW8wV5oEFlDvMcyYyCkA+iQZlosnTHDKXCQ6iT/gJKn8VWRVuH0NcwdGTl+BJjVb9cc6AdO0FL8mgtKr+YRp/+VJQys0jL7BaOfa+IYwX22oEIdo=
+	t=1773929530; cv=none; b=sOINTSoNsshUXRKaewp3WddIl/mZc65ashwg7wMjcou8Cgzac8uc+5pr57b33sKv5rAf/+ViIasSexJVrir1Yjo9n1QCyZ35z4KMrjv+OA+Dt3nv9JgxxgoLYS5+krJx/D+NiZU8L6p13FqMHt30DNmC1dU9zP3m8u+JYVXaUPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773922673; c=relaxed/simple;
-	bh=VwEsF9EQGPz3i57kHhrp/z50QBvX35y/RpPO/7tkNjg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mMI5M5sYhXDdqd2hB4RZdDuf6hVn9FGp8fEqt6dcxjBCMseZCba5SVL2c9hurhzPIrwpt3hZcLnsmx8v048FdMnVyTqtH/lbAI38gxZk7JilFKKhdkrGc9hjOI+NFxEgxo08JPxMI7pMvu1S1CFSbF68RdFIriKoNc/6LlkbERo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Goaft2Kl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773929530; c=relaxed/simple;
+	bh=TdmXuTASYkj9Rys1uAyBO/TVceQm1Pu2dfZbHNfEH0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=QproN5a2aJPhYwc9pQN/U9dl3I+/+zCyxpWHAg/KeKqXZJdc/KDp23pNALkBoh5WLCvPRSG/sHJPjS58yNlQdMTR4XwDtrzg6ZmLvz/wSFRllj55+j5OhYP99XPNrYRNnnnD8jZYR57BLs7rB56OKK7yEZyZrL6cDcuCtoAI1wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iHvPbIxh; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Goaft2Kl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE464C2BCAF;
-	Thu, 19 Mar 2026 12:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773922673;
-	bh=VwEsF9EQGPz3i57kHhrp/z50QBvX35y/RpPO/7tkNjg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-	b=Goaft2KltY334Mnjm72+JEJd908o1WEP1iQ7VjHEzaal8j6yDbrnHA78Wl4H8ubo7
-	 NBk+Az/YXWyUEmA6BP9uSZHONh8a/gEUs+JbCRZGcHr6R3zfic/61qKYOAIokVSi7k
-	 2YdpOlxZMGm/Al6l1zCAtS8gMBorZiBzdZ3rr6pNmObP9Croz2xAXEIVLuFxrqUsR0
-	 94ScIc+aGqp2JS7liGzCotFUPlPsMugdUU5eCi7fsp09eKue/XVS7b41l9TTssk9fq
-	 oC595rnqjxuOc7ELQHMeIgLbzryvRwIbjS2cG1aAtch3fVaN8YcPOksMA6yah7HRpX
-	 c6XjpAwXEuIRw==
-From: Gary Guo <gary@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Waiman Long <longman@redhat.com>,
-	Tamir Duberstein <tamird@kernel.org>
-Cc: Yury Norov <ynorov@nvidia.com>,
-	rust-for-linux@vger.kernel.org,
-	nouveau@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iHvPbIxh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773929527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V2JdnIhXXzN+GVqrnoeyXIDE2GukG4i3K5MsvMjYc+o=;
+	b=iHvPbIxhbWFDAxG3l/G+lgSX8gJ/vIVQfsWRfdQo7GBIKiCik47+UGxCDUFyXXyp78L0bB
+	TA0Oh6EDKJxJ+xJ0CM6l4BzY0WCSr4xF/N6gCUhRGhIi3yIqq46HTZO9esbo1Vz7NQz8Mz
+	Wuv5Xai1gtJt2X1taENoPRENqY2EHRM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-207-JKrbo_QWNIyWR-UJXpAQVw-1; Thu,
+ 19 Mar 2026 10:12:03 -0400
+X-MC-Unique: JKrbo_QWNIyWR-UJXpAQVw-1
+X-Mimecast-MFC-AGG-ID: JKrbo_QWNIyWR-UJXpAQVw_1773929522
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BCF6918005BE;
+	Thu, 19 Mar 2026 14:12:01 +0000 (UTC)
+Received: from fedora-work.redhat.com (unknown [10.22.66.24])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6E7871800351;
+	Thu, 19 Mar 2026 14:11:57 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: [PATCH v3 4/4] rust: make `build_assert` module the home of related macros
-Date: Thu, 19 Mar 2026 12:16:48 +0000
-Message-ID: <20260319121653.2975748-5-gary@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260319121653.2975748-1-gary@kernel.org>
-References: <20260319121653.2975748-1-gary@kernel.org>
-Reply-To: Gary Guo <gary@garyguo.net>
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
+	Jordan Richards <jordanrichards@google.com>,
+	Ewan Milne <emilne@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH v12 0/5] shut down devices asynchronously
+Date: Thu, 19 Mar 2026 10:11:37 -0400
+Message-ID: <20260319141142.5781-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: UbJosGVHxWTPp1ODcRYdTjvT585ebAbA6dZE1nq3Dqs_1773929522
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-From: Gary Guo <gary@garyguo.net>
+This patchset allows the kernel to shutdown devices asynchronously and
+unrelated async devices to be shut down in parallel to each other.
 
-Given the macro scoping rules, all macros are rendered 3 times, in the
-module, in the top-level of kernel crate, and in the prelude.
+Only devices which explicitly enable it are shut down asynchronously. The
+default is for a device to be shut down from the synchronous shutdown loop.
 
-Add `#[doc(no_inline)]` to the prelude so it just shows up as re-export.
-Add `#[doc(hidden)]` to the macro definition and `#[doc(inline)]` to the
-re-export inside `build_assert` module so the top-level items are hidden.
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch. And on another system from
+80 seconds to 11.
 
-Signed-off-by: Gary Guo <gary@garyguo.net>
----
- drivers/gpu/nova-core/bitfield.rs    |  4 ++--
- drivers/gpu/nova-core/num.rs         |  2 +-
- rust/kernel/build_assert.rs          | 19 ++++++++++++-------
- rust/kernel/dma.rs                   |  5 +++--
- rust/kernel/io/register.rs           | 19 ++++++++++++-------
- rust/kernel/io/resource.rs           |  2 +-
- rust/kernel/ioctl.rs                 |  2 +-
- rust/kernel/net/phy/reg.rs           |  8 +++++---
- rust/kernel/num/bounded.rs           |  2 +-
- rust/kernel/prelude.rs               |  3 ++-
- rust/kernel/sync/atomic/internal.rs  |  9 ++++++---
- rust/kernel/sync/atomic/predefine.rs |  2 +-
- rust/kernel/sync/locked_by.rs        |  2 +-
- rust/kernel/sync/refcount.rs         |  8 +++++---
- rust/kernel/xarray.rs                | 10 ++++++++--
- 15 files changed, 61 insertions(+), 36 deletions(-)
+Changes from V11:
+  * Swap the order of the first two patches
+  * Rework conditional parent locking so that lock and unlock no longer use
+    separate conditional checks
+  * Remove an used variable
+  * Comment and description text cleanups
 
-diff --git a/drivers/gpu/nova-core/bitfield.rs b/drivers/gpu/nova-core/bitfield.rs
-index 16e143658c51..c3e1235ad7fb 100644
---- a/drivers/gpu/nova-core/bitfield.rs
-+++ b/drivers/gpu/nova-core/bitfield.rs
-@@ -170,7 +170,7 @@ impl $name {
-     (@check_field_bounds $hi:tt:$lo:tt $field:ident as bool) => {
-         #[allow(clippy::eq_op)]
-         const _: () = {
--            ::kernel::build_assert!(
-+            ::kernel::build_assert::build_assert!(
-                 $hi == $lo,
-                 concat!("boolean field `", stringify!($field), "` covers more than one bit")
-             );
-@@ -181,7 +181,7 @@ impl $name {
-     (@check_field_bounds $hi:tt:$lo:tt $field:ident as $type:tt) => {
-         #[allow(clippy::eq_op)]
-         const _: () = {
--            ::kernel::build_assert!(
-+            ::kernel::build_assert::build_assert!(
-                 $hi >= $lo,
-                 concat!("field `", stringify!($field), "`'s MSB is smaller than its LSB")
-             );
-diff --git a/drivers/gpu/nova-core/num.rs b/drivers/gpu/nova-core/num.rs
-index c952a834e662..329169b21b28 100644
---- a/drivers/gpu/nova-core/num.rs
-+++ b/drivers/gpu/nova-core/num.rs
-@@ -49,7 +49,7 @@ macro_rules! impl_safe_as {
-             #[allow(unused)]
-             #[inline(always)]
-             pub(crate) const fn [<$from _as_ $into>](value: $from) -> $into {
--                kernel::static_assert!(size_of::<$into>() >= size_of::<$from>());
-+                ::kernel::build_assert::static_assert!(size_of::<$into>() >= size_of::<$from>());
+Changes from V10:
+
+Reworked to more closely match the design used for async suspend
+  * No longer uses async subsystem cookies for synchronization
+  * Minimized changes to struct device
+  * Enable async shutdown for pci and scsi devices which support async suspend
+
+Changes from V9:
+
+Address resource and timing issues when spawning a unique async thread
+for every device during shutdown:
+  * Make the asynchronous threads able to shut down multiple devices,
+    instead of spawning a unique thread for every device.
+  * Modify core kernel async code with a custom wake function so it
+    doesn't wake up a thread waiting to synchronize on a cookie until
+    the cookie has reached the desired value, instead of waking up
+    every waiting thread to check the cookie every time an async thread
+    ends.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
  
-                 value as $into
-             }
-diff --git a/rust/kernel/build_assert.rs b/rust/kernel/build_assert.rs
-index 726d0b76ca2b..11ac83e515ac 100644
---- a/rust/kernel/build_assert.rs
-+++ b/rust/kernel/build_assert.rs
-@@ -61,15 +61,16 @@
- //! undefined symbols and linker errors, it is not developer friendly to debug, so it is recommended
- //! to avoid it and prefer other two assertions where possible.
- 
-+#[doc(inline)]
- pub use crate::{
--    build_assert,
-+    build_assert_macro as build_assert,
-     build_error,
-     const_assert,
-     static_assert, //
- };
- 
- #[doc(hidden)]
--pub use build_error::build_error;
-+pub use build_error::build_error as build_error_fn;
- 
- /// Static assert (i.e. compile-time assert).
- ///
-@@ -105,6 +106,7 @@
- /// static_assert!(f(40) == 42, "f(x) must add 2 to the given input.");
- /// ```
- #[macro_export]
-+#[doc(hidden)]
- macro_rules! static_assert {
-     ($condition:expr $(,$arg:literal)?) => {
-         const _: () = ::core::assert!($condition $(,$arg)?);
-@@ -133,6 +135,7 @@ macro_rules! static_assert {
- /// }
- /// ```
- #[macro_export]
-+#[doc(hidden)]
- macro_rules! const_assert {
-     ($condition:expr $(,$arg:literal)?) => {
-         const { ::core::assert!($condition $(,$arg)?) };
-@@ -157,12 +160,13 @@ macro_rules! const_assert {
- /// // foo(usize::MAX); // Fails to compile.
- /// ```
- #[macro_export]
-+#[doc(hidden)]
- macro_rules! build_error {
-     () => {{
--        $crate::build_assert::build_error("")
-+        $crate::build_assert::build_error_fn("")
-     }};
-     ($msg:expr) => {{
--        $crate::build_assert::build_error($msg)
-+        $crate::build_assert::build_error_fn($msg)
-     }};
- }
- 
-@@ -200,15 +204,16 @@ macro_rules! build_error {
- /// const _: () = const_bar(2);
- /// ```
- #[macro_export]
--macro_rules! build_assert {
-+#[doc(hidden)]
-+macro_rules! build_assert_macro {
-     ($cond:expr $(,)?) => {{
-         if !$cond {
--            $crate::build_assert::build_error(concat!("assertion failed: ", stringify!($cond)));
-+            $crate::build_assert::build_error_fn(concat!("assertion failed: ", stringify!($cond)));
-         }
-     }};
-     ($cond:expr, $msg:expr) => {{
-         if !$cond {
--            $crate::build_assert::build_error($msg);
-+            $crate::build_assert::build_error_fn($msg);
-         }
-     }};
- }
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index a396f8435739..f209fb334c85 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -5,12 +5,13 @@
- //! C header: [`include/linux/dma-mapping.h`](srctree/include/linux/dma-mapping.h)
- 
- use crate::{
--    bindings, build_assert, device,
-+    bindings,
-+    device,
-     device::{Bound, Core},
-     error::{to_result, Result},
-     prelude::*,
-     sync::aref::ARef,
--    transmute::{AsBytes, FromBytes},
-+    transmute::{AsBytes, FromBytes}, //
- };
- use core::ptr::NonNull;
- 
-diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
-index abc49926abfe..2133d3e62fd5 100644
---- a/rust/kernel/io/register.rs
-+++ b/rust/kernel/io/register.rs
-@@ -108,9 +108,10 @@
- 
- use core::marker::PhantomData;
- 
--use crate::io::IoLoc;
--
--use kernel::build_assert;
-+use crate::{
-+    build_assert::build_assert,
-+    io::IoLoc, //
-+};
- 
- /// Trait implemented by all registers.
- pub trait Register: Sized {
-@@ -872,7 +873,7 @@ macro_rules! register {
-         @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty)
-             [ $size:expr, stride = $stride:expr ] @ $offset:literal { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
-+        $crate::build_assert::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(@io_base $name($storage) @ $offset);
-@@ -895,7 +896,9 @@ macro_rules! register {
-         @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty) => $alias:ident [ $idx:expr ]
-             { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!($idx < <$alias as $crate::io::register::RegisterArray>::SIZE);
-+        $crate::build_assert::static_assert!(
-+            $idx < <$alias as $crate::io::register::RegisterArray>::SIZE
-+        );
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(
-@@ -912,7 +915,7 @@ macro_rules! register {
-             [ $size:expr, stride = $stride:expr ]
-             @ $base:ident + $offset:literal { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
-+        $crate::build_assert::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(@io_base $name($storage) @ $offset);
-@@ -938,7 +941,9 @@ macro_rules! register {
-         @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty)
-             => $base:ident + $alias:ident [ $idx:expr ] { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!($idx < <$alias as $crate::io::register::RegisterArray>::SIZE);
-+        $crate::build_assert::static_assert!(
-+            $idx < <$alias as $crate::io::register::RegisterArray>::SIZE
-+        );
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(
-diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-index b7ac9faf141d..17b0c174cfc5 100644
---- a/rust/kernel/io/resource.rs
-+++ b/rust/kernel/io/resource.rs
-@@ -229,7 +229,7 @@ impl Flags {
-     // Always inline to optimize out error path of `build_assert`.
-     #[inline(always)]
-     const fn new(value: u32) -> Self {
--        crate::build_assert!(value as u64 <= c_ulong::MAX as u64);
-+        build_assert!(value as u64 <= c_ulong::MAX as u64);
-         Flags(value as c_ulong)
-     }
- }
-diff --git a/rust/kernel/ioctl.rs b/rust/kernel/ioctl.rs
-index 2fc7662339e5..5bb5b48cf949 100644
---- a/rust/kernel/ioctl.rs
-+++ b/rust/kernel/ioctl.rs
-@@ -6,7 +6,7 @@
- 
- #![expect(non_snake_case)]
- 
--use crate::build_assert;
-+use crate::build_assert::build_assert;
- 
- /// Build an ioctl number, analogous to the C macro of the same name.
- #[inline(always)]
-diff --git a/rust/kernel/net/phy/reg.rs b/rust/kernel/net/phy/reg.rs
-index a7db0064cb7d..80e22c264ea8 100644
---- a/rust/kernel/net/phy/reg.rs
-+++ b/rust/kernel/net/phy/reg.rs
-@@ -9,9 +9,11 @@
- //! defined in IEEE 802.3.
- 
- use super::Device;
--use crate::build_assert;
--use crate::error::*;
--use crate::uapi;
-+use crate::{
-+    build_assert::build_assert,
-+    error::*,
-+    uapi, //
-+};
- 
- mod private {
-     /// Marker that a trait cannot be implemented outside of this crate
-diff --git a/rust/kernel/num/bounded.rs b/rust/kernel/num/bounded.rs
-index f9f90d6ec482..dafe77782d79 100644
---- a/rust/kernel/num/bounded.rs
-+++ b/rust/kernel/num/bounded.rs
-@@ -364,7 +364,7 @@ pub fn try_new(value: T) -> Option<Self> {
-     // Always inline to optimize out error path of `build_assert`.
-     #[inline(always)]
-     pub fn from_expr(expr: T) -> Self {
--        crate::build_assert!(
-+        crate::build_assert::build_assert!(
-             fits_within(expr, N),
-             "Requested value larger than maximal representable value."
-         );
-diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
-index 6a54597fa0a2..baf8f6a94ea1 100644
---- a/rust/kernel/prelude.rs
-+++ b/rust/kernel/prelude.rs
-@@ -29,7 +29,8 @@
- 
- pub use pin_init::{init, pin_data, pin_init, pinned_drop, InPlaceWrite, Init, PinInit, Zeroable};
- 
--pub use super::{
-+#[doc(no_inline)]
-+pub use crate::build_assert::{
-     build_assert,
-     build_error,
-     const_assert,
-diff --git a/rust/kernel/sync/atomic/internal.rs b/rust/kernel/sync/atomic/internal.rs
-index ad810c2172ec..9c8a7a203abd 100644
---- a/rust/kernel/sync/atomic/internal.rs
-+++ b/rust/kernel/sync/atomic/internal.rs
-@@ -4,8 +4,11 @@
- //!
- //! Provides 1:1 mapping to the C atomic operations.
- 
--use crate::bindings;
--use crate::macros::paste;
-+use crate::{
-+    bindings,
-+    build_assert::static_assert,
-+    macros::paste, //
-+};
- use core::cell::UnsafeCell;
- use ffi::c_void;
- 
-@@ -46,7 +49,7 @@ pub trait AtomicImpl: Sized + Copy + private::Sealed {
- // In the future when a CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=n architecture plans to support Rust, the
- // load/store helpers that guarantee atomicity against RmW operations (usually via a lock) need to
- // be added.
--crate::static_assert!(
-+static_assert!(
-     cfg!(CONFIG_ARCH_SUPPORTS_ATOMIC_RMW),
-     "The current implementation of atomic i8/i16/ptr relies on the architecure being \
-     ARCH_SUPPORTS_ATOMIC_RMW"
-diff --git a/rust/kernel/sync/atomic/predefine.rs b/rust/kernel/sync/atomic/predefine.rs
-index 1d53834fcb12..2c92de040f03 100644
---- a/rust/kernel/sync/atomic/predefine.rs
-+++ b/rust/kernel/sync/atomic/predefine.rs
-@@ -2,7 +2,7 @@
- 
- //! Pre-defined atomic types
- 
--use crate::static_assert;
-+use crate::prelude::*;
- use core::mem::{align_of, size_of};
- use ffi::c_void;
- 
-diff --git a/rust/kernel/sync/locked_by.rs b/rust/kernel/sync/locked_by.rs
-index 61f100a45b35..fb4a1430b3b4 100644
---- a/rust/kernel/sync/locked_by.rs
-+++ b/rust/kernel/sync/locked_by.rs
-@@ -3,7 +3,7 @@
- //! A wrapper for data protected by a lock that does not wrap it.
- 
- use super::{lock::Backend, lock::Lock};
--use crate::build_assert;
-+use crate::build_assert::build_assert;
- use core::{cell::UnsafeCell, mem::size_of, ptr};
- 
- /// Allows access to some data to be serialised by a lock that does not wrap it.
-diff --git a/rust/kernel/sync/refcount.rs b/rust/kernel/sync/refcount.rs
-index 6c7ae8b05a0b..23a5d201f343 100644
---- a/rust/kernel/sync/refcount.rs
-+++ b/rust/kernel/sync/refcount.rs
-@@ -4,9 +4,11 @@
- //!
- //! C header: [`include/linux/refcount.h`](srctree/include/linux/refcount.h)
- 
--use crate::build_assert;
--use crate::sync::atomic::Atomic;
--use crate::types::Opaque;
-+use crate::{
-+    build_assert::build_assert,
-+    sync::atomic::Atomic,
-+    types::Opaque, //
-+};
- 
- /// Atomic reference counter.
- ///
-diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-index a49d6db28845..8fc4eab02642 100644
---- a/rust/kernel/xarray.rs
-+++ b/rust/kernel/xarray.rs
-@@ -5,10 +5,16 @@
- //! C header: [`include/linux/xarray.h`](srctree/include/linux/xarray.h)
- 
- use crate::{
--    alloc, bindings, build_assert,
-+    alloc,
-+    bindings,
-+    build_assert::build_assert,
-     error::{Error, Result},
-     ffi::c_void,
--    types::{ForeignOwnable, NotThreadSafe, Opaque},
-+    types::{
-+        ForeignOwnable,
-+        NotThreadSafe,
-+        Opaque, //
-+    }, //
- };
- use core::{iter, marker::PhantomData, pin::Pin, ptr::NonNull};
- use pin_init::{pin_data, pin_init, pinned_drop, PinInit};
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
+
+Changes from V2:
+
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+
+Stuart Hayes (2):
+  driver core: separate function to shutdown one device
+  driver core: don't always lock parent in shutdown
+
+David Jeffery (5):
+  driver core: async device shutdown infrastructure
+  PCI: enable async shutdown support
+  scsi: enable async shutdown support
+
+ drivers/base/base.h       |   2 +
+ drivers/base/core.c       | 176 +++++++++++++++++++++++++++++++-------
+ drivers/pci/probe.c       |   2 +
+ drivers/scsi/hosts.c      |   3 +
+ drivers/scsi/scsi_scan.c  |   1 +
+ drivers/scsi/scsi_sysfs.c |   4 +
+ include/linux/device.h    |  13 +++
+ 7 files changed, 170 insertions(+), 31 deletions(-)
+
 -- 
-2.51.2
+2.53.0
 
