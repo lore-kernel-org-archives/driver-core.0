@@ -1,221 +1,235 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709113E8C71;
-	Thu, 19 Mar 2026 15:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C1A3E92BB
+	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 16:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773935468; cv=none; b=cNooLVcSYTvSbNS3rtYSdKbZ015JzYG46iuaE0WOLFOX3Kxa6WSqNGg39cWQu172J35ua/YZ74AI3FQLugDWQ0s+15KhS3fs5d1/PDsUO4ut/aSJ3fDMefaNOgD4SRCo+bqTWoOeSzvYsHnEH6iKbnJRGfCYKjLfLUxJRyucKqA=
+	t=1773936674; cv=none; b=B5af3JXu7WHY6mUnGvoXEzSx5Ld/VejlR9vtD0XylzdQBuA3fq12XwSnUdY0JaQUyprVMyBw0K3DBWuWi9mw3tkg4uSSM6rKzLpXzQlbW32PPZc20YBpmzwL6YweMpvMxf31espuXJXVZ8SQ2GLgKz87P4ViZOC8QHYZ01KO1/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773935468; c=relaxed/simple;
-	bh=91cH2CbRAR12ZCPZWyAWRGP+rpGAztdeAD0HPqG988E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Q6YdZPjxfhWuclCOh9qi2tFNyP6y+o91I5aMg1VhNA8REQM4miJDuMpzFrgUAf1GdMR6ivZOKO+sKC+Sa9zhj5bssgGaQcLI8MDLbhJEZfXoiQAagjMzghhEjkRp+7ka3zGgX85Io2uVwemRshd5PmlTvkAwzNmPXbG4hT9ExVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQUAI4z3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773936674; c=relaxed/simple;
+	bh=pAa4lSJt1eX5y7wxtdI7aP4F3W8n+Uq5GJrm501jlWs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gG3wLOvHrNBHjcx5Xs9kmvfp7btxz46ccchi5zDP8fffiylH+gzfR6yyRGD3DwGyHXfsXXBn/gxaFz4iHOe0czBObFGEqiGPmJhmt3Ee2oRbhYo3GvSV1/I43DBNPcfy96FjJrxvo8jRrmZ2zMaBTce5UA8wmwNB0+t7KwolNuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UuqVAtaD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Uap3p4td; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQUAI4z3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5537BC2BCAF;
-	Thu, 19 Mar 2026 15:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773935468;
-	bh=91cH2CbRAR12ZCPZWyAWRGP+rpGAztdeAD0HPqG988E=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=GQUAI4z3jxrPJooLhGCiPdNm2utBZ+gntywtpVuOsIkwIgwm0fL+IRNozZKmbUTU1
-	 FVmMxddL4nq+wu96doIBWSCwZgAWjguFt63RcafU12cwYw9UxmJBust60YtKzj+a+f
-	 yQ15HPRE6RGZoXd6Wc8CyywpycHcQQr/yB+5PGw4W7NlZJv+Fhi9++SfthfVqj7wbk
-	 0/814kAkCFVOOJQ2bIZPwk1zrMAF8HL5oMJt9HkFK9ncl/0qh0AtpQOTtb3AEqauq2
-	 JoxlE84YdOApWXRZqj33Hz7ZPCAd0hWRhUnTkz25j/ewin5NfKDncoSklNMCYwag+d
-	 DDLh00WGfczWg==
-Message-ID: <8d6de94bc586741d97787c328fc57e5c64c06bc9.camel@kernel.org>
-Subject: Re: [PATCH v3] firmware_loader: allow firmware_class.path to take
- multiple paths
-From: Jeff Layton <jlayton@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michal Grzedzicki
-	 <mge@meta.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>,  Danilo Krummrich	 <dakr@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>,  "driver-core@lists.linux.dev"	
- <driver-core@lists.linux.dev>, "linux-kernel@vger.kernel.org"	
- <linux-kernel@vger.kernel.org>
-Date: Thu, 19 Mar 2026 11:51:05 -0400
-In-Reply-To: <2026031940-alive-fled-155b@gregkh>
-References: <20260318-fw-path-v3-1-a701a08bc025@kernel.org>
-	 <2026031940-baritone-handsaw-f1d3@gregkh>
-	 <28b06032286beed696b0e95f9e96247cfd3ff667.camel@kernel.org>
-	 <2026031906-unspoiled-bunny-2279@gregkh>
-	 <efbcc06d09d6232b8dcd6793b5f12dcb85e9f1ee.camel@kernel.org>
-	 <A24983CC-F76E-43A4-8428-D4F323B2486E@meta.com>
-	 <2026031940-alive-fled-155b@gregkh>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UuqVAtaD";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Uap3p4td"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62JDFKXf1921560
+	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 16:11:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=nceZfJ+3sqBsNfl8MmkTbM
+	4rULkZHkwhD/qFdlmV7fw=; b=UuqVAtaD4p6dbgtmfedqzWrSZ1NyaJ34xqcOVd
+	u/0GqvGhhjR2OleQO465Uv8odGoND2oaERQX7AnY+URkDfUMTOeyfXLSOTs5xpKG
+	KJ6KroKhzTz7rIWIjsv9cQrVk7blULQtOJtzrB1CO/jehWwVDgTF0dd+65SWyH1f
+	KpzJI6ZqR1RgJPBJwKbVukg6fNSL27t8ERrexW6KGjPb6q1bqiMs+FRrVzmJ0tt4
+	UhnoECwCXCDvJGKzh9my+v/EnxmXsa8Rt5Zwa8sW2Kom18xsjj+0L11z0To3tZPD
+	Js5Sqw4kr3v5HBSf7YZpsshh2i6kM/7LpAhSI8I9549bg/Uw==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d00egbvfg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 16:11:10 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-94d6c5433a0so11900824241.1
+        for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 09:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773936669; x=1774541469; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nceZfJ+3sqBsNfl8MmkTbM4rULkZHkwhD/qFdlmV7fw=;
+        b=Uap3p4td1cc028vhvlRIEDGWs+docVUHIpyb3XHQ9rF4NzH7KIb/xfnWBk5Rw3mUn0
+         a13Bg3z0gc4EXIyeIPk8XkQUC45f9P7e3JJSFfjXZx+HJT8Wrzmny9hlHVWCiI4K1X5Y
+         t3DNLgysL1j1mk20HE0WCvNkvFLhbpe6WY3hhUY9mNS01Ott3EollBOEbfD3M+COKGti
+         2hwGx+WLzO+tuZI9hJPU6rYYkoqGJdqMtQ3lDfFWAJCnj9aHvBtQ+l+9KYIeZcHmB4Uc
+         w6/lhrqt9N3iQYjxr2bwlcas56/C1qFwQJZHRLPAvJkqpFafefrfKIGHcqoOjsGqM3TA
+         4PYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773936669; x=1774541469;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nceZfJ+3sqBsNfl8MmkTbM4rULkZHkwhD/qFdlmV7fw=;
+        b=RS+9WEBLGj3zMDNzJAe256CmM+HsXOddEIRf1D0tRI+1uG1uwgUKWGw4XGJfG8O04L
+         ssMkSIO9/Sdnk9i3cE3QsyDdjOl0oi1JgnVSuPxfYuWVhjTsIMbwTAxTTLdPTVlX1qA+
+         aFZDiJfDAZ3aTtSOJXCNVcoifs4BuQVrBkQmN8ZwmjaRdkF6sr+iW17+Kb0pul1RJ08g
+         U9UCyAG3Hv1k8yI3XnTwbmN1WYkCRsifjH66B7AP/3+Nxxeq7OpPukfS/6G7VxH1H0vM
+         Dy0f8929PA5wpFynsDhkUQ8DQui93zKZwfGwGF67LYF8HaaAg//Ap7botsqdF0rICBT2
+         t1xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/vGrd4Xu1mzpOx+j6ggGb2JwZOdIFUju42u6ZANroYVExvhSnobDX269b+dBDtkRaLXwP0+UMBIZP+g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxd8p6rEPPLG0pZaE+2mZuZdo/gZz2kXfnWqIx5WC4M1motc3Fx
+	XmwyIZFc6PXCnlREKqaQOSsIM1b/LLuDsWo48+ExXw60P5b/LIiHx6OH/uhtHfaYjl0jLKoAU3v
+	qc+1fGtEV7jw8ojAJj2FQMhrYWiBkRugjdGt98Miq4EsD6CS4p+4vj3Iudg7EAMsRyg==
+X-Gm-Gg: ATEYQzy7md2L9g8X1w4foih+dpGt0d5Q6L2MC9njjpxHCIVFjP5CbpIJmgD4fE/cKsE
+	/VSOJ4mhqDjDE6caO8hglXJAf7eewtI5vLyzug8I+WPARwt6Nj80GrTv1vKreBogTpiaUTbdY/G
+	H/LnebGyrLRqDm/7Q6hDgFPNfCA8cy+81vvfcbMGbu8zIy1NSGn3P7bYIri5l7Qde54lHU4TIvl
+	oMrHSmDEdG7IANKJp2ECuXrgYOM9xvrqb/EpZrGTbgReUuPgzt0c4ibUMrsvofxzdhd3kyU3l/i
+	IRlxJMky91JioE0567XUdgOKRGZ3ywPDofFxVqcWNri9yq9zytXJTxX1AtVH/QCZxLNZ5tMD+0T
+	xi365hufjo4kLM8k2KlwUvzf8NUwYfcMERzMpvCOWyakYeTUmGYIs
+X-Received: by 2002:a05:6102:26c9:b0:602:80fa:ee9a with SMTP id ada2fe7eead31-602ae79fd0dmr90743137.0.1773936668975;
+        Thu, 19 Mar 2026 09:11:08 -0700 (PDT)
+X-Received: by 2002:a05:6102:26c9:b0:602:80fa:ee9a with SMTP id ada2fe7eead31-602ae79fd0dmr90694137.0.1773936668505;
+        Thu, 19 Mar 2026 09:11:08 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:9d74:8015:408c:d719])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f4e5495csm83756915e9.2.2026.03.19.09.11.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 09:11:07 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH 0/4] platform/x86: x86-android-tablets: use real firmware
+ node references with intel drivers
+Date: Thu, 19 Mar 2026 17:10:53 +0100
+Message-Id: <20260319-baytrail-real-swnode-v1-0-75f2264ae49f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA4gvGkC/x3M3QpAQBBA4VfRXJtalMWryMWwgyktzcpP8u42l
+ 9/FOQ8EVuEATfKA8iFBVh+RpQkMM/mJUVw05CYvTZHV2NO9K8mCyrRgOP3qGK1jS0VlzWgriOm
+ mPMr1b9vufT88Ue1vZgAAAA==
+X-Change-ID: 20260319-baytrail-real-swnode-7de7a3870f78
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>,
+        Hans de Goede <hansg@kernel.org>,
+        =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4472;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=pAa4lSJt1eX5y7wxtdI7aP4F3W8n+Uq5GJrm501jlWs=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpvCARRxDRtIINByeRuSym3dN5SmO8nU7TwUKxF
+ VxxDZ4+/huJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCabwgEQAKCRAFnS7L/zaE
+ w9NtEACIoDgpGhpNS7/dur+iU8YGQwrvgaM0TBz/nl1UhJqMNXJUq7bhFSR3hYEMFRubZa/LEU/
+ nPU7YpaZJhNtJrFRdLUW1BSUzesL/beg/0nPoZ+LMRg4gxFywujHceqDR7Z1+/25hDMXJP39N7H
+ neNeaLyLKxFtcwvZ8OLSdydCdvi0rQ106KVFNmXlrPttmK4t4iCLsAIuEYBuiBSz2SLgngwsdNg
+ 7QLCIa3Uq9T2cGxUGpJCmJN64Hkn1iWPeRfBMyct31TAA+ZlNP9cnK759f0bPRycVPLhGpvBGp1
+ sKD/pp1W7G1kxStrOeUPs5i6a41DR6cvR9+e9P0u+rFQhUGv+ed1C5ot2lJrdU633ysn/seW0pK
+ c4Evq4MRJqo5cUbxT4arrIlcSV0x4NlNhICbHpw8QH9mGjCT8KVHA6+/rIkf3+Pbozj9Azxo8IZ
+ i+n593rFtErjRG18Qwyaf9ES6VCcdIjUfsX0x2KlEyBURa1baj29lAf8eneLQz4M1VOq75mYs4j
+ dLyrL9xq60s+2fFLSL8FZX4arBe+m5Qd/1rmVygO2tUKnSFGTO8VxeSDhsl/1Chx05Ijx2if2Lo
+ aQp9T/5AGZV/y91PaS0iErzQRGd4uck7XXojgtGlUi5n9coRn3dqzRHpTj52V/RgTg985+yyYZY
+ FRMXL25e/bCbfCQ==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Authority-Analysis: v=2.4 cv=MMNtWcZl c=1 sm=1 tr=0 ts=69bc201e cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
+ a=mdeBE-fw4-FjdeD6YvcA:9 a=QEXdDO2ut3YA:10 a=o1xkdb1NAhiiM49bd1HK:22
+X-Proofpoint-ORIG-GUID: j9zDoWH5bIykkIHuxThlD3AX2ZCLHcUT
+X-Proofpoint-GUID: j9zDoWH5bIykkIHuxThlD3AX2ZCLHcUT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE5MDEyOSBTYWx0ZWRfX2HKnueSofpNM
+ dBSQJ80HBnUdZvpF4pE0O7X37gX5yg/omwqJZEtML2t3NJtdr0wYcpvEJCuFK3tGZcL6XpM/Ibb
+ xtyNNISzjwlMElWxgCuHwgKo+RntufnfS1RtCFjYzC3YaiAP3/fYqkvMGsgzV+5oARQMjGwctjH
+ SWRsxckAYcTTkvij1ClQFKIBmhLljki+Iu+TBslYF99cz19jrnpR6DrtlScJmcbPwPrIOW9wkVM
+ Qle4EKXwztPgHJjhtMEFRhmhklDvaV24n7SW1aS3GBt4NvVAtrSlhZzyNyJTPyCpebtCHdlGOb4
+ DHcz7fJxR/Hg3RbOy7+pJYynIIEXzVONoL54XhW5LuaebQ4YiV6uzOBA7eWfunRJYvsjdGcA3Rd
+ wg5fRU8SXuwFc0Ev4lDyuNDiDWnFXXbWNCqWYUMla5TKyWCwykYqqm6FBxcfWzJ82sZMibIhgXB
+ z+DGmDzTbYKyDkozGdQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-19_02,2026-03-19_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 phishscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603190129
 
-On Thu, 2026-03-19 at 16:30 +0100, Greg Kroah-Hartman wrote:
-> On Thu, Mar 19, 2026 at 02:13:09PM +0000, Michal Grzedzicki wrote:
-> >=20
-> > > On 19 Mar 2026, at 11:47, Jeff Layton <jlayton@kernel.org> wrote:
-> > >=20
-> > > On Thu, 2026-03-19 at 12:39 +0100, Greg Kroah-Hartman wrote:
-> > > > On Thu, Mar 19, 2026 at 07:34:46AM -0400, Jeff Layton wrote:
-> > > > > On Thu, 2026-03-19 at 07:23 +0100, Greg Kroah-Hartman wrote:
-> > > > > > On Wed, Mar 18, 2026 at 03:54:02PM -0400, Jeff Layton wrote:
-> > > > > > > Refactor fw_get_filesystem_firmware() by extracting the per-p=
-ath
-> > > > > > > firmware loading logic into a new fw_try_firmware_path() help=
-er.
-> > > > > > >=20
-> > > > > > > Use this helper to parse fw_path_para for ':'-separated paths=
-,
-> > > > > > > trying each one before falling through to the default firmwar=
-e
-> > > > > > > search paths. This allows users to specify multiple custom fi=
-rmware
-> > > > > > > directories via firmware_class.path, e.g.:
-> > > > > > >=20
-> > > > > > >  firmware_class.path=3D/custom/path1:/custom/path2
-> > > > > > >=20
-> > > > > > > A backslash can be used as an escape character, allowing a li=
-teral
-> > > > > > > ':' ("\:") or literal '\' ("\\") to be embedded in a pathname=
-.
-> > > > > >=20
-> > > > > > This is a mess, what could go wrong embedding another parser in=
- the
-> > > > > > kernel :)
-> > > > > >=20
-> > > > > > Let's step back, why is this needed at all?  The kernel already=
- supports
-> > > > > > multiple standard locations for firmware paths, and one custom =
-location.
-> > > > > > Why do we now need more than that?  What changed to require thi=
-s and who
-> > > > > > is going to use it (and support it, and actually test it?)
-> > > > > >=20
-> > > > >=20
-> > > > > We have at least one internal user that requested the ability to =
-do
-> > > > > this. I'll see if they can articulate their use-case better.
-> > > >=20
-> > > > Please do.
-> > > >=20
-> > >=20
-> > > Michal said he'll outline his use-case.
-> >=20
-> >=20
-> > Internally, we distribute firmware binaries as read-only snapshots, and=
- a system may have more than one. Without this feature, we must maintain a =
-symlink farm to merge multiple snapshots into a single path. We would love =
-to remove this workaround and switch to just passing multiple paths.
-> >=20
-> > Also a common pattern I seen in vendor shell scripts is temporarily set=
-ting firmware_class.path to the current working directory, loading the modu=
-le, and then restoring firmware_class.path to its previous value, with this=
- feature it could be made safer.
->=20
-> How would putting a bunch of different filepaths be "safer"?  A shell
-> script will have to read the value, append their path to it, and then
-> write it back?=C2=A0
->=20
+Problem statement: GPIO software node lookup should rely exclusively on
+matching the addresses of the referenced firmware nodes. I tried to
+enforce it with commit e5d527be7e69 ("gpio: swnode: don't use the
+swnode's name as the key for GPIO lookup") but it broke existing
+users who abuse the software node mechanism by creating "dummy" software
+nodes named after the device they want to get GPIOs from but never
+attaching them to the actual GPIO devices. They rely on the current
+behavior of GPIOLIB where it will match the label of the GPIO controller
+against the name of the software node and does not require a true link.
 
-It's safer in that you don't have to have a shell script monkeying with
-the path string.
+x86-android-tablets driver is one of the abusers in that it creates
+dummy software nodes for baytrail and cherryview GPIO controllers but
+they don't really reference these devices. Before we can reapply
+e5d527be7e69 and support matching by fwnode address exclusively, we need
+to convert all the users to using actual fwnode references.
 
-> And how will that ever work given that they will not
-> know if this is a kernel version that can support multiple paths in a
-> single value?
->=20
-> I think if you are going to change the way the option works, it needs to
-> be renamed so that everyone "knows" they can rely on it, otherwise no
-> one will use it.
->=20
+It's possible for drivers to reference real firmware nodes from software
+nodes via PROPERTY_ENTRY_REF() in general or PROPERTY_ENTRY_GPIO()
+specifically but for platform devices binding to real firmware nodes (DT
+or ACPI) it's cumbersome as they would need to dynamically look for the
+right nodes and create references dynamically with no way of using
+static const software nodes.
 
-That is a valid point though. I'd be open to adding a separate module
-option for this. Some name ideas:
+This series proposes a solution in the form of automatic secondary
+software node assignment (I'm open to better naming ideas). We extend
+the swnode API with functions allowing to set up a behind-the-scenes bus
+notifier for a group of named software nodes. It will wait for bus
+events and when a device is added, it will check its name against the
+software node's name and - on match - assign the software node as the
+secondary firmware node of the device's *real* firmware node.
 
-paths=3D
-searchpath=3D
-search=3D
+For now it only supports name matching but I suppose we could extend it
+with additional mechanisms if needed. I didn't plan to introduce a
+generic API for this initially but the code in cherryview and baytrail
+drivers ended up being exactly the same so I decided to factor it out
+into common library code.
 
-Anyone have opinions?
---=20
-Jeff Layton <jlayton@kernel.org>
+First patch provides the new interfaces. Next two patches set up
+automatic secondary fwnodes for intel baytrail and cherryview drivers.
+Finally patch 4/4 replaces the dummy software nodes with ones that will
+end up actually being attached to the relevant devices.
+
+GPIOLIB is now able to match a GPIO controller by both its primary as
+well as secondary firmware node. While I don't have the relevant
+hardware, I tested the series and the new behavior on x86 qemu with
+a dummy ACPI table and modified gpio-sim. I assume it will work in real
+life but testing is welcome.
+
+Merging strategy: This touches three trees and there are build-time
+dependencies. I think it should go through the x86 platform tree with
+Ilpo providing an immutable branch for the driver core and pinctrl
+trees.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Bartosz Golaszewski (4):
+      software node: support automatic secondary fwnode assignment
+      pinctrl: intel: expose software nodes for baytrail GPIO devices
+      pinctrl: intel: expose software nodes for cherryiew GPIO devices
+      platform/x86: x86-android-tablets: enable fwnode matching of GPIO chips
+
+ drivers/base/swnode.c                              | 105 +++++++++++++++++++++
+ drivers/pinctrl/intel/pinctrl-baytrail.c           |  40 +++++++-
+ drivers/pinctrl/intel/pinctrl-cherryview.c         |  47 ++++++++-
+ drivers/platform/x86/x86-android-tablets/Kconfig   |   1 +
+ drivers/platform/x86/x86-android-tablets/acer.c    |  11 ++-
+ drivers/platform/x86/x86-android-tablets/asus.c    |   9 +-
+ drivers/platform/x86/x86-android-tablets/core.c    |  47 +--------
+ drivers/platform/x86/x86-android-tablets/lenovo.c  |  31 +++---
+ drivers/platform/x86/x86-android-tablets/other.c   |  23 ++---
+ .../x86/x86-android-tablets/shared-psy-info.c      |   7 +-
+ .../x86/x86-android-tablets/x86-android-tablets.h  |   4 -
+ include/linux/pinctrl/intel.h                      |  17 ++++
+ include/linux/property.h                           |  18 ++++
+ 13 files changed, 270 insertions(+), 90 deletions(-)
+---
+base-commit: f50e991d263338028b296f4398c669feca8f0c3b
+change-id: 20260319-baytrail-real-swnode-7de7a3870f78
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
