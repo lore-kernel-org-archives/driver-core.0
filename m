@@ -1,92 +1,109 @@
-Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189633ACF0B
-	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 14:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A7B3E1D07;
+	Thu, 19 Mar 2026 15:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773930803; cv=none; b=eEthXEzP0y3aIRbJbLNcnlU/T8QWwIboiAGRmp6yskutF2bsUwQEYlpi4fl4gjGXHmuVypRRSWPe/nTpHyvPfj/4+abqLUH71BK4PZ79cvSYV18vE3rdPU21iWRuboXPBW0678HbVjW772FeiucVNIJRbcUGAFFMn3Av+b2GplA=
+	t=1773934209; cv=none; b=tzHzd3/ar7pZPCIeNSEVql1D5kAHHMv4BrMDdO/G3dplZi90uC7841gpIsMly9DrrtyUpjdKg7zIOLzvzuQKlF8IDXxx4y3GhSyBF1W+SSD05B3GAtsKgVLr/1cpNzqmH1TwRiK8y5BcivcacidPepnLhWPHPCpPB4prxmgYKfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773930803; c=relaxed/simple;
-	bh=CUqfhEJRi2PChR2DmP6wNUXoON4jGbn9sMb3OgUY2KA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=rAf10DGhIMDBctKzAMcAHBf0dHIjv0rQ/vTa9fK1KkCbddIx3oCBgthDZxoQmcGm6VxQzS5BwN/V6kE3siTlpZQ9cJg+D9pvgWFH5FPXYSAukt5xD+syxIVcpgx6Ps5l85duaZUOKPZQDw5c9htk/XCq/vt5+QGRZMyp/+7qm3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JVVs6Ye0; arc=none smtp.client-ip=209.85.218.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1773934209; c=relaxed/simple;
+	bh=yHJXUYqS+4G3Ifz6Zr3lL3RYGSo6GuNq2lZOmgD2wOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=puaNar9R+qsKcKaMeZ604bLJHVstSD/Zh6w0/A3i7aHuxQswN9Ckn697g/Rs3eJrBdz/gH/6AZA2EXPs9u+vww9xymuZ8lvCJDHoYKP8NnGxsIZH6W2ww4GRGgMJnKsPx3mcrUuTb19Vk2FESJXTUSbBlmtSF2XJZ5IfyPXIGug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GpFlR/tl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JVVs6Ye0"
-Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-b8fa5744b82so125155966b.3
-        for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 07:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773930800; x=1774535600; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WPdU0RGKwneFH7OF6wzVXdtsY6BXzcqmiGE7v4NtV4M=;
-        b=JVVs6Ye0ypY0WwkvTh1Yvb91iPLtuyibN9335xfOQ3tWJmHJPXcKMSkz8vrA5w45oH
-         gZ1onx7mFRFnfILR2iBJdq3vFS8/kfoG/kBpox34TFhuuITqeZ1AOcyzGxme0PT+5TOB
-         cqHxyeGlxx1LkXQiaRFPymZwqDv3qllgyiOYH95LT28PXxRcXKof0VPg0suV5pB5LPey
-         HIzomVQLz8Wm03cyO9AtdCJ01N2ZJA0skaEkyL5rCzpwg2ZIfmCfI4p2H2t1Cneg+xd1
-         uT8ZkxrAaJXRM3W0EyNY13Vg2ROF1NzcVp/dIsSRoR6fMsenJGznzCXEX69ctsgm5LuA
-         +m2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773930800; x=1774535600;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WPdU0RGKwneFH7OF6wzVXdtsY6BXzcqmiGE7v4NtV4M=;
-        b=KMaWgsMpZ9uR7Zb7jDouK0dl/wWIrNwqLmxo00c3PIq1nwxa+q7IJHWehDyJrLDSx4
-         dF5sOt71VJ1DTD6M9IiSTSIoxCZNv5HZwJomu6nlRHkvDYc+etsNX+l5wAIeMQZGKU4v
-         E0FQJUaD+D46y6M2qklrT9kPH8jek/mfRhkfJL8SXhTdIOP9Ieyz6FF9TW8IREnLz2m1
-         miuZkGTF8Jc1keze7KHl4nq0Ppg1za5HyoW0Z8c57l+c6mkRlUA3bD0qPJ9OTjNLBmFo
-         I9OU7Zjg96lK/M6XvrxODe5P+o6e0NHst8nKc1cNO3TaEZa02YKVa1/atC6ui0lYHPo9
-         oMsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVIrgJkCX1tFpj4BaqAkJ1LsR9TaKeLikRylRxqfzgnj2tW72RlamiZddmB/KDW4avmH9zwwU1xukHYqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJKCJYXW05Cd95oKDuSBvLi9VrewA+knwrrh7ZcIr9e6I4YIXt
-	02sYX3WZ7qHbxsv3XTMa0ZwqHJYUZpnLz09nzFEqNuBcA6S4DmvodgJvFKJmQGUwffeFItBfPfu
-	moCJo5L8Qdi4evON7og==
-X-Received: from ejcdo3.prod.google.com ([2002:a17:906:c103:b0:b97:ccc1:b250])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:906:1d01:b0:b97:b9d5:4ae4 with SMTP id a640c23a62f3a-b97f48c3840mr428088066b.20.1773930800216;
- Thu, 19 Mar 2026 07:33:20 -0700 (PDT)
-Date: Thu, 19 Mar 2026 14:33:19 +0000
-In-Reply-To: <20260319121653.2975748-5-gary@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GpFlR/tl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D14AC19424;
+	Thu, 19 Mar 2026 15:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1773934209;
+	bh=yHJXUYqS+4G3Ifz6Zr3lL3RYGSo6GuNq2lZOmgD2wOY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GpFlR/tlZg8PBskWfta88H3op/yV+o5BFib72+/CpKATKF//E+j6UuN5rYrwNp9Zw
+	 +Fwtn6VbVXHBketl3NKC1D/odYJygpRT1+f+4NEpCRQGZyctli53Tv0g3PxBuYIi4j
+	 64OFfJ/SQ4MLfOG41lV0uPVtTFiT+wfIOhuplLLw=
+Date: Thu, 19 Mar 2026 16:30:04 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Michal Grzedzicki <mge@meta.com>
+Cc: Jeff Layton <jlayton@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] firmware_loader: allow firmware_class.path to take
+ multiple paths
+Message-ID: <2026031940-alive-fled-155b@gregkh>
+References: <20260318-fw-path-v3-1-a701a08bc025@kernel.org>
+ <2026031940-baritone-handsaw-f1d3@gregkh>
+ <28b06032286beed696b0e95f9e96247cfd3ff667.camel@kernel.org>
+ <2026031906-unspoiled-bunny-2279@gregkh>
+ <efbcc06d09d6232b8dcd6793b5f12dcb85e9f1ee.camel@kernel.org>
+ <A24983CC-F76E-43A4-8428-D4F323B2486E@meta.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260319121653.2975748-1-gary@kernel.org> <20260319121653.2975748-5-gary@kernel.org>
-Message-ID: <abwJL2OTFzSFdVxt@google.com>
-Subject: Re: [PATCH v3 4/4] rust: make `build_assert` module the home of
- related macros
-From: Alice Ryhl <aliceryhl@google.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>, Yury Norov <yury.norov@gmail.com>, 
-	Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Tamir Duberstein <tamird@kernel.org>, Yury Norov <ynorov@nvidia.com>, 
-	rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, netdev@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <A24983CC-F76E-43A4-8428-D4F323B2486E@meta.com>
 
-On Thu, Mar 19, 2026 at 12:16:48PM +0000, Gary Guo wrote:
-> From: Gary Guo <gary@garyguo.net>
+On Thu, Mar 19, 2026 at 02:13:09PM +0000, Michal Grzedzicki wrote:
 > 
-> Given the macro scoping rules, all macros are rendered 3 times, in the
-> module, in the top-level of kernel crate, and in the prelude.
+> > On 19 Mar 2026, at 11:47, Jeff Layton <jlayton@kernel.org> wrote:
+> > 
+> > On Thu, 2026-03-19 at 12:39 +0100, Greg Kroah-Hartman wrote:
+> >> On Thu, Mar 19, 2026 at 07:34:46AM -0400, Jeff Layton wrote:
+> >>> On Thu, 2026-03-19 at 07:23 +0100, Greg Kroah-Hartman wrote:
+> >>>> On Wed, Mar 18, 2026 at 03:54:02PM -0400, Jeff Layton wrote:
+> >>>>> Refactor fw_get_filesystem_firmware() by extracting the per-path
+> >>>>> firmware loading logic into a new fw_try_firmware_path() helper.
+> >>>>> 
+> >>>>> Use this helper to parse fw_path_para for ':'-separated paths,
+> >>>>> trying each one before falling through to the default firmware
+> >>>>> search paths. This allows users to specify multiple custom firmware
+> >>>>> directories via firmware_class.path, e.g.:
+> >>>>> 
+> >>>>>  firmware_class.path=/custom/path1:/custom/path2
+> >>>>> 
+> >>>>> A backslash can be used as an escape character, allowing a literal
+> >>>>> ':' ("\:") or literal '\' ("\\") to be embedded in a pathname.
+> >>>> 
+> >>>> This is a mess, what could go wrong embedding another parser in the
+> >>>> kernel :)
+> >>>> 
+> >>>> Let's step back, why is this needed at all?  The kernel already supports
+> >>>> multiple standard locations for firmware paths, and one custom location.
+> >>>> Why do we now need more than that?  What changed to require this and who
+> >>>> is going to use it (and support it, and actually test it?)
+> >>>> 
+> >>> 
+> >>> We have at least one internal user that requested the ability to do
+> >>> this. I'll see if they can articulate their use-case better.
+> >> 
+> >> Please do.
+> >> 
+> > 
+> > Michal said he'll outline his use-case.
 > 
-> Add `#[doc(no_inline)]` to the prelude so it just shows up as re-export.
-> Add `#[doc(hidden)]` to the macro definition and `#[doc(inline)]` to the
-> re-export inside `build_assert` module so the top-level items are hidden.
 > 
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+> Internally, we distribute firmware binaries as read-only snapshots, and a system may have more than one. Without this feature, we must maintain a symlink farm to merge multiple snapshots into a single path. We would love to remove this workaround and switch to just passing multiple paths.
+> 
+> Also a common pattern I seen in vendor shell scripts is temporarily setting firmware_class.path to the current working directory, loading the module, and then restoring firmware_class.path to its previous value, with this feature it could be made safer.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+How would putting a bunch of different filepaths be "safer"?  A shell
+script will have to read the value, append their path to it, and then
+write it back?  And how will that ever work given that they will not
+know if this is a kernel version that can support multiple paths in a
+single value?
+
+I think if you are going to change the way the option works, it needs to
+be renamed so that everyone "knows" they can rely on it, otherwise no
+one will use it.
+
+thanks,
+
+greg k-h
