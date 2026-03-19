@@ -1,194 +1,450 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazolkn19010074.outbound.protection.outlook.com [52.103.2.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37163ED5AD
-	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 17:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.2.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773940410; cv=fail; b=KKT3KbJdHZcaq5s+2DqkT0sKdptgRhPRfvnLkOlflZUXUZkhAeqFN/eMxBc/y9KswAJpTZv1bsWMM2rEey6piT1TrzjmBL9+ziHnmcEIAryEDwIVRGz39S8RZgPWDDaQ8Ppv3eJ1tZP0Q0BXJPpjWu/v7J3SHgdmMSgRcsSqaSE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773940410; c=relaxed/simple;
-	bh=QNGQguTGZKy92AfSvWuUohP0kQobkp33TgFtMUNMDSM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=t+GTwQC9GCy99aTD3Shq6RzLUdDKtJtL+KdLGOF6ctGyQcQUi9CvuHEYk/aQif87aTZNgyEc/6KaBL+98jFRa0G8GZPiJuT3nFscW45ELjfv8wtmQtWOlWjVj5ZsIYNrYQz2v78L1RtDtkXJGnn5Yyvub8sWXF5Jxj9Cx+U08jc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=hUl8Mn25; arc=fail smtp.client-ip=52.103.2.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8747338A292
+	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 17:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773941141; cv=none; b=rGTdTU3WO0DEdN1ToVs9iuk6eq6bt27gHygGuBBxkzeUhS30qz2KS+CZySD/9e6WgDQ8wMRHxx6JKL5XNF/lvJNHKOYiYxbw53L7TBwI0HtteLu78k26wmuRAGLSAmRfxZ4rwTP8DdyT9ct4oAZ/D2N3HKXp2Nn2G/ZCnuxDU8Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773941141; c=relaxed/simple;
+	bh=PheR7bnWRvNqOXZVWOZja4PgxItdOa1aeIc8SwrBgLg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N7u5bxlhjg3FUL7QZqhpb/aZmXaJeDKlnQsahTg26AuT+GQjXeqRquQmtxquRCsSRHecSw1rg/hY396sX6DYHc0fcpC6rpem0+whe/I31W6ceeUt0SPRwRocPGvO7jwvGyfq3QATCYIhxdzXUrKZ+7C0uinUPKQcsDJs0muP+KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rG5ccpfu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="hUl8Mn25"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f2tj9JCz7gzipcOcBTmSJDk3sStrBczihMZMPhNJ8lNBtjEX9GL6QwvhWKj146neH4ozpRHe1AyIX3AXdDQW90BH50lE18MstzBMhpKm9upXHx325iaBF8IBl6vpLXWaiCu3d368Qrj40grA/csyBV83ajeU4b4qpiTp6AIiGqt3dEojDHBRF3DECsEznYKSxExejT4YGXJSnp/bPhtNjFzEp/x9GK81LSZuN/CDJLTR55j8Y/EHTIHuBWoaw5v7pzju5EvSlfdJ4FtCAONdkLTmhhtmHp732NQKzEf5uxggY+NNPHuA8ncdurIujw0iCRq0Wx+PnXwmPmjalyTGrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QNGQguTGZKy92AfSvWuUohP0kQobkp33TgFtMUNMDSM=;
- b=PUQDsKGq1n7RnLTj89TOgrmwe9SX1o+b342JsJm++jCx8BqP2ws8LRQ+0t3KA/t2fSYtxE3Fg7foW4WaEdDDKwRO057PCMwt14kOxEIo0wvqZJuoLBxOJBCJBqh9ZGFWn2hHAU98Swnl76pu42x0IwmbTZqGixMJtpFyRQcn0hdxqlrY5OW1vRzBGm0uKcg/wuG1IA583V1edpHHmEldvk2pzyuTqNVpbcPaslrp41nKJUvxd1zxNfdKxmTGNwG+DN/ftlZEy+Rz5C0ngQ5NBxSdO//0E1Xc6Z2bj80tyXfcvHn7G21wAA4etnBbVn95zr6YNKvOvWYVsQp+IIKxBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QNGQguTGZKy92AfSvWuUohP0kQobkp33TgFtMUNMDSM=;
- b=hUl8Mn25z0g2e0RonLxu+towqM6wzAaFdNxAofgyml9p9w2LLaksgnOrBA/4NM53h8G6TM1g9omovh7tGnq6/EeR/vVQ0E76WHlWv0hQFpp1O3Z3eyzvxCxZntkao94e7/wCeXy2IxHYKfSMAy1KDS+WK6RsjMHH+eltcJ4vpm1f4nCPc36QHqHROmSdPxLDscuopXho8/JSq9v7h5qsK3itCrz423X66w6WnnhV51TaFgGtb9HUPkgaz/EMEZ0KWxdqpaoj0RWdL78SFWSj0SwwPgr+wMO/MwswECEW9PAN28VHyuXFNjuKZPuVcTb4JeCXEtajpOHmGuSRcH+vJw==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by CH0PR02MB7964.namprd02.prod.outlook.com (2603:10b6:610:105::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
- 2026 17:13:26 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6%6]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
- 17:13:26 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: David Jeffery <djeffery@redhat.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "driver-core@lists.linux.dev"
-	<driver-core@lists.linux.dev>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>
-CC: Tarun Sahu <tarunsahu@google.com>, Pasha Tatashin <tatashin@google.com>,
-	=?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, Jordan
- Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>, John
- Meneghini <jmeneghi@redhat.com>, "Lombardi, Maurizio" <mlombard@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman
-	<loberman@redhat.com>, Bart Van Assche <bvanassche@acm.org>, Bjorn Helgaas
-	<helgaas@kernel.org>, "linux-hyperv@vger.kernel.org"
-	<linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH v12 0/5] shut down devices asynchronously
-Thread-Topic: [PATCH v12 0/5] shut down devices asynchronously
-Thread-Index: AQFQZBVmnXuPJqmhSLeFKcIqGrNuP7bOuZIw
-Date: Thu, 19 Mar 2026 17:13:25 +0000
-Message-ID:
- <SN6PR02MB4157B4236D85ABFE41E83FC5D44FA@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20260319141142.5781-1-djeffery@redhat.com>
-In-Reply-To: <20260319141142.5781-1-djeffery@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|CH0PR02MB7964:EE_
-x-ms-office365-filtering-correlation-id: e8b19d7d-d7b0-4335-655e-08de85dad566
-x-microsoft-antispam:
- BCL:0;ARA:14566002|15080799012|37011999003|13091999003|8062599012|461199028|8060799015|19110799012|31061999003|102099032|440099028|3412199025|41105399003|53005399003|40105399003;
-x-microsoft-antispam-message-info:
- =?utf-8?B?bGFEUHM5dEtMMmh6RERHZElrVG1zaW83OFRaQjgrelA5bHp5M09EaTFVREh3?=
- =?utf-8?B?L2NEa3Z4R3ZZSlR3VDA5aS9VRHo5K3ptS0crcmVYbjZPSmlNdkt5NzVwc1Vh?=
- =?utf-8?B?OVZTMm5mL01jcUJhQk41MUpwTExGUGJiVzcxTWlkWDNqOThJcDJ5QlJMNHR5?=
- =?utf-8?B?UUY2MkRjMGNQaE5SZ2gzdCtST08xQzdwVnM4MUp1RXhQblZiQVE4cUFKQTVG?=
- =?utf-8?B?aEpBbU1aZDBFd3UzVE1TRXM3ZEE3dTdmSHFRekRaRWgwd0haNi94WEJGSzVQ?=
- =?utf-8?B?R21wSXFJcEJMVDNZZTN4SVZvVWdPQnNNR21ycHVZdjFWTFdTaUY4VzJtZlRJ?=
- =?utf-8?B?cTMyOFBndHVPNGtMSFgrV2ZZOUlsM2RrZHBzNUlEMkV6aWVNY0hQOXRzOTJp?=
- =?utf-8?B?WEEydU5aQlFldkQwWHJvTmw3L3Z3QlB0enYwL2lvZUpYQjhwb3BGZlREbGNT?=
- =?utf-8?B?eHhvei83Q0o4Z2RyQlJIbGdLL2dxcVFLSWtOcTlOM1IwdVRBR1ZhZG1Ha0hR?=
- =?utf-8?B?dlAwQWxHRkdaZHMvVHpOL1ViRjk4RkxBOHpCcGUvcExaNm5HRFJvcjJBU2pU?=
- =?utf-8?B?VkRFSFJVTSt6RS9WSW5BVHVxc2tNWHltOTB0RmwyMFBwSFZJYjgxb1FiOS9l?=
- =?utf-8?B?QUdIbm51eGlYR0JDOFRXM1RBNjF5eDVTOVFSM0piOThEYTYrR2tIcGU0YUNu?=
- =?utf-8?B?bDdtemErclhJOWRFZ1oyakFWTUdjVUFEYUxGL2N6QUFKeldkSVMvUC9QazJY?=
- =?utf-8?B?d3lxNVBrelBOa1V3WFdBdUlHeFF0Q2crMjRFNnVkckNpNndWM3pORW0wQUho?=
- =?utf-8?B?b2ZrSktXWHZ2ajlqOFFsY3pHaW95ZkpGRVFrWHZzRmxTd3hXQ0UzUGYzYzJO?=
- =?utf-8?B?VDdVTEl1NHVla0tMRzl5a0JFV2ZSVm5WR0xPVEdJSEZLOVBFbjUvMTV4RDJo?=
- =?utf-8?B?cVo5YXZjZi9RZ25oRVlWc2pIOFVWbTVXSlFpd2U1MFR4U1Q2MTBMRXpwNUJY?=
- =?utf-8?B?enU5NFgwM2ZJNzJ6L2Y4bEpYYjBsMlkwVjY5c08xeG11Yk5vS3cwWGdISWFu?=
- =?utf-8?B?WURyYlptYVJWL3ZtdXlQUkM3WGVPazdmV1hnT3FFM0FYNVh6OWhJRFlkaVlB?=
- =?utf-8?B?eFdaT21VSTRXakdnMDVRZkpENXFJejhmVlBoTEc2Z3BYYk5LSVBFUCs3MThy?=
- =?utf-8?B?eGtHbVNUVUgxK1EvQUVmZVFMUlJHUUtHKzRkR083VVJkeDNselJTblFtelNY?=
- =?utf-8?B?YkQxUytkTDJ2dzNGeG1ieFNjc2szNUdrQkxtMG9ISjBLZDVid0YzbXZSc0x3?=
- =?utf-8?Q?32RGUTva1LcYxXPZAjFYNyvHbL94gXtFNX?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?WTg1ZWZUUUdMMVgzYkwwTEI4eitySVB5ZVZmQUs2SmViSHQ1MVVLUmxtbGpE?=
- =?utf-8?B?YXU5UlM1OW4rc2VoMUNLNHZQWHZvRXI0RGNiWHFiUXc5VW9YeWRVMlRnOW5p?=
- =?utf-8?B?b3JwZkV0RDJvZTlLSTFzSkp2SHV0T21UcnpEcXdrbnpaZWwxdDlleDVDNjhm?=
- =?utf-8?B?SnBuMEhCSklXREZ2Zm5DME5LSTRkN2JjLzFPQ3JmYzNwL0pPeGdERkdwRVdB?=
- =?utf-8?B?WTNkdHNkS0NubGJWR0svMWlDY1lqQXJWUlA1SGYrU3hoRW1tZWs4Y29mN1Vn?=
- =?utf-8?B?OGx3OHgyeHA1K0NsZkZtNHZuTmg1VDd5MG5BeURyU3d6dW83a0lxUkI4YlJC?=
- =?utf-8?B?Qmxmc1hvbEpvUmZ2NU10Z0tFV1dGTnh1MzEzZmVjdis3Z3RwUTVzQ0ZUUmd0?=
- =?utf-8?B?MWtrWVo4YU9nQTcxZGlXVlVjQnZXSlQxQnFSTHhkbzNzTXNGYUFLRXZJQUJB?=
- =?utf-8?B?N1hSRGRnaGtoVDVvTHkvSHRwZm1FdnpDZHdvRS9yNVUwUzRWRnpXZzBMLzl3?=
- =?utf-8?B?UEM4N09FcUdDaDI0Wk5JckVkMytYSTlla2hvUFlxWFVvZGJCbkNqcTJnd21u?=
- =?utf-8?B?ekkxdkhiT242bTVldzhrdWJZU3RuUnNyNmk4L1o4R3Y5RzNUeUp3YVNhdG5N?=
- =?utf-8?B?QjRiYlZrQ0ZVSVpuRkVoQUxUVmtUSjJBQ2RNcXltNGRadk1ySVM2RHBoVy92?=
- =?utf-8?B?YXk0RFF5WXZtUGcrck9VejU0L0ZmVnRObGZrVXhDRWQwOEsyQytFaGlhQWJm?=
- =?utf-8?B?am9rSCs3aFp6NXpOMW9OUFNCSWFzL3lLTGo2U295QnNiZmsyR3NVUjJBaXRI?=
- =?utf-8?B?YkxnYnhNTHNWWmcrYjVUSWVDZG1mVlcrcGRlc202ZmN3TXgzYkV3N3Q1Z0JG?=
- =?utf-8?B?VUh3ZnFPZjhUTi9XZWNkSFE3QWliclBEL0RmMjdWOG45TEVqaEtyRW5MbWRu?=
- =?utf-8?B?TDAzYmN1RFVhaGYxNmRmTlV6RWk1M21JZzJiTm51L0NJZXBIQUl5czg3QXVm?=
- =?utf-8?B?ZngrWnV4TEIzMW10V2xQQk1iYjZicXpSVUxvNEV3RUl5TzdmMStsN0pkMEtp?=
- =?utf-8?B?dmpSRThDZjN6R1dVb29LY3ZaRGZ0RXBjKzZQVHJIT0llZUpjSDYzSnJFUlVk?=
- =?utf-8?B?SFFHMUtMVTBOWC9GS0dYQ2VsMzc4dUp0ZkgvK1AyalBreEozZVJlS2ZBSWVI?=
- =?utf-8?B?eTc2ZmFINlRnU1hxVHVUUk9HN3BRK1haUS8rSWE3Y2FvR0pNcXlPQXY1V2pn?=
- =?utf-8?B?WEcyaXZqTVFValhveDc4WFdtNTJtdDNuWVk4b2t4bGhXKzJHM1hvY0s4NDBa?=
- =?utf-8?B?L2gxTGtYV3lkeEhlV3ZTbEppV3BGWkVKc1JpdG1xeUVaNWRSMFEraUJQOTNE?=
- =?utf-8?B?SEZ4enEvK09SbjcxSHdRVlMxMmZIeXB6QVBBTTZlV3llWGl5cTlKczQ0ODBq?=
- =?utf-8?B?RTFTWW9KZ0F2cjY2M3JwL3pHSC9SK2Nhc3l6YndNLy9Pa3cwbXlKVmRlNkhu?=
- =?utf-8?B?dnFSRnhwMWRPQjFRczJ6Yk9OZzhGdFZxbkFJZGRNNDhiWGw0MHJ3ZWNmSWY4?=
- =?utf-8?B?b1ZnNXBKbjE1eVh2MXZxSHcrcG1VNDFwUnZPbW5PbHRqS3IvTUkxejU3NXdY?=
- =?utf-8?B?V2dFb1gySHlONXhrVkszMEtwUkhrUlpVQzhSVXNVTFc2bGQzOTZEU3lVRU16?=
- =?utf-8?B?M2tZMnp1dmQrWU1UZDFqMlpVbFY3cjZMSDN2eW1oM281QVgxam9HY010WEN5?=
- =?utf-8?B?eHdXL2lSTFNwQzBhUzZlMnNEN0NGVitqTlljSDlCeThURHdFYTc4TVBoYlJj?=
- =?utf-8?Q?LjiMhLhxIpp3mBhiprU3yhBrz/fK7tWMBN8wc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rG5ccpfu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DAE7C2BCB2
+	for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 17:25:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773941141;
+	bh=PheR7bnWRvNqOXZVWOZja4PgxItdOa1aeIc8SwrBgLg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rG5ccpfuTAf4aevEd1/xjUOSQOLvucc0byPCiqFCls/tUsZ78QdNSF5JLoX8N4/Ko
+	 PMxSWAS6J8QyDe7pyKEn4LZ81wgsBn7sDmsjJQZ4FLxWtZ/cxLi6rc8Az+rqw5MYSP
+	 83SP+SUI1HuTNqf5soWPtBkCbwLI7sCTBjYDAa7AppasRqe0brUv4wQEP1oP+44k9g
+	 rXuuO9WwsycTrH4uMe+5AJ7KMFhbvoggooZL2SU1W1/2CK2bqqknAzqOpEUIq3ua7e
+	 PdIinenTQLcgatE6wR0Rzwm4ejYzwi7BMqE2AjDvMf3Bxd5Qm81a3RsnDhwcfKvjVI
+	 cRV3HOsqKI5nA==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b982a80317fso56708566b.1
+        for <driver-core@lists.linux.dev>; Thu, 19 Mar 2026 10:25:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUYjrYs8m5cmpiGigt/EJrpoZknhlx1zwyi+jmC9VNCQa/a5W7eN/+d6Qwb/Juhgadkqf51DyNOAui2zg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywxyqk55akSRlYWw1egyFPyuO/CGaSMkxZ/Pb/fuX24SVuny934
+	okYAscnFhUmhcNvG3lMkVA5705/+zVV6tLlO5fGoRVObDuvSnLJGOEFuf9waLPqpfpiKKf9rLF4
+	tyq0TIAChKTRqgysG3U346WyUhDN6Wkc=
+X-Received: by 2002:a17:907:c281:b0:b98:a49:a237 with SMTP id
+ a640c23a62f3a-b982f0c0082mr14213766b.6.1773941139816; Thu, 19 Mar 2026
+ 10:25:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8b19d7d-d7b0-4335-655e-08de85dad566
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2026 17:13:26.1593
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR02MB7964
+References: <20260317090112.v2.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
+In-Reply-To: <20260317090112.v2.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
+From: Saravana Kannan <saravanak@kernel.org>
+Date: Thu, 19 Mar 2026 10:25:28 -0700
+X-Gmail-Original-Message-ID: <CACRMN=euZzwDpCQupzth-J1z9qWXPenmy_bu727+R-kt97zexw@mail.gmail.com>
+X-Gm-Features: AaiRm507X2Rm_esTeDGefTbMHDE2ymhPZQynsWD2e2kEHWMaRTcbSREIEVA2ZRI
+Message-ID: <CACRMN=euZzwDpCQupzth-J1z9qWXPenmy_bu727+R-kt97zexw@mail.gmail.com>
+Subject: Re: [PATCH v2] device property: Make modifications of fwnode "flags"
+ thread safe
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, stable@vger.kernel.org, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Daniel Scally <djrscally@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Len Brown <lenb@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	devicetree@vger.kernel.org, driver-core@lists.linux.dev, imx@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-RnJvbTogRGF2aWQgSmVmZmVyeSA8ZGplZmZlcnlAcmVkaGF0LmNvbT4NCj4gDQo+IFRoaXMgcGF0
-Y2hzZXQgYWxsb3dzIHRoZSBrZXJuZWwgdG8gc2h1dGRvd24gZGV2aWNlcyBhc3luY2hyb25vdXNs
-eSBhbmQNCj4gdW5yZWxhdGVkIGFzeW5jIGRldmljZXMgdG8gYmUgc2h1dCBkb3duIGluIHBhcmFs
-bGVsIHRvIGVhY2ggb3RoZXIuDQo+IA0KPiBPbmx5IGRldmljZXMgd2hpY2ggZXhwbGljaXRseSBl
-bmFibGUgaXQgYXJlIHNodXQgZG93biBhc3luY2hyb25vdXNseS4gVGhlDQo+IGRlZmF1bHQgaXMg
-Zm9yIGEgZGV2aWNlIHRvIGJlIHNodXQgZG93biBmcm9tIHRoZSBzeW5jaHJvbm91cyBzaHV0ZG93
-biBsb29wLg0KPiANCj4gVGhpcyBjYW4gZHJhbWF0aWNhbGx5IHJlZHVjZSBzeXN0ZW0gc2h1dGRv
-d24vcmVib290IHRpbWUgb24gc3lzdGVtcyB0aGF0DQo+IGhhdmUgbXVsdGlwbGUgZGV2aWNlcyB0
-aGF0IHRha2UgbWFueSBzZWNvbmRzIHRvIHNodXQgZG93biAobGlrZSBjZXJ0YWluDQo+IE5WTWUg
-ZHJpdmVzKS4gT24gb25lIHN5c3RlbSB0ZXN0ZWQsIHRoZSBzaHV0ZG93biB0aW1lIHdlbnQgZnJv
-bSAxMSBtaW51dGVzDQo+IHdpdGhvdXQgdGhpcyBwYXRjaCB0byA1NSBzZWNvbmRzIHdpdGggdGhl
-IHBhdGNoLiBBbmQgb24gYW5vdGhlciBzeXN0ZW0gZnJvbQ0KPiA4MCBzZWNvbmRzIHRvIDExLg0K
-PiANCg0KKENvcHlpbmcgdGhlIGxpbnV4LWh5cGVydiBtYWlsaW5nIGxpc3QgYXMgRllJLikNCg0K
-VGVzdGVkIHRoaXMgcGF0Y2ggc2V0IG9uIHR3byBkaWZmZXJlbnQgeDg2L3g2NCBWTXMgaW4gdGhl
-IEF6dXJlIHB1YmxpYyBjbG91ZC4NCkJhc2VsaW5lIGtlcm5lbCBpcyBsaW51eC1uZXh0MjAyNjAz
-MTIuIFRoZSBWTXMgYXJlIHJ1bm5pbmcgb24gSHlwZXItViB3aXRoDQpzeW50aGV0aWMgU0NTSSBk
-ZXZpY2VzLCBQQ0kgcGFzcy10aHJ1IE5WTUUgZGlza3MsIGFuZCBlbXVsYXRlZCBQQ0kgTlZNZQ0K
-ZGlza3MsIGRlcGVuZGluZyBvbiB0aGUgVk0gY29uZmlndXJhdGlvbi4NCg0KRmlyc3QgVk0gaXMg
-YW4gQXp1cmUgTDY0c192Mywgd2l0aCAyIHN5bnRoZXRpYyBTQ1NJIGRpc2tzIGFuZCA4IFBDSSBO
-Vk1lDQpwYXNzLXRocnUgZGlza3MuIFRpbWUgc3BlbnQgaW4gZGV2aWNlX3NodXRkb3duKCkgd2Fz
-IHJlZHVjZWQgZnJvbQ0KNjgzIG1pbGxpc2Vjb25kcyB0byAxNTAgbWlsbGlzZWNvbmRzIChhdmVy
-YWdlZCBhY3Jvc3MgNCBydW5zIGVhY2gpLg0KDQpTZWNvbmQgVk0gaXMgYW4gQXp1cmUgRDMybGRz
-X3Y2LCB3aXRoIDIgZW11bGF0ZWQgTlZNZSBkaXNrcyBhbmQNCjQgTlZNZSBwYXNzLXRocnUgZGlz
-a3MuIFRpbWUgc2VudCBpbiBkZXZpY2Vfc2h1dGRvd24oKSB3YXMgcmVkdWNlZCBmcm9tDQoxMDEw
-IG1pbGxpc2Vjb25kcyB0byA2MTAgbWlsbGlzZWNvbmRzIChhdmVyYWdlZCBhY3Jvc3MgMiBydW5z
-IGVhY2gpLg0KDQpJbiBib3RoIGNhc2VzLCB0aGUgcmVzdWx0cyBzZWVtIHJlYXNvbmFibGUuIE5v
-bmUgb2YgdGhlc2UgZGlza3Mgc2hvdWxkDQpiZSBwYXJ0aWN1bGFybHkgc2xvdyBpbiBzaHV0dGlu
-ZyBkb3duLCBzbyB0aGUgcmVzdWx0cyBhcmUgbm90IGFzIGRyYW1hdGljDQphcmUgcmVwb3J0ZWQg
-YnkgRGF2aWQuIEJ1dCB0aGVyZSBpcyBub24tdHJpdmlhbCBpbXByb3ZlbWVudCBub25ldGhlbGVz
-cy4NCg0KVGVzdGVkLWJ5OiBNaWNoYWVsIEtlbGxleSA8bWhrbGludXhAb3V0bG9vay5jb20+DQoN
-Cj4gDQo+IFN0dWFydCBIYXllcyAoMik6DQo+ICAgZHJpdmVyIGNvcmU6IHNlcGFyYXRlIGZ1bmN0
-aW9uIHRvIHNodXRkb3duIG9uZSBkZXZpY2UNCj4gICBkcml2ZXIgY29yZTogZG9uJ3QgYWx3YXlz
-IGxvY2sgcGFyZW50IGluIHNodXRkb3duDQo+IA0KPiBEYXZpZCBKZWZmZXJ5ICg1KToNCj4gICBk
-cml2ZXIgY29yZTogYXN5bmMgZGV2aWNlIHNodXRkb3duIGluZnJhc3RydWN0dXJlDQo+ICAgUENJ
-OiBlbmFibGUgYXN5bmMgc2h1dGRvd24gc3VwcG9ydA0KPiAgIHNjc2k6IGVuYWJsZSBhc3luYyBz
-aHV0ZG93biBzdXBwb3J0DQo+IA0KPiAgZHJpdmVycy9iYXNlL2Jhc2UuaCAgICAgICB8ICAgMiAr
-DQo+ICBkcml2ZXJzL2Jhc2UvY29yZS5jICAgICAgIHwgMTc2ICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKystLS0tLS0tDQo+ICBkcml2ZXJzL3BjaS9wcm9iZS5jICAgICAgIHwgICAyICsN
-Cj4gIGRyaXZlcnMvc2NzaS9ob3N0cy5jICAgICAgfCAgIDMgKw0KPiAgZHJpdmVycy9zY3NpL3Nj
-c2lfc2Nhbi5jICB8ICAgMSArDQo+ICBkcml2ZXJzL3Njc2kvc2NzaV9zeXNmcy5jIHwgICA0ICsN
-Cj4gIGluY2x1ZGUvbGludXgvZGV2aWNlLmggICAgfCAgMTMgKysrDQo+ICA3IGZpbGVzIGNoYW5n
-ZWQsIDE3MCBpbnNlcnRpb25zKCspLCAzMSBkZWxldGlvbnMoLSkNCj4gDQo+IC0tDQo+IDIuNTMu
-MA0KPiANCg0K
+On Tue, Mar 17, 2026 at 9:04=E2=80=AFAM Douglas Anderson <dianders@chromium=
+.org> wrote:
+>
+> In various places in the kernel, we modify the fwnode "flags" member
+> by doing either:
+>   fwnode->flags |=3D SOME_FLAG;
+>   fwnode->flags &=3D ~SOME_FLAG;
+>
+> This type of modification is not thread-safe. If two threads are both
+> mucking with the flags at the same time then one can clobber the
+> other.
+>
+> While flags are often modified while under the "fwnode_link_lock",
+> this is not universally true.
+>
+> Create some accessor functions for setting, clearing, and testing the
+> FWNODE flags and move all users to these accessor functions. New
+> accessor functions use set_bit() and clear_bit(), which are
+> thread-safe.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: c2c724c868c4 ("driver core: Add fw_devlink_parse_fwtree()")
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> While this patch is not known for sure to fix any specific issues, it
+> seems possible that it could fix some rare problems. I'm currently
+> trying to track down a hard-to-reproduce heisenbug and one (currently
+> unproven) theory I had was that the fwnode flags could be getting
+> messed up like this. Even if turns out not to fix my heisenbug,
+> though, this seems like a worthwhile change to take.
+
+Reviewed-by: Saravana Kannan <saravanak@kernel.org>
+
+Thanks Doug. Hope this isn't the cause of the hisenbug. If you report
+it here, I might be able to take a look at it too (no promises).
+
+
+-Saravana
+
+>
+> Changes in v2:
+> - Add/use fwnode_assign_flag() (Andy).
+>
+>  drivers/base/core.c                 | 24 +++++++--------
+>  drivers/bus/imx-weim.c              |  2 +-
+>  drivers/i2c/i2c-core-of.c           |  2 +-
+>  drivers/net/phy/mdio_bus_provider.c |  4 +--
+>  drivers/of/base.c                   |  2 +-
+>  drivers/of/dynamic.c                |  2 +-
+>  drivers/of/platform.c               |  2 +-
+>  drivers/spi/spi.c                   |  2 +-
+>  include/linux/fwnode.h              | 45 +++++++++++++++++++++--------
+>  9 files changed, 53 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 791f9e444df8..f65492a4afc8 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -182,7 +182,7 @@ void fw_devlink_purge_absent_suppliers(struct fwnode_=
+handle *fwnode)
+>         if (fwnode->dev)
+>                 return;
+>
+> -       fwnode->flags |=3D FWNODE_FLAG_NOT_DEVICE;
+> +       fwnode_set_flag(fwnode, FWNODE_FLAG_NOT_DEVICE);
+>         fwnode_links_purge_consumers(fwnode);
+>
+>         fwnode_for_each_available_child_node(fwnode, child)
+> @@ -228,7 +228,7 @@ static void __fw_devlink_pickup_dangling_consumers(st=
+ruct fwnode_handle *fwnode,
+>         if (fwnode->dev && fwnode->dev->bus)
+>                 return;
+>
+> -       fwnode->flags |=3D FWNODE_FLAG_NOT_DEVICE;
+> +       fwnode_set_flag(fwnode, FWNODE_FLAG_NOT_DEVICE);
+>         __fwnode_links_move_consumers(fwnode, new_sup);
+>
+>         fwnode_for_each_available_child_node(fwnode, child)
+> @@ -1012,7 +1012,7 @@ static void device_links_missing_supplier(struct de=
+vice *dev)
+>  static bool dev_is_best_effort(struct device *dev)
+>  {
+>         return (fw_devlink_best_effort && dev->can_match) ||
+> -               (dev->fwnode && (dev->fwnode->flags & FWNODE_FLAG_BEST_EF=
+FORT));
+> +               (dev->fwnode && (fwnode_test_flag(dev->fwnode, FWNODE_FLA=
+G_BEST_EFFORT)));
+>  }
+>
+>  static struct fwnode_handle *fwnode_links_check_suppliers(
+> @@ -1723,11 +1723,11 @@ bool fw_devlink_is_strict(void)
+>
+>  static void fw_devlink_parse_fwnode(struct fwnode_handle *fwnode)
+>  {
+> -       if (fwnode->flags & FWNODE_FLAG_LINKS_ADDED)
+> +       if (fwnode_test_flag(fwnode, FWNODE_FLAG_LINKS_ADDED))
+>                 return;
+>
+>         fwnode_call_int_op(fwnode, add_links);
+> -       fwnode->flags |=3D FWNODE_FLAG_LINKS_ADDED;
+> +       fwnode_set_flag(fwnode, FWNODE_FLAG_LINKS_ADDED);
+>  }
+>
+>  static void fw_devlink_parse_fwtree(struct fwnode_handle *fwnode)
+> @@ -1885,7 +1885,7 @@ static bool fwnode_init_without_drv(struct fwnode_h=
+andle *fwnode)
+>         struct device *dev;
+>         bool ret;
+>
+> -       if (!(fwnode->flags & FWNODE_FLAG_INITIALIZED))
+> +       if (!(fwnode_test_flag(fwnode, FWNODE_FLAG_INITIALIZED)))
+>                 return false;
+>
+>         dev =3D get_dev_from_fwnode(fwnode);
+> @@ -2001,10 +2001,10 @@ static bool __fw_devlink_relax_cycles(struct fwno=
+de_handle *con_handle,
+>          * We aren't trying to find all cycles. Just a cycle between con =
+and
+>          * sup_handle.
+>          */
+> -       if (sup_handle->flags & FWNODE_FLAG_VISITED)
+> +       if (fwnode_test_flag(sup_handle, FWNODE_FLAG_VISITED))
+>                 return false;
+>
+> -       sup_handle->flags |=3D FWNODE_FLAG_VISITED;
+> +       fwnode_set_flag(sup_handle, FWNODE_FLAG_VISITED);
+>
+>         /* Termination condition. */
+>         if (sup_handle =3D=3D con_handle) {
+> @@ -2074,7 +2074,7 @@ static bool __fw_devlink_relax_cycles(struct fwnode=
+_handle *con_handle,
+>         }
+>
+>  out:
+> -       sup_handle->flags &=3D ~FWNODE_FLAG_VISITED;
+> +       fwnode_clear_flag(sup_handle, FWNODE_FLAG_VISITED);
+>         put_device(sup_dev);
+>         put_device(con_dev);
+>         put_device(par_dev);
+> @@ -2127,7 +2127,7 @@ static int fw_devlink_create_devlink(struct device =
+*con,
+>          * When such a flag is set, we can't create device links where P =
+is the
+>          * supplier of C as that would delay the probe of C.
+>          */
+> -       if (sup_handle->flags & FWNODE_FLAG_NEEDS_CHILD_BOUND_ON_ADD &&
+> +       if (fwnode_test_flag(sup_handle, FWNODE_FLAG_NEEDS_CHILD_BOUND_ON=
+_ADD) &&
+>             fwnode_is_ancestor_of(sup_handle, con->fwnode))
+>                 return -EINVAL;
+>
+> @@ -2150,7 +2150,7 @@ static int fw_devlink_create_devlink(struct device =
+*con,
+>         else
+>                 flags =3D FW_DEVLINK_FLAGS_PERMISSIVE;
+>
+> -       if (sup_handle->flags & FWNODE_FLAG_NOT_DEVICE)
+> +       if (fwnode_test_flag(sup_handle, FWNODE_FLAG_NOT_DEVICE))
+>                 sup_dev =3D fwnode_get_next_parent_dev(sup_handle);
+>         else
+>                 sup_dev =3D get_dev_from_fwnode(sup_handle);
+> @@ -2162,7 +2162,7 @@ static int fw_devlink_create_devlink(struct device =
+*con,
+>                  * supplier device indefinitely.
+>                  */
+>                 if (sup_dev->links.status =3D=3D DL_DEV_NO_DRIVER &&
+> -                   sup_handle->flags & FWNODE_FLAG_INITIALIZED) {
+> +                   fwnode_test_flag(sup_handle, FWNODE_FLAG_INITIALIZED)=
+) {
+>                         dev_dbg(con,
+>                                 "Not linking %pfwf - dev might never prob=
+e\n",
+>                                 sup_handle);
+> diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+> index 83d623d97f5f..f735e0462c55 100644
+> --- a/drivers/bus/imx-weim.c
+> +++ b/drivers/bus/imx-weim.c
+> @@ -332,7 +332,7 @@ static int of_weim_notify(struct notifier_block *nb, =
+unsigned long action,
+>                          * fw_devlink doesn't skip adding consumers to th=
+is
+>                          * device.
+>                          */
+> -                       rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE=
+;
+> +                       fwnode_clear_flag(&rd->dn->fwnode, FWNODE_FLAG_NO=
+T_DEVICE);
+>                         if (!of_platform_device_create(rd->dn, NULL, &pde=
+v->dev)) {
+>                                 dev_err(&pdev->dev,
+>                                         "Failed to create child device '%=
+pOF'\n",
+> diff --git a/drivers/i2c/i2c-core-of.c b/drivers/i2c/i2c-core-of.c
+> index eb7fb202355f..354a88d0599e 100644
+> --- a/drivers/i2c/i2c-core-of.c
+> +++ b/drivers/i2c/i2c-core-of.c
+> @@ -180,7 +180,7 @@ static int of_i2c_notify(struct notifier_block *nb, u=
+nsigned long action,
+>                  * Clear the flag before adding the device so that fw_dev=
+link
+>                  * doesn't skip adding consumers to this device.
+>                  */
+> -               rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE;
+> +               fwnode_clear_flag(&rd->dn->fwnode, FWNODE_FLAG_NOT_DEVICE=
+);
+>                 client =3D of_i2c_register_device(adap, rd->dn);
+>                 if (IS_ERR(client)) {
+>                         dev_err(&adap->dev, "failed to create client for =
+'%pOF'\n",
+> diff --git a/drivers/net/phy/mdio_bus_provider.c b/drivers/net/phy/mdio_b=
+us_provider.c
+> index 4b0637405740..fd691c5424ea 100644
+> --- a/drivers/net/phy/mdio_bus_provider.c
+> +++ b/drivers/net/phy/mdio_bus_provider.c
+> @@ -294,8 +294,8 @@ int __mdiobus_register(struct mii_bus *bus, struct mo=
+dule *owner)
+>                 return -EINVAL;
+>
+>         if (bus->parent && bus->parent->of_node)
+> -               bus->parent->of_node->fwnode.flags |=3D
+> -                                       FWNODE_FLAG_NEEDS_CHILD_BOUND_ON_=
+ADD;
+> +               fwnode_set_flag(&bus->parent->of_node->fwnode,
+> +                               FWNODE_FLAG_NEEDS_CHILD_BOUND_ON_ADD);
+>
+>         WARN(bus->state !=3D MDIOBUS_ALLOCATED &&
+>              bus->state !=3D MDIOBUS_UNREGISTERED,
+> diff --git a/drivers/of/base.c b/drivers/of/base.c
+> index 57420806c1a2..8d1972e18161 100644
+> --- a/drivers/of/base.c
+> +++ b/drivers/of/base.c
+> @@ -1915,7 +1915,7 @@ void of_alias_scan(void * (*dt_alloc)(u64 size, u64=
+ align))
+>                 if (name)
+>                         of_stdout =3D of_find_node_opts_by_path(name, &of=
+_stdout_options);
+>                 if (of_stdout)
+> -                       of_stdout->fwnode.flags |=3D FWNODE_FLAG_BEST_EFF=
+ORT;
+> +                       fwnode_set_flag(&of_stdout->fwnode, FWNODE_FLAG_B=
+EST_EFFORT);
+>         }
+>
+>         if (!of_aliases)
+> diff --git a/drivers/of/dynamic.c b/drivers/of/dynamic.c
+> index 1a06175def37..ade288372101 100644
+> --- a/drivers/of/dynamic.c
+> +++ b/drivers/of/dynamic.c
+> @@ -225,7 +225,7 @@ static void __of_attach_node(struct device_node *np)
+>         np->sibling =3D np->parent->child;
+>         np->parent->child =3D np;
+>         of_node_clear_flag(np, OF_DETACHED);
+> -       np->fwnode.flags |=3D FWNODE_FLAG_NOT_DEVICE;
+> +       fwnode_set_flag(&np->fwnode, FWNODE_FLAG_NOT_DEVICE);
+>
+>         raw_spin_unlock_irqrestore(&devtree_lock, flags);
+>
+> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> index ba591fbceb56..7eeaf8e27b5b 100644
+> --- a/drivers/of/platform.c
+> +++ b/drivers/of/platform.c
+> @@ -742,7 +742,7 @@ static int of_platform_notify(struct notifier_block *=
+nb,
+>                  * Clear the flag before adding the device so that fw_dev=
+link
+>                  * doesn't skip adding consumers to this device.
+>                  */
+> -               rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE;
+> +               fwnode_clear_flag(&rd->dn->fwnode, FWNODE_FLAG_NOT_DEVICE=
+);
+>                 /* pdev_parent may be NULL when no bus platform device */
+>                 pdev_parent =3D of_find_device_by_node(parent);
+>                 pdev =3D of_platform_device_create(rd->dn, NULL,
+> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+> index 61f7bde8c7fb..ba8098f1a88c 100644
+> --- a/drivers/spi/spi.c
+> +++ b/drivers/spi/spi.c
+> @@ -4938,7 +4938,7 @@ static int of_spi_notify(struct notifier_block *nb,=
+ unsigned long action,
+>                  * Clear the flag before adding the device so that fw_dev=
+link
+>                  * doesn't skip adding consumers to this device.
+>                  */
+> -               rd->dn->fwnode.flags &=3D ~FWNODE_FLAG_NOT_DEVICE;
+> +               fwnode_clear_flag(&rd->dn->fwnode, FWNODE_FLAG_NOT_DEVICE=
+);
+>                 spi =3D of_register_spi_device(ctlr, rd->dn);
+>                 put_device(&ctlr->dev);
+>
+> diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
+> index 097be89487bf..c1ebcc6fd896 100644
+> --- a/include/linux/fwnode.h
+> +++ b/include/linux/fwnode.h
+> @@ -15,6 +15,7 @@
+>  #define _LINUX_FWNODE_H_
+>
+>  #include <linux/bits.h>
+> +#include <linux/bitops.h>
+>  #include <linux/err.h>
+>  #include <linux/list.h>
+>  #include <linux/types.h>
+> @@ -42,12 +43,12 @@ struct device;
+>   *             suppliers. Only enforce ordering with suppliers that have
+>   *             drivers.
+>   */
+> -#define FWNODE_FLAG_LINKS_ADDED                        BIT(0)
+> -#define FWNODE_FLAG_NOT_DEVICE                 BIT(1)
+> -#define FWNODE_FLAG_INITIALIZED                        BIT(2)
+> -#define FWNODE_FLAG_NEEDS_CHILD_BOUND_ON_ADD   BIT(3)
+> -#define FWNODE_FLAG_BEST_EFFORT                        BIT(4)
+> -#define FWNODE_FLAG_VISITED                    BIT(5)
+> +#define FWNODE_FLAG_LINKS_ADDED                        0
+> +#define FWNODE_FLAG_NOT_DEVICE                 1
+> +#define FWNODE_FLAG_INITIALIZED                        2
+> +#define FWNODE_FLAG_NEEDS_CHILD_BOUND_ON_ADD   3
+> +#define FWNODE_FLAG_BEST_EFFORT                        4
+> +#define FWNODE_FLAG_VISITED                    5
+>
+>  struct fwnode_handle {
+>         struct fwnode_handle *secondary;
+> @@ -57,7 +58,7 @@ struct fwnode_handle {
+>         struct device *dev;
+>         struct list_head suppliers;
+>         struct list_head consumers;
+> -       u8 flags;
+> +       unsigned long flags;
+>  };
+>
+>  /*
+> @@ -212,16 +213,36 @@ static inline void fwnode_init(struct fwnode_handle=
+ *fwnode,
+>         INIT_LIST_HEAD(&fwnode->suppliers);
+>  }
+>
+> +static inline void fwnode_set_flag(struct fwnode_handle *fwnode,
+> +                                  unsigned int bit)
+> +{
+> +       set_bit(bit, &fwnode->flags);
+> +}
+> +
+> +static inline void fwnode_clear_flag(struct fwnode_handle *fwnode,
+> +                                  unsigned int bit)
+> +{
+> +       clear_bit(bit, &fwnode->flags);
+> +}
+> +
+> +static inline void fwnode_assign_flag(struct fwnode_handle *fwnode,
+> +                                     unsigned int bit, bool value)
+> +{
+> +       assign_bit(bit, &fwnode->flags, value);
+> +}
+> +
+> +static inline bool fwnode_test_flag(struct fwnode_handle *fwnode,
+> +                                   unsigned int bit)
+> +{
+> +       return test_bit(bit, &fwnode->flags);
+> +}
+> +
+>  static inline void fwnode_dev_initialized(struct fwnode_handle *fwnode,
+>                                           bool initialized)
+>  {
+>         if (IS_ERR_OR_NULL(fwnode))
+>                 return;
+> -
+> -       if (initialized)
+> -               fwnode->flags |=3D FWNODE_FLAG_INITIALIZED;
+> -       else
+> -               fwnode->flags &=3D ~FWNODE_FLAG_INITIALIZED;
+> +       fwnode_assign_flag(fwnode, FWNODE_FLAG_INITIALIZED, initialized);
+>  }
+>
+>  int fwnode_link_add(struct fwnode_handle *con, struct fwnode_handle *sup=
+,
+> --
+> 2.53.0.851.ga537e3e6e9-goog
+>
