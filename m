@@ -1,81 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A620D322C67;
-	Thu, 19 Mar 2026 01:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA6231F9B3;
+	Thu, 19 Mar 2026 06:23:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773884421; cv=none; b=chYULaB8pwvONU1roVbv75wDphCjX8FmfDGP5l1UKdzlMGpIefpDXHUIbj52hXk6lci+7TEIIZ2oQwZbCj9j73YDdLFuXKb56YQrLC21u4k8M9H0jsjuoeLNWcGTXbWpNzcKfPEIThxPPQFatXLDhtVsICeEpTi8JPbwg16N6nQ=
+	t=1773901431; cv=none; b=JqDb5R8k/3JiU+ESv98v7YItyi/xzPvdZGutWLkq+A+8dczpvhUUqiW4VRaaw8ukggLX0EoQqrYXirJNkohP5C6FR2plr6dRXQg9YkRbyRRLz8iF+jpjItfK8jlKjeJ8XH1lca9pu3MF+u0pzvYSHiBmWUIYwHsrRC3wE+YDDX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773884421; c=relaxed/simple;
-	bh=g/BBLJ6seR7FT/DfJMu+VlJVUjEuMmhbzCLKpt2O5KY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OXKediv/E4tDV9cckBH87JjA1CFP45jlBUgVNgtEd5SicwZoT3SNgUXGu8nrKuxvq9SpWeN1fqo7AqRtFyMvo5W4PjexOvhSZ+7t5WAtpYF5dAf7B/WWFDYVyvAuOvSZE4stCXtB3U0skvpLCsxKNKwD+mXcQHaGio3K/iRf6b8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AyqAIxA3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773901431; c=relaxed/simple;
+	bh=mGQBpFQYA0xX/Vuqn1n/TtoGmzHg5jeW7sLOGX8ZuKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qRJdMcoFHHJjv7lvTy9a80XHPQIvCiZPf+QN9QmP+xXWLUBZ0HzhAdU88rskYWTeme5TU/l1w+uT1gKXk34bjJe4Rmw5KkibjFWQ5aU05zJVOxbecjvhFpRVSQXs1iuvjD4Zz9osX+bOtOYh2QDFPJNdWWGIUegNN1VUpYz1M9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=guPUEAOs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AyqAIxA3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC10BC19421;
-	Thu, 19 Mar 2026 01:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773884421;
-	bh=g/BBLJ6seR7FT/DfJMu+VlJVUjEuMmhbzCLKpt2O5KY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=AyqAIxA3rOzOz8I7gOp0+qJ1ewKHmpKHLChoC0bF8EB5lSr7EuvV0lS1FVsDh23BG
-	 1UIRC0S03TPwbR49R6dnF8eVTLf8qV+N228PXlFa8YzDJybUspzG15uDV80FjUtUur
-	 R8RDk7127JngKp8XWZgXCtTKfsDZudI5wcUtPgulGbaU3AeDb0alm6w4A01TnxSULY
-	 8vc76DgcXMePxsCDbZmOyPgxUPjdo5VpQdvyMvn1DmrVbp7m97BHc2b0GieIH0PCvN
-	 mYnWZregaQBk+ruVr8M3b63cJoeX3jU8K48+3q7FxOyBeGwFltjB+MfuKVgHLm/5CX
-	 VkdwEGZLuJPKw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CF503808200;
-	Thu, 19 Mar 2026 01:40:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="guPUEAOs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF00EC19425;
+	Thu, 19 Mar 2026 06:23:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1773901430;
+	bh=mGQBpFQYA0xX/Vuqn1n/TtoGmzHg5jeW7sLOGX8ZuKI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=guPUEAOsLBuCuCXBMQGxB4IWEyfySvruABSiSr5Nla7EqD3ZNKDoZ2SlNw6ZAandS
+	 ZZ+k/IITvbs6tKLGa2DlnYeHghe2MAJdBHFSMgqQ7oudMImVCKscaIDjmB8wkWcIbI
+	 Dd0/PT19XYxSoSuANLmMKvtWg7oVm+idZGDHxw64=
+Date: Thu, 19 Mar 2026 07:23:45 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Michal Grzedzicki <mge@meta.com>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] firmware_loader: allow firmware_class.path to take
+ multiple paths
+Message-ID: <2026031940-baritone-handsaw-f1d3@gregkh>
+References: <20260318-fw-path-v3-1-a701a08bc025@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 0/2] remove Kconfig sysmbol MDIO_BUS
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177388441229.982294.10744427582237657565.git-patchwork-notify@kernel.org>
-Date: Thu, 19 Mar 2026 01:40:12 +0000
-References: <bc63cf87-3dba-4ab6-9c84-caa7357c3273@gmail.com>
-In-Reply-To: <bc63cf87-3dba-4ab6-9c84-caa7357c3273@gmail.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: andrew@lunn.ch, linux@armlinux.org.uk, pabeni@redhat.com,
- edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
- broonie@kernel.org, gregkh@linuxfoundation.org, rafael@kernel.org,
- dakr@kernel.org, netdev@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318-fw-path-v3-1-a701a08bc025@kernel.org>
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Sun, 15 Mar 2026 17:47:47 +0100 you wrote:
-> MDIO-based regmap is the last user of config symbol MDIO_BUS.
-> MDIO access needs a MII bus, which requires PHYLIB for the provider part.
-> Therefore make REGMAP_MDIO depend on PHYLIB, what allows to remove
-> config symbol MDIO_BUS.
+On Wed, Mar 18, 2026 at 03:54:02PM -0400, Jeff Layton wrote:
+> Refactor fw_get_filesystem_firmware() by extracting the per-path
+> firmware loading logic into a new fw_try_firmware_path() helper.
 > 
-> Heiner Kallweit (2):
->   regmap: mdio: make it depend on PHYLIB
->   net: phy: remove Kconfig sysmbol MDIO_BUS
+> Use this helper to parse fw_path_para for ':'-separated paths,
+> trying each one before falling through to the default firmware
+> search paths. This allows users to specify multiple custom firmware
+> directories via firmware_class.path, e.g.:
 > 
-> [...]
+>   firmware_class.path=/custom/path1:/custom/path2
+> 
+> A backslash can be used as an escape character, allowing a literal
+> ':' ("\:") or literal '\' ("\\") to be embedded in a pathname.
 
-Here is the summary with links:
-  - [net-next,1/2] regmap: mdio: make it depend on PHYLIB
-    https://git.kernel.org/netdev/net-next/c/e611a97032f0
-  - [net-next,2/2] net: phy: remove Kconfig symbol MDIO_BUS
-    https://git.kernel.org/netdev/net-next/c/91283bd5b008
+This is a mess, what could go wrong embedding another parser in the
+kernel :)
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Let's step back, why is this needed at all?  The kernel already supports
+multiple standard locations for firmware paths, and one custom location.
+Why do we now need more than that?  What changed to require this and who
+is going to use it (and support it, and actually test it?)
 
+We really want to make the number of firmware paths less, not more.  But
+if we _really_ need multiple paths, isn't it simpler to just have an
+array of paths here, not be forced to parse escape codes like you are
+now doing?
 
+thanks,
+
+greg k-h
