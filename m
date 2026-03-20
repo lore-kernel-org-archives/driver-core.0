@@ -1,60 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61E02620DE;
-	Fri, 20 Mar 2026 03:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C28335555
+	for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 07:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773976001; cv=none; b=tyE/VJFhk4lVAiFJ8JDYTh2IuqttzkEVWvOKbU1ny9tqB2gHsbt7mbA9KgRQGlV/wHKDISORERi5ENFHsL1TH8S4EdDOadTAyWBNoENjVUOG2D6jx2gXALaGjTu2VVusnBfhXEHQgiWas6bX2ZyiFiICM5Co9Z9WgpNIi7ypgG4=
+	t=1773992193; cv=none; b=NBOVyfyVvjdhVvlYucUpQwjKh6ndNLfGVe5IFDOK4hrTLNGh5Ond2dXECczSQ7phhnBREdkjvmU5qyaOZNGjOHRlTsolJrKjZtw2Fq6LK8otnz6BBJ4E7dpYLwn8gEZf9Qnm2d3B7AC6VfgSuWfFQVcCa2shkUFfccLwIq8JQxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773976001; c=relaxed/simple;
-	bh=Qa2kKiW2K4o32w52YsMZm0rMqJtB23Cf1BU+wGQGI/c=;
+	s=arc-20240116; t=1773992193; c=relaxed/simple;
+	bh=aVjU9vB3deYFYEQRjHDO84MBFFxZKuFsTsm53223WNA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aRWwqy9GwDvipGVgCUPBldqx89IwGye/EQYUNrnSaQlTpma0LOJoylvsvz1NWcBsEUa5VNlaydSYdrruRmadz/6DkTp2kScf3/mofUbMImbdkNRj1527+oqiox3vw3ULjuJg7UA8OU+kIzH/NVtSj2sxwDjyaKquXgQlbStl3M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSuW0pWL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rf7+vU6YrG8CtYe+u3wVlqxxvQj0CTZkxk/v8Div9wiwAMnduwtoZbDqFxBh5k2xXnGxLdhMEfQEZ5BjQLpeZ/qr8D+hp5O2V4gvB73aYENAngVKUxCs6yW/KvShPg5152B1GX2aptFsvoUvTmnbb7GRYZbPgOdpixsC+CVMkV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dhmq5CEC; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSuW0pWL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A240C19424;
-	Fri, 20 Mar 2026 03:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773976001;
-	bh=Qa2kKiW2K4o32w52YsMZm0rMqJtB23Cf1BU+wGQGI/c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VSuW0pWLO3r7l7Zja6MMNkzFI+8A1EBOKMEvtmHHOGIKOoyLKRqdZ/jQukHTWJu9b
-	 Fgx/wyx68udFKnMkZVza6jDMWbJm5ftMtTdj9V9GkEpG0MglFWioFcESAS/DI6X9GM
-	 mGCf2nu+ksWrxIpmWQQewDgsWAoSl6KLfWBW7fiIh0AE+ayV3Iyu7LvHIMZt981W/C
-	 gtTCVNs9ZuvSPL0GldB3BIkKZDrrDyTkHZALx8IPVz8CvH8OPb8mT14PCaZMeWkQSO
-	 eZMs6n6Kmb37cAfq9gU42TqtGO+315YwmgBUo/BkwwQ7KBvJySucgbldHrjtmzEWHv
-	 y1hEKlj1DR/mg==
-Date: Fri, 20 Mar 2026 03:06:35 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dhmq5CEC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773992192; x=1805528192;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aVjU9vB3deYFYEQRjHDO84MBFFxZKuFsTsm53223WNA=;
+  b=dhmq5CECdkNpALjdO83vnn6RNZ+OklnryFtJxElzOWCrUeVkd5ojR0C9
+   0OAWFYT9O9Xnrn3BCn+IOT5Os6u+XxP4zjuk8Xu3HCz43WTEf57YvF1D6
+   VVuttKFYVxpdSkYEp3bhXrSVxebq8WHoqiXZQaLdXdXeqA7Bupu5e+yb+
+   JnczT3tIgap81ASRKeuIA9+zNgV211dtkgpJYZlarCjI21vudiwOx2UP8
+   MU63jBebL5b4U340HhQhQ4s3dVx/YCQJ+CUIclsq1CHOtRqD4lOtQEgB7
+   VH72i9BWWM2r3tE6YRDqcLwM8Skfx0Fi2Gd2A0743+s3DCaDNxHtLGl/q
+   A==;
+X-CSE-ConnectionGUID: R1mmMxbtT3yTmtMpuqKkTA==
+X-CSE-MsgGUID: zspHPwN+QLSnZmbHE7EyVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="74088780"
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="74088780"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 00:36:32 -0700
+X-CSE-ConnectionGUID: 246dr+i8QaGlyKrDOOi8Ng==
+X-CSE-MsgGUID: QY4qFbXSSC6smiTJxZajVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="218590930"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.40])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 00:36:28 -0700
+Date: Fri, 20 Mar 2026 09:36:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 00/10] workqueue / drivers: Add
- device-managed allocate workqueue
-Message-ID: <aby5u_ToXifVwf6B@google.com>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/4] software node: support automatic secondary fwnode
+ assignment
+Message-ID: <abz4-iKFBsPIJb7F@ashevche-desk.local>
+References: <20260319-baytrail-real-swnode-v1-0-75f2264ae49f@oss.qualcomm.com>
+ <20260319-baytrail-real-swnode-v1-1-75f2264ae49f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -63,23 +73,72 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+In-Reply-To: <20260319-baytrail-real-swnode-v1-1-75f2264ae49f@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Mar 05, 2026 at 10:45:39PM +0100, Krzysztof Kozlowski wrote:
-> Merging / Dependency
-> ====================
-> All further patches depend on the first one, thus this probably should
-> go via one tree, e.g. power supply.  The first patch might be needed for
-> other trees as well, e.g. if more drivers are discovered, so the best if
-> it is on dedicated branch in case it has to be shared.
-> 
-> [...]
+On Thu, Mar 19, 2026 at 05:10:54PM +0100, Bartosz Golaszewski wrote:
+> Provide a structure and a set of functions allowing to set up automatic
+> secondary firmware node assignment for platform devices. It uses
+> a behind-the-scenes bus notifier for a group of named software nodes. It
+> will wait for bus events and when a device is added, it will check its
+> name against the software node's name and - on match - assign the
+> software node as the secondary firmware node of the device's *real*
+> firmware node.
 
-Applied to
+...
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+> +/**
+> + * software_node_register_auto_secondary() - set up automatic assignment of
+> + *                                           secondary firmware nodes
+> + * @auto_sec: Context data to use.
+> + *
+> + * NOTE: All software nodes passed in @auto_sec must be named.
 
-[10/10] platform/chrome: cros_usbpd_logger: Simplify with devm
-        commit: 168e4b208ca8c2e04de20cc6cb7e2fb035dc1ec8
+> + * Returns:
 
-Thanks!
+Is it with 's' in other kernel-doc? The official is "Return", the 's' variant
+is supported, but not documented.
+
+> + * 0 on success, negative error number on failure.
+
+The Return section must be last in the kernel-doc description. This is documented.
+
+> + * This registers the software node group passed in @auto_sec and sets up
+> + * automatic assignment of them as secondary firmware nodes of real nodes
+> + * attached to appropriate devices on the bus specified in @auto_sec. The
+> + * software nodes must be named and their names must be the same as the
+> + * devices they should reference. The assignment happens when the device is
+> + * first added to the bus.
+> + */
+
+...
+
+> +/**
+> + * struct software_node_auto_secondary - context data for automatic secondary
+> + *                                       fwnode assignment
+> + * @nb: Private bus notifier data - don't use
+
+Mark it with __private then.
+
+> + * @node_group: NULL-terminated array of software node addresses
+> + * @bus: Bus on which to wait for devices
+
+If bus is not compiled into kernel, this optionally has to support NULL
+in the code (I haven't checked the code, though).
+
+> + */
+> +struct software_node_auto_secondary {
+> +	struct notifier_block nb;
+
+	struct notifier_block __private nb;
+
+> +	const struct software_node * const *node_group;
+> +	const struct bus_type *bus;
+> +};
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
