@@ -1,265 +1,383 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020123.outbound.protection.outlook.com [52.101.195.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A763002DF
-	for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 15:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774019107; cv=fail; b=s/krnIwFwbmnXnjzXWgXga56uX8/CJEhPsE/c0dzqDj/m4YCAVO+bM70KOlj6Smu1LIrs+QB0VG9jZSXQuNddgyf/uVNufSqp84qH71bPO38lW2mnbTjjWhuvSlC3P+9HlGdm1ne67fDgUFjPrqs5gfu7j8mcYNeQAUmSeK/Dko=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774019107; c=relaxed/simple;
-	bh=EY4D4l2OfPKMCd31dHXfwce00I5esGnpOkYjRDiE8F4=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=fgflq+WToiBzxrG76161Ynr5EHMw/JAV13/Xv7TpCnhuz2Edlvtf6Nq2dR0qNeliuvLLuaTGaXoTyrV8ORVxd7vD8zVSc0p4oiclSxxb/d1SNbulVE5EnyAr1aYgDyaxK8ttfaB1L96KnEFfOMzZrmTwa1RSjRqVWK3YCp8vR3Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=b8lEzvtf; arc=fail smtp.client-ip=52.101.195.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BCD282F1F;
+	Fri, 20 Mar 2026 15:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774020761; cv=none; b=TQKM8QctW3Fp8xfQ0wETRQJP9X8LbHf37rZMLRKpf6R7pHlaz2Md5Qd7lZ2TZWlrE3qHf/Jkl3sKo1zYDw8dbHdhsD0aFV51ACeDnj1zPR3+u/QdfZRxiUQ/P9675CTb+UN+nmylDtzJy66KpKrVJFf4exSzvaXtJJeqvI09mKM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774020761; c=relaxed/simple;
+	bh=JQFqRpWHzUfYayHmC0f4Lwr06zQPEuXP1xsc57AEVTo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=O9g5DsgyFue/mA1jKcEK6fJb2u+UkOu0LPNMyXgGf24FKXzvDw7+Z2gY+G40kwdL/+D2uisyLVuV9nIXO6o6IxRFEj/S/1a0WJ8c67MUQ+Bznpo3SlXejRVVN5+Q9m1+x8/tTNfAFVxYvozopdBs29c9UHsXDoSiwfiUWNmnrvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=geCdY4ZG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="b8lEzvtf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=omiW245PwQ4FDqOiPJKZCJy9w+zCVk2UPmuVQpq03yAmtGKmtnMjTLlFAJfwPxRP/XAxyFro4I/8jqTgj1zQy4Eq4UMWqClfkOHKsaBC64X1aCDZvndccxyDajtAcUXxSXMKdqD69CryCIdG3wtYwQ27LEma/fBqFYhidwnHHx4kWr1/4xdK9InGioCx037mEcsmgZuXnan5+w5VU4uzyMF7cL4dLWf/BBEPjBBM86D7XFXGxMgAjYa+nQBg3nqslZUygBvfVhytWFGfF865TXKjdktaPH8vbzX09/cZNBAh1S6l7R13IkvvsVIkE+wdUumoKBvvQdjahOFPKjeojg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4lhy5qnjIaFEeJ3Zfz2PWuxNO27xrEY6/QX/Qbx7wFo=;
- b=jKnMu+7uO+Q2zUGGu+iIPvm6lqWCwAmu8+U8CVbtxi/4y3xsGutqgbY4my33JdtwIvqGB4BrcuN/n9xzRG/iRZgGDcbM+Ddh+1wd8pvkpLeRmhXrPeqR3y5zeFzRRXWibSyQDtI/vSywWJpXYQo8m8lTX7Kdemx0GbblDUR5uYy3eFbKQT7WpmsyElSmtbY2IWEkVx0giIOya+XKq1mBC+k3Xx9yJeY7NFezFrmfs+Umy4Tw2tkl3JM5edojf5MUtM5RMg30sqkfYgZlWu9J/QaYdXiSCKFMR//4IK7fszgUjBIoQghwh9dp5M2T7CfVJoPq6Y42linfib2WBeQj5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4lhy5qnjIaFEeJ3Zfz2PWuxNO27xrEY6/QX/Qbx7wFo=;
- b=b8lEzvtfIE+tcnIrBIR5hE/K73CzRxrf6J/zB2qQ5SonKs+Q+GHIcoeqdyJBrV1TOZrg5krDRi4NSCsmCAhZ97N4R9vlK/zsuTbTiqY0R757XUSbdX720Cv6WK8ODTK6MjupC1Jq4+BWha/JZRK8AtBpAB1Tu41FQFGkzxgoXDk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO6P265MB6749.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2fa::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.25; Fri, 20 Mar
- 2026 15:05:01 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Fri, 20 Mar 2026
- 15:05:01 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Mar 2026 15:05:00 +0000
-Message-Id: <DH7PABYW5E20.JDWRFX88KCL7@garyguo.net>
-Cc: <aliceryhl@google.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 8/8] gpu: nova-core: convert to new dma::Coherent API
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260303162314.94363-1-dakr@kernel.org>
- <20260303162314.94363-9-dakr@kernel.org>
- <DH7OODCRB8WQ.1GBKKZZHTNWC2@nvidia.com>
-In-Reply-To: <DH7OODCRB8WQ.1GBKKZZHTNWC2@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0510.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:272::14) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="geCdY4ZG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62B1C4CEF7;
+	Fri, 20 Mar 2026 15:32:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774020760;
+	bh=JQFqRpWHzUfYayHmC0f4Lwr06zQPEuXP1xsc57AEVTo=;
+	h=From:Date:Subject:To:Cc:From;
+	b=geCdY4ZG+bXjGfoz6zeztK1KOm9+oLAnkjmNEdrjWPqdZR9Pu0ueofN7miDHQ4rH/
+	 IP1YfZWtvJTT0cBChVUXZD+idMz7u/W/NtXGgcnwNlO43CEyjRq6DoNqyRImlvrrnY
+	 tOqlZ+GyEXfOlkEEVU58SDVLqi+jQni4BQnSE4VQpyL9HIDEjpbTOwj3VZBtOQYCsP
+	 RHc4zt+oa6BHKnYRszKNnNYNBGNNEWfyDNkmAGWG0DT/pbFIA677Urg9p2Pu0SZE7V
+	 LF3i+ugGUHuJcw2VVHI3P9ZCA11bPQLbWhrIW6Aoq++f9ImfYghviHYlNFx7KNFm9b
+	 nkqAGhPNjVoNQ==
+From: Jeff Layton <jlayton@kernel.org>
+Date: Fri, 20 Mar 2026 11:32:29 -0400
+Subject: [PATCH v4] firmware_loader: add search= module option for
+ multi-path firmware lookup
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6749:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2776db4d-f88a-4723-2f6a-08de86920f25
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|10070799003|7416014|366016|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	2ATnw3/cjdMqLRyQ+2xo4Vii04y6gsfAzvPpWHvOhJoIoRYzOUd0lvhghwMVrS9Tcb9XzQJ2UgWVVeDT5OK8NCLbbk998z90i7oyK1DIpD2aVSLnoRUB8CgksJxX584WdOEr7VTH8zJ6LK3/IlKpvcJ0to2RuJ+eVt2+flnIhlbtLei8rhae8sCI0ytEbX0SkSpEWSXxwlhrxqGgbgRD2P1mT7ei4Bibqbf9B7WKSrpgCcaRi8lSUL11GWxsU3p0AROEwAttl2fVwD6mDPy+ZeshJbbN56vmsdY8jSd4t/tE1VAk8rO/Y55vuPktOIJA1jOA40W2lm78rGZRKiHTXUaD/a3GQ5AP+eE+5QEXDuIuL1IueZhl2nWmd7fDyrTtVHha5O0ggn+fCFRtDPoosb7iEwm9LU90qlNiAKIQJKN8vSyH5AdAXzDidq08hrRC9/1LyLd9vLO0AFeripPlc5rJwSKcubA2oAMUbTFSbtI9v920CepZfBjGUdFvnDbDn6NVradqCsGQNckHcKdPqTRpUR5qCnLa/swT9vMdHVb8JapXv4lSgw461BnLcTjbZ88Kx2ftHrDJIjNPxwKVbOuqT5CdRSi3oqBVh8c0jIwpaW+6886yUBW6/I3T6mDty2Z4+T2a4x6yIUsoLVrGLaJBSijrduyeGOwTgH+3X+9FmOsJeJP5AhCUpyDwLKv5aUderOqFVdFne5ac6Fh+KjaKc48bmuBwBKh0Awip7JQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(7416014)(366016)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ejRUK0VxM1pqQ3N5QWNwZnJaRVlpSWNqWHIvUmplS1ZpbC96bGYzZHlWVjNM?=
- =?utf-8?B?eFloanhzMExWZWpOeGJRZ0RZWmV6STNFRHdoRzN2UXBFalkweDFvK3dybFRW?=
- =?utf-8?B?M1ZTWERLTkQzbnhCd3RwaEw5V0xGTEpvdE9tMDUzeDA1WjFaUk1hZzR3eFNB?=
- =?utf-8?B?SE1Uckxzc1BybUJocjZpT2hpRXBxNEFsWWNNUjhwNWdhMjZIUDBLaURwT0lj?=
- =?utf-8?B?K1RSUUs3Qkp4eFQrY1JhWGdpazJ4MHY5WkZ6L2RhcjM3cXRxUldEUzNVWVBG?=
- =?utf-8?B?Um9mYjhyaEMvcHZqT3F3ZlRabmpCbTh1a0tDaERMT1RWQXRsWFU5RE9zR3Uz?=
- =?utf-8?B?SVN1d2hsSFh2Q2Zid1dpUHFNYk53NGFJSVoyWWE4TkgxclNseVZzcml6bFNp?=
- =?utf-8?B?NDlXRkZHSVpibjMrY0N1OEJOMTRHSkM4S2hYYVVJRWp4RHdSbzVqSHo4VmJJ?=
- =?utf-8?B?WmR1WXBOOWtBdG44V1ZUSUVZTHRzMHN5aThQT00yelplTHM2allWS0tCV1Bz?=
- =?utf-8?B?UW5OalVPbzJHdStCc3pwNVRlcmkyM0dYK2FiV1lNWFJiN0I2V2hJYmlSN3A0?=
- =?utf-8?B?cEpRRS9mbllBdXVBU0tXOXo1RGJQdnhKQWw2K25QSFdsR1JEYzVtV3dSVmZI?=
- =?utf-8?B?RWh2ekJsNXdhb1BkbHM0SVRlK2JrRkhpTi9HbXFIZTA2aWJrbmxIS0hNY3hh?=
- =?utf-8?B?Z2tab1VwZi9WR3FwWUxoditJeWZkS2JBcEpzZWNMSFFGV3lDM3AyaGhkYy8w?=
- =?utf-8?B?QXJZVDdySng2SnFBdDNRNXVGZ0hBUGtaMzVXK0c1ZzFYOUZmQkVvaXlsSzJV?=
- =?utf-8?B?Z0NSRExoWWFvc0JwRTYvQ2diQkRFc3NuRi9VOEVVUkxEdWZPeTdSQTY2czRI?=
- =?utf-8?B?VWxTU2dmUC9WTFdjQm1aT2lodVVyWGZDdnFmTVFpMHlsSnJ6c1BvV1orbGl6?=
- =?utf-8?B?WUhRdFFTd3FmWHhkNVlaSkZwQVhNVmZFYzI3RVFIaWFZamFSK1kxRXRxdmg1?=
- =?utf-8?B?M2gzajlqazRFVGM3QWRNN0pqcXN1bkZGUkRnM29sOTYraTdYV1ZQakJGUG1G?=
- =?utf-8?B?SVh2NmtuQWNNQktZYVUyOXljbVhZdXFOU3dyU2IxaCt1ZzgvZk53T0hQaU5H?=
- =?utf-8?B?ZHh6eTlQNXhSNWM0RzZ4bmNFYkhOL3FVaG9BcjlWYnZvZXFXcGNibDIwVFlt?=
- =?utf-8?B?WjE0UG5xYnM5Y0RuWm5JbGkwdUpQZFhGV3FEcHFpMVFtMEMzWUUwVHhlcS9u?=
- =?utf-8?B?MWFvUG5rS2lhUEFSb1pqR2xJNVhiOThIR3ZBSkxRbGJJSGlsUmh3bng5M3I2?=
- =?utf-8?B?THAwbUVrd2tmVC94aG1jSzBEYk1ZZkRnVzF0RDd1WHZXcDgyZklxbTdjSWJ3?=
- =?utf-8?B?YlREWXlYWG12a3BYby93bzFwNWJiZ01xcThWOG81cjBwUnhBbDlSTDJ4OXlW?=
- =?utf-8?B?ODYzQmFQa2syYVc1d2FxbEVOdWxuak5xOHQ0RzB2RVhMd0U5SkE1ZDN2Q0h6?=
- =?utf-8?B?Rmo4SzRqZlRzb3ZVcXcrQ295MFhtK1NsZHprbDJ1OVhXN3RIMzFwRHpNNHQ3?=
- =?utf-8?B?ZG5yNStTMnlMZFVhdzF5Zy9hakl3eVNQMGpCbDA3YU1jQThML3djS2U1Vngz?=
- =?utf-8?B?Z3Y0Z2lJczN0Z3FXUmJqS3VweGFqbnlhU08xZHBHS1QyZDBuYU5adFZ5WjZ3?=
- =?utf-8?B?YlFYODNETXAzUlVyZXlURVROcFh0QUhTdkpnZGlURFZ3aUJhSnZJRU8rb055?=
- =?utf-8?B?dzBmcUNoamhHbDBKOHJQZlZhcnh5ZHAvazhoTGxyZ0JEZmg4a2duR3crUzho?=
- =?utf-8?B?UDdvS0VYVjFzOVdXSzBhQVJrUGkzVDlKZnJVMVBMYklsYVM1a2pYRDB6Tk90?=
- =?utf-8?B?SSsvZ2F2Zk4wOXRYTlZiZ2llUHFabitQa1RWZjlub2ViYVhDM2pEclc0SGM0?=
- =?utf-8?B?RHF2RERGMno2Z2lwWU9hU3pRUVFjZ2ZZbTFTeitSeXNvMDd0bExkVmZKcnpt?=
- =?utf-8?B?dGJaMk9iL2s0L3dmdzB5MzNwbXhFUDhlbVI4SkRqOWE3Z3FVN0h0WDNqMWJP?=
- =?utf-8?B?WUVwQnk0MkhvakRVZUo1bmhSbWcyYmF5TU5NaVlkRUxLNHRCZHMybmhUUURL?=
- =?utf-8?B?WjMvVGpEdDBnY2FYT0kvbGdDYkN4WWI5Q3QrWjRCUnp5RmF4SWJkS0xwbUJk?=
- =?utf-8?B?TzhtZ1NQTWkyWmI3aUg2TnV2VmJnV2lRVGthQSs5WkdXR1pTbUtwNWVJb2x6?=
- =?utf-8?B?c0ZBTnBTS0NJb3pNbjBybWdUWW5RcFhXcEdyRFhlbEJ6UUtCdVNEYmxQOS9J?=
- =?utf-8?B?TXZyekxFTExFT3cvTHEwdll3T1hicFhxWVFrYlJlQW1SMkk1Z2F2QT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2776db4d-f88a-4723-2f6a-08de86920f25
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 15:05:01.1548
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rwlr+r+D4nKl/POpn/SOklr+BjKdyrr+BEdgbODo4FVDIZV1LCsip+FQ/gUfEAGcP8bg+j0w+f1mQ9GFwOWuIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6749
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260320-fw-path-v4-1-7547e2f0dc64@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WO0QqCMBSGX0V23WJnmzq76j2ii03PdBQqm6xCf
+ PemUBDh5fdzvo8zk4DeYSCnbCYeowtu6BPIQ0bqTvctUtckJpzxggkoqX3QUU8d1ayStWA8r3R
+ O0vXo0brnVrpcE3cuTIN/beEI6/ppqG8jAgVaKiWbytgClD3f0Pd4Pw6+JWsk8h2RJ1FpYAWaC
+ tDIP1HsiCKJumSgmTJ1+v5HXJblDSOVWhURAQAA
+X-Change-ID: 20260317-fw-path-a094c30259a5
+To: Luis Chamberlain <mcgrof@kernel.org>, 
+ Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Michal Grzedzicki <mge@meta.com>, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9267; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=JQFqRpWHzUfYayHmC0f4Lwr06zQPEuXP1xsc57AEVTo=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpvWiSZgna8DxOmjH7zPSrdR2lqZwLj3hYH4fJd
+ hB3zHL/9VWJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCab1okgAKCRAADmhBGVaC
+ FVJID/9iWxObOzuN5HRhSsr417YZtNI2gBBujBGGbsUsHtU9a15xlVNlIXKvkcZ7oZFB6dvW1p7
+ imU9fT34zOWlxjtpyuzyieu2goJ9kHEhIBZEloqJGUbyLDkd7CcpM9ZZIHsogBcs98iFZ4c8qxh
+ lhFfWCFh12UtpwWIdUVpuUKBJ8oqIAghoBioPZ2no+kGXj/cp+2IZZACSRH3UeUdBdKp11K56Et
+ mBp66Ydj2rkMrlknPQmQ3tp+X0IdN4muu3KNsBGCkHra5mJ7CcSI58YrGT2gggRrnWo69xhwaG/
+ iDbbxHtoWWTJbgX1m4l0c0tzmzd1aSXmnoDYlJIp7gGcJFTZzqe1BGf9BIo6NzjM7SeRDeOYVcq
+ 6H8sh0w8xBPWXTtapClAW05b2XR3amYdz5dJoA8FGp+gMOZGJPUMHNb5yAAFKRdFWrNwFAEVDGd
+ ja4Z/Ho5g1RYLljaxLvrwkdLXqXSS+6kBAApwe6k05cKau/iBtcp/zaE2UNd0kK35rkP9WXX3z0
+ h9quQMtIbhbFTCM6Nm/4YxKXNKc5d+Jh3HNps2FajfUSmuqLeGvAu2E26wu07yfhUUtof/4khxY
+ Cu3Rlx6MlnSPPi19zG/BW7XcIQsx2bxStD5B1XMekcIaqX4oVHjOHCkZ42cRQRGQPFXhg4cEpN6
+ 34D91jIU+b+zghQ==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Fri Mar 20, 2026 at 2:36 PM GMT, Alexandre Courbot wrote:
-> On Wed Mar 4, 2026 at 1:22 AM JST, Danilo Krummrich wrote:
->> From: Gary Guo <gary@garyguo.net>
->>
->> Remove all usages of dma::CoherentAllocation and use the new
->> dma::Coherent type instead.
->>
->> Note that there are still remainders of the old dma::CoherentAllocation
->> API, such as as_slice() and as_slice_mut().
->>
->> Signed-off-by: Gary Guo <gary@garyguo.net>
->> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
->> ---
->>  drivers/gpu/nova-core/dma.rs      | 19 +++++------
->>  drivers/gpu/nova-core/falcon.rs   |  7 ++--
->>  drivers/gpu/nova-core/firmware.rs | 10 ++----
->>  drivers/gpu/nova-core/gsp.rs      | 18 ++++++----
->>  drivers/gpu/nova-core/gsp/cmdq.rs | 55 ++++++++++++-------------------
->>  5 files changed, 46 insertions(+), 63 deletions(-)
->>
->> diff --git a/drivers/gpu/nova-core/dma.rs b/drivers/gpu/nova-core/dma.rs
->> index 7215398969da..3c19d5ffcfe8 100644
->> --- a/drivers/gpu/nova-core/dma.rs
->> +++ b/drivers/gpu/nova-core/dma.rs
->> @@ -9,13 +9,13 @@
->> =20
->>  use kernel::{
->>      device,
->> -    dma::CoherentAllocation,
->> +    dma::Coherent,
->>      page::PAGE_SIZE,
->>      prelude::*, //
->>  };
->> =20
->>  pub(crate) struct DmaObject {
->> -    dma: CoherentAllocation<u8>,
->> +    dma: Coherent<[u8]>,
->>  }
->
-> Actually, do we even still have a need for `DmaObject` now that
-> `Coherent` is available? It would be nice to check (as a follow-up
-> patch, I can look into it) whether we can remove that whole nova-local
-> `dma` module.
->
->> =20
->>  impl DmaObject {
->> @@ -24,23 +24,22 @@ pub(crate) fn new(dev: &device::Device<device::Bound=
->, len: usize) -> Result<Sel
->>              .map_err(|_| EINVAL)?
->>              .pad_to_align()
->>              .size();
->> -        let dma =3D CoherentAllocation::alloc_coherent(dev, len, GFP_KE=
-RNEL | __GFP_ZERO)?;
->> +        let dma =3D Coherent::zeroed_slice(dev, len, GFP_KERNEL)?;
->> =20
->>          Ok(Self { dma })
->>      }
->> =20
->>      pub(crate) fn from_data(dev: &device::Device<device::Bound>, data: =
-&[u8]) -> Result<Self> {
->> -        Self::new(dev, data.len()).and_then(|mut dma_obj| {
->> -            // SAFETY: We have just allocated the DMA memory, we are th=
-e only users and
->> -            // we haven't made the device aware of the handle yet.
->> -            unsafe { dma_obj.write(data, 0)? }
->> -            Ok(dma_obj)
->> -        })
->> +        let dma_obj =3D Self::new(dev, data.len())?;
->> +        // SAFETY: We have just allocated the DMA memory, we are the on=
-ly users and
->> +        // we haven't made the device aware of the handle yet.
->> +        unsafe { dma_obj.as_mut()[..data.len()].copy_from_slice(data) }=
-;
->> +        Ok(dma_obj)
->>      }
->>  }
->> =20
->>  impl Deref for DmaObject {
->> -    type Target =3D CoherentAllocation<u8>;
->> +    type Target =3D Coherent<[u8]>;
->> =20
->>      fn deref(&self) -> &Self::Target {
->>          &self.dma
->> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/fal=
-con.rs
->> index 37bfee1d0949..39f5df568ddb 100644
->> --- a/drivers/gpu/nova-core/falcon.rs
->> +++ b/drivers/gpu/nova-core/falcon.rs
->> @@ -25,10 +25,7 @@
->>      driver::Bar0,
->>      falcon::hal::LoadMethod,
->>      gpu::Chipset,
->> -    num::{
->> -        FromSafeCast,
->> -        IntoSafeCast, //
->> -    },
->> +    num::FromSafeCast,
->>      regs,
->>      regs::macros::RegisterBase, //
->>  };
->> @@ -434,7 +431,7 @@ fn dma_wr<F: FalconFirmware<Target =3D E>>(
->>              }
->>              FalconMem::Dmem =3D> (
->>                  0,
->> -                fw.dma_handle_with_offset(load_offsets.src_start.into_s=
-afe_cast())?,
->> +                fw.dma_handle() + DmaAddress::from(load_offsets.src_sta=
-rt),
->
-> Aren't we losing the bounds checking done by `dma_handle_with_offset`?
->
-> Mmm, but looking below we are checking that the end of the transfer
-> doesn't go beyond the object bounds, so that was probably redundant
-> anyway. Maybe we should do a `checked_add` still for safety.
+Refactor fw_get_filesystem_firmware() by extracting the per-path
+firmware loading logic into a new fw_try_firmware_path() helper.
 
-I've had this as `dma_handle_with_offset` no longer make sense in the conte=
-xt of
-generic `Coherent` type. Although, I can probably add something like:
+Add a new firmware_class.search= module option that accepts a
+':'-separated list of firmware search directories. The firmware
+lookup order is:
 
-impl View<'_, Coherent<...>, ...> {
-    fn dma_handle(&self) -> DmaAddress;
-}
+  1. firmware_class.path= (single legacy path)
+  2. firmware_class.search= (colon-separated paths)
+  3. Built-in default paths (/lib/firmware/updates/..., /lib/firmware)
 
-to replace this so you can get the DMA handle for any projections of the
-coherent object (and the bounds checking is done when projecting).
+A backslash can be used as an escape character, allowing a literal
+':' ('\:') or literal '\' ('\\') to be embedded in a pathname.
 
-Best,
-Gary
+Example:
+
+  firmware_class.search=/custom/path1:/custom/path2
+
+Suggested-by: Michal Grzedzicki <mge@meta.com>
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+This version adds a new module option called "search=" to specify an
+(escapable) search path. The search= path is tried after the original
+(unescaped) path= string, but before the hardcoded search path.
+---
+Changes in v4:
+- Move search path to new search= option that is tried after path=
+- Link to v3: https://lore.kernel.org/r/20260318-fw-path-v3-1-a701a08bc025@kernel.org
+
+Changes in v3:
+- Allow '\' to escape a literal ':' or '\' in the string
+- Link to v2: https://lore.kernel.org/r/20260318-fw-path-v2-1-8a106eb91eb4@kernel.org
+
+Changes in v2:
+- switch to using ':' as path delimiter
+- Link to v1: https://lore.kernel.org/r/20260318-fw-path-v1-1-7884d9bf618f@kernel.org
+---
+ drivers/base/firmware_loader/main.c | 224 ++++++++++++++++++++++++------------
+ 1 file changed, 150 insertions(+), 74 deletions(-)
+
+diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
+index a11b30dda23be563bd55f25474ceff2153ddd667..0f58d996d3807a1f57dc924adbe657360fdfac1e 100644
+--- a/drivers/base/firmware_loader/main.c
++++ b/drivers/base/firmware_loader/main.c
+@@ -469,8 +469,8 @@ static int fw_decompress_xz(struct device *dev, struct fw_priv *fw_priv,
+ 
+ /* direct firmware loading support */
+ static char fw_path_para[256];
++static char fw_search_para[256];
+ static const char * const fw_path[] = {
+-	fw_path_para,
+ 	"/lib/firmware/updates/" UTS_RELEASE,
+ 	"/lib/firmware/updates",
+ 	"/lib/firmware/" UTS_RELEASE,
+@@ -485,6 +485,82 @@ static const char * const fw_path[] = {
+ module_param_string(path, fw_path_para, sizeof(fw_path_para), 0644);
+ MODULE_PARM_DESC(path, "customized firmware image search path with a higher priority than default path");
+ 
++module_param_string(search, fw_search_para, sizeof(fw_search_para), 0644);
++MODULE_PARM_DESC(search, "colon-separated list of firmware search paths, tried after path= (use '\\:' for literal ':', '\\\\' for literal '\\')");
++
++static int
++fw_try_firmware_path(struct device *device, struct fw_priv *fw_priv,
++		     const char *suffix,
++		     int (*decompress)(struct device *dev,
++				       struct fw_priv *fw_priv,
++				       size_t in_size,
++				       const void *in_buffer),
++		     const char *dir, int dirlen,
++		     char *path, void **bufp, size_t msize)
++{
++	size_t file_size = 0;
++	size_t *file_size_ptr = NULL;
++	size_t size;
++	int len, rc;
++
++	len = snprintf(path, PATH_MAX, "%.*s/%s%s",
++		       dirlen, dir, fw_priv->fw_name, suffix);
++	if (len >= PATH_MAX)
++		return -ENAMETOOLONG;
++
++	fw_priv->size = 0;
++
++	/*
++	 * The total file size is only examined when doing a partial
++	 * read; the "full read" case needs to fail if the whole
++	 * firmware was not completely loaded.
++	 */
++	if ((fw_priv->opt_flags & FW_OPT_PARTIAL) && *bufp)
++		file_size_ptr = &file_size;
++
++	/* load firmware files from the mount namespace of init */
++	rc = kernel_read_file_from_path_initns(path, fw_priv->offset,
++					       bufp, msize,
++					       file_size_ptr,
++					       READING_FIRMWARE);
++	if (rc < 0) {
++		if (!(fw_priv->opt_flags & FW_OPT_NO_WARN)) {
++			if (rc != -ENOENT)
++				dev_warn(device,
++					 "loading %s failed with error %d\n",
++					 path, rc);
++			else
++				dev_dbg(device,
++					"loading %s failed for no such file or directory.\n",
++					path);
++		}
++		return rc;
++	}
++	size = rc;
++
++	dev_dbg(device, "Loading firmware from %s\n", path);
++	if (decompress) {
++		dev_dbg(device, "f/w decompressing %s\n",
++			fw_priv->fw_name);
++		rc = decompress(device, fw_priv, size, *bufp);
++		/* discard the superfluous original content */
++		vfree(*bufp);
++		*bufp = NULL;
++		if (rc) {
++			fw_free_paged_buf(fw_priv);
++			return rc;
++		}
++	} else {
++		dev_dbg(device, "direct-loading %s\n",
++			fw_priv->fw_name);
++		if (!fw_priv->data)
++			fw_priv->data = *bufp;
++		fw_priv->size = size;
++	}
++	fw_state_done(fw_priv);
++	return 0;
++}
++
+ static int
+ fw_get_filesystem_firmware(struct device *device, struct fw_priv *fw_priv,
+ 			   const char *suffix,
+@@ -493,10 +569,9 @@ fw_get_filesystem_firmware(struct device *device, struct fw_priv *fw_priv,
+ 					     size_t in_size,
+ 					     const void *in_buffer))
+ {
+-	size_t size;
+-	int i, len, maxlen = 0;
++	int i;
+ 	int rc = -ENOENT;
+-	char *path, *nt = NULL;
++	char *path;
+ 	size_t msize = INT_MAX;
+ 	void *buffer = NULL;
+ 
+@@ -511,83 +586,84 @@ fw_get_filesystem_firmware(struct device *device, struct fw_priv *fw_priv,
+ 		return -ENOMEM;
+ 
+ 	wait_for_initramfs();
+-	for (i = 0; i < ARRAY_SIZE(fw_path); i++) {
+-		size_t file_size = 0;
+-		size_t *file_size_ptr = NULL;
+-
+-		/* skip the unset customized path */
+-		if (!fw_path[i][0])
+-			continue;
+-
+-		/* strip off \n from customized path */
+-		maxlen = strlen(fw_path[i]);
+-		if (i == 0) {
+-			nt = strchr(fw_path[i], '\n');
+-			if (nt)
+-				maxlen = nt - fw_path[i];
+-		}
+ 
+-		len = snprintf(path, PATH_MAX, "%.*s/%s%s",
+-			       maxlen, fw_path[i],
+-			       fw_priv->fw_name, suffix);
+-		if (len >= PATH_MAX) {
+-			rc = -ENAMETOOLONG;
+-			break;
+-		}
++	/* Try the single customized path first */
++	if (fw_path_para[0]) {
++		int dirlen = strlen(fw_path_para);
+ 
+-		fw_priv->size = 0;
++		/* strip trailing newline */
++		if (fw_path_para[dirlen - 1] == '\n')
++			dirlen--;
+ 
+-		/*
+-		 * The total file size is only examined when doing a partial
+-		 * read; the "full read" case needs to fail if the whole
+-		 * firmware was not completely loaded.
+-		 */
+-		if ((fw_priv->opt_flags & FW_OPT_PARTIAL) && buffer)
+-			file_size_ptr = &file_size;
+-
+-		/* load firmware files from the mount namespace of init */
+-		rc = kernel_read_file_from_path_initns(path, fw_priv->offset,
+-						       &buffer, msize,
+-						       file_size_ptr,
+-						       READING_FIRMWARE);
+-		if (rc < 0) {
+-			if (!(fw_priv->opt_flags & FW_OPT_NO_WARN)) {
+-				if (rc != -ENOENT)
+-					dev_warn(device,
+-						 "loading %s failed with error %d\n",
+-						 path, rc);
+-				else
+-					dev_dbg(device,
+-						"loading %s failed for no such file or directory.\n",
+-						path);
+-			}
+-			continue;
++		rc = fw_try_firmware_path(device, fw_priv, suffix, decompress,
++					  fw_path_para, dirlen,
++					  path, &buffer, msize);
++		if (!rc)
++			goto done;
++	}
++
++	/* Try each ':'-separated path in fw_search_para */
++	if (fw_search_para[0]) {
++		const char *start = fw_search_para;
++		const char *p;
++		char *dir;
++
++		dir = __getname();
++		if (!dir) {
++			rc = -ENOMEM;
++			goto done;
+ 		}
+-		size = rc;
+-		rc = 0;
+-
+-		dev_dbg(device, "Loading firmware from %s\n", path);
+-		if (decompress) {
+-			dev_dbg(device, "f/w decompressing %s\n",
+-				fw_priv->fw_name);
+-			rc = decompress(device, fw_priv, size, buffer);
+-			/* discard the superfluous original content */
+-			vfree(buffer);
+-			buffer = NULL;
+-			if (rc) {
+-				fw_free_paged_buf(fw_priv);
+-				continue;
++
++		while (*start) {
++			int dirlen = 0;
++
++			/*
++			 * Parse the next path component. A backslash
++			 * escapes the following character, allowing
++			 * literal ':' ('\:') and literal '\' ('\\')
++			 * to be embedded in a path.
++			 */
++			for (p = start; *p && *p != ':'; p++) {
++				if (p[0] == '\\' && (p[1] == ':' || p[1] == '\\'))
++					p++;
++				if (dirlen < PATH_MAX - 1)
++					dir[dirlen++] = *p;
+ 			}
+-		} else {
+-			dev_dbg(device, "direct-loading %s\n",
+-				fw_priv->fw_name);
+-			if (!fw_priv->data)
+-				fw_priv->data = buffer;
+-			fw_priv->size = size;
++
++			/* strip trailing newline */
++			if (dirlen > 0 && dir[dirlen - 1] == '\n')
++				dirlen--;
++
++			if (dirlen > 0) {
++				dir[dirlen] = '\0';
++				rc = fw_try_firmware_path(device, fw_priv,
++							  suffix, decompress,
++							  dir, dirlen,
++							  path, &buffer,
++							  msize);
++				if (!rc) {
++					__putname(dir);
++					goto done;
++				}
++			}
++
++			if (!*p)
++				break;
++			start = p + 1;
+ 		}
+-		fw_state_done(fw_priv);
+-		break;
++		__putname(dir);
+ 	}
++
++	/* Try default firmware paths */
++	for (i = 0; i < ARRAY_SIZE(fw_path); i++) {
++		rc = fw_try_firmware_path(device, fw_priv, suffix, decompress,
++					  fw_path[i], strlen(fw_path[i]),
++					  path, &buffer, msize);
++		if (!rc)
++			break;
++	}
++
++done:
+ 	__putname(path);
+ 
+ 	return rc;
+
+---
+base-commit: 2d1373e4246da3b58e1df058374ed6b101804e07
+change-id: 20260317-fw-path-a094c30259a5
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
+
