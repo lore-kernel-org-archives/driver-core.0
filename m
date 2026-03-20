@@ -1,201 +1,378 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022108.outbound.protection.outlook.com [52.101.101.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB19359A7D
-	for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 20:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774038789; cv=none; b=bKcLJQxgtcS1Kn53PrM/othTZbr1hc4cM6FYl1XpfD0HvJ/CjzEKL0Tyo2xH/pa/vsI66SKZrIFP+oXOiAsN4Nnbun8IDB6zg5FTFZR4go+8SRv5nqkX9VMxIcmZmtTkqGfJC2k0d46+BB9pgz9HZk9o28LTJdSHCTkxul07ChM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774038789; c=relaxed/simple;
-	bh=qs4GngI9e5bYN0yw24bfxUbRtUOKCgcW/sntol8xNSQ=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Heh6Fsa56Yqcd/Mq3VQI6ME/ofEQMElg7lJL11rdYPJQNbrH6UjPQfOnDVMM9xcu+xw9JyYUUirp1nm7XJB41lhHS+NfK4XA/6uKCcBgFRSMsW1NIAHLjA68yhiWVhKbrfEj4IkBSTqFvN2iqRGVtmXYhpKJS/43w70KGuMxsE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KH5EP67U; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758CE34CFDF
+	for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 20:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.108
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774040137; cv=fail; b=TsJoIH/e2U/OBqbxhXc7vTHAYSRCJegHt3YIuK7MmZ2w7qmUi7K5+HoWO2BJj7g8A2FNYT/E2ZCm3aBZxJ6t2083o0GsSapfcz6taoKyDRj5levarU540pwJtG3ySqXMENARM7O+s4FiKT6wyOe6PimTu0CxEyr7QXx9ay4r4s4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774040137; c=relaxed/simple;
+	bh=OMArYBrvtVWVafzuI2UmjAu3uHVRY8ZbgG/0GqrOqjs=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=EReOBg5bY2c/EDSh5mt8xGMFfWJtkV6/1iObiv71+7YJPtzNzRA4ApTUnVKLZdT4BchJ63Z+ltPLWx0lc8vkIXlxv5iMTkr7RqPfa4DikdMwoAcepx64jbqhCOt2QFSsJZIU+fX70zuELfM5Tj5R9Fvsnl+pVOL/Az/GEHPg1jw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=EXF9gdyP; arc=fail smtp.client-ip=52.101.101.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KH5EP67U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18966C2BCB4
-	for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 20:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774038789;
-	bh=qs4GngI9e5bYN0yw24bfxUbRtUOKCgcW/sntol8xNSQ=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=KH5EP67UY79Oj08pJ/NSsWWv2GlpNqo8bbgbIWxE+gFAmo75UsCFFpRySbcrG0hfX
-	 HMp5DQ1oSgdD1bWDVmW/6qQD6v7OVTetypNNVewb6hYvR84jydKw3fojXHEvQ0RZKV
-	 nGx1tUIFrndw741C8w7yd2MJVQx1thwng6GGMOCwnxHnzk6ukHTKad3STSOJ2KRGJy
-	 NbTzOaQsJWcfzGeOaO+yzidCV5VIaNTueH6Yn1YSpVQi37A/LrSqLvU7WoP4Kvd3U/
-	 ktSQYxqXomYR0O2nu+073bisDCqk0Cjsx+KCIWSgqh+DE7Co4oqGZaQ1H9G75wCN8f
-	 OQ0/bMNiVGmjQ==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38a27d39067so20721111fa.1
-        for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 13:33:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWTkUhL5CS7ZCwB0eyArdPEa7tXzzDzGTMjvhbt7rqZLbADBgbTiJaqavkGA1cQawHoULiRD9wk2N73PQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOnU7Q4hDVsmZDR56svksDE5s/qc8V0g300YxVR3I/oihn+e8b
-	acwGethQPehW8zTv73Dr5C/7PDGw/UA4npJRAag5QA3diGO0yFd4PQzqHEaLDke4Z/SJf8tVMVy
-	Skz4g3k9HzjOUi/6FtKDXei6Ix4lUe02UlCULo2E6fQ==
-X-Received: by 2002:a05:6512:138f:b0:5a2:7ba1:493e with SMTP id
- 2adb3069b0e04-5a285af3c08mr1422126e87.13.1774038787586; Fri, 20 Mar 2026
- 13:33:07 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 20 Mar 2026 13:33:06 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 20 Mar 2026 13:33:06 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <abyje0mhIOtDZbxO@google.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="EXF9gdyP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PgvbCNwAus+YnJ56yupDRJ3vt+6KgWFXiiRU28r/5vp3ath9Eb88o/Q5ebh4T3j8UNs5i8GpYsSkO9SSx0Kzcv1aRnapnhkvmIjjw2HVE9MS3F5teFzXLdtpVKx6QQiu5l5sJbiNaMlOnphWfV66r1zziBgdjs35zlis4TwOE+I6h2MCMct8c4FZcyNsV4UQ10p00h6aSbPATh4jJegSTT6LZ/M+KA6c+9UZF+4TzvLusNFWaldrBxre1AnIVOHog4LRGx98sNxNnDeWG7VzM29Zew2kETwjU1L98WSpFId0uzAm14KoBRQ1FbvqTr2v0v8pLfFEAy22gWchNHxb8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HPWOrNh1yPHXW0f4I2x61PqPT/42ZaBP7i5KtgNZy34=;
+ b=yYWGg3YQNo9lHTmg7jBhz3zhoaZtzJiPg/xegbnz4Rfj+uMC1dZxcMDNdQqjfkbpCbWSNtB6E5J2AHiJjcBb1M0AM6l7bMicdE9+Y5EtapZNMb9RQ8/tc05M74xu0uht4l1yIeYPGKDkCFSHm4JWhi0e2cU2sBjwHh+1R8c1fdulENcsDEZv/uXWUf+JCuwIjOSifsculrubKy7DD/BiG+Jc8nX5Aekf/1xXQeDHJrsyoAjdl8LKkTPwjKC4LL0jgu3hZ1GTs4HULbGn5GKp48VsP3zZHj8sBoMueGeC3V39qncAH/WKpvmzQwDfWo4Nc2dzXmw/X6SWA7bwNEEI5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HPWOrNh1yPHXW0f4I2x61PqPT/42ZaBP7i5KtgNZy34=;
+ b=EXF9gdyPffiGi2U7WUXkrAycxMr098M7Z2rFNoMdzJxLMx6UGB2+9tHH7hihJcckApm4irm+98bjkYdTOl1lXqdhx6pOs798TRiI44Bnzz0JV1ExYf55+wcZC7z71qJ6GIKHHs4KUnK/kUhoZA/uqf2CSHLsY+6tyJx6EqMgx/o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LNXP265MB2555.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:135::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.24; Fri, 20 Mar
+ 2026 20:55:32 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Fri, 20 Mar 2026
+ 20:55:32 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Mar 2026 20:55:31 +0000
+Message-Id: <DH7WQPG7477S.7X4F1EV760NE@garyguo.net>
+Cc: <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 4/8] rust: dma: introduce dma::CoherentBox for memory
+ initialization
+From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, <aliceryhl@google.com>,
+ <acourbot@nvidia.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>
+X-Mailer: aerc 0.21.0
+References: <20260320194626.36263-1-dakr@kernel.org>
+ <20260320194626.36263-5-dakr@kernel.org>
+In-Reply-To: <20260320194626.36263-5-dakr@kernel.org>
+X-ClientProxiedBy: LO4P123CA0471.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a8::8) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260319-baytrail-real-swnode-v1-0-75f2264ae49f@oss.qualcomm.com> <abyje0mhIOtDZbxO@google.com>
-Date: Fri, 20 Mar 2026 13:33:06 -0700
-X-Gmail-Original-Message-ID: <CAMRc=McPQq6QxJ48zk7kxA+kwc=Em8dsFfyECJXg0asY-+pRiw@mail.gmail.com>
-X-Gm-Features: AaiRm52IPGTKs4RSoWbJCBfU_yKdF9grFXKfUYFJ8mg8u_FCJ7C66rIFHPKFtww
-Message-ID: <CAMRc=McPQq6QxJ48zk7kxA+kwc=Em8dsFfyECJXg0asY-+pRiw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] platform/x86: x86-android-tablets: use real firmware
- node references with intel drivers
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LNXP265MB2555:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9fc84756-fae6-46e5-846a-08de86c30694
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|10070799003|921020|7053199007|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	7L75+CYXlTOQYTv5VGCe9PraPEJtRdE3Oo7Fq6HmrSS2/foT98kLZ0LMrkpVuKnHa2n+bevMSeo8ssRvyJ2BDc5Guijcaxm1172PuikVZgugkZgeiCK/hXCOu5NZBsNU1VNDOl7kGx8MH6ekZyMUo1aEFov4b6DkdxZSzHZqXcjsePnT/xvafJSdc2/mKp5ZqJwLK7LsuO2zsxj0EIdrvez1d1axohkTRVU/c6u87Tobhs68nzsoGrdJ97jhn1m3cckGa03Ix48Og/RrBi+mLx2UjMrhbW4w2OclQ+c/W1aaegZjPgo4joZr99+JtJmVvNoelOPcZavyU0Ijy7OVTJ/NH+RE6Yr0ocThPne2Ymok7hVb6wpDsmtW/WPomLzYBoE43nstmRbehhWutv4dkbGoVvJbyARTHJ1K8Pl36Lg7CzE5BBRrmF8Fxblcvf6zGuwlSorQZYQkTdVi973rmPqJp93qgPJV18d6x1r8P4VX3vjGjLKbczbqEsrZ/UDrTuzHnD4ECXyiXf5xRGTk/Y1VzQoZuk6Gq0BMWLfCALS7C2SKFOyJ0NgxG5vGN2DM4fKA3jxuxfzKzgSvRrt19IhSqXVT6K6kf8SVs+P9XIw8zCyhe5TqNSost6yhlnz2fiURgqmH8Gp2c3ihWzgzz9WTpRxiGZrqVlP5el3kDjUg7Pj2+fOEUjdxdywZdrCke0lLtRUtMTnQteGC/kmJ+ov1gB8B+Imsrbs3X6VjwODiELV7YJ78k8wwZmBUXEknfcm3UefyyvppiXkroSodPw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(10070799003)(921020)(7053199007)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?R3NtaEQzTmk1MFY4SDZsZHF1MmtCUlJGOGJ1cXJjUzNWdVA0dTZhNHprTkI0?=
+ =?utf-8?B?aHdFdVA1aGsvVnY0cnNEYVZsQ3FKQ3JTaTI3aEp3VUwvQS9BRFBZN0w0bGZ1?=
+ =?utf-8?B?eEhCdEdSNkp2SlNKT01PZFJoeXRuWnBENUZKY3dHR1pyUGxRM01HbE9DVnpX?=
+ =?utf-8?B?dGVjNDhnWCsyNGRHRkJDMGVPdEgzZ0wyWnlGUHp2N3J4TVpUcmg1dTdhTUsw?=
+ =?utf-8?B?Y2MrelN0UjBQNk9BYzM4WG9SUTlzRy9wL1g0R2ZPeklNOXQrYlNHQlVsaGQz?=
+ =?utf-8?B?ZkhJQ1BhSlVYcDJQbklwMjdsQnlBZWdSVGU0OGRFcWJLSzgrUk9zR2tZN1Rl?=
+ =?utf-8?B?WnhlOFp6bSs2WUtRUTltUmdsalU1Wjg0TnBtcmZGcFJXTFhSdk1WNzAwMFBk?=
+ =?utf-8?B?WmxxZU5zdEo3aHk5WTNWK2F5cXUxaVdLaEc1cTVqZU1mZ2YxRDN2dVRYcHYy?=
+ =?utf-8?B?ektpSDU1a3BqbmVtLzBEM205c2NtNkZOSGtodFBhUXR3UTA0dmlrejREU25u?=
+ =?utf-8?B?bXp1WTdaSnZHUU85cFJzTlMxWUtwQ3hveE5mVUxCNmhrLzZUVCtBN2gwTkRm?=
+ =?utf-8?B?ekF6VWNWYzlQTnYyQTJUaXBKM2tBZnpnSW1wYnpUcDNBR29RR05NUmZoYnlB?=
+ =?utf-8?B?aHBjTmlEUWtybkgwKzQxRWtUdGVYWklVR3FQRWxzTVlNS2pBelJXbUNLcm1B?=
+ =?utf-8?B?WXM0WG80VFdNOWc1QjdqVXdZZ2Jhc2Y1U1hUdDJ3NTBFR1VpS0V6K1BVVTcz?=
+ =?utf-8?B?eHQ3YnBBdUkrbU5nTS9iQkZHbGlrZjBUSWNkcTBNZ1lLV1dMLzQya0gxOGJT?=
+ =?utf-8?B?bVB3TlJCNU10S2hXWExqN2luYy9HaEZrR3h2TlI5MDdjaHZIWGVRMFdxb0pn?=
+ =?utf-8?B?bG52QlRPVmY1TURPMFJZNDVFQjFsVGNOWWlIazU0WUlPNFlQMVZFUkFoZkR1?=
+ =?utf-8?B?bVpLTFVaUEVqbTNqVU16YXhCTkI2UFladEpSUi80clQxbjRsMXlBYnd2R2tI?=
+ =?utf-8?B?YmlmcXA1d0YzZDUrbjE5dWMwMnVqVXdyVUR1SURUaXREdWNJN0NxNE1nRUs3?=
+ =?utf-8?B?Q1dKd1ZlcVl5Si9GU0haQjVyRGpONVlVN1FWSVNFb2ZRWityYXB3am9aU3Iy?=
+ =?utf-8?B?aW14UFJ0NTZMNlZtVUVVbVpkTm13ZkMyeDZUZTZUckNjaWUrMmtVc3p1UEpW?=
+ =?utf-8?B?YUF5TE11VVZ3Q2ZNRWpyUjhjVEJCbjBEY0dUU0NhR2xncnFacWVGbjRueWti?=
+ =?utf-8?B?eDBaeDMvUmlWM3ZvRklORkZ0Z25PTnZDWE1UdmdybjZEaGpBOGVWckRyaDc5?=
+ =?utf-8?B?WXk1UExjYis5VXRzY0NPckxPcGFoc2pqaGVkeWFpMjAyYWozWmRIZXVwdVNw?=
+ =?utf-8?B?TDFYbEpjeTZWZVlYZkptT1Q2aFVBTWhnTXhjZDBWQ21sM1ZWWTBIaVU1aXN3?=
+ =?utf-8?B?dE5SS3NGOWFaSUorOU9ZQThnODNyNWhTVXJyL0xnVC9YUVliTkZBTDZFZVds?=
+ =?utf-8?B?YjRObzVNbEJFWFdEWHpSbkZZczNDZXBXdDl2dnV3UGxXbDc1blY0SjFGVVZO?=
+ =?utf-8?B?ZkcxTVJMZVFLdTVoaUFneTlDWXpaWklSdmtOVU52akxySWJ1MlZwRzdKRUx4?=
+ =?utf-8?B?eXJuamdiTFJ2aW4raVlhMkxFeWR6Rk9EZ3RyRURsdnc4UmpyUmZLQnUvRVBq?=
+ =?utf-8?B?Qno0WXNMVXYxdC9iajFudFdQUEVlWVEyd1RNZk1ENUZJc05rMjExdzhnYzZ4?=
+ =?utf-8?B?emMvVzN3M3pEM0FlZURIWUVHb1YyUXFrQVRUU0g5MGZPMnZNU1RxSjZQclVH?=
+ =?utf-8?B?cnFlY21COHZpb0RxUjN4TGJqT1hmU1paRlJrL0R0M05US1NnVlRVcDc4T0ZX?=
+ =?utf-8?B?OHpXc0Z0N0tsVUJqTnkwbHZBcmREOHFEN2MrcWxaMGsyMEVJWm92azN2ak5J?=
+ =?utf-8?B?aHZwSUxKdVg2bStKeEN6WVRTck43ZTlBajBSNGRwVEI4amVad0xXdWp6T2dB?=
+ =?utf-8?B?bHYwTEZZdndndTltb2dvQnVZUDdPWXBnK2l3UmxZVFN4SWd1cjMybjVZaGRL?=
+ =?utf-8?B?ZmpqVnpPQkhHOGJhSU4xd2t0SDdqVzMweDhpcC9ZUm5zUmI5Z3g4RjN4MFNY?=
+ =?utf-8?B?UEZmOVpFbGhCcDFzSDRqMngzTkIwMllYTVdxNU9ucWJZNmJtSlIramluckE4?=
+ =?utf-8?B?VWliSEd0UDNPMnZNa2VrWjJUMWViQ0VTNVp0NlBGc3lxTFB3djhqZWEvVmNP?=
+ =?utf-8?B?Yy9VSjJLRjJVOGwvY3hLQWk1Q0JwUjdKZTVFNkxZMVYvWmI0L3RudTIwb2tY?=
+ =?utf-8?B?OGlyaVg5R3R3aUNKSUNCaHpPbEx3Q1RWcWsybEFsQmhxMVFJWmowdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fc84756-fae6-46e5-846a-08de86c30694
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 20:55:32.1169
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oXDl2mVL82LGU4+RmZkR+yabF/0PldSUkXK01fZf7l1uxkyMycHSXf2xphfkCp5WYLuFKvsU9QY3AflCWvyEXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB2555
 
-On Fri, 20 Mar 2026 02:49:02 +0100, Dmitry Torokhov
-<dmitry.torokhov@gmail.com> said:
-> Hi Bartosz,
+On Fri Mar 20, 2026 at 7:45 PM GMT, Danilo Krummrich wrote:
+> Currently, dma::Coherent cannot safely provide (mutable) access to its
+> underlying memory because the memory might be concurrently accessed by a
+> DMA device. This makes it difficult to safely initialize the memory
+> before handing it over to the hardware.
 >
-> On Thu, Mar 19, 2026 at 05:10:53PM +0100, Bartosz Golaszewski wrote:
->>
->> This series proposes a solution in the form of automatic secondary
->> software node assignment (I'm open to better naming ideas). We extend
->> the swnode API with functions allowing to set up a behind-the-scenes bus
->> notifier for a group of named software nodes. It will wait for bus
->> events and when a device is added, it will check its name against the
->> software node's name and - on match - assign the software node as the
->> secondary firmware node of the device's *real* firmware node.
+> Introduce dma::CoherentBox, a type that encapsulates a dma::Coherent
+> before its DMA address is exposed to the device. dma::CoherentBox can
+> guarantee exclusive access to the inner dma::Coherent and implement
+> Deref and DerefMut.
 >
-> The more I think about the current approaches with strict identity
-> matching the less I like them, and the reason is that strict identity
-> matching establishes rigid links between consumers and producers of
-> GPIOS/swnodes, and puts us into link order hell. For example, I believe
-> if andoird tablets drivers were in drivers/android vs
-> drivers/platform/... the current scheme would break since the nodes
-> would not be registered and GPIO lookups would fail with -ENOENT vs
-> -EPROBE_DEFER.
+> Once the memory is properly initialized, dma::CoherentBox can be
+> converted into a regular dma::Coherent.
 >
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Why would they not get registered? They get attached when the target devices
-are added in modules this module depends on. They are exported symbols so the
-prerequisite modules will get loaded before and the module's init function
-will have run by the time the software nodes are referred to by the fwnode
-interface at which point they will have been registered with the swnode
-framework.
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-> Given that this series somewhat re-introduces the name matching, I
-> wonder if we can not do something like the following (the rough draft):
+See some nits below:
+
+> ---
+>  rust/kernel/dma.rs | 154 ++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 153 insertions(+), 1 deletion(-)
 >
-
-I'm open to better ideas and possibly multiple matching mechanisms but this
-just fit in this particular case. I'm not overly attached to name matching. We
-may as well use whatever properties ACPI provides to identify the devices and
-assign them their swnodes.
-
-> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> index 51320837f3a9..b0e8923a092c 100644
-> --- a/drivers/base/swnode.c
-> +++ b/drivers/base/swnode.c
-> @@ -509,6 +509,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->  	struct swnode *swnode = to_swnode(fwnode);
->  	const struct software_node_ref_args *ref_array;
->  	const struct software_node_ref_args *ref;
-> +	const struct software_node *ref_swnode;
->  	const struct property_entry *prop;
->  	struct fwnode_handle *refnode;
->  	u32 nargs_prop_val;
-> @@ -550,7 +551,10 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->  		refnode = software_node_fwnode(ref->swnode);
->  	else if (ref->fwnode)
->  		refnode = ref->fwnode;
-> -	else
-> +	else if (ref->swnode_name) {
-> +		ref_swnode = software_node_find_by_name(NULL, ref->swnode_name);
-> +		refnode = ref_swnode ? software_node_fwnode(ref_swnode) : NULL;
-> +	} else
->  		return -EINVAL;
->
->  	if (!refnode)
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index e30ef23a9af3..44e96ee47272 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -363,6 +363,7 @@ struct software_node;
->  struct software_node_ref_args {
->  	const struct software_node *swnode;
->  	struct fwnode_handle *fwnode;
-> +	const char *swnode_name;
->  	unsigned int nargs;
->  	u64 args[NR_FWNODE_REFERENCE_ARGS];
+> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+> index db645b01bdd0..cefb54f0424a 100644
+> --- a/rust/kernel/dma.rs
+> +++ b/rust/kernel/dma.rs
+> @@ -20,7 +20,13 @@
+>          FromBytes, //
+>      }, //
 >  };
-> @@ -373,6 +374,9 @@ struct software_node_ref_args {
->  			   const struct software_node *: _ref_,	\
->  			   struct software_node *: _ref_,	\
->  			   default: NULL),			\
-> +	.swnode_name = _Generic(_ref_,				\
-> +				const char *: _ref_,		\
-> +				default: NULL),			\
->  	.fwnode = _Generic(_ref_,				\
->  			   struct fwnode_handle *: _ref_,	\
->  			   default: NULL),			\
->
-> This will allow consumers specify top-level software node name instead
-> of software node structure, and it will get resolved to concrete
-> firmware node. GPIOLIB can continue matching on node identity.
->
-> WDYT?
->
+> -use core::ptr::NonNull;
+> +use core::{
+> +    ops::{
+> +        Deref,
+> +        DerefMut, //
+> +    },
+> +    ptr::NonNull, //
+> +};
+> =20
+>  /// DMA address type.
+>  ///
+> @@ -352,6 +358,152 @@ fn from(direction: DataDirection) -> Self {
+>      }
+>  }
+> =20
+> +/// CPU-owned DMA allocation that can be converted into a device-shared =
+[`Coherent`] object.
+> +///
+> +/// Unlike [`Coherent`], a [`CoherentBox`] is guaranteed to be fully own=
+ed by the CPU -- its DMA
+> +/// address is not exposed and it cannot be accessed by a device. This m=
+eans it can safely be used
+> +/// like a normal boxed allocation (e.g. direct reads, writes, and mutab=
+le slices are all safe).
+> +///
+> +/// A typical use is to allocate a [`CoherentBox`], populate it with nor=
+mal CPU access, and then
+> +/// convert it into a [`Coherent`] object to share it with the device.
+> +///
+> +/// # Examples
+> +///
+> +/// `CoherentBox<T>`:
+> +///
+> +/// ```
+> +/// # use kernel::device::{
+> +/// #     Bound,
+> +/// #     Device,
+> +/// # };
+> +/// use kernel::dma::{attrs::*,
+> +///     Coherent,
+> +///     CoherentBox,
+> +/// };
+> +///
+> +/// # fn test(dev: &Device<Bound>) -> Result {
+> +/// let mut dmem: CoherentBox<u64> =3D CoherentBox::zeroed(dev, GFP_KERN=
+EL)?;
+> +/// *dmem =3D 42;
+> +/// let dmem: Coherent<u64> =3D dmem.into();
+> +/// # Ok::<(), Error>(()) }
+> +/// ```
+> +///
+> +/// `CoherentBox<[T]>`:
+> +///
+> +///
+> +/// ```
+> +/// # use kernel::device::{
+> +/// #     Bound,
+> +/// #     Device,
+> +/// # };
+> +/// use kernel::dma::{attrs::*,
+> +///     Coherent,
+> +///     CoherentBox,
+> +/// };
+> +///
+> +/// # fn test(dev: &Device<Bound>) -> Result {
+> +/// let mut dmem: CoherentBox<[u64]> =3D CoherentBox::zeroed_slice(dev, =
+4, GFP_KERNEL)?;
+> +/// dmem.fill(42);
+> +/// let dmem: Coherent<[u64]> =3D dmem.into();
+> +/// # Ok::<(), Error>(()) }
+> +/// ```
+> +pub struct CoherentBox<T: AsBytes + FromBytes + KnownSize + ?Sized>(Cohe=
+rent<T>);
 
-I think it's bad design and even bigger abuse of the software node concept.
-What you're proposing is effectively allowing to use struct software_node as
-a misleading string wrapper. You wouldn't use it to pass any properties to
-the device you're pointing to - because how if there's no link between them -
-you would just store an arbitrary string in a structure that serves
-a completely different purpose.
+Similar to the changes I've made to `Coherent`, this can also just have
+`KnownSize + ?Sized` bound on the struct, and only have those bounds on the
+constructor.
 
-Which is BTW exactly what was done in GPIO and - while there's no denying that
-I signed-off on these patches - it goes to show just how misleading this design
-is - I was aware of this development and queued the patches but only really
-understood what was going on when it was too late and this pattern was
-copy-pasted all over the kernel.
+This saves a quite bit of duplication where everything needs to say `T: AsB=
+ytes
++ FromBytes`.
 
-Software nodes are just an implementation of firmware nodes and as such should
-follow the same principles. If a software node describes a device, it should be
-attached to it so that references can be resolved by checking the address of
-the underlying firmware node handle and not by string matching. I will die on
-that hill. :)
+Should be something fix-up-able on apply, or something left for future clea=
+nup.
 
-If you want to match string, use GPIO lookup tables. I remember your point about
-wanting to use PROPERTY_ENTRY_REF() for consistency and fully support it, but
-please do use *references* because otherwise it's just a lookup table with extra
-steps.
+> +
+> +impl<T: AsBytes + FromBytes> CoherentBox<[T]> {
 
-Just think about it: what if we try to generalize fw_devlink to software nodes?
-It would be completely broken for the offending GPIO users because there's no
-real link between the software nodes supposedly pointing to the GPIO
-controllers and the controllers themselves.
+this and ...
 
-> Also, you need to update the existing documentation in order to be able
-> to call the existing documented practice an "abuse" ;)
->
+> +    /// [`CoherentBox`] variant of [`Coherent::zeroed_slice_with_attrs`]=
+.
+> +    #[inline]
+> +    pub fn zeroed_slice_with_attrs(
+> +        dev: &device::Device<Bound>,
+> +        count: usize,
+> +        gfp_flags: kernel::alloc::Flags,
+> +        dma_attrs: Attrs,
+> +    ) -> Result<Self> {
+> +        Coherent::zeroed_slice_with_attrs(dev, count, gfp_flags, dma_att=
+rs).map(Self)
+> +    }
+> +
+> +    /// Same as [CoherentBox::zeroed_slice_with_attrs], but with `dma::A=
+ttrs(0)`.
+> +    #[inline]
+> +    pub fn zeroed_slice(
+> +        dev: &device::Device<Bound>,
+> +        count: usize,
+> +        gfp_flags: kernel::alloc::Flags,
+> +    ) -> Result<Self> {
+> +        Self::zeroed_slice_with_attrs(dev, count, gfp_flags, Attrs(0))
+> +    }
+> +
+> +    /// Initializes the element at `i` using the given initializer.
+> +    ///
+> +    /// Returns `EINVAL` if `i` is out of bounds.
+> +    pub fn init_at<E>(&mut self, i: usize, init: impl Init<T, E>) -> Res=
+ult
+> +    where
+> +        Error: From<E>,
+> +    {
+> +        if i >=3D self.0.len() {
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        let ptr =3D &raw mut self[i];
+> +
+> +        // SAFETY:
+> +        // - `ptr` is valid, properly aligned, and within this allocatio=
+n.
+> +        // - `T: AsBytes + FromBytes` guarantees all bit patterns are va=
+lid, so partial writes on
+> +        //   error cannot leave the element in an invalid state.
+> +        // - The DMA address has not been exposed yet, so there is no co=
+ncurrent device access.
+> +        unsafe { init.__init(ptr)? };
+> +
+> +        Ok(())
+> +    }
+> +}
+> +
+> +impl<T: AsBytes + FromBytes> CoherentBox<T> {
 
-Yes, I should.
+this should be the only two places that need `AsBytes + FromBytes`.
 
-Thanks,
-Bartosz
+Best,
+Gary
+
+> +    /// Same as [`CoherentBox::zeroed_slice_with_attrs`], but for a sing=
+le element.
+> +    #[inline]
+> +    pub fn zeroed_with_attrs(
+> +        dev: &device::Device<Bound>,
+> +        gfp_flags: kernel::alloc::Flags,
+> +        dma_attrs: Attrs,
+> +    ) -> Result<Self> {
+> +        Coherent::zeroed_with_attrs(dev, gfp_flags, dma_attrs).map(Self)
+> +    }
+> +
+> +    /// Same as [`CoherentBox::zeroed_slice`], but for a single element.
+> +    #[inline]
+> +    pub fn zeroed(dev: &device::Device<Bound>, gfp_flags: kernel::alloc:=
+:Flags) -> Result<Self> {
+> +        Self::zeroed_with_attrs(dev, gfp_flags, Attrs(0))
+> +    }
+> +}
+> +
+> +impl<T: AsBytes + FromBytes + KnownSize + ?Sized> Deref for CoherentBox<=
+T> {
+> +    type Target =3D T;
+> +
+> +    #[inline]
+> +    fn deref(&self) -> &Self::Target {
+> +        // SAFETY:
+> +        // - We have not exposed the DMA address yet, so there can't be =
+any concurrent access by a
+> +        //   device.
+> +        // - We have exclusive access to `self.0`.
+> +        unsafe { self.0.as_ref() }
+> +    }
+> +}
+> +
+> +impl<T: AsBytes + FromBytes + KnownSize + ?Sized> DerefMut for CoherentB=
+ox<T> {
+> +    #[inline]
+> +    fn deref_mut(&mut self) -> &mut Self::Target {
+> +        // SAFETY:
+> +        // - We have not exposed the DMA address yet, so there can't be =
+any concurrent access by a
+> +        //   device.
+> +        // - We have exclusive access to `self.0`.
+> +        unsafe { self.0.as_mut() }
+> +    }
+> +}
+> +
+> +impl<T: AsBytes + FromBytes + KnownSize + ?Sized> From<CoherentBox<T>> f=
+or Coherent<T> {
+> +    #[inline]
+> +    fn from(value: CoherentBox<T>) -> Self {
+> +        value.0
+> +    }
+> +}
+> +
+>  /// An abstraction of the `dma_alloc_coherent` API.
+>  ///
+>  /// This is an abstraction around the `dma_alloc_coherent` API which is =
+used to allocate and map
+
