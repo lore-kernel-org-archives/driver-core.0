@@ -1,151 +1,264 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010028.outbound.protection.outlook.com [52.101.85.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE72310762
-	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 06:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774075071; cv=fail; b=GKMPIiTaebOR8vyF/qu57+3ImCkkKqG2VH+T3RD1NxONmZRNlKmH0OjM3J12aEwJ+Ymc4y68mslCr0UVIJt96XAmo5ivSr/+2q0hP5rP1q+bUnbhxtz+rsap4G3n4roK2xf+SfubdL3X7pezS77dPYmsujLsA+27YqLyuTz2U7A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774075071; c=relaxed/simple;
-	bh=ePN7BS0cV1R99BMdLB6Rs+s5/TRs87vAeFD8kSKy/CQ=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=YJCSDZW/abFAmuuVCzzEydbJsCARKnV7fYLAYjhWv8SmbPrFmOxftcb9KSs4CDwniSNlSCdgRDidZ0ZKX2QfAHp4RP4Vl72fESmBI8O4y6L8mYyJK77NO5sqSlzQ+IrhAOvbAJWI8uL+X6RiPytp3ZLfSFFRRSXYQrdjQRTWguE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DnztRIRb; arc=fail smtp.client-ip=52.101.85.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566042BEC55
+	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 07:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774076498; cv=none; b=hvJgxMGBw8qyT9XZ5lOoga77DuuOfPO2shgTOrXCtY5vvRZ9qorT1n/HffUMPfbxugoJ1NWlpobWJaJsBajFO69Wc/IJfZhKnOkXFPuooisEDazYzk3Fhomk9h1Fhwc6zC7X/KMV0oY/o4Ibnp+JGmyV+qOTTBfUjH94im2ESr0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774076498; c=relaxed/simple;
+	bh=nccF5SellD3jrgeb45QpRhAPgHb/WG7fl3nuIZoLBwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bOTHYP4/3VIZK1HUtuNu90GtGzQ6Po9YFd35c+1gtudwQSGUhyI9/iMkfVYRR9gmZ0YyFOvMr6QliMNUi6rFYtZ9MXNWSiV0gFbXC4Bu/8JBe4nIjyJaVnoz8jA/4XJeVrlG1UePCYLua2owBNwFBsP18fzJV75XPqU1aIigTHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fi2Baj5w; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DnztRIRb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o8F7Cyh8c/vLG+cAFAJ89eHlRkPhk3nxq5omcuI9rb80QulWCd5vf6IqJvxlaiJGzKqECWro9DOG5lRym5ApOEaDFRqkcZDFUDs4hKRzbLX0QHPGz6sq7ubfMeUopgCFpeQvpdWtGAZMWF4M8bNEffFSklADkh3NoNAFbM8lpsZmgJzOe+wR4aW1z+mXBUNyX/B2n+vUP7lYBkLv4JU5NHG2yRz1fGeQjlsHAYC6mcLxUkMZbj3zKnjRvnmMRKpKHb+KAuc8QakIDQFOOISgSgNf3fp5VWJYWuAMY/fqut7zPG7zhdlnp/Nz+DfKVg770pe1RSsCJfx7s2siF9nCJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z0LK+/k7sULA0+fTeMNrT1psy62oBiL1EgNslewxNqw=;
- b=u/00z2bi97NzhhujD/uxHwM9m0jQXbK1sDjDo4B414/T4qBRz68maauFQTznXJZ9xnoRhJZ2zOzlynUT2d4o8V8Dsalepy/NkCY3uhP3T8fJ2800knFe1BVR812D5DA6B4wdIwmfvErJ6T/S6Jfh+pu5lDnwzn4m5VOPUJQHiyfacL6tcg3otG+Ad/Aslk85Ck9GLgOAASETlIyiq2F/dDnBk72Kn6lXEXKy9M6KKMFLOFwplqwtDMnYyG7hWH/kzPG9ifP/dAwNNezZ9Cj2dryfomipIRc1B30V6fFci+93hze7yGgf0NezOUF+4g7mU5T3f4FGW3RE6v47TYV85g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z0LK+/k7sULA0+fTeMNrT1psy62oBiL1EgNslewxNqw=;
- b=DnztRIRbjhQeNwmsRrFJ/Ap4Ta5C5PhI0YUG5oYP623V/K0zOgPMAeDBN7Mo2dIB5Lbudq52Sx2Vm0GWtb2Bv4xGAYRHF50zjI0SuqVKJWs7ngS/ebY69hJFFVxEvZkiYTv+mMScKRpKCM5zZHuHsSWYu45e3+0m5xAXpFLk9mrffBRqSFVl1x1n7VxBAk39gEJbBWnwhJo46EppnaRXtl+RLGe/ixW8042ks+bzOvGG3nddT9Lr5E+2uzEtVoChFPeUxmpg1XZh3hOnlyytkiajlZ21qo9jgWJ1GiMvsK3UK7md0iKHIK37jzQHQAEn1sBdLg59M95uqfmlsy8cSg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by LV8PR12MB9449.namprd12.prod.outlook.com (2603:10b6:408:204::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.15; Sat, 21 Mar
- 2026 06:37:46 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9745.007; Sat, 21 Mar 2026
- 06:37:46 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Mar 2026 15:37:42 +0900
-Message-Id: <DH894GFE1FG7.3LZPWX3Y9ONZO@nvidia.com>
-Subject: Re: [PATCH v2 3/8] rust: dma: add zeroed constructor to `Coherent`
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: <aliceryhl@google.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20260320194626.36263-1-dakr@kernel.org>
- <20260320194626.36263-4-dakr@kernel.org>
-In-Reply-To: <20260320194626.36263-4-dakr@kernel.org>
-X-ClientProxiedBy: TYCPR01CA0145.jpnprd01.prod.outlook.com
- (2603:1096:400:2b7::18) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fi2Baj5w"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c0f754e756so2574889eec.1
+        for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 00:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774076495; x=1774681295; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WW/Es4BMtk/hQWwGJpeAz0GKoIYwIQk7tyAslfgFI7Y=;
+        b=Fi2Baj5wWkUafPSgNaaXlmYevsLtd9gJ+Owwx7n6vl8YKOHmTGlBihSNxzAgbPmyEq
+         NHZWwCTWpjxAi+I3QnDnY4h+EZKMIW+pQCis0+lehhw2/gcx2rmraoJghD0bkEoanUXt
+         G8eqf52xwCk+mXkNDvOG+b0K+KwE7z/vQqohZfyb/TcB+f9Zy4Mr4isn4En0LNQR23Yc
+         sm3hu28A+1A499wHPRmq3VM16pjKWSgXeylYMWDhSOUh1Q26npHaoP+fEHYrSa6vE1nI
+         0Mp1iAWQtCJWGcqNOO9/ge7uwnvKIammzHiRSBuFFb12iQgTqCEfTsIP5tmRC0jquVr6
+         RBQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774076495; x=1774681295;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WW/Es4BMtk/hQWwGJpeAz0GKoIYwIQk7tyAslfgFI7Y=;
+        b=eV0KTzOr+L3PTgjoSIGYyNYbQYFedchxoREOBoWKDyXygJsW5c4tqQbJ/p/nrJvk3s
+         7Ku130/dyKfj6opoWuuVSTUfJdrKkIncXaKYe31Wy3TAkFNdJcUKECaW3LmAmxG7oere
+         MELEtUSM3It+0irrdKk8iUZ7XfSAsaM9Bu6Qa5QV73NS5+dNuyX9XYLMEgow/fvbAcps
+         Y7OFWbHt6FNKd5OLqdNmPLpSHL56Sb8XqIJyiSUaCE+uPzYiZfXj7xH8bNy18YJ8s3vr
+         /hHVy53mAIVjk5ph+4vCcOkWGU899QKGPT6VPBq6iv14A9pcCmOaI0sSrFkpsZQ2EB0q
+         m9Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCWRNen0BcHHP9Mu2HN1vDOCSJXs9w3n2NWr0yc6oHMv8r9b+RpKZKDu+OMVVWMZqhWOuSEUuTt7bDG/jQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwavmDp4iHbsj9SwAVGMfYXDaLfxpe22alDaAUMSPZPZV49onMg
+	qzIIglel2+3l8DnscyRTdIXGLTgvOME8j/kqWXb5Wg4A2xDqqY3xACH0
+X-Gm-Gg: ATEYQzzd1M/Qyz6b9r/+V8yMQDI0f4gob+FZ7dwtTBs8OYWQZYe6o80h75uteREeecQ
+	26Q0K3syehZn3GFfSMu0YZVxLC70OxnEQtbDA5WJoPfehp+ARjJtPdCgnKG4+myPGJc9oWTWML/
+	vtTVJubyFxuTDQAetMm/Kgj9YqqVaCeHJdD3omcopcpr5geZjGlxgIdq6W52wwOyBYCSW50FjLd
+	j5uofiQ2IqwhMeAKEcMsXc79mMQbNziQVUXDij8wOOdYmdezp5XfsmIklATN7yVPQ/kcPtAxUih
+	zq5QscKe5M62sGYSOb2wMcJUitPiHwPTE9ljxWzuQffEkV+lVskM/yhgUfFLXHH9T7BQb9kn6FN
+	A1fbO8+bdQnCeGFfGgunFC8+CNNP5Pi/B/8R/mzqMfRtfh9pFIWLJ7k+EjL0ernU7pZPoenU5t6
+	xpGlt0gPwrEGN292iJ6daJY+4JPPxrnv+E3xh+fagadyXB8T+jsAPMNqnbeHweNRCN
+X-Received: by 2002:a05:7300:4342:b0:2ae:5e93:b69 with SMTP id 5a478bee46e88-2c1097a59f3mr3100399eec.29.1774076495235;
+        Sat, 21 Mar 2026 00:01:35 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:9f7e:6d98:a88f:a990])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b2ce04asm6376554eec.21.2026.03.21.00.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Mar 2026 00:01:34 -0700 (PDT)
+Date: Sat, 21 Mar 2026 00:01:30 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH 0/4] platform/x86: x86-android-tablets: use real firmware
+ node references with intel drivers
+Message-ID: <ab47QXIYCo3vNI8J@google.com>
+References: <20260319-baytrail-real-swnode-v1-0-75f2264ae49f@oss.qualcomm.com>
+ <abyje0mhIOtDZbxO@google.com>
+ <CAMRc=McPQq6QxJ48zk7kxA+kwc=Em8dsFfyECJXg0asY-+pRiw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV8PR12MB9449:EE_
-X-MS-Office365-Filtering-Correlation-Id: 892f3f81-54c4-435a-3648-08de87145cc1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|10070799003|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	iiQycbL3vdVHojsIdHyVYp8Q5fG8BnO5DtKYJyT1/8GC5BA3n8rkyHDpFEXSb3ohJ37GqMAU8No+6/xVoJLi3InzCKGXwtU1//zEGapX5WXW3RSUUvEwECLaD0Eb8I1SbSFQZdrFJO62cD2NA3G4icg4m3H3SRCmTOKAmgCGck/6oPgDMMt5tNM9xSSjwc3Bjq6DCQttl99F/CDTougxL3wimABIZcuwIkPOX3qdDQZTZvEtiCxM4RADgMVPkF4bl7zqQnY3vtVYD0CewLOE8GfhlIGEyd/in4WUsQYeyRBb0t//TodDO/X1mtuTwbKVAMcdx6ikbsfzgXjs/gm0gxyTkZkFeMJIOJLWCEJeNoStIPetrO8vx6yhozjJuJhxpfR8CZyrQGS/dD5nYjBEeq9vdwsowkuGiv/D8c66nvQf6npKpUHv5WYJKlLimhjiSwt6Syf+4MTGiOgmEuJtgOv3OX+0VbRlsxC/VGxvByhn1s3pJ0DJuIeggh0TSDrpqZdT7LZEDrNSwRi8+1JZT/uH0KJ6j2plBOWguSTyX5voMkHlO2q+5MO8WvMmFgsaiZKOyjFAYLtFQfZ6Ge5gfGtgx731rywYz2LtpT3dfwfJYk16Ei+zhFcf24kJ19h/Cn6g5KIwIMUR3UBjcIl7t0SfM9yanJFzCeE1WJmxZseZFS47QiXe0t/zfCWLR8xlj6grpiMdSc/cKN6mCXlaze9vcAB/VYtpFm01sd1UsBc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(10070799003)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K21sWXFPdEMxcFM2Z29sZm53YXR6MzlJV0FyNXkvSlVMcG51R3ZFOEZFU1hN?=
- =?utf-8?B?YkhEVWNRaDk2NEhBNzlwUkFCQ3g3MlRNR00yejFmaUxETExITVlGbG0zR0xp?=
- =?utf-8?B?TlNPWXFXNW1TeWJMVWRUM05ORExmdmxaQ3BiSTVrWHpoMzdCNzdUTGo4YnJu?=
- =?utf-8?B?T1dSTVNrUVYvRnRiMnlCdTlkRnpUUVpoMHh0aC9GYWFVa0hYb2FpMk0rcU83?=
- =?utf-8?B?R1Z2MldlSUdjekNZQ3VEWTRNRDE2V1A0bjMvQXE5RGx5b0I3WWhvS2JsdXdW?=
- =?utf-8?B?cFF0VXVVenlpbklZcnFaaFhsNVZSSyt6SmFIeG9pME9IWmpEczh6MytzbmR6?=
- =?utf-8?B?OGNsdlg4ZlBwTVV0K25FWi9admx1NkczUzY5ZXlBOUxRdmVDRkFTVncwcWE2?=
- =?utf-8?B?TGJsblFycW5jM3ZOdkQ5elgyNk5hWGNEZEQrSVE5b0tZdkFrdXJIMXlMdEVE?=
- =?utf-8?B?a1V0SEFtVnpOS29xVE9pQVcrZmZmME5reWxuVFlzeWV6ZXo4V0V4WU10Wmxk?=
- =?utf-8?B?M1hCRWxCYlJzbWhGZS9Vb0NxMEJ4bE5rNHFqcURCL0t4V2dUYTFvM1M3ZzNY?=
- =?utf-8?B?R0cxTjREeVdGSm9lenhOMzFUMzBaTFpQOHo2d0VrbXB5aEFKS1hZZ0VGRHNh?=
- =?utf-8?B?L3hkd2FGQW5HTDRBejlyRGhGUDRmQzhBTWg5d01BeDh5bm0rUHppbHBENFA2?=
- =?utf-8?B?VXhLV3FuRVFCWFU2elBwSzNBTS9NWUdsYTVjT2dkNUkya0xJaFRkRUQ3OWFL?=
- =?utf-8?B?aHVUQ09XWXBoWTdzLzAyRjhCRDVRV1YwTzdPTGppaEZjVytaeXRQOGNRamdw?=
- =?utf-8?B?Y1FReVVmc3pzNkpva3ZWeEFZVGdRTmxWL09CbjMwVHJHd0lmWHllMS9DZTJO?=
- =?utf-8?B?Y0ROZ3ljMUpjV2trVzN1aVZtL1lQenViOGJqZjNQVHI5cFQ3K1RCR05mOUlZ?=
- =?utf-8?B?Rlk1NWdRek9CUG04a1RicTg3YkM3TmIvVGRCQ1lYWVI5d1pvQ1hHaGsrQ2ZZ?=
- =?utf-8?B?SG5jZXlFdnEySXVJc1NZWFowWjdCV3RwOE82U3JOd0ZQdUhqUlV5QWl1cDQy?=
- =?utf-8?B?RDFtd3J6cERKcVBqdzFoUlVrVmRabisrdi80ekV6RE1reE5kcTM3c3lya3g0?=
- =?utf-8?B?VDNKSmxBM000ZmNzZW9kUVdlaWlTZTI2MUh5MC9sampMbXp4UFNWUUJmMTRN?=
- =?utf-8?B?TmFoTElVa3Q4cDlVWDR2aERDazZ4NXNhTVF6aHFlTk56TjN6citjTlhVRHpz?=
- =?utf-8?B?RG52NzFjd0NxSFN2YTVkb1lYYXJyK2FldmFISXRUQlV4cUpyTjJJc2RYWXcz?=
- =?utf-8?B?T1ZqSUM0MkdYZlBCNXhubGY0aTF0cDh3eDQzTU5adnNjaG1zK2EyYytCZ3BY?=
- =?utf-8?B?bHJIYlRQdVljRjBHejFiRFVqRXZLV05RRGNDeTZPajJWaTBEZEFwOGRobGlr?=
- =?utf-8?B?QThvdXZOSU5Ra2ZHSG5ZR0g1eE12QWhWMnl0cE5ESEpkNWZCOUd6OHJIbjBu?=
- =?utf-8?B?NURTNk5XRXE3NktxbTJmVmpua2lCcHFNTU9VckVHSUN0emJGU0hPTFhVYStI?=
- =?utf-8?B?N2tmQmVmbEZpZFEvYXhMbTVDdS81QzZXemlVejJsRzlVMWpLQk9oM2xrYnFL?=
- =?utf-8?B?UGE1amhYdTFRcmVzOXBES001ejEvL0FlM3pPeEg0VFRtQzhHeGV3OW5QLzZJ?=
- =?utf-8?B?NzJrS0dzZU1DQW9iWSt4ckxCbGEyMXNwamVzcHE1ZkxNcXN2TEVzSGlBdGFt?=
- =?utf-8?B?bmtsYnJBMzFlb1NHLzlZaFFWM2ZGVDR2ZkpjS0pYMnVUeWRmakFLa3daNXNi?=
- =?utf-8?B?RDdHdFRDaGJ6dlFNdHA0bUJuZUxkSnJJSWF5NVlWR1BldSt5cHF5WFFMTDha?=
- =?utf-8?B?amxpSkd2RXBUQWxnSisrOGNuTVc1eERrb3BUTlFXU3llelJnckxodFVSYUJ0?=
- =?utf-8?B?ZkJPS25uYndtNHlEb1REQklEZU5qVnVmOFk3ejI4K2Z5VmhnLzRIUlBNWCtq?=
- =?utf-8?B?ekpRNTFiZXl4VW5TZ1FUR0RIM0tiR0U0bGpRSFlFRnVDR3l1WmxtenFRYm1p?=
- =?utf-8?B?MllCUXUrSUNmSStHRGViZmlqcmtBSkltVzBoYnNmQXJXbitLQmNmOHdJV0Jr?=
- =?utf-8?B?VWcvV203K2pXdmk5dldIMEwxcjRibXNweHVEdjc2eE1ySHkyck5zNXZTSWYz?=
- =?utf-8?B?VGhyemRhSE8rNkpCU3FMaEFhUUtMaG92N1dLZm8xWElEQ1hUYUQreVVNTVB5?=
- =?utf-8?B?b0J0VzBiTFJZUHF2d0xhaEZBRXZFUDYwMmJGL1lzdVhPeDVJcDlWWCtwVmJX?=
- =?utf-8?B?ZTh5S2lLS0c3dU5zMHVDMlZOMzlKNzJMUy9hR1Vza2hndTROLzV0dUd5QnF4?=
- =?utf-8?Q?qqQJrJdp7VeoVRskT0XGobk1JC7S/Ws+o+vieTQZ0Csvk?=
-X-MS-Exchange-AntiSpam-MessageData-1: Wj2A1+LtLWKiBw==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 892f3f81-54c4-435a-3648-08de87145cc1
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2026 06:37:46.0066
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bjERDxOALuiWTryfXqv0Co0S8kHfZZbFS4oqMZTlceVVeVz4sbnfOWQwcYAKN8XuZfHuhj7HYfxGsQQAnknhqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9449
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=McPQq6QxJ48zk7kxA+kwc=Em8dsFfyECJXg0asY-+pRiw@mail.gmail.com>
 
-On Sat Mar 21, 2026 at 4:45 AM JST, Danilo Krummrich wrote:
-<snip>
-> @@ -529,6 +528,35 @@ fn alloc_with_attrs(
->          })
->      }
-> =20
-> +    /// Allocates a region of type `T` of coherent memory.
-> +    ///
-> +    /// # Examples
-> +    ///
-> +    /// ```
-> +    /// # use kernel::device::{Bound, Device};
-> +    /// use kernel::dma::{attrs::*, Coherent};
+On Fri, Mar 20, 2026 at 01:33:06PM -0700, Bartosz Golaszewski wrote:
+> On Fri, 20 Mar 2026 02:49:02 +0100, Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> said:
+> > Hi Bartosz,
+> >
+> > On Thu, Mar 19, 2026 at 05:10:53PM +0100, Bartosz Golaszewski wrote:
+> >>
+> >> This series proposes a solution in the form of automatic secondary
+> >> software node assignment (I'm open to better naming ideas). We extend
+> >> the swnode API with functions allowing to set up a behind-the-scenes bus
+> >> notifier for a group of named software nodes. It will wait for bus
+> >> events and when a device is added, it will check its name against the
+> >> software node's name and - on match - assign the software node as the
+> >> secondary firmware node of the device's *real* firmware node.
+> >
+> > The more I think about the current approaches with strict identity
+> > matching the less I like them, and the reason is that strict identity
+> > matching establishes rigid links between consumers and producers of
+> > GPIOS/swnodes, and puts us into link order hell. For example, I believe
+> > if andoird tablets drivers were in drivers/android vs
+> > drivers/platform/... the current scheme would break since the nodes
+> > would not be registered and GPIO lookups would fail with -ENOENT vs
+> > -EPROBE_DEFER.
+> >
+> 
+> Why would they not get registered? They get attached when the target devices
+> are added in modules this module depends on. They are exported symbols so the
+> prerequisite modules will get loaded before and the module's init function
+> will have run by the time the software nodes are referred to by the fwnode
+> interface at which point they will have been registered with the swnode
+> framework.
 
-nit: aren't we using the kernel import format in examples as well?
+I mentioned link order, which implies no modules are involved. When code
+is built into the kernel initialization follows link order, which is
+typically alphabetical. To ensure the order you require you either need
+to move targets inside makefiles or change some drivers from
+module_init() to <some other>_initcall(). This is known as "link order
+hell" that was very common before deferred probing was introduced.
+
+> 
+> > Given that this series somewhat re-introduces the name matching, I
+> > wonder if we can not do something like the following (the rough draft):
+> >
+> 
+> I'm open to better ideas and possibly multiple matching mechanisms but this
+> just fit in this particular case. I'm not overly attached to name matching. We
+> may as well use whatever properties ACPI provides to identify the devices and
+> assign them their swnodes.
+
+What ACPI has to do with this? Oftentimes we are dealing with non x86
+systems.
+
+> 
+> > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> > index 51320837f3a9..b0e8923a092c 100644
+> > --- a/drivers/base/swnode.c
+> > +++ b/drivers/base/swnode.c
+> > @@ -509,6 +509,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
+> >  	struct swnode *swnode = to_swnode(fwnode);
+> >  	const struct software_node_ref_args *ref_array;
+> >  	const struct software_node_ref_args *ref;
+> > +	const struct software_node *ref_swnode;
+> >  	const struct property_entry *prop;
+> >  	struct fwnode_handle *refnode;
+> >  	u32 nargs_prop_val;
+> > @@ -550,7 +551,10 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
+> >  		refnode = software_node_fwnode(ref->swnode);
+> >  	else if (ref->fwnode)
+> >  		refnode = ref->fwnode;
+> > -	else
+> > +	else if (ref->swnode_name) {
+> > +		ref_swnode = software_node_find_by_name(NULL, ref->swnode_name);
+> > +		refnode = ref_swnode ? software_node_fwnode(ref_swnode) : NULL;
+> > +	} else
+> >  		return -EINVAL;
+> >
+> >  	if (!refnode)
+> > diff --git a/include/linux/property.h b/include/linux/property.h
+> > index e30ef23a9af3..44e96ee47272 100644
+> > --- a/include/linux/property.h
+> > +++ b/include/linux/property.h
+> > @@ -363,6 +363,7 @@ struct software_node;
+> >  struct software_node_ref_args {
+> >  	const struct software_node *swnode;
+> >  	struct fwnode_handle *fwnode;
+> > +	const char *swnode_name;
+> >  	unsigned int nargs;
+> >  	u64 args[NR_FWNODE_REFERENCE_ARGS];
+> >  };
+> > @@ -373,6 +374,9 @@ struct software_node_ref_args {
+> >  			   const struct software_node *: _ref_,	\
+> >  			   struct software_node *: _ref_,	\
+> >  			   default: NULL),			\
+> > +	.swnode_name = _Generic(_ref_,				\
+> > +				const char *: _ref_,		\
+> > +				default: NULL),			\
+> >  	.fwnode = _Generic(_ref_,				\
+> >  			   struct fwnode_handle *: _ref_,	\
+> >  			   default: NULL),			\
+> >
+> > This will allow consumers specify top-level software node name instead
+> > of software node structure, and it will get resolved to concrete
+> > firmware node. GPIOLIB can continue matching on node identity.
+> >
+> > WDYT?
+> >
+> 
+> I think it's bad design and even bigger abuse of the software node concept.
+> What you're proposing is effectively allowing to use struct software_node as
+> a misleading string wrapper. You wouldn't use it to pass any properties to
+> the device you're pointing to - because how if there's no link between them -
+> you would just store an arbitrary string in a structure that serves
+> a completely different purpose.
+
+I think you completely misunderstood the proposal. We are not using
+software node as a string wrapper, we give an opportunity to use
+software node name to resolve to the real software node at the time we
+try to resolve the reference. The software node is still expected to be
+bound to the target device (unlike the original approach that has a
+dangling software node which name expected to match gpiochip label).
+
+I think this actually a very good approach: it severs the tight coupling
+while still maintains the spirit of firmware nodes being attached to
+devices. The only difference we are using object's name and not its
+address as starting point. Similarly how you use name derived from
+device name to locate and assign secondary node in this patch series.
+
+> 
+> Which is BTW exactly what was done in GPIO and - while there's no denying that
+> I signed-off on these patches - it goes to show just how misleading this design
+> is - I was aware of this development and queued the patches but only really
+> understood what was going on when it was too late and this pattern was
+> copy-pasted all over the kernel.
+> 
+> Software nodes are just an implementation of firmware nodes and as such should
+> follow the same principles. If a software node describes a device, it should be
+> attached to it
+
+Yes, and the patch above solves this.
+
+> so that references can be resolved by checking the address of
+> the underlying firmware node handle and not by string matching. I will die on
+> that hill. :)
+
+I would like to understand why. I outlined the problems with this
+approach (too tight coupling, needing to export nodes, include
+additional headers, and deal with the link order issues, along with
+potential changes to the system initialization/probe order). What are
+the drawbacks of name matching as long as we do not create
+dangling/shadow nodes?
+
+You are saying that you want resolve strictly by address, but have you
+looked at how OF references are resolved? Hint: phandle is not a raw
+address. It's actually a 32 bit integer! Look at ACPI. It also does not
+simply have a pointer to another ACPI node there, the data structure is
+much more complex.
+
+So why are you trying to make software nodes different from all the
+other firmware nodes?
+
+> 
+> If you want to match string, use GPIO lookup tables. I remember your point about
+> wanting to use PROPERTY_ENTRY_REF() for consistency and fully support it, but
+> please do use *references* because otherwise it's just a lookup table with extra
+> steps.
+> 
+> Just think about it: what if we try to generalize fw_devlink to software nodes?
+> It would be completely broken for the offending GPIO users because there's no
+> real link between the software nodes supposedly pointing to the GPIO
+> controllers and the controllers themselves.
+
+There is, you just misunderstood the proposal I'm afraid.
+
+Thanks.
+
+-- 
+Dmitry
