@@ -1,158 +1,247 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04C0318B83
-	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 17:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774115548; cv=pass; b=W88XiSjndXlpbGFPPPaY5FofxUC2+iV7S+bIFkgJRvNfYykZRGhmHz5Io2dWxV/XRlmCMcbE0un6A1Y83Y2acarLLnVnkBS/un2UsUeRVqh/IWWhIwfRbx6/UIiqy+uXnVo4i1oljqgH0XujOD5STkhYudXRAQQU3Yrt1Vd9n6w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774115548; c=relaxed/simple;
-	bh=xOtivuzC1u7qs0tccX4nAuXpb2S4sLdDIsBXc16+/kM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gcVYLVD3PQ1Reyl3VGRiNdlD0bDUslOry4wuRPT5jdlrDE9ydrS8B1y8bd+UlP/ErvVh3JBq5y1h6LEcOACgYI7zZrn50d3Cxs1dbe9MST4DAErsrXzOqFdeTy3TdOaDdh/Vi0MD9j0wy5cT1ldhsS8RMpdmkfi28FRKVe+BPV8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UlnM8DJ1; arc=pass smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB07B28851C;
+	Sat, 21 Mar 2026 18:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774117364; cv=none; b=I6HgRkWN0+pIx/JXwct2In6Ts368cNvy6hK6F9+TBzo/HVAnLgSBKygbNKqP5JOpfmNqOZfiDSpoyyvbDXFLhZOpMfvNFv6ylqaLw4CdBoGpzY7dskf2L6rcuMfNgfy/8w2JZeoD5JC8ZCtB33wzTjXDDaQNtIMQ/b/VubLHZq4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774117364; c=relaxed/simple;
+	bh=DxozQ+XKxQ0fD6TkCuvC+HyBcPkFBTcRM0Dqohddfo0=;
+	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:MIME-Version:
+	 References:In-Reply-To; b=Lm/scWH9VWhjpuBvr7YPP3b2e1QFUsZEBWZx5gE9Y8o7qvcLBv/vfGHvKbZir2bcNnDrxX6lL4gviKeIgZFtpxvlpP+4jSR44xDzLKTeEJnw3lINo0y2sze6XlrUE0jciNKw1mIKAj8lwettLvPO+qosm0VSfgQatZdz6k3s94s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=In99FVRi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UlnM8DJ1"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4852c9b4158so21088885e9.0
-        for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 10:52:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774115545; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZUaH2GbnWVPJS+3dln1uT3ptCOVgIt2IEv40PLdpG93NjvK4Jxvstwuef1zD7Mbrdx
-         xEx8Frp5KxFuzKc8Go/lhHCyA+QpW0DbGpo+tZrwgbAmIK6uKl5asbHqnYD02g8keDpV
-         ClLnDlcfSHGAkjPZZ3Z/XQ5DktubBTDP3Mb+Jyi6aEaechyCI6QlkkibmVO5IS0fm2Oc
-         X4sROEP8hDsKE70Cu1WL/1R3glsPa3AykBFrlUfuA3674IJFeOMMP4VVrkCCLXdX0gO3
-         +wrYFQAiO33iVY9xRYldXOcPG8DtACnsndkbfMbpMkj+wTheyZdKl7Wca38IGqcsK+SS
-         CV+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=VjWmKaEpPmua1A5mJ4thcxD9fgMtwaI7wu9hm2FvvIA=;
-        fh=aeoY8kaPGioCIA18rPnFmTDqIHtNStixqSkeakUxCMU=;
-        b=S767TwV9J35lo0/t38n+38ybIbIL3N5MiRfMvQUVWdGPlFF6N1jYd5M0UhnNOJnWYs
-         YKIdzz71Ot4G1v5bvW+zXvvRRW4J3EigXeDn6wstQOEqJyzRfSSUpHHMk1sdd++JIqkg
-         MYL06Z4CA2u4okPOXQvNrr7sJttLn8sLaGVjVHn4zh35BwybyhgJl/y5+M7LbVxEvMMK
-         Mt43tmD1Hro0u6A2l2liUnxLc8ZZYvhBYCMEg9trYSypXYWLVDu0V1tPK3SYTukoJeuJ
-         ovrmLDGV94ZlYXsmR7dQOMGDcJcElWXbfI5x8vHbjLY2vqsUkDZ/Dyez19/vpdMNBsAc
-         vm2Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774115545; x=1774720345; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VjWmKaEpPmua1A5mJ4thcxD9fgMtwaI7wu9hm2FvvIA=;
-        b=UlnM8DJ1TI9BjIcHKSr+e0l38k6cCzm3zSH4tlKF7Ow0MCXo+1wItMxj7RHHkvr4/H
-         uNqb8c2Zjz5g4CNgmuKG4wDmj/hvgbNyYALKPRAaVyjnIJCyfYgUmPWaPilNm+vp4x0E
-         AyTp8ySSFwF0Uw1NmOIvKM+DWVwcrjXdJCj8/3/Wy2/xh1Y1eVCZ6uSX7/SDINGnfSRg
-         Yau/DNBVDjLTfHX16Ux66ggZXG0tQ+tkFbljkICryX6U1Fn87xY1iNDbMqPwDpxxYIWy
-         0M70TnelNSme4JDw5b1N4PWdAPWmw48IRQASpoPTkj0JlfpMukGRmAiqADi/fciAK4em
-         BH0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774115545; x=1774720345;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VjWmKaEpPmua1A5mJ4thcxD9fgMtwaI7wu9hm2FvvIA=;
-        b=c8Ol6aKyP7p7XAl/6HPB+oOhZe0IwUDz+OqUR4Vvh9FNaSjucv41paVM+kENpQcrrM
-         nIE681Gg0KvUG9btQlOlMWbQ/mV7jdiQRovZRqUcJfXUur/zvGmwvGvKGOExajqFgmAC
-         0gdqdDXYzQ59yV5rJgU48hoVShkivdNUQh6LZT9XlmsW4ewqUxtg2zuj5tJOT1YHk2k0
-         hdI9e4snHBmy0x9Sv9TuZaXDcyskoA5gfVP1m7dN+8VqeKtSRZKT6pefj9nupkhVjAiS
-         fbASO2xXJifbs6HHvkrROcSOkF9z9VQKnIx87Yrb5Gul18ayIpWIzEEnVKC05cDpW0z2
-         kR6A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAruCob4L6ltY+O8GkLxSmFArLijJtkmdIXbuAI7Un5A4ysfzuqkiGVl3D6kvWq+ZFacxrEhGNJ5ei5g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxaROfGKscR+krvxBaqRGWHXN+xzMK/+HSAuOcGgYoJ8SnBma9t
-	+CONgaMlILt/OzcLz/Ncj6LUbmh5oYKD6EgEhwv3lRxC6zxlzjHi0fFelO6TRF5kk/sCvoDDqgu
-	u+yQX/cgRln0gdPIM4TFRlqzDZNv59c0=
-X-Gm-Gg: ATEYQzwVLUknI/3E5zJ9axvb0CPMCPSMW82Vy7hVG+RXviL43DRU5SNSvN6RhCth1g9
-	5Yk0B0yO9il4K7aRUJ7uanA1evxU98VbPsF9eAUwLPoRkBagOAaXftAbLQG9VQGUvsRsBUoOAyW
-	1nOxdBHuZVCgcVeHq7aIWGG7jkt8d4wO/TzsNYjMbVUMTRsq8Y4tdBW6Gkj9AMYhNzQl9936gTP
-	kyuA/37UqT6aqtwPyId7EHDw/Cxa+Goe5THU6VIqMbumf4C2dAMh7V37Ai6i6ZHEAq0Mp4kB4N/
-	3s4xuduNb8x7qZ2plm7qmkWKPEN9xQ38whd0JG31cvZE5wNH/UZ9ti622a8=
-X-Received: by 2002:a05:600c:8483:b0:485:531d:28b9 with SMTP id
- 5b1f17b1804b1-486fedc0070mr99667325e9.14.1774115544902; Sat, 21 Mar 2026
- 10:52:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="In99FVRi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23F40C19421;
+	Sat, 21 Mar 2026 18:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774117364;
+	bh=DxozQ+XKxQ0fD6TkCuvC+HyBcPkFBTcRM0Dqohddfo0=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+	b=In99FVRiLVR8JAEuAUj37ZAcjEfc/J9DLBPt7ErZAudMrz9sxPDkUu7kINQ53iphh
+	 j4Y0tIsVIqCz28Y3qLSPlKHUN9V9U2iNt8bkhYaZTx9w3ESus1B3hfYqAQmGShk83Y
+	 2jBI11W/0fVaX3WroucaUZ7HQMTvR6a7EY0ImrGrGRmIwl67Ea0cbgWxk/0d4xl/ZH
+	 lDCTE9MEU7KNpB0SCqizoTGi8tTq1NCoerX1CNN1gWwMgeNIun78FOMf/x9iMlNOQf
+	 vXtF8z+NLhwUn8dr2eBFpXV66WQXNC8mQr5mXzK/WsIqlU+2ONFN0GAGkqJ4sdEPt1
+	 oX2ybLE9f/J7w==
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Mar 2026 19:22:39 +0100
+Message-Id: <DH8O47F2GM1Z.3H3E13RSKIV22@kernel.org>
+Cc: <aliceryhl@google.com>, <acourbot@nvidia.com>, <ojeda@kernel.org>,
+ <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
+ <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 8/8] gpu: nova-core: convert to new dma::Coherent API
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260320160055.4114055-1-wusamuel@google.com>
-In-Reply-To: <20260320160055.4114055-1-wusamuel@google.com>
-From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date: Sat, 21 Mar 2026 18:51:48 +0100
-X-Gm-Features: AaiRm53hX-S7iTWxzgANdr9Lu-L4x_TBCFGlJa3VypmZ-mBcKZAol4lCVpxhFIo
-Message-ID: <CAP01T77hy3j5BZMBcYdadLfPe7dYb3zEGDF9daUxJHYy=+fcgA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] *** Support BPF traversal of wakeup sources ***
-To: Samuel Wu <wusamuel@google.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, andrii@kernel.org, 
-	bpf@vger.kernel.org, kernel-team@android.com, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+References: <20260320194626.36263-1-dakr@kernel.org>
+ <20260320194626.36263-9-dakr@kernel.org>
+ <DH8M5QZKZETW.3TA4YS1SBAXDP@garyguo.net>
+Content-Language: en-US
+X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
+ attachmentreminder=0; deliveryformat=0
+X-Identity-Key: id8
+Fcc: imap://kernel%40dakr.org@imap.dakr.org/Sent
+In-Reply-To: <DH8M5QZKZETW.3TA4YS1SBAXDP@garyguo.net>
+Content-Transfer-Encoding: 7bit
+X-TUID: 9r29XOjfZmFI
 
-On Fri, 20 Mar 2026 at 17:01, Samuel Wu <wusamuel@google.com> wrote:
->
-> This patchset adds requisite kfuncs for BPF programs to safely traverse
-> wakeup_sources, and puts a config flag around the sysfs interface.
->
-> Currently, a traversal of wakeup sources require going through
-> /sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to query
-> sysfs is inefficient, as there can be hundreds of wakeup_sources, with each
-> wakeup source also having multiple attributes. debugfs is unstable and
-> insecure.
->
-> Adding kfuncs to lock/unlock wakeup sources allows BPF program to safely
-> traverse the wakeup sources list. The head address of wakeup_sources can
-> safely be resolved through BPF helper functions or variable attributes.
->
-> On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~34x
-> speedup (sampled 75 times in table below). For a device under load, the
-> speedup is greater.
-> +-------+----+----------+----------+
-> |       | n  | AVG (ms) | STD (ms) |
-> +-------+----+----------+----------+
-> | sysfs | 75 | 44.9     | 12.6     |
-> +-------+----+----------+----------+
-> | BPF   | 75 | 1.3      | 0.7      |
-> +-------+----+----------+----------+
->
-> On the memory side, between kernfs, dentry, and kmalloc, each wakeup source
-> removed from sysfs saves at least 10kB.
->
-> The initial attempts for BPF traversal of wakeup_sources was with BPF
-> iterators [1]. However, BPF already allows for traversing of a simple list
-> with bpf_for(), and this current patchset has the added benefit of being
-> ~2-3x more performant than BPF iterators.
+On 3/21/26 5:50 PM, Gary Guo wrote:
+> It looks like with Alex's "gpu: nova-core: create falcon firmware DMA objects
+> lazily" landed, all others users of the old API are now gone.
 
-See, it ended up being faster ;-).
+Good catch.
 
-That said, I didn't understand why you dropped the test. We still need
-unit tests that ensure the verifier causes the bpf_ws_lock to be
-released before exit, and an example program (like the one you
-benchmarked with) to demonstrate usage. Both are mandatory. See
-various *_fail.c files in progs/ and RUN_TESTS() macro for running
-negative tests easily. I doubt we will have any wakeup_sources in the
-CI environment, but the example has value nonetheless.
+> So this line could be dropped and `impl CoherentAllocation` and the type alias
+> can be removed after this patch.
 
-pw-bot: cr
+I will drop the line on apply and add the below patch to remove
+CoherentAllocation.
 
->
-> [1]: https://lore.kernel.org/all/20260225210820.177674-1-wusamuel@google.com/
->
-> Samuel Wu (2):
->   PM: wakeup: Add kfuncs to lock/unlock wakeup_sources
->   PM: Add config flag to gate sysfs wakeup_sources
->
->  drivers/base/power/Makefile |  3 +-
->  drivers/base/power/power.h  | 14 +++++++++
->  drivers/base/power/wakeup.c | 63 +++++++++++++++++++++++++++++++++++--
->  kernel/power/Kconfig        | 13 ++++++++
->  4 files changed, 90 insertions(+), 3 deletions(-)
->
-> --
-> 2.53.0.959.g497ff81fa9-goog
->
+- Danilo
+
+commit e96bc0b65bec48ac0f1cf2fc15b39c1b26b9d973 (HEAD -> drm-rust-next)
+Author: Danilo Krummrich <dakr@kernel.org>
+Date:   Sat Mar 21 19:18:08 2026 +0100
+
+    rust: dma: remove dma::CoherentAllocation<T>
+
+    Now that everything has been converted to the new dma::Coherent<T> API,
+    remove dma::CoherentAllocation<T>.
+
+    Suggested-by: Gary Guo <gary@garyguo.net>
+    Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 6d2bec52806b..779d4babab9a 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -841,156 +841,6 @@ pub fn len(&self) -> usize {
+     }
+ }
+
+-// Type alias for compatibility.
+-#[doc(hidden)]
+-pub type CoherentAllocation<T> = Coherent<[T]>;
+-
+-impl<T: AsBytes + FromBytes> CoherentAllocation<T> {
+-    /// Allocates a region of `size_of::<T> * count` of coherent memory.
+-    ///
+-    /// # Examples
+-    ///
+-    /// ```
+-    /// # use kernel::device::{Bound, Device};
+-    /// use kernel::dma::{attrs::*, CoherentAllocation};
+-    ///
+-    /// # fn test(dev: &Device<Bound>) -> Result {
+-    /// let c: CoherentAllocation<u64> =
+-    ///     CoherentAllocation::alloc_attrs(dev, 4, GFP_KERNEL, DMA_ATTR_NO_WARN)?;
+-    /// # Ok::<(), Error>(()) }
+-    /// ```
+-    pub fn alloc_attrs(
+-        dev: &device::Device<Bound>,
+-        count: usize,
+-        gfp_flags: kernel::alloc::Flags,
+-        dma_attrs: Attrs,
+-    ) -> Result<CoherentAllocation<T>> {
+-        Coherent::alloc_slice_with_attrs(dev, count, gfp_flags, dma_attrs)
+-    }
+-
+-    /// Performs the same functionality as [`CoherentAllocation::alloc_attrs`], except the
+-    /// `dma_attrs` is 0 by default.
+-    pub fn alloc_coherent(
+-        dev: &device::Device<Bound>,
+-        count: usize,
+-        gfp_flags: kernel::alloc::Flags,
+-    ) -> Result<CoherentAllocation<T>> {
+-        CoherentAllocation::alloc_attrs(dev, count, gfp_flags, Attrs(0))
+-    }
+-
+-    /// Returns the base address to the allocated region in the CPU's virtual address space.
+-    pub fn start_ptr(&self) -> *const T {
+-        self.as_ptr().cast()
+-    }
+-
+-    /// Returns the base address to the allocated region in the CPU's virtual address space as
+-    /// a mutable pointer.
+-    pub fn start_ptr_mut(&mut self) -> *mut T {
+-        self.as_mut_ptr().cast()
+-    }
+-
+-    /// Returns a DMA handle starting at `offset` (in units of `T`) which may be given to the
+-    /// device as the DMA address base of the region.
+-    ///
+-    /// Returns `EINVAL` if `offset` is not within the bounds of the allocation.
+-    pub fn dma_handle_with_offset(&self, offset: usize) -> Result<DmaAddress> {
+-        if offset >= self.len() {
+-            Err(EINVAL)
+-        } else {
+-            Ok(self.dma_handle + (offset * core::mem::size_of::<T>()) as DmaAddress)
+-        }
+-    }
+-
+-    /// Common helper to validate a range applied from the allocated region in the CPU's virtual
+-    /// address space.
+-    fn validate_range(&self, offset: usize, count: usize) -> Result {
+-        if offset.checked_add(count).ok_or(EOVERFLOW)? > self.len() {
+-            return Err(EINVAL);
+-        }
+-        Ok(())
+-    }
+-
+-    /// Returns the data from the region starting from `offset` as a slice.
+-    /// `offset` and `count` are in units of `T`, not the number of bytes.
+-    ///
+-    /// For ringbuffer type of r/w access or use-cases where the pointer to the live data is needed,
+-    /// [`CoherentAllocation::start_ptr`] or [`CoherentAllocation::start_ptr_mut`] could be used
+-    /// instead.
+-    ///
+-    /// # Safety
+-    ///
+-    /// * Callers must ensure that the device does not read/write to/from memory while the returned
+-    ///   slice is live.
+-    /// * Callers must ensure that this call does not race with a write to the same region while
+-    ///   the returned slice is live.
+-    pub unsafe fn as_slice(&self, offset: usize, count: usize) -> Result<&[T]> {
+-        self.validate_range(offset, count)?;
+-        // SAFETY:
+-        // - The pointer is valid due to type invariant on `CoherentAllocation`,
+-        //   we've just checked that the range and index is within bounds. The immutability of the
+-        //   data is also guaranteed by the safety requirements of the function.
+-        // - `offset + count` can't overflow since it is smaller than `self.count` and we've checked
+-        //   that `self.count` won't overflow early in the constructor.
+-        Ok(unsafe { core::slice::from_raw_parts(self.start_ptr().add(offset), count) })
+-    }
+-
+-    /// Performs the same functionality as [`CoherentAllocation::as_slice`], except that a mutable
+-    /// slice is returned.
+-    ///
+-    /// # Safety
+-    ///
+-    /// * Callers must ensure that the device does not read/write to/from memory while the returned
+-    ///   slice is live.
+-    /// * Callers must ensure that this call does not race with a read or write to the same region
+-    ///   while the returned slice is live.
+-    pub unsafe fn as_slice_mut(&mut self, offset: usize, count: usize) -> Result<&mut [T]> {
+-        self.validate_range(offset, count)?;
+-        // SAFETY:
+-        // - The pointer is valid due to type invariant on `CoherentAllocation`,
+-        //   we've just checked that the range and index is within bounds. The immutability of the
+-        //   data is also guaranteed by the safety requirements of the function.
+-        // - `offset + count` can't overflow since it is smaller than `self.count` and we've checked
+-        //   that `self.count` won't overflow early in the constructor.
+-        Ok(unsafe { core::slice::from_raw_parts_mut(self.start_ptr_mut().add(offset), count) })
+-    }
+-
+-    /// Writes data to the region starting from `offset`. `offset` is in units of `T`, not the
+-    /// number of bytes.
+-    ///
+-    /// # Safety
+-    ///
+-    /// * Callers must ensure that this call does not race with a read or write to the same region
+-    ///   that overlaps with this write.
+-    ///
+-    /// # Examples
+-    ///
+-    /// ```
+-    /// # fn test(alloc: &mut kernel::dma::CoherentAllocation<u8>) -> Result {
+-    /// let somedata: [u8; 4] = [0xf; 4];
+-    /// let buf: &[u8] = &somedata;
+-    /// // SAFETY: There is no concurrent HW operation on the device and no other R/W access to the
+-    /// // region.
+-    /// unsafe { alloc.write(buf, 0)?; }
+-    /// # Ok::<(), Error>(()) }
+-    /// ```
+-    pub unsafe fn write(&mut self, src: &[T], offset: usize) -> Result {
+-        self.validate_range(offset, src.len())?;
+-        // SAFETY:
+-        // - The pointer is valid due to type invariant on `CoherentAllocation`
+-        //   and we've just checked that the range and index is within bounds.
+-        // - `offset + count` can't overflow since it is smaller than `self.count` and we've checked
+-        //   that `self.count` won't overflow early in the constructor.
+-        unsafe {
+-            core::ptr::copy_nonoverlapping(
+-                src.as_ptr(),
+-                self.start_ptr_mut().add(offset),
+-                src.len(),
+-            )
+-        };
+-        Ok(())
+-    }
+-}
+-
+ /// Note that the device configured to do DMA must be halted before this object is dropped.
+ impl<T: KnownSize + ?Sized> Drop for Coherent<T> {
+     fn drop(&mut self) {
