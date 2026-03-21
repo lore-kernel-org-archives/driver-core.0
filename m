@@ -1,219 +1,156 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010028.outbound.protection.outlook.com [52.101.85.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A4A2E11C7
-	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 03:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774062622; cv=none; b=M5tQ/fzjEpEpJlvun9RV/Mkgv5a9AA07ySzCojpIRMlknFwNitmFevKds+iPu2I+TSHlP8iESHu7qqyWf+BJthDCk7/iJnM4/Q3dxB2A+TJ32RJXK5Xdda7bTqFLWrmdKB5GsDljKjc+qa72G7JRFdQqIjm3e9EUUsYc9VnfOVc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774062622; c=relaxed/simple;
-	bh=KCouMn/Dg6hm0eYmov7z8hH1AZtJwHW0P50SCpJ5vto=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LthZEfWq9aMpo9gJx6WkrgNve8Dt9PlLJrGW+MwGJ3asYFep5LJelg2DdJ1sNbc9pHSxv//gAskx+Sti81MZCkH8nnwCWlDimdlI0uy/91jU1OTmowpxDDUUvCKV8g5Vk5fK2EyGoANFnRt3U5/myngEUn13G5BOIT9qhAfbduk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=h03W47Fn; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F36E282F24
+	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 05:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774070047; cv=fail; b=mYtvl1sd4haBEWGD5TgVsUjh5aAe5YKudzR24P2Cc0im0anigjGkBJI+F2obOajn77ZAU1WfewDe3bRU5X/qKMmkFkgSRJEj5Vt2RmBcSgWbOaX2CimWf3UvZCz2DF72LhIhZ9bOaUpmMP3/8gCzRgRaWSvtlZeq6U14aQuL3N4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774070047; c=relaxed/simple;
+	bh=HBh+MpW8iBqIB2Eay09xnKkDj4CNNXmpAHc83ECmmUQ=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=rnjmp+t9hNARNLr5J0HmTC7CJRH3sjfbm8xV1SWD+yPQbxcVkR343osmcxRSqhvWrWFfEiEYhsde1PA9h8RQKlEe84cioJt58mGpW6e905qG3QQjeWCqrX2Ha0T41QFcLdR6udmlIG9R3dAkgRln8MTcw6haV5giZyufcPzussE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ChpGqb69; arc=fail smtp.client-ip=52.101.85.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h03W47Fn"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-662b5bf4b10so4944777a12.1
-        for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 20:10:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1774062618; x=1774667418; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8/RSF0E6FhLD8wutFoB7bxuZrdpYQYvN1Rthj0xeHEY=;
-        b=h03W47FnAjKcjjU0AkjJ82/mIRjIvIECa60zKR+ueZLqoz2gYGSqzA0/kj9ZVPbfr3
-         DIbsPDBBZ8FliugSJ2a81FrC9r86QOZrVUD9hqTFyNHkxVli17ifKOWwlzuwWoWrtHKU
-         13SvS5+8kUOQ4PnpRuEQsgACHIxgtkw2I/Vfk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774062618; x=1774667418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8/RSF0E6FhLD8wutFoB7bxuZrdpYQYvN1Rthj0xeHEY=;
-        b=NAUrECD5uaoJU4JX2IzSy/h0+NYp9MBSoN46GtKfwaRw97+Vnk6SBppM8xdTqcqPub
-         3OP19j/d2C0mH4f4ISS4LvRWgI5JvGrB2luWVw3f0+tPwXPy3Bm8NrKKaClvzYLAF5b8
-         dQ1jz3a/otkqv15P4OCfLnlW0ZiwqCIcvbPibM+9HMJd1BT6o1OUUhkxIuOPcFt/f1v+
-         A1NERxpjW6dZCGcuAMKmjCwisFCn8VnuLs6pDXQdLxAM6+ibYhINfNbeGbiEYCyDzMbD
-         PYMi6tKEzZHlqgEqEvs7oWT8/qrsjRFw2O2f2zxfuXbB5csJ9RPUKc+Lki6TY5NQvSj8
-         3rkA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/zLlXYvsFsownYYlGutuab2WsKkRf35Dkmmc/U6VhUo/wX2MOA74pkyX4VMLkOC0I8c5z19u5HxI1/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+j/bW1PdaNUyfHaT2yEAq/yrzKfSbU17veLAgfccedNSySm0n
-	6uD5CHK+JuO5MhBOLHOJfo3hzQDM6as4P2PYvfJYqKTVcuigjgrjde6meemOL0Ho8j941JcHmsG
-	nSZL/xQ==
-X-Gm-Gg: ATEYQzwk0oDMobE5O5/Ju2RPxPa0DkFR+IxDylY/FGjD8u1HoosHqUwmtqEOhA3eAgq
-	sLoEh3mDX6HkELg8dGBgoZ5NZxrsklTthqnAyuzAlsGs3VQPmAM2Jyu/WcT1+VUqwdQqZtcNR8Q
-	CNKxqO+jxA0hFek0L/YiPD7HS199qve6QLgObHL36vqKQ3VeBB1qcMjaWbSpNdynGk2ZdagjJeO
-	+Zv6NaFjrk6+pp8NyZPqxhlBHnNCC/XthHNxTefq12p4zZ3O64YzDsSW/XdTimTMnnL/rIXxcCM
-	FBBFWuB0aXysuYTwZ7t1j0eUJKFfOKA7QfF2zQ8JizzK0T14GRiquZ68uemtzgQTTu5u0oTwGbV
-	Y5bl0m+01ToL5DGDR4TOEPb1dW9I5wQfbo6Ld5eyM2TyCAOEF77wtrLMkYo2PNT5hdzQuBGgt3i
-	ZqctgTwWeqZvrnz+eh9BSD4Bjz5fnt8q4jP6MzTZ1Aq/h0Tl7Kncy3aFLTbNW1vQ==
-X-Received: by 2002:a17:906:8a68:b0:b93:cae3:5834 with SMTP id a640c23a62f3a-b982f240bfdmr304775866b.13.1774062617516;
-        Fri, 20 Mar 2026 20:10:17 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9833871369sm220825866b.55.2026.03.20.20.10.15
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Mar 2026 20:10:15 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b9b190easo1905538f8f.2
-        for <driver-core@lists.linux.dev>; Fri, 20 Mar 2026 20:10:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVhvsSUqRphsVcZmJqCne+66WRxl2a5hrDCahh9tRiNBc6ec1KVgxcf2EVKTSkfKPf55dSLdN+AoG3Dxg==@lists.linux.dev
-X-Received: by 2002:a05:600c:8119:b0:485:345b:ccb1 with SMTP id
- 5b1f17b1804b1-486ff031f5dmr63989995e9.27.1774062615176; Fri, 20 Mar 2026
- 20:10:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ChpGqb69"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=roduKNbqGkAX7V0wjDLdtG/tMAijzwTMjawtwcetz33HNTUdOSZlTcCT96EqS6RXDIUNygS9plQdXKEFL5LJ93eBDLpkZKPjQLoQwxycZUhROMYTmb/ymM9P4bR11Ap53BT/c+s0Y883D5DztJvBk30V2G74Tu97PIKI/rLOjFB9/PF8Ob57iEXaE5z934YWG8a7RS8peQD8zU6Uoh/LSB8QeYKgZvtXO6umkT+BbECrUcYLpe28kkEz2stHiE3XWEaKu3SAjAucMVvrGmluO5J/GDLaoW/Xj5xXLXxX0kARv3IFUhStzSbNQ/dMQo+Vr/uGSRmdpLMZGq4tcpVm9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HBh+MpW8iBqIB2Eay09xnKkDj4CNNXmpAHc83ECmmUQ=;
+ b=QEcRaSsTU6/Yl2+iNHc5LC6vCmQPQPJLMHIz5ENfc7pKQU3HTxobuaXsk7G8OGNNvS1QsjXJK3lvVPSbsyfYQlCQrYZP0UZ3a71kWEsmFCQF5YSu/hT4DTal6l38pqAYR2awBYwkrfuVIOgAeRTtvg9Xdr35xKUcKKVMSgErxrobmazdEyVJkQjPhMCpPxXfRPnW8QCo8z3978WZdON8XD/q6xZwE86lMOhhB4YgzThLawPNxDJSYqAtKIme+y8ufabOQuBPW1X1uyKd6ocptnzIyZwjiVqdaWtNASJ4WJ7MZ2d9ybUObNFQbu7jiPaFnd4xvaBYI1zVSpxfSvGXPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HBh+MpW8iBqIB2Eay09xnKkDj4CNNXmpAHc83ECmmUQ=;
+ b=ChpGqb69WlwKF8bLLa5EDLg2zZtcJLbqlDqa7hltzACZS039sQfn8RO4j1mFh4NwY+kkk3k/yR7j8aErr+5VvOEqsvIV3W3l3OTT2fTG5wYeAiX3o0J2xdR/jmzxRubgG4W2h+LPUV81AkDYHIwgmTkwByernx0PlmzpXjbC553pNeA13uit4qbVNmARBTsupuFfJD6mCvc4zJ+iXdrwMZJ7j7fGnzzRBsoIjAVaAnXFBZ4B2MEcV3tOatZ1VlvYd9Z/GSjpA3kd0bvM6MADGwMjfm5eKSHpUt4rpIxDw/Kb6pl2V3sZ+C0Oe3/U1OblHKNLVOeupxH5jAmuA+Bwrg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by LV2PR12MB5725.namprd12.prod.outlook.com (2603:10b6:408:14c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.15; Sat, 21 Mar
+ 2026 05:14:02 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9745.007; Sat, 21 Mar 2026
+ 05:14:02 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Mar 2026 14:13:58 +0900
+Message-Id: <DH87CCNRR5EC.2SK3IT6N6Q8V5@nvidia.com>
+Subject: Re: [PATCH v2 0/8] dma::Coherent & dma::CoherentBox API
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: <aliceryhl@google.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
+ <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20260320194626.36263-1-dakr@kernel.org>
+In-Reply-To: <20260320194626.36263-1-dakr@kernel.org>
+X-ClientProxiedBy: TYCPR01CA0026.jpnprd01.prod.outlook.com
+ (2603:1096:405:1::14) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260317090112.v2.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
- <CACRMN=euZzwDpCQupzth-J1z9qWXPenmy_bu727+R-kt97zexw@mail.gmail.com> <CAD=FV=WEWMdh+SuSE-5P81g7NhV8KH_4u_FxcRdBFRTAaASqhQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=WEWMdh+SuSE-5P81g7NhV8KH_4u_FxcRdBFRTAaASqhQ@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 20 Mar 2026 20:10:03 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VsAi-K9WnkT996WExfividTRi-aVcyLVD4Aicif=D=dA@mail.gmail.com>
-X-Gm-Features: AaiRm53JJySLwTXCCA6qh8x4Qo2JwYxEnfOViwtwDhVjyjDx4WswvOZrKm9fsCw
-Message-ID: <CAD=FV=VsAi-K9WnkT996WExfividTRi-aVcyLVD4Aicif=D=dA@mail.gmail.com>
-Subject: Re: [PATCH v2] device property: Make modifications of fwnode "flags"
- thread safe
-To: Saravana Kannan <saravanak@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, stable@vger.kernel.org, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Daniel Scally <djrscally@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Len Brown <lenb@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, devicetree@vger.kernel.org, 
-	driver-core@lists.linux.dev, imx@lists.linux.dev, linux-acpi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV2PR12MB5725:EE_
+X-MS-Office365-Filtering-Correlation-Id: 595047c4-4d36-434f-bd76-08de8708aa62
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|10070799003|7416014|376014|1800799024|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Mae85k5rDDtJr023CAMICMBXtV6CN410B95FdbzXrYuHGAG1iFK3L2lMVFHEzQL2VmN7GYVbhCmAizBfcHKBkuNAi2E7dNJkvFGbxwhik0Xynr7FbXHfoKFKEz6zT6QPLk6c/+YHWzAxcQWHKD/rK3abvDY0iRkTTOw3Nq0zNN5kDromb6VQEkS79oOEK2goB85XVfbPK8VG/S7hFyNFYcXISCva80pO0n0GgpDMhjOn/msz5aG+JNWnbJ4JeMnMVMry0j/6Q6e4HTlGemWjjIDJUtfb8au80L1QHbSDka/M5vgyYlhXRmcK+vIu01nPYi0JoULOIl6Uk5S235Otkhsvk6zznLGdG61nK5VzD44n3uoVPnE8bg+ZT0oF+DympahVGpRZx0D4wQ5D1iTMLN3kcmIFJe7dQgcUu1ub5CS16DUIW4iCKA40NiKbkqCq3cBIsDBoeIZeEC16MeYY2MmK5f1pCgnMIN3IjD31yY93gIt98QBVkRY/8+uT/mCjnzSTx6OT7PN/ldBiTyxU/56b1Qsr1FAGWzA37aEoFKCyekZJ3262q9VNOyqt1wAQZgtnV5fY2HMa8CyGjad4k5H7BH+rXOHYrfyAnE5Qt5RhdvrqsvfNhfS8JX/1wfGvl68EUhBr57T+6ms5T81rNsPePwokrcs3lja9m08eHgx6mX5dgy/fkiKcnYTRCz15UmPAHs7KKwl3w4Ltgs2liysMxVJTuqpkDgDTxuId2qw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(7416014)(376014)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SVhFTVgraXNRQlY0UW9QTXdMdnFsNGpWcTVWcm1lcjNVOXUrd3AxNUd1Y2Nu?=
+ =?utf-8?B?Mis1UzByOExnSEVQL0lqV1Bwb0dBME4yTTBZNjcxY1g3azBOWFRNZ1o1d0Mz?=
+ =?utf-8?B?Yzh1M29kczRMcDFGYmRhWlpWYVdDMG5ORzN3a1JqekxHYjluQ213MC9zR25N?=
+ =?utf-8?B?blFuYWtBUUxyVDczemxsL2NrRHl5V0MrNnFUdSs1Y2t5N1Y1M2V4Ni8xbEVF?=
+ =?utf-8?B?d29oRDlqWno5Tm4vcElSakg4QXpldWNwT1hKTUFlOVFDMjFFdTdoRTdhRHJs?=
+ =?utf-8?B?clI1TDNzUWNxNmhlQUdvSXE3N3Y0YzRrak1SS0M3WFFKYUNOWUdQc2FBUmoz?=
+ =?utf-8?B?cjRsUGZrR3FXWE5ua0dNM3hDTWxZcmhXR1NtcERhcjBVT0c4U1pIcjRSeDk4?=
+ =?utf-8?B?M0ZKT21mOFhOMjVuMTgzWWgya3VReFZPLzdXT280NC83b2cycS9GUVN0eHF3?=
+ =?utf-8?B?cXJwTHBEVHBGU2RxRm1XQ3d6NXRxRW11cmlBblJUNVJPNXY1Zjg4NlpUa2pU?=
+ =?utf-8?B?NTZZSkVkYXp2QTlLTnBMMjNmRDhpbnFYWDFhclhqUFhkQk02eVlneWF3R3pz?=
+ =?utf-8?B?N3JjL0FOT0MrSDBpaGZTWDY3SUwzcHlEUSt3azhqSW5wUDFSYlhQYWlERi9J?=
+ =?utf-8?B?V1NYZzZQc280aGhKUG5DbHFOZTNSRWFkNGFjeEtFWE1uaytCYjI4MkZ2T0NV?=
+ =?utf-8?B?YVg1enFEb0dYZGlOOGhobUN0TDdQdHRCazNZOURyZ1ZtUWd3TzdqMXpVeUlV?=
+ =?utf-8?B?UHJ0dlhJMnBPbHhEZWlnQndVcWhFK2JMUVlWbnd0OFdobjF0TjVXaGd1Mlhm?=
+ =?utf-8?B?MzFwSFFUL0xQVU5hTnZBY3p5dDEyR2FidGFyaDErcVgvQ0MzeW1CU3dHVEpG?=
+ =?utf-8?B?eHlaYlJUVzQ2aDVkUjhiRUVtem92VHhCbHhIZlowOGRUdDBlS0NpL1F1RkRU?=
+ =?utf-8?B?cmF3M3dzSDZHSytEc0N3QkJVWU8wSGdRanZGL3FidVFYMDUxWTllS1B2WW45?=
+ =?utf-8?B?Tk5VbzdKK2hCUXJtN21nS1ZuOHdoQ3lKNldaeHdrTTRPUUdqN25LQVg5MG4y?=
+ =?utf-8?B?NjI3NU84TFRMT01IdVVMUW15dXlLaDNRWmJQVzZkcUIxTkpuU0pUS294RFpt?=
+ =?utf-8?B?dkVVS2V5dkFVZDh0M3Y4QkRkUnJZQTVGNFJVckVIVWpPOUtTWEozYm9relJw?=
+ =?utf-8?B?aWF1Q3JPMms3RzRaQ2hxUG9oUEJqUFFTUkszc3BPbVVDVkRHNDdyQXRmb0I1?=
+ =?utf-8?B?L2FwM3kxSlBuNGxUNWI0em5rb0lsRUhERnJkVVJMOVBPR0JCQVVSNnVzNFFY?=
+ =?utf-8?B?b2NLZXNvNUJmSU5YcUNEYW85SVBNRXB0TlhhcUFSM0hCWkJvSmZ1UGlnNUky?=
+ =?utf-8?B?ckdSVUdsMmlIRWNZMkQ1S1RKQVR3d05XbXROSHN6M29zbGVueGdjeGt3TWJR?=
+ =?utf-8?B?SlFjRW9GcEJod0ZUd05xMFdUZnZQSXU4SjZxRmRLVmlMNXdKOUMrWncyelUv?=
+ =?utf-8?B?WHZTU25GV2hzbkNxSDkzaTlOQmhwTEtYZ3cvSk9sd2Z1dU1RbFFJcEJ1ckFK?=
+ =?utf-8?B?bkxSemltMktMQVRXZm13QXlGdDdpM0VXbWkybFBkWTFwaVJ6WUhpRnMvbURr?=
+ =?utf-8?B?emJZZFlXSHQ4K3Z3REhRNUREc2N4RG9QYkxJSVE0Mk9qbGhuYWZINU5JWTE5?=
+ =?utf-8?B?TWUzVndrS2hWWEJxdnVTNU9KaTZTeXFkbXp4MGVZbVFmZlJ1OTVtMU56VlVk?=
+ =?utf-8?B?T2RhT3ZjdEM0alJjcWgrRnVzdS9SbnVSNzYybXp3SlJUbXhjdnNiYjFDU05M?=
+ =?utf-8?B?NHRmelc2TnFwVm5aQUhBd1gzeG5DWEFDU0xPRGhhSEE3QUlSbE9na1lkcGVE?=
+ =?utf-8?B?WEc0YkR3VEJYeU9pczJvUXR1UEE2KzR2RE5NTzJHeXRXU3ZQb0wvWWRiTG9U?=
+ =?utf-8?B?clFPTTZIZzhya1VFUUt4dFhMenkwTkNwdEozV0JyQjc0MkZQUnVkUUVxNHN6?=
+ =?utf-8?B?MEo3aUZVTU1rekpVSEVLdkk5enk2Tjd4cjFvUCtKVjV5d0xNVVhtVjM5NHlq?=
+ =?utf-8?B?MlZqSWJaT2FkdTBMNWpDNXNRY2d0eG1hbjVMckQ5SUpJUCtweXIrRjh0Z2NX?=
+ =?utf-8?B?RzR3djk5MExiQlRZVG1iTjRQay9MN3FhMFRtQjdUaXpYblgxQjRqc0g0c0cv?=
+ =?utf-8?B?OU5leCs1RVpDekppK2w1TWJGYUZ5U2lhUUFXby9OMnhRZVVKMnZGVFVpY3FH?=
+ =?utf-8?B?SkFWZHJLN3RGUzdsTjN0aGVmSzFTS2l5Rk9yeGdEV1NGL1lRbHdHU3B1ZlBM?=
+ =?utf-8?B?YlVkZ1hnT3VsYVBvMmJCV0tLdHhTVndraEhXaVEzRGdEdWgxMFpxS240emNZ?=
+ =?utf-8?Q?gNhO+jGm53U07CU4Q5oSFdQr5pRVQWVSsotvNgw7ArnFY?=
+X-MS-Exchange-AntiSpam-MessageData-1: Uj05gVumTVLzOQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 595047c4-4d36-434f-bd76-08de8708aa62
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2026 05:14:02.4038
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KQPlNvyRXj4KAQx51XeEpKLeWVDbxe1VekuhNxhqsKxiBa5ANUCf3yyhFOVr5J/MkNFbwiqwJwkiu48vl5t20Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5725
 
-Hi,
-
-On Thu, Mar 19, 2026 at 10:52=E2=80=AFAM Doug Anderson <dianders@chromium.o=
-rg> wrote:
+On Sat Mar 21, 2026 at 4:45 AM JST, Danilo Krummrich wrote:
+> This patch series introduces the dma::Coherent API Gary worked out in the
+> context of his I/O projection work.
 >
-> Hi,
+> Additionally, introduce dma::CoherentBox, a type that encapsulates a
+> dma::Coherent object before its DMA address is exposed to the device.
+> dma::CoherentBox can guarantee exclusive access to the inner dma::Coheren=
+t
+> object and implement Deref and DerefMut.
 >
-> On Thu, Mar 19, 2026 at 10:25=E2=80=AFAM Saravana Kannan <saravanak@kerne=
-l.org> wrote:
-> >
-> > On Tue, Mar 17, 2026 at 9:04=E2=80=AFAM Douglas Anderson <dianders@chro=
-mium.org> wrote:
-> > >
-> > > In various places in the kernel, we modify the fwnode "flags" member
-> > > by doing either:
-> > >   fwnode->flags |=3D SOME_FLAG;
-> > >   fwnode->flags &=3D ~SOME_FLAG;
-> > >
-> > > This type of modification is not thread-safe. If two threads are both
-> > > mucking with the flags at the same time then one can clobber the
-> > > other.
-> > >
-> > > While flags are often modified while under the "fwnode_link_lock",
-> > > this is not universally true.
-> > >
-> > > Create some accessor functions for setting, clearing, and testing the
-> > > FWNODE flags and move all users to these accessor functions. New
-> > > accessor functions use set_bit() and clear_bit(), which are
-> > > thread-safe.
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: c2c724c868c4 ("driver core: Add fw_devlink_parse_fwtree()")
-> > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > Acked-by: Mark Brown <broonie@kernel.org>
-> > > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > > While this patch is not known for sure to fix any specific issues, it
-> > > seems possible that it could fix some rare problems. I'm currently
-> > > trying to track down a hard-to-reproduce heisenbug and one (currently
-> > > unproven) theory I had was that the fwnode flags could be getting
-> > > messed up like this. Even if turns out not to fix my heisenbug,
-> > > though, this seems like a worthwhile change to take.
-> >
-> > Reviewed-by: Saravana Kannan <saravanak@kernel.org>
->
-> Thanks for the review!
->
->
-> > Thanks Doug. Hope this isn't the cause of the hisenbug. If you report
-> > it here, I might be able to take a look at it too (no promises).
->
-> I don't _think_ it fixes my bug, but I'm still not 100% sure because
-> the bug can take a day or so to reproduce and it appears to only
-> reproduce on official kernels built by the builder. :( This makes it
-> hard to say anything for certain and also hard for me to inject extra
-> debug logic.
+> Also add Coherent::init() and Coherent::init_with_attrs() so we can direc=
+tly
+> initialize a new dma::Coherent object through an impl Init<T, E>.
 
-Just in case anyone out there was wracking their brains based on my
-description of the bug...
+The series,
 
-I've made progress in getting the issue to reproduce even with debug
-information added. With that, I've found that
-device_links_driver_bound() is getting called where `dev->fwnode->dev`
-is NULL. That prevents it from running the ever-important
-__fw_devlink_pickup_dangling_consumers().
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 
-I can see that device_add() has started, but it just hasn't made it to
-the `dev->fwnode->dev =3D dev;` line yet.  My printout next to that line
-shows up _after_ my printout in device_links_driver_bound().
-
-So obviously something can happen to cause the device to probe before
-the call to bus_probe_device().
-
-OK, I managed to get a stack crawl for when `dev->fwnode->dev =3D=3D
-NULL`. It looks like this (FWIW, it's a 6.6 kernel but issue also
-reproduces on our 6.12 kernel, and I see no reason it wouldn't
-reproduce on mainline):
-
-  Call trace:
-  dump_backtrace+0xe8/0x108
-  show_stack+0x18/0x28
-  dump_stack_lvl+0x50/0x6c
-  dump_stack+0x18/0x24
-  device_links_driver_bound+0xa4/0x4b4
-  driver_bound+0x48/0x1c4
-  really_probe+0x244/0x374
-  __driver_probe_device+0xa0/0x12c
-  driver_probe_device+0x3c/0x218
-  __driver_attach+0x110/0x1ec
-  bus_for_each_dev+0x104/0x160
-  driver_attach+0x24/0x34
-  bus_add_driver+0x154/0x270
-  driver_register+0x68/0x104
-  __platform_driver_register+0x24/0x34
-  init_module+0x20/0xfe4 [max77779_pmic_pinctrl
-e09198e651272bc5df70245355346d6eb1ba3a8f]
-  do_one_initcall+0xdc/0x360
-  do_init_module+0x58/0x23c
-  load_module+0xffc/0x1130
-  __arm64_sys_finit_module+0x260/0x300
-  invoke_syscall+0x58/0x114
-
-It looks like what happens is that immediately after device_add()
-calls bus_add_device() there's a possibility of another thread
-inserting the module holding the device driver. That means that the
-driver can start probing much earlier than we expect.
-
-I've posted an RFC patch to fix this. If folks are interested, please revie=
-w it:
-
-https://lore.kernel.org/r/20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabc=
-ead688d0d8c17@changeid
-
-Given the stack crawl I got, I'm fairly certain that this will fix the
-problem, but I'll also let reboot tests run over the weekend to
-confirm.
-
--Doug
+Based on this I have been able to remove nova-core's `DmaObject` and
+consequently its now-useless `dma` module. It's indeed much nicer. I'll
+submit the series after some more cleanup and testing.
