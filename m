@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1430F4317D;
-	Sat, 21 Mar 2026 17:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77618334C33;
+	Sat, 21 Mar 2026 17:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774114075; cv=none; b=I4CHqt2th1i2auc60pEKJmF13lJr516e4jbDLgcvCS4w2sKcnflU/99MLFa1FnP6yir4PMp7ozP6z0WshqwlG25COmeomAPekLmmz9eccXps6zdaw2clwexj4831gufnEYK1AWL+Bu+Fpx6+kG8cAURjx3zlXQ57zJbCPp/smTU=
+	t=1774114078; cv=none; b=Wur9KkyB1L8ogWnjK9/pP6y8Txq8eyoGS9ImGj6/y8AV5uV5sQnED0L2UozfyXaUBu3W/1bHkGJIc/y77qiJCTRr9mo/rcuE4V16SjimYMv2gkNj5oSEsQ1JGdEAhDK1Pwxp2iSGPxsLw+ljIvyOPHuuLWqjOG/Vyqjo12PluVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774114075; c=relaxed/simple;
-	bh=skP89Tr9N6B1+Y/LraUOofptzQoKcEF0khe8i4Y5hZs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g+vy/2+p2i0B6MFWsFQFOkeI9xF+DbYwmwk2cUNkRjImLoTPH8kfxuHFF5Xcz7FsWBOwg8I6uwBlc9GicMiMFNUU2deedZZn0mtylt33YnumSD5bvvozLzEDtUIpi/CZ6uiH8vN7HozndynI2CBqduegaxbPxXZ6G3eDYFUhI5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXLLueIw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774114078; c=relaxed/simple;
+	bh=X4IHFCxyZSSmXToEQx1vG1DzpDrP0/7YDyakwrB9GsU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YVtUN1INrZN82cK10xz3PtPWKocK5eU7J1RONIIVChT3YDdvgjU3yhHzZwxlh9VflMgiVXwW+t0tXEZZ/aFC3BuKasLLChRuu5pu/Z6SGnZ+ny14omaTm16emE2EV2t/70DUvb47HSdz1eWat407kcDh6LTYVviyFaCxWUC+FoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E03QHWv7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXLLueIw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67AD3C19421;
-	Sat, 21 Mar 2026 17:27:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E03QHWv7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20450C2BCAF;
+	Sat, 21 Mar 2026 17:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774114074;
-	bh=skP89Tr9N6B1+Y/LraUOofptzQoKcEF0khe8i4Y5hZs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VXLLueIwy32Pf5lQogMGRbKEC4j7qA39CpqS8b6Z0TAbuyftEeA3wqRVJqQCuQbm8
-	 ePq3jMfEaHiBglROZ4JzHN+JP6N+yMcRNUFwtEXYzqSF3Kvycga5kQaN/JnmP4TvXk
-	 BgZzPrKXP10Ue9YG8evf12X8AAPGg/FIECqKLm6v9UWRp9D3ylo+HfB0PZSvEaI+PJ
-	 7439mBAYwsNm3nVKkoCSz2uYqdRIQG80M/8BG+LRa0m6MKFbIy73HmSIUsxFIXDApo
-	 BokIWT/mysdfvf9/OflS85byEVCzUJkwwAs3QsZINJBE5sy1bw5fxQojoOSNUIFXK8
-	 U5aaO3758UnnA==
+	s=k20201202; t=1774114078;
+	bh=X4IHFCxyZSSmXToEQx1vG1DzpDrP0/7YDyakwrB9GsU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=E03QHWv7GTzCGeY1kPeFtnSiyYdXmcIfiX/kXiSXkuNVk7a7QGMF2k/q7WLI+/7me
+	 inCKimPCdgbMGG9WY/nqJuovGfJStqmcwnhpfan6++PtZRTTjMXEcBcJsEW8e14V/S
+	 T1C5ftvwYthYamshPATmTefsFph/3p+/PLmiWntMe96C6NVDRzq9fUauQ4J0TVVbMq
+	 2/szsO/8yRcXAQO+1DPqj18iw9VE1OEWzWQNPjnklxqqle5aaMAM8Oz0FA0H2KK+wt
+	 Bwwv8/nKmDDps74iDJ7HofI0VLCFXhMrQbRX0ALv66YCfH8n4NQoH/UNFVS1bRywt3
+	 nHS0CJXmUxunQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: abdiel.janulgue@gmail.com,
 	daniel.almeida@collabora.com,
@@ -40,12 +41,13 @@ To: abdiel.janulgue@gmail.com,
 Cc: driver-core@lists.linux.dev,
 	rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/2] rust: dma: remove DMA_ATTR_NO_KERNEL_MAPPING from public attrs
-Date: Sat, 21 Mar 2026 18:27:46 +0100
-Message-ID: <20260321172749.592387-1-dakr@kernel.org>
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 2/2] rust: dma: add CoherentHandle for DMA allocations without kernel mapping
+Date: Sat, 21 Mar 2026 18:27:47 +0100
+Message-ID: <20260321172749.592387-2-dakr@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260321172749.592387-1-dakr@kernel.org>
+References: <20260321172749.592387-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -54,43 +56,156 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When DMA_ATTR_NO_KERNEL_MAPPING is passed to dma_alloc_attrs(), the
-returned CPU address is not a pointer to the allocated memory but an
-opaque handle (e.g. struct page *).
+Add CoherentHandle, an opaque DMA allocation type for buffers that are
+only ever accessed by hardware. Unlike Coherent<T>, it does not provide
+CPU access to the allocated memory.
 
-Coherent<T> (or CoherentAllocation<T> respectively) stores this value as
-NonNull<T> and exposes methods that dereference it and even modify its
-contents.
+CoherentHandle implicitly sets DMA_ATTR_NO_KERNEL_MAPPING and stores the
+value returned by dma_alloc_attrs() as an opaque handle
+(NonNull<c_void>) rather than a typed pointer, since with this flag the
+C API returns an opaque cookie (e.g. struct page *), not a CPU pointer
+to the allocated memory.
 
-Remove the flag from the public attrs module such that drivers cannot
-pass it to Coherent<T> (or CoherentAllocation<T> respectively) in the
-first place.
+Only the DMA bus address is exposed to drivers; the opaque handle is
+used solely to free the allocation on drop.
 
-Instead DMA_ATTR_NO_KERNEL_MAPPING can be supported with an additional
-opaque type (e.g. CoherentHandle) which does not provide access to the
-allocated memory.
+This commit is for reference only; there is currently no in-tree user.
 
-Cc: stable@vger.kernel.org
-Fixes: ad2907b4e308 ("rust: add dma coherent allocator abstraction")
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/dma.rs | 3 ---
- 1 file changed, 3 deletions(-)
+ rust/kernel/dma.rs | 119 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
 
 diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 6d2bec52806b..9e0c9ff91cba 100644
+index 9e0c9ff91cba..fa30793c798d 100644
 --- a/rust/kernel/dma.rs
 +++ b/rust/kernel/dma.rs
-@@ -264,9 +264,6 @@ pub mod attrs {
-     /// Specifies that writes to the mapping may be buffered to improve performance.
-     pub const DMA_ATTR_WRITE_COMBINE: Attrs = Attrs(bindings::DMA_ATTR_WRITE_COMBINE);
+@@ -1011,6 +1011,125 @@ fn drop(&mut self) {
+ // can be sent to another thread.
+ unsafe impl<T: KnownSize + Send + ?Sized> Send for Coherent<T> {}
  
--    /// Lets the platform to avoid creating a kernel virtual mapping for the allocated buffer.
--    pub const DMA_ATTR_NO_KERNEL_MAPPING: Attrs = Attrs(bindings::DMA_ATTR_NO_KERNEL_MAPPING);
--
-     /// Allows platform code to skip synchronization of the CPU cache for the given buffer assuming
-     /// that it has been already transferred to 'device' domain.
-     pub const DMA_ATTR_SKIP_CPU_SYNC: Attrs = Attrs(bindings::DMA_ATTR_SKIP_CPU_SYNC);
++/// An opaque DMA allocation without a kernel virtual mapping.
++///
++/// Unlike [`Coherent`], a `CoherentHandle` does not provide CPU access to the allocated memory.
++/// The allocation is always performed with `DMA_ATTR_NO_KERNEL_MAPPING`, meaning no kernel
++/// virtual mapping is created for the buffer. The value returned by the C API as the CPU
++/// address is an opaque handle used only to free the allocation.
++///
++/// This is useful for buffers that are only ever accessed by hardware.
++///
++/// # Invariants
++///
++/// - `cpu_handle` holds the opaque handle returned by `dma_alloc_attrs` with
++///   `DMA_ATTR_NO_KERNEL_MAPPING` set, and is only valid for passing back to `dma_free_attrs`.
++/// - `dma_handle` is the corresponding bus address for device DMA.
++/// - `size` is the allocation size in bytes as passed to `dma_alloc_attrs`.
++/// - `dma_attrs` contains the attributes used for the allocation, always including
++///   `DMA_ATTR_NO_KERNEL_MAPPING`.
++pub struct CoherentHandle {
++    dev: ARef<device::Device>,
++    dma_handle: DmaAddress,
++    cpu_handle: NonNull<c_void>,
++    size: usize,
++    dma_attrs: Attrs,
++}
++
++impl CoherentHandle {
++    /// Allocates `size` bytes of coherent DMA memory without creating a kernel virtual mapping.
++    ///
++    /// Additional DMA attributes may be passed via `dma_attrs`; `DMA_ATTR_NO_KERNEL_MAPPING` is
++    /// always set implicitly.
++    ///
++    /// Returns `EINVAL` if `size` is zero, `ENOMEM` if the allocation fails.
++    pub fn alloc_with_attrs(
++        dev: &device::Device<Bound>,
++        size: usize,
++        gfp_flags: kernel::alloc::Flags,
++        dma_attrs: Attrs,
++    ) -> Result<Self> {
++        if size == 0 {
++            return Err(EINVAL);
++        }
++
++        let dma_attrs = dma_attrs | Attrs(bindings::DMA_ATTR_NO_KERNEL_MAPPING);
++        let mut dma_handle = 0;
++        // SAFETY: `dev.as_raw()` is valid by the type invariant on `device::Device`.
++        let cpu_handle = unsafe {
++            bindings::dma_alloc_attrs(
++                dev.as_raw(),
++                size,
++                &mut dma_handle,
++                gfp_flags.as_raw(),
++                dma_attrs.as_raw(),
++            )
++        };
++
++        let cpu_handle = NonNull::new(cpu_handle).ok_or(ENOMEM)?;
++
++        // INVARIANT: `cpu_handle` is the opaque handle from a successful `dma_alloc_attrs` call
++        // with `DMA_ATTR_NO_KERNEL_MAPPING`, `dma_handle` is the corresponding DMA address,
++        // and we hold a refcounted reference to the device.
++        Ok(Self {
++            dev: dev.into(),
++            dma_handle,
++            cpu_handle,
++            size,
++            dma_attrs,
++        })
++    }
++
++    /// Allocates `size` bytes of coherent DMA memory without creating a kernel virtual mapping.
++    #[inline]
++    pub fn alloc(
++        dev: &device::Device<Bound>,
++        size: usize,
++        gfp_flags: kernel::alloc::Flags,
++    ) -> Result<Self> {
++        Self::alloc_with_attrs(dev, size, gfp_flags, Attrs(0))
++    }
++
++    /// Returns the DMA handle for this allocation.
++    ///
++    /// This address can be programmed into device hardware for DMA access.
++    #[inline]
++    pub fn dma_handle(&self) -> DmaAddress {
++        self.dma_handle
++    }
++
++    /// Returns the size in bytes of this allocation.
++    #[inline]
++    pub fn size(&self) -> usize {
++        self.size
++    }
++}
++
++impl Drop for CoherentHandle {
++    fn drop(&mut self) {
++        // SAFETY: All values are valid by the type invariants on `CoherentHandle`.
++        // `cpu_handle` is the opaque handle from `dma_alloc_attrs` and is passed back unchanged.
++        unsafe {
++            bindings::dma_free_attrs(
++                self.dev.as_raw(),
++                self.size,
++                self.cpu_handle.as_ptr(),
++                self.dma_handle,
++                self.dma_attrs.as_raw(),
++            )
++        }
++    }
++}
++
++// SAFETY: `CoherentHandle` only holds a device reference, a DMA handle, an opaque CPU handle,
++// and a size. None of these are tied to a specific thread.
++unsafe impl Send for CoherentHandle {}
++
++// SAFETY: `CoherentHandle` provides no CPU access to the underlying allocation. The only
++// operations on `&CoherentHandle` are reading the DMA handle and size, both of which are
++// plain `Copy` values.
++unsafe impl Sync for CoherentHandle {}
++
+ /// Reads a field of an item from an allocated region of structs.
+ ///
+ /// The syntax is of the form `kernel::dma_read!(dma, proj)` where `dma` is an expression evaluating
 -- 
 2.53.0
 
