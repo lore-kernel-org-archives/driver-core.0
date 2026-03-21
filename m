@@ -1,247 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022109.outbound.protection.outlook.com [52.101.101.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB07B28851C;
-	Sat, 21 Mar 2026 18:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774117364; cv=none; b=I6HgRkWN0+pIx/JXwct2In6Ts368cNvy6hK6F9+TBzo/HVAnLgSBKygbNKqP5JOpfmNqOZfiDSpoyyvbDXFLhZOpMfvNFv6ylqaLw4CdBoGpzY7dskf2L6rcuMfNgfy/8w2JZeoD5JC8ZCtB33wzTjXDDaQNtIMQ/b/VubLHZq4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774117364; c=relaxed/simple;
-	bh=DxozQ+XKxQ0fD6TkCuvC+HyBcPkFBTcRM0Dqohddfo0=;
-	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:MIME-Version:
-	 References:In-Reply-To; b=Lm/scWH9VWhjpuBvr7YPP3b2e1QFUsZEBWZx5gE9Y8o7qvcLBv/vfGHvKbZir2bcNnDrxX6lL4gviKeIgZFtpxvlpP+4jSR44xDzLKTeEJnw3lINo0y2sze6XlrUE0jciNKw1mIKAj8lwettLvPO+qosm0VSfgQatZdz6k3s94s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=In99FVRi; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8B5346FAA
+	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 18:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.109
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774118576; cv=fail; b=EENN9gGF3RbBm18GblWRRTT5LBWVUgkgm7tzN0iazeG+H9A6gta2JVyHTkeZniWHRMo2ybMyfgSXePSRCtKotm7KMkGb0V2OBdz8LoI13zcJSc6w8AXSVVALWpaUNdw1/wApkxaa4iQHBaW6JIU/A8zRbGg++iuc9riFkJ3UJmY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774118576; c=relaxed/simple;
+	bh=VdZxCcA2xOv/rIoeUURL+sQcsSw/dQCGWpBnyizo0UU=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=ZF/yjZceuQspHfffZx1P/FfCyfc6GRfoxAdP/X1I6Be8A8r8HWzIW7jMBOKM2iIFlzt8snMXpYaaZtExn8GgIG6JylKkl0fJeyTpCw07/rFxniqTqHemmS+vtt8Xt6KDTOHqM/7ybOT09w45oL/2rlaoxJoIIqmLMLUGuNqsxFc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=pyxHAUqN; arc=fail smtp.client-ip=52.101.101.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="In99FVRi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23F40C19421;
-	Sat, 21 Mar 2026 18:22:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774117364;
-	bh=DxozQ+XKxQ0fD6TkCuvC+HyBcPkFBTcRM0Dqohddfo0=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
-	b=In99FVRiLVR8JAEuAUj37ZAcjEfc/J9DLBPt7ErZAudMrz9sxPDkUu7kINQ53iphh
-	 j4Y0tIsVIqCz28Y3qLSPlKHUN9V9U2iNt8bkhYaZTx9w3ESus1B3hfYqAQmGShk83Y
-	 2jBI11W/0fVaX3WroucaUZ7HQMTvR6a7EY0ImrGrGRmIwl67Ea0cbgWxk/0d4xl/ZH
-	 lDCTE9MEU7KNpB0SCqizoTGi8tTq1NCoerX1CNN1gWwMgeNIun78FOMf/x9iMlNOQf
-	 vXtF8z+NLhwUn8dr2eBFpXV66WQXNC8mQr5mXzK/WsIqlU+2ONFN0GAGkqJ4sdEPt1
-	 oX2ybLE9f/J7w==
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="pyxHAUqN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fh7uZ9w+aM51hxF3Y9dfeWzeIdVGmT4O8WLEncOILeXPFJxHOtx5CZJTvqhRcENbP5NqG1Q16wzxPgWExceAfwWERt/seN/GikVqEdfhnpRQCCw3u8tUWEly3qfbZHWi8SpvoPifaSb2X2iYPKseucpuLmtNntY6Ovi3WEFN6qQFZDcQD3+MbrA1AG5VIHMV6Ae+rFDGt1zD/pwNcfkYE41+MscxliojxQBwBLfj8KAeNZjP2ugPJugWeYXTwEbDMI2TZT9Uy2Q/fGeLDnZuKKD9mD+8yaJdmRM7zhS6t1djogKSRCEn+KS9NKQqgKu9aAGoN4pvvvIzxKPp75EnrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K9fJhrghQr09NyNQ8iUvScCcKXp0C4VHFCU593COJM8=;
+ b=JAkApeYHFXjlIYEVlmXCW4yBqmuL70H0ebMSIbSVWb0YKj1zCOwr6n7kjtkjTsFLlMVk3pmktuQ63+GjFiMNoat0GbA/37q0xp5MzbxMP857UEI3kkZFpjBZPyGDXoQ2vfq/CZ8zlYRLHrTUEw6W7o+5N8l/zs2JYR+hkIBi59499WcoimqqqkpFrfNEBWsDGdqDSAU7njcsip/olTLhF5deIQ4xr3Zpr4kvKOslpIpXtTee3vxl8xbu3w8N8PvUaidQbet+r7faHGWS1dQZByGsWUC67FKd9AfnNawm2u2hJCLDvsDQY02BXxrvEDRfd+XJbqE6I7E0eQIVoZazDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K9fJhrghQr09NyNQ8iUvScCcKXp0C4VHFCU593COJM8=;
+ b=pyxHAUqNgsBFEB/noKGj1wogvJIrWOcMdLPnDY38YkDvoRe0K4ZBWg1scUEnoV52lybu/nyO3FynjyvLTD6NB4xfvnE7zdRlvBk4M2ZfktjAfnt8/1ZckHk4B1R1oz/mpkCasZnsqK75r9/wSCCI7hUpp3ZbI9msauIFjIGQ+ps=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB5748.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:265::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.22; Sat, 21 Mar
+ 2026 18:42:51 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Sat, 21 Mar 2026
+ 18:42:51 +0000
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Mar 2026 19:22:39 +0100
-Message-Id: <DH8O47F2GM1Z.3H3E13RSKIV22@kernel.org>
-Cc: <aliceryhl@google.com>, <acourbot@nvidia.com>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
+Date: Sat, 21 Mar 2026 18:42:51 +0000
+Message-Id: <DH8OJO5R5X4N.3T0LD6QO3FEO6@garyguo.net>
+Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: Re: [PATCH 1/2] rust: dma: remove DMA_ATTR_NO_KERNEL_MAPPING from
+ public attrs
+From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, <abdiel.janulgue@gmail.com>,
  <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 8/8] gpu: nova-core: convert to new dma::Coherent API
+ <a.hindborg@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <aliceryhl@google.com>, <tmgross@umich.edu>
+X-Mailer: aerc 0.21.0
+References: <20260321172749.592387-1-dakr@kernel.org>
+In-Reply-To: <20260321172749.592387-1-dakr@kernel.org>
+X-ClientProxiedBy: LO2P123CA0015.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:a6::27) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-References: <20260320194626.36263-1-dakr@kernel.org>
- <20260320194626.36263-9-dakr@kernel.org>
- <DH8M5QZKZETW.3TA4YS1SBAXDP@garyguo.net>
-Content-Language: en-US
-X-Mozilla-Draft-Info: internal/draft; vcard=0; receipt=0; DSN=0; uuencode=0;
- attachmentreminder=0; deliveryformat=0
-X-Identity-Key: id8
-Fcc: imap://kernel%40dakr.org@imap.dakr.org/Sent
-In-Reply-To: <DH8M5QZKZETW.3TA4YS1SBAXDP@garyguo.net>
-Content-Transfer-Encoding: 7bit
-X-TUID: 9r29XOjfZmFI
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB5748:EE_
+X-MS-Office365-Filtering-Correlation-Id: 181f8cc4-5e66-4bd0-0138-08de8779a846
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|10070799003|7053199007|22082099003|56012099003|18002099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	ge6LzlRsr4gzl+YCbPNqYbgI8QUAMoojW5c1LdgwYAC0mcKVkr2C+pZq3TD0eNRGxzra94odXPpjTos55Tw7q1HFlfGnAAoWCu6GRvr150umFJBJElF/e0Za31oH+eu9AmTgLfiZamrglCsgSv9cdpOijFHUImQuYOSdRmKHRd38NmJMHyEmsHgJH3uhj02KRbrvIdiCA5O+hajDsKks+eEFJNMdQHMZViVukGsS1b1ZuxH0BODaWivpmALEnnMb+DiG5beTm7itvwIT9UGsqr0fENyhWXoLFBtGBTTt1s/9TaSGMd3QRU3rbjPzWirhAT2cLZRScVitgKNwxz/GDdQyjvTFfNr5KfYZ9dUjNTa7MscrwiZGP+UFkWfZEVQBg6JMcrq9Ihun221dcjf8PkDhBC7P/gclg+wgjMwSvQkVz1D4TfLgHpqbNi+Af5WWC8o4v4+NchqTsgNd8EI0EUANZGPOVNYgNWG2cmCw1/RwrPdRcskgKuwb2X+LZQ3djbQKyQ6J1tGom94sWT7vxadWPvwEM/hUuLCYbXBuJ3QjnOPRcfUSnD9SPcoXeW3ol+x5bqkJji6cgMnK0dqLhGZO09hBbi8MSUh2TW8xsxk2tpoV78E62NVk8lKjuFsUHX7clIiTQjCOJ5S25c38Rm/juIQ7urcwP8k8m41Az9X05EU9wXp5iYCX6393UsdvFq+OzqSw2gWWzrp9C+pCUuxvLzXEbFM9Nb9rMFD7ScB4UShy1tAwGDbm6vpUS6luLWYIqHIPGFjfXqHtd2K1Yg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(10070799003)(7053199007)(22082099003)(56012099003)(18002099003)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VlYwMVA5U1piMy9ta05leGJ4V1lhMnhqUjJjOEptZTVFY2lzbDkvVWJOQ0Nj?=
+ =?utf-8?B?TmJLMUY2Yk5lUTgwRFRGZk9zck52TlFPNnZiS1BuV3hSMWtSTDVXa1daKzE3?=
+ =?utf-8?B?SDNZTCt6cEowTytmZUxDNWMrU3hQWmFWb3h0WWlMMUZ5U3lRUTRINWJEOWVL?=
+ =?utf-8?B?OGpJRjRnQjJzZVE1MS82eGFTdkJlbU9nbnVVV0hXVWwvWXFJTzVoZWtCZTVo?=
+ =?utf-8?B?MTdiTVRLVW5veXlMMGFLbkZCdWdEYjdnZnh4VEdOYlVBYncvcVNKNERCSEhl?=
+ =?utf-8?B?OWxDYmJRd0dpMk1xVDhxZjZ5aUEwYnFjMng5T2VMVWcwM0JnK1d5Y3BLa2t6?=
+ =?utf-8?B?cUtockd0Uk9kN1ZGand0WlFKdVVlNnhWaUYrc1RaSGY3NEsyU1REVzBEMGNI?=
+ =?utf-8?B?c3g4MWxKc0t1NHk4L1IvUndSYVVDc3d4UWNSTGRWRHoySk90SnBQV1lrQVhw?=
+ =?utf-8?B?MEtGTmwvcm9PMm5oT24ya1Mrd0ExaFZFUXFmVXVobVJpcWMzMTBtZ3hZVlR6?=
+ =?utf-8?B?QWlaK0g4NU9IdlRNNjRqMExZRTBuUExVTDRzaTFqUmszbk1OYXpiUitIOTh5?=
+ =?utf-8?B?M3JPdWpJNm13Wit1bVdDRk9ZSDZUcWM1ZkpSbXpvNURGRm5jM0JtSW85RW5I?=
+ =?utf-8?B?dVVrWmtwMVRYU3U5TmFmK3dha24vYWNsZks0Skc2QWZlUkM2Ykw3UXk4TDhN?=
+ =?utf-8?B?cTNwdUlMYjBzT0diZzY4c2xvb0FuTmgzZSsveFFLVDgrK1dTZytlSXg3Y2hk?=
+ =?utf-8?B?Si9tcFFSNkRmelVBdVdLTUdMRTRHeDlDU2dSZkZac0pTbjRTT0p5eGtDNUxn?=
+ =?utf-8?B?NjNFWlRuMWhhckhYMDdWQm41RVhpeVo4YnFxRnB4V1crTUEvbnB0SzFiSDFl?=
+ =?utf-8?B?Z0luRWJsakg4WmpBY0tkbldxVEVwdmJscC9sa2xSdmtUclBHeXM3bWpYbWNG?=
+ =?utf-8?B?eGFpWFFPNVZyT1QxdTlPazJaY1JqUkI1UHJybmlCa1RuZFYrVlBEek5jMWxt?=
+ =?utf-8?B?b0lLemtqVEVDakt3QjVDZFk0czF1RDJZUHJvK3JRRzZ6OGt4RnBwZm4vakVl?=
+ =?utf-8?B?R212RU95WWpGSURSSFVMc0NkWFdVWmZ3dllBYytMRnJWaE9QUU1uQjFGY2Zh?=
+ =?utf-8?B?SW9uMkt4dVB1SlNyMjNuU0xmdTlCWkRlb0NwOWNaeDVtOEtPckJDY3lsa2Mw?=
+ =?utf-8?B?ZmR0bFh2ZDZyR1U1aGJ2bk5qdUc4N1E5WmV3SU50SnpSNUkrbU5UWlAreDgy?=
+ =?utf-8?B?WFE0VVNsbmVGN2xmZHg1Z1hUTXFna0FnNitjcjVqZnJtMStpMVlhckZSd0hu?=
+ =?utf-8?B?bW5wVGFTOFdiMmxYRDhNaEJLQ0lNcFhaa2xOMTBvekEzVE9PRG1oZTNzT0cx?=
+ =?utf-8?B?RTEyOEZNWWVHbFRKcVdFaDZ6Tlgva0NZZm5lcy9hZUNBZkpraFYyNGZrMjZV?=
+ =?utf-8?B?cUZyZ1FXdkZKL243d0VTZVVDeG1lN1BtN2VMbUZtdW9vVkV4amFxY0RGbUlQ?=
+ =?utf-8?B?M0NUTXJLUVFXQUlXeTJKSndEb1BUYTBnTzZWNXI5and4MjJ1cEtxUWs1aW8z?=
+ =?utf-8?B?eTliYk9VaStWUUR1MFkwVjBnbDhhSkx1NEZjYjNRTmdtVThqeGFOV3BkR3M4?=
+ =?utf-8?B?RmpQUUVXT2lkMWFLK2pCY09GTkxwVG9DbGpvYnJiUTVETngrVzFKaEVYRGpx?=
+ =?utf-8?B?WWptbm9zcloyNjRER3FTUzkwYURNZ3FNS3luOVZMTEMrc2ovWnlQVXBHeU5k?=
+ =?utf-8?B?OUp4ay9ieEY3amRxNlFxNlVya3dRT0VUSHRTSDFZMFkyaXhtSE5jaU40Z1Fx?=
+ =?utf-8?B?Y3M3ZjNodUtNV3ZVTHExaWcyWHhBWGk3OTh0Z1I4RXpXU1RUWUVUckJGV3dO?=
+ =?utf-8?B?a2YyRTVhSnNHaGpwdXN5NkNDUitlbkl6Y0toa1FxY1JNMHYvSVM0aG9ueHRi?=
+ =?utf-8?B?LzBRdjloWVpkTEpUN003OVlIOE1YMHAxdXF5T3QwSXUrTGdxZTJFR3JvN2dT?=
+ =?utf-8?B?UGRhSmxxWkVIVWVJYXJBNUltYnoxc1cvQXROdlJnUkJBN3VnVW9RWUljRllN?=
+ =?utf-8?B?MWFwK05vUGkvVjJpTVJmMUh3Mkh6eDFaOGVjK3RvT1FLbjFlWkdvYm0rVW1R?=
+ =?utf-8?B?d0VjbmNyTjJLSnpXaE0wdWpxWm9RYWI5WVYzMVpRS3pJanpZNjNrQXMvZ0F6?=
+ =?utf-8?B?UXpYK2pMZjQ1WUREZ1NJa1RaeXZOWThwRWwyVm9XSmZPb1lvZVpxQ21sZzBT?=
+ =?utf-8?B?RE0vVk9RVFUzeUJFMzltb1pNOWVCU2RNT1NlZTJzR1FpS1RmaFduQTZibWhu?=
+ =?utf-8?B?WVRlK1VLMkMxLzFZczVpZmZJZnQwN2ljVEhzU0M3cjVMdk9DQjVtZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 181f8cc4-5e66-4bd0-0138-08de8779a846
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2026 18:42:51.7830
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wqz3Cs0ivX7ovjmHpaxtxhE7x3dyRbT2/KDFcm0Nu5ajzapnkZpj+kaoKcU6P2xAUO4OUr5nIzfiu4fmOJl0ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5748
 
-On 3/21/26 5:50 PM, Gary Guo wrote:
-> It looks like with Alex's "gpu: nova-core: create falcon firmware DMA objects
-> lazily" landed, all others users of the old API are now gone.
+On Sat Mar 21, 2026 at 5:27 PM GMT, Danilo Krummrich wrote:
+> When DMA_ATTR_NO_KERNEL_MAPPING is passed to dma_alloc_attrs(), the
+> returned CPU address is not a pointer to the allocated memory but an
+> opaque handle (e.g. struct page *).
+>=20
+> Coherent<T> (or CoherentAllocation<T> respectively) stores this value as
+> NonNull<T> and exposes methods that dereference it and even modify its
+> contents.
+>=20
+> Remove the flag from the public attrs module such that drivers cannot
+> pass it to Coherent<T> (or CoherentAllocation<T> respectively) in the
+> first place.
+>=20
+> Instead DMA_ATTR_NO_KERNEL_MAPPING can be supported with an additional
+> opaque type (e.g. CoherentHandle) which does not provide access to the
+> allocated memory.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: ad2907b4e308 ("rust: add dma coherent allocator abstraction")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Good catch.
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-> So this line could be dropped and `impl CoherentAllocation` and the type alias
-> can be removed after this patch.
+> ---
+>  rust/kernel/dma.rs | 3 ---
+>  1 file changed, 3 deletions(-)
 
-I will drop the line on apply and add the below patch to remove
-CoherentAllocation.
-
-- Danilo
-
-commit e96bc0b65bec48ac0f1cf2fc15b39c1b26b9d973 (HEAD -> drm-rust-next)
-Author: Danilo Krummrich <dakr@kernel.org>
-Date:   Sat Mar 21 19:18:08 2026 +0100
-
-    rust: dma: remove dma::CoherentAllocation<T>
-
-    Now that everything has been converted to the new dma::Coherent<T> API,
-    remove dma::CoherentAllocation<T>.
-
-    Suggested-by: Gary Guo <gary@garyguo.net>
-    Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 6d2bec52806b..779d4babab9a 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -841,156 +841,6 @@ pub fn len(&self) -> usize {
-     }
- }
-
--// Type alias for compatibility.
--#[doc(hidden)]
--pub type CoherentAllocation<T> = Coherent<[T]>;
--
--impl<T: AsBytes + FromBytes> CoherentAllocation<T> {
--    /// Allocates a region of `size_of::<T> * count` of coherent memory.
--    ///
--    /// # Examples
--    ///
--    /// ```
--    /// # use kernel::device::{Bound, Device};
--    /// use kernel::dma::{attrs::*, CoherentAllocation};
--    ///
--    /// # fn test(dev: &Device<Bound>) -> Result {
--    /// let c: CoherentAllocation<u64> =
--    ///     CoherentAllocation::alloc_attrs(dev, 4, GFP_KERNEL, DMA_ATTR_NO_WARN)?;
--    /// # Ok::<(), Error>(()) }
--    /// ```
--    pub fn alloc_attrs(
--        dev: &device::Device<Bound>,
--        count: usize,
--        gfp_flags: kernel::alloc::Flags,
--        dma_attrs: Attrs,
--    ) -> Result<CoherentAllocation<T>> {
--        Coherent::alloc_slice_with_attrs(dev, count, gfp_flags, dma_attrs)
--    }
--
--    /// Performs the same functionality as [`CoherentAllocation::alloc_attrs`], except the
--    /// `dma_attrs` is 0 by default.
--    pub fn alloc_coherent(
--        dev: &device::Device<Bound>,
--        count: usize,
--        gfp_flags: kernel::alloc::Flags,
--    ) -> Result<CoherentAllocation<T>> {
--        CoherentAllocation::alloc_attrs(dev, count, gfp_flags, Attrs(0))
--    }
--
--    /// Returns the base address to the allocated region in the CPU's virtual address space.
--    pub fn start_ptr(&self) -> *const T {
--        self.as_ptr().cast()
--    }
--
--    /// Returns the base address to the allocated region in the CPU's virtual address space as
--    /// a mutable pointer.
--    pub fn start_ptr_mut(&mut self) -> *mut T {
--        self.as_mut_ptr().cast()
--    }
--
--    /// Returns a DMA handle starting at `offset` (in units of `T`) which may be given to the
--    /// device as the DMA address base of the region.
--    ///
--    /// Returns `EINVAL` if `offset` is not within the bounds of the allocation.
--    pub fn dma_handle_with_offset(&self, offset: usize) -> Result<DmaAddress> {
--        if offset >= self.len() {
--            Err(EINVAL)
--        } else {
--            Ok(self.dma_handle + (offset * core::mem::size_of::<T>()) as DmaAddress)
--        }
--    }
--
--    /// Common helper to validate a range applied from the allocated region in the CPU's virtual
--    /// address space.
--    fn validate_range(&self, offset: usize, count: usize) -> Result {
--        if offset.checked_add(count).ok_or(EOVERFLOW)? > self.len() {
--            return Err(EINVAL);
--        }
--        Ok(())
--    }
--
--    /// Returns the data from the region starting from `offset` as a slice.
--    /// `offset` and `count` are in units of `T`, not the number of bytes.
--    ///
--    /// For ringbuffer type of r/w access or use-cases where the pointer to the live data is needed,
--    /// [`CoherentAllocation::start_ptr`] or [`CoherentAllocation::start_ptr_mut`] could be used
--    /// instead.
--    ///
--    /// # Safety
--    ///
--    /// * Callers must ensure that the device does not read/write to/from memory while the returned
--    ///   slice is live.
--    /// * Callers must ensure that this call does not race with a write to the same region while
--    ///   the returned slice is live.
--    pub unsafe fn as_slice(&self, offset: usize, count: usize) -> Result<&[T]> {
--        self.validate_range(offset, count)?;
--        // SAFETY:
--        // - The pointer is valid due to type invariant on `CoherentAllocation`,
--        //   we've just checked that the range and index is within bounds. The immutability of the
--        //   data is also guaranteed by the safety requirements of the function.
--        // - `offset + count` can't overflow since it is smaller than `self.count` and we've checked
--        //   that `self.count` won't overflow early in the constructor.
--        Ok(unsafe { core::slice::from_raw_parts(self.start_ptr().add(offset), count) })
--    }
--
--    /// Performs the same functionality as [`CoherentAllocation::as_slice`], except that a mutable
--    /// slice is returned.
--    ///
--    /// # Safety
--    ///
--    /// * Callers must ensure that the device does not read/write to/from memory while the returned
--    ///   slice is live.
--    /// * Callers must ensure that this call does not race with a read or write to the same region
--    ///   while the returned slice is live.
--    pub unsafe fn as_slice_mut(&mut self, offset: usize, count: usize) -> Result<&mut [T]> {
--        self.validate_range(offset, count)?;
--        // SAFETY:
--        // - The pointer is valid due to type invariant on `CoherentAllocation`,
--        //   we've just checked that the range and index is within bounds. The immutability of the
--        //   data is also guaranteed by the safety requirements of the function.
--        // - `offset + count` can't overflow since it is smaller than `self.count` and we've checked
--        //   that `self.count` won't overflow early in the constructor.
--        Ok(unsafe { core::slice::from_raw_parts_mut(self.start_ptr_mut().add(offset), count) })
--    }
--
--    /// Writes data to the region starting from `offset`. `offset` is in units of `T`, not the
--    /// number of bytes.
--    ///
--    /// # Safety
--    ///
--    /// * Callers must ensure that this call does not race with a read or write to the same region
--    ///   that overlaps with this write.
--    ///
--    /// # Examples
--    ///
--    /// ```
--    /// # fn test(alloc: &mut kernel::dma::CoherentAllocation<u8>) -> Result {
--    /// let somedata: [u8; 4] = [0xf; 4];
--    /// let buf: &[u8] = &somedata;
--    /// // SAFETY: There is no concurrent HW operation on the device and no other R/W access to the
--    /// // region.
--    /// unsafe { alloc.write(buf, 0)?; }
--    /// # Ok::<(), Error>(()) }
--    /// ```
--    pub unsafe fn write(&mut self, src: &[T], offset: usize) -> Result {
--        self.validate_range(offset, src.len())?;
--        // SAFETY:
--        // - The pointer is valid due to type invariant on `CoherentAllocation`
--        //   and we've just checked that the range and index is within bounds.
--        // - `offset + count` can't overflow since it is smaller than `self.count` and we've checked
--        //   that `self.count` won't overflow early in the constructor.
--        unsafe {
--            core::ptr::copy_nonoverlapping(
--                src.as_ptr(),
--                self.start_ptr_mut().add(offset),
--                src.len(),
--            )
--        };
--        Ok(())
--    }
--}
--
- /// Note that the device configured to do DMA must be halted before this object is dropped.
- impl<T: KnownSize + ?Sized> Drop for Coherent<T> {
-     fn drop(&mut self) {
