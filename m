@@ -1,202 +1,213 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021088.outbound.protection.outlook.com [52.101.100.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF3F391820
-	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 14:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.88
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774105128; cv=fail; b=M62N+lQqHp9pB1HbmcdHIuSzUSEvd4Pp/k01WD5vOla25kFVvK+WVzeMAtRNVKrsWPP2NUs8tf9sFCc2gr6b3Tl2bfQc3+yGCNZFovUWSH1gTHxIJTizIb4+SLO9x5ENDiit+HsU/TfxIwU4B7Aq4CmTZR+eVpq7HrGFm3cPhjY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774105128; c=relaxed/simple;
-	bh=V4mSE51FJx8zSqfhjKkTE/7GNnWv547s1ACZ4CrOhGo=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=Si/Z6KzN7kzFxyXue0nhvu3vZQUZF4rPHYhJ4SayGeePcf/aHNaVy1F616J/hNuekK3VEKxU+uLYlLGoUsoZiMtJXvYIevO3xQo6U+HQ/GrwYbGazDyiurtHUKHswP1t8L6vcgoJvA/Q8Ob2XBYDrFe6UDO5ecWs0JHXO8DxPlo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=J1Qb2qb2; arc=fail smtp.client-ip=52.101.100.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF42396589
+	for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 15:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774108446; cv=none; b=iuFhbxN2d9xuuZZ5YqlN4ssQr3uaqDwA2D10F0Q8ekCQQQP/wfqdX6DMe6r60xs358diyQ8Hcr2jBF6Y/m/vLU7viAL+Qv71w55xoflsUfC9mFuMw+BJzIY1Ftpe2u3r6ijWkJOJwZFoQTc5M5sMXw0QhULsfAl1KRDXfu28qM0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774108446; c=relaxed/simple;
+	bh=lThbFxLQM35GPCAzqXWnZ0lGAfqN2/K8/Rfkj2JsO4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I5NafelyDMB1R00MHfiZnsKRy+8jlX6cdljfoS4GOEXq2ul6WZ0hzSEKVsc3p6cZzoe150F2LEMl3XWUu7Ew6nzcNdJprx0R2nPcSAikGZ8X8V1COoicoH1X4D7BYVA0sDol94YNTYY2lykX8g145xEyBnsS70UbotCyp7XjjPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=B5tLzVEs; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="J1Qb2qb2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BpJDxIQioHCxjMNmEgYNiitr+uWbUsZeC0B11dqQ1zFQlQxQkYglkcfhX+vw4eoTrrqoa3rZWst43wm62sabHMnhDaV9DWn5BzvgSNk4wzg3wH36oRpHtI0dbPftN4VEc7H8UqlAvgip9pj6P4JWVQuklnQS73YVxQnera/5wZQFxeYpLl6FRvwcb4cmDnVtlxFNlbs/HyzXX9dJsRAxhMEWghmTneMX/zyD7PEPQC422CIoURQobvuq0vwIxxJunjpBf1AqWxq58++Uv7tThONmJT1GP+o/LhuJDDER9aV2RDmFLak/BhtAg+6o0/49usxRvh9U4NdZjJhb3+UJmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hXRESge9Ii55QlipzicFRBcYeHZcoN0pkixBdIbCZks=;
- b=MvTLQ8N+CG7GxBcyvlrl7z89k9RrIxIYXcXRRVYAsGgX2hEVrIOCQJxT5wnrJCCxxXYgj/9ubZf0FLNtFkSyImMDBYf3j2zisJKInkPrLKbGv25woXEmQEXTnEba58cXpexstwWpMlBKcjD91GUViNbt/bE4Nu2PqOYl2jKyk2CcW5HrLhKdDC7XTUVopMCAvcz/UKVBig9kAZXQTPHwnmWjFcLuLDLSTG/WfSYas81PJ7kxF2+YDiNOgr5SHy3fnDBiARupIdPW4HLq54cfnlvKmeZPTHDGY8/v75GM8VaXyf0mXSRIjPOKyR+9nLPO1W81AYP2jyFnAeThlW/cbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hXRESge9Ii55QlipzicFRBcYeHZcoN0pkixBdIbCZks=;
- b=J1Qb2qb21QeEapd6CWNe2f4ZXkZSr/TyBFprUORRHLT/bGB0dhwJZoFYHvw+dNo1E9FRhFijA/2HB8oNgaOyeec9KVnFhTVR7KDUzUulg8kjgl/ADaL7WRCKM62ez1+28wMCk20z2/A3HpENzxWf5djERPbwijy5EiHHQ7milBw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LOVP265MB8950.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.25; Sat, 21 Mar
- 2026 14:58:44 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Sat, 21 Mar 2026
- 14:58:44 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Mar 2026 14:58:43 +0000
-Message-Id: <DH8JS2ASDOWQ.2VMYT7989OGXQ@garyguo.net>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/7] gpu: nova-core: firmware: riscv: use dma::Coherent
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0
-References: <20260321-b4-nova-dma-removal-v1-0-5cf18a75ff64@nvidia.com>
- <20260321-b4-nova-dma-removal-v1-2-5cf18a75ff64@nvidia.com>
-In-Reply-To: <20260321-b4-nova-dma-removal-v1-2-5cf18a75ff64@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0111.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:192::8) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="B5tLzVEs"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8c70b5594f4so336678185a.1
+        for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 08:54:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1774108444; x=1774713244; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PjkElUreCSm3Pff79vFh1ZyOTyQLwaGB7r9je7XctHE=;
+        b=B5tLzVEsjn4+0tHL41zfBUjhu2eW8un5jiOJigVOiImFq0GK+3xjsj+Ah31I8duRxY
+         foSXQcJjXMgGcalR1JJ3oVvvcW6ZohVLKSnsRpMoVkrnty0m6HyH5FhcX91NzFeNnSGw
+         cA3pLHPCuEBO7KQY7TRA17q65bN7d6g8UGYmXUksp/fZcUu1b3OV0bRuhvoRW2tPotVw
+         BRlEm0FhcxrqJFrUv9CzQ8IjfF6PXPyXNxb0OblbloY1C5e4rJNtR7v2NLt0DCb8oM8A
+         ZOsjeZLnMccqc+NgEeSqUAUz62p6j54i4Ihlz/TLa579Acad8+NZVnwD3/2KH23lF+gQ
+         rWxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774108444; x=1774713244;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PjkElUreCSm3Pff79vFh1ZyOTyQLwaGB7r9je7XctHE=;
+        b=j4/YD5nH3Ns3cAXIV+ZHDS6TI1Nx/CetQK58srIW5C0a+x+BW8W2IpWkhO+XWd2TDX
+         lbH/o+MYAo30lzRsOR20910F0uNs6HR2n+u5SMRia6rebxa1nddTV3n2jAmtWHoWORZc
+         m8kM0/iTEfUV/iLC12JXsS8rHkgwR8ktigZy1Yk3moaiO3V53TDlWzgG7x9JQKY1bOW+
+         rMeeLSvDeodCmMwycHJ8XOfkT6FzZY18nH+ZXh6DtCBY7vu+Ks+q1HXsVh+AQtQXt834
+         lz8RK53ebyyQA/BVL/6ADN0w+D2k4ujkeKZwiZBpY37Un1PXfG9FDelvSHBYuoG/bKJe
+         AnvA==
+X-Forwarded-Encrypted: i=1; AJvYcCXxIZDTRb7OmtPEmrCeedv7sUXd4X4X/nmSgdjhqGskYxszJpQT84/xt7ERbfkptINovuaV1dr62Etwxw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnnNb4aky6opx3FxAaPitUe9U5l/2vNnlKP01Y0rxU6frajG2M
+	jmsuZtJyd+wVIpZ7SJtjI449yYy1hs2To9UpSBjCOwNlyjAqHm3+GlGhCebjYbAjQg==
+X-Gm-Gg: ATEYQzw7EjTimZVkT0sSgodbtfZ8SUj+UwKPQWoQmof/4xZtheDaQVpEUtlvz4HpbMq
+	09YZRLbWfzxCKeslsRkB3hqhuvYVXSMcDiqMMy2fhMQPmijwXkgPAPH9MrPHuTcJj1Iu3WmwtuT
+	GS5JGQGg1X8DeBIcCo7J3xWP8msXeuUUwz2O7j+v6uKr8X3jdSllMrIl+gcNQdSZqLYXQ/o86ME
+	B2Ey48p5QFsWGUfq9SpFbUvci1d6p6k3afwECa8Qpnslktij+yXRERKqmOCSqOWUQOpSCJqTy3Y
+	6HWr7+gXRpKdWj+PlUzAN2l9F+cY3bFyCPv0Cbog+a0sHzOe/CGvE+mJigr6fomyyndZOGWOHDj
+	DDdJqUd3bEYJKdgymtl7l/TpRqjAtdiciw7cbaeKHNfm70ZmSvKnF1v35pssVq4md56RP6aFdGV
+	8fsG67fXBjtlnMHaHswxd0gx0=
+X-Received: by 2002:a05:620a:4694:b0:8cf:d1fa:7b41 with SMTP id af79cd13be357-8cfd1fa7dfdmr652813185a.34.1774108443943;
+        Sat, 21 Mar 2026 08:54:03 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::b00])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc8f94b04sm423144585a.17.2026.03.21.08.54.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Mar 2026 08:54:03 -0700 (PDT)
+Date: Sat, 21 Mar 2026 11:54:00 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] driver core: Don't link the device to the bus until
+ we're ready to probe
+Message-ID: <6ff1444b-f83e-47f6-ab0d-6745738523ba@rowland.harvard.edu>
+References: <20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+ <2026032152-getting-carmaker-29d5@gregkh>
+ <CAD=FV=Wag5qx9RXkAHrf+zbwtQgVQW1UUc6DRhUzudBtjbD8ug@mail.gmail.com>
+ <2026032114-unlocked-unmoving-091b@gregkh>
+ <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOVP265MB8950:EE_
-X-MS-Office365-Filtering-Correlation-Id: a7ba90bd-a59d-4432-8591-08de875a58c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|7416014|7053199007|22082099003|56012099003|921020|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	EP4um6WUA9OQb5ZjOcGxOcq5QbgdgEdVwVas2xlf2P1Cru537GwdFeKHdSRXrEHqptCVR59UP3zqsS/40aG0BzSiFqL3VKT69QLZLFFfDmHxN4rXFGw/D8QjZKIM7Dk1M3Mm+dqqqElKYr6Q1t3DUriligOims4bKCxnfLL0oblcG3vE+cwGIMYoMokdDrdrAsLXRNIC1cTLfa9pnrmQsfffSZaZ2OWReV3rbnyhKOP0FsQpHgEePK+qDhMUyv6oNDL9hHzT+NotF139iIeYIqm2ELuKecDoEcSILXn2gVaIHURqrJF4YNgFD5U8oH0Nbxo4SF5OQPwmoYo7Jp83fdahvukQ9oPITeMRXaRRXM6UfDIUtinTYuK8F8LuI0GZJQq/Gy8rnZslO/gzinCjMtG6sJddqXQPIs3HlVRA+Kn+6jq1g7GCe7iXK1BUboPk82Q8QglJrcU4cXOkeqzRqwpWJHabdsay/3CVgtKktnEcY4/iuci6Hfft2VsFJO+uiLTGFJT5Bhp85S9yn5xor92Azeik0NBja+e3/qOsOjo9Uf0jsWPLf8zeH38YKg7icCSCOHUA1jUGCGl/ulLy9VHyoxo12b8xbvuciaP0z4uG9DTfIBpe3q7qxp2IbEpzgym3rB9ZacN7EDgf9epyyVFRhNx/SwxXRyKllUzJct1UZndo0dk740Qx4uWWs92zBgEQ8/26vz5vrAVemhHBSapJ8Y+Yo80QuBL4JbCxH5FKYCPEzUr64oD1Ou8pPWYtrejhYjS463QzgETUvTyK3A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(7053199007)(22082099003)(56012099003)(921020)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?czVneENLZHVob1FTWWduekw4YTdWM1hYM2M2a016SExFbDFsaXR3NkM4eGpt?=
- =?utf-8?B?QkF6TWFUc2tYenR0eDlKRkpBVjJKeXNvVVhCVng2US90RG5qazVFeUt0TXZs?=
- =?utf-8?B?Mko0M0JwOVVtYWl6L3BhdkJkZjhNRGxONzlYQ3YxTkVNRHJ5ZE5KUkx0UTg2?=
- =?utf-8?B?Ukl2NzFHb093eFpwZWJiUjlmS21EUHFsd2NNbnY2emN5c2xwN2tjRUcxVXpt?=
- =?utf-8?B?Vmg4bkM3WTlxL3Q1Mjgzc29qeUU1MEtGQkFZNm9zSnlvbHR4TTJhaUQ4czhO?=
- =?utf-8?B?QjArNURXcFVGU1p2RnpXYWlSU21odzZ0Wk5mWnpyd0FVV0Rac3R0bmpPNDVt?=
- =?utf-8?B?UUZwWkxyazBBUFYvL25KaVA2OXVVLzBMTnoxMUZWeU5zdjErQlFwN05ya243?=
- =?utf-8?B?SHRrS0hLbzV3MHJLa25MbVdoZXhyaWxaaXdXM2RSRjV5eHV6NURYVlE5OWtZ?=
- =?utf-8?B?UklRZDlKc21nUkM2U0kzQy9PcDdueDZiK0NPdHp4VGdteDhLYTFuQXNtSmMw?=
- =?utf-8?B?TXhpV1lWaFJHaExCWVZlRlNZYVFJSzhZUXdJWFFSM2w0NXN2NzZubnRKT3NL?=
- =?utf-8?B?N1BKV3ZRdWowQjk2eVhMZ21LRklRVmR5WC9OQlljSTlyb2lpV082U0xiREdt?=
- =?utf-8?B?YjJGR0JONFdDTlYzSmVObWl2RUd1T1ZQVUg3TG13TzFXSGZlTVFzK3duWFpU?=
- =?utf-8?B?dVRFUW1ERDZjcmFZQVh1NlVCTHVFazh5cDIxMDNyUzVLRURLa3pUanF1Q3BD?=
- =?utf-8?B?S1R3SG0yeVhlUGxHSG5rM2U5MnIzVTJLOWlDRnN1MEN2czNlR3dnTDRXZTdH?=
- =?utf-8?B?amR1UjcyOWpORFdaejRTOTlDQlR3TG8vWWNWbTdZU1BOTitoK00wMDl1V2oy?=
- =?utf-8?B?UzJ2UUVpeHpPbDVDSkdWYmNHSWlIOHhPNDNoeFMyZldGTUdwMW12dzNnVENa?=
- =?utf-8?B?Unl2VCtzdyttdnJjQTJESXN4MEwyL2I0SzRQOGwvb0RIcFFXUXRoUXdrR0o4?=
- =?utf-8?B?Nkg5bVlTbmE2SkFiQURPSGc3bXBINHBBQ3BVNUhQcEs4dFNSeVQxWkFqMDVt?=
- =?utf-8?B?ZUlKZFVxSnp4Y0FiY1dpRmZDeFFvdHpaNlBrd2NiUmVNWVJrekE1MWxtY000?=
- =?utf-8?B?ZldrWHlHN0hSbFRMVGZ3TGM3R004ak1lVFJqdTJBVUgwVlBIbHMzUkxCTkRZ?=
- =?utf-8?B?N2FqY2swTDlHRGxFM2xpOENCSGVRNzRpcTZ0SWZmNUZtMFB2MTNWWndoMUtw?=
- =?utf-8?B?bWpNanlQUmpIL2ZFdERjQkxNbS9LZDM5NWlTN2M2S0F1WUlUL2VXMmNVRllM?=
- =?utf-8?B?ZUd3dG9vWnZPb3Ixaml2ekdsVHRQNkw1eFMzOVIxNEJ5UCtsVU8yV2l2bHZ2?=
- =?utf-8?B?eFVRTmtSN0dTYXRlMlk3dDZPUWgyOU5IOVZOdFMrSVozR0tRTjY3RTg3WkZo?=
- =?utf-8?B?VXBEcks3SzFVYmovV0RadlR0QkZhMWQxVVoxTWNIaGo2SEhmZEN5WnVoS2RB?=
- =?utf-8?B?V2dvUXlGajFoOWJpZUxqd0ZTV0VtYkhIeWpvdnB2MElQMTlVMzJJV2MzQW4x?=
- =?utf-8?B?QVpjV2xoZEJXYkZISWtwRWN5aG5nOFhmaFltUFZyZnp4SjIyeCt0L2NzOERz?=
- =?utf-8?B?YnI4aE1seU4yMWN6MnZndDBEUXcxYzZBYWJlSDZjWUkwSkJyOUpZd253UXNV?=
- =?utf-8?B?Q1cvYmM2YmVzSkVrb3cydWpCYzc2UVRIL3pteFN3aWpqMHg5S3ZBUXdsYVJx?=
- =?utf-8?B?dUw1VkJYenhOUmpxN0dUYXphaUVWRkN5Ym5DOXppNThsZHdzcFRVRXFvclJ1?=
- =?utf-8?B?MWwrZ0pzVlVVenloTFREUG9uSTBid1lTSjZZcnVKbk5WQlZIQnA3WnBKYUFE?=
- =?utf-8?B?S0Q4S0IwdlBRMDUrMnZ5SSsyV2xoaE5EMitQL2lUbDJzTnRNb1JRS3ZES2FH?=
- =?utf-8?B?UWNuVnlnMDRXb0lXUU5jWm9WbWJEVEQ0eWdHcTFUOTdPdHpkZmt2eGxqeGNF?=
- =?utf-8?B?YnpDSkwwSHF6UjZWV1FNUkR1eGxRbVJRM0hPZWJLVTFWeWxPV0tMTmt2TDh3?=
- =?utf-8?B?UFpkQjNMamRTdGJlQkhHeFROMmFUQlJ3YVptcHpXTGc2ZUIzOER1OXpOclN4?=
- =?utf-8?B?dk1XWUpiNUxuRnNoRHl4ejBCdWVtWDZPY2ZkOG9wQkdBNmxXc0EyU2pCTHNV?=
- =?utf-8?B?U01VODVjWWYwWnVodlgzSEhoQ2k0cHdlTGlzeWtBRWpLRndKVUl5dmNjQmFB?=
- =?utf-8?B?SnVLZVF2ZDNLd0pUSzRIdWN0ejlXajR5N0lORWFQNEVqb1JrSFpXU1lOV29B?=
- =?utf-8?B?K3E5UHBhYXE5b0g3YUFhVzY0enZYNXoyTGcrTDJmZU9PdDRTOUwwQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7ba90bd-a59d-4432-8591-08de875a58c2
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2026 14:58:43.9857
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uGbjXpKW2qNUIcM930GS+bEvAMWAOAy0L88u20p5s9qE7ybSPXTKkcYyAxpKhmf8evqQFGVWj9K478mtThQ/mQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOVP265MB8950
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
 
-On Sat Mar 21, 2026 at 1:36 PM GMT, Alexandre Courbot wrote:
-> Replace the nova-core local `DmaObject` with a `Coherent` that can
-> fulfill the same role.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
->  drivers/gpu/nova-core/firmware/riscv.rs | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/nova-core/firmware/riscv.rs b/drivers/gpu/nova-c=
-ore/firmware/riscv.rs
-> index 14aad2f0ee8a..2afa7f36404e 100644
-> --- a/drivers/gpu/nova-core/firmware/riscv.rs
-> +++ b/drivers/gpu/nova-core/firmware/riscv.rs
-> @@ -5,13 +5,13 @@
-> =20
->  use kernel::{
->      device,
-> +    dma::Coherent,
->      firmware::Firmware,
->      prelude::*,
->      transmute::FromBytes, //
->  };
-> =20
->  use crate::{
-> -    dma::DmaObject,
->      firmware::BinFirmware,
->      num::FromSafeCast, //
->  };
-> @@ -66,7 +66,7 @@ pub(crate) struct RiscvFirmware {
->      /// Application version.
->      pub(crate) app_version: u32,
->      /// Device-mapped firmware image.
-> -    pub(crate) ucode: DmaObject,
-> +    pub(crate) ucode: Coherent<[u8]>,
->  }
-> =20
->  impl RiscvFirmware {
-> @@ -81,7 +81,7 @@ pub(crate) fn new(dev: &device::Device<device::Bound>, =
-fw: &Firmware) -> Result<
->              let len =3D usize::from_safe_cast(bin_fw.hdr.data_size);
->              let end =3D start.checked_add(len).ok_or(EINVAL)?;
-> =20
-> -            DmaObject::from_data(dev, fw.data().get(start..end).ok_or(EI=
-NVAL)?)?
-> +            Coherent::from_slice(dev, fw.data().get(start..end).ok_or(EI=
-NVAL)?, GFP_KERNEL)?
+On Sat, Mar 21, 2026 at 01:05:48AM -0700, Doug Anderson wrote:
+> Hi,
+> 
+> On Sat, Mar 21, 2026 at 12:42 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Sat, Mar 21, 2026 at 12:35:32AM -0700, Doug Anderson wrote:
+> > > Hi,
+> > >
+> > > On Fri, Mar 20, 2026 at 10:41 PM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Fri, Mar 20, 2026 at 08:06:58PM -0700, Douglas Anderson wrote:
+> > > > > The moment we link a "struct device" into the list of devices for the
+> > > > > bus, it's possible probe can happen. This is because another thread
+> > > > > can load the driver at any time and that can cause the device to
+> > > > > probe. This has been seen in practice with a stack crawl that looks
+> > > > > like this [1]:
+> > > > >
+> > > > >   really_probe()
+> > > > >   __driver_probe_device()
+> > > > >   driver_probe_device()
+> > > > >   __driver_attach()
+> > > > >   bus_for_each_dev()
+> > > > >   driver_attach()
+> > > > >   bus_add_driver()
+> > > > >   driver_register()
+> > > > >   __platform_driver_register()
+> > > > >   init_module() [some module]
+> > > > >   do_one_initcall()
+> > > > >   do_init_module()
+> > > > >   load_module()
+> > > > >   __arm64_sys_finit_module()
+> > > > >   invoke_syscall()
+> > > >
+> > > > Are you sure this isn't just a platform bus issue?  A bus should NOT be
+> > > > allowing a driver to be added at the same time a device is being added
+> > > > for that bus, ideally there should be a bus-specific lock somewhere for
+> > > > this.
+> > >
+> > > Sure, if the right fix for this is somewhere in the platform bus code
+> > > then I'd be happy with a patch there to fix it. ...but from my quick
+> > > glance (admittedly, it's Friday night and I'm tired), it seems like
+> > > the problem is just with driver_register() being called at the same
+> > > time as device_add().
+> > >
+> > > Certainly adding some sort of locking could be a solution (happy for
+> > > someone to tell me where to place them), but we'd have to make sure we
+> > > aren't regressing performance for the normal case...
+> > >
+> > >
+> > > > When a device is added to the bus, yes, a probe can happen, and is
+> > > > expected to happen, for that device, so this feels odd.
+> > > >
+> > > > that being said, your patch does seem sane, and I don't see anything
+> > > > obviously wrong with it.  But it feels odd that this is just now showing
+> > > > up for something that has been this way for a few decades...
+> > >
+> > > I suspect it's a latent bug that was triggered by a new Android
+> > > feature. It's showing up on phones that have
+> > > "ro.boot.load_modules_parallel" set. I think you can get to the
+> > > relevant source code at:
+> > >
+> > > https://cs.android.com/android/platform/superproject/main/+/main:system/core/libmodprobe/libmodprobe.cpp?q=LoadModulesParallel
+> > >
+> > > I suspect the bug is never triggered with more normal module loading
+> > > schemes. Indeed, one phone that has nearly the same set of drivers but
+> > > has parallel module loading turned off has no reports of this
+> > > problem...
+> >
+> > Ah, I think we always assumed that modules can NOT be loaded in
+> > parallel, isn't there an internal module lock that prevents this from
+> > happening?
+> >
+> > So yes, that might be the root problem here.
+> 
+> It's late Friday night for me (technically Saturday morning), so I'm
+> not going to dig now. ...but I'm fairly certain that Android isn't
+> using any downstream kernel patches to accomplish its "parallel module
+> loading". It's just userspace jamming modules in as fast as it can.
+> Userspace loading modules quickly shouldn't cause the kernel to behave
+> badly.
+> 
+> If the right solution is to add more locking to the kernel to slow
+> userspace down, that is also something I could try. It will likely end
+> up impacting boot speed, but of course correctness comes first. Let me
+> know if this is a direction I should dig (or someone is free to post a
+> patch and I can test it).
 
-`DmaObject` rounds the data up to be page-sized, while this new API doesn't=
-.
+As far as I know, there's no particular reason why modules shouldn't be 
+loaded in parallel, or at least, in very quick succession.  Locking 
+shouldn't matter either -- that is, the existing locks ought to be 
+adequate.
 
-It has impact on alignment, as the allocator aligns things to the largest
-power-of-two exponent of the allocated size.
+> > > I'd also note that the only actual symptom we're seeing is with
+> > > fw_devlink misbehaving (because dev->fwnode->dev wasn't set early
+> > > enough). fw_devlink is a "new" (ish) feature, is officially optional,
+> > > and isn't used on all hardware.
+> >
+> > That's true too, can we set that earlier?
+> 
+> Yes, I can post a patch that _just_ moves the set of dev->fwnode->dev
+> earlier, and that will probably fix my symptoms (I'll need to test).
+> This patch already moves it a bit earlier, but if we don't break the
+> linking out as a separate step it would need to move even higher up in
+> the function.
+> 
+> Originally, I was going to just propose that, but then I realized that
+> some of the other code in device_add() probably also ought to run
+> before we let the driver probe, and hence I ended up with this patch.
 
-Best,
-Gary
+This sounds like a more generic problem.  A bunch of things happen after 
+bus_add_device() that should be completed before probing can start; the 
+firmware node stuff is just one of them.
 
->          };
-> =20
->          Ok(Self {
+Splitting bus_add_device() in two sounds reasonable, although I would 
+rename the old routine to bus_link_device, since all it does it add some 
+groups and symlinks.  The new routine can be called bus_add_device().
 
+The real question is whether any of the other stuff that happens before 
+bus_probe_device() needs to come after the device is added to the bus's 
+list.  The bus_notify() and kobject_uevent() calls are good examples; I 
+don't know what their requirements are.  Should they be moved down, 
+between the new bus_add_device() and bus_probe_device()?
+
+Alan Stern
