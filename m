@@ -1,163 +1,93 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021135.outbound.protection.outlook.com [52.101.95.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FA41925BC
-	for <driver-core@lists.linux.dev>; Sun, 22 Mar 2026 00:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.135
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774140452; cv=fail; b=D+Suq6Sl7PozYzJOQbHyKPTnlr/kmLn3o9oZ687TKw6P9w++Xu5S3rnzIZXHQvV1vki6yCc8vAqTBA/I/RuK4hbxF/uZZBqX+N7IiZxzDQkHkmKErYV/h6Ed68lNMzHN9qsQtiJndnzvaocmNcMt74UZJ4r8/4F5lCzkVHm/4lk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774140452; c=relaxed/simple;
-	bh=4znw3IzSOYO04E3U57IOjNeKqChp6gByyxKJo8tvaUA=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=ePMTD5rn+JAworOMnpSLJahPsWWoJZhFUfwumCW4irKUBOGdCak5grJqBNS6QFfFSev+DPX5mcvXH3B8h6FM3xy6OOR9V9WVxda+jJ0QnYrW3mlrDxX+xOO669TGjDL/Z5jOR4Qny2rlAlbiFt3IecYXaDo2XoaMcUhTJWTe20o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=MiBIgTKF; arc=fail smtp.client-ip=52.101.95.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5FF28000F
+	for <driver-core@lists.linux.dev>; Sun, 22 Mar 2026 06:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774160651; cv=none; b=KIBT4r3/7c9oHQcaKkbiEqe8EvxOkUI9onYBR5sRb2AWDmExHeHJa7r8mbz5M3OE7BuA2UcaNrpdJk5jrtuwQGBG8dTM47mzAjjFZkp5ZncduSgDUV7m9BITCLhdQLxHRH9dW19wW2reECpJrc7ZsrvKD0oBLHBhTVMSL09boa0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774160651; c=relaxed/simple;
+	bh=d/1klNg2aFhsp6OGvAAoWYikrcXambFiOwbGCQtt8hg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=ETJ1ozRB2M2c9IBjQfNb11hr1ZUjy0meBT6IUySzRoicw/qUrb8cpwb+lcLP5yuhPGrRholhHSjFT4LBuzcSkhjz57vTDBtewB54ZzKEx5EuX4LC5On1UI9RFZt/viVPsvlxPkj7BSeq5x5Se5BQo0ii8NizdiCeA3O94kP3TSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aKdd/bgf; arc=none smtp.client-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="MiBIgTKF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DcAMkHygnRLuRZTp1fPDkAe3joS51f7fTb1cqwcMIQOteyiDEVz+8MFYl9Ya0x23U7Y0z3yuiuaBi312hCfVBnXbpr9JnVBjB/AaeUu9xwdISPaKdQoRQba0LJKEHb8pbHcsZIgRuep+Am3H+SnDzmrZLz3E5wx9x0pcdFIrUZVnMKFZF2OxxIjih3+3p7ibqiJteVarH4Obai6AqVIUPZGCZUuQJRlLJgFvjzau4kiDCINxr6cnt/KHczl5BDJPt5UzNQm+79+7/XumL485VoKVo7HVIRkIc/ytGJFMILFbkw1K140Z4X1h+Dl+I4F2hiJKLy/YfVvXuY+ZMXNoZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1MqJbYfyAXF1BIRawIJFHfk096aiIgx6wnrV+28u7CM=;
- b=jLdeOrwHJLUlVVZ7pjk3y7ZO9hQkpnuX1aGBABqF4utxZXH+lMTcio0FqlkxTuIjmvDb3yFEjufls6t1jotGyfoTzej+U5kX2yNyx6qT2nMubM/js7t88IUieo04YTg48V11YqmpR7LxeqI0CfcLoOuIWmPMe14/yy/Y8CBMk6KjBzmYqtgBqUXd3xjHo3KQrnoDmoIZuCzsIuRSXSoqvwYUThC5xT/Vms13+cLBDEWV0fb5nT+4ZC2RludXJvTYxRi9lzLesJDE+PpWRH14RxGK+4mpzSXXYXrr+sNwe0IGC58SmCTUUJcuHWsRq+X480BiNw2/DN7tJF8h9XGHIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1MqJbYfyAXF1BIRawIJFHfk096aiIgx6wnrV+28u7CM=;
- b=MiBIgTKFetkRP1ulho48JDLxR3AIL+zd3YHHQ8oysxc1AcXQBuA/Sw0MnmNaqfDHS2mEjkClMPPr2YP0vAaFj6Oq/NRVxljeBbWFhtak4WCbop+ZBFWcWVOntbPwALo56w6XLci663KpPYSOmerTr4OMGh8eYlbv9yfJjjDGkV0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO7P265MB7480.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:41c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.25; Sun, 22 Mar
- 2026 00:47:26 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Sun, 22 Mar 2026
- 00:47:26 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 22 Mar 2026 00:47:26 +0000
-Message-Id: <DH8WATAVCH33.19JPYBAOILCZE@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/8] rust: dma: add generalized container for types
- other than slices
-From: "Gary Guo" <gary@garyguo.net>
-To: "Aditya Rajan" <adi.dev.github@gmail.com>, "Danilo Krummrich"
- <dakr@kernel.org>, <aliceryhl@google.com>, <acourbot@nvidia.com>,
- <ojeda@kernel.org>, <boqun@kernel.org>, <gary@garyguo.net>,
- <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
- <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>
-X-Mailer: aerc 0.21.0
-References: <20260320194626.36263-1-dakr@kernel.org>
- <20260320194626.36263-3-dakr@kernel.org>
- <DH8UHISTLOA4.934370PUTLB4@gmail.com>
-In-Reply-To: <DH8UHISTLOA4.934370PUTLB4@gmail.com>
-X-ClientProxiedBy: LO2P123CA0092.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::7) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aKdd/bgf"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2c107ef474fso3115750eec.0
+        for <driver-core@lists.linux.dev>; Sat, 21 Mar 2026 23:24:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774160650; x=1774765450; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d/1klNg2aFhsp6OGvAAoWYikrcXambFiOwbGCQtt8hg=;
+        b=aKdd/bgfctwLQ0Imgx11RKjqcddY8F+x1f76Acphsv8zorCkj2EdQgb8QYDr9O2oD/
+         AtcUXQG8Ry4/+RRvWLeL4kzYraQ6z1wBmL8iadKOsHMDO/CQWQhEoKNVqW1DdF0d44fA
+         9faMPuxUtrxpoACP3KxPOB+hSfiGd3xOsYPay+BJKYgC2ObLt5pc/WNrnE1nbgjPVXAu
+         sx/N6d/GhmHcSlHggcklWr44Yf6WcrF6xfGfm0CTZX6vC/P1pxO+/UPoX+yHioq5ZZZg
+         +o0CSkBK+tclRQJWSmAvKhHth9oQxJNNpy2JyJlcwv8cswHH0zKuDWLL1CRXLNF0WxxI
+         /U+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774160650; x=1774765450;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=d/1klNg2aFhsp6OGvAAoWYikrcXambFiOwbGCQtt8hg=;
+        b=puh6jRyIUEH8ef0LPCEXOe27O9C8meCL7tQj8Dd5X8noXt5qJRxjk88zHuE1Yjf4/Z
+         w7yzwblGZl/TsUyIB0cS+mNAp5l+7UJ3wZvu5VyZ5mg0q/v5bROwDlaSq+ECGt1lTRQb
+         qyqNVnA8taxmoCqsN7x94miJrr08rh9MBuTO1vasST166LFjzFt90Hi8E0iTrUIr36r3
+         kCjhKJlViAA2hFreCx34byjxacjXeJoSH/5rbB/gCTBms9wwWBZcDAXY3+LmpSDRTmFS
+         FX7wHYpU9SZ75qEMMproFee7VTITu7lPDJEyi5aeGuYnSinSS6qW7G7Q+/CX8q5ND7Ii
+         1ZQg==
+X-Gm-Message-State: AOJu0YxEnxqIEYj6Xj5ESYbKEqFw/awsakjZFKprKGwxdduwSYahYsqf
+	x0EmALBqLGWnZLFanJBqrAbwC9Rj2NU74Wf9Bp7VS4/+xS7VqxgXoh5d
+X-Gm-Gg: ATEYQzyQyNOCdRJnI2BzYJXYG/OxawYrUkCfSDxdNEEH4qLr4LWsIt3j0gO2mMGDDCo
+	w1SJXPdbC/8DhyCjf+uVT/mjjQpVVnbylPze8rm8Ga1NBXMVh06CeyLIjM5CMIAzDx4ArGY7Dz5
+	VMpQejUJz8LFXEmMHNxIlqWdGXqocgjigG9dgb3jH+YYOyVL086FwHJ+dO+G1Q4BT9HMVLwc5W7
+	l9qOqKQh6UVceNoqT8YfwBpzO6KX2hmzwBTGl20TSKANxCFS3u0enaNb42eE/ULV8BV4ILkhDKe
+	0rFoxYnVEaXZrGUGyGRxhF2+imws8++rnYvXlC2TbmU7XXvJYV6kKMWPdOWqGRBQki/aBmqRGzt
+	Imns3//7nROXD8LCN6Tx0m4R8kjN/kOSREqFjBOSGBCSoWh901y9OQQHmheuU9q3Eoe1TGLF2DX
+	w7lq+FL/kCsDFvA625ZgBdF7zETj3rx5+808ak6O6RmioA
+X-Received: by 2002:a05:7300:e785:b0:2be:2f58:2ef5 with SMTP id 5a478bee46e88-2c1095d7861mr4599770eec.1.1774160649552;
+        Sat, 21 Mar 2026 23:24:09 -0700 (PDT)
+Received: from localhost ([2603:8000:bb00:9b3f::18f6])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b3253d0sm9235890eec.29.2026.03.21.23.24.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Mar 2026 23:24:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO7P265MB7480:EE_
-X-MS-Office365-Filtering-Correlation-Id: 587ba811-090e-4e68-a5bb-08de87ac96ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|10070799003|1800799024|366016|921020|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	DZsWP3+/z1NeBV6XW1rWeErxjjOboFtTe1yQ49257QJEkqJNyCNAuCj9DjvvCgfsXtJOJa+d3btUP+C8ZUc4fs4xbtJIKdl+mU/pRskEst3tfNDQWmkRSeL7BsCk54s2438vLNT9787L+EpbVvlSRv5N4GaBAZsWAsBq5pr0LXEnuCC+gFmptW40foZdVqpf6KTivZeIzAav0rfoD8Lvh/b+MB42q08pMnE7O0Cg/0gm9w4QMekMm0bSxoGwgKXOMoRhZi50OQSEhRqoIUdYznDcRLgS60Ql6p8QgKI/mhwwhcvXGYvWa6Ws1tNrTVRwulx/KfaiSxIz1W7zjAyZvVvIJxCc/mUXFuAiDgJsq4w4BGjOfoK8wbgOkb5dutPgkQeOvhjdiTh43siXDeDKd2liNCK4/FATX3JFZHSY8Q3us/cc/pzu/5zTFLTH1z760X8GYZVIeyLBtExgQpsK8TjTSt/YU96iPyUgtGV+aVWx/qpcqR2zLIaDbu0DaV+TqJV2977qcRb06QTSk6swUvxkQUYBpKnBEHjWgWO3vc/I9XhQlSx1bZT+TS+DAIUie5LzQnOXA/zawlL48iN6tE4aoN/EMIQr8lKSxGK1ICQ8fFMLswvfRrRXOlGN3fqa/W94R5VsuSyy74SvAX3i57gogXCiwcWFhemwJfKg5UhEtqE+/37pgw9mtLrSGraZYtA+L3iRHSTflMAiuWIYLs/rnT3LVC+H9IrPJbmBbAI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(1800799024)(366016)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bm9MQzAzMjFjRE1kWFV5ajR5bnNBSzBFNDFYck1QTmdvN09EcmxXWTVPUklB?=
- =?utf-8?B?TmJPWmxlS25rYkNiOUxRTUVBOVJmWVRhY1RwVUxXeStXVTFUWVRPNldTdlZS?=
- =?utf-8?B?bWtJZUVRWDc2bjNvalE5L201eUVZWlZqaUxoRHNXVnBXY3NRemJ2b1lMSnpX?=
- =?utf-8?B?bld1ZkVkTnVpMzFncnlteFc0RTJvZSt2eWZudnExMWJ3K1J3T2pPRjJoeWpz?=
- =?utf-8?B?cHJ2VzEwYnpZdktDQVJxQThkaU5Yd0lXUWhRM3ZnL3dHd2pNcGF2L3N0cEkv?=
- =?utf-8?B?aE1vSDg0eHBhNWlIQWFLMHR2M1VwVWNHcVFZMk5XajRWYTZBM1JCdHNXaU1I?=
- =?utf-8?B?SHppMWpxbEt1MW85STRmaHJBVHZHVkk1cnkvQ0o5Sk9UMW45SDYrUTdVQ2Ry?=
- =?utf-8?B?VEJWM2xVK2UzT1E5Y2FwT0pmL0UvQjRIV3hrU2x3aTJmc0tLZldnU0pwaDFG?=
- =?utf-8?B?R0QvQksrak8zb0RFejVRVEZUY0dkK2s3YlFtQ080a1BWYTcydE0yY2U1V2lu?=
- =?utf-8?B?UHhsREk1OE5HQXBXalNCV2diME4zMTF1anlRMjQ4U1NGWXQ3ejFHUVZuVlZZ?=
- =?utf-8?B?dE5YQW41K1BmL0RRNUFBWmZTZ01UV2VCWEpTWitpQUhrSG5UdjF3ZGpHd0xx?=
- =?utf-8?B?RnBUSHdtUjVJVW85MUsrUElwbFgzaWkyOExOUzZRUWhReWl2bXJLRXZYenp1?=
- =?utf-8?B?ZTdrZ1l3ZGZKalY1UnZNM2ZuTmlYaWx3MWs5aEZOSGIybDAreStKL1psVnJn?=
- =?utf-8?B?VHVLZGNLaFJuVlZiREd3VGMvbGZBb1VvUzErU3VFeUVtd1FHSERnK2xLc3Rt?=
- =?utf-8?B?ZWdVbzJOMVUrS3N4Um5tU1dybXI4ZzlidFE5bGlvOTRDT0pqTTRjRjBEL2ph?=
- =?utf-8?B?eUhpRDFXaTlhc1pUWTZWbWVRVFBhK1I3ODNoOTJkODlWRjYxNHlraE0zUFVn?=
- =?utf-8?B?bjMzb0RIb21PU1pzYkhOamFEaUVXWWtRRUFTMm5oU3VReDJDQ25kdDg3UjUv?=
- =?utf-8?B?NTFuR3pnaUpNWklkQXk5azdiTHRIL3ptb2xJcTRSUTdKN3l3YVJuYmZsVmM5?=
- =?utf-8?B?MDZyN2NiMlZRMytFTmVQSVphZFdwRENzQjg4YlJNalFZOVdVd2F1Wjd5M1lM?=
- =?utf-8?B?OHRRQndGOEowcTdLVEUrU1hrZ1U5dnU2ZmZNTW9Ib0hOY0w5R3M0eTZ0OHBz?=
- =?utf-8?B?L0o4Sm5aSjVoUUJnbHpJb0NkZSt5NlZLeE1wbHJ1UEczd0ZqbTRBbzZXT1l2?=
- =?utf-8?B?YVZaZ1V5UE9ib2J1aEJoNkdaNTRLcnl3aTBjdVI3cHMvaXp0VE1ZSjMwZzZt?=
- =?utf-8?B?ekp6L2h6Q3BQL2Y2eTNySVdhMVpuVFI4NXIzZTdHYTd5RDIyN25FZk5YcWo3?=
- =?utf-8?B?Ums3aEI3RTBHUzZKcFNHVmkwVEpPbVdvNTkwbGdZKytNYndYMVVmUFN1Rzg4?=
- =?utf-8?B?MFJQSGxiYStvdk9hSktmUmJicUdja1hHWkR6VlMrOHovcTlHdDlQZGlQMHdz?=
- =?utf-8?B?Mk45N09ubzNKbjhmaGJNZ040TkU2OUs4aFlUUkd6YVc4NGdTeWgxNXUrSlBh?=
- =?utf-8?B?Y2Y4ck0zWWpwVURiZTN5Ryt2bHZuQ2E0NVJZU3k0TWFqRkZ1V2dDVkYyeXZG?=
- =?utf-8?B?dTVpbFNpcWcwRGxZWTN4eGpFL1ZYZkRyUit1U1BBbHpSRWlSTkJCL0JncnBV?=
- =?utf-8?B?ZDloU3g5VW8rZUk0N3FOUUdRSk8yM0syME9ybVh6VlhySmpRd0tkbGJxMUdY?=
- =?utf-8?B?M0k5VmdlT2FKQ1Y4TEJlbkVSeW5LU2FhVkJhWEhhOHZhUytDZnExZ0ZKd2ZN?=
- =?utf-8?B?MGt6bGdPWlN1OWMvT3R5YkY0Uy80Sm1kUW1tcUFQOFdvMG93eWlCd1pxRnJR?=
- =?utf-8?B?a3gvTjlxNzlaZGwyeVNFeVJCMlVmUFU1eCtmVStSNXBwUFJBWU5hNitmQXk1?=
- =?utf-8?B?NGh6a1FhNzlnUDdIRUp3cGZDdWF3ck05NVVXN1JrN2ZRbW1XYnhBeWdBWHk0?=
- =?utf-8?B?ZGp0VWJXaTdxNFZMMlZhQ0lhL2YvZlh1TXk3Mk1JV3E5SGJLRUZINTVBTGVC?=
- =?utf-8?B?RDZLdVZSY2lEUXQvQUh5bFBvUWFSUjBzYnhKVEpqdEpwbU9rbEdFbFp5MXZU?=
- =?utf-8?B?cmdwSk9INmI0RU1Ca0QzTHJiWmtvRFJqZDVLWkdKTlUvSGRZT2djb3BsbUc2?=
- =?utf-8?B?VWtqeThRN0xCbkEvQVpGWUVlaStRenVJaFIwWmtXSU8wT1JTbzdxV3pQSHdk?=
- =?utf-8?B?VzNwTGk5OGR1T3gyR2lGRVBrSVUwUHhualVUTVlxSjNGYWpVSmRReUZ1aTcx?=
- =?utf-8?B?N3pENGFITHBSOXZLVWY2SmR3bCtjTGcrQ1NMZktjZXpPNW9Xd0lyUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 587ba811-090e-4e68-a5bb-08de87ac96ac
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2026 00:47:26.6184
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xEfxsxFhBLD8Sb9MdsLXHxXjw9y0jt6KnlYGmTV+jFKr4awwAtYGYRlSWOWW50zaO1JenOJVVMKzaOB3xgL0cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7480
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Mar 2026 23:24:05 -0700
+Message-Id: <DH93GL0U3NZO.3STS474THERXH@gmail.com>
+From: "Aditya Rajan" <adi.dev.github@gmail.com>
+To: "Gary Guo" <gary@garyguo.net>, "Aditya Rajan"
+ <adi.dev.github@gmail.com>, "Danilo Krummrich" <dakr@kernel.org>,
+ <aliceryhl@google.com>, <acourbot@nvidia.com>, <ojeda@kernel.org>,
+ <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>
+Cc: <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/8] rust: dma: add generalized container for types
+ other than slices
+X-Mailer: aerc 0.21.0
+References: <20260320194626.36263-1-dakr@kernel.org>
+ <20260320194626.36263-3-dakr@kernel.org>
+ <DH8UHISTLOA4.934370PUTLB4@gmail.com>
+ <DH8WATAVCH33.19JPYBAOILCZE@garyguo.net>
+In-Reply-To: <DH8WATAVCH33.19JPYBAOILCZE@garyguo.net>
 
-On Sat Mar 21, 2026 at 11:22 PM GMT, Aditya Rajan wrote:
-> On Fri Mar 20, 2026 at 12:45 PM PDT, Danilo Krummrich wrote:
->> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
->> index 2eea7e2f8f04..ff3e147f1a23 100644
->> --- a/rust/kernel/dma.rs
->> +++ b/rust/kernel/dma.rs
->> +impl<T> Coherent<[T]> {
->>      /// Returns the number of elements `T` in this allocation.
->>      ///
->>      /// Note that this is not the size of the allocation in bytes, whic=
-h is provided by
->>      /// [`Self::size`].
->> -    pub fn count(&self) -> usize {
->> -        self.count
-> There is still a mention of `self.count` in the safety comments; perhaps =
-that should be changed to `self.len()` ?
-> For example, see the safety comments in the following functions: `as_slic=
-e`, `as_slice_mut`, and `write` in same file.
-
-They're going to be removed later, see https://lore.kernel.org/rust-for-lin=
-ux/DH87CCNRR5EC.2SK3IT6N6Q8V5@nvidia.com/T/#m30142b65bb87af64860838565c784c=
-304e02b563
-
-Best,
-Gary
+On Sat Mar 21, 2026 at 5:47 PM PDT, Gary Guo wrote:
+> They're going to be removed later, see https://lore.kernel.org/rust-for-l=
+inux/DH87CCNRR5EC.2SK3IT6N6Q8V5@nvidia.com/T/#m30142b65bb87af64860838565c78=
+4c304e02b563
+Got it ! Patch LGTM !
