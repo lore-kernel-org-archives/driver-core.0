@@ -1,333 +1,185 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5073B2FD2;
-	Mon, 23 Mar 2026 14:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437D83AF663;
+	Mon, 23 Mar 2026 14:45:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774276788; cv=none; b=NpfnnAACSOLtjf/Pl5HcAdBoqvHXC5SUcEngZO8LhH5OdMzWXEebDPkapYMmPKJgMAq2ZYw5vcg7RDN21RP742ptbYtIBW18QCTbDxR44Q8BgVtIv61Hi4BvSWlMSwty/y4VkIdC+yanvdqdBK0L/B7jWjrA/jexE0gIQxjd98A=
+	t=1774277104; cv=none; b=ujjJSD3ZJ+6mB2s/TfhjkV+lLNUPqSu7wCr+/xa2VypPVKpK237xeOQWzkG5HXgdZlRTekH7Zm7U6wPa/SfEBE8bTBBhHlXxIRRnGHkjxFB6jkkEWQ5N1E276+fsfWpoBMo5R00Eh6iQwnbPEVe94IpgtzVigy6YLmJ0Z0mIs9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774276788; c=relaxed/simple;
-	bh=n5PwD28reFcmNKZbHa+WcDYNkJJFYigMLc9GUuNvQoo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LDOSzbRgnmA2O7KyF1/vnsINQadHOx7EJqjt1n7WC7gaGhhFPix2sO58DZV7zQkJJMnwKkSdbj9xEKyT1y4LpgSEU4KSTql1g+aLUHpkEgF98ArFeNogz3HvTH3gngWJxlT3VeabLmULFOq5ETkIN44tnEgyK61ESXMjjDKrIH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHdi+yDP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774277104; c=relaxed/simple;
+	bh=mJSZMwarIHlQUOiJdUZbpPJelkhY+uQ76WW2nt/Aol8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JQodQwBPmccccPWoBtODzB++rhvkgeOu7PrMDmrpol5cNX3rdISYDLNbZsysRAS2QwNfMY546wJbUScLPFLabppa9EO3FmXS8UJLaIwXcKZOG6X0arUpYlpMa3qeqnZI4xMuAtpcUvtNjphAFpECA028FHhL3dnagpnx5DBZqHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LgbY1zWZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHdi+yDP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11551C2BCB3;
-	Mon, 23 Mar 2026 14:39:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LgbY1zWZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29741C2BC9E;
+	Mon, 23 Mar 2026 14:45:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774276788;
-	bh=n5PwD28reFcmNKZbHa+WcDYNkJJFYigMLc9GUuNvQoo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KHdi+yDPZPtjtdi0FXUi5t8TmmndezAl94iseM5S9KbjW+5zaxuX4iLc/yHhkYe3c
-	 he4h7LoOCv+2R1spJTagYTzgitExfSTFTrereoeWQudGbHiMW5WhRnYIh4qP5frc5T
-	 QP/aUmEZ0dCbbhhZFvhXR6/n1ZxW2/G8NDzrQ/4s6p+cwx5kJGlPXfAkkft350BfJd
-	 A8lKftExnUJzUX18h+D6TWjLC6/DHvGApiM9UTbEAcGxP6VBCtOMze6IAWFM13g03W
-	 InXocLrRDfHxQkiKTKxy6Y7tK617gAgAifIN9j+9LhPRh/ETSNSOJR7vfaOlU46FIn
-	 H16IRNlDnE8MA==
+	s=k20201202; t=1774277104;
+	bh=mJSZMwarIHlQUOiJdUZbpPJelkhY+uQ76WW2nt/Aol8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=LgbY1zWZLD37KMkixoMfyiuWkIZbFE95AdDcqUhAfT51rJsMbHOTinsNx5eLPp6Ys
+	 JJ+GYIDEqBMO/hig1WujlNJOsWlrs2gcmgo5zRXW3Iwxql123fLzrxqJOeGXAcbZk1
+	 jWiZ/Pei3N2c/1PQ+Ss2PMJf3uBsIN422FqdVTmWmn6u4RJh+Me1FxiXnh4ueqg2W/
+	 N9mAN/uz3K8iwvPNSC8pgkG5xKpc+87pImCeOVlFjGjZynRSTDdHDjj83rHv6QXTOY
+	 PR73bzpcB8HNbXi9ZmyaCwXCaaqolYVRc5zi7n3+cUS/GXgDryhHqIHuVZv5J5DpN9
+	 6x6GcXNMLeVMA==
+Message-ID: <ab54ccd1948046e67bb60aec9c9bd0c988d11b36.camel@kernel.org>
+Subject: Re: [PATCH v5 0/2] firmware_loader: allow firmware_class.path to
+ take multiple paths
 From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 23 Mar 2026 10:39:31 -0400
-Subject: [PATCH v5 2/2] selftests/firmware: add search path test for
- firmware_class.search=
+To: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
+ <russ.weight@linux.dev>,  Danilo Krummrich	 <dakr@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: Michal Grzedzicki <mge@meta.com>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Date: Mon, 23 Mar 2026 10:45:00 -0400
+In-Reply-To: <20260323-fw-path-v5-0-e88b2fe145f3@kernel.org>
+References: <20260323-fw-path-v5-0-e88b2fe145f3@kernel.org>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260323-fw-path-v5-2-e88b2fe145f3@kernel.org>
-References: <20260323-fw-path-v5-0-e88b2fe145f3@kernel.org>
-In-Reply-To: <20260323-fw-path-v5-0-e88b2fe145f3@kernel.org>
-To: Luis Chamberlain <mcgrof@kernel.org>, 
- Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: Michal Grzedzicki <mge@meta.com>, driver-core@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8673; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=n5PwD28reFcmNKZbHa+WcDYNkJJFYigMLc9GUuNvQoo=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpwVCw0z/5NmzSwuIaro5cjgT/gp3IrKZovUXg2
- KuWBdfCRX+JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCacFQsAAKCRAADmhBGVaC
- FbzqD/wIzKybdMPw/v1PTnI5rKcO+zEn60Hu5dJW2WpTGvULkVh3UVjPlW5PCDjxLlCRgjSNuWb
- F4rQ9NsVJIOOJ0HkxY8apCJnrctDhaOG1VVUqbxCc5u/JSYRZ/gBY8QjOQhf13wQAnLLRVCwl2Y
- gFxZvO6ZDxx3sv0HYaa4skQs+gd0+mRUoX8J8/ADvN11U23D7zszdJVD5O3vOBG5KG1Led7qX3k
- zgOwHD6eWRnadGp7KmQyVImZnRelLLc5M5bWVAMDvrN30xeq02UYEcM+phiVkc6yhZkqZRNpode
- KfZAsL6DOzCbAlmt5cyiV7cSqcKM4+3eB7n2LcK6i46C7uv3bL0vpS9pEm1KCnXtxjbvzpao6Se
- SedM5oNmmQzk2MNaTpNa5+6TeOnHlai68Hh1JFgRHI94Ui/qZWC22hvGwFMBUmOyH7AWS3UgMGZ
- SqEfjgVEIXD1ergrZVJ2qEWGwzAheVH0ZnYfYo/JnauQD76mMrqEfjYM1NK+/cnExP4B+CBICKM
- IvhaJ3LqDwFIb8W+RlieMG9GPc1JlmPhuFkJsPMSoZVCbBMbJM+cRQUgHv3frd2S93MeM4oOuVC
- cCg0CBAO/evHd7q8FQWjUDEGT+b+L1+x6wbhdMFcqVvp4HeYmmwElNiWWYOWOy5CJ6bV+OszhLh
- pfpBLu7AJ8l1vGQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-Add fw_search.sh, a new selftest that validates the firmware_class.search=
-module parameter using the existing test_firmware module's sysfs trigger
-interface.
+Erm, obviously I forgot to update the subject line on the b4 cover
+letter. Just pretend it says:
 
-The test covers:
-  - Firmware found in first/second/third search directory
-  - Firmware not found in any search path
-  - path= takes priority over search=
-  - Empty search= does not break firmware loading
-  - Sysfs readback matches what was written
-  - Escaped colon (\:) in directory name
-  - Escaped backslash (\\) in directory name
-  - Escaped colon combined with multiple search paths
+    "firmware_loader: add search=3D module option for multi-path firmware
+lookup"
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- tools/testing/selftests/firmware/Makefile     |   2 +-
- tools/testing/selftests/firmware/fw_search.sh | 222 ++++++++++++++++++++++++++
- 2 files changed, 223 insertions(+), 1 deletion(-)
+Thanks,
+Jeff
 
-diff --git a/tools/testing/selftests/firmware/Makefile b/tools/testing/selftests/firmware/Makefile
-index 7992969deaa2737ff2a033ffe60136b84ea2f3f0..42e5bd72886b3cd8f62ae42d53c1554e8a1b331c 100644
---- a/tools/testing/selftests/firmware/Makefile
-+++ b/tools/testing/selftests/firmware/Makefile
-@@ -3,7 +3,7 @@
- CFLAGS = -Wall \
-          -O2
- 
--TEST_PROGS := fw_run_tests.sh
-+TEST_PROGS := fw_run_tests.sh fw_search.sh
- TEST_FILES := fw_fallback.sh fw_filesystem.sh fw_upload.sh fw_lib.sh
- TEST_GEN_FILES := fw_namespace
- 
-diff --git a/tools/testing/selftests/firmware/fw_search.sh b/tools/testing/selftests/firmware/fw_search.sh
-new file mode 100755
-index 0000000000000000000000000000000000000000..ec6873e54a4cc381771311be11203083b2531bf6
---- /dev/null
-+++ b/tools/testing/selftests/firmware/fw_search.sh
-@@ -0,0 +1,222 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Test the firmware_class.search= module parameter, which allows
-+# specifying multiple colon-separated firmware search directories.
+On Mon, 2026-03-23 at 10:39 -0400, Jeff Layton wrote:
+> This is something Michal had asked for last year, and I just got around
+> to implementing. This version also adds some selftests for this
+> functionality.
+>=20
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> Changes in v5:
+> - Increase search=3D string length from 256 to 4096
+> - Preprocess search=3D path when it's set rather than on every firmware l=
+oad
+> - Add selftests for search=3D functionality
+> - Link to v4: https://lore.kernel.org/r/20260320-fw-path-v4-1-7547e2f0dc6=
+4@kernel.org
+>=20
+> Changes in v4:
+> - Move search path to new search=3D option that is tried after path=3D
+> - Link to v3: https://lore.kernel.org/r/20260318-fw-path-v3-1-a701a08bc02=
+5@kernel.org
+>=20
+> Changes in v3:
+> - Allow '\' to escape a literal ':' or '\' in the string
+> - Link to v2: https://lore.kernel.org/r/20260318-fw-path-v2-1-8a106eb91eb=
+4@kernel.org
+>=20
+> Changes in v2:
+> - switch to using ':' as path delimiter
+> - Link to v1: https://lore.kernel.org/r/20260318-fw-path-v1-1-7884d9bf618=
+f@kernel.org
+>=20
+> ---
+> Jeff Layton (2):
+>       firmware_loader: add search=3D module option for multi-path firmwar=
+e lookup
+>       selftests/firmware: add search path test for firmware_class.search=
+=3D
+>=20
+>  drivers/base/firmware_loader/main.c           | 273 +++++++++++++++++++-=
+------
+>  tools/testing/selftests/firmware/Makefile     |   2 +-
+>  tools/testing/selftests/firmware/fw_search.sh | 222 ++++++++++++++++++++=
 +
-+set -e
-+
-+TEST_REQS_FW_SYSFS_FALLBACK="no"
-+TEST_REQS_FW_SET_CUSTOM_PATH="no"
-+TEST_DIR=$(dirname $0)
-+source $TEST_DIR/fw_lib.sh
-+
-+# Kselftest framework requirement - SKIP code is 4.
-+ksft_skip=4
-+
-+SEARCH_SYSFS="/sys/module/firmware_class/parameters/search"
-+PATH_SYSFS="/sys/module/firmware_class/parameters/path"
-+
-+check_mods
-+check_setup
-+verify_reqs
-+
-+if [ ! -f "$SEARCH_SYSFS" ]; then
-+	echo "$0: search= parameter not available, skipping"
-+	exit $ksft_skip
-+fi
-+
-+# Save original values
-+OLD_SEARCH="$(cat $SEARCH_SYSFS)"
-+OLD_PATH="$(cat $PATH_SYSFS)"
-+
-+# Create temp directories for firmware
-+FWDIR1=$(mktemp -d)
-+FWDIR2=$(mktemp -d)
-+FWDIR3=$(mktemp -d)
-+
-+FW_NAME="test-search-fw.bin"
-+FW_CONTENT1="SEARCH_PATH_1"
-+FW_CONTENT2="SEARCH_PATH_2"
-+FW_CONTENT3="SEARCH_PATH_3"
-+
-+DIR=/sys/devices/virtual/misc/test_firmware
-+
-+cleanup()
-+{
-+	# Restore original values
-+	if [ "$OLD_PATH" = "" ]; then
-+		printf '\000' >$PATH_SYSFS
-+	else
-+		echo -n "$OLD_PATH" >$PATH_SYSFS
-+	fi
-+	if [ "$OLD_SEARCH" = "" ]; then
-+		printf '\000' >$SEARCH_SYSFS
-+	else
-+		echo -n "$OLD_SEARCH" >$SEARCH_SYSFS
-+	fi
-+	rm -rf "$FWDIR1" "$FWDIR2" "$FWDIR3"
-+}
-+trap cleanup EXIT
-+
-+# Clear path= so search= is consulted
-+printf '\000' >$PATH_SYSFS
-+
-+# Test 1: firmware found in first search path
-+echo -n "$FW_CONTENT1" >"$FWDIR1/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 1" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR1/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 1" >&2
-+	exit 1
-+fi
-+echo "$0: search path - first directory: OK"
-+
-+# Test 2: firmware found in second search path (not in first)
-+rm -f "$FWDIR1/$FW_NAME"
-+echo -n "$FW_CONTENT2" >"$FWDIR2/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 2" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR2/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 2" >&2
-+	exit 1
-+fi
-+echo "$0: search path - second directory: OK"
-+
-+# Test 3: firmware not found in any search path
-+rm -f "$FWDIR2/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2" >$SEARCH_SYSFS
-+
-+if echo -n "nonexistent-$FW_NAME" >$DIR/trigger_request 2>/dev/null; then
-+	echo "$0: FAIL - firmware should not have been found in test 3" >&2
-+	exit 1
-+fi
-+echo "$0: search path - not found: OK"
-+
-+# Test 4: path= takes priority over search=
-+echo -n "$FW_CONTENT1" >"$FWDIR1/$FW_NAME"
-+echo -n "$FW_CONTENT2" >"$FWDIR2/$FW_NAME"
-+echo -n "$FWDIR1" >$PATH_SYSFS
-+echo -n "$FWDIR2" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 4" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR1/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - path= should take priority over search= in test 4" >&2
-+	exit 1
-+fi
-+echo "$0: search path - path= priority over search=: OK"
-+
-+# Clear path= again for remaining tests
-+printf '\000' >$PATH_SYSFS
-+
-+# Test 5: three search paths, firmware in third
-+rm -f "$FWDIR1/$FW_NAME" "$FWDIR2/$FW_NAME"
-+echo -n "$FW_CONTENT3" >"$FWDIR3/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2:$FWDIR3" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 5" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR3/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 5" >&2
-+	exit 1
-+fi
-+echo "$0: search path - third directory: OK"
-+
-+# Test 6: empty search= should not break anything
-+rm -f "$FWDIR3/$FW_NAME"
-+printf '\000' >$SEARCH_SYSFS
-+
-+if echo -n "nonexistent-$FW_NAME" >$DIR/trigger_request 2>/dev/null; then
-+	echo "$0: FAIL - empty search= should not find firmware" >&2
-+	exit 1
-+fi
-+echo "$0: search path - empty search=: OK"
-+
-+# Test 7: verify sysfs readback matches what was written
-+echo -n "$FWDIR1:$FWDIR2:$FWDIR3" >$SEARCH_SYSFS
-+READBACK="$(cat $SEARCH_SYSFS)"
-+EXPECTED="$FWDIR1:$FWDIR2:$FWDIR3"
-+if [ "$READBACK" != "$EXPECTED" ]; then
-+	echo "$0: FAIL - sysfs readback mismatch: '$READBACK' != '$EXPECTED'" >&2
-+	exit 1
-+fi
-+echo "$0: search path - sysfs readback: OK"
-+
-+# Test 8: escaped colon in directory name (\: -> literal ':')
-+FWDIR_COLON=$(mktemp -d)/fw:dir
-+mkdir -p "$FWDIR_COLON"
-+echo -n "$FW_CONTENT1" >"$FWDIR_COLON/$FW_NAME"
-+# Write the path with the colon escaped as \:
-+ESCAPED_COLON="${FWDIR_COLON//:/\\:}"
-+echo -n "$ESCAPED_COLON" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 8" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON")"
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR_COLON/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 8" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON")"
-+	exit 1
-+fi
-+rm -rf "$(dirname "$FWDIR_COLON")"
-+echo "$0: search path - escaped colon in directory: OK"
-+
-+# Test 9: escaped backslash in directory name (\\ -> literal '\')
-+FWDIR_BS=$(mktemp -d)/fw\\dir
-+mkdir -p "$FWDIR_BS"
-+echo -n "$FW_CONTENT2" >"$FWDIR_BS/$FW_NAME"
-+# Write the path with backslashes escaped as \\
-+ESCAPED_BS="${FWDIR_BS//\\/\\\\}"
-+echo -n "$ESCAPED_BS" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 9" >&2
-+	rm -rf "$(dirname "$FWDIR_BS")"
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR_BS/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 9" >&2
-+	rm -rf "$(dirname "$FWDIR_BS")"
-+	exit 1
-+fi
-+rm -rf "$(dirname "$FWDIR_BS")"
-+echo "$0: search path - escaped backslash in directory: OK"
-+
-+# Test 10: escaped colon with multiple search paths
-+FWDIR_COLON2=$(mktemp -d)/has:colon
-+mkdir -p "$FWDIR_COLON2"
-+echo -n "$FW_CONTENT3" >"$FWDIR_COLON2/$FW_NAME"
-+ESCAPED_COLON2="${FWDIR_COLON2//:/\\:}"
-+# First path is normal (no firmware), second has escaped colon (has firmware)
-+echo -n "$FWDIR1:$ESCAPED_COLON2" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 10" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON2")"
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR_COLON2/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 10" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON2")"
-+	exit 1
-+fi
-+rm -rf "$(dirname "$FWDIR_COLON2")"
-+echo "$0: search path - escaped colon with multiple paths: OK"
-+
-+echo "$0: all search path tests passed"
-+exit 0
+>  3 files changed, 420 insertions(+), 77 deletions(-)
+> ---
+> base-commit: c369299895a591d96745d6492d4888259b004a9e
+> change-id: 20260317-fw-path-a094c30259a5
+>=20
+> Best regards,
 
--- 
-2.53.0
-
+--=20
+Jeff Layton <jlayton@kernel.org>
