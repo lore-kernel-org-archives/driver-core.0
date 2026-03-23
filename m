@@ -1,358 +1,242 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011029.outbound.protection.outlook.com [52.101.52.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336B43B4EB7
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 14:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774274841; cv=none; b=UTVj7MamMt8csiPfDCbhvTPLwO7Tem/N3ForRwUCe8Tz5Yu7sh3r9a6Jz0pHKHmUJIqm+OzL86LcjYpy4GgBo4HbonIgCNBFxMZm3u5Ba99KoBS2qjJNX6FeWfHOa8GaelYcWxOoRiSKjQNVxe2K1p/Fq7QwRTv/RTBNC/SuRGU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774274841; c=relaxed/simple;
-	bh=+hOefeJCWgR/U+foUT9+hsW2imWT1SNNShlzGWxMfH4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SSv/jM7XwOOUmsO+G0Nx5TOlY3ZuKxTbEN695c6TG//gfqwuR0EHQ1sovME7O8kdPmKRiyJuoaqZK7XIoz3VCgU2obdkPckg6+c7u67KbLzGmz2ncQhH8lEKCjkMlS1BpILY3bq6TbSziXiTOpf70Yfz/2ecacPonfuNUlIui8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WP3zBSkJ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7318399004
+	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 14:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.29
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774276440; cv=fail; b=c28CoZZmegEhxXiLk/dtqLvzvnXQFuS6GFOfDOiZrW2yj2NHM3Kq79MKXG6dOczUmFoeSoasbs/AadL/WLBBM4T5Ftg7U5E1pe16hhpC2PWs20EgBp3blxl8xL6cX8x5Lx/cibWTMXTvm4TO6bdBKuOZ4A1xu0I7jLZ+dCjrsKE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774276440; c=relaxed/simple;
+	bh=JjWqscpzs8UK5KKZAz0LDfpg3WQjdmR7mFIM6/6lF0s=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=hzn+MzbnebdXjtSiKuFwhcD7kniTLYbJ0w+EVYHmZ2lLAHRJNTjFh8ARslvYPoZSRx59MTD7bID4QkJ4SgEOG/8FSR0GEkNERKHiX41BCbIWUhpCL8l1qAtzqrE6ISNOdlRf3oEEMtmFgCrHuABLlL3K0h3IuzsNl4XzX+NbImA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GUrY2EXz; arc=fail smtp.client-ip=52.101.52.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WP3zBSkJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774274839;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UEFtNkvxGGVpP1A5Fdy0Wlxh3FGV7miNzvBe6PrAo68=;
-	b=WP3zBSkJU1gJbhwp6xRDWjRhG/DaD7F9ud4ifeKSKREAht94X5oYbheTcOeuhC/Cr/VqQh
-	gMZAKRJxJoNp8ETg0ZI2emAe1Rd5I4t84CntHKDM6B2JEh6MDqP2efOebqE7r2aJtqBaxX
-	mqZAURKO1SUeOU9zlGf8LtmcLg/Oi+w=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-156-6hFmEMFnOi-7dbWXz2_x_w-1; Mon, 23 Mar 2026 10:07:16 -0400
-X-MC-Unique: 6hFmEMFnOi-7dbWXz2_x_w-1
-X-Mimecast-MFC-AGG-ID: 6hFmEMFnOi-7dbWXz2_x_w_1774274834
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-38c22faefe4so888651fa.2
-        for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 07:07:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774274834; x=1774879634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UEFtNkvxGGVpP1A5Fdy0Wlxh3FGV7miNzvBe6PrAo68=;
-        b=Fe1WbZzcBgyM31tgRPfuP5Mexf3blHkCSKUIIUzrIDZ3ABoZmgIsl4t91WE/9W6B/h
-         CE3m0oMBBZSIfJ7Mrd98XT1zHgPE6RXyBemb71G+7lXYNDrF1nU0aQ/GXtLBbWFFgmUY
-         /WI/BRyt5rKEHm+/htiM8WPfTOwDNvA4n668y4OS2TI4lmXmgZKPD452JS0YKg0hFLan
-         ehE50+BT9F48R2NG7XAEK/ptJ5UhFdTAad9zKnv5/TtlIuAzMLM4FC+WiLus81eVhmpV
-         GaiPee7vpEWZiKj+5jBXb4eMGbCdpJgBuBfFzYAOCPfJ0Q7PGBR1hC2pib6ZwZDD4H3E
-         0jcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUU1wEfnG+EHNvLDTvh8ItscMaBtKFbeSN6i3Kt4kgA0/8OVqTB8UJHhK8bjUp7rMPlDI/6UtRvIHJLxw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVWSkrATIqNDhPw+f+MXWitkgm9jMM5IkQVkL/5XjafUPzolOt
-	RF8lJ/+8tGv+omkA0Xs8K06AY0ElqTMEnAB1m4PySZsGtAn/FAzHFRcovlOYoS3d2EzecTkCnsM
-	ZqzAyFmoG9Cz6CUZ27vDI9bqcFn1eye/QVm3CMUkIrTDS9n0otH34Fxcr2ajejq+u6bB11DVHWF
-	pfUQrXwZKo/f7Jt0CdupO1LFYAYOlctS/xSwxCSSI=
-X-Gm-Gg: ATEYQzySKX+33B5R7Yht1KjyjbLKms+uO+69ysV25py+5mdaLGHiIkZYCVEUZYksBMz
-	uqOANaOGqKqEZvL6sUAtaVpyVy1MNgL/zV5j5L+E6H9QdpSpH+kS1NI8+3GVoxR0/YacB0VxTrD
-	eBbmNCjESMB9rwAg+pyc7dXWJxQaG4ZskuOkGqzT0GYNF4RooSdaaNKdQaU8IbhBA51zFJm6Bic
-	qK9
-X-Received: by 2002:a2e:8a96:0:b0:385:f547:1842 with SMTP id 38308e7fff4ca-38bf973a260mr42601111fa.30.1774274834254;
-        Mon, 23 Mar 2026 07:07:14 -0700 (PDT)
-X-Received: by 2002:a2e:8a96:0:b0:385:f547:1842 with SMTP id
- 38308e7fff4ca-38bf973a260mr42600771fa.30.1774274833522; Mon, 23 Mar 2026
- 07:07:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GUrY2EXz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sNGDaioYo91uRpNYIlhwBXKVVRTve9IjPTnj6TkZp97b3HYbmEcUqe3J6iYMiIqr4XfihoB2FLYo1hYWCqTUntmss5o37hWpqGVnXTLFgjTdqLuIZgm4N/IVrxmojpxgI4CmeCMWlU3mnrjybCX/hhlxCFib1Vt6+zuNhh3yF14DRatT2o8/iM94OJsIsrmDOntH9GLgHkcXqfsCUiSGl6qmrqGmBIcs+tN6w19bjf1GtiEHql29fCbIiqfwgvYuu6WbPQEviCiMm6XLQQLu5HyO7NjfcCk+2WTl7pyREMPjjtluZHeKe/sd0ZISBrDwXspyg7zeuSan1MJYEZE6BA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K8dhLBXapMuG/gyUqIVB9QMD2V2hjPUnSJScMTY1ACo=;
+ b=uFNk2A3I2ThGdez7zYbU0Lp2gyOsnZIziWbuxA6ABdb77VKmeyCoX+iYNiO8znP18ntABSetLI980o7m6NIMJzc4d1kJe/TlV3EIhbLoP9NRpTL/vxXtHQVCt9HUJJWzd7V9TRexEhk3bHopEgpWi18mdrxSAfI82mubXbLxpTb/h+daQutWjGoT8A3pvYbTUopuTSAbwudXARPRdgU6qUw+O2+cqQV0qzO2SUDDtRLv5RnfnAcL6Eb1DQTEz0EG8B8iB27IemiY9380al3BAwAhnRYyfDGjvNpy43SvQZ7pfwKaocL5WA3ms+/ur69/0qTYTCoanaiWhZQjDRoeIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K8dhLBXapMuG/gyUqIVB9QMD2V2hjPUnSJScMTY1ACo=;
+ b=GUrY2EXzFC7JmwV9wsem+v8Wtriu7u4bkpCcF/rF1M1e9u1eObCdTIpbTYflvabxAX3UofSxMLY9Z1IeYqw7ZJzjI6fgemam/krA/GMwzKRIkHYiYB9XhZdoDDWBpKfl3UkPT0py/kNbhqp2A1uHd1QwT4DlT1PINOGxc7nfJAoqd91YmWfAFCWLncKNWQLjW8a4Z8hr4KIrS09jh7OD2lVnL0dXxyjh6IJI77gvloHcr21KNjpNTYgcyYDk3Gg6s6l3+95ULJU2lo6p3nyBO1fCMihZZBZA1oK1r00T1rzEb5kYKxNWJKSOeqHZVG3isrnNeFJR3Qyli+0cSAKK6A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SA1PR12MB6847.namprd12.prod.outlook.com (2603:10b6:806:25e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Mon, 23 Mar
+ 2026 14:33:52 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9745.007; Mon, 23 Mar 2026
+ 14:33:52 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 23 Mar 2026 23:33:48 +0900
+Message-Id: <DHA8I2L0GJXM.3JFJQSOG3HP3D@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
+ <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
+ <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/7] gpu: nova-core: firmware: riscv: use dma::Coherent
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+References: <20260321-b4-nova-dma-removal-v1-0-5cf18a75ff64@nvidia.com>
+ <20260321-b4-nova-dma-removal-v1-2-5cf18a75ff64@nvidia.com>
+ <DH8JS2ASDOWQ.2VMYT7989OGXQ@garyguo.net>
+ <DH9XWWNM1GY4.1W6N89W6UCYDW@nvidia.com>
+ <DHA6MEL4AXAQ.3ICB81V0D9FNX@garyguo.net>
+In-Reply-To: <DHA6MEL4AXAQ.3ICB81V0D9FNX@garyguo.net>
+X-ClientProxiedBy: TYCPR01CA0113.jpnprd01.prod.outlook.com
+ (2603:1096:405:4::29) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260319141142.5781-1-djeffery@redhat.com> <20260319141142.5781-4-djeffery@redhat.com>
- <DHA2BZE56U6E.3V6HEWOPLHAXX@arkamax.eu>
-In-Reply-To: <DHA2BZE56U6E.3V6HEWOPLHAXX@arkamax.eu>
-From: David Jeffery <djeffery@redhat.com>
-Date: Mon, 23 Mar 2026 10:07:01 -0400
-X-Gm-Features: AQROBzCwdHjXflR3qUAR1ggq6kqqMMNrczgzxRgCKQ9x05zGx_1djDn3Vs4FNkE
-Message-ID: <CA+-xHTFzajQP+_OWs=-OF-J0rGM3iOYpgL5q9S4Rra5q==Qg2Q@mail.gmail.com>
-Subject: Re: [PATCH 3/5] driver core: async device shutdown infrastructure
-To: Maurizio Lombardi <mlombard@arkamax.eu>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Tarun Sahu <tarunsahu@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, =?UTF-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, 
-	Jordan Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>, 
-	John Meneghini <jmeneghi@redhat.com>, "Lombardi, Maurizio" <mlombard@redhat.com>, 
-	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman <loberman@redhat.com>, 
-	Bart Van Assche <bvanassche@acm.org>, Bjorn Helgaas <helgaas@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: KT-gT53_iIg7rPVf9NC4Ek2wrvC2qPs3WWTgTS-Rfy4_1774274834
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SA1PR12MB6847:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37c8cb04-b680-4da5-adfc-08de88e93402
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|10070799003|376014|7416014|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	QlEztoa8xejla2BUt++j01lb5OznTJM2kVL6g83x8Rz+GkmOMIsTKJO9l61RMNpd2T00MBRRC463SlAZ6mNE/du3Yvxvuf5J4MWoNJE/5v3UQx748qtBqJMVv32giQvdg4D3rXxJcqZyaSvFJsTuuq8uy1nxXtgtnZDy9AgfDNfPgjT7ho5T26FSHEQWW7oKzfNTFogJ/nyq0OLoQfsDSJW7fU+YBpZQXyOBBrG9U7/GBn3NU+Q+hDuADsGLAoq9ViieRL/k6+f6hbgB5ox1tbbDnPdFJS9NvBkCD1a0q4PFt4PuD1fhuiEzcc0Depd8MdfYwveNfLCkzdEstau7kbKWDl8ViH+XXD4wpyvkc2Sz2hfkKhGJF1I7mfbwyQIxBD49uhWWsoNUYAsL0vD+pLl4lJ1i8ymSOeXwTcBqQWk3gFX9fVUxzjZl/NJaWR/O0J0IiBpDQigyrWdHVBl2YEVtq1k2JY8FoPSyq5St8HGM/UuITy+nhLv0zBiFnQWlN4h7QZJnvxHIYw/pLVaKT/Bd+Q/r0mCa20e5D0YZMRhZSRTPnkrK6ZMD1KHuKKlcO7OkAmSyIaoA3E/PX7BLATuiZ/rCQ0CRnHMySBJ1gjygNHUiZmhbaCB0iDrxhryGZqH/n7elvHUxqHGc8IE54p1fJ9Z1ZCPpcmAD2d9GYQ2s4SfkauuwuYOiCK+NWLNOudbSTZY4QKoW3a7UJ7R2QQLBUj+lKBlsBHHyAsGPpDuodlYGTT2P1CJSuLMuCNhH
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(7416014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SnJRbVpnMlMzcUVDUDQ3cHp1QStvVi92aTh4MGcyd0lFcVYyQjRRNTJha3Rt?=
+ =?utf-8?B?R1dKM2tKeitscXZCVU9WaVVnSnBWV2FVeFVzVEMrNWRFSS93NTFGTi9zdmE3?=
+ =?utf-8?B?RE5MdStBZ1piaHMza01ETEN3OE11UnphaWo2bHc0VWJKSjlQSkV1djY0SW4w?=
+ =?utf-8?B?YW5ieWN3d1ArTDRGbVF0dWdQQzJmZDlMZlFEUWpGUTd6ekxOdXhJSTh2Tmtl?=
+ =?utf-8?B?RFh3aUsxZGpCNDdjSXhKZ3pkM0tQU2tBTHl4RjlIOUxCT3N3ZDhqTjQ0bGtq?=
+ =?utf-8?B?cE5KZkF2ZWZxeDlpeG92bHdvTjgwc05Rb2EyVm5KSS9BUk1jVjRyQmZlaDBZ?=
+ =?utf-8?B?OHd4ODYxRGZRZ0NscDVkaHoydnJQeC9IcmFUS0FLZzZuQjlaZDJDeEdNR2xp?=
+ =?utf-8?B?dEtlbGxYQWJsREpwNUhjUzNBLzVtUTN2Wmt5ZHZoNEZENGRsUGkvUWcrL3la?=
+ =?utf-8?B?bmpWVDZscjFkbm5qZWpZMk9FUkM0MUcrcW5BYzdXdUJEQXh0RmtIemdHN1dr?=
+ =?utf-8?B?dE5KRkhTdGdtZXpuZTlKVUxDY3N4dkZyeVFkL2VlZVZiYnF0TjVUNlRxbFpj?=
+ =?utf-8?B?bWNCMDRaMWV3ZlNIQWQ5bE1SN0hSMitJN1k2bFhzbjliRmQyZlJIV3BZd0dv?=
+ =?utf-8?B?M2hKQk5PYU1HK3RBcnRIaFk2OUxZRHNiU1M2WE1rZ3Rub29BYUNiVGMwZnhj?=
+ =?utf-8?B?R21jQVdHeDhyQ2I3VjVlSzRJb2owUlcvQUxEaGhhRldwYzdUNm1Wd3VoREwv?=
+ =?utf-8?B?WHpPNWc3Uk90amxUZ3hFcXpMaFdGcFZvT3dRSXBlZ0tSUXFNeXMxQ3VvNHJT?=
+ =?utf-8?B?RSswd2w1aHN6ZTloK3VQbWpGTEhnSHNyckwrUmZJVEdKeGV0VmlYRVdZWGJB?=
+ =?utf-8?B?ak1BR285ZEtGN3JqMGRCYSt4cmxycEZPU2pFMUZYMGtlUGh5RGMxZXNnZzRy?=
+ =?utf-8?B?UzJyRHEySm1TNFk3V21CWEhXSzRKaXRtd1VDR0R2cXBWUjgxNmZnOEpxL0Ur?=
+ =?utf-8?B?UitmMmZsd0JaT1RvNk9Oc1Y0bndMZmhPUkNsaXMveHZlaEowZUlET1ZZVUZi?=
+ =?utf-8?B?UnJmTE4wUFFOU1NoOWV3dG9YZ2UvODczT2xnUDVjRXRPNHhoc2FHdzEyY3JB?=
+ =?utf-8?B?c29vMWZ4U0FFcDRUNjFBWlZIUE5CMWYrZjZqN3djd0t6bkdoNmFmVFprb1ND?=
+ =?utf-8?B?Zk5CMXpVUG9XSnJIT0JEVXFSUGxNOWlWSlNlK29DOVdZblpoL3ZwZnh3STZR?=
+ =?utf-8?B?NktBV1JJckQ2N1NRTC9Ed0I3R01WckJZN0JTY0ZLWktrdVFGeEIrNHZYUXJj?=
+ =?utf-8?B?ZmNyWUZ5Sjg4WWdvMFVPMXNZdldCYlVMZG1sODN2Q0R6YjdrVGo5WEJmeDlS?=
+ =?utf-8?B?TlZxaHAzZFhQM1I5RTBCLzMrN3JGanNtdXFIWjA4YUYvNFFjY2ZMaXlrenc5?=
+ =?utf-8?B?bnNuSVNBRjkyaUt5U1F4dWg0bkdFTUx2YkZLb0VYOEN5OHpyOTU1OHBiZTBa?=
+ =?utf-8?B?UTFOSktNMHd2Y3RhZGQ1d1lyU0puWnRxV1pVTHNSVnlmeERUaGtyc1FuanJK?=
+ =?utf-8?B?VmxSOU5XU3BZa1hkbkIrUDFFeVNRRE5GTDMzRGtvRWZlQmNGSWVkanZBeDlJ?=
+ =?utf-8?B?THZONVRxajNpcitieW4rMC9pK3hYNnp0bk5BY3ZEeUl2Z1RUY2gwaHpSNStz?=
+ =?utf-8?B?ZEZ4Rks3SEowNExYQ3ZxY3AxVDhUR2tMSjMvd3hUTjBOVHJRdmFnc1FEZWNO?=
+ =?utf-8?B?WVJKTkFQSHpwTGhsaW1PYjdLbW83VXhOUDl5SjJWTWVpWStZbG85YlVFa0xE?=
+ =?utf-8?B?T09WVEI4WnArWnBWcG9oeSswNWNXNDlGdEFWbkQyOTNCaGhGSmtkUHl1VGx1?=
+ =?utf-8?B?dUdKRXhHM2VuZnhkRlVHUmwzSzZ5Q0JJS290WDZoMFBKTFNjK29ST3o2WFhu?=
+ =?utf-8?B?SDZaZjdWc3hrWURPQmpmVHJ5dE12Z0xpbFpOT1JQS2g2OW5KVUlpVUtYUXY5?=
+ =?utf-8?B?VVI3eEFYc1JLRm5zQ2VHUXkrNEVsVktGZjl1YzYrV2toa2EwOEIzakh4MExo?=
+ =?utf-8?B?b294YmRuc2YrUm1waXNieU82NndKd0hlSTAwNzJaaHJOM2RwZkVRWHV2UzJX?=
+ =?utf-8?B?YzNoYmNISHcrdU4xL0tqdTlSUHNVWjZhcyt3TGh3aFJqbFIrcHplTzkvRkln?=
+ =?utf-8?B?RURudm11MUdRaUhQV3h4SmgrcE9tU1BYUWlWUG5pc3pJQkpiSU94ZUh4b0ZN?=
+ =?utf-8?B?Z1FMdFJyMWRMWExuc1NHTGdVREpTZnpFTDl2VlIwNzdpdXdxZVkzLzdmSStZ?=
+ =?utf-8?B?UzVDbnpaSURvZVdlN3hNdzFnODByWkpZSmJzenBIRVJUQ01WSm5HTFhPaHNE?=
+ =?utf-8?Q?+5XoympK+IzRZk7CcmFWE7VJisE6qA9iAQBOfTPirOQY6?=
+X-MS-Exchange-AntiSpam-MessageData-1: pP0Vy/PYROt4hA==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37c8cb04-b680-4da5-adfc-08de88e93402
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 14:33:52.5386
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bW5tn2X5TTUmnZzjD/n5e2ZKDCjxW8JexkHvFrIHL1PHtNAtbSvFBL6qgQ+3TwSz6aTIHOiJSW1uocpNoDwcEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6847
 
-On Mon, Mar 23, 2026 at 5:50=E2=80=AFAM Maurizio Lombardi <mlombard@arkamax=
-.eu> wrote:
+On Mon Mar 23, 2026 at 10:05 PM JST, Gary Guo wrote:
+> On Mon Mar 23, 2026 at 6:15 AM GMT, Alexandre Courbot wrote:
+>> On Sat Mar 21, 2026 at 11:58 PM JST, Gary Guo wrote:
+>>> On Sat Mar 21, 2026 at 1:36 PM GMT, Alexandre Courbot wrote:
+>>>> Replace the nova-core local `DmaObject` with a `Coherent` that can
+>>>> fulfill the same role.
+>>>>
+>>>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>>>> ---
+>>>>  drivers/gpu/nova-core/firmware/riscv.rs | 6 +++---
+>>>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/nova-core/firmware/riscv.rs b/drivers/gpu/nov=
+a-core/firmware/riscv.rs
+>>>> index 14aad2f0ee8a..2afa7f36404e 100644
+>>>> --- a/drivers/gpu/nova-core/firmware/riscv.rs
+>>>> +++ b/drivers/gpu/nova-core/firmware/riscv.rs
+>>>> @@ -5,13 +5,13 @@
+>>>> =20
+>>>>  use kernel::{
+>>>>      device,
+>>>> +    dma::Coherent,
+>>>>      firmware::Firmware,
+>>>>      prelude::*,
+>>>>      transmute::FromBytes, //
+>>>>  };
+>>>> =20
+>>>>  use crate::{
+>>>> -    dma::DmaObject,
+>>>>      firmware::BinFirmware,
+>>>>      num::FromSafeCast, //
+>>>>  };
+>>>> @@ -66,7 +66,7 @@ pub(crate) struct RiscvFirmware {
+>>>>      /// Application version.
+>>>>      pub(crate) app_version: u32,
+>>>>      /// Device-mapped firmware image.
+>>>> -    pub(crate) ucode: DmaObject,
+>>>> +    pub(crate) ucode: Coherent<[u8]>,
+>>>>  }
+>>>> =20
+>>>>  impl RiscvFirmware {
+>>>> @@ -81,7 +81,7 @@ pub(crate) fn new(dev: &device::Device<device::Bound=
+>, fw: &Firmware) -> Result<
+>>>>              let len =3D usize::from_safe_cast(bin_fw.hdr.data_size);
+>>>>              let end =3D start.checked_add(len).ok_or(EINVAL)?;
+>>>> =20
+>>>> -            DmaObject::from_data(dev, fw.data().get(start..end).ok_or=
+(EINVAL)?)?
+>>>> +            Coherent::from_slice(dev, fw.data().get(start..end).ok_or=
+(EINVAL)?, GFP_KERNEL)?
+>>>
+>>> `DmaObject` rounds the data up to be page-sized, while this new API doe=
+sn't.
+>>>
+>>> It has impact on alignment, as the allocator aligns things to the large=
+st
+>>> power-of-two exponent of the allocated size.
+>>
+>> Doesn't `dma_alloc_coherent` always allocate from the page pool and thus
+>> returns page-aligned memory though?
 >
-> On Thu Mar 19, 2026 at 3:11 PM CET, David Jeffery wrote:
-> > Patterned after async suspend, allow devices to mark themselves as want=
-ing
-> > to perform async shutdown. Devices using async shutdown wait only for t=
-heir
-> > dependencies to shutdown before executing their shutdown routine.
-> >
-> > Sync shutdown devices are shut down one at a time and will only wait fo=
-r an
-> > async shutdown device if the async device is a dependency.
-> >
-> > Signed-off-by: David Jeffery <djeffery@redhat.com>
-> > Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-> > Tested-by: Laurence Oberman <loberman@redhat.com>
-> > ---
-> >  drivers/base/base.h    |   2 +
-> >  drivers/base/core.c    | 104 ++++++++++++++++++++++++++++++++++++++++-
-> >  include/linux/device.h |  13 ++++++
-> >  3 files changed, 118 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/base/base.h b/drivers/base/base.h
-> > index 79d031d2d845..ea2a039e7907 100644
-> > --- a/drivers/base/base.h
-> > +++ b/drivers/base/base.h
-> > @@ -113,6 +113,7 @@ struct driver_type {
-> >   * @device - pointer back to the struct device that this structure is
-> >   * associated with.
-> >   * @driver_type - The type of the bound Rust driver.
-> > + * @complete - completion for device shutdown ordering
-> >   * @dead - This device is currently either in the process of or has be=
-en
-> >   *   removed from the system. Any asynchronous events scheduled for th=
-is
-> >   *   device should exit without taking any action.
-> > @@ -132,6 +133,7 @@ struct device_private {
-> >  #ifdef CONFIG_RUST
-> >       struct driver_type driver_type;
-> >  #endif
-> > +     struct completion complete;
-> >       u8 dead:1;
-> >  };
-> >  #define to_device_private_parent(obj)        \
-> > diff --git a/drivers/base/core.c b/drivers/base/core.c
-> > index 2e9094f5c5aa..53568b820a13 100644
-> > --- a/drivers/base/core.c
-> > +++ b/drivers/base/core.c
-> > @@ -9,6 +9,7 @@
-> >   */
-> >
-> >  #include <linux/acpi.h>
-> > +#include <linux/async.h>
-> >  #include <linux/blkdev.h>
-> >  #include <linux/cleanup.h>
-> >  #include <linux/cpufreq.h>
-> > @@ -37,6 +38,10 @@
-> >  #include "physical_location.h"
-> >  #include "power/power.h"
-> >
-> > +static bool async_shutdown =3D true;
-> > +module_param(async_shutdown, bool, 0644);
-> > +MODULE_PARM_DESC(async_shutdown, "Enable asynchronous device shutdown =
-support");
-> > +
-> >  /* Device links support. */
-> >  static LIST_HEAD(deferred_sync);
-> >  static unsigned int defer_sync_state_count =3D 1;
-> > @@ -3538,6 +3543,7 @@ static int device_private_init(struct device *dev=
+> Oh you're right, this is not from DMA pool, so allocations are page-align=
+ed
+> indeed.
+>
+> I brought this up because I got bite by this size adjustment behaviour
+> because in the `from_data` I initially put
+>
+>     unsafe { dma_obj.as_mut().copy_from_slice(data) };
+>
+> but that doesn't work due to the size being aligned up so dma_obj.len() !=
+=3D
+> data.len().
+>
+> But if this behaviour is not needed it does simplify things quite a bit.
+
+I was contemplating hardening the `Coherent` allocations by padding the
+structs when there are specific alignment needs (in nova-core it's only
+a couple of types affected), but then thought this was quite restrictive
+and should be handled by an alignment parameter on `Coherent` directly -
+and `Coherent` doesn't have such a parameter because the underlying C
+API doesn't either, and the page alignment seems to be a property of the
+API itself.
+
+Maybe that point is worth mentioning in the documentation of `Coherent`?
+
+>
+>> I'm not sure why `DmaObject` was doing that but it was redundant I think=
+.
+>
+> A question for yourself I guess? :-)
+>
+> https://lore.kernel.org/all/20250619-nova-frts-v6-13-ecf41ef99252@nvidia.=
+com/
+
+Ha, I was precisely wondering who was the lesser engineer who wrote that. :=
 )
-> >       klist_init(&dev->p->klist_children, klist_children_get,
-> >                  klist_children_put);
-> >       INIT_LIST_HEAD(&dev->p->deferred_probe);
-> > +     init_completion(&dev->p->complete);
-> >       return 0;
-> >  }
-> >
-> > @@ -4782,6 +4788,37 @@ int device_change_owner(struct device *dev, kuid=
-_t kuid, kgid_t kgid)
-> >       return error;
-> >  }
-> >
-> > +static bool wants_async_shutdown(struct device *dev)
-> > +{
-> > +     return async_shutdown && dev->async_shutdown;
-> > +}
-> > +
-> > +static int wait_for_device_shutdown(struct device *dev, void *data)
-> > +{
-> > +     bool async =3D *(bool *)data;
-> > +
-> > +     if (async || wants_async_shutdown(dev))
-> > +             wait_for_completion(&dev->p->complete);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void wait_for_shutdown_dependencies(struct device *dev, bool as=
-ync)
-> > +{
-> > +     struct device_link *link;
-> > +     int idx;
-> > +
-> > +     device_for_each_child(dev, &async, wait_for_device_shutdown);
-> > +
-> > +     idx =3D device_links_read_lock();
-> > +
-> > +     dev_for_each_link_to_consumer(link, dev)
-> > +             if (!device_link_flag_is_sync_state_only(link->flags))
-> > +                     wait_for_device_shutdown(link->consumer, &async);
-> > +
-> > +     device_links_read_unlock(idx);
-> > +}
-> > +
-> >  static void __shutdown_one_device(struct device *dev)
-> >  {
-> >       device_lock(dev);
-> > @@ -4805,6 +4842,8 @@ static void __shutdown_one_device(struct device *=
-dev)
-> >               dev->driver->shutdown(dev);
-> >       }
-> >
-> > +     complete_all(&dev->p->complete);
-> > +
-> >       device_unlock(dev);
-> >  }
-> >
-> > @@ -4823,6 +4862,58 @@ static void shutdown_one_device(struct device *d=
-ev)
-> >       put_device(dev);
-> >  }
-> >
-> > +static void async_shutdown_handler(void *data, async_cookie_t cookie)
-> > +{
-> > +     struct device *dev =3D data;
-> > +
-> > +     wait_for_shutdown_dependencies(dev, true);
-> > +     shutdown_one_device(dev);
-> > +}
-> > +
-> > +static bool shutdown_device_async(struct device *dev)
-> > +{
-> > +     if (async_schedule_dev_nocall(async_shutdown_handler, dev))
-> > +             return true;
-> > +     return false;
-> > +}
-> > +
-> > +
-> > +static void early_async_shutdown_devices(void)
-> > +{
-> > +     struct device *dev, *next, *needs_put =3D NULL;
-> > +
-> > +     if (!async_shutdown)
-> > +             return;
-> > +
-> > +     spin_lock(&devices_kset->list_lock);
-> > +
-> > +     list_for_each_entry_safe_reverse(dev, next, &devices_kset->list,
-> > +                                      kobj.entry) {
-> > +             if (wants_async_shutdown(dev)) {
-> > +                     get_device(dev->parent);
-> > +                     get_device(dev);
-> > +
-> > +                     if (shutdown_device_async(dev)) {
-> > +                             list_del_init(&dev->kobj.entry);
-> > +                     } else {
-> > +                             /*
-> > +                              * async failed, clean up extra reference=
-s
-> > +                              * and run from the standard shutdown loo=
-p
-> > +                              */
-> > +                             needs_put =3D dev;
-> > +                             break;
-> > +                     }
-> > +             }
-> > +     }
-> > +
-> > +     spin_unlock(&devices_kset->list_lock);
-> > +
-> > +     if (needs_put) {
-> > +             put_device(needs_put->parent);
-> > +             put_device(needs_put);
-> > +     }
-> > +}
-> > +
-> >  /**
-> >   * device_shutdown - call ->shutdown() on each device to shutdown.
-> >   */
-> > @@ -4835,6 +4926,12 @@ void device_shutdown(void)
-> >
-> >       cpufreq_suspend();
-> >
-> > +     /*
-> > +      * Start async device threads where possible to maximize potentia=
-l
-> > +      * parallelism and minimize false dependency on unrelated sync de=
-vices
-> > +      */
-> > +     early_async_shutdown_devices();
-> > +
-> >       spin_lock(&devices_kset->list_lock);
-> >       /*
-> >        * Walk the devices list backward, shutting down each in turn.
-> > @@ -4859,11 +4956,16 @@ void device_shutdown(void)
-> >               list_del_init(&dev->kobj.entry);
-> >               spin_unlock(&devices_kset->list_lock);
-> >
-> > -             shutdown_one_device(dev);
-> > +             if (!wants_async_shutdown(dev) || !shutdown_device_async(=
-dev)) {
-> > +                     wait_for_shutdown_dependencies(dev, false);
-> > +                     shutdown_one_device(dev);
-> > +             }
-> >
-> >               spin_lock(&devices_kset->list_lock);
-> >       }
-> >       spin_unlock(&devices_kset->list_lock);
-> > +
-> > +     async_synchronize_full();
-> >  }
-> >
-> >  /*
-> > diff --git a/include/linux/device.h b/include/linux/device.h
-> > index 0be95294b6e6..da1db7d235c9 100644
-> > --- a/include/linux/device.h
-> > +++ b/include/linux/device.h
-> > @@ -551,6 +551,8 @@ struct device_physical_location {
-> >   * @dma_skip_sync: DMA sync operations can be skipped for coherent buf=
-fers.
-> >   * @dma_iommu: Device is using default IOMMU implementation for DMA an=
-d
-> >   *           doesn't rely on dma_ops structure.
-> > + * @async_shutdown: Device shutdown may be run asynchronously and in p=
-arallel
-> > + *           to the shutdown of unrelated devices
-> >   *
-> >   * At the lowest level, every device in a Linux system is represented =
-by an
-> >   * instance of struct device. The device structure contains the inform=
-ation
-> > @@ -669,6 +671,7 @@ struct device {
-> >  #ifdef CONFIG_IOMMU_DMA
-> >       bool                    dma_iommu:1;
-> >  #endif
-> > +     bool                    async_shutdown:1;
-> >  };
-> >
-> >  /**
-> > @@ -824,6 +827,16 @@ static inline bool device_async_suspend_enabled(st=
-ruct device *dev)
-> >       return !!dev->power.async_suspend;
-> >  }
-> >
-> > +static inline bool device_enable_async_shutdown(struct device *dev)
-> > +{
-> > +     return dev->async_shutdown =3D true;
-> > +}
->
-> Shouldn't this function just return void?
-
-Yes, it should just be changed to a void.
-
-David Jeffery
-
