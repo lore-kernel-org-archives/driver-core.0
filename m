@@ -1,94 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC316384237
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 08:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C11F37F01B;
+	Mon, 23 Mar 2026 08:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774255347; cv=none; b=Z+DxJF6vlly01fMutuqlJ5SeVVcxW7rxBoflwBDmV6VWc3zdtGVZRfh795MenA0Q86T/WMcdr3HOPRFE41cz/ISKHTpf7FHevyo7Yxu9N8OWei87TxTVNOtuuynP/Qt+ObGeDRbc5pkji5lrxmVuHcz+iRSdQOq0XWgNh8mjIVU=
+	t=1774255778; cv=none; b=EQLxFwwoenha/bg7mThA9yGF9x47yZZW0bSPFECcOPouQsRV7B1nWu3tFd77jVkpMPkPM1oqabQ25kfTUfScg9CUzPrJwAZ6rHiSz9c1qUbx3KjzJNDX76Bt8SP2UQK9K2diFXKKl2M+7+tSKlf5po/p58SqKI8OH66Na6UYDbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774255347; c=relaxed/simple;
-	bh=bwb7jkLjaaKlWbdAB/OX1187xqrOeUjk7Vg8pnqZOK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iH03o31q0mxFJVeGSIG6zVW96WKTWAxrSXpIoLlmabAXkD4VxYrLfeiIjjt6o+GUVWJiGykMYNvf19qdcqW1sDJ3oGrk0neuGZ306kka/7OSgO8J1Uj9X4vXHZaYLLNxKHiXQtVT7DsTgmo2lfenyy7KUGuI5c5v2l5blytSCr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aHc1UylF; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774255778; c=relaxed/simple;
+	bh=apQDKAVtzeWI9NRHQrgtkW1nDuBlvlKb70pvhcicwCI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=f4UIEJhyXhfIZWvOeuIui/BmuQKKqJBcXBVVj1kjm8WuW27MqJJWNEsYW/FmNcJiDY1TEicwd39cqRI7K9PzJVY3Q5ZiuKFu6sAQ3ZpXqVPIcqkh8+K3CW2isoufIyDhLZqHKnbhJ1MlA56284Ff7frHOsgIsUaBbSkS5LLGct4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=qR20M1T8; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aHc1UylF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774255345; x=1805791345;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bwb7jkLjaaKlWbdAB/OX1187xqrOeUjk7Vg8pnqZOK8=;
-  b=aHc1UylFevt5kBwINagWL8WkIXGzuLiMIpBg3WxQDikrYceK16kI1mA3
-   XjHMBX/4/ygZ5sVnYTpXvyBQhcKsvef2ez6EYQFbFMPb0lbt+O7IyAEYF
-   k6aPK2sfIa0t5KYmUEZ6/dNsjrWqEnlTb8Oyh4BykD9ooXBjaMCNY796r
-   8zcUcIzHzLCpltMprvJ2lEdB8Zc8dZGwHYII35IX/YvAz0Zsj/LzjQla0
-   pFa42PIiRbj/8Bq9v33RF+1RYOqi6k3w11TiXCoJaw6H2U2kyhKf8se/9
-   UdzX2Y1msbXh4YebtBlKP1cLRUrdw/zJyvnMIFyfNG6vACP/S1C4by6Ag
-   w==;
-X-CSE-ConnectionGUID: LXmHpGd5RdKhiaZkpRz4Zw==
-X-CSE-MsgGUID: bKlexF8QTaeSKcROlb1Rmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="79106236"
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="79106236"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:42:24 -0700
-X-CSE-ConnectionGUID: qgWC4VA7Q1On5R6YgH73Hg==
-X-CSE-MsgGUID: aShKC0ffRZWfLkD1UvsdRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,136,1770624000"; 
-   d="scan'208";a="228885126"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.18])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 01:42:21 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 2910211F94F;
-	Mon, 23 Mar 2026 10:42:24 +0200 (EET)
-Date: Mon, 23 Mar 2026 10:42:24 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	devicetree@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 1/1] device property: Document how to check for the
- property presence
-Message-ID: <acD88LdaXte7wrWz@kekkonen.localdomain>
-References: <20260318142404.2526642-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="qR20M1T8"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260323084927euoutp02741697b9873d78530075a5e111d0c62e~fbDhQX7Vx2817128171euoutp02Q;
+	Mon, 23 Mar 2026 08:49:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260323084927euoutp02741697b9873d78530075a5e111d0c62e~fbDhQX7Vx2817128171euoutp02Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1774255767;
+	bh=izD245/HWTfY4YvMavmH0UjvQPvQnie+y+bSLStgLq0=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=qR20M1T8vm/bninpWfYJUqD2cujoDpUOWwbtW5EzAYPKXXW/reNN8Na0Z0P22N5Fq
+	 KD9VJ2HiMGpMBAqMkrXfK9sxLV95K7db3i4rPSoQsvdHzljE+ooz9t4d3X72LfLXNP
+	 8uUHazdKV/PWg9ZWyVALYMO1f3Gp3Q87CRMB/Hm0=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260323084927eucas1p12614d2febd7dd400e32c691c74e396e2~fbDhDI1aS1911919119eucas1p1N;
+	Mon, 23 Mar 2026 08:49:27 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260323084923eusmtip200157d20bd875804c9aaff92db3a8414~fbDd8kVqg2543925439eusmtip2B;
+	Mon, 23 Mar 2026 08:49:23 +0000 (GMT)
+Message-ID: <1c4e429b-f30c-42a9-8de1-71cb2cbbc114@samsung.com>
+Date: Mon, 23 Mar 2026 09:49:22 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318142404.2526642-1-andriy.shevchenko@linux.intel.com>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v2 0/3] Inline helpers into Rust without full LTO
+To: Miguel Ojeda <ojeda@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Danilo Krummrich <dakr@kernel.org>, Abdiel Janulgue
+	<abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: iommu@lists.linux.dev, driver-core@lists.linux.dev, acourbot@nvidia.com,
+	akpm@linux-foundation.org, aliceryhl@google.com,
+	anton.ivanov@cambridgegreys.com, bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com, david@davidgow.net, gary@garyguo.net,
+	johannes@sipsolutions.net, justinstitt@google.com,
+	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-um@lists.infradead.org, linux@armlinux.org.uk, llvm@lists.linux.dev,
+	lossin@kernel.org, mark.rutland@arm.com, mmaurer@google.com,
+	morbo@google.com, nathan@kernel.org, nick.desaulniers+lkml@gmail.com,
+	nicolas.schier@linux.dev, nsc@kernel.org, peterz@infradead.org,
+	richard@nod.at, rust-for-linux@vger.kernel.org, tmgross@umich.edu,
+	urezki@gmail.com, will@kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260322194616.89847-1-ojeda@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260323084927eucas1p12614d2febd7dd400e32c691c74e396e2
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260322194701eucas1p1f72625f53e50806fa4f430550f291e76
+X-EPHeader: CA
+X-CMS-RootMailID: 20260322194701eucas1p1f72625f53e50806fa4f430550f291e76
+References: <20260322192159.88138-1-ojeda@kernel.org>
+	<CGME20260322194701eucas1p1f72625f53e50806fa4f430550f291e76@eucas1p1.samsung.com>
+	<20260322194616.89847-1-ojeda@kernel.org>
 
-Hi Andy,
+On 22.03.2026 20:46, Miguel Ojeda wrote:
+> On Sun, 22 Mar 2026 20:21:59 +0100 Miguel Ojeda <ojeda@kernel.org> wrote:
+>> I will reply to a couple other bindings in separate emails to avoid
+>> spamming people too much.
+> Under UML, I got `-Wstatic-in-inline` for `dma_free_attrs`:
+>
+>        BINDGEN rust/bindings/bindings_generated.rs - due to target missing
+>      In file included from rust/helpers/helpers.c:59:
+>      rust/helpers/dma.c:17:2: warning: static function 'dma_free_attrs' is used in an inline function with external linkage [-Wstatic-in-inline]
+>         17 |         dma_free_attrs(dev, size, cpu_addr, dma_handle, attrs);
+>            |         ^
+>      rust/helpers/dma.c:12:1: note: use 'static' to give inline function 'rust_helper_dma_free_attrs' internal linkage
+>         12 | __rust_helper void rust_helper_dma_free_attrs(struct device *dev, size_t size,
+>            | ^
+>            | static
+>
+> For some reason, `dma_free_attrs` is not marked `inline` in
+> `include/linux/dma-mapping.h` to begin with, unlike the rest.
+>
+> Unless I am missing something and there is a reason for that, it looks
+> like it has just been missing since it was added in commit ed6ccf10f24b
+> ("dma-mapping: properly stub out the DMA API for !CONFIG_HAS_DMA").
+>
+> Do you want a patch?
 
-On Wed, Mar 18, 2026 at 03:21:40PM +0100, Andy Shevchenko wrote:
-> Currently it's unclear if one may or may not rely on the error codes
-> returned from the property getters to check for the property presence.
-> Clarify this by updating kernel-doc for fwnode_property_*() and
-> device_property_*() where it's applicable.
-> 
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Closes: https://lore.kernel.org/r/4b24f1f4-b395-467a-81b7-1334a2d48845@roeck-us.net
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Yes please, this looks like an oversight.
 
-Thanks for the update.
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
+Best regards
 -- 
-Kind regards,
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-Sakari Ailus
