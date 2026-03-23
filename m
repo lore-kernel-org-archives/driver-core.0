@@ -1,82 +1,84 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AB33CF693
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 18:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6312D97B7
+	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 18:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774290517; cv=none; b=XGXj5JeXqpnf/YxjQ5M5YzOkdyI54Y4yZ9hUg0wzkAnarbZJP8OmCveUeMqya7lnrqFWZoQ+wlfBafA5gajs2wLh8ywOptADGiFvtFkrUZ2PF7A7I+prNT0mATV15XyUbaAIN+jAk6BAfmXyjQlMN2BRVBCor2NoDSXrqUYyEKg=
+	t=1774290823; cv=none; b=bmlsEFQjZ+0budFPRvUo98huoz/fWHHHDYkO+neSp8emB7C/gGZXSNBkKmU8SXFa1nCdIyijhF/JVI8N879y9tYyc8FVmOXlOEO+rozS3kLN2Nt+cVUqqxubCSFbBcDwCkYUfbXdVlPSLlyzonIweIt4jrLgdytIdWV3UQIubXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774290517; c=relaxed/simple;
-	bh=t8uGoOmn69GTvslBxUEc5eTMB7ZiO+nrKn47M9Cp8FA=;
+	s=arc-20240116; t=1774290823; c=relaxed/simple;
+	bh=6I3TCajsnbPhvopolFVK3KO9pDXc1m1XrVrTJSIDMJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVADsOtcr6gzl25FlhEsb7VEMXh+jxfYe6EBpxNdjEZhLUynN9QIsqk8iePwH0k/1CaaQu6GdqjGcACjMxoVVG0Rj32cPoqM5RNnvuVJBdo62vUxsE1sEUjf7hVlrCgEzSeokyITEh+L3pBBcicn1sb3olWAO8/AIOADU0M/nCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IhuGGrEL; arc=none smtp.client-ip=74.125.82.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=t0cgJQvf4tHniACjE1NBr12Gan6asOQI4undIAaBhU3393ItA4ErALk9bmOXwBZxKHs1blF7lpVzWeGkxwf0mkHQXWWVH8HfABc9X7re+RIc5EpTYW4Tf6rhShO9x7v0sDeNh30qPyI1j97LqSNq8CTcgnJWmgpZxDSJ332L27s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oHJLorRf; arc=none smtp.client-ip=74.125.82.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IhuGGrEL"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2c10a2e2cd1so3065603eec.0
-        for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 11:28:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oHJLorRf"
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-12a71ade78cso614441c88.0
+        for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 11:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774290512; x=1774895312; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774290821; x=1774895621; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDXVXDlTyWriMoHabs2g4jaDjhygWMksayJaNvHtSE8=;
-        b=IhuGGrELssZEoKbDR/f4M2pVhBeLfEbFwGeIROWwn+TXnnGzgAsk2AysU1iThOm+mK
-         367MSV0QCbVfd2PQxHMZ+2oMz6N5M9FbfOwreGVIsPvxk6hcV42NGUc0UY6pwgfRm9Ip
-         yo9OhDgNX2kN7Lt1UfuaeTFDJfRLcf5Q+KHVw20oik58d+6ZIOhPF3e5zEGyM0Uzv2qE
-         3+MDighmvUpoZELDJMy2nCUIpYWkHfik142E5S4jrXa4yIUahWJA7HzyDU/n3rEnQu9k
-         ZfshoSyz59yvGkF7nMY/i9tMTM65q9nmRNpFJkW3a+J11kfFlja0Ne2hdjr2enZHF02B
-         VRlw==
+        bh=VnYjc2faOHjkbaG+X0+KOSaQNDxXMdAftkLY6+CZb5k=;
+        b=oHJLorRf3ERiG1PyEP8oT/vv3qyTwu5IV5RS/5DY2rnoEy+AvcHnbs5JCxxm7Xyz9U
+         SOfiO59twsVRL3CA6Be7Q7IRu5k4eV3us742Bag5zEdD7okV8ca/JH5y/E6Jhn/XYr2R
+         3vxiZ2UIskm9xTqoF//2hN3+QSXV/qrp4OfCNAWBNP6rYR3oGv744WFIEaTS+ncnFDCY
+         wmW604QPcBxgKZPXAaoFa/8QakTdGekOjO6ZuaeRZeJqMKyhcsA8gyfB1QsRImVmK7qD
+         wL6kfoLJxTz5S/H1m4jmWG6sNEgnipgdp6AI7K6x0v5b5xLGqf5ZIEcG+oLIccifssyL
+         XxZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774290512; x=1774895312;
+        d=1e100.net; s=20251104; t=1774290821; x=1774895621;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zDXVXDlTyWriMoHabs2g4jaDjhygWMksayJaNvHtSE8=;
-        b=A4cyIUJ1uqjdiqFhpiFgEss2TC4mG8YQ1EDA5dn5ejPqstZKyWPOhI9fC/UZjknB0T
-         gK+lMIxaac+Jf37gxSDKYtIWpTeirxPdepNznWY8E/Rcv8d+DXs632591jHtr9M0fTtB
-         UQKjoRPkiyO4JWNyoHM+VjYCUwjR+PSzbspqUPA29ZlgtJjCxvMob6GlHxFx3yqq9A3P
-         930HtFVJUTqi+lwsKayllcex0UwetZlRHTcwdeoAcxZohcTDYHLWqCVA0gpNkK097yqg
-         HrU84wTg2q4PWIV/rTW/ZLd0OG/yOi2FmLu+z4MgNngTaEP1zO+I8Kjp9nRmhVkJjOd5
-         RhVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdfpw/OWfKWGE3TBzcxb+RziM8/5U3Rp1AlzvCvfD3t2rUP1RVieg4zfLaxyYP8NBMH8q6KjwCDv9n1Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxuMyy98+PPjvYuui8+uFrmhFmMxExn4ZW9Z7o3ux7TlPkofszb
-	XYuHsF4simiRINqGt2UaTzKTasUGhzOPix1A9qIK2nlTquSuyo7D6pDU
-X-Gm-Gg: ATEYQzybsv3+jxuBesOtlX/NKhNybFEWGbvjZmSFCK4tFo9g2vQf4Lpn4/VGqDklyad
-	434Lxx8K0yT49oX/mxKW1tYFl64+6ih9Us/Tv3qTRUCkRwoK0FxLVu/rdyvMjm5xT6aJQbfK2E8
-	Sm7F2AfFmFtXgvhzcW3J4LU/bbxh6I09lODVEBictmHOvxRTcMUiJeVdjucgwblvm0PicKhj5kQ
-	54OvGIBiUFz9AvzlaNXIYjaGp+0W/vnn158huD8jOJraSl21w4mFqY5unnlnZSXu36plU0JpKV9
-	7EjcUUGg7U7v74Ss8jqT7DlP4Plj+ODYprKjefaBhtEQ6FQCZQYsdpZ31hmyjhphb66LYgZAfh6
-	3yc3Lxal8FAkRuIdLf0kgu6b3zPohraeROuOH+8Y/kZXA3WT7QskUIYfEl8jW2EvwLPnBQL6i73
-	wm5azQ400Mde+2gnafrzTqxVM1Fdr/5hz38JykIXVQ014El2+LQbWgV2/4kWKFXZej
-X-Received: by 2002:a05:693c:2b06:b0:2c0:ad52:e657 with SMTP id 5a478bee46e88-2c109712cedmr6434030eec.21.1774290511733;
-        Mon, 23 Mar 2026 11:28:31 -0700 (PDT)
+        bh=VnYjc2faOHjkbaG+X0+KOSaQNDxXMdAftkLY6+CZb5k=;
+        b=NCiFjJ/aIqEUZddmhS7MMz+l/fRXO5wiDVB+zftvewraPY8uBTacLAYL+FcgfomnZX
+         7DA5IA6TQc8vFlrcTetmNz9aatBl6kHw7Gtr1EET+0Vb5J02L2uEOUaJLVWqvU+FaH4x
+         bPzhFdq5giZxjDXdTBgB2BtQ8mf540sqzm9des2qlbdsVif8FbcbfhMm0Nhaq4ObsW1M
+         QGfLyZufA73bJJADQwTds/HE5fYOoyI+3gJNwhBPQM7sitbRbI+UQ58DGNTGgUW3wryt
+         Kbnf98A5zLrZVltdMVW9wfRTfGOZx3LKOHocRX04HC6NcXsQz8ziKQO85NAveYbjHazt
+         BeIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUX2BIt+7eDDEbac9HhyXi9/jvF1/Xnjs9yUiP1jgH25yH5Yh526R0Xue7yAhXuwvdKAe5Ri+kByW6e+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5+x67kPIyHlUrobL+iUZ7dFZDN3YJ92g5jmal68oZPo01p2Ww
+	MWMt3xvWOXssDJwJ50zFMdUWdC47sxJ0WS3RrTt83Wj1V5bIGhzhLX8D
+X-Gm-Gg: ATEYQzxFjV1uKP+Ksq3Xj3Yz+4/vWhELjaR2W79ga7J8gCahWysMvvPit4l3ddX1bZB
+	6MrKJ7BHmqP+gy0Xfndd7oSGc/9m/Jou4H0rpUim9zgTvHZFKTow20nBND+4oy5n5haYyExgW41
+	HDMc7LozVTL8uS3xuB7S3Qhc4jvtaYxy6LRlT/NXV5Jrg6sILI69whQ9RuArSeeFRKA4mhZHQbq
+	XrDKPUchjhjP1EABLjyV7G+D2qCiZvsqFmwt8NbVlySo8z6L1HcPZWs0PZuHTJzkGfVxxnXvth0
+	C2fLR6ccRzb8eDkt5X6tUOIdEMrY/7z63c8hG4mWG4stowKvayAx7YvEr6FDQR8O0CwmDT0Cd31
+	eQqScVVvsg128rM6joAaetljDPsY0HliwqnPBrFxjSWcz2mHeTgovZ5oZRDJKunHJDIhHwcmUgt
+	wfisZGE2pj60hQUvZYpr6q2NMDyoS2jbObef6OdTsj6NuSSi1ppX6ZGfGV0dOo0m+p
+X-Received: by 2002:a05:7022:4199:b0:12a:6c7e:bef2 with SMTP id a92af1059eb24-12a72671ad6mr6133919c88.7.1774290821078;
+        Mon, 23 Mar 2026 11:33:41 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2ebe:8:a296:1211:5ab0:bc95])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b17b8f2sm17872306eec.9.2026.03.23.11.28.29
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a733d199asm9391030c88.4.2026.03.23.11.33.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 11:28:31 -0700 (PDT)
-Date: Mon, 23 Mar 2026 11:28:27 -0700
+        Mon, 23 Mar 2026 11:33:40 -0700 (PDT)
+Date: Mon, 23 Mar 2026 11:33:36 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
 	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Peter Rosin <peda@axentia.se>, Heiner Kallweit <hkallweit1@gmail.com>, 
 	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-phy@lists.infradead.org, linux-spi@vger.kernel.org, linux-leds@vger.kernel.org, 
 	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH 04/10] regulator: of: switch to using
+Subject: Re: [PATCH net-next 07/10] net: phy: switch to using
  class_find_device_by_fwnode()
-Message-ID: <acGFksyx3SA0kJ5b@google.com>
+Message-ID: <acGGWTmSMuc5h3Od@google.com>
 References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
- <20260322-remove-device-find-by-of-node-v1-4-b72eb22a1215@gmail.com>
- <360a8b4a-6507-417a-9fc1-c53b14868657@sirena.org.uk>
+ <20260322-remove-device-find-by-of-node-v1-7-b72eb22a1215@gmail.com>
+ <32679fc0-c388-4cd7-a030-5f5ed5abab78@lunn.ch>
+ <acDLzK8vpptTUMf1@google.com>
+ <acEBCBgMV3RrGKiU@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -85,30 +87,49 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <360a8b4a-6507-417a-9fc1-c53b14868657@sirena.org.uk>
+In-Reply-To: <acEBCBgMV3RrGKiU@shell.armlinux.org.uk>
 
-On Mon, Mar 23, 2026 at 02:00:43PM +0000, Mark Brown wrote:
-> On Sun, Mar 22, 2026 at 06:54:22PM -0700, Dmitry Torokhov wrote:
-> > In preparation to class_find_device_by_of_node() going away switch to
-> > using class_find_device_by_fwnode().
+On Mon, Mar 23, 2026 at 08:59:52AM +0000, Russell King (Oracle) wrote:
+> On Sun, Mar 22, 2026 at 10:17:15PM -0700, Dmitry Torokhov wrote:
+> > On Mon, Mar 23, 2026 at 03:54:09AM +0100, Andrew Lunn wrote:
+> > > > -	d = class_find_device_by_of_node(&mdio_bus_class, mdio_bus_np);
+> > > > +	d = class_find_device_by_fwnode(&mdio_bus_class,
+> > > > +					of_fwnode_handle(mdio_bus_np));
+> > > 
+> > > When you look at this, why is it better?
+> > 
+> > I think we should move as much as possible towards firmware-agnostic
+> > APIs and use fwnode_handle instead of device_node or software_node or
+> > ACPI companion. To discourage this I think we better remove
+> > firmware-specific APIs where we have firmware-agnostic ones and
+> > eventually clean up drivers that use OF- or ACPI-specific APIs.
 > 
-> >  	struct device *dev;
-> >  
-> > -	dev = class_find_device_by_of_node(&regulator_class, np);
-> > +	dev = class_find_device_by_fwnode(&regulator_class, of_fwnode_handle(np));
+> Basically, no. This is wrong.
 > 
-> The regulator API is very deliberately specifically using the OF APIs,
-> not the ACPI APIs, since ACPI really doesn't want to model regulators.
+> It may sound like a good goal, but there's an underlying issue. This
+> goal assumes that the firmware description in OF and ACPI are
+> indentical.
 
-For now? We also have software nodes and maybe we come up with something
-else in the future...
+If they are different then drivers will make allowance for this, like
+I2C core or SPI core does. But most of the modern drivers use
+firmware-agnostic APIs (device_property_*()).
 
-I think we should use firmware-agnostic APIs as much as possible, and
-only use OF- or ACPI-specific ones when there is no generic equivalent.
-This makes the code most flexible.
+ACPI has allowance for device tree properties (via PRP0001 HID
+entries), and drivers should work with them.
 
-Anyway, I am not proposing to change all of the regulator code, just
-clean up driver core APIs.
+> 
+> Sure, looking up devices by fwnode handle makes sense, but looking up
+> anything that is described in firmware is not suitable for this kind
+> of conversion, because in doing so, you effectively "port" the DT
+> bindings to ACPI, and it may not be suitable for ACPI.
+> 
+> So, please don't make wholesale changes that transfer the DT bindings
+> into ACPI.
+> 
+
+I am not "transferring" anything, but I want to make sure the code works
+even if we augment OF with software nodes or if DT properties are used
+in ACPI.
 
 Thanks.
 
