@@ -1,64 +1,64 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FB1225397
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 01:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5732192F9
+	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 01:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774230893; cv=none; b=TPQ2LTboWCeHutW6cpNRZ4FAIJN9f469X73Qp5EAF+9CDRA3dPLt6lSqXWMp5Ve47l3cQKIdTWKVAiLZWy2rXHpzo1bUNbWnF7y3IDgTl6A12ntZi/6YVOBTCYl4Uaw8zyWszyJ4guuCfUDf717aL6vtMUch5Zmf/7wm3km4r/M=
+	t=1774230894; cv=none; b=qA+k0RpjyrOQPzCw0RVlGgHcWgasOx/PjYdWr9BriZsLmQhUlDm0D+JG9y7TaPCYZ/7Gqx7sxTsDlFVlVWD+yDgzQtZewXywJJLr0A6+nMvuUpMVoX41GkA9az5IDNkuNsdovUVaFrsWowVTDqZaaT9VMM0e8swleLxrOZVBA/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774230893; c=relaxed/simple;
-	bh=RqL0mTRKkF4hWJurWBewRbPofeTnIMHQam2gd97mUZU=;
+	s=arc-20240116; t=1774230894; c=relaxed/simple;
+	bh=08I0o88gE8cy/+U/o+AKavzx0eRFU5y0gnDfFw+/PXY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TRQy1l50EBJk58/7ZtQMimj9k1QZUm8FjKsDBEt+WiSVA+nQjqIMs1N4HJjI02JTaykMsLHJNbQjthcLOkQUE/PumaXsuKk9635K2PHJjG/G1rLKmkYgny+RL46/3iMVNoGy8fGqMmXltsm6K9a8sd1kAe7icMh4QJVgiqEICp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/JEKiGp; arc=none smtp.client-ip=74.125.82.169
+	 MIME-Version:Content-Type; b=J00Z+80yuoKBm856V4WqaHiPQciCEPgGUh83Ovy5LasUw9+dYZQplxfTa7lbDiOYCWUCZVOgveAgt1N7qLo6MEjM5NNup39WA2NCC/YN2njzL5aJY0iCu/XIqI4MVfN6+aJCLQPapnM3aUEJLXQF0lBZ9fx2I6H+kggA3EsfLgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Esio/YPT; arc=none smtp.client-ip=74.125.82.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/JEKiGp"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2c107ef474fso4398382eec.0
-        for <driver-core@lists.linux.dev>; Sun, 22 Mar 2026 18:54:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Esio/YPT"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-126ea4b77adso3523277c88.1
+        for <driver-core@lists.linux.dev>; Sun, 22 Mar 2026 18:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774230889; x=1774835689; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1774230892; x=1774835692; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xQXLY86FxuKQON46KYMFrgiDaURA8SjvslLPqZRssqU=;
-        b=a/JEKiGp8I0BAzBbDw5MS1K9LsTGQXEQneQ04ZCsZq0vPcQ9RAPtyYvdf/ehCLlfvk
-         079oiNxBoWU5vn2TjOvf3QzwwLWDBFA9jmOshWcijlanB2CTRWvJA3kretE6aPTpzbXv
-         JmofBa6iERrW6XXFGJBznITLYy4NogvJfKaF0UK7Sw+iJRuPQBivtM0b6HVERgm5q+JM
-         pCtrWopw1Y3cgMfcGve1l+01tpiGMHUqqzFosl9+dPg7glD2F+XjG+GSQjX/hyMPwvPG
-         fWfYvFox15twif8R9uKT6VEArjsiQpmoebyiWVOVGjhwxxanUHoyMIZkLE6qOZiD9ut2
-         hLHA==
+        bh=L0G/uhHXfu21xXv3gnOSiW9nh+0t2XQiNOcz2tPqgk4=;
+        b=Esio/YPTOR2kIaQvW3/k5DJl+1zB+6iQgkqsG4MkwfSVZ1GOOStugB5r6UO0WQBxoy
+         l/OYCYwv0Q9reW4j2InoLMOJrg/xfqXt99l7kzRvwstJsyNrYNwJHui3ohW83vw3acNV
+         /an88xn8UA8tqghZy5cLDjVv0fyUMM8yqgEzc0X7oH9huMFGmds0b0ZTBbj2UKAkHPtY
+         ByM1FqEN2EHdYnfEvLziFBc9pBsfCtCvLL1lUq7iCOuPvTDq9zCo3n4qoMgdee5HJK2O
+         yNJwWYEqzKQwViMPn0zn4mPrJazwh2Dvixb+90aJ8XvUOAayNOk2YFMGYyl+o81Q0aH0
+         bE7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774230889; x=1774835689;
+        d=1e100.net; s=20251104; t=1774230892; x=1774835692;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xQXLY86FxuKQON46KYMFrgiDaURA8SjvslLPqZRssqU=;
-        b=l8pmufI8TUlItK+E3ZtW53C3HyiyEFrtlpSyPk8ee7B7WBPOK4uQoNzDRZDKlcUvH+
-         YKI8vytUEvm9Ej9SAJ+kifgm+iT/JBJLT90GJ9/0dBG6o7Tze+lqZ36JiahYCsFSar70
-         5y85oaC02osMtgWh5XsVjtoN0ndA2yMjKQV0nPM41Y0PlEpWEhEwFL/GYuSeZh7ipuIK
-         dJ8nKVShlDtf/acCNxmPmszwKfx8QaJUdBLMZ6Rf4/raiEKCb+MMFOPhC2103xSZYcaG
-         1m51jBBrIT6OWgc6nez8qVZJ+YJXRnizKFzIUHbiL/iJWUz92cYT+AFQ9hzPhuKU4rqh
-         Ce5w==
-X-Forwarded-Encrypted: i=1; AJvYcCX3TkSSFeviY5XnEete0pumG0LpQMIojeCJyBacpGfQ1IzV1Hi7FvLzm0sheTRafvNImEvfHslt4eVCzA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpQWXpdO9hxX6nGerwDaOROr3QiGCaRetJMVAIt4gT7IEW2N9e
-	lBOwwtOLby1meACmRpIV3SE5x1at97fziiTiskpxNJ5lM9UOFRCSx2WK
-X-Gm-Gg: ATEYQzy9S+l4nJfZ/tvLf6e1w2EWtmj1iCM2ZEJ8KxfB5EFsfzFWNQfz5tKCEXnSXqi
-	8EDlv6pc1hIFkUQeOmza9jD6nExb6lVWzr05qbmpp30megC0JEp4pKLVwmRcygSJ27eggsXKRJk
-	+YXL9fYP/k/Hg4rc4ReLaexYE3TIszlWG2By5hVRH+2cHaSZOWtp5kdfFtR2kGJ9xR3nI7vaeyN
-	B8BMdBAv+S942fUgizfGHfFez6l6h8jluwzW5iDk0CWpJrTR7/pjw1szxsSLJH6+dZbZ9Hr8mfH
-	oH3NWeDtxyETy5hQfW8XBatMnwo/dA/Cf35vBuQdQ7mQC9uO0xddVjMVdeQVQhJY5AeGb9tXJDl
-	cpARJgzxOiVomYkPGhN+EkhuHA8h1MnQNI3CIUlXYnnKwLDZAaFpx0Ln2qI6r94SgxKUExGCGbS
-	M5Qul1OSHWNtLman160a8aV9n9hpqMbgTHoK1x4SS0eVNfBaUbqh13cvkMCSRghvhx1L1RUyzvY
-	4I936yNKIHf/PM=
-X-Received: by 2002:a05:7300:572a:b0:2c0:bd6f:42a3 with SMTP id 5a478bee46e88-2c10974f0d6mr5302324eec.22.1774230888985;
-        Sun, 22 Mar 2026 18:54:48 -0700 (PDT)
+        bh=L0G/uhHXfu21xXv3gnOSiW9nh+0t2XQiNOcz2tPqgk4=;
+        b=f2xVk0cjMweYozyXvYXVrqVxWsacworjPi22s7MHIFU8wRqw31Otw2gJ4VJbTgLlDA
+         GvLYPhdPHtpbSrtwD+TDk6GPkUFQcVahIZHO6MN6y+3xySP+7vt92syY+NiGwXt0CkkO
+         Dj8PzRoBkVJRXWxfVUKe2i78uvoorchtzjquEs54PUKkR1tFyBhp4uNZbh1/gfBHTviM
+         87l1Y3rWkxQRCy9ssWWUfUS4YUzm5jp3gWW41rdDWBG505qITKlwVj5xxgzJfhXVPNcN
+         cJn8el3D9eIzIs5uREqoOu+nR0L5pzqaq6TC/ae86Iq+6TgXNR7ZsY9IgD5GAyv48w5w
+         PAsA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEC4XrHul1CmsiVACeYqARNSy58Zt68qQllohPoKGuoQjFIRkI0SgnGVg9clCnxbVBOex8M+mqod6vEw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YweHbOAtGK3s5NSvODP9dx33vfxTFLixkiE0ma58M4jVd4IVWIS
+	IGYCeZ2kPCxdHv2Lhc8i5EzZkeLCMmXVN88cgYJw+ATYIGJ1s+2pponm
+X-Gm-Gg: ATEYQzzV4qIgBZUoG+r74PF1jfo6p732kgtF+GEOrHLVto58zCSlkG1o8xKZr3tWQ64
+	iU4KDDKuz2lYgEOiVM4KCslwqV630yTXNHv+bwiuqNJkgkV+7JiOXzEZPHDBJUNFKX324ucFxLd
+	gQ5JYigcwLJQO2UY7wy3dwkpjFCzuSJwXRXxOGuImo2DnkTCRSBXxyIWXsbj37UwLobc+XFUxFL
+	HMUvRdTqjpBcM6nlQZW+tgVUEWwl/LjgZBXES2kOgp9k3+Kdctksoy+ah/m1v4h6sEQU4AFQeKr
+	1KGDz6EkYZOreDkAp9zQCG84nTqE6LbA4krBCsX+kJG+LCyF6zvnHt+GIMIMl89RKjoqnYM6xt0
+	GK4artfzYnJdzcNMCFpSUafRhEj4bouHz7vrp0Vcfb1l+MH/mWGWD1PvUfjKZxNyuOxgkvaI4iX
+	TzmqxGMAA+s+Zh6bPasaUuEV6XMqoQ28kLVKuvhZ07i0toLS+vI5DYmxkvLkcEMay6ccP70qRHu
+	OJ561rBeygjrDc=
+X-Received: by 2002:a05:7022:eac8:b0:128:d3de:c9e4 with SMTP id a92af1059eb24-12a726db2ffmr4311793c88.30.1774230892088;
+        Sun, 22 Mar 2026 18:54:52 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:b768:22ed:3eba:aeb3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b2cf068sm10976952eec.22.2026.03.22.18.54.46
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b2cf068sm10976952eec.22.2026.03.22.18.54.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2026 18:54:47 -0700 (PDT)
+        Sun, 22 Mar 2026 18:54:50 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -88,9 +88,9 @@ Cc: netdev@vger.kernel.org,
 	linux-leds@vger.kernel.org,
 	linux-fpga@vger.kernel.org,
 	driver-core@lists.linux.dev
-Subject: [PATCH 05/10] leds: led-class: switch to using class_find_device_by_fwnode()
-Date: Sun, 22 Mar 2026 18:54:23 -0700
-Message-ID: <20260322-remove-device-find-by-of-node-v1-5-b72eb22a1215@gmail.com>
+Subject: [PATCH 06/10] mux: switch to using class_find_device_by_fwnode()
+Date: Sun, 22 Mar 2026 18:54:24 -0700
+Message-ID: <20260322-remove-device-find-by-of-node-v1-6-b72eb22a1215@gmail.com>
 X-Mailer: git-send-email 2.53.0.959.g497ff81fa9-goog
 In-Reply-To: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
 References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
@@ -109,22 +109,22 @@ using class_find_device_by_fwnode().
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/leds/led-class.c | 2 +-
+ drivers/mux/core.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index d34a19453560..8d7ec9ccb173 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -273,7 +273,7 @@ static struct led_classdev *of_led_get(struct device_node *np, int index,
- 	if (!led_node)
- 		return ERR_PTR(-ENOENT);
+diff --git a/drivers/mux/core.c b/drivers/mux/core.c
+index 23538de2c91b..774d4cc67cc1 100644
+--- a/drivers/mux/core.c
++++ b/drivers/mux/core.c
+@@ -521,7 +521,7 @@ static struct mux_chip *of_find_mux_chip_by_node(struct device_node *np)
+ {
+ 	struct device *dev;
  
--	led_dev = class_find_device_by_of_node(&leds_class, led_node);
-+	led_dev = class_find_device_by_fwnode(&leds_class, of_fwnode_handle(led_node));
- 	of_node_put(led_node);
+-	dev = class_find_device_by_of_node(&mux_class, np);
++	dev = class_find_device_by_fwnode(&mux_class, of_fwnode_handle(np));
  
- 	return led_module_get(led_dev);
+ 	return dev ? to_mux_chip(dev) : NULL;
+ }
 
 -- 
 2.53.0.959.g497ff81fa9-goog
