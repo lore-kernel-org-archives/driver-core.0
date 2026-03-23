@@ -1,200 +1,123 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5A426ED28
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 17:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8FD3B8D4B
+	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 18:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774288029; cv=none; b=T7C5tj61+sFewSAUuvEELVvz/yeP8Isr/6YCGKbtYMOa+9QIefa74VFkL6BcYrrx1hqI10cqZ/Ay9VV35B3gzEVw0ud+KH9Y6PXNriTQqH6c3w666uuo4xs88gpast/4fBNBB+Sw5qmPp9poApxP22YhcmRVXLQM2izn1QUqFGA=
+	t=1774290316; cv=none; b=N/VlXna7KmG8ce8WkKgIfTmxItJe3upmc6QmaVjCzZBf42AlNjSgd26yfXy0IMw8lV+fPD0dVZvI5SvpLvevE4QWSCI8dcebTq0mT5puMIFpQojAVeLxYVv7ePBEjUU838rYvdqT3PEwX2PRshbExreaZBafk/7OGngdR9EiuMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774288029; c=relaxed/simple;
-	bh=+GV9mEbjh2KEDYk0Ckp6jh8V/RmZayWw9Oe5F0SFdCo=;
+	s=arc-20240116; t=1774290316; c=relaxed/simple;
+	bh=n2Px9KvrBSca+8wbbFZSgIYdPNKBUj7GDb8kCwrntFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j7c+FDk/Rwdb0BsmKh/hxh+F6tuL3r9TFe8r/fZeEtTzVXRnL5UozQxD8WFal/VodxVvaBMBLt16pAuvm//ctrmIysL6ysBrDmjJKa/9UIOgGLO+s5teJHC+QaIIAr7+11pov6hmOaUBMGk8nfbn2Xtc7jNBNkm+KIG1VOBSnfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=JsNBzmAj; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hnq7ZQ9Unuh2PCT82Q3MC+44JBzyrR79GyH+1AnWWHaNfbm5DK63MD6A+M+8MMzIcCm4bhRDXdVd7TAeIdQfNQcIg40po3TiN68OqP7q41b9p0Q6gavdsz7MAXj2JOP2Wtm1hIksLxEPI2PWMz7MGItUXa6vkjsq+JESrA1YYpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CpKLkY5s; arc=none smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="JsNBzmAj"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-899eabc5292so44697416d6.0
-        for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 10:47:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CpKLkY5s"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12776bebe9fso705958c88.1
+        for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 11:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1774288026; x=1774892826; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Zt+MMdT6pvPJKfJL2D/x4ENtbBSrsY+G3nmKWRVjgjI=;
-        b=JsNBzmAjrxOvI+2AkZhYeSViHgAicwlY72vjdSVa/2ux0tSYnlSrOiWrNduYm9diyN
-         WNlmsZbRoYQ99f8Ere9b6CO6W9Dl6/htSzujtIgkMcOQnoHFEitjuzpiCV2Y2dAsHJNs
-         y6g3TfQaAdORQ7MOKEdTgno6nqdzL+7zQLa3JzrycDLXLUeMcp1qUROhnzG7fxa5hoVZ
-         cqY6jVlPX/qO1/CuI3PE71XGLmqD0OaL6EIItnQWFr1joeCkNtpl8ZpclD0ksiLW99i3
-         LA44Ay9c0UgnWMctsrcxGRgkgXbIVaNsLohbTXGXHqiJu0sWviOkIVT1g7UDZK3byslL
-         C7SA==
+        d=gmail.com; s=20251104; t=1774290311; x=1774895111; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0+l2i6CJ0UesVmQ48tC67wDfEsqc0p6X8zxC51ds3A4=;
+        b=CpKLkY5sVaGH4g/3nlbjv2f1b50YdMZKaU5w8bjpPSEq2UZA/ZcseQqG4CGt0DzaK/
+         dwLdYqdccnwxBwyzHWczvdoh2ryFel3B5mmHMHo7omzjK7qraOrhd/p4nZ+QIcs9vt4I
+         C+CPxSYHp3dkRdHiL+jJBwEvQMuHdXJG2cgY5LDRnlfgJ+GGleGtC2IUptjXPhKXbiuJ
+         qSZtxqf4uexASs0S84HOljjvLpBlqr2BwJbMiyAYJhpy3phuz5p90dbFj76ffbc9V0Q2
+         wLprgK2hZTDpd6RfHFPBEBdxXmgDiis3HPz7HIEBhLMJR/lWUPnFK0xBNj59zDGRj2NN
+         VfiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774288026; x=1774892826;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zt+MMdT6pvPJKfJL2D/x4ENtbBSrsY+G3nmKWRVjgjI=;
-        b=QyFX5j7TZLqqjCFOx/J/JhIHo8ILeik79b+iJ4mVVx1O7S0bP/BiJm9J8GT0WCJtXr
-         e0Nb0uZ5ODVScvebydYY2xFJOaPMuuACpHDDLyrMTau8KgtOAnzwsk8lL5t1VOVo4Jwv
-         EVefj/yhsAi4ZQ0aVbS/LIliLMdp0Z5ck7Booj1jOtQEA7hMnKU4sD/TJ9iQn8hR24TD
-         u550UU2Cut834iQQaQ9gx6LZNnG812BIGgwmOO0QMc/ReaGVeJL5ptU+rYjVw4lWQgEB
-         tW//fLvNUcA8j2oEOfps2V0qtMkkbPS9HMO2VXnKRKMsviKJrcWuVqLJ7eaUDfWCczfM
-         /DFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXmfq/L6QxARxXutPuTsPzZj+FXza2B7Vo40d2VLn22fw5S8ETGrm2sW2WG4x97Fm16zr8Z6dQ9CDy00Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQ9PIk/2dx+/80YJM/SLWhMyFS1AMdRda8dvv8u+uSv0gCy54s
-	HRgmYOpMCmXXHhDkAag/7/gajomJhsm8J2STo8fholkdCTFLLBb8a8nXcixUIweg0A==
-X-Gm-Gg: ATEYQzxt+/ZnSWfahuc8a79SPDDZ663vPqwY6gUx8S8uPIVqD5/kQqLXlY3zH5vSCtl
-	p4FARwsPY66PQF4Vvjmgd6simy6Ek1+2N2UTBhjWnwiU+0xRDfqSPADht7LUqJy48hPm4TnyVy6
-	hc3mWYAWVLeZEsYUfOuqIcy16YGKQzUL3kzo4tARO3RmN8g08iKg7Vlnu0ovgLfWAJa3QOsQ330
-	zH34ud0oNpRwAUhxvOV/WVXwB+boJmCAOnUmGST0H3nB6FcBqjDCV732IHB/8Usd2/SNGa2DjPX
-	LHBia1v6kpyaN0oXYozDydzRO/JKwqhvcdDJTDOE1rc6C/cIKRKgQ41j+x+9SjIf2iT3GfxzwEm
-	bTbertzNIlr858S5gsuUyiXP/27cqUYnjeI6f3ozO39LHuFrNwx+9XFtb4XHWvSevgApNExjoBl
-	Msm6M2f0xaAxDHX02qEOec/L2wuuug8b8FkiBdBHe3yN6Sg7Q6Jr2B6kdy6Ih1VYxJKGY=
-X-Received: by 2002:a05:6214:27c5:b0:899:fd64:1b72 with SMTP id 6a1803df08f44-89c85a5bebbmr215431466d6.41.1774288026237;
-        Mon, 23 Mar 2026 10:47:06 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:349c:f507:d5eb:5d9e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c85335745sm93354426d6.32.2026.03.23.10.47.05
+        d=1e100.net; s=20251104; t=1774290311; x=1774895111;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0+l2i6CJ0UesVmQ48tC67wDfEsqc0p6X8zxC51ds3A4=;
+        b=PqfHVWZBTFp4p5oiQbIZIkNw9OKiRbMsp8s8u2zeKpM4FbaR/YVIN1uLHmuYEySzNW
+         ccCJBktB5mzA+88+UmckA1eva4Ul/bRXf3zOtZK742TNxP1Uv+M09umLWczJrm5BkCFw
+         8zfO8XUT9jI82zGMq8QtXMdDoS6deIom9xb/Y+ydqzhaEalPverq0EKGMK1owCZxGbFE
+         H6N28OoxvDXXZ6Epw/CZE7l28ml3YK3WJalrmeveEcLirFqV7Xh1MwpK6kISBSEk1X3d
+         rAkJO88By2ttTODVeaIP+SPHFCzHjdUpUXe1CXJuZn/7Hi+8N9X+OrhhfMgp+8VBuInx
+         rYiw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfaQ0L/oCea8u7SWIS2BGvMnezr7rvqHihcX6kix/Rzr5O7LuAmhj0sECOlAuyQOqu0JU5xHVWMZMZ+w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMhwVZjCQkNk9kDAbB8LX6kWhpBAfwUUmC2shNCZBTHnopeQM+
+	VWPIbZnW++KUe3hMmElivGHNyLdSbKuoKdctkeQ0QOzW13QKTSHI/48g
+X-Gm-Gg: ATEYQzz9/GPxh29YyNiBxPtOujFpQio8sLBFYf1w34kB4qR4VS/qOIc1jCcSUBPffGv
+	lH5vsJcjRBy8kkjy8TqilRnfXznDwxTGUKZx0jIqDwaHTurQ1mQmLLpNIlHcEVHrSz7hFwgAGK9
+	+sEZ48YwitSdRHIcllqTwbH6c2Gxj5eGSEv7ZEC4pEPGjAJ3/CrvLF22y2zdJrR01mHIAWgDduO
+	nQL9E2bBKv8ou91jPc0paXB1HhsHDj8q2dITI5saeSQ9RyhWwq/QlrJE5tGUKkvZyVXgPKxlpsd
+	yPIQz0v8bHBaeq/cTebiPEr83dXfHkYzxEZL/3ziNsFF/8217TKkXDVWyltxGQDDTRPzMpTZbiG
+	hu1+IZoX/D3+ZLTiHW9smznwoLP0ryIQZa9VXk5jBrHlOMFwAhvWC5Sg9QiuWLlvWkl0DhLC+Bz
+	Iq3PpFw7SYHlDV2V1sYzDLRhn5Z8+AbRaqiOiSOw4tyndBeT0NWd1gG9cnRWDd218XKT7FdaFgi
+	xs=
+X-Received: by 2002:a05:7023:b14:b0:128:e2a9:d97b with SMTP id a92af1059eb24-12a726dd9b5mr6179340c88.42.1774290310889;
+        Mon, 23 Mar 2026 11:25:10 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:a296:1211:5ab0:bc95])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b31bef1sm16253302eec.26.2026.03.23.11.25.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 10:47:05 -0700 (PDT)
-Date: Mon, 23 Mar 2026 13:47:02 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] driver core: Don't link the device to the bus until
- we're ready to probe
-Message-ID: <6511a5b9-ac67-49a1-8336-3d2afaaab593@rowland.harvard.edu>
-References: <20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <2026032152-getting-carmaker-29d5@gregkh>
- <CAD=FV=Wag5qx9RXkAHrf+zbwtQgVQW1UUc6DRhUzudBtjbD8ug@mail.gmail.com>
- <2026032114-unlocked-unmoving-091b@gregkh>
- <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
- <6ff1444b-f83e-47f6-ab0d-6745738523ba@rowland.harvard.edu>
- <CAD=FV=Vco+hRBNxGpUDf-YofEwTR13ht=nTnjvUvT+3_76+1MA@mail.gmail.com>
+        Mon, 23 Mar 2026 11:25:10 -0700 (PDT)
+Date: Mon, 23 Mar 2026 11:25:06 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-spi@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH 03/10] spi: switch to using class_find_device_by_fwnode()
+Message-ID: <acGEk-63oVK_fBeh@google.com>
+References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
+ <20260322-remove-device-find-by-of-node-v1-3-b72eb22a1215@gmail.com>
+ <098e1856-feee-4f4b-8059-85a53967f6b3@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=Vco+hRBNxGpUDf-YofEwTR13ht=nTnjvUvT+3_76+1MA@mail.gmail.com>
+In-Reply-To: <098e1856-feee-4f4b-8059-85a53967f6b3@sirena.org.uk>
 
-On Mon, Mar 23, 2026 at 10:07:01AM -0700, Doug Anderson wrote:
-> Hi,
+On Mon, Mar 23, 2026 at 05:16:04PM +0000, Mark Brown wrote:
+> On Sun, Mar 22, 2026 at 06:54:21PM -0700, Dmitry Torokhov wrote:
+> > In preparation to class_find_device_by_of_node() going away switch to
+> > using class_find_device_by_fwnode().
 > 
-> On Sat, Mar 21, 2026 at 8:54 AM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > > > > I'd also note that the only actual symptom we're seeing is with
-> > > > > fw_devlink misbehaving (because dev->fwnode->dev wasn't set early
-> > > > > enough). fw_devlink is a "new" (ish) feature, is officially optional,
-> > > > > and isn't used on all hardware.
-> > > >
-> > > > That's true too, can we set that earlier?
-> > >
-> > > Yes, I can post a patch that _just_ moves the set of dev->fwnode->dev
-> > > earlier, and that will probably fix my symptoms (I'll need to test).
-> > > This patch already moves it a bit earlier, but if we don't break the
-> > > linking out as a separate step it would need to move even higher up in
-> > > the function.
-> > >
-> > > Originally, I was going to just propose that, but then I realized that
-> > > some of the other code in device_add() probably also ought to run
-> > > before we let the driver probe, and hence I ended up with this patch.
-> >
-> > This sounds like a more generic problem.  A bunch of things happen after
-> > bus_add_device() that should be completed before probing can start; the
-> > firmware node stuff is just one of them.
+> >  struct spi_controller *of_find_spi_controller_by_node(struct device_node *node)
+> >  {
+> > +	struct fwnode_handle *fwnode = of_fwnode_handle(node);
+> >  	struct device *dev;
+> >  
+> > -	dev = class_find_device_by_of_node(&spi_controller_class, node);
+> > +	dev = class_find_device_by_fwnode(&spi_controller_class, fwnode);
+> >  	if (!dev && IS_ENABLED(CONFIG_SPI_SLAVE))
+> > -		dev = class_find_device_by_of_node(&spi_target_class, node);
+> > +		dev = class_find_device_by_fwnode(&spi_target_class, fwnode);
+> >  	if (!dev)
+> >  		return NULL;
+> 
+> Actually, no - this just looks weird.  We're in the middle of an OF
+> specific function but we're having to jump up to fwnode for no apparent
+> reason.  If we actually decide to get rid of the OF specific function
+> then I guess but I'm really not convinced this is an improvement in
+> isolation.
 
-You know, I wrote this but I'm not so sure that it's accurate.  We've 
-gone many years with no big changes to this code; most likely it doesn't 
-need alterations now.
+Yes, I want to remove OF-specific APIs from the driver core. I also have
+drafts for bus_find_device_by_fwnode and others.
 
-> > Splitting bus_add_device() in two sounds reasonable, although I would
-> > rename the old routine to bus_link_device, since all it does it add some
-> > groups and symlinks.  The new routine can be called bus_add_device().
-> 
-> LOL, so basically you want them named exactly opposite I did? That's
-> OK with me, though maybe:
-> 
-> bus_prep_device()
-> bus_add_device()
+I can make a followup series introducing spi_find_controller_by_fwnode()
+and removing this OF-specific variant.
 
-Nothing wrong with those names.  But instead of making these fairly 
-intrusive changes it might be better just to move the firmware stuff to 
-a different place in the code (you mentioned this possibility in your 
-first email).  It would be a smaller change, that's for sure.
+Thanks.
 
-> > The real question is whether any of the other stuff that happens before
-> > bus_probe_device() needs to come after the device is added to the bus's
-> > list.  The bus_notify() and kobject_uevent() calls are good examples; I
-> > don't know what their requirements are.  Should they be moved down,
-> > between the new bus_add_device() and bus_probe_device()?
-> 
-> Yes, this is my question too. The question is, what's worse:
-> 
-> 1. Potentially the device getting probed before the calls to
-> "bus_notify(dev, BUS_NOTIFY_ADD_DEVICE)" and
-> "kobject_uevent(&dev->kobj, KOBJ_ADD)"
-> 
-> 2. Calling "bus_notify(dev, BUS_NOTIFY_ADD_DEVICE)" and
-> "kobject_uevent(&dev->kobj, KOBJ_ADD)" without first adding to the
-> subsystem's list of devices.
-> 
-> As it is, my patch says #2 is worse and thus allows for #1. ...but I
-> don't actually know the answer. The main reason I chose to allow for
-> #1 is that it makes the behavior less different than it was before my
-> patch, but that doesn't mean it's correct.
-> 
-> Reading  through a handful of "BUS_NOTIFY_ADD_DEVICE" calls, my guess
-> is that they expect to be called before probe... That would imply that
-> my patch made the wrong choice...
-
-I don't know about other subsystems, only USB.  As far as I remember, 
-USB doesn't really care about the order of probing vs. notifications.  
-In general, since probing can be asynchronous with registration, the 
-kernel always has to work with probing after bus_notify().  It's 
-best to preserve that order unless there's a very good reason not to.
-
-uevents may be different, since they go to userspace.  It could be 
-weird for a user program to be told about a new device and then not be 
-able to find it on the bus.
-
-> I think another option here might be to just add a new bitfield flag
-> to "struct device", like "ready_to_probe". Right before the call to
-> bus_probe_device(dev), we could do something like:
-> 
-> device_lock(dev);
-> dev->ready_to_probe = true;
-> device_unlcok(dev);
-> 
-> Then in __driver_attach() I can have:
-> 
-> device_lock(dev);
-> ready_to_probe = dev->ready_to_probe;
-> device_unlock(dev);
-> if (!ready_to_probe)
->   return 0;
-> 
-> If I do that, I don't think I'll even need to re-order anything, and I
-> think it's all safe. Basically, it just the device hidden from the
-> __driver_attach() logic until probe is ready.
-> 
-> What do you think?
-
-There should not be any difference between probing caused by the device 
-being added to the bus, vs. caused by a new driver being registered, vs. 
-caused by anything else (such as sysfs).  None of these should be 
-allowed until all of them can be handled properly.
-
-And linking the device into the bus's list of devices should be the 
-event that makes probing possible.
-
-Alan Stern
+-- 
+Dmitry
