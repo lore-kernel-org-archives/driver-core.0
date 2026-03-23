@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF253BADA9;
-	Mon, 23 Mar 2026 15:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188423BA24F;
+	Mon, 23 Mar 2026 15:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774280325; cv=none; b=VlRCEiFh1M8cGcVTa9gUMGhCC6gWQBWKipp12Hyj5JCgku4ZDiKtSIv+NKwZ469yckeudz+lWUUD+1XYmRVOxLwWubgc4BXeemlQb4YRV01SY80VPQpGON4gT0byK7BOo3tKp4YYn/2Tz5G4ZCAEqVXh0Nsj61mMeKSklG14NEs=
+	t=1774280329; cv=none; b=EeuAqLiUJpawXtcCpYJhIsfVo5IEqIYdsTAyZxNXtcoMJkbKmsmraazzTNDILXDpfWluaU1qBD7hERV6wWKcjTCaL3upH+s3Fqfw0Kz8oIzE6Klm1XmM1vp82MCcKn2xILs67WDCkXyJIvKrwU10xi2Y5cYrrz4rHyZWY/H4JTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774280325; c=relaxed/simple;
-	bh=tIWewFp7x6qDu6iQv8L+binaXaWOMdlo72Cz++arfpI=;
+	s=arc-20240116; t=1774280329; c=relaxed/simple;
+	bh=qgrnQkHeH2BzH+1SRVeNJPVgmIO0NVcIXAXBHZ2wcts=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HO25YLEta8HQTb5FCZB106Zjt0W/QHk+h/sS/Rg42vBSdCR6RWcMQkAKsiZVwYrghtOHoScYaYHF4gmDsn7tNdg8YxRG0leMN/4sdm39iBXDDdlkReYN7ifoR9IXXPTbrKvqnEoxQ4lTuewCARrRguPDG4yfQz3zv5NF8S/MCuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lQuZHCv8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=AaNd8WgaMt6tZx8rWknxfyH33q0y3GLvnn/7JfMRJhsBxeWGYrSL40oh1aNl4es3FbK4ck9rynGug3w4syIINHBLnkLXuO3j0ETuSLaLij/AnOZblasl6uRRsiWJRvGYXTZRUx6KyXOtQlNW5qQkOGcqzQevCuN8tmbIeJoz87M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zdcg4TYE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lQuZHCv8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03038C2BCB4;
-	Mon, 23 Mar 2026 15:38:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zdcg4TYE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D924C2BC9E;
+	Mon, 23 Mar 2026 15:38:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774280325;
-	bh=tIWewFp7x6qDu6iQv8L+binaXaWOMdlo72Cz++arfpI=;
+	s=k20201202; t=1774280329;
+	bh=qgrnQkHeH2BzH+1SRVeNJPVgmIO0NVcIXAXBHZ2wcts=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-	b=lQuZHCv85Cs08ptp16vCnr/phU8+rPShtHi4vSu/ZjqGFqxcIYVLxSfJLXfYyDjP/
-	 Q3SyjZa8gbPGrUOOUKZt9IbyEGNVOKyXnO9mobhFscufN31GZQOxgI84Dlm31131jj
-	 m9KR7YYK7UuIX4ruivrEMoEt7S7+jqH0qSkLwEBbPik18mRdmkH01fDRPRsQBaNinG
-	 Z/xmbM/lDoJmilhkChUxf3ExoSQ1xDJda1fZzsPX9H0AuaqJryugP/zc4HSiEuqvAV
-	 MrRCx+u89xANNR2fXhXKkjd5reGQnAz6i5QC3OoM+dWMCK6OwXQc0tF3bNItO16ITc
-	 T7L4bV6gXnXNw==
+	b=Zdcg4TYE2HubzrYwxig1jQhD3Yjm0W6GumJuq4uD7pVCH0DzSlHEUzZHkTUrmfqmA
+	 kFME1VjXcDdi9VjQy/x3dYAqCN++lt6DYbvvabNOKbo++yKeUBuLZRUbPew+Po2dJb
+	 1NxEB9ajZbyE5AJT4P0A4OC8yL9z8DOyyuxkaWfdZUhBtn/B63xb5TEdrcD3+qsZ9O
+	 6E2Xcq982FV5NW8g4gliOiOO5x73KvkpE5Keo40njeW1qJ5e0NzM7ZV7K6wkerJX3I
+	 ADSicek9YjauXm76j2ym4kvEM0xYtsuSA8cKiXaFvGZK39+6o/YPj+UmNSXXNhOITm
+	 7ykE62fjoIHhQ==
 From: Gary Guo <gary@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
@@ -36,13 +36,15 @@ To: Miguel Ojeda <ojeda@kernel.org>,
 	Alice Ryhl <aliceryhl@google.com>,
 	Trevor Gross <tmgross@umich.edu>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>
 Cc: rust-for-linux@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/8] rust: io: add view type
-Date: Mon, 23 Mar 2026 15:37:56 +0000
-Message-ID: <20260323153807.1360705-5-gary@kernel.org>
+Subject: [PATCH 5/8] rust: dma: add methods to unsafely create reference from subview
+Date: Mon, 23 Mar 2026 15:37:57 +0000
+Message-ID: <20260323153807.1360705-6-gary@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20260323153807.1360705-1-gary@kernel.org>
 References: <20260323153807.1360705-1-gary@kernel.org>
@@ -57,185 +59,93 @@ Content-Transfer-Encoding: 8bit
 
 From: Gary Guo <gary@garyguo.net>
 
-The view may be created statically via I/O projection using `io_project!()`
-macro to perform compile-time checks, or created by type-casting an
-existing view type with `try_cast()` function, where the size and alignment
-checks are performed at runtime.
+Implement `Io` for `Coherent`, so now `dma::Coherent` can be used with I/O
+projections.
+
+This allows the `as_ref()` and `as_mut()` API to be used in smaller region
+than the whole DMA allocation itself. For example, if a ring buffer is shared
+between GPU and CPU, users may now use the `io_project!` API to obtain a view
+of the buffer that is unified owned by the CPU and get a reference.
 
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- rust/kernel/io.rs | 147 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 146 insertions(+), 1 deletion(-)
+ rust/kernel/dma.rs | 56 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index 72902a4a343d..8166e47f1381 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -7,7 +7,11 @@
- use crate::{
-     bindings,
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 779d4babab9a..ae2939abc166 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -12,6 +12,10 @@
+         Core, //
+     },
+     error::to_result,
++    io::{
++        Io,
++        IoCapable, //
++    },
      prelude::*,
--    ptr::KnownSize, //
-+    ptr::KnownSize,
-+    transmute::{
-+        AsBytes,
-+        FromBytes, //
-+    }, //
- };
+     ptr::KnownSize,
+     sync::aref::ARef,
+@@ -864,6 +868,58 @@ fn drop(&mut self) {
+ // can be sent to another thread.
+ unsafe impl<T: KnownSize + Send + ?Sized> Send for Coherent<T> {}
  
- pub mod mem;
-@@ -296,6 +300,13 @@ pub trait Io {
-     /// Type of this I/O region. For untyped I/O regions, [`Region`] type can be used.
-     type Type: ?Sized + KnownSize;
- 
-+    /// Get a [`View`] covering the entire region.
++impl<T: ?Sized + KnownSize> Io for Coherent<T> {
++    type Type = T;
++
 +    #[inline]
-+    fn as_view(&self) -> View<'_, Self, Self::Type> {
-+        // SAFETY: Trivially satisfied.
-+        unsafe { View::new_unchecked(self, self.as_ptr()) }
++    fn as_ptr(&self) -> *mut Self::Type {
++        self.as_mut_ptr()
 +    }
-+
-     /// Returns the base pointer of this mapping.
-     ///
-     /// This is a pointer to capture metadata. The specific meaning of the pointer depends on
-@@ -895,3 +906,137 @@ pub fn relaxed(&self) -> &RelaxedMmio<T> {
-     readq_relaxed,
-     writeq_relaxed
- );
-+
-+/// A view into an I/O region.
-+///
-+/// # Invariants
-+///
-+/// - `ptr` is aligned for `T`
-+/// - `ptr` has same provenance as `io.as_ptr()`
-+/// - `ptr.byte_offset_from(io.as_ptr())` is between 0 to
-+///   `KnownSize::size(io.as_ptr()) - KnownSize::size(ptr)`.
-+///
-+/// These invariants are trivially satisfied if the pointer is created via pointer projection.
-+pub struct View<'a, IO: ?Sized, T: ?Sized> {
-+    io: &'a IO,
-+    ptr: *mut T,
 +}
 +
-+impl<'a, IO: ?Sized, T: ?Sized> View<'a, IO, T> {
-+    // For `io_project!` macro use only.
-+    #[doc(hidden)]
++impl<'a, B: ?Sized + KnownSize, T: ?Sized> crate::io::View<'a, Coherent<B>, T> {
++    /// Returns a DMA handle which may be given to the device as the DMA address base of
++    /// the region.
 +    #[inline]
-+    pub fn as_view(&self) -> Self {
-+        *self
++    pub fn dma_handle(&self) -> DmaAddress {
++        let base = self.io();
++        let offset = self.as_ptr().addr() - base.as_ptr().addr();
++        base.dma_handle() + offset as DmaAddress
 +    }
 +
-+    /// Create a view of a provided I/O region.
++    /// Returns a reference to the data in the region.
 +    ///
 +    /// # Safety
 +    ///
-+    /// `ptr` must satisfy the invariants of the view type.
++    /// * Callers must ensure that the device does not read/write to/from memory while the returned
++    ///   slice is live.
++    /// * Callers must ensure that this call does not race with a write to the same region while
++    ///   the returned slice is live.
 +    #[inline]
-+    pub unsafe fn new_unchecked(io: &'a IO, ptr: *mut T) -> Self {
-+        // INVARIANT: Per function safety requirement.
-+        Self { io, ptr }
++    pub unsafe fn as_ref(self) -> &'a T {
++        let ptr = self.as_ptr();
++        // SAFETY: pointer is aligned and valid per type invariant of `View`. Aliasing rule is
++        // satisfied per safety requirement.
++        unsafe { &*ptr }
 +    }
 +
-+    /// Obtain the underlying I/O region.
-+    #[inline]
-+    pub fn io(self) -> &'a IO {
-+        self.io
-+    }
-+
-+    /// Obtain a pointer to the subview.
++    /// Returns a mutable reference to the data in the region.
 +    ///
-+    /// The interpretation of the pointer depends on the underlying I/O region.
-+    #[inline]
-+    pub fn as_ptr(self) -> *mut T {
-+        self.ptr
-+    }
-+}
-+
-+impl<IO: ?Sized, T: ?Sized> Clone for View<'_, IO, T> {
-+    #[inline]
-+    fn clone(&self) -> Self {
-+        *self
-+    }
-+}
-+
-+impl<IO: ?Sized, T: ?Sized> Copy for View<'_, IO, T> {}
-+
-+impl<'a, IO: ?Sized, T: ?Sized> View<'a, IO, T> {
-+    /// Try to convert this view into a different typed I/O view.
++    /// # Safety
 +    ///
-+    /// The target type must be of same or smaller size to current type, and the current view must
-+    /// be properly aligned for the target type.
++    /// * Callers must ensure that the device does not read/write to/from memory while the returned
++    ///   slice is live.
++    /// * Callers must ensure that this call does not race with a read or write to the same region
++    ///   while the returned slice is live.
 +    #[inline]
-+    pub fn try_cast<U>(self) -> Result<View<'a, IO, U>>
-+    where
-+        T: KnownSize + FromBytes + AsBytes,
-+        U: FromBytes + AsBytes,
-+    {
-+        if size_of::<U>() > KnownSize::size(self.ptr) {
-+            return Err(EINVAL);
-+        }
-+
-+        if self.ptr.addr() % align_of::<U>() != 0 {
-+            return Err(EINVAL);
-+        }
-+
-+        // INVARIANT: We have checked bounds and alignment.
-+        Ok(View {
-+            io: self.io,
-+            ptr: self.ptr.cast(),
-+        })
++    pub unsafe fn as_mut(self) -> &'a mut T {
++        let ptr = self.as_ptr();
++        // SAFETY: pointer is aligned and valid per type invariant of `View`. Aliasing rule is
++        // satisfied per safety requirement.
++        unsafe { &mut *ptr }
 +    }
 +}
 +
-+/// Project an I/O type to a subview of it.
-+///
-+/// The syntax is of form `io_project!(io, proj)` where `io` is an expression to a type that
-+/// implements [`Io`] and `proj` is a [projection specification](kernel::ptr::project!).
-+///
-+/// In addition to projecting from [`Io`], you may also project from a [`View`] of an [`Io`].
-+///
-+/// # Examples
-+///
-+/// ```
-+/// use kernel::io::{
-+///     io_project,
-+///     Mmio,
-+///     View,
-+/// };
-+/// struct MyStruct { field: u32, }
-+///
-+/// // SAFETY: All bit patterns are acceptable values for `MyStruct`.
-+/// unsafe impl kernel::transmute::FromBytes for MyStruct{};
-+/// // SAFETY: Instances of `MyStruct` have no uninitialized portions.
-+/// unsafe impl kernel::transmute::AsBytes for MyStruct{};
-+///
-+/// # fn test(mmio: &Mmio<[MyStruct]>) -> Result {
-+/// // let mmio: Mmio<[MyStruct]>;
-+/// let field: View<'_, _, u32> = io_project!(mmio, [1]?.field);
-+/// let whole: View<'_, _, MyStruct> = io_project!(mmio, [2]?);
-+/// let nested: View<'_, Mmio<_>, u32> = io_project!(whole, .field);
-+/// # Ok::<(), Error>(()) }
-+#[macro_export]
-+#[doc(hidden)]
-+macro_rules! io_project {
-+    ($io:expr, $($proj:tt)*) => {{
-+        // Bring `as_view` to scope.
-+        use $crate::io::Io as _;
-+
-+        // Convert IO to view for unified handling.
-+        // This also takes advantage to deref coercion.
-+        let view: $crate::io::View<'_, _, _> = $io.as_view();
-+        let ptr = $crate::ptr::project!(
-+            mut view.as_ptr(), $($proj)*
-+        );
-+        // SAFETY: projection of a projection is still a valid projection.
-+        unsafe { $crate::io::View::new_unchecked(view.io(), ptr) }
-+    }};
-+}
-+
-+#[doc(inline)]
-+pub use crate::io_project;
+ /// Reads a field of an item from an allocated region of structs.
+ ///
+ /// The syntax is of the form `kernel::dma_read!(dma, proj)` where `dma` is an expression evaluating
 -- 
 2.51.2
 
