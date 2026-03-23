@@ -1,136 +1,110 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17F92FF65B
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 08:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47687371873
+	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 09:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774256203; cv=none; b=XZB0/VtZ/Bvb0cxngooOGKmM+e8iXmMBcDC6RHdFRBwpg6MH8c9S4TOIlkn6m7vURi3w5zxDoGjlskvPIykNcrRkzq98IiuHtaqWzOC2sEXgihk5hGVTSruW9qH6gUAfww/mVYFY1KoY7hxh+AEPiaV/H0s9ikXl+2k7g2yYBBg=
+	t=1774256434; cv=none; b=lqqGNswSrgnyS2JcVOfkZbScY+UR2iXlg8PMQDsRdbzxU1qIeyeVaw5KIU28gXIosgARXJrC4wgmdeJLYOli9Sf0cYYcG6AEvn+9JehJvqikBv/8ZBgpfdsjYH7QMbxItWrnUpMpA155R1SmEN5iCj2mguLmdK2KicLl8V7PsjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774256203; c=relaxed/simple;
-	bh=xNC49kf2jZxkGM84MWEaRm7mYtl2QWEkY41xfBlq1BE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OX7kQ8pLUfVBu1WhMs6uFSTG4/FRzAPoINl5Dw1db+U6uwQK2VbOQL8oZEXoShiVf8hHZA456i8RYSJ7WdkDpNB+OyHyKz9TIV3ULEUH24mGYnVBTizhkmp99E+etE+lI0N46aiHZJzD07cUWjosGjWOb4QNJBgS+fZxr7JKb2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=NZcI0pJK; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1774256434; c=relaxed/simple;
+	bh=/biRsCEdq/ddELaA4pVbIjzNAeUEcCO8JGY8MM8mv/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKcbkuTS3B+yDr0zVtoEbPxSybxR1lDAkNEhvA75HRr4UeIkUvh8Qpb5NU+tOuPdq/CaRldLC8hp+NaRwYBU0fxVD8+BGMgUXKBEpOceif54zWcw8bzWVFs3pCNJnmWJu/Ph0ts1Cm+ygAkah8AC44HaNbGiLqHwxp/F/9mCjxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=PSwEOmg+; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="NZcI0pJK"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62MHLUqA4165707;
-	Mon, 23 Mar 2026 08:56:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=M5Y/fE
-	RwhKhoqxvdE3p5IKv/NOKxkrVNr6hVFfnSRlk=; b=NZcI0pJKZIUYwuoRFL2Q3t
-	XdI4dlGInWbdNY2bNfERUfnfJKcPpExgmkPPK5JDY2kWghLGXdd8EkVFrq/7oPlb
-	YacuXBuO9Fj0AVeGr1Lu62r7uP4yHFsADQA9YsU/g7Y72Yb7ONkX3TpJCl0TuEiH
-	JuYBAe3dfGvcVM9X47C+RNYbAfqJYuPsybScR1AB9t2acJ2izzPVmQKYs04th2aG
-	3zr5TR5CSzEw3oHr97+pEr0xhNkXIau1w0Pm3lLirlpVAjz4TjORsimCmeeLhGrh
-	kzCEvqoxzhe2ooZUR5f+A68dKjb7knIXmh/PcDJZLnT1c1n25HFGJ+Tqsc6N/IYw
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1ktunts7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 23 Mar 2026 08:56:32 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62N7El5g009143;
-	Mon, 23 Mar 2026 08:56:32 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d26nncp8q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 23 Mar 2026 08:56:32 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62N8uVoR24576618
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 23 Mar 2026 08:56:31 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 01C745805A;
-	Mon, 23 Mar 2026 08:56:31 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 18E665805D;
-	Mon, 23 Mar 2026 08:56:26 +0000 (GMT)
-Received: from [9.123.6.34] (unknown [9.123.6.34])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 23 Mar 2026 08:56:25 +0000 (GMT)
-Message-ID: <a691d42b-f4a2-4f4a-8284-4dc537c04285@linux.ibm.com>
-Date: Mon, 23 Mar 2026 14:26:24 +0530
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="PSwEOmg+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=yMWdX5rPU/LnYnaKYFuAJpacSJjdsYtQkCNE/5cAkNw=; b=PSwEOmg+s3OczIMqw7GtGr0Fdf
+	HA30SHMempCUFsF4P+/wB4O9mxAJuHBvKfp+WopGLmcVaWKey4NeTTNgrCfcludwaigtBAvL9AKy9
+	8aKNh6qwqzU15V1EkY49I1k0ExipPVcIuFfZKT40j53SnOJOki341VbB9gviwD+1G1WYuTn+6djf4
+	Co73IutMNyyt7iaIhJWnbAdqd7wVO0CVjDKF4+CH1H2AwCYPaoHJHA4qtXmx+URFIrsxOmLraeEOx
+	uC0UiZMh9oYmRKRMHBboKtS4j73+15+KcBX3gfsOkW5zdkl6cy5Mm0u9h378R3sO1FFB3I8BtvfAa
+	4gisQ0dA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53602)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1w4b8f-0000000009l-0dMz;
+	Mon, 23 Mar 2026 08:59:57 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1w4b8a-000000003tW-2pe0;
+	Mon, 23 Mar 2026 08:59:52 +0000
+Date: Mon, 23 Mar 2026 08:59:52 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-spi@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH net-next 07/10] net: phy: switch to using
+ class_find_device_by_fwnode()
+Message-ID: <acEBCBgMV3RrGKiU@shell.armlinux.org.uk>
+References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
+ <20260322-remove-device-find-by-of-node-v1-7-b72eb22a1215@gmail.com>
+ <32679fc0-c388-4cd7-a030-5f5ed5abab78@lunn.ch>
+ <acDLzK8vpptTUMf1@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers/base/memory: fix stale reference to
- memory_block_add_nid()
-To: Kexin Sun <kexinsun@smail.nju.edu.cn>, david@kernel.org, osalvador@suse.de,
-        gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-        linux-mm@kvack.org, linux-cxl@vger.kernel.org,
-        driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: julia.lawall@inria.fr, xutong.ma@inria.fr, yunbolyu@smu.edu.sg,
-        ratnadiraw@smu.edu.sg
-References: <20260321105704.6093-1-kexinsun@smail.nju.edu.cn>
-Content-Language: en-US
-From: Donet Tom <donettom@linux.ibm.com>
-In-Reply-To: <20260321105704.6093-1-kexinsun@smail.nju.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 5NZKWs9zDTObDkwDn80J4vezwIYz0Cye
-X-Authority-Analysis: v=2.4 cv=aMr9aL9m c=1 sm=1 tr=0 ts=69c10040 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=w5w-BL6sGUiLeuYIlr0A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIzMDA2NyBTYWx0ZWRfXxBT29/4Br3da
- ikMUdn8q0h2P873ZZ5X7nR0oFz7zBLO0loA31tXiF7Fz7eBYCOFdKkwgJDoz/HiSa9rmv1Y+GQE
- klXC6lotyNNDXDefKpTQsLWUVrlK0KtbG1mICty1R03UADSg+0lFanB32iLlmlXFIs46k/Mptfu
- hkb/YH0LYLcvpuGONx3PTFuEuE5HMGNYUUERfzaQbCGfhRECQIEUEnPSbDkiG3qI+rxrJwJth3O
- Ldr/8QVvhzfmw7f5pi1mAkISSxv8ItCObXxI76e5h21uYoSgwZkzlDuj39ycbqO1XAWHPd8giHB
- PBYKnRSLhZ2utytpK7oVE4PRQUc8mmaas3/1s/mUWFz8ChhUzEXsPf44fB2ql9PKhoTf5yzM5mC
- Iqu574NDQTz7Ow7TNKjEFdY8fCuqnfKfeZ2l4t38+YBj0RtlaLKxb4Ipd2Ct0GGmG9SlUGmKPEh
- lCstrIdyaA46ct1U6Eg==
-X-Proofpoint-GUID: 5NZKWs9zDTObDkwDn80J4vezwIYz0Cye
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-23_02,2026-03-20_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 malwarescore=0
- suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603230067
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acDLzK8vpptTUMf1@google.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
+On Sun, Mar 22, 2026 at 10:17:15PM -0700, Dmitry Torokhov wrote:
+> On Mon, Mar 23, 2026 at 03:54:09AM +0100, Andrew Lunn wrote:
+> > > -	d = class_find_device_by_of_node(&mdio_bus_class, mdio_bus_np);
+> > > +	d = class_find_device_by_fwnode(&mdio_bus_class,
+> > > +					of_fwnode_handle(mdio_bus_np));
+> > 
+> > When you look at this, why is it better?
+> 
+> I think we should move as much as possible towards firmware-agnostic
+> APIs and use fwnode_handle instead of device_node or software_node or
+> ACPI companion. To discourage this I think we better remove
+> firmware-specific APIs where we have firmware-agnostic ones and
+> eventually clean up drivers that use OF- or ACPI-specific APIs.
 
-On 3/21/26 4:27 PM, Kexin Sun wrote:
-> The function memory_block_add_nid() was renamed to
-> memory_block_add_nid_early() by commit 0a947c14e48c
-> ("drivers/base: move memory_block_add_nid() into the
-> caller").  Update the stale reference in add_memory_block().
->
-> Assisted-by: unnamed:deepseek-v3.2 coccinelle
-> Signed-off-by: Kexin Sun <kexinsun@smail.nju.edu.cn>
-> ---
->   drivers/base/memory.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-> index a3091924918b..0d6ccc7cdf05 100644
-> --- a/drivers/base/memory.c
-> +++ b/drivers/base/memory.c
-> @@ -815,7 +815,7 @@ static int add_memory_block(unsigned long block_id, int nid, unsigned long state
->   		/*
->   		 * MEM_ONLINE at this point implies early memory. With NUMA,
->   		 * we'll determine the zone when setting the node id via
-> -		 * memory_block_add_nid(). Memory hotplug updated the zone
-> +		 * memory_block_add_nid_early(). Memory hotplug updated the zone
->   		 * manually when memory onlining/offlining succeeds.
->   		 */
->   		mem->zone = early_node_zone_for_memory_block(mem, NUMA_NO_NODE);
+Basically, no. This is wrong.
 
+It may sound like a good goal, but there's an underlying issue. This
+goal assumes that the firmware description in OF and ACPI are
+indentical.
 
-LGTM
+Sure, looking up devices by fwnode handle makes sense, but looking up
+anything that is described in firmware is not suitable for this kind
+of conversion, because in doing so, you effectively "port" the DT
+bindings to ACPI, and it may not be suitable for ACPI.
 
-Reviewed by: Donet Tom <donettom@linux.ibm.com>
+So, please don't make wholesale changes that transfer the DT bindings
+into ACPI.
 
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
