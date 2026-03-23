@@ -1,191 +1,147 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021107.outbound.protection.outlook.com [52.101.100.107])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250613C0627
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 17:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.107
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774285317; cv=fail; b=FY3GZUYM4D3FpFaF/Gu7BCuej4MCkhb3esmgwjPD5E8q9BsM5j1ysDHiuSYh2EN/DHi8N0d/0K1w6CGmvTuIn8vkSJzLrNWXE6orw+SInLZG/yamsRjG67ZQDah/O9zvu0NoV93GXhcdrmNfAQs1+Do11cMhxyKEC1ZU9QhG6HQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774285317; c=relaxed/simple;
-	bh=yw0dHs+16osq0y9talGuNpJQPDyBPDRnQ0qatSjHB1I=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=m0ihk5/DWhmyxDwaCONyF0vsf2jxGf1FHkdd1dl9venq5YIGxG4nJdsckLasUi/mjVFiaTmhVmMQfnv39oRzniUH0GIEAMy5frkI7mTP3FHjX5oZ4Achq/muj19xd0jtrJpqfapYC2YV3GLuIsssXxCtOMeyqhItmnDt6i20v0I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=ohp80AE1; arc=fail smtp.client-ip=52.101.100.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EF63BED59
+	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 17:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774285530; cv=none; b=aXnKOMITu1d6AIzpPqkKBW/85y6vYbvSK253XfWfw1UGkKG1N1LLa9Bh708izhaQpC3rMuoiKamnstPYCvIpgjvKop3+U03KSje3yzWqhAxK2LbsdNU9yY/7SKPvXQOIuhxuKHlOAhZoeL0HVhA/uA53ABYQ3cNzpIVSH/cSQLU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774285530; c=relaxed/simple;
+	bh=6Qur2lsvpG61vQA+N4OQDfAzhlhf0xYbqoLWM6SAJr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hJXiJhPR6fMNRNQbx3dcGc4dwo86G/0+AY2XjtaqSoaDBW+etnbDykKOHaKlAgYilkV9Yl2AuLkGjakpjdxQPDElDTFq9tkMwSerXYSQIond4tdR1Je5gpqkNPQr3uiyiH8l6mCMtiJ23eTSe3ellPOSdg3f+Ye25Nc0kHIFwzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAsPO8mB; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="ohp80AE1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XFK95OlkMmLXcSTyd6RlyxJeQnRKneRsWSbW5qr+O2QGId6KYyCnwAXgwO523L3vkC2t+/HsM4Pk+9Acr9tvN37E5tidpOxPSplAetNsuuI315wpJqaUlZDll6ZA7A27pf95JDKnUz++C5cWuPdpf8j4Q4KeOeVQmIZDow6TbMwMQ46yjrLpb8+13cPOUEhdmZXV2XIZ5bRPZFx9ZpOwyGv4H+G7Ve5Wgk/2Qs18vsOZTsjJoBNcq2uR/uQXLvxdpk/91CykjD2fzgFdipXSpUxpBolTb4N1/gDnGqPGUtK5SZYBZeNzMjg9NWhFR9ZTf/uOqF9PUwRKYXwneyGK+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HLlcwIdPPopPErapj5/6LSvoRtHAh9DWE1tvKRg3b5U=;
- b=RkLoICuDCq3HksZIjE9phutqUHhHXXkcb4SpnNy+PpGusyJHh+EsKNifeWeChqu+3x5mNyiM8M9miBRjF6leKSe1VSLvuw8ooJqrSOj5sAYA+SSzntuS2HGvjgrnZBtpoaTVs4LEUW6Y4JXQ8vyVp0h105kIF1M4vQwAPd5Y7SDuk1NQZK5H7PNG0PL2R8TscPnVJVApCMHbwAPuMexO51dSOzJYAY9GLkV+J5+hfbKZna4ayyxvvNvSOeL/mKDGmihQT9cOrjLsPse5SY5feK5G9C23hS7RuljO+yd5UZ483SJk/cyxJ0vqGTeDwCGbtDQjblnOwOaEBycOLIrhjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HLlcwIdPPopPErapj5/6LSvoRtHAh9DWE1tvKRg3b5U=;
- b=ohp80AE1NMoNJRat6ajC3KfbvlMJaqx4Dw1oIBj0OM0eVabiX2S8MFlk3MWY4bVg6CF+r+honb5U7byf+57glivu1lL71xw9P0mV7/U5kkMu77Ovib30SaXeuuPMrpcvQyqu9huB0DcGbf+K3ht6pYquREXt2TnaYqoIEis1RoI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO9P265MB7565.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3a3::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
- 2026 17:01:52 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.030; Mon, 23 Mar 2026
- 17:01:52 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Mar 2026 17:01:51 +0000
-Message-Id: <DHABNFS4CQWT.2KHANQER78ZX6@garyguo.net>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/7] rust: dma: add from-slice constructors and use them
- in nova-core
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0
-References: <20260321-b4-nova-dma-removal-v1-0-5cf18a75ff64@nvidia.com>
-In-Reply-To: <20260321-b4-nova-dma-removal-v1-0-5cf18a75ff64@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0374.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18e::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAsPO8mB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774285529; x=1805821529;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=6Qur2lsvpG61vQA+N4OQDfAzhlhf0xYbqoLWM6SAJr4=;
+  b=NAsPO8mBN+17BO/+VcggnAvfbEZSGwZn08vn7+hIgSwrXjKnONZsLlJq
+   ZI4KB2n4qVTIIlhd7YwtEamxB+gTIPLDwZaIIG/gExh06R4JEuY6GwCpJ
+   fm/2Dc20/dX+sxJ7ocDSNYP1XRCR8c7ZaBHcNqp4L6KeiPqv7rVU/UrAR
+   adPcYVJSbZ5Imen+ZJ6E3Khb/fQHb4LgLOHoASwiI1/7XNzWMSjAamXoy
+   kcphu+9vHvWlcS0/R+nKNoPAQB7ifgbHl5bgiLWb6GuYO0OSt+ry3Kfqk
+   eWIrSWNxZXoDzyzYSzo+3WEhGPYJhAFZ+v8Vkntvl5Gjaf/QqbAAe2auC
+   A==;
+X-CSE-ConnectionGUID: 2UsVHpp1S0SNi0z4gcy2Pg==
+X-CSE-MsgGUID: ZGwv52qBTq6f+UYmWoPHGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="74470921"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="74470921"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:05:28 -0700
+X-CSE-ConnectionGUID: do0RC8zYQV2ii/aKNxr10Q==
+X-CSE-MsgGUID: iuPD2DA0SvuNzn7GgydAAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="229010438"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.22])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:05:24 -0700
+Date: Mon, 23 Mar 2026 19:05:21 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 2/4] pinctrl: intel: expose software nodes for baytrail
+ GPIO devices
+Message-ID: <acFy0YgLJhvZZU7k@ashevche-desk.local>
+References: <20260319-baytrail-real-swnode-v1-0-75f2264ae49f@oss.qualcomm.com>
+ <20260319-baytrail-real-swnode-v1-2-75f2264ae49f@oss.qualcomm.com>
+ <ab0jmUZGOKSjOa8C@ashevche-desk.local>
+ <CAMRc=MdWxgGftNQgs8d-0xqsfgJSSncfBf+7cmWSSypu2rQrmg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO9P265MB7565:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5daa0f23-668a-4b37-9738-08de88fde17c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|7416014|921020|22082099003|18002099003|56012099003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	nBwoWKxSaajCgtuQ53KxPdFj0mpaXeOlBgvarPtAb7au6/Zggd5aSJR+tvgL+xZAP4NI+e73Zdnh8FjNkZi2RnCW8pu1HzRjDX9bIGAUK4OabDfhP38h1eCZhlSqO0zydbgLznpbaM6QSHwTyzGh0fwTvrStugrcLx2ApfM4/4bTy6smbuEZgekyJEhls1DS+XTGo8uwgH1nplXNZctJ/sB/mzdoINRBnA3m3F5PZXsD8Y0ytpDMzDcwIVbT2H0XRtZMkW5wHC0f0PV7GUv8SRKIXObH/0KNhtJb9/AlL4XoKttZwDdyPpQ/XOv0x9b3uKLo1ZcTszOeMkA877FnnVPTQD8DCLo9bd7j+klx9phArK1vFJ5ZPDrfoWhwZjF++708duBA30L2BQfVnYB2kq3d54GreNsmplO05jhmQLbTv76qWeca/W7hVmRpO4YbZO6L4ZBq44unEmvWY91xOkIBzZFch5vcsId9NURpzdT6Qsav1J/bVnYpX34WpSwVaoqbsJifOgDcKRkdlex/9FUN9DuF1n6ZLQl9s2LIrYitPIojmWEKpLcZRmLEvIZYbsN0rHxxypTUas9IpM2XbKNlTWZMIYNq1qiSQdD3UgGbA71u/Bg3Geh1tuwmFzyk9REkcpuLdOTUzJcMsJyJIxlCASaGKXh6e2n5ZzxgX4gLIwiLydis8Psin7Al7A4wHtXnEPl/QJ/H/QhVqViwzlyOyGx9DwPTLoC2f2UyBD3hyV9RAgfOmRgmobvRFgBMXuVgmWxrrGBdV53t0eSOcg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(921020)(22082099003)(18002099003)(56012099003)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?STYxY2pFWUxjaU5LWUVQRDBvMWFaTWhVdjJoTERPSWUvWWgyOXZHZFZiM0xV?=
- =?utf-8?B?RHJjWlhvVjdqY0NkL0VtQjkzWEJadEFIdnZVMXBVLzNHWS9kZzhSZWp5S2NH?=
- =?utf-8?B?SkZ2YUQrNFU1aGRjeDU0RVVRcVVEa0VNVnNBUXVsbkJBSjZCRWFPdjF0MVEv?=
- =?utf-8?B?U3Z1dmJ1RnI0TVZvdjlkbm1UbXZpQm90WGFGRGUvSXVyS3ptcTd6dm5haURz?=
- =?utf-8?B?elFORDZnUVM1aStRUE1HTWF5M1NRdTduZTduOXMzSHpGZ3kyR3lHTlJBQitR?=
- =?utf-8?B?aCtCNUpvU0VNYmxpaXZ0TEF6S0o0dkZEbEt1VHNNZ1RPMnpCeW5vUEF6N2kw?=
- =?utf-8?B?MitNNGd6dEhjdU5xa0thaFpuNUIxSHVTMXFlNzBKY3BCUE1OR3FCU2ZIN2dQ?=
- =?utf-8?B?LzNEb3JPWGU5V0c4N1hJYlhqZmRsWHVXQytaMzVLLytaQ0xsYVREUVRRVGFn?=
- =?utf-8?B?Qmh6YUcrT1Z2eU0vbGo5ZEEvU0VBVkQ4NGY5UzduWkV6dHpFbmZUd3psSHl4?=
- =?utf-8?B?LzFTTVBNYlNwTWpJZ2xaZTRNK3h4ajJweE4waUprVjBXUDRsK1hhZGlmWUJ0?=
- =?utf-8?B?VXdTaVJ6WkhtRW83T0N2MFFXOEU4aUkzWmYrL05ucjU2UURYb2psVSszSHpF?=
- =?utf-8?B?NHI3TkJ1SXlyTEIyY2o5b3RhV1B6QkZZaDZqT0tKakt2Sk4wWUc0R0tZNC9V?=
- =?utf-8?B?SW5NVjVQMGI5ejZWMUJYa2lvVGFSVUVWWDJWN3Fwa3kyc2t0c1pHQ3QxbDhl?=
- =?utf-8?B?YTlLejdjaERTUnJQZStaV29Vbk5xTThvYnVZQXlRci94b1ZMUXdVc2hpOFB2?=
- =?utf-8?B?OFF3MmFPQTc5SCsxaGZsdVgrSVpmWXVSQU5PS2V0WmJFYmo1K2hVYStYQ3J3?=
- =?utf-8?B?WTYwT1pRYlBtTnNKUzlxNlorTXN0VktyZzN5cGNLUkZFUGRGbGFJSWhhQ3Ns?=
- =?utf-8?B?NG9nRS9EOEMwd3Z5V1Via2xQZDN3SWMxdkI0bkR3WDlFSVk1eXdZblVobVZ5?=
- =?utf-8?B?UG5HVlhtZHNuZEQ2UU5TUEFtbVJGbTN1VDh3Y0hYZnNtckR4U2NHWjR6Vk4z?=
- =?utf-8?B?M0poZFJmQXpIZGt0V1pTa01rcEh4R09QNVF3NkZGcTlaTjJFNjBDQjJmZUtU?=
- =?utf-8?B?bnUwbkVNd2kyWFpDY3pHeTV2aHZ5a2UzQW5sUmRMQmE5ZjA3aUFNSEI3VExH?=
- =?utf-8?B?ZHRSV1VKMnZTUzhUV2hwTHV5czdLMEduZWFCOE5JTFYrcUZzQTZuQ2N2NjM4?=
- =?utf-8?B?L05aTFR2OHkvWTNRWnZzQzlhTUNWcG43ZFVZeXhTem82K3l5K09SazBxUktP?=
- =?utf-8?B?UDIzbkp5WHEzSXhyNUllc2RFV0t3c0hhMmJpRnBxdnEwL3lFWUJjZmFRRzNa?=
- =?utf-8?B?ZVN3bUZTOUxpQUhKNVBKVHJOMlVDRDl4eWxLRkdxdnB0R2hwM2lzL3ppb2h5?=
- =?utf-8?B?by8ySDFHREVuM3ZzOFpOd3R4VkIzVm5ZTXN4NjE1amttbjFReGRYMGExT2Ir?=
- =?utf-8?B?TWxHM0tab0ltc0ltWWdXd0U0ZFBlb0s3ZzkzZVU5MW14akFLY3VGb2F1V1F6?=
- =?utf-8?B?Z1ZBcGVyeUdUaUR4bHdJSC9UWWZ6WTVOd3JwbmpucWgzbVFtcFZZN0gzRVZD?=
- =?utf-8?B?c0RXU1hyR2tsSFZuVGtZbWJ1TWdINFBlMUhDN25qUDFUSkhrcHJ1K3E4bUlF?=
- =?utf-8?B?LzZ2MlREY2MyblMxUklZcVZGQ1ZNdjFpVnRmZ1NCSHFVM3htZ2V6dHdxQ0p3?=
- =?utf-8?B?V1lyYmVmZWtJbTMzOUk5elRSeUpNUUhPNWpTR0lwclQ3SC9LZDhsamJFbWpM?=
- =?utf-8?B?TmZ0NUg4b1ZBY3piRXU5MjNXc09PNmtTWGt5RjZKeFF1RWdoM2xTMHFXekhw?=
- =?utf-8?B?RkVGL2p5WW9RbEhPYWxLUnoxNFpIblpoUkhQbTlKZnBXNjE4U2luUDErVEJa?=
- =?utf-8?B?UTFXQUVjTHdvL2x2UUpUNzV0UHBWQ29sL0toQm5ldTZkb25WV0k0UnF1a2Vj?=
- =?utf-8?B?OGJCSm1zNXBkVk1Da3dBVkJOZjMvREIrUFBrbUJwMUtLaTJBYjhwN0trRXVs?=
- =?utf-8?B?RXVMS1pNTmRuaW1mb205czNIT3RJY3NlS3J6ajNWTHJQQzdiS0pDbU1WYU43?=
- =?utf-8?B?WXAwajVmbWs0M2UvbElSUU51ZFVHVklQRjdHQkYwQ0k4TTZycTJiMkVEUWRN?=
- =?utf-8?B?NnNCRHFzQTB1WXhtd05FV3IxLzNidEJEdTRhSDBaMVgwdEgxT1ErWnMvWXFP?=
- =?utf-8?B?WHhWbXVUMjFTNC9KZTRzQkdjQ0o2VjkrOWJTL3FuQ2JSeCtrK3JtU2M5cng5?=
- =?utf-8?B?RGVrRys2ZDNqWHNuN1VZUWxMblN0aFNHeWdhcnJSa1g3NEV5UE1rQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5daa0f23-668a-4b37-9738-08de88fde17c
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 17:01:52.5252
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RLUKywo9NqBfH3CWhOM5rHTVjkYgZLuW3BxVqY/oCkBqMpt7nDHHddQGhhH+v8ZiRa7Bl8zMuqvUx6EXHLDvtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P265MB7565
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MdWxgGftNQgs8d-0xqsfgJSSncfBf+7cmWSSypu2rQrmg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat Mar 21, 2026 at 1:36 PM GMT, Alexandre Courbot wrote:
-> nova-core's `DmaObject` type has been created to serve the same purpose
-> as `dma::Coherent`, with the addition of a handy constructor to create
-> an object from a slice of bytes, but without the flexibility of
-> `dma::Coherent` since `DmaObject` is limited to slices of bytes.
->
-> This series adds new constructors to `Coherent` and `CoherentBox` to
-> cover this (arguably common) use-case, and updates the nova-core code to
-> use them. This results in more consistent code overall, and allows us to
-> retire `DmaObject` and nova-core's `dma` module.
->
-> Depends on drm-rust-next as of 2026-03-21 + [1].
->
-> [1] https://lore.kernel.org/all/20260320194626.36263-1-dakr@kernel.org/
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+On Mon, Mar 23, 2026 at 04:28:39PM +0100, Bartosz Golaszewski wrote:
+> On Fri, Mar 20, 2026 at 11:39 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Thu, Mar 19, 2026 at 05:10:55PM +0100, Bartosz Golaszewski wrote:
+> > > Use the new automatic secondary fwnode API to ensure that when the
+> > > baytrail pinctrl device is added to the platform bus, the static
+> > > software node provided for drivers not able to use ACPI will get
+> > > automatically assigned as the secondary fwnode of the primary ACPI node.
+> > >
+> > > Create a new header under linux/pinctrl/ containing intel-specific
+> > > symbols and declare the new variables there.
+> >
+> > As I read the code, this doesn't need to be part of drivers/pinctrl/intel/.
+> > I.o.w. I am unable to see why we need to penetrate the certain pinctrl
+> > driver for this.
+> 
+> If old board files were an analogy, the kind of information software
+> nodes carry would live neither in the provider module nor in the
+> consumer driver. It would be defined in a third place - the board
+> file. Do we need something like this or should this logic be invoked
+> from the x86 platform driver that uses these GPIOs but accesses them
+> via the swnode lookup?
 
-Looks like a good cleanup. For the series (with nits fixed in first patch):
+Yes, fine, and that file is kinda board files (or rather quirks) for the
+Bay Trail, Braswell and a few more. Please, use that one instead, let's
+keep drivers/pinctrl/intel/ clean from it.
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+...
 
-Best,
-Gary
+> > >  static int __init byt_gpio_init(void)
+> > >  {
+> > > -     return platform_driver_register(&byt_gpio_driver);
+> > > +     int ret;
+> > > +
+> > > +     ret = software_node_register_auto_secondary(&byt_auto_secondary);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     ret = platform_driver_register(&byt_gpio_driver);
+> > > +     if (ret)
+> > > +             software_node_unregister_auto_secondary(&byt_auto_secondary);
+> > > +
+> > > +     return ret;
+> > >  }
+> >
+> > This hack can be done in similar way on how we do ACPI LPSS for those
+> > platforms, i.e. in drivers/acpi/x86/lpss.c. No?
+> 
+> Hey, this is not a hack! I'm coming up with a generic solution here. :)
 
-> ---
-> Alexandre Courbot (7):
->       rust: dma: add from-slice constructors for Coherent and CoherentBox
->       gpu: nova-core: firmware: riscv: use dma::Coherent
->       gpu: nova-core: firmware: fwsec: use dma::Coherent
->       gpu: nova-core: falcon: use dma::Coherent
->       gpu: nova-core: fb: use dma::Coherent
->       gpu: nova-core: firmware: gsp: use dma::Coherent for signatures
->       gpu: nova-core: firmware: gsp: use dma::Coherent for level0 table
->
->  drivers/gpu/nova-core/dma.rs                       |  53 -----------
->  drivers/gpu/nova-core/falcon.rs                    |   6 +-
->  drivers/gpu/nova-core/fb.rs                        |   6 +-
->  drivers/gpu/nova-core/firmware/fwsec/bootloader.rs |   6 +-
->  drivers/gpu/nova-core/firmware/gsp.rs              |  27 +++---
->  drivers/gpu/nova-core/firmware/riscv.rs            |   6 +-
->  drivers/gpu/nova-core/nova_core.rs                 |   1 -
->  rust/kernel/dma.rs                                 | 102 +++++++++++++++=
-++++++
->  8 files changed, 129 insertions(+), 78 deletions(-)
-> ---
-> base-commit: 19761c783a46bc4fb2ba0ef22111f7dd27b441e6
-> change-id: 20260321-b4-nova-dma-removal-a7e88d4a6790
->
-> Best regards,
+Sorry, let's call it solution.
+
+> It already is similar in that it uses a notifier. For v2 howevere, I
+> want to propose a mechanism for having multiple ways of matching real
+> fwnodes with software nodes.
+
+Good.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
