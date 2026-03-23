@@ -1,301 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F484396D2F
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 11:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CA73A63E1;
+	Mon, 23 Mar 2026 12:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774266014; cv=none; b=NR6rdQo4nRLuwYhUNegO34NS2uKojuATPDnKsf21X6xR1cNyuElmKEKjX01ZW/keHHIKjM6x9OLxoIqHA024KOttYDzwB8Q853rMek9CnFTeDi0/D1+JPzivUqVlLd/BO7u3r85iB9u1PmG/cSeqWDTX9mY1aeMDrzBrnhxONKM=
+	t=1774269265; cv=none; b=fTMJZmxSctF+s1nHY5QP9HDXvUbkRwr7DfYw4yoJcgMv4+qxwVC6Q3dkemfe3Vj3iuMt2gkrQmLgl7Nrmi10SOICYbwvDANyrfblryw4P6pf9Vt2kDn6iib9TlEoquV9623xJIlH7Hds3yvG6QBoa3AiIRsUUYGuwZ44y1/3p3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774266014; c=relaxed/simple;
-	bh=xBPbm2psL2E1gEqh2Far/32tTK00tXUWPBenA/iZQWA=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AMKS2J1SJEtVw4H9ZSfhMHGOG1l5D+FtkW/soVHiSicYidSYMgzgCJ7RHg5gLHbIrl7a0p7Te53PzkP1Lz/ENdylLM0SbNY53pUnqzdnD64srbdCoqG2mlop3lHckU6sKy+J9dnmaJMGK6FzQMI9O1dweSMa2NM39TqMbou3zqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqr96Lol; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774269265; c=relaxed/simple;
+	bh=kX39cQigXLllv505alMHPGCKIOePb5ceGhrB9+kAs0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H9qxJIIaM0eBhBT27MaMotOuycp9cFDqI4dw/6LkM5Kq/Rz3FrElwz70wSTF5GME8coS5dFIt3/Qsq9NiYS+iE2MZG8y6w3PruQBwr0VsvFZXmU2Vs3tWlzC+vcN1kmiWIRDp5vJ0bfA/C/aFanu3KCemV/WxIxfSq//2PiZAKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSpL4DzL; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqr96Lol"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAECCC2BCB8
-	for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 11:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774266014;
-	bh=xBPbm2psL2E1gEqh2Far/32tTK00tXUWPBenA/iZQWA=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=mqr96LolKdqiKOCLHzaUKK0CFgbDJ0UryPgFgCvIIh6tkvzgZ0yrzNVLAwS8f3uVV
-	 7CnlHhNUBtJYkN2ExeMh0qGogEXotRNa0b9EQ3E+T6qrxecTG/xAJ9fJuwIPjcIl8M
-	 2EUCMAfggOgASMkpDzNRTIKaP/QuRfGRNMPnmBwL6H1dYdAMVUNKueD4UAFpPbu1w/
-	 EhaqjVSSuhzhgX41JeQpCeIdDZ73MtRnBUyg+quRBRJeap1CuNZCzTXxWRucGvWQc6
-	 0WiB7DnYEmeCNKZmr/khI1g5c7Ol04qxTT1U0ekZQqj4IKFb1bgfUILFbLgsYqTRgC
-	 nT9Y2SFMMpOSQ==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a27b5ad832so3888257e87.2
-        for <driver-core@lists.linux.dev>; Mon, 23 Mar 2026 04:40:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW7BKcCXgDGdnUlMnBc/i+1vKMdCJLvULY4BP8U8CQ4svmERBeIcpTPN0pMd59dqLv041DMC1FXwjkXmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzwq70rSqJy8I8eCjYKfeV1BGnPxH8w8SLjbwkr87lrQF3WxO14
-	T+AGJhkt5rt2gKibmp7otJ4xabci8FlfhYYpeVynW9zBz/IYP6wb3oGt6qefzCwZAEThPMkCflN
-	IL4iZeep2F0ZfdgXBY1RsGIr4YM4q3GqODvYs65eClA==
-X-Received: by 2002:a05:6512:308c:b0:5a2:78f8:60aa with SMTP id
- 2adb3069b0e04-5a285b5aab5mr4842573e87.37.1774266012393; Mon, 23 Mar 2026
- 04:40:12 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 23 Mar 2026 04:40:11 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 23 Mar 2026 04:40:11 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <ab47QXIYCo3vNI8J@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSpL4DzL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774269259; x=1805805259;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kX39cQigXLllv505alMHPGCKIOePb5ceGhrB9+kAs0g=;
+  b=CSpL4DzLIsCRpwTqJBuKc5ycUYvX2lFoMFBW9zdW+FcbD+48fevHB+j3
+   g4CyJtrEelqJhjeBtyD/k85nlJg8a4fDwpTpkdZCOsDo6ijxN2ty5UnLj
+   saZc3gJjR8TMO4LocyAFRClgoSweJg/fJ/N9SiRPwm3Fw4fPBFfFjwV9H
+   Xgjro6jYiY5lhgxUOow4lhQs/ce8YXqgqIz1SPrsd5p1m1YuAv8mPn1sw
+   rnuT0jYOx4GNcswiJZPwZ2gxD8bgELNpjYlrVoJ5A0MQ+/S3wwNcs9XO3
+   2BJ2PJVmApUkF5RvqF98yeDzrMW+U5P+ZEbUC/1MsJWNbyBI1i5coz07R
+   A==;
+X-CSE-ConnectionGUID: eTaEMi0OTwqp442s0TtTZw==
+X-CSE-MsgGUID: FhBx0UcGTB2vC4+BTNFr4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11737"; a="75329335"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="75329335"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 05:34:17 -0700
+X-CSE-ConnectionGUID: rsfdTnrvTIufpy9pbztCFQ==
+X-CSE-MsgGUID: NgFf8TAnSHaHyBdydqofHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="228087116"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 23 Mar 2026 05:34:14 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4eTy-000000000Vd-3Dhn;
+	Mon, 23 Mar 2026 12:34:10 +0000
+Date: Mon, 23 Mar 2026 20:33:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Samuel Wu <wusamuel@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, memxor@gmail.com,
+	bpf@vger.kernel.org, Samuel Wu <wusamuel@google.com>,
+	kernel-team@android.com, linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] PM: wakeup: Add kfuncs to lock/unlock
+ wakeup_sources
+Message-ID: <202603232018.pdjbZ3eL-lkp@intel.com>
+References: <20260320160055.4114055-2-wusamuel@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260319-baytrail-real-swnode-v1-0-75f2264ae49f@oss.qualcomm.com>
- <abyje0mhIOtDZbxO@google.com> <CAMRc=McPQq6QxJ48zk7kxA+kwc=Em8dsFfyECJXg0asY-+pRiw@mail.gmail.com>
- <ab47QXIYCo3vNI8J@google.com>
-Date: Mon, 23 Mar 2026 04:40:11 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MdmuOS-5mHGYtsr3jz654rA9moH4Po_rAFdaPBq-5KCZA@mail.gmail.com>
-X-Gm-Features: AaiRm50xYuGbGJMWR-La7zfZgOhQynHddWFdS_RuSs-HPX9Rf22AdalqjZ092cY
-Message-ID: <CAMRc=MdmuOS-5mHGYtsr3jz654rA9moH4Po_rAFdaPBq-5KCZA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] platform/x86: x86-android-tablets: use real firmware
- node references with intel drivers
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260320160055.4114055-2-wusamuel@google.com>
 
-On Sat, 21 Mar 2026 08:01:30 +0100, Dmitry Torokhov
-<dmitry.torokhov@gmail.com> said:
-> On Fri, Mar 20, 2026 at 01:33:06PM -0700, Bartosz Golaszewski wrote:
->> On Fri, 20 Mar 2026 02:49:02 +0100, Dmitry Torokhov
->> <dmitry.torokhov@gmail.com> said:
->> > Hi Bartosz,
->> >
->> > On Thu, Mar 19, 2026 at 05:10:53PM +0100, Bartosz Golaszewski wrote:
->> >>
->> >> This series proposes a solution in the form of automatic secondary
->> >> software node assignment (I'm open to better naming ideas). We extend
->> >> the swnode API with functions allowing to set up a behind-the-scenes bus
->> >> notifier for a group of named software nodes. It will wait for bus
->> >> events and when a device is added, it will check its name against the
->> >> software node's name and - on match - assign the software node as the
->> >> secondary firmware node of the device's *real* firmware node.
->> >
->> > The more I think about the current approaches with strict identity
->> > matching the less I like them, and the reason is that strict identity
->> > matching establishes rigid links between consumers and producers of
->> > GPIOS/swnodes, and puts us into link order hell. For example, I believe
->> > if andoird tablets drivers were in drivers/android vs
->> > drivers/platform/... the current scheme would break since the nodes
->> > would not be registered and GPIO lookups would fail with -ENOENT vs
->> > -EPROBE_DEFER.
->> >
->>
->> Why would they not get registered? They get attached when the target devices
->> are added in modules this module depends on. They are exported symbols so the
->> prerequisite modules will get loaded before and the module's init function
->> will have run by the time the software nodes are referred to by the fwnode
->> interface at which point they will have been registered with the swnode
->> framework.
->
-> I mentioned link order, which implies no modules are involved. When code
-> is built into the kernel initialization follows link order, which is
-> typically alphabetical. To ensure the order you require you either need
-> to move targets inside makefiles or change some drivers from
-> module_init() to <some other>_initcall(). This is known as "link order
-> hell" that was very common before deferred probing was introduced.
->
+Hi Samuel,
 
-Maybe we should return -EPROBE_DEFER in GPIO swnode lookup when
-fwnode_property_get_reference_args() returns -ENOENT because if there's a
-software node that's not yet been registered as a firmware node, it's not much
-different from there being a firmware node not bound to a device yet - which
-is grounds for probe deferral.
+kernel test robot noticed the following build warnings:
 
->>
->> > Given that this series somewhat re-introduces the name matching, I
->> > wonder if we can not do something like the following (the rough draft):
->> >
->>
->> I'm open to better ideas and possibly multiple matching mechanisms but this
->> just fit in this particular case. I'm not overly attached to name matching. We
->> may as well use whatever properties ACPI provides to identify the devices and
->> assign them their swnodes.
->
-> What ACPI has to do with this? Oftentimes we are dealing with non x86
-> systems.
->
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v7.0-rc5 next-20260320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-What I meant is: name matching is only one method of assigning software nodes
-to devices. Here I went with waiting for devices but with DT we may as well
-look up a node by compatible depending on the driver. For ACPI we may probably
-use some mechanism that matches the devices to the software node in a more
-specific way. That's just hypothetical, I don't know if there even is one.
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Wu/PM-wakeup-Add-kfuncs-to-lock-unlock-wakeup_sources/20260323-064540
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260320160055.4114055-2-wusamuel%40google.com
+patch subject: [PATCH v1 1/2] PM: wakeup: Add kfuncs to lock/unlock wakeup_sources
+config: x86_64-randconfig-121-20260323 (https://download.01.org/0day-ci/archive/20260323/202603232018.pdjbZ3eL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260323/202603232018.pdjbZ3eL-lkp@intel.com/reproduce)
 
-IOW: device-name-to-software-node name matching is only one of possible methods.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603232018.pdjbZ3eL-lkp@intel.com/
 
->>
->> > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
->> > index 51320837f3a9..b0e8923a092c 100644
->> > --- a/drivers/base/swnode.c
->> > +++ b/drivers/base/swnode.c
->> > @@ -509,6 +509,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->> >  	struct swnode *swnode = to_swnode(fwnode);
->> >  	const struct software_node_ref_args *ref_array;
->> >  	const struct software_node_ref_args *ref;
->> > +	const struct software_node *ref_swnode;
->> >  	const struct property_entry *prop;
->> >  	struct fwnode_handle *refnode;
->> >  	u32 nargs_prop_val;
->> > @@ -550,7 +551,10 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->> >  		refnode = software_node_fwnode(ref->swnode);
->> >  	else if (ref->fwnode)
->> >  		refnode = ref->fwnode;
->> > -	else
->> > +	else if (ref->swnode_name) {
->> > +		ref_swnode = software_node_find_by_name(NULL, ref->swnode_name);
->> > +		refnode = ref_swnode ? software_node_fwnode(ref_swnode) : NULL;
->> > +	} else
->> >  		return -EINVAL;
->> >
->> >  	if (!refnode)
->> > diff --git a/include/linux/property.h b/include/linux/property.h
->> > index e30ef23a9af3..44e96ee47272 100644
->> > --- a/include/linux/property.h
->> > +++ b/include/linux/property.h
->> > @@ -363,6 +363,7 @@ struct software_node;
->> >  struct software_node_ref_args {
->> >  	const struct software_node *swnode;
->> >  	struct fwnode_handle *fwnode;
->> > +	const char *swnode_name;
->> >  	unsigned int nargs;
->> >  	u64 args[NR_FWNODE_REFERENCE_ARGS];
->> >  };
->> > @@ -373,6 +374,9 @@ struct software_node_ref_args {
->> >  			   const struct software_node *: _ref_,	\
->> >  			   struct software_node *: _ref_,	\
->> >  			   default: NULL),			\
->> > +	.swnode_name = _Generic(_ref_,				\
->> > +				const char *: _ref_,		\
->> > +				default: NULL),			\
->> >  	.fwnode = _Generic(_ref_,				\
->> >  			   struct fwnode_handle *: _ref_,	\
->> >  			   default: NULL),			\
->> >
->> > This will allow consumers specify top-level software node name instead
->> > of software node structure, and it will get resolved to concrete
->> > firmware node. GPIOLIB can continue matching on node identity.
->> >
->> > WDYT?
->> >
->>
->> I think it's bad design and even bigger abuse of the software node concept.
->> What you're proposing is effectively allowing to use struct software_node as
->> a misleading string wrapper. You wouldn't use it to pass any properties to
->> the device you're pointing to - because how if there's no link between them -
->> you would just store an arbitrary string in a structure that serves
->> a completely different purpose.
->
-> I think you completely misunderstood the proposal. We are not using
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/power/wakeup.c:1189:32: sparse: sparse: symbol 'bpf_wakeup_sources_read_lock' was not declared. Should it be static?
+>> drivers/base/power/wakeup.c:1202:18: sparse: sparse: symbol 'bpf_wakeup_sources_read_unlock' was not declared. Should it be static?
 
-Ok, I didn't fully get that part, I was OoO on Friday and should have probably
-not rushed a late evening answer. :)
+vim +/bpf_wakeup_sources_read_lock +1189 drivers/base/power/wakeup.c
 
-> software node as a string wrapper, we give an opportunity to use
-> software node name to resolve to the real software node at the time we
-> try to resolve the reference. The software node is still expected to be
-> bound to the target device (unlike the original approach that has a
-> dangling software node which name expected to match gpiochip label).
->
-> I think this actually a very good approach: it severs the tight coupling
-> while still maintains the spirit of firmware nodes being attached to
-> devices. The only difference we are using object's name and not its
-> address as starting point. Similarly how you use name derived from
-> device name to locate and assign secondary node in this patch series.
->
+  1177	
+  1178	/**
+  1179	 * bpf_wakeup_sources_read_lock - Acquire the SRCU lock for wakeup sources
+  1180	 *
+  1181	 * The underlying SRCU lock returns an integer index. However, the BPF verifier
+  1182	 * requires a pointer (PTR_TO_BTF_ID) to strictly track the state of acquired
+  1183	 * resources using KF_ACQUIRE and KF_RELEASE semantics. We use an opaque
+  1184	 * structure pointer (struct bpf_ws_lock *) to satisfy the verifier while
+  1185	 * safely encoding the integer index within the pointer address itself.
+  1186	 *
+  1187	 * Return: An opaque pointer encoding the SRCU lock index + 1 (to avoid NULL).
+  1188	 */
+> 1189	__bpf_kfunc struct bpf_ws_lock *bpf_wakeup_sources_read_lock(void)
+  1190	{
+  1191		return (struct bpf_ws_lock *)(long)(wakeup_sources_read_lock() + 1);
+  1192	}
+  1193	
+  1194	/**
+  1195	 * bpf_wakeup_sources_read_unlock - Release the SRCU lock for wakeup sources
+  1196	 * @lock: The opaque pointer returned by bpf_wakeup_sources_read_lock()
+  1197	 *
+  1198	 * The BPF verifier guarantees that @lock is a valid, unreleased pointer from
+  1199	 * the acquire function. We decode the pointer back into the integer SRCU index
+  1200	 * by subtracting 1 and release the lock.
+  1201	 */
+> 1202	__bpf_kfunc void bpf_wakeup_sources_read_unlock(struct bpf_ws_lock *lock)
+  1203	{
+  1204		wakeup_sources_read_unlock((int)(long)lock - 1);
+  1205	}
+  1206	
 
-I still don't like it. It forces us to use names for the remote software nodes,
-which are after all C structures that we could identify by addresses alone.
-Even this series could be reworked to drop the names from the GPIO software
-nodes.
-
-software_node_find_by_name() only goes through the list of registered software
-nodes so we'd still end up returning -ENOENT for nodes which have not been
-registered yet and wouldn't be able to tell this situation apart from a case
-where there's no such software node at all.
-
-The consumer driver still needs to know the remote device by an arbitrary
-string.
-
-I think you're exaggarating the possible problems with link order. I believe
-that issue could be fixed by returning EPROBE_DEFER when a software node is
-not yet known by an fwnode handle but we know it is there so it's just a matter
-of it getting registered.
-
-That being said, I would like to hear from driver core maintainers in general
-and from software node maintainers in particular.
-
->>
->> Which is BTW exactly what was done in GPIO and - while there's no denying that
->> I signed-off on these patches - it goes to show just how misleading this design
->> is - I was aware of this development and queued the patches but only really
->> understood what was going on when it was too late and this pattern was
->> copy-pasted all over the kernel.
->>
->> Software nodes are just an implementation of firmware nodes and as such should
->> follow the same principles. If a software node describes a device, it should be
->> attached to it
->
-> Yes, and the patch above solves this.
->
-
-I would say it just pushes the string matching deeper.
-
->> so that references can be resolved by checking the address of
->> the underlying firmware node handle and not by string matching. I will die on
->> that hill. :)
->
-> I would like to understand why. I outlined the problems with this
-> approach (too tight coupling, needing to export nodes, include
-> additional headers, and deal with the link order issues, along with
-> potential changes to the system initialization/probe order). What are
-> the drawbacks of name matching as long as we do not create
-> dangling/shadow nodes?
->
-> You are saying that you want resolve strictly by address, but have you
-> looked at how OF references are resolved? Hint: phandle is not a raw
-> address. It's actually a 32 bit integer! Look at ACPI. It also does not
-> simply have a pointer to another ACPI node there, the data structure is
-> much more complex.
->
-
-That's dictated by the binary format of devicetree where:
-
-	prop = <&foo>;
-
-Is translated to:
-
-	foo {
-		phandle = <0x123>;
-	};
-
-	prop = <0x123>;
-
-And I suppose this could be translated into addresses of respective struct
-device_node objects already at the tree unflattening stage - just like is
-done for parent-child relationships.
-
-However, this is very much hidden from users and someone who deals with DT
-sources always sees a proper reference to a node (by path, label or otherwise).
-
-Here we're talking about referring to firmware nodes by name which does happen
-but is typically reserved for some special cases and well-known nodes.
-
-Bartosz
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
