@@ -1,224 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B75391E55
-	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 17:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A895926ED4F
+	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 19:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774374003; cv=none; b=LMLKYCBcNiAwTbWupK869snAsW3suAcjVC1EnrhMc41eA4+ICeXE5qDIvI32rjBUdPFZoWBftz7bKJoUJIF2rY4s3weFZ+EjtZX8Z+ADHZETSh8G7vbVoOZKwLiyTBMb5Fv5HkD4va9KFzQBAdcxXWBbHXe6DC2A1HSgoYBsols=
+	t=1774380656; cv=none; b=LwlyyLqM+P4lGeJJEpm5xoOkKxeh7ZdhsMK1QHJNMM4qXUsJeIfEGiqnaKOvoVz4XYXqAwky3KUh7OFwri6nV/+9F0EWVUr3qkgVlUwRlTqw2e3Asj+u/TINaj1O+YRJUiuRbQ9/hAXt/+bsGsRF9r/BSK0QRE/DE4ImHKnPgr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774374003; c=relaxed/simple;
-	bh=sZ9R9A6EyluvGAUCUqlygxCnnXACQl62uyvQhMVFpEE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=go/ZTVNQTXFPYUcR6WrAfcGy7AZB3NoiO9qzUocS2uC0oGu5i0b6HKdfjF+VlLuOaWQztCODxoPYS0kIzvXJUmBZNVK9tz82faNbKcHlv9ywhgvKbgUOijCoe6jCANMuwd5ujRDGWlcpm5kTDY6uPbmzuG92QGX5EVu4ucHXvOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgSFwAvw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774380656; c=relaxed/simple;
+	bh=r38S0nWhhaLmeZEvISs8X/+v1UT7b9ltLpdNkOhId64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nzNVoKYDivdsyzk7sUxrczSygnH8NBSts3xlfx3iOYvX0RF0GeJ035WJw25uLlUTCXFfXkrSnelsgOsfIKDa0LFlAOyyB/dP99UAjqg+HRKQ6CfveSkmTggwnU5tjvB7M1CwyaUlhY8BeejaWEzFv+Jn9POKLjZIrBDak8KEwqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O03n1ntz; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgSFwAvw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25EC4C2BCB3
-	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 17:40:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774374003;
-	bh=sZ9R9A6EyluvGAUCUqlygxCnnXACQl62uyvQhMVFpEE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TgSFwAvwC7c0S6t29Y+Hbk/4xniNeHVNvn5ca2RnKwvoV9vzKxs8sg1syP4BsljaV
-	 2+QwzQTrOhZ+odEmy1qCG+4HVIEN8A/epUNf6bXxsC29q+Dm7y0QSF1sopf5qYnRa8
-	 jHiUE0VHWSivrWSww1XU7pwHI+PXkGKl0Lb5SbkxrSoRuj7dnUOj98Q+FAgrYVM53n
-	 9iVBP6IoRXrd6kIw9g8jpvi03WIZISoyeg3++wSGg711xT76UQJRPu/Dae5evd05uh
-	 5akGqdPcz5Yeufs2tL5r2oah7if6B7QUUAnWfUGyVey6RTCEPgGwXMDYoBWNtosGRq
-	 9Qv3xehnocjGQ==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-467e8aaa865so891289b6e.2
-        for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 10:40:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXuWCqHh0xVJaWXdwPhfaoULcin7VXCMfL8qSVhIgG4YqOCvFUNR7oC/c/FUG8oi1M2h3Zdw0wEoVvsoQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUx1I5gmBSWHHXDoXCXXaat3QOIPBF5Ftt0B0rNaCLAomhDorz
-	gBvhP2sU2K1yBoRMoUwbuIkj0HTIrqQGyeVoRRxX2g+pPT+oyzRkYvrkOEUdtCsarffFWsi9kAA
-	aiGEYGsjuboNV5yUDNe/+WyzFTSzRfoY=
-X-Received: by 2002:a05:6808:144e:b0:467:880:7454 with SMTP id
- 5614622812f47-46a5c5a3227mr224727b6e.18.1774374002202; Tue, 24 Mar 2026
- 10:40:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O03n1ntz"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2c11c43aca0so191740eec.1
+        for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 12:30:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774380654; x=1774985454; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ypx9rfrY0J5L5iqrWjidoVBfIQ360TmZRevjJTH3pYc=;
+        b=O03n1ntzwrsIlC6KV8m8NUeQyKsL0dpP1MQNTFvO+z25Alw4GwapnKn5TK9lFi2hmV
+         niCOR8qz0SWN7cDv33K0rHkZeCugU4ghhKkBAhzm+VBYUg4cj0yI611sHE8EvFNeEP3H
+         GAU1MvJp1YFMqHeDt/WvtIgTl0N5JY9YUCw3obHVEfeORKJHZiYo4cS1hKArI+gnN+/+
+         rkLDxDyAHguQLfSkdp0ZybXpucQCZIBRwi0heLVYeuU+yVr+Fx98wTmyxsZV3qlJI+JC
+         ANk8xTVQyi8/5nljql4B3yIVx0P+cPwcofR0i832kwtNgl/x4sVLuSibjUI082v8y6uD
+         ZYOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774380654; x=1774985454;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ypx9rfrY0J5L5iqrWjidoVBfIQ360TmZRevjJTH3pYc=;
+        b=S3xJG45MrEatZTiMr7IzxKzvRdk/ItfiBGoIGMHZc5SQBo2YL1JOpcvBfmVnLcUTYU
+         00bu1jshoMpm+iAxmomu1Wag6fKkbh0HxKlLnTvJQ/xMocZncDtNlxQ6vABu4fAEWQwF
+         JE+A2XZa+lrqmb9pqt1EFgGod//l4kqjCbaF4i9W8elZ2p/UORQ0m+vFPEGyECBGEk07
+         yvlBWSeQxUZwuviibRHlX6e92OBdVCm6C1qrtbRqxPv2jTcWJ5mvDU3XA3pjdBCoZulQ
+         TH+gTGEO2H7S0jryf/PsCi4Kn5Obm41JWnayA5ULQy+b8irDmCpvG0oFbMYDExFgRZur
+         Bdkw==
+X-Forwarded-Encrypted: i=1; AJvYcCXsco7VuU6cCfh/2V7/YLbzpAgJkAyFyjgEAZslBMm2O5KZokApVK6wggucDjQLx39jQY3gwM2xpSaU0Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwqbwsUYQwIxjhmEmW1qFsYYIXqWKaeTDows0pptljiz9+uN3aH
+	fjjvT2LCefrefJSTi+2E6A32MnUWaZBmI7BqtH29X+KJFKNwOFJ5PwfR
+X-Gm-Gg: ATEYQzxFv547I6KQMGHdYINH0MMaLhrImPsbyJQlSqGSE+GolNjTp3GgpujYLQbrok4
+	IrY7ab8ltr38n/vw41WoKWhsF3HxTNR6m51Mrsm19j6dH6bEw3IBYUhNiX7uQj+pbkzTEYejPU4
+	S60ML3dxzrX18qao4iTuntUdho2dk1w/M4xuGxGfL/W2sYYXb9xdwdZbLm6FFFq8gNV36G/QKy+
+	Qu+rsyrcgQkKCI77IP38jNPRR2E5EjtWw8nhy6UrexUnjH0Yb4NZvaBdOSLbwjOwgOfkQTVc4Vp
+	EVGRg4mSdS6PQjECTAutk7QL8waAZb+KLlHDNwliE4q++NR4mys0gZJSZjIMJRMbMxGLbcuCAwX
+	MA0RmuB8TUqKlrND71zGu8WMkcemI8QNZaASXRmkJiV8XtjaRPkK7/UnTCPUD9gyjIwcu4diOtF
+	hKtCzgu9kwTjBEL1auzXCMBKQtLINJzzifXK7W5k7MXJVcECi88oQkMahUg6wPJaTr
+X-Received: by 2002:a05:7301:6782:b0:2be:b02b:1b3f with SMTP id 5a478bee46e88-2c14b58ec59mr1864194eec.13.1774380653336;
+        Tue, 24 Mar 2026 12:30:53 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:a686:fd7f:70d3:9156])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b1961a2sm16402723eec.12.2026.03.24.12.30.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 12:30:52 -0700 (PDT)
+Date: Tue, 24 Mar 2026 12:30:49 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Danilo Krummrich <dakr@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] software node: allow referencing software nodes by name
+Message-ID: <acK69OColNT7ViLf@google.com>
+References: <acIV6xF8mY-8wd5e@google.com>
+ <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
- <20260313-synology_microp_initial-v3-3-ad6ac463a201@posteo.de>
- <CAJZ5v0jxHO2EH5NeEsMkxGz5xqVL00tO-W1JpaVd=GhwgQ3T=A@mail.gmail.com>
- <e8ffc9902c0af24ce6fde2d8712ea588b36e9194.camel@posteo.de>
- <CAJZ5v0jHQ7sHJ8SV25p2gQugC-a8f9oVFarS17NXwPzGOJUD0Q@mail.gmail.com> <f32aba79b98b357487c44e1952e536051fcd7a51.camel@posteo.de>
-In-Reply-To: <f32aba79b98b357487c44e1952e536051fcd7a51.camel@posteo.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 24 Mar 2026 18:39:51 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0guwtAepn2eS_fGik6iCEYWn3vt2s5oAGnnL_u62-YbpQ@mail.gmail.com>
-X-Gm-Features: AQROBzBgz9X_18TNZxhGoIzxIF6ZRQ4p9BklVyTGwPgiiSXx52mPCcekAjItT7o
-Message-ID: <CAJZ5v0guwtAepn2eS_fGik6iCEYWn3vt2s5oAGnnL_u62-YbpQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] acpi: add acpi_of_match_device_ids
-To: Markus Probst <markus.probst@posteo.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Igor Korotin <igor.korotin.linux@gmail.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Robert Moore <robert.moore@intel.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pci@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	acpica-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
 
-On Tue, Mar 24, 2026 at 5:26=E2=80=AFPM Markus Probst <markus.probst@posteo=
-.de> wrote:
->
-> On Tue, 2026-03-24 at 17:01 +0100, Rafael J. Wysocki wrote:
-> > On Tue, Mar 24, 2026 at 4:30=E2=80=AFPM Markus Probst <markus.probst@po=
-steo.de> wrote:
-> > >
-> > > On Mon, 2026-03-23 at 20:57 +0100, Rafael J. Wysocki wrote:
-> > > > On Fri, Mar 13, 2026 at 8:03=E2=80=AFPM Markus Probst via B4 Relay
-> > > > <devnull+markus.probst.posteo.de@kernel.org> wrote:
-> > > > >
-> > > > > From: Markus Probst <markus.probst@posteo.de>
-> > > > >
-> > > > > Add a function to match acpi devices against of_device_ids. This =
-will be
-> > > > > used in the following commit ("mfd: match acpi devices against PR=
-P0001")
-> > > > > to match mfd sub-devices against a of compatible string.
-> > > >
-> > > > Please always spell ACPI in capitals in patch subjects, comments,
-> > > > changelogs, etc.  It is not a regular word.
-> > > Ok.
-> > > >
-> > > > > Signed-off-by: Markus Probst <markus.probst@posteo.de>
-> > > > > ---
-> > > > >  drivers/acpi/bus.c      | 7 +++++++
-> > > > >  include/acpi/acpi_bus.h | 2 ++
-> > > > >  2 files changed, 9 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-> > > > > index f6707325f582..5ddcc56edc87 100644
-> > > > > --- a/drivers/acpi/bus.c
-> > > > > +++ b/drivers/acpi/bus.c
-> > > > > @@ -1044,6 +1044,13 @@ int acpi_match_device_ids(struct acpi_devi=
-ce *device,
-> > > > >  }
-> > > > >  EXPORT_SYMBOL(acpi_match_device_ids);
-> > > > >
-> > > >
-> > > > Missing kerneldoc.
-> > > The same amount of kerneldoc as `acpi_match_device_ids`, if I am not
-> > > mistaken.
-> > > >
-> > > > > +int acpi_of_match_device_ids(struct acpi_device *device,
-> > > > > +                         const struct of_device_id *ids)
-> > > > > +{
-> > > > > +       return __acpi_match_device(device, NULL, ids, NULL, NULL)=
- ? 0 : -ENOENT;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(acpi_of_match_device_ids);
-> > > >
-> > > > Are you aware of the consensus that using PRP0001 in production
-> > > > platform firmware will be regarded as invalid?
-> > > >
-> > > > Because of that, it is not an option for a driver to avoid providin=
-g
-> > > > ACPI match data on a platform that uses ACPI.
-> > > First of all, the driver that would have made use of it has been
-> > > restructed to not use mfd subdevices. It would not be affected anymor=
-e
-> > > through this patch set.
+On Tue, Mar 24, 2026 at 02:46:06AM -0700, Bartosz Golaszewski wrote:
+> On Tue, 24 Mar 2026 05:46:50 +0100, Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> said:
+> > Currently static device properties references require either an
+> > instance of software node or an instance of fwnode_handle to be
+> > available when defining a reference property. This may not be very
+> > convenient when device node is instantiated from a different module
+> > (which is usually the case).
 > >
-> > So what exactly would be affected by it?
-> I won't have a use for myself anymore, but I still think the patch is
-> useful. Anyway,
->
-> MFD Devices without an assigned ACPI ID, if they are present on devices
-> with ACPI platform firmware.
->
+> 
+> For context: this is a follow up to the discussion we had under my alternative
+> proposal[1]. This should ba an [RFC] too I think.
+> 
+> Probably unsurprisingly, but I'd like to express my opposition to this idea.
+> The final decision is not mine to make and we have yet to hear from the swnode
+> and driver core maintainers but I'll present a couple arguments in favor of the
+> tighter coupling.
+> 
+> > The original implementation for describing GPIOs using software nodes
+> > worked around this by creating a detached from gpiochip instances
+> > software nodes, and performing matching using gpiochip label and node
+> > name. The gpiolib maintainers rightfully questioned this approach, and
+> > currently recommend to attach secondary software node to gpiochip
+> > instance, export the symbol, and use it in board file when instantiating
+> > static properties. This unfortunately results in tight coupling between
+> > gpiochip drivers and board code, necessitates creation of header files,
+> > requires adding Kconfig dependencies, limits options for choosing module
+> > vs built-in compilation, and alters device initialization/probing order.
 > >
-> > > Not sure if I should still send it as its own patch series though.
-> That is why I asked this question (see 1. sentence in the paragraph
-> above).
->
-> > >
-> > > The device of the driver has no ACPI ID allocated by the manufacturer=
-,
-> > > as it is only used on a proprietary Linux OS (with their own modified
-> > > kernel).
-> >
-> > Do I understand correctly that there is an ACPI platform firmware on
-> > the board, but it doesn't enumerate the given device properly (that
-> > is, as an ACPI device object with a specific device ID)?
-> There is only a serial device in the ACPI platform firmware.
-> The device connected to the bus isn't specified.
-> >
-> > In which case there probably is a driver that can find that device
-> > somehow (it has hardcoded resources or similar).
-> Yes, that driver has `filp_open("/dev/ttyS1")` hardcoded.
-> >
-> > > The driver would have only been useful via device tree or an ACPI
-> > > Overlay.
-> >
-> > Do you mean a custom SSDT loaded via configfs or something else?
-> Yes, in my case via initrd.
->
-> >
-> > > Obviously, I don't have a PNP or ACPI Vendor ID, so I can't
-> > > assign one. The parent/main driver does only have a of compatible id.
-> > > As it needs to use PRP0001 anyway on ACPI, I thought it makes more
-> > > sense to also use PRP0001 there instead of matching it with a _ADR
-> > > which is "a grey area in the ACPI specification".
-> >
-> > You can't match a device with _ADR.  By itself, _ADR doesn't provide
-> > you with any information on the device in question, it only helps to
-> > connect it to some information that can be collected by other means.
-> > The role of it, at least in principle, is to allow some device objects
-> > in the ACPI hierarchy to be associated with devices enumerated by
-> > other means (like on a PCI bus).
->
-> This patch affects mfd devices. A bus device can via mfd register child
-> devices and those child devices will be matched to a fwnode if
-> available.
+> 
+> In my first proposal I did in fact create a header and put the software node
+> definitions in the pinctrl drivers. Andy pointed out, the software nodes should
+> live inside the android tablet drivers that rely on them and not in the pinctrl
+> drivers where they would be attached on all the platforms, not only the tiny
+> number of the ones that need them. I agree with this and plan on changing that
+> in my v2.
+> 
+> We also discussed the possibility of returning -EPROBE_DEFER if we resolve
+> a reference to a remote software node that has not yet been registered as
+> a firmware node[2] as it's a situation similar to a firmware node for which
+> no device exists yet.
+> 
+> With the above changes to my series, the problems of link order disappear and
+> we can create real links at build-time with no need to set names of software
+> nodes (which are typically not required and only used to display them in sysfs,
+> unless someone uses them for matching the swnodes to devices that is :) ).
 
-That only works because the parent can be recognized and properly
-enumerated, so it is parent-relative.
+But having them is strongly encouraged anyways.
 
-> According to commit 98a3be44ffa67b812de7aa7aed9f2331edcfb1a5, there is
-> a board on the market with a sub-device that will be matched using _ADR
-> [1].
+> 
+> IOW: for v2 of my[1] series I propose to put swnode back into the android
+> tablets drivers but still use the mechanism that will either wait for the
+> relevant platform device to appear or look up the matching ACPI node. If the
+> driver tries to resolve the reference before the software node is registered,
+> it will simply defer probe, though if we can use the ACPI node and not wait
+> for the platform device, the registration will have typically happened before
+> the driver even gets registered.
 
-With the help of a quirk though.
+Please post the reworked version so we can review all the details. My
+concern was that it relies on notifier chains to notify when devices
+get registered and unregistered, and instead of matching node names you
+now need to somehow match device instances and software node instances,
+which again likely is done based on some name. This just piles on
+complexity where a simpler solution would be sufficient.
 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D98a3be44ffa67b812de7aa7aed9f2331edcfb1a5
->
+I think this approach also will give trouble when there are multiple
+users of GPIOs provided by the same gpiochip, in cases where users are
+split across multiple modules.
+
+> 
+> > Solve the issue by providing an option to use software node name in
+> > place of the node instance when describing reference properties. When
+> > evaluating reference driver core will attempt to resolve the name to
+> > concrete node instance and, in case of GPIO references, will use
+> > identity match on firmware node to locate corresponding gpiochip device.
 > >
-> > The enumeration with the help of PRP0001 only works if there is a
-> > device object in the ACPI hierarchy and its _HID is PRP0001 or its
-> > _CID list contains PRP0001, there is a _DSD under it and a
-> > "compatible" property is returned by that _DSD.  Who's going to
-> > provide all of that for the given device?
-> A ACPI Overlay would do that.
->
+> > This approach has a drawback of needing to know name of the node that
+> > gpiochip device will be using, however benefits (minimal coupling, no
+> > need for adding dependencies) outweigh this drawback.
 > >
-> > Moreover, if the device has some resources that the kernel needs to
-> > know about, there should be a _CRS under the device object in question
-> > and the resources should be listed there.  Or how are the resources
-> > going to be found otherwise?
-> Resources in mfd are usually handled by the parent device, not the mfd
-> child device. But yes, it would be using _CRS if any.
+> 
+> And it also limits the ways we can match real firmware nodes to their
 
-So this is kind of a valid use case, but since you don't need it any
-more, I'd rather not put it in without a clear need.
+It does not limit, it only provides additional opportunity when a simple
+case is enough. We are not replacing seoftware node instance in the
+reference with name, we allow using either, depending on user's wishes.
+So it does not preclude also having the mechanism that you propose when
+you need more complex management.
 
-Also, it's not a huge deal for a vendor to allocate a proper ACPI
-device ID for a piece of hardware.  It just involves some due
-diligence.
+> complementary and puts that limitation into the very driver core. For my v2,
+> I'd like to propose additional mechanisms for such matching like looking up
+> the correct ACPI and OF nodes and using unnamed software nodes.
+> 
+> > To deal cases with software nodes not being created or registered at
+> > time of look up, assume that the node with matching name will get
+> > registered eventually and return -EPROBE_DEFER in the meantime.
+> >
+> 
+> I don't think this should happen in core software node code. The -ENOENT
+> should be interpreted by whatever subsystem tries to resolve the reference.
+
+OK, I am fine with making it a subsystem's decision.
+
+Thanks.
+
+-- 
+Dmitry
