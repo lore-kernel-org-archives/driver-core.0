@@ -1,147 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368A33FEB32;
-	Tue, 24 Mar 2026 15:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B2A3F7876
+	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 15:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774364617; cv=none; b=ZPsK0VQoeW4kKdP0SR8trjBpIgqKBLvMgh6IpehsND9WgMgl6JL4BdOHbtiIJUrxkmVgZIW45NdYJeFWAZ17YYkh8EplG/pmqbbXNKrfhp2g+/pBll2x8GTyG5wx0sQ4QCXSCN4tL4IWnMh4r5SL0RCRyNLJK/WWgZLkobIrA3I=
+	t=1774365701; cv=none; b=M1nDOutfDKBtfozUecmIuibeDCL2tKhjG4lAfB5ORy5HtcG0GVi82ezwlpEL8eiZt5ou5ysn62JL8/TtrQoSifQwY48qi0/18+H64zhFVIEzzVygS4slVEH5ihXBTa77A429ykE5dgzY592TT4aaut5GiWlcm4Ggi7df2Mw7GKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774364617; c=relaxed/simple;
-	bh=xiTNI9ESXiY/gIDionTm8i92obzoKVc4cZW7D08FQrI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=PVJCZVppvIQ27ZS5ZpUzBIc54LvmlYEm9Gb2Dq9J/3IERCZkFaWTPdWjMjweav+QGH0NPnbJQHY0yq0RAGKeuDMiaU85M5L01eJlm/NTt/xv965TSrLG/VO+IOeFeIbOujV+qcB7+nxfMn+QMqM5u2YGH1r4KlFhVOsrn3aS0uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dz2mfMF+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774365701; c=relaxed/simple;
+	bh=NJo5NdzOjtwBWX7+M/YjO+ycHqysL7+cmpjOt2K5IaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=svpN75OrooLLDJVHtrYqaDG1b79JW+1qUFSlKY96DeSFLnZzWr4oqeqDCuQNwscwAppJn/V2NUrXARuf4OC/qMaxxD6AXwk3ONCfCuo0dHBH5T4k1UD/BgxGk5qynu1znP3Z4TAg7dQmpYcWr2PXV5QwKSRDKyQ5NBrd18jmJys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=eBwDyuSS; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dz2mfMF+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 916A4C19424;
-	Tue, 24 Mar 2026 15:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774364616;
-	bh=xiTNI9ESXiY/gIDionTm8i92obzoKVc4cZW7D08FQrI=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=Dz2mfMF+MZN7ixyg7Akx23BQ1U6iqlTQhAc5HVNp+Dhxrz1sK/DDm/yUJgLij6kvE
-	 Qdln+9UIL2JwthJyfq234PrdCE5gKKEItlQT7CdHVXQD+evdVAD7N9I5H7zPnL5xgA
-	 qCprtiTRfxyNZ7wUThBQ0a8HiAsOjas8HWBX2KiLeAdi0wu+BvTu9nX6fW1PK/JW3d
-	 RH77D3Tg9EPVsOFE9YoKPqinCgRKNLteGNk5dj0yzRFE/SmGN5BsOUPbsJ5rkKmTnh
-	 ifIO1XmXcBbxUGKLVn8CJbLGg8s7dpAsJnctccV8UZUWnrfuAv6lq71J8gDLWaiDb+
-	 xpBBmMQlh/LXQ==
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="eBwDyuSS"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cb4136d865so523178885a.1
+        for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 08:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1774365699; x=1774970499; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tiLKmr/C5OTHsK7h85BV4WJ+HRj+xEBrHGkLJfB0mtU=;
+        b=eBwDyuSS92yxrvWDgyIxZvt/Cg6PEQmM9Y8mVsFvqZgun4/z2Ns8uZqOaxQOAgBAGb
+         wRZirjhchA4bGVi/yUnUfI3JBvlcF1JSjq4s2jU3IEuiLkNjs5j0DpBJla+bvssqaO07
+         Os2sO9bEmr+gnOeQysTzG8bgxtKAvmJjgckyCX6dZOgC9i3Rv97iVtdK/xIiBs3pzoV5
+         Pxo94qOs8TvaR4pgVrWmEqERDGugVtHMTZxEX0dfqAiv1vC3B18QvwMhJAb+rNobp8O2
+         ulIK0OlbIqtG4drG89Pk4v3EmF/mYYCwBOINw19UwaqRmUEzHq3FDWnEpPSXnqBc3ffb
+         LKaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774365699; x=1774970499;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tiLKmr/C5OTHsK7h85BV4WJ+HRj+xEBrHGkLJfB0mtU=;
+        b=dvQS7uf1lU8pqVSsuu4cAvWCEKXuCbKaiGAguJByJ/NO5h5HkRVA+WvFXTOBomjQGT
+         HRRWQIY0aezVNn52JgKbYoNq0AKnqxt3Icwj9Ht0Cj7FlZisOXy4Kc6ZCHaJJmpOqhGS
+         hpsX5cY0hauvDVN2bU7K7BeS2apFQtjkZQMmTyrNDqEpdjBk7b0LR906yxvq7rzKPuAM
+         GX1tYCd2Cs2r/eeoLiJqWUYglDoTp8XeaGTfINHyUd09dG7p/aNnV/YbqCEzlng/PgUN
+         NftlZegTlZ3vGe+HkAApJ7ucKi2Zb4hMAiWBwSkiJNOY19sDR73ZZ82d9JQuKOCQOhfp
+         IJMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWbZDCoB1NBMilxEYnQoaudeGcX29tc3YP1bVbkGKDyK6vaa4rgRKA/yhTZclbhjyDrrNBoavYws+x0/w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9C1gr+bFJAWQsHFBp4A5d5vyHe4Pc1psdHrOFmhoJj7KYLNgT
+	I77FHV8Ebxxpr/VAJWbQqdSHPULtta6HQUw0hAvVtum77Vi6dj/ncE17MwSgPUTklw==
+X-Gm-Gg: ATEYQzyscHuCXpK0YaXBVfI27T9PqGZFwn/tgyQrELW6hwNjXlFnCi/w1bE3cz9WiSK
+	lKgPO4KmBD51aLsliCGQ1R60+DePM/h7Xw89UL+/Ncz26oyz652LN2rsViuszt+F3NZ7FUtt8A9
+	Y7YMoIURmdQtPN8D5fyGiVTskBSTagYlr7H3AEkV9d65wURbNdwCj2y+F+1jRQpiVAiVvJfqyPf
+	3IHvk0sTrBaU2LFvok+wOwiO83GgCeHwgNTBneCT8FddtIE6tey5X34FA7XxwhEEfxb18sYCJI3
+	sFuhbURtp8dvCuKL0dG/+r9IO4bTg/7GCx5jLDgfcdTnyb0s0na6rC5uESBC/uS49yYoA1ppea7
+	mPvwkcmR2cK/k1mW6hOrJnCvl1rKOq0Kg9Ll/ohuSid3RPGpRimZ6vb5N5+mLLB3PqQ7kCxlpiM
+	KTri78LDQC4gAzN2Z0VdjLuZ8l
+X-Received: by 2002:a05:620a:408b:b0:8cf:de1c:ede4 with SMTP id af79cd13be357-8cfde1cf987mr1729724985a.26.1774365697099;
+        Tue, 24 Mar 2026 08:21:37 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::9c76])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc90b4a7fsm1015857885a.32.2026.03.24.08.21.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 08:21:36 -0700 (PDT)
+Date: Tue, 24 Mar 2026 11:21:33 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] driver core: Don't link the device to the bus until
+ we're ready to probe
+Message-ID: <bfd4e1f5-7bc5-448d-aa33-1a977bf00733@rowland.harvard.edu>
+References: <20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+ <2026032152-getting-carmaker-29d5@gregkh>
+ <CAD=FV=Wag5qx9RXkAHrf+zbwtQgVQW1UUc6DRhUzudBtjbD8ug@mail.gmail.com>
+ <2026032114-unlocked-unmoving-091b@gregkh>
+ <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
+ <6ff1444b-f83e-47f6-ab0d-6745738523ba@rowland.harvard.edu>
+ <CAD=FV=Vco+hRBNxGpUDf-YofEwTR13ht=nTnjvUvT+3_76+1MA@mail.gmail.com>
+ <6511a5b9-ac67-49a1-8336-3d2afaaab593@rowland.harvard.edu>
+ <CAD=FV=WBgKN2MNO-xBHZ3tRN91M82vk3h1AEAXtpBQ-nQocKCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Mar 2026 16:03:31 +0100
-Message-Id: <DHB3RDNDS08U.A75EZUOMO311@kernel.org>
-Subject: Re: [PATCH v2 5/8] rust: dma: add Coherent:init() and
- Coherent::init_with_attrs()
-Cc: <aliceryhl@google.com>, <acourbot@nvidia.com>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
- <lossin@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260320194626.36263-1-dakr@kernel.org>
- <4yknLBbwY93Ty2ltbpxjHgto-m99xkoTgDlKv8cJTK2tbFL0_V6eQDjwbbXI70M6uMKT6RLRxBoYR_XeymmnHA==@protonmail.internalid> <20260320194626.36263-6-dakr@kernel.org> <87y0jhpbsp.fsf@kernel.org>
-In-Reply-To: <87y0jhpbsp.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=WBgKN2MNO-xBHZ3tRN91M82vk3h1AEAXtpBQ-nQocKCQ@mail.gmail.com>
 
-On Tue Mar 24, 2026 at 3:00 PM CET, Andreas Hindborg wrote:
->> +    /// Same as [`Coherent::zeroed`], but instead of a zero-initializat=
-ion the memory is initialized
->> +    /// with `init`.
->> +    #[inline]
->> +    pub fn init<E>(
->> +        dev: &device::Device<Bound>,
->> +        gfp_flags: kernel::alloc::Flags,
->> +        init: impl Init<T, E>,
->> +    ) -> Result<Self>
->> +    where
->> +        Error: From<E>,
->> +    {
->> +        Self::init_with_attrs(dev, gfp_flags, Attrs(0), init)
->> +    }
->> +
->
-> I think we are missing an array initializer for `Coherent<[T]>`.
+On Mon, Mar 23, 2026 at 03:24:52PM -0700, Doug Anderson wrote:
+> > You know, I wrote this but I'm not so sure that it's accurate.  We've
+> > gone many years with no big changes to this code; most likely it doesn't
+> > need alterations now.
+> 
+> That's fair, but I'm really just worried that the Android parallel
+> module loading code, which is only ~1 year old (and needs to be opted
+> in for each device) is stressing things in a way that nobody else is.
+> In most distros, I think modules are loaded "on-demand". A device gets
+> added first, and then we figure out which module has the driver that's
+> needed and load the module. Nice and sequential. Android seems to have
+> a different approach. As far as I understand it just has a list of
+> modules to load and slams through loading all of them even as devices
+> are still being added.
+> 
+> I don't think that what Android is doing is technically "wrong", but
+> it's certainly odd compared to all other distros.
+> 
+> Unless we say that what Android is doing is wrong (and decide what to
+> do about it), it seems like we need to make sure it's robust.
 
-This method is already compatible with arrays, T can be an array type itsel=
-f,
-e.g. T =3D [MyStruct; 5].
+Loading a bunch of modules as fast as possible should not be wrong.  The 
+kernel certainly ought to be able to handle it.
 
-For instance, the diff in [1] should work.
+> > Nothing wrong with those names.  But instead of making these fairly
+> > intrusive changes it might be better just to move the firmware stuff to
+> > a different place in the code (you mentioned this possibility in your
+> > first email).  It would be a smaller change, that's for sure.
+> 
+> I'll do that if that's what everyone wants, but the more I think about
+> it the more worried I am that we'll end up with a hidden / harder to
+> debug problem where some driver gets unhappy when its probe is called
+> before dpm_sysfs_add(), device_pm_add(), device_create_file(),
+> device_create_sys_dev_entry(), BUS_NOTIFY_ADD_DEVICE, ...
 
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+It's hard to know for all of them.  However, it seems pretty clear that 
+device_pm_add() should come before probing, since a probe routine will 
+generally want to affect the device's runtime PM state.
 
-Thanks! The patch series has been applied yesterday, and the branch it has =
-been
-applied to is immutable, so I can't add additional tags.
+> > There should not be any difference between probing caused by the device
+> > being added to the bus, vs. caused by a new driver being registered, vs.
+> > caused by anything else (such as sysfs).  None of these should be
+> > allowed until all of them can be handled properly.
+> 
+> Right. ...and I think that's what my proposed "ready_to_probe" does.
+> It really does seem like quite a safe change. It _just_ prevents the
+> driver load path from initiating a probe too early.
 
-However, the Link: included in the patch still points to this conversation.
+Any such consideration should apply to all the probe paths, not just 
+driver loading.  (Also, if it's too early to probe the device, perhaps 
+the return code should be -EAGAIN instead of 0.)
 
-Also note that subsequent review is still valued; we can always send follow=
--up
-patches if required.
+I'm not at all sure whether the constraints we've got will need to force 
+some events to happen after adding the device to the bus list and before 
+allowing probing to start.
 
-Thanks,
-Danilo
+> > And linking the device into the bus's list of devices should be the
+> > event that makes probing possible.
+> 
+> Sure, but moving the linking into the bus's list of devices all the
+> way to the end is definitely a bigger change. If nothing else,
+> "bus_for_each_dev()" starts to be able to find the device once it's
+> linked into the list. If any of the ~50 drivers who register for
+> BUS_NOTIFY_ADD_DEVICE are relying on the device to show up in
+> "bus_for_each_dev()", it would be bad...
 
-[1]
+I don't know the answer to this.  That is, I don't know if there are any 
+notification handlers depending on the device showing up in the bus's 
+list.  The safest thing to do is issue the notification after adding the 
+device to the list -- which may mean after probing has potentially 
+started.  Is there any reason why that would be a problem?  I'm not 
+aware of any.
 
-diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
-index 129bb4b39c04..3d3ffc21ea77 100644
---- a/samples/rust/rust_dma.rs
-+++ b/samples/rust/rust_dma.rs
-@@ -22,6 +22,7 @@
- struct DmaSampleDriver {
-     pdev: ARef<pci::Device>,
-     ca: Coherent<[MyStruct]>,
-+    ca_init: Coherent<[MyStruct; 5]>,
-     #[pin]
-     sgt: SGTable<Owned<VVec<u8>>>,
- }
-@@ -76,6 +77,15 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo)=
- -> impl PinInit<Self, E
-                 kernel::dma_write!(ca, [i]?, MyStruct::new(value.0, value.=
-1));
-             }
+The order constraints should be commented explicitly in device_add(), 
+not just implicitly implied by the code.  Otherwise people won't know 
+what changes are allowed and what changes are forbidden.
 
-+            let ca_init: Coherent<[MyStruct; 5]> =3D Coherent::init(
-+                pdev.as_ref(),
-+                GFP_KERNEL,
-+                pin_init::init_array_from_fn(|i| {
-+                    let (h, b) =3D TEST_VALUES[i];
-+                    MyStruct::new(h, b)
-+                }),
-+            )?;
-+
-             let size =3D 4 * page::PAGE_SIZE;
-             let pages =3D VVec::with_capacity(size, GFP_KERNEL)?;
-
-@@ -84,6 +94,7 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) =
--> impl PinInit<Self, E
-             Ok(try_pin_init!(Self {
-                 pdev: pdev.into(),
-                 ca,
-+                ca_init,
-                 sgt <- sgt,
-             }))
-         })
-@@ -98,6 +109,12 @@ fn check_dma(&self) -> Result {
-
-             assert_eq!(val0, value.0);
-             assert_eq!(val1, value.1);
-+
-+            let val0 =3D kernel::dma_read!(self.ca_init, [i]?.h);
-+            let val1 =3D kernel::dma_read!(self.ca_init, [i]?.b);
-+
-+            assert_eq!(val0, value.0);
-+            assert_eq!(val1, value.1);
-         }
-
-         Ok(())
+Alan Stern
