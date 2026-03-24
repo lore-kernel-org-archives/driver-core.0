@@ -1,167 +1,235 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B2A3F7876
-	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 15:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B09397E89
+	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 15:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774365701; cv=none; b=M1nDOutfDKBtfozUecmIuibeDCL2tKhjG4lAfB5ORy5HtcG0GVi82ezwlpEL8eiZt5ou5ysn62JL8/TtrQoSifQwY48qi0/18+H64zhFVIEzzVygS4slVEH5ihXBTa77A429ykE5dgzY592TT4aaut5GiWlcm4Ggi7df2Mw7GKM=
+	t=1774366605; cv=none; b=kzNS1OOxdSiA+rXQM76whLM/biu/WYFxX0oa5A9E+752ziU/gqiuSRHSV2dSRpe3DiWgdgbXRhTQ12vZpYd241G4hdVLVhVEquq8470iFSqqyywZVl8C58P5LxGJ3lKeyr+WdTgtTSBbEp8aqMFQ/bEFHWd/f0iDZOmjN+Gw7jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774365701; c=relaxed/simple;
-	bh=NJo5NdzOjtwBWX7+M/YjO+ycHqysL7+cmpjOt2K5IaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=svpN75OrooLLDJVHtrYqaDG1b79JW+1qUFSlKY96DeSFLnZzWr4oqeqDCuQNwscwAppJn/V2NUrXARuf4OC/qMaxxD6AXwk3ONCfCuo0dHBH5T4k1UD/BgxGk5qynu1znP3Z4TAg7dQmpYcWr2PXV5QwKSRDKyQ5NBrd18jmJys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=eBwDyuSS; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1774366605; c=relaxed/simple;
+	bh=AFkZQoQFstyy/dwGWmvovM3jX8wDVNpwJfI/V0n4b9I=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=T91+8MRlQ/JupWZV7DjFyyx9usD9ykHg+t6Gm9lPD4YyUtlqgC/scQK9mb528ILG/p8qZADvCjAYz8xt9M2AXWgQrDpUBAGAb6Li+JX1SqDBXc3pGZtb4FnmbL8B6TaFcGGp6q96zLK13GZXf2LwQaW06W4sj6Y2zaeNMuBogEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=Ynlwaq5R; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="eBwDyuSS"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cb4136d865so523178885a.1
-        for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 08:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1774365699; x=1774970499; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tiLKmr/C5OTHsK7h85BV4WJ+HRj+xEBrHGkLJfB0mtU=;
-        b=eBwDyuSS92yxrvWDgyIxZvt/Cg6PEQmM9Y8mVsFvqZgun4/z2Ns8uZqOaxQOAgBAGb
-         wRZirjhchA4bGVi/yUnUfI3JBvlcF1JSjq4s2jU3IEuiLkNjs5j0DpBJla+bvssqaO07
-         Os2sO9bEmr+gnOeQysTzG8bgxtKAvmJjgckyCX6dZOgC9i3Rv97iVtdK/xIiBs3pzoV5
-         Pxo94qOs8TvaR4pgVrWmEqERDGugVtHMTZxEX0dfqAiv1vC3B18QvwMhJAb+rNobp8O2
-         ulIK0OlbIqtG4drG89Pk4v3EmF/mYYCwBOINw19UwaqRmUEzHq3FDWnEpPSXnqBc3ffb
-         LKaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774365699; x=1774970499;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tiLKmr/C5OTHsK7h85BV4WJ+HRj+xEBrHGkLJfB0mtU=;
-        b=dvQS7uf1lU8pqVSsuu4cAvWCEKXuCbKaiGAguJByJ/NO5h5HkRVA+WvFXTOBomjQGT
-         HRRWQIY0aezVNn52JgKbYoNq0AKnqxt3Icwj9Ht0Cj7FlZisOXy4Kc6ZCHaJJmpOqhGS
-         hpsX5cY0hauvDVN2bU7K7BeS2apFQtjkZQMmTyrNDqEpdjBk7b0LR906yxvq7rzKPuAM
-         GX1tYCd2Cs2r/eeoLiJqWUYglDoTp8XeaGTfINHyUd09dG7p/aNnV/YbqCEzlng/PgUN
-         NftlZegTlZ3vGe+HkAApJ7ucKi2Zb4hMAiWBwSkiJNOY19sDR73ZZ82d9JQuKOCQOhfp
-         IJMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWbZDCoB1NBMilxEYnQoaudeGcX29tc3YP1bVbkGKDyK6vaa4rgRKA/yhTZclbhjyDrrNBoavYws+x0/w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9C1gr+bFJAWQsHFBp4A5d5vyHe4Pc1psdHrOFmhoJj7KYLNgT
-	I77FHV8Ebxxpr/VAJWbQqdSHPULtta6HQUw0hAvVtum77Vi6dj/ncE17MwSgPUTklw==
-X-Gm-Gg: ATEYQzyscHuCXpK0YaXBVfI27T9PqGZFwn/tgyQrELW6hwNjXlFnCi/w1bE3cz9WiSK
-	lKgPO4KmBD51aLsliCGQ1R60+DePM/h7Xw89UL+/Ncz26oyz652LN2rsViuszt+F3NZ7FUtt8A9
-	Y7YMoIURmdQtPN8D5fyGiVTskBSTagYlr7H3AEkV9d65wURbNdwCj2y+F+1jRQpiVAiVvJfqyPf
-	3IHvk0sTrBaU2LFvok+wOwiO83GgCeHwgNTBneCT8FddtIE6tey5X34FA7XxwhEEfxb18sYCJI3
-	sFuhbURtp8dvCuKL0dG/+r9IO4bTg/7GCx5jLDgfcdTnyb0s0na6rC5uESBC/uS49yYoA1ppea7
-	mPvwkcmR2cK/k1mW6hOrJnCvl1rKOq0Kg9Ll/ohuSid3RPGpRimZ6vb5N5+mLLB3PqQ7kCxlpiM
-	KTri78LDQC4gAzN2Z0VdjLuZ8l
-X-Received: by 2002:a05:620a:408b:b0:8cf:de1c:ede4 with SMTP id af79cd13be357-8cfde1cf987mr1729724985a.26.1774365697099;
-        Tue, 24 Mar 2026 08:21:37 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::9c76])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfc90b4a7fsm1015857885a.32.2026.03.24.08.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 08:21:36 -0700 (PDT)
-Date: Tue, 24 Mar 2026 11:21:33 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] driver core: Don't link the device to the bus until
- we're ready to probe
-Message-ID: <bfd4e1f5-7bc5-448d-aa33-1a977bf00733@rowland.harvard.edu>
-References: <20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <2026032152-getting-carmaker-29d5@gregkh>
- <CAD=FV=Wag5qx9RXkAHrf+zbwtQgVQW1UUc6DRhUzudBtjbD8ug@mail.gmail.com>
- <2026032114-unlocked-unmoving-091b@gregkh>
- <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
- <6ff1444b-f83e-47f6-ab0d-6745738523ba@rowland.harvard.edu>
- <CAD=FV=Vco+hRBNxGpUDf-YofEwTR13ht=nTnjvUvT+3_76+1MA@mail.gmail.com>
- <6511a5b9-ac67-49a1-8336-3d2afaaab593@rowland.harvard.edu>
- <CAD=FV=WBgKN2MNO-xBHZ3tRN91M82vk3h1AEAXtpBQ-nQocKCQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="Ynlwaq5R"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 13843240027
+	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 16:30:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1774366240; bh=TdylBglHESQc63FZeWoNveBg2huikViD/E4pJuXNAd4=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=Ynlwaq5R0ESX6LDeft9LnAiYXA55D3EDEayHUkezmna3qfAEktqtHUCdzBu00qq2t
+	 UDe5m3kqzeDopoQW0f6GUZZSONrl1C+b2F7WxzUwrckaDl5Vm6KY6XXOkn0vcXpg8c
+	 0NnWgqCA4HI5QuRbbDH/QEwk2ONOPE7jqmCHumShq3pdfHLnnwAq+rS7OiXDnj5WT/
+	 qA08qtIGK2rKrOKWUK4Nx+HJNqrVrQehT/bFYdLr/U9OB8qyNVENF/mP2imNA0wXr6
+	 QfuQaYDoa8tr5IO5oOnQaVhrWR8EFlHS7zHsr92AQFMZn8jqBlfkk4CSZuu3eQuFQi
+	 QkxvpTlzud16w==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4fgDWb08gfz6tsf;
+	Tue, 24 Mar 2026 16:30:34 +0100 (CET)
+Message-ID: <e8ffc9902c0af24ce6fde2d8712ea588b36e9194.camel@posteo.de>
+Subject: Re: [PATCH v3 3/7] acpi: add acpi_of_match_device_ids
+From: Markus Probst <markus.probst@posteo.de>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Greg
+ Kroah-Hartman	 <gregkh@linuxfoundation.org>, Miguel Ojeda
+ <ojeda@kernel.org>, Boqun Feng	 <boqun@kernel.org>, Gary Guo
+ <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Igor
+ Korotin	 <igor.korotin.linux@gmail.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>,  Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Pavel
+ Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, Robert Moore
+ <robert.moore@intel.com>, 	devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	rust-for-linux@vger.kernel.org,
+ driver-core@lists.linux.dev, 	linux-pci@vger.kernel.org,
+ linux-leds@vger.kernel.org, 	linux-acpi@vger.kernel.org,
+ acpica-devel@lists.linux.dev
+Date: Tue, 24 Mar 2026 15:30:38 +0000
+In-Reply-To: <CAJZ5v0jxHO2EH5NeEsMkxGz5xqVL00tO-W1JpaVd=GhwgQ3T=A@mail.gmail.com>
+References: <20260313-synology_microp_initial-v3-0-ad6ac463a201@posteo.de>
+	 <20260313-synology_microp_initial-v3-3-ad6ac463a201@posteo.de>
+	 <CAJZ5v0jxHO2EH5NeEsMkxGz5xqVL00tO-W1JpaVd=GhwgQ3T=A@mail.gmail.com>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-eySGLK0BCKOzVjRv4LWn"
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=WBgKN2MNO-xBHZ3tRN91M82vk3h1AEAXtpBQ-nQocKCQ@mail.gmail.com>
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-On Mon, Mar 23, 2026 at 03:24:52PM -0700, Doug Anderson wrote:
-> > You know, I wrote this but I'm not so sure that it's accurate.  We've
-> > gone many years with no big changes to this code; most likely it doesn't
-> > need alterations now.
-> 
-> That's fair, but I'm really just worried that the Android parallel
-> module loading code, which is only ~1 year old (and needs to be opted
-> in for each device) is stressing things in a way that nobody else is.
-> In most distros, I think modules are loaded "on-demand". A device gets
-> added first, and then we figure out which module has the driver that's
-> needed and load the module. Nice and sequential. Android seems to have
-> a different approach. As far as I understand it just has a list of
-> modules to load and slams through loading all of them even as devices
-> are still being added.
-> 
-> I don't think that what Android is doing is technically "wrong", but
-> it's certainly odd compared to all other distros.
-> 
-> Unless we say that what Android is doing is wrong (and decide what to
-> do about it), it seems like we need to make sure it's robust.
 
-Loading a bunch of modules as fast as possible should not be wrong.  The 
-kernel certainly ought to be able to handle it.
+--=-eySGLK0BCKOzVjRv4LWn
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > Nothing wrong with those names.  But instead of making these fairly
-> > intrusive changes it might be better just to move the firmware stuff to
-> > a different place in the code (you mentioned this possibility in your
-> > first email).  It would be a smaller change, that's for sure.
-> 
-> I'll do that if that's what everyone wants, but the more I think about
-> it the more worried I am that we'll end up with a hidden / harder to
-> debug problem where some driver gets unhappy when its probe is called
-> before dpm_sysfs_add(), device_pm_add(), device_create_file(),
-> device_create_sys_dev_entry(), BUS_NOTIFY_ADD_DEVICE, ...
+On Mon, 2026-03-23 at 20:57 +0100, Rafael J. Wysocki wrote:
+> On Fri, Mar 13, 2026 at 8:03=E2=80=AFPM Markus Probst via B4 Relay
+> <devnull+markus.probst.posteo.de@kernel.org> wrote:
+> >=20
+> > From: Markus Probst <markus.probst@posteo.de>
+> >=20
+> > Add a function to match acpi devices against of_device_ids. This will b=
+e
+> > used in the following commit ("mfd: match acpi devices against PRP0001"=
+)
+> > to match mfd sub-devices against a of compatible string.
+>=20
+> Please always spell ACPI in capitals in patch subjects, comments,
+> changelogs, etc.  It is not a regular word.
+Ok.
+>=20
+> > Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> > ---
+> >  drivers/acpi/bus.c      | 7 +++++++
+> >  include/acpi/acpi_bus.h | 2 ++
+> >  2 files changed, 9 insertions(+)
+> >=20
+> > diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+> > index f6707325f582..5ddcc56edc87 100644
+> > --- a/drivers/acpi/bus.c
+> > +++ b/drivers/acpi/bus.c
+> > @@ -1044,6 +1044,13 @@ int acpi_match_device_ids(struct acpi_device *de=
+vice,
+> >  }
+> >  EXPORT_SYMBOL(acpi_match_device_ids);
+> >=20
+>=20
+> Missing kerneldoc.
+The same amount of kerneldoc as `acpi_match_device_ids`, if I am not
+mistaken.
+>=20
+> > +int acpi_of_match_device_ids(struct acpi_device *device,
+> > +                         const struct of_device_id *ids)
+> > +{
+> > +       return __acpi_match_device(device, NULL, ids, NULL, NULL) ? 0 :=
+ -ENOENT;
+> > +}
+> > +EXPORT_SYMBOL(acpi_of_match_device_ids);
+>=20
+> Are you aware of the consensus that using PRP0001 in production
+> platform firmware will be regarded as invalid?
+>=20
+> Because of that, it is not an option for a driver to avoid providing
+> ACPI match data on a platform that uses ACPI.
+First of all, the driver that would have made use of it has been
+restructed to not use mfd subdevices. It would not be affected anymore
+through this patch set. Not sure if I should still send it as its own
+patch series though.
 
-It's hard to know for all of them.  However, it seems pretty clear that 
-device_pm_add() should come before probing, since a probe routine will 
-generally want to affect the device's runtime PM state.
+The device of the driver has no ACPI ID allocated by the manufacturer,
+as it is only used on a proprietary Linux OS (with their own modified
+kernel).
 
-> > There should not be any difference between probing caused by the device
-> > being added to the bus, vs. caused by a new driver being registered, vs.
-> > caused by anything else (such as sysfs).  None of these should be
-> > allowed until all of them can be handled properly.
-> 
-> Right. ...and I think that's what my proposed "ready_to_probe" does.
-> It really does seem like quite a safe change. It _just_ prevents the
-> driver load path from initiating a probe too early.
+The driver would have only been useful via device tree or an ACPI
+Overlay. Obviously, I don't have a PNP or ACPI Vendor ID, so I can't
+assign one. The parent/main driver does only have a of compatible id.
+As it needs to use PRP0001 anyway on ACPI, I thought it makes more
+sense to also use PRP0001 there instead of matching it with a _ADR
+which is "a grey area in the ACPI specification".
 
-Any such consideration should apply to all the probe paths, not just 
-driver loading.  (Also, if it's too early to probe the device, perhaps 
-the return code should be -EAGAIN instead of 0.)
+Thanks
+- Markus Probst
 
-I'm not at all sure whether the constraints we've got will need to force 
-some events to happen after adding the device to the bus list and before 
-allowing probing to start.
+>=20
+> > +
+> >  bool acpi_driver_match_device(struct device *dev,
+> >                               const struct device_driver *drv)
+> >  {
+> > diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+> > index aad1a95e6863..0081b9e4aaee 100644
+> > --- a/include/acpi/acpi_bus.h
+> > +++ b/include/acpi/acpi_bus.h
+> > @@ -677,6 +677,8 @@ void acpi_bus_trim(struct acpi_device *start);
+> >  acpi_status acpi_bus_get_ejd(acpi_handle handle, acpi_handle * ejd);
+> >  int acpi_match_device_ids(struct acpi_device *device,
+> >                           const struct acpi_device_id *ids);
+> > +int acpi_of_match_device_ids(struct acpi_device *device,
+> > +                         const struct of_device_id *ids);
+> >  void acpi_set_modalias(struct acpi_device *adev, const char *default_i=
+d,
+> >                        char *modalias, size_t len);
+> >=20
+> >=20
+> > --
+> > 2.52.0
+> >=20
+> >=20
 
-> > And linking the device into the bus's list of devices should be the
-> > event that makes probing possible.
-> 
-> Sure, but moving the linking into the bus's list of devices all the
-> way to the end is definitely a bigger change. If nothing else,
-> "bus_for_each_dev()" starts to be able to find the device once it's
-> linked into the list. If any of the ~50 drivers who register for
-> BUS_NOTIFY_ADD_DEVICE are relying on the device to show up in
-> "bus_for_each_dev()", it would be bad...
+--=-eySGLK0BCKOzVjRv4LWn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-I don't know the answer to this.  That is, I don't know if there are any 
-notification handlers depending on the device showing up in the bus's 
-list.  The safest thing to do is issue the notification after adding the 
-device to the list -- which may mean after probing has potentially 
-started.  Is there any reason why that would be a problem?  I'm not 
-aware of any.
+-----BEGIN PGP SIGNATURE-----
 
-The order constraints should be commented explicitly in device_add(), 
-not just implicitly implied by the code.  Otherwise people won't know 
-what changes are allowed and what changes are forbidden.
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnCrg8bFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSyJcQAIdNJxt+dh0p+HWg0EJ9
+4dysXiahWSceToUh6b1YoYF6bXQgR3mj5iMzdOsPoz4uBiqdFPMSHUPFKAzEVdSS
+7Zi58NGMSHCugtmIHre8yar2oTK9/e7OnDZTxCq9OjbaTJ+jfQvLQGRdavTYWcDe
+6rARxxz/boxlb0Un9L0WGpzw8D7qiwRBRuTgxmZkSREQ8mXFw6cVzp62CaGcjV9Q
+qIgCPBzIZqH/wWzEoFHnzeHSkGqJa02ymTWfJuP2VIsUiCrcvJG0v1pYsyjXAFKB
+UsxAclnJAwJDFQWQT/F/g76qOmmbpqFTr3AqMgTvD2HVk1FF5N0jQJOXsHYsNdYL
+JAcXa3NDsNoi/Or50Sth0fYQ73204cR9uP6guEQ2UWkOh5AIvSy1ksGwqjPngCcA
+f2iQPeabC4is4rxtmbWFubNBk+16qxSWOG36T4pHvQhmlafsHE823RyFQdGerUNd
+D2dKR1Q1u/9+OHGcFs/ryDxNHuNue/3gGnhhcnumXZH7sIljW/RnEd/7eIyH+owa
+2u0w+hCm9l9jqTxheBBVxVSsoi4KBkTcPXiFa+BMjdrBi5lKu3DeEFb+WLEed+dj
+OmAovcBDv7hgCb3K59nJqhAUScLbILd0+vuqSwZJdZcJDO85ab/gyjPbOxsdWeci
+3gGSzxYlCbtFh+SyAe9dnCel
+=H6Zp
+-----END PGP SIGNATURE-----
 
-Alan Stern
+--=-eySGLK0BCKOzVjRv4LWn--
