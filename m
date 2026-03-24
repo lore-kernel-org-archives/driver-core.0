@@ -1,33 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AFD30595B;
-	Tue, 24 Mar 2026 12:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2802F29D265;
+	Tue, 24 Mar 2026 12:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774356718; cv=none; b=XS84mYEu5lac7oKWHXwmlfvND4qwadHXODATQVBMVDFQg6v251MNk00o8PO+PEmduXuDpGDrqOyF9xRx7yVIaAnxv4DetV3R9T9rvQS+v4wJcjLxdYkbZ4lAOb31Uj7OlYd4jc2agXCj1OOYJ0Vj3r5Kkjya0JwjHSIChEDC0Cc=
+	t=1774357156; cv=none; b=BVbiDBVE5P4rMY5GOw/Almwj5EUAMRFBG5BhcLot+HFuC1rln6SPYojhP9lRxhAP3UQ1lsNe/TVO3L7nFgDylX8KXVjk9YXGVYSsqjDCW2xVbFKRlsFJ/ltr4EN3tEbna8x8L0CIhUpa/4M3oDsOwQQ3Q2oy5/eF4VZViZX8f/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774356718; c=relaxed/simple;
-	bh=xvicNmew9YGVE06h8feoW2WxPglCVqW6Ob1aqjokys0=;
+	s=arc-20240116; t=1774357156; c=relaxed/simple;
+	bh=jHv8K9pMMNQ6xFjsDOLiyEic78sAfLIcZfc3vWD5W4I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ULudMTqgzBvk/1cZlea0fms3zUECWB2cpJByIOL+A0ZUKJtTWUkinw1iYWCTuGaryJgDD0mcuMqQzS8QRRuSUKY4B5EZX8yfloFvCkmAy2Ro/DqkAJcDdUYobdZJRdFsGN9sEMU+Uj0SwDzQ8ocdIU3guGdwdmpjXK9fbeNRF40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J0m0ok8m; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=kQvPxwrcOf1YVuVyWR/MYLH5HsyTa9j8X6cwe4dSkQC3O3vdRzxqCCI3vlEx9nE2djAHD+BmXjU0H1aDGgcgW3T97p064/WCzFPAoYBJzZ8ry9WW1RU/lTmV168qPj5ovrcZH04ULqub5c/87JYH7pi1VkQOh6FG2P2eZwGEZII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Su7gQstz; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J0m0ok8m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C77AC19424;
-	Tue, 24 Mar 2026 12:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774356718;
-	bh=xvicNmew9YGVE06h8feoW2WxPglCVqW6Ob1aqjokys0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J0m0ok8mYABf6NtwFb0fQ+bgKBJ3sRCDZwG55FzC8VdLXM7hmtw4ep11W9+APxQrx
-	 K+TjLbau9TJtVul6lXk2YJtFlWB8WozTRPB09jQiJOYMg8Yk9BR7DK7m1lbZPc+LJN
-	 OXWDEeCwzXSwwRacJFBHEB4HDSJqtPx6uP7V6C0HKMThlLM8rqprL/OHjWdTPXQbNJ
-	 x8TF56E26tOSH5SHyGdqXT0XDu76YDL/8lDyEqkQao0JGydrksoMGet8iepwO759EG
-	 iI/MISunGCc/IAinK3cZvEYEkPTOLJpi9lJQkRS4A7xUxqgBVNX615iyz0JfZvuqMj
-	 Rz0cM/PaXdU1w==
-Message-ID: <5ea753b2-a702-4d13-973a-9eaffa9562fe@kernel.org>
-Date: Tue, 24 Mar 2026 13:51:53 +0100
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Su7gQstz"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62O9UV8t564224;
+	Tue, 24 Mar 2026 12:59:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Ej3Isx
+	3J43WHcbqsXFspxuLWGfpG7XzaDk8RnET7IuY=; b=Su7gQstz3B6aM6PFBG8uQh
+	x01IvkgpF4akIkC2Yv8b74FadNo9e27ekRxXsakT3p1TARe7CZAY29h53xxd8wz1
+	F4kZz+lkiD78vGhCs+laxqnB5u9xFRGK/Tsh6twYP7thvfsNIeWAGdP1jRWjsBE2
+	2NrTa+0v/b8PhcVeJOs61gs29vpCXXnXjqWi5QPV0rxXNiDc7IpzG9wKPCFU1dJu
+	hyIdXPUJ8IHi1NA9903kpVA7KAIe5DifhKuhpq4v9lSgLr3r1ewpvKEptBjvZ2uB
+	zO3ARjeDVnRRo3nNzvOHwsDydcL2Hd5OJrLdyn0FWx65JkOT58sm1iZ5/kZyz6iA
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1ky02vr9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Mar 2026 12:59:00 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62OCedC1011824;
+	Tue, 24 Mar 2026 12:58:59 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4d27vk1pae-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Mar 2026 12:58:59 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62OCwtnj51904902
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Mar 2026 12:58:55 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8811920063;
+	Tue, 24 Mar 2026 12:58:55 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DD0782004E;
+	Tue, 24 Mar 2026 12:58:54 +0000 (GMT)
+Received: from [9.52.215.154] (unknown [9.52.215.154])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 24 Mar 2026 12:58:54 +0000 (GMT)
+Message-ID: <43139b81-2d3a-407b-9ddf-bd42aa70f780@linux.ibm.com>
+Date: Tue, 24 Mar 2026 13:58:54 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,37 +62,112 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] dma::Coherent & dma::CoherentInit API
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: aliceryhl@google.com, acourbot@nvidia.com, ojeda@kernel.org,
- boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, tmgross@umich.edu, abdiel.janulgue@gmail.com,
- daniel.almeida@collabora.com, robin.murphy@arm.com,
- driver-core@lists.linux.dev, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <9A1gWen63AbJmi06Y_vu_qF1S86nj3fcQEil9RzLAn8QkIYpCOrLMNO7JcgIP0BccPHhzaYaQ_te1S_gKuHRgg==@protonmail.internalid>
- <20260303162314.94363-1-dakr@kernel.org> <87cy0tqueu.fsf@kernel.org>
- <NNO45MYwzudmCWH1mWf1k0Icy8Q0eKR4ANI6fg9-zxq3_dHLfhyRsHaq2l77l-RBwmek7tHzQIv2vNhOFg1Ysw==@protonmail.internalid>
- <314ab89f-3aee-49f5-804b-f33dc8ef5ba4@kernel.org> <87a4vxqtsj.fsf@kernel.org>
-From: Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH 10/12] s390/ap: use generic driver_override infrastructure
+To: Danilo Krummrich <dakr@kernel.org>, Russell King <linux@armlinux.org.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Nipun Gupta <nipun.gupta@amd.com>,
+        Nikhil Agarwal <nikhil.agarwal@amd.com>,
+        "K. Y. Srinivasan"
+ <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+        Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, Armin Wolf <W_Armin@gmx.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Mark Brown
+ <broonie@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+        Alex Williamson <alex@shazbot.org>, Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
+        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-spi@vger.kernel.org,
+        virtualization@lists.linux.dev, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-arm-kernel@lists.infradead.org
+References: <20260324005919.2408620-1-dakr@kernel.org>
+ <20260324005919.2408620-11-dakr@kernel.org>
+From: Holger Dengler <dengler@linux.ibm.com>
 Content-Language: en-US
-In-Reply-To: <87a4vxqtsj.fsf@kernel.org>
+In-Reply-To: <20260324005919.2408620-11-dakr@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI0MDEwMSBTYWx0ZWRfX6N1fBrtwZrfl
+ aNao0Xhwv2iPArpXTciFzlHehJzd3FqyuyxByqEu+FLvzIew8kt3PjWdYdZtO7Ev/dzu1juD33i
+ ULiVxPJi+Eu3Wm01+pD7w41oOcB6CO0eS2PR+DcOqwrlrsqbZgbqKoknbOSccN4kN1AdGDnpSh4
+ giT9HWCMECWpapxDaYdMQ/IXQp+iHi2011iYdnklc4+iAjB4tA8YcsPMKFTESeLitzfCKx7CeYa
+ F5bfAZ1prh5bHCsbzFtvW6c4E94vHNefJ4W5xyDv5bTOpwX5xpUV089SzGXBpTCh2Tn6j/1RJAy
+ 8JrNkM5IZMTuuFxodSI3N0ItWWwaPezBykvTmfdz5CNBYNkZhJ/G7w4qUg5Kyf1QOlPIUBtuFZ0
+ TaNFvnH1pIhI71CTLphAPYyjG3E9oMOG+wVPVi77oKaFO89fYZRslVgre89UqkZSjDGRx3OB3Tc
+ tkfYq5p7x6UpUVDBiYg==
+X-Authority-Analysis: v=2.4 cv=JK42csKb c=1 sm=1 tr=0 ts=69c28a95 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=JtdtG7AWE7AhTqZWL1AA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: umcwOVG9OGh_DW7scW8FgcsJPpy_MgAT
+X-Proofpoint-GUID: iDlj1Pn5DnrzHKXcEcJoAVIWEUdMu_KQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-24_03,2026-03-23_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1011 priorityscore=1501 malwarescore=0 adultscore=0
+ spamscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603240101
 
-On 3/24/26 1:46 PM, Andreas Hindborg wrote:
-> "Danilo Krummrich" <dakr@kernel.org> writes:
+On 24/03/2026 01:59, Danilo Krummrich wrote:
+> When the AP masks are updated via apmask_store() or aqmask_store(),
+> ap_bus_revise_bindings() is called after ap_attr_mutex has been
+> released.
 > 
->> On 3/24/26 1:33 PM, Andreas Hindborg wrote:
->>> What did you base this on?
->>
->> drm-rust-next
+> This calls __ap_revise_reserved(), which accesses the driver_override
+> field without holding any lock, racing against a concurrent
+> driver_override_store() that may free the old string, resulting in a
+> potential UAF.
 > 
-> I don't think 1195fcbda62f12108dc9be56fa4173897905b90c is in
-> drm-rust-next - or any of the other branches in of
-> https://gitlab.freedesktop.org/drm/rust/kernel.git .
+> Fix this by using the driver-core driver_override infrastructure, which
+> protects all accesses with an internal spinlock.
+> 
+> Note that unlike most other buses, the AP bus does not check
+> driver_override in its match() callback; the override is checked in
+> ap_device_probe() and __ap_revise_reserved() instead.
+> 
+> Also note that we do not enable the driver_override feature of struct
+> bus_type, as AP - in contrast to most other buses - passes "" to
+> sysfs_emit() when the driver_override pointer is NULL. Thus, printing
+> "\n" instead of "(null)\n".
+> 
+> Additionally, AP has a custom counter that is modified in the
+> corresponding custom driver_override_store().
+> 
+> Fixes: d38a87d7c064 ("s390/ap: Support driver_override for AP queue devices")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Oh, I did not notice that you replied to v1, there's already a v2.
+Tested-by: Holger Dengler <dengler@linux.ibm.com>
+Reviewed-by: Holger Dengler <dengler@linux.ibm.com>
 
-[1] https://lore.kernel.org/driver-core/20260320194626.36263-1-dakr@kernel.org/
+-- 
+Mit freundlichen Grüßen / Kind regards
+Holger Dengler
+--
+IBM Systems, Linux on IBM Z Development
+dengler@linux.ibm.com
+
