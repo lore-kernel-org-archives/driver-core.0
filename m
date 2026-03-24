@@ -1,99 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F42C30C60D;
-	Tue, 24 Mar 2026 12:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C493FB7D1
+	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 12:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774355603; cv=none; b=mI3ULb0R4oN/A7fkmZNOjLKNTv1/EZdRqfsxDYcVDEvLxaIy50Mvv1Cpk6n6I+oDaexXI8Mg8EbnLby8IRApUX1GpU7QsIKki9CNoaJztn8gFT3O+Oy3g6q42Mwxq3nYZX+GNcVqpVedsTcA7/yAjVi6gbRoYqkJrU51ZX/I7HY=
+	t=1774355621; cv=none; b=rlzSDxT4qV1tBSnWeYwK9g7CecT3aPQjWK111tgJMhv3BqiGvhUm2hELsPJjNf3ndoh1oUkeEho3zLx0KdULi0woFlCUkOgEAUkWxfp7ZWIKpe6Amc4BOEDi+npNmiHmN+4bHDRrvxl3tEEa9YXRGnSqwF+2DCGAYyFwDQ7sEyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774355603; c=relaxed/simple;
-	bh=jd8iVirtHQ4a5z51jmWDeiI63f96fl/GYIMFhoiXT9Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FsEISbjbooMD9WVLIfZHjaNA3Im5QFwst0yGASYM0w0RJsstj2SFLecFD2Bcr+rgBDHFaojeGrgoWuE/IENXp4dvjjKmFQykHQpJ1iRiuYynDV4kwzBEJNdH8cNyYUn4d7GJvm2jm8aYcYrURSw+KPnKVD4Fo8PIoZmJFPGytzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5BpoCf1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774355621; c=relaxed/simple;
+	bh=L56j7PXLTT7wUGCOyfBaKiVleWDHS7aRZVwscznomDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qwTeJkeDQ8x1f0D6mSIvO7nawWJ2QNa6ntulGrfASgCmy5bFrG8HKd5LSXMhokUPmETl5p0dJdKVTWidcZj+Fn6RdhFlspZI8aUUBFomeDz92pniEGU1qL5AtsQUWQdd24Qy8Lw3EWljfWGMi8tcpVyMh09Ftsbr0m4kaCI9iiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HBlDP4KI; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5BpoCf1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466D8C19424;
-	Tue, 24 Mar 2026 12:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774355602;
-	bh=jd8iVirtHQ4a5z51jmWDeiI63f96fl/GYIMFhoiXT9Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=A5BpoCf1CuEzAIZr7XecZLh1Rcjabh7TpKaVKGTqVHRJxv4ehXOrffc+r9SrLlUnw
-	 uoLfiHcP+XUkQP+w5nHstdGab3j/yEN/RstGQRIm89vbdoD5/dtc2NSZlh7gNJYW42
-	 SHPWWusNQMhrQSjwvf4H7hfWL/nbpaLqUf5lDPBaLzGFuNFWXyfRiPKMmqNijTz5ZH
-	 p2M3SD2WjFwkvysh0Dzy91RTuUjdJJjYNL+k+iQQUn/2c9Ku4gya7K48owBayDba5Q
-	 kSGoAkdFDTbY/Px9SISKl8hIUFTwokDuB5i6MPOTH35ix265XBaEpk9XEb20F5m2bZ
-	 EqVzdC6Bgjx4w==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>, aliceryhl@google.com,
- acourbot@nvidia.com, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
- bjorn3_gh@protonmail.com, lossin@kernel.org, tmgross@umich.edu,
- abdiel.janulgue@gmail.com, daniel.almeida@collabora.com,
- robin.murphy@arm.com
-Cc: driver-core@lists.linux.dev, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH 0/8] dma::Coherent & dma::CoherentInit API
-In-Reply-To: <20260303162314.94363-1-dakr@kernel.org>
-References: <9A1gWen63AbJmi06Y_vu_qF1S86nj3fcQEil9RzLAn8QkIYpCOrLMNO7JcgIP0BccPHhzaYaQ_te1S_gKuHRgg==@protonmail.internalid>
- <20260303162314.94363-1-dakr@kernel.org>
-Date: Tue, 24 Mar 2026 13:33:13 +0100
-Message-ID: <87cy0tqueu.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HBlDP4KI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774355619; x=1805891619;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=L56j7PXLTT7wUGCOyfBaKiVleWDHS7aRZVwscznomDA=;
+  b=HBlDP4KI7HzhO2w9np8+dLxV2qdjhwynaZTlKxRO3gp+fYxneEMIoNOD
+   mBmmH/Fvb3X8XWIMitmKQMp9vpgSF1r9Amz4LrHRtlbrGr2cJDONToRcY
+   Rg6J0L5sJfxuY2Bv2biUsBfm+rRgGcesZUD95CvTxJ+uKOHyQsNyQoxWi
+   0RjN5ZXWGUIuRSr1nhjNv0hTlG8NUyTV4eG5LEIhqIewt2GZ+qvN1ICzS
+   p7lUNEWGgdMrx1hHzKKJaOgDV1PFP80ATJpAayakFMwFK+eJ6OmOH7X99
+   lemEHt0QLK/1NVVv27Mo5CdWdJ7WN4q1FBgYXKcf5K05eK8uq9KjbkE5W
+   A==;
+X-CSE-ConnectionGUID: 00Y9JKiISpGU9Ly8m1pdkQ==
+X-CSE-MsgGUID: JL4kkdfcRLSPN8UNj/rvJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75083030"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="75083030"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 05:33:38 -0700
+X-CSE-ConnectionGUID: JVpKOgWETn6acYytpQAF+w==
+X-CSE-MsgGUID: 4PxSOVKTQvCCS794dvJFbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="229089411"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.214])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 05:33:34 -0700
+Date: Tue, 24 Mar 2026 14:33:31 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH 3/4] software node: verify that property data is not on
+ stack
+Message-ID: <acKEm4EiZBqJ67nM@ashevche-desk.local>
+References: <20260323-property-gpio-fix-v1-0-9cb46e5fe7df@gmail.com>
+ <20260323-property-gpio-fix-v1-3-9cb46e5fe7df@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323-property-gpio-fix-v1-3-9cb46e5fe7df@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-"Danilo Krummrich" <dakr@kernel.org> writes:
+On Mon, Mar 23, 2026 at 05:39:39PM -0700, Dmitry Torokhov wrote:
+> When registering a software node, ensure that the property data is not
+> located on the stack, as it is expected to persist for the lifetime of
+> the node.
 
-> This patch series introduces the dma::Coherent API Gary worked out in the
-> context of his I/O projection work.
->
-> Additionally, introduce dma::CoherentInit, a type that encapsulates a
-> dma::Coherent object before its DMA address is exposed to the device.
-> dma::CoherentInit can guarantee exclusive access to the inner dma::Coherent
-> object and implement Deref and DerefMut.
->
-> Also add Coherent::init() and Coherent::init_with_attrs() so we can directly
-> initialize a new dma::Coherent object through an impl Init<T, E>.
->
-> Danilo Krummrich (5):
->   rust: dma: use "kernel vertical" style for imports
->   rust: dma: introduce dma::CoherentInit for memory initialization
->   rust: dma: add Coherent:init() and Coherent::init_with_attrs()
->   gpu: nova-core: use Coherent::init to initialize GspFwWprMeta
->   gpu: nova-core: convert Gsp::new() to use CoherentInit
->
-> Gary Guo (3):
->   rust: dma: add generalized container for types other than slices
->   rust: dma: add zeroed constructor to `Coherent`
->   gpu: nova-core: convert to new dma::Coherent API
->
->  drivers/gpu/nova-core/dma.rs      |  19 +-
->  drivers/gpu/nova-core/falcon.rs   |   7 +-
->  drivers/gpu/nova-core/firmware.rs |  10 +-
->  drivers/gpu/nova-core/gsp.rs      |  65 ++--
->  drivers/gpu/nova-core/gsp/boot.rs |   7 +-
->  drivers/gpu/nova-core/gsp/cmdq.rs |  55 +--
->  drivers/gpu/nova-core/gsp/fw.rs   |  82 ++--
->  rust/kernel/device.rs             |   4 +-
->  rust/kernel/dma.rs                | 626 +++++++++++++++++++++++-------
->  samples/rust/rust_dma.rs          |   8 +-
->  10 files changed, 619 insertions(+), 264 deletions(-)
->
->
-> base-commit: 1195fcbda62f12108dc9be56fa4173897905b90c
+...
 
-What did you base this on?
+> +#include <linux/sched/task_stack.h>
 
+Looking at this name the use of it here doesn't sound right...
 
-Best regards,
-Andreas Hindborg
+...
 
+> +	for (prop = node->properties; prop && prop->name; prop++) {
+> +		if (!prop->is_inline && object_is_on_stack(prop->pointer)) {
+> +			pr_err("%s: property data can't be on stack\n", __func__);
+> +			return -EINVAL;
+> +		}
+> +	}
+
+And again same question, why we can't simply dup them as we do for (string)
+arrays?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
