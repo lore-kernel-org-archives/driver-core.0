@@ -1,97 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0202C3F9F34
-	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 12:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F42C30C60D;
+	Tue, 24 Mar 2026 12:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774355462; cv=none; b=sNF9O0JH0Gl3HDmm8VNG32lYR+NujL02oEzJC0/I9+IhemfSOc5Be8g9yj9gNiUxcq2MWjC8E1/RMqT8wd0SLxiPY7J+NJePu8m0Zf+b13EVS2RSOEcXCb2f7AJTbheo0ICtDZ8c7dwxGFys8mph/KdilzDggLCsvupPmLv9lOw=
+	t=1774355603; cv=none; b=mI3ULb0R4oN/A7fkmZNOjLKNTv1/EZdRqfsxDYcVDEvLxaIy50Mvv1Cpk6n6I+oDaexXI8Mg8EbnLby8IRApUX1GpU7QsIKki9CNoaJztn8gFT3O+Oy3g6q42Mwxq3nYZX+GNcVqpVedsTcA7/yAjVi6gbRoYqkJrU51ZX/I7HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774355462; c=relaxed/simple;
-	bh=zMO1+9mbs7EoV8l2A6BMnY27sQegLkbm4+N4wUJDzIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=abEfMUuCuCd3XQT6Wa0FY02qLS4TyfxMlSC86lgHjc13NHnirODd6tZkluH/xrF5AcyHE3QvUd0jPz7E43PDcQy+OsStkMedn+kMbQ8tF75arpIIUXeThyAdFfVdqbsq+6501cQrHlcfI+SnCPX/FgQJ9NRpXEu73uNg0FtMu10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P4ESjIiG; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774355603; c=relaxed/simple;
+	bh=jd8iVirtHQ4a5z51jmWDeiI63f96fl/GYIMFhoiXT9Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FsEISbjbooMD9WVLIfZHjaNA3Im5QFwst0yGASYM0w0RJsstj2SFLecFD2Bcr+rgBDHFaojeGrgoWuE/IENXp4dvjjKmFQykHQpJ1iRiuYynDV4kwzBEJNdH8cNyYUn4d7GJvm2jm8aYcYrURSw+KPnKVD4Fo8PIoZmJFPGytzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5BpoCf1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4ESjIiG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774355461; x=1805891461;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zMO1+9mbs7EoV8l2A6BMnY27sQegLkbm4+N4wUJDzIQ=;
-  b=P4ESjIiGl6OcMNig0ue4h3nztAJDr9DJyVC9V/dMxQbXwfxiyQvmdrV2
-   GVIf+42ypk+e3ekApHESHmPOltHiTGVDPOsIscYkEEARxQoWsT556xiCq
-   ijRtpcl+gzf2yk2w8BMu/t6ouT/2qEDMvha7yK7i1GfPFEV+VPqnPzq9E
-   +x7mCMHfdOwzswyZEskLNz2+EwDQ3E2mxOP0k7ScudXe2n3Hb5viVw+4U
-   YcptJefUMw8dcwpy76Of5XWRhZCNe5L9eT9KpD4W6x6EvPcuDgv0XOmNp
-   6nwdnLY7+m/rAdKedowcvk9TPc5Wlk1os5/5Hi4dhUtd8tBpofz81Seu+
-   g==;
-X-CSE-ConnectionGUID: 43/OF1igRSy0sklGQhnWjg==
-X-CSE-MsgGUID: lt3dA2w1QsyoDI2ONrGTlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86443200"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="86443200"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 05:31:00 -0700
-X-CSE-ConnectionGUID: XJ3MSu5bRki0X3r5PcHnbg==
-X-CSE-MsgGUID: 1uynBQlAQSGKSdEW4lsSyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="224340401"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.214])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 05:30:57 -0700
-Date: Tue, 24 Mar 2026 14:30:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH 2/4] software node: allow passing reference args to
- PROPERTY_ENTRY_REF
-Message-ID: <acKD_vzk_8bX17ZT@ashevche-desk.local>
-References: <20260323-property-gpio-fix-v1-0-9cb46e5fe7df@gmail.com>
- <20260323-property-gpio-fix-v1-2-9cb46e5fe7df@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5BpoCf1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466D8C19424;
+	Tue, 24 Mar 2026 12:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774355602;
+	bh=jd8iVirtHQ4a5z51jmWDeiI63f96fl/GYIMFhoiXT9Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=A5BpoCf1CuEzAIZr7XecZLh1Rcjabh7TpKaVKGTqVHRJxv4ehXOrffc+r9SrLlUnw
+	 uoLfiHcP+XUkQP+w5nHstdGab3j/yEN/RstGQRIm89vbdoD5/dtc2NSZlh7gNJYW42
+	 SHPWWusNQMhrQSjwvf4H7hfWL/nbpaLqUf5lDPBaLzGFuNFWXyfRiPKMmqNijTz5ZH
+	 p2M3SD2WjFwkvysh0Dzy91RTuUjdJJjYNL+k+iQQUn/2c9Ku4gya7K48owBayDba5Q
+	 kSGoAkdFDTbY/Px9SISKl8hIUFTwokDuB5i6MPOTH35ix265XBaEpk9XEb20F5m2bZ
+	 EqVzdC6Bgjx4w==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>, aliceryhl@google.com,
+ acourbot@nvidia.com, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, lossin@kernel.org, tmgross@umich.edu,
+ abdiel.janulgue@gmail.com, daniel.almeida@collabora.com,
+ robin.murphy@arm.com
+Cc: driver-core@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH 0/8] dma::Coherent & dma::CoherentInit API
+In-Reply-To: <20260303162314.94363-1-dakr@kernel.org>
+References: <9A1gWen63AbJmi06Y_vu_qF1S86nj3fcQEil9RzLAn8QkIYpCOrLMNO7JcgIP0BccPHhzaYaQ_te1S_gKuHRgg==@protonmail.internalid>
+ <20260303162314.94363-1-dakr@kernel.org>
+Date: Tue, 24 Mar 2026 13:33:13 +0100
+Message-ID: <87cy0tqueu.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260323-property-gpio-fix-v1-2-9cb46e5fe7df@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
 
-On Mon, Mar 23, 2026 at 05:39:38PM -0700, Dmitry Torokhov wrote:
-> When dynamically creating software nodes and properties for subsequent
-> use with software_node_register() current implementation of
-> PROPERTY_ENTRY_REF is not suitable because it creates a temporary
-> instance of struct software_node_ref_args on stack which will later
-> disappear, and software_node_register() only does shallow copy of
-> properties.
+"Danilo Krummrich" <dakr@kernel.org> writes:
 
-Isn't that the problem and we should take into account how to dup the reference
-inside property core?
+> This patch series introduces the dma::Coherent API Gary worked out in the
+> context of his I/O projection work.
+>
+> Additionally, introduce dma::CoherentInit, a type that encapsulates a
+> dma::Coherent object before its DMA address is exposed to the device.
+> dma::CoherentInit can guarantee exclusive access to the inner dma::Coherent
+> object and implement Deref and DerefMut.
+>
+> Also add Coherent::init() and Coherent::init_with_attrs() so we can directly
+> initialize a new dma::Coherent object through an impl Init<T, E>.
+>
+> Danilo Krummrich (5):
+>   rust: dma: use "kernel vertical" style for imports
+>   rust: dma: introduce dma::CoherentInit for memory initialization
+>   rust: dma: add Coherent:init() and Coherent::init_with_attrs()
+>   gpu: nova-core: use Coherent::init to initialize GspFwWprMeta
+>   gpu: nova-core: convert Gsp::new() to use CoherentInit
+>
+> Gary Guo (3):
+>   rust: dma: add generalized container for types other than slices
+>   rust: dma: add zeroed constructor to `Coherent`
+>   gpu: nova-core: convert to new dma::Coherent API
+>
+>  drivers/gpu/nova-core/dma.rs      |  19 +-
+>  drivers/gpu/nova-core/falcon.rs   |   7 +-
+>  drivers/gpu/nova-core/firmware.rs |  10 +-
+>  drivers/gpu/nova-core/gsp.rs      |  65 ++--
+>  drivers/gpu/nova-core/gsp/boot.rs |   7 +-
+>  drivers/gpu/nova-core/gsp/cmdq.rs |  55 +--
+>  drivers/gpu/nova-core/gsp/fw.rs   |  82 ++--
+>  rust/kernel/device.rs             |   4 +-
+>  rust/kernel/dma.rs                | 626 +++++++++++++++++++++++-------
+>  samples/rust/rust_dma.rs          |   8 +-
+>  10 files changed, 619 insertions(+), 264 deletions(-)
+>
+>
+> base-commit: 1195fcbda62f12108dc9be56fa4173897905b90c
 
-> Fix this by allowing to pass address of reference arguments structure
-> directly into PROPERTY_ENTRY_REF(), so that caller can manage lifetime
-> of the object properly.
+What did you base this on?
 
--- 
-With Best Regards,
-Andy Shevchenko
+
+Best regards,
+Andreas Hindborg
+
 
 
