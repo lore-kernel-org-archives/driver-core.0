@@ -1,106 +1,185 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D713FE642;
-	Tue, 24 Mar 2026 13:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5A12BDC3F;
+	Tue, 24 Mar 2026 14:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774360230; cv=none; b=Os15sSiAtlgy5FWe9qEScMY75wu6gs8peNrLH9xsRMC9NXGmcd2UGAD0Eg6/t23BXF6VKO0CXzUF92On1HGqBaAx1mGX1R5nQCYP6xpHRt5qvceSfzAhhT5PLG+ghGL9TNKe6a2v8kLpQ3MyaRIcO4eyHiiUOv7mYBcCVxXoPV4=
+	t=1774360849; cv=none; b=jDuKFheHqC5sHFT2wlJAylv3kIzNM4bGptXCRltsvYBAvdwaQ9j8H76nZNVUfMa9nYQSbMWbZ2BONTnwxqPh5vmnCyYfhFujCsGETxPCb1gOY1iat2EvCQpAbNkRH8N5dsOB9hadTeTESiqQcXH8DLYf6HlKvNqQmZals4rmroM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774360230; c=relaxed/simple;
-	bh=AMs2xkHWpW+1i2TrCcqBgQmCQDfcYF+jyztI+Rm1Owg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lH5A7IaC8N5/jGgL9LoVSxDMLWiPGGIpcq/PW+YERaWP/AHpSghkemqFpPDJCaH98I2cgCuGVO1xgkne+BK7juR9TkVC1CXKqE/box1U28Q/XKXrcpd0bBkwM0YbbWKtnemIID92c8AgqhqFJZo6q/F+tghy07m608QdEEFokEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZKzoudrL; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1774360849; c=relaxed/simple;
+	bh=c9NFAllBfGAlx/FFc3N9mnr4Kiv07CkCPahF9j8WHzw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bM5wTg+RTwRzRCkXBBN7gR4dJlZ9aeq5eD37pEYGk30gsvfs+F3WXxHqyqv8t9ahwvQzOb90jRd+V1K+fH0uJVLONCZ8XyJt7DacYALdVqdi2xgVu+brYEUpmsaeUz7Xz20gDjK1lS6ov2XE8P3VQn/ZCUDvggYGONKcWcRdOwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OlxVR12o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZKzoudrL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=8udT26h8eiURJoy49HOh8J1+Wsitw5BtoND+1sPb32Q=; b=ZKzoudrLGlLDpDbhGpajeL+IKO
-	h76Ykl9fp2x8hZnqh7FNbmpYh6dfGwrfUi3e610nE34b7pY0O+S/kGKka24cRHw64wJcMES0xYUIu
-	VaFG5tbOs6lQXx+3ljkV8cSPlakgpVcdaKTrqhafeP00GrpvLFxpO7suxaCkdVKJZmdo=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1w5291-00D6tO-K7; Tue, 24 Mar 2026 14:50:07 +0100
-Date: Tue, 24 Mar 2026 14:50:07 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-spi@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH 04/10] regulator: of: switch to using
- class_find_device_by_fwnode()
-Message-ID: <f8595a3a-fe9a-4294-8270-3364bc5c14e6@lunn.ch>
-References: <360a8b4a-6507-417a-9fc1-c53b14868657@sirena.org.uk>
- <acGFksyx3SA0kJ5b@google.com>
- <7d46803e-b285-4e9c-8856-10100fa0ea85@sirena.org.uk>
- <cf92122d-6b15-458a-bf89-189a0a6874f7@lunn.ch>
- <193e194a-498f-464f-b22c-c283c16db6c1@sirena.org.uk>
- <acGzJV3vKhuty3nd@google.com>
- <09072374-65e7-4792-af7e-97d7df93f9bd@lunn.ch>
- <acG9BPkFr_De-ulu@google.com>
- <27f4ed63-08a2-4621-8943-c50261de31cd@lunn.ch>
- <acHCIA1d5-s2xkvz@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OlxVR12o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD2CC19424;
+	Tue, 24 Mar 2026 14:00:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774360848;
+	bh=c9NFAllBfGAlx/FFc3N9mnr4Kiv07CkCPahF9j8WHzw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OlxVR12oL/BTtAOUzCP9vu1WlUnqcDXriXSDyGTfV4n87zTnVvAExFtGIIvowDd/m
+	 zOEW5egUKzOahJ7/5wCpP6j88bE6760LMadtlzD/d8hnjU25KldG9nlYM+xO+a3Ykf
+	 ywyzVhtyJWNTlEE/uLCnC2XFN9umt5d356KuUfXl5jrXjRg9uB9w9s8njzpcC7l3zg
+	 z5Cy9vb4FutpeMYS65wWUriqKLaEYgh36dPFB+NYlvLXcwwoVhTiuhSF6sDCrVK1Vh
+	 9MwnAOMySimEIbS6CayPYAljjpevcCZVq6lVuoF3+JW2D3N1jARYzm50iJQ+qyTZrD
+	 1P3mmQylNIUUA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>, aliceryhl@google.com,
+ acourbot@nvidia.com, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, lossin@kernel.org, tmgross@umich.edu,
+ abdiel.janulgue@gmail.com, daniel.almeida@collabora.com,
+ robin.murphy@arm.com
+Cc: driver-core@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v2 4/8] rust: dma: introduce dma::CoherentBox for memory
+ initialization
+In-Reply-To: <20260320194626.36263-5-dakr@kernel.org>
+References: <20260320194626.36263-1-dakr@kernel.org>
+ <gL6L6Fep9fLly-cba79GEM8HZOGIkSWwerKYzGDnU_XryvpxJul4kyB2Hq8UaEi8PflcO7i_p7UMi7NCY26DGA==@protonmail.internalid>
+ <20260320194626.36263-5-dakr@kernel.org>
+Date: Tue, 24 Mar 2026 14:57:56 +0100
+Message-ID: <871ph9qqhn.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acHCIA1d5-s2xkvz@google.com>
+Content-Type: text/plain
 
-On Mon, Mar 23, 2026 at 03:48:42PM -0700, Dmitry Torokhov wrote:
-> On Mon, Mar 23, 2026 at 11:39:03PM +0100, Andrew Lunn wrote:
-> > > If there is a deprecated property you can do:
-> > > 
-> > > 	error = device_property_read_u32(dev, "prop", &val);
-> > > 	if (error == -ENOENT)
-> > > 		error = device_property_read_u32(dev, "deprecated-prop", &val);
-> > 
-> > It is not as simple as that. There are a lot of optional
-> > properties. Say "prop" is optional? And not present. So -ENOENT. We
-> > then look for this deprecated property. That should not happen.
-> 
-> Why? That is exactly what you want: you favor new one if it is present
-> and fall back to deprecated one if it is absent. And then you decide
-> whether to continue or abort.
+"Danilo Krummrich" <dakr@kernel.org> writes:
 
-The old property is only valid in DT, where it is deprecated, but
-still valid. It should never appear in any other newer firmware
-bindings.
+> Currently, dma::Coherent cannot safely provide (mutable) access to its
+> underlying memory because the memory might be concurrently accessed by a
+> DMA device. This makes it difficult to safely initialize the memory
+> before handing it over to the hardware.
+>
+> Introduce dma::CoherentBox, a type that encapsulates a dma::Coherent
+> before its DMA address is exposed to the device. dma::CoherentBox can
+> guarantee exclusive access to the inner dma::Coherent and implement
+> Deref and DerefMut.
+>
+> Once the memory is properly initialized, dma::CoherentBox can be
+> converted into a regular dma::Coherent.
+>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  rust/kernel/dma.rs | 154 ++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 153 insertions(+), 1 deletion(-)
+>
+> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+> index db645b01bdd0..cefb54f0424a 100644
+> --- a/rust/kernel/dma.rs
+> +++ b/rust/kernel/dma.rs
+> @@ -20,7 +20,13 @@
+>          FromBytes, //
+>      }, //
+>  };
+> -use core::ptr::NonNull;
+> +use core::{
+> +    ops::{
+> +        Deref,
+> +        DerefMut, //
+> +    },
+> +    ptr::NonNull, //
+> +};
+>
+>  /// DMA address type.
+>  ///
+> @@ -352,6 +358,152 @@ fn from(direction: DataDirection) -> Self {
+>      }
+>  }
+>
+> +/// CPU-owned DMA allocation that can be converted into a device-shared [`Coherent`] object.
+> +///
+> +/// Unlike [`Coherent`], a [`CoherentBox`] is guaranteed to be fully owned by the CPU -- its DMA
+> +/// address is not exposed and it cannot be accessed by a device. This means it can safely be used
+> +/// like a normal boxed allocation (e.g. direct reads, writes, and mutable slices are all safe).
+> +///
+> +/// A typical use is to allocate a [`CoherentBox`], populate it with normal CPU access, and then
+> +/// convert it into a [`Coherent`] object to share it with the device.
+> +///
+> +/// # Examples
+> +///
+> +/// `CoherentBox<T>`:
+> +///
+> +/// ```
+> +/// # use kernel::device::{
+> +/// #     Bound,
+> +/// #     Device,
+> +/// # };
+> +/// use kernel::dma::{attrs::*,
+> +///     Coherent,
+> +///     CoherentBox,
+> +/// };
+> +///
+> +/// # fn test(dev: &Device<Bound>) -> Result {
+> +/// let mut dmem: CoherentBox<u64> = CoherentBox::zeroed(dev, GFP_KERNEL)?;
+> +/// *dmem = 42;
+> +/// let dmem: Coherent<u64> = dmem.into();
+> +/// # Ok::<(), Error>(()) }
+> +/// ```
+> +///
+> +/// `CoherentBox<[T]>`:
+> +///
+> +///
+> +/// ```
+> +/// # use kernel::device::{
+> +/// #     Bound,
+> +/// #     Device,
+> +/// # };
+> +/// use kernel::dma::{attrs::*,
+> +///     Coherent,
+> +///     CoherentBox,
+> +/// };
+> +///
+> +/// # fn test(dev: &Device<Bound>) -> Result {
+> +/// let mut dmem: CoherentBox<[u64]> = CoherentBox::zeroed_slice(dev, 4, GFP_KERNEL)?;
+> +/// dmem.fill(42);
+> +/// let dmem: Coherent<[u64]> = dmem.into();
+> +/// # Ok::<(), Error>(()) }
+> +/// ```
+> +pub struct CoherentBox<T: AsBytes + FromBytes + KnownSize + ?Sized>(Coherent<T>);
+> +
+> +impl<T: AsBytes + FromBytes> CoherentBox<[T]> {
+> +    /// [`CoherentBox`] variant of [`Coherent::zeroed_slice_with_attrs`].
+> +    #[inline]
+> +    pub fn zeroed_slice_with_attrs(
+> +        dev: &device::Device<Bound>,
+> +        count: usize,
+> +        gfp_flags: kernel::alloc::Flags,
+> +        dma_attrs: Attrs,
+> +    ) -> Result<Self> {
+> +        Coherent::zeroed_slice_with_attrs(dev, count, gfp_flags, dma_attrs).map(Self)
+> +    }
+> +
+> +    /// Same as [CoherentBox::zeroed_slice_with_attrs], but with `dma::Attrs(0)`.
+> +    #[inline]
+> +    pub fn zeroed_slice(
+> +        dev: &device::Device<Bound>,
+> +        count: usize,
+> +        gfp_flags: kernel::alloc::Flags,
+> +    ) -> Result<Self> {
+> +        Self::zeroed_slice_with_attrs(dev, count, gfp_flags, Attrs(0))
+> +    }
+> +
+> +    /// Initializes the element at `i` using the given initializer.
+> +    ///
+> +    /// Returns `EINVAL` if `i` is out of bounds.
 
-> If you only have of_property_read_u32() then it will not stand out. If
-> you advocate of using device_property_read_u32() normally but
-> of_property_read_u32() for deprecated only - that is a possibility, but
-> I do not know if anyone does this.
+Could you add an example for this function?
 
-For the subsystems i've dealt with, when somebody proposes a patch
-adding an ACPI binding, and they do an of_ to device_ conversion
-without engaging brain, i point out the issues, they should not be
-adding deprecated properties to a brand new binding, and they go away
-and never come back. And so the code remains OF only. Which is fine,
-nobody does networking devices using ACPI.
 
-       Andrew
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+
+
+Best regards,
+Andreas Hindborg
+
+
+
