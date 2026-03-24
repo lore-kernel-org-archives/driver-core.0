@@ -1,188 +1,294 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A895926ED4F
-	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 19:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4E0313527;
+	Tue, 24 Mar 2026 19:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774380656; cv=none; b=LwlyyLqM+P4lGeJJEpm5xoOkKxeh7ZdhsMK1QHJNMM4qXUsJeIfEGiqnaKOvoVz4XYXqAwky3KUh7OFwri6nV/+9F0EWVUr3qkgVlUwRlTqw2e3Asj+u/TINaj1O+YRJUiuRbQ9/hAXt/+bsGsRF9r/BSK0QRE/DE4ImHKnPgr8=
+	t=1774381381; cv=none; b=UD97KBWKJsr7xoRKfOaDG1louycw80JfEKPepkoAf5OrLPSOpTTVZqScNfrC6GJalOwRps7lXEy1b32P6fiIrjmov1xrvBAB3N8wGW4wquYPtGftXmH5HRZXB3XnZuV2AxiTq7XoYqL2q71BfWh23FHoPCMXuGssyG/O0ng3Iik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774380656; c=relaxed/simple;
-	bh=r38S0nWhhaLmeZEvISs8X/+v1UT7b9ltLpdNkOhId64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nzNVoKYDivdsyzk7sUxrczSygnH8NBSts3xlfx3iOYvX0RF0GeJ035WJw25uLlUTCXFfXkrSnelsgOsfIKDa0LFlAOyyB/dP99UAjqg+HRKQ6CfveSkmTggwnU5tjvB7M1CwyaUlhY8BeejaWEzFv+Jn9POKLjZIrBDak8KEwqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O03n1ntz; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774381381; c=relaxed/simple;
+	bh=CP9KQznymj/57SvemGWPkQ/5+YO2JcQjnpOOJiKqnYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zt5g7+h47L0zbNXTljdHpkGDtMpx/l8icfcByPfpMDqMx4UP9Mps4v4O/JeVC5MOmcq8QbBkCxcVxj31TItcCCDAyUSBfl73xdzjGKBOitNklt/Wi/V1y/Xy+FWdT42IpbcTrFqAAjscziCHu44QWOh63yxrnOc5tc1HZZxn7Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=ifvPJxvA; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O03n1ntz"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2c11c43aca0so191740eec.1
-        for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 12:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774380654; x=1774985454; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ypx9rfrY0J5L5iqrWjidoVBfIQ360TmZRevjJTH3pYc=;
-        b=O03n1ntzwrsIlC6KV8m8NUeQyKsL0dpP1MQNTFvO+z25Alw4GwapnKn5TK9lFi2hmV
-         niCOR8qz0SWN7cDv33K0rHkZeCugU4ghhKkBAhzm+VBYUg4cj0yI611sHE8EvFNeEP3H
-         GAU1MvJp1YFMqHeDt/WvtIgTl0N5JY9YUCw3obHVEfeORKJHZiYo4cS1hKArI+gnN+/+
-         rkLDxDyAHguQLfSkdp0ZybXpucQCZIBRwi0heLVYeuU+yVr+Fx98wTmyxsZV3qlJI+JC
-         ANk8xTVQyi8/5nljql4B3yIVx0P+cPwcofR0i832kwtNgl/x4sVLuSibjUI082v8y6uD
-         ZYOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774380654; x=1774985454;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ypx9rfrY0J5L5iqrWjidoVBfIQ360TmZRevjJTH3pYc=;
-        b=S3xJG45MrEatZTiMr7IzxKzvRdk/ItfiBGoIGMHZc5SQBo2YL1JOpcvBfmVnLcUTYU
-         00bu1jshoMpm+iAxmomu1Wag6fKkbh0HxKlLnTvJQ/xMocZncDtNlxQ6vABu4fAEWQwF
-         JE+A2XZa+lrqmb9pqt1EFgGod//l4kqjCbaF4i9W8elZ2p/UORQ0m+vFPEGyECBGEk07
-         yvlBWSeQxUZwuviibRHlX6e92OBdVCm6C1qrtbRqxPv2jTcWJ5mvDU3XA3pjdBCoZulQ
-         TH+gTGEO2H7S0jryf/PsCi4Kn5Obm41JWnayA5ULQy+b8irDmCpvG0oFbMYDExFgRZur
-         Bdkw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsco7VuU6cCfh/2V7/YLbzpAgJkAyFyjgEAZslBMm2O5KZokApVK6wggucDjQLx39jQY3gwM2xpSaU0Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqbwsUYQwIxjhmEmW1qFsYYIXqWKaeTDows0pptljiz9+uN3aH
-	fjjvT2LCefrefJSTi+2E6A32MnUWaZBmI7BqtH29X+KJFKNwOFJ5PwfR
-X-Gm-Gg: ATEYQzxFv547I6KQMGHdYINH0MMaLhrImPsbyJQlSqGSE+GolNjTp3GgpujYLQbrok4
-	IrY7ab8ltr38n/vw41WoKWhsF3HxTNR6m51Mrsm19j6dH6bEw3IBYUhNiX7uQj+pbkzTEYejPU4
-	S60ML3dxzrX18qao4iTuntUdho2dk1w/M4xuGxGfL/W2sYYXb9xdwdZbLm6FFFq8gNV36G/QKy+
-	Qu+rsyrcgQkKCI77IP38jNPRR2E5EjtWw8nhy6UrexUnjH0Yb4NZvaBdOSLbwjOwgOfkQTVc4Vp
-	EVGRg4mSdS6PQjECTAutk7QL8waAZb+KLlHDNwliE4q++NR4mys0gZJSZjIMJRMbMxGLbcuCAwX
-	MA0RmuB8TUqKlrND71zGu8WMkcemI8QNZaASXRmkJiV8XtjaRPkK7/UnTCPUD9gyjIwcu4diOtF
-	hKtCzgu9kwTjBEL1auzXCMBKQtLINJzzifXK7W5k7MXJVcECi88oQkMahUg6wPJaTr
-X-Received: by 2002:a05:7301:6782:b0:2be:b02b:1b3f with SMTP id 5a478bee46e88-2c14b58ec59mr1864194eec.13.1774380653336;
-        Tue, 24 Mar 2026 12:30:53 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:a686:fd7f:70d3:9156])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b1961a2sm16402723eec.12.2026.03.24.12.30.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 12:30:52 -0700 (PDT)
-Date: Tue, 24 Mar 2026 12:30:49 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Danilo Krummrich <dakr@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] software node: allow referencing software nodes by name
-Message-ID: <acK69OColNT7ViLf@google.com>
-References: <acIV6xF8mY-8wd5e@google.com>
- <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="ifvPJxvA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1774381324; x=1774986124; i=w_armin@gmx.de;
+	bh=GGWlvb2n3V4HaO8XQjVf9hW7XhuAzhwdcuVxgB5Di8o=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=ifvPJxvAhtek8q+pCeeyITFinHZKIJzqVHZWD0oNtpjBH1VESRkcZtiJ0sFNIVvR
+	 +0tHnwJ18q+Z71ZrayUhU0vh5SiV1GPGwunmQmajPwVX4HXy1AnJ3jVQfcgYl/q0G
+	 7GpW93BfuY2TpH5ZIbrRDM1vyhuFD6vaYRPfQPHs2isrsWWvKb6H9asjxTkbrpRtL
+	 3vWhE/L/BP8v1cfiKyUpLIqIJ9UK3RIuIZtPTLzS2X0sC5ZIUWvYq6SpqamMfPhIB
+	 3LW6jjBPxIdqM4s0+mkdYOjqtI6GXvkruP0E13jFM3HajUwIRo0KgB5dciwbWvO8R
+	 RuMZmDRORvSKwwSOYw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MJE6L-1vpN8Z0wQN-00N053; Tue, 24
+ Mar 2026 20:42:04 +0100
+Message-ID: <50ed0e80-c1f3-48da-81f6-9edd2b1c35e1@gmx.de>
+Date: Tue, 24 Mar 2026 20:41:59 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/12] platform/wmi: use generic driver_override
+ infrastructure
+To: Danilo Krummrich <dakr@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Ioana Ciornei <ioana.ciornei@nxp.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, "K. Y. Srinivasan"
+ <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ Long Li <longli@microsoft.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Alex Williamson <alex@shazbot.org>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
+ linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-spi@vger.kernel.org,
+ virtualization@lists.linux.dev, kvm@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-arm-kernel@lists.infradead.org,
+ Gui-Dong Han <hanguidong02@gmail.com>
+References: <20260324005919.2408620-1-dakr@kernel.org>
+ <20260324005919.2408620-7-dakr@kernel.org>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20260324005919.2408620-7-dakr@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:KKKjGPofriNO2Y7ny8bzLW+ogpO7D8lGPS1ezTtV32qPriElMBO
+ jvtg2QtMPBSSFpK+K9f9/W3IHaIUxxM1SjbuL+eF3f/6Z6WRzj/HQbWdJ/0smqYXW/iekvq
+ A+6iz88zZSNd21TB/fuLIMalZH7T5q5DuSXS3//CqYIoGgOXkyuC7c9IHxbPHBnE7ZSgdkY
+ FFp1rdFLmEZzrK9+h1giQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:kIvBWcj/zXQ=;/niOuXlWvI8Na8RihCaK5ylBNR/
+ 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
 
-On Tue, Mar 24, 2026 at 02:46:06AM -0700, Bartosz Golaszewski wrote:
-> On Tue, 24 Mar 2026 05:46:50 +0100, Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> said:
-> > Currently static device properties references require either an
-> > instance of software node or an instance of fwnode_handle to be
-> > available when defining a reference property. This may not be very
-> > convenient when device node is instantiated from a different module
-> > (which is usually the case).
-> >
-> 
-> For context: this is a follow up to the discussion we had under my alternative
-> proposal[1]. This should ba an [RFC] too I think.
-> 
-> Probably unsurprisingly, but I'd like to express my opposition to this idea.
-> The final decision is not mine to make and we have yet to hear from the swnode
-> and driver core maintainers but I'll present a couple arguments in favor of the
-> tighter coupling.
-> 
-> > The original implementation for describing GPIOs using software nodes
-> > worked around this by creating a detached from gpiochip instances
-> > software nodes, and performing matching using gpiochip label and node
-> > name. The gpiolib maintainers rightfully questioned this approach, and
-> > currently recommend to attach secondary software node to gpiochip
-> > instance, export the symbol, and use it in board file when instantiating
-> > static properties. This unfortunately results in tight coupling between
-> > gpiochip drivers and board code, necessitates creation of header files,
-> > requires adding Kconfig dependencies, limits options for choosing module
-> > vs built-in compilation, and alters device initialization/probing order.
-> >
-> 
-> In my first proposal I did in fact create a header and put the software node
-> definitions in the pinctrl drivers. Andy pointed out, the software nodes should
-> live inside the android tablet drivers that rely on them and not in the pinctrl
-> drivers where they would be attached on all the platforms, not only the tiny
-> number of the ones that need them. I agree with this and plan on changing that
-> in my v2.
-> 
-> We also discussed the possibility of returning -EPROBE_DEFER if we resolve
-> a reference to a remote software node that has not yet been registered as
-> a firmware node[2] as it's a situation similar to a firmware node for which
-> no device exists yet.
-> 
-> With the above changes to my series, the problems of link order disappear and
-> we can create real links at build-time with no need to set names of software
-> nodes (which are typically not required and only used to display them in sysfs,
-> unless someone uses them for matching the swnodes to devices that is :) ).
+Am 24.03.26 um 01:59 schrieb Danilo Krummrich:
 
-But having them is strongly encouraged anyways.
+> When a driver is probed through __driver_attach(), the bus' match()
+> callback is called without the device lock held, thus accessing the
+> driver_override field without a lock, which can cause a UAF.
+>
+> Fix this by using the driver-core driver_override infrastructure taking
+> care of proper locking internally.
+>
+> Note that calling match() from __driver_attach() without the device lock
+> held is intentional. [1]
 
-> 
-> IOW: for v2 of my[1] series I propose to put swnode back into the android
-> tablets drivers but still use the mechanism that will either wait for the
-> relevant platform device to appear or look up the matching ACPI node. If the
-> driver tries to resolve the reference before the software node is registered,
-> it will simply defer probe, though if we can use the ACPI node and not wait
-> for the platform device, the registration will have typically happened before
-> the driver even gets registered.
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
 
-Please post the reworked version so we can review all the details. My
-concern was that it relies on notifier chains to notify when devices
-get registered and unregistered, and instead of matching node names you
-now need to somehow match device instances and software node instances,
-which again likely is done based on some name. This just piles on
-complexity where a simpler solution would be sufficient.
-
-I think this approach also will give trouble when there are multiple
-users of GPIOs provided by the same gpiochip, in cases where users are
-split across multiple modules.
-
-> 
-> > Solve the issue by providing an option to use software node name in
-> > place of the node instance when describing reference properties. When
-> > evaluating reference driver core will attempt to resolve the name to
-> > concrete node instance and, in case of GPIO references, will use
-> > identity match on firmware node to locate corresponding gpiochip device.
-> >
-> > This approach has a drawback of needing to know name of the node that
-> > gpiochip device will be using, however benefits (minimal coupling, no
-> > need for adding dependencies) outweigh this drawback.
-> >
-> 
-> And it also limits the ways we can match real firmware nodes to their
-
-It does not limit, it only provides additional opportunity when a simple
-case is enough. We are not replacing seoftware node instance in the
-reference with name, we allow using either, depending on user's wishes.
-So it does not preclude also having the mechanism that you propose when
-you need more complex management.
-
-> complementary and puts that limitation into the very driver core. For my v2,
-> I'd like to propose additional mechanisms for such matching like looking up
-> the correct ACPI and OF nodes and using unnamed software nodes.
-> 
-> > To deal cases with software nodes not being created or registered at
-> > time of look up, assume that the node with matching name will get
-> > registered eventually and return -EPROBE_DEFER in the meantime.
-> >
-> 
-> I don't think this should happen in core software node code. The -ENOENT
-> should be interpreted by whatever subsystem tries to resolve the reference.
-
-OK, I am fine with making it a subsystem's decision.
-
-Thanks.
-
--- 
-Dmitry
+> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@ker=
+nel.org/ [1]
+> Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D220789
+> Fixes: 12046f8c77e0 ("platform/x86: wmi: Add driver_override support")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>   drivers/platform/wmi/core.c | 36 +++++-------------------------------
+>   include/linux/wmi.h         |  4 ----
+>   2 files changed, 5 insertions(+), 35 deletions(-)
+>
+> diff --git a/drivers/platform/wmi/core.c b/drivers/platform/wmi/core.c
+> index b8e6b9a421c6..750e3619724e 100644
+> --- a/drivers/platform/wmi/core.c
+> +++ b/drivers/platform/wmi/core.c
+> @@ -842,39 +842,11 @@ static ssize_t expensive_show(struct device *dev,
+>   }
+>   static DEVICE_ATTR_RO(expensive);
+>  =20
+> -static ssize_t driver_override_show(struct device *dev, struct device_a=
+ttribute *attr,
+> -				    char *buf)
+> -{
+> -	struct wmi_device *wdev =3D to_wmi_device(dev);
+> -	ssize_t ret;
+> -
+> -	device_lock(dev);
+> -	ret =3D sysfs_emit(buf, "%s\n", wdev->driver_override);
+> -	device_unlock(dev);
+> -
+> -	return ret;
+> -}
+> -
+> -static ssize_t driver_override_store(struct device *dev, struct device_=
+attribute *attr,
+> -				     const char *buf, size_t count)
+> -{
+> -	struct wmi_device *wdev =3D to_wmi_device(dev);
+> -	int ret;
+> -
+> -	ret =3D driver_set_override(dev, &wdev->driver_override, buf, count);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	return count;
+> -}
+> -static DEVICE_ATTR_RW(driver_override);
+> -
+>   static struct attribute *wmi_attrs[] =3D {
+>   	&dev_attr_modalias.attr,
+>   	&dev_attr_guid.attr,
+>   	&dev_attr_instance_count.attr,
+>   	&dev_attr_expensive.attr,
+> -	&dev_attr_driver_override.attr,
+>   	NULL
+>   };
+>   ATTRIBUTE_GROUPS(wmi);
+> @@ -943,7 +915,6 @@ static void wmi_dev_release(struct device *dev)
+>   {
+>   	struct wmi_block *wblock =3D dev_to_wblock(dev);
+>  =20
+> -	kfree(wblock->dev.driver_override);
+>   	kfree(wblock);
+>   }
+>  =20
+> @@ -952,10 +923,12 @@ static int wmi_dev_match(struct device *dev, const=
+ struct device_driver *driver)
+>   	const struct wmi_driver *wmi_driver =3D to_wmi_driver(driver);
+>   	struct wmi_block *wblock =3D dev_to_wblock(dev);
+>   	const struct wmi_device_id *id =3D wmi_driver->id_table;
+> +	int ret;
+>  =20
+>   	/* When driver_override is set, only bind to the matching driver */
+> -	if (wblock->dev.driver_override)
+> -		return !strcmp(wblock->dev.driver_override, driver->name);
+> +	ret =3D device_match_driver_override(dev, driver);
+> +	if (ret >=3D 0)
+> +		return ret;
+>  =20
+>   	if (id =3D=3D NULL)
+>   		return 0;
+> @@ -1076,6 +1049,7 @@ static struct class wmi_bus_class =3D {
+>   static const struct bus_type wmi_bus_type =3D {
+>   	.name =3D "wmi",
+>   	.dev_groups =3D wmi_groups,
+> +	.driver_override =3D true,
+>   	.match =3D wmi_dev_match,
+>   	.uevent =3D wmi_dev_uevent,
+>   	.probe =3D wmi_dev_probe,
+> diff --git a/include/linux/wmi.h b/include/linux/wmi.h
+> index 75cb0c7cfe57..14fb644e1701 100644
+> --- a/include/linux/wmi.h
+> +++ b/include/linux/wmi.h
+> @@ -18,16 +18,12 @@
+>    * struct wmi_device - WMI device structure
+>    * @dev: Device associated with this WMI device
+>    * @setable: True for devices implementing the Set Control Method
+> - * @driver_override: Driver name to force a match; do not set directly,
+> - *		     because core frees it; use driver_set_override() to
+> - *		     set or clear it.
+>    *
+>    * This represents WMI devices discovered by the WMI driver core.
+>    */
+>   struct wmi_device {
+>   	struct device dev;
+>   	bool setable;
+> -	const char *driver_override;
+>   };
+>  =20
+>   /**
