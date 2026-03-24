@@ -1,204 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A48D3FF883;
-	Tue, 24 Mar 2026 14:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368A33FEB32;
+	Tue, 24 Mar 2026 15:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774363065; cv=none; b=R5CcRZLLt1ePZi9dcJSgA70R/wttfQH7lBQadSQd4IwW5ZRIB2QJloYTdFTAd+T0Fd+qs1pwlDTVQDnixBNUt/fp6wqiRU8rW95OSUzjT9mXlkiAa8cu3dRR+3JeKijDk38N2ANvSGag5pNDmo3YpC110jUTaeY3cvxZHAqmEzk=
+	t=1774364617; cv=none; b=ZPsK0VQoeW4kKdP0SR8trjBpIgqKBLvMgh6IpehsND9WgMgl6JL4BdOHbtiIJUrxkmVgZIW45NdYJeFWAZ17YYkh8EplG/pmqbbXNKrfhp2g+/pBll2x8GTyG5wx0sQ4QCXSCN4tL4IWnMh4r5SL0RCRyNLJK/WWgZLkobIrA3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774363065; c=relaxed/simple;
-	bh=3M1pZU/Rt+tvSzSNAmvvsplHgsc63Xp92Dg1sukL488=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r1wAPqawZ8gbKXJwEGwwYVOExklBWq5ZP+MG962RukB8eseoacKgIsx1pie3ndRag21j8KFBS7KPHEvfbZ/4NocuYkPlAVEH+t0IgdHFdEYZf7crgFeS9Be7li+/3kP6iv7tED1hS+WlPzI8etIwGQyXujaUQvwEnrspoEyVy7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PqgKbgJe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774364617; c=relaxed/simple;
+	bh=xiTNI9ESXiY/gIDionTm8i92obzoKVc4cZW7D08FQrI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=PVJCZVppvIQ27ZS5ZpUzBIc54LvmlYEm9Gb2Dq9J/3IERCZkFaWTPdWjMjweav+QGH0NPnbJQHY0yq0RAGKeuDMiaU85M5L01eJlm/NTt/xv965TSrLG/VO+IOeFeIbOujV+qcB7+nxfMn+QMqM5u2YGH1r4KlFhVOsrn3aS0uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dz2mfMF+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PqgKbgJe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D50C4C2BC87;
-	Tue, 24 Mar 2026 14:37:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dz2mfMF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 916A4C19424;
+	Tue, 24 Mar 2026 15:03:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774363065;
-	bh=3M1pZU/Rt+tvSzSNAmvvsplHgsc63Xp92Dg1sukL488=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PqgKbgJeA0TFHNoShupCs/8BjLfjfpRdFRc1+QL9ZroTHAZf625/7hlReKSHx5E/X
-	 ujj1Czq7HLgl5sgc86N/UZqJmKXs5sXug11u7ckU6kFsKZeFu8y2ivJczOV62YjaJO
-	 +HCznSqBIDkIwgkH35og13sT0N5yAszfd7Sosv/UfL/ncpPo13dT7INSEP9bD8Qifv
-	 x9OR4odB+qoi2Zp/6YzvsORLj3eUER7PaXs2RiLdKK505wnePKh/fIFJPEKvFjH3jb
-	 99ew1U06WRjPOp1dXTb0oM3PLvncpi9kyk82CSA6c9e07DUqyz2PSGKu2acRbKnOpo
-	 RTSgXB53nQebw==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>,
- aliceryhl@google.com, acourbot@nvidia.com, ojeda@kernel.org,
- boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, tmgross@umich.edu, abdiel.janulgue@gmail.com,
- daniel.almeida@collabora.com, robin.murphy@arm.com
-Cc: driver-core@lists.linux.dev, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/8] rust: dma: add generalized container for types
- other than slices
-In-Reply-To: <DHB2JCKXZ5ZN.LA5E3HY3YHGS@garyguo.net>
-References: <20260320194626.36263-1-dakr@kernel.org>
- <8WwJUXIwwCnCTXlAJw77hgSFS-jjhGgfJQoyIaVPdDf99QqTFd1uHhEj56PCo9Ihv-koAQP7826Vpx8HZkKE5A==@protonmail.internalid>
- <20260320194626.36263-3-dakr@kernel.org> <877br1qr6v.fsf@kernel.org>
- <MfXnI_tAbjftGXdPiZWkQbZEmqAq3Fqd6UudPSK5GVeEK_lnU03F5MJcFcuaSNTf26g4UzcjPm6myrYKFUXz6w==@protonmail.internalid>
- <DHB2JCKXZ5ZN.LA5E3HY3YHGS@garyguo.net>
-Date: Tue, 24 Mar 2026 15:37:35 +0100
-Message-ID: <87341pz428.fsf@t14s.mail-host-address-is-not-set>
+	s=k20201202; t=1774364616;
+	bh=xiTNI9ESXiY/gIDionTm8i92obzoKVc4cZW7D08FQrI=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=Dz2mfMF+MZN7ixyg7Akx23BQ1U6iqlTQhAc5HVNp+Dhxrz1sK/DDm/yUJgLij6kvE
+	 Qdln+9UIL2JwthJyfq234PrdCE5gKKEItlQT7CdHVXQD+evdVAD7N9I5H7zPnL5xgA
+	 qCprtiTRfxyNZ7wUThBQ0a8HiAsOjas8HWBX2KiLeAdi0wu+BvTu9nX6fW1PK/JW3d
+	 RH77D3Tg9EPVsOFE9YoKPqinCgRKNLteGNk5dj0yzRFE/SmGN5BsOUPbsJ5rkKmTnh
+	 ifIO1XmXcBbxUGKLVn8CJbLGg8s7dpAsJnctccV8UZUWnrfuAv6lq71J8gDLWaiDb+
+	 xpBBmMQlh/LXQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 24 Mar 2026 16:03:31 +0100
+Message-Id: <DHB3RDNDS08U.A75EZUOMO311@kernel.org>
+Subject: Re: [PATCH v2 5/8] rust: dma: add Coherent:init() and
+ Coherent::init_with_attrs()
+Cc: <aliceryhl@google.com>, <acourbot@nvidia.com>, <ojeda@kernel.org>,
+ <boqun@kernel.org>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
+ <lossin@kernel.org>, <tmgross@umich.edu>, <abdiel.janulgue@gmail.com>,
+ <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
+ <driver-core@lists.linux.dev>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Andreas Hindborg" <a.hindborg@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260320194626.36263-1-dakr@kernel.org>
+ <4yknLBbwY93Ty2ltbpxjHgto-m99xkoTgDlKv8cJTK2tbFL0_V6eQDjwbbXI70M6uMKT6RLRxBoYR_XeymmnHA==@protonmail.internalid> <20260320194626.36263-6-dakr@kernel.org> <87y0jhpbsp.fsf@kernel.org>
+In-Reply-To: <87y0jhpbsp.fsf@kernel.org>
 
-"Gary Guo" <gary@garyguo.net> writes:
-
-> On Tue Mar 24, 2026 at 1:42 PM GMT, Andreas Hindborg wrote:
->> "Danilo Krummrich" <dakr@kernel.org> writes:
->>
->>> +    /// Returns a reference to the data in the region.
->>>      ///
->>> -    /// # Examples
->>> +    /// # Safety
->>>      ///
->>> -    /// ```
->>> -    /// # use kernel::device::{Bound, Device};
->>> -    /// use kernel::dma::{attrs::*, CoherentAllocation};
->>> +    /// * Callers must ensure that the device does not read/write to/from memory while the returned
->>> +    ///   slice is live.
->>> +    /// * Callers must ensure that this call does not race with a write to the same region while
->>> +    ///   the returned slice is live.
->>> +    #[inline]
->>> +    pub unsafe fn as_ref(&self) -> &T {
->>> +        // SAFETY: per safety requirement.
->>
->> Is this enough? Don't you need to assert a valid bit pattern? I assume
->> you get this from `FromBytes`, but that bound is not on `T` in this impl
->> block.
+On Tue Mar 24, 2026 at 3:00 PM CET, Andreas Hindborg wrote:
+>> +    /// Same as [`Coherent::zeroed`], but instead of a zero-initializat=
+ion the memory is initialized
+>> +    /// with `init`.
+>> +    #[inline]
+>> +    pub fn init<E>(
+>> +        dev: &device::Device<Bound>,
+>> +        gfp_flags: kernel::alloc::Flags,
+>> +        init: impl Init<T, E>,
+>> +    ) -> Result<Self>
+>> +    where
+>> +        Error: From<E>,
+>> +    {
+>> +        Self::init_with_attrs(dev, gfp_flags, Attrs(0), init)
+>> +    }
+>> +
 >
-> Concetually `Coherent<T>` is a container of `T` so it should always hold a valid
-> bit pattern for the type. Perhaps this should be added to the type invariant.
->
-> FromBytes is only needed at the constructor level as that's the only place where
-> you're asserting that initial bit pattern is valid.
+> I think we are missing an array initializer for `Coherent<[T]>`.
 
-Makes sense to add the invariant and assert at construction time.
+This method is already compatible with arrays, T can be an array type itsel=
+f,
+e.g. T =3D [MyStruct; 5].
 
->
->
->>
->>> +        unsafe { &*self.as_ptr() }
->>> +    }
->>> +
->>> +    /// Returns a mutable reference to the data in the region.
->>>      ///
->>> -    /// # fn test(dev: &Device<Bound>) -> Result {
->>> -    /// let c: CoherentAllocation<u64> =
->>> -    ///     CoherentAllocation::alloc_attrs(dev, 4, GFP_KERNEL, DMA_ATTR_NO_WARN)?;
->>> -    /// # Ok::<(), Error>(()) }
->>> -    /// ```
->>> -    pub fn alloc_attrs(
->>> +    /// # Safety
->>> +    ///
->>> +    /// * Callers must ensure that the device does not read/write to/from memory while the returned
->>> +    ///   slice is live.
->>> +    /// * Callers must ensure that this call does not race with a read or write to the same region
->>> +    ///   while the returned slice is live.
->>> +    #[expect(clippy::mut_from_ref, reason = "unsafe to use API")]
->>> +    #[inline]
->>> +    pub unsafe fn as_mut(&self) -> &mut T {
->>> +        // SAFETY: per safety requirement.
->>
->> Same.
->>
->>> +        unsafe { &mut *self.as_mut_ptr() }
->>> +    }
->>> +
->>> +    /// Reads the value of `field` and ensures that its type is [`FromBytes`].
->>> +    ///
->>> +    /// # Safety
->>> +    ///
->>> +    /// This must be called from the [`dma_read`] macro which ensures that the `field` pointer is
->>> +    /// validated beforehand.
->>> +    ///
->>> [...]
->>> +
->>> +impl<T: AsBytes + FromBytes> Coherent<T> {
->>> +    /// Allocates a region of `T` of coherent memory.
->>> +    #[expect(unused)]
->>> +    fn alloc_with_attrs(
->>>          dev: &device::Device<Bound>,
->>> -        count: usize,
->>>          gfp_flags: kernel::alloc::Flags,
->>>          dma_attrs: Attrs,
->>> -    ) -> Result<CoherentAllocation<T>> {
->>> -        build_assert!(
->>> -            core::mem::size_of::<T>() > 0,
->>> -            "It doesn't make sense for the allocated type to be a ZST"
->>> -        );
->>> +    ) -> Result<Self> {
->>> +        const {
->>> +            assert!(
->>> +                core::mem::size_of::<T>() > 0,
->>> +                "It doesn't make sense for the allocated type to be a ZST"
->>> +            );
->>> +        }
->>>
->>> -        let size = count
->>> -            .checked_mul(core::mem::size_of::<T>())
->>> -            .ok_or(EOVERFLOW)?;
->>>          let mut dma_handle = 0;
->>>          // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
->>>          let addr = unsafe {
->>>              bindings::dma_alloc_attrs(
->>>                  dev.as_raw(),
->>> -                size,
->>> +                core::mem::size_of::<T>(),
->>>                  &mut dma_handle,
->>>                  gfp_flags.as_raw(),
->>>                  dma_attrs.as_raw(),
->>>              )
->>>          };
->>> -        let addr = NonNull::new(addr).ok_or(ENOMEM)?;
->>> +        let cpu_addr = NonNull::new(addr.cast()).ok_or(ENOMEM)?;
->>>          // INVARIANT:
->>> -        // - We just successfully allocated a coherent region which is accessible for
->>> -        //   `count` elements, hence the cpu address is valid. We also hold a refcounted reference
->>> -        //   to the device.
->>> -        // - The allocated `size` is equal to `size_of::<T> * count`.
->>> -        // - The allocated `size` fits into a `usize`.
->>> +        // - We just successfully allocated a coherent region which is adequately sized for `T`,
->>> +        //   hence the cpu address is valid.
->>
->> The invariant says "valid for the lifetime", do you need to argue for
->> the duration of the validity?
->
-> It says "For the lifetime of an instance of ..." which is basically equal to
-> saying nothing. I think that part should just be removed.
+For instance, the diff in [1] should work.
 
-Sounds good.
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 
->
->>
->>> +        // - We also hold a refcounted reference to the device.
->>
->> This does not relate to the second invariant of `Self`.
->
-> The second invariant is about size, which is addressed in the first bullet
-> point. This is about the third invariant, which the doc-comemnt just says "TODO"
-> currently.
+Thanks! The patch series has been applied yesterday, and the branch it has =
+been
+applied to is immutable, so I can't add additional tags.
 
-So it is not an invariant, and it should not be covered here.
+However, the Link: included in the patch still points to this conversation.
 
-I would suggest that if you use bullet list both in definition and
-justification, please make sure the justification bullets match the
-definition bullets. If you need to, you can make sub-lists by indenting.
+Also note that subsequent review is still valued; we can always send follow=
+-up
+patches if required.
 
+Thanks,
+Danilo
 
-Best regards,
-Andreas Hindborg
+[1]
 
+diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
+index 129bb4b39c04..3d3ffc21ea77 100644
+--- a/samples/rust/rust_dma.rs
++++ b/samples/rust/rust_dma.rs
+@@ -22,6 +22,7 @@
+ struct DmaSampleDriver {
+     pdev: ARef<pci::Device>,
+     ca: Coherent<[MyStruct]>,
++    ca_init: Coherent<[MyStruct; 5]>,
+     #[pin]
+     sgt: SGTable<Owned<VVec<u8>>>,
+ }
+@@ -76,6 +77,15 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo)=
+ -> impl PinInit<Self, E
+                 kernel::dma_write!(ca, [i]?, MyStruct::new(value.0, value.=
+1));
+             }
 
++            let ca_init: Coherent<[MyStruct; 5]> =3D Coherent::init(
++                pdev.as_ref(),
++                GFP_KERNEL,
++                pin_init::init_array_from_fn(|i| {
++                    let (h, b) =3D TEST_VALUES[i];
++                    MyStruct::new(h, b)
++                }),
++            )?;
++
+             let size =3D 4 * page::PAGE_SIZE;
+             let pages =3D VVec::with_capacity(size, GFP_KERNEL)?;
 
+@@ -84,6 +94,7 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) =
+-> impl PinInit<Self, E
+             Ok(try_pin_init!(Self {
+                 pdev: pdev.into(),
+                 ca,
++                ca_init,
+                 sgt <- sgt,
+             }))
+         })
+@@ -98,6 +109,12 @@ fn check_dma(&self) -> Result {
+
+             assert_eq!(val0, value.0);
+             assert_eq!(val1, value.1);
++
++            let val0 =3D kernel::dma_read!(self.ca_init, [i]?.h);
++            let val1 =3D kernel::dma_read!(self.ca_init, [i]?.b);
++
++            assert_eq!(val0, value.0);
++            assert_eq!(val1, value.1);
+         }
+
+         Ok(())
