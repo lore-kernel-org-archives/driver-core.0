@@ -1,157 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2D538F635
-	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 09:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B093E1230;
+	Tue, 24 Mar 2026 10:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774345569; cv=none; b=gh5My/K7IFHai6FWVMBFq8B0evVkHUUTZmeVQoUrp1HsiF4kO62MAHTOIcz74AoYlGIlhcdJWVzVB3005Lgv8ceNpVK3WxY61mxIB3Pn9wauIkPmiqe1n3br38JiV9mOHzgxhFMGw8s3ctRFYRHMswBOBfqPoGheoGYLCkwKJMc=
+	t=1774347861; cv=none; b=aKQ25nC48pVKIuNh/meDLo7sdKKCSqkrqRe4L2OE+WDLnCLSNatyqM+XKM/aDvOmsTYMBg7AuHeVbGK5LaAlQ7UZj3+v9Buw7LvoaqB9KkojdGB9YhMqgaB6Lh6XWh3kbKLSyBJ1RjmnKfdZrktas8ZaJf1KXKCtJ/Mtib2w30k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774345569; c=relaxed/simple;
-	bh=QzfjW2BR42T4tFZISb1hzH87nO0+WjD4yWWDq4E1+4Y=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H79a48zXWgqka/w9TDjI/rhHCSVhzByfjGiYyYGot4eiZONbKNY/HgDAmWRC+cYCB+ezbGA3+XJKbSUvWIDKF+Wwp87Zngsfz6LwB+LqKzO+/LTyj9RFqeJdmiPVPA8mhrEfgovZyasCCd7vuodrpLYW51P1KMJCDDTeckC/02M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UymzNNIU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774347861; c=relaxed/simple;
+	bh=uOc2W0qFV291yPRbXPafqHAGAkVduR26ne2oc7X4SYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O2MpT2OzT2Nk5sSsEc+HU6WmUg+b0d2cZc/aZdD0zeD9ptjeKD3cYQd332r6Dgr/RWWrbpjiAX3r3a856KxW/kdMb8QFUa5XM31rZI7TNE+4DEyj+8UbP7+dn1fijz8t0VNUdWa4QCeUg2ocQCnsZ6VOWwO0R606iIMM9NZ8oRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=FrI/5Qh2; arc=none smtp.client-ip=188.40.3.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UymzNNIU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 301C4C2BCB8
-	for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 09:46:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774345569;
-	bh=QzfjW2BR42T4tFZISb1hzH87nO0+WjD4yWWDq4E1+4Y=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=UymzNNIUeIVpBYI/an7ftIHu/6tweQUv4vsM1/5eLK7yQk/UiYNXvmjCX9OfT4uVW
-	 mjpX6FXDcbmF5SVhd+ZBjT/jlNkrZsaO9IxCC1xHRtyCA+y+NuMS3AYAf+riVpm4QJ
-	 a7xQC88J+Yfke60Yor3ZrkLFqQwDKMfh7hW++9bzrXYvDA6LYIOOtC0zk4lNTzyJXe
-	 0ui17PIFo70NxNz7mjlVrbGg1fYeE9ZfZdbZWKnzfVOyK2s97MFSU+iSYVpAY91H2A
-	 Nbp/cB60Ug0uzaqrtTaar7MG/RHDd/oVkNnbrYMjmH4IikxOhQQxgVsQHCNciJXaeP
-	 /P76tFRr7OS7A==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a2853b1f8cso939819e87.3
-        for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 02:46:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVow5xOCteXeZ0yEgOQLdumeTVx6SigPLAwJuCWq2ORfTCKj+tBvpWH9hBgckK4acdqMK1rhSGKXy+PlQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXQ3JuuxrmFTYUzguXIylY+q5Xz3KX6OwSpxcQoDx+RjmP5cQw
-	UdmFTx460owESKkJKwuBLgsv9ZdbgM16FI4RcJhzPtYBeQBHwrdI8/NwMU36K3rHYTkSN34QGmj
-	o9NOd4cDqMeUeY9HHvCpPHNa7wvk/zsa6nP7R04gvbg==
-X-Received: by 2002:a05:6512:3096:b0:5a1:4015:c650 with SMTP id
- 2adb3069b0e04-5a285b445a3mr5889925e87.22.1774345567780; Tue, 24 Mar 2026
- 02:46:07 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 24 Mar 2026 02:46:06 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 24 Mar 2026 02:46:06 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <acIV6xF8mY-8wd5e@google.com>
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="FrI/5Qh2"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=S6uvvEM8Q8RkAK0BRhim+FMr5vS+WhCd8Ae7ZnBCYfM=; b=FrI/5Qh26/Bf0qI2wuHwMH5x1o
+	l0ZcurgJMqFwdycKwHnU7AfnwWV6bVn3ESzW6v4BLnICtYS3M4Calj9U0lio62uJO4+cnP2WDDcbK
+	TqKYfj+nvFnnAK/LEcwUc1Rt6F7wzJxC4hZICVGRevdq/UXEML4WVK1VKDGvM5vPslKqNpBMuQ+vk
+	vJ9ZFIH4wqs3M480+9AEIz50WkRgbPM9d4o64BM2HZv3yg+Ks2fTLoKJaSC9uHldnkVrAVR1h7QHy
+	iXF8bweU2MiIjMdXFLSaXLP+Ir6MrWioUiHnx+lu5xoYvqZuYAOre828JcY9CgbYZ1NlVIeHZ4cbX
+	c6T9UXxQ==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1w4yvj-000E43-2Z;
+	Tue, 24 Mar 2026 11:24:11 +0100
+Received: from localhost ([127.0.0.1])
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1w4yvj-0006q3-0d;
+	Tue, 24 Mar 2026 11:24:10 +0100
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
+ linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v2 6/9] soc: imx8m: don't access of_root directly
+Date: Tue, 24 Mar 2026 11:24:09 +0100
+Message-ID: <6593091.DvuYhMxLoT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
+References:
+ <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+ <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <acIV6xF8mY-8wd5e@google.com>
-Date: Tue, 24 Mar 2026 02:46:06 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
-X-Gm-Features: AaiRm51JQI4nI612gZLIbFqiway6WJxpSAWRqnKy1Ye88UqrV1Xl946U6JPhscc
-Message-ID: <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
-Subject: Re: [PATCH] software node: allow referencing software nodes by name
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Virus-Scanned: Clear (ClamAV 1.4.3/27950/Tue Mar 24 07:24:19 2026)
 
-On Tue, 24 Mar 2026 05:46:50 +0100, Dmitry Torokhov
-<dmitry.torokhov@gmail.com> said:
-> Currently static device properties references require either an
-> instance of software node or an instance of fwnode_handle to be
-> available when defining a reference property. This may not be very
-> convenient when device node is instantiated from a different module
-> (which is usually the case).
->
+Hi,
 
-For context: this is a follow up to the discussion we had under my alternative
-proposal[1]. This should ba an [RFC] too I think.
+Am Montag, 23. Februar 2026, 14:37:21 CET schrieb Bartosz Golaszewski:
+> Don't access of_root directly as it reduces the build test coverage for
+> this driver with COMPILE_TEST=3Dy and OF=3Dn. Use existing helper functio=
+ns
+> to retrieve the relevant information.
+>=20
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Probably unsurprisingly, but I'd like to express my opposition to this idea.
-The final decision is not mine to make and we have yet to hear from the swnode
-and driver core maintainers but I'll present a couple arguments in favor of the
-tighter coupling.
+today I noticed the following warning running next-20260323:
+> caam 30900000.crypto: No clock data provided for i.MX SoC
 
-> The original implementation for describing GPIOs using software nodes
-> worked around this by creating a detached from gpiochip instances
-> software nodes, and performing matching using gpiochip label and node
-> name. The gpiolib maintainers rightfully questioned this approach, and
-> currently recommend to attach secondary software node to gpiochip
-> instance, export the symbol, and use it in board file when instantiating
-> static properties. This unfortunately results in tight coupling between
-> gpiochip drivers and board code, necessitates creation of header files,
-> requires adding Kconfig dependencies, limits options for choosing module
-> vs built-in compilation, and alters device initialization/probing order.
->
+This happens when there is no matching against the soc_id.
 
-In my first proposal I did in fact create a header and put the software node
-definitions in the pinctrl drivers. Andy pointed out, the software nodes should
-live inside the android tablet drivers that rely on them and not in the pinctrl
-drivers where they would be attached on all the platforms, not only the tiny
-number of the ones that need them. I agree with this and plan on changing that
-in my v2.
+Checking the source it turns out this patch is the cause that the SoC info
+does not provide soc_id anymore.
+next-20260323:
+> $ grep . /sys/devices/soc0/*
+> /sys/devices/soc0/family:Freescale i.MX
+> /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
+> grep: /sys/devices/soc0/power: Is a directory
+> /sys/devices/soc0/revision:unknown
+> /sys/devices/soc0/serial_number:0000000000000000
+> grep: /sys/devices/soc0/subsystem: Is a directory
 
-We also discussed the possibility of returning -EPROBE_DEFER if we resolve
-a reference to a remote software node that has not yet been registered as
-a firmware node[2] as it's a situation similar to a firmware node for which
-no device exists yet.
+reverting this patch (2524b293a59e586afd06358d0b191ab57208a920):
+> $ grep . /sys/devices/soc0/*
+> /sys/devices/soc0/family:Freescale i.MX
+> /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
+> grep: /sys/devices/soc0/power: Is a directory
+> /sys/devices/soc0/revision:1.1
+> /sys/devices/soc0/serial_number:469677A693A4B8CE131D180033E44903
+> /sys/devices/soc0/soc_id:i.MX8MP
+> grep: /sys/devices/soc0/subsystem: Is a directory
 
-With the above changes to my series, the problems of link order disappear and
-we can create real links at build-time with no need to set names of software
-nodes (which are typically not required and only used to display them in sysfs,
-unless someone uses them for matching the swnodes to devices that is :) ).
+soc_id is restored. Now that I write these lines I noticed that
+serial_number also contained empty value which is restored with the revert.
 
-IOW: for v2 of my[1] series I propose to put swnode back into the android
-tablets drivers but still use the mechanism that will either wait for the
-relevant platform device to appear or look up the matching ACPI node. If the
-driver tries to resolve the reference before the software node is registered,
-it will simply defer probe, though if we can use the ACPI node and not wait
-for the platform device, the registration will have typically happened before
-the driver even gets registered.
+Best regards,
+Alexander
 
-> Solve the issue by providing an option to use software node name in
-> place of the node instance when describing reference properties. When
-> evaluating reference driver core will attempt to resolve the name to
-> concrete node instance and, in case of GPIO references, will use
-> identity match on firmware node to locate corresponding gpiochip device.
->
-> This approach has a drawback of needing to know name of the node that
-> gpiochip device will be using, however benefits (minimal coupling, no
-> need for adding dependencies) outweigh this drawback.
->
-
-And it also limits the ways we can match real firmware nodes to their
-complementary and puts that limitation into the very driver core. For my v2,
-I'd like to propose additional mechanisms for such matching like looking up
-the correct ACPI and OF nodes and using unnamed software nodes.
-
-> To deal cases with software nodes not being created or registered at
-> time of look up, assume that the node with matching name will get
-> registered eventually and return -EPROBE_DEFER in the meantime.
->
-
-I don't think this should happen in core software node code. The -ENOENT
-should be interpreted by whatever subsystem tries to resolve the reference.
-
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > ---
+>  drivers/soc/imx/soc-imx8m.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/soc/imx/soc-imx8m.c b/drivers/soc/imx/soc-imx8m.c
+> index 8e2322999f0996d2723768469c6893b0ea22eb9d..77763a107edbd11302017e3f6=
+1ecb4369fda1ab0 100644
+> --- a/drivers/soc/imx/soc-imx8m.c
+> +++ b/drivers/soc/imx/soc-imx8m.c
+> @@ -226,7 +226,6 @@ static int imx8m_soc_probe(struct platform_device *pd=
+ev)
+>  	const struct imx8_soc_data *data;
+>  	struct imx8_soc_drvdata *drvdata;
+>  	struct device *dev =3D &pdev->dev;
+> -	const struct of_device_id *id;
+>  	struct soc_device *soc_dev;
+>  	u32 soc_rev =3D 0;
+>  	u64 soc_uid[2] =3D {0, 0};
+> @@ -244,15 +243,11 @@ static int imx8m_soc_probe(struct platform_device *=
+pdev)
+> =20
+>  	soc_dev_attr->family =3D "Freescale i.MX";
+> =20
+> -	ret =3D of_property_read_string(of_root, "model", &soc_dev_attr->machin=
+e);
+> +	ret =3D soc_attr_read_machine(soc_dev_attr);
+>  	if (ret)
+>  		return ret;
+> =20
+> -	id =3D of_match_node(imx8_soc_match, of_root);
+> -	if (!id)
+> -		return -ENODEV;
+> -
+> -	data =3D id->data;
+> +	data =3D device_get_match_data(dev);
+>  	if (data) {
+>  		soc_dev_attr->soc_id =3D data->name;
+>  		ret =3D imx8m_soc_prepare(pdev, data->ocotp_compatible);
+> @@ -326,7 +321,7 @@ static int __init imx8_soc_init(void)
+>  	int ret;
+> =20
+>  	/* No match means this is non-i.MX8M hardware, do nothing. */
+> -	if (!of_match_node(imx8_soc_match, of_root))
+> +	if (!of_machine_device_match(imx8_soc_match))
+>  		return 0;
+> =20
+>  	ret =3D platform_driver_register(&imx8m_soc_driver);
+>=20
+>=20
 
-I think that with a few changes to the initial idea, referencing software
-nodes by their addresses is the way to go. Keep in mind that this is also
-quite the corner-case. In other places we have been typically able to easily
-assign the software node to their target fwnode as it would be either a legacy
-board file or an MFD driver which already knows its cells' layout and
-dependencies.
 
-Thanks,
-Bartosz
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-[1] https://lore.kernel.org/all/20260319-baytrail-real-swnode-v1-0-75f2264ae49f@oss.qualcomm.com/
-[2] https://lore.kernel.org/all/CAMRc=MdmuOS-5mHGYtsr3jz654rA9moH4Po_rAFdaPBq-5KCZA@mail.gmail.com/
+
