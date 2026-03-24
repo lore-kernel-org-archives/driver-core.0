@@ -1,55 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929AC37105D;
-	Tue, 24 Mar 2026 14:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A48D3FF883;
+	Tue, 24 Mar 2026 14:37:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774362592; cv=none; b=mIr5FQAZvcY73Z6oMfao7XcSXizihfYmCJgtCQvJyTvi/H0P+fWNx17aD0DmHpqhREyN56usW1Euy8rMVKxkPji/jc+Rrmv4T5qpxjSb57XtlMYZCbJUCfK/0SqwJcEMUO4jYhlzZaleo1STX4DU4wXHSWeUNJDETYPPQv4z4fM=
+	t=1774363065; cv=none; b=R5CcRZLLt1ePZi9dcJSgA70R/wttfQH7lBQadSQd4IwW5ZRIB2QJloYTdFTAd+T0Fd+qs1pwlDTVQDnixBNUt/fp6wqiRU8rW95OSUzjT9mXlkiAa8cu3dRR+3JeKijDk38N2ANvSGag5pNDmo3YpC110jUTaeY3cvxZHAqmEzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774362592; c=relaxed/simple;
-	bh=9f8Ertow8o7Hoy7VCHhTgo0WxhEZyuKxZ+ATg3i5rzE=;
+	s=arc-20240116; t=1774363065; c=relaxed/simple;
+	bh=3M1pZU/Rt+tvSzSNAmvvsplHgsc63Xp92Dg1sukL488=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RbOzegsaLqRra0S+OKzrUE6Pr27gz+hvqXgdZfFABgT9rXfoLPi8SpsVJQYFZd+ZquXG1SycoQY5MP3veLCPLvCzMewmk/jH1+sdxtufaZntcLWoSH1a5PXwdUR7Bieu4t25C3n4g062vnNE01k0yhBntm8gelZYqHFr4k2X+wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLnBorfk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=r1wAPqawZ8gbKXJwEGwwYVOExklBWq5ZP+MG962RukB8eseoacKgIsx1pie3ndRag21j8KFBS7KPHEvfbZ/4NocuYkPlAVEH+t0IgdHFdEYZf7crgFeS9Be7li+/3kP6iv7tED1hS+WlPzI8etIwGQyXujaUQvwEnrspoEyVy7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PqgKbgJe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLnBorfk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D56BC19424;
-	Tue, 24 Mar 2026 14:29:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PqgKbgJe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D50C4C2BC87;
+	Tue, 24 Mar 2026 14:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774362592;
-	bh=9f8Ertow8o7Hoy7VCHhTgo0WxhEZyuKxZ+ATg3i5rzE=;
+	s=k20201202; t=1774363065;
+	bh=3M1pZU/Rt+tvSzSNAmvvsplHgsc63Xp92Dg1sukL488=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TLnBorfkbC2nYFbvBO7zMhoAsIgPnN8s/kWSsmqQzjQjYUPxvnTHl6zRUtAI4faEo
-	 SnqjyNofJFfx+ryua0JHea1P7P6S8GTESmqlvNwEUz3stYOgCWi3IkYW1KZHj2adhW
-	 P6rEJBCdUZX75q5cX2uGX7bz4++rIsvqsgwW85B3ky6BAYWYDgd70x4E8RVHvppqAr
-	 OotTa3PDUuaGyhZ838of9wdLCS6sjjyfwP6yzXirbkwAmlR/C83tdHweYdibtXpcWQ
-	 1N3jKhzOGI3UIu1lu3KdlrO9QT5xTg2QWk3qiTpLbhwcPRfcQCBs9RyNDbyT8/gtx2
-	 9HdxyyakTmPcA==
+	b=PqgKbgJeA0TFHNoShupCs/8BjLfjfpRdFRc1+QL9ZroTHAZf625/7hlReKSHx5E/X
+	 ujj1Czq7HLgl5sgc86N/UZqJmKXs5sXug11u7ckU6kFsKZeFu8y2ivJczOV62YjaJO
+	 +HCznSqBIDkIwgkH35og13sT0N5yAszfd7Sosv/UfL/ncpPo13dT7INSEP9bD8Qifv
+	 x9OR4odB+qoi2Zp/6YzvsORLj3eUER7PaXs2RiLdKK505wnePKh/fIFJPEKvFjH3jb
+	 99ew1U06WRjPOp1dXTb0oM3PLvncpi9kyk82CSA6c9e07DUqyz2PSGKu2acRbKnOpo
+	 RTSgXB53nQebw==
 From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Alexandre Courbot <acourbot@nvidia.com>, Danilo Krummrich
- <dakr@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel
- Almeida <daniel.almeida@collabora.com>, Robin Murphy
- <robin.murphy@arm.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice
- Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple
- <apopple@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>, Timur
- Tabi <ttabi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, Eliot Courtney
- <ecourtney@nvidia.com>, driver-core@lists.linux.dev,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, Alexandre
- Courbot <acourbot@nvidia.com>
-Subject: Re: [PATCH 1/7] rust: dma: add from-slice constructors for Coherent
- and CoherentBox
-In-Reply-To: <20260321-b4-nova-dma-removal-v1-1-5cf18a75ff64@nvidia.com>
-References: <20260321-b4-nova-dma-removal-v1-0-5cf18a75ff64@nvidia.com>
- <r99CFQu3TYPszzRwFKk4ScZQe_PoyAt1xcTaUyx-TMwA2S3z9-7Wvd7FUtx2HQPo_P2nehNTu_0rfnXJKLMwxQ==@protonmail.internalid>
- <20260321-b4-nova-dma-removal-v1-1-5cf18a75ff64@nvidia.com>
-Date: Tue, 24 Mar 2026 15:29:37 +0100
-Message-ID: <875x6lz4fi.fsf@t14s.mail-host-address-is-not-set>
+To: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>,
+ aliceryhl@google.com, acourbot@nvidia.com, ojeda@kernel.org,
+ boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, tmgross@umich.edu, abdiel.janulgue@gmail.com,
+ daniel.almeida@collabora.com, robin.murphy@arm.com
+Cc: driver-core@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] rust: dma: add generalized container for types
+ other than slices
+In-Reply-To: <DHB2JCKXZ5ZN.LA5E3HY3YHGS@garyguo.net>
+References: <20260320194626.36263-1-dakr@kernel.org>
+ <8WwJUXIwwCnCTXlAJw77hgSFS-jjhGgfJQoyIaVPdDf99QqTFd1uHhEj56PCo9Ihv-koAQP7826Vpx8HZkKE5A==@protonmail.internalid>
+ <20260320194626.36263-3-dakr@kernel.org> <877br1qr6v.fsf@kernel.org>
+ <MfXnI_tAbjftGXdPiZWkQbZEmqAq3Fqd6UudPSK5GVeEK_lnU03F5MJcFcuaSNTf26g4UzcjPm6myrYKFUXz6w==@protonmail.internalid>
+ <DHB2JCKXZ5ZN.LA5E3HY3YHGS@garyguo.net>
+Date: Tue, 24 Mar 2026 15:37:35 +0100
+Message-ID: <87341pz428.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -58,24 +53,148 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-"Alexandre Courbot" <acourbot@nvidia.com> writes:
+"Gary Guo" <gary@garyguo.net> writes:
 
-> A very common pattern is to create a block of coherent memory with the
-> content of an already-existing slice of bytes (e.g. a loaded firmware
-> blob).
+> On Tue Mar 24, 2026 at 1:42 PM GMT, Andreas Hindborg wrote:
+>> "Danilo Krummrich" <dakr@kernel.org> writes:
+>>
+>>> +    /// Returns a reference to the data in the region.
+>>>      ///
+>>> -    /// # Examples
+>>> +    /// # Safety
+>>>      ///
+>>> -    /// ```
+>>> -    /// # use kernel::device::{Bound, Device};
+>>> -    /// use kernel::dma::{attrs::*, CoherentAllocation};
+>>> +    /// * Callers must ensure that the device does not read/write to/from memory while the returned
+>>> +    ///   slice is live.
+>>> +    /// * Callers must ensure that this call does not race with a write to the same region while
+>>> +    ///   the returned slice is live.
+>>> +    #[inline]
+>>> +    pub unsafe fn as_ref(&self) -> &T {
+>>> +        // SAFETY: per safety requirement.
+>>
+>> Is this enough? Don't you need to assert a valid bit pattern? I assume
+>> you get this from `FromBytes`, but that bound is not on `T` in this impl
+>> block.
 >
-> `CoherentBox` makes this easier, but still implies a potentially
-> panicking operation with `copy_from_slice` that requires a `PANIC`
-> comment.
+> Concetually `Coherent<T>` is a container of `T` so it should always hold a valid
+> bit pattern for the type. Perhaps this should be added to the type invariant.
 >
-> Add `from_slice_with_attrs` and `from_slice` methods to both `Coherent`
-> and `CoherentBox` to turn this into a trivial one-step operation.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> FromBytes is only needed at the constructor level as that's the only place where
+> you're asserting that initial bit pattern is valid.
 
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+Makes sense to add the invariant and assert at construction time.
 
-I like `?` more than `.map()` as well, but it's fine to me either way.
+>
+>
+>>
+>>> +        unsafe { &*self.as_ptr() }
+>>> +    }
+>>> +
+>>> +    /// Returns a mutable reference to the data in the region.
+>>>      ///
+>>> -    /// # fn test(dev: &Device<Bound>) -> Result {
+>>> -    /// let c: CoherentAllocation<u64> =
+>>> -    ///     CoherentAllocation::alloc_attrs(dev, 4, GFP_KERNEL, DMA_ATTR_NO_WARN)?;
+>>> -    /// # Ok::<(), Error>(()) }
+>>> -    /// ```
+>>> -    pub fn alloc_attrs(
+>>> +    /// # Safety
+>>> +    ///
+>>> +    /// * Callers must ensure that the device does not read/write to/from memory while the returned
+>>> +    ///   slice is live.
+>>> +    /// * Callers must ensure that this call does not race with a read or write to the same region
+>>> +    ///   while the returned slice is live.
+>>> +    #[expect(clippy::mut_from_ref, reason = "unsafe to use API")]
+>>> +    #[inline]
+>>> +    pub unsafe fn as_mut(&self) -> &mut T {
+>>> +        // SAFETY: per safety requirement.
+>>
+>> Same.
+>>
+>>> +        unsafe { &mut *self.as_mut_ptr() }
+>>> +    }
+>>> +
+>>> +    /// Reads the value of `field` and ensures that its type is [`FromBytes`].
+>>> +    ///
+>>> +    /// # Safety
+>>> +    ///
+>>> +    /// This must be called from the [`dma_read`] macro which ensures that the `field` pointer is
+>>> +    /// validated beforehand.
+>>> +    ///
+>>> [...]
+>>> +
+>>> +impl<T: AsBytes + FromBytes> Coherent<T> {
+>>> +    /// Allocates a region of `T` of coherent memory.
+>>> +    #[expect(unused)]
+>>> +    fn alloc_with_attrs(
+>>>          dev: &device::Device<Bound>,
+>>> -        count: usize,
+>>>          gfp_flags: kernel::alloc::Flags,
+>>>          dma_attrs: Attrs,
+>>> -    ) -> Result<CoherentAllocation<T>> {
+>>> -        build_assert!(
+>>> -            core::mem::size_of::<T>() > 0,
+>>> -            "It doesn't make sense for the allocated type to be a ZST"
+>>> -        );
+>>> +    ) -> Result<Self> {
+>>> +        const {
+>>> +            assert!(
+>>> +                core::mem::size_of::<T>() > 0,
+>>> +                "It doesn't make sense for the allocated type to be a ZST"
+>>> +            );
+>>> +        }
+>>>
+>>> -        let size = count
+>>> -            .checked_mul(core::mem::size_of::<T>())
+>>> -            .ok_or(EOVERFLOW)?;
+>>>          let mut dma_handle = 0;
+>>>          // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
+>>>          let addr = unsafe {
+>>>              bindings::dma_alloc_attrs(
+>>>                  dev.as_raw(),
+>>> -                size,
+>>> +                core::mem::size_of::<T>(),
+>>>                  &mut dma_handle,
+>>>                  gfp_flags.as_raw(),
+>>>                  dma_attrs.as_raw(),
+>>>              )
+>>>          };
+>>> -        let addr = NonNull::new(addr).ok_or(ENOMEM)?;
+>>> +        let cpu_addr = NonNull::new(addr.cast()).ok_or(ENOMEM)?;
+>>>          // INVARIANT:
+>>> -        // - We just successfully allocated a coherent region which is accessible for
+>>> -        //   `count` elements, hence the cpu address is valid. We also hold a refcounted reference
+>>> -        //   to the device.
+>>> -        // - The allocated `size` is equal to `size_of::<T> * count`.
+>>> -        // - The allocated `size` fits into a `usize`.
+>>> +        // - We just successfully allocated a coherent region which is adequately sized for `T`,
+>>> +        //   hence the cpu address is valid.
+>>
+>> The invariant says "valid for the lifetime", do you need to argue for
+>> the duration of the validity?
+>
+> It says "For the lifetime of an instance of ..." which is basically equal to
+> saying nothing. I think that part should just be removed.
+
+Sounds good.
+
+>
+>>
+>>> +        // - We also hold a refcounted reference to the device.
+>>
+>> This does not relate to the second invariant of `Self`.
+>
+> The second invariant is about size, which is addressed in the first bullet
+> point. This is about the third invariant, which the doc-comemnt just says "TODO"
+> currently.
+
+So it is not an invariant, and it should not be covered here.
+
+I would suggest that if you use bullet list both in definition and
+justification, please make sure the justification bullets match the
+definition bullets. If you need to, you can make sub-lists by indenting.
 
 
 Best regards,
