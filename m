@@ -1,200 +1,204 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021132.outbound.protection.outlook.com [52.101.100.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6885F23EAAD
-	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 14:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.132
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774450523; cv=fail; b=WRChn6bvhGfYoa7Bh+45c0kOp27buDirCNmxysvmCjRFjkkC6PjuraVncQmChRdYjPWsHO/yjqlsHfAHCtI5ByOzzmCBod3Lvs3scMGVlCkEIf2IVciwPetxeWOg8Bam20fngQQORkGdsN6ELQjfTONSy7E7lwrrZ0SKYaNXFAw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774450523; c=relaxed/simple;
-	bh=KdZ/w67473vpoG48/otBOvbPTlv/Umqd0kRGCRgtTi0=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=Xbiu2Ce9k6Z/NSgGOaq3roaFKCs3MVrXivYGt9O6OQHGXXppxEC8ywDoVK53hNXhBe4VkkPrIFtDKMc0fSBfJthSRCBIQzXjx5Ps4DiP2EiGhse6y476Z61kyqTVj2c2VDMBgpqyNqD6yDTRt04MRzPysdR4L6jX7F9bPAmUGAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=gPPx5UtP; arc=fail smtp.client-ip=52.101.100.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 461B3401A15
+	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 15:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774450873; cv=none; b=sN1d6Cuw0N1OFwAoTfkcAVdYhxPRKyzYkFEJ02PI0hpKq9XmO/dgAR1oc7Ik4jPCvkT/VFVTuxRhFZEnCnIMJEX30OUYYxtTeKKNNfo/v3ZHogxib1e6ltHT6MlMR6LPVCgWsHH1tjg5gXkSWORRHPsL7Z15XjUdrNqg1RsnjA8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774450873; c=relaxed/simple;
+	bh=a7NQo/J5/P/f7hvVR9hFwmXxRr8gN1CEw3zHucCtG6E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VT0rHNJbmnmXg32a9N5TlPzEdysWD4m2FpBGLwBj+kMXKAXWPKbAiokopw5QPKTwZHsTTzaTwNpTCTOyVF7WmPvVMA8fX+OmYN5Wv9bVjnCiI5OOfVz/2Dmor5lKxGllWN05e1NM2mnYEr3t+JJJjLN/QvVrLkNC0aBosO8Pavw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=A77I9Ovd; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="gPPx5UtP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gRaHB7CW5u+tS2pgnbrABSH7O0DYW6lHzNPe95Chd4G3qLY2dyT8ZoCbL1CYE13eC65T7ynpO90YPtLb8nlMgd8PbGRoAv9v7MhoMiw5JOPyohSfAKRQHauNIj8vpTK1SRdt6VZwcgH9KuECGlK9ZfCgt65kOtn1WRAHVuvmbbixOIRCiqyyaBYshotBpVccVC4G+sIims7K+g/O3PhAMxHt8H9MV/pt1eFXWkzR+G4uriSz7+EiqH5szuVzqrw5H8zW5OqZVUExpZfsBR24ATjk4cguezxCam7Y6uChKFp/5dHMagnluEscZdC8EZ+fV77klbKYrlXvgsMBcajZ9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zZj6M/YvMlO3sPD0GZKMWU1sa0bNM13zwzP1YjNC+8Y=;
- b=MmpTwBCt3UXqeK2Q1nyOavmfqq6T6TESeGIpGXM4Aq9sNCNnN9DgoUEWW2Ok5zCQTJiyDfP7RJtqC9hT5i9JlGQ2zGtI610NSRPv1M06rzZ5gUfurEkwVHKkwPZZDlzlVRrlIxMngK4AC/d3bq0sqodXV6wc/dt0o39TXBtdvSWOTIB7MBAzajsWoniHvGOvGRfcpkeEvLPfAicRLR1ObjYpRINqIvHSSkeALQnqfcRfEK26bVNerrx57dK4TAfnigp0LUWQjWustxmddMomk2mADRv7z+i8SIykojQvcWTWQoNJ0L3g8V/7GODDKweII0ru5OtD/LBoLDF+2/t84w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zZj6M/YvMlO3sPD0GZKMWU1sa0bNM13zwzP1YjNC+8Y=;
- b=gPPx5UtP5zz7SSpluQA1sEaKD+LRruOPeAUVSrgv56hWunOJxxFkMt9DNuK/tJ309JmRv6dIAtFKS5V7g8tlDciaXzb87emgd9tnOp9bcowwmqRyhhgq4LMhOtjaM95T1+ZDo6maHFH76DCrjjGsTEyRP7h9P7NexQ3OtbX2D6s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO7P265MB7762.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:414::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Wed, 25 Mar
- 2026 14:55:19 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9745.019; Wed, 25 Mar 2026
- 14:55:18 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Mar 2026 14:55:18 +0000
-Message-Id: <DHBY7MICRY6U.1YAZLYRZJTICG@garyguo.net>
-Cc: <acourbot@nvidia.com>, <aliceryhl@google.com>,
- <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
- <robin.murphy@arm.com>, <a.hindborg@kernel.org>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <tmgross@umich.edu>, <ttabi@nvidia.com>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 1/3] rust: uaccess: generalize write_dma() to accept any
- Coherent<T>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260325003921.3420-1-dakr@kernel.org>
- <DHBVS7DX89G2.34ELW7TJAH7M8@garyguo.net>
- <DHBWR17G0AIE.30MDYBUT7PNZL@kernel.org>
-In-Reply-To: <DHBWR17G0AIE.30MDYBUT7PNZL@kernel.org>
-X-ClientProxiedBy: LO4P123CA0657.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:316::6) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="A77I9Ovd"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83BB71F02;
+	Wed, 25 Mar 2026 08:01:04 -0700 (PDT)
+Received: from [10.1.196.85] (e121345-lin.cambridge.arm.com [10.1.196.85])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D6593F836;
+	Wed, 25 Mar 2026 08:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774450870; bh=a7NQo/J5/P/f7hvVR9hFwmXxRr8gN1CEw3zHucCtG6E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=A77I9OvdXlmLDiJez4OCMEu8JDK+WdvvCxiw4WdyCjbqtkPbM/2taq6tqrEV7Ensx
+	 HoTtVacINsb04xlQr5Gqblc/b9qoCkcn3FLboV5jbbjUkTf5rgQtPSlp2N5GvTg8mP
+	 pByNNPT7pUL1bhsJ/rC+H4PMArqPLI55OfvwwePE=
+Message-ID: <6cc25c83-6a5a-4785-9573-335371a94798@arm.com>
+Date: Wed, 25 Mar 2026 15:01:03 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO7P265MB7762:EE_
-X-MS-Office365-Filtering-Correlation-Id: c16ed98a-005f-4a0d-64d9-08de8a7e8824
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|366016|376014|7416014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	w7CF+Bsr5PRyst5hZoi1v1Int+MXZfsrpi9HxNDniXb4OPBXUa+gCg8KhUshSKLZX1UGCkmF5BNY/ikF5qvB5Brbe5F4Pq/OfJoAosGySwy86SgvNUm2IDdBicSYzxj7YGOso8G4orsmCUA+2NRq3kiqtozMrUkxquh8rAaQgE76VhK4nNDK4aE5qfXVjOKqhIU3hRV3xf/cNse25zKahLx0XqpRmtKKrr9SPheUDWYl3kXEeCeFizSqlEYJic9trrA+jFJgLtvUDzhqnk3iL2okB/P2AgJFW+ViOJ5bYAucuDNgdBC4qAK0DpCpqoyxVudqI5SpAd4UoSl19VbhEcoFv8jLSz5pOB0REwon+1Yl30kGWR3Kl+TaAmmrXmEKWEFf+irYwhn7n1noMv87WgE34fJCTxQIM1KVcwlXNSW22gLALECXdjdvb8ZNSnc0OTW+2Q2XQYhIRS6kzX2zK6UQvLAbsfm+V3tfE1Yq/lXhA+e7Vjh9wJ/qORpZNjwkWKqUyUHMPRMiGeLN5OaHXbiNB0qT1HYk8B5O1paarT0lK1A68cXCg/7gPl/LAuxnvfAr3drfK3+cKQGmIU4wAEdKY+FfWx2idNruVYrKQBpVxPepblg7bE/x5DzgIoX3i6AOVAU3Pt8MvP5WYvKlwmPMo8kRIvnN7q5Jaj8hJgHVRva/U1Dx0Q6QKAxPQya+eY7Nd9+WLdTBw/J7TZQoGMBH7anIPmieJOtKSQ03NVY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(7416014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UGtaM3VqRzdrNjkxNnlZNGJhZURJM2U3RkZBVlM0Y05nTjgrVk1ramlxOGd2?=
- =?utf-8?B?ZnlxV3UzVlhaZnNYd2RDTU1jUE1aVlJKZ1NzV3BxUTAwTmgwczBPbm01NGxB?=
- =?utf-8?B?ODV4TGh6R1Z6N25wbWppZzAyWEM2RnJGVnB6L0I3NFQ4UThoUlgyNUpjN3NK?=
- =?utf-8?B?WFhvZHh0M01obHNRTjA0Y2FGa1F0UVNVTlhVVmVQeHZBYUFXZVRwQUcwQ2M3?=
- =?utf-8?B?RGU0VWp0RWlXeU40QkxIREpHWVlpUjZxUnliY0VHRzUrZGRaeHU4M0lxb1dh?=
- =?utf-8?B?dzdNSmhTMTZ5dU1DZ3dXMTZObVE1WWhkbS95NHhud1loWUtOcmVrSGpnYkhF?=
- =?utf-8?B?WU5MNlVKTkt5WSt5YTdQVEZsSmYyUXFTL2htS2lqbE9rWE5UN1RSZWZhMUkz?=
- =?utf-8?B?anp2NGdKQkVZNGt0cUxZeXhWcTFDM1NTcFdyYjRzNVBVY3g2dG80elpaZHlT?=
- =?utf-8?B?R3JiNGxpVjJjN0RJeXhkZGtJeXhTQkVNeGFuNExtc3ZsMkxXczNkS01DUGow?=
- =?utf-8?B?QjdQZGlNRUtxQ0xyQ1JXNm94WUEySE8rY3d2Rm81c1pUTVNnblZaWENubFNn?=
- =?utf-8?B?SjVIcWZaQnRlQzR0L2tpRFRCUXpZSTJmdWlRcmkvS1JRVUFYWlQvYjZrUWxr?=
- =?utf-8?B?Nk5BL2xodjVObWNXZDZtWlgyblJZeVBQV2twTTFEV1N3QzVNWDRWUm1kSnE3?=
- =?utf-8?B?L3VzZVBleXJUSVJmSklIM1lVTHptelRabituQTBNWFZHYkFMWFVkcXhqMXdk?=
- =?utf-8?B?MkV0UUhTMUVWTEpDYlQzYWdJcGFGclJqNzZiejJKU1B5VTYwOFd2T3k0bjB1?=
- =?utf-8?B?cithQlpVWEQxdzdmQzJHNDkrQXZzdU9Nd2toRmpnaklOWFMrWVNmclBoNytk?=
- =?utf-8?B?QmRBMTFacURwTGZHckk0U21nTE1PdHcvSG9OVTJ2MmNHck5VekpyVXI1QzlD?=
- =?utf-8?B?a210Vnk3UHBoRlBXY0ZzSjVCaThoZEdNVUw3NklxK3RYZ0ZkbnQ1T2d3eVlN?=
- =?utf-8?B?U29FclJXbS9WdVREN1FsL2VYTzF2cDZlbUlGTmtRZExjWUV0STZmYlNuYVJJ?=
- =?utf-8?B?UmY3V3FpdlZ1UUNwcWJiTWNNWWZRRmYzSUhYQ2d6SmxoUFJJRVp1MVNBeU44?=
- =?utf-8?B?KzFqUWlqTlhKRUxtWTdOelJnZ1Bla0EweHRrY3ZKNEJmNkdkam56WVE3WU1k?=
- =?utf-8?B?dHVXdlZIODR5VHBEV3ZsS1RJK0xJU1ViUkwzU2lBTFZTWGRmZDAycXN3c2FO?=
- =?utf-8?B?Ujl2TXJacm1kMXJiZG04QU5tQzgyS1RsSFdWUVF5b0RsYU15RUxvNXdxSXU2?=
- =?utf-8?B?V3N2bnRWYlBJSFVSd3ljRjN4V3RQamh5bDBwNmxOZWxNcEthRWRZVXRNekdv?=
- =?utf-8?B?bkpudm1ZQmpGUFROTFl6OGJEbmdRS3F3SUp6eXJ4WTYvcE5xU1dBb01WQ0p6?=
- =?utf-8?B?UksyaUZiV3FUMU5VS0hpTEpaR2JLcGhVdDZFVGNqVHZjNzkvQXVNTTh4VSsw?=
- =?utf-8?B?alVVT2xKc3UyUGVxNE05Z2s3VHZHR3BxZ2w0alJiQ2VPak5TUjlhME10NUxL?=
- =?utf-8?B?NlpXeGF6SzYvVzM2SmVWM2tyK20vZWlDbTRXY1cyTGZkd0hqWmd2Mmpaenhz?=
- =?utf-8?B?bU1OMW9aSm5TT1BqMENpUkFUenBiUW5UUDNmQU53WVBvMC9SVmtYeXY2ZVND?=
- =?utf-8?B?TlpMamtZSmIvUXljOExhMUkwMFd3dUR6c3JQaG1OWHZwMGhTbEE4SE1oZ3hx?=
- =?utf-8?B?a3A1MlJkZStLcW5IcFdWRytscVpHUEZBdWE2WXVUWFZTUTFRc1RzQnJDWjc4?=
- =?utf-8?B?MWNoUGI3Vk9ZYzdzWFVNK2QwNEpNMnVRb2h0ajVla3VjL0M2YTB6VFJ3T0kx?=
- =?utf-8?B?VThmbWEydzNtZ1Y3ajhXZkpMVERJeDljR2Y0SVBkNFgwc2pVU0NKUUJlRSsx?=
- =?utf-8?B?UU9yeGh0SnJXcFhPVTROb1NhMHNZZ1pjMk1WeWhRYmVQVVdyTTVJWTBGWUZ4?=
- =?utf-8?B?ckd0andwMFBNYkl6MHhVRjIvZzVnTHgwM3JHWUhNWHlTNmhQalJjMlgwVkZC?=
- =?utf-8?B?V2s2V0VIeE9VdCtLUGp5MlNRSS9EVFdaWXRxb0ZaRFVCZlJZNFA2ZmhOZ1JK?=
- =?utf-8?B?T0ozMUZxcVlEdXc3UWo2UlI2aXZ4RFIrK0s0M0ZkSHZpa0FYVXRyRVJJdUc0?=
- =?utf-8?B?WjRxcHV3aGxFU2ZjcXFyVXIreHJWTXM1M01WTzlpT2JoaXcvbWE1N25UZkk0?=
- =?utf-8?B?TjZ1VXE2QW5nWldXY3kvS09KWnJ2cmxjdkdBeHpOWkg3WFVvNnlHMCtXTDVJ?=
- =?utf-8?B?bkh2YzRDMitkY0YvY1NZV01JM0o3eEcrQmdHK0I3eWNtYkMyUitPZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: c16ed98a-005f-4a0d-64d9-08de8a7e8824
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 14:55:18.9054
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zx1nXChAN7WXnZnm+yjiSfhYjXKVYK8RG43Oq0fRAJLNQ88Ys3IysQV+DHF63PpGdJzhwLLb9R2AF2Oi9FdgGQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7762
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] PCI: dw-rockchip: Enable async probe by default
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Heiko Stuebner <heiko@sntech.de>, Niklas Cassel <cassel@kernel.org>,
+ Shawn Lin <shawn.lin@rock-chips.com>, Hans Zhang <18255117159@163.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>, linux-pci@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Anand Moon <linux.amoon@gmail.com>,
+ Grimmauld <grimmauld@grimmauld.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, driver-core@lists.linux.dev,
+ Lukas Wunner <lukas@wunner.de>
+References: <20260226101032.1042-1-linux.amoon@gmail.com>
+ <177260693908.10259.13055467642416391434.b4-ty@kernel.org>
+ <87bc37ee-234c-4568-b72e-955c130a6838@arm.com>
+ <f7tfshf7riljjibuqge4ubfjmludubpyh3ppdf6lasurzdzbtj@sw4xxagfhnn3>
+ <5d88fb5b-e771-4ea6-8d2c-c5cfd21e5860@arm.com>
+ <qwanhqrpztzkudik5fmberhabnzaly7v53677dohqzj5nq4wi2@6ndpiubyxcbi>
+ <DGZXF3LPSRK6.2QYN63QTKUQAX@kernel.org>
+ <cp5uktfqdf6zs53qsye57ior2ikmssgevxxdtevkzpisaif22h@7mrxspkuibow>
+ <DH09EDBW3X6T.2996UB1CFCAW2@kernel.org>
+ <55c28218-1638-4b90-a9cd-a177fb5abcb6@arm.com> <acNgUoWWMCi1oLU4@google.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <acNgUoWWMCi1oLU4@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed Mar 25, 2026 at 1:46 PM GMT, Danilo Krummrich wrote:
-> On Wed Mar 25, 2026 at 2:01 PM CET, Gary Guo wrote:
->> I think there is a reason, which is that it weakens the strong typing th=
-at we
->> have. I think it'll be better to have this be
+On 25/03/2026 4:13 am, Dmitry Torokhov wrote:
+> On Thu, Mar 12, 2026 at 12:48:36PM +0000, Robin Murphy wrote:
+>> On 2026-03-11 9:09 pm, Danilo Krummrich wrote:
+>>> On Wed Mar 11, 2026 at 1:28 PM CET, Manivannan Sadhasivam wrote:
+>>>> On Wed, Mar 11, 2026 at 12:46:03PM +0100, Danilo Krummrich wrote:
+>>>>> On Wed Mar 11, 2026 at 6:24 AM CET, Manivannan Sadhasivam wrote:
+>>>>>> I have a contrary view here. If just a single driver or lib doesn't handle async
+>>>>>> probe, it cannot just force other drivers to not take the advantage of async
+>>>>>> probe. As I said above, enabling async probe easily saves a few hunderd ms or
+>>>>>> even more if there are more than one Root Port or Root Complex in an SoC.
+>>>>>
+>>>>> Then the driver or lib has to be fixed / improved first or the driver core has
+>>>>> to be enabled to deal with a case where PROBE_FORCE_SYNCHRONOUS is requested
+>>>>> from an async path, etc.
+>>>>>
+>>>>> In any case, applying the patch and breaking things (knowingly?) doesn't seem
+>>>>> like the correct approach.
+>>>>>
+>>>>>> I strongly agree with you here that the underlying issue should be fixed. But
+>>>>>> the real impact to end users is not this splat, but not having the boot time
+>>>>>> optimization that this patch brings in. As an end user, one would want their
+>>>>>> systems to boot quickly and they wouldn't bother much about a harmless warning
+>>>>>> splat appearing in the dmesg log.
+>>>>>
+>>>>> You mean quickly booting into a "harmless" potential deadlock condition the
+>>>>> warning splat tries to make people aware of? :)
+>>>>>
+>>>>
+>>>> Hmm, I overlooked the built-as-module part where the deadlock could be possible
+>>>> as indicated by the comment about the WARN_ON_ONCE().
+>>>>
+>>>> But what is the path forward here? Do you want the phylib to fix the
+>>>> request_module() call or fix the driver core instead?
+>>>
+>>> Here are a few thoughts.
+>>>
+>>> In general, I think the best would be to get rid of the (affected)
+>>> PROBE_FORCE_SYNCHRONOUS cases.
+>>>
+>>> Now, I guess this can be pretty hard for a PCI controller driver, as you can't
+>>> really predict what ends up being probed from you async context, i.e. it could
+>>> even be some other bus controller and things could even propagate further.
+>>>
+>>> Not sure how big of a deal it is in practice though, there are not a lot of
+>>> PROBE_FORCE_SYNCHRONOUS drivers (left), but note that specifying neither
+>>> PROBE_FORCE_SYNCHRONOUS nor PROBE_PREFER_ASYNCHRONOUS currently results in
+>>> synchronous by default.
+>>>
+>>> (Also, quite some other PCI controller drivers do set PROBE_PREFER_ASYNCHRONOUS
+>>> and apparently got lucky with it.)
+>>>
+>>>   From a driver-core perspective I think we're rather limited on what we can do;
+>>> we are already in async context at this point and can't magically go back to
+>>> initcall context.
+>>>
+>>> So, the only thing I can think of is to kick off work on a workqueue, which in
+>>> the end would be the same as the deferred probe handling.
 >>
->>     fn write_dma<T>(&mut self, view: View<'_, Coherent<T>, [u8]>, offset=
-: usize) -> Result
-
-Correcting myself, this will be
-
-    fn write_dma<T>(&mut self, view: View<'_, Coherent<T>, [u8]>) -> Result
-
-(without offset, similar to the write_slice).
-
+>> Hmm, in fact, isn't the deferred probe mechanism itself actually quite
+>> appropriate? A suitable calling context isn't the most obvious "resource
+>> provider" to wait for, but ultimately it's still a case of "we don't
+>> have everything we need right now, but it's worth trying again soon".
+>> I may have missed some subtleties, but my instinct is that it could
+>> perhaps be as simple as something like this (completely untested).
 >>
->> once we have I/O view and expect people to create cast views into bytes
->> explicitly.
+>> Cheers,
+>> Robin.
 >>
->
-> There is technically no difference between the above and the below, excep=
-t that
-> for the above the user has to create the View first, i.e. it needs additi=
-onal
-> code. What's the advantage?
+>> ----->8-----
+>>
+>> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+>> index bea8da5f8a3a..3c4a0207ae3f 100644
+>> --- a/drivers/base/dd.c
+>> +++ b/drivers/base/dd.c
+>> @@ -954,6 +954,16 @@ static int __device_attach_driver(struct device_driver *drv, void *_data)
+>>   	if (data->check_async && async_allowed != data->want_async)
+>>   		return 0;
+>> +	/*
+>> +	 * Bus drivers may probe asynchronously, but be adding a child device
+>> +	 * whose driver still wants a synchronous probe. In this case, just
+>> +	 * defer it, to be triggered by the parent driver probe succeeding.
+>> +	 */
+>> +	if (!async_allowed && current_is_async()) {
+>> +		driver_deferred_probe_add(dev);
+>> +		return 0;
+>> +	}
+> 
+> That means that you are kicking the majority devices (for now) into
+> deferral path. I do not think this is optimal.
 
-It prevents misuses. If you have a `[u8]` or `[u8; SIZE]` already, the chan=
-ge is
-going to be small:
+And probing drivers under conditions where they may go wrong or deadlock 
+is better? I've not yet had a chance to actually test this myself to see 
+the effect on timings, but whatever it might be, I can't imagine any 
+*other* method of re-serialising child driver probes could be 
+significantly better (or if it could be, that might represent some 
+improvement we could make to the deferred probe mechanism in general 
+anyway).
 
-    u.write_dma(c, offset, count)
+I have finally got a bit of time this afternoon to pick this up again, 
+so I'll have a play and try to finish the write-up capturing all the 
+reasoning so far (it's a long one...)
 
-vs.
+> Does phy really need to request modules synchronously (and on its own)?
+> Why can't it rely on udev to load the modules and signal when phy
+> devices are ready?
 
-    u.write_dma(io_project!(c, [offset..][..count]))
+Getting hung up on what phylib does in this one particular case is 
+rather missing the point. There is a reason that we're still not forcing 
+async_probe on for everything by default. Many drivers will still not 
+have been tested and validated to handle it correctly, and while the 
+majority of latent issues will likely just be concurrency bugs which can 
+be fixed with better locking or whatever, even then we should be 
+encouraging developers to actively test and look for such bugs to make 
+their drivers "async probe clean", rather than knowingly enabling bugs 
+to surface in the wild as weird and subtle breakage on end-user systems.
 
-[
-    PS. it looks like with current proposals w/ virtual places, we might be=
- able
-    to get this written as
+However, I imagine there will always remain some small minority of 
+PROBE_FORCE_SYNCHRONOUS drivers - either for niche legitimate technical 
+reasons, or just legacy drivers where updating them would take more 
+effort than it's worth - so the driver core surely needs the ability to 
+not do the wrong thing itself. That doesn't even need to be "optimal", 
+it just needs to be functionally correct.
 
-        u.write_dma(c[offset..][..count])
+Thanks,
+Robin.
 
-    a few years down the road if we're successful.
-]
-
-However, using a view will prevent you from feeding an arbitary
-`Coherent<FooBar>` and just write it to user space. `offset` and `count` in=
- the
-API really doesn't make too much sense at all if `T` is not array/slice of =
-u8.
-
-Best,
-Gary
-
->
->>> +    pub fn write_dma<T: KnownSize + AsBytes + ?Sized>(
->>> +        &mut self,
->>> +        alloc: &Coherent<T>,
->>> +        offset: usize,
->>> +        count: usize,
->>> +    ) -> Result {
+> 
+> Seems like a deficiency on PHY subsystem that is stuck in times long
+> past.
+> 
+> Thanks.
+> 
 
