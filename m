@@ -1,160 +1,410 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013052.outbound.protection.outlook.com [52.101.83.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f77.google.com (mail-ot1-f77.google.com [209.85.210.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008F33D090E;
-	Wed, 25 Mar 2026 12:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774440103; cv=fail; b=LQCjRsiPCUg13elRmu822NHuAwniDcbIvXWhVfpF/VfH/fgW9h44Bhs6tVq+LInzEB4Z21oaEDj7L3jVu32BqYqhJHRkNoObyvdvzqqsEqcGw9dZ5gH17AJthh94n36cowD8mMKEBMyAtwtT+tdHkZo1OgpMbdnzLs/ZTJxF+hY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774440103; c=relaxed/simple;
-	bh=bD7/HF24zKgnTWfvev0x/cUoxzSw93efU3aTxhBBUVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Amhw7Uf5WtnvZ4nDzddlq45eEJbTjVjfyauKrIq4eRy9HmtQwP6oIo1/47BZW1fYxsgzv9IkRPz15tSW4sMSHddI+A3fDNHpX5CQAvjF7DuId1YQ+TJ9Eaeze+9o5rbWedP+LVetJeUe7CEm6elmBu4Ng4SBr1eIyTug3Aq3J8g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=J7wS3kOI; arc=fail smtp.client-ip=52.101.83.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="J7wS3kOI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kttRFgI2/iylIRsj5YKB10FAyWAymytV5Lq2Au/ItdO/sXFz8Ow659hb8KKMq+gHsxYaakF/46S7IaN/3KDvO/5kyPTzlAx+JQRVhCIFRO+EFWxmXy9RjS3wr05ooQvgLdEBR4lyG9MItZZPiomX4sp+Da4DZigG6GfO9hBwczfJTuxw+hT/eW8FoNSc04UPMN2RL5jtEX1n1CkghV/zxGYua9ZHEN+wDhHz5jnQ2rSv06nT/DFcrzpeBzLagtSSqX5CO76TgT/myxzMgWrLYmxGpYppKg1WMhY+OxFuUoXZ9bRSenrtN9qBMyx3Gm8K63RDCZAAmQn+rTlDfNo1jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YXXBntpqyuvabK9QKfgQGbDJFMmQc0BuxpCyE+N0g9M=;
- b=LrQ3k0K7bQbLI7Ga/VdoS9zgSx0tF/y38T2czp4oQfSdl50dc1Bbj35Id8ErsxEFGUAZ3aUtRKGy9L/Nxq/IsFesr4kUloiYWhJXZYsDgHOKMM2QInNDDdK+6p9jWSbDIQkkyWgttVkLBz4Su06qJn45bnVYwqsss+NMRS2YRlijnuUpfw0AlXxrVnvqXuIw88tsNLBhvvKIDkjoT86Sv/CeS8mcfHZzA+C7tmoBHPPjiQE7do2lwMtrvDlPScc6taJeAgXUXVEjBF88cSgelNRuW276dFNy9exbssWFnhiV35VBQwVHomgtWnKX+lSIvBr09/gpjSSmQMYyMaiLYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YXXBntpqyuvabK9QKfgQGbDJFMmQc0BuxpCyE+N0g9M=;
- b=J7wS3kOIzOp/PM1Yoou83qDqv3RnBDES7+thUv0J/24R3LLR10nSMH9la88tBzqfn8aMvhoh/Fth2vqnZUhdNydapTA9hesLUSFZjoncUjWs+LE+FjJMnVVxBe/JkmMvL5F3lhA0Ak/TxLUmBgyeIP4gdk0Qvd4xkvBz5ZGktJwAIGEHKiVf169FqLaIHUUUk/A9EDg4vbRDMSWQCos9KeHmaaGo3qyNZr0cwK4vKIvQFTSPpC+EKroRKgLqr2bT8xNcbmAZs20jB2tNF4CP8lkGOjUHTfaAaMC/PGbNjAq1A7WayuEduk5jVOkpEpNgdWzWoNsOxmW9VzvUPlOZug==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8253.eurprd04.prod.outlook.com (2603:10a6:102:1bf::7)
- by PAXPR04MB8989.eurprd04.prod.outlook.com (2603:10a6:102:20c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Wed, 25 Mar
- 2026 12:01:36 +0000
-Received: from PAXPR04MB8253.eurprd04.prod.outlook.com
- ([fe80::2b4e:8130:4419:d633]) by PAXPR04MB8253.eurprd04.prod.outlook.com
- ([fe80::2b4e:8130:4419:d633%3]) with mapi id 15.20.9745.019; Wed, 25 Mar 2026
- 12:01:36 +0000
-Date: Wed, 25 Mar 2026 14:01:29 +0200
-From: Ioana Ciornei <ioana.ciornei@nxp.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Russell King <linux@armlinux.org.uk>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>, 
-	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Armin Wolf <W_Armin@gmx.de>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Vineeth Vijayan <vneethv@linux.ibm.com>, Peter Oberparleiter <oberpar@linux.ibm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Harald Freudenberger <freude@linux.ibm.com>, 
-	Holger Dengler <dengler@linux.ibm.com>, Mark Brown <broonie@kernel.org>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio =?utf-8?B?UMSCwqlyZXo=?= <eperezma@redhat.com>, 
-	Alex Williamson <alex@shazbot.org>, Juergen Gross <jgross@suse.com>, 
-	Stefano Stabellini <sstabellini@kernel.org>, Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-spi@vger.kernel.org, virtualization@lists.linux.dev, 
-	kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-arm-kernel@lists.infradead.org, Gui-Dong Han <hanguidong02@gmail.com>
-Subject: Re: [PATCH 02/12] bus: fsl-mc: use generic driver_override
- infrastructure
-Message-ID: <cvcetxkxjq2tz6n2vsofhyzove3qdi2e4r6rq6yxou3joejk2h@rmt5ygav7ssu>
-References: <20260324005919.2408620-1-dakr@kernel.org>
- <20260324005919.2408620-3-dakr@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260324005919.2408620-3-dakr@kernel.org>
-X-ClientProxiedBy: AM8P189CA0012.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::17) To PAXPR04MB8253.eurprd04.prod.outlook.com
- (2603:10a6:102:1bf::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A873CEBA5
+	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 12:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774442608; cv=none; b=Cv7wHxkjIfzUQ3ZpLKkvtDPE/5gZ6oetdzJ3/BV4Aj8OSYgVK9+PHZUP5CivAeMWCpvCdi2SZnjy7Q1PKI1UDDawCKRZA32wZcJbUM2/oLZ3gnyEWcSSALXfu0RdKDvUxkP1LSggsYFPcvlIbTCeS8qmL45r/giEjBt3kw4/x8E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774442608; c=relaxed/simple;
+	bh=soJmySXvbkuEZ9jgWqH+xwtDE73MCNW21lsKBvMY61s=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=BLbSSY9N+PSPzVo7acUXeFKMlY9T+dUZPJXuc3r9PPIhnZxRaU0o8UlfjO0voKXLbGhrf0vcz4eI7Frl89MM6u/EYK56biVEDccaQFLzf9MoGqf+fk3TWJYmjhJ5LMnKPhCI0KZYCOW4kVx5gqzkwIp8X87K9YFEtOtjj0cYCik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f77.google.com with SMTP id 46e09a7af769-7d7e0787438so19576434a34.2
+        for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 05:43:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774442605; x=1775047405;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UyFw2bSyMQ70U/GG78uFflBW+dktjUduSwnBfNkMoDk=;
+        b=OkvtC+F+DqCggwb9vIIj2GxetaOaMza/qTZ/J0CPnKazZtyr2vvfB05WAKmZM/uHXg
+         mPNE80JVbjzFbGlEpVJSYY1XJ+ZbmgtFikLypN4RGPymxzFWZ2rHYTPzI/WbpDPwPOa0
+         0zmv5Mnsb/69XJtwjbsWx7FH6Ahi8LP0BNGU4Bmyr8vGks/pSJ12chkivv+TjsYpkvxu
+         OYX+xxtMFu0MZAosMD4BJOi3ZKuIcWOuzj9xkL92fOoQSHowlGX0u5sTueOVV7vXkFLm
+         LHLz4wo+4BX+Ab2DfrZMAemO28kBYMMOXNULad324rxHutS5G67ALKG6A46R0BfTi7to
+         fZPQ==
+X-Gm-Message-State: AOJu0YzAhLc0Dv3eH+mJ+hCsZd6senRPhDUO4BTEHxPf27vJ0PaSKlox
+	sIzcB/nl6xxJckBPEQ2ClWFMoEKesmByEK/0bxVMNIhgeOioXcNYcIWeXrZvSyoCz1JHbsnednL
+	oQbX/gCjLBj5xCMtzF2SrMS2JAaKTFCBjvPkPGDXrwm545CbHrO/wsQtNqUg7Aw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8253:EE_|PAXPR04MB8989:EE_
-X-MS-Office365-Filtering-Correlation-Id: 444f69f3-3f50-4dac-40a4-08de8a664393
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|19092799006|366016|56012099003|7053199007|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	YauE1OL9qVz6Ghkd3J4iiweYC+KTDcwgtVBRc6SzyGeDcIvAqr9GqhVgU2IK4k2+zD1XxZPGsKYLsEqiaS8RfvJO+yGdO9WoswEWIvqsqEFASVmWheIaYF6Je+a++RK8CPtKoUmtGv0bPuHQKh69kpeVWHxQA8bfzVd9gd2G4mJHqF2R/yvxG+kaFflL98lVbOhBJZVh46//CdTR5tE+vo9FZKLdM/PRl0QIa3bNJbT1IaRCJM+wNaaqNBIzvTqtbT98uIsOogkVCldOOrVdOIf3BEt28eAOqFMZ+TV6ETNq7EP8+961S1GpXqtc3J70y71lXxATEDMw4M7LruoJUvQCiEtLcFoE1s1XQG91q/Nj6FXkloupIpOwpO473+cAm5hHdWM8Lk7DN4mhymvIm8xrXzQomkVk0NxAwKEqKbG1hLhuQNb9GFMLvFeZE7wHopHrdCggnTb1OInKne9bPE5qCv6pjzjBvuCNuCasTBGwOUxQunyzQ3hhubR4Y5OBTIbDBTi+2fWt6pSW58kN8BCEXnWy5UvBhChefiek3+SDDzHh8IC6jKp5Z97r8VmNAfpxZw2XP05S5Ns/ZXQeLnXH57l5nV+ceXhGsEnYLBhJBHqGuDr3dTgOpwloRdJVUaA27Kw+UJgstnRgDw4BljSRQ1rbyIFnP2TZ5QuxCAsf0Q+eVAioW0X7cYqdNsEmIbHoBc2xrdOVB3nvcWTPoD2bk6N4r430UGOrsCSf/nI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8253.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(19092799006)(366016)(56012099003)(7053199007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?wCOZvBxNyCZSbHbedjI2V2n4mKP/k/5gUrgXOwWGXKwOn843BAEy0H3Lu4Jf?=
- =?us-ascii?Q?t44F1A4mUDlyXUpBILTQsalQEZqPTb+cgccdo7yvS+9mDAmiACTuVKmRxjl7?=
- =?us-ascii?Q?M9InKZa5Am5jYZR+Y6nl4ZdHDTt+hCMDHFlOxI8riOBJRZnOAJTz6yzIxFaW?=
- =?us-ascii?Q?NuMDAuy0o8Seeb2//8zVOsrPkVe3gADXMwB6++DuHMeIgAiNc+QyX8DkXR5q?=
- =?us-ascii?Q?aXO5ih1Tyr4trPF30eexsGtUxbZX/V34UnBKtUiXaYtMXX9HbRMMTpbk92Gt?=
- =?us-ascii?Q?W3VVjo6p1M/5FsoqIX6FIBBE04QhKDSZIjs2/bYt7tHIfc+gW/pXT3ErP3Pg?=
- =?us-ascii?Q?Qt23L/3abciooF+nRzpRJO+oiAGqlsGlj8DFB3f4iExSOluU3feBUrelvZWZ?=
- =?us-ascii?Q?FxSnZY09HaUgZUBPbbvoMIt3wbRpiW5bmvMMr940BU+Q3A16vVDypKtcz3NV?=
- =?us-ascii?Q?BU0Ai/kGVJmc8saIbewJrV7vIIOx9ablRosiAQQpIPpLGSNdnB/PM5htvMOd?=
- =?us-ascii?Q?tY3Cqz+BLDwhYnCGEBFjg52OnkE8ZrA8OpAQPUXis7s9E/fs7Es7xl2IyPKX?=
- =?us-ascii?Q?V7kOH3wgDFGeIdk7u4bQcFKCuIWl7nqfG/FWiXnb8NouOGV5DjHiFcog3DG9?=
- =?us-ascii?Q?D3NwL0JdIPZlmBs+gt4O4kPQNcuuailEOeHJZWjQjdbP3DajBo3zTqnqaA4O?=
- =?us-ascii?Q?gcbrXQjGO/JlVf7IAR7Xj9as5QqU/RiCVFD2Kf4P9AqJrbGbb7paHfrs+ghk?=
- =?us-ascii?Q?B5dSKXfEUK9B9FDjyJ93sA3zJphdWq8KRjLbs0MF24LtTWFyB/a1sPoQfaY7?=
- =?us-ascii?Q?1zjFk06ZXuV00pBCIc7/0lmVkFqzmc81hUg6Ezs4fYmUMbzjyImSJkNC/Sqs?=
- =?us-ascii?Q?WohdgnB6eAaLAyYHxSO9ChXnD2BFaDtkPBzhNiyCIoT78MxbQPbT2auRlzDC?=
- =?us-ascii?Q?v+jj3XxnIFr/JFs1Qcq8L6SZ4dYzvAQrfNQbx8aCfUpQhn/Hm0OoXMY1eXdQ?=
- =?us-ascii?Q?2YtNVHLe5xsnkRrmnSasZ/8Vhs0RclkimVYpMzvWd+2VhUKS1HNh+0PGXCLe?=
- =?us-ascii?Q?aW2prGUn9xxanWMbaMLFsxrRFF0jdUZNStlj455tQaK/4JyvBzmTFz+GYGv0?=
- =?us-ascii?Q?SKKHB5GUNuTYcMNxcbmcbn4DNkC2IyYPpM2R/Z6FTxYHx1MTZnpWN/WrIrst?=
- =?us-ascii?Q?hpTDu1KHxUK3hzNP1zioROI0d1O3u2bHMyK6Oe0dISAyEbs+/swDAEQuQSJM?=
- =?us-ascii?Q?oMJZ6UFrgjS3+94++VT/pbI7PFmWnZiEIOnCkYqGC9Ip6y6KIcMc6Na6G5+p?=
- =?us-ascii?Q?oK2MFDEYv0QtNh92FmTJn/Q3Laz5Qm7zQahprTiJbJYTHxmHwhwGruDzKrLx?=
- =?us-ascii?Q?Dtwe5YakcFHXbUyqLxoipZvV6ysWEsbAM2nO1VYpddukv9PWHPrxRQm8l5A7?=
- =?us-ascii?Q?0tyBj3eFzm9quJ+hx/7kBMUz87EFfDU0j82a8ylOOTuRtMqApXfhMjI7kEzB?=
- =?us-ascii?Q?u+H9bPwh+nLvLbW9uXZj5JjZaAy23me2qngR1rLKYU8CiT8GwTcSYRwWw54W?=
- =?us-ascii?Q?p+dVtKlYG+ALObSrmAromuRz7Yxo9Dhfv2pIVyJ46WHdX6+8yYfBZQijauNP?=
- =?us-ascii?Q?E+YNOs80TCBLXN3dW0tPjl711h0vaRrW5uqL5qfhEkGoQyn/iuS4IB//Jo1u?=
- =?us-ascii?Q?k6YfWxq4S/jk9UJRRJ2uNOSdmAu29mvcMsK+yqML/1LIa1SBVvmCnZM3ZcZp?=
- =?us-ascii?Q?GB9hLE4kFg=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 444f69f3-3f50-4dac-40a4-08de8a664393
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8253.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 12:01:36.0520
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Chgczccg4htJAVG6e4L1PTVeI+yR3WIw7pB21S+3KjxkMI90qw6f2G+r96bnAJFWq8f6hC+FMUaXR7ipTyy5SA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8989
+X-Received: by 2002:a05:6820:221d:b0:67b:afd7:ab03 with SMTP id
+ 006d021491bc7-67dff3d07bamr1693456eaf.7.1774442605687; Wed, 25 Mar 2026
+ 05:43:25 -0700 (PDT)
+Date: Wed, 25 Mar 2026 05:43:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69c3d86d.a70a0220.234938.0050.GAE@google.com>
+Subject: [syzbot] [kernfs?] possible deadlock in kernfs_iop_setattr
+From: syzbot <syzbot+98b54002b447b9825ad0@syzkaller.appspotmail.com>
+To: driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 24, 2026 at 01:59:06AM +0100, Danilo Krummrich wrote:
-> When a driver is probed through __driver_attach(), the bus' match()
-> callback is called without the device lock held, thus accessing the
-> driver_override field without a lock, which can cause a UAF.
-> 
-> Fix this by using the driver-core driver_override infrastructure taking
-> care of proper locking internally.
-> 
-> Note that calling match() from __driver_attach() without the device lock
-> held is intentional. [1]
-> 
-> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/ [1]
-> Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220789
-> Fixes: 1f86a00c1159 ("bus/fsl-mc: add support for 'driver_override' in the mc-bus")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Hello,
 
-Tested-by: Ioana Ciornei <ioana.ciornei@nxp.com>
-Signed-off-by: Ioana Ciornei <ioana.ciornei@nxp.com>
+syzbot found the following issue on:
 
+HEAD commit:    e069034bd660 Merge branch 'net-macb-fix-two-lock-warnings-..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=13cf606a580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6754c86e8d9e4c91
+dashboard link: https://syzkaller.appspot.com/bug?extid=98b54002b447b9825ad0
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/f16068fdd943/disk-e069034b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9e37fb157caa/vmlinux-e069034b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e29f095e41cd/bzImage-e069034b.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+98b54002b447b9825ad0@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz.3.5991/28469 is trying to acquire lock:
+ffffffff8e883040 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:317 [inline]
+ffffffff8e883040 (fs_reclaim){+.+.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:4489 [inline]
+ffffffff8e883040 (fs_reclaim){+.+.}-{0:0}, at: slab_alloc_node mm/slub.c:4843 [inline]
+ffffffff8e883040 (fs_reclaim){+.+.}-{0:0}, at: kmem_cache_alloc_noprof+0x40/0x650 mm/slub.c:4873
+
+but task is already holding lock:
+ffff888035aeea20 (&root->kernfs_iattr_rwsem){++++}-{4:4}, at: kernfs_iop_setattr+0x83/0x3f0 fs/kernfs/inode.c:123
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #7 (&root->kernfs_iattr_rwsem){++++}-{4:4}:
+       down_read+0x47/0x2e0 kernel/locking/rwsem.c:1537
+       kernfs_iop_permission+0x7f/0x430 fs/kernfs/inode.c:289
+       do_inode_permission fs/namei.c:578 [inline]
+       inode_permission+0x46f/0x5f0 fs/namei.c:648
+       cgroup_may_write kernel/cgroup/cgroup.c:5308 [inline]
+       cgroup_procs_write_permission kernel/cgroup/cgroup.c:5328 [inline]
+       cgroup_attach_permissions+0x286/0x9e0 kernel/cgroup/cgroup.c:5351
+       __cgroup_procs_write+0x23a/0x300 kernel/cgroup/cgroup.c:5394
+       cgroup_threads_write+0x24/0x50 kernel/cgroup/cgroup.c:5424
+       cgroup_file_write+0x36f/0x790 kernel/cgroup/cgroup.c:4310
+       kernfs_fop_write_iter+0x3af/0x540 fs/kernfs/file.c:352
+       new_sync_write fs/read_write.c:595 [inline]
+       vfs_write+0x61d/0xb90 fs/read_write.c:688
+       ksys_write+0x150/0x270 fs/read_write.c:740
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #6 (cpu_hotplug_lock){++++}-{0:0}:
+       percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
+       percpu_down_read include/linux/percpu-rwsem.h:77 [inline]
+       cpus_read_lock+0x42/0x160 kernel/cpu.c:490
+       static_key_slow_inc+0x12/0x30 kernel/jump_label.c:190
+       nbd_reconnect_socket drivers/block/nbd.c:1342 [inline]
+       nbd_genl_reconfigure+0x132f/0x1ea0 drivers/block/nbd.c:2431
+       genl_family_rcv_msg_doit+0x22a/0x330 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x61c/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x232/0x4b0 net/netlink/af_netlink.c:2550
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
+       netlink_unicast+0x80f/0x9b0 net/netlink/af_netlink.c:1344
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1894
+       sock_sendmsg_nosec net/socket.c:727 [inline]
+       __sock_sendmsg net/socket.c:742 [inline]
+       ____sys_sendmsg+0x972/0x9f0 net/socket.c:2592
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2646
+       __sys_sendmsg net/socket.c:2678 [inline]
+       __do_sys_sendmsg net/socket.c:2683 [inline]
+       __se_sys_sendmsg net/socket.c:2681 [inline]
+       __x64_sys_sendmsg+0x1bd/0x2a0 net/socket.c:2681
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #5 (&nsock->tx_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:614 [inline]
+       __mutex_lock+0x19f/0x1300 kernel/locking/mutex.c:776
+       nbd_handle_cmd drivers/block/nbd.c:1143 [inline]
+       nbd_queue_rq+0x37b/0x1100 drivers/block/nbd.c:1207
+       blk_mq_dispatch_rq_list+0xa70/0x1910 block/blk-mq.c:2148
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xdcc/0x1600 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_hw_queue+0x348/0x4f0 block/blk-mq.c:2386
+       blk_mq_dispatch_list+0xd16/0xe10 include/linux/spinlock.h:-1
+       blk_mq_flush_plug_list+0x48d/0x570 block/blk-mq.c:2997
+       __blk_flush_plug+0x3ed/0x4d0 block/blk-core.c:1230
+       blk_finish_plug block/blk-core.c:1257 [inline]
+       __submit_bio+0x28d/0x580 block/blk-core.c:649
+       __submit_bio_noacct_mq block/blk-core.c:722 [inline]
+       submit_bio_noacct_nocheck+0x2f4/0xa70 block/blk-core.c:753
+       submit_bh fs/buffer.c:2826 [inline]
+       block_read_full_folio+0x599/0x830 fs/buffer.c:2444
+       filemap_read_folio+0x137/0x3b0 mm/filemap.c:2501
+       do_read_cache_folio+0x358/0x590 mm/filemap.c:4101
+       read_mapping_folio include/linux/pagemap.h:1028 [inline]
+       read_part_sector+0xb6/0x2b0 block/partitions/core.c:723
+       adfspart_check_ICS+0xa5/0xa40 block/partitions/acorn.c:360
+       check_partition block/partitions/core.c:142 [inline]
+       blk_add_partitions block/partitions/core.c:590 [inline]
+       bdev_disk_changed+0x7ba/0x1550 block/partitions/core.c:694
+       blkdev_get_whole+0x380/0x510 block/bdev.c:764
+       bdev_open+0x31e/0xd30 block/bdev.c:973
+       blkdev_open+0x470/0x610 block/fops.c:697
+       do_dentry_open+0x785/0x14e0 fs/open.c:949
+       vfs_open+0x3b/0x340 fs/open.c:1081
+       do_open fs/namei.c:4671 [inline]
+       path_openat+0x2e08/0x3860 fs/namei.c:4830
+       do_file_open+0x23e/0x4a0 fs/namei.c:4859
+       do_sys_openat2+0x113/0x200 fs/open.c:1366
+       do_sys_open fs/open.c:1372 [inline]
+       __do_sys_openat fs/open.c:1388 [inline]
+       __se_sys_openat fs/open.c:1383 [inline]
+       __x64_sys_openat+0x138/0x170 fs/open.c:1383
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #4 (&cmd->lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:614 [inline]
+       __mutex_lock+0x19f/0x1300 kernel/locking/mutex.c:776
+       nbd_queue_rq+0xc6/0x1100 drivers/block/nbd.c:1199
+       blk_mq_dispatch_rq_list+0xa70/0x1910 block/blk-mq.c:2148
+       __blk_mq_do_dispatch_sched block/blk-mq-sched.c:168 [inline]
+       blk_mq_do_dispatch_sched block/blk-mq-sched.c:182 [inline]
+       __blk_mq_sched_dispatch_requests+0xdcc/0x1600 block/blk-mq-sched.c:307
+       blk_mq_sched_dispatch_requests+0xd7/0x190 block/blk-mq-sched.c:329
+       blk_mq_run_hw_queue+0x348/0x4f0 block/blk-mq.c:2386
+       blk_mq_dispatch_list+0xd16/0xe10 include/linux/spinlock.h:-1
+       blk_mq_flush_plug_list+0x48d/0x570 block/blk-mq.c:2997
+       __blk_flush_plug+0x3ed/0x4d0 block/blk-core.c:1230
+       blk_finish_plug block/blk-core.c:1257 [inline]
+       __submit_bio+0x28d/0x580 block/blk-core.c:649
+       __submit_bio_noacct_mq block/blk-core.c:722 [inline]
+       submit_bio_noacct_nocheck+0x2f4/0xa70 block/blk-core.c:753
+       submit_bh fs/buffer.c:2826 [inline]
+       block_read_full_folio+0x599/0x830 fs/buffer.c:2444
+       filemap_read_folio+0x137/0x3b0 mm/filemap.c:2501
+       do_read_cache_folio+0x358/0x590 mm/filemap.c:4101
+       read_mapping_folio include/linux/pagemap.h:1028 [inline]
+       read_part_sector+0xb6/0x2b0 block/partitions/core.c:723
+       adfspart_check_ICS+0xa5/0xa40 block/partitions/acorn.c:360
+       check_partition block/partitions/core.c:142 [inline]
+       blk_add_partitions block/partitions/core.c:590 [inline]
+       bdev_disk_changed+0x7ba/0x1550 block/partitions/core.c:694
+       blkdev_get_whole+0x380/0x510 block/bdev.c:764
+       bdev_open+0x31e/0xd30 block/bdev.c:973
+       blkdev_open+0x470/0x610 block/fops.c:697
+       do_dentry_open+0x785/0x14e0 fs/open.c:949
+       vfs_open+0x3b/0x340 fs/open.c:1081
+       do_open fs/namei.c:4671 [inline]
+       path_openat+0x2e08/0x3860 fs/namei.c:4830
+       do_file_open+0x23e/0x4a0 fs/namei.c:4859
+       do_sys_openat2+0x113/0x200 fs/open.c:1366
+       do_sys_open fs/open.c:1372 [inline]
+       __do_sys_openat fs/open.c:1388 [inline]
+       __se_sys_openat fs/open.c:1383 [inline]
+       __x64_sys_openat+0x138/0x170 fs/open.c:1383
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #3 (set->srcu){.+.+}-{0:0}:
+       srcu_lock_sync include/linux/srcu.h:199 [inline]
+       __synchronize_srcu+0xca/0x3e0 kernel/rcu/srcutree.c:1505
+       elevator_switch+0x1e8/0x7a0 block/elevator.c:576
+       elevator_change+0x2cc/0x450 block/elevator.c:681
+       elevator_set_default+0x36c/0x430 block/elevator.c:754
+       blk_register_queue+0x366/0x430 block/blk-sysfs.c:946
+       __add_disk+0x677/0xd50 block/genhd.c:528
+       add_disk_fwnode+0xfb/0x480 block/genhd.c:597
+       add_disk include/linux/blkdev.h:785 [inline]
+       nbd_dev_add+0x72c/0xb50 drivers/block/nbd.c:1984
+       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2692
+       do_one_initcall+0x250/0x8d0 init/main.c:1382
+       do_initcall_level+0x104/0x190 init/main.c:1444
+       do_initcalls+0x59/0xa0 init/main.c:1460
+       kernel_init_freeable+0x2a6/0x3e0 init/main.c:1692
+       kernel_init+0x1d/0x1d0 init/main.c:1582
+       ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #2 (&q->elevator_lock){+.+.}-{4:4}:
+       __mutex_lock_common kernel/locking/mutex.c:614 [inline]
+       __mutex_lock+0x19f/0x1300 kernel/locking/mutex.c:776
+       elevator_change+0x1b3/0x450 block/elevator.c:679
+       elevator_set_none+0xb5/0x140 block/elevator.c:769
+       blk_mq_elv_switch_none block/blk-mq.c:5110 [inline]
+       __blk_mq_update_nr_hw_queues block/blk-mq.c:5155 [inline]
+       blk_mq_update_nr_hw_queues+0x5e7/0x1a60 block/blk-mq.c:5220
+       nbd_start_device+0x17f/0xb10 drivers/block/nbd.c:1489
+       nbd_genl_connect+0x165b/0x1cf0 drivers/block/nbd.c:2239
+       genl_family_rcv_msg_doit+0x22a/0x330 net/netlink/genetlink.c:1114
+       genl_family_rcv_msg net/netlink/genetlink.c:1194 [inline]
+       genl_rcv_msg+0x61c/0x7a0 net/netlink/genetlink.c:1209
+       netlink_rcv_skb+0x232/0x4b0 net/netlink/af_netlink.c:2550
+       genl_rcv+0x28/0x40 net/netlink/genetlink.c:1218
+       netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
+       netlink_unicast+0x80f/0x9b0 net/netlink/af_netlink.c:1344
+       netlink_sendmsg+0x813/0xb40 net/netlink/af_netlink.c:1894
+       sock_sendmsg_nosec net/socket.c:727 [inline]
+       __sock_sendmsg net/socket.c:742 [inline]
+       ____sys_sendmsg+0x972/0x9f0 net/socket.c:2592
+       ___sys_sendmsg+0x2a5/0x360 net/socket.c:2646
+       __sys_sendmsg net/socket.c:2678 [inline]
+       __do_sys_sendmsg net/socket.c:2683 [inline]
+       __se_sys_sendmsg net/socket.c:2681 [inline]
+       __x64_sys_sendmsg+0x1bd/0x2a0 net/socket.c:2681
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&q->q_usage_counter(io)#50){++++}-{0:0}:
+       blk_alloc_queue+0x546/0x680 block/blk-core.c:461
+       blk_mq_alloc_queue block/blk-mq.c:4429 [inline]
+       __blk_mq_alloc_disk+0x197/0x390 block/blk-mq.c:4476
+       nbd_dev_add+0x499/0xb50 drivers/block/nbd.c:1954
+       nbd_init+0x168/0x1f0 drivers/block/nbd.c:2692
+       do_one_initcall+0x250/0x8d0 init/main.c:1382
+       do_initcall_level+0x104/0x190 init/main.c:1444
+       do_initcalls+0x59/0xa0 init/main.c:1460
+       kernel_init_freeable+0x2a6/0x3e0 init/main.c:1692
+       kernel_init+0x1d/0x1d0 init/main.c:1582
+       ret_from_fork+0x51e/0xb90 arch/x86/kernel/process.c:158
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+-> #0 (fs_reclaim){+.+.}-{0:0}:
+       check_prev_add kernel/locking/lockdep.c:3165 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+       validate_chain kernel/locking/lockdep.c:3908 [inline]
+       __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
+       lock_acquire+0xf0/0x2e0 kernel/locking/lockdep.c:5868
+       __fs_reclaim_acquire mm/page_alloc.c:4348 [inline]
+       fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4362
+       might_alloc include/linux/sched/mm.h:317 [inline]
+       slab_pre_alloc_hook mm/slub.c:4489 [inline]
+       slab_alloc_node mm/slub.c:4843 [inline]
+       kmem_cache_alloc_noprof+0x40/0x650 mm/slub.c:4873
+       __kernfs_iattrs+0xdf/0x340 fs/kernfs/inode.c:36
+       kernfs_iattrs fs/kernfs/inode.c:61 [inline]
+       __kernfs_setattr fs/kernfs/inode.c:74 [inline]
+       kernfs_iop_setattr+0xea/0x3f0 fs/kernfs/inode.c:128
+       notify_change+0xc1a/0xf40 fs/attr.c:556
+       do_truncate+0x1c2/0x250 fs/open.c:68
+       handle_truncate fs/namei.c:4279 [inline]
+       do_open fs/namei.c:4675 [inline]
+       path_openat+0x2f89/0x3860 fs/namei.c:4830
+       do_file_open+0x23e/0x4a0 fs/namei.c:4859
+       do_sys_openat2+0x113/0x200 fs/open.c:1366
+       do_sys_open fs/open.c:1372 [inline]
+       __do_sys_openat fs/open.c:1388 [inline]
+       __se_sys_openat fs/open.c:1383 [inline]
+       __x64_sys_openat+0x138/0x170 fs/open.c:1383
+       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+       do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  fs_reclaim --> cpu_hotplug_lock --> &root->kernfs_iattr_rwsem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&root->kernfs_iattr_rwsem);
+                               lock(cpu_hotplug_lock);
+                               lock(&root->kernfs_iattr_rwsem);
+  lock(fs_reclaim);
+
+ *** DEADLOCK ***
+
+3 locks held by syz.3.5991/28469:
+ #0: ffff88807a7ae420 (sb_writers#10){.+.+}-{0:0}, at: mnt_want_write+0x41/0x90 fs/namespace.c:493
+ #1: ffff88806ddf9528 (&sb->s_type->i_mutex_key#20){+.+.}-{4:4}, at: inode_lock_killable include/linux/fs.h:1033 [inline]
+ #1: ffff88806ddf9528 (&sb->s_type->i_mutex_key#20){+.+.}-{4:4}, at: do_truncate+0x18f/0x250 fs/open.c:63
+ #2: ffff888035aeea20 (&root->kernfs_iattr_rwsem){++++}-{4:4}, at: kernfs_iop_setattr+0x83/0x3f0 fs/kernfs/inode.c:123
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 28469 Comm: syz.3.5991 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_circular_bug+0x2e1/0x300 kernel/locking/lockdep.c:2043
+ check_noncircular+0x12e/0x150 kernel/locking/lockdep.c:2175
+ check_prev_add kernel/locking/lockdep.c:3165 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain kernel/locking/lockdep.c:3908 [inline]
+ __lock_acquire+0x15a5/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0xf0/0x2e0 kernel/locking/lockdep.c:5868
+ __fs_reclaim_acquire mm/page_alloc.c:4348 [inline]
+ fs_reclaim_acquire+0x71/0x100 mm/page_alloc.c:4362
+ might_alloc include/linux/sched/mm.h:317 [inline]
+ slab_pre_alloc_hook mm/slub.c:4489 [inline]
+ slab_alloc_node mm/slub.c:4843 [inline]
+ kmem_cache_alloc_noprof+0x40/0x650 mm/slub.c:4873
+ __kernfs_iattrs+0xdf/0x340 fs/kernfs/inode.c:36
+ kernfs_iattrs fs/kernfs/inode.c:61 [inline]
+ __kernfs_setattr fs/kernfs/inode.c:74 [inline]
+ kernfs_iop_setattr+0xea/0x3f0 fs/kernfs/inode.c:128
+ notify_change+0xc1a/0xf40 fs/attr.c:556
+ do_truncate+0x1c2/0x250 fs/open.c:68
+ handle_truncate fs/namei.c:4279 [inline]
+ do_open fs/namei.c:4675 [inline]
+ path_openat+0x2f89/0x3860 fs/namei.c:4830
+ do_file_open+0x23e/0x4a0 fs/namei.c:4859
+ do_sys_openat2+0x113/0x200 fs/open.c:1366
+ do_sys_open fs/open.c:1372 [inline]
+ __do_sys_openat fs/open.c:1388 [inline]
+ __se_sys_openat fs/open.c:1383 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1383
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x14d/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9a91b9c799
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9a92b1c028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f9a91e15fa0 RCX: 00007f9a91b9c799
+RDX: 000000000000275a RSI: 0000200000000000 RDI: 0000000000000006
+RBP: 00007f9a91c32c99 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f9a91e16038 R14: 00007f9a91e15fa0 R15: 00007ffebab4e6b8
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
