@@ -1,214 +1,352 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012001.outbound.protection.outlook.com [52.101.48.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951FE8F7D
-	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 02:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D321F27A907
+	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 03:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774404852; cv=fail; b=OV3Zh1m89qL/WIOUDQEDj+lTSlgGctLHUzzt4QQY4iai5zX6Vuc6YKV2Gg3GfihmrfuNvxjfpKUIHsd9D8hja1fpND4Fg24bzEbpQS3+7S4N5AqEqcd3Y4ZAlmYt59D/9hpLZF0yWJx8Zf5Pqqw6nZ1vLTEWf2xIomFtI8yr+6M=
+	t=1774408105; cv=pass; b=LfwPq5Exjosduz4dQWjqhg4aNon7VtDQszha5ZSbQ7SNVOtSzqK+E/YO17xQ6+aGMVcF/sAco3ON2DknWNT1W81v/P5cX4ucKSSLLx+rZhKUn3Iiixkvvu6555ThTHzJnBkOYmrgbO5vW7OChVOZF9Whc/coehgQzpCOpcegLTM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774404852; c=relaxed/simple;
-	bh=T64cbcJvJFtvhZvzAO+nWMAa5a6dCh9SbKK7a6JHXCc=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=iRnStp/itixu1LPK+mSkQ7QLLZKlyrMxyTq7Sxa5m83vlsmKnTDMOej9a7XnLFhldMlmhLj1VXHK/1qUTZKq+BX52FlIlSUxkewi2KCVQLnjr24JHTCmNyBUVfvPDFaia8QDux/G9tJc3Xfk/hkquAl+Ndtt/J+Dwz70mvQcR+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QjovBNPJ; arc=fail smtp.client-ip=52.101.48.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1774408105; c=relaxed/simple;
+	bh=hJdcGCQ3mHxI4qcvqZp/CCaqOJ76l13MZ1DRKNMUyZA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DN+/sjBm49sUf7+zIBefu6p+Dpyj6813NIUEmHiR0DwKi+WM8aERw8kx/Pp1ccVHoaL39u9S8IdsakcXLOm5fDHaiKJtrC3T92EaT9cobxvMcCiDcVn8mWd9GGfJSpOB4/JQFqrrMZoh2B5DK6d3COa3qRVe9UUQSuLoPiTwA3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fa9hUF8F; arc=pass smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QjovBNPJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tgpn7V46P7tEmBoUd4dGrJNNMeMidqHbe4xqpLuMmks+GEEVrJM95el480+YtkDklbxpcJGxPROVB/n7hgwmpSG81IJjkekaIWTLTG/7ji6j5Ku0dTRqyYybztTR+sxxFiKhB518oAMgRC2nMQ9SQUkpdQGAQUC0YsPySMQnjX73Ot+xTDiZ1EpxvDHdung3+mtaX0Y7mGdnfYL10c75awVvy9Ou2gHm4YBEBTbdFGeunbejCVh0ylAeJt7eLdh2kmlMEPy8zj7wZaaMY4djb1qoU7ryTb6WB4Gt9xmrCmE95hFLpY1yzNRRZ5zmX5x8/HDjP3AVS0KiTY0e8cUZyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aqgA7WtanoscJkkZi1c/bbVNcZhQ4XWBzC2XqOAqW50=;
- b=YEYmsqAVPKawbI/nGr5p8lslCT+hAoGuUUc+LAoOlwGcJ5oMnsoEyJzSUy6gpsLjxyRsokwkt90vi1dTlWnduHuZjjg1yvZz3q3EZ8NI3Tpk8ANpeyNNGwOQE6CSfJjL+betlGEcLRpw/O2Uwpqnn1xJqWGcA2l9bggRV5WTAiO8YqS6F3KSudsZrlrQTzDegVJZ0aQENaXChFb47qojOHG7VzvnKBgB8JdKNz6FJazt5guC+Rgn2gF1RpK2zCdgPIt+3BAYU0fsjFyy6rN7L6uUqtKX0BqoVnfdKRH/G4Gv+KsX5xg4yWVhYGIsGKIAJuPQlWTrMc8bvAu1mA7IZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aqgA7WtanoscJkkZi1c/bbVNcZhQ4XWBzC2XqOAqW50=;
- b=QjovBNPJQzVewfS/1wcx6IBhCYRJOkdxqvE0Kl5lRvwPg1j0vj+R9xc5hmb5CaIK+cZQizOVQJPGfor8HYtlGdZ5erDs8nnuy8wonCJIJQ1g0uzltzuwv1cx0l1wh2pjmie4oxKZ/28SHHK2qVUTyxOkfAUqDNezzPo9rijivlo0BqRt2NURldv7yNYr9Bw44fTIbYuRglLOYviIufPQk0d9GIY2E2st1soSBfK7cdbk5cITqpM5dd9s40NTGnE9gXSS79f74tK6nkLPbdw3RbDc6rGRDooXsiL3pboBsD207xd/y4+y9XBsS3sPuFilGz1wTCsUv2tMRNiul+fGcQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by SA3PR12MB8437.namprd12.prod.outlook.com (2603:10b6:806:2f5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
- 2026 02:14:08 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9745.012; Wed, 25 Mar 2026
- 02:14:08 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Mar 2026 11:14:03 +0900
-Message-Id: <DHBI0S0S5II8.46GSKUPRD2X8@nvidia.com>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/7] gpu: nova-core: falcon: use dma::Coherent
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260321-b4-nova-dma-removal-v1-0-5cf18a75ff64@nvidia.com>
- <20260321-b4-nova-dma-removal-v1-4-5cf18a75ff64@nvidia.com>
-In-Reply-To: <20260321-b4-nova-dma-removal-v1-4-5cf18a75ff64@nvidia.com>
-X-ClientProxiedBy: TYCPR01CA0140.jpnprd01.prod.outlook.com
- (2603:1096:400:2b7::10) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fa9hUF8F"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-67df618d095so991906eaf.0
+        for <driver-core@lists.linux.dev>; Tue, 24 Mar 2026 20:08:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774408102; cv=none;
+        d=google.com; s=arc-20240605;
+        b=By9ENKwNzAMcfbNCXIOGdRxDJzQvM03qzl+IceowFNZqeG4e9gounHAb5+HoETeqIG
+         UzAM5mzw10xNwzBMp1ihiLru+WZ6/m3z4/wsTA7mTnzeYtKRw/QookydudFPXqZnixBL
+         mFLufTAwwBSQgWQ/WWuV9+Ze/GVh353/4CiG97EDfWcODEN3Jh/8ukSLrUpbzgwwOsV6
+         YGVNncpqumT6zURkMiIvjRYlrlz+JEjJ+kBctke6GW4wmS6dHbgxrHKzb5l9N8fyKpp5
+         HUgeD55rGn3yvQ7QGLXEi3dqUcBPkuUrzhl5cg01R38J1Sz5LCv9s6u7+XJmCdDlAF1i
+         +GIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=L1agqMYRVyCUyftxunjR/Gctujg8X1gDCx6TflvnIV4=;
+        fh=nL/erx/GUDiG6jkKg41rsdWUaclBk9GIrwAFVjBpvg4=;
+        b=NBbUnGE/xUtVFdQjwYnDw/ZX9kxHEIH+soU1StqOMPnF1+Q39tlJz1MAdnSgXDaZYN
+         4I0vjkvjS79Pp0XwNOSMp9yF0SGKPsMtoOUAIKAPyncKfsBtB48yag19Bwke92l4/UDY
+         mbUkRaF1qwCvfl2oI+MdLg0M7oQbsq0FN0ln3rLwMyCsLNov00C7421Y1wyDODmovg2I
+         /H5LEVHSA4qp4qsgDFgFrrGdVTRAMmVU+cSMwqOTqUw8D1sDjkyBWGZEAdUIkjY+yKOK
+         8lvCaF9+e5vtjpEFMI1VrtYNYwd/1ilQHMgcXjFjoAf+kdoeQy+SxtmKrsgmikVS5cGc
+         FW8Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774408102; x=1775012902; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L1agqMYRVyCUyftxunjR/Gctujg8X1gDCx6TflvnIV4=;
+        b=Fa9hUF8FBi1thVfkSSJKDNVdlZbzUvcgEjnJksaDJIdNGTcj4pgT4M2Ll40ygpJIZX
+         P5XyiOpUpNl+K62TEs0Rf8AWmHPFtBmfD2BEH4EpeZJBUkFGmQL7zlA9sKmoNZWBMGtM
+         +/xAcDdh2WDK5snNhRasacymOHaV+QEaRRIMXHwQxK3d0tJmm7Dr2MtVHbsig0003iSS
+         Vr+H+5TPBiScJEUS930pIzVVqB4S7OU2TVTKqzqkEaYVLjjT2ysmhMZB2VoFGwMYuNQQ
+         iRia06HhOqcfl9sWSUwxWTTwL+gpQyrIlpfpRMvRyr/eH0vnLaXqJ9RjNh9G3qJRLCUU
+         pfrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774408102; x=1775012902;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=L1agqMYRVyCUyftxunjR/Gctujg8X1gDCx6TflvnIV4=;
+        b=m9SYG90pKvH46yDJUZCYG12Z8d2huUmuuk3xX8aj9cAJjMVadrtyFcjS8SleiG07ii
+         h9qxk1+i805e8Be9uYcVo+xL22Y6HgPkkbQoyNVc6x5t7O1/KLl7p9KFI8ZkD8vCDS90
+         w3/vT6Fc6dWjvAfaVHIXDHDOZnXPFvSwOOI/RYu+QQhPwnPQw7tNopDv/THpRbJmo8/m
+         d7dVTCzlYjsDVGpxUbqxAC1JBYefrcrFylYUbPw5J8/6fCvdOoKv736omrFatwNwc/rT
+         i7X4LkBmXGBArC/Q4m7maqzq8GhDYXlIYQWzB0UI/joY/WaDFJun2XvwGM4kqQUB6YiX
+         ZZlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUx01RtG6n6sE7JY7gac2nNl2CqWUDUXkKOFtC4+IGHwxG1VdO45GwbTb43YGY6F49nBc+SHMmrGTOxTQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyQ3/kTm7w3NIbqmMJ4RHWI33ezQKbdHV3hNFfQ60qat0ien+f
+	YxGRnrf/eMA5Gf1+sC0H4FJ+pTZ3vG5k+XxGyu4JzbyMQ8f0ru++bDlOzPEeEwj92mYm94mOYKD
+	kqcvYUOGQsPQ3ZU1DninNACPbg4sVb84=
+X-Gm-Gg: ATEYQzwfQKdcYKCK7MdttNHklx3tAD1F4O26TOib44eiGtjdmNye+rMapNktGPCB/aM
+	X7lMvZlWuyEleuABBFgNYpAGkAlC2bZihxW7EK7xXL1N5ED2PbY44tdzga9YDTfjWxQP4NRbasR
+	6w0qyT1GaCT4uZRBybkSA2bu6CLzDSlGdRAfJH18zuVq0LK24ebKpszvJSxBi+R+Ta8juhgo6Bb
+	3XCDvZ1DkwaEaQ13qd5YO1pRZy8FnKfLH3o5eVojZ8FCzR4etaMOgFIBrMDOTGb44xXVcJdzVlw
+	cybTavK3CR/EA25+9zSJVt4fTxnYcUq98yS+D5kzsi+WgoS6gmOO9adxoIlfjVvuV1sem+56AT5
+	pGNl+coE=
+X-Received: by 2002:a05:6820:1787:b0:67b:e203:6c8d with SMTP id
+ 006d021491bc7-67dff53efc8mr1216692eaf.52.1774408101668; Tue, 24 Mar 2026
+ 20:08:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|SA3PR12MB8437:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38ad4a4d-cd8c-4dcf-db7c-08de8a143214
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|10070799003|7416014|376014|22082099003|18002099003|56012099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	kqtlIGH7HI+U3bDFmO1C81SxIXwWHaqaOhvgaY1Rf7p7Z3Wb53Zb/TnX6CDOEk8GEQeJbQ7CxB98Wy0JFglQmvqJs6z3hVyi7PJcfNsU+HPs/WWScKuJpjdcyZe70AW9UvpCzpfLzQLtCBJLxCR4+eeWvwBgo4AhHisgSm3puAlLqKMi2SGO2cro6iy/yBea4ALocGqpu4pTdij8bVlVgqtvCEd4BydpxJwDWAbWRO2LhPx1gDa6ejmgPYRkl16+MLBpuFdd6ak92VaqSjRA3aOVx6mYc/JuF4Uxlp2DZ8AHCxI3uL/Pub01JBiM7U/CQnG0Dq8v1530i/8zVfSp60vOU+eR10vB/Y0ukfgNs90e/ggYtFXtjLraFUFwTuuLLkZuqD2KUwsRzRXDaOnBr/cX1pd1zqZQKGou3n2I9UeCdxN7FNMbQ9gFcc2T8zvDRgIwTxD1UuLOccIroiiR/KaSxLcsMIvPRy7/2TZtq2d0/m5VyMlB2oa8TTsuil7DZgCF67EWDdx8K/ifB05rzUORr6eHyTN3Wxrvk4l/aFgzPHZ3W6t75tahJ+XE0mhxyEOoBmwXSlPZnGlpf1eMr4UcgPH2RTWzUMqRy99qmkUicPpgVttnlNPs0d45eBNf6RzUAJBiaWkAwR4ck+gTjfzKtXzQ0xZx7NSoMFFX3BDsHwN4Ead7JrIneqP1NGNuOy/jVAXY8rwkndAUz9xmgg2Dl4aokYH9uNRfK6XojqwVkn5sL9pi2bUND8ydhgwR2Ll33FfsLNhgdFxSVx2TdA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2353.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(10070799003)(7416014)(376014)(22082099003)(18002099003)(56012099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RWdQTVA1Nyt5SjRBcGRFb1ZrY1g1cHZ5ak04UHBJcnVBKzJlVEtrMHo3ZDhq?=
- =?utf-8?B?Rmw3amtKU3k2ekE2Z0lFcWh5OXc1ZlN4bUNzZEFTakMvNWNEeUdIZ0svQ3RC?=
- =?utf-8?B?RkxzWWRVQUhKa2xrUDRqWTNYNlVwWTRiUlFqS1VmeVBTOVdvOXJ4U2tCaVdI?=
- =?utf-8?B?RTJBbm50VlArN081cFNsaW43WXZzZkxKbWNNOXpyeXRqK3hjRk1kc3g1amtQ?=
- =?utf-8?B?NWVpWjNFZ0lJaGx3dUU0T3FpRHhtWjhhakVYbTQ3RmpTR29jMU9jd3p1cVNI?=
- =?utf-8?B?S25nOXNXb1lYSHJVYnJmbDdNNFNHM1Jybnd1WlA3Mmd6MGVralN0ZGM2WFdj?=
- =?utf-8?B?OUpDT3hTZVp6UHYxM29XSDN0REtJQ2RKa2hMcG5sT3FnMG1kOWs4cTA4NlZY?=
- =?utf-8?B?TE9mU0pMMHVwWjNOY0NWclM4NURjQ2V0dXFGWWQ0RlVzTXp5eHVaMG1DNThy?=
- =?utf-8?B?WlFDck9DK3NBMm9QczQrQmU1SURBTFNYUzI5c3ZpdlRQQ0JGQ1A1YlorcGpw?=
- =?utf-8?B?ZXFHVHdRUFhQa1JoRFphTU9Ia2JzYk9kNEZJVGgvS21SV2RIOHNpVzNyZ0Q3?=
- =?utf-8?B?Q25wRlE2MEw2NVZnMXRvcnVtQXZyWWNjOTdsUDcrV0ZjcmU0WHpqYkdmN2NB?=
- =?utf-8?B?RnkxdDRnbzVjakpPeC9DOW94ZGd6K2wyNzZDNjRqbTdoUC8wVElWY05KNDRM?=
- =?utf-8?B?d3NZQkM5dDdjZXNkSVV6em9YVGRvcWltQ21ydHZvZko1L3lrUk9JZm45d21Q?=
- =?utf-8?B?ZWVQK3JVeGF3d2NRU2JMckJMM2xpRjNsRkYyTGtZek9jQUFGV1g5Y2xXSE9m?=
- =?utf-8?B?MVhjRkFLeEMyK1JWWjZpYllUZHJmU25hbVNiTGVzdWFFWGN3eGVwUkFtRG9P?=
- =?utf-8?B?b3hRNWZEOVJBZkJoazI2SkRJYUk3R2hhZzlISnNDd00zN0ViUCtIaGhoUldT?=
- =?utf-8?B?dVpOcFdmTVE1c1JNT0w3Tjh2TkhNUzVhZWxleU4zbzMrRWQ3VXIvQmVKeHFT?=
- =?utf-8?B?eFg1bTg5cTVJeVB2WDJLRVB2NnE4dSt6d2ZIV3hRbVFlaTBFREw1UnlLWE8r?=
- =?utf-8?B?dEtJaFNWWHdOdTM0QVBhVWdzVlBqUVdNbEJiWDdKcHMwLzlySVhsSnJkS3Zv?=
- =?utf-8?B?UVA3M056dDV3MVpQSDhtN2RCK2pldXJpdm9hVFY4OFhZRkFSYzRxeE5oVzlU?=
- =?utf-8?B?RUhvalV4eVVJcWF1SUJseVpCYWRFcHgxNzE4emw4S3JkNTA0WUp6OWxNRG5C?=
- =?utf-8?B?MFp2WXpFMnd6ODIrZjkzcThFKzF1SFdWZy8zQTBkUTNvVkxJeUIwLzVSTG9k?=
- =?utf-8?B?dXd2RElxYnJxNEswZTZVQXV4Q3BHNm5mNlZwaW1sMHNUZzJUdzAzeDVIQzNE?=
- =?utf-8?B?R0FvV3JkaGZNNmZ1OStENzY0Y2YrejZRVzE2NGVFTnVzZFJUUS9UVlJENXhX?=
- =?utf-8?B?c00xdUsxNzZ4eHhETnhjVk5wYVMrT0swNkgyY0hFa21VSzBoL1ZwVXpmVllH?=
- =?utf-8?B?aEl3MkMzTjZxMzQ3OUoyeFJRU0d0dmduNlhpajZmQUI5R1hnODF0REs5Z0ls?=
- =?utf-8?B?cUxBZ3BHNEU3UU5kL2liTDdTOG5NbDhpcm90eG50cUlzUlBzbmhNNU1FWFlJ?=
- =?utf-8?B?ZCtSbXhRWm15RFkxOFFwRlhvaXdybGdUWk5WVVZrTXg3Y2FlMVdCekg0WTdw?=
- =?utf-8?B?N211VEdsa0RpRXgyUUdEOUxLMFI5VVV1b0tnQmZtNHIxenhoNkRDemQrZzYx?=
- =?utf-8?B?eGl4N1FreXVkQjJidm9iazk1UG9JaE11QWNmOFp3QXR6ZDErdHJadE9FaGND?=
- =?utf-8?B?ZXV1cFVURVM2cVRlekRvRXZzTTlPenhGZmRlZDExVml5UlpBdGNJRDJaV3pL?=
- =?utf-8?B?eGlEckk5VHNQV205SGZoK0p2YlhKZFJnTXFBSHVvV1JvcHJUREs5SEFRWllG?=
- =?utf-8?B?Tko4WWNNUmpCUnNVczh0cDJhVy92eUEvNkE1K1hCUE1Cc0U4VjcxY2YxTTJM?=
- =?utf-8?B?YWFpOFdReGxiT0gvMXRMZnJCbGorcmpBbVVtRnNGb0IrMERheTU2MW9KTHh0?=
- =?utf-8?B?VEFwUXh4Z1EvTFFRUVROU21LSTFIbmJtaGxCZ3BhaFhSL05QaTE2eFhkMDdp?=
- =?utf-8?B?c2xxcEd5RHhvTzJVREFQclVQblZyRHRRY3JIaWxqa1Z5TGx4Qk8rQ3JTdE5K?=
- =?utf-8?B?VW1jU2VCbFV5aUdsSWQ3dmpJQ284YmRtR0pPWXd1NWdjanhrTzdPNlphaE83?=
- =?utf-8?B?WVRKZXd6c3JCSjR2S0liNWkvdDF2OFhSNitGZEF1SHRzdG85OS9oWW9ka2tM?=
- =?utf-8?B?dkJURHVxVW1sUk9QL1Y2SDM3VGdZQ2lkMnVlN1BoelRjWldpLzRpamR6RkV0?=
- =?utf-8?Q?TTrH8dwG/nR859QdYi6AU4w1TRaz4XIeGAXwM6Y1amWxH?=
-X-MS-Exchange-AntiSpam-MessageData-1: dJAqjBSTknrPYg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38ad4a4d-cd8c-4dcf-db7c-08de8a143214
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 02:14:07.9234
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tm8MbGE47D/2No5hnLmcpYanVa7ECVAzLvDTDC2wqW7GTfJxyopxr4fvsGSGUD8eqOF7Z6E1e/y1WcOM3Uftdw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8437
+References: <20260324005919.2408620-1-dakr@kernel.org> <20260324005919.2408620-6-dakr@kernel.org>
+In-Reply-To: <20260324005919.2408620-6-dakr@kernel.org>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Wed, 25 Mar 2026 11:08:11 +0800
+X-Gm-Features: AQROBzD64p8E8k4KuR51RUiYotZVMtC9NAESBq-7RvJsmuQyKbQ4KJC_uWmm37s
+Message-ID: <CALbr=La3gV5VmoXauF-fkmXveoJGtTvef1d1nrLtUZNHx2eF+w@mail.gmail.com>
+Subject: Re: [PATCH 05/12] PCI: use generic driver_override infrastructure
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Ioana Ciornei <ioana.ciornei@nxp.com>, 
+	Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>, 
+	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Armin Wolf <W_Armin@gmx.de>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Vineeth Vijayan <vneethv@linux.ibm.com>, Peter Oberparleiter <oberpar@linux.ibm.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Sven Schnelle <svens@linux.ibm.com>, Harald Freudenberger <freude@linux.ibm.com>, 
+	Holger Dengler <dengler@linux.ibm.com>, Mark Brown <broonie@kernel.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Alex Williamson <alex@shazbot.org>, Juergen Gross <jgross@suse.com>, 
+	Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, 
+	linux-spi@vger.kernel.org, virtualization@lists.linux.dev, 
+	kvm@vger.kernel.org, xen-devel@lists.xenproject.org, 
+	linux-arm-kernel@lists.infradead.org, Wang Jiayue <akaieurus@gmail.com>, 
+	Yao Zi <me@ziyao.cc>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat Mar 21, 2026 at 10:36 PM JST, Alexandre Courbot wrote:
-> Replace the nova-core local `DmaObject` with a `Coherent` that can
-> fulfill the same role.
+On Tue, Mar 24, 2026 at 9:00=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+wrote:
 >
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> When a driver is probed through __driver_attach(), the bus' match()
+> callback is called without the device lock held, thus accessing the
+> driver_override field without a lock, which can cause a UAF.
+>
+> Fix this by using the driver-core driver_override infrastructure taking
+> care of proper locking internally.
+>
+> Note that calling match() from __driver_attach() without the device lock
+> held is intentional. [1]
+>
+> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kern=
+el.org/ [1]
+> Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D220789
+> Fixes: 782a985d7af2 ("PCI: Introduce new device binding path using pci_de=
+v.driver_override")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+
+Tested on QEMU PCI with multiple debug configs enabled. The original
+PoCs run cleanly without triggering the issue.
+
+Thanks Danilo.
+
+Tested-by: Gui-Dong Han <hanguidong02@gmail.com>
+Reviewed-by: Gui-Dong Han <hanguidong02@gmail.com>
+
 > ---
->  drivers/gpu/nova-core/falcon.rs | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/pci/pci-driver.c           | 11 +++++++----
+>  drivers/pci/pci-sysfs.c            | 28 ----------------------------
+>  drivers/pci/probe.c                |  1 -
+>  drivers/vfio/pci/vfio_pci_core.c   |  5 ++---
+>  drivers/xen/xen-pciback/pci_stub.c |  6 ++++--
+>  include/linux/pci.h                |  6 ------
+>  6 files changed, 13 insertions(+), 44 deletions(-)
 >
-> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falc=
-on.rs
-> index 5bf8da8760bf..f6239c44dd80 100644
-> --- a/drivers/gpu/nova-core/falcon.rs
-> +++ b/drivers/gpu/nova-core/falcon.rs
-> @@ -10,6 +10,7 @@
->          Device, //
->      },
->      dma::{
-> +        Coherent,
->          DmaAddress,
->          DmaMask, //
->      },
-> @@ -20,7 +21,6 @@
+> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+> index dd9075403987..d10ece0889f0 100644
+> --- a/drivers/pci/pci-driver.c
+> +++ b/drivers/pci/pci-driver.c
+> @@ -138,9 +138,11 @@ static const struct pci_device_id *pci_match_device(=
+struct pci_driver *drv,
+>  {
+>         struct pci_dynid *dynid;
+>         const struct pci_device_id *found_id =3D NULL, *ids;
+> +       int ret;
+>
+>         /* When driver_override is set, only bind to the matching driver =
+*/
+> -       if (dev->driver_override && strcmp(dev->driver_override, drv->nam=
+e))
+> +       ret =3D device_match_driver_override(&dev->dev, &drv->driver);
+> +       if (ret =3D=3D 0)
+>                 return NULL;
+>
+>         /* Look at the dynamic ids first, before the static ones */
+> @@ -164,7 +166,7 @@ static const struct pci_device_id *pci_match_device(s=
+truct pci_driver *drv,
+>                  * matching.
+>                  */
+>                 if (found_id->override_only) {
+> -                       if (dev->driver_override)
+> +                       if (ret > 0)
+>                                 return found_id;
+>                 } else {
+>                         return found_id;
+> @@ -172,7 +174,7 @@ static const struct pci_device_id *pci_match_device(s=
+truct pci_driver *drv,
+>         }
+>
+>         /* driver_override will always match, send a dummy id */
+> -       if (dev->driver_override)
+> +       if (ret > 0)
+>                 return &pci_device_id_any;
+>         return NULL;
+>  }
+> @@ -452,7 +454,7 @@ static int __pci_device_probe(struct pci_driver *drv,=
+ struct pci_dev *pci_dev)
+>  static inline bool pci_device_can_probe(struct pci_dev *pdev)
+>  {
+>         return (!pdev->is_virtfn || pdev->physfn->sriov->drivers_autoprob=
+e ||
+> -               pdev->driver_override);
+> +               device_has_driver_override(&pdev->dev));
+>  }
+>  #else
+>  static inline bool pci_device_can_probe(struct pci_dev *pdev)
+> @@ -1722,6 +1724,7 @@ static const struct cpumask *pci_device_irq_get_aff=
+inity(struct device *dev,
+>
+>  const struct bus_type pci_bus_type =3D {
+>         .name           =3D "pci",
+> +       .driver_override =3D true,
+>         .match          =3D pci_bus_match,
+>         .uevent         =3D pci_uevent,
+>         .probe          =3D pci_device_probe,
+> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> index 16eaaf749ba9..a9006cf4e9c8 100644
+> --- a/drivers/pci/pci-sysfs.c
+> +++ b/drivers/pci/pci-sysfs.c
+> @@ -615,33 +615,6 @@ static ssize_t devspec_show(struct device *dev,
+>  static DEVICE_ATTR_RO(devspec);
+>  #endif
+>
+> -static ssize_t driver_override_store(struct device *dev,
+> -                                    struct device_attribute *attr,
+> -                                    const char *buf, size_t count)
+> -{
+> -       struct pci_dev *pdev =3D to_pci_dev(dev);
+> -       int ret;
+> -
+> -       ret =3D driver_set_override(dev, &pdev->driver_override, buf, cou=
+nt);
+> -       if (ret)
+> -               return ret;
+> -
+> -       return count;
+> -}
+> -
+> -static ssize_t driver_override_show(struct device *dev,
+> -                                   struct device_attribute *attr, char *=
+buf)
+> -{
+> -       struct pci_dev *pdev =3D to_pci_dev(dev);
+> -       ssize_t len;
+> -
+> -       device_lock(dev);
+> -       len =3D sysfs_emit(buf, "%s\n", pdev->driver_override);
+> -       device_unlock(dev);
+> -       return len;
+> -}
+> -static DEVICE_ATTR_RW(driver_override);
+> -
+>  static struct attribute *pci_dev_attrs[] =3D {
+>         &dev_attr_power_state.attr,
+>         &dev_attr_resource.attr,
+> @@ -669,7 +642,6 @@ static struct attribute *pci_dev_attrs[] =3D {
+>  #ifdef CONFIG_OF
+>         &dev_attr_devspec.attr,
+>  #endif
+> -       &dev_attr_driver_override.attr,
+>         &dev_attr_ari_enabled.attr,
+>         NULL,
 >  };
-> =20
->  use crate::{
-> -    dma::DmaObject,
->      driver::Bar0,
->      falcon::hal::LoadMethod,
->      gpu::Chipset,
-> @@ -636,7 +636,7 @@ pub(crate) fn pio_load<F: FalconFirmware<Target =3D E=
-> + FalconPioLoadable>(
->      fn dma_wr(
->          &self,
->          bar: &Bar0,
-> -        dma_obj: &DmaObject,
-> +        dma_obj: &Coherent<[u8]>,
->          target_mem: FalconMem,
->          load_offsets: FalconDmaLoadTarget,
->      ) -> Result {
-> @@ -740,7 +740,7 @@ fn dma_load<F: FalconFirmware<Target =3D E> + FalconD=
-maLoadable>(
->          fw: &F,
->      ) -> Result {
->          // Create DMA object with firmware content as the source of the =
-DMA engine.
-> -        let dma_obj =3D DmaObject::from_data(dev, fw.as_slice())?;
-> +        let dma_obj =3D Coherent::from_slice(dev, fw.as_slice(), GFP_KER=
-NEL)?;
-
-Is it guaranteed that fw.as_slice() is a multiple of 256 in size?
-In `dma_wr` it breaks this up into 256 byte transfers. Since this
-no longer pads out to a page boundary, it means that it could now error
-(around "DMA transfer goes beyond range of DMA object") if the Dmem=20
-section's size is not divisible by 256. But tbh, I find it odd that=20
-`dma_wr` doesn't check that FalconDmaLoadTarget's length is a
-multiple of 256 anyway, because it looks like it'll write a bunch of
-unrelated bytes (since it rounds up to the nearest 256 to copy).
-
-Maybe we should enforce that `FalconDmaLoadTarget` length is divisible
-by 256?
-
-For this series if for all firmwares it's divisible by 256 then I think
-it's fine to leave this as is for now, but I do find the lack of
-checking in `dma_wr` (or anywhere else for FalconDmaLoadTarget) a bit
-odd.
-
-> =20
->          self.dma_reset(bar);
->          regs::NV_PFALCON_FBIF_TRANSCFG::update(bar, &E::ID, 0, |v| {
-
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index bccc7a4bdd79..b4707640e102 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2488,7 +2488,6 @@ static void pci_release_dev(struct device *dev)
+>         pci_release_of_node(pci_dev);
+>         pcibios_release_device(pci_dev);
+>         pci_bus_put(pci_dev->bus);
+> -       kfree(pci_dev->driver_override);
+>         bitmap_free(pci_dev->dma_alias_mask);
+>         dev_dbg(dev, "device released\n");
+>         kfree(pci_dev);
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci=
+_core.c
+> index d43745fe4c84..460852f79f29 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -1987,9 +1987,8 @@ static int vfio_pci_bus_notifier(struct notifier_bl=
+ock *nb,
+>             pdev->is_virtfn && physfn =3D=3D vdev->pdev) {
+>                 pci_info(vdev->pdev, "Captured SR-IOV VF %s driver_overri=
+de\n",
+>                          pci_name(pdev));
+> -               pdev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
+> -                                                 vdev->vdev.ops->name);
+> -               WARN_ON(!pdev->driver_override);
+> +               WARN_ON(device_set_driver_override(&pdev->dev,
+> +                                                  vdev->vdev.ops->name))=
+;
+>         } else if (action =3D=3D BUS_NOTIFY_BOUND_DRIVER &&
+>                    pdev->is_virtfn && physfn =3D=3D vdev->pdev) {
+>                 struct pci_driver *drv =3D pci_dev_driver(pdev);
+> diff --git a/drivers/xen/xen-pciback/pci_stub.c b/drivers/xen/xen-pciback=
+/pci_stub.c
+> index e4b27aecbf05..79a2b5dfd694 100644
+> --- a/drivers/xen/xen-pciback/pci_stub.c
+> +++ b/drivers/xen/xen-pciback/pci_stub.c
+> @@ -598,6 +598,8 @@ static int pcistub_seize(struct pci_dev *dev,
+>         return err;
+>  }
+>
+> +static struct pci_driver xen_pcibk_pci_driver;
+> +
+>  /* Called when 'bind'. This means we must _NOT_ call pci_reset_function =
+or
+>   * other functions that take the sysfs lock. */
+>  static int pcistub_probe(struct pci_dev *dev, const struct pci_device_id=
+ *id)
+> @@ -609,8 +611,8 @@ static int pcistub_probe(struct pci_dev *dev, const s=
+truct pci_device_id *id)
+>
+>         match =3D pcistub_match(dev);
+>
+> -       if ((dev->driver_override &&
+> -            !strcmp(dev->driver_override, PCISTUB_DRIVER_NAME)) ||
+> +       if (device_match_driver_override(&dev->dev,
+> +                                        &xen_pcibk_pci_driver.driver) > =
+0 ||
+>             match) {
+>
+>                 if (dev->hdr_type !=3D PCI_HEADER_TYPE_NORMAL
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 1c270f1d5123..57e9463e4347 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -575,12 +575,6 @@ struct pci_dev {
+>         u8              supported_speeds; /* Supported Link Speeds Vector=
+ */
+>         phys_addr_t     rom;            /* Physical address if not from B=
+AR */
+>         size_t          romlen;         /* Length if not from BAR */
+> -       /*
+> -        * Driver name to force a match.  Do not set directly, because co=
+re
+> -        * frees it.  Use driver_set_override() to set or clear it.
+> -        */
+> -       const char      *driver_override;
+> -
+>         unsigned long   priv_flags;     /* Private flags for the PCI driv=
+er */
+>
+>         /* These methods index pci_reset_fn_methods[] */
+> --
+> 2.53.0
+>
