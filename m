@@ -1,81 +1,121 @@
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B395C3CEBA5
-	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 11:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E843CFF67
+	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 11:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439068; cv=none; b=PlFeHBsi3v68GOlLWtA+G0lEy81sJHm1JojTNLiJybzRk4Lb8jgUmwBhfvH8cvIemA2Tx0rxhP3uAQ2gAdz8AKZSk6cPQ87cuO0nDrHVbEMUadmmKRCxEWVt9Ow7gnzpi/kGdg0lcZlrGDLMS9kcduia+MB9zHkM6UVBAKflgjU=
+	t=1774439470; cv=none; b=rUnrJjEiNLZaWJe9+uuF1104ZuLPDa26Ecs6xKFE03nngsvwsQB8KwhPXhiOU293tibG+PyNoO++6NcKBnhkaYGVtA5TUDJM71+mLDJZ7yzZDB9nZwAHCdVYMje1Ai0xPzcTQ42mPOzq9KdR+NG9IV/KIt7BrShp91KdGQ92T3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439068; c=relaxed/simple;
-	bh=QpeO54ZMy+zY8vE2iN9PG22Q0G/v6tjmzjfrkPN+V3A=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gdFffVc43y4SyR/TqArpJWAou1BYw4EwZaYFzLnp9vdtQHaDM0VdKHzUO55b9pJmtgsjxUAkYeo9exg3J430HMKP8LCBiOMCzS0vvK4zUm/2O39bBW8YyasQd6ZAGdbqv3d7yNphpJBXztv8Zr119hwYDSIIzSPnc6FAaoAUyN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Yektntu4; arc=none smtp.client-ip=209.85.208.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1774439470; c=relaxed/simple;
+	bh=H1TKSO1/ZhvI2JLcGb0a5zwCHr0NjdZkDRx2k8ZDX+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hDDodgWFc3WHIlFJhNuwS4LD4AHJxEOafpVxz8f++n+QBZch1Qm/d8Jt+zs38GKsQoDxhzXTRH8xLfixsC0xM2P8Dv97WuZvvBpbTIiBtWfoc3U+zbLgwrjMENjWwdZAjmnFGfGbVL9Cd8E5ebmwlQy5EBnranRsreu1HR62+tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1ugvKnY; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Yektntu4"
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-667d8f30c50so7420834a12.0
-        for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 04:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774439065; x=1775043865; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xUNk5DBarhia0VP1Ved6SPUtX2O9K1Wf39PDjoKefxc=;
-        b=Yektntu4B95ft/5qmu8ficN0ROIaNxjpJDmzT+M9Zigs3Whae6Fq2GXWLqo0sgfaIf
-         7/Wbe5jrMeNyWHf90SjVQW8ZqH74CB5rpXNvQpH3H5I7xWUtmirkbb4eiTtwTPCjUJ9O
-         p9XzblCUPCewXxQCEP8lkkdoqq6ex886Rh7nER2ZdXxUxaTjL+/pMztp6t8v4ct+yRH8
-         j4zML8fTZ6nK9600/XLD8h7uCQqqCHyqEc5J03ty7e02y9Tc7xRzz3IHxh/xQMfqecFY
-         LtmgfNEWx8OYktIqi3buj2LZVFtiv7Jpcr3Ci7+kp5YtHyhbBAJYIZAgcspeGY/dv9/a
-         H2PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774439065; x=1775043865;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xUNk5DBarhia0VP1Ved6SPUtX2O9K1Wf39PDjoKefxc=;
-        b=CfSHnDbiHtDh9zSwI0pGVOoguAlt3V7x4IMh22teulYc0AmO2JtLgn1/w9z6h5vJGE
-         R5iOZBepcqNcCLje17PDk4DUuVE5+TZk5rvc53eJL+rcC8pSgeOBefwqsrWV+x4AUaVx
-         tprYIlKzFOJLQC4l+KwVQEkZhR33h7VNXnlrtZDNJrBQ/w8rXEZDxso/u3o8QLnp8xig
-         Nty5Q23YlsLvthuTkqo/wNYtIW+b827vNIVjZPzssCzrKJfk6Pafanxn0jV6N4Vk0DMo
-         OhHVS1JRJYcx5JknHspj9Cf/Hcy0xM2F2YbKaKx6bISjlquU1vQXgHV/ud8r3W7SjtHe
-         f/zQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX2F0nhyvULDRNYpBPnbWjmfU4EoZfu9VuCFFfc28+Yi8W9x6AVgmweLw6CJratuAsdsnFqDJ2Y80KXzg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+Uteofe+7awaEMvNqyjUvfN8b1+V3mRIjz963TL/HMFM1geLP
-	/TFWBaTmQviZ/+abilwyAMaQS0XL782kO5hMant/3lSWwgUiHuoJP3BBlY65YL5vBebCsbxjOvf
-	a/qMI1cVplPgX4rQUrA==
-X-Received: from edgg21.prod.google.com ([2002:a05:6402:1ed5:b0:668:8a5e:6647])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:2116:b0:667:7fcb:3a2c with SMTP id 4fb4d7f45d1cf-66a826b30b2mr2152133a12.24.1774439064945;
- Wed, 25 Mar 2026 04:44:24 -0700 (PDT)
-Date: Wed, 25 Mar 2026 11:44:23 +0000
-In-Reply-To: <20260325003921.3420-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1ugvKnY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774439469; x=1805975469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H1TKSO1/ZhvI2JLcGb0a5zwCHr0NjdZkDRx2k8ZDX+g=;
+  b=I1ugvKnY+sD58HRZHiLbm6UYKO7RsQXtPA0aIMVFLEGmV6tdCBkMakT2
+   LDJt+0EUlmZ6093UDbyLjwftsttG+5cmvV9/3jucN0Zq3i1G46DHBDNGJ
+   QbEq4iaya8h7z2iOpGR6JuI1ucoPWerpCqIoGNH8vt91W4fsar0Vxuu1I
+   a+UYNeNI+u/en4ci4Kx5i/KN+aLhLyOS4u9nj9VD3OHGR25UPumIiexlD
+   rhjU1J6IXjcs3+BemNEzMeDL5qfvBTti/7gor1S1ig3RQt3ykCLAdTiCL
+   B9e7Wenpapdhi4yjkOOXudkFAIIFa6YMtvMntQry0hdPICfSDQdj05eXd
+   A==;
+X-CSE-ConnectionGUID: gmrZLOPEQIWtGPDT6ktvmQ==
+X-CSE-MsgGUID: uETqWVAbSbKUgWT0YcBHzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="98093691"
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="98093691"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:51:08 -0700
+X-CSE-ConnectionGUID: deCQfuB9T/K/MOTQOLBsqA==
+X-CSE-MsgGUID: Bj0LccEIQ/OboKfUEeC0bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="226299986"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.32])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:51:04 -0700
+Date: Wed, 25 Mar 2026 13:51:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH 3/4] software node: verify that property data is not on
+ stack
+Message-ID: <acPMJiZHmxvVYYte@ashevche-desk.local>
+References: <20260323-property-gpio-fix-v1-0-9cb46e5fe7df@gmail.com>
+ <20260323-property-gpio-fix-v1-3-9cb46e5fe7df@gmail.com>
+ <acKEm4EiZBqJ67nM@ashevche-desk.local>
+ <acK34X9vBmvgHhLU@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260325003921.3420-1-dakr@kernel.org>
-Message-ID: <acPKl5HXwd6e4Sl2@google.com>
-Subject: Re: [PATCH 1/3] rust: uaccess: generalize write_dma() to accept any Coherent<T>
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: acourbot@nvidia.com, abdiel.janulgue@gmail.com, 
-	daniel.almeida@collabora.com, robin.murphy@arm.com, a.hindborg@kernel.org, 
-	ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, tmgross@umich.edu, 
-	ttabi@nvidia.com, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acK34X9vBmvgHhLU@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Mar 25, 2026 at 01:39:15AM +0100, Danilo Krummrich wrote:
-> Generalize write_dma() from &Coherent<[u8]> to &Coherent<T> where
-> T: KnownSize + AsBytes + ?Sized. The function body only uses as_ptr()
-> and size(), which work for any such T, so there is no reason to
-> restrict it to byte slices.
+On Tue, Mar 24, 2026 at 09:17:18AM -0700, Dmitry Torokhov wrote:
+> On Tue, Mar 24, 2026 at 02:33:31PM +0200, Andy Shevchenko wrote:
+> > On Mon, Mar 23, 2026 at 05:39:39PM -0700, Dmitry Torokhov wrote:
+> > > When registering a software node, ensure that the property data is not
+> > > located on the stack, as it is expected to persist for the lifetime of
+> > > the node.
+
+...
+
+> > > +#include <linux/sched/task_stack.h>
+> > 
+> > Looking at this name the use of it here doesn't sound right...
 > 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> Because ... ? object_is_on_stack() is defined there.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Because it's defined there. The key word here I see is 'task' in the name of
+the header, without Ack from sched folks, I am not convinced we can use that at
+any point in the kernel.
+
+...
+
+> > > +	for (prop = node->properties; prop && prop->name; prop++) {
+> > > +		if (!prop->is_inline && object_is_on_stack(prop->pointer)) {
+> > > +			pr_err("%s: property data can't be on stack\n", __func__);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +	}
+> > 
+> > And again same question, why we can't simply dup them as we do for (string)
+> > arrays?
+> 
+> Because majority of users of software_node_register() deal with static
+> const properties so duping them is waste of memory.
+
+So, then why can't we do that for the references? Just then copy and free at
+software unregistration if required.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
