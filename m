@@ -1,68 +1,68 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021103.outbound.protection.outlook.com [52.101.95.103])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022140.outbound.protection.outlook.com [52.101.96.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA09E30C359
-	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 13:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B6838AC7D
+	for <driver-core@lists.linux.dev>; Wed, 25 Mar 2026 13:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.140
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774443680; cv=fail; b=D1kOlJqh8gOyvudljEKtDE4v6CxDjrB/I/9DKaZtp8onN3AaV3qUmeOxTCLqfwz5OU9J7szFA1m+8W+j1d+mFIoGP4iid7iQS7nWkOQNTrxbkujcs0HvuZ5Az4KmWNwENfn+7ZpPuJO5K1OExjDb1OzK9TSoaUrY0YwN/+YudHo=
+	t=1774444200; cv=fail; b=MeNmUyxAqthQYEfOaxiA3igWezeX65GXloTPH2406ML+Bcz0aNAlwuyXflwER2n/VuDwg0yEg0DL6g6RedPxSLd+ROySjAxiew2Nc9/oevFDXhxZP3qyUMeZTinfxesqYl6wpY2VycJuygzB5nWPMPyEajTCmumYfpbI0dFfEB8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774443680; c=relaxed/simple;
-	bh=+wtt8in4rtbz1f5z7gIyzqnLZCyyCHoEA5wPodjH1AE=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=P/oC1MXhMNjWZXbWHzua5T8GNuwDwqwPtZLXsg+rXExJB5QgGbIJv/RCWBlmKtYNobQYpGcDyFUXFTPk2Ns/UOIoNVOPFCcEg4/i/owJSFRZsWj12PvCRhR3I5AwvUzs/auABoI2htvfnVc5ruWnb1R1QOY7aF+n7t81HR4F7Oc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=KXRpgfRO; arc=fail smtp.client-ip=52.101.95.103
+	s=arc-20240116; t=1774444200; c=relaxed/simple;
+	bh=t2nRKO9imPyF76jSUKrZR5uQiATTmB/iVVCEDDzZ7jA=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=IKoiIX7KGaGM6iYYU3iCxEy2s0kpqxQWwueyXxcdCNa1NtaCw3Kc28/ohqcfDa+bpVbxBvvGChvjXG+mLLwWS0gW3w5v1gzuvXBikSLOSnTMJR013IUXQbFdv9e043x9iTAha2tp0CoEodRBTDIUmzRbqEzLzVvu1l2kvb4MmqY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=DaEsBkXi; arc=fail smtp.client-ip=52.101.96.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="KXRpgfRO"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="DaEsBkXi"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wl08+20+07gpml/YJnkYIoJAbptFscmAT7c+D+VTxQigk+0kffRrbwHC+H8NdSVYe63xndiQdCEeAwO1ehJz7idNCqLlWCYnT+12VAOXFYhNvhUrradIjkah9JvIMj/MxLKT0/REBgiE56/pY7+c2dW+cmeI+1lD/SOFe9ZRfy6Xz25Ns5FNWqQDzIhgCfTKGdvlqpG5lNDSsszlwj5BGbEdmpCslN8LakQdJsLwspRZ2sUqZ7t9ducUyxDt0hCE/AvMcvWMd3JtMql4bnsahOhyJfYAJRZz9PGyUbz5/Ye+PpK3kdBzW7ySoCcSdVh5Ke//bcvi22Nvi3kj3cP6yg==
+ b=iTOmn+qvcRr28yFt0Zcue+Z8XnsurNbsuNE9v/yfKjlMMVbF8DQ794lOOC0RbPI6d6nWOxT7NtumL9q9+ju8aV6ZFYEHnt+cA0kH2pEbgcm5wLfxB8W34YEjEsfHb/0HGYnBxjQZ8ohSrvKZkQSotFFVB4x5I1nQpzQ7lCQL9hH3ewvqss3+QMTBiHGR9juF8isWLp+b70YWYThzRnxbAxmaBLF5zm2K1Gml5YFZ+1vcX61GZJY3VfuULApbDkicQK/qzP8oGRG3gghvepTgNvhGm0cOmz1g0a5CxlMPmmh/b/0YdWvW6xA2yzYLQyeomxFO1hdpNoX9RiK58KFHiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n6o4Kyo1iuTsBfUbXKMcsdsNSweHBH9UI9HzafawFD8=;
- b=onCSlxHrj53MjlzuJ1pYxtHbGxMnl77Ucl7PHSoyNmeWNjJzwx1QqNw7WrPhSOtzAS38968SaBbCSt9b/H2KVV5pfD6SuoZqwCKLMjP+DMDJ7HusT0cpu9/+tVGrmyyrOvakeuOQMlIKaszvxVJBoeIKd+9Vqw3590l04xePnPuRnqB3QHWCRVHhWe0aFxMELjUOkTaFga0SRXDyhE+/fwYksEAykmsTNE6v5GFDjpsaDR9nYDgQrFDWW9wi5jwKi+oNtjRW4zNWp/X9gOjrKUzp+4EfUjBGkIjDVKvHbjfVLIZFd8KzM9LJkA+CutV5vubddHDWeY8EGFhsNIffUA==
+ bh=qpwEhKW5AJ5AAS6UdAIlO/QMvE7Sb2fIukQOETOiQsQ=;
+ b=wYKCVlKNOhhQezX5onEtlObUFMDp/Q4nzGHP91FaYQpncH+Eq7fNjqQsXvTMQfisl6OsgLWOpeo7JIFzdu1KcyWjouh9U/wzWi6kc5/7P/1KrFJrbF8rvoFmkIT1NjDTB/iA0+mD4ChZvPAkhP3O1i3/4tdTE9Aczq8PTr8NLYPCX/L92C6K8B9jROdmiXjisFgGOKbeAh+F1CFmdY+5OZinxam4ot4G+ZzIIyMzCyi7VIKFpqPNIJzC6TGzIQrLLpzpi3o++dAnpuL5xE6S28uGgp25zsvpSfbokS3pl+/svA4D2K1EzyrDd3EQyg2XoueAMyz2qh0ybYQYEjfteA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n6o4Kyo1iuTsBfUbXKMcsdsNSweHBH9UI9HzafawFD8=;
- b=KXRpgfROeXViQUeChLZPIOAQCYVUCvOdLpAT+rl9jgg55WdvxBl5HZpU+izCTHCH4NYfxoGYvzyyOmudP1MsrRilZoZnc3X+kr0Kx7jWCFtQFnTO2QvCBfRJRPelR7WN0Wvkc63sM2i16OLq8G1BYBAupg0ReL0pJoofPqsg4YM=
+ bh=qpwEhKW5AJ5AAS6UdAIlO/QMvE7Sb2fIukQOETOiQsQ=;
+ b=DaEsBkXi6mUeRczAv0g/IgNF4yk+hfssgrKImd9dY8Iv9o+kTq6OFeKTQljtlPiETyLz7bIZ+cTLsijJDh01LCfegSgpKBlm7CnE0lokVi2RLtjzw+bHPqOK/jFrudDoqFcSrWVN2tjYnTggPyrx8a2RLmK+y2EWZAMUUAN+NNc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO0P265MB6097.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:24e::14) with
+ by LO6P265MB6125.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2b9::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
- 2026 13:01:08 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Wed, 25 Mar
+ 2026 13:09:51 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9745.019; Wed, 25 Mar 2026
- 13:01:08 +0000
+ 13:09:51 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Mar 2026 13:01:07 +0000
-Message-Id: <DHBVS7DX89G2.34ELW7TJAH7M8@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <acourbot@nvidia.com>,
- <aliceryhl@google.com>, <abdiel.janulgue@gmail.com>,
- <daniel.almeida@collabora.com>, <robin.murphy@arm.com>,
- <a.hindborg@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <tmgross@umich.edu>, <ttabi@nvidia.com>
-Cc: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 1/3] rust: uaccess: generalize write_dma() to accept any
- Coherent<T>
+Date: Wed, 25 Mar 2026 13:09:51 +0000
+Message-Id: <DHBVYVW7ZTDA.23N0Z3YOC5735@garyguo.net>
+Cc: <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
+ <robin.murphy@arm.com>, <a.hindborg@kernel.org>, <ojeda@kernel.org>,
+ <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <aliceryhl@google.com>, <tmgross@umich.edu>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] rust: dma: add CoherentHandle for DMA allocations
+ without kernel mapping
 From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
 X-Mailer: aerc 0.21.0
-References: <20260325003921.3420-1-dakr@kernel.org>
-In-Reply-To: <20260325003921.3420-1-dakr@kernel.org>
-X-ClientProxiedBy: LO4P265CA0066.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2af::9) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+References: <20260321172749.592387-1-dakr@kernel.org>
+ <20260321172749.592387-2-dakr@kernel.org>
+ <DHBAADML4BXP.131CD8C26BELH@garyguo.net>
+ <DHBD2BO4R5BM.3OS7AHYN9A7DZ@kernel.org>
+In-Reply-To: <DHBD2BO4R5BM.3OS7AHYN9A7DZ@kernel.org>
+X-ClientProxiedBy: LO4P123CA0218.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a6::7) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -71,135 +71,179 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB6097:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1a991a6-f721-4fa4-280d-08de8a6e94e4
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6125:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec3a5536-78aa-4410-8312-08de8a6fccea
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|10070799003|7053199007|56012099003|22082099003|18002099003|921020;
+	BCL:0;ARA:13230040|1800799024|366016|376014|10070799003|7416014|56012099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	bBlTFtMptl4qviY3hxjzETjLZTcaviXyBeK1S509/qbX5mK6pXnUxeJSNSzheRDgl+xCfJMwCI5biI/cY66Ug+vFzTpE4FWYP3XTP8lJ/6qPA1ySJ+ZSo37emxc46Bc0v4i+vC2HGuro8O5jCyYIMw20F4jbZNdYxxFvTcohmp0taxisLESL7KSOoLOsb2I+M1+8xO+rHGZ/N9FHidHIQkv/Hq3rELdylWdz+s2sCE/PsOlF2LdPONOA6npNQ19FaQ4LgYRGLCIaYPu4R4MwZt92y9Db5Ts3w0s0vFKaIA1jplt8DKw8580JWeKPI1HFLB9pJdEhsSN1EkucldVvase3bM074aWCOEWba/trJcgNJuV4rllpo9DWlA9azpSw4UA36ukDbyRH3iihQIV25DyyciNTO6pQyGhmT0uph8PnuSR62fZOui9QMDlqYyDEAP6CSE3SyYXNrnF/s0U/G+iU76DM2v2LnG1L4/6VKxraIPURMRWxIjmKdSsUGhn4CTKCvxfBtroMXhKS1DYFo9b1+JrYoMzRETLWXD95tfcIvqgfATFarJnfiweeLKKxB+/gk0k1qyt3fZvPYzODqFCkjemRkqwF1ivtG8FxSy45BcVKWXa1hVip4f8PYvExr4EHhGn4D72y2jcaPK/kkxytYV8I70xZ7p8uGamSDEstB1v3IiBEQisx1rY+pGdKypITRtDEE16WRaYIsiBo1zIEL16KRHCVAbXmGPG1g/nIC19Hzl6uk3tpkTZ5nRm4lY0cVot/YUmmmKPYqb0QnA==
+	+51rdAY/iCM8iPEOwUx7kY4p294xBI6gK3fDmBgB1wq34yV/ruKAh6s3BLMX4Anqk/lPskOjFWgv6U6m5OlaLqQEzCstcc6EY0O1V/SP5oFULnMcqZ79p0EsuDtOO4p/YBK+Fufjqg/NUp1FzmIkTlszedo6ke02rhuXYn0obDut31Zp5gXOXVnfbI+mRwExfuGPROG41N1oVrdD3Z8Bx/Q/c/9c5wz9qVPH899KM8f6yQOj0skD4y+WNOIkUAtR4oUQFLA/nvVIK3QXi23Kt3znsJ3z5K0vji25/vSx+37GHKta5v2KlW5TAcdOwIn7Qtww5QE7EgUAPwp64roZaAZWtqqQ0hGXDHksUXuYcD841w8784PzItk3OCvBSle3dtmc+JH9cEhF6742fC9xjUP5wef1hbF5zH4NFdjAyiUqN0BGTXqINhfB3wqcypRxT3fX+Rosv9nzxbU0YYaAi7Zbk+2c6PgsNc422XZqLGVDEjOUfyl+U6vRfcz8nKPm0/MNpDGf3Ts5qLRZGEq91zo9ZurdzubsWmlNyfyRIbO97adZBReybuSUWdYunDX1UynaL9tgKI3uow/Cz4OiYIdHB1K/8Yowgp5xZYJigviWHfYKnoor/myce4n4I4v5DgWluY3T/2MpsnheZoOlj95bOFtBhDCLpQR2c/gNLIIjz9XooqymveJxTS6fMtt24OSAWLHrvlu3s8elmCi4uJYUtxg3E4+PzjBV7ZQ/wwM=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(10070799003)(7053199007)(56012099003)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(10070799003)(7416014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SjZTY2Q2TFBaZFUvd2ZjTjJ5eXIxc01ET3Ntb3NDSkpCaWczbnJEMFRWUFBw?=
- =?utf-8?B?eXVEci9xaVRXbzIwM29wKzJzZTQ3MWRKZHdXUG8vNndiM0NxbVVCVEYrcVo0?=
- =?utf-8?B?c0pzT2pZeXFlUHcwMmR5eUc5WU1lZ0JBbDB5V1g5OCszS0dGQlNzbkQwTDlw?=
- =?utf-8?B?TVJVZGhIbjBPQWFteTA2cmFYMVQydlREc1ZYWkFKWk9LSzBWRUwweHRQMXRu?=
- =?utf-8?B?aDhkdEZXeEFzLzVhVEt6UjFucTZKSUQ4ZjAwd1Bad2FYbXAvQWJ6SHkwY1I3?=
- =?utf-8?B?dVlXeld2Ty9zbE9lWXhETlBZWXovQ1pyMmFsTHNmbExzRStIa0xZY01PRW9Q?=
- =?utf-8?B?cFh3Qm05L3BWQitMdWVJVzdOZ0loYmhGR3Yyb0RTMndCYjBCOVhrODY2YjhG?=
- =?utf-8?B?SjA1bDcxQ3BmRURlSHFuVEcrL2l2K0RyNFNMWGU5UTdWc282UnBFZkhqeHA0?=
- =?utf-8?B?Vnp1WnpHRjA1YUVPTFF1Smw1dTJmM0VDU3FCdHQ4NjBwRUFhMmpJY3hZMHNy?=
- =?utf-8?B?QUJRYzlheEJhSWdGQlpkVjdPSzhnTWxSdHRNRWtwR1gxS0dTYjRNY24yS0hO?=
- =?utf-8?B?SlMxdlFkM0VoVEt3T2xWUEdSQU1SRHBJendSWTdJOWpXZ3g4cTVvSWVIdjlx?=
- =?utf-8?B?ZUJKYnhmcHZjZkJXandrMGNKWW9sOUZweGZmbDQ4WVhHbUFOdGI2OTVLbjAr?=
- =?utf-8?B?UGlLOG1FYm14eTUxM0p0OU1idVNIRlpDVFlTTkpjbFFMYTYvMHQ5VjlGZ3M4?=
- =?utf-8?B?cG41d2J1VnB0YlRuT2FBWXVmbWlFejNtU0lyRFpUcmRvVFc5QmRJMmkvYXhm?=
- =?utf-8?B?aG0rYzVXOHFCRTZyTjRlVm91c1dKM0FnTER2cEgrTDRjdUJJODdHUHVIOGJ5?=
- =?utf-8?B?T0FLa21DUlArWEdoQWRVZzBsa0paTWE5dXMrMVdMcXV0RnJ3a3Y0c2NNV0FQ?=
- =?utf-8?B?R3hRak5neXJhYy9MVDNkTmEvMGFSeDM4bGNwNU9Yd1dHeUJQR1ZpdzRKckx1?=
- =?utf-8?B?dXA4N2dTMm1DUnc4a0QvTUpNNUtCbURRWUNGd3VOQzlvVmZOS1E5VlZ6OG1V?=
- =?utf-8?B?MHg4Z0RjeDcxdEtMNEFzSDN5YWtabUxSZHAzYmhzL2xFWWlLZXpicWVISzVY?=
- =?utf-8?B?UTFUeVAxOTlRWmZIM1BzWjl2Nm9HdHM1d1cvb3BNNE56ekE4RUZKblY0MmVM?=
- =?utf-8?B?Y0V2NDZDbExaODJDVW5iRktEU2pVN2MvZlAwTVBDK2RveEdCYjQzS25Rdm5P?=
- =?utf-8?B?Tk54Wm9laHE1MDlDUUgxZmMzaXp1SnVsSU1zRklKU2NIejVvcGM0Mm1TbTdp?=
- =?utf-8?B?Q3FwalVRYjJNdU9LQnZqeTVOTk1UWWR6Yjl5RG1qKzhpcjk1czVHM3lVaURO?=
- =?utf-8?B?aTE3dnhBdWg2MmdUeU9ZZHphVXYwOGVoVUlSOXBPREtiaDJVc0lzMkpYaU1Q?=
- =?utf-8?B?V05BRVcrMHNuVzJONy85MUVwOHJsM1FFOGRrMEJPTVhBeTdISDBNblB0RjdJ?=
- =?utf-8?B?ODhVclE0UlBjWU5RMjNIQjM5UHpGcElFSm9SSDkxb2FocjdCRGJJbngvcUNi?=
- =?utf-8?B?WDdhTEhwK1JEM1lXdmtZSUU2RnNEb1V0US9xanBTczVqUjFzRFRVNDJnb3Iv?=
- =?utf-8?B?VkcwTll0NEVlcDRmVGd4dFpocjBTSkxvZ2xsYlQzNld4eTA2STg4czJIWVZT?=
- =?utf-8?B?cW1PV1JaLzBZekVtVERIYW53aU1OU0FxanFUZ1M0SmFvNnNzMElEV0h6TW1z?=
- =?utf-8?B?SGJmaGVzZHhMNjd6eExneHk4MFpub2YxRnZZa1lRUEowbTIxYjFuMXNkcC8r?=
- =?utf-8?B?UXJDUWxjSzlEaEV6aWMwRmlZQkVjQ2tNNTY0clp6WVNLNlRJa1pHS2xwRXRj?=
- =?utf-8?B?dkhhUVZMMUNZeEpoRlNDTkMrUFVhS2o5NnZkNGtWV3BDWThXVWx6dEVpeHdj?=
- =?utf-8?B?UFhVT1VUK084Q3NZMTJ5WE1vY2lOckwydWovZllYS3JESG4xSVJVV1VCSFYw?=
- =?utf-8?B?UC9jcHpDN2V1c1pjQnI1WHB2Z0t2M0dURkdtVkNJSHRDY0o5dGt1T3MyS0lo?=
- =?utf-8?B?U1V6b2VNdEJZMExJdkdSQ3VoSWtWckpUWWtmb3NwVC9XU1hCZC90SEJhWGRR?=
- =?utf-8?B?TXR3YzM4UlJjdXJpRE5veDFNQmtZZWZmMHVsb0dkRVYyL2dZVmJCakx0RFZo?=
- =?utf-8?B?L0c5U1kzMm12VTR1cXlMU3g3dzB0VjE5a01CaVQ4Uk8zaE1OcXJwWUwrNitG?=
- =?utf-8?B?THIydnMwYkM4MWN3WUR5dDhKQjJ4Yi9oek9EeHZvR1BsZGdPbVNDQlNURjhX?=
- =?utf-8?B?YU1zT2dOSVA0R0ZtZk9HSlE5ZGlkUDBINDZHM1BtaHB2YSttMEJnUT09?=
+	=?utf-8?B?ZlNjS3hMalV1WGRLNlBnWW1oTFFOYXE5RzlwUEFvVzNpTlM2VG9PazNxNmtr?=
+ =?utf-8?B?VVFCeHZsU1VrekxNMWgzUHMwQUxGYTJKUFgxT2MyY3ArbkVFNWZIN2Q3emVu?=
+ =?utf-8?B?czJqS3ZFcUlOZGNKVTZHSGxLWUQ1eXNOb3FMRk1PaEM0RmM0blduVG1lckRx?=
+ =?utf-8?B?L2JIL3ZVMjhGdGxLODhqOUVaNzczNHQrN1NZQTlCS1VWc0kvYjZQK2JocTMz?=
+ =?utf-8?B?OTJoVW5mbnQzeFVhR1R6dFdoaFVCb0h3cG1QOFRzeXhoQ0c0OG9CU0ZIbnV3?=
+ =?utf-8?B?a3VPNEJlaDRYY2ozQUtDZmx3Qmgzb2gwK25vVWFoYUxISVpESDBtaWd5S1hT?=
+ =?utf-8?B?ZTdNODFYNVBsbDhjQ3ZiOElJblVSYnpWNnFmVDBDeFlBeldiR1JWakhNejBj?=
+ =?utf-8?B?dVNySlpPNm1zWmdseHZjNkhrSDRIdTNjbHh2MFZEc0JhUC84b2ZLTFI0b0pT?=
+ =?utf-8?B?NUVpM2VIVG9RMitQakJuUzJRUHNUbm9aS3J1dWptWmJGaGY0Zlp3aEFUbHp2?=
+ =?utf-8?B?K21tRXpwRWV5cUM0OWY4Vk9VTkcxODhLbjZMYVBKZEdGVHZQaEZFZVYyeUhi?=
+ =?utf-8?B?UVhWaTIyV2ZNTENzSEt5cy82VlNjVkRQVWVVZlFmN1N3Rm5wcGZlMlJBSm9m?=
+ =?utf-8?B?WnhlSjVoU1JqVTgrcm5JOUYyNThuOFVUS0xObmdjMWFTSUtVYzlMYm1YMlcv?=
+ =?utf-8?B?Skc5cEtEdFRJbjFLRitzVVBHVG1ZTUhQMXR4bmJDcDJFeHp0eWhyTGdwNFB4?=
+ =?utf-8?B?bnhrdXV3UXlEUUtzODJnbThJZlo4Y1kxWng4VG9xbnJwZ0JudkViRFZnK25H?=
+ =?utf-8?B?SWsraytwdGNhY0FkVTNOSS96QW9CbWxVeHhGTVY1Wk8vdllUeDcybk5tSWNX?=
+ =?utf-8?B?ODRrVkdhZmVIbEdjYnFPbC9zSzIzYko2ZEJyR3RXYUtLUXZ4ODhUN1FXT0tJ?=
+ =?utf-8?B?Vnd4YlArNFg4NFlDWERockFQclJlR0tDWkFVWDdVT2pXcC9hYjVabkIxOFhM?=
+ =?utf-8?B?SlE0QTd2emtMd3huU1E1RFZBL0N1TGVyVzlnRXR3M0pnWGVhSW5FNHlhcG01?=
+ =?utf-8?B?MmdtdGIyUFU4dFYyYUVJaTJFUi83VmxQdGd3MFFqTkpxT2FrL3BKWWpXZEZH?=
+ =?utf-8?B?dlFIS0c1dFArVXBpK2NZeGZCc1p4cFVybSs1VitTQW1rSUJpTlBQekV1Skxv?=
+ =?utf-8?B?OW1GQU9DQmVXckMyMzNHRjdoa3lLOHlESGRkakViYkJJNGFrR1RmQk4relB6?=
+ =?utf-8?B?eXBJUWl5UEJJajQ4ZnROS3BrYWpNb2NReVd3cWY1ZTl2Vk9JMnNlUVZKakFs?=
+ =?utf-8?B?dEtlNGZHRGJVWlowakdjUEVRTkRtRHFXZVlRYjRvY1kzcmN1OXY1bWQybW1k?=
+ =?utf-8?B?Q29Ma2FiL0tlVjBaK1hjeUJsMi83YmV6UWRjRDJ4Z1FycWJnTy93UTNuTUFz?=
+ =?utf-8?B?MGVuNmdORGlyQkR6dlJCYnJ1NDZDak5VKzBId1JyRHRhQlRBSm4rV05PMWNV?=
+ =?utf-8?B?b3JzRHM4NytFMGV4ZjlPYXBQVG83czdXVE14OUViTCtzeGN3azM2c1YyYnJ0?=
+ =?utf-8?B?YUpwRzR5b29ZRVhpeGpXYXNkcklsVDhBb0JCM0NzTms5ZmxhNjc5Z0pHV1d0?=
+ =?utf-8?B?TERWNnlITncvM2xlMEU1S1l1Q3EzVUVtMmRjdGMxc2xaOURQWGFORlZiUVNj?=
+ =?utf-8?B?UkMrZVRJTjV6aEpLL1RCdHFTUXA4NGw2R29aR25iRHFhR25TaHZPMFVYczE1?=
+ =?utf-8?B?UDh3b0FQQ21jd3A4REtzdDA5K2RYR3lmT2pnSmxscTBBbSszYVNKdjR1Z3ht?=
+ =?utf-8?B?ZnNNSHZDUjhaTy81QWk4SXZ3SzVXKzhieXI2YTl5OVF5VE1XL0ZxU29WMlZN?=
+ =?utf-8?B?UTVVbm94Z3piVWVZRnEwN2Z3THVOOHRqZnFJdVpWaVpqVFMrM1NIOFlwZ0xx?=
+ =?utf-8?B?dFU1S1g4VTVZS3JPWHQvclVjSm9kdEw3NStDaysvOHh0NTd2VVBPaXlyTkk4?=
+ =?utf-8?B?Q2kxeXhBdkhnYmJ1NjQ0TUpYUjRCTWdiTk9kYzNnamFMSXpqejdTTDNDbXZs?=
+ =?utf-8?B?LzhLbmYweW5pSEZEMkR3RHBEYys4d2JmeWhuQ3RmTnA0QmtNNkE0UW8vTUla?=
+ =?utf-8?B?a3czTk9lSEc2QnUwYkNtK05BbnBPejNxUUlEekZwcVJpWDY0aWd0QTU0dVUw?=
+ =?utf-8?B?UkFNay9SYjRXQ0xodEVGZ0o3djB2MnI0dWh4UXN5L0tkUDRhbVJST2FJTzF2?=
+ =?utf-8?B?ZlFIMDh1Vm4xR0tOWHhnSk1aeStyczBXOXZIUWxsa1ZjbENiSXFLQTU0djRB?=
+ =?utf-8?B?RWVIcGMxMmVKVkhOc0F4VmducDJXK3NZSm5UNGt1SEVZc3hzVXB6Zz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1a991a6-f721-4fa4-280d-08de8a6e94e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec3a5536-78aa-4410-8312-08de8a6fccea
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 13:01:08.3186
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 13:09:51.8065
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5f0EO4aa6RyfKodscHIFqum/4B6j3WTDsEOqJNRrjfJRe+9klsERsDXka6g46wO0pFi3xR4yHAWC/RmRhB+Eqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6097
+X-MS-Exchange-CrossTenant-UserPrincipalName: GwutlwkuY2lpeUMMCx3FPI4x5BxbfhZTYvogKHzhpMie1v6PLr7bRpE3VO21OLSLovgrwS31zjVL8o+Uz/XilA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6125
 
-On Wed Mar 25, 2026 at 12:39 AM GMT, Danilo Krummrich wrote:
-> Generalize write_dma() from &Coherent<[u8]> to &Coherent<T> where
-> T: KnownSize + AsBytes + ?Sized. The function body only uses as_ptr()
-> and size(), which work for any such T, so there is no reason to
-> restrict it to byte slices.
+On Tue Mar 24, 2026 at 10:20 PM GMT, Danilo Krummrich wrote:
+> On Tue Mar 24, 2026 at 9:10 PM CET, Gary Guo wrote:
+>> On Sat Mar 21, 2026 at 5:27 PM GMT, Danilo Krummrich wrote:
+>>> Add CoherentHandle, an opaque DMA allocation type for buffers that are
+>>> only ever accessed by hardware. Unlike Coherent<T>, it does not provide
+>>> CPU access to the allocated memory.
+>>>
+>>> CoherentHandle implicitly sets DMA_ATTR_NO_KERNEL_MAPPING and stores th=
+e
+>>> value returned by dma_alloc_attrs() as an opaque handle
+>>> (NonNull<c_void>) rather than a typed pointer, since with this flag the
+>>> C API returns an opaque cookie (e.g. struct page *), not a CPU pointer
+>>> to the allocated memory.
+>>>
+>>> Only the DMA bus address is exposed to drivers; the opaque handle is
+>>> used solely to free the allocation on drop.
+>>>
+>>> This commit is for reference only; there is currently no in-tree user.
+>>
+>> Thinking about this a bit more, instead of creating new separate types, =
+we can
+>> probably just have multiple flavour/kind of `Coherent`, and we default t=
+o the
+>> most common one.
+>>
+>> Something like
+>>
+>> pub struct Normal;
+>> pub struct NoMapping;
+>>
+>> struct Coherent<T: KnonwSize + ?Sized, Kind =3D Normal> {
+>>     ...
+>> }
+>>
+>> Where for the common functions, they're implemented on `Coherent<T, Kind=
+>` while
+>> the ones that require CPU mapping have `impl Coherent<T>`.
+>>
+>> The benefit is that there's no code duplication.
+>
+> This was my first thought as well.
+>
+> But I found it a bit odd that users would still have to define T, then I =
+thought
+> we could have a type alias, e.g.
+>
+> 	type CoherentHandle =3D Coherent<[u8], NoMapping>;
+>
+> In this case the constructor would be CoherentHandle::zeroed_slice(), whi=
+ch I
+> find a bit odd as well.
+>
+> Alternatively, we could have a const SIZE generic on CoherentHandle wrapp=
+ing
+> Coherent<[u8; SIZE], NoMapping>.
+>
+> Then we'd get CoherentHandle::<SIZE>::zeroed() (which I find much better)=
+, but
+> we would still have Coherent<T, NoMapping> publically available, which I =
+still
+> find a bit odd.
 
-I think there is a reason, which is that it weakens the strong typing that =
-we
-have. I think it'll be better to have this be
+This only gives you fixed size, though. If you want the same type that supp=
+orts
+both a fixed size and dynamic size, then a generic that is either array/sli=
+ce is
+the way to go.
 
-    fn write_dma<T>(&mut self, view: View<'_, Coherent<T>, [u8]>, offset: u=
-size) -> Result
+>
+> And then I thought, it's probably not worth the additional complexity and=
+ a
+> separate CoherentHandle type is probably good enough.
+>
+>> Also, you could also implement `Io` but leave out all `IoCapable` impls,=
+ so
+>> you may do I/O projections on these and be able to get offseted DMA addr=
+esses
+>> without having to do manual computation.
+>
+> This is a reason for having Coherent<T, NoMapping>, but I'm not sure it i=
+s an
+> improvement in the first place.
+>
+> If the memory is not mapped on the CPU side it is probably just an opaque
+> buffer. And I'm not sure there is a huge advantage in defining a structur=
+e
+> representing any relevant offsets and then do an I/O projection compared =
+to just
+> having constants or an enum defining those offsets.
+>
+> I also think there's not a huge difference in terms of robustness. In the=
+ former
+> case, if you mess up the offsets, the buffer size will be wrong (unless m=
+ultiple
+> offsets are wrong and compensate each other) and the device will not prop=
+erly
+> work on runtime.
+>
+> In the latter case, you either also pass a wrong offset to the device, or=
+ you
+> get a compile-time error if the offset is out of bounds (which is probabl=
+y even
+> better).
+>
+> Also, consider the case where the offset into the opaque buffer is dynami=
+c, then
+> a type and I/O projections won't help either.
 
-once we have I/O view and expect people to create cast views into bytes
-explicitly.
-
-Although, given that we already have APIs like
-
-    fn write<T: AsBytes>(&mut self, value: &T)
-
-I'm okay with putting this in until we have a replacement solution.
-
-The fact that our current uaccess mechanism is untyped itself is something =
-that
-I dislike (it feels a step back that C can represent `arbitary_type __user*=
-` and
-we just have a `void __user*`). It's on my list of things to fix to make a
-generic `UserPtr<T>`.
+You still can use `io_project!(handle, [start..end]?)` to do the bounds
+checking. But as you said, the benefit might be minimal.
 
 Best,
 Gary
-
->
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  rust/kernel/uaccess.rs | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/rust/kernel/uaccess.rs b/rust/kernel/uaccess.rs
-> index e26ef90ba8ad..6c9c1cce3c63 100644
-> --- a/rust/kernel/uaccess.rs
-> +++ b/rust/kernel/uaccess.rs
-> @@ -12,6 +12,7 @@
->      ffi::{c_char, c_void},
->      fs::file,
->      prelude::*,
-> +    ptr::KnownSize,
->      transmute::{AsBytes, FromBytes},
->  };
->  use core::mem::{size_of, MaybeUninit};
-> @@ -524,7 +525,12 @@ pub fn write_slice(&mut self, data: &[u8]) -> Result=
- {
->      ///     writer.write_dma(alloc, 0, 256)
->      /// }
->      /// ```
-> -    pub fn write_dma(&mut self, alloc: &Coherent<[u8]>, offset: usize, c=
-ount: usize) -> Result {
-> +    pub fn write_dma<T: KnownSize + AsBytes + ?Sized>(
-> +        &mut self,
-> +        alloc: &Coherent<T>,
-> +        offset: usize,
-> +        count: usize,
-> +    ) -> Result {
->          let len =3D alloc.size();
->          if offset.checked_add(count).ok_or(EOVERFLOW)? > len {
->              return Err(ERANGE);
->
-> base-commit: dff8302ca1d0e773c90dbeeb05e759f995c95482
-
