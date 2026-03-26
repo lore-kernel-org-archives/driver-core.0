@@ -1,50 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A753FBED0;
-	Thu, 26 Mar 2026 14:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079F33FEB1B;
+	Thu, 26 Mar 2026 14:31:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774534847; cv=none; b=oiF2AyGKDmy1vFLktLZVALcG+a1qqIhIQccjyG9s21TADeZHWoOVO5nWonShBSg1A0TgvavVWVBcXoLm8dSsg8bdNf7o9VdPFXrn2QkOnI5ADWblP/Hma6SAwfG512KMUvR+jr1CS+sdhFlCUXbWewu8NymuhtTjv0/xQFsDnFI=
+	t=1774535497; cv=none; b=Nwd+yzSkdPSA7crt5MUuXOluv1bETXYCu6I2t5o/NR7FXhOu9Ny6v9CurHQ3ehpzlTYIXNU7GdYTqgsOwnZ5A47q4g3MQVfGL0LoxSAJdOvRMSObBw4I0WJQ6/DV+1wRVlZJmHiK7l2YmWBA0tREMCRsv8hFW5OMbQm8HvEiRGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774534847; c=relaxed/simple;
-	bh=+gvO9WXnFBzP0gDjUrGdoVZH6cNoIT4E9swdA9rjBmk=;
+	s=arc-20240116; t=1774535497; c=relaxed/simple;
+	bh=DYohxA82BNtlEzecMId5mmE6JCa5A4RBTTnNK643eCw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JN7fNTQ3vKI+ElojlLIKo9goFMjpi/E6frsVYUarZ8vz22fED0zaIPvzAKt/XvhEzR4q8amnc/g8peY6cQDk7q6+GbiZQn6Sm+FG6yqa9QP+BAdxBjkPs0Wy02oeA/ihohBx1JD10Kfbh0dWVkwT9o+4SsZ3jBfHz+l/Yv4tk00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCfyPjeI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gzzaMYD7TPv5nEuxm+Y7rGEXu5gWoHmMb+7DG1q3uUuqLK2iF7tfDcnFXmrk0YoRdBVT2mQjpbxUNYQiV2aM5TiswQybk7HkB1eszu+1wN59CQcg0+w8D8+7Q77qqgv8cjbERrhmttWDRrXIdQvVeUjbhzcubNs0rnUCEKAhBwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkRCMZhm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCfyPjeI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C16BC116C6;
-	Thu, 26 Mar 2026 14:20:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkRCMZhm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CADF6C116C6;
+	Thu, 26 Mar 2026 14:31:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774534846;
-	bh=+gvO9WXnFBzP0gDjUrGdoVZH6cNoIT4E9swdA9rjBmk=;
+	s=k20201202; t=1774535496;
+	bh=DYohxA82BNtlEzecMId5mmE6JCa5A4RBTTnNK643eCw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=dCfyPjeIGlzamoXl+EZ6CBWSJ2XFyjHNAtT/0ynv2dlhiBsIgO0ekkfoDy8rR7xO9
-	 hcShU+w5Vrh3vNZdpmlmwF6eNxFQ6EVEZouvieixwl7c0iBoiag69F2aNZFRLN/Uk8
-	 2Bo36C0Arwry4abWUycZbCxMcbMKfQ77oKYOsLtB1djPUJXK6XNDNIMGD1OM6mtK3l
-	 dA+uvD292thx2OaXmokKFKBjYLPBuckHGbA7MZyw5a443iRCvQUMcU7Zy3tKTutmwA
-	 eT34mbqZ+6abH/rXFTNSgfklcrA9BO8dPJufhxOLq20UOQQuPvkd2bAfLd7jJYEJam
-	 WsYWUhPVMBy8g==
+	b=KkRCMZhmtRSARygOSgjLQKH7zwMenBbq1yl1N2H3F4xfLBcV/4IglPRqsXMOt07PE
+	 3/PQDC1AEilC2B3O26AEpVbHmvJeBlm3sxUGNlaIdwTfr9/OUdHDc9rlHuQPlgT2Zl
+	 vVP+65be5cJf75ihPO6sh2HCpP9evJeSHLXhzfUbG/qbdOhwGpA1iw40zz2j7ILWQB
+	 yZxGr/SgjDCMkLFePnZ6bUQbQddGyvhGIS/AF7WqTHG/RcUG0my2fCgBxFoH3SO2qi
+	 qwXuwP7G+JEwL6rab8eRidqul2TzMfCGgA+CcJ/K3cTBUWmqeBtugMiGkOnWS6cQQf
+	 Q6jFt6/2GBjaA==
 From: Andreas Hindborg <a.hindborg@kernel.org>
 To: Gary Guo <gary@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
  <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
  Baron
  <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
  <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Almeida
- <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+ <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>
 Cc: rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 3/8] rust: io: use pointer types instead of address
-In-Reply-To: <20260323153807.1360705-4-gary@kernel.org>
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/8] rust: io: add view type
+In-Reply-To: <20260323153807.1360705-5-gary@kernel.org>
 References: <20260323153807.1360705-1-gary@kernel.org>
- <U_v6wkMtfgu8yfV2Nh5Im8t1w4KZ7mdbG3VQciT2g3DULhsKBXJgIz2psuj76-V94TPNtUry3J727gLTbUByug==@protonmail.internalid>
- <20260323153807.1360705-4-gary@kernel.org>
-Date: Thu, 26 Mar 2026 15:20:34 +0100
-Message-ID: <87ldfey8nh.fsf@t14s.mail-host-address-is-not-set>
+ <I3h_hWnImlf7uTzEyQ4hvi9vJvrFgT9QHacWwuAA87AFC_Ye-dL09GYH_FKm6EO5NtnryM7bMQRIRHUL2r-Opw==@protonmail.internalid>
+ <20260323153807.1360705-5-gary@kernel.org>
+Date: Thu, 26 Mar 2026 15:31:27 +0100
+Message-ID: <87h5q2y85c.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -57,48 +54,51 @@ Content-Type: text/plain
 
 > From: Gary Guo <gary@garyguo.net>
 >
-> This carries the size information with the pointer type and metadata, makes
-> it possible to use I/O projections and paves the way for IO view types.
->
-> With this change, minimum size information becomes available through types;
-> so `KnownSize::MIN_SIZE` can be used and `IoKnownSize` trait is no longer
-> necessary. The trait is kept for compatibility and can be removed when
-> users stop using it for bounds.
->
-> PCI config space uses only offsets and not pointers like MMIO; for this
-> null pointers (with proper size metadata) is used. This is okay as I/O
-> trait impl and I/O projections can operate on invalid pointers, and for PCI
-> config space we will only use address info and ignore the provenance.
->
-> The current safety comment on `io_read`/`io_write` does not cover the topic
-> about alignment, although this is guaranteed by checks in `Io`. Add it so
-> it can be relied on by implementor of `IoCapable`.
+> The view may be created statically via I/O projection using `io_project!()`
+> macro to perform compile-time checks, or created by type-casting an
+> existing view type with `try_cast()` function, where the size and alignment
+> checks are performed at runtime.
 >
 > Signed-off-by: Gary Guo <gary@garyguo.net>
 > ---
-
-<cut>
-
-> +impl<T: Io + ?Sized> IoKnownSize for T {}
+>  rust/kernel/io.rs | 147 +++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 146 insertions(+), 1 deletion(-)
 >
->  /// Implements [`IoCapable`] on `$mmio` for `$ty` using `$read_fn` and `$write_fn`.
->  macro_rules! impl_mmio_io_capable {
->      ($mmio:ident, $(#[$attr:meta])* $ty:ty, $read_fn:ident, $write_fn:ident) => {
->          $(#[$attr])*
->          impl<T: ?Sized> IoCapable<$ty> for $mmio<T> {
-> -            unsafe fn io_read(&self, address: usize) -> $ty {
-> +            unsafe fn io_read(&self, address: *mut $ty) -> $ty {
->                  // SAFETY: By the trait invariant `address` is a valid address for MMIO operations.
->                  unsafe { bindings::$read_fn(address as *const c_void) }
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index 72902a4a343d..8166e47f1381 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -7,7 +7,11 @@
+>  use crate::{
+>      bindings,
+>      prelude::*,
+> -    ptr::KnownSize, //
+> +    ptr::KnownSize,
+> +    transmute::{
+> +        AsBytes,
+> +        FromBytes, //
+> +    }, //
+>  };
+>
+>  pub mod mem;
+> @@ -296,6 +300,13 @@ pub trait Io {
+>      /// Type of this I/O region. For untyped I/O regions, [`Region`] type can be used.
+>      type Type: ?Sized + KnownSize;
+>
+> +    /// Get a [`View`] covering the entire region.
+> +    #[inline]
+> +    fn as_view(&self) -> View<'_, Self, Self::Type> {
+> +        // SAFETY: Trivially satisfied.
 
-Should we change this to a `cast()`?
+What might be trivial to you is not necessarily obvious to others.
+Please explain why we are satisfying safety requirements.
+
+Otherwise looks good, with the above fixed, please add:
 
 Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-Side question: Can you explain a situation where `IoLoc::offset` is not identity?
-
-
 Best regards,
 Andreas Hindborg
+
 
 
