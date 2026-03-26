@@ -1,434 +1,186 @@
-Received: from flow-b1-smtp.messagingengine.com (flow-b1-smtp.messagingengine.com [202.12.124.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6279A38E5F6;
-	Thu, 26 Mar 2026 21:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EF72C17B3
+	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 21:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774559604; cv=none; b=DGQ8/l41QdGR3eB8L6Jy6h2u5pE9Eyqcnn0ROLuEbi7ER9920FqFiNaUwzCJDDrIipHbhjJy5rJA6y6FcEwL3OsR7lC5XmxFl7ByqCFzEJBd6j00zAzqCgkPH0eA4NK/2+wFf6eKq+PdKvAxX0TiqfJa8VJrIx9H4s3OZRgkpcg=
+	t=1774561794; cv=none; b=DtRfS3rc0Z6lcTZsYHKUt6wnmht1ANLD+lol1kEV9rUnm+lqoz9T6/L1yWakP8+xy9w8SJIW1Z1Ojj77qX5E7Q8RAIUK/3nq99hD2KStWuf/1HU0cYm1BoLkx7p6fJOJ09fyrOqGJyGZIFO/nyKK4Amx9IVm1vXS7lxqgGAHtdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774559604; c=relaxed/simple;
-	bh=oewKbCNQi6VCrnD2yWEUckeYtQXwwIyqIxQ7eIre35s=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=oN5e0SdKAYeiqWpA6GYyy5a/YU6w5s4bYAtWOX/oVKdgsw7Lv8sNccD4TW2cGakF9R+loVlu3xkrAs+KjfEvtNRkO3ZhvIx7hH8HtixolNjHYvzLqoKxaMfs4pXeDKx27U7Am0YjPyPN6ZnBA2dmF/wzzFqDtXBjzxnxZ7OurdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=h6asKu9U; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OXCrFmp0; arc=none smtp.client-ip=202.12.124.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1774561794; c=relaxed/simple;
+	bh=aKLX+hNPaI0XlfoPJagBu5mZrf265cU668okNsNseKc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PZoe+icQBdQ0zfGSK2MHjhMEWYy9jP13FQdP5Yk5hiLtGYD6Hvg16z2k46ztN1evFBV8JGLvGHfByHFhACphOp2lutwxPrx5RoU9OdC22m16HVbry6+csLrN+LwSETM6TnUNGQyle3pUT0ylOSmmggXeYUEWcPVmsSQcWVhIDUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bRKMIAI0; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="h6asKu9U";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OXCrFmp0"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.stl.internal (Postfix) with ESMTP id F135613000B5;
-	Thu, 26 Mar 2026 17:13:18 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Thu, 26 Mar 2026 17:13:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1774559598;
-	 x=1774566798; bh=6pjb3URkbbR01eXdGvkmTKg9j6MWjYnJLhpcHkswgr8=; b=
-	h6asKu9Uks25ifOvsWbdAJZSoSzdSq9ur05qS8lnhn9V/7eSdAB2i7oILTnWk05h
-	a1Bd7UiTH53pYCRbXfVFE7SEv1wQWMNzz4DQi9QvV1PDSBcx/dwPX2MtAshG6h9s
-	uNvT/JNFfEKe59zeVqppgigdwUzitymd/Yh/E2tFdqDDeqv4j+G/9aGkQh6Fe+s5
-	midsXRlD2K/MuIyiAFPpc2orO7JtJLzKRjCAs7k/miWaYl7rwmoPqaM+8FnMGApS
-	yTq/OCHm/mm0DAuonaZ6+v92mbvkTMkShEEMhNkCWquTmCcLIuq6HvzhGZdBaatc
-	UOByiv+8LC9UuODYhXbuYA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1774559598; x=
-	1774566798; bh=6pjb3URkbbR01eXdGvkmTKg9j6MWjYnJLhpcHkswgr8=; b=O
-	XCrFmp0xOx34V+/K+8Az+IxDwAi0L+d5/ghlz5sW2+v5K5TS/Lmw18CzE2aWaDD1
-	lUCrX1ge/MGkGOijz4Gid3J3VilT7GgYu5MrTH1NSW4+cRxywYAXIV9CywX9qOsi
-	iXHdqq7t3yAqpK/xcBjDu1Fw2LvYf5SdkPS07TRs94A7pp5MplN7/hvYHpF2nGWk
-	7VUmVMTVHMmIfYxvn1VT4X+9KSDvLPyocrwABTjv9Hwa2D1w/OdJiewf0PANvYUE
-	om86o69UMnG81/maqi5puEjUwhYy/jWqIWYka2xfUupH1/auvrOn0cFXjmEkRFzP
-	h8zv2fuqgRd/pV4lc+zKw==
-X-ME-Sender: <xms:bKHFaS1M2gDWqgSSjr5TTWzG-0MpiTpD6ijnhoWWMcY4y66zpocZYA>
-    <xme:bKHFaf6wbZjHiirlgQKu81zSxSJGhzT7vY8geF5gvIGBuYCkhLC37Y23WHblY5xQ7
-    dxjJ-ftXhETnPmcdwb7w0yJtIxQdqKZdkpht41Z4pLBOsy7HKWqS2E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvdekgeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepgedvpdhmohguvgepshhmthhpohhu
-    thdprhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmhdrtghomhdprhgtphhtth
-    hopehrohgsihhnrdhmuhhrphhhhiesrghrmhdrtghomhdprhgtphhtthhopehlihhnuhig
-    segrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheprghnthhonhdrihhvrghnoh
-    hvsegtrghmsghrihgughgvghhrvgihshdrtghomhdprhgtphhtthhopegurghnihgvlhdr
-    rghlmhgvihgurgestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurghvihguse
-    gurghvihgughhofidrnhgvthdprhgtphhtthhopehgrghrhiesghgrrhihghhuohdrnhgv
-    thdprhgtphhtthhopegrsgguihgvlhdrjhgrnhhulhhguhgvsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtohepsghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:bKHFacD0ra2IKewOzV85-guaMKbD70dENWsy-p75QsHo1Yk0z9Nn_g>
-    <xmx:bKHFaathmkCZaZCL5hDPhlvL3BEdEuWC-JUBLqLCWV9m_v1HsxUVmg>
-    <xmx:bKHFaWue742_u7hiwisJ5WxIf99QUzzi0Dr0SkABQDBOjBgU5pdtxg>
-    <xmx:bKHFaeX3iXr1bIB49LOaucusKHBGCI8-g5rftWB0rU1MNmzYPTijsg>
-    <xmx:bqHFaY1IWjdkzpMo1o5XFVQetaAAt7u7flqJ1LRde5SJaQlj3ZPuM0gR>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B95A4700065; Thu, 26 Mar 2026 17:13:16 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bRKMIAI0"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b941762394aso202944766b.1
+        for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 14:49:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1774561787; x=1775166587; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VAKkSou4roERMDhHrtw7MaZZUWuXxGKKeAc/MZ02tbA=;
+        b=bRKMIAI0cr/fBtQjmQJ+belDcKQRKif0QjbdvDO/1XXRqAR5MNl+s6zIHp6gVs7Lfe
+         bnmuSRBeC26e6tRY0l3iXTl0WhZM8aoroLo2zXcozOaG9W1BSMvR5TLz+kcq7TGt9RLa
+         pUBLH2qrRaeB5wHfUjdGEaToqW4s3yo9Jk1uQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774561787; x=1775166587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VAKkSou4roERMDhHrtw7MaZZUWuXxGKKeAc/MZ02tbA=;
+        b=TZ7dArIax1z9H5qzmbPotzvGG41RZSkbeAxXL4JbX1hk8N1ko+2u3vyijYGxuI7h3F
+         sdO5YdA0gYGDo6tZ6/vw6jCgy1twf8rchDqJk/KlsbX020YzxAzs4HAMwa5HKqaUSAdQ
+         lfbqaSpMCgKCf/I++oiW13gAKy2pTfPdWmpw7sEfICuIlwP6hP1P+OYzZDbC+TSxZNmY
+         /pyGn2LFTwWO8yLATbbyUBQ5OLMsBhFgLalOC0D32J+pUT7WyjmaV7fOj1CSjcL/1war
+         WBlX4/wN9e8gufnZ7pmBH1ZTPImHm4A5sqgqcfgcxkknZy3vxsqa4LkPyLeXyOkqPIXB
+         NHKg==
+X-Forwarded-Encrypted: i=1; AJvYcCVIrNEhh9Fs3mvO2qCxhbmh3I4/pb80uffL5bJl+pheV9Zp0yC58IeZuwBVknxQ/8ZiCptCgxQ//2UGSA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6cW70FlQFPWFODxXohBGrEFExMwf1rbVWB3tMvqUvazTTmlRg
+	mCzRgRTh3/mMkvsiTGFVHsswDiij3+Aer8FizFk7V759BIYxnxlsUT0hxKwvfdFDzY07TEonk+l
+	5k87Amg==
+X-Gm-Gg: ATEYQzzNZHUf4ZLnChcAwy9hlaJ6FTQETUgprqOHlgKDAvJvRDhMQwSHQ1CkAZbpFHN
+	edhk5DbaxaoCIQZA0zeCOppxkPcxDMJlAi8yMYGDa2R4LFrLGWDXobooyeuB2TWINbSwf1QYG+L
+	D8H0UozT1G+YqG5OBTQePtj+vVZVLip4Ea0javhf55YTI2wVxpbB6eIsTgK3+8lxv8FuGMnhSqc
+	Efom9WYSGWtNC6WEzuA50/VD5VlhLe8vZpOQm5hTPkslqUY/X6usajeNBreG8FBtrEYb8P1EKmt
+	X6FhYKnqCbbvleIcmix6+2ozjnBSmeJ8XoKb7w8/MiNyaZq2dphqnInxWDVmxkMIyqOBPcsPHF1
+	HIWp5kZHySAC4t3/5sHWtMAWuGZOAvR8uYFks0gA0Lp4Tg/1XwTCT4jPpEoqGfAWoOCOPYlegE0
+	g8Ei3zZiBCa9U7YaSmV8U87ARUXxLau/67KiHIsghNPeQ6n1lwjHBJEwhEWy9sqQ==
+X-Received: by 2002:a17:907:971e:b0:b8e:796a:fd5c with SMTP id a640c23a62f3a-b9b507b20camr4303866b.27.1774561787378;
+        Thu, 26 Mar 2026 14:49:47 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b20218736sm170114366b.12.2026.03.26.14.49.45
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2026 14:49:45 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439d8dc4ae4so1340508f8f.2
+        for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 14:49:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWiiQ01PhXMATGNcwmKRNcu0dx/XBSUSpQAk4reWN2Hki3mg+Dqxtq0gXSPgfdhgFa1SiUuVyHKVLDEuQ==@lists.linux.dev
+X-Received: by 2002:a05:6000:18a5:b0:439:d755:a895 with SMTP id
+ ffacd0b85a97d-43b889f5a83mr15702276f8f.42.1774561785162; Thu, 26 Mar 2026
+ 14:49:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AUJnWW6OA6Vc
-Date: Thu, 26 Mar 2026 22:12:24 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Miguel Ojeda" <ojeda@kernel.org>,
- "Marek Szyprowski" <m.szyprowski@samsung.com>,
- "Robin Murphy" <robin.murphy@arm.com>, "Danilo Krummrich" <dakr@kernel.org>,
- "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Christoph Hellwig" <hch@lst.de>
-Cc: iommu@lists.linux.dev, driver-core@lists.linux.dev, acourbot@nvidia.com,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Alice Ryhl" <aliceryhl@google.com>,
- "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "David Gow" <david@davidgow.net>,
- "Gary Guo" <gary@garyguo.net>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "Justin Stitt" <justinstitt@google.com>,
- linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-um@lists.infradead.org, "Russell King" <linux@armlinux.org.uk>,
- llvm@lists.linux.dev, "Benno Lossin" <lossin@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, mmaurer@google.com,
- "Bill Wendling" <morbo@google.com>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
- "Nicolas Schier" <nicolas.schier@linux.dev>,
- "Nicolas Schier" <nsc@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Richard Weinberger" <richard@nod.at>, rust-for-linux@vger.kernel.org,
- "Trevor Gross" <tmgross@umich.edu>,
- "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
- "Will Deacon" <will@kernel.org>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>
-Message-Id: <7ad8bdf9-5eff-4443-ad15-c05355d793d1@app.fastmail.com>
-In-Reply-To: <20260322194616.89847-1-ojeda@kernel.org>
-References: <20260322192159.88138-1-ojeda@kernel.org>
- <20260322194616.89847-1-ojeda@kernel.org>
-Subject: Re: [PATCH v2 0/3] Inline helpers into Rust without full LTO
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+ <2026032152-getting-carmaker-29d5@gregkh> <CAD=FV=Wag5qx9RXkAHrf+zbwtQgVQW1UUc6DRhUzudBtjbD8ug@mail.gmail.com>
+ <2026032114-unlocked-unmoving-091b@gregkh> <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
+ <6ff1444b-f83e-47f6-ab0d-6745738523ba@rowland.harvard.edu>
+ <CAD=FV=Vco+hRBNxGpUDf-YofEwTR13ht=nTnjvUvT+3_76+1MA@mail.gmail.com>
+ <6511a5b9-ac67-49a1-8336-3d2afaaab593@rowland.harvard.edu>
+ <CAD=FV=WBgKN2MNO-xBHZ3tRN91M82vk3h1AEAXtpBQ-nQocKCQ@mail.gmail.com> <bfd4e1f5-7bc5-448d-aa33-1a977bf00733@rowland.harvard.edu>
+In-Reply-To: <bfd4e1f5-7bc5-448d-aa33-1a977bf00733@rowland.harvard.edu>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 26 Mar 2026 14:49:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WeeBoQAoPgNq+5ocZas+mOn1RuNto3k57ag4ODo2vOLw@mail.gmail.com>
+X-Gm-Features: AQROBzCCSDGRZbt8Tt1gAypD9l0-fhRzQjRInpIAEQRFJCJSpoBx2KceRxCnDFw
+Message-ID: <CAD=FV=WeeBoQAoPgNq+5ocZas+mOn1RuNto3k57ag4ODo2vOLw@mail.gmail.com>
+Subject: Re: [RFC PATCH] driver core: Don't link the device to the bus until
+ we're ready to probe
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 22, 2026, at 20:46, Miguel Ojeda wrote:
-> On Sun, 22 Mar 2026 20:21:59 +0100 Miguel Ojeda <ojeda@kernel.org> wrote:
->>
->       BINDGEN rust/bindings/bindings_generated.rs - due to target 
-> missing
->     In file included from rust/helpers/helpers.c:59:
->     rust/helpers/dma.c:17:2: warning: static function 'dma_free_attrs' 
-> is used in an inline function with external linkage [-Wstatic-in-inline]
->        17 |         dma_free_attrs(dev, size, cpu_addr, dma_handle, 
-> attrs);
->           |         ^
->     rust/helpers/dma.c:12:1: note: use 'static' to give inline function 
-> 'rust_helper_dma_free_attrs' internal linkage
->        12 | __rust_helper void rust_helper_dma_free_attrs(struct device 
-> *dev, size_t size,
->           | ^
->           | static
+Hi,
+
+On Tue, Mar 24, 2026 at 8:21=E2=80=AFAM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
 >
-> For some reason, `dma_free_attrs` is not marked `inline` in
-> `include/linux/dma-mapping.h` to begin with, unlike the rest.
+> > I'll do that if that's what everyone wants, but the more I think about
+> > it the more worried I am that we'll end up with a hidden / harder to
+> > debug problem where some driver gets unhappy when its probe is called
+> > before dpm_sysfs_add(), device_pm_add(), device_create_file(),
+> > device_create_sys_dev_entry(), BUS_NOTIFY_ADD_DEVICE, ...
 >
-> Unless I am missing something and there is a reason for that, it looks
-> like it has just been missing since it was added in commit ed6ccf10f24b
-> ("dma-mapping: properly stub out the DMA API for !CONFIG_HAS_DMA").
+> It's hard to know for all of them.  However, it seems pretty clear that
+> device_pm_add() should come before probing, since a probe routine will
+> generally want to affect the device's runtime PM state.
+
+Yup, that seems right to me, too. It's why I was trying to avoid just
+moving fixing the fwdevlink assignment. I didn't want to run into more
+hard-to-debug issues later.
+
+
+> > > There should not be any difference between probing caused by the devi=
+ce
+> > > being added to the bus, vs. caused by a new driver being registered, =
+vs.
+> > > caused by anything else (such as sysfs).  None of these should be
+> > > allowed until all of them can be handled properly.
+> >
+> > Right. ...and I think that's what my proposed "ready_to_probe" does.
+> > It really does seem like quite a safe change. It _just_ prevents the
+> > driver load path from initiating a probe too early.
 >
-> Do you want a patch?
+> Any such consideration should apply to all the probe paths, not just
+> driver loading.  (Also, if it's too early to probe the device, perhaps
+> the return code should be -EAGAIN instead of 0.)
 
-I have an older patch to drop CONFIG_NO_DMA entirely, which 
-may be better here, since we know that nobody cares about the
-empty stubs.
+In my proposed solution, I was returning 0 from __driver_attach(). The
+only place that's called from is driver_attach(), which calls it with
+bus_for_each_dev(). I don't think returning -EAGAIN is a good idea
+there since it stops bus_for_each_dev(). In general __driver_attach()
+always returns 0.
 
-The only targets that 'select NO_DMA' today are m68k (sun3
-and dragonball), sh2 and um, which are some of the targets
-that don't have any DMA masters, but there is little downside
-of enabling the DMA mapping interfaces on those as well.
+In general, the goal of my new proposed patch is to add the device to
+the subsystem's "klist_devices" exactly where we do it today for
+maximum compatibility. This means that if any code was relying on
+being able to find the device, they can still find it. The _only_
+exception is that I don't want to be able to find the device in
+driver_attach(). So my proposed solution just hides the device in that
+one case.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+I believe this should be fine. Specifically, driver_attach() could
+have been called (in another thread) immediately before
+bus_add_device() and everything would have been fine. driver_attach()
+wouldn't have found the device (because it wasn't linked in) but the
+probe would still happen.
 
-diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
-index 11835eb59d94..19fb556357fc 100644
---- a/arch/m68k/Kconfig
-+++ b/arch/m68k/Kconfig
-@@ -38,7 +38,6 @@ config M68K
- 	select MMU_GATHER_NO_RANGE if MMU
- 	select MODULES_USE_ELF_REL
- 	select MODULES_USE_ELF_RELA
--	select NO_DMA if !MMU && !COLDFIRE
- 	select OLD_SIGACTION
- 	select OLD_SIGSUSPEND3
- 	select UACCESS_MEMCPY if !MMU
-diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
-index c9a7e602d8a4..adc50396b87d 100644
---- a/arch/m68k/Kconfig.cpu
-+++ b/arch/m68k/Kconfig.cpu
-@@ -38,7 +38,6 @@ config SUN3
- 	depends on MMU
- 	select HAVE_ARCH_PFN_VALID
- 	select LEGACY_TIMER_TICK
--	select NO_DMA
- 	select M68020
- 	help
- 	  This option enables support for the Sun 3 series of workstations
-@@ -558,4 +557,4 @@ config COLDFIRE_COHERENT_DMA
- config M68K_NONCOHERENT_DMA
- 	bool
- 	default y
--	depends on HAS_DMA && !COLDFIRE_COHERENT_DMA
-+	depends on HAS_DMA && !COLDFIRE_COHERENT_DMA && !SUN3
-diff --git a/arch/m68k/include/asm/pgtable_mm.h b/arch/m68k/include/asm/pgtable_mm.h
-index 7501ff030c63..d095ae6c19f9 100644
---- a/arch/m68k/include/asm/pgtable_mm.h
-+++ b/arch/m68k/include/asm/pgtable_mm.h
-@@ -159,8 +159,10 @@ static inline void update_mmu_cache_range(struct vm_fault *vmf,
- 	    ? (__pgprot((pgprot_val(prot) & _CACHEMASK040) | _PAGE_NOCACHE_S))	\
- 	    : (prot)))
- 
-+#ifndef CONFIG_SUN3
- pgprot_t pgprot_dmacoherent(pgprot_t prot);
- #define pgprot_dmacoherent(prot)	pgprot_dmacoherent(prot)
-+#endif
- 
- #endif /* CONFIG_COLDFIRE */
- #endif /* !__ASSEMBLER__ */
-diff --git a/arch/m68k/kernel/dma.c b/arch/m68k/kernel/dma.c
-index 16063783aa80..c52584e024af 100644
---- a/arch/m68k/kernel/dma.c
-+++ b/arch/m68k/kernel/dma.c
-@@ -8,7 +8,7 @@
- #include <linux/kernel.h>
- #include <asm/cacheflush.h>
- 
--#ifndef CONFIG_COLDFIRE
-+#if !defined(CONFIG_COLDFIRE) && !defined(CONFIG_SUN3)
- void arch_dma_prep_coherent(struct page *page, size_t size)
- {
- 	cache_push(page_to_phys(page), size);
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index d5795067befa..e246f295ec48 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -63,7 +63,6 @@ config SUPERH
- 	select LOCK_MM_AND_FIND_VMA
- 	select MODULES_USE_ELF_RELA
- 	select NEED_SG_DMA_LENGTH
--	select NO_DMA if !MMU && !DMA_COHERENT
- 	select NO_GENERIC_PCI_IOPORT_MAP if PCI
- 	select OLD_SIGACTION
- 	select OLD_SIGSUSPEND
-@@ -133,10 +132,10 @@ config SWAP_IO_SPACE
- 	bool
- 
- config DMA_COHERENT
--	bool
-+	def_bool !MMU
- 
- config DMA_NONCOHERENT
--	def_bool !NO_DMA && !DMA_COHERENT
-+	def_bool !DMA_COHERENT
- 	select ARCH_HAS_DMA_PREP_COHERENT
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select DMA_DIRECT_REMAP
-diff --git a/arch/um/Kconfig b/arch/um/Kconfig
-index 098cda44db22..dd3428a49614 100644
---- a/arch/um/Kconfig
-+++ b/arch/um/Kconfig
-@@ -25,7 +25,6 @@ config UML
- 	select HAVE_DEBUG_KMEMLEAK
- 	select HAVE_DEBUG_BUGVERBOSE
- 	select HAVE_PAGE_SIZE_4KB
--	select NO_DMA if !UML_DMA_EMULATION
- 	select OF_EARLY_FLATTREE if OF
- 	select GENERIC_IRQ_SHOW
- 	select GENERIC_CPU_DEVICES
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 677c51ab7510..a96a22f857f1 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -138,7 +138,6 @@ static inline void debug_dma_map_single(struct device *dev, const void *addr,
- }
- #endif /* CONFIG_DMA_API_DEBUG */
- 
--#ifdef CONFIG_HAS_DMA
- static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
- {
- 	debug_dma_mapping_error(dev, dma_addr);
-@@ -200,146 +199,6 @@ void *dma_vmap_noncontiguous(struct device *dev, size_t size,
- void dma_vunmap_noncontiguous(struct device *dev, void *vaddr);
- int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
- 		size_t size, struct sg_table *sgt);
--#else /* CONFIG_HAS_DMA */
--static inline dma_addr_t dma_map_page_attrs(struct device *dev,
--		struct page *page, size_t offset, size_t size,
--		enum dma_data_direction dir, unsigned long attrs)
--{
--	return DMA_MAPPING_ERROR;
--}
--static inline void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr,
--		size_t size, enum dma_data_direction dir, unsigned long attrs)
--{
--}
--static inline dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys,
--		size_t size, enum dma_data_direction dir, unsigned long attrs)
--{
--	return DMA_MAPPING_ERROR;
--}
--static inline void dma_unmap_phys(struct device *dev, dma_addr_t addr,
--		size_t size, enum dma_data_direction dir, unsigned long attrs)
--{
--}
--static inline unsigned int dma_map_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--	return 0;
--}
--static inline void dma_unmap_sg_attrs(struct device *dev,
--		struct scatterlist *sg, int nents, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--}
--static inline int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
--		enum dma_data_direction dir, unsigned long attrs)
--{
--	return -EOPNOTSUPP;
--}
--static inline dma_addr_t dma_map_resource(struct device *dev,
--		phys_addr_t phys_addr, size_t size, enum dma_data_direction dir,
--		unsigned long attrs)
--{
--	return DMA_MAPPING_ERROR;
--}
--static inline void dma_unmap_resource(struct device *dev, dma_addr_t addr,
--		size_t size, enum dma_data_direction dir, unsigned long attrs)
--{
--}
--static inline int dma_mapping_error(struct device *dev, dma_addr_t dma_addr)
--{
--	return -ENOMEM;
--}
--static inline void *dma_alloc_attrs(struct device *dev, size_t size,
--		dma_addr_t *dma_handle, gfp_t flag, unsigned long attrs)
--{
--	return NULL;
--}
--static inline void dma_free_attrs(struct device *dev, size_t size,
--		void *cpu_addr, dma_addr_t dma_handle, unsigned long attrs)
--{
--}
--static inline void *dmam_alloc_attrs(struct device *dev, size_t size,
--		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
--{
--	return NULL;
--}
--static inline void dmam_free_coherent(struct device *dev, size_t size,
--		void *vaddr, dma_addr_t dma_handle)
--{
--}
--static inline int dma_get_sgtable_attrs(struct device *dev,
--		struct sg_table *sgt, void *cpu_addr, dma_addr_t dma_addr,
--		size_t size, unsigned long attrs)
--{
--	return -ENXIO;
--}
--static inline int dma_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
--		void *cpu_addr, dma_addr_t dma_addr, size_t size,
--		unsigned long attrs)
--{
--	return -ENXIO;
--}
--static inline bool dma_can_mmap(struct device *dev)
--{
--	return false;
--}
--static inline bool dma_pci_p2pdma_supported(struct device *dev)
--{
--	return false;
--}
--static inline int dma_set_mask(struct device *dev, u64 mask)
--{
--	return -EIO;
--}
--static inline int dma_set_coherent_mask(struct device *dev, u64 mask)
--{
--	return -EIO;
--}
--static inline u64 dma_get_required_mask(struct device *dev)
--{
--	return 0;
--}
--static inline bool dma_addressing_limited(struct device *dev)
--{
--	return false;
--}
--static inline size_t dma_max_mapping_size(struct device *dev)
--{
--	return 0;
--}
--static inline size_t dma_opt_mapping_size(struct device *dev)
--{
--	return 0;
--}
--static inline unsigned long dma_get_merge_boundary(struct device *dev)
--{
--	return 0;
--}
--static inline struct sg_table *dma_alloc_noncontiguous(struct device *dev,
--		size_t size, enum dma_data_direction dir, gfp_t gfp,
--		unsigned long attrs)
--{
--	return NULL;
--}
--static inline void dma_free_noncontiguous(struct device *dev, size_t size,
--		struct sg_table *sgt, enum dma_data_direction dir)
--{
--}
--static inline void *dma_vmap_noncontiguous(struct device *dev, size_t size,
--		struct sg_table *sgt)
--{
--	return NULL;
--}
--static inline void dma_vunmap_noncontiguous(struct device *dev, void *vaddr)
--{
--}
--static inline int dma_mmap_noncontiguous(struct device *dev,
--		struct vm_area_struct *vma, size_t size, struct sg_table *sgt)
--{
--	return -EINVAL;
--}
--#endif /* CONFIG_HAS_DMA */
- 
- #ifdef CONFIG_IOMMU_DMA
- /**
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index 0748091339f7..228a3566d344 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -1,12 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--config NO_DMA
--	bool
--
- config HAS_DMA
--	bool
--	depends on !NO_DMA
--	default y
-+	def_bool y
- 
- config DMA_OPS_HELPERS
- 	bool
+
+> I'm not at all sure whether the constraints we've got will need to force
+> some events to happen after adding the device to the bus list and before
+> allowing probing to start.
+>
+> > > And linking the device into the bus's list of devices should be the
+> > > event that makes probing possible.
+> >
+> > Sure, but moving the linking into the bus's list of devices all the
+> > way to the end is definitely a bigger change. If nothing else,
+> > "bus_for_each_dev()" starts to be able to find the device once it's
+> > linked into the list. If any of the ~50 drivers who register for
+> > BUS_NOTIFY_ADD_DEVICE are relying on the device to show up in
+> > "bus_for_each_dev()", it would be bad...
+>
+> I don't know the answer to this.  That is, I don't know if there are any
+> notification handlers depending on the device showing up in the bus's
+> list.  The safest thing to do is issue the notification after adding the
+> device to the list -- which may mean after probing has potentially
+> started.  Is there any reason why that would be a problem?  I'm not
+> aware of any.
+
+I'm not completely sure I follow what you're suggesting here...
+
+
+> The order constraints should be commented explicitly in device_add(),
+> not just implicitly implied by the code.  Otherwise people won't know
+> what changes are allowed and what changes are forbidden.
+
+Yup! I added comments about ordering constraints in this RFC patch,
+and will continue to do so as it evolves.
+
+I still believe adding a flag that just hides the device from
+driver_attach() is a safe and correct approach. In general I don't
+want to fragment the discussoin, but I think it might be useful to
+send a v2 that shows what that looks like. Any objections?
+
+-Doug
