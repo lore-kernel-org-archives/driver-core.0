@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10D9257845;
-	Thu, 26 Mar 2026 12:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7352BDC03;
+	Thu, 26 Mar 2026 13:04:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774529620; cv=none; b=d7XeHNR6iZEa6q+O04nG12jywWufnmsFKLySRx0+TKaNo35/QEiNyac3+aWxiPmdqXVGd2HsD68aQOSoUUTEo2nHMWkedIGG3fixnb5RKWwJRchmWmTQQxWiD8xQlDLco9a57ENTGAKThUTdkgD4K70JTRdN1YYC88iYGMa5h/I=
+	t=1774530295; cv=none; b=gDLg5RwtVffMoIAxNryVUX8i6K2ni1ohE8NE1wGpvTHrUGzDjL18fjHbOFN8Wdo1C87qC9adDWHP2JMlHS0IueQSftQFPGP6XejlOQi1SHqBLjiedavLvck0w06ias8U5Qc7GRRDtjlWp51TLQj1j+vQcJA+KVqWYsls0EfVZUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774529620; c=relaxed/simple;
-	bh=80KiVgwReRwySXtrCxSXvGlSJLiGm8VdqBp48VE8RXE=;
+	s=arc-20240116; t=1774530295; c=relaxed/simple;
+	bh=p+/+XYruYOm+4/dQGicjJQI45qgozHZLu0iAWiz85c0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mx29tY+3a9SpYlQ1r/SDjUUWJ34UoElrhVZ6QTnYExQxunkNu4KdS78oOxUjskpxeNvn/+DGtMTDR1ezNi2sDLxt3PZnDwfLWOr7ddm6q5Fa4+CfVs3yf2WZ1TtTXxSUyikTIiztgkpVshdL+KfS8oIGiFItfsukUnnFEGHt2FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KClnAzCx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=n36dG6AbK6NivqpJY/it4HZ8t9UqjF+98im031kmiyojmtrc1jyoqz9FGAp8TQJZzt9WQtzpQGsEXTtfrUVYBktBKoLQEqVrIsVJPRRfZtAIqJsCd4/sJmHVBilo0W9yl+BTHW0R+bnyNFV7MC/fZrsMUM6R996dMA5fIXETrjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ABKH3HCt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KClnAzCx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35CD6C116C6;
-	Thu, 26 Mar 2026 12:53:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ABKH3HCt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A25C116C6;
+	Thu, 26 Mar 2026 13:04:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774529619;
-	bh=80KiVgwReRwySXtrCxSXvGlSJLiGm8VdqBp48VE8RXE=;
+	s=k20201202; t=1774530295;
+	bh=p+/+XYruYOm+4/dQGicjJQI45qgozHZLu0iAWiz85c0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KClnAzCxSv+EQRetCB5KwH/v+L2cAZO7rp0oDqXm/16Nd0SXns8+MEcgcUay4GU+N
-	 ow4RGYTWZHWfULdkozox8Eni0kWW5EFDofH8sYMbOI9ERhmmEMkb8V1QDujoD39j65
-	 F2Lq6uA4hH9W2x/VvuR9aOnDO1h4YU1gXI6yc9f597YFKGckoUmCnbdTLfpIe/r9Nu
-	 sX30sPd179VmmGeTd9/WmW+K52YxA7SGcDKaPIHQrIM341DyjhaNow0tMm5Ywa8/3N
-	 pawGzHsKKKPSiZqMyGxE+0+6QMUExvBwAbQimk1qvlLikic7dO9ue/kxM7OaZBBgqI
-	 8FEkGNajLViSw==
+	b=ABKH3HCtVpzsOhZUFIsmFol3gcEwj71cYxAcMriC/PYYXzXnFOsM1eGV/O3HqO6Ro
+	 CQ8K+ltSIjofr5wcreoN1J1Q/tCgD91BJ9sknbW/Mt2ocMDIhMEk/j+a9422bvxjj6
+	 aV9N8WgsergofSEq/fuWelBpfbfj9sEHord+8WIPZBW5vKbTtQbyVz4kT8oM05JIoL
+	 HHCsGPfzHeqMBEQC8ftoEekxhIFTOxBr+gamMk6hSX5rT1gdnh5Yz4OWiuLDO401Ir
+	 aKHkEsDhtNXgajOyx8FqcKC15qpVlm/Vbuz+aImsLB1OtzDXqCs1M0cQt6k+gZoy09
+	 CkjNgeBm5NAMQ==
 From: Andreas Hindborg <a.hindborg@kernel.org>
 To: Gary Guo <gary@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
  <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
@@ -38,14 +38,13 @@ To: Gary Guo <gary@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
  Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
 Cc: rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 1/8] rust: io: generalize `MmioRaw` to pointer to
- arbitrary type
-In-Reply-To: <20260323153807.1360705-2-gary@kernel.org>
+Subject: Re: [PATCH 2/8] rust: io: generalize `Mmio` to arbitrary type
+In-Reply-To: <20260323153807.1360705-3-gary@kernel.org>
 References: <20260323153807.1360705-1-gary@kernel.org>
- <5t7h2K-OzntmDmVbwyRSJCfuCaWFNs8bmYJMd8dOrRTuDwmTSrbBdgPily9gdXK_ylxKdR1REa6Oa2puVmTHPg==@protonmail.internalid>
- <20260323153807.1360705-2-gary@kernel.org>
-Date: Thu, 26 Mar 2026 13:53:30 +0100
-Message-ID: <87qzp6ycol.fsf@t14s.mail-host-address-is-not-set>
+ <_GdG2BR4qqT-8cwpiurteKJJr58WPTCsM6UyCU0NsA1DK6yTNMiSGOBZlm79OMaLm_tIMM7feHDx7mKljWea4A==@protonmail.internalid>
+ <20260323153807.1360705-3-gary@kernel.org>
+Date: Thu, 26 Mar 2026 14:04:46 +0100
+Message-ID: <87o6kayc5t.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -58,270 +57,75 @@ Content-Type: text/plain
 
 > From: Gary Guo <gary@garyguo.net>
 >
-> Conceptually, `MmioRaw` is just `__iomem *`, so it should work for any
-> types. The existing use case where it represents a region of compile-time
-> known minimum size and run-time known actual size is moved to a custom
-> dynamic-sized type `Region<SIZE>` instead. The `maxsize` method is also
-> renamed to `size` to reflect that it is the actual size (not a bound) of
-> the region.
+> Currently, `io::Mmio` always represent an untyped region of a compile-time
+> known minimum size, which is roughly equivalent to `void __iomem*` (but
+> with bound checks). However, it is useful to also be to represent I/O
+> memory of a specific type, e.g. `u32 __iomem*` or `struct foo __iomem*`.
+>
+> Thus, make `Mmio` generic on arbitrary `T`, where `T` is a sized type, or a
+> DST that implements `KnownSize`. Similar to the `MmioRaw` change, the
+> existing behaviour is preserved in the form of `Mmio<Region<SIZE>>`. This
+> change brings the MMIO closer to the DMA coherent allocation types that we
+> have, which is already typed.
+>
+> To be able to implement `IoKnownSize`, add a `MIN_SIZE` constant to
+> `KnownSize` trait to represent compile-time known minimum size of a
+> specific type.
 >
 > Signed-off-by: Gary Guo <gary@garyguo.net>
 > ---
->  rust/kernel/devres.rs |  7 ++--
->  rust/kernel/io.rs     | 84 +++++++++++++++++++++++++++++++++----------
->  rust/kernel/io/mem.rs |  4 +--
->  rust/kernel/pci/io.rs |  4 +--
->  4 files changed, 74 insertions(+), 25 deletions(-)
+>  rust/kernel/devres.rs      |  2 +-
+>  rust/kernel/io.rs          | 63 ++++++++++++++++++++++----------------
+>  rust/kernel/io/mem.rs      |  4 +--
+>  rust/kernel/io/poll.rs     |  6 ++--
+>  rust/kernel/io/register.rs | 19 +++++++-----
+>  rust/kernel/pci/io.rs      |  2 +-
+>  rust/kernel/ptr.rs         |  7 +++++
+>  7 files changed, 64 insertions(+), 39 deletions(-)
 >
 > diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
-> index 9e5f93aed20c..65a4082122af 100644
+> index 65a4082122af..3e22c63efb98 100644
 > --- a/rust/kernel/devres.rs
 > +++ b/rust/kernel/devres.rs
-> @@ -71,14 +71,15 @@ struct Inner<T> {
->  ///         IoKnownSize,
->  ///         Mmio,
->  ///         MmioRaw,
-> -///         PhysAddr, //
-> +///         PhysAddr,
-> +///         Region, //
->  ///     },
->  ///     prelude::*,
->  /// };
->  /// use core::ops::Deref;
->  ///
->  /// // See also [`pci::Bar`] for a real example.
-> -/// struct IoMem<const SIZE: usize>(MmioRaw<SIZE>);
-> +/// struct IoMem<const SIZE: usize>(MmioRaw<Region<SIZE>>);
->  ///
->  /// impl<const SIZE: usize> IoMem<SIZE> {
->  ///     /// # Safety
-> @@ -93,7 +94,7 @@ struct Inner<T> {
->  ///             return Err(ENOMEM);
->  ///         }
->  ///
-> -///         Ok(IoMem(MmioRaw::new(addr as usize, SIZE)?))
-> +///         Ok(IoMem(MmioRaw::new_region(addr as usize, SIZE)?))
-
-Should this be `addr.addr()` ?
-
->  ///     }
+> @@ -106,7 +106,7 @@ struct Inner<T> {
 >  /// }
 >  ///
+>  /// impl<const SIZE: usize> Deref for IoMem<SIZE> {
+> -///    type Target = Mmio<SIZE>;
+> +///    type Target = Mmio<Region<SIZE>>;
+>  ///
+>  ///    fn deref(&self) -> &Self::Target {
+>  ///         // SAFETY: The memory range stored in `self` has been properly mapped in `Self::new`.
 > diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-> index fcc7678fd9e3..d7f2145fa9b9 100644
+> index d7f2145fa9b9..5a26b1e7e533 100644
 > --- a/rust/kernel/io.rs
 > +++ b/rust/kernel/io.rs
-> @@ -6,7 +6,8 @@
->
->  use crate::{
->      bindings,
-> -    prelude::*, //
-> +    prelude::*,
-> +    ptr::KnownSize, //
->  };
->
->  pub mod mem;
-> @@ -31,39 +32,85 @@
->  /// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit architectures.
->  pub type ResourceSize = bindings::resource_size_t;
->
-> +/// Untyped I/O region.
-> +///
-> +/// This type can be used when an I/O region without known type information has a compile-time known
-> +/// minimum size (and a runtime known actual size).
-> +///
-> +/// The `SIZE` generic parameter indicate the minimum size of the region.
-> +#[repr(transparent)]
-> +pub struct Region<const SIZE: usize = 0> {
-> +    inner: [u8],
-> +}
-> +
-> +impl<const SIZE: usize> KnownSize for Region<SIZE> {
-> +    #[inline(always)]
-> +    fn size(p: *const Self) -> usize {
-> +        (p as *const [u8]).len()
-
-Is `as` the only way to cast fat pointers?
-
-> +    }
-> +}
-> +
->  /// Raw representation of an MMIO region.
->  ///
-> +/// `MmioRaw<T>` is equivalent to `T __iomem *` in C.
-> +///
->  /// By itself, the existence of an instance of this structure does not provide any guarantees that
->  /// the represented MMIO region does exist or is properly mapped.
->  ///
->  /// Instead, the bus specific MMIO implementation must convert this raw representation into an
->  /// `Mmio` instance providing the actual memory accessors. Only by the conversion into an `Mmio`
->  /// structure any guarantees are given.
-> -pub struct MmioRaw<const SIZE: usize = 0> {
-> -    addr: usize,
-> -    maxsize: usize,
-> +pub struct MmioRaw<T: ?Sized> {
-> +    /// Pointer is in I/O address space.
-> +    ///
-> +    /// The provenance does not matter, only the address and metadata do.
-> +    addr: *mut T,
+> @@ -44,6 +44,8 @@ pub struct Region<const SIZE: usize = 0> {
 >  }
 >
-> -impl<const SIZE: usize> MmioRaw<SIZE> {
-> -    /// Returns a new `MmioRaw` instance on success, an error otherwise.
-> -    pub fn new(addr: usize, maxsize: usize) -> Result<Self> {
-> -        if maxsize < SIZE {
-> +// SAFETY: `MmioRaw` is just an address, so is thread-safe.
-> +unsafe impl<T: ?Sized> Send for MmioRaw<T> {}
-> +// SAFETY: `MmioRaw` is just an address, so is thread-safe.
-> +unsafe impl<T: ?Sized> Sync for MmioRaw<T> {}
+>  impl<const SIZE: usize> KnownSize for Region<SIZE> {
+> +    const MIN_SIZE: usize = SIZE;
 > +
-> +impl<T> MmioRaw<T> {
-> +    /// Create a `MmioRaw` from address.
-> +    #[inline]
-> +    pub fn new(addr: usize) -> Self {
-> +        Self {
-> +            addr: core::ptr::without_provenance_mut(addr),
-> +        }
-> +    }
-> +}
-> +
-> +impl<const SIZE: usize> MmioRaw<Region<SIZE>> {
-> +    /// Create a `MmioRaw` representing a I/O region with given size.
-> +    ///
-> +    /// The size is checked against the minimum size specified via const generics.
-> +    #[inline]
-> +    pub fn new_region(addr: usize, size: usize) -> Result<Self> {
-> +        if size < SIZE {
->              return Err(EINVAL);
->          }
->
-> -        Ok(Self { addr, maxsize })
-> +        let addr = core::ptr::slice_from_raw_parts_mut::<u8>(
-> +            core::ptr::without_provenance_mut(addr),
-> +            size,
-> +        ) as *mut Region<SIZE>;
-> +        Ok(Self { addr })
->      }
-> +}
->
-> +impl<T: ?Sized + KnownSize> MmioRaw<T> {
->      /// Returns the base address of the MMIO region.
->      #[inline]
->      pub fn addr(&self) -> usize {
-> -        self.addr
-> +        self.addr.addr()
->      }
->
-> -    /// Returns the maximum size of the MMIO region.
-> +    /// Returns the size of the MMIO region.
->      #[inline]
-> -    pub fn maxsize(&self) -> usize {
-> -        self.maxsize
-> +    pub fn size(&self) -> usize {
-> +        KnownSize::size(self.addr)
->      }
->  }
->
-> @@ -89,12 +136,13 @@ pub fn maxsize(&self) -> usize {
->  ///         Mmio,
->  ///         MmioRaw,
->  ///         PhysAddr,
-> +///         Region,
->  ///     },
->  /// };
->  /// use core::ops::Deref;
->  ///
->  /// // See also `pci::Bar` for a real example.
-> -/// struct IoMem<const SIZE: usize>(MmioRaw<SIZE>);
-> +/// struct IoMem<const SIZE: usize>(MmioRaw<Region<SIZE>>);
->  ///
->  /// impl<const SIZE: usize> IoMem<SIZE> {
->  ///     /// # Safety
-> @@ -109,7 +157,7 @@ pub fn maxsize(&self) -> usize {
->  ///             return Err(ENOMEM);
->  ///         }
->  ///
-> -///         Ok(IoMem(MmioRaw::new(addr as usize, SIZE)?))
-> +///         Ok(IoMem(MmioRaw::new_region(addr as usize, SIZE)?))
-
-Should be `addr.addr()`.
-
->  ///     }
+>      #[inline(always)]
+>      fn size(p: *const Self) -> usize {
+>          (p as *const [u8]).len()
+> @@ -169,7 +171,7 @@ pub fn size(&self) -> usize {
 >  /// }
 >  ///
-> @@ -139,7 +187,7 @@ pub fn maxsize(&self) -> usize {
+>  /// impl<const SIZE: usize> Deref for IoMem<SIZE> {
+> -///    type Target = Mmio<SIZE>;
+> +///    type Target = Mmio<Region<SIZE>>;
+>  ///
+>  ///    fn deref(&self) -> &Self::Target {
+>  ///         // SAFETY: The memory range stored in `self` has been properly mapped in `Self::new`.
+> @@ -187,7 +189,7 @@ pub fn size(&self) -> usize {
 >  /// # }
 >  /// ```
 >  #[repr(transparent)]
-> -pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-> +pub struct Mmio<const SIZE: usize = 0>(MmioRaw<Region<SIZE>>);
->
->  /// Checks whether an access of type `U` at the given `offset`
->  /// is valid within this region.
-> @@ -767,7 +815,7 @@ fn addr(&self) -> usize {
->      /// Returns the maximum size of this mapping.
->      #[inline]
->      fn maxsize(&self) -> usize {
-> -        self.0.maxsize()
-> +        self.0.size()
->      }
->  }
->
-> @@ -782,7 +830,7 @@ impl<const SIZE: usize> Mmio<SIZE> {
->      ///
->      /// Callers must ensure that `addr` is the start of a valid I/O mapped memory region of size
->      /// `maxsize`.
-> -    pub unsafe fn from_raw(raw: &MmioRaw<SIZE>) -> &Self {
-> +    pub unsafe fn from_raw(raw: &MmioRaw<Region<SIZE>>) -> &Self {
->          // SAFETY: `Mmio` is a transparent wrapper around `MmioRaw`.
->          unsafe { &*core::ptr::from_ref(raw).cast() }
->      }
-> diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
-> index 7dc78d547f7a..9117d417f99c 100644
-> --- a/rust/kernel/io/mem.rs
-> +++ b/rust/kernel/io/mem.rs
-> @@ -231,7 +231,7 @@ fn deref(&self) -> &Self::Target {
->  /// [`IoMem`] always holds an [`MmioRaw`] instance that holds a valid pointer to the
->  /// start of the I/O memory mapped region.
->  pub struct IoMem<const SIZE: usize = 0> {
-> -    io: MmioRaw<SIZE>,
-> +    io: MmioRaw<super::Region<SIZE>>,
->  }
->
->  impl<const SIZE: usize> IoMem<SIZE> {
-> @@ -266,7 +266,7 @@ fn ioremap(resource: &Resource) -> Result<Self> {
->              return Err(ENOMEM);
->          }
->
-> -        let io = MmioRaw::new(addr as usize, size)?;
-> +        let io = MmioRaw::new_region(addr as usize, size)?;
+> -pub struct Mmio<const SIZE: usize = 0>(MmioRaw<Region<SIZE>>);
+> +pub struct Mmio<T: ?Sized>(MmioRaw<T>);
 
-`addr.addr()`?
-
->          let io = IoMem { io };
->
->          Ok(io)
-> diff --git a/rust/kernel/pci/io.rs b/rust/kernel/pci/io.rs
-> index ae78676c927f..0335b5068f69 100644
-> --- a/rust/kernel/pci/io.rs
-> +++ b/rust/kernel/pci/io.rs
-> @@ -148,7 +148,7 @@ impl<'a, S: ConfigSpaceKind> IoKnownSize for ConfigSpace<'a, S> {
->  /// memory mapped PCI BAR and its size.
->  pub struct Bar<const SIZE: usize = 0> {
->      pdev: ARef<Device>,
-> -    io: MmioRaw<SIZE>,
-> +    io: MmioRaw<crate::io::Region<SIZE>>,
->      num: i32,
->  }
->
-> @@ -184,7 +184,7 @@ pub(super) fn new(pdev: &Device, num: u32, name: &CStr) -> Result<Self> {
->              return Err(ENOMEM);
->          }
->
-> -        let io = match MmioRaw::new(ioptr, len as usize) {
-> +        let io = match MmioRaw::new_region(ioptr, len as usize) {
-
-Should this be `len.try_into()?`?
+Why not have the `KnownSize` bound here? I think that would be more clear.
 
 
 Best regards,
