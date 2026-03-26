@@ -1,128 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F0F3A451D
-	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 19:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176DA346E63;
+	Thu, 26 Mar 2026 21:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774551695; cv=none; b=COCA67mqZldPu/z+U0gs4SXZh6FybeOeRf8mUYJFrvU4cKL1GCsS34FXDo0bKfgTOQF8HWh0aRCulnKECnOBUxfTSSi90hYnobaE+HYkF/zZoQdXxw939sxF9w/wKtp4WGiflvhs/df4FMoisWy1OclfrFpuidQUc8pjq3xbff8=
+	t=1774558991; cv=none; b=AGrv5rwy69ZCxe0ocg/aMu8YX+EgIh5k7FGi1LMOpytl7OAnhHzvtycrciYQWXSmTqgQBpCDTL3wKeY27PfaWy4iXvBdr1mI3N1jPZrndAOS5EMbC9iC0uUVAenJh7+NHgjhdLRN/TtDDNAmxjhutK3OimS8w3YyzPUHVFQuT9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774551695; c=relaxed/simple;
-	bh=pemYj7W8qnWMM3IVzS/AldTzqGCv3suyEAE2D6hM5OQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ri1ePTH6ncywjsG2HB6GdgFyB3Eio+PsIb1SLytt+3UGGE6woARkVU9kKE1j1rL1V9DRz53kjlznE7a7tV/plrywqHlqDSCye6ACvr7yocM6WMKyfpTlSZJQlozYhdcS0fH8I+VLspN1vdxR7X021jR2w/FSDmE9FHRZA2bX5iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Huv9CZgi; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774558991; c=relaxed/simple;
+	bh=Oga/OddxY2WJCZhkLe7zcVGjS6Fu4I4k5/6EH62Urbk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=szeZkdJJEMaEKEac4/jeT1SsUEMRT55nf43o96zp0tzF4C0WskdEWf4Do1YrS0zir83x9XuewaUh6xPvnopAOvBxU18C/h+q6XCVThmbSeWtLBo55oJbX0nW8TKedAgWHjzOkk+wMsNUfkZyGPeEplpJHZwCwuG4U0d8EHEpmf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gPAAIB3f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Huv9CZgi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774551694; x=1806087694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=pemYj7W8qnWMM3IVzS/AldTzqGCv3suyEAE2D6hM5OQ=;
-  b=Huv9CZgiKWt2aqldB6FdnyWIVUQTpkiL/UAs9I2yzQ7AFKDUFigeqjC1
-   +ZMf5fZS6jSXZgK2FSGxFVx7bl3Rlnk9xv2Dn9M1XfYbnw6sRT6AXAP/Q
-   xZwJ8IyaTL1caxhC3PBIMclRUa9kwg8unF1hPK6+T+0z9nudLSLXvRZf8
-   2DQq+XqKOQeYPDh7D+kTlIs3d3NpR+eH6/2nTi7vnwkVpTITVB4g+BLlS
-   jmtvXqAi0bpPUW3Bt0qSErdo5K675PMkQn7A/u5K4eEstXAPcS3JmTdPA
-   Gjr63J9sIMbIgEuJt7ztIzjwbzDFcG/Ve5zcdwsVMuPHNw6rQ62ohhWKz
-   w==;
-X-CSE-ConnectionGUID: 4ZymJxttQ/2rhsEFMAIs1A==
-X-CSE-MsgGUID: Wap5wQtgToOqWn9YTLLuhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="74652593"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="74652593"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 12:01:30 -0700
-X-CSE-ConnectionGUID: oWnWrdXhSuqxXeb2amQQsA==
-X-CSE-MsgGUID: GRCYOhJMRJS4HNWoHMVpbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="229558134"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.216])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 12:01:27 -0700
-Date: Thu, 26 Mar 2026 21:01:24 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] software node: allow referencing software nodes by name
-Message-ID: <acWChJZK-xwpuTZM@ashevche-desk.local>
-References: <acIV6xF8mY-8wd5e@google.com>
- <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
- <acK69OColNT7ViLf@google.com>
- <CAMRc=Mcw66QpjQt4+_JdMq9JiAY28hjzNHa24gfOCCXyie-uRQ@mail.gmail.com>
- <acTtzuGD-K5XvVir@ashevche-desk.local>
- <CAMRc=MeEMx1w5HaXBUP6iAu8T8b7Ti1i7JVDDTwvpjaEOtDJuw@mail.gmail.com>
- <acTwqD8fXZSncMIS@ashevche-desk.local>
- <acTy8Wkfs8Sx84oZ@ashevche-desk.local>
- <CAMRc=MdrxYRhB3MWnhTPM9FqzF-_P7Br5mRJ7kYOxQ2G3zjdow@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gPAAIB3f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9306BC116C6;
+	Thu, 26 Mar 2026 21:03:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774558990;
+	bh=Oga/OddxY2WJCZhkLe7zcVGjS6Fu4I4k5/6EH62Urbk=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+	b=gPAAIB3fsENGAvoB1ls1d+lyJstfElum/pLWj2DuNK2WleRkSJpZzbuOcSRguNRex
+	 LE7yjFpGJeYqgeiTWSX6kkVoDPXfYgQsoiYvVNcYBuRy7Weff6IyhdJ7LJejW3y2q7
+	 Lu58LJqd2qR99uWpkNGFPfJeYhdGTH7gmxUd9PImDf3hgeIKuz12xa1bfI6GtosZ25
+	 zz/3VILPimPfvECimlah9QRnSQlerX84zqBcJ1XtWuuz4pCn2J3IQkAwYpmSsY+R6p
+	 Vq0PeeQgRdA6sV45AaVZZ3KVJItFvjXCg6L1WvlZQDmeunZRkvtTNmqHb/caoBZYIw
+	 rdfYLFPYbjpsg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MdrxYRhB3MWnhTPM9FqzF-_P7Br5mRJ7kYOxQ2G3zjdow@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Mar 2026 22:03:02 +0100
+Message-Id: <DHD0NQH9UJ21.3J691DBDXS0K0@kernel.org>
+To: "Douglas Anderson" <dianders@chromium.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2] device property: Make modifications of fwnode
+ "flags" thread safe
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, <stable@vger.kernel.org>, "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>, "Mark Brown" <broonie@kernel.org>,
+ "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Andrew Lunn"
+ <andrew@lunn.ch>, "Daniel Scally" <djrscally@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Fabio
+ Estevam" <festevam@gmail.com>, "Frank Li" <Frank.Li@nxp.com>, "Heikki
+ Krogerus" <heikki.krogerus@linux.intel.com>, "Heiner Kallweit"
+ <hkallweit1@gmail.com>, "Jakub Kicinski" <kuba@kernel.org>, "Len Brown"
+ <lenb@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Pengutronix Kernel
+ Team" <kernel@pengutronix.de>, "Rob Herring" <robh@kernel.org>, "Russell
+ King" <linux@armlinux.org.uk>, "Sakari Ailus"
+ <sakari.ailus@linux.intel.com>, "Saravana Kannan" <saravanak@kernel.org>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, <devicetree@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <imx@lists.linux.dev>,
+ <linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-i2c@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, <netdev@vger.kernel.org>
+References: <20260317090112.v2.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
+In-Reply-To: <20260317090112.v2.1.I0a4d03104ecd5103df3d76f66c8d21b1d15a2e38@changeid>
 
-On Thu, Mar 26, 2026 at 04:47:00PM +0100, Bartosz Golaszewski wrote:
-> On Thu, Mar 26, 2026 at 9:48 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Mar 26, 2026 at 10:39:09AM +0200, Andy Shevchenko wrote:
-> > > On Thu, Mar 26, 2026 at 09:34:01AM +0100, Bartosz Golaszewski wrote:
+On Tue Mar 17, 2026 at 5:01 PM CET, Douglas Anderson wrote:
+> In various places in the kernel, we modify the fwnode "flags" member
+> by doing either:
+>   fwnode->flags |=3D SOME_FLAG;
+>   fwnode->flags &=3D ~SOME_FLAG;
+>
+> This type of modification is not thread-safe. If two threads are both
+> mucking with the flags at the same time then one can clobber the
+> other.
+>
+> While flags are often modified while under the "fwnode_link_lock",
+> this is not universally true.
+>
+> Create some accessor functions for setting, clearing, and testing the
+> FWNODE flags and move all users to these accessor functions. New
+> accessor functions use set_bit() and clear_bit(), which are
+> thread-safe.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: c2c724c868c4 ("driver core: Add fw_devlink_parse_fwtree()")
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-...
+    [ Fix fwnode_clear_flag() argument alignment, restore dropped blank
+      line in fwnode_dev_initialized(), and remove unnecessary parentheses
+      around fwnode_test_flag() calls. - Danilo ]
 
-> > > I believe so. See how we find a GPIO chip in the gpiolib-acpi-core.c.
-> > > In the similar way you can try finding any object in ACPI namespace.
-> > >
-> > > But note, ":00" is part of device instance name, it's not available
-> > > in ACPI namespace. There we have HID, UID, et cetera, ":00" is pure
-> > > Linux kernel thingy.
-> >
-> > We have acpi_dev_present(), but if you read its kernel-doc, it suggests
-> > to use acpi_get_devices() for the case of early checks (before device
-> > are actually being instantiated).
-> 
-> Ah, but I'm seeing that the firmware node handle of the acpi device is
-> part of struct acpi_device and is only initialized during the scanning
-> phase which happens at subsys_initcall() time?
-
-Sounds correct. With that you can just check the device presence in the table
-and maybe evaluate the status (but I'm not sure about the latter).
-
-> When using
-> acpi_get_devices() you have an abstract handle and no fwnode for which
-> to assign the secondary node yet, right?
-
-You have no fwnode concept in ACPI namespace. It's Linux thingy.
-So, yes, until you have a companion device (ACPI device as object of
-struct acpi_device), you have fwnode, without that device, there is
-no fwnode.
-
-> It's not like with DT where there already is an instance of struct
-> device_node to which you can assign the secondary fwnode even if its
-> device doesn't exist yet.
-
-Yeah DT in this sense is available earlier because they are just
-static data. ACPI needs an interpreter and hence some preparations
-to be done before full access to the namespace will be available.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Applied to driver-core-testing, thanks!
