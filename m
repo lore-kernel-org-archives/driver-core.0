@@ -1,208 +1,123 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022111.outbound.protection.outlook.com [52.101.101.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871E73FF1
-	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 14:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.111
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774535733; cv=fail; b=i3RckL+1oZ9od/6pw0L8Fp/SoOquDqW6jXEDX8gZ7W8n1oxmMCzmYSdilh9//C2XlkaFWEJb7w9OZlnu6nVt+y4fg2/EmHD2w8kfk9iAxl9ivkG4l1KiY8PJxUEV2HdB1wq6sBKBViX812H1oVza+Mx4L+kqJb+vllWNw7MTmI4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774535733; c=relaxed/simple;
-	bh=TT0QhF/a7kppDmNd8y/RYjoSVnEj6mM4OVkL30WuEX0=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=NIeKR2KHIPpUpk3r3PZmv3uBMA0tN1AFzaBzByEBa+64CiA8+8BpoMloAOkoR15FVsC454bhJxYCVAVS8a5e3wersNbO003puPfjefZCMvZapL/cmaQ6FxqfWbybgmIf4mLK86rN6vmGkF53Iho8jQX1ad3mDAgypdS/dlwRa1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=IUlq9KrQ; arc=fail smtp.client-ip=52.101.101.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743442F5328;
+	Thu, 26 Mar 2026 14:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774535850; cv=none; b=tPqTp3Y+AuAKQKPoUIhruHh5eVK0r0cK9wyHGr2IFnSeRmelOn7lhdvYN53P2LrR8Zl9Fx9r1Ivj+niA+zDR/gAtOOwMkTrPKWsB/p0FcZzhvfjZe/0TijYJxKdhpm2FB+n6cIF6VjJORJsDxPCdiYfS5C7GSKOuRwuH0GTLTOA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774535850; c=relaxed/simple;
+	bh=XJDQ4xhzwjP7OM1VnwAQAVahzECcRB1m42eBk8f+hEM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=thxPLQ0vL6hQdT1i5GXh1tVRBGGhXAyjVFGaNXsnyGE59uW/2I3Eh4W0wLh0nulDMdATbTp0y+PcdRaHK0eNZYmhH2GdVsI0iZavFuZxlexxKfFcmy7YlanvohS6soSvESHE+J9eiHd2Db6ZviZxLPr9YPF+Ct1oH/CysWnBNH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKZklWZ+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="IUlq9KrQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KEXRxXYLAMu0AU4I0ihDkFVTew9+cXthdQ0+/gvJC8/TPFkDLn/RO3Is4aJ/JQAspzNXG276H2JklFdZzajlhJmwS+g0UIU/BNMhVPTSYO8N/N8YSe+t5EYdY0xJU0NJaiW2RTA63Lm9BDpAYBZJqW97BE2Q7M6HEssJAW+sm6/EtoWO/S4jMy0QQIUhR4Dx0YPH+sRrQMTbmsjr1EyNGbrGf2bK+XpE56ZlxLhdozkEye7ZkBRx2evBXgWT+zGLuWB4JhzugWjJxDt6Vm8c60H3OTquelLfWhh/mTAYtC6c2jBD6OAjdGETnTO36x94im2STjnJSSJPnwmRWtdA5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6JknpYl/3AIUEbCBOFQh9X1BcQC2/aixiTFuM579loQ=;
- b=InQi1RpZTRubBOYK6GcAhyKSplXgiZlrke3iDsAP/7MgfPrLmJkJY4YkHSMhesJMf/9OrZGlJ14Mqq7dnD0T1+81l+JK8qtWHwcc/Ssb+NW/zb4JYd4IylDuqiNnnRcNaXVQ7J4l+OfP2iQ1F/UAqY2HsIiU2feH8J+MBuAf+CBaRct26zTZmU9UuRcXjXonVE4LrtK9qOrCz3s7QQ5FM4PBLi3cP/dYSHzKL7WwNpXDX3iZodUpwTvW87oEJN+TXFYdCN/jxoaNEdA07HXJTx33y2U2ZYpdPd+pfsYef/N6EE1jP6qhojDluA1cvsgdxBAsHoVZT2ovnrZ7RPeckw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6JknpYl/3AIUEbCBOFQh9X1BcQC2/aixiTFuM579loQ=;
- b=IUlq9KrQcaxVQdLyOBH8VlFQsc/D9ODAL6T3wKSnioUAUrD6BPAQB+dHdZMFmW2ilFu/AsWpR8X0ia48MMMOykDdp6sGiGlC6e/37wazCtgnTBsDBZkJJ5PheIv42Ndp0dXlH7Vk4PCVjczwQ+yXP8Qf+j6dVxvQVO7bfnj97Ik=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO2P265MB3038.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:173::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
- 2026 14:35:29 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9745.022; Thu, 26 Mar 2026
- 14:35:29 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Mar 2026 14:35:28 +0000
-Message-Id: <DHCSEZH8M3JU.3LB4M2ERBJSYX@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Gary Guo"
- <gary@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
- <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH 3/8] rust: io: use pointer types instead of address
-X-Mailer: aerc 0.21.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKZklWZ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02FA3C116C6;
+	Thu, 26 Mar 2026 14:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774535850;
+	bh=XJDQ4xhzwjP7OM1VnwAQAVahzECcRB1m42eBk8f+hEM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=iKZklWZ+HsZFWw8nqDvrmAQcHr6L8KbjQLl6hfbwS/KQItMhIEHS/omtsr8cWrXs6
+	 BfidobC1Vu3GMCDH3xgaWmezpYjMPwJhhH/QKVQGtT6coFQh43bSlm05D6mhMx5UZo
+	 4p7jclF9U3byy+Ls/ObeKaURH5eNZsTmR/RMJKBpULOfevdy0uVjKCKwx5IIl7aj2z
+	 5l8PxWP79xzpN1t1OFtg47LEZqndqHcTv+QNtrhEjsYdC5x4yLSPZu/nu7IgLk+i0J
+	 N0xuYrd50j89WG6Bls630pW5UJUV+GXGYRmZpflcJLReRMtToiAvD+A2r8fVRD9IWM
+	 PmeiXIcWKoZhw==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Gary Guo <gary@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
+ Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel
+ Almeida <daniel.almeida@collabora.com>, Robin Murphy
+ <robin.murphy@arm.com>
+Cc: rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/8] rust: dma: add methods to unsafely create reference
+ from subview
+In-Reply-To: <20260323153807.1360705-6-gary@kernel.org>
 References: <20260323153807.1360705-1-gary@kernel.org>
- <U_v6wkMtfgu8yfV2Nh5Im8t1w4KZ7mdbG3VQciT2g3DULhsKBXJgIz2psuj76-V94TPNtUry3J727gLTbUByug==@protonmail.internalid> <20260323153807.1360705-4-gary@kernel.org> <87ldfey8nh.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87ldfey8nh.fsf@t14s.mail-host-address-is-not-set>
-X-ClientProxiedBy: LO4P123CA0190.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a4::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+ <JzrSpZxmwfo8q1EH2CfDaZi7zjwwJ8X2Gm2rn99EFvWcKZzGbP1DvTqAfAmql3olSG5AWDt3j8d4F5sQxX5SIg==@protonmail.internalid>
+ <20260323153807.1360705-6-gary@kernel.org>
+Date: Thu, 26 Mar 2026 15:37:20 +0100
+Message-ID: <87ecl6y7vj.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB3038:EE_
-X-MS-Office365-Filtering-Correlation-Id: a11d158f-838d-4342-f5a5-08de8b44ed47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|10070799003|376014|7416014|1800799024|921020|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	G65AZxdzFeZHd+M9mj55EJmZnbq1k2IPQvGGktbYdo8iWfpQe+uJ1oJnEV5QPmhfEpcWiu+GSIbo6/n0xN51Fh5eO/wXfAh4Kj1b1Braul30PetmDxaYTHG6OVtLW4h5KAYaUzqrhr11dvZywvCxORmNojMNcvjuO8mbELTach6BO/H89wCo+eb8FY3XADp13XEJamd2epwnyJIwvYv0nNRNG+pj05iU2840eObDM2BBF8Zir8eY1T8y9ubTDTIxmtU1pGPtHnzSuYcCza2UIZFxkFWkW2tOhqdj/8JcNTu4z8ta4bM3D+W0ifuwNT83b1g7IUlRXF5cUu3OwSLygYWLih/by1LkQwlvjpoX8j5Ru1BOtil5QHe1Oztozf407q9ozt3dRwTpKwc25cAABqrMvu/6pMlKGn37yyMpcRchS8Q0NRjj53pBbzGBvXr3tjnP7ElSjzqihNvCLcodfd9UpY/kYZtKEApjZZE+LMwNSKCpv0M9LfVoNs1qS548AWFPcG5Kc7d/XwilVq8uKJiscR02mXn2t93YBfL9jzcE2NPYv5Ogg8y3kZ8b5t3P2qw8fqFMR5Hp+x2ZJAgopo/LCLZU/My7zJvDbcMogntG+v+35yeORGklfoQsHEKWlhBLy1QR2E7g4lL0HrDkkMic2GZvbWPBZrJyBHrbX6APMaHVSqSGSOdFn1BJ9EMKKc7vRveEHZ9HKYYBISyg75bW2izCcmcr9aq3hyyRERTyO+fnJfwu2ZfNdI1V6yYOVJyNitz18xugmv/dDemm5A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(7416014)(1800799024)(921020)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U3NPSUNWUTkyaDRIU1ZZaUI3RWVGZGxHZVNpM0xLNkluQnFrbWc0YU41cW9D?=
- =?utf-8?B?dUVuSCt5NlVxVjNJdUZqanFvTDZPSTRyMDByQWR3blhLZHRlbXB3bnJpdjdj?=
- =?utf-8?B?ZDdRUGV4NFhqdFR4bDFXUmdJQ1ZmbDBNNnRxSnpKVmp4R2NUTDF3K3JSZkw3?=
- =?utf-8?B?TVU1Z2Y1YUVzK0xVNmMydWlEQWtOWGN2Z2tDL3ltN01tTy9xS3haYmNqV3gz?=
- =?utf-8?B?bGNtaFltMUxrSlVMOGZlc25xdUVXeHJjOXQ1dDhmbU5ON21pZHlpdTFYUUxU?=
- =?utf-8?B?UGkra2p3N0JVSGR0eXUzMUdRSWF2VE5zMHJDdjRmVDBXZit5SzQ5bmZSN3Uw?=
- =?utf-8?B?NElaY0tRak4rVTUwVlh4VWFINUYvNkhzWWFWN1kwSTZSR2xuaE9lb2g1OHRC?=
- =?utf-8?B?aGRwTzdZTVlqOE5ibVhULytjdkx0Y0ZDa1Nna2FhWXNEL1NPbmNwUFhiRWFR?=
- =?utf-8?B?QWRTZzc4VnBzaGd4OUk4VHNBS2JSbEdpTC9XN0tYQ2Y5ck8xdy8reENNNUtH?=
- =?utf-8?B?U1JQVE5mNGNrSGhhVW5hb09pdUYwUEZUWWxHOTR4cmFxaGZ5YmUzQ1hXQnhq?=
- =?utf-8?B?eFUwMVQzOHgxNzdWYzU1dExkR1U4ZlVvclJlUk1YelZnNlF3bzg2YTdNKzBH?=
- =?utf-8?B?MzJKNkMxd0czT3NGMXYxdUExUVYyWDF1QjFyN0NkbXVvdmYvdnBXV1FpaEto?=
- =?utf-8?B?NlYrai85NWdQSmdFWHZ3R3k2NHozTHQybzVjVkpDNFRLY3lYQWZ3cWx5ZmI3?=
- =?utf-8?B?WEd1bGFqd1MvZnBMZmdnMVFoUGp6Njl2Z0ZNL1gvRkZTZlFEbjZlZWVBVGVa?=
- =?utf-8?B?VHhQZlU2blFXTXU3WEN1TlZwNHZwN1JteE1pbzZkR1JScmErbG9jUDhxOHk5?=
- =?utf-8?B?eWpDOHN3dFBHUlZyd3F3Wjk2UDlnMWU4OC9FdytLQWhwOVlSWHFIbHJVbVRq?=
- =?utf-8?B?cXJUTTl3RkM0SWozR0xhQVdGb1pldkVvV3hzQnVYZ0RlU3lxc25sNm1yVDQ0?=
- =?utf-8?B?MHpCVWJOYXlPdkJ1OWlxV1NLNUFkMjBTc0wwU3kyMHRXWDBLS3IwUUxEblQ1?=
- =?utf-8?B?dHNGekluaVdWTllkbDB5Z1JtWW5VczI3RHJLQzk1MzlQLzE2NWJtVnZ5TEJt?=
- =?utf-8?B?dzRXK29hbWw3d2JuMWFvbW9waWxyd0ZqZDJqK3MvY3pEUlFUQmxLRFpqV1Za?=
- =?utf-8?B?aUQwc25uMXlaN1dEZzVPUG8xR2FOengvLzlIYW52YTZldGk5Y2xMKzc3SFFS?=
- =?utf-8?B?Q3VkeEgwUzE4UStEc1FZSmE0aytMRkVVM2FaMkVnNXFjd0hacDNGSkMrMFM0?=
- =?utf-8?B?S1ZVTWk4WG5hNXl5WUQySG1JaVNQL0JoMVp6R1FDRGl4TmxXdjQ4cVJMVm9y?=
- =?utf-8?B?N2IzVVE2eTFwbHlOUTBJSEludjc2bEtZbXpqdnlkRWxFSjMySDh3V3pkR0R3?=
- =?utf-8?B?UTkwelV1azRsdlZ6N3VZa0lxTVdiU2dYZjF2anppcnUyWFM3cCtMaHZWcjRS?=
- =?utf-8?B?MFFDaURJTXFQNlpWUnhhY2xZc2RidGtJbzI1VmJyS0VxOFI4N2xMTTFWbU5E?=
- =?utf-8?B?clhtUDduMThoL0J4NFlBKzJ0MG5JUVVwRHVuYzd4c2Vka3VyakUvdHBkSXBk?=
- =?utf-8?B?ZXVlWGl3U2FqbURpZytNK2xGeWYzMmlyWk9NanVtZFlWcDRsZ2U2eG4yM25u?=
- =?utf-8?B?VmhudkhsQVVRaDdGM0w5TjdBV1RwQmdzSmt1THdIMGMwRHo0UjFjMnZqcTk2?=
- =?utf-8?B?NlNPL3h4b2djRkdMMlllSWN5NGxIcnF3eGRDdWpCS3V1MXNtcnl2bi84YlNS?=
- =?utf-8?B?ODZnTDJQMUl4YWpBTUwrVHIwL1JsQ25Fa3VTckNhSTcxMC8wMjEzZHc0eFhQ?=
- =?utf-8?B?TG5hNVNRRm0yVFllL0dRODd2ejN3NXNKd0lPSWk1TTQvNUUrOTNPMHg5RTVO?=
- =?utf-8?B?T1BLQlZSdVRTQm90dFFHVHFJanl3MHRmMW9UWkV0YUFGcGRkVndCUFlyKy9V?=
- =?utf-8?B?NURodFQ0azJ6R0QraTBEdm4wTWRISUwzbXBOWkRoN1NlL21tTnV6VWQ4bENH?=
- =?utf-8?B?YXg1KzZxNTBjU0NORk14eVhKaVBoaG5qZmREVkkzbWlnTERVMlJjekdqdjI3?=
- =?utf-8?B?K3pvbUxUKzFhd2o2K1JWWG8rWXV0MnoxUEJBOEZqMlVvK3RsT0M3TjJ5UU5Y?=
- =?utf-8?B?bHB0L1RDR1NCY1JkYmtiNEZod1NmZG11c1RoSW1zVDZkNVZLSkFBMWtIZjJE?=
- =?utf-8?B?ZkNCRXJHN0VxbnBQbGp0MnNVSTJtVStacFN4Z1laNmREQlpDVVdGeis0SlFB?=
- =?utf-8?B?UkdycStKa1NoM2dMMFFhOUdBcjE0TkhQM2ZYM3JWMElqaGlKcHp6UT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: a11d158f-838d-4342-f5a5-08de8b44ed47
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 14:35:28.8915
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QrQ3hDBXTYiCpGleVJPVU3X8XH/K/Q1r6DY6NegbivjCQl5hixcefKOm5SAvhrhgv+P6x4q423LBFPf442Tiog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3038
+Content-Type: text/plain
 
-On Thu Mar 26, 2026 at 2:20 PM GMT, Andreas Hindborg wrote:
-> "Gary Guo" <gary@kernel.org> writes:
->
->> From: Gary Guo <gary@garyguo.net>
->>
->> This carries the size information with the pointer type and metadata, ma=
-kes
->> it possible to use I/O projections and paves the way for IO view types.
->>
->> With this change, minimum size information becomes available through typ=
-es;
->> so `KnownSize::MIN_SIZE` can be used and `IoKnownSize` trait is no longe=
-r
->> necessary. The trait is kept for compatibility and can be removed when
->> users stop using it for bounds.
->>
->> PCI config space uses only offsets and not pointers like MMIO; for this
->> null pointers (with proper size metadata) is used. This is okay as I/O
->> trait impl and I/O projections can operate on invalid pointers, and for =
-PCI
->> config space we will only use address info and ignore the provenance.
->>
->> The current safety comment on `io_read`/`io_write` does not cover the to=
-pic
->> about alignment, although this is guaranteed by checks in `Io`. Add it s=
-o
->> it can be relied on by implementor of `IoCapable`.
->>
->> Signed-off-by: Gary Guo <gary@garyguo.net>
->> ---
->
-> <cut>
->
->> +impl<T: Io + ?Sized> IoKnownSize for T {}
->>
->>  /// Implements [`IoCapable`] on `$mmio` for `$ty` using `$read_fn` and =
-`$write_fn`.
->>  macro_rules! impl_mmio_io_capable {
->>      ($mmio:ident, $(#[$attr:meta])* $ty:ty, $read_fn:ident, $write_fn:i=
-dent) =3D> {
->>          $(#[$attr])*
->>          impl<T: ?Sized> IoCapable<$ty> for $mmio<T> {
->> -            unsafe fn io_read(&self, address: usize) -> $ty {
->> +            unsafe fn io_read(&self, address: *mut $ty) -> $ty {
->>                  // SAFETY: By the trait invariant `address` is a valid =
-address for MMIO operations.
->>                  unsafe { bindings::$read_fn(address as *const c_void) }
->
-> Should we change this to a `cast()`?
+"Gary Guo" <gary@kernel.org> writes:
 
-This is a `*mut T` -> `*const c_void` cast which needs
-`cast_const().cast::<c_void>` which I think is less readable than just `as`=
-.
+> From: Gary Guo <gary@garyguo.net>
+>
+> Implement `Io` for `Coherent`, so now `dma::Coherent` can be used with I/O
+> projections.
+>
+> This allows the `as_ref()` and `as_mut()` API to be used in smaller region
+> than the whole DMA allocation itself. For example, if a ring buffer is shared
+> between GPU and CPU, users may now use the `io_project!` API to obtain a view
+> of the buffer that is unified owned by the CPU and get a reference.
 
-It's also existing code that I haven't touched in this commit.
+What do you mean by "unified owned by the CPU"?
 
 >
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+>  rust/kernel/dma.rs | 56 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
 >
-> Side question: Can you explain a situation where `IoLoc::offset` is not i=
-dentity?
+> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+> index 779d4babab9a..ae2939abc166 100644
+> --- a/rust/kernel/dma.rs
+> +++ b/rust/kernel/dma.rs
+> @@ -12,6 +12,10 @@
+>          Core, //
+>      },
+>      error::to_result,
+> +    io::{
+> +        Io,
+> +        IoCapable, //
+> +    },
+>      prelude::*,
+>      ptr::KnownSize,
+>      sync::aref::ARef,
+> @@ -864,6 +868,58 @@ fn drop(&mut self) {
+>  // can be sent to another thread.
+>  unsafe impl<T: KnownSize + Send + ?Sized> Send for Coherent<T> {}
+>
+> +impl<T: ?Sized + KnownSize> Io for Coherent<T> {
+> +    type Type = T;
+> +
+> +    #[inline]
+> +    fn as_ptr(&self) -> *mut Self::Type {
+> +        self.as_mut_ptr()
+> +    }
+> +}
+> +
+> +impl<'a, B: ?Sized + KnownSize, T: ?Sized> crate::io::View<'a, Coherent<B>, T> {
 
-By identity, you mean the impl of `IoLoc for usize`? `IoLoc` is also implem=
-ented
-for registers generated by `register!()` macro.
+Will this break orphan rule when we split kernel crate? Or will you put
+`io` and `dma` together in some core crate?
 
-Best,
-Gary
+> +    /// Returns a DMA handle which may be given to the device as the DMA address base of
+> +    /// the region.
+> +    #[inline]
+> +    pub fn dma_handle(&self) -> DmaAddress {
+> +        let base = self.io();
+> +        let offset = self.as_ptr().addr() - base.as_ptr().addr();
+> +        base.dma_handle() + offset as DmaAddress
+
+Do we need a // CAST: annotation?
+
+
+Best regards,
+Andreas Hindborg
+
 
