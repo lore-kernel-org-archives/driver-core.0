@@ -1,147 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f74.google.com (mail-dl1-f74.google.com [74.125.82.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E423318BA6
-	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 11:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E06E346AED
+	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 11:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774523963; cv=none; b=Qgn37nLHdF1tkySMLaBwdeZbe7JMDP7ZYN7EtaWBamqIAcppPR/2uUtmTgc+smLKEwWdmVwhGB5pvzilyP0gGDXcOOywftFrhjOsmjmhYslSWMsl59CVanUyPWVdAlVAsS2OBU3WKGE9FqRSVHcWGctaIMgIEzKaeTXGAGtnygE=
+	t=1774524333; cv=none; b=sRIXlahqvDvcGOcgkDTvtG22fwQK6nrhLuqN20efgHIUBTAHiPJ7jcw7YSg/2L9ged1DXMf+O9mNROJGwcXLxf1lFQwsHLpCcguZ/OUuk/7+qb8Ah9JO0BY8Ji0D7Z3CmhP78b8Lh0L34aT3YSJQ3BnkVxqAO1jPPVeyIJSOBRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774523963; c=relaxed/simple;
-	bh=cpOOjpYPYESIU0ffyqKcNT2Upo1mwTuCSjSb/lpuIYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aRXaV4nIdJvXEIwfEfZr6bzvBBS762wm1fC53enEc2Qk35fy/dArG8DDmLII6+O0i/BsPBbVPkn0lHAC2t5wPtsbh6TQV8j3VpUutn/SIQvjjFTxAj4gHSKmOzlqntLqNFeUNSt100lUfXpMif+RZ8VwkVM0GXZcNud5K9+LRds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMuuBrZf; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774524333; c=relaxed/simple;
+	bh=xg9KEybftToIhyeKvi3LSZ8BdXiuPOyUQjSLweID3Q8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=IctNy3mnxfhqkO4rpoOsiR6dOQKo9LkC4g7ruXPtwyYldxFlXTK1W7jKjGVsoBHuZqDTBBL7DLOAcHGKpts7PrWoawLGpuPy9aLAW5CRedEeHWWaakrE3ifsVjiLsO1CUw6ehMpbWNivRK4vL3bubIf1JqOfTJO5COpR3FI/imE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WIQ6O/UL; arc=none smtp.client-ip=74.125.82.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMuuBrZf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774523962; x=1806059962;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cpOOjpYPYESIU0ffyqKcNT2Upo1mwTuCSjSb/lpuIYU=;
-  b=kMuuBrZfkz71HsTuDslgB6UJCijr0V/ebm40j4B0mNAM1MDsfWDW+4gV
-   pL/mU4yQ6hwU0QpVqY9bd75QG/ofEl9ZiDNmJ/Qg1yY5R+C7vCqnJs6DZ
-   Zy3+w6J4uLJCQwYr2yk6Ppb5tHTJBVDl2nF4GiVHKH/C1n7vbERiDXWk/
-   a2VLqj6yx4w6YphayrsL6ZnWc3OPYIZvjr35Oc+DGVw+jVwmgD1V8IBR+
-   UDNTpyM6YhDTgtYqvGyvyuSuA1YIseZgNAhk19Oz3S+yD04QIZ2xH+uEY
-   lF3We/Dl0wAO1PNUXSXfKIWqU4JIXLqSkG8CFrClKLciUF5ZiWr776rBv
-   g==;
-X-CSE-ConnectionGUID: LZu8xa+wQDaGouDpftbkSw==
-X-CSE-MsgGUID: BnpsrVmISamhxSixWFQ3Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="79483797"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="79483797"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 04:19:22 -0700
-X-CSE-ConnectionGUID: /rMWHD0hTR2iz57YiwguNQ==
-X-CSE-MsgGUID: vdLnYSO0TXyn5k4EJnd6mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="220566936"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.216])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 04:19:18 -0700
-Date: Thu, 26 Mar 2026 13:19:16 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH 3/4] software node: verify that property data is not on
- stack
-Message-ID: <acUWNJLLsSJg07yJ@ashevche-desk.local>
-References: <20260323-property-gpio-fix-v1-0-9cb46e5fe7df@gmail.com>
- <20260323-property-gpio-fix-v1-3-9cb46e5fe7df@gmail.com>
- <acKEm4EiZBqJ67nM@ashevche-desk.local>
- <acK34X9vBmvgHhLU@google.com>
- <acPMJiZHmxvVYYte@ashevche-desk.local>
- <acQJiEAtM3LKxDBS@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WIQ6O/UL"
+Received: by mail-dl1-f74.google.com with SMTP id a92af1059eb24-128ba70cc99so520229c88.0
+        for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 04:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774524329; x=1775129129; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Ay8G1oJZ1K8BN/IzLR5Hr0MTltSuhb2JjZXdZm6J5LQ=;
+        b=WIQ6O/UL9jsjxXsApw+ofph1e4bx2QN2JahUYzd3CLWaONjCJtwaCR7tLchjTPXYcn
+         BbkPs8v8LGUBQjet77UNL0cHYlaKit8R0OYl+b87gYjtY+QHVJFJPxAgs7Rcy0Ua9eIU
+         kVDRjNa56F2rz2kUXPx49PMw6PkGLxL9FTZE4++f9ukL4sIL8BJmdMbp3qloTOxydFnL
+         eAz5nyoTnRB4//2JJ4xTwVLV3Jjxr7uN7JVy1RyNvB6VsFV5eDxzeuMSo5kJwz4Dut6K
+         18Zwj/tr5p7eX4wZjBDPjX1JNZp9LKX3U16rZQw2f6fr4pTYVcPYPgLLtMfNNC3Zyyrm
+         DcLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774524329; x=1775129129;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ay8G1oJZ1K8BN/IzLR5Hr0MTltSuhb2JjZXdZm6J5LQ=;
+        b=kImify1DdBIqoPEeKzhRjl80wWnR1gKtni8ontzxwqzij5iakH6KX4kr5qM9UdBf+T
+         DkFk4fqFsLni5SMj3xNsH8XYPLsSEiWUBVNClfOW7QG8pK2zLdY3tYwhaohGpw/9bldC
+         az4XeU4iaWkNdevzn4H4y0SzASLoZIVHKNuta2aQlxVON+/QsrPcoCXyo9hHLnmcU2zU
+         V2tRcRvWaG8j6Hcxzttg31sFiVXaYWqFXRBkKsbEegGwlOfCXZo1oKOSXrAAkXC/cZcw
+         1iFQWcgMpcVjXDDBEqfu6m+bQhnv8j/0f54mXKbz5X4oDOKo8k3jPmEnSn3mX+/0Nzhs
+         8Q8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXsdNYRHOg4guNrf63tktJSYHUsc0ZInrSSRgPlFgHbPjwrkMALFS14ZsPLYvdHbEvFzBu+VvwKFixMzA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKWrxuDdxgEb83YuNRp+IcJniSttzNW30+uDCZbUxq55OFkbxZ
+	NX/iOmsHaMCe1+t+813uKgdv9jdJ2oEXWTPXsrGDjWoveX3T5GvbJSixBwj7lANxF/D1+wE3I8/
+	RO6aCYF476ATLyw==
+X-Received: from dlec13-n1.prod.google.com ([2002:a05:701b:428d:10b0:127:89b6:8d2a])
+ (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7022:125:b0:128:d084:e921 with SMTP id a92af1059eb24-12a96e5d6famr3734825c88.14.1774524328974;
+ Thu, 26 Mar 2026 04:25:28 -0700 (PDT)
+Date: Thu, 26 Mar 2026 04:25:18 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acQJiEAtM3LKxDBS@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
+Message-ID: <20260326112521.2827500-1-wusamuel@google.com>
+Subject: [PATCH v2 0/2] Support BPF traversal of wakeup sources
+From: Samuel Wu <wusamuel@google.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: memxor@gmail.com, Samuel Wu <wusamuel@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 25, 2026 at 09:24:57AM -0700, Dmitry Torokhov wrote:
-> On Wed, Mar 25, 2026 at 01:51:02PM +0200, Andy Shevchenko wrote:
-> > On Tue, Mar 24, 2026 at 09:17:18AM -0700, Dmitry Torokhov wrote:
-> > > On Tue, Mar 24, 2026 at 02:33:31PM +0200, Andy Shevchenko wrote:
-> > > > On Mon, Mar 23, 2026 at 05:39:39PM -0700, Dmitry Torokhov wrote:
+This patchset adds requisite kfuncs for BPF programs to safely traverse
+wakeup_sources, and puts a config flag around the sysfs interface.
 
-...
+Currently, a traversal of wakeup sources require going through
+/sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to query
+sysfs is inefficient, as there can be hundreds of wakeup_sources, with each
+wakeup source also having multiple attributes. debugfs is unstable and
+insecure.
 
-> > > > > +#include <linux/sched/task_stack.h>
-> > > > 
-> > > > Looking at this name the use of it here doesn't sound right...
-> > > 
-> > > Because ... ? object_is_on_stack() is defined there.
-> > 
-> > Because it's defined there. The key word here I see is 'task' in the name of
-> > the header, without Ack from sched folks, I am not convinced we can use that at
-> > any point in the kernel.
-> 
-> It is fine to be used in drivers, and it is used in USB
-> (drivers/usb/core/hcd.c), SPI (drivers/spi/spi-mem.c) and others.
-> 
-> "task" is not magical, it simply refers to a process or a thread (user
-> or kernel). This particular macro just checks if the object is within
-> limits of stack area of currently executing thread.
+Adding kfuncs to lock/unlock wakeup sources allows BPF program to safely
+traverse the wakeup sources list. The head address of wakeup_sources can
+safely be resolved through BPF helper functions or variable attributes.
 
-Still, it's C which can't really protect the public headers from misuse.
+On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~34x
+speedup (sampled 75 times in table below). For a device under load, the
+speedup is greater.
++-------+----+----------+----------+
+|       | n  | AVG (ms) | STD (ms) |
++-------+----+----------+----------+
+| sysfs | 75 | 44.9     | 12.6     |
++-------+----+----------+----------+
+| BPF   | 75 | 1.3      | 0.7      |
++-------+----+----------+----------+
 
-...
+The initial attempts for BPF traversal of wakeup_sources was with BPF
+iterators [1]. However, BPF already allows for traversing of a simple list
+with bpf_for(), and this current patchset has the added benefit of being
+~2-3x more performant than BPF iterators.
 
-> > > > > +	for (prop = node->properties; prop && prop->name; prop++) {
-> > > > > +		if (!prop->is_inline && object_is_on_stack(prop->pointer)) {
-> > > > > +			pr_err("%s: property data can't be on stack\n", __func__);
-> > > > > +			return -EINVAL;
-> > > > > +		}
-> > > > > +	}
-> > > > 
-> > > > And again same question, why we can't simply dup them as we do for (string)
-> > > > arrays?
-> > > 
-> > > Because majority of users of software_node_register() deal with static
-> > > const properties so duping them is waste of memory.
-> > 
-> > So, then why can't we do that for the references? Just then copy and free at
-> > software unregistration if required.
-> 
-> We do not want to copy and free because that would be waste of memory in
-> majority of cases where software_node_register() is used.
-> 
-> When dealing with other kinds of properties it is pretty obvious where
-> the objectr itself lives, but when using PROPERTY_ENTRY_REF() and
-> PROPERTY_ENTYR_GPIO() it is very easy to miss (I did! and I made them)
-> that the reference args object is on stack as it is hidden behind a
-> macro.
-> 
-> So it is just a safeguard warning us ahead of time instead of needing to
-> figure out why a driver can't find GPIO even through the reference looks
-> right.
+[1]: https://lore.kernel.org/all/20260225210820.177674-1-wusamuel@google.com/
 
-Okay, but in the current form it lacks necessary information for understanding,
-exempli gratia the property name.
+Changes in v2:
+- Dropped CONFIG_PM_WAKEUP_STATS_SYSFS patch for future patchset
+- Added declarations for kfuncs to .h to fix sparse and checkpatch warnings
+- Added kfunc to get address of wakeup_source's head
+- Added example bpf prog selftest for traversal of wakeup sources per Kumar
+- Added *_fail.c selftest per Kumar
+- More concise commit message in patch 1/2
+- v1 link: https://lore.kernel.org/all/20260320160055.4114055-1-wusamuel@google.com/
+
+Samuel Wu (2):
+  PM: wakeup: Add kfuncs to traverse over wakeup_sources
+  selftests/bpf: Add tests for wakeup_sources kfuncs
+
+ drivers/base/power/power.h                    |   7 ++
+ drivers/base/power/wakeup.c                   |  72 +++++++++++-
+ tools/testing/selftests/bpf/config            |   3 +-
+ .../selftests/bpf/prog_tests/wakeup_source.c  | 101 +++++++++++++++++
+ .../selftests/bpf/progs/test_wakeup_source.c  | 107 ++++++++++++++++++
+ .../selftests/bpf/progs/wakeup_source.h       |  22 ++++
+ .../selftests/bpf/progs/wakeup_source_fail.c  |  63 +++++++++++
+ 7 files changed, 372 insertions(+), 3 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/wakeup_source.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_wakeup_source.c
+ create mode 100644 tools/testing/selftests/bpf/progs/wakeup_source.h
+ create mode 100644 tools/testing/selftests/bpf/progs/wakeup_source_fail.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.53.0.1018.g2bb0e51243-goog
 
