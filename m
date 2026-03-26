@@ -1,134 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAA03CBE63
-	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 10:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E423318BA6
+	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 11:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774521212; cv=none; b=Z945pAxM8kI7VKe+0dF6VOAIEM9ft+dtwHCEvcrhiQX466kCgnofsJOHSMbDydqrQycaA9Wx1z1GBb+7YdXbAFfqmFFS3tVlh2+YK8YTXuzZy80PA6lp8NEnTQEBtgze+98XE43S6IbaBS+Uz8b507/nuZD+OJ28Hp7WA1rqZKs=
+	t=1774523963; cv=none; b=Qgn37nLHdF1tkySMLaBwdeZbe7JMDP7ZYN7EtaWBamqIAcppPR/2uUtmTgc+smLKEwWdmVwhGB5pvzilyP0gGDXcOOywftFrhjOsmjmhYslSWMsl59CVanUyPWVdAlVAsS2OBU3WKGE9FqRSVHcWGctaIMgIEzKaeTXGAGtnygE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774521212; c=relaxed/simple;
-	bh=ZudevnbvHxuJFNRVUgY0l6TTlPYj57cCXzQfq18RxyU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RGND5Tk6sZo1QNAWUHcn9RSbt38jLPeNhR8XF9Cb4S54x6BT6xA9q7QDA9xvhqmDWev3uMpDjXwCa77UJlEbsvthk0ZGFLHAYe1NwaTAsiQ3VuoY1knVUCkYkUrl2M+aZWVkgJABCKeMTovZrAfCWdTH7MmhMsnkuIF2oxKZJ8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLAVn+yy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774523963; c=relaxed/simple;
+	bh=cpOOjpYPYESIU0ffyqKcNT2Upo1mwTuCSjSb/lpuIYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aRXaV4nIdJvXEIwfEfZr6bzvBBS762wm1fC53enEc2Qk35fy/dArG8DDmLII6+O0i/BsPBbVPkn0lHAC2t5wPtsbh6TQV8j3VpUutn/SIQvjjFTxAj4gHSKmOzlqntLqNFeUNSt100lUfXpMif+RZ8VwkVM0GXZcNud5K9+LRds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMuuBrZf; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLAVn+yy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFF34C2BCB8
-	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 10:33:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774521211;
-	bh=ZudevnbvHxuJFNRVUgY0l6TTlPYj57cCXzQfq18RxyU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kLAVn+yyTl/Q8z+UhqbNmfz2LrWrp36HL1Ae4tSkcqPbq1qp3GRw4UjT323vqOUua
-	 8ahJjFB01lxdM/2KIMuWIT/npAo065XzkAEJITt09khnLhIl+eLEP4WHkDeGlGhT4f
-	 e0aeWHoRGhZBI4R40jiCJ1bYcjad052WCHxrFwLVGoii6XzPg7Pg1HGrPKXJuKh9dZ
-	 FixFToi4dvl3Fnnmk6MV3sIitDaktMkzrAFWZVUVpwagZgrFRx2FtV0UYZvB2u1NgG
-	 sqo55jxPVDBNxHLQcxm2vrGc3ZOgOvS+j+ZAYexlcyf+b06vLqMYU9z3zUlgUTwEUY
-	 w55U+UPZxDs9w==
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-794719afcd4so8774927b3.1
-        for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 03:33:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWPRfH3ucyVwjnRDpHaR3/LVp377nP6X49myJlMCsl2Nof4cHThz1n0stccCJ4I338iyr30nQjfoGiQKQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YytusyZPwtrEurobg/8GMLUWKSQT9mJHcVHs436j4coORxprBK/
-	uocis2bdWdAptUby1TrAxz6ffzgjM4qikZwBt/NtJgWVrf1tbGgl8YPzwmaPvt2DKPSk+2XG+Uw
-	Q8lH1zlih2BScTkH4KhCwo878LBcyImM=
-X-Received: by 2002:a05:690c:6086:b0:79a:69bc:f20f with SMTP id
- 00721157ae682-79acf3a8b76mr76387137b3.21.1774521210579; Thu, 26 Mar 2026
- 03:33:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMuuBrZf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774523962; x=1806059962;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cpOOjpYPYESIU0ffyqKcNT2Upo1mwTuCSjSb/lpuIYU=;
+  b=kMuuBrZfkz71HsTuDslgB6UJCijr0V/ebm40j4B0mNAM1MDsfWDW+4gV
+   pL/mU4yQ6hwU0QpVqY9bd75QG/ofEl9ZiDNmJ/Qg1yY5R+C7vCqnJs6DZ
+   Zy3+w6J4uLJCQwYr2yk6Ppb5tHTJBVDl2nF4GiVHKH/C1n7vbERiDXWk/
+   a2VLqj6yx4w6YphayrsL6ZnWc3OPYIZvjr35Oc+DGVw+jVwmgD1V8IBR+
+   UDNTpyM6YhDTgtYqvGyvyuSuA1YIseZgNAhk19Oz3S+yD04QIZ2xH+uEY
+   lF3We/Dl0wAO1PNUXSXfKIWqU4JIXLqSkG8CFrClKLciUF5ZiWr776rBv
+   g==;
+X-CSE-ConnectionGUID: LZu8xa+wQDaGouDpftbkSw==
+X-CSE-MsgGUID: BnpsrVmISamhxSixWFQ3Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="79483797"
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="79483797"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 04:19:22 -0700
+X-CSE-ConnectionGUID: /rMWHD0hTR2iz57YiwguNQ==
+X-CSE-MsgGUID: vdLnYSO0TXyn5k4EJnd6mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="220566936"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.216])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 04:19:18 -0700
+Date: Thu, 26 Mar 2026 13:19:16 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH 3/4] software node: verify that property data is not on
+ stack
+Message-ID: <acUWNJLLsSJg07yJ@ashevche-desk.local>
+References: <20260323-property-gpio-fix-v1-0-9cb46e5fe7df@gmail.com>
+ <20260323-property-gpio-fix-v1-3-9cb46e5fe7df@gmail.com>
+ <acKEm4EiZBqJ67nM@ashevche-desk.local>
+ <acK34X9vBmvgHhLU@google.com>
+ <acPMJiZHmxvVYYte@ashevche-desk.local>
+ <acQJiEAtM3LKxDBS@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260325143555.451852-1-herve.codina@bootlin.com> <20260325143555.451852-21-herve.codina@bootlin.com>
-In-Reply-To: <20260325143555.451852-21-herve.codina@bootlin.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 26 Mar 2026 11:33:19 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkFu+Z22QBFiaa9S+Epeh=RJZOYX8BOLVDFw4bhEoYF1Q@mail.gmail.com>
-X-Gm-Features: AQROBzC4i_eE97sXtt89YSs_3fVQUuKW8eO9nnDvhVba5azUhozyRvIt7ceD-wY
-Message-ID: <CAD++jLkFu+Z22QBFiaa9S+Epeh=RJZOYX8BOLVDFw4bhEoYF1Q@mail.gmail.com>
-Subject: Re: [PATCH v6 20/27] misc: lan966x_pci: Fix dtso nodes ordering
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
-	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acQJiEAtM3LKxDBS@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Herve,
+On Wed, Mar 25, 2026 at 09:24:57AM -0700, Dmitry Torokhov wrote:
+> On Wed, Mar 25, 2026 at 01:51:02PM +0200, Andy Shevchenko wrote:
+> > On Tue, Mar 24, 2026 at 09:17:18AM -0700, Dmitry Torokhov wrote:
+> > > On Tue, Mar 24, 2026 at 02:33:31PM +0200, Andy Shevchenko wrote:
+> > > > On Mon, Mar 23, 2026 at 05:39:39PM -0700, Dmitry Torokhov wrote:
 
-this is nitpicking, but if you respin the series consider the following:
+...
 
-On Wed, Mar 25, 2026 at 3:42=E2=80=AFPM Herve Codina <herve.codina@bootlin.=
-com> wrote:
->
-> Nodes available in the dtso are not ordered by their unit address.
->
-> Fix that re-ordering them according to their unit address.
->
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-(...)
-> +                               switch: switch@e0000000 {
+> > > > > +#include <linux/sched/task_stack.h>
+> > > > 
+> > > > Looking at this name the use of it here doesn't sound right...
+> > > 
+> > > Because ... ? object_is_on_stack() is defined there.
+> > 
+> > Because it's defined there. The key word here I see is 'task' in the name of
+> > the header, without Ack from sched folks, I am not convinced we can use that at
+> > any point in the kernel.
+> 
+> It is fine to be used in drivers, and it is used in USB
+> (drivers/usb/core/hcd.c), SPI (drivers/spi/spi-mem.c) and others.
+> 
+> "task" is not magical, it simply refers to a process or a thread (user
+> or kernel). This particular macro just checks if the object is within
+> limits of stack area of currently executing thread.
 
-Recommended practice is:
+Still, it's C which can't really protect the public headers from misuse.
 
-ethernet-switch@...
+...
 
-> +                                       compatible =3D "microchip,lan966x=
--switch";
-> +                                       reg =3D <0xe0000000 0x0100000>,
-> +                                             <0xe2000000 0x0800000>;
-> +                                       reg-names =3D "cpu", "gcb";
-> +
-> +                                       interrupt-parent =3D <&oic>;
-> +                                       interrupts =3D <12 IRQ_TYPE_LEVEL=
-_HIGH>,
-> +                                                    <9 IRQ_TYPE_LEVEL_HI=
-GH>;
-> +                                       interrupt-names =3D "xtr", "ana";
-> +
-> +                                       resets =3D <&reset 0>;
-> +                                       reset-names =3D "switch";
-> +
-> +                                       pinctrl-names =3D "default";
-> +                                       pinctrl-0 =3D <&tod_pins>;
-> +
-> +                                       ethernet-ports {
-> +                                               #address-cells =3D <1>;
-> +                                               #size-cells =3D <0>;
-> +
-> +                                               port0: port@0 {
+> > > > > +	for (prop = node->properties; prop && prop->name; prop++) {
+> > > > > +		if (!prop->is_inline && object_is_on_stack(prop->pointer)) {
+> > > > > +			pr_err("%s: property data can't be on stack\n", __func__);
+> > > > > +			return -EINVAL;
+> > > > > +		}
+> > > > > +	}
+> > > > 
+> > > > And again same question, why we can't simply dup them as we do for (string)
+> > > > arrays?
+> > > 
+> > > Because majority of users of software_node_register() deal with static
+> > > const properties so duping them is waste of memory.
+> > 
+> > So, then why can't we do that for the references? Just then copy and free at
+> > software unregistration if required.
+> 
+> We do not want to copy and free because that would be waste of memory in
+> majority of cases where software_node_register() is used.
+> 
+> When dealing with other kinds of properties it is pretty obvious where
+> the objectr itself lives, but when using PROPERTY_ENTRY_REF() and
+> PROPERTY_ENTYR_GPIO() it is very easy to miss (I did! and I made them)
+> that the reference args object is on stack as it is hidden behind a
+> macro.
+> 
+> So it is just a safeguard warning us ahead of time instead of needing to
+> figure out why a driver can't find GPIO even through the reference looks
+> right.
 
-Recommended practice is:
-ethernet-port@...
+Okay, but in the current form it lacks necessary information for understanding,
+exempli gratia the property name.
 
-Yours,
-Linus Walleij
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
