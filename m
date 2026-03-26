@@ -1,143 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CED3B583B
-	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 09:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4443365A05;
+	Thu, 26 Mar 2026 09:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774515812; cv=none; b=tC+pTQc7gxvQATY/c1XVXk61LRM9oApUjTESi0pLU/iVqa/X2m1ynfh8pnB4i98eJddjqYBkDxmQBLeRAmv+v96XUU4PniaFmzhh0nwFbmLKgCXHlfqYDgg365/esN2AcTCzZo0mjds1SggIo397CMTJua9HuUNjO4uyTbdewaM=
+	t=1774518231; cv=none; b=qp5tfJUGHsxx9T+o/zdtYcRf2bqt9MV9UESYgHWhPn2SzBSbO6dChenw6kD5QgiU8wLa+htoeNWzictgbG7YSGE2cn1eoGT3Mkr365nSi7p/AtxY2T0mbTZrNqYJpW35IEiRef3NzeF5Dp2ZUhmE1U1cIbrbQ/FfBa+EhQefpWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774515812; c=relaxed/simple;
-	bh=IHrp3qcbUirCp94NsEtIYd8rf/kv8Pb6+qqpXq11Pxo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=snDtJn03trFYbCFC+Sy/NJ/SjDfELbzJ+LetlfC9WAcCL64fkJO+pXX4U/gBta4f0/UedfYCT8+26Kr7Ou49zCm3f/Z8UwrM0DAg62HLP+unouy4yC5LdV6AkFlKPiDMdsrq1Cmm6PWnN7niVNQsXvB6Pkrr1PolKz2x14x9zM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tt20P8/F; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774518231; c=relaxed/simple;
+	bh=G7X3A1FjDM7WiH77ZcPoedDF8U0V8w19yjC2Pc1U5kk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hmcf5CO3++YHJ2Bv3hf5jeT7ZtDAL799mV4L57LmTV8v2bBap/yrE1kikH6MrkKP6LGf7WA9l25sIKhHUeiHYEN6cb8nEk6DcRtABluwm5sM9lBZZhczXKiSzmryNz2nL6BMB0BhvpJL5TphX9m6Jx5Z2rKQ1R1JRVIEIraBsHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=avrMFIfO; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tt20P8/F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774515812; x=1806051812;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=IHrp3qcbUirCp94NsEtIYd8rf/kv8Pb6+qqpXq11Pxo=;
-  b=Tt20P8/F5gT0AjFloNjb31p3jKb3tPTY03WNLbKYkRMbGLSlwmtVQzQf
-   S2sPImpiaLtmY1db/VWA6ZpXyXve1L0VtIjkXEu1WtxnIbn3fTBJpwpLx
-   bn6V4WeJZyToHVfUAQxAH5x5Fs7HbXSqadfXUUiIYEktj6kPFAhZgrrAL
-   fPdRPgaMcz9JFdXY4nBzvESxOXWtr/PSgupPhmWKiK/8pZnc4Punura4t
-   3Cpw6r4AXvaYbEmh1Nz8hnVwOw+5HIVRMfJQQW6HGcBhBtE4LpZro0im6
-   TzKEd2fmu+EhplTPJqTjhZXwVQm5Aubh3u3dlfpVQFsJRQsLIG0x/rVNp
-   Q==;
-X-CSE-ConnectionGUID: AJ9dDJBTT8+dxQK5evjAxw==
-X-CSE-MsgGUID: 428A5rNlQCC8+sfE8DH3gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75530812"
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="75530812"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 02:03:31 -0700
-X-CSE-ConnectionGUID: 2Q1+ycJPTDK+6k70ZCre4g==
-X-CSE-MsgGUID: L6X4ANMzRaSDcTFvQ9JQeQ==
-X-ExtLoop1: 1
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.216])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 02:03:28 -0700
-Date: Thu, 26 Mar 2026 11:03:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] software node: allow referencing software nodes by name
-Message-ID: <acT2XtIKyG3smt3I@ashevche-desk.local>
-References: <acIV6xF8mY-8wd5e@google.com>
- <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
- <acK69OColNT7ViLf@google.com>
- <CAMRc=Mcw66QpjQt4+_JdMq9JiAY28hjzNHa24gfOCCXyie-uRQ@mail.gmail.com>
- <acTtzuGD-K5XvVir@ashevche-desk.local>
- <CAMRc=MeEMx1w5HaXBUP6iAu8T8b7Ti1i7JVDDTwvpjaEOtDJuw@mail.gmail.com>
- <acTwqD8fXZSncMIS@ashevche-desk.local>
- <CAMRc=McUD+M4oYOAyhU845nuSF6yve_JuaTDSNBWw3Ah3OVgrQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="avrMFIfO"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62Q59Wqg1479684;
+	Thu, 26 Mar 2026 09:43:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=GQ61ku
+	hdrfqFul0L2FFBXSHRCVEg6otwfwoaX1TK3/E=; b=avrMFIfOdugi4S/4hndTN+
+	CLl/8HIMGz5Y/Oum5eOm3OxGCkgJK5eRyIT5itUmQlmpPCJa5rd7cEhD70kd89Vx
+	sIkj70/bP26p1m99XZIqnezWszE2fOzkNLz1UKG/M+ZIpYxEchD1eZtuvPGMylcs
+	oeHmw2eVFKJjsgFq0pWIzHhgjEoKzXSvm+Q3IfGfuYz/X6Rtw3ddqbg74qyboisW
+	7VhJFSlPA/npMVSA1RxAqkj0qgcs/ITsZmLD/UBiIHDv6wpIicKFko9HHa1mxW7e
+	FX0uQjKv616F5kTpsv6tLKCb9nFCwCPKBw3DJM+rLF0pILZ/li0SeQnt8POSnByw
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1kxqmkhe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 26 Mar 2026 09:43:18 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62Q70AQB026695;
+	Thu, 26 Mar 2026 09:43:16 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d275m292g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 26 Mar 2026 09:43:16 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62Q9hCts51970526
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 26 Mar 2026 09:43:12 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 59BB320049;
+	Thu, 26 Mar 2026 09:43:12 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B3A6C20040;
+	Thu, 26 Mar 2026 09:43:11 +0000 (GMT)
+Received: from [9.52.196.90] (unknown [9.52.196.90])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Thu, 26 Mar 2026 09:43:11 +0000 (GMT)
+Message-ID: <e232e227-b022-40b7-ae9b-085398172aaa@linux.ibm.com>
+Date: Thu, 26 Mar 2026 10:43:11 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=McUD+M4oYOAyhU845nuSF6yve_JuaTDSNBWw3Ah3OVgrQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/12] s390/cio: use generic driver_override
+ infrastructure
+To: Danilo Krummrich <dakr@kernel.org>, Russell King <linux@armlinux.org.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Nipun Gupta <nipun.gupta@amd.com>,
+        Nikhil Agarwal <nikhil.agarwal@amd.com>,
+        "K. Y. Srinivasan"
+ <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+        Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, Armin Wolf <W_Armin@gmx.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Holger Dengler <dengler@linux.ibm.com>,
+        Mark Brown <broonie@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>,
+        Alex Williamson <alex@shazbot.org>, Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini
+ <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
+        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-spi@vger.kernel.org,
+        virtualization@lists.linux.dev, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-arm-kernel@lists.infradead.org,
+        Gui-Dong Han <hanguidong02@gmail.com>
+References: <20260324005919.2408620-1-dakr@kernel.org>
+ <20260324005919.2408620-10-dakr@kernel.org>
+Content-Language: en-US
+From: Vineeth Vijayan <vneethv@linux.ibm.com>
+In-Reply-To: <20260324005919.2408620-10-dakr@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: lM9ihgFyzDaKKK4hT6xbAWnBu4HPvbko
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI2MDA2NyBTYWx0ZWRfX2in2v/sm6fVn
+ 1EOEfnIWW9XHJhqTtN1dackcJvrGoIn6RYtzj2jaFpMYQNlaN3XxkuZ6dzpRGfvaZaU5moxAo8x
+ trr+PwJfEqlepekJSKPo1fy9d5o6sgA5m683HkjOswpiKaLB0x2ZC2oGeSCAtUXbWtftJWxMU93
+ r9db17SA3IR04n61jqkqo5Bm6YDmBdYR4V4J415d1oOQfmhBzzcsrs5XSBy2lSc6eI3Yyn+zNJA
+ fVQxRgkOI9yEBwUOLE+1Bp0urJ3SQpsL6Mxqh1jqv0YqiavIDSQ9i78PTJ+7C/RudgHS8T2aNad
+ w9soTfL5Lep9UESaYSAmOjYsSO5EEkxvuZXANkgGYCQiRzjVScD+Gyn69Rf+vvAYsxJQFXrQuWu
+ UQoghhH9HNEe1gD65ozDrx3Bl3HFNi5z9FxZxdctIbC0r4+GoaXzUaZ2fC0g/Uri9kPCKMvcMLh
+ 7P5IIMyCHlQF+nN31cA==
+X-Authority-Analysis: v=2.4 cv=bLEb4f+Z c=1 sm=1 tr=0 ts=69c4ffb7 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
+ a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=rH2cy8X4UbemT2jZliAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: sWD6kkjX1ahK5tMWR5AN0EWZ8NVBfHg-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-26_02,2026-03-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 clxscore=1011 phishscore=0 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603260067
 
-On Thu, Mar 26, 2026 at 09:47:03AM +0100, Bartosz Golaszewski wrote:
-> On Thu, Mar 26, 2026 at 9:39 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Mar 26, 2026 at 09:34:01AM +0100, Bartosz Golaszewski wrote:
-> > > On Thu, Mar 26, 2026 at 9:27 AM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Wed, Mar 25, 2026 at 05:32:06PM +0100, Bartosz Golaszewski wrote:
-> > > > > On Tue, Mar 24, 2026 at 8:30 PM Dmitry Torokhov
-> > > > > <dmitry.torokhov@gmail.com> wrote:
-> > > > > >
-> > > > > > Please post the reworked version so we can review all the details. My
-> > > > > > concern was that it relies on notifier chains to notify when devices
-> > > > > > get registered and unregistered, and instead of matching node names you
-> > > > > > now need to somehow match device instances and software node instances,
-> > > > > > which again likely is done based on some name. This just piles on
-> > > > > > complexity where a simpler solution would be sufficient.
-> > > > >
-> > > > > I will post it. Hopefully before the end of the week. I want to cover
-> > > > > both OF nodes with paz00 as well as ACPI with android tablets. The
-> > > > > latter case will have to wait for devices because there's no way to
-> > > > > look up an ACPI node by name that I could idenfity (correct me if I'm
-> > > > > wrong).
-> > > >
-> > > > What do you need from ACPI exactly? The ACPI namespace in the OS is represented
-> > > > by set of ACPI handles, each of which is the object pointing out to some object
-> > > > in it. Any object in ACPI has a unique path. At any time, after parsing the
-> > > > ACPI table(s) into ACPI namespace we may get a handle based on the path.
-> > >
-> > > DT is unflattened very early into the boot sequence. Is this the case
-> > > for ACPI tables as well? Knowing the name of the device (HID + index,
-> > > eg.: "INT33FF:00"), can I check if there's a corresponding ACPI node
-> > > (of_find_by_path/name() in DT parlance)?
-> >
-> > I believe so. See how we find a GPIO chip in the gpiolib-acpi-core.c.
-> > In the similar way you can try finding any object in ACPI namespace.
-> >
-> > But note, ":00" is part of device instance name, it's not available
-> > in ACPI namespace. There we have HID, UID, et cetera, ":00" is pure
-> > Linux kernel thingy.
+
+
+On 3/24/26 01:59, Danilo Krummrich wrote:
+> When a driver is probed through __driver_attach(), the bus' match()
+> callback is called without the device lock held, thus accessing the
+> driver_override field without a lock, which can cause a UAF.
 > 
-> And how would the four instances of the cherryview pin controller be
-> identified in ACPI? I've just created a dumy table with a single
-> device, I don't know ACPI very well. Could you post an example .dsl
-> here for testing?
+> Fix this by using the driver-core driver_override infrastructure taking
+> care of proper locking internally.
+> 
+> Note that calling match() from __driver_attach() without the device lock
+> held is intentional. [1]
+> 
+> Link:https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/ [1]
+> Reported-by: Gui-Dong Han<hanguidong02@gmail.com>
+> Closes:https://bugzilla.kernel.org/show_bug.cgi?id=220789
+> Fixes: ebc3d1791503 ("s390/cio: introduce driver_override on the css bus")
+> Signed-off-by: Danilo Krummrich<dakr@kernel.org>
+> ---
 
-They are identified in the driver by using HID + UID combination:
+Thank you Danilo.
 
-https://elixir.bootlin.com/linux/v7.0-rc5/source/drivers/pinctrl/intel/pinctrl-cherryview.c#L1757
-
-https://elixir.bootlin.com/linux/v7.0-rc5/source/drivers/pinctrl/intel/pinctrl-cherryview.c#L273
-https://elixir.bootlin.com/linux/v7.0-rc5/source/drivers/pinctrl/intel/pinctrl-cherryview.c#L367
-https://elixir.bootlin.com/linux/v7.0-rc5/source/drivers/pinctrl/intel/pinctrl-cherryview.c#L412
-https://elixir.bootlin.com/linux/v7.0-rc5/source/drivers/pinctrl/intel/pinctrl-cherryview.c#L412
-
-In ASL it will be something like
-
-	Device (GPO1) {
-		Name (_HID, "INT33FF")
-		Name (_UID, "1")
-	}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Vineeth Vijayan <vneethv@linux.ibm.com>
