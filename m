@@ -1,86 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADE5399002;
-	Fri, 27 Mar 2026 09:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774605124; cv=none; b=NhabMHq8JAKKowp36UwERJawL7UzkcWdpxN6lQL18Irb64fZ6N5SFQrCda4YrG1ujl3E14hwX+h9Zntke5Yi1s35uiPS2chzC334A9M+WQ+1GQUs36cIiFVGAjfzC0/ihsGPB4wtFKkjQ6YOwMq3UBx8LsiOxBVfpSpvuyQtT0E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774605124; c=relaxed/simple;
-	bh=affQBU+zm+5N2Yof7U/miUHwDKSJuB6P4ntIJZ3Y1qo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f51ZWwrAoglu2zTmND7Ta0rZqZagWIgbv46KHDDqg8BmfyJHHVcGktuZ1ZSodSLDdn9AMDZu40vep+AKuwkUyzLo+DD5a5EQyEqMfq/c+DqlDHlkYNuAyZa/Ht7DyCPpCsdScs4A3+yUd2YFk6D6FMe4KjK5c3DPLzyUNmSJw9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgXX0G0l; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862283A9D8B
+	for <driver-core@lists.linux.dev>; Fri, 27 Mar 2026 10:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774606279; cv=pass; b=lepD57n6Yo43zBREeAZMQnCDzaSBmUsu1j+fUesaP1Ggj4L7WUI7hNkidE5lG1J+O0itu01pUFSlqVC/nq28DpVYV/EjoPX5I9IPw6dVCUa0h4sz/kIqOe+xTXaCEKFpIB2IEaORWdSikjaLRGCM4uCo46n+NjymeJd4IhNUZPw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774606279; c=relaxed/simple;
+	bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vEWDYKApqANb0Vp58a+xZ6ss9ZwhwPa+T0WMmVBggSAA2vaRnCNyJsNCOBUUPShfnOkxmXqgQXgZaW0tw/VCQXWMtd/yTOAIEZVDiVIdyG4ZrjtmtVVPBox0HENVzPGTSEFazJkg9kdSUXWEf3HGR3RJtad6wElLwFh6rN2R1Fc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkDai6dM; arc=pass smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgXX0G0l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09C37C2BC87;
-	Fri, 27 Mar 2026 09:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774605123;
-	bh=affQBU+zm+5N2Yof7U/miUHwDKSJuB6P4ntIJZ3Y1qo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BgXX0G0lAOGQdzPSWiDAw5qx5kQo95/b2BcFMRqbrv8g1kBzbVCTdvu3Opk1AUUD3
-	 CD29HWXfvVPoJ463Hbpm9NRzMCBwzmkkteeQjISTh28F1qL4KeTDdcmEfZvomP2G3O
-	 Hgc11+UHf4wsKcYbpCSk1F9i3R9PRdrtoYLyOeu+zM7vErUCCVuH+LCNSz4iDr/vmX
-	 03qWDjdYBGgzAolsWVb0Qj776qhX5z5oIwb6QpQT9Im0wyy7iji2kAX5ADda/SQgMR
-	 +9Q8Wk/bggilBCw4AV7xnM5t0ei2GqLdWF4nGWkqGlR6shyfWAxSi9ASRdl+JYI+TJ
-	 7e7Io+C7i13IQ==
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
- Linux Driver Core Development <driver-core@lists.linux.dev>
-Subject: [PATCH v1] driver core: auxiliary bus: Drop auxiliary_dev_pm_ops
-Date: Fri, 27 Mar 2026 10:51:59 +0100
-Message-ID: <4738700.LvFx2qVVIh@rafael.j.wysocki>
-Organization: Linux Kernel Development
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkDai6dM"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12a6b260693so249966c88.2
+        for <driver-core@lists.linux.dev>; Fri, 27 Mar 2026 03:11:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774606277; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LopuyTqXNFvfB1DC4Ag1ixJfydknmcF6n/iIcqmtbsYWvAj3ixp4oQI4/lUq3jZYbq
+         XwFhniGTTSW4KrdtUoVJa2RuvYYsVOIXLRK7y0UBQ/LDi2GKlyLCNlQqqnS4DLjB6mOH
+         3dW3QK4e3auC3zFBuJ54zPFOkNz7ySRqZTmxGSB1Wjrh9tBOLB8OluwCY4+yZoB4WKyS
+         z9DCNhuyMJVbGoT16BN6876loSUuW1D1styMAfXED2PrVP9v17fniHnYPnOrrZUwfNAS
+         srju4z/TF3qp5f26r7H6uuH4os9a6Nn6/0hww1Yn2PGyV51LMggarmd8s9XTGm0keXD1
+         nTjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
+        fh=rC/utLeOr4f8padOShpKkVbr84GmpKU6ItPUSXeYIHc=;
+        b=CWC7yI/IfG4nfL8A5MeTZBuf2fy6MB5wQ4eVf4k8qVDH0OsQSxTaRYoVGswqXQuD0U
+         /5dN/IybOgDnPOsxdLdxtbGCugYG7t5QMz3VmLyzF6gywCKo+W/MORDqkthBNCfKu4Oh
+         cG/0KvZho0WZVDzR+o1RlqDAk7/OQ2SaTvZAPEJn4nCiHSVOVG90VkR/Aukkg+jasHtT
+         u1QhU2FK1yfzoyg2Asqkv8k5bRVJGUnz9BI4gAm+pcT10EwG014pYdyCyv6xE96KsFKX
+         ca5+xePBibenmJT8HtEqpyintBWHD9cZT55Jc3GJyj5S9TRQfKCLfR9HK8Etwzw4WjY/
+         +Wng==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774606277; x=1775211077; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
+        b=VkDai6dMPgrBAD7SCU+/yb5OZM4nXJGAIxzl4OXBVGCTSfij8rVJ1nZL1zC1PrBwAa
+         9tNHgnMnriYymQKuzaJAvQY8Tu9B+6pXN82K1E3f5MpOEHUcawhxbxoQSFSio1i8ZDH7
+         WcobWz6istBPatP9KFqNBbCOayoCpfQpQlZvwxNK2G5fs7wjjICsmyXV6XEskm323aB9
+         koW/COKpxKOMafySQBsm71fbA8NLHfFB93bAcJXjVqI5uR2vfIVk+3NKPFpFCFZpuiAl
+         YvUSl6pRFXjZ9wqIaWUjnF+J86V+hGkNBkP97LBn/IEvwqGN6UpGJBbFnmQsr9xNvqDD
+         jv+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774606277; x=1775211077;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
+        b=gOxxf+V6R4vX8hPe7HliFTpKdkqv3BXSONeGBA+ZUUC5M40MMXWNtRlDwqbcOqpiif
+         4F99CIqgbRd/lpYnzY1SmErhZoFZrC2IeoNmhyq05O812Yxkp6vy0XI/VmJpljKTopKD
+         TQgHwJ2TE72IOEWtnQBeuPacSMg7RScId67CKi2tc2qHePycFcmW9bu74iWc2ZmGge/N
+         vn5Psj+//7XIZOt0S/En8Zrlda7Ojxjtk+i/0Sp1PkmnbFyjISeWeIMKREgwvsrXNTrL
+         Pa9e3QaB/U2BCx/mU1BZqVrKWQXbgszkdM2DcnKvkFCsJ4Ee84Pz78gLe/jmLDM4+SYD
+         JRew==
+X-Forwarded-Encrypted: i=1; AJvYcCVmiE5BvMRtCwqvlsAqiOc5gVq9WPg2WwhI6AhS27zvm5r3hULPf8F32ppTeaoOjfQB6q1vm2A2PhZ/Eg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrTW8AliV07SKfJcTQhRaq0DeZq2+9EvsfpQqnnnGZijTk3Jyf
+	SfyVMytQDf5MTRxcjPLRaizuO7AAO6zHwJlxRnLhwmX+KkYJR3aJyC4pMhPnoDlb0+gg56XHhVR
+	B840z3PmT5+QBCxTBe0n+lpJ2iJWrzjA=
+X-Gm-Gg: ATEYQzzQt1G28SMgd2JWgtf3lRMYy6M6MYBXs7dxgbWe2LOKmuXrTHpgID5GILkdlVP
+	P3iNFGflrEmI8ZVz2Za3THOEth31SjGVDvhPsqi34WiMSHRf9H1ijAUpJlz41YETidM6gmIaNRG
+	wNTS3uipOwpghBv8EeXJM4OdDfvW0lKIHdiNMIYmk9l88epS4LO2lMvkE88Nr64h3DI9MjbDLJW
+	YarS/KVY55VB8GKmWHyTdZWJXu7CgdyK6adbxAmZJU986iJtB2tX78gmBo0LtxZAzztGULKlPym
+	JdKMdtByIEjmUcU2c3Cd91iR9d+jlqmggUK+gSKiCtesBDZLp4Ft7xTX2C83i/KIHvT5OTrs0HC
+	aS4BN60VXxJsK3U30VoBrsuA=
+X-Received: by 2002:a05:693c:2c07:b0:2c1:778:d888 with SMTP id
+ 5a478bee46e88-2c185e6c137mr515564eec.4.1774606277404; Fri, 27 Mar 2026
+ 03:11:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+References: <20260323153807.1360705-1-gary@kernel.org> <U_v6wkMtfgu8yfV2Nh5Im8t1w4KZ7mdbG3VQciT2g3DULhsKBXJgIz2psuj76-V94TPNtUry3J727gLTbUByug==@protonmail.internalid>
+ <20260323153807.1360705-4-gary@kernel.org> <87ldfey8nh.fsf@t14s.mail-host-address-is-not-set>
+ <DHCSEZH8M3JU.3LB4M2ERBJSYX@garyguo.net>
+In-Reply-To: <DHCSEZH8M3JU.3LB4M2ERBJSYX@garyguo.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 27 Mar 2026 11:11:04 +0100
+X-Gm-Features: AQROBzAc4vO9OJHfJtMaQN5CiuyoS_KQK7JMXrfbHVTl0wLJ7I2VVbDBNfr8YhI
+Message-ID: <CANiq72nmM_L2qSZtrvPN1bt9OzMiKu7NUZQXM=TknhbCOU=wuA@mail.gmail.com>
+Subject: Re: [PATCH 3/8] rust: io: use pointer types instead of address
+To: Gary Guo <gary@garyguo.net>, Tamir Duberstein <tamird@kernel.org>
+Cc: Andreas Hindborg <a.hindborg@kernel.org>, Gary Guo <gary@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Thu, Mar 26, 2026 at 3:35=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+>
+> This is a `*mut T` -> `*const c_void` cast which needs
+> `cast_const().cast::<c_void>` which I think is less readable than just `a=
+s`.
+>
+> It's also existing code that I haven't touched in this commit.
 
-Since the PM core automatically falls back to using the driver PM
-callbacks directly if no bus type callbacks are present, it is not
-necessary to define a struct dev_pm_ops for a bus type that will only
-invoke driver PM callbacks from its PM callbacks.
+I agree it is usually best to change it independently.
 
-Accordingly, auxiliary_dev_pm_ops is redundant, so drop it.
+In any case, regarding the suggestion, the latter form is more
+restricted, which is what we wanted when we enabled the Clippy lints,
+no? Cc'ing Tamir.
 
-No intentional functional impact.
+I agree it is definitely less readable when one is not accustomed to
+the `cast` methods (e.g. which one is supposed to be used for what
+etc.), i.e. `as` is just obvious. On the other hand, it also makes
+more explicit that we are doing a "bigger jump", i.e. both const and
+type, which is why `as` is "worse" in that it allows for more things
+to happen at once.
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- drivers/base/auxiliary.c |    6 ------
- 1 file changed, 6 deletions(-)
-
---- a/drivers/base/auxiliary.c
-+++ b/drivers/base/auxiliary.c
-@@ -207,11 +207,6 @@ static int auxiliary_uevent(const struct
- 			      (int)(p - name), name);
- }
- 
--static const struct dev_pm_ops auxiliary_dev_pm_ops = {
--	SET_RUNTIME_PM_OPS(pm_generic_runtime_suspend, pm_generic_runtime_resume, NULL)
--	SET_SYSTEM_SLEEP_PM_OPS(pm_generic_suspend, pm_generic_resume)
--};
--
- static int auxiliary_bus_probe(struct device *dev)
- {
- 	const struct auxiliary_driver *auxdrv = to_auxiliary_drv(dev->driver);
-@@ -258,7 +253,6 @@ static const struct bus_type auxiliary_b
- 	.shutdown = auxiliary_bus_shutdown,
- 	.match = auxiliary_match,
- 	.uevent = auxiliary_uevent,
--	.pm = &auxiliary_dev_pm_ops,
- };
- 
- /**
-
-
-
+Cheers,
+Miguel
