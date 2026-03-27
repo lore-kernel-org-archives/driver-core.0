@@ -1,130 +1,138 @@
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862283A9D8B
-	for <driver-core@lists.linux.dev>; Fri, 27 Mar 2026 10:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC8D3DEACE
+	for <driver-core@lists.linux.dev>; Fri, 27 Mar 2026 10:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774606279; cv=pass; b=lepD57n6Yo43zBREeAZMQnCDzaSBmUsu1j+fUesaP1Ggj4L7WUI7hNkidE5lG1J+O0itu01pUFSlqVC/nq28DpVYV/EjoPX5I9IPw6dVCUa0h4sz/kIqOe+xTXaCEKFpIB2IEaORWdSikjaLRGCM4uCo46n+NjymeJd4IhNUZPw=
+	t=1774607975; cv=pass; b=AYRH0BuOdapPuGVM2BpYRFYszoWKe4ws4+La7HD/oivO/Uz/7jsCFI8YiXZ6ne8cY5X0d1N7QSFRVEwVyJmaUar68Alls50YstB8gcuHjAsy0MyWLFGFzbtYetGQH1QZLV8oNQIaiT9UJaAOyiottSD2Hq6BV/emGMrQE9XFr7U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774606279; c=relaxed/simple;
-	bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
+	s=arc-20240116; t=1774607975; c=relaxed/simple;
+	bh=KgmKnCUtJdjeKLpSmoc54lARtS0ABFL1HxE3vOF4+to=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vEWDYKApqANb0Vp58a+xZ6ss9ZwhwPa+T0WMmVBggSAA2vaRnCNyJsNCOBUUPShfnOkxmXqgQXgZaW0tw/VCQXWMtd/yTOAIEZVDiVIdyG4ZrjtmtVVPBox0HENVzPGTSEFazJkg9kdSUXWEf3HGR3RJtad6wElLwFh6rN2R1Fc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkDai6dM; arc=pass smtp.client-ip=74.125.82.50
+	 To:Cc:Content-Type; b=uuxrHg+1LBhuy/G8ehJaqjmr60vlih9M+82BIMxHOO+Sot1Me0pcedaJeb5UeU4dWDDVnl8CGxcAORBnpN/Qf6UL7DC9k+jAGTYaXh6ZLq6yd8N+Zci1jw5qbVh1HAZrKDRjOYIuL7M2L3YDHSMbbV7IhISjKUbo21UaAIT2pmw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKWfY3nj; arc=pass smtp.client-ip=74.125.82.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkDai6dM"
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12a6b260693so249966c88.2
-        for <driver-core@lists.linux.dev>; Fri, 27 Mar 2026 03:11:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774606277; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKWfY3nj"
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12711867ca1so137980c88.3
+        for <driver-core@lists.linux.dev>; Fri, 27 Mar 2026 03:39:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774607973; cv=none;
         d=google.com; s=arc-20240605;
-        b=LopuyTqXNFvfB1DC4Ag1ixJfydknmcF6n/iIcqmtbsYWvAj3ixp4oQI4/lUq3jZYbq
-         XwFhniGTTSW4KrdtUoVJa2RuvYYsVOIXLRK7y0UBQ/LDi2GKlyLCNlQqqnS4DLjB6mOH
-         3dW3QK4e3auC3zFBuJ54zPFOkNz7ySRqZTmxGSB1Wjrh9tBOLB8OluwCY4+yZoB4WKyS
-         z9DCNhuyMJVbGoT16BN6876loSUuW1D1styMAfXED2PrVP9v17fniHnYPnOrrZUwfNAS
-         srju4z/TF3qp5f26r7H6uuH4os9a6Nn6/0hww1Yn2PGyV51LMggarmd8s9XTGm0keXD1
-         nTjw==
+        b=WxBJJO2uBP7Pt5i2GPCQPJQ9ZITLhWvNn/O8yTxERpAl8E6DJifA08Wc3KfUh7m5a3
+         pekbNm1IzuSaHuVXui5FlxKD461xCshFPJYkvr0Do9ZMcl0QdaRfqfXkxZZCHU4koTri
+         e+K6W1kOLXvw9IKiFOZfj4u65Cj7d5HVGIM5mWIaLnhIcTh9hrNLkVn0oP2zY1T2bhuI
+         K970VZn2SXgIh+o7jsANproffJ25k2TeAPkIBcFzMsDIExKlSPNX0SsezqJ8bU2GNwpd
+         o5vcj5Wh1LIuI5POTlQF0GMpAH/Z3WCE/2hVA4bO+BUeI6u34TityrEry8Q9uZYm4lGg
+         fJbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
-        fh=rC/utLeOr4f8padOShpKkVbr84GmpKU6ItPUSXeYIHc=;
-        b=CWC7yI/IfG4nfL8A5MeTZBuf2fy6MB5wQ4eVf4k8qVDH0OsQSxTaRYoVGswqXQuD0U
-         /5dN/IybOgDnPOsxdLdxtbGCugYG7t5QMz3VmLyzF6gywCKo+W/MORDqkthBNCfKu4Oh
-         cG/0KvZho0WZVDzR+o1RlqDAk7/OQ2SaTvZAPEJn4nCiHSVOVG90VkR/Aukkg+jasHtT
-         u1QhU2FK1yfzoyg2Asqkv8k5bRVJGUnz9BI4gAm+pcT10EwG014pYdyCyv6xE96KsFKX
-         ca5+xePBibenmJT8HtEqpyintBWHD9cZT55Jc3GJyj5S9TRQfKCLfR9HK8Etwzw4WjY/
-         +Wng==;
+        bh=gaWnQAueb/Sgl9MJS7B5EK/iQLA8MIqRPnv/jLDrg+Q=;
+        fh=57oR7RDFq1ob2XyCakn1Wxm7OhqWabYaC5BMX8azNHY=;
+        b=jcvgEne9TW6em+qItz45mfUy8inS6QG3kfDgNXdIG2Pi6xauozdRt45hFGS9dLI4Jj
+         zr29yGkaShMgIWK2xrEj794qXo2ENmXik9Mp/Khb/lAlVrt/rxiQseLmI+r49uMentBH
+         1GxBbZWS0wCfD9qLUJ+Mt72v6E4ktephCq/mp+cos1DrontbQ6JW6nkrAdPGT6MmiAH4
+         Yh9pAwvblms8JS/au9h1o5j52ox+6zp62nxwEeRgOG0QXu+FPUg/d5MIH1N1gkSxy4jf
+         MEoZiwvK7Fe3kerpD4fDKf3jw/gb1Jhw/gumCKReCP1CV/47Udial2Ex2GqvajxWFnNl
+         kr+g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774606277; x=1775211077; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774607973; x=1775212773; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
-        b=VkDai6dMPgrBAD7SCU+/yb5OZM4nXJGAIxzl4OXBVGCTSfij8rVJ1nZL1zC1PrBwAa
-         9tNHgnMnriYymQKuzaJAvQY8Tu9B+6pXN82K1E3f5MpOEHUcawhxbxoQSFSio1i8ZDH7
-         WcobWz6istBPatP9KFqNBbCOayoCpfQpQlZvwxNK2G5fs7wjjICsmyXV6XEskm323aB9
-         koW/COKpxKOMafySQBsm71fbA8NLHfFB93bAcJXjVqI5uR2vfIVk+3NKPFpFCFZpuiAl
-         YvUSl6pRFXjZ9wqIaWUjnF+J86V+hGkNBkP97LBn/IEvwqGN6UpGJBbFnmQsr9xNvqDD
-         jv+Q==
+        bh=gaWnQAueb/Sgl9MJS7B5EK/iQLA8MIqRPnv/jLDrg+Q=;
+        b=hKWfY3njOZ1+afh3Z7Gsy1j0ENlq54bp0hy+IzID+HJLyYWLlcVbBMB8BwylX3/Al7
+         KPSyNPIK/X6jiLUrbNlmwsQqXuiWDqQrdcr73z0wFwkDh3BU8a7esK5JJn/2WT7TdQtA
+         v/N9na8EMOYti0duxSrNhVuDLIrgRgtAfaXxerzXwypU97aXGyMpk4mSfkwHOn9XSPBN
+         W6Zu/aXVOVfXa11ygMxp2k5HPfTOv4V46MiazODBoVRlSqob6qG/7RP9YbwR8JIgL95r
+         Ve4t3DFiL4+HVJjp/BQrwiaAwRf3OicS33kmUDhOnsqD9qVzxZKQEEgrfl/P3t6LX3T6
+         hHUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774606277; x=1775211077;
+        d=1e100.net; s=20251104; t=1774607973; x=1775212773;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+uFnV8BoYScCWs0H3DAkHtcerzqW4bAA76yB8kYBKYM=;
-        b=gOxxf+V6R4vX8hPe7HliFTpKdkqv3BXSONeGBA+ZUUC5M40MMXWNtRlDwqbcOqpiif
-         4F99CIqgbRd/lpYnzY1SmErhZoFZrC2IeoNmhyq05O812Yxkp6vy0XI/VmJpljKTopKD
-         TQgHwJ2TE72IOEWtnQBeuPacSMg7RScId67CKi2tc2qHePycFcmW9bu74iWc2ZmGge/N
-         vn5Psj+//7XIZOt0S/En8Zrlda7Ojxjtk+i/0Sp1PkmnbFyjISeWeIMKREgwvsrXNTrL
-         Pa9e3QaB/U2BCx/mU1BZqVrKWQXbgszkdM2DcnKvkFCsJ4Ee84Pz78gLe/jmLDM4+SYD
-         JRew==
-X-Forwarded-Encrypted: i=1; AJvYcCVmiE5BvMRtCwqvlsAqiOc5gVq9WPg2WwhI6AhS27zvm5r3hULPf8F32ppTeaoOjfQB6q1vm2A2PhZ/Eg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzrTW8AliV07SKfJcTQhRaq0DeZq2+9EvsfpQqnnnGZijTk3Jyf
-	SfyVMytQDf5MTRxcjPLRaizuO7AAO6zHwJlxRnLhwmX+KkYJR3aJyC4pMhPnoDlb0+gg56XHhVR
-	B840z3PmT5+QBCxTBe0n+lpJ2iJWrzjA=
-X-Gm-Gg: ATEYQzzQt1G28SMgd2JWgtf3lRMYy6M6MYBXs7dxgbWe2LOKmuXrTHpgID5GILkdlVP
-	P3iNFGflrEmI8ZVz2Za3THOEth31SjGVDvhPsqi34WiMSHRf9H1ijAUpJlz41YETidM6gmIaNRG
-	wNTS3uipOwpghBv8EeXJM4OdDfvW0lKIHdiNMIYmk9l88epS4LO2lMvkE88Nr64h3DI9MjbDLJW
-	YarS/KVY55VB8GKmWHyTdZWJXu7CgdyK6adbxAmZJU986iJtB2tX78gmBo0LtxZAzztGULKlPym
-	JdKMdtByIEjmUcU2c3Cd91iR9d+jlqmggUK+gSKiCtesBDZLp4Ft7xTX2C83i/KIHvT5OTrs0HC
-	aS4BN60VXxJsK3U30VoBrsuA=
-X-Received: by 2002:a05:693c:2c07:b0:2c1:778:d888 with SMTP id
- 5a478bee46e88-2c185e6c137mr515564eec.4.1774606277404; Fri, 27 Mar 2026
- 03:11:17 -0700 (PDT)
+        bh=gaWnQAueb/Sgl9MJS7B5EK/iQLA8MIqRPnv/jLDrg+Q=;
+        b=UtNBdZLA+Z4d67abUV7UEaglqfRAjrJ5C+6hR3n4kUPqoHABnbgywLN0LgrRSiQXkA
+         stC0s/isEl92KAgxwuoc4lySudI/uMI643tViOaRu4NeqRVhp/rB3YWEBUpITcUmbkc0
+         2fPwCSmIH2B8B1rNxep6zl5aLBKHAH6G5ihVHNBT11XZ77JlQAsMOnLb9SPGhop8RcQN
+         CM4pUJ55/xa0HxP7SXn4GqUIZKHvEHyMPIf1P1syIXBo5a4PrtwQ+LFVBWVjo73aOCOp
+         6YuSqTFGuarmZv3X2hjDE0we+/SziibCKl83z2TVP0t8vNu7GYgNltpqcDpVVEv9hkO0
+         A6ng==
+X-Forwarded-Encrypted: i=1; AJvYcCVn5eQZ86wnaiC7CtplkQ8Vy5JLtf3wO7sHo1TNKEY30VrmYg7pzKqhBJxuMQ+EfNvr37cOpTnP0prAdA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDtZIxV8Nii9jcfQZGTNqiDUkluETO6/okcylkMsAtsYp+A78i
+	R/Z+kDz66/qkPEjzkgREIUE2pUegoYAnOmwedmpF1Y8oy65pS8iCeVMkL1qD58tx06Fg0jy2bbm
+	GfvasM5SYSnmjmXK+2ShQyy4I7g+ew/0=
+X-Gm-Gg: ATEYQzxkQh0SSAOHVeuAyG/cTeJ20fxevDXVJeBbCWUnxXDJMHXNqgs2xKAcMQ66+RO
+	wOXtUAW5sagKxV2NKvbqlwdYTe8lv6H0cd2DjLDUerLhIciDeJ5oWsEvBDYx1siRFyD5X6VzA5n
+	HKGPPyrx/H+EjB/zz0U/wmJc6VQJCj73fPOh2JkKz3xuK5J+7XBTVTwbITH2vRhmRCiOZct4NqT
+	/U384WRwYLWQS17rsPhE/hcpz7h+yH/pMn3yrVaAm/TZSMWnwuztzdi//Wtte+47j1BUR4hjpFA
+	YISNkjS8AbbhLVYcdS2Il+yNBgMnKlVYnZXEOwpGUbA4mX1p1wecC78z/o+mfxlxOkkk7Ua8TEj
+	QRtkXCTuVGlZnMptFUTDziHM=
+X-Received: by 2002:a05:7301:578e:b0:2bd:a3fa:9bdc with SMTP id
+ 5a478bee46e88-2c185e5063fmr380182eec.5.1774607972924; Fri, 27 Mar 2026
+ 03:39:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260323153807.1360705-1-gary@kernel.org> <U_v6wkMtfgu8yfV2Nh5Im8t1w4KZ7mdbG3VQciT2g3DULhsKBXJgIz2psuj76-V94TPNtUry3J727gLTbUByug==@protonmail.internalid>
- <20260323153807.1360705-4-gary@kernel.org> <87ldfey8nh.fsf@t14s.mail-host-address-is-not-set>
- <DHCSEZH8M3JU.3LB4M2ERBJSYX@garyguo.net>
-In-Reply-To: <DHCSEZH8M3JU.3LB4M2ERBJSYX@garyguo.net>
+References: <20260321-b4-nova-dma-removal-v1-0-5cf18a75ff64@nvidia.com>
+ <20260321-b4-nova-dma-removal-v1-1-5cf18a75ff64@nvidia.com>
+ <DHABINRM1861.3HQ3J4IZ150F4@garyguo.net> <DHCSXDEMMPZ9.FPPFUV6AMU4P@nvidia.com>
+In-Reply-To: <DHCSXDEMMPZ9.FPPFUV6AMU4P@nvidia.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 27 Mar 2026 11:11:04 +0100
-X-Gm-Features: AQROBzAc4vO9OJHfJtMaQN5CiuyoS_KQK7JMXrfbHVTl0wLJ7I2VVbDBNfr8YhI
-Message-ID: <CANiq72nmM_L2qSZtrvPN1bt9OzMiKu7NUZQXM=TknhbCOU=wuA@mail.gmail.com>
-Subject: Re: [PATCH 3/8] rust: io: use pointer types instead of address
-To: Gary Guo <gary@garyguo.net>, Tamir Duberstein <tamird@kernel.org>
-Cc: Andreas Hindborg <a.hindborg@kernel.org>, Gary Guo <gary@kernel.org>, 
+Date: Fri, 27 Mar 2026 11:39:19 +0100
+X-Gm-Features: AQROBzADerygp-PNkSCNfuM7KQknZIJrHT2zwp_Pm-Yy7FuiJN8HyeniNgPhMkE
+Message-ID: <CANiq72k4ib+pXymM9Z2gGvVk3UoDSdrw8d61W5-x+zuV3542Zg@mail.gmail.com>
+Subject: Re: [PATCH 1/7] rust: dma: add from-slice constructors for Coherent
+ and CoherentBox
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, 
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+	Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
+	Eliot Courtney <ecourtney@nvidia.com>, driver-core@lists.linux.dev, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2026 at 3:35=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+On Thu, Mar 26, 2026 at 3:59=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
 >
-> This is a `*mut T` -> `*const c_void` cast which needs
-> `cast_const().cast::<c_void>` which I think is less readable than just `a=
-s`.
+> Then it looks like this:
 >
-> It's also existing code that I haven't touched in this commit.
+>     let mut slice =3D Self(Coherent::<T>::alloc_slice_with_attrs(
+>         dev,
+>         data.len(),
+>         gfp_flags,
+>         dma_attrs,
+>     )?);
+>
+>     // PANIC: `slice` was created with length `data.len()`.
+>     slice.copy_from_slice(data);
+>
+>     Ok(slice)
 
-I agree it is usually best to change it independently.
+Hmm... I think I prefer this version because (conceptually) it has
+less calls, closures and conditionals (i.e. 2 `map`s vs. 1 `?`). Of
+course, it should compile to the same thing.
 
-In any case, regarding the suggestion, the latter form is more
-restricted, which is what we wanted when we enabled the Clippy lints,
-no? Cc'ing Tamir.
+In general, I think removing wrapper types early is better than
+carrying them around. It also seems closer spiritually to the early
+return style of the kernel in the C side.
 
-I agree it is definitely less readable when one is not accustomed to
-the `cast` methods (e.g. which one is supposed to be used for what
-etc.), i.e. `as` is just obvious. On the other hand, it also makes
-more explicit that we are doing a "bigger jump", i.e. both const and
-type, which is why `as` is "worse" in that it allows for more things
-to happen at once.
+For this case, I think both are understandable anyway.
 
 Cheers,
 Miguel
