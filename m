@@ -1,186 +1,167 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010005.outbound.protection.outlook.com [52.101.201.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EF72C17B3
-	for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 21:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774561794; cv=none; b=DtRfS3rc0Z6lcTZsYHKUt6wnmht1ANLD+lol1kEV9rUnm+lqoz9T6/L1yWakP8+xy9w8SJIW1Z1Ojj77qX5E7Q8RAIUK/3nq99hD2KStWuf/1HU0cYm1BoLkx7p6fJOJ09fyrOqGJyGZIFO/nyKK4Amx9IVm1vXS7lxqgGAHtdI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774561794; c=relaxed/simple;
-	bh=aKLX+hNPaI0XlfoPJagBu5mZrf265cU668okNsNseKc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PZoe+icQBdQ0zfGSK2MHjhMEWYy9jP13FQdP5Yk5hiLtGYD6Hvg16z2k46ztN1evFBV8JGLvGHfByHFhACphOp2lutwxPrx5RoU9OdC22m16HVbry6+csLrN+LwSETM6TnUNGQyle3pUT0ylOSmmggXeYUEWcPVmsSQcWVhIDUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bRKMIAI0; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570F73A453F
+	for <driver-core@lists.linux.dev>; Fri, 27 Mar 2026 06:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774594673; cv=fail; b=juBdBB66NVdOYMt/Oiwa7zhZR1uc+J0cVXmxbr7B3NvCZIRMNi49OtH8rBdPGbWA7egnHzMqFb87ma6WY4aElIUiG9C7esaWo0TOV4M/VWEUX3uxPTXW+IeOBe2xaVy8echVDWhL8uPzTDj24ZF9m9BM7zQzwi6/5H7gQ4xm/yY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774594673; c=relaxed/simple;
+	bh=b9FCIwPMFi51sCHHCCeZuZUcEkaE94Lq42tbfkYNRqI=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=HdjpN4GKU8ZadAOsdklHgSiqA0DhjArYfTNjRUvNEs4g4NzGDPcA0b9UBMFskvwl/78r9yPVGnzIVF7pkimV9MVfOLpU5rrzmxFmwg5F07c3AkWKMrTan/dLw6Llm6egB2oqAhNMpaGMRs30520p2wlAnOIAcqEaDaFxZyoHuNQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=awx+Ebd4; arc=fail smtp.client-ip=52.101.201.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bRKMIAI0"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b941762394aso202944766b.1
-        for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 14:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1774561787; x=1775166587; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VAKkSou4roERMDhHrtw7MaZZUWuXxGKKeAc/MZ02tbA=;
-        b=bRKMIAI0cr/fBtQjmQJ+belDcKQRKif0QjbdvDO/1XXRqAR5MNl+s6zIHp6gVs7Lfe
-         bnmuSRBeC26e6tRY0l3iXTl0WhZM8aoroLo2zXcozOaG9W1BSMvR5TLz+kcq7TGt9RLa
-         pUBLH2qrRaeB5wHfUjdGEaToqW4s3yo9Jk1uQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774561787; x=1775166587;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VAKkSou4roERMDhHrtw7MaZZUWuXxGKKeAc/MZ02tbA=;
-        b=TZ7dArIax1z9H5qzmbPotzvGG41RZSkbeAxXL4JbX1hk8N1ko+2u3vyijYGxuI7h3F
-         sdO5YdA0gYGDo6tZ6/vw6jCgy1twf8rchDqJk/KlsbX020YzxAzs4HAMwa5HKqaUSAdQ
-         lfbqaSpMCgKCf/I++oiW13gAKy2pTfPdWmpw7sEfICuIlwP6hP1P+OYzZDbC+TSxZNmY
-         /pyGn2LFTwWO8yLATbbyUBQ5OLMsBhFgLalOC0D32J+pUT7WyjmaV7fOj1CSjcL/1war
-         WBlX4/wN9e8gufnZ7pmBH1ZTPImHm4A5sqgqcfgcxkknZy3vxsqa4LkPyLeXyOkqPIXB
-         NHKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVIrNEhh9Fs3mvO2qCxhbmh3I4/pb80uffL5bJl+pheV9Zp0yC58IeZuwBVknxQ/8ZiCptCgxQ//2UGSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6cW70FlQFPWFODxXohBGrEFExMwf1rbVWB3tMvqUvazTTmlRg
-	mCzRgRTh3/mMkvsiTGFVHsswDiij3+Aer8FizFk7V759BIYxnxlsUT0hxKwvfdFDzY07TEonk+l
-	5k87Amg==
-X-Gm-Gg: ATEYQzzNZHUf4ZLnChcAwy9hlaJ6FTQETUgprqOHlgKDAvJvRDhMQwSHQ1CkAZbpFHN
-	edhk5DbaxaoCIQZA0zeCOppxkPcxDMJlAi8yMYGDa2R4LFrLGWDXobooyeuB2TWINbSwf1QYG+L
-	D8H0UozT1G+YqG5OBTQePtj+vVZVLip4Ea0javhf55YTI2wVxpbB6eIsTgK3+8lxv8FuGMnhSqc
-	Efom9WYSGWtNC6WEzuA50/VD5VlhLe8vZpOQm5hTPkslqUY/X6usajeNBreG8FBtrEYb8P1EKmt
-	X6FhYKnqCbbvleIcmix6+2ozjnBSmeJ8XoKb7w8/MiNyaZq2dphqnInxWDVmxkMIyqOBPcsPHF1
-	HIWp5kZHySAC4t3/5sHWtMAWuGZOAvR8uYFks0gA0Lp4Tg/1XwTCT4jPpEoqGfAWoOCOPYlegE0
-	g8Ei3zZiBCa9U7YaSmV8U87ARUXxLau/67KiHIsghNPeQ6n1lwjHBJEwhEWy9sqQ==
-X-Received: by 2002:a17:907:971e:b0:b8e:796a:fd5c with SMTP id a640c23a62f3a-b9b507b20camr4303866b.27.1774561787378;
-        Thu, 26 Mar 2026 14:49:47 -0700 (PDT)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b20218736sm170114366b.12.2026.03.26.14.49.45
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 14:49:45 -0700 (PDT)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439d8dc4ae4so1340508f8f.2
-        for <driver-core@lists.linux.dev>; Thu, 26 Mar 2026 14:49:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWiiQ01PhXMATGNcwmKRNcu0dx/XBSUSpQAk4reWN2Hki3mg+Dqxtq0gXSPgfdhgFa1SiUuVyHKVLDEuQ==@lists.linux.dev
-X-Received: by 2002:a05:6000:18a5:b0:439:d755:a895 with SMTP id
- ffacd0b85a97d-43b889f5a83mr15702276f8f.42.1774561785162; Thu, 26 Mar 2026
- 14:49:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="awx+Ebd4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bJcZf9Zyn0QPEoe51B7hS2azEnEpOSELUq0y6uc9pBGd4NJa+MnSPEjEt8bJj6reewolgO71Z+tkIu4vBb8gohr7KgjvHgkqL9ojLR/mFjuJ/9qlfheBIFnRPOffCawKzWbInxlYf+HllBFimrGqwx0rrHdQIDPNaFPqqnmWgWXtow+NvqMWs9Px9ZzG+yDLRDM3blUdzAgstARCRKzpvlsre+qaZOckRU2hdiCNRrRnwG22pmkV5xJJRoautzd8lbma6ibeIH84/yD6AK9zN/BtiIsQ4cSYoxICCgvm/HPBjAdzXr2hlZUODup5gepXSSHT5FZq43r3pGyYv/DCSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ln2Ipal6jNL3Sm17P2r7y6BeQVcnb2obdo38XcGXh/0=;
+ b=CdM3opsVU7xg0vtb6zDEolGkM2QplmWdBoKK98gTT5mmILtMfC7WoUeU9RjFtfeJtMfaha1/iNsj3Z3iLEZTV1FF8zgsCaQMqGQ0nc9mXkpRHmS1LyIHs761EIIvRFvX4tQNt6BGnk5ruerUUiLKcpOy8Op/28H9uzu8jE11/xqrGqqAQIrprhQVMbRD7DJcxbAWx9IoNS5HZrwbatlULKIxzxJeOLagYo2G9kWT/W0/N0qklaIiv48da+rJVJhlShGywcYvw+gp1RZAW+e0pVOI8nE2ubqhXJkCR1AIMIS66pLP40KKor2K8lwpR5Fyjgm2V7WoKzEuOCQWtzk5qA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ln2Ipal6jNL3Sm17P2r7y6BeQVcnb2obdo38XcGXh/0=;
+ b=awx+Ebd4HZJzabE8CvJ5M2UmL1/ZM3Md3/FQonvD0xidPEdOCyVXzsXqh1+nRXvH52mpf951KMgZvkFIWl2qkFSvTPTqp7ydo65CWGKjPUf5D4X6TUzQ959C0PCc00K7Al/I83EjyzM0om7sUVuHoI9z/ZN9T3bRGZip/5O2Tf98wre2r+WHbjAGoyOq4cXLLbEXjyF1emIinBuS/DmTUsPERrDK0kfDcakzHzpaqulw0Vxkrne7FvWA9o77cefzNtU3fQ+bpblUtM6h51wsaav33QVX7s2st60OANVbhyLeDCqxQbEvvkxkghEv9XiWMswdd/LSU2sXQ4gmZB6NPA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by MN0PR12MB5979.namprd12.prod.outlook.com (2603:10b6:208:37e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.10; Fri, 27 Mar
+ 2026 06:57:39 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9769.004; Fri, 27 Mar 2026
+ 06:57:39 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Mar 2026 15:57:35 +0900
+Message-Id: <DHDDAY4B5JXG.5FBC99G558N7@nvidia.com>
+Cc: "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "John
+ Hubbard" <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/7] rust: dma: add from-slice constructors and use
+ them in nova-core
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260327-b4-nova-dma-removal-v2-0-616e1d0b5cb3@nvidia.com>
+ <f7e39810-bcf2-419e-af2a-2ae0c4d5ab67@kernel.org>
+In-Reply-To: <f7e39810-bcf2-419e-af2a-2ae0c4d5ab67@kernel.org>
+X-ClientProxiedBy: OSBPR01CA0095.jpnprd01.prod.outlook.com
+ (2603:1096:604:2d::35) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <2026032152-getting-carmaker-29d5@gregkh> <CAD=FV=Wag5qx9RXkAHrf+zbwtQgVQW1UUc6DRhUzudBtjbD8ug@mail.gmail.com>
- <2026032114-unlocked-unmoving-091b@gregkh> <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
- <6ff1444b-f83e-47f6-ab0d-6745738523ba@rowland.harvard.edu>
- <CAD=FV=Vco+hRBNxGpUDf-YofEwTR13ht=nTnjvUvT+3_76+1MA@mail.gmail.com>
- <6511a5b9-ac67-49a1-8336-3d2afaaab593@rowland.harvard.edu>
- <CAD=FV=WBgKN2MNO-xBHZ3tRN91M82vk3h1AEAXtpBQ-nQocKCQ@mail.gmail.com> <bfd4e1f5-7bc5-448d-aa33-1a977bf00733@rowland.harvard.edu>
-In-Reply-To: <bfd4e1f5-7bc5-448d-aa33-1a977bf00733@rowland.harvard.edu>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 26 Mar 2026 14:49:33 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WeeBoQAoPgNq+5ocZas+mOn1RuNto3k57ag4ODo2vOLw@mail.gmail.com>
-X-Gm-Features: AQROBzCCSDGRZbt8Tt1gAypD9l0-fhRzQjRInpIAEQRFJCJSpoBx2KceRxCnDFw
-Message-ID: <CAD=FV=WeeBoQAoPgNq+5ocZas+mOn1RuNto3k57ag4ODo2vOLw@mail.gmail.com>
-Subject: Re: [RFC PATCH] driver core: Don't link the device to the bus until
- we're ready to probe
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MN0PR12MB5979:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05c22af9-f931-4542-1112-08de8bce2256
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|10070799003|366016|376014|7416014|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	OFPTbIJAO11I0htx0kGnZ6Il+wZmoG9r7NYVxaTizBuo15Oz0NH96UgjQ5SF09zxq4hOKZHHyzVIs6d4anvcT8J85DC25atLpQ6fpNobtxhTUfonfXituusqXQsidTsxUHjMjp1hJ1yhAgHaeIVNZHyvLyn6sQGhxGBiJB4GlBRb0Jg+BQdxDZvEWaRTpWcoA+gBATxhYAxItXUudGvmGa0MK+TAhhM/ptqnswTSnq5griWSgFtIuxGySMPJFMWRsiLVSF6ROmnXqboRbMltNlOEMUOS4kZWe2TsQY5D5ceFr8OmIecK4dG+9TBldPZ8UgGri8ElwQtIj1muoXa+6rStgxg5LSIavv5eJ7msp3RNxmYEoHCheVD/T00nVCbh5J9gxUAS7Q4w6F+M1xXXctNpSuU26FMvrQzxpMSD+jxCE+UubFDzYiu41POSX/5jT0g/D2nttXA8lRDi+AKs6ZncYfZRMwf06STxHu8jMbYQ+KT5pk1I+WPm+RXAhGipPHxRni+TptystJ4YtZOGfnSfUgshfdeLl+wrI0U5KD4z5WYru8DQgGICjgDKB7bhVchuMXe+TUSRoqKCnnPbHF7p514bYKzeFEZHv5o/IVnEUbBeB0GBez36SZXygaaJk1tKTcDQSxEPdpMbMdxuTN7UI5ZyTB4uYPmuq3t97b5dO9sIA/7QLGi4XDT/Xglo6i5pN5wHdQOd47nVhNBO1vcikLRfj3bDdluFw+xlp2E=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(7416014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dE14UzEvdUx6c3hsenBVUDVZVUo2VXhrUjVJMUF2ZEZiRzRGTVJkcWRqWFBt?=
+ =?utf-8?B?Y2RrWTNITlR4YzVqc3B2bFY3S0sybFJQRmxqS3psSmxYbHZWQ2twV1ptYy8r?=
+ =?utf-8?B?Y3JzZWl6RkRyRTAremhwejFrSzI1OTJaOU1aMDkwNDlTbVp4YTYrZkl3RW91?=
+ =?utf-8?B?QXpFVlpaOGowTjYxRXNQQnp6SDZYekdTWU9Cc1hkVCt4TlFGV0wyb3BaV0h5?=
+ =?utf-8?B?ZWRtT2UyTm5SRFJHYUtCemFDbUFXc3hKM1hCYkx4b05tQzE2L3c5ZHoyTlRm?=
+ =?utf-8?B?RVc5ZHhsejFXSkxMUzJheFpJbC9ESS9YRjFkZkZiRHNzZEhqajBxTGpVbUdZ?=
+ =?utf-8?B?M2hSb3pSYnFDNE1WdURGQlppTkVnOU94MU5yZkxtaW9WM1Y2OEZDcGdCWUFu?=
+ =?utf-8?B?WFB0OCt0dFF5NlhSQyt1b29yaXFWenlDdUtqS0N2bURqN0l2WTBKd2MySDBO?=
+ =?utf-8?B?MmlVU1pITmNjL1pzeXFXN1hlTHZ1a0hldWNvUG03RzhabTBYcVZORFQ5SzNZ?=
+ =?utf-8?B?aUxDZUpkQ3MzUTBVMDNTTmN4M2srQS9CREhEWmJYNStSN1Z3d2Q5U0lQRVVL?=
+ =?utf-8?B?cU5ZVVkrTEVKVzVJWkFDdllRbDBpM3ZaT01MRFE1bXBBVDlHWmdPeDdrMVFR?=
+ =?utf-8?B?SXFwbVo5elFMenQ0M0cyQjhhZlFLTGxrK1RyTjZ0Y2ZTZ1BsWmtPZmNGckpU?=
+ =?utf-8?B?YmxkOVRRcVJ5UmtEL3JJMllGSkdIcXU3VUVDRU9zNUY2OTQzN3plOEE2ZmV5?=
+ =?utf-8?B?SWFNUG9oTjZUUHVwbzRGODlTaXBEV21yQ2NTTVZOR1RvTElGWDFQOTlwUHYz?=
+ =?utf-8?B?eEVscEh0S0FRWVgrcUE5OVpNK1NKTEdrdmNPbkp6elFHRmZIVDZ4bEZRRmRn?=
+ =?utf-8?B?TEdNZGprZVMvRVZVRUE4Mllqa0d4ODlxOVc5ZlRtUjdCY1FtOTV5NHo1UUtt?=
+ =?utf-8?B?MTZzamFKVW00b2pvOGhjRk8xMHVGdmtLZjlBeWJmQnYyQkpWeHVSZzhtSWlE?=
+ =?utf-8?B?WWU3RVdweVpBS1p5SDRiaExlb3d1N1g0emY3VDQwTFdpcElLcUdzNmxNRTVO?=
+ =?utf-8?B?cWN6NkFLTlJ2NTlNVGk3WFp5R1dNcDUrZk5UUldSb0dSVFExSjlFK3pCcVJt?=
+ =?utf-8?B?MkR3aDJkUmtjL2xUOWJyd0VvQVdUNW1TTk5YVWNIZ1dFUHpZS0lsbTZNdHNI?=
+ =?utf-8?B?TERtdi9WZnpxWnJzVHJSQ256U0laeFNOSzdrbVFUWC9Zb1NGZjlwdkdDNklh?=
+ =?utf-8?B?RHdYU0VSeVBJYW41Nzh4aVVEbExkU1RLWWp0OGxJV1hlUXBnbmlWZGhuZmEw?=
+ =?utf-8?B?WDgxUURYSGVRZENQcnYyU1dHNHd6THk4OXlURHpRaEd4ajVwUm1uUWFFaEZi?=
+ =?utf-8?B?dWZKM3RxbXFiMGhSc3VWNGk1eW0xWER2UXhTWnF6U1V1STE1THpFOE5qNkIy?=
+ =?utf-8?B?QmtmNSt6L0VHV0FVb2FHdVJhaFFZVnVuUkd6aWI2LzlydzFVeW9zWlFXL0RE?=
+ =?utf-8?B?aExveHRUT0laQjVJNjNHb2hqMUx1RjNkditNRnFvazQ0WjdsNENyVGJ6c04v?=
+ =?utf-8?B?S0c2clpXV2NpMHVDNnNXRE9idnUwOHRLQ2ZsUU5mY3RIWTd4L3lXRjJLWmpT?=
+ =?utf-8?B?YW1oVWFVaS9YYVZkT3o2MkppaWpMTXRYWGdiQU5nV2x5ZWRwNlVZS1lVdDU4?=
+ =?utf-8?B?V0x2d0xrOHc1OGlrSDN2cjhyTm1WS0VlVm5WZzBFTzBYd3ZhQ3BzSlVkVTBS?=
+ =?utf-8?B?TXNRVFRYZDZQQWdMYXY3S1FpZU5Zdi9DSVdxUWxmWE43UitSZTk2dDJiQWN4?=
+ =?utf-8?B?TmFQa1AySWN4MHJoWGM3VjlJbExGakR3MDF1YlhxRzFzN0RZZnhLR2FGaHAr?=
+ =?utf-8?B?dlhoOGw5dnhkSVdrc3FkWU5nYnltTndjek82cFRvaEYvRlpOU0VyMlRMUms2?=
+ =?utf-8?B?VDRJQng5c0NaL1JYMTJ2eHMxaEFwTUxERmE3Y24zWGlZR3UwZnJKUmw1RGxW?=
+ =?utf-8?B?QzJWQ1hzT28yOUIzTmdsc3BCWm8wQ08wWkJuVDVwUTc4b0djY3V4S3lic0Vz?=
+ =?utf-8?B?K3RiVHpHazJSUFlHWjRNZXllRitJMGhqcVlsejFrZ3BtSG55ZS9RN09OL3gx?=
+ =?utf-8?B?dk9FakE0bCtxSDhRWjdVdWxna1lOMTFpOWFlcFlWRHB1SnBQdXFMRFVsa3dV?=
+ =?utf-8?B?WW1JU3RqbCtuRWZJTW5oVW9LZWZpVWpMRDB2ZkIyZUtNUGRWSEVhcUVmRzNT?=
+ =?utf-8?B?aURxSCs0VVFrOFdaNzFtd0FZenllRGwwOCtuWEEzdjI4TVloK2c1Y3BRUGg1?=
+ =?utf-8?B?THdrME5NczhJSTRuaGM0bTlObFIyOWdLWXErWnFTUDk0dmxxeHJXUmdwNVhv?=
+ =?utf-8?Q?smaj+fvMKFFPPzcFMqhwo5CBBm4HwVIUnEwvexbyjreeq?=
+X-MS-Exchange-AntiSpam-MessageData-1: KCQV0dB3iB6X3A==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05c22af9-f931-4542-1112-08de8bce2256
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2026 06:57:39.0569
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gle4XOsWAWz2Bc9nBvw7/c8u+eXIljizpXw4DhAmj/9xjWm+b/qEtT+IECVIrRivNfMhUN8jy2yW0pLHiDfsWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5979
 
-Hi,
-
-On Tue, Mar 24, 2026 at 8:21=E2=80=AFAM Alan Stern <stern@rowland.harvard.e=
-du> wrote:
+On Fri Mar 27, 2026 at 2:24 AM JST, Danilo Krummrich wrote:
+> On 3/26/26 4:22 PM, Alexandre Courbot wrote:
+>> Based on drm-rust-next, with [1] as extra dependency.
+>>=20
+>> [1] https://lore.kernel.org/all/20260321172749.592387-2-dakr@kernel.org/
 >
-> > I'll do that if that's what everyone wants, but the more I think about
-> > it the more worried I am that we'll end up with a hidden / harder to
-> > debug problem where some driver gets unhappy when its probe is called
-> > before dpm_sysfs_add(), device_pm_add(), device_create_file(),
-> > device_create_sys_dev_entry(), BUS_NOTIFY_ADD_DEVICE, ...
+> [...]
 >
-> It's hard to know for all of them.  However, it seems pretty clear that
-> device_pm_add() should come before probing, since a probe routine will
-> generally want to affect the device's runtime PM state.
-
-Yup, that seems right to me, too. It's why I was trying to avoid just
-moving fixing the fwdevlink assignment. I didn't want to run into more
-hard-to-debug issues later.
-
-
-> > > There should not be any difference between probing caused by the devi=
-ce
-> > > being added to the bus, vs. caused by a new driver being registered, =
-vs.
-> > > caused by anything else (such as sysfs).  None of these should be
-> > > allowed until all of them can be handled properly.
-> >
-> > Right. ...and I think that's what my proposed "ready_to_probe" does.
-> > It really does seem like quite a safe change. It _just_ prevents the
-> > driver load path from initiating a probe too early.
+>> Alexandre Courbot (7):
+>>       rust: dma: add from-slice constructors for Coherent and CoherentBo=
+x
+>>       gpu: nova-core: firmware: riscv: use dma::Coherent
+>>       gpu: nova-core: firmware: fwsec: use dma::Coherent
+>>       gpu: nova-core: falcon: use dma::Coherent
+>>       gpu: nova-core: fb: use dma::CoherentHandle
+>>       gpu: nova-core: firmware: gsp: use dma::Coherent for signatures
+>>       gpu: nova-core: firmware: gsp: use dma::Coherent for level0 table
 >
-> Any such consideration should apply to all the probe paths, not just
-> driver loading.  (Also, if it's too early to probe the device, perhaps
-> the return code should be -EAGAIN instead of 0.)
-
-In my proposed solution, I was returning 0 from __driver_attach(). The
-only place that's called from is driver_attach(), which calls it with
-bus_for_each_dev(). I don't think returning -EAGAIN is a good idea
-there since it stops bus_for_each_dev(). In general __driver_attach()
-always returns 0.
-
-In general, the goal of my new proposed patch is to add the device to
-the subsystem's "klist_devices" exactly where we do it today for
-maximum compatibility. This means that if any code was relying on
-being able to find the device, they can still find it. The _only_
-exception is that I don't want to be able to find the device in
-driver_attach(). So my proposed solution just hides the device in that
-one case.
-
-I believe this should be fine. Specifically, driver_attach() could
-have been called (in another thread) immediately before
-bus_add_device() and everything would have been fine. driver_attach()
-wouldn't have found the device (because it wasn't linked in) but the
-probe would still happen.
-
-
-> I'm not at all sure whether the constraints we've got will need to force
-> some events to happen after adding the device to the bus list and before
-> allowing probing to start.
+> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
 >
-> > > And linking the device into the bus's list of devices should be the
-> > > event that makes probing possible.
-> >
-> > Sure, but moving the linking into the bus's list of devices all the
-> > way to the end is definitely a bigger change. If nothing else,
-> > "bus_for_each_dev()" starts to be able to find the device once it's
-> > linked into the list. If any of the ~50 drivers who register for
-> > BUS_NOTIFY_ADD_DEVICE are relying on the device to show up in
-> > "bus_for_each_dev()", it would be bad...
->
-> I don't know the answer to this.  That is, I don't know if there are any
-> notification handlers depending on the device showing up in the bus's
-> list.  The safest thing to do is issue the notification after adding the
-> device to the list -- which may mean after probing has potentially
-> started.  Is there any reason why that would be a problem?  I'm not
-> aware of any.
+> Feel free to also take the two DMA patches.
 
-I'm not completely sure I follow what you're suggesting here...
-
-
-> The order constraints should be commented explicitly in device_add(),
-> not just implicitly implied by the code.  Otherwise people won't know
-> what changes are allowed and what changes are forbidden.
-
-Yup! I added comments about ordering constraints in this RFC patch,
-and will continue to do so as it evolves.
-
-I still believe adding a flag that just hides the device from
-driver_attach() is a safe and correct approach. In general I don't
-want to fragment the discussoin, but I think it might be useful to
-send a v2 that shows what that looks like. Any objections?
-
--Doug
+Thanks Danilo! I will leave it ~1 more day for reviews and will push
+both unless someone screams.
