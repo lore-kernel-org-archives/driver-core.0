@@ -1,74 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B9F1A01C6;
-	Fri, 27 Mar 2026 08:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADE5399002;
+	Fri, 27 Mar 2026 09:52:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774599966; cv=none; b=AdE9A5XtwABzgFJlF2lUhOtI2Zzmg1XxT+K0Eqi2ukWNH9eyRi3PUWaINH0IZZRPHuJcoKrsAUf+/gV6yI3bYnuRTEsb9VThVtIAHhvlBBgQCsEPi0qSYowYx9Hb6RDnwtrUXr9WrPLxZpC9y46xVNlSYDinW2wEZm+96H91h2A=
+	t=1774605124; cv=none; b=NhabMHq8JAKKowp36UwERJawL7UzkcWdpxN6lQL18Irb64fZ6N5SFQrCda4YrG1ujl3E14hwX+h9Zntke5Yi1s35uiPS2chzC334A9M+WQ+1GQUs36cIiFVGAjfzC0/ihsGPB4wtFKkjQ6YOwMq3UBx8LsiOxBVfpSpvuyQtT0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774599966; c=relaxed/simple;
-	bh=wM8l7YfvnsJO6FuRDtOtLDuJvB9nn3pqtdgv6uwVADg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ivc9jNAvkzULtkSo549kA0Q76XciPllwZZnlbYmSitGj4dx9RkN6e0/BEdS4xER9SxOyiXVBRnXKsJLd/2cbq10mupbKcpJ0CWmxgdPqY0XgPPus5ayLt/9jb74TYLzGdli13QlwJTWwcxJCV2gdkdYbiyHQll3h7dX1dcn/pjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ip0v8y5d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774605124; c=relaxed/simple;
+	bh=affQBU+zm+5N2Yof7U/miUHwDKSJuB6P4ntIJZ3Y1qo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f51ZWwrAoglu2zTmND7Ta0rZqZagWIgbv46KHDDqg8BmfyJHHVcGktuZ1ZSodSLDdn9AMDZu40vep+AKuwkUyzLo+DD5a5EQyEqMfq/c+DqlDHlkYNuAyZa/Ht7DyCPpCsdScs4A3+yUd2YFk6D6FMe4KjK5c3DPLzyUNmSJw9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgXX0G0l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ip0v8y5d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B6FC19423;
-	Fri, 27 Mar 2026 08:26:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgXX0G0l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09C37C2BC87;
+	Fri, 27 Mar 2026 09:52:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774599965;
-	bh=wM8l7YfvnsJO6FuRDtOtLDuJvB9nn3pqtdgv6uwVADg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ip0v8y5dASImU6yHWoeqHnJowvQ8kmkyS86hh/Aygg7gAiNX90PvTvFWTG2NJwSlY
-	 h/v4iqyQY6oibdvOCSiuqVWgmuHJ7lnt2+beBoaHvJhDQa14XlKPtmuFomuEDQXISh
-	 6HX1hWVCWwJy6EJXgVlt8DzynG5/ofEvk6Q7yA7/ur5lgRUSCcAZ8nsBMROpE1QBRc
-	 nOUGY86+9i6eYrMa0utUaDt8rczW35jeixmV/QiSiMrbicmBguxLOP2s/rZK3iT3f2
-	 KkmMIzmvsIwpV95E3a8u56tdcI5b/1WOdy2VrjhjJR+CqvNjUOfG4WSqC0fptVQ7c9
-	 5EkTWlchc16xQ==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel
- Almeida <daniel.almeida@collabora.com>, Robin Murphy
- <robin.murphy@arm.com>
-Cc: rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/8] rust: dma: drop `dma_read!` and `dma_write!` API
-In-Reply-To: <20260323153807.1360705-9-gary@kernel.org>
-References: <20260323153807.1360705-1-gary@kernel.org>
- <uUAO2rPQgNduFkAyhWyOHmxgltGaY27xiF3Wfh3rkQleRS0FTVxS1eszlik-OaONO9fpJtloSl-0qe2CDOt_iw==@protonmail.internalid>
- <20260323153807.1360705-9-gary@kernel.org>
-Date: Fri, 27 Mar 2026 09:25:49 +0100
-Message-ID: <874im1y8z6.fsf@t14s.mail-host-address-is-not-set>
+	s=k20201202; t=1774605123;
+	bh=affQBU+zm+5N2Yof7U/miUHwDKSJuB6P4ntIJZ3Y1qo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BgXX0G0lAOGQdzPSWiDAw5qx5kQo95/b2BcFMRqbrv8g1kBzbVCTdvu3Opk1AUUD3
+	 CD29HWXfvVPoJ463Hbpm9NRzMCBwzmkkteeQjISTh28F1qL4KeTDdcmEfZvomP2G3O
+	 Hgc11+UHf4wsKcYbpCSk1F9i3R9PRdrtoYLyOeu+zM7vErUCCVuH+LCNSz4iDr/vmX
+	 03qWDjdYBGgzAolsWVb0Qj776qhX5z5oIwb6QpQT9Im0wyy7iji2kAX5ADda/SQgMR
+	 +9Q8Wk/bggilBCw4AV7xnM5t0ei2GqLdWF4nGWkqGlR6shyfWAxSi9ASRdl+JYI+TJ
+	 7e7Io+C7i13IQ==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ Linux Driver Core Development <driver-core@lists.linux.dev>
+Subject: [PATCH v1] driver core: auxiliary bus: Drop auxiliary_dev_pm_ops
+Date: Fri, 27 Mar 2026 10:51:59 +0100
+Message-ID: <4738700.LvFx2qVVIh@rafael.j.wysocki>
+Organization: Linux Kernel Development
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-"Gary Guo" <gary@kernel.org> writes:
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-> From: Gary Guo <gary@garyguo.net>
->
-> The primitive read/write use case is covered by the `io_read!` and
-> `io_write!` macro. The non-primitive use case was finicky; they should
-> either be achieved using `CoherentBox` or `as_ref()/as_mut()` to assert the
-> lack of concurrent access, or should be using memcpy-like APIs to express
-> the non-atomic and tearable nature.
->
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+Since the PM core automatically falls back to using the driver PM
+callbacks directly if no bus type callbacks are present, it is not
+necessary to define a struct dev_pm_ops for a bus type that will only
+invoke driver PM callbacks from its PM callbacks.
 
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+Accordingly, auxiliary_dev_pm_ops is redundant, so drop it.
 
+No intentional functional impact.
 
-Best regards,
-Andreas Hindborg
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ drivers/base/auxiliary.c |    6 ------
+ 1 file changed, 6 deletions(-)
+
+--- a/drivers/base/auxiliary.c
++++ b/drivers/base/auxiliary.c
+@@ -207,11 +207,6 @@ static int auxiliary_uevent(const struct
+ 			      (int)(p - name), name);
+ }
+ 
+-static const struct dev_pm_ops auxiliary_dev_pm_ops = {
+-	SET_RUNTIME_PM_OPS(pm_generic_runtime_suspend, pm_generic_runtime_resume, NULL)
+-	SET_SYSTEM_SLEEP_PM_OPS(pm_generic_suspend, pm_generic_resume)
+-};
+-
+ static int auxiliary_bus_probe(struct device *dev)
+ {
+ 	const struct auxiliary_driver *auxdrv = to_auxiliary_drv(dev->driver);
+@@ -258,7 +253,6 @@ static const struct bus_type auxiliary_b
+ 	.shutdown = auxiliary_bus_shutdown,
+ 	.match = auxiliary_match,
+ 	.uevent = auxiliary_uevent,
+-	.pm = &auxiliary_dev_pm_ops,
+ };
+ 
+ /**
 
 
 
