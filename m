@@ -1,91 +1,71 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA4A296BD3
-	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 14:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A96736494B
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 15:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774882197; cv=none; b=Y9hsUjVjZkU+0HOtE1VYKM9+WIcXR1e3v5S/SFLDJYgpxFcWwkVbJEjsdQ7fGWakBQ2JBHjEqw5xbmY02oCWvnEa29DKID3u/kC7d5NSg6sdlRor932fev5WNRAuhHu0ztv5Zh1uAenRiwLvRfi5imvbF6N2XYsZZZVebveRarQ=
+	t=1774885019; cv=none; b=UJBqvUJyty3SJEr+HlcimM5Gr9ykD+r2pgYcea+eWOg+RyyKvqZx1Wgrwi0PNeGHLkTdFl7A/XWP+YWxx1eMCmtjyNDNyVCJitwwhM/9liA3nN6TfyQRjT7hJIJ5sm7QJlJJdu2OMfHg2jjlIhv5R3oCASCe7OzL1W2a+ymfokQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774882197; c=relaxed/simple;
-	bh=r74CxeVQS+MaGx5qIStVX7Dkyw5eva6XeRU/qgsTVAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fn1womVE1JxiEEtrxgmlqSXsJyR8bcfcUVO2W7ojqzhgKDvapjoP9JI8FUeTrRFDfwWTd0a2BjZWwyCArbwQnLlZ6gr4Pb//MDbqhJfk0HB406aN+paJSK0kgR6Hp0VqfMc5iaXAUKQBbWQLW/sX4RowvKPAwxYDk0wwif6+nKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=GeeHyOiY; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1774885019; c=relaxed/simple;
+	bh=bu7ebmUimIfKYxRtaAiu36rS7ei7eIe+dYDVb3Ft9HU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OBiCIOowvRF3D2Q9PNkW7L01DeDCbB9c+7QCCUKnyXHlkIaOTCTmT0ammoXN3entR+WcWGXxuVkJ9Hp7wuZyiWJLI1nSCDUnNZqYLUQFlCZk3OcV5j5pTRvR+6qEhZhGlGMPzOlfJMnwEldgPe6lLfZkL6uUPleMtYimNDmVm54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zo67GrZV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="GeeHyOiY"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-50bc115f206so17485681cf.3
-        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 07:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1774882194; x=1775486994; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d63VizpxJtFsSbrbeZx9OSixUi8R0KJ6qBhGjjaILvs=;
-        b=GeeHyOiYwuzkxa3Ac2jKNGM9k61ks2U9LkDjQvmyU+Kgh1xeXPz+JNGQxkxp9GYuUi
-         cLOuZsfHfv7hoQa+Pe/IV5A7Z11t4qTyfg83O4E/G6rTNMHfIybGIsYPVcns1Y/Yeqnx
-         jqw2z8UwA0Cg8iNRaRgyK7sdi8wyqfrfA61oYBnNfxftUK99htZ8569Xq44t07hvztXn
-         MU5YZqSPiLhXeVixSe+XRmm/DaxdcQi2TAreVMP1mBPczJlU0sh4d+UUuuYxrE+JCG1d
-         7qYhYQqK97xO2iuNcxDBwYG6RccKVWzD2jlkALOcuTWvf189PKdQQZcD1cENusryyL3I
-         lhtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774882194; x=1775486994;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d63VizpxJtFsSbrbeZx9OSixUi8R0KJ6qBhGjjaILvs=;
-        b=DKkO0yfLlfjyOQYl4v6GpSqCIXmoNNf8piBQduG8scln3Wzs1lr/Y5Q089jo+FGIQb
-         iyxae+cL708K9fkiAWE1i8G5EdVpNLOIE475v2riVsgv/bWvbpb2IEOr+S6LqzfXAYxT
-         M6TrON9q1/wft+nHwkuEjAFhBtXxkwSVsm0EIFWzf1EcOxRUwj4xfNAzJUoLHuO5jCbT
-         ozbEiaLCNjZ45XwxoEocCu3FKFxNj+6z/vaExrQok0HHLIdy1BuzNwoyULTtbsT7FhbL
-         KUc+CY4RjAvRdSwAaSoN/io6TdwWyOOCz8WVVzSfR9uwiozHj38a6gzfGKXlkT9vPLbc
-         LC8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVvQYOBm8qPgOS//csA8l7F65W1mRN9H0FF12j+szYp7hYbCrEiz2ACTnECKiTEvsrpT0QN+/3ar3KNag==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywi5GJWvsyjJ6BJgD02nnEUwbhxUNF41JuuXe81JXnfhxQVtgoj
-	+yG1aA/6R9FJ0yivjQs+UAhyK3bMAiHlOfxvtJQBR1SLUmutFrcHjVTwGluYytnNzA==
-X-Gm-Gg: ATEYQzygkOKWvC1THs5sW4cd9oKyAKWhKx55nPVs5M3qERTyo1sR8jyLc/hQpyjqJTz
-	5JorbQAZe2aehY+frKz1ODlKyzy31fkr4uf7HVuPjmscSxkv5bBIWw53t+Q2N5BKHlg4P9wVl+w
-	Pp1rTAaKeRED06HCeSHTRMBJUOTKyEK5VKZZpbyR6uITlTueerHbIni/CDQ02j+QxeeygC/4CrO
-	Nj0LNXNwuPzLdg4VLfF8ikotPNuPUYyUul+wtPqnfwjr5UPqAx7rvi4/lMJQBrS5tfTb2mLM5n9
-	+XBEOPTd0UcrKQwMZiFLR0PDtfKfZRUuY/N+AQrEJxm5kYiZM22VliEq8h2elf9a/Ybj5tyf0Xn
-	ZljbSNqDtu3tnsW9e+zzBVu1X9k/NgMkQmQrBtEUMw/dszIOCpznZl3I7Rh5k1TUvxk/lzrXbO/
-	h8Nn7Oc6+WignlwjuLg+R5FI2SoWUBf6c5PAuSuYNo1g==
-X-Received: by 2002:a05:622a:1343:b0:50b:404a:746f with SMTP id d75a77b69052e-50ba3976e93mr171565381cf.58.1774882194276;
-        Mon, 30 Mar 2026 07:49:54 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50bb2c67fefsm63548861cf.4.2026.03.30.07.49.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 07:49:53 -0700 (PDT)
-Date: Mon, 30 Mar 2026 10:49:51 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Kay Sievers <kay.sievers@vrfy.org>,
-	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] driver core: Don't let a device probe until it's ready
-Message-ID: <55bd10b4-4d4f-438d-9f15-9293bbe3c734@rowland.harvard.edu>
-References: <20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zo67GrZV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F864C2BCB1
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 15:36:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774885019;
+	bh=bu7ebmUimIfKYxRtaAiu36rS7ei7eIe+dYDVb3Ft9HU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Zo67GrZVoY1r8/GPF6zkrcirHcsSbhTxlMuDof2IA4eJXz8ZQ+ttn7xRg3sbGz0m9
+	 MOJGGFC6FzdrvhYJA5QzMIA3rwHXql3FBkoU2DSh8HlAyd/r064ontT5kYMcALGwL3
+	 GtLNOfuElQL7UDFYZ2LEHDkHOxa3/OVwt1ochHzaJei6oOphLEw1kc+aiLQyZ2keh3
+	 IM0jdlXSUBuBOQCLyDW/sDhKTKgHcqB6mt3g03B2F0iSKqivhYYyhOYQp8KHRTCBB/
+	 N0HgKzTX0aNIpQ4ZCy3l0WTW6rpG0JDCPIVyyFmuSIdcMXb8Ym68keeENG4Qdu62aQ
+	 7gqM4DZgWKD1g==
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-67e0d3f288aso2204508eaf.0
+        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 08:36:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUZZYVEsC0NO30WGa7hz9UQqAjMFaJJssDBnSCeuJIeAzi7U7ZTUnf46C2DxNnPD7pwgm5agCgh62Mf/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEpIB479vmo+W0V5At8TkUzK7xtK2UiI5Bw7Roe7vyN5IjL5Y2
+	vdxLEEa/zEAnTNl9wLoXvGNhYUI/E/z1mdET7huQUwybLDAA+0cAi8PvFae+O5XN5qg5bbmWtMM
+	O+OJJSYDJcgC55mhZcpzknRzMkVgq3gk=
+X-Received: by 2002:a05:6820:210a:b0:67e:3985:e110 with SMTP id
+ 006d021491bc7-67e3985e144mr827925eaf.56.1774885018139; Mon, 30 Mar 2026
+ 08:36:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
 In-Reply-To: <20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 30 Mar 2026 17:36:46 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0ha2OqzXotG033Dh+ua72xr1kaMT7fx+zsKEJgJuhFsBg@mail.gmail.com>
+X-Gm-Features: AQROBzBnkZGUjF4VcYvBDOZtcYi-LRHD2QZkvxWUiU2k6YhllRfgP-P_k7oePTM
+Message-ID: <CAJZ5v0ha2OqzXotG033Dh+ua72xr1kaMT7fx+zsKEJgJuhFsBg@mail.gmail.com>
+Subject: Re: [PATCH v2] driver core: Don't let a device probe until it's ready
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Kay Sievers <kay.sievers@vrfy.org>, Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 30, 2026 at 07:28:41AM -0700, Douglas Anderson wrote:
+On Mon, Mar 30, 2026 at 4:29=E2=80=AFPM Douglas Anderson <dianders@chromium=
+.org> wrote:
+>
 > The moment we link a "struct device" into the list of devices for the
 > bus, it's possible probe can happen. This is because another thread
 > can load the driver at any time and that can cause the device to
 > probe. This has been seen in practice with a stack crawl that looks
 > like this [1]:
-> 
+>
 >   really_probe()
 >   __driver_probe_device()
 >   driver_probe_device()
@@ -101,13 +81,13 @@ On Mon, Mar 30, 2026 at 07:28:41AM -0700, Douglas Anderson wrote:
 >   load_module()
 >   __arm64_sys_finit_module()
 >   invoke_syscall()
-> 
+>
 > As a result of the above, it was seen that device_links_driver_bound()
 > could be called for the device before "dev->fwnode->dev" was
 > assigned. This prevented __fw_devlink_pickup_dangling_consumers() from
 > being called which meant that other devices waiting on our driver's
 > sub-nodes were stuck deferring forever.
-> 
+>
 > It's believed that this problem is showing up suddenly for two
 > reasons:
 > 1. Android has recently (last ~1 year) implemented an optimization to
@@ -120,29 +100,141 @@ On Mon, Mar 30, 2026 at 07:28:41AM -0700, Douglas Anderson wrote:
 >    noticeable issue is the NULL "dev->fwnode->dev" in
 >    device_links_driver_bound(). fw_devlink is somewhat new code and
 >    also not in use by all Linux devices.
-> 
+>
 > Even though the specific symptom where "dev->fwnode->dev" wasn't
 > assigned could be fixed by moving that assignment higher in
 > device_add(), other parts of device_add() (like the call to
 > device_pm_add()) are also important to run before probe. Only moving
 > the "dev->fwnode->dev" assignment would likely fix the current
 > symptoms but lead to difficult-to-debug problems in the future.
-> 
+>
 > Fix the problem by preventing probe until device_add() has run far
 > enough that the device is ready to probe. If somehow we end up trying
 > to probe before we're allowed, __driver_probe_device() will return
 > -EPROBE_DEFER which will make certain the device is noticed.
-> 
+>
 > In the race condition that was seen with Android's faster module
 > loading, we will temporarily add the device to the deferred list and
 > then take it off immediately when device_add() probes the device.
-> 
+>
 > [1] Captured on a machine running a downstream 6.6 kernel
-> [2] https://cs.android.com/android/platform/superproject/main/+/main:system/core/libmodprobe/libmodprobe.cpp?q=LoadModulesParallel
-> 
+> [2] https://cs.android.com/android/platform/superproject/main/+/main:syst=
+em/core/libmodprobe/libmodprobe.cpp?q=3DLoadModulesParallel
+>
 > Cc: stable@vger.kernel.org
-> Fixes: 2023c610dc54 ("Driver core: add new device to bus's list before probing")
+> Fixes: 2023c610dc54 ("Driver core: add new device to bus's list before pr=
+obing")
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
 
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+
+> ---
+> v1: https://lore.kernel.org/r/20260320200656.RFC.1.Id750b0fbcc94f23ed04b7=
+aecabcead688d0d8c17@changeid
+>
+> This v2 feels like a very safe change. It doesn't change the ordering
+> of any steps of probe and it _just_ prevents the early probe from
+> happening.
+>
+> I ran tests where I turned the printout "Device not ready_to_probe" on
+> and I could see the printout happening, evidence of the race occurring
+> from other printouts, and things successfully being resolved.
+>
+> Changes in v2:
+> - Instead of adjusting the ordering, use "ready_to_probe" flag
+>
+>  drivers/base/core.c    | 15 +++++++++++++++
+>  drivers/base/dd.c      | 12 ++++++++++++
+>  include/linux/device.h |  3 +++
+>  3 files changed, 30 insertions(+)
+>
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 09b98f02f559..4caa3fd1ecdb 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -3688,6 +3688,21 @@ int device_add(struct device *dev)
+>                 fw_devlink_link_device(dev);
+>         }
+>
+> +       /*
+> +        * The moment the device was linked into the bus's "klist_devices=
+" in
+> +        * bus_add_device() then it's possible that probe could have been
+> +        * attempted in a different thread via userspace loading a driver
+> +        * matching the device. "ready_to_probe" being false would have b=
+locked
+> +        * those attempts. Now that all of the above initialization has
+> +        * happened, unblock probe. If probe happens through another thre=
+ad
+> +        * after this point but before bus_probe_device() runs then it's =
+fine.
+> +        * bus_probe_device() -> device_initial_probe() -> __device_attac=
+h()
+> +        * will notice (under device_lock) that the device is already bou=
+nd.
+> +        */
+> +       device_lock(dev);
+> +       dev->ready_to_probe =3D true;
+> +       device_unlock(dev);
+> +
+>         bus_probe_device(dev);
+>
+>         /*
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index 37c7e54e0e4c..a1762254828f 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -848,6 +848,18 @@ static int __driver_probe_device(const struct device=
+_driver *drv, struct device
+>         if (dev->driver)
+>                 return -EBUSY;
+>
+> +       /*
+> +        * In device_add(), the "struct device" gets linked into the subs=
+ystem's
+> +        * list of devices and broadcast to userspace (via uevent) before=
+ we're
+> +        * quite ready to probe. Those open pathways to driver probe befo=
+re
+> +        * we've finished enough of device_add() to reliably support prob=
+e.
+> +        * Detect this and tell other pathways to try again later. device=
+_add()
+> +        * itself will also try to probe immediately after setting
+> +        * "ready_to_probe".
+> +        */
+> +       if (!dev->ready_to_probe)
+> +               return dev_err_probe(dev, -EPROBE_DEFER, "Device not read=
+y_to_probe");
+> +
+>         dev->can_match =3D true;
+>         dev_dbg(dev, "bus: '%s': %s: matched device with driver %s\n",
+>                 drv->bus->name, __func__, drv->name);
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index e65d564f01cd..e2f83384b627 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -553,6 +553,8 @@ struct device_physical_location {
+>   * @dma_skip_sync: DMA sync operations can be skipped for coherent buffe=
+rs.
+>   * @dma_iommu: Device is using default IOMMU implementation for DMA and
+>   *             doesn't rely on dma_ops structure.
+> + * @ready_to_probe: If set to %true then device_add() has finished enoug=
+h
+> + *             initialization that probe could be called.
+>   *
+>   * At the lowest level, every device in a Linux system is represented by=
+ an
+>   * instance of struct device. The device structure contains the informat=
+ion
+> @@ -675,6 +677,7 @@ struct device {
+>  #ifdef CONFIG_IOMMU_DMA
+>         bool                    dma_iommu:1;
+>  #endif
+> +       bool                    ready_to_probe:1;
+>  };
+>
+>  /**
+> --
+> 2.53.0.1018.g2bb0e51243-goog
+>
