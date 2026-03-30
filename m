@@ -1,79 +1,78 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394833A6B7A
-	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 21:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21A13A6F19
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 21:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774907212; cv=none; b=JYUNVK65fl0XeLwVgrV0uHQF4J7LEPNfFZygaxRp1fS1oRYWnTLtxPmEnXjtB9gBoblgCtOueDZBKfs7MwDFOXOhrBWz7d7If9j1XwmvYz2Xc488ca7jRZog2yfdKoJDoowgCxdxMzP3M3HwMhXDG+zUrpgV5/NswBtXlhSpjDo=
+	t=1774907398; cv=none; b=IgRz8axKHbfKUKWACzdoI+z0NLtDga4Bm2l5hsitsU7GuQoVi2DBsEBfqtFvzZuHzr7JgSnBDkGpRIjeT1t75YXD6rO9N8OIcnB6RC0J7XukweD2yv2uisSSrmz9JUT9nRf4YDjkczLFeq4nx9vXhNOgJBQxTqNcm4EnH7YvKzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774907212; c=relaxed/simple;
-	bh=H6TjEPdSZGIipXDhaHlw3GjgyD8b6HCnTcEmbY8Pw/c=;
+	s=arc-20240116; t=1774907398; c=relaxed/simple;
+	bh=l5INRuRaEyv3DR+fe9MbM7/2rrIKYN4BPu7Os7f6DQo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hUWy2o159m4dHCxc22C7f4uqOZnahvUQzQqjEKK5yDC5iNZfcSJnMQgIm0LBkJBE9i6B32UU61drndM5V2VKiHFw7CdDfwpqpCy1ljDRLCa8Q0fJBfN6wRneGWfUuUMLMFldEJE9O/xp1Y8JTtuACtli588rS/D+9zv1fa1ZmFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NnUQdJG+; arc=none smtp.client-ip=74.125.82.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gyl41iN+G/pbfFlaWaDCW0Ll8TvYlqeh0qVYyJB7kGfiUdT1uZ6bVeNMGyIv61lmZgLg/KMQK0UrEdZpPLS39Om8oWazbGvtFpPtgq3XepJtqEDOOW9SjU+xZN4mgRj2X++cP0xaVVQkfhbijVE+NxEv/gWA5BmeVMvBESsc7oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFTTgIWT; arc=none smtp.client-ip=74.125.82.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NnUQdJG+"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c17446ba8dso3085814eec.1
-        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 14:46:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFTTgIWT"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2c7e5f38b37so276052eec.0
+        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 14:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774907210; x=1775512010; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774907396; x=1775512196; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y/4gRi5RHE4lEQNk8r3GZP5jsAjQXbbb0ZHPhMUySrM=;
-        b=NnUQdJG+H6TONuXx5eMTstuv8OPX71ysPQMMkFHYn7bZmbkvwzFnZ/p+pgbRDJgkzr
-         3TTFeRwKjf5AlG3lRcfzaP5OErhr1ltm03oyt43oa9BuvzyncjRaZYr/l2Efk+Q1xpvg
-         FXcl1O8swOVP/I/H8Jy73MaPlkqfMxjvra2h7rZe1SSuBE7iHp6ldUIPdt3zbEJZ5re3
-         /Q/WgBj1wPhx3JamnUGG+VOOUEoApGuhC7zeP0X5ZckJya9Hy8iUjiBylaryeQNh9vfL
-         5Sm3iuLL51rEXzg2sgZMctoNSBHxnATGPxtJjk516TZ0PfR11TKz6GlDHVLeGy5H/SFk
-         /uNA==
+        bh=Ne+NreH4GL7rcymdn4Vd9RUHDjCDNb3QWyD6st1ksRA=;
+        b=hFTTgIWTR/U5LjyL+Q3LfxNaZ9NKM/I0zI/j2B7MW2T1gxtEwGwH5jxqoiJkBEILrX
+         5v99rmPPFFZGx/H8H33V9diqjNZqw1cXCNxPtV5mhls4oea6vmb9oiMrgxQUyXRG1SKX
+         FertAKcks1gaTS5UIZV6bKADJIir58O0kbx6cFb2QjYhzqh9V/6F/Ti5HQJ19flCyJpm
+         EgvgNo8gK9VkZdH81gBkuUYmIN0uFeFSMxkshR3NjhAKn2NCRvPJrvsUVyfyyRMUWUsC
+         hEv+ZFW3qpg82/Lo3obiHuGnrkjvz+SAWjv0MwwU3zXH/58F8XRyDZyevAput/mDmCTV
+         QCAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774907210; x=1775512010;
+        d=1e100.net; s=20251104; t=1774907396; x=1775512196;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=y/4gRi5RHE4lEQNk8r3GZP5jsAjQXbbb0ZHPhMUySrM=;
-        b=BGR37V66qagPVfIkqH1g72DchXPVGSIAAZkMLBJphVQn0DiP3FmfWlztV4g1g/mYeQ
-         5pxqd6HzZ0gpUhcVFFYiCM97Qvtn5LIsmnBGJmBkztDGZWHB1WZT1JLv9YDz5Sl+QtoD
-         Wn4r8eseMUqnNy5a87v6W2u8qcUonSbVyp8g5RlFEV0cqOcka//daG8KgyuZ7/sivWZP
-         uMR0MtsfH3PWNGua9C6usaBHt1Xok7m/YmlG3AG7IkaXDLSnW6YTb/Q9PPyuQ+nhZTU8
-         xZODPFJVGuQ+300HliQnR1lWxGrq3mfVAzloh68oMl02XIbrjJrTJac3DFzGA9RgTvrF
-         xhRA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9m3RJNzg3daS6TBMRWyJDZ7zZx2PmVruCSJI4wOm9aZvX83C6NhH2w/DYxB0YVD46BO4qEOC9pxmQUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXbE9EousHbv/GkHA68auuzUmC5scobg8nPsdVvaxC2dXlDybO
-	AhdyWX0/2VOUff0dQvTWbfOTONLLD90qMNPWpRrlvfZYxnLr5c+Sa5hW
-X-Gm-Gg: ATEYQzwvWp9tM9r5EfSvIIdQDLW/j0O9HOZBjgdwl/XKWOSQYPyK7glrGE/M79Pqaas
-	mNfCdxlgv0qg3M67il6K/EsYr6Bw3AAa17X2eID3Q6YgyKYOmtJbyWTqBw6B8M77tRYeiNyfxqY
-	1/8/MbU2NZjYAxd8iJym+k9Q1zBmZWlVdEcEPl466jPqrlXA9PF0T6WuwJ/rlxbSlxD8hB2M5Aq
-	Sd9QnUqRbsUoaFSvRIBn8riejtQYcG5MTflNcAPobhonw02N5T2omceV2rAPxM6z8ZncUSpmW/5
-	7detqcB2xWvZUWAvHmggLPAqiCnkEkGwAWr/qSVbnTCBVZrOf/wzzYv9W+BaSM0Sr1waNNUFZBq
-	HZHAM0hXooLq+VnZIzvDNDrZR5iaMUoYpNkbiLpI112TrwO/Eod32lN9GFfMzkcs2pbsM3gLIu2
-	XcIj/q6nvZ+U/L8c/ssh/YeMqi7aqM38UhzUTs7Sc1goNjzq9JwXmdHwgTeeLxrQCN
-X-Received: by 2002:a05:7301:1f17:b0:2c5:d833:a507 with SMTP id 5a478bee46e88-2c7bc35b062mr700637eec.12.1774907210198;
-        Mon, 30 Mar 2026 14:46:50 -0700 (PDT)
+        bh=Ne+NreH4GL7rcymdn4Vd9RUHDjCDNb3QWyD6st1ksRA=;
+        b=a89HsywddIEQBs97elptnKboat6Tkqg7+zOjngAu0T7Ymx/KkQyOFxadcRuTOHCHhF
+         RBtzXUfye5bdY31Urn03d7Y34MumxNG0xtJvb6/uHMf1/BiUsMOEwJPCn267PYM8//0U
+         ZQ1QVCGAz1KWlrpYplPHUK6ac+XqaQ0D+OBai04olRKhjuDAzCKU/vKKxBvwbHeZdUH6
+         jdgKtSEC+AYQnrsRIWEbLYdg8hg+cGSUyaCLmf00ZV7Z2egKu43FxdWZadhDJ3WWLFfK
+         jZ9L9rPObYBC+ywRjuSyBWkXIDVUyKLI0lifcjHul7RGUYKCGV5YooeKhP3rC0jaFWTF
+         C8Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCVticY+CUhcQFmkin9eJO4l3Jdi4CVauLXqWpdnJ3SsU/vtT9men8VKD5jQ9/asil0+5JIjl3PoPVY//w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLUxuQ+ByTsitrj0Q+sHPWypuvqQLb3R9NEE00K1KHsh/+MiAn
+	YaD14AELJPV2J/idR6QB/75XUt2wPvVpAdggWYzrK2UAgh5b4YJCp0uG
+X-Gm-Gg: ATEYQzwStXOOLDqpTMbE5VE8JQ3F1EOzf2iax658jtHeONHBCz6cuPzZSsqf/V92kzq
+	DsvQ0yKU68KBWJCaG7QcE7RISkqqCPCWgYv1TdpPH10NhmCKXDSPIMiD9R1IaLc6CoI0EnwCA7+
+	NcGIyMSozl6ANO2tPe6L030LzcaBdlaZVfEzk+TG9R2IWBUju2WSguF9e6m1CxH6v4XwaS6+MfO
+	CKCnX6kWKu8anImAQiHX2xzjYDSX7l2zP/ztgTjXG5miyogtMRn4efgZs+gHIU40/7FfcCPR8aX
+	qJLux1wVGhBDDL76DwC2ZBEBmoaJL0nz+OxAgE/1dZiVdx8D8v6G6lZTY1li3bPWF+SfGcDVQ+5
+	mtaPw7PaOGaine4EqwCic/L8ee42OB0W7If6KarenV8WzmSQbNFXzSeyRYLQ1rs0zaufSX+K9Rb
+	sM/26Hp0jyRS3N9b2X4H3rqxk08QW4Lt7LJZl81SkkaVJpjQppXxL0KZgQ+XDlNdGq
+X-Received: by 2002:a05:693c:3106:b0:2c0:d9e6:7eb3 with SMTP id 5a478bee46e88-2c185f383d7mr7769698eec.23.1774907396065;
+        Mon, 30 Mar 2026 14:49:56 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2ebe:8:7f4e:2749:b37a:e9d5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c68b2721sm7751610eec.14.2026.03.30.14.46.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c747e410sm8325528eec.25.2026.03.30.14.49.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 14:46:49 -0700 (PDT)
-Date: Mon, 30 Mar 2026 14:46:45 -0700
+        Mon, 30 Mar 2026 14:49:55 -0700 (PDT)
+Date: Mon, 30 Mar 2026 14:49:52 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
-	Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>, 
-	Kevin Hilman <khilman@baylibre.com>, Arnd Bergmann <arnd@arndb.de>, brgl@kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] driver core: make software nodes available earlier
-Message-ID: <acruxMNdnUlyRHiy@google.com>
-References: <20260330-nokia770-gpio-swnodes-v4-0-b68592e977d0@oss.qualcomm.com>
- <20260330-nokia770-gpio-swnodes-v4-2-b68592e977d0@oss.qualcomm.com>
- <acrcDTPpXZ_5A4D8@ashevche-desk.local>
+Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Hans de Goede <hansg@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v2 3/4] software node: verify that property data is not
+ on stack
+Message-ID: <acrvakIBxO76OAlU@google.com>
+References: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
+ <20260329-property-gpio-fix-v2-3-3cca5ba136d8@gmail.com>
+ <acpRi0BOgT73pqpE@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -82,35 +81,29 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <acrcDTPpXZ_5A4D8@ashevche-desk.local>
+In-Reply-To: <acpRi0BOgT73pqpE@ashevche-desk.local>
 
-On Mon, Mar 30, 2026 at 11:24:45PM +0300, Andy Shevchenko wrote:
-> On Mon, Mar 30, 2026 at 02:40:47PM +0200, Bartosz Golaszewski wrote:
-> > Software nodes are currently initialized in a function registered as
-> > a postcore_initcall(). However, some devices may want to register
-> > software nodes earlier than that (or also in a postcore_initcall() where
-> > they're at the merci of the link order). Move the initialization to
-> > driver_init() making swnode available much earlier as well as making
-> > their initialization time deterministic.
+On Mon, Mar 30, 2026 at 01:33:47PM +0300, Andy Shevchenko wrote:
+> On Sun, Mar 29, 2026 at 07:27:50PM -0700, Dmitry Torokhov wrote:
+> > When registering a software node, ensure that the property data is not
+> > located on the stack, as it is expected to persist for the lifetime of
+> > the node.
 > 
 > ...
 > 
-> > -static void __exit software_node_exit(void)
-> > -{
-> > -	ida_destroy(&swnode_root_ids);
-> > -	kset_unregister(swnode_kset);
-> >  }
-> > -__exitcall(software_node_exit);
+> > +	for (prop = node->properties; prop && prop->name; prop++) {
+> > +		if (!prop->is_inline && object_is_on_stack(prop->pointer)) {
 > 
-> 
-> Why? What's wrong with the __exitcall?
-> 
+> I read more about this... Any code that uses vmalloc() (or potentially may
+> switch to it from regular allocator with help of kvalloc() and similar) will
+> fail now. While it might be no issue right now, this may become a such. So
+> with this check in place you put a requirement that properties can only be
+> allocated from a kernel low memory heap and not vm.
 
-It's dead code. Always was, always will be.
-
-Maybe split in a separate patch, but I sometimes feel the idea of "one
-change" is taken to extreme and adds to both developer's and maintainers
-burden by needing to keep track of extra patches.
+Can you tell me more about this? As far as I can see it will actually
+have false negatives with CONFIG_VMAP_STACK, but should be OK not
+trigger with vmalloced memory... But I am genuinely interested to know
+more.
 
 Thanks.
 
