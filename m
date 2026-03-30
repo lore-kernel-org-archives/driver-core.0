@@ -1,71 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19283A1D07;
-	Mon, 30 Mar 2026 13:55:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BA63BED74
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 14:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774878905; cv=none; b=CoEroz8CbnR36Z88lJqa6kPb853wBojLkLfRamn9RUjaqDFXH+U3U0Z7Yh+AwoPlqDURIKQRG2dlIyHmFE97OQ2AP2QiEVVNZP59ELXgUsfajz/5a98fx//i13S0rSAhjl7NrnL6GBGLWHJNlC9iflxiqE5rHonkjXbuEAXH1zE=
+	t=1774879729; cv=none; b=bg9oDxJXVTVwI5KrE6yWvkTd+RkGDpV7GP9BBMIV1uo0jLc1gCYFy/TFVKxw2p5MXp4LKHlt3trxR0FWF16ciGraBAxcuWRXSuV9HECVyGS2rOXne+ZPhf02bwwaGqFTokk2LdpZ4lMXrCYrMBoOpRZgZTJryhIKIH8iBpYzENA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774878905; c=relaxed/simple;
-	bh=eVzwfd06+I1HcyvWYtKIaICD0iPD3le1DxEE7RSWuE8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=f7Zee2iUKqg0aIuZjPM06ebU/M/3DXFiqdIzam5XrBOZs///i9mSlq8MpSrrUNe2FXMT7UkYCCyDYcL8Y9rV2hzhMLAP/LTMSd+QwIomf0q3JW0YrcsCXCsyXIRj76eZxgMnp3KAcpjXKRKIuOapYqMdlbcNegpzwO6iqhgNEq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LXZQFrpc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774879729; c=relaxed/simple;
+	bh=UBMvKa6530vLa0XbCReC9z5oa2AyiAgd7zjDJyxTv74=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nHqd/s+int8rO+1AWCF+i/T9N6jh2KIdUEy/6AA2jCGcN+mcOi6O+SywbJD7BL9NoxtFfP8EWCmWaypTz5fmxUBiSAQO4txp6n/U5CFkzCBmy0yTOP1SYfYFDXgIbqtK9iTFLb6LmmIKv7ghH46wskEXD6tq99XNTNN0KDu0Is0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uuP7Z1Ks; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LXZQFrpc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03138C4CEF7;
-	Mon, 30 Mar 2026 13:55:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uuP7Z1Ks"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C488C2BCC6
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 14:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774878904;
-	bh=eVzwfd06+I1HcyvWYtKIaICD0iPD3le1DxEE7RSWuE8=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
-	b=LXZQFrpcuSm91Cp9GlB0m/hHwAYMLKbUlQaFuPgOi+Ok2Ab0UnY3B/j7B4DLGG0lY
-	 c9oZ94cQzRlPfPvqMOy0gbkYLLLf8k08HgVpPeI0xctCavhNbOc74HsEVn6WOUp8Tk
-	 9RapvLjE140eBokHsWgLkMHk5A3T+uFf6XdKInwW47/vm5GUrQ9g38Of8TC3KV/Z7a
-	 2ovPJXSWioUdNZ9eWZZgPoxpyB/OvRBQ8yrxodpOq1/j67vMjhTJPyt77K5GGnMjjO
-	 Swq7hKkUn0B0QJcPg+ljsh6idHY1bPdaboZrmuFsZMkm/VzHRoMj3dKZvmjuFM8ka8
-	 pZK/qYsyM/r2A==
+	s=k20201202; t=1774879729;
+	bh=UBMvKa6530vLa0XbCReC9z5oa2AyiAgd7zjDJyxTv74=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uuP7Z1KsMgAA6tSsPe2Z5q0aw+WmtfZ+YM3g7RqLtOGZbCjBUCFDGPXKx1sZgMUTW
+	 5Bv24X1+9iOsLr8H5S0AxGPl5YVOjUUerA2gE4NkPS6v+P8//CqoiKR3akGiuY/9nn
+	 lfPWH9fALC2uJtMI7+dGs+kcW4lLy1bGguXutCbJffPStgYy71J8RZrhVBGFGPQ/D5
+	 F22RwOEq+Vly6dJixo51icP4mdgf9gnXn3g/rAQ04jobWUTbFQ8h/DfIOkctYqrTt/
+	 clayt7zBzx5tFb6Osuqcdlzia+Eccuc4WB2rwJE9J9TxMCXDdnVPdarIcRLwkCgrRr
+	 pd1UrbPCRMpEw==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38c551f2497so40311911fa.2
+        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 07:08:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXIqhdnuHJHiCz+wcDEOtBfsmKvSZ4taBpakWNSRt6ZqwUANio3Qck6nWN14oBDhtUFXJNUHazocaYR6Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKeX/9CMtJThO3NRQb3dfT6SpqxX0NQFyMsOD6xd/fnNfu6851
+	KbKOsI9QQzHB6bRIHd0SGCkssp6uIZo6N9mtb95FOkhJ0OkFS6xQIzVJhY4x63ViDcrojgko9+a
+	dUR4dA2sgNCH+Fm2a+lXFEn0ucChBhIvtsZRbcDYmCQ==
+X-Received: by 2002:a2e:a548:0:b0:38a:43eb:239e with SMTP id
+ 38308e7fff4ca-38c73192b65mr45193471fa.13.1774879728025; Mon, 30 Mar 2026
+ 07:08:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260330-nokia770-gpio-swnodes-v4-0-b68592e977d0@oss.qualcomm.com>
+ <DHG5OX85I4LL.39U0RRBS0JXFP@kernel.org> <CAMRc=MfG1ZF=4T2WAw71Zb+4BFD2_4VSNRQZQsoGLE8gZxWcHg@mail.gmail.com>
+In-Reply-To: <CAMRc=MfG1ZF=4T2WAw71Zb+4BFD2_4VSNRQZQsoGLE8gZxWcHg@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 30 Mar 2026 16:08:35 +0200
+X-Gmail-Original-Message-ID: <CAMRc=Md4gD+9Rkg9MSe0OiYw-bS53nMAarFq_MZZHEq=yxYwVQ@mail.gmail.com>
+X-Gm-Features: AQROBzCZ3sn6YhqN7BcNEXBcWbVXRGN722aFgaQTZcIuW6VGsXjtEbj0I4HGOcQ
+Message-ID: <CAMRc=Md4gD+9Rkg9MSe0OiYw-bS53nMAarFq_MZZHEq=yxYwVQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] ARM: omap1: use real firmware node lookup for
+ GPIOs on Nokia 770
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+	Russell King <linux@armlinux.org.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Arnd Bergmann <arnd@arndb.de>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 30 Mar 2026 15:55:01 +0200
-Message-Id: <DHG627388EQG.3B3ZMSK2FQHUM@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] driver core: simplify __device_set_driver_override()
- clearing logic
-Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <akaieurus@qq.com>, "Geert Uytterhoeven" <geert@linux-m68k.org>
-To: "Gui-Dong Han" <hanguidong02@gmail.com>
-References: <20260325090905.169000-1-hanguidong02@gmail.com>
-In-Reply-To: <20260325090905.169000-1-hanguidong02@gmail.com>
 
-On Wed Mar 25, 2026 at 10:09 AM CET, Gui-Dong Han wrote:
-> Currently, __device_set_driver_override() handles clearing the override
-> via empty string ("") and newline ("\n") in two separate paths. The "\n"
-> case also performs an unnecessary memory allocation and immediate free.
+On Mon, Mar 30, 2026 at 3:52=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
 >
-> Simplify the logic by initializing 'new' to NULL and only allocating
-> memory if the string length remains non-zero after stripping the
-> trailing newline.
+> On Mon, Mar 30, 2026 at 3:37=E2=80=AFPM Danilo Krummrich <dakr@kernel.org=
+> wrote:
+> >
+> > On Mon Mar 30, 2026 at 2:40 PM CEST, Bartosz Golaszewski wrote:
+> > > Bartosz Golaszewski (3):
+> > >       kernel: ksysfs: initialize kernel_kobj earlier
+> > >       driver core: make software nodes available earlier
+> > >       ARM: omap1: enable real software node lookup of GPIOs on Nokia =
+770
+> >
+> > Looks good to me overall (one minor nit in the first patch); which tree=
+ should
+> > this go through?
 >
-> Reduce code size, improve readability, and avoid unnecessary memory
-> operations.
+> If the first two patches can make v7.1 then I'm fine with postponing
+> patch 3 until v7.2. Maybe Dmitry's changes allowing passing
+> unregistered software nodes to new platform devices (where are we with
+> this?) would also make it in and patch 3/3 could be smaller as a
+> result.
 >
-> No functional change intended.
->
-> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Link: https://lore.kernel.org/driver-core/DGS82WWLXPJ0.2EH4VJSF30UR5@kern=
-el.org/
-> Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
 
-Applied to driver-core-testing, thanks!
+In other words: patches 1 and 2 can go though the driver core tree
+into v7.1 and patch 3/3 will be respun next cycle.
 
-    [ Narrow cp's scope to the newline handling block; use scoped_guard().
-      - Danilo ]
+Bart
