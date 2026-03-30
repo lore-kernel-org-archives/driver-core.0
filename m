@@ -1,68 +1,68 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472823921D6
-	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 02:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB856392801
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 02:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774837681; cv=none; b=GVnVlWh998HRFj5mQn66fzyhyMMxvZQ7/J4kDtPBnoq2x9jrBWeUTCZM4M+3cco2+X4I4+eFF6+XzVC+DOMzbRL683kKszjy8MFU4Q7AcGeL/3NTINPBJJFXtjIPjk1jTHfGh9/BaYQ3HxV+vlnwFopv1+Rw+ca4t5f7CnovPwk=
+	t=1774837683; cv=none; b=luXcnV//sNEMcSZF2I57fc8rgvdmscjlkgWrxyewNAQJGnw2hySlloteoKiYJdVgJjb7jJai8qzeyngdi6+hcV2tA+00aEwV9w+2dKLLpbVZbZY5Sju88sweOg9dKbhk31Sen3cZIdEvZCtrBztGmUVO9ZzVRHNb73YcHdZ7pXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774837681; c=relaxed/simple;
-	bh=WAA48TAgXPKh6OTsM9jfu2LAkNr3B0EfohpnQi0pV2k=;
+	s=arc-20240116; t=1774837683; c=relaxed/simple;
+	bh=bFqZrxIa+wAz0ne9hpWyd8utebsvCUq3EVc4FZvgjF4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L5NlwmGMQXZlXiqML7gp+uMkuk3CruWeFUxN+KcSSHEoYohkCeBQwG0QHbfrm4ngvczGT1Angmqvrs8d0Vd2cSCEZkB1hAfGKatczAksZ9f1hSmDuzvYBLpohUuSIxYijZEVFcSaMH+Djacbtsa6ZH7AGBsowRVBEewTctP6E4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Te5hp9IK; arc=none smtp.client-ip=74.125.82.173
+	 In-Reply-To:To:Cc; b=Yz+yCYMjXOuKq+dsDa8dZadjs9R2qn1HBj26jJDMshUFXAQLauVNUo1vobha3ozRYVnL9SuMqJ2rdWJGQaAnXeqPFJ3JHwYITfh7Z5mxoJNWrkvcXrETPi23GhonzLB8Km5cujqDkL4M9nlxfKRzUfGOS/mX3OSa6nRePYxsue4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QVU8rcBg; arc=none smtp.client-ip=74.125.82.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Te5hp9IK"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2c0c955a481so1096317eec.1
-        for <driver-core@lists.linux.dev>; Sun, 29 Mar 2026 19:28:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QVU8rcBg"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2b4520f6b32so4254497eec.0
+        for <driver-core@lists.linux.dev>; Sun, 29 Mar 2026 19:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774837679; x=1775442479; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1774837681; x=1775442481; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VMnha1VqvY6bmQXtBiFyEl6o1L0XqC/h5XlUXxbZCb0=;
-        b=Te5hp9IKNo9xzsLVnYcZ8q4YGeZNlJMZCN2p7SqnAUdlyzRom85oH1xt9n5CVkaTaC
-         zXASMtMiL9yekg/WAOmxdNJiVqeczrTyrNVU6YlgpR74X/HLR2uju5K3VPFZh7cb6m99
-         AHd9yEwomMSdwOjL36IAdP7OHl6KCN0o8whJITEaD91P5USpUPpqGYg8iEGi8JT9GQU+
-         YHmPB48tCiwNvRTEo+DtIp7IGd2PrbOAFSf0Kp9lsURmzD9vNZUZgdQ3Qk3uIG32nE/8
-         NlLTWfPCZLhyE6m8iUbPBo6MfRkgtqNDYdxXsf6eMXlpvRN8AtTMV7992UiiRCuy5VzG
-         /4KQ==
+        bh=Zqs1uUluer6Mf+lCXT25NfqzHgsGQt/gWHHebQbC4Q4=;
+        b=QVU8rcBgs0fr97OFl6rajEjIw883Z8qjBvrQf8o4V5UrcAOlfMcS6uFiuUX1djPDfz
+         lZRp769wB1IsOSali6wGzXd54U6tlXUcVll6e74jaIYC4pie5E373NmoG30I+WLqg8dy
+         7Q4hIlqqh9JMPa35n/9jrV1zVa4rzU+h823ingiB9iRuuiOWqTaTaaPbANIAEKTmPoGX
+         b/crfCNh1fyRVB1FX9W7F6ddWJAjbxuBPBw9U6MCfGDp4vPhtyg/EO+Qxu+x1RGUlJhv
+         5W8tPUZDuuloVNiSFQV29+k+2X6QhYoG46Z1IgUQb81TySGZEosL8FQrQgd4MQ/9LfSZ
+         aIPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774837679; x=1775442479;
+        d=1e100.net; s=20251104; t=1774837681; x=1775442481;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VMnha1VqvY6bmQXtBiFyEl6o1L0XqC/h5XlUXxbZCb0=;
-        b=JIEOubbb0XTpxurHW6pMb8hBU2vK9LyJjQS43N5lvq5BazP/bFr36JNy+9IpLza4Jg
-         JCQnM8iUrHP7JLCE/xCURp7uxft9hSTUQHnzKY93MFTGRVj3FG9AEmYm6gKd2Ho672+z
-         iH52A6RrHxT8VFkf61A/cUxS9m5YNb+r31A0DHBVGgfWn5FXI+ek7/LrLJt+zicSymSB
-         6lWLX30O8nhYj5aW/XkCfBHtH0w9b0x3ddwKWlPktAlIKKX9cPc1hGo+OsEsOuDAAasn
-         DxfSXDJgl4z4e9IB1tMn2BbP7JcfjdxKZTm9JOBmknmEQoVdzbNYpMCnlopAxlfaB72K
-         9JMg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBkQl3bgSpK/M1hq6f6MQdcOh3H14ljU/SagFzW2+V0Fb+5q3Fmb76Qld5Kln4Z3mdGr7vSto3p3x4sQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJj3wHR2jp2zuBmsJgNlx0Y+AOydgSPqM75NZEEDjXEYj8pPmk
-	7PuIdsq88gI8r1hNQhO9ySBF5m/voS0cI8XVeEZZdl5WguHF7icsk4CZ
-X-Gm-Gg: ATEYQzxyY6n02oGAy7NHGjwi8b9cK8t31SnKpkU6syb1surhrA5Kixw/AjXtI+QwZ2g
-	rFhWyl2F7vogPY9qB1ub1q+VJFvBltxbV+k7GRW3R1eOg5HtpQnhnaRBng0Ha6D3cdinwP9JCjn
-	7mptwNZqsoHPU3LNwEZkozt6L4oAIP0NTQKXBKbV73tjxYX3PAcrzoJqcQF0UngYwwo6u7cSuI+
-	h27pP1MYoOuadEQl0NP8dlUZk/Ve44qTgFzUYBn9HIKzx5P+pUzXsYDzdjhLPuyo+qIFnAcCMri
-	eU16SPLGew+26ltmCaubuVUtq7BPoz2RtRw/I8LO3/2ogeu+28hFp2eXlvxIBaZBn4rp/tMuV8m
-	Yfv5TqzuqZ+0jQV4dNcxea21raE2lSP3l7mSChBj8vfu6T7z4DnK9HeEX/p/z/GntnNP1TssR19
-	8F+UQ9mwj5hkuZVGiZHn0deWGC8s3diJtobIfMVlSgot1W2RSr5Hnzv5BOfTOiV3+xUMWLW54zu
-	HT3NoFGevarY6I=
-X-Received: by 2002:a05:7300:6423:b0:2c0:d9e6:7eb0 with SMTP id 5a478bee46e88-2c185e169aemr6118335eec.16.1774837679449;
-        Sun, 29 Mar 2026 19:27:59 -0700 (PDT)
+        bh=Zqs1uUluer6Mf+lCXT25NfqzHgsGQt/gWHHebQbC4Q4=;
+        b=IaiHOPjMObYO1b4tnHjfAKCvTKSY7FVT2lJcNUfTfYwG9FF0b5msPimC4LIzA39IAC
+         zCCf1kRbodj7B2CdWAC1GkMOoaa0d8jXbVTe5DrA9fcKsddQd1MtCcUesjfKzP9t/lSF
+         N0abZz6sYGv6+j47y1Ce3oGgl+USmcBNi1wgopfoK92uZkU/Zabj3/PKAvZfFwa80HHj
+         pcqJ0rQPuAgizcF8ROZL4b/6hzTip9WDDjKu2/8b0Hjni1sHzYjxsrwRuQENG0oBmqHZ
+         7BBZ1Qj16d9Gzm/qCmUBTybXVAY1qIlwun5sz0BJuMKfO3KPakx4zQvsBtDWzOCYJYLx
+         twVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUiPdM5xBV4VM/vDbW8thrfyLqSFaPwy1cnJqGpUSPPw6rtR3czxgYaf081NC9BYwv1fGWagPprVZo5wQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMuOEv9t/fBn0OrNqZ7AcsKLDgng8yRdn3QeFVKw+m7bWlDcIf
+	Y9mQEwanlA7MTyYgeScqX6ywM1rTtCadVdOZWBUqKdFi21Vwl8LWUOry
+X-Gm-Gg: ATEYQzxeHC5z62jF5JdCmA69MHc8RCqqe1hrn+DMpW7vFk9lF/cE6ESlDYGM/f673jV
+	RPTwLYmHbqbiVkQxZj/yzlUe9/6cjjs4YVwXk3AlD67miSDci0g6VOpaELK3D9k400PVha+44kr
+	AJP2hDZWXkRLq2rVUv7qE4Z0GeCfXwaWX2xF3lSs7/4IqGxe/wuG4BEZeZt7KRde7M90vMN0/Qt
+	WnOKmPSb8uf++CvdvXeYCLIgSzeAWAag61hnoohRV3VEMQ5z2mBvLJlpve3xb/fdoBoJKlqLFpH
+	y+etA+8ZzT9zRcD04O8ENxnHbrfcAo2TdMd3Ipy9TQZKq0kHAE7xG8S4deAZB7l2sHjvoMy2faz
+	GyHBLnvGH4Xl6w4Xkrdm9DdG/muu4TwkIUKLiQh9G+aR5QQZvq+fjwF8I1NOnDA13Ii+fN5TqAA
+	zGkr4WlKfAMWPNokuyUV376paAf4tyfRQgNaRMxgKW780xgvrwEAXVRrefg48OiPyIU69IphaFH
+	FizxKxxIKL67yY=
+X-Received: by 2002:a05:7300:b58a:b0:2c5:d833:a4f3 with SMTP id 5a478bee46e88-2c5d833c673mr1330554eec.18.1774837681020;
+        Sun, 29 Mar 2026 19:28:01 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:7265:773a:8e51:c62f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c7971d97sm6250673eec.30.2026.03.29.19.27.58
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c7971d97sm6250673eec.30.2026.03.29.19.27.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 19:27:58 -0700 (PDT)
+        Sun, 29 Mar 2026 19:28:00 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Sun, 29 Mar 2026 19:27:49 -0700
-Subject: [PATCH v2 2/4] software node: allow passing reference args to
- PROPERTY_ENTRY_REF
+Date: Sun, 29 Mar 2026 19:27:50 -0700
+Subject: [PATCH v2 3/4] software node: verify that property data is not on
+ stack
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260329-property-gpio-fix-v2-2-3cca5ba136d8@gmail.com>
+Message-Id: <20260329-property-gpio-fix-v2-3-3cca5ba136d8@gmail.com>
 References: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
 In-Reply-To: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
 To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
@@ -87,47 +87,50 @@ Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
  driver-core@lists.linux.dev
 X-Mailer: b4 0.15-dev-a6826
 
-When dynamically creating software nodes and properties for subsequent
-use with software_node_register() current implementation of
-PROPERTY_ENTRY_REF is not suitable because it creates a temporary
-instance of struct software_node_ref_args on stack which will later
-disappear, and software_node_register() only does shallow copy of
-properties.
-
-Fix this by allowing to pass address of reference arguments structure
-directly into PROPERTY_ENTRY_REF(), so that caller can manage lifetime
-of the object properly.
+When registering a software node, ensure that the property data is not
+located on the stack, as it is expected to persist for the lifetime of
+the node.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- include/linux/property.h | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/base/swnode.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/linux/property.h b/include/linux/property.h
-index e30ef23a9af3..942657e76993 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -471,12 +471,19 @@ struct property_entry {
- #define PROPERTY_ENTRY_STRING(_name_, _val_)				\
- 	__PROPERTY_ENTRY_ELEMENT(_name_, str, STRING, _val_)
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index 51320837f3a9..286eab02e8fb 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -16,6 +16,7 @@
+ #include <linux/kstrtox.h>
+ #include <linux/list.h>
+ #include <linux/property.h>
++#include <linux/sched/task_stack.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/string.h>
+@@ -917,6 +918,7 @@ EXPORT_SYMBOL_GPL(software_node_unregister_node_group);
+ int software_node_register(const struct software_node *node)
+ {
+ 	struct swnode *parent = software_node_to_swnode(node->parent);
++	const struct property_entry *prop;
  
-+#define __PROPERTY_ENTRY_REF_ARGS(_ref_, ...)				\
-+	_Generic(_ref_,							\
-+		 const struct software_node_ref_args *: _ref_,		\
-+		 struct software_node_ref_args *: _ref_,		\
-+		 default: &SOFTWARE_NODE_REFERENCE(_ref_,		\
-+						   ##__VA_ARGS__))
+ 	if (software_node_to_swnode(node))
+ 		return -EEXIST;
+@@ -924,6 +926,14 @@ int software_node_register(const struct software_node *node)
+ 	if (node->parent && !parent)
+ 		return -EINVAL;
+ 
++	for (prop = node->properties; prop && prop->name; prop++) {
++		if (!prop->is_inline && object_is_on_stack(prop->pointer)) {
++			pr_err("%s: property data can't be on stack ('%s')\n",
++			       __func__, prop->name);
++			return -EINVAL;
++		}
++	}
 +
- #define PROPERTY_ENTRY_REF(_name_, _ref_, ...)				\
- (struct property_entry) {						\
- 	.name = _name_,							\
- 	.length = sizeof(struct software_node_ref_args),		\
- 	.type = DEV_PROP_REF,						\
--	{ .pointer = &SOFTWARE_NODE_REFERENCE(_ref_, ##__VA_ARGS__), },	\
-+	{ .pointer = __PROPERTY_ENTRY_REF_ARGS(_ref_, ##__VA_ARGS__) },	\
+ 	return PTR_ERR_OR_ZERO(swnode_register(node, parent, 0));
  }
- 
- #define PROPERTY_ENTRY_BOOL(_name_)		\
+ EXPORT_SYMBOL_GPL(software_node_register);
 
 -- 
 2.53.0.1018.g2bb0e51243-goog
