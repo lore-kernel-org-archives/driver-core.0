@@ -1,149 +1,125 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E17330DEB0
-	for <driver-core@lists.linux.dev>; Sun, 29 Mar 2026 16:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444162FE05C
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 02:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774800862; cv=none; b=g5TkIDkHXjFgnpMTI9DfB2B65ubxg41cnS2HOM5BPY5xWzH0UbQDc8H3D3r/7EqeTZsDhkGAFZQaUwy8FQB0tSwkl6kLzvSMn8fngu4s/e+JmL42QwiTpFBdBS0wRNHaXFz+JiNAtNx7cbv208U8nrKgxKVoLGx/VVwPTrvbRmg=
+	t=1774837679; cv=none; b=MAcsXJFyGj4FI7hjg4LPbD1IG1LNFVNnNUo8RAcfgAUFivrMmR0dKv8Pwk60aL4QLrWHb/PXGreSXIXuMIeVxTrXWIWmCgXrEvwKkNly2Zwn4jXoYRZjVU8UTbZaz5nOtc01U5SIDxZkJNS6iDSB4pNrznh08sDu0P2VAjQ/aEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774800862; c=relaxed/simple;
-	bh=idD9jv7uFW521itEPBe4KyylCkWc7f46VoJ7nLJFmS8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=cb38Q37TVl9Og6cVnEknuyUtJdH9JxSDzn6TA4iy6V9eSVkaXywN5ghxMJWFZcedybLJOpjjE173Kb9OsrohJRfJchxJkqMpnb7eUnoGqxyD9tnvYXHMmjyVJtk1/umEqsbLkhMPLB52yWf02P9XTsxTRSvxaxqWM2/0ZeKWDiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XUaQuJW0; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1774837679; c=relaxed/simple;
+	bh=vZyq9h3vkeF5aQxGQqlBRMFtAQOkVVXTBRKDh1HO88k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=G3Ltogc5sYSUlC2ABs5wFURBnX1xLz1Ymp3WbqL7Alh8MyAyvdlhjkVzGKacKGqwVUsNpLw/5TIgHqPi4c5adrpol8m/bk+wNAGVAVyhlRVisbDQ6UGz1aKR7U1J161uYMUrd7lD4JeBbzC8VktUGHglD/j7QfsHZHRd6P1WzqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r3EVBkjY; arc=none smtp.client-ip=74.125.82.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XUaQuJW0"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43cf5ad500fso876825f8f.0
-        for <driver-core@lists.linux.dev>; Sun, 29 Mar 2026 09:14:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r3EVBkjY"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so7886175eec.1
+        for <driver-core@lists.linux.dev>; Sun, 29 Mar 2026 19:27:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774800857; x=1775405657; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sV1NVYu2CUk772hs5pUuIWfRYtmEoiUvAReCjlabyeY=;
-        b=XUaQuJW0s86uXukASNBynoJzE0TxS7lkrGhXeNnt3/3tFCaZaxTUgS2/icy3IpCrfy
-         sFf82tnFmQRd2LVkB3SZhzSMi3Sp4wsf8+a+l2fkzu9uHLLTU0qXgrgOMeQOuxseymL/
-         +6tkE2+YUmlUR/pqlOzzLvFkvyY9C4qBmg7BA6JfP5t+Eyh8jgYT63MEf6rZSfj5v9f3
-         icVxSPAA+fI1Eb89TkpUQhev7yYVYBtM1LMa7YzNn0mSsaOL+LiqJ8qduYMUqXfb2YTx
-         1Et7WriPswWyPXTZVNRErnvX5JFcL9ydLox8UhxaPRJWId+2SMATW69ctBigfM03256t
-         u0tg==
+        d=gmail.com; s=20251104; t=1774837676; x=1775442476; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ySc265PnZwbX1P9RXTWeU43Uza4/FiDlEOhs0dGdd68=;
+        b=r3EVBkjY8N/3gtOxwH4Zk2x3rEokg5h8FGWTNRuOIGUGigaApgDmwkKvjZkgOvoQx+
+         00Y+ST6onXRbAMCVKMq99vnpUczZ8naGaC1iNehwOTGjKKCvpmhEIZ1eH9JTEs1sUqia
+         1A5x9o+v2O9NPtZ7Mx6yZkHhlCxKsLT4OokXjZKKh+UrYfB2KqsCD+qxHLXhk/7nnHrL
+         RiU83voFunstyfSjwovvdxYNgfPJr2PexulQlSHhynUJBO7Dq+aYUVDYvxg1r6kjw2pS
+         HNkqIauk/HkBarivC+LfTgBE4iVI3zIn7AlIU8c4BBAd3yewfHDmEKOTGduS9nDo5SwY
+         BgIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774800857; x=1775405657;
-        h=content-transfer-encoding:cc:to:subject:from:content-language
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sV1NVYu2CUk772hs5pUuIWfRYtmEoiUvAReCjlabyeY=;
-        b=nedsj5ZuAhdpq10OxOrKThceufVA0EulA+1A9fhXEl3DYEkWM4sh1AmZ8VjJW6lTlI
-         +vHt3sn5uy0uD0iRgE+D/GGwNYLD8pqwmqDdrNPwR7xh7p/VjqA0qagOUkpOBTTODMLC
-         g7s/xkHSMThIOZMk+Equ889LdagRvpCoNjtHXx5ZeQiQsMwSdwoaEOFv6qufwGRQs8xp
-         fWBxW6XQ65nDXFeW5MaUtngfsoKQPRMjZV0y1MU37k2YvezpCnkLtYU3OmUjB4TSLtk8
-         MG2bw4RPxwYvEdGtS1K1pIyAuES4bXd8OTO+b6HXED6gpu42KhjwRFc1hWZN3zmaW7vg
-         ObmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWb0kkJFKPo24IBG1lVbVE6uJsmA4CtQ4O0m3NjwupJLrcokmDKY+rlRgJwORq+yir/ohx+hBA+OgcIdg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwKV+JLby8y9gKR9SQQCT2jbn3wSQQauPYtGlNuju1jOi7nOC2L
-	XZqV7PMop+/p22oqUsXrNBHdPCEloXCKoK1eZwZ9MeRs7DfizJtKwTTm
-X-Gm-Gg: ATEYQzzQoNFP5CPzbk1YUg4cwJrVGmeqVsuyx+HhHcIcT/kBzCZ7z1VzzQcOaJXJc9N
-	tJFnRdEk7EB5XURG2HWtSCdi/KvnReYxToaTSv+27sL4GhvVwE5C/wyCM0Mtiq3Z2AWfPQrFn9f
-	J93T8d6tteoqyupYHjQATNpw2QgkOPnqL38PHGJRWRZwb9p0Oya6GYWQExJjqK46O/xxMhs5Siu
-	OrISC83e3VPIAn2+hFyMf1PCUbA/QAi5v8vcTwDTYbe5p+Xt1dm8iI5OQps09TI9uS9fYwEdrtd
-	Z/LhhpsLiVYAlYsd1bVG4+gNcO4UBUYd7Rt0pHdGvKFBLtb+bPWlw2N9Fu86KxP45q0stIlofQH
-	EsppgxWhWvc9dPgfSNIpDas+K5TSEQ5NHYf3V8MB5e4geIoXi/12vVZjachOkElM4zedDKA3MHX
-	iElBVEeFpUg1S6Atvp4Z3h2ksWO03fwDeEZETsjiRVpoOGUdkVxh+3nSi/TzSbR3omkdyExyTYp
-	bjIYGVvXD7t1Bd1MIwdnNtg8XIGQBe6CuIPDZYVzi9gQJILefqG1StvyVfknUrAsw==
-X-Received: by 2002:a05:6000:18a3:b0:43c:fe66:43fb with SMTP id ffacd0b85a97d-43cfe66466emr1830837f8f.17.1774800856677;
-        Sun, 29 Mar 2026 09:14:16 -0700 (PDT)
-Received: from ?IPV6:2003:ea:8f09:ff00:e94a:abd6:53f0:1fe4? (p200300ea8f09ff00e94aabd653f01fe4.dip0.t-ipconnect.de. [2003:ea:8f09:ff00:e94a:abd6:53f0:1fe4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf1db08e6sm20250282f8f.0.2026.03.29.09.14.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Mar 2026 09:14:16 -0700 (PDT)
-Message-ID: <0fe1b679-ab28-4505-b0db-14e7ac3ba749@gmail.com>
-Date: Sun, 29 Mar 2026 18:14:15 +0200
+        d=1e100.net; s=20251104; t=1774837676; x=1775442476;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ySc265PnZwbX1P9RXTWeU43Uza4/FiDlEOhs0dGdd68=;
+        b=lnJ5rBlhff1HREAz9mVWlU48VD9rWAI9MV08nmp633kVfzZIYYSMuCBez086yq0ESy
+         Hj/PEqOJyBsPK0DlZ/QOWLPHFzZpYdY4Ut4xpiTKM1E6TfDEnwMh6Z3Yi9sttIlMxako
+         endt7JnTEgfeutEFBcYD3W/yGxqYIS9uvI0WLCSH5mgCjCHq+RYNFEHhqjKAWqYh5RMf
+         lh3wphDYxv0MoPz7HsdbecCcotdACU1omEtqQEOPnu4mGCskgT5j6T+HpmikLacl3Hw/
+         bl13YbHB1+e51ZCGhLPStLOXbnoXIVY57XmanTrshXu+xd+J+Z3j/c0Zors8xVcjncUX
+         tT0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX+Sps71o2KKZwIFuqzET+v5MAuerh542dwfTvMXFuzhG+TgKVkiaf8YbjcoMTrgIVihj+/gookObql8g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1p1N3DKehzE+v4e8nETJbQw05B7X5y73c+EpcRs+Ncuo79Pp/
+	teVqiQVQ4fVKyaUx0fKewCOL6FKT/sXGrwPhVyY5sRGvVbAlgcu9BA8U
+X-Gm-Gg: ATEYQzw7mQw70NRdS37PLMqmweqsspDblxktvNAB11EKNjFdEO4GYrzDOLbd9FFkiHr
+	V77oY0//Hxa9lhj/b+LVztoy4HgPMKh3E7Z+ahZeGEOJ2b8Rv7QA2XF5XV+tMPE/eGWAPY2PLG4
+	Aa/Wr7CHsMjzI+Qecds1HYRVWjAanQiO8UTEQcqqYUkGwIL4oD6Gce5+0Aov79EXFoYfq4CNAEQ
+	aQpQiRW9bW6NoaFV/iA0E7IsD+mi9aNGPaeKhrmpWjAEH/L+T3JiMwV4x66/MTnYWTEh9yf/+Qc
+	axyNG0uC2frtkLOwhUmrgy0O2VIlEA3rSCw1e5ExsLt/wnH84ZJW9fZQPb/6TK/zJocZvUaq5ca
+	ycRqq02sirHEVPBvGzsHk1L5OEy1TLz3QfJf3VzARfsarqRi6arm48K1J304+OhtJQc72C23SUV
+	+DlXK4BDu2dXAUirBSbIIPJqQmGIZGbigqln1R4roo03jAvItGUxsDuhwKBdWoMHVva9dKQnIAo
+	SxwIdoNMgQowws=
+X-Received: by 2002:a05:7301:a03:b0:2c4:4276:709f with SMTP id 5a478bee46e88-2c442767647mr2600127eec.1.1774837676295;
+        Sun, 29 Mar 2026 19:27:56 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:7265:773a:8e51:c62f])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c7971d97sm6250673eec.30.2026.03.29.19.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 19:27:55 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH v2 0/4] Fix handling of GPIO keys and LEDs on geode
+Date: Sun, 29 Mar 2026 19:27:47 -0700
+Message-Id: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] PM / wakeup: Allocate class wakeup_class statically
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: Linux PM <linux-pm@vger.kernel.org>, driver-core@lists.linux.dev
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKTfyWkC/22Nyw6CMBBFf4XM2jG02PpY+R+GBbbTMonQpiVEQ
+ vh3K3Hp8pzknrtCpsSU4VatkGjmzGEsIA8VmL4bPSHbwiBrqetGKIwpRErTgj5yQMdvVEJdtHH
+ OWGWh7GKiovfmoy3cc55CWvaLWXztryabP7VZYI1X8zxpUo7O1t390PHraMIA7bZtH6Nd0K6yA
+ AAA
+X-Change-ID: 20260315-property-gpio-fix-51586cffcd5d
+To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, Hans de Goede <hansg@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ driver-core@lists.linux.dev, stable@vger.kernel.org
+X-Mailer: b4 0.15-dev-a6826
 
-Allocating wakeup_class statically avoids a little runtime overhead.
-Define groups and device release function as part of the class, so that
-we don't have to repeat this for each class device.
-Whilst at it, constify wakeup_source_attrs[].
+This series deal with breakage on geode caused by a recent conversion of
+the board to use static device properties for configuring GPIO-connected
+keys and LEDs. The issue was that PROPERTY_ENTRY_GPIO() would create a
+temporary structure on stack for GPIO properties which would later be
+discarded.
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+The first change patches the behavior using existing in kernel APIs so
+that the bug can easily be fixed in stable kernels, and the other 3
+improve the API and add safety checks.
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/base/power/wakeup_stats.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Changes in v2:
+- added printing offending propety name in patch #3 (Andy)
+- Link to v1: https://patch.msgid.link/20260323-property-gpio-fix-v1-0-9cb46e5fe7df@gmail.com
 
-diff --git a/drivers/base/power/wakeup_stats.c b/drivers/base/power/wakeup_stats.c
-index 308f8bde9..72beb8fce 100644
---- a/drivers/base/power/wakeup_stats.c
-+++ b/drivers/base/power/wakeup_stats.c
-@@ -18,8 +18,6 @@
- 
- #include "power.h"
- 
--static struct class *wakeup_class;
--
- #define wakeup_attr(_name)						\
- static ssize_t _name##_show(struct device *dev,				\
- 			    struct device_attribute *attr, char *buf)	\
-@@ -114,7 +112,7 @@ static ssize_t prevent_suspend_time_ms_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(prevent_suspend_time_ms);
- 
--static struct attribute *wakeup_source_attrs[] = {
-+static const struct attribute *const wakeup_source_attrs[] = {
- 	&dev_attr_name.attr,
- 	&dev_attr_active_count.attr,
- 	&dev_attr_event_count.attr,
-@@ -135,6 +133,12 @@ static void device_create_release(struct device *dev)
- 	kfree(dev);
- }
- 
-+static const struct class wakeup_class = {
-+	.name = "wakeup",
-+	.dev_release = device_create_release,
-+	.dev_groups = wakeup_source_groups,
-+};
-+
- static struct device *wakeup_source_device_create(struct device *parent,
- 						  struct wakeup_source *ws)
- {
-@@ -149,10 +153,8 @@ static struct device *wakeup_source_device_create(struct device *parent,
- 
- 	device_initialize(dev);
- 	dev->devt = MKDEV(0, 0);
--	dev->class = wakeup_class;
-+	dev->class = &wakeup_class;
- 	dev->parent = parent;
--	dev->groups = wakeup_source_groups;
--	dev->release = device_create_release;
- 	dev_set_drvdata(dev, ws);
- 	device_set_pm_not_required(dev);
- 
-@@ -212,8 +214,6 @@ void wakeup_source_sysfs_remove(struct wakeup_source *ws)
- 
- static int __init wakeup_sources_sysfs_init(void)
- {
--	wakeup_class = class_create("wakeup");
--
--	return PTR_ERR_OR_ZERO(wakeup_class);
-+	return class_register(&wakeup_class);
- }
- postcore_initcall(wakeup_sources_sysfs_init);
+---
+Dmitry Torokhov (4):
+      x86/geode: fix on-stack property data usage
+      software node: allow passing reference args to PROPERTY_ENTRY_REF
+      software node: verify that property data is not on stack
+      x86/geode: use PROPERTY_ENTRY_REF for GPIO properties
+
+ arch/x86/platform/geode/geode-common.c | 24 ++++++++++++++++++------
+ drivers/base/swnode.c                  | 10 ++++++++++
+ include/linux/property.h               |  9 ++++++++-
+ 3 files changed, 36 insertions(+), 7 deletions(-)
+---
+base-commit: 3b058d1aeeeff27a7289529c4944291613b364e9
+change-id: 20260315-property-gpio-fix-51586cffcd5d
+
+Thanks.
+
 -- 
-2.53.0
+Dmitry
 
