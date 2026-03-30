@@ -1,124 +1,147 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5453921EC
-	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 02:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774837684; cv=none; b=dbWlTOIS2xSIEixrozp5CIIYdR53kpU9/WRayyCnE5IUsZhsJVc+c9MDaKqeWkvcqpX3dQ89a7woSMv17FbIp5wsLsV8CRUnkS4qDR2FgVseWu6tGc4kcTSfx4biya1VgXrzNwCS8RNxLjdMVB4YXZ1ErMtSlK56qGOT6BTyTM4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774837684; c=relaxed/simple;
-	bh=Gk/XhY40PWnO3LOxD5YjgUSYIokh9KUYlW7/pTRxeiE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cE4T6Dy8hcpsKT23xZUgSRmtybEqd0QwTVuFvmopVdYJaywCaYd5XCMTXWdpnbzXNNgwUIdCbpwuIEGbqgstW7bPFCZqC8WiG4QQX9XuuDvHs4miyH873JDVaKyovw7rpe51Uvzc+pd0Pzbm60qbgZ9fJDITzzudM27UTTb8WSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VskUwfdB; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1978F3B893B
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 10:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774865175; cv=pass; b=r6F3gXRgI735lW9l9fYkwlhxIGWWvMTP83TBVjGG+md+SScPnh6w/wei/cOfkMivMFzmLuHZkNR6MHJggIb9kjodIPP2otcfnehptipzdT0qRvVZzCahzCgcyuxy+wEIuohAnAC98FZClvBc5YCFCSglL4oHHZW6BNw7exU9H04=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774865175; c=relaxed/simple;
+	bh=Ywd3pp+a7x13fcHT11JUD4Jp/5rqd4sY6rHeKcAM4zE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kaE8wEJiCa6HjLAVDv/XcAh/TO87MQQZ6v91znmWKeFJP15IImM+sVDw/0F7Q0fEPkeUgtniQuSVcoZqDmhyLibbUamQfPRhjsKuD1IBfkc1cdmukxjDibrS64ym24g5M0Az/fNeVqtCnxRdWAbynF8wkb7lsFD0Q6ctL0Ej2Go=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BJXghJbJ; arc=pass smtp.client-ip=74.125.82.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VskUwfdB"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2c0c955a481so1096422eec.1
-        for <driver-core@lists.linux.dev>; Sun, 29 Mar 2026 19:28:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BJXghJbJ"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1277863a912so488578c88.0
+        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 03:06:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774865173; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SpepoPUPTUzVQRH7XUTgQrqQnTSp8/8PO8ZTeuRTwmDWGh4PtEMYsDL6wioVWBaStw
+         riyik4txSEDzm9Ih46ioS9Rsk1p1McqeTJI1++69mIRZ1hzz5IdZ1lwso1GClVZETAgl
+         jCMS5r5WxtmDTovFaE62yj9Jgb4ehsw3k6UfigWc+Nu8iflyktDdy9wv0nWbOhjLE1po
+         UiXc3DK//RRjQSGdnCpCW4jSbhHEZ1pDeZ38+DvdvuQq+UVmcejzqTDjxwmK5KvCSRvd
+         uf/54Z05HYz/7M6WXz8WzVrMeuLxzikI2b6LUdmhyM6DvSr7U0GAGh9WV1bwBF+Qmog7
+         hIbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eY4qIAfl6MiOyTCo7+liQfaObknXsV5FGDvEx8EzJgg=;
+        fh=modx5WxbGaL7Xyh9W4q7AH6GcsYdb+qBnXonOsSPMwE=;
+        b=MMCVtVvBIeMLT/VDIDYRjAfyeWKrLkKOtfUWDJNBd2xCt+wUOCTT6nDqPvg+KOqsPF
+         DIPTRE6UdsiGZciZAUqJNGGvUmP0YAqjQMZB/Yn3mExHSHkjvITmkUR9f1uUy8NWTXEQ
+         TA5YcfXQKjqdDrbPQIgd3RxEdCmsRTeiEmne1FxA31V+e1JI0hrMF9SuD+oK9iIg2QO1
+         FcVM9jsQasGFGfbAq/sTDR7u+mNBd4zb/LUqz9zRlGIi7x1ucBiH9q60j8yWI8QrVIfJ
+         hg3y7fMd5utErwfapCAy145K7EBSv9M7hURM7npWxKMuuo9S6RkVwc8V1UdQVNSweM+x
+         sIaA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774837683; x=1775442483; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iu5Dic5CoGqaGahlCm060hwT3Wf5ekOnX3Fgg92paMs=;
-        b=VskUwfdBYFoZGDBQ7MPTw1eURJEKa7/kykm3KSa1EbLQFQrVfiltgvPOjZZwhF5FtE
-         2FJFcp09QPi6fXsMstZEi7bm/LoskgBRzFhyGzYsrFuGbKb3GeqDUtmtZFbZeLyg/HtA
-         13LISe/CH3bz5VWs3pY/5DrYcZ3MhDO1sTjNQTixooi9h1zKGL9/mOSO1yiXLb5dOE8d
-         NRNMZIsG4wWJvsqf9QoS1UJJ5nH0dzntBQtEYHfH2cQkPOGhonAFXXGefN560n5tjXmK
-         P0cE92GcrpxQLMnNR1ri5Pfl3P3CQD3gGAHJTeetoUzYV47c56KG7MMC40LrNwl5hfLs
-         +NfA==
+        d=gmail.com; s=20251104; t=1774865173; x=1775469973; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eY4qIAfl6MiOyTCo7+liQfaObknXsV5FGDvEx8EzJgg=;
+        b=BJXghJbJOx1ovgr2ce1ktousGzcUR7bvsLa01nJy1jKn3mSV4pRDF0ze7hUDWiC/64
+         TgB07UiRigzFhW+CRmK47ut8PVS6uLkB0qf4wr1eNFman6baom66wl1lgIulmfOjkoJv
+         A4XFPPP5cE0PL4McqspCcRwgipX88nFmcWhlncekW2DoMM67ddCvqjJBdzR0KSJruJW8
+         AOV7p2PSVxtAf6JnppaKyC6DRDy9Awn7tkJwf/WVjAOTGD7t5LxX3WWrDEwU8X+rRbXL
+         6XdHxlp7SgHi718/2R+eWscKhmwohp8o3AksmIUB3DoeMHrnuxFwBkXRKADGIakImzkg
+         ph+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774837683; x=1775442483;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iu5Dic5CoGqaGahlCm060hwT3Wf5ekOnX3Fgg92paMs=;
-        b=UYiZYU6QMeK1rMEAxJKxep1J4O1UziEhCklZ63eMljP5JulYSzXl3CEbpel+gsuWQF
-         yv4iL6FO3RpFrl0qGjc4/awRFswe/CZ5kHJ9MuHCwV0NJNgMs09fi4YxUJr29XJ85ybj
-         cyUbqMxikfy6VKtuHPE3/AHhKVsRPb7kV1azH4peGGoJbjinljZL9OJPgXtSlWq3GyW7
-         M1iHlvTBrwrPiU7JO2MEEAqrQZS2/4XaUv0FlnQ/3doA5TPwrSn8kU9ldltkkEYEXuBk
-         pT7w3ZAU+XbAS8xm3OEybtB86KWfhhpztn7QnzXeI5drzF44Debv4bYQ5OV2YMXv+kQ0
-         PmBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXfP87XbZ5btDn/hdnVklhjfHm4hfpab5s3wj4f+XfmogcCKAQ3kLCXhfWd4utL+jlJ2mkJynD3fH+zig==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzq0HbJWw1nZp7BYfX3yRTiEOimZmrw7TJhxn1YV/PRXBiacYmi
-	7HUCMuMD2gg7LqQpcS/VkZdmCYbMi423hVss+sHitic62dPsSe5UpWf+
-X-Gm-Gg: ATEYQzwCI9HXcaXqZ+zhemaMN5mmf4KknP/xVGKb3u1moFB7eL5k8swH1mwjri+5FPB
-	bxD1o8n52u2S+hnv8ljogVKHtr/gjrhMmeLKuolWgEw9KLNO0p6AkvrqrSwrhga2yc2gRcurSLu
-	VjO1hZjTl19OpWFYP5smmU1EBpU1SgEgoyyWl0t9TY/aiBakuUM/eBhI2rkwlIWVJR0pfQkrqN0
-	3emnFYtskTD4/cc1rhtLtg1ua+v0g3/KxHbquOC4746Jj+tD7kI29J/ZZ0fmzn8LoUlX1/FcbB1
-	qBZka3IRb2Y+78fBoYSHHq4eKrTRSchrmOQqO3gjMgiSoQAnLXi9R/0wIwTpoTm8wIVTQlCaT4N
-	VLopQPi81nPtFzW7BTEJkSzmtt8NBAOqpVMXDBUXbadaaq34HaftF7ZvsNuICB7GmidjgQtY+II
-	jb7m3BBmYEp/h/O7Xevo/zbwt+oqOZMx92u4R7zvDk8oaCfMBIbrC5kaYdcQGV4XYYk86HcQ6gN
-	N7BKGaOqDN1w4w=
-X-Received: by 2002:a05:7301:6781:b0:2c0:d690:7bc with SMTP id 5a478bee46e88-2c185e16735mr6142104eec.22.1774837682719;
-        Sun, 29 Mar 2026 19:28:02 -0700 (PDT)
-Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:7265:773a:8e51:c62f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c7971d97sm6250673eec.30.2026.03.29.19.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 19:28:02 -0700 (PDT)
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Sun, 29 Mar 2026 19:27:51 -0700
-Subject: [PATCH v2 4/4] x86/geode: use PROPERTY_ENTRY_REF for GPIO
- properties
+        d=1e100.net; s=20251104; t=1774865173; x=1775469973;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eY4qIAfl6MiOyTCo7+liQfaObknXsV5FGDvEx8EzJgg=;
+        b=I3nsBCQr+1/ksy52x/uEDpmnOJyhddeiNmC9RWrFt5eVcjoRwmQ2G36RJk5pQRWexh
+         6fg1q3qZPovXT/WdUypb/RF3uFNS+qeuSGBTzdtbTblysy723xmcqMa4F1pkDOL2JoGu
+         o6rjoI7eBoscY2qyaclMDSbLp8mznH5biRgEGV6q2SaLOf1T4ZY+sic04Q7s9/idEMF3
+         3o4e6X6dUqQOKWgan8qGfyJWFdzN8WEvf+qF08gIeB/6QGyFzOk4LEtivCPvrEXCyIei
+         lzqEMqk1NCwUpqlN+MfQcIaqROTqO9YXJZB7/DeEorw30BD4HyPzIWvcLSyYzYlM5Syl
+         FjDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUkqpvjm46LQOJogToS3R9RaqZfTluds0klQN/Uy3UUHPNbXbnOiJgWQ3zk5GA3YUmqvC1I+POcqjIL3g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKabYyTjCuegzBTOeu0BsbQ7V2cMYkSuDMbKAiShaGlVv71lgX
+	ugGhgaPaxaC0yBMK5Rd90d4VI8xYQ2LV7SekZM2e/OySIr0rus7wD/dkW7p/wR6G5ZfnEGbM7lc
+	ybHqYhIz4OR4l8zCjaWNvUuC7MWzaOyc=
+X-Gm-Gg: ATEYQzz+HuGhhqOdTjLHSgzLAsYo69mLMTAhTKiA0z262ooBesnZK+M6Ol47GC1ThWX
+	PQZcUHipVUmfBvPNTRAIe2lX9BhAK95oyyR7VqDFtsTf8VuSYte/xMxivef1nAuy8wL4BLi4GOq
+	iDxwmFR+dObBfgDTbHOX9LnGJu/FEB2ODtQRavS8R4xx3KGcwWzE2AqGqXBNNsVH+aC8EjJmDXC
+	WsaV9DTGUBVwhLc6QsmI5LBKFsvOS05TpM7G/Nb4iaTbhDAIGqfptO05MHeSsa1xV8H6vXykgxl
+	pMTco+KHuuz3IZ2zDypwRvDPWi0vAQ7MfhrUNDcnMxOR0XvQsGGOwolSwXycL2OKs6gjRLk1wzX
+	BDnpH2FwF5jnFkr7VtxASuI8=
+X-Received: by 2002:a05:7300:fb96:b0:2c4:ec89:bdb with SMTP id
+ 5a478bee46e88-2c4ec8915ecmr1400436eec.2.1774865173005; Mon, 30 Mar 2026
+ 03:06:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260329-property-gpio-fix-v2-4-3cca5ba136d8@gmail.com>
-References: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
-In-Reply-To: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Hans de Goede <hansg@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Daniel Scally <djrscally@gmail.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
- driver-core@lists.linux.dev
-X-Mailer: b4 0.15-dev-a6826
+References: <20260330020234.16893-1-mo@sdhn.cc>
+In-Reply-To: <20260330020234.16893-1-mo@sdhn.cc>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 30 Mar 2026 12:06:00 +0200
+X-Gm-Features: AQROBzC3g4qfuwBhqsw85VSnp5GtlVYW2IgAIlbbBR5stdHYL4rKhoQojmHetT4
+Message-ID: <CANiq72=JT_3Fz68YGmxF5V22g_QCd0k6kDqhKumSdf1n9-ZzrQ@mail.gmail.com>
+Subject: Re: [PATCH] rust: replace `build_assert!` with `const_assert!`
+To: Mohamad Alsadhan <mo@sdhn.cc>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	driver-core@lists.linux.dev, Igor Korotin <igor.korotin.linux@gmail.com>, 
+	Tamir Duberstein <tamird@kernel.org>
+Cc: ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, lossin@kernel.org, aliceryhl@google.com, 
+	tmgross@umich.edu, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Now that the PROPERTY_ENTRY_REF macro can accept a pointer to struct
-software_node_ref_args directly, we don't need to use the more
-cumbersome PROPERTY_ENTRY_REF_ARRAY_LEN(..., 1) variant.
+On Mon, Mar 30, 2026 at 4:03=E2=80=AFAM Mohamad Alsadhan <mo@sdhn.cc> wrote=
+:
+>
+> Several Rust assertions currently use the `build_assert!` macro
+> despite their conditions only depending on type parameters or const
+> generics, not runtime values.
+>
+> Replace these with the more appropriate `const_assert!` macro which
+> should trigger earlier in the compilation pipeline. This is possible
+> since commit 560a7a9b9 ("rust: add `const_assert!` macro").
+>
+> No functional change intended.
+>
+> Signed-off-by: Mohamad Alsadhan <mo@sdhn.cc>
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- arch/x86/platform/geode/geode-common.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+These are the ones identified by your Klint PR, right?
 
-diff --git a/arch/x86/platform/geode/geode-common.c b/arch/x86/platform/geode/geode-common.c
-index 1843ae385e2d..6572ae388d7d 100644
---- a/arch/x86/platform/geode/geode-common.c
-+++ b/arch/x86/platform/geode/geode-common.c
-@@ -31,7 +31,7 @@ static const struct software_node geode_gpio_keys_node = {
- static struct software_node_ref_args geode_restart_gpio_ref;
- 
- static const struct property_entry geode_restart_key_props[] = {
--	PROPERTY_ENTRY_REF_ARRAY_LEN("gpios", &geode_restart_gpio_ref, 1),
-+	PROPERTY_ENTRY_REF("gpios", &geode_restart_gpio_ref),
- 	PROPERTY_ENTRY_U32("linux,code", KEY_RESTART),
- 	PROPERTY_ENTRY_STRING("label", "Reset button"),
- 	PROPERTY_ENTRY_U32("debounce-interval", 100),
-@@ -147,7 +147,7 @@ int __init geode_create_leds(const char *label, const struct geode_led *leds,
- 						       leds[i].pin,
- 						       GPIO_ACTIVE_LOW);
- 		props[i * 3 + 0] =
--			PROPERTY_ENTRY_REF_ARRAY_LEN("gpios", &gpio_refs[i], 1);
-+			PROPERTY_ENTRY_REF("gpios", &gpio_refs[i]);
- 		props[i * 3 + 1] =
- 			PROPERTY_ENTRY_STRING("linux,default-trigger",
- 					      leds[i].default_on ?
+It would be nice to mention that and link to it, so I can do that on apply:
 
--- 
-2.53.0.1018.g2bb0e51243-goog
+Link: https://github.com/Rust-for-Linux/klint/pull/13
 
+...especially considering the recently added guidelines, i.e. things
+like Coccinelle would apply:
+
+  https://docs.kernel.org/process/generated-content.html
+
+But it is also good publicity for Klint, it may get others to run it ;)
+
+>  rust/kernel/dma.rs            | 4 ++--
+>  rust/kernel/i2c.rs            | 2 +-
+>  rust/kernel/sync/locked_by.rs | 8 ++++----
+>  rust/kernel/xarray.rs         | 4 ++--
+
+Let's see if we get Acked-bys; otherwise, the patch could also be
+split and sent individually to subsystems.
+
+Cc'ing the maintainers as well (`scripts/get_maintainer.pl` is used to
+get the names and email of who to Cc in most cases -- please use it
+when sending future patches).
+
+Thanks!
+
+Cheers,
+Miguel
