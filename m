@@ -1,234 +1,152 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276E83A6B99
-	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 14:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC882BDC2A
+	for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 14:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774880984; cv=none; b=DSB/DeejRYZOoYcYzEaKNmBkHlK14hWzdntDy+SFliqvDzOvnNABOD8rDCfxguuFEzhPswm9M6YOMysqf+uEIkSMUwB0NgNIwjN5KNilmypLQsp+E18jKRx5+gDGQtL5+xlFdB1unBD8s8ceN9SmsAODmJaZ9SYpeK30tVRth4M=
+	t=1774881098; cv=none; b=DN2Mh3/Cz34ikuAOS3RyaunZybZz39VrlCxqG/E9O21POqDxHA9ow6zzpQnaOh3JfTddVzFdBIx1jhYGLquqmK8Zgrl366UxIdwtI8GzgjdCJnvATxS8Mhhptnid6QVb7OIsyKPZ7Vz/j5jkyMnZqf2xbsVqppLiakNhBsbzcTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774880984; c=relaxed/simple;
-	bh=8LQZSocESOF3veZ/bfrXbhh0O+so24+/tbM7fVlpCr0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oD4td+4HtaGqiFoCu+t59Xfov/JZR+S0+wgXP79b/Zfxy33jLs7HeQ2BLUOcKuiIVD9accElyfRBWS3XGXWT4q7p2QrIROuE/RZlFMj26ppoIaYBcc9xsW0UvX4qCX/zq72QY6DAemZ9onsEkY7MoQXbMKlzTwhq/a95aqHBAaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V5COCXBm; arc=none smtp.client-ip=74.125.82.41
+	s=arc-20240116; t=1774881098; c=relaxed/simple;
+	bh=h3FGVwRTPYOfB0zDSRnMIsrHoO/wxz/4EbZYgSdFw2c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mBXdUslue+4NL0rMnTeISXFX8EIHCQMlF/8iBIdEJ66cGMtvUUWEBzLuEUM2CXCF57wBqm+qa7qQJKsdwe/HOv4mlCOYAs5wucvdXqPqqtM8Ckl4YzPoId8RMoDFiCRUDb/EnDsd4oiwQy/fepoewgj2yD5rNE3SxB+BIyUbFbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GJ+JIP29; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V5COCXBm"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1273349c56bso5485283c88.0
-        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 07:29:41 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GJ+JIP29"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b98133bdc4bso556737966b.0
+        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 07:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1774880980; x=1775485780; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ACJ6Cr/IS11gucQGUIuPydXkCtkwKZa4TuMCqVkix8k=;
-        b=V5COCXBmbFyZ9du1lJIalKISUIlraSiCMVOJ936xDdzj/mb8pO1tZ9WPf49tDRHZYM
-         YBbYJrPXVmRugm89ouGXSiVhCuueb+5cueeZQZvaErQEA861c8YdfAQvoa8fDo8k5+19
-         oJT3fjDK544hJX/GerDAZrP2a/NzC4QMbyG9o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774880980; x=1775485780;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1774881091; x=1775485891; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ACJ6Cr/IS11gucQGUIuPydXkCtkwKZa4TuMCqVkix8k=;
-        b=hhUjIBVBo4/gaA6q3hcS2OshRJi0wauJqibaqkJ74kmA09KPYdwvy2c4WthMG8lnVN
-         5v4JSMQOUYNvLyTXZPan9MBY2kkPV1hVKl5ZXQVuW1BVQvfl7DObMkoBgq38VKUVkagF
-         t7sjvdAUThepnSDDXjyER54KzV7e6G9AOTfFhPfJ5Kaa36lmBst4XswB/1BBXdEvEgN7
-         DcbW9wdqPkaASRhj059v2GNbsY6z28pryTExxqlzlWAi4aOq6DIdj8i+hkzIr2NjzHCW
-         lKbeaidVDnomtVFvlVnU3nDrgFclNyFQ3XCKV2Y9jTLfZGPvkFA0GT5JXyeLZyNx3H/l
-         FLuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWysiQ6Tr/lX5Lv8gQOpnQ7zozbv3SO9FUXw7lumcbVs3t9HwkQ1uJuctmRuTBqMjRgryEWioQkHJ4JBA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVxyjK7hrzrvOw+1UrN/Y6t3rOByZN2TP9y7g4c9L4lGv7Iiq8
-	aNGc6D1z4pIJ1Yg2jxxfBtRM5AxBciIZ4PZZEUp8ogliOrDbQbmY4pDvuXOMJuiUFg==
-X-Gm-Gg: ATEYQzw0qSe9U6Ysi0/tRVy/V2KTR+OHqu/J9J/z516bkomAwvXBQnUawy2R9T+Abes
-	C939m5lWYQtm1unHUfa9P8jjp5/UJ6bxBynP8e1pvyOrz4oDujRwBeotvS4Z97DF64YVYgJs3Uc
-	GgXGeOzYvDbJdD93ec8B5PRpikyuy3BXc13FcdIOL2kGbD64umcFzD+zOobKjjpWYIaK8yZa78E
-	4vIWSfwyr88unQJGSK7BYfmui/4G1PzW76W1UT/EEZWR56MTPKp3SXyEKC7KvMFFljM+J+hSGsd
-	4kNHDhVWnM2YzjOx0xL32Mnjf2/YvUzXcCgWyDcdzX/gAb99YXwpaNbZw/IWQfnt5hy5wBjVCpq
-	XsZWWrLLUgADR638kAVY0aqRyqUYCk+8MzV9B13dScwqzMPf5mg/xlhlstpKGBTc+GQKTGhCJWd
-	Jvk07/naYDFcTJHDhvWrNfd62ME+lqLWeOD/0ussl9jMxrZ3GMLvqFJptFRmn1K5ni6Lkn+7MxB
-	nNM5OiMDxQ=
-X-Received: by 2002:a05:7022:628c:b0:128:d471:8c1 with SMTP id a92af1059eb24-12ab2890739mr6624565c88.17.1774880980067;
-        Mon, 30 Mar 2026 07:29:40 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:f4ab:830d:18d1:e45b])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12aba581027sm10665132c88.4.2026.03.30.07.29.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 07:29:38 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Kay Sievers <kay.sievers@vrfy.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	stable@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] driver core: Don't let a device probe until it's ready
-Date: Mon, 30 Mar 2026 07:28:41 -0700
-Message-ID: <20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
-X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
+        bh=/cqMaBn41Rar9mtlb33z9M/+19lyrnvUNl4CHgOmrTM=;
+        b=GJ+JIP29sRHTA7pohrVLS9Ijs1ErFGZlIzplzQpXSCXgGbvmJnL4BzZE4Ei+9j/qGn
+         arycKp5A3uzWbaMATRQIJgTxZw9yQXdfkVQ6gRpNrtF1P+coWVQqUlm3I7CcsdpGlIW6
+         RNnXKTru2xI04V12Ygi4FaXZ2msPcFac7D8EY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774881091; x=1775485891;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/cqMaBn41Rar9mtlb33z9M/+19lyrnvUNl4CHgOmrTM=;
+        b=BoyO/d3sxJoH0OW5I96JvHguO3MdUav9OyC6sIjwSdcWhOg4YsTCD6QjZwzlbGTUdi
+         RJTctfO68Sv5lC2/0bOIxyyEpFLKCte85Zt76Xb21K24dQo6yS/YgJxIZ9rxp+x+tUDD
+         MTG2xO5VD0AK8EbgBdlHlwAdmWPFThrQrTKwkTr0JdB1tFklWtMlfqjICfz48y/ftEo1
+         jhQp0mvHS6ZNvgawFiNzh7ThuZ76J4SZeHAkP9ZP2URxv5Y91567BeGiEzTccyXDDNwY
+         PaP4hbO5d7vCqutn0WFP+Y0spVNMdGiD7h/F9mCcyLQ11HDV5hPAV/9vaA7xEs5spwoA
+         xUTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWnTGzhfd1Mg7GY/e3Vr2y17BcKFLac4lrh/0IKPfNEcUf6mL78pvIubwCOC4F6VPRhk7DjVc3fuLcttg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+HH+D3635Dw0FOB/QoM6cxIhQ4TiKwydscbYTJvABYNOPkqUF
+	/c7AuZvMFCZtT9AIoQuL7NhIwhyuDz7YurOwanvBxlTjW6U0XKV0JS0meDMC5Ha4J8vzxQo4Bo8
+	n2zleOQ==
+X-Gm-Gg: ATEYQzySLRX/Cw9VPU1KD2fMuIeJbb8uG8W7fstmbg/r0hMy4AtBxErO7ylNroAtb1z
+	SG/Qv1t0Lik4dSTBhyvD+O+79atsChGj3CnpbsFIH4M+0COkn1mUX5HPIj8962kW+NUEPrYn3hx
+	27GECPZiX+5z4BDTdCtyOls2NIY2LuUulck8u7gKbtgw8zv5h68j15sAQMQmwhPcA3+247jr/bb
+	ytfjDlKZMNLMeUtLC/leBtMFt5IPaupQBJD+UVxVx6ltfU9YTAr5gV2Vq+axSkhe1KeupCBYYRP
+	td2uElfUUvmllfkiFMpBrm0pngfcz8/NYPgh/P4ZhMwzeVYSNC/ivyiZ01Ivj1w0hmg51FK4lLK
+	lCrBp5HB2S5iziJfr0Zz6orjbEHOHHQQJhi18PFdyFE21KC6VUV3q5SpXHISXfU3lSHzEUGgqcQ
+	1f0mXYbE5beG9DDyMJWmHDpI0f89fIdbDURqL7EPl/+HywLUvQpqV9Ra0Y1N0+eA==
+X-Received: by 2002:a17:907:6c0f:b0:b97:98e9:1b17 with SMTP id a640c23a62f3a-b9b507b2d00mr747334166b.28.1774881090894;
+        Mon, 30 Mar 2026 07:31:30 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com. [209.85.218.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7b1e472dsm299136466b.50.2026.03.30.07.31.28
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2026 07:31:30 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b936331786dso495655166b.3
+        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 07:31:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVMj2laE0scHX1Rx3KcWYrP/GMB2iOx7wKr4tMGxsrFeFC4HbSPDsgvHlLmhSEpZd6bMmOrJA86IiI8FA==@lists.linux.dev
+X-Received: by 2002:a17:907:e158:b0:b98:32c1:2465 with SMTP id
+ a640c23a62f3a-b9b5094ea6emr617512066b.48.1774881088102; Mon, 30 Mar 2026
+ 07:31:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <2026032114-unlocked-unmoving-091b@gregkh> <CAD=FV=WPD5DueD5iGvsxZYUGy7XAQ2NQ2BTJTyVSVNtYYrWOHQ@mail.gmail.com>
+ <6ff1444b-f83e-47f6-ab0d-6745738523ba@rowland.harvard.edu>
+ <CAD=FV=Vco+hRBNxGpUDf-YofEwTR13ht=nTnjvUvT+3_76+1MA@mail.gmail.com>
+ <6511a5b9-ac67-49a1-8336-3d2afaaab593@rowland.harvard.edu>
+ <CAD=FV=WBgKN2MNO-xBHZ3tRN91M82vk3h1AEAXtpBQ-nQocKCQ@mail.gmail.com>
+ <bfd4e1f5-7bc5-448d-aa33-1a977bf00733@rowland.harvard.edu>
+ <CAD=FV=WeeBoQAoPgNq+5ocZas+mOn1RuNto3k57ag4ODo2vOLw@mail.gmail.com>
+ <852cd509-4ce1-4b22-ab1f-b9b9bbf6a52e@rowland.harvard.edu>
+ <CAD=FV=UroO1vQYJDkrp86D475F8b-RStUXYejWwTQ0NqP1a_ew@mail.gmail.com> <5ea67deb-e669-4faa-be47-b1b225f1194a@rowland.harvard.edu>
+In-Reply-To: <5ea67deb-e669-4faa-be47-b1b225f1194a@rowland.harvard.edu>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 30 Mar 2026 07:31:16 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VPRchnWroMXtjdiMoGwz8JvO1aZFPEioOO54LoY3Cw2g@mail.gmail.com>
+X-Gm-Features: AQROBzD_XzWh9fcI0DGus-Fi8sX9sgc08LM_4d2MoOacxTHrOysvfL0PhdVqk6E
+Message-ID: <CAD=FV=VPRchnWroMXtjdiMoGwz8JvO1aZFPEioOO54LoY3Cw2g@mail.gmail.com>
+Subject: Re: [RFC PATCH] driver core: Don't link the device to the bus until
+ we're ready to probe
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The moment we link a "struct device" into the list of devices for the
-bus, it's possible probe can happen. This is because another thread
-can load the driver at any time and that can cause the device to
-probe. This has been seen in practice with a stack crawl that looks
-like this [1]:
+Hi,
 
-  really_probe()
-  __driver_probe_device()
-  driver_probe_device()
-  __driver_attach()
-  bus_for_each_dev()
-  driver_attach()
-  bus_add_driver()
-  driver_register()
-  __platform_driver_register()
-  init_module() [some module]
-  do_one_initcall()
-  do_init_module()
-  load_module()
-  __arm64_sys_finit_module()
-  invoke_syscall()
+On Fri, Mar 27, 2026 at 6:35=E2=80=AFPM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> On Fri, Mar 27, 2026 at 12:30:47PM -0700, Doug Anderson wrote:
+> > > But why just in that one case?  That's what I don't understand.  If i=
+t's
+> > > not okay to bind at this time on the driver-load path, why is it okay=
+ to
+> > > bind on other pathways (such as bus.c:bind_store())?
+> >
+> > Ah, I see!
+> >
+> > Yeah, OK. I spent more time, and I think I've a patch that will
+> > address things. I still like adding the "ready_to_probe" flag and
+> > setting it in device_add() right before bus_probe_device(). ...but
+> > I've changed where I'm testing this flag. Now I've got the test in
+> > __driver_probe_device(), where I simply do:
+> >
+> >   /*
+> >    * In device_add(), the "struct device" gets linked into the subsyste=
+m's
+> >    * list of devices and broadcast to userspace (via uevent) before we'=
+re
+> >    * quite ready to probe. Those open pathways to driver probe before
+> >    * we've finished enough of device_add() to reliably support probe.
+> >    * Detect this and tell other pathways to try again later. device_add=
+()
+> >    * itself will also try to probe immediately after setting
+> >    * "ready_to_probe".
+> >    */
+> >   if (!dev->ready_to_probe)
+> >     return dev_err_probe(dev, -EPROBE_DEFER, "Device not ready_to_probe=
+");
+> >
+> > I think that is more inline with your intuition that we should return
+> > some sort of "try again" code when we end up with this situation. This
+> > should also block _all_ probe paths safely by adding to the deferral
+> > list (just in case) or returning -EAGAIN (in the case of
+> > device_driver_attach()).
+> >
+> > Does that sound like what you're looking for?
+>
+> Yes, that's exactly what I was asking about.  Let's see the complete
+> patch!
 
-As a result of the above, it was seen that device_links_driver_bound()
-could be called for the device before "dev->fwnode->dev" was
-assigned. This prevented __fw_devlink_pickup_dangling_consumers() from
-being called which meant that other devices waiting on our driver's
-sub-nodes were stuck deferring forever.
+Yay! Thank you for your patience / reviews / help. As always, it's
+much appreciated!
 
-It's believed that this problem is showing up suddenly for two
-reasons:
-1. Android has recently (last ~1 year) implemented an optimization to
-   the order it loads modules [2]. When devices opt-in to this faster
-   loading, modules are loaded one-after-the-other very quickly. This
-   is unlike how other distributions do it. The reproduction of this
-   problem has only been seen on devices that opt-in to Android's
-   "parallel module loading".
-2. Android devices typically opt-in to fw_devlink, and the most
-   noticeable issue is the NULL "dev->fwnode->dev" in
-   device_links_driver_bound(). fw_devlink is somewhat new code and
-   also not in use by all Linux devices.
+I ran tests over the weekend and things look really good, so I've
+posted v2 here:
 
-Even though the specific symptom where "dev->fwnode->dev" wasn't
-assigned could be fixed by moving that assignment higher in
-device_add(), other parts of device_add() (like the call to
-device_pm_add()) are also important to run before probe. Only moving
-the "dev->fwnode->dev" assignment would likely fix the current
-symptoms but lead to difficult-to-debug problems in the future.
+https://lore.kernel.org/r/20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabce=
+ad688d0d8c17@changeid
 
-Fix the problem by preventing probe until device_add() has run far
-enough that the device is ready to probe. If somehow we end up trying
-to probe before we're allowed, __driver_probe_device() will return
--EPROBE_DEFER which will make certain the device is noticed.
-
-In the race condition that was seen with Android's faster module
-loading, we will temporarily add the device to the deferred list and
-then take it off immediately when device_add() probes the device.
-
-[1] Captured on a machine running a downstream 6.6 kernel
-[2] https://cs.android.com/android/platform/superproject/main/+/main:system/core/libmodprobe/libmodprobe.cpp?q=LoadModulesParallel
-
-Cc: stable@vger.kernel.org
-Fixes: 2023c610dc54 ("Driver core: add new device to bus's list before probing")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-v1: https://lore.kernel.org/r/20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid
-
-This v2 feels like a very safe change. It doesn't change the ordering
-of any steps of probe and it _just_ prevents the early probe from
-happening.
-
-I ran tests where I turned the printout "Device not ready_to_probe" on
-and I could see the printout happening, evidence of the race occurring
-from other printouts, and things successfully being resolved.
-
-Changes in v2:
-- Instead of adjusting the ordering, use "ready_to_probe" flag
-
- drivers/base/core.c    | 15 +++++++++++++++
- drivers/base/dd.c      | 12 ++++++++++++
- include/linux/device.h |  3 +++
- 3 files changed, 30 insertions(+)
-
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 09b98f02f559..4caa3fd1ecdb 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -3688,6 +3688,21 @@ int device_add(struct device *dev)
- 		fw_devlink_link_device(dev);
- 	}
- 
-+	/*
-+	 * The moment the device was linked into the bus's "klist_devices" in
-+	 * bus_add_device() then it's possible that probe could have been
-+	 * attempted in a different thread via userspace loading a driver
-+	 * matching the device. "ready_to_probe" being false would have blocked
-+	 * those attempts. Now that all of the above initialization has
-+	 * happened, unblock probe. If probe happens through another thread
-+	 * after this point but before bus_probe_device() runs then it's fine.
-+	 * bus_probe_device() -> device_initial_probe() -> __device_attach()
-+	 * will notice (under device_lock) that the device is already bound.
-+	 */
-+	device_lock(dev);
-+	dev->ready_to_probe = true;
-+	device_unlock(dev);
-+
- 	bus_probe_device(dev);
- 
- 	/*
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 37c7e54e0e4c..a1762254828f 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -848,6 +848,18 @@ static int __driver_probe_device(const struct device_driver *drv, struct device
- 	if (dev->driver)
- 		return -EBUSY;
- 
-+	/*
-+	 * In device_add(), the "struct device" gets linked into the subsystem's
-+	 * list of devices and broadcast to userspace (via uevent) before we're
-+	 * quite ready to probe. Those open pathways to driver probe before
-+	 * we've finished enough of device_add() to reliably support probe.
-+	 * Detect this and tell other pathways to try again later. device_add()
-+	 * itself will also try to probe immediately after setting
-+	 * "ready_to_probe".
-+	 */
-+	if (!dev->ready_to_probe)
-+		return dev_err_probe(dev, -EPROBE_DEFER, "Device not ready_to_probe");
-+
- 	dev->can_match = true;
- 	dev_dbg(dev, "bus: '%s': %s: matched device with driver %s\n",
- 		drv->bus->name, __func__, drv->name);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index e65d564f01cd..e2f83384b627 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -553,6 +553,8 @@ struct device_physical_location {
-  * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
-  * @dma_iommu: Device is using default IOMMU implementation for DMA and
-  *		doesn't rely on dma_ops structure.
-+ * @ready_to_probe: If set to %true then device_add() has finished enough
-+ *		initialization that probe could be called.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-  * instance of struct device. The device structure contains the information
-@@ -675,6 +677,7 @@ struct device {
- #ifdef CONFIG_IOMMU_DMA
- 	bool			dma_iommu:1;
- #endif
-+	bool			ready_to_probe:1;
- };
- 
- /**
--- 
-2.53.0.1018.g2bb0e51243-goog
-
+-Doug
