@@ -1,76 +1,72 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F342D29ACDD
-	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 05:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2141E38737F
+	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 06:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774936190; cv=none; b=EGp0z3tFzt3OmMTkCwUnXt5uj3gf/KIWHTNd0WLY6bH83xSRk4ddk6/gF3Ig3/rzEsC4Kbn8J5floQ7M2SBhoI6QCeqRWrzUimMQzf5F0WH6J9SCaX9sFPV4NG6h1EfL88HpWuWUTsV1V1OInnQH190V8QpJP2pZcS5S8D4qllo=
+	t=1774938342; cv=none; b=gdqx0QbxBEfgCpR0A3yCpcxXcrOkTydowJ7fj92sEhZA7patMjVmSMLp+J/aYoKhlsEj80T3cHwH6pK6N6oYFmTyK0BjxzQ89SPnzU1O7D9LEQoim095oopWKjGsjahKpQ0eqHogj7vYAOI1TlCZS3/DlVYqtbR1qPsb8uBTXz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774936190; c=relaxed/simple;
-	bh=s8uPxYPuNODo2d+i6hzGWmLatHFJixudqC42WwqrVl4=;
+	s=arc-20240116; t=1774938342; c=relaxed/simple;
+	bh=3VFiO/9e0/Dwa/+IPq3LFbEGBlbpH2h2kskMyOOM2wU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qfhWkTIslxYwQnxRiWAjtJqHl0RgDhkkjlRXUQaH6ShVJsQGoHb5fB5GLPCteIku584cOKsM4qVyKrLB/0QtnUiDyaPnsGLuIkO7Q40N0RMr/dXXhtKLTlr/+yizP9q/mLv7bC553zBZpcpBmFNvKnR0WcP6gRWg0KYnrpmNG2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hxVosbit; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=f+ff9PV3NCE9CjV4W648M6rlVOdLDgKBlrN05z5Dr1g6kOnTUqnZr4dV6FaT5Nw9pehe+A5IV2rQv6LlyhTeulQOi0rHykawZ8d/GS1e3eD37hKZhpNKBh+S5xudaTsxLnMg+jEDFKYWOJOs1aSPZSxbkZwmP6Crmp7POFBOoPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2mIq6aQ; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hxVosbit"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2b4520f6b32so5814484eec.0
-        for <driver-core@lists.linux.dev>; Mon, 30 Mar 2026 22:49:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774936187; x=1775540987; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=G6ZalXvRcEM7eynFKSA3Ox/Wlzblw8FW9y63x9o9NVw=;
-        b=hxVosbitJIt31BTb2jTe4DdslMEpK/AqO4aUHmbmaPgQd4GE+s9H3XAym7TxXmq9y2
-         aTuiMD260te4BZ5xQEMhm6qcBZ9WmLjrLNYZDBt1apwZ+xa3WmoN779ywxD+5zfQKkLl
-         a0ztTwpv4gtz20I2mNu9HCup0EYxEpmCofZT55pRaWeGFx+0vNEk9vyLGSARwifPEXFS
-         fiVWunPzSR35JEot4dpuAmiWUFOeckPi/g4ZmZIyJA0U43kJbL89QZA/zf8MX+LidF7z
-         nOXsgWxLv30n89lgCAtTSNTMfsddiCEcD4Oeo3Yfxa6H43xzvbc93cHpHXRGZuffbLWf
-         zHsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774936187; x=1775540987;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G6ZalXvRcEM7eynFKSA3Ox/Wlzblw8FW9y63x9o9NVw=;
-        b=cbfEaDbkP4ANnV3rw9tbaWSrM4UtcN+c41p0n/F2OxVRxWFG6UR8O8Js+rg4fg0CZO
-         HJvV0SDUBwb/yY/qJKKOlRfPmB6ixitBAhBXEA3yBaFj+A/vDnzLQyNCBniCH9K7oQLA
-         M2h704FU5ciqDRaf7cM0qgIG2iAhHvuItOxXw5KDt1Vrgr/k14cidQEue2M1e2uZ5W9H
-         6Ck5xDgYpmabtc486yb82QwCR3bWYCtcLQEoyuQioHbQ4ibS+Z5+9g43a3tXjKrk4Pmr
-         4O8bGC1Clng16XkNTtEtoLmZOzeTSBEpjGkSQqARU2+W+mj2edbycn8P4AoCI4Akmb3w
-         50lQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWs/xkt7D9NZGMq7o6pwoxLWouvAKmNU5kNJp8tp9ralLRcpRZ44xpi5v0VzId1jWyrRaJp+EOlyA5//w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUOKwcTtwR0ZZdgDQXOmogW327e96JON4I9RsmCX1Sl8VvqlrW
-	Ipr+Qq0DB+zg//GjiAQ5qLnDH4FkRSJjRRuGkQAYuSZHVeAyh5OATymN
-X-Gm-Gg: ATEYQzzIlZW/6wJMCP+Fdto2iiFHBqILrIYtBvo2b3PbJuo+VKOEA3XKs0+vTPehFM4
-	XaZhO655pnwXepwSsVujnwe7szrkfa8KNfEQMD0MIwy/TozfVlIf818hUQa5ffC4CW0xRLkw7Hq
-	CczFjvxbH3PuiV4P4LwqJ1Qy+6TFarIDe30UaYytoOw4u34K/KozYc2enzrLrVFAwUPkyBTGsNs
-	Je4cuDUNYNZQYFvO1FWnRrOpfmtFIvWbFeMaJ4X62cTQwAenzhJdEcd3ejbQ21pGMgEtl3gjHC+
-	6OPaUeFOXQBsQcuKsg+Ekb3DJm6Gu2nOs2VOB0L0xB90m3PlbYxVMfAvXZ8cflhfodecF5Aztp5
-	vdHeR7sCBt5gQ9limWVeiQbxUt88zVxP9sBL1yU9VZlhSNaFw5aUR9sSqU4+eLQY1st/IedmvbS
-	uddqaTsPxU+3KDFSw7xtAYO0Y9WiRVo1jwEY+W+6r2c/bymmNVeynOEVyY9lQrdwaO
-X-Received: by 2002:a05:7300:e60b:b0:2c1:85a:d25d with SMTP id 5a478bee46e88-2c185d74157mr8785111eec.1.1774936187043;
-        Mon, 30 Mar 2026 22:49:47 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:7f4e:2749:b37a:e9d5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c3bda13csm9275122eec.6.2026.03.30.22.49.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2026 22:49:46 -0700 (PDT)
-Date: Mon, 30 Mar 2026 22:49:42 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Hans de Goede <hansg@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] x86/geode: fix on-stack property data usage
-Message-ID: <actgKlES7sfLk16q@google.com>
-References: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
- <20260329-property-gpio-fix-v2-1-3cca5ba136d8@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2mIq6aQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774938341; x=1806474341;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3VFiO/9e0/Dwa/+IPq3LFbEGBlbpH2h2kskMyOOM2wU=;
+  b=M2mIq6aQm0Wf2Z5nB/MA+dMiE3IMI6YqKp2tWv0V6X/t72wRFCQfpACP
+   S6U3vW2MWIYnDG3S/hUv7HI9kSOwP4PfKaQiZ4m/DVVq3BsI5pi4wlsuQ
+   WcHKduVZIFgR137Px3hv4AE1RNMaG+e1wctxSKKydBr8/4U2mIiaeS2D7
+   g25ILUWpQv34mN/BnYmMoMkcmFHtZ6ArVU8vRcTYNT08HMFvTCm0Tl3KI
+   Y1Hesl39EuC8j6OkUOWdhRNEyMztUDBelqJuU4qOItuClxR6J5dM3D9n7
+   w3aBwfnae06fSWUoQhI2AqS2o+s8r2IhYcMJTf3CrlGkCyXj0hgDZsvgN
+   A==;
+X-CSE-ConnectionGUID: 1BlTnxFbTpi0yoMQ6w7m4g==
+X-CSE-MsgGUID: +TBjZzZxTKCKJpt8gnR9Lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="93323398"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="93323398"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:25:41 -0700
+X-CSE-ConnectionGUID: tM5AvxKvTS20bU+YYeM05g==
+X-CSE-MsgGUID: XLXLMmThTjauDlTqrccrPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="230730554"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 23:25:35 -0700
+Date: Tue, 31 Mar 2026 09:25:33 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Kevin Hilman <khilman@baylibre.com>, Arnd Bergmann <arnd@arndb.de>,
+	brgl@kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] driver core: make software nodes available earlier
+Message-ID: <acto3TE1AR8iTzF0@ashevche-desk.local>
+References: <20260330-nokia770-gpio-swnodes-v4-0-b68592e977d0@oss.qualcomm.com>
+ <20260330-nokia770-gpio-swnodes-v4-2-b68592e977d0@oss.qualcomm.com>
+ <acrcDTPpXZ_5A4D8@ashevche-desk.local>
+ <acruxMNdnUlyRHiy@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -79,26 +75,42 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260329-property-gpio-fix-v2-1-3cca5ba136d8@gmail.com>
+In-Reply-To: <acruxMNdnUlyRHiy@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Mar 29, 2026 at 07:27:48PM -0700, Dmitry Torokhov wrote:
-> The PROPERTY_ENTRY_GPIO macro (and by extension PROPERTY_ENTRY_REF)
-> creates a temporary software_node_ref_args structure on the stack
-> when used in a runtime assignment. This results in the property
-> pointing to data that is invalid once the function returns.
+On Mon, Mar 30, 2026 at 02:46:45PM -0700, Dmitry Torokhov wrote:
+> On Mon, Mar 30, 2026 at 11:24:45PM +0300, Andy Shevchenko wrote:
+> > On Mon, Mar 30, 2026 at 02:40:47PM +0200, Bartosz Golaszewski wrote:
+
+...
+
+> > > -static void __exit software_node_exit(void)
+> > > -{
+> > > -	ida_destroy(&swnode_root_ids);
+> > > -	kset_unregister(swnode_kset);
+> > >  }
+> > > -__exitcall(software_node_exit);
+> > 
+> > Why? What's wrong with the __exitcall?
 > 
-> Fix this by ensuring the GPIO reference data is not stored on stack and
-> using PROPERTY_ENTRY_REF_ARRAY_LEN() to point directly to the persistent
-> reference data.
+> It's dead code. Always was, always will be.
 > 
-> Fixes: 298c9babadb8 ("x86/platform/geode: switch GPIO buttons and LEDs to software properties")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Maybe split in a separate patch, but I sometimes feel the idea of "one
+> change" is taken to extreme and adds to both developer's and maintainers
+> burden by needing to keep track of extra patches.
 
-While we are discussing with Andy patches 2-4 maybe this one can be
-picked up? It does fix (I hope)(I hope)  a real issue in the field.
+Why does __exitcall() exist then? It's also used in other places.
+I think it's generally good to have a possibility to clean up
+after run.
 
-Thanks.
+A bit of archaeology:
+
+The first time it appeared was in the bcc2152647b8 ("Import 2.4.0-test3pre3").
+Then somehow spread a bit (but not much).
 
 -- 
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
