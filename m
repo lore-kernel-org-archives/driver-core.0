@@ -1,131 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293A4382383
-	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 11:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E9836CDFE
+	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 12:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774955377; cv=none; b=Ikfa7sMqLcVsBRLl1V1AgCxCCfm19HEQhkIpUNdcdPg8jn/go0unTP998/zL69TnNz804Pa0H5biQj54K6HpIkJyKNuq+9Z749pSk+CH+kDGpLaWWu29mUqY4t2jke1+n+mwCfFsfZElhWCo3Yg6wzAFB1E1SlxVUTX3otyHirQ=
+	t=1774959502; cv=none; b=UGAwIALn/x9bXu3P+8q3A8Kjot+Iynpl32A/sD0r+/yk5i+D8fepGmNiS79u7QrM3fnET/E9T2FGNcg0HUhfOyXegTumU3afrosvbNlW7aWvqvEIkNBpb/hTe57wxplfGdLlkF6aCAvg1dTrEI3QgdN0g/5f3djaiwiALbZ5Oi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774955377; c=relaxed/simple;
-	bh=LpiNwcecD6qE6BaocrRQkrHduswXspS89v1SmDxcGYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NpfwwJdAmEYK87EmPYXW/2m+zHl7l2owUb1gHvJxJfRraKdKNltsltoPuJwQkPVBDPbyOPro66Db/2qdPam6aHyyzQUkSV75GN9UPlYuxqnpx0ImLA9KjaL0dH+7jFTIv7icXw/iRl/vJwX3wjrkY/X05TBNKvYHqHeK29zg4QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwLhrCz7; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774959502; c=relaxed/simple;
+	bh=NrKb3Hx3cKJoOdTevgDagOXB1CFIHAEOMb1inHGc+cM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oNoODZMqNPQ0XGnk4sQZV3wZMCXO6ypkNiRx7ItI70ZpWOogqRVERfTCOYWrXGI45wusGn9UGmSo0cDNED+mKf9xOz0AH9GtoaxRS1ZPRW99MloV+Hd9ALL1rlt3kGVvmiTY4hryxmRrEgMDTa32TwaBcl/Z9TPGifY3+c0zy5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lkuHisc7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwLhrCz7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774955376; x=1806491376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LpiNwcecD6qE6BaocrRQkrHduswXspS89v1SmDxcGYY=;
-  b=gwLhrCz7THVDua2Xkomb5/3CwIe64YkS7Oh7kjBTlJcfAAL8BXW2llQH
-   ne/WU+SOo3L3bdnyyo4y1Pv9ZBfMB/NMlnRn1bn8Gnu97ctBaN4vF90rz
-   giruMMTnQWvDbfIu0+C0KUvUHoe5sFOg1rntKVeCd3mvdfdyqwhaGytsO
-   nGS//LY+9N4R7MfekpckbNYnbtpTJtp38Q+wl7tEdRP0AR1k7zzm9KrIW
-   WDbM9BZVVXPPPUUx4GGnXvGEP1NHfvdAvRqG04MjmmwnCGsq33eKiwwxS
-   tWX17A8efbFq2qnyUjKUeOIJsXy4ofXeJaM6A14C5U0CVYuaEkmBo/YZ/
-   w==;
-X-CSE-ConnectionGUID: P21VYQKDQzG4OZUY3SPjsw==
-X-CSE-MsgGUID: 1k59LbAmTwChS1n1RrQKug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="79564588"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="79564588"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 04:09:35 -0700
-X-CSE-ConnectionGUID: gzK6vAGlTtOKb5e4wFOCIQ==
-X-CSE-MsgGUID: Cb2BImrJSVqLNPi0PBgcbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="231267662"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 04:09:31 -0700
-Date: Tue, 31 Mar 2026 14:09:28 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Linux-OMAP <linux-omap@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] driver core: make software nodes available earlier
-Message-ID: <acuraLhLVgyP-LUK@ashevche-desk.local>
-References: <20260330-nokia770-gpio-swnodes-v4-0-b68592e977d0@oss.qualcomm.com>
- <20260330-nokia770-gpio-swnodes-v4-2-b68592e977d0@oss.qualcomm.com>
- <acrcDTPpXZ_5A4D8@ashevche-desk.local>
- <acruxMNdnUlyRHiy@google.com>
- <acto3TE1AR8iTzF0@ashevche-desk.local>
- <DDF494E5-C188-4A86-AC02-265B6169B591@gmail.com>
- <acuMD7Oly4XWW4n8@ashevche-desk.local>
- <9359e475-fc8e-4d32-9ab4-383710170553@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lkuHisc7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4E28C2BCB5
+	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 12:18:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774959501;
+	bh=NrKb3Hx3cKJoOdTevgDagOXB1CFIHAEOMb1inHGc+cM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lkuHisc7NK3Db9kq6X82/ItrdEbbosaMVACrKLX2u4R1M9UgXSyIRENpBdu7QRlr0
+	 YVmuIqe0pf4fWUQkd9i8za4eqS70H00zZjL9Zst20gJtbw0z88xFlmyx/MNcK5CXsA
+	 RjNtoAP2UNzBVW3O5lZrfmlbqmDbPUf9mbBepds5b72HyQx9zj3+i6gJTtvg41MySX
+	 5gyb+2GwKZe2zrsKH3SvKIS8LmLttc1VoBz+38bhixh3br8PUA1L035sDyBXyGhJaa
+	 +31oZ7oFm6JkNcWQCKIBcmBPILpKScssebQPf3+GcO4nlQ8TqEPmgMLssbpHXGVDZI
+	 jAVSXnzYvPr6A==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-417571c6083so3041954fac.2
+        for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 05:18:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUtUw6rqMFw4f5KR+V9f0DPpZHxHQ+q+zra0DngP3iPihC+nnreG0tvb1lgRE6r9pF35n/m92OfAiu3Uw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgMlg61jf/oZzwvrwhYfkfNa5imjX6mA6H3w2+CfmjbR+ZoLCk
+	8hhoSI0hW79bXtid+4AANkv2j/fJqvT9qAvLmeDWKKING1Bunu8XM1eQUFIqvoSR4CQOZzmacF8
+	K/sHJ180PboBacK9eGcTb/V0jh8gHG/8=
+X-Received: by 2002:a05:6870:bb0d:b0:409:b5a3:42bb with SMTP id
+ 586e51a60fabf-41cec33f322mr8024838fac.31.1774959500820; Tue, 31 Mar 2026
+ 05:18:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9359e475-fc8e-4d32-9ab4-383710170553@app.fastmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <acIV6xF8mY-8wd5e@google.com> <CAMRc=MdJ0U2_ZQ5rP0Vmbv7+-xurf9F+WOwD3LwV=n5Fx33U=Q@mail.gmail.com>
+ <acK69OColNT7ViLf@google.com> <CAMRc=Mcw66QpjQt4+_JdMq9JiAY28hjzNHa24gfOCCXyie-uRQ@mail.gmail.com>
+ <acTtzuGD-K5XvVir@ashevche-desk.local> <CAMRc=MeEMx1w5HaXBUP6iAu8T8b7Ti1i7JVDDTwvpjaEOtDJuw@mail.gmail.com>
+ <acTwqD8fXZSncMIS@ashevche-desk.local> <acTy8Wkfs8Sx84oZ@ashevche-desk.local>
+ <CAMRc=MdrxYRhB3MWnhTPM9FqzF-_P7Br5mRJ7kYOxQ2G3zjdow@mail.gmail.com> <acWChJZK-xwpuTZM@ashevche-desk.local>
+In-Reply-To: <acWChJZK-xwpuTZM@ashevche-desk.local>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 31 Mar 2026 14:18:08 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0i-3eG_fGAfS7oAf3gBac-K0EUuBfgsUShu6+0=PMC7uA@mail.gmail.com>
+X-Gm-Features: AQROBzBepqKiiMX5qG_ajp9HutWOQhTUXdB9zgxGE_X9kLiUvl9QoBSsUD3u5R8
+Message-ID: <CAJZ5v0i-3eG_fGAfS7oAf3gBac-K0EUuBfgsUShu6+0=PMC7uA@mail.gmail.com>
+Subject: Re: [PATCH] software node: allow referencing software nodes by name
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Danilo Krummrich <dakr@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 31, 2026 at 12:45:59PM +0200, Arnd Bergmann wrote:
-> On Tue, Mar 31, 2026, at 10:55, Andy Shevchenko wrote:
-> > On Mon, Mar 30, 2026 at 11:52:34PM -0700, Dmitry Torokhov wrote:
-> >> On March 30, 2026 11:25:33 PM PDT, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> >> >On Mon, Mar 30, 2026 at 02:46:45PM -0700, Dmitry Torokhov wrote:
-> >> 
-> >> The code section will be discarded when the kernel finishes booting so it
-> >> only increases image size on disk. 
+On Thu, Mar 26, 2026 at 8:01=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Mar 26, 2026 at 04:47:00PM +0100, Bartosz Golaszewski wrote:
+> > On Thu, Mar 26, 2026 at 9:48=E2=80=AFAM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Thu, Mar 26, 2026 at 10:39:09AM +0200, Andy Shevchenko wrote:
+> > > > On Thu, Mar 26, 2026 at 09:34:01AM +0100, Bartosz Golaszewski wrote=
+:
+>
+> ...
+>
+> > > > I believe so. See how we find a GPIO chip in the gpiolib-acpi-core.=
+c.
+> > > > In the similar way you can try finding any object in ACPI namespace=
+.
+> > > >
+> > > > But note, ":00" is part of device instance name, it's not available
+> > > > in ACPI namespace. There we have HID, UID, et cetera, ":00" is pure
+> > > > Linux kernel thingy.
+> > >
+> > > We have acpi_dev_present(), but if you read its kernel-doc, it sugges=
+ts
+> > > to use acpi_get_devices() for the case of early checks (before device
+> > > are actually being instantiated).
 > >
-> > Almost true. Interesting microblaze case, where it's not discarded.
-> > But I can't find where it's actually used on any architecture.
-> 
-> I'm pretty sure that is just mistake
-> 
-> >> >A bit of archaeology:
-> >> >
-> >> >The first time it appeared was in the bcc2152647b8 ("Import 2.4.0-test3pre3").
-> >> >Then somehow spread a bit (but not much).
-> >> 
-> >> And it shows how useful it is. Maybe it had some purpose a long time ago, but
-> >> at present time this code will never be executed since it cannot be built as
-> >> a module.
-> >
-> > Are you sure about definition of __exitcall? As I read init.h the macro
-> > is defined when it's not a MODULE.
-> 
-> I also tried to trace this back now, and from what I found, both
-> the __init_call and __exit_call annotations gained __attribute_used__
-> back in lniux-2.6.0 as a way to prevent both gcc-3.3 and gcc-3.4
-> from warning about unused functions or discarding initcalls that
-> are actually required.
-> 
-> My best guess is that __exit_call should just use
-> __attribute__((unused)) instead of __attribute__((used)) and
-> have the compiler drop it from built-in code instead of the linker:
+> > Ah, but I'm seeing that the firmware node handle of the acpi device is
+> > part of struct acpi_device and is only initialized during the scanning
+> > phase which happens at subsys_initcall() time?
+>
+> Sounds correct. With that you can just check the device presence in the t=
+able
+> and maybe evaluate the status (but I'm not sure about the latter).
 
-But why do we need that at all? Can we just drop the full section for good.
-Or i.o.w. where exactly is it being used in the current kernel?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yes, you can.  _STA is available at that point.
