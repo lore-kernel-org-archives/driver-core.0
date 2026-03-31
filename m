@@ -1,84 +1,177 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3490D39D6F9;
-	Tue, 31 Mar 2026 08:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77AF3DBD4A;
+	Tue, 31 Mar 2026 08:22:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774944611; cv=none; b=JLAcYL/9N8zxtWnKhcUjmYKqHluLE2LXNq59zPSBww44Ufo+/ziBkY5Kk8divzyyBvYtBwbObz7dCUHAcBl1HguG5rurbwNrUf4VMVAmQddueKpO+FKDmuWam9yhHIDHQgN9qrwqLNs8KtAu0uJohG6pdTkptasiYXCgInzYRDs=
+	t=1774945345; cv=none; b=Rka0tOnxdn1LlC0+Ap95fSVmOXdeRQrkRaG7UtIZ+3763hPdoZn2aTHFXZi80PJY0AowjVbgpu7+kauTasWOVWAFNOO+BVtrAlx6e0W6F0gwFHpTm0OZfjqzeb4iHLfijkArcvpFJ3MsdeJvYqX/tdUIDO6X01D0JMaMRfiQg08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774944611; c=relaxed/simple;
-	bh=lCUIPLG9Ujiy6Hcm+ipj9eX/eyzqF2yoHYthdHr+EUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aUmrmRanSPfh20xgZ0M5tf77N7yfxTgmjLG0eYYZtuNRc8ABljpnilaBAgUzLa8CpkBRkwkZRARhiLxLqgX5xPpwlzVvRgZqWA0Djsu7oT6gxYqBn3Ff1FlQdSrRfhpiX3/hE/GMF0ulC3FeCOBzA9KpWF7wFtVxbNwV64FJyPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMP1CjUU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774945345; c=relaxed/simple;
+	bh=l6+1fNT+srCycsiVVoib27WaB3v/ZfJTiLnjMUHoUKo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=GAqFVgtpqfY+jTv8RYYeTEjFB1tschma4wHs9Z72Pb7XNqnDE++abFKJi7VrhPrAIRlvPJZDAfNMy2Bl6M2a4zUQgWWzEIAM6dOHhcCfgof6CjdoQnMGgmV+wW2bRv+eSUHucTOa+RpoKa4tMb1uQ9J4t5YmJynreRAOD+7OB3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSy9+x0o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMP1CjUU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA8C2C19423;
-	Tue, 31 Mar 2026 08:10:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSy9+x0o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 491C9C19423;
+	Tue, 31 Mar 2026 08:22:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774944610;
-	bh=lCUIPLG9Ujiy6Hcm+ipj9eX/eyzqF2yoHYthdHr+EUg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PMP1CjUUuq3JAeDwEU5M3xfMr5g1RZ9Vdo9Yb0BMPmbIDXET/152IW9c1tM6n7pRl
-	 u8W10VB/4zyEpsENfAxfFaDG2b7mvSkt7hVBfXg3D1Px8vrFf3db+5vfj+XOchX8Jw
-	 YzZxH2ym44hlzXr2/QfJDgUQGczlAGfipYWohnG80LkOT3Ux78Y7o45YkZ+s3I5swZ
-	 rh5ZRhq1UK/I1oiGmIKtlbeqxkFFf1p70X6QoPsRZqU6s2k/tvjHCFNoR0IA/5kn5Y
-	 +ASMY2NpD8zwItVUevhJ5ffu2nnxHT3RAXbfU40w0SIG3GhSZQAA+HciIqz6wWJZB4
-	 xyk3iOLQQ/9CQ==
-Date: Tue, 31 Mar 2026 10:09:59 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] x86/geode: fix on-stack property data usage
-Message-ID: <acuBVz6kHGYdTWqU@gmail.com>
-References: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
- <20260329-property-gpio-fix-v2-1-3cca5ba136d8@gmail.com>
- <actgKlES7sfLk16q@google.com>
+	s=k20201202; t=1774945345;
+	bh=l6+1fNT+srCycsiVVoib27WaB3v/ZfJTiLnjMUHoUKo=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=hSy9+x0oWet2Vv+Oa/3w4GpGm2W4uKeHJBTg9yWIIsbEo6AeK4CHA2HWQrg43wVml
+	 UVDFcKRzAiCTcPrPYa8DFRgndlsXnw4fTPckVVFiVQb06rsmUThpiBFwbHCwFpNgx9
+	 aItzsCrpgMmhdBzOksIXuo4KjSj0zwKhq5Cid6OYUD9yR5jXXRbnJ0gLf3fnZTo/+d
+	 1ltaJGKRSE2hkkenVvfpB0JLleI13qUWazlmX5cCzMNZECQq3dZ5sC7thgT6+6cjC8
+	 i3Qv/NInrpLzf5qRyZ3z333YkadqamLF6R3ft0Ny0IUSwt34LY7sCNzSn76UOiN7FG
+	 7FAeA2EXbVc6w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <actgKlES7sfLk16q@google.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 31 Mar 2026 10:22:14 +0200
+Message-Id: <DHGTLY0FJWD2.2VLT6NQWF97YY@kernel.org>
+Subject: Re: [PATCH 05/12] PCI: use generic driver_override infrastructure
+Cc: "Jason Gunthorpe" <jgg@ziepe.ca>, "Russell King"
+ <linux@armlinux.org.uk>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Ioana Ciornei"
+ <ioana.ciornei@nxp.com>, "Nipun Gupta" <nipun.gupta@amd.com>, "Nikhil
+ Agarwal" <nikhil.agarwal@amd.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ "Haiyang Zhang" <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>,
+ "Dexuan Cui" <decui@microsoft.com>, "Long Li" <longli@microsoft.com>,
+ "Bjorn Helgaas" <bhelgaas@google.com>, "Armin Wolf" <W_Armin@gmx.de>,
+ "Bjorn Andersson" <andersson@kernel.org>, "Mathieu Poirier"
+ <mathieu.poirier@linaro.org>, "Vineeth Vijayan" <vneethv@linux.ibm.com>,
+ "Peter Oberparleiter" <oberpar@linux.ibm.com>, "Heiko Carstens"
+ <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger"
+ <borntraeger@linux.ibm.com>, "Sven Schnelle" <svens@linux.ibm.com>, "Harald
+ Freudenberger" <freude@linux.ibm.com>, "Holger Dengler"
+ <dengler@linux.ibm.com>, "Mark Brown" <broonie@kernel.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, "Jason Wang" <jasowang@redhat.com>, "Xuan Zhuo"
+ <xuanzhuo@linux.alibaba.com>, =?utf-8?q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, "Juergen Gross" <jgross@suse.com>, "Stefano
+ Stabellini" <sstabellini@kernel.org>, "Oleksandr Tyshchenko"
+ <oleksandr_tyshchenko@epam.com>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <linux-hyperv@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <platform-driver-x86@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-remoteproc@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, <virtualization@lists.linux.dev>,
+ <kvm@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Gui-Dong Han"
+ <hanguidong02@gmail.com>
+To: "Alex Williamson" <alex@shazbot.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260324005919.2408620-1-dakr@kernel.org>
+ <20260324005919.2408620-6-dakr@kernel.org>
+ <DHGATG6LJOM1.2AI7BYQ2O4DFU@kernel.org>
+ <20260330141050.2cb47bd9@shazbot.org>
+ <DHGT9XCG8Y96.3IB1EI6FF1ZDZ@kernel.org>
+In-Reply-To: <DHGT9XCG8Y96.3IB1EI6FF1ZDZ@kernel.org>
 
+On Tue Mar 31, 2026 at 10:06 AM CEST, Danilo Krummrich wrote:
+> On Mon Mar 30, 2026 at 10:10 PM CEST, Alex Williamson wrote:
+>> On Mon, 30 Mar 2026 19:38:41 +0200
+>> "Danilo Krummrich" <dakr@kernel.org> wrote:
+>>
+>>> (Cc: Jason)
+>>>=20
+>>> On Tue Mar 24, 2026 at 1:59 AM CET, Danilo Krummrich wrote:
+>>> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio=
+_pci_core.c
+>>> > index d43745fe4c84..460852f79f29 100644
+>>> > --- a/drivers/vfio/pci/vfio_pci_core.c
+>>> > +++ b/drivers/vfio/pci/vfio_pci_core.c
+>>> > @@ -1987,9 +1987,8 @@ static int vfio_pci_bus_notifier(struct notifie=
+r_block *nb,
+>>> >  	    pdev->is_virtfn && physfn =3D=3D vdev->pdev) {
+>>> >  		pci_info(vdev->pdev, "Captured SR-IOV VF %s driver_override\n",
+>>> >  			 pci_name(pdev));
+>>> > -		pdev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
+>>> > -						  vdev->vdev.ops->name);
+>>> > -		WARN_ON(!pdev->driver_override);
+>>> > +		WARN_ON(device_set_driver_override(&pdev->dev,
+>>> > +						   vdev->vdev.ops->name)); =20
+>>>=20
+>>> Technically, this is a change in behavior. If vdev->vdev.ops->name is N=
+ULL, it
+>>> will trigger the WARN_ON(), whereas before it would have just written "=
+(null)"
+>>> into driver_override.
+>>
+>> It's worse than that.  Looking at the implementation in [1], we have:
+>>
+>> +static inline int device_set_driver_override(struct device *dev, const =
+char *s)
+>> +{
+>> +	return __device_set_driver_override(dev, s, strlen(s));
+>> +}
+>>
+>> So if name is NULL, we oops in strlen() before we even hit the -EINVAL
+>> and WARN_ON().
+>
+> This was changed in v2 [2] and the actual code in-tree is
+>
+> 	static inline int device_set_driver_override(struct device *dev, const c=
+har *s)
+> 	{
+> 		return __device_set_driver_override(dev, s, s ? strlen(s) : 0);
+> 	}
+>
+> so it does indeed return -EINVAL for a NULL pointer.
+>
+>> I don't believe we have any vfio-pci variant drivers where the name is
+>> NULL, but kasprintf() handling NULL as "(null)" was a consideration in
+>> this design, that even if there is no name the device is sequestered
+>> with a driver_override that won't match an actual driver.
+>>
+>>> I assume that vfio_pci_core drivers are expected to set the name in str=
+uct
+>>> vfio_device_ops in the first place and this code (silently) relies on t=
+his
+>>> invariant?
+>>
+>> We do expect that, but it was previously safe either way to make sure
+>> VFs are only bound to the same ops driver or barring that, at least
+>> don't perform a standard driver match.  The last thing we want to
+>> happen automatically is for a user owned PF to create SR-IOV VFs that
+>> automatically bind to native kernel drivers.
+>> =20
+>>> Alex, Jason: Should we keep this hunk above as is and check for a prope=
+r name in
+>>> struct vfio_device_ops in vfio_pci_core_register_device() with a subseq=
+uent
+>>> patch?
+>>
+>> Given the oops, my preference would be to roll it in here.  This change
+>> is what makes it a requirement that name cannot be NULL, where this was
+>> safely handled with kasprintf().
+>
+> Again, no oops here. :)
+>
+> I still think it makes more sense to fail early in
+> vfio_pci_core_register_device(), rather than silently accept "(null)" in
+> driver_override. It also doesn't seem unreasonable with only the WARN_ON(=
+), but
+> I can also just add vdev->vdev.ops->name ?: "(null)".
 
-* Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+(Or just skip the call if !vdev->vdev.ops->name, as a user will read "(null=
+)"
+from sysfs either way.)
 
-> On Sun, Mar 29, 2026 at 07:27:48PM -0700, Dmitry Torokhov wrote:
-> > The PROPERTY_ENTRY_GPIO macro (and by extension PROPERTY_ENTRY_REF)
-> > creates a temporary software_node_ref_args structure on the stack
-> > when used in a runtime assignment. This results in the property
-> > pointing to data that is invalid once the function returns.
-> > 
-> > Fix this by ensuring the GPIO reference data is not stored on stack and
-> > using PROPERTY_ENTRY_REF_ARRAY_LEN() to point directly to the persistent
-> > reference data.
-> > 
-> > Fixes: 298c9babadb8 ("x86/platform/geode: switch GPIO buttons and LEDs to software properties")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> 
-> While we are discussing with Andy patches 2-4 maybe this one can be
-> picked up? It does fix (I hope)(I hope)  a real issue in the field.
+> Please let me know what you prefer.
+>
+> - Danilo
+>
+>> [1] https://lore.kernel.org/all/20260302002729.19438-2-dakr@kernel.org/
+>
+> [2] https://lore.kernel.org/driver-core/20260303115720.48783-1-dakr@kerne=
+l.org/
 
-Agreed, I've queued it up in tip:x86/urgent.
-
-Thanks,
-
-	Ingo
