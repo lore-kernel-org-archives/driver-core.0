@@ -1,223 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21D5401A0E;
-	Tue, 31 Mar 2026 15:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F253240757F
+	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 15:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774969379; cv=none; b=gKFKM2U7cL0wVfHr1VACyM8vJXJeBNWR0ZQFXbxzdKMMf4Iopv/ZMJ5yVIOuB08tonWaEWbuX82OHvbDOiVb8VwqKh/pE0eaSnNAnxl/URo2y9b4Fj6S0IrN+v5Mf7oikXyxdlVFZeJrWhNCu10NVwWo+3JzZS3SbgUE/QFDENQ=
+	t=1774970787; cv=none; b=XMOCH/aPSnp2QM2phFGUVD04LUyqwb7kU7MLDPtQ1KWax+H880bnYSA0GXMr+MLsCcISjd3OEaXYYV4C7rHYShztRTlXfeRaUuatBht+VCcrVHtK1m9JhRqkyLjcaDtQpSnX2GO0Ixvc6kttCP5raVhqpKAgvB9BjpAI24l4BA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774969379; c=relaxed/simple;
-	bh=lKc0nR0+3UMuWZyWz6l9MjXgdkdLagd8O+NJe9KaxV4=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Lx/7ecs92D1hikmR3vFhX7VxOxmrB/fyYBABeF61Dyom9t4LoeVm0IC4wiQKz+lkFIAV+lo9+FQQ68yAzj1rzFFDc6dVcWjM9+NxK7go1pQ0AeFjepxtkCARijy/qLXP5exlskO9v/DkEjleguXHfVQRUPnNGpXqA3kwykWBzaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KglO/3Mo; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774970787; c=relaxed/simple;
+	bh=p1FuVBtkzvgZxkA/85sVWcISljQ1QqCRc/77Myie85M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MEOTloTuxmZqwdA11z1uC3d+Ag/BwYeEHd+WgrUjCX/HfbLWliwHO0yQtMVWWepdNEFsvTV1r96mP2jlA/07HU50Y1ibkSkgY+HhzhcEzbHQYqoGJUtUTr4oto+hxSkgTQm3UhOaJSbGBhKtHzeeEFKcvBSTsx5Mq3aGpeenL90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XILGEOKG; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KglO/3Mo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774969378; x=1806505378;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=lKc0nR0+3UMuWZyWz6l9MjXgdkdLagd8O+NJe9KaxV4=;
-  b=KglO/3MoKB03HCMY9nz1ITGz+Qa37xd8SnZOvQMODqf0t8PNlmVMg/tp
-   QHBLVF698m5kmyc4YsjSCJpM0zmzjqFET/6ucwoyhUGqtoxAGxL0CWpug
-   DZNg95KYp69URRRBJxX5PN+iPe44nv0wCkh+AtZc0SeY7atamrggNfKBS
-   we35ntCa8D8eT48w1TOuvPHzKmMY7J/9lpAlEbYdUYYHXpEcniUTfk8Lw
-   zZvCqmTAbmHxLG1uAAb6nCdkFFyHk/zMWLKOZyRLS4oNfMAmUUQ7sX8UU
-   luF3N0D/ouUGbSvHlmWfS4QOt6bdhmrlIQ9+fBTUCoZQWGmXuDZ3j/dYa
-   w==;
-X-CSE-ConnectionGUID: zMUjIXagQymNBmLac2GZCw==
-X-CSE-MsgGUID: fpLx3TYkTi6mg9YlzvKJdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="86682255"
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="86682255"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 08:02:53 -0700
-X-CSE-ConnectionGUID: JHiKH3CWRemnPBHhcWS24A==
-X-CSE-MsgGUID: Gcx1iYgWQJaJHg3SKbkrBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
-   d="scan'208";a="221527611"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.6])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 08:02:37 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 31 Mar 2026 18:02:33 +0300 (EEST)
-To: Danilo Krummrich <dakr@kernel.org>
-cc: Russell King <linux@armlinux.org.uk>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    "Rafael J. Wysocki" <rafael@kernel.org>, 
-    Ioana Ciornei <ioana.ciornei@nxp.com>, Nipun Gupta <nipun.gupta@amd.com>, 
-    Nikhil Agarwal <nikhil.agarwal@amd.com>, 
-    "K. Y. Srinivasan" <kys@microsoft.com>, 
-    Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-    Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-    Bjorn Helgaas <bhelgaas@google.com>, Armin Wolf <W_Armin@gmx.de>, 
-    Bjorn Andersson <andersson@kernel.org>, 
-    Mathieu Poirier <mathieu.poirier@linaro.org>, 
-    Vineeth Vijayan <vneethv@linux.ibm.com>, 
-    Peter Oberparleiter <oberpar@linux.ibm.com>, 
-    Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-    Alexander Gordeev <agordeev@linux.ibm.com>, 
-    Christian Borntraeger <borntraeger@linux.ibm.com>, 
-    Sven Schnelle <svens@linux.ibm.com>, 
-    Harald Freudenberger <freude@linux.ibm.com>, 
-    Holger Dengler <dengler@linux.ibm.com>, Mark Brown <broonie@kernel.org>, 
-    "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-    Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-    =?ISO-8859-15?Q?Eugenio_P=E9rez?= <eperezma@redhat.com>, 
-    Alex Williamson <alex@shazbot.org>, Juergen Gross <jgross@suse.com>, 
-    Stefano Stabellini <sstabellini@kernel.org>, 
-    Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, 
-    "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-    LKML <linux-kernel@vger.kernel.org>, driver-core@lists.linux.dev, 
-    linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
-    linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-    linux-s390@vger.kernel.org, linux-spi@vger.kernel.org, 
-    virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-    xen-devel@lists.xenproject.org, linux-arm-kernel@lists.infradead.org, 
-    Gui-Dong Han <hanguidong02@gmail.com>
-Subject: Re: [PATCH 06/12] platform/wmi: use generic driver_override
- infrastructure
-In-Reply-To: <20260324005919.2408620-7-dakr@kernel.org>
-Message-ID: <f15629e4-ef8f-b1b6-0158-064f40f111da@linux.intel.com>
-References: <20260324005919.2408620-1-dakr@kernel.org> <20260324005919.2408620-7-dakr@kernel.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XILGEOKG"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b9841aecf72so708596066b.2
+        for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 08:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1774970782; x=1775575582; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qv9FvyVYU4HlL8YK9g3Zs+LbipJa/4PqgGL/7ICcHJI=;
+        b=XILGEOKGTkqw9eNGmS0i5D1+KATJe561IoKoDaErT/E82qoVrZszb89PLtGRHtaoO8
+         24Cr7t47BbxPlL3Gx/Og2z5OTPIC6awtaS+P+mOF1V+E1P6X3op/rW0wV1FGkukQYMkv
+         d3qqO4Ig7qvhXT8IaMPE0l2WEyGLZbP0glDck=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774970782; x=1775575582;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Qv9FvyVYU4HlL8YK9g3Zs+LbipJa/4PqgGL/7ICcHJI=;
+        b=rRtZZWdIM7Mg3TjnKLfQWNcm+52cXkZOF3E8pkc5CaM89gimtXy0714j/VH0DtDoH/
+         noIpRTRp/TEBkiA+xFeU/+XcIv02M9NYBDAEupS9nbgmG8yp0uMGLwbBHpnHZsY0Bxxk
+         1AhSon5/GbBEg7/q28So6pYzyzSYPY9msphkFwwHlEK/F7sQ0PxEu4lNhV3Fo9I1cN1B
+         +yNUEuQAMsY2Gz4jit4Mha1VS0wRWUcjATt3CjZHmBbex2KfLz/896gzo5oe4NWgJHgU
+         vzvBY50/VRdnYSXL2Fadnk44ZztQ/jPJbKQr7JLtQQtFBMPVJyuo+qjuGSk27Lt8BM3F
+         NGqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXucjY4JNwz99R+KeQ9dETajn8SrpqSh5KnId9i5G8/yAl4knxljPJort+zRtNKo+FhTISaoKEdrQBBew==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyiaHn1yjOo6vmPi4BtiRajLt7gs0pbI/f5oPLP6b3KNGgzDJKO
+	6wCyNmTERM1C8O/El8ZWvSD0o8RJ+0cOCAwelN98dhgmTQH3DkT01t2zpQalM1r7tHyStQCGahk
+	RWqBo4w==
+X-Gm-Gg: ATEYQzwWj5I6aCaqfVh1jIM03imvagFuvg5d3WGM/+C7AgVTxRbCNe49p5I8AhoEBYB
+	sjUVsxJPneoVbVC+/imlkish3uejdDVseDiEgA1s1erx+zAfPfMtZflkn+CC94CR3cAeHFvrZ/z
+	p4qRRu6VqFtjVtUfgArqdxIlz7bocsMA+5kiJBj4YXnw2jMHaD116usdbKzpzG4B+mCjzXYqn8W
+	4StoGzIYUpTvC1tyrdNdu0WhmaTu+ozAtblfi1WWtvtYUyJ56eBAolcp9WIBQX0EiaaZKif3HUk
+	ej/EfiIk97ndbp4xeqaf7C6qrRCSCwDqSy9WgQGgDlgBTXEpBgsh5PWkIZN9HKdVcWt1dl6wz1o
+	33TJzqhOZfjJF0gnSWApl0kpCnLWKn+L9xNAfJp35/sAIEV340Fw2Uzzdmo4lv6nyDI3UDZ/csm
+	mV1UhaguJnOZ/b7TWAbcuP9xc+eaD3zry0aHLhp99GgF0nvcFWCRsJDJN6j7kHSQ==
+X-Received: by 2002:a17:906:934a:b0:b98:286a:e2c2 with SMTP id a640c23a62f3a-b9c13b41bfdmr2125166b.38.1774970781582;
+        Tue, 31 Mar 2026 08:26:21 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c125c4cfbsm5393866b.34.2026.03.31.08.26.19
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Mar 2026 08:26:21 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cfce3a195so1486234f8f.2
+        for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 08:26:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX1ZN4FcTNoxe7utGI7mZw8IWiqzKzm+XM+ho+djkrIZzUVW7f9C/7+lyRSLJMJ+Y/pkka2KHSN4fkmSg==@lists.linux.dev
+X-Received: by 2002:a05:6000:24c1:b0:43b:3cdc:941f with SMTP id
+ ffacd0b85a97d-43d150869ddmr130954f8f.17.1774970778986; Tue, 31 Mar 2026
+ 08:26:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-
-On Tue, 24 Mar 2026, Danilo Krummrich wrote:
-
-> When a driver is probed through __driver_attach(), the bus' match()
-> callback is called without the device lock held, thus accessing the
-> driver_override field without a lock, which can cause a UAF.
-> 
-> Fix this by using the driver-core driver_override infrastructure taking
-> care of proper locking internally.
-> 
-> Note that calling match() from __driver_attach() without the device lock
-> held is intentional. [1]
-> 
-> Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/ [1]
-> Reported-by: Gui-Dong Han <hanguidong02@gmail.com>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220789
-> Fixes: 12046f8c77e0 ("platform/x86: wmi: Add driver_override support")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  drivers/platform/wmi/core.c | 36 +++++-------------------------------
->  include/linux/wmi.h         |  4 ----
->  2 files changed, 5 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/platform/wmi/core.c b/drivers/platform/wmi/core.c
-> index b8e6b9a421c6..750e3619724e 100644
-> --- a/drivers/platform/wmi/core.c
-> +++ b/drivers/platform/wmi/core.c
-> @@ -842,39 +842,11 @@ static ssize_t expensive_show(struct device *dev,
->  }
->  static DEVICE_ATTR_RO(expensive);
->  
-> -static ssize_t driver_override_show(struct device *dev, struct device_attribute *attr,
-> -				    char *buf)
-> -{
-> -	struct wmi_device *wdev = to_wmi_device(dev);
-> -	ssize_t ret;
-> -
-> -	device_lock(dev);
-> -	ret = sysfs_emit(buf, "%s\n", wdev->driver_override);
-> -	device_unlock(dev);
-> -
-> -	return ret;
-> -}
-> -
-> -static ssize_t driver_override_store(struct device *dev, struct device_attribute *attr,
-> -				     const char *buf, size_t count)
-> -{
-> -	struct wmi_device *wdev = to_wmi_device(dev);
-> -	int ret;
-> -
-> -	ret = driver_set_override(dev, &wdev->driver_override, buf, count);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	return count;
-> -}
-> -static DEVICE_ATTR_RW(driver_override);
-> -
->  static struct attribute *wmi_attrs[] = {
->  	&dev_attr_modalias.attr,
->  	&dev_attr_guid.attr,
->  	&dev_attr_instance_count.attr,
->  	&dev_attr_expensive.attr,
-> -	&dev_attr_driver_override.attr,
->  	NULL
->  };
->  ATTRIBUTE_GROUPS(wmi);
-> @@ -943,7 +915,6 @@ static void wmi_dev_release(struct device *dev)
->  {
->  	struct wmi_block *wblock = dev_to_wblock(dev);
->  
-> -	kfree(wblock->dev.driver_override);
->  	kfree(wblock);
->  }
->  
-> @@ -952,10 +923,12 @@ static int wmi_dev_match(struct device *dev, const struct device_driver *driver)
->  	const struct wmi_driver *wmi_driver = to_wmi_driver(driver);
->  	struct wmi_block *wblock = dev_to_wblock(dev);
->  	const struct wmi_device_id *id = wmi_driver->id_table;
-> +	int ret;
->  
->  	/* When driver_override is set, only bind to the matching driver */
-> -	if (wblock->dev.driver_override)
-> -		return !strcmp(wblock->dev.driver_override, driver->name);
-> +	ret = device_match_driver_override(dev, driver);
-> +	if (ret >= 0)
-> +		return ret;
->  
->  	if (id == NULL)
->  		return 0;
-> @@ -1076,6 +1049,7 @@ static struct class wmi_bus_class = {
->  static const struct bus_type wmi_bus_type = {
->  	.name = "wmi",
->  	.dev_groups = wmi_groups,
-> +	.driver_override = true,
->  	.match = wmi_dev_match,
->  	.uevent = wmi_dev_uevent,
->  	.probe = wmi_dev_probe,
-> diff --git a/include/linux/wmi.h b/include/linux/wmi.h
-> index 75cb0c7cfe57..14fb644e1701 100644
-> --- a/include/linux/wmi.h
-> +++ b/include/linux/wmi.h
-> @@ -18,16 +18,12 @@
->   * struct wmi_device - WMI device structure
->   * @dev: Device associated with this WMI device
->   * @setable: True for devices implementing the Set Control Method
-> - * @driver_override: Driver name to force a match; do not set directly,
-> - *		     because core frees it; use driver_set_override() to
-> - *		     set or clear it.
->   *
->   * This represents WMI devices discovered by the WMI driver core.
->   */
->  struct wmi_device {
->  	struct device dev;
->  	bool setable;
-> -	const char *driver_override;
->  };
->  
->  /**
-> 
+References: <20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+ <DHH1PD0ASG8H.1K3KG9L658DYN@kernel.org>
+In-Reply-To: <DHH1PD0ASG8H.1K3KG9L658DYN@kernel.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 31 Mar 2026 08:26:07 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XJ2qOZ7ftDg70AhD0GRX6TfQb6OVyNaUfFg42+hmwxGQ@mail.gmail.com>
+X-Gm-Features: AQROBzAO84ippC-b2XO-7R5l6fnyfqHcAQ7sFFgv72ZLW18LGW8l3elfjno7St0
+Message-ID: <CAD=FV=XJ2qOZ7ftDg70AhD0GRX6TfQb6OVyNaUfFg42+hmwxGQ@mail.gmail.com>
+Subject: Re: [PATCH v2] driver core: Don't let a device probe until it's ready
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, Kay Sievers <kay.sievers@vrfy.org>, 
+	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-I tried applying this to platform-drivers tree but it failed to compile so 
-I ended up dropping the changed.
+On Tue, Mar 31, 2026 at 7:42=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> > @@ -848,6 +848,18 @@ static int __driver_probe_device(const struct devi=
+ce_driver *drv, struct device
+> >       if (dev->driver)
+> >               return -EBUSY;
+> >
+> > +     /*
+> > +      * In device_add(), the "struct device" gets linked into the subs=
+ystem's
+> > +      * list of devices and broadcast to userspace (via uevent) before=
+ we're
+> > +      * quite ready to probe. Those open pathways to driver probe befo=
+re
+> > +      * we've finished enough of device_add() to reliably support prob=
+e.
+> > +      * Detect this and tell other pathways to try again later. device=
+_add()
+> > +      * itself will also try to probe immediately after setting
+> > +      * "ready_to_probe".
+> > +      */
+> > +     if (!dev->ready_to_probe)
+> > +             return dev_err_probe(dev, -EPROBE_DEFER, "Device not read=
+y_to_probe");
+>
+> Are we sure this dev->ready_to_probe dance does not introduce a new subtl=
+e bug
+> considering that ready_to_probe is within a bitfield of struct device?
+>
+> I.e. are we sure there are no potential concurrent modifications of other=
+ fields
+> in this bitfield that are not protected with the device lock?
+>
+> For instance, in __driver_attach() we set dev->can_match if
+> driver_match_device() returns -EPROBE_DEFER without the device lock held.
 
--- 
- i.
+Bleh. Thank you for catching this. I naively assumed the device lock
+protected the bitfield, but I didn't verify that.
 
+
+> This is exactly the case you want to protect against, i.e. device_add() r=
+acing
+> with __driver_attach().
+>
+> So, there is a chance that the dev->ready_to_probe change gets interleave=
+d with
+> a dev->can_match change.
+>
+> I think all this goes away if we stop using bitfields for synchronization=
+; we
+> should convert some of those to flags that we can modify with set_bit() a=
+nd
+> friends instead.
+
+That sounds reasonable to me. Do you want me to send a v3 where I
+create a new "unsigned long flags" in struct device and introduce this
+as the first flag? If there are additional bitfields you want me to
+convert, I can send them as additional patches in the series as long
+as it's not too big of a change...
+
+-Doug
