@@ -1,111 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E31E3DA7D5
-	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 08:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6883D891E;
+	Tue, 31 Mar 2026 08:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774944135; cv=none; b=PPVcLj+j+m2YZ51wfd2DzoIbDx7t5jte0cA1kMuETv3T6r6ADCvJQJNquHuo2FgnlPAeXXn18ek9OWkT9n7ej8uDLZUePZt7ekYCgsoP5BgyiVh7jmoZDkVn7+5Q/jlw+lWD7vutdnOpsAc5uYHPkHzc0+zE6SXzwzAtYAGnxdw=
+	t=1774944404; cv=none; b=Tl9JMR9FcHw2HWTv19S52AvdetOD7iIIqJub4hRQbOYnlnYpTpFHjK25gdbT9/GgUr8d8Elc3XdZCeaKn0uVfFwufspSSDvhMSYiCEQkJiZkYDlqIugTWMrClj3H/L89K3TgU2QgZynB4GU2oBGwxKi2hGw09Cq7l44DAxrlde0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774944135; c=relaxed/simple;
-	bh=XtNYc2qP1eiUp5JnrJI9cDtMe9sjxEtm602IJHUnYLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F5Vqyr8PAnsb72W6LvjQjtXbt6h0VCaq3/ZEuHUM1nEMz9NMTm4quJVvESivpgVwwK3vo0a+Sm5afdtUKevz1tTiijLN2Zp6l8fsgeG7LMcbwiwUEZ+aD+/FXKdLEs+EQj1x1DSKbo0XqroYEfPgUhJmHdWMEda2nPHuMRLCV3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gf1c7xXo; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774944404; c=relaxed/simple;
+	bh=7ZnFUcGBpSYxCeawHwcWvE73wN8LYb8XSX/aZ34llBU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=TmHlnZtNmU3jHLj6h29vNybS2m7yJ5sOdOKIXHMp0k5qZWLS/KyQCITR99waDuHMeSMB0DKq0YVKU0UIQScxlPfhk8S3ZDSDs4W8Cj0XZj9j75cssyBDtmBr8b4a4IUN/GRR/f8h0WbahOGBgY0pqb4Re+3FeMUT4gO1uSaRtSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AWIlCHwQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gf1c7xXo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774944134; x=1806480134;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XtNYc2qP1eiUp5JnrJI9cDtMe9sjxEtm602IJHUnYLY=;
-  b=gf1c7xXoA0MJFFkQjgIEF0Bxa7crPdXGq8qs+ZH7gW5VyLipxVQM2lHx
-   fWPSVWS4gM/bABzPT3HgqYMTElfGMlmmECDc1A4CdSNlZlb3EVKvuJLWY
-   fHwfBA1G48yK7/41Qn122RkQL7VgSvz88gM2o5ivfRsUyRbQ3UZRPcIny
-   M9kOi+44iSIBSfHOpD8+7yemg4NqlSU6TuKZtIhMPpil6S643Lnykpp/x
-   /7khqy2+KjjJh26BwGTxzeQIIsgFz6YTG0ZVLSxqo1IJ3PYXcrwnv/IRG
-   7s8EYpU0attuppx/QJzWjev+kZUevJjDSz/HgALThUEAhP4S+1yQ1ryuq
-   g==;
-X-CSE-ConnectionGUID: 50MNelL9RfqP5YbQ01xMcg==
-X-CSE-MsgGUID: q/0c/9DEQP6ouhPT1VZZuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="75120808"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="75120808"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 01:02:14 -0700
-X-CSE-ConnectionGUID: slSNnCSxRti51WU6Zahqxw==
-X-CSE-MsgGUID: Dq1cBZR9RYaqYG+Ny/53zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="226263143"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 01:02:09 -0700
-Date: Tue, 31 Mar 2026 11:02:07 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] software node: verify that property data is not
- on stack
-Message-ID: <act_f13eyaBPrJ-w@ashevche-desk.local>
-References: <20260329-property-gpio-fix-v2-0-3cca5ba136d8@gmail.com>
- <20260329-property-gpio-fix-v2-3-3cca5ba136d8@gmail.com>
- <acpRi0BOgT73pqpE@ashevche-desk.local>
- <acrvakIBxO76OAlU@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AWIlCHwQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9364DC2BCB1;
+	Tue, 31 Mar 2026 08:06:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774944403;
+	bh=7ZnFUcGBpSYxCeawHwcWvE73wN8LYb8XSX/aZ34llBU=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=AWIlCHwQfZsUuHzOmGZpVGY5YC2rf+d68CeBHq+msonYwp7U2eqLrZxes/cDwOhzj
+	 cxpHUVzGLXyiRtTuiesiUTZk1jZ4TcDex7KFW8cftoKdzZUi7rr5OJwggbIXG1Qkjk
+	 y+1kJYFjlXJgwRMxjX5gpnBgZX2SWzf28LHVl+Lqu+vuVqVDfsqOYyI0fBSLNK4oiz
+	 5o/ZjxvWe1HfMi03Q77GYttGBzv0VRF/kGrPedoVKNJAcdTkHpW3bIz1sDtXTCy1mo
+	 2Z3qOFa/hlvy8JEPivh5B8wp9J/5+CgONWe9R6Y+M3smVnPJrUWUnRppA4rHbFzvHS
+	 mmm1NDCdVo7ag==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acrvakIBxO76OAlU@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 31 Mar 2026 10:06:32 +0200
+Message-Id: <DHGT9XCG8Y96.3IB1EI6FF1ZDZ@kernel.org>
+Subject: Re: [PATCH 05/12] PCI: use generic driver_override infrastructure
+Cc: "Jason Gunthorpe" <jgg@ziepe.ca>, "Russell King"
+ <linux@armlinux.org.uk>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Ioana Ciornei"
+ <ioana.ciornei@nxp.com>, "Nipun Gupta" <nipun.gupta@amd.com>, "Nikhil
+ Agarwal" <nikhil.agarwal@amd.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ "Haiyang Zhang" <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>,
+ "Dexuan Cui" <decui@microsoft.com>, "Long Li" <longli@microsoft.com>,
+ "Bjorn Helgaas" <bhelgaas@google.com>, "Armin Wolf" <W_Armin@gmx.de>,
+ "Bjorn Andersson" <andersson@kernel.org>, "Mathieu Poirier"
+ <mathieu.poirier@linaro.org>, "Vineeth Vijayan" <vneethv@linux.ibm.com>,
+ "Peter Oberparleiter" <oberpar@linux.ibm.com>, "Heiko Carstens"
+ <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger"
+ <borntraeger@linux.ibm.com>, "Sven Schnelle" <svens@linux.ibm.com>, "Harald
+ Freudenberger" <freude@linux.ibm.com>, "Holger Dengler"
+ <dengler@linux.ibm.com>, "Mark Brown" <broonie@kernel.org>, "Michael S.
+ Tsirkin" <mst@redhat.com>, "Jason Wang" <jasowang@redhat.com>, "Xuan Zhuo"
+ <xuanzhuo@linux.alibaba.com>, =?utf-8?q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, "Juergen Gross" <jgross@suse.com>, "Stefano
+ Stabellini" <sstabellini@kernel.org>, "Oleksandr Tyshchenko"
+ <oleksandr_tyshchenko@epam.com>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <linux-hyperv@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <platform-driver-x86@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-remoteproc@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+ <linux-spi@vger.kernel.org>, <virtualization@lists.linux.dev>,
+ <kvm@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
+ <linux-arm-kernel@lists.infradead.org>, "Gui-Dong Han"
+ <hanguidong02@gmail.com>
+To: "Alex Williamson" <alex@shazbot.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260324005919.2408620-1-dakr@kernel.org>
+ <20260324005919.2408620-6-dakr@kernel.org>
+ <DHGATG6LJOM1.2AI7BYQ2O4DFU@kernel.org>
+ <20260330141050.2cb47bd9@shazbot.org>
+In-Reply-To: <20260330141050.2cb47bd9@shazbot.org>
 
-On Mon, Mar 30, 2026 at 02:49:52PM -0700, Dmitry Torokhov wrote:
-> On Mon, Mar 30, 2026 at 01:33:47PM +0300, Andy Shevchenko wrote:
-> > On Sun, Mar 29, 2026 at 07:27:50PM -0700, Dmitry Torokhov wrote:
+On Mon Mar 30, 2026 at 10:10 PM CEST, Alex Williamson wrote:
+> On Mon, 30 Mar 2026 19:38:41 +0200
+> "Danilo Krummrich" <dakr@kernel.org> wrote:
+>
+>> (Cc: Jason)
+>>=20
+>> On Tue Mar 24, 2026 at 1:59 AM CET, Danilo Krummrich wrote:
+>> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_=
+pci_core.c
+>> > index d43745fe4c84..460852f79f29 100644
+>> > --- a/drivers/vfio/pci/vfio_pci_core.c
+>> > +++ b/drivers/vfio/pci/vfio_pci_core.c
+>> > @@ -1987,9 +1987,8 @@ static int vfio_pci_bus_notifier(struct notifier=
+_block *nb,
+>> >  	    pdev->is_virtfn && physfn =3D=3D vdev->pdev) {
+>> >  		pci_info(vdev->pdev, "Captured SR-IOV VF %s driver_override\n",
+>> >  			 pci_name(pdev));
+>> > -		pdev->driver_override =3D kasprintf(GFP_KERNEL, "%s",
+>> > -						  vdev->vdev.ops->name);
+>> > -		WARN_ON(!pdev->driver_override);
+>> > +		WARN_ON(device_set_driver_override(&pdev->dev,
+>> > +						   vdev->vdev.ops->name)); =20
+>>=20
+>> Technically, this is a change in behavior. If vdev->vdev.ops->name is NU=
+LL, it
+>> will trigger the WARN_ON(), whereas before it would have just written "(=
+null)"
+>> into driver_override.
+>
+> It's worse than that.  Looking at the implementation in [1], we have:
+>
+> +static inline int device_set_driver_override(struct device *dev, const c=
+har *s)
+> +{
+> +	return __device_set_driver_override(dev, s, strlen(s));
+> +}
+>
+> So if name is NULL, we oops in strlen() before we even hit the -EINVAL
+> and WARN_ON().
 
-...
+This was changed in v2 [2] and the actual code in-tree is
 
-> > > +	for (prop = node->properties; prop && prop->name; prop++) {
-> > > +		if (!prop->is_inline && object_is_on_stack(prop->pointer)) {
-> > 
-> > I read more about this... Any code that uses vmalloc() (or potentially may
-> > switch to it from regular allocator with help of kvalloc() and similar) will
-> > fail now. While it might be no issue right now, this may become a such. So
-> > with this check in place you put a requirement that properties can only be
-> > allocated from a kernel low memory heap and not vm.
-> 
-> Can you tell me more about this? As far as I can see it will actually
-> have false negatives with CONFIG_VMAP_STACK, but should be OK not
-> trigger with vmalloced memory... But I am genuinely interested to know
-> more.
+	static inline int device_set_driver_override(struct device *dev, const cha=
+r *s)
+	{
+		return __device_set_driver_override(dev, s, s ? strlen(s) : 0);
+	}
 
-I dug into the history of this macro. It was added for the block and ide
-subsystems to make sure that there is no buffer supplied that may not be DMAed.
-As we know vmalloc():ed buffers may not be DMAed. In some commit messages
-it was explicitly mentioned that this macro fails on vmalloc():ed memory.
+so it does indeed return -EINVAL for a NULL pointer.
 
-Note, I haven't checked the actual behaviour by trying that on the HW.
+> I don't believe we have any vfio-pci variant drivers where the name is
+> NULL, but kasprintf() handling NULL as "(null)" was a consideration in
+> this design, that even if there is no name the device is sequestered
+> with a driver_override that won't match an actual driver.
+>
+>> I assume that vfio_pci_core drivers are expected to set the name in stru=
+ct
+>> vfio_device_ops in the first place and this code (silently) relies on th=
+is
+>> invariant?
+>
+> We do expect that, but it was previously safe either way to make sure
+> VFs are only bound to the same ops driver or barring that, at least
+> don't perform a standard driver match.  The last thing we want to
+> happen automatically is for a user owned PF to create SR-IOV VFs that
+> automatically bind to native kernel drivers.
+> =20
+>> Alex, Jason: Should we keep this hunk above as is and check for a proper=
+ name in
+>> struct vfio_device_ops in vfio_pci_core_register_device() with a subsequ=
+ent
+>> patch?
+>
+> Given the oops, my preference would be to roll it in here.  This change
+> is what makes it a requirement that name cannot be NULL, where this was
+> safely handled with kasprintf().
 
--- 
-With Best Regards,
-Andy Shevchenko
+Again, no oops here. :)
 
+I still think it makes more sense to fail early in
+vfio_pci_core_register_device(), rather than silently accept "(null)" in
+driver_override. It also doesn't seem unreasonable with only the WARN_ON(),=
+ but
+I can also just add vdev->vdev.ops->name ?: "(null)".
 
+Please let me know what you prefer.
+
+- Danilo
+
+> [1] https://lore.kernel.org/all/20260302002729.19438-2-dakr@kernel.org/
+
+[2] https://lore.kernel.org/driver-core/20260303115720.48783-1-dakr@kernel.=
+org/
