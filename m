@@ -1,152 +1,139 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F253240757F
-	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 15:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AF6421EF7
+	for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 15:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774970787; cv=none; b=XMOCH/aPSnp2QM2phFGUVD04LUyqwb7kU7MLDPtQ1KWax+H880bnYSA0GXMr+MLsCcISjd3OEaXYYV4C7rHYShztRTlXfeRaUuatBht+VCcrVHtK1m9JhRqkyLjcaDtQpSnX2GO0Ixvc6kttCP5raVhqpKAgvB9BjpAI24l4BA0=
+	t=1774971289; cv=none; b=rlvbUq6E3ZdCe3uT90dsipoPv27Y41+A3VxB5tHlJJ2rwjbqw3XeStfyFO0LYmAmOrwVzMtQsNAyaHXrYiIK1gYnmgXdVHHjddvRtoqmq+AcEvwoH2J7aTjlOhi+QCOQuRzvoWhyrCQvXlqxbWBB9z28VLklzW8TJTg6LsDHM8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774970787; c=relaxed/simple;
-	bh=p1FuVBtkzvgZxkA/85sVWcISljQ1QqCRc/77Myie85M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MEOTloTuxmZqwdA11z1uC3d+Ag/BwYeEHd+WgrUjCX/HfbLWliwHO0yQtMVWWepdNEFsvTV1r96mP2jlA/07HU50Y1ibkSkgY+HhzhcEzbHQYqoGJUtUTr4oto+hxSkgTQm3UhOaJSbGBhKtHzeeEFKcvBSTsx5Mq3aGpeenL90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XILGEOKG; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1774971289; c=relaxed/simple;
+	bh=XlM6zyA0LvUUuCH/AXIgvkuM1NoxliRKcWKJJUdX7P0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=JAAVAgVyW5xk38w+BaNJmny9SOycaOd8w/u3zR3WHWImpCKGUrZIOqNgvv4BN0230LfmT2AfQ43APjxFsUwkC6MlGH/AcKAUVfveJl4z7PV/FXSRrHE3gsFNYfkWzKwkFWAcmhayra9AUCfKnUPFH8tLj+h0/NEkmMSfTZCblGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mUDsj/Fi; arc=none smtp.client-ip=74.125.82.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XILGEOKG"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b9841aecf72so708596066b.2
-        for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 08:26:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mUDsj/Fi"
+Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2c4cfe08c9dso10313391eec.1
+        for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 08:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1774970782; x=1775575582; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qv9FvyVYU4HlL8YK9g3Zs+LbipJa/4PqgGL/7ICcHJI=;
-        b=XILGEOKGTkqw9eNGmS0i5D1+KATJe561IoKoDaErT/E82qoVrZszb89PLtGRHtaoO8
-         24Cr7t47BbxPlL3Gx/Og2z5OTPIC6awtaS+P+mOF1V+E1P6X3op/rW0wV1FGkukQYMkv
-         d3qqO4Ig7qvhXT8IaMPE0l2WEyGLZbP0glDck=
+        d=google.com; s=20251104; t=1774971286; x=1775576086; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1KcB7wDgOOcYSPfeHFcgAc3CokvxeOaMFZ2tqdVYZis=;
+        b=mUDsj/FiLbkLoSFZRP3qjACeR1Iv4SJunz2qwDgYzEP+lPNhk/ctkhGnJxABbYfvLy
+         Vm3BM8zDP2KyYmxxZkTYbC3d/7k6ZY1rjLBDYsC5PCubw+T5y05x6r8o26kOnmGBzzsh
+         o7ptgv3s9vUZobmPtjppkm4hcfB+NPmmMsyHQIeoXn8wnSXJNBG2c+ZoOY6kBfVI+0os
+         3XYdrX1a8ggd6PWV8AL7DHdJWByQ0qB+Ogb3QNWNGiJ/xdp0i020LZWP3u9aYMlaos3l
+         p46VXfjPDjNZ2OibyCnmetJnsTe72s+KxofF41HZFWgXvHEj9KMtVe+WkllmuGuDl+yk
+         xVgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774970782; x=1775575582;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Qv9FvyVYU4HlL8YK9g3Zs+LbipJa/4PqgGL/7ICcHJI=;
-        b=rRtZZWdIM7Mg3TjnKLfQWNcm+52cXkZOF3E8pkc5CaM89gimtXy0714j/VH0DtDoH/
-         noIpRTRp/TEBkiA+xFeU/+XcIv02M9NYBDAEupS9nbgmG8yp0uMGLwbBHpnHZsY0Bxxk
-         1AhSon5/GbBEg7/q28So6pYzyzSYPY9msphkFwwHlEK/F7sQ0PxEu4lNhV3Fo9I1cN1B
-         +yNUEuQAMsY2Gz4jit4Mha1VS0wRWUcjATt3CjZHmBbex2KfLz/896gzo5oe4NWgJHgU
-         vzvBY50/VRdnYSXL2Fadnk44ZztQ/jPJbKQr7JLtQQtFBMPVJyuo+qjuGSk27Lt8BM3F
-         NGqw==
-X-Forwarded-Encrypted: i=1; AJvYcCXucjY4JNwz99R+KeQ9dETajn8SrpqSh5KnId9i5G8/yAl4knxljPJort+zRtNKo+FhTISaoKEdrQBBew==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyiaHn1yjOo6vmPi4BtiRajLt7gs0pbI/f5oPLP6b3KNGgzDJKO
-	6wCyNmTERM1C8O/El8ZWvSD0o8RJ+0cOCAwelN98dhgmTQH3DkT01t2zpQalM1r7tHyStQCGahk
-	RWqBo4w==
-X-Gm-Gg: ATEYQzwWj5I6aCaqfVh1jIM03imvagFuvg5d3WGM/+C7AgVTxRbCNe49p5I8AhoEBYB
-	sjUVsxJPneoVbVC+/imlkish3uejdDVseDiEgA1s1erx+zAfPfMtZflkn+CC94CR3cAeHFvrZ/z
-	p4qRRu6VqFtjVtUfgArqdxIlz7bocsMA+5kiJBj4YXnw2jMHaD116usdbKzpzG4B+mCjzXYqn8W
-	4StoGzIYUpTvC1tyrdNdu0WhmaTu+ozAtblfi1WWtvtYUyJ56eBAolcp9WIBQX0EiaaZKif3HUk
-	ej/EfiIk97ndbp4xeqaf7C6qrRCSCwDqSy9WgQGgDlgBTXEpBgsh5PWkIZN9HKdVcWt1dl6wz1o
-	33TJzqhOZfjJF0gnSWApl0kpCnLWKn+L9xNAfJp35/sAIEV340Fw2Uzzdmo4lv6nyDI3UDZ/csm
-	mV1UhaguJnOZ/b7TWAbcuP9xc+eaD3zry0aHLhp99GgF0nvcFWCRsJDJN6j7kHSQ==
-X-Received: by 2002:a17:906:934a:b0:b98:286a:e2c2 with SMTP id a640c23a62f3a-b9c13b41bfdmr2125166b.38.1774970781582;
-        Tue, 31 Mar 2026 08:26:21 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c125c4cfbsm5393866b.34.2026.03.31.08.26.19
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 08:26:21 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cfce3a195so1486234f8f.2
-        for <driver-core@lists.linux.dev>; Tue, 31 Mar 2026 08:26:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX1ZN4FcTNoxe7utGI7mZw8IWiqzKzm+XM+ho+djkrIZzUVW7f9C/7+lyRSLJMJ+Y/pkka2KHSN4fkmSg==@lists.linux.dev
-X-Received: by 2002:a05:6000:24c1:b0:43b:3cdc:941f with SMTP id
- ffacd0b85a97d-43d150869ddmr130954f8f.17.1774970778986; Tue, 31 Mar 2026
- 08:26:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774971286; x=1775576086;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1KcB7wDgOOcYSPfeHFcgAc3CokvxeOaMFZ2tqdVYZis=;
+        b=kc4ZcaQ1fKjQirLeJnhB+oTMTP4F7uCPjQhEQRdLPy8b+StK0wHhrDMQ2uoiVVNCIJ
+         BuKfM8UGm8YMmRABzmwwm/NuDWeUEWfpxAz7zKpOKsFnvREOw1/8+Cbvbq/qgTvL2eAj
+         LpVL1m+uwKuA/X2iL/GaLGJ81LH6AljpXmHX49+J1ewWZoXs5jmwbngGNEjZBCSPwoP+
+         WdI2PxwQWSaza7yEYtAtaxMzy26oAJa17UTT7gSLyyH8XK1quFyukN3ZqELvANBk1+0H
+         5sAC6HPqFzZrImJgkekoIHH2DlxC3cU3+tXBYrFZJNhl4c3gouVZMT7jMbqQaOQ6nb4L
+         4hJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqv6EcP3Oo6WWpbYOBh/rOnYPWerB2VrZj2e+eW/hssJkTnn2ZfFPhu302Lq+fFF2KGGR4cTy/zgz5qQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyD8WZ7Oddeeeo+oaqLTu/TGWwI+VTmP0DVfxK06SnX+n+9wJqL
+	/HqV88eXKIuKjNvaf9/Esky89koihQgTiwZ1JTc58phmut8HVtpiiMWgc5EaB0eGz5aOX/qbYPF
+	aeYn46Qo4pR6dXQ==
+X-Received: from dycts10.prod.google.com ([2002:a05:693c:3e0a:b0:2c5:70cd:ff53])
+ (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7300:a146:b0:2be:2cfe:68b7 with SMTP id 5a478bee46e88-2c185cd44a5mr9098490eec.11.1774971285561;
+ Tue, 31 Mar 2026 08:34:45 -0700 (PDT)
+Date: Tue, 31 Mar 2026 08:34:09 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <DHH1PD0ASG8H.1K3KG9L658DYN@kernel.org>
-In-Reply-To: <DHH1PD0ASG8H.1K3KG9L658DYN@kernel.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 31 Mar 2026 08:26:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XJ2qOZ7ftDg70AhD0GRX6TfQb6OVyNaUfFg42+hmwxGQ@mail.gmail.com>
-X-Gm-Features: AQROBzAO84ippC-b2XO-7R5l6fnyfqHcAQ7sFFgv72ZLW18LGW8l3elfjno7St0
-Message-ID: <CAD=FV=XJ2qOZ7ftDg70AhD0GRX6TfQb6OVyNaUfFg42+hmwxGQ@mail.gmail.com>
-Subject: Re: [PATCH v2] driver core: Don't let a device probe until it's ready
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, Kay Sievers <kay.sievers@vrfy.org>, 
-	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
+Message-ID: <20260331153413.2469218-1-wusamuel@google.com>
+Subject: [PATCH v3 0/2] Support BPF traversal of wakeup sources
+From: Samuel Wu <wusamuel@google.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>
+Cc: Samuel Wu <wusamuel@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+This patchset adds requisite kfuncs for BPF programs to safely traverse
+wakeup_sources, and puts a config flag around the sysfs interface.
 
-On Tue, Mar 31, 2026 at 7:42=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
-wrote:
->
-> > @@ -848,6 +848,18 @@ static int __driver_probe_device(const struct devi=
-ce_driver *drv, struct device
-> >       if (dev->driver)
-> >               return -EBUSY;
-> >
-> > +     /*
-> > +      * In device_add(), the "struct device" gets linked into the subs=
-ystem's
-> > +      * list of devices and broadcast to userspace (via uevent) before=
- we're
-> > +      * quite ready to probe. Those open pathways to driver probe befo=
-re
-> > +      * we've finished enough of device_add() to reliably support prob=
-e.
-> > +      * Detect this and tell other pathways to try again later. device=
-_add()
-> > +      * itself will also try to probe immediately after setting
-> > +      * "ready_to_probe".
-> > +      */
-> > +     if (!dev->ready_to_probe)
-> > +             return dev_err_probe(dev, -EPROBE_DEFER, "Device not read=
-y_to_probe");
->
-> Are we sure this dev->ready_to_probe dance does not introduce a new subtl=
-e bug
-> considering that ready_to_probe is within a bitfield of struct device?
->
-> I.e. are we sure there are no potential concurrent modifications of other=
- fields
-> in this bitfield that are not protected with the device lock?
->
-> For instance, in __driver_attach() we set dev->can_match if
-> driver_match_device() returns -EPROBE_DEFER without the device lock held.
+Currently, a traversal of wakeup sources require going through
+/sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to query
+sysfs is inefficient, as there can be hundreds of wakeup_sources, with each
+wakeup source also having multiple attributes. debugfs is unstable and
+insecure.
 
-Bleh. Thank you for catching this. I naively assumed the device lock
-protected the bitfield, but I didn't verify that.
+Adding kfuncs to lock/unlock wakeup sources allows BPF program to safely
+traverse the wakeup sources list. The head address of wakeup_sources can
+safely be resolved through BPF helper functions or variable attributes.
 
+On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~34x
+speedup (sampled 75 times in table below). For a device under load, the
+speedup is greater.
++-------+----+----------+----------+
+|       | n  | AVG (ms) | STD (ms) |
++-------+----+----------+----------+
+| sysfs | 75 | 44.9     | 12.6     |
++-------+----+----------+----------+
+| BPF   | 75 | 1.3      | 0.7      |
++-------+----+----------+----------+
 
-> This is exactly the case you want to protect against, i.e. device_add() r=
-acing
-> with __driver_attach().
->
-> So, there is a chance that the dev->ready_to_probe change gets interleave=
-d with
-> a dev->can_match change.
->
-> I think all this goes away if we stop using bitfields for synchronization=
-; we
-> should convert some of those to flags that we can modify with set_bit() a=
-nd
-> friends instead.
+The initial attempts for BPF traversal of wakeup_sources was with BPF
+iterators [1]. However, BPF already allows for traversing of a simple list
+with bpf_for(), and this current patchset has the added benefit of being
+~2-3x more performant than BPF iterators.
 
-That sounds reasonable to me. Do you want me to send a v3 where I
-create a new "unsigned long flags" in struct device and introduce this
-as the first flag? If there are additional bitfields you want me to
-convert, I can send them as additional patches in the series as long
-as it's not too big of a change...
+[1]: https://lore.kernel.org/all/20260225210820.177674-1-wusamuel@google.com/
 
--Doug
+Changes in v3:
+- Changed return type of bpf_wakeup_sources_get_head() to `void *` per Alexei
+- Added failure test for direct dereference of wakeup source head
+- Use bpf_core_cast() instead of macros in BPF program per Kumar
+- v2 link: https://lore.kernel.org/all/20260326112521.2827500-1-wusamuel@google.com/
+
+Changes in v2:
+- Dropped CONFIG_PM_WAKEUP_STATS_SYSFS patch for future patchset
+- Added declarations for kfuncs to .h to fix sparse and checkpatch warnings
+- Added kfunc to get address of wakeup_source's head
+- Added example bpf prog selftest for traversal of wakeup sources per Kumar
+- Added *_fail.c selftest per Kumar
+- More concise commit message in patch 1/2
+- v1 link: https://lore.kernel.org/all/20260320160055.4114055-1-wusamuel@google.com/
+
+Samuel Wu (2):
+  PM: wakeup: Add kfuncs to traverse over wakeup_sources
+  selftests/bpf: Add tests for wakeup_sources kfuncs
+
+ drivers/base/power/power.h                    |   7 ++
+ drivers/base/power/wakeup.c                   |  72 ++++++++++++-
+ tools/testing/selftests/bpf/config            |   3 +-
+ .../selftests/bpf/prog_tests/wakeup_source.c  | 101 ++++++++++++++++++
+ .../selftests/bpf/progs/test_wakeup_source.c  |  92 ++++++++++++++++
+ .../selftests/bpf/progs/wakeup_source.h       |  22 ++++
+ .../selftests/bpf/progs/wakeup_source_fail.c  |  76 +++++++++++++
+ 7 files changed, 370 insertions(+), 3 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/wakeup_source.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_wakeup_source.c
+ create mode 100644 tools/testing/selftests/bpf/progs/wakeup_source.h
+ create mode 100644 tools/testing/selftests/bpf/progs/wakeup_source_fail.c
+
+-- 
+2.53.0.1018.g2bb0e51243-goog
+
