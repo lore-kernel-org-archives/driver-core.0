@@ -1,190 +1,111 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8093337BB5
-	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 21:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0DF371053;
+	Wed,  1 Apr 2026 22:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775077817; cv=none; b=KbQHZx2jjOs1XZh6wPhk9g3ddOGnvjSqvW7RRNawygUChJh1pDeVMDxSgEAZLnZiJ8rWFtMLQ5V/a4J1U2Lfuff/utFhKS6ov7HGKJa2OVAyDvDbWD4LkkETaSViEuAuBY939G0xuIPvmm3XZMqkSAHSwBWjQUoCQK3Vcezh2Wc=
+	t=1775081712; cv=none; b=MrNWESlAh4bEbZy7xsmZjee+W6kmJpwqHOZDn0Yc11l5ERsIaFzYMphoHNXWs21OusqyabCJ4IHglWXo+39M00ziebf0K48agSgDfFghqNXc3hF6PjHBYvVe0yKldtXhBVGeVDSvY3Sl3dfWPKvFyQtYmO3vrdQ10CIgB0s+jb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775077817; c=relaxed/simple;
-	bh=zyFttTXNuZJK/32CT2m4h7GpWqj2ROee7GaYCXKbwTk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EIMWqsis9I2Qi3fdEmP4tSNmHoyjAFbY7ZjM+kmc8GsPdn8yP3rp4I4tijtAJ246+tJaMaB/QSUZA5WcXJrIiywExkIzzRX2M8GACsDNWPjRCJHVfGe76BQMFslxikYiM98wIveuhlgIOsOR61SbxqD3bzrfJwVrBryYFMlujP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OCzSpfhM; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1775081712; c=relaxed/simple;
+	bh=34AF3ofk0Wgk4TOt5kStZHIysIdIgOjJccVuG/tlka8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=TQGaEU+DveI5+2qvuOpg2x5s4LDsTSsUwJl8e3poVgGHjBaiW4m8D7rpopZZmCXpLm1y2+KlbEJoo5qdGtdPE5dVpzHpLk6/XJqj4PlvOfnzpYMp+xpMsQ5RYkOaYtBuvR6mFKI/wH7XLLH6zsMhE0WZlK2BXYGktFBSfsMx+jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rtkp2U6P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OCzSpfhM"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66bd4e0560fso1991525a12.0
-        for <driver-core@lists.linux.dev>; Wed, 01 Apr 2026 14:10:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775077813; x=1775682613; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fHX3adFhp3VQ3EddlCuHOOnOuSJT+t+CMh0HAuvok2w=;
-        b=OCzSpfhMlh8NMsvM00ebl1A1vZxGV8sTIfaQ0NsmzSQLz28q3pJdAhTf8hNAsoxUpz
-         uS0QOBa6PcsEnJ98ZCgzNXE/GTj2YQj+kaOHC9uZMzffSl5KbUGpLEwJmRQz50UJWSdx
-         HvlxFYhb0ki/+Q/yxxZ9XZTYJylDkcnUYknls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775077813; x=1775682613;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fHX3adFhp3VQ3EddlCuHOOnOuSJT+t+CMh0HAuvok2w=;
-        b=AKJmTU5QlijYb+J6YLeIVVf46AbOmDUHy615iFVpi2zox301F7JSOuxOFZk91EJjFv
-         3YQYDpDA3eOavAdU2EIONptxIQ27IqFBUzwFKn0bNjnUm1J2D5d/bePK/0uAHJpxxCO6
-         qUOOyXG7FqOV2YFofxBoeIbhoNLbPqDIqxSnzbxpyPDWGqZZxJwdYtlbpZE1MDFhUf+d
-         FWxanRa91PBmt2rxnCFCQvxZShrAAS6q6OUEXT4hzu0z8Le9N160b7cwD/3wvgnIZG16
-         eRi1XCfpdJqEmQ8/I2CbDQFAB3b1yDH+KQxFuB02gIwl51nelXf9C4XYztI+wKl/zX3b
-         RowQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXy+pVx5abafFTK+GenM/kaXmgjS/FWqTNNUjYjN6YuttruwqbZpSCk21Ua5qK/fauOvfvko2ykEyMVww==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7DoUzFvxABi1b+Kcvu5IjJbXQMss1ZbiSVg2UdVKwb2oMqWdd
-	Cpy+BOKtx874KW9NVunwDqvAXi0cOjmX88aH2fAS7SyEaZ45nxZ708ANCDSNopNPEqhCm7jLrSr
-	W1qPzUA==
-X-Gm-Gg: ATEYQzwqzi4iPJC76QMTG19amm6UQzstB9selwZaoIdgB1n3tKIcOw2E/QU/xH7MqQE
-	ef/CpBvgaaWZ5HB71nWTjnrdYBMkGOvOg98U5TS5aWqLyXoKbcCK9SHqGWcabvz9s7c5wF2P5Vl
-	bosOAA7HjLy7CRp66TB5w4ZpM7zdXojN+dzmUxBXMPhfiwqZWTLBLGRQy+agXxovYFFvnqB1/v+
-	hzwvpP8ghDavQcG5Yn/TURNqyUOW3Z/bR9LNX4M4b7WhwDg2XFRESBEXYeII3wgoIw4gycbP9gt
-	YE9nwSkqClEmPYp3QLK6MeuhROIAReP3gpEoKxRqxUnFBqoCtrU5lMWx/Vk2up+mmjRAw4eYDUN
-	JA6lLKQqT7JL16foFZVJQQNtZwdsXIkurrsVlI5uMDHJnNJz/C0Q8AZGTS4KtZ7mzDUfSvb0ZWG
-	/venFmE7APqSTcwIc2fzBniHGzu91nN4WT6YEuO0QafiFjNjMJ0i5XUm6l/THZog==
-X-Received: by 2002:a17:907:c14:b0:b9b:171e:bae9 with SMTP id a640c23a62f3a-b9c1597da90mr279853066b.24.1775077813245;
-        Wed, 01 Apr 2026 14:10:13 -0700 (PDT)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3cec6f38sm23239466b.31.2026.04.01.14.10.12
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Apr 2026 14:10:12 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-486fc4725f0so1527165e9.1
-        for <driver-core@lists.linux.dev>; Wed, 01 Apr 2026 14:10:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWkmj4QG0/v5VHpbpI/QfWV/WIlNCeYn3zona472TK6NmmBjYGCRVJajexBR5vvfVg5fwCOVna075q6GQ==@lists.linux.dev
-X-Received: by 2002:a05:600c:1d0e:b0:486:faa8:9e4 with SMTP id
- 5b1f17b1804b1-488835bc1acmr82347435e9.12.1775077811306; Wed, 01 Apr 2026
- 14:10:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rtkp2U6P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1D8C4CEF7;
+	Wed,  1 Apr 2026 22:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775081712;
+	bh=34AF3ofk0Wgk4TOt5kStZHIysIdIgOjJccVuG/tlka8=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=Rtkp2U6PHLgYXxrww9/MCuk8DIr+YOi58YYj/JWhgVJ0ilomZpvwqX22TNxaCBt2F
+	 p1b/POayGBEW30uKlb/PGueb2BGMGud+WtkHHJK1erwrpBoojTs9uCzsi6jF1iXYZ5
+	 +ZP1WEpy9UK8mtgoDJmaa95lXdvEkL9BoQcJvRal0ysVgN99AfBmP8IgKARFSHx8ae
+	 Nu3re1d7hoKjaLSUHQVaa/weCNDr3D1eQGuVpcD1eBYuq8ybn6mt+/QIO73hwW4YAm
+	 a53D6RQUUg06FNn1vj8uOAipFDT7BDFadAsYLVWvoi8ezRKA6ntelDl/zNUl1I3E5/
+	 KONwJYSRZf7cg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <DHH1PD0ASG8H.1K3KG9L658DYN@kernel.org> <CAD=FV=XJ2qOZ7ftDg70AhD0GRX6TfQb6OVyNaUfFg42+hmwxGQ@mail.gmail.com>
- <DHI4H61YSZGE.BBM3H9B3H8F7@kernel.org>
-In-Reply-To: <DHI4H61YSZGE.BBM3H9B3H8F7@kernel.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 1 Apr 2026 14:09:59 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X38yR7=KOPfayQCchY7xr=bpPz562bHMJTawXBL_2rsA@mail.gmail.com>
-X-Gm-Features: AQROBzBupfLpPHVGbgE5Pj1a7iA_ATwmIVBVN-KRft9BiV43nt4TGPxsenumMp4
-Message-ID: <CAD=FV=X38yR7=KOPfayQCchY7xr=bpPz562bHMJTawXBL_2rsA@mail.gmail.com>
-Subject: Re: [PATCH v2] driver core: Don't let a device probe until it's ready
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, Kay Sievers <kay.sievers@vrfy.org>, 
-	Saravana Kannan <saravanak@kernel.org>, stable@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 02 Apr 2026 00:15:07 +0200
+Message-Id: <DHI5Y6PNVJSJ.SCAJL0A4W2TR@kernel.org>
+Subject: Re: [PATCH] rust: ACPI: fix missing match data for PRP0001
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Len Brown" <lenb@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, <linux-kernel@vger.kernel.org>,
+ <linux-acpi@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Markus Probst" <markus.probst@posteo.de>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260401-rust_acpi_prp0001-v1-1-f6a4d2ef9244@posteo.de>
+ <2026040124-unbolted-timing-ce25@gregkh>
+ <565d58a4b766bd4a63a45da81849ea178dce5f63.camel@posteo.de>
+In-Reply-To: <565d58a4b766bd4a63a45da81849ea178dce5f63.camel@posteo.de>
 
-Hi,
+On Wed Apr 1, 2026 at 8:46 PM CEST, Markus Probst wrote:
+> On Wed, 2026-04-01 at 20:32 +0200, Greg Kroah-Hartman wrote:
+>> On Wed, Apr 01, 2026 at 02:06:25PM +0000, Markus Probst wrote:
+>> > Export `acpi_of_match_device` function and use it to match the of devi=
+ce
+>> > table against ACPI PRP0001 in Rust.
+>> >=20
+>> > This fixes id_info being None on ACPI PRP0001 devices.
+>> >=20
+>> > Using `device_get_match_data` is not possible, because Rust stores an
+>> > index in the of device id instead of a data pointer.
+>>=20
+>> I'm confused, why are we open-coding this in the rust layer?  What do we
+>> need to change in the C side to make both layers be able to call the
+>> same function instead?
+> No commit message I have seen has explained why it was done this way. I
+> don't think we would need to change anything on the C side.
 
-On Wed, Apr 1, 2026 at 2:06=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
-rote:
->
-> On Tue Mar 31, 2026 at 5:26 PM CEST, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Tue, Mar 31, 2026 at 7:42=E2=80=AFAM Danilo Krummrich <dakr@kernel.o=
-rg> wrote:
-> >>
-> >> > @@ -848,6 +848,18 @@ static int __driver_probe_device(const struct d=
-evice_driver *drv, struct device
-> >> >       if (dev->driver)
-> >> >               return -EBUSY;
-> >> >
-> >> > +     /*
-> >> > +      * In device_add(), the "struct device" gets linked into the s=
-ubsystem's
-> >> > +      * list of devices and broadcast to userspace (via uevent) bef=
-ore we're
-> >> > +      * quite ready to probe. Those open pathways to driver probe b=
-efore
-> >> > +      * we've finished enough of device_add() to reliably support p=
-robe.
-> >> > +      * Detect this and tell other pathways to try again later. dev=
-ice_add()
-> >> > +      * itself will also try to probe immediately after setting
-> >> > +      * "ready_to_probe".
-> >> > +      */
-> >> > +     if (!dev->ready_to_probe)
-> >> > +             return dev_err_probe(dev, -EPROBE_DEFER, "Device not r=
-eady_to_probe");
-> >>
-> >> Are we sure this dev->ready_to_probe dance does not introduce a new su=
-btle bug
-> >> considering that ready_to_probe is within a bitfield of struct device?
-> >>
-> >> I.e. are we sure there are no potential concurrent modifications of ot=
-her fields
-> >> in this bitfield that are not protected with the device lock?
-> >>
-> >> For instance, in __driver_attach() we set dev->can_match if
-> >> driver_match_device() returns -EPROBE_DEFER without the device lock he=
-ld.
-> >
-> > Bleh. Thank you for catching this. I naively assumed the device lock
-> > protected the bitfield, but I didn't verify that.
-> >
-> >
-> >> This is exactly the case you want to protect against, i.e. device_add(=
-) racing
-> >> with __driver_attach().
-> >>
-> >> So, there is a chance that the dev->ready_to_probe change gets interle=
-aved with
-> >> a dev->can_match change.
-> >>
-> >> I think all this goes away if we stop using bitfields for synchronizat=
-ion; we
-> >> should convert some of those to flags that we can modify with set_bit(=
-) and
-> >> friends instead.
-> >
-> > That sounds reasonable to me. Do you want me to send a v3 where I
-> > create a new "unsigned long flags" in struct device and introduce this
-> > as the first flag? If there are additional bitfields you want me to
-> > convert, I can send them as additional patches in the series as long
-> > as it's not too big of a change...
->
-> I think the one with the biggest potential to cause real issues is can_ma=
-tch, as
-> it is modified without the device lock held from __driver_attach(), which=
- can be
-> called at any time concurrently.
->
-> (I think there are others as well, but they are more on the theoretical s=
-ide of
-> things. For instance, dma_skip_sync is modified by dma_set_mask(), which
-> strictly speaking does not require the device lock to be held. In practic=
-e,
-> that's probably never an issue since dma_set_mask() is typically called f=
-rom bus
-> callbacks usually, but it's not strictly a requirement.)
->
-> More in general, from a robustness point of view, everything that is set =
-once at
-> device creation time is fine to be a bitfield; bits that are used for
-> synchronization or are modified concurrently, I'd rather use bitops.
+The Rust code stores an index into the array the contains the actual device=
+ ID
+info in the driver_data field of a device ID instead of a raw pointer to th=
+e
+device ID info.
 
-OK, thanks! I've almost finished with patches to fully move all of
-them to bitops. This means we simply don't need to think about them.
-Also: even if they're not truly needed as bitops, it's nice (and saves
-space) not to have some of some flags using bitfields and some bitops
-unless there's a good reason.
+The reason for this is that it was the only way to build this in a way that
+results in an API that is convinient and obvious to use for drivers when
+declaring the device ID table, can be evaluated in const context (i.e. at
+compile time), and does not rely on unstable language features. Fulfilling =
+all
+three of those requirements at the same was a rather tricky one.
 
-I'll make sure that "can_match" is second in the list of patches. If
-you hate the idea of converting the other ones we can just apply the
-earlier patches in the series and drop the rest. ;-)
+The unfortunate consequence is that device_get_match_data() does not give u=
+s a
+pointer to the actual device ID info, but it gives us the index of the devi=
+ce ID
+info in the device ID table.
 
--Doug
+The problem is that this does not really help, because now we know the inde=
+x,
+but not which table it belongs to.
+
+I.e. we wouldn't know whether to call
+
+	Self::acpi_id_table().info(index)
+
+or
+
+	Self::of_id_table().info(index)
+
+to obtain the actual device ID info.
+
+So, unfortunately, I think we have to open code this for now.
+
+But I think this is still a minor inconvinience for being able to fulfill t=
+he
+requirements mentioned above.
