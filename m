@@ -1,35 +1,39 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5211943CEFC;
-	Wed,  1 Apr 2026 13:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E10426D07
+	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 14:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775051024; cv=none; b=YJHv889rIzjRsMZ9Sc6oAWnfbcYKzVBQGJUIzO3ioOKEihxOdlBye4uVc5OuSx63RPpmJ+beidm/U+N7hU/KF0UW6qngVBBtU55oecMFNtfF6H6J4cwCBJWitkJ0gXcXeKGq9zqLKoO1aPykmpU4Wcv4IPh4DLAn3iVQfMNm0IA=
+	t=1775052396; cv=none; b=ns8AaLwqWKOKM6UrB8qsRc68kCJpLRfdQtgti635Cq9n+5zWGZqIeOMzu4vFwC2Yn+rfPWh0VUjSC4EaUZaGlbnrl520mbwT85bj6Vrpb8sxKTMnSfkwWwTgzcZXzMX5MIPNWLgNgMdI5YmDE3YPVbhZR9212eWSMn/THt4BwDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775051024; c=relaxed/simple;
-	bh=h2TewXUFQQoABq7Mcj2uXgEyBXVxKvWZj5vOBtLRV2k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CTVsEgLu7IZH1YH3ZgzKAdvClSgwyuUW0eK/RzESf7gJC+zXAR5M654qkf65ROBgnZ2PDYidXMUp1aoDLvYH77/F41LoCXNLh+DYErMd2bhj2/XtaYb0dJTr3eTaB1J9xD1ZjFQlGYmMyYrGR6EUEaGbW1y76O+mDciPuh75JbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IT0kSFU7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775052396; c=relaxed/simple;
+	bh=skDfBD1b2YAhEBUiCSitIrF/3h/9z7OQCA9yyWAodGU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kT/N3q/Yak+LCg/0xH1HthGSrTcDL0S/s+XqA7rCSx1O1tyh3Zsjk51XhklqhWCSjLYMl/ImvB66WpxMpTObXRsj2TLmv7CZtjslFF10my2r5R5vmrTD5Dy6Rgh74JRpvHrWv7CZaK8g7TV4DrMP/lLgndaIMxVuwRQ8+KueGf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=Ztk5GnCv; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IT0kSFU7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D8DC116C6;
-	Wed,  1 Apr 2026 13:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775051024;
-	bh=h2TewXUFQQoABq7Mcj2uXgEyBXVxKvWZj5vOBtLRV2k=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=IT0kSFU7KN6VScYi/y2Iy6qWbxAQRenSY6Ulrm1cCBCH9whcctI76yfL74TwR6eFu
-	 X8mcFACsfdPQ+x47dEIfpA3LwTXb9NpQlK9IV8BIK74kTVoUVkIr9gN3BVzKVbFMC+
-	 4O/C+TPJPRqFcWyk2raq5vTkSNRGafBT9KsX6iLMckw4XpnVEB5H8BhKD894rHgvOS
-	 8jp0ldZ2PKFmODKH3vsQlsTf+pyLs8RjyRjGERHdstxVktgxBXiRlzJ0OZoTqLqgVS
-	 LgW+3pMYfQBvnSC67wPYPIxpqPn5GJGPyVjZhOhK1b1uqg0Ksowr+pTFSafdQpXljG
-	 2UnyD00UrNP3Q==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Wed, 01 Apr 2026 09:43:28 -0400
-Subject: [PATCH v6 2/2] selftests/firmware: add search path test for
- firmware_class.search_path=
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="Ztk5GnCv"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id E2599240101
+	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 16:06:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1775052385; bh=PbPiuFL+qLiw6GQTumUuEH85AQhunJBzwViLmZSB9Jo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
+	b=Ztk5GnCvfpROXbxsQTvztruJvvjvWUXQDxB+EoHHrpm0Ay/SRxCuqeuQXEGJTqYq3
+	 geFuH0wbmV5MGcXX+qJ0FcPp/XxazlvcvVapGeLR9qQPHqOxniiejnoBfyqOG6X0aF
+	 kaK4aSe8HHhn0wMigxu9UuTssGYQCl1Lts54mDT/Bap3VluDuwCUfLBVkLl5ybnUQK
+	 dVL9QUv4+hHJwjCJfUpUCM9SJdLRZUdK2OKCg2tuUS7V/pnhHBAIc8U02xlUUpMV7O
+	 sE55kN9G3vZ/utG4TlHNjsOea1qcPwEtCHrKLV/dNdUpNgSKd+9MBoPWNzYiEThKzr
+	 tlh1f7rtYzA9A==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4fm6Gl1nhfz6tsb;
+	Wed,  1 Apr 2026 16:06:23 +0200 (CEST)
+From: Markus Probst <markus.probst@posteo.de>
+Date: Wed, 01 Apr 2026 14:06:25 +0000
+Subject: [PATCH] rust: ACPI: fix missing match data for PRP0001
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -38,296 +42,293 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260401-fw-path-v6-2-4ebe70441839@kernel.org>
-References: <20260401-fw-path-v6-0-4ebe70441839@kernel.org>
-In-Reply-To: <20260401-fw-path-v6-0-4ebe70441839@kernel.org>
-To: Luis Chamberlain <mcgrof@kernel.org>, 
- Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: Michal Grzedzicki <mge@meta.com>, driver-core@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8738; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=h2TewXUFQQoABq7Mcj2uXgEyBXVxKvWZj5vOBtLRV2k=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpzSEMjKW4fxN17my8115BZwXcHgtD6TQboZG08
- ekhjl+I/3iJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCac0hDAAKCRAADmhBGVaC
- FbgiD/9Anx+uuXq/swZP21KphdoVsfz8wm+Bb2ABCQdYXlVz28TsB7cYxXcxQypRlcZBd433NRJ
- E1+aZaEj9QP0bn8WNA5HXOR2lgtzuQJXewNVMgogtOicXb8ylIlm/UCpLAfIJu208F9bOn46FtS
- qqRkiOZUsISPPkGaLBOr8z3qYgk7STfFa6/lyWF8Rb7xkTTlXtvNrxA5nnLiB3Pbg8g3O/a7PyL
- Hh2mtz/d5wMqYwzFJLOGhq13w1vEBbAP88btxiqnguS9gugkZWux+sLGRByJCU8EbMuNcZV54lI
- tfVPcjQAydfqNIC+MW0ShwUVMO0KWipXfhFI0iWcfWjqxkhdyQMmdCQNMZV+/oRaAjabjjC0Yr0
- trAVvUjHFD07tffzr10iQlc3veZ9E0ugyJOG5QZKiOGavekyDwccHi/L8dNVzvWO8OCDmNtaP5o
- jpO31D4R8DLE34eXkCHLcmkRn2+zQyGcOQ+dL96pTLaoQL7lWb7sZJr8tZ33b3JBwMxUzFdOkbU
- 8dn4Msr50rWrqzMwvk5EQsbiXxOyuABBTvfhzEGKWSi+mqEzZiK6zty6nmXgcGdrhSG1SAX5EUS
- rZYFmTmsT1LnyrdelID75/ZAhDHMS8r3rxEegLnLQ3myso567o2ClwhOlLijpGSX7SiN/Ojd/oZ
- 0fZmnoZzmsLRhmA==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Message-Id: <20260401-rust_acpi_prp0001-v1-1-f6a4d2ef9244@posteo.de>
+X-B4-Tracking: v=1; b=H4sIAEomzWkC/yWMQQqDMBAAvxL23JRNapT6lSIS0227BzVuohTEv
+ zfU4wzM7JBImBK0agehjRPPUwFzURA+fnqT5mdhsGhrrNBoWVPufYjcR4mIxXh7b4yrboNzDko
+ XhV78/T8f3clCy1rW+ZQw+EQ6zOPIuVVbc0UtoYbuOH71Rf1VjwAAAA==
+X-Change-ID: 20260401-rust_acpi_prp0001-a2971543b555
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+ Markus Probst <markus.probst@posteo.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7708;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=skDfBD1b2YAhEBUiCSitIrF/3h/9z7OQCA9yyWAodGU=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBpzSZfmZqYOo9rJ7xdnR34OLwUebj0kYkZYTZVq
+ CsSUWaXUmGJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCac0mXxsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMSwyLDIACgkQNHYf+OetQ9Jx7A/+KKyaimN/Is/7zNRma/KJubqTd5eX5bc
+ 0q4PtRRtUzzgi28hOnSMLYodKF2Yj45DWMRXDBFjWfoWV9m0LCIkoeZ9HRLXtEgidJCYmBTNdAZ
+ 4+QTbZpyBQqgtMZlqHASdIRFOigKINcQUoagNP17c2w9a7ZdnrAEVDMvZrIuvZpvuNSc1oz690j
+ SOE/DWcah1UqY38tKRUYubi1rmz1M88NTtX8sahq1KyDj+ssoaW21FFFNDLsMpYyV6WlUnCi0ni
+ XvkD67bmVmH68uiKlZPX4rPK8v2Y2IgRtBWLLYVd3nx1vIZGzM7Y/16pUfKBheiUT/yT3agnJEc
+ kTvvnlfLkmZwo9HJQU3iQIyrTp6sGRn9TIPEAB/4pL989v7uqoy7Ws6QbEr5KhcOI/U0b0ZUA22
+ Y4m8uNps4K0FGzZPLG2oohnt3Q/4QIjDDcqe9WK1A3TAawhSNdnJkphKtcNK97wd9VkFYmPLOPe
+ U3z96c9Ouq9Z8Q909wx3EfcAXLYFmFlsz4AyfFp2u7xlSFh144cZBdQ+AXCQhfqRnmWB7aGjTyq
+ bEvq/g1xr3iZU+sBLshQOBazeyLwD2KhjxcrVlcYjcW0UghySAKBAHqZtXocTThla/pcXB/05rW
+ x1XE95WYGDNuJfqndp5tn3ErqFHRKr7bCbhp+aXmIhDymxRsftw8=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=xsFNBGiDvXgBEADAXUceKafpl46S35UmDh2wRvvx+UfZbcTjeQOlSwKP7YVJ4JOZrVs93qReNLkO
+  WguIqPBxR9blQ4nyYrqSCV+MMw/3ifyXIm6Pw2YRUDg+WTEOjTixRCoWDgUj1nOsvJ9tVAm76Ww+
+  /pAnepVRafMID0rqEfD9oGv1YrfpeFJhyE2zUw3SyyNLIKWD6QeLRhKQRbSnsXhGLFBXCqt9k5JA
+  RhgQof9zvztcCVlT5KVvuyfC4H+HzeGmu9201BVyihJwKdcKPq+n/aY5FUVxNTgtI9f8wIbmfAja
+  oT1pjXSp+dszakA98fhONM98pOq723o/1ZGMZukyXFfsDGtA3BB79HoopHKujLGWAGskzClwTjRQ
+  xBqxh/U/lL1pc+0xPWikTNCmtziCOvv0KA0arDOMQlyFvImzX6oGVgE4ksKQYbMZ3Ikw6L1Rv1J+
+  FvN0aNwOKgL2ztBRYscUGcQvA0Zo1fGCAn/BLEJvQYShWKeKqjyncVGoXFsz2AcuFKe1pwETSsN6
+  OZncjy32e4ktgs07cWBfx0v62b8md36jau+B6RVnnodaA8++oXl3FRwiEW8XfXWIjy4umIv93tb8
+  8ekYsfOfWkTSewZYXGoqe4RtK80ulMHb/dh2FZQIFyRdN4HOmB4FYO5sEYFr9YjHLmDkrUgNodJC
+  XCeMe4BO4iaxUQARAQABzRdtYXJrdXMucHJvYnN0QHBvc3Rlby5kZcLBkQQTAQgAOxYhBIJ0GMT0
+  rFjncjDEczR2H/jnrUPSBQJog714AhsDBQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEDR2
+  H/jnrUPSgdkQAISaTk2D345ehXEkn5z2yUEjaVjHIE7ziqRaOgn/QanCgeTUinIv6L6QXUFvvIfH
+  1OLPwQ1hfvEg9NnNLyFezWSy6jvoVBTIPqicD/r3FkithnQ1IDkdSjrarPMxJkvuh3l7XZHo49GV
+  HQ8i5zh5w4YISrcEtE99lJisvni2Jqx7we5tey9voQFDyM8jxlSWv3pmoUTCtBkX/eKHJXosgsuS
+  B4TGDCVPOjla/emI5c9MhMG7O4WEEmoSdPbmraPw66YZD6uLyhV4DPHbiDWRzXWnClHSyjB9rky9
+  lausFxogvu4l9H+KDsXIadNDWdLdu1/enS/wDd9zh5S78rY2jeXaG4mnf4seEKamZ7KQ6FIHrcyP
+  ezdDzssPQcTQcGRMQzCn6wP3tlGk7rsfmyHMlFqdRoNNv+ZER/OkmZFPW655zRfbMi0vtrqK2Awm
+  9ggobb1oktfd9PPNXMUY+DNVlgR2G7jLnenSoQausLUm0pHoNE8TWFv851Y6SOYnvn488sP1Tki5
+  F3rKwclawQFHUXTCQw+QSh9ay8xgnNZfH+u9NY7w3gPoeKBOAFcBc2BtzcgekeWS8qgEmm2/oNFV
+  G0ivPQbRx8FjRKbuF7g3YhgNZZ0ac8FneuUtJ2PkSIFTZhaAiC0utvxk0ndmWFiW4acEkMZGrLaM
+  L2zWNjrqwsD2zsFNBGiDvXgBEADCXQy1n7wjRxG12DOVADawjghKcG+5LtEf31WftHKLFbp/HArj
+  BhkT6mj+CCI1ClqY+FYU5CK/s0ScMfLxRGLZ0Ktzawb78vOgBVFT3yB1yWBTewsAXdqNqRooaUNo
+  8cG/NNJLjhccH/7PO/FWX5qftOVUJ/AIsAhKQJ18Tc8Ik73v427EDxuKb9mTAnYQFA3Ev3hAiVbO
+  6Rv39amVOfJ8sqwiSUGidj2Fctg2aB5JbeMln0KCUbTD1LhEFepeKypfofAXQbGwaCjAhmkWy/q3
+  IT1mUrPxOngbxdRoOx1tGUC0HCMUW1sFaJgQPMmDcR0JGPOpgsKnitsSnN7ShcCr1buel7vLnUMD
+  +TAZ5opdoF6HjAvAnBQaijtK6minkrM0seNXnCg0KkV8xhMNa6zCs1rq4GgjNLJue2EmuyHooHA4
+  7JMoLVHcxVeuNTp6K2+XRx0Pk4e2Lj8IVy9yEYyrywEOC5XRW37KJjsiOAsumi1rkvM7QREWgUDe
+  Xs0+RpxI3QrrANh71fLMRo7LKRF3Gvw13NVCCC9ea20P4PwhgWKStkwO2NO+YJsAoS1QycMi/vKu
+  0EHhknYXamaSV50oZzHKmX56vEeJHTcngrM8R1SwJCYopCx9gkz90bTVYlitJa5hloWTYeMD7FNj
+  Y6jfVSzgM/K4gMgUNDW/PPGeMwARAQABwsF2BBgBCAAgFiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IF
+  AmiDvXgCGwwACgkQNHYf+OetQ9LHDBAAhk+ab8+WrbS/b1/gYW3q1KDiXU719nCtfkUVXKidW5Ec
+  Idlr5HGt8ilLoxSWT2Zi368iHCXS0WenGgPwlv8ifvB7TOZiiTDZROZkXjEBmU4nYjJ7GymawpWv
+  oQwjMsPuq6ysbzWtOZ7eILx7cI0FjQeJ/Q2baRJub0uAZNwBOxCkAS6lpk5Fntd2u8CWmDQo4SYp
+  xeuQ+pwkp0yEP30RhN2BO2DXiBEGSZSYh+ioGbCHQPIV3iVj0h6lcCPOqopZqyeCfigeacBI0nvN
+  jHWz/spzF3+4OS+3RJvoHtAQmProxyGib8iVsTxgZO3UUi4TSODeEt0i0kHSPY4sCciOyXfAyYoD
+  DFqhRjOEwBBxhr+scU4C1T2AflozvDwq3VSONjrKJUkhd8+WsdXxMdPFgBQuiKKwUy11mz6KQfcR
+  wmDehF3UaUoxa+YIhWPbKmycxuX/D8SvnqavzAeAL1OcRbEI/HsoroVlEFbBRNBZLJUlnTPs8ZcU
+  4+8rq5YX1GUrJL3jf6SAfSgO7UdkEET3PdcKFYtS+ruV1Cp5V0q4kCfI5jk25iiz8grM2wOzVSsc
+  l1mEkhiEPH87HP0whhb544iioSnumd3HJKL7dzhRegsMizatupp8D65A2JziW0WKopa1iw9fti3A
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-Add fw_search.sh, a new selftest that validates the firmware_class.search_path=
-module parameter using the existing test_firmware module's sysfs trigger
-interface.
+Export `acpi_of_match_device` function and use it to match the of device
+table against ACPI PRP0001 in Rust.
 
-The test covers:
-  - Firmware found in first/second/third search directory
-  - Firmware not found in any search path
-  - path= takes priority over search_path=
-  - Empty search_path= does not break firmware loading
-  - Sysfs readback matches what was written
-  - Escaped colon (\:) in directory name
-  - Escaped backslash (\\) in directory name
-  - Escaped colon combined with multiple search paths
+This fixes id_info being None on ACPI PRP0001 devices.
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Using `device_get_match_data` is not possible, because Rust stores an
+index in the of device id instead of a data pointer.
+
+Fixes: 7a718a1f26d1 ("rust: driver: implement `Adapter`")
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- tools/testing/selftests/firmware/Makefile     |   2 +-
- tools/testing/selftests/firmware/fw_search.sh | 222 ++++++++++++++++++++++++++
- 2 files changed, 223 insertions(+), 1 deletion(-)
+ MAINTAINERS            |  1 +
+ drivers/acpi/bus.c     |  7 +++---
+ include/linux/acpi.h   | 11 ++++++++++
+ rust/helpers/acpi.c    |  8 +++++++
+ rust/helpers/helpers.c |  1 +
+ rust/kernel/driver.rs  | 58 ++++++++++++++++++++++++++++++++++++++------------
+ 6 files changed, 69 insertions(+), 17 deletions(-)
 
-diff --git a/tools/testing/selftests/firmware/Makefile b/tools/testing/selftests/firmware/Makefile
-index 7992969deaa2737ff2a033ffe60136b84ea2f3f0..42e5bd72886b3cd8f62ae42d53c1554e8a1b331c 100644
---- a/tools/testing/selftests/firmware/Makefile
-+++ b/tools/testing/selftests/firmware/Makefile
-@@ -3,7 +3,7 @@
- CFLAGS = -Wall \
-          -O2
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c3fe46d7c4bc..3a7b3b5f2a28 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -302,6 +302,7 @@ F:	include/linux/acpi.h
+ F:	include/linux/fwnode.h
+ F:	include/linux/fw_table.h
+ F:	lib/fw_table.c
++F:	rust/helpers/acpi.c
+ F:	rust/kernel/acpi.rs
+ F:	tools/power/acpi/
  
--TEST_PROGS := fw_run_tests.sh
-+TEST_PROGS := fw_run_tests.sh fw_search.sh
- TEST_FILES := fw_fallback.sh fw_filesystem.sh fw_upload.sh fw_lib.sh
- TEST_GEN_FILES := fw_namespace
+diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+index 2ec095e2009e..cd02f04cf685 100644
+--- a/drivers/acpi/bus.c
++++ b/drivers/acpi/bus.c
+@@ -831,9 +831,9 @@ const struct acpi_device *acpi_companion_match(const struct device *dev)
+  * identifiers and a _DSD object with the "compatible" property, use that
+  * property to match against the given list of identifiers.
+  */
+-static bool acpi_of_match_device(const struct acpi_device *adev,
+-				 const struct of_device_id *of_match_table,
+-				 const struct of_device_id **of_id)
++bool acpi_of_match_device(const struct acpi_device *adev,
++			  const struct of_device_id *of_match_table,
++			  const struct of_device_id **of_id)
+ {
+ 	const union acpi_object *of_compatible, *obj;
+ 	int i, nval;
+@@ -866,6 +866,7 @@ static bool acpi_of_match_device(const struct acpi_device *adev,
  
-diff --git a/tools/testing/selftests/firmware/fw_search.sh b/tools/testing/selftests/firmware/fw_search.sh
-new file mode 100755
-index 0000000000000000000000000000000000000000..19a23284c31104c3bad3044a910c50aa71a2a766
---- /dev/null
-+++ b/tools/testing/selftests/firmware/fw_search.sh
-@@ -0,0 +1,222 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Test the firmware_class.search_path= module parameter, which allows
-+# specifying multiple colon-separated firmware search directories.
+ 	return false;
+ }
++EXPORT_SYMBOL_GPL(acpi_of_match_device);
+ 
+ static bool acpi_of_modalias(struct acpi_device *adev,
+ 			     char *modalias, size_t len)
+diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+index 4d2f0bed7a06..1cf23edcbfbb 100644
+--- a/include/linux/acpi.h
++++ b/include/linux/acpi.h
+@@ -736,6 +736,10 @@ const struct acpi_device_id *acpi_match_acpi_device(const struct acpi_device_id
+ const struct acpi_device_id *acpi_match_device(const struct acpi_device_id *ids,
+ 					       const struct device *dev);
+ 
++bool acpi_of_match_device(const struct acpi_device *adev,
++			  const struct of_device_id *of_match_table,
++			  const struct of_device_id **of_id);
 +
-+set -e
-+
-+TEST_REQS_FW_SYSFS_FALLBACK="no"
-+TEST_REQS_FW_SET_CUSTOM_PATH="no"
-+TEST_DIR=$(dirname $0)
-+source $TEST_DIR/fw_lib.sh
-+
-+# Kselftest framework requirement - SKIP code is 4.
-+ksft_skip=4
-+
-+SEARCH_SYSFS="/sys/module/firmware_class/parameters/search_path"
-+PATH_SYSFS="/sys/module/firmware_class/parameters/path"
-+
-+check_mods
-+check_setup
-+verify_reqs
-+
-+if [ ! -f "$SEARCH_SYSFS" ]; then
-+	echo "$0: search_path= parameter not available, skipping"
-+	exit $ksft_skip
-+fi
-+
-+# Save original values
-+OLD_SEARCH="$(cat $SEARCH_SYSFS)"
-+OLD_PATH="$(cat $PATH_SYSFS)"
-+
-+# Create temp directories for firmware
-+FWDIR1=$(mktemp -d)
-+FWDIR2=$(mktemp -d)
-+FWDIR3=$(mktemp -d)
-+
-+FW_NAME="test-search-fw.bin"
-+FW_CONTENT1="SEARCH_PATH_1"
-+FW_CONTENT2="SEARCH_PATH_2"
-+FW_CONTENT3="SEARCH_PATH_3"
-+
-+DIR=/sys/devices/virtual/misc/test_firmware
-+
-+cleanup()
+ const void *acpi_device_get_match_data(const struct device *dev);
+ extern bool acpi_driver_match_device(struct device *dev,
+ 				     const struct device_driver *drv);
+@@ -965,6 +969,13 @@ static inline const struct acpi_device_id *acpi_match_device(
+ 	return NULL;
+ }
+ 
++static inline bool acpi_of_match_device(const struct acpi_device *adev,
++					const struct of_device_id *of_match_table,
++					const struct of_device_id **of_id)
 +{
-+	# Restore original values
-+	if [ "$OLD_PATH" = "" ]; then
-+		printf '\000' >$PATH_SYSFS
-+	else
-+		echo -n "$OLD_PATH" >$PATH_SYSFS
-+	fi
-+	if [ "$OLD_SEARCH" = "" ]; then
-+		printf '\000' >$SEARCH_SYSFS
-+	else
-+		echo -n "$OLD_SEARCH" >$SEARCH_SYSFS
-+	fi
-+	rm -rf "$FWDIR1" "$FWDIR2" "$FWDIR3"
++	return false;
 +}
-+trap cleanup EXIT
 +
-+# Clear path= so search_path= is consulted
-+printf '\000' >$PATH_SYSFS
+ static inline const void *acpi_device_get_match_data(const struct device *dev)
+ {
+ 	return NULL;
+diff --git a/rust/helpers/acpi.c b/rust/helpers/acpi.c
+new file mode 100644
+index 000000000000..f2aa00ec99c2
+--- /dev/null
++++ b/rust/helpers/acpi.c
+@@ -0,0 +1,8 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+# Test 1: firmware found in first search path
-+echo -n "$FW_CONTENT1" >"$FWDIR1/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2" >$SEARCH_SYSFS
++#include <linux/acpi.h>
 +
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 1" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR1/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 1" >&2
-+	exit 1
-+fi
-+echo "$0: search path - first directory: OK"
++__rust_helper struct acpi_device *rust_helper_to_acpi_device_node(struct fwnode_handle *fwnode)
++{
++	return to_acpi_device_node(fwnode);
++}
+diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+index a3c42e51f00a..8ecd1580aa69 100644
+--- a/rust/helpers/helpers.c
++++ b/rust/helpers/helpers.c
+@@ -9,6 +9,7 @@
+ 
+ #define __rust_helper
+ 
++#include "acpi.c"
+ #include "atomic.c"
+ #include "atomic_ext.c"
+ #include "auxiliary.c"
+diff --git a/rust/kernel/driver.rs b/rust/kernel/driver.rs
+index 36de8098754d..f03421bb2046 100644
+--- a/rust/kernel/driver.rs
++++ b/rust/kernel/driver.rs
+@@ -96,13 +96,18 @@
+ 
+ use crate::{
+     acpi,
+-    device,
++    device::{
++        self,
++        property::FwNode, //
++    },
+     of,
+     prelude::*,
+     types::Opaque,
+     ThisModule, //
+ };
+ 
++use core::ptr;
 +
-+# Test 2: firmware found in second search path (not in first)
-+rm -f "$FWDIR1/$FW_NAME"
-+echo -n "$FW_CONTENT2" >"$FWDIR2/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2" >$SEARCH_SYSFS
+ /// Trait describing the layout of a specific device driver.
+ ///
+ /// This trait describes the layout of a specific driver structure, such as `struct pci_driver` or
+@@ -329,35 +334,60 @@ fn acpi_id_info(dev: &device::Device) -> Option<&'static Self::IdInfo> {
+     ///
+     /// If this returns `None`, it means there is no match with an entry in the [`of::IdTable`].
+     fn of_id_info(dev: &device::Device) -> Option<&'static Self::IdInfo> {
+-        #[cfg(not(CONFIG_OF))]
++        let table = Self::of_id_table()?;
 +
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 2" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR2/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 2" >&2
-+	exit 1
-+fi
-+echo "$0: search path - second directory: OK"
++        #[cfg(not(any(CONFIG_OF, CONFIG_ACPI)))]
+         {
+-            let _ = dev;
+-            None
++            let _ = (dev, table);
+         }
+ 
+         #[cfg(CONFIG_OF)]
+         {
+-            let table = Self::of_id_table()?;
+-
+             // SAFETY:
+             // - `table` has static lifetime, hence it's valid for read,
+             // - `dev` is guaranteed to be valid while it's alive, and so is `dev.as_raw()`.
+             let raw_id = unsafe { bindings::of_match_device(table.as_ptr(), dev.as_raw()) };
+ 
+-            if raw_id.is_null() {
+-                None
+-            } else {
++            if !raw_id.is_null() {
+                 // SAFETY: `DeviceId` is a `#[repr(transparent)]` wrapper of `struct of_device_id`
+                 // and does not add additional invariants, so it's safe to transmute.
+                 let id = unsafe { &*raw_id.cast::<of::DeviceId>() };
+ 
+-                Some(
+-                    table.info(<of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(
+-                        id,
+-                    )),
+-                )
++                return Some(table.info(
++                    <of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(id),
++                ));
++            }
++        }
 +
-+# Test 3: firmware not found in any search path
-+rm -f "$FWDIR2/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2" >$SEARCH_SYSFS
++        #[cfg(CONFIG_ACPI)]
++        {
++            let mut raw_id = ptr::null();
 +
-+if echo -n "nonexistent-$FW_NAME" >$DIR/trigger_request 2>/dev/null; then
-+	echo "$0: FAIL - firmware should not have been found in test 3" >&2
-+	exit 1
-+fi
-+echo "$0: search path - not found: OK"
++            // SAFETY: `dev.fwnode().as_raw()` is a pointer to a valid `fwnode_handle`. A null
++            // pointer will be passed through the function.
++            let adev = unsafe {
++                bindings::to_acpi_device_node(dev.fwnode().map_or(ptr::null_mut(), FwNode::as_raw))
++            };
 +
-+# Test 4: path= takes priority over search_path=
-+echo -n "$FW_CONTENT1" >"$FWDIR1/$FW_NAME"
-+echo -n "$FW_CONTENT2" >"$FWDIR2/$FW_NAME"
-+echo -n "$FWDIR1" >$PATH_SYSFS
-+echo -n "$FWDIR2" >$SEARCH_SYSFS
++            // SAFETY:
++            // - `adev` is a valid pointer to `acpi_device` or is null. It is guaranteed to be
++            //   valid as long as `dev` is alive.
++            // - `table` has static lifetime, hence it's valid for read.
++            if unsafe { bindings::acpi_of_match_device(adev, table.as_ptr(), &raw mut raw_id) } {
++                // SAFETY:
++                // - the function returns true, therefore `raw_id` has been set to a pointer to a
++                //   valid `of_device_id`.
++                // - `DeviceId` is a `#[repr(transparent)]` wrapper of `struct of_device_id`
++                //   and does not add additional invariants, so it's safe to transmute.
++                let id = unsafe { &*raw_id.cast::<of::DeviceId>() };
 +
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 4" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR1/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - path= should take priority over search_path= in test 4" >&2
-+	exit 1
-+fi
-+echo "$0: search path - path= priority over search_path=: OK"
++                return Some(table.info(
++                    <of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(id),
++                ));
+             }
+         }
 +
-+# Clear path= again for remaining tests
-+printf '\000' >$PATH_SYSFS
-+
-+# Test 5: three search paths, firmware in third
-+rm -f "$FWDIR1/$FW_NAME" "$FWDIR2/$FW_NAME"
-+echo -n "$FW_CONTENT3" >"$FWDIR3/$FW_NAME"
-+echo -n "$FWDIR1:$FWDIR2:$FWDIR3" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 5" >&2
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR3/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 5" >&2
-+	exit 1
-+fi
-+echo "$0: search path - third directory: OK"
-+
-+# Test 6: empty search_path= should not break anything
-+rm -f "$FWDIR3/$FW_NAME"
-+printf '\000' >$SEARCH_SYSFS
-+
-+if echo -n "nonexistent-$FW_NAME" >$DIR/trigger_request 2>/dev/null; then
-+	echo "$0: FAIL - empty search_path= should not find firmware" >&2
-+	exit 1
-+fi
-+echo "$0: search path - empty search_path=: OK"
-+
-+# Test 7: verify sysfs readback matches what was written
-+echo -n "$FWDIR1:$FWDIR2:$FWDIR3" >$SEARCH_SYSFS
-+READBACK="$(cat $SEARCH_SYSFS)"
-+EXPECTED="$FWDIR1:$FWDIR2:$FWDIR3"
-+if [ "$READBACK" != "$EXPECTED" ]; then
-+	echo "$0: FAIL - sysfs readback mismatch: '$READBACK' != '$EXPECTED'" >&2
-+	exit 1
-+fi
-+echo "$0: search path - sysfs readback: OK"
-+
-+# Test 8: escaped colon in directory name (\: -> literal ':')
-+FWDIR_COLON=$(mktemp -d)/fw:dir
-+mkdir -p "$FWDIR_COLON"
-+echo -n "$FW_CONTENT1" >"$FWDIR_COLON/$FW_NAME"
-+# Write the path with the colon escaped as \:
-+ESCAPED_COLON="${FWDIR_COLON//:/\\:}"
-+echo -n "$ESCAPED_COLON" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 8" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON")"
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR_COLON/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 8" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON")"
-+	exit 1
-+fi
-+rm -rf "$(dirname "$FWDIR_COLON")"
-+echo "$0: search path - escaped colon in directory: OK"
-+
-+# Test 9: escaped backslash in directory name (\\ -> literal '\')
-+FWDIR_BS=$(mktemp -d)/fw\\dir
-+mkdir -p "$FWDIR_BS"
-+echo -n "$FW_CONTENT2" >"$FWDIR_BS/$FW_NAME"
-+# Write the path with backslashes escaped as \\
-+ESCAPED_BS="${FWDIR_BS//\\/\\\\}"
-+echo -n "$ESCAPED_BS" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 9" >&2
-+	rm -rf "$(dirname "$FWDIR_BS")"
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR_BS/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 9" >&2
-+	rm -rf "$(dirname "$FWDIR_BS")"
-+	exit 1
-+fi
-+rm -rf "$(dirname "$FWDIR_BS")"
-+echo "$0: search path - escaped backslash in directory: OK"
-+
-+# Test 10: escaped colon with multiple search paths
-+FWDIR_COLON2=$(mktemp -d)/has:colon
-+mkdir -p "$FWDIR_COLON2"
-+echo -n "$FW_CONTENT3" >"$FWDIR_COLON2/$FW_NAME"
-+ESCAPED_COLON2="${FWDIR_COLON2//:/\\:}"
-+# First path is normal (no firmware), second has escaped colon (has firmware)
-+echo -n "$FWDIR1:$ESCAPED_COLON2" >$SEARCH_SYSFS
-+
-+if ! echo -n "$FW_NAME" >$DIR/trigger_request; then
-+	echo "$0: FAIL - could not trigger request for test 10" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON2")"
-+	exit 1
-+fi
-+if ! diff -q "$FWDIR_COLON2/$FW_NAME" /dev/test_firmware >/dev/null; then
-+	echo "$0: FAIL - firmware content mismatch in test 10" >&2
-+	rm -rf "$(dirname "$FWDIR_COLON2")"
-+	exit 1
-+fi
-+rm -rf "$(dirname "$FWDIR_COLON2")"
-+echo "$0: search path - escaped colon with multiple paths: OK"
-+
-+echo "$0: all search path tests passed"
-+exit 0
++        None
+     }
+ 
+     /// Returns the driver's private data from the matching entry of any of the ID tables, if any.
 
--- 
-2.53.0
+---
+base-commit: b6c7d19951061de1be08fb8f5714e630b24bcc1c
+change-id: 20260401-rust_acpi_prp0001-a2971543b555
 
