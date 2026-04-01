@@ -1,157 +1,192 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB263C9ECE
-	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 18:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775069208; cv=none; b=N8Hv0mXodzLlyu2g88YdN2ikMVWE+MB1RLM9ciMuhViZmcOXbFDarsdA8YQWhXjp/d7FYJvgz6xIYiG3S5MJFvsf5TZtmlRn5pikM1T4omlWhjsnCaMaZMYh7ujOwXr1c5y1AlCYqflFZD7V1aSv+GR2brNwWL+HpMp8VfpZVWU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775069208; c=relaxed/simple;
-	bh=1F0syb8uvP+tEvnEWomBwv12riDQeF8sL8zgK95GjE8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LDGkOGLXMQB2Jj45GVuidUhH6yG0E22eegX+YrFfBfXHlBG/LWWS3nVtX/cqbqwfDI5QJbgPRsWKRbCcv2EEjfBKK167AMfmeXTDV9V7ZNhfGqHCrkrsxgEiUKhvL8Mq+gaGP7E81870sGxbblktig+WOmP9213Ud7zQ5Y0U1X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=fAUl95O7; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B2A32ABCD
+	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 19:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775070447; cv=pass; b=hEW0zMPiQ/xMiX42cfgqMvMYLCokibXzLdzUuiGehs4NicTJS2ahlYFtVpWM1WRi+Nrx10HRFL6C8oSxNaUAo/B6NMQcCO3qynLlAbLekjPLrAhhmAqAXtHJ8/JC7tv9u6MULte03xRRo0h+dfq2vwISrbG+8d7Sq/8UcK56tWs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775070447; c=relaxed/simple;
+	bh=oPmpGJgra+J/X4ds4wcUHLxA6Eg7GvkHp+DXASeWwJc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nb2bGhrOw5rLkWxnpyhgeMKbfj9pu/AWn991L+nmHLCf/55RWmJtemKeRL5jROIYWdgReqk2PVcMtNekRIQuRfQH/1GzPASG1lRh0/3MeRP9SC9UQNjuWld3ol5kpEVB11PmJdL3PwsVMG8ynigp8JaHVGFlAruIMvIXzZAxhf4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D9kj1D/g; arc=pass smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="fAUl95O7"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 37F00240028
-	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 20:46:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1775069205; bh=8cK4VvRERApHNEEgCHAK6eTxrBj8bnLg/R7HxGlZuCw=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=fAUl95O7KUu/wQ4gFnRLONeU5Litsml9cpKzzQKv5OIR+Ps4DAyJMDpsa++xEcSsZ
-	 vExEbmZ9dSydm4w0N4XG9/EI6Gs0ej/tk5Rq9vyZF2HkX49C9CyhHkyhlmvu7AiHpu
-	 7YWUVcvJbIep0SIDaHwYY7J4kTvzKxZp/b+hk2csYbIk4edWS1iZLLJ+1SFbxiDZ2+
-	 ONtvD9Fhzya11tRtB01Vo9JTmFX8RUfDIDrrPVgJYewtze50lDaLJXAXRXVtNMpe17
-	 p7NLW8VMn5JsPFhyi/joi8xqnMea1IRQgBfXbfpOaWOmnWkQVTTHpnZ1gzjRJUERln
-	 WJPhwXsEOffkw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fmDVC1kt2z6tw7;
-	Wed,  1 Apr 2026 20:46:43 +0200 (CEST)
-Message-ID: <565d58a4b766bd4a63a45da81849ea178dce5f63.camel@posteo.de>
-Subject: Re: [PATCH] rust: ACPI: fix missing match data for PRP0001
-From: Markus Probst <markus.probst@posteo.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
- <gary@garyguo.net>,  =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev
-Date: Wed, 01 Apr 2026 18:46:44 +0000
-In-Reply-To: <2026040124-unbolted-timing-ce25@gregkh>
-References: <20260401-rust_acpi_prp0001-v1-1-f6a4d2ef9244@posteo.de>
-	 <2026040124-unbolted-timing-ce25@gregkh>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-2sBR2p9RDoqBtMCv2j/f"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D9kj1D/g"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b8d7f22d405so13514566b.0
+        for <driver-core@lists.linux.dev>; Wed, 01 Apr 2026 12:07:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775070444; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YUUCPAV/ZKfkWha1RVG97MTddvA8f801/Ed8SlJMQwbSuqvTRyF5RmAa/gWb661gXB
+         CISo/dqFLz+Y+UhsvrWHjxqOYFQe5isTinNltMiZdfgcA8XNw/GzLqDmLRT7JZBrfQuZ
+         YWyBp5jNIv5aTrzFzIriLkR1jqJMxh8+BN37WgKNdZjE/WEC1aow50YXsmgZ4uBgVJuD
+         Fw9q90PESTZfsN5L57JQBYIuYywv36VfPvGw3X6mewx4ThR9mnu8CdmLwEY1J91i9GeN
+         jZ7bTrOJOFUFXroWOp2N4YXOdVxrw1tGXuBb/rz5+fc+qifZpRcw1vhuKZ+ej2mOG2qh
+         raMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tbulKj8l3zNdTBhluioK0AGuzttA7TtmTV4oAVYitSw=;
+        fh=dDDQvWjx4KVVugA/AlZGhZsOgcdj+WcIqvOAsLboFCs=;
+        b=bN+eS1lP+Ugt4dtkjZT0+sFWjIx3OnEVjxLXn/Kit6SRmpHUTyV3BOclI5GScIIAtq
+         f+8FKv9LNXLsbd9uMBrW81rIuVBpD3x00IO93jTpQmGaP/nXzKQIlWUBxuQz35W0Ziwi
+         d4p1aDOs/LMYIhfULLtVzzL+Gm+DHJX6uk55WhDJPZROimxskMwnrf+NxkK7oPpqDy3v
+         yZtANPe/3UCMc+mgOoFpD1Q81W+VUa+jmHSpFOpwW/XDkPFpXX3Ny2lqxYqJsu/asZWd
+         2q+XIrcFXMLbz3W4Btgxailux4mORkQXqtY7ElSRdAUuIXtcwL66Y0TkbCbZfbCNidUr
+         NA2w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775070444; x=1775675244; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tbulKj8l3zNdTBhluioK0AGuzttA7TtmTV4oAVYitSw=;
+        b=D9kj1D/g5GH+p3b35JibIa5FZOSGazzlFzYvKf7kl/EfNL/GngmMQdnbNhdVJnqY1c
+         SbQiUlleN4HmNfz0l68AZCtoCMiGFg2OS2vzIKbgz1BZ1jzB7vfedqaUob3C/IkbGEew
+         TncUfwcqLg5Z07vGq5Xr/MrVUB67HvsosKhQ6ETKGWvojcqiEYGM59fCO6LXPRUUjkwh
+         oSPoaicnTFFbF3nMulNc7nhHPVdOnYF54Yg4bmhvMBuoIReXfNgKQwii//YxMoh5uqop
+         9jNlvYNw3QgiRH9/FlQG1zZmVgyJY0tJL+1bUeK3AG0BKo+9hc0owqPoEU2RKiguLAMn
+         NyDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775070444; x=1775675244;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tbulKj8l3zNdTBhluioK0AGuzttA7TtmTV4oAVYitSw=;
+        b=lDUXTA2l0MvbrevTNQFpnsyfsbXZRc7wZdFg+J9SP+4CHnUh0ffBEJ6AAl9yBeo/wi
+         f59if5y9K2Cj5ir1jhAhMET7IhW/1FXZiRIkB7zh+0vptN8qEE8nlGUxrWnu20dgy3Lk
+         p98sQ4w+oxYto6CBuz9nDN4rgoDjhDXme0PbB6APSc4sfMX4BlnXMo7etGOA1rXSSzf6
+         /TaQjXgEtFjRbTcBGfWvaGnSWHur38yJyJcHxYBBbqAJUuc7fwmUY5m9wbLWytar8fj+
+         NahO69JXjOivSgKvgyCI1wbXQjVIUPBQ8vFFVlePAOK1dcpm1IEakKyKHCkbOCNIhN6I
+         7ERA==
+X-Forwarded-Encrypted: i=1; AJvYcCUoeNE0kwEv6j91E3RXcfFoPPJEfmCQTa2wfJVyoVy4xCim9W3KRbiCehE7OXuIS8xsOuinOMCe/kUcdg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTsIKnZJYCO2fnyHsIX/urXnK/uhW7iYnDVDbN+tZuGCU/J+5y
+	VOWZj5+KSVO2ZMUU6/96MEuOIfCCbLkaIepGgiQd3yYouBH+mmWYvbmr+Kx/m+J72oNp4oeq+qe
+	lHlM+wXuKPZSK0liqxwkRZ1OBmqzhP0PA9P5IyYj6
+X-Gm-Gg: ATEYQzxQgx01vhdckDyjxM0eQkQ393gMc8vuUhkp6yIKKqj3Ub0geBaCLLoSndDAAlS
+	OgyjZgI7VdD4Lbzb/g5OUPt8Gw55oc+WNGAannMTLBmxAjfwp8/6XuKaDXimydluYqAWehE0cXJ
+	4UP2zcgl8j1m2xrDClmXKgQepEyoNPpmzpSa7X4EXpU4RWs+eOgAMIASqMwZBxj8uOMgHHeoWGj
+	5Mto0ViLKFLiduMGCsvw2ce79LE2v0lCeEdNzZTdl0JX3fgslWcWf2KjOtoMcg8hpm6ha55eYeV
+	F5QeNXrhFcNRs38uYi3sJk8ZzmwTX6cFREuiQw==
+X-Received: by 2002:a17:906:194a:b0:b9b:e5d:71df with SMTP id
+ a640c23a62f3a-b9c1390345cmr238853766b.19.1775070443780; Wed, 01 Apr 2026
+ 12:07:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
-
-
---=-2sBR2p9RDoqBtMCv2j/f
+References: <20260331153413.2469218-1-wusamuel@google.com> <2026040136-ocelot-simply-8981@gregkh>
+In-Reply-To: <2026040136-ocelot-simply-8981@gregkh>
+From: Samuel Wu <wusamuel@google.com>
+Date: Wed, 1 Apr 2026 12:07:12 -0700
+X-Gm-Features: AQROBzDAv1zFg2qxt-3Ch7XBslSJIDWmAx0yiNuGqnKyk-N-jI_iMZvmNf44ICs
+Message-ID: <CAG2KctokEVVuhrs6tYuMjFF4ALR=tX80iZHrt4bhVvEKyoHzRQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] Support BPF traversal of wakeup sources
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, kernel-team@android.com, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2026-04-01 at 20:32 +0200, Greg Kroah-Hartman wrote:
-> On Wed, Apr 01, 2026 at 02:06:25PM +0000, Markus Probst wrote:
-> > Export `acpi_of_match_device` function and use it to match the of devic=
-e
-> > table against ACPI PRP0001 in Rust.
-> >=20
-> > This fixes id_info being None on ACPI PRP0001 devices.
-> >=20
-> > Using `device_get_match_data` is not possible, because Rust stores an
-> > index in the of device id instead of a data pointer.
->=20
-> I'm confused, why are we open-coding this in the rust layer?  What do we
-> need to change in the C side to make both layers be able to call the
-> same function instead?
-No commit message I have seen has explained why it was done this way. I
-don't think we would need to change anything on the C side.
+On Wed, Apr 1, 2026 at 2:15=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Mar 31, 2026 at 08:34:09AM -0700, Samuel Wu wrote:
+> > This patchset adds requisite kfuncs for BPF programs to safely traverse
+> > wakeup_sources, and puts a config flag around the sysfs interface.
+> >
+> > Currently, a traversal of wakeup sources require going through
+> > /sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to qu=
+ery
+> > sysfs is inefficient, as there can be hundreds of wakeup_sources, with =
+each
+> > wakeup source also having multiple attributes. debugfs is unstable and
+> > insecure.
+>
+> Describe "inefficient" please?
 
-Thanks
-- Markus Probst
+Ack; I=E2=80=99ll provide a more detailed breakdown in the v4 cover letter.=
+ To
+summarize: the "inefficiency" isn't just the number of sources (150),
+but the fact that each source has 10 attributes. We are looking at
+1,500+ sysfs nodes to get a full snapshot of the system.
 
->=20
-> thanks,
->=20
-> greg k-h
+>
+> And if you really think that doing an open/read/close on a virtual
+> filesystem is inefficient, then I have the syscall for you!
+>
+> I've been trying to get readfile() accepted every few years, looks like
+> I last tried in 2020:
+>         https://lore.kernel.org/r/20200704140250.423345-1-gregkh@linuxfou=
+ndation.org
+> but I keep the patchset up to date in my local tree all the time.
+>
+> Would that help you out here instead?
 
---=-2sBR2p9RDoqBtMCv2j/f
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+`readfile()` seems like it would be a great optimization for many
+usecases, but it doesn't solve the context switch bottleneck.
+Additionally, current userspace implementations attempt to speed up
+this traversal by caching fds, so this new syscall wouldn't help as
+much as one might initially expect.
 
------BEGIN PGP SIGNATURE-----
+> > Adding kfuncs to lock/unlock wakeup sources allows BPF program to safel=
+y
+> > traverse the wakeup sources list. The head address of wakeup_sources ca=
+n
+> > safely be resolved through BPF helper functions or variable attributes.
+>
+> Who is going to be calling this?
 
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmnNaBIbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJEDR2H/jnrUPSumIQAMBSx4JpQWiAAbrCwy/3
-KkrcZ9+7xpWSCGv3Yr4TYO7BKJzFMQvzTz/RIFfYHV/RY2jdDZlZ7nAdzbeJiv4h
-ZiGNxFKTik3WOF2zR7QtViN6f+qOFdWYZD8Rm6npSq0t6u9JVJDnlm/qe3GRZm2r
-VxgQ1gZ1zFwv19aypQrMwCiPabA9I6/EpuMA0sJfOz09UtOTVmfYXK4Fqv/+YsmK
-7EmvIPm9OGFTaMkm4g/a8PbvoM7ypgcRXywO/HfcY+Z4IXJRgmS2K3Y5OEbbEpzA
-XLdIxuJ4G/GK4pEPr6JVsVI/6O5SjTGRY2+9B1ivm3XcfR4NqCf4Zl57uTSgiGjA
-2YR4c3OjzltMzkub8uluTSZ4lziNgOiI+BqglQFDVr7uXURB0otfVGEFGMH/6FZH
-tKvE4ujE0kU7jvav2ZLNMaK8mfuE9xYA1Kkh4937+UntcV1u1ptteFZxWlxOwn0m
-Zj+tQG/67pKgx0TX1bY+ZQ2rQ33BMVLqXK0clBs5+UQe4T1PVCsxyjvRBGQexWci
-DInEN0brZT/YPAfOHCX3avRKy1slhxxDSHFuVd0Onvzbp9+fccGIs3lAbn4k47ls
-NCyZElH88pXB6vAciDXoVx2E5tpj188Hs6lX+feFz4RHqiFS2fxGWjP5YYQRiuw+
-7SYTsP9NRIkUZvTnD/iEiGB+
-=kG0+
------END PGP SIGNATURE-----
+BPF programs call the new kfuncs. I realized I left some stale text in
+the v2 cover letter regarding the interface; I'll clean that up for
+the next version to make this point clearer.
 
---=-2sBR2p9RDoqBtMCv2j/f--
+> > On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~34x
+> > speedup (sampled 75 times in table below). For a device under load, the
+> > speedup is greater.
+> > +-------+----+----------+----------+
+> > |       | n  | AVG (ms) | STD (ms) |
+> > +-------+----+----------+----------+
+> > | sysfs | 75 | 44.9     | 12.6     |
+> > +-------+----+----------+----------+
+> > | BPF   | 75 | 1.3      | 0.7      |
+> > +-------+----+----------+----------+
+>
+> 150 sysfs calls in 44.9 ms feels very slow.  but really, what are you
+> expecting here, sysfs should NEVER be on a "fast path" that you care
+> about performance.  Why are you hammering on sysfs here?  What HAS to
+> have this type of performance?
+>
+> In other words, what problem are you trying to solve that having access
+> to 150+ sysfs files all at once in a faster way is going to fix?
+
+The 44.9ms is the cost of reading ~1,500 sysfs nodes (150 sources * 10
+attributes). This is even worse on wearables, where the compute and
+power constrained platform exacerbates performance sensitivity even
+more.
+
+On these platforms, the CPU is suspended as much as possible. A
+byproduct of this is that the wakeup source traversal occurs on a
+user-perceptible path, which impacts battery life and UI
+responsiveness.
+
+Beyond the performance improvement, moving to BPF offers other benefits:
+1. Reduce Memory: Drop the fd caching logic
+2. Simplify Security: Consolidate SELinux permissions rather than
+managing labels for every single *possible* wakeup_source
+
+Thanks Greg!
+
+-- Sam
