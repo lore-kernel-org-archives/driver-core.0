@@ -1,229 +1,175 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B3B451062
-	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 14:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775053413; cv=pass; b=LKZM3xSqMvOyIWaF0S6yhsfEl2xnUuDIgxDevSY8HSpEILF0ysyt5TCY1zsnjOT/8NoZeH0BNrKfd92A/F6EGpSKtCxfKrJb8RQMt4PuCTw9vid10xgp03ZscDRZX39HDKBJnv2fno0qo3AiylfWL2HOMJqgrvfakrT8E17Grwk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775053413; c=relaxed/simple;
-	bh=jCAWadVZxWjFHf3Z7AAoz9vfZzBHXx1pRn0Dhndlvzs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ia3Mus1cpFyjZEV1kSjqc8L8RFH3eM5AmZKrYqstDMk8TViIWcPc8ob/6k8wG6SycbrFinuN6yVq0NrgsD/XfnZPlLNmE8t494DZuC3tp+2VDHHih6NaC1evZgY/mWq8rjv2WdLo/nHRHxY+hZxsN1xN4PW/h5ElaCoi6doLO4E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=blKNwgQT; arc=pass smtp.client-ip=209.85.221.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAF835CB8C
+	for <driver-core@lists.linux.dev>; Wed,  1 Apr 2026 15:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775058343; cv=none; b=kA3NJ+S0ho78QFN+aADkghzrAlDZsnVwiTzWBiRKiWvmJWRGkNhzs1pCqI0Ezr3z/f8fj2p6nbzksGIc6LpfuEN+zKQGVaqKil29pEYEU/L4RyiwoGJBi4Dspdbpt4kRJ0WAlG7EcOBP9ix32sR0r+63ZjnNHfSOTQsoAX4FBTw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775058343; c=relaxed/simple;
+	bh=NM5uFeeSvuv7adnI5V60GGtN5WPUAUteTNbrV3VO9pg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XAvBRiITGNcIWt/rJOsLRrn1vmYDika/Ihcnar3NcsTdCzsEkBc485dVvyTiZ1fzU7CnEpMjoCNn++bh13Q5ORn1et+ocZO2qik9NVWi3Z7dFQv8QkwB3Wg3gdYsCsoI8UUkYIRoq2Va+qPgV4TxbtuvUCQPVGpRxHZkONtSBDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQLZrPbp; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="blKNwgQT"
-Received: by mail-wr1-f65.google.com with SMTP id ffacd0b85a97d-43b41b545d9so7580206f8f.2
-        for <driver-core@lists.linux.dev>; Wed, 01 Apr 2026 07:23:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775053410; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BFOR3VflomKpnFEckeJTW/pQLjiZoHNRZ6W1cwVsJAB0ixQmQDhlei1m6RbIsZjB6z
-         fJXqh8FDaUCk2gKs8MAxFR/dlQSPlvu+EcbOgNUV5LxenpTqz8GGPknz9MCLP3ZBi1TG
-         UqtqU8zAyL5hRapcy2ktnwxLaWCk55Dr2uJ4hzMtjf8nfmMw0wAOIuDycF+nzG7FsF2z
-         cyi0kbCdMD6eh7kCEhxDFpYdcXtzragpNob++wwcFLZP86mOUExl4YNY/8bQtudrHQve
-         3bbnPalznhklV0zDk8DGvtU000YyWcsW1kIqBVk90qxEp00ki0c4wDQNwvdYRca1Xv+Z
-         +yYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+su7u1DujUR7e0bvScKtwYqkb+UMyoruXcpy4rpqvic=;
-        fh=vpcLtg/9gjPTifg6Kq9GvCjHJJSHyVGlU37SpnZPBjI=;
-        b=F8YJoBHShRfBG35jIl/ENlp4hsy5xfPGUFVGyj5wfg+saal7of4HMehtXrwuxEMY47
-         zKQnrU+zLFZAFbfCJki4I9HEczIleeJcalLOPbbCTYwBUQiU/R1kUn3rs30exzSB6sgQ
-         MfCTGdyE5D7OOWfUod9IZ16Rugts+8BZeQTu4VIoHF79uBDXSSxlSY4e9iRe2peNKcSi
-         /BtywBjf9EWRbBn+OHM0EWDh2eepSlWai3g0TuuU1XtFfxk1Z/MiW1ZwB32jIYF9i6BO
-         OQQzs1C5zgF7mc8tzl2rVRKPYcsJPVz0/wQvVeC2LMuoqlhspt3QosyuuoAcTsJHKWj5
-         ux+g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQLZrPbp"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d17bb1c1dso712675f8f.2
+        for <driver-core@lists.linux.dev>; Wed, 01 Apr 2026 08:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775053410; x=1775658210; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+su7u1DujUR7e0bvScKtwYqkb+UMyoruXcpy4rpqvic=;
-        b=blKNwgQT50rgRbq/73scCaGiZmeS5eaURoZhF0xkjxSWCtbVc5TbVh8GJemNocuSP9
-         tZbVSMh6Ng6JPtA9bEYcMnqeLdJKGT1Z4gbq0wcIfYWT63l5DJnzrQiIXcWcPTCFiiNt
-         374TxC9I/fVUsXcx1Ox3Ssapi3DMlBTxpmsSEJ3onc3Autbz8HRb+3N/9jmgs+sc9kEm
-         G+70orvrnK+UR7gBgUQEjqJYafQpZfQ+H21OzPJAM9ZAqaD8Q0G3V80FagbXgcItQme5
-         7OBqvIAMBel8qd4x7+wNxVIVMwNErXlFiQPpOdXbJW0pujmILf1gBzGxaNPrB4yRnZj7
-         OzRA==
+        d=gmail.com; s=20251104; t=1775058340; x=1775663140; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5jkjla8CaRyFo0jGmemy9X4FUXjSTK/5CQirIzXT0fE=;
+        b=fQLZrPbpVUIHtheVQPYeytjG3s2AXTfLFj/R0E6o6tnKQsEn2VWjlxCC7gisOS4RF8
+         Cwxi1qByc0Y7hc4kEAxM/HJwy2FI/T2L0XM4g/rtsxYt7CgnTYlZoFeOxWtVnrwXAkSl
+         DybYDFcl8P5bX2WdshwCzTaLjlJS6PvZ9zKIJvw2I7Yj7W56LzLC6IGjTluw6ZMsSxtF
+         DBvuSbNqjyfgxdLOVK7uoknCQeeujJKc/CzVxPyISJHBE3ep0tzgwBLPL3IWmmWOq+Fc
+         vIRb0JEXy6Nazao9i62o+PQcIeM2gblA55baxSobbWzFs5zDeQyY7M7izPVruSQpJ1W9
+         g+Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775053410; x=1775658210;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+su7u1DujUR7e0bvScKtwYqkb+UMyoruXcpy4rpqvic=;
-        b=EKXFf+UslTDVAo12bxmZ3ygoZvuQ8VvfU9RAUZyUJiLgBdh4+5YcYbydJsxM6uWKiG
-         bpNdQtY4dMySmnJLCNiHJeU8sQ7tZaTQsUmBZRQAYMrIkMR4yOF+odQFgZydENNf0wG+
-         Tax+dfUvZFpKtJl7j/pdfD8pLp0ZIfhuel5to5hrHiy4GRNnrjdNa0fh6ioT/MXLqkRX
-         X7ShRo4BOSJmGAviEirkflGFDK/zfHjkeEmodzTntkcY2NJdNTCU1X4sEaPRKOrzPwvW
-         AtMrQ5wa8mCABItZrV76Slr6fRP4uY7xOIQXUd//Mt2fCR8cAqgpq53tFkjVpmGbr3Ts
-         cV5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXmcjugeB4C9/cQ2y4BS5BmPLFckiimkFZp0xqoWrmgnyJlJVTdWuqkoYuF+tGXPOgLYFpALRYkQi8TNQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9ix71cH1a9K96/EytiODYL8hLxL1EYkp5m4ibD+2o3/LbyPC/
-	RI1tuJ2UDkbOmdkKJcbMmGMUpSlEQ+pTl0s5VlPl1AUf1tYNUut/kAp+MItsfHeFuzkhQfrE5dl
-	N3uZaemOof2TDmLZaDKSVpoeUVRZ+2xA=
-X-Gm-Gg: ATEYQzySE/26FpC4o/F25awi6tfFnjkkCAM+0QIWgCNnz66VdHgY+Jw/4kD18CgB58+
-	QXVVpAyEyrfUxJSvbp4pQs6SDHylLbFLrlsA8ZE7Ufqk41qlLTJ7goIA37nxDt2VTEcQeDfxJ1n
-	HMaS8LGBke5CO4eSYH5kjdk0iIdNKW0lehttoFmRDT91fJSU5M+XPpsK44SbBgdELo/LiKX77nP
-	pB6FOUIT53sTtHfPVOmNefD7vq3755/j+ocmG4vKkE85obZphrkFs8i+zioGoSMGaxDSxYHyOju
-	KR57SIbEiMpij3EnWlIO8DiQ7n6P9uGxUUvfto1+3ylHrjwnE2SawzPhjuYxisheDUkR2Q==
-X-Received: by 2002:a05:6000:18a8:b0:43c:f90b:5663 with SMTP id
- ffacd0b85a97d-43d150d7563mr6887118f8f.37.1775053406663; Wed, 01 Apr 2026
- 07:23:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775058340; x=1775663140;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5jkjla8CaRyFo0jGmemy9X4FUXjSTK/5CQirIzXT0fE=;
+        b=bwEMssjdDHoU3BZfbpQPD7K3PNwK1oAxj/PqF0kUKNyolNW9sfEwd2ITYh1KBcxVv6
+         ZU8jokiwNq9BN5cK8IZvuK/lQOmfhzj+k3EQKs6G5eAmBPXhS3A4mZ4G8ugwnPfoWMB7
+         LiqdpxlIaSL7tdXu4YJnTRT+K1D75aS0giFwRcIMq0GYKm7Gxx+AAQCq36GxWXt2jaEI
+         PWcQeH9VMu7+qK0yzpJBiaHzpV6eZuSSgAuGXGXj+V0ldS/agKS0TOT0Ulmw5i8BxUbT
+         sQxbig8uZv0VypGvf5FWLADDe5fF0bJ7aH+F2xG5m8yySNkAkuflE7scl8DpzVybnyGr
+         GOpw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpIigmctUaLga1neoeORfBSNwDRBLPL51RPCW0QU9nmDg7kH7GoAigQARApyoFGuM9gEQo7CWVuVJhnQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLVwTO1jDdOSb5MzowiD1wZpPfjFvPv3lJLG4VMvY2J2es2c0x
+	D/kTWubXLyA0v50n2px9Q5TwHtjzmpiNK0JiJ/MlcI0Jf8De9Znnf8pi
+X-Gm-Gg: ATEYQzw5GKEoJVpWIWEW6U1A3IAPebKYX0QoB0xbMLBD/QBG9g6ihWhJ0V7ZERpyMT1
+	Nn40fGtV8oz41NG4xhtmJUW3eOQ/mcr6XKjk4/vRKmUfjH6kK0jIdtx7S1CrWB0ooDEttjD9cm7
+	z8r7ATuY3Cm81yQ8K8N31LGMNCpFk7SCPkLktnnV9w5gfXlUiONTvjGHjZCk7DtQt4ezryzMCcu
+	o69QhvfiP4P2pzvXmN5Nc6a8vps8+mgaK1AI5CSBVzuzuGh2I8OujLUGdbSWmmq8jA9e7W9dYJM
+	XBKWjeScgXnkZpNframjrmwvPVTr2ja8SCq9LCSU8Vq0VMrCqRvVg38mYzRbxhJH6C6HY/MMBnd
+	c5zFnU1rA9+AjqvUwdxSmN1f1aOD/gP2l3fpY0UxRBeFh7fwN7+3NUNjIZnP5BhwTGirsD1B/Zf
+	qnej/f0QfUzadS6QIfftIAcfAhyQKKak6fGf8qOc8bcRXsldawq3aoFQt4GFQAi9rPAemSdQYQ4
+	NjndTWKjM6evRWBeXfK56PWmnTr3ftG6mwqMZ5wp7Uq51BVJaV5BSOUkTrTBKI=
+X-Received: by 2002:a5d:5c84:0:b0:43c:f45f:dcc7 with SMTP id ffacd0b85a97d-43d150419afmr7950699f8f.3.1775058324254;
+        Wed, 01 Apr 2026 08:45:24 -0700 (PDT)
+Received: from ?IPV6:2003:ea:8f29:9c00:4967:922d:98a9:84a? (p200300ea8f299c004967922d98a9084a.dip0.t-ipconnect.de. [2003:ea:8f29:9c00:4967:922d:98a9:84a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e221bsm657273f8f.29.2026.04.01.08.45.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2026 08:45:23 -0700 (PDT)
+Message-ID: <744440a6-e1cb-4792-a848-57755de0686b@gmail.com>
+Date: Wed, 1 Apr 2026 17:45:22 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260331153413.2469218-1-wusamuel@google.com> <20260331153413.2469218-2-wusamuel@google.com>
- <2026040153-overpass-shanty-71a0@gregkh>
-In-Reply-To: <2026040153-overpass-shanty-71a0@gregkh>
-From: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date: Wed, 1 Apr 2026 16:22:49 +0200
-X-Gm-Features: AQROBzDH-gBJUmuMrT1i00bs7K7Gj7h7rmupTCDKMaOOIhQqh803srjDhQwcCmU
-Message-ID: <CAP01T75nL2wzq+ONGNZ2AB6=A9iFDabTrXOWOwXLhqYohz2ZQQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] PM: wakeup: Add kfuncs to traverse over wakeup_sources
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Samuel Wu <wusamuel@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Shuah Khan <shuah@kernel.org>, kernel-team@android.com, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PM / wakeup: Allocate class wakeup_class statically
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ driver-core@lists.linux.dev
+References: <0fe1b679-ab28-4505-b0db-14e7ac3ba749@gmail.com>
+ <CAJZ5v0iMfiqjkkvOMU6jWEZ+nBvcRtWNwjvBW0pEva1G_owFcg@mail.gmail.com>
+Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
+In-Reply-To: <CAJZ5v0iMfiqjkkvOMU6jWEZ+nBvcRtWNwjvBW0pEva1G_owFcg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 1 Apr 2026 at 11:11, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Mar 31, 2026 at 08:34:10AM -0700, Samuel Wu wrote:
-> > Iterating through wakeup sources via sysfs or debugfs can be inefficient
-> > or restricted. Introduce BPF kfuncs to allow high-performance and safe
-> > in-kernel traversal of the wakeup_sources list.
->
-> What exactly is "inefficient"?  I think you might have some numbers in
-> your 0/2 patch, but putting it in here would be best.
->
-> And who is going to be calling these functions, just ebpf scripts?
->
-> > The new kfuncs include:
-> > - bpf_wakeup_sources_get_head() to obtain the list head.
-> > - bpf_wakeup_sources_read_lock/unlock() to manage the SRCU lock.
->
-> Does this mean we can stop exporting wakeup_sources_read_lock() now?
->
-> > For verifier safety, the underlying SRCU index is wrapped in an opaque
-> > 'struct bpf_ws_lock' pointer. This enables the use of KF_ACQUIRE and
-> > KF_RELEASE flags, allowing the BPF verifier to strictly enforce paired
-> > lock/unlock cycles and prevent resource leaks.
->
-> But it's an index, not a lock.  Is this just a verifier thing?
+On 01.04.2026 16:19, Rafael J. Wysocki wrote:
+> On Sun, Mar 29, 2026 at 6:14 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
+>>
+>> Allocating wakeup_class statically avoids a little runtime overhead.
+>> Define groups and device release function as part of the class, so that
+>> we don't have to repeat this for each class device.
+>> Whilst at it, constify wakeup_source_attrs[].
+>>
+>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> 
+> Can you please have a look at this and let me know what you think:
+> 
+> https://sashiko.dev/#/patchset/0fe1b679-ab28-4505-b0db-14e7ac3ba749%40gmail.com
+> 
+Interesting finding! I think the diagnosis is right.
 
-It's a verifier thing. The index must be passed to SRCU unlock wrapped
-by the unlock kfunc for correctness. The verifier understands such
-acquire/release tracking for pointers (e.g., taking refcount and
-putting it), but not for scalar values, so we need to launder it
-through a pointer to an empty struct, which isn't really usable except
-for passing it eventually to unlock. If the program doesn't do the
-unlock, the verifier will reject it.
+But: I would say the current behavior isn't a nice solution as well:
+wakeup_source_device_create() does: dev->class = wakeup_class;
+I think no reader will expect that wakeup_class may be NULL here due to
+initcall ordering. In addition this behavior results in such early
+wakeup sources not being shown in sysfs.
+But I'm not sure whether registering class "wakeup" (and registering
+classes in general) would be possible early enough (core_initcall,
+or even pure_initcall).
 
->
-> >
-> > Signed-off-by: Samuel Wu <wusamuel@google.com>
-> > ---
-> >  drivers/base/power/power.h  |  7 ++++
-> >  drivers/base/power/wakeup.c | 72 +++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 77 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/base/power/power.h b/drivers/base/power/power.h
-> > index 922ed457db19..8823aceeac8b 100644
-> > --- a/drivers/base/power/power.h
-> > +++ b/drivers/base/power/power.h
-> > @@ -168,3 +168,10 @@ static inline void device_pm_init(struct device *dev)
-> >       device_pm_sleep_init(dev);
-> >       pm_runtime_init(dev);
-> >  }
-> > +
-> > +#ifdef CONFIG_BPF_SYSCALL
-> > +struct bpf_ws_lock { };
->
-> An empty structure?  This is just an int, so you are casting an int to a
-> pointer?  Can we make wakeup_sources_read_lock() actually use a
-> structure instead to make this simpler?
+>> ---
+>>  drivers/base/power/wakeup_stats.c | 18 +++++++++---------
+>>  1 file changed, 9 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/base/power/wakeup_stats.c b/drivers/base/power/wakeup_stats.c
+>> index 308f8bde9..72beb8fce 100644
+>> --- a/drivers/base/power/wakeup_stats.c
+>> +++ b/drivers/base/power/wakeup_stats.c
+>> @@ -18,8 +18,6 @@
+>>
+>>  #include "power.h"
+>>
+>> -static struct class *wakeup_class;
+>> -
+>>  #define wakeup_attr(_name)                                             \
+>>  static ssize_t _name##_show(struct device *dev,                                \
+>>                             struct device_attribute *attr, char *buf)   \
+>> @@ -114,7 +112,7 @@ static ssize_t prevent_suspend_time_ms_show(struct device *dev,
+>>  }
+>>  static DEVICE_ATTR_RO(prevent_suspend_time_ms);
+>>
+>> -static struct attribute *wakeup_source_attrs[] = {
+>> +static const struct attribute *const wakeup_source_attrs[] = {
+>>         &dev_attr_name.attr,
+>>         &dev_attr_active_count.attr,
+>>         &dev_attr_event_count.attr,
+>> @@ -135,6 +133,12 @@ static void device_create_release(struct device *dev)
+>>         kfree(dev);
+>>  }
+>>
+>> +static const struct class wakeup_class = {
+>> +       .name = "wakeup",
+>> +       .dev_release = device_create_release,
+>> +       .dev_groups = wakeup_source_groups,
+>> +};
+>> +
+>>  static struct device *wakeup_source_device_create(struct device *parent,
+>>                                                   struct wakeup_source *ws)
+>>  {
+>> @@ -149,10 +153,8 @@ static struct device *wakeup_source_device_create(struct device *parent,
+>>
+>>         device_initialize(dev);
+>>         dev->devt = MKDEV(0, 0);
+>> -       dev->class = wakeup_class;
+>> +       dev->class = &wakeup_class;
+>>         dev->parent = parent;
+>> -       dev->groups = wakeup_source_groups;
+>> -       dev->release = device_create_release;
+>>         dev_set_drvdata(dev, ws);
+>>         device_set_pm_not_required(dev);
+>>
+>> @@ -212,8 +214,6 @@ void wakeup_source_sysfs_remove(struct wakeup_source *ws)
+>>
+>>  static int __init wakeup_sources_sysfs_init(void)
+>>  {
+>> -       wakeup_class = class_create("wakeup");
+>> -
+>> -       return PTR_ERR_OR_ZERO(wakeup_class);
+>> +       return class_register(&wakeup_class);
+>>  }
+>>  postcore_initcall(wakeup_sources_sysfs_init);
+>> --
+>> 2.53.0
+>>
 
-See above.
-
->
-> > +struct bpf_ws_lock *bpf_wakeup_sources_read_lock(void);
-> > +void bpf_wakeup_sources_read_unlock(struct bpf_ws_lock *lock);
-> > +void *bpf_wakeup_sources_get_head(void);
-> > +#endif
-> > diff --git a/drivers/base/power/wakeup.c b/drivers/base/power/wakeup.c
-> > index b8e48a023bf0..8eda7d35d9cc 100644
-> > --- a/drivers/base/power/wakeup.c
-> > +++ b/drivers/base/power/wakeup.c
-> > @@ -1168,11 +1168,79 @@ static const struct file_operations wakeup_sources_stats_fops = {
-> >       .release = seq_release_private,
-> >  };
-> >
-> > -static int __init wakeup_sources_debugfs_init(void)
-> > +#ifdef CONFIG_BPF_SYSCALL
-> > +#include <linux/btf.h>
-> > +
-> > +__bpf_kfunc_start_defs();
-> > +
-> > +/**
-> > + * bpf_wakeup_sources_read_lock - Acquire the SRCU lock for wakeup sources
-> > + *
-> > + * The underlying SRCU lock returns an integer index. However, the BPF verifier
-> > + * requires a pointer (PTR_TO_BTF_ID) to strictly track the state of acquired
-> > + * resources using KF_ACQUIRE and KF_RELEASE semantics. We use an opaque
-> > + * structure pointer (struct bpf_ws_lock *) to satisfy the verifier while
-> > + * safely encoding the integer index within the pointer address itself.
-> > + *
-> > + * Return: An opaque pointer encoding the SRCU lock index + 1 (to avoid NULL).
-> > + */
-> > +__bpf_kfunc struct bpf_ws_lock *bpf_wakeup_sources_read_lock(void)
-> > +{
-> > +     return (struct bpf_ws_lock *)(long)(wakeup_sources_read_lock() + 1);
->
-> Why are you incrementing this by 1?
-
-I think SRCU indices can be 0, so it would appear as a NULL pointer to
-the program.
-
->
-> > +}
-> > +
-> > +/**
-> > + * bpf_wakeup_sources_read_unlock - Release the SRCU lock for wakeup sources
-> > + * @lock: The opaque pointer returned by bpf_wakeup_sources_read_lock()
-> > + *
-> > + * The BPF verifier guarantees that @lock is a valid, unreleased pointer from
-> > + * the acquire function. We decode the pointer back into the integer SRCU index
-> > + * by subtracting 1 and release the lock.
-> > + */
-> > +__bpf_kfunc void bpf_wakeup_sources_read_unlock(struct bpf_ws_lock *lock)
-> > +{
-> > +     wakeup_sources_read_unlock((int)(long)lock - 1);
->
-> Why decrementing by one?
->
-> So it's really an int, but you are casting it to a pointer, incrementing
-> it by one to make it a "fake" pointer value (i.e. unaligned mess), and
-> then when unlocking casting the pointer back to an int, and then
-> decrementing the value?
->
-> This feels "odd" :(
-
-It isn't readable, though, because it's an empty struct, so I don't
-think it would cause any issues in practice.
-
->
-> [...]
