@@ -1,235 +1,200 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022081.outbound.protection.outlook.com [52.101.96.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD0D3D9DD3
-	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 13:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775134904; cv=fail; b=UBdliL8Uokq5NaQYljueGPXok2vz+I1fCP2eTh0+IzaOio7X/tD8IeQXil2oCIvYkISlsEJyoF5dLdKBPFVDAP+FgqnfJYgmv63SxBBtkeC9EPyITsh3EisaF48sABuVv+ay3HXgjiJDXXZetCI7s+zrv4JVE6rSuvRdX9Es1WI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775134904; c=relaxed/simple;
-	bh=CmhNfAxB/EbfU3Yvq8kOJxPPrGMiu5ax9Hjx+dtW9Yg=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=NTgwSBQNF2AprxVGqMHznDpTlOWJD1ERZQn3PogsqYvOl96NE2Foubod14e/1Y/knAIq0S3ALt7e61uvLL3IQmkCcWCvKGYylglnKqqJadbXg0FO0dLWn2uPEUQ3hmNsM10CPzi4FAdPaKnGN/U180V7bZWKerhtRhFKT4p62UA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Ld+nU+kz; arc=fail smtp.client-ip=52.101.96.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17733D47BA
+	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 13:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775135141; cv=none; b=uw//TJDQIPBEQtrHcCLLE3CHQo0st3kkmUC0Rzp3oi/GUCojjfw94ONbcwMb3JPIy1AZ9CAyNcNjkrSorYDKZs13y142qY8rWbfPoJzn3vDd6syYI7FuSWBiXHNAj8I9T9j2DYvXIqTK/IzcpJgKGezBp9Lpn/J2jZpRXsOAa6E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775135141; c=relaxed/simple;
+	bh=DqOdxgdcCLGaldkHkXFgo5J0eGj1Kpcn2M6cxW6F0hY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SAFD+350cqO3u3QfdWOjuflQyL/pSjBEoVuzPIubEE7Znogxv0jpD9g48PpOmEi+ezI/5FVm1tLJt5CkbswoyKHM9zwl2LlxsbOby1fvIampSz1xJvJk1P/qFBVYFzom1yB0LjA6jFvNp4vramFIsp85IW0qy0ojKibp0VKI56w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nify51Mc; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Ld+nU+kz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ihTjw5BAxq7ydL0vx0dhugfCjTBw6aeJaxs2ybtRAoakxkFuFFYmYBAOP+m7wAISCwhhZdbpTqjr7+kPKNpdGCLGZsr/s8KGyW0KQkpcsIxKBYNQUf5NjI8thCG/WUAKV/m6H+XV18XWDRFtvmKajTo4sVHuiZVjTAGylCm0HXsgS24n7gyhGCWyOKRW0Jdr4pLSyyB1U4onLIS0XoC93dqxvGZtkfw7YFgxjyBRoLkyAefn/wOElKkwWYOGgeyRt80ymV6KyP02U4bei/va3rRLOZ/yhO6ZuqjI0qF0ACHjukusF/yw3FNX575lCwCEWkN+dWVaSDTmpft7ZiTbxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LMGWUIsI9/TgYC3C+s7VPC9yaveFB5f77rsHJ5ubyH0=;
- b=ox768rzVy73Sk5ZrwndrtcY+ug27jDZPByAGBxuCoTtMyTa4/YXGPq7ZbUfQsNev2eUKBFSVXoEtn2i2QvC71c4Xa7Is4hejePTB0+ogIf87ezZFYznmLArYmrnWyYwxXsNhb7r7jQlsuD2eZGZJyVhGO+wFDIRtgQlBZGwOTyBHngVHuqBmROoMmKGjVsGzQDN8M9EaiSve3Ik4WgT6JWd58Bh5vIawx0hrW2U4SQqgmBYHeEZTsERcycPiaUibqbu+XwLcvKlLInAHrV/+tjq8ZObdQ1stciJ6iitxMPcXTcRe2UzaAXRahE4O9mX/JibnVzO/AhsK1nVUQd+otw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LMGWUIsI9/TgYC3C+s7VPC9yaveFB5f77rsHJ5ubyH0=;
- b=Ld+nU+kzZAWpC9fSUw4NKwZddH87qGdTDFCN1sxHua0UT5s2isB8OrrqjK8B1G3/dmI/a9XFqwQdfaIvLlV/dwdtBLC0vGpg1GiTbOTcyHWiXPZWDmnx2XlHt9PbFwZhT0WrJ8Kf61Cz5chq4o5IuNOkPeU74PpwTFb20WvalrE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO4P265MB6043.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:29e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Thu, 2 Apr
- 2026 13:01:32 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.016; Thu, 2 Apr 2026
- 13:01:32 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 02 Apr 2026 14:01:32 +0100
-Message-Id: <DHIOSVI47UIV.10SV1TCUTM9IE@garyguo.net>
-Cc: <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/8] rust: io: add view type
-From: "Gary Guo" <gary@garyguo.net>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Gary Guo"
- <gary@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
- <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>, "Daniel Almeida"
- <daniel.almeida@collabora.com>
-X-Mailer: aerc 0.21.0
-References: <20260323153807.1360705-1-gary@kernel.org>
- <I3h_hWnImlf7uTzEyQ4hvi9vJvrFgT9QHacWwuAA87AFC_Ye-dL09GYH_FKm6EO5NtnryM7bMQRIRHUL2r-Opw==@protonmail.internalid> <20260323153807.1360705-5-gary@kernel.org> <87h5q2y85c.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87h5q2y85c.fsf@t14s.mail-host-address-is-not-set>
-X-ClientProxiedBy: LO4P123CA0410.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:189::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nify51Mc"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4887eca00c4so5630395e9.2
+        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 06:05:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775135134; x=1775739934; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NPakThXcqJ7PCNMa7VzjIxV+o2G6zNPbZH8YS7//hxs=;
+        b=Nify51McIHlJPrAVFar/a4QFpFP8OJI5Yf+dRf5JyUIOwHGbLjvyjYwXwxSFK85Alx
+         HVlgwbdwzBTAtnH482LFzx9CtCPpqgRarQtBvG+ggMGTTrEIIuvqzVyR026KZO+yiubs
+         JU+2vHdHEAAjsWHbV32Ti3r9ib6eVsz9cXes+EeJx6pOCtn2G62Fh+MyXzlRZPWrFmuC
+         n5J8NLJLq57JkmL9Z4x3ln4oE/megrejhdhlDEmVgDqjgAW9TdqT0uQTbv8gmSRKJM8I
+         hZHUbaAIVxKL+glWA9W1VHgGCwXdcEpKJ0MMAR1cClY8BsxmcU2dg+zAPcfS22Q/LAke
+         BX+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775135134; x=1775739934;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NPakThXcqJ7PCNMa7VzjIxV+o2G6zNPbZH8YS7//hxs=;
+        b=VsaZE2Gq7tWVnYBDn24u/3x+JSaPhiqxvEYAGNL0M624FEAZy4tu4HsPYC3kEHWqh1
+         aL0awAvp6FGoMbS/h7OKB1902iYJ3IjmNy8FwjC+9c5vSEjmufGopAZc/gMiCAVsO1wG
+         UDjgVxaK1DqFBo+OGcWnZPAf1fRgGGjG39eBQXg6Ipvrzs+rUKUh2O47vD46XdLB781J
+         dHpaUN1pr3aX4UCOSamprLGXvtp9hAf3t8DtIMV8y4aNKHywcKjnz4gUr8z2gGAcm04y
+         5LkOw3ZwH0VP8fvv6dXyeHq0X5OaYMkxd4HXbQB/GUT9HbezrTtZ2vhwMzkaf5bljDJE
+         i2qA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVePpjfrKm6M9fB8BAmFSAPgy0Mix7asFlJXcrNzm6rPD5ZFfwlBCy7wLMyZeJP9bEiUCiMEtiwfObHQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwMDHkXjTNYQKlOzb8iLEnRn08B2qLu060nio+cB4QNx2OEMwz2
+	jf6gIfjzdguuJoAmQlQ+1uMyGovDnbK0A+a12XIiE/3RxWc7aREQ/DhJ
+X-Gm-Gg: ATEYQzyfPXXGCWzWJI97Y0OdH3wwVQXjL8kMRvlNq7cNaoCJmw6J7pZwSd/AoQg/aNk
+	q9KU01gKm7J6T/DBTE65OPGqE2zq2xotxK5LUGVP++LwBA16WSlyzVcwdDm/nQ0uPQPsR9bnrMN
+	7BnrLG1diSSNqQSgW+dsuIEjaJVoIbFvLQ1p0C8z3uB7QFFZhn+587DUGD70vwIpEMQgv+YNW2L
+	4kJo+A/oIIlICXXiroXbjGUbGfPNbcV+oLZ9qvVFc3f4el1nCnQ+3HC6wNLh4d8RWFyiy+nzZMw
+	6la49VtOLfFHJeVqiYb/SM/fDlKmF3G9hNEU40O9PHi+GZvvz5ksbzEfDFugyLIflB07CWbgUKp
+	qqRYbEoC+x7BgcHq2vE53jyN+Tf6A9BZDQ1kVa/UpSt3XluGJEnfeKvtGsim6hfcfcVOWPIEpZr
+	JnF5CD3e0M2QJDJMZ+dDweG4ernPFEBg34sqBOVI9YsiYS/NZPlBEXJ2E/ATynpQdEloOaI+DyM
+	/gc6UYRNpJT6/B/IXDe+DOku2+hMw4wzzdKyJq6LtXidCaYNKGbP0rWLVrAyrYk/g==
+X-Received: by 2002:a05:600c:c056:b0:485:3a03:ceca with SMTP id 5b1f17b1804b1-488835b30a7mr87662745e9.23.1775135133581;
+        Thu, 02 Apr 2026 06:05:33 -0700 (PDT)
+Received: from ?IPV6:2003:ea:8f19:9500:c168:ad27:2fdd:9334? (p200300ea8f199500c168ad272fdd9334.dip0.t-ipconnect.de. [2003:ea:8f19:9500:c168:ad27:2fdd:9334])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a626100sm121936195e9.1.2026.04.02.06.05.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Apr 2026 06:05:32 -0700 (PDT)
+Message-ID: <0758441c-e88d-475a-80ef-061b227ae7fc@gmail.com>
+Date: Thu, 2 Apr 2026 15:05:31 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6043:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d9404c7-94ed-413a-34ce-08de90b7f6ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|10070799003|921020|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	eZyIrho464+kOR5YUSuK38PMzyQRaqgj/XFC0G3yKaZ1MPb1ht1KY5ne3T5CecjFSYK5tZms0jPmpBd3FZTD9eXsUl3jpN0Kq3rt2uZP4uWbJlYL64R5fOiXdkXHmuO/hViS8OfMRr04quNZrEaPhQ2TFLCr4N9B6e4FtsOsDWkZ7stjfvr0WRWee8u7/wvyMJCmU/PdbRtpoOxjElPada01Opz8Mv6paz0wUXYhutxWTuC4hLsZVmFCR+uuhTXs9jStPcjTtNdzN5W+//67mEMlA+dMDJA5advdMomEPIufT8FpJ3a3EAYxY+VobsBhw0wPZ95enijU/1mZ2M6jS3cuf/LDKvNrqw1TcojrvsHGy5PfG0MxjF2QiX6a+5wisg/Z5P7DO1yDosj76TLzBYLfgUZWj3rNzjiK4EJxN5fHq9HGNSLwn6w7m9ZHGV/38SV+LC6TbRrmVM7DZ2WV4yBF74rAIMQryD3usJAunRl3M3W9snI733LTW3xToqJMpE3ruM0ABpTEYy58UfvlPmZ1DcLxI8PFdVLUNHVus0M5//IHd3Q0z01MpjYLAnoO2/e9IR0+WMra4GSZbiRFdJPZUf3IxFq/tM+2ruMLqMPReTbErBibfZxFInN68xlGqtmPMM5YbWOxPxD1tWRT8nexxun7UuP0T4yrSV3Y+A9KuoMxFP3xTa+VAFwHgGMD833A9eebtqP0QxTGjWsntwZ5Ns7gu21dCaul12pH8IswnIE1W28puRtefNcl3zQbVORoDebXgeHvMKOOdfkwoA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(10070799003)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Z1d4Sy9QNHZLSDk1NkxvdEhuR2dEbHBrM3EzN3BFRTRqQmtsaFZGTkppSmFG?=
- =?utf-8?B?VU15eTNIQWx0ZkpHajFNcW8vYXlLVWRlMy96Nk9XR0tBbTg0cTBVQlB5Wm5P?=
- =?utf-8?B?c3hTSXdUTVhSZDJTQXNpWTFSN0R1bTZHaFJ5Yjk4alJiQlFEZWtGVG5Cb3Ji?=
- =?utf-8?B?MmJWVElzeXpjQnA4SWFlL1lmL1c2SkRPbk82Rnd3OTVMTXFYYU5TQllRaFN1?=
- =?utf-8?B?M3dsQVhVSmpwWUtUYnhuMDE4RmxsbnVwWUFiRm5qY1lmTkZ1OW53K0lwbjFD?=
- =?utf-8?B?ZkhLak9tTzE4NHlCNDhONmpabFZZczJreWZ5cUZiYzh3TlpPZXY2QnZVeFJ5?=
- =?utf-8?B?alpPNEtKL3BoL0RkYWN6azNiLzVEM20zQU81VEJxWUIvblAwS0dpNlFodWc0?=
- =?utf-8?B?K2hlVi9EeitVdlZzakN1enlIeU1PYWpDbXB4QUh2QXVlV3FkK3F0Y2kvSCtC?=
- =?utf-8?B?ZDZ1RHVSb2hseW12d3o5czNudXp3dXFXMGkzNzFDZkVvZzllT1RHRUFmRlpO?=
- =?utf-8?B?bG1ZZUxneTZBWTFpTjNFQWZyUTdOVHZDWTBnYzg0OHVrSDdUN2s4c3AyZkNF?=
- =?utf-8?B?R3dPRmhpcXdZZ2JTZVdMc1VQS2YySzY0TXlORDlFR1VhOG1VSXl1TFNKNkRK?=
- =?utf-8?B?R0pwTWtldVRuOW1PdnorOW9QMzdnc2U1cXdSVmowaWxtd1VRZVJDOURxdlRT?=
- =?utf-8?B?UEVqU2JIOVF5aFFvVVRpR2lPNXF0MzhjZkVGbUNRYUU2MVhMZ0NaY2lUa2Rv?=
- =?utf-8?B?VmV0M2dWR0RRSWNpbkNrSGpGZE53SkQ0MlZPdzA5ZlQ2cU15K1lneEVyeVpR?=
- =?utf-8?B?MFUzdUl5M04wZlZGSUJ5MXFKZGVMTFhBWFRVQklUck1RR2NXeWYraFZnRlZi?=
- =?utf-8?B?ZjVIcW92dDRTTkRpMnF5QWtNRW5tYkFEaFlxTGdVRXdEWXMyRXZhbGN0UGtQ?=
- =?utf-8?B?dDA1ekNiRmhTYXZhTkh0ZTBYMWNhNVF1WjFoV1duM3kvdkhoYWNsN1c5ckNm?=
- =?utf-8?B?cGpneW1GTSs1Tm9wYkxZcDlha25CVmFJTS9OL1hsRXRGZGgxMjZySDVKanVa?=
- =?utf-8?B?cmFwcHpMZDhzQ09neDRnejVzTmVwSmxlbERQaS9TZU0xa2JOU25VRTNINXAr?=
- =?utf-8?B?Rm10RG4rdzEvTlJLMjB4WW1tcnFYSFhDV1hRUTBOSW96ZDIrMzFaZVNtcDRz?=
- =?utf-8?B?eHhIblhyWDhYWk82RkpqWHkzL3BhSlJXRnZPVTc0eXE5dXhwbHNVM3l1MXFt?=
- =?utf-8?B?RXRLZis5SXViaHhIbU9tTGZoWmZrcURlbERMQ0dwL2lQOU9CUUNqQ3pzMjd2?=
- =?utf-8?B?NU93UnZPWDVJTzNOUmxzUXgxOTBPMkltQnJ0OGZBZW8rcW9WSWJsZkNFbEFX?=
- =?utf-8?B?ZWJMZkdVZlZBclM1aGF1QStKQXJKR1NFM2N6a2MrekJMaVRUSjdnOXA5b21T?=
- =?utf-8?B?KzhrK1owMXBCMUttNC9EUTA1UkFBOEVpdXF2WFpVUGx4ZUQySWJHd2k1Z3JM?=
- =?utf-8?B?aWFlUndxc1Z0OXZvT1drM21oQ0NlbGFVOG5TbzlSUURabGxFNVprZHBIMkhz?=
- =?utf-8?B?a0c1K1ZyTS9hazVKTGhjL0ZaY2d0R0tlVVdheE4vQVV5YUFtOTI2MHZGVVl4?=
- =?utf-8?B?cnBLbUQ2MHpYbzhxNWhXZVBhVlNpV1c4dDh4a3ZtM1FyMzdjUVR0SHc1OXhO?=
- =?utf-8?B?WWNLK0diQWl0Z280QXFrMEtCeUhFQjFyZlVOYm9QTng3b3FZQkE1eHMvNkc3?=
- =?utf-8?B?WDFGekEvUlRtbDM2cDRYWERRUk9UemdQc2ZjZjVLUUprVEFoWWJKSFkzc1Fz?=
- =?utf-8?B?RlhXVXgzdW9ocmNzMlFxZkpMK1lFVVpaRHRnWC83c2cwNHcxQlJDRjMyd2M4?=
- =?utf-8?B?d1krdzJ2RmV4SG83MGtncmp3L3JUcHVhMzN3WEdEdkZ1a2JuZ3hISFRoZWdh?=
- =?utf-8?B?ekJkc1JRdHovQlZBYVFoZmdVbm4xNGtEb0xmQUh3VlA4WklpcU5iSmRTWWRh?=
- =?utf-8?B?VGpaa2RycTVKRENGbXYwaXo0ajNhZHR5VW9IRzBXR1ZnZkZLWmxGTHJDbmx4?=
- =?utf-8?B?NHdVaG15NDJYZDVnUHQ0ODdGYWFrY2dISTd1clROSUpwU1RMQzJVWnh6VEFU?=
- =?utf-8?B?WXJlOGRLNVFOMDdiNkNQaEU5UmkrbjJxbGF1MW1DVFp0dUVCWXB0clNxc3Jm?=
- =?utf-8?B?aVR5OFNVb3d5c00xbmxxK2ZCU3ZFNDhGWDdzWUE2YkFucExnbG9vdTlwbFlt?=
- =?utf-8?B?RnBPMDRBaGpKU0VyaUsweVpMY1E2S2Z4K3NhQklPQ2tRMnBTTjJ4SVpyazA1?=
- =?utf-8?B?dHNqcUxVMklteklwUFFoUkU3NWNhSHNCeUZUYjBWMTJRQWJ6aUJMUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d9404c7-94ed-413a-34ce-08de90b7f6ac
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2026 13:01:32.5877
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YXY7RiQt8noX/Lf+h597b/WDRngFn3i5qeNvL7yMU5UxagGh0Zr0NLzGqICOF/yeoo9nRN+bjIMo5yRXX7amHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6043
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PM / wakeup: Allocate class wakeup_class statically
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
+ driver-core@lists.linux.dev
+References: <0fe1b679-ab28-4505-b0db-14e7ac3ba749@gmail.com>
+ <CAJZ5v0iMfiqjkkvOMU6jWEZ+nBvcRtWNwjvBW0pEva1G_owFcg@mail.gmail.com>
+ <744440a6-e1cb-4792-a848-57755de0686b@gmail.com>
+ <CAJZ5v0i5dSuQ7f8Okb-Ch5igzNn=L_Fj5d3H4pftvxoEVBaDUw@mail.gmail.com>
+Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
+In-Reply-To: <CAJZ5v0i5dSuQ7f8Okb-Ch5igzNn=L_Fj5d3H4pftvxoEVBaDUw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu Mar 26, 2026 at 2:31 PM GMT, Andreas Hindborg wrote:
-> "Gary Guo" <gary@kernel.org> writes:
->
->> From: Gary Guo <gary@garyguo.net>
+On 01.04.2026 19:32, Rafael J. Wysocki wrote:
+> On Wed, Apr 1, 2026 at 5:45 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
 >>
->> The view may be created statically via I/O projection using `io_project!=
-()`
->> macro to perform compile-time checks, or created by type-casting an
->> existing view type with `try_cast()` function, where the size and alignm=
-ent
->> checks are performed at runtime.
+>> On 01.04.2026 16:19, Rafael J. Wysocki wrote:
+>>> On Sun, Mar 29, 2026 at 6:14 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
+>>>>
+>>>> Allocating wakeup_class statically avoids a little runtime overhead.
+>>>> Define groups and device release function as part of the class, so that
+>>>> we don't have to repeat this for each class device.
+>>>> Whilst at it, constify wakeup_source_attrs[].
+>>>>
+>>>> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+>>>
+>>> Can you please have a look at this and let me know what you think:
+>>>
+>>> https://sashiko.dev/#/patchset/0fe1b679-ab28-4505-b0db-14e7ac3ba749%40gmail.com
+>>>
+>> Interesting finding! I think the diagnosis is right.
 >>
->> Signed-off-by: Gary Guo <gary@garyguo.net>
->> ---
->>  rust/kernel/io.rs | 147 +++++++++++++++++++++++++++++++++++++++++++++-
->>  1 file changed, 146 insertions(+), 1 deletion(-)
+>> But: I would say the current behavior isn't a nice solution as well:
+> 
+> It is not fantastic, but it doesn't have this issue.
+> 
+>> wakeup_source_device_create() does: dev->class = wakeup_class;
+>> I think no reader will expect that wakeup_class may be NULL here due to
+>> initcall ordering. In addition this behavior results in such early
+>> wakeup sources not being shown in sysfs.
+> 
+> They are registered too early to show up in sysfs, but they can work regardless.
+> 
+> I think that it's just pointless to call device_register() for a given
+> wakeup source if wakeup_class has not been registered yet.
+> 
+>> But I'm not sure whether registering class "wakeup" (and registering
+>> classes in general) would be possible early enough (core_initcall,
+>> or even pure_initcall).
+> 
+> driver_init() is called before do_initcalls() is do_basic_setup(), so
+> class registration should work for all initcall levels AFAICS.
+> 
+When testing the current code on my system, autosleep is the first wakeup
+source, registered in a core_initcall, and it's not shown in sysfs.
+Same result when class wakeup is registered in a core_initcall
+(instead of postcore_initcall). Registering class wakeup in a pure_initcall
+works and fixes the issue. So, would this be an acceptable solution for the
+discussed issue? 
+
+>>>> ---
+>>>>  drivers/base/power/wakeup_stats.c | 18 +++++++++---------
+>>>>  1 file changed, 9 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/drivers/base/power/wakeup_stats.c b/drivers/base/power/wakeup_stats.c
+>>>> index 308f8bde9..72beb8fce 100644
+>>>> --- a/drivers/base/power/wakeup_stats.c
+>>>> +++ b/drivers/base/power/wakeup_stats.c
+>>>> @@ -18,8 +18,6 @@
+>>>>
+>>>>  #include "power.h"
+>>>>
+>>>> -static struct class *wakeup_class;
+>>>> -
+>>>>  #define wakeup_attr(_name)                                             \
+>>>>  static ssize_t _name##_show(struct device *dev,                                \
+>>>>                             struct device_attribute *attr, char *buf)   \
+>>>> @@ -114,7 +112,7 @@ static ssize_t prevent_suspend_time_ms_show(struct device *dev,
+>>>>  }
+>>>>  static DEVICE_ATTR_RO(prevent_suspend_time_ms);
+>>>>
+>>>> -static struct attribute *wakeup_source_attrs[] = {
+>>>> +static const struct attribute *const wakeup_source_attrs[] = {
+>>>>         &dev_attr_name.attr,
+>>>>         &dev_attr_active_count.attr,
+>>>>         &dev_attr_event_count.attr,
+>>>> @@ -135,6 +133,12 @@ static void device_create_release(struct device *dev)
+>>>>         kfree(dev);
+>>>>  }
+>>>>
+>>>> +static const struct class wakeup_class = {
+>>>> +       .name = "wakeup",
+>>>> +       .dev_release = device_create_release,
+>>>> +       .dev_groups = wakeup_source_groups,
+>>>> +};
+>>>> +
+>>>>  static struct device *wakeup_source_device_create(struct device *parent,
+>>>>                                                   struct wakeup_source *ws)
+>>>>  {
+>>>> @@ -149,10 +153,8 @@ static struct device *wakeup_source_device_create(struct device *parent,
+>>>>
+>>>>         device_initialize(dev);
+>>>>         dev->devt = MKDEV(0, 0);
+>>>> -       dev->class = wakeup_class;
+>>>> +       dev->class = &wakeup_class;
+>>>>         dev->parent = parent;
+>>>> -       dev->groups = wakeup_source_groups;
+>>>> -       dev->release = device_create_release;
+>>>>         dev_set_drvdata(dev, ws);
+>>>>         device_set_pm_not_required(dev);
+>>>>
+>>>> @@ -212,8 +214,6 @@ void wakeup_source_sysfs_remove(struct wakeup_source *ws)
+>>>>
+>>>>  static int __init wakeup_sources_sysfs_init(void)
+>>>>  {
+>>>> -       wakeup_class = class_create("wakeup");
+>>>> -
+>>>> -       return PTR_ERR_OR_ZERO(wakeup_class);
+>>>> +       return class_register(&wakeup_class);
+>>>>  }
+>>>>  postcore_initcall(wakeup_sources_sysfs_init);
+>>>> --
+>>>> 2.53.0
+>>>>
 >>
->> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
->> index 72902a4a343d..8166e47f1381 100644
->> --- a/rust/kernel/io.rs
->> +++ b/rust/kernel/io.rs
->> @@ -7,7 +7,11 @@
->>  use crate::{
->>      bindings,
->>      prelude::*,
->> -    ptr::KnownSize, //
->> +    ptr::KnownSize,
->> +    transmute::{
->> +        AsBytes,
->> +        FromBytes, //
->> +    }, //
->>  };
->>
->>  pub mod mem;
->> @@ -296,6 +300,13 @@ pub trait Io {
->>      /// Type of this I/O region. For untyped I/O regions, [`Region`] ty=
-pe can be used.
->>      type Type: ?Sized + KnownSize;
->>
->> +    /// Get a [`View`] covering the entire region.
->> +    #[inline]
->> +    fn as_view(&self) -> View<'_, Self, Self::Type> {
->> +        // SAFETY: Trivially satisfied.
->
-> What might be trivial to you is not necessarily obvious to others.
-> Please explain why we are satisfying safety requirements.
-
-This is what language model produces:
-
-    Analysis: Io::as_view()
-   =20
-      fn as_view(&self) -> View<'_, Self, Self::Type> {
-          // SAFETY: Trivially satisfied
-          unsafe { View::new_unchecked(self, self.as_ptr()) }
-      }
-   =20
-      The View invariants are:
-      1. ptr is aligned for T
-      2. ptr has same provenance as io.as_ptr()
-      3. ptr.byte_offset_from(io.as_ptr()) is between 0 to KnownSize::size(=
-io.as_ptr()) - KnownSize::size(ptr)
-   =20
-      For as_view():
-      - ptr =3D self.as_ptr() which is Self::Type
-      - Invariant 1: self.as_ptr() should be aligned for Self::Type - assum=
-ed true from the Io trait
-      - Invariant 2: Same pointer, same provenance - trivially true
-      - Invariant 3: ptr.byte_offset_from(io.as_ptr()) =3D 0, and we need 0=
- <=3D size_io - size_ptr which is 0 <=3D 0, true
-   =20
-      The safety comment "Trivially satisfied" is correct.
-
-I think the verbosity here is really because we have the safety requirement
-listed item by item, rather than just defining a new concept.
-
-If we, for example, coin an idea of `IO valid pointers`, then we can just s=
-ay
-the `self.as_ptr()` is trivially I/O valid.
-
-Perhaps, for this case, we can use the "projection trivially satisfy the
-invariants" that I've already mentioned in the doc, and just write
-
-    // SAFETY: This is an empty projection, so it trivially satisfies the
-    // invariant.
-
-?
-
-Best,
-Gary
-
-
->
-> Otherwise looks good, with the above fixed, please add:
->
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
->
-> Best regards,
-> Andreas Hindborg
 
