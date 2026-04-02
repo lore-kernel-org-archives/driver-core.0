@@ -1,112 +1,68 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D013EF65A
-	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 16:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEF233F390;
+	Thu,  2 Apr 2026 16:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775147132; cv=none; b=syKE5/RTsP2IakXohxT5D3/V4R8rDgNtG4rdOCfNpLMOtszQA4QgjI9OXPGNybo4PtnN58Ex9iNE7z0xOQtlob4+CLNpt0P1Yuwp5Yav/vT+VVVihovRfgdcPEAhGdqN5xIAkiR+sJdpfLHZc92kdCH4Ip05zHcntOEXWhIHrtY=
+	t=1775147401; cv=none; b=o/khDze3Uz28JtK1y9KDnLhdH9rKhbc4iRCe2XTf7S0ZQ5WjOsNjeEYcN9mzV42JU+GVrL1avx3LIAvlK1GX1sVwpJzHc2Ici1LFoOpYkrDv4Tn7W5ylC3DnmZ89XCLyIIywEPpNon75ERW3S05qF6HrCCUU0mkcRRVvoNTA/lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775147132; c=relaxed/simple;
-	bh=/+oE8o2a7nqWIyq6hPQN0Fdtkz1DVk/0ksULENx1DvA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sWCivp7+LjtRUe2twVBSayg/W07snocKjv1XDf9JPg1PsVlkJ42JgLuybX7SsQkGPlMXuFZ1JGj64v/RwqgQ4u9SUhKBq6Y6lpNPn0rwYp++tVkzDUsOACWQN/QpOnEt6h/OEdeEmAqAagM4dkR3h+vUrm3oWm0CjQpCEAQJ8hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j/VLtCSy; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775147401; c=relaxed/simple;
+	bh=w1dW8AZk4reCHACcRL/0+eMefcFQIN8mzWpVA8G3YSI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=lKamiG7s6d83ZKJ2JJsYI3z2QmVy+xiZnHKx4DVulPkDqcQbZaw+JKH9H/2vVGj9pxIh2lUy0X0To+rTSDpsZWSpphCn8ZWp8G/ctukypsEa6SWMdTreBtkfd4C0m8/QEb8fyKiBQl1m84escEfXjx+h6rR9g0tmNWa7EycubX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHOyIcuz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/VLtCSy"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486ff201041so10896315e9.1
-        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 09:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775147130; x=1775751930; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iRJCrCtZHmXNRoutD3USI3mOL7xfOdKoAeCAQK+CcTA=;
-        b=j/VLtCSy1ve3hha5xCj96sr1UUFey5rmLMDd6ZCF07UbIklu/C229a4FJaAPrpxw1g
-         XRQzEyQVJZz9B2uBanlVAi42FZTwigk0Wdtw584O4BQCkq1zI7mGG7/zfWje/g+iF9ue
-         7QxJlV2KmyJ46nAU+diXZsPKT5cw1XcDRWn1+Djfz1taI50Awo6nJkubDgVR+P0ThOky
-         PG8qrlmFrfHDaGNhAVoKfmasAoeXm7hvNQkbK+5B8V+kyBmnw1hwY3RWbviFxl5bA00Z
-         7oDPTD52bTSGKkxwpw+xVi2rH3/06AyviewbRGg259NCR1+M0R2ZWLMwt6cxWBnZ/gWX
-         jsig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775147130; x=1775751930;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iRJCrCtZHmXNRoutD3USI3mOL7xfOdKoAeCAQK+CcTA=;
-        b=JtwFn76Cuumy1qbup3jKLLVkxmkXRbrioq4vXMhilVjbc25TQjKBdbyacRy1tVPhsq
-         UkQ7Z9Ha/Vlk7duTEnL7qhmFB3zv7IGjWOPLqbB/OmH66xAJXbZSvab9olxBV40KHIO5
-         KECWQOeMxtnNZ464zvr0cxqMsz3+Z9nmKY3z6y0EiNzeChQM7ETUz1DrGO0VYM6z3muN
-         /PXAdcBTWhYWFiWhNNfh13VSaFiIgTmo77LKwVbo4c1M1foPmSQ4JAOK2F1uB9Ph2Yzb
-         uEyzPN3YrBU6nZGQIcudGqzWMYJoxzLBdCuu3N5r+RbH85bq7XKy+jMuDg3HwThhd7YX
-         dPoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXRX7EOogvdlgmt/xGjI7J+v/VBkmfQeFfVCw0moPQ4iQ7VKHgYmM5QaLf76q/lNPoDeaacxQghwTu5xw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUNwA1R8WB3OOCmDH9V5iU5e4KjsQ+yJKdb26vjEimn6pKr/gg
-	P3BbPqed3prP7vK4E3QF6oNOd20T4hfjaP5itfITclr49+8tMmiHbuHE
-X-Gm-Gg: ATEYQzxx1LNzEjGlFUtuTvu1s38txR4Wo2zD2JOoiOWAw6WgIZ/jf3mW05dcuPfeXgO
-	jnxyL12qw5z4AXDK+XiT5ARf42MDtT7lzN8WLVKniYkpeQyo8X1oR0KCaVt51Y71CsdCCBW/IoX
-	lpFohKCtiog5na6SIwGRGgtZVVuIOcIee3XqALly6DBKZYEvIPtGos2RYjuQHI1z5C4pd3S2BA/
-	8kMrNJF48uUrwPlq7LGGsMbvgmsV2WoXovv56M9iW0H1EKDfXoPsuhslQ0iqt6OXvp6s+vFcLnu
-	sMem5mPH9ss8lzBVSYM6jsE5dpccYpDRrSl51um6n6jpi1gQhrXmwooEIzyfbkwD0bqRM+Q7cNl
-	HFhcg6SSPnBdl4UNLQqVeDpVXMo1b3aL+gTyoxk2OCjxrlzJfHv/gblquwBo2MlyRsw5JAIcUWr
-	dgxYX90g7Fgu5LUMRTMJ+3cn8AyV7okgGS9bWGRKlu8pzeiKnR3yhHkwGG5ptVGM1okCFs2w3av
-	LD+BIXn6IycbflqAT+VtfuJYD3fjlyYgaqquqwhv/wceDl/i9QO2Um7N6Sf08Gjew==
-X-Received: by 2002:a05:600c:4507:b0:485:17a7:b9c7 with SMTP id 5b1f17b1804b1-4888b6f7f81mr68393685e9.10.1775147129436;
-        Thu, 02 Apr 2026 09:25:29 -0700 (PDT)
-Received: from ?IPV6:2003:ea:8f19:9500:c168:ad27:2fdd:9334? (p200300ea8f199500c168ad272fdd9334.dip0.t-ipconnect.de. [2003:ea:8f19:9500:c168:ad27:2fdd:9334])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4888a705f99sm75208665e9.11.2026.04.02.09.25.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Apr 2026 09:25:28 -0700 (PDT)
-Message-ID: <1e904f24-63f3-4876-8d9e-63e2b5465269@gmail.com>
-Date: Thu, 2 Apr 2026 18:25:28 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHOyIcuz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 198D7C116C6;
+	Thu,  2 Apr 2026 16:29:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775147400;
+	bh=w1dW8AZk4reCHACcRL/0+eMefcFQIN8mzWpVA8G3YSI=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+	b=KHOyIcuzguDroW3VbA8bQHdLBILXZSpffvP320Gcop3G5/+HewMrRub0Hx4dBP8Ks
+	 iDZHmCQD7FnOjeaaWJq49GeqWXgFEnDdcJpq4VQrI+zI8lz/6SjsVFidu0RoIURTts
+	 70rLx9nJyQEb2tR8Y63JVX9V/El/5pKBQu7AYUmwpD/Xok/5ilw62F0JwwDME1ldzL
+	 zkWXlo7UAgPyn8Ou0yBdlTAHOfA0b5ApTwbiO8KwS124kHhZ0iQNCygnZph6filT0I
+	 rLBwc81Dcg0gyCYg/spGCS0zfg/tLbZW/38xh0jL3JKznlOTP6F/IsXyS6n/39UMFl
+	 dtNAN9+0M47yg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] driver core: constify group arrays arguments in
- driver_add_groups and driver_remove_groups
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev
-References: <fae35d74-f1b9-4785-8d7b-e553c22387ce@gmail.com>
- <21a1e5f1-c6a0-4f6f-aa86-1e6abd25f9c6@gmail.com>
- <2026040222-progress-thrive-220c@gregkh>
-Content-Language: en-US
-From: Heiner Kallweit <hkallweit1@gmail.com>
-In-Reply-To: <2026040222-progress-thrive-220c@gregkh>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Thu, 02 Apr 2026 18:29:55 +0200
+Message-Id: <DHIT8FGUNBB6.3JBUXPIVOP6GU@kernel.org>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+ "Daniel Scally" <djrscally@gmail.com>, "Heikki Krogerus"
+ <heikki.krogerus@linux.intel.com>, "Sakari Ailus"
+ <sakari.ailus@linux.intel.com>, "Aaro Koskinen" <aaro.koskinen@iki.fi>,
+ "Janusz Krzysztofik" <jmkrzyszt@gmail.com>, "Tony Lindgren"
+ <tony@atomide.com>, "Russell King" <linux@armlinux.org.uk>, "Dmitry
+ Torokhov" <dmitry.torokhov@gmail.com>, "Kevin Hilman"
+ <khilman@baylibre.com>, "Arnd Bergmann" <arnd@arndb.de>, <brgl@kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-omap@vger.kernel.org>
+To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v5 0/4] ARM: omap1: use real firmware node lookup for
+ GPIOs on Nokia 770
+References: <20260402-nokia770-gpio-swnodes-v5-0-d730db3dd299@oss.qualcomm.com>
+In-Reply-To: <20260402-nokia770-gpio-swnodes-v5-0-d730db3dd299@oss.qualcomm.com>
 
-On 02.04.2026 17:11, Greg Kroah-Hartman wrote:
-> On Mon, Mar 16, 2026 at 11:09:37PM +0100, Heiner Kallweit wrote:
->> Constify the groups array argument in driver_add_groups and
->> driver_remove_groups. This allows to pass constant arrays as
->> arguments.
-> 
-> But do we?  How down the * const depth do we want to go?  :)
-> 
-Not yet, but this is the next step. __ATTRIBUTE_GROUPS() would be
-complemented by a version creating a constant array. If something
-that de-facto is constant, lives in .rodata, then that's a good
-thing IMO.
+On Thu Apr 2, 2026 at 4:15 PM CEST, Bartosz Golaszewski wrote:
+> Bartosz Golaszewski (4):
+>       kernel: ksysfs: initialize kernel_kobj earlier
+>       software node: remove software_node_exit()
+>       driver core: make software nodes available earlier
 
-> And does any of this series require any other fixups?  If not, does it
-> actually do anything?
-> 
-According to my checks no fixups are needed. And so far no CI
-complained about the series, what I interpret as a positive sign.
-This series doesn't do anything, it's a prerequisite for changes
-like the one described in aforementioned comment.
+Looks good to me now; I will give it a few more days on the list and then p=
+ull
+it in for v7.1-rc1 if no one else raises concerns.
 
-> thanks,
-> 
-> greg k-h
-
-Heiner
-
+>       ARM: omap1: enable real software node lookup of GPIOs on Nokia 770
