@@ -1,51 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548BA3EF644;
-	Thu,  2 Apr 2026 15:01:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948123EFD1F
+	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 15:03:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775142069; cv=none; b=rqEr3FEq7UyKdsrQRsKUpfRDDkMqIQZeqOMT9F+3muaMkAUka7D2cLU2sfsPItGKJhtT7q7+tnyCzYEtiM29AZqXjAcj793ilLwvCE6UzGWm7c3rkQOFG6mtPeLLkk3OWgIF8GeMKieklPU7lH5nXBYs+yueo+jjaMrVjBpa4sg=
+	t=1775142204; cv=none; b=mU4RDtXjHjGe83QZ5np9RvG1zxnoEGwPRlwOVY1Rpsdf1XIJpcPZbqwvq8KZ8/KNJwhLhYX42DhPc80U88kHepVTHG4A/sCwjhz/6K+Os6V68Xa0I9sSB1aogoS6TsNuUxroo+XJ63Y4yVJDf9JqTNQwPGUY/IoMoOAMg6X25N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775142069; c=relaxed/simple;
-	bh=toPnkFXi9Ikbvgnfx8487K1V5XpjxN3tnvJRnQ0GPZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdiOcCyimjcWh5OLeTh64knh2/JlWPVY1VwJpudnJ9kBz8v+mWHJvl7F7wFTSwVO4rpxx7icwEWAGyGykLe5yGjj5Duc7I7l+NbowFT7gzuHrAoBe1/GpnHyh7SpL004/1Gzwn6f6S7CNWQxGx4/fVTjxFfQV7P+5OW6/NnKJTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HmUPN/bB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775142204; c=relaxed/simple;
+	bh=F4zhH6M3sP6/pIp7gAJGXFdabfzYRh9hex7KTF1/hgk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PKrsnmWRdOv+S+0QHDLK2Ef0+sb6P67ejxAntRPckekceFC3T/pzJAu+dEa53FOc0Q87IrW67rJkCMv+26ulTo8wIP0tkypjznWnmgO5c/A0ojXDvvaG6q60i7XDPwH0cXpGl9U7te2+cs23RLososIBjZSSLyyoDtDNSbQyTvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TAzaKBk5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HmUPN/bB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C786C116C6;
-	Thu,  2 Apr 2026 15:01:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775142068;
-	bh=toPnkFXi9Ikbvgnfx8487K1V5XpjxN3tnvJRnQ0GPZw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HmUPN/bBB9pXvDwUOeF3LyG7C28GKUXs+AYXZOUaEJc8D7GBT8dMzT9etgFIvM0Ly
-	 lo4ICPVuXczycIaPx4Qep6Hg127+AlDYyO+2aYFV2SJKSnVCnbJv++0vZPy8VJDuJT
-	 bC9L2+gRez8klii09049ZFushK6kEDXE3C3+oitY=
-Date: Thu, 2 Apr 2026 17:01:06 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Pranav Kharche <pranavkharche7@gmail.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drivers: base: Fix typo 'interupt' -> 'interrupt' in
- platform_get_irq_affinity()
-Message-ID: <2026040255-washstand-little-bd85@gregkh>
-References: <20260321164435.60829-1-pranavkharche7@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TAzaKBk5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53824C2BCAF
+	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 15:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775142204;
+	bh=F4zhH6M3sP6/pIp7gAJGXFdabfzYRh9hex7KTF1/hgk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=TAzaKBk5bQHEBAnoDbUHErPGXZrqeqWseRisq+qBPxAXpmtjCa/Es6/BTjCHNfocR
+	 XE0tH+MhdOYS5aqtuArK6aR4Ho7A/XpMrvpI8i0bz7uUIn6PbsJ3DAigAc1iMCTu0k
+	 v0M3NLt3KBRYEgupn6ici5UJ18Zqf9r3QCP5lR9vOUGq1MBGyC3hMf+o/beD+76xKa
+	 yFZDW5tbw4inyMJwlcwAYvzaO2RxtTIXXUBWsPVQEyVOlp2Kg5g0yDdemO7O00G5oJ
+	 /Xeg6GQoCrTPJvnqZ8dqelftFEBREBcy5ftGuZrnev05C+vlBNcXUMWyM+d4EmmSqE
+	 lEy6KOHRLFiWw==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a2c9932781so764006e87.1
+        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 08:03:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUczPSfCzNaTbioRhJrPmoMmSTVpZ15PiJo5FiNuVJkaapDxx4bpcQfQy7yXAbRmyTHEgR5a/5M33t3bQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwT9e8N45EJJ/RPcxMpJ11e1/w1FKxvjjynGZgXhpJD1X6LDo9G
+	StYf/ZsxJN9vAHEM2BoSVgkotvQTqqHaG9gSETbssvZw6q1eJDYzB27Fe1XIVwFjSBfBFJ6jOLl
+	9hAm81R9eaOI3jxTOpFkm0dgbutQgPY9Ucnyl9Vd+Lg==
+X-Received: by 2002:a05:6512:3d9e:b0:5a2:c66a:d6d1 with SMTP id
+ 2adb3069b0e04-5a2c8d78c78mr1121944e87.6.1775142202973; Thu, 02 Apr 2026
+ 08:03:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260321164435.60829-1-pranavkharche7@gmail.com>
+References: <20260402-baytrail-real-swnode-v2-0-6f5054a4cc07@oss.qualcomm.com>
+ <ac5t5XozmzN9oq96@ashevche-desk.local> <CAMRc=McR+S9LCHmDjAS6Wn=SrNvq5Ojr-w1qeLsGNJ+L39pbrw@mail.gmail.com>
+ <ac5zhZAyiwbUwzWo@ashevche-desk.local>
+In-Reply-To: <ac5zhZAyiwbUwzWo@ashevche-desk.local>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 2 Apr 2026 17:03:10 +0200
+X-Gmail-Original-Message-ID: <CAMRc=McJFNp15jnrehGLHsmFRfBpRQoppmdB_51whzJUQ-5ZLw@mail.gmail.com>
+X-Gm-Features: AQROBzC8kXfF8m1woyIDTDDAIkrV3H5UZACDhpRJ_7Yt9ZM71rXQFfvjqh5OmSk
+Message-ID: <CAMRc=McJFNp15jnrehGLHsmFRfBpRQoppmdB_51whzJUQ-5ZLw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] platform/x86: x86-android-tablets: use real
+ firmware node references with intel drivers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 21, 2026 at 10:14:35PM +0530, Pranav Kharche wrote:
-> Signed-off-by: Pranav Kharche <pranavkharche7@gmail.com>
-> ---
->  drivers/base/platform.c | 2 +-
+On Thu, Apr 2, 2026 at 3:47=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Apr 02, 2026 at 03:35:24PM +0200, Bartosz Golaszewski wrote:
+> > On Thu, Apr 2, 2026 at 3:23=E2=80=AFPM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > >
+> > > > 3. Export the acpi_bus_type symbol. It's already available in the
+> > > > acpi_bus.h header but it's not available to loadable modules.
+> > >
+> > > Nowadays we don't do that but export the dev_is_acpi() or something s=
+imilar if
+> > > it's not yet available and to_acpi_dev(). (Names are derived from the=
+ existing
+> > > pattern, they might be need to be adjusted, dunno.) See how PNP does =
+that.
+> > > Note, I haven't read the patches yet, just a quick comment.
+> >
+> > Maybe I should have said why I do it. It's to register a notifier call
+> > on ACPI bus events. Is there a better way to do this?
+>
+> AFAIU there shouldn't be pure ACPI devices, they are companions to the re=
+al
+> ones. Can we simply attach to the normal device notifier and check if the
+> companion is what we are looking for? Also since it's specific to that dr=
+iver
+> and you know what the platforms you are looking for, why can't we hook
+> something into drivers/acpi/x86/lpss.c?
+>
 
-I can't take patches without any changelog text, sorry :(
+The ACPI companions seem to only ever be added once and never removed
+- unlike platform devices. This is why I prefer to check the ACPI bus.
+
+As for lpss.c - what do you sugest exactly because at first glance I'm
+not quite sure what's there to hook up?
+
+Bart
