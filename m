@@ -1,111 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0DF371053;
-	Wed,  1 Apr 2026 22:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83F934EF08;
+	Thu,  2 Apr 2026 04:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775081712; cv=none; b=MrNWESlAh4bEbZy7xsmZjee+W6kmJpwqHOZDn0Yc11l5ERsIaFzYMphoHNXWs21OusqyabCJ4IHglWXo+39M00ziebf0K48agSgDfFghqNXc3hF6PjHBYvVe0yKldtXhBVGeVDSvY3Sl3dfWPKvFyQtYmO3vrdQ10CIgB0s+jb8=
+	t=1775102811; cv=none; b=sDCIHPP3M2mHZ16fESAhhiyhWvpDwxDIWvvunUG8UZ4JO0vo5ONmwMviZfq2M8cUt9irHHqIuxC9nfHcBtcMjZwh+X3a1wrZ7KK6cFmXo+o1n++Yhr2gCKcBXD/8z4wwcnlcIO6/XvvZOZxkn7UVUNlRQnqQtsksPPILp1o09AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775081712; c=relaxed/simple;
-	bh=34AF3ofk0Wgk4TOt5kStZHIysIdIgOjJccVuG/tlka8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=TQGaEU+DveI5+2qvuOpg2x5s4LDsTSsUwJl8e3poVgGHjBaiW4m8D7rpopZZmCXpLm1y2+KlbEJoo5qdGtdPE5dVpzHpLk6/XJqj4PlvOfnzpYMp+xpMsQ5RYkOaYtBuvR6mFKI/wH7XLLH6zsMhE0WZlK2BXYGktFBSfsMx+jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rtkp2U6P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775102811; c=relaxed/simple;
+	bh=UKVHWahi0fbxbYI6ys1MP8/QXMc97IMmvnDflgapZOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mMxEeRRBP6Il82HQX09mVkz5zp0+XxSPNmTN6pxhjUCFfELEXgX51F9i32OybuqMrDO1K/g/r2d0isuQLqV03j7glQBxiNmL1YZIdJrftNJcDWiAfQBwb2uze+dZaU8hexzYh0pCM58TY6nkX9BmTRnVBt8nkQC7CvCxfVQFxNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YvEHhBmX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rtkp2U6P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1D8C4CEF7;
-	Wed,  1 Apr 2026 22:15:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775081712;
-	bh=34AF3ofk0Wgk4TOt5kStZHIysIdIgOjJccVuG/tlka8=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=Rtkp2U6PHLgYXxrww9/MCuk8DIr+YOi58YYj/JWhgVJ0ilomZpvwqX22TNxaCBt2F
-	 p1b/POayGBEW30uKlb/PGueb2BGMGud+WtkHHJK1erwrpBoojTs9uCzsi6jF1iXYZ5
-	 +ZP1WEpy9UK8mtgoDJmaa95lXdvEkL9BoQcJvRal0ysVgN99AfBmP8IgKARFSHx8ae
-	 Nu3re1d7hoKjaLSUHQVaa/weCNDr3D1eQGuVpcD1eBYuq8ybn6mt+/QIO73hwW4YAm
-	 a53D6RQUUg06FNn1vj8uOAipFDT7BDFadAsYLVWvoi8ezRKA6ntelDl/zNUl1I3E5/
-	 KONwJYSRZf7cg==
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YvEHhBmX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B08C19423;
+	Thu,  2 Apr 2026 04:06:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775102810;
+	bh=UKVHWahi0fbxbYI6ys1MP8/QXMc97IMmvnDflgapZOs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YvEHhBmXANVWMbSDMVncIB6qfTjgyq7oPFhn4ZChI2qpM+mPpXdrZEmzqP7YTYTOg
+	 0o11r2Nnqe9EmO6EcYz3yOyp2ekICkDympqvHA8DxAZ4+u/3CS5Ei0Q16moOu8xAYu
+	 nGDOZKC34utjZGQRQtZEaQ67BxhKjsB3YXn56NZM=
+Date: Thu, 2 Apr 2026 06:06:48 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Samuel Wu <wusamuel@google.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	kernel-team@android.com, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Support BPF traversal of wakeup sources
+Message-ID: <2026040236-kiln-carat-bb6d@gregkh>
+References: <20260331153413.2469218-1-wusamuel@google.com>
+ <2026040136-ocelot-simply-8981@gregkh>
+ <CAG2KctokEVVuhrs6tYuMjFF4ALR=tX80iZHrt4bhVvEKyoHzRQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 02 Apr 2026 00:15:07 +0200
-Message-Id: <DHI5Y6PNVJSJ.SCAJL0A4W2TR@kernel.org>
-Subject: Re: [PATCH] rust: ACPI: fix missing match data for PRP0001
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Len Brown" <lenb@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, <linux-kernel@vger.kernel.org>,
- <linux-acpi@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <driver-core@lists.linux.dev>
-To: "Markus Probst" <markus.probst@posteo.de>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260401-rust_acpi_prp0001-v1-1-f6a4d2ef9244@posteo.de>
- <2026040124-unbolted-timing-ce25@gregkh>
- <565d58a4b766bd4a63a45da81849ea178dce5f63.camel@posteo.de>
-In-Reply-To: <565d58a4b766bd4a63a45da81849ea178dce5f63.camel@posteo.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG2KctokEVVuhrs6tYuMjFF4ALR=tX80iZHrt4bhVvEKyoHzRQ@mail.gmail.com>
 
-On Wed Apr 1, 2026 at 8:46 PM CEST, Markus Probst wrote:
-> On Wed, 2026-04-01 at 20:32 +0200, Greg Kroah-Hartman wrote:
->> On Wed, Apr 01, 2026 at 02:06:25PM +0000, Markus Probst wrote:
->> > Export `acpi_of_match_device` function and use it to match the of devi=
-ce
->> > table against ACPI PRP0001 in Rust.
->> >=20
->> > This fixes id_info being None on ACPI PRP0001 devices.
->> >=20
->> > Using `device_get_match_data` is not possible, because Rust stores an
->> > index in the of device id instead of a data pointer.
->>=20
->> I'm confused, why are we open-coding this in the rust layer?  What do we
->> need to change in the C side to make both layers be able to call the
->> same function instead?
-> No commit message I have seen has explained why it was done this way. I
-> don't think we would need to change anything on the C side.
+On Wed, Apr 01, 2026 at 12:07:12PM -0700, Samuel Wu wrote:
+> On Wed, Apr 1, 2026 at 2:15 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Mar 31, 2026 at 08:34:09AM -0700, Samuel Wu wrote:
+> > > This patchset adds requisite kfuncs for BPF programs to safely traverse
+> > > wakeup_sources, and puts a config flag around the sysfs interface.
+> > >
+> > > Currently, a traversal of wakeup sources require going through
+> > > /sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to query
+> > > sysfs is inefficient, as there can be hundreds of wakeup_sources, with each
+> > > wakeup source also having multiple attributes. debugfs is unstable and
+> > > insecure.
+> >
+> > Describe "inefficient" please?
+> 
+> Ack; I’ll provide a more detailed breakdown in the v4 cover letter. To
+> summarize: the "inefficiency" isn't just the number of sources (150),
+> but the fact that each source has 10 attributes. We are looking at
+> 1,500+ sysfs nodes to get a full snapshot of the system.
 
-The Rust code stores an index into the array the contains the actual device=
- ID
-info in the driver_data field of a device ID instead of a raw pointer to th=
-e
-device ID info.
+Wait, no, something is wrong here.  You should NEVER be wanting to
+combine multiple sysfs files at the same time into a "snapshot" of the
+system because by virtue of how this works, it's going to change while
+you are actually traversing all of those files!
 
-The reason for this is that it was the only way to build this in a way that
-results in an API that is convinient and obvious to use for drivers when
-declaring the device ID table, can be evaluated in const context (i.e. at
-compile time), and does not rely on unstable language features. Fulfilling =
-all
-three of those requirements at the same was a rather tricky one.
+Why are you trying to read 1500+ sysfs files at once, and what are you
+doing with that information?  And if you really need it "all at once",
+why can't we provide it for you in a sane manner, instead of being
+forced to either walk the whole sysfs tree, or rely on a bpf script?
 
-The unfortunate consequence is that device_get_match_data() does not give u=
-s a
-pointer to the actual device ID info, but it gives us the index of the devi=
-ce ID
-info in the device ID table.
+So, what problem are you trying to solve that looking at all of these
+files solves for you at the moment?
 
-The problem is that this does not really help, because now we know the inde=
-x,
-but not which table it belongs to.
+thanks,
 
-I.e. we wouldn't know whether to call
-
-	Self::acpi_id_table().info(index)
-
-or
-
-	Self::of_id_table().info(index)
-
-to obtain the actual device ID info.
-
-So, unfortunately, I think we have to open code this for now.
-
-But I think this is still a minor inconvinience for being able to fulfill t=
-he
-requirements mentioned above.
+greg k-h
