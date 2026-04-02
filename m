@@ -1,108 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A253009CB
-	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 13:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE1B2ECE9B;
+	Thu,  2 Apr 2026 13:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775136964; cv=none; b=gPAxzV5WtNJ4LHPHhBg7XroCyXjXKeD4qJ8W6XV73xgmk8YjouhORy4/6qF/IxEXDdCHNzIgi7X/E1uNVXpYBcJd29Zh7WzT9lDs0pPIbWbyz92cVGjypk1/yrEShorzOL+/PMETcrhWU2DjZnb/qyOC9QzkE+6u92oTnKQKgPU=
+	t=1775137608; cv=none; b=bmkcC3f5KZbecN0ErnpDnrBK8X9E54uLzowwZKPN+gIA1Foqcr0I6EBV7YWflJyWtkYHaLtL5IiLx1l5dyFnO5QioVK+T4hJP2Qyj8o/+CNtsJzFM3VYWuwyLEyRjjfcj/R2Qu44Cty9me2BkPvn3lKafhM/0eJ81/ezwkLxV2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775136964; c=relaxed/simple;
-	bh=EUyHOU+PT6gcnQyOOsL/7iU6RX6nDZfCu5E3pc2js84=;
+	s=arc-20240116; t=1775137608; c=relaxed/simple;
+	bh=ZEjmKDIfow7ENxk7DM4IKrLgjdy9XKybDTE/ogWtzH0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TtM7TrL24Xwtx5QTdFc+2VlCM02AJrGtwCeUjgKAYnm0+KBSYZkHrxchPzFI3WYKXx5K8PECUJVVPMGqZNe38QC4QUCK6dUUM7ZW9VwCln86FBcXYlJIS0c4FGJ5wPlmdWla890vj/tgfx9aAYX0YrJ1dY+67LD3zaGsF3U19t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+uXZyYm; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=tCGDRPl/DB3LUFyXBwJXk62BXEUe/K6z/Ce8GDcmKWS99TVcjYBg0tpUYNudzcTc5JL9OIJ8PWC6qFjTTemuUa0KDN7AUZVdrAUluu4bW7eMP8bkjsZM1JnhjKkmEoBiylWqghlGtsyFI2JngJr4seTH2iCTJY/Cp6oH1Bekhyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8AJOyWB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+uXZyYm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775136963; x=1806672963;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EUyHOU+PT6gcnQyOOsL/7iU6RX6nDZfCu5E3pc2js84=;
-  b=c+uXZyYmGZoJw5GpIgc4SGi5XUFlX0JQURrWqT0ThjSno7TCrkxQPWPC
-   CwczDuB1Sg4fPbZSSoM4w7kjyxj8e8FmKONLlvKO5FluO0J4tJV/Yg2d4
-   Eij5Oc/1biospJiLIlGceQnYtI5/98rIeJbXEr3U6QAqly7NpDC2R7Jju
-   iz2kwqHdzxgc6Rj9akUWtao68DoNzbUo23iBb1i/ms737xU0jWldDrqAy
-   OVnmG1RTf3RTpV58hHqlFykVV3CHFKgJYZDBPKD9HNrArC4rxw2iQlGFl
-   0lGfZMLQy5kaACmAFmvKv0uNSiMyhhBRYwEtYyMY95yocl0TLmDHE6qfw
-   g==;
-X-CSE-ConnectionGUID: RTr+TwJFRAytToREcFRZKg==
-X-CSE-MsgGUID: EM3NGcDLQj6do9o2CSntBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="86896085"
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="86896085"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 06:36:02 -0700
-X-CSE-ConnectionGUID: ohdmiZMgRjSwR2KP1n23kg==
-X-CSE-MsgGUID: +0H3evrnRy+vKvbW51rkjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,155,1770624000"; 
-   d="scan'208";a="257464118"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.31])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2026 06:35:38 -0700
-Date: Thu, 2 Apr 2026 16:35:34 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-	brgl@kernel.org
-Subject: Re: [PATCH v2 1/4] software node: return -ENXIO when referenced
- swnode is not registered yet
-Message-ID: <ac5wprh9vfTU5pGa@ashevche-desk.local>
-References: <20260402-baytrail-real-swnode-v2-0-6f5054a4cc07@oss.qualcomm.com>
- <20260402-baytrail-real-swnode-v2-1-6f5054a4cc07@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8AJOyWB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4ECC19424;
+	Thu,  2 Apr 2026 13:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775137607;
+	bh=ZEjmKDIfow7ENxk7DM4IKrLgjdy9XKybDTE/ogWtzH0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J8AJOyWBZ5A7mYDE9tlOIxKrcA9BY8QKtFOhLGeVU+CTmqiwbWIAPrg0DZA4DSWyI
+	 ioGCHACNmkjxlC52EzZQ2piNTAhyGBBuhjHecyCvHQIyVFUQLxGmMUqclkzvUdOreM
+	 77y0MIKAD68/1Fdt7VEiqrTlCl9T0Etd5W0GvMK73ukVESL9Pu17ztnp5kexEKECc9
+	 6UOGO5b1Crd2uwQeWVgza3z8oWaTr0iMNGalGBILbOsWgwnFKaKca2RvDprWjYEDvT
+	 LW8JGqC4BQFt9wiZvAApVE17hYh0NyHSLJBHyj5b/0inTBUT0tMyv7ZLpvRgWeSbvu
+	 FWX1zgaMmR/Iw==
+Date: Thu, 2 Apr 2026 15:46:45 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Matthew Maurer <mmaurer@google.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Satya Durga Srinivasu Prabhala <satyap@quicinc.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+	Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Leon Romanovsky <leon@kernel.org>, Trilok Soni <tsoni@quicinc.com>, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] rust: device: Support testing devices for equality
+Message-ID: <ac5y636Wt7bqPUck@monoceros>
+References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
+ <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hamqz4ifmyrgsoal"
 Content-Disposition: inline
-In-Reply-To: <20260402-baytrail-real-swnode-v2-1-6f5054a4cc07@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-
-On Thu, Apr 02, 2026 at 02:54:26PM +0200, Bartosz Golaszewski wrote:
-> It's possible that at the time of resolving a reference to a remote
-> software node, the node we know exists is not yet registered as a full
-> firmware node. We currently return -ENOENT in this case but the same
-> error code is also returned in some other cases, like the reference
-> property with given name not existing in the property list of the local
-> software node.
-> 
-> It makes sense to let users know that we're dealing with an unregistered
-> software node so that they can defer probe - the situation is somewhat
-> similar to there existing a firmware node to which no device is bound
-> yet - which is valid grounds for probe deferral. To that end: use -ENXIO
-> which stands for "No such device or address".
-
-This error code is also too generic to my taste. What about alternative(s)?
-EADDRNOTAVAIL
-ENOTCONN
-
-(The brief grep shows that the second one might suit slightly better than the
- first one by existing use cases.)
-
-Do we need to update the (chain of) kernel-doc?
-
--- 
-With Best Regards,
-Andy Shevchenko
+In-Reply-To: <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
 
 
+--hamqz4ifmyrgsoal
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/6] rust: device: Support testing devices for equality
+MIME-Version: 1.0
+
+On Tue, Feb 03, 2026 at 03:46:32PM +0000, Matthew Maurer wrote:
+> This allows device drivers to check if, for example, an auxiliary
+> devices is one of its children by comparing the parent field, or
+> checking if a device parameter is its own device.
+>=20
+> Also convert existing `.as_raw() !=3D .as_raw()` to  use this new
+> implementation.
+>=20
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+
+I don't understand the implications of this patch, but it's fine for me
+to be merged via the rust tree.
+
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
+
+
+--hamqz4ifmyrgsoal
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnOc0IACgkQj4D7WH0S
+/k6ASwf/fRIIL3jHKKOYTcASOtVM7fzGJ0OLkDC6JblRbcNMrKJ6RmIJDyX96eYV
+Zt2RmQN+twy0K15YwYiBdSWLU6yWsyomYriZo96Rd3PpM8K6Cyg2RadXLwLFvHZE
+3BjQs3rgGwoaE0rdYr3Rkje5ReKIMFZF68FLh7x9xgtFVR67uDPbMnapeTQagaVX
+G4l0cekgdlXUfo1xlFkYjnVPk7xkrVAzg/dT2TjYBIq76T5O6MIY9WrzXy5ifXxD
+Hbie7nG7EVpLIzwaf4d1d1Jkbxny+qEhQmdIZbYht0l+EZux8H5skWnZBeLozeNK
+UzKak8KjOsTAQJLy0DJvfczUV/gupA==
+=cFJW
+-----END PGP SIGNATURE-----
+
+--hamqz4ifmyrgsoal--
