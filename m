@@ -1,94 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83F934EF08;
-	Thu,  2 Apr 2026 04:06:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E40235F8B7;
+	Thu,  2 Apr 2026 04:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775102811; cv=none; b=sDCIHPP3M2mHZ16fESAhhiyhWvpDwxDIWvvunUG8UZ4JO0vo5ONmwMviZfq2M8cUt9irHHqIuxC9nfHcBtcMjZwh+X3a1wrZ7KK6cFmXo+o1n++Yhr2gCKcBXD/8z4wwcnlcIO6/XvvZOZxkn7UVUNlRQnqQtsksPPILp1o09AM=
+	t=1775103194; cv=none; b=DF0PMLeUk0weinuBce+3OqeEx10Rqq1/vlEoffJDsArBlvs32S0OW+Q3+2yEF8phHeg/Qlb0v/n0kMJH1oIwYAaQDGSZFF97VVUgH8wNUFuD9DdqTmEl08utqsCIzaxStsVmeMttfM4ahgQx5/jUufil89S5AUjRG7Bb9PnCHvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775102811; c=relaxed/simple;
-	bh=UKVHWahi0fbxbYI6ys1MP8/QXMc97IMmvnDflgapZOs=;
+	s=arc-20240116; t=1775103194; c=relaxed/simple;
+	bh=OvdET8Mrh+XZccL8SL1bj+zx/euoxwKJ3Po3p93KsM8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMxEeRRBP6Il82HQX09mVkz5zp0+XxSPNmTN6pxhjUCFfELEXgX51F9i32OybuqMrDO1K/g/r2d0isuQLqV03j7glQBxiNmL1YZIdJrftNJcDWiAfQBwb2uze+dZaU8hexzYh0pCM58TY6nkX9BmTRnVBt8nkQC7CvCxfVQFxNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YvEHhBmX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pCZ325SZbynlrAeiqW8WMPMFf/a6RBoFACmGvocATGSY+b5B9sQvTPGtBwFTqp8X28hnuQEEIAFjM9BJ0jXAzqC4Zudqw3U7wyYwJUtdaFOYyf6ZvbLH5xYud6DVzvMCv4j70OIdkb0GhfdnAfpr0Jlz4KtemR6A85kkBbHM8jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iVVgtmCW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YvEHhBmX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B08C19423;
-	Thu,  2 Apr 2026 04:06:49 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iVVgtmCW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F727C19423;
+	Thu,  2 Apr 2026 04:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775102810;
-	bh=UKVHWahi0fbxbYI6ys1MP8/QXMc97IMmvnDflgapZOs=;
+	s=korg; t=1775103194;
+	bh=OvdET8Mrh+XZccL8SL1bj+zx/euoxwKJ3Po3p93KsM8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YvEHhBmXANVWMbSDMVncIB6qfTjgyq7oPFhn4ZChI2qpM+mPpXdrZEmzqP7YTYTOg
-	 0o11r2Nnqe9EmO6EcYz3yOyp2ekICkDympqvHA8DxAZ4+u/3CS5Ei0Q16moOu8xAYu
-	 nGDOZKC34utjZGQRQtZEaQ67BxhKjsB3YXn56NZM=
-Date: Thu, 2 Apr 2026 06:06:48 +0200
+	b=iVVgtmCWgwSjMeJyxdujumkIbgVQC6MY2vW096LQjSWUjCZFQn7E4qaNbNDdbpT/5
+	 jMxxTjXQEankdJsnuYHTYuJ+GSjOOKPadTVwBI+BfcjwF6aHgH8DsTN/BDQmHmQLmm
+	 JYMCJoxz/4b/o79KuEXsFadTMJ/Fy6Xxpce3eZ0M=
+Date: Thu, 2 Apr 2026 06:13:11 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Samuel Wu <wusamuel@google.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	kernel-team@android.com, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Support BPF traversal of wakeup sources
-Message-ID: <2026040236-kiln-carat-bb6d@gregkh>
-References: <20260331153413.2469218-1-wusamuel@google.com>
- <2026040136-ocelot-simply-8981@gregkh>
- <CAG2KctokEVVuhrs6tYuMjFF4ALR=tX80iZHrt4bhVvEKyoHzRQ@mail.gmail.com>
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Shuah Khan <shuah@kernel.org>, Michal Grzedzicki <mge@meta.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 0/2] firmware_loader: allow firmware_class.path to
+ take multiple paths
+Message-ID: <2026040212-passivism-stimuli-2670@gregkh>
+References: <20260401-fw-path-v6-0-4ebe70441839@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG2KctokEVVuhrs6tYuMjFF4ALR=tX80iZHrt4bhVvEKyoHzRQ@mail.gmail.com>
+In-Reply-To: <20260401-fw-path-v6-0-4ebe70441839@kernel.org>
 
-On Wed, Apr 01, 2026 at 12:07:12PM -0700, Samuel Wu wrote:
-> On Wed, Apr 1, 2026 at 2:15 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Mar 31, 2026 at 08:34:09AM -0700, Samuel Wu wrote:
-> > > This patchset adds requisite kfuncs for BPF programs to safely traverse
-> > > wakeup_sources, and puts a config flag around the sysfs interface.
-> > >
-> > > Currently, a traversal of wakeup sources require going through
-> > > /sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to query
-> > > sysfs is inefficient, as there can be hundreds of wakeup_sources, with each
-> > > wakeup source also having multiple attributes. debugfs is unstable and
-> > > insecure.
-> >
-> > Describe "inefficient" please?
+On Wed, Apr 01, 2026 at 09:43:26AM -0400, Jeff Layton wrote:
+> This is something Michal had asked for last year, and I just got around
+> to implementing. This version is just a minor cleanup for
+> reviewability's sake. I also renamed the search= option to search_path=.
 > 
-> Ack; I’ll provide a more detailed breakdown in the v4 cover letter. To
-> summarize: the "inefficiency" isn't just the number of sources (150),
-> but the fact that each source has 10 attributes. We are looking at
-> 1,500+ sysfs nodes to get a full snapshot of the system.
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
 
-Wait, no, something is wrong here.  You should NEVER be wanting to
-combine multiple sysfs files at the same time into a "snapshot" of the
-system because by virtue of how this works, it's going to change while
-you are actually traversing all of those files!
-
-Why are you trying to read 1500+ sysfs files at once, and what are you
-doing with that information?  And if you really need it "all at once",
-why can't we provide it for you in a sane manner, instead of being
-forced to either walk the whole sysfs tree, or rely on a bpf script?
-
-So, what problem are you trying to solve that looking at all of these
-files solves for you at the moment?
+While it is still experimental, and might not be fully correct, you
+might want to look here:
+	https://sashiko.dev/#/patchset/20260401-fw-path-v6-0-4ebe70441839%40kernel.org
+to see a few potential issues for this patchset (notibly at least the
+bash stuff)
 
 thanks,
 
