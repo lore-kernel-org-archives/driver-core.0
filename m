@@ -1,66 +1,66 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A75733F5B3
-	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 20:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C13F39184E
+	for <driver-core@lists.linux.dev>; Thu,  2 Apr 2026 21:04:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775162621; cv=none; b=tLaLol0iZDInil6IY9ZCFF6PRSmSULbN+bLqpoDuXXjc+QJNfzkunWp2SVSmBEoXE7Aymg+B1+hbwbFAfGXvKqMxObQ91sYZD1UlXL5UdqPrENHIKLII3IbzpBFXFEJF0xJY9+dDbymYFSzBaLUYhPN5N+Vt4Sa5uYjBa2QNL1c=
+	t=1775163887; cv=none; b=MIk1dZiYJw/HY0RvLw9PCQrWBP5QskFTlMU08zyZM/tzZZS38cVQcq0GvPZ2Dqm/xygTRDNU+SlyEUP6APFVW2m6GQ7nHUmeJmGtEQyiTHO9jqb+JUIqFPz65yGkWLr0YogsBqT83aYeQxBi1b5y9YK8d6rITLxTi+vqRHuLxe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775162621; c=relaxed/simple;
-	bh=PfOSvF+9Q9GvIApbJuER9HJI0ph9y/C4dHyB4wNs/UM=;
+	s=arc-20240116; t=1775163887; c=relaxed/simple;
+	bh=9niybiFB5IVgmN0LDSpn+N1s08D0u5vGDHQCV7xvlbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lwIimsbpm3Zbydm7jNkn9QKeMVsWNCd0eS7z4zvNC+PIPw8jqGBcm5GHU/qZwQ+TK4mdDSDL10DPT3iKZyO+ACEgkyf2UN1aG8l/3jWPmiDnX77V4vNY6oBUVF+blS1eqLR3Pt6nAp7UWtjKFw0K5OdFJOhd2H4oMIB3MmHMhoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPQ1Ppgp; arc=none smtp.client-ip=74.125.82.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=VJntciK5GI3DK4WXRmLgJMju1tuN3X5TDMN99/1Iy7TxFXu7YrIG5zK6pUPmMyrZ0a6OQm+nneIW4MMIzU1xs6otfa4Nmf6BOVLPDSFGz+r3bD4+YS8BeMYXCCzcpBk7OoHYZDpTPj+GeZkRIr2pxEllrojcPyxAWQjZVzBpnUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d+sYyLp8; arc=none smtp.client-ip=74.125.82.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPQ1Ppgp"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c54c68db4dso2433801eec.0
-        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 13:43:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d+sYyLp8"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12776bebe9fso3216015c88.1
+        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 14:04:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775162620; x=1775767420; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775163882; x=1775768682; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=21ClTGnhigH6pmJ1bdxGPTsm+cYy8Gt+rk4//h1qZck=;
-        b=XPQ1Ppgpgk27a3/gJwjseJdLdbACej0OTsbtcKJT1AtAvqrO7wYQFM0a9IePTZN29E
-         A3k/EjVhYO+tbW3WTdbfF4Q8e7Zu45s6gcIfSbbTlyMAtncYhxpuL0h+tA4aJdO0PeD6
-         oOW/91PwY9rH97NqvrpBIboQHGYaxXnAA2Bjd/MoKcGLqlDZCo3RopMmUsFDsaBmXyJm
-         YLGxKOHxXkyd7/A8+KYmkzEhpinqHrLnkiyOUTv246NLLYa00WViB9kDJ1gDq5fEEc7B
-         Q3STd2oM5MnARc58pUyIaqW1oc1sZRnHuWJykloW0Bt+kkYNkOWbgLo08Cr63z1qGRrQ
-         jw7g==
+        bh=YkigmJHvp4GgElx409CeKFIXm/H3rAfVDHZAfLtsfrs=;
+        b=d+sYyLp8AlQHrapxRzLgTwR3JxaASDBoxBDKLU/gXMD7PStLIvwRsuhxCbhFmTQcz/
+         w5rgop9QeNcmxFgsPg1Z/AhHxCE11Fmy2IABmVZ0rGve/ojNTv4ihdf85GS113SgVpjX
+         sFM19gHt/UJf2Cga4rsN6Q4jcUtrQHLbieA4Z0j+AdS6I39TvLJ3CssTu7XaXgapVqP4
+         AL1+MwHmfc7yy7dFmRV0Vywe883rEfQ6Yz2i0V16YAAblhTM6S8hOEhciSTLyC2oS3D5
+         1rCxoFQbez+Y7NuS1DV8T7gwumXaakqb18KfFPueIaPF7pBBArUptq6yLYh3HfW2la80
+         3QBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775162620; x=1775767420;
+        d=1e100.net; s=20251104; t=1775163882; x=1775768682;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=21ClTGnhigH6pmJ1bdxGPTsm+cYy8Gt+rk4//h1qZck=;
-        b=lcwxhDqo/lsjC/NTq9Kosv1ZxVXAapC6fe+MyrmYToFYxCOpuT62AL3/knn6ZYcCNZ
-         3SeKxmszz2X3ChNyhNhqOD2DA/Fz19oaDARIyeUuPmgWr2+p7u+kYTBsfZekVFcGQ3zC
-         3Gh98D5oJX1moLWrSO/fPLcIVs/YmGuQpcSw3w3wspOVg0C18XodnmTtPoQwkZCY+AN+
-         OVkZnmUw2e9zq0T63ocKgQhhZhJ1zhoKb0X7oDzO05LD4onSm0Ur7EsX1g+pv96AKNcm
-         WX9ZvRL41ZWAxJuPCtFuf0LgOJdQO+lpcO0d7KD0e5TnD+1g5dVLoDVlh5Gijbwv/5YY
-         npJg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzE5F9ZtVGWKuqknNYugbL+QDmPVG5v9pvT93Y4VKSyWy9l+JrreGMuU08HZ8zW7fOpRSHZKBiF0JVbQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7bJW9bXRxdz/jp8GAq+eoURJnzZ+k4OMQjztJsmSl0pMcxlmv
-	RKUpk+bFX7/1RzQCe4WQP6t+I04FSgwdp0Zh3iDh7Nh5fGlFMyWNVhx+
-X-Gm-Gg: AeBDiev2RO46OEoy1ms5jFr5s5TXhJtIjzCYpKRw0M53dHt8coRlWXbh+/QNam/6iKs
-	VDOfOVJa4fBwkAbVPqN5Fd7CzsY4lroS7UFTO7xPkZolLy6O2ooej/xsYjerbjGfrhTw8wz5GOw
-	KxlwygJjD77uEo4jCNbr6/kX2uLoRKty0EVyPO72g3oFgrsReOKbhh2bZhBSOI6XQrR7XyYiaUe
-	oJ1KjaF/wev2jFU6Sla5VmfZPvUV8VIo1qFY2i9CpigDlud3WFcQhY9Tvti9E3tlRnGKwIDO2ij
-	G3QMHYFrqrFwhLOtkO8u+RKvbvMMICeAgYIzFzSD/HPuEStailY6IV3CLmTMBux9DRP4Wa8wLas
-	9XUmDAntYgLMZYCOn8U+IL9bP3Vont0YHf7ngwJrhqm9i2+3b/Ite+fLpbLahKL46/PMQ28UYKS
-	1slZXzS5ZDODkRJ0VNw0X1exjzvLQoHrSbHTZlkVgVj5sQjpVk8UDg5wphRLzvmuqJ
-X-Received: by 2002:a05:7301:1e87:b0:2c6:cdb3:bd8d with SMTP id 5a478bee46e88-2cbf9afd61emr347222eec.7.1775162619471;
-        Thu, 02 Apr 2026 13:43:39 -0700 (PDT)
+        bh=YkigmJHvp4GgElx409CeKFIXm/H3rAfVDHZAfLtsfrs=;
+        b=MEiW1J1rx4Ocxo0ze1GPdf7XBjDZloqi1aO2Dy/lr2D4gsDGhZnorwpmFDH+1XPs9K
+         EJTrwXulpVZTuoWXI9agGqIAD1xsMFTtUreiYGgE+HtmYiCtByO8UU+uRJeANr2VrslS
+         VYodnUMLmSPNlLJatW87yIdvsyvjbRnQ8FBuWMRh3a88/hXQONe1QpxQ5+AowH+I5dP6
+         DwypdBImRkpAI34kqYSqtAKuawilmpd3DUOOasoP6cu+a0JuMiGYd08xWpswH2COkF5Q
+         XCFfjUZ5gGn/6fL6cHnjpJB7cEZvsrmQqy7D89eybLx0nmueJOv33YijQVXjuVnPfDfq
+         B/UA==
+X-Forwarded-Encrypted: i=1; AJvYcCWspdfUXbgsK+k4srQsxNQnfecMyvuOtPUkWm5kZGpfYAdP6vZ+kcju34sX98yGZJGAk1z7FBVnk0lI7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNZFggf3G4HQFaUlTRd//xZLQcbJlmNwxIlUfeTRnIE16AJKu/
+	zAI1f34Z601yU1zDqgujFWgGuXd5qafhf/0b9g7PBv2p7qVa41pEt0Au
+X-Gm-Gg: ATEYQzwbDveRMO0mX2A2Tu1aWIG4I0oyawwbvxkY+esyVZH81MuV2ZMJHbj7ZoDkBFJ
+	zn8zmJmk+jcqFsJwwf9YtEf0U99U481CfpngFwuJHNq7466Wpbu4K5tDefhgNRcLdACcg0LltQM
+	/57peIpvoENeyUdN97fWhVad3ICRmoszfoVIQ5t7sDN37EcFShIBWO1GPFxgdqnxJvFQJ0jVqly
+	8n9CELam00UaTbIJLgwOfhtIxco+4rAiaOpKNZkr1/T44S6a4VSzaPDkEKXjtQeerYFjGlissgT
+	6EhFvvSgynwEZJyz/InWOxXOmIk1SYABjWU22hwQ2UT8ky/EuTV730Qo7aht3aAFMbYYgvGKDv1
+	e4fOUX7+LrSOJswTbof70pGOLLAjbXCu1gP/r2QqwqghuScQbZpmpCZXwj44knei+9YxUreNz/7
+	vi00Rko8JsToK/bShvW2WoPalGuTjRU6B53mGtquEgm44rfeTB8/OGR98Jy1kqXLnM
+X-Received: by 2002:a05:7022:1603:b0:12b:ec96:c936 with SMTP id a92af1059eb24-12bfb70bfe6mr322111c88.14.1775163881666;
+        Thu, 02 Apr 2026 14:04:41 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2ebe:8:902a:cd8d:1c0d:8926])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca7c20b195sm3280897eec.16.2026.04.02.13.43.37
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bede545e8sm2818277c88.11.2026.04.02.14.04.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 13:43:38 -0700 (PDT)
-Date: Thu, 2 Apr 2026 13:43:35 -0700
+        Thu, 02 Apr 2026 14:04:41 -0700 (PDT)
+Date: Thu, 2 Apr 2026 14:04:37 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
 	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
@@ -69,12 +69,11 @@ Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
 	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
 	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
 	platform-driver-x86@vger.kernel.org, brgl@kernel.org
-Subject: Re: [PATCH v2 1/4] software node: return -ENXIO when referenced
- swnode is not registered yet
-Message-ID: <ac7UqTsPC8yUooAR@google.com>
+Subject: Re: [PATCH v2 2/4] gpio: swnode: defer probe on references to
+ unregistered software nodes
+Message-ID: <ac7ZA6HJFBhyCROM@google.com>
 References: <20260402-baytrail-real-swnode-v2-0-6f5054a4cc07@oss.qualcomm.com>
- <20260402-baytrail-real-swnode-v2-1-6f5054a4cc07@oss.qualcomm.com>
- <ac5wprh9vfTU5pGa@ashevche-desk.local>
+ <20260402-baytrail-real-swnode-v2-2-6f5054a4cc07@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -83,32 +82,68 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ac5wprh9vfTU5pGa@ashevche-desk.local>
+In-Reply-To: <20260402-baytrail-real-swnode-v2-2-6f5054a4cc07@oss.qualcomm.com>
 
-On Thu, Apr 02, 2026 at 04:35:34PM +0300, Andy Shevchenko wrote:
-> On Thu, Apr 02, 2026 at 02:54:26PM +0200, Bartosz Golaszewski wrote:
-> > It's possible that at the time of resolving a reference to a remote
-> > software node, the node we know exists is not yet registered as a full
-> > firmware node. We currently return -ENOENT in this case but the same
-> > error code is also returned in some other cases, like the reference
-> > property with given name not existing in the property list of the local
-> > software node.
-> > 
-> > It makes sense to let users know that we're dealing with an unregistered
-> > software node so that they can defer probe - the situation is somewhat
-> > similar to there existing a firmware node to which no device is bound
-> > yet - which is valid grounds for probe deferral. To that end: use -ENXIO
-> > which stands for "No such device or address".
+On Thu, Apr 02, 2026 at 02:54:27PM +0200, Bartosz Golaszewski wrote:
+> fwnode_property_get_reference_args() now returns -ENXIO when called on a
+> software node referencing another software node which has not yet been
+> registered as a firmware node. It makes sense to defer probe in this
+> situation as the node will most likely be registered later on and we'll
+> be able to resolve the reference eventually. Change the behavior of
+> swnode_find_gpio() to return -EPROBE_DEFER if the software node reference
+> resolution returns -ENXIO.
 > 
-> This error code is also too generic to my taste. What about alternative(s)?
-> EADDRNOTAVAIL
-> ENOTCONN
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/gpio/gpiolib-swnode.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> (The brief grep shows that the second one might suit slightly better than the
->  first one by existing use cases.)
+> diff --git a/drivers/gpio/gpiolib-swnode.c b/drivers/gpio/gpiolib-swnode.c
+> index 0d7f3f09a0b4bee0cf1bbdaa8b7b8ae4cd5de581..06d74e9e199de0b91a019e5e15d4b83d330291e7 100644
+> --- a/drivers/gpio/gpiolib-swnode.c
+> +++ b/drivers/gpio/gpiolib-swnode.c
+> @@ -95,6 +95,15 @@ struct gpio_desc *swnode_find_gpio(struct fwnode_handle *fwnode,
+>  			break;
+>  	}
+>  	if (ret) {
+> +		if (ret == -ENXIO)
 
-We are in the core of the driver core. Why not simply use -EPROBE_DEFER
-to which all users will resolve this error to and call it a day?
+
+I'll be just sitting here and quoting sashiko all day long ;)
+
+"
+If swnode_gpio_get_reference() returns -ENXIO during the first iteration
+(for example, when checking the con_id-gpios suffix), won't the loop continue
+since the return value is not 0?
+
+Looking at the loop just above this block:
+
+        for_each_gpio_property_name(propname, con_id) {
+                ret = swnode_gpio_get_reference(fwnode, propname, idx, &args);
+                if (ret == 0)
+                        break;
+        }
+
+If the initial property check returns -ENXIO, but the subsequent fallback
+check for the con_id-gpio suffix returns -ENOENT, the ret variable gets
+overwritten. 
+
+When the loop terminates, ret would be -ENOENT instead of -ENXIO. Could this
+cause the probe deferral check to evaluate to false and fail the probe
+entirely instead of deferring it as intended? 
+
+Should the loop also break early if -ENXIO is encountered?
+
+"
+
+You need to change that to
+
+	if (ret == 0 || ret == -ENXIO)
+		break;
+
+because if we get -ENXIO that means the GPIO must be there (the property
+exists) but not ready yet and we do not want to fall back to another
+suffix. 
 
 Thanks.
 
