@@ -1,87 +1,86 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A5918AFE
-	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 17:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC22B3D34A9
+	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 17:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775237637; cv=none; b=AfpBZpyndZRtquupvdWCuJ0otBw/1C2SvdH5i9lPIPpgH7r8fHzXoiMH0FDaSHRg34PFu7yDqgUM780cH2hZ8O3nWfxCx58Qwf+9EFTXx0trVQ6yyLZC+nHyRi34OqWYtBB1FtXsTebjp+zBdWPGaw3e9+OakCh3w6WEWSn8yX0=
+	t=1775237641; cv=none; b=HK7VZAnwXYuiORiTeeTibUpzUWbUalU96p3teQicKN7WjE0JT3H+ah6s5KW7IFBoIQQSFqMmZnyLY7GY6a2ppKxoZlfZ1Cc+QT6alqGUqGJrgzUkzSk7GDYJYRNsx9Ypj8Unuqqn/1BEgetFy6i9CAiDFx9e2odsEmjx9+6kn6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775237637; c=relaxed/simple;
-	bh=rZiOZBnfnYQhiYHGIxAvJ9diYifTV8qWwPU2z0ofvp8=;
+	s=arc-20240116; t=1775237641; c=relaxed/simple;
+	bh=4QSi4U79nO6Kuv75iJWSSw33Z4grlzD3UTlYLg1qQkk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xjc3zZyha+IfZzmHjZ0p0r6ylsPz+PaGUZGknXOxoBO9jsMyXckQxxH1IaW0k9WWIfTl84Sn2hnhypvQ2pdvAOhlKOCH27xISCHISMTXIkPPWvx8jHIGjk6pvJrnmyzVFPiP/Fm9Sr6W03DBVS7a12iZJd/hdBmMla7h+Spts3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dqeG9Sey; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=J/rYRYuJ; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=MeievM1cCoAe+1PRGCXndNv3kJRHh4IMp7tJUovkJAy0seTqhjvAlp6CDCL431w0SZpBiYimJ2yhpFN2eqEF6rD11lN4vUcyouICbemKllMdKbqo6cIDw3Jc2nWtaoz04ZNXVSfFhg9cM2+EVyP8DalhC0zrjBYuW7bwtW3Dys4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aZEfTlaj; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TlE//FwZ; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dqeG9Sey";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="J/rYRYuJ"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 633B1diI1453174
-	for <driver-core@lists.linux.dev>; Fri, 3 Apr 2026 17:33:55 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aZEfTlaj";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TlE//FwZ"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 633FF4FK947641
+	for <driver-core@lists.linux.dev>; Fri, 3 Apr 2026 17:33:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vcScscqC6ncRDOFK8ujM+tWz/LTHnr7UQ8J+Pxb8j2M=; b=dqeG9SeyGxu65jgn
-	253UAbPLB45tHnHRPFfTb/GgGF91MtPxXdQq9uG9TLgV7Li7MPEnJ+fGGDm19+9D
-	LKQzsJSTvzU7HA58w6YY+idGppBEOqgKRjEruPFJ4bx7kubqHIBmV5XUnimaZF1f
-	T4G9xk6lruJrqDo4oGpSBeXzde097t0BKCCczSNrJ89+W8ZhHGyiUpFVjMkaL38k
-	jWJOxNlqaju4iu1PE/o4wN1CTer43klBXDPb7iV7EJGarsIav29LrGyNKbY/llUa
-	nZFcYqhjoUdH0HouloI+Wjp6nUliGgMREX6BV9obnJ1DEeLRt9IeB4LC1pCxob4a
-	MPBAMw==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dacam92y8-1
+	t6NWwp7xMQI5NgRMH63RnyN3vLoPe8JewDZUaKKorxg=; b=aZEfTlaj1hsn+O3u
+	8NFaxgxBssSSIgfmJGXdkmcSIP1+0WYi6Hi3fL0KK5W1FKpdXtnbc3KIAPaueurW
+	HcbQys6NSgfYA7VSBSLS5qb90tfIiNbnJW5eBeLZYD7ZU5LZo+/ytXIAZZC24ZlV
+	PDLPQlw5WLq7zjy2ZBitWZzQE4DTCQV1+MogRJRgsR1S2vMH+ycjDgqh5Sh2OlMa
+	vH3btz4KuBwSb701RJitz66s+EyyGbWimjJ4Fu9YQU44sFUFYHVP1lTfIgOiVefg
+	zOZzlAkA2jQi/yAU9BXflXTHSmNqNuC/qLzitcKGPl5K7ZmTmF1KiaQJhrZEG7la
+	ESju+Q==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9xwfkdpw-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 17:33:54 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c7414516609so1485383a12.3
-        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 10:33:54 -0700 (PDT)
+	for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 17:33:59 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-82c70d1f65aso1115546b3a.1
+        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 10:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775237632; x=1775842432; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1775237638; x=1775842438; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vcScscqC6ncRDOFK8ujM+tWz/LTHnr7UQ8J+Pxb8j2M=;
-        b=J/rYRYuJw3FyLdjlG76D7+8ia/hDNg4St32LZdM3VzJTK81yLRzJX0fMI7dRI76+HT
-         +U2M3NIhD0nrNTw1H5AhBS//mXXy7yhPgghWkgjcVjkyIL9S42L3sOCD6W3aGNAvGFwr
-         WVA/xaE0l3qvvxGohzu41oCrLU1+wFOqK9B9dh+7I4lP2iSDn4emkTwXXD+f8Ich3nd3
-         wD71GWemVgUMM4fTxxDESammxApNA/qqYvYjha+SOx7QgR45/SB1+6HgIzc8lCAnqbSJ
-         FyarFEl4nGFO2Bi6H62C9Qlv8eIjNDjDDX3ZM5kcPGDfa1nsV4CW8m27NdpNjFPShRQv
-         RcKQ==
+        bh=t6NWwp7xMQI5NgRMH63RnyN3vLoPe8JewDZUaKKorxg=;
+        b=TlE//FwZmXsGU3UCeT4Z/wvKb1GTloE4UCvv5IgdOAz/yXouQtCWJHyAfD+XfHO+Nv
+         uk71+4XdPwIeKhP4Nq90W6f6vftv+zyTnVwhLJ6zCCrp9ZVWw13C178RsPn7C3dp/BO9
+         G5nQD+ytOBoZApHDi8Yib14g9iLZMRG5iaUtQDfHBirEEztT/wFQ4wgbs5JwGC13PUKG
+         cxB62kg3SZJBKP1jmeCv+IUlRnpPWclkJLE51V0ZZYiA7Tsn6/mYV9TgOXMLg4yWgRLD
+         IZXUU7yvLOU/ojg0aQiHInniTu20hKzN7OBcDV8PtC7vGd9GxGNarT21FBSQcg3G5BUo
+         2jiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775237632; x=1775842432;
+        d=1e100.net; s=20251104; t=1775237638; x=1775842438;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=vcScscqC6ncRDOFK8ujM+tWz/LTHnr7UQ8J+Pxb8j2M=;
-        b=H9m4qEO8Jt/tV+L1dpE4bRodsM3/2/PmG3vh0vBVeyZyqP5IBx2G+e3F6JrtinjcM6
-         jB3jRltmKNOTfizxRARaDcRlsx7IrtGfhU11NmJHcMkyMln1VmTi/nmk7WCAvyyr/oMy
-         qX2ZiiuDdrIL9MlqmbbugyzTGdslZXfXdOQnPMPRWjEqKE2qTCBF0E+W3JsPppRSYZ2i
-         VJEsqigcgigoiR8z32/AIuLafpkU4oPVg9iUVTxaIBseWfF5dkzQDm0eFprpkjaOZXGY
-         sts+HrZqzZ7TnuIMQ4FiOKBqdqNxuxuVANEc5zieqSZagqTpUPVTMdyU7Dwm10NE8zkG
-         3VAA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUnBS5Ys/qqPrfEb6u1CYlpjm3dtZCuxHOlK9kuyhtggZca6sdCKu6t/s3t13wTQfEHSgl7WEBU1Y5+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyP0i5XLa70JVQ6Y1bCrgGwZEqTMyHtmXghQGEDzlZTYwGdrTKc
-	DPHbcAF4DymzfvPsqqHrA+0VC2N5uljA/zEJ9o5sKmyRko9VxRhYR29RpS6i5uhNWQtrQmxHKIc
-	erRkiBZn4NriaFQLCtIzohREeQTD9kN8d2pj6IqO0yOtFOQjCvEPDgJjOcZEMajCQKg==
-X-Gm-Gg: AeBDietz3DWGyvBX5+PQC57yTwDWiF/kDmD3pCa4XiYhBQhLWDmpkAYBLaNqkeZGJ4h
-	oDmQ7XzXRpqcuw86BhFaRCFXo6skkfBN3XGTfoARe6126ibnhv871jLo3/ld9udg88xTfQVGoWk
-	d4yDTWZhIPXF+J1gaGX3QtHymZVG0em6dZIsYy7hKLakNV1IkqCMdNn9eZljg016VvvjwKQwG+m
-	P/4NUswBYXU/Kc3yHQwdCbM/7caSm16Q98eALC2IzFjUa7tl2gJQLs8fjo7Os0Ip9H0CpFqepzP
-	v+ypwGKsOGzf/KUrePYu3Xiyvz91pnJykSvyHjwveuhBhyTbSiFvBKmpZ205MbClY7psPRWZtDF
-	+QrgtHt1c+AxwmTpCN1eQ+ao/lhSvPYzW/XEqkUr8EFQLQgKRLSgHlTlE
-X-Received: by 2002:a05:6a00:4513:b0:824:a0b9:64ee with SMTP id d2e1a72fcca58-82d0da6701bmr3354483b3a.17.1775237632095;
-        Fri, 03 Apr 2026 10:33:52 -0700 (PDT)
-X-Received: by 2002:a05:6a00:4513:b0:824:a0b9:64ee with SMTP id d2e1a72fcca58-82d0da6701bmr3354465b3a.17.1775237631551;
-        Fri, 03 Apr 2026 10:33:51 -0700 (PDT)
+        bh=t6NWwp7xMQI5NgRMH63RnyN3vLoPe8JewDZUaKKorxg=;
+        b=PCgOxYlAnI29vvPeZQDchtcHsP42FgRgDtVosUbN+K3/gOejVldjKRkLd8l1PyNdRq
+         rvwRy150TDU6UWqxupjIF8MLa5l/9gHYoJAPbePq8Wp5zfGiiy4zl9ejn/n0anGUra6c
+         7XmscsvAs2ZXAU6/B4W1YcYxKBnJK369cc/LNHkji0DvlLx7lobJODZQYyfRmHDKiHx2
+         sdOgLSHS98aS/AMqVrnINSkfgMcKZclPHw4atoZEhEoTCNzHkjjIywjWiptQiNpU/a8r
+         FkoEEsCV3wtpOe7geyffu57TGiBQVsq7v2Trc46prr4L31N7vYG4LaJ6KBX7td6sidM1
+         792A==
+X-Forwarded-Encrypted: i=1; AJvYcCW2amnHwuzOBjfWezJiZzknhfbVFFxwmLwKLOw7JuoJEWZf2Acnj2YBnMGG1TFJxpuUAbcprVgcaUZTGg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFxDNo1xZxFw/ea9aPICCOuBkJ8d1zzcr1L0llZuENANYOgh+N
+	pIrMeTkrx8Edf/6BP/nqxCZ4q8E7nODc9ASEGbSg31G/ISWzOA1/fm6vQZhcAgaMkFXPenYBgJG
+	KYYEpJVcB4dZQzGyrDl1HZ9BYDQCSLuKFH6x5P1xkI9iZlNZjg54SatW+VKd2zyslnQ==
+X-Gm-Gg: ATEYQzx7A9bPJ34gg9NzPxrjhvi+o05IZq3GP3Hjp5XqN5CrVjLJO1Vi368TNY3OVwd
+	OcdCZReDH6YkdMkyWq4Kz+kq/R4eYqNhF/PHK3pp9J+/mSdlHjjaGIpF8q8LiMj1sD02L/5k9Xs
+	/Wh+00oDgdQo3pJ1dKJ6KvQ8vE0DubLCOXeXpFQskc77hoV0RmpuuumtYeTrfndpzMAeaaPCcdh
+	QHlYUAT85FLeMQ+hQrTq+3633E7qAjzE7BZiOYpNymY2AwuVkJWrds4FdIBv7x7XtxrlIqS5Smk
+	Huu08qusGwMujcUWJalS3uhNlNAk6cJ3I3VEd8OMCsdnsrnRmA3jAwsKEyCSHZeLJZ+Lm2c0jdR
+	NyY8VMr87duSgLs7jQYAWj8ki2jwzR4phlF7B/M0hro30rRFT0zQMkweA
+X-Received: by 2002:a05:6a00:3d4f:b0:82c:dc9c:e765 with SMTP id d2e1a72fcca58-82d0d749427mr3930142b3a.0.1775237638444;
+        Fri, 03 Apr 2026 10:33:58 -0700 (PDT)
+X-Received: by 2002:a05:6a00:3d4f:b0:82c:dc9c:e765 with SMTP id d2e1a72fcca58-82d0d749427mr3930115b3a.0.1775237637915;
+        Fri, 03 Apr 2026 10:33:57 -0700 (PDT)
 Received: from hu-krichai-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b3e169sm6359125b3a.18.2026.04.03.10.33.46
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9b3e169sm6359125b3a.18.2026.04.03.10.33.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 10:33:51 -0700 (PDT)
+        Fri, 03 Apr 2026 10:33:57 -0700 (PDT)
 From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Date: Fri, 03 Apr 2026 23:03:33 +0530
-Subject: [PATCH v9 1/3] PM: sleep: wakeirq: Add support for dedicated
- shared wake IRQ setup
+Date: Fri, 03 Apr 2026 23:03:34 +0530
+Subject: [PATCH v9 2/3] gpio: Add fwnode_gpiod_get() helper
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -90,7 +89,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260403-wakeirq_support-v9-1-1cbecf3b58d7@oss.qualcomm.com>
+Message-Id: <20260403-wakeirq_support-v9-2-1cbecf3b58d7@oss.qualcomm.com>
 References: <20260403-wakeirq_support-v9-0-1cbecf3b58d7@oss.qualcomm.com>
 In-Reply-To: <20260403-wakeirq_support-v9-0-1cbecf3b58d7@oss.qualcomm.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
@@ -106,159 +105,78 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
         quic_vbadigan@quicinc.com, sherry.sun@nxp.com,
         driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+        Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775237619; l=4919;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775237619; l=1418;
  i=krishna.chundru@oss.qualcomm.com; s=20230907; h=from:subject:message-id;
- bh=rZiOZBnfnYQhiYHGIxAvJ9diYifTV8qWwPU2z0ofvp8=;
- b=AtVe7Za3lH9ooZtSOFwQ+ddqgaaMkLKTsqDn9qYDBQyyFK+dX9FjNqWehwfP9dUX65Fmih+Dq
- T8CyWBsudwtARHgL1Bug5or/c6NzndI5Bwt1VErpm+i0QrfSWhK0PlH
+ bh=4QSi4U79nO6Kuv75iJWSSw33Z4grlzD3UTlYLg1qQkk=;
+ b=S3BBZnE3MjxvBLw9tw9ecCrgVVwynC/kNl/NBJTEmrlZVZtP/c6mx9OmMyhsxVYd5XSpcq4h8
+ ahd7a5OtAF8CGyTIaMGUzdN/cOHXYeBoxs6bvGKrSadbndkpQ7xGY2r
 X-Developer-Key: i=krishna.chundru@oss.qualcomm.com; a=ed25519;
  pk=10CL2pdAKFyzyOHbfSWHCD0X0my7CXxj8gJScmn1FAg=
-X-Proofpoint-GUID: Wq4hgoW3cXhe6eTLBz5okioss4KI9gq4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAzMDE1NiBTYWx0ZWRfX60n3d9lzPaaO
- sroICxUImrWU/Cf8Xh9hhhxIWl2g72sPJ5hn/fgX/lQs4o4WToNoT8o82+yZio3EoUmctt4LdDi
- b2nrZfUDNppNiP9tenO2fpaB8R1ou3wtCUBGODQ25ng2OWm1u3kT3NqW61c+BKxOqp0TQ1M3WPb
- y5ak3H5aHJQbbf1QZm/KgmEDkZIbu7hXvoZa8saBdLZ7zdDYMsX64yyPW51NjooaDbncYFlAmLO
- bODCtY9XL6ugoOqDnvmyB1kswuvSI5KE8K1TDa2oB1Gftal7He2dT7tw+5flq3c2z9N9k8KnADs
- kwYK2sEQ21OiC667lT/0bYiYKhysUA3lLEgCKzRvS7yMq8LTtTYr4WhE6AyAmnILJfWYt+j+RjV
- Zm0jsYi6SnO+4O/1E62ch2zlFtis8vlig+6ud/fyeVHSQKOnYHJuSmT9YaK8/v18ff5EiYyr3uT
- Gb7Cjed/NqOYulHumCg==
-X-Proofpoint-ORIG-GUID: Wq4hgoW3cXhe6eTLBz5okioss4KI9gq4
-X-Authority-Analysis: v=2.4 cv=ULXQ3Sfy c=1 sm=1 tr=0 ts=69cffa03 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: iULUbZBWi3jC-Z79MRn0L7MXjFjUTU9F
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAzMDE1NiBTYWx0ZWRfX0wykD1jsCg7a
+ cy1e2aUGpnC4sd5jdfM4TgtRzZ/NixMwuHbBJbRjOQCWksJz88b25CcnAmoHilGcZdMjN7YzH0n
+ 22X1xrooGage62IwBW1kOVT8Nj+eJ0ZUJE5+DolpIIJ2s5F4S68vHO4Pt43Bv7cMkTWYEdV40Hj
+ DAMLMi8di9pRkoIIf+Qp0/AoUeHPQxCbuVl+usqhqtN4VqX/eT0qcOvxFb9JNW1LuvM6cscGien
+ cHA774nhBVCVp3HpL3E+FDROi/jPQvrxfOS/+yshlbeJH59RlJYNPpYb8DvnmtoxV7bi2/wp+9V
+ gC0F+X4ZXICYMuZ++M4D3X9Mx9cRF1qAsvc1wdkr7wHVbGr/6NyGG3KaaAVZ4klD6kR1amddyZs
+ UZa/TjH9VtTeLl6LGpAzV8KyV+42rqquSAEKVx/HcbGGVjbpUv3fJ1GIWWkHFT54O55+wrtz3Ev
+ x08ou9iznfmQ8CUOszg==
+X-Proofpoint-ORIG-GUID: iULUbZBWi3jC-Z79MRn0L7MXjFjUTU9F
+X-Authority-Analysis: v=2.4 cv=fOo0HJae c=1 sm=1 tr=0 ts=69cffa07 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=GqrSgIjjxmp09zFQf4gA:9 a=QEXdDO2ut3YA:10
- a=3WC7DwWrALyhR5TkjVHa:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Ocqi7cVID08-S0eeb-IA:9 a=QEXdDO2ut3YA:10
+ a=OpyuDcXvxspvyRM73sMx:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-03_05,2026-04-03_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 bulkscore=0 clxscore=1015 spamscore=0
- phishscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 priorityscore=1501 phishscore=0 adultscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604030156
 
-Some devices require more flexibility when configuring their dedicated
-wake-up interrupts, such as support for IRQF_SHARED or other IRQ flags.
-This is particularly useful in PCIe systems where multiple endpoints
-(e.g., Wi-Fi and Bluetooth controllers) share a common WAKE# signal
-line which requests platform to re-establish power and reference clocks
-to the components. In such cases, drivers can use this new API
-dev_pm_set_dedicated_shared_wake_irq() to register a shared wake IRQ.
+Add fwnode_gpiod_get() as a convenience wrapper around
+fwnode_gpiod_get_index() for the common case where only the
+first GPIO is required.
 
-Update the internal helper __dev_pm_set_dedicated_wake_irq() to accept an
-irq_flags argument. Modify the existing dev_pm_set_dedicated_wake_irq()
-and dev_pm_set_dedicated_wake_irq_reverse() to preserve current behavior.
+This mirrors existing gpiod_get() and devm_gpiod_get() helpers
+and avoids open-coding index 0 at call sites.
 
-When IRQ registered with IRQF_SHARED we can't use IRQF_NO_AUTOEN flag,
-so after registering for irq, disable it explicitly.
-
+Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
+Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 ---
- drivers/base/power/wakeirq.c | 39 ++++++++++++++++++++++++++++++++++-----
- include/linux/pm_wakeirq.h   |  6 ++++++
- 2 files changed, 40 insertions(+), 5 deletions(-)
+ include/linux/gpio/consumer.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/base/power/wakeirq.c b/drivers/base/power/wakeirq.c
-index ad23f0fa5d1a5a9eb49b1af2288ee4908082b13e..b7b106f55559a7c85cb35d9e5ed22fe37970662d 100644
---- a/drivers/base/power/wakeirq.c
-+++ b/drivers/base/power/wakeirq.c
-@@ -171,7 +171,8 @@ static irqreturn_t handle_threaded_wake_irq(int irq, void *_wirq)
- 	return IRQ_HANDLED;
+diff --git a/include/linux/gpio/consumer.h b/include/linux/gpio/consumer.h
+index 0d8408582918680bfea6a04ccedfc0c75211907a..fee926c0262ce9dc4b9a3c151e74f2cf37470a49 100644
+--- a/include/linux/gpio/consumer.h
++++ b/include/linux/gpio/consumer.h
+@@ -596,6 +596,15 @@ static inline int gpiod_disable_hw_timestamp_ns(struct gpio_desc *desc,
  }
+ #endif /* CONFIG_GPIOLIB && CONFIG_HTE */
  
--static int __dev_pm_set_dedicated_wake_irq(struct device *dev, int irq, unsigned int flag)
-+static int __dev_pm_set_dedicated_wake_irq(struct device *dev, int irq, unsigned int flag,
-+					   unsigned int irq_flags)
- {
- 	struct wake_irq *wirq;
- 	int err;
-@@ -200,8 +201,7 @@ static int __dev_pm_set_dedicated_wake_irq(struct device *dev, int irq, unsigned
- 	 * so we use a threaded irq.
- 	 */
- 	err = request_threaded_irq(irq, NULL, handle_threaded_wake_irq,
--				   IRQF_ONESHOT | IRQF_NO_AUTOEN,
--				   wirq->name, wirq);
-+				   IRQF_ONESHOT | irq_flags, wirq->name, wirq);
- 	if (err)
- 		goto err_free_name;
- 
-@@ -237,7 +237,7 @@ static int __dev_pm_set_dedicated_wake_irq(struct device *dev, int irq, unsigned
-  */
- int dev_pm_set_dedicated_wake_irq(struct device *dev, int irq)
- {
--	return __dev_pm_set_dedicated_wake_irq(dev, irq, 0);
-+	return __dev_pm_set_dedicated_wake_irq(dev, irq, 0, IRQF_NO_AUTOEN);
- }
- EXPORT_SYMBOL_GPL(dev_pm_set_dedicated_wake_irq);
- 
-@@ -258,10 +258,39 @@ EXPORT_SYMBOL_GPL(dev_pm_set_dedicated_wake_irq);
-  */
- int dev_pm_set_dedicated_wake_irq_reverse(struct device *dev, int irq)
- {
--	return __dev_pm_set_dedicated_wake_irq(dev, irq, WAKE_IRQ_DEDICATED_REVERSE);
-+	return __dev_pm_set_dedicated_wake_irq(dev, irq, WAKE_IRQ_DEDICATED_REVERSE,
-+					       IRQF_NO_AUTOEN);
- }
- EXPORT_SYMBOL_GPL(dev_pm_set_dedicated_wake_irq_reverse);
- 
-+/**
-+ * dev_pm_set_dedicated_shared_wake_irq - Request a dedicated shared wake-up interrupt
-+ * @dev: Device entry
-+ * @irq: Device wake-up interrupt
-+ * @flags: Custom IRQ flags (e.g., IRQ_TYPE_EDGE_FALLING)
-+ *
-+ * This API sets up a threaded interrupt handler for a device that has
-+ * a shared wake-up interrupt in addition to the device IO interrupt. It also
-+ * sets IRQ flags like IRQ_TYPE_EDGE_FALLING passed by the caller.
-+ *
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int dev_pm_set_dedicated_shared_wake_irq(struct device *dev, int irq, unsigned long flags)
++static inline
++struct gpio_desc *fwnode_gpiod_get(struct fwnode_handle *fwnode,
++				   const char *con_id,
++				   enum gpiod_flags flags,
++				   const char *label)
 +{
-+	struct wake_irq *wirq;
-+	int ret;
-+
-+	ret =  __dev_pm_set_dedicated_wake_irq(dev, irq, 0, IRQF_SHARED | flags);
-+	if (ret)
-+		return ret;
-+
-+	wirq = dev->power.wakeirq;
-+	disable_irq_nosync(wirq->irq);
-+
-+	return 0;
++	return fwnode_gpiod_get_index(fwnode, con_id, 0, flags, label);
 +}
-+EXPORT_SYMBOL_GPL(dev_pm_set_dedicated_shared_wake_irq);
 +
- /**
-  * dev_pm_enable_wake_irq_check - Checks and enables wake-up interrupt
-  * @dev: Device
-diff --git a/include/linux/pm_wakeirq.h b/include/linux/pm_wakeirq.h
-index 25b63ed51b765c2c6919f259668a12675330835e..61f1e840745b56baa57db37563e450cb2d757a85 100644
---- a/include/linux/pm_wakeirq.h
-+++ b/include/linux/pm_wakeirq.h
-@@ -11,6 +11,7 @@ extern int dev_pm_set_dedicated_wake_irq(struct device *dev, int irq);
- extern int dev_pm_set_dedicated_wake_irq_reverse(struct device *dev, int irq);
- extern void dev_pm_clear_wake_irq(struct device *dev);
- extern int devm_pm_set_wake_irq(struct device *dev, int irq);
-+extern int dev_pm_set_dedicated_shared_wake_irq(struct device *dev, int irq, unsigned long flags);
- 
- #else	/* !CONFIG_PM */
- 
-@@ -38,5 +39,10 @@ static inline int devm_pm_set_wake_irq(struct device *dev, int irq)
- 	return 0;
- }
- 
-+static inline int dev_pm_set_dedicated_shared_wake_irq(struct device *dev,
-+						       int irq, unsigned long flags)
-+{
-+	return 0;
-+}
- #endif	/* CONFIG_PM */
- #endif	/* _LINUX_PM_WAKEIRQ_H */
+ static inline
+ struct gpio_desc *devm_fwnode_gpiod_get(struct device *dev,
+ 					struct fwnode_handle *fwnode,
 
 -- 
 2.34.1
