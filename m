@@ -1,357 +1,235 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0756226B75B
-	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 00:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A1D18DB01;
+	Fri,  3 Apr 2026 07:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775177527; cv=none; b=uEaeTlg7UHtZnvRKD1BYGUqxZQycmkJXCZwQoCknX2sJ7wgaDgs1YAKL9wHorBlSU+auMod1wkktE5X+XMzcDZetkKjiYcDLR148XhEMlM4G6fTMceOz7d5per+jbMaUH7rB+S/mHhmhUjN6hTaE6d29illueV02l3Q9MBloznk=
+	t=1775199896; cv=none; b=OPsuzG0LjRB765WD/m+NhZS9vZHDCnphlVYUCLXtfFquk50zwt5H/+r/428+waKIaKItFYGkhv0YeY6NVmTy+UmuVGwOZmj6w3QE2oIMXvB13ZDkbMDdOVeEhELN+NEGiTn4kdybWA1lJIig0Y413U6FTA+D4hqQtQ/BvIePTuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775177527; c=relaxed/simple;
-	bh=FRXQhiPBlmM8Nf/l1BWYW6VM0cMqLlgsypXgESCbjJ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QQHD9WHoA7m+5OYjOIyVby2QTlcrO9sjnycccic7JhA36Tuxdd872EepaBsEabyg8d1j3zgYLeGvhPIpY4s3AzsWQx9sjwOPKmhho1gJd5dKa6D794BBRiU6bZp/R4pQXf3O5bZw0s7FXJ/4CgDSOZpDH7NgG88HNqjp2ULHkOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FnR3x/5X; arc=none smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1775199896; c=relaxed/simple;
+	bh=zIq4bRUdbB9hChVlNkwCmJZfurFLFqGlwxfhps8H2eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EuTarrzYmfJ+ZX/8tTVTfAkxIfe+9LVAKzH5E5orUzcJMtVDV2lhI0WYx4niU0LiZqGAp9vwYfaPtiMrz/j8MonU6vaw+K8SsrNWWbG6Ni22dNugGdXBXYB6LBDUsFeJlZzp+6A2ZSIem8jA09YRk2WZ0bktLbTa1IZPzPl0a1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ztYzWYrz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FnR3x/5X"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-128e4d0cc48so1698075c88.1
-        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 17:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775177525; x=1775782325; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VEt3hSd9EKLTT0Wo55fxgtHBJYKHT3uVPRy+V8bzYNY=;
-        b=FnR3x/5Xl+CTTBn9pTZuJelq5iy2oG5wdX+pYGVOwKqE0Vo/YrQ7TgIGsRoUE/H/bj
-         f042dPRDA03tgyoXBl0/Cq3uypmEcXeGtNbr0R5142GZwbPA8Lwx1GElCyfF13nGihYW
-         YhkpMjyiuW0l4wunnar3d4T+i//Y1I9MjAQ6Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775177525; x=1775782325;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VEt3hSd9EKLTT0Wo55fxgtHBJYKHT3uVPRy+V8bzYNY=;
-        b=ptKDxvyuEQYPBhwdMmmdMBS8mb2LD0IrSjpA080qpWhQrrae6xFF4mu9dbsKo46pvA
-         rzMFgokYuoXDjcT6b4F2voq96IDUKXo963MNLdruhHd08Sr30T0cnt8t9991A7FD4lk2
-         NEOPBqr6XXaJwGi6Nwz+heKIXQ0vAGu+9GrONFYQ/F74MM+pHa7ZmloGWD/TgV7AtezF
-         0sfuu5geSWiJHPLrJgk3aQO1lZLKrCJFlC50VD5kZP9C6IZGvIG5NttQSF1m2W62EwMJ
-         XZ0dJVdlgk/gLTB7c011iSaWkl3w8Nbl9pREGzQC3kGYlTfRnU9Drau+WCMpzZ2y9DWa
-         K1NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbTJQWfgfsXGpbZNjL96VYx+nImT5Pa8S7VfH79b67w1f8rjGiMA9oXIlHZwnsz1QyFsW3usyLhLJF8g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYnuADVJWBB/PMl0FOhYMwd1+Hk6SOLqcNsvTy1hwxIm0OCErG
-	mJ4xqtEVWIFwebTpEtAMkatuRaOUs6XLFIfaRJzPDO8aUtLO2vROayu+TNFgngSuGA==
-X-Gm-Gg: ATEYQzygcIegIwfHivfu5LO82DsoehKn/msBvYHXMnPfDoyg49GWPalIMOPN81is+Yl
-	fqwHNG0tTNYd0TdAx+xn/Dy9dXaZ7gBoF4E3z6Zv6f+ukeVwmgp8QsrmNuC8+YISfXm2jifB+H0
-	hrXdiRu0O+lAe+zEDsx+/lEFyWq6UNWbMCaQlpkHjCnHiAz7lKQclP7aLOQWlvy6OuK8FibT5qB
-	efcaNdUJtPEE+9OxlS84FyVCyzSy7ZT8zPUdvxw6RpZHSZSToy9S7fCp8kmRW0hbM5Pu+iFHLYH
-	+zaNy0nK4ebNMptk11NFrOqFPnVdJCWwNSbLcImxesMhJwqJRvMvbMlYg5aQsF18I5Grbkmzjdn
-	HPjQdYuUrbvM8VFOXemDwTQwHnFZJewDX/ypX7VT7sVBCW7Hk4271klOV8HnSc9cvtLnpoSxiKa
-	QAJIC/0xaMKIFbzblcNKaDTKlXTEZAy1Z3Y/CzTGbG2sibZ5y7ficsfS0U/nIcDuakDnofWqBSB
-	LwCyxRKMb4=
-X-Received: by 2002:a05:7022:423:b0:119:e56b:91ec with SMTP id a92af1059eb24-12bfb75ee38mr560487c88.29.1775177525063;
-        Thu, 02 Apr 2026 17:52:05 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:5db3:7542:a530:f43a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca78df3b84sm3630074eec.5.2026.04.02.17.52.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 17:52:04 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ztYzWYrz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E427EC4CEF7;
+	Fri,  3 Apr 2026 07:04:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1775199895;
+	bh=zIq4bRUdbB9hChVlNkwCmJZfurFLFqGlwxfhps8H2eg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ztYzWYrz09zJhbTpz6iFRo71bGRCF0ougbZNSvKkCFcWt3eoRNMgWLYU2p+FXVE2L
+	 XViWaezTRngGPU3xm/pdGnfnfQqm4Nki1Rwd0y+LMoFuHMf/Xnp/rWzF8MR/Ae6wyT
+	 OJe2XCpmRZlhMFHQq42XXvEEiUmxBV8VR8o9vMSQ=
+Date: Fri, 3 Apr 2026 09:04:52 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Robin Murphy <robin.murphy@arm.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Robin Murphy <robin.murphy@arm.com>,
 	Leon Romanovsky <leon@kernel.org>,
 	Paul Burton <paul.burton@mips.com>,
 	Saravana Kannan <saravanak@kernel.org>,
 	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Toshi Kani <toshi.kani@hp.com>,
+	Eric Dumazet <edumazet@google.com>, Toshi Kani <toshi.kani@hp.com>,
 	Christoph Hellwig <hch@lst.de>,
 	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Johan Hovold <johan@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	ardb@kernel.org,
-	broonie@kernel.org,
-	catalin.marinas@arm.com,
-	chleroy@kernel.org,
-	david@kernel.org,
-	driver-core@lists.linux.dev,
-	kees@kernel.org,
-	kevin.brodsky@arm.com,
-	lenb@kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linuxppc-dev@lists.ozlabs.org,
-	maddy@linux.ibm.com,
-	maz@kernel.org,
-	miko.lenczewski@arm.com,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	oupton@kernel.org,
-	peterz@infradead.org,
-	tglx@kernel.org,
-	will@kernel.org,
-	yangyicong@hisilicon.com,
-	yeoreum.yun@arm.com
-Subject: [PATCH v3 9/9] driver core: Replace dev->offline + ->offline_disabled with DEV_FLAGs
-Date: Thu,  2 Apr 2026 17:49:55 -0700
-Message-ID: <20260402174925.v3.9.I897d478b4a9361d79cd5073207c1062fd4d0d0e4@changeid>
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
-In-Reply-To: <20260403005005.30424-1-dianders@chromium.org>
+	Johan Hovold <johan@kernel.org>, stable@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/9] driver core: Don't let a device probe until it's
+ ready
+Message-ID: <2026040319-seventeen-humorless-5541@gregkh>
 References: <20260403005005.30424-1-dianders@chromium.org>
+ <20260402174925.v3.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260402174925.v3.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
 
-In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "offline" and "offline_disabled" over
-to the "flags" field so modifications are safe.
+On Thu, Apr 02, 2026 at 05:49:47PM -0700, Douglas Anderson wrote:
+> The moment we link a "struct device" into the list of devices for the
+> bus, it's possible probe can happen. This is because another thread
+> can load the driver at any time and that can cause the device to
+> probe. This has been seen in practice with a stack crawl that looks
+> like this [1]:
+> 
+>   really_probe()
+>   __driver_probe_device()
+>   driver_probe_device()
+>   __driver_attach()
+>   bus_for_each_dev()
+>   driver_attach()
+>   bus_add_driver()
+>   driver_register()
+>   __platform_driver_register()
+>   init_module() [some module]
+>   do_one_initcall()
+>   do_init_module()
+>   load_module()
+>   __arm64_sys_finit_module()
+>   invoke_syscall()
+> 
+> As a result of the above, it was seen that device_links_driver_bound()
+> could be called for the device before "dev->fwnode->dev" was
+> assigned. This prevented __fw_devlink_pickup_dangling_consumers() from
+> being called which meant that other devices waiting on our driver's
+> sub-nodes were stuck deferring forever.
+> 
+> It's believed that this problem is showing up suddenly for two
+> reasons:
+> 1. Android has recently (last ~1 year) implemented an optimization to
+>    the order it loads modules [2]. When devices opt-in to this faster
+>    loading, modules are loaded one-after-the-other very quickly. This
+>    is unlike how other distributions do it. The reproduction of this
+>    problem has only been seen on devices that opt-in to Android's
+>    "parallel module loading".
+> 2. Android devices typically opt-in to fw_devlink, and the most
+>    noticeable issue is the NULL "dev->fwnode->dev" in
+>    device_links_driver_bound(). fw_devlink is somewhat new code and
+>    also not in use by all Linux devices.
+> 
+> Even though the specific symptom where "dev->fwnode->dev" wasn't
+> assigned could be fixed by moving that assignment higher in
+> device_add(), other parts of device_add() (like the call to
+> device_pm_add()) are also important to run before probe. Only moving
+> the "dev->fwnode->dev" assignment would likely fix the current
+> symptoms but lead to difficult-to-debug problems in the future.
+> 
+> Fix the problem by preventing probe until device_add() has run far
+> enough that the device is ready to probe. If somehow we end up trying
+> to probe before we're allowed, __driver_probe_device() will return
+> -EPROBE_DEFER which will make certain the device is noticed.
+> 
+> In the race condition that was seen with Android's faster module
+> loading, we will temporarily add the device to the deferred list and
+> then take it off immediately when device_add() probes the device.
+> 
+> Instead of adding another flag to the bitfields already in "struct
+> device", instead add a new "flags" field and use that. This allows us
+> to freely change the bit from different thread without holding the
+> device lock and without worrying about corrupting nearby bits.
+> 
+> [1] Captured on a machine running a downstream 6.6 kernel
+> [2] https://cs.android.com/android/platform/superproject/main/+/main:system/core/libmodprobe/libmodprobe.cpp?q=LoadModulesParallel
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 2023c610dc54 ("Driver core: add new device to bus's list before probing")
+> Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+> Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> v1: https://lore.kernel.org/r/20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid
+> v2: https://lore.kernel.org/r/20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid
+> 
+> As of v2 this feels like a very safe change. It doesn't change the
+> ordering of any steps of probe and it _just_ prevents the early probe
+> from happening.
+> 
+> I ran tests where I turned the printout "Device not ready_to_probe" on
+> and I could see the printout happening, evidence of the race occurring
+> from other printouts, and things successfully being resolved.
+> 
+> I kept Alan and Rafael's Reviewed-by tags in v3 even though I changed
+> the implementation to use "flags" as per Danilo's request. This didn't
+> seem like a major enough change to remove tags, but please shout if
+> you'd like your tag removed.
+> 
+> Changes in v3:
+> - Use a new "flags" bitfield
+> - Add missing \n in probe error message
+> 
+> Changes in v2:
+> - Instead of adjusting the ordering, use "ready_to_probe" flag
+> 
+>  drivers/base/core.c    | 13 +++++++++++++
+>  drivers/base/dd.c      | 12 ++++++++++++
+>  include/linux/device.h | 15 +++++++++++++++
+>  3 files changed, 40 insertions(+)
+> 
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 09b98f02f559..8d4028a2165f 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -3688,6 +3688,19 @@ int device_add(struct device *dev)
+>  		fw_devlink_link_device(dev);
+>  	}
+>  
+> +	/*
+> +	 * The moment the device was linked into the bus's "klist_devices" in
+> +	 * bus_add_device() then it's possible that probe could have been
+> +	 * attempted in a different thread via userspace loading a driver
+> +	 * matching the device. "DEV_FLAG_READY_TO_PROBE" being unset would have
+> +	 * blocked those attempts. Now that all of the above initialization has
+> +	 * happened, unblock probe. If probe happens through another thread
+> +	 * after this point but before bus_probe_device() runs then it's fine.
+> +	 * bus_probe_device() -> device_initial_probe() -> __device_attach()
+> +	 * will notice (under device_lock) that the device is already bound.
+> +	 */
+> +	set_bit(DEV_FLAG_READY_TO_PROBE, &dev->flags);
+> +
+>  	bus_probe_device(dev);
+>  
+>  	/*
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index 37c7e54e0e4c..3aead51173f8 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -848,6 +848,18 @@ static int __driver_probe_device(const struct device_driver *drv, struct device
+>  	if (dev->driver)
+>  		return -EBUSY;
+>  
+> +	/*
+> +	 * In device_add(), the "struct device" gets linked into the subsystem's
+> +	 * list of devices and broadcast to userspace (via uevent) before we're
+> +	 * quite ready to probe. Those open pathways to driver probe before
+> +	 * we've finished enough of device_add() to reliably support probe.
+> +	 * Detect this and tell other pathways to try again later. device_add()
+> +	 * itself will also try to probe immediately after setting
+> +	 * "DEV_FLAG_READY_TO_PROBE".
+> +	 */
+> +	if (!test_bit(DEV_FLAG_READY_TO_PROBE, &dev->flags))
+> +		return dev_err_probe(dev, -EPROBE_DEFER, "Device not ready to probe\n");
+> +
+>  	dev->can_match = true;
+>  	dev_dbg(dev, "bus: '%s': %s: matched device with driver %s\n",
+>  		drv->bus->name, __func__, drv->name);
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index e65d564f01cd..5b7ace5921aa 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -458,6 +458,18 @@ struct device_physical_location {
+>  	bool lid;
+>  };
+>  
+> +/**
+> + * enum struct_device_flags - Flags in struct device
+> + *
+> + * Should be accessed with thread-safe bitops.
+> + *
+> + * @DEV_FLAG_READY_TO_PROBE: If set then device_add() has finished enough
+> + *		initialization that probe could be called.
+> + */
+> +enum struct_device_flags {
+> +	DEV_FLAG_READY_TO_PROBE,
+> +};
 
-Cc: Rafael J. Wysocki <rafael@kernel.org>
-Cc: Toshi Kani <toshi.kani@hp.com>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-Not fixing any known bugs; problem is theoretical and found by code
-inspection. Change is done somewhat manually and only lightly tested
-(mostly compile-time tested).
+If you are going to want this to be a bit value, please use BIT(X) and
+not an enum, as that's going to just get confusing over time.
 
-Changes in v3:
-- New
+Also, none of this manual test_bit()/set_bit() stuff, please give us
+real "accessors" for this like:
+	bool device_ready_to_probe(struct device *dev);
 
- arch/arm64/kernel/cpufeature.c                |  2 +-
- .../platforms/pseries/hotplug-memory.c        |  4 ++--
- drivers/acpi/scan.c                           |  3 ++-
- drivers/base/core.c                           | 19 ++++++++++---------
- drivers/base/cpu.c                            |  4 ++--
- drivers/base/memory.c                         |  2 +-
- include/linux/device.h                        |  9 ++++-----
- kernel/cpu.c                                  |  4 ++--
- 8 files changed, 24 insertions(+), 23 deletions(-)
+so that it's obvious what is happening.
 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 32c2dbcc0c64..f6f7c35b7a93 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -4042,7 +4042,7 @@ static int enable_mismatched_32bit_el0(unsigned int cpu)
- 	 */
- 	lucky_winner = cpu_32bit ? cpu : cpumask_any_and(cpu_32bit_el0_mask,
- 							 cpu_active_mask);
--	get_cpu_device(lucky_winner)->offline_disabled = true;
-+	set_bit(DEV_FLAG_OFFLINE_DISABLED, &get_cpu_device(lucky_winner)->flags);
- 	setup_elf_hwcaps(compat_elf_hwcaps);
- 	elf_hwcap_fixup();
- 	pr_info("Asymmetric 32-bit EL0 support detected on CPU %u; CPU hot-unplug disabled on CPU %u\n",
-diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
-index b2f14db59034..d9a0a75ada46 100644
---- a/arch/powerpc/platforms/pseries/hotplug-memory.c
-+++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
-@@ -213,9 +213,9 @@ static int dlpar_change_lmb_state(struct drmem_lmb *lmb, bool online)
- 		return -EINVAL;
- 	}
- 
--	if (online && mem_block->dev.offline)
-+	if (online && test_bit(DEV_FLAG_OFFLINE, &mem_block->dev.flags))
- 		rc = device_online(&mem_block->dev);
--	else if (!online && !mem_block->dev.offline)
-+	else if (!online && !test_bit(DEV_FLAG_OFFLINE, &mem_block->dev.flags))
- 		rc = device_offline(&mem_block->dev);
- 	else
- 		rc = 0;
-diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index e8cdbdb46fdb..f2707b704468 100644
---- a/drivers/acpi/scan.c
-+++ b/drivers/acpi/scan.c
-@@ -122,7 +122,8 @@ bool acpi_scan_is_offline(struct acpi_device *adev, bool uevent)
- 	mutex_lock_nested(&adev->physical_node_lock, SINGLE_DEPTH_NESTING);
- 
- 	list_for_each_entry(pn, &adev->physical_node_list, node)
--		if (device_supports_offline(pn->dev) && !pn->dev->offline) {
-+		if (device_supports_offline(pn->dev) &&
-+		    !test_bit(DEV_FLAG_OFFLINE, &pn->dev->flags)) {
- 			if (uevent)
- 				kobject_uevent_env(&pn->dev->kobj, KOBJ_CHANGE, envp);
- 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index a87bd40499b6..63d724ece384 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -2789,7 +2789,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
- 	bool val;
- 
- 	device_lock(dev);
--	val = !dev->offline;
-+	val = !test_bit(DEV_FLAG_OFFLINE, &dev->flags);
- 	device_unlock(dev);
- 	return sysfs_emit(buf, "%u\n", val);
- }
-@@ -2914,7 +2914,7 @@ static int device_add_attrs(struct device *dev)
- 	if (error)
- 		goto err_remove_type_groups;
- 
--	if (device_supports_offline(dev) && !dev->offline_disabled) {
-+	if (device_supports_offline(dev) && !test_bit(DEV_FLAG_OFFLINE_DISABLED, &dev->flags)) {
- 		error = device_create_file(dev, &dev_attr_online);
- 		if (error)
- 			goto err_remove_dev_groups;
-@@ -4179,7 +4179,8 @@ static int device_check_offline(struct device *dev, void *not_used)
- 	if (ret)
- 		return ret;
- 
--	return device_supports_offline(dev) && !dev->offline ? -EBUSY : 0;
-+	return device_supports_offline(dev) &&
-+	       !test_bit(DEV_FLAG_OFFLINE, &dev->flags) ? -EBUSY : 0;
- }
- 
- /**
-@@ -4197,7 +4198,7 @@ int device_offline(struct device *dev)
- {
- 	int ret;
- 
--	if (dev->offline_disabled)
-+	if (test_bit(DEV_FLAG_OFFLINE_DISABLED, &dev->flags))
- 		return -EPERM;
- 
- 	ret = device_for_each_child(dev, NULL, device_check_offline);
-@@ -4206,13 +4207,13 @@ int device_offline(struct device *dev)
- 
- 	device_lock(dev);
- 	if (device_supports_offline(dev)) {
--		if (dev->offline) {
-+		if (test_bit(DEV_FLAG_OFFLINE, &dev->flags)) {
- 			ret = 1;
- 		} else {
- 			ret = dev->bus->offline(dev);
- 			if (!ret) {
- 				kobject_uevent(&dev->kobj, KOBJ_OFFLINE);
--				dev->offline = true;
-+				set_bit(DEV_FLAG_OFFLINE, &dev->flags);
- 			}
- 		}
- 	}
-@@ -4237,11 +4238,11 @@ int device_online(struct device *dev)
- 
- 	device_lock(dev);
- 	if (device_supports_offline(dev)) {
--		if (dev->offline) {
-+		if (test_bit(DEV_FLAG_OFFLINE, &dev->flags)) {
- 			ret = dev->bus->online(dev);
- 			if (!ret) {
- 				kobject_uevent(&dev->kobj, KOBJ_ONLINE);
--				dev->offline = false;
-+				clear_bit(DEV_FLAG_OFFLINE, &dev->flags);
- 			}
- 		} else {
- 			ret = 1;
-@@ -4715,7 +4716,7 @@ static int device_attrs_change_owner(struct device *dev, kuid_t kuid,
- 	if (error)
- 		return error;
- 
--	if (device_supports_offline(dev) && !dev->offline_disabled) {
-+	if (device_supports_offline(dev) && !test_bit(DEV_FLAG_OFFLINE_DISABLED, &dev->flags)) {
- 		/* Change online device attributes of @dev to @kuid/@kgid. */
- 		error = sysfs_file_change_owner(kobj, dev_attr_online.attr.name,
- 						kuid, kgid);
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index 875abdc9942e..e4e6a399def4 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -422,8 +422,8 @@ int register_cpu(struct cpu *cpu, int num)
- 	cpu->dev.id = num;
- 	cpu->dev.bus = &cpu_subsys;
- 	cpu->dev.release = cpu_device_release;
--	cpu->dev.offline_disabled = !cpu->hotpluggable;
--	cpu->dev.offline = !cpu_online(num);
-+	assign_bit(DEV_FLAG_OFFLINE_DISABLED, &cpu->dev.flags, !cpu->hotpluggable);
-+	assign_bit(DEV_FLAG_OFFLINE, &cpu->dev.flags, !cpu_online(num));
- 	cpu->dev.of_node = of_get_cpu_node(num, NULL);
- 	cpu->dev.groups = common_cpu_attr_groups;
- 	if (cpu->hotpluggable)
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index a3091924918b..7f42727dde81 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -697,7 +697,7 @@ static int __add_memory_block(struct memory_block *memory)
- 	memory->dev.id = memory->start_section_nr / sections_per_block;
- 	memory->dev.release = memory_block_release;
- 	memory->dev.groups = memory_memblk_attr_groups;
--	memory->dev.offline = memory->state == MEM_OFFLINE;
-+	assign_bit(DEV_FLAG_OFFLINE, &memory->dev.flags, memory->state == MEM_OFFLINE);
- 
- 	ret = device_register(&memory->dev);
- 	if (ret) {
-diff --git a/include/linux/device.h b/include/linux/device.h
-index f6ca067bacca..fd53aa04cad9 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -484,6 +484,8 @@ struct device_physical_location {
-  *		architecture supports non-coherent devices.
-  * @DEV_FLAG_OF_NODE_REUSED: Set if the device-tree node is shared with an
-  *		ancestor device.
-+ * @DEV_FLAG_OFFLINE_DISABLED: If set, the device is permanently online.
-+ * @DEV_FLAG_OFFLINE: Set after successful invocation of bus type's .offline().
-  */
- enum struct_device_flags {
- 	DEV_FLAG_READY_TO_PROBE,
-@@ -494,6 +496,8 @@ enum struct_device_flags {
- 	DEV_FLAG_STATE_SYNCED,
- 	DEV_FLAG_DMA_COHERENT,
- 	DEV_FLAG_OF_NODE_REUSED,
-+	DEV_FLAG_OFFLINE_DISABLED,
-+	DEV_FLAG_OFFLINE,
- };
- 
- /**
-@@ -571,8 +575,6 @@ enum struct_device_flags {
-  *              should be set by the subsystem / bus driver that discovered
-  *              the device.
-  *
-- * @offline_disabled: If set, the device is permanently online.
-- * @offline:	Set after successful invocation of bus type's .offline().
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-@@ -677,9 +679,6 @@ struct device {
- 
- 	enum device_removable	removable;
- 
--	bool			offline_disabled:1;
--	bool			offline:1;
--
- 	unsigned long		flags;
- };
- 
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index bc4f7a9ba64e..15a873ad8025 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -2639,7 +2639,7 @@ static void cpuhp_offline_cpu_device(unsigned int cpu)
- {
- 	struct device *dev = get_cpu_device(cpu);
- 
--	dev->offline = true;
-+	set_bit(DEV_FLAG_OFFLINE, &dev->flags);
- 	/* Tell user space about the state change */
- 	kobject_uevent(&dev->kobj, KOBJ_OFFLINE);
- }
-@@ -2648,7 +2648,7 @@ static void cpuhp_online_cpu_device(unsigned int cpu)
- {
- 	struct device *dev = get_cpu_device(cpu);
- 
--	dev->offline = false;
-+	clear_bit(DEV_FLAG_OFFLINE, &dev->flags);
- 	/* Tell user space about the state change */
- 	kobject_uevent(&dev->kobj, KOBJ_ONLINE);
- }
--- 
-2.53.0.1213.gd9a14994de-goog
+thanks,
 
+greg k-h
