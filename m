@@ -1,235 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A1D18DB01;
-	Fri,  3 Apr 2026 07:04:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7659C2417D9
+	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 07:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775199896; cv=none; b=OPsuzG0LjRB765WD/m+NhZS9vZHDCnphlVYUCLXtfFquk50zwt5H/+r/428+waKIaKItFYGkhv0YeY6NVmTy+UmuVGwOZmj6w3QE2oIMXvB13ZDkbMDdOVeEhELN+NEGiTn4kdybWA1lJIig0Y413U6FTA+D4hqQtQ/BvIePTuc=
+	t=1775201005; cv=none; b=udVoA20RjKvMzohJ2mJtla+oeu3mntpwF0avSogJcB27g71YBE6wiWoOLE0VOUgswfHQbE99QW2JsEVRMfD3e1Q6FQXGOzBs8nEr7j7fNVylnh8Qs9gjwY1BKjQ2P2nbC1WkULRP5OWgGu2njrj3KU1jMRFiat5EgTwtyHQCFfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775199896; c=relaxed/simple;
-	bh=zIq4bRUdbB9hChVlNkwCmJZfurFLFqGlwxfhps8H2eg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EuTarrzYmfJ+ZX/8tTVTfAkxIfe+9LVAKzH5E5orUzcJMtVDV2lhI0WYx4niU0LiZqGAp9vwYfaPtiMrz/j8MonU6vaw+K8SsrNWWbG6Ni22dNugGdXBXYB6LBDUsFeJlZzp+6A2ZSIem8jA09YRk2WZ0bktLbTa1IZPzPl0a1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ztYzWYrz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775201005; c=relaxed/simple;
+	bh=X5jJUvqRgah6D4xreZa2cicuZ87mzGtemSdNEwIyCE8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q5jHeByPpT/VtM+NEHDLOOi79zg81dIlYhSsZIzDh0U3vbcJVlMjDmJAha0JH0Yg67kymDEcubOJUYLeG3KLR7onKUwAwtVU45J1XG+j4u/sfQZ30ynNhqlfxlmP2pQd9tB5CFa+AiSvoGUYoUQ3YtD05Qf4do8xSCGv5UENvog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qbsrfuVD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ztYzWYrz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E427EC4CEF7;
-	Fri,  3 Apr 2026 07:04:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775199895;
-	bh=zIq4bRUdbB9hChVlNkwCmJZfurFLFqGlwxfhps8H2eg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ztYzWYrz09zJhbTpz6iFRo71bGRCF0ougbZNSvKkCFcWt3eoRNMgWLYU2p+FXVE2L
-	 XViWaezTRngGPU3xm/pdGnfnfQqm4Nki1Rwd0y+LMoFuHMf/Xnp/rWzF8MR/Ae6wyT
-	 OJe2XCpmRZlhMFHQq42XXvEEiUmxBV8VR8o9vMSQ=
-Date: Fri, 3 Apr 2026 09:04:52 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Paul Burton <paul.burton@mips.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Eric Dumazet <edumazet@google.com>, Toshi Kani <toshi.kani@hp.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Johan Hovold <johan@kernel.org>, stable@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] driver core: Don't let a device probe until it's
- ready
-Message-ID: <2026040319-seventeen-humorless-5541@gregkh>
-References: <20260403005005.30424-1-dianders@chromium.org>
- <20260402174925.v3.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qbsrfuVD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA65C2BCB6
+	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 07:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775201005;
+	bh=X5jJUvqRgah6D4xreZa2cicuZ87mzGtemSdNEwIyCE8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=qbsrfuVDWXDD14HyUPLCwUoEA35b36V8S0xofxc6TYCTk1NGhobr8TzmodD/Smtx4
+	 i1QQs5kzFkuDbk/rvg3UozTwMytnG6oUaVI6ZgUWnRCT+4VNmCBHdf450IesQzuZ0q
+	 D4tp6UuHBdTfVkvzVGU8APuLPtyH/cN9I8meoXFtmPrO11do9hsn01I+J8U2+an6Ch
+	 5gRSGzScckRFAlp1KitJZc+tz+dp6bjBVwv7i4FeWztE1W2RIwDRZu/e9VPxeyknD5
+	 B60rdTQ3IYQfsel+S8iRlIbjOc7bOyopVHXNkSEijfCHsDZF5A0j6OvsyptvzNIJ79
+	 LSEB4VoLy9+Kg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38cd00b3b12so14322551fa.0
+        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 00:23:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXO2iQP5K06VMMX05VqUGXJ9LBvpqFiPRCJP1VbcN10zWm/7JwXHd5ybYOTd13DP56V0VclUAm8/7H8eg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQZZPI3RtneZbUqae2BeE60hT7zXzoZNP44e7JZ0bVLt4gN/Jx
+	UAnZQ3n7MNnJlCeO4mCqpJ34OEssS8LRmYyBFT1kEdwTv4CfuNu54aFTqTAMjE2ajA/Ek2yg7kZ
+	MIp2Yg7aot9uEaSKAP7nlNrfXfhPXT9wFHPNpLac59g==
+X-Received: by 2002:a2e:be92:0:b0:38c:6979:f75d with SMTP id
+ 38308e7fff4ca-38d91d89693mr6167751fa.34.1775201003957; Fri, 03 Apr 2026
+ 00:23:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260402174925.v3.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+References: <20260402-nokia770-gpio-swnodes-v5-0-d730db3dd299@oss.qualcomm.com>
+ <20260402-nokia770-gpio-swnodes-v5-4-d730db3dd299@oss.qualcomm.com> <ac6n1p3eLVFzumbt@google.com>
+In-Reply-To: <ac6n1p3eLVFzumbt@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 3 Apr 2026 09:23:11 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MdZ7JRs3vvz5Rz7vMHYM1JQGRtVujRXeNhsz2igtDADEw@mail.gmail.com>
+X-Gm-Features: AQROBzAuWuJJYQfEE9L788n8ipCOf6hcvXwHusg9h7TnjUkNV2xHUaa0ho16T-M
+Message-ID: <CAMRc=MdZ7JRs3vvz5Rz7vMHYM1JQGRtVujRXeNhsz2igtDADEw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] ARM: omap1: enable real software node lookup of
+ GPIOs on Nokia 770
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+	Russell King <linux@armlinux.org.uk>, Kevin Hilman <khilman@baylibre.com>, 
+	Arnd Bergmann <arnd@arndb.de>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 02, 2026 at 05:49:47PM -0700, Douglas Anderson wrote:
-> The moment we link a "struct device" into the list of devices for the
-> bus, it's possible probe can happen. This is because another thread
-> can load the driver at any time and that can cause the device to
-> probe. This has been seen in practice with a stack crawl that looks
-> like this [1]:
-> 
->   really_probe()
->   __driver_probe_device()
->   driver_probe_device()
->   __driver_attach()
->   bus_for_each_dev()
->   driver_attach()
->   bus_add_driver()
->   driver_register()
->   __platform_driver_register()
->   init_module() [some module]
->   do_one_initcall()
->   do_init_module()
->   load_module()
->   __arm64_sys_finit_module()
->   invoke_syscall()
-> 
-> As a result of the above, it was seen that device_links_driver_bound()
-> could be called for the device before "dev->fwnode->dev" was
-> assigned. This prevented __fw_devlink_pickup_dangling_consumers() from
-> being called which meant that other devices waiting on our driver's
-> sub-nodes were stuck deferring forever.
-> 
-> It's believed that this problem is showing up suddenly for two
-> reasons:
-> 1. Android has recently (last ~1 year) implemented an optimization to
->    the order it loads modules [2]. When devices opt-in to this faster
->    loading, modules are loaded one-after-the-other very quickly. This
->    is unlike how other distributions do it. The reproduction of this
->    problem has only been seen on devices that opt-in to Android's
->    "parallel module loading".
-> 2. Android devices typically opt-in to fw_devlink, and the most
->    noticeable issue is the NULL "dev->fwnode->dev" in
->    device_links_driver_bound(). fw_devlink is somewhat new code and
->    also not in use by all Linux devices.
-> 
-> Even though the specific symptom where "dev->fwnode->dev" wasn't
-> assigned could be fixed by moving that assignment higher in
-> device_add(), other parts of device_add() (like the call to
-> device_pm_add()) are also important to run before probe. Only moving
-> the "dev->fwnode->dev" assignment would likely fix the current
-> symptoms but lead to difficult-to-debug problems in the future.
-> 
-> Fix the problem by preventing probe until device_add() has run far
-> enough that the device is ready to probe. If somehow we end up trying
-> to probe before we're allowed, __driver_probe_device() will return
-> -EPROBE_DEFER which will make certain the device is noticed.
-> 
-> In the race condition that was seen with Android's faster module
-> loading, we will temporarily add the device to the deferred list and
-> then take it off immediately when device_add() probes the device.
-> 
-> Instead of adding another flag to the bitfields already in "struct
-> device", instead add a new "flags" field and use that. This allows us
-> to freely change the bit from different thread without holding the
-> device lock and without worrying about corrupting nearby bits.
-> 
-> [1] Captured on a machine running a downstream 6.6 kernel
-> [2] https://cs.android.com/android/platform/superproject/main/+/main:system/core/libmodprobe/libmodprobe.cpp?q=LoadModulesParallel
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 2023c610dc54 ("Driver core: add new device to bus's list before probing")
-> Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
-> Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> v1: https://lore.kernel.org/r/20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid
-> v2: https://lore.kernel.org/r/20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid
-> 
-> As of v2 this feels like a very safe change. It doesn't change the
-> ordering of any steps of probe and it _just_ prevents the early probe
-> from happening.
-> 
-> I ran tests where I turned the printout "Device not ready_to_probe" on
-> and I could see the printout happening, evidence of the race occurring
-> from other printouts, and things successfully being resolved.
-> 
-> I kept Alan and Rafael's Reviewed-by tags in v3 even though I changed
-> the implementation to use "flags" as per Danilo's request. This didn't
-> seem like a major enough change to remove tags, but please shout if
-> you'd like your tag removed.
-> 
-> Changes in v3:
-> - Use a new "flags" bitfield
-> - Add missing \n in probe error message
-> 
-> Changes in v2:
-> - Instead of adjusting the ordering, use "ready_to_probe" flag
-> 
->  drivers/base/core.c    | 13 +++++++++++++
->  drivers/base/dd.c      | 12 ++++++++++++
->  include/linux/device.h | 15 +++++++++++++++
->  3 files changed, 40 insertions(+)
-> 
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 09b98f02f559..8d4028a2165f 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3688,6 +3688,19 @@ int device_add(struct device *dev)
->  		fw_devlink_link_device(dev);
->  	}
->  
-> +	/*
-> +	 * The moment the device was linked into the bus's "klist_devices" in
-> +	 * bus_add_device() then it's possible that probe could have been
-> +	 * attempted in a different thread via userspace loading a driver
-> +	 * matching the device. "DEV_FLAG_READY_TO_PROBE" being unset would have
-> +	 * blocked those attempts. Now that all of the above initialization has
-> +	 * happened, unblock probe. If probe happens through another thread
-> +	 * after this point but before bus_probe_device() runs then it's fine.
-> +	 * bus_probe_device() -> device_initial_probe() -> __device_attach()
-> +	 * will notice (under device_lock) that the device is already bound.
-> +	 */
-> +	set_bit(DEV_FLAG_READY_TO_PROBE, &dev->flags);
-> +
->  	bus_probe_device(dev);
->  
->  	/*
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 37c7e54e0e4c..3aead51173f8 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -848,6 +848,18 @@ static int __driver_probe_device(const struct device_driver *drv, struct device
->  	if (dev->driver)
->  		return -EBUSY;
->  
-> +	/*
-> +	 * In device_add(), the "struct device" gets linked into the subsystem's
-> +	 * list of devices and broadcast to userspace (via uevent) before we're
-> +	 * quite ready to probe. Those open pathways to driver probe before
-> +	 * we've finished enough of device_add() to reliably support probe.
-> +	 * Detect this and tell other pathways to try again later. device_add()
-> +	 * itself will also try to probe immediately after setting
-> +	 * "DEV_FLAG_READY_TO_PROBE".
-> +	 */
-> +	if (!test_bit(DEV_FLAG_READY_TO_PROBE, &dev->flags))
-> +		return dev_err_probe(dev, -EPROBE_DEFER, "Device not ready to probe\n");
-> +
->  	dev->can_match = true;
->  	dev_dbg(dev, "bus: '%s': %s: matched device with driver %s\n",
->  		drv->bus->name, __func__, drv->name);
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index e65d564f01cd..5b7ace5921aa 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -458,6 +458,18 @@ struct device_physical_location {
->  	bool lid;
->  };
->  
-> +/**
-> + * enum struct_device_flags - Flags in struct device
-> + *
-> + * Should be accessed with thread-safe bitops.
-> + *
-> + * @DEV_FLAG_READY_TO_PROBE: If set then device_add() has finished enough
-> + *		initialization that probe could be called.
-> + */
-> +enum struct_device_flags {
-> +	DEV_FLAG_READY_TO_PROBE,
-> +};
+On Thu, Apr 2, 2026 at 7:32=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, Apr 02, 2026 at 04:15:05PM +0200, Bartosz Golaszewski wrote:
+> > @@ -244,6 +263,13 @@ static int __init omap16xx_gpio_init(void)
+> >               iounmap(base);
+> >
+> >               platform_device_register(omap16xx_gpio_dev[i]);
+> > +
+> > +             ret =3D device_add_software_node(&omap16xx_gpio_dev[i]->d=
+ev,
+> > +                                            omap16xx_gpio_swnodes[i]);
+> > +             if (ret) {
+> > +                     dev_err(&pdev->dev, "Failed to add software node.=
+\n");
+> > +                     return ret;
+> > +             }
+>
+> I think the best and safest way is to convert to using
+> platform_driver_register_full() and set swnode in the relevant "info"
+> instance.
 
-If you are going to want this to be a bit value, please use BIT(X) and
-not an enum, as that's going to just get confusing over time.
+For sure, that's the plan. I will respin this after v7.1-rc1 with that chan=
+ge.
 
-Also, none of this manual test_bit()/set_bit() stuff, please give us
-real "accessors" for this like:
-	bool device_ready_to_probe(struct device *dev);
-
-so that it's obvious what is happening.
-
-thanks,
-
-greg k-h
+Bart
