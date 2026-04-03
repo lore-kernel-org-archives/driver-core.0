@@ -1,61 +1,61 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67C124336D
-	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 00:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7222125A2A4
+	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 00:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775177507; cv=none; b=jp5mwa6BrJugWKyVOlNPyBalB1PIHv1AXT/IFAFPGSSKavG/Psq71s2w/RyetjbDrxh7qfZs1qcY5K9FxwrBO6PMTAA6L92rsYCorn3qOv37MgUGMcJaV7y3HBQifHOnjSgEhU8hXacmIzjgCLqt7OarTPymIE0c5N6Ds1UsuEc=
+	t=1775177510; cv=none; b=PZD4zWKtbfYg9NUD2yVU+9t7uJLIx9cEpt5oG9kZlOr4bjsXuXkQTu5s4k2EPv6VM+NVQASqEueN09VmwExLsLHPVg8M+aifiT7YtLRY7INJlY8oQ7QjH6VvfSoHlKKsStAo5/ZPnZY87qhFRI14PDdS4TOUHRu9pGuVG9AEqto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775177507; c=relaxed/simple;
-	bh=/M0FfRzU7RVjhShiy7G7rTfAd90/jtHt9dofWLRy5KY=;
+	s=arc-20240116; t=1775177510; c=relaxed/simple;
+	bh=MbYSEBw2mR7uS899ItjNFULIEA7303rlJjU6gRTcFao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CFaNM09Ju41zaBaPgTXg7zi2k21FS1hFnvDxRkycc8NcFyQ+T4brRRauWlhTqWfgwk/Rh7/c07mv7mV/wCPANIyVk7lxhQYw5Oe2slaV2WWHVYKbhCVKIat1SnEO/hqN6Cx9tUs5HPiYUDaqdKHl30whuYEcPhC2RQ9YydWzTEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nidH4MxH; arc=none smtp.client-ip=74.125.82.42
+	 MIME-Version; b=ZRJnOVeDWbT5Pz96e+gho+Ggd+bkfVu3XIckkkD3VdDJb/AJtkDA3hTZZtmw5xrdvQ9DrfGwqap+Rxig8r5Fj1xBNRONDdVJuExwt7fjjMOP8+UeKSFaKJd14WnocMxQrwFT7iYa+HxpniAeOcw3+JObF6Mk5ItVI4zNdpxSdcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hgZM+Z+n; arc=none smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nidH4MxH"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-12732165d1eso2250157c88.1
-        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 17:51:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hgZM+Z+n"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so3280910eec.1
+        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 17:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775177505; x=1775782305; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1775177507; x=1775782307; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/7YjIBbL/N3pUe7DW8lfq5UV0N0T+SK6BvJG2WvPW8U=;
-        b=nidH4MxHSRRmtDIbuZ94nelTFDz5mGz2fMf2weMlNkxd4acGSpLpXAf8qT9wkT5ej3
-         B29Zk8X3LKyJLm07/vJteoBH+eH2bDXV3sk+epxu353lFgcpq84YXf3K+S2vsA6WlL0v
-         0j0nW+3rLD6HZwPLDUVeXgFdhLalgCgJWmBeg=
+        bh=HM9+eAkKdOrABgkFmwCHnBiWfkCG9uPNCsfKJXOxWMI=;
+        b=hgZM+Z+njjMF46daVh7ncfkiYjogQC2JRBGT98vyDUvqKJHoJqOBELmn5/0XYJ3ojN
+         hXNQWBM+FK7X2Td/km0yvf6x+QBLoD/hxd8rz8LB7PAge2h/gZ4yvQDySvPgem8jMm0r
+         pWlblBDXeGX3EoFjq7F/QZMsVAX78r/7kZ0go=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775177505; x=1775782305;
+        d=1e100.net; s=20251104; t=1775177507; x=1775782307;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/7YjIBbL/N3pUe7DW8lfq5UV0N0T+SK6BvJG2WvPW8U=;
-        b=hWlRCQ2RBQwuJYG/vr+TJB0kxurFbkDeXXcf8a53djxbgYEvK+wMYWOKTGaKuNRnUf
-         VzevW39K6YhXMmqfoAYo/m5ormYSOSZixWEG0f+xfxiN/LYXhwRg1opO37ZaI8mwXaJM
-         j8J0y2LOlmG4gseIyk7ymXBBPl8T7fdbGdOTdl+ItPcOnDABDiJkxyCiSEvOpWgY9/wz
-         2EijsSrkbXx+WhvITd+Ic/29tltmpLGzGbWuGTKtApquj/gsDbtOd8tjJe/sV+e3G4az
-         gxO3I1d8feHKxGuIt2HloT/JvIKmiVb3z/2MlXFvL8K7FVF4OsRzrhWF+0I7ljZttMhV
-         wPrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXqYRj/Vhvyo5kpNqzIUpltVv6X3yLn6fLUs4N4DEKUb8NxT16xyK8Hm62NSYWE9YUibxEqpknW9S1bAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyxvt88GEo7/PocC5Se3Aek+pY8RF0pmKW4oO4SzS8zRWxMGGVm
-	JlWBKL8VELLg40TCrB8j5TcT3o3ymwfw8cvs26NKrkS9YLY0Or06Yts7fiJPzDEcig==
-X-Gm-Gg: ATEYQzzkPAE7jHb3vTpP4xeL1HneSJ+pBR3wrvy1LP+kFepNzi4gL3a7HtmjJAIZmtz
-	TboWaqZz9V6mEKSbDTMOt1ho5ybgYtjKut/IAkhchDuZHUGBw+n73nWw4w+NfO2sGrRVPZr8BNs
-	TmnFU7XdesBLyglU4fCBNsa5lnvLrbXMbEfIQlBFDbaPZi7HX3ccomNlQOs2GSAV7AxUNl2mZ0+
-	/ve5x6V4VA5oPMum3QtikBgneJ9fJJymr0JCmRjNLAstdVUZ1vPBfPwMAyyOzLxz35+koy3vFDU
-	mLERoMvbXSK8MCb4kkZRbMHBuWb+nLA3Sl5HVEgbDZLT8xf5wS+zC5gP6bZPvWUDOQfuq/s3TQB
-	dX2TDqZ7ghVExJB/QbfW38Ah9FcWWgiLccxEHEeJdcV9fSa6G1NR1MyhTe9iFRmy69XCMkyJXOH
-	AbuZosU1dRudSoTu6KjUazN/iZpnqiBakt3gcmYlS54z6dxNkp4H8jS2nptQ1dZ8AGg2SLBk58m
-	nUYAKaP3CE=
-X-Received: by 2002:a05:7022:6881:b0:12a:747e:5b5c with SMTP id a92af1059eb24-12bfb7459b2mr534683c88.24.1775177504969;
-        Thu, 02 Apr 2026 17:51:44 -0700 (PDT)
+        bh=HM9+eAkKdOrABgkFmwCHnBiWfkCG9uPNCsfKJXOxWMI=;
+        b=QWgkBcXejZWJYQjzIobjxbe/LpSZb2LAlunCMXwd3DvumizRUv4vzly6Vegdy+ukvW
+         WwZiv11AhEboI0LlSlFLWehzwVI7171aIu6WmYEcZz9yBBCeZNIcI/Hrrrs8krQ15i5v
+         FAjXXK8ernUfDKeHtr6ed1SRe1kmrvDZvqb/FVdvZti3G4xKESIZ0pP700J3/cWNaKj8
+         C0O81GH5ONKrSWnGBRr0dG0pzw99ESAfKzbUrxy7Y1GJEVsbQldgpPqfBGqzIfJExItF
+         nZEd3qrdZ+I123rtoVlez+16MqkyepfxLdSlxPcZrrCU8idNIUHTMvWfYR9cGQ4m90/a
+         DviQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKlNdsfC2vHTfLotoHDL6LiJq0vPf8AvGlZb9WDxNbVv3Ar0gQv8m6UGi+t9D30PLXowB9GH6vRmfUZw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YySPGNUGJeUSGjt+m/6fodYOUaKjGYiYltoHOayO2J31IkRov/c
+	JaYStCpDrXO9nFWd73IQgbMQBMIq5NwGdoS5i0fZPi2teMIO/tGRqGy5U4UmylLSKQ==
+X-Gm-Gg: AeBDievgs5M1pJZF8knY8hxZmkzTGeJxRJcHABSl3xJjp75jXJ1YzUVRkonM7fAko4L
+	G/wGINoDjIBY1MOmkfRiZmRLhdRGypB28JDOMTTmSWyoaZkJXCBHkJqXvDMwEmnMo/JUCJblzsC
+	MSwJsoIza5/bzjWQE2//FtLOuKmCgh23AjSO7tniphPtQWDgKlljt/jnAEVNaMR0InB5uYtZ76d
+	7yPgVfoJXlcY4gWneoEL3NmTrT9Uh4Edk00iE/BdTfDOnZAES4Ux44wKdrr5ggndfvQpYvkBOda
+	5CKBrKha/PTJEScn9lwfAbreTmBRBrdy2QeykItNjzaMgqy72sr9Hak7Mq6a03wBLhRV79SGJf+
+	1B6B3ryGtRGuPwrwYCiONL5fPprSXW0/koJ3o9vV7GQ27y96GOQTkyTDK7g4NnPxHrDCq+0Nwoq
+	HVAIo7ef+4CWLPaS9KxVDwZs0CIzVMbw7YiiD/oCpYFFVzDOLCaBNgIUbBT66SlpAlBCUX2tPwO
+	gyQrHS6Q5c=
+X-Received: by 2002:a05:7300:a506:b0:2c5:50fe:c786 with SMTP id 5a478bee46e88-2cbfa2ce19dmr720875eec.9.1775177507537;
+        Thu, 02 Apr 2026 17:51:47 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:5db3:7542:a530:f43a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca78df3b84sm3630074eec.5.2026.04.02.17.51.41
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca78df3b84sm3630074eec.5.2026.04.02.17.51.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 17:51:42 -0700 (PDT)
+        Thu, 02 Apr 2026 17:51:46 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
@@ -72,14 +72,16 @@ Cc: Robin Murphy <robin.murphy@arm.com>,
 	Alexey Kardashevskiy <aik@ozlabs.ru>,
 	Johan Hovold <johan@kernel.org>,
 	Douglas Anderson <dianders@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
 	driver-core@lists.linux.dev,
 	iommu@lists.linux.dev,
-	joro@8bytes.org,
 	linux-kernel@vger.kernel.org,
-	will@kernel.org
-Subject: [PATCH v3 3/9] driver core: Replace dev->dma_iommu with DEV_FLAG_DMA_IOMMU
-Date: Thu,  2 Apr 2026 17:49:49 -0700
-Message-ID: <20260402174925.v3.3.Id20d5973cbff542fea290e13177e9423f5d81342@changeid>
+	linux-mm@kvack.org,
+	m.szyprowski@samsung.com
+Subject: [PATCH v3 4/9] driver core: Replace dev->dma_skip_sync with DEV_FLAG_DMA_SKIP_SYNC
+Date: Thu,  2 Apr 2026 17:49:50 -0700
+Message-ID: <20260402174925.v3.4.Icf072aa4184dd86a88fa8ca195b09d1651984000@changeid>
 X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
 In-Reply-To: <20260403005005.30424-1-dianders@chromium.org>
 References: <20260403005005.30424-1-dianders@chromium.org>
@@ -92,11 +94,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "dma_iommu" over to the "flags" field
-so modifications are safe.
+threads without locking. Switch "dma_skip_sync" over to the "flags"
+field so modifications are safe.
 
-Cc: Leon Romanovsky <leon@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: Eric Dumazet <edumazet@google.com>
 Cc: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
@@ -105,123 +107,132 @@ inspection. Change is done somewhat manually and only lightly tested
 (mostly compile-time tested).
 
 NOTE: even though previously we only took up a bit if
-CONFIG_IOMMU_DMA, in this change I reserve the bit unconditionally.
-While we could get the "dynamic" behavior by changing the flags
-definition to be an "enum", it doesn't seem worth it at this
-point. This also allows us to move one "#ifdef" to an "if", getting
-better compile-time testing of both sides of the "if".
+CONFIG_DMA_NEED_SYNC, in this change I reserve the bit
+unconditionally. While we could get the "dynamic" behavior by changing
+the flags definition to be an "enum", it doesn't seem worth it at this
+point.
 
 Changes in v3:
 - New
 
- drivers/iommu/dma-iommu.c | 9 ++++++---
- drivers/iommu/iommu.c     | 5 ++---
- include/linux/device.h    | 8 +++-----
- include/linux/iommu-dma.h | 4 +++-
- 4 files changed, 14 insertions(+), 12 deletions(-)
+ include/linux/device.h      | 7 +++----
+ include/linux/dma-map-ops.h | 4 ++--
+ include/linux/dma-mapping.h | 2 +-
+ kernel/dma/mapping.c        | 8 ++++----
+ mm/hmm.c                    | 2 +-
+ 5 files changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 94d514169642..a3423ece9578 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -2112,18 +2112,21 @@ EXPORT_SYMBOL_GPL(dma_iova_destroy);
- 
- void iommu_setup_dma_ops(struct device *dev, struct iommu_domain *domain)
- {
-+	bool dma_iommu;
-+
- 	if (dev_is_pci(dev))
- 		dev->iommu->pci_32bit_workaround = !iommu_dma_forcedac;
- 
--	dev->dma_iommu = iommu_is_dma_domain(domain);
--	if (dev->dma_iommu && iommu_dma_init_domain(domain, dev))
-+	dma_iommu = iommu_is_dma_domain(domain);
-+	assign_bit(DEV_FLAG_DMA_IOMMU, &dev->flags, dma_iommu);
-+	if (dma_iommu && iommu_dma_init_domain(domain, dev))
- 		goto out_err;
- 
- 	return;
- out_err:
- 	pr_warn("Failed to set up IOMMU for device %s; retaining platform DMA ops\n",
- 		dev_name(dev));
--	dev->dma_iommu = false;
-+	clear_bit(DEV_FLAG_DMA_IOMMU, &dev->flags);
- }
- 
- static bool has_msi_cookie(const struct iommu_domain *domain)
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 50718ab810a4..7722ac086981 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -589,9 +589,8 @@ static void iommu_deinit_device(struct device *dev)
- 	dev->iommu_group = NULL;
- 	module_put(ops->owner);
- 	dev_iommu_free(dev);
--#ifdef CONFIG_IOMMU_DMA
--	dev->dma_iommu = false;
--#endif
-+	if (IS_ENABLED(CONFIG_IOMMU_DMA))
-+		clear_bit(DEV_FLAG_DMA_IOMMU, &dev->flags);
- }
- 
- static struct iommu_domain *pasid_array_entry_to_domain(void *entry)
 diff --git a/include/linux/device.h b/include/linux/device.h
-index 7e5737c6d7d1..e74c7d0813ce 100644
+index e74c7d0813ce..e900748d3038 100644
 --- a/include/linux/device.h
 +++ b/include/linux/device.h
-@@ -468,10 +468,13 @@ struct device_physical_location {
-  * @DEV_FLAG_CAN_MATCH: The device has matched with a driver at least once or it
-  *		is in a bus (like AMBA) which can't check for matching drivers
+@@ -470,11 +470,14 @@ struct device_physical_location {
   *		until other devices probe successfully.
-+ * @DEV_FLAG_DMA_IOMMU: Device is using default IOMMU implementation for DMA and
-+ *		doesn't rely on dma_ops structure.
+  * @DEV_FLAG_DMA_IOMMU: Device is using default IOMMU implementation for DMA and
+  *		doesn't rely on dma_ops structure.
++ * @DEV_FLAG_DMA_SKIP_SYNC: DMA sync operations can be skipped for coherent
++ *		buffers.
   */
  enum struct_device_flags {
  	DEV_FLAG_READY_TO_PROBE,
  	DEV_FLAG_CAN_MATCH,
-+	DEV_FLAG_DMA_IOMMU,
+ 	DEV_FLAG_DMA_IOMMU,
++	DEV_FLAG_DMA_SKIP_SYNC,
  };
  
  /**
-@@ -564,8 +567,6 @@ enum struct_device_flags {
+@@ -566,7 +569,6 @@ enum struct_device_flags {
+  *		and optionall (if the coherent mask is large enough) also
   *		for dma allocations.  This flag is managed by the dma ops
   *		instance from ->dma_supported.
-  * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
-- * @dma_iommu: Device is using default IOMMU implementation for DMA and
-- *		doesn't rely on dma_ops structure.
+- * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
   * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
   *
   * At the lowest level, every device in a Linux system is represented by an
-@@ -685,9 +686,6 @@ struct device {
- #ifdef CONFIG_DMA_NEED_SYNC
- 	bool			dma_skip_sync:1;
+@@ -683,9 +685,6 @@ struct device {
+ #ifdef CONFIG_DMA_OPS_BYPASS
+ 	bool			dma_ops_bypass : 1;
  #endif
--#ifdef CONFIG_IOMMU_DMA
--	bool			dma_iommu:1;
+-#ifdef CONFIG_DMA_NEED_SYNC
+-	bool			dma_skip_sync:1;
 -#endif
  
  	unsigned long		flags;
  };
-diff --git a/include/linux/iommu-dma.h b/include/linux/iommu-dma.h
-index a92b3ff9b934..b6177672539d 100644
---- a/include/linux/iommu-dma.h
-+++ b/include/linux/iommu-dma.h
-@@ -7,12 +7,14 @@
- #ifndef _LINUX_IOMMU_DMA_H
- #define _LINUX_IOMMU_DMA_H
- 
-+#include <linux/bitops.h>
- #include <linux/dma-direction.h>
-+#include <linux/device.h>
- 
- #ifdef CONFIG_IOMMU_DMA
- static inline bool use_dma_iommu(struct device *dev)
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 60b63756df82..4d9d1fe3277c 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -245,8 +245,8 @@ static inline void dma_reset_need_sync(struct device *dev)
  {
--	return dev->dma_iommu;
-+	return test_bit(DEV_FLAG_DMA_IOMMU, &dev->flags);
+ #ifdef CONFIG_DMA_NEED_SYNC
+ 	/* Reset it only once so that the function can be called on hotpath */
+-	if (unlikely(dev->dma_skip_sync))
+-		dev->dma_skip_sync = false;
++	if (unlikely(test_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags)))
++		clear_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags);
+ #endif
  }
- #else
- static inline bool use_dma_iommu(struct device *dev)
+ 
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 99ef042ecdb4..23273b0fe84e 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -419,7 +419,7 @@ bool __dma_need_sync(struct device *dev, dma_addr_t dma_addr);
+ static inline bool dma_dev_need_sync(const struct device *dev)
+ {
+ 	/* Always call DMA sync operations when debugging is enabled */
+-	return !dev->dma_skip_sync || IS_ENABLED(CONFIG_DMA_API_DEBUG);
++	return !test_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags) || IS_ENABLED(CONFIG_DMA_API_DEBUG);
+ }
+ 
+ static inline void dma_sync_single_for_cpu(struct device *dev, dma_addr_t addr,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 6d3dd0bd3a88..f50b648ed460 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -467,7 +467,7 @@ bool dma_need_unmap(struct device *dev)
+ {
+ 	if (!dma_map_direct(dev, get_dma_ops(dev)))
+ 		return true;
+-	if (!dev->dma_skip_sync)
++	if (!test_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags))
+ 		return true;
+ 	return IS_ENABLED(CONFIG_DMA_API_DEBUG);
+ }
+@@ -483,16 +483,16 @@ static void dma_setup_need_sync(struct device *dev)
+ 		 * mapping, if any. During the device initialization, it's
+ 		 * enough to check only for the DMA coherence.
+ 		 */
+-		dev->dma_skip_sync = dev_is_dma_coherent(dev);
++		assign_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags, dev_is_dma_coherent(dev));
+ 	else if (!ops->sync_single_for_device && !ops->sync_single_for_cpu &&
+ 		 !ops->sync_sg_for_device && !ops->sync_sg_for_cpu)
+ 		/*
+ 		 * Synchronization is not possible when none of DMA sync ops
+ 		 * is set.
+ 		 */
+-		dev->dma_skip_sync = true;
++		set_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags);
+ 	else
+-		dev->dma_skip_sync = false;
++		clear_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags);
+ }
+ #else /* !CONFIG_DMA_NEED_SYNC */
+ static inline void dma_setup_need_sync(struct device *dev) { }
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 5955f2f0c83d..137450e096bc 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -709,7 +709,7 @@ int hmm_dma_map_alloc(struct device *dev, struct hmm_dma_map *map,
+ 	 * best approximation to ensure no swiotlb buffering happens.
+ 	 */
+ #ifdef CONFIG_DMA_NEED_SYNC
+-	dma_need_sync = !dev->dma_skip_sync;
++	dma_need_sync = !test_bit(DEV_FLAG_DMA_SKIP_SYNC, &dev->flags);
+ #endif /* CONFIG_DMA_NEED_SYNC */
+ 	if (dma_need_sync || dma_addressing_limited(dev))
+ 		return -EOPNOTSUPP;
 -- 
 2.53.0.1213.gd9a14994de-goog
 
