@@ -1,61 +1,61 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552F72405EB
-	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 00:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0E4256C70
+	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 00:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775177516; cv=none; b=VrmRBpvHW81W9aifjkma/GuPcuY0yvWMJbK1sZi54uA3JF8zkFFumwWt00B/mW8xVI6R5FwGQ56lin32++piRiIJX5OyIESSbAFflOemPjdDeCsNp0OFWsuf/FPHThT9SVMPdlf9Txm01xPu2qY7N4P+S8uWGrL1UT93eqZjghs=
+	t=1775177521; cv=none; b=Q1GDCdBb49qxQ8+v9CAK2cF+PFgbz/ItflS8aB5xX7BtZ9wT1zQvpIzYpfr6VZiyAEnO8NwUlM2WTItBd9xbUWYRt/lO4ubqAURJscTpCgsyGasHWqkhn5z7d2pAvnm/JlrGB9a+uBBei5ZgpyuTgj+6qCMrlGjrkzFo4zofKaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775177516; c=relaxed/simple;
-	bh=5N3do3f1bda60XdV+FFEIMw3KG/6XRb7QL0OIJu2YW4=;
+	s=arc-20240116; t=1775177521; c=relaxed/simple;
+	bh=CzWURY1x7xTxgzszk61vgWPH8/mqcsOMZyU04EtdnPg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p4WLMDwktgpXw994d4lOEGvlCjDVASePT7icTVfTSbp2nki7ggNXub0ErO8T5cWIYH0FPh1IXTDdhVagYEmips5abGK5O5xprXm6hdB/pWGqASot2mLqeG9CVKBsoZJbc1woRtjcJ2DmtU849u4qIRdeLxCSWiWE0CpWOymed1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ra0erj8b; arc=none smtp.client-ip=74.125.82.179
+	 MIME-Version; b=fyoxHHDQYWrm2285qPV51FLl+tHfFi1y0UsF+JRO/MEYz4yApAWjelfCd7nbDLNiRCKzfe98J8n7LWw0q6BpABS62OpxYR2s+frx/nLi5Rld14zMug8/ntbSvVJ0LmK59UmXbsNmZdJSsQVkzt9YRu94DZ3i+B2fSo7b6YexLa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XyQ0gHrq; arc=none smtp.client-ip=74.125.82.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ra0erj8b"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so3281065eec.1
-        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 17:51:55 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XyQ0gHrq"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c18af885c0so1461477eec.0
+        for <driver-core@lists.linux.dev>; Thu, 02 Apr 2026 17:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775177514; x=1775782314; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1775177518; x=1775782318; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kgGJ3qVhvTnihbeXgwabOY+LFFKSLUKoX7zSIc0h7aU=;
-        b=Ra0erj8bwyD77DryEVvRLipDqlHlfvDNsyFhUxr5lcQRYyFikwJt4rtSef6iKk47fZ
-         7wiWBP2CvkRAg0lFWCFtMmi92S8+HXfV85oju/Sw+fVVlRfR1BeiIQ1gTD6xyZyRErii
-         W0W3ixrsE9M6nTItnK5KEUAYUckFfM+S0jZ+4=
+        bh=7B9SH08OctcmckbQMLfLF1d3L3yf5IwR4rnNqOjePIg=;
+        b=XyQ0gHrqd7eZSZ2WlqbIuHv1NlFmRfQvQf/i9mF/pLJZ7e7qrzwVwyuR4WuZ1+i8Gp
+         QOsYtLfOmswvnBtOSPqocHAryXIxJDnp/zhMATXoULJL+5SPe7L+Wnax3nAULEddCII8
+         97LD9yo3oLtk0NaFvzIa+CbXOpv2cQmbn1YZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775177514; x=1775782314;
+        d=1e100.net; s=20251104; t=1775177518; x=1775782318;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kgGJ3qVhvTnihbeXgwabOY+LFFKSLUKoX7zSIc0h7aU=;
-        b=Y5HmpVNrvEr3GRKg7aTqQdXmSNFvq3rJZxVFuHLBaI8IGlNYkSkUOmW6VogbmDW60H
-         uBlQOx+OUKeBpDfUtWr1PYdzUdmGwKLuXulj7CIQpOJtnY9dZH/pPkQxL8aB9nWMHtbu
-         gr+LkmIo5tmAmTiqq7Masb6KlgsU2oqFpQIwbUt7vNHqQr7Akp3SOAqA3qx9LVxlzr4/
-         gE9wDrH/5bap9ia6bKjlInry6Iyb7tnBsVzOoBi72KV/p/N4WsDBwpMDgPfQU21zKLq6
-         f5t8Y9NiDF67bLsLnR0VNr27PnFMM+mbNj5/lswkNSI2cI5VOaehJ55o90KxEdREoYIi
-         TvCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCi3ju3XpP1Uu/8vOjd+lewyl/ljXR6apRAPSf9KvqhilvIpmwCenyWulLDqE0gXBqgnljiWfeHjkQzA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpUkP9Cqmibv5Fs0VzJPKqkRKmoqZYTaROEt9/TF400G5bDMOx
-	wygyWRyJ5CNZgUyiq5HhRulzCg6EiDrAoGHApZI92g4S6frw5jwNGUXQtkkbqaZUgw==
-X-Gm-Gg: AeBDiesjJs0mHIs6g+642MLyya7GyvMT8BH88wcBdrXEvgmzW/w6niJasZWwwF9mily
-	7PSWKv8BwFjl1mR/p7ymrQL8jdJENrAp1qAePRvX7XOH7xoQKeDw3V/7ewXV+wgN++y8LxXLj2v
-	ugM02ynnXjH7wtqZXZBa0VP3EXn9A6ZaR1OLbkROBLHRd7GwhDyzqbH/7axnTdZEzfSNw+s0eXd
-	xB1myqcVAGsSsuSn7HYIwfHfwfu8yaN0CMjaRR0oJ2IDEGcPedh6ONzN8cRAdCqVSp8L90qR6j6
-	G2yS34lN34YYmvOP5UQ8JKrXxR+uyLRzOa6o2TRGtfR90w2pFFzj5Iq5bH0JDWIJ5boaCA5sM3P
-	q3m2Cs4ngkJJgGQXTGh6LK7hKNkNvlfraUTry2pcffKcDbOgWOyZy67AQiqq58eNS5/ylMYMnRC
-	+892Tl8eo+FWmoWC5l/pLZV09kgtZdHnpcZS5hKG8DY2awPFy5vIAmB1a3qFbVNtoy/BNm6h307
-	u9j/zz2mhw=
-X-Received: by 2002:a05:7301:1003:b0:2c5:ed1b:c8a with SMTP id 5a478bee46e88-2cbf9afd5e5mr636627eec.5.1775177514535;
-        Thu, 02 Apr 2026 17:51:54 -0700 (PDT)
+        bh=7B9SH08OctcmckbQMLfLF1d3L3yf5IwR4rnNqOjePIg=;
+        b=fb9Z64yKV+40z0fCgM8bbJYQK2GcPcL7zDRc3Jk+iDh+S9hpektBshi3PeW5zSwtL2
+         vMnV39Cv0eRoC+9HOEKf7oihKjWouAbTyi4GJVhAf4VcJSI54+feKAoJfXXfbERcmHHM
+         L9JEBSrkVjfHx6tS1km0Ts7/7zbhfOsuRWbqW0GMc1iRuxXds0SMTZ3XxFpJydFKSpLx
+         VfhfK8lgUmdvhy+TJpvHRnej0cnbS8tAD8HFA33o6L/sk6TRMY1vo8nT0IN9X6yjhRVO
+         1tc543WlgW9Nz3dHBHksIfKXFHbW0mMh2kbiXlEWXDIUA3cf3/iFlDbm/+uSE4/0bjQb
+         Ckiw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyu73u9uQKkJZ7PjjE2/KnoOrAkEhgy3TykHHzxGDmpoWKaGQ5uAAgP6qN70mK+bmMMZirl2Nn06N1VA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3jFSdAc8Ct7LCAEIbcNkzEaArQYQvvxy0UALjR0RnVAI1JP2J
+	d/TAQ4tHnwzNS6qSbTLnoZa1hqRuUbwUR9yNOMkpYw8OBq0g/X0PXaZD2e+l6VMSyA==
+X-Gm-Gg: AeBDieuY/UMJoj2pbJmgQKy/gI7Z1JOO1ZFShqHVMd0jNG9aNnvqJ0WKvIMTDU7Iwiz
+	vGkC/oK181NUqUtlYq1AIse7tsu3U4xkJtij23s5u9W1by0R8cG7KYj4QLQrfF6b0uEM8XOH8UR
+	6IOb53UzolLd0zs4izMNPxatDXr1NdZdE/Gv+gn5UKj6OObmiBKS996sipFRjzS/wVkyHiyRHmn
+	sxrV05B51+UKMrsPQRHHZqyCsFmiJ4hmtQnM8dhhXEjQhkqnCLNhp3l6j/nKtQBN4E+CYkQyEs+
+	WpSy/dlM9HAVPZdPr4/tJtSDTzZH94Ze+NE1VRTJJ98ygOsPxbGWtqQ0JYgT33hUbCzjWqb9xhQ
+	ZOxVmxGxjf2t77Ve3sWUGi5gXUmND+GfOpKT/Nvzf0RhiJPbrEs7WB4dFL80FdBR/+sZw9/JwJI
+	wFaa2o2+XLLvXjmykheqduFkNN9Rf1mqtpdNIuQbk6kdCyNVyOYOomHpORkjptmQFeLkkIQLZVT
+	+mpzJaUIqQ=
+X-Received: by 2002:a05:693c:3018:b0:2c0:cc90:a71 with SMTP id 5a478bee46e88-2cbf9df22d4mr651415eec.8.1775177517695;
+        Thu, 02 Apr 2026 17:51:57 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:5db3:7542:a530:f43a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca78df3b84sm3630074eec.5.2026.04.02.17.51.51
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca78df3b84sm3630074eec.5.2026.04.02.17.51.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 17:51:52 -0700 (PDT)
+        Thu, 02 Apr 2026 17:51:56 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
@@ -72,12 +72,37 @@ Cc: Robin Murphy <robin.murphy@arm.com>,
 	Alexey Kardashevskiy <aik@ozlabs.ru>,
 	Johan Hovold <johan@kernel.org>,
 	Douglas Anderson <dianders@chromium.org>,
-	Saravana Kannan <saravanak@google.com>,
+	Frank.Li@kernel.org,
+	alex@ghiti.fr,
+	andre.przywara@arm.com,
+	andrew@lunn.ch,
+	aou@eecs.berkeley.edu,
+	catalin.marinas@arm.com,
+	dmaengine@vger.kernel.org,
 	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/9] driver core: Replace dev->state_synced with DEV_FLAG_STATE_SYNCED
-Date: Thu,  2 Apr 2026 17:49:52 -0700
-Message-ID: <20260402174925.v3.6.Idb4818e1159fef104c7756bfd6e7ba8f374bebcd@changeid>
+	gregory.clement@bootlin.com,
+	iommu@lists.linux.dev,
+	jgg@ziepe.ca,
+	kees@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	linux@armlinux.org.uk,
+	m.szyprowski@samsung.com,
+	palmer@dabbelt.com,
+	peter.ujfalusi@gmail.com,
+	pjw@kernel.org,
+	sebastian.hesselbarth@gmail.com,
+	tsbogend@alpha.franken.de,
+	vgupta@kernel.org,
+	vkoul@kernel.org,
+	will@kernel.org,
+	willy@infradead.org
+Subject: [PATCH v3 7/9] driver core: Replace dev->dma_coherent with DEV_FLAG_DMA_COHERENT
+Date: Thu,  2 Apr 2026 17:49:53 -0700
+Message-ID: <20260402174925.v3.7.If839f6dde98979fce177f70c6c74689a1904ee76@changeid>
 X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
 In-Reply-To: <20260403005005.30424-1-dianders@chromium.org>
 References: <20260403005005.30424-1-dianders@chromium.org>
@@ -90,133 +115,386 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "state_synced" over to the "flags"
+threads without locking. Switch "dma_coherent" over to the "flags"
 field so modifications are safe.
 
-Cc: Saravana Kannan <saravanak@google.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Paul Burton <paul.burton@mips.com>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 Not fixing any known bugs; problem is theoretical and found by code
 inspection. Change is done somewhat manually and only lightly tested
 (mostly compile-time tested).
 
+NOTE: even though previously we only took up a bit if
+CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE, CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU,
+or CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL, in this change I reserve the
+bit unconditionally.  While we could get the "dynamic" behavior by
+changing the flags definition to be an "enum", it doesn't seem worth
+it at this point.
+
 Changes in v3:
 - New
 
- drivers/base/core.c    | 9 +++++----
- drivers/base/dd.c      | 8 +++-----
- include/linux/device.h | 8 ++++----
- 3 files changed, 12 insertions(+), 13 deletions(-)
+ arch/arc/mm/dma.c                 |  4 ++--
+ arch/arm/mach-highbank/highbank.c |  2 +-
+ arch/arm/mach-mvebu/coherency.c   |  2 +-
+ arch/arm/mm/dma-mapping-nommu.c   |  4 ++--
+ arch/arm/mm/dma-mapping.c         | 30 ++++++++++++++++--------------
+ arch/arm64/mm/dma-mapping.c       |  2 +-
+ arch/mips/mm/dma-noncoherent.c    |  2 +-
+ arch/riscv/mm/dma-noncoherent.c   |  2 +-
+ drivers/base/core.c               |  2 +-
+ drivers/dma/ti/k3-udma-glue.c     |  6 +++---
+ drivers/dma/ti/k3-udma.c          |  6 +++---
+ include/linux/device.h            | 10 +++-------
+ include/linux/dma-map-ops.h       |  2 +-
+ 13 files changed, 36 insertions(+), 38 deletions(-)
 
+diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+index 6b85e94f3275..3d56878cb6a2 100644
+--- a/arch/arc/mm/dma.c
++++ b/arch/arc/mm/dma.c
+@@ -98,8 +98,8 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
+ 	 * DMA buffers.
+ 	 */
+ 	if (is_isa_arcv2() && ioc_enable && coherent)
+-		dev->dma_coherent = true;
++		set_bit(DEV_FLAG_DMA_COHERENT, &dev->flags);
+ 
+ 	dev_info(dev, "use %scoherent DMA ops\n",
+-		 dev->dma_coherent ? "" : "non");
++		 test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) ? "" : "non");
+ }
+diff --git a/arch/arm/mach-highbank/highbank.c b/arch/arm/mach-highbank/highbank.c
+index 47335c7dadf8..ffa3f591f57a 100644
+--- a/arch/arm/mach-highbank/highbank.c
++++ b/arch/arm/mach-highbank/highbank.c
+@@ -98,7 +98,7 @@ static int highbank_platform_notifier(struct notifier_block *nb,
+ 	if (of_property_read_bool(dev->of_node, "dma-coherent")) {
+ 		val = readl(sregs_base + reg);
+ 		writel(val | 0xff01, sregs_base + reg);
+-		dev->dma_coherent = true;
++		set_bit(DEV_FLAG_DMA_COHERENT, &dev->flags);
+ 	}
+ 
+ 	return NOTIFY_OK;
+diff --git a/arch/arm/mach-mvebu/coherency.c b/arch/arm/mach-mvebu/coherency.c
+index fa2c1e1aeb96..8391303a6a17 100644
+--- a/arch/arm/mach-mvebu/coherency.c
++++ b/arch/arm/mach-mvebu/coherency.c
+@@ -95,7 +95,7 @@ static int mvebu_hwcc_notifier(struct notifier_block *nb,
+ 
+ 	if (event != BUS_NOTIFY_ADD_DEVICE)
+ 		return NOTIFY_DONE;
+-	dev->dma_coherent = true;
++	set_bit(DEV_FLAG_DMA_COHERENT, &dev->flags);
+ 
+ 	return NOTIFY_OK;
+ }
+diff --git a/arch/arm/mm/dma-mapping-nommu.c b/arch/arm/mm/dma-mapping-nommu.c
+index fecac107fd0d..ac0a976e30a0 100644
+--- a/arch/arm/mm/dma-mapping-nommu.c
++++ b/arch/arm/mm/dma-mapping-nommu.c
+@@ -42,11 +42,11 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
+ 		 * enough to check if MPU is in use or not since in absence of
+ 		 * MPU system memory map is used.
+ 		 */
+-		dev->dma_coherent = cacheid ? coherent : true;
++		assign_bit(DEV_FLAG_DMA_COHERENT, &dev->flags, cacheid ? coherent : true);
+ 	} else {
+ 		/*
+ 		 * Assume coherent DMA in case MMU/MPU has not been set up.
+ 		 */
+-		dev->dma_coherent = (get_cr() & CR_M) ? coherent : true;
++		assign_bit(DEV_FLAG_DMA_COHERENT, &dev->flags, (get_cr() & CR_M) ? coherent : true);
+ 	}
+ }
+diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+index f304037d1c34..9c2c635d7ac0 100644
+--- a/arch/arm/mm/dma-mapping.c
++++ b/arch/arm/mm/dma-mapping.c
+@@ -1076,7 +1076,7 @@ static void *arm_iommu_alloc_attrs(struct device *dev, size_t size,
+ 	pgprot_t prot = __get_dma_pgprot(attrs, PAGE_KERNEL);
+ 	struct page **pages;
+ 	void *addr = NULL;
+-	int coherent_flag = dev->dma_coherent ? COHERENT : NORMAL;
++	int coherent_flag = test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) ? COHERENT : NORMAL;
+ 
+ 	*handle = DMA_MAPPING_ERROR;
+ 	size = PAGE_ALIGN(size);
+@@ -1124,7 +1124,7 @@ static int arm_iommu_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
+ 	if (vma->vm_pgoff >= nr_pages)
+ 		return -ENXIO;
+ 
+-	if (!dev->dma_coherent)
++	if (!test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags))
+ 		vma->vm_page_prot = __get_dma_pgprot(attrs, vma->vm_page_prot);
+ 
+ 	err = vm_map_pages(vma, pages, nr_pages);
+@@ -1141,7 +1141,7 @@ static int arm_iommu_mmap_attrs(struct device *dev, struct vm_area_struct *vma,
+ static void arm_iommu_free_attrs(struct device *dev, size_t size, void *cpu_addr,
+ 	dma_addr_t handle, unsigned long attrs)
+ {
+-	int coherent_flag = dev->dma_coherent ? COHERENT : NORMAL;
++	int coherent_flag = test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) ? COHERENT : NORMAL;
+ 	struct page **pages;
+ 	size = PAGE_ALIGN(size);
+ 
+@@ -1202,7 +1202,8 @@ static int __map_sg_chunk(struct device *dev, struct scatterlist *sg,
+ 		phys_addr_t phys = page_to_phys(sg_page(s));
+ 		unsigned int len = PAGE_ALIGN(s->offset + s->length);
+ 
+-		if (!dev->dma_coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++		if (!test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) &&
++		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+ 			arch_sync_dma_for_device(sg_phys(s), s->length, dir);
+ 
+ 		prot = __dma_info_to_prot(dir, attrs);
+@@ -1304,7 +1305,8 @@ static void arm_iommu_unmap_sg(struct device *dev,
+ 		if (sg_dma_len(s))
+ 			__iommu_remove_mapping(dev, sg_dma_address(s),
+ 					       sg_dma_len(s));
+-		if (!dev->dma_coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++		if (!test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) &&
++		    !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+ 			arch_sync_dma_for_cpu(sg_phys(s), s->length, dir);
+ 	}
+ }
+@@ -1323,7 +1325,7 @@ static void arm_iommu_sync_sg_for_cpu(struct device *dev,
+ 	struct scatterlist *s;
+ 	int i;
+ 
+-	if (dev->dma_coherent)
++	if (test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags))
+ 		return;
+ 
+ 	for_each_sg(sg, s, nents, i)
+@@ -1345,7 +1347,7 @@ static void arm_iommu_sync_sg_for_device(struct device *dev,
+ 	struct scatterlist *s;
+ 	int i;
+ 
+-	if (dev->dma_coherent)
++	if (test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags))
+ 		return;
+ 
+ 	for_each_sg(sg, s, nents, i)
+@@ -1371,7 +1373,7 @@ static dma_addr_t arm_iommu_map_phys(struct device *dev, phys_addr_t phys,
+ 	dma_addr_t dma_addr;
+ 	int ret, prot;
+ 
+-	if (!dev->dma_coherent &&
++	if (!test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) &&
+ 	    !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO)))
+ 		arch_sync_dma_for_device(phys, size, dir);
+ 
+@@ -1412,7 +1414,7 @@ static void arm_iommu_unmap_phys(struct device *dev, dma_addr_t handle,
+ 	if (!iova)
+ 		return;
+ 
+-	if (!dev->dma_coherent &&
++	if (!test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) &&
+ 	    !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO))) {
+ 		phys_addr_t phys = iommu_iova_to_phys(mapping->domain, iova);
+ 
+@@ -1431,7 +1433,7 @@ static void arm_iommu_sync_single_for_cpu(struct device *dev,
+ 	unsigned int offset = handle & ~PAGE_MASK;
+ 	phys_addr_t phys;
+ 
+-	if (dev->dma_coherent || !iova)
++	if (test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) || !iova)
+ 		return;
+ 
+ 	phys = iommu_iova_to_phys(mapping->domain, iova);
+@@ -1446,7 +1448,7 @@ static void arm_iommu_sync_single_for_device(struct device *dev,
+ 	unsigned int offset = handle & ~PAGE_MASK;
+ 	phys_addr_t phys;
+ 
+-	if (dev->dma_coherent || !iova)
++	if (test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags) || !iova)
+ 		return;
+ 
+ 	phys = iommu_iova_to_phys(mapping->domain, iova);
+@@ -1701,13 +1703,13 @@ static void arm_teardown_iommu_dma_ops(struct device *dev) { }
+ void arch_setup_dma_ops(struct device *dev, bool coherent)
+ {
+ 	/*
+-	 * Due to legacy code that sets the ->dma_coherent flag from a bus
+-	 * notifier we can't just assign coherent to the ->dma_coherent flag
++	 * Due to legacy code that sets DEV_FLAG_DMA_COHERENT from a bus
++	 * notifier we can't just assign coherent to DEV_FLAG_DMA_COHERENT
+ 	 * here, but instead have to make sure we only set but never clear it
+ 	 * for now.
+ 	 */
+ 	if (coherent)
+-		dev->dma_coherent = true;
++		set_bit(DEV_FLAG_DMA_COHERENT, &dev->flags);
+ 
+ 	/*
+ 	 * Don't override the dma_ops if they have already been set. Ideally
+diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
+index b2b5792b2caa..256c7631aff5 100644
+--- a/arch/arm64/mm/dma-mapping.c
++++ b/arch/arm64/mm/dma-mapping.c
+@@ -48,7 +48,7 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
+ 		   dev_driver_string(dev), dev_name(dev),
+ 		   ARCH_DMA_MINALIGN, cls);
+ 
+-	dev->dma_coherent = coherent;
++	assign_bit(DEV_FLAG_DMA_COHERENT, &dev->flags, coherent);
+ 
+ 	xen_setup_dma_ops(dev);
+ }
+diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
+index ab4f2a75a7d0..496bf5f4999c 100644
+--- a/arch/mips/mm/dma-noncoherent.c
++++ b/arch/mips/mm/dma-noncoherent.c
+@@ -139,6 +139,6 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+ #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+ void arch_setup_dma_ops(struct device *dev, bool coherent)
+ {
+-	dev->dma_coherent = coherent;
++	assign_bit(DEV_FLAG_DMA_COHERENT, &dev->flags, coherent);
+ }
+ #endif
+diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+index cb89d7e0ba88..3b793a1cc607 100644
+--- a/arch/riscv/mm/dma-noncoherent.c
++++ b/arch/riscv/mm/dma-noncoherent.c
+@@ -140,7 +140,7 @@ void arch_setup_dma_ops(struct device *dev, bool coherent)
+ 		   "%s %s: device non-coherent but no non-coherent operations supported",
+ 		   dev_driver_string(dev), dev_name(dev));
+ 
+-	dev->dma_coherent = coherent;
++	assign_bit(DEV_FLAG_DMA_COHERENT, &dev->flags, coherent);
+ }
+ 
+ void riscv_noncoherent_supported(void)
 diff --git a/drivers/base/core.c b/drivers/base/core.c
-index cbdfee887833..8dbb7a9c7aab 100644
+index 8dbb7a9c7aab..00005777c21f 100644
 --- a/drivers/base/core.c
 +++ b/drivers/base/core.c
-@@ -1123,7 +1123,7 @@ static void __device_links_queue_sync_state(struct device *dev,
- 
- 	if (!dev_has_sync_state(dev))
- 		return;
--	if (dev->state_synced)
-+	if (test_bit(DEV_FLAG_STATE_SYNCED, &dev->flags))
- 		return;
- 
- 	list_for_each_entry(link, &dev->links.consumers, s_node) {
-@@ -1138,7 +1138,7 @@ static void __device_links_queue_sync_state(struct device *dev,
- 	 * than once. This can happen if new consumers get added to the device
- 	 * and probed before the list is flushed.
- 	 */
--	dev->state_synced = true;
-+	set_bit(DEV_FLAG_STATE_SYNCED, &dev->flags);
- 
- 	if (WARN_ON(!list_empty(&dev->links.defer_sync)))
- 		return;
-@@ -1779,7 +1779,8 @@ static int fw_devlink_dev_sync_state(struct device *dev, void *data)
- 	struct device *sup = link->supplier;
- 
- 	if (!device_link_test(link, DL_FLAG_MANAGED) ||
--	    link->status == DL_STATE_ACTIVE || sup->state_synced ||
-+	    link->status == DL_STATE_ACTIVE ||
-+	    test_bit(DEV_FLAG_STATE_SYNCED, &sup->flags) ||
- 	    !dev_has_sync_state(sup))
- 		return 0;
- 
-@@ -1793,7 +1794,7 @@ static int fw_devlink_dev_sync_state(struct device *dev, void *data)
- 		return 0;
- 
- 	dev_warn(sup, "Timed out. Forcing sync_state()\n");
--	sup->state_synced = true;
-+	set_bit(DEV_FLAG_STATE_SYNCED, &sup->flags);
- 	get_device(sup);
- 	list_add_tail(&sup->links.defer_sync, data);
- 
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 66df31696349..f5d004f919ae 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -581,12 +581,10 @@ static ssize_t state_synced_store(struct device *dev,
- 		return -EINVAL;
- 
- 	device_lock(dev);
--	if (!dev->state_synced) {
--		dev->state_synced = true;
-+	if (!test_and_set_bit(DEV_FLAG_STATE_SYNCED, &dev->flags))
- 		dev_sync_state(dev);
--	} else {
-+	else
- 		ret = -EINVAL;
--	}
- 	device_unlock(dev);
- 
- 	return ret ? ret : count;
-@@ -598,7 +596,7 @@ static ssize_t state_synced_show(struct device *dev,
- 	bool val;
- 
- 	device_lock(dev);
--	val = dev->state_synced;
-+	val = test_bit(DEV_FLAG_STATE_SYNCED, &dev->flags);
- 	device_unlock(dev);
- 
- 	return sysfs_emit(buf, "%u\n", val);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index f5845bd7c3e6..6c961dac9fdb 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -477,6 +477,9 @@ struct device_physical_location {
-  *		optional (if the coherent mask is large enough) also for dma
-  *		allocations. This flag is managed by the dma ops instance from
-  *		->dma_supported.
-+ * @DEV_FLAG_STATE_SYNCED: The hardware state of this device has been synced to
-+ *		match the software state of this device by calling the
-+ *		driver/bus sync_state() callback.
-  */
- enum struct_device_flags {
- 	DEV_FLAG_READY_TO_PROBE,
-@@ -484,6 +487,7 @@ enum struct_device_flags {
- 	DEV_FLAG_DMA_IOMMU,
- 	DEV_FLAG_DMA_SKIP_SYNC,
- 	DEV_FLAG_DMA_OPS_BYPASS,
-+	DEV_FLAG_STATE_SYNCED,
- };
- 
- /**
-@@ -565,9 +569,6 @@ enum struct_device_flags {
-  * @offline:	Set after successful invocation of bus type's .offline().
-  * @of_node_reused: Set if the device-tree node is shared with an ancestor
-  *              device.
-- * @state_synced: The hardware state of this device has been synced to match
-- *		  the software state of this device by calling the driver/bus
-- *		  sync_state() callback.
-  * @dma_coherent: this particular device is dma coherent, even if the
-  *		architecture supports non-coherent devices.
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-@@ -677,7 +678,6 @@ struct device {
- 	bool			offline_disabled:1;
- 	bool			offline:1;
- 	bool			of_node_reused:1;
--	bool			state_synced:1;
+@@ -3174,7 +3174,7 @@ void device_initialize(struct device *dev)
  #if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
      defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) || \
      defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
+-	dev->dma_coherent = dma_default_coherent;
++	assign_bit(DEV_FLAG_DMA_COHERENT, &dev->flags, dma_default_coherent);
+ #endif
+ 	swiotlb_dev_init(dev);
+ }
+diff --git a/drivers/dma/ti/k3-udma-glue.c b/drivers/dma/ti/k3-udma-glue.c
+index f87d244cc2d6..cda8f4a8f440 100644
+--- a/drivers/dma/ti/k3-udma-glue.c
++++ b/drivers/dma/ti/k3-udma-glue.c
+@@ -312,7 +312,7 @@ k3_udma_glue_request_tx_chn_common(struct device *dev,
+ 
+ 	if (xudma_is_pktdma(tx_chn->common.udmax)) {
+ 		/* prepare the channel device as coherent */
+-		tx_chn->common.chan_dev.dma_coherent = true;
++		set_bit(DEV_FLAG_DMA_COHERENT, &tx_chn->common.chan_dev.flags);
+ 		dma_coerce_mask_and_coherent(&tx_chn->common.chan_dev,
+ 					     DMA_BIT_MASK(48));
+ 	}
+@@ -1003,7 +1003,7 @@ k3_udma_glue_request_rx_chn_priv(struct device *dev, const char *name,
+ 
+ 	if (xudma_is_pktdma(rx_chn->common.udmax)) {
+ 		/* prepare the channel device as coherent */
+-		rx_chn->common.chan_dev.dma_coherent = true;
++		set_bit(DEV_FLAG_DMA_COHERENT, &rx_chn->common.chan_dev.flags);
+ 		dma_coerce_mask_and_coherent(&rx_chn->common.chan_dev,
+ 					     DMA_BIT_MASK(48));
+ 	}
+@@ -1104,7 +1104,7 @@ k3_udma_glue_request_remote_rx_chn_common(struct k3_udma_glue_rx_channel *rx_chn
+ 
+ 	if (xudma_is_pktdma(rx_chn->common.udmax)) {
+ 		/* prepare the channel device as coherent */
+-		rx_chn->common.chan_dev.dma_coherent = true;
++		set_bit(DEV_FLAG_DMA_COHERENT, &rx_chn->common.chan_dev.flags);
+ 		dma_coerce_mask_and_coherent(&rx_chn->common.chan_dev,
+ 					     DMA_BIT_MASK(48));
+ 		rx_chn->single_fdq = false;
+diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
+index c964ebfcf3b6..770aae467fc5 100644
+--- a/drivers/dma/ti/k3-udma.c
++++ b/drivers/dma/ti/k3-udma.c
+@@ -428,18 +428,18 @@ static void k3_configure_chan_coherency(struct dma_chan *chan, u32 asel)
+ 		/* No special handling for the channel */
+ 		chan->dev->chan_dma_dev = false;
+ 
+-		chan_dev->dma_coherent = false;
++		clear_bit(DEV_FLAG_DMA_COHERENT, &chan_dev->flags);
+ 		chan_dev->dma_parms = NULL;
+ 	} else if (asel == 14 || asel == 15) {
+ 		chan->dev->chan_dma_dev = true;
+ 
+-		chan_dev->dma_coherent = true;
++		set_bit(DEV_FLAG_DMA_COHERENT, &chan_dev->flags);
+ 		dma_coerce_mask_and_coherent(chan_dev, DMA_BIT_MASK(48));
+ 		chan_dev->dma_parms = chan_dev->parent->dma_parms;
+ 	} else {
+ 		dev_warn(chan->device->dev, "Invalid ASEL value: %u\n", asel);
+ 
+-		chan_dev->dma_coherent = false;
++		clear_bit(DEV_FLAG_DMA_COHERENT, &chan_dev->flags);
+ 		chan_dev->dma_parms = NULL;
+ 	}
+ }
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 6c961dac9fdb..c2a6dba7a036 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -480,6 +480,8 @@ struct device_physical_location {
+  * @DEV_FLAG_STATE_SYNCED: The hardware state of this device has been synced to
+  *		match the software state of this device by calling the
+  *		driver/bus sync_state() callback.
++ * @DEV_FLAG_DMA_COHERENT: This particular device is dma coherent, even if the
++ *		architecture supports non-coherent devices.
+  */
+ enum struct_device_flags {
+ 	DEV_FLAG_READY_TO_PROBE,
+@@ -488,6 +490,7 @@ enum struct_device_flags {
+ 	DEV_FLAG_DMA_SKIP_SYNC,
+ 	DEV_FLAG_DMA_OPS_BYPASS,
+ 	DEV_FLAG_STATE_SYNCED,
++	DEV_FLAG_DMA_COHERENT,
+ };
+ 
+ /**
+@@ -569,8 +572,6 @@ enum struct_device_flags {
+  * @offline:	Set after successful invocation of bus type's .offline().
+  * @of_node_reused: Set if the device-tree node is shared with an ancestor
+  *              device.
+- * @dma_coherent: this particular device is dma coherent, even if the
+- *		architecture supports non-coherent devices.
+  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
+  *
+  * At the lowest level, every device in a Linux system is represented by an
+@@ -678,11 +679,6 @@ struct device {
+ 	bool			offline_disabled:1;
+ 	bool			offline:1;
+ 	bool			of_node_reused:1;
+-#if defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE) || \
+-    defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU) || \
+-    defined(CONFIG_ARCH_HAS_SYNC_DMA_FOR_CPU_ALL)
+-	bool			dma_coherent:1;
+-#endif
+ 
+ 	unsigned long		flags;
+ };
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 4d9d1fe3277c..91d34678657c 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -230,7 +230,7 @@ int dma_direct_set_offset(struct device *dev, phys_addr_t cpu_start,
+ extern bool dma_default_coherent;
+ static inline bool dev_is_dma_coherent(struct device *dev)
+ {
+-	return dev->dma_coherent;
++	return test_bit(DEV_FLAG_DMA_COHERENT, &dev->flags);
+ }
+ #else
+ #define dma_default_coherent true
 -- 
 2.53.0.1213.gd9a14994de-goog
 
