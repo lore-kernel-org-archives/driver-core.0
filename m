@@ -1,116 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C655120D4FF;
-	Fri,  3 Apr 2026 17:23:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2371F2DEA9B;
+	Fri,  3 Apr 2026 17:24:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775237037; cv=none; b=GRS7Q045I010OQ36Z9ORdddpl0bcfujb1mdXTgjABd8M6GQHX5nlBVJIusWdVqxVdOG8gcXRWDlOKoh/N4i+baiY5KvTZ283AckYQ1mwc2MW36xnOyRjHl7TMVE4G5mBdk586kBoVHsys5s5JzojTii0vR8l6MT6LA5IOCAoaYg=
+	t=1775237095; cv=none; b=iNcFqJbD8Xlbd4xtuGYr8YQW8fYL35hSPIaw1Yra12rmxnZAi5DXGk0JtGMPOeFNewjtIacgMuLEwCRRyVk1dGgq4BXRGcfq0aAcIUPP0yqiiB/Edp8ddvsLQHZ7ENleOWQ8HO+ctBaPctggfI/ZEwmaV+OBw2aibnqPfYw4RJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775237037; c=relaxed/simple;
-	bh=i0k6scjtDXpcSb7+aoPkR9B9XsU3fxvXvmnpM2MepR4=;
+	s=arc-20240116; t=1775237095; c=relaxed/simple;
+	bh=X9V3cWhzJh1vQDl6644i8DHAMKpQl/WIMY1Y4bFa1nU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LrVKV8d1VzFcpXOkRKOM+BO7BaP6B2c19c/ONl0avx4YU3fylP1s1k8hCRkNTCLztQKxSuBQTa6RScC2Img5xsG7V7Oogoi54KKSSZgjwWp6gbhpL/WBH1U4sOs0QBDsxgmE4OLWJVn/hykhenvmZO1CQxVBS4atIpU3wkx00VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X1EgGrJq; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GC6dieI1n+L3mUCJVUySaxdOjdlUoVp9q8cHIcSxkXt+q8ZiMI8OMGmR3RyQdlHzo4ufO88JsUasGRZPHQCTCZsPzUtF8kiD0z7BCpEvB9J/qtO3tXKH78UNk42v7ZgOg9EuIdodS3AhVcKIjdtu/AzUQleJgrqHmuOzPa4G3wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CveWQyqU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X1EgGrJq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D72D0C4CEF7;
-	Fri,  3 Apr 2026 17:23:56 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CveWQyqU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E163C4CEF7;
+	Fri,  3 Apr 2026 17:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1775237037;
-	bh=i0k6scjtDXpcSb7+aoPkR9B9XsU3fxvXvmnpM2MepR4=;
+	s=korg; t=1775237094;
+	bh=X9V3cWhzJh1vQDl6644i8DHAMKpQl/WIMY1Y4bFa1nU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X1EgGrJqqracFSSipsQ71kZq6yJF7Ssn/1KJf8LYxLdG6cIE6/iACMaqmTQul8KeU
-	 8d9fpglNjFm6tnyX+ij08ZP/ODwOSlWZZyBtekTfIJYomcWo3R0pu4XK5f3TN1+S/M
-	 jLi+xDs/imIrd6kH15h2pEmeunsE46zxWTwJLaVo=
-Date: Fri, 3 Apr 2026 19:23:30 +0200
+	b=CveWQyqUg7UQwEQi/gZvPrcwEY21UMCgfZD0NFaTm6fLqLUIDUNeCovloJfSS9Hf4
+	 6puAi2dTGD+63ZFXGCvDBMvKnAECg50gSrcYMnpztZNFXveRQtMXkLD8WXrB5SHsHK
+	 oSlcfQFdZdQn8eBpkOjQ3AT9A5wDVGQriihItACI=
+Date: Fri, 3 Apr 2026 19:24:28 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Eric Dumazet <edumazet@google.com>, Christoph Hellwig <hch@lst.de>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Johan Hovold <johan@kernel.org>, stable@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] driver core: Don't let a device probe until it's
- ready
-Message-ID: <2026040322-expert-willow-462d@gregkh>
-References: <20260403005005.30424-1-dianders@chromium.org>
- <20260402174925.v3.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <2026040319-seventeen-humorless-5541@gregkh>
- <CAD=FV=XmnWjVzQcr13GmRKX3cvRortA==5C8TH5D-jRBe0VBqw@mail.gmail.com>
- <2026040353-glamour-repacking-0e53@gregkh>
- <CAD=FV=XvqPH7FkRh16u7EE3LAuw-oUYbAdiL1nZxizVft2TqKQ@mail.gmail.com>
+	Linux PM <linux-pm@vger.kernel.org>, driver-core@lists.linux.dev
+Subject: Re: [PATCH] PM / wakeup: Register class wakeup in pure_initcall phase
+Message-ID: <2026040354-kitchen-unwoven-c0ce@gregkh>
+References: <ac269a91-0ba0-4798-acc6-ec294926bbb0@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=XvqPH7FkRh16u7EE3LAuw-oUYbAdiL1nZxizVft2TqKQ@mail.gmail.com>
+In-Reply-To: <ac269a91-0ba0-4798-acc6-ec294926bbb0@gmail.com>
 
-On Fri, Apr 03, 2026 at 09:26:58AM -0700, Doug Anderson wrote:
-> Hi,
+On Fri, Apr 03, 2026 at 06:09:59PM +0200, Heiner Kallweit wrote:
+> Wakeup sources (e.g. autosleep) can be created as early as core_initcall.
+> Class wakeup is registered in postcore_initcall only, what results in
+> autosleep wakeup source not being shown in sysfs. To fix this,
+> register class wakeup in pure_initcall phase already.
 > 
-> On Fri, Apr 3, 2026 at 8:44 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > > If you wish, I can turn this into something like:
-> > >
-> > > #define DEV_FLAG_READY_TO_PROBE         0
-> > > #define DEV_FLAG_CAN_MATCH              1
-> > > #define DEV_FLAG_DMA_IOMMU              2
-> > > ...
-> > >
-> > > ...but that seemed worse (to me) than the enum. Please shout if I
-> > > misunderstood or you disagree.
-> >
-> > If you make it a numbered enum, that's fine (I hate unnumbered ones),
+> The current behavior doesn't cause any known issue, therefore treat
+> the change as an improvement.
 > 
-> Sounds like a plan.
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
+>  drivers/base/power/wakeup_stats.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/drivers/base/power/wakeup_stats.c b/drivers/base/power/wakeup_stats.c
+> index 308f8bde9..30f0d3d61 100644
+> --- a/drivers/base/power/wakeup_stats.c
+> +++ b/drivers/base/power/wakeup_stats.c
+> @@ -216,4 +216,4 @@ static int __init wakeup_sources_sysfs_init(void)
+>  
+>  	return PTR_ERR_OR_ZERO(wakeup_class);
+>  }
+> -postcore_initcall(wakeup_sources_sysfs_init);
+> +pure_initcall(wakeup_sources_sysfs_init);
+> -- 
+> 2.53.0
 > 
-> > and a comment somewhere saying we will "max out" at 63, or have a
-> > DEV_FLAG_MAX_BIT entry in there.
-> 
-> Sure. To be compatible across all architectures, it should probably
-> max at 31, right? Atomic bitops works with an "unsigned long" which
-> might be only 32-bits. Oh, actually I should just add "DEV_FLAG_COUNT"
-> at the end of the enum and declare flags with DECLARE_BITMAP(). Then
-> there is no max.
-> 
-> In total, I've now got this:
-> 
-> enum struct_device_flags {
->         DEV_FLAG_READY_TO_PROBE = 0,
->         DEV_FLAG_CAN_MATCH = 1,
->         DEV_FLAG_DMA_IOMMU = 2,
->         DEV_FLAG_DMA_SKIP_SYNC = 3,
->         DEV_FLAG_DMA_OPS_BYPASS = 4,
->         DEV_FLAG_STATE_SYNCED = 5,
->         DEV_FLAG_DMA_COHERENT = 6,
->         DEV_FLAG_OF_NODE_REUSED = 7,
->         DEV_FLAG_OFFLINE_DISABLED = 8,
->         DEV_FLAG_OFFLINE = 9,
-> 
->         DEV_FLAG_COUNT
-> };
-> 
-> ...and "flags" is now:
-> 
-> DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
-> 
-> Yell if you want anything changed. I'll restart my allmodconfig
-> compile tests now.
 
-That looks much better, thanks!
+Wait, if this doesn't need to be change, we shouldn't change it.  Unless
+you have a bug that is being fixed here, don't touch init call levels.
+They are tricky and will come to bite you if you don't watch out.
+
+thanks,
 
 greg k-h
