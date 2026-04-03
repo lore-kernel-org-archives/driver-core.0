@@ -1,99 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10BD33F5B3;
-	Fri,  3 Apr 2026 11:57:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CCA2D780E
+	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 13:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775217421; cv=none; b=q+J6M1RRt4wMCJn3BrleQG7uFMIBOmYH2GUknNqQWE70R4MyN+VvOM8hrn5MLiKEh9gRcI+nJyvYKn21ppBvlxSGAMWAkLVnxnYJ3le4yokU7NeEkZYgYaXLYmTrVsoGLQjjIxNlb4aLN191f0NBjMvVQOI7zgV6PxVQI/gMpeU=
+	t=1775223866; cv=none; b=DlAHr6wQ65qQkuTebHpt7SqWFwbTeD1TmBixIzmf7zF+0gumctPUHc0xWlzt1zHAKIvzG2vBiuMHWwQ+/kTCWAOOyO+Bh+5cMCK6HO0zo1BjDSykzagQ03YvafKXbHXeKlaJe0uwzGFmzOKk42gGgnaV1Kafb6GG50QvoWcAYZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775217421; c=relaxed/simple;
-	bh=hlI1RBQqJjfpWuFZsCc6c4R0ASQxP62EyBGuIa0hpOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iT1YRfme64lpzVplDtYDbJYUCqJbpcxUyyOg8GuTRIUHOOd9r7aZYnlaCTxEc+0jfIX/wlam2OOm4/updRax2fwSLTwDcZFxbhUYa52O1uikGUg6dRELsDln9MXkuqXcmDEEN0iCJXdigVlrcyf5gedfZeifP+PckN7Z6o/WPOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WExiF/lE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775223866; c=relaxed/simple;
+	bh=6t5r9418LvagyoUOMjuFHRfkHnMedtZ6I0B3/J6r/BU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZzbLDaPcufAGawJSPzU9vJEun2OYs6ZpNSlXNbNl9KEsjLsW/i24e+hj4mfhxCOcLDom6bjk0L4kxPochXjTiH7/jeLTT3qDIy769TehhQhKKTbZk5i952SMyHkl8yazlEb3j3DoOtMPeyhZxwYhlsW8dumZyM2AN88WhrQwAtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yf+Sa9Lp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WExiF/lE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1F48C4CEF7;
-	Fri,  3 Apr 2026 11:56:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yf+Sa9Lp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3433C19421
+	for <driver-core@lists.linux.dev>; Fri,  3 Apr 2026 13:44:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775217421;
-	bh=hlI1RBQqJjfpWuFZsCc6c4R0ASQxP62EyBGuIa0hpOs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WExiF/lER3/HxYWRZ7/VYGGhEbpEpz9xoEPNjcsCFvTGNpufubq1/grWFEw4iuMUy
-	 OoXV5ZN9cvTpw+MrimzFf6s9HmUgEebMHP6rxEPoVqpOak+AAKYreCCI+aI8f5Gcf8
-	 zd3TXBgf41BbeUDYgDIMBFsxjCPG+plKws+G4eTYF97BpuDvffRy9f5yT7XQBVGQbe
-	 XqHjaEsIVjnSBX+EIpGZbUC6lXfkWCjygMqGuZgL2M9uFpPhtTcBQ2hiVkdvbT8xp0
-	 yn+PYHPMRpNNVo0RArrBjXz2Wp47lKN2V/BGSRUsMLv3YU6gYJZRfQsOsmZPjmN+O6
-	 y2sPDI66WCWpQ==
-Date: Fri, 3 Apr 2026 12:56:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Paul Burton <paul.burton@mips.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Eric Dumazet <edumazet@google.com>, Toshi Kani <toshi.kani@hp.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Johan Hovold <johan@kernel.org>, ardb@kernel.org,
-	catalin.marinas@arm.com, chleroy@kernel.org, david@kernel.org,
-	driver-core@lists.linux.dev, kees@kernel.org, kevin.brodsky@arm.com,
-	lenb@kernel.org, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linuxppc-dev@lists.ozlabs.org, maddy@linux.ibm.com, maz@kernel.org,
-	miko.lenczewski@arm.com, mpe@ellerman.id.au, npiggin@gmail.com,
-	osalvador@suse.de, oupton@kernel.org, peterz@infradead.org,
-	tglx@kernel.org, will@kernel.org, yangyicong@hisilicon.com,
-	yeoreum.yun@arm.com
-Subject: Re: [PATCH v3 9/9] driver core: Replace dev->offline +
- ->offline_disabled with DEV_FLAGs
-Message-ID: <57452867-60be-4292-9bc5-4e2faf1f3cb4@sirena.org.uk>
-References: <20260403005005.30424-1-dianders@chromium.org>
- <20260402174925.v3.9.I897d478b4a9361d79cd5073207c1062fd4d0d0e4@changeid>
+	s=k20201202; t=1775223865;
+	bh=6t5r9418LvagyoUOMjuFHRfkHnMedtZ6I0B3/J6r/BU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Yf+Sa9LpqjE5bQSyUilcDzH2Q24BcWkdBkfOQhXrhqGm4Bk4rEwF7mimZ64dco9xm
+	 KNwsG/DhnzWsgl2gSmKDF1fl+4yIhYdMCNOuFRgthtCkOEbXme/chZCowT3Rpi3UdL
+	 qDm5b7MUc/m6ifExnIWtHHfrW8yv3onh7ac31YGoCAT8I2q3jC8/soMoUX6p/VYI0m
+	 82WiNn5xczOPjUuEvkiFYsjijVlKbOtI7kAXCY+QvC3TIJAuFg3JLQ+1+w5rbUFXXu
+	 LqVMqlcW7+FTgWJofB81sZwLt8SLiglizQ8QnYa3EuA/+zosJFpwjz5pm5gF2aA/WS
+	 +En24+/iFiv9Q==
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1271257ae53so1986556c88.1
+        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 06:44:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUDpxuYztoacXnMAvDsoxh7dX8YN1W3bwIVDgrSL+n9p8RZ41zva9FYtRqYB5kd7gheSrUz9YUEdQTWFg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNpc6fd7jnEssRrh59Mlks2BAddr6Iot3mCgYAS8kgUMUcwrM6
+	DAwCD9nGeaQR7F5KUWtCtVtbLFHyqOWEcER1k+UAGh0iOR4GkdGqJ/0ogt0HfYgJw3HA/Dk/dOe
+	g79NeJGFRnaFep7C0OCDJPHl1AsFLNVINPkRrRon9zA==
+X-Received: by 2002:a05:7022:b81:b0:119:e55a:9c03 with SMTP id
+ a92af1059eb24-12bfb765d17mr1120319c88.31.1775223864867; Fri, 03 Apr 2026
+ 06:44:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="AVRN0JUTTuR+6v5a"
-Content-Disposition: inline
-In-Reply-To: <20260402174925.v3.9.I897d478b4a9361d79cd5073207c1062fd4d0d0e4@changeid>
-X-Cookie: The Korean War must have been fun.
+References: <20260402-baytrail-real-swnode-v2-0-6f5054a4cc07@oss.qualcomm.com>
+ <20260402-baytrail-real-swnode-v2-2-6f5054a4cc07@oss.qualcomm.com> <ac7ZA6HJFBhyCROM@google.com>
+In-Reply-To: <ac7ZA6HJFBhyCROM@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 3 Apr 2026 15:44:05 +0200
+X-Gmail-Original-Message-ID: <CAMRc=McaXJbjy04gwyZmszdPs_4RW4WLrU0X6X6wuqKbm_mj1Q@mail.gmail.com>
+X-Gm-Features: AQROBzBvZ243TFYFU14BrtTCsxbTjeeOTP888iqw5ZnYmqyZQD-y8m0ypGLIgFE
+Message-ID: <CAMRc=McaXJbjy04gwyZmszdPs_4RW4WLrU0X6X6wuqKbm_mj1Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] gpio: swnode: defer probe on references to
+ unregistered software nodes
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Apr 2, 2026 at 11:04=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> You need to change that to
+>
+>         if (ret =3D=3D 0 || ret =3D=3D -ENXIO)
+>                 break;
+>
+> because if we get -ENXIO that means the GPIO must be there (the property
+> exists) but not ready yet and we do not want to fall back to another
+> suffix.
+>
 
---AVRN0JUTTuR+6v5a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I'm wondering if we should make this check even stricter and only
+continue on -ENOENT - which means: there is no such property - and
+bail out on other errors.
 
-On Thu, Apr 02, 2026 at 05:49:55PM -0700, Douglas Anderson wrote:
-> In C, bitfields are not necessarily safe to modify from multiple
-> threads without locking. Switch "offline" and "offline_disabled" over
-> to the "flags" field so modifications are safe.
+But that would be a separate change.
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---AVRN0JUTTuR+6v5a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnPqwIACgkQJNaLcl1U
-h9DTzAf+NmJvooER0KUGxju0cXbQLPzjhe+zmzezOQJa1zXjXfgBycnhieaqK7ny
-S+ZKb3sGXOFz1uf62w0rkTigz6ZBhVej2811kP/v6hOK59NgZZTJQfO8dQuSxEnT
-a/yLND6ngy2gm9svEKalKOxPy9JbUJjkq+j/fHmoGQtgZJzi3MQgf8Dj9JD9Hi9K
-CfKa+1VEAm39ijM8hfGOPXIHopw7PmdFfwGHkxLjmh4CRnWEhvWLFCPR+FiBQ0Sn
-XrkEJ4xDFRK5m2nxMzIK4mnPEH5oNBFredP+/WQ/ak8W69Tqy7XcVG1E5yZLgzci
-4Y9/xe7D3PUt6PvteNaqZANk/e1zpA==
-=qXM/
------END PGP SIGNATURE-----
-
---AVRN0JUTTuR+6v5a--
+Bart
