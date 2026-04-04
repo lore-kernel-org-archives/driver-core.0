@@ -1,366 +1,190 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021092.outbound.protection.outlook.com [52.101.95.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0C01A6805
-	for <driver-core@lists.linux.dev>; Sat,  4 Apr 2026 00:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775261271; cv=none; b=dSdRFTBHYIOzrKe4pOkichKxdvhZUTNmaiq+4k6edDGXYWo4w0+3omv6qf6/1erTkp8LNGVjHmbJPKIbWV/5Cz+zdg3QOcyzbZPg3vEh25/yFRzv1kpwEhia6HOyMmEkZAHduJ08vawQ1i4MpsJsdfJCJJOcU3aY/D1ZmY9FRlQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775261271; c=relaxed/simple;
-	bh=o+VlMAnQQaP1SWDlc4XFND6M5h5/jJtCq+7R5B9vAq8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h39+9jtfAgSNpox1qz41aflaIQw/ckYiw35vzn8eh+kdZ6YY3j5UQCE9EBvneugigghvUN6MB8THjI5rBu7vi6EM/IuVGO9Wq2kiaAX3Prqixi1JSZyQI643CVZHMx7fHdb6ZA3lJnPIb4Jlk24qEPSrCyNo1dWlr1VLQYIvt5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cwLI/OI7; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8EE1D435F
+	for <driver-core@lists.linux.dev>; Sat,  4 Apr 2026 13:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.92
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775308534; cv=fail; b=LNwTxlQpgHSj8m5mGUQ6l9U2Rc2UTHxBlefVPEDl5lkOCm03CDWEsW+VcUDu8mdUyu6WPuFn1QkJenqQIjISUvlA7VSdn09cdtxgeVHVtjeb7U/kM56nMxAiXErsYc/ZtleTx0EdBI7yNKXoko9HjxCGA+s3zXlREfqPY9gTMCc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775308534; c=relaxed/simple;
+	bh=k6zXOtvtXFyUQW77TmUEhLPybZQxjSTxOA5otINfrMo=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=PgIizk8HVHIgQJIUV1nHuSlu/Lub7LNZhxCzVw0i1uMA3nxWUhwwJPhDPiPEWrjAzqW1n7yVfx2nMTI5Tw960wGvLqKeooWZ4/R/8NUXOHZ3Wf8dwZWQJfUGE+JGHOscDZ9aSJOh+zBX4Zyie5ie58WlLYkb6EvVsumIMTgFCfo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=XGpfrGoh; arc=fail smtp.client-ip=52.101.95.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cwLI/OI7"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b6b0500e06so3552581eec.1
-        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 17:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775261266; x=1775866066; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5WbWNOKgJimgI9xjyvoHzw2TjM6jyvThEk+IUd6YUTg=;
-        b=cwLI/OI7OyCusZIWyAB+o64S0hXCtxrPf0Vb+Sy7dnqlM6XWQfefmGHdiaHXPvYKYP
-         GySvwrNn2m1+gZ7LhA/bFZpM6zYWtnmmeOFWjmN8JVPZaGmUKBiRTgK7F+AtCV+Eq7dC
-         76JWH+jNFXM05Ms4Xg1rT2dGTMhlPvbD4EA/o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775261266; x=1775866066;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5WbWNOKgJimgI9xjyvoHzw2TjM6jyvThEk+IUd6YUTg=;
-        b=OS0Lr4F6NcsfH3Oh0gvu8EbbTBzbM4n2OH0UsgwW7K25a9PZBeRa/E7qaZPgUEgFTM
-         BYnxBSWwE5wyRd5OlavKZW0c+DChvevOWubiS9Cg4JOmbCJMqTeIpk2VJH12olf1MANK
-         qgzE5L1O5/EF60TIQLz4zkJ6r192ljiypTtkKekdna0KIuwRX2/SDB7Kk/nu75CV28Ck
-         9N91cI+fFdd5TGVFoMSjE15xBb7tuThozunpKNx3uyk3INxZaLlOeVjWW4hpS2hpNNsB
-         P4bG2mCpcQ0z6kq3bTYpUYcDNwJ1rZiyFwe2T9llGEPsVT0LzUXE9yuidvJNKtr0VuYZ
-         S9qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWcNjFCfJN0SSXc6k9Hy2gZiRLCO1Btg9BxznXLOSeoLNtkMxjf4FiEjmub5rdtEGrTEsXaaBiZ0fhmeA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqGTpENjPWjrDTe/BnhkUoeL61tTonCd4JAw9c3YFkHG/HBI1Q
-	dpahWQ5zeflL/XZrOwX/EfikWwCdZXy7zbmz4qh2NyufLA8RcARLDbnTeXdUkgwXWg==
-X-Gm-Gg: AeBDiesjbdIbS3UuzgmsNp8Q8c1RxXigQWuveE89MoFmVSBtlLcZ4oFI1NdZ36Bu9zN
-	R+d4hxRmSNgCY+EqhdhxT8vXfZ4qOcTEjYR7JWste41VM7d1y9mi2n/3jsKvlxALjbZDDOzYhnQ
-	oIJMU21o11PK8EMwczAkSD+Rk78d3zkLkl1srjtQS/Qo/+nHHE2/Tcz3f+gYiD0yYIWIAkjnei/
-	9Zf/SEJp0gND8TpdKRHG0BQG5CYpyderNzi5tgw9y3mRCoYOvNbSWftGqjiimUdmRvUrTygwK8O
-	yiaGkW2zS/JmS79fvCsffLYM4CuwbX74xwRIbvkXpPk/L/UT8AnH0ZNAzoRZizcWla1Ex+Zcq5U
-	HD05M2qE2Xd+lqfpqoNn2HJkQOtRv4AmvjoVp9s40aGqn2A27sBxjeO41OWKBk3OG2DRk7eEz9i
-	k7LA6asxeO26QtRnaxNOsL7pw0TGVVbuFB4HXNFp1wjSdWSH6+yKeTgTziPn24QK2UkBkJeIgOH
-	ihGenP1p+5raOJCQjFxLw==
-X-Received: by 2002:a05:7300:dc88:b0:2b7:b7e7:9025 with SMTP id 5a478bee46e88-2cbfcb5580fmr2229803eec.31.1775261265791;
-        Fri, 03 Apr 2026 17:07:45 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:a8b6:55b2:3eb6:2c0e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca79e1d93bsm6520716eec.12.2026.04.03.17.07.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 17:07:44 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Saravana Kannan <saravanak@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Eric Dumazet <edumazet@google.com>,
-	Johan Hovold <johan@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Mark Brown <broonie@kernel.org>,
-	ardb@kernel.org,
-	catalin.marinas@arm.com,
-	chleroy@kernel.org,
-	david@kernel.org,
-	driver-core@lists.linux.dev,
-	kees@kernel.org,
-	kevin.brodsky@arm.com,
-	lenb@kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linuxppc-dev@lists.ozlabs.org,
-	maddy@linux.ibm.com,
-	maz@kernel.org,
-	miko.lenczewski@arm.com,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	oupton@kernel.org,
-	peterz@infradead.org,
-	tglx@kernel.org,
-	will@kernel.org,
-	yangyicong@hisilicon.com,
-	yeoreum.yun@arm.com
-Subject: [PATCH v4 9/9] driver core: Replace dev->offline + ->offline_disabled with accessors
-Date: Fri,  3 Apr 2026 17:05:03 -0700
-Message-ID: <20260403170432.v4.9.I897d478b4a9361d79cd5073207c1062fd4d0d0e4@changeid>
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
-In-Reply-To: <20260404000644.522677-1-dianders@chromium.org>
-References: <20260404000644.522677-1-dianders@chromium.org>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="XGpfrGoh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rYkE4QiOzyzVP7Y0eSyOuX7xZvLGVe5H2TMiKSIYOEMnj++AfMrJ0Yg0exy55lKz5zd9Dzwb6LlC/AG7S2Ft/i6qbADswuHNnU0H6zeCzjiliEVJvy4i5wOzqhjqzDLBtdkWMLgrFldqLgt3Dvg2K//jzVm6eTsz+pTV9pLa2Ns1asUXQDIi37wA+L1ex0035JCzsBKtMN3cV2WJTyHcR5ns4RbysDzKFoRbC1rZwcEkr7QOhP6M0d/Lujvcae6L1BNn+VYzEEFU0r6JX4UF+mcYb0eSggO9i6Ir7K4zQVEJrdxOk2lusArUvHRxsPNuWCVtyC9LZ6ZqS9aLKNPzNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5PvFf6UGNUFueEk5VGiOO28+7jFGpPS5wAXDu5U1ek0=;
+ b=XYQeesgKvs1Ge9Agj5mmlPEo+HvycQgHVML6Iow1eVNHWYkMIzIUNC2y5ahmNHuthaYIXaNtJCVrwktWL6yeB5pgJWTx4qDiSx/3Ug+BWyVNnlJC8scMsy++oFCJgfZos2yrvOakLjhY1ueEFcwo42xnIwI+tEUMwZrDjxQcSPXKBrkJDxgYUIJ7Q5A+cp1pM6ZZlc54COkcTMN3BaNoveczqsC8PxyWN7NNvWK2WJ6VJ21EsUWNmtGs5TYZ7CxiweN6Phg/SKbBC8P8iaWYTEBlWGd+IqgM/x+btqrAF0/A8kVZaqz+tmEuYSFKgdWNWzvOreCySIK/XHFUiq2d2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5PvFf6UGNUFueEk5VGiOO28+7jFGpPS5wAXDu5U1ek0=;
+ b=XGpfrGohyeU7FQewARjixutzw/PhX5qbwp1qwkMMOH/ojp9VVlQkk3dI8JwbireRC0GmtUViRVhSZ/hHurlctyv83UkN4GusldRYU2usI1qh42oyOXCxDvDykkU3UqdEYkWgYSdUbdGulvi+p6DAvXlKvhzpzKGRwtefCw0D47A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWXP265MB5082.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:195::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Sat, 4 Apr
+ 2026 13:15:29 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.016; Sat, 4 Apr 2026
+ 13:15:29 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 04 Apr 2026 14:15:28 +0100
+Message-Id: <DHKECN57N95Q.2DN7NG4GUA24F@garyguo.net>
+Cc: <abdiel.janulgue@gmail.com>, <daniel.almeida@collabora.com>,
+ <robin.murphy@arm.com>, <a.hindborg@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <aliceryhl@google.com>, <tmgross@umich.edu>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] rust: dma: return EOVERFLOW instead of ENOMEM on size
+ overflow
+From: "Gary Guo" <gary@garyguo.net>
+To: "Aditya Rajan" <adi.dev.github@gmail.com>, <dakr@kernel.org>,
+ <ojeda@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260403212822.294288-1-adi.dev.github@gmail.com>
+In-Reply-To: <20260403212822.294288-1-adi.dev.github@gmail.com>
+X-ClientProxiedBy: LO0P123CA0001.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:354::10) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB5082:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff9e7a7b-03f1-4b3c-7bbf-08de924c3e47
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|10070799003|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	VwjOjKGmKFg3W95bbs/VtcL3YpzG8JujeDyK6lkbxYEcYwfIBD457Aag/cZWMm/QDDBtHM/W/fdyyIizhdE34qzD6EBZ9a2PiI2Z1v5P05s2yzy0mir/30bJiEK7IdLz58i/bRbcuEd+gL6ek15JHxzLOJJZLYJ5u0cGKI7aoznLv5IkP0ZtQvr8zxs/cV4jiKQvBV7AgGvCoI2w39DqZquCz+56ZsN7vQ+aoj+qWRVzQ2s3W4Snd46BO9j/Nt4ddEPX2RVnIMdkCQjnpRytR/yqxnC8Jpyaymv5tC3uspzuAdJJGOtuUvdteVzt8EESD+aUm6mGnXDR3m0VvxzO8jfHphMumMooZaseHk3R7Tm3y/zGqTnkKbuEXKDIhFObBuQ2X7qa/WjrwA+dz1U1JydbwRNZ7xNPOPtOrtv+JRikjr1aKbkEYYvkefqGzZQnLL/gvkllc3KUAdqMqW/uMlij8x7MDP5wp5oCWX1SanwMxurEAXvV+yG6g7E+LUFvLWCAZ/hNKxeVy7TkIzy8x16yDv504KkWO6sNnkZJZrkB0exxflgscw4GH2ofV6sQ+tXPJtKO9t8R43lTqNnnDeHVDogNPrCLC3LinSgY2vEb9hjIyiNYeIaaknhBT8LVCC+MOhErhjedSBjoxC4StdNQFveUmqOIiE1kmOQC3EpJfDSA79oeFImaDF7hTwTIgyBMFhhlIeYVok1UfhaAZ4o6hiJECO5j9fIZJ1dt3ZE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(10070799003)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OHBLTWhXcU4wV0hIUHRTelF0Y2lZRnRHMTlsa0syNGc1ZXpQY1ZtbWkvL1FN?=
+ =?utf-8?B?SjB1YzkrNkgwRGRaUGRrS3VlcVdJakxSRHZjeHgxZkJyZG40RWRSSkRNRkF2?=
+ =?utf-8?B?UUFKaEQ4YmVOUHhwZmxpMXEvSWh4YWtYTTV0ZWJjMXZOSGU4d1d0eFZkeUpW?=
+ =?utf-8?B?TW54eExYN2E3S3NFbjY2Z3lxMjFiK3JDY3laZGxQbmpJNVIzcERzSWRkeXpW?=
+ =?utf-8?B?bWFPYWFaOFovMFBEaGM0d2VwamFXN3djTVcweW02WHdEa3p6Q0pIM3RmY0RR?=
+ =?utf-8?B?MTd5Mk1Fb3RqYWFEbVQ5dHcxQnlZMFJhMjBoNVM3dHZjRTFCUEZJVmhVamNa?=
+ =?utf-8?B?YnBlWkNWMnlVeVljcXZmTTl6dHVra2c4R2RlVWRQQ2hlTkt5cFN0azd3dlBo?=
+ =?utf-8?B?M01xeHlleWxkcVlWSnhsdEFsUjVFbHZCRHN2TUI4Y2l2UjVobnpCMFBlSlhi?=
+ =?utf-8?B?Q0VEMXpRdDU1V051K1dhYTdSWFNTVzlrVEZRR2M3MjVBMXNhWkxpcTlFeWxP?=
+ =?utf-8?B?aVVHMHV3Y3BrMXF3cytIcmxmcUhid3Nwc0VTZHhwMEVTY2I2bUpaeUpENklS?=
+ =?utf-8?B?enBsMk1PYU84ck8xQ095T09id3FDemhnTTBJVmRxajRYWVlRWHdLQi9ZUTdN?=
+ =?utf-8?B?ZEdnZDZjeTJlU0VFQmRWT2lEd3B2L3o5YjRLMkYxQkZXN09HRnJyNzFpRVJN?=
+ =?utf-8?B?MTVtbmlNTVVpU3BTb092bGxZOFpaeUhsT21XR291RGdyUnYyS2FWZkFtRmg2?=
+ =?utf-8?B?ckVIK01iOVVPa1BBRUozMHZPaDI5aHAzTExYY3AwWUxxME1IUnAwQ2tXeFVp?=
+ =?utf-8?B?NE5GdVdxcXdzSWxmSmpVeE9CcTFhZndEVHZ2KzVnQnJMVlp6L0I2aHRab0o2?=
+ =?utf-8?B?dGR3eWVxU0FYV09yUVZ1Y3lNMGVvWjIzVkhLTWp2VXY3TFBmNjQ1ekIzTDRk?=
+ =?utf-8?B?dmVpbWJwVnp6MHJ6WGUxQXMrVnA1RFRac3IvYVhwbDdRYzA2MTZwZGthQ2lO?=
+ =?utf-8?B?clpWWXJkUkMxaW1YTGdjenlrZjdJNjZaZmJIb0tDOVlsVnhPU1F5andqVncz?=
+ =?utf-8?B?NmVPSDhmSmlpaDRrYVQ5WXFSYXZxVU41UzdzdjI0dFZobitxK2JuS1lZZU40?=
+ =?utf-8?B?MGYyUmZWNFZCMElPMm9sclQzeE94ZXNPNVhZaW0wVmpJMlFGbDBOTHg5dVhO?=
+ =?utf-8?B?RUtUVEZxTjNDbzRybzRJN2JFckErZDJzTm42bzhhajU5Nm5iU3Z6NXI5RTFR?=
+ =?utf-8?B?OEFqVUtzazcxdUM4aGpxMlpzOWhIcUtFQ3dNajlqbkx2L1dDaldpdHRqMUNO?=
+ =?utf-8?B?YnlhSU5RamFwdnZZaXU1bzRLZnV4Y091U3A5N2pSai92d2w0cUsrdlZXS1J2?=
+ =?utf-8?B?eFpsRXMxT1ErUGxRM2l4Qy8vMnhmWmE5Tlc0blNpdGl2Tks3N1hlV0oyeE03?=
+ =?utf-8?B?cGpHbXNTQ3R4aWl6KzRkMVJFL0ZlTXVocUpFVmNGSStZa0QreXBsWnFrV1hp?=
+ =?utf-8?B?amROano4clJtbnUzcXF5YmtPQUlYRjFRcFJpeUxvTW16UEc1alllQVZSUEhS?=
+ =?utf-8?B?bkxNUGtwTHN1VFdzaEJ1WTVvOGo5NGFPUXNna2o3djhhMzBrU1ExSWQyd21t?=
+ =?utf-8?B?RnpMM1gwQlBwRjBPeENORlZDS0VqTkFDQUJBL2hkWlo4Znc4Nkh4enJXdkYw?=
+ =?utf-8?B?S3docWYvR3d6RW1BV3pXUWZ2VFVMYkRJTFlRSnFHT2hwQU91dVNONkJNNGRt?=
+ =?utf-8?B?eGQ4c21YM2FQMXQ0S2hKL3RWS0wwT0ZsbTlUUWlqRlcvSzBNS1hhSHlWTEdI?=
+ =?utf-8?B?bTJMRm9FQld2QW94YlA2QkF6ZGxQdTJObkhQeS9kTjFrNUpCV0M3L09oS1VH?=
+ =?utf-8?B?UUhycTM0Z3UvWTBWQzc2UUpwUVBhZGREOUdPS3NhbDBZQXQzYmR1bm5jaFY0?=
+ =?utf-8?B?emNQbXMrVWVhdm9lOHB2ME04bTV6cVZVbmY1UkdhZW1YUmNvUW1rWGZoQWVu?=
+ =?utf-8?B?blo2TUh6UUROUXNVN3RRVjEvZVlnMkpkWm9rOE50d0N2RXRVOFNYZlNpWVFE?=
+ =?utf-8?B?a0VHRlZsbHU4U1VPVVNvcjZXRWxMK244SkMraldNOHN0MHk2cEdJSjd4SUc4?=
+ =?utf-8?B?VlZtYUtpZUpSYUkra21QOWNhK1YvWnppSnk1dGFHaVVSSnlSYmF3VVYyU0dn?=
+ =?utf-8?B?c2lRdVMxUHlFdGhtcnZNLzE4cGhkaFg2Z3pyb21aRlkraXMrSGp5aHVHVnhN?=
+ =?utf-8?B?U0VkMFFpWWhJTE9Fc0FnZlVXcUlkMlBHbklONnVCZjZoTDFrVXcrMW1DZG4w?=
+ =?utf-8?B?NzAwMDZ2b3M5SncrN3NaMXZJYmdEQ2xzSEtKMW10V1BHR0E3Ry9GUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff9e7a7b-03f1-4b3c-7bbf-08de924c3e47
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2026 13:15:29.4105
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T6EW7lXcUcq1bwyz2mcArDvEZ5omQOLR7pnUL1JnPK3cmledbA22cj0us8HMFi9BYkV74UUKiy4stCKLsVqY8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5082
 
-In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "offline" and "offline_disabled" over
-to the "flags" field so modifications are safe.
+On Fri Apr 3, 2026 at 10:28 PM BST, Aditya Rajan wrote:
+> In alloc_slice_with_attrs(), the checked_mul() guards against
+> arithmetic overflow when computing the total byte size
+> (size_of::<T>() * len). If this overflows, the current code returns
+> ENOMEM, which is misleading -- the system is not out of memory, the
+> requested size simply cannot be represented in a usize.
+>
+> Return EOVERFLOW instead, which accurately describes the failure. This
+> also distinguishes it from the actual allocation failure two lines
+> below, which correctly returns ENOMEM when dma_alloc_attrs() yields a
+> null pointer.
+>
+> Fixes: d9aee73c56ee ("rust: dma: add generalized container for types othe=
+r than slices")
+> Link: https://lore.kernel.org/all/20260320194626.36263-3-dakr@kernel.org/
+>
+> Signed-off-by: Aditya Rajan <adi.dev.github@gmail.com>
+> ---
+>  rust/kernel/dma.rs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+> index 4995ee5dc689..179bc8832947 100644
+> --- a/rust/kernel/dma.rs
+> +++ b/rust/kernel/dma.rs
+> @@ -832,7 +832,7 @@ fn alloc_slice_with_attrs(
+>              Err(EINVAL)?;
+>          }
+> =20
+> -        let size =3D core::mem::size_of::<T>().checked_mul(len).ok_or(EN=
+OMEM)?;
+> +        let size =3D core::mem::size_of::<T>().checked_mul(len).ok_or(EO=
+VERFLOW)?;
+>          let mut dma_handle =3D 0;
+>          // SAFETY: Device pointer is guaranteed as valid by the type inv=
+ariant on `Device`.
+>          let addr =3D unsafe {
 
-Cc: Rafael J. Wysocki <rafael@kernel.org>
-Acked-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-Not fixing any known bugs; problem is theoretical and found by code
-inspection. Change is done somewhat manually and only lightly tested
-(mostly compile-time tested).
+Hi Aditya,
 
-Changes in v4:
-- Use accessor functions for flags
+Thanks for the patch, but the behaviour here is intended.
 
-Changes in v3:
-- New
+Neither our `KVec` implementation nor upstream Rust distinguishes between
+allocation error caused by array size exceeding address space or running ou=
+t of
+memory to allocate (`AllocError` is returned and it converts to ENOMEM).
 
- arch/arm64/kernel/cpufeature.c                 |  2 +-
- .../powerpc/platforms/pseries/hotplug-memory.c |  4 ++--
- drivers/acpi/scan.c                            |  2 +-
- drivers/base/core.c                            | 18 +++++++++---------
- drivers/base/cpu.c                             |  4 ++--
- drivers/base/memory.c                          |  2 +-
- include/linux/device.h                         | 12 ++++++------
- kernel/cpu.c                                   |  4 ++--
- 8 files changed, 24 insertions(+), 24 deletions(-)
+`kmalloc_array` also just returns `NULL` when overflows, so arguably this
+behaviour also aligns us with C side.
 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 32c2dbcc0c64..c832aa565dc2 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -4042,7 +4042,7 @@ static int enable_mismatched_32bit_el0(unsigned int cpu)
- 	 */
- 	lucky_winner = cpu_32bit ? cpu : cpumask_any_and(cpu_32bit_el0_mask,
- 							 cpu_active_mask);
--	get_cpu_device(lucky_winner)->offline_disabled = true;
-+	dev_set_offline_disabled(get_cpu_device(lucky_winner));
- 	setup_elf_hwcaps(compat_elf_hwcaps);
- 	elf_hwcap_fixup();
- 	pr_info("Asymmetric 32-bit EL0 support detected on CPU %u; CPU hot-unplug disabled on CPU %u\n",
-diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
-index b2f14db59034..75f85a5da981 100644
---- a/arch/powerpc/platforms/pseries/hotplug-memory.c
-+++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
-@@ -213,9 +213,9 @@ static int dlpar_change_lmb_state(struct drmem_lmb *lmb, bool online)
- 		return -EINVAL;
- 	}
- 
--	if (online && mem_block->dev.offline)
-+	if (online && dev_offline(&mem_block->dev))
- 		rc = device_online(&mem_block->dev);
--	else if (!online && !mem_block->dev.offline)
-+	else if (!online && !dev_offline(&mem_block->dev))
- 		rc = device_offline(&mem_block->dev);
- 	else
- 		rc = 0;
-diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index e8cdbdb46fdb..1353adbcc234 100644
---- a/drivers/acpi/scan.c
-+++ b/drivers/acpi/scan.c
-@@ -122,7 +122,7 @@ bool acpi_scan_is_offline(struct acpi_device *adev, bool uevent)
- 	mutex_lock_nested(&adev->physical_node_lock, SINGLE_DEPTH_NESTING);
- 
- 	list_for_each_entry(pn, &adev->physical_node_list, node)
--		if (device_supports_offline(pn->dev) && !pn->dev->offline) {
-+		if (device_supports_offline(pn->dev) && !dev_offline(pn->dev)) {
- 			if (uevent)
- 				kobject_uevent_env(&pn->dev->kobj, KOBJ_CHANGE, envp);
- 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index f12f3b53b4d0..79c85dbcffad 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -2788,7 +2788,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
- 	bool val;
- 
- 	device_lock(dev);
--	val = !dev->offline;
-+	val = !dev_offline(dev);
- 	device_unlock(dev);
- 	return sysfs_emit(buf, "%u\n", val);
- }
-@@ -2913,7 +2913,7 @@ static int device_add_attrs(struct device *dev)
- 	if (error)
- 		goto err_remove_type_groups;
- 
--	if (device_supports_offline(dev) && !dev->offline_disabled) {
-+	if (device_supports_offline(dev) && !dev_offline_disabled(dev)) {
- 		error = device_create_file(dev, &dev_attr_online);
- 		if (error)
- 			goto err_remove_dev_groups;
-@@ -4178,7 +4178,7 @@ static int device_check_offline(struct device *dev, void *not_used)
- 	if (ret)
- 		return ret;
- 
--	return device_supports_offline(dev) && !dev->offline ? -EBUSY : 0;
-+	return device_supports_offline(dev) && !dev_offline(dev) ? -EBUSY : 0;
- }
- 
- /**
-@@ -4196,7 +4196,7 @@ int device_offline(struct device *dev)
- {
- 	int ret;
- 
--	if (dev->offline_disabled)
-+	if (dev_offline_disabled(dev))
- 		return -EPERM;
- 
- 	ret = device_for_each_child(dev, NULL, device_check_offline);
-@@ -4205,13 +4205,13 @@ int device_offline(struct device *dev)
- 
- 	device_lock(dev);
- 	if (device_supports_offline(dev)) {
--		if (dev->offline) {
-+		if (dev_offline(dev)) {
- 			ret = 1;
- 		} else {
- 			ret = dev->bus->offline(dev);
- 			if (!ret) {
- 				kobject_uevent(&dev->kobj, KOBJ_OFFLINE);
--				dev->offline = true;
-+				dev_set_offline(dev);
- 			}
- 		}
- 	}
-@@ -4236,11 +4236,11 @@ int device_online(struct device *dev)
- 
- 	device_lock(dev);
- 	if (device_supports_offline(dev)) {
--		if (dev->offline) {
-+		if (dev_offline(dev)) {
- 			ret = dev->bus->online(dev);
- 			if (!ret) {
- 				kobject_uevent(&dev->kobj, KOBJ_ONLINE);
--				dev->offline = false;
-+				dev_clear_offline(dev);
- 			}
- 		} else {
- 			ret = 1;
-@@ -4714,7 +4714,7 @@ static int device_attrs_change_owner(struct device *dev, kuid_t kuid,
- 	if (error)
- 		return error;
- 
--	if (device_supports_offline(dev) && !dev->offline_disabled) {
-+	if (device_supports_offline(dev) && !dev_offline_disabled(dev)) {
- 		/* Change online device attributes of @dev to @kuid/@kgid. */
- 		error = sysfs_file_change_owner(kobj, dev_attr_online.attr.name,
- 						kuid, kgid);
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index 875abdc9942e..19d288a3c80c 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -422,8 +422,8 @@ int register_cpu(struct cpu *cpu, int num)
- 	cpu->dev.id = num;
- 	cpu->dev.bus = &cpu_subsys;
- 	cpu->dev.release = cpu_device_release;
--	cpu->dev.offline_disabled = !cpu->hotpluggable;
--	cpu->dev.offline = !cpu_online(num);
-+	dev_assign_offline_disabled(&cpu->dev, !cpu->hotpluggable);
-+	dev_assign_offline(&cpu->dev, !cpu_online(num));
- 	cpu->dev.of_node = of_get_cpu_node(num, NULL);
- 	cpu->dev.groups = common_cpu_attr_groups;
- 	if (cpu->hotpluggable)
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index a3091924918b..5005654f44fa 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -697,7 +697,7 @@ static int __add_memory_block(struct memory_block *memory)
- 	memory->dev.id = memory->start_section_nr / sections_per_block;
- 	memory->dev.release = memory_block_release;
- 	memory->dev.groups = memory_memblk_attr_groups;
--	memory->dev.offline = memory->state == MEM_OFFLINE;
-+	dev_assign_offline(&memory->dev, memory->state == MEM_OFFLINE);
- 
- 	ret = device_register(&memory->dev);
- 	if (ret) {
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 8132aab17e04..65fc6c566cc6 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -485,6 +485,8 @@ struct device_physical_location {
-  *		architecture supports non-coherent devices.
-  * @DEV_FLAG_OF_NODE_REUSED: Set if the device-tree node is shared with an
-  *		ancestor device.
-+ * @DEV_FLAG_OFFLINE_DISABLED: If set, the device is permanently online.
-+ * @DEV_FLAG_OFFLINE: Set after successful invocation of bus type's .offline().
-  */
- enum struct_device_flags {
- 	DEV_FLAG_READY_TO_PROBE = 0,
-@@ -495,6 +497,8 @@ enum struct_device_flags {
- 	DEV_FLAG_STATE_SYNCED = 5,
- 	DEV_FLAG_DMA_COHERENT = 6,
- 	DEV_FLAG_OF_NODE_REUSED = 7,
-+	DEV_FLAG_OFFLINE_DISABLED = 8,
-+	DEV_FLAG_OFFLINE = 9,
- 
- 	DEV_FLAG_COUNT
- };
-@@ -573,9 +577,6 @@ enum struct_device_flags {
-  * @removable:  Whether the device can be removed from the system. This
-  *              should be set by the subsystem / bus driver that discovered
-  *              the device.
-- *
-- * @offline_disabled: If set, the device is permanently online.
-- * @offline:	Set after successful invocation of bus type's .offline().
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-@@ -680,9 +681,6 @@ struct device {
- 
- 	enum device_removable	removable;
- 
--	bool			offline_disabled:1;
--	bool			offline:1;
--
- 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
- };
- 
-@@ -716,6 +714,8 @@ __create_dev_flag_accessors(dma_ops_bypass, DEV_FLAG_DMA_OPS_BYPASS);
- __create_dev_flag_accessors(state_synced, DEV_FLAG_STATE_SYNCED);
- __create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
- __create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
-+__create_dev_flag_accessors(offline_disabled, DEV_FLAG_OFFLINE_DISABLED);
-+__create_dev_flag_accessors(offline, DEV_FLAG_OFFLINE);
- 
- /**
-  * struct device_link - Device link representation.
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index bc4f7a9ba64e..f975bb34915b 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -2639,7 +2639,7 @@ static void cpuhp_offline_cpu_device(unsigned int cpu)
- {
- 	struct device *dev = get_cpu_device(cpu);
- 
--	dev->offline = true;
-+	dev_set_offline(dev);
- 	/* Tell user space about the state change */
- 	kobject_uevent(&dev->kobj, KOBJ_OFFLINE);
- }
-@@ -2648,7 +2648,7 @@ static void cpuhp_online_cpu_device(unsigned int cpu)
- {
- 	struct device *dev = get_cpu_device(cpu);
- 
--	dev->offline = false;
-+	dev_clear_offline(dev);
- 	/* Tell user space about the state change */
- 	kobject_uevent(&dev->kobj, KOBJ_ONLINE);
- }
--- 
-2.53.0.1213.gd9a14994de-goog
+Abstractly, the system is indeed running out memory because it cannot alloc=
+ate
+something larger than its address space.
 
+Best,
+Gary
