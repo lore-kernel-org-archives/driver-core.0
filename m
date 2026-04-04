@@ -1,59 +1,61 @@
 Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5791D2745C
-	for <driver-core@lists.linux.dev>; Sat,  4 Apr 2026 00:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5822427713
+	for <driver-core@lists.linux.dev>; Sat,  4 Apr 2026 00:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775261243; cv=none; b=IovBNeFLqTFCAQS+mCCQL9x7GkoHvtoj3Xn0ovcADAuGLrLEHryc5VG6RSMq06iQVgyYAupDPFfQhZ+eiJp25R7vwyEP9saoOphHPSWjuAZa5BqWx5pOr0pH6hlLZZQJOPiRYLvuoLdXrIqJZShM8WWDlp2jla9OWEoj5/qmolI=
+	t=1775261245; cv=none; b=i9kHj00yIjZdCch2TSpR63gy2a7alG6bxa167IwSYC8bDsApusDbV/h1rLku6KYO3jaLEu5NelWdYf2tEnLQi6nFj/zztzmWmrltioEzt0zo+CEYVax4Cecmr387+Vbu2CTjgTSOTetGaVB2QgT8LlGw2r+QvWd2PoDXXjhhFwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775261243; c=relaxed/simple;
-	bh=4U6qcOnXRz1y4XkIRO6Hkkenfy7He0XdH8Hlg7ak3cg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qEGpn9G+BtrnEXoK/xTF9KoWe3yeweJOo2HXUe75deKAe74jruCrWhC0R5Ao8di15l0qB4c9DQ7Xg79qjSHyhTUdQiUR862EdTGsm0byLZ9BB7dbcrhpfqJKZcLmjUJrEXpRmmflr/VeW+sO+EA7xNiCIXlbgeG1DEJsCBj72Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gYEUqiOh; arc=none smtp.client-ip=74.125.82.179
+	s=arc-20240116; t=1775261245; c=relaxed/simple;
+	bh=III6jfoTjxrvqqvxvqPImVr6gqYLV5UXkESYuPeEMdk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QX7QychQhUaLTgEgvoEBeMgSFfDBY/NKjFCCsXfTnzZ7roWmQQry7sFmLhUb+pB+VKpTRMER4f9wR2zHwBOB9beJOKcfo5vdzyxcfZd2/VmKm2nYU83H9pnKT5ODTgB1FBu+MkDxBst3+lXF7X29M0l8DwKbhAZBNODAoOPWvVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OqYqz2a6; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gYEUqiOh"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2c1632faeb9so4450977eec.0
-        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 17:07:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OqYqz2a6"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2c4db6bca03so1216147eec.1
+        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 17:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775261240; x=1775866040; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KGKsMy9vhlN9yvdnOvYy+R4lmavPYuTzTATeThGwgQc=;
-        b=gYEUqiOhO5yCgAQlQMbFb00PicMV1JaLrfEXTovXkHWo9x0KO/Jw1VH1aOsXe4O2LO
-         TonpEK3MKHVXaaYhpkzpDDdCm2OGjqj583rgA2H/4YxoO/BAMBrGul8x1HycE2XcHOwk
-         UCVElf9SLUePOUqNZC1FybCEGi/q5cg+5RBe0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775261240; x=1775866040;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1775261242; x=1775866042; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KGKsMy9vhlN9yvdnOvYy+R4lmavPYuTzTATeThGwgQc=;
-        b=s1jjIBHXTGIJqiXZIE2yUqIWHgWuGax+9E63PW0EBaTz4Jzo1m5FJfXzq2Lwl045f3
-         BwEanZfKuzlrIYyGwQK/gGbWFeCCUtOb2M3eo9oiCCOUEvS//ScZj/zPCLZWYAEJ+h/a
-         Id1eqqN+Rn7kZboFYIpAEsffioAeQ+XzZoc/U5SY5Am7u4xSlLo0N7aZ+wx5fUMTXB0j
-         XVMtkVNf2UUVHTRQDiTpKZM2/3op2wcWFHjsUeZQfIYIx4lA/tWIkWKmGYUxD1nytXNI
-         xtkHXnm/sU/LvbjgA6ZLdn+zLs78JqinlGtMFNN34uMqw4k8xtg3LVlIXYeSMiEVFqeB
-         GhLA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhEan+v40vAfoUqSRWY9JF/enO+OBGz5/RgjSfcd0Fn3MqME8LtxBqU4L7voEkW2yIUO3z9El4cHAz8A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzV8pOg/wBYQrfCDtjks/R/q1WapZbqcFfwAuHH4T+we8sPdF5h
-	8gWSwaQhehZGNbM9mfxzd5UZuFB1LJehh9EFTf9vRFx7t+EcSnQoktCDwK5klRnuAg==
-X-Gm-Gg: AeBDietnkHdyZnN4hoC0o0okWHozWiuw59IKLRbvuUof+jNC7J327ALW5NE3cF6NyDG
-	xK91QG9IwvJkoAYrG6P5Ugy4yF5XJqdTAWXCJMVjly4qbGNYm+fkaGVaZwih7EXfaVOAkNsCvvL
-	f6pZG0rY9qogEbF7kwXyh9Uil22379ZBJaC/cFsY6sQBjU8pgGz2V/73ooAkCkZTMZXoK4WPpDA
-	n3+rhbaDCP4tZbJMvPMU19Ikr81qPlY1WSG970TTYE4K86r/21RwJcPlX0e5Hfr0KX9tnc2w8n2
-	ecZxwoxI+Lu3+4BDHmMnQOjAgGUetpeleqxSfJ34nH80vCWlqNL4lWkYIdsI8fLbCH1ctwgp6CU
-	GjmpFc23Dqg7vil9L0ALFi1BXzTEfwO13mGYfNx7VYM96tz99swfAqtNooTAGewTyN/6DyvwfgJ
-	qbfVK7w7lkVCfv1J4qSWBuZbKrKQIOwWSm31a42+cRL4LpkL5MFzYX8/3ZonUi7QoCbnJSLGdHQ
-	Vnf6OpoyBo=
-X-Received: by 2002:a05:7300:5722:b0:2c7:ea98:da0 with SMTP id 5a478bee46e88-2cbfbc8aeb9mr2680118eec.19.1775261240285;
-        Fri, 03 Apr 2026 17:07:20 -0700 (PDT)
+        bh=LJEW8I+GJiIRTdX3t2bIsrL+T4N6bIAtJLVhOniwR48=;
+        b=OqYqz2a6KaNHUsPNdGx/MbWa1E+QDVJMiA5hRM71sw9VxE08rEtIqp/blB3dh80RRw
+         Sv+PjO9Rm74BU3cj5YDtZfz8T1/NVFCSAE+l96QBEttIQYOoPbJ6mAPCDiNm6dy8Y1k1
+         MlrrKSWLZLwe/MtI0sc4R6gUzkGEoymPz6kwQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775261242; x=1775866042;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LJEW8I+GJiIRTdX3t2bIsrL+T4N6bIAtJLVhOniwR48=;
+        b=r68/pzZvuvaLdU39eGetmnSX4fSwOBofHvn7HspFgjWmgqxnMGzoAKHjhayoXr2KDz
+         41a43eFE2BVaPhKszpI9s6ugDe/IHTbWk+7hwJTKFHWtaMX+sZBvWAznxU8VIKaVrfYG
+         cQi68T+tPxLR05J6ZOJ6mhR2F8X7Rvsvd5P5nYsQa5w++HnuWv6fX0cj4QGg0GruSz9c
+         AejIHMBKVveLsdanpb7w0+D6HfzZDTx0MaE95wxE7cqvOG7CE7rfLs2QTJpciPHCM36j
+         WZ1mce5Q0D1Dy3SmgI7eBRrdrNMm8ui2ca2CrEghh0sEpNMViqrSwcZdOP1S3GJVKEJY
+         Xm4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWVDhJBcEvMzQ5QxjUgucIO5DS5FyZJzBAwRbXUAjpHBEpAn3nBl5z3CuuV9m672IM8w59pbE4/g/n6HA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGaHqM+naJli5D0vUXyMxaxqua3iwtkp6xmZNOFTFjRF8S8FCl
+	kz20Jejhk+nYRKG/owTxLO7x2pLl/hkPkP30HjUgG+wl+2H22Ukx0eff1YzgiYP8EA==
+X-Gm-Gg: AeBDietqDOZ2PDqKHNKQ3YouTR5WgRG5ZtMmgn6L/pNDTVjZVcs9HUrAiOrffayUv1L
+	dZVl+Zra/ejYwdEPlvycDfS0Q3olW70G8t+2rOLFJZZ9sxEOf+15Add716Qvxe4abLsHtYd1T4s
+	hMUNW3HYelHsh02OWs+RLattdTaMfkNLQ2hOF/FktF23G6WQOELXLqJ47iP0qndtM7cSpnaM1V2
+	m7ILHDufGdbeWiHQDDzCLvZAzjs+IxgafL7vZHv8csPVeKn3a4ZClllGlITU1x0rY0AzRzYYMuL
+	v6GZZLk864RuvZTMqPHu/XBDS8qU0JLOLvWzERwwjiWS6+6E91wPNjNwpfv3YMjBfAZx6OYuXKB
+	llRYQjLx9Fn9RNZ8waFAW/7SJ5IlIBy4nDqe4hGbEz/7tkny3Z1yql95V0HO5w5kiMT7/E9DnQP
+	FQk15FM/Js/6IZR3zqXDUz6mBir4JQDu3uKf2w69a/iEt8xe/BMkG7DBBQI0Ailae++KK2fpmed
+	lnzre7l6bY=
+X-Received: by 2002:a05:7301:1f01:b0:2c5:704f:7142 with SMTP id 5a478bee46e88-2cbf920f3c9mr1937248eec.2.1775261242319;
+        Fri, 03 Apr 2026 17:07:22 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:a8b6:55b2:3eb6:2c0e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca79e1d93bsm6520716eec.12.2026.04.03.17.07.16
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca79e1d93bsm6520716eec.12.2026.04.03.17.07.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 17:07:19 -0700 (PDT)
+        Fri, 03 Apr 2026 17:07:21 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
@@ -68,82 +70,15 @@ Cc: Saravana Kannan <saravanak@kernel.org>,
 	Alexey Kardashevskiy <aik@ozlabs.ru>,
 	Robin Murphy <robin.murphy@arm.com>,
 	Douglas Anderson <dianders@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Frank.Li@kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	alex@ghiti.fr,
-	alexander.stein@ew.tq-group.com,
-	andre.przywara@arm.com,
-	andrew@codeconstruct.com.au,
-	andrew@lunn.ch,
-	andriy.shevchenko@linux.intel.com,
-	aou@eecs.berkeley.edu,
-	ardb@kernel.org,
-	bhelgaas@google.com,
-	brgl@kernel.org,
-	broonie@kernel.org,
-	catalin.marinas@arm.com,
-	chleroy@kernel.org,
-	davem@davemloft.net,
-	david@kernel.org,
-	devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org,
+	stable@vger.kernel.org,
 	driver-core@lists.linux.dev,
-	gbatra@linux.ibm.com,
-	gregory.clement@bootlin.com,
-	hkallweit1@gmail.com,
-	iommu@lists.linux.dev,
-	jirislaby@kernel.org,
-	joel@jms.id.au,
-	joro@8bytes.org,
-	kees@kernel.org,
-	kevin.brodsky@arm.com,
-	kuba@kernel.org,
-	lenb@kernel.org,
-	lgirdwood@gmail.com,
-	linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-serial@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk,
-	linuxppc-dev@lists.ozlabs.org,
-	m.szyprowski@samsung.com,
-	maddy@linux.ibm.com,
-	mani@kernel.org,
-	maz@kernel.org,
-	miko.lenczewski@arm.com,
-	mpe@ellerman.id.au,
-	netdev@vger.kernel.org,
-	npiggin@gmail.com,
-	osalvador@suse.de,
-	oupton@kernel.org,
-	pabeni@redhat.com,
-	palmer@dabbelt.com,
-	peter.ujfalusi@gmail.com,
-	peterz@infradead.org,
-	pjw@kernel.org,
-	robh@kernel.org,
-	sebastian.hesselbarth@gmail.com,
-	tglx@kernel.org,
-	tsbogend@alpha.franken.de,
-	vgupta@kernel.org,
-	vkoul@kernel.org,
-	will@kernel.org,
-	willy@infradead.org,
-	yangyicong@hisilicon.com,
-	yeoreum.yun@arm.com
-Subject: [PATCH v4 0/9] driver core: Fix some race conditions
-Date: Fri,  3 Apr 2026 17:04:54 -0700
-Message-ID: <20260404000644.522677-1-dianders@chromium.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/9] driver core: Don't let a device probe until it's ready
+Date: Fri,  3 Apr 2026 17:04:55 -0700
+Message-ID: <20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
 X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
+In-Reply-To: <20260404000644.522677-1-dianders@chromium.org>
+References: <20260404000644.522677-1-dianders@chromium.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -152,81 +87,93 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The main goal of this series is to fix the observed bug talked about
-in the first patch ("driver core: Don't let a device probe until it's
-ready"). That patch fixes a problem that has been observed in the real
-world and could land even if the rest of the patches are found
-unacceptable or need to be spun.
+The moment we link a "struct device" into the list of devices for the
+bus, it's possible probe can happen. This is because another thread
+can load the driver at any time and that can cause the device to
+probe. This has been seen in practice with a stack crawl that looks
+like this [1]:
 
-That said, during patch review Danilo correctly pointed out that many
-of the bitfield accesses in "struct device" are unsafe. I added a
-bunch of patches in the series to address each one.
+  really_probe()
+  __driver_probe_device()
+  driver_probe_device()
+  __driver_attach()
+  bus_for_each_dev()
+  driver_attach()
+  bus_add_driver()
+  driver_register()
+  __platform_driver_register()
+  init_module() [some module]
+  do_one_initcall()
+  do_init_module()
+  load_module()
+  __arm64_sys_finit_module()
+  invoke_syscall()
 
-Danilo said he's most worried about "can_match", so I put that one
-first. After that, I tried to transition bitfields to flags in reverse
-order to when the bitfield was added.
+As a result of the above, it was seen that device_links_driver_bound()
+could be called for the device before "dev->fwnode->dev" was
+assigned. This prevented __fw_devlink_pickup_dangling_consumers() from
+being called which meant that other devices waiting on our driver's
+sub-nodes were stuck deferring forever.
 
-Even if transitioning from bitfields to flags isn't truly needed for
-correctness, it seems silly (and wasteful of space in struct device)
-to have some in bitfields and some as flags. Thus I didn't spend time
-for each bitfield showing that it's truly needed for correctness.
+It's believed that this problem is showing up suddenly for two
+reasons:
+1. Android has recently (last ~1 year) implemented an optimization to
+   the order it loads modules [2]. When devices opt-in to this faster
+   loading, modules are loaded one-after-the-other very quickly. This
+   is unlike how other distributions do it. The reproduction of this
+   problem has only been seen on devices that opt-in to Android's
+   "parallel module loading".
+2. Android devices typically opt-in to fw_devlink, and the most
+   noticeable issue is the NULL "dev->fwnode->dev" in
+   device_links_driver_bound(). fw_devlink is somewhat new code and
+   also not in use by all Linux devices.
 
-Transition was done semi manually. Presumably someone skilled at
-coccinelle could do a better job, but I just used sed in a heavy-
-handed manner and then reviewed/fixed the results, undoing anything my
-script got wrong. My terrible/ugly script was:
+Even though the specific symptom where "dev->fwnode->dev" wasn't
+assigned could be fixed by moving that assignment higher in
+device_add(), other parts of device_add() (like the call to
+device_pm_add()) are also important to run before probe. Only moving
+the "dev->fwnode->dev" assignment would likely fix the current
+symptoms but lead to difficult-to-debug problems in the future.
 
-var=can_match
-caps="${var^^}"
-for f in $(git grep -l "[>\.]${var}[^1-9_a-zA-Z\[]"); do
-  echo $f
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)->${var} = true/set_bit(DEV_FLAG_${caps}, \&\\1->flags)/" "$f"
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)\.${var} = true/dev_set_${caps}(\&\\1)/" "$f"
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)->${var} = false/clear_bit(DEV_FLAG_${caps}, \&\\1->flags)/" "$f"
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)\.${var} = false/dev_clear_${caps}(\&\\1)/" "$f"
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)->${var} = \([^;]*\)/assign_bit(DEV_FLAG_${caps}, \&\\1->flags, \\2)/" "$f"
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)\.${var} = \([^;]*\)/dev_assign_${caps}(\&\\1, \\2)/" "$f"
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)->${var}\([^1-9_a-zA-Z\[]\)/test_bit(DEV_FLAG_${caps}, \&\\1->flags)\\2/" "$f"
-  sed -i~ -e "s/\([a-zA-Z_0-9\.>()-][a-zA-Z_0-9\.>()-]*\)\.${var}\([^1-9_a-zA-Z\[]\)/dev_${caps}(\&\\1)\\2/" "$f"
-done
+Fix the problem by preventing probe until device_add() has run far
+enough that the device is ready to probe. If somehow we end up trying
+to probe before we're allowed, __driver_probe_device() will return
+-EPROBE_DEFER which will make certain the device is noticed.
 
-From v3 to v4, I transitioned to accessor functions with another ugly
-sed script. I had git format the old patches, then transformed them
-with:
+In the race condition that was seen with Android's faster module
+loading, we will temporarily add the device to the deferred list and
+then take it off immediately when device_add() probes the device.
 
-for f in *.patch; do
-  echo $f
-  sed -i~ -e "s/test_and_set_bit(DEV_FLAG_\([^,]*\), \&\(.*\)->flags)/dev_test_and_set_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/test_and_set_bit(DEV_FLAG_\([^,]*\), \(.*\)\.flags)/dev_test_and_set_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/test_bit(DEV_FLAG_\([^,]*\), \&\(.*\)->flags)/dev_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/test_bit(DEV_FLAG_\([^,]*\), \(.*\)\.flags)/dev_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/set_bit(DEV_FLAG_\([^,]*\), \&\(.*\)->flags)/dev_set_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/set_bit(DEV_FLAG_\([^,]*\), \(.*\)\.flags)/dev_set_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/clear_bit(DEV_FLAG_\([^,]*\), \&\(.*\)->flags)/dev_clear_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/clear_bit(DEV_FLAG_\([^,]*\), \(.*\)\.flags)/dev_clear_\\L\\1(\\2)/" "$f"
-  sed -i~ -e "s/assign_bit(DEV_FLAG_\([^,]*\), \&\(.*\)->flags, \(.*\))/dev_assign_\\L\\1(\\2, \\3)/" "$f"
-  sed -i~ -e "s/assign_bit(DEV_FLAG_\([^,]*\), \(.*\)\.flags, \(.*\))/dev_assign_\\L\\1(\\2, \\3)/" "$f"
-done
+Instead of adding another flag to the bitfields already in "struct
+device", instead add a new "flags" field and use that. This allows us
+to freely change the bit from different thread without holding the
+device lock and without worrying about corrupting nearby bits.
 
-...and then did a few manual touchups for spacing.
+[1] Captured on a machine running a downstream 6.6 kernel
+[2] https://cs.android.com/android/platform/superproject/main/+/main:system/core/libmodprobe/libmodprobe.cpp?q=LoadModulesParallel
 
-NOTE: one potentially "controversial" choice I made in some patches
-was to always reserve a flag ID even if a flag is only used under
-certain CONFIG_ settings. This is a change from how things were
-before. Keeping the numbering consistent and allowing easy
-compile-testing of both CONFIG settings seemed worth it, especially
-since it won't take up any extra space until we've added a lot more
-flags.
+Cc: stable@vger.kernel.org
+Fixes: 2023c610dc54 ("Driver core: add new device to bus's list before probing")
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
+Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+v1: https://lore.kernel.org/r/20260320200656.RFC.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid
+v2: https://lore.kernel.org/r/20260330072839.v2.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid
+v3: https://lore.kernel.org/r/20260403005005.30424-1-dianders@chromium.org/
 
-I only marked the first patch as a "Fix" since it is the only one
-fixing observed problems. Other patches could be considered fixes too
-if folks want.
+As of v2 this feels like a very safe change. It doesn't change the
+ordering of any steps of probe and it _just_ prevents the early probe
+from happening.
 
-I tested the first patch in the series backported to kernel 6.6 on the
-Pixel phone that was experiencing the race. I added extra printouts to
-make sure that the problem was hitting / addressed. The rest of the
-patches are tested with allmodconfig with arm32, arm64, ppc, and
-x86. I boot tested on an arm64 Chromebook running mainline.
+I ran tests where I turned the printout "Device not ready_to_probe" on
+and I could see the printout happening, evidence of the race occurring
+from other printouts, and things successfully being resolved.
+
+I kept Alan and Rafael's Reviewed-by tags in v3 even though I changed
+the implementation to use "flags" as per Danilo's request. This didn't
+seem like a major enough change to remove tags, but please shout if
+you'd like your tag removed.
 
 Changes in v4:
 - Use accessor functions for flags
@@ -238,56 +185,127 @@ Changes in v3:
 Changes in v2:
 - Instead of adjusting the ordering, use "ready_to_probe" flag
 
-Douglas Anderson (9):
-  driver core: Don't let a device probe until it's ready
-  driver core: Replace dev->can_match with dev_can_match()
-  driver core: Replace dev->dma_iommu with dev_dma_iommu()
-  driver core: Replace dev->dma_skip_sync with dev_dma_skip_sync()
-  driver core: Replace dev->dma_ops_bypass with dev_dma_ops_bypass()
-  driver core: Replace dev->state_synced with dev_state_synced()
-  driver core: Replace dev->dma_coherent with dev_dma_coherent()
-  driver core: Replace dev->of_node_reused with dev_of_node_reused()
-  driver core: Replace dev->offline + ->offline_disabled with accessors
+ drivers/base/core.c    | 13 +++++++++++++
+ drivers/base/dd.c      | 12 ++++++++++++
+ include/linux/device.h | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 67 insertions(+)
 
- arch/arc/mm/dma.c                             |   4 +-
- arch/arm/mach-highbank/highbank.c             |   2 +-
- arch/arm/mach-mvebu/coherency.c               |   2 +-
- arch/arm/mm/dma-mapping-nommu.c               |   4 +-
- arch/arm/mm/dma-mapping.c                     |  28 ++--
- arch/arm64/kernel/cpufeature.c                |   2 +-
- arch/arm64/mm/dma-mapping.c                   |   2 +-
- arch/mips/mm/dma-noncoherent.c                |   2 +-
- arch/powerpc/kernel/dma-iommu.c               |   8 +-
- .../platforms/pseries/hotplug-memory.c        |   4 +-
- arch/riscv/mm/dma-noncoherent.c               |   2 +-
- drivers/acpi/scan.c                           |   2 +-
- drivers/base/core.c                           |  53 +++++---
- drivers/base/cpu.c                            |   4 +-
- drivers/base/dd.c                             |  28 ++--
- drivers/base/memory.c                         |   2 +-
- drivers/base/pinctrl.c                        |   2 +-
- drivers/base/platform.c                       |   2 +-
- drivers/dma/ti/k3-udma-glue.c                 |   6 +-
- drivers/dma/ti/k3-udma.c                      |   6 +-
- drivers/iommu/dma-iommu.c                     |   9 +-
- drivers/iommu/iommu.c                         |   5 +-
- drivers/net/pcs/pcs-xpcs-plat.c               |   2 +-
- drivers/of/device.c                           |   6 +-
- drivers/pci/of.c                              |   2 +-
- drivers/pci/pwrctrl/core.c                    |   2 +-
- drivers/regulator/bq257xx-regulator.c         |   2 +-
- drivers/regulator/rk808-regulator.c           |   2 +-
- drivers/tty/serial/serial_base_bus.c          |   2 +-
- drivers/usb/gadget/udc/aspeed-vhub/dev.c      |   2 +-
- include/linux/device.h                        | 120 ++++++++++++------
- include/linux/dma-map-ops.h                   |   6 +-
- include/linux/dma-mapping.h                   |   2 +-
- include/linux/iommu-dma.h                     |   3 +-
- kernel/cpu.c                                  |   4 +-
- kernel/dma/mapping.c                          |  12 +-
- mm/hmm.c                                      |   2 +-
- 37 files changed, 206 insertions(+), 142 deletions(-)
-
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 09b98f02f559..f07745659de3 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3688,6 +3688,19 @@ int device_add(struct device *dev)
+ 		fw_devlink_link_device(dev);
+ 	}
+ 
++	/*
++	 * The moment the device was linked into the bus's "klist_devices" in
++	 * bus_add_device() then it's possible that probe could have been
++	 * attempted in a different thread via userspace loading a driver
++	 * matching the device. "ready_to_prove" being unset would have
++	 * blocked those attempts. Now that all of the above initialization has
++	 * happened, unblock probe. If probe happens through another thread
++	 * after this point but before bus_probe_device() runs then it's fine.
++	 * bus_probe_device() -> device_initial_probe() -> __device_attach()
++	 * will notice (under device_lock) that the device is already bound.
++	 */
++	dev_set_ready_to_probe(dev);
++
+ 	bus_probe_device(dev);
+ 
+ 	/*
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 37c7e54e0e4c..8ec93128ea98 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -848,6 +848,18 @@ static int __driver_probe_device(const struct device_driver *drv, struct device
+ 	if (dev->driver)
+ 		return -EBUSY;
+ 
++	/*
++	 * In device_add(), the "struct device" gets linked into the subsystem's
++	 * list of devices and broadcast to userspace (via uevent) before we're
++	 * quite ready to probe. Those open pathways to driver probe before
++	 * we've finished enough of device_add() to reliably support probe.
++	 * Detect this and tell other pathways to try again later. device_add()
++	 * itself will also try to probe immediately after setting
++	 * "ready_to_probe".
++	 */
++	if (!dev_ready_to_probe(dev))
++		return dev_err_probe(dev, -EPROBE_DEFER, "Device not ready to probe\n");
++
+ 	dev->can_match = true;
+ 	dev_dbg(dev, "bus: '%s': %s: matched device with driver %s\n",
+ 		drv->bus->name, __func__, drv->name);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index e65d564f01cd..5eb0b22958e4 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -458,6 +458,21 @@ struct device_physical_location {
+ 	bool lid;
+ };
+ 
++/**
++ * enum struct_device_flags - Flags in struct device
++ *
++ * Each flag should have a set of accessor functions created via
++ * __create_dev_flag_accessors() for each access.
++ *
++ * @DEV_FLAG_READY_TO_PROBE: If set then device_add() has finished enough
++ *		initialization that probe could be called.
++ */
++enum struct_device_flags {
++	DEV_FLAG_READY_TO_PROBE = 0,
++
++	DEV_FLAG_COUNT
++};
++
+ /**
+  * struct device - The basic device structure
+  * @parent:	The device's "parent" device, the device to which it is attached.
+@@ -553,6 +568,7 @@ struct device_physical_location {
+  * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
+  * @dma_iommu: Device is using default IOMMU implementation for DMA and
+  *		doesn't rely on dma_ops structure.
++ * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
+  *
+  * At the lowest level, every device in a Linux system is represented by an
+  * instance of struct device. The device structure contains the information
+@@ -675,8 +691,34 @@ struct device {
+ #ifdef CONFIG_IOMMU_DMA
+ 	bool			dma_iommu:1;
+ #endif
++
++	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+ };
+ 
++#define __create_dev_flag_accessors(accessor_name, flag_name) \
++static inline bool dev_##accessor_name(const struct device *dev) \
++{ \
++	return test_bit(flag_name, dev->flags); \
++} \
++static inline void dev_set_##accessor_name(struct device *dev) \
++{ \
++	set_bit(flag_name, dev->flags); \
++} \
++static inline void dev_clear_##accessor_name(struct device *dev) \
++{ \
++	clear_bit(flag_name, dev->flags); \
++} \
++static inline void dev_assign_##accessor_name(struct device *dev, bool value) \
++{ \
++	assign_bit(flag_name, dev->flags, value); \
++} \
++static inline bool dev_test_and_set_##accessor_name(struct device *dev) \
++{ \
++	return test_and_set_bit(flag_name, dev->flags); \
++}
++
++__create_dev_flag_accessors(ready_to_probe, DEV_FLAG_READY_TO_PROBE);
++
+ /**
+  * struct device_link - Device link representation.
+  * @supplier: The device on the supplier end of the link.
 -- 
 2.53.0.1213.gd9a14994de-goog
 
