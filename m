@@ -1,61 +1,61 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4743914B977
-	for <driver-core@lists.linux.dev>; Sat,  4 Apr 2026 00:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0C01A6805
+	for <driver-core@lists.linux.dev>; Sat,  4 Apr 2026 00:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775261265; cv=none; b=NKjZfE4uBcptiCrE7BG3HxeZ+loujYPM9FvRPhcuGJ3Ne/3KmtQ5ZmFzvegzQwoLgzDq3J4W5bLxrYvU7O3wTfsOxXaMvgGhipFZZIqa3iwBW5sE8If52zLyaXpUSP3JirfuMqD8vLYeI4tbeeClcu89Z166RnOSUZvnlLPJYNA=
+	t=1775261271; cv=none; b=dSdRFTBHYIOzrKe4pOkichKxdvhZUTNmaiq+4k6edDGXYWo4w0+3omv6qf6/1erTkp8LNGVjHmbJPKIbWV/5Cz+zdg3QOcyzbZPg3vEh25/yFRzv1kpwEhia6HOyMmEkZAHduJ08vawQ1i4MpsJsdfJCJJOcU3aY/D1ZmY9FRlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775261265; c=relaxed/simple;
-	bh=d23SS4JYDl51gvVRVxBmRbh490gs/+zf7Nk228iDvk8=;
+	s=arc-20240116; t=1775261271; c=relaxed/simple;
+	bh=o+VlMAnQQaP1SWDlc4XFND6M5h5/jJtCq+7R5B9vAq8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YJ6+SFe52pTj0AlF+1s2sRzfUiiKj+9bNNINnYlEF8PS0D8VgzujNFohTxKVAhzwwZ1fU/m5x/Vrdjs0cN1oontOBnQbdLujYVLvL1R2DagoZHtZdwVywxgp7KIE2dGbhqHFIr4Ttwois9OfffsSOrjtHiCqp9RgyCH6ria5zJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eygBTX8M; arc=none smtp.client-ip=74.125.82.175
+	 MIME-Version; b=h39+9jtfAgSNpox1qz41aflaIQw/ckYiw35vzn8eh+kdZ6YY3j5UQCE9EBvneugigghvUN6MB8THjI5rBu7vi6EM/IuVGO9Wq2kiaAX3Prqixi1JSZyQI643CVZHMx7fHdb6ZA3lJnPIb4Jlk24qEPSrCyNo1dWlr1VLQYIvt5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cwLI/OI7; arc=none smtp.client-ip=74.125.82.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eygBTX8M"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so5530887eec.1
-        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 17:07:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cwLI/OI7"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b6b0500e06so3552581eec.1
+        for <driver-core@lists.linux.dev>; Fri, 03 Apr 2026 17:07:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775261262; x=1775866062; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1775261266; x=1775866066; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P2v/+uE3FItR13RHlHLOGT8kS+I6Lrtj4w+A1WuT72k=;
-        b=eygBTX8Mz2znFOP8mAOi5E2qsd1AeoBqrVRyOFEpGm0Y0mr2K6pAyPL8bIt7GZ+F2c
-         VE4qHHJMyd/yeWhScx+B3H+4apL0NnKTQd/348kCZdCT75aIgHLcvJ8v7C00csx7j+7m
-         6VFWAljUzz37+d007cQJyCkdEKpUenf7WQXTw=
+        bh=5WbWNOKgJimgI9xjyvoHzw2TjM6jyvThEk+IUd6YUTg=;
+        b=cwLI/OI7OyCusZIWyAB+o64S0hXCtxrPf0Vb+Sy7dnqlM6XWQfefmGHdiaHXPvYKYP
+         GySvwrNn2m1+gZ7LhA/bFZpM6zYWtnmmeOFWjmN8JVPZaGmUKBiRTgK7F+AtCV+Eq7dC
+         76JWH+jNFXM05Ms4Xg1rT2dGTMhlPvbD4EA/o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775261262; x=1775866062;
+        d=1e100.net; s=20251104; t=1775261266; x=1775866066;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=P2v/+uE3FItR13RHlHLOGT8kS+I6Lrtj4w+A1WuT72k=;
-        b=SuDQ9hguYVulFJOrrOFxe4YKNJZparC18ikUDCCyyE9YvVNqkyw7/DjrHOGY1/XHDA
-         YUASEOPOydtXPdkW1r+A4IjPYRch/nO0JjHUx73fmnlhfGaE1DJe+eV67OTKGuka1M9X
-         cxb1otsvvTH4+t8vCmrT+E33NZlomu9jGnvvHQofuu+JTKWELv6Fy/cFbajAkE0HIuJI
-         MLYytdr7aPGsqDqLcoImzhdTEZj3SvcWTqNBFZR/rodHfwF63qFJ1iFo1KsU5aU4jozv
-         PdWfFGZJhI4YIDaDLU9ztFtOmm+k7SH5Cs/3TcRxD7dp080vc1+39NLXnhxRO3YT6Dd0
-         /L+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVpAYyQTPAt53oOxaNj+QksTzqtFeqVJeIBv7Xu+ie+7CAChHpI02u6xnTUxqPno1KIHkQAhF/RZWl9rw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzNQ3++FJ8Zk7Ck/Puzq8TVpdbWDgCyDjijjVNeInC68Q58usbk
-	88e3qShN6UiW1b3uvofGMensuLNgWDvTrF7o5GYLjSw6RgxdYfQWZQxQuEH6YMcFTQ==
-X-Gm-Gg: AeBDieuN3fRTLJ851ajrxi48GT2HIUcvCvp6ASGzU8kmz/KjGuJBw3yzgv9hWWWAlRi
-	5W24joCf+rlfgmrXCbBztyFXR0fXe3hEvq2Uw913SIDOTyHseTRFlchTF19gIZ7VmUlPGvAGILZ
-	vQrhzvQ7wwPHqV5BZPkKiXWPXF+sDo4sqFoAFq3ueRWwU06T73yBJeBGeCr/iGaMLR21xDtI/vd
-	mCN5U1S9CyzYeEli99ZTmitH18eugEPUpDqd5FR0hAwj64UAnLpO0c6yu1vIn3wAXZlGqk2Q8qI
-	Qk4GaDxulacRK7sshXpFLjcTok7ebRfsQVvMeUwEOwNmpHlzUQbnGdawlgRI9iFk2caZE5Zvoh1
-	Lp3JiWXxF3RWK9ZYnFu20eo8T3lKiz2b/0lx1DGeu+sAmMyn8clXLV03S4uABTWbzViFRxAlKAE
-	pXkm/GjM4ypdAka8kSDxPcvSzeOSo5KiiHLodfdq0fxDgZY18pR9JSPEntCCa0k8d5C3SN5pocD
-	Wxb9E4pdnM=
-X-Received: by 2002:a05:7300:b54b:b0:2c5:347:e628 with SMTP id 5a478bee46e88-2cbfbf77d5bmr2583156eec.21.1775261262312;
-        Fri, 03 Apr 2026 17:07:42 -0700 (PDT)
+        bh=5WbWNOKgJimgI9xjyvoHzw2TjM6jyvThEk+IUd6YUTg=;
+        b=OS0Lr4F6NcsfH3Oh0gvu8EbbTBzbM4n2OH0UsgwW7K25a9PZBeRa/E7qaZPgUEgFTM
+         BYnxBSWwE5wyRd5OlavKZW0c+DChvevOWubiS9Cg4JOmbCJMqTeIpk2VJH12olf1MANK
+         qgzE5L1O5/EF60TIQLz4zkJ6r192ljiypTtkKekdna0KIuwRX2/SDB7Kk/nu75CV28Ck
+         9N91cI+fFdd5TGVFoMSjE15xBb7tuThozunpKNx3uyk3INxZaLlOeVjWW4hpS2hpNNsB
+         P4bG2mCpcQ0z6kq3bTYpUYcDNwJ1rZiyFwe2T9llGEPsVT0LzUXE9yuidvJNKtr0VuYZ
+         S9qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWcNjFCfJN0SSXc6k9Hy2gZiRLCO1Btg9BxznXLOSeoLNtkMxjf4FiEjmub5rdtEGrTEsXaaBiZ0fhmeA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqGTpENjPWjrDTe/BnhkUoeL61tTonCd4JAw9c3YFkHG/HBI1Q
+	dpahWQ5zeflL/XZrOwX/EfikWwCdZXy7zbmz4qh2NyufLA8RcARLDbnTeXdUkgwXWg==
+X-Gm-Gg: AeBDiesjbdIbS3UuzgmsNp8Q8c1RxXigQWuveE89MoFmVSBtlLcZ4oFI1NdZ36Bu9zN
+	R+d4hxRmSNgCY+EqhdhxT8vXfZ4qOcTEjYR7JWste41VM7d1y9mi2n/3jsKvlxALjbZDDOzYhnQ
+	oIJMU21o11PK8EMwczAkSD+Rk78d3zkLkl1srjtQS/Qo/+nHHE2/Tcz3f+gYiD0yYIWIAkjnei/
+	9Zf/SEJp0gND8TpdKRHG0BQG5CYpyderNzi5tgw9y3mRCoYOvNbSWftGqjiimUdmRvUrTygwK8O
+	yiaGkW2zS/JmS79fvCsffLYM4CuwbX74xwRIbvkXpPk/L/UT8AnH0ZNAzoRZizcWla1Ex+Zcq5U
+	HD05M2qE2Xd+lqfpqoNn2HJkQOtRv4AmvjoVp9s40aGqn2A27sBxjeO41OWKBk3OG2DRk7eEz9i
+	k7LA6asxeO26QtRnaxNOsL7pw0TGVVbuFB4HXNFp1wjSdWSH6+yKeTgTziPn24QK2UkBkJeIgOH
+	ihGenP1p+5raOJCQjFxLw==
+X-Received: by 2002:a05:7300:dc88:b0:2b7:b7e7:9025 with SMTP id 5a478bee46e88-2cbfcb5580fmr2229803eec.31.1775261265791;
+        Fri, 03 Apr 2026 17:07:45 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:a8b6:55b2:3eb6:2c0e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca79e1d93bsm6520716eec.12.2026.04.03.17.07.39
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca79e1d93bsm6520716eec.12.2026.04.03.17.07.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 17:07:41 -0700 (PDT)
+        Fri, 03 Apr 2026 17:07:44 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
@@ -71,35 +71,35 @@ Cc: Saravana Kannan <saravanak@kernel.org>,
 	Robin Murphy <robin.murphy@arm.com>,
 	Douglas Anderson <dianders@chromium.org>,
 	Mark Brown <broonie@kernel.org>,
-	alexander.stein@ew.tq-group.com,
-	andrew@codeconstruct.com.au,
-	andrew@lunn.ch,
-	andriy.shevchenko@linux.intel.com,
-	bhelgaas@google.com,
-	brgl@kernel.org,
-	davem@davemloft.net,
-	devicetree@vger.kernel.org,
+	ardb@kernel.org,
+	catalin.marinas@arm.com,
+	chleroy@kernel.org,
+	david@kernel.org,
 	driver-core@lists.linux.dev,
-	hkallweit1@gmail.com,
-	jirislaby@kernel.org,
-	joel@jms.id.au,
 	kees@kernel.org,
-	kuba@kernel.org,
-	lgirdwood@gmail.com,
+	kevin.brodsky@arm.com,
+	lenb@kernel.org,
+	linux-acpi@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
+	linux-cxl@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk,
-	mani@kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	robh@kernel.org
-Subject: [PATCH v4 8/9] driver core: Replace dev->of_node_reused with dev_of_node_reused()
-Date: Fri,  3 Apr 2026 17:05:02 -0700
-Message-ID: <20260403170432.v4.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
+	linux-mm@kvack.org,
+	linuxppc-dev@lists.ozlabs.org,
+	maddy@linux.ibm.com,
+	maz@kernel.org,
+	miko.lenczewski@arm.com,
+	mpe@ellerman.id.au,
+	npiggin@gmail.com,
+	osalvador@suse.de,
+	oupton@kernel.org,
+	peterz@infradead.org,
+	tglx@kernel.org,
+	will@kernel.org,
+	yangyicong@hisilicon.com,
+	yeoreum.yun@arm.com
+Subject: [PATCH v4 9/9] driver core: Replace dev->offline + ->offline_disabled with accessors
+Date: Fri,  3 Apr 2026 17:05:03 -0700
+Message-ID: <20260403170432.v4.9.I897d478b4a9361d79cd5073207c1062fd4d0d0e4@changeid>
 X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
 In-Reply-To: <20260404000644.522677-1-dianders@chromium.org>
 References: <20260404000644.522677-1-dianders@chromium.org>
@@ -112,10 +112,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "of_node_reused" over to the "flags"
-field so modifications are safe.
+threads without locking. Switch "offline" and "offline_disabled" over
+to the "flags" field so modifications are safe.
 
-Cc: Johan Hovold <johan@kernel.org>
+Cc: Rafael J. Wysocki <rafael@kernel.org>
 Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
@@ -129,227 +129,238 @@ Changes in v4:
 Changes in v3:
 - New
 
- drivers/base/core.c                      | 2 +-
- drivers/base/pinctrl.c                   | 2 +-
- drivers/base/platform.c                  | 2 +-
- drivers/net/pcs/pcs-xpcs-plat.c          | 2 +-
- drivers/of/device.c                      | 6 +++---
- drivers/pci/of.c                         | 2 +-
- drivers/pci/pwrctrl/core.c               | 2 +-
- drivers/regulator/bq257xx-regulator.c    | 2 +-
- drivers/regulator/rk808-regulator.c      | 2 +-
- drivers/tty/serial/serial_base_bus.c     | 2 +-
- drivers/usb/gadget/udc/aspeed-vhub/dev.c | 2 +-
- include/linux/device.h                   | 7 ++++---
- 12 files changed, 17 insertions(+), 16 deletions(-)
+ arch/arm64/kernel/cpufeature.c                 |  2 +-
+ .../powerpc/platforms/pseries/hotplug-memory.c |  4 ++--
+ drivers/acpi/scan.c                            |  2 +-
+ drivers/base/core.c                            | 18 +++++++++---------
+ drivers/base/cpu.c                             |  4 ++--
+ drivers/base/memory.c                          |  2 +-
+ include/linux/device.h                         | 12 ++++++------
+ kernel/cpu.c                                   |  4 ++--
+ 8 files changed, 24 insertions(+), 24 deletions(-)
 
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 32c2dbcc0c64..c832aa565dc2 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -4042,7 +4042,7 @@ static int enable_mismatched_32bit_el0(unsigned int cpu)
+ 	 */
+ 	lucky_winner = cpu_32bit ? cpu : cpumask_any_and(cpu_32bit_el0_mask,
+ 							 cpu_active_mask);
+-	get_cpu_device(lucky_winner)->offline_disabled = true;
++	dev_set_offline_disabled(get_cpu_device(lucky_winner));
+ 	setup_elf_hwcaps(compat_elf_hwcaps);
+ 	elf_hwcap_fixup();
+ 	pr_info("Asymmetric 32-bit EL0 support detected on CPU %u; CPU hot-unplug disabled on CPU %u\n",
+diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
+index b2f14db59034..75f85a5da981 100644
+--- a/arch/powerpc/platforms/pseries/hotplug-memory.c
++++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
+@@ -213,9 +213,9 @@ static int dlpar_change_lmb_state(struct drmem_lmb *lmb, bool online)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (online && mem_block->dev.offline)
++	if (online && dev_offline(&mem_block->dev))
+ 		rc = device_online(&mem_block->dev);
+-	else if (!online && !mem_block->dev.offline)
++	else if (!online && !dev_offline(&mem_block->dev))
+ 		rc = device_offline(&mem_block->dev);
+ 	else
+ 		rc = 0;
+diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+index e8cdbdb46fdb..1353adbcc234 100644
+--- a/drivers/acpi/scan.c
++++ b/drivers/acpi/scan.c
+@@ -122,7 +122,7 @@ bool acpi_scan_is_offline(struct acpi_device *adev, bool uevent)
+ 	mutex_lock_nested(&adev->physical_node_lock, SINGLE_DEPTH_NESTING);
+ 
+ 	list_for_each_entry(pn, &adev->physical_node_list, node)
+-		if (device_supports_offline(pn->dev) && !pn->dev->offline) {
++		if (device_supports_offline(pn->dev) && !dev_offline(pn->dev)) {
+ 			if (uevent)
+ 				kobject_uevent_env(&pn->dev->kobj, KOBJ_CHANGE, envp);
+ 
 diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 531f02a5469a..f12f3b53b4d0 100644
+index f12f3b53b4d0..79c85dbcffad 100644
 --- a/drivers/base/core.c
 +++ b/drivers/base/core.c
-@@ -5281,7 +5281,7 @@ void device_set_of_node_from_dev(struct device *dev, const struct device *dev2)
- {
- 	of_node_put(dev->of_node);
- 	dev->of_node = of_node_get(dev2->of_node);
--	dev->of_node_reused = true;
-+	dev_set_of_node_reused(dev);
- }
- EXPORT_SYMBOL_GPL(device_set_of_node_from_dev);
+@@ -2788,7 +2788,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
+ 	bool val;
  
-diff --git a/drivers/base/pinctrl.c b/drivers/base/pinctrl.c
-index 6e250272c843..0bbc83231234 100644
---- a/drivers/base/pinctrl.c
-+++ b/drivers/base/pinctrl.c
-@@ -24,7 +24,7 @@ int pinctrl_bind_pins(struct device *dev)
+ 	device_lock(dev);
+-	val = !dev->offline;
++	val = !dev_offline(dev);
+ 	device_unlock(dev);
+ 	return sysfs_emit(buf, "%u\n", val);
+ }
+@@ -2913,7 +2913,7 @@ static int device_add_attrs(struct device *dev)
+ 	if (error)
+ 		goto err_remove_type_groups;
+ 
+-	if (device_supports_offline(dev) && !dev->offline_disabled) {
++	if (device_supports_offline(dev) && !dev_offline_disabled(dev)) {
+ 		error = device_create_file(dev, &dev_attr_online);
+ 		if (error)
+ 			goto err_remove_dev_groups;
+@@ -4178,7 +4178,7 @@ static int device_check_offline(struct device *dev, void *not_used)
+ 	if (ret)
+ 		return ret;
+ 
+-	return device_supports_offline(dev) && !dev->offline ? -EBUSY : 0;
++	return device_supports_offline(dev) && !dev_offline(dev) ? -EBUSY : 0;
+ }
+ 
+ /**
+@@ -4196,7 +4196,7 @@ int device_offline(struct device *dev)
  {
  	int ret;
  
--	if (dev->of_node_reused)
-+	if (dev_of_node_reused(dev))
- 		return 0;
+-	if (dev->offline_disabled)
++	if (dev_offline_disabled(dev))
+ 		return -EPERM;
  
- 	dev->pins = devm_kzalloc(dev, sizeof(*(dev->pins)), GFP_KERNEL);
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index d44591d52e36..199e6fb25770 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -856,7 +856,7 @@ struct platform_device *platform_device_register_full(
- 	pdev->dev.parent = pdevinfo->parent;
- 	pdev->dev.fwnode = pdevinfo->fwnode;
- 	pdev->dev.of_node = of_node_get(to_of_node(pdev->dev.fwnode));
--	pdev->dev.of_node_reused = pdevinfo->of_node_reused;
-+	dev_assign_of_node_reused(&pdev->dev, pdevinfo->of_node_reused);
+ 	ret = device_for_each_child(dev, NULL, device_check_offline);
+@@ -4205,13 +4205,13 @@ int device_offline(struct device *dev)
  
- 	if (pdevinfo->dma_mask) {
- 		pdev->platform_dma_mask = pdevinfo->dma_mask;
-diff --git a/drivers/net/pcs/pcs-xpcs-plat.c b/drivers/net/pcs/pcs-xpcs-plat.c
-index b8c48f9effbf..f4b1b8246ce9 100644
---- a/drivers/net/pcs/pcs-xpcs-plat.c
-+++ b/drivers/net/pcs/pcs-xpcs-plat.c
-@@ -349,7 +349,7 @@ static int xpcs_plat_init_dev(struct dw_xpcs_plat *pxpcs)
- 	 * up later. Make sure DD-core is aware of the OF-node being re-used.
- 	 */
- 	device_set_node(&mdiodev->dev, fwnode_handle_get(dev_fwnode(dev)));
--	mdiodev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&mdiodev->dev);
- 
- 	/* Pass the data further so the DW XPCS driver core could use it */
- 	mdiodev->dev.platform_data = (void *)device_get_match_data(dev);
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index f7e75e527667..be4e1584e0af 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -26,7 +26,7 @@
- const struct of_device_id *of_match_device(const struct of_device_id *matches,
- 					   const struct device *dev)
- {
--	if (!matches || !dev->of_node || dev->of_node_reused)
-+	if (!matches || !dev->of_node || dev_of_node_reused(dev))
- 		return NULL;
- 	return of_match_node(matches, dev->of_node);
- }
-@@ -192,7 +192,7 @@ ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len)
- {
- 	ssize_t sl;
- 
--	if (!dev || !dev->of_node || dev->of_node_reused)
-+	if (!dev || !dev->of_node || dev_of_node_reused(dev))
- 		return -ENODEV;
- 
- 	sl = of_modalias(dev->of_node, str, len - 2);
-@@ -254,7 +254,7 @@ int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *
- {
- 	int sl;
- 
--	if ((!dev) || (!dev->of_node) || dev->of_node_reused)
-+	if ((!dev) || (!dev->of_node) || dev_of_node_reused(dev))
- 		return -ENODEV;
- 
- 	/* Devicetree modalias is tricky, we add it in 2 steps */
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 9f8eb5df279e..1f9b669abdb0 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -38,7 +38,7 @@ int pci_set_of_node(struct pci_dev *dev)
- 	struct device *pdev __free(put_device) =
- 		bus_find_device_by_of_node(&platform_bus_type, node);
- 	if (pdev)
--		dev->bus->dev.of_node_reused = true;
-+		dev_set_of_node_reused(&dev->bus->dev);
- 
- 	device_set_node(&dev->dev, of_fwnode_handle(no_free_ptr(node)));
- 	return 0;
-diff --git a/drivers/pci/pwrctrl/core.c b/drivers/pci/pwrctrl/core.c
-index 7754baed67f2..72963a92362a 100644
---- a/drivers/pci/pwrctrl/core.c
-+++ b/drivers/pci/pwrctrl/core.c
-@@ -39,7 +39,7 @@ static int pci_pwrctrl_notify(struct notifier_block *nb, unsigned long action,
- 		 * If we got here then the PCI device is the second after the
- 		 * power control platform device. Mark its OF node as reused.
- 		 */
--		dev->of_node_reused = true;
-+		dev_set_of_node_reused(dev);
- 		break;
+ 	device_lock(dev);
+ 	if (device_supports_offline(dev)) {
+-		if (dev->offline) {
++		if (dev_offline(dev)) {
+ 			ret = 1;
+ 		} else {
+ 			ret = dev->bus->offline(dev);
+ 			if (!ret) {
+ 				kobject_uevent(&dev->kobj, KOBJ_OFFLINE);
+-				dev->offline = true;
++				dev_set_offline(dev);
+ 			}
+ 		}
  	}
+@@ -4236,11 +4236,11 @@ int device_online(struct device *dev)
  
-diff --git a/drivers/regulator/bq257xx-regulator.c b/drivers/regulator/bq257xx-regulator.c
-index dab8f1ab4450..40e0f1a7ae81 100644
---- a/drivers/regulator/bq257xx-regulator.c
-+++ b/drivers/regulator/bq257xx-regulator.c
-@@ -143,7 +143,7 @@ static int bq257xx_regulator_probe(struct platform_device *pdev)
- 	struct regulator_config cfg = {};
+ 	device_lock(dev);
+ 	if (device_supports_offline(dev)) {
+-		if (dev->offline) {
++		if (dev_offline(dev)) {
+ 			ret = dev->bus->online(dev);
+ 			if (!ret) {
+ 				kobject_uevent(&dev->kobj, KOBJ_ONLINE);
+-				dev->offline = false;
++				dev_clear_offline(dev);
+ 			}
+ 		} else {
+ 			ret = 1;
+@@ -4714,7 +4714,7 @@ static int device_attrs_change_owner(struct device *dev, kuid_t kuid,
+ 	if (error)
+ 		return error;
  
- 	pdev->dev.of_node = pdev->dev.parent->of_node;
--	pdev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&pdev->dev);
+-	if (device_supports_offline(dev) && !dev->offline_disabled) {
++	if (device_supports_offline(dev) && !dev_offline_disabled(dev)) {
+ 		/* Change online device attributes of @dev to @kuid/@kgid. */
+ 		error = sysfs_file_change_owner(kobj, dev_attr_online.attr.name,
+ 						kuid, kgid);
+diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+index 875abdc9942e..19d288a3c80c 100644
+--- a/drivers/base/cpu.c
++++ b/drivers/base/cpu.c
+@@ -422,8 +422,8 @@ int register_cpu(struct cpu *cpu, int num)
+ 	cpu->dev.id = num;
+ 	cpu->dev.bus = &cpu_subsys;
+ 	cpu->dev.release = cpu_device_release;
+-	cpu->dev.offline_disabled = !cpu->hotpluggable;
+-	cpu->dev.offline = !cpu_online(num);
++	dev_assign_offline_disabled(&cpu->dev, !cpu->hotpluggable);
++	dev_assign_offline(&cpu->dev, !cpu_online(num));
+ 	cpu->dev.of_node = of_get_cpu_node(num, NULL);
+ 	cpu->dev.groups = common_cpu_attr_groups;
+ 	if (cpu->hotpluggable)
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index a3091924918b..5005654f44fa 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -697,7 +697,7 @@ static int __add_memory_block(struct memory_block *memory)
+ 	memory->dev.id = memory->start_section_nr / sections_per_block;
+ 	memory->dev.release = memory_block_release;
+ 	memory->dev.groups = memory_memblk_attr_groups;
+-	memory->dev.offline = memory->state == MEM_OFFLINE;
++	dev_assign_offline(&memory->dev, memory->state == MEM_OFFLINE);
  
- 	pdata = devm_kzalloc(&pdev->dev, sizeof(struct bq257xx_reg_data), GFP_KERNEL);
- 	if (!pdata)
-diff --git a/drivers/regulator/rk808-regulator.c b/drivers/regulator/rk808-regulator.c
-index e66408f23bb6..8297d31cde9f 100644
---- a/drivers/regulator/rk808-regulator.c
-+++ b/drivers/regulator/rk808-regulator.c
-@@ -2115,7 +2115,7 @@ static int rk808_regulator_probe(struct platform_device *pdev)
- 	int ret, i, nregulators;
- 
- 	pdev->dev.of_node = pdev->dev.parent->of_node;
--	pdev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&pdev->dev);
- 
- 	regmap = dev_get_regmap(pdev->dev.parent, NULL);
- 	if (!regmap)
-diff --git a/drivers/tty/serial/serial_base_bus.c b/drivers/tty/serial/serial_base_bus.c
-index a12935f6b992..5f23284a8778 100644
---- a/drivers/tty/serial/serial_base_bus.c
-+++ b/drivers/tty/serial/serial_base_bus.c
-@@ -74,7 +74,7 @@ static int serial_base_device_init(struct uart_port *port,
- 	dev->parent = parent_dev;
- 	dev->bus = &serial_base_bus_type;
- 	dev->release = release;
--	dev->of_node_reused = true;
-+	dev_set_of_node_reused(dev);
- 
- 	device_set_node(dev, fwnode_handle_get(dev_fwnode(parent_dev)));
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 2ecd049dacc2..8b9449d16324 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -593,7 +593,7 @@ int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
- 		d->gadget.max_speed = USB_SPEED_HIGH;
- 	d->gadget.speed = USB_SPEED_UNKNOWN;
- 	d->gadget.dev.of_node = vhub->pdev->dev.of_node;
--	d->gadget.dev.of_node_reused = true;
-+	dev_set_of_node_reused(&d->gadget.dev);
- 
- 	rc = usb_add_gadget_udc(d->port_dev, &d->gadget);
- 	if (rc != 0)
+ 	ret = device_register(&memory->dev);
+ 	if (ret) {
 diff --git a/include/linux/device.h b/include/linux/device.h
-index fca986cef2ed..8132aab17e04 100644
+index 8132aab17e04..65fc6c566cc6 100644
 --- a/include/linux/device.h
 +++ b/include/linux/device.h
-@@ -483,6 +483,8 @@ struct device_physical_location {
-  *		driver/bus sync_state() callback.
-  * @DEV_FLAG_DMA_COHERENT: This particular device is dma coherent, even if the
+@@ -485,6 +485,8 @@ struct device_physical_location {
   *		architecture supports non-coherent devices.
-+ * @DEV_FLAG_OF_NODE_REUSED: Set if the device-tree node is shared with an
-+ *		ancestor device.
+  * @DEV_FLAG_OF_NODE_REUSED: Set if the device-tree node is shared with an
+  *		ancestor device.
++ * @DEV_FLAG_OFFLINE_DISABLED: If set, the device is permanently online.
++ * @DEV_FLAG_OFFLINE: Set after successful invocation of bus type's .offline().
   */
  enum struct_device_flags {
  	DEV_FLAG_READY_TO_PROBE = 0,
-@@ -492,6 +494,7 @@ enum struct_device_flags {
- 	DEV_FLAG_DMA_OPS_BYPASS = 4,
+@@ -495,6 +497,8 @@ enum struct_device_flags {
  	DEV_FLAG_STATE_SYNCED = 5,
  	DEV_FLAG_DMA_COHERENT = 6,
-+	DEV_FLAG_OF_NODE_REUSED = 7,
+ 	DEV_FLAG_OF_NODE_REUSED = 7,
++	DEV_FLAG_OFFLINE_DISABLED = 8,
++	DEV_FLAG_OFFLINE = 9,
  
  	DEV_FLAG_COUNT
  };
-@@ -573,8 +576,6 @@ enum struct_device_flags {
-  *
-  * @offline_disabled: If set, the device is permanently online.
-  * @offline:	Set after successful invocation of bus type's .offline().
-- * @of_node_reused: Set if the device-tree node is shared with an ancestor
-- *              device.
+@@ -573,9 +577,6 @@ enum struct_device_flags {
+  * @removable:  Whether the device can be removed from the system. This
+  *              should be set by the subsystem / bus driver that discovered
+  *              the device.
+- *
+- * @offline_disabled: If set, the device is permanently online.
+- * @offline:	Set after successful invocation of bus type's .offline().
   * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
   *
   * At the lowest level, every device in a Linux system is represented by an
-@@ -681,7 +682,6 @@ struct device {
+@@ -680,9 +681,6 @@ struct device {
  
- 	bool			offline_disabled:1;
- 	bool			offline:1;
--	bool			of_node_reused:1;
+ 	enum device_removable	removable;
  
+-	bool			offline_disabled:1;
+-	bool			offline:1;
+-
  	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
  };
-@@ -715,6 +715,7 @@ __create_dev_flag_accessors(dma_skip_sync, DEV_FLAG_DMA_SKIP_SYNC);
- __create_dev_flag_accessors(dma_ops_bypass, DEV_FLAG_DMA_OPS_BYPASS);
+ 
+@@ -716,6 +714,8 @@ __create_dev_flag_accessors(dma_ops_bypass, DEV_FLAG_DMA_OPS_BYPASS);
  __create_dev_flag_accessors(state_synced, DEV_FLAG_STATE_SYNCED);
  __create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
-+__create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
+ __create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
++__create_dev_flag_accessors(offline_disabled, DEV_FLAG_OFFLINE_DISABLED);
++__create_dev_flag_accessors(offline, DEV_FLAG_OFFLINE);
  
  /**
   * struct device_link - Device link representation.
+diff --git a/kernel/cpu.c b/kernel/cpu.c
+index bc4f7a9ba64e..f975bb34915b 100644
+--- a/kernel/cpu.c
++++ b/kernel/cpu.c
+@@ -2639,7 +2639,7 @@ static void cpuhp_offline_cpu_device(unsigned int cpu)
+ {
+ 	struct device *dev = get_cpu_device(cpu);
+ 
+-	dev->offline = true;
++	dev_set_offline(dev);
+ 	/* Tell user space about the state change */
+ 	kobject_uevent(&dev->kobj, KOBJ_OFFLINE);
+ }
+@@ -2648,7 +2648,7 @@ static void cpuhp_online_cpu_device(unsigned int cpu)
+ {
+ 	struct device *dev = get_cpu_device(cpu);
+ 
+-	dev->offline = false;
++	dev_clear_offline(dev);
+ 	/* Tell user space about the state change */
+ 	kobject_uevent(&dev->kobj, KOBJ_ONLINE);
+ }
 -- 
 2.53.0.1213.gd9a14994de-goog
 
