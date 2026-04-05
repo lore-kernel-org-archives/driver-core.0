@@ -1,139 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276B01DE8BF;
-	Sun,  5 Apr 2026 09:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB3123D7FF;
+	Sun,  5 Apr 2026 12:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775382732; cv=none; b=q9vZq2jlWddBBis7KyDtgOYd0jWXmchtWfsjWb6t3mk7u6SFYDbQYEpUs7n4gA8hyheEJgaKnorv23hkwGN9ZNWq38D/nVgwJxymcd/muZShgmmliMtzFUwWp6Rc2GZmZzsBaI1heg7FwL7qmfRXFIl2ICWS/MmRe24csp4mwmg=
+	t=1775390570; cv=none; b=Tiv4Eql/vzwchH3UTdgjl1SiHbDap3dYlXhYMNI/tFwCJCY/vb82+1mMxpBdtXZh96IXK7CI8i1zC1mhK7lPxfvXzFWn5OQDFtK4Jj96el+FY2dTqSfb5HsuUjQpCbZwZL9X1pXOMsGgRi3CyF8rOidKG75qN3tNGqjWPM+Qg9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775382732; c=relaxed/simple;
-	bh=xheOJZ2Y0lkt23J9cH+x8+rDQMGMq3kINBbaB7EJ4FE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mdqSJtX6+wxHEE/gzYgaW7q7z4XISYe31cpeQZZWWj3KyGagtrNvr8cAbuZEIQm+S0kF6mMFFb+8240LrpC7yrPh5BNiCF4UpTJaNjYoHvGr1cDZVR2J6M8mQBk7JcmVpg/WH/i3Q/FCrvaD40k4/9PwS7JhfTjI/tePUqK5FIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtnoQVjZ; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775390570; c=relaxed/simple;
+	bh=VwXIPBbp0EIzPNtpB2Kh8OUpJCymQVJw7CRWHLQnyH0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=RqDOFt27ZNxrFENXuruO+Ekqfojuw3AoOrjtsYPmZIHOmk9qOLWGNFrMpIG3Vz6aL1uKf2naHhamaRhJoWZ0RLHscqargu0pP7lI9wWRnaY4f9EEfzApV6CUlMILuf6AuBUOk5Gyz/a690ghjPilDRrArpP1zg9nYqi6JLK+xOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qQwwCeNj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtnoQVjZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775382730; x=1806918730;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xheOJZ2Y0lkt23J9cH+x8+rDQMGMq3kINBbaB7EJ4FE=;
-  b=DtnoQVjZFKKOQc+j0zMMVmIXEiJdaJehlY0yWVzrb54l9iySeMMOb2Bx
-   docTAHCoBjLIEKEaOiG5jByHGDHTcQhygl8LKz0585gGnvzXa3C8Kf02h
-   6sSoGMj2JrWmUYgXyw2zGqRuyoKhe85ELRTEdG3KVb+5cyio3+tPIPY/z
-   +qjW0OBuA1MhS8K+KSgxUDf3eTcePOwEp7nYoOHdM3mPcIahYIqGZ5mzM
-   7EOenQd4OWzvTY9LCbWC8db3GpIkGfRKLNWCtolJuoFW5dGIdLlCvgzhP
-   IwNLvGn1frcwIDW/jqbv08fB2+YURwS2+ZYLXl1U3DRz9UGIzUODVlxN0
-   A==;
-X-CSE-ConnectionGUID: FTx0uZV5SCOsj6+XMAhyDg==
-X-CSE-MsgGUID: gUusC0d5TcqApdx1gN5Mfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11749"; a="76491174"
-X-IronPort-AV: E=Sophos;i="6.23,161,1770624000"; 
-   d="scan'208";a="76491174"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2026 02:52:10 -0700
-X-CSE-ConnectionGUID: t7nrAmNPRwSUjyjneNbuIg==
-X-CSE-MsgGUID: 2u9ONBGdSY69Vacb+A1lGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,161,1770624000"; 
-   d="scan'208";a="223319131"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Apr 2026 02:52:06 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w9K9D-000000009nB-3A2x;
-	Sun, 05 Apr 2026 09:52:03 +0000
-Date: Sun, 5 Apr 2026 11:51:34 +0200
-From: kernel test robot <lkp@intel.com>
-To: Aditya Rajan <adi.dev.github@gmail.com>, dakr@kernel.org,
-	ojeda@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, abdiel.janulgue@gmail.com,
-	daniel.almeida@collabora.com, robin.murphy@arm.com,
-	a.hindborg@kernel.org, boqun@kernel.org, gary@garyguo.net,
-	bjorn3_gh@protonmail.com, lossin@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Aditya Rajan <adi.dev.github@gmail.com>
-Subject: Re: [PATCH] rust: dma: return EOVERFLOW instead of ENOMEM on size
- overflow
-Message-ID: <202604051110.OC0tBUnh-lkp@intel.com>
-References: <20260403212822.294288-1-adi.dev.github@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qQwwCeNj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E64C19424;
+	Sun,  5 Apr 2026 12:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775390569;
+	bh=VwXIPBbp0EIzPNtpB2Kh8OUpJCymQVJw7CRWHLQnyH0=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=qQwwCeNj+saJT57yAG47jboL8X78w4/j6WpBJ1RZ4sp8PWbMz7XsL9EDbWtj55Eiv
+	 28aGEHxX84zqCSRKzt5WxDYhK2mKne18FSkXEYY++OZ6+IBYaBKFZkA86MS9bLh9Oc
+	 BYyORiDakrz6RnLk4LVZHvUx8P1LQpa7pCp8fHnA1nA9F6ZvrAlepEALLMXhhTHNG5
+	 7JaVWay0RJB3NcEhdmqtS8VF3DnUGPXm4QkCgawXIaUT/QfRxlFCiXeEIfDZt6r6xg
+	 I3uj6fM0ROLbqxk5+qZJNhPISl9Q1iNQvp6vF94UFTOtVMPHy01bKsqbxAmGzThrrM
+	 mtqWeRGNpMg3w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260403212822.294288-1-adi.dev.github@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 05 Apr 2026 14:02:33 +0200
+Message-Id: <DHL7FCNQ20PA.2K03T8MNSO9TT@kernel.org>
+Subject: Re: [PATCH v4 0/9] driver core: Fix some race conditions
+Cc: "Douglas Anderson" <dianders@chromium.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Alan Stern" <stern@rowland.harvard.edu>, "Saravana
+ Kannan" <saravanak@kernel.org>, "Christoph Hellwig" <hch@lst.de>, "Eric
+ Dumazet" <edumazet@google.com>, "Johan Hovold" <johan@kernel.org>, "Leon
+ Romanovsky" <leon@kernel.org>, "Alexander Lobakin"
+ <aleksander.lobakin@intel.com>, "Alexey Kardashevskiy" <aik@ozlabs.ru>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, <Frank.Li@kernel.org>, "Jason Gunthorpe"
+ <jgg@ziepe.ca>, <alex@ghiti.fr>, <alexander.stein@ew.tq-group.com>,
+ <andre.przywara@arm.com>, <andrew@codeconstruct.com.au>, <andrew@lunn.ch>,
+ <andriy.shevchenko@linux.intel.com>, <aou@eecs.berkeley.edu>,
+ <ardb@kernel.org>, <bhelgaas@google.com>, <brgl@kernel.org>,
+ <broonie@kernel.org>, <catalin.marinas@arm.com>, <chleroy@kernel.org>,
+ <davem@davemloft.net>, <david@kernel.org>, <devicetree@vger.kernel.org>,
+ <dmaengine@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <gbatra@linux.ibm.com>, <gregory.clement@bootlin.com>,
+ <hkallweit1@gmail.com>, <iommu@lists.linux.dev>, <jirislaby@kernel.org>,
+ <joel@jms.id.au>, <joro@8bytes.org>, <kees@kernel.org>,
+ <kevin.brodsky@arm.com>, <kuba@kernel.org>, <lenb@kernel.org>,
+ <lgirdwood@gmail.com>, <linux-acpi@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+ <linux-cxl@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mips@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-pci@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <linux-serial@vger.kernel.org>, <linux-snps-arc@lists.infradead.org>,
+ <linux-usb@vger.kernel.org>, <linux@armlinux.org.uk>,
+ <linuxppc-dev@lists.ozlabs.org>, <m.szyprowski@samsung.com>,
+ <maddy@linux.ibm.com>, <mani@kernel.org>, <maz@kernel.org>,
+ <miko.lenczewski@arm.com>, <mpe@ellerman.id.au>, <netdev@vger.kernel.org>,
+ <npiggin@gmail.com>, <osalvador@suse.de>, <oupton@kernel.org>,
+ <pabeni@redhat.com>, <palmer@dabbelt.com>, <peter.ujfalusi@gmail.com>,
+ <peterz@infradead.org>, <pjw@kernel.org>, <robh@kernel.org>,
+ <sebastian.hesselbarth@gmail.com>, <tglx@kernel.org>,
+ <tsbogend@alpha.franken.de>, <vgupta@kernel.org>, <vkoul@kernel.org>,
+ <will@kernel.org>, <willy@infradead.org>, <yangyicong@hisilicon.com>,
+ <yeoreum.yun@arm.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260404000644.522677-1-dianders@chromium.org>
+ <2026040539-sponge-publisher-2b42@gregkh>
+In-Reply-To: <2026040539-sponge-publisher-2b42@gregkh>
 
-Hi Aditya,
+On Sun Apr 5, 2026 at 7:27 AM CEST, Greg Kroah-Hartman wrote:
+> Anyway, this looks great, unless there are any objections, other than
+> the "needs to be undefined", which a follow-on patch can handle, I'll
+> queue them up next week for 7.1-rc1.
 
-kernel test robot noticed the following build errors:
+Sounds good, for the series:
 
-[auto build test ERROR on linux-next/master]
-[cannot apply to linus/master v7.0-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Rajan/rust-dma-return-EOVERFLOW-instead-of-ENOMEM-on-size-overflow/20260405-094049
-base:   linux-next/master
-patch link:    https://lore.kernel.org/r/20260403212822.294288-1-adi.dev.github%40gmail.com
-patch subject: [PATCH] rust: dma: return EOVERFLOW instead of ENOMEM on size overflow
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260405/202604051110.OC0tBUnh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260405/202604051110.OC0tBUnh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604051110.OC0tBUnh-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/dma.rs:832:
-                Err(EINVAL)?;
-            }
-    
-   -        let size = core::mem::size_of::<T>().checked_mul(len).ok_or(EOVERFLOW)?;
-   +        let size = core::mem::size_of::<T>()
-   +            .checked_mul(len)
-   +            .ok_or(EOVERFLOW)?;
-            let mut dma_handle = 0;
-            // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
-            let addr = unsafe {
->> Diff in rust/kernel/dma.rs:832:
-                Err(EINVAL)?;
-            }
-    
-   -        let size = core::mem::size_of::<T>().checked_mul(len).ok_or(EOVERFLOW)?;
-   +        let size = core::mem::size_of::<T>()
-   +            .checked_mul(len)
-   +            .ok_or(EOVERFLOW)?;
-            let mut dma_handle = 0;
-            // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
-            let addr = unsafe {
-   make[2]: *** [Makefile:1932: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
