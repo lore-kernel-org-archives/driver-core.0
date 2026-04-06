@@ -1,178 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346EF27E056;
-	Mon,  6 Apr 2026 16:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6884F1BD9C9;
+	Mon,  6 Apr 2026 16:43:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775493309; cv=none; b=f49qaSEWqtBCEOq1GUngFOAzORHwN10k38Tb/ihzMnd2Hqh8DCQBteD4TD52FBZxvHrFQ/lYYXrhYLkOawndrDWSLJ5hMQjX+UQHAh5EVLGMnkeL2zF7k1zKwRLFv5zCCnHi6AE5ML6joJaEGcnkj1Bzrxn1YvgyTa9mOWU5szQ=
+	t=1775493808; cv=none; b=iyrE4U1QrnwR60gpJhVlUjasVej1G1u4OCqufYgyy6omNFpMGAUzsLOk/n1bs7kfQZFA6TKs0i1BHIavmCSlt3rp20tImXkybF49bZsqlC0MAKNl6Izje3ouGtgXC4JyOfJZddkfK3AnM52Zo/oS36Tlj1uuOHqNTFbJXotGmyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775493309; c=relaxed/simple;
-	bh=gQNVM0vS0NwKn8hC5VdGPw22C0ngOezWXdkapljDSYs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JDgnP1aQfgTQ+FKhlOHT1R7OeeeRGRAOI2OpgOvlTlScKt+qXHKEcBNE4qivIcqPY0vpkzROlDWjLOsTDm2NsrMXKcYh5fCxosdcRSss0C49NRGc8Hp6qxoStVh6O6Tlt9N0GYO563tjDi9XUvEbZ5ia9pOhmBXYqd/43EM+rTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3Wd8hWQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775493808; c=relaxed/simple;
+	bh=t2nairURilNVeA5ZLt+us1UXJazwwPGEI+lCH8zr7/M=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=Flx8dc2FQ1MxrVO4yNO4gHoCObokjSrBjYco49oLvu4A9rjYPqDMi1Br68SfShBT0Wl7my64HoBk+nRQGYSSTfb+lW+AX/uGyeSTjd/KoBtGD8O/atbpl7HHirWQESEF033WYKWGRx/PKxdStrV0GVH4mcHIvxFpvlIB9gFOUxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mcu+9ys0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3Wd8hWQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01DFEC4CEF7;
-	Mon,  6 Apr 2026 16:35:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mcu+9ys0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9874C2BCB0;
+	Mon,  6 Apr 2026 16:43:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775493309;
-	bh=gQNVM0vS0NwKn8hC5VdGPw22C0ngOezWXdkapljDSYs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=B3Wd8hWQ/VWakkggFk3qhyJFCP03r2YWIu3UTabixMOm91yQF+Kmh+sy9Wx8OX/oX
-	 R10zR6FrTXBMQUS/E6h3Ar6K1KhvRyAHKY3jYLTMrD5M1tYYqGTu70n/Z0nksxVDMW
-	 rhmwqAMz3oAx+GPXI8UK7cMKqzrXAQ6Zw9DMnP8l4Ji9cCs3skNbzX2N8hRL50rChU
-	 4QxBfuATJLcNUrXYCUAC0tUx0u3DF8Ca2sbG9+sQxCSB6oysshJp7yAaDTj1jquixn
-	 Iz7LBWhVAG/PffTA62Kt9rx0vl8dpERmC5bk8qkFkt8qvxTCCuddlrJWUQZWwot4ZM
-	 SMvl4c9CI26xA==
-Received: from cu01147a.smtpx.saremail.com ([195.16.150.122] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1w9muo-00000009GIj-2BDo;
-	Mon, 06 Apr 2026 16:35:06 +0000
-Date: Mon, 06 Apr 2026 17:34:59 +0100
-Message-ID: <871pgscaj0.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Eric Dumazet <edumazet@google.com>,
-	Johan Hovold <johan@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Robin Murphy <robin.murphy@arm.com>,
-	stable@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/9] driver core: Don't let a device probe until it's ready
-In-Reply-To: <CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
-References: <20260404000644.522677-1-dianders@chromium.org>
-	<20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
-	<873418d2fz.wl-maz@kernel.org>
-	<CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1775493807;
+	bh=t2nairURilNVeA5ZLt+us1UXJazwwPGEI+lCH8zr7/M=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=Mcu+9ys0jkPEr8W+pPHNW4xGPubr86s7XnNnYwOA/IOYwNLIQPNssG0A9Rvq3PsCl
+	 iOiYERHvU9aEHmkYlc7nw9mQJ9Gdk6Sx5eAjHRxGBKOFfxP8+JqUxSPB2iqqrmjnjQ
+	 A48NzKl4Ruyy1YZBIDJNYxlqaO/+KxG5aER3PbbPGHhtcPf1Y9kq2Q7LN2SxeNl9WQ
+	 dIfZ3XKeknqvSZGQyXH1BvX+hSLUP6Jm2lTzHlHLmjIapeTVjgXS64E2sSRsqy3ThO
+	 dYKnqaywdq9rbZtP0E/csgLUoFRpW4XgTwlZx4SpRMJXIW3LmtiRyh0G9SyHb2tMKF
+	 2O75UZ00G0qTA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 195.16.150.122
-X-SA-Exim-Rcpt-To: dianders@chromium.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, stern@rowland.harvard.edu, saravanak@kernel.org, hch@lst.de, edumazet@google.com, johan@kernel.org, leon@kernel.org, aleksander.lobakin@intel.com, aik@ozlabs.ru, robin.murphy@arm.com, stable@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Apr 2026 18:43:22 +0200
+Message-Id: <DHM80WWSJ2XX.Q2X67PU4K1KS@kernel.org>
+Subject: Re: [PATCH v4 1/9] driver core: Don't let a device probe until it's
+ ready
+Cc: "Doug Anderson" <dianders@chromium.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Alan Stern" <stern@rowland.harvard.edu>, "Saravana Kannan"
+ <saravanak@kernel.org>, "Christoph Hellwig" <hch@lst.de>, "Eric Dumazet"
+ <edumazet@google.com>, "Johan Hovold" <johan@kernel.org>, "Leon Romanovsky"
+ <leon@kernel.org>, "Alexander Lobakin" <aleksander.lobakin@intel.com>,
+ "Alexey Kardashevskiy" <aik@ozlabs.ru>, "Robin Murphy"
+ <robin.murphy@arm.com>, <stable@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+To: "Marc Zyngier" <maz@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260404000644.522677-1-dianders@chromium.org>
+ <20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+ <873418d2fz.wl-maz@kernel.org>
+ <CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
+ <871pgscaj0.wl-maz@kernel.org>
+In-Reply-To: <871pgscaj0.wl-maz@kernel.org>
 
-On Mon, 06 Apr 2026 15:41:08 +0100,
-Doug Anderson <dianders@chromium.org> wrote:
->=20
-> Hi,
->=20
-> On Sun, Apr 5, 2026 at 11:32=E2=80=AFPM Marc Zyngier <maz@kernel.org> wro=
-te:
-> >
-> > > +      * blocked those attempts. Now that all of the above initializa=
-tion has
-> > > +      * happened, unblock probe. If probe happens through another th=
-read
-> > > +      * after this point but before bus_probe_device() runs then it'=
-s fine.
-> > > +      * bus_probe_device() -> device_initial_probe() -> __device_att=
-ach()
-> > > +      * will notice (under device_lock) that the device is already b=
-ound.
-> > > +      */
-> > > +     dev_set_ready_to_probe(dev);
-> >
-> > I think this lacks some ordering properties that we should be allowed
-> > to rely on. In this case, the 'ready_to_probe' flag being set should
-> > that all of the data structures are observable by another CPU.
-> >
-> > Unfortunately, this doesn't seem to be the case, see below.
->=20
-> I agree. I think Danilo was proposing fixing this by just doing:
->=20
-> device_lock(dev);
-> dev_set_ready_to_probe(dev);
-> device_unlock(dev);
->=20
-> While that's a bit of an overkill, it also works I think. Do folks
-> have a preference for what they'd like to see in v5?
-
-It would work, but I find the construct rather obscure, and it implies
-that there is a similar lock taken on the read path. Looking at the
-code for a couple of minutes doesn't lead to an immediate clue that
-such lock is indeed taken on all read paths.
-
+On Mon Apr 6, 2026 at 6:34 PM CEST, Marc Zyngier wrote:
+> On Mon, 06 Apr 2026 15:41:08 +0100,
+> Doug Anderson <dianders@chromium.org> wrote:
+>>=20
+>> Hi,
+>>=20
+>> On Sun, Apr 5, 2026 at 11:32=E2=80=AFPM Marc Zyngier <maz@kernel.org> wr=
+ote:
+>> >
+>> > > +      * blocked those attempts. Now that all of the above initializ=
+ation has
+>> > > +      * happened, unblock probe. If probe happens through another t=
+hread
+>> > > +      * after this point but before bus_probe_device() runs then it=
+'s fine.
+>> > > +      * bus_probe_device() -> device_initial_probe() -> __device_at=
+tach()
+>> > > +      * will notice (under device_lock) that the device is already =
+bound.
+>> > > +      */
+>> > > +     dev_set_ready_to_probe(dev);
+>> >
+>> > I think this lacks some ordering properties that we should be allowed
+>> > to rely on. In this case, the 'ready_to_probe' flag being set should
+>> > that all of the data structures are observable by another CPU.
+>> >
+>> > Unfortunately, this doesn't seem to be the case, see below.
+>>=20
+>> I agree. I think Danilo was proposing fixing this by just doing:
+>>=20
+>> device_lock(dev);
+>> dev_set_ready_to_probe(dev);
+>> device_unlock(dev);
+>>=20
+>> While that's a bit of an overkill, it also works I think. Do folks
+>> have a preference for what they'd like to see in v5?
 >
->=20
-> > > @@ -675,8 +691,34 @@ struct device {
-> > >  #ifdef CONFIG_IOMMU_DMA
-> > >       bool                    dma_iommu:1;
-> > >  #endif
-> > > +
-> > > +     DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
-> > >  };
-> > >
-> > > +#define __create_dev_flag_accessors(accessor_name, flag_name) \
-> > > +static inline bool dev_##accessor_name(const struct device *dev) \
-> > > +{ \
-> > > +     return test_bit(flag_name, dev->flags); \
-> > > +} \
-> > > +static inline void dev_set_##accessor_name(struct device *dev) \
-> > > +{ \
-> > > +     set_bit(flag_name, dev->flags); \
-> >
-> > Atomic operations that are not RMW or that do not return a value are
-> > unordered (see Documentation/atomic_bitops.txt). This implies that
-> > observing the flag being set from another CPU does not guarantee that
-> > the previous stores in program order are observed.
-> >
-> > For that guarantee to hold, you'd need to have an
-> > smp_mb__before_atomic() just before set_bit(), giving it release
-> > semantics. This is equally valid for the test, clear and assign
-> > variants.
-> >
-> > I doubt this issue is visible on a busy system (which would be the
-> > case at boot time), but I thought I'd mention it anyway.
->=20
-> Are you suggesting I add smp memory barriers directly in all the
-> accessors? ...or just that clients of these functions should use
-> memory barriers as appropriate?
->=20
-> In other words, would I do:
->=20
-> smp_mb__before_atomic();
-> dev_set_ready_to_probe(dev);
->=20
-> ...or add the barrier into all of the accessor?
->=20
-> My thought was to not add the barrier into the accessors since at
-> least one of the accessors talks about being run from a hot path
-> (dma_reset_need_sync()). ...but I just want to make sure.
+> It would work, but I find the construct rather obscure, and it implies
+> that there is a similar lock taken on the read path. Looking at the
+> code for a couple of minutes doesn't lead to an immediate clue that
+> such lock is indeed taken on all read paths.
 
-I don't think this needs to be inflicted on all flags, specially the
-ones you are simply moving into the bitmap and that didn't have any
-particular ordering requirements. 'ready_to_probe' is a bit different,
-as it is new and tries to offer ordering semantics.
+Why do you think this is obscure? As I mentioned in [1], the whole purpose =
+of
+dev_set_ready_to_probe() is to protect against a concurrent probe() attempt=
+ of
+driver_attach() in __driver_probe_device(), while __driver_probe_device() i=
+s
+protected by the device lock is by design.
 
-So an open-coded barrier on both sides would do the trick, unless you
-go for the lock and can convince yourself that it is indeed always
-acquired on all the read paths.
-
-Thanks,
-
-	M.
-
---=20
-Jazz isn't dead. It just smells funny.
+[1] https://lore.kernel.org/driver-core/DHM5TCBT6GDE.EFG3IPRP99G7@kernel.or=
+g/
