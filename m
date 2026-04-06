@@ -1,99 +1,178 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8369282F13
-	for <driver-core@lists.linux.dev>; Mon,  6 Apr 2026 15:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346EF27E056;
+	Mon,  6 Apr 2026 16:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775488677; cv=none; b=oAtxE5U67QwgdRxgkydz0ROyw/Da4Z9OeUxLkoYk82UfhQ5E2adtN+GoIojUTX/FzRPvs15BRvEl640vOnRe8tTYwDsdMhp6/x9dF9e17HNqph88UP/JUpY2umG9OrfHILHLufhysH9NGzDkg9/vZg0c/XShDfVmnoVJXliEpRM=
+	t=1775493309; cv=none; b=f49qaSEWqtBCEOq1GUngFOAzORHwN10k38Tb/ihzMnd2Hqh8DCQBteD4TD52FBZxvHrFQ/lYYXrhYLkOawndrDWSLJ5hMQjX+UQHAh5EVLGMnkeL2zF7k1zKwRLFv5zCCnHi6AE5ML6joJaEGcnkj1Bzrxn1YvgyTa9mOWU5szQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775488677; c=relaxed/simple;
-	bh=NvMf8l90Z+H8jCJnZ+9K336laPUp8x3c+pdVChXjXsw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=brVroSXhkjyULQ/K0gWQrSM5MyS4d+VJp89q0CfgRlhADttQwTGCowzD5r1nQ++HcGv8nNxpq2GYMQJwyDeUpgWtkea7ejcRMcQcFsdg7RwEif2NG+ZN/K6eKbRGBHteA2ITPcJkCsGkEpSCwN2dNzQiykWm5fN+h3OZYXAa6p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYqMCBn5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775493309; c=relaxed/simple;
+	bh=gQNVM0vS0NwKn8hC5VdGPw22C0ngOezWXdkapljDSYs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JDgnP1aQfgTQ+FKhlOHT1R7OeeeRGRAOI2OpgOvlTlScKt+qXHKEcBNE4qivIcqPY0vpkzROlDWjLOsTDm2NsrMXKcYh5fCxosdcRSss0C49NRGc8Hp6qxoStVh6O6Tlt9N0GYO563tjDi9XUvEbZ5ia9pOhmBXYqd/43EM+rTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3Wd8hWQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYqMCBn5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C1D1C4CEF7
-	for <driver-core@lists.linux.dev>; Mon,  6 Apr 2026 15:17:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3Wd8hWQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01DFEC4CEF7;
+	Mon,  6 Apr 2026 16:35:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775488677;
-	bh=NvMf8l90Z+H8jCJnZ+9K336laPUp8x3c+pdVChXjXsw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YYqMCBn5Ga+tGvEXDxsS4bVj7kvaOnbSwzpq+CFBiFqv6x2JdWN4rFsopuPkStDUR
-	 aMePAJwahwEkjm4p5L31wAFBbd04iXS5HdS4Gn/noy7Zd+k15aZDvzLT0TunADA7bg
-	 Wo+7i7se6Z86HcU558Xa4RkzaoJQaYLldKbWg+uXyBIWsVaFi/k+Kwk9ffk7Y8Onqo
-	 8llh4KcvzdOkHnrGK8XZM/k06Np8c5/Px3iAE+n7XW/L2pEAe0U0rJEMxU7ivVONik
-	 whr1sXk3dUH/Zf7Wu0apvhlbNHVv15rEN1PkwNK0HAvWWLz7j/4oKAoCBUOlBkJqSi
-	 sDyQqkg/FZo8w==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-42306f82341so2087568fac.2
-        for <driver-core@lists.linux.dev>; Mon, 06 Apr 2026 08:17:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVWlg+5k2jS9GgujVtrykT99Rfccte/AoALSMwzxOkYZMemHRyRVDD4RA9QhiKawAVh2x+OtvUsdUdeKA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYEMJkaFRemFTRLogFzUNp+HLim1Y2YpsGoLlhnSLSyrK5d2eg
-	qnBw25eBdaTSNirx5vUYA9sKgXGHF95dmJJ9L+jYDuuoKg/SXZkfwOp5F2SB0A/JkARbIjFzygw
-	Boa7u49AdMx/RNMwQIofK2IqFxJF2+J8=
-X-Received: by 2002:a05:6870:16d5:b0:422:bdd3:95f2 with SMTP id
- 586e51a60fabf-423100f91fdmr8073367fac.43.1775488676566; Mon, 06 Apr 2026
- 08:17:56 -0700 (PDT)
+	s=k20201202; t=1775493309;
+	bh=gQNVM0vS0NwKn8hC5VdGPw22C0ngOezWXdkapljDSYs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=B3Wd8hWQ/VWakkggFk3qhyJFCP03r2YWIu3UTabixMOm91yQF+Kmh+sy9Wx8OX/oX
+	 R10zR6FrTXBMQUS/E6h3Ar6K1KhvRyAHKY3jYLTMrD5M1tYYqGTu70n/Z0nksxVDMW
+	 rhmwqAMz3oAx+GPXI8UK7cMKqzrXAQ6Zw9DMnP8l4Ji9cCs3skNbzX2N8hRL50rChU
+	 4QxBfuATJLcNUrXYCUAC0tUx0u3DF8Ca2sbG9+sQxCSB6oysshJp7yAaDTj1jquixn
+	 Iz7LBWhVAG/PffTA62Kt9rx0vl8dpERmC5bk8qkFkt8qvxTCCuddlrJWUQZWwot4ZM
+	 SMvl4c9CI26xA==
+Received: from cu01147a.smtpx.saremail.com ([195.16.150.122] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1w9muo-00000009GIj-2BDo;
+	Mon, 06 Apr 2026 16:35:06 +0000
+Date: Mon, 06 Apr 2026 17:34:59 +0100
+Message-ID: <871pgscaj0.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Eric Dumazet <edumazet@google.com>,
+	Johan Hovold <johan@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexey Kardashevskiy <aik@ozlabs.ru>,
+	Robin Murphy <robin.murphy@arm.com>,
+	stable@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/9] driver core: Don't let a device probe until it's ready
+In-Reply-To: <CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
+References: <20260404000644.522677-1-dianders@chromium.org>
+	<20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+	<873418d2fz.wl-maz@kernel.org>
+	<CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <ac269a91-0ba0-4798-acc6-ec294926bbb0@gmail.com> <2026040354-kitchen-unwoven-c0ce@gregkh>
-In-Reply-To: <2026040354-kitchen-unwoven-c0ce@gregkh>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 6 Apr 2026 17:17:43 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gSLnyW3vdpdHjR5Z8h_EiQE=q4yJRrQ7_jaNGkst6CbQ@mail.gmail.com>
-X-Gm-Features: AQROBzBgvYTQj8zVRdrP65cB0PWTV2YEnD65a6WuvqblHaN6TD58j4xso1S6nk0
-Message-ID: <CAJZ5v0gSLnyW3vdpdHjR5Z8h_EiQE=q4yJRrQ7_jaNGkst6CbQ@mail.gmail.com>
-Subject: Re: [PATCH] PM / wakeup: Register class wakeup in pure_initcall phase
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Pavel Machek <pavel@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 195.16.150.122
+X-SA-Exim-Rcpt-To: dianders@chromium.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, stern@rowland.harvard.edu, saravanak@kernel.org, hch@lst.de, edumazet@google.com, johan@kernel.org, leon@kernel.org, aleksander.lobakin@intel.com, aik@ozlabs.ru, robin.murphy@arm.com, stable@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Fri, Apr 3, 2026 at 7:24=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+On Mon, 06 Apr 2026 15:41:08 +0100,
+Doug Anderson <dianders@chromium.org> wrote:
+>=20
+> Hi,
+>=20
+> On Sun, Apr 5, 2026 at 11:32=E2=80=AFPM Marc Zyngier <maz@kernel.org> wro=
+te:
+> >
+> > > +      * blocked those attempts. Now that all of the above initializa=
+tion has
+> > > +      * happened, unblock probe. If probe happens through another th=
+read
+> > > +      * after this point but before bus_probe_device() runs then it'=
+s fine.
+> > > +      * bus_probe_device() -> device_initial_probe() -> __device_att=
+ach()
+> > > +      * will notice (under device_lock) that the device is already b=
+ound.
+> > > +      */
+> > > +     dev_set_ready_to_probe(dev);
+> >
+> > I think this lacks some ordering properties that we should be allowed
+> > to rely on. In this case, the 'ready_to_probe' flag being set should
+> > that all of the data structures are observable by another CPU.
+> >
+> > Unfortunately, this doesn't seem to be the case, see below.
+>=20
+> I agree. I think Danilo was proposing fixing this by just doing:
+>=20
+> device_lock(dev);
+> dev_set_ready_to_probe(dev);
+> device_unlock(dev);
+>=20
+> While that's a bit of an overkill, it also works I think. Do folks
+> have a preference for what they'd like to see in v5?
+
+It would work, but I find the construct rather obscure, and it implies
+that there is a similar lock taken on the read path. Looking at the
+code for a couple of minutes doesn't lead to an immediate clue that
+such lock is indeed taken on all read paths.
+
 >
-> On Fri, Apr 03, 2026 at 06:09:59PM +0200, Heiner Kallweit wrote:
-> > Wakeup sources (e.g. autosleep) can be created as early as core_initcal=
-l.
-> > Class wakeup is registered in postcore_initcall only, what results in
-> > autosleep wakeup source not being shown in sysfs. To fix this,
-> > register class wakeup in pure_initcall phase already.
+>=20
+> > > @@ -675,8 +691,34 @@ struct device {
+> > >  #ifdef CONFIG_IOMMU_DMA
+> > >       bool                    dma_iommu:1;
+> > >  #endif
+> > > +
+> > > +     DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+> > >  };
+> > >
+> > > +#define __create_dev_flag_accessors(accessor_name, flag_name) \
+> > > +static inline bool dev_##accessor_name(const struct device *dev) \
+> > > +{ \
+> > > +     return test_bit(flag_name, dev->flags); \
+> > > +} \
+> > > +static inline void dev_set_##accessor_name(struct device *dev) \
+> > > +{ \
+> > > +     set_bit(flag_name, dev->flags); \
 > >
-> > The current behavior doesn't cause any known issue, therefore treat
-> > the change as an improvement.
+> > Atomic operations that are not RMW or that do not return a value are
+> > unordered (see Documentation/atomic_bitops.txt). This implies that
+> > observing the flag being set from another CPU does not guarantee that
+> > the previous stores in program order are observed.
 > >
-> > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> > ---
-> >  drivers/base/power/wakeup_stats.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > For that guarantee to hold, you'd need to have an
+> > smp_mb__before_atomic() just before set_bit(), giving it release
+> > semantics. This is equally valid for the test, clear and assign
+> > variants.
 > >
-> > diff --git a/drivers/base/power/wakeup_stats.c b/drivers/base/power/wak=
-eup_stats.c
-> > index 308f8bde9..30f0d3d61 100644
-> > --- a/drivers/base/power/wakeup_stats.c
-> > +++ b/drivers/base/power/wakeup_stats.c
-> > @@ -216,4 +216,4 @@ static int __init wakeup_sources_sysfs_init(void)
-> >
-> >       return PTR_ERR_OR_ZERO(wakeup_class);
-> >  }
-> > -postcore_initcall(wakeup_sources_sysfs_init);
-> > +pure_initcall(wakeup_sources_sysfs_init);
-> > --
-> > 2.53.0
-> >
->
-> Wait, if this doesn't need to be change, we shouldn't change it.  Unless
-> you have a bug that is being fixed here, don't touch init call levels.
-> They are tricky and will come to bite you if you don't watch out.
+> > I doubt this issue is visible on a busy system (which would be the
+> > case at boot time), but I thought I'd mention it anyway.
+>=20
+> Are you suggesting I add smp memory barriers directly in all the
+> accessors? ...or just that clients of these functions should use
+> memory barriers as appropriate?
+>=20
+> In other words, would I do:
+>=20
+> smp_mb__before_atomic();
+> dev_set_ready_to_probe(dev);
+>=20
+> ...or add the barrier into all of the accessor?
+>=20
+> My thought was to not add the barrier into the accessors since at
+> least one of the accessors talks about being run from a hot path
+> (dma_reset_need_sync()). ...but I just want to make sure.
 
-Well, if this is objectionable, a quite straightforward alternative is
-to call wakeup_sources_sysfs_init() directly from pm_init() before
-invoking pm_autosleep_init().
+I don't think this needs to be inflicted on all flags, specially the
+ones you are simply moving into the bitmap and that didn't have any
+particular ordering requirements. 'ready_to_probe' is a bit different,
+as it is new and tries to offer ordering semantics.
 
-That would also indicate an ordering dependency between the two calls.
+So an open-coded barrier on both sides would do the trick, unless you
+go for the lock and can convince yourself that it is indeed always
+acquired on all the read paths.
+
+Thanks,
+
+	M.
+
+--=20
+Jazz isn't dead. It just smells funny.
