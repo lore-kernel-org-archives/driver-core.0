@@ -1,146 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C01D3859CD;
-	Mon,  6 Apr 2026 14:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8369282F13
+	for <driver-core@lists.linux.dev>; Mon,  6 Apr 2026 15:17:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775487572; cv=none; b=bavP0ETDW8Uauu1+TCYX9H1WpjCJW62dXYwE7jnxxQTqtTwvg1+K/BisFDhr8jT5iD5ZSLjKzDG2xG8StDN9cWLguA1lgy3yU/Zpkxl9Qg93q4BEX2d9vZ8tWvmP7fMNjIkDjf/MtOmXmSw0f1oOZU7BIbBn+oeJbZ6BPtNanBM=
+	t=1775488677; cv=none; b=oAtxE5U67QwgdRxgkydz0ROyw/Da4Z9OeUxLkoYk82UfhQ5E2adtN+GoIojUTX/FzRPvs15BRvEl640vOnRe8tTYwDsdMhp6/x9dF9e17HNqph88UP/JUpY2umG9OrfHILHLufhysH9NGzDkg9/vZg0c/XShDfVmnoVJXliEpRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775487572; c=relaxed/simple;
-	bh=NoN3tVeMb4AOcpTf0O8b3X5jRO+sRKap3+GgdT7K6O8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=j2B6JFnzCw4CiuDlonmwsaoQ4ktTjn83EBUhclSZrAOBp1f7pYeWh13yfU0zkvaqrZkLhZM5slZmM9U39EeACvKAxWifk6kJwyxqUhYqCbx7Sjv9+A93AiytWmYbrOzVpHluB7a985DdW2C9PWlJKV/ecxunPV2xxmjYipqo08g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W1k2l0wL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775488677; c=relaxed/simple;
+	bh=NvMf8l90Z+H8jCJnZ+9K336laPUp8x3c+pdVChXjXsw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=brVroSXhkjyULQ/K0gWQrSM5MyS4d+VJp89q0CfgRlhADttQwTGCowzD5r1nQ++HcGv8nNxpq2GYMQJwyDeUpgWtkea7ejcRMcQcFsdg7RwEif2NG+ZN/K6eKbRGBHteA2ITPcJkCsGkEpSCwN2dNzQiykWm5fN+h3OZYXAa6p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYqMCBn5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1k2l0wL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63B55C4CEF7;
-	Mon,  6 Apr 2026 14:59:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYqMCBn5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C1D1C4CEF7
+	for <driver-core@lists.linux.dev>; Mon,  6 Apr 2026 15:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775487572;
-	bh=NoN3tVeMb4AOcpTf0O8b3X5jRO+sRKap3+GgdT7K6O8=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=W1k2l0wLbXxt8cnNSxiakEY0fbMiS+NH6yMtvCvqtH/mrRqh+z0ATJpdvSM7fTrbg
-	 E2ojdiz7HETqg+a8MpcRj0inOLy3+I5InZwazXXHprJVg4a7yE1MLz37oFxQw5m2L3
-	 OAdG0ooAhhROdFDy7nyzMCAWJtZ1LeYjvt+w7CKHg13nFnOlyQyxZcEb/VdCmpxZfY
-	 23JIKo4mOPGvyvba5S2S2Athm+FBmWOVfW0KP+ox7bbfOgvGptgX/7j/E8s5TCcOlx
-	 LCs+nfGWDYxONBYjf7nZ6ojypFJBdUYtcB9Ch35De1+1b72nYRByo4BLcSN4xmp7P1
-	 yDknh1lpcALug==
+	s=k20201202; t=1775488677;
+	bh=NvMf8l90Z+H8jCJnZ+9K336laPUp8x3c+pdVChXjXsw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YYqMCBn5Ga+tGvEXDxsS4bVj7kvaOnbSwzpq+CFBiFqv6x2JdWN4rFsopuPkStDUR
+	 aMePAJwahwEkjm4p5L31wAFBbd04iXS5HdS4Gn/noy7Zd+k15aZDvzLT0TunADA7bg
+	 Wo+7i7se6Z86HcU558Xa4RkzaoJQaYLldKbWg+uXyBIWsVaFi/k+Kwk9ffk7Y8Onqo
+	 8llh4KcvzdOkHnrGK8XZM/k06Np8c5/Px3iAE+n7XW/L2pEAe0U0rJEMxU7ivVONik
+	 whr1sXk3dUH/Zf7Wu0apvhlbNHVv15rEN1PkwNK0HAvWWLz7j/4oKAoCBUOlBkJqSi
+	 sDyQqkg/FZo8w==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-42306f82341so2087568fac.2
+        for <driver-core@lists.linux.dev>; Mon, 06 Apr 2026 08:17:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVWlg+5k2jS9GgujVtrykT99Rfccte/AoALSMwzxOkYZMemHRyRVDD4RA9QhiKawAVh2x+OtvUsdUdeKA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYEMJkaFRemFTRLogFzUNp+HLim1Y2YpsGoLlhnSLSyrK5d2eg
+	qnBw25eBdaTSNirx5vUYA9sKgXGHF95dmJJ9L+jYDuuoKg/SXZkfwOp5F2SB0A/JkARbIjFzygw
+	Boa7u49AdMx/RNMwQIofK2IqFxJF2+J8=
+X-Received: by 2002:a05:6870:16d5:b0:422:bdd3:95f2 with SMTP id
+ 586e51a60fabf-423100f91fdmr8073367fac.43.1775488676566; Mon, 06 Apr 2026
+ 08:17:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <ac269a91-0ba0-4798-acc6-ec294926bbb0@gmail.com> <2026040354-kitchen-unwoven-c0ce@gregkh>
+In-Reply-To: <2026040354-kitchen-unwoven-c0ce@gregkh>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 6 Apr 2026 17:17:43 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gSLnyW3vdpdHjR5Z8h_EiQE=q4yJRrQ7_jaNGkst6CbQ@mail.gmail.com>
+X-Gm-Features: AQROBzBgvYTQj8zVRdrP65cB0PWTV2YEnD65a6WuvqblHaN6TD58j4xso1S6nk0
+Message-ID: <CAJZ5v0gSLnyW3vdpdHjR5Z8h_EiQE=q4yJRrQ7_jaNGkst6CbQ@mail.gmail.com>
+Subject: Re: [PATCH] PM / wakeup: Register class wakeup in pure_initcall phase
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pavel Machek <pavel@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Apr 2026 16:59:27 +0200
-Message-Id: <DHM5TCBT6GDE.EFG3IPRP99G7@kernel.org>
-To: "Doug Anderson" <dianders@chromium.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v4 1/9] driver core: Don't let a device probe until it's
- ready
-Cc: "Marc Zyngier" <maz@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- "Alan Stern" <stern@rowland.harvard.edu>, "Saravana Kannan"
- <saravanak@kernel.org>, "Christoph Hellwig" <hch@lst.de>, "Eric Dumazet"
- <edumazet@google.com>, "Johan Hovold" <johan@kernel.org>, "Leon Romanovsky"
- <leon@kernel.org>, "Alexander Lobakin" <aleksander.lobakin@intel.com>,
- "Alexey Kardashevskiy" <aik@ozlabs.ru>, "Robin Murphy"
- <robin.murphy@arm.com>, <stable@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <20260404000644.522677-1-dianders@chromium.org>
- <20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <873418d2fz.wl-maz@kernel.org>
- <CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
-In-Reply-To: <CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
 
-On Mon Apr 6, 2026 at 4:41 PM CEST, Doug Anderson wrote:
-> Hi,
+On Fri, Apr 3, 2026 at 7:24=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> On Sun, Apr 5, 2026 at 11:32=E2=80=AFPM Marc Zyngier <maz@kernel.org> wro=
-te:
->>
->> > +      * blocked those attempts. Now that all of the above initializat=
-ion has
->> > +      * happened, unblock probe. If probe happens through another thr=
-ead
->> > +      * after this point but before bus_probe_device() runs then it's=
- fine.
->> > +      * bus_probe_device() -> device_initial_probe() -> __device_atta=
-ch()
->> > +      * will notice (under device_lock) that the device is already bo=
-und.
->> > +      */
->> > +     dev_set_ready_to_probe(dev);
->>
->> I think this lacks some ordering properties that we should be allowed
->> to rely on. In this case, the 'ready_to_probe' flag being set should
->> that all of the data structures are observable by another CPU.
->>
->> Unfortunately, this doesn't seem to be the case, see below.
+> On Fri, Apr 03, 2026 at 06:09:59PM +0200, Heiner Kallweit wrote:
+> > Wakeup sources (e.g. autosleep) can be created as early as core_initcal=
+l.
+> > Class wakeup is registered in postcore_initcall only, what results in
+> > autosleep wakeup source not being shown in sysfs. To fix this,
+> > register class wakeup in pure_initcall phase already.
+> >
+> > The current behavior doesn't cause any known issue, therefore treat
+> > the change as an improvement.
+> >
+> > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> > ---
+> >  drivers/base/power/wakeup_stats.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/base/power/wakeup_stats.c b/drivers/base/power/wak=
+eup_stats.c
+> > index 308f8bde9..30f0d3d61 100644
+> > --- a/drivers/base/power/wakeup_stats.c
+> > +++ b/drivers/base/power/wakeup_stats.c
+> > @@ -216,4 +216,4 @@ static int __init wakeup_sources_sysfs_init(void)
+> >
+> >       return PTR_ERR_OR_ZERO(wakeup_class);
+> >  }
+> > -postcore_initcall(wakeup_sources_sysfs_init);
+> > +pure_initcall(wakeup_sources_sysfs_init);
+> > --
+> > 2.53.0
+> >
 >
-> I agree. I think Danilo was proposing fixing this by just doing:
->
-> device_lock(dev);
-> dev_set_ready_to_probe(dev);
-> device_unlock(dev);
->
-> While that's a bit of an overkill, it also works I think. Do folks
-> have a preference for what they'd like to see in v5?
+> Wait, if this doesn't need to be change, we shouldn't change it.  Unless
+> you have a bug that is being fixed here, don't touch init call levels.
+> They are tricky and will come to bite you if you don't watch out.
 
-Except for the rare case where device_add() races with driver_attach(), whi=
-ch is
-exactly the race that should be fixed by this, the device lock will be
-uncontended in device_add(), so I don't consider this overkill.
+Well, if this is objectionable, a quite straightforward alternative is
+to call wakeup_sources_sysfs_init() directly from pm_init() before
+invoking pm_autosleep_init().
 
->> > @@ -675,8 +691,34 @@ struct device {
->> >  #ifdef CONFIG_IOMMU_DMA
->> >       bool                    dma_iommu:1;
->> >  #endif
->> > +
->> > +     DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
->> >  };
->> >
->> > +#define __create_dev_flag_accessors(accessor_name, flag_name) \
->> > +static inline bool dev_##accessor_name(const struct device *dev) \
->> > +{ \
->> > +     return test_bit(flag_name, dev->flags); \
->> > +} \
->> > +static inline void dev_set_##accessor_name(struct device *dev) \
->> > +{ \
->> > +     set_bit(flag_name, dev->flags); \
->>
->> Atomic operations that are not RMW or that do not return a value are
->> unordered (see Documentation/atomic_bitops.txt). This implies that
->> observing the flag being set from another CPU does not guarantee that
->> the previous stores in program order are observed.
->>
->> For that guarantee to hold, you'd need to have an
->> smp_mb__before_atomic() just before set_bit(), giving it release
->> semantics. This is equally valid for the test, clear and assign
->> variants.
->>
->> I doubt this issue is visible on a busy system (which would be the
->> case at boot time), but I thought I'd mention it anyway.
->
-> Are you suggesting I add smp memory barriers directly in all the
-> accessors? ...or just that clients of these functions should use
-> memory barriers as appropriate?
->
-> In other words, would I do:
->
-> smp_mb__before_atomic();
-> dev_set_ready_to_probe(dev);
->
-> ...or add the barrier into all of the accessor?
-
-I think this would be a bit overkill; all (other) fields are either already
-protected by a lock, or are not prone to reordering races otherwise.
-
-> My thought was to not add the barrier into the accessors since at
-> least one of the accessors talks about being run from a hot path
-> (dma_reset_need_sync()). ...but I just want to make sure.
->
-> -Doug
-
+That would also indicate an ordering dependency between the two calls.
