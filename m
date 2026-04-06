@@ -1,214 +1,158 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4409D3932F1
-	for <driver-core@lists.linux.dev>; Mon,  6 Apr 2026 18:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775501975; cv=none; b=LwUT55FPkrZbGJkrz3J//ln9ykwAMFMFYOLrEd4Xut+TGG6CwDoCHd4ypexHJH/q+SMmrgfJ/Ui5S25kGgVFRQ2xwEwFIke8QCPoAd2VkB7tKq8kzJYGOJ9K9QjoVlN7vTA3eR3iBhaAqKg0rcxczgfEP1GJJwbQHqAfc1g2MbA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775501975; c=relaxed/simple;
-	bh=MP5XJk9iCIod9KfOfPbBtryirQRyDqiT9ZotrAUZfnU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6CE393DDC
+	for <driver-core@lists.linux.dev>; Mon,  6 Apr 2026 19:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775503804; cv=pass; b=fgLt5ta78zOIAW2CKbAIW9l5IWToRl6l0G+hxf+rLwhQYWnnRTJlgR2r3Z+6WBIe+wgJw/7pjlD1pL2jZzO3Dnn3fGm97d0fmRsIRh3HHjBKfYmPkMdRXTWBdvC/DoW3TDmnF0O91U4HQ9+040IPUFHM5zqeMYH5zaYJibNHito=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775503804; c=relaxed/simple;
+	bh=E91vaeMNwDF/pEjv7G2aprNsjDohPpm/gfEXupHR2kM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hvW7O9Af7ft5Bnc+HnlqLpxA3zk+xKmfeym3L3U03HZo36L/2TRYMCk4z373MH4LQtHgW+iD9cJhSQ2DO12Dlyg/6SYakqv6sZhTmFDpTqn7Mym3++mkth4ZOLdGM4Xnv7sAZhFpri/1MEt494JleOAj6hSjmgRzOYLFmWfH2lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=caz+II1O; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=obOxRoLgo/7J++g/nIgMu1UPAoAVSe6aMyNKWM4rKGwm/9f/e7YzCJSXQFYh6tFcs8+W7V+TViSHY8EkAJq0QPr8o+Yg8tTeghVzS++5ROe3mJNXCxYibKrNt6za4PxsGjtUOLjSppHNy43NCh248tMJRj6yVpxw8YR/KZ5umXY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kPB2uMRV; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="caz+II1O"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9c9d03524cso275328966b.3
-        for <driver-core@lists.linux.dev>; Mon, 06 Apr 2026 11:59:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kPB2uMRV"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-66bf6aa4858so7895610a12.2
+        for <driver-core@lists.linux.dev>; Mon, 06 Apr 2026 12:30:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775503801; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aPfuZzRVlqeGFxmUyJPD7T5ZH+TBqcW0T4qZz/WyhzaquQvxhPcnXazX9tJ6lAMUWO
+         i9z4wyHNWfYBYGvZo4BmQK+Wuv6EnxSkABy/grImWTPKgxuhDk61IBUrrJ0MlQbT0Z6n
+         dejlXFoU2DJE0BXn1W+anvgyg0glp+SD/Tg8WRBf4pCZ/O5qdse/ueFjpokxjMjURh92
+         xNVw22efvVMYts3XjuUATuwoTRRqtybpoYxCpYQOPlsHybCFu/shAS/tBfJO4n8LI1/A
+         jZj/2MW8Pz+Bb9QaDhBLf1RCmxhwPynmQrHRT7mSh73vN4OQZeiEW4rP2MDdT7mAyt0K
+         DI+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6oqpjiW2BP+Tsq4RmXpwQJ34Z4G51X+Eu8RZMOYwNBA=;
+        fh=UHiAA8tgHGuYQu0DAbOf4zuwpjK+I7d43gsZjW0U8eA=;
+        b=KjzzNn7ZMqSoXWmYMI+pmsrwkjwAL4ffwi4GqZqPTIwXhkzBF71ZTyWfPNN6fqynJR
+         cSAtcydGwT/EVnlbkLYHX1dMbzB+6bl1q2cICPLiNjOJjmYXp8hgtFMMtfJSq3ydcuyH
+         0x8t5p2PVxQzPCPee08E/ShRPzU6+ELAVwQ3whlPcN0F5bZOptCSTgdukvI3yCfkj+ou
+         ZYWo4OZNulifsK9xllaPopQqx7tlTwGCazLxOKTB8LGbPGOySCCHSX4CeUw+ylGZx2Rt
+         pvYA/PWquwoWJ/zt6EbU1F8D9rlUN3DB/gW8nOc8ucCe/rJGCQooR6S/pcwZtbGmXx6I
+         FzuA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775501970; x=1776106770; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1775503801; x=1776108601; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ca80400b16hxnkq4OIBWd5Qd7l94fMZC2WBMvwuhtRk=;
-        b=caz+II1OFPjLSeszpjoy+UAPi0rRw6RpWeSx9YLDk/3JFUdQgFFwAXLeEdW/NWRWd+
-         JN8YYKR64MLO7s8R9NTpHPZjaxw81+BqenVhC0NKT5hgrp+wADwWaMfSVQqyHMX+ipRe
-         1chH12VDu+PRiJatpqbWTRopQsUOfYo62eF+4=
+        bh=6oqpjiW2BP+Tsq4RmXpwQJ34Z4G51X+Eu8RZMOYwNBA=;
+        b=kPB2uMRVmO6oERhuAeUOkTcSciiyHiroVt3I2eXrmKjmuC0Xt46w7XRrK5CN7GwU5A
+         tvehWKD58Mpyc8Q7OVf88p6M4fiNj9ZGGDEON1DLW8IJoIPGpnFTiNt2u8FP8KeHWFjj
+         AcVWId3fRhvyQ/XQvZJU68goz9hiMHOmh/lbHTTZJh8bt78vZiDEFapbBgQRPmFjXjDl
+         PVQIUEbChMWYRwlYdbtMLlpczdM1eG4UdcMAJcFsK75Xvv0vxKjmUZahf+PnWDyqc+Cp
+         Enm/74x+uQixajt17niIGJsoQ7TcQVk9O6D65MTsUXKn11HVqBjqE/+rQqb8OhBPXaAt
+         v0GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775501970; x=1776106770;
+        d=1e100.net; s=20251104; t=1775503801; x=1776108601;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ca80400b16hxnkq4OIBWd5Qd7l94fMZC2WBMvwuhtRk=;
-        b=MFB5nR1ynsNonbURf+l+ZfPdOqAkriyOGwiJMRiJvgNWRTVv423RnaWuRBOJrZwA+O
-         nsML0X/uhv3fsW+OVew6/EijtVEKn9WkEtJlxf4Jz4tppaUYKUvZLVYIKTmLC+QYBfZw
-         qrS/4lMkReqLAHKu5DhgH3JZsC7klh4GbQiV8DPz8vd5o2Lacx58+Fi7xF4u3e00PMqD
-         b+JVJymathB+dgRDbMo/eD5Y2B76853XpcxIh1pN4NhPxSg43o9VsYgf9jGevT4ZkcIS
-         rEJLM+OsYNKdKe0qxzmQPFLY0TLJUa2iY3vkHxeLhOjq67Cf2Pd1fYlrKQWZEOGwU2Ui
-         0/Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFcgpM1uxFR+m3BaL2xci2tc8IER8bBxjkApxvPFZWPXr3V5CyblussswXUFUaYp8FzfoPjot1I1uepQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy61+GW63Ydks2U5nOeBh2SFyJjbXWoKjytc9HgSJtuTe+im6Zg
-	F715uMnAZIsXHvkNCq6lcI4ztwpBQo02rbO0qYzmTbsRK2dF7s/gbAbTZvUHPH54lOWyACcUDNo
-	Qp2a4Se2H
-X-Gm-Gg: AeBDiesO5CF2LNvKP7DjC0H0HYZ9UTp9MYqKezpDKefFVDXNgekmyq+UvIPLxk5xQh7
-	MuaPal+QskkjrcI8sxEt65KI4yEhq78DiSObtTrC04OrRjlVauAdrE9AV1qXBS4k/Ln2VKYp0jb
-	yTp94ottNwDP3D2ClH7+yMNcT29gfnun5udCge6/BElNsyFNaxPTNitVc/02PDj3elRGuszkRns
-	aqgjs1IWOV+lIBsQHOSuB66mV9cGxWoyLUwQEsf2mfWSJXbHNG9mG5yYQWE1PspGUua64BltgmU
-	nX9VSobEYr7z5Jal+2yE2F2qKrXdS2NrunaYCinPNbHF9WKWSwusgK77XozHerzRQNuemCEfBl/
-	s1VHtNOGjK8gxvS9I2XNSZwd2UTH8spwaTiSlnk2A3R5DrTENgFC0B9VKVh1XNr4WQPT+P57tA8
-	o22imQthstMI3/Te001wEwrQN4QVFw2U8/c/ezcIxQic5GCRsE/XU42ZWq/PPL27CI7+0JCRUo
-X-Received: by 2002:a17:907:d1b:b0:b9c:b475:90ff with SMTP id a640c23a62f3a-b9cb475965cmr369881266b.30.1775501969971;
-        Mon, 06 Apr 2026 11:59:29 -0700 (PDT)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3cec6f2bsm469993666b.35.2026.04.06.11.59.28
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Apr 2026 11:59:28 -0700 (PDT)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b95e5b3afso2324142f8f.3
-        for <driver-core@lists.linux.dev>; Mon, 06 Apr 2026 11:59:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV8pm2cIk1jDFpQ8uFtwAu9O3SZoqUQS8WS0WZQlU40Uj7WCwMnDx9yDzZJcoLYXAYR3GjXGcAJKGUnTA==@lists.linux.dev
-X-Received: by 2002:a05:6000:250f:b0:43c:ea2d:9c7a with SMTP id
- ffacd0b85a97d-43d292ff4f1mr22125257f8f.49.1775501967839; Mon, 06 Apr 2026
- 11:59:27 -0700 (PDT)
+        bh=6oqpjiW2BP+Tsq4RmXpwQJ34Z4G51X+Eu8RZMOYwNBA=;
+        b=fTh2fLhhaAJQpZes6vRhPnRxMy5RhgjpFLDx45CRDKetC8QDEt/iTBYjzhg7GOZXQ7
+         JK8/xbscqPF1x80ph0FeWKFv416H8sVb6s80uGIQiKOCwiosw58/MWGpDqhpjraIzsCs
+         XbxjhkGeGXOlczZVy/t24h5sobBmCu/YhpmAXbTCv5FNBVjwuQC7J7Y1vw8OjOcTTgxO
+         j+0wHBYGyW+yTg2TnZoKCV2IaJvpmg51qAVz2yDtNp/AcObxcTZNViK0GCL69WMEiId3
+         ifLtpUe1zxuZ36Gu6g4qyTiuXrlH1WAIgKYzyqb3A55PlN5wFIFLP4zdgwzLFcRx/xPN
+         B7bg==
+X-Forwarded-Encrypted: i=1; AJvYcCVN4FUbaujPK0C+65SYdlqfUUy4SIOvr75K+8PDLdkQCKVBOaX+MwgjsMsilf+T++T2rqKF+8s++3uwmA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2qXx8O6sPpFGjQkHNJZKXsnnIMyplEiaVYjnTBW1L7ZH8gqWm
+	BB5JSzSkYEhBBGF7VbpSXYAGNa9aC0O/wgpEhwBNdrvhu+5woUDOQRV50DGy1MvYrS0akEpLYdT
+	l9Gol5e8eiIkPEVqYC2V0EWUmeo9CF24=
+X-Gm-Gg: AeBDieutdjD2iN7vQR4Ry1Rhix1xF0skrGpkf3rpUAaxW+9gIoj0AjFGaen/26hTA/v
+	3VpFMtcifbeWXzd91dJ9wlMQKu8ki/6PgiLOxYZn6mu0ksXjgTaNZgATZYRhpMNnN5u/DoJx5nF
+	OnTPddjJQfYO1frxQa6pAcHfRBvzcFF7vwUTSLcp8SCMUD/x2T5864TddIQvroMUDr2799Co0Tf
+	BYkgAPjbCZPbxLmy7ejqGKOvgkUHjUZBRd5mcMKLoaTyFuwpC3qn6b7nQjIihi9ZkpjzjCNlltA
+	YpyvYYO7Bxe5gcwW/l4PsSgjUOSg+L32L4eQiQgVkD933M05dn5YOO9vaUJrrWSVZYy8AlYkEDE
+	H3zLlLOH47fMjC6/smQ==
+X-Received: by 2002:a17:907:d87:b0:b9c:b069:8ac3 with SMTP id
+ a640c23a62f3a-b9cb069bac2mr337550766b.3.1775503801341; Mon, 06 Apr 2026
+ 12:30:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260404000644.522677-1-dianders@chromium.org>
- <20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
- <873418d2fz.wl-maz@kernel.org> <CAD=FV=WV2SJwiC7CHEzG=XQJ=tG0P7JSLzU16f0px4j1qmwxUw@mail.gmail.com>
- <871pgscaj0.wl-maz@kernel.org> <DHM80WWSJ2XX.Q2X67PU4K1KS@kernel.org>
- <87zf3gauid.wl-maz@kernel.org> <DHM9WIABIULA.VZ9HOKU62SC9@kernel.org>
-In-Reply-To: <DHM9WIABIULA.VZ9HOKU62SC9@kernel.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 6 Apr 2026 11:59:16 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XcphmjoBLisoS+LjD+vq-dEaTvnKFstC_E42ETt4524w@mail.gmail.com>
-X-Gm-Features: AQROBzDBBdWTpyX5KojtEtlJPvrjnYkYQBCqXgX8tzjjFkAPK1Blcxy5_IzuMmQ
-Message-ID: <CAD=FV=XcphmjoBLisoS+LjD+vq-dEaTvnKFstC_E42ETt4524w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/9] driver core: Don't let a device probe until it's ready
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Saravana Kannan <saravanak@kernel.org>, Christoph Hellwig <hch@lst.de>, Eric Dumazet <edumazet@google.com>, 
-	Johan Hovold <johan@kernel.org>, Leon Romanovsky <leon@kernel.org>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Alexey Kardashevskiy <aik@ozlabs.ru>, 
-	Robin Murphy <robin.murphy@arm.com>, stable@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20260403-swnode-unreg-retcode-v3-0-7886092b28b4@oss.qualcomm.com> <20260403-swnode-unreg-retcode-v3-2-7886092b28b4@oss.qualcomm.com>
+In-Reply-To: <20260403-swnode-unreg-retcode-v3-2-7886092b28b4@oss.qualcomm.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 6 Apr 2026 22:29:24 +0300
+X-Gm-Features: AQROBzA8JV6OQ6clUVeDdQ8y2N7R8Nc6EH_ZR0i5RXUt9ZfYunTBiDn_zltZ3Uw
+Message-ID: <CAHp75Vca5R82wEV1hAyu1=zkuQOw3htXT787XhGH+LVN+EHQHg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] gpio: swnode: defer probe on references to
+ unregistered software nodes
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	brgl@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon, Apr 6, 2026 at 11:11=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
-wrote:
+On Fri, Apr 3, 2026 at 4:52=E2=80=AFPM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
 >
-> On Mon Apr 6, 2026 at 7:06 PM CEST, Marc Zyngier wrote:
-> > On Mon, 06 Apr 2026 17:43:22 +0100,
-> > "Danilo Krummrich" <dakr@kernel.org> wrote:
-> >>
-> >> On Mon Apr 6, 2026 at 6:34 PM CEST, Marc Zyngier wrote:
-> >> > On Mon, 06 Apr 2026 15:41:08 +0100,
-> >> > Doug Anderson <dianders@chromium.org> wrote:
-> >> >>
-> >> >> Hi,
-> >> >>
-> >> >> On Sun, Apr 5, 2026 at 11:32=E2=80=AFPM Marc Zyngier <maz@kernel.or=
-g> wrote:
-> >> >> >
-> >> >> > > +      * blocked those attempts. Now that all of the above init=
-ialization has
-> >> >> > > +      * happened, unblock probe. If probe happens through anot=
-her thread
-> >> >> > > +      * after this point but before bus_probe_device() runs th=
-en it's fine.
-> >> >> > > +      * bus_probe_device() -> device_initial_probe() -> __devi=
-ce_attach()
-> >> >> > > +      * will notice (under device_lock) that the device is alr=
-eady bound.
-> >> >> > > +      */
-> >> >> > > +     dev_set_ready_to_probe(dev);
-> >> >> >
-> >> >> > I think this lacks some ordering properties that we should be all=
-owed
-> >> >> > to rely on. In this case, the 'ready_to_probe' flag being set sho=
-uld
-> >> >> > that all of the data structures are observable by another CPU.
-> >> >> >
-> >> >> > Unfortunately, this doesn't seem to be the case, see below.
-> >> >>
-> >> >> I agree. I think Danilo was proposing fixing this by just doing:
-> >> >>
-> >> >> device_lock(dev);
-> >> >> dev_set_ready_to_probe(dev);
-> >> >> device_unlock(dev);
-> >> >>
-> >> >> While that's a bit of an overkill, it also works I think. Do folks
-> >> >> have a preference for what they'd like to see in v5?
-> >> >
-> >> > It would work, but I find the construct rather obscure, and it impli=
-es
-> >> > that there is a similar lock taken on the read path. Looking at the
-> >> > code for a couple of minutes doesn't lead to an immediate clue that
-> >> > such lock is indeed taken on all read paths.
-> >>
-> >> Why do you think this is obscure?
-> >
-> > Because you're not using the lock to protect any data. You're using
-> > the lock for its release effect. Yes, it works. But the combination of
-> > atomics *and* locking is just odd. You normally pick one model or the
-> > other, not a combination of both.
->
-> Yeah, the choice of bitops was purely because previously (in v2) this was=
- a C
-> bitfield member in struct device protected with the device lock. But, not=
- all of
-> the bitfield members were protected by the same lock or protected by a lo=
-ck at
-> all, which would have made this racy with the other bitfield members. I.e=
-. the
-> choice of bitops was independent; see also [2] for context.
->
-> [2] https://lore.kernel.org/driver-core/DHH1PD0ASG8H.1K3KG9L658DYN@kernel=
-.org/
+> fwnode_property_get_reference_args() now returns -ENOTCONN when called
+> on a software node referencing another software node which has not yet
+> been registered as a firmware node. It makes sense to defer probe in this
+> situation as the node will most likely be registered later on and we'll
+> be able to resolve the reference eventually. Change the behavior of
+> swnode_find_gpio() to return -EPROBE_DEFER if the software node reference
+> resolution returns -ENOTCONN.
 
-I've changed the snippet in the commit description to now justify the
-use of bitops like this:
+...
 
-Instead of adding another flag to the bitfields already in "struct
-device", instead add a new "flags" field and use that. This allows us
-to freely change the bit from different thread without worrying about
-corrupting nearby bits (and means threads changing other bit won't
-corrupt us).
+>         for_each_gpio_property_name(propname, con_id) {
+>                 ret =3D swnode_gpio_get_reference(fwnode, propname, idx, =
+&args);
+> -               if (ret =3D=3D 0)
+> +               if (ret =3D=3D 0 || ret =3D=3D -ENOTCONN)
+>                         break;
 
+If I understood the logic correctly this may be just extended as
 
-> >> As I mentioned in [1], the whole purpose of
-> >> dev_set_ready_to_probe() is to protect against a concurrent probe() at=
-tempt of
-> >> driver_attach() in __driver_probe_device(), while __driver_probe_devic=
-e() is
-> >> protected by the device lock is by design.
-> >>
-> >> [1] https://lore.kernel.org/driver-core/DHM5TCBT6GDE.EFG3IPRP99G7@kern=
-el.org/
-> >
-> > I don't have much skin in this game, and you seem to have strong
-> > opinions about how these things are supposed to work. So whatever
-> > floats your boat, as long as it is correct.
->
-> Not overly, it's more about calling out the fact that probe() paths are
-> serialized through the device lock by design, so it seems natural to prot=
-ect
-> dev_set_ready_to_probe() with the device lock.
->
-> The fact that dev_set_ready_to_probe() uses a bitop under the hood is an
-> implementation detail, i.e. it could also be an independent boolean.
->
-> That said, as I caught the issue in [3], I also mentioned the option of a=
-n
-> explicit memory barrier in device_add() and __driver_probe_device(). I.e.=
- I'm
-> not entirely against it, but I think the device lock is a bit cleaner.
->
-> [3] https://lore.kernel.org/driver-core/DHLITCTY913U.J59JSQOVL0NH@kernel.=
-org/
+  if (ret =3D=3D 0)
+    break;
 
-I've got the series all prepped and it sounds as if the alignment is
-on using device_lock(). I'll give it a few more hours in case there
-are additional responses, then send a v5. ;-)
+  if (ret =3D=3D -ENOTCONN)
+    /* ... */
+    return -EPROBE_DEFER;
 
--Doug
+>         }
+>         if (ret) {
+> +               if (ret =3D=3D -ENOTCONN)
+> +                       /*
+> +                        * -ENOTCONN for a software node reference lookup=
+ means
+> +                        *  that a remote struct software_node exists but=
+ has
+> +                        *  not yet been registered as a firmware node. D=
+efer
+> +                        *  until this happens.
+> +                        */
+> +                       return ERR_PTR(-EPROBE_DEFER);
+> +
+>                 pr_debug("%s: can't parse '%s' property of node '%pfwP[%d=
+]'\n",
+>                         __func__, propname, fwnode, idx);
+>                 return ERR_PTR(ret);
+
+--=20
+With Best Regards,
+Andy Shevchenko
