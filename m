@@ -1,76 +1,212 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F06A3090D7;
-	Mon,  6 Apr 2026 05:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4206C26ED45;
+	Mon,  6 Apr 2026 06:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775454589; cv=none; b=LBSusPKa43umQ/OW7TAp2HwE/l7yTCi00tz4bA4zgnZwmNXAI18sTft4G/WhbRCrVP2Zk7w1yNzJ6WwG8j1L8zrQ9qFl2XPa67zEQ9iMQPjV5vF/NU6lX3+eKI3MqIw+Elj+gh9SwqXloanyGUXx6PfyT9Eu+DI4/k6fFhowlHo=
+	t=1775457130; cv=none; b=kFRHIYAAt4rS4M/t0kM6gNl4uMhKAQntAlQzvdDDo4AWiA/BkumbOimLmDGYE6+DxCEmDs4Y3goqJSNO96hrR4h/IBuoOMIUGd7U6Gzre/B87UDcdgfEy7VLf9mjFx55MDCZ4Ij3Fue5drivwX8rXf3SBKisyuptILey5AicSVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775454589; c=relaxed/simple;
-	bh=4thoVWcMmw4MkYMp3l5E6+QpX/OSrE+K9Cc8bqDe0Ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XQA4CbXkLBh/o9TM0l3GHR8HOE78UCdfBV72jWkwslMVUXRxJS+ZcLeyesQw5vQW7xivUc9xGXMEe0ISToWApF++OWszmBh55flPbttz3W3kBqutDVv4gX9JDszEfNZNZJTFeurTcw8uGPXfV4+b5hO5YcXPImqnU7CPVa/GgBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgXI890r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775457130; c=relaxed/simple;
+	bh=FQv8fB3vHkOxqDuIagVsUtI8l6za+9doXbwJzLGtX74=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f2QXACmdiXwX0WmZrSX/jlMr/ALAgBdgUiXLprF4Vvvaq8yO1mgsB0DXZ/p+5gvLD1m2+1vRh1zMQrfQNW5GAExqoAEAt+KhBco78aVxsGcLvgCja42VrMBUdotSrE7jQ+dqP3rk6MviyHlj+8YJVuO8BEj7ybWw8asItHJNUp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lF5f8i8b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgXI890r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63BD2C4CEF7;
-	Mon,  6 Apr 2026 05:49:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lF5f8i8b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA219C4CEF7;
+	Mon,  6 Apr 2026 06:32:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775454589;
-	bh=4thoVWcMmw4MkYMp3l5E6+QpX/OSrE+K9Cc8bqDe0Ss=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bgXI890rX05ktv9oPv33HQAY90wguIlq0zeVRBIbmeDKXLA/c1mE1e5ydxu7hcduI
-	 kTZ9nO2+CkEVZjIDQGxe5bkfu2tmthXMLqKff1bqGFPaj+08+iHC08xjxc92g1DPEE
-	 KwVzjDTLqo2zhZDXkIrcuY5ezh3/H92TsCyGn+R1UdZRVT4pOQwueRJNE+JlSFvysL
-	 s3ofTuZZGE6Y2soiw9bIkJ/yTIdEF/ZL9+ftN7CICVlDH8rbwnbFFIAgWY4IyHBOsS
-	 w2C3bcHMNGEXDzAizYg/NRL6FHwycOJuhBHTezD2YnqnSWkNgtd7JsDL5QtQx8LstU
-	 +278O8yuLefAQ==
-Date: Mon, 6 Apr 2026 11:19:45 +0530
-From: Vinod Koul <vkoul@kernel.org>
+	s=k20201202; t=1775457129;
+	bh=FQv8fB3vHkOxqDuIagVsUtI8l6za+9doXbwJzLGtX74=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lF5f8i8bifXb6IF8UaZcLgx7ZlpRvr+WuhQoURmM8je7Ilf7X53+1ckVA7U5tJc4W
+	 sM7nPFeswRuiORA/jbzP5HLmiIKjsvi8XAOB8GGN5J5DQGxhI6/r7uhCZkfcz8kXT6
+	 jYGVnl4RKABEWa8hymi7156xvXG7/TUcjbo6hRcQWqZJx+EJukRxy1EEYahenJ/saK
+	 OUt5Fz2sBCLPCe0XcsHnjFEqqBnsNe0GNJLtlOBHLliWoxofbORrdl6z64mt2MMc8g
+	 gogY742T9RU89s9WpD3qLObbBYigoKok+Xg0yhiXpS6h+z7XUaWv9vDdJWcyo0eJc9
+	 8ra1XLMvbl8Bw==
+Received: from cu01147a.smtpx.saremail.com ([195.16.150.122] helo=lobster-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1w9dVH-000000099uU-1XBT;
+	Mon, 06 Apr 2026 06:32:07 +0000
+Date: Mon, 06 Apr 2026 07:32:00 +0100
+Message-ID: <873418d2fz.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
 To: Douglas Anderson <dianders@chromium.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
 	Alan Stern <stern@rowland.harvard.edu>,
 	Saravana Kannan <saravanak@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Eric Dumazet <edumazet@google.com>,
-	Johan Hovold <johan@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Eric Dumazet <edumazet@google.com>,
+	Johan Hovold <johan@kernel.org>,
+	Leon Romanovsky <leon@kernel.org>,
 	Alexander Lobakin <aleksander.lobakin@intel.com>,
 	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Robin Murphy <robin.murphy@arm.com>, Frank.Li@kernel.org,
-	alex@ghiti.fr, andre.przywara@arm.com, andrew@lunn.ch,
-	aou@eecs.berkeley.edu, catalin.marinas@arm.com,
-	dmaengine@vger.kernel.org, driver-core@lists.linux.dev,
-	gregory.clement@bootlin.com, iommu@lists.linux.dev, jgg@ziepe.ca,
-	kees@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
-	linux@armlinux.org.uk, m.szyprowski@samsung.com, palmer@dabbelt.com,
-	peter.ujfalusi@gmail.com, pjw@kernel.org,
-	sebastian.hesselbarth@gmail.com, tsbogend@alpha.franken.de,
-	vgupta@kernel.org, will@kernel.org, willy@infradead.org
-Subject: Re: [PATCH v4 7/9] driver core: Replace dev->dma_coherent with
- dev_dma_coherent()
-Message-ID: <adNJebiLoHqgQEyZ@vaman>
+	Robin Murphy <robin.murphy@arm.com>,
+	stable@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/9] driver core: Don't let a device probe until it's ready
+In-Reply-To: <20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
 References: <20260404000644.522677-1-dianders@chromium.org>
- <20260403170432.v4.7.If839f6dde98979fce177f70c6c74689a1904ee76@changeid>
+	<20260403170432.v4.1.Id750b0fbcc94f23ed04b7aecabcead688d0d8c17@changeid>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260403170432.v4.7.If839f6dde98979fce177f70c6c74689a1904ee76@changeid>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 195.16.150.122
+X-SA-Exim-Rcpt-To: dianders@chromium.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, stern@rowland.harvard.edu, saravanak@kernel.org, hch@lst.de, edumazet@google.com, johan@kernel.org, leon@kernel.org, aleksander.lobakin@intel.com, aik@ozlabs.ru, robin.murphy@arm.com, stable@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 03-04-26, 17:05, Douglas Anderson wrote:
-> In C, bitfields are not necessarily safe to modify from multiple
-> threads without locking. Switch "dma_coherent" over to the "flags"
-> field so modifications are safe.
+Hi Doug,
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+On Sat, 04 Apr 2026 01:04:55 +0100,
+Douglas Anderson <dianders@chromium.org> wrote:
+> 
+> The moment we link a "struct device" into the list of devices for the
+> bus, it's possible probe can happen. This is because another thread
+> can load the driver at any time and that can cause the device to
+> probe. This has been seen in practice with a stack crawl that looks
+> like this [1]:
+
+[...]
+
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 09b98f02f559..f07745659de3 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -3688,6 +3688,19 @@ int device_add(struct device *dev)
+>  		fw_devlink_link_device(dev);
+>  	}
+>  
+> +	/*
+> +	 * The moment the device was linked into the bus's "klist_devices" in
+> +	 * bus_add_device() then it's possible that probe could have been
+> +	 * attempted in a different thread via userspace loading a driver
+> +	 * matching the device. "ready_to_prove" being unset would have
+
+nit; s/prove/probe/
+
+> +	 * blocked those attempts. Now that all of the above initialization has
+> +	 * happened, unblock probe. If probe happens through another thread
+> +	 * after this point but before bus_probe_device() runs then it's fine.
+> +	 * bus_probe_device() -> device_initial_probe() -> __device_attach()
+> +	 * will notice (under device_lock) that the device is already bound.
+> +	 */
+> +	dev_set_ready_to_probe(dev);
+
+I think this lacks some ordering properties that we should be allowed
+to rely on. In this case, the 'ready_to_probe' flag being set should
+that all of the data structures are observable by another CPU.
+
+Unfortunately, this doesn't seem to be the case, see below.
+
+> +
+>  	bus_probe_device(dev);
+>  
+>  	/*
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index 37c7e54e0e4c..8ec93128ea98 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -848,6 +848,18 @@ static int __driver_probe_device(const struct device_driver *drv, struct device
+>  	if (dev->driver)
+>  		return -EBUSY;
+>  
+> +	/*
+> +	 * In device_add(), the "struct device" gets linked into the subsystem's
+> +	 * list of devices and broadcast to userspace (via uevent) before we're
+> +	 * quite ready to probe. Those open pathways to driver probe before
+> +	 * we've finished enough of device_add() to reliably support probe.
+> +	 * Detect this and tell other pathways to try again later. device_add()
+> +	 * itself will also try to probe immediately after setting
+> +	 * "ready_to_probe".
+> +	 */
+> +	if (!dev_ready_to_probe(dev))
+> +		return dev_err_probe(dev, -EPROBE_DEFER, "Device not ready to probe\n");
+> +
+>  	dev->can_match = true;
+>  	dev_dbg(dev, "bus: '%s': %s: matched device with driver %s\n",
+>  		drv->bus->name, __func__, drv->name);
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index e65d564f01cd..5eb0b22958e4 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -458,6 +458,21 @@ struct device_physical_location {
+>  	bool lid;
+>  };
+>  
+> +/**
+> + * enum struct_device_flags - Flags in struct device
+> + *
+> + * Each flag should have a set of accessor functions created via
+> + * __create_dev_flag_accessors() for each access.
+> + *
+> + * @DEV_FLAG_READY_TO_PROBE: If set then device_add() has finished enough
+> + *		initialization that probe could be called.
+> + */
+> +enum struct_device_flags {
+> +	DEV_FLAG_READY_TO_PROBE = 0,
+> +
+> +	DEV_FLAG_COUNT
+> +};
+> +
+>  /**
+>   * struct device - The basic device structure
+>   * @parent:	The device's "parent" device, the device to which it is attached.
+> @@ -553,6 +568,7 @@ struct device_physical_location {
+>   * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
+>   * @dma_iommu: Device is using default IOMMU implementation for DMA and
+>   *		doesn't rely on dma_ops structure.
+> + * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
+>   *
+>   * At the lowest level, every device in a Linux system is represented by an
+>   * instance of struct device. The device structure contains the information
+> @@ -675,8 +691,34 @@ struct device {
+>  #ifdef CONFIG_IOMMU_DMA
+>  	bool			dma_iommu:1;
+>  #endif
+> +
+> +	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+>  };
+>  
+> +#define __create_dev_flag_accessors(accessor_name, flag_name) \
+> +static inline bool dev_##accessor_name(const struct device *dev) \
+> +{ \
+> +	return test_bit(flag_name, dev->flags); \
+> +} \
+> +static inline void dev_set_##accessor_name(struct device *dev) \
+> +{ \
+> +	set_bit(flag_name, dev->flags); \
+
+Atomic operations that are not RMW or that do not return a value are
+unordered (see Documentation/atomic_bitops.txt). This implies that
+observing the flag being set from another CPU does not guarantee that
+the previous stores in program order are observed.
+
+For that guarantee to hold, you'd need to have an
+smp_mb__before_atomic() just before set_bit(), giving it release
+semantics. This is equally valid for the test, clear and assign
+variants.
+
+I doubt this issue is visible on a busy system (which would be the
+case at boot time), but I thought I'd mention it anyway.
+
+Thanks,
+
+	M.
 
 -- 
-~Vinod
+Jazz isn't dead. It just smells funny.
