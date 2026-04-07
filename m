@@ -1,174 +1,104 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2AA3C8736
-	for <driver-core@lists.linux.dev>; Tue,  7 Apr 2026 15:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144913B9DBC
+	for <driver-core@lists.linux.dev>; Tue,  7 Apr 2026 16:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775576189; cv=none; b=Agf0BaWEhHreQl/0N+LKJZKC7scuxXtmVsRVozElaoF+lRTzBy/hUNo4TajtCo243QuOs8DyDrwZpOyNGiO/NzY06YC8wiNEG44802V2Db5+XVGF0mKsvH1uz5+Z7SD/hwdV+/6VuI6iUpL4nruLE06/LXoC6eJ8b534mgaa3vg=
+	t=1775577951; cv=none; b=tnCMgHOpNJ6rzVeTMLcb+oaa6yB1ghsiSLB+vWczU1O/8FLGcgbDK+ydIDVe+Z/7iy6stIyclpVFs7T5zxiyGb89pFO6IHVaE7JxXP2TTceaVL2dvAMomU13cloTNhc5sMFCGtJc0WOiBo/R/kVst/jhlzuhjnafpwEXcnJW5l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775576189; c=relaxed/simple;
-	bh=hX445ynibnXiIWMEjocw1AVTzkgY1FNORC7rREkeDJw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=BofodUBohP5VD5aUUqO1nzNE7OodaADeVY7ibicpHNNNfRhwBifoOYoMj0PwZRjzsxq+pNWGvDruouHfYa6Ix6JXtNl8yo5Smj4btv1HRRz91PpcWYJr5ulB6D9Ju1OLPLNtsKgp8HI8FlVZutzlO7hF5dq7NhQdSqdDnuPyLbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MzRPvqff; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1775577951; c=relaxed/simple;
+	bh=6kBHhGOK4020AEojvgEcBZzqws1dMhu3vrb6nYUER7A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ACUA4SLKnhp3XXSMM57LAki65JmsUdSOq2BCWWunYl9lMVeCY+WGlY8IG8rTBtBlVi8qz8aRIm/8tRR2rPWXU+d5XfaT1ZuSK7e5W82BkIoWMvPuCYjgNIlJxc5QXJnOkDMj0rAfTEEw8n1KYlyyzxICaoGc2kXNkitQWV2aaBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=MOdQXeAx; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MzRPvqff"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775576176;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BQUsDl+61brgBW+bmtwfnTQiS3JcRbzE4Uc2abCpuBs=;
-	b=MzRPvqffxPgoNdXgJla8FvxW94KfKBQZPsaCicMDBSWpSM30HthN9vvXeYvsDfffsOTxfR
-	mJfSUBpXBKpS4jgyd7t25JF96FD3ZqeOIrhbfnjMPmgNb71CoOuMsBE5MBSf7jJh+Og4y0
-	axgb1UK+v7OgwUn0yhUUDiL253mcD7E=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-542-i3a9Ot2dP1qh06s5bqKUUw-1; Tue,
- 07 Apr 2026 11:36:13 -0400
-X-MC-Unique: i3a9Ot2dP1qh06s5bqKUUw-1
-X-Mimecast-MFC-AGG-ID: i3a9Ot2dP1qh06s5bqKUUw_1775576171
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="MOdQXeAx"
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fqrdT0srdzlh2hS;
+	Tue,  7 Apr 2026 16:05:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:mime-version:x-mailer:message-id:date
+	:date:subject:subject:from:from:received:received; s=mr01; t=
+	1775577925; x=1778169926; bh=OzdtxUGl+Xu0Kapkclq7wwh9T4SqcKwnmUz
+	jsqh+vfY=; b=MOdQXeAxUFw3BsqDnhiqSjp7T1KkmKK6SbRrYi/ZBfZIfXIdop3
+	wSp1kYypRu0S2FqTxiMF4EorYpTGWVlf/dARDd/vZTCIagEBy4TY8enaxYNK4wRH
+	dOl876mHWpW5oF47IC/Tna0IRtOClPBcBnBeYJSDVq3/jG22Q/y7EzBDojnscF2l
+	Hn3tZVq/KtawsXf0AfiKZ1WoQ6NWFXw73hZqWasRfMLzwSaiypWbztvgefwQO3iu
+	oF78hszgmmRST4nAn0R3ibqurNuSok4zBPAqnVRtCnYxjizjz7HBBvLXzGM+i7jk
+	ZVypbD6rCbKUoBOMiEzHfANRBYb/goVi/6A==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id ZuCtzBO1__Te; Tue,  7 Apr 2026 16:05:25 +0000 (UTC)
+Received: from bvanassche.mtv.corp.google.com (unknown [104.135.180.219])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EDCEE195608C;
-	Tue,  7 Apr 2026 15:36:10 +0000 (UTC)
-Received: from fedora-work.redhat.com (unknown [10.22.80.127])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D1C3D1800594;
-	Tue,  7 Apr 2026 15:36:06 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: linux-kernel@vger.kernel.org,
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fqrdF4s4fzlgr46;
+	Tue,  7 Apr 2026 16:05:21 +0000 (UTC)
+From: Bart Van Assche <bvanassche@acm.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
 	driver-core@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Tarun Sahu <tarunsahu@google.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
-	Jordan Richards <jordanrichards@google.com>,
-	Ewan Milne <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
 	Bart Van Assche <bvanassche@acm.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	David Jeffery <djeffery@redhat.com>
-Subject: [PATCH 5/5] scsi: enable async shutdown support
-Date: Tue,  7 Apr 2026 11:35:32 -0400
-Message-ID: <20260407153532.6395-6-djeffery@redhat.com>
-In-Reply-To: <20260407153532.6395-1-djeffery@redhat.com>
-References: <20260407153532.6395-1-djeffery@redhat.com>
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Igor Pylypiv <ipylypiv@google.com>,
+	Chung-Kai Mei <chungkai@google.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] drivers: base: Set mod->async_probe_requested if needed
+Date: Tue,  7 Apr 2026 09:05:11 -0700
+Message-ID: <20260407160511.56289-1-bvanassche@acm.org>
+X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: QB-D48dRLYOKGElBtnUMo96UhqmkyufJD63LS4wazd4_1775576171
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Transfer-Encoding: quoted-printable
 
-Like scsi's async suspend support, allow scsi devices to be shut down
-asynchronously to reduce system shutdown time.
+If PROBE_PREFER_ASYNCHRONOUS is set for a device driver, and if loading
+other kernel modules depends on probing of that device driver to
+complete, e.g. because it is a storage driver, and if
+mod->async_probe_requested has not been set, then the
+async_synchronize_full() call in do_init_module() introduces a delay.
+Fix this by setting mod->async_probe_requested if
+PROBE_PREFER_ASYNCHRONOUS has been set. This patch reduces the Pixel 10
+boot time by 100 ms.
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Daniel Gomez <da.gomez@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Aaron Tomlin <atomlin@atomlin.com>
+Cc: Igor Pylypiv <ipylypiv@google.com>
+Cc: Chung-Kai Mei <chungkai@google.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Bart Van Assche <bvanassche@acm.org>
 ---
- drivers/scsi/hosts.c      | 3 +++
- drivers/scsi/scsi_scan.c  | 1 +
- drivers/scsi/scsi_sysfs.c | 4 ++++
- 3 files changed, 8 insertions(+)
+ drivers/base/module.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index e047747d4ecf..dfb38a82c0bf 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -273,6 +273,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	pm_runtime_set_active(&shost->shost_gendev);
- 	pm_runtime_enable(&shost->shost_gendev);
- 	device_enable_async_suspend(&shost->shost_gendev);
-+	device_enable_async_shutdown(&shost->shost_gendev);
- 
- 	error = device_add(&shost->shost_gendev);
- 	if (error)
-@@ -282,6 +283,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	get_device(shost->shost_gendev.parent);
- 
- 	device_enable_async_suspend(&shost->shost_dev);
-+	device_enable_async_shutdown(&shost->shost_dev);
- 
- 	get_device(&shost->shost_gendev);
- 	error = device_add(&shost->shost_dev);
-@@ -519,6 +521,7 @@ struct Scsi_Host *scsi_host_alloc(const struct scsi_host_template *sht, int priv
- 	shost->shost_gendev.bus = &scsi_bus_type;
- 	shost->shost_gendev.type = &scsi_host_type;
- 	scsi_enable_async_suspend(&shost->shost_gendev);
-+	device_enable_async_shutdown(&shost->shost_gendev);
- 
- 	device_initialize(&shost->shost_dev);
- 	shost->shost_dev.parent = &shost->shost_gendev;
-diff --git a/drivers/scsi/scsi_scan.c b/drivers/scsi/scsi_scan.c
-index 7b11bc7de0e3..72f30db8609a 100644
---- a/drivers/scsi/scsi_scan.c
-+++ b/drivers/scsi/scsi_scan.c
-@@ -515,6 +515,7 @@ static struct scsi_target *scsi_alloc_target(struct device *parent,
- 	dev->bus = &scsi_bus_type;
- 	dev->type = &scsi_target_type;
- 	scsi_enable_async_suspend(dev);
-+	device_enable_async_shutdown(dev);
- 	starget->id = id;
- 	starget->channel = channel;
- 	starget->can_queue = 0;
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index 6b8c5c05f294..c76ba17b206f 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1370,6 +1370,7 @@ static int scsi_target_add(struct scsi_target *starget)
- 	pm_runtime_set_active(&starget->dev);
- 	pm_runtime_enable(&starget->dev);
- 	device_enable_async_suspend(&starget->dev);
-+	device_enable_async_shutdown(&starget->dev);
- 
- 	return 0;
- }
-@@ -1396,6 +1397,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	transport_configure_device(&starget->dev);
- 
- 	device_enable_async_suspend(&sdev->sdev_gendev);
-+	device_enable_async_shutdown(&sdev->sdev_gendev);
- 	scsi_autopm_get_target(starget);
- 	pm_runtime_set_active(&sdev->sdev_gendev);
- 	if (!sdev->rpm_autosuspend)
-@@ -1415,6 +1417,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	}
- 
- 	device_enable_async_suspend(&sdev->sdev_dev);
-+	device_enable_async_shutdown(&sdev->sdev_dev);
- 	error = device_add(&sdev->sdev_dev);
- 	if (error) {
- 		sdev_printk(KERN_INFO, sdev,
-@@ -1670,6 +1673,7 @@ void scsi_sysfs_device_initialize(struct scsi_device *sdev)
- 	sdev->sdev_gendev.bus = &scsi_bus_type;
- 	sdev->sdev_gendev.type = &scsi_dev_type;
- 	scsi_enable_async_suspend(&sdev->sdev_gendev);
-+	device_enable_async_shutdown(&sdev->sdev_gendev);
- 	dev_set_name(&sdev->sdev_gendev, "%d:%d:%d:%llu",
- 		     sdev->host->host_no, sdev->channel, sdev->id, sdev->lun);
- 	sdev->sdev_gendev.groups = hostt->sdev_groups;
--- 
-2.53.0
-
+diff --git a/drivers/base/module.c b/drivers/base/module.c
+index 218aaa096455..e58fc189d389 100644
+--- a/drivers/base/module.c
++++ b/drivers/base/module.c
+@@ -39,6 +39,9 @@ int module_add_driver(struct module *mod, const struct =
+device_driver *drv)
+ 	if (!drv)
+ 		return 0;
+=20
++	if (mod && drv->probe_type =3D=3D PROBE_PREFER_ASYNCHRONOUS)
++		mod->async_probe_requested =3D true;
++
+ 	if (mod)
+ 		mk =3D &mod->mkobj;
+ 	else if (drv->mod_name) {
