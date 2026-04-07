@@ -1,126 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D482276049
-	for <driver-core@lists.linux.dev>; Tue,  7 Apr 2026 14:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9094E3C4547
+	for <driver-core@lists.linux.dev>; Tue,  7 Apr 2026 15:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775572756; cv=none; b=YL09r5eKAbZCsNlyVXrTLI8iFnF4ZzrkNgNdRAdb4OLXD+sFB5frnCLxPrrXagDt3Gb66tV0Sz4NEm+DClzPYuJYMq4WLch3WqSSGsQ2y8jNjU1KJntijiwPj+IEGiI5s1wNgtTQ99fvGxgCyrc3hT+lYANtWjGI3CgUwwqejaU=
+	t=1775576163; cv=none; b=mXHxud7OfVWbTl7PQgOFoJc8duJkhgek2wrIdc9CZdn+gZxmE0KXhZJnsJRYVtIhN2o/pnQkNMvu8piSAeO2vC6I4iIklK5guIvnqaVRkfLNXTde0XhlFE/TLKgYMqAVgkwN673deQGGC3wWWgZOcazReZhPW3uV5MDodBPKCp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775572756; c=relaxed/simple;
-	bh=kZTBU/MN8qb0KFdasZ8l2Oiew+XgjVd6ru1SKKqnHXI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GJPXm9ED+jIQSdQ+/l76CE1Mxlr+JW9XuunDdmDGSKqBBy5D/Hpc7fhH63W3LDLN8CXWRNUI3wVfYqndwRwJmL36+IT1Fwc4Hc5gGE/B8oP64sbUCiuWccZpxktjLa8SaWTqR4r9MN2ZQWmh/GPbzvpCz4nS0arvzk6DnULAX3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSgIASSX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775576163; c=relaxed/simple;
+	bh=q486hbQFYwx2k1leY5KoMK7hIVHTo/7L+j1C87TKQPc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=A74Gd0+xT5QSqmI7rGSBZoLozZMKDDYwMovYppKvclWokvAXj2pGey4vRjRwpGjS1kGz1UTPfuEjT19WxJWHbiIX4VkEgHicqiCJCvBO+cAuDcrG6DpdfHdZVSk3CX1MK+QOjxm5+S+aFiUagotZ6lf1McwiAtkjc8h8nXN7p0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pyh7Xpto; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSgIASSX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05745C2BCB2
-	for <driver-core@lists.linux.dev>; Tue,  7 Apr 2026 14:39:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775572756;
-	bh=kZTBU/MN8qb0KFdasZ8l2Oiew+XgjVd6ru1SKKqnHXI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RSgIASSXXLs9JQRGDJpuAA0zEqXWtVbXxd+5GfRlYZUXtuANc3qiY0JVrLrfxpQFi
-	 9LCFES4DAkHgOXLDUXO2+/tX7iss5yPu95YweVYjjSm1RQ3LnV2G2ioULYu7Hzp0zp
-	 rCHcsJtYkZVORArVpiotk8spwWmKIIE9V04ExRTmz5TJq6MEZcgrARWnccssPYAys/
-	 cLksjDvgE/tw02TQgAFY0YsXnRh24WswJbUBoytpwxjfQ5+lxgRqYeCxPcH3BhnO6R
-	 iHpj8zPLIkxtrxSBiJGUAaU/M7jnuambwp+7FBD/PWy03cykePVrOKjVI3zGUTNMwa
-	 yt9fOkhhWmFGA==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a2c77c62d7so4397743e87.0
-        for <driver-core@lists.linux.dev>; Tue, 07 Apr 2026 07:39:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVRl39Nk4QNIPs3dGJTvlrilHUJDVKvn84Bmq9iXex0b/n3GcNUNvef6/9PDEpP/3IGAz2MTtR6Z5y1Og==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTjWsaXAPeFNupE9/AeKnT7z8VIFgEy1jg3CQweEH5zhc+BLyV
-	xScex3hMIu0l4NJWzAP7hL7UFlD0JuuHOYPIbdy1p6WsVbQfxNDgjkpYmghIIyyqZF9F6a+CV4R
-	F+uttfYlDmcZk3Ufnt2GGRgaeXa6f1BscSribJ+d9lQ==
-X-Received: by 2002:ac2:4c32:0:b0:5a3:7528:5d3 with SMTP id
- 2adb3069b0e04-5a375280727mr3461360e87.43.1775572754730; Tue, 07 Apr 2026
- 07:39:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pyh7Xpto"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1775576154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1qdenO+L4HeoJ0wHmS036oyOX0IFoz5KPol2sNFuvOk=;
+	b=Pyh7Xpto5HmXkeIO0labwtNucUyqqefiqurHOJ9UNJ8QMx1nAH2+Y2fZEApBinl9ZkePuI
+	mdsDMcM5FFcm0stkKkrD/x7E3xnGX+sHc+QgMIMHQwquOBthNTbEXhX+nuxkuCxUJPJwZL
+	4k5+FqkM2g9jV8vGQE+fd/GFCPXlzy0=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-178-cOZrCKFzNrmrvHBhPBTmoQ-1; Tue,
+ 07 Apr 2026 11:35:50 -0400
+X-MC-Unique: cOZrCKFzNrmrvHBhPBTmoQ-1
+X-Mimecast-MFC-AGG-ID: cOZrCKFzNrmrvHBhPBTmoQ_1775576147
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 03D71195609F;
+	Tue,  7 Apr 2026 15:35:47 +0000 (UTC)
+Received: from fedora-work.redhat.com (unknown [10.22.80.127])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B40941800576;
+	Tue,  7 Apr 2026 15:35:42 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
+	Jordan Richards <jordanrichards@google.com>,
+	Ewan Milne <emilne@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH v13 0/5] shut down devices asynchronously
+Date: Tue,  7 Apr 2026 11:35:27 -0400
+Message-ID: <20260407153532.6395-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260407-swnode-unreg-retcode-v4-0-1b2f0725eb9c@oss.qualcomm.com>
- <20260407-swnode-unreg-retcode-v4-2-1b2f0725eb9c@oss.qualcomm.com> <adUVoiVaOkVq1C4w@ashevche-desk.local>
-In-Reply-To: <adUVoiVaOkVq1C4w@ashevche-desk.local>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 7 Apr 2026 16:39:02 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MfN_zGJR4GV4PmGqzuUcuAuwer9+a7DG7RQYfjRZsiLtA@mail.gmail.com>
-X-Gm-Features: AQROBzC6qoweNY6-nKE7ztgtcZvdgeV0XH2hyQI7m1-emdKmiVNMfmAeZBuPWMo
-Message-ID: <CAMRc=MfN_zGJR4GV4PmGqzuUcuAuwer9+a7DG7RQYfjRZsiLtA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] gpio: swnode: defer probe on references to
- unregistered software nodes
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: 6uwloZpbD20u1IWua2vc5lSk7M79rJxWVvsc-JtqCuQ_1775576147
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Tue, Apr 7, 2026 at 4:33=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Apr 07, 2026 at 03:27:58PM +0200, Bartosz Golaszewski wrote:
-> > fwnode_property_get_reference_args() now returns -ENOTCONN when called
-> > on a software node referencing another software node which has not yet
-> > been registered as a firmware node. It makes sense to defer probe in th=
-is
-> > situation as the node will most likely be registered later on and we'll
-> > be able to resolve the reference eventually. Change the behavior of
-> > swnode_find_gpio() to return -EPROBE_DEFER if the software node referen=
-ce
-> > resolution returns -ENOTCONN.
->
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> ...
->
-> >               ret =3D swnode_gpio_get_reference(fwnode, propname, idx, =
-&args);
->
-> >               if (ret =3D=3D 0)
-> >                       break;
->
-> Maybe check for an error first? Dunno. Up to you.
->
->                 if (ret =3D=3D -ENOTCONN)
->                         ...
->                 if (ret)
->                         continue;
->
->                 /* The reference is found, bail out */
->                 break;
->
-> (Also may be done in a separate change no need to mix these things
->  in the proposed change.)
->
-> > +             if (ret =3D=3D -ENOTCONN)
-> > +                     /*
-> > +                      * -ENOTCONN for a software node reference lookup=
- means
-> > +                      *  that a remote struct software_node exists but=
- has
-> > +                      *  not yet been registered as a firmware node. D=
-efer
-> > +                      *  until this happens.
-> > +                      */
-> > +                     return ERR_PTR(-EPROBE_DEFER);
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+This patchset allows the kernel to shutdown devices asynchronously and
+unrelated async devices to be shut down in parallel to each other.
 
-Yes, I mentioned it in one of the earlier revisions. I'll do it
-separately and only continue the loop on -ENOENT.
+Only devices which explicitly enable it are shut down asynchronously. The
+default is for a device to be shut down from the synchronous shutdown loop.
 
-Bart
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch. And on another system from
+80 seconds to 11.
+
+Changes from V12:
+
+Only acquire a parent reference if acquiring the parent's lock
+device_enable_async_shutdown should return void
+Minor comment and description cleanups
+
+Changes from V11:
+
+  * Swap the order of the first two patches
+  * Rework conditional parent locking so that lock and unlock no longer use
+    separate conditional checks
+  * Remove an used variable
+  * Comment and description text cleanups
+
+Changes from V10:
+
+Reworked to more closely match the design used for async suspend
+  * No longer uses async subsystem cookies for synchronization
+  * Minimized changes to struct device
+  * Enable async shutdown for pci and scsi devices which support async suspend
+
+Changes from V9:
+
+Address resource and timing issues when spawning a unique async thread
+for every device during shutdown:
+  * Make the asynchronous threads able to shut down multiple devices,
+    instead of spawning a unique thread for every device.
+  * Modify core kernel async code with a custom wake function so it
+    doesn't wake up a thread waiting to synchronize on a cookie until
+    the cookie has reached the desired value, instead of waking up
+    every waiting thread to check the cookie every time an async thread
+    ends.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
+
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+  
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
+ 
+Changes from V2:
+ 
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+ 
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+
+Stuart Hayes (2):
+  driver core: separate function to shutdown one device
+  driver core: do not always lock parent in shutdown
+
+David Jeffery (3):
+  driver core: async device shutdown infrastructure
+  PCI: Enable async shutdown support
+  scsi: enable async shutdown support
+
+ drivers/base/base.h       |   2 +
+ drivers/base/core.c       | 180 ++++++++++++++++++++++++++++++--------
+ drivers/pci/probe.c       |   2 +
+ drivers/scsi/hosts.c      |   3 +
+ drivers/scsi/scsi_scan.c  |   1 +
+ drivers/scsi/scsi_sysfs.c |   4 +
+ include/linux/device.h    |  13 +++
+ 7 files changed, 169 insertions(+), 36 deletions(-)
+
+-- 
+2.53.0
+
