@@ -1,132 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F5538E5D7;
-	Tue,  7 Apr 2026 09:07:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639433921E7
+	for <driver-core@lists.linux.dev>; Tue,  7 Apr 2026 10:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775552824; cv=none; b=Fjqn5F3tvwdbpjlztTpPGuT06IHr/SKijnLgT5w9K/of2l5+7WHfUT8hj9LxMZMBmxvVbSwBDLoFrcKSGiJ0dH4492GZ01nhs8+FDajWkfnWKOUjdUxG+/NTHI4mo+G7B1NO3T+W7/EQp7NS8geTaDY0P1UhIzUlbro5/6ItaSw=
+	t=1775559462; cv=none; b=RIAtoso0npFqocPaOEj0TwnRqTihi5z0eLrf1MVL4gqNOLxVd7y6gx45QXeLz+kA9xaIXLlCj7pb+Py4UTCFpLy8PpUnGe9e2ChfdIcLk7EMoT23eTKBcdyNluX/J1RLCPQrCa8Yaal8YWR9TqASjsfiKdG54pakE6QEB8FjLSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775552824; c=relaxed/simple;
-	bh=4NERHreOtOHtxPxrg9hJfCL0sb0Gtcuiwi8WJRXUxIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GFtxhR/QJQxqgQ2dNubztVIMgRaO1lz/GLGxP1nkGZHOW58RH2sCnk5ZZ4cm5Ct4HgZpTnd5hVEUF5Ry1vat0sl3IoB/Kp2zL9j9kI9jpsY59u84CzShyeu1zkgkktC64z1TZ7Ec9Cl0XeL8RVufip268nRANd0iDKFDP89Hcyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=stgpB9oZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775559462; c=relaxed/simple;
+	bh=4r1vDbs0pq5LzaslrOkl01oKuos6pzpFCtMes87/kkw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tzvqDeajqxQ8bzmS2SkfGq/8FKOrcXn25OuSojAOzwnBIen2xCgTwtP816Xpj8bPFy8VMAX/jH0ag1Xo+3ecPfkXnn5jYRmTOveWzjIZtXSTliO6Ee6/Pl/6d8e3fUKx8Bqes+qk9uZegmeiOiLJM9gC8EcXC7OXLKi85uS2drc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mYWWf7Qb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="stgpB9oZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A41DDC116C6;
-	Tue,  7 Apr 2026 09:07:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mYWWf7Qb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A03EC2BCB6
+	for <driver-core@lists.linux.dev>; Tue,  7 Apr 2026 10:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775552823;
-	bh=4NERHreOtOHtxPxrg9hJfCL0sb0Gtcuiwi8WJRXUxIs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=stgpB9oZ+np9GYARlzUA9ZMs/QvN4KIBqwa1qRYDAwyfYPqyHDzuHCzXPSnlyzgtg
-	 EAHXWcSv4E0rrXHIwU/F9B+i1mivT8/hiuEewvUz63bUM7ytEH5SQzK2thj+lYKQTs
-	 o2tisu8aVFvQIZG+/d8iAyn9lfuaOQqIZdUeq7k3DZiLr0hgqrYjSRZ2PwzXfNPDL4
-	 eowKFIJwq3yekc5lX5NoSnG1UiqaPzINQrHDk6adQBuAm9YxWQDDa+YyftbK/zR8JS
-	 kxyiSzhZcnKMojNpglf1PuMqJl8hSj8Ux7HAXRlz/T13loQq/CWQfn1V+eHwkI8KMb
-	 5kNMKJjzp6Bvg==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1wA2Oi-0000000AjGf-2EeN;
-	Tue, 07 Apr 2026 11:07:00 +0200
-Date: Tue, 7 Apr 2026 11:07:00 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Eric Dumazet <edumazet@google.com>,
-	Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>, maz@kernel.org,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Mark Brown <broonie@kernel.org>, alexander.stein@ew.tq-group.com,
-	andrew@codeconstruct.com.au, andrew@lunn.ch,
-	andriy.shevchenko@linux.intel.com, astewart@tektelic.com,
-	bhelgaas@google.com, brgl@kernel.org, davem@davemloft.net,
-	devicetree@vger.kernel.org, driver-core@lists.linux.dev,
-	hkallweit1@gmail.com, jirislaby@kernel.org, joel@jms.id.au,
-	kees@kernel.org, kuba@kernel.org, lgirdwood@gmail.com,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk, mani@kernel.org, netdev@vger.kernel.org,
-	pabeni@redhat.com, robh@kernel.org
-Subject: Re: [PATCH v5 8/9] driver core: Replace dev->of_node_reused with
- dev_of_node_reused()
-Message-ID: <adTJNMhsghRs3qwy@hovoldconsulting.com>
-References: <20260406232444.3117516-1-dianders@chromium.org>
- <20260406162231.v5.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
+	s=k20201202; t=1775559462;
+	bh=4r1vDbs0pq5LzaslrOkl01oKuos6pzpFCtMes87/kkw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=mYWWf7Qby/+Ci0q++KFsbjqGBGSoCxKvCQ2kqJycj6SIEnHNLLwR9r44X0d4CPolK
+	 tg3Bfo3kPewMeTpksUKFEVeP6Mdx60XXNYMPnEHKZwOHbvf24rnA6ul1eoIUzbMlVU
+	 ZCo6qCqJhpc2PfUP3hPYjnH929wKNz2iPZqbyvPqt8pBOzT0lMi6hJddmw16cwsJfU
+	 J9ip6EGwANwwjWw33HDR4T6V/HLd5/lctDR5mnTLrAgq8pqbROkLVUVlgbnl+4rkyg
+	 NGjqcxD8eJL87zmmj8WbVfvcad2TwOSwA+tOxnekG11AdspcwOIFn48c4UKl6GjiSC
+	 7ujyavdEdgpGQ==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a3cee3a271so3204214e87.3
+        for <driver-core@lists.linux.dev>; Tue, 07 Apr 2026 03:57:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV2X7HSMv3WDwI48RF5KHW45aPLbVNllwUHZtBHDHGdE8oiEIafQRV/1UPp6wg7V+Vn+Zk2AiHG9dkkaw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9GJsOHd1vJ8+DqmeKC+xYWvtRJE4iu0iVZ+0CK1OKHHQarWxL
+	bB9SWLaa1WHFIeLwunl3D9zF+EEfgQ5Jt6A5IltFs35AXyDob6B+NXfo7nkIR3dw8j+8y7jSH+V
+	TfIUKyrI1nQNZyOMfGu1DBtbX8O74E3qX3qv9Op3Mdw==
+X-Received: by 2002:ac2:4e0a:0:b0:5a2:a0b0:94a with SMTP id
+ 2adb3069b0e04-5a33757bf68mr5319679e87.25.1775559460807; Tue, 07 Apr 2026
+ 03:57:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260406162231.v5.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
+References: <20260402-baytrail-real-swnode-v2-0-6f5054a4cc07@oss.qualcomm.com>
+ <20260402-baytrail-real-swnode-v2-1-6f5054a4cc07@oss.qualcomm.com>
+ <ac5wprh9vfTU5pGa@ashevche-desk.local> <ac7UqTsPC8yUooAR@google.com>
+ <CAMRc=Mcq-T=4fnGTWXzEBjfiPaZLGw4HVAuOm48v-5Uf++K5xg@mail.gmail.com> <ac_9EV3C0I1WXQz2@google.com>
+In-Reply-To: <ac_9EV3C0I1WXQz2@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 7 Apr 2026 12:57:29 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MeRSKWoEn36hht4JuwrwOMpoA5g_Xju2XT9Urq3mQS2wg@mail.gmail.com>
+X-Gm-Features: AQROBzBAE1qyZXcNp6W0M7clxAQQsS9tQ0MKkJzF0Q5g3_M3cSllREtCbrsIUy0
+Message-ID: <CAMRc=MeRSKWoEn36hht4JuwrwOMpoA5g_Xju2XT9Urq3mQS2wg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] software node: return -ENXIO when referenced
+ swnode is not registered yet
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 06, 2026 at 04:23:01PM -0700, Doug Anderson wrote:
-> In C, bitfields are not necessarily safe to modify from multiple
-> threads without locking. Switch "of_node_reused" over to the "flags"
-> field so modifications are safe.
+On Fri, Apr 3, 2026 at 8:07=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Fri, Apr 03, 2026 at 09:29:38AM +0200, Bartosz Golaszewski wrote:
+> > On Thu, Apr 2, 2026 at 10:43=E2=80=AFPM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> > >
+> > > On Thu, Apr 02, 2026 at 04:35:34PM +0300, Andy Shevchenko wrote:
+> > > > On Thu, Apr 02, 2026 at 02:54:26PM +0200, Bartosz Golaszewski wrote=
+:
+> > > > > It's possible that at the time of resolving a reference to a remo=
+te
+> > > > > software node, the node we know exists is not yet registered as a=
+ full
+> > > > > firmware node. We currently return -ENOENT in this case but the s=
+ame
+> > > > > error code is also returned in some other cases, like the referen=
+ce
+> > > > > property with given name not existing in the property list of the=
+ local
+> > > > > software node.
+> > > > >
+> > > > > It makes sense to let users know that we're dealing with an unreg=
+istered
+> > > > > software node so that they can defer probe - the situation is som=
+ewhat
+> > > > > similar to there existing a firmware node to which no device is b=
+ound
+> > > > > yet - which is valid grounds for probe deferral. To that end: use=
+ -ENXIO
+> > > > > which stands for "No such device or address".
+> > > >
+> > > > This error code is also too generic to my taste. What about alterna=
+tive(s)?
+> > > > EADDRNOTAVAIL
+> > > > ENOTCONN
+> > > >
+> > > > (The brief grep shows that the second one might suit slightly bette=
+r than the
+> > > >  first one by existing use cases.)
+> > >
+> > > We are in the core of the driver core. Why not simply use -EPROBE_DEF=
+ER
+> > > to which all users will resolve this error to and call it a day?
+> > >
+> >
+> > Because -EPROBE_DEFER only makes sense in probe() context, while
+> > fwnode_get_reference_args() may be called in many other situations.
+>
+> Exactly same argument applies to your follow-up change: gpiod_get()
+> returning -EPROBE_DEFER only makes sense in probe context but it may be
+> called in many other situations. Are you planning to change all places
+> where gpiolib returns -EPROBE_DEFER to something else just in case it
+> might be called outside of probe context?
+>
 
-This flag is only set before registering a device with driver core so
-there is no issue using the existing bitfield here (with the caveat that
-PCI pwrctrl may have gotten that wrong). I haven't checked the other
-flags, but I assume most of them work the same way.
+I'd argue that gpiod_get() should really be limited to being called at
+probe() time but I see your point.
 
-But apart from the commit message being misleading, switching to using
-atomic ops and accessors for consistency is fine.
+> -EPROBE_DEFER should have been called -ENOTREADY from the beginning and
+> then we would not have this argument. Or, even better, we should have
+> used -EAGAIN. But it is just a name, semantics does not really change.
+> We want to signal that something is not ready and the operation needs be
+> repeated. Currently we contorting ourselves by using yet another error
+> code that everyone will either convert to -EPORBE_DEFER or will handle
+> like -EAGAIN.
+>
+> > I think ENOTCONN as "not connected" makes sense, though the string
+>
+> Why is it better? Most of users of -ENOTCONN are in networking code so
+> it is somewhat unexpected to have other APIs return it.
+>
+> > representation says: "Transport endpoint is not connected" which
+> > doesn't spell out quite the same thing.
+>
+> Yes, because it is really for networking/sockets handling.
+>
+> Thanks.
+>
 
-> Cc: Johan Hovold <johan@kernel.org>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> Not fixing any known bugs; problem is theoretical and found by code
-> inspection. Change is done somewhat manually and only lightly tested
-> (mostly compile-time tested).
- 
-> diff --git a/drivers/regulator/bq257xx-regulator.c b/drivers/regulator/bq257xx-regulator.c
-> index dab8f1ab4450..40e0f1a7ae81 100644
-> --- a/drivers/regulator/bq257xx-regulator.c
-> +++ b/drivers/regulator/bq257xx-regulator.c
-> @@ -143,7 +143,7 @@ static int bq257xx_regulator_probe(struct platform_device *pdev)
->  	struct regulator_config cfg = {};
->  
->  	pdev->dev.of_node = pdev->dev.parent->of_node;
-> -	pdev->dev.of_node_reused = true;
-> +	dev_set_of_node_reused(&pdev->dev);
->  
->  	pdata = devm_kzalloc(&pdev->dev, sizeof(struct bq257xx_reg_data), GFP_KERNEL);
->  	if (!pdata)
-> diff --git a/drivers/regulator/rk808-regulator.c b/drivers/regulator/rk808-regulator.c
-> index e66408f23bb6..8297d31cde9f 100644
-> --- a/drivers/regulator/rk808-regulator.c
-> +++ b/drivers/regulator/rk808-regulator.c
-> @@ -2115,7 +2115,7 @@ static int rk808_regulator_probe(struct platform_device *pdev)
->  	int ret, i, nregulators;
->  
->  	pdev->dev.of_node = pdev->dev.parent->of_node;
-> -	pdev->dev.of_node_reused = true;
-> +	dev_set_of_node_reused(&pdev->dev);
->  
->  	regmap = dev_get_regmap(pdev->dev.parent, NULL);
->  	if (!regmap)
+Andy et al: what is your take on this?
 
-These two uses are broken currently though and should be using
-device_set_of_node_from_dev() so that an extra reference is taken to
-balance the one dropped by the platform bus code.
-
-I'll send two fixes to Mark, any merge conflict should be trivial to
-fixup.
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
-
-Johan
+Bart
