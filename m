@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0CD272E56;
-	Wed,  8 Apr 2026 16:03:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C316E3D6CAE;
+	Wed,  8 Apr 2026 18:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775664212; cv=none; b=WyqsA3yrnalaf0hO/4Au5Bcdop2be/ZyLCvGaDDysMFr7I9+oMSuV1HEoVAYqWxGR3UcAKhuiIIURYA8zYkoP5qFq4Oms+lKZU3NKy2lQrfhvh/ztpJGviZ5GsHvWgVbjLkuOQtJztjr3CpQJNNJ382Xhvq1IGQ+Afmqozg+ldo=
+	t=1775674388; cv=none; b=Pcg7M38LdAFBiVKIwyhTI4ptzUei3JLGOrtidCpmuDnI77ZSVMPxC4tgv774XwPICewnbDqLH+Irh4rD6t0DWmEUS5WMtfj13OSOhSy5d43xwzutD9DqKuIUL9JEkckS95S/hjcOeHBLhlrqqoZxx6KqBtM7scOW3pQn1qePHJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775664212; c=relaxed/simple;
-	bh=aOYEMe8DYHjELWWitRha6yUM4hwV/TSAsG6LDrMzUhg=;
+	s=arc-20240116; t=1775674388; c=relaxed/simple;
+	bh=HOaJwNsjIpDPz52IfHQIEoSXM5Of9dRAnw+kAgv7FoA=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=D2yEkg7Exa4ygEO+UMg30Fu9BL9lRtpxEojdVPUy1pwPauEHRIJS+UfAT4cTMX3udLaxbC0iJxoP635LjU41QRxUnBKA6kYg7ciVQqO0bQCf9hFDN3x8Rp6HGh7+ZQx+rpgeKdJYovVWDoMnUl9wiEkgaMFE0N350Zp2F6HOeSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBs7c1rE; arc=none smtp.client-ip=10.30.226.201
+	 References:In-Reply-To; b=Bl3KgbF1KdezES6fadnP+j8IEC/5/PMNbl/nGE82NQuZqMB/8UUvfu3iMmAcBNk3Ev0CgJYFcp7U373h1qQciP32j8LC0AFSaz22QCHEWc9MOD8FbxxJZfCTTkdBXkImOvSUTSTQcd58PM0o/4upDOq15ER7tJEwghkOXHMwWpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOc2S0VQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBs7c1rE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A11C19421;
-	Wed,  8 Apr 2026 16:03:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOc2S0VQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2D4C19425;
+	Wed,  8 Apr 2026 18:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775664212;
-	bh=aOYEMe8DYHjELWWitRha6yUM4hwV/TSAsG6LDrMzUhg=;
+	s=k20201202; t=1775674388;
+	bh=HOaJwNsjIpDPz52IfHQIEoSXM5Of9dRAnw+kAgv7FoA=;
 	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=mBs7c1rEojLYlA3cGDrknDuAeLgN0py0autr6qMveVPnL+emk4EWkDVXQXTZOX3Uq
-	 y9qKMFPgH5/sskm6uRPQeu+ddffbx9tjA1me8A3m8yCsUflN8/6Ru379VzyoSzSDv8
-	 8pZP9Eng29U2eOXlC4yP15v6iaTDUaBZCdIOgNdKm5mSBCgEOK2S1GdqiYXHp6i+4A
-	 kBO3pN9CtZRl3MEwsarDNrSMX5kyYOTAdqxpTymizmupQUOvx42Ywfn9OQHJlDADvJ
-	 s8r24UIjcbMt20QlwY+dTzfunCZzf0HMui4srktj3hKa6N1TBnpy9wMv5gG72z3fpl
-	 0erc/M6kt6GXw==
+	b=GOc2S0VQ1U2YoZg7PcnTbrQnVGbUcO0ya9PcSKHGTfE7Kv9GaqjvCeNz+eK9+vpPz
+	 S5N6OoVV/ezdaKz/WOQOZrj3yqe1gqTSV9TTQCgKqZRFdTLEF26/f28LUdw6b4z92T
+	 BDOH29BJ6kHn3y5Skx3u6omZMdb0vMRkE1Ziv49iHcjLNR5vCRMtSxKPHD2cExhBTG
+	 +1StX143sAUnYT8/M5Wx7tQVUy4mDNYkNuAybbss2CTVWAM+bGR0W37zY30oj5HRSj
+	 wyeDitfgp0lWz5tM6aa/8FrT21LqtUx7A0hFMfGO08tvE3U3zQ/Xra5MToyCx7OHKQ
+	 pLHasyNKqyU/w==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,105 +34,92 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Apr 2026 18:03:26 +0200
-Message-Id: <DHNWFFEB3HD9.1QM2XXNE6BANY@kernel.org>
-Subject: Re: [PATCH v3] rust: ACPI: fix missing match data for PRP0001
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, "Len Brown" <lenb@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Robert Moore" <robert.moore@intel.com>,
- <linux-kernel@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <acpica-devel@lists.linux.dev>
-To: "Markus Probst" <markus.probst@posteo.de>
+Date: Wed, 08 Apr 2026 20:53:02 +0200
+Message-Id: <DHO01A7B9M0Y.1QVVS8600WRJ5@kernel.org>
+Subject: Re: [PATCH v4 1/2] software node: return -ENOTCONN when referenced
+ swnode is not registered yet
+Cc: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>, "Daniel Scally"
+ <djrscally@gmail.com>, "Heikki Krogerus" <heikki.krogerus@linux.intel.com>,
+ "Sakari Ailus" <sakari.ailus@linux.intel.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Mika Westerberg" <mika.westerberg@linux.intel.com>, "Andy Shevchenko"
+ <andy@kernel.org>, "Linus Walleij" <linusw@kernel.org>, "Hans de Goede"
+ <hansg@kernel.org>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, "Len Brown" <lenb@kernel.org>,
+ <linux-acpi@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <platform-driver-x86@vger.kernel.org>, "Bartosz Golaszewski"
+ <bartosz.golaszewski@oss.qualcomm.com>
+To: "Bartosz Golaszewski" <brgl@kernel.org>
 From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260407-rust_acpi_prp0001-v3-1-c5b24590c273@posteo.de>
-In-Reply-To: <20260407-rust_acpi_prp0001-v3-1-c5b24590c273@posteo.de>
+References: <20260407-swnode-unreg-retcode-v4-0-1b2f0725eb9c@oss.qualcomm.com> <20260407-swnode-unreg-retcode-v4-1-1b2f0725eb9c@oss.qualcomm.com> <CAMRc=MdWSigDmTGSCe-ggAC+rKcCLimKgKU_kAGh5N66jyXGtg@mail.gmail.com> <DHNVOVO67YMW.1Q763BB153CGF@kernel.org> <CAMRc=MchUSdWo=BXrYN-qS3YFer2R3J02HyJxKJje-a1QvWdfg@mail.gmail.com>
+In-Reply-To: <CAMRc=MchUSdWo=BXrYN-qS3YFer2R3J02HyJxKJje-a1QvWdfg@mail.gmail.com>
 
-On Tue Apr 7, 2026 at 11:41 PM CEST, Markus Probst wrote:
-> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-> index aad1a95e6863..d0098f24346f 100644
-> --- a/include/acpi/acpi_bus.h
-> +++ b/include/acpi/acpi_bus.h
-> @@ -187,6 +187,10 @@ struct acpi_driver {
->   * -----------
->   */
-> =20
-> +bool acpi_of_match_device(const struct acpi_device *adev,
-> +			  const struct of_device_id *of_match_table,
-> +			  const struct of_device_id **of_id);
-
-This also has to be defined for !CONFIG_ACPI, otherwise we run into the
-following compatible error.
-
-	error[E0425]: cannot find function `acpi_of_match_device` in crate `bindin=
-gs`
-	      --> rust/kernel/driver.rs:295:24
-	       |
-	   295 |       unsafe { bindings::acpi_of_match_device(adev, of_match_tabl=
-e, of_id) }
-	       |                          ^^^^^^^^^^^^^^^^^^^^
-	       |
-	      ::: /mnt/nvme/work/projects/linux/driver-core/driver-core-testing/ru=
-st/bindings/bindings_generated.rs:118713:5
-
-There is an
-
-	#else	/* CONFIG_ACPI */
-
-block at the end of acpi_bus.h for this.
-
-> +
->  /* Status (_STA) */
-> =20
->  struct acpi_device_status {
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_hel=
-per.h
-> index 083cc44aa952..e47643ce8b50 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -96,6 +96,11 @@
->   */
->  #include <../../drivers/base/base.h>
-> =20
-> +/*
-> + * The driver-core Rust code needs to call `acpi_of_match_device`.
-> + */
-
-NIT: I'd drop this comment as such comments usually do not age very well. :=
-)
-
-I assume you followed the above comment for
-
-	#include <../../drivers/base/base.h>
-
-but this one is different as it justifies why we have to include an interna=
+On Wed Apr 8, 2026 at 5:52 PM CEST, Bartosz Golaszewski wrote:
+> On Wed, 8 Apr 2026 17:28:46 +0200, Danilo Krummrich <dakr@kernel.org> sai=
+d:
+>> On Wed Apr 8, 2026 at 9:19 AM CEST, Bartosz Golaszewski wrote:
+>>> On Tue, Apr 7, 2026 at 3:28=E2=80=AFPM Bartosz Golaszewski
+>>> <bartosz.golaszewski@oss.qualcomm.com> wrote:
+>>>>
+>>>> It's possible that at the time of resolving a reference to a remote
+>>>> software node, the node we know exists is not yet registered as a full
+>>>> firmware node. We currently return -ENOENT in this case but the same
+>>>> error code is also returned in some other cases, like the reference
+>>>> property with given name not existing in the property list of the loca=
 l
-header in general (i.e. not for a specific function).
+>>>> software node.
+>>>>
+>>>> It makes sense to let users know that we're dealing with an unregister=
+ed
+>>>> software node so that they can defer probe - the situation is somewhat
+>>>> similar to there existing a firmware node to which no device is bound
+>>>> yet - which is valid grounds for probe deferral. To that end: use
+>>>> -ENOTCONN to indicate the software node is "not connected".
+>>>>
+>>>> Acked-by: Andy Shevchenko <andy@kernel.org>
+>>>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.c=
+om>
+>>>> ---
+>>>
+>>> Hi Danilo!
+>>>
+>>> With Andy's Ack, do you think you could still queue this for v7.1?
+>>
+>> Yeah, that should work, but I have a question about the patch.
+>>
+>> The comment added to fwnode_property_get_reference_args() says:
+>>
+>> 	+ *            %-ENOTCONN when the remote firmware node is a software n=
+ode that
+>> 	+ *                       has not been registered as a firmware node ye=
+t
+>>
+>> This seems like a bit of a layering violation to me, as it makes it expl=
+icit
+>> that this error code indicates a software node, while
+>> fwnode_property_get_reference_args() itself should be agnostic.
+>>
+>> The caller can easily derive more specific semantics with an is_software=
+_node()
+>> check as you already do in the GPIO code.
+>>
+>> Can we describe the same condition, but without explicitly naming the ba=
+ckend?
+>>
+>
+> Yes, sure. It can be something like:
+>
+> 	%-ENOTCONN when the remote firmware node exists but has not been
+> 		   registered yet.
+>
+> Does this sound good and doo you want me to resend or can you change it
+> when applying?
 
-> @@ -278,6 +283,18 @@ fn init(
->      }
->  }
-> =20
-> +#[inline(never)]
-> +#[allow(clippy::missing_safety_doc)]
-> +#[must_use]
-> +unsafe fn acpi_of_match_device(
+I can change it when applying.
 
-Maybe add a very brief comment similar to the one in devres.rs for this.
-
-> +    adev: *const bindings::acpi_device,
-> +    of_match_table: *const bindings::of_device_id,
-> +    of_id: *mut *const bindings::of_device_id,
-> +) -> bool {
-> +    // SAFETY: Safety requirements are the same as `bindings::acpi_devic=
-e_id`.
-
-Typo: s/bindings::acpi_device_id/bindings::acpi_of_match_device/
-
-> +    unsafe { bindings::acpi_of_match_device(adev, of_match_table, of_id)=
- }
-> +}
+One additional question though. I think it should be fine, but are we sure =
+the
+change can't regress other subsystems? It seems some of them (e.g. sfp-bus,
+v4l2, iio) special case -ENOENT.
