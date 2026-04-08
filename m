@@ -1,32 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5429135AC2B
-	for <driver-core@lists.linux.dev>; Wed,  8 Apr 2026 19:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249573783CE
+	for <driver-core@lists.linux.dev>; Wed,  8 Apr 2026 19:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775676654; cv=none; b=j/9TtNeo6fvn3sUtXG9I92qIXuwwG8wqK7O3oklHIoM/l23Lgp6/sR1rH/WpW+XfVRidBYjciB1sN8g2xxz/zAi/BPc+ULr4X3JW+uyk7vj5ShVc+iOanWUfRNI6Xw5N8gtBWVI57RTIS3pk6zPVPxMxoKT3ilwZ/0rIg5+HQ8Y=
+	t=1775676655; cv=none; b=uRXYK18XJyOkDlIETU/E/QgNmZDMQhoYYI1zyFAN0ULCc+HDCBYhvst1X1C7ONOidcQseixuGp3M4ExHlAUjYIEEn38GiqTEsYnkTy6tdGZkpVF6eQVrZ3jorcI2rhhtmGjW7CQ620ThcUf+DjnQh/ocQFNFFYThlnQsEaqB5WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775676654; c=relaxed/simple;
-	bh=mlcewPKPxaP2lJBm90zUvK8H7itlW5p6M//h2z7TgMA=;
+	s=arc-20240116; t=1775676655; c=relaxed/simple;
+	bh=+nbPD7BwS/SUUadDJb/9lHBAT0OX4YEir/hK/GeyFkA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BfZqB13wgT15ffocQoEm/4q9yeXRAY1SSgU23Y79t7wONCbxNmTPzA/bt1gyR/HsN0NOepKNy6++xqogd+KgPg/3ykrLtDAYu6SmGjBrBIiFUDL7pzg6lNmAKFKOP6mlDJZVc/NaBhbGZKFtvr4Co+PO0bzqUCcDgCzyCgNCJ20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=cttF5Djz; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=Wzu4jgS2K2DoaeIjM/xtgAf24bGvJV6rlQf5Le0wOZBYJ86z6Z+XVMcD1YrrWWQ0WsWirg0JVT2fLSBa2u/Z9voqtZU4enOi+p4licA32lAyPFsdBJsudpjapf/g7FWpF106Ay7sqWUy4tsZ791PMp5Js5bISwA2ROTp4VrHPqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=YvjBE0ch; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="cttF5Djz"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="YvjBE0ch"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1775676649;
-	bh=mlcewPKPxaP2lJBm90zUvK8H7itlW5p6M//h2z7TgMA=;
+	s=mail; t=1775676650;
+	bh=+nbPD7BwS/SUUadDJb/9lHBAT0OX4YEir/hK/GeyFkA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=cttF5DjzuHAMGI5ft6Arcl94EQu6VIXZnf2DJdRawCsPTqKggyO8dpi6b9l5ZXfm0
-	 RQx7uZRWPIHouLA0DO3eTt5Z45b5PyKRTO0tmh0kNYY7rS9a4FXTKG7xm+5hLgoNBV
-	 ZYoYOjBnmRgUoz0tyrWaqWGgxSep/kvUiMwA814U=
+	b=YvjBE0chOnpb5vd8z4xnZlOmsr/vuTvzLHqMzbmkjY9XaOSsMTRSajOz5nqCwHxCI
+	 Y+vHT/sBuFj1UdUqyx1LfYWprVMI2rNLiy0mhHm8qwpF0lMQ04Iemd0og5JnQkorWZ
+	 DefAXrJMSOsyFriSiQlonEDFWAkS9IZ+8PxUV2PY=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Wed, 08 Apr 2026 21:30:48 +0200
-Subject: [PATCH 2/5] driver core: Add low-level macros for device
- attributes
+Date: Wed, 08 Apr 2026 21:30:51 +0200
+Subject: [PATCH 5/5] driver core: Constify core device attributes
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,7 +34,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260408-sysfs-const-attr-device_attr-prep-v1-2-232934f77b3c@weissschuh.net>
+Message-Id: <20260408-sysfs-const-attr-device_attr-prep-v1-5-232934f77b3c@weissschuh.net>
 References: <20260408-sysfs-const-attr-device_attr-prep-v1-0-232934f77b3c@weissschuh.net>
 In-Reply-To: <20260408-sysfs-const-attr-device_attr-prep-v1-0-232934f77b3c@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -43,152 +42,160 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775676649; l=5939;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775676649; l=5281;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=mlcewPKPxaP2lJBm90zUvK8H7itlW5p6M//h2z7TgMA=;
- b=G4PQun+/0McWbBB2edgI4uN1g1PQg/p5CdD/eFXASVs2CN7UJCjqIw7Za2lZEKRF01PUhcj+P
- kMJQwPX+PdGDqmatjnEM2DidJ864c+UVkjKlWoCoY608Zerc/Q/Sdn1
+ bh=+nbPD7BwS/SUUadDJb/9lHBAT0OX4YEir/hK/GeyFkA=;
+ b=phO7B4RvbrhoGoDyzGJa6ZRa9cadragz1y5XEhYk8bXZmoLane21Yk7w0siQf4WXm28vZ1DiB
+ FhFuwUnqy4AAy85Y2WezbmdJdvST4FhsQuthlbHIE7J1k3W1HaB+Dnc
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-For the upcoming constification of device attributes the generic
-__ATTR() macros are insufficient.
-
-Prepare for a split by introducing new low-level macros specific to
-device attributes.
+To make sure these attributes are not modified by accident or by an
+attacker, move them to read-only memory.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- include/linux/device.h | 43 ++++++++++++++++++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 11 deletions(-)
+ drivers/base/core.c | 38 +++++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 8ba3168180e5..a0384dac06ee 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -135,6 +135,27 @@ ssize_t device_store_bool(struct device *dev, struct device_attribute *attr,
- ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
- 			   char *buf);
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 8a48cb2137ae..0f314c83eb9d 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -422,7 +422,7 @@ void device_pm_move_to_tail(struct device *dev)
+ #define to_devlink(dev)	container_of((dev), struct device_link, link_dev)
  
-+#define __DEVICE_ATTR(_name, _mode, _show, _store) \
-+	__ATTR(_name, _mode, _show, _store)
-+
-+#define __DEVICE_ATTR_RO_MODE(_name, _mode) \
-+	__ATTR_RO_MODE(_name, _mode)
-+
-+#define __DEVICE_ATTR_RO(_name) \
-+	__ATTR_RO(_name)
-+
-+#define __DEVICE_ATTR_WO(_name) \
-+	__ATTR_WO(_name)
-+
-+#define __DEVICE_ATTR_RW_MODE(_name, _mode) \
-+	__ATTR_RW_MODE(_name, _mode)
-+
-+#define __DEVICE_ATTR_RW(_name) \
-+	__ATTR_RW(_name)
-+
-+#define __DEVICE_ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store) \
-+	__ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store)
-+
- /**
-  * DEVICE_ATTR - Define a device attribute.
-  * @_name: Attribute name.
-@@ -155,7 +176,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  *	};
-  */
- #define DEVICE_ATTR(_name, _mode, _show, _store) \
--	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR(_name, _mode, _show, _store)
+ static ssize_t status_show(struct device *dev,
+-			   struct device_attribute *attr, char *buf)
++			   const struct device_attribute *attr, char *buf)
+ {
+ 	const char *output;
  
- /**
-  * DEVICE_ATTR_RW - Define a read-write device attribute.
-@@ -165,7 +186,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * and @_store is <_name>_store.
-  */
- #define DEVICE_ATTR_RW(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RW(_name)
+@@ -452,10 +452,10 @@ static ssize_t status_show(struct device *dev,
  
- /**
-  * DEVICE_ATTR_ADMIN_RW - Define an admin-only read-write device attribute.
-@@ -174,7 +195,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR_RW(), but @_mode is 0600.
-  */
- #define DEVICE_ATTR_ADMIN_RW(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RW_MODE(_name, 0600)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RW_MODE(_name, 0600)
+ 	return sysfs_emit(buf, "%s\n", output);
+ }
+-static DEVICE_ATTR_RO(status);
++static const DEVICE_ATTR_RO(status);
  
- /**
-  * DEVICE_ATTR_RO - Define a readable device attribute.
-@@ -183,7 +204,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR(), but @_mode is 0444 and @_show is <_name>_show.
-  */
- #define DEVICE_ATTR_RO(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RO(_name)
+ static ssize_t auto_remove_on_show(struct device *dev,
+-				   struct device_attribute *attr, char *buf)
++				   const struct device_attribute *attr, char *buf)
+ {
+ 	struct device_link *link = to_devlink(dev);
+ 	const char *output;
+@@ -469,27 +469,27 @@ static ssize_t auto_remove_on_show(struct device *dev,
  
- /**
-  * DEVICE_ATTR_ADMIN_RO - Define an admin-only readable device attribute.
-@@ -192,7 +213,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR_RO(), but @_mode is 0400.
-  */
- #define DEVICE_ATTR_ADMIN_RO(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RO_MODE(_name, 0400)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RO_MODE(_name, 0400)
+ 	return sysfs_emit(buf, "%s\n", output);
+ }
+-static DEVICE_ATTR_RO(auto_remove_on);
++static const DEVICE_ATTR_RO(auto_remove_on);
  
- /**
-  * DEVICE_ATTR_WO - Define an admin-only writable device attribute.
-@@ -201,7 +222,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR(), but @_mode is 0200 and @_store is <_name>_store.
-  */
- #define DEVICE_ATTR_WO(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_WO(_name)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_WO(_name)
+ static ssize_t runtime_pm_show(struct device *dev,
+-			       struct device_attribute *attr, char *buf)
++			       const struct device_attribute *attr, char *buf)
+ {
+ 	struct device_link *link = to_devlink(dev);
+ 
+ 	return sysfs_emit(buf, "%d\n", device_link_test(link, DL_FLAG_PM_RUNTIME));
+ }
+-static DEVICE_ATTR_RO(runtime_pm);
++static const DEVICE_ATTR_RO(runtime_pm);
+ 
+ static ssize_t sync_state_only_show(struct device *dev,
+-				    struct device_attribute *attr, char *buf)
++				    const struct device_attribute *attr, char *buf)
+ {
+ 	struct device_link *link = to_devlink(dev);
+ 
+ 	return sysfs_emit(buf, "%d\n", device_link_test(link, DL_FLAG_SYNC_STATE_ONLY));
+ }
+-static DEVICE_ATTR_RO(sync_state_only);
++static const DEVICE_ATTR_RO(sync_state_only);
+ 
+-static struct attribute *devlink_attrs[] = {
++static const struct attribute *const devlink_attrs[] = {
+ 	&dev_attr_status.attr,
+ 	&dev_attr_auto_remove_on.attr,
+ 	&dev_attr_runtime_pm.attr,
+@@ -1233,7 +1233,7 @@ static void device_link_drop_managed(struct device_link *link)
+ }
+ 
+ static ssize_t waiting_for_supplier_show(struct device *dev,
+-					 struct device_attribute *attr,
++					 const struct device_attribute *attr,
+ 					 char *buf)
+ {
+ 	bool val;
+@@ -1244,7 +1244,7 @@ static ssize_t waiting_for_supplier_show(struct device *dev,
+ 	device_unlock(dev);
+ 	return sysfs_emit(buf, "%u\n", val);
+ }
+-static DEVICE_ATTR_RO(waiting_for_supplier);
++static const DEVICE_ATTR_RO(waiting_for_supplier);
  
  /**
-  * DEVICE_ULONG_ATTR - Define a device attribute backed by an unsigned long.
-@@ -214,7 +235,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_ULONG_ATTR(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, _mode, device_show_ulong, device_store_ulong), &(_var) }
-+		{ __DEVICE_ATTR(_name, _mode, device_show_ulong, device_store_ulong), &(_var) }
+  * device_links_force_bind - Prepares device to be force bound
+@@ -2727,7 +2727,7 @@ static const struct kset_uevent_ops device_uevent_ops = {
+ 	.uevent =	dev_uevent,
+ };
  
- /**
-  * DEVICE_INT_ATTR - Define a device attribute backed by an int.
-@@ -226,7 +247,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_INT_ATTR(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, _mode, device_show_int, device_store_int), &(_var) }
-+		{ __DEVICE_ATTR(_name, _mode, device_show_int, device_store_int), &(_var) }
+-static ssize_t uevent_show(struct device *dev, struct device_attribute *attr,
++static ssize_t uevent_show(struct device *dev, const struct device_attribute *attr,
+ 			   char *buf)
+ {
+ 	struct kobject *top_kobj;
+@@ -2770,7 +2770,7 @@ static ssize_t uevent_show(struct device *dev, struct device_attribute *attr,
+ 	return len;
+ }
  
- /**
-  * DEVICE_BOOL_ATTR - Define a device attribute backed by a bool.
-@@ -238,7 +259,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_BOOL_ATTR(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, _mode, device_show_bool, device_store_bool), &(_var) }
-+		{ __DEVICE_ATTR(_name, _mode, device_show_bool, device_store_bool), &(_var) }
+-static ssize_t uevent_store(struct device *dev, struct device_attribute *attr,
++static ssize_t uevent_store(struct device *dev, const struct device_attribute *attr,
+ 			    const char *buf, size_t count)
+ {
+ 	int rc;
+@@ -2784,9 +2784,9 @@ static ssize_t uevent_store(struct device *dev, struct device_attribute *attr,
  
- /**
-  * DEVICE_STRING_ATTR_RO - Define a device attribute backed by a r/o string.
-@@ -251,11 +272,11 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_STRING_ATTR_RO(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, (_mode) & ~0222, device_show_string, NULL), (_var) }
-+		{ __DEVICE_ATTR(_name, (_mode) & ~0222, device_show_string, NULL), (_var) }
+ 	return count;
+ }
+-static DEVICE_ATTR_RW(uevent);
++static const DEVICE_ATTR_RW(uevent);
  
- #define DEVICE_ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store) \
- 	struct device_attribute dev_attr_##_name =		\
--		__ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store)
-+		__DEVICE_ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store)
+-static ssize_t online_show(struct device *dev, struct device_attribute *attr,
++static ssize_t online_show(struct device *dev, const struct device_attribute *attr,
+ 			   char *buf)
+ {
+ 	bool val;
+@@ -2797,7 +2797,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
+ 	return sysfs_emit(buf, "%u\n", val);
+ }
  
- int device_create_file(struct device *device,
- 		       const struct device_attribute *entry);
+-static ssize_t online_store(struct device *dev, struct device_attribute *attr,
++static ssize_t online_store(struct device *dev, const struct device_attribute *attr,
+ 			    const char *buf, size_t count)
+ {
+ 	bool val;
+@@ -2815,9 +2815,9 @@ static ssize_t online_store(struct device *dev, struct device_attribute *attr,
+ 	unlock_device_hotplug();
+ 	return ret < 0 ? ret : count;
+ }
+-static DEVICE_ATTR_RW(online);
++static const DEVICE_ATTR_RW(online);
+ 
+-static ssize_t removable_show(struct device *dev, struct device_attribute *attr,
++static ssize_t removable_show(struct device *dev, const struct device_attribute *attr,
+ 			      char *buf)
+ {
+ 	const char *loc;
+@@ -2834,7 +2834,7 @@ static ssize_t removable_show(struct device *dev, struct device_attribute *attr,
+ 	}
+ 	return sysfs_emit(buf, "%s\n", loc);
+ }
+-static DEVICE_ATTR_RO(removable);
++static const DEVICE_ATTR_RO(removable);
+ 
+ int device_add_groups(struct device *dev,
+ 		      const struct attribute_group *const *groups)
 
 -- 
 2.53.0
