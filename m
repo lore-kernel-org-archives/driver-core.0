@@ -1,93 +1,85 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06187350A1B
-	for <driver-core@lists.linux.dev>; Thu,  9 Apr 2026 08:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61723822B3
+	for <driver-core@lists.linux.dev>; Thu,  9 Apr 2026 08:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775724473; cv=none; b=m28c54nkDB0RAGaPAWBPurv12v6jsCK5TDw4NrUwsY77kFhdPbi3lNvf1Ars98J2TDYE64pcGpdPTOAZYc3g49Clj69LLJT5nklo5CA4oOGLx75KGVnMXoJBRBb9MJiEx4TbWI/ThBqa+JkmIE2GjwSvX/tj42yM2NOC3sxTcyg=
+	t=1775724838; cv=none; b=ZJkHZQNJl2DoyTl69n7sZz/aDYeKc2NTOD8smQ8iixXyy+We6MOEnINSZ/wkWHsTqoTP+IJUIEnbMok6LzrJmnfOjWffi4pr1JFJJsXmSoCQSz3XSV69bPiUhV+rN/PbkGyhsFOg3oGvkv9eoMdA4fRFgZqhYlm5FKpOLZXONxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775724473; c=relaxed/simple;
-	bh=XROpkdn4hrZsyPMA0wpaS9u98ZpLsYXHq+JsQfpKAes=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c/1ydQinypeZsGB0FcfEvE9lTa5CbXnUlIEtC5EnoNnLsxqzz8abfEFUhrEEu4J4FKX2jfKxH121O6bnxV2riEHm03kAso9VZwN3NKIQfi632R0jI8Fxl+RPa89tw2kRuEEyV6At2jwtCx3i4wwyo5qtPDLnQ+8Q2vq93MMju+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=NhTDJ93M; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1775724838; c=relaxed/simple;
+	bh=VPUYR4LP+0KATdMvEmZX4SL61Dntc2f7Qo3SSh171vM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DqF/k4KFHOhOl0mLjctivENaOYwBT4WuYtmm2VnVTTdN/DQyQro8bH9IkBfjXQE62tgxDh0jvXmuQ/tUs74+81OH9XILknHAsQzX2QFgGGqE1S8mGq+U1G+aezNeA2FoysAt6bLvYPM4wC4oMyNXyc9NWwPFY8VvFE3bi33ffM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EtH5qKdL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="NhTDJ93M"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1775724469;
-	bh=XROpkdn4hrZsyPMA0wpaS9u98ZpLsYXHq+JsQfpKAes=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NhTDJ93Mtin39GE0ViCdZVG5spEJ4fhKRjf5JjsQaZMJnwAPCxy7PIPmpSDTv1vKr
-	 m4nb9QZ2rY/YlV08Fw+hrp1uT658lUFhPfbFh9kk2dR1ZlMhfKoeclRoC0YV2lOnRg
-	 O0t8YpfnTX0d2IjJ+sr082q7EkyskSGxgI6CnMec=
-Date: Thu, 9 Apr 2026 10:47:46 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] driver core: Allow the constification of device
- attributes
-Message-ID: <8954dd7f-c867-4f46-9dbb-2775187d93db@t-8ch.de>
-References: <20260408-sysfs-const-attr-device_attr-prep-v1-0-232934f77b3c@weissschuh.net>
- <2026040916-rascal-oink-8875@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtH5qKdL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70298C2BCB4
+	for <driver-core@lists.linux.dev>; Thu,  9 Apr 2026 08:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775724838;
+	bh=VPUYR4LP+0KATdMvEmZX4SL61Dntc2f7Qo3SSh171vM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=EtH5qKdLmmztI9hjq53SGVlqeGinGzRUR7gz/+Zrn5X4w9z9cuN9ruUVrtFkMPp7a
+	 h0NHqvMCjxxO/T8/hByT23Aio/UQsc1M3CtfAxfCpkQ4Gjdlxi0F2mWz86AfUVzca0
+	 Cw2A9hM5pWyYXzq+NMXxgLO+iK+LYowV3zmv7eO+MYufuyAqUcazrElKZIF40+8xEK
+	 0EeoRkjOxicLaeaKrKnZbyG8Wv5uMq7NwV3TsLQmCDeWFKF6K3t2KIHRG72fIdZS6+
+	 rOpv7K8FeR7scDrduKrrVxK0gIYhwhnHXDc8tuJhqwdNuqT0a5unE9vUqbs4NZcANy
+	 wZdKmfmpKak3w==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a2beae348eso720818e87.0
+        for <driver-core@lists.linux.dev>; Thu, 09 Apr 2026 01:53:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWIrS/SHjnjo6BUZ/Niu539AAlApVp8pSTHGcEm5UD84A4Sd3poN1SjgmejuCW1uxW4z9XriDGazhG3pQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvkS2v9vtmlLuBVoq/Qs+oTq/Kv4zPpn8rAXcd3a9upN2qWI03
+	LbXSnSvyyVsrCqFyoX7rS0GXhdUa3ptkUaBmXRDT3IUDuc8gNDUN7HvlAMHBkySK2dcR0KNoT6n
+	kV+iOEJY0YFoS8+Z0yVVzLRzktX62ymdfp2yrDs9ixA==
+X-Received: by 2002:a05:6512:a93:b0:5a2:ae27:c879 with SMTP id
+ 2adb3069b0e04-5a3e7b4b5cdmr993856e87.29.1775724837082; Thu, 09 Apr 2026
+ 01:53:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2026040916-rascal-oink-8875@gregkh>
+References: <20260407-swnode-unreg-retcode-v4-0-1b2f0725eb9c@oss.qualcomm.com>
+ <20260407-swnode-unreg-retcode-v4-1-1b2f0725eb9c@oss.qualcomm.com>
+ <CAMRc=MdWSigDmTGSCe-ggAC+rKcCLimKgKU_kAGh5N66jyXGtg@mail.gmail.com>
+ <DHNVOVO67YMW.1Q763BB153CGF@kernel.org> <CAMRc=MchUSdWo=BXrYN-qS3YFer2R3J02HyJxKJje-a1QvWdfg@mail.gmail.com>
+ <DHO01A7B9M0Y.1QVVS8600WRJ5@kernel.org>
+In-Reply-To: <DHO01A7B9M0Y.1QVVS8600WRJ5@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 9 Apr 2026 10:53:43 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MfX8D1xM+BLCMO75zxQ9NTKtYBLoMPiXtbqUmOn+o9K_w@mail.gmail.com>
+X-Gm-Features: AQROBzDr4oZI_GfUCnBWYgDbtcc6blX4QnOeCr1x6uj9MPbAiBva7WK__bUOmQw
+Message-ID: <CAMRc=MfX8D1xM+BLCMO75zxQ9NTKtYBLoMPiXtbqUmOn+o9K_w@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] software node: return -ENOTCONN when referenced
+ swnode is not registered yet
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-04-09 07:36:09+0200, Greg Kroah-Hartman wrote:
-> On Wed, Apr 08, 2026 at 09:30:46PM +0200, Thomas Weißschuh wrote:
-> > Allow device attribute to reside in read-only memory.
-> > Both const and non-const attributes are handled by the utility macros
-> > and attributes can be migrated one-by-one.
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> > Thomas Weißschuh (5):
-> >       driver core: Delete DEVICE_ATTR_PREALLOC()
-> >       driver core: Add low-level macros for device attributes
-> >       driver core: stop using generic sysfs macros for device attributes
-> >       driver core: Allow the constification of device attributes
-> >       driver core: Constify core device attributes
-> > 
-> >  drivers/base/core.c    |  50 ++++++++++----------
-> >  include/linux/device.h | 122 +++++++++++++++++++++++++++++++++++++------------
-> >  2 files changed, 121 insertions(+), 51 deletions(-)
-> > ---
-> > base-commit: 6c8dfb0362732bf1e4829867a2a5239fedc592d0
-> > change-id: 20260408-sysfs-const-attr-device_attr-prep-9971fb4439da
-> > 
-> > Best regards,
-> > --  
-> > Thomas Weißschuh <linux@weissschuh.net>
-> > 
-> > 
-> 
-> We still have the is_visible_const() stuff not finished yet, why not fix
-> that up first?
+On Wed, Apr 8, 2026 at 8:53=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
+rote:
+>
+> One additional question though. I think it should be fine, but are we sur=
+e the
+> change can't regress other subsystems? It seems some of them (e.g. sfp-bu=
+s,
+> v4l2, iio) special case -ENOENT.
 
-Because I want to touch each file or subsystem as few times as
-possible. So before a subsystem is migrated, the prerequisites for
-all of their used features need to be there.
+It seems all users check for -ENOENT for when there *is no such*
+property. If this does break anyone in next cycle's RCs, I'm here to
+fix it.
 
-Currently only the prerequisites for 'struct device_attribute' and
-'struct kobj_attribute' are missing. So with this series in we can start
-migrating everything that is *not* using 'struct kobj_attribute'.
-
-> And this makes me worry, how many changes are going to be needed to move
-> everything over?  thousands?
-
-Depends on the granularity of the patches. I want to do as few as
-possible, but still expect a few hundred patches.
-
-
-Thomas
+Bart
