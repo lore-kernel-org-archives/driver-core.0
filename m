@@ -1,415 +1,232 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C4F1A38F9;
-	Sat, 11 Apr 2026 00:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF9F38F234;
+	Sat, 11 Apr 2026 15:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775867067; cv=none; b=gGAZ9gRS9/Jc3yCdXJ3JcwBX4QUpAd80J5jIXYMJmbSAg1D4MbkViPljTM4PAgOWFRPdPvsa+vi1/DFVfmxbCEnU5rrRCfs/uhihw2abqSmiYD1ly8pdHqQMPczp8ZlwcyDpErGSdvjSyU2u38O+9J997y2MkEXUauheXA2eS38=
+	t=1775920248; cv=none; b=fgFUzbaJE1dNwRdIGRIAeAhmmxUtghKPD13olKs0QwaXIFIsYWThIiNDpp9ua7kRjjaiUqq6uA81px90bxFl61CKg8/CJb1OLwrLi7UfQEro8TSwoeNGiEXVRSB2vbzAQeWggDjP3MWVv2m2imQ47M6CMjQfAswI1rD7Nzcb2yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775867067; c=relaxed/simple;
-	bh=eqKfDDIsGDa1MYYacTnhKSmR10b3g+jo0ASD8sorcOk=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:Mime-Version; b=PvcoUoiOAM+RKvAIgvFjoovG4ukZIAQsMeY1mrxrVliIhBcLc+sB7GCdku3R1b6qWp62lcUgMrOpAxRcVlRtzgVpPooJRZx2TKGtFleUYu1WfMh9RihH6mXtING2pGWSyPAQ5j6yaqDGTWWoLYu/oAzH40TXFgVq/9SNHGKxkUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbhyX10V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775920248; c=relaxed/simple;
+	bh=kGUFNO/cqRS0cyroJ3dj3BV9sGtCDXt7kNCLYlKoOYU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=M7iMljvWFJuJU8PYgaIyUrzy/QTrt9U1Zd4D0KcUvq7QAaK7LSJ6PommFTUTfYyUYwXY4QEyqXnHljMu2qjMbs8aPSvYW4K8kHz7K+qHwLSZaOJ0iI+3183qs7jG18OB7B6Q/haw7jmYAOjVVt2Nn16uhius77a5WS28BoE0R7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HSD24uWc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EbhyX10V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5B10C19421;
-	Sat, 11 Apr 2026 00:24:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HSD24uWc"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DC58AC2BCB7;
+	Sat, 11 Apr 2026 15:10:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775867067;
-	bh=eqKfDDIsGDa1MYYacTnhKSmR10b3g+jo0ASD8sorcOk=;
-	h=Date:Subject:Cc:To:From:From;
-	b=EbhyX10Vbe9RCS3dDw/LieAEO/ZGgS87HjOmwZE2h2l+JwcN86zKaEsI8Ydi0hM2t
-	 iHamqQNmX0/2/t04ycm05fHnCrCj01/488eo9LMSc/QpaTzwBBUz1/kgWbLW5kEPxg
-	 GqCC3S9q8aUplD9hEL/b56BE0MVz4sgvL9btCHDyQVUBPaQbZqQMBHulnXSSQSFc8y
-	 Dkvjvh4lhA2Gs5TWJZ2w0f5q0jEuM1ItMBefcw1SR486oIw8+HPrHBk3hjDdOj9/9Y
-	 ZZAu+RmEgXyumHY0W6MJP18P0MTcSQml0zcBlRWDaK01OZqd3S9HlzTO6w76tEhZFN
-	 3etWVDK5lqmRQ==
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 11 Apr 2026 02:24:24 +0200
-Message-Id: <DHPWC2SXSROE.1RM1PTZNOC627@kernel.org>
-Subject: [GIT PULL] Driver core changes for 7.1-rc1
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Saravana Kannan" <saravanak@kernel.org>, "Andrew
- Morton" <akpm@linux-foundation.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: "Linus Torvalds" <torvalds@linux-foundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Content-Transfer-Encoding: quoted-printable
+	s=k20201202; t=1775920247;
+	bh=kGUFNO/cqRS0cyroJ3dj3BV9sGtCDXt7kNCLYlKoOYU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=HSD24uWcax6D9ZvwPOy+1vVJaQCUepsSd+fOjWD4LxYDY9p9JMkMorqi+RCvEVYPg
+	 2X6XFc5GbBlh//b4NbgizJD0Bc281kGfeLTqwdY4IyO4/Teky17zH0w33bfBsYFwq6
+	 nklKQc9Qssu7xJiXDMpaDEbpNdzeUxa4+3WNO/zyCV1j9FrB7sreO4NceVTiGK1ZBq
+	 JGJwudUZePRmn9Rzzg/nfqztf0CJSgwHP0On/BXegsKV9Sve9aPuzuN5OBOJ/b0gvc
+	 hUwN3ZfCObQJ34GGtpj3o6rNmTUyIsEmaMboDn+5Ns+mmYv9xAdVbY+yJJyJDFPQuT
+	 E7FvcdyDIwPoQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6661F3ED59;
+	Sat, 11 Apr 2026 15:10:47 +0000 (UTC)
+From: Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>
+Date: Sat, 11 Apr 2026 17:10:38 +0200
+Subject: [PATCH v4 4/4] samples: rust: add Rust serial device bus sample
+ device driver
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: aerc 0.21.0-0-g5549850facc2
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260411-rust_serdev-v4-4-845e960c6627@posteo.de>
+References: <20260411-rust_serdev-v4-0-845e960c6627@posteo.de>
+In-Reply-To: <20260411-rust_serdev-v4-0-845e960c6627@posteo.de>
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Kari Argillander <kari.argillander@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boqun Feng <boqun@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4237;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=JoXwbjqfgHTSQtenfdS4rDb9JH2Wzuoqzg2D6y353ys=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp2mR1zUH9li9pZ+rBIWge8yDkXbxJ0soi3+ttK
+ Qug74pqMEmJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCadpkdRsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9I4KA/+MQAs12mXEb2i+cOmehh9TMWixF3rMuM
+ dXYWsAvKz2/JD+8K1rxE973J/gsaLNILB4XIQy1rvSNXbYpjTFHU+3ZVz7519IiAIc2PWwwfHdw
+ RYsWsmKGqIT/6ue12O8+FmwCwXwd0b+zyFUrcpYVBFe7B4YCDS9OGDIBswBL7ftbIRKlMVIJip9
+ o/4dNmQ+zkAjPSxdijrf8ZsZ5UfV7p2FFjW/dJdVnzBbWUn0w3jlE7j4Z3WVTvMypTkTsKgX+WD
+ Nq7an8BvQZVpArypnuThzXIpWC7Rv4h/gIytRSd1MKg+eYHumYBHTbqpgo+46p+8rAJHYDgSiS9
+ QNTxQvyAXRD9aL0+mR2hcjR70roS4HLc7JVDGcdn4LBh3YaZLXL8H6S7enKq5q73Kout4l6s4Vy
+ SFphEsP/R6haRcVWLQXsnCfp6HiSVUi7k9kuZdYwAozKK1AICZpxiLLBKFVVRrTmP6qIcR6aoiq
+ F1n2HIJv66v3/bSI9szRP5i6it1yj5wWQGq7OPYFQMAvcZKJyLaxoM1nbzzPPWQNHUQ1p6pkqrJ
+ tNAkXOq/Vhou5IjfltBqe3x9EWKe+NDJlm1hs0+aMyg94l2HXpAc9SLWEzM8jLMgoMdOBtYJELO
+ vvo3z41cZGBiDa98Q3bwDdMm4ZlGZa3oSWec7/PJDrNhAKKREb0Y=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+X-Endpoint-Received: by B4 Relay for markus.probst@posteo.de/default with
+ auth_id=680
+X-Original-From: Markus Probst <markus.probst@posteo.de>
+Reply-To: markus.probst@posteo.de
 
-Hi Linus,
+From: Markus Probst <markus.probst@posteo.de>
 
-Please pull these driver-core changes.
+Add a sample Rust serial device bus device driver illustrating the usage
+of the serial device bus abstractions.
 
-All commits have been in linux-next for at least five rounds; expect a mino=
-r
-conflict with the Rust tree due to the minimum compiler version bump.
+This drivers probes through either a match of device / driver name or a
+match within the OF ID table.
 
-A struct platform_device_info change and the addition of a conditional guar=
-d for
-the device lock have been shared with various trees through a signed tag; t=
-he
-Rust I/O register!() macro addition has been shared with the DRM tree.
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+ samples/rust/Kconfig               | 11 +++++
+ samples/rust/Makefile              |  1 +
+ samples/rust/rust_driver_serdev.rs | 86 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 98 insertions(+)
 
-A few late-cycle fixes still need some soak time in linux-next; please expe=
-ct a
-follow-up PR in the middle of the merge window.
+diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
+index c49ab9106345..31d62533ef25 100644
+--- a/samples/rust/Kconfig
++++ b/samples/rust/Kconfig
+@@ -161,6 +161,17 @@ config SAMPLE_RUST_DRIVER_AUXILIARY
+ 
+ 	  If unsure, say N.
+ 
++config SAMPLE_RUST_DRIVER_SERDEV
++	tristate "Serial Device Bus Device Driver"
++	select RUST_SERIAL_DEV_BUS_ABSTRACTIONS
++	help
++	  This option builds the Rust serial device bus driver sample.
++
++	  To compile this as a module, choose M here:
++	  the module will be called rust_driver_serdev.
++
++	  If unsure, say N.
++
+ config SAMPLE_RUST_SOC
+ 	tristate "SoC Driver"
+ 	select SOC_BUS
+diff --git a/samples/rust/Makefile b/samples/rust/Makefile
+index 6c0aaa58cccc..b986b681cde5 100644
+--- a/samples/rust/Makefile
++++ b/samples/rust/Makefile
+@@ -14,6 +14,7 @@ obj-$(CONFIG_SAMPLE_RUST_DRIVER_PLATFORM)	+= rust_driver_platform.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_USB)		+= rust_driver_usb.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_FAUX)		+= rust_driver_faux.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_AUXILIARY)	+= rust_driver_auxiliary.o
++obj-$(CONFIG_SAMPLE_RUST_DRIVER_SERDEV)		+= rust_driver_serdev.o
+ obj-$(CONFIG_SAMPLE_RUST_CONFIGFS)		+= rust_configfs.o
+ obj-$(CONFIG_SAMPLE_RUST_SOC)			+= rust_soc.o
+ 
+diff --git a/samples/rust/rust_driver_serdev.rs b/samples/rust/rust_driver_serdev.rs
+new file mode 100644
+index 000000000000..8cf3fb451b22
+--- /dev/null
++++ b/samples/rust/rust_driver_serdev.rs
+@@ -0,0 +1,86 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Rust Serial device bus device driver sample.
++
++use kernel::{
++    acpi,
++    device::{
++        Bound,
++        Core, //
++    },
++    of,
++    prelude::*,
++    serdev,
++    sync::aref::ARef, //
++};
++
++struct SampleDriver {
++    sdev: ARef<serdev::Device>,
++}
++
++kernel::of_device_table!(
++    OF_TABLE,
++    MODULE_OF_TABLE,
++    <SampleDriver as serdev::Driver>::IdInfo,
++    [(of::DeviceId::new(c"test,rust_driver_serdev"), ())]
++);
++
++kernel::acpi_device_table!(
++    ACPI_TABLE,
++    MODULE_ACPI_TABLE,
++    <SampleDriver as serdev::Driver>::IdInfo,
++    [(acpi::DeviceId::new(c"LNUXBEEF"), ())]
++);
++
++#[vtable]
++impl serdev::Driver for SampleDriver {
++    type IdInfo = ();
++    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
++    const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = Some(&ACPI_TABLE);
++
++    fn probe(
++        sdev: &serdev::Device<Core>,
++        _info: Option<&Self::IdInfo>,
++    ) -> impl PinInit<Self, Error> {
++        let dev = sdev.as_ref();
++
++        dev_dbg!(dev, "Probe Rust Serial device bus device driver sample.\n");
++
++        if sdev
++            .set_baudrate(
++                dev.fwnode()
++                    .and_then(|fwnode| fwnode.property_read(c"baudrate").optional())
++                    .unwrap_or(115200),
++            )
++            .is_err()
++        {
++            return Err(EINVAL);
++        }
++        sdev.set_flow_control(false);
++        sdev.set_parity(serdev::Parity::None)?;
++
++        Ok(Self { sdev: sdev.into() })
++    }
++
++    fn receive(sdev: &serdev::Device<Bound>, _this: Pin<&Self>, data: &[u8]) -> usize {
++        let _ = sdev.write_all(data, serdev::Timeout::Max);
++        data.len()
++    }
++}
++
++impl Drop for SampleDriver {
++    fn drop(&mut self) {
++        dev_dbg!(
++            self.sdev.as_ref(),
++            "Remove Rust Serial device bus device driver sample.\n"
++        );
++    }
++}
++
++kernel::module_serdev_device_driver! {
++    type: SampleDriver,
++    name: "rust_driver_serdev",
++    authors: ["Markus Probst"],
++    description: "Rust Serial device bus device driver",
++    license: "GPL v2",
++}
 
-- Danilo
+-- 
+2.52.0
 
-The following changes since commit c369299895a591d96745d6492d4888259b004a9e=
-:
 
-  Linux 7.0-rc5 (2026-03-22 14:42:17 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
- tags/driver-core-7.1-rc1
-
-for you to fetch changes up to 6c8dfb0362732bf1e4829867a2a5239fedc592d0:
-
-  bus: fsl-mc: use generic driver_override infrastructure (2026-04-04 20:41=
-:25 +0200)
-
-----------------------------------------------------------------
-Driver core changes for 7.1-rc1
-
-- debugfs:
-  - Fix NULL pointer dereference in debugfs_create_str()
-  - Fix misplaced EXPORT_SYMBOL_GPL for debugfs_create_str()
-  - Fix soundwire debugfs NULL pointer dereference from uninitialized
-    firmware_file
-
-- device property:
-  - Make fwnode flags modifications thread safe; widen the field to
-    unsigned long and use set_bit() / clear_bit() based accessors
-  - Document how to check for the property presence
-
-- devres:
-  - Separate struct devres_node from its "subclasses" (struct devres,
-    struct devres_group); give struct devres_node its own release and
-    free callbacks for per-type dispatch
-  - Introduce struct devres_action for devres actions, avoiding the
-    ARCH_DMA_MINALIGN alignment overhead of struct devres
-  - Export struct devres_node and its init/add/remove/dbginfo
-    primitives for use by Rust Devres<T>
-  - Fix missing node debug info in devm_krealloc()
-  - Use guard(spinlock_irqsave) where applicable; consolidate unlock
-    paths in devres_release_group()
-
-- driver_override:
-  - Convert PCI, WMI, vdpa, s390/cio, s390/ap, and fsl-mc to the
-    generic driver_override infrastructure, replacing per-bus
-    driver_override strings, sysfs attributes, and match logic; fixes
-    a potential UAF from unsynchronized access to driver_override in
-    bus match() callbacks
-  - Simplify __device_set_driver_override() logic
-
-- kernfs:
-  - Send IN_DELETE_SELF and IN_IGNORED inotify events on kernfs
-    file and directory removal
-  - Add corresponding selftests for memcg
-
-- platform:
-  - Allow attaching software nodes when creating platform devices via
-    a new 'swnode' field in struct platform_device_info
-  - Add kerneldoc for struct platform_device_info
-
-- software node:
-  - Move software node initialization from postcore_initcall() to
-    driver_init(), making it available early in the boot process
-  - Move kernel_kobj initialization (ksysfs_init) earlier to support
-    the above
-  - Remove software_node_exit(); dead code in a built-in unit
-
-- SoC:
-  - Introduce of_machine_read_compatible() and of_machine_read_model()
-    OF helpers and export soc_attr_read_machine() to replace direct
-    accesses to of_root from SoC drivers; also enables
-    CONFIG_COMPILE_TEST coverage for these drivers
-
-- sysfs:
-  - Constify attribute group array pointers to
-    'const struct attribute_group *const *' in sysfs functions,
-    device_add_groups() / device_remove_groups(), and struct class
-
-- Rust:
-  - Devres:
-    - Embed struct devres_node directly in Devres<T> instead of going
-      through devm_add_action(), avoiding the extra allocation and
-      the unnecessary ARCH_DMA_MINALIGN alignment
-
-  - I/O:
-    - Turn IoCapable from a marker trait into a functional trait
-      carrying the raw I/O accessor implementation (io_read /
-      io_write), providing working defaults for the per-type Io
-      methods
-    - Add RelaxedMmio wrapper type, making relaxed accessors usable
-      in code generic over the Io trait
-    - Remove overloaded per-type Io methods and per-backend macros
-      from Mmio and PCI ConfigSpace
-
-  - I/O (Register):
-    - Add IoLoc trait and generic read/write/update methods to the Io
-      trait, making I/O operations parameterizable by typed locations
-    - Add register! macro for defining hardware register types with
-      typed bitfield accessors backed by Bounded values; supports
-      direct, relative, and array register addressing
-    - Add write_reg() / try_write_reg() and LocatedRegister trait
-    - Update PCI sample driver to demonstrate the register! macro
-
-        Example:
-
-        ```
-            register! {
-                /// UART control register.
-                CTRL(u32) @ 0x18 {
-                    /// Receiver enable.
-                    19:19   rx_enable =3D> bool;
-                    /// Parity configuration.
-                    14:13   parity ?=3D> Parity;
-                }
-
-                /// FIFO watermark and counter register.
-                WATER(u32) @ 0x2c {
-                    /// Number of datawords in the receive FIFO.
-                    26:24   rx_count;
-                    /// RX interrupt threshold.
-                    17:16   rx_water;
-                }
-            }
-
-            impl WATER {
-                fn rx_above_watermark(&self) -> bool {
-                    self.rx_count() > self.rx_water()
-                }
-            }
-
-            fn init(bar: &pci::Bar<BAR0_SIZE>) {
-                let water =3D WATER::zeroed()
-                    .with_const_rx_water::<1>(); // > 3 would not compile
-                bar.write_reg(water);
-
-                let ctrl =3D CTRL::zeroed()
-                    .with_parity(Parity::Even)
-                    .with_rx_enable(true);
-                bar.write_reg(ctrl);
-            }
-
-            fn handle_rx(bar: &pci::Bar<BAR0_SIZE>) {
-                if bar.read(WATER).rx_above_watermark() {
-                    // drain the FIFO
-                }
-            }
-
-            fn set_parity(bar: &pci::Bar<BAR0_SIZE>, parity: Parity) {
-                bar.update(CTRL, |r| r.with_parity(parity));
-            }
-        ```
-
-  - IRQ:
-    - Move 'static bounds from where clauses to trait declarations
-      for IRQ handler traits
-
-  - Misc:
-    - Enable the generic_arg_infer Rust feature
-    - Extend Bounded with shift operations, single-bit bool conversion,
-      and const get()
-
-- Misc:
-  - Make deferred_probe_timeout default a Kconfig option
-  - Drop auxiliary_dev_pm_ops; the PM core falls back to driver PM
-    callbacks when no bus type PM ops are set
-  - Add conditional guard support for device_lock()
-  - Add ksysfs.c to the DRIVER CORE MAINTAINERS entry
-  - Fix kernel-doc warnings in base.h
-  - Fix stale reference to memory_block_add_nid() in documentation
-
-----------------------------------------------------------------
-Alexandre Courbot (15):
-      rust: io: turn IoCapable into a functional trait
-      rust: io: mem: use non-relaxed I/O ops in examples
-      rust: io: provide Mmio relaxed ops through a wrapper type
-      rust: io: remove legacy relaxed accessors of Mmio
-      rust: pci: io: remove overloaded Io methods of ConfigSpace
-      rust: io: remove overloaded Io methods of Mmio
-      rust: enable the `generic_arg_infer` feature
-      rust: num: add `shr` and `shl` methods to `Bounded`
-      rust: num: add `into_bool` method to `Bounded`
-      rust: num: make Bounded::get const
-      rust: io: add IoLoc type and generic I/O accessors
-      rust: io: use generic read/write accessors for primitive accesses
-      rust: io: add `register!` macro
-      rust: io: introduce `write_reg` and `LocatedRegister`
-      sample: rust: pci: use `register!` macro
-
-Alice Ryhl (1):
-      rust: irq: move 'static bounds to traits
-
-Andy Shevchenko (1):
-      device property: Document how to check for the property presence
-
-Bartosz Golaszewski (12):
-      of: provide of_machine_read_compatible()
-      of: provide of_machine_read_model()
-      base: soc: order includes alphabetically
-      base: soc: rename and export soc_device_get_machine()
-      soc: fsl: guts: don't access of_root directly
-      soc: imx8m: don't access of_root directly
-      soc: imx9: don't access of_root directly
-      soc: sunxi: mbus: don't access of_root directly
-      MAINTAINERS: add ksysfs.c to the DRIVER CORE entry
-      kernel: ksysfs: initialize kernel_kobj earlier
-      software node: remove software_node_exit()
-      driver core: make software nodes available earlier
-
-Dan Williams (1):
-      device core: Fix kernel-doc warnings in base.h
-
-Danilo Krummrich (22):
-      Merge tag 'v7.0-rc3' into driver-core-next
-      Merge tag 'device_lock_cond_guard-7.1-rc1' into driver-core-testing
-      Merge tag 'rust_io-7.1-rc1' into driver-core-next
-      devres: fix missing node debug info in devm_krealloc()
-      devres: add devres_node_add()
-      devres: add devres_node_init()
-      devres: don't require ARCH_DMA_MINALIGN for devres actions
-      devres: add free_node callback to struct devres_node
-      devres: use guard(spinlock_irqsave) where applicable
-      devres: remove unnecessary unlocks in devres_release_group()
-      devres: move struct devres_node into base.h
-      devres: export devres_node_init() and devres_node_add()
-      devres: add devres_node_remove()
-      devres: rename and export set_node_dbginfo()
-      rust: devres: embed struct devres_node directly
-      Merge tag 'v7.0-rc5' into driver-core-next
-      PCI: use generic driver_override infrastructure
-      platform/wmi: use generic driver_override infrastructure
-      vdpa: use generic driver_override infrastructure
-      s390/cio: use generic driver_override infrastructure
-      s390/ap: use generic driver_override infrastructure
-      bus: fsl-mc: use generic driver_override infrastructure
-
-Dmitry Torokhov (3):
-      driver core: platform: add kerneldoc to struct platform_device_info
-      driver core: platform: allow attaching software nodes when creating d=
-evices
-      driver core: platform: fix various formatting issues
-
-Douglas Anderson (1):
-      device property: Make modifications of fwnode "flags" thread safe
-
-Gui-Dong Han (4):
-      driver core: simplify __device_set_driver_override() clearing logic
-      debugfs: check for NULL pointer in debugfs_create_str()
-      debugfs: fix placement of EXPORT_SYMBOL_GPL for debugfs_create_str()
-      soundwire: debugfs: initialize firmware_file to empty string
-
-Hans de Goede (1):
-      driver core: Make deferred_probe_timeout default a Kconfig option
-
-Heiner Kallweit (3):
-      sysfs: constify group arrays in function arguments
-      driver: core: constify groups array argument in device_add_groups and=
- device_remove_groups
-      driver core: make struct class groups members constant arrays
-
-Kexin Sun (1):
-      drivers/base/memory: fix stale reference to memory_block_add_nid()
-
-Li Ming (1):
-      driver core: Add conditional guard support for device_lock()
-
-Rafael J. Wysocki (1):
-      driver core: auxiliary bus: Drop auxiliary_dev_pm_ops
-
-T.J. Mercier (4):
-      kernfs: Don't set_nlink for directories being removed
-      kernfs: Send IN_DELETE_SELF and IN_IGNORED
-      selftests: memcg: Add tests for IN_DELETE_SELF and IN_IGNORED
-      kernfs: Add missing documentation for kernfs_put_active's drop_supers=
- argument
-
- MAINTAINERS                                      |    2 +
- drivers/base/Kconfig                             |    9 +
- drivers/base/auxiliary.c                         |    6 -
- drivers/base/base.h                              |   98 ++++----
- drivers/base/core.c                              |   29 +--
- drivers/base/dd.c                                |   52 ++---
- drivers/base/devres.c                            |  277 ++++++++++++++----=
-----
- drivers/base/init.c                              |    1 +
- drivers/base/memory.c                            |    2 +-
- drivers/base/platform.c                          |   58 ++---
- drivers/base/property.c                          |   14 +-
- drivers/base/soc.c                               |   23 +-
- drivers/base/swnode.c                            |   13 +-
- drivers/bus/fsl-mc/fsl-mc-bus.c                  |   43 +---
- drivers/bus/imx-weim.c                           |    2 +-
- drivers/i2c/i2c-core-of.c                        |    2 +-
- drivers/net/phy/mdio_bus_provider.c              |    4 +-
- drivers/of/base.c                                |   30 ++-
- drivers/of/dynamic.c                             |    2 +-
- drivers/of/platform.c                            |    2 +-
- drivers/pci/pci-driver.c                         |   11 +-
- drivers/pci/pci-sysfs.c                          |   28 ---
- drivers/pci/probe.c                              |    1 -
- drivers/platform/wmi/core.c                      |   36 +--
- drivers/s390/cio/cio.h                           |    5 -
- drivers/s390/cio/css.c                           |   34 +--
- drivers/s390/crypto/ap_bus.c                     |   34 +--
- drivers/s390/crypto/ap_bus.h                     |    1 -
- drivers/s390/crypto/ap_queue.c                   |   24 +-
- drivers/soc/fsl/guts.c                           |   12 +-
- drivers/soc/imx/soc-imx8m.c                      |   11 +-
- drivers/soc/imx/soc-imx9.c                       |    4 +-
- drivers/soc/sunxi/sunxi_mbus.c                   |    2 +-
- drivers/soundwire/debugfs.c                      |    9 +-
- drivers/spi/spi.c                                |    2 +-
- drivers/vdpa/vdpa.c                              |   48 +---
- drivers/vfio/fsl-mc/vfio_fsl_mc.c                |    4 +-
- drivers/vfio/pci/vfio_pci_core.c                 |    5 +-
- drivers/xen/xen-pciback/pci_stub.c               |    6 +-
- fs/debugfs/file.c                                |    7 +-
- fs/kernfs/dir.c                                  |   58 ++++-
- fs/kernfs/inode.c                                |    2 +-
- fs/sysfs/group.c                                 |   10 +-
- include/linux/device.h                           |    5 +-
- include/linux/device/class.h                     |    4 +-
- include/linux/fsl/mc.h                           |    4 -
- include/linux/fwnode.h                           |   44 +++-
- include/linux/ksysfs.h                           |    8 +
- include/linux/of.h                               |   14 ++
- include/linux/pci.h                              |    6 -
- include/linux/platform_device.h                  |   58 ++++-
- include/linux/sys_soc.h                          |   10 +
- include/linux/sysfs.h                            |   16 +-
- include/linux/vdpa.h                             |    4 -
- include/linux/wmi.h                              |    4 -
- init/main.c                                      |    2 +
- kernel/ksysfs.c                                  |    9 +-
- rust/kernel/devres.rs                            |  187 +++++++++++----
- rust/kernel/io.rs                                |  780 ++++++++++++++++++=
-++++++++++++++++++++------------------------
- rust/kernel/io/mem.rs                            |   10 +-
- rust/kernel/io/register.rs                       | 1260 ++++++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++
- rust/kernel/irq/request.rs                       |   28 +--
- rust/kernel/lib.rs                               |    3 +
- rust/kernel/num/bounded.rs                       |   70 +++++-
- rust/kernel/pci/io.rs                            |   99 +++-----
- samples/rust/rust_driver_pci.rs                  |   90 ++++++--
- scripts/Makefile.build                           |    3 +-
- tools/testing/selftests/cgroup/test_memcontrol.c |  112 +++++++++
- 68 files changed, 2839 insertions(+), 1014 deletions(-)
- create mode 100644 include/linux/ksysfs.h
- create mode 100644 rust/kernel/io/register.rs
