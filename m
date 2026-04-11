@@ -1,134 +1,174 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44169391E73;
-	Sat, 11 Apr 2026 15:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD974388370
+	for <driver-core@lists.linux.dev>; Sat, 11 Apr 2026 19:23:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775920249; cv=none; b=YY6RNG+MoXevD38ODOOaQsneK9ECMo09r7EiTol++sSm1bs6jpTs1Mx5aVmXnEP5LECUpmxKz+wm1FVQLoB2Xk3PXt8o9P+QRa6YPhjxDSBB7ZTjpeT7P1EL/WcxBIJnVze3XoYLvFJJzilY3r5HYMSSeVgYs9ErkCc+tF13p3o=
+	t=1775935401; cv=none; b=IUquGMngArS1BVXjqSiWAZF1E3l5p+3+hrpwOgBj+l+8AK7eWbh1mMc09aY4UYCKj+nXGiRQGQcopQRvadOPe/YUEc+IW/i+cZnFkOzL1gUM6jMex4LbeRU6D830F3yj+FHDblEKzaGRd8llNgwpbe/bZDqbVEgI0A5hzOohnBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775920249; c=relaxed/simple;
-	bh=uSIsF7cpS82JnUoFXcvDfUEMG73KIwGnxGRJ1Ir5e58=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dIyjcNe6Zx4TLabRpum8qcS6rqzuQMeuFduwoXYZZiSaj+BcDrIcACk2X/5WuPA05hPcfKENhsCatYDGjbA69TWxQONbwdB0NyCbCAevKrhVfJYt5m4oQB1jv2q10SVBRwjvXSHwWlTFwZ2H3u9pm+CEw0T8DlYsTZRZP30vdeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9yUqXs/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775935401; c=relaxed/simple;
+	bh=qya5uqpvgIUd7+QRZN3R1QXtOBc6L9zzRRlirnmUS9k=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=h1iaSBLQ7lY/qoPobHZ1LZhgg1QwOsQ6+3FzdaVzEkI1dBcmAEMs82eFffnk9xJ+yt5mxdVO8zT97ZK5YRpU3LJ0eco9sM3vQjgpf8ZTxWqyirtjBkyvz1e1Y46SuYjteBb3MSeXhvHacoTv7zCmF/TzcpweoToADke+MddGfnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PtLSEtXJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9yUqXs/"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AFC05C2BCB3;
-	Sat, 11 Apr 2026 15:10:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PtLSEtXJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56BC4C2BCB0;
+	Sat, 11 Apr 2026 19:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775920248;
-	bh=uSIsF7cpS82JnUoFXcvDfUEMG73KIwGnxGRJ1Ir5e58=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=d9yUqXs/pMB3muNpiJJBOPukSSphWAqpWlFyxOA+jwOPRZ8JmslxtRWh9xZOAlhM5
-	 rg9upIJSvafQLvKI1MvYvclDVu7FhPejfHjcshDUs9+QV08+xFZpXes3ovaZkk9AnZ
-	 DY4jxkszvMa0aUwNYx6n5DQ723/vAN5RL99SHB2SQOC9t9Iwsi8GfFkkPKQydeAFd5
-	 lhTSKXYL+IMam1ym36PbfrpkVHlbSvUZ+zrWEIgF2g/k0DZ12mka12qd0TkL9YhXBF
-	 Y/aymVG/GsdtB+TwHFt/2lqsi1sZ0zgE+hOZYJFKNXeMjr9INocA8nRMFY9xP2CciY
-	 MNL/pBWAFr1HA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F050F3ED57;
-	Sat, 11 Apr 2026 15:10:47 +0000 (UTC)
-From: Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>
-Date: Sat, 11 Apr 2026 17:10:36 +0200
-Subject: [PATCH v4 2/4] serdev: add rust private data to serdev_device
+	s=k20201202; t=1775935401;
+	bh=qya5uqpvgIUd7+QRZN3R1QXtOBc6L9zzRRlirnmUS9k=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=PtLSEtXJ/ld5QXsFcbdy6DJFkw66bZHmHuUoeuowTcuXrAbriutuOm/muOKNO8oLR
+	 tcn3Us9jZhQoK75Xgqb7k3TlIXiG0YdrzJEv4RyRjeqJBHmW6kHz2fnBuEcETFAcoY
+	 G/q30qZTA6LhP0SJQiw0LDPmbP8B4PILTO6gVlhSUSd02IIBNbRHJJYSMcc3C9smx5
+	 F9kFr2Jjesdadhk6QaQSV9PGQdxOdG/yXAKYJJ/5JJNkJIQSaI2GPh0USH4fkyY3OV
+	 JTXNh8vIFwRt30eYZ4vCCllUzB+gb+Ed/fRM6aAYUqe1/EJ9ftceRjO4A7C+xJKUUB
+	 fppu+jQ7luEAA==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 5636AF4006F;
+	Sat, 11 Apr 2026 15:23:20 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Sat, 11 Apr 2026 15:23:20 -0400
+X-ME-Sender: <xms:qJ_aae8tesTscOfeCYEz-pAv2mOihgDstOT-Ue10bGo2QDUGWL8_XA>
+    <xme:qJ_aabaUSBVsNvN8D-VYV7pg8Q0mVqazGl6ehNYtBBSy_jZQXzQxsmvfHrKuIGiMt
+    7YPVgiqWlJ3AXOlvL9CkZuQuxdHpF9KrdiAAju-_IVoF500mRB5Y9D1>
+X-ME-Received: <xmr:qJ_aaX64OKtv7yi963de_yPiR6LIw9_5KQzwkCkkMajcNWmc4PhPRMhfzZUnseRg9OQzCUtZ-pIUgg_ncs0A5JHwuuwPWPPUGLY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeffedvtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefkjghfufggtgfgsehtqhertddttdejnecuhfhrohhmpeffrghnucghihhl
+    lhhirghmshcuoegujhgsfieskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpe
+    dukeelueetjeekgeeiheelvdehleekgeejvdejvdetgfdugffgveefgfejhffhvdenucff
+    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomhepughjsgifodhmvghsmhhtphgruhhthhhpvghrshhonhgr
+    lhhithihqddujeejvdeftdegheehqdeffeefleegtdegjedqughjsgifpeepkhgvrhhnvg
+    hlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepudefpdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopegurghvvgdrjhhirghnghesihhnthgvlhdrtg
+    homhdprhgtphhtthhopegurhhivhgvrhdqtghorhgvsehlihhsthhsrdhlihhnuhigrdgu
+    vghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheplhhinhhugidqtgiglhesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
+    dprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhr
+    rgdrfigvihhnhiesihhnthgvlhdrtghomhdprhgtphhtthhopegshhgvlhhgrggrshesgh
+    hoohhglhgvrdgtohhmpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:qJ_aaQm11dJjnnXj7m-gghZ8SO9FQRQhjVySatnDjjPTcqvYlWr6Bg>
+    <xmx:qJ_aaXF4Zz9WinWQjSMZCedesPs7cIiz_l37_7EiiTe33b50Xu_Rzg>
+    <xmx:qJ_aaZgV8CtNFL9VHSv7wpe-mKi-ku-w1nzNua4ut8D1jlC6DKhz5g>
+    <xmx:qJ_aachJKkDxzGz1xKTCwuXzYiAQJUqcczO4enG6ALMpCGEPojV8bQ>
+    <xmx:qJ_aaUlZyWKJ2T5IaCanx80bvZrkaRX8GLLgD-l4eYy_EzUOR1e_OKIL>
+Feedback-ID: i67ae4b3e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 11 Apr 2026 15:23:19 -0400 (EDT)
+Date: Sat, 11 Apr 2026 12:23:18 -0700
+From: Dan Williams <djbw@kernel.org>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Ira Weiny <ira.weiny@intel.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Davidlohr Bueso <dave@stgolabs.net>, 
+ Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, 
+ Ben Cheatham <benjamin.cheatham@amd.com>
+Message-ID: <69da9fa696d0f_6c31a100e8@djbw-dev.notmuch>
+In-Reply-To: <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
+References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
+ <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
+ <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
+ <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
+ <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
+Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
+ injection/clear
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260411-rust_serdev-v4-2-845e960c6627@posteo.de>
-References: <20260411-rust_serdev-v4-0-845e960c6627@posteo.de>
-In-Reply-To: <20260411-rust_serdev-v4-0-845e960c6627@posteo.de>
-To: Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Kari Argillander <kari.argillander@gmail.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Boqun Feng <boqun@kernel.org>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- Markus Probst <markus.probst@posteo.de>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1717;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=ECl35l4KVjDGQ1987vPeXlJAH328JZDbp6x8p1+V+Tw=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp2mR1/rC3QYG4lv8x7+e0BHsEaO6Kzftuyrn4x
- i7TZYRqvjOJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCadpkdRsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KcAg/9EvXGx8GdJdStcMtxvrNEM5CZHOVl3Lc
- NstwET4wP7IwuaA+tFIH3/sr9iA4nbjloefAA7PWihsomU9kmYOK5mz+WvIZugAjYt/85U/A7oy
- JqaVjNd/atsJTbMEK5yGQazTzSkBf4y3khdcSodR/HbLOa4T9rcDHez4xwViN6fNuStr+lxiCAK
- By/90NqzIuioqG9IcAjDdT5K9FQh+gm29QJErC3yJCvOiP0s2c5dnrRkz5iXfjQX11BiRz+I+q8
- PHWUHOTRMRYxnaPRYp4+KRKu6u39l/OBO7KyvtMOkXIV626+6Zck4rgJ6SVNwNOUYIIgatgPJ0F
- QMFElDMw8YKkV4Z7u7yTJoLyQsC2CtDW+8EjjzoAWUT9kV6CVaYIhXLOEDHxp3+da8depLa3YHL
- 7koqy2eZforhueezp0fjEijmTft53BVzAdupQ+loZGyfM1sNwnuEuu0ce9ljpZPmT+AzkxlCQRn
- RFg15B3sOTaN14kTbOJyqFoAkKlGyloJ/2l4te7VeicuzLVoOw3bpXanGN3LL3eXBF3IVn10fpK
- 7ZSQFGDv/L+JZSN8CrzUGCIbOjh7KdQSXG/tPLE47NjUhfkVskOScyvZIUvUm9g+B5XZwMS2U45
- eZBXC6NOVornad+0dwaHvgAph5a4E7xspX4Ez/jbomhXPDfmw3tU=
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-X-Endpoint-Received: by B4 Relay for markus.probst@posteo.de/default with
- auth_id=680
-X-Original-From: Markus Probst <markus.probst@posteo.de>
-Reply-To: markus.probst@posteo.de
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Markus Probst <markus.probst@posteo.de>
+Dave Jiang wrote:
+> =
 
-Add rust private data to `struct serdev_device`, as it is required by the
-rust abstraction added in the following commit
-(rust: add basic serial device bus abstractions).
+> =
 
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- include/linux/serdev.h | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+> On 3/18/26 4:59 AM, Li Ming wrote:
+> > =
 
-diff --git a/include/linux/serdev.h b/include/linux/serdev.h
-index 5654c58eb73c..c74c345d60ae 100644
---- a/include/linux/serdev.h
-+++ b/include/linux/serdev.h
-@@ -33,12 +33,14 @@ struct serdev_device_ops {
- 
- /**
-  * struct serdev_device - Basic representation of an serdev device
-- * @dev:	Driver model representation of the device.
-- * @nr:		Device number on serdev bus.
-- * @ctrl:	serdev controller managing this device.
-- * @ops:	Device operations.
-- * @write_comp	Completion used by serdev_device_write() internally
-- * @write_lock	Lock to serialize access when writing data
-+ * @dev:	       Driver model representation of the device.
-+ * @nr:		       Device number on serdev bus.
-+ * @ctrl:	       serdev controller managing this device.
-+ * @ops:	       Device operations.
-+ * @write_comp:	       Completion used by serdev_device_write() internally
-+ * @write_lock:	       Lock to serialize access when writing data
-+ * @rust_private_data: Private data for the rust abstraction. This should
-+ *		       not be used by the C drivers.
-  */
- struct serdev_device {
- 	struct device dev;
-@@ -47,6 +49,7 @@ struct serdev_device {
- 	const struct serdev_device_ops *ops;
- 	struct completion write_comp;
- 	struct mutex write_lock;
-+	void *rust_private_data;
- };
- 
- static inline struct serdev_device *to_serdev_device(struct device *d)
+> > =E5=9C=A8 2026/3/17 23:00, Dave Jiang =E5=86=99=E9=81=93:
+> >>
+> >> On 3/14/26 12:06 AM, Li Ming wrote:
+> >>> CXL memdev poison injection/clearing debugfs interfaces are visible=
 
--- 
-2.52.0
+> >>> before the CXL memdev endpoint initialization, If user accesses the=
 
+> >>> interfaces before cxlmd->endpoint updated, it is possible to access=
+ an
+> >>> invalid endpoint in cxl_dpa_to_region().
+> >>>
+> >>> Hold CXL memdev lock at the beginning of the interfaces, this block=
+s the
+> >>> interfaces until CXL memdev probing completed.
+> >>>
+> >>> The following patch will check the given endpoint validity in
+> >>> cxl_dpa_to_region().
+> >>>
+> >>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> >>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> >>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+> >>> Signed-off-by: Li Ming <ming.li@zohomail.com>
+> >> Hi Ming, I dropped this patch with Dan's comments [1] and updated cx=
+l/next. Please check and make sure everything looks ok to you. Thanks!
+> >>
+> >> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwilli=
+a2-mobl4.notmuch/
+> > =
 
+> > Hi Dave,
+> > =
+
+> > I think there is no change needed in this patch, just need a independ=
+ent patch for holding memdev lock in cxl_region_debugfs_poison_inject/cle=
+ar.
+> > =
+
+> > Or you want to review this patch again?
+> =
+
+> No. Maybe I misunderstood the comment from Dan. So we should keep this =
+patch?
+
+tl;dr: yes, this patch is *now* valid.
+
+As originally structured having patch2 before patch3 added no value.
+Going forward I would say do not structure a series such that a new lock
+taken in patch N starts being useful in patch N+1.
+
+I assume that is what:
+
+"The following patch will check the given endpoint validity in
+cxl_dpa_to_region()."
+
+...is trying to say, but when commits are applied to the tree it is
+difficult to see that this commit was from a series.
+
+So do pick this one up, but the changelog needs adjusting. Something
+like:
+
+"cxl_dpa_to_region() assumes that it is running a context where it is not=
+
+racing changes to "cxlmd->dev.driver". Acquire the memdev device lock in
+the debugfs entry points to preclude debugfs usage racing cxl_mem driver
+detach."
+
+With that you can add:
+
+Reviewed-by: Dan Williams <djbw@kernel.org>=
