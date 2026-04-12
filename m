@@ -1,174 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD974388370
-	for <driver-core@lists.linux.dev>; Sat, 11 Apr 2026 19:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775935401; cv=none; b=IUquGMngArS1BVXjqSiWAZF1E3l5p+3+hrpwOgBj+l+8AK7eWbh1mMc09aY4UYCKj+nXGiRQGQcopQRvadOPe/YUEc+IW/i+cZnFkOzL1gUM6jMex4LbeRU6D830F3yj+FHDblEKzaGRd8llNgwpbe/bZDqbVEgI0A5hzOohnBY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775935401; c=relaxed/simple;
-	bh=qya5uqpvgIUd7+QRZN3R1QXtOBc6L9zzRRlirnmUS9k=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=h1iaSBLQ7lY/qoPobHZ1LZhgg1QwOsQ6+3FzdaVzEkI1dBcmAEMs82eFffnk9xJ+yt5mxdVO8zT97ZK5YRpU3LJ0eco9sM3vQjgpf8ZTxWqyirtjBkyvz1e1Y46SuYjteBb3MSeXhvHacoTv7zCmF/TzcpweoToADke+MddGfnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PtLSEtXJ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA875B1EB
+	for <driver-core@lists.linux.dev>; Sun, 12 Apr 2026 22:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776034152; cv=pass; b=S0TjTUkUKMPTeEVZ9N5iro4RemSXv2camhxS693vXwkZgi2UfzxeQkD9r7s44iNSlQZJUJULduUqU+UkNaeP2TypRuiLnbNNz2shx4If7uCfHu4pZPDndk5u9nuaFw+FJiXudv+GjN1MQleZEXW1a92CMNX9QrjzphHkMArTdXE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776034152; c=relaxed/simple;
+	bh=O5OVsiCKYjUkVc/4Ce0JG9hbx01UZGanAjUUxH4B9a0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DsWbO0eu0eA6goe6Ul8aO/7TnGnG29qK4wy00lpRWLviZJWcugqIsuRTaLEobotNjV9bAisynyxqPMxYxIXtD7s2sj4h61YEP2/YKBiDmNhjEr/Vi4PTSRpRU5Z91TmUuAlLrEKWEpTxz10ExfB6DM8omUUl0ExnB8Ag2eb2VyI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BDr4evVY; arc=pass smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PtLSEtXJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56BC4C2BCB0;
-	Sat, 11 Apr 2026 19:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775935401;
-	bh=qya5uqpvgIUd7+QRZN3R1QXtOBc6L9zzRRlirnmUS9k=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=PtLSEtXJ/ld5QXsFcbdy6DJFkw66bZHmHuUoeuowTcuXrAbriutuOm/muOKNO8oLR
-	 tcn3Us9jZhQoK75Xgqb7k3TlIXiG0YdrzJEv4RyRjeqJBHmW6kHz2fnBuEcETFAcoY
-	 G/q30qZTA6LhP0SJQiw0LDPmbP8B4PILTO6gVlhSUSd02IIBNbRHJJYSMcc3C9smx5
-	 F9kFr2Jjesdadhk6QaQSV9PGQdxOdG/yXAKYJJ/5JJNkJIQSaI2GPh0USH4fkyY3OV
-	 JTXNh8vIFwRt30eYZ4vCCllUzB+gb+Ed/fRM6aAYUqe1/EJ9ftceRjO4A7C+xJKUUB
-	 fppu+jQ7luEAA==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 5636AF4006F;
-	Sat, 11 Apr 2026 15:23:20 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Sat, 11 Apr 2026 15:23:20 -0400
-X-ME-Sender: <xms:qJ_aae8tesTscOfeCYEz-pAv2mOihgDstOT-Ue10bGo2QDUGWL8_XA>
-    <xme:qJ_aabaUSBVsNvN8D-VYV7pg8Q0mVqazGl6ehNYtBBSy_jZQXzQxsmvfHrKuIGiMt
-    7YPVgiqWlJ3AXOlvL9CkZuQuxdHpF9KrdiAAju-_IVoF500mRB5Y9D1>
-X-ME-Received: <xmr:qJ_aaX64OKtv7yi963de_yPiR6LIw9_5KQzwkCkkMajcNWmc4PhPRMhfzZUnseRg9OQzCUtZ-pIUgg_ncs0A5JHwuuwPWPPUGLY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeffedvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefkjghfufggtgfgsehtqhertddttdejnecuhfhrohhmpeffrghnucghihhl
-    lhhirghmshcuoegujhgsfieskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpe
-    dukeelueetjeekgeeiheelvdehleekgeejvdejvdetgfdugffgveefgfejhffhvdenucff
-    ohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
-    hrrghmpehmrghilhhfrhhomhepughjsgifodhmvghsmhhtphgruhhthhhpvghrshhonhgr
-    lhhithihqddujeejvdeftdegheehqdeffeefleegtdegjedqughjsgifpeepkhgvrhhnvg
-    hlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepudefpdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopegurghvvgdrjhhirghnghesihhnthgvlhdrtg
-    homhdprhgtphhtthhopegurhhivhgvrhdqtghorhgvsehlihhsthhsrdhlihhnuhigrdgu
-    vghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqtgiglhesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
-    dprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhr
-    rgdrfigvihhnhiesihhnthgvlhdrtghomhdprhgtphhtthhopegshhgvlhhgrggrshesgh
-    hoohhglhgvrdgtohhmpdhrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:qJ_aaQm11dJjnnXj7m-gghZ8SO9FQRQhjVySatnDjjPTcqvYlWr6Bg>
-    <xmx:qJ_aaXF4Zz9WinWQjSMZCedesPs7cIiz_l37_7EiiTe33b50Xu_Rzg>
-    <xmx:qJ_aaZgV8CtNFL9VHSv7wpe-mKi-ku-w1nzNua4ut8D1jlC6DKhz5g>
-    <xmx:qJ_aachJKkDxzGz1xKTCwuXzYiAQJUqcczO4enG6ALMpCGEPojV8bQ>
-    <xmx:qJ_aaUlZyWKJ2T5IaCanx80bvZrkaRX8GLLgD-l4eYy_EzUOR1e_OKIL>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 11 Apr 2026 15:23:19 -0400 (EDT)
-Date: Sat, 11 Apr 2026 12:23:18 -0700
-From: Dan Williams <djbw@kernel.org>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: driver-core@lists.linux.dev, 
- linux-kernel@vger.kernel.org, 
- linux-cxl@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Ira Weiny <ira.weiny@intel.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Davidlohr Bueso <dave@stgolabs.net>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, 
- Ben Cheatham <benjamin.cheatham@amd.com>
-Message-ID: <69da9fa696d0f_6c31a100e8@djbw-dev.notmuch>
-In-Reply-To: <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
-References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
- <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
- <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
- <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
- <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
-Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
- injection/clear
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDr4evVY"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so61415795e9.2
+        for <driver-core@lists.linux.dev>; Sun, 12 Apr 2026 15:49:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776034149; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JwJyNzFEx8vLbcBB+y8xsfQmDJGHINHYBiGrRgUZ/AWNJ42O2lk6dYBqu8r0FcJH/k
+         FPbagHayvcGizNY8RU+mRwRz0zs8/tykmYMEV5tPkxnMLsOQ9oCtD9gJYbrNdWyo0F0w
+         +ZIcweIqdhIVLgoO3gumRAXzDRPyfc2NE2DmNobrrR7Pp08F76nUzDlZp0mDKgDzepWi
+         u96NwoKgEgz3Y/k0Y7IqI4jwdPqC2b1jUvImR7B2pupapeMKmmLiOebI/qknaaPfVbOz
+         ayaFHbTRxJDOaebXCd4exVi4f2UGFIYjcVNFC7+DY5abY1TvgCPST08rRHQiE+N9y/kI
+         laXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O5OVsiCKYjUkVc/4Ce0JG9hbx01UZGanAjUUxH4B9a0=;
+        fh=QfVLjs6uK+z0m0rrFeagTGbNOaAMRNabmYktXl/wwKg=;
+        b=ZoY4i+mlY3mvPWDrVsX2LSZmdQp17UaxllXuEGs8YXMYq7W+H5JmIGUisG/JEJ4tQs
+         PyPgMV9I5Ojr3RahauDCAE5CLmeVNh9voTpDr5nv2RY/n4RIPdW2EERlbQizUDrc4N9R
+         TOrp/S/tPs5G/n0k4Vg0PzE7CWpc0vPFZbBPggC0E2NhTA0nZzqaiizjOahyE6absibS
+         SJiAOIQUpEbAJulx73oprVbOr/yzOX6PkoHVISNjmnyiLiTXOdCwTROt9DWCnrM5anJD
+         I1cS7J9W2oB1382RWJUZCmlgh20rSPmig3O8QFrnOQRhHc0BZMaL6AmJGPft1mDSS8fV
+         RfvA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776034149; x=1776638949; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O5OVsiCKYjUkVc/4Ce0JG9hbx01UZGanAjUUxH4B9a0=;
+        b=BDr4evVYHact0PySftOy/TfmA6+CM6l52pmf6tXznsYPHSzeIL/cRJFaNTPf0t8dXI
+         5Bj6pIDMFPg2ZqwAG+oe1dhSUJvNZ0c9BHwWnL8nbyuzWybYbJEf61mZjrRR+loPDzuT
+         La2Ik4pHczD7Q/+z0soQ4dWZb1zc9KnK6/ZLy8e7ZaGNfIXXjS7YaUoJhr+zq1643bk8
+         7o3YNJZF48uDRv9solYQ8/ikeRhSBEgQC734Jfnk/Ei+pQs207ppKHTAqnB7AiWqzGwj
+         K50CqXD5zT2Bo8W2em0o4jTpWtc8Q6ZVX1LwD5I4SDXMtREPqikCb6V+D/jqZpR/KBFB
+         V7LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776034149; x=1776638949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O5OVsiCKYjUkVc/4Ce0JG9hbx01UZGanAjUUxH4B9a0=;
+        b=oZ++pvtWYgD6ojMJjnFN7TdzcUuVxPKPO82UHomFG9J83qyRWiyFhHXvMSE9lHrNUG
+         gZ5nM5gRwom9TYGyPv5n+VuS30An9WbuszoyHjUI0/qeIt6hAihE+Zlr8kMEDcpzOvGb
+         +CLtwBilmq1ylgcZQWvz1QvnLQIz3x5ASJyJ30APpH4/VX1KDWmemws3YQb1G3dj8OyP
+         j+Ryoi/NJQQ9IaA+D7gFl5Fj4jN/tCHUs36WX5K+vC8UovLnuBxR5Qy+XVXWeMiaAYMe
+         pOACnQbF2sfCUsS8NDERBy375YWK0NDK9GH8LySvJTK5QFaXQm38SvUYGdPXI/XYou6h
+         DbkA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWj7OX0NDwN1TPVKD5e9b6K32Rb7dbxYb2MFQKXPSL7bLCbE5yZGkQb+FpF5qug+/acID+nm2GR9l0Og==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSrC+HVftM/CjEWcDyVplGel9ezm6wLeaIk5BfgGCGuiDJIuDv
+	r1Cm+1c+Ab3u3wKOx59RJSiDY6Sr341xQFmLAsicyMxgDVIapaWdnzHAcLwq3p+OqBuZc1vF0/S
+	aRavmIyjJHQaXWGngxInInhalHlSR5xs=
+X-Gm-Gg: AeBDiesWpDRkbt9kzLN5glZogEsYg9BfpFncL5lbut270bLlEc8O8JmkvCGrqEnnIlP
+	EVhi5/qVG+DJODE3uDMs2jVgzPyPWcPgaDBkDte3UUjB6g6ZqiThiJB246/l6H1lgRVE5xJDu9k
+	lULxoyXcwz1zK+NSsP9Btrl1OH6nHzkWUmhdMrHCRz7bZck+PrjfHG/AIrtrnawMge+EFBTzInc
+	nB/7z60sZrmWcrQ0wzZWWOMzhsKPUB71nmY7OZulsnuAxdD15GFpCT3XyY1q7KSOyIiyvBs3Waz
+	CL+4LZytoa339lZfpL/CHoV8rwksx7EWc+DBi6/TDHYr6WCbsT/7Ft/xTxIfSB0WEJ6Vt5s/8GO
+	YWycT8Sf0yjRFJqeHS9zmRCZoxA==
+X-Received: by 2002:a05:600c:6990:b0:488:a2ac:a34c with SMTP id
+ 5b1f17b1804b1-488d67f5bf5mr154924175e9.12.1776034149238; Sun, 12 Apr 2026
+ 15:49:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+MIME-Version: 1.0
+References: <20260331153413.2469218-1-wusamuel@google.com> <2026040136-ocelot-simply-8981@gregkh>
+ <CAG2KctokEVVuhrs6tYuMjFF4ALR=tX80iZHrt4bhVvEKyoHzRQ@mail.gmail.com>
+ <2026040236-kiln-carat-bb6d@gregkh> <CAG2Kctpr7vBm_=Xz4H5FHYAfFxg=bDt35j6B4EprfUGio=Ftew@mail.gmail.com>
+ <2026040357-undefined-gave-c98e@gregkh> <CAG2KctqOLeYm_NFUjGdXQcBo1KhSZpXFQxQdM-DQBV4Mn0ahTw@mail.gmail.com>
+In-Reply-To: <CAG2KctqOLeYm_NFUjGdXQcBo1KhSZpXFQxQdM-DQBV4Mn0ahTw@mail.gmail.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Sun, 12 Apr 2026 15:48:58 -0700
+X-Gm-Features: AQROBzBmpL408c1tkfYuNTafpAd5aZMliRFfez61VTABAQ1oaYAiYAqJdTmdInY
+Message-ID: <CAADnVQLELWyv0kuv8wK3FJVFdJPbp-tD8d3p2pgCiVrcw_cVNA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] Support BPF traversal of wakeup sources
+To: Samuel Wu <wusamuel@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Android Kernel Team <kernel-team@android.com>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Linux Power Management <linux-pm@vger.kernel.org>, driver-core@lists.linux.dev, 
+	bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Dave Jiang wrote:
-> =
+On Fri, Apr 3, 2026 at 9:28=E2=80=AFAM Samuel Wu <wusamuel@google.com> wrot=
+e:
+>
+> On Fri, Apr 3, 2026 at 3:04=E2=80=AFAM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Apr 02, 2026 at 12:37:12PM -0700, Samuel Wu wrote:
+> > > On Wed, Apr 1, 2026 at 9:06=E2=80=AFPM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Wed, Apr 01, 2026 at 12:07:12PM -0700, Samuel Wu wrote:
+> > > > > On Wed, Apr 1, 2026 at 2:15=E2=80=AFAM Greg Kroah-Hartman
+> > > > > <gregkh@linuxfoundation.org> wrote:
+> > > > > >
+> > > > > > On Tue, Mar 31, 2026 at 08:34:09AM -0700, Samuel Wu wrote:
+>
+> [ ... ]
+>
+> > > The data is fundamental for debugging and improving power at scale.
+> > > The original discussion and patch [1] provide more context of the
+> > > intent. To summarize the history, debugfs was unstable and insecure,
+> > > leading to the current sysfs implementation. However, sysfs has the
+> > > constraint of one attribute per node, requiring 10 sysfs accesses per
+> > > wakeup source.
+> >
+> > Ok, as the sysfs api doesn't work your use case anymore, why do we need
+> > to keep it around at all?
+> >
+> > > That said, I completely agree that reading 1500+ sysfs files at once
+> > > is unreasonable. Perhaps the sysfs approach was manageable at the tim=
+e
+> > > of [1], but moving forward we need a more scalable solution. This is
+> > > the main motivator and makes BPF the sane approach, as it improves
+> > > traversal in nearly every aspect (e.g. cycles, memory, simplicity,
+> > > scalability).
+> >
+> > I'm all for making this more scalable and work for your systems now, bu=
+t
+> > consider if you could drop the sysfs api entirely, would you want this
+> > to be a different type of api entirely instead of having to plug throug=
+h
+> > these using ebpf?
+>
+> Almost all use cases want all this data at once, so AFAICT BPF offers
+> the best performance for that. But of course, open to discussion if
+> there is an alternative API that matches BPF's performance for this
+> use case.
+>
+> I'm not opposed to dropping the sysfs approach, and I attempted to do
+> so in the v1 patch [1]. I'm not sure who else currently uses those
+> sysfs nodes, but a config flag should remove friction and could be a
+> stepping stone toward deprecation/removal.
+>
+> [1]: https://lore.kernel.org/all/20260320160055.4114055-3-wusamuel@google=
+.com/
 
-> =
+The patches make sense to me.
 
-> On 3/18/26 4:59 AM, Li Ming wrote:
-> > =
+Patch 2 adds a bpf selftest and corresponding:
++CONFIG_DIBS_LO=3Dy
++CONFIG_PM_WAKELOCKS=3Dy
 
-> > =E5=9C=A8 2026/3/17 23:00, Dave Jiang =E5=86=99=E9=81=93:
-> >>
-> >> On 3/14/26 12:06 AM, Li Ming wrote:
-> >>> CXL memdev poison injection/clearing debugfs interfaces are visible=
+and almost green in BPF CI.
 
-> >>> before the CXL memdev endpoint initialization, If user accesses the=
+Except s390 that fails with:
 
-> >>> interfaces before cxlmd->endpoint updated, it is possible to access=
- an
-> >>> invalid endpoint in cxl_dpa_to_region().
-> >>>
-> >>> Hold CXL memdev lock at the beginning of the interfaces, this block=
-s the
-> >>> interfaces until CXL memdev probing completed.
-> >>>
-> >>> The following patch will check the given endpoint validity in
-> >>> cxl_dpa_to_region().
-> >>>
-> >>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> >>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> >>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-> >>> Signed-off-by: Li Ming <ming.li@zohomail.com>
-> >> Hi Ming, I dropped this patch with Dan's comments [1] and updated cx=
-l/next. Please check and make sure everything looks ok to you. Thanks!
-> >>
-> >> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwilli=
-a2-mobl4.notmuch/
-> > =
+Error: #682/1 wakeup_source/iterate_and_verify_times
+Error: #682/1 wakeup_source/iterate_and_verify_times
+libbpf: extern (func ksym) 'bpf_wakeup_sources_get_head': not found in
+kernel or module BTFs
+libbpf: failed to load BPF skeleton 'test_wakeup_source': -EINVAL
+test_wakeup_source:FAIL:skel_open_and_load unexpected error: -22
 
-> > Hi Dave,
-> > =
+We can still land it into bpf-next for this merge window.
 
-> > I think there is no change needed in this patch, just need a independ=
-ent patch for holding memdev lock in cxl_region_debugfs_poison_inject/cle=
-ar.
-> > =
+Greg,
+any objection ?
 
-> > Or you want to review this patch again?
-> =
-
-> No. Maybe I misunderstood the comment from Dan. So we should keep this =
-patch?
-
-tl;dr: yes, this patch is *now* valid.
-
-As originally structured having patch2 before patch3 added no value.
-Going forward I would say do not structure a series such that a new lock
-taken in patch N starts being useful in patch N+1.
-
-I assume that is what:
-
-"The following patch will check the given endpoint validity in
-cxl_dpa_to_region()."
-
-...is trying to say, but when commits are applied to the tree it is
-difficult to see that this commit was from a series.
-
-So do pick this one up, but the changelog needs adjusting. Something
-like:
-
-"cxl_dpa_to_region() assumes that it is running a context where it is not=
-
-racing changes to "cxlmd->dev.driver". Acquire the memdev device lock in
-the debugfs entry points to preclude debugfs usage racing cxl_mem driver
-detach."
-
-With that you can add:
-
-Reviewed-by: Dan Williams <djbw@kernel.org>=
+If not, Samuel, could you resend and address s390 issue?
+I'm guessing wakeup sources just don't exist there.
