@@ -1,484 +1,109 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012020.outbound.protection.outlook.com [40.107.209.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07D421FF21
-	for <driver-core@lists.linux.dev>; Mon, 13 Apr 2026 02:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776047398; cv=fail; b=B+dSTgTkl6DX+p2w4ZUrrMnwtajDBBL6pgWgmzbF8Onm3rHUPbmRg5a064zQx5nKfh+NDKVyusVhAa2AvbsoDkQXilov0MG1wA5EgOD2ulteDlmZCR4U4WtSiyyXm6saafchcVKLVcira9sE7kMv1abZhPCVj79XS61XVVqTfQE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776047398; c=relaxed/simple;
-	bh=z5QcRLa05Oz5t1ho6NIHIJ2WszZlQNHH6aCbRfwhWE0=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=AiVvf/jr/JWyPgj2HLNy8WRCzpDw8DDNKizP+MPaGXDuYc1yLQSaTgk7dzCa8x1FnN+8CimBwG+m8rj8ooFk1U7a8CVh/acFpcV7vpQxTjn8YdKnKH61++gJ7T25qUgowM864QPHlJI+oYiIj+jPA8kqqlyQpfOwVSE6cr0Ta/w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=oUdNd+Rk; arc=fail smtp.client-ip=40.107.209.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A061320ED
+	for <driver-core@lists.linux.dev>; Mon, 13 Apr 2026 03:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776052588; cv=none; b=cSJz6hQVaHbefYkyKjAZa/dpRECY8gkZ0/XAVhhPxPpIr8k/kcDLQybgDdGRot7U7HiTQFUqWCbGNweb0LFGEhqG1XempZpd2D6AxSG2VMcibGvDX0iXFNFzafFMHZZnS83Hqtbp/VaUNAjEAzI2VSPwNJxZqcmsQofVfR8Rbn0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776052588; c=relaxed/simple;
+	bh=Ye6ecSjodBIYRJObejboSvgaGjpMkTghp2ypcRpo6PA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=epms3cKtZ8izj6QbNx2yuxZa3FbazWR9tEzj4JiXYIPri15Sj6vHc8pQhOe361WgUdTammzBPoqT+JfKVD2zyB/ZhGGLF5cYsNfLJpV3jRr80c0l722Ipob2qeNJjlGK9J95HOoic3myVOMZGzuKMublxhRlSDvvxsdInAqQWls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fYgnjMd9; arc=none smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="oUdNd+Rk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iCs29zJaJrF4NcvEK75eZs1xglT3n5WI1uxTAd7INLrFLhj65hMOJbukzuT0+RbMEmVnXmaQn5A910peyiMdcbj8EA+S60F41WUvcIWjTvFzmU39v/dVcEx56fPxZpbuThsW/Gv/vY53zVHxzCkiBOOOCpGq+VNODytWehkqiRJRTOCol9soD2hSRQxmK7jxaVuGAqrhqr5l6/OCZKGy7jwuHWl+7fNyJ3EC4cL/3IhaXRicRazn6lWmSaS4JeCqb6vm001behSKzK71832F+5fyq6MEtQ5eJKcQ62DSRgzLIqYUJymSgSgBDYcYVPUJaFmWydUfisrEsKAGQhDzxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PBPzilbHWPPS89ZP2/+OiByqghl+lyOhdDZp4bzBWLo=;
- b=pTG/10G5qOari8nXguaDI9EdkHiYnbQ3d01kyQdERp7Rx7aSDSkeP7Gtj/nW7wEAUStyQaBmB3sqOO36IgFjdC384OD27e6qwMxLMymR60E2z0CcZK2vAi8Q+G1R8t7FlcS11CSYNUQB8dHr5kXsJDVPrY4Ow2kyMWsZuZmeRWAcEVMnE4eMvep4s2Ye7SD5pTeBbIwP2G0/bNpnJnkMkNsAZK217LQlHL/7KBqH0WzOpQjcGv57O/Ra4A4Lp5p1gSLXQDT0ubWveoka7Es37Wza17KwJlN9cIpr48YEEYxx5GvTzvDrTlN1FUbjF4/3NeNw2wxXyqAyT0IydAwpYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PBPzilbHWPPS89ZP2/+OiByqghl+lyOhdDZp4bzBWLo=;
- b=oUdNd+Rki9+eYh6J8TGuNweqDF19P4hNq0ZKJVKv6lrDe2bQhvKcLNYWIKdv5MdEkMpgjpYdQOTQZK+e/b9XgowykF7QJckAV1MYwyXTA8A1w0+/3ocW29JBE67k9pmcQjnfTGVeE65cttS1dreax+ccTIsRtQhX80JMpaw35zvq97T/svjL4IlBnvB2yCg8d7zHz9K2XmH3+KF9j0ZkJZ1WFvbDYAwH2iDlXCQpLdMtKSuHLQMNmldn4tp1FEQEbURFSahy6TkikkeereVL2ppiwlN3mEMlxvb9vcDM9q/GJK/W4ntbciB/+GEx2jrUwds89lvO9dUS2LfgdohahQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by CYXPR12MB9428.namprd12.prod.outlook.com (2603:10b6:930:d5::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.46; Mon, 13 Apr
- 2026 02:29:51 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9818.017; Mon, 13 Apr 2026
- 02:29:51 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 13 Apr 2026 11:29:47 +0900
-Message-Id: <DHRO963VKBJG.1RNNN4EJ791PP@nvidia.com>
-Subject: Re: [PATCH v2 1/3] rust: extract `bitfield!` macro from `register!`
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "Yury Norov" <yury.norov@gmail.com>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260409-bitfield-v2-0-23ac400071cb@nvidia.com>
- <20260409-bitfield-v2-1-23ac400071cb@nvidia.com>
-In-Reply-To: <20260409-bitfield-v2-1-23ac400071cb@nvidia.com>
-X-ClientProxiedBy: TYCPR01CA0194.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::18) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fYgnjMd9"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2c156c4a9efso5391607eec.1
+        for <driver-core@lists.linux.dev>; Sun, 12 Apr 2026 20:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776052587; x=1776657387; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eLmrx+20TRfegMk1Fsd9XgfQ6YvAqFhX5JtllbLwzLE=;
+        b=fYgnjMd9ioO5Sak2FM+dsT7w4NGD3z1qmWgiDrmI+weDBCM1xZrRUF9eanssXVjGf8
+         Pr2aagrvWWC8y4fWh/hvWINZV3ViFDTpzEngTfzZdX1qszG/AexQ59/gzwr6Z/+XGmgx
+         cZb3Cf0yfPKtyNa6hbtY1+A344u4c+pjgbB7Y66RACRKzXxteRcNs9rsbatwukJPA5f1
+         kr4+T1gfvIjjCY1nCjttipDjA6kS+kdZiKkMdgAvqRTe1Kp0SlVWsV1iaWcLocdcSLD7
+         f6K/6qUJc60Iw1o+2iP3+SInJqvsvC7EP4kN7hbHhr4njVR6ulWmO3TYtY6N5ziZ1SX+
+         xfpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776052587; x=1776657387;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eLmrx+20TRfegMk1Fsd9XgfQ6YvAqFhX5JtllbLwzLE=;
+        b=ofC778EpKYVKL8k+NrQumhLgkkc9kwYk+KHO34MJes8pY6Wws61o+GcTlkZuFHifXB
+         1l4KMBM0eH39iiK1eJReJgMExcBkPeUTHzeeSUPmnIRdR9hKNW3/f8QM+rnET9dm8fNp
+         /T3V3mZeaI9hKt5WcFlS0y7EWEL9XBtGzWE8/rEiQ/NBgZ23pp+93skxqq8R635aDiRE
+         gQbjoMuh9MVQmLGlx4oqbF8kmwm6ZrGY8OH5eCVy365ef38vFkorJ9h4/rnYbqXsoVkB
+         n861Ykd3jUeYSe05SgB3P5QJL1pgxLa2OBQFuUgFXmV2FWaBrWnvjkJM45WPRU8gU3hx
+         3tbg==
+X-Forwarded-Encrypted: i=1; AFNElJ8uuUQONCfDc3ZrP+k+xgq2UXVYLS/LKGHpVpptLk/0StOKhKcEN7LmHSK5HDBpa8BwIsEjM0l6FthEng==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKUV06ZSJIRtCHV6cMJwmEX50fN0ruIMLP+HNq36JsVQxvOhcE
+	XufzE2ADsIzIJ8NRWtE3DI+t6uAL/biNhqvAKkvgTsibgtSSv7mcNvjD
+X-Gm-Gg: AeBDiesYN/sR6N6oZu4nfLyg9CeX3njOigRCFzWcroXww+caqhT+L5tTb+59YwkmhWR
+	42Y2RuWgru9xKzjWyTrHEjJfDsgT0sGzztmkx0H3P3dVwxnmIEM+7thk4dUDwWjss846dZ9ToR6
+	eU2vWVstKlF6rvcHDht3LpzXhyACzOymuL00+lqY2AHggRS5Z4kWHG74ndScjLeiuOfmI8pjCOw
+	i4TBj2dtKO0SXOeqvg1VkYbzZLXRpeT58/dtZqgxLmMkPn8SO1lLSvKYZ5YFXW+S/+TFzt6nt6V
+	h1P8JTGNuSqH2zxbnO8lsoC3d6/GJisSnBntMu0fzR3MNeR8zZKbRc9qqCfn8xXb4OmPELP9mLh
+	L0lMINt8TH+tio4bsN2dOLBOCw3TGooVAnP8htcIqFm2p0/Y/UZ9a99/7GGrtdYYj7Aq4+u5Yzh
+	D2OTuJWSYoLGW324mC8n0lPcWQc/ZnGxCeZW1VnAZLxWi5ael2kv/Gvpnv2xV3QSPZ
+X-Received: by 2002:a05:7300:b913:b0:2d9:6373:ad24 with SMTP id 5a478bee46e88-2d96373b29dmr984465eec.26.1776052586717;
+        Sun, 12 Apr 2026 20:56:26 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:fd17:4617:989a:1816])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55faa586bsm17303919eec.11.2026.04.12.20.56.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Apr 2026 20:56:24 -0700 (PDT)
+Date: Sun, 12 Apr 2026 20:56:22 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, brgl@kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] driver core: platform: remove software node on
+ release()
+Message-ID: <adxmFlfIcoZ19Nm9@google.com>
+References: <20260410-swnode-remove-on-dev-unreg-v1-0-cd7d305f3db2@oss.qualcomm.com>
+ <20260410-swnode-remove-on-dev-unreg-v1-1-cd7d305f3db2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|CYXPR12MB9428:EE_
-X-MS-Office365-Filtering-Correlation-Id: 97ad40bc-6e43-4d7c-3f97-08de99048a60
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|10070799003|376014|921020|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	FXBohKrN+hj5Sd2eOh+opI5HBQAsfmugImCYpi0Q6ydiAT7hN5QIH45NavxDGGq3Pt5zOZSSB+S3ZX3G+tun/sKPxFHLEmXQFhhrhBg0SORXuRhXL1QQl7PDh/Rm8nHx8UmV39nIzlQrAvskJ9rx+Iv6xdsVSSl8X+YPqzKEopEb2DefFwOLvimR9UHamii3202BoU7swcrN+x79y34k5sKPbQeyZ75XTuxDRZO5NodjxI+1HViKKjYOctjCK7s9QTRzEZiQGMam0T5eotbyNS5i63RdN1HJSey/ODFS5YdUpSmpq5PKCkP6zRBQ2rZPm+T31uKuIKiGEHbQxgla3+CPFphdkmuJo2DmzAbVu/ikmWnl19VlyTjRpq1spSbYbVBLqcRiChfdZ8CmyYlgCpsxkacYP35SDPkRCT9hUbZZpNn0HGgD8rVWkKMF5GHCKEhIZw6YNMJ649ovuk5AOlDCEBc9f2Z2F9K71EVXSEfVwJn7sjoP5VWIjgTmlbxILeTIumhbC6jpNa86UIHvDSFcl0ur/ujQOXfIZ6jXSO42u99UOC2SWw6UlnC7oKK5rL3Ci8Gm4zHILYc8+FSfl/jPbRTm9poD7Hxrrykq5avjEqkBjz8u5bIJlupsEs3xOAzQ/C0FxWzcEmoMwYSLdQTQdizejhXqT4XWFTkUM4Q1tOipr6vA8mtlwtgcqZEiKtIr7cxbnmt52dZwCYn/eJJW7vJ/gK11Nm4rwz5L/t68Q/2TM3Jn6/HITEzf7oTxiBFQlrPl21kBL+DehpmUXg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2353.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(10070799003)(376014)(921020)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?akgxYzVKN2xjVlpqTE1zVmpwWENpb1Yra1dQUFovdTk5UUZUejZ1cm82T25v?=
- =?utf-8?B?RlFvcmJZb2wzb2lVcUQ1aWZPVERVeVpzb0x2dHAvS0xpZm1HZEgxd1o4QWpF?=
- =?utf-8?B?ZmVCeDBnUHNOQ2JBQXZGQTBLMjI3UXZFbUlnVVhVRWNxeWVUdEwwTThwSUhL?=
- =?utf-8?B?Qk0xMi9SWHNPc1pEY21mczZXNXVhREphME51MEcxNVd5T0o2MWNXd0tEcjNN?=
- =?utf-8?B?U2pZbHcreGhjbkZOeUNmTnNHSi8vQUVFclJzOVBab1VMaTdMTHFEelRpdE1q?=
- =?utf-8?B?aytWRjVZTWU1OVpXWTRBRElnQXNGQitVRU1oTHNEN0ZTeEYvRlVhdis3YUV5?=
- =?utf-8?B?bTJOVnZMOUJsVEU5Sk03c3BmbGZhVFZqSDYxeXFxOW1JVW80Z0ZOdlNST0My?=
- =?utf-8?B?M3NUVVlldS9KSnU1NzZkMHMyRktKMzhBYmRYQllYYTlkczRYYlBmS0tXZFVD?=
- =?utf-8?B?Vm4zVGhQMi9aRDRzNm9IaFJNTEFDL3VjMXZVYmNZRnlSdFl3TVFMWmFPdHhv?=
- =?utf-8?B?SFUyWUZ6cVBzTVdQMTgrQ0NiTk1lUHp5VnhhMXdVSk0zVS9SdnNxRU5aa1Fs?=
- =?utf-8?B?SUxlVHMyWWd3T3dneXc0TVI1Mzh3OExDdWplQWFYTnVZak5FTmZld0wzTkZa?=
- =?utf-8?B?MTUyRzV5STI3QjJER0ZPMTV0RWhpelcxUE9uRHVPQ2piaTIrZlJnZlczOXRI?=
- =?utf-8?B?Qlk2YW8xakpOZmtkYzlOdUxwKzdnVlh1SDF0bGlFbmtKTFA4SnNXcWJaVHlp?=
- =?utf-8?B?ZWJuSUlTdStIbVdIWC9PZldJQldKWkJyeGpHNWNBRUY4UUQwWEhLVFBNYllQ?=
- =?utf-8?B?dmpvUHlIbVYvL1YrT1FMMjdwMk9EcTFndm1mRHlrNEtaaEZscThuYXdSNHZr?=
- =?utf-8?B?UU5kNm5UZWdrV1ZDK1hYSWlleWp4REtuOW9RZEU5eWkzYW1lK1hkTlRFMWhw?=
- =?utf-8?B?UTlHWkR4a29Ma0VaKzFRWU9uOGNaT3FnOFEwcm8za3lsMVFibWpYUUtOZHhB?=
- =?utf-8?B?Q0FMeERnYmRwY0w4VnRFQTFLeHBtYlp1REI2eU00QklVbS9FOVJFS0d5Rzdp?=
- =?utf-8?B?anFNVHc1RFBMV004VHVDSmg0a2JEUDlZbkhraW5nL1l6VjljbHgzUU1qb0Rj?=
- =?utf-8?B?UjBsMXJuUlRPLzhKSHVTTy8vY282QitHb0tSZHN0K3VvY3dzRUNpMXRpWDYz?=
- =?utf-8?B?azdTeWxpWW1JMzljT0hqTkVaMDluMkVTcFFHaDl5WU11eTI1Rk5yZ3d4VG9p?=
- =?utf-8?B?Y1BBOXQvYUZtazd2QkZDSGxpT0lXbkphWmsxSjE3VnVjYnZlSUtoNFNOZXhB?=
- =?utf-8?B?NGZ2YlpkQzNjajFCWHVlb2hudXA0MlJpbG1Qb2ErcVVFMHdDTHNQbTk1Q3dz?=
- =?utf-8?B?cm5OWWdhQzc0OUE4ekcxYWdaZ3VoTks2UGhPbE4vTjZNTTAvVFV6SUNMSWsy?=
- =?utf-8?B?RDFwU0xCckp2eGtua2xiRHdZcXBUZy8xTVV2YmdMZVU2ZTlHVnk1OFcxdWtX?=
- =?utf-8?B?cklBQmNOS0hZLzN3bXNzZk1KaTBYMnBJYUYvR0s0YXYxNUgzdTBRZmQxYzV2?=
- =?utf-8?B?dmkyMGYwSmVCbkh2RzY1UWs1elNhbnAvNnh3NHd3YjF2azAyZko2ZnBodER5?=
- =?utf-8?B?K0duVkZCdU9pOHVDUHFaQ2ZQUlJWdlRzZVozZ0xhcjU0UlR2WFNJZi90SE13?=
- =?utf-8?B?S0c1OWdmalVIR0J5cGNmdlNWOC9jeDEzelEzOHVNOHZGcS94dTBlNEI1Nmc3?=
- =?utf-8?B?UHVTa1oyYzlCMzZMLzJXT3h6U0t6QmVyOFk0bnMwQ0dQRndJTnh4aGF3RVBG?=
- =?utf-8?B?RHJtZUpBaURzMFlEcTVBRUhhejVFTEVySlZTNnpXMEpOMzExcUx2WGlHeWZM?=
- =?utf-8?B?aHYrV0o3ZkFmei9vVEFqSWZzb3E1VERZdzBwNjA4TWNiUmVTLzhwR2ZXUE44?=
- =?utf-8?B?VHVleVFNTHdHT20wVUh6ZVdNc2hlWHdpemtvWkx4RXdwT3ZMVU9WUFV5aXJ2?=
- =?utf-8?B?QkhrMHBtcUZNWTljcHdDLzQrLzlIWW5UdDlQSTdvNDdvNmFGeFkzNmdDclMx?=
- =?utf-8?B?TkgxZit1elVMeTJ1WmhJVVZGbEhCZlpNWkIrdkpIcEFrdHYzS3pydGZXSVNB?=
- =?utf-8?B?dDdBUTVwNExpSmtYK2paR1h3ZlRGdGZObWwyblE4YUVlMGJLOXZoM3NoSUwz?=
- =?utf-8?B?TjZDRFVjUGd2VjBlZlZXdnRXNURBL0F1dFc1WHBLRkpaZFZBR2FKSVBRM2NJ?=
- =?utf-8?B?blc0dUxZL0JNZWJWSHdPZUxYaEsyTUVIaGRHQkZhMWVjbCtuU0NNOGdhOHRQ?=
- =?utf-8?B?dDgxcDNFaTdMNGlwbmZTNUxkL3VBUG5JR1A5WVRYRDYxM2pTMWRIRVJTUUVT?=
- =?utf-8?Q?7wt/vgzkaXl71ahhJRBVW19t0rBzc9x8zQiM/xUTjPMmu?=
-X-MS-Exchange-AntiSpam-MessageData-1: 9yIBAStVg+PkVg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97ad40bc-6e43-4d7c-3f97-08de99048a60
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 02:29:51.5325
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tp7XA4gi2QJyZNEs9hgvD+ClFFZRzjZ2hG0G/bJEs3PjjklIsSZUZJjb4gtBArkcB25HiZDm2U+lWZMX55VxpA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9428
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260410-swnode-remove-on-dev-unreg-v1-1-cd7d305f3db2@oss.qualcomm.com>
 
-On Thu Apr 9, 2026 at 11:58 PM JST, Alexandre Courbot wrote:
-> Extract the bitfield-defining part of the `register!` macro into an
-> independent macro used to define bitfield types with bounds-checked
-> accessors.
->
-> Each field is represented as a `Bounded` of the appropriate bit width,
-> ensuring field values are never silently truncated.
->
-> Fields can optionally be converted to/from custom types, either fallibly
-> or infallibly.
->
-> Appropriate documentation is also added, and a MAINTAINERS entry created
-> for the new module.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
->  MAINTAINERS                |   8 +
->  rust/kernel/bitfield.rs    | 491 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  rust/kernel/io/register.rs | 246 +----------------------
->  rust/kernel/lib.rs         |   1 +
->  4 files changed, 502 insertions(+), 244 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b01791963e25..77f2617ade5d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -23186,6 +23186,14 @@ F:	scripts/*rust*
->  F:	tools/testing/selftests/rust/
->  K:	\b(?i:rust)\b
-> =20
-> +RUST [BITFIELD]
-> +M:	Alexandre Courbot <acourbot@nvidia.com>
-> +M:	Joel Fernandes <joelagnelf@nvidia.com>
-> +R:	Yury Norov <yury.norov@gmail.com>
-> +L:	rust-for-linux@vger.kernel.org
-> +S:	Maintained
-> +F:	rust/kernel/bitfield.rs
-> +
->  RUST [ALLOC]
->  M:	Danilo Krummrich <dakr@kernel.org>
->  R:	Lorenzo Stoakes <ljs@kernel.org>
+Hi Bartosz,
 
-nit: Should this be kept in alphabetical order (e.g. with ALLOC here
-below?).
+On Fri, Apr 10, 2026 at 01:50:45PM +0200, Bartosz Golaszewski wrote:
+> If we pass a software node to a newly created device using struct
+> platform_device_info, it will not be removed when the device is
+> released. This may happen when a module creating the device is removed
+> or on failure in platform_device_add().
+> 
+> When we try to reuse that software node in a subsequent call to
+> platform_device_register_full(), it will fails with -EBUSY. Add the
+> missing call to device_remove_software_node() in release path.
 
-> diff --git a/rust/kernel/bitfield.rs b/rust/kernel/bitfield.rs
-> new file mode 100644
-> index 000000000000..f5948eec8a76
-> --- /dev/null
-> +++ b/rust/kernel/bitfield.rs
-> @@ -0,0 +1,491 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! Support for defining bitfields as Rust structures.
-> +//!
-> +//! The [`bitfield!`](kernel::bitfield!) macro declares integer types th=
-at are split into distinct
-> +//! bit fields of arbitrary length. Each field is typed using [`Bounded`=
-](kernel::num::Bounded) to
-> +//! ensure values are properly validated and to avoid implicit data loss=
-.
-> +//!
-> +//! # Example
-> +//!
-> +//! ```rust
-> +//! use kernel::bitfield;
-> +//! use kernel::num::Bounded;
-> +//!
-> +//! bitfield! {
-> +//!     pub struct Rgb(u16) {
-> +//!         15:11 blue;
-> +//!         10:5 green;
-> +//!         4:0 red;
-> +//!     }
-> +//! }
-> +//!
-> +//! // Valid value for the `blue` field.
-> +//! let blue =3D Bounded::<u16, 5>::new::<0x18>();
-> +//!
-> +//! // Setters can be chained. Values ranges are checked at compile-time=
-.
-> +//! let color =3D Rgb::zeroed()
-> +//!     // Compile-time bounds check of constant value.
-> +//!     .with_const_red::<0x10>()
-> +//!     .with_const_green::<0x1f>()
-> +//!     // A `Bounded` can also be passed.
-> +//!     .with_blue(blue);
-> +//!
-> +//! assert_eq!(color.red(), 0x10);
-> +//! assert_eq!(color.green(), 0x1f);
-> +//! assert_eq!(color.blue(), 0x18);
-> +//! assert_eq!(
-> +//!     color.into_raw(),
-> +//!     (0x18 << Rgb::BLUE_SHIFT) + (0x1f << Rgb::GREEN_SHIFT) + 0x10,
-> +//! );
-> +//!
-> +//! // Convert to/from the backing storage type.
-> +//! let raw: u16 =3D color.into();
-> +//! assert_eq!(Rgb::from(raw), color);
-> +//! ```
-> +//!
-> +//! # Syntax
-> +//!
-> +//! ```text
-> +//! bitfield! {
-> +//!     #[attributes]
-> +//!     // Documentation for `Name`.
-> +//!     pub struct Name(storage_type) {
-> +//!         // `field_1` documentation.
-> +//!         hi:lo field_1;
-> +//!         // `field_2` documentation.
-> +//!         hi:lo field_2 =3D> ConvertedType;
-> +//!         // `field_3` documentation.
-> +//!         hi:lo field_3 ?=3D> ConvertedType;
-> +//!         ...
-> +//!     }
-> +//! }
-> +//! ```
-> +//!
-> +//! - `storage_type`: The underlying integer type (`u8`, `u16`, `u32`, `=
-u64`).
-> +//! - `hi:lo`: Bit range (inclusive), where `hi >=3D lo`.
-> +//! - `=3D> Type`: Optional infallible conversion (see [below](#infallib=
-le-conversion-)).
-> +//! - `?=3D> Type`: Optional fallible conversion (see [below](#fallible-=
-conversion-)).
-> +//! - Documentation strings and attributes are optional.
-> +//!
-> +//! # Generated code
-> +//!
-> +//! Each field is internally represented as a [`Bounded`] parameterized =
-by its bit width. Field
-> +//! values can either be set/retrieved directly, or converted from/to an=
-other type.
-> +//!
-> +//! The use of `Bounded` for each field enforces bounds-checking (at bui=
-ld time or runtime) of every
-> +//! value assigned to a field. This ensures that data is never accidenta=
-lly truncated.
-> +//!
-> +//! The macro generates the bitfield type, [`From`] and [`Into`] impleme=
-ntations for its storage
-> +//! type, as well as [`Debug`] and [`Zeroable`](pin_init::Zeroable) impl=
-ementations.
-> +//!
-> +//! For each field, it also generates:
-> +//!
-> +//! - `with_field(value)` =E2=80=94 infallible setter; the argument type=
- must be statically known to fit
-> +//!   the field width.
-> +//! - `with_const_field::<VALUE>()` =E2=80=94 const setter; the value is=
- validated at compile time.
-> +//!   Usually shorter to use than `with_field` for constant values as it=
- doesn't require
-> +//!   constructing a `Bounded`.
-> +//! - `try_with_field(value)` =E2=80=94 fallible setter. Returns an erro=
-r if the value is out of range.
-> +//! - `FIELD_MASK`, `FIELD_SHIFT`, `FIELD_RANGE` - constants for manual =
-bit manipulation.
-> +//!
-> +//! # Implicit conversions
-> +//!
-> +//! Types that fit entirely within a field's bit width can be used direc=
-tly with setters. For
-> +//! example, `bool` works with single-bit fields, and `u8` works with 8-=
-bit fields:
-> +//!
-> +//! ```rust
-> +//! use kernel::bitfield;
-> +//!
-> +//! bitfield! {
-> +//!     pub struct Flags(u32) {
-> +//!         15:8 byte_field;
-> +//!         0:0 flag;
-> +//!     }
-> +//! }
-> +//!
-> +//! let flags =3D Flags::zeroed()
-> +//!     .with_byte_field(0x42_u8)
-> +//!     .with_flag(true);
-> +//!
-> +//! assert_eq!(flags.into_raw(), (0x42 << Flags::BYTE_FIELD_SHIFT) | 1);
-> +//! ```
-> +//!
-> +//! # Runtime bounds checking
-> +//!
-> +//! When a value is not known at compile time, use `try_with_field()` to=
- check bounds at runtime:
-> +//!
-> +//! ```rust
-> +//! use kernel::bitfield;
-> +//!
-> +//! bitfield! {
-> +//!     pub struct Config(u8) {
-> +//!         3:0 nibble;
-> +//!     }
-> +//! }
-> +//!
-> +//! fn set_nibble(config: Config, value: u8) -> Result<Config, Error> {
-> +//!     // Returns `EOVERFLOW` if `value > 0xf`.
-> +//!     config.try_with_nibble(value)
-> +//! }
-> +//! # Ok::<(), Error>(())
-> +//! ```
-> +//!
-> +//! # Type conversion
-> +//!
-> +//! Fields can be automatically converted to/from a custom type using `=
-=3D>` (infallible) or `?=3D>`
-> +//! (fallible). The custom type must implement the appropriate `From` or=
- `TryFrom` traits with
-> +//! `Bounded`.
-> +//!
-> +//! ## Infallible conversion (`=3D>`)
-> +//!
-> +//! Use this when all possible bit patterns of a field map to valid valu=
-es:
-> +//!
-> +//! ```rust
-> +//! use kernel::bitfield;
-> +//! use kernel::num::Bounded;
-> +//!
-> +//! #[derive(Debug, Clone, Copy, PartialEq)]
-> +//! enum Power {
-> +//!     Off,
-> +//!     On,
-> +//! }
-> +//!
-> +//! impl From<Bounded<u32, 1>> for Power {
-> +//!     fn from(v: Bounded<u32, 1>) -> Self {
-> +//!         match *v {
-> +//!             0 =3D> Power::Off,
-> +//!             _ =3D> Power::On,
-> +//!         }
-> +//!     }
-> +//! }
-> +//!
-> +//! impl From<Power> for Bounded<u32, 1> {
-> +//!     fn from(p: Power) -> Self {
-> +//!         (p as u32 !=3D 0).into()
-> +//!     }
-> +//! }
-> +//!
-> +//! bitfield! {
-> +//!     pub struct Control(u32) {
-> +//!         0:0 power =3D> Power;
-> +//!     }
-> +//! }
-> +//!
-> +//! let ctrl =3D Control::zeroed().with_power(Power::On);
-> +//! assert_eq!(ctrl.power(), Power::On);
-> +//! ```
-> +//!
-> +//! ## Fallible conversion (`?=3D>`)
-> +//!
-> +//! Use this when some bit patterns of a field are invalid. The getter r=
-eturns a [`Result`]:
-> +//!
-> +//! ```rust
-> +//! use kernel::bitfield;
-> +//! use kernel::num::Bounded;
-> +//!
-> +//! #[derive(Debug, Clone, Copy, PartialEq)]
-> +//! enum Mode {
-> +//!     Low =3D 0,
-> +//!     High =3D 1,
-> +//!     Auto =3D 2,
-> +//!     // 3 is invalid
-> +//! }
-> +//!
-> +//! impl TryFrom<Bounded<u32, 2>> for Mode {
-> +//!     type Error =3D u32;
-> +//!
-> +//!     fn try_from(v: Bounded<u32, 2>) -> Result<Self, u32> {
-> +//!         match *v {
-> +//!             0 =3D> Ok(Mode::Low),
-> +//!             1 =3D> Ok(Mode::High),
-> +//!             2 =3D> Ok(Mode::Auto),
-> +//!             n =3D> Err(n),
-> +//!         }
-> +//!     }
-> +//! }
-> +//!
-> +//! impl From<Mode> for Bounded<u32, 2> {
-> +//!     fn from(m: Mode) -> Self {
-> +//!         match m {
-> +//!             Mode::Low =3D> Bounded::<u32, _>::new::<0>(),
-> +//!             Mode::High =3D> Bounded::<u32, _>::new::<1>(),
-> +//!             Mode::Auto =3D> Bounded::<u32, _>::new::<2>(),
-> +//!         }
-> +//!     }
-> +//! }
-> +//!
-> +//! bitfield! {
-> +//!     pub struct Config(u32) {
-> +//!         1:0 mode ?=3D> Mode;
-> +//!     }
-> +//! }
-> +//!
-> +//! let cfg =3D Config::zeroed().with_mode(Mode::Auto);
-> +//! assert_eq!(cfg.mode(), Ok(Mode::Auto));
-> +//!
-> +//! // Invalid bit pattern returns an error.
-> +//! assert_eq!(Config::from(0b11).mode(), Err(3));
-> +//! ```
-> +//!
-> +//! [`Bounded`]: kernel::num::Bounded
+Thank you for spotting this, but I do not believe the patch is correct
+as it stands. We need to differentiate between nodes registered by
+platform devices vs nodes that already registered where we simply use
+them.
 
-In the nova version of bitfield we had @check_field_bounds. If we put
-in the bit numbers the wrong way around, this patch gives a compile
-error like:
+I think we need to mark nodes that platform_device_register_full()
+registers form swnodes as "managed = true" so that they are cleaned up
+properly.
 
-```
-attempt to compute `4_u32 - 7_u32`, which would overflow
-```
+See also sashiko feedback.
 
-The original nova version looks like it used build_assert, but I think
-we can do it with const assert!, so we should be able to get a better
-build error message for this case:
+https://sashiko.dev/#/patchset/20260410-swnode-remove-on-dev-unreg-v1-0-cd7d305f3db2%40oss.qualcomm.com
 
-```
-const _: () =3D assert!($hi >=3D $lo, "bitfield: hi bit must be >=3D lo bit=
-");
-```
+Thanks.
 
-With just that we get an extra build error, although it still spams the
-confusing build error. We could also consider adding a function like:
-
-```
-pub const fn bitfield_width(hi: u32, lo: u32) -> u32 {
-  assert!(hi >=3D lo, "bitfield: hi bit must be >=3D lo bit");
-  hi + 1 - lo
-}
-```
-
-Using this instead gets rid of some confusing build errors since we can
-also use it in type bounds. But to get rid of all of them we would need
-to do it for the mask etc and others.
-
-WDYT?
+-- 
+Dmitry
