@@ -1,49 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA462253EC;
-	Tue, 14 Apr 2026 16:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F3231619A
+	for <driver-core@lists.linux.dev>; Tue, 14 Apr 2026 17:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776185405; cv=none; b=SFWSUHYj/F/21jmZvg/gM7em7WlvfeVsvL2k11kyVywHmN8FBWrLZVrEhGm6e1/JUVfBrPYTvN8EUvPFSLCxjsZNDHGgy/MhxgMgkt+oQ7/lHJQ/i1sa0/EYIY9eT66jbJtDXY4Lcg+yT7fAylASXd/Somql2Wka746gn0wZXhA=
+	t=1776189588; cv=none; b=IaUXu54iCz/GHHPk0ScTSkbmicqHYGS3DNXDIZIM4hIVto4Ifk2lGqpRRWvJPj9nROXAdu6EgXrbpmXtEh9ysGNbnZV+1+8t6IYX6ghJolbMxTGwEPSwm8BHtSKRobLbC0h4xM882K+w3XUEn0fT7bCuSU9dRDFbEivaw0Y/H4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776185405; c=relaxed/simple;
-	bh=Dge0DCS/QYtIgyrk1+RNGXNQhBsk1R+oQTAvvrTBHr0=;
+	s=arc-20240116; t=1776189588; c=relaxed/simple;
+	bh=F9IImTWbAE/07UVOrHFqvyTG3I6+wFwxQODwtqPFCCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QgBrcqtMHNUbz6oO1y+FuO2pqpQB33U3rMeoyVtZEsKVnhYi9xFTMRdm6VG1ap59S+Xt8zYYWsOHGXWehPQTIL4ES1xGmHytQkanf4YMgnnNE7pIWrbtyMc9v9JKFVPDcvc4PkYpyQ5KOY56vDRTIW7hu/0oGuk2bLFRdObpN38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qLFpEGvN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=XwVYeor7y1y2cv48wcgsb/hILF7bApeDA2APjfFmaNttH9m+aIDUctOuqzXBWLw9iQn5vip0UOpfCnr0akuiXw63Z5NLtwWsek5yfQ4rYU8HwZSwzkoogZ+h1gIFC/Vkxb/xig4Xrvmbw5zUbErr3fYNGJnD+IkkmpZERtvT9M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PRDd7HXU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IUYoJjdK; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qLFpEGvN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5F30C19425;
-	Tue, 14 Apr 2026 16:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776185405;
-	bh=Dge0DCS/QYtIgyrk1+RNGXNQhBsk1R+oQTAvvrTBHr0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qLFpEGvNOn2J0c3amth0T/BSS+qAPInX3J/3HfeiAHDkONa2ZuJWdBe2JmaB48Vsy
-	 8yH51OyTrvDIOmka54WHeVakebbJVkeAn5lSkClMKw5rdVnpJMF7H8+02i/sxwXgCD
-	 4co+tT3gSWcz22dRr8rE1irOoT5huoJmemctg5mA=
-Date: Tue, 14 Apr 2026 18:49:35 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PRDd7HXU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IUYoJjdK"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63EGBlZr1778940
+	for <driver-core@lists.linux.dev>; Tue, 14 Apr 2026 17:59:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=QmmQoU/diSWqj6mLutzvYKAy
+	DS7PmKhjSkMdbEs6GLI=; b=PRDd7HXUGHWe6M9MJifW8KWES6T96D4dHkR1kHFJ
+	LVo5XrJbdL+wbRWSyidLGgE/VD3bngFLr8VwBB0L24//GcHRapu/FwogEHmSCYsr
+	9jthYlyVqwkhYI8arsrp9kXaRSD2VkPaHAtHtJ/Ry31xXqjWKKu+Woxn0ik1dcCy
+	/v5lhFbn556bT8xg9fqZJM9ioSuFlu0MmF5XLqHlNLBhtNVPA2+aqXgKBHTM8zqC
+	2porMtZmSWORK1WmqkcrW/Jn7a/XQqbaTpWRF0YqFlk6EQ+umy0OpgC7c6pWcNDR
+	g0MiUOcU2KAiQHzLllQLyiFvLPJfM/yMKGrtia808VCIqQ==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dhrw00dub-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Tue, 14 Apr 2026 17:59:46 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50b4987c698so157694001cf.0
+        for <driver-core@lists.linux.dev>; Tue, 14 Apr 2026 10:59:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1776189586; x=1776794386; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QmmQoU/diSWqj6mLutzvYKAyDS7PmKhjSkMdbEs6GLI=;
+        b=IUYoJjdKnbMiKiIF5jf/5fZ0X6nfM/bbVpPIeb4LdDGAoqXoM7vQ2J/XE91Lk9OHnm
+         NG/PPToN4yWmH8UjZlEzb9SXMfze3qDU5jjOJMJYWnMr7YewPsOk0y93Q7gtJUk6IM2L
+         MdeSXb+YGOCYDh1NisniuSMVmmia9nRAhKZBh03m48MFeZ+bDafKY/sk641mglOUZ8Oy
+         XbTMr8+4bUSiXZnvA5nwadF2o61Wb6m2SNhQhdpC27Q8FrmfQ71oolQVX66naak54yiV
+         sreyY1IMFC2J6Nv7ZAedJGNTMfdAYUIohbIRPS+Gu0NZkJl3pUVLv5LX4F3/AnquQ0tB
+         m+pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776189586; x=1776794386;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QmmQoU/diSWqj6mLutzvYKAyDS7PmKhjSkMdbEs6GLI=;
+        b=UYaoZdbeqohRkOTzYoqyfuS86FtxJHfZpCL2SLg38HGgjLOrqMAq2bE47kOds4a+ly
+         WZIQcgGZ+ImzL/CQehB9lVtKXudJlhOP0JdVQuqM47z1WEej/I+tOwiivZ1n9RsK+m2H
+         hp6e9Kmvd3gxEMnfDZSvolQbjPLZNT1zkZNfIzoAWsKKlFyA86rgzvDtNsd8H0S91p+W
+         U2uO0PB7oWgUHBlcZJAiXoRiCs/tLARC6zXDw0MX84CZaZJziAi0iuOaLYbng+lxkWKf
+         oXJtWviPfIJkkkpVKYnvxHY/A4FG4gT5yqv6zY0sTh/Q0hvMnbAPRIBReS8KG5m69pkJ
+         ndfA==
+X-Forwarded-Encrypted: i=1; AFNElJ/mNcevuJAmLXnnjZ2XiUlsj6Bolo8qB03QQgpgP4N2pEQdBYsUUIhcmchIxJ0leLNkYTwccMHjGHRWhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpHCwb/CDejzIR6U5OcJkRwz13JWJKje+sFNjC89nN3MWxArGK
+	Pt3SJqs0odUHvuiSuZgxz4EJCfEv+r7uYHuKLmLFSE8RZ8Kox1P6BWCYrAKF2pboh3mW4AOaZ+k
+	nE0Koa4SOu2u3mcYNnkBlIgFN49pnkKd4poxDa5VwrkLCPIMtMojm90CLm7r985Tx5g==
+X-Gm-Gg: AeBDietsKL2+W6oZR8t75uMRKrH6jW5/7lm4RkH3IwF+25xgpmIyHZ6xhEn8Y2Gs1DE
+	z2b+W0lXZuHIjw6LCx/Q/thozn/huKjO/ZqB4VZ9vSrhAxEygsqWM6XdX6dpUdg3ZaCSeemwZ3z
+	zS1bYdR4fJRIXHT41vpXjRi/cb+GXAX4JtQoQfo7q8Rglj2jzDzRTimcsTUuIOd+Iawrk+y3PZE
+	o+SB4atJf0FhARRH1ePP+D1D5c4VsxC9QVi+QU6woWghDOmt0LooJSEuJvAsWIwapaxU7bs7Lt1
+	BifN3j9jBI7673rxOrIFGdrE9UbOyQ+fAtxGW5VqUqcOqMLV/hM5ulurY6kXKxIPtJrspjDFgVV
+	Ew+LLbIIFAS3SfQEO5HU02zhGiZI3rYIsBN3JQvH8G58OQpzH/qLrsrnTANXkh55K/oO3mOmuww
+	z7akKE6SlNlhZPo2jzYVlYVMQ05AIck9dLxTuHfYdIQ+V8EA==
+X-Received: by 2002:ac8:7f44:0:b0:4f7:a06d:c4df with SMTP id d75a77b69052e-50dc1b2f8a8mr313166171cf.33.1776189585725;
+        Tue, 14 Apr 2026 10:59:45 -0700 (PDT)
+X-Received: by 2002:ac8:7f44:0:b0:4f7:a06d:c4df with SMTP id d75a77b69052e-50dc1b2f8a8mr313165771cf.33.1776189585059;
+        Tue, 14 Apr 2026 10:59:45 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38e4957eb57sm32395581fa.36.2026.04.14.10.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 10:59:43 -0700 (PDT)
+Date: Tue, 14 Apr 2026 20:59:42 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: ekansh.gupta@oss.qualcomm.com
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Bharath Kumar <quic_bkumar@quicinc.com>,
-	Chenna Kesava Raju <quic_chennak@quicinc.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/3] drivers: base: Add generic context device bus
-Message-ID: <2026041418-volley-composer-6363@gregkh>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>,
+        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 3/3] misc: fastrpc: Use context device bus for compute
+ banks
+Message-ID: <7cij7qnjnv5ntsfmjdyozywiiwnpcpzop6mr5comt6djlh2opx@qgxp77geszoe>
 References: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
- <20260414-computebus-v1-1-4d904d40926a@oss.qualcomm.com>
+ <20260414-computebus-v1-3-4d904d40926a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -52,50 +107,359 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260414-computebus-v1-1-4d904d40926a@oss.qualcomm.com>
+In-Reply-To: <20260414-computebus-v1-3-4d904d40926a@oss.qualcomm.com>
+X-Proofpoint-GUID: QH3F1VzP40WzyLk81iAOlrE9IsfCE6wD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE0MDE2NyBTYWx0ZWRfX4o8bPCjUB5Z/
+ 5ixAllJpjJogMRrQ0ae999Zui69xq5+lX9dMffGiQ0dBYaXN8evAGMoxWvwqvK2/LAZD7JHMY7x
+ wOf7xwHYtwVFGhty+9RF4ZcqAB175T2/UC8dA6rRh6xVPABOCYWrKgma/AtmlUixREW9/8QkKLq
+ 95JlbM32hc3LmNeI6y1qE08B5KSPGuWD84H51zyCcC/7ozemr8t2Xtfi6p7jecGo70G4m5hcJZS
+ sKdwPQT9HdOTsLpx0mVeoJvFfczP6tW/8yp2XSuFWHQw7Tphk+HHJwn3m8OdzLbb/uq1A2MXqLx
+ XoZoWH9fa02loQl6qx8qrcsbJagKJnvbAH2I2XgoxzUx8C5LnyoN91GkU6oAbTBke/xzZk1cx1c
+ wM4fimzHQ0WnUF8pFvCqP+iUV7kPefUXyZzdeGTPqtjtq8Z998uj8nrSNhkkn+4RI0sHmU1vksK
+ 0t3n5XuThuGfNkf/FOA==
+X-Proofpoint-ORIG-GUID: QH3F1VzP40WzyLk81iAOlrE9IsfCE6wD
+X-Authority-Analysis: v=2.4 cv=YMGvDxGx c=1 sm=1 tr=0 ts=69de8092 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=eP6CfP3hHy5NNNlF4cwA:9 a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-14_03,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 clxscore=1011 malwarescore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604140167
 
-On Tue, Apr 14, 2026 at 10:01:15PM +0530, Ekansh Gupta via B4 Relay wrote:
+On Tue, Apr 14, 2026 at 10:01:17PM +0530, Ekansh Gupta via B4 Relay wrote:
 > From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > 
-> Introduce a new generic bus type for synthetic context bank devices
-> that require IOMMU context isolation. This bus provides a shared
-> infrastructure for accelerator and GPU drivers that create virtual
-> devices representing IOMMU context banks.
+> Replace the platform driver approach for compute bank (CB) devices
+> with the generic context_device_bus_type. Compute bank devices are
+> synthetic IOMMU context banks, not real platform devices, so using
+> the context device bus provides a more accurate representation in
+> the device model.
 > 
-> Currently, drivers like host1x implement their own bus types for
-> context devices. This generic implementation allows multiple drivers
-> to share the same bus infrastructure, simplifying the IOMMU subsystem
-> integration and reducing code duplication.
+> Currently, fastrpc used of_platform_populate() to create platform
+> devices for each "qcom,fastrpc-compute-cb" DT node, with a platform
+> driver (fastrpc_cb_driver) to handle probe/remove. This approach
+> had a race condition: device nodes were created before channel
+> resources (like spin_lock) were initialized, and probe was async,
+> so applications could open the device before sessions were available.
+> 
+> This patch addresses the race by manually creating and configuring
+> CB devices synchronously during fastrpc_rpmsg_probe(), after all
+> channel resources are initialized. The approach follows the pattern
+> used in host1x_memory_context_list_init().
 > 
 > Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > ---
->  drivers/base/Kconfig        |  3 +++
->  drivers/base/Makefile       |  1 +
->  drivers/base/context_bus.c  | 24 ++++++++++++++++++++++++
->  include/linux/context_bus.h | 15 +++++++++++++++
->  4 files changed, 43 insertions(+)
+>  drivers/misc/Kconfig   |   1 +
+>  drivers/misc/fastrpc.c | 180 ++++++++++++++++++++++++++++++++++---------------
+>  2 files changed, 125 insertions(+), 56 deletions(-)
 > 
-> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
-> index f7d385cbd3ba..479bc4bb442b 100644
-> --- a/drivers/base/Kconfig
-> +++ b/drivers/base/Kconfig
-> @@ -4,6 +4,9 @@ menu "Generic Driver Options"
->  config AUXILIARY_BUS
->  	bool
+> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> index 00683bf06258..b501462a4548 100644
+> --- a/drivers/misc/Kconfig
+> +++ b/drivers/misc/Kconfig
+> @@ -304,6 +304,7 @@ config QCOM_FASTRPC
+>  	depends on RPMSG
+>  	select DMA_SHARED_BUFFER
+>  	select QCOM_SCM
+> +	select CONTEXT_DEVICE_BUS
+>  	help
+>  	  Provides a communication mechanism that allows for clients to
+>  	  make remote method invocations across processor boundary to
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 1080f9acf70a..f66fd3eea5fa 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -13,9 +13,9 @@
+>  #include <linux/module.h>
+>  #include <linux/of_address.h>
+>  #include <linux/of.h>
+> -#include <linux/platform_device.h>
+> +#include <linux/of_device.h>
+>  #include <linux/sort.h>
+> -#include <linux/of_platform.h>
+> +#include <linux/context_bus.h>
+>  #include <linux/rpmsg.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/slab.h>
+> @@ -250,6 +250,18 @@ struct fastrpc_invoke_ctx {
+>  	struct fastrpc_channel_ctx *cctx;
+>  };
 >  
-> +config CONTEXT_DEVICE_BUS
-> +	bool
+> +/**
+> + * struct fastrpc_cb_device - Compute bank device wrapper
+> + * @dev: Device structure
+> + * @sess: Back-pointer to the session context
+> + */
+> +struct fastrpc_cb_device {
+> +	struct device dev;
+> +	struct fastrpc_session_ctx *sess;
+> +};
+> +
+> +#define to_fastrpc_cb_device(d) container_of(d, struct fastrpc_cb_device, dev)
+> +
+>  struct fastrpc_session_ctx {
+>  	struct device *dev;
+>  	int sid;
+> @@ -2190,92 +2202,156 @@ static const struct file_operations fastrpc_fops = {
+>  	.compat_ioctl = fastrpc_device_ioctl,
+>  };
+>  
+> -static int fastrpc_cb_probe(struct platform_device *pdev)
+> +static void fastrpc_cb_dev_release(struct device *dev)
+> +{
+> +	struct fastrpc_cb_device *cb_dev = to_fastrpc_cb_device(dev);
+> +
+> +	of_node_put(dev->of_node);
+> +	kfree(cb_dev);
+> +}
+> +
+> +static int fastrpc_create_cb_device(struct fastrpc_channel_ctx *cctx,
+> +				    struct device *parent,
+> +				    struct device_node *cb_node)
+>  {
+> -	struct fastrpc_channel_ctx *cctx;
+>  	struct fastrpc_session_ctx *sess;
+> -	struct device *dev = &pdev->dev;
+> -	int i, sessions = 0;
+> +	struct fastrpc_cb_device *cb_dev;
+>  	unsigned long flags;
+> -	int rc;
+> -	u32 dma_bits;
+> -
+> -	cctx = dev_get_drvdata(dev->parent);
+> -	if (!cctx)
+> -		return -EINVAL;
+> +	int i, sessions = 0, rc;
+> +	u32 dma_bits, sid = 0;
+>  
+> -	of_property_read_u32(dev->of_node, "qcom,nsessions", &sessions);
+> +	/* Read SID early so it can be used in the device name */
+> +	of_property_read_u32(cb_node, "reg", &sid);
+> +	of_property_read_u32(cb_node, "qcom,nsessions", &sessions);
+>  
+>  	spin_lock_irqsave(&cctx->lock, flags);
+>  	if (cctx->sesscount >= FASTRPC_MAX_SESSIONS) {
+> -		dev_err(&pdev->dev, "too many sessions\n");
+> +		dev_err(parent, "too many sessions\n");
+>  		spin_unlock_irqrestore(&cctx->lock, flags);
+>  		return -ENOSPC;
+>  	}
+>  	dma_bits = cctx->soc_data->dma_addr_bits_default;
+> +	if (cctx->domain_id == CDSP_DOMAIN_ID)
+> +		dma_bits = cctx->soc_data->dma_addr_bits_cdsp;
+> +
+>  	sess = &cctx->session[cctx->sesscount++];
+>  	sess->used = false;
+>  	sess->valid = true;
+> -	sess->dev = dev;
+> -	dev_set_drvdata(dev, sess);
+> +	sess->sid = sid;
+> +	spin_unlock_irqrestore(&cctx->lock, flags);
+>  
+> -	if (cctx->domain_id == CDSP_DOMAIN_ID)
+> -		dma_bits = cctx->soc_data->dma_addr_bits_cdsp;
+> +	cb_dev = kzalloc_obj(*cb_dev);
+> +	if (!cb_dev)
+> +		return -ENOMEM;
+>  
+> -	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
+> -		dev_info(dev, "FastRPC Session ID not specified in DT\n");
+> +	cb_dev->sess = sess;
+>  
+> -	if (sessions > 0) {
+> -		struct fastrpc_session_ctx *dup_sess;
+> +	device_initialize(&cb_dev->dev);
+> +	cb_dev->dev.parent = parent;
+> +	cb_dev->dev.bus = &context_device_bus_type;
+> +	cb_dev->dev.release = fastrpc_cb_dev_release;
+> +	cb_dev->dev.of_node = of_node_get(cb_node);
+> +	cb_dev->dev.dma_mask = &cb_dev->dev.coherent_dma_mask;
+> +	cb_dev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
+> +	dev_set_name(&cb_dev->dev, "%s:compute-cb@%u", dev_name(parent), sid);
 
-So this is a context-free bus?  I.e. no documentation?
+Please extract this code to a helper function inside the context bus and
+use it for both host1x and fastrpc.
 
-:)
+>  
+> +	rc = device_add(&cb_dev->dev);
+> +	if (rc) {
+> +		dev_err(parent, "failed to add CB device: %d\n", rc);
+> +		goto err_put;
+> +	}
+> +
+> +	rc = of_dma_configure(&cb_dev->dev, cb_node, true);
+> +	if (rc) {
+> +		dev_err(parent, "of_dma_configure failed for CB device: %d\n", rc);
+> +		goto err_del;
+> +	}
+> +
+> +	rc = dma_set_mask(&cb_dev->dev, DMA_BIT_MASK(dma_bits));
+> +	if (rc) {
+> +		dev_err(parent, "%u-bit DMA enable failed\n", dma_bits);
+> +		goto err_del;
+> +	}
+> +
+> +	sess->dev = &cb_dev->dev;
+> +
+> +	if (sessions > 0) {
+> +		spin_lock_irqsave(&cctx->lock, flags);
+>  		for (i = 1; i < sessions; i++) {
+> +			struct fastrpc_session_ctx *dup_sess;
+> +
+>  			if (cctx->sesscount >= FASTRPC_MAX_SESSIONS)
+>  				break;
+>  			dup_sess = &cctx->session[cctx->sesscount++];
+>  			memcpy(dup_sess, sess, sizeof(*dup_sess));
+>  		}
+> -	}
+> -	spin_unlock_irqrestore(&cctx->lock, flags);
+> -	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
+> -	if (rc) {
+> -		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
+> -		return rc;
+> +		spin_unlock_irqrestore(&cctx->lock, flags);
+>  	}
+>  
+>  	return 0;
+> +
+> +err_del:
+> +	device_del(&cb_dev->dev);
+> +err_put:
+> +	of_node_put(cb_dev->dev.of_node);
+> +	put_device(&cb_dev->dev);
+> +	return rc;
+>  }
+>  
+> -static void fastrpc_cb_remove(struct platform_device *pdev)
+> +static void fastrpc_depopulate_cb_devices(struct fastrpc_channel_ctx *cctx)
+>  {
+> -	struct fastrpc_channel_ctx *cctx = dev_get_drvdata(pdev->dev.parent);
+> -	struct fastrpc_session_ctx *sess = dev_get_drvdata(&pdev->dev);
+>  	unsigned long flags;
+> -	int i;
+> +	int i, j;
+>  
+>  	spin_lock_irqsave(&cctx->lock, flags);
+>  	for (i = 0; i < FASTRPC_MAX_SESSIONS; i++) {
+> -		if (cctx->session[i].sid == sess->sid) {
+> +		if (cctx->session[i].valid) {
+>  			cctx->session[i].valid = false;
+>  			cctx->sesscount--;
+>  		}
+>  	}
+>  	spin_unlock_irqrestore(&cctx->lock, flags);
+> +
+> +	for (i = 0; i < FASTRPC_MAX_SESSIONS; i++) {
+> +		struct device *dev = cctx->session[i].dev;
+> +
+> +		if (!dev)
+> +			continue;
+> +
+> +		/* Unregister the device once */
+> +		device_unregister(dev);
+> +
+> +		/* Clear this dev pointer from all sessions that share it */
+> +		for (j = i; j < FASTRPC_MAX_SESSIONS; j++) {
+> +			if (cctx->session[j].dev == dev)
+> +				cctx->session[j].dev = NULL;
+> +		}
+> +	}
+>  }
+>  
+> -static const struct of_device_id fastrpc_match_table[] = {
+> -	{ .compatible = "qcom,fastrpc-compute-cb", },
+> -	{}
+> -};
+> +static int fastrpc_populate_cb_devices(struct fastrpc_channel_ctx *cctx,
+> +					struct device *parent,
+> +					struct device_node *parent_node)
+> +{
+> +	struct device_node *child;
+> +	int ret = 0;
+>  
+> -static struct platform_driver fastrpc_cb_driver = {
+> -	.probe = fastrpc_cb_probe,
+> -	.remove = fastrpc_cb_remove,
+> -	.driver = {
+> -		.name = "qcom,fastrpc-cb",
+> -		.of_match_table = fastrpc_match_table,
+> -		.suppress_bind_attrs = true,
+> -	},
+> -};
+> +	for_each_child_of_node(parent_node, child) {
+> +		if (!of_device_is_compatible(child, "qcom,fastrpc-compute-cb"))
+> +			continue;
+> +
+> +		ret = fastrpc_create_cb_device(cctx, parent, child);
+> +		if (ret) {
+> +			dev_err(parent, "failed to create CB device for %s: %d\n",
+> +				child->name, ret);
+> +			of_node_put(child);
+> +			fastrpc_depopulate_cb_devices(cctx);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+>  
+>  static int fastrpc_device_register(struct device *dev, struct fastrpc_channel_ctx *cctx,
+>  				   bool is_secured, const char *domain)
+> @@ -2441,7 +2517,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	data->domain_id = domain_id;
+>  	data->rpdev = rpdev;
+>  
+> -	err = of_platform_populate(rdev->of_node, NULL, NULL, rdev);
+> +	err = fastrpc_populate_cb_devices(data, rdev, rdev->of_node);
+>  	if (err)
+>  		goto err_deregister_fdev;
+>  
+> @@ -2496,7 +2572,7 @@ static void fastrpc_rpmsg_remove(struct rpmsg_device *rpdev)
+>  	if (cctx->remote_heap)
+>  		fastrpc_buf_free(cctx->remote_heap);
+>  
+> -	of_platform_depopulate(&rpdev->dev);
+> +	fastrpc_depopulate_cb_devices(cctx);
+>  
+>  	fastrpc_channel_ctx_put(cctx);
+>  }
+> @@ -2558,16 +2634,9 @@ static int fastrpc_init(void)
+>  {
+>  	int ret;
+>  
+> -	ret = platform_driver_register(&fastrpc_cb_driver);
+> -	if (ret < 0) {
+> -		pr_err("fastrpc: failed to register cb driver\n");
+> -		return ret;
+> -	}
+> -
+>  	ret = register_rpmsg_driver(&fastrpc_driver);
+>  	if (ret < 0) {
+>  		pr_err("fastrpc: failed to register rpmsg driver\n");
+> -		platform_driver_unregister(&fastrpc_cb_driver);
+>  		return ret;
+>  	}
+>  
+> @@ -2577,7 +2646,6 @@ module_init(fastrpc_init);
+>  
+>  static void fastrpc_exit(void)
+>  {
+> -	platform_driver_unregister(&fastrpc_cb_driver);
+>  	unregister_rpmsg_driver(&fastrpc_driver);
+>  }
+>  module_exit(fastrpc_exit);
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
-This feels really odd, this "bus" isn't doing anything at all.  So why
-do you need it and can't use auxbus or faux?  
-
-You say something about an iommu, but yet this has no information about
-an iommu at all, so why are they somehow special?
-
-You need to provide a lot more information here, sorry.
-
-greg k-h
+-- 
+With best wishes
+Dmitry
