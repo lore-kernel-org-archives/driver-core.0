@@ -1,97 +1,69 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0E02609EE;
-	Tue, 14 Apr 2026 03:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BE43BA23F;
+	Tue, 14 Apr 2026 10:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776138034; cv=none; b=DtfOFehRKzFcH1as69+ykHi7ot8ZQdcoS/w+lUXaPR21qhxBcmQYi3xe9LvDsjKJxKdRG/3XOXKLW9z10QXXvZzvbzNhhq0J+rgi5e99bo8ZpUqVyFa0GVb0GBCcuJhULl7ykJOjHk0eg3p5ZvvuvDfzsYM0SRawiTMl+bS1kPE=
+	t=1776161562; cv=none; b=MDUyqju8DTiCOntA1XsbGuqKbpxNIwlHgfLbYxmOMHvy63iNfOp636gVdUQ5wYqmt6XErmtRXncwGQu5cEo2Q51/5UXeGfjpvVGyJ1e1cEGqG2ddUhBBifTuWr1VKBeTj9nwmER/07FmD6hLYszoraokqBySPFcP9PtOp/QJrZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776138034; c=relaxed/simple;
-	bh=j1xVFGCrB4zgdY1O3hGnpFlge6lRBxtF8+v9tgOoMXQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oJO1+Lw5a7jkZo1tqehoFbTPbPU7K9Pi/2kG7c15mNfWl+R+C2ubtjjG62r8PSpFC6C63g42Y71ysAZ6vofN+edDWLA0HyWeWqdjkpdv9zOUQj7BTgx6ucYBp62kNZGiMbl6IRTAHR9tpMfWgEKOWP0A8TzqlbhB3sitdICFsZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xQr1MUo5; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1776161562; c=relaxed/simple;
+	bh=MDv3kvOucv/YXk51Y2Sp+gdZSV17cZk52IrUWlDb3JE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n+cSjVQJuGb7hUW1PRDNf2Zkb8ztao/3oWvNzPl/FJelTjxGftUwrEiCFByL53KVlzCzB+TVIj6Pf6faYw8rpFBLyyvl6DiqDINdy0yc0uokC+mFrIi6jEq3pc+nZXyAhPlFRW0gUA7W5aCqhTzjNA5S8qa16K8wZnQSOqzb7nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDi2M+6e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xQr1MUo5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/9XWY1M7XX1bLO3S6EUxio1VuB76gbgR7SaI/2xskm8=; b=xQr1MUo5PziPD4pmwwNkwuxD4G
-	uKt4vS5PsoTg2dX/ONJ9pttHetCskHqi81YMlgdktUVr+jNYDBM62qmntMf3Fgi6kAxHk0hnYv/nr
-	G2ja96Y6Pem/joBODgGDOFoXIA1iPnJjZZlBd+wM6pkseOqoQpAOBLwi/HsE1nOaCdtuPTPicyynB
-	P0eUmRPvVhwSmPf9UpQ1xgT/+TsT6GV17QOnU9nH3rybr15/um6awv28WM47gyH7Qn2qj/Yf009xk
-	UvugRp8iu/6JsA2ln+LbsLrIxG5aCRMDNsinDXMWQLTMMeanIFAgAFyHAzhRjxwheWPkvVcAJgdiC
-	003Bn7CQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wCUdX-0000000Gedl-1jfL;
-	Tue, 14 Apr 2026 03:40:27 +0000
-Message-ID: <20c77561-34db-43aa-959c-5cfa4e946967@infradead.org>
-Date: Mon, 13 Apr 2026 20:40:26 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDi2M+6e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7AC0C19425;
+	Tue, 14 Apr 2026 10:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776161561;
+	bh=MDv3kvOucv/YXk51Y2Sp+gdZSV17cZk52IrUWlDb3JE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EDi2M+6eRbgJiOqSqYHi+2wlBdbvLYPw6BFqTDpRZoJHn35t5jpEPS1vlhuGZiohH
+	 xDlg9JwwPKFDsHDWDxNUhXvP6vxeQhhIdPiDhk+LmgG1Zo2f7MSM8z+3E0yKsNtYtU
+	 eHe2OEcE7zuzMEfCsxnP2Powi+vDxp4GaQK9jwXBCkUBB8U+8rcVxOggY7ANgAt1FR
+	 2acifGi/DtjlSJEJd/VFnVwUubACkoJfiJL4eS3fpikTyKs1DxY0GpHXr0u7w4LxaM
+	 lFt3J6UCSzQkpriFVbOQNDUqb9TXG5OHkiTB/5IVKMs5zjR1x37q71UN64hDukPKbh
+	 uvZV1x0JuHteg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>,
+	driver-core@lists.linux.dev,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
+Date: Tue, 14 Apr 2026 12:12:32 +0200
+Message-ID: <20260414101232.1699643-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260413195910.1.I23aca74fe2d3636a47df196a80920fecb2643220@changeid>
+References: <20260413195910.1.I23aca74fe2d3636a47df196a80920fecb2643220@changeid>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
-To: Douglas Anderson <dianders@chromium.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mark Brown <broonie@kernel.org>, driver-core@lists.linux.dev,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org
-References: <20260413195910.1.I23aca74fe2d3636a47df196a80920fecb2643220@changeid>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260413195910.1.I23aca74fe2d3636a47df196a80920fecb2643220@changeid>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+On Mon, 13 Apr 2026 19:59:11 -0700, Douglas Anderson wrote:
+> [PATCH] driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
 
+Applied, thanks!
 
-On 4/13/26 7:59 PM, Douglas Anderson wrote:
-> Even though nobody should use this value (except when declaring the
-> "flags" bitmap), kernel-doc still gets upset that it's not documented.
-> It reports:
-> 
->   WARNING: ../include/linux/device.h:519
->   Enum value 'DEV_FLAG_COUNT' not described in enum 'struct_device_flags'
-> 
-> Add the description of DEV_FLAG_COUNT.
-> 
-> Fixes: a2225b6e834a ("driver core: Don't let a device probe until it's ready")
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/f318cd43-81fd-48b9-abf7-92af85f12f91@infradead.org
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+  Branch: driver-core-linus
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+[1/1] driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
+      commit: 5b484311507b
 
-Thanks.
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays.)
 
-> ---
-> 
->  include/linux/device.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 1c27505476bb..9c8fde6a3d86 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -512,6 +512,7 @@ struct device_physical_location {
->   *
->   * @DEV_FLAG_READY_TO_PROBE: If set then device_add() has finished enough
->   *		initialization that probe could be called.
-> + * @DEV_FLAG_COUNT: Number of defined struct_device_flags.
->   */
->  enum struct_device_flags {
->  	DEV_FLAG_READY_TO_PROBE = 0,
-
--- 
-~Randy
+The patch is queued up for Linus's tree and should land in the next -rc release.
