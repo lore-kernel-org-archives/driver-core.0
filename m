@@ -1,69 +1,222 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BE43BA23F;
-	Tue, 14 Apr 2026 10:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D16288C2C;
+	Tue, 14 Apr 2026 16:31:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776161562; cv=none; b=MDUyqju8DTiCOntA1XsbGuqKbpxNIwlHgfLbYxmOMHvy63iNfOp636gVdUQ5wYqmt6XErmtRXncwGQu5cEo2Q51/5UXeGfjpvVGyJ1e1cEGqG2ddUhBBifTuWr1VKBeTj9nwmER/07FmD6hLYszoraokqBySPFcP9PtOp/QJrZI=
+	t=1776184280; cv=none; b=VYpFZTtGKtWONNCBg3J7MtmUaZ2OxLR40TSBV29BWbTarg2n/P3rlP97o7bU+a1qAsvGc+wBjU6pJMOIRdBv6eJf+AnweWF9zPiPan6koc0GohsNQzmiyDLlahsTyS5ChTRdpXPgDXsGF/RTM0rivJA3udM1qn9gn1vK3x0tfEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776161562; c=relaxed/simple;
-	bh=MDv3kvOucv/YXk51Y2Sp+gdZSV17cZk52IrUWlDb3JE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n+cSjVQJuGb7hUW1PRDNf2Zkb8ztao/3oWvNzPl/FJelTjxGftUwrEiCFByL53KVlzCzB+TVIj6Pf6faYw8rpFBLyyvl6DiqDINdy0yc0uokC+mFrIi6jEq3pc+nZXyAhPlFRW0gUA7W5aCqhTzjNA5S8qa16K8wZnQSOqzb7nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDi2M+6e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776184280; c=relaxed/simple;
+	bh=ZM2pWoeOuo+RG4s6jFjQePRcse27xHjB7V24etmkYmU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=M2dsarXpAByQIsLEKVtCo3OZm7BIrAwUHN/n85cuScz4ldZS7E9S7s4OgOgIbBq3VaMlK7PL/jjTaWbarzvgfP31Sz/qVy1tVDC+mMNIFA5GqSaDyB0X9FGuOHX+/Xxv59qUYD8kTmxaivTEZH7cGAj/c+GnpIdxqdHkY9G+IE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P+CTp9l3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDi2M+6e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7AC0C19425;
-	Tue, 14 Apr 2026 10:12:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P+CTp9l3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7F3CFC4AF0D;
+	Tue, 14 Apr 2026 16:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776161561;
-	bh=MDv3kvOucv/YXk51Y2Sp+gdZSV17cZk52IrUWlDb3JE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EDi2M+6eRbgJiOqSqYHi+2wlBdbvLYPw6BFqTDpRZoJHn35t5jpEPS1vlhuGZiohH
-	 xDlg9JwwPKFDsHDWDxNUhXvP6vxeQhhIdPiDhk+LmgG1Zo2f7MSM8z+3E0yKsNtYtU
-	 eHe2OEcE7zuzMEfCsxnP2Powi+vDxp4GaQK9jwXBCkUBB8U+8rcVxOggY7ANgAt1FR
-	 2acifGi/DtjlSJEJd/VFnVwUubACkoJfiJL4eS3fpikTyKs1DxY0GpHXr0u7w4LxaM
-	 lFt3J6UCSzQkpriFVbOQNDUqb9TXG5OHkiTB/5IVKMs5zjR1x37q71UN64hDukPKbh
-	 uvZV1x0JuHteg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>,
-	driver-core@lists.linux.dev,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
-Date: Tue, 14 Apr 2026 12:12:32 +0200
-Message-ID: <20260414101232.1699643-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260413195910.1.I23aca74fe2d3636a47df196a80920fecb2643220@changeid>
-References: <20260413195910.1.I23aca74fe2d3636a47df196a80920fecb2643220@changeid>
-X-Patch-Reply: applied
+	s=k20201202; t=1776184280;
+	bh=ZM2pWoeOuo+RG4s6jFjQePRcse27xHjB7V24etmkYmU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=P+CTp9l39ZoNB3R5OzORxl9YEzVfDLqEjN+vjAHMdcttu4HcslQHZ1+rnfx2HPjZT
+	 nkML5lv8NSAhtA+v0A5NCj3ChCx3FiRRSD5wkLCC/YuDXQ8J79yAuc2HkxIr87ByKb
+	 q12LWkfagQ5X2uvdAKavph82ON35tpO3ZIkFtenp1l70opxuqmPAn9COXi/5x2F9bd
+	 TuI77JKICfIoJ8P6LzAsgoD6RW3DcV3QIoyKVCzuhpMSNeYi3VMp5R7c2cI+ub21Wr
+	 pw5pBXpQvA7tPt+c5KWaCR6BcNTeS808l8eWBsburUlMHamUeDB/6NKzPhCuvlBE4G
+	 qHzx+UFUfcYQQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C4AF9D0E9;
+	Tue, 14 Apr 2026 16:31:20 +0000 (UTC)
+From: Ekansh Gupta via B4 Relay <devnull+ekansh.gupta.oss.qualcomm.com@kernel.org>
+Date: Tue, 14 Apr 2026 22:01:16 +0530
+Subject: [PATCH 2/3] gpu: host1x: Migrate to generic context device bus
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260414-computebus-v1-2-4d904d40926a@oss.qualcomm.com>
+References: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
+In-Reply-To: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Joerg Roedel <joro@8bytes.org>, 
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Srinivas Kandagatla <srini@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Bharath Kumar <quic_bkumar@quicinc.com>, 
+ Chenna Kesava Raju <quic_chennak@quicinc.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
+ iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+ Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776184278; l=4839;
+ i=ekansh.gupta@oss.qualcomm.com; s=20260223; h=from:subject:message-id;
+ bh=DQ1olxxNHseU94rnbtsHQ4+BWgV7NjVl53Fj2nX92ag=;
+ b=LNNS8pXQotH116K8rf8Vjr5wHJV7xKAjMrOpuqvSIYb2fF05W7RU2RHTSCAtKIlqBJ/gG+DKE
+ ePcI9NgORtfD6ngTYZwsvy+E+hgJBXDVF5vXGtcMu8cja0X8Cx7XpLm
+X-Developer-Key: i=ekansh.gupta@oss.qualcomm.com; a=ed25519;
+ pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
+X-Endpoint-Received: by B4 Relay for ekansh.gupta@oss.qualcomm.com/20260223
+ with auth_id=647
+X-Original-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Reply-To: ekansh.gupta@oss.qualcomm.com
 
-On Mon, 13 Apr 2026 19:59:11 -0700, Douglas Anderson wrote:
-> [PATCH] driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 
-Applied, thanks!
+Replace the host1x-specific context device bus with the generic
+context_device_bus_type. This eliminates driver-specific bus
+infrastructure in favor of shared code in the driver core.
 
-  Branch: driver-core-linus
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+The host1x driver creates synthetic context bank devices to represent
+IOMMU contexts for memory isolation. These devices were previously
+registered on a host1x-specific bus ("host1x-context"), but this
+functionality is now provided by the generic "context-device" bus.
 
-[1/1] driver core: Add kernel-doc for DEV_FLAG_COUNT enum value
-      commit: 5b484311507b
+The IOMMU subsystem is updated to recognize the generic bus instead
+of the host1x-specific one, allowing proper IOMMU operations on
+context devices.
 
-The patch will appear in the next linux-next integration (typically within 24
-hours on weekdays.)
+This change maintains functional equivalence - context devices still
+work the same way, just on a different bus. The device names remain
+"host1x-ctx.N" to preserve any userspace dependencies.
 
-The patch is queued up for Linus's tree and should land in the next -rc release.
+Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+---
+ drivers/gpu/host1x/Kconfig       |  5 +----
+ drivers/gpu/host1x/Makefile      |  1 -
+ drivers/gpu/host1x/context.c     |  2 +-
+ drivers/gpu/host1x/context.h     |  3 +--
+ drivers/gpu/host1x/context_bus.c | 26 --------------------------
+ drivers/iommu/iommu.c            |  6 +++---
+ 6 files changed, 6 insertions(+), 37 deletions(-)
+
+diff --git a/drivers/gpu/host1x/Kconfig b/drivers/gpu/host1x/Kconfig
+index e6c78ae2003a..e3e3896f4d71 100644
+--- a/drivers/gpu/host1x/Kconfig
++++ b/drivers/gpu/host1x/Kconfig
+@@ -1,13 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+-config TEGRA_HOST1X_CONTEXT_BUS
+-	bool
+-
+ config TEGRA_HOST1X
+ 	tristate "NVIDIA Tegra host1x driver"
+ 	depends on ARCH_TEGRA || COMPILE_TEST
+ 	select DMA_SHARED_BUFFER
+-	select TEGRA_HOST1X_CONTEXT_BUS
++	select CONTEXT_DEVICE_BUS
+ 	select IOMMU_IOVA
+ 	help
+ 	  Driver for the NVIDIA Tegra host1x hardware.
+diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
+index fead483af0b4..2ccd9a5f1c65 100644
+--- a/drivers/gpu/host1x/Makefile
++++ b/drivers/gpu/host1x/Makefile
+@@ -23,4 +23,3 @@ host1x-$(CONFIG_IOMMU_API) += \
+ 	context.o
+ 
+ obj-$(CONFIG_TEGRA_HOST1X) += host1x.o
+-obj-$(CONFIG_TEGRA_HOST1X_CONTEXT_BUS) += context_bus.o
+diff --git a/drivers/gpu/host1x/context.c b/drivers/gpu/host1x/context.c
+index d50d41c20561..6411c17cc060 100644
+--- a/drivers/gpu/host1x/context.c
++++ b/drivers/gpu/host1x/context.c
+@@ -54,7 +54,7 @@ int host1x_memory_context_list_init(struct host1x *host1x)
+ 		ctx->dev.dma_mask = &ctx->dma_mask;
+ 		ctx->dev.coherent_dma_mask = ctx->dma_mask;
+ 		dev_set_name(&ctx->dev, "host1x-ctx.%d", i);
+-		ctx->dev.bus = &host1x_context_device_bus_type;
++		ctx->dev.bus = &context_device_bus_type;
+ 		ctx->dev.parent = host1x->dev;
+ 		ctx->dev.release = host1x_memory_context_release;
+ 
+diff --git a/drivers/gpu/host1x/context.h b/drivers/gpu/host1x/context.h
+index 3e03bc1d3bac..87ae522fafc7 100644
+--- a/drivers/gpu/host1x/context.h
++++ b/drivers/gpu/host1x/context.h
+@@ -8,13 +8,12 @@
+ #ifndef __HOST1X_CONTEXT_H
+ #define __HOST1X_CONTEXT_H
+ 
++#include <linux/context_bus.h>
+ #include <linux/mutex.h>
+ #include <linux/refcount.h>
+ 
+ struct host1x;
+ 
+-extern struct bus_type host1x_context_device_bus_type;
+-
+ struct host1x_memory_context_list {
+ 	struct mutex lock;
+ 	struct host1x_memory_context *devs;
+diff --git a/drivers/gpu/host1x/context_bus.c b/drivers/gpu/host1x/context_bus.c
+deleted file mode 100644
+index 7cd0e1a5edd1..000000000000
+--- a/drivers/gpu/host1x/context_bus.c
++++ /dev/null
+@@ -1,26 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Copyright (c) 2021, NVIDIA Corporation.
+- */
+-
+-#include <linux/device.h>
+-#include <linux/of.h>
+-
+-const struct bus_type host1x_context_device_bus_type = {
+-	.name = "host1x-context",
+-};
+-EXPORT_SYMBOL_GPL(host1x_context_device_bus_type);
+-
+-static int __init host1x_context_device_bus_init(void)
+-{
+-	int err;
+-
+-	err = bus_register(&host1x_context_device_bus_type);
+-	if (err < 0) {
+-		pr_err("bus type registration failed: %d\n", err);
+-		return err;
+-	}
+-
+-	return 0;
+-}
+-postcore_initcall(host1x_context_device_bus_init);
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 61c12ba78206..f01a13e2e634 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -16,7 +16,7 @@
+ #include <linux/export.h>
+ #include <linux/slab.h>
+ #include <linux/errno.h>
+-#include <linux/host1x_context_bus.h>
++#include <linux/context_bus.h>
+ #include <linux/iommu.h>
+ #include <linux/iommufd.h>
+ #include <linux/idr.h>
+@@ -173,8 +173,8 @@ static const struct bus_type * const iommu_buses[] = {
+ #ifdef CONFIG_FSL_MC_BUS
+ 	&fsl_mc_bus_type,
+ #endif
+-#ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
+-	&host1x_context_device_bus_type,
++#ifdef CONFIG_CONTEXT_DEVICE_BUS
++	&context_device_bus_type,
+ #endif
+ #ifdef CONFIG_CDX_BUS
+ 	&cdx_bus_type,
+
+-- 
+2.34.1
+
+
