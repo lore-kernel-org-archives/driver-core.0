@@ -1,199 +1,185 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021107.outbound.protection.outlook.com [52.101.100.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414BC37BE7C
-	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 17:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776274481; cv=none; b=sECGtV0KnXJkY07aaQ2hYw1Rwi8bJZER8L7x+zSbUInZ50QacMDXCfGc3xqJ4drVan7iNc/bnbfpVH+c7zNQZ4pa7tvk3++bmDrQ1m3dkQmEhLAq/tfDBLkITZ3RMDuKtRd7g6ZqudPEniVV+T2Vy9KZuXgyT9KOP/s19il7vnU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776274481; c=relaxed/simple;
-	bh=PTd4B5uhCcPDIe5w9NIhHzaDs9hz6KZ6USjgaGgCaFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hcKR7ShkWsGG5gdx+ti6Dz4TzO/T6v7a41EkFSCNFWmLJIN6SpVAEJrNF8ZYPGLv2L6bNPIAOtWRBJ0VZ2+cHWi/7j6HH/ee7qQMkIoSskneRkqEwqIT5vvWIm7qTEvDntgQGGj4KYFPZgvxboz724lCI8zBqotSNpGjda00MM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gIzZLNQr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Z5hIIuAc; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655A8378D87
+	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 19:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.107
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776283090; cv=fail; b=U1WXoNR+aZJLquOC3jRI5+DeT3Axxy7x4r11HdQ1wQwm15Dz7dsjqpGvVLrgxzEbCQiZTUwys88wa1q+Iod2887W98r5e5/8FKj7BIbq+W9P98ZUJ3GWmAIplaQqSqtdwqvqeOsHuWjNEQ5YcE20m752NjZiCWFDxJXMhXXflLY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776283090; c=relaxed/simple;
+	bh=76zt5O2tjv+xHYbiGWFQ2t1XGoY03LLsBSirzFPBISY=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=ct0KGUwn7J4yb4gWUrz8tr7AzWCjllEM8BYIm9Lj+LA0va4eVqbhx/ihWxwQiDJIOz9JJezh/3zWLXgtkMnfipbKOH1+krlUQWSyg32PxHhvVjVpfEw4lX9EXzMpPHwQMj+UTFRpeojap9QjrdeGJXWbwgNf0FPdCiA9108yXOw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=K0Wh3t6Y; arc=fail smtp.client-ip=52.101.100.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gIzZLNQr";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Z5hIIuAc"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63FEIKl4764418
-	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 17:34:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vbR6uymC69o6Z8rsQWYUozstbIH9JlydsnIlYMif8rU=; b=gIzZLNQr3c5GZpCJ
-	DAvLsiqk4yCnL+T32P+6t65uFnVeGd2BAl53FHVbbg2nXX57DxzV55EGKRtYNG69
-	tUKwuIUPSddrCy95Aofs1v1BEhC+BJiX/rdMX06n+/4vv7GlsdJH2bQVycq62kKi
-	0osILBVmxC4qNHfKWVjpniLeU+MiN18L25ako0u7QF+P0P9p16DBY0IJs8441zT9
-	ADJ7dUgvDlK3Qh52UJGE3buGYoT9tMgzv/ugXRs4Tk5EJhrkXGfMXEEJVfMRojvZ
-	2zezmIw0SvNZr69FLxes7jKlICbPW+dOc1xewDhjWlLgnjTJFMvMmuRnmjUqLb59
-	K42vQw==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dj6q7t52v-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 17:34:36 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2aad5fec175so100766525ad.2
-        for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 10:34:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776274476; x=1776879276; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vbR6uymC69o6Z8rsQWYUozstbIH9JlydsnIlYMif8rU=;
-        b=Z5hIIuAco3mdZZqmZqnhxoRtSqVBtGXwhL4fuLokerJrnERF/OgiAR4Px5uUrXMY6C
-         N6CVPt8VCySWc0mW1eZe54UsnakZS2QVSU5smho3Wx8m4etn975HVWaI5IEFzwrV6bJ3
-         r/38Ln5u2zg1AcZliE5Z5tEgM0VtNf6mItUB2jlzIsaOqt09ZGslQL7Nxh5dJvBcBELq
-         7tuT3PJnk+FtXPZe13kjbnLWP1YmISH9PBIYbCW4XenentYP9ciypNeb5swETOPu7+Tm
-         9CfYFHb25Dvob/mVTMYpEuDrAoHT0U0+zISVSVdky1cDe1TX/ux6TuDGEpZMqxsFv+j8
-         nkWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776274476; x=1776879276;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vbR6uymC69o6Z8rsQWYUozstbIH9JlydsnIlYMif8rU=;
-        b=h0HVosVhtvMlJfD/mK9R3OXPXXi0MUvWWValm/QrX9BkhYFppat1PBOVY9llSVOnPc
-         u+0EoKMLT510FQwSEDnV7CpEOgqi6BAZlF7QLNmC2tevLhXqflRP7SwRlzH11kDDWhWb
-         LnM4832XUMkJYJY/ttIKSvp3K/5JttVUUY16OAfrkp4oiu99u4zHUva70Gt3E3hy+ByM
-         ZdiLQfCivcv7WpwUMqDZIxoF+eA7P+vd4I4fFc88VCkJedzAgDSXS0hFjkVFRtNgqXB2
-         ocQ56028TX+xqRP1rixHRWmFnH1Nzgx4dPMxxCn1vz3uuCHrHn/bAHdlSov2Cz8EsEUL
-         eZvw==
-X-Forwarded-Encrypted: i=1; AFNElJ8iI+hXRciX7ZscIGdP/4sLj8JycmFWGVDjnbM0WGkVXBL2yk1MHvJ2reYQ2pKIW49tYV1zpMPUL4ERjg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZIPq9038SJA2UFdiW/XyuZAq2w840Wx8MELk9h2nQlFpSP74Y
-	sML2PVKhyslgfg0q4UphtCgYUdE9/8CDQ0N+JwXw8wUpIhGDV/zT9uY0lb+jzR0TjZg4xFpNGcm
-	Efd0R1m8Jsaqf72MWqIktu7Yb5xJOUAcGQ5RTaSmwnGyScljh/uRGOQgSrnNdxMsgGg==
-X-Gm-Gg: AeBDietSPfpnNDxDoID8y1vFNm4RmRTGkNBLWm9LsYEiFYAfXvZFs02MNdXkwzNcKt3
-	0hiDmDsGIhor3W8L9x2AMqAtkMKFGmDGwQtB7Lel7CRduUdJWLzjRawu9dW6aanR//f8tdxZrev
-	x/pX/oRNfhM4ZZECGmsVtDnxuUi44QEjFU+kg+eCoNpjAhDts1Dh4nB4qxTl4jFDDUjEjd+wPVY
-	zvz9Rjr3MXTmvnO3cDhnM/7NFJKd1jXBTTpgGMXK2zerfxUzyRLHpRFvEsCfh60vuQyVrI1Iq/7
-	TJ6GBNYZ4lGfAiC3FE+7eVdpaYaClEUEYoutB6W5nwg8N0A68ogT8SIlh/IaMZFwX5Xqt5oR1tM
-	4/SEODgzeOYC8CPJ51tdzKEGnG/URbrwOYl3kqoOns3rNz97guc3LrA==
-X-Received: by 2002:a17:902:6949:b0:2b2:b117:1e16 with SMTP id d9443c01a7336-2b2d5a459ffmr160044785ad.20.1776274475853;
-        Wed, 15 Apr 2026 10:34:35 -0700 (PDT)
-X-Received: by 2002:a17:902:6949:b0:2b2:b117:1e16 with SMTP id d9443c01a7336-2b2d5a459ffmr160044375ad.20.1776274475300;
-        Wed, 15 Apr 2026 10:34:35 -0700 (PDT)
-Received: from [10.206.105.200] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b47810b70csm25397215ad.23.2026.04.15.10.34.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Apr 2026 10:34:34 -0700 (PDT)
-Message-ID: <c4f21420-c299-f161-2bf7-c9b79ca15037@oss.qualcomm.com>
-Date: Wed, 15 Apr 2026 23:04:26 +0530
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="K0Wh3t6Y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NEOhY7dMfJygmL5G5gK3g4v96vUKa3bgabLqTAQELJjP/QnnIe0ggFiICm04Dzpa8RF9vdjpOwdPzc5gRWXgld9Csm/Ze3/FnGjFihoWqs3YV2HbZGfkMDrt8DhBgWlyAmNfAy7qgCqqi6Tr375+yBhwbqC9WMqaL44Ork6ajTAVVDTK+YmswDDlq67FlS1InXWgU38kwpy8r1+2MD54v1Jfun5Qxjlvjwd4rAj7oqFFxBeieY8H195q92rkUnBsehkGiRJC4xdYNLInVMSZydVqIhHqs2r5R7A5rJKnIOJQlqntyJ9is5XGyBV+s9gd0XIpQ8ZBA91Yl0MnP1Z9dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QfX0xC8CRLMV6kMNs7SKADvkmQyLojcY4lT9nMODHNY=;
+ b=G6/SfxM9/sseiYGbR0HkYkrDDJWtWAeF2W60LF6NMFw48JsKP8rFAkQ/ca7x/9mZ+EBvZsQLFJ7L+o0d0pdvocGH0UNyFCQEKPp0n1aRU13x8cfpSMkds2LpzHXAZASWTypDf4mAZTc1ln38Die5/+5B9NMAcTNGeYQW+1FBJY7vrscRRAAE//QXqs6ZvghBv9C0KVNK8DHDuMyO9HSix2vxwGT8rXW8Jv/RqomUGOwwHp9S0329sq6YJkoc9eumA9MEfTkkGtZJnUIe6k7CvjFtTApKnp8dieOWawQjkvVzqyrvzLc5XJxyCEJcwe4gnvitp6wrc6C9bQ0yEjYyng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QfX0xC8CRLMV6kMNs7SKADvkmQyLojcY4lT9nMODHNY=;
+ b=K0Wh3t6YQ9zvXeiJQxg9Y5bow6EhLIBQXCq52vE1Z0hhqRSfy6FgGRZNxgSjtMaGBM7b9S1MpAtU1y14o7QGPouF6BgBfhsqe871E4tRsB4TT+skzy13mJ1qqzfW7K3QoVpjDqGEqqMn1mJgIN3HgrXXmRKyRBRthJ/gJjLetHE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWXP265MB1910.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:32::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Wed, 15 Apr
+ 2026 19:58:05 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
+ 19:58:05 +0000
+From: Gary Guo <gary@garyguo.net>
+Subject: [PATCH 0/5] Rework index projection syntax
+Date: Wed, 15 Apr 2026 20:57:11 +0100
+Message-Id: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJft32kC/yWMQQ6CMBAAv0L27CalWol+xXBo66qLSUt2QSCEv
+ 1v0OMnMrKAkTArXagWhDyvnVKA+VBBfPj0J+V4YrLFnc6od9pI7ikPRUJc0+BmFpixvDM3F+KN
+ xIToLJe+FHjz/1rf2zzqGvd1/sG1f5BNNhHwAAAA=
+X-Change-ID: 20260415-projection-syntax-rework-b790a305bc52
+To: Danilo Krummrich <dakr@kernel.org>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Alexandre Courbot <acourbot@nvidia.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Gary Guo <gary@garyguo.net>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776283085; l=1474;
+ i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
+ bh=76zt5O2tjv+xHYbiGWFQ2t1XGoY03LLsBSirzFPBISY=;
+ b=04LilGSVmlOYueRpNfmQnvJd8ohWKngDYs65XedbFyJv6eGeIOCoSC6MR2ksvLnlGjNPFwsmV
+ S9yoCCEqQSrAr31hYe+G4lW6bgZE7/bLOFcfColAsrBXonp8EI3iGJg
+X-Developer-Key: i=gary@garyguo.net; a=ed25519;
+ pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
+X-ClientProxiedBy: LO4P123CA0276.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:195::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/3] drivers: base: Add generic context device bus
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        ekansh.gupta@oss.qualcomm.com
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>,
-        linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-References: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
- <20260414-computebus-v1-1-4d904d40926a@oss.qualcomm.com>
- <2026041418-volley-composer-6363@gregkh>
-From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-In-Reply-To: <2026041418-volley-composer-6363@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=AvHeGu9P c=1 sm=1 tr=0 ts=69dfcc2c cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=xRG3GzwA0ZaNjhFdG0MA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-GUID: UmhUZSyqTUL_eWq1KZ1TCb3FKwHJIiaw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE1MDE2MyBTYWx0ZWRfX2sFJ+jfFTNFC
- Dz4avLL4nFV7C83jp34PZw+GcDpPuIya7mVEDhZHg//nFmCB+zfsgZGgXoH6dMTJog92ym3Q0Kc
- IdFHwkyNAyHF38TnoV8CLV3e8b6FjMjkVDV8d3g3URIv31xMJNACgf1LEWI2BkVormlI+QnKBXu
- ls2OlXTFZ2spueje9bJY6bMMGEN1Cl7VK66xN2pOnMPepeXOucoS55VSlqdQt8CMuVYvnEFMC/F
- VqmySS0bFcFTl8QM5KgWRn8xLFcBALTuxoyOTgQnvYQQMfSyseQwG1mClvBfzdfT2gi/iDbcK0f
- 09uXp/N9arya586ddN/HOtpQvEnwLgkkJToZs6lK/PQLOXLR6lyy6E3G9xPYYfUUYUEIuiEvN7E
- NDAOdygqBfy7GzVja83F8mveU8mxzx7NWhITd41hMuZZnO3VRCZozaTyq/ik8nCJKXSkXKTQDc0
- 2dHM5Gn/mIH7m1hE0Bw==
-X-Proofpoint-ORIG-GUID: UmhUZSyqTUL_eWq1KZ1TCb3FKwHJIiaw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-15_01,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 clxscore=1015 adultscore=0 phishscore=0
- bulkscore=0 suspectscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
- definitions=main-2604150163
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB1910:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53a08ced-9e90-415a-a41c-08de9b294f18
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|921020|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	sA5+SX530BhRVrrPX5ML2uFpMqaEP2T4DuKP1++w2v5K3+jSTz/ahhyohgqhk4xrmP/E7q74VjlkB4mzWwyXv/0AgJ5/Qg/kFuHhEM+SvRQuzZ4E4Hq5195W8znZfqrlfZMOgY3RqEp3kzFLWxVj1If7eFvrBtrSzNhIZrsX/s/pzDCY1ErorcwmVMpOq0RpiZ6w3HzmOKX16aP+z25AXjRDfZ4WXVyWzuMTF+Xyo5HkVDivZ2QWMXMflpIdKsFj94XuQ9acy+ePYx5fr9goa9Ldm51iNzCRGj2s0T5Q9agPNZPAP7pHzSVocdqMGLAvX6n9RaR3g+U0ep0Awyv7T0IsZLTPUxnAYKG679bmRhGUPiEl88uibPJAm9r62oa646fu87WC7YJMjZnJNbTqg2d9w2a4CvcbOz8ODWAHexsChl8/DnifRB+1J0AXMiUuPpW3wb9Yr6txPgVtukhvZdmQ7NbLkM0M8kfblRknFdY8bZYc2E5SOgoyP113hO/Ic/n6ycLlMlkLrpd/ierZLjDyxg565ib/2ITK1N0jbKVCCaSv3I5VddEOYMGeScAXOwYIUl2jf50feNWEi7FcEjcQyxuS8owzYmkvAl+oeFm/ihrzYEZVQJxvgibM+udjVZwhtEhzOj2rb3pPLBLphteb+r4oJ1uxDcN5nBbD5JWW/zgo9BR3gWb+YNEWR5N0J7Zmf5qerXWTELSPvve13fJcdW4rp7ftS5xcCTDhZvO+2409uz354s0AedExj4RjMXkspyo0nmtSGazjEFrc7g==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?alNXYS9IcFByV2s0VGlIRll0SEthak1OQkw1elBZZVk1V29NQWU4NGMxSUww?=
+ =?utf-8?B?ZXBhMGJhSzBVNll5SVBYRXNVdWhJOU5NQjJZeEliODA1N0hqTWxVcjhnc2pk?=
+ =?utf-8?B?SUxWYko0L21QMXVyS1BRL0lFMmE3UHcrSFpKbW96SG1FUGJxRkdyRW9iYnVM?=
+ =?utf-8?B?R0FudlpXUnkwMXAwTmZ0Qm9pYlh4N1hQYUJlY0t6bWV4NUZlSzFrN2JTNHpK?=
+ =?utf-8?B?N1dBNXpOQXQ1Um0rN01YNFlpSENxRytFQnVvbTlESmxrVVBPNXM0TGlkS1hR?=
+ =?utf-8?B?NlVHQmc3dExGRXpLbDBpaEJhN2wyaUdaN21FZUtLcnBhQUpHQmwrMEY0eXpO?=
+ =?utf-8?B?c2Z4VVN3Wm9STXZpNFVZVm1JM21lcGVZc0VxcE01Um5KNkk3UCt5Y1VDcitM?=
+ =?utf-8?B?Y2p6UEEvZWRLelNqYWZCMi9ZT3RnR29HQ0ZVbWVxaEl0cDhFOEJUc2RZdk1X?=
+ =?utf-8?B?eHFQSW9KSmFsb3M3dHFCTDBWakFJMFJnOWs3RnNyeVBudVk4UjBEV2RFM29O?=
+ =?utf-8?B?Y0UwVFNmN3ExUU9aZlpxOG1HT0MrSmlPdy9DdVNCakZubURtU2N4T1lFTkJs?=
+ =?utf-8?B?UTJhVEVxcExxc3c4L0JpY1ZrQnpPUTlzbVpwZnN6dHQ5dzJNY1RuYjV2NWdK?=
+ =?utf-8?B?aTk0YWdRTVJIN2ZWL3pEd0ZYRlRuRUp2eFpORlZ0MFdJdER5L3lUYXJzVlBO?=
+ =?utf-8?B?U3BHeWRUTS9vL0xKaG5wT3Fjb2hnVThlY2xKMkcwOCtCYUorbVFwR1A1WGN3?=
+ =?utf-8?B?RXBsdWJUOFp3bUJFNUFTZDdheVJscUIwbE1tcDlRcEZSSzdYeTFuT2M3YlV4?=
+ =?utf-8?B?Z1FxbERsd3RQWktYUTFKMGdVb3c4ZmpVR3VKbks0cWZwZEhoLzkxcVRrVFpq?=
+ =?utf-8?B?REtrRkdxeWtKUWxSQ0J0MW8vRG1pZTdTb1B1UUM3U1FPUlVBN0tnMHFiYXVX?=
+ =?utf-8?B?SCtHaFU4WTFNU0tNcld1NnNSNHE4Zm83OWl1Um4rQS9YMVhNbHhkUkFDdFZz?=
+ =?utf-8?B?ZFc1bjloWUlINGUrRUVwTXFYSm1lSmhIOEdtTDJhSFNkdDNGNXgrakNuUEJw?=
+ =?utf-8?B?YjBDb0JuSmM3d1g3WXVSbnJtb2FPTkZ3YUhUcFMxQXdNQXJVa0h6Y2xJb1Yx?=
+ =?utf-8?B?Nlpzd0VHOWlrd204N2l4U1dSWmozL3FlSXRndzBZN1k2eVNnUDNuNVFlcVA0?=
+ =?utf-8?B?Z2xDd1gyUzR4M3diLzVibzU4UkhkVjZJTm1RbGpwNGlBOEhFU2pDMlVraUIv?=
+ =?utf-8?B?M2VTd2VCR0g0MFRabTNaL21YV0xxTFpsSVEwM3ZhdkJHd3NueDF6YmVuaGVC?=
+ =?utf-8?B?NGdZUUR0WG5WWFk0NzdhQWQwd0Ywd0JWTHpQVU05MFJaT1VMNlZRUHRGQ0h5?=
+ =?utf-8?B?NFVSc0h0K3UyYlI3TUtkcVlwT1NzVGZPYThmbzk1QzVEN29vb1hCdlQxZ1Bx?=
+ =?utf-8?B?Yll4bjR0M0JVeXhNV1U2VlVZbDhJWDFwRTd6SzVmR3dEMk9ScmMyQ3NpOTBR?=
+ =?utf-8?B?MzUxTDdEUXpuQWdVY2FTTmhDQ3huc2x2QVlMR2xldjBpTFZFZklSVFhVcFZY?=
+ =?utf-8?B?WjI2QWIyNERqVTNXTExCdXFJVU9KdDAwNVJtRU9JaVdialQxUjNZMnJOa055?=
+ =?utf-8?B?amNiYzZxNkhubDlWWXNyb1ovMEZVUytrMkYvZGVxNGhVMndhM1UwYW5NRWN1?=
+ =?utf-8?B?a3c5U2F6UFhaL0RKcjNiMmZCeS8vc3RTN3FQYjJrdC9hK2xCd1F2NWl6SHlY?=
+ =?utf-8?B?K2VtN2hTOFJUb3BibVFtOVRWM3d4UFN6cEZ4MnVUKzc1MGxGMG92WE9leEdI?=
+ =?utf-8?B?U3Y0ckJicGxMM3lHK2JYblcwKzlhbmhiVTJNSFRFcjEvUmVlRC85cXJteXkz?=
+ =?utf-8?B?RW1FQzcrL3ZXa2kxbzBma1lMN2haQWdtZDJaRzZRZzFRVjAwYmJvMDNzT2wx?=
+ =?utf-8?B?NkZTMmdHOU1sMTJ6VFFBYVhKcnhRa0N6TTBYbjdHMk9LNml3Z0pHS21DTE1l?=
+ =?utf-8?B?TmlOL1JHZEttSTJmOFVLNjhPbEV5a1J5di9sQXhZcGtUczZuWjhQd1VVMUl3?=
+ =?utf-8?B?bitFNDBtVVU3dWh4azB1TTg4VzZFTnNFeFdWNjdVZS9ITmN2eVhQTmRGTWNK?=
+ =?utf-8?B?WXpneUxQNHczd0YrZFViSXlKSDRHWncwZUZBMXFCa255Sm9mclQ2WVRsYWJy?=
+ =?utf-8?B?RDdlbHdXbm1PcWU2RXVvM3pnaUV6alM3R0paVnQ2MEtkZy9DL1R2cnk4cUdT?=
+ =?utf-8?B?Lys3b0RSbXp6bnR3Y1NMTUpFV1BKaDdNQTBRb3dLTjFWWWhQYlNkSUgrbm42?=
+ =?utf-8?B?bnlJK2g3WU5xcENveXNFSENOUndiN0YvRGFZVnRzbmNlVVZHMXI1dz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53a08ced-9e90-415a-a41c-08de9b294f18
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 19:58:05.7003
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sOZpYyYYkk4RKki1w1K2MjPk9ykdFCwlmKHuz0CabHVpxv0UmvQSGKin6uR15MPpLXnXBfLxMr+8saF+m4p1tA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB1910
 
+This series reworks the index projection syntax in the pointer
+projection infrastructure to be use the keyworded syntax to be more
+explicit.
 
+Doing this allows adding a new panicking variant of index projection,
+just like the normal index operator. This is useful for cases where
+compiler cannot prove (or cannot reliably prove) access is inbounds.
 
-On 4/14/2026 10:19 PM, Greg Kroah-Hartman wrote:
-> On Tue, Apr 14, 2026 at 10:01:15PM +0530, Ekansh Gupta via B4 Relay wrote:
->> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->>
->> Introduce a new generic bus type for synthetic context bank devices
->> that require IOMMU context isolation. This bus provides a shared
->> infrastructure for accelerator and GPU drivers that create virtual
->> devices representing IOMMU context banks.
->>
->> Currently, drivers like host1x implement their own bus types for
->> context devices. This generic implementation allows multiple drivers
->> to share the same bus infrastructure, simplifying the IOMMU subsystem
->> integration and reducing code duplication.
->>
->> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->> ---
->>   drivers/base/Kconfig        |  3 +++
->>   drivers/base/Makefile       |  1 +
->>   drivers/base/context_bus.c  | 24 ++++++++++++++++++++++++
->>   include/linux/context_bus.h | 15 +++++++++++++++
->>   4 files changed, 43 insertions(+)
->>
->> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
->> index f7d385cbd3ba..479bc4bb442b 100644
->> --- a/drivers/base/Kconfig
->> +++ b/drivers/base/Kconfig
->> @@ -4,6 +4,9 @@ menu "Generic Driver Options"
->>   config AUXILIARY_BUS
->>   	bool
->>   
->> +config CONTEXT_DEVICE_BUS
->> +	bool
-> 
-> So this is a context-free bus?  I.e. no documentation?
-> 
-> :)
-> 
-> This feels really odd, this "bus" isn't doing anything at all.  So why
-> do you need it and can't use auxbus or faux?
+The new syntax looks like this:
+- `[try: index]`: Fallible indexing (replaces `[index]?`).
+- `[build: index]`: Build-time checked indexing (replaces `[index]`).
+- `[panic: index]`: Runtime panicking indexing (newly added).
 
-Looks like the device have specific iommu configuration (via 
-of_dma_configure()), then using the auxbus or faux bus types does not 
-have the bus notifier calls to iommu_release_device(). Please correct me 
-if I misunderstood?
+DMA sample driver and nova-core have been updated.
 
-> 
-> You say something about an iommu, but yet this has no information about
-> an iommu at all, so why are they somehow special?
-> 
-> You need to provide a lot more information here, sorry.
-> 
-> greg k-h
-> 
-> 
+---
+Alexandre Courbot (1):
+      gpu: nova-core: use pointer projection for command queue code
+
+Gary Guo (4):
+      rust: ptr: add panicking index projection variant
+      rust: dma: update to keyworded index projection syntax
+      gpu: nova-core: convert to keyworded projection syntax
+      rust: ptr: remove implicit index projection syntax
+
+ drivers/gpu/nova-core/gsp/cmdq.rs | 108 +++++++++++++++++++++-----------------
+ rust/kernel/dma.rs                |  15 +++---
+ rust/kernel/ptr/projection.rs     |  90 +++++++++++++++++++++++++------
+ samples/rust/rust_dma.rs          |  12 ++---
+ 4 files changed, 145 insertions(+), 80 deletions(-)
+---
+base-commit: 1c7cc4904160c6fc6377564140062d68a3dc93a0
+change-id: 20260415-projection-syntax-rework-b790a305bc52
+
+Best regards,
+--  
+Gary Guo <gary@garyguo.net>
+
