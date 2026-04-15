@@ -1,181 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B951CFBA;
-	Tue, 14 Apr 2026 23:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EB6372EEF
+	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 08:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776207891; cv=none; b=u4R5k5l+9P38tFUqeWFZFc0P0nOrp/0BfiQ1Par29SutB52EnHIGXXGjj61vuSWyTFH6iBGaQV69Xp/7qpz8Wwez9CbSgS2rqPCMmq18zbWCHWMprg/1LYuE/ZZWOTfWUOosmTgntO6R33C+0U3KPG78qM8Jzi3D4q6DUJfTu0s=
+	t=1776243083; cv=none; b=FIdwPmsRfAiEkrk+1/Y3jLsdE2xs7X5gsWnaAEgtjugMBgHKPcAsqhxLheOGmaJgoP51BhZ+29T+9/N+lOwLLC8grPcCOsE1+JbIdDEU0SiHl5zcObadDdSbPCrGbJMeEtY3/eHJ2MoE+Tb1WhXhB4J9EJGyN7CZCDxEE73icUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776207891; c=relaxed/simple;
-	bh=hC682nQN+CcbmJrw+KUOh4ImjzEAB967Mk7NLp4VsQk=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:Mime-Version:
-	 References:In-Reply-To; b=isP9a7PlX1z9KEKMw9LlSQnCyL+0pG23UAGtjMC3BPgjDYuBI0j1yU2Hn33rXGSg/gjKEMHdg8bxejJH3XQpB/Px0LGYKQ7sbqsZ5OhXUP0OG/QR+wNpg9NXmQSvkAOCC0Mw2a8zB16FbwWxaopVzP+w+aMQjNpdO4UV4KQSCmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/ucWaiO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776243083; c=relaxed/simple;
+	bh=NzkOE0XXojEPsLDp5AjW4nUeVXuWbIOFyVsKkxFSCVw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tu7y9Ng+4Xeym+6Lu84fwprs3ayI9EamVFFrk6gqX/AiE/L/zWHzS3o6wrvEeVHb8QQRXFJ4HaeDHqE98+7OlUKSd1JkrN2ajsECiBkI212yw4ik8nPNnx4apCsjqItd6S8fQk3fwaHnD6J0xb5f/3MLEzanGuFPsJTPxYUeIlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SpTlW5qQ; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/ucWaiO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1D2CC19425;
-	Tue, 14 Apr 2026 23:04:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776207890;
-	bh=hC682nQN+CcbmJrw+KUOh4ImjzEAB967Mk7NLp4VsQk=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=I/ucWaiO4tdmPJPEBZHAP3OnVS1GMacvr86+0iu9/4cxdlOQ/EWjlaNkWL0SDyJZq
-	 gW1103M/3UTY/jaBnM4zVRIb9wHltfu3lmHHgm7J2npGF7WFawD5vpWinl5rr3gQYG
-	 4iut+hLjcNyPCj4Kfe+ODN3W5eOCuGEmxc3EYGbBdOafZjnH6LqxhZHUz83TxXzC57
-	 tUUFVz3NT4JH3xnnt+0dscuDooUeBUqEpXcZBokGasuFr7iE+mN2IDu4HNEy1T/1g2
-	 GaZLbEwI9zC4in5ga7OqbGpUTBBVsizv7IGjM8GUq15NXXqUxqV2J7iArhK5pY5L9w
-	 KXO2FZohPq9sQ==
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Apr 2026 01:04:47 +0200
-Message-Id: <DHT95ARBC9W8.37Z54YM70UCT2@kernel.org>
-Subject: Re: [GIT PULL] Driver core changes for 7.0-rc1
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Saravana Kannan" <saravanak@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SpTlW5qQ"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-35d965648a2so5603345a91.0
+        for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 01:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776243081; x=1776847881; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuPGq2uQWBcQ6iaTKDT1PjU7pmFyo/WHC6ytQGe/UTQ=;
+        b=SpTlW5qQIUJpsYH+ruDIKApm4fnpkaypBv9fqDuRREYST9LA2yJ0M5KIqTItZBAYxb
+         8WrlYzRxbZNYQVysCN7IVAHu4nbXis5EIgPoYpj9cCr2Y7iLvSzqOjJTnFmUbPmO05IT
+         9vcCPIhFEfdlHF1Y+VI9U2KqCFyASgDFOUJAz8UWWtAlrv6cVNfSCoKzg3y7L2JDOLvb
+         8rLKhwGy3jPuyt3RYeIjfClAtqlRe0bSrtJdjD4n22agekykwPVApo+64N6KCtBzbj+P
+         o86Qr17Q0OZOh9L3uXw3Z5k02o5WRvhWGdA3Tis8LW5hB7ux09OiIUjgQJdR1WVLsyzs
+         nxyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776243081; x=1776847881;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NuPGq2uQWBcQ6iaTKDT1PjU7pmFyo/WHC6ytQGe/UTQ=;
+        b=QLj5NTFfWilAgyVAXIGM9DnBtijlvapAY8uW9g6ABEG7BkF8+yijXzBjnpy5NAXtk4
+         IdIM9ASf48S6yUgBQZLJN2NVjXYkueey6qbGkJhE25C0jYjk/b/Lp6uJwACrvAE/ESIL
+         eOCWMhGkinGPEwEN6wmg1vgRNjPxMQ6lllD2nPgwptgsakLGVRjtu0WCmFEaIdaQ4pN8
+         Qmy/jAp6wrU9yhVCLGJ4eiyoKvOOzf0bFEzlCElktVdJT1J4ifx5ZDhk3XzlTeZdZ6Dz
+         jqn1kIssQdensp5pn6T6Au4yYXUg5llR7aSU5LS3S8McZLn6+veXQ7DjHSrhuzGWAefK
+         5/gA==
+X-Forwarded-Encrypted: i=1; AFNElJ9sH1fwdbs8j0iUDNZEcoCzQ1dNAX5hGoScNt8QSyhjUx2Cpa2Zh2Z+rELCELXfdXU4MVZvA7fIjwlC8Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+Yg5D+hFoFzEo+rIjZC9TUceohDI8QMSwkhQ/nC6bv8w5ZHEA
+	LTDwxsVT+wCHLNMKi4IrehwCMr8g0c+i0unr6F9MtHLu4wBVqGS2colU
+X-Gm-Gg: AeBDiesFRMM9zMd1i3a9EWAobkMw4lFzzW+R41VdGECsVbkDGkVXTZZewl8fmOVoLal
+	8fEYhUVh18mTa6cUPKCdoENODZgIWvAi/HygmR1uWQdSMwKLfyBsSKvzd4BhfG8mIZhY3N74b2F
+	dHawqVf9BFZduqPOrJCDOEkJUYMWZ3tOU49Fcw+z2NIGb/d6TkE62ElpglGFSPGMVgR5s3wvSiJ
+	2I7bHbHXvVF+9emGPr1j8q6yTzbHcIRVbOfk9TYyMYgpWfH11gJXuExN6+CNLqT2LYPAaoaQBVp
+	kPySpwko729sbuTfBuULq9Z1bBhlQ6Rewq85fFBBEXGPFZhiK0gLQWOYqsoFOh4SHzjB3ldTwkr
+	p+4k2DAT8Vfq/HrQcnDWQIQ1b798fdLFsNx9SbosnA3Mn+hvmMuUjWzkubK7CA+Zp0NfjNml7v3
+	De/1+OG3DqEQCLrIdn5WfvRpw3ICtlYIAY
+X-Received: by 2002:a17:90b:288f:b0:35b:9b77:d7c with SMTP id 98e67ed59e1d1-35e4285338cmr21700928a91.14.1776243081584;
+        Wed, 15 Apr 2026 01:51:21 -0700 (PDT)
+Received: from lgs.. ([112.224.67.108])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35fd3074758sm1274513a91.1.2026.04.15.01.51.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 01:51:21 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Tianfei zhang <tianfei.zhang@intel.com>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] firmware_loader: fix device reference leak in firmware_upload_register()
+Date: Wed, 15 Apr 2026 16:51:09 +0800
+Message-ID: <20260415085109.3267323-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <DGCIBIK52SF8.3FVF3GR1R2302@kernel.org>
- <CAHk-=wgJ_L1C=HjcYJotg_zrZEmiLFJaoic+PWthjuQrutrfJw@mail.gmail.com>
- <ad6IJwpp5AA0-fAW@monoceros>
-In-Reply-To: <ad6IJwpp5AA0-fAW@monoceros>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Apr 14, 2026 at 8:39 PM CEST, Uwe Kleine-K=C3=B6nig wrote:
-> does that mean that there is a driver involved that somehow violates driv=
-er
-> core assumptions and should be fixed even without the consistent locking?
+firmware_upload_register()
+  -> fw_create_instance()
+     -> device_initialize()
 
-Most likely. There are two known cases where interactions with this commit =
-are
-expected.
+After fw_create_instance() succeeds, the lifetime of the embedded struct
+device is expected to be managed through the device core reference
+counting, since fw_create_instance() has already called
+device_initialize().
 
-  (1) One of the drivers probed on your machine gets stuck within probe() (=
-or
-      any other place where the device lock is held, e.g. bus callbacks) fo=
-r
-      some reason, e.g. due to a deadlock.  In this case this commit would
-      potentially cause other tasks to get stuck in driver_attach() when th=
-ey
-      attempt to register a driver for the same bus the bad one sits on.
+In firmware_upload_register(), if alloc_lookup_fw_priv() fails after
+fw_create_instance() succeeds, the code reaches free_fw_sysfs and frees
+fw_sysfs directly instead of releasing the device reference with
+put_device(). This may leave the reference count of the embedded struct
+device unbalanced, resulting in a refcount leak.
 
-      This is also the main reason why we eventually reverted this commit, =
-i.e.
-      despite not being the root cause of an issue, it makes an already bad
-      situation worse.
+The issue was identified by a static analysis tool I developed and
+confirmed by manual review. Fix this by using put_device(fw_dev) in the
+failure path and letting fw_dev_release() handle the final cleanup,
+instead of freeing the instance directly from the error path.
 
-  (2) If there is a driver probed on your machine that registers another dr=
-iver
-      from within its probe() function for the same bus it results in a
-      deadlock.  Note that this is transitive -- if a driver is probed on b=
-us A,
-      which e.g. deploys devices on bus B that are subsequently probed, and=
- then
-      in one of the probe() calls on bus B a driver is registered for bus A=
-,
-      that is a deadlock as well.
+Fixes: 97730bbb242c ("firmware_loader: Add firmware-upload support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/base/firmware_loader/sysfs_upload.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-      For instance, this could happen when a platform driver that runs a PC=
-Ie
-      root complex deploys the corresponding PCI devices and one of the
-      corresponding PCI drivers registers a platform driver from probe().
+diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
+index f59a7856934c..6b701185dcb6 100644
+--- a/drivers/base/firmware_loader/sysfs_upload.c
++++ b/drivers/base/firmware_loader/sysfs_upload.c
+@@ -366,7 +366,8 @@ firmware_upload_register(struct module *module, struct device *parent,
+ 	return fw_upload;
+ 
+ free_fw_sysfs:
+-	kfree(fw_sysfs);
++	put_device(fw_dev);
++	goto exit_module_put;
+ 
+ free_fw_upload_priv:
+ 	kfree(fw_upload_priv);
+-- 
+2.43.0
 
-      Anyways, for the underlying problem this reveals, the exact constella=
-tion
-      doesn't matter.  The anti-pattern it reveals is that drivers shouldn'=
-t be
-      registered from another driver's probe() function in the first place.
-
-      I fixed a few drivers having this anti-pattern and all of them had ot=
-her
-      (lifetime) issues due to this and I think there are other potential
-      deadlock scenarios as well.
-
-> Hints about how to approach the issue (if there is any) welcome.
-
-For (1) I think it's obvious, and I think it wouldn't have gone unnoticed i=
-f any
-of the drivers were bad to the point that they're getting stuck in probe() =
-or
-any other place where the device lock is held.
-
-As for (2) I think the best way to catch it is lockdep. Unfortunately, lock=
-dep
-won't be very helpful without some additional tricks, since the driver core
-calls lockdep_set_novalidate_class() for the device lock to avoid false
-positives.
-
-However, we can work around this by registering a dynamic lock class key fo=
-r
-every struct device individually [1] and fake taking the device lock with
-mutex_acquire() and mutex_release() in __driver_attach().
-
-This way your box should still boot properly, and in case it got stuck due =
-to
-(2), print a proper lockdep splat.
-
-I hope this helps!
-
-- Danilo
-
-[1]
-
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 763e17e9f148..6770eba83fbd 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -2555,6 +2555,7 @@ static void device_release(struct kobject *kobj)
-         */
-        devres_release_all(dev);
-
-+       lockdep_unregister_key(&dev->mutex_key);
-        kfree(dev->dma_range_map);
-        kfree(dev->driver_override.name);
-
-@@ -3160,9 +3161,9 @@ void device_initialize(struct device *dev)
-        dev->kobj.kset =3D devices_kset;
-        kobject_init(&dev->kobj, &device_ktype);
-        INIT_LIST_HEAD(&dev->dma_pools);
--       mutex_init(&dev->mutex);
-+       lockdep_register_key(&dev->mutex_key);
-+       __mutex_init(&dev->mutex, "dev->mutex", &dev->mutex_key);
-        spin_lock_init(&dev->driver_override.lock);
--       lockdep_set_novalidate_class(&dev->mutex);
-        spin_lock_init(&dev->devres_lock);
-        INIT_LIST_HEAD(&dev->devres_head);
-        device_pm_init(dev);
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index cb5046f0634d..a81a4ec2284c 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -1228,7 +1228,9 @@ static int __driver_attach(struct device *dev, void *=
-data)
-         * is an error.
-         */
-
-+       mutex_acquire(&dev->mutex.dep_map, 0, 0, _THIS_IP_);
-        ret =3D driver_match_device(drv, dev);
-+       mutex_release(&dev->mutex.dep_map, _THIS_IP_);
-        if (ret =3D=3D 0) {
-                /* no match */
-                return 0;
-diff --git a/include/linux/device.h b/include/linux/device.h
-index f0d52e1a6e07..2185d50f1c1d 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -585,6 +585,7 @@ struct device {
-        struct mutex            mutex;  /* mutex to synchronize calls to
-                                         * its driver.
-                                         */
-+       struct lock_class_key   mutex_key;
-
-        struct dev_links_info   links;
-        struct dev_pm_info      power;
