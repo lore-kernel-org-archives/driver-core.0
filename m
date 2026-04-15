@@ -1,36 +1,36 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021107.outbound.protection.outlook.com [52.101.100.107])
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021100.outbound.protection.outlook.com [52.101.95.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BCA38758A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F097386558
 	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 19:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.107
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.100
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776283094; cv=fail; b=Ez5eLoU+kp7a9r9teiHeshUpmLnG7R2wd6HJGPWBLpkzsn3Oz6AivkFdmswoe3WaTlpP+fuA26KalBCq950z0hQotcMv9iCOPKFa+rsAl3TwjudA0leASCaTB+t0kztWOxFG3hxnPigsOQiETMZn997UaQKo7XDht0OeCZCdm9g=
+	t=1776283095; cv=fail; b=U4m1AgXrEKKRJpyEzMo7O0nI7apDA+hJMJKet2N3LAKpiSVrlf3Pqt7ScxyIV3xuYfLidYiZnxT+rr7gl4yOasFExEKi50hkf4r+1nvABSg18p15YLJkFjO25z2ltLBP69xWrKidU+XR1aF/DOjbgNwVTYy1g5ngMHcQuNdrR3o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776283094; c=relaxed/simple;
-	bh=vQiN78STvYTW9CBHlHELFu0E4dV6C/Imopr+6r4WBnk=;
+	s=arc-20240116; t=1776283095; c=relaxed/simple;
+	bh=mcyeV5VSe9VoPwRUlqA8EQHAYKqTk1EnoUNnRJKGE2I=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=Tym2TKTtoJXzDpuyO9waYnUadgU9YXcZuS8IyiO+j9k7Lxf1X4pgKXWtlYrGsrAEbhIGg7SVyZ0Gl7TL7wDYXE7Cx9cp0falHkRKmSVA/CLPpS6tugFpGG7bUHOTmyN+idYPZdtGZ2WncVMdDpYU+bcXCev4kLXcfalqQlGpO0s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=s51LaD46; arc=fail smtp.client-ip=52.101.100.107
+	 To:Cc:MIME-Version; b=CmN9xO8A5M7Cs8Vg/al0SbZXAGQrry0y8kCznF+JveNGtuLLFt2pJ3mQ6BeoLaodtljyyr2j67a+t2vOLMMKbvVuzyqINdRKz704YJwDUUYekKjrax8GieyiknTSb5lRO9KoAK7S7i/R0PY5P7vfVZlFMBF7ev7jfEKXyZQfqBw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=dvxF3rvC; arc=fail smtp.client-ip=52.101.95.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="s51LaD46"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="dvxF3rvC"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S3LxmAmMK92zSvQhTfJ5tRqp5myOaXRt2qruGB+Qw7EETknxaFSXc47JNZzy4Di9WtGgCDaimKbgrL/y+THBLTnaZX5EUoJ8z/PRKUr/UNMkBwmtrMgmgmt/12X1OFTGlrYDmWOzgbHkokZ9c4tSDS5+SEq8cgTgXV1nEU90brlQENLoVAe98g41zgXO2wPKoiVhkfe41QFzgHuJddp4xOQw6pgmCYThKymxFBkFFK9Aw5G79BqrfbiWFfRdUQ/fm40POvucgQ/6AYy1M8KHfFqyiT+lvwWMo3PotVVMnDoYzwsCtkiYmVdYa+zUBygoEQjQ5CciRmqRUW5Jrb6QFQ==
+ b=eHin922yTK7lyWBpYmVQuwAWzsaKPKxosvP5Iahc43Cl4gcgeh+kl6fjnPspDFyFRrttC+PFpJ4r/3/tQn1bU9+BB7j7+tuZZprY9V4HTTf10C5LXgzooqmvL+Iix8NxJ92ziq9wqZpUYU+IKr+grzt1GItfjwlvSeaVbqoQeV39kuYgepedZLYSWTH7myPL0sdz2jPvbTSR1FM8rhOgPa1JxZw/ullSxTrixqBEN/6Tz8LLLDBawggKnO7Z9OPAEUcYDpVv/j/y/todAqWIIET+LGlGN6qV4xXuiHjwBQEupM9Z1EtjNndhCP824e/FwCHED9Vny81UHRCUaso9Cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VZIiLi9x3fE+V2ejFmr/3EeY3ITUEFCcTPgkvfGfqBo=;
- b=NgTuOH+Lhje9QqpOjzob/iuvfm4191vesW7+bsyRs1wUSdmYSUXbg7sSqrT9A1c1hiAGHGtGWHa4VYzQixTfAjW8oiQrlylHdl6cvnzcFDVHhLRvvxEr1ybtaGZwpSVULEaI/t2xpOt9TBsLPFYEDSdwlHMs5TtdSpOIuwATupXrC9YZghjeJ1i3rr5UXdKXsSXiso+cJrEvN8ORPOIU7swR1L5xXtHNbCa6ac4oPJXtSD9i3sQC6tSO5EqyOaS27573Az3G1Zc/lXQ0u92QdwyVhPCK8u3wQm+JoDUKQubSvCElRAC9QzIED2cvXeNKJ5GmSC7uwNdi6SmUH3f7KA==
+ bh=VijXKOez8JTXMULaaSBbV1rN3Xbqrnh93V3PKryyH1M=;
+ b=XbDjhCkZ0d6ami9/k6o4pPlTeQVEo+pWto8Wgk3B9SM7OGawPTrxhxFDX+jVxYbiMOoIQn+bsxJh/eeA2BoGjyCmJvUIscTn0/ITMxmMk9uBNcfl5h0+3N3kJd2a3InIZT3qxB1Iu5Om+QVa5Sq8gfaQNE7h1huwDebaAIyLgQ0zNAh94c32OfMjLKiHHqxKLJ1X14XJ91bH1O6gWgnGk/ZkHuPhOkduy/mvg1GmszR0xN5KoILmHf5kcGhN+BKPF81SG9YWiYem/mfJAbZAFK5d59XUxpmUGE2hRFdzJmNck0Ffp144OPRA2cn8QHFkagrb7uGvw/3yJKpoAKWPyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VZIiLi9x3fE+V2ejFmr/3EeY3ITUEFCcTPgkvfGfqBo=;
- b=s51LaD46gcbqlh4HbxSZicIvvJEfw1CqYxDVdDTPw0wevDUOkc8sJe6yW6VNMeYQoZDqCZvCNuwcOedU0nHVbT2NOoLi1r5QAowo/T09BpmGPIGc7ckXkYFRD8AMROsb6OZjyflSbqfuVAxzlhrlLHT225CFNoPXyDyzQ29a1tc=
+ bh=VijXKOez8JTXMULaaSBbV1rN3Xbqrnh93V3PKryyH1M=;
+ b=dvxF3rvCavCD00NB1QKgbPPZ/myBv0ZObJWJ10GXmiCRNss6haV4nsZjhY+jh68k0g6uZSPKlONwplrc0/+tw2NygId5u0M0l2k0QPOrOdPuDH2gKp2mjnEqIbIrM2PNla8i5TSbUc6hFwDKoMgF5uW5fFyPG1Oq+m9nEpggei0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
@@ -41,13 +41,14 @@ Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
- 19:58:06 +0000
+ 19:58:07 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Wed, 15 Apr 2026 20:57:14 +0100
-Subject: [PATCH 3/5] gpu: nova-core: convert to keyworded projection syntax
+Date: Wed, 15 Apr 2026 20:57:15 +0100
+Subject: [PATCH 4/5] gpu: nova-core: use pointer projection for command
+ queue code
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260415-projection-syntax-rework-v1-3-450723cb3727@garyguo.net>
+Message-Id: <20260415-projection-syntax-rework-v1-4-450723cb3727@garyguo.net>
 References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
 In-Reply-To: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
 To: Danilo Krummrich <dakr@kernel.org>, 
@@ -64,11 +65,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776283085; l=1889;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776283085; l=8687;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=vQiN78STvYTW9CBHlHELFu0E4dV6C/Imopr+6r4WBnk=;
- b=Jo5DImdT15KQ7gh5mFVa00sTqdvX/mWnC62kLa+/x6sRnCdDU/CbxeSg5m/EH6OscR7eo83kz
- DfLocvnVtgJBtWYbcprgT09VC7PlAcCBRKwmQ0ejnHNpdb72LLRo9Yi
+ bh=3TvcefFkmp7SinnBoGCfQImBR8tVtz38PnzWPJ/7XgQ=;
+ b=bX/mQCL+8UnTRSligegKb+kaVbYMdqfHiCmIe3gDbLwwU/NrzOlHoFzKp3fDB+QGvT2XjUgus
+ rrW+o8Cp62uA+UOVO4VO2f2shwSYBaifV6xH4fX0fUKpqN535FsuYiS
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO4P123CA0276.GBRP123.PROD.OUTLOOK.COM
@@ -82,107 +83,233 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB1910:EE_
-X-MS-Office365-Filtering-Correlation-Id: 445bf1ea-2926-4f85-1f53-08de9b294fd7
+X-MS-Office365-Filtering-Correlation-Id: 1c30c28f-c652-4b44-97dc-08de9b29501a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|22082099003|921020|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	G2uvZw/EZOpTi9yWTSNH30Kk033nuYspih9BjNlBTq0jiXCyYzLGVKaW8kRr6ZjdE7lC/US3YX0wKM1JGAqa50td550ZUQDNPcN7HcorKiRbYamYsuYBb3L0xVhaP3+mFlj2pelEGuDlEp8rpwkbkQlOdwPP+Yue2/DGzNhFwbJlIyJ1Ol0lj0OKPzIMo+f/4xvK2+MQE0Is/nKbHLmePMAjwRqfSYHIayoOJ3xHBV/Hr4ZpQIICPXHV09XTKQA6BSFWRqjpNOJ3WN0ulQ554d8Tbd5upOoqO5JWL4GPQIBimBVoAOmttFQA4eIhzdaHjpDuLC84KhZiz73rk1S0gQ4giAvPU3jJAIBi3E9uT5SGpaTjdkdRmQfATBYZVBntzvYz0eNuVumVBmkyvK6wUdfI/cuC+35L1LCcybc/lW03R0ChWnMhnG4dmynNwgT72Uw++aa+lX4qq4bd5/ntOptLohnmWodrIuEGYASlimtWVlHE4TyCf/XJQmhNKGHUR88nMt8qvPQLVKVpG6lbqlmCzdmdsPUXrks0NU/E2wb8g+LW4aZYnD91Tc/LsbpNx8hRO93Tm1GmvJ4ifaPyEpuNEGqD/rkV1qgbVlqitbatgiEwyAojEhl3Tihr+DKc0wPTkZrqscUFdbxciRbWutfck4CeasPZ6L+4G64ZOM82o6tr00LbxafXKN4PdQp0KE3TFT/BTZ0cIkR31bGlWaKAAUn2Dzdve9LHZEgpszWYyjga2s+uC2kN8HlfCs/zeJ9lRUEfivLT+wklKjW0ZA==
+	C0ukyxpKbRIWaeOB+adwSY9rixGbDSJOI7nNvXX1kGdSZndYHVWdCtmmn6S9G7T2/byBMzq62kXumbCudrSGxjLM5kFitPm3kbo1HxoyD7WBUSKmA4NGDgT9JzFVRRxjUNWpyGIrx2ah9RdWvUj5MzUk1Ke6gOua0SFpsN9wg0mUzxTVkWqGZRmcYa/RGHZCaLkU1jq85NwZHr7jdlRIZ8U9rcerNcJNzUqVgF0ZsPXdmjk7X0RCXR2yndB1wv5Ss9q7gS6/WjUecD4MWIrrVx/QrrrNiq1vN7HpeGCPG2/1d6rcAZVFciMtai4hFSGyVv8g3JHteyscX9aamzWNtF44h/xSRtaxXwV3y8aOOa132sSKiRfbPPNOZolgO+UR17Ha102gU6o2SSNHxif1lF1fqJ27AV1RKg2tq37Hpkon4JAN4h38FYObqrUWpgUIZDxvBsu8xTez33FUV5by9bb0YhUAPaFcqJVib6xYtae/kg9guq4LNH4tYneXzPhd+CF6ABEuWyTUcl8GZtNDPOqralx8ElDJ7IOhoq8rFJbEj2KrVaT9tPGUmdJJN97D3ko/MJXMfUinnOpMDOM2hyaE6oR8wY5YbZn85IQZDjtX2ieKhphaRmVE1z1Ywpb2arjc3ibwi3M6uvkZsFIWSqx/H5FSHbySaZdN89nYqtHPQUhgiOyXJfQO2wCNGA3lidjMYYYenVQSPoIkf7FPPU1FxLWUea021y5aZdY6p5+VOitOVMrs/Pn0GTPjVeWduC1kJybuAQlL3r9V1lLAkg==
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(22082099003)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SnVuQll1ckpyWEo4aHZ6ZldCSFI3KzB0ZXNEN1F0bThQZ2paS0I4QXVhaEJU?=
- =?utf-8?B?ZWllVW56VU01U0ZLTngzQXpOeG5pRStUbUU1N2FDbmJuTEpES2lRMjJENzhZ?=
- =?utf-8?B?VVNhT2x6c0xodE5GbXBYTHVNbEgrVW9GUnBLdi9JMzFMMTR2U3EzeW5MY1RM?=
- =?utf-8?B?L0RRdmhvNjdCOGhGRjZESlBTVDczZk03alpTTXNwN2dXN3BUS2dxQ25la2NJ?=
- =?utf-8?B?b1FzNHpKSDl2TVY1RSt4UnNuUkhoalVuSGcxcnlXNXoxTVN2NGJZL0YrdHdv?=
- =?utf-8?B?dzV4NW1GMk9PcVdpTjgyNUNqS20vYkdRTEs5YUZpWHhQOGYzTC9ib1JxRjlu?=
- =?utf-8?B?eUZITDFmdzdid0hiNXNzdytFWTFVMUUrMU56TW9XOEpEYW90NWh6VUlvQ0Nq?=
- =?utf-8?B?WXFKZk8xejUrek16RDBwNmMvN1BsdldZa01nUjVlUmE5Wm9paEJHa1FWb3ND?=
- =?utf-8?B?OWpqUWtlN0NBeVJTTGJkQVRUcmZQYURCS094Z0dPUDdJT2VmNkMyNEpROXNF?=
- =?utf-8?B?d250SnIwU080R1l5MVhEZy9YbjdTT2xudzBjMmZqdllDYVhQNVV0ckt4UWhH?=
- =?utf-8?B?dk01S0h3TWZMaWgwL1ZzRExCTk1kaksrNGtkQnNXUTNQR2RoOG5RZnlIQjJv?=
- =?utf-8?B?bzU4d3BVY0Fza0ZzYk1kc3VSWXZoZDg0RmQvMExLZk9yeWRMS2ZCamVNLzJT?=
- =?utf-8?B?NzRIT0FyOGFERkVFTnJVZW9FbkxMbGQ3Q0tZYzhpTm9KaGZvd0pzRENhNWZ5?=
- =?utf-8?B?Wlhnc0JJUFJQMkNlNm1TK1RVNjJaNmtrTlArZ3VVU2dtRWJMMEduQkh4eDVL?=
- =?utf-8?B?M2hMRjZHSFhHNDdsMWx2ZXFaaks1VlV4VWZEWXAzZU9MWnUxbkF4K05SUnBK?=
- =?utf-8?B?cDBaNmhFQ3pHMGJHbUltS2U4amhOYlorbEREK216VXBpM1JHNG9KY2ZrOEFF?=
- =?utf-8?B?Y3kycStsYWhhakNlS1VXaTkvR1F4bE5Xc0xadWFtVU5uQVY1cFdaZlZzZmdn?=
- =?utf-8?B?MC9KbGt4cERVRTR4OWViWWNiVUpldVhyenBOSWEzOFZkajVPODYwRkQ0cWdI?=
- =?utf-8?B?cGhremFOYTgybWZwUmZ2b0tpK1Vjek5WV3JRMWVkcFhxdGprdHpFR3BjTENM?=
- =?utf-8?B?V1RaUGkvYjFIWWc1MSs4QnpLOC8xRERLS214SVdCQ1JJTEkxcUtRSjBBYkM2?=
- =?utf-8?B?VlArcHFSNjJ0WnpEQTJqN2N3dzh3SXQvKzQ4cDIzR0JFdGgzakZscUVYT0Uw?=
- =?utf-8?B?MzdWa0FRNkRvdWY0RFZqKzcwTE92Z0RxZUJvYlQyVWRmaC9VWEFhaFpVL1JZ?=
- =?utf-8?B?WnlaU2ZrTlpyZ1c0cG5jRE9XSEdkamJJNjJ3M2pyYWNlMENUU0RBVDFQVlBa?=
- =?utf-8?B?UE40U3BuOWNOa01kRHpGZzZjOXJ5TlB5a1d4cWdsK3c5YWdOaDVibFBRamFF?=
- =?utf-8?B?TVVqeUVJa0ZuKzQ1cEhrTFUrNXZTQXd2VlkzQ3A5Z3NaVFZGVzVxSU5IRVNl?=
- =?utf-8?B?QmpQZ1RxYVFOQ3pleFhsV3lsUUc0aCtmUExyd21VYmlod21iSzZFcktsVDhY?=
- =?utf-8?B?RWVYeHIwSjRKUmd2a3ZQSHRqMXhLU1JyYlM4cGk0bDIrN0llTXB0N3NuSmxL?=
- =?utf-8?B?dG44Si84T1BzdEZOZXR2YU01K3dMOHZuVzIzejU0a3pDdm56SVJyUFJCTzV1?=
- =?utf-8?B?eDJEdHF3bnFrVUlLcEs3SHJwREtxbUh1eXVQQmJTSWVCMkluL0tMejFqN0VS?=
- =?utf-8?B?eHJObGZZNnJSVXlMOUJiMnpPS1Qwb2lza1FsLzNUS3N3WDhHekJWd3Y1ejFU?=
- =?utf-8?B?VzJXTWovU2ZwRkFDWm5oZzNhN3lURUlXZWdDWEZVZkRNMGxHRmdEajlJUFpu?=
- =?utf-8?B?QzIzOGtQUzF0ZWNyeS9DZmJvcklVVHpFNThObG9CcHlLcy9Xd2xWaTlxWDcy?=
- =?utf-8?B?STZWb05mNFBHSFBBMk1YNVlSMldMaWVaMmxJSjczaWpaWXBKeXYvZFc3Ym0v?=
- =?utf-8?B?S1Y1eno0ZndQazFyOEdjbzVTRGxCdnhVTnVvTWIxWEFteXRlZjFQKzVuVytG?=
- =?utf-8?B?MGsxT3p5VXNhcXZVNEZDL1JBZXNLSGx3K0dLbXk3aUZhTDlEbk4wUnEweWZ1?=
- =?utf-8?B?TENGc2lGRFNHOFVEZmlUKzZZMXZCZkhXRWRsV2E2blZGVlhMV0JPWjNEcjRQ?=
- =?utf-8?B?TjVmdy9vdjZqcWFQMVN1bU5LNUsrL0FaU1h0MTZhQ3hVZldaVUM1YytUOGlv?=
- =?utf-8?B?OHlNUDNKRjhod2RjZS9LY3g1NDR3TjR1OW9EUm1sKzZrOS9oM1VwSFg0Nk5h?=
- =?utf-8?B?dzhIMG9aZjJvQ3dmODg3bDJhZVo5Tk5RVXRtc1BSdktkMHhZMnBNZz09?=
+	=?utf-8?B?djNLTnNnOG12QjRQT0p6d1dwdUgwbU90S2MxUzRzcXdaZG1OSUlOUXM0QzZx?=
+ =?utf-8?B?K0ZmMElsZlQzbkhUdGxyVjREV2VhZkEwSzRuSWtDSXQ0dmJ5MkdkalV0NTZC?=
+ =?utf-8?B?ZkpDWXp0Q1NubHloazkvTlhMbkRHTmtYaElwbnpySzVyS1Jzd0tpa0g1S3l6?=
+ =?utf-8?B?Z2VJRGRGVUJOV2YwcHg3MEZtT2lEZndFSlExWmtwR0FsQnEwUjhaaFA2T2lr?=
+ =?utf-8?B?VFF0NTFkdW9PQ1A5LzRIY25IejNiV0cwT21aVFVjVC9mVk5EbEkrL2xnT2py?=
+ =?utf-8?B?clF6bkNoS0VjV3pWZldMcmxHTU5wcXJ5WG1Kb1ZUTE8vRWVsNXVqMnpPYkYx?=
+ =?utf-8?B?UUFiaG54WlVNdUJWajMwSHMzTUJsTStxSlFxSHVtRnk3VGlNS3JFckJEUnhN?=
+ =?utf-8?B?WGlPM0twWGpLcHZuVnZyUlBOTUpIV2ZQeC9LVU5BOHpnSld2SmJHOTd3L1pP?=
+ =?utf-8?B?Nk82VnozTlFLUDlxLzVHRzM3MVFZNHh6ZUFwUjc0VzlIa0RLSmpUbnV3THFQ?=
+ =?utf-8?B?bFVCcUlmcTN3Zm42Qlk4a0QvZmFlemM1MGQ5NWtpZjNyVWJYeDhDNEYzUHV0?=
+ =?utf-8?B?M1J1YmlkZG54S3IwR2t1emtoY2VSRWRQSUZYZ0FyT3pDVlorMjYvTjhyRnRw?=
+ =?utf-8?B?eGxNdlBUc0dyNmt0RTNMV1p5YWo5OVlNaFcvZFdFcEJpa0RXNkd2b2NzdkVt?=
+ =?utf-8?B?SFVuZzU2QVREY2Q5L0F6UG5UM2tSYU5YRVhOWTV2ODZnc2NwejZLY0k0Ry9j?=
+ =?utf-8?B?TFNiWHVnaDdyemZSY1JncEJ2RmgxdjZFSlBMaEFpUUJuQ1M3TUpYWmZ6cDlC?=
+ =?utf-8?B?VVlUaXhGN2hYSDhWVEhtRGF6OHFpRUFOT3NwTERZV1hYM3BicEV2NXJONE5L?=
+ =?utf-8?B?RU04VlgwWERzRC9NOTRBRUN3eUFTMFN3ZCs3VGs2QnQvZXRIM3RSQzdMVEE0?=
+ =?utf-8?B?SkxWQ1BiNEZHRGpZRmNhQnpkZlVQYlU5TGdUSFNRZkFJUGFrMldrT2NscVQr?=
+ =?utf-8?B?R29wL3U2Y2FjcURSVlhuelhNYWs2d2VZS2J0SUM0SlVGSFpEeUxhZmErZjhU?=
+ =?utf-8?B?QWF3S0VBcmVmc2pIRytyendZYlhNMEFtcGJsb0VyRHFrbjk2MG5EeXJjajVj?=
+ =?utf-8?B?MGZUaDY0Znd3SmJVenBJRnhFQWFDd1RPWElyZEM2V3R6U3BubzRWVU9nSUpT?=
+ =?utf-8?B?SGVGa2RyWEVHNWpZaitVNGdyQkVBRU9TRnRTNzh3K2xqSEJtR2VNK2dNUjlC?=
+ =?utf-8?B?aC90bDAzNElVK1ExbTYzblQ2U0ZFRi9iQWNsemViUTQ5dk9kZ1NpVU9odUVt?=
+ =?utf-8?B?ck5JdG1KcXNkbk5OQ1dKaDJ4YjBPYjk2RmRxd01IOFdyMmo3NTJWdVA3Tks1?=
+ =?utf-8?B?dlNPNDZnS085NHJEOWZUQ2hsREFuaGxFMW9XcHIrR3F1MmpteGpDTnNBWUZE?=
+ =?utf-8?B?QUJ0aEhlL1JJUFpEaHh2ZnBLbUlPbTBMWk8reXU5MURncFF6Ui85MWRwanBs?=
+ =?utf-8?B?VG9iejIvR3d3Sjdkc0VXVFFhdzZtM3AwVXJXZkJYYTdOU21VTWlmc0dJNERn?=
+ =?utf-8?B?bUFzZG9FbUlMVDlCZVEzaXg0TkNqak4vRy82WGx0VUpxczVJVm5xckxDMHUv?=
+ =?utf-8?B?aGdWb09mekRkUndNOFk4TE5Vb05NKzh0SDRFUzRkandJZ0tJaFNJOEhlZVJz?=
+ =?utf-8?B?K2Erb0x2VkJ0SUliQy9PdmY2eUZ3S1grZXB2QmZ5cHVoQVJqOWd3SmNuT3JO?=
+ =?utf-8?B?akJjNHdUWnlsZTFjUHNYM1dpUzlWOHRURFNqTWtLaXY3UW5iZDNHd3hQelNl?=
+ =?utf-8?B?SXZiaStGaUFXc2VFbHVsMEVmUW5pWVpNY3U1bHVwVGt4MVYram5lR1JRRVZZ?=
+ =?utf-8?B?TzdES0lrUFMwTlBMTWFhZUNtRnBwcHBSYUt3MThlWVZTejNNdEhySkc4bjBu?=
+ =?utf-8?B?S1JMQW1DS0VrNTAzNkVYSkN0endFby8yTVFxNWpjNllDOXpIUGZsWmhHbzdE?=
+ =?utf-8?B?eld2WmFlZytmYUtiSVhYOXRMOWxrLzA4eElKazhXSHJBVEZYazZJTzZlTHFk?=
+ =?utf-8?B?enUveVpVb3gzNUthYm43OU9oYmg5MEREdXJyMHNVUTFoc1RVQTRZV3AyekRQ?=
+ =?utf-8?B?R1lzRVp1ckV1QmhWY1VyaDFXWWdMV1lBOEFGK2RrdTNRazdiekcxWDNXaEh3?=
+ =?utf-8?B?UUhCMmFOL0YybURmTXE2dUUxVXJ5dndiUVVhdzRpUW1TSzJxc2I4RGtINWpG?=
+ =?utf-8?B?SWlPOGlBdUhBQVN6TVpGUkpvajNGbExOZVVkVjRkQldNM0lHOXdYdFFTWE4v?=
+ =?utf-8?B?SjVoMkxEOVQ0VjhRcjJzVjNxWG9lM2UvQ3pFU1dsOWowMCtYdlRwdz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 445bf1ea-2926-4f85-1f53-08de9b294fd7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c30c28f-c652-4b44-97dc-08de9b29501a
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 19:58:06.9423
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 19:58:07.3725
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4PqoxCme4zarxLzsI5mfxzbUDon2XjzsRWn3p4J6B/+3r359PP/dJAoSBowPwNzWjAezXXKV6GCvhc9ySiaLZQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HALnzlO/VhvmQ4I7lB/Ic4n5BuHnGcXOvKfULkwqniYap7KY5HTwTcILRj3+F2AIHOKTfiU0CcdmNGuLLlg6jw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB1910
 
-Use "build" to denote that the index bounds checking here is performed at
-build time.
+From: Alexandre Courbot <acourbot@nvidia.com>
 
+This has been previously attempted but missing compiler optimisations for
+older LLVM versions cause build errors. With the panicking index projection
+variant implemented, replace the manual pointer arithmetic with projection.
+
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+Co-developed-by: Gary Guo <gary@garyguo.net>
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- drivers/gpu/nova-core/gsp/cmdq.rs | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/nova-core/gsp/cmdq.rs | 106 +++++++++++++++++++++-----------------
+ 1 file changed, 60 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 275da9b1ee0e..1c9b2085f5e4 100644
+index 1c9b2085f5e4..0b51e10e2cfc 100644
 --- a/drivers/gpu/nova-core/gsp/cmdq.rs
 +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -237,7 +237,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-         let start = gsp_mem.dma_handle();
-         // Write values one by one to avoid an on-stack instance of `PteArray`.
-         for i in 0..GspMem::PTE_ARRAY_SIZE {
--            dma_write!(gsp_mem, .ptes.0[i], PteArray::<0>::entry(start, i)?);
-+            dma_write!(gsp_mem, .ptes.0[build: i], PteArray::<0>::entry(start, i)?);
-         }
- 
-         dma_write!(
-@@ -260,7 +260,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-         let rx = self.gsp_read_ptr();
+@@ -256,47 +256,60 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+     /// As the message queue is a circular buffer, the region may be discontiguous in memory. In
+     /// that case the second slice will have a non-zero length.
+     fn driver_write_area(&mut self) -> (&mut [[u8; GSP_PAGE_SIZE]], &mut [[u8; GSP_PAGE_SIZE]]) {
+-        let tx = self.cpu_write_ptr();
+-        let rx = self.gsp_read_ptr();
++        let tx = num::u32_as_usize(self.cpu_write_ptr());
++        let rx = num::u32_as_usize(self.gsp_read_ptr());
  
          // Pointer to the first entry of the CPU message queue.
--        let data = ptr::project!(mut self.0.as_mut_ptr(), .cpuq.msgq.data[0]);
-+        let data = ptr::project!(mut self.0.as_mut_ptr(), .cpuq.msgq.data[build: 0]);
+-        let data = ptr::project!(mut self.0.as_mut_ptr(), .cpuq.msgq.data[build: 0]);
++        let data = ptr::project!(mut self.0.as_mut_ptr(), .cpuq.msgq.data);
  
-         let (tail_end, wrap_end) = if rx == 0 {
+-        let (tail_end, wrap_end) = if rx == 0 {
++        let (tail_slice, wrap_slice) = if rx == 0 {
              // The write area is non-wrapping, and stops at the second-to-last entry of the command
-@@ -322,7 +322,7 @@ fn driver_write_area_size(&self) -> usize {
-         let rx = self.cpu_read_ptr();
+             // queue (to leave the last one empty).
+-            (MSGQ_NUM_PAGES - 1, 0)
+-        } else if rx <= tx {
+-            // The write area wraps and continues until `rx - 1`.
+-            (MSGQ_NUM_PAGES, rx - 1)
++            // PANIC: per the invariant of `cpu_write_ptr`, `tx` is `< MSGQ_NUM_PAGES`.
++            (
++                ptr::project!(mut data, [panic: tx..num::u32_as_usize(MSGQ_NUM_PAGES) - 1]),
++                ptr::project!(mut data, [build: ..0]),
++            )
+         } else {
+-            // The write area doesn't wrap and stops at `rx - 1`.
+-            (rx - 1, 0)
++            // Leave an empty slot before `rx`.
++            let end = rx - 1;
++
++            if rx <= tx {
++                // The area is discontiguous and we leave an empty slot before `rx`.
++                // The write area wraps and continues until `end`.
++                // PANIC:
++                // - per the invariant of `cpu_write_ptr`, `tx < MSGQ_NUM_PAGES`
++                // - The index `end` is non-negative because `rx != 0` in this branch.
++                (
++                    ptr::project!(mut data, [panic: tx..]),
++                    ptr::project!(mut data, [panic: ..end]),
++                )
++            } else {
++                // The write area doesn't wrap and stops at `end`.
++                // PANIC:
++                // - per the invariant of `cpu_write_ptr`, `tx < MSGQ_NUM_PAGES`
++                // - `end >= tx` because `rx > tx` in this branch.
++                (
++                    ptr::project!(mut data, [panic: tx..end]),
++                    ptr::project!(mut data, [build: ..0]),
++                )
++            }
+         };
+ 
+         // SAFETY:
+-        // - `data` was created from a valid pointer, and `rx` and `tx` are in the
+-        //   `0..MSGQ_NUM_PAGES` range per the invariants of `cpu_write_ptr` and `gsp_read_ptr`,
+-        //   thus the created slices are valid.
++        // - Since `data` was created from a valid pointer, both `tail_slice` and `wrap_slice` are
++        //   pointers to valid arrays.
+         // - The area starting at `tx` and ending at `rx - 2` modulo `MSGQ_NUM_PAGES`,
+         //   inclusive, belongs to the driver for writing and is not accessed concurrently by
+         //   the GSP.
+         // - The caller holds a reference to `self` for as long as the returned slices are live,
+         //   meaning the CPU write pointer cannot be advanced and thus that the returned area
+         //   remains exclusive to the CPU for the duration of the slices.
+-        // - The created slices point to non-overlapping sub-ranges of `data` in all
+-        //   branches (in the `rx <= tx` case, the second slice ends at `rx - 1` which is strictly
+-        //   less than `tx` where the first slice starts; in the other cases the second slice is
+-        //   empty), so creating two `&mut` references from them does not violate aliasing rules.
+-        unsafe {
+-            (
+-                core::slice::from_raw_parts_mut(
+-                    data.add(num::u32_as_usize(tx)),
+-                    num::u32_as_usize(tail_end - tx),
+-                ),
+-                core::slice::from_raw_parts_mut(data, num::u32_as_usize(wrap_end)),
+-            )
+-        }
++        // - `tail_slice` and `wrap_slice` point to non-overlapping sub-ranges of `data` in all
++        //   branches (in the `rx <= tx` case, `wrap_slice` ends at `rx - 1` which is strictly less
++        //   than `tx` where `tail_slice` starts; in the other cases `wrap_slice` is empty), so
++        //   creating two `&mut` references from them does not violate aliasing rules.
++        (unsafe { &mut *tail_slice }, unsafe { &mut *wrap_slice })
+     }
+ 
+     /// Returns the size of the region of the CPU message queue that the driver is currently allowed
+@@ -318,39 +331,40 @@ fn driver_write_area_size(&self) -> usize {
+     /// As the message queue is a circular buffer, the region may be discontiguous in memory. In
+     /// that case the second slice will have a non-zero length.
+     fn driver_read_area(&self) -> (&[[u8; GSP_PAGE_SIZE]], &[[u8; GSP_PAGE_SIZE]]) {
+-        let tx = self.gsp_write_ptr();
+-        let rx = self.cpu_read_ptr();
++        let tx = num::u32_as_usize(self.gsp_write_ptr());
++        let rx = num::u32_as_usize(self.cpu_read_ptr());
  
          // Pointer to the first entry of the GSP message queue.
--        let data = ptr::project!(self.0.as_ptr(), .gspq.msgq.data[0]);
-+        let data = ptr::project!(self.0.as_ptr(), .gspq.msgq.data[build: 0]);
+-        let data = ptr::project!(self.0.as_ptr(), .gspq.msgq.data[build: 0]);
++        let data = ptr::project!(self.0.as_ptr(), .gspq.msgq.data);
  
-         let (tail_end, wrap_end) = if rx <= tx {
-             // Read area is non-wrapping and stops right before `tx`.
+-        let (tail_end, wrap_end) = if rx <= tx {
+-            // Read area is non-wrapping and stops right before `tx`.
+-            (tx, 0)
++        let (tail_slice, wrap_slice) = if rx <= tx {
++            // PANIC:
++            // - per branch condition, `rx <= tx`
++            // - per the invariant of `gsp_write_ptr`, `tx < MSGQ_NUM_PAGES`
++            (
++                ptr::project!(data, [panic: rx..tx]),
++                ptr::project!(data, [build: ..0]),
++            )
+         } else {
+-            // Read area is wrapping and stops right before `tx`.
+-            (MSGQ_NUM_PAGES, tx)
++            // PANIC:
++            // - per the invariant of `cpu_read_ptr`, `rx < MSGQ_NUM_PAGES`
++            // - per the invariant of `gsp_write_ptr`, `tx < MSGQ_NUM_PAGES`
++            (
++                ptr::project!(data, [panic: rx..]),
++                ptr::project!(data, [panic: ..tx]),
++            )
+         };
+ 
+         // SAFETY:
+-        // - `data` was created from a valid pointer, and `rx` and `tx` are in the
+-        //   `0..MSGQ_NUM_PAGES` range per the invariants of `gsp_write_ptr` and `cpu_read_ptr`,
+-        //   thus the created slices are valid.
++        // - Since `data` was created from a valid pointer, both `tail_slice` and `wrap_slice` are
++        //   pointers to valid arrays.
+         // - The area starting at `rx` and ending at `tx - 1` modulo `MSGQ_NUM_PAGES`,
+         //   inclusive, belongs to the driver for reading and is not accessed concurrently by
+         //   the GSP.
+         // - The caller holds a reference to `self` for as long as the returned slices are live,
+         //   meaning the CPU read pointer cannot be advanced and thus that the returned area
+         //   remains exclusive to the CPU for the duration of the slices.
+-        unsafe {
+-            (
+-                core::slice::from_raw_parts(
+-                    data.add(num::u32_as_usize(rx)),
+-                    num::u32_as_usize(tail_end - rx),
+-                ),
+-                core::slice::from_raw_parts(data, num::u32_as_usize(wrap_end)),
+-            )
+-        }
++        (unsafe { &*tail_slice }, unsafe { &*wrap_slice })
+     }
+ 
+     /// Allocates a region on the command queue that is large enough to send a command of `size`
 
 -- 
 2.51.2
