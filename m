@@ -1,400 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459D12D1931;
-	Wed, 15 Apr 2026 11:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC5C2459CF
+	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 14:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776253008; cv=none; b=Lhp1c5I7t3DAqyyODh03DOGrMZbclZd3EPgPp3LPdf4MjqbyQKZ3tahpYnGeVXes9gr6JC9NByWhRAryIi5cJpuCNfQcIABH5gtqyb6DLA5Th7nL4Hxiv78WoQfZnDs9EBGssW4XFSZDt2iKySQWTzC/3XrrYxy98k3Mn27jn1A=
+	t=1776261944; cv=none; b=jg3bseq82vrnp//PnRLxcx4wuIDAxHPNHXdcwdRecjm3f7cNSs8NSzJI1n1v4/rjOQNHxVlTr2h3SZ45laBLIy2rGZX8V0e9sAmk6axfdaCuEEVlQ/vbUMWYeWe1qxJqPFPxh2235awto5MH4iF/yGErd/+YvQ3w5wifb46nF4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776253008; c=relaxed/simple;
-	bh=UsKEi7bahjdOzjEkGxVylrpzyQuqEnCOo5oyuVH1XOo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DE56FSPqnjRAn2ym3QJ4O+QiPmk8Xrr1s5/Y+3A3HGunQDwfWYhdtECk/tgQsRoCJzdXxGJC3MgZfHOIuLACtfnuPhfHE3m/jLwo9FBCnh0BjCXK41lxniXBu8m+p43YZm8zn2c4AN+G/wukb7PHPqkbQJKpFOKw5YzpwEJGANU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l+EX8RPy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776261944; c=relaxed/simple;
+	bh=GinynodeLSk9D94lObdTgdnoKuabwLn1gG9SeHBc73g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YrLPYLJBfmlQPM4UduDgg+5qiU8BAJ7IEgbgfAjhFiMghrOV0vxy01M9HRGc9QnqLeASvk3lzstdhLjvrWEwQOa6TKg2bIj1536dFCaMsU/5Aa0FgQM5/WfvQ/I6+TqOXRMWbPqixEzn50tHVQ5RCjcWsrKi6MlaXKJM6+SgUsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oc/GbMaz; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l+EX8RPy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBBE4C19424;
-	Wed, 15 Apr 2026 11:36:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776253007;
-	bh=UsKEi7bahjdOzjEkGxVylrpzyQuqEnCOo5oyuVH1XOo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=l+EX8RPyGK4XLywexLVSNPiOLi/MFLhVESaqsLtMiVfBZBmpWu5ErAsMknWPmRfn6
-	 S+DNxdwiNZ+ehvsPS9WYqTLxRJENlNIF2a/4rkTaQJP0Fcc4P/FKsXyqcnzv4nAoUf
-	 LNJbZw7ftq3zK6cOyog0J+3xwfHiiILh9sZirE14TrN8W8ZzdplYqdtgOe++q58fbQ
-	 5IT7eQWV4R7GoMXxYWoZzrEihqxcIPYWSqCvorbelsVvmfkG9m7/51qbWomDuvgcfk
-	 ELMQPH9jy0Bc0gF5kqO4dTMAiY0S/7eKaMFi8MZv3iifxs8QChgg/4NCGLqx5D0Mcm
-	 tQ0l4i0TdSSwg==
-Message-ID: <964a5b13-0358-4ae9-baa9-8352e03f7a22@kernel.org>
-Date: Wed, 15 Apr 2026 11:36:42 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oc/GbMaz"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-82cf636dac8so3027164b3a.3
+        for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 07:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776261943; x=1776866743; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JhMXx7gXY1dD+D+IXaFNdkEaadu4kqcUrwYP3v202/0=;
+        b=oc/GbMazkTHt6HKDQPZCB/CRl5COEh0jHR0A+P9NVO35pUFnGEQhHLLW6oie9bgn8D
+         FAZw1NFMsqFanK0J2+yRfeotqLwiSxg9iQ92f96mIe8MTQ3DnifP3jYAbQqusEzcbf6k
+         tSv0+5xdoDbU0B+leV3+lbpeYRZwQaHNxFWr2Fk6YJQ8yNobpQNtVQgQAun72hquvwbV
+         TSTcwsAZsMHKNZrqwat3TQ9vD+VPDFA+GQfOx/6XGfqmk451UyQiFqpnbhhMpmYC4uq/
+         rhF2imxIw6lBQKkt6wGu+2T34TQQkumi8Y2ho0PvDAOVVD5/nbYF6RqCinzy1wV7A0aj
+         OGkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776261943; x=1776866743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JhMXx7gXY1dD+D+IXaFNdkEaadu4kqcUrwYP3v202/0=;
+        b=SEoQkkKJwcj+4ZFXxnUfAHG1Y+sTfDkAWeRJlR5hjrZcU8ioksfy6WzP6lbLD68sme
+         m9Xo1IdLDlx6gIePAvsK+/UYHjskqOKfsKfmFYsHXkjh2ao1JsUvE09I0FyLO+4xOqkh
+         67vi+ij9NfKxqXr3zw+wEqnYVwV6kwcHWVYQTwoKFwWvqVqB6i3nH4kkgW37H1pyUL2S
+         DLwGNDtI5agu7TwZ/nRwLL29Nb5uXd+ZUwpvO+v8XKMcm+s0gnUbykt0pgxMJBqGSQlo
+         th0lLW5D0V6UEYxqImJih0LaKI4HDK2p/98x6b59N479zmcvjUHNqVgHU8hTSd55by60
+         2DBA==
+X-Forwarded-Encrypted: i=1; AFNElJ/EsNuKZWawXUM+9T4AnL/lm9O7fiJAgEpVOdO2ApeVftQxjpw2ehlgvZuqIM64i/A6QcqYw6sUwpyb0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YypHlx8pASQ/D+qC8DECrMQtWj6+jo/6e9OPRwpT150G9zCISvC
+	OUJL0xojOoIoft2Ib3Rsf5E+sIdCbXXKOP1KMcVAerRTtBiUFwzYWdGW
+X-Gm-Gg: AeBDieuj4rgyPXk1d3uKm9I2CgumG3jvYQIAlnmTb8jBxksHUbEZI92ufmFGhHI67n+
+	QInPY+jzq+GAbKnNLgQqCqdNhHvQ+jOvu+pC3G8lb7QVbIHklZf2J5WRGjjkzM5rmmJmlHpLEAL
+	bonOku5pi+e0Au4F9XkEJvzZZKfQVqE+olAA/nvnmnJRD02MzwGnNx2qXLzfatLX0c5XOtKO9VW
+	rldOrjjNfLvolOMIL9kuoIVILXnuDk++ggU+qSrPz58FJVHONXSwM3FAs+uVSaB50vWVwl1vsTm
+	HqDmZi0tTPnzEKK6KygE0q5uBgVuAUhGAiBnhXvsruHGMRcMexDApGSVkN8iYZQ5cYb7rLVfoyP
+	5Q8gUhfDGTZmDbifYjYviVQc4rXOTjsh2gdCN1EBO7s/h3J9PTZRHscxSxKCRC2gkRr4qLHA8tT
+	GpaWJlp9UXodY4Ite8iHZ12k16ouuODuQ=
+X-Received: by 2002:a05:6a00:ace:b0:82c:e775:d43a with SMTP id d2e1a72fcca58-82f0c3562camr23289124b3a.35.1776261942884;
+        Wed, 15 Apr 2026 07:05:42 -0700 (PDT)
+Received: from lgs.. ([223.80.110.69])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f67416319sm2178857b3a.46.2026.04.15.07.05.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 07:05:42 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] platform: fix reference leak in platform_add_devices() on register failure
+Date: Wed, 15 Apr 2026 22:05:26 +0800
+Message-ID: <20260415140526.3290729-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] misc: fastrpc: Use context device bus for compute
- banks
-To: ekansh.gupta@oss.qualcomm.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Arnd Bergmann <arnd@arndb.de>, Srinivas Kandagatla <srini@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org
-References: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
- <20260414-computebus-v1-3-4d904d40926a@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20260414-computebus-v1-3-4d904d40926a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+When platform_device_register() fails in platform_add_devices(), the
+embedded struct device in devs[i] has already been initialized by
+device_initialize(), but the failure path only unregisters previously
+registered platform devices and does not drop the device reference for
+the current one.
 
+Previously registered platform devices are cleaned up in the rollback
+loop, but the platform device that fails registration is not, leading to
+a reference leak.
 
-On 4/14/26 4:31 PM, Ekansh Gupta via B4 Relay wrote:
-> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> 
-> Replace the platform driver approach for compute bank (CB) devices
-> with the generic context_device_bus_type. Compute bank devices are
-> synthetic IOMMU context banks, not real platform devices, so using
-> the context device bus provides a more accurate representation in
-> the device model.
-> 
-> Currently, fastrpc used of_platform_populate() to create platform
-> devices for each "qcom,fastrpc-compute-cb" DT node, with a platform
-> driver (fastrpc_cb_driver) to handle probe/remove. This approach
-> had a race condition: device nodes were created before channel
-> resources (like spin_lock) were initialized, and probe was async,
-> so applications could open the device before sessions were available.
-> 
-> This patch addresses the race by manually creating and configuring
-> CB devices synchronously during fastrpc_rpmsg_probe(), after all
-> channel resources are initialized. The approach follows the pattern
-> used in host1x_memory_context_list_init().
-> 
-> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> ---
->  drivers/misc/Kconfig   |   1 +
->  drivers/misc/fastrpc.c | 180 ++++++++++++++++++++++++++++++++++---------------
->  2 files changed, 125 insertions(+), 56 deletions(-)
-> 
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 00683bf06258..b501462a4548 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -304,6 +304,7 @@ config QCOM_FASTRPC
->  	depends on RPMSG
->  	select DMA_SHARED_BUFFER
->  	select QCOM_SCM
-> +	select CONTEXT_DEVICE_BUS
->  	help
->  	  Provides a communication mechanism that allows for clients to
->  	  make remote method invocations across processor boundary to
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 1080f9acf70a..f66fd3eea5fa 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -13,9 +13,9 @@
->  #include <linux/module.h>
->  #include <linux/of_address.h>
->  #include <linux/of.h>
-> -#include <linux/platform_device.h>
-> +#include <linux/of_device.h>
->  #include <linux/sort.h>
-> -#include <linux/of_platform.h>
-> +#include <linux/context_bus.h>
->  #include <linux/rpmsg.h>
->  #include <linux/scatterlist.h>
->  #include <linux/slab.h>
-> @@ -250,6 +250,18 @@ struct fastrpc_invoke_ctx {
->  	struct fastrpc_channel_ctx *cctx;
->  };
->  
-> +/**
-> + * struct fastrpc_cb_device - Compute bank device wrapper
-> + * @dev: Device structure
-> + * @sess: Back-pointer to the session context
-> + */
-> +struct fastrpc_cb_device {
-> +	struct device dev;
-> +	struct fastrpc_session_ctx *sess;
-> +};
-As part of this migration are we saying that driver and device model
-should be done in the consumer driver?
+The issue was identified by a static analysis tool I developed and
+confirmed by manual review. Fix this by calling platform_device_put()
+for the current platform device before unregistering the previously
+registered ones.
 
-May be the right question is why can not we add other bus types into
-iommu supported buses.
+Cc: stable@vger.kernel.org
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/base/platform.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-There has been some discussion on this in the past
-https://www.mail-archive.com/iommu@lists.linux-foundation.org/msg22139.html
-
-
-This is one of the restrictions that is forcing the fake the context
-devices as platform devices.
-
-for me this looks like half baked solution and very much specific to
-deal with the iommu driver situation
-
---srini
-> +
-> +#define to_fastrpc_cb_device(d) container_of(d, struct fastrpc_cb_device, dev)
-> +
->  struct fastrpc_session_ctx {
->  	struct device *dev;
->  	int sid;
-> @@ -2190,92 +2202,156 @@ static const struct file_operations fastrpc_fops = {
->  	.compat_ioctl = fastrpc_device_ioctl,
->  };
->  
-> -static int fastrpc_cb_probe(struct platform_device *pdev)
-> +static void fastrpc_cb_dev_release(struct device *dev)
-> +{
-> +	struct fastrpc_cb_device *cb_dev = to_fastrpc_cb_device(dev);
-> +
-> +	of_node_put(dev->of_node);
-> +	kfree(cb_dev);
-> +}
-> +
-> +static int fastrpc_create_cb_device(struct fastrpc_channel_ctx *cctx,
-> +				    struct device *parent,
-> +				    struct device_node *cb_node)
->  {
-> -	struct fastrpc_channel_ctx *cctx;
->  	struct fastrpc_session_ctx *sess;
-> -	struct device *dev = &pdev->dev;
-> -	int i, sessions = 0;
-> +	struct fastrpc_cb_device *cb_dev;
->  	unsigned long flags;
-> -	int rc;
-> -	u32 dma_bits;
-> -
-> -	cctx = dev_get_drvdata(dev->parent);
-> -	if (!cctx)
-> -		return -EINVAL;
-> +	int i, sessions = 0, rc;
-> +	u32 dma_bits, sid = 0;
->  
-> -	of_property_read_u32(dev->of_node, "qcom,nsessions", &sessions);
-> +	/* Read SID early so it can be used in the device name */
-> +	of_property_read_u32(cb_node, "reg", &sid);
-> +	of_property_read_u32(cb_node, "qcom,nsessions", &sessions);
->  
->  	spin_lock_irqsave(&cctx->lock, flags);
->  	if (cctx->sesscount >= FASTRPC_MAX_SESSIONS) {
-> -		dev_err(&pdev->dev, "too many sessions\n");
-> +		dev_err(parent, "too many sessions\n");
->  		spin_unlock_irqrestore(&cctx->lock, flags);
->  		return -ENOSPC;
->  	}
->  	dma_bits = cctx->soc_data->dma_addr_bits_default;
-> +	if (cctx->domain_id == CDSP_DOMAIN_ID)
-> +		dma_bits = cctx->soc_data->dma_addr_bits_cdsp;
-> +
->  	sess = &cctx->session[cctx->sesscount++];
->  	sess->used = false;
->  	sess->valid = true;
-> -	sess->dev = dev;
-> -	dev_set_drvdata(dev, sess);
-> +	sess->sid = sid;
-> +	spin_unlock_irqrestore(&cctx->lock, flags);
->  
-> -	if (cctx->domain_id == CDSP_DOMAIN_ID)
-> -		dma_bits = cctx->soc_data->dma_addr_bits_cdsp;
-> +	cb_dev = kzalloc_obj(*cb_dev);
-> +	if (!cb_dev)
-> +		return -ENOMEM;
->  
-> -	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
-> -		dev_info(dev, "FastRPC Session ID not specified in DT\n");
-> +	cb_dev->sess = sess;
->  
-> -	if (sessions > 0) {
-> -		struct fastrpc_session_ctx *dup_sess;
-> +	device_initialize(&cb_dev->dev);
-> +	cb_dev->dev.parent = parent;
-> +	cb_dev->dev.bus = &context_device_bus_type;
-> +	cb_dev->dev.release = fastrpc_cb_dev_release;
-> +	cb_dev->dev.of_node = of_node_get(cb_node);
-> +	cb_dev->dev.dma_mask = &cb_dev->dev.coherent_dma_mask;
-> +	cb_dev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
-> +	dev_set_name(&cb_dev->dev, "%s:compute-cb@%u", dev_name(parent), sid);
->  
-> +	rc = device_add(&cb_dev->dev);
-> +	if (rc) {
-> +		dev_err(parent, "failed to add CB device: %d\n", rc);
-> +		goto err_put;
-> +	}
-> +
-> +	rc = of_dma_configure(&cb_dev->dev, cb_node, true);
-> +	if (rc) {
-> +		dev_err(parent, "of_dma_configure failed for CB device: %d\n", rc);
-> +		goto err_del;
-> +	}
-> +
-> +	rc = dma_set_mask(&cb_dev->dev, DMA_BIT_MASK(dma_bits));
-> +	if (rc) {
-> +		dev_err(parent, "%u-bit DMA enable failed\n", dma_bits);
-> +		goto err_del;
-> +	}
-> +
-> +	sess->dev = &cb_dev->dev;
-> +
-> +	if (sessions > 0) {
-> +		spin_lock_irqsave(&cctx->lock, flags);
->  		for (i = 1; i < sessions; i++) {
-> +			struct fastrpc_session_ctx *dup_sess;
-> +
->  			if (cctx->sesscount >= FASTRPC_MAX_SESSIONS)
->  				break;
->  			dup_sess = &cctx->session[cctx->sesscount++];
->  			memcpy(dup_sess, sess, sizeof(*dup_sess));
->  		}
-> -	}
-> -	spin_unlock_irqrestore(&cctx->lock, flags);
-> -	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
-> -	if (rc) {
-> -		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
-> -		return rc;
-> +		spin_unlock_irqrestore(&cctx->lock, flags);
->  	}
->  
->  	return 0;
-> +
-> +err_del:
-> +	device_del(&cb_dev->dev);
-> +err_put:
-> +	of_node_put(cb_dev->dev.of_node);
-> +	put_device(&cb_dev->dev);
-> +	return rc;
->  }
->  
-> -static void fastrpc_cb_remove(struct platform_device *pdev)
-> +static void fastrpc_depopulate_cb_devices(struct fastrpc_channel_ctx *cctx)
->  {
-> -	struct fastrpc_channel_ctx *cctx = dev_get_drvdata(pdev->dev.parent);
-> -	struct fastrpc_session_ctx *sess = dev_get_drvdata(&pdev->dev);
->  	unsigned long flags;
-> -	int i;
-> +	int i, j;
->  
->  	spin_lock_irqsave(&cctx->lock, flags);
->  	for (i = 0; i < FASTRPC_MAX_SESSIONS; i++) {
-> -		if (cctx->session[i].sid == sess->sid) {
-> +		if (cctx->session[i].valid) {
->  			cctx->session[i].valid = false;
->  			cctx->sesscount--;
->  		}
->  	}
->  	spin_unlock_irqrestore(&cctx->lock, flags);
-> +
-> +	for (i = 0; i < FASTRPC_MAX_SESSIONS; i++) {
-> +		struct device *dev = cctx->session[i].dev;
-> +
-> +		if (!dev)
-> +			continue;
-> +
-> +		/* Unregister the device once */
-> +		device_unregister(dev);
-> +
-> +		/* Clear this dev pointer from all sessions that share it */
-> +		for (j = i; j < FASTRPC_MAX_SESSIONS; j++) {
-> +			if (cctx->session[j].dev == dev)
-> +				cctx->session[j].dev = NULL;
-> +		}
-> +	}
->  }
->  
-> -static const struct of_device_id fastrpc_match_table[] = {
-> -	{ .compatible = "qcom,fastrpc-compute-cb", },
-> -	{}
-> -};
-> +static int fastrpc_populate_cb_devices(struct fastrpc_channel_ctx *cctx,
-> +					struct device *parent,
-> +					struct device_node *parent_node)
-> +{
-> +	struct device_node *child;
-> +	int ret = 0;
->  
-> -static struct platform_driver fastrpc_cb_driver = {
-> -	.probe = fastrpc_cb_probe,
-> -	.remove = fastrpc_cb_remove,
-> -	.driver = {
-> -		.name = "qcom,fastrpc-cb",
-> -		.of_match_table = fastrpc_match_table,
-> -		.suppress_bind_attrs = true,
-> -	},
-> -};
-> +	for_each_child_of_node(parent_node, child) {
-> +		if (!of_device_is_compatible(child, "qcom,fastrpc-compute-cb"))
-> +			continue;
-> +
-> +		ret = fastrpc_create_cb_device(cctx, parent, child);
-> +		if (ret) {
-> +			dev_err(parent, "failed to create CB device for %s: %d\n",
-> +				child->name, ret);
-> +			of_node_put(child);
-> +			fastrpc_depopulate_cb_devices(cctx);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
->  
->  static int fastrpc_device_register(struct device *dev, struct fastrpc_channel_ctx *cctx,
->  				   bool is_secured, const char *domain)
-> @@ -2441,7 +2517,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	data->domain_id = domain_id;
->  	data->rpdev = rpdev;
->  
-> -	err = of_platform_populate(rdev->of_node, NULL, NULL, rdev);
-> +	err = fastrpc_populate_cb_devices(data, rdev, rdev->of_node);
->  	if (err)
->  		goto err_deregister_fdev;
->  
-> @@ -2496,7 +2572,7 @@ static void fastrpc_rpmsg_remove(struct rpmsg_device *rpdev)
->  	if (cctx->remote_heap)
->  		fastrpc_buf_free(cctx->remote_heap);
->  
-> -	of_platform_depopulate(&rpdev->dev);
-> +	fastrpc_depopulate_cb_devices(cctx);
->  
->  	fastrpc_channel_ctx_put(cctx);
->  }
-> @@ -2558,16 +2634,9 @@ static int fastrpc_init(void)
->  {
->  	int ret;
->  
-> -	ret = platform_driver_register(&fastrpc_cb_driver);
-> -	if (ret < 0) {
-> -		pr_err("fastrpc: failed to register cb driver\n");
-> -		return ret;
-> -	}
-> -
->  	ret = register_rpmsg_driver(&fastrpc_driver);
->  	if (ret < 0) {
->  		pr_err("fastrpc: failed to register rpmsg driver\n");
-> -		platform_driver_unregister(&fastrpc_cb_driver);
->  		return ret;
->  	}
->  
-> @@ -2577,7 +2646,6 @@ module_init(fastrpc_init);
->  
->  static void fastrpc_exit(void)
->  {
-> -	platform_driver_unregister(&fastrpc_cb_driver);
->  	unregister_rpmsg_driver(&fastrpc_driver);
->  }
->  module_exit(fastrpc_exit);
-> 
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 75b4698d0e58..9a4ae2100401 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -548,6 +548,7 @@ int platform_add_devices(struct platform_device **devs, int num)
+ 
+ 	for (i = 0; i < num; i++) {
+ 		ret = platform_device_register(devs[i]);
++		platform_device_put(devs[i]);
+ 		if (ret) {
+ 			while (--i >= 0)
+ 				platform_device_unregister(devs[i]);
+-- 
+2.43.0
 
