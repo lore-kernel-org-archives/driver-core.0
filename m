@@ -1,56 +1,55 @@
 Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021107.outbound.protection.outlook.com [52.101.100.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655A8378D87
-	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 19:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20453378D87
+	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 19:58:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.107
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776283090; cv=fail; b=U1WXoNR+aZJLquOC3jRI5+DeT3Axxy7x4r11HdQ1wQwm15Dz7dsjqpGvVLrgxzEbCQiZTUwys88wa1q+Iod2887W98r5e5/8FKj7BIbq+W9P98ZUJ3GWmAIplaQqSqtdwqvqeOsHuWjNEQ5YcE20m752NjZiCWFDxJXMhXXflLY=
+	t=1776283092; cv=fail; b=MXR8uHXwM0jagJ/VA4batvbaif2RwZgQirfJgDLoe6RbQD4WWnDekaLNB8i/k8IcOY80NT8sOTLaGhDnJdw9ZYoI/YZcP1ClesMd3mJQDCk36/fei/mDRG9vYe9vJ3CaBwkZbJJTQo5bAGcYnTtBS4QrT8BUkgpqu+DvmgtGaK0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776283090; c=relaxed/simple;
-	bh=76zt5O2tjv+xHYbiGWFQ2t1XGoY03LLsBSirzFPBISY=;
-	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=ct0KGUwn7J4yb4gWUrz8tr7AzWCjllEM8BYIm9Lj+LA0va4eVqbhx/ihWxwQiDJIOz9JJezh/3zWLXgtkMnfipbKOH1+krlUQWSyg32PxHhvVjVpfEw4lX9EXzMpPHwQMj+UTFRpeojap9QjrdeGJXWbwgNf0FPdCiA9108yXOw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=K0Wh3t6Y; arc=fail smtp.client-ip=52.101.100.107
+	s=arc-20240116; t=1776283092; c=relaxed/simple;
+	bh=MOjbHddF+m9qiX05U6dx3Wp0/wpA5Unrwl+MI6qb0cQ=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=uZirR8NbNuNYOEI5J3q6am4IKV5CI9OjGOWH1f6ZVR4AzggEZiliOdDDpKRcOLLws+FsUwJQ+Fx7DgroXuRiRWV6BoCI/dLEGHBQB06CmJ3PQ3T4Pck6l+CXhEI6ssjRsSj5Bt09C4zAlSMSW6r9Jr70RSQZwNJC27T3BrCCekQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=cbqrHZsu; arc=fail smtp.client-ip=52.101.100.107
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="K0Wh3t6Y"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="cbqrHZsu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NEOhY7dMfJygmL5G5gK3g4v96vUKa3bgabLqTAQELJjP/QnnIe0ggFiICm04Dzpa8RF9vdjpOwdPzc5gRWXgld9Csm/Ze3/FnGjFihoWqs3YV2HbZGfkMDrt8DhBgWlyAmNfAy7qgCqqi6Tr375+yBhwbqC9WMqaL44Ork6ajTAVVDTK+YmswDDlq67FlS1InXWgU38kwpy8r1+2MD54v1Jfun5Qxjlvjwd4rAj7oqFFxBeieY8H195q92rkUnBsehkGiRJC4xdYNLInVMSZydVqIhHqs2r5R7A5rJKnIOJQlqntyJ9is5XGyBV+s9gd0XIpQ8ZBA91Yl0MnP1Z9dw==
+ b=bqKyx3tps78lKZGeaZtQlfH9tXg44GBlIwG/D+Puf9A8k1IihrY+j3DhkVt9otz52QuBem96eQeVbO2fSzLyHyeoa/yeItzcD4JmU6/f75ZcFdU4cwlF9WSofPmG371zt0ORw5tFlhL2fbLv7weziFpeYCe0jhVOV2njWDyCCsjIYzA5NIiBcz6aqeytCsU43qa5Gw+G2BLQdFbXQLvX06p9g9TENC2sLsrx3BcshF1oPqixXYvvAiUkenpoiFMUFezZcgJrS+h6SKSmrUwhUXAjz1urvONe0mmzY5LgsdI36T8yzGmLtgKNwzir+kCRnXZdGaxxSJpmWJ9JojnOOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QfX0xC8CRLMV6kMNs7SKADvkmQyLojcY4lT9nMODHNY=;
- b=G6/SfxM9/sseiYGbR0HkYkrDDJWtWAeF2W60LF6NMFw48JsKP8rFAkQ/ca7x/9mZ+EBvZsQLFJ7L+o0d0pdvocGH0UNyFCQEKPp0n1aRU13x8cfpSMkds2LpzHXAZASWTypDf4mAZTc1ln38Die5/+5B9NMAcTNGeYQW+1FBJY7vrscRRAAE//QXqs6ZvghBv9C0KVNK8DHDuMyO9HSix2vxwGT8rXW8Jv/RqomUGOwwHp9S0329sq6YJkoc9eumA9MEfTkkGtZJnUIe6k7CvjFtTApKnp8dieOWawQjkvVzqyrvzLc5XJxyCEJcwe4gnvitp6wrc6C9bQ0yEjYyng==
+ bh=CkuGSN8Tzs9O7o8HsV+r4BP4flEu/cuHTywGn45uTPw=;
+ b=YbitpMC4v0qwGO5X9VpEqh0AAmN/RurXUbjFbUIncITBfyKdvD7wZ/6kIxI6tqTJMNBAIVYRqyM/TTlr5UidvWYkY2rXm0CxQY0w/QnM5T7pINUMAsIm9GrXxtr1iD7zgHMgUenEv8ymVapbfQOUZYhrRArBIBLvC+ekq/yjd2gG5/U6OyyT2G2mxwEcC9eMhilTES/1HGBHeizeQCiPzEusHUn2PyEyc9GEQf6kLZHS+/8SsxcjMiqg2K/TdVvTRRbwcnmBf4JPfq/KFxpkJ/OdG+rHJQKJUeBRhAcdWAJvW6sXBwPrRDdC5+wHVR+c3pcXyOQOEnRDiCDBwRfZxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QfX0xC8CRLMV6kMNs7SKADvkmQyLojcY4lT9nMODHNY=;
- b=K0Wh3t6YQ9zvXeiJQxg9Y5bow6EhLIBQXCq52vE1Z0hhqRSfy6FgGRZNxgSjtMaGBM7b9S1MpAtU1y14o7QGPouF6BgBfhsqe871E4tRsB4TT+skzy13mJ1qqzfW7K3QoVpjDqGEqqMn1mJgIN3HgrXXmRKyRBRthJ/gJjLetHE=
+ bh=CkuGSN8Tzs9O7o8HsV+r4BP4flEu/cuHTywGn45uTPw=;
+ b=cbqrHZsuKZKGwxp7tXgx5lWmVc/nml2JOh9yaxwfMAhgzmjDDicLnZUXCNCQ0Yj0XpipJ0MpSvN8mnWvuqVMlNWKgL2SqPqKUp1Ca1wgTesc0WqyZmo2T6xtVAt0lYfLWz7b4M4BLVKI0eOQULEK48EQ0UtPoY8jklOXors93Ac=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
  by CWXP265MB1910.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:32::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Wed, 15 Apr
- 2026 19:58:05 +0000
+ 2026 19:58:06 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.046; Wed, 15 Apr 2026
- 19:58:05 +0000
+ 19:58:06 +0000
 From: Gary Guo <gary@garyguo.net>
-Subject: [PATCH 0/5] Rework index projection syntax
-Date: Wed, 15 Apr 2026 20:57:11 +0100
-Message-Id: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
+Date: Wed, 15 Apr 2026 20:57:12 +0100
+Subject: [PATCH 1/5] rust: ptr: add panicking index projection variant
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJft32kC/yWMQQ6CMBAAv0L27CalWol+xXBo66qLSUt2QSCEv
- 1v0OMnMrKAkTArXagWhDyvnVKA+VBBfPj0J+V4YrLFnc6od9pI7ikPRUJc0+BmFpixvDM3F+KN
- xIToLJe+FHjz/1rf2zzqGvd1/sG1f5BNNhHwAAAA=
-X-Change-ID: 20260415-projection-syntax-rework-b790a305bc52
+Message-Id: <20260415-projection-syntax-rework-v1-1-450723cb3727@garyguo.net>
+References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
+In-Reply-To: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
 To: Danilo Krummrich <dakr@kernel.org>, 
  Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
  Daniel Almeida <daniel.almeida@collabora.com>, 
@@ -65,11 +64,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776283085; l=1474;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776283085; l=11209;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=76zt5O2tjv+xHYbiGWFQ2t1XGoY03LLsBSirzFPBISY=;
- b=04LilGSVmlOYueRpNfmQnvJd8ohWKngDYs65XedbFyJv6eGeIOCoSC6MR2ksvLnlGjNPFwsmV
- S9yoCCEqQSrAr31hYe+G4lW6bgZE7/bLOFcfColAsrBXonp8EI3iGJg
+ bh=MOjbHddF+m9qiX05U6dx3Wp0/wpA5Unrwl+MI6qb0cQ=;
+ b=D65/MEx+U5dO0JrbYBlVLwxcIIJ3wDDUeuXmUH/9nJg6HKzRGNiIytAwyiwNcgKNRmhRLzsAW
+ BV5blrxEQduD9YEl20l6W+vUeASKEilF5hLNyq8IjCImKFEF3OclSnW
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO4P123CA0276.GBRP123.PROD.OUTLOOK.COM
@@ -83,103 +82,323 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB1910:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53a08ced-9e90-415a-a41c-08de9b294f18
+X-MS-Office365-Filtering-Correlation-Id: 3c11dfcd-115e-4f05-9ae7-08de9b294f64
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|921020|56012099003|18002099003;
+	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|22082099003|921020|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	sA5+SX530BhRVrrPX5ML2uFpMqaEP2T4DuKP1++w2v5K3+jSTz/ahhyohgqhk4xrmP/E7q74VjlkB4mzWwyXv/0AgJ5/Qg/kFuHhEM+SvRQuzZ4E4Hq5195W8znZfqrlfZMOgY3RqEp3kzFLWxVj1If7eFvrBtrSzNhIZrsX/s/pzDCY1ErorcwmVMpOq0RpiZ6w3HzmOKX16aP+z25AXjRDfZ4WXVyWzuMTF+Xyo5HkVDivZ2QWMXMflpIdKsFj94XuQ9acy+ePYx5fr9goa9Ldm51iNzCRGj2s0T5Q9agPNZPAP7pHzSVocdqMGLAvX6n9RaR3g+U0ep0Awyv7T0IsZLTPUxnAYKG679bmRhGUPiEl88uibPJAm9r62oa646fu87WC7YJMjZnJNbTqg2d9w2a4CvcbOz8ODWAHexsChl8/DnifRB+1J0AXMiUuPpW3wb9Yr6txPgVtukhvZdmQ7NbLkM0M8kfblRknFdY8bZYc2E5SOgoyP113hO/Ic/n6ycLlMlkLrpd/ierZLjDyxg565ib/2ITK1N0jbKVCCaSv3I5VddEOYMGeScAXOwYIUl2jf50feNWEi7FcEjcQyxuS8owzYmkvAl+oeFm/ihrzYEZVQJxvgibM+udjVZwhtEhzOj2rb3pPLBLphteb+r4oJ1uxDcN5nBbD5JWW/zgo9BR3gWb+YNEWR5N0J7Zmf5qerXWTELSPvve13fJcdW4rp7ftS5xcCTDhZvO+2409uz354s0AedExj4RjMXkspyo0nmtSGazjEFrc7g==
+	8Ola3aaNpsQZKJpB4aEpwriAqVgSCl9rLTpIElK63x2LBIRokI2SRYGZl2ks3JtzlfqTdVfo+E1ZwI1pkynTuHo5XOY1GgCTbueKWG1Hjh8H6wtIwQr6x1j7xBjet/erqeXz9urBe9LAYuOWuNhHo2ZH5JcL8xiXeSxRITjdhG/r9qgpD7Hh6fhOZEIarCarOfg/FVowfp27uxcgTxS8B3DsXpNzvO3cDpJNQjgebNWT1xLzLiKaaFhlui1qRKGQRsZPfx7a57xxWs31BcuOfddLg/6KzxMnoEJU74/7Fzx0d5EX8wPyM7ELfy1r8MEMc0YcYsI4/YxQ7A6R8blBwnh5eXl2IH5T/2xZfroo3ED7af3ylaGw4lF0BU2uHXTuHPtSPLWfi6z0lLcfnm01xmGgn0/0h+QiyTReK8q4bQWbT3uAu1/MzfeVWQZ80ri2RAAUHOFnuW1f3Jh3axSmQSBRoEbkZNCT9yvFO1ExXe2TYGUNK9Avb3QmB5XYOZXZSH71BzwtilP0uuhZskiMkSUjGEid6ZUTQJw0GjoFTPX9ET+4a8xD8Sg/tlp67UEGQuWlkBpDpvPnAHfXZ7m0OE6g3wrHLvbKqXO/iwdsRdIA3h6Y5zMbNtxGQHgVE4BoRKSvPgLa8gqDqF4brgDtL+ryVgNLr5+DmOef7XO1tKA2tyd8hPK12P8uLkQFsekVd99f0Og49W7Jq4o8VCMTBowwzNmC2eayzqdS/DPBlsE3Z6e74zhxq1BJ1CMgTG2ZoihfpEI/OnhO2XBhrn3t7A==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(22082099003)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?alNXYS9IcFByV2s0VGlIRll0SEthak1OQkw1elBZZVk1V29NQWU4NGMxSUww?=
- =?utf-8?B?ZXBhMGJhSzBVNll5SVBYRXNVdWhJOU5NQjJZeEliODA1N0hqTWxVcjhnc2pk?=
- =?utf-8?B?SUxWYko0L21QMXVyS1BRL0lFMmE3UHcrSFpKbW96SG1FUGJxRkdyRW9iYnVM?=
- =?utf-8?B?R0FudlpXUnkwMXAwTmZ0Qm9pYlh4N1hQYUJlY0t6bWV4NUZlSzFrN2JTNHpK?=
- =?utf-8?B?N1dBNXpOQXQ1Um0rN01YNFlpSENxRytFQnVvbTlESmxrVVBPNXM0TGlkS1hR?=
- =?utf-8?B?NlVHQmc3dExGRXpLbDBpaEJhN2wyaUdaN21FZUtLcnBhQUpHQmwrMEY0eXpO?=
- =?utf-8?B?c2Z4VVN3Wm9STXZpNFVZVm1JM21lcGVZc0VxcE01Um5KNkk3UCt5Y1VDcitM?=
- =?utf-8?B?Y2p6UEEvZWRLelNqYWZCMi9ZT3RnR29HQ0ZVbWVxaEl0cDhFOEJUc2RZdk1X?=
- =?utf-8?B?eHFQSW9KSmFsb3M3dHFCTDBWakFJMFJnOWs3RnNyeVBudVk4UjBEV2RFM29O?=
- =?utf-8?B?Y0UwVFNmN3ExUU9aZlpxOG1HT0MrSmlPdy9DdVNCakZubURtU2N4T1lFTkJs?=
- =?utf-8?B?UTJhVEVxcExxc3c4L0JpY1ZrQnpPUTlzbVpwZnN6dHQ5dzJNY1RuYjV2NWdK?=
- =?utf-8?B?aTk0YWdRTVJIN2ZWL3pEd0ZYRlRuRUp2eFpORlZ0MFdJdER5L3lUYXJzVlBO?=
- =?utf-8?B?U3BHeWRUTS9vL0xKaG5wT3Fjb2hnVThlY2xKMkcwOCtCYUorbVFwR1A1WGN3?=
- =?utf-8?B?RXBsdWJUOFp3bUJFNUFTZDdheVJscUIwbE1tcDlRcEZSSzdYeTFuT2M3YlV4?=
- =?utf-8?B?Z1FxbERsd3RQWktYUTFKMGdVb3c4ZmpVR3VKbks0cWZwZEhoLzkxcVRrVFpq?=
- =?utf-8?B?REtrRkdxeWtKUWxSQ0J0MW8vRG1pZTdTb1B1UUM3U1FPUlVBN0tnMHFiYXVX?=
- =?utf-8?B?SCtHaFU4WTFNU0tNcld1NnNSNHE4Zm83OWl1Um4rQS9YMVhNbHhkUkFDdFZz?=
- =?utf-8?B?ZFc1bjloWUlINGUrRUVwTXFYSm1lSmhIOEdtTDJhSFNkdDNGNXgrakNuUEJw?=
- =?utf-8?B?YjBDb0JuSmM3d1g3WXVSbnJtb2FPTkZ3YUhUcFMxQXdNQXJVa0h6Y2xJb1Yx?=
- =?utf-8?B?Nlpzd0VHOWlrd204N2l4U1dSWmozL3FlSXRndzBZN1k2eVNnUDNuNVFlcVA0?=
- =?utf-8?B?Z2xDd1gyUzR4M3diLzVibzU4UkhkVjZJTm1RbGpwNGlBOEhFU2pDMlVraUIv?=
- =?utf-8?B?M2VTd2VCR0g0MFRabTNaL21YV0xxTFpsSVEwM3ZhdkJHd3NueDF6YmVuaGVC?=
- =?utf-8?B?NGdZUUR0WG5WWFk0NzdhQWQwd0Ywd0JWTHpQVU05MFJaT1VMNlZRUHRGQ0h5?=
- =?utf-8?B?NFVSc0h0K3UyYlI3TUtkcVlwT1NzVGZPYThmbzk1QzVEN29vb1hCdlQxZ1Bx?=
- =?utf-8?B?Yll4bjR0M0JVeXhNV1U2VlVZbDhJWDFwRTd6SzVmR3dEMk9ScmMyQ3NpOTBR?=
- =?utf-8?B?MzUxTDdEUXpuQWdVY2FTTmhDQ3huc2x2QVlMR2xldjBpTFZFZklSVFhVcFZY?=
- =?utf-8?B?WjI2QWIyNERqVTNXTExCdXFJVU9KdDAwNVJtRU9JaVdialQxUjNZMnJOa055?=
- =?utf-8?B?amNiYzZxNkhubDlWWXNyb1ovMEZVUytrMkYvZGVxNGhVMndhM1UwYW5NRWN1?=
- =?utf-8?B?a3c5U2F6UFhaL0RKcjNiMmZCeS8vc3RTN3FQYjJrdC9hK2xCd1F2NWl6SHlY?=
- =?utf-8?B?K2VtN2hTOFJUb3BibVFtOVRWM3d4UFN6cEZ4MnVUKzc1MGxGMG92WE9leEdI?=
- =?utf-8?B?U3Y0ckJicGxMM3lHK2JYblcwKzlhbmhiVTJNSFRFcjEvUmVlRC85cXJteXkz?=
- =?utf-8?B?RW1FQzcrL3ZXa2kxbzBma1lMN2haQWdtZDJaRzZRZzFRVjAwYmJvMDNzT2wx?=
- =?utf-8?B?NkZTMmdHOU1sMTJ6VFFBYVhKcnhRa0N6TTBYbjdHMk9LNml3Z0pHS21DTE1l?=
- =?utf-8?B?TmlOL1JHZEttSTJmOFVLNjhPbEV5a1J5di9sQXhZcGtUczZuWjhQd1VVMUl3?=
- =?utf-8?B?bitFNDBtVVU3dWh4azB1TTg4VzZFTnNFeFdWNjdVZS9ITmN2eVhQTmRGTWNK?=
- =?utf-8?B?WXpneUxQNHczd0YrZFViSXlKSDRHWncwZUZBMXFCa255Sm9mclQ2WVRsYWJy?=
- =?utf-8?B?RDdlbHdXbm1PcWU2RXVvM3pnaUV6alM3R0paVnQ2MEtkZy9DL1R2cnk4cUdT?=
- =?utf-8?B?Lys3b0RSbXp6bnR3Y1NMTUpFV1BKaDdNQTBRb3dLTjFWWWhQYlNkSUgrbm42?=
- =?utf-8?B?bnlJK2g3WU5xcENveXNFSENOUndiN0YvRGFZVnRzbmNlVVZHMXI1dz09?=
+	=?utf-8?B?N09PSVJJblFBUHZka3o4SUNlQnM4UTd1RG5DencxVi9tcVZRdHJ5eHVUZU9F?=
+ =?utf-8?B?WGFsTTE0aE8xTXdGR2cwNEp3b0pmcEZ2K0FNaWJuMW9OWFA1b05yTnowV3Rr?=
+ =?utf-8?B?b0F3TTUvcEppVFo0UHBEZGVZUGh1OWxnWGhaZ09oZ3A5U2NTaFRxYTNlZXZK?=
+ =?utf-8?B?NW5QWE0wMUxQUHl5Z1NBdWZTYzhsd1BiR1RXYzdIWnVhdmFPMmx3aVBDY0Iw?=
+ =?utf-8?B?RWdNcW9WbjRUd3VEbkEyV0lRK0NLdUMxQ01mclBxb3VVRXZyNkR3S2QvY1ox?=
+ =?utf-8?B?c1U1VHo3ZDFHOFhyejRhQWVpYXJyeGd1OFgxS1ZMZ1hhcVVwbEpOTE8vSlF4?=
+ =?utf-8?B?YVArMUc5ZVN1ZWljWUFBblc4UWxNekYxOGtjVmlIbGlPcHRVVkZkYkFlL0pW?=
+ =?utf-8?B?dXFzWHBQd3RLRmZBRS94eEg3WjMvQ2Nyd3VMM0NzNy9xeStyV1hBYWxuVEYx?=
+ =?utf-8?B?QXU0THFXMW9pbE1kUHhueHF4ejNiSU1ORldsQ3hOMzc2VDd4c01taFF6Y3VT?=
+ =?utf-8?B?anVmcDdzNmQ0cVo1a0xkMW5vZTFyeThPRFdTbm44aDMvMC9QSjNOckkzZHlq?=
+ =?utf-8?B?SWVNeVg3MDBtZngwK2tLU1dUSzJLTjdObDFpT0FjVnIrcVRESFVQNkJXY0Rq?=
+ =?utf-8?B?NzBkV2tiS3N3UVF1Sll6cFQ3ZEdkWVpOM0FUZG9kVzJEK1VSUUhEZGdST2RY?=
+ =?utf-8?B?cEFzeW8zNU1DaFFUNHVIWGV6QW9SWGUzTzlJa1JDNjRRb2IveUFLQ2NFSHFU?=
+ =?utf-8?B?c3U3RGU4QVF0NkJvYlJSSmpySXFxSkZlcFpIZk8xRGZTU005ZnRXbUVyZVlj?=
+ =?utf-8?B?T3hvWi8xL0xDb1VtMmxkZERTTXNyUEJkODVCZjFlckI2Ny9QTW14VnZHdFlU?=
+ =?utf-8?B?aHp1QUVqdGd5THYyV01BdDJDR2lJMWQ5eElYaUI3QThFS256NnVMSU5RK1h0?=
+ =?utf-8?B?aFBXbFl4SVJwL1dwYm9mT01raWRYMUNVSmc1aGhBb0hTQUp0RzI5VXpwNSsx?=
+ =?utf-8?B?L1VpaGh5L2xRcDFJU3l0ZnBiTm9XdDJhN1BOZTZmVDRTbmZBSkZDQ3NJZUZz?=
+ =?utf-8?B?K0lJRDFncmxEUmd4cGZXTit5QysrNGpXd3diSkN6N2pJOWlhUVFxSUZqTk13?=
+ =?utf-8?B?ZWx3ZHk1d3I2NmNobU1NMDA4MzMvUU5sZElwY3JjUHRkaVBEVlZ1VmZNZkNS?=
+ =?utf-8?B?Q0t6cWtwcEhMTmJ3TXNnamw1MjVDY082cEIwb2M0T1dhVkVTK01ucTR4UTFW?=
+ =?utf-8?B?aFlZNlV6aWsrcERJdnlrMDVHYURLUkFybGpJVjdiV0JDNkNiRGxwendLK0Mr?=
+ =?utf-8?B?NlA2ZGtuUm1oeFpibzRadXJPL0JReXVSRUEwc3hrQmJCVU92MHpRUUpvc3dE?=
+ =?utf-8?B?T1JlTjJnaVJjMzhmUHd3SnVpZEhWUnJFZVlhbTVHUU5NQ21PVDJXNGdOdE9x?=
+ =?utf-8?B?c25hQzVETk5BNHhMMXBBSGJNbTIvcWhGU0U5d3lqK3NZYklYVHR0cXh2U0Y1?=
+ =?utf-8?B?bEc0OXp2THZIQVNTNjBFN29GMmtRYnRiZUc0ZEdkYUxxRlNwOUFyL0J6ejFv?=
+ =?utf-8?B?NllTMWZBM0RkMlJXeGpjWHdCUm0zTVM2ZG1wQ2tWYWZBcEx4Mzl6d2ZLc0s5?=
+ =?utf-8?B?NWtaV3lncWxGb0t6RzkzZEFwR2VjRytDTmJmT1lDSDcxRnVQdVJTenlzbjRL?=
+ =?utf-8?B?MUErajMxSnQ3YUZPYlVoaFY0cGhBU2ZhVWc0L2YvY1lrNWhZck84UlVrZ0oz?=
+ =?utf-8?B?aXdxNTk3ZmwzQldVY3MzS21UeU5PZTFwejNHR0pQVnI0a1VpVnFVSUtiK3J2?=
+ =?utf-8?B?Ymd1cGRIbENKNE1vNHdtaVExRGdGeDhuQ2FnNXZoa3lCTzFnaytpN2grVlVu?=
+ =?utf-8?B?L2c2T1RSVmNwYjBIa1RpTTdPM3JCWUNLWHdGV09XWjFwN1R5eVdES1JMbGV2?=
+ =?utf-8?B?cVFveGRMS3cvdmc5bW9QMXdOM1creVhPWVRhaDZ4citRM0dwY2xVdmJ4Yktm?=
+ =?utf-8?B?cUZSdGRIV0p1ejhTTWNlQldmZ1gxd0lzZHZvOENqUWlXbnlNWjJhWlJqZit6?=
+ =?utf-8?B?VUovcWFEeW90Q2MrN2V4VjRrbkFOVTJFVzgyeFFybGFZRTNFZG1jLzdmWjF3?=
+ =?utf-8?B?OXNjUnFNMWhPNWYwbm1mN2ZCVlB0NldUcy9jeVluamJFOXViNDBGOVZqeGg5?=
+ =?utf-8?B?eVNsQWJSeWIrRnFsZ2dIQjE0RERSejYvUXB5UnhIZTE3bjNEUHRRd2M5YUNp?=
+ =?utf-8?B?UlBnMUJzNUF6SjQrUldsdGdGOEFxMlFRYjhKZTBVVFNzQmZhalR1ck1iNGJq?=
+ =?utf-8?B?U2FNanh5ZFhWYTdueVRDNUw2VEJMR05oRVF0Q2MwbVAxT0M5UXFXZz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53a08ced-9e90-415a-a41c-08de9b294f18
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c11dfcd-115e-4f05-9ae7-08de9b294f64
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 19:58:05.7003
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 19:58:06.1917
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sOZpYyYYkk4RKki1w1K2MjPk9ykdFCwlmKHuz0CabHVpxv0UmvQSGKin6uR15MPpLXnXBfLxMr+8saF+m4p1tA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1jQ1gSmMa787laCq90oIyTYUyi6jqV9ohGkgQ9SbmfJNCrhMTgCgyr/ftIuTisSRkavyd6l6hx8C1+1KhKegAw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB1910
 
-This series reworks the index projection syntax in the pointer
-projection infrastructure to be use the keyworded syntax to be more
-explicit.
+There have been a few cases where the programmer knows that the indices are
+in bounds but compiler cannot deduce that. This is also
+compiler-version-dependent, so using build indexing here can be
+problematic. On the other hand, it is also not ideal to use the fallible
+variant, as it adds error handling path that is never hit.
 
-Doing this allows adding a new panicking variant of index projection,
-just like the normal index operator. This is useful for cases where
-compiler cannot prove (or cannot reliably prove) access is inbounds.
+Add a new panicking index projection for this scenario. Like all panicking
+operations, this should be used carefully only in cases where the user
+knows the index is going to be in bounds, and panicking would indicate
+something is catastrophically wrong.
 
-The new syntax looks like this:
-- `[try: index]`: Fallible indexing (replaces `[index]?`).
-- `[build: index]`: Build-time checked indexing (replaces `[index]`).
-- `[panic: index]`: Runtime panicking indexing (newly added).
+To signify this, require users to explicitly denote the type of index being
+used. The existing two types of index projections also gain the keyworded
+version, which will be the recommended way going forward.
 
-DMA sample driver and nova-core have been updated.
+The keyworded syntax also paves the way of perhaps adding more flavors in
+the future, e.g. `unsafe` index projection. However, unless the code is
+extremely performance sensitive and bounds checking cannot be tolerated,
+panicking variant is safer and should be preferred, so it will be left to
+future when demand arises.
 
+Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
-Alexandre Courbot (1):
-      gpu: nova-core: use pointer projection for command queue code
+ rust/kernel/dma.rs            |  3 ++
+ rust/kernel/ptr/projection.rs | 98 +++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 84 insertions(+), 17 deletions(-)
 
-Gary Guo (4):
-      rust: ptr: add panicking index projection variant
-      rust: dma: update to keyworded index projection syntax
-      gpu: nova-core: convert to keyworded projection syntax
-      rust: ptr: remove implicit index projection syntax
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 4995ee5dc689..3e4d44749aaf 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -1207,6 +1207,9 @@ macro_rules! dma_write {
+     (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) => {
+         $crate::dma_write!(@parse [$dma] [$($proj)* .$field] [$($rest)*])
+     };
++    (@parse [$dma:expr] [$($proj:tt)*] [[$flavor:ident: $index:expr] $($rest:tt)*]) => {
++        $crate::dma_write!(@parse [$dma] [$($proj)* [$flavor: $index]] [$($rest)*])
++    };
+     (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr]? $($rest:tt)*]) => {
+         $crate::dma_write!(@parse [$dma] [$($proj)* [$index]?] [$($rest)*])
+     };
+diff --git a/rust/kernel/ptr/projection.rs b/rust/kernel/ptr/projection.rs
+index 140ea8e21617..845811795393 100644
+--- a/rust/kernel/ptr/projection.rs
++++ b/rust/kernel/ptr/projection.rs
+@@ -26,14 +26,14 @@ fn from(_: OutOfBound) -> Self {
+ ///
+ /// # Safety
+ ///
+-/// The implementation of `index` and `get` (if [`Some`] is returned) must ensure that, if provided
+-/// input pointer `slice` and returned pointer `output`, then:
++/// The implementation of `index`, `build_index` and `get` (if [`Some`] is returned) must ensure
++/// that, if provided input pointer `slice` and returned pointer `output`, then:
+ /// - `output` has the same provenance as `slice`;
+ /// - `output.byte_offset_from(slice)` is between 0 to
+ ///   `KnownSize::size(slice) - KnownSize::size(output)`.
+ ///
+-/// This means that if the input pointer is valid, then pointer returned by `get` or `index` is
+-/// also valid.
++/// This means that if the input pointer is valid, then pointer returned by `get`, `index` or
++/// `build_index` is also valid.
+ #[diagnostic::on_unimplemented(message = "`{Self}` cannot be used to index `{T}`")]
+ #[doc(hidden)]
+ pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
+@@ -42,9 +42,12 @@ pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
+     /// Returns an index-projected pointer, if in bounds.
+     fn get(self, slice: *mut T) -> Option<*mut Self::Output>;
+ 
++    /// Returns an index-projected pointer; panic if out of bounds.
++    fn index(self, slice: *mut T) -> *mut Self::Output;
++
+     /// Returns an index-projected pointer; fail the build if it cannot be proved to be in bounds.
+     #[inline(always)]
+-    fn index(self, slice: *mut T) -> *mut Self::Output {
++    fn build_index(self, slice: *mut T) -> *mut Self::Output {
+         Self::get(self, slice).unwrap_or_else(|| build_error!())
+     }
+ }
+@@ -67,6 +70,11 @@ fn index(self, slice: *mut T) -> *mut Self::Output {
+     fn index(self, slice: *mut [T; N]) -> *mut Self::Output {
+         <I as ProjectIndex<[T]>>::index(self, slice)
+     }
++
++    #[inline(always)]
++    fn build_index(self, slice: *mut [T; N]) -> *mut Self::Output {
++        <I as ProjectIndex<[T]>>::build_index(self, slice)
++    }
+ }
+ 
+ // SAFETY: `get`-returned pointer has the same provenance as `slice` and the offset is checked to
+@@ -82,6 +90,14 @@ fn get(self, slice: *mut [T]) -> Option<*mut T> {
+             Some(slice.cast::<T>().wrapping_add(self))
+         }
+     }
++
++    #[inline(always)]
++    fn index(self, slice: *mut [T]) -> *mut T {
++        // Leverage Rust built-in operators for bounds checking.
++        // SAFETY: All non-null and aligned pointers are valid for ZST read.
++        unsafe { core::slice::from_raw_parts::<()>(core::ptr::dangling(), slice.len())[self] };
++        slice.cast::<T>().wrapping_add(self)
++    }
+ }
+ 
+ // SAFETY: `get`-returned pointer has the same provenance as `slice` and the offset is checked to
+@@ -100,6 +116,18 @@ fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
+             new_len,
+         ))
+     }
++
++    #[inline(always)]
++    fn index(self, slice: *mut [T]) -> *mut [T] {
++        // Leverage Rust built-in operators for bounds checking.
++        // SAFETY: All non-null and aligned pointers are valid for ZST read.
++        unsafe {
++            _ = core::slice::from_raw_parts::<()>(core::ptr::dangling(), slice.len())[self.clone()];
++        };
++
++        // SAFETY: bounds checked.
++        unsafe { self.get(slice).unwrap_unchecked() }
++    }
+ }
+ 
+ // SAFETY: Safety requirement guaranteed by the forwarded impl.
+@@ -110,6 +138,11 @@ unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeTo<usize> {
+     fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
+         (0..self.end).get(slice)
+     }
++
++    #[inline(always)]
++    fn index(self, slice: *mut [T]) -> *mut [T] {
++        (0..self.end).index(slice)
++    }
+ }
+ 
+ // SAFETY: Safety requirement guaranteed by the forwarded impl.
+@@ -120,6 +153,11 @@ unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeFrom<usize> {
+     fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
+         (self.start..slice.len()).get(slice)
+     }
++
++    #[inline(always)]
++    fn index(self, slice: *mut [T]) -> *mut [T] {
++        (self.start..slice.len()).index(slice)
++    }
+ }
+ 
+ // SAFETY: `get` returned the pointer as is, so it always has the same provenance and offset of 0.
+@@ -130,6 +168,11 @@ unsafe impl<T> ProjectIndex<[T]> for core::ops::RangeFull {
+     fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
+         Some(slice)
+     }
++
++    #[inline(always)]
++    fn index(self, slice: *mut [T]) -> *mut [T] {
++        slice
++    }
+ }
+ 
+ /// A helper trait to perform field projection.
+@@ -208,9 +251,12 @@ unsafe fn proj<F>(_: *mut Self, _: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
+ /// `kernel::ptr::project!(mut ptr, projection)`. By default, a const pointer is created.
+ ///
+ /// `ptr::project!` macro can perform both fallible indexing and build-time checked indexing.
+-/// `[index]` form performs build-time bounds checking; if compiler fails to prove `[index]` is in
+-/// bounds, compilation will fail. `[index]?` can be used to perform runtime bounds checking;
+-/// `OutOfBound` error is raised via `?` if the index is out of bounds.
++/// The syntax is of form `[<flavor> index]` where `flavor` indicates the way of handling index
++/// out-of-bound errors.
++/// - `try` will raise an `OutOfBound` error (which is convertible to `ERANGE`).
++/// - `build` will use [`build_assert!`](kernel::build_assert::build_assert) mechanism to have
++///   compiler validate the index is in bounds.
++/// - `panic` will cause a Rust [`panic!`] if index goes out of bound.
+ ///
+ /// # Examples
+ ///
+@@ -228,17 +274,21 @@ unsafe fn proj<F>(_: *mut Self, _: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
+ /// }
+ /// ```
+ ///
+-/// Index projections are performed with `[index]`:
++/// Index projections are performed with `[<flavor>: index]`, where `flavor` is `try`, `build` or
++/// `panic`:
+ ///
+ /// ```
+ /// fn proj(ptr: *const [u8; 32]) -> Result {
+-///     let field_ptr: *const u8 = kernel::ptr::project!(ptr, [1]);
++///     let field_ptr: *const u8 = kernel::ptr::project!(ptr, [build: 1]);
+ ///     // The following invocation, if uncommented, would fail the build.
+ ///     //
+-///     // kernel::ptr::project!(ptr, [128]);
++///     // kernel::ptr::project!(ptr, [build: 128]);
+ ///
+ ///     // This will raise an `OutOfBound` error (which is convertible to `ERANGE`).
+-///     kernel::ptr::project!(ptr, [128]?);
++///     kernel::ptr::project!(ptr, [try: 128]);
++///
++///     // This will panic in runtime if executed.
++///     kernel::ptr::project!(ptr, [panic: 128]);
+ ///     Ok(())
+ /// }
+ /// ```
+@@ -248,7 +298,7 @@ unsafe fn proj<F>(_: *mut Self, _: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
+ /// ```
+ /// let ptr: *const [u8; 32] = core::ptr::dangling();
+ /// let field_ptr: Result<*const u8> = (|| -> Result<_> {
+-///     Ok(kernel::ptr::project!(ptr, [128]?))
++///     Ok(kernel::ptr::project!(ptr, [try: 128]))
+ /// })();
+ /// assert!(field_ptr.is_err());
+ /// ```
+@@ -257,7 +307,7 @@ unsafe fn proj<F>(_: *mut Self, _: impl FnOnce(*mut Self) -> *mut F) -> *mut F {
+ ///
+ /// ```
+ /// let ptr: *mut [(u8, u16); 32] = core::ptr::dangling_mut();
+-/// let field_ptr: *mut u16 = kernel::ptr::project!(mut ptr, [1].1);
++/// let field_ptr: *mut u16 = kernel::ptr::project!(mut ptr, [build: 1].1);
+ /// ```
+ #[macro_export]
+ macro_rules! project_pointer {
+@@ -280,16 +330,30 @@ macro_rules! project_pointer {
+         $crate::ptr::project!(@gen $ptr, $($rest)*)
+     };
+     // Fallible index projection.
+-    (@gen $ptr:ident, [$index:expr]? $($rest:tt)*) => {
++    (@gen $ptr:ident, [try: $index:expr] $($rest:tt)*) => {
+         let $ptr = $crate::ptr::projection::ProjectIndex::get($index, $ptr)
+             .ok_or($crate::ptr::projection::OutOfBound)?;
+         $crate::ptr::project!(@gen $ptr, $($rest)*)
+     };
+-    // Build-time checked index projection.
+-    (@gen $ptr:ident, [$index:expr] $($rest:tt)*) => {
++    // Panicking index projection.
++    (@gen $ptr:ident, [panic: $index:expr] $($rest:tt)*) => {
+         let $ptr = $crate::ptr::projection::ProjectIndex::index($index, $ptr);
+         $crate::ptr::project!(@gen $ptr, $($rest)*)
+     };
++    // Build-time checked index projection.
++    (@gen $ptr:ident, [build: $index:expr] $($rest:tt)*) => {
++        let $ptr = $crate::ptr::projection::ProjectIndex::build_index($index, $ptr);
++        $crate::ptr::project!(@gen $ptr, $($rest)*)
++    };
++
++    // For compatibility
++    (@gen $ptr:ident, [$index:expr]? $($rest:tt)*) => {
++        $crate::ptr::project!(@gen $ptr, [try: $index] $($rest)*)
++    };
++    (@gen $ptr:ident, [$index:expr] $($rest:tt)*) => {
++        $crate::ptr::project!(@gen $ptr, [build: $index] $($rest)*)
++    };
++
+     (mut $ptr:expr, $($proj:tt)*) => {{
+         let ptr: *mut _ = $ptr;
+         $crate::ptr::project!(@gen ptr, $($proj)*);
 
- drivers/gpu/nova-core/gsp/cmdq.rs | 108 +++++++++++++++++++++-----------------
- rust/kernel/dma.rs                |  15 +++---
- rust/kernel/ptr/projection.rs     |  90 +++++++++++++++++++++++++------
- samples/rust/rust_dma.rs          |  12 ++---
- 4 files changed, 145 insertions(+), 80 deletions(-)
----
-base-commit: 1c7cc4904160c6fc6377564140062d68a3dc93a0
-change-id: 20260415-projection-syntax-rework-b790a305bc52
-
-Best regards,
---  
-Gary Guo <gary@garyguo.net>
+-- 
+2.51.2
 
