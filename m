@@ -1,280 +1,184 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F64A3314B9
-	for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 09:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8855437AA8B;
+	Wed, 15 Apr 2026 11:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776246501; cv=none; b=Gq4+/+fU3n1I1fNArdTAkS0b+MmpjimgZOfbyOqDZMocfHiZuU0i0AFqwBhwJJRcpMTMOyQxVKdGiV63LLZMwZTjhp1/Lg1ibhZUMvWjcX0IQenKiaxLoJCg3cc4r1AgKqwFSB5tovbe2LQiRKcvZNt2yS6zLuAO8y/8tyULX1U=
+	t=1776252349; cv=none; b=U7kvIE76/hKoHtcfDAjOF8TcXloiw2EMPn1CLYNEQ+luqr+TdPr+fK6S1nbHFy+wUI+g0/13JCr4CwblAHMskD9HUMwBEJgU3xAi81h3sScrtrk4vxvnTTICqeFwIfgFPgs2/BwTjLNgFA0fSvb95vwjBt+IK8iQ1JchhOXVJfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776246501; c=relaxed/simple;
-	bh=VvlkYNhtQ90P8L6Jh3neMSGe+P0dfTI5qZzeTQ2bo2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8wPWCXa0fxAUiu8HmsbDFDmtLEd2DxpOEFgVNIELKlsBDmGsTcGjdCI9mycNKo6WkBzRNavcmL9QOdp9M5uYoL9l1zCgY+Tw7XsbCOSyjuf5dcExPx2hHcYfZuz5Z/DvwYaz234M6hSWqQYo/aaeSDQvHbNf3SjGR2Dl5rcC9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=kWWAkUcx; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1776252349; c=relaxed/simple;
+	bh=0QeTyvtoCnNRRXFdte6x9ln64i4XnIZGxAh5AfOrhe0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZK6Mc/A+OtsYcjcatC9GvmubWAhEn5sYacbuoIwvmu55N8AsiHaiPH6+nQmMZZkq4GMoInFhNtIyIPjcnTXeQa8izCGWMgX1Ka4JelW0YPl1I0goZdmehxCntXw+iNhMi0lZrG1nU5UxO6ZVT/BBah6JxOPHimdxzRuPQ2hAsjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iCAYjK64; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="kWWAkUcx"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488c21c636dso39952265e9.2
-        for <driver-core@lists.linux.dev>; Wed, 15 Apr 2026 02:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776246498; x=1776851298; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jMeurbQVmsgoyeIbBvxMLfni9ENDDzoCLDA23lXz4qw=;
-        b=kWWAkUcx2NCmcMc8iNWrqJbrolQKojp3uyCVqpLPp1AyOkxQ1qR+MFBaVFLHTOy2dy
-         eh9LTS6QXe5UIIJEvGubYWmRgdsxzcPEUP2Jftk/iojla9GG7MA6gsjtfIDGRI0QCuMP
-         I9H4STzL6dcKXJHr8gvP7MROH/XbDjMERfZV1HVL7Rv9mzlnXYCU2L31oMjtS2CeWmxB
-         YLZcQYXYDxs2GwfNfbcSvWJnUKq1Y3PwUl//RGvXkvD97G9fjCfEKFNZ95xE7/LmOZqd
-         wOvzZLj4eH00Ivc9swelafF/RGSlOwdfwdBz/VHasfV+hDkP5uauMFMidigaWjg0snHb
-         rcmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776246498; x=1776851298;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jMeurbQVmsgoyeIbBvxMLfni9ENDDzoCLDA23lXz4qw=;
-        b=WwY3Uph05WRH0N5NJi2uQ373KjWY7ciz2Ue39bvv2qkxG5jcoTAN7PNzQhxNwA46gP
-         9AwfrYChgZcup39Dq6Tz+f24zHOhN03CgYpwuyeT7B2lAK8NBzMZNUz51a6hFAEr+rU3
-         IODinthkl5p5k7vif47CHgJurOvUGJ8m/Ph4+TuaO0xcm9HBQB7rPuTp90Bm8P4U5Xzy
-         Mgcc3De1PGYMbd72OE6oMgEeCAoyRYB01J3KW0MwTMcbdYoBC1sPrCzbsafmEPfXk12r
-         1mS/VbFaHfQxgT3/m0d0wkGXA8Qjq5EAbQxOBz/r3avfbA8VerpbU7YbDQv4bnqseXc/
-         i9VA==
-X-Forwarded-Encrypted: i=1; AFNElJ8a1n9Ghpap6pApjSFckfAB0mMtAj0VzGcrmpf682eUiSMuUCL0uFI9eABFDEhXvI8gQhNGEl7/QwAqkQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGeSnyndTw47jxonBhp9GiYP93ro1GUqhJzQP1hy2Clw05dDgj
-	/YosWxrFmRjcscIwT1Rcr6R819XBrnah4PzEgQWU9RnI7zZmq5klqn3yo6Z5QJ3nHHs=
-X-Gm-Gg: AeBDievJROW646AoZJT1OkOdHz7teBe114eVnj9fY84Z4p8/3qwyNoBNKTjp1VkEdtf
-	xpIBPywl0nLpaG4lugqXyruvDZYzpVJ0g8dxr52S10Rto1In5nYQhsfhrCyoxXwPts/vQVOoA/R
-	gijB6RAjchXfXaLYWVwQBTyig+IrYp459yf2ulJkGtfTFZFkRUnUS1Wu5IvbWLxqArP77HgOKjr
-	AR4I3R4vNdAjSEiOctXu5XRfQ2UUpTnsOGDVxmvMcTlYucPbhIIRrtDoGg+gXrw0gpqkEewvzMS
-	QX2FfN+lETgYB0DU0/9JXwJ60xtEhk4hN6TqsdmLnGpCuUmFRTtpexle3cGUweqhG0EImPSgGC5
-	Wl5BDiZW2Xam0rYX209ATJzy0XFhO4BtqslCO58nq6Ui7/irZKI/DPWOqJzWxb3OhQLyoikzkTJ
-	6hgFoFUzDwYGNJhch8clMTk0vn2ylP6QUWAKJpErCTht9Khmm5XQLJzZ8CaXajACbl6kVpnLrFV
-	Jb4zFBa0KZyWEk=
-X-Received: by 2002:a05:600c:674f:b0:488:a82f:bb9b with SMTP id 5b1f17b1804b1-488d68cb47amr301649165e9.30.1776246497313;
-        Wed, 15 Apr 2026 02:48:17 -0700 (PDT)
-Received: from localhost (p200300f65f20eb083bb4a87bdc7af3c6.dip0.t-ipconnect.de. [2003:f6:5f20:eb08:3bb4:a87b:dc7a:f3c6])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-488ee042ff9sm133558095e9.14.2026.04.15.02.48.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 02:48:16 -0700 (PDT)
-Date: Wed, 15 Apr 2026 11:48:15 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	"linux-kernel@vger.kernel.org Sudeep Holla" <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	arm-scmi@vger.kernel.org
-Subject: Probe function registering another driver [Was: Re: [GIT PULL]
- Driver core changes for 7.0-rc1]
-Message-ID: <ad9cglZCwtsVsGmq@monoceros>
-References: <DGCIBIK52SF8.3FVF3GR1R2302@kernel.org>
- <CAHk-=wgJ_L1C=HjcYJotg_zrZEmiLFJaoic+PWthjuQrutrfJw@mail.gmail.com>
- <ad6IJwpp5AA0-fAW@monoceros>
- <DHT95ARBC9W8.37Z54YM70UCT2@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iCAYjK64"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FCE5C4AF0B;
+	Wed, 15 Apr 2026 11:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776252348;
+	bh=0QeTyvtoCnNRRXFdte6x9ln64i4XnIZGxAh5AfOrhe0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iCAYjK64Tfl1KN4kuqKnRr1MIBS5wxGrxzU+t139D3rX/u+TVTfifIuxn0wR4MCOy
+	 m1ymSKiAZkz0H3CzmR3j99AJO5uHnDJ84JPBk6Acz72isVtPZR9VUsvB7utW8cHYN4
+	 Jxopp7ZZDs/eNPylxgRy0DIaPaJfGX7AkpBPIA+fTEs/NYA0upwL7c9t/3Zb5Tr+sM
+	 PX0qfejWJhoy/vMZyCRG1kiFN45Wx5HqMta5cUBqosUzz6untmsafrmQ1e6TXCfTj2
+	 stKImHB1seIa0VzekRBD6hLS+ZHwOUtpTab1y1V5kSbSbY6CWeR7vHsccGWHaFSd/e
+	 rFl/xcOEOFgwQ==
+Message-ID: <02f3c112-21a5-4eff-b23a-c11390604ce0@kernel.org>
+Date: Wed, 15 Apr 2026 11:25:43 +0000
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sw57f7aismwd3wn2"
-Content-Disposition: inline
-In-Reply-To: <DHT95ARBC9W8.37Z54YM70UCT2@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drivers: base: Add generic context device bus
+To: ekansh.gupta@oss.qualcomm.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Arnd Bergmann <arnd@arndb.de>, Srinivas Kandagatla <srini@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org
+References: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
+ <20260414-computebus-v1-1-4d904d40926a@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20260414-computebus-v1-1-4d904d40926a@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---sw57f7aismwd3wn2
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Probe function registering another driver [Was: Re: [GIT PULL]
- Driver core changes for 7.0-rc1]
-MIME-Version: 1.0
 
-Hello Danilo,
+On 4/14/26 4:31 PM, Ekansh Gupta via B4 Relay wrote:
+> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> 
+> Introduce a new generic bus type for synthetic context bank devices
+> that require IOMMU context isolation. This bus provides a shared
+> infrastructure for accelerator and GPU drivers that create virtual
+> devices representing IOMMU context banks.
+> 
+> Currently, drivers like host1x implement their own bus types for
+> context devices. This generic implementation allows multiple drivers
+> to share the same bus infrastructure, simplifying the IOMMU subsystem
+> integration and reducing code duplication.
+> 
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> ---
+>  drivers/base/Kconfig        |  3 +++
+>  drivers/base/Makefile       |  1 +
+>  drivers/base/context_bus.c  | 24 ++++++++++++++++++++++++
+>  include/linux/context_bus.h | 15 +++++++++++++++
 
-[expanded Cc: a bit for the affected driver]
+This patch as it is does not add any details on how the iommu will be
+binded to this bus, Please consider adding the iommu changes to this
+patch so that its easy to understand and for completeness.
 
-On Wed, Apr 15, 2026 at 01:04:47AM +0200, Danilo Krummrich wrote:
-> On Tue Apr 14, 2026 at 8:39 PM CEST, Uwe Kleine-K=F6nig wrote:
-> > does that mean that there is a driver involved that somehow violates dr=
-iver
-> > core assumptions and should be fixed even without the consistent lockin=
-g?
->=20
-> Most likely. There are two known cases where interactions with this commi=
-t are
-> expected.
->=20
->   (1) One of the drivers probed on your machine gets stuck within probe()=
- (or
->       any other place where the device lock is held, e.g. bus callbacks) =
-for
->       some reason, e.g. due to a deadlock.  In this case this commit would
->       potentially cause other tasks to get stuck in driver_attach() when =
-they
->       attempt to register a driver for the same bus the bad one sits on.
->=20
->       This is also the main reason why we eventually reverted this commit=
-, i.e.
->       despite not being the root cause of an issue, it makes an already b=
-ad
->       situation worse.
->=20
->   (2) If there is a driver probed on your machine that registers another =
-driver
->       from within its probe() function for the same bus it results in a
->       deadlock.  Note that this is transitive -- if a driver is probed on=
- bus A,
->       which e.g. deploys devices on bus B that are subsequently probed, a=
-nd then
->       in one of the probe() calls on bus B a driver is registered for bus=
- A,
->       that is a deadlock as well.
->=20
->       For instance, this could happen when a platform driver that runs a =
-PCIe
->       root complex deploys the corresponding PCI devices and one of the
->       corresponding PCI drivers registers a platform driver from probe().
->=20
->       Anyways, for the underlying problem this reveals, the exact constel=
-lation
->       doesn't matter.  The anti-pattern it reveals is that drivers should=
-n't be
->       registered from another driver's probe() function in the first plac=
-e.
->=20
->       I fixed a few drivers having this anti-pattern and all of them had =
-other
->       (lifetime) issues due to this and I think there are other potential
->       deadlock scenarios as well.
->=20
-> > Hints about how to approach the issue (if there is any) welcome.
->=20
-> For (1) I think it's obvious, and I think it wouldn't have gone unnoticed=
- if any
-> of the drivers were bad to the point that they're getting stuck in probe(=
-) or
-> any other place where the device lock is held.
->=20
-> As for (2) I think the best way to catch it is lockdep. Unfortunately, lo=
-ckdep
-> won't be very helpful without some additional tricks, since the driver co=
-re
-> calls lockdep_set_novalidate_class() for the device lock to avoid false
-> positives.
 
-Thanks for the patch, indeed it creates a lockdep splat on my machine:
+Also naming it as context bus is bit generic, I think the whole purpose
+of this is bus is to add this as another supported bus in the iommu.
 
-[    2.151192] optee: probing for conduit method.
-[    2.195336] optee: revision 4.9
-[    2.203597] optee: Asynchronous notifications enabled
-[    2.203937] optee: dynamic shared memory is enabled
-[    2.218444]
-[    2.218466] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[    2.218474] WARNING: possible recursive locking detected
-[    2.218484] 7.0.0-dirty #32 Tainted: G        W
-[    2.218496] --------------------------------------------
-[    2.218500] swapper/0/1 is trying to acquire lock:
-[    2.218510] c2035cb4 (dev->mutex#3){+.+.}-{4:4}, at: __driver_attach+0x0=
-/0x270
-[    2.218565]
-[    2.218565] but task is already holding lock:
-[    2.218570] c2035cb4 (dev->mutex#3){+.+.}-{4:4}, at: __driver_attach+0x1=
-30/0x270
-[    2.218601]
-[    2.218601] other info that might help us debug this:
-[    2.218607]  Possible unsafe locking scenario:
-[    2.218607]
-[    2.218611]        CPU0
-[    2.218614]        ----
-[    2.218617]   lock(dev->mutex#3);
-[    2.218631]   lock(dev->mutex#3);
-[    2.218643]
-[    2.218643]  *** DEADLOCK ***
-[    2.218643]
-[    2.218647]  May be due to missing lock nesting notation
-[    2.218647]
-[    2.218651] 2 locks held by swapper/0/1:
-[    2.218659]  #0: c2035cb4 (dev->mutex#3){+.+.}-{4:4}, at: __driver_attac=
-h+0x130/0x270
-[    2.218693]  #1: c2690cb4 (dev->mutex#59){+.+.}-{4:4}, at: __device_atta=
-ch+0x34/0x200
-[    2.218728]
-[    2.218728] stack backtrace:
-[    2.218738] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W    =
-       7.0.0-dirty #32 PREEMPT
-[    2.218757] Tainted: [W]=3DWARN
-[    2.218762] Hardware name: STM32 (Device Tree Support)
-[    2.218770] Call trace:
-[    2.218780]  unwind_backtrace from show_stack+0x18/0x1c
-[    2.218814]  show_stack from dump_stack_lvl+0x68/0x88
-[    2.218843]  dump_stack_lvl from print_deadlock_bug+0x370/0x380
-[    2.218871]  print_deadlock_bug from __lock_acquire+0x1498/0x1f38
-[    2.218895]  __lock_acquire from lock_acquire+0x138/0x40c
-[    2.218918]  lock_acquire from __driver_attach+0x40/0x270
-[    2.218939]  __driver_attach from bus_for_each_dev+0x78/0xc8
-[    2.218966]  bus_for_each_dev from bus_add_driver+0xe8/0x238
-[    2.218996]  bus_add_driver from driver_register+0x8c/0x140
-[    2.219022]  driver_register from scmi_optee_service_probe+0x150/0x1f0
-[    2.219053]  scmi_optee_service_probe from really_probe+0xe8/0x424
-[    2.219079]  really_probe from __driver_probe_device+0xa4/0x1fc
-[    2.219097]  __driver_probe_device from driver_probe_device+0x3c/0xd8
-[    2.219117]  driver_probe_device from __device_attach_driver+0xbc/0x174
-[    2.219136]  __device_attach_driver from bus_for_each_drv+0x8c/0xe0
-[    2.219160]  bus_for_each_drv from __device_attach+0xb0/0x200
-[    2.219184]  __device_attach from device_initial_probe+0x50/0x6c
-[    2.219203]  device_initial_probe from bus_probe_device+0x2c/0x84
-[    2.219228]  bus_probe_device from device_add+0x618/0x87c
-[    2.219257]  device_add from optee_enumerate_devices+0x210/0x2cc
-[    2.219286]  optee_enumerate_devices from optee_probe+0x8a0/0xa14
-[    2.219311]  optee_probe from platform_probe+0x64/0x98
-[    2.219335]  platform_probe from really_probe+0xe8/0x424
-[    2.219355]  really_probe from __driver_probe_device+0xa4/0x1fc
-[    2.219374]  __driver_probe_device from driver_probe_device+0x3c/0xd8
-[    2.219393]  driver_probe_device from __driver_attach+0x13c/0x270
-[    2.219412]  __driver_attach from bus_for_each_dev+0x78/0xc8
-[    2.219436]  bus_for_each_dev from bus_add_driver+0xe8/0x238
-[    2.219465]  bus_add_driver from driver_register+0x8c/0x140
-[    2.219490]  driver_register from optee_core_init+0x18/0x3c
-[    2.219519]  optee_core_init from do_one_initcall+0x74/0x424
-[    2.219548]  do_one_initcall from kernel_init_freeable+0x2a8/0x328
-[    2.219574]  kernel_init_freeable from kernel_init+0x1c/0x138
-[    2.219599]  kernel_init from ret_from_fork+0x14/0x28
-[    2.219620] Exception stack(0xdd811fb0 to 0xdd811ff8)
-[    2.219634] 1fa0:                                     00000000 00000000 =
-00000000 00000000
-[    2.219648] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 =
-00000000 00000000
-[    2.219659] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[    2.221255] arm-scmi arm-scmi.0.auto: Using scmi_optee_transport
-[    2.221289] arm-scmi arm-scmi.0.auto: SCMI max-rx-timeout: 30ms / max-ms=
-g-size: 104bytes / max-msg: 20
+may be iommu_context bus or something on those lines would be much clear.
 
-The anti-pattern here is that scmi_optee_service_probe() calls
-platform_driver_register(&scmi_optee_driver), see
-drivers/firmware/arm_scmi/transports/optee.c.
 
-Best regards
-Uwe
+>  4 files changed, 43 insertions(+)
+> 
+> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+> index f7d385cbd3ba..479bc4bb442b 100644
+> --- a/drivers/base/Kconfig
+> +++ b/drivers/base/Kconfig
+> @@ -4,6 +4,9 @@ menu "Generic Driver Options"
+>  config AUXILIARY_BUS
+>  	bool
+>  
+> +config CONTEXT_DEVICE_BUS
+> +	bool
+> +
+>  config UEVENT_HELPER
+>  	bool "Support for uevent helper"
+>  	help
+> diff --git a/drivers/base/Makefile b/drivers/base/Makefile
+> index 8074a10183dc..ab9a0b2dc73b 100644
+> --- a/drivers/base/Makefile
+> +++ b/drivers/base/Makefile
+> @@ -8,6 +8,7 @@ obj-y			:= component.o core.o bus.o dd.o syscore.o \
+>  			   topology.o container.o property.o cacheinfo.o \
+>  			   swnode.o faux.o
+>  obj-$(CONFIG_AUXILIARY_BUS) += auxiliary.o
+> +obj-$(CONFIG_CONTEXT_DEVICE_BUS) += context_bus.o
+>  obj-$(CONFIG_DEVTMPFS)	+= devtmpfs.o
+>  obj-y			+= power/
+>  obj-$(CONFIG_ISA_BUS_API)	+= isa.o
+> diff --git a/drivers/base/context_bus.c b/drivers/base/context_bus.c
+> new file mode 100644
+> index 000000000000..6ddb6c27bf69
+> --- /dev/null
+> +++ b/drivers/base/context_bus.c
+> @@ -0,0 +1,24 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 
---sw57f7aismwd3wn2
-Content-Type: application/pgp-signature; name="signature.asc"
+Some credits to the inspiring code would be nice.
 
------BEGIN PGP SIGNATURE-----
+> +
+> +#include <linux/context_bus.h>
+> +#include <linux/init.h>
+> +
+> +const struct bus_type context_device_bus_type = {
+> +	.name = "context-device",
+> +};
+> +EXPORT_SYMBOL_GPL(context_device_bus_type);
+> +
+> +static int __init context_device_bus_init(void)
+> +{
+> +	int err;
+> +
+> +	err = bus_register(&context_device_bus_type);
+> +	if (err < 0) {
+> +		pr_err("context-device bus registration failed: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	return 0;
+> +}
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnfXt0ACgkQj4D7WH0S
-/k7+Xgf/VIX2gzUy/gM3RP/xqqj5s1HxYJLwTHX4tTocpq0RSH/xzfT4fEUZo/S4
-Yo22SawptMwBDPAC0+I+4m8g6JNoI/LONGFp6fCv59gjicha+STtNhpKRB0z9tNq
-ES8ZDRyNXE9ieyJGCT0zzxCUPv4jlvNSLR7OP2s9jaoDdXP+0tH0pQbsMfr0w5QF
-3uj9zu/ScMNzCGMithmg9FgpoCHXX/W/fW94OGn+YlZ1LwVfVGklUwvpomA2ZUXK
-jXn9CSw7O3kTzFttNjQVVVRR60cML7tCuMe1NZa0eDwdwMdtbRIR5Y5BXnDCGdY7
-TzJ3EMql4uVK3HX0GBx03Z3PztFFWw==
-=GQBb
------END PGP SIGNATURE-----
+So is the consumer drivers are expected to do the device management for
+this bus, this certainly is not correct and every consumer would be
+duplicating it.
 
---sw57f7aismwd3wn2--
+Did you consider faux bus?
+
+> +postcore_initcall(context_device_bus_init);
+> diff --git a/include/linux/context_bus.h b/include/linux/context_bus.h
+> new file mode 100644
+> index 000000000000..0cd44cb5b147
+> --- /dev/null
+> +++ b/include/linux/context_bus.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef __LINUX_CONTEXT_BUS_H
+> +#define __LINUX_CONTEXT_BUS_H
+> +
+> +#include <linux/device.h>
+> +
+> +#ifdef CONFIG_CONTEXT_DEVICE_BUS
+> +extern const struct bus_type context_device_bus_type;
+> +#endif
+> +
+> +#endif /* __LINUX_CONTEXT_BUS_H */
+> 
+
