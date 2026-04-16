@@ -1,73 +1,74 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214E73B7A8
-	for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 13:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8E93E314D
+	for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 15:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776347002; cv=none; b=bWVJQD1xnreyXcXBMiOB9QKMlCEb+wT/QGZNVr+CHfoqihoYlX/tXHB7za5VEHXB8fb2NF+0CHy8NIyJB6/s4AKB+vuZ+4YwgrthHK+BiIqAkOSJWRlY4Q34VnniE9oD/tfuJ8+LDbtrwXiR/UieqLV+Jhs1fACZk3Asp6wQSrA=
+	t=1776351966; cv=none; b=th41dM2AekMLJUuH76TDsB5iHpFcPoSKVp991p2OLCHfMopP6vC7exv3FTsrx8EZ30R8Pjwh0P+z0R0gY8vD5CaCMtjLlG7HyP/1Oovyx0nL/NsPRhm3K71iOFqRU6pj6whMF2rVbOZ4u0hlYOvp87xcZyisEDbBeJabE2iAd8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776347002; c=relaxed/simple;
-	bh=pmr33UPV80r3AimG84BDA6JGI5flGSsHOl9kycOo5uI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b7dMagdUjboOzkUpLWadCKGYVElU/cILNxDRMlfmpBIVWBHnq2IUCNXTbHJ29se4+XypZVpQy5Z+UqAYP4TvGNPdYybHdMiWOG3b4RFl9vS9AgXNwEWTFccO5aWAudDenEwNOe+iWIqRg96XpCYRZyYPTFff9I/HpG/UG5VruuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu; spf=pass smtp.mailfrom=u.northwestern.edu; dkim=pass (2048-bit key) header.d=u-northwestern-edu.20251104.gappssmtp.com header.i=@u-northwestern-edu.20251104.gappssmtp.com header.b=V6RJ6myM; arc=none smtp.client-ip=209.85.222.173
+	s=arc-20240116; t=1776351966; c=relaxed/simple;
+	bh=Al1F9LxdwQPYH1d+6OVlctXzpz8oQZ3GDQFoDUgKM5U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kUXHztCSj7QSku7upuaqYZdNMQWR+lco15GwnL4Hy+0bPFUXHA/IVmZjLXbAVHKwK4N1XN5Ne4IIyGAn2EsTdgr0XjS9KiPoJLdkXyEkrmlXevTUGz/46lS9J7bgIQOJf+LhWyHjmKOqujeoWBu/0SSZciAzCykEEY7LLMe/HVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu; spf=pass smtp.mailfrom=u.northwestern.edu; dkim=pass (2048-bit key) header.d=u-northwestern-edu.20251104.gappssmtp.com header.i=@u-northwestern-edu.20251104.gappssmtp.com header.b=WoV1IQTD; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=u.northwestern.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=u-northwestern-edu.20251104.gappssmtp.com header.i=@u-northwestern-edu.20251104.gappssmtp.com header.b="V6RJ6myM"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8dbbc6c16b2so99063485a.0
-        for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 06:43:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=u-northwestern-edu.20251104.gappssmtp.com header.i=@u-northwestern-edu.20251104.gappssmtp.com header.b="WoV1IQTD"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50b2ebca625so7109241cf.0
+        for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 08:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=u-northwestern-edu.20251104.gappssmtp.com; s=20251104; t=1776346998; x=1776951798; darn=lists.linux.dev;
+        d=u-northwestern-edu.20251104.gappssmtp.com; s=20251104; t=1776351963; x=1776956763; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=faRnu299rc8RbF72AIXkrSjnL+KG7jYZt+i3QwegYds=;
-        b=V6RJ6myMXkEpk6nDcUMyohamlhXUuWLnRMZNpu22H8+hKB165VBcD2bEHN6zQM80zI
-         9q+H3tU+ucIjrMsFErret/HAca6tcqfVnvvutwRL8mFe6wiR+xO2q8S4pnmGIsXvsA6G
-         Kz5BT6hhbVjY4gGU5URh7pqQA1VTB47zCaYpy7UmcbmIuAJw9kWY9YzxvkG7hAz2ZjWN
-         5wHmt3cSPKaFDY14cj2JBw28TMwCsbeNEYUInqSewywJHptcnlYTIHsqsmVfZM0eYux2
-         YyBugNvpqEhGPLBEHqPyGqyFTmhDf0FIsYpbSYoZBdXCSF04rp+P4wMFnDPef1Qm9Sbe
-         19+g==
+        bh=+r7pKm0Oa2J37AR0FDSLuD1gUcrwE8bT/2He5bq2wC4=;
+        b=WoV1IQTDglRAn2qG/twve64KnKoeC8EmvFCXFRGzes9u5TxDKlOJp/bbt9Tg5b7sey
+         iFuAe4+Y1tHwXpcJ7WWbxUUAtksmf/LBrFCVnR5ikbgNgU2c1xu4eq3ZxbTfyEKDjbxx
+         PqFFEBUzcBanh+FmaQeiTSA/gfEmIbAEqAzCcadNGMefo+jziTbEvUlqZgyX8iO8eIhX
+         jH1eyRMb8nR8gEKRaTNsFPUsjl1q6bFCvMpyvy/fOnBYbwCSmoNcNWvhQQb18ccfWQYD
+         Yjv1Zm+A4qiFgMubvcwt2XivnPgeuD7RyDk94CoT8gsefZGLD22EEh08uUy5AJ0bsNev
+         rzxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776346998; x=1776951798;
+        d=1e100.net; s=20251104; t=1776351963; x=1776956763;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=faRnu299rc8RbF72AIXkrSjnL+KG7jYZt+i3QwegYds=;
-        b=BSE8d/YCX43S9a2Vr9dXQASemSGyC5KhKa8A4lNjVq4QvW9ogXIaPwX77uE2uuJVpI
-         23LlIHzgvWziblse1D2JPAr9sHezsSZqvMT/mQI9CUjwZlTJFHGydSi/MOy8AN7G+MGU
-         wVEzMsyLB5mqUUcE0PNd3DH498iVI97pBpjP3Sz3Pwz3J77VSin43YG3dg9IGOC5eYbL
-         fniG/VBBNiGzoBl/yWE27eEmd2ftkfSXMMuXCBcOxqvqSgaroPhpMzYMMcyrofGYrPPw
-         sHu1uEzTSMusLh8RFM1K/MPdlOqSdxCZnfNilhvtRTGUqnDWwj0dMCyGL9oVBba36O+X
-         gB8g==
-X-Forwarded-Encrypted: i=1; AFNElJ+Yfg7qMvKcAm8q3ZM4E9tASG6iW7JgohbTVXEO6s+oAEFdSeLsK20p+SL+O/rKSy4s8TFZQA0TuYr5AA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+SiLj/OQA2Wwc/2pIaUpVDurYkroBYeW6gen4OB1XnxwlHbYM
-	mXLhpJ8XyJaYQYdb5Z6l2/Jz3gNZuMn6ef5dICRh1AWu18Us+I1dtY649bppuSgEDQM=
-X-Gm-Gg: AeBDiev04m+D8eA5OskKaExM30QbmP62NQL9P1zdVy+8wLRXUg8hS00mIwKHfvp2EUh
-	SpXEf2mFfXg3fKaJYIJSG9aOsiuJDeqh/WmN3O2Z0JxoOegr8ntsC256Hb4BxLsK22nXvJ4L/wx
-	8IZv69A5APacRHj5peW5qZpP982e+15MZkIHcYSQHQEvM1dCEsa/w59HYkEDEe3atSmWS1AuoV2
-	CtyNr926iWVBtiznDORLzCSpEPUgrTbkMCRfeYh7UscfHgwLeZ2BnMw7B5SDhYQzj7LtFguhCcM
-	VM+98D+y5i9pO4XMtilaaz9Ul1LE9w0/2zryqJW9pLnYNTqrWI+/2tN1pCVDRGHGdsazVJ+ob8z
-	bpsQMaY5ncjTHisdUfshXVZ4S0TzbsJsXR0k1dcV36a+wo4lWpcr+WnVgxXdrV1G2U5taPQj1hW
-	yNTiZN6vxkxxhwDQy1DnjjkZ9p+zCKQ5/vBe2Ir8xX4CWq/5ZD8t2RJ6URc2H4AgscPqeEyTkC3
-	T5aGzSPvDZE1xTrpOl8l90=
-X-Received: by 2002:a05:620a:2682:b0:8d5:8815:ffc6 with SMTP id af79cd13be357-8e689142d78mr201792685a.13.1776346998019;
-        Thu, 16 Apr 2026 06:43:18 -0700 (PDT)
+        bh=+r7pKm0Oa2J37AR0FDSLuD1gUcrwE8bT/2He5bq2wC4=;
+        b=R2WObNx/YaIhSuZRUH77SjWxv9O9Gn9Lu7caM6nTDpUumt2lUjCajcPasJx/s8wYyS
+         LVG9m/eX2pV66fOhgln/sZf9lPouwsBrdNjhjDgimZyB+OKPNJcn3ZmF7S++GC4LRRsE
+         hPSDnTi6IeBC4RBlcP+7+8b+dnYhUYGGNJ4OeFdgjdwEvWUjpPz6PtMnYS77aL6yaCZv
+         rFxKuFkDZdHUAziPM18qJvFtHYXWUQDOg1vrenPiLnyD5RDcgR5iFK5LFtHHhRffve49
+         bgUhhCbV0btoPuK+B7VJRKkd0v6Jx+485gS9r4PqIzsAkV6PBc9FqmO1lGCiYp6M/SJ2
+         chJg==
+X-Gm-Message-State: AOJu0Yyv1q+KoIso45qR3JTEdReRCS0gf2fBMzFbFqaVxQpjLRLvz3G4
+	xuT8jT25lBW1upC5lf7K2HHc4sgRkZvg2Eonh3dB5HxPwGwvus2owcOLcvk0LIdrdnA=
+X-Gm-Gg: AeBDievxjH8ZNVJBPYstlHn69WbKLMGgVGRUciosQfqErKRz6dR3ONVTjRD5Lmuyvte
+	a+2q1fsggnyfhkPQp2vXfPeFQJQAvgBWkEh7s0X/rLhSWnQV/TWEK0TsUHx2ItcTAihStLEdM6o
+	JVZhXU2yLNf5g7q7PSNoGQiA7dcwH6QmCV/mrLm9x1267k4NjstxtJba9iSvFTbvlRVeHhu9/oG
+	MrV1vOHwq47l0wRtunqFHDm15PGgpsmvCpLgMGWjCGp25qNLWKgjhy/CBo9Ef9OcPFLpSnXtdE0
+	TJyAYKNWWIT9qJK93do0R3t1vw35DngTWMj95XbQ1G5vheLUcfC0jrOst+YUjj+wbOQDD1bBVJX
+	8AbBCCrXUaPGXxOiZIwnpk3mfngw341gH+vMpg37Rtc5RAFbTlRhEnruUoaph6c+g6rOOsVoCio
+	zOwgVfwB6dq7Jb1ETmUJf0yBti0szonj/IzT7liCik7dGD1rgxjiiKKkX2ut4mxy8G8UmtqulrJ
+	3V24DJjr9AsXIITWeeDPyE=
+X-Received: by 2002:ac8:5ac5:0:b0:50e:32cd:52fa with SMTP id d75a77b69052e-50e32cd53c0mr2194101cf.3.1776351962785;
+        Thu, 16 Apr 2026 08:06:02 -0700 (PDT)
 Received: from conor-Inspiron-3020-S.mynetworksettings.com ([2600:4040:44b8:3600:d171:db71:e260:ff8d])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e4ef33bc4csm363886485a.12.2026.04.16.06.43.17
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50e1afc1629sm51124321cf.23.2026.04.16.08.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 06:43:17 -0700 (PDT)
+        Thu, 16 Apr 2026 08:06:02 -0700 (PDT)
 From: Conor Kotwasinski <conorkotwasinski2024@u.northwestern.edu>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	driver-core@lists.linux.dev,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org,
 	Conor Kotwasinski <conorkotwasinski2024@u.northwestern.edu>,
-	syzbot+0dfe499ea713e0a15bec@syzkaller.appspotmail.com
-Subject: [PATCH] kernfs: fix suspicious RCU usage in kernfs_put()
-Date: Thu, 16 Apr 2026 09:43:15 -0400
-Message-ID: <20260416134315.1474726-1-conorkotwasinski2024@u.northwestern.edu>
+	syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com,
+	syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com
+Subject: [PATCH] sysfs: return -ENOENT from move/rename when kobj->sd is NULL
+Date: Thu, 16 Apr 2026 11:06:00 -0400
+Message-ID: <20260416150600.2148935-1-conorkotwasinski2024@u.northwestern.edu>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -77,66 +78,66 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 741c10b096bc ("kernfs: Use RCU to access kernfs_node::name.")
-converted the WARN_ONCE() in kernfs_put() to read kn->name and
-parent->name via rcu_dereference(), but kernfs_put() has callers that
-hold neither kernfs_rwsem nor the RCU read lock. The inode eviction
-path driven by memory reclaim is one such case:
+sysfs_move_dir_ns() and sysfs_rename_dir_ns() pass kobj->sd to
+kernfs_rename_ns() unconditionally. If sysfs_remove_dir() has already
+cleared kobj->sd, the NULL flows through and kernfs_rename_ns()
+dereferences it via rcu_access_pointer(kn->__parent), which KASAN
+surfaces as a stack-segment fault on the shadow lookup:
 
-  kernfs_put+0x53/0x60 fs/kernfs/dir.c:602
-  evict+0x3c2/0xad0 fs/inode.c:846
-  iput_final fs/inode.c:1966 [inline]
-  iput.part.0+0x605/0xf50 fs/inode.c:2015
-  iput+0x35/0x40 fs/inode.c:1981
-  dentry_unlink_inode+0x2a1/0x490 fs/dcache.c:467
-  __dentry_kill+0x1d0/0x600 fs/dcache.c:670
-  shrink_dentry_list+0x180/0x5e0 fs/dcache.c:1174
-  prune_dcache_sb+0xea/0x150 fs/dcache.c:1256
-  super_cache_scan+0x328/0x550 fs/super.c:223
-  ...
-  kswapd+0x556/0xba0 mm/vmscan.c:7343
+  Oops: stack segment: 0000 [#1] SMP KASAN PTI
+  RIP: 0010:kernfs_rename_ns+0x3a/0x7a0 fs/kernfs/dir.c:1752
+  Call Trace:
+   kobject_move+0x525/0x6e0 lib/kobject.c:569
+   device_move+0xe0/0x730 drivers/base/core.c:4606
+   hci_conn_del_sysfs+0xb8/0x1a0 net/bluetooth/hci_sysfs.c:75
+   hci_conn_cleanup net/bluetooth/hci_conn.c:173 [inline]
+   hci_conn_del+0xc36/0x1240 net/bluetooth/hci_conn.c:1234
+   hci_conn_hash_flush+0x191/0x260 net/bluetooth/hci_conn.c:2638
+   hci_dev_close_sync+0x821/0x1100 net/bluetooth/hci_sync.c:5327
+   hci_dev_do_close net/bluetooth/hci_core.c:501 [inline]
+   hci_unregister_dev+0x21a/0x5b0 net/bluetooth/hci_core.c:2715
 
-lockdep complains with "suspicious RCU usage" whenever the WARN
-fires from such a context.
+syzbot has reported 35 hits with this signature across net, net-next
+and linux-next between July 2025 and January 2026, via both vhci
+release and HCIDEVRESET ioctl.
 
-Wrap the rcu_dereference() calls in an RCU read-side critical section.
-Gate on the active-ref check so the lock is only taken when the WARN
-is about to fire.
+Return -ENOENT in that case, consistent with sysfs_create_dir_ns().
+The underlying ordering problem in bluetooth -- device_move() called
+after the target's sysfs has been torn down -- is a separate issue.
 
-Note that this does not address the underlying imbalance in
-kn->active that triggers the WARN.
-
-Fixes: 741c10b096bc ("kernfs: Use RCU to access kernfs_node::name.")
-Reported-by: syzbot+0dfe499ea713e0a15bec@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0dfe499ea713e0a15bec
+Reported-by: syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/687c6966.a70a0220.693ce.00a5.GAE@google.com/
+Reported-by: syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com
 
 Signed-off-by: Conor Kotwasinski <conorkotwasinski2024@u.northwestern.edu>
 ---
- fs/kernfs/dir.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ fs/sysfs/dir.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
-index 4f9ade82b08a..e88b71607f1e 100644
---- a/fs/kernfs/dir.c
-+++ b/fs/kernfs/dir.c
-@@ -597,10 +597,13 @@ void kernfs_put(struct kernfs_node *kn)
- 	 */
- 	parent = kernfs_parent(kn);
+diff --git a/fs/sysfs/dir.c b/fs/sysfs/dir.c
+index ffdcd4153c58..6664fae288c9 100644
+--- a/fs/sysfs/dir.c
++++ b/fs/sysfs/dir.c
+@@ -108,6 +108,9 @@ int sysfs_rename_dir_ns(struct kobject *kobj, const char *new_name,
+ 	struct kernfs_node *parent;
+ 	int ret;
  
--	WARN_ONCE(atomic_read(&kn->active) != KN_DEACTIVATED_BIAS,
--		  "kernfs_put: %s/%s: released with incorrect active_ref %d\n",
--		  parent ? rcu_dereference(parent->name) : "",
--		  rcu_dereference(kn->name), atomic_read(&kn->active));
-+	if (atomic_read(&kn->active) != KN_DEACTIVATED_BIAS) {
-+		guard(rcu)();
-+		WARN_ONCE(1,
-+			  "kernfs_put: %s/%s: released with incorrect active_ref %d\n",
-+			  parent ? rcu_dereference(parent->name) : "",
-+			  rcu_dereference(kn->name), atomic_read(&kn->active));
-+	}
++	if (!kobj->sd)
++		return -ENOENT;
++
+ 	parent = kernfs_get_parent(kobj->sd);
+ 	ret = kernfs_rename_ns(kobj->sd, parent, new_name, new_ns);
+ 	kernfs_put(parent);
+@@ -120,6 +123,9 @@ int sysfs_move_dir_ns(struct kobject *kobj, struct kobject *new_parent_kobj,
+ 	struct kernfs_node *kn = kobj->sd;
+ 	struct kernfs_node *new_parent;
  
- 	if (kernfs_type(kn) == KERNFS_LINK)
- 		kernfs_put(kn->symlink.target_kn);
++	if (!kn)
++		return -ENOENT;
++
+ 	new_parent = new_parent_kobj && new_parent_kobj->sd ?
+ 		new_parent_kobj->sd : sysfs_root_kn;
+ 
 -- 
 2.53.0
 
