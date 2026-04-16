@@ -1,187 +1,122 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011000.outbound.protection.outlook.com [40.107.208.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68BE38D007
-	for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 22:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776379414; cv=fail; b=rNyP/uWDWF+9iKsFYwidwCb/aAOKH9hwtrj9agmgNFagL6pRoY2fG5WI6fZPXlHFjGJsfiQgaH+1S/lhBPiOto/MPlUTDoldW/7FyCrF5b4GogwAzSs/nGAPLYAfXegr7VxkxztGG3K8hIw46GpgB89o91bEK6D1ExjdeSMKMzk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776379414; c=relaxed/simple;
-	bh=2UFqlRiwkm5bVIbPFlE1bug1F0a4YEf872PlGEVeKrc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NcHc1bJ8qkuUUG7FSHDryAxqCuc40w2xzkS2I+b+XXgaiYlIJYrbYZbVbcZm3BBC2ekn6Ux4NjDsuvSWG047XGK6HmHpM5hgoXcvvviZitXB9HHF+amWBY47PONHdF1z9dqw7hk7zOefYm+odE7RxLUdLoSkPAnCCsoLmuea+6w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Vjx7F3/u; arc=fail smtp.client-ip=40.107.208.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB84537F8DB
+	for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 23:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776383797; cv=none; b=LWSi6Nl14OnDIvFiUX5b9p+Hbul2fFnq/Yi9cp0g5XRO2p7KVeV4oGgOy9wVBk7Kfocemi1YAkOaf6SkRHP06zCm62pREMeVToSC10Fnk6oDYEBhingJ9uzQOqN5TXU+jk7zRlLfAnlfF84i28mU7phkn3Fay9o3v6NfJRynyUw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776383797; c=relaxed/simple;
+	bh=ck2VJ/zWj05Aj+s8teEzGH5V1VeifG8sD7WLckVzR7g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jy2xqB5AjkgKRmddgHDQ7tZ8uZE9WbAjqBqozY/t4AzsMAaXvefOKjQ6g8UwL11AVBJixp2pl+G7hh8Ssmm6VDRV4wr7rg7CalDcjccEy6gDA8QezhtJEVNNi7EhIyl5MZifl4HqiNP6rh/lRMngOTcEh6PZnGwGK2worDEAktg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fw/bwgGK; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Vjx7F3/u"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Af0ziI118WpbJgO4ljnhfZAqrJv2D91eI6ay4+d9fUrvm7/SnE4nnfCIGVsC1mmpx5DAaaLvLVA88hw5/6QgeIDTY6YtylbazD1TgPxEB+Iouh1ebnRvureAZDe8ODuaI6pDZByRSGDVtQSHD7L0DgzmwJPla4RMwgNDGdW5G7amF/oesPSUJUQVft1hPnXiab7sKJzjtErX37PCp9GaDOfO/ILRyBjN0wyvejvBEN6QIrUz1g6lYjsHH5ita99m1MEcQdG04RDK2fd+iJH7dxPI+YPxOMKKjjwryMIufTcgL4OlP2XR9NiHpWWT/EMO2Uc4r+uwzuw0dU3J1CKmMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Oodr/XIic5lbgcXuZZ+eatLn74Jks4qCxkSXa4/ek5E=;
- b=tvC6IZSlv5z/9UajmJrMQF2Wj3ofAe108SHo9pqao17kg/CaHe5lOM4cL7jchplv0fFd+/pbDn9aqo0Ahfu1hXB6o6V7H8xesUTFJMU4ykRdyQoos4rKOpiTaldp/F2o00Z1LqWK8AR7esm7IZ/tamQngn0Q79Tx527cuOo3jP2YNtb9AfN9HLEb6DdSpMZWXHP9VUH+vO7o6g6BXnrQDIqy9bVFSI+dKSJBLeSgWZh2+kzjfUQsXHZs8yJwSOIWmQWwVuDxnO8brMFwbIgna0aPGgOPlwAp/UAJsd/+w1Jpr2zLdqoeWrlvzBi/j/d3zQuFr+2aKGPT81ioe8eUDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Oodr/XIic5lbgcXuZZ+eatLn74Jks4qCxkSXa4/ek5E=;
- b=Vjx7F3/uvkbImLKa5OHWgz1tpjuy7zugxReNHqIBLyoq3PpCwQYoYDz/B+kENTMN3XpcqIIVkw1bpNUsFdVU/+XJr7mlvOpPsMV084eyd3kS1MZJrBcaUFdYWuc/O3SBhXmxxayKWDAOmMwMHfOY/zREehAi/z6rltoGl1igLuL47nlLraxP1kewS9oObhQNe00cC7cYRLk3WVpcr7U6g3JnnOHGucAkFvhshRxVrNyJfgkLWP2EcMoBiBCIGbvi8W1BVjMi2L7FcMxhytyor/B8IG3/8U54kjkdEq2Je5aGKLCiJ7z/vBxTgIAkha3hDmX30bRK69Dobqu/IhhtCQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- IA0PR12MB8896.namprd12.prod.outlook.com (2603:10b6:208:493::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.20; Thu, 16 Apr
- 2026 22:43:27 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%5]) with mapi id 15.20.9818.023; Thu, 16 Apr 2026
- 22:43:25 +0000
-Message-ID: <8075b7f1-1540-40fa-9ffc-8a7badd39b5e@nvidia.com>
-Date: Thu, 16 Apr 2026 15:43:18 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] rust: add `bitfield!` macro
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Alexandre Courbot <acourbot@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, Yury Norov <yury.norov@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
-References: <20260409-bitfield-v2-0-23ac400071cb@nvidia.com>
- <798e83e6-eb7b-4502-85e7-5a0f6d9c6281@nvidia.com>
- <DHUXFAD38G5Y.6X6QNTANYNGH@kernel.org>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <DHUXFAD38G5Y.6X6QNTANYNGH@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0161.namprd05.prod.outlook.com
- (2603:10b6:a03:339::16) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fw/bwgGK"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8d4f78fc9f6so11715285a.3
+        for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 16:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776383796; x=1776988596; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=muSutUnQ3k1ov/G6xk5xkScEVtLMLhqZsYl6TyAiBqw=;
+        b=Fw/bwgGK0oSkznAcrKa5H8v3Wo+WfOVnM701xC5Jq78Grl0yAA3++NpADe/ONjhh3Q
+         nSZXrVRmyHy+dJWub7MDfveECFZ+BVnKbTwvsVuIy6vi2zbc3KSW2+vaohxy5+ya+eUM
+         7n0TIxM+3dUFRMQrEtoE0uY4VzH0EnJfrGi8HV4UfHhhLEdpVFtEn28e8B0zhQBdkfFJ
+         Glq4QaoL8COqCeEXgQ0bb52YSS70l2bhDE+eyswxZMbxZi/SU857hIqJQmpc+WM6bGNh
+         sCVxnkmjatMW42EJKG28zECmOcu3blABnrOMbIiAdJprdt4NvgQBwY+HzdR1slIWlMQV
+         5GBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776383796; x=1776988596;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=muSutUnQ3k1ov/G6xk5xkScEVtLMLhqZsYl6TyAiBqw=;
+        b=mHJltY+G1TDcUzXY4RFMJGS0DHiw72u4bPFElftLlPtKQhzuLudQSLVxZKFprEzg92
+         AivKfo8KpGfUpFvFmJ77C2866XmxIOc3aYQqYp8azKudh+QowJRc4/j4OWw4D15HvBPH
+         Mn6j8FroNtwjqbQXx7iw509nr65kUHNMNcJU50eWX2TE3O45dJUQJ6Yj3tw/rYoch3Mc
+         tDtclp0vOrS8Vt6odcklTa459IWfTNsj9GV1ns7nbG6SicRUn1Hfmgfd0956f21mEPsn
+         tKN6fSYJri1Kt06POasnzi/GejwXgpGa4bDWWg3ql6cYCdFkf+koAId0Q6DZ/KWZQm3P
+         v1Ng==
+X-Forwarded-Encrypted: i=1; AFNElJ/K+c6WnZ0ZdFhj3y5SF1+gX7WWGc+jYSkRe25+3qTlYFuv3kBTIbF/2k5B0bbiFeO8D/A7mHFhGIsq5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywj33vD9V8TrcSi0izqPHgJYNMIuIEqTk6t84e/z7fvF4vLI1Sq
+	qirxiJIFXqVMlqJ4jc3Mz2FQSfwaQ/cq3ph2BlPFlgEmeJUY+wUQyRqK
+X-Gm-Gg: AeBDieuGNLYfxDqADIVchwNCnmUmxbkN7pdfVangJjjH3jS04yo/mbcLXlVWREsKp07
+	g1wND2blU3gBiCLOnATW71xDimlR4G2io11tCSeERr7+C7NctdbJaOmfcroSc/Lq98WqSVtDd7z
+	NaSK27j7+eP54eQC6cp8aMRlvyjDeHCjC0P94lftq1SJHVptjA36M44Xti4pFIYdJWCE3bSFgiX
+	OIY4ZLFefS6s/lyP+VRlxXhVwYBapzX4Wt/n9eIgIBbsfecET+UPro1IUy3RTbkN9h25048u5do
+	+nGtDvXAlZ3hWGXQ/J2y86NfpSabZlQNJ0o7YQtCXfXd7YbT/MC5nGoDRqjw1tWW1adRewJkT/Z
+	h5jCFFQYaJQpzxXf4w8ydxyymA5CiD10REB2yYBAKZUWugLA4AEoaohHhCN0s29ybW5OveU4556
+	SWVW6QEkUBY7t6pe0fWe/4KCxALtLVyqc2/5IAeysCDRiHBKCgoLA7tvcUCY4=
+X-Received: by 2002:a05:620a:469e:b0:8e7:8067:5bbb with SMTP id af79cd13be357-8e7917a9fdbmr72219685a.40.1776383795589;
+        Thu, 16 Apr 2026 16:56:35 -0700 (PDT)
+Received: from d5-mxc5484.ad.psu.edu ([165.85.209.69])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7b036d9afsm8756385a.18.2026.04.16.16.56.34
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 16 Apr 2026 16:56:35 -0700 (PDT)
+From: Yuho Choi <dbgh9129@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	Yuho Choi <dbgh9129@gmail.com>
+Subject: [PATCH v1] regmap: ram: fix memory leaks in __regmap_init_ram() on error
+Date: Thu, 16 Apr 2026 19:56:30 -0400
+Message-ID: <20260416235630.78408-1-dbgh9129@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|IA0PR12MB8896:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34d237a6-606b-4b3b-8675-08de9c0991bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	xiZQcHEbPDjHHoPRCiBpsgsCa6o6/Xa01SHLNWafELtkaMm6H13SrnFmmO801UKTD3Sot+8ACt1xLNhsu20C/51yC45OjHZvUAyoiHHXodqwUKbXP7HnxVAacV+DKPqJJgHf4DmR2puZgN2HYBUFnHU0g/6pETtRzPkZf6XB+dF4LiGEOlGGG4dr610vud4ApIuRaqmzUzisUbowiInGssW0/9Iyb0yakVQ0i7GqWmGueInfIPuLi8oLX2/xRX6DPEr6QWtY0eb9KPuCov1o4cdEqso1KYAOGcUIJLq+jEwgfu0HX/KU5Wk84mLkvElf2+25GNSfQ8HCdeFSZcuuqO5Rk0blfLiIlbL5ItnU5np+n8CFLMKA2/SQOWdy0Rcua4VCxg0DYRr8yrkfAVrN4xL4w4AeV+7Nf8kcQZO/cbiU8UXz/CVBXzVKrkeTSAbAmIySNEQx5aJTMa9Avw7EfRr9ZNcNtrnpg0iR/jVfeaI5hEVx8Rv6Jij1fqCnXHwdM4gDZmqm+299BexCg5S2wNQ+FGGwAAGJwRjpKXWqhuho3YQCQ7QbdoUB9pDP3KswiOvYjrwoRHGW17McnR1EXx8qhEgc6ivWCp4D7ytql75iAa70pg155uayldhuzKktTk0nJG3+tZlMrDnRWBkMf/7GXxgqbpUfr/HWWyJdPzRu8eMKYyOs9k2hJ1EQJrzgEm7O0mx8G93FML0yB9B+k7cr6Or2tEjaTLax4P4Li5s=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VnJnVzJwT1l1MkwxYlZPSldzUTBTL1RyZU9RUE9OS010cytVbWVmaThFNTN6?=
- =?utf-8?B?N2tnaHMyVENlczE4RElGN1dSa0hZbnNKVSs3NzBjMUp6SG80ajZRODQrOVJW?=
- =?utf-8?B?Ym5mMzQ3d1lpcWxZdDZpR1VBZk1sZUhWeFRsNDN6RW5odkdYd3VZRmE4RVVk?=
- =?utf-8?B?WDBheEtVUWJXZDRRbXUrYTdCd3BxWXFZbGh2ZDJOd2N2UjlnM1lNRHJBMXFm?=
- =?utf-8?B?QlljaCtBK3hsV2N5Z3dyK0ZRejk5cW4zd3FzbTNzaTlYQmY5UTNBL3lWR0Jx?=
- =?utf-8?B?ZzdoaW5RbEVPb1c2bS92ckpwcVBaSXJkenNJZlp2VmtJUmNvWGhtdGFYSzRM?=
- =?utf-8?B?Zm9iL0F2WFNEZkVtR3ZDV0huYzhDc29LeUhZaTY5WEhEQlFIWEJIdGczTSs0?=
- =?utf-8?B?bkhxVkRwQWhZdjFNaVRiU1lQaFRqVGZqMFZwdkVXbFIwVi8xZjk2NERxU0pM?=
- =?utf-8?B?cDlJKzBIVnNQTG16d25DNnpwQTY4eEgvWVlsdm5lZDdJbEViUmh6dTFJY3kx?=
- =?utf-8?B?Wmt3d1BQSmxJeER2dG5UWjRZY2Fmby95K1BqQ09kam95QXMrYUxaL3VVWHJy?=
- =?utf-8?B?M1hJTUE1L0xsWWoxSVFyY2pGaHhVbEFYaURxMEhWOVNNLzY5Nm1BQUhSUW9i?=
- =?utf-8?B?SzByakZXTklIUkRaNmVxaE5rTWttQ1NPK2pOdGFxNVdKYmJBdHp4UVBsTWhK?=
- =?utf-8?B?bVk0eUE3QXRXTzBLcHRta2JTV2Z2U0ZTN3p1SWZXaE80ODZFemx0bWszaWNT?=
- =?utf-8?B?Wk9XTFk5MXU5dk1pSzFkdFI2T1cwaFJub3p1QjdLQk55dlRaTktoTldla0FK?=
- =?utf-8?B?SDdCZ25vS2liaE9Xd3o2RTdOVVJjUUdtdG9mekpYOXEvTVFLVzB4clhDUFRG?=
- =?utf-8?B?MHFYTnkwa0J2ZndBNnc0N0JGK3VYTG5ETEwrdTNubkdtanJEa1gwVXRnQ0NW?=
- =?utf-8?B?OS8rRnhtMkc3TzhIZW1RbWJGWUZla0ZoT2VIMTBMWkFlRGNpdlpaN2lFSGc4?=
- =?utf-8?B?UDdzK200YWViQzhSRXplVkFzbHJDc2ZVUUpNSi9CbVowaEhzU1kzQUE4a2hp?=
- =?utf-8?B?bDB2UitLL3haMDZ2Q3NxSjdCSGlrSHB5NHZBd1QvL3ZEQyt3TFRhbXphei9v?=
- =?utf-8?B?cko0WUpWVGNEQys4aGZiVkQ3Q3g5SzhQZWMzeGJTVHFFMS9VbElhUlVGWnV3?=
- =?utf-8?B?SW5ZMFBQRHFDdzhNVXJPTktjTU1HaWxJd2huK3RuNnN3ZVBHeVdUamk0Zlh3?=
- =?utf-8?B?WUhYYmQ5bVBhOW1xR0kyRms3R0dCUDFORlBWbjVBV0Q3QldrQ0Z5L2lQVW14?=
- =?utf-8?B?VlZjS2duSVdCcWttNHk5eXpkV093d1VuS0RROW5qcDQrSWFKSlJ2VW9mK0s3?=
- =?utf-8?B?dVhTa3hHaVZJam01YkViNFM1UEd4Mm5jS1RRc3g1NkdrZkp5TVE2MkxYQXJp?=
- =?utf-8?B?VDREZzR2QUp1WDF4YjV6Q1E0K29xdGlhR1hYbTd4VCt2WXJvQ09zOXY1K0c0?=
- =?utf-8?B?WGRyQUtvWk5JTWVpMW80MENCYlJFQmYvVXFvdkEvRi9iVnMxN0RCd0JheC9X?=
- =?utf-8?B?STBhQ2FPVEk2ckZDelFINjc0OE5lNEcwcmVlQ1E0NStPUlRSU3RnVU8wTStG?=
- =?utf-8?B?WS9HUWhIWEQySmwyeGI5ZHAyL0w5UzV6Rmd0RHRoYnUwVFhJbzU1d3lwVWo5?=
- =?utf-8?B?d0lRM0ZVMnc1RWU1dWlVaktYNUc4SWxOVGhhWms4QXoraVpaczRQcnM1OTRJ?=
- =?utf-8?B?NWwrdk5oUktCWWR0c2NqeUpKa3RQamFJcHB4ZkhON0JXNHRDbTFuTGhsd0Q0?=
- =?utf-8?B?T3ZRakdUTy9UV2tISnBmcXEzaGx2THpNS1Foc3ZmSVZHcmREZjY5cnQweEJU?=
- =?utf-8?B?UGhpWjM0OVp1OFByVzdQSjlyVHlmNW1RbGhweTVSeHliVFNLQytSTkh6cXRz?=
- =?utf-8?B?cXdMckI4dHlId0lrWW1DM3Ayd0QyTjd1SXp6TTl4Ymtwc0VKYWtNQlNuMTdN?=
- =?utf-8?B?SzFtczN1ZjM2K2p4MkpIaFhhSzJEVk9OTmVrTzR0WE5XdkxLVlJ0c3FoaUU3?=
- =?utf-8?B?aWhoMFkyK21VUyt5SVJVQVdDSWl4djJLTkF4UnlpTjVDNjlBOElhS1FSTE5P?=
- =?utf-8?B?bUdYaHZFK0hwRmtpblc0MU1VQmw4TTNhRnJFZGFucGE0OTZCNlE4UWtna0cw?=
- =?utf-8?B?OXBCYi9WVzIydDI0eFRVRHU5MFBlbjZZNWJ4dE10YmRvVi80V0M5Y0k3T3dL?=
- =?utf-8?B?QU41dmZ2dC9KOTlVWXJPTmt3Rm9ZczRrQWVmY21KQTlibXlWbjA4OC9jMDJ6?=
- =?utf-8?B?RWNoNDdDYU50S1k5dXZ6and3WmEyYS9keTRabWRJdGdwaXp1Tmxkdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34d237a6-606b-4b3b-8675-08de9c0991bc
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 22:43:24.8908
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2hAq+DffuwTVhLZORdKBUDlV4lX5gpUAN7f/n2zNJ6SVUa7KFxN7bZVTk7/ntK+bY8A0BHY6mM9FSOaXiLbgrQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8896
+Content-Transfer-Encoding: 8bit
 
-On 4/16/26 3:18 PM, Danilo Krummrich wrote:
-> On Thu Apr 16, 2026 at 1:22 AM CEST, John Hubbard wrote:
->> Can we please put this into your drm-rust-next-staging ASAP? I don't
->> think we have any comments that would really need to hold that up.
-> 
-> I would like to see the first patch being split up and we also need to agree the
-> merge strategy for this series and obtain the corresponding ACKs first.
-> 
-> That said, I'm not a huge fan of the drm-rust-next-staging thing. It started out
-> as part of Alex' (private) process of staging patches he's about to pick up
-> (which is fine of course).
-> 
-> But now it seems to develop into some semi-official "shadow infrastructure" for
-> when the drm-rust tree is closed after -rc6 and during the merge window, and
-> it's not part of the official drm-rust workflow and other maintainers don't have
-> oversight of it.
+Two allocations in __regmap_init_ram() are not cleaned up on failure.
 
-Yes, a patchset vaccuum existed. :)
+If the kzalloc_objs() for data->written fails, data->read is returned
+with no way for the caller to free it.
 
-> 
-> So, in order to not motivate workarounds, starting from the next cycle, the
-> drm-rust-next branch will be open for new features at all times.
-> 
-> Consequently, all patches applied to drm-rust-next after -rc6 do not target the
-> upcoming merge window, but the next one.
-> 
-> Fixes for code that is within drm-rust-next and was merged before -rc6 have to
-> go into drm-rust-next-fixes.
-> 
-> drm-rust-fixes will continue to be the target for fixes for the current -rc.
-> 
+If __regmap_init() fails, neither data->read nor data->written is freed
+because its error paths do not call bus->free_context() (which is
+regmap_ram_free_context() here). Only regmap_exit() does, and that is
+never reached on an init failure.
 
-Perfect, that's what we were instintively trying to replicate, after all.
+Free the allocated arrays before returning any error.
 
-> I will update all corresponding documentation in the next days and send another
-> announcement mail, so it is not only this one buried in a thread where no one
-> expects it. :)
-> 
-> - Danilo
+Fixes: f6352424e37e ("regmap: Add RAM backed register map")
+Signed-off-by: Yuho Choi <dbgh9129@gmail.com>
+---
+ drivers/base/regmap/regmap-ram.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/base/regmap/regmap-ram.c b/drivers/base/regmap/regmap-ram.c
+index 0272d53fead11..c7356b0d8c832 100644
+--- a/drivers/base/regmap/regmap-ram.c
++++ b/drivers/base/regmap/regmap-ram.c
+@@ -71,11 +71,17 @@ struct regmap *__regmap_init_ram(struct device *dev,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	data->written = kzalloc_objs(bool, config->max_register + 1);
+-	if (!data->written)
++	if (!data->written) {
++		kfree(data->read);
+ 		return ERR_PTR(-ENOMEM);
++	}
+ 
+ 	map = __regmap_init(dev, &regmap_ram, data, config,
+ 			    lock_key, lock_name);
++	if (IS_ERR(map)) {
++		kfree(data->read);
++		kfree(data->written);
++	}
+ 
+ 	return map;
+ }
 -- 
-John Hubbard
+2.50.1 (Apple Git-155)
 
