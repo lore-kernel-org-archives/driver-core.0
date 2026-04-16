@@ -1,80 +1,120 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jpms-ob02-os7.noc.sony.co.jp (jpms-ob02-os7.noc.sony.co.jp [211.125.139.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F737385523
-	for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 07:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D9138B7CF;
+	Thu, 16 Apr 2026 07:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776323698; cv=none; b=aEkJWbI86McpXZ07nqu/yRO9oMV1aQcoPxgN7oU75eFOGePbAFiqcPOJkXwJ5Ih9qlnR4Pakw7J42MI21m7bhlKOtZZia5jI3wq7BdW8qyvk9eFabalUlAPHnREbvJGW7aSgmMTeZL2TKRvW4NO3BKj50SMtTfypiOc7BzWwfNw=
+	t=1776324994; cv=none; b=GC2fZyb5W27WaD5JFsl6u5WeL6jwKzItYagp7anIUxzLHthFkn+bZpCWq8MpWBga+iN+j5yY/CsR3wi0C6o74ckpheZ2n3TRWuUg6uGXSBLc2/QfkF5ty3qLbR9iFJTpnR+EWAZ6YL1rUmZf9Gi5Tun5pWRBZ6mnrgQ2qny/gpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776323698; c=relaxed/simple;
-	bh=1m9S8XLvLrc62C+rF/LkKRMO1WKHexukb55+7Lx8Vkg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=NBFryYaAmnDGVgDAFuLMDyC2sNP3d98NbmvWk5sqmIP/9QG9OrVvaHPcVBBeO1JeaJ7A0HSp3e4qU8PgE2Hx3X4g2qipQXIfmj0QsF1Oxa6LesBZ9H6n9qlS6ydUYu16VXoqZMKOk0lbAo+vjb4C384Y/QuCyxgFpdy22jP5FSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AM29CTHy; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1776324994; c=relaxed/simple;
+	bh=Nc2UQueJJpx5cEnw6QVS+cko2jCSmKFZTBhfxDS9FDE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=i5rK0NKcyfqpsq9NbS7rr6mgGDZvlGDCudYfGp79lvFbALXHRYxM3akMT4+Yu6etfFy5UlnOqzHBWDlH+GZhglK/BCJ06o1OvxDW6VbSiBKoeD20Ez5t7U85qA2ukI9Yl7nKDW9jLd5XK6K/Y+NyfiJ4x9xlfiGrkpl/I1CRzts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=SA9CcAcG; arc=none smtp.client-ip=211.125.139.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AM29CTHy"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b8ff07df5e4so582267966b.3
-        for <driver-core@lists.linux.dev>; Thu, 16 Apr 2026 00:14:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="SA9CcAcG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776323694; x=1776928494; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PL0zxWT9yr8avn3NY1DoBsUP7UaDGDNRZMMzAWVPz+4=;
-        b=AM29CTHyZfOzI65h47zrKKHOHYr7j9navMVnjmaZ1v296Dr0zyxTbq4aNUPUy8LtLL
-         53cKASFdJJgiLkOqi/DDwJqyZsxVuAkRubroQr8IrivdEFt4zLnBEjrGl547QbmOF0zJ
-         UHikptTNu/Up/Pudt43hb1SZSX5jl5Sha6C33RDi03/K5ts/fKU8L2yGFfiVxAZbOyQf
-         jnpTFgfR7xKvx5tfJ35iX6FBLsGpKm8o5eUvWLEzuoiciAry2lQXnnSoq8KxRp6ReIr+
-         VkF5mKZ7OQXppCf+BZwwg3gSADyGvbTc01eyB/upyVgNu8ABi+2xjEW83mUrqK9Q5zb8
-         P5bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776323694; x=1776928494;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PL0zxWT9yr8avn3NY1DoBsUP7UaDGDNRZMMzAWVPz+4=;
-        b=IThMk3q2y3U10Kk7eMoFKOIi8BJXCuFuDeCatGirER9RksmkRhnbgd0K+LT6nHVLo9
-         XNTAETmOfQygKYms+Bii58SfgQRJ29x60zPkGUjw1x31cx2VoT5O4+JvK+h4+ky24kM/
-         wJgrauF8XjCb28gSojvfgdywDWrtg9VKOGhy/9zUsjqO3CSrYvWGuPNvlh0gPdfn4OUj
-         X/b4URSMIbIe8QhbEJeJuI+o9dGyWlFrZaAKN7R6sJ7Th1NKXRe9kyT6isb9hZU2VKeb
-         omde18a7zeH5dUr2MG+7wzwX5pUpoPrbm1Q9cUZXs1GoXXwmSFYYpH3FYY/IVSKnEjGV
-         62Rg==
-X-Forwarded-Encrypted: i=1; AFNElJ+CPPkBuJwwR88j71BxC3/vHU9P2p8W362z/bmOP6YWb5szMN9il68pPPdbe04vQjX6ZOYMkmUePuSGCw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Q4Ai12nTIVih1Aima87ePiB+U3IcEgumMbtQ/U/xIT0AU17t
-	TB9ePXaBqBSDxtPhu201Bjb6PjJHIrfWSaFuFDlRHNfCY33EkZSaulDZJvLKNpif2oo4TO4FyRZ
-	1+rpg1PIJ+HkSls8roA==
-X-Received: from ejccs20.prod.google.com ([2002:a17:906:dc94:b0:b96:682e:377b])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:8b98:b0:b9c:a70c:d30b with SMTP id a640c23a62f3a-b9d727931camr1261267566b.19.1776323693818;
- Thu, 16 Apr 2026 00:14:53 -0700 (PDT)
-Date: Thu, 16 Apr 2026 07:14:52 +0000
-In-Reply-To: <20260415-projection-syntax-rework-v1-5-450723cb3727@garyguo.net>
+  d=sony.com; s=s1jp; t=1776324993; x=1807860993;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=Orn2LLlhCQ0KgjJvKbkCqKUkE5z35R+KTPfG1kMwGRY=;
+  b=SA9CcAcGbN3tpHdmkLucS/HIzFu4ZJQRK2a2OBdplTvCB3u2NETn9afD
+   5POn+xVTcPMQUjm/iI5LNWdzeF1Jdebsr/mJ2m/nopnC4mi+zU9LH0OOq
+   iT9U3xaQMEXvah/Ef/iSPAqOkdrQ0D0qJA4SELPHBWtF4OE9l4kGVtrUl
+   p1hHUINYOH8R3ZGyds5kZrvBICkl8aE2RPUj9QcG43NQSegkHKw6OyqGD
+   Z2tFnxv6JeBx/E8qKbXV981VOXwglAXOOMZ3eWPIqn43Ij7rf5GUyX+He
+   /r/d3H5WIZkS7K7FK7xfITDa9o1jEfoXlwF/achFHb8Ch77lJEpUWo0rd
+   g==;
+X-CSE-ConnectionGUID: T3EBnxIbQZOYROkMip9jPw==
+X-CSE-MsgGUID: RFX+ZOexQr6ZtY57TQhxRA==
+Received: from unknown (HELO jpmta-ob01-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::6])
+  by jpms-ob02-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2026 16:26:21 +0900
+X-CSE-ConnectionGUID: RuTO5Z8yRlKM0lZk2jlxEQ==
+X-CSE-MsgGUID: lcFHQUBpTqCWChMP43wQAw==
+X-IronPort-AV: E=Sophos;i="6.23,181,1770562800"; 
+   d="scan'208";a="61013880"
+Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob01-os7.noc.sony.co.jp with ESMTP; 16 Apr 2026 16:26:20 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Subject: [PATCH] Enable sysfs module symlink for more built-in drivers
+Date: Thu, 16 Apr 2026 16:26:15 +0900
+Message-Id: <20260416-acpi_mod_name-v1-0-1a4d96fd86c9@sony.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net> <20260415-projection-syntax-rework-v1-5-450723cb3727@garyguo.net>
-Message-ID: <aeCMbJoYQBS_I9lK@google.com>
-Subject: Re: [PATCH 5/5] rust: ptr: remove implicit index projection syntax
-From: Alice Ryhl <aliceryhl@google.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Danilo Krummrich <dakr@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Alexandre Courbot <acourbot@nvidia.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABeP4GkC/yXM0QpAMBSA4VfRubZimPIqkmY7OMpoQ2rt3Q2X3
+ 8X/e3BoCR00iQeLFznaTESeJqBmaSZkpKOBZ1xkZS6YVDv166Z7I1dkoygrWQssinqA2OwWR7q
+ /X9v9duewoDreCYTwAONSLcFxAAAA
+X-Change-ID: 20260416-acpi_mod_name-f645a76e337b
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Saket Dumbre <saket.dumbre@intel.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ acpica-devel@lists.linux.dev, driver-core@lists.linux.dev, 
+ Shashank Balaji <shashank.mahadasyam@sony.com>, 
+ Rahul Bukte <rahul.bukte@sony.com>, Daniel Palmer <daniel.palmer@sony.com>, 
+ Tim Bird <tim.bird@sony.com>
+X-Mailer: b4 0.16-dev-3bfbc
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1889;
+ i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
+ bh=Nc2UQueJJpx5cEnw6QVS+cko2jCSmKFZTBhfxDS9FDE=;
+ b=owGbwMvMwCU2bX1+URVTXyjjabUkhswH/dJL2D0a97jHreFLi2AxuqfrfuKb4/OQIKV/K/2/s
+ UVujd/TUcrCIMbFICumyFKqVP1r74qgJT1nXivCzGFlAhnCwMUpABMJO83IsKQm+c3W2/MvOtXt
+ XZ/smqqsHBfNcmgf37zr11xZrrtWPGD4ZyPDzfJSRTil/EDWh3XnYxKvhu882rK9ruvHustl4pW
+ P+AA=
+X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
+ fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
 
-On Wed, Apr 15, 2026 at 08:57:16PM +0100, Gary Guo wrote:
-> All users have been converted to use keyworded index projection syntax to
-> explicitly state their intention when doing index projection.
-> 
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+struct device_driver's mod_name is not set by a number of bus' driver registration
+functions. Without that, built-in drivers don't have the module symlink in sysfs.
+We want this to go from unbound driver name -> module name -> kernel config name.
+This is useful on embedded platforms to minimize kernel config, reduce kernel size,
+and reduce boot time.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+In order to achieve this, mod_name has to be set to KBUILD_MODNAME, and this has
+to be done for all buses which don't yet do this.
+
+Here are some treewide stats after analysis by Claude:
+- 110 registration functions across all bus types
+- 20 of them set mod_name
+- Remaining 90 do not set mod_name:
+    1. 36 functions under pattern 1:
+        They have a __register function + register macro. KBUILD_MODNAME needs to
+        be passed and the function needs to take mod_name as input.
+    2. 42 functions under pattern 2:
+        These have no macro wrapper. They need a double-underscore rename + macro
+        wrapper to make them similar to pattern 1.
+    3. Remaining 12 do not have such a clean registration interface. More analysis
+       is required.
+
+We plan to start with pattern 1, since it's the easiest category of changes.
+Within that, for now we're only sending the acpi patch. If we get the go-ahead
+on that, we'll send the remaining ones.
+
+Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+Shashank Balaji (1):
+      ACPI: bus: set mod_name in driver registration
+
+ drivers/acpi/bus.c      | 5 ++++-
+ include/acpi/acpi_bus.h | 5 +++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+---
+base-commit: 1d51b370a0f8f642f4fc84c795fbedac0fcdbbd2
+change-id: 20260416-acpi_mod_name-f645a76e337b
+
+Best regards,
+--  
+Shashank Balaji <shashank.mahadasyam@sony.com>
+
