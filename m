@@ -1,78 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE873B5851;
-	Fri, 17 Apr 2026 14:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3122D9787
+	for <driver-core@lists.linux.dev>; Fri, 17 Apr 2026 23:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776437949; cv=none; b=DkBNn6tPCG7GgkBoLty17m5f1fEPc3z7hb1bhBk+//wP5zuyTlKJlm0JtAwWMVo5UBb1eY09awQYUg7N3Z3Ea56Pri4B8ZF/93A1+fQSuqasvtaLgOH6LknCjBi9ExUQUjimOEsZUeZpV/6/mi1BGTzyqQsAOJ0tCj9C+AeW0uY=
+	t=1776468132; cv=none; b=E2avj+Y3PMCBe0127XekfDUBSTcEROX5UctxfhZ/dntzKlWRWH8mth5ZTCaQc3fSJKKSK7wOnaJTvHql0aV0Z9l6jxQX/qCF6NYXfglxNhkfUmhZn9dS29eWF4Bk4tAS/rBgkwTZjzeP/BxyzFA4fxoAieiqT3h+Hmk+LJfTfNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776437949; c=relaxed/simple;
-	bh=jEI6+xx49hEv/4C8YdVfp0QhsA+wg2iHesx7rFPUQns=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=AJ53HGy15Thcb7lSMoBOF8skya9sVDiah25gCnecyfU9pR6N+GJm1ZBa6oOsDmXqGEppc38ZVTxvP5QfGeVwx/1IrJXq+bINhr7WDULsM6SkMRVNiBmdI6qCx448h7nHPYmVft+7AMBmaIXaxEKzSBBRDiXrLXDUSVauwTg5r4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gC8VDLKC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776468132; c=relaxed/simple;
+	bh=Hsc7iuHeJPybBTZwDnnuXYIlD+9wmrLJ9iyjFMp0zcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BslawQ+vf8Xlylq+ht9DbHQmr+Ji7a8nYCdgiRlG1Qy2lQV405qgPUUwQWP+uSSiax+AcDunPwm3cchNn8R8HB8/Lh/giAvK2e5Tu50SfmsAY7VxR1JEEHAYHEHIX4EnZrxbp5wunD/9NdfuXGHufQ2A5VGfGOqMoMuCS7kH9/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nANWeg8a; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gC8VDLKC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B2AC19425;
-	Fri, 17 Apr 2026 14:59:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776437948;
-	bh=jEI6+xx49hEv/4C8YdVfp0QhsA+wg2iHesx7rFPUQns=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=gC8VDLKCp7mzvnwChzSMA8GaOnvXzWYl6iaWBVNIQmMlf5AtLL76enCpsg1CI8u3p
-	 FZIroQwFfa8+gycJu9QWF43LGrPztV7kLzYIz2sGRvdJyI1aeDNQ6YInutx8+gp48b
-	 Te92qo6iAPqjduymFd/Sad1z+w9Hn9FNAWrvNHVPhicGhbFUNAJO+EQIkuSatFUwKY
-	 pME3UgqkOo3ucmL8YZ2IMS3QHk9LiyBAk5nquVjEOVKAiavfqadwugFZhLgftwwGsl
-	 G5Om7nlz5vddi5tqpSA/FW/E5hXdw0gJ/DiEkMT16IWsQEbSGGB3YnhMHzenD870a5
-	 CTdx4VbmHKQKA==
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nANWeg8a"
+Date: Fri, 17 Apr 2026 17:22:02 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776468127;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GouYhYP+Vg/V5xduMEG9471OG89qh2jPe2ZlHrxDMlk=;
+	b=nANWeg8aKPXdPm1qfRXMyp0DgIGtKY3GYnbFImYzHIrt57kxcPMDuYiqL/SzWA9EFsncST
+	65HAwa0y9QjrZvoUk8rjJG6JJxQomuyNeQTym1A8OG6+bAz8mPbpcwvTBZYlwuTINPxhP7
+	fawTbn45umMzEbQW5cdERESWqyaxc2c=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Russ Weight <russ.weight@linux.dev>
+To: Guangshuo Li <lgs201920130244@gmail.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Tianfei zhang <tianfei.zhang@intel.com>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] firmware_loader: fix device reference leak in
+ firmware_upload_register()
+Message-ID: <mmcqvvqqq2yj65adm2prscpnxtbp5tljaxtbiqrwlfwpwd3slg@xniqactlghfc>
+References: <20260415085109.3267323-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 17 Apr 2026 16:59:02 +0200
-Message-Id: <DHVIP0L7RFCP.38KEXAROGM3Q9@kernel.org>
-Subject: Re: [PATCH v2 0/3] rust: add `bitfield!` macro
-Cc: "Mark Brown" <broonie@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>,
- "Alexandre Courbot" <acourbot@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "Yury Norov" <yury.norov@gmail.com>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Alistair Popple" <apopple@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260409-bitfield-v2-0-23ac400071cb@nvidia.com>
- <798e83e6-eb7b-4502-85e7-5a0f6d9c6281@nvidia.com>
- <DHUXFAD38G5Y.6X6QNTANYNGH@kernel.org>
- <CANiq72k0FXcekxs=E+xLe3=wyu+KHr4yM0wLj1VgtgTUb_K4MQ@mail.gmail.com>
- <DHVEWDBHYKQF.XBXZ704CMXCF@kernel.org>
- <CANiq72mNP4J_czVo25d1yRdWxBNFKaT9OPOC7k5EDzZ9YmdEww@mail.gmail.com>
-In-Reply-To: <CANiq72mNP4J_czVo25d1yRdWxBNFKaT9OPOC7k5EDzZ9YmdEww@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260415085109.3267323-1-lgs201920130244@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri Apr 17, 2026 at 2:21 PM CEST, Miguel Ojeda wrote:
-> On Fri, Apr 17, 2026 at 2:00=E2=80=AFPM Danilo Krummrich <dakr@kernel.org=
-> wrote:
->>
->> This all builds on the assumption that we don't have a process in place =
-that
->> covers this.
->
-> It builds on what happens today. From what I saw, Mark merges
-> `drm-rust-next`, which is why I mentioned it, i.e. to help prevent
-> something unexpected around `linux-next`.
+On Wed, Apr 15, 2026 at 04:51:09PM +0800, Guangshuo Li wrote:
+> firmware_upload_register()
+>   -> fw_create_instance()
+>      -> device_initialize()
+> 
+> After fw_create_instance() succeeds, the lifetime of the embedded struct
+> device is expected to be managed through the device core reference
+> counting, since fw_create_instance() has already called
+> device_initialize().
+> 
+> In firmware_upload_register(), if alloc_lookup_fw_priv() fails after
+> fw_create_instance() succeeds, the code reaches free_fw_sysfs and frees
+> fw_sysfs directly instead of releasing the device reference with
+> put_device(). This may leave the reference count of the embedded struct
+> device unbalanced, resulting in a refcount leak.
+> 
+> The issue was identified by a static analysis tool I developed and
+> confirmed by manual review. Fix this by using put_device(fw_dev) in the
+> failure path and letting fw_dev_release() handle the final cleanup,
+> instead of freeing the instance directly from the error path.
+> 
+> Fixes: 97730bbb242c ("firmware_loader: Add firmware-upload support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> ---
+>  drivers/base/firmware_loader/sysfs_upload.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
+> index f59a7856934c..6b701185dcb6 100644
+> --- a/drivers/base/firmware_loader/sysfs_upload.c
+> +++ b/drivers/base/firmware_loader/sysfs_upload.c
+> @@ -366,7 +366,8 @@ firmware_upload_register(struct module *module, struct device *parent,
+>  	return fw_upload;
+>  
+>  free_fw_sysfs:
+> -	kfree(fw_sysfs);
+> +	put_device(fw_dev);
+> +	goto exit_module_put;
 
-We're not running the new process yet, so the current state isn't relevant.=
- The
-for-linux-next handling will be in place before anything changes for Mark.
+Thanks for the patch!
+
+Given that the free_fw_sysfs target is used only once and no longer
+falls through, I suggest we remove the free_fw_sysfs target
+altogether.
+
+Instead of:
+        goto free_fw_sysfs;
+
+Do:
+        put_device(fw_dev);
+        goto exit_module_put;
+
+- Russ
+
+>  
+>  free_fw_upload_priv:
+>  	kfree(fw_upload_priv);
+> -- 
+> 2.43.0
+> 
