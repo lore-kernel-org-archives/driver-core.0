@@ -1,106 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B443F81AA8
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 10:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92C529BD88
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 15:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776681615; cv=none; b=etBRK5ngab/Bc/0AHtma6Siqmp0P7nwWpqzxCW6aSGUtTcsvEVX2bKP70+4bet3ccpDQlnn3eWSAuz+WzbFusei6LspqoLfMbbZI7FgDoU/y0Az0hrnrUmHW7+RpaboLQ+U5MkBoXklQS7iPBUocHOVLJPIoT1FnSHyDWk+YtsI=
+	t=1776698799; cv=none; b=k6BFTaeRQqKgj7TFYKaF4UYLTZNlIWfAsEmR+avdIhGep/CZZOYqVAVqwHxDLCx/GX0K1h2FqWgLa1WinZjdtVtvdXSe7WHmy+M/zCxEgnuc4SPD6ge/wFhR6G1F/ezty7paTSC+BlQEks6GsduOgUNXA/4Vh7/5MR//gxXU0TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776681615; c=relaxed/simple;
-	bh=oGQTuSjnBLK35lK52m7vC5muW6a6h6qQ+a1v6/6nEJU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qFknjnCAQzf6l7oxM/PibzD4QytYQiOe4gnwtHE807XfmJuZ7M0MReFI687CKNB2jVaBYAdzyCLQLw04dlmWC5y6Ycd1OjEailYxcW/zb7UwAzO25LshneGwLhaQjNKF5EhlfQbYwMTwjXVEFX8163TO7516UhqdvI2puQWmYiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inOsxB/6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776698799; c=relaxed/simple;
+	bh=+Cq1sqvTOS+dn3I/AurHo27xH9tp+UMbnP/C6p5tTHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=KkgfIBmtNAcX6QIsapUg1E7V2jqVeRA0SrKvhl3hrQIlRWio+Cgy4Tr38NWjj0SabDvC3oKfJDgNPjuCiJaKiG+V0SKAAA2PqJl3UsHV8MF/7lAfpKzMAG7Jm1NaWwjk1Ku4Wc1rPGRp4OFudLbtWIcEtUf8Z5aqvj2jyBHHy1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ir9AeEyp; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inOsxB/6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62BE2C19425
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 10:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776681615;
-	bh=oGQTuSjnBLK35lK52m7vC5muW6a6h6qQ+a1v6/6nEJU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=inOsxB/6rB4+iucNP9YZIUUXzuC+TsxdoA5jbpxW5KpxlHPUuG+eeo1q6kMNEaCja
-	 9Re7riAFteJsu5C3NVbVYU31FY3/8PHJDwygH/865QTtMcsjkFKaJHeO6q+3e4BDGx
-	 GdVhoM6aEkTlWjL8HVsjUHDnFism8m6zT9yci2xtYM5W2kspxMzQ/96j4RsBWm8twC
-	 0cVeW4iZOLykbzFB5qAP4Y8fQqSFTjHApYbaq/95jPNg49EUh8dBGY7Yyu/d3I2V81
-	 LqTXHuK2MJR3WPQPq5QFfb/BoPANlMCsp0RvTYlP9pa6/Ehle3w2JXrhBxiIApnjxC
-	 dNlxRXvbWdA2w==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a2c3dfb4a1so3068123e87.2
-        for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 03:40:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8+VZvt1R23SBnQBbRp4ustGCDdFkUUc9OrYq6Wo9b2CHmeAEc5So7uSn42jiQKr6cpVUoPXHGJ3AWIyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPAk4F5g1GTQItfNucaZd/IzX7hWxWatJ14J6tP+Kh2JEB4hg6
-	4ksJScF3Uwf45NywXhu1bfxytKXs3n4eyXyKxrqevZ60dWof5niU92sCjZb5DCXY0NxUJPto8GJ
-	nUp2TRiM3/NX8vXADPKHVBnDjOTLEHQk=
-X-Received: by 2002:a05:6512:68f:b0:5a3:ffc6:6618 with SMTP id
- 2adb3069b0e04-5a4172dd706mr4197538e87.26.1776681613767; Mon, 20 Apr 2026
- 03:40:13 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ir9AeEyp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776698797;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=alBhCJlwXd25yWVNysS6+j2LQThJIl7ZSL5DLQ6duKo=;
+	b=Ir9AeEypfCrKyvsnyHYVGPdBlUBalhOW30OBHChmjtuvgeyvYx9EMAb31qdbnpJnBcIlSw
+	MWTsoU8ltrLNgkx9OtqIaxahhHmOUy9hWnbEMkpdP3wHlOAWD5PqBhbPsZqwRnR2FLkLj/
+	3pjO7NsaxghvHmTChI67Fv3J9x7cc0I=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-364-CVNq0MEWMuu2_Wzq3ktIgg-1; Mon,
+ 20 Apr 2026 11:26:30 -0400
+X-MC-Unique: CVNq0MEWMuu2_Wzq3ktIgg-1
+X-Mimecast-MFC-AGG-ID: CVNq0MEWMuu2_Wzq3ktIgg_1776698784
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B2DA71800366;
+	Mon, 20 Apr 2026 15:26:23 +0000 (UTC)
+Received: from fedora-work.redhat.com (unknown [10.22.65.236])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F090819560AB;
+	Mon, 20 Apr 2026 15:26:18 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
+	Jordan Richards <jordanrichards@google.com>,
+	Ewan Milne <emilne@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH v14 0/5] shut down devices asynchronously
+Date: Mon, 20 Apr 2026 11:26:03 -0400
+Message-ID: <20260420152608.6244-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260418162221.1121873-1-dakr@kernel.org>
-In-Reply-To: <20260418162221.1121873-1-dakr@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 20 Apr 2026 12:40:00 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jkm9K9=-U_51FMsyxN2msdouRnz4sEjmxG0Btd6Hmw0w@mail.gmail.com>
-X-Gm-Features: AQROBzAIrnBUK5gqgB8p70ImicjRLg8GBfN6yqd105Ye0aFy0FdWvLbNx48qnlg
-Message-ID: <CAJZ5v0jkm9K9=-U_51FMsyxN2msdouRnz4sEjmxG0Btd6Hmw0w@mail.gmail.com>
-Subject: Re: [PATCH] driver core: use READ_ONCE() for dev->driver in dev_has_sync_state()
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, saravanak@kernel.org, 
-	ulf.hansson@linaro.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-MFC-PROC-ID: vxK5KFgM6K_mzrU9HyECeAh4oJmbxgce4yutBxNIXTc_1776698784
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Sat, Apr 18, 2026 at 6:22=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
-wrote:
->
-> dev_has_sync_state() reads dev->driver twice without holding
-> device_lock() -- once for the NULL check and once to dereference
-> ->sync_state. Some callers only hold device_links_write_lock, which
-> doesn't prevent a concurrent unbind from clearing dev->driver via
-> device_unbind_cleanup().
->
-> Fix it by reading dev->driver exactly once with READ_ONCE(), pairing
-> with the WRITE_ONCE() in device_set_driver().
->
-> Link: https://lore.kernel.org/driver-core/DHW8QPU1VU1F.3P6PH69HLFBYC@kern=
-el.org/
-> Fixes: ac338acf514e ("driver core: Add dev_has_sync_state()")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+This patchset allows the kernel to shutdown devices asynchronously and
+unrelated async devices to be shut down in parallel to each other.
 
-Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Only devices which explicitly enable it are shut down asynchronously. The
+default is for a device to be shut down from the synchronous shutdown loop.
 
-> ---
->  include/linux/device.h | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index ac972e7bead4..4c1c9cb8570a 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -1018,9 +1018,12 @@ static inline void device_lock_assert(struct devic=
-e *dev)
->
->  static inline bool dev_has_sync_state(struct device *dev)
->  {
-> +       struct device_driver *drv;
-> +
->         if (!dev)
->                 return false;
-> -       if (dev->driver && dev->driver->sync_state)
-> +       drv =3D READ_ONCE(dev->driver);
-> +       if (drv && drv->sync_state)
->                 return true;
->         if (dev->bus && dev->bus->sync_state)
->                 return true;
->
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch. And on another system from
+80 seconds to 11.
 
-On a somewhat related note, I'm wondering if this function can be
-moved to drivers/base/base.h?
+Changes from V13:
 
-It doesn't look like having it defined in device.h is particularly useful.
+Remove duplicate flagging of async shutdown on scsi hosts/targets/devices
+
+Changes from V12:
+
+Only acquire a parent reference if acquiring the parent's lock
+device_enable_async_shutdown should return void
+Minor comment and description cleanups
+
+Changes from V11:
+
+  * Swap the order of the first two patches
+  * Rework conditional parent locking so that lock and unlock no longer use
+    separate conditional checks
+  * Remove an used variable
+  * Comment and description text cleanups
+
+Changes from V10:
+
+Reworked to more closely match the design used for async suspend
+  * No longer uses async subsystem cookies for synchronization
+  * Minimized changes to struct device
+  * Enable async shutdown for pci and scsi devices which support async suspend
+
+Changes from V9:
+
+Address resource and timing issues when spawning a unique async thread
+for every device during shutdown:
+  * Make the asynchronous threads able to shut down multiple devices,
+    instead of spawning a unique thread for every device.
+  * Modify core kernel async code with a custom wake function so it
+    doesn't wake up a thread waiting to synchronize on a cookie until
+    the cookie has reached the desired value, instead of waking up
+    every waiting thread to check the cookie every time an async thread
+    ends.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
+
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+  
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
+ 
+Changes from V2:
+ 
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+ 
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+
+Stuart Hayes (2):
+  driver core: separate function to shutdown one device
+  driver core: do not always lock parent in shutdown
+
+David Jeffery (3):
+  driver core: async device shutdown infrastructure
+  PCI: Enable async shutdown support
+  scsi: Enable async shutdown support
+
+ drivers/base/base.h       |   2 +
+ drivers/base/core.c       | 180 ++++++++++++++++++++++++++++++--------
+ drivers/pci/probe.c       |   2 +
+ drivers/scsi/hosts.c      |   2 +
+ drivers/scsi/scsi_sysfs.c |   3 +
+ include/linux/device.h    |  13 +++
+ 6 files changed, 166 insertions(+), 36 deletions(-)
+
+-- 
+2.53.0
+
