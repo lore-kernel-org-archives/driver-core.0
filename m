@@ -1,116 +1,371 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41ED2FD7BC
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 15:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86A534AB1D
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 16:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776698817; cv=none; b=Q8MEtgwqkl01eDgtMbkm+tz9EzQXWgDGFiOeFQ3gzbZYiZe8cdjD6esRXjKlK1ZStnSyfJDVplwTjQkdFRlXD9jJj3wru3fMOLgFdjxb1Z5n4t2rqfNlsvnZGQicBLl2Nlphv9Ex3AFRCJfuQal1S2lOju8zXT0oCX3E+JRtyWo=
+	t=1776702072; cv=none; b=VxuLEYC6taEWtNw7TtBGG2NNf+tfDocw9mvetKeYDl4rgdx5WivXlZJ8HKTZB6o+RdFpQWxZdXXAdcgBFWp1Otsb0WTWogijTBPRhd7ggHGQKNALHltFoaPVorlkc+f0hO44UXBL+9V+clvO7YOevG5TD/yiqywcPKj3366BQHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776698817; c=relaxed/simple;
-	bh=4vvr+xDrAWxMxjnNh4nkvtXpBMA19u1S8MdxP1fEm4s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=ZY4AfOorZCyPq6Hh9iIN4T9mT8YELeH74iuhX5JmYWRdolK75UIllsgJ1V8fv7wwF+jB0YdYPWo8kYYRWxnEA3Zdp1v1vEpJLN91vya6COBdFR/Zdcdo41pDIy9Z0WkVWS6hn42xSC6AifVLonemL1B76JtcjnTgdCb4vAgh46c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KJMCHFhu; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776702072; c=relaxed/simple;
+	bh=PxKqojnfMYxqtIeYA393xgc9ELDN3m3bbJAva1p/+us=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZNYt6/7OV9YHU58J9xEhKj06OOidnDra7Qqy1BTmY0s2BryNDPOBeRwfbKNkagRsezcUv9gTK5jqAq/HYP12lDNipEVT7A/Y9hPp/mYorSQwDzPa/XjdXMynzPsL+ilfDUP/rngG1VOtTBVVGiH/CEJpvevpqc0LqIeTiM1Vow8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=MpnX9DjA; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KJMCHFhu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776698812;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jQvaSb3MuBGeMbb7vK8Mg571zM++WUT9vxPRh2XvaDA=;
-	b=KJMCHFhuw7JVHs9DMc7oLgMhGEt4Ju3J+2PkqMmvVxRq07be8VM1Q2pvc2bDDJnQtRqJ81
-	DljFSIt8X6h36/8ATFLS8mG0qlPz2BU/OWCl+bPAXQTzPRmk/k7JekT+s2BbZEes5u2/0E
-	okgEIGd7Vc1Frg8PP7aNw6x5LCb4gH8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-694-L-DnokiiM0SANo03j7vmxQ-1; Mon,
- 20 Apr 2026 11:26:48 -0400
-X-MC-Unique: L-DnokiiM0SANo03j7vmxQ-1
-X-Mimecast-MFC-AGG-ID: L-DnokiiM0SANo03j7vmxQ_1776698803
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AF88218005A8;
-	Mon, 20 Apr 2026 15:26:41 +0000 (UTC)
-Received: from fedora-work.redhat.com (unknown [10.22.65.236])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 162C719560AB;
-	Mon, 20 Apr 2026 15:26:36 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Tarun Sahu <tarunsahu@google.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
-	Jordan Richards <jordanrichards@google.com>,
-	Ewan Milne <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	David Jeffery <djeffery@redhat.com>
-Subject: [PATCH 4/5] PCI: Enable async shutdown support
-Date: Mon, 20 Apr 2026 11:26:07 -0400
-Message-ID: <20260420152608.6244-5-djeffery@redhat.com>
-In-Reply-To: <20260420152608.6244-1-djeffery@redhat.com>
-References: <20260420152608.6244-1-djeffery@redhat.com>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="MpnX9DjA"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 164C024002B
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 18:21:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1776702067; bh=pXOwPYD3gQxeZDXKmxOu+NSUi5mDs/utK28LrubRWTE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
+	b=MpnX9DjAjBxiNGqHytylCdaLQxPIo/ZIkwkQlVb9rfj/X1myIBMt3/jAf6gtvya4O
+	 JclN+EZb/tuxOZc5BE3Ol9piAd+yQer6XyFrolNymMNdOMmheqnpncv78gT52q28aR
+	 fEh4vGhI/rswrC0cjPV2dFmgXi5pu9IsCpkXqQANQnTKIiSaRKuzpZVBxqHzbEaR2N
+	 hNwi6vHNrHL2FD8Fg6ZrATLCpreDbBzXub53nEFrvFZkb3JLNkgE8iNpEXAUqJXwwq
+	 6K282CjBso+5RArHxMLotSL2G23cp80k6GZBp194PDXFZmf8iknrq2G2/tyVdNXU3i
+	 2ouPPTCd5Rmdw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4fzrMN2m7fz9rxB;
+	Mon, 20 Apr 2026 18:21:04 +0200 (CEST)
+From: Markus Probst <markus.probst@posteo.de>
+Date: Mon, 20 Apr 2026 16:21:05 +0000
+Subject: [PATCH v5] rust: ACPI: fix missing match data for PRP0001
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: 5Igw-E7tznGxSaQXgQeUfkFby99Xgbfv5fTD3EIMDF8_1776698803
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260420-rust_acpi_prp0001-v5-1-f77869b18b9f@posteo.de>
+X-B4-Tracking: v=1; b=H4sIAGlS5mkC/33Oy27DIBAF0F+xWJeIZ7Cz6n9UUcRjaFgkECAoV
+ eR/L3U2Vmt1ea9mzswTFcgBCjoMT5ShhRLitQf5NiB71tdPwMH1jBhheyIIxfle6knbFE4pJ0J
+ 6o9mkqBTcSClR30sZfHgs5sfxlTPc7p2urxIZXQDbeLmEehia2hH0M3cOpcb8tbzS6DL4z9VGM
+ cV+r4Vj4CcmxHuKpULcOVi0xtaC3BJYF4QfDbWeKOn4b4GvBbUl8C5YaZiQE7FM/RHEWhi3BNG
+ FURk1aqcmxqe1MM/zN60UAHOgAQAA
+X-Change-ID: 20260401-rust_acpi_prp0001-a2971543b555
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Robert Moore <robert.moore@intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+ acpica-devel@lists.linux.dev, Markus Probst <markus.probst@posteo.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9506;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=PxKqojnfMYxqtIeYA393xgc9ELDN3m3bbJAva1p/+us=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp5lJv/xEjOfca+874czZil6lpW4NQRihjzI4xc
+ CmNTpPt8fGJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaeZSbxsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KPAg/8Dq9FbXb/jlLk2khKpxRhsRqpNYWJfHW
+ LBJO5XEtXPo2GKalsiEQqxkeu0ALDgFuxQMUZeEf+X+Wnzw9MIDff2AQJi0qVCFYl6L/EWSNJOl
+ MD6Jn1a/r+WFCW0i/6pit2pdp2WJhpWm8Y8zuu8KpI+lYV5qk8TP7xzbCrkwcq0av8nD1XUdWix
+ xpCTTo1WnUsNhm1eclYhUVJCfqZgIxGbWZA3+pfNmhWLH+PgyJo1vNinVTgl6AchKx+AkklFGrd
+ CgGuC+/hmv/PHFtOliJVfrwXh4tZZJYbVcBJklPMOj+qMvNSKr22SMzYNd2qYstT14BQL+s4Fp+
+ a9K6XMfhNdUTvJrxTFGL3Wew2/Ur+BO3uG5Ifqetq2apimM2nFici/6Ulat6HIFb/OCJ05mzKMH
+ p6b7OlvTtGBpfDW+Aq1WQ3JAcg/UlwFnLpMITIJawZVNFtFeb4RwKB+xcu1A3qtXO/I3HaxQE7a
+ T0e5mgYCb4R0cMm3BL5IRuZh43HP/5pxLXLURZeqmsF0Efiak6aCwQ3m4rP3ysAMnZ/c4M2ziQf
+ cDS6G59lF/yuG/It6sWOnoMLPUWN1nYJpH6zWJS5CJBy4E9wCddakNKYSQDkVbNY+Xh08QojsmS
+ 1Z3KbHOHxFhtK2J2Yq7iqSwBS5F0KprJPage93ivV/GB4iwh6Zb8=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+  keydata=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
+  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-Like its async suspend support, allow PCI device shutdown to be performed
-asynchronously to reduce shutdown time.
+Export `acpi_of_match_device` function and use it to match the of device
+table against ACPI PRP0001 in Rust.
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
+This fixes id_info being None on ACPI PRP0001 devices.
+
+Using `device_get_match_data` is not possible, because Rust stores an
+index in the of device id instead of a data pointer. This was done this
+way to provide a convenient and obvious API for drivers, which can be
+evaluated in const context without the use of any unstable language
+features.
+
+Fixes: 7a718a1f26d1 ("rust: driver: implement `Adapter`")
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- drivers/pci/probe.c | 2 ++
- 1 file changed, 2 insertions(+)
+Changes in v5:
+- provide a stub instead of canditionalize the caller
+- Link to v4: https://lore.kernel.org/r/20260408-rust_acpi_prp0001-v4-1-87b78ad79239@posteo.de
 
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index bccc7a4bdd79..4d98bab2163d 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -1040,6 +1040,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+Changes in v4:
+- fix compilation on !CONFIG_ACPI
+- fix typo
+- add doc to `acpi_of_match_device` and remove from header file include
+- Link to v3: https://lore.kernel.org/r/20260407-rust_acpi_prp0001-v3-1-c5b24590c273@posteo.de
+
+Changes in v3:
+- use acpi/acpi_bus.h instead of drivers/acpi/internal.h to declare
+  `acpi_of_match_device`
+- Link to v2: https://lore.kernel.org/r/20260405-rust_acpi_prp0001-v2-1-4f8b1cf075d3@posteo.de
+
+Changes in v2:
+- keep unsafe block as short as possible
+- don't export acpi_of_match_device
+- add implementation decisions to commit msg
+- Link to v1: https://lore.kernel.org/r/20260401-rust_acpi_prp0001-v1-1-f6a4d2ef9244@posteo.de
+---
+ MAINTAINERS             |  1 +
+ drivers/acpi/bus.c      |  6 ++--
+ include/acpi/acpi_bus.h | 11 ++++++++
+ rust/helpers/acpi.c     | 16 +++++++++++
+ rust/helpers/helpers.c  |  1 +
+ rust/kernel/driver.rs   | 74 ++++++++++++++++++++++++++++++++++++++++---------
+ 6 files changed, 93 insertions(+), 16 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d1cc0e12fe1f..7da4eea48330 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -302,6 +302,7 @@ F:	include/linux/acpi.h
+ F:	include/linux/fwnode.h
+ F:	include/linux/fw_table.h
+ F:	lib/fw_table.c
++F:	rust/helpers/acpi.c
+ F:	rust/kernel/acpi.rs
+ F:	tools/power/acpi/
  
- 	bus->bridge = get_device(&bridge->dev);
- 	device_enable_async_suspend(bus->bridge);
-+	device_enable_async_shutdown(bus->bridge);
- 	pci_set_bus_of_node(bus);
- 	pci_set_bus_msi_domain(bus);
- 	if (bridge->msi_domain && !dev_get_msi_domain(&bus->dev) &&
-@@ -2749,6 +2750,7 @@ void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
- 	pci_reassigndev_resource_alignment(dev);
+diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+index 2ec095e2009e..554dbddb1c8c 100644
+--- a/drivers/acpi/bus.c
++++ b/drivers/acpi/bus.c
+@@ -831,9 +831,9 @@ const struct acpi_device *acpi_companion_match(const struct device *dev)
+  * identifiers and a _DSD object with the "compatible" property, use that
+  * property to match against the given list of identifiers.
+  */
+-static bool acpi_of_match_device(const struct acpi_device *adev,
+-				 const struct of_device_id *of_match_table,
+-				 const struct of_device_id **of_id)
++bool acpi_of_match_device(const struct acpi_device *adev,
++			  const struct of_device_id *of_match_table,
++			  const struct of_device_id **of_id)
+ {
+ 	const union acpi_object *of_compatible, *obj;
+ 	int i, nval;
+diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+index aad1a95e6863..049301e71a11 100644
+--- a/include/acpi/acpi_bus.h
++++ b/include/acpi/acpi_bus.h
+@@ -187,6 +187,10 @@ struct acpi_driver {
+  * -----------
+  */
  
- 	pci_init_capabilities(dev);
-+	device_enable_async_shutdown(&dev->dev);
++bool acpi_of_match_device(const struct acpi_device *adev,
++			  const struct of_device_id *of_match_table,
++			  const struct of_device_id **of_id);
++
+ /* Status (_STA) */
  
- 	/*
- 	 * Add the device to our list of discovered devices
--- 
-2.53.0
+ struct acpi_device_status {
+@@ -998,6 +1002,13 @@ int acpi_scan_add_dep(acpi_handle handle, struct acpi_handle_list *dep_devices);
+ u32 arch_acpi_add_auto_dep(acpi_handle handle);
+ #else	/* CONFIG_ACPI */
+ 
++static inline bool acpi_of_match_device(const struct acpi_device *adev,
++					const struct of_device_id *of_match_table,
++					const struct of_device_id **of_id)
++{
++	return false;
++}
++
+ static inline int register_acpi_bus_type(void *bus) { return 0; }
+ static inline int unregister_acpi_bus_type(void *bus) { return 0; }
+ 
+diff --git a/rust/helpers/acpi.c b/rust/helpers/acpi.c
+new file mode 100644
+index 000000000000..e75c9807bbad
+--- /dev/null
++++ b/rust/helpers/acpi.c
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/acpi.h>
++#include <acpi/acpi_bus.h>
++
++__rust_helper bool rust_helper_acpi_of_match_device(const struct acpi_device *adev,
++						    const struct of_device_id *of_match_table,
++						    const struct of_device_id **of_id)
++{
++	return acpi_of_match_device(adev, of_match_table, of_id);
++}
++
++__rust_helper struct acpi_device *rust_helper_to_acpi_device_node(struct fwnode_handle *fwnode)
++{
++	return to_acpi_device_node(fwnode);
++}
+diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+index a3c42e51f00a..8ecd1580aa69 100644
+--- a/rust/helpers/helpers.c
++++ b/rust/helpers/helpers.c
+@@ -9,6 +9,7 @@
+ 
+ #define __rust_helper
+ 
++#include "acpi.c"
+ #include "atomic.c"
+ #include "atomic_ext.c"
+ #include "auxiliary.c"
+diff --git a/rust/kernel/driver.rs b/rust/kernel/driver.rs
+index 36de8098754d..93e5dd6ae371 100644
+--- a/rust/kernel/driver.rs
++++ b/rust/kernel/driver.rs
+@@ -278,6 +278,26 @@ fn init(
+     }
+ }
+ 
++// Calling the FFI function directly from the `Adapter` impl may result in it being called
++// directly from driver modules. This happens since the Rust compiler will use monomorphisation, so
++// it might happen that functions are instantiated within the calling driver module. For now, work
++// around this with `#[inline(never)]` helpers.
++//
++// TODO: Remove once a more generic solution has been implemented. For instance, we may be able to
++// leverage `bindgen` to take care of this depending on whether a symbol is (already) exported.
++#[inline(never)]
++#[allow(clippy::missing_safety_doc)]
++#[allow(dead_code)]
++#[must_use]
++unsafe fn acpi_of_match_device(
++    adev: *const bindings::acpi_device,
++    of_match_table: *const bindings::of_device_id,
++    of_id: *mut *const bindings::of_device_id,
++) -> bool {
++    // SAFETY: Safety requirements are the same as `bindings::acpi_of_match_device`.
++    unsafe { bindings::acpi_of_match_device(adev, of_match_table, of_id) }
++}
++
+ /// The bus independent adapter to match a drivers and a devices.
+ ///
+ /// This trait should be implemented by the bus specific adapter, which represents the connection
+@@ -329,35 +349,63 @@ fn acpi_id_info(dev: &device::Device) -> Option<&'static Self::IdInfo> {
+     ///
+     /// If this returns `None`, it means there is no match with an entry in the [`of::IdTable`].
+     fn of_id_info(dev: &device::Device) -> Option<&'static Self::IdInfo> {
+-        #[cfg(not(CONFIG_OF))]
++        let table = Self::of_id_table()?;
++
++        #[cfg(not(any(CONFIG_OF, CONFIG_ACPI)))]
+         {
+-            let _ = dev;
+-            None
++            let _ = (dev, table);
+         }
+ 
+         #[cfg(CONFIG_OF)]
+         {
+-            let table = Self::of_id_table()?;
+-
+             // SAFETY:
+             // - `table` has static lifetime, hence it's valid for read,
+             // - `dev` is guaranteed to be valid while it's alive, and so is `dev.as_raw()`.
+             let raw_id = unsafe { bindings::of_match_device(table.as_ptr(), dev.as_raw()) };
+ 
+-            if raw_id.is_null() {
+-                None
+-            } else {
++            if !raw_id.is_null() {
+                 // SAFETY: `DeviceId` is a `#[repr(transparent)]` wrapper of `struct of_device_id`
+                 // and does not add additional invariants, so it's safe to transmute.
+                 let id = unsafe { &*raw_id.cast::<of::DeviceId>() };
+ 
+-                Some(
+-                    table.info(<of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(
+-                        id,
+-                    )),
+-                )
++                return Some(table.info(
++                    <of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(id),
++                ));
+             }
+         }
++
++        #[cfg(CONFIG_ACPI)]
++        {
++            use core::ptr;
++            use device::property::FwNode;
++
++            let mut raw_id = ptr::null();
++
++            let fwnode = dev.fwnode().map_or(ptr::null_mut(), FwNode::as_raw);
++
++            // SAFETY: `fwnode` is a pointer to a valid `fwnode_handle`. A null pointer will be
++            // passed through the function.
++            let adev = unsafe { bindings::to_acpi_device_node(fwnode) };
++
++            // SAFETY:
++            // - `adev` is a valid pointer to `acpi_device` or is null. It is guaranteed to be
++            //   valid as long as `dev` is alive.
++            // - `table` has static lifetime, hence it's valid for read.
++            if unsafe { acpi_of_match_device(adev, table.as_ptr(), &raw mut raw_id) } {
++                // SAFETY:
++                // - the function returns true, therefore `raw_id` has been set to a pointer to a
++                //   valid `of_device_id`.
++                // - `DeviceId` is a `#[repr(transparent)]` wrapper of `struct of_device_id`
++                //   and does not add additional invariants, so it's safe to transmute.
++                let id = unsafe { &*raw_id.cast::<of::DeviceId>() };
++
++                return Some(table.info(
++                    <of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(id),
++                ));
++            }
++        }
++
++        None
+     }
+ 
+     /// Returns the driver's private data from the matching entry of any of the ID tables, if any.
+
+---
+base-commit: 3131ff5a117498bb4b9db3a238bb311cbf8383ce
+change-id: 20260401-rust_acpi_prp0001-a2971543b555
 
