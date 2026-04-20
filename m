@@ -1,269 +1,148 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CFD3CF676
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 20:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C293AF653
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 20:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776715652; cv=none; b=CcLP6If0iHt8B3Mv9Wp7prSvIAId//V5vpyJzknyBUAj36FydPjDAe1EsA+w3e+9qU7oTrpQHwltrKpvNJ1rZa0PZrzoyAJ4mDGV5IDuCJE3O+G1gU3muaSkiDd6aiRNFkokLpWYY3bEvZUAWsNH0c0zHdSqNgW3Ik2Hansf+To=
+	t=1776716740; cv=none; b=huCgQexRjNO7JJddh+TlZPQDBvXDe+0JUFe2qKk2CUnp+zjEItxUaFscJe/MUncTOEcv1M5AtB6zkG3Iq+D6ycjPUwCdbdBuYGnA9M+Gro0eusK7G2pSOW1/+YtCJyK0XtMkYIQv20f2tv9vc/l8Rq4Y13MfeRVffNt9ixFJ36s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776715652; c=relaxed/simple;
-	bh=JoXwbjqfgHTSQtenfdS4rDb9JH2Wzuoqzg2D6y353ys=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BCAtpbOeDIYxUa6jx0+9pmKzBoRIDSICwRPbTHosw7cwi51IDWoxna//2OXxSPFu5fe1iwf0tyg+67KMtz4msm5tPoTvrjR0Dh5vsYM17xYixRim47mEygh6VH0rAG9dUTpnD7mDwJ8bTwKBDB6ZuFXMYM5xmLzMaSy9OrHHJtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=is6LvDX9; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1776716740; c=relaxed/simple;
+	bh=Dx76hdPmzkcK4nbwEphDzpwF8eLBrP39wXmhzcE1i9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eLGhOl83rW6U2Xj0nriwx76xLNxCHTAy68VK+RASLtbR3TgJ0G8Wm183AEb9btmnkJ7xSD56sGBeNO6vKdGALeTMoliPYxIPR2w5s6EhV1X47Pjo5nebo7B/VeGDzKWs+R83gsqNkWZFosdYLlCKvLN6uuB4ZafUKhTBLKpFc74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=V1356S4U; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="is6LvDX9"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 17C06240104
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 22:07:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1776715647; bh=bMRsLKAHSAXz14Z4fiLu1qobuMPCKTYfrmGi0WB25P8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=is6LvDX94ijzx68h/xyd7Bg+E74Op93FflfFoOrcoJM80TFNWXGk3ADFjQLYp1B5a
-	 bDuOFYwT4ee5276m+uQMtGRPKiabUe7E9EqpSv+Fnv+K4gInYCK9uxVt3lhj/2R2Y/
-	 tbC2xllRLjJwySuEOaui3fpHOd1KC791g6SvMvlhgiilgN4eWFV5nfgBlsRBXA/pfe
-	 q0njqSDTftz3BHotNBG6mu6aWinFJge+CdlsNQTwEQ6GdoK2PDhkjV3tOdpP5eur4/
-	 7suJGLxYpywAckhRNBuPnJNUeVwSphHfYYE+xN2BhIV6AFV8kwom8FzNw2xIBXVORj
-	 Jd4Z7AUg53fog==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fzxNX59LGz9rxN;
-	Mon, 20 Apr 2026 22:07:24 +0200 (CEST)
-From: Markus Probst <markus.probst@posteo.de>
-Date: Mon, 20 Apr 2026 20:07:26 +0000
-Subject: [PATCH v5 4/4] samples: rust: add Rust serial device bus sample
- device driver
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="V1356S4U"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-899a9f445cbso43158876d6.0
+        for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 13:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1776716738; x=1777321538; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=86B2EppM//v3TWmEymAoj6QAs94Bt1WYW2cmbvlwvO8=;
+        b=V1356S4U/8tr0lzRAqwg8m/u9F2VyMeiWLLsFtTjimjfvv5z2hs9GfNCaYN7jdICiw
+         zoOBIyR9GuzhwdCBG5CmBQ8W14xpyYMyk546aXiBxvvrnX6gnV666bLG1SCP0dQuIVvp
+         dFBDDD02D958w8oditWvYsiCV/IEm30lpSryES3kUirevPI31fPqsZ2dwsRfFFXKH1lv
+         QYnAdweMw/toyNp7asT3vWK1t/xa7pYVuVkUF2X5gfK2m13Qwc0Yyw6v8KH2a9UWWZb1
+         5PtoSafV6pJUq7VjDaDJp5xhxb+q4ote/vrm2DVocCaHc44jc8fIK6UhWQNWG7W2z4kQ
+         qQzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776716738; x=1777321538;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=86B2EppM//v3TWmEymAoj6QAs94Bt1WYW2cmbvlwvO8=;
+        b=VSEK5dbY82+MhPftu3Tf0Pfbqd+bLpBkQYGZw1Kpyu5LSc2h465SitJ19UATJGQIUU
+         i6OUECAU05RwRWHKhbDsQx5dmhf1snl1biYQ5giYtqSBczI6AegeTvYAZZBCDf1CN36v
+         O14zuMrUrVG8/yPOp3W5UiFgwOKkGsTW0jTekuWmUsAJylUXjUOzAfDWh7KWHbzZmv4N
+         jAQ/uribkv6tM9kG9U0Gp26iokIanC4gUt56R9hR3XhGogcTP4BVTnPJXYKV8eYN6tqE
+         LighZo9sEoOrNJgQ4LibWyiKkFWO4RxB0ivfCJkwN0hup1tid/eSrwh+5Ux3uYtqfw3M
+         XTkw==
+X-Forwarded-Encrypted: i=1; AFNElJ/8dkX3quhvB8WEjw3a5JkYerm53fkv5nkjisErO5kH/fInRNcG9USSgceknJUjhKWQIiyMxw7bTRyIVA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHF5eC3Hl5r4aTLSm7r32rg5g0uVbHaLhI4iEKAdaMJdGjjLeA
+	OCSbd9HneMNQMqACFADz1rgR2uTSRy9nrrknsk6DgwXZLZ5bkN/2OsMXyLW7uyx7n9o=
+X-Gm-Gg: AeBDievwvMOW3Ry7u4tBXNnngBaIWoo9R5KfZOdhbz9I14uw9uVa9f/Mw5/OD0hNn8X
+	B+jhBRqacWuAbLQMfeGYqXSTObzeeHhfrVldgIhqfNiGZCBzC2hMSjgJBSIqOxhbyHIyI/Va6O9
+	N8LM9VgGWOZn15BOJKSHPNkHqBo6p8U2xuilhTGYG9naY3OKJt6phOKYjmRLNVY9LjJiubkjBup
+	qmiqG4O/JeYqwWX5cK8wauAE9OJoRE6c1VkLorpixYGbGNSzjLaVOikUapma5c5ZEJsbNkIWCDV
+	PNn9IwFy3NR5WDdwN5GZ0nB74OcmWT2FqRDfDchyE2BVcFW3PORmvbmaa7vNLeSTaTQ1nZoMGb+
+	riCqvDQgqlz9aeOXFqmmfUo6NMTBuTYAF8mlSikIJJc3m9fSkMUbFIvI7zjqpdtPscwVOra53tM
+	SUv3VEiinoEBcEJ1/wJ65NeabkldJkNIxpazTVAu4umZC8C2jyaIWX2umGC7fq
+X-Received: by 2002:a05:6214:3209:b0:8ac:ab90:d764 with SMTP id 6a1803df08f44-8b0281653a5mr266452836d6.48.1776716737948;
+        Mon, 20 Apr 2026 13:25:37 -0700 (PDT)
+Received: from plex ([71.181.43.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ac6c3e7sm85895836d6.13.2026.04.20.13.25.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 13:25:36 -0700 (PDT)
+Date: Mon, 20 Apr 2026 20:25:34 +0000
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: David Jeffery <djeffery@redhat.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Tarun Sahu <tarunsahu@google.com>, 
+	Pasha Tatashin <tatashin@google.com>, =?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, 
+	Jordan Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>, 
+	John Meneghini <jmeneghi@redhat.com>, "Lombardi, Maurizio" <mlombard@redhat.com>, 
+	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman <loberman@redhat.com>, 
+	Bart Van Assche <bvanassche@acm.org>, Bjorn Helgaas <helgaas@kernel.org>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, John Garry <john.g.garry@oracle.com>, kexec@lists.infradead.org
+Subject: Re: [PATCH 1/5] driver core: separate function to shutdown one device
+Message-ID: <h2r2jv4g2tednrybrmkn4d2dus3oalqsk3r2q4xrbuivucefon@n6vvx5bl5cm5>
+References: <20260420152608.6244-1-djeffery@redhat.com>
+ <20260420152608.6244-2-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260420-rust_serdev-v5-4-57e8ba0519f3@posteo.de>
-References: <20260420-rust_serdev-v5-0-57e8ba0519f3@posteo.de>
-In-Reply-To: <20260420-rust_serdev-v5-0-57e8ba0519f3@posteo.de>
-To: Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Kari Argillander <kari.argillander@gmail.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Boqun Feng <boqun@kernel.org>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4237;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=JoXwbjqfgHTSQtenfdS4rDb9JH2Wzuoqzg2D6y353ys=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp5od235RAvbch31ND5xm6KkCIL9eSTpGnt1qIX
- bhK1T0wIv+JAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaeaHdhsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KSWBAAhcP3LBb6l9BsolX6qOEtRvt42F5eg9q
- ixouVRq87msm/NPNYNIEyC9XLYlCxcKSg+FbWnQU7rmAbwl4fUvYyzjYNa7rKhGkxFLCL7MHCM8
- 91gElbbiUk21i5IpR0MmvsjPPx2jgumJhoYEfXT66ZHuZKZEvoRUuCSzESRuNX5YdrnmtdEyI3P
- gedZg2gsu9rguMDTTKoIyR3NnsoCXN9PaHYyyrwLoPDojuLYjArmWsoYWVJNgeTYqF9h+zBx9KN
- /J5iydDlsm4j07ofOcNkU7r9mD2OC3FJ5YQaItQ/G/q5ius2In4ZhVYWeieEiyLDLb/iKdZkZ00
- pazfjbWdr8pygzi2fw6hBftKPQzDPIH5fcsGp5Ey0XBxAoKCzYXiwquZDiID0rxgqAUIfNFEKH5
- 5J86xKcJhDOqfEYThCrRBy7u9l9zl071335dpv0MOrIx/EWPO6Kx/fgtfdEgJJlRF06CnZijskI
- hKETo0lLH7/HQgX01YFLTT4Nn2TlIMPJ22RPdXW2sJMDdEUmGtQ9CgV3fLYCWSej1suc+dR1gcR
- qkmjiJ2DDQYbStUTpocK1aeqG3oMN95CET2AE+0FtleOMK1/9+niqlfuiOU/vCSbbReqlqGoW6k
- xXJN2yuNnxyQPqf7lvPlY76pRukxy96/QkiyMy/22CGANFj39xPQ=
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260420152608.6244-2-djeffery@redhat.com>
 
-Add a sample Rust serial device bus device driver illustrating the usage
-of the serial device bus abstractions.
+On 04-20 11:26, David Jeffery wrote:
+> Make a separate function for the part of device_shutdown() that does the
+> shutown for a single device.  This is in preparation for making device
+> shutdown asynchronous.
+> 
+> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+> Signed-off-by: David Jeffery <djeffery@redhat.com>
+> Tested-by: Laurence Oberman <loberman@redhat.com>
+> ---
+>  drivers/base/core.c | 71 +++++++++++++++++++++++++--------------------
+>  1 file changed, 39 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 0613de0fbe44..5353c6c22d49 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -4783,12 +4783,48 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+>  	return error;
+>  }
+>  
+> +static void shutdown_one_device(struct device *dev)
+> +{
+> +	struct device *parent = dev->parent;
+> +
+> +	/* hold lock to avoid race with probe/release */
+> +	if (parent)
+> +		device_lock(parent);
+> +	device_lock(dev);
+> +
+> +	/* Don't allow any more runtime suspends */
+> +	pm_runtime_get_noresume(dev);
+> +	pm_runtime_barrier(dev);
+> +
+> +	if (dev->class && dev->class->shutdown_pre) {
+> +		if (initcall_debug)
+> +			dev_info(dev, "shutdown_pre\n");
+> +		dev->class->shutdown_pre(dev);
+> +	}
+> +	if (dev->bus && dev->bus->shutdown) {
+> +		if (initcall_debug)
+> +			dev_info(dev, "shutdown\n");
+> +		dev->bus->shutdown(dev);
+> +	} else if (dev->driver && dev->driver->shutdown) {
+> +		if (initcall_debug)
+> +			dev_info(dev, "shutdown\n");
+> +		dev->driver->shutdown(dev);
+> +	}
+> +
+> +	device_unlock(dev);
+> +	if (parent)
+> +		device_unlock(parent);
+> +
+> +	put_device(parent);
+> +	put_device(dev);
+> +}
 
-This drivers probes through either a match of device / driver name or a
-match within the OF ID table.
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com> 
 
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- samples/rust/Kconfig               | 11 +++++
- samples/rust/Makefile              |  1 +
- samples/rust/rust_driver_serdev.rs | 86 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 98 insertions(+)
+Also, please CC: kexec@lists.infradead.org, this series helps the live 
+update, and kexec performance.
 
-diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
-index c49ab9106345..31d62533ef25 100644
---- a/samples/rust/Kconfig
-+++ b/samples/rust/Kconfig
-@@ -161,6 +161,17 @@ config SAMPLE_RUST_DRIVER_AUXILIARY
- 
- 	  If unsure, say N.
- 
-+config SAMPLE_RUST_DRIVER_SERDEV
-+	tristate "Serial Device Bus Device Driver"
-+	select RUST_SERIAL_DEV_BUS_ABSTRACTIONS
-+	help
-+	  This option builds the Rust serial device bus driver sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_driver_serdev.
-+
-+	  If unsure, say N.
-+
- config SAMPLE_RUST_SOC
- 	tristate "SoC Driver"
- 	select SOC_BUS
-diff --git a/samples/rust/Makefile b/samples/rust/Makefile
-index 6c0aaa58cccc..b986b681cde5 100644
---- a/samples/rust/Makefile
-+++ b/samples/rust/Makefile
-@@ -14,6 +14,7 @@ obj-$(CONFIG_SAMPLE_RUST_DRIVER_PLATFORM)	+= rust_driver_platform.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_USB)		+= rust_driver_usb.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_FAUX)		+= rust_driver_faux.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_AUXILIARY)	+= rust_driver_auxiliary.o
-+obj-$(CONFIG_SAMPLE_RUST_DRIVER_SERDEV)		+= rust_driver_serdev.o
- obj-$(CONFIG_SAMPLE_RUST_CONFIGFS)		+= rust_configfs.o
- obj-$(CONFIG_SAMPLE_RUST_SOC)			+= rust_soc.o
- 
-diff --git a/samples/rust/rust_driver_serdev.rs b/samples/rust/rust_driver_serdev.rs
-new file mode 100644
-index 000000000000..8cf3fb451b22
---- /dev/null
-+++ b/samples/rust/rust_driver_serdev.rs
-@@ -0,0 +1,86 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust Serial device bus device driver sample.
-+
-+use kernel::{
-+    acpi,
-+    device::{
-+        Bound,
-+        Core, //
-+    },
-+    of,
-+    prelude::*,
-+    serdev,
-+    sync::aref::ARef, //
-+};
-+
-+struct SampleDriver {
-+    sdev: ARef<serdev::Device>,
-+}
-+
-+kernel::of_device_table!(
-+    OF_TABLE,
-+    MODULE_OF_TABLE,
-+    <SampleDriver as serdev::Driver>::IdInfo,
-+    [(of::DeviceId::new(c"test,rust_driver_serdev"), ())]
-+);
-+
-+kernel::acpi_device_table!(
-+    ACPI_TABLE,
-+    MODULE_ACPI_TABLE,
-+    <SampleDriver as serdev::Driver>::IdInfo,
-+    [(acpi::DeviceId::new(c"LNUXBEEF"), ())]
-+);
-+
-+#[vtable]
-+impl serdev::Driver for SampleDriver {
-+    type IdInfo = ();
-+    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
-+    const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = Some(&ACPI_TABLE);
-+
-+    fn probe(
-+        sdev: &serdev::Device<Core>,
-+        _info: Option<&Self::IdInfo>,
-+    ) -> impl PinInit<Self, Error> {
-+        let dev = sdev.as_ref();
-+
-+        dev_dbg!(dev, "Probe Rust Serial device bus device driver sample.\n");
-+
-+        if sdev
-+            .set_baudrate(
-+                dev.fwnode()
-+                    .and_then(|fwnode| fwnode.property_read(c"baudrate").optional())
-+                    .unwrap_or(115200),
-+            )
-+            .is_err()
-+        {
-+            return Err(EINVAL);
-+        }
-+        sdev.set_flow_control(false);
-+        sdev.set_parity(serdev::Parity::None)?;
-+
-+        Ok(Self { sdev: sdev.into() })
-+    }
-+
-+    fn receive(sdev: &serdev::Device<Bound>, _this: Pin<&Self>, data: &[u8]) -> usize {
-+        let _ = sdev.write_all(data, serdev::Timeout::Max);
-+        data.len()
-+    }
-+}
-+
-+impl Drop for SampleDriver {
-+    fn drop(&mut self) {
-+        dev_dbg!(
-+            self.sdev.as_ref(),
-+            "Remove Rust Serial device bus device driver sample.\n"
-+        );
-+    }
-+}
-+
-+kernel::module_serdev_device_driver! {
-+    type: SampleDriver,
-+    name: "rust_driver_serdev",
-+    authors: ["Markus Probst"],
-+    description: "Rust Serial device bus device driver",
-+    license: "GPL v2",
-+}
-
--- 
-2.52.0
-
+Pasha
