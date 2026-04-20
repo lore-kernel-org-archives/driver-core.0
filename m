@@ -1,79 +1,93 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C293AF653
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 20:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F95A37AA6F
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 22:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776716740; cv=none; b=huCgQexRjNO7JJddh+TlZPQDBvXDe+0JUFe2qKk2CUnp+zjEItxUaFscJe/MUncTOEcv1M5AtB6zkG3Iq+D6ycjPUwCdbdBuYGnA9M+Gro0eusK7G2pSOW1/+YtCJyK0XtMkYIQv20f2tv9vc/l8Rq4Y13MfeRVffNt9ixFJ36s=
+	t=1776725782; cv=none; b=QwE66YBeKdLLos/1dEbFyTPUVLwCaLA7ESZE/aQZY4YZJnmLGC4ChaZ4fKn7uvQVUN+8zAf2gmjJd9mDodRVnyUE52KA+KXcAM18ZMD8pR3lXqapspaAkqF/xx1oKd/kH1WxKeRE/klgMZeWuDqJUYoVNei4ZLtv7rhK+5n5HeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776716740; c=relaxed/simple;
-	bh=Dx76hdPmzkcK4nbwEphDzpwF8eLBrP39wXmhzcE1i9Q=;
+	s=arc-20240116; t=1776725782; c=relaxed/simple;
+	bh=HxETj+r6/c62h5v/ZQo9q8wwwtXio08jZSnj3FSr8os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eLGhOl83rW6U2Xj0nriwx76xLNxCHTAy68VK+RASLtbR3TgJ0G8Wm183AEb9btmnkJ7xSD56sGBeNO6vKdGALeTMoliPYxIPR2w5s6EhV1X47Pjo5nebo7B/VeGDzKWs+R83gsqNkWZFosdYLlCKvLN6uuB4ZafUKhTBLKpFc74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=V1356S4U; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z9+iEyngu2ovbIqP1uno4ZgP+qLks5Yrqe0eUGejBYjhWb6WV0Ink4GatQims5BlKXxh9CRyHu5XtWxhgIj9QLdHX/Z4XS/w0uisZYEVL7R9blJFpmT4z7NxnCceTVEIn0gzl7/LznCeiD/JffrklbdlIZh+JUncyhK5UzHM8S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=O5FrTZ38; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="V1356S4U"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-899a9f445cbso43158876d6.0
-        for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 13:25:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="O5FrTZ38"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-479e7e88fb5so417768b6e.3
+        for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 15:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1776716738; x=1777321538; darn=lists.linux.dev;
+        d=ziepe.ca; s=google; t=1776725780; x=1777330580; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=86B2EppM//v3TWmEymAoj6QAs94Bt1WYW2cmbvlwvO8=;
-        b=V1356S4U/8tr0lzRAqwg8m/u9F2VyMeiWLLsFtTjimjfvv5z2hs9GfNCaYN7jdICiw
-         zoOBIyR9GuzhwdCBG5CmBQ8W14xpyYMyk546aXiBxvvrnX6gnV666bLG1SCP0dQuIVvp
-         dFBDDD02D958w8oditWvYsiCV/IEm30lpSryES3kUirevPI31fPqsZ2dwsRfFFXKH1lv
-         QYnAdweMw/toyNp7asT3vWK1t/xa7pYVuVkUF2X5gfK2m13Qwc0Yyw6v8KH2a9UWWZb1
-         5PtoSafV6pJUq7VjDaDJp5xhxb+q4ote/vrm2DVocCaHc44jc8fIK6UhWQNWG7W2z4kQ
-         qQzw==
+        bh=HxETj+r6/c62h5v/ZQo9q8wwwtXio08jZSnj3FSr8os=;
+        b=O5FrTZ38+NLyLVgQ6BReXKWlDNJ3yYl1qEZyl4cb3pQR2BqUiSzOoCS84yTzF6FMdc
+         dOtlXXkMFstZmzOXh36il2wOFHt/lapcVXSe84Fg5iSLZz3o9obvy7mf0dWILOTliux1
+         ilo5//1fF9edHY3w5ibRG4Cz6AxM5XPgv1+UI44fTk4HiX8yB++JofeAdsdqe8Ia9CN6
+         exW7WpbJm5BSpUdv73v3RHSIx4frEPE/fYml+Oq9TZK5nt+TaM+T3rwTCH1SVgYBJexW
+         u81u7nzzPZeRibk/3E9XgDUs4DZAL2tl8OjZfbRFkJeXtz+pKZgTINap05DQJ50HhSUH
+         9/BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776716738; x=1777321538;
+        d=1e100.net; s=20251104; t=1776725780; x=1777330580;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=86B2EppM//v3TWmEymAoj6QAs94Bt1WYW2cmbvlwvO8=;
-        b=VSEK5dbY82+MhPftu3Tf0Pfbqd+bLpBkQYGZw1Kpyu5LSc2h465SitJ19UATJGQIUU
-         i6OUECAU05RwRWHKhbDsQx5dmhf1snl1biYQ5giYtqSBczI6AegeTvYAZZBCDf1CN36v
-         O14zuMrUrVG8/yPOp3W5UiFgwOKkGsTW0jTekuWmUsAJylUXjUOzAfDWh7KWHbzZmv4N
-         jAQ/uribkv6tM9kG9U0Gp26iokIanC4gUt56R9hR3XhGogcTP4BVTnPJXYKV8eYN6tqE
-         LighZo9sEoOrNJgQ4LibWyiKkFWO4RxB0ivfCJkwN0hup1tid/eSrwh+5Ux3uYtqfw3M
-         XTkw==
-X-Forwarded-Encrypted: i=1; AFNElJ/8dkX3quhvB8WEjw3a5JkYerm53fkv5nkjisErO5kH/fInRNcG9USSgceknJUjhKWQIiyMxw7bTRyIVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHF5eC3Hl5r4aTLSm7r32rg5g0uVbHaLhI4iEKAdaMJdGjjLeA
-	OCSbd9HneMNQMqACFADz1rgR2uTSRy9nrrknsk6DgwXZLZ5bkN/2OsMXyLW7uyx7n9o=
-X-Gm-Gg: AeBDievwvMOW3Ry7u4tBXNnngBaIWoo9R5KfZOdhbz9I14uw9uVa9f/Mw5/OD0hNn8X
-	B+jhBRqacWuAbLQMfeGYqXSTObzeeHhfrVldgIhqfNiGZCBzC2hMSjgJBSIqOxhbyHIyI/Va6O9
-	N8LM9VgGWOZn15BOJKSHPNkHqBo6p8U2xuilhTGYG9naY3OKJt6phOKYjmRLNVY9LjJiubkjBup
-	qmiqG4O/JeYqwWX5cK8wauAE9OJoRE6c1VkLorpixYGbGNSzjLaVOikUapma5c5ZEJsbNkIWCDV
-	PNn9IwFy3NR5WDdwN5GZ0nB74OcmWT2FqRDfDchyE2BVcFW3PORmvbmaa7vNLeSTaTQ1nZoMGb+
-	riCqvDQgqlz9aeOXFqmmfUo6NMTBuTYAF8mlSikIJJc3m9fSkMUbFIvI7zjqpdtPscwVOra53tM
-	SUv3VEiinoEBcEJ1/wJ65NeabkldJkNIxpazTVAu4umZC8C2jyaIWX2umGC7fq
-X-Received: by 2002:a05:6214:3209:b0:8ac:ab90:d764 with SMTP id 6a1803df08f44-8b0281653a5mr266452836d6.48.1776716737948;
-        Mon, 20 Apr 2026 13:25:37 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02ac6c3e7sm85895836d6.13.2026.04.20.13.25.35
+        bh=HxETj+r6/c62h5v/ZQo9q8wwwtXio08jZSnj3FSr8os=;
+        b=BLcXfldvzoOmeECwlPRkR4ewHW9zUEIc9jV87G13/mPp6JcTm1mfakeQK/tq3u3mso
+         DACLf66ZtV1UC4QBBV4j8p8CIBwVs8L1FfqqF8aJtAMYeSXLAqYjJhuOSof/XDltRyZH
+         A7qrRRsRncnMP4awmGsWTEXR09Wp3pgZ8iQYH8i7gvT2qpG0juNPwFyWU5+rDbbFAkxh
+         lZMGV2/QYFTAxyJK24kboWyUkNZjEk/r7GvravwJyKAETbfbQxedjtTLnQNdc5XddHFM
+         8941Lump5jypjZtFBvB339bcMpQ82AGrwFlJ0BODUFTMqRxeocxElkvKCABUD9BVf3or
+         TRzA==
+X-Forwarded-Encrypted: i=1; AFNElJ/WMX9dyQm0o5XFIfZ1CJdkAi6s92jlSMAne3ljwFHKxX2WR+HLY0H5Gd8Ihc2zjniYHWyoH3uW9bpBBw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxj41D5AP72I2AYhgitQuN9+z7sKHjc0GleGHVcV/vT2w9HNQVE
+	vlukn/QrPw3AOCOCUhJZWpvIGFh3J/n++3A57Dby3RpEeiTxQC+nmUx9bjuAFsuTIa5lWEBT8Ps
+	m1pKx
+X-Gm-Gg: AeBDietCWpjTMbig8UhG1N0I+Os9g+8y1hG1+SooG1RVq+x/7sMDqPgEilu9rBi/fer
+	hvE4g77On03dX0qKPds9J7n6gzzvclzbx3PD1rLYmK66TybPt+shMO+VZYStOvNRD1AkvTQlRPD
+	xAzDwnh/PSM4JeVFwvzNEkljVlue9YbxlTlnCuKH9wAi2rqTUdI8ZDrp1dz9MfJ7sEiRU//ASSk
+	Mr/67jh+/pIlh23zBRPUrnCjpR2UNaeTS7N21HFATiVplOXUCbu6ULi1cS1ZCQdpIh/htD57ZoB
+	kmtn+xv0xUgdor9x+xMt0euq8AP1JIftJ4JbdfFh+r8a2yeFH37iWCI90EVA0eUXQ0yOP84ZiWv
+	1CEwrXnYjvDi/+tPKkTJItoJKJQ52iwqqDerkp+j0PwelILXnkf7WUCdIV2SDXQdI2c9zLkD7UM
+	XeREhS3yVq
+X-Received: by 2002:a05:6808:448a:b0:479:d2d3:a399 with SMTP id 5614622812f47-479d2d3bdb0mr3331712b6e.15.1776725780355;
+        Mon, 20 Apr 2026 15:56:20 -0700 (PDT)
+Received: from ziepe.ca ([130.41.10.202])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4799fc19273sm7702863b6e.0.2026.04.20.15.56.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 13:25:36 -0700 (PDT)
-Date: Mon, 20 Apr 2026 20:25:34 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Jeffery <djeffery@redhat.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Tarun Sahu <tarunsahu@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, =?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, 
-	Jordan Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>, 
-	John Meneghini <jmeneghi@redhat.com>, "Lombardi, Maurizio" <mlombard@redhat.com>, 
-	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman <loberman@redhat.com>, 
-	Bart Van Assche <bvanassche@acm.org>, Bjorn Helgaas <helgaas@kernel.org>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, John Garry <john.g.garry@oracle.com>, kexec@lists.infradead.org
-Subject: Re: [PATCH 1/5] driver core: separate function to shutdown one device
-Message-ID: <h2r2jv4g2tednrybrmkn4d2dus3oalqsk3r2q4xrbuivucefon@n6vvx5bl5cm5>
-References: <20260420152608.6244-1-djeffery@redhat.com>
- <20260420152608.6244-2-djeffery@redhat.com>
+        Mon, 20 Apr 2026 15:56:19 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wExXO-0000000F7qQ-3pLG;
+	Mon, 20 Apr 2026 19:56:18 -0300
+Date: Mon, 20 Apr 2026 19:56:18 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	ekansh.gupta@oss.qualcomm.com,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Bharath Kumar <quic_bkumar@quicinc.com>,
+	Chenna Kesava Raju <quic_chennak@quicinc.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Subject: Re: [PATCH 1/3] drivers: base: Add generic context device bus
+Message-ID: <20260420225618.GP2577880@ziepe.ca>
+References: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
+ <20260414-computebus-v1-1-4d904d40926a@oss.qualcomm.com>
+ <2026041418-volley-composer-6363@gregkh>
+ <c4f21420-c299-f161-2bf7-c9b79ca15037@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -82,67 +96,20 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260420152608.6244-2-djeffery@redhat.com>
+In-Reply-To: <c4f21420-c299-f161-2bf7-c9b79ca15037@oss.qualcomm.com>
 
-On 04-20 11:26, David Jeffery wrote:
-> Make a separate function for the part of device_shutdown() that does the
-> shutown for a single device.  This is in preparation for making device
-> shutdown asynchronous.
-> 
-> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-> Signed-off-by: David Jeffery <djeffery@redhat.com>
-> Tested-by: Laurence Oberman <loberman@redhat.com>
-> ---
->  drivers/base/core.c | 71 +++++++++++++++++++++++++--------------------
->  1 file changed, 39 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 0613de0fbe44..5353c6c22d49 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -4783,12 +4783,48 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
->  	return error;
->  }
->  
-> +static void shutdown_one_device(struct device *dev)
-> +{
-> +	struct device *parent = dev->parent;
-> +
-> +	/* hold lock to avoid race with probe/release */
-> +	if (parent)
-> +		device_lock(parent);
-> +	device_lock(dev);
-> +
-> +	/* Don't allow any more runtime suspends */
-> +	pm_runtime_get_noresume(dev);
-> +	pm_runtime_barrier(dev);
-> +
-> +	if (dev->class && dev->class->shutdown_pre) {
-> +		if (initcall_debug)
-> +			dev_info(dev, "shutdown_pre\n");
-> +		dev->class->shutdown_pre(dev);
-> +	}
-> +	if (dev->bus && dev->bus->shutdown) {
-> +		if (initcall_debug)
-> +			dev_info(dev, "shutdown\n");
-> +		dev->bus->shutdown(dev);
-> +	} else if (dev->driver && dev->driver->shutdown) {
-> +		if (initcall_debug)
-> +			dev_info(dev, "shutdown\n");
-> +		dev->driver->shutdown(dev);
-> +	}
-> +
-> +	device_unlock(dev);
-> +	if (parent)
-> +		device_unlock(parent);
-> +
-> +	put_device(parent);
-> +	put_device(dev);
-> +}
+On Wed, Apr 15, 2026 at 11:04:26PM +0530, Vishnu Reddy wrote:
+> Looks like the device have specific iommu configuration (via
+> of_dma_configure()), then using the auxbus or faux bus types does not have
+> the bus notifier calls to iommu_release_device(). Please correct me if I
+> misunderstood?
 
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com> 
+I think the general feeling is the open coding of_dma_configure()
+calls in host1x are not desirable, it should only ever be called from
+bus code.
 
-Also, please CC: kexec@lists.infradead.org, this series helps the live 
-update, and kexec performance.
+If you need to create struct device instances bound to the iommu
+somehow this needs to be much robustly designed than wrappering the
+host1x stuff in a new bus.
 
-Pasha
+Jason
