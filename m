@@ -1,39 +1,40 @@
 Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86A534AB1D
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 16:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A57150997
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 20:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776702072; cv=none; b=VxuLEYC6taEWtNw7TtBGG2NNf+tfDocw9mvetKeYDl4rgdx5WivXlZJ8HKTZB6o+RdFpQWxZdXXAdcgBFWp1Otsb0WTWogijTBPRhd7ggHGQKNALHltFoaPVorlkc+f0hO44UXBL+9V+clvO7YOevG5TD/yiqywcPKj3366BQHU=
+	t=1776715645; cv=none; b=odl5k7BAyM516dAXtv8s2W3BTFgn/AHQne5lv6yFwjOSbh0jXKW+ORw2VdeJxbV++M2OhrvU9SOOSo/Ascq1A6uMKh8oh6quu2avVUjsAyt8GcK2rAxSVQ5fWXemXtGvhi+K8tIhtd0TY/fhpnlxkwBwb7Sy95suH4GU8LO6Spk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776702072; c=relaxed/simple;
-	bh=PxKqojnfMYxqtIeYA393xgc9ELDN3m3bbJAva1p/+us=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZNYt6/7OV9YHU58J9xEhKj06OOidnDra7Qqy1BTmY0s2BryNDPOBeRwfbKNkagRsezcUv9gTK5jqAq/HYP12lDNipEVT7A/Y9hPp/mYorSQwDzPa/XjdXMynzPsL+ilfDUP/rngG1VOtTBVVGiH/CEJpvevpqc0LqIeTiM1Vow8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=MpnX9DjA; arc=none smtp.client-ip=185.67.36.65
+	s=arc-20240116; t=1776715645; c=relaxed/simple;
+	bh=20nazrtrqob9Bm8caReoB9mvxFIwBL60Sks6rrSfzo0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EY8M+zhBTj8A9UkQX2dDSDZLY4X4KgOu+uJyU6kd9/ZcVGW8env6ayjVhrhfam/PSUnPb3qvhchYYXL8CspqU4tOUbVPyN/T+MB7asoUGaX/FHu2qU/afIZuH7tEuFe4zsjfPZs6DD0NiDkqDYUEv+BysYr0A8Gqbq4NUxXNOGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=FgHUVZmw; arc=none smtp.client-ip=185.67.36.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="MpnX9DjA"
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="FgHUVZmw"
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 164C024002B
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 18:21:06 +0200 (CEST)
+	by mout01.posteo.de (Postfix) with ESMTPS id 9C400240027
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 22:07:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1776702067; bh=pXOwPYD3gQxeZDXKmxOu+NSUi5mDs/utK28LrubRWTE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=MpnX9DjAjBxiNGqHytylCdaLQxPIo/ZIkwkQlVb9rfj/X1myIBMt3/jAf6gtvya4O
-	 JclN+EZb/tuxOZc5BE3Ol9piAd+yQer6XyFrolNymMNdOMmheqnpncv78gT52q28aR
-	 fEh4vGhI/rswrC0cjPV2dFmgXi5pu9IsCpkXqQANQnTKIiSaRKuzpZVBxqHzbEaR2N
-	 hNwi6vHNrHL2FD8Fg6ZrATLCpreDbBzXub53nEFrvFZkb3JLNkgE8iNpEXAUqJXwwq
-	 6K282CjBso+5RArHxMLotSL2G23cp80k6GZBp194PDXFZmf8iknrq2G2/tyVdNXU3i
-	 2ouPPTCd5Rmdw==
+	t=1776715641; bh=1+6551Sf13t+0oF0TOc0fC/L54oCs1wq0JHsHBSVy2w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:To:Cc:Autocrypt:OpenPGP:From;
+	b=FgHUVZmwRrNUEQbjxnv24Y47XswR7Xnkd6xbKK1XVbEqtHmVF1n4QKVRzQncCcsJZ
+	 /LRMdoNDBipuGDeC0Hq8ZwoVWJS5MqwN3l+yjElPTQGHC0lcqafVrM2wO9k2IPy8+y
+	 sa7SWMN/iQuaVbVDzq7vtuoWQ0URrSAEjZ89TrypiTSZkrjk/DCst845Kbd39TZs8r
+	 RtjWCqB6a4e9gFATUmeDfmGJu7tCdnE+Xr6LhMw6fxpGLlEbnMHMWa/VJdoWj4O47e
+	 xmWwGJiuiwgeAE0tvZH07psgOWAqR1W/5kf/Os6s/pTer5SgY8d3Fg3ht+ljaIe+fe
+	 SzOm46MxwMAFA==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fzrMN2m7fz9rxB;
-	Mon, 20 Apr 2026 18:21:04 +0200 (CEST)
+	by submission (posteo.de) with ESMTPSA id 4fzxNQ1vRPz9rxN;
+	Mon, 20 Apr 2026 22:07:18 +0200 (CEST)
 From: Markus Probst <markus.probst@posteo.de>
-Date: Mon, 20 Apr 2026 16:21:05 +0000
-Subject: [PATCH v5] rust: ACPI: fix missing match data for PRP0001
+Subject: [PATCH v5 0/4] rust: add basic serial device bus abstractions
+Date: Mon, 20 Apr 2026 20:07:20 +0000
+Message-Id: <20260420-rust_serdev-v5-0-57e8ba0519f3@posteo.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,40 +43,44 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260420-rust_acpi_prp0001-v5-1-f77869b18b9f@posteo.de>
-X-B4-Tracking: v=1; b=H4sIAGlS5mkC/33Oy27DIBAF0F+xWJeIZ7Cz6n9UUcRjaFgkECAoV
- eR/L3U2Vmt1ea9mzswTFcgBCjoMT5ShhRLitQf5NiB71tdPwMH1jBhheyIIxfle6knbFE4pJ0J
- 6o9mkqBTcSClR30sZfHgs5sfxlTPc7p2urxIZXQDbeLmEehia2hH0M3cOpcb8tbzS6DL4z9VGM
- cV+r4Vj4CcmxHuKpULcOVi0xtaC3BJYF4QfDbWeKOn4b4GvBbUl8C5YaZiQE7FM/RHEWhi3BNG
- FURk1aqcmxqe1MM/zN60UAHOgAQAA
-X-Change-ID: 20260401-rust_acpi_prp0001-a2971543b555
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+X-B4-Tracking: v=1; b=H4sIAGmH5mkC/13QTW7CMBAF4KtEXtfIMx7bCaveo6qq/EyKF2Cwj
+ dUKcfc60KqE5RvN9xbvIhJHz0lsm4uIXHzy4VCDeWnEuOsPnyz9VLNAhQYQnIznlD8qmrhIZkM
+ tcKdaM4oqjpFn/3Vre3uveedTDvH7Vl5guf72oFr1FJBKMpEl46yzCK/HkDKHzcRi6Sn4Z63Sy
+ q4tLrYbUA+EAxrzbPWDBb22utqx63U/I9Ds5mdL/5YA1paqbclwZ9VoLbpHe72PEfl0rovm+yJ
+ i6BPLMez3Pm+b4jaqPl5/AAEcMH2CAQAA
+X-Change-ID: 20251217-rust_serdev-ee5481e9085c
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
  Gary Guo <gary@garyguo.net>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
  Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Robert Moore <robert.moore@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
- acpica-devel@lists.linux.dev, Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9506;
+ Kari Argillander <kari.argillander@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boqun Feng <boqun@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3234;
  i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=PxKqojnfMYxqtIeYA393xgc9ELDN3m3bbJAva1p/+us=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp5lJv/xEjOfca+874czZil6lpW4NQRihjzI4xc
- CmNTpPt8fGJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaeZSbxsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KPAg/8Dq9FbXb/jlLk2khKpxRhsRqpNYWJfHW
- LBJO5XEtXPo2GKalsiEQqxkeu0ALDgFuxQMUZeEf+X+Wnzw9MIDff2AQJi0qVCFYl6L/EWSNJOl
- MD6Jn1a/r+WFCW0i/6pit2pdp2WJhpWm8Y8zuu8KpI+lYV5qk8TP7xzbCrkwcq0av8nD1XUdWix
- xpCTTo1WnUsNhm1eclYhUVJCfqZgIxGbWZA3+pfNmhWLH+PgyJo1vNinVTgl6AchKx+AkklFGrd
- CgGuC+/hmv/PHFtOliJVfrwXh4tZZJYbVcBJklPMOj+qMvNSKr22SMzYNd2qYstT14BQL+s4Fp+
- a9K6XMfhNdUTvJrxTFGL3Wew2/Ur+BO3uG5Ifqetq2apimM2nFici/6Ulat6HIFb/OCJ05mzKMH
- p6b7OlvTtGBpfDW+Aq1WQ3JAcg/UlwFnLpMITIJawZVNFtFeb4RwKB+xcu1A3qtXO/I3HaxQE7a
- T0e5mgYCb4R0cMm3BL5IRuZh43HP/5pxLXLURZeqmsF0Efiak6aCwQ3m4rP3ysAMnZ/c4M2ziQf
- cDS6G59lF/yuG/It6sWOnoMLPUWN1nYJpH6zWJS5CJBy4E9wCddakNKYSQDkVbNY+Xh08QojsmS
- 1Z3KbHOHxFhtK2J2Yq7iqSwBS5F0KprJPage93ivV/GB4iwh6Zb8=
+ bh=20nazrtrqob9Bm8caReoB9mvxFIwBL60Sks6rrSfzo0=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp5od1FAGOX5mm0XyPbTpWCEaSautE9y6o32J3E
+ 3BYgYti8CCJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaeaHdRsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9KJ7g/7BYobyKSYCPfY6BJHMfiFpSvIT73Gcck
+ sKMFukGzHHCJbeIuNyYjbeIQ7rXB2ODHA1mXasDdIK/J7dvEPL0cLJHdOhAgj0Me0c52B/pV8SP
+ wFPad8xbh42q8/x3seFO6z0QsCyJRgpaSZ4PHA8x52q5iNIKGmu2fFOCPZauACWXRobz93X3d+p
+ JPrNoWaLS/x8uaHJTdAcfMltaIL649umTKweUFADqXcL5iucfqMxs3Z6xtjw7+fsC58Re1ztZSv
+ ECKGY2hy8k4purE1bca4E8H74976wrnVtvzmW1I1CjIlDh2H1ENUmy+Q62uuqR0EISSxveNoEez
+ 2t9cOPptoQa62YRzJc93kIkjoUTA9kH67M6gaYSLnf16kIv3qlSDvVAkBX8EG58CIM2y1Tsngxe
+ RrIkqk3gA5Dfx9xN7pMu2I0x/VXasA2xqUtW9uwjssbLbCU/pW10IjaXUINAV6amyXduTP3eVZ8
+ j4Miip6rmxHjZ0hkiNsesSwy4YfgbMWLKIQv+VesUaNMxL9bAjBbJN7+tEr/ZuRU0P4L3xLopwY
+ zVG87GjoiiFmVtZx41cmQnuJaXuAFm61MXcF2Vn4CSGbscbeaHDsw2qSRmsbCd70T/1Uip2C/jL
+ 3/1t7rN3jl2wRemYCqLxNzvTXNJQwX2c8roOSEtXQPX6nBZ0AoV8=
 X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
  fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
 Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
@@ -121,251 +126,81 @@ Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
   aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
 OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
 
-Export `acpi_of_match_device` function and use it to match the of device
-table against ACPI PRP0001 in Rust.
+This patch series adds the serdev device bus rust abstraction into the
+kernel.
 
-This fixes id_info being None on ACPI PRP0001 devices.
+This abstraction will be used by a driver,
+which targets the MCU devices in Synology devices.
 
-Using `device_get_match_data` is not possible, because Rust stores an
-index in the of device id instead of a data pointer. This was done this
-way to provide a convenient and obvious API for drivers, which can be
-evaluated in const context without the use of any unstable language
-features.
+Kari Argillander also messaged me, stating that he wants to write a
+watchdog driver with this abstraction (needing initial device data).
 
-Fixes: 7a718a1f26d1 ("rust: driver: implement `Adapter`")
+@Rob: Are you willing to maintain these rust abstractions yourself,
+as you are the expert on this subsystem, otherwise I would take care of
+it with a "SERIAL DEVICE BUS [RUST]" section in the MAINTAINERS file. In
+the second case, I assume you are going to pick those patches as-is into
+your tree, after they have been reviewed?
+
 Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
 Changes in v5:
-- provide a stub instead of canditionalize the caller
-- Link to v4: https://lore.kernel.org/r/20260408-rust_acpi_prp0001-v4-1-87b78ad79239@posteo.de
+- fix typo in documentation
+- Link to v4: https://lore.kernel.org/r/20260411-rust_serdev-v4-0-845e960c6627@posteo.de
 
 Changes in v4:
-- fix compilation on !CONFIG_ACPI
-- fix typo
-- add doc to `acpi_of_match_device` and remove from header file include
-- Link to v3: https://lore.kernel.org/r/20260407-rust_acpi_prp0001-v3-1-c5b24590c273@posteo.de
+- fixed not selecting rust serdev abstraction in sample
+- Link to v3: https://lore.kernel.org/r/20260313-rust_serdev-v3-0-c9a3af214f7f@posteo.de
 
 Changes in v3:
-- use acpi/acpi_bus.h instead of drivers/acpi/internal.h to declare
-  `acpi_of_match_device`
-- Link to v2: https://lore.kernel.org/r/20260405-rust_acpi_prp0001-v2-1-4f8b1cf075d3@posteo.de
+- fix vertical import style
+- add Kconfig entry for the rust abstraction
+- fix documentation in include/linux/serdev.h
+- rename private_data to rust_private_data
+- fix `complete_all` <-> `wait_for_completion` typo
+- move drvdata_borrow call after the completion
+- Link to v2: https://lore.kernel.org/r/20260306-rust_serdev-v2-0-e9b23b42b255@posteo.de
 
 Changes in v2:
-- keep unsafe block as short as possible
-- don't export acpi_of_match_device
-- add implementation decisions to commit msg
-- Link to v1: https://lore.kernel.org/r/20260401-rust_acpi_prp0001-v1-1-f6a4d2ef9244@posteo.de
+- fix documentation in `serdev::Driver::write` and
+  `serdev::Driver::write_all`
+- remove use of `dev_info` in probe from the sample
+- remove `properties_parse` from the sample
+- add optional `baudrate` property to the sample
+- remove 1. patch
+- remove `TryFrom<&device::Device<Ctx>> for &serdev::Device<Ctx>`
+  implementation
+- fix import style
+- add patch to return reference in `devres::register` to fix safety
+  issue
+- add patch to add private data to serdev_device, to fix
+  `Device.drvdata()` from failing
+- simplify abstraction by removing ability to receive the initial
+  transmission. It may be added later in a separate patch series if
+  needed.
+- Link to v1: https://lore.kernel.org/r/20251220-rust_serdev-v1-0-e44645767621@posteo.de
+
 ---
- MAINTAINERS             |  1 +
- drivers/acpi/bus.c      |  6 ++--
- include/acpi/acpi_bus.h | 11 ++++++++
- rust/helpers/acpi.c     | 16 +++++++++++
- rust/helpers/helpers.c  |  1 +
- rust/kernel/driver.rs   | 74 ++++++++++++++++++++++++++++++++++++++++---------
- 6 files changed, 93 insertions(+), 16 deletions(-)
+Markus Probst (4):
+      rust: devres: return reference in `devres::register`
+      serdev: add rust private data to serdev_device
+      rust: add basic serial device bus abstractions
+      samples: rust: add Rust serial device bus sample device driver
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d1cc0e12fe1f..7da4eea48330 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -302,6 +302,7 @@ F:	include/linux/acpi.h
- F:	include/linux/fwnode.h
- F:	include/linux/fw_table.h
- F:	lib/fw_table.c
-+F:	rust/helpers/acpi.c
- F:	rust/kernel/acpi.rs
- F:	tools/power/acpi/
- 
-diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-index 2ec095e2009e..554dbddb1c8c 100644
---- a/drivers/acpi/bus.c
-+++ b/drivers/acpi/bus.c
-@@ -831,9 +831,9 @@ const struct acpi_device *acpi_companion_match(const struct device *dev)
-  * identifiers and a _DSD object with the "compatible" property, use that
-  * property to match against the given list of identifiers.
-  */
--static bool acpi_of_match_device(const struct acpi_device *adev,
--				 const struct of_device_id *of_match_table,
--				 const struct of_device_id **of_id)
-+bool acpi_of_match_device(const struct acpi_device *adev,
-+			  const struct of_device_id *of_match_table,
-+			  const struct of_device_id **of_id)
- {
- 	const union acpi_object *of_compatible, *obj;
- 	int i, nval;
-diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-index aad1a95e6863..049301e71a11 100644
---- a/include/acpi/acpi_bus.h
-+++ b/include/acpi/acpi_bus.h
-@@ -187,6 +187,10 @@ struct acpi_driver {
-  * -----------
-  */
- 
-+bool acpi_of_match_device(const struct acpi_device *adev,
-+			  const struct of_device_id *of_match_table,
-+			  const struct of_device_id **of_id);
-+
- /* Status (_STA) */
- 
- struct acpi_device_status {
-@@ -998,6 +1002,13 @@ int acpi_scan_add_dep(acpi_handle handle, struct acpi_handle_list *dep_devices);
- u32 arch_acpi_add_auto_dep(acpi_handle handle);
- #else	/* CONFIG_ACPI */
- 
-+static inline bool acpi_of_match_device(const struct acpi_device *adev,
-+					const struct of_device_id *of_match_table,
-+					const struct of_device_id **of_id)
-+{
-+	return false;
-+}
-+
- static inline int register_acpi_bus_type(void *bus) { return 0; }
- static inline int unregister_acpi_bus_type(void *bus) { return 0; }
- 
-diff --git a/rust/helpers/acpi.c b/rust/helpers/acpi.c
-new file mode 100644
-index 000000000000..e75c9807bbad
---- /dev/null
-+++ b/rust/helpers/acpi.c
-@@ -0,0 +1,16 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/acpi.h>
-+#include <acpi/acpi_bus.h>
-+
-+__rust_helper bool rust_helper_acpi_of_match_device(const struct acpi_device *adev,
-+						    const struct of_device_id *of_match_table,
-+						    const struct of_device_id **of_id)
-+{
-+	return acpi_of_match_device(adev, of_match_table, of_id);
-+}
-+
-+__rust_helper struct acpi_device *rust_helper_to_acpi_device_node(struct fwnode_handle *fwnode)
-+{
-+	return to_acpi_device_node(fwnode);
-+}
-diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-index a3c42e51f00a..8ecd1580aa69 100644
---- a/rust/helpers/helpers.c
-+++ b/rust/helpers/helpers.c
-@@ -9,6 +9,7 @@
- 
- #define __rust_helper
- 
-+#include "acpi.c"
- #include "atomic.c"
- #include "atomic_ext.c"
- #include "auxiliary.c"
-diff --git a/rust/kernel/driver.rs b/rust/kernel/driver.rs
-index 36de8098754d..93e5dd6ae371 100644
---- a/rust/kernel/driver.rs
-+++ b/rust/kernel/driver.rs
-@@ -278,6 +278,26 @@ fn init(
-     }
- }
- 
-+// Calling the FFI function directly from the `Adapter` impl may result in it being called
-+// directly from driver modules. This happens since the Rust compiler will use monomorphisation, so
-+// it might happen that functions are instantiated within the calling driver module. For now, work
-+// around this with `#[inline(never)]` helpers.
-+//
-+// TODO: Remove once a more generic solution has been implemented. For instance, we may be able to
-+// leverage `bindgen` to take care of this depending on whether a symbol is (already) exported.
-+#[inline(never)]
-+#[allow(clippy::missing_safety_doc)]
-+#[allow(dead_code)]
-+#[must_use]
-+unsafe fn acpi_of_match_device(
-+    adev: *const bindings::acpi_device,
-+    of_match_table: *const bindings::of_device_id,
-+    of_id: *mut *const bindings::of_device_id,
-+) -> bool {
-+    // SAFETY: Safety requirements are the same as `bindings::acpi_of_match_device`.
-+    unsafe { bindings::acpi_of_match_device(adev, of_match_table, of_id) }
-+}
-+
- /// The bus independent adapter to match a drivers and a devices.
- ///
- /// This trait should be implemented by the bus specific adapter, which represents the connection
-@@ -329,35 +349,63 @@ fn acpi_id_info(dev: &device::Device) -> Option<&'static Self::IdInfo> {
-     ///
-     /// If this returns `None`, it means there is no match with an entry in the [`of::IdTable`].
-     fn of_id_info(dev: &device::Device) -> Option<&'static Self::IdInfo> {
--        #[cfg(not(CONFIG_OF))]
-+        let table = Self::of_id_table()?;
-+
-+        #[cfg(not(any(CONFIG_OF, CONFIG_ACPI)))]
-         {
--            let _ = dev;
--            None
-+            let _ = (dev, table);
-         }
- 
-         #[cfg(CONFIG_OF)]
-         {
--            let table = Self::of_id_table()?;
--
-             // SAFETY:
-             // - `table` has static lifetime, hence it's valid for read,
-             // - `dev` is guaranteed to be valid while it's alive, and so is `dev.as_raw()`.
-             let raw_id = unsafe { bindings::of_match_device(table.as_ptr(), dev.as_raw()) };
- 
--            if raw_id.is_null() {
--                None
--            } else {
-+            if !raw_id.is_null() {
-                 // SAFETY: `DeviceId` is a `#[repr(transparent)]` wrapper of `struct of_device_id`
-                 // and does not add additional invariants, so it's safe to transmute.
-                 let id = unsafe { &*raw_id.cast::<of::DeviceId>() };
- 
--                Some(
--                    table.info(<of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(
--                        id,
--                    )),
--                )
-+                return Some(table.info(
-+                    <of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(id),
-+                ));
-             }
-         }
-+
-+        #[cfg(CONFIG_ACPI)]
-+        {
-+            use core::ptr;
-+            use device::property::FwNode;
-+
-+            let mut raw_id = ptr::null();
-+
-+            let fwnode = dev.fwnode().map_or(ptr::null_mut(), FwNode::as_raw);
-+
-+            // SAFETY: `fwnode` is a pointer to a valid `fwnode_handle`. A null pointer will be
-+            // passed through the function.
-+            let adev = unsafe { bindings::to_acpi_device_node(fwnode) };
-+
-+            // SAFETY:
-+            // - `adev` is a valid pointer to `acpi_device` or is null. It is guaranteed to be
-+            //   valid as long as `dev` is alive.
-+            // - `table` has static lifetime, hence it's valid for read.
-+            if unsafe { acpi_of_match_device(adev, table.as_ptr(), &raw mut raw_id) } {
-+                // SAFETY:
-+                // - the function returns true, therefore `raw_id` has been set to a pointer to a
-+                //   valid `of_device_id`.
-+                // - `DeviceId` is a `#[repr(transparent)]` wrapper of `struct of_device_id`
-+                //   and does not add additional invariants, so it's safe to transmute.
-+                let id = unsafe { &*raw_id.cast::<of::DeviceId>() };
-+
-+                return Some(table.info(
-+                    <of::DeviceId as crate::device_id::RawDeviceIdIndex>::index(id),
-+                ));
-+            }
-+        }
-+
-+        None
-     }
- 
-     /// Returns the driver's private data from the matching entry of any of the ID tables, if any.
-
+ drivers/tty/serdev/Kconfig         |   7 +
+ include/linux/serdev.h             |  15 +-
+ rust/bindings/bindings_helper.h    |   1 +
+ rust/helpers/helpers.c             |   1 +
+ rust/helpers/serdev.c              |  22 ++
+ rust/kernel/cpufreq.rs             |   3 +-
+ rust/kernel/devres.rs              |  15 +-
+ rust/kernel/drm/driver.rs          |   3 +-
+ rust/kernel/lib.rs                 |   2 +
+ rust/kernel/serdev.rs              | 536 +++++++++++++++++++++++++++++++++++++
+ samples/rust/Kconfig               |  11 +
+ samples/rust/Makefile              |   1 +
+ samples/rust/rust_driver_serdev.rs |  86 ++++++
+ 13 files changed, 693 insertions(+), 10 deletions(-)
 ---
 base-commit: 3131ff5a117498bb4b9db3a238bb311cbf8383ce
-change-id: 20260401-rust_acpi_prp0001-a2971543b555
+change-id: 20251217-rust_serdev-ee5481e9085c
 
