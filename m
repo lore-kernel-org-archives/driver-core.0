@@ -1,98 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E22E4A23;
-	Mon, 20 Apr 2026 00:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5F0392C3A
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 10:00:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776643456; cv=none; b=aKZb3OR0PSadf2qRfxfe03i7BPFnBuTzL0bo7hRjFn3/YvYYfm6pyPb2nTTQKDMR8BHqL/YSCgXa532q4UxYasCAsSbB2QIiS3jfTxhbBJHFmLyvEG6myQ0e+cCQT2HjV5o6lJM0Til9hL6vOO01yzjpiG7A9GWPZdZ3yqM49Ac=
+	t=1776679204; cv=none; b=KG2/jMooFFMw37enzd/w3dRXm0k0+qiRpGwTOQnbgC2qgIRurAXVkr1hE3AeR8LIQ3islNzsSS5MUQcki6NoT0jtSYZt4w5asLZB2HFt2jBtlqfr/TtoGYj2UllbivAhVUggKFpe5DfP/85IrYqarndZaGjMLPlH+ZXVqe6i09Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776643456; c=relaxed/simple;
-	bh=tbkb6xf9e3d3290ndCYLYTYAIFC/XnWpfJb7H6wBoEQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=E6OnKMRmz41dquacIY57/OL4xlIB8I45rrdSmpHJElvuaNDqn3u+7zZNG8Uo9od3OBOFqJ77sk9R7HYeBv8RMhOSWm6kPp3M1fxoEzeA6wZ0fQtFgmshJXxxTgWJ0qUojMUAGZAvN71476aZE+cKfTfHUW+E1G65B/0qQN9XOHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIEBQM2Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776679204; c=relaxed/simple;
+	bh=sgyjlCd3REAuBKXLP0833y97EopfLxqqK9cKnnewZ0g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sPoXM5WpupnDwWBWVLnXUfudXZA3KYYQH4P5UmJ6dURTzNfyqMz+w4VylWa7LGqyuVKaCQFWAXTkHIeqAGsApbjGT/AY6whTpCIuvMSekPdRNbdH5/KzP5pRQYRSI1w4cYdY8bBm63Q796mORFOONEa6c5y9cvzrM8j+9oYMSV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ozd9pc5V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIEBQM2Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC9CC2BCAF;
-	Mon, 20 Apr 2026 00:04:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ozd9pc5V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 188F0C2BCC6
+	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 10:00:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776643455;
-	bh=tbkb6xf9e3d3290ndCYLYTYAIFC/XnWpfJb7H6wBoEQ=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=OIEBQM2QKvxLhAUy8RFAXYmpquYBGLdnPM8rutaagVOoeLzZXcwlGWvP7mLNAb1hq
-	 49A9twANl0JbvyBz7jjq6cNrexPaR9SWBB6DYLKqiRHh7X3yr2bERM1mkVusRMSb++
-	 bQsrz1CiSGXnceWaWaPLgalZSKuXY0lalXV2sycPidxIiOESUWHZM/gkSVHrImMzKk
-	 v+pFNF3OI555U6LDP3P+ksWj1MeMNGt+WPOxlVK6Ix1EvGeMNx29IuO7Bip1CivMh9
-	 Eu1ZNjxTkpcsuwbhOMe+EDvpj42bpvJixI8W4iQwF+0Y1pmQMfYDI+atQDc81/OYrU
-	 kr1ElcU8u3S9g==
+	s=k20201202; t=1776679204;
+	bh=sgyjlCd3REAuBKXLP0833y97EopfLxqqK9cKnnewZ0g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Ozd9pc5V8YWn90EIRtGWuE5oZnJVUDRqPlPTiFYvJwEASnWXzCbBxPI6RGQKlFdbd
+	 aFpMvgDUrfkE12lFjlAHyTfd/ZlO7b8BPnxD2/lbPXFNsCmjTPrZTrY1JvXQA4obpt
+	 lTRX6N8Y4p5+6s3j5UuxYpf8GxSVDr21JQbRyv95dobtP8YkgXjai3UR1B5xTUNiwv
+	 4AtaUX10Av+CANEu+aJ++gNxkaOzcuBKh4B0bxw3mo5tITDwa0UHIelDAph7szsNvO
+	 QPWsudaFn/8gqTcDv79U03/yKl0k84bgyBSGKc9UkiXTHybdyA0ebM9MRH2gsBADIG
+	 V6RB2/tPFjj/Q==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a337552604so2876891e87.2
+        for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 03:00:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/iiAFi04NBSELa0oNS36K9W1uCS5T/wq1k0scFHqHoCR0MI2QHRr0DezFCO8ZRUkkT6gFYsczzTdImMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyFEcDhk1FN7TIWbaDk7GhDdp3SWopre/EMB8/FtaVybnTJ1vC5
+	4Tr4Eqz0pgNYhpqYH/jFnCRChRIfbEQSRWROIOq4UcW/Yl7sKn/Z/8ppYJp/+XutQ1S4lYRk5MI
+	c4whxyS/vj4uAjE215BUAzazOWDGrVjE=
+X-Received: by 2002:a05:6512:1252:b0:5a2:b40b:3f86 with SMTP id
+ 2adb3069b0e04-5a4172f6493mr3924387e87.27.1776679201855; Mon, 20 Apr 2026
+ 03:00:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260416-acpi_mod_name-v1-0-1a4d96fd86c9@sony.com> <20260416-acpi_mod_name-v1-1-1a4d96fd86c9@sony.com>
+In-Reply-To: <20260416-acpi_mod_name-v1-1-1a4d96fd86c9@sony.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 20 Apr 2026 11:59:36 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0h0GhT4uskaippD1bgoxtRX5CT7-mT+8ELa4Ny+aHhuNA@mail.gmail.com>
+X-Gm-Features: AQROBzBgYSjPgFASuJ3z_9TdPatjc4Rb0YJEziLHiMkL2UIQ_WtoXxCxVV4y_Z4
+Message-ID: <CAJZ5v0h0GhT4uskaippD1bgoxtRX5CT7-mT+8ELa4Ny+aHhuNA@mail.gmail.com>
+Subject: Re: [PATCH] ACPI: bus: set mod_name in driver registration
+To: Shashank Balaji <shashank.mahadasyam@sony.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>, Saket Dumbre <saket.dumbre@intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	acpica-devel@lists.linux.dev, driver-core@lists.linux.dev, 
+	Rahul Bukte <rahul.bukte@sony.com>, Daniel Palmer <daniel.palmer@sony.com>, 
+	Tim Bird <tim.bird@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 20 Apr 2026 02:04:12 +0200
-Message-Id: <DHXJJISFLXVK.2KURIQTX2A763@kernel.org>
-To: "Linus Torvalds" <torvalds@linux-foundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [GIT PULL] Driver core fixes for 7.1-rc1
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Saravana Kannan" <saravanak@kernel.org>, "Andrew
- Morton" <akpm@linux-foundation.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-References: <DHX8VZYC4ZPZ.10EVXYC94K10Q@kernel.org>
- <CAHk-=wgKsB6SqFbOgPVpBLh5vz1T+h4MxTX1qDEYH=KH9=bXAA@mail.gmail.com>
-In-Reply-To: <CAHk-=wgKsB6SqFbOgPVpBLh5vz1T+h4MxTX1qDEYH=KH9=bXAA@mail.gmail.com>
 
-On Sun Apr 19, 2026 at 10:28 PM CEST, Linus Torvalds wrote:
-> Ugh. This just looks disgusting:
+On Thu, Apr 16, 2026 at 9:36=E2=80=AFAM Shashank Balaji
+<shashank.mahadasyam@sony.com> wrote:
 >
->         device_lock(dev);
->         dev_set_ready_to_probe(dev);
->         device_unlock(dev);
+> Pass KBUILD_MODNAME through the driver registration macro so that
+> the driver core can create the module symlink in sysfs for built-in
+> drivers.
 >
-> when all it does is to just set a single bit.
+> Fixes: 48b9c4862bd3 ("ACPI: store owner from modules with acpi_bus_regist=
+er_driver()")
+> Assisted-by: Claude:claude-4.6-opus
+> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
 
-It does look ugly indeed, but I think apart from that it is not that bad; t=
-he
-device lock - except for the exact case where dev_ready_to_probe() is check=
-ed -
-should otherwise be uncontended.
+All of the ACPI drivers are in the process of being converted to
+platform drivers and the code updated below is slated for removal.
 
-For context, in the original version of the patch it was just another C bit=
-field
-at the end of struct device.
+I'd rather not make this change TBH.
 
-I noticed that this is racy as adjacent bitfield members are not all protec=
-ted
-by the same lock; subsequent patches from Doug (queued for 7.2) convert the=
- C
-bitfield over to this bitmap.
-
-IOW, the atomic bitops are primarily an implementation detail to prevent
-concurrent modifications of different flags from corrupting each other.
-
-> Sadly, I think despite being disgusting, our bitop memory ordering
-> models are incomplete.
+> ---
+>  drivers/acpi/bus.c      | 5 ++++-
+>  include/acpi/acpi_bus.h | 5 +++--
+>  2 files changed, 7 insertions(+), 3 deletions(-)
 >
-> But I think dev_set_ready_to_probe() could/should use
-> 'test_and_set_bit()', which turns the bit setting into strongly
-> ordered (it only needs "release" consistency, but we don't have that).
+> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+> index 2ec095e2009e..152ef49e5970 100644
+> --- a/drivers/acpi/bus.c
+> +++ b/drivers/acpi/bus.c
+> @@ -1062,18 +1062,21 @@ EXPORT_SYMBOL_GPL(acpi_driver_match_device);
+>   * __acpi_bus_register_driver - register a driver with the ACPI bus
+>   * @driver: driver being registered
+>   * @owner: owning module/driver
+> + * @mod_name: module name string
+>   *
+>   * Registers a driver with the ACPI bus.  Searches the namespace for all
+>   * devices that match the driver's criteria and binds.  Returns zero for
+>   * success or a negative error status for failure.
+>   */
+> -int __acpi_bus_register_driver(struct acpi_driver *driver, struct module=
+ *owner)
+> +int __acpi_bus_register_driver(struct acpi_driver *driver, struct module=
+ *owner,
+> +                              const char *mod_name)
+>  {
+>         if (acpi_disabled)
+>                 return -ENODEV;
+>         driver->drv.name =3D driver->name;
+>         driver->drv.bus =3D &acpi_bus_type;
+>         driver->drv.owner =3D owner;
+> +       driver->drv.mod_name =3D mod_name;
 >
-> And the dev_ready_to_probe() should use "test_bit_acquire()".
-
-To be honest, I did not consider this as we generate all accessors with a m=
-acro
-and all other bits that we convert over from the struct device's C bitfield=
-s
-would inherit these semantics.
-
-Maybe that's not necessarily a bad thing though -- another option would be =
-to
-add dev_set_##accessor_name##_release() and dev_##accessor_name##_acquire()=
-.
-
-- Danilo
+>         return driver_register(&driver->drv);
+>  }
+> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+> index b701b5f972cb..53952ec544e6 100644
+> --- a/include/acpi/acpi_bus.h
+> +++ b/include/acpi/acpi_bus.h
+> @@ -672,8 +672,9 @@ int acpi_scan_add_handler(struct acpi_scan_handler *h=
+andler);
+>   * use a macro to avoid include chaining to get THIS_MODULE
+>   */
+>  #define acpi_bus_register_driver(drv) \
+> -       __acpi_bus_register_driver(drv, THIS_MODULE)
+> -int __acpi_bus_register_driver(struct acpi_driver *driver, struct module=
+ *owner);
+> +       __acpi_bus_register_driver(drv, THIS_MODULE, KBUILD_MODNAME)
+> +int __acpi_bus_register_driver(struct acpi_driver *driver, struct module=
+ *owner,
+> +                              const char *mod_name);
+>  void acpi_bus_unregister_driver(struct acpi_driver *driver);
+>  int acpi_bus_scan(acpi_handle handle);
+>  void acpi_bus_trim(struct acpi_device *start);
+>
+> --
