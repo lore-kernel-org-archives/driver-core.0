@@ -1,115 +1,116 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F95A37AA6F
-	for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 22:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CD43939CE;
+	Mon, 20 Apr 2026 23:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776725782; cv=none; b=QwE66YBeKdLLos/1dEbFyTPUVLwCaLA7ESZE/aQZY4YZJnmLGC4ChaZ4fKn7uvQVUN+8zAf2gmjJd9mDodRVnyUE52KA+KXcAM18ZMD8pR3lXqapspaAkqF/xx1oKd/kH1WxKeRE/klgMZeWuDqJUYoVNei4ZLtv7rhK+5n5HeA=
+	t=1776728517; cv=none; b=Aik9UgaGg1h3Yj7pZvPtuZJ0Qpl0RB+hhtcDHT3WYnHCnTYPm31MhHRihf7m0xEkh4gA0mrgRVMtZyhi9iSmtp4FWNKkeyInv0BNv9Cotwox2Uh03Aog0++fUDL7OTXD7O4tQgJOAk3sbA9ysxaXek4ra2vxVEDI0s2nCkGUDFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776725782; c=relaxed/simple;
-	bh=HxETj+r6/c62h5v/ZQo9q8wwwtXio08jZSnj3FSr8os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z9+iEyngu2ovbIqP1uno4ZgP+qLks5Yrqe0eUGejBYjhWb6WV0Ink4GatQims5BlKXxh9CRyHu5XtWxhgIj9QLdHX/Z4XS/w0uisZYEVL7R9blJFpmT4z7NxnCceTVEIn0gzl7/LznCeiD/JffrklbdlIZh+JUncyhK5UzHM8S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=O5FrTZ38; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1776728517; c=relaxed/simple;
+	bh=B0TlKMuDdiJHeCmN37i5MVT0ChCKa2sA7jCh28qSv6U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dYLtCL+GHcve6lmJHVwC7dTP7387c8JScjwh/iHO8knMFUXO8ok/o2ARcR023k3BMoYrRHXmyPLEqFg6BW7Aa27FI+vhqwHbIftpFGLbak3CVVvNqckXJeMx1tfDRVrLDNTbQiBi1Vd8jPG0EunlGQxfDHsfh3+3i62OdZpMtQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FUUWar8M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="O5FrTZ38"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-479e7e88fb5so417768b6e.3
-        for <driver-core@lists.linux.dev>; Mon, 20 Apr 2026 15:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1776725780; x=1777330580; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HxETj+r6/c62h5v/ZQo9q8wwwtXio08jZSnj3FSr8os=;
-        b=O5FrTZ38+NLyLVgQ6BReXKWlDNJ3yYl1qEZyl4cb3pQR2BqUiSzOoCS84yTzF6FMdc
-         dOtlXXkMFstZmzOXh36il2wOFHt/lapcVXSe84Fg5iSLZz3o9obvy7mf0dWILOTliux1
-         ilo5//1fF9edHY3w5ibRG4Cz6AxM5XPgv1+UI44fTk4HiX8yB++JofeAdsdqe8Ia9CN6
-         exW7WpbJm5BSpUdv73v3RHSIx4frEPE/fYml+Oq9TZK5nt+TaM+T3rwTCH1SVgYBJexW
-         u81u7nzzPZeRibk/3E9XgDUs4DZAL2tl8OjZfbRFkJeXtz+pKZgTINap05DQJ50HhSUH
-         9/BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776725780; x=1777330580;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HxETj+r6/c62h5v/ZQo9q8wwwtXio08jZSnj3FSr8os=;
-        b=BLcXfldvzoOmeECwlPRkR4ewHW9zUEIc9jV87G13/mPp6JcTm1mfakeQK/tq3u3mso
-         DACLf66ZtV1UC4QBBV4j8p8CIBwVs8L1FfqqF8aJtAMYeSXLAqYjJhuOSof/XDltRyZH
-         A7qrRRsRncnMP4awmGsWTEXR09Wp3pgZ8iQYH8i7gvT2qpG0juNPwFyWU5+rDbbFAkxh
-         lZMGV2/QYFTAxyJK24kboWyUkNZjEk/r7GvravwJyKAETbfbQxedjtTLnQNdc5XddHFM
-         8941Lump5jypjZtFBvB339bcMpQ82AGrwFlJ0BODUFTMqRxeocxElkvKCABUD9BVf3or
-         TRzA==
-X-Forwarded-Encrypted: i=1; AFNElJ/WMX9dyQm0o5XFIfZ1CJdkAi6s92jlSMAne3ljwFHKxX2WR+HLY0H5Gd8Ihc2zjniYHWyoH3uW9bpBBw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxj41D5AP72I2AYhgitQuN9+z7sKHjc0GleGHVcV/vT2w9HNQVE
-	vlukn/QrPw3AOCOCUhJZWpvIGFh3J/n++3A57Dby3RpEeiTxQC+nmUx9bjuAFsuTIa5lWEBT8Ps
-	m1pKx
-X-Gm-Gg: AeBDietCWpjTMbig8UhG1N0I+Os9g+8y1hG1+SooG1RVq+x/7sMDqPgEilu9rBi/fer
-	hvE4g77On03dX0qKPds9J7n6gzzvclzbx3PD1rLYmK66TybPt+shMO+VZYStOvNRD1AkvTQlRPD
-	xAzDwnh/PSM4JeVFwvzNEkljVlue9YbxlTlnCuKH9wAi2rqTUdI8ZDrp1dz9MfJ7sEiRU//ASSk
-	Mr/67jh+/pIlh23zBRPUrnCjpR2UNaeTS7N21HFATiVplOXUCbu6ULi1cS1ZCQdpIh/htD57ZoB
-	kmtn+xv0xUgdor9x+xMt0euq8AP1JIftJ4JbdfFh+r8a2yeFH37iWCI90EVA0eUXQ0yOP84ZiWv
-	1CEwrXnYjvDi/+tPKkTJItoJKJQ52iwqqDerkp+j0PwelILXnkf7WUCdIV2SDXQdI2c9zLkD7UM
-	XeREhS3yVq
-X-Received: by 2002:a05:6808:448a:b0:479:d2d3:a399 with SMTP id 5614622812f47-479d2d3bdb0mr3331712b6e.15.1776725780355;
-        Mon, 20 Apr 2026 15:56:20 -0700 (PDT)
-Received: from ziepe.ca ([130.41.10.202])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4799fc19273sm7702863b6e.0.2026.04.20.15.56.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 15:56:19 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wExXO-0000000F7qQ-3pLG;
-	Mon, 20 Apr 2026 19:56:18 -0300
-Date: Mon, 20 Apr 2026 19:56:18 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	ekansh.gupta@oss.qualcomm.com,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Bharath Kumar <quic_bkumar@quicinc.com>,
-	Chenna Kesava Raju <quic_chennak@quicinc.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Subject: Re: [PATCH 1/3] drivers: base: Add generic context device bus
-Message-ID: <20260420225618.GP2577880@ziepe.ca>
-References: <20260414-computebus-v1-0-4d904d40926a@oss.qualcomm.com>
- <20260414-computebus-v1-1-4d904d40926a@oss.qualcomm.com>
- <2026041418-volley-composer-6363@gregkh>
- <c4f21420-c299-f161-2bf7-c9b79ca15037@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FUUWar8M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 461F4C19425;
+	Mon, 20 Apr 2026 23:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776728517;
+	bh=B0TlKMuDdiJHeCmN37i5MVT0ChCKa2sA7jCh28qSv6U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FUUWar8MvnCZkdxH5iolg3ydGpz/U8JMdYd6M7PsFKuXKbJtwA13BrFiIysQ6csgM
+	 1jk4NNUyD70dNdj7fqdHLvGpIBG/rP+UQGg3ESGFQDFgfLlNywneaePs/zmFgElyFX
+	 ttNnJ9nOOZR5BUUhAXiDqA0aOf2BhIANRJ6wzTvcxqSVOM8rTNCBdizBOUlg3fUvVI
+	 2rIzRzCFhXDcc5xiQ1Z94ZAnT4J839TbjnN3nqD+rSLmD0DE0ePT8mUQsU59moqYGO
+	 k7AM7tRNm6xs5iLdWz24ry3lzvp1RG5oBrc571JRfdjF4idf8DpTnXsKdzBmsm0mj7
+	 4Y53bYO0yAszQ==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH] driver core: move dev_has_sync_state() to drivers/base/base.h
+Date: Tue, 21 Apr 2026 01:40:44 +0200
+Message-ID: <20260420234153.2898532-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c4f21420-c299-f161-2bf7-c9b79ca15037@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 15, 2026 at 11:04:26PM +0530, Vishnu Reddy wrote:
-> Looks like the device have specific iommu configuration (via
-> of_dma_configure()), then using the auxbus or faux bus types does not have
-> the bus notifier calls to iommu_release_device(). Please correct me if I
-> misunderstood?
+All callers of dev_has_sync_state() are in drivers/base/ and any attempt
+to use it outside of driver-core should require good justification, so
+there is no need to have it defined in include/linux/device.h.
 
-I think the general feeling is the open coding of_dma_configure()
-calls in host1x are not desirable, it should only ever be called from
-bus code.
+Thus, move it to drivers/base/base.h.
 
-If you need to create struct device instances bound to the iommu
-somehow this needs to be much robustly designed than wrappering the
-host1x stuff in a new bus.
+Suggested-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Link: https://lore.kernel.org/driver-core/CAJZ5v0jkm9K9=-U_51FMsyxN2msdouRnz4sEjmxG0Btd6Hmw0w@mail.gmail.com/
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+Goes on top of [1].
 
-Jason
+[1] https://lore.kernel.org/driver-core/20260418162221.1121873-1-dakr@kernel.org/
+---
+ drivers/base/base.h    | 14 ++++++++++++++
+ include/linux/device.h | 14 --------------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 1af95ac68b77..f3c615c9198b 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -185,6 +185,20 @@ static inline int driver_match_device(const struct device_driver *drv,
+ 	return drv->bus->match ? drv->bus->match(dev, drv) : 1;
+ }
+ 
++static inline bool dev_has_sync_state(struct device *dev)
++{
++	struct device_driver *drv;
++
++	if (!dev)
++		return false;
++	drv = READ_ONCE(dev->driver);
++	if (drv && drv->sync_state)
++		return true;
++	if (dev->bus && dev->bus->sync_state)
++		return true;
++	return false;
++}
++
+ static inline void dev_sync_state(struct device *dev)
+ {
+ 	if (dev->bus->sync_state)
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 4c1c9cb8570a..82823f807f56 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1016,20 +1016,6 @@ static inline void device_lock_assert(struct device *dev)
+ 	lockdep_assert_held(&dev->mutex);
+ }
+ 
+-static inline bool dev_has_sync_state(struct device *dev)
+-{
+-	struct device_driver *drv;
+-
+-	if (!dev)
+-		return false;
+-	drv = READ_ONCE(dev->driver);
+-	if (drv && drv->sync_state)
+-		return true;
+-	if (dev->bus && dev->bus->sync_state)
+-		return true;
+-	return false;
+-}
+-
+ static inline int dev_set_drv_sync_state(struct device *dev,
+ 					 void (*fn)(struct device *dev))
+ {
+-- 
+2.53.0
+
