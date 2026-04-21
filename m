@@ -1,96 +1,149 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD64C3D88F6
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 15:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A0D3D7D7E
+	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 15:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784881; cv=none; b=Kt0Sgbo7LObFLsfFEqmSAF4aP/zgMGAuv9dZouBjX2+oi+5OXV91sJ53Am1lRklVozqWDePDMZZcjH9jbuEZ1bkCRFpp0DekvLNSdqVTwVsIwnOK550wf/DZbTID1XsXj3VkxW5gcePm+x8TVhlJ2lmVryKWSv11G6YBVOVeECc=
+	t=1776785379; cv=none; b=AbNy0+ciNASXypcXbN9bXyyDT8XyGYtlH0rsb9gP511d89HXJjnEoxmQ5MIrKXs4VQXlLXfXgCQiFzNn9+9XPP3YPY1tYKmL904Qd4sGc7sYg+QhD0bx/5D9Z9s1J4Uepi+6fgEiUlkatIXHTyLfKmVfe2OJrCWLisKlSVvz6GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784881; c=relaxed/simple;
-	bh=Kyk3+wNQNdoAB6SWDPZsFu2inFstrAooXQvG3g3opEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rsc1a3ciRNEV5v9sFXsLj1v7g+dRCluXv8o/nUXFijXvSgQ7AWwjL9qiMr45qQM+x4RoGxxZAcn3wVgrHNc4zEB/uy+sgkGphaxVA6Uz3BUDpUgIlSJ9vc786ddYzsY3pd/nA5cxWrqBrih4HDNF71pzL9TqrYojx120IYAaHtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jsPUBLSv; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1776785379; c=relaxed/simple;
+	bh=cCow88+KpwoaT+jjVfBphsGIAeg+It2AfwBtddoaiKc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lyHKe5O/wS2Ad7lU/BaaP8TZmHRzhc5Ba21syAyzJZIT8qZUOqCstypX4qZDP00sYz5NE5XjXCGHqWTnZfetZa78Xb3aqvWVK/itdM6L26b0XI0lWV+10HORX72yNMG/rRkFgWNitLeLtXFmprcgnBne5X5aZFSpC1pN1U5nmxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJ7H723R; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jsPUBLSv"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7986e538decso42206787b3.1
-        for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 08:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1776784878; x=1777389678; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y+B+8NSAggTlzgSEBNF7JVWtV7yl/tiBwRJ1+ICjPNI=;
-        b=jsPUBLSv63sZKLO9WklaLZ6OVN4IYtgVqzcr63vaiWV6jiebTG/DWLTX1lJMLVzQwu
-         Xyxm3FAtfPtyvWgTs/qHhr15kgxp++9jVn5oRrvRC84seHLg2dLqIaQsryN8BoqbM9Hu
-         5WXPO0sMWP97pjL3LmjgBhebotKQ/qbvHBeEILhGzCZFtljayqFpsQ6KsTmLuoFsL6is
-         Kf+kNgro7unwjvVGEdti0GYAVOtQwkF+WQwprW8WRmJWcILUmJlyf48NDQlOcLqf3DxD
-         i16CTA+r7juSEryX7aeWQ1martLrrSAjQPXKptGthFee6PWVFqhXny890BLbFfi5+r1R
-         02Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776784878; x=1777389678;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y+B+8NSAggTlzgSEBNF7JVWtV7yl/tiBwRJ1+ICjPNI=;
-        b=WXrY0XA6Db34Vz8kk7nH7VxODk4D9fh2Pmhs6mF9zzB9GR9RfYH8iMfghnvzk7xCGi
-         k9JLNKvlOjKbvR6Uxg2WX1T8i4u5GZq5GaNnCu2Uph5rL1eDkzolA+QYNqoRBqZkZ3MA
-         IWLHcRmAm/RyKmEER8L+w+U0ZX5JT3LkPYoQI8C3tJNEm8Fliq8GJl+nsByrPdsU/hRv
-         wlr+V6LNu+QeqiomDjR7Mu45r0qkY08JldRpBCzMAPna1BKhiL4xmO1FXJVw05o5VR7C
-         iekNDlWhoH30xCn77fgqgizb2aKaY6jKkTzVc+OpX4G/sWP+X/e0o6KwATQpbpM/9K6/
-         Zbvg==
-X-Forwarded-Encrypted: i=1; AFNElJ8MlT0jNj1koG71a0udU43S1nd8yseIzXMgVrbQmiSAyJXVvLQpaK1ZQHNzrV3n9WLGsrBsvIEBQ9j3MA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyfIWPTiBxmQJnWQjNoyXUxXed8+pTE36KbojYzct41apXWOgcO
-	PdxhBsYcc5fgjU5+DxrLoAFdPC6Z0KooyaGWTK0zRhvLPLA9tuhZwWDUbpezfeW6/UE=
-X-Gm-Gg: AeBDietRjc7HR1VQIGQjvXU9uOsf2lLRGhvaTHgPJ9x5CGXiO09KtLcGmP1hOSIirf5
-	cyunX7dmtBUvp0gcCNvMu3+IlQCncOLx7ayjPusAR/3DBaJTxD9aFTKvl3DqjSol0z0txZjARU8
-	ol1gqOvYzrLwTvNQPC7DAzRcOEQkBluDNwQ8yo8gDA6mOLOmzoIFSw9X72aSbsaZ9JwMOax4QwT
-	AjNv5q2yzC/uXYcJtvCVfnnP4WAGPutdCRmygWATY9fJfWwy31bEh1lqCRZb7oVYO05RMH714F6
-	DFb/F+n4WDbTP5yHv35EaHfJu1SSY2typHb4t5GjSlrUSC9D+caP264djZ8je50LF0Z4Twe42tA
-	sdRDHsiGI7S4Pqsff2f7rX6Z2n2+mMTOi6dFKoKCO3ebNicHNaTVBi1PXsdgM9xRUxD4WztrhVp
-	S/WUvNEwDFSbKzfj6xl94nxTYmu/K1ElFfJD1Ki1w8dpEfNORsNrLxx+0mWM1hvuipmmyt5NNVJ
-	+hheK2VuygfLV12u9USN++WHX9mu+sH0mnlpT3M
-X-Received: by 2002:a05:690c:f14:b0:7ba:f677:8c32 with SMTP id 00721157ae682-7baf67794c3mr66413557b3.15.1776784877840;
-        Tue, 21 Apr 2026 08:21:17 -0700 (PDT)
-Received: from google.com (57.233.150.34.bc.googleusercontent.com. [34.150.233.57])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee9b293fsm56526037b3.40.2026.04.21.08.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 08:21:17 -0700 (PDT)
-Date: Tue, 21 Apr 2026 11:21:15 -0400
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Jeffery <djeffery@redhat.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Tarun Sahu <tarunsahu@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, =?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, 
-	Jordan Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>, 
-	John Meneghini <jmeneghi@redhat.com>, "Lombardi, Maurizio" <mlombard@redhat.com>, 
-	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman <loberman@redhat.com>, 
-	Bart Van Assche <bvanassche@acm.org>, Bjorn Helgaas <helgaas@kernel.org>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, John Garry <john.g.garry@oracle.com>
-Subject: Re: [PATCH 5/5] scsi: Enable async shutdown support
-Message-ID: <aeeV1e4j4ok9_iQz@google.com>
-References: <20260420152608.6244-1-djeffery@redhat.com>
- <20260420152608.6244-6-djeffery@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJ7H723R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776785377; x=1808321377;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=cCow88+KpwoaT+jjVfBphsGIAeg+It2AfwBtddoaiKc=;
+  b=hJ7H723RZwuwPk4eMds0fgmh7Vg7m0Kzi1J5GfLEKfLQb08yiFh9chn3
+   fsJn+geDSDpa01r/a/czRnMov8que7WLgJdp88iWyd8qjtmAEOuLlh/Ma
+   2zc57VmF+57doCdHsy8mCF3XM7UmPdOwnUthX+COtVXiQwTtUFCt+X3VP
+   N8l9Ttjb1CXsP/em/ItNKbn/R2TrFH3zkesaPyAKrt79Bgn0ypy9SB8Jp
+   2u5H6EhvFVMdROie17vViGToMsaSmf8JtnzSykUjW38pG4vN/+6OBRtnC
+   3cFKe/tTAqMbCbei2A489L2WCHaFzYAxDKLnTf2pXBxMaw7jkiW7pszPQ
+   Q==;
+X-CSE-ConnectionGUID: APG2AdMIRXmS5CPj4Q28bQ==
+X-CSE-MsgGUID: 1TgR++6nQx2AA2sDBDPVmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="65255666"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="65255666"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:29:36 -0700
+X-CSE-ConnectionGUID: 5d4Jbz1RTgulzaJLRRff6Q==
+X-CSE-MsgGUID: VFFvl/qRQ9i0y3gPsUufww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="233848885"
+Received: from dwoodwor-mobl2.amr.corp.intel.com (HELO [10.125.111.122]) ([10.125.111.122])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:29:35 -0700
+Message-ID: <92f138f9-b041-461d-b159-ff1bc265bbee@intel.com>
+Date: Tue, 21 Apr 2026 08:29:33 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260420152608.6244-6-djeffery@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
+ injection/clear
+To: Li Ming <ming.li@zohomail.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Ben Cheatham <benjamin.cheatham@amd.com>, Dan Williams <djbw@kernel.org>
+References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
+ <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
+ <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
+ <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
+ <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
+ <69da9fa696d0f_6c31a100e8@djbw-dev.notmuch>
+ <778c8dc5-b65e-4b1f-be13-8bfb960cefc3@zohomail.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <778c8dc5-b65e-4b1f-be13-8bfb960cefc3@zohomail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 04-20 11:26, David Jeffery wrote:
-> Like scsi's async suspend support, allow scsi devices to be shut down
-> asynchronously to reduce system shutdown time.
+
+
+On 4/21/26 3:48 AM, Li Ming wrote:
 > 
-> Signed-off-by: David Jeffery <djeffery@redhat.com>
-> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-> Tested-by: Laurence Oberman <loberman@redhat.com>
+> 在 2026/4/12 03:23, Dan Williams 写道:
+>> Dave Jiang wrote:
+>>>
+>>> On 3/18/26 4:59 AM, Li Ming wrote:
+>>>> 在 2026/3/17 23:00, Dave Jiang 写道:
+>>>>> On 3/14/26 12:06 AM, Li Ming wrote:
+>>>>>> CXL memdev poison injection/clearing debugfs interfaces are visible
+>>>>>> before the CXL memdev endpoint initialization, If user accesses the
+>>>>>> interfaces before cxlmd->endpoint updated, it is possible to access an
+>>>>>> invalid endpoint in cxl_dpa_to_region().
+>>>>>>
+>>>>>> Hold CXL memdev lock at the beginning of the interfaces, this blocks the
+>>>>>> interfaces until CXL memdev probing completed.
+>>>>>>
+>>>>>> The following patch will check the given endpoint validity in
+>>>>>> cxl_dpa_to_region().
+>>>>>>
+>>>>>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>>>>>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+>>>>>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+>>>>>> Signed-off-by: Li Ming <ming.li@zohomail.com>
+>>>>> Hi Ming, I dropped this patch with Dan's comments [1] and updated cxl/next. Please check and make sure everything looks ok to you. Thanks!
+>>>>>
+>>>>> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwillia2-mobl4.notmuch/
+>>>> Hi Dave,
+>>>>
+>>>> I think there is no change needed in this patch, just need a independent patch for holding memdev lock in cxl_region_debugfs_poison_inject/clear.
+>>>>
+>>>> Or you want to review this patch again?
+>>> No. Maybe I misunderstood the comment from Dan. So we should keep this patch?
+>> tl;dr: yes, this patch is *now* valid.
+>>
+>> As originally structured having patch2 before patch3 added no value.
+>> Going forward I would say do not structure a series such that a new lock
+>> taken in patch N starts being useful in patch N+1.
+>>
+>> I assume that is what:
+>>
+>> "The following patch will check the given endpoint validity in
+>> cxl_dpa_to_region()."
+>>
+>> ...is trying to say, but when commits are applied to the tree it is
+>> difficult to see that this commit was from a series.
+>>
+>> So do pick this one up, but the changelog needs adjusting. Something
+>> like:
+>>
+>> "cxl_dpa_to_region() assumes that it is running a context where it is not
+>> racing changes to "cxlmd->dev.driver". Acquire the memdev device lock in
+>> the debugfs entry points to preclude debugfs usage racing cxl_mem driver
+>> detach."
+>>
+>> With that you can add:
+>>
+>> Reviewed-by: Dan Williams <djbw@kernel.org>
+> 
+> Hi Dave,
+> 
+> Will you pick this patch with changes from Dan's comment? Or I need to send out a new version?
 
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com> 
+I believe it's merged into linus/master already. Can you check and see if everything looks correct?
+
+> 
+> 
+> Ming
+> 
+
