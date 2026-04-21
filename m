@@ -1,102 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2CD1BD9CE
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 08:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776761079; cv=none; b=d4Awo4qupJiLTkL1m8xgrzHvyJEYsXADakM63UupZPRGWWDm6EUr6ev8Uyw1nUoQPQmU71NtzBJ1VBn43Nv4UDFlUqgXqC+ipoh8Cyhu5gkBEMBQPWzUjo6VojBW7MEnbRNr2Lu7WMsTWbc/FiEi/4PzcPh4k32cdeAVzZLfAtw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776761079; c=relaxed/simple;
-	bh=zthUzAeowYez1/zG8ziYlvgYAZ0uD7gLuZ/57ZUOUdI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KcxKEOy34HyTjSxtAvEruYtGefxe7BdGA1GsNJVbhaBhUhP4BWYpFirQx3V645vckfypuB2r8A4WIRPyf0XA/rMHBoiUQTS0BaaswSu6dpjXEnIMfGf4HRML2JzvBmvlPNznYol+UPcuWnp8hLZWdJJLtCdGqXgucOnmczRSeaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TxMyhsSY; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6620B280CD5
+	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 10:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776768522; cv=pass; b=ObZ5yLqWorDxGhyly3nSnzN9wsYpUgqTd0hPKWxKns6WsYpglR6+GHs6CBfyv2HB1s9ucfZWbrR3jyUTLR8FTvWtAVffmRtIFfrvHXbY7RrVEKn1kRUMd6+gbRxmb+MWEW9SKqUDrgAfiaWz7msBMpReNJ4mfKgBulM+dCe7JyQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776768522; c=relaxed/simple;
+	bh=QXeXJxwR4AAain/grzb6VTedX2LJK87P722v0plWi8o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WsC2CYncyEjpACbRbH2Udk8fUfDwFV+p6ThN3gFZsQDx86utiXAQoJ4qkUM1OP/z9+Wvsy7akp8SVk5am6Q5kzgIWrMFzYd6Jk+LNP91LdQRDlMnD36OOaCzHjKsJzX9DkfkA0xgodMGeNJhc2hiuLfpSOsdR0ibCtvPtvrAI2Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=CXwyeCV3; arc=pass smtp.client-ip=136.143.188.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TxMyhsSY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91329C2BCB5
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 08:44:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776761078;
-	bh=zthUzAeowYez1/zG8ziYlvgYAZ0uD7gLuZ/57ZUOUdI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TxMyhsSYwe4JqW5LRG2TETxieR6aKnQ/8SsDhgmTs0zqnzL+FKBb/KMNgqZwFpv4X
-	 h9xA1jw+/ebiu99xqI+mnSGLBfrN+7Au63ksb7q5v2QABID5muZweb5poh/i2hdYWI
-	 lyOH5BaABCJ2LpbbtWGGXDl/q+OGQ2pQwvbyNFOIjLva1t5r/pGMa3u9cKNAa6vBt4
-	 yrOCT61gMJBMfwkANXO93Ivw268HOCwu8PNW7GjtnZifBROHEkLGh/ueSMsEbhYGZ2
-	 4Z8w0BGYr3f3FhaVrqZM4Tlygs/9oNjbYD6CfaAHh8oq2lppAmvdIT3WD3DvE+d7Go
-	 kU3C+x+B4hYrw==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38e7fc3c419so36546491fa.0
-        for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 01:44:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+R06xVkn8BI+VuPVcWYCqSsE4xbH2iwW0DVXVhD8uWCCz1TAiYcxgPLfTz64xIs6mkrX07yRohiXjweg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYVGyHfcP8bBbYeYHeaTqIC8tlKBqF5iFawBrKQDaIHCpGYbcV
-	Uky7gZXX2Wp2C0yP3K1m6LtRa8HdDnjni/NpnyTo+4hUklHOxzIP2rrPAhb9q+cw6aVUnY25nSP
-	HDLgsqjXjzQ14H/fWki8W//coDfTVAZDpuBCAmCHtjA==
-X-Received: by 2002:a05:651c:2111:b0:38a:4c95:8cdc with SMTP id
- 38308e7fff4ca-38ec7b4e457mr55226561fa.29.1776761077171; Tue, 21 Apr 2026
- 01:44:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="CXwyeCV3"
+ARC-Seal: i=1; a=rsa-sha256; t=1776768516; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ADmiVXrqFg8Pudfbv4gHsuCgjoBxYWO9x7PcIN8uJCp4k3yQ8eT3KhOMguJBwUCXWkr+AGHDMtq5RqMm6MCdA2pYosbCKfiPqZv2c3GGQ8NSIIdKrqs7lOhEWglLTuo7ruQEjCVHcX21EduVc+MEab64q+x6kak7FeNxK3ptgSI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1776768516; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=QtUSpS5xgMacdNEe4xOf2Z4l0paD0rzRkJfr1DJn9Ho=; 
+	b=Fk6C98y8Br2SfThu5Y62scef/RMiHQM9mgG8QdKpYTKaqWUcZ2/LLJlmnYXpxE2/XReDIBv11Lq1ajRSYUQ6U3i0+nLCKNrdei9f0+++5WrMu/4++SbTHryccWfQGxPMLCP5GzL3Mb28EvsXVsLK9Ex68Zgjgd3WVdWHkY7N5VQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
+	dmarc=pass header.from=<ming.li@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776768516;
+	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=QtUSpS5xgMacdNEe4xOf2Z4l0paD0rzRkJfr1DJn9Ho=;
+	b=CXwyeCV3L++l/RfSD4ZKau6jse2KqTHVErtym8NdaBjspZBN7JSPsXWIe45VY9Hq
+	f1QiygQvX7AScbcy31Mya/m2p3fe4vNodv8OeX0F6PEYeY2u9JLqNKgHgYYL0NHmUi/
+	WRwfC90WJSL35Zi/sD+UCHalDgJa/3yK9bY/ur9c=
+Received: by mx.zohomail.com with SMTPS id 1776768512771721.4392572083452;
+	Tue, 21 Apr 2026 03:48:32 -0700 (PDT)
+Message-ID: <778c8dc5-b65e-4b1f-be13-8bfb960cefc3@zohomail.com>
+Date: Tue, 21 Apr 2026 18:48:21 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260410-swnode-remove-on-dev-unreg-v1-0-cd7d305f3db2@oss.qualcomm.com>
- <20260410-swnode-remove-on-dev-unreg-v1-1-cd7d305f3db2@oss.qualcomm.com> <adxmFlfIcoZ19Nm9@google.com>
-In-Reply-To: <adxmFlfIcoZ19Nm9@google.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 21 Apr 2026 10:44:24 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MdE9s-aoT1dY+2uf3kFeOqPG=e-p8VyAgaMfa+tJ43z3Q@mail.gmail.com>
-X-Gm-Features: AQROBzAFE8ZerNB7tjgLXmONkqDPg-4GqOeM5VpeS4ZfXOKY8uV7x2Q3MLJve0g
-Message-ID: <CAMRc=MdE9s-aoT1dY+2uf3kFeOqPG=e-p8VyAgaMfa+tJ43z3Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] driver core: platform: remove software node on release()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
+ injection/clear
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Ben Cheatham <benjamin.cheatham@amd.com>, Dan Williams <djbw@kernel.org>
+References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
+ <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
+ <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
+ <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
+ <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
+ <69da9fa696d0f_6c31a100e8@djbw-dev.notmuch>
+From: Li Ming <ming.li@zohomail.com>
+In-Reply-To: <69da9fa696d0f_6c31a100e8@djbw-dev.notmuch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Feedback-ID: zu08011227cfef9a97a59ddb595874eb010000dc9efed156263c5b4e6893bca069031c7de30715a95f280bf9:ZohoMail
+X-Zoho-CM-AccountID: abd763e7b9fa23acf4f42a44f9876d2d993e05abdb9290f9ccb1008c977bf7f0
+X-ZohoMailClient: External
 
-On Mon, Apr 13, 2026 at 5:56=E2=80=AFAM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Bartosz,
->
-> On Fri, Apr 10, 2026 at 01:50:45PM +0200, Bartosz Golaszewski wrote:
-> > If we pass a software node to a newly created device using struct
-> > platform_device_info, it will not be removed when the device is
-> > released. This may happen when a module creating the device is removed
-> > or on failure in platform_device_add().
-> >
-> > When we try to reuse that software node in a subsequent call to
-> > platform_device_register_full(), it will fails with -EBUSY. Add the
-> > missing call to device_remove_software_node() in release path.
->
-> Thank you for spotting this, but I do not believe the patch is correct
-> as it stands. We need to differentiate between nodes registered by
-> platform devices vs nodes that already registered where we simply use
-> them.
->
 
-We already do: platform_device_release() is only set for devices
-dynamically allocated with platform_device_alloc() which is what
-happens in platform_device_register_full(). platform_device_alloc()
-already imposes limitations on the caller - like having to provide
-platform data that can be shallow-copied as platform_device_release()
-calls kfree() on it unconditionally. Even if the user adds the
-software node manually, it needs to be removed.
-
-> I think we need to mark nodes that platform_device_register_full()
-> registers form swnodes as "managed =3D true" so that they are cleaned up
-> properly.
+在 2026/4/12 03:23, Dan Williams 写道:
+> Dave Jiang wrote:
+>>
+>> On 3/18/26 4:59 AM, Li Ming wrote:
+>>> 在 2026/3/17 23:00, Dave Jiang 写道:
+>>>> On 3/14/26 12:06 AM, Li Ming wrote:
+>>>>> CXL memdev poison injection/clearing debugfs interfaces are visible
+>>>>> before the CXL memdev endpoint initialization, If user accesses the
+>>>>> interfaces before cxlmd->endpoint updated, it is possible to access an
+>>>>> invalid endpoint in cxl_dpa_to_region().
+>>>>>
+>>>>> Hold CXL memdev lock at the beginning of the interfaces, this blocks the
+>>>>> interfaces until CXL memdev probing completed.
+>>>>>
+>>>>> The following patch will check the given endpoint validity in
+>>>>> cxl_dpa_to_region().
+>>>>>
+>>>>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>>>>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+>>>>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+>>>>> Signed-off-by: Li Ming <ming.li@zohomail.com>
+>>>> Hi Ming, I dropped this patch with Dan's comments [1] and updated cxl/next. Please check and make sure everything looks ok to you. Thanks!
+>>>>
+>>>> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwillia2-mobl4.notmuch/
+>>> Hi Dave,
+>>>
+>>> I think there is no change needed in this patch, just need a independent patch for holding memdev lock in cxl_region_debugfs_poison_inject/clear.
+>>>
+>>> Or you want to review this patch again?
+>> No. Maybe I misunderstood the comment from Dan. So we should keep this patch?
+> tl;dr: yes, this patch is *now* valid.
 >
-> See also sashiko feedback.
+> As originally structured having patch2 before patch3 added no value.
+> Going forward I would say do not structure a series such that a new lock
+> taken in patch N starts being useful in patch N+1.
 >
-> https://sashiko.dev/#/patchset/20260410-swnode-remove-on-dev-unreg-v1-0-c=
-d7d305f3db2%40oss.qualcomm.com
+> I assume that is what:
 >
+> "The following patch will check the given endpoint validity in
+> cxl_dpa_to_region()."
+>
+> ...is trying to say, but when commits are applied to the tree it is
+> difficult to see that this commit was from a series.
+>
+> So do pick this one up, but the changelog needs adjusting. Something
+> like:
+>
+> "cxl_dpa_to_region() assumes that it is running a context where it is not
+> racing changes to "cxlmd->dev.driver". Acquire the memdev device lock in
+> the debugfs entry points to preclude debugfs usage racing cxl_mem driver
+> detach."
+>
+> With that you can add:
+>
+> Reviewed-by: Dan Williams <djbw@kernel.org>
 
-I'll see about reproducing it and possibly adding a kunit test-case as well=
-.
+Hi Dave,
 
-Bart
+Will you pick this patch with changes from Dan's comment? Or I need to 
+send out a new version?
+
+
+Ming
+
