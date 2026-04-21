@@ -1,47 +1,47 @@
 Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD9337C937
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 06:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370AA3806B2
+	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 06:13:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776751992; cv=none; b=KeRm0YUYnPqoIo+5Ql/5u4n0USeBp1YFVJ1XvoYQaqKypes+Cvx4j1JwEGXz0XvK/ubh0eXkTyQhKoFadwnaYxb69cDx7RpPJ2g1a58rXJnxG6l1UbHtiEaxB5nIbK0QfOORgOzluleQvuZu/OmocSi9zdKDdmeha1JQNX6ipOs=
+	t=1776751996; cv=none; b=OFrKrDG2AF697en57qW/KO2u7gvgDmHt0f1v33hqIzLbJt5OC2xKe5Tc6K4ItWcEz3FiFvrtBnYo6OUfCZ4aHHXzJ494s83iAGMYZhuhUV3MBVIcrUtT0BrjJOI3CBFr0FPaXu3Hs2FJhQ1zOXJXzCeYqUZ88drVCeNkTgADWvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776751992; c=relaxed/simple;
-	bh=cq5j1N/tLVr7JQQAEFQwE+5Pc1i9Ewpt4Q5nOJ0PQwE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sgrBPlWvGKQcO9paJ6FSf1nfanC22l4cg0ZK2wrQy5V79CB4vFF6Uz+UB3jsulHzpZ37hAJF6qshVWB8w5MjyX9XlViFTA0v+GkxfTs00s+fqNiEVyTewnuzgM78BYXjcLqoxaz3OXgo2reO+i9IUPZUS/u6UylDvGwTyms9ESs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=V9YZTwcS; arc=none smtp.client-ip=211.125.140.165
+	s=arc-20240116; t=1776751996; c=relaxed/simple;
+	bh=TAodI4xUlrEwxLtFIUjQdPLrsiw6kWJSMaRMWxe/2RQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=oCzInhI62XMQ6o39/D5GZwYgSnEwHX8huju9322sf3UyAAWx2u/jgNI6LBbPU2pjKQwefVkQ24eztHPvPo/C+HB3d+H947dzFuj8KAl4PCzj9BPDCU/Abd0CX0SOEX8yM97lloPZfr1hJCMdBJ+C4DgJb8T1SvxmaqVccQa8Fe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=r/FzhfnS; arc=none smtp.client-ip=211.125.140.165
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="V9YZTwcS"
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="r/FzhfnS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1776751991; x=1808287991;
-  h=from:subject:date:message-id:mime-version:
-   content-transfer-encoding:to:cc;
-  bh=f1rqbhKZQGPjKM6rafuitMg1brZYqWCZ8SEDj4DxtvI=;
-  b=V9YZTwcSbixysz7I8WkdKxKoLUJf7wNvt2QW4Sgl+6f7crJ7QplXj061
-   IeZNITLzkP1QDhbZOUJMSHpaPqVOmEvhbcplszbKcOGjxAfVQdwixRt9N
-   iuC1s/1N74i0QLF5NigEJJPomUJC8HbkIOvZCPhCoPgIxfmjdm8SAiARz
-   U5ILrauaA67niBZKHKt3Eptxl5znFB0GXKeG/S9kfRTlxVpGKq7Fpf0cL
-   Q5Hl6kLttrhBzWYUziKmSGBJqgVA1zE+MKDiWc5kxs+o+cjfwOy+CkZyb
-   OFUR1iaQO6jVk695W02htDKdCBxOPW38+5xJ/uF7i4q7VD8axh/qiUbP2
-   g==;
-X-CSE-ConnectionGUID: A8aWtnoaS7e6Gbn+Sn3Ggg==
-X-CSE-MsgGUID: EwnXuNbyQk2DobylKT8hBw==
+  d=sony.com; s=s1jp; t=1776751994; x=1808287994;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=M5voK61wljPEL9MIXMGk8CLB5JWEHYq4E0HHNP/m5yA=;
+  b=r/FzhfnS/y7ZwdYQ/+fGmU19lELHSnyRqFEUrBs/ZQzTAk9cbgBjwYl6
+   cMy+xa2ce4OrdjeG8ZXp6xGZT1wUMz7Ldp3umE6dWF4KVG5EvFdz6Gw/x
+   i+H/yKnikrYp99EAG2k1gxNzVXkm+4h9+CX2B4NazqRbPmBYkvWgzr+Lb
+   1LGfC74AUiBx65Mztk614OZTWr38J0HLcWqbkpQDm76VoLmLgKgWw8GBw
+   m2sfsLfAuP7EcPcOvlfgByItgxLjp+X7Yx27bF+Axu4+QkFUr4n2aXjQ/
+   HV3otEDFJoAdUx66P14j3u+c3wxtZU3PoEgIbVqyVQfEKCoqmcqlXBJoP
+   w==;
+X-CSE-ConnectionGUID: 5AsBSkLMSeuPvyp/XTwMiA==
+X-CSE-MsgGUID: n8ecQ/DXSzq2tdAqOeTLqw==
 Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
-  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 15:03:01 +0900
-X-CSE-ConnectionGUID: oHqa5c0bQkmnd/FbkksCDg==
-X-CSE-MsgGUID: sNkWM31oRXWC9d+MIiZeAA==
+  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 15:03:02 +0900
+X-CSE-ConnectionGUID: LTCnBPipSWGuc+TNvzgr2A==
+X-CSE-MsgGUID: JCCWmIAIRXOq7fv7kUw5XA==
 X-IronPort-AV: E=Sophos;i="6.23,191,1770562800"; 
-   d="scan'208";a="603010287"
+   d="scan'208";a="603010295"
 Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
-  by jpmta-ob02.noc.sony.co.jp with ESMTP; 21 Apr 2026 15:03:00 +0900
+  by jpmta-ob02.noc.sony.co.jp with ESMTP; 21 Apr 2026 15:03:01 +0900
 From: Shashank Balaji <shashank.mahadasyam@sony.com>
-Subject: [PATCH v2 0/2] Enable sysfs module symlink for more built-in
- drivers
-Date: Tue, 21 Apr 2026 15:02:33 +0900
-Message-Id: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
+Date: Tue, 21 Apr 2026 15:02:34 +0900
+Subject: [PATCH v2 1/2] kernel: param: handle NULL module_kset in
+ lookup_or_create_module_kobject()
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -49,12 +49,10 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAPkS52kC/3WNwQ6CMBAFf4Xs2RpasIgn/8MQUtpF1oSWtNhIS
- P9dwLPHSebNWyGgJwxwy1bwGCmQsxuIUwZ6UPaJjMzGIHIh85JLpvRE7ehMa9WIrJflRVUSi6L
- qYNtMHnv6HL1H8+Pw7l6o5z2yGwOF2fnlOIx89/61I2c546o0tezNVer6HpxdztqN0KSUvkNPr
- ey7AAAA
-X-Change-ID: 20260416-acpi_mod_name-f645a76e337b
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260421-acpi_mod_name-v2-1-e73f9310dad3@sony.com>
+References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
+In-Reply-To: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
 To: Kay Sievers <kay.sievers@vrfy.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
@@ -77,108 +75,67 @@ Cc: Shashank Balaji <shashank.mahadasyam@sony.com>,
  linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.16-dev-3bfbc
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4296;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2030;
  i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
- bh=cq5j1N/tLVr7JQQAEFQwE+5Pc1i9Ewpt4Q5nOJ0PQwE=;
- b=owGbwMvMwCU2bX1+URVTXyjjabUkhsznwoLVX6tvxWSsms4lb2Ccqn75as0Sc76jr5d9/8bMf
- Kemy3RXRykLgxgXg6yYIkupUvWvvSuClvScea0IM4eVCWQIAxenAExEUYuRYeaLwgCVNWcj9pwL
- CPLuevnPLLzETm5r0/JXT5zXp0e48DL8FeE59tqltJRZpLEgw8M7bc4cmW8Lj6h/uMfdcdbnb/0
- OJgA=
+ bh=TAodI4xUlrEwxLtFIUjQdPLrsiw6kWJSMaRMWxe/2RQ=;
+ b=owGbwMvMwCU2bX1+URVTXyjjabUkhsznwkKK3M8VPyyJ+fOob7rf792F97YK+ua1sro5tXz3q
+ f29acOdjlIWBjEuBlkxRZZSpepfe1cELek581oRZg4rE8gQBi5OAZhI6wFGhhavhQvMf2ayxh3Z
+ b3TgadmxWv7ixJPb9/4/9DNDa6ccgzrD/4y+FczS57NEdAJDtM/K+orHPZv5seyNw1tjpQufRea
+ F8AEA
 X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
  fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
 
-struct device_driver's mod_name is not set by a number of bus' driver registration
-functions. Without that, built-in drivers don't have the module symlink in sysfs.
-We want this to go from unbound driver name -> module name -> kernel config name.
-This is useful on embedded platforms to minimize kernel config, reduce kernel size,
-and reduce boot time.
+module_kset is initialized in a subsys_initcall. If a built-in driver tries to
+register before subsys_initcall with its struct device_driver's mod_name set,
+then a null module_kset is dereferenced via this call trace:
 
-In order to achieve this, mod_name has to be set to KBUILD_MODNAME, and this has
-to be done for all buses which don't yet do this.
+     [    0.095865] Call trace:
+     [    0.095999]  _raw_spin_lock+0x4c/0x6c (P)
+     [    0.096150]  kset_find_obj+0x24/0x104
+     [    0.096209]  lookup_or_create_module_kobject+0x2c/0xd8
+     [    0.096274]  module_add_driver+0xd4/0x138
+     [    0.096328]  bus_add_driver+0x16c/0x268
+     [    0.096380]  driver_register+0x68/0x100
+     [    0.096428]  __platform_driver_register+0x24/0x30
+     [    0.096486]  tegra194_cbb_init+0x24/0x30
+     [    0.096540]  do_one_initcall+0xdc/0x250
+     [    0.096608]  do_initcall_level+0x9c/0xd0
+     [    0.096660]  do_initcalls+0x54/0x94
+     [    0.096706]  do_basic_setup+0x20/0x2c
+     [    0.096753]  kernel_init_freeable+0xc8/0x154
+     [    0.096807]  kernel_init+0x20/0x1a0
+     [    0.096851]  ret_from_fork+0x10/0x20
 
-Here are some treewide stats:
-- 110 registration functions across all bus types
-- 20 of them set mod_name
-- Remaining 90 do not set mod_name:
-    1. 36 functions under pattern 1:
-        They have a __register function + register macro. KBUILD_MODNAME needs to
-        be passed and the function needs to take mod_name as input.
-    2. 42 functions under pattern 2:
-        These have no macro wrapper. They need a double-underscore rename + macro
-        wrapper to make them similar to pattern 1.
-    3. Remaining 12 do not have such a clean registration interface. More analysis
-       is required.
+So, return null in lookup_or_create_module_kobject() if module_kset is null.
+Existing callers handle null already.
 
-We plan to start with pattern 1, since it's the easiest category of changes.
-Within that, for now we're only sending the platform patch. If we get the go-ahead
-on that, we'll send the remaining ones.
-
-Patch 2 depends on patch 1, without which arm64 defconfig fails to boot with
-patch 2.
-
+Fixes: f30c53a873d0 ("MODULES: add the module name for built in kernel drivers")
 Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
 Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
 Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
 ---
-Changes in v2:
-- Drop acpi patch, send platform instead (Rafael)
-- Link to v1: https://patch.msgid.link/20260416-acpi_mod_name-v1-0-1a4d96fd86c9@sony.com
-
-To: Kay Sievers <kay.sievers@vrfy.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>
-To: Mike Leach <mike.leach@linaro.org>
-To: James Clark <james.clark@linaro.org>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>
-To: Miguel Ojeda <ojeda@kernel.org>
-To: Boqun Feng <boqun@kernel.org>
-To: Gary Guo <gary@garyguo.net>
-To: Björn Roy Baron <bjorn3_gh@protonmail.com>
-To: Benno Lossin <lossin@kernel.org>
-To: Andreas Hindborg <a.hindborg@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-To: Trevor Gross <tmgross@umich.edu>
-To: Richard Cochran <richardcochran@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org
-Cc: driver-core@lists.linux.dev
-Cc: coresight@lists.linaro.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: rust-for-linux@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-
+This bug is triggered by the next patch on arm64 defconfig: tegra194-cbb tries
+to register from a pure_initcall, and with the next patch adding mod_name, this
+null deref is hit.
 ---
-Shashank Balaji (2):
-      kernel: param: handle NULL module_kset in lookup_or_create_module_kobject()
-      driver core: platform: set mod_name in driver registration
+ kernel/params.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
- Documentation/driver-api/driver-model/platform.rst |  3 ++-
- drivers/base/platform.c                            | 21 ++++++++++++++-------
- drivers/hwtracing/coresight/coresight-catu.c       |  3 ++-
- drivers/hwtracing/coresight/coresight-core.c       |  5 +++--
- drivers/hwtracing/coresight/coresight-cpu-debug.c  |  2 +-
- drivers/hwtracing/coresight/coresight-funnel.c     |  2 +-
- drivers/hwtracing/coresight/coresight-replicator.c |  2 +-
- drivers/hwtracing/coresight/coresight-stm.c        |  3 ++-
- drivers/hwtracing/coresight/coresight-tmc-core.c   |  3 ++-
- drivers/hwtracing/coresight/coresight-tnoc.c       |  3 ++-
- drivers/hwtracing/coresight/coresight-tpdm.c       |  2 +-
- drivers/hwtracing/coresight/coresight-tpiu.c       |  3 ++-
- include/linux/coresight.h                          |  3 ++-
- include/linux/platform_device.h                    | 17 +++++++++--------
- kernel/params.c                                    |  3 +++
- rust/kernel/platform.rs                            |  4 +++-
- 16 files changed, 50 insertions(+), 29 deletions(-)
----
-base-commit: b4e07588e743c989499ca24d49e752c074924a9a
-change-id: 20260416-acpi_mod_name-f645a76e337b
+diff --git a/kernel/params.c b/kernel/params.c
+index 74d620bc2521..881c7328c059 100644
+--- a/kernel/params.c
++++ b/kernel/params.c
+@@ -752,6 +752,9 @@ lookup_or_create_module_kobject(const char *name)
+ 	struct kobject *kobj;
+ 	int err;
+ 
++	if (!module_kset)
++		return NULL;
++
+ 	kobj = kset_find_obj(module_kset, name);
+ 	if (kobj)
+ 		return to_module_kobject(kobj);
 
-Best regards,
---  
-Shashank Balaji <shashank.mahadasyam@sony.com>
+-- 
+2.43.0
 
