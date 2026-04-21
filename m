@@ -1,62 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9CC282F02;
-	Tue, 21 Apr 2026 15:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD64C3D88F6
+	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 15:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784861; cv=none; b=sG0MHFqzcUZlNW59ABkRHYmcUGJKAG3JC/I2jsCA+kgjdIwFgPwkXQ4j4TrL+7TOJvaXSko3TsjXxAG/rWEoIUWQXr+1leaoLLxz5afaKzC84l8oD0uDL3xUt8zikW/QliqGWpW7OYHI8zgxcoEUoAxbrqtb2lpL09EITFIeuak=
+	t=1776784881; cv=none; b=Kt0Sgbo7LObFLsfFEqmSAF4aP/zgMGAuv9dZouBjX2+oi+5OXV91sJ53Am1lRklVozqWDePDMZZcjH9jbuEZ1bkCRFpp0DekvLNSdqVTwVsIwnOK550wf/DZbTID1XsXj3VkxW5gcePm+x8TVhlJ2lmVryKWSv11G6YBVOVeECc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784861; c=relaxed/simple;
-	bh=F/at9kvrP0ftyUXa1QoDHgWWt9+7e9KsyBp2so8oQso=;
+	s=arc-20240116; t=1776784881; c=relaxed/simple;
+	bh=Kyk3+wNQNdoAB6SWDPZsFu2inFstrAooXQvG3g3opEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tt6ZMyPaTPe3bGwVCiLdLO0jCOIhdz55cFXzQ5T9Q4DUwbwJpfdOPXD39I7otxKnFthkNkDZL0m0KpZgpAqu7oNaXBsaLXcqeomKhQzdu/Sfnkd/GnbDazMN5VVeUN5ss8XxdpI92VCaKYmk3GpQq7tac23ZP+iDspWTlSWINa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kSTNTUxu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rsc1a3ciRNEV5v9sFXsLj1v7g+dRCluXv8o/nUXFijXvSgQ7AWwjL9qiMr45qQM+x4RoGxxZAcn3wVgrHNc4zEB/uy+sgkGphaxVA6Uz3BUDpUgIlSJ9vc786ddYzsY3pd/nA5cxWrqBrih4HDNF71pzL9TqrYojx120IYAaHtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jsPUBLSv; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kSTNTUxu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D8B2C2BCB0;
-	Tue, 21 Apr 2026 15:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776784861;
-	bh=F/at9kvrP0ftyUXa1QoDHgWWt9+7e9KsyBp2so8oQso=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kSTNTUxuJ37MXFp3pSpIMdOS40laH/EwZEvvafMj20wmOvojcusZdLaDlk16oH+dO
-	 8ppHDiTS5MR1Akmk2kAgbyZCw+upDYVlToxmmW9yRoe7uozquBxIffCUiQO2btwOMt
-	 7QxKOVT4jLFsek9pQHTWW/Krw78JV4q2Mpr7++wQ=
-Date: Tue, 21 Apr 2026 17:20:58 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Kay Sievers <kay.sievers@vrfy.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rahul Bukte <rahul.bukte@sony.com>,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] kernel: param: handle NULL module_kset in
- lookup_or_create_module_kobject()
-Message-ID: <2026042154-overcast-starry-2872@gregkh>
-References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
- <20260421-acpi_mod_name-v2-1-e73f9310dad3@sony.com>
- <2026042126-majesty-skyline-b76f@gregkh>
- <aeeQ5x1uMKT6cyxp@JPC00244420>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jsPUBLSv"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7986e538decso42206787b3.1
+        for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 08:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1776784878; x=1777389678; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y+B+8NSAggTlzgSEBNF7JVWtV7yl/tiBwRJ1+ICjPNI=;
+        b=jsPUBLSv63sZKLO9WklaLZ6OVN4IYtgVqzcr63vaiWV6jiebTG/DWLTX1lJMLVzQwu
+         Xyxm3FAtfPtyvWgTs/qHhr15kgxp++9jVn5oRrvRC84seHLg2dLqIaQsryN8BoqbM9Hu
+         5WXPO0sMWP97pjL3LmjgBhebotKQ/qbvHBeEILhGzCZFtljayqFpsQ6KsTmLuoFsL6is
+         Kf+kNgro7unwjvVGEdti0GYAVOtQwkF+WQwprW8WRmJWcILUmJlyf48NDQlOcLqf3DxD
+         i16CTA+r7juSEryX7aeWQ1martLrrSAjQPXKptGthFee6PWVFqhXny890BLbFfi5+r1R
+         02Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776784878; x=1777389678;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y+B+8NSAggTlzgSEBNF7JVWtV7yl/tiBwRJ1+ICjPNI=;
+        b=WXrY0XA6Db34Vz8kk7nH7VxODk4D9fh2Pmhs6mF9zzB9GR9RfYH8iMfghnvzk7xCGi
+         k9JLNKvlOjKbvR6Uxg2WX1T8i4u5GZq5GaNnCu2Uph5rL1eDkzolA+QYNqoRBqZkZ3MA
+         IWLHcRmAm/RyKmEER8L+w+U0ZX5JT3LkPYoQI8C3tJNEm8Fliq8GJl+nsByrPdsU/hRv
+         wlr+V6LNu+QeqiomDjR7Mu45r0qkY08JldRpBCzMAPna1BKhiL4xmO1FXJVw05o5VR7C
+         iekNDlWhoH30xCn77fgqgizb2aKaY6jKkTzVc+OpX4G/sWP+X/e0o6KwATQpbpM/9K6/
+         Zbvg==
+X-Forwarded-Encrypted: i=1; AFNElJ8MlT0jNj1koG71a0udU43S1nd8yseIzXMgVrbQmiSAyJXVvLQpaK1ZQHNzrV3n9WLGsrBsvIEBQ9j3MA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfIWPTiBxmQJnWQjNoyXUxXed8+pTE36KbojYzct41apXWOgcO
+	PdxhBsYcc5fgjU5+DxrLoAFdPC6Z0KooyaGWTK0zRhvLPLA9tuhZwWDUbpezfeW6/UE=
+X-Gm-Gg: AeBDietRjc7HR1VQIGQjvXU9uOsf2lLRGhvaTHgPJ9x5CGXiO09KtLcGmP1hOSIirf5
+	cyunX7dmtBUvp0gcCNvMu3+IlQCncOLx7ayjPusAR/3DBaJTxD9aFTKvl3DqjSol0z0txZjARU8
+	ol1gqOvYzrLwTvNQPC7DAzRcOEQkBluDNwQ8yo8gDA6mOLOmzoIFSw9X72aSbsaZ9JwMOax4QwT
+	AjNv5q2yzC/uXYcJtvCVfnnP4WAGPutdCRmygWATY9fJfWwy31bEh1lqCRZb7oVYO05RMH714F6
+	DFb/F+n4WDbTP5yHv35EaHfJu1SSY2typHb4t5GjSlrUSC9D+caP264djZ8je50LF0Z4Twe42tA
+	sdRDHsiGI7S4Pqsff2f7rX6Z2n2+mMTOi6dFKoKCO3ebNicHNaTVBi1PXsdgM9xRUxD4WztrhVp
+	S/WUvNEwDFSbKzfj6xl94nxTYmu/K1ElFfJD1Ki1w8dpEfNORsNrLxx+0mWM1hvuipmmyt5NNVJ
+	+hheK2VuygfLV12u9USN++WHX9mu+sH0mnlpT3M
+X-Received: by 2002:a05:690c:f14:b0:7ba:f677:8c32 with SMTP id 00721157ae682-7baf67794c3mr66413557b3.15.1776784877840;
+        Tue, 21 Apr 2026 08:21:17 -0700 (PDT)
+Received: from google.com (57.233.150.34.bc.googleusercontent.com. [34.150.233.57])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7b9ee9b293fsm56526037b3.40.2026.04.21.08.21.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2026 08:21:17 -0700 (PDT)
+Date: Tue, 21 Apr 2026 11:21:15 -0400
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: David Jeffery <djeffery@redhat.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Tarun Sahu <tarunsahu@google.com>, 
+	Pasha Tatashin <tatashin@google.com>, =?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, 
+	Jordan Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>, 
+	John Meneghini <jmeneghi@redhat.com>, "Lombardi, Maurizio" <mlombard@redhat.com>, 
+	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman <loberman@redhat.com>, 
+	Bart Van Assche <bvanassche@acm.org>, Bjorn Helgaas <helgaas@kernel.org>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, John Garry <john.g.garry@oracle.com>
+Subject: Re: [PATCH 5/5] scsi: Enable async shutdown support
+Message-ID: <aeeV1e4j4ok9_iQz@google.com>
+References: <20260420152608.6244-1-djeffery@redhat.com>
+ <20260420152608.6244-6-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -65,122 +83,14 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aeeQ5x1uMKT6cyxp@JPC00244420>
+In-Reply-To: <20260420152608.6244-6-djeffery@redhat.com>
 
-On Tue, Apr 21, 2026 at 11:59:51PM +0900, Shashank Balaji wrote:
-> Hi Greg,
+On 04-20 11:26, David Jeffery wrote:
+> Like scsi's async suspend support, allow scsi devices to be shut down
+> asynchronously to reduce system shutdown time.
 > 
-> Thanks for the quick feedback!
-> 
-> On Tue, Apr 21, 2026 at 08:27:10AM +0200, Greg Kroah-Hartman wrote:
-> > On Tue, Apr 21, 2026 at 03:02:34PM +0900, Shashank Balaji wrote:
-> > > module_kset is initialized in a subsys_initcall. If a built-in driver tries to
-> > > register before subsys_initcall with its struct device_driver's mod_name set,
-> > > then a null module_kset is dereferenced via this call trace:
-> > > 
-> > >      [    0.095865] Call trace:
-> > >      [    0.095999]  _raw_spin_lock+0x4c/0x6c (P)
-> > >      [    0.096150]  kset_find_obj+0x24/0x104
-> > >      [    0.096209]  lookup_or_create_module_kobject+0x2c/0xd8
-> > >      [    0.096274]  module_add_driver+0xd4/0x138
-> > >      [    0.096328]  bus_add_driver+0x16c/0x268
-> > >      [    0.096380]  driver_register+0x68/0x100
-> > >      [    0.096428]  __platform_driver_register+0x24/0x30
-> > >      [    0.096486]  tegra194_cbb_init+0x24/0x30
-> > >      [    0.096540]  do_one_initcall+0xdc/0x250
-> > >      [    0.096608]  do_initcall_level+0x9c/0xd0
-> > >      [    0.096660]  do_initcalls+0x54/0x94
-> > >      [    0.096706]  do_basic_setup+0x20/0x2c
-> > >      [    0.096753]  kernel_init_freeable+0xc8/0x154
-> > >      [    0.096807]  kernel_init+0x20/0x1a0
-> > >      [    0.096851]  ret_from_fork+0x10/0x20
-> > > 
-> > > So, return null in lookup_or_create_module_kobject() if module_kset is null.
-> > > Existing callers handle null already.
-> > > 
-> > > Fixes: f30c53a873d0 ("MODULES: add the module name for built in kernel drivers")
-> > 
-> > This isn't a bugfix.
-> 
-> I'll drop it in the next version.
-> 
-> > > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> > > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> > > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> > > ---
-> > > This bug is triggered by the next patch on arm64 defconfig: tegra194-cbb tries
-> > > to register from a pure_initcall, and with the next patch adding mod_name, this
-> > > null deref is hit.
-> > 
-> > So this isn't a bug, it's a "don't do that" type of thing :)
-> > 
-> > > ---
-> > >  kernel/params.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/kernel/params.c b/kernel/params.c
-> > > index 74d620bc2521..881c7328c059 100644
-> > > --- a/kernel/params.c
-> > > +++ b/kernel/params.c
-> > > @@ -752,6 +752,9 @@ lookup_or_create_module_kobject(const char *name)
-> > >  	struct kobject *kobj;
-> > >  	int err;
-> > >  
-> > > +	if (!module_kset)
-> > > +		return NULL;
-> > 
-> > Are you sure that making this change is going to be ok?
-> > mod_sysfs_init() should have been called first as the module has to be
-> > created before it can be looked up.
-> > 
-> > As you are wanting "built in" drivers to show up here, you are going to
-> > beat the call to param_sysfs_init(), so don't do that.  Make sure that
-> > the drivers are NOT called before then.
-> 
-> The reason lookup_or_create_module_kobject() can be reached with module_kset == NULL
-> is that some platform drivers register before subsys_initcall: tegra194_cbb and
-> tegra234_cbb at pure_initcall, plus roughly 375 others at core_initcall/arch_initcall
-> (208 arch, 154 core, plus 2 pure and 13 _sync variants). These are dominated by
-> pinctrl, clk, interconnect, gpio, and mailbox drivers across six SoC vendor trees
-> (Qualcomm, MediaTek, Freescale, Samsung, Tegra, HiSilicon).
+> Signed-off-by: David Jeffery <djeffery@redhat.com>
+> Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+> Tested-by: Laurence Oberman <loberman@redhat.com>
 
-That's not good, everyone wants to be first.  It's amazing it works at
-all sometimes...
-
-> Given that, three ways forward:
-> 
->   1. Move module_kset creation out of param_sysfs_init() (currently
->      subsys_initcall) and call it directly from do_basic_setup()
->      before do_initcalls(). This is the cleanest fix from a
->      correctness angle: every initcall level sees a live
->      module_kset. But it touches init/main.c and kernel/params.c,
->      crosses two subsystem trees. I haven't fully audited
->      dependencies at do_basic_setup() time.
-
-That's one way, OR dynamically create the kset the first time it is
-asked for.
-
->   2. Demote the ~377 early-initcall platform drivers to
->      subsys_initcall or later. Impractical at scale given coordination
->      across six vendor trees, and many of these levels seem to be
->      architecturally required.
-
-Ick, yeah, that is sure to be a nightmare as there will be regressions.
-
->   3. (This patch) Guard lookup_or_create_module_kobject() against
->      NULL module_kset. Drivers registered before subsys_initcall
->      don't get the /sys/.../module symlink, but they don't get it
->      today either (drv->mod_name is NULL pre-patch, so the
->      else-if (drv->mod_name) branch in module_add_driver() isn't
->      taken). Verified on arm64: /sys/module/tegra194_cbb/ does not
->      exist on a booted defconfig with or without my series. The
->      guard preserves that exact state while letting the
->      device_initcall majority get their symlinks as designed.
-
-THat's going to confuse people as to why some have the link and others
-do not.  How about moving it earlier OR creating it dynamically when
-first needed?
-
-thanks,
-
-greg k-h
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com> 
