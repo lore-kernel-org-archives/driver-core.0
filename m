@@ -1,470 +1,190 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021091.outbound.protection.outlook.com [52.101.100.91])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A493DBD6A
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 14:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776783405; cv=fail; b=MT3SnSXdKWmktp124mk52GdeARNscpYiWKPESuo+KQEaXXbKFjvjCZ5GLLDJoE3+04QDGn7gNcLgK7WF/yuHACreZeTxHOV9/K67OhZRlzTV46CcmEOWk0QgWFrXU7HeFhlQpiukz1xNqV8CB/Fm98IhYkrzNrEo5YXDVtIV4Ks=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776783405; c=relaxed/simple;
-	bh=ERQyRg6FCVwG0U5GQXUSxvKmT2yPSztVRq39JXT1JUo=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=aKcMrrfvtRvKrZiSkvq65PLLQ58m9aMGNCeWlPDg63SamTom4xDNlH3LYo40h+Ud/uMkiYcUk4QvgFS5cZ/qsLdXJHl66GvejUwUK8SfIu7WLvhhHHLkf5zqv6t1CIJiTbc6ta+2q9nrgqC1Wl1BOU/ysytGC9RT21P6DOmNKng=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=rd59Q9yf; arc=fail smtp.client-ip=52.101.100.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BD63C2782
+	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 15:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776784205; cv=none; b=C0EsXvXRLpqCfcpVYvvIfyDQrtwCQZVT1wlaohnVucjAwR/t7HaJT1NCRWq1Ph7f0euGnnGbtAfrry4HXmm9DaRsVWMicIsDV/pqboFT9xsAbxRYqujVgAbIcwdid4GhhbFD+WQUoes/Kf1FgdBCnUb/0AioCqe8w5DJFcZ+v48=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776784205; c=relaxed/simple;
+	bh=cmyaupRqmbN/ULerERzNae8aSi2Orqym5ZZqoD7wXoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ccmAuAnuj9BsOBccu57ycObcRNjBK6qkJGWuWkDq1deXTItjxxXbsY8/cXOrZXDHuHq3Oo+kQiDaCr00uIJgP3+ofdJoSWJsHVLblPpZTIhfn31jSPIdTtc9QOrOvYHZKRdQtBQ9ezSJ0VF1S4gHYw5KAzdMG1NYtCa/WD+W4w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=nZGLOHWi; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="rd59Q9yf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pC6AdZunnHueYMpO6vYS8KNiit9x953cnjUWSXli+hKC08eDq4C0PXD6qscv5uysJQEkDuUfSiS7wMjb3ig7St5kq/qQ/DW4+r8Oou7CtkX43lYvDYyAEKae3tp9i2k9Hb1xABJ6SyC1s1lZLnx2zoBF/PqftjzeN0r81s0uC9w5n85J5raZV2aMk3cPbiQC7dD/os3e6ot3/9axUIyECIk4jev/vhALwRzEJjg5M2r/j8YLCJKwAcaXmDUc579CJ36A9dZvR6fIBniSOg3ktEDdUyHtfsrJLCXFAUZu/KQI9G/xxcm/o0E/gl+MXHAsBifZswUPSaF9Mq4ejTgCHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JhiXe8a3REvkFHSbZGLhsht++x7Hwq50WeRMOiDIXZ4=;
- b=m/F7H5twmpuQye+wa3EKHMxdxNP85SHgjLkbf8JF0K5LP10aZF7G0Qf4jIccc/0+dsI7Yx6Yy9G6TnGK5BAbftGL66/7VFOIe8+tfIBtZP8k9bjN1UtSsvpPFIXPTFgf8Mo2NjRtBbUaXHDJkJ4DTTlIQqWFfeLS8YvCnfAmPuH2S3sc8nwz+8Rcjk/K25xm7nlLXaqgx5a4gSbmijPtTmOTopT89xjHKBU+omGzcEmuONfK5qlKHQ0uLz62FxGqTin3jaDQGbi7/1ps3SWRKzN5hxJl/QTPKJ/pSQ6lSpNw8U2DBvNq4bmSjZVH0zlfP5pO6WBCbMoL5dY/5nu0yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JhiXe8a3REvkFHSbZGLhsht++x7Hwq50WeRMOiDIXZ4=;
- b=rd59Q9yfE8vZYQbqs4b8AVuzTNB4gbSwmNchd7seMo0PD8h4mMCF6vQnw+SFugOAuRMSEcCvjiHimVrVKUk9463co+XkMoFA1t31p2nt4NM+KWeKK5E3mzNUJBQ1IEBAW5DPgGHbW7T/440IR5i66IhSAB2N6EwGjZtWS+IDelI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB5674.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1b0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
- 2026 14:56:31 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
- 14:56:31 +0000
-From: Gary Guo <gary@garyguo.net>
-Date: Tue, 21 Apr 2026 15:56:22 +0100
-Subject: [PATCH v2 11/11] rust: io: add copying methods
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260421-io_projection-v2-11-4c251c692ef4@garyguo.net>
-References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
-In-Reply-To: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776783386; l=11952;
- i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=ERQyRg6FCVwG0U5GQXUSxvKmT2yPSztVRq39JXT1JUo=;
- b=uV59Tig1UAY86hboNAV4E3WIfI7Ql+9hlbKVgSxDejiR22aUNKPgwm2L01kkGD4YuxBthGXxB
- VK9/9YS3bVzBoD0RYoIqOm+9CZIpiMdSTwrbXneIfGvR8KxGbIJFG8S
-X-Developer-Key: i=gary@garyguo.net; a=ed25519;
- pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
-X-ClientProxiedBy: LO4P123CA0142.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:193::21) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="nZGLOHWi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1776784202; x=1808320202;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x3We8v/cWP2gtcTXE3xZoQ0CkfHEqYxB8F5njBD+WhU=;
+  b=nZGLOHWi6cQKtoN8ZXWoKq3vCqqugelPpflWkYaaeqzOgPb8dMx/WtWY
+   YQYtL/YMFgDIofz/7hi13T9Mrjahn18b4fLt9AdHp/RhRbGs+RjBnV+YZ
+   HEoEZ4RfbnNSxazzjBAIk40lJC0vKbYd2/CE0i5T6TJusxbECkRmzZgTi
+   syjTOOmQyVdHiv/DqvXTBu8x+gjO+Edr/l/4JSuS/JFTzmV+hEC4stgvO
+   L8wN+HuIOgprWHx1O9abocO6GefwtIuX3GboWMwH4gqklcvTyO5sBqvbd
+   00ji7CGGLyBDt2mg3O9lN+08KkVCTSyiA43Nyz2V/vOcCepHMO/iDpIKB
+   w==;
+X-CSE-ConnectionGUID: jnw2PAp8TomvJR2196rU0w==
+X-CSE-MsgGUID: /o6wcDPySSag4wDNbQMPZg==
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:59:52 +0900
+X-CSE-ConnectionGUID: 3RyYrMSERUKfI0QHkYxSQQ==
+X-CSE-MsgGUID: 6ScaAiufTta8VQMfoRcw9g==
+X-IronPort-AV: E=Sophos;i="6.23,191,1770562800"; 
+   d="scan'208";a="603084691"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:59:53 +0900
+Date: Tue, 21 Apr 2026 23:59:51 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kay Sievers <kay.sievers@vrfy.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rahul Bukte <rahul.bukte@sony.com>,
+	Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] kernel: param: handle NULL module_kset in
+ lookup_or_create_module_kobject()
+Message-ID: <aeeQ5x1uMKT6cyxp@JPC00244420>
+References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
+ <20260421-acpi_mod_name-v2-1-e73f9310dad3@sony.com>
+ <2026042126-majesty-skyline-b76f@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB5674:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85b87724-6a5a-469a-3a8f-08de9fb62c86
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|10070799003|366016|921020|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	orwlKEzGLNpwUFSx1iOk6ddBcck9W+HB7LIjcjLuWtfGqqO5Q7MN9w8ErEBMiQFEzbQMNLz35LfgfaYZ0hD4A9YrxjdPSCOfBFe9QsTI9PQhGT91T2b49Z82HrMQiZmL4i6h15hl1wOFrZNMhUaxTRYV8tsjhfHJXa1jRi+boIVrdcHh4lUQvwgxB+laWqxUsO3ceSmDpYl7NnJZx2hEBa4azfuIVqhrTsCxWw2IVIHYCHW5hU6CQY1RRNtD17iF12NMCrtJkvThkiJzUodaSVZzfSW2kMntRfkqIerqgNrCXqO+/g95l9gQlj0p4aBeT+I7y64CGFWoWSRif5JEo/yiUmzFLEB1XNIGyb3xsa9R0KZktAj01IRpOxWGTcyCTFmP7bvjTSnf+SXRjJtivvt40cvqW0ystH6SfTGEmHirS9jPt1BTmwG+sLeGS0/JZcRHdZWuTmh6q4fpRyTQrrOzgj/kuX5VTvb16mt3yg88HdZ4fmVBYvVB0zW4jD1wMVhwhBgrPj8j26joS+O6vt6IkhRtwVp+yNG153fHV1pb2RSU9KFLQlRss4MdNIFiK5BDpfGrHTtbZrNgOetI8VjUX7hrzW6rEw8b2ifVrjUlMWM94TWeDyOGLQRWzU17uxX8Z8KkzIBBA9aOhymiEDIyYlIfefufa2ZiQl6qW3prPsx3jwhB4cFxLlueD675eZLhWGJPIajTNH1n4rlKgebKzV3UV/lAN1MSPHx/jQtYfVkfJIjf80+qS/gPM+nLySDmnS4vPTZHTfohhMr+8g==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016)(921020)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L2wzS2RSTTFsSEQrRkxmWVB5anJvL3I3Q0F4emg5a3JFZDl4Nnl4RVhSUnpW?=
- =?utf-8?B?bUg4S0d0YjJMMm9wM0NoZ1Q2ZnZ3L1ljZjNrVnBQWDVzR2NCK3ExYTZ5NmZO?=
- =?utf-8?B?NUlKMFpMVE1OOW5VblBKMGFLa09iV0c3OE9LdVluYUtFOWxtamtWdWhxcFM3?=
- =?utf-8?B?TDNmNzA0VG43bmxDelZjdk9CcUEwZU04eVFPa1I2V3NtWEVDbXJxSEpybFlr?=
- =?utf-8?B?dDEzenh4ZUZSeHpxQzZ0dFFrYnNtMzNNeFc0T3BGaWRDWWFGYlZyTlpsY0hq?=
- =?utf-8?B?bkxCeURVLzgyYTRmZHhjVFJpVnQwNDRGdUo1dzMwZDZVREhibjcrUTRnT1FS?=
- =?utf-8?B?Q1hMdmtXTVdGeGkzVFprekVRalR1eUsrWmdocWY1RXZnUjR3U3phYkZBL3B2?=
- =?utf-8?B?cVNRQ3htUUdTNy9mckFiV3NXWDlabDZzejdBZk1MTGVEdkxrWUdHWWcxT1k3?=
- =?utf-8?B?Sm9YN3lvYS9tS04wUlRqTjd3UkhyYkZtWVZqdnMrTGRRVmt0TmhpcVNiWXAz?=
- =?utf-8?B?Vk95NlNFK0Y5NDlLVUFrVlE3MXZlWjdSc1FYZ0t3cVBJUEpjZ2N6YzdUT09M?=
- =?utf-8?B?WW5vNTNSTlg3MnBOWWtIZGlNY043cVpxSndGK0pQMGdSTytxNjU4U0YxcDBJ?=
- =?utf-8?B?VGQ5RDNtelU3WlM2OUhLU0QxSUJGaVo3SklvNk14bkVjNUVKNjZKaU84ZzdD?=
- =?utf-8?B?eHV4NzAyR3RrcS8weERya2ExdGxGY21rSE14VUwzYWgrVFpLU2J3cEkxcHRw?=
- =?utf-8?B?R1p1eXd0ZmduL2FGSjRBWWtzWkhTTHlZNi84MFhXQ1JDTXZrNHQ2M3RoL0I2?=
- =?utf-8?B?REZZeGFla0IzbERhQjlqS0QzUlJiUkk0ekhNY2ZIVUdJMXByZ0tTcmFFUkE1?=
- =?utf-8?B?Y3dwOUVnRWVrSG1CRWdMcHhxTWNFM0hBbjliY0NieTJwYjU4MjdyakhzR1RV?=
- =?utf-8?B?dzhqYTcrNktwWVh6YzdHRktKRVlXVWhGM0ZEVWZhOXJkM1VMM0NRcTBTNTRw?=
- =?utf-8?B?elRNN21xTTlLbDNSaHhvdTBiZENrNWpybXdPbENhZzFmY1ZteUlDOXhabjc4?=
- =?utf-8?B?dnZzbW5Bd1RrV2M0SldGS2NjRGdWb3lyYUFEdUNycTN3MUtvZ1A5b3V0MjRa?=
- =?utf-8?B?Uk5wMG9hVDVEWTl3VFhML1dXWXhoZmtWYmkxTWsrUlR0Nyt1R0Q2N0RvTEh6?=
- =?utf-8?B?c1dHaUlBaXplai9vMGZlVGxKcFNEZzBVbXVCMmlFRUZtU3JsQk13dUJxK2w0?=
- =?utf-8?B?NnRBU2NUeTlGM2JLVWxpQlpWbUVxZTIvT1d3K2U4M1dUZjd6bVNlR25BNmxr?=
- =?utf-8?B?bmdhRnNMcGJyQWpZcjVMMkdNUnRtTEF2VFpnNDFyM2lpTjE5Z3VhajRaVUdT?=
- =?utf-8?B?dTAzWjR2cW56WkpIUHYzNmM1ZnV1blBvdDJkTUljU1lzeU5hSkhVajZGdThx?=
- =?utf-8?B?TVYxQXF4M3RyNElWMzF6MGFsMUJSTVo1QmxUWjNCNGRjUjFhNlRGL0JCam5P?=
- =?utf-8?B?THhOVHhZQXRzU080Q3hweFhkeE0zSFgvejNQQ3JWUDc3TjhOU09VcTVXdHk2?=
- =?utf-8?B?andGSGFpODYrblFjZWQvYTRTWDk0ZjYrcWgrNXVaRis5RzhQS0xJSUdrUkEw?=
- =?utf-8?B?NVl0VytHRWxnWXBrNzE4Y1Q4MGNJSGRGYVlmOHFvWDBXMUlIUnl6ZDFMSkhu?=
- =?utf-8?B?WnFETk5wUGJHNkRSRzJHVFJZRHlQRHVDNTRqekFLNWpFeHg5RUNHVk1meXFT?=
- =?utf-8?B?bFNzMk1Eb1VvU0RNVm8rUXJ1ZSt3d1FCK281ekRCZ0FqOXhoK1hxTTN4dXNs?=
- =?utf-8?B?NHR2aDFSbDJLekx5NG1PMXFoU1B0NDB1dEJjakNNK25yaFdsRUtGN2gwdERT?=
- =?utf-8?B?ZDlIV09Sa2M5R1YzZXA5enNsZTEvS1IrdzBJQlpKY2FEcjFKVXA5NkxpOVpv?=
- =?utf-8?B?LzRQUTY1MHd1akFnUTBrT3l1QlRibG5jLzlQd2FDR2RnUDlReiszd3ovZmEw?=
- =?utf-8?B?YXgzODZMZTNNWjhDRnIxellsMTZFcmZ5VmdZOEFSazVkbGRpMjJEekdvbUQ3?=
- =?utf-8?B?K0tZeUZJM1Qvdmk0VDEyRUlqQW54NTV1Q2FSUEtPK2hhdXVJaEorYWs5a1VF?=
- =?utf-8?B?emVIT2hkbGpiTU95VllManlLNWQyMklvSVR3UkpxQ0VYcG1iRnpsd3hLZWZk?=
- =?utf-8?B?MGhiUWd3eVUybUtRVlBETkhCVGw5VHB6WExXNHlja3dGUkN4T1lVT2JBam9k?=
- =?utf-8?B?SWZHT1dncW1FVjhsR2dmVldMNjd5WSs0UFovZEQraEhsa2NRVElDQW1wVW1Y?=
- =?utf-8?B?VEF1cVdKMGJqSHFEUGNqdXZhUXd1ejZEaDNYUWxOeDBxQ211Y1pyQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85b87724-6a5a-469a-3a8f-08de9fb62c86
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 14:56:31.3720
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3LV5lvyij58RXqf6uE0dooijMGQBJkU4DWKi7/H4dSu/JMv9ySwnImpIZCXowG/b9jW5oLzyb5xOpT7WvmVjJg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5674
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026042126-majesty-skyline-b76f@gregkh>
 
-One feature that was lost from the old `dma_read!()` and `dma_write!()`
-when moving to `io_read!()` and `io_write!()` was the ability to read/write
-a large structs. However, the semantics was unclear to begin with, as there
-was no guarantee about their atomicity even for structs that were small
-enough to fit in u32. Re-introduces the capability in the form of copying
-methods.
+Hi Greg,
 
-    dma_read!(foo, bar) -> io_project!(foo, bar).copy_read()
-    dma_write!(foo, bar, baz) -> io_project!(foo, bar).copy_write(baz)
+Thanks for the quick feedback!
 
-The semantics for these are modelled after memcpy so user has clear
-expectation of lack of atomicity. As an additional benefit of this change,
-this now works for MMIO as well, which maps to `memcpy_{from,to}io`.
+On Tue, Apr 21, 2026 at 08:27:10AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Apr 21, 2026 at 03:02:34PM +0900, Shashank Balaji wrote:
+> > module_kset is initialized in a subsys_initcall. If a built-in driver tries to
+> > register before subsys_initcall with its struct device_driver's mod_name set,
+> > then a null module_kset is dereferenced via this call trace:
+> > 
+> >      [    0.095865] Call trace:
+> >      [    0.095999]  _raw_spin_lock+0x4c/0x6c (P)
+> >      [    0.096150]  kset_find_obj+0x24/0x104
+> >      [    0.096209]  lookup_or_create_module_kobject+0x2c/0xd8
+> >      [    0.096274]  module_add_driver+0xd4/0x138
+> >      [    0.096328]  bus_add_driver+0x16c/0x268
+> >      [    0.096380]  driver_register+0x68/0x100
+> >      [    0.096428]  __platform_driver_register+0x24/0x30
+> >      [    0.096486]  tegra194_cbb_init+0x24/0x30
+> >      [    0.096540]  do_one_initcall+0xdc/0x250
+> >      [    0.096608]  do_initcall_level+0x9c/0xd0
+> >      [    0.096660]  do_initcalls+0x54/0x94
+> >      [    0.096706]  do_basic_setup+0x20/0x2c
+> >      [    0.096753]  kernel_init_freeable+0xc8/0x154
+> >      [    0.096807]  kernel_init+0x20/0x1a0
+> >      [    0.096851]  ret_from_fork+0x10/0x20
+> > 
+> > So, return null in lookup_or_create_module_kobject() if module_kset is null.
+> > Existing callers handle null already.
+> > 
+> > Fixes: f30c53a873d0 ("MODULES: add the module name for built in kernel drivers")
+> 
+> This isn't a bugfix.
 
-For slices, which is unsized so the API above can't work, `copy_from_slice`
-and `copy_to_slice` were added to copy from/to normal memory, and
-`copy_from_io_slice` and `copy_to_io_slice` were added to copy from/to
-other `Io` regions. They're optimized if at least one end is mapped to
-system memory; if none are, the copy occurs with an intermediate stack
-buffer.
+I'll drop it in the next version.
 
-Signed-off-by: Gary Guo <gary@garyguo.net>
----
- rust/kernel/dma.rs |   8 +-
- rust/kernel/io.rs  | 231 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 238 insertions(+), 1 deletion(-)
+> > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> > ---
+> > This bug is triggered by the next patch on arm64 defconfig: tegra194-cbb tries
+> > to register from a pure_initcall, and with the next patch adding mod_name, this
+> > null deref is hit.
+> 
+> So this isn't a bug, it's a "don't do that" type of thing :)
+> 
+> > ---
+> >  kernel/params.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/kernel/params.c b/kernel/params.c
+> > index 74d620bc2521..881c7328c059 100644
+> > --- a/kernel/params.c
+> > +++ b/kernel/params.c
+> > @@ -752,6 +752,9 @@ lookup_or_create_module_kobject(const char *name)
+> >  	struct kobject *kobj;
+> >  	int err;
+> >  
+> > +	if (!module_kset)
+> > +		return NULL;
+> 
+> Are you sure that making this change is going to be ok?
+> mod_sysfs_init() should have been called first as the module has to be
+> created before it can be looked up.
+> 
+> As you are wanting "built in" drivers to show up here, you are going to
+> beat the call to param_sysfs_init(), so don't do that.  Make sure that
+> the drivers are NOT called before then.
 
-diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index bbdeb117c145..307f5769ca0a 100644
---- a/rust/kernel/dma.rs
-+++ b/rust/kernel/dma.rs
-@@ -16,7 +16,8 @@
-     fs::file,
-     io::{
-         Io,
--        IoCapable, //
-+        IoCapable,
-+        IoCopyable, //
-     },
-     prelude::*,
-     ptr::KnownSize,
-@@ -997,6 +998,11 @@ unsafe fn io_write(&self, value: $ty, address: *mut $ty) {
-     u64
- );
- 
-+// SAFETY: `Coherent` is mapped to CPU address space.
-+unsafe impl<T: ?Sized + KnownSize> IoCopyable for Coherent<T> {
-+    const IS_MAPPED: bool = true;
-+}
-+
- impl<'a, B: ?Sized + KnownSize, T: ?Sized> crate::io::View<'a, Coherent<B>, T> {
-     /// Returns a DMA handle which may be given to the device as the DMA address base of
-     /// the region.
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index efcd7e6741d7..0b1ed68c0f9b 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -4,6 +4,8 @@
- //!
- //! C header: [`include/asm-generic/io.h`](srctree/include/asm-generic/io.h)
- 
-+use core::mem::MaybeUninit;
-+
- use crate::{
-     bindings,
-     prelude::*,
-@@ -233,6 +235,55 @@ pub trait IoCapable<T> {
-     unsafe fn io_write(&self, value: T, address: *mut T);
- }
- 
-+/// Trait indicating that an I/O backend supports memory copy operations.
-+///
-+/// # Safety
-+///
-+/// If [`IS_MAPPED`] is overridden to true, it must be correct per documentation.
-+pub unsafe trait IoCopyable {
-+    /// Whether the pointers for this I/O backend are in the CPU address space, and are coherently
-+    /// mapped.
-+    ///
-+    /// When this is true, it means that memory can be accessed with byte-wise atomic memory copy.
-+    const IS_MAPPED: bool = false;
-+
-+    /// Copy `size` bytes from `address` to `buffer`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// - The range `[address..address + size]` must be within the bounds of `Self`.
-+    /// - `buffer` is valid for write for `size` bytes.
-+    #[inline]
-+    unsafe fn copy_from_io(&self, address: *mut u8, buffer: *mut u8, size: usize) {
-+        const_assert!(Self::IS_MAPPED);
-+
-+        // Use `bindings::memcpy` instead of copy_nonoverlapping for volatile.
-+        // SAFETY:
-+        // - `buffer` is valid for write for `size` bytes.
-+        // - `IS_MAPPED` guarantees `address` is in CPU address space, with safety requirements
-+        //   `address` is valid for read for `size` bytes.
-+        unsafe { bindings::memcpy(buffer.cast(), address.cast(), size) };
-+    }
-+
-+    /// Copy `size` bytes from `buffer` to `address`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// - The range `[address..address + size]` must be within the bounds of `Self`.
-+    /// - `buffer` is valid for read for `size` bytes.
-+    #[inline]
-+    unsafe fn copy_to_io(&self, address: *mut u8, buffer: *const u8, size: usize) {
-+        const_assert!(Self::IS_MAPPED);
-+
-+        // Use `bindings::memcpy` instead of copy_nonoverlapping for volatile.
-+        // SAFETY:
-+        // - `IS_MAPPED` guarantees `address` is in CPU address space, with safety requirements
-+        //   `address` is valid for write for `size` bytes.
-+        // - `buffer` is valid for read for `size` bytes.
-+        unsafe { bindings::memcpy(address.cast(), buffer.cast(), size) };
-+    }
-+}
-+
- /// Describes a given I/O location: its offset, width, and type to convert the raw value from and
- /// into.
- ///
-@@ -841,6 +892,19 @@ unsafe fn io_write(&self, value: $ty, address: *mut $ty) {
-     writeq
- );
- 
-+// SAFETY: `IS_MAPPED` is not overridden.
-+unsafe impl<T: ?Sized + KnownSize> IoCopyable for Mmio<T> {
-+    unsafe fn copy_from_io(&self, address: *mut u8, buffer: *mut u8, size: usize) {
-+        // SAFETY: Per safety requirement.
-+        unsafe { bindings::memcpy_fromio(buffer.cast(), address.cast(), size) };
-+    }
-+
-+    unsafe fn copy_to_io(&self, address: *mut u8, buffer: *const u8, size: usize) {
-+        // SAFETY: Per safety requirement.
-+        unsafe { bindings::memcpy_toio(address.cast(), buffer.cast(), size) };
-+    }
-+}
-+
- impl<T: ?Sized + KnownSize> Io for Mmio<T> {
-     type Type = T;
- 
-@@ -1029,6 +1093,173 @@ pub fn write_val(&self, value: T) {
-     }
- }
- 
-+impl<'a, IO: ?Sized, T> View<'a, IO, [T]> {
-+    /// Returns the length of the slice in number of elements.
-+    #[inline]
-+    pub fn len(self) -> usize {
-+        self.as_ptr().len()
-+    }
-+
-+    /// Returns `true` if the slice has a length of 0.
-+    #[inline]
-+    pub fn is_empty(self) -> bool {
-+        self.len() == 0
-+    }
-+}
-+
-+impl<T, IO: ?Sized + Io + IoCopyable> View<'_, IO, T> {
-+    /// Copy-read from I/O memory.
-+    ///
-+    /// There is no atomicity gurantee.
-+    #[inline]
-+    pub fn copy_read(self) -> T
-+    where
-+        T: FromBytes,
-+    {
-+        // Optimized path if I/O backend is CPU mapped.
-+        if IO::IS_MAPPED {
-+            // SAFETY:
-+            // - `IS_MAPPED` guarantees `self.ptr` is in CPU address space, with type invariants
-+            //   `self.ptr` is valid for read for `size` bytes.
-+            // - `T: FromBytes` guarantee that all bit patterns are valid.
-+            // - Using read_volatile() here so that race with hardware is well-defined.
-+            // - Using read_volatile() here is not sound if it races with other CPU per Rust
-+            //   rules, but this is allowed per LKMM.
-+            return unsafe { self.ptr.read_volatile() };
-+        }
-+
-+        let mut buf = MaybeUninit::<T>::uninit();
-+        // SAFETY:
-+        // - Per type invariants.
-+        // - `buf.as_mut_ptr()` is valid for write for `size_of::<T>()` bytes.
-+        unsafe {
-+            self.io
-+                .copy_from_io(self.ptr.cast(), buf.as_mut_ptr().cast(), size_of::<T>())
-+        };
-+        // SAFETY: T: FromBytes` guarantee that all bit patterns are valid.
-+        unsafe { buf.assume_init() }
-+    }
-+
-+    /// Write to I/O memory.
-+    ///
-+    /// There is no atomicity gurantee.
-+    #[inline]
-+    pub fn copy_write(self, value: T)
-+    where
-+        T: AsBytes,
-+    {
-+        // Optimized path if I/O backend is CPU mapped.
-+        if IO::IS_MAPPED {
-+            // SAFETY:
-+            // - `IS_MAPPED` guarantees `self.ptr` is in CPU address space, with safety requirements
-+            //   `self.ptr` is valid for write for `size` bytes.
-+            // - Using write_volatile() here so that race with hardware is well-defined.
-+            // - Using write_volatile() here is not sound if it races with other CPU per Rust
-+            //   rules, but this is allowed per LKMM.
-+            unsafe { self.ptr.write_volatile(value) };
-+            return;
-+        }
-+
-+        // SAFETY:
-+        // - Per type invariants.
-+        // - `&raw const value` is valid for read for `size_of::<T>()` bytes.
-+        unsafe {
-+            self.io
-+                .copy_to_io(self.ptr.cast(), (&raw const value).cast(), size_of::<T>())
-+        };
-+        core::mem::forget(value);
-+    }
-+}
-+
-+impl<IO: ?Sized + Io + IoCopyable> View<'_, IO, [u8]> {
-+    /// Copy bytes from slice to I/O memory.
-+    #[inline]
-+    pub fn copy_from_slice(self, data: &[u8]) {
-+        assert_eq!(self.len(), data.len());
-+
-+        // SAFETY:
-+        // - Per type invariants.
-+        // - `data.as_ptr()` is valid for read for `data.len()` bytes.
-+        unsafe {
-+            self.io
-+                .copy_to_io(self.ptr.cast(), data.as_ptr(), data.len())
-+        }
-+    }
-+
-+    /// Copy bytes from I/O memory to slice.
-+    #[inline]
-+    pub fn copy_to_slice(self, data: &mut [u8]) {
-+        assert_eq!(self.len(), data.len());
-+
-+        // SAFETY:
-+        // - Per type invariants.
-+        // - `data.as_mut_ptr()` is valid for write for `data.len()` bytes.
-+        unsafe {
-+            self.io
-+                .copy_from_io(self.ptr.cast(), data.as_mut_ptr(), data.len())
-+        }
-+    }
-+
-+    fn copy_from_io_slice_via_buffer<T: ?Sized + Io + IoCopyable>(&self, data: View<'_, T, [u8]>) {
-+        let mut buf = MaybeUninit::<[u8; 256]>::uninit();
-+
-+        let mut dst_ptr = self.ptr.cast::<u8>();
-+        let mut src_ptr = data.ptr.cast::<u8>();
-+        let mut len = self.len();
-+
-+        while len != 0 {
-+            let copy_len = core::cmp::min(len, 256);
-+            // SAFETY:
-+            // - `src_ptr` is valid for I/O read of `copy_len` bytes per type invariants of `data`.
-+            // - `buf.as_mut_ptr()` is valid for write for `copy_len` bytes as `copy_len <= 256`.
-+            unsafe {
-+                data.io
-+                    .copy_from_io(src_ptr, buf.as_mut_ptr().cast(), copy_len)
-+            };
-+
-+            // SAFETY:
-+            // - `dst_ptr` is valid for I/O write of `copy_len` bytes per type invariants of `self`.
-+            // - `buf.as_mut_ptr()` is valid for write for `copy_len` bytes as `copy_len <= 256`.
-+            unsafe { self.io.copy_to_io(dst_ptr, buf.as_ptr().cast(), copy_len) };
-+
-+            dst_ptr = dst_ptr.wrapping_add(copy_len);
-+            src_ptr = src_ptr.wrapping_add(copy_len);
-+            len -= copy_len;
-+        }
-+    }
-+
-+    /// Copy bytes from `data` I/O slice to the `self` I/O slice.
-+    pub fn copy_from_io_slice<T: ?Sized + Io + IoCopyable>(&self, data: View<'_, T, [u8]>) {
-+        assert_eq!(self.len(), data.len());
-+
-+        if T::IS_MAPPED {
-+            // SAFETY:
-+            // - Per type invariants.
-+            // - `data.as_ptr()` is valid for read for `data.len()` bytes.
-+            unsafe {
-+                self.io
-+                    .copy_to_io(self.ptr.cast(), data.as_ptr().cast(), data.len())
-+            }
-+        } else if IO::IS_MAPPED {
-+            // SAFETY:
-+            // - Per type invariants.
-+            // - `self.as_ptr()` is valid for write for `self.len()` bytes.
-+            unsafe {
-+                data.io
-+                    .copy_from_io(data.ptr.cast(), self.as_ptr().cast(), self.len())
-+            }
-+        } else {
-+            self.copy_from_io_slice_via_buffer(data)
-+        }
-+    }
-+
-+    /// Copy bytes from `self` I/O slice to the `data` I/O slice.
-+    #[inline]
-+    pub fn copy_to_io_slice<T: ?Sized + Io + IoCopyable>(self, data: View<'_, T, [u8]>) {
-+        data.copy_from_io_slice(self)
-+    }
-+}
-+
- /// Project an I/O type to a subview of it.
- ///
- /// The syntax is of form `io_project!(io, proj)` where `io` is an expression to a type that
+The reason lookup_or_create_module_kobject() can be reached with module_kset == NULL
+is that some platform drivers register before subsys_initcall: tegra194_cbb and
+tegra234_cbb at pure_initcall, plus roughly 375 others at core_initcall/arch_initcall
+(208 arch, 154 core, plus 2 pure and 13 _sync variants). These are dominated by
+pinctrl, clk, interconnect, gpio, and mailbox drivers across six SoC vendor trees
+(Qualcomm, MediaTek, Freescale, Samsung, Tegra, HiSilicon).
 
--- 
-2.51.2
+Given that, three ways forward:
 
+  1. Move module_kset creation out of param_sysfs_init() (currently
+     subsys_initcall) and call it directly from do_basic_setup()
+     before do_initcalls(). This is the cleanest fix from a
+     correctness angle: every initcall level sees a live
+     module_kset. But it touches init/main.c and kernel/params.c,
+     crosses two subsystem trees. I haven't fully audited
+     dependencies at do_basic_setup() time.
+
+  2. Demote the ~377 early-initcall platform drivers to
+     subsys_initcall or later. Impractical at scale given coordination
+     across six vendor trees, and many of these levels seem to be
+     architecturally required.
+
+  3. (This patch) Guard lookup_or_create_module_kobject() against
+     NULL module_kset. Drivers registered before subsys_initcall
+     don't get the /sys/.../module symlink, but they don't get it
+     today either (drv->mod_name is NULL pre-patch, so the
+     else-if (drv->mod_name) branch in module_add_driver() isn't
+     taken). Verified on arm64: /sys/module/tegra194_cbb/ does not
+     exist on a booted defconfig with or without my series. The
+     guard preserves that exact state while letting the
+     device_initcall majority get their symlinks as designed.
+
+I went with option 3 because it preserves observable behaviour
+everywhere and keeps the series scoped to driver-core. If you'd
+rather I do option 1 instead, I'm happy to.
+
+Thanks,
+Shashank
