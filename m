@@ -1,149 +1,330 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A0D3D7D7E
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 15:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457782BDC0B
+	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 17:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776785379; cv=none; b=AbNy0+ciNASXypcXbN9bXyyDT8XyGYtlH0rsb9gP511d89HXJjnEoxmQ5MIrKXs4VQXlLXfXgCQiFzNn9+9XPP3YPY1tYKmL904Qd4sGc7sYg+QhD0bx/5D9Z9s1J4Uepi+6fgEiUlkatIXHTyLfKmVfe2OJrCWLisKlSVvz6GU=
+	t=1776792710; cv=none; b=Y0DOZxHhBmKjsbH0rGu29YPKU5bN+FmvyL328bR30Jg7SEBtaSpKD8NRUiJcPzcZ5jwDbuIQaJDKDxCj/+2sT1+1DJ5hRa4hUAZZwtWUIzWn5x+TW3n0lubP/U059fE7IsZj6k0CrnGhG5RFLsncN5d+1YGRNffH0vde+mrYqpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776785379; c=relaxed/simple;
-	bh=cCow88+KpwoaT+jjVfBphsGIAeg+It2AfwBtddoaiKc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lyHKe5O/wS2Ad7lU/BaaP8TZmHRzhc5Ba21syAyzJZIT8qZUOqCstypX4qZDP00sYz5NE5XjXCGHqWTnZfetZa78Xb3aqvWVK/itdM6L26b0XI0lWV+10HORX72yNMG/rRkFgWNitLeLtXFmprcgnBne5X5aZFSpC1pN1U5nmxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJ7H723R; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776792710; c=relaxed/simple;
+	bh=Up5R66uNJccLdF+pYE2C2qZs8VYdophbwQPeQ7JrUkA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=rAKOqFBFrPc7tjhVWFYHBL4+EElNHmRyPoOWp8p+i2K90YXyB5EHawff9zYVCHDuw83unDa/vZ4GUOul9HluEmQfPuq6iD/cNSIGsTyA+2WhLwg3HzbWBxhyDKbYWPWFVcfmF2/JeJR/fUKhhD7K++PjYPWogAEO2/MRprgpvaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a6R4/7XK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJ7H723R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776785377; x=1808321377;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=cCow88+KpwoaT+jjVfBphsGIAeg+It2AfwBtddoaiKc=;
-  b=hJ7H723RZwuwPk4eMds0fgmh7Vg7m0Kzi1J5GfLEKfLQb08yiFh9chn3
-   fsJn+geDSDpa01r/a/czRnMov8que7WLgJdp88iWyd8qjtmAEOuLlh/Ma
-   2zc57VmF+57doCdHsy8mCF3XM7UmPdOwnUthX+COtVXiQwTtUFCt+X3VP
-   N8l9Ttjb1CXsP/em/ItNKbn/R2TrFH3zkesaPyAKrt79Bgn0ypy9SB8Jp
-   2u5H6EhvFVMdROie17vViGToMsaSmf8JtnzSykUjW38pG4vN/+6OBRtnC
-   3cFKe/tTAqMbCbei2A489L2WCHaFzYAxDKLnTf2pXBxMaw7jkiW7pszPQ
-   Q==;
-X-CSE-ConnectionGUID: APG2AdMIRXmS5CPj4Q28bQ==
-X-CSE-MsgGUID: 1TgR++6nQx2AA2sDBDPVmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="65255666"
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="65255666"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:29:36 -0700
-X-CSE-ConnectionGUID: 5d4Jbz1RTgulzaJLRRff6Q==
-X-CSE-MsgGUID: VFFvl/qRQ9i0y3gPsUufww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="233848885"
-Received: from dwoodwor-mobl2.amr.corp.intel.com (HELO [10.125.111.122]) ([10.125.111.122])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:29:35 -0700
-Message-ID: <92f138f9-b041-461d-b159-ff1bc265bbee@intel.com>
-Date: Tue, 21 Apr 2026 08:29:33 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a6R4/7XK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776792708;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=knAb5qavuH774ilkAdIoKt+5CocY+t8/ED+zsIsUsjs=;
+	b=a6R4/7XKJDOodeJ2UQ1jB3Ajtdh9lBJVlP5eX08WkL1FTrbeRE3ppMJEkztq4k0/lBMjcC
+	GXab0q6I8XMoOY6ncbQpXw3GNy6v8a1EF374FGZv9lbkx2LgYD2EuLOeSYvlWOl5dl0+SS
+	6ZEiTxB3IZknPIxqkuACswWdzAMUC+8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-652-dx62h7yTNNygahVmL7k_ww-1; Tue,
+ 21 Apr 2026 13:31:45 -0400
+X-MC-Unique: dx62h7yTNNygahVmL7k_ww-1
+X-Mimecast-MFC-AGG-ID: dx62h7yTNNygahVmL7k_ww_1776792703
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E33AC1956088;
+	Tue, 21 Apr 2026 17:31:42 +0000 (UTC)
+Received: from fedora-work.redhat.com (unknown [10.22.64.242])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2D5591956095;
+	Tue, 21 Apr 2026 17:31:37 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
+	Jordan Richards <jordanrichards@google.com>,
+	Ewan Milne <emilne@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH 3/5] driver core: async device shutdown infrastructure
+Date: Tue, 21 Apr 2026 13:31:32 -0400
+Message-ID: <20260421173133.7963-1-djeffery@redhat.com>
+In-Reply-To: <e9c34e71-e5bf-40f3-9997-ee08c6204431@oracle.com>
+References: <e9c34e71-e5bf-40f3-9997-ee08c6204431@oracle.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
- injection/clear
-To: Li Ming <ming.li@zohomail.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-cxl@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Ben Cheatham <benjamin.cheatham@amd.com>, Dan Williams <djbw@kernel.org>
-References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
- <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
- <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
- <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
- <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
- <69da9fa696d0f_6c31a100e8@djbw-dev.notmuch>
- <778c8dc5-b65e-4b1f-be13-8bfb960cefc3@zohomail.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <778c8dc5-b65e-4b1f-be13-8bfb960cefc3@zohomail.com>
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-MFC-PROC-ID: HNDn3myIxX1mxQlIGDHiyMN6mDvr7MPTectLJQYuzeE_1776792703
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
+
+Patterned after async suspend, allow devices to mark themselves as wanting
+to perform async shutdown. Devices using async shutdown wait only for their
+dependencies to shutdown before executing their shutdown routine.
+
+Sync shutdown devices are shut down one at a time and will only wait for an
+async shutdown device if the async device is a dependency.
+
+Signed-off-by: David Jeffery <djeffery@redhat.com>
+Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+Tested-by: Laurence Oberman <loberman@redhat.com>
+---
+
+Updated to resolve conflicts with latest Linus tree
 
 
+ drivers/base/base.h    |   2 +
+ drivers/base/core.c    | 101 ++++++++++++++++++++++++++++++++++++++++-
+ include/linux/device.h |  14 +++++-
+ 3 files changed, 115 insertions(+), 2 deletions(-)
 
-On 4/21/26 3:48 AM, Li Ming wrote:
-> 
-> 在 2026/4/12 03:23, Dan Williams 写道:
->> Dave Jiang wrote:
->>>
->>> On 3/18/26 4:59 AM, Li Ming wrote:
->>>> 在 2026/3/17 23:00, Dave Jiang 写道:
->>>>> On 3/14/26 12:06 AM, Li Ming wrote:
->>>>>> CXL memdev poison injection/clearing debugfs interfaces are visible
->>>>>> before the CXL memdev endpoint initialization, If user accesses the
->>>>>> interfaces before cxlmd->endpoint updated, it is possible to access an
->>>>>> invalid endpoint in cxl_dpa_to_region().
->>>>>>
->>>>>> Hold CXL memdev lock at the beginning of the interfaces, this blocks the
->>>>>> interfaces until CXL memdev probing completed.
->>>>>>
->>>>>> The following patch will check the given endpoint validity in
->>>>>> cxl_dpa_to_region().
->>>>>>
->>>>>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
->>>>>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
->>>>>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
->>>>>> Signed-off-by: Li Ming <ming.li@zohomail.com>
->>>>> Hi Ming, I dropped this patch with Dan's comments [1] and updated cxl/next. Please check and make sure everything looks ok to you. Thanks!
->>>>>
->>>>> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwillia2-mobl4.notmuch/
->>>> Hi Dave,
->>>>
->>>> I think there is no change needed in this patch, just need a independent patch for holding memdev lock in cxl_region_debugfs_poison_inject/clear.
->>>>
->>>> Or you want to review this patch again?
->>> No. Maybe I misunderstood the comment from Dan. So we should keep this patch?
->> tl;dr: yes, this patch is *now* valid.
->>
->> As originally structured having patch2 before patch3 added no value.
->> Going forward I would say do not structure a series such that a new lock
->> taken in patch N starts being useful in patch N+1.
->>
->> I assume that is what:
->>
->> "The following patch will check the given endpoint validity in
->> cxl_dpa_to_region()."
->>
->> ...is trying to say, but when commits are applied to the tree it is
->> difficult to see that this commit was from a series.
->>
->> So do pick this one up, but the changelog needs adjusting. Something
->> like:
->>
->> "cxl_dpa_to_region() assumes that it is running a context where it is not
->> racing changes to "cxlmd->dev.driver". Acquire the memdev device lock in
->> the debugfs entry points to preclude debugfs usage racing cxl_mem driver
->> detach."
->>
->> With that you can add:
->>
->> Reviewed-by: Dan Williams <djbw@kernel.org>
-> 
-> Hi Dave,
-> 
-> Will you pick this patch with changes from Dan's comment? Or I need to send out a new version?
-
-I believe it's merged into linus/master already. Can you check and see if everything looks correct?
-
-> 
-> 
-> Ming
-> 
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 30b416588617..8b155a91ac3a 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -116,6 +116,7 @@ struct driver_type {
+  * @device: pointer back to the struct device that this structure is
+  *	    associated with.
+  * @driver_type: The type of the bound Rust driver.
++ * @complete: completion for device shutdown ordering
+  * @dead: This device is currently either in the process of or has been
+  *	  removed from the system. Any asynchronous events scheduled for this
+  *	  device should exit without taking any action.
+@@ -135,6 +136,7 @@ struct device_private {
+ #ifdef CONFIG_RUST
+ 	struct driver_type driver_type;
+ #endif
++	struct completion complete;
+ 	u8 dead:1;
+ };
+ #define to_device_private_parent(obj)	\
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 00979555995f..92f788fd813d 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/acpi.h>
++#include <linux/async.h>
+ #include <linux/blkdev.h>
+ #include <linux/cleanup.h>
+ #include <linux/cpufreq.h>
+@@ -37,6 +38,10 @@
+ #include "physical_location.h"
+ #include "power/power.h"
+ 
++static bool async_shutdown = true;
++module_param(async_shutdown, bool, 0644);
++MODULE_PARM_DESC(async_shutdown, "Enable asynchronous device shutdown support");
++
+ /* Device links support. */
+ static LIST_HEAD(deferred_sync);
+ static unsigned int defer_sync_state_count = 1;
+@@ -3540,6 +3545,7 @@ static int device_private_init(struct device *dev)
+ 	klist_init(&dev->p->klist_children, klist_children_get,
+ 		   klist_children_put);
+ 	INIT_LIST_HEAD(&dev->p->deferred_probe);
++	init_completion(&dev->p->complete);
+ 	return 0;
+ }
+ 
+@@ -4799,6 +4805,37 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+ 	return error;
+ }
+ 
++static bool wants_async_shutdown(struct device *dev)
++{
++	return async_shutdown && dev->async_shutdown;
++}
++
++static int wait_for_device_shutdown(struct device *dev, void *data)
++{
++	bool async = *(bool *)data;
++
++	if (async || wants_async_shutdown(dev))
++		wait_for_completion(&dev->p->complete);
++
++	return 0;
++}
++
++static void wait_for_shutdown_dependencies(struct device *dev, bool async)
++{
++	struct device_link *link;
++	int idx;
++
++	device_for_each_child(dev, &async, wait_for_device_shutdown);
++
++	idx = device_links_read_lock();
++
++	dev_for_each_link_to_consumer(link, dev)
++		if (!device_link_flag_is_sync_state_only(link->flags))
++			wait_for_device_shutdown(link->consumer, &async);
++
++	device_links_read_unlock(idx);
++}
++
+ static void __shutdown_one_device(struct device *dev)
+ {
+ 	device_lock(dev);
+@@ -4822,6 +4859,8 @@ static void __shutdown_one_device(struct device *dev)
+ 		dev->driver->shutdown(dev);
+ 	}
+ 
++	complete_all(&dev->p->complete);
++
+ 	device_unlock(dev);
+ }
+ 
+@@ -4843,6 +4882,55 @@ static void shutdown_one_device(struct device *dev)
+ 	put_device(dev);
+ }
+ 
++static void async_shutdown_handler(void *data, async_cookie_t cookie)
++{
++	struct device *dev = data;
++
++	wait_for_shutdown_dependencies(dev, true);
++	shutdown_one_device(dev);
++}
++
++static bool shutdown_device_async(struct device *dev)
++{
++	if (async_schedule_dev_nocall(async_shutdown_handler, dev))
++		return true;
++	return false;
++}
++
++
++static void early_async_shutdown_devices(void)
++{
++	struct device *dev, *next, *needs_put = NULL;
++
++	if (!async_shutdown)
++		return;
++
++	spin_lock(&devices_kset->list_lock);
++
++	list_for_each_entry_safe_reverse(dev, next, &devices_kset->list,
++					 kobj.entry) {
++		if (wants_async_shutdown(dev)) {
++			get_device(dev);
++
++			if (shutdown_device_async(dev)) {
++				list_del_init(&dev->kobj.entry);
++			} else {
++				/*
++				 * async failed, clean up extra references
++				 * and run from the standard shutdown loop
++				 */
++				needs_put = dev;
++				break;
++			}
++		}
++	}
++
++	spin_unlock(&devices_kset->list_lock);
++
++	if (needs_put)
++		put_device(needs_put);
++}
++
+ /**
+  * device_shutdown - call ->shutdown() on each device to shutdown.
+  */
+@@ -4855,6 +4943,12 @@ void device_shutdown(void)
+ 
+ 	cpufreq_suspend();
+ 
++	/*
++	 * Start async device threads where possible to maximize potential
++	 * parallelism and minimize false dependency on unrelated sync devices
++	 */
++	early_async_shutdown_devices();
++
+ 	spin_lock(&devices_kset->list_lock);
+ 	/*
+ 	 * Walk the devices list backward, shutting down each in turn.
+@@ -4873,11 +4967,16 @@ void device_shutdown(void)
+ 		list_del_init(&dev->kobj.entry);
+ 		spin_unlock(&devices_kset->list_lock);
+ 
+-		shutdown_one_device(dev);
++		if (!wants_async_shutdown(dev) || !shutdown_device_async(dev)) {
++			wait_for_shutdown_dependencies(dev, false);
++			shutdown_one_device(dev);
++		}
+ 
+ 		spin_lock(&devices_kset->list_lock);
+ 	}
+ 	spin_unlock(&devices_kset->list_lock);
++
++	async_synchronize_full();
+ }
+ 
+ /*
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 9c8fde6a3d86..424a229d69df 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -615,6 +615,8 @@ enum struct_device_flags {
+  * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
+  * @dma_iommu: Device is using default IOMMU implementation for DMA and
+  *		doesn't rely on dma_ops structure.
++ * @async_shutdown: Device shutdown may be run asynchronously and in parallel
++ *		to the shutdown of unrelated devices
+  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
+  *
+  * At the lowest level, every device in a Linux system is represented by an
+@@ -738,7 +740,7 @@ struct device {
+ #ifdef CONFIG_IOMMU_DMA
+ 	bool			dma_iommu:1;
+ #endif
+-
++	bool			async_shutdown:1;
+ 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+ };
+ 
+@@ -969,6 +971,16 @@ static inline bool device_async_suspend_enabled(struct device *dev)
+ 	return !!dev->power.async_suspend;
+ }
+ 
++static inline void device_enable_async_shutdown(struct device *dev)
++{
++	dev->async_shutdown = true;
++}
++
++static inline bool device_async_shutdown_enabled(struct device *dev)
++{
++	return !!dev->async_shutdown;
++}
++
+ static inline bool device_pm_not_required(struct device *dev)
+ {
+ 	return dev->power.no_pm;
+-- 
+2.53.0
 
