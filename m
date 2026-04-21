@@ -1,53 +1,54 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021091.outbound.protection.outlook.com [52.101.100.91])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020080.outbound.protection.outlook.com [52.101.196.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994183D9DDF
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 14:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C733D9DA1
+	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 14:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.80
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776783397; cv=fail; b=GbzeOG3qJh2zDXEbxC/9W5VQY4V6u5xhNShmXwQ6Z6wPqUVUPmhJv0LiTDmSdd39jLp9vkWsAp2EXmRLOPh0hftFPpuoA/BFSPoxq2il2R/+t32PucDAUfDr3CUDxkpYg9dTeAP8Jo0PtKvNTLk4KQ0QkJVvlvoQdyebAZmVRdk=
+	t=1776783397; cv=fail; b=kU3vHRTXH7UlSsIQ7bR7ChcsNaJgHQULlQhchB86UxM2AV3ITYSgrr07yum6IqqAyL9gITfmMK90Ygw9+zD2iUcQ7MmxHAdZk6OKw8lZT5ZR9NB4QzasUbEBZDH0SPw6oIv0Kb3HaQhO1nK2nRrRZBshDj5OMwDsXZLofXpQ6qE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776783397; c=relaxed/simple;
-	bh=Aiz1SAzAaI4xDUYeDbA1tGyZD1iLdIGo9Omh+b0S9cE=;
+	bh=uAP2XusktosMg6Sijfjq1oOzEOUFYQ++m7dbhH46Bzc=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=GCkYAFg2zFkQH1g9ii3vt9XJn9JoYu1PaedZ1XBgZBUd1Cu6z+BaSfYuoG4qY560QLU4PYWgqa3DEofgQtzWg2PuAV2qV3S+uqEaICw1ZfWg0FQkZdgODVC9DwtfhBspUStSBfkTJR9xXrh2lN1J6fD/ztSuaLpFlo2Qoe2TuvA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=IGLO17Mb; arc=fail smtp.client-ip=52.101.100.91
+	 To:Cc:MIME-Version; b=inqpHg6W2FHgXcLv/54oUVI3En5qEhtOusvU0jncTAdfdtu8H32F87IviHPK1q1E4xzyEDcJtk9mmxf9Nwie64FLOtWgX+uEbpEWHxqF7bjIHSC/QTkeNll7mpJAXD7qTEEFXjoFHrgx4fs660AzAeGcyElIIxJutfJrSxTMrec=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vQPuSpRS; arc=fail smtp.client-ip=52.101.196.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="IGLO17Mb"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vQPuSpRS"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DDP4tCAp3YY3lju2em9ny5IpDr/vzo5sS0bdww7i6120UPrtvhwed4zsRWFOQkfS6t1mtQ3/Oity4BUp5O6ov1m1rDeTvbDV7l1XNHzvWjpLE+mrvw+nxaamuW2xNfG6TqvNHMU9jmyjFsI1KY3SQfbUQCTJa738oJJkFwTFqGca8j17iQsTpQ/DXJHjFPr1VQI69ADLKjFHCQ1cKRZe+zvZk9etVhUnKHXtZHf5hZ20VzvGlSAJwJF2iGnBhvFkBrX7NHTDzAwga1k0ec1VEu/WuYJew+Wx3Bs5qp1EEggeW0H3Klk9uWvNTR/AXWokzMNgjGKI9YPbA2INp0Q8vw==
+ b=I+r1DNLQt5Vbi02/Gn+32d443GmuEvCo7/c0R/jXZygbSIVOJp6iU55MP1ojkt51AFy7mRSI0U6q4P7/JXPOjW0EEl03Lh6Km7mrwMpfNh8Y8TouRJfzc5wSbhjb0ealklVJDAWCe1pgF6QapDMI0sRr/VqCLJCN5TE8eYzwwpsv83Dynp3mw0QM22wXEWRbo4+YiXKxjUIRRtBuAb8A9ntOP+vqxtOycyGIDtR31Hx2ORQu6fSHX1uqflAkDBwKXDhTCUIb+qLkf52kJ2NPhUAbk5tyKHBRBW6yJMdy6PseQ/ksbqYvwnxuxgPNSZ+LPNCFcC1KCRgUrnxIA3i/zg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NBCRkNd4yS+sbgCTUuQCjj+vsx4wEQlficT2OEM7beE=;
- b=QDPjGn89zOvuriPriIbx/aAFN+A48yX0FMxZSAQ+hZi+HBSoyFO193fQEWd6inVkK4KFcNyXZKDe2BgkrUL2HqHuMMdD3ZWH/s6PRTEm2H/yDtnmHp1h2YVM8IjKz75nAQsyxGjilEBve0Jw1ufrI98o4Mu3zoN3D7aD2txZuLeB0xo/kYV7YG+M6bVyRaKd5N/MfFbgnFks9txrkXMEYJPI58Q0zs1UrpWHFnK/XFIHKNMTlqQsUCuXuPYJD4N1HPp9Xk/TEwYbeWHKJ6dmAehVNgr5XfpQLkYUcQupCfF8ei2L93Xu9DZrOBgNk07Uxozhl56hpwLV+4dKR1V35w==
+ bh=9MS5uMU0rcBULjS2MOKbxruodp5TKYeruE7ZCaGTkKU=;
+ b=pukbv0okIDjzX5MTHQ8+/v5yWnHTOOjmWLSDLuzZ/ladF5ngco2M37fBGAfIQvYSKZNMV9Z8hHhDSRaaQgyE9zM+wIOgRu0+TVomWy5W+dsUDcvTQ6LoAHTDTz0sKBgXDYDTML6c6aV9JL+7w7coFrARmo3k8riFO4t7qKKMKchmuzq9W2poP6z0MfB23rYjlCHYW5wo+GczK3Dj+c7XpuwSzrzIN469Ssjl0Y5GyuYp2+jZ7o4JEiiCjHG1oq+xhg1/8eAnznUALW5s2WbPwUJOIC9d9NOdpZSSZYDWbVaAq1IUrxm11U/FR0cGgxew6TRj9G7gcFOq1Ci/IEnwNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NBCRkNd4yS+sbgCTUuQCjj+vsx4wEQlficT2OEM7beE=;
- b=IGLO17MbXGUWXVtGRpwpXP+pxvt5b+zSXUS88ICW0d9cj/Qu3m5nArJrH0yH/5HPCz3PwrryjfafZIV4g3HGyJvG35bkyCdccTuIF8VrO9R1xMnRojD5gPjx2SYZCQSePdKyZ03aremYQ9DtIuZB37zZ8yuOB1InblREdLnw4h4=
+ bh=9MS5uMU0rcBULjS2MOKbxruodp5TKYeruE7ZCaGTkKU=;
+ b=vQPuSpRS/CB9bjpsmDQecdvBxt6r2wJuPMjY8m2iUu6UFdgIzOnGAwDLT5NoSio81BZ2pNLoosEhB9OFY/B8kU+4l5Ov6P6uK9cLCx7QhZi7y/rI4K/rEjtY0PfefTUkt+LoBReokZbRjDf6lU+V7a/eGFCdWfu2zxZo0AtPoLs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB5674.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1b0::13) with
+ by CWLP265MB5523.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1b9::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
  2026 14:56:29 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
- 14:56:29 +0000
+ 14:56:28 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Tue, 21 Apr 2026 15:56:17 +0100
-Subject: [PATCH v2 06/11] rust: io: add view type
+Date: Tue, 21 Apr 2026 15:56:15 +0100
+Subject: [PATCH v2 04/11] rust: io: add missing safety requirement in
+ `IoCapable` methods
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260421-io_projection-v2-6-4c251c692ef4@garyguo.net>
+Message-Id: <20260421-io_projection-v2-4-4c251c692ef4@garyguo.net>
 References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
 In-Reply-To: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -68,11 +69,11 @@ Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776783386; l=5749;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776783386; l=1265;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=Aiz1SAzAaI4xDUYeDbA1tGyZD1iLdIGo9Omh+b0S9cE=;
- b=nCrvfstnb2bvYiKMDfOSPCaiv0BoY0hMKfa4+nDIeuRoo33zRi9gM+3Ue8jnRMcVG39vMm/eX
- MtOYjTn6YtoBtAK7MWmQoyXhS0z6D+SoqXT+pPWIyVCz4q28gNytRLg
+ bh=uAP2XusktosMg6Sijfjq1oOzEOUFYQ++m7dbhH46Bzc=;
+ b=T/DxIPKbR50JPwauKc5lcbKe8Mc0kJXvMEuqXWE5g5y+xfPhMfFcBFVAWT1k6UbmxYseMW83l
+ Vqf7hzomrTsByj538hlbVQpY6MU0PDoCPP/DtuIXFbeRxCMabFiZje2
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO4P123CA0142.GBRP123.PROD.OUTLOOK.COM
@@ -85,249 +86,101 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB5674:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28f11079-18c8-41d1-7aa9-08de9fb62b5e
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB5523:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5da74dcf-26b1-4093-b139-08de9fb62adc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|376014|7416014|10070799003|366016|921020|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	7J5YxYfOO0KE9wVilg4vvkJUIbGrUwPiWBY0LsonuhnDZB4JhOct5I3UyjF+C1qnPnEu1TH2S9DcoO0EyENcaoCuq6El9fAOTgbbXu//aul7GFTNAByIJuQ1uIzAyNV9zlGKcM6BokQ8v/YwSpkxy1TB0tdMW0wJwZt/Uuioqb3CRr6UBtpYkfIJhw7RhqueBo6zlKlUTXOqkrOUYgCyzD4+aKftfoMGi3p9ZDUZDEvRGf9YivBMDTjGaTXobFok6Ao7lIdRgDBnaN80jvyMERMdjNyYiYbbf1iEM/SGNRuNADgmwBLZJV+kK6pZ/EjGvsPLk6bGsxof/ClW3EBcQA3CKXinBLBNQbdi3X3kvsllSMaiY+bEjazj5H6V3fEZgVfE4wzVlNWF8khhiMcYbdxjFQajjo31D7GqbOaUwl5gJLIGNGV1TyanDpVCvoUlq8LblLyLglSExElXTtHhVS5dcYELhxZiBr0UA1/FUYt30H6czbfVmwUdFz9PUpqzOsAbOC/Qyy/n6v6zEZsKXtDC3gqhU+iuhFLK6Mearg1ZxmUzwHzQdyVk/aSn5DBpsXG3VsjBuQ0+O3OZGQKM2A+B4HmCpfQzfcLxBcG1MBtwQbEW1ShJK1fK/g0kbdEwGeIRbGjZrMziQZKs0Qh8EkRY06xYBWMmVPPvt91ejVGAjrNUA8S6nJ0EzwTNFeN3qInIhUCVm56mrQhLUeBQlO6WXZY3pmQEKtIJIgBUuVh+n2PiiR03S4Y/RTCR2j1otttrFbsgH4TqOZ4vnaYCsQ==
+	KDhs8dUvvw00usTUzEvc6xHCvg4Yn2nqTmek4iHFXuODVMuzLdiVHN/KduYg89nfuMN5axXURzFxFIa+k6JF8cTFHLnz0wfqReGmfY9D785tSljz0uDpSbgpkzsaoSlLQ3S0KxuXQ375Dnq/qRWBJGu2Rh3SV/DKIKW4YVWSF0GwH5QcDLu1K0nH8/lfc3F81FyyW5+zgHYV7sy1Ag0+PoBrRomT78DYovQdq7Q+Du3qhw26sFnaboUzRQ3kC8j7G5x8HZaUBB4J13/2VTYo4YRa24ci4dBGcAmjNwUN4syByJQpzm9UM5dlVCIG8Hw8E792pzJ/H2fJwXzqZ4ug3wcHJ4RiLOITeMZVgt/yal1+yITyR0to2cl49fMCUkchK4ZiiMqMSilD8iIlHsN2THz9hxAdMnS7yuazvH2V0DKiuFDHLPGKp4kOeTeWfoCwFBavsKd3/HkkMBaAGULrL1JZNp0Ecg3x1jhR6YcPjjq5QIwCanZYsNCZbCjkKu8kNIdcOuaP7vK78vB7vTxtXCqFsrcRUGooh4Pz0HbUs9B6BidB9UDziQEZ3Db2gAQAG+GuL+zFvmCuwMY+lCmbhnH7kJar9mr5S9+WxBsGiFT/6cp+i+m7iWpn/jpAz6nidJHzhzPb9tqLpWt/jfmIPIBAe/QVOGVzh1DAn79yMI9fcVKuu81POh/ChHupV6iGeRzXyUWjnJG2fyGpHy1s6MA2YuRR7BgF0TS+btKjlMxCPkVkVw+2ScfHqKpSxXy44z6Z97woWrylz0TQxiZVog==
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016)(921020)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?KzJ4RzYxNHkzS1hZYXZHaXBDd1JFRGJVWVpoMXZqaGxIcHM4NllwN1VYVjZ3?=
- =?utf-8?B?VmhwTmE3M1VlalhodGdwZE5ra2xRejFySWRjNS8yd0t1b1hGN2dHQkFjUUkz?=
- =?utf-8?B?Z1FhRmVyb1VuSE1Nd2FyMnhQVFFXL1lBc1dxU0EySVFGMUt4Vlkza2x6RmhZ?=
- =?utf-8?B?QlB1bjZUL0RMT1ByalV4UHBqYzJ6b0IrWmhONlZsOWNvOGxCSWRrVi9lUmIr?=
- =?utf-8?B?ZWpIR0RXUEcvQkZ1M3M1SURxTVg0QkI1T0crMDh6UUtUeS9XWW0rMjNwekdo?=
- =?utf-8?B?NHNnNGt4cW1zSFN1VTVJQ0kwYWk5aFFBOW1RSnB4NEdxY0RWUEhBckpqYXU4?=
- =?utf-8?B?RzNFdVVtalViVTdtVHN5TlpCNDhHNERXUUk5YjFpQzZ4NzloeWs4VVFjRFpC?=
- =?utf-8?B?TVNjK1pRNVEySzc3WFkrclZOaDhCczMxdlcvS2czeVRDUnJpNU9ENDVaOTdG?=
- =?utf-8?B?YkpwN0x5b1B3N1VsT1JtOXVKSE5jOEFwSDZlNENNWnFLSDUyWGYxYjRQaVE4?=
- =?utf-8?B?Z1M3R1FnTHRSSkFIVThtZWZvSFpoTFNOcnpKZkVlQ2dOMHB3eXQ0OTZHYlRC?=
- =?utf-8?B?akhvVFB0WHY4UDR6ZFBMeUtVSk1KK2RwazdwVENlNkVhNkdYOXJ0clVMajAy?=
- =?utf-8?B?Y3JkYXRlaTlSNE9RcUI3TmRtNnhXcG9zMVFabjNqeERHaS95S3o2VWZlQk1x?=
- =?utf-8?B?c2FjNklZcXdUcmxmQkxvTE5lNzYyd2oyNVBPbTBZUE1haVUwdWswUVdRVEcv?=
- =?utf-8?B?WUZmV3VlNTQwNjlTV2VjbC9ZdjFPa2h5bW9VMG5GR1pWT0FjbE9vTXh3NGNt?=
- =?utf-8?B?K3pBQXNiTmRleUtuY2xDcWp4V1lCZXVEUmswaXBJVkFFUjVGYzA1UDNtRUEy?=
- =?utf-8?B?M2N5WXR5dEM3QzZDNWIzUEVvdXo1V0NJZTlaK09EdWtqajN1cXZ6NVJQdW5q?=
- =?utf-8?B?dXVNZ3R0SURSTnl5alR2VFdZd1hWYmtvYWlVYTc2NkEvQzJwL2dQS0dMMkJO?=
- =?utf-8?B?djJoYnpuWDFhb0xYeE44dnplV3ZnQy9RandPMXErVmhwZ0NZcjdTTGJCOTlw?=
- =?utf-8?B?MVQzUTlzUGFXQ3ZEVEZqNWhVZGN3ejdwdUJHbGw1UWl5ckx3YlB0TGNSVFNK?=
- =?utf-8?B?YzQyRE1pZ1pPSERqOVhMS1N2VmdZWnplcmxpTGdaRFBnL1k2RERaY2swK0FS?=
- =?utf-8?B?dHJJcDk5bGJ4R3BVUjlCSlpmWUp0L1Q1WjcxdEgwd3dRamRDNHloYVRmdUxu?=
- =?utf-8?B?eWNDY2I5cEVacWlaMCtuWXp4RjlpeHY1R1BaamNpb3JycDU5N2pyKzJISXdp?=
- =?utf-8?B?dCtQV0VJa1E5NXp6ZnJnVWVWQ1pyZG5HRWF2T2RoMElQTloyd3QxSWd1S01r?=
- =?utf-8?B?L0pSRFMvZ1lOR2lXZjdXY0lOWXdXNW0zeDJUb1RvcU9xWkVOTWV1UUVvRjJl?=
- =?utf-8?B?TWxZQWljQW9PQlJTeC9mUWlHbGE0MU9mZm5Ec21qZGF5anhZYlFUUjRNWklu?=
- =?utf-8?B?SXI2a2MydExUVFVLdmIwNUdjTXJ4UnNNNXlRK3pPS1RKNXFlM3dEQU1DVk1m?=
- =?utf-8?B?SkkyV0RENHRwUjdnSFNMbzJ2Qlk3andoT1RjYmZYeFdBZ3A4Znl4bmRudXFk?=
- =?utf-8?B?ZFltMmxKdDJXcXdhZ2tuTVhwUFZ0cUgrSTRBak9URXg4MVYrazE3dS9yMW1y?=
- =?utf-8?B?RzFmK1RzR1lyQzh5TVQ0NitIM1dRVFBJS0liMUxFSi9haUZqc3QzOCszSENR?=
- =?utf-8?B?OWRQOU94d0RuRzVZRFdFZWw1WUFaWnRhWjIxYzlrRjlwZllqdkwxYStqR2JL?=
- =?utf-8?B?dWo4bHUra0l4TnVhVGpIR2ZXejlyR2NiZFhuTHptN0s2clBlTnpCNXVNT2tm?=
- =?utf-8?B?MkxTZ3V4MkY1R2F1UXMyYjJTWWRFUUpRMGg5dWVDd2NDVUdoZHB0S3RwNkhS?=
- =?utf-8?B?MkdaWllndVh5SmEzbFNJVWYydDNRdWpwRGRzNnhRamc1ZnFjbS9FcEZSY0JT?=
- =?utf-8?B?N3FjenMwKy8zZHptdHFlelhHaG93MmlpNGRRcUh4S0NzSktRM29rdEtMVVp2?=
- =?utf-8?B?YnNMdjk5U3IxeEd0K1hnejJaR1NJSm1mWDVzZkhmMU50SE1NejJDNGI0MUJW?=
- =?utf-8?B?UkZhTkdEUk1lbnZmckFpR1BpYWxPdnMrV3ZFYmpzYVdYNjk3SVRQN3FPQ2N2?=
- =?utf-8?B?MDR5TzRCRGdmS3lmb2lXQVFSYVBpNjVHalNxbVF5YmlLT3pGU2JpN29ON1ha?=
- =?utf-8?B?SWw1M3RuTFRJdnZya3IxLzNuMXdQUzF1cm5TL3d5Z3RBdDNoaVgvN1hpZTVS?=
- =?utf-8?B?RU1sUWJHWUx0K0N1dzU4MmtVNXlkV3VFbTN4L3lsUWhNZk5zVlRuQT09?=
+	=?utf-8?B?eTdVTGJmTFJ6SGg1ZUY1dHBTa0FabWFObnJpSExUalhUaXVLVCtYM0d0bUhV?=
+ =?utf-8?B?SkgyS21HVUI1ZFZVZEFRZ0xZNzYvRDQ5MElvK3FqUzU0NmYwSy96UktuRGZ3?=
+ =?utf-8?B?SjRITjlYK24yNmdtY3VINHFPSmhYVXduMFBzOWhaejFqQUxBTmh1MUZtRndt?=
+ =?utf-8?B?ZXYxRWhXZXNjaVozTy9GSU1RTnRING94OENXL2x1RTNEZk5sOE9PRGduSWQ2?=
+ =?utf-8?B?a3V4QVhLZWtOaFRUZnBqQ3FZa1RIS2oxTXF2Z0RiNEJVa1E2NlNDN3Rkdjg5?=
+ =?utf-8?B?K2tZcnoxeHh1czVXMU5Tckdhd0liZmIraU13REp5K2NvbHQxWDBlQVVpcGlN?=
+ =?utf-8?B?cWZaakxObVZIeUJMSERzWEZoVkJYT0lpMEF3ek9pd0NOOWVuMmdRcWJzTDFG?=
+ =?utf-8?B?RVFKcUN5QlFiZmVFMTVEK2hNV3RkaWE2bUJnOEZpUVVKYkVRWFZuVTc3a20z?=
+ =?utf-8?B?YlhJdUJoa0R2bHc4MFVCTWg0dlhNRERkSlZMSFlaNWYybDEzcDJaNzNKS1l1?=
+ =?utf-8?B?cmZ1MEYrTkFPUEk5ZUpUYkNsV2tRcjRCcFZRdEN2b1VvMkxtNDNCSVJmMzdq?=
+ =?utf-8?B?dmxBaGl3SWxWdG5NVFNQdmd3aUxyMkhkb01TaFpQZndaYWNjRFM3N1Rwclh3?=
+ =?utf-8?B?TVorNGZmTU5lTHNHK28wMnQzamVmT3lyQkZFcUljS0tGNHNNZjg5WE4wUlNh?=
+ =?utf-8?B?c0lCRnFvcDF6UFdCZnF4aDNBT2N6UXk3MThwbGk1N3BFbGo1ZS9vRXNNU29v?=
+ =?utf-8?B?ZHNNRHlsV1FVVVZkcWZRYjI0WEZ4bHhwRUdjempFZGYybGlZeWlJRmZxN0tC?=
+ =?utf-8?B?VWVvbk1na2hBMUFXeVNUR3AxVTZvUFl6S3VYcFJvaEIxWVpNYTNEL0FCZWdz?=
+ =?utf-8?B?WjdqaHZqbkhEVG5kQmErVjJmQjRMWjJ0Vm84VERhdENPRU53VmIzWG0wQ2FE?=
+ =?utf-8?B?SlkvY1h3L2FHZFZYV0Y3TjlhazVZdDRGN01LMS9CT3FkNlhMSUptdkdEVmRm?=
+ =?utf-8?B?bzdmZUhzQzA4WDNpdXhqY0ZwbWNXV3RYNTJwU29Kc1FIODYxd3FlOWpYOW8x?=
+ =?utf-8?B?RXZhNmZMeDh5ZG5Hb213aVErdDZwaUxjWUZZQWhCWjBmQndSanpXZS84Ui9V?=
+ =?utf-8?B?ZnVoNzZnT3JUZitVRStOSzJXOWlIcVJBQXZQajhJODFzUFVGamQwa3NJRzlL?=
+ =?utf-8?B?cWRSQTJMQnhES2NJQjhsNUVKMWJXeUR4b1JPM2VNRllNWUFNNEtXbms2RmNN?=
+ =?utf-8?B?TVMwdWRCcG9oZEtKdkVIWHgvSkhIczNDek8vcDR1RFErVTNDTm5Balk0Tk9O?=
+ =?utf-8?B?dXJidmZZbkZoYWFiUHJhOC9OZmtTUEswNng3SnFldUFNMFp5Q1B1alJ1NlJG?=
+ =?utf-8?B?TGRTS3FiNUVZOEVwV2p6ZmRTbTliMzhPSGsycGtHa3JTMlUvNUtFcGlaZmNT?=
+ =?utf-8?B?TUJ1eDBUcld1VDVXMm5JM2U0dzdEN3NlclhOeVYxQTNGbm5MQ1lQWDVIUjEv?=
+ =?utf-8?B?QkY0RDVkUE1rQWcvd2hUSnlISFFqWUJFVEtONkRCK1EraFVNM2dRaHFUWHJO?=
+ =?utf-8?B?Y2xyWXlaWSs0MzdQc3JFRGxyc0pZT1d0MTZJa2hLNmpxSHIreGMxbXl3WXY3?=
+ =?utf-8?B?eDZZbHZEU0ZBT21QYmFENkp6dk5oM0JIU0ovazRjRXJXL3ZWSnVxYVliM2N0?=
+ =?utf-8?B?YURrSVVpa0R5TEhQcjFFV0tlR3k4aWJCODY5Um40MzBSZDd6dW9TUW1YNDB2?=
+ =?utf-8?B?RGpkenBDVGRCRnQ1LzREa2JPZmQ0YU1xTXNWUmtOR093amFNb1ZYaG5EaU02?=
+ =?utf-8?B?V0RDMkk3bnV5RlVVUThDa2E0eEYxaTNVUGxlL3FJODJKTkxzYjZobmw2Wk9r?=
+ =?utf-8?B?cjZEZEtGOThvbURQZ1dWWHZSajk5U3VtWXZ0N2Y5cmdhOTJtaEowSGRSd0Zq?=
+ =?utf-8?B?dTU5QWhiaXpMNGEyNzM0SU03K00xWUFwSUdMY01saUE0QmgreGxMSWppNHQr?=
+ =?utf-8?B?NUJ4blNHckt6aHYwamRYdFN5bkVEaGtQQzNzcWxnSk5hUDlORVZVWWNpMFNh?=
+ =?utf-8?B?aWFTRXVQRzZLWHh4c2RralZYdnEzRXMrdG1CT1pIaDZJQ29vSWN2ck5Vby92?=
+ =?utf-8?B?SUJhVE1aL25HcXRlY1FwWUxucXkyWWpHemtZY2NGdFhCR0RsQWlnaWIydHhY?=
+ =?utf-8?B?cW9uRUpxYWNNRWlINDRDRU1iWGp5bW9nMXdOT2NiSVJ4THhJZkRxS25SSzdJ?=
+ =?utf-8?B?cGYyeDVqNkR3Zzl0SnN0dkMwMFJYYmxLLy82OFJ2NGVmMWFabnJqRXBUSmk3?=
+ =?utf-8?B?bWV0Sm9VNHNEZHhjVFZBT3RFaUVuK3NiOUxrNVVHVzcxRkM2RGVQZz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28f11079-18c8-41d1-7aa9-08de9fb62b5e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5da74dcf-26b1-4093-b139-08de9fb62adc
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 14:56:29.4443
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 14:56:28.6164
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1Syz8XJXVkI6KKLCpM9rZmI6lTHNlMxjzta7D73csoPArsab/AkmuOkZk9NFHov1vgmuOBQRP6XHP2OMMxVyug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5674
+X-MS-Exchange-CrossTenant-UserPrincipalName: gLXfx8rZGrWT0EWSYtOynl1DHW37qRUxvgjE/i46PJW8T4le/tpK2mJrushn6xQM+xjyhIFXWjllTkEMREJReg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5523
 
-The view may be created statically via I/O projection using `io_project!()`
-macro to perform compile-time checks, or created by type-casting an
-existing view type with `try_cast()` function, where the size and alignment
-checks are performed at runtime.
+The current safety comment on `io_read`/`io_write` does not cover the topic
+about alignment, although this is guaranteed by checks in `Io`. Add it so
+it can be relied on by implementor of `IoCapable`.
 
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- rust/kernel/io.rs | 147 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 146 insertions(+), 1 deletion(-)
+ rust/kernel/io.rs | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index a13be8c5fd2d..869071d47a13 100644
+index 1682f2a0d20d..c6d30c5b4e10 100644
 --- a/rust/kernel/io.rs
 +++ b/rust/kernel/io.rs
-@@ -7,7 +7,11 @@
- use crate::{
-     bindings,
-     prelude::*,
--    ptr::KnownSize, //
-+    ptr::KnownSize,
-+    transmute::{
-+        AsBytes,
-+        FromBytes, //
-+    }, //
- };
- 
- pub mod mem;
-@@ -297,6 +301,13 @@ pub trait Io {
-     /// Type of this I/O region. For untyped I/O regions, [`Region`] type can be used.
-     type Type: ?Sized + KnownSize;
- 
-+    /// Get a [`View`] covering the entire region.
-+    #[inline]
-+    fn as_view(&self) -> View<'_, Self, Self::Type> {
-+        // SAFETY: This is an empty projection, so it trivially satisfies the invariant.
-+        unsafe { View::new_unchecked(self, self.as_ptr()) }
-+    }
-+
-     /// Returns the base pointer of this mapping.
+@@ -216,14 +216,16 @@ pub trait IoCapable<T> {
      ///
-     /// This is a pointer to capture metadata. The specific meaning of the pointer depends on
-@@ -912,3 +923,137 @@ pub fn relaxed(&self) -> &RelaxedMmio<T> {
-     readq_relaxed,
-     writeq_relaxed
- );
-+
-+/// A view into an I/O region.
-+///
-+/// # Invariants
-+///
-+/// - `ptr` is aligned for `T`
-+/// - `ptr` has same provenance as `io.as_ptr()`
-+/// - `ptr.byte_offset_from(io.as_ptr())` is between 0 to
-+///   `KnownSize::size(io.as_ptr()) - KnownSize::size(ptr)`.
-+///
-+/// These invariants are trivially satisfied if the pointer is created via pointer projection.
-+pub struct View<'a, IO: ?Sized, T: ?Sized> {
-+    io: &'a IO,
-+    ptr: *mut T,
-+}
-+
-+impl<'a, IO: ?Sized, T: ?Sized> View<'a, IO, T> {
-+    // For `io_project!` macro use only.
-+    #[doc(hidden)]
-+    #[inline]
-+    pub fn as_view(&self) -> Self {
-+        *self
-+    }
-+
-+    /// Create a view of a provided I/O region.
-+    ///
-+    /// # Safety
-+    ///
-+    /// `ptr` must satisfy the invariants of the view type.
-+    #[inline]
-+    pub unsafe fn new_unchecked(io: &'a IO, ptr: *mut T) -> Self {
-+        // INVARIANT: Per function safety requirement.
-+        Self { io, ptr }
-+    }
-+
-+    /// Obtain the underlying I/O region.
-+    #[inline]
-+    pub fn io(self) -> &'a IO {
-+        self.io
-+    }
-+
-+    /// Obtain a pointer to the subview.
-+    ///
-+    /// The interpretation of the pointer depends on the underlying I/O region.
-+    #[inline]
-+    pub fn as_ptr(self) -> *mut T {
-+        self.ptr
-+    }
-+}
-+
-+impl<IO: ?Sized, T: ?Sized> Clone for View<'_, IO, T> {
-+    #[inline]
-+    fn clone(&self) -> Self {
-+        *self
-+    }
-+}
-+
-+impl<IO: ?Sized, T: ?Sized> Copy for View<'_, IO, T> {}
-+
-+impl<'a, IO: ?Sized, T: ?Sized> View<'a, IO, T> {
-+    /// Try to convert this view into a different typed I/O view.
-+    ///
-+    /// The target type must be of same or smaller size to current type, and the current view must
-+    /// be properly aligned for the target type.
-+    #[inline]
-+    pub fn try_cast<U>(self) -> Result<View<'a, IO, U>>
-+    where
-+        T: KnownSize + FromBytes + AsBytes,
-+        U: FromBytes + AsBytes,
-+    {
-+        if size_of::<U>() > KnownSize::size(self.ptr) {
-+            return Err(EINVAL);
-+        }
-+
-+        if self.ptr.addr() % align_of::<U>() != 0 {
-+            return Err(EINVAL);
-+        }
-+
-+        // INVARIANT: We have checked bounds and alignment.
-+        Ok(View {
-+            io: self.io,
-+            ptr: self.ptr.cast(),
-+        })
-+    }
-+}
-+
-+/// Project an I/O type to a subview of it.
-+///
-+/// The syntax is of form `io_project!(io, proj)` where `io` is an expression to a type that
-+/// implements [`Io`] and `proj` is a [projection specification](kernel::ptr::project!).
-+///
-+/// In addition to projecting from [`Io`], you may also project from a [`View`] of an [`Io`].
-+///
-+/// # Examples
-+///
-+/// ```
-+/// use kernel::io::{
-+///     io_project,
-+///     Mmio,
-+///     View,
-+/// };
-+/// struct MyStruct { field: u32, }
-+///
-+/// // SAFETY: All bit patterns are acceptable values for `MyStruct`.
-+/// unsafe impl kernel::transmute::FromBytes for MyStruct{};
-+/// // SAFETY: Instances of `MyStruct` have no uninitialized portions.
-+/// unsafe impl kernel::transmute::AsBytes for MyStruct{};
-+///
-+/// # fn test(mmio: &Mmio<[MyStruct]>) -> Result {
-+/// // let mmio: Mmio<[MyStruct]>;
-+/// let field: View<'_, _, u32> = io_project!(mmio, [try: 1].field);
-+/// let whole: View<'_, _, MyStruct> = io_project!(mmio, [try: 2]);
-+/// let nested: View<'_, Mmio<_>, u32> = io_project!(whole, .field);
-+/// # Ok::<(), Error>(()) }
-+#[macro_export]
-+#[doc(hidden)]
-+macro_rules! io_project {
-+    ($io:expr, $($proj:tt)*) => {{
-+        // Bring `as_view` to scope.
-+        use $crate::io::Io as _;
-+
-+        // Convert IO to view for unified handling.
-+        // This also takes advantage to deref coercion.
-+        let view: $crate::io::View<'_, _, _> = $io.as_view();
-+        let ptr = $crate::ptr::project!(
-+            mut view.as_ptr(), $($proj)*
-+        );
-+        // SAFETY: projection of a projection is still a valid projection.
-+        unsafe { $crate::io::View::new_unchecked(view.io(), ptr) }
-+    }};
-+}
-+
-+#[doc(inline)]
-+pub use crate::io_project;
+     /// # Safety
+     ///
+-    /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - `address` must be aligned.
+     unsafe fn io_read(&self, address: *mut T) -> T;
+ 
+     /// Performs an I/O write of `value` at `address`.
+     ///
+     /// # Safety
+     ///
+-    /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - `address` must be aligned.
+     unsafe fn io_write(&self, value: T, address: *mut T);
+ }
+ 
 
 -- 
 2.51.2
