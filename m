@@ -1,330 +1,214 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457782BDC0B
-	for <driver-core@lists.linux.dev>; Tue, 21 Apr 2026 17:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776792710; cv=none; b=Y0DOZxHhBmKjsbH0rGu29YPKU5bN+FmvyL328bR30Jg7SEBtaSpKD8NRUiJcPzcZ5jwDbuIQaJDKDxCj/+2sT1+1DJ5hRa4hUAZZwtWUIzWn5x+TW3n0lubP/U059fE7IsZj6k0CrnGhG5RFLsncN5d+1YGRNffH0vde+mrYqpE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776792710; c=relaxed/simple;
-	bh=Up5R66uNJccLdF+pYE2C2qZs8VYdophbwQPeQ7JrUkA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=rAKOqFBFrPc7tjhVWFYHBL4+EElNHmRyPoOWp8p+i2K90YXyB5EHawff9zYVCHDuw83unDa/vZ4GUOul9HluEmQfPuq6iD/cNSIGsTyA+2WhLwg3HzbWBxhyDKbYWPWFVcfmF2/JeJR/fUKhhD7K++PjYPWogAEO2/MRprgpvaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a6R4/7XK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F141DE2D8
+	for <driver-core@lists.linux.dev>; Wed, 22 Apr 2026 00:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776818558; cv=fail; b=P6HjQT4tyKzl3A0lcmxe/lK0TWO9nJg83wJ3Z3cJ7+ramjHjaIPfnhcWs3SjuDjjT2HSZAHliJXuWpI27pq4QqVJOkJm0ZlAwBgda8fkJM2JHbfOvIZiD9rHxSRlELaUqc5USj7TcVwYloyeph4NDwBoB7ZOKU2Ax26xDuHiEOM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776818558; c=relaxed/simple;
+	bh=3IxnoxzI25syjSLT9woxoNjWmanCS+AJAEYZliFP1lA=;
+	h=To:Cc:Subject:From:In-Reply-To:Message-ID:References:Date:
+	 Content-Type:MIME-Version; b=B06kENA7CvYb/A9Q8SyBHthptbjGsCaVXrU1Wl2tXbcbqhBaa0QqDc69e4XDCUBs8Jw3ecVn1FvEqm/nLUuQqZsx3ctZzQ6TSEaPVhegBA/PyGQBWpjVB53nVCF/sGUbWJNbK2juF/clCVXvkSOn9zdutkclgM6JrThQ7zZeafM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=FhpwmBle; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=D+A1Aco1; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a6R4/7XK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776792708;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=knAb5qavuH774ilkAdIoKt+5CocY+t8/ED+zsIsUsjs=;
-	b=a6R4/7XKJDOodeJ2UQ1jB3Ajtdh9lBJVlP5eX08WkL1FTrbeRE3ppMJEkztq4k0/lBMjcC
-	GXab0q6I8XMoOY6ncbQpXw3GNy6v8a1EF374FGZv9lbkx2LgYD2EuLOeSYvlWOl5dl0+SS
-	6ZEiTxB3IZknPIxqkuACswWdzAMUC+8=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-652-dx62h7yTNNygahVmL7k_ww-1; Tue,
- 21 Apr 2026 13:31:45 -0400
-X-MC-Unique: dx62h7yTNNygahVmL7k_ww-1
-X-Mimecast-MFC-AGG-ID: dx62h7yTNNygahVmL7k_ww_1776792703
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E33AC1956088;
-	Tue, 21 Apr 2026 17:31:42 +0000 (UTC)
-Received: from fedora-work.redhat.com (unknown [10.22.64.242])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2D5591956095;
-	Tue, 21 Apr 2026 17:31:37 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Tarun Sahu <tarunsahu@google.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
-	Jordan Richards <jordanrichards@google.com>,
-	Ewan Milne <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	David Jeffery <djeffery@redhat.com>
-Subject: [PATCH 3/5] driver core: async device shutdown infrastructure
-Date: Tue, 21 Apr 2026 13:31:32 -0400
-Message-ID: <20260421173133.7963-1-djeffery@redhat.com>
-In-Reply-To: <e9c34e71-e5bf-40f3-9997-ee08c6204431@oracle.com>
-References: <e9c34e71-e5bf-40f3-9997-ee08c6204431@oracle.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="FhpwmBle";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="D+A1Aco1"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63LIajne2337297;
+	Wed, 22 Apr 2026 00:42:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=bVGIkKMl5LbKL0MaPX
+	/Z2ruxIkVNpJHDFhcRXjfwT5w=; b=FhpwmBlels0kOCRBJlzQh+0fmr1DPJoAvJ
+	dAvH8sCsHc+eN4qlH+temOOJ+0oJbdH19EKJbZtJMJxpp06ETF3CHBNXgN9/to1p
+	JrvEygXVFkARpwPXrZfZSRwrJMqAGM6RNkPar3qZyW0n4rHmICQyCMmYuW4hxhTT
+	gAj485d6/JtDkk2F1vAvV9rY+bd8XC8AopQ7GRzMO/cUvn30CoSwcFTtq3y54utk
+	zBY79Kgm87aOwseBQ+P7ieEfa1aeOBZM+fZl03vxSKbhfU9x+1L7PBNkCjuin0hd
+	06LmcC73zNyWFGOxXIb8fJZ78mc+JJmUgAnCvFXwlAN7cI/d15GQ==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dpenmrdvk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Apr 2026 00:42:25 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63M0fEwG009633;
+	Wed, 22 Apr 2026 00:42:24 GMT
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010015.outbound.protection.outlook.com [52.101.201.15])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4dpjjdtfuf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Apr 2026 00:42:24 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IwO1CZke5WLYdWcv8wyS4VC0/p5Vubq45RaJAnO16x7zROFdVO1xDpjIZQDFJ8FwrATqB2KOj9+I4r8fTgakozVDrp7N90wFI2G2pPzTezfxOOg/dKJ1ZwYon1g3dvG9TzNC8q/BqUM5gsCi474ywYJaHDdZriLkkTIWGvb1gVZE5AEdIV8rfmUjRbt6WfDJBSzZB5ArMaG68Dl6R1lQF0BuCm04aykB3fKhgiMzoP1YAf76XNf8OmP7s/JwizRik/EUZPO3sv7x0TYbpnpTl3hnTxyl3o4C9jYKDM9dYHHHJOlOU8SrMeSjdc9/PRpFoGlzr1cT8kt/wU0XxzH7gA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bVGIkKMl5LbKL0MaPX/Z2ruxIkVNpJHDFhcRXjfwT5w=;
+ b=euxTbmuoNr9OY9Ocys53ryvcCu1/JCVI0qaJBvfpGfdU+7G991ujw24TH6u7JvyY5G/nrWWxO73rrHKrtWHZmxNlyVnBmj8Acp2y+g7V47IE3iaMAjGXOVnwZcG41yxk1L/JbJf7LtmGRjCHo+6FMD9oRDb2SYQretD7midVm0HWAUl2soT17mP8xAAjsPropsnu9RdFFdQvkVDtaAzOYNdnZIjRdUX7wuzIKT9rmKjSvj7i7kzKMR143m4YGyCv2ysc+QJx8I9g1hVrfPrn1IHhtqkiTPSK+ZGC+nVmLC2dbvKQ+5esJxLX3r7ioG0RBO6RJhnAOLmo4bvIGFYnaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bVGIkKMl5LbKL0MaPX/Z2ruxIkVNpJHDFhcRXjfwT5w=;
+ b=D+A1Aco1SiBhffpfgrJCqOHAYIWyN/BLv0wZmAOQOSdLiSmG836ZYBRfTyjFVcLCsSPvec+TkBC7zQ2iqf6U9N4qHhNX4wu0VGj71/nERYE/Cg1ug1pZU0njb7Yi/TWzLmb+C/HfRkvz1TsFXMcZdaOi0sXTtstCD7P8mJKMhG4=
+Received: from DS7PR10MB5344.namprd10.prod.outlook.com (2603:10b6:5:3ab::6) by
+ DS0PR10MB7067.namprd10.prod.outlook.com (2603:10b6:8:145::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9818.33; Wed, 22 Apr 2026 00:42:19 +0000
+Received: from DS7PR10MB5344.namprd10.prod.outlook.com
+ ([fe80::21c0:ebf5:641:3dee]) by DS7PR10MB5344.namprd10.prod.outlook.com
+ ([fe80::21c0:ebf5:641:3dee%6]) with mapi id 15.20.9846.016; Wed, 22 Apr 2026
+ 00:42:18 +0000
+To: David Jeffery <djeffery@redhat.com>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
+        Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki"
+ <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Tarun Sahu
+ <tarunsahu@google.com>,
+        Pasha Tatashin <tatashin@google.com>,
+        =?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>,
+        Jordan
+ Richards
+ <jordanrichards@google.com>,
+        Ewan Milne <emilne@redhat.com>, John
+ Meneghini <jmeneghi@redhat.com>,
+        "Lombardi, Maurizio"
+ <mlombard@redhat.com>,
+        Stuart Hayes <stuart.w.hayes@gmail.com>,
+        Laurence
+ Oberman <loberman@redhat.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        "Martin K . Petersen"
+ <martin.petersen@oracle.com>,
+        John Garry <john.g.garry@oracle.com>
+Subject: Re: [PATCH v14 0/5] shut down devices asynchronously
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20260420152608.6244-1-djeffery@redhat.com> (David Jeffery's
+	message of "Mon, 20 Apr 2026 11:26:03 -0400")
+Organization: Oracle Corporation
+Message-ID: <yq1bjfbn7xl.fsf@ca-mkp.ca.oracle.com>
+References: <20260420152608.6244-1-djeffery@redhat.com>
+Date: Tue, 21 Apr 2026 20:42:02 -0400
+Content-Type: text/plain
+X-ClientProxiedBy: YQ1P288CA0016.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:9e::21) To CH0PR10MB5338.namprd10.prod.outlook.com
+ (2603:10b6:610:cb::8)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: HNDn3myIxX1mxQlIGDHiyMN6mDvr7MPTectLJQYuzeE_1776792703
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5344:EE_|DS0PR10MB7067:EE_
+X-MS-Office365-Filtering-Correlation-Id: fedf9816-8720-44cd-c42a-08dea007fb74
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|1800799024|376014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	ogx2q3YOmzYZiTbEHS20MVk5tvytzipMk4QcJzbZRdcsALr4RNgoxocHG5CCbuIE0VYyM9ESpF90tYHCwCNag2OqGNuNGO/AqKjxWR+cyeTq4KCPCgfjBIIcA9KnKl3WIhTNi3nzVBbeRQ1zo3/rupZteQf/WAk5ztMwL5S4UviDh1lq6MeOaV2cNIIeB7Ld666Rq+g3euWQ3NHv3j0ghTazqfQhbux3ewKAU9Kg7gtqW4qfi0ftxYspJW2hzyoVaaRnt3ko1r6JOd5y9Vnk1w8MMHKHYQls8iLB1I2X4Hbovwjc+jJIS0/lbRRt7X2bpYlvmRl+A97piS3/v4VjLZpbV3rm/vB+7KGgEeZuo65ViRSpzPd7IX4Em/AGVA9J/m0Qr85E/f92Y4l3sXZGY56Ttser92BBcBvUimFjdaRUNK7MjweYG/dVbw9cMXe6ccqdchCIC/QotDp5sCvUYppdvXS2DPT16ADhlxrDOuqoUfDRADbXJdN2eZeDucsTPKuNvqHFkwIYTNKZsfEAlqEDnN0QjVMnsSxHLcKyg4lpPOrzh9GJhZBKg85SsxkwFPn4CGXa+HJkALJEC11J/s4psdF+gLzHbnKgOKX59+TTNsU7dwNnuNKsia/ZXF2EbcxERNFEngHMOqtuUfmadl4t0AxC5RKKY3kYdrc06Fjmr4J3IRcFsYaEGHbWXAG/HvoS72Vj0NnpRsCssq/CpqGOU+Co2ajpCbSDb7Z5h+s=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5344.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?iwKEI5hAzxjzgRvVFEVoGA6s3g874t0Y66WM5FyLxvUOHEkR9K5OyU3aVvPx?=
+ =?us-ascii?Q?bRYTLrN2bIiHMqPu+sDpZETwr7z+YfX3u3DJMdGQWF8zvSvBSBmgtFJDeA/h?=
+ =?us-ascii?Q?rpPTWN7+64RNSH7fQZzKTBmTOrkO5LwGy4y32IlkeNQ+pW3PVanYbea7rAnf?=
+ =?us-ascii?Q?2BhRQov9WhxV/ehfqquoexoqzDCW20viG4YhIpqF1UuDcveg8KuD6rYSJX8A?=
+ =?us-ascii?Q?Kli1KZnkOWKwGdb8Bx/endTAHPOTeEKrJeyAudxAlosU0VwvI6Y3ta+yYKDD?=
+ =?us-ascii?Q?fw0LjzeWlJX+3ivUSLDun3e+uKnW+xDW3nssgCmrR3svD6wqb9GyjeovId7z?=
+ =?us-ascii?Q?7zN/3vCKq33XDSLXYgxWxcaR4mcUlggYAabmgvlAbWaLa495l0CDDW7+MTgP?=
+ =?us-ascii?Q?zO0eVbNfjBuXHIqR1VmrAnjn1wtrwajjLSUZI33HU0LDebcKBY5qDvTCfnoq?=
+ =?us-ascii?Q?ZxtBNFJCOwtl4aGrWhMfX825JSKz5URvR2iJUDpWNUbZ/FBnK97b00ikEfe/?=
+ =?us-ascii?Q?zTplRNGTJMkYnyAdLhkvbbh4s2PlTy0ArboSwhlnH0Lj7+xSNpFAS2p+WWpR?=
+ =?us-ascii?Q?lSIQ3l7k9IorAx32hmNha8s/fL6Np40L5jttHxEOWK70R/T/A5i8E/J+P66m?=
+ =?us-ascii?Q?Qnqi0yd/NMgetu9qhCAXrhZSuqOeOteQSEFvPrwsNohDi/tYDdyUpQ7vivIX?=
+ =?us-ascii?Q?l/TPCt7R/Ux6ooNcCk2UFnWssi0DvQeF3ljt4PcwjzxQJE33d3i8W47pXklZ?=
+ =?us-ascii?Q?htEjSrFqFxxKfpOmEl/IP9xb8beQV2uLFCTMQWdGKDUcpdeJ+DknqLH69oEB?=
+ =?us-ascii?Q?MY3U708B05EAtLo5KWR6P5aIOzZ33xNjMMzGKh8ewgow/c4WfD+2onLKjNJx?=
+ =?us-ascii?Q?xv5NqLKObSPLveemO5iLIcboTOM7F/03YLojo6wetj6iswLBR4tOyFWDJChT?=
+ =?us-ascii?Q?cdfob9LxaX1WMyHbxTwwx1nf3tiAvn/O3gHSVtAApl46vmH8Nj1MjGaj2qrp?=
+ =?us-ascii?Q?V5s3dwMnV42HTTT4ItOS9JTo8G9DlXHygQpjRlf+ZzPqYqX/ybHcLGkyABNi?=
+ =?us-ascii?Q?0fzBgG6LnX/+UOjlfBkJ8DyeOuBY/w8ld0PGV332QwP/6gOGGY5GLlPW5+xF?=
+ =?us-ascii?Q?yXQluOL+L3QgcmS9/Jo2qMzWRzMTr5Vg4anWgTBY4PpcwWs+8iWl8PBth30j?=
+ =?us-ascii?Q?jdqtW0rJivX/Zqsxe8CKHaa1GXu0imIDFW+JHobcQAMdBUql6Uz3pnYAzhEv?=
+ =?us-ascii?Q?CyNHEeWFmG4mq2Md+Hinz991uODKM3Ix0fMVlvl2BzyGbKcybSRH6Fzf4+Es?=
+ =?us-ascii?Q?DJOmTtIaNxWigKxF0SnMzQeX5VzvkCGjeK4LZk2wVw1zz8cGF27f0AIogpkF?=
+ =?us-ascii?Q?xFNrjfBt93ra1jENYB8x0RuIwjMbUxCNk6d1dpe6Y1/aFOK4V3+uFFx4+oa9?=
+ =?us-ascii?Q?buSreAe0KzbiA2LS76GEla05BzFGZSp9DNB3ncitp/XsABp4KzLWHeSADtS6?=
+ =?us-ascii?Q?9gdX4A+hspfRap0CM19o6e01/10M+dB+CfVGN7dFRWBDXXuxjAD8ZJSO+r+b?=
+ =?us-ascii?Q?58TDsZ1SQ3GSnN5F+dYhD5LkiWg5cEn0nuMeMJhJt7OLe37dccVfPamgBiqh?=
+ =?us-ascii?Q?Qt++ak+9HPNOAEwRMLpmCykUYhdNJYiLWf593NIHlxLzsuzmiyIPHjlCyc1F?=
+ =?us-ascii?Q?FKN+ID9Z/XsM6sHhCkZqXKQM6vguJu8UqxpLAi9tZiBT19xT+9uxTkVfoylI?=
+ =?us-ascii?Q?iKbH4sCexkWU0UM4qK0NaLatPr2ypt8=3D?=
+X-Exchange-RoutingPolicyChecked:
+	bs8OViHraEVHXM2Gjs/IL7LIhzdp8LP6mHvLHlZ/9F3zF9DJ7RH9WyIku1nucThsvbiToYHPjQhintpej9v/mM+iO5/abRUCKJ4Qr5HgQTn/n/p/nDl2Lbt988JmgytoEqIwsoBEVopZuFQcMNkZsRvizBp5RO4pSNL4YS+vD6V0/tCYUQ7lm6O5wZYGMtO9Im061f1jaP8pUTUh5MLAYi6Z68C0DdgGQcUiuJbM/zCLRY6UQcHHwym3NNUldCRFEDMDCW+BssaPtN95JOr5pqp6/LAnid39tW7clxHUOBi3u9LInxC6imI+LtSQUM4GhfmAglyGmmklkkP8aiSyrg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	rrDQv9oBo1vkXqne7IwGlMhdoauiQ67bS3nLQgk/VTBaHQIL+d0+XdpkhB6aBrrNvzJ3ICeQgipZzRdwYNc1I1oNIFIIV8LqXiJ3aK/mpnPpyyFAJi32Bmpoju5rdFqNDZ9RF4qaUVlPFvS3l+xO9UqyIJSvaI6GTEmVDtcUa+YDKcxfK7u+qNJLQ6Ja5d0GEizub/Nl3ydt5oVmdK8xiNsJEg8fgFPu1K57L/oXmsxcyLEqpYDW/wr+eP0JaYmTudXCpjN9Z+2qD2zuhua71b2BUwfcA5Zpx3jlF0TivPbsqHZzTZ6m9XJJjzlR2Zyoa9pFs2LEjgImIFb99jWi8BjYf6fXf7+VEKwFKf3VQ9I0JNTLErDx8qYnwvKxjzKyxpV5/1PgUk2yEHlVtBCso37zR9SZNZ+IiyJ60i9Zhq8iClgsymbArxoZ2w90dor75lRSk+PujDOLIAv+KqIAR1vHXzAVyOaXgizSdvWPQWC8xUzd2/0kg2bf6cbvufQ6zPtfMl6odR9K4o7PvAMTRKnxJHPDrPsdiWbZfYtsyXwxW/mtqEEwM1OiOeKhq2zhbTQjx3Y4Lu6DdejzaVqzF8R/JwmyziBPElGGuQ2gN7I=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fedf9816-8720-44cd-c42a-08dea007fb74
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR10MB5338.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 00:42:18.5482
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t7Wd4GjlJxgkVLYw5A/yeJdkM6jhppYOdCEZCagTY+sGDvk40n/SItkorzRtlNb/H+eCSmgZo5C3cXdwallyXnw3nlK6I9XO1pSUfRZqjVY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7067
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-21_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2604200000 definitions=main-2604220005
+X-Proofpoint-GUID: 59UlIPyoIuQsNDXY0X_vnSDiaVBY6DWr
+X-Authority-Analysis: v=2.4 cv=Z6/c2nRA c=1 sm=1 tr=0 ts=69e81971 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
+ a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8 a=y48qp_fEp6yFt0aH7BsA:9
+X-Proofpoint-ORIG-GUID: 59UlIPyoIuQsNDXY0X_vnSDiaVBY6DWr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIyMDAwNSBTYWx0ZWRfX0STkWj5DByvb
+ D+AHvtQGxjBKiKkyhJ5GVqEScie7t5p5CZEXr9Lep76Dh2V+tkU4sbYQh/CbUxq90XZvgZHSDpZ
+ fl54dK0L3c+/TxDQtxZu4UNG/zqutECSkIeAZFielxgoJykppUD3iTGd3LvxR3hl1qt1hhMEZ8u
+ fxdX+q3BKBnG0nN63JQRWu4pQZaMDxqABpZJnMb20Jn+V9d2a0fb556YQ99y8hhi3UyfqaPN3lB
+ e98WVK6M8EaMTneZEeEpIew1oF9s1mlb/lcay0q7OoDhJuCaioBK1OhKHNw1T/kzVQiRsuFv/T2
+ eNfToTBri8eUF0iX6QvgVVJTCfZlvZMeXtGfCcEwbEohqsSztH1L1Uaur5m3lfgQkkLoKd9ZnkA
+ KeWd8GI3K2yxi2RTh6epRiMgIUnK3kJcm+oWLSnwkOHhxodvMd+l58mM05JNgRDwey7kUaJrVEH
+ i6vW+TtIj8gU1m6VtIg==
 
-Patterned after async suspend, allow devices to mark themselves as wanting
-to perform async shutdown. Devices using async shutdown wait only for their
-dependencies to shutdown before executing their shutdown routine.
 
-Sync shutdown devices are shut down one at a time and will only wait for an
-async shutdown device if the async device is a dependency.
+David,
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
----
+> This patchset allows the kernel to shutdown devices asynchronously and
+> unrelated async devices to be shut down in parallel to each other.
+>
+> Only devices which explicitly enable it are shut down asynchronously.
+> The default is for a device to be shut down from the synchronous
+> shutdown loop.
+>
+> This can dramatically reduce system shutdown/reboot time on systems
+> that have multiple devices that take many seconds to shut down (like
+> certain NVMe drives). On one system tested, the shutdown time went
+> from 11 minutes without this patch to 55 seconds with the patch. And
+> on another system from 80 seconds to 11.
 
-Updated to resolve conflicts with latest Linus tree
+Looks OK to me.
 
+Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 
- drivers/base/base.h    |   2 +
- drivers/base/core.c    | 101 ++++++++++++++++++++++++++++++++++++++++-
- include/linux/device.h |  14 +++++-
- 3 files changed, 115 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 30b416588617..8b155a91ac3a 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -116,6 +116,7 @@ struct driver_type {
-  * @device: pointer back to the struct device that this structure is
-  *	    associated with.
-  * @driver_type: The type of the bound Rust driver.
-+ * @complete: completion for device shutdown ordering
-  * @dead: This device is currently either in the process of or has been
-  *	  removed from the system. Any asynchronous events scheduled for this
-  *	  device should exit without taking any action.
-@@ -135,6 +136,7 @@ struct device_private {
- #ifdef CONFIG_RUST
- 	struct driver_type driver_type;
- #endif
-+	struct completion complete;
- 	u8 dead:1;
- };
- #define to_device_private_parent(obj)	\
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 00979555995f..92f788fd813d 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/async.h>
- #include <linux/blkdev.h>
- #include <linux/cleanup.h>
- #include <linux/cpufreq.h>
-@@ -37,6 +38,10 @@
- #include "physical_location.h"
- #include "power/power.h"
- 
-+static bool async_shutdown = true;
-+module_param(async_shutdown, bool, 0644);
-+MODULE_PARM_DESC(async_shutdown, "Enable asynchronous device shutdown support");
-+
- /* Device links support. */
- static LIST_HEAD(deferred_sync);
- static unsigned int defer_sync_state_count = 1;
-@@ -3540,6 +3545,7 @@ static int device_private_init(struct device *dev)
- 	klist_init(&dev->p->klist_children, klist_children_get,
- 		   klist_children_put);
- 	INIT_LIST_HEAD(&dev->p->deferred_probe);
-+	init_completion(&dev->p->complete);
- 	return 0;
- }
- 
-@@ -4799,6 +4805,37 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
- 	return error;
- }
- 
-+static bool wants_async_shutdown(struct device *dev)
-+{
-+	return async_shutdown && dev->async_shutdown;
-+}
-+
-+static int wait_for_device_shutdown(struct device *dev, void *data)
-+{
-+	bool async = *(bool *)data;
-+
-+	if (async || wants_async_shutdown(dev))
-+		wait_for_completion(&dev->p->complete);
-+
-+	return 0;
-+}
-+
-+static void wait_for_shutdown_dependencies(struct device *dev, bool async)
-+{
-+	struct device_link *link;
-+	int idx;
-+
-+	device_for_each_child(dev, &async, wait_for_device_shutdown);
-+
-+	idx = device_links_read_lock();
-+
-+	dev_for_each_link_to_consumer(link, dev)
-+		if (!device_link_flag_is_sync_state_only(link->flags))
-+			wait_for_device_shutdown(link->consumer, &async);
-+
-+	device_links_read_unlock(idx);
-+}
-+
- static void __shutdown_one_device(struct device *dev)
- {
- 	device_lock(dev);
-@@ -4822,6 +4859,8 @@ static void __shutdown_one_device(struct device *dev)
- 		dev->driver->shutdown(dev);
- 	}
- 
-+	complete_all(&dev->p->complete);
-+
- 	device_unlock(dev);
- }
- 
-@@ -4843,6 +4882,55 @@ static void shutdown_one_device(struct device *dev)
- 	put_device(dev);
- }
- 
-+static void async_shutdown_handler(void *data, async_cookie_t cookie)
-+{
-+	struct device *dev = data;
-+
-+	wait_for_shutdown_dependencies(dev, true);
-+	shutdown_one_device(dev);
-+}
-+
-+static bool shutdown_device_async(struct device *dev)
-+{
-+	if (async_schedule_dev_nocall(async_shutdown_handler, dev))
-+		return true;
-+	return false;
-+}
-+
-+
-+static void early_async_shutdown_devices(void)
-+{
-+	struct device *dev, *next, *needs_put = NULL;
-+
-+	if (!async_shutdown)
-+		return;
-+
-+	spin_lock(&devices_kset->list_lock);
-+
-+	list_for_each_entry_safe_reverse(dev, next, &devices_kset->list,
-+					 kobj.entry) {
-+		if (wants_async_shutdown(dev)) {
-+			get_device(dev);
-+
-+			if (shutdown_device_async(dev)) {
-+				list_del_init(&dev->kobj.entry);
-+			} else {
-+				/*
-+				 * async failed, clean up extra references
-+				 * and run from the standard shutdown loop
-+				 */
-+				needs_put = dev;
-+				break;
-+			}
-+		}
-+	}
-+
-+	spin_unlock(&devices_kset->list_lock);
-+
-+	if (needs_put)
-+		put_device(needs_put);
-+}
-+
- /**
-  * device_shutdown - call ->shutdown() on each device to shutdown.
-  */
-@@ -4855,6 +4943,12 @@ void device_shutdown(void)
- 
- 	cpufreq_suspend();
- 
-+	/*
-+	 * Start async device threads where possible to maximize potential
-+	 * parallelism and minimize false dependency on unrelated sync devices
-+	 */
-+	early_async_shutdown_devices();
-+
- 	spin_lock(&devices_kset->list_lock);
- 	/*
- 	 * Walk the devices list backward, shutting down each in turn.
-@@ -4873,11 +4967,16 @@ void device_shutdown(void)
- 		list_del_init(&dev->kobj.entry);
- 		spin_unlock(&devices_kset->list_lock);
- 
--		shutdown_one_device(dev);
-+		if (!wants_async_shutdown(dev) || !shutdown_device_async(dev)) {
-+			wait_for_shutdown_dependencies(dev, false);
-+			shutdown_one_device(dev);
-+		}
- 
- 		spin_lock(&devices_kset->list_lock);
- 	}
- 	spin_unlock(&devices_kset->list_lock);
-+
-+	async_synchronize_full();
- }
- 
- /*
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 9c8fde6a3d86..424a229d69df 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -615,6 +615,8 @@ enum struct_device_flags {
-  * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
-  * @dma_iommu: Device is using default IOMMU implementation for DMA and
-  *		doesn't rely on dma_ops structure.
-+ * @async_shutdown: Device shutdown may be run asynchronously and in parallel
-+ *		to the shutdown of unrelated devices
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-@@ -738,7 +740,7 @@ struct device {
- #ifdef CONFIG_IOMMU_DMA
- 	bool			dma_iommu:1;
- #endif
--
-+	bool			async_shutdown:1;
- 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
- };
- 
-@@ -969,6 +971,16 @@ static inline bool device_async_suspend_enabled(struct device *dev)
- 	return !!dev->power.async_suspend;
- }
- 
-+static inline void device_enable_async_shutdown(struct device *dev)
-+{
-+	dev->async_shutdown = true;
-+}
-+
-+static inline bool device_async_shutdown_enabled(struct device *dev)
-+{
-+	return !!dev->async_shutdown;
-+}
-+
- static inline bool device_pm_not_required(struct device *dev)
- {
- 	return dev->power.no_pm;
 -- 
-2.53.0
-
+Martin K. Petersen
