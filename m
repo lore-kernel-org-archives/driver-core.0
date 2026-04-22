@@ -1,78 +1,79 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DD03B9D93
-	for <driver-core@lists.linux.dev>; Wed, 22 Apr 2026 10:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5295D3CBE76
+	for <driver-core@lists.linux.dev>; Wed, 22 Apr 2026 10:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776852505; cv=pass; b=AIaWk6DYIigWw3NbWz1fCGYKVyzMBlNPPAFAgBaZsreSunZ6JKDAlPNgNYvYcnW7bbOUF5zowMqbgGNi3SiRKwvsgSgMZXXyymjgqJxmlkV95DN0/TEabBQzlDf+BzRhtNiL80w0tmkByQ6i2UN+Nc3efOhvFo4UoPKxXjVVb2M=
+	t=1776853554; cv=pass; b=B2nvJEckCTC8+I9qy7mvSR6CLHSu6ZSdcuvwfRJezRqDuNyqXo7oEr6lsPAtBj686TzHnIiccYjLnpUx7Rr6dIRhWQ+EtxJbHmDdZnSzLprMCYOJUiVP+efnso0APEzvQSJx7Lt7iwWgLQOpb7X9z7rIM2qhMjRim74inotRk8k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776852505; c=relaxed/simple;
-	bh=nCoV49HVym5KpFJq669SmgOv4OUFBlE42Ax7zUUgrZs=;
+	s=arc-20240116; t=1776853554; c=relaxed/simple;
+	bh=YooqRyA/DUQm5e1Bubx+ZKBrDAyHYH6gU8LhytOsrLU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HInTXhAyKo3OG5uowW2V+HgeHk/m8SCapEzq2GD13PN1U0dUTZB3p21b9aZTcpwr6uIUx8ltROogsqGmQShyhfsb1HGD2c/jEcL0cuaPQMLdl98iCn+DdTx9HY4tdfm9L8D2niZknqLPhnykyaLJrXMmlhCDn0QBKvGKGwlXVCY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NkgIEL1/; arc=pass smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=Q4G0NhM1YwVU4iV3EAk7t8y1LSV5AMee1wX1HWMMWqFxpHsca0sGDe3xcCmsZwvdv7W8STLoVCrWvSMbVcyyZSUb+AgWMyVeqlwm2A2yXQWUerNwoxtW1UfG8TWPbV/3yzeGDKLq1F9YjA6f99RoUWRULsHPPHZZT6nyLEtbn3U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NoIYujzC; arc=pass smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NkgIEL1/"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a402dea4a5so5989417e87.2
-        for <driver-core@lists.linux.dev>; Wed, 22 Apr 2026 03:08:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776852501; cv=none;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NoIYujzC"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a4113ab355so5533912e87.1
+        for <driver-core@lists.linux.dev>; Wed, 22 Apr 2026 03:25:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776853551; cv=none;
         d=google.com; s=arc-20240605;
-        b=kiY29N+G1rq7OWFYV9kDycVQK9a10RhMArkfPQNF5J7qsMPye8RjdFAyhwsyeffVfD
-         MMWITvh5OiufZ3IpZYbgesSXh1XnY34LU2RREdwlKR81Pymr0Tca8+uBJ6FGjYjCZti9
-         UIfLj/lQtI7b6qJ8YY0oSOS1aDgtzYSFBJTIwkvQMDmHEqkm8Mx0MzuWSVhjKOw9QiU9
-         8F1mgTbwlVwiN6eRa1mlqWnN9sz+D7GrfpEG3BuCOLvZrfQM8rcyLvdlMnmmRgSK/h8/
-         XNdlc5o8i7Ry0hV/UXvyJ+YjqjC8G9wCG1XRDU2QrHb3DQ4rYOt4vtLSOMqtIZJB9CEf
-         liRA==
+        b=E4TtMBWQ64xRorFKBqZ7r+DQpKMkPJdkWK/95OsBv7ASUfrwzHScklkPmsARBJJga8
+         WtIxuzAUMWY2Q5tSlJADSVoAOC4LVJHE9HtDPt/1qgV89BGjFzwTGLa3bxLqUXrwScKI
+         KeBKU/hs3fNbe1MldgUDldckLsoevArEh1liDowntbtO8xciS/wosCHAQZU45ALZZK94
+         FX8G0GKPQSkw0DhWZAa8YJR9Vg62oafcM5ufQqYbhrlrkzVhIJFBsjg7qzaDUIsImKjU
+         VzGc2gmvTX4/GnsSGJBG3bK2A274+44US1IP+cstzypET5hhh7/n0hk8kRUwFIcMm8oz
+         3hxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=uTyCSfRMVmFA3LOz4cC7W7FYlOyU1Jx/xl8KZgNvmJM=;
-        fh=B3pfMfttrqtBiIHzwB55TdNrsD1x1D5Y4cRI9bU/Xdg=;
-        b=gWLq1wu6hWbd4IgsIT/sr9bhR/84skiVj/wTkDPNpiRwtEKje8hEVn249//tpgj9rH
-         tmRECzDPFJHg1f8IhxqO5epK0x133XdoPaxmYhvcc7sNaGs/C1VcDGwTSSbeG/NoV3Uw
-         Te3TcYYC0+YDz2+NdpEcoNROcc4nFJWx+coAv/uTQJc1vuw8moJAWOW4g1+C7Q6+D5y/
-         dWYsAkJNZ82U6iT4TBWeEv/ED0Gpyq62mUDqOwdJqApzB6tOPaB2Ka8RqbHjPUvwFYNs
-         ChT1EVHuM8xDYtIter9m6qjVPHu3aNd4doc/8CCpTjxRtxctyR9yVrlRxgL3HEARJEW/
-         A6TA==;
+        bh=Wq8+U2WZxewGPTZ86+kP7pb8whJIc4RPuZ9dCPJUDAo=;
+        fh=P4s4JZlVbwtPp5bCJd+6voTt3q5cV+40O/vH97BCS+M=;
+        b=XN0YrGpa0z9SnN6XBB010bTeLBX7vUetmomo9cUWUiqS/AL5MD5Ic7tEqTKpKAywS4
+         xoy/MwFduhj0ZcUrapCcyVPdgiEB89sGD7h4LlwpyE7Go46cUIr7ik20MH+D+3nCUk+W
+         MX64e5HPferq4lfaZfcApwHtr5+5922I3lM28NJAAlSIFmkKN0BaqNOI4fv3osBZ9dX5
+         O2tdeYdOfME9KbwoWMsydnseiCB0CKx1/fOCuowjKWpduVqvJu2g4vCK1z2x5I3YqSsg
+         01GXWZvXuOFAaZMWOCmyiChjxEdHovxMRnpr6LZfdlE+RjPyNa+lUXgt6fkyPL6G5yMl
+         w/mA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1776852501; x=1777457301; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1776853551; x=1777458351; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uTyCSfRMVmFA3LOz4cC7W7FYlOyU1Jx/xl8KZgNvmJM=;
-        b=NkgIEL1/fX7p0BTNr4YP5XbvlvbxInTdoL7YbpMHIrF7sX54+KeIyGJGhCNjojOzg6
-         J+/TWXUd8XY+lUfa0pyj9Njs5+ngFfWmN+Ls01y3oGa19i+Pm41ARluDlv5clAN+flX8
-         /ph5MkYvx5Nm4TgCkzHjYqQYMDVZbSqzPqDxbo44fiGnoskQhHD9zFZZBs9DtSsUKAeK
-         aGiborihtZeC0A1ezln3RXYHkqstWg/5bpozAcgVQOgJOgR2lD3/N9PbEWQ3C3dZIn+D
-         eaX24kWOb8l0YF3fiPvsFSsw45rHlcKjPhO7s30c00t9tJvLCWifFyoq56FcJq82RgTf
-         JVug==
+        bh=Wq8+U2WZxewGPTZ86+kP7pb8whJIc4RPuZ9dCPJUDAo=;
+        b=NoIYujzCYLnYXBfbYS783wDSeK/aFQYoTVxiz/MnK/8xHWUPBBHCb3S4yO6GfP92AA
+         L380bQ7HezRjsQ0Iww6J8Up8pT2eZ9oADmEfqTIw3/af5Z22Ck3CBWuM0PK3Hth+013k
+         6vHV/5+Wv2fJvDTkJC/b9vYsrzl+aqoEtwTZGNBU0NyZzYyZ9KMvgapQVWpKHvzToakA
+         p7mYrKYM6pE3d3KNjt0WbvHUkqoU+jI+UX/GYDjQKluPQPXCJck6EGSeecD1fFGt7gsM
+         SD4UWAIpq+O9Knuyiiawq+gxWVNhoQJxY7VRghMhUPus7ZHFARs4aocJT4S7uW4cFF9f
+         7QYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776852501; x=1777457301;
+        d=1e100.net; s=20251104; t=1776853551; x=1777458351;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uTyCSfRMVmFA3LOz4cC7W7FYlOyU1Jx/xl8KZgNvmJM=;
-        b=ObzlGZZztGRznOqwPMhbVWEBaAcV3kywH7G6MZ1l4FE4dGCUZZy0cwfJe+omp/DXbb
-         2OYmwQeERjS2zq29Eod8PmaCrAP1F7CJV9N53k2LyvoTUZspnLF+lSvAy7Da6w0JiwrO
-         yb5u6Jgv7PiolGeLfrUzx8VD493GvNnFpqRQPOA1G3muDrNzmWvjvkCcYaz9zqbBvC7q
-         wolmcI4DZ3QwHa7mR7rqkynHIuQe0gzQUHWSVVsgRw91HUg5AmbcDw5FqlsROYHxb41j
-         aM+LlwC8XhYsukrXjxYiIU0Tn68WWGnXd1SAl4a77QrLgClW4cjPf1pbJ689Yb1LMA7O
-         VaDw==
-X-Forwarded-Encrypted: i=1; AFNElJ/xyB0ygNgsDMnjfTkWPZzpxBCyNjQ8B1zQpvaVt6AP8pCfwqDx6/knbmU1+CE0zc30Zyd/rxQBOzE2DQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhYZjjWg1M1rnZqqPh/qw6p5m9ahjOQoeBzoWb4M4snWqNwEXf
-	xV2w+/WA9+KZLpwl47g/mEIU/F+XGb1tOt4+TEKXIk5dX/wqa54kjlKQIfBlodzLOyoNE9SSffj
-	q4kRk/DoE1fs18lQazb11Nj4tce1Kp33HgaseVrM3cg==
-X-Gm-Gg: AeBDiev4t58TTpShcDS95AX49fWPcvdWj11kS+cr8tPYomPTgMGDLiqE0VZHuGgz86y
-	4Prp5uNyErxUIHJiWtwjSdcyGuUkRNdHyYTTYVKLseRJnC005o0xi3Gps/nzByNjN2fh3x2SxFX
-	TLNGu/r/HEnK4LwgkeSeZqU1pB8MfHo7sjLwwsScdRfML/ti2DtdYclQYO8iDtrX9k79RA3XDOQ
-	davkc8buq2fAjsY6lGqedyItGlu0MX0BVaaA9tActVsSUZkB/rCIRotiOfUBMuTJ7kB3v7+5iFg
-	RAiDcb1SdFuUzQyLEnU=
-X-Received: by 2002:ac2:4c4b:0:b0:5a4:b0:a072 with SMTP id 2adb3069b0e04-5a4172ca655mr6734556e87.4.1776852500411;
- Wed, 22 Apr 2026 03:08:20 -0700 (PDT)
+        bh=Wq8+U2WZxewGPTZ86+kP7pb8whJIc4RPuZ9dCPJUDAo=;
+        b=LAhzOuvAy7uILlepmBa6GtxdcgsdVhPOhs2I0U6S3j6ESbKK8Vu5TicdGtasPQW7Ip
+         FK5qBPWxYCDamCKfdsEifV7VD0raxROmF43vMksOG49mJGvY0pPzx/rlvFXUJ2UZc5Uq
+         z5AHfURTaJQgw16NXe6e2Ncrd3J5po5J/lYZOZuB4kZdByc0JHeNJc8NEk6Z6HjsHWRw
+         oTTpU2mkJLFAfbeYYTLJ7MdlkY4IrQ9URtx5IaAdFuqHv+bI+8C3TytdsEvH0WQaddZc
+         3zkbk/Ehfk3DGrNNSZOoSonauR/Ki7KmKQJU8ScCbhS/U1Hq5kCtf6OnWWByHU1BtS4o
+         474A==
+X-Forwarded-Encrypted: i=1; AFNElJ+ACxvvIbwckS5zvGBExWPiz1CR6c0i6j9FEGpGEwmuUgJd374GtMDfHLTpRdnUmJ85I4MMbG7JmyKCuA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YznyEsRwgb9j65jcF3j8tLFH7yqGqGNr8Ar/7i3GpNgN6JC6Sds
+	Wj2KYsY9zZhXsCh7FGatqhiZXr0iW7hcotJl1Zb1VyV0eYxE2iU4HwVnegnsrPmP1IeVCiFqOBG
+	G+rX2qa+aDIQt7yI2zK9gvMdsATDiF0tMQxdaPwhZKA==
+X-Gm-Gg: AeBDiesjfTyEVVqROzZHmJh5JZOuCc6FYQm6XNSNRVcLmRlDF3u7LhyNBVRfJLuQATA
+	9StPgwvVvu7CgA543tnDsJAMikoa6UVQEUHjwTrbOc1K5tSL4tsJHgFvjQWauLXDpBi23C2ujcf
+	Nc7RgJwkxRXx6piZMjSbw+cfwcbqRJJOBkxDvfkKQLR/UaFSnsnA9TvlnIap9oQqQp8lU73D5NH
+	sW+MlEdVVNZdBLFerGadXJesnHDgeJ7CI/xuigqMkwOP2asMk1A0+8VOpU2f+uDI4T4gYwSqAop
+	HkcKotXLkDYrJfv8tMU=
+X-Received: by 2002:a05:6512:1094:b0:5a3:ff6c:9df1 with SMTP id
+ 2adb3069b0e04-5a4172e7f69mr7060238e87.39.1776853551219; Wed, 22 Apr 2026
+ 03:25:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -80,14 +81,13 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260410104058.83748-1-ulf.hansson@linaro.org>
- <20260410104058.83748-2-ulf.hansson@linaro.org> <DHW8QPU1VU1F.3P6PH69HLFBYC@kernel.org>
-In-Reply-To: <DHW8QPU1VU1F.3P6PH69HLFBYC@kernel.org>
+ <20260410104058.83748-3-ulf.hansson@linaro.org> <DHW8QV8K3CM1.307C6PW2BM5RN@kernel.org>
+In-Reply-To: <DHW8QV8K3CM1.307C6PW2BM5RN@kernel.org>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 22 Apr 2026 12:07:44 +0200
-X-Gm-Features: AQROBzC5eJAyDlpSocEWC79YWE17Iafg8A3OHcUQDEnYvf-zjcf7j-wZjMNN0Zk
-Message-ID: <CAPDyKFqMDPiqvqJrq5Qs6Tw4Sc7szG4G-=y0NFkNSPoNd9kdVA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] driver core: Enable suppliers to implement fine
- grained sync_state support
+Date: Wed, 22 Apr 2026 12:25:15 +0200
+X-Gm-Features: AQROBzCHhHSXfjVj8apklmTonwOpiVF9jPJJQpHw-yRBihJtcF-VZQ649rGH3jg
+Message-ID: <CAPDyKFpeSv+fg=YKJE_qc=Q5BfiJFn0tR7Ar8SncqrD0UW1P1g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] driver core: Add dev_set_drv_queue_sync_state()
 To: Danilo Krummrich <dakr@kernel.org>
 Cc: Saravana Kannan <saravanak@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org, 
@@ -103,121 +103,31 @@ Cc: Saravana Kannan <saravanak@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.
 	Geert Uytterhoeven <geert+renesas@glider.be>, driver-core@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 18 Apr 2026 at 13:23, Danilo Krummrich <dakr@kernel.org> wrote:
+On Sat, 18 Apr 2026 at 13:24, Danilo Krummrich <dakr@kernel.org> wrote:
 >
 > On Fri Apr 10, 2026 at 12:40 PM CEST, Ulf Hansson wrote:
-> > The common sync_state support isn't fine grained enough for some types of
-> > suppliers, like power domains for example. Especially when a supplier
-> > provides multiple independent power domains, each with their own set of
-> > consumers. In these cases we need to wait for all consumers for all the
-> > provided power domains before invoking the supplier's ->sync_state().
+> > diff --git a/include/linux/device.h b/include/linux/device.h
+> > index e65d564f01cd..f812e70bdf22 100644
+> > --- a/include/linux/device.h
+> > +++ b/include/linux/device.h
+> > @@ -994,6 +994,18 @@ static inline int dev_set_drv_sync_state(struct device *dev,
+> >       return 0;
+> >  }
 > >
-> > To allow a more fine grained sync_state support to be implemented on per
-> > supplier's driver basis, let's add a new optional callback. As soon as
-> > there is an update worth to consider in regards to managing sync_state for
-> > a supplier device, __device_links_queue_sync_state() invokes the callback.
-> >
-> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > ---
-> >  drivers/base/core.c           | 7 ++++++-
-> >  include/linux/device/driver.h | 7 +++++++
-> >  2 files changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/base/core.c b/drivers/base/core.c
-> > index 09b98f02f559..4085a011d8ca 100644
-> > --- a/drivers/base/core.c
-> > +++ b/drivers/base/core.c
-> > @@ -1106,7 +1106,9 @@ int device_links_check_suppliers(struct device *dev)
-> >   * Queues a device for a sync_state() callback when the device links write lock
-> >   * isn't held. This allows the sync_state() execution flow to use device links
-> >   * APIs.  The caller must ensure this function is called with
-> > - * device_links_write_lock() held.
-> > + * device_links_write_lock() held.  Note, if the optional queue_sync_state()
-> > + * callback has been assigned too, it gets called for every update to allowing a
+> > +static inline int dev_set_drv_queue_sync_state(struct device *dev,
+> > +                                            void (*fn)(struct device *dev))
 >
-> s/allowing/allow/
->
-> > + * more fine grained support to be implemented on per supplier basis.
-> >   *
-> >   * This function does a get_device() to make sure the device is not freed while
-> >   * on this list.
-> > @@ -1126,6 +1128,9 @@ static void __device_links_queue_sync_state(struct device *dev,
-> >       if (dev->state_synced)
-> >               return;
-> >
-> > +     if (dev->driver && dev->driver->queue_sync_state)
-> > +             dev->driver->queue_sync_state(dev);
->
-> This seems to be called without the device lock being held, which seems to allow
-> the queue_sync_state() callback to execute concurrently with remove(). This
-> opens the door for all kinds of UAF conditions in drivers.
+> As this is a public function, please add some documentation.
 
-If that were the case, this whole function would be unsafe even before
-this change. I assume this isn't because of how the function is being
-called, but I may be wrong.
+Most of the static inline functions in device.h lacks documentation.
+Are you suggesting that we should move towards documenting all of
+them?
 
-Anyway, let me add a get/put_device() here somewhere, to ensure we
-prevent this from happening. I assume that is what you are proposing?
+In this case, dev_set_drv_sync_state() also lacks documentation and to
+me, it doesn't make sense to add documentation only for
+dev_set_drv_queue_sync_state(). Do you want me to add it for both?
 
->
-> This also made me aware that the above dev_has_sync_state() is probably broken,
-> as it also performs the following check without the device lock being held.
->
->         dev->driver && dev->driver->sync_state
->
-> I think nothing prevents dev->driver to become NULL concurrently; in this case
-> READ_ONCE() should be sufficient though as it doesn't execute the callback.
->
-> I will send a patch for this.
-
-Okay, thanks!
-
->
-> > +
-> >       list_for_each_entry(link, &dev->links.consumers, s_node) {
-> >               if (!device_link_test(link, DL_FLAG_MANAGED))
-> >                       continue;
-> > diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
-> > index bbc67ec513ed..bc9ae1cbe03c 100644
-> > --- a/include/linux/device/driver.h
-> > +++ b/include/linux/device/driver.h
-> > @@ -68,6 +68,12 @@ enum probe_type {
-> >   *           be called at late_initcall_sync level. If the device has
-> >   *           consumers that are never bound to a driver, this function
-> >   *           will never get called until they do.
-> > + * @queue_sync_state: Similar to the ->sync_state() callback, but called to
-> > + *           allow syncing device state to software state in a more fine
-> > + *           grained way. It is called when there is an updated state that
-> > + *           may be worth to consider for any of the consumers linked to
-> > + *           this device. If implemented, the ->sync_state() callback is
-> > + *           required too.
->
-> What happens if this is not the case? Maybe worth to check and warn about this
-> in driver_register().
-
-Good point!
-
-I believe I should also add a check in dev_set_drv_queue_sync_state()
-that is added in patch2.
-
->
-> >   * @remove:  Called when the device is removed from the system to
-> >   *           unbind a device from this driver.
-> >   * @shutdown:        Called at shut-down time to quiesce the device.
-> > @@ -110,6 +116,7 @@ struct device_driver {
-> >
-> >       int (*probe) (struct device *dev);
-> >       void (*sync_state)(struct device *dev);
-> > +     void (*queue_sync_state)(struct device *dev);
-> >       int (*remove) (struct device *dev);
-> >       void (*shutdown) (struct device *dev);
-> >       int (*suspend) (struct device *dev, pm_message_t state);
-> > --
-> > 2.43.0
->
-
-Thanks for reviewing!
+[...]
 
 Kind regards
 Uffe
