@@ -1,73 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E11B34F483;
-	Wed, 22 Apr 2026 11:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776857453; cv=none; b=Vsbuh7VHIBGD1gIpMhPoqlG41VJOPzuUFAQwlviGFPCIvQP7iCSVQHwxvTr9rOX388lvZm8ewjju3oVRyt+Hog3rnoBQGwuF5E3P5IgkTBP4OooYOyCgidyNsLCcsNTc+hF8DJX3OXdSH/igAtSkIGlS4UIxgoWsum15euME1fI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776857453; c=relaxed/simple;
-	bh=HNP7/Ly2fmpYkbHHqHZ+20Ii3h9E4ykECwdUZjI26UQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=dBDlIurvA6O2orWyCp+rw0Y946PNQf98PV28rmlAgQnbmZHEG4h9oS/dbWyi3D8Y0iiSiLUGYDtMvSgCQ/rbxZAHzvXDsgfKnPuihyS6XyMORlB9cf4+/NMyysNc147XCng6H8VS3IWd4cEV9m0lbbl+x01a2r5PA4Dq3XeeEOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FaYqL1Yl; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4283D1CA0
+	for <driver-core@lists.linux.dev>; Wed, 22 Apr 2026 12:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.94
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776859789; cv=pass; b=Z40F69V4REAej3UL+LZJzhdHkXBl78u0l5BySrp70MBSv8jzuIOtRJ55dT2OQ5QslE7migIU4c/bnHHGQYGblYQvRtrmgOOrW6Qr+fNrZzVreONvwgUr1caBfBTt4d6aKCettupqMqQSrP2ZdtZ5ShJCCH7fgdsR6s3Du2k+UM4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776859789; c=relaxed/simple;
+	bh=STE4d+wvx0hoLPp5MVn8a3Wlkg7ArATVNeymKFpTVMI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SC47KDGNInT8eKYvNniucZm5fplOqF8cC0ispEsfFBLUoca46yvhDKifFxSoLfbHFT3ltXv9FYnMHtJJ6TbxzXjx74w48+Z6Cc0aP87u/7LWDZq/xmQ6DK4Zuax4Qv5YmtCZGHpK4rk1HPMYuH6jwBrkJ2jtPRJpiax+UCibJYc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com; spf=pass smtp.mailfrom=zohomail.com; dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b=V5OAhzFh; arc=pass smtp.client-ip=136.143.188.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FaYqL1Yl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B173BC19425;
-	Wed, 22 Apr 2026 11:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776857453;
-	bh=HNP7/Ly2fmpYkbHHqHZ+20Ii3h9E4ykECwdUZjI26UQ=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=FaYqL1YlDhE1HYa/LcbcDJ8V7tVVrSHb7V1o4IoHNll4KRUQ8H+M25mss1toKLIdW
-	 OR3y0d9Qf8lk2QMWsX++1jl3Sxa5mfL82rHLfpC5eanFr9xHTgy7WwSgOLyGt2Nhp2
-	 1EGpDUazMCn7F/u9n+FvUerpJJGa7LP1/HjgnMGX83syMgqD9D24gOyvQRe/Vfm7uK
-	 H4KiJgUU8v4XRp6RCwlvyEolSzUDk0ax/C7biCu3EbT3p5fqEy2D8fgRg90Bd9uELF
-	 slZhs258Q8kiLCP4wtbhut5X68vrk4CBixxNKpMQ43ldaVtEMQlmm5vXJlQADzEtD4
-	 aw9ymdu6p91vA==
+	dkim=pass (1024-bit key) header.d=zohomail.com header.i=ming.li@zohomail.com header.b="V5OAhzFh"
+ARC-Seal: i=1; a=rsa-sha256; t=1776859781; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=aCGDY5mGfjmPfG3dPkX/UA9TY2ML5MIFg5IQCgazhub/USUpy5GhkIdM0WzK9NMq68l3KxsS9gX2aOfg1nzsqzuyJVh37ex2sBjV7oQvLEfogJaFuT6Ww794vEVFuCiiSj5UKxoJ5XwmOT+61X4XbfsDSEqJr7V16VtWXZ7XxUU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1776859781; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=5v9bGqpTNxIAm+bo73TwmO9KlGUD6jTG8P4mKSEy4uA=; 
+	b=GYm89NRXRW1ew65v5M5/iqAk4GsNoO9g48ieRfbrXQ8cBAT/+F64BifgYN3JGRoHnv1qaSyzfdLEKib1tLxYQmxCdT2JiqZ2S3MjdXsPLj8kudPf3JGQX6ksef+wzbi2U9Hy0D6MbGMwD9qbzgqRvszPAqjTUYkLCVcwWawEkWs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=ming.li@zohomail.com;
+	dmarc=pass header.from=<ming.li@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776859781;
+	s=zm2022; d=zohomail.com; i=ming.li@zohomail.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=5v9bGqpTNxIAm+bo73TwmO9KlGUD6jTG8P4mKSEy4uA=;
+	b=V5OAhzFhAhqGog2hpc6qO41tEAEOz1ulAy2K2Hc3fq+Fo9ZKQywDT4/Ttn765OBr
+	MXYGbMuEToSewm0VpflofzRVFECevi+dH8jOUJb6hwsv2ZOgwmtnzvqK2Zz9vtL/MeL
+	0msdqwvWOexBa2a1OuJAQ04y53DqyVnKw3EJBP7I=
+Received: by mx.zohomail.com with SMTPS id 1776859779233435.4564064357088;
+	Wed, 22 Apr 2026 05:09:39 -0700 (PDT)
+Message-ID: <6b967b54-ade8-4398-b4c1-2cdb755ab684@zohomail.com>
+Date: Wed, 22 Apr 2026 20:09:30 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 22 Apr 2026 13:30:47 +0200
-Message-Id: <DHZNEABUEFY3.19CX7BFMMTBKT@kernel.org>
-Subject: Re: [PATCH v2 2/9] driver core: Add dev_set_drv_queue_sync_state()
-Cc: "Saravana Kannan" <saravanak@kernel.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- <linux-pm@vger.kernel.org>, "Sudeep Holla" <sudeep.holla@kernel.org>,
- "Cristian Marussi" <cristian.marussi@arm.com>, "Kevin Hilman"
- <khilman@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Marek
- Szyprowski" <m.szyprowski@samsung.com>, "Bjorn Andersson"
- <andersson@kernel.org>, "Abel Vesa" <abel.vesa@oss.qualcomm.com>, "Peng
- Fan" <peng.fan@oss.nxp.com>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Maulik Shah"
- <maulik.shah@oss.qualcomm.com>, "Konrad Dybcio" <konradybcio@kernel.org>,
- "Thierry Reding" <thierry.reding@gmail.com>, "Jonathan Hunter"
- <jonathanh@nvidia.com>, "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- <driver-core@lists.linux.dev>
-To: "Ulf Hansson" <ulf.hansson@linaro.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260410104058.83748-1-ulf.hansson@linaro.org>
- <20260410104058.83748-3-ulf.hansson@linaro.org>
- <DHW8QV8K3CM1.307C6PW2BM5RN@kernel.org>
- <CAPDyKFpeSv+fg=YKJE_qc=Q5BfiJFn0tR7Ar8SncqrD0UW1P1g@mail.gmail.com>
-In-Reply-To: <CAPDyKFpeSv+fg=YKJE_qc=Q5BfiJFn0tR7Ar8SncqrD0UW1P1g@mail.gmail.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] cxl/memdev: Hold memdev lock during memdev poison
+ injection/clear
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Ira Weiny <ira.weiny@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Ben Cheatham <benjamin.cheatham@amd.com>, Dan Williams <djbw@kernel.org>
+References: <20260314-fix_access_endpoint_without_drv_check-v2-0-4c09edf2e1db@zohomail.com>
+ <20260314-fix_access_endpoint_without_drv_check-v2-2-4c09edf2e1db@zohomail.com>
+ <c784d84c-e8ac-4c87-abec-3d4e64f074a2@intel.com>
+ <d2ed94ec-e5c7-4b6b-9fe8-68f22bd632ad@zohomail.com>
+ <dfc0979a-b01a-4c90-8bc8-7a60fb795dc7@intel.com>
+ <69da9fa696d0f_6c31a100e8@djbw-dev.notmuch>
+ <778c8dc5-b65e-4b1f-be13-8bfb960cefc3@zohomail.com>
+ <92f138f9-b041-461d-b159-ff1bc265bbee@intel.com>
+From: Li Ming <ming.li@zohomail.com>
+In-Reply-To: <92f138f9-b041-461d-b159-ff1bc265bbee@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Feedback-ID: zu08011227289e85931126fb188b91240800007f1d1981d1187c78e986ef90ea07435d87ed8b6def0442e595:ZohoMail
+X-Zoho-CM-AccountID: abd763e7b9fa23acf4f42a44f9876d2d993e05abdb9290f9ccb1008c977bf7f0
+X-ZohoMailClient: External
 
-On Wed Apr 22, 2026 at 12:25 PM CEST, Ulf Hansson wrote:
-> Most of the static inline functions in device.h lacks documentation.
-> Are you suggesting that we should move towards documenting all of
-> them?
 
-I'd prefer that, yes. After all, if they are defined in device.h, they are
-public APIs, so they should ideally have documentation.
+在 2026/4/21 23:29, Dave Jiang 写道:
+>
+> On 4/21/26 3:48 AM, Li Ming wrote:
+>> 在 2026/4/12 03:23, Dan Williams 写道:
+>>> Dave Jiang wrote:
+>>>> On 3/18/26 4:59 AM, Li Ming wrote:
+>>>>> 在 2026/3/17 23:00, Dave Jiang 写道:
+>>>>>> On 3/14/26 12:06 AM, Li Ming wrote:
+>>>>>>> CXL memdev poison injection/clearing debugfs interfaces are visible
+>>>>>>> before the CXL memdev endpoint initialization, If user accesses the
+>>>>>>> interfaces before cxlmd->endpoint updated, it is possible to access an
+>>>>>>> invalid endpoint in cxl_dpa_to_region().
+>>>>>>>
+>>>>>>> Hold CXL memdev lock at the beginning of the interfaces, this blocks the
+>>>>>>> interfaces until CXL memdev probing completed.
+>>>>>>>
+>>>>>>> The following patch will check the given endpoint validity in
+>>>>>>> cxl_dpa_to_region().
+>>>>>>>
+>>>>>>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>>>>>>> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+>>>>>>> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+>>>>>>> Signed-off-by: Li Ming <ming.li@zohomail.com>
+>>>>>> Hi Ming, I dropped this patch with Dan's comments [1] and updated cxl/next. Please check and make sure everything looks ok to you. Thanks!
+>>>>>>
+>>>>>> [1]: https://lore.kernel.org/linux-cxl/69b8b81621e16_452b100e@dwillia2-mobl4.notmuch/
+>>>>> Hi Dave,
+>>>>>
+>>>>> I think there is no change needed in this patch, just need a independent patch for holding memdev lock in cxl_region_debugfs_poison_inject/clear.
+>>>>>
+>>>>> Or you want to review this patch again?
+>>>> No. Maybe I misunderstood the comment from Dan. So we should keep this patch?
+>>> tl;dr: yes, this patch is *now* valid.
+>>>
+>>> As originally structured having patch2 before patch3 added no value.
+>>> Going forward I would say do not structure a series such that a new lock
+>>> taken in patch N starts being useful in patch N+1.
+>>>
+>>> I assume that is what:
+>>>
+>>> "The following patch will check the given endpoint validity in
+>>> cxl_dpa_to_region()."
+>>>
+>>> ...is trying to say, but when commits are applied to the tree it is
+>>> difficult to see that this commit was from a series.
+>>>
+>>> So do pick this one up, but the changelog needs adjusting. Something
+>>> like:
+>>>
+>>> "cxl_dpa_to_region() assumes that it is running a context where it is not
+>>> racing changes to "cxlmd->dev.driver". Acquire the memdev device lock in
+>>> the debugfs entry points to preclude debugfs usage racing cxl_mem driver
+>>> detach."
+>>>
+>>> With that you can add:
+>>>
+>>> Reviewed-by: Dan Williams <djbw@kernel.org>
+>> Hi Dave,
+>>
+>> Will you pick this patch with changes from Dan's comment? Or I need to send out a new version?
+> I believe it's merged into linus/master already. Can you check and see if everything looks correct?
 
-(If a function is only used throughout the driver core, it should be in
-drivers/base/base.h instead.)
+I don't see this patch in linus/master or cxl/next. I remember you 
+dropped it after applying the patchset to cxl/next.
+
+
+Ming
+
