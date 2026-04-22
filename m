@@ -1,78 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ED127FB05;
-	Wed, 22 Apr 2026 11:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E11B34F483;
+	Wed, 22 Apr 2026 11:30:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776857257; cv=none; b=t2aAoIvfDDLyRke+tjh0mUiKN5o1isdomwaNXHHuF77BbReMIZRTUzYSYLcxTzST5rN17pA86gS3zx5P1xGUdyI4eUtUmKDO3zZj0r83hgr/yev7Y7St8O/Qo4Lt+D1+QuyCzm7KbMmuEtqHmSgirnpgwciz23tIfb8MklivDds=
+	t=1776857453; cv=none; b=Vsbuh7VHIBGD1gIpMhPoqlG41VJOPzuUFAQwlviGFPCIvQP7iCSVQHwxvTr9rOX388lvZm8ewjju3oVRyt+Hog3rnoBQGwuF5E3P5IgkTBP4OooYOyCgidyNsLCcsNTc+hF8DJX3OXdSH/igAtSkIGlS4UIxgoWsum15euME1fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776857257; c=relaxed/simple;
-	bh=I3A5vzKKmr/BUI6ycsaCFjVHGYLX/XgpV0LIBxr//m8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eSlqB5R9pb+rOkdZcfMXmYvmVzTdBf7zqTVfPrjFN04ldvYmvxjBbvXG+UD6fBvqFhllyDxOS6+rv0sNZny2IAOlivOcaDtDNSjFVfeluHwCIYL5018DUwJDRziMbfqG7NuvL1aAypUkgs6PCJBx8JrtoGH2+I0ZHc656ZLHNqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YfLDCdPf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776857453; c=relaxed/simple;
+	bh=HNP7/Ly2fmpYkbHHqHZ+20Ii3h9E4ykECwdUZjI26UQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=dBDlIurvA6O2orWyCp+rw0Y946PNQf98PV28rmlAgQnbmZHEG4h9oS/dbWyi3D8Y0iiSiLUGYDtMvSgCQ/rbxZAHzvXDsgfKnPuihyS6XyMORlB9cf4+/NMyysNc147XCng6H8VS3IWd4cEV9m0lbbl+x01a2r5PA4Dq3XeeEOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FaYqL1Yl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YfLDCdPf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F691C19425;
-	Wed, 22 Apr 2026 11:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776857256;
-	bh=I3A5vzKKmr/BUI6ycsaCFjVHGYLX/XgpV0LIBxr//m8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YfLDCdPfbKxE9Xc7LpMa2DM5pnZjmOevyPXZFaZE0gSZTKcZeYWXJXrdiDo8T9uJ6
-	 Ab7ip7yS9aOhyVUAZMxhCMdqkjM18P8PA9zl3FSei8FD5Gc5TMPib7dy46S7SbXU0N
-	 aM2gizjEpmMUr5XS49klkkfNwWulksbEsHVHpbsU=
-Date: Wed, 22 Apr 2026 13:27:34 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH v3 4/4] docs: driver-api: add mod_name argument to
- __platform_register_drivers()
-Message-ID: <2026042214-awaken-slouchy-4903@gregkh>
-References: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
- <20260422-acpi_mod_name-v3-4-a184eff9ff6f@sony.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FaYqL1Yl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B173BC19425;
+	Wed, 22 Apr 2026 11:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776857453;
+	bh=HNP7/Ly2fmpYkbHHqHZ+20Ii3h9E4ykECwdUZjI26UQ=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=FaYqL1YlDhE1HYa/LcbcDJ8V7tVVrSHb7V1o4IoHNll4KRUQ8H+M25mss1toKLIdW
+	 OR3y0d9Qf8lk2QMWsX++1jl3Sxa5mfL82rHLfpC5eanFr9xHTgy7WwSgOLyGt2Nhp2
+	 1EGpDUazMCn7F/u9n+FvUerpJJGa7LP1/HjgnMGX83syMgqD9D24gOyvQRe/Vfm7uK
+	 H4KiJgUU8v4XRp6RCwlvyEolSzUDk0ax/C7biCu3EbT3p5fqEy2D8fgRg90Bd9uELF
+	 slZhs258Q8kiLCP4wtbhut5X68vrk4CBixxNKpMQ43ldaVtEMQlmm5vXJlQADzEtD4
+	 aw9ymdu6p91vA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260422-acpi_mod_name-v3-4-a184eff9ff6f@sony.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 22 Apr 2026 13:30:47 +0200
+Message-Id: <DHZNEABUEFY3.19CX7BFMMTBKT@kernel.org>
+Subject: Re: [PATCH v2 2/9] driver core: Add dev_set_drv_queue_sync_state()
+Cc: "Saravana Kannan" <saravanak@kernel.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ <linux-pm@vger.kernel.org>, "Sudeep Holla" <sudeep.holla@kernel.org>,
+ "Cristian Marussi" <cristian.marussi@arm.com>, "Kevin Hilman"
+ <khilman@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>, "Marek
+ Szyprowski" <m.szyprowski@samsung.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Abel Vesa" <abel.vesa@oss.qualcomm.com>, "Peng
+ Fan" <peng.fan@oss.nxp.com>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Maulik Shah"
+ <maulik.shah@oss.qualcomm.com>, "Konrad Dybcio" <konradybcio@kernel.org>,
+ "Thierry Reding" <thierry.reding@gmail.com>, "Jonathan Hunter"
+ <jonathanh@nvidia.com>, "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ <driver-core@lists.linux.dev>
+To: "Ulf Hansson" <ulf.hansson@linaro.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260410104058.83748-1-ulf.hansson@linaro.org>
+ <20260410104058.83748-3-ulf.hansson@linaro.org>
+ <DHW8QV8K3CM1.307C6PW2BM5RN@kernel.org>
+ <CAPDyKFpeSv+fg=YKJE_qc=Q5BfiJFn0tR7Ar8SncqrD0UW1P1g@mail.gmail.com>
+In-Reply-To: <CAPDyKFpeSv+fg=YKJE_qc=Q5BfiJFn0tR7Ar8SncqrD0UW1P1g@mail.gmail.com>
 
-On Wed, Apr 22, 2026 at 06:49:06PM +0900, Shashank Balaji wrote:
-> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> ---
->  Documentation/driver-api/driver-model/platform.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+On Wed Apr 22, 2026 at 12:25 PM CEST, Ulf Hansson wrote:
+> Most of the static inline functions in device.h lacks documentation.
+> Are you suggesting that we should move towards documenting all of
+> them?
 
-For obvious reasons we can't take patches without any changelog text at
-all (and neither should you want us to...)
+I'd prefer that, yes. After all, if they are defined in device.h, they are
+public APIs, so they should ideally have documentation.
 
-thanks,
-
-greg k-h
+(If a function is only used throughout the driver core, it should be in
+drivers/base/base.h instead.)
