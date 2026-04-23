@@ -1,137 +1,129 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B541E7C12
-	for <driver-core@lists.linux.dev>; Thu, 23 Apr 2026 17:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B55424BBF4;
+	Thu, 23 Apr 2026 18:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776965547; cv=none; b=XQ21DBTqlR/8fEF+n6zTcZdMQI0yJd8cdJ2yK3t+a/NvNSSbFSPNkp51NhOlBcFY3bSICRiA7RhfcXjWF9DfhhPfFzCikVQFaBcHXbAU0hYdAMvW4tqCX/IExH3W81S0cKS+47x/MYw3tnXXRuFQzHRVzLcGOv7pGNuvDRyZoZk=
+	t=1776968222; cv=none; b=bIQFZX95NE5mINSN/n91e+1ci7DSCSToOVPjgZwXnA6M3ZfNbs5ribJMpC/TDowY52ObWS7qdUK51czXiIv1ooeM9+lspyRn0RBqRlljLWN2uZB4r13z/oJ+vr9Tjmc6ZB3h5CmuERm9hoOm4GMJ2CmUzkoCuT3SB/0l+Qvgq1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776965547; c=relaxed/simple;
-	bh=+Wh9eb+A8Yt7HINMKgqBsRte1iTr1zfqo7kXXSP+mWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D/d2dUkHoQxo4aQqMEkngiE1zB5GPm0ARMGcbg0O7ewSjBffRh9TbCfowqMlV6rUme0TXKGiP33oiUC805hEElU6su2b8GXOQa1JYJDvuUxYLqQp2FExRk7JPTdwKVo+BnWgK3FSZlFRAhsquvFq189O2Q2mInbCbSDepx+Y9zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C2KuyfDO; arc=none smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776968222; c=relaxed/simple;
+	bh=b1LL6ulHBfQwaDgZ4XLaE5+gWGEFezArPt1f3E+uDb8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fNV26IbcO58eGyIQZ52uIFSpJFtj24e/MpDa2unTqA+dkrtfq2WtwqbOR4ySizQiuC2fWp8gEdfgvQyvdN4GFTQ0rOv8DNhvwcGSsNujzmopbGRsWZ6re3XwHRQBUuE4LN5d/zXVQ0kepTRvvv4cRNJsOD48BQzeHvGWPLp3m6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cc4ybVF/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C2KuyfDO"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2ba895adfeaso7690231eec.0
-        for <driver-core@lists.linux.dev>; Thu, 23 Apr 2026 10:32:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776965546; x=1777570346; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=roTEmQN+Ir7L0cfKfGP/6yejCPhHvoS90pxDwlZRW90=;
-        b=C2KuyfDOO+QzqnZ8XIGjovI3i8EV98yk1nHzgzKWzZaHnhPZZfZIPr3Mef1id/F9sr
-         aaTi8Rf65HIj9jxpEEV4p+VKLXNHj5k1PVgkdFRKRbnf1B7OJYalNbjy/5YkGnuoMbo9
-         K10TjjaeFcWwDS73Wx/+J+y78q7KpbgZ+kXBH8yjgEWiUtteQ8RClw3xcqdzRQjZlY79
-         dc+/wg3arjDht1fRz1wqdPjhc+PJWrS6EgWL+4HI7RRcs20YwSuMZ5VmqQxr56/i3+oJ
-         t7HQUpz/jw9GDWfFWGMdwOSidsIrJP+tQStVDkTPd+OV5XYmQdkGZErqogaeKOx8uFgL
-         Qu6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776965546; x=1777570346;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=roTEmQN+Ir7L0cfKfGP/6yejCPhHvoS90pxDwlZRW90=;
-        b=lt8OUD/V2T36lU9frd5GI4yQLTGTW5vqCUNnScYzCFx3LJidA9/wR3bb3GbXz94xI0
-         9mAP0WT6t1bt9hT61lt8b1634hWMlVVZMPO5Lvq/oS1k9PFQtJSB6snWBFWusidbBgjk
-         X34ttg7JBP+Fbt677nSlMpTDY6kItQRrrUdGdoSErrN7OkP4BCwe0RsNpZLTODy5VHpb
-         1butdhpeAMwh2QYp5Ye1lOXf/iiKFkh1CbC3VpKaQIfid06sJxusNzCQ3PnyAQ2SMmTY
-         36OXJ2G/qYsEtOorgndGP3bNILge1hhkJCmd0kXbzFIUQXEOToRei4HoHaDs279dga3K
-         WbEA==
-X-Forwarded-Encrypted: i=1; AFNElJ+1rhz2LAI+XVg4+9oBN3RvxF307AiqrS8X6L9M5GgSCOwG87bsDW4yb3V3KWwp3aQWxpE/bVrvhl9hqQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHykeQz3TReru+Frm9qfQhG+WnnsIg6+xWJHhm+tI5esJR7dv7
-	LE6b6Mim6y7dV7zsfFuBawFuWoviXu2OXBIT9YE1VsHYgNw6J094W0in
-X-Gm-Gg: AeBDieuMjbSLIM1Y8/YpyoMhsueGJVjR6RnpWLErphHoxDAJxmPW6Kuzu2+2/nJyki5
-	WWBmqCcU0JBaS6u/9JgODGHLb7/zKtVdSIndURhVQE5CWhZlJ8Gpi1F8GwrjinLH76m3PmUn+IS
-	cTRbL2194o77Ei7qnFbZ9F42Src2xwXfeLJUsTqpUf+CAB/vTASzqe4RRu24u/ZSIsdGdBxuPZt
-	rZ4BL/B21yEctJwybMry01kQXKKoXKDU2TBW+cqkBdoCCDawjNITWAmt2EOek+xVQeyOQhTFY0y
-	SDnls4IhytIM13v52PP2TRjPfigoL57bIeHMAKuRBPLWdxdcVnZXlE99Yjq2JeB78ojI9zhNEXX
-	70Vy20IegnwqYtElb9C/ZM8UNXtabasQWetRLE4NkNIWiKqr4ZarZkOzLQC8FARSWXL1aDAgojE
-	9CklDBNOFQ6Q4X1SKUABK+LE6UXzUiZf5T2FTZfONBc2nXtSvp91uzeei7Euh9WAl7FGZXsl45X
-	bw=
-X-Received: by 2002:a05:693c:2c0f:b0:2d3:4252:b127 with SMTP id 5a478bee46e88-2e479017537mr14873358eec.26.1776965545353;
-        Thu, 23 Apr 2026 10:32:25 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:2359:5fa4:9c29:41b1])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d9b056fsm37264351eec.29.2026.04.23.10.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 10:32:24 -0700 (PDT)
-Date: Thu, 23 Apr 2026 10:32:21 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
-	Andy Shevchenko <andy@kernel.org>, brgl@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-Subject: Re: [PATCH v2 1/3] driver core: platform: remove software node on
- release()
-Message-ID: <aepWdKzd8GPeayNJ@google.com>
-References: <20260423-swnode-remove-on-dev-unreg-v2-0-0e5213cde2ed@oss.qualcomm.com>
- <20260423-swnode-remove-on-dev-unreg-v2-1-0e5213cde2ed@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cc4ybVF/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26D38C2BCAF;
+	Thu, 23 Apr 2026 18:17:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776968222;
+	bh=b1LL6ulHBfQwaDgZ4XLaE5+gWGEFezArPt1f3E+uDb8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=cc4ybVF/qX0bkCNpPAOKSiFRElX7csIyBf51KZ9k10eLAtcr3vRLwYT0zglPvds6U
+	 L236bhs6AYt7iaZNvDYz8aiyuw9FBdXtg1EoQYSrRNLPEKzv09YZNWntkrdIKuxbm0
+	 /aox1WTJ8rh+T4n7nURWdtugFMsJml7C3lfXs8T7KVA+rrdg5dArFkx3TUE3LpAW98
+	 aZKdmynb4+nQjzTcosIxe3X4BGYrohia9CaYMOc+crnyvJ3Z9wqwZxgSDgI7AmlFRR
+	 OhcEK3uAOj87M967G+wRjxwMAHBCLL46xk11jKNrwlEckf6Tz1/Eeho5PfW/RtZWAA
+	 6UhhifNHwu/gA==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v8 0/2] firmware_loader: allow firmware_class.path to take
+ multiple paths
+Date: Thu, 23 Apr 2026 14:16:43 -0400
+Message-Id: <20260423-fw-path-v8-0-9426735330eb@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423-swnode-remove-on-dev-unreg-v2-1-0e5213cde2ed@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOTU7DMBAF4KtUXmM04393xT0QC9sZNxaoqZwqg
+ KrcHacSJCjq8o3mezM3NlItNLLj4cYqTWUsw7kF93RgqQ/nE/HStcwECAMSLc+f/BKuPQ/gVZI
+ gtA+ate1LpVy+7k2vby33ZbwO9ftePOEy/e1wfx0TcuTWOdX5mA26/PJO9Uwfz0M9saVkEg+ga
+ NAFBEPRI0W1g/IBlA0GCxjAxdS+30G1gQJWqJZXtbIkMnTJ7C/qLZQr1Bw4ORdFJlQ6yx00K1S
+ AKzQNKopkQSl00u+g3UKxQtugjpZ8Uhhcgn9wnucf+F2ka/UBAAA=
+X-Change-ID: 20260317-fw-path-a094c30259a5
+To: Luis Chamberlain <mcgrof@kernel.org>, 
+ Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Shuah Khan <shuah@kernel.org>
+Cc: Michal Grzedzicki <mge@meta.com>, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2294; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=b1LL6ulHBfQwaDgZ4XLaE5+gWGEFezArPt1f3E+uDb8=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBp6mIXEbyvzTAb7hfzcmYQoOjKP0al54r7UT+5G
+ whcI2RHHT2JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaepiFwAKCRAADmhBGVaC
+ FZFiD/0es1l5sVkLpL1s9VyWe1WTDmof60nrJIR3oOxJCkWydqXUYQUjM92BAdyYJwMEVbSROne
+ C5tRf19iwXiGFeOSS2zHslOh6VoxQqWWiPIA+zTwWkrKnukCPTStScFmTQPFaiz0n43QMQvqPYC
+ DkFZL0oA3bGHeVP648cnEnOMzzV3qW+LtBlq00m6RMVr1msgp67VzgEIJTTDEk3vE+591foeZ/K
+ maepTRhDT+QBCSsUSWBVCa34rqFSccrR9611tVouz9CsnPwLuXZXwgbb1qZbUXwIcckXj9AtajH
+ BMlwAo0PymVD2j8oDl9zNext/vBH3KpUK/ceBYCkzDP/GWijHIsn3Xik1pHVedwZgCybxENN9gb
+ YB1Qaf1gKXdrvw6m0yEz2D1KWwMMgp1i5Bqc/4mimwluovDXsXsGt7lt5LmHypGECrHUHLaKEtD
+ /F/45KI2KlJzDZTjmPQp/+m302oTwG1NcvaNE4fb2+jp0Va8cKTUGW30WAFODW9OFwGsehynqp5
+ aDFmYSOZjJvBIaAPsFm11xPjIsqiB2ij/wyayGLx/uiek3EC/nEZS5Jrf5zpc1v2CKGRo+eTwTk
+ XeRSeK4/4njL2oIp2FRjkAGT35ZO8di6gUeMlGyWtt4Jme+Xq8Ak1miVqtph44JNX6tV+U+N28a
+ JXxSa+PpXt8NNOA==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 
-On Thu, Apr 23, 2026 at 02:12:02PM +0200, Bartosz Golaszewski wrote:
-> If we pass a software node to a newly created device using struct
-> platform_device_info, it will not be removed when the device is
-> released. This may happen when a module creating the device is removed
-> or on failure in platform_device_add().
-> 
-> When we try to reuse that software node in a subsequent call to
-> platform_device_register_full(), it will fails with -EBUSY. Add the
-> missing call to device_remove_software_node() in release path.
-> 
-> Make sure that we still function correctly if a software node is used as
-> the primary firmware node.
-> 
-> Fixes: 0fc434bc2c45 ("driver core: platform: allow attaching software nodes when creating devices")
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/base/platform.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> index 75b4698d0e582e67adafa78c312d75c72fd654cf..43ea7dcd338dd3ddae57e6d0677e5cb2673f6ed5 100644
-> --- a/drivers/base/platform.c
-> +++ b/drivers/base/platform.c
-> @@ -599,6 +599,7 @@ static void platform_device_release(struct device *dev)
->  	struct platform_object *pa = container_of(dev, struct platform_object,
->  						  pdev.dev);
->  
-> +	device_remove_software_node(dev);
->  	of_node_put(pa->pdev.dev.of_node);
->  	kfree(pa->pdev.dev.platform_data);
->  	kfree(pa->pdev.mfd_cell);
-> @@ -885,6 +886,16 @@ struct platform_device *platform_device_register_full(const struct platform_devi
->  			goto err;
->  	}
->  
-> +	/*
-> +	 * If the primary firmware node is a software node and there's no
-> +	 * secondary firmware node, the primary will be affected by the call
-> +	 * to device_remove_software_node() in platform_device_release() and
-> +	 * its reference count will be dropped by one. Take another reference
-> +	 * here to make it have no effect.
-> +	 */
-> +	if (is_software_node(pdevinfo->fwnode) && !pdevinfo->swnode)
-> +		fwnode_handle_get(pdevinfo->fwnode);
+This version just has a couple of very minor nits fixed that sashiko
+flagged. I'd love to see this go into -next soon, so it can make v7.2.
 
-It is possible to pass already registered node in pdevinfo->swnode
-(because device_add_software_node() can handle this just fine). In this
-case we also need to take an extra reference (or figure out whether we
-need to drop the reference when removing the device).
+Greg, are you ok with this version?
 
-Thanks.
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v8:
+- add newline to output in fw_search_get()
+- fix test #3 to test non-present file properly
+- Link to v7: https://lore.kernel.org/r/20260402-fw-path-v7-0-5b7e9c41a8c0@kernel.org
 
+Changes in v7:
+- re-escape emitted paths in fw_search_get
+- fix potential out-of-bounds read in fw_get_filesystem_firmware()
+- ensure all files are cleaned up after failed selftests
+- Link to v6: https://lore.kernel.org/r/20260401-fw-path-v6-0-4ebe70441839@kernel.org
+
+Changes in v6:
+- Add fw_search_unescape() to make the search path parsing more readable
+- Rename search= to search_path=
+- Link to v5: https://lore.kernel.org/r/20260323-fw-path-v5-0-e88b2fe145f3@kernel.org
+
+Changes in v5:
+- Increase search= string length from 256 to 4096
+- Preprocess search= path when it's set rather than on every firmware load
+- Add selftests for search= functionality
+- Link to v4: https://lore.kernel.org/r/20260320-fw-path-v4-1-7547e2f0dc64@kernel.org
+
+Changes in v4:
+- Move search path to new search= option that is tried after path=
+- Link to v3: https://lore.kernel.org/r/20260318-fw-path-v3-1-a701a08bc025@kernel.org
+
+Changes in v3:
+- Allow '\' to escape a literal ':' or '\' in the string
+- Link to v2: https://lore.kernel.org/r/20260318-fw-path-v2-1-8a106eb91eb4@kernel.org
+
+Changes in v2:
+- switch to using ':' as path delimiter
+- Link to v1: https://lore.kernel.org/r/20260318-fw-path-v1-1-7884d9bf618f@kernel.org
+
+---
+Jeff Layton (2):
+      firmware_loader: add search_path= module option for multi-path firmware lookup
+      selftests/firmware: add search path test for firmware_class.search_path=
+
+ drivers/base/firmware_loader/main.c           | 306 +++++++++++++++++++-------
+ tools/testing/selftests/firmware/Makefile     |   2 +-
+ tools/testing/selftests/firmware/fw_search.sh | 217 ++++++++++++++++++
+ 3 files changed, 448 insertions(+), 77 deletions(-)
+---
+base-commit: c369299895a591d96745d6492d4888259b004a9e
+change-id: 20260317-fw-path-a094c30259a5
+
+Best regards,
 -- 
-Dmitry
+Jeff Layton <jlayton@kernel.org>
+
