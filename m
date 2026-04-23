@@ -1,179 +1,157 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFCF30595C
-	for <driver-core@lists.linux.dev>; Thu, 23 Apr 2026 07:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427CE3DE450
+	for <driver-core@lists.linux.dev>; Thu, 23 Apr 2026 08:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776929980; cv=none; b=EHLfL+AY6/JugAi3kyIoVpzgjs2mc9zKoY99IT8sXYvL0IrzXxK3XyfZBY9PzVKWJKQFHVfoEaSqdIDREiTXM338OOYAyCDgGrUzLoB+1DYv1h9qsyu91ruGYTTUK2n369leZ8i4NjTVMWIEdPOp7Cut1gsBjMyl7CxTXNVMrbY=
+	t=1776933728; cv=none; b=WHINftt+PyFconhPGNI7zbAFG9LJnT7MnFzgo6u+0/gjYW+XjpMqaw3lU9BXso3xqaPLMt16nOptggASODFsR0fLl/AEZKgS8PkfaBClfdSbBP7l5ZhJAp7U8iV419/wcwbafXWKU5hQD2wYvSadddn2AtGNGrDB/ECuCuHMRtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776929980; c=relaxed/simple;
-	bh=n4yYn/PkMKvg1aqyokQfze2qKWylOghxCqf0OSzRS8g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H6qEukITesH/uVACXE65erURQ891fZj6IozvTMWa+iotxLv8E9T9USkTPeFwsoW73X0bok0uF6pX18adNtjsPOjYIXEcgKNB+NJL+J4tQrxwLtpH0m/B1B50WwWx8NMdiGMQo14GgFSIs9xnIGeGVa0IGprQgx8NjCvbVNJ5I94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HmUD4Qm/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ffWzPFQH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HmUD4Qm/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ffWzPFQH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776933728; c=relaxed/simple;
+	bh=qbmvRxNwjPJySkdRlLxR16VTUeX6pN7MhszSZBGGJgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D3tUTt9qSDMJaZSePrLeWPO5cHTCK6kviLMSarFalOXb8j2mo3mY4AiizQgdqh9SgrRfWiLVbyBL1E1aBDZoGJ0zEnZmSNraVl9eciqhzlCNTmrpE66wMkt6Gt1cv7PdLfDxLjfypRWEcUweYQ2t+OiY/1tMXGyw6xSGg96H/80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RHSMPu0z; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HmUD4Qm/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ffWzPFQH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HmUD4Qm/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ffWzPFQH"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1395E6A7E7;
-	Thu, 23 Apr 2026 07:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776929977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x9e3lz+J2o2xLZ0LnrWFXIgZUuRvX3PTkFnFfLNem0s=;
-	b=HmUD4Qm/j8IGRUQV9eWDwkeY4tLUaeM75gdiVVrdSBBZUexbn/HmvmVY3hGhocfgqH1nft
-	grdoyySkWT4REAl15ZD9izU+5kDTPXIf62Cg2Ga5IcMhnsXRNxbEr9DelNoIZ/6evoSGIh
-	5RWZSOxm+2nd1Pfe/673he74Qw0keV4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776929977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x9e3lz+J2o2xLZ0LnrWFXIgZUuRvX3PTkFnFfLNem0s=;
-	b=ffWzPFQHK47dPu2PryG7pjny/6cjf0ESgaTVeZIibh0GCZuY/6UB0mrMfsG4troFAOe/ks
-	V+MRPazVDsY/9IAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776929977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x9e3lz+J2o2xLZ0LnrWFXIgZUuRvX3PTkFnFfLNem0s=;
-	b=HmUD4Qm/j8IGRUQV9eWDwkeY4tLUaeM75gdiVVrdSBBZUexbn/HmvmVY3hGhocfgqH1nft
-	grdoyySkWT4REAl15ZD9izU+5kDTPXIf62Cg2Ga5IcMhnsXRNxbEr9DelNoIZ/6evoSGIh
-	5RWZSOxm+2nd1Pfe/673he74Qw0keV4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776929977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x9e3lz+J2o2xLZ0LnrWFXIgZUuRvX3PTkFnFfLNem0s=;
-	b=ffWzPFQHK47dPu2PryG7pjny/6cjf0ESgaTVeZIibh0GCZuY/6UB0mrMfsG4troFAOe/ks
-	V+MRPazVDsY/9IAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CD9B8593A3;
-	Thu, 23 Apr 2026 07:39:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7KbOMLjM6WmbQQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 23 Apr 2026 07:39:36 +0000
-Date: Thu, 23 Apr 2026 09:39:36 +0200
-Message-ID: <875x5i3z2f.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH] ALSA: pcmtest: fix reference leak on failed device registration
-In-Reply-To: <d25b3ecd-9941-4b3b-9480-4f8f16a8ecd7@kernel.org>
-References: <20260415193138.3861297-1-lgs201920130244@gmail.com>
-	<87h5padnof.wl-tiwai@suse.de>
-	<874il9eu4c.wl-tiwai@suse.de>
-	<d25b3ecd-9941-4b3b-9480-4f8f16a8ecd7@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RHSMPu0z"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 962051A33B7;
+	Thu, 23 Apr 2026 08:42:04 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 62E8960495;
+	Thu, 23 Apr 2026 08:42:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E551910460B49;
+	Thu, 23 Apr 2026 10:41:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1776933721; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=hpnJk/yJbY+uVhKNecCDBid6JdXHXsFWMSbXliiAR00=;
+	b=RHSMPu0z0hSdt3mn4ffe5+6hUm/ZCjtCUZUKE3rWKy/r3VhfZhbKf1a9Ulxwtthkq/Wtgh
+	ronPMyU1B2CxZw6JMN3u3wI3DLWBsdkToYIBM80eaHi7YgAeDyH1Z2ue1q/847GcERxQOk
+	g0JXmw3tYv6IvZXdp7pb5HMp5Kl7KsJKyYniqOHUilIBM3mmL0cJgDls1/VLPGNufaZTfw
+	v2x1SEkJspkHM37hhCeIXdZLX8dFFZdF2oY0Y3ytw9DTXzpHCHxarn2MoEkQvoK+911wsc
+	ELgVc4CKa9SO2hHeYBProWT6SvtWBufgTUp8YNP4tGFwdFM5Ild9qV3eo9YpxA==
+Date: Thu, 23 Apr 2026 10:41:39 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Doug Anderson <dianders@chromium.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Andrew Lunn <andrew@lunn.ch>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Kalle Niemi <kaleposti@gmail.com>, Matti
+ Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
+ Shyti <andi.shyti@kernel.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
+ Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, Bjorn
+ Helgaas <bhelgaas@google.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
+ Walleij <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Mark
+ Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, Daniel Scally
+ <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron
+ <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, Alison
+ Schofield <alison.schofield@intel.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Shawn Guo
+ <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 02/27] of: dynamic: Fix overlayed devices not probing
+ because of fw_devlink
+Message-ID: <20260423104139.0246ca0a@bootlin.com>
+In-Reply-To: <CAMuHMdUDCQrQ2Z9D7-ZOKiuDznDJVf2R_b_8P9+Xhk4RiJ3vdw@mail.gmail.com>
+References: <20260325143555.451852-1-herve.codina@bootlin.com>
+	<20260325143555.451852-3-herve.codina@bootlin.com>
+	<CAMuHMdU7x7LWFkD9xiq+wyOqnn0bdzr+JLfvbBexoiWyv8kftA@mail.gmail.com>
+	<CAD=FV=UK3NQKQN7FXyG4nGdDKO=LQYhnL4ZweomQ_4R9-EAYag@mail.gmail.com>
+	<aekg_IELc65BFrWp@ashevche-desk.local>
+	<CAD=FV=XTvvq11y7kxmrfBe3dZsKro7N9=i-Hj9aqsLBay2Q9Rw@mail.gmail.com>
+	<CAMuHMdUDCQrQ2Z9D7-ZOKiuDznDJVf2R_b_8P9+Xhk4RiJ3vdw@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,linuxfoundation.org,kernel.org,gmail.com,vger.kernel.org,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, 23 Apr 2026 07:19:20 +0200,
-Jiri Slaby wrote:
+Hi Geert, Doug,
+
+On Thu, 23 Apr 2026 08:53:33 +0200
+Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+
+> Hi Doug,
 > 
-> On 17. 04. 26, 12:52, Takashi Iwai wrote:
-> > On Fri, 17 Apr 2026 09:57:20 +0200,
-> > Takashi Iwai wrote:
-> >> 
-> >> On Wed, 15 Apr 2026 21:31:38 +0200,
-> >> Guangshuo Li wrote:
-> >>> 
-> >>> When platform_device_register() fails in mod_init(), the embedded struct
-> >>> device in pcmtst_pdev has already been initialized by
-> >>> device_initialize(), but the failure path returns the error without
-> >>> dropping the device reference for the current platform device:
-> >>> 
-> >>>    mod_init()
-> >>>      -> platform_device_register(&pcmtst_pdev)
-> >>>         -> device_initialize(&pcmtst_pdev.dev)
-> >>>         -> setup_pdev_dma_masks(&pcmtst_pdev)
-> >>>         -> platform_device_add(&pcmtst_pdev)
-> >>> 
-> >>> This leads to a reference leak when platform_device_register() fails.
-> >>> Fix this by calling platform_device_put() before returning the error.
-> >>> 
-> >>> The issue was identified by a static analysis tool I developed and
-> >>> confirmed by manual review.
-> >>> 
-> >>> Fixes: 315a3d57c64c5 ("ALSA: Implement the new Virtual PCM Test Driver")
-> >>> Cc: stable@vger.kernel.org
-> >>> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> >> 
-> >> Thanks, applied now.
-> > 
-> > ... and now I looked through the whole tree, and noticed that the
-> > majority of callers of platform_device_register() don't care the error
-> > cases without calling platform_device_put().  There are over a hundred
-> > callers of platform_device_register() while only 5 or so are doing the
-> > proper cleanup at the error.
+> On Wed, 22 Apr 2026 at 21:40, Doug Anderson <dianders@chromium.org> wrote:
+> > On Wed, Apr 22, 2026 at 12:27 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:  
+> > > On Wed, Apr 22, 2026 at 11:51:36AM -0700, Doug Anderson wrote:  
+> > > > On Wed, Apr 22, 2026 at 10:44 AM Geert Uytterhoeven
+> > > > <geert@linux-m68k.org> wrote:  
+> > > > > On Wed, 25 Mar 2026 at 15:36, Herve Codina <herve.codina@bootlin.com> wrote:  
+> > >
+> > > ...
+> > >  
+> > > > > > +               if (fwnode->flags & FWNODE_FLAG_NOT_DEVICE)  
+> > > > >
+> > > > > After commit f72e77c33e4b5657 ("device property: Make modifications
+> > > > > of fwnode "flags" thread safe"), this must be changed to:
+> > > > >
+> > > > >     if (fwnode_test_flag(fwnode, FWNODE_FLAG_NOT_DEVICE))
+> > > > >
+> > > > > With this change my DT overlays are working again.
+> > > > >
+> > > > > I guess keeping the FWNODE_FLAG_* names, but changing their values
+> > > > > from bit masks to bit numbers was probably not such a good idea,
+> > > > > as it fails to catch missing conversions...  
+> > > >
+> > > > Crud, I should have thought about that. :( Do you think it's worth it
+> > > > to do a rename at this point to catch future problems?  
 > 
-> Moreover, unless the static pcmtst_pdev has ->type->release or
-> ->release set, the patch triggers a warning upon put().
-
-Ah a good point, the call should be conditional.
-
-> > Judging from the numbers above, it might be better to change the
-> > behavior of platform_device_register() itself to call *_put() at the
-> > error case internally.
+> I am afraid it is too late (it is already in Linus' tree), and would
+> add only more to the confusion.  We just have to take care when this
+> patch (and 01/27) is backported to stable.  Fortunately the reverse
+> is caught, as the fwnode_*_flag() helpers did not exist before.
 > 
-> Yes, that's what should be done instead.
+> > > You can try locally with allyesconfig / allmodconfig and see the outcome.
+> > > If there are missed cases, and their amount reasonably low, I won't bother
+> > > in this case.  
+> >
+> > I believe I caught all of them at the time of my CL, but the problem
+> > is in-flight stuff, right? I think the problem Geert is pointing out
+> > isn't something I missed in my original patch but rather an
+> > interaction between my patch and this in-flight patch.  
+> 
+> There are no unconverted cases in upstream or linux-next
+> (I checked yesterday, and rechecked this morning).
+> 
 
-OK, I'm going to revert this patch for pcmtest.c for now (so back to
-the upstream state again), so that we can work on the
-platform_device_register() side.
+Thanks for having pointed out this modification.
+It will save some debug hours on my side when I test the next iteration. 
 
+For this in-flight series, I will use new accessors introduced in
+f72e77c33e4b5657 ("device property: Make modifications of fwnode "flags"
+thread safe")
 
-thanks,
+Best regards,
+Hervé
 
-Takashi
