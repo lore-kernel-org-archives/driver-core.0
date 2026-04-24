@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6383C5DB6
-	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073D43CE484
+	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777033612; cv=none; b=T9zgizpZEvCYe20RWdzAKCGoH4+HRHhEmzIxdRhBTdBmO3Utg0Bu5ZsR1dfLm3Cx/BxVuiiKyyoLTtuFLqbD0e2dIztRhJ2X4IKehNnBZazZdWxl3qsH72AQrtKCoPOhj4SKxkFlzed9y6b0SzRCLypDa+xV2t8Spq6lIopHcVM=
+	t=1777034083; cv=none; b=nre1XLTMtYcmNiTyptxrAmXcp56SAWOpjbvXEWH60bMmP773PbgYxrhSpq968JhWeMFuN2yzR8fDNNSTXmvwlz2Zn0fpS241TJ4QaCWYZxw7rbSQop7/wbF0gnTWd5nfju04xN4OFyGZeJqE0LPvtyY89LdSlzJ3lVDXHafT6C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777033612; c=relaxed/simple;
-	bh=wnKLPa1uej/o1vrw3CxA9alePlMkKpC+cfG/oCAW1pI=;
+	s=arc-20240116; t=1777034083; c=relaxed/simple;
+	bh=m+OoYgyiHNEk7yq4Ca/NtHf600W8zJqD9UbhPddCZuQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gj27N+JkbPRyhYdg2ZJEr2o8xf1cgCPnA1X3mMjLlworXBdmNCNrfoqw0q8eUX8RQIwPxZ7jyR5KzAYBA8kSJBeiJwBnO0OHpgkTxSIUFGtRc9G0ngxq7YAz43FCk3/BjTLQ9ZGMwYZvkjhtr+e3FlZACanJ1NkPRcy8Nfhu+qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FgbsytNN; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=XbKFNLMrb+69AbpPJAcRjanlMR51fJxLvhKgOlsfsBbZlG6Qms4EUme4uBc6jy85VEYZ/lFsEhcI4j6zQGVxM2tY/Y53KoveoWyTf3XHJGofhUgZFfUOFdsmfYKZDJG6CN277AGSPBIk+oAldHuM94AX0hz59Mol1/hUBsFTuAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPaEHadj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FgbsytNN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F229CC2BCB6
-	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:26:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPaEHadj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D75CCC2BCC4
+	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777033612;
-	bh=wnKLPa1uej/o1vrw3CxA9alePlMkKpC+cfG/oCAW1pI=;
+	s=k20201202; t=1777034082;
+	bh=m+OoYgyiHNEk7yq4Ca/NtHf600W8zJqD9UbhPddCZuQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FgbsytNNIf+VH3ugBO8E/9ataaPKdkXMxRCpVat2dUryqcm/xBzJO3YOJ6LSjQNLF
-	 RW4MH5TI+UqgTZsioH97Kmqbok2eVProp/kmsA+ZX6eBEangnemBtiv8Wowdn9whZn
-	 EtZFXLo7h+3OmktBIxGbwyI/gQDQVJzBDmppITo1iKPae4V5i7nB0BCbjDUuq7RvbU
-	 mOwrJLyp8AmG7lBVGmzXSNDFeaKBSHov+/mL+sratdyTE+z9Nuj9RAsYy04kA84zxx
-	 hn0gsMNYLRc/VNtZY2Es6oNpGiKR9y0vvpeoRiqDcg5HUOn1ntVNbMcdho3osa20CJ
-	 qBcxt9jUgqF0w==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a283c44478so13212282e87.3
-        for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 05:26:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+pKnXzFr1KJV5WZHuks8dPyXkVzpxQLEHhSi3niZJlWQOe9m3ZUYynyB8mO3D26Q+g0MOkArqRQrHiYg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOfBoXvlMtp/63z0IDNtlh6mV0pE1SBxmcnkfUj9UNH4jGywSZ
-	k1DCHbxuPmSOfV70dK7JojGjrJtAPJpo62lR9htGm6S4l0jMfzuzWSz1GvLmPPQwSvHhL/vYU0K
-	9tSv6wgS4+wDoo5fhxaC0AZ910aRx8eKpKfJ59NUDXQ==
-X-Received: by 2002:ac2:4c4b:0:b0:5a2:a355:aa4e with SMTP id
- 2adb3069b0e04-5a4172de25dmr10102146e87.31.1777033610661; Fri, 24 Apr 2026
- 05:26:50 -0700 (PDT)
+	b=OPaEHadj67HFlakyJaiXvs/+BrRruyYHULmkrCV29047I/93ZgCyXsmQhQKkIhLwP
+	 n+zvvf4/vhOJZ3XeSgPchDc5kbMg7p4mCsaFj1V6SjxeAQ6OaliW1iWnoBXLWh/7g3
+	 M2DTOIU2HKc3EeDP0pBSvAvfYUWEUXIDHxxu1FEA3LxOF1qBtRmgy5AYXgUBjKV+Hx
+	 v7nWeIcn1MbN7g2HcqjCupADQ5zuUCWxgqV1gTf49iOB6QDICV/J56VogHohVhWDwl
+	 Q4GC0xXfYww/jJGejUQMJQxQdLvDs56mJ9rU1uFP227W8NUQl3pVH0vgpQ3N0CnoKj
+	 XU6aLhEZ5Uw4Q==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-38e7b8e3f38so65484801fa.3
+        for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 05:34:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8E1Q9kV7+2IZRCvhnsHwGnkMkgyfTZmrU189jGwSbLZG+QyRrEV4kR7H1g542Pg4SX90bCG4NEmV/6jA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKMA2IqJKGwu+6iYAEN5T9KFhm7aI52NczFzRs20NwHSylkYnZ
+	NGiygr9H6aVnqYdMxQZtHtm4fpCwxqzp+OM25LnwyLrIrtDk305oZISiLUz6pX0WIxBBc5t+Hg3
+	wign7TIM6oEZce2Tuiobp7UMwBbSbA4/4GAErsLsoew==
+X-Received: by 2002:a05:651c:325b:b0:391:1570:b6c5 with SMTP id
+ 38308e7fff4ca-3911570b96emr20938741fa.17.1777034081529; Fri, 24 Apr 2026
+ 05:34:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,49 +42,71 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260423-swnode-remove-on-dev-unreg-v2-0-0e5213cde2ed@oss.qualcomm.com>
- <20260423-swnode-remove-on-dev-unreg-v2-1-0e5213cde2ed@oss.qualcomm.com> <aepWdKzd8GPeayNJ@google.com>
-In-Reply-To: <aepWdKzd8GPeayNJ@google.com>
+ <20260423-swnode-remove-on-dev-unreg-v2-1-0e5213cde2ed@oss.qualcomm.com> <aesxXvf4hpL66TLz@ashevche-desk.local>
+In-Reply-To: <aesxXvf4hpL66TLz@ashevche-desk.local>
 From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 24 Apr 2026 14:26:38 +0200
-X-Gmail-Original-Message-ID: <CAMRc=Mcq8rP-AerT-A2Az_W-rsMFZe8_rQDB5mKOHALxEn9uUw@mail.gmail.com>
-X-Gm-Features: AQROBzCHLScsUjboeAqJevVU_hb-dqPkjAWviyUz9vljcrjGlui8EiZ7lzxfDPM
-Message-ID: <CAMRc=Mcq8rP-AerT-A2Az_W-rsMFZe8_rQDB5mKOHALxEn9uUw@mail.gmail.com>
+Date: Fri, 24 Apr 2026 14:34:29 +0200
+X-Gmail-Original-Message-ID: <CAMRc=Mc92zOdjz-8P2A5og=mTKFUKrj3o7Z28NDdkMktDD+tuw@mail.gmail.com>
+X-Gm-Features: AQROBzBx2G57GMx7dNlg--UBoIX0krf21Q2tN3Bc5FbxVTIdDuhn_VooMcrRNNw
+Message-ID: <CAMRc=Mc92zOdjz-8P2A5og=mTKFUKrj3o7Z28NDdkMktDD+tuw@mail.gmail.com>
 Subject: Re: [PATCH v2 1/3] driver core: platform: remove software node on release()
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
-	Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+	Danilo Krummrich <dakr@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Rae Moar <raemoar63@gmail.com>, Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 23, 2026 at 7:32=E2=80=AFPM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On Fri, Apr 24, 2026 at 11:01=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
 >
+> On Thu, Apr 23, 2026 at 02:12:02PM +0200, Bartosz Golaszewski wrote:
+> > If we pass a software node to a newly created device using struct
+> > platform_device_info, it will not be removed when the device is
+> > released. This may happen when a module creating the device is removed
+> > or on failure in platform_device_add().
 > >
-> > +     /*
-> > +      * If the primary firmware node is a software node and there's no
-> > +      * secondary firmware node, the primary will be affected by the c=
-all
-> > +      * to device_remove_software_node() in platform_device_release() =
-and
-> > +      * its reference count will be dropped by one. Take another refer=
-ence
-> > +      * here to make it have no effect.
-> > +      */
-> > +     if (is_software_node(pdevinfo->fwnode) && !pdevinfo->swnode)
-> > +             fwnode_handle_get(pdevinfo->fwnode);
+> > When we try to reuse that software node in a subsequent call to
+> > platform_device_register_full(), it will fails with -EBUSY. Add the
+> > missing call to device_remove_software_node() in release path.
+> >
+> > Make sure that we still function correctly if a software node is used a=
+s
+> > the primary firmware node.
 >
-> It is possible to pass already registered node in pdevinfo->swnode
-> (because device_add_software_node() can handle this just fine). In this
-> case we also need to take an extra reference (or figure out whether we
-> need to drop the reference when removing the device).
+> ...
+>
+> > +     device_remove_software_node(dev);
+>
+> >       of_node_put(pa->pdev.dev.of_node);
+>
+> Can we rather replace of_* get/put with the fwnode_* get/put and make a
+> conditional here?
 >
 
-But device_add_software_node() checks if the software node is
-registered and - if so - just bumps the reference so the effect is the
-same as when it registers the swnode.
+I thought about it but I'm not sure why we bump the refcount of OF
+nodes but not of the firmware nodes supplied in struct
+platform_device_info. Maybe there was a reason for it. That would
+simplify things.
+
+>         if (is_software_node(...))
+>                 device_remove...
+>         else
+>                 fwnode_handle_put().
+>
+> (or something like this)
+>
+> And IIRC the above pattern has been already seen somewhere else. But I ca=
+n't
+> point to it, just some weak memories of seeing that already.
+>
+
+That needs to account for two software nodes, I think it's fine to
+call the two in sequence unconditionally (like I do this this patch)
+and just dump the refcount on registration as necessary.
 
 Bart
