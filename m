@@ -1,156 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605DA3C061D;
-	Fri, 24 Apr 2026 11:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6383C5DB6
+	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:26:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777031722; cv=none; b=LVrUsIKSHRm3hKwObTr87WZhIbUyyKF0fcAiSbLy4dUwSabVkIeAUiFzV1F+HrGHIaOPL+agBVivHQjSDTViWgQPgUwntTVZQg+Nb6hCpi8vJPESLp/crMMnAEU0a98sczD1bp0nydNQ1f3HomM6+kIBCKGiYBK5PZCEQ0bKw8I=
+	t=1777033612; cv=none; b=T9zgizpZEvCYe20RWdzAKCGoH4+HRHhEmzIxdRhBTdBmO3Utg0Bu5ZsR1dfLm3Cx/BxVuiiKyyoLTtuFLqbD0e2dIztRhJ2X4IKehNnBZazZdWxl3qsH72AQrtKCoPOhj4SKxkFlzed9y6b0SzRCLypDa+xV2t8Spq6lIopHcVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777031722; c=relaxed/simple;
-	bh=3sGm0CtNeMyxvoxyTsn9tGTUUQmNik0i9na4gi9/c/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FzHHKFEaoQznKiX6/bUnDBiTL9S5sy7TVROGHvvSoWPMqRvaZyN17HqC7b0aDzw2gFUUJLj5+Wzfvrx/SpQwcVq3hrxBscqiB8/bLhukbHjMxgg9qaJFbVcR23yaEcROIhWkkzB0P8npUlhKqdmcd1Pph04FzNrvaBFdUrnv0Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=emXKArew; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777033612; c=relaxed/simple;
+	bh=wnKLPa1uej/o1vrw3CxA9alePlMkKpC+cfG/oCAW1pI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gj27N+JkbPRyhYdg2ZJEr2o8xf1cgCPnA1X3mMjLlworXBdmNCNrfoqw0q8eUX8RQIwPxZ7jyR5KzAYBA8kSJBeiJwBnO0OHpgkTxSIUFGtRc9G0ngxq7YAz43FCk3/BjTLQ9ZGMwYZvkjhtr+e3FlZACanJ1NkPRcy8Nfhu+qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FgbsytNN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="emXKArew"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C75C2BCB2;
-	Fri, 24 Apr 2026 11:55:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777031722;
-	bh=3sGm0CtNeMyxvoxyTsn9tGTUUQmNik0i9na4gi9/c/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=emXKArew82z8jyq1RECSlihUt6jeOEmAagE+12KYKAcywJi51oKfYF9J40fUJOyof
-	 Z5pVFhExBNSatBsbJyRm8w5giaG/n/wqJ5Pj6lAgl1+e72piF+lF1o4UOJ8x7oWrKh
-	 iHvt8kArSk81cIUHY6hbL1V8MkyiU9Tj23AclgQI=
-Date: Fri, 24 Apr 2026 13:55:19 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Stefan Schmidt <stefan.schmidt@linaro.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v2 02/13] drivers: base: Add generic dma context bus
-Message-ID: <2026042428-blemish-helpline-7d8d@gregkh>
-References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
- <20260423-glymur-v2-2-0296bccb9f4e@oss.qualcomm.com>
- <2026042346-trustable-register-095a@gregkh>
- <06c04947-e72e-679b-493b-e112d693f391@oss.qualcomm.com>
- <2026042422-deem-chemist-8d0f@gregkh>
- <4c3fa710-f61a-4aad-622d-54909190cb9e@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FgbsytNN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F229CC2BCB6
+	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:26:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777033612;
+	bh=wnKLPa1uej/o1vrw3CxA9alePlMkKpC+cfG/oCAW1pI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=FgbsytNNIf+VH3ugBO8E/9ataaPKdkXMxRCpVat2dUryqcm/xBzJO3YOJ6LSjQNLF
+	 RW4MH5TI+UqgTZsioH97Kmqbok2eVProp/kmsA+ZX6eBEangnemBtiv8Wowdn9whZn
+	 EtZFXLo7h+3OmktBIxGbwyI/gQDQVJzBDmppITo1iKPae4V5i7nB0BCbjDUuq7RvbU
+	 mOwrJLyp8AmG7lBVGmzXSNDFeaKBSHov+/mL+sratdyTE+z9Nuj9RAsYy04kA84zxx
+	 hn0gsMNYLRc/VNtZY2Es6oNpGiKR9y0vvpeoRiqDcg5HUOn1ntVNbMcdho3osa20CJ
+	 qBcxt9jUgqF0w==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a283c44478so13212282e87.3
+        for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 05:26:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+pKnXzFr1KJV5WZHuks8dPyXkVzpxQLEHhSi3niZJlWQOe9m3ZUYynyB8mO3D26Q+g0MOkArqRQrHiYg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOfBoXvlMtp/63z0IDNtlh6mV0pE1SBxmcnkfUj9UNH4jGywSZ
+	k1DCHbxuPmSOfV70dK7JojGjrJtAPJpo62lR9htGm6S4l0jMfzuzWSz1GvLmPPQwSvHhL/vYU0K
+	9tSv6wgS4+wDoo5fhxaC0AZ910aRx8eKpKfJ59NUDXQ==
+X-Received: by 2002:ac2:4c4b:0:b0:5a2:a355:aa4e with SMTP id
+ 2adb3069b0e04-5a4172de25dmr10102146e87.31.1777033610661; Fri, 24 Apr 2026
+ 05:26:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4c3fa710-f61a-4aad-622d-54909190cb9e@oss.qualcomm.com>
+References: <20260423-swnode-remove-on-dev-unreg-v2-0-0e5213cde2ed@oss.qualcomm.com>
+ <20260423-swnode-remove-on-dev-unreg-v2-1-0e5213cde2ed@oss.qualcomm.com> <aepWdKzd8GPeayNJ@google.com>
+In-Reply-To: <aepWdKzd8GPeayNJ@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 24 Apr 2026 14:26:38 +0200
+X-Gmail-Original-Message-ID: <CAMRc=Mcq8rP-AerT-A2Az_W-rsMFZe8_rQDB5mKOHALxEn9uUw@mail.gmail.com>
+X-Gm-Features: AQROBzCHLScsUjboeAqJevVU_hb-dqPkjAWviyUz9vljcrjGlui8EiZ7lzxfDPM
+Message-ID: <CAMRc=Mcq8rP-AerT-A2Az_W-rsMFZe8_rQDB5mKOHALxEn9uUw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] driver core: platform: remove software node on release()
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 24, 2026 at 05:15:02PM +0530, Vishnu Reddy wrote:
-> 
-> On 4/24/2026 4:43 PM, Greg Kroah-Hartman wrote:
-> > On Fri, Apr 24, 2026 at 04:01:13PM +0530, Vishnu Reddy wrote:
-> >> On 4/23/2026 7:07 PM, Greg Kroah-Hartman wrote:
-> >>> On Thu, Apr 23, 2026 at 06:59:31PM +0530, Vishnu Reddy wrote:
-> >>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> >>>>
-> >>>> When a driver needs to create virtual device at runtime and map it to
-> >>>> an IOMMU context for memory isolation, there is no common bus available
-> >>>> for this purpose. Each driver ends up implementing its own bus type,
-> >>>> leading to duplicated logic across multiple drivers.
-> >>>>
-> >>>> host1x driver implemented its own bus type to attach an IOMMU context to
-> >>>> a dynamically created device. The Iris VPU driver now has the same
-> >>>> requirement. Rather than duplicating the same bus logic again, a shared
-> >>>> bus type is introduced under drivers/base that multiple drivers can use
-> >>>> directly.
-> >>>>
-> >>>> The bus takes care of creating a device and attaching the IOMMU context
-> >>>> to it based on the client inputs.
-> >>>>
-> >>>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> >>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> >>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> >>>> ---
-> >>>>  drivers/base/Kconfig            |  3 ++
-> >>>>  drivers/base/Makefile           |  1 +
-> >>>>  drivers/base/dma_context_bus.c  | 77 +++++++++++++++++++++++++++++++++++++++++
-> >>>>  include/linux/dma_context_bus.h | 26 ++++++++++++++
-> >>>>  4 files changed, 107 insertions(+)
-> >>> as you can not have a device on multiple busses at the same time, this
-> >>> makes no sense to me at all.  "dma context" is a bus-specific thing, so
-> >>> please add it to the bus that you are wanting it for.  It can't be a
-> >>> generic bus as that just doesn't work.
-> >>>
-> >>> Or what am I missing here?
-> >>>
-> >>> And why is DMA somehow "special" here from any other hardware attribute?
-> >> Let me give brief information which was discussed, in the initial series,
-> >> the iris VPU used platform bus for dynamically created devices and we got
-> >> the comment/suggestion from Robin to implement a proper bus_type with a
-> >> .dma_configure callback.
-> >>
-> >> https://lore.kernel.org/all/02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com/
-> >>
-> >> based on the discussion, implemented the dma_context_bus and used for iris
-> >> VPU devices instead of platform bus.
-> > Why not make a irus_vpu_bus where you can do what you want?
-> Initially iris_vpu_bus was introduced, and it was made generic based on the
-> discussion,
-> 
-> https://lore.kernel.org/all/20260227-kaanapali-iris-v2-3-850043ac3933@oss.qualcomm.com/
+On Thu, Apr 23, 2026 at 7:32=E2=80=AFPM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> >
+> > +     /*
+> > +      * If the primary firmware node is a software node and there's no
+> > +      * secondary firmware node, the primary will be affected by the c=
+all
+> > +      * to device_remove_software_node() in platform_device_release() =
+and
+> > +      * its reference count will be dropped by one. Take another refer=
+ence
+> > +      * here to make it have no effect.
+> > +      */
+> > +     if (is_software_node(pdevinfo->fwnode) && !pdevinfo->swnode)
+> > +             fwnode_handle_get(pdevinfo->fwnode);
+>
+> It is possible to pass already registered node in pdevinfo->swnode
+> (because device_add_software_node() can handle this just fine). In this
+> case we also need to take an extra reference (or figure out whether we
+> need to drop the reference when removing the device).
+>
 
-I don't really see that request here, I see a "make this better and more
-generic for other busses" but that does not mean "dump it into
-drivers/bus/ for someone else to maintain" :)
+But device_add_software_node() checks if the software node is
+registered and - if so - just bumps the reference so the effect is the
+same as when it registers the swnode.
 
-> >> Here, the device have only one bus (dma_context_bus), not multiple buses.
-> >>
-> >> Regarding the "DMA" naming, the core operation of this bus is its
-> >> .dma_configure callback, which calls of_dma_configure_id() to map the device
-> >> to a corresponding IOMMU stream ID. The name "dma_context" reflects this
-> >> purpose.
-> >>
-> >> I am open to suggestions from you or Robin or anyone else, if there is a
-> >> better or preferred way to achieve this, I am happy to consider it and
-> >> rework the implementation accordingly.
-> > As there is only one user, just make this your own bus please and do all
-> > of the needed bus operations for your devices there (i.e. don't hang an
-> > "empty" device off of it.)
-> The reasoning behind to make it generic was to have more users - host1x,
-> Iris VPU, QDA on the generic context bus, instead of each of them having
-> their own. Let me know if you suggest to have the iris_vpu_bus.
-
-But you did not add such users here, so how would we know this?
-
-And still, I have no idea what this bus really is doing.  Is it dynamic?
-Is it self-describing?  Why not just use aux-bus?  What is it supposed
-to be doing and used for?
-
-still totally confused,
-
-greg k-h
+Bart
