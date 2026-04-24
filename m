@@ -1,253 +1,257 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2464B3BE63B
-	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8783536F413
+	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777034548; cv=none; b=C+8VL965Qoiw8EbkFj7lqbLeaOm/HKY1Tz/aSbSNDEmzVzaX8fAsynUH2xbqBQLKkiQt46zBPYbGNuTOdLRqP0BODKjXFV/Cy2bLHAfxsEaGlaCMSLxELpTDJWcD6sBF/Nw8mj1QNVt/8kfBG32qJLJLz8l7KMH3Pa9uO9QKdEE=
+	t=1777034578; cv=none; b=VeYIY1F7tICiW79fJwRnfD68VniHO5oTwWoyS7yXT34Z769Qjp5cQxI/Gg5XeLUdPq/4s+iIyRyc7R7Psa0PoQacIOgSsyf1IlKKoUUTURU8NAs4AGXiNu0G9jzeDp9vI9M9K0vKNaiiBB1xgcXpM/79valq7KewHtg9MKVGF2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777034548; c=relaxed/simple;
-	bh=IRTghGNuWjWk+3xT8oRjoZ6vfBCZ1AHElgjUbPw/r6M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SwcwialZBBkpzbQpDJL0r38eZUtvijXSgt0Ei7EW3S8F/kqG7xvShnL+eEAoTufQMX1+ohF4P3uteZ6jQ+pzAU61U7M/xKNtZ3cUYt7BCOn4MpIdoL5nDcI6N6DoDCQIXFHvlVJ2cIofpJv11j53AJZ8lx/Wo7poQHKO92nd78E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=D3e478bO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hfFgZijH; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1777034578; c=relaxed/simple;
+	bh=cn4e2mz/A/5QWBWv2xUeJh3QyOT0vY1ZmQPa8Lp5MPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nw3LCD6x89cayNEgQLRHfZSMxx/DdO2/RBn+nTmmVbGYbUQcg5s+QjIzEHW+zCbk811al8kPKZ91KSRx5tah7l1cRlO9Eki4puoAvQ7LOJiOhQcvY8xERrYfZarIg3UU3WDhWynvq+2aMIjPWrHLOV/4OdZ413O1YORAaUB6mOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cinR7IhL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dmt9+pDi; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="D3e478bO";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hfFgZijH"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63OCNreZ4167383
-	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:42:26 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cinR7IhL";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dmt9+pDi"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63O9HtLt1532385
+	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:42:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3jUS4BVvtxQ4TlCKv27nqabFS5yyU+r3C8dzKt76/V0=; b=D3e478bOH4/C9Hs/
-	7YNC7YynmUR3IOUxKYiQNOhjxmU2kEg/Y05Cvi23HXY3Hde/0KhOOvgdTU0BKIML
-	9BmKynKnk0Fp8K8kDUCENN3sTMAXwyhP10WIXcIBE/iaiId0f89zp8d8L2cp5OUs
-	d6xL2hxVU332SWAOwTxy0o/uqgzh3qahZ4H2gdoKsRv+TcyV/TnqIH8WYg6x18YU
-	QdffqgDmPuwFFR2uHcnTqtYJg/ZjGRH+f0v8nUCEG1T3ByDTi5eEk492urWPMAzJ
-	u6QkRkYfO56smaSauV8bAxpMejKEHOlRIEZlyImceOsP3xt7M+ajmRSygrrSRuB4
-	yrL02Q==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dr48n1eh9-1
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=mAx5dCTDz4Eq0M25T8JIZmXtmzTcjsQUU5V
+	vEpgsfDQ=; b=cinR7IhLEZLJbguPcj7Bb9G0w0JZhOvY9wj182Q8XqJuhEeIAKt
+	PKKXO0ciuOeluszPw0XIm298/eICLh6bozbKlKr/lKVUTj5mVKSdfaPZIVByCbXs
+	vrBuwTuowol1BgNMZ8E/aR8VoVG8deI5EhkCQ/LLY4xxf10twBuKuZadJ3/bs/Q1
+	HykJ75WvDNau69ZyNxLNAS9RyTZllpp8dtrZbA/N63NKsP7PTrgFXFz8gPJrllNb
+	bKiwBj0LqEKs8uRbwAwya7faLz5CBX4WZeLqAf1hPjSl3m1cXgsKbGRqyJdrRSrW
+	Ic31lkNgRAJyDYefQtTt++cQB5SM8AsIUVg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dqr26m68r-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:42:26 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-35da97f6a6dso7762223a91.0
-        for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 05:42:25 -0700 (PDT)
+	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 12:42:56 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50fb007bc36so119204671cf.3
+        for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 05:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777034545; x=1777639345; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3jUS4BVvtxQ4TlCKv27nqabFS5yyU+r3C8dzKt76/V0=;
-        b=hfFgZijHBcjv4d80xqvltkY8EBl35SCGGZ44Zd6Q1cShVfQYHoukd/yN6ZuUhBk/0u
-         hqeoK7Wa3faeunqWKgDtrU0zHy+DQXw1NhSlv3kr5wSLD+nKT/NP1sbYhMZRzlxgqICW
-         3nYGEyX4eAqO+cDjsCmRBLvX712oOghHUjpS25Uwr8lfJegscF3y4wMMGAXeobUMFOyC
-         4Yy49Ba7Ynr+NRVIAluXZmouQedd1vRNZXGovqoPQ5dYz/cOQkqyGP8Nda1T8zsuuysv
-         8+GcswfhSFXiHi1Ap9rXHvSZX64Nnte2aREPqODXdgUz44HBaznYCewvLJcQaYM2VOKB
-         /hBg==
+        d=oss.qualcomm.com; s=google; t=1777034576; x=1777639376; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mAx5dCTDz4Eq0M25T8JIZmXtmzTcjsQUU5VvEpgsfDQ=;
+        b=dmt9+pDiaWLMbqPdCYIZS44GOoj1VvzvhafNqFY0CWTD87LAg/+SGG0oNKRsXcUnXZ
+         QcS2FhnWbDmYPCO799lgTa2tdpYRoNlDSjq/ljoN4aQ0kfYJA6wr/CnS2xhxkfTGtpXJ
+         wFntptu66jpSt/Sizs6ANzi7RVQqIBVvLoBPSY59vGiS9OANHqD/qzBlWSwoJxSxBP8X
+         m07SBC/ear33hd1hWEG6dF/zQxn1inQG9fFSpKJd6DwvHPYlQfnR/UPpmz5qJdeapRCZ
+         jNlMJ0tzdyyl7g1E/8cztUVU2DYaepQ/eGNqv3rqbL9vtCbMIBSVhAtwcAuNOWN2KXXc
+         VLNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777034545; x=1777639345;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3jUS4BVvtxQ4TlCKv27nqabFS5yyU+r3C8dzKt76/V0=;
-        b=qqE/96RP9LH2mIIpn4kl5RSPU6/ObFIMwmfjc/s0ux9CAk37sXdSJiCWAuBEYVvd6B
-         W+bhsVW34TRhSikFvE/5NVyFKnn3TNfsSfVy+88XhWm/2D7zCDj17Kwc4wXptYszVmlI
-         Nso+TKh1uiEh6W/c0oBLbEAS+geyZc2uqaal75OrrGuvEOHUBVOBrdbPW22xw5kGvnvI
-         r3VEGBYr7t0eX2a5wQC+smSrKZhtp4B13ABBMH8UpkTrG4fhhSmLC0LvVDjSMjAuxHt4
-         io952H9Ybzy4r0Wp7fCu+ZY2pBsMkEDcOSbk+4LayKxGOUmInGWImf1/E0DQL8XP4DR5
-         AKjQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8tBg3V3dxNYRGP5PdO/zpF5mrJWtT0+fpYfJm3TxHwRmyFrJkpzxEYl9Sn/EDRIsFsKeOfdvpJydSahw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyomiXI/ddKbM53ZwM6c4sof0XgVM/fchhSib9BTI9abQ743rzj
-	l7vDiSzLDY7ohodON7gjwLo0RVauElrA3zsJ2D2GOc1dJZ10vgdMD/e281jRmaMcTZAx4y+B3G/
-	7fH/lM9qZiq4AWz/aowi3Jk0Z/TBVClVvxisn4HPUS2KYJoPCre2xZVEgpxJQHl/62g==
-X-Gm-Gg: AeBDievDsKSmfcLcHgU/cIz5Cbk0noX7P2wq7DM4d+Koh+cOY1UoqNKEzoTwwqXBjK7
-	n86xS7Ca/rGN6ZgFBTsNHOByTQooZ4bjrFEuHb/DTd8MDebcYQQAqL2gOZ+ZhoDnE6Dfg7ucFGy
-	OxNXsF7P5g9MRWKKEfGCFigzNhC1hirHAtoqRvqlKvTCwSZ6weQjd7Cqk2Ed84C9ys4XYBSomUz
-	SB+2ThXW+ZbmQqCpIwonX0Z5JklmODmm7o0jlOpfhk5ggPi6OZuNIYJbmcDtSw7C24lS3YdmeZ1
-	CNGOWJKf/pNqLP5+FZzlumpWcFYoE6bo58VIqJLMmOuJPMmxYkBbWPCx0gJDqq1llvNkJ96/lUR
-	uS8gr/fYOgYlOURZxwwL69HCz68vzReFHIhW+dGachGEnpPyw4RVhVvxuAFiOyavP
-X-Received: by 2002:a17:90a:da8f:b0:35e:594a:5b75 with SMTP id 98e67ed59e1d1-361404c1034mr32348903a91.25.1777034545187;
-        Fri, 24 Apr 2026 05:42:25 -0700 (PDT)
-X-Received: by 2002:a17:90a:da8f:b0:35e:594a:5b75 with SMTP id 98e67ed59e1d1-361404c1034mr32348850a91.25.1777034544617;
-        Fri, 24 Apr 2026 05:42:24 -0700 (PDT)
-Received: from [10.239.60.18] ([106.192.26.241])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-361410b998fsm23315385a91.13.2026.04.24.05.42.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2026 05:42:24 -0700 (PDT)
-Message-ID: <1e039dd5-da3f-19b2-ef98-29e64fdd925d@oss.qualcomm.com>
-Date: Fri, 24 Apr 2026 18:12:09 +0530
+        d=1e100.net; s=20251104; t=1777034576; x=1777639376;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mAx5dCTDz4Eq0M25T8JIZmXtmzTcjsQUU5VvEpgsfDQ=;
+        b=ZY63aCv25O9e2/zF5aFO49CFdvoKqh3tZMo2QINegfvBLZrjz/uVm1SRjk3krdVTF6
+         8CVLhViu09T47VXbWFROcdwNJcYVHVqpiR5MN/WdsEG8Cw7d9zaY+Ka4IyMYPbrLJoNl
+         ezcOeHD7OQXR9NpbihiD/rr1Ku+uw5gVPWG0TeHnCY/unATu+RwZHdWEwA3K8Eyqg5wh
+         xiD/57RnGXoE8dgtuNfVLmKp1z2I3H4ZC/JxM+YiOl/sUefeTKMXr8uD3J1F/SzEJEaD
+         9NB2OFH0jsVhKhQUfKgvfTPNI6RJIeDY1XQwoluvnbpJxOisr0OWlxWj0EFZFcFgO6/l
+         aXoA==
+X-Forwarded-Encrypted: i=1; AFNElJ+doqtYUa29AtOW+a7mRShE47hahED5R088cf0GSDCeS9ZyKKARMAP3usY64GsAMYNEXsgJIRWYh4LIWw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxuK9uMJCfkMwhrDRZ4g5HuqJqjPiINDn5JD1bhM9IvqkVoZ2cf
+	3RnkKQwJmkD+wo4s2Sv8Q9hDX7UoX/7u0mbE8PBnu6sxsCV31213Ggwur0v7/C7HyOef73/uEMC
+	FFCAoNVSS2G2aZXuH/Q3EBfBkKp51leqSDENGY6oPHYiLNUhIjtmSN9dMfFuvZRd+sA==
+X-Gm-Gg: AeBDieunaJJ0yppZADoVKSw2oDLGedrHYRguqmq4CN/3uxPC541Q8gmN9M+CqqCqj1f
+	JbYUwFdJutF/zmXPQVKmrdQmiJGKvZvhVN6UDXb6ITWEJjKugsm25TXUd94u+sRlevaH/8BWWem
+	oEsfRU18+0611yZcIt7bVkmtNYTEoX1tv30o4eJGF0y/g7Ode9aE/GVogYExSTeWvu/humkJJGx
+	eVdEH4jzBW9i2UtRU+R+xijY/SksnBI8Ov0BRZHojPDdxTVSi6oUUxnSR8fVdWwo7s3A1OMOTud
+	O1J5xxj8GHwoAwl+hMCDWNosaFkVXaReHl1z52P+XNwIVBQIbb1BLs6CjHnekOthLT1UVIjJu0d
+	DuJeaXtS8YS7AQks0vUUu+DH6m8SeyI+z3xN3fkTZBqIsRvHH0s42HTggxbZ8
+X-Received: by 2002:a05:622a:5a94:b0:50d:7b0c:35e7 with SMTP id d75a77b69052e-50e36ed02b9mr476541651cf.43.1777034575746;
+        Fri, 24 Apr 2026 05:42:55 -0700 (PDT)
+X-Received: by 2002:a05:622a:5a94:b0:50d:7b0c:35e7 with SMTP id d75a77b69052e-50e36ed02b9mr476541241cf.43.1777034575357;
+        Fri, 24 Apr 2026 05:42:55 -0700 (PDT)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:4b5d:10b8:b359:f3a9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a6114f2cfsm29841715e9.35.2026.04.24.05.42.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 05:42:53 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, brgl@kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH] software node: provide wrappers around kobject_get/put()
+Date: Fri, 24 Apr 2026 14:42:50 +0200
+Message-ID: <20260424124250.92890-1-bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 02/13] drivers: base: Add generic dma context bus
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org,
-        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
- <20260423-glymur-v2-2-0296bccb9f4e@oss.qualcomm.com>
- <2026042346-trustable-register-095a@gregkh>
- <06c04947-e72e-679b-493b-e112d693f391@oss.qualcomm.com>
- <2026042422-deem-chemist-8d0f@gregkh>
- <4c3fa710-f61a-4aad-622d-54909190cb9e@oss.qualcomm.com>
- <2026042428-blemish-helpline-7d8d@gregkh>
-From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-In-Reply-To: <2026042428-blemish-helpline-7d8d@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Ltnovb0RuCOA6P-S-Dglvqtd23PZ8Sxg
-X-Authority-Analysis: v=2.4 cv=VOjtWdPX c=1 sm=1 tr=0 ts=69eb6532 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=K3jt3zD9TrcZs+Uyli2v9A==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=fZobZ8Dl1N5RqnsFfjAA:9
- a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: Ltnovb0RuCOA6P-S-Dglvqtd23PZ8Sxg
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDExNyBTYWx0ZWRfX+1utjQ1h0HuP
- UbVjoEmK6qt+1tYy61uRENtb7OKF5cvUFTP76dat6n9YhDc+HTKcs6lv+gOPmFkEmmbkZBdx42b
- tmsiWiBoP8KzHVjEFtlkrb90jzd/24/W2LwgVIn9puFrr2KPEGtYw5DkczJ3jKUTGTR4FUNLDma
- sBPF3+PWnnpfDSGZF21LEbu+6AndWUwixl/6c8nk4JibiGCJ/lPMn2qEpe3snMl7kR3X+LMH22c
- qGEzrVGHMi+kEu4dmhwNr17jfk0rRzBEYwlkMhRQ2GFHFqMiDGzf9hqY+HyXOWjW9O3PcQ7/zQB
- vsEGqzNatl52tKS8WDJC4cn3KdznSLoIHrMWAojyxvst6PjK0QAzlxZJZ4eQCb0qFeH6R1ltMjZ
- n0vqdMUvBZjsdbP+wDFO180cRiFoNOGye7Mne48hXuzeiXIbM4xGI0Br+/BY9dqa76ELTuNWDH+
- 8fyPfAkWj4qGJPoPxMw==
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: N-61T-tbPkOTc0_L3jbkz2Wiu0Ljx8Ow
+X-Authority-Analysis: v=2.4 cv=QLhYgALL c=1 sm=1 tr=0 ts=69eb6550 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8 a=YraBtKz_dzo4wXHYukEA:9
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: N-61T-tbPkOTc0_L3jbkz2Wiu0Ljx8Ow
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDExNyBTYWx0ZWRfX6Lps9D+qoUki
+ Ts5bFoElcBhalW00aO0F85mjIVfyq8bbuDu+xenvntLkkYFW9CH13Yfo5sJXWs4FjRPJNTLqywU
+ vStI5F+L5RDyg+UgCDkPdQ/Ne5thXp3HtqBSvAPkMzE5uIpFL4o7K5UdD+RDGxwDcMvlWSWIbyY
+ P9eVkbWvuGoSK5GjoFMFz7Ri9OR8bULJD06Ny354/+jzV8vSmshemcyZ/kAlETq36s72q/9R1Lf
+ nxSi7Tn+bV/menydHpBIcZUduYymZ+vwBU00dbE4GnxeNxzIA8dpIuVhdugtIb8dYYTHY56R2IE
+ k4W5n/XLaH3oegz304JlbNFwwMWqqik2NWTn0Ek4IqaecZVXGXzdhYkWQ1InQFop3AizLav0X+F
+ okqcTHRXCD9OfZXS1AxJYdgUx7KCbmJ2ANmJfj5J3KBZtkDdQ50OtyX7ndEV5vzExhDfxpNUTZe
+ NbMALxFCQSCEpQo6Eeg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 suspectscore=0 malwarescore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ impostorscore=0 spamscore=0 suspectscore=0 phishscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 clxscore=1015
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
  definitions=main-2604240117
 
+Make the code more readable by avoid constant dereferencing of the
+swnode's kobject when managing references. Provide wrappers that take
+struct swnode * as argument and make them hide that logic.
 
-On 4/24/2026 5:25 PM, Greg Kroah-Hartman wrote:
-> On Fri, Apr 24, 2026 at 05:15:02PM +0530, Vishnu Reddy wrote:
->> On 4/24/2026 4:43 PM, Greg Kroah-Hartman wrote:
->>> On Fri, Apr 24, 2026 at 04:01:13PM +0530, Vishnu Reddy wrote:
->>>> On 4/23/2026 7:07 PM, Greg Kroah-Hartman wrote:
->>>>> On Thu, Apr 23, 2026 at 06:59:31PM +0530, Vishnu Reddy wrote:
->>>>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->>>>>>
->>>>>> When a driver needs to create virtual device at runtime and map it to
->>>>>> an IOMMU context for memory isolation, there is no common bus available
->>>>>> for this purpose. Each driver ends up implementing its own bus type,
->>>>>> leading to duplicated logic across multiple drivers.
->>>>>>
->>>>>> host1x driver implemented its own bus type to attach an IOMMU context to
->>>>>> a dynamically created device. The Iris VPU driver now has the same
->>>>>> requirement. Rather than duplicating the same bus logic again, a shared
->>>>>> bus type is introduced under drivers/base that multiple drivers can use
->>>>>> directly.
->>>>>>
->>>>>> The bus takes care of creating a device and attaching the IOMMU context
->>>>>> to it based on the client inputs.
->>>>>>
->>>>>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->>>>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->>>>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->>>>>> ---
->>>>>>  drivers/base/Kconfig            |  3 ++
->>>>>>  drivers/base/Makefile           |  1 +
->>>>>>  drivers/base/dma_context_bus.c  | 77 +++++++++++++++++++++++++++++++++++++++++
->>>>>>  include/linux/dma_context_bus.h | 26 ++++++++++++++
->>>>>>  4 files changed, 107 insertions(+)
->>>>> as you can not have a device on multiple busses at the same time, this
->>>>> makes no sense to me at all.  "dma context" is a bus-specific thing, so
->>>>> please add it to the bus that you are wanting it for.  It can't be a
->>>>> generic bus as that just doesn't work.
->>>>>
->>>>> Or what am I missing here?
->>>>>
->>>>> And why is DMA somehow "special" here from any other hardware attribute?
->>>> Let me give brief information which was discussed, in the initial series,
->>>> the iris VPU used platform bus for dynamically created devices and we got
->>>> the comment/suggestion from Robin to implement a proper bus_type with a
->>>> .dma_configure callback.
->>>>
->>>> https://lore.kernel.org/all/02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com/
->>>>
->>>> based on the discussion, implemented the dma_context_bus and used for iris
->>>> VPU devices instead of platform bus.
->>> Why not make a irus_vpu_bus where you can do what you want?
->> Initially iris_vpu_bus was introduced, and it was made generic based on the
->> discussion,
->>
->> https://lore.kernel.org/all/20260227-kaanapali-iris-v2-3-850043ac3933@oss.qualcomm.com/
-> I don't really see that request here, I see a "make this better and more
-> generic for other busses" but that does not mean "dump it into
-> drivers/bus/ for someone else to maintain" :)
->
->>>> Here, the device have only one bus (dma_context_bus), not multiple buses.
->>>>
->>>> Regarding the "DMA" naming, the core operation of this bus is its
->>>> .dma_configure callback, which calls of_dma_configure_id() to map the device
->>>> to a corresponding IOMMU stream ID. The name "dma_context" reflects this
->>>> purpose.
->>>>
->>>> I am open to suggestions from you or Robin or anyone else, if there is a
->>>> better or preferred way to achieve this, I am happy to consider it and
->>>> rework the implementation accordingly.
->>> As there is only one user, just make this your own bus please and do all
->>> of the needed bus operations for your devices there (i.e. don't hang an
->>> "empty" device off of it.)
->> The reasoning behind to make it generic was to have more users - host1x,
->> Iris VPU, QDA on the generic context bus, instead of each of them having
->> their own. Let me know if you suggest to have the iris_vpu_bus.
-> But you did not add such users here, so how would we know this?
->
-> And still, I have no idea what this bus really is doing.  Is it dynamic?
-> Is it self-describing?  Why not just use aux-bus?  What is it supposed
-> to be doing and used for?
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+ drivers/base/swnode.c | 36 ++++++++++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
 
-This bus will allow users to create a dynamic device and map to IOMMU stream
-ID via .dma_configure callback which calls the of_dma_confgure_id() based on
-the user inputs. This bus is under the iommu_buses list to register for bus
-notifier callbacks for iommu_probe_device() and iommu_release_device() during
-add and remove.
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index a19f8f722bc8e..503908c04ae66 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -374,20 +374,28 @@ EXPORT_SYMBOL_GPL(property_entries_free);
+ /* -------------------------------------------------------------------------- */
+ /* fwnode operations */
+ 
++static void swnode_get(struct swnode *swnode)
++{
++	kobject_get(&swnode->kobj);
++}
++
++static void swnode_put(struct swnode *swnode)
++{
++	kobject_put(&swnode->kobj);
++}
++
+ static struct fwnode_handle *software_node_get(struct fwnode_handle *fwnode)
+ {
+ 	struct swnode *swnode = to_swnode(fwnode);
+ 
+-	kobject_get(&swnode->kobj);
++	swnode_get(swnode);
+ 
+ 	return &swnode->fwnode;
+ }
+ 
+ static void software_node_put(struct fwnode_handle *fwnode)
+ {
+-	struct swnode *swnode = to_swnode(fwnode);
+-
+-	kobject_put(&swnode->kobj);
++	swnode_put(to_swnode(fwnode));
+ }
+ 
+ static bool software_node_property_present(const struct fwnode_handle *fwnode,
+@@ -493,7 +501,7 @@ software_node_get_named_child_node(const struct fwnode_handle *fwnode,
+ 
+ 	list_for_each_entry(child, &swnode->children, entry) {
+ 		if (!strcmp(childname, kobject_name(&child->kobj))) {
+-			kobject_get(&child->kobj);
++			swnode_get(child);
+ 			return &child->fwnode;
+ 		}
+ 	}
+@@ -737,7 +745,7 @@ software_node_find_by_name(const struct software_node *parent, const char *name)
+ 		swnode = kobj_to_swnode(k);
+ 		if (parent == swnode->node->parent && swnode->node->name &&
+ 		    !strcmp(name, swnode->node->name)) {
+-			kobject_get(&swnode->kobj);
++			swnode_get(swnode);
+ 			break;
+ 		}
+ 		swnode = NULL;
+@@ -835,13 +843,13 @@ swnode_register(const struct software_node *node, struct swnode *parent,
+ 					   parent ? &parent->kobj : NULL,
+ 					   "node%d", swnode->id);
+ 	if (ret) {
+-		kobject_put(&swnode->kobj);
++		swnode_put(swnode);
+ 		return ERR_PTR(ret);
+ 	}
+ 
+ 	/*
+ 	 * Assign the flag only in the successful case, so
+-	 * the above kobject_put() won't mess up with properties.
++	 * the above swnode_put() won't mess up with properties.
+ 	 */
+ 	swnode->allocated = allocated;
+ 
+@@ -978,7 +986,7 @@ void fwnode_remove_software_node(struct fwnode_handle *fwnode)
+ 	if (!swnode)
+ 		return;
+ 
+-	kobject_put(&swnode->kobj);
++	swnode_put(swnode);
+ }
+ EXPORT_SYMBOL_GPL(fwnode_remove_software_node);
+ 
+@@ -1002,7 +1010,7 @@ int device_add_software_node(struct device *dev, const struct software_node *nod
+ 
+ 	swnode = software_node_to_swnode(node);
+ 	if (swnode) {
+-		kobject_get(&swnode->kobj);
++		swnode_get(swnode);
+ 	} else {
+ 		ret = software_node_register(node);
+ 		if (ret)
+@@ -1044,7 +1052,7 @@ void device_remove_software_node(struct device *dev)
+ 		software_node_notify_remove(dev);
+ 
+ 	set_secondary_fwnode(dev, NULL);
+-	kobject_put(&swnode->kobj);
++	swnode_put(swnode);
+ }
+ EXPORT_SYMBOL_GPL(device_remove_software_node);
+ 
+@@ -1097,7 +1105,7 @@ void software_node_notify(struct device *dev)
+ 	if (!swnode)
+ 		return;
+ 
+-	kobject_get(&swnode->kobj);
++	swnode_get(swnode);
+ 	ret = sysfs_create_link(&dev->kobj, &swnode->kobj, "software_node");
+ 	if (ret)
+ 		return;
+@@ -1119,11 +1127,11 @@ void software_node_notify_remove(struct device *dev)
+ 
+ 	sysfs_remove_link(&swnode->kobj, dev_name(dev));
+ 	sysfs_remove_link(&dev->kobj, "software_node");
+-	kobject_put(&swnode->kobj);
++	swnode_put(swnode);
+ 
+ 	if (swnode->managed) {
+ 		set_secondary_fwnode(dev, NULL);
+-		kobject_put(&swnode->kobj);
++		swnode_put(swnode);
+ 	}
+ }
+ 
+-- 
+2.47.3
 
-auxilary bus don't have the .dma_callback and bus notifier callbacks where it
-can do iommu_probe_device() and iommu_release_device(). iommu_release_device(),
-being a static api, need to be called from bus notifier callbacks which should
-be under the list of iommu_buses.
-
->
-> still totally confused,
->
-> greg k-h
