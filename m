@@ -1,81 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9C83DBD4B;
-	Fri, 24 Apr 2026 14:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485D03B9DAE;
+	Fri, 24 Apr 2026 15:32:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777039430; cv=none; b=W6cZaVT+PUk/TPF3jLV4S7ug0qIqKeH3slEp7QDzNL2zjGc6PzPCH/J+wJWsfFqcIphT1oiBrlBOcvCCmTCtwfvR5XXDQo9ZTr+GFTq1aVKMg7OMz3YONPLxT0rAyhNFUNF46RpI+IyS3y22jDIa40Gre1Meen/Zm5sYzRBdhoc=
+	t=1777044735; cv=none; b=KT1Zp9Ius47cqAAB9tpnBRvobby4XrKtFtCJvdVzLLP7pca0B6M3MqkE3mvjcRhSDXM1/NOkK4fCB5SwQQXh608G0LHyL4NSiKgdbp0k2bqNtxvnRqPewj/pVnZLYFO5AK8H3u2qAVde2h3oJKclebfbFA0gaZ+fcGah+6H9fBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777039430; c=relaxed/simple;
-	bh=VCH0z00/JA4upHhagkU5oPLp1pfvB8+41e0ijTBVlkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovS+VhRIR/QsJnLg2nai4eiq2nm2QG/ORqbZKncIriOeEq35XfLxGU6iUYWbEbF9wY7c1ia81DZyPgr4Nz5Igtni0Km1bTMPHbf0P5vuCTWoOPhJH6C5348a1sC1ge6hYEhaXsdByw3bC/9k9eAyt1ISn9lMZKfxVLQTeMca9Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QV12P03R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777044735; c=relaxed/simple;
+	bh=AQNUsASDSpOj+Lkb3H7zOKZpqVqbztILmTvziLzgrgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mHmchbPxUZ+zejO6Ey5cHzC0Yfsg/Lr0v77uswzR5MqUy9wbY1jZBcod0lbZXZuzhQOb0I/JBWOusKJ4Bo6r4FkB6nsMt+1b1nd7PqMi0zDIMNt8pqisWltZEpR8t4yDL3NnuRZdtpbdv90eNChmzBZCkPAicpjDPJt37SykHe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ULCxGJtm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QV12P03R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B59DC19425;
-	Fri, 24 Apr 2026 14:03:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ULCxGJtm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B49C19425;
+	Fri, 24 Apr 2026 15:32:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777039430;
-	bh=VCH0z00/JA4upHhagkU5oPLp1pfvB8+41e0ijTBVlkI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QV12P03RQDvYkQ9Gkl1vVmqePy3U9aBjOv0wQgIt/xHSd3oYYQ2LfN57OsEGE7U2F
-	 +TRggP7iKlh1hieuG55CLOjt/THowJjzYetRzO//7K5SDKSTtGqLvt9mchQ4zijAyx
-	 jW9FIK/GY+mFortU7EXPB6RrWHlboV8cyHJ6Dgu64q0pvhsiilO863bWNnAoaIqxNP
-	 WEvWd9VRfvBHz1eLZPuyWWDkxJOM0lYPx3+L4cJcgRQoUjDuNj6NuNivQH24H95evW
-	 sNcJg67ZrIY7SGfZBfD+GzSrQngQ4yvFnK1M7u64w1xZCjKI784TIXYlF2+SkRWa2P
-	 rmzCBaohmfD6w==
+	s=k20201202; t=1777044734;
+	bh=AQNUsASDSpOj+Lkb3H7zOKZpqVqbztILmTvziLzgrgg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ULCxGJtm9ILnvgG84R9ZMvmn+IwwM99+YaXihChFi1fwyRGydqK110Srx4aI69LBA
+	 prHa1xlDN+kI3JuAm5Xp/JjxCBzj+AKNsYy+3LPzEyiXu3P8xK1T+UE8S/Qd4+X3hw
+	 frIuiMf+g8xePQ/7AiNYt55btq5Aswgpc6786PHmKhHPhOm7SvwqHvFm9fCCrlwdOA
+	 aAZhpCZ/+ARtCnegsT12+Y8nCN7QRmhRCeskAbEel8pMD1yWd2mz1Z37FE7+qJ6pnl
+	 H4UQCrSDyF+Rmbz9D/LfHZw85iLsKHQWpOTH1bS+w171vvyGjtJrkJUjvrk9uZZvr5
+	 cs7dlZBejwqRw==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1wGH8G-0000000B1aD-09lN;
-	Fri, 24 Apr 2026 16:03:48 +0200
-Date: Fri, 24 Apr 2026 16:03:48 +0200
+	id 1wGIVo-0000000B6iz-2puG;
+	Fri, 24 Apr 2026 17:32:12 +0200
 From: Johan Hovold <johan@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: faux: fix root device registration
-Message-ID: <aet4RKLFJGZqwFI9@hovoldconsulting.com>
-References: <20260424102231.2615557-1-johan@kernel.org>
- <DI1CW4GWGUD6.2K7VZG165WJP8@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2 0/2] driver core: faux: fix root device registration
+Date: Fri, 24 Apr 2026 17:31:25 +0200
+Message-ID: <20260424153127.2647405-1-johan@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DI1CW4GWGUD6.2K7VZG165WJP8@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 24, 2026 at 01:42:12PM +0200, Danilo Krummrich wrote:
-> On Fri Apr 24, 2026 at 12:22 PM CEST, Johan Hovold wrote:
-> > diff --git a/drivers/base/faux.c b/drivers/base/faux.c
-> > index fb3e42f21362..402ed119dfdf 100644
-> > --- a/drivers/base/faux.c
-> > +++ b/drivers/base/faux.c
-> > @@ -133,6 +133,9 @@ struct faux_device *faux_device_create_with_groups(const char *name,
-> >  	struct device *dev;
-> >  	int ret;
-> >  
-> > +	if (IS_ERR_OR_NULL(faux_bus_root))
-> > +		return NULL;
-> 
-> As Greg mentioned, if this happens we already have a much bigger fundamental
-> problem earlier in the boot process.
-> 
-> Anyway, I think this check only catches when root_device_register() fails, but
-> everything that comes after root_device_register() in faux_bus_init() still
-> leaves us with a dangling pointer.
+This series fixes the faux bus root device registration by using
+root_device_register().
 
-Indeed. I cleared the pointer in an earlier draft for this reason, but
-got side tracked and later found the change too invasive for something
-that would never happen in practise and somehow convinced myself that
-this check would do.
-
-I'll respin.
+Included is also a related cleanup.
 
 Johan
+
+
+Changes in v2:
+ - only set the faux_bus_root pointer on successful registration
+ - clean up the init error handling
+
+
+Johan Hovold (2):
+  driver core: faux: fix root device registration
+  driver core: faux: clean up init error handling
+
+ drivers/base/faux.c | 32 +++++++++++++++-----------------
+ 1 file changed, 15 insertions(+), 17 deletions(-)
+
+-- 
+2.53.0
+
