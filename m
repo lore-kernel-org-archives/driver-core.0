@@ -1,172 +1,116 @@
-Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E787733F5B3
-	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 09:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A9D342523;
+	Fri, 24 Apr 2026 10:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777022234; cv=none; b=pvSbQ1puAip0FMBlTl2QHpGkpyqrtpOloc7qRsVXThuU3Ky2ZW4DXXhSxdT6GF9q0doGphZl9K7v/z3xXe+vtHJVwnK3HXq6Fy5GTuVOeoXpghj7Cjm/uxddgmXjFrPELvjTSBy4PCI23Cf18gcAh2Mf3hGO5uR44KbsUbe+cuk=
+	t=1777026185; cv=none; b=DT2UOInOV5lM8/AZiyEPT8X5NuhkNUAQaGe24Y7qVCFsoHmnBTyCyafeGDTJ4bp2zIfxHao5jLWG5I5j/WDXJr7qNC1rHFKF9yCtCMfQUdk+cK2sdeeGOuWwTlBHsWLHUNVvowPt86ht6ln1pqoRP3Qelbl+ZqzCAdMb9Gt4tTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777022234; c=relaxed/simple;
-	bh=bkoHMU+PeltrWkn2kqvecUbCA/8Rd74DWc3ZLYVgJnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L1Z7KN/HNkMccCgGwxtmzHoSlSC7vNShsDgxZVknQkHo/7JAMGl7gNx3p5Uxzsbbd6hoVTWJkGiUd8+aLzJeajhG9wb/cjqV8MrmsdrFixZNo15DthfA46E/jJmzW4dtz1lt5tg0rXu7CBXND8bK6iPDaAnxWX1UOKWTIXTsVLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=eIkZ10rl; arc=none smtp.client-ip=211.125.139.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+	s=arc-20240116; t=1777026185; c=relaxed/simple;
+	bh=dC3ckZECbhAz6juu3DYHArE+BCjaT07k48OesiNagpQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jGGhYWQED7R9XhBiMYLtrMwc2LjwD323rWoTVOUJ0hnahJkreNhMIzHwpG0br6HNEmEXAc2ZmGiyFwGj+KnZjh4oSAvwrb+GjMMmixQm5AhXiSiHUS+gSI4RBArwVjSRbzEfhqYmIWz7fc0/o2Deij/gUH1zGMYo3ATknnkuhsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8JbPdiE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="eIkZ10rl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1777022232; x=1808558232;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z3CeKJzlL9L5e/i5qCTLBtx/7vOhA4o/U3gUBdeSPBo=;
-  b=eIkZ10rleqGhU3gsCsKfwLwhpgLkHcybQYBf6W3QGVXxoB6EzbD8rP/R
-   VvQd1UiRRt3p4u1uQBLmeAZ+UcB6xbfV/Wi0//ZM4KrnPzeW6iV0cu4TX
-   1xT9wfREBh7yMK+Ij4NZU0Oe51+j8/5Mp+OLrtdXsPWaWsNEABbSeTD69
-   3tPb/ZQFwwraaoXWaykXyttS6XuyV++jr4ccFN7upx/FIehsFvBqW8sDS
-   dVBnhPk5PNFdT1KRFcuuK2zCgkZPjKcaRxsDiypYD7TiXBAXNiG7K5kLB
-   YfroeKBoWyTqtwGgAKcxz5lk3es+2dBbsIDjfX5feZUsYTI/HEj0+6WLH
-   Q==;
-X-CSE-ConnectionGUID: Gh+AezyTTXm00m9eAi6Glw==
-X-CSE-MsgGUID: fMdKpmv+TQqojlv1RGXn5w==
-Received: from unknown (HELO jpmta-ob01-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::6])
-  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 18:17:04 +0900
-X-CSE-ConnectionGUID: vg91C+9wTYuqSdSyCqL2wA==
-X-CSE-MsgGUID: qQfXLFtnQi2pXFgzuVJRUA==
-X-IronPort-AV: E=Sophos;i="6.23,196,1770562800"; 
-   d="scan'208";a="62774146"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
-  by jpmta-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 18:17:04 +0900
-Date: Fri, 24 Apr 2026 18:16:59 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH v3 1/4] kernel: param: initialize module_kset on-demand
-Message-ID: <aes1C8oJs3Vxnj6y@JPC00244420>
-References: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
- <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8JbPdiE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8310C19425;
+	Fri, 24 Apr 2026 10:23:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777026184;
+	bh=dC3ckZECbhAz6juu3DYHArE+BCjaT07k48OesiNagpQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=j8JbPdiEYTlwVNYKlihkpDqT7ALrXz8NYbEGxVdIaZ//1VOlEzRWpaN2s5ZpNOVq8
+	 9qpq9t33dUuFmLMJivXRIRxipdzbLhwJAi7c7wA7MNApJ9FNPk3owpVjrxCJtQGYbl
+	 yis/pIJhr2x0Tdi5OyC5/pT4peYU2FwER1Hps96dcp4i/WLorriAFKL53k8fqCU13v
+	 Kho+cGU2KDI7TlZbesqaOCJOs6YA6neL7TPMyyG2IjjoOnCU+JQR6ZiVBK7Wdt62pQ
+	 b/YTIoXfN55pY7kzwo7Ew/GpnK5siQLHknIeL0PQReQF9Ea5yVOhYu84AH7OGqyzb/
+	 CmkLHdfy+jByg==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1wGDgc-0000000AyRC-1UqB;
+	Fri, 24 Apr 2026 12:23:02 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] driver core: faux: fix root device registration
+Date: Fri, 24 Apr 2026 12:22:31 +0200
+Message-ID: <20260424102231.2615557-1-johan@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 22, 2026 at 06:49:03PM +0900, Shashank Balaji wrote:
-> module_kset is initialized in param_sysfs_init(), a subsys_initcall. A number
-> of platform drivers register themselves prior to subsys_initcalls. With an
-> upcoming patch ("driver core: platform: set mod_name in driver registration")
-> that sets their mod_name in struct device_driver, lookup_or_create_module()
-> will be called for those drivers, which calls kset_find_object(module_kset, mod_name).
-> This fails because module_kset isn't alive yet.
-> 
-> Fix this by initializing module_kset on-demand in lookup_or_create_module().
-> Retain the param_sysfs_init() subsys_initcall to ensure that module_kset is
-> live after subsys_initcalls (assuming no OOM) for any users who may need it,
-> on the off chance that it wasn't init'd on-demand because of no
-> pre-subsys_initcall drivers.
-> 
-> This on-demand path can trigger before subsys_initcall. kset_create_and_add()
-> be should safe in those contexts because the allocator is up and running by then,
-> no userspace to start uevent helper or listen to a uevent socket.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> 
-> ---
-> 
-> Patch 3 depends on this patch.
-> ---
->  kernel/params.c | 41 +++++++++++++++++++++++++----------------
->  1 file changed, 25 insertions(+), 16 deletions(-)
-> 
-> diff --git a/kernel/params.c b/kernel/params.c
-> index 74d620bc2521..f25d6fda159c 100644
-> --- a/kernel/params.c
-> +++ b/kernel/params.c
-> @@ -745,6 +745,26 @@ void module_param_sysfs_remove(struct module *mod)
->  }
->  #endif
->  
-> +static int uevent_filter(const struct kobject *kobj)
-> +{
-> +	const struct kobj_type *ktype = get_ktype(kobj);
-> +
-> +	if (ktype == &module_ktype)
-> +		return 1;
-> +	return 0;
-> +}
-> +
-> +static const struct kset_uevent_ops module_uevent_ops = {
-> +	.filter = uevent_filter,
-> +};
-> +
-> +static struct kset *__init_or_module ensure_module_kset(void)
-> +{
-> +	if (!module_kset)
-> +		module_kset = kset_create_and_add("module", &module_uevent_ops, NULL);
-> +	return module_kset;
-> +}
+A recent change made the faux bus root device be allocated dynamically
+but failed to provide a release function to free the memory when the
+last reference is dropped (on theoretical failure to register the device
+or bus).
 
-Sashiko's review [1]:
+Fix this by using root_device_register() instead of open coding.
 
-	Could this cause a race condition if multiple threads try to initialize
-	module_kset concurrently?
+Also add the missing sanity check when registering faux devices to avoid
+a NULL-pointer dereference if the bus failed to register (which would
+previously have triggered a bunch of use-after-free warnings).
 
-	If asynchronous driver registration triggers this path concurrently before
-	subsys_initcalls, is it possible for both threads to see module_kset as NULL:
+Fixes: 61b76d07d2b4 ("driver core: faux: stop using static struct device")
+Cc: stable@vger.kernel.org	# 7.0
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/base/faux.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-	Thread 1
-	    if (!module_kset)
-		module_kset = kset_create_and_add("module", &module_uevent_ops, NULL);
-		/* Succeeds and assigns a valid kset */
+diff --git a/drivers/base/faux.c b/drivers/base/faux.c
+index fb3e42f21362..402ed119dfdf 100644
+--- a/drivers/base/faux.c
++++ b/drivers/base/faux.c
+@@ -133,6 +133,9 @@ struct faux_device *faux_device_create_with_groups(const char *name,
+ 	struct device *dev;
+ 	int ret;
+ 
++	if (IS_ERR_OR_NULL(faux_bus_root))
++		return NULL;
++
+ 	faux_obj = kzalloc_obj(*faux_obj);
+ 	if (!faux_obj)
+ 		return NULL;
+@@ -234,17 +237,9 @@ int __init faux_bus_init(void)
+ {
+ 	int ret;
+ 
+-	faux_bus_root = kzalloc_obj(*faux_bus_root);
+-	if (!faux_bus_root)
+-		return -ENOMEM;
+-
+-	dev_set_name(faux_bus_root, "faux");
+-
+-	ret = device_register(faux_bus_root);
+-	if (ret) {
+-		put_device(faux_bus_root);
+-		return ret;
+-	}
++	faux_bus_root = root_device_register("faux");
++	if (IS_ERR(faux_bus_root))
++		return PTR_ERR(faux_bus_root);
+ 
+ 	ret = bus_register(&faux_bus_type);
+ 	if (ret)
+@@ -260,6 +255,6 @@ int __init faux_bus_init(void)
+ 	bus_unregister(&faux_bus_type);
+ 
+ error_bus:
+-	device_unregister(faux_bus_root);
++	root_device_unregister(faux_bus_root);
+ 	return ret;
+ }
+-- 
+2.53.0
 
-	Thread 2
-	    if (!module_kset)
-		module_kset = kset_create_and_add("module", &module_uevent_ops, NULL);
-		/* Fails due to duplicate name and returns NULL */
-
-	If Thread 2 overwrites module_kset with NULL after Thread 1 succeeds, wouldn't
-	this orphan the kset created by Thread 1 and cause all subsequent callers to
-	fail? Does this initialization need synchronization to prevent this?
-
-While all pre-subsys_initcall platform driver registration happens
-synchronously now, on the boot cpu, asynchronous registration may be
-introduced in the future which would silently break this patch. Either
-way, it would be better to be safe with a mutex.
-
-I also noticed another problem with this patch: kset_create_and_add() is
-called as long as module_kset is not set. So in the case of OOM, init
-will be attempted as long as it succeeds, even beyond subsys_initcall.
-While the current behaviour is to init only in subsys_initcall.
-
-Both of these can be fixed with a DO_ONCE_SLEEPABLE-based
-initialization.
-
-[1] https://sashiko.dev/#/patchset/20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com?part=1
