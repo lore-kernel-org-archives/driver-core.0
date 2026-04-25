@@ -1,283 +1,185 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022114.outbound.protection.outlook.com [52.101.96.114])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6304E365A00
-	for <driver-core@lists.linux.dev>; Fri, 24 Apr 2026 19:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.114
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777058766; cv=fail; b=jnQJCpGleC/Ik8DAKO4zeCGYWOxvJzaeqr188xH7faQAPHEnth9tQYnAIyr7YtLkYG3Kjv3PwJWByUzQjUlMXsmTmP8X2Y9jloReSNFzA4k68J+D639H1Qb6G6w0kcd1qh4x96Gr+Hk+UmGwzc7JE1R4112TfZMfjgfcImbX62o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777058766; c=relaxed/simple;
-	bh=lPviIkATm0tOCJaQaLAqOXHJfMwc66HjmuMnPstCdL4=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=r0v/fkwWV8T+eInMLmUJvsvFlExd6hW8EHCgGD8bZzRnFzYtkLAfFuzbh4hV0lSWmOw55sdI+xZSunY40Efr1Wu3q2iv30rSic4SFDX1fqfzYvZr/6nYwk3meQLLReLOU2VHy8+2Cw1GR7StwVuO/UTabFYTR4jhM5rLA10Nw/4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=NImdIh9H; arc=fail smtp.client-ip=52.101.96.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B04C5CDF1;
+	Sat, 25 Apr 2026 05:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777095727; cv=none; b=JwYZeZeqL0sQ7k3Zc7Nc78/unXyAriXeD885CEwuVVwPGtBoFTpVOwU5eyRx7iaNu+QiAs6UQmTys8hyw57AFqGxjViw7g6H9fzA0mjhIdY2s2OqksWabL8HYIKgEOq4Vx5lmt6zKF9A4kBmSE4qo7OAp2HDawMiJ3YcUho+8as=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777095727; c=relaxed/simple;
+	bh=HPRnxwXK8vu5np6VX+55Q2Y3ogOkac72lAGyNzFWA/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R3Re49FwHaP8eIO03P1z7v2xQIt8wcGIVe9n6fs9hoy2KvmvjqeZJpBLEcvRtXmyvms0uuKH2OFpaxyaJ0FxTUmHL5A9sIwyi0Pqh6H6O1gBIMAR9CN32Rl10WEBOqdiOmn5ShTTwctS8WdeWcvF6cwZPEUppQKZVG9VwjTG9dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AIulHLRA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="NImdIh9H"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qPJSYj2oDhubaCriarin9xO3QGNKCVMmYl1zeVHnuYXvNXMa+mm4EINAnISImRqCIJzxWCCOmNdzkAX2bbBa9JUXaBAZqtFOYg+kVTecbn8tbQdBJS+wq/xrbgTFaa6rfO1Wn9nziKXiqvdHEU68/VLo4ZyTLEWDjzOFhfovOFmR/5xHNIbg42RMCXBTohqULOA+g877aw064Fwg6dwuUadHT4ZfgVqeBCeslFp5cB86bC1FylKqK7mQuJ7vStor/6DlPVQW0CZfaXTzu0Ng/0B7QOjClP0nSIio6fnXXhUPpFcY8yz+7slLml0jvqobWraq4H16WuZKDUtOm82sJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ph9tK+wEInRKOFsfsLm/eSjv8AIJDC30WzRRRTv3SHo=;
- b=d65/I5R0rpf86ulm+S4P+NwBdcmQ4D+gw8fPc3HQM5SIA48Frhxos/K9yLytUJbVdvwAqbd31cZyfB5tQvBT8DAak1QbsJhruzm26FR+nDHQV5NFU1x4eW9/xqdR6jqRXSSeYIOzYuy3ajlK2SP8O6Fulc5bjFYa/QLOPmBM4+AeyNvTPz+mH09eOwAI6ruFAMo/LVSV1KGdn2GHpJI0Ibt9zxD0130Cd6HJ74mUq8wCCP1Mg0zNwFVx0j9dBEn+oi1zM3H3lLVZIBJPD+hwnQvP3+8kOVq3JNwGaMAw0VomU+XWAXsy8nH3nbtjig49S135vcCaPeEV6I5topJNGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ph9tK+wEInRKOFsfsLm/eSjv8AIJDC30WzRRRTv3SHo=;
- b=NImdIh9HLce7W6ye4Mc2GhiixGEqtRZhDSfYox86ZpbfhJQVS0rdsyXwvj1aZ65eZGErq+EkfGVfr8dagnYj5vMK4drcjV9l5Sm85O4QmzCPwpHyj2g5pyCYwA4XZn4sGEj/5dblNf5WhM7atCdOU6s/R+i3MBjL+tp0J2/EVM0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO2P265MB7217.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:32e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
- 2026 19:26:01 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
- 19:26:01 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 24 Apr 2026 20:26:00 +0100
-Message-Id: <DI1MR8ORSJ2B.2M6Y3TMBMVVPI@garyguo.net>
-Subject: Re: [PATCH v3 1/4] kernel: param: initialize module_kset on-demand
-From: "Gary Guo" <gary@garyguo.net>
-To: "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Suzuki K Poulose"
- <suzuki.poulose@arm.com>, "Mike Leach" <mike.leach@linaro.org>, "James
- Clark" <james.clark@linaro.org>, "Alexander Shishkin"
- <alexander.shishkin@linux.intel.com>, "Maxime Coquelin"
- <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
- <alexandre.torgue@foss.st.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Richard
- Cochran" <richardcochran@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>
-Cc: "Rahul Bukte" <rahul.bukte@sony.com>, <linux-kernel@vger.kernel.org>,
- <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, "Daniel Palmer" <daniel.palmer@sony.com>, "Tim
- Bird" <tim.bird@sony.com>
-X-Mailer: aerc 0.21.0
-References: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
- <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
-In-Reply-To: <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
-X-ClientProxiedBy: LO6P123CA0010.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::14) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AIulHLRA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F38FC2BCB2;
+	Sat, 25 Apr 2026 05:42:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777095726;
+	bh=HPRnxwXK8vu5np6VX+55Q2Y3ogOkac72lAGyNzFWA/g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AIulHLRAKLlLErfT4LNX6qehizWiYSRf/7frr23MN5EuQV/uv1/GMEgWhNnYOC3S2
+	 P7aAr8Ifr31gNTvRcI/4Tu1+p8sDQj+AymmqnfPtX25X51hEmG9Qfc+0zfM+WqN3cH
+	 qxacBTLwV8747T2MjGJ/lwbO5Uglr0akF36/x8Rk=
+Date: Sat, 25 Apr 2026 07:42:04 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Stefan Schmidt <stefan.schmidt@linaro.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Subject: Re: [PATCH v2 02/13] drivers: base: Add generic dma context bus
+Message-ID: <2026042539-swab-active-21a5@gregkh>
+References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
+ <20260423-glymur-v2-2-0296bccb9f4e@oss.qualcomm.com>
+ <2026042346-trustable-register-095a@gregkh>
+ <06c04947-e72e-679b-493b-e112d693f391@oss.qualcomm.com>
+ <2026042422-deem-chemist-8d0f@gregkh>
+ <4c3fa710-f61a-4aad-622d-54909190cb9e@oss.qualcomm.com>
+ <2026042428-blemish-helpline-7d8d@gregkh>
+ <1e039dd5-da3f-19b2-ef98-29e64fdd925d@oss.qualcomm.com>
+ <2026042442-luxurious-antonym-f20c@gregkh>
+ <xuitjl6tzfl6nl4ds4vdy3637i5cqtjuqntcpqt5fnkx2ogcws@iapcavrwhyzv>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB7217:EE_
-X-MS-Office365-Filtering-Correlation-Id: c62731bc-ce1e-45c5-24e0-08dea23751ff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|22082099003|56012099003|18002099003|18096099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	DoA7nnC/p3lgkeKpfu0FwTBXmBTl/WlxO5+9ttc1egmUFxNVtPS8kPfm0wHHSLRUZIaA78WCf6XaqBiHdDftrqAnaBLeKU4dvMAnN1Z+2UZl0eKB9hWz3Adm5dbAORtW+FmvsGlumE8MMAWBhlAjXCWYy8Gzzx636H1jdg+fAdA9QSkxe9GwqrD4xGzBeyOXDuZ/42xtuoMD0OPvJ324iuVfxtPqA4h7PtPI9/0vGfYysJYmH/TmTxDK9tr5doXsGhvLiqwPC+wzevxXPUZa4AQHsTH4jGjjqjiQ9gH6mHcd71ioyZQfncaA8p+qD/4itZbEaIGZxQzWf0Um/5zA2ENaUsC9MC8amOHby0iW6HIti+L4je9NQbElBAzaIgqOjqVPsUFXE3siZ/BeU8yyAHQH/r8jeFTFIacmElzLKN1Paro8diVZ0aLF6Tj1YrRP/ycffnl9TL2huA4bUr2kg8ibOBHMnBEo0EMuhTSSBj2byVTMDDDA/QlZYQrUpNUefJOJs7rZQqRCNugUYCtBRsipSK2uzIg862P0m1cHSNxev8UZsfKeF3JABC+R8QWpPia9d8O9tQHK54hJYKdWNAJC3s1QKGbXf2eY1+X4XcDd8bNKbdcdcgC1zg3MMJt9RXOIQt4xiTqHXT3lvvd2vkFoQhxsClzcih3FKQcUwIMWhW/SVHYYQF9qF81+ywuN9u6Qf9R41/x3eEToKqfewfBvKBnHAAm6lwRNsTh7tDI5Tx4yP3c2hS5HkjYZgveKtzqXDFGi4QYRXd3fvZGtGQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(22082099003)(56012099003)(18002099003)(18096099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YjJwVEFOVTVveVZpR2FGSHJOUm9rdmE5ck5rUHlTdjNacEZVeEpJd1FRUmdK?=
- =?utf-8?B?TFFvUEcybENlaG9pbStyZjBjYWNWRXF5UXU1cFkxL283angrL3NOUHRRL2ht?=
- =?utf-8?B?MEx2UjdqT2x6NlRLN2V6bDhOSjBSb3lYMmdadFcrek1XaC9ERmN1TmphWk5j?=
- =?utf-8?B?WjNZeWF2TVFuZkk4UjQzNU1ldW0yditza2gvOGcrdHZWdTVXd1RJbU1jWVRF?=
- =?utf-8?B?Y3BaZ0UzS0ozamNtWStRS2xYZjZMeXJOcC80cldwUzcwMXgycjNoejYrSTRI?=
- =?utf-8?B?NGxodW0yUlpOcGtEWlBTSFVzSlBMWiszNDhEQkQ4SDgvbm9XOGRkbFBOK25P?=
- =?utf-8?B?YTd2RWZBdXI3ZkFPeTZ1eEdsRTBqQWFVT1VadE9wWGI0Q092VFRBQXJNY1NW?=
- =?utf-8?B?TWdkUG5vM3J5V1NMZW1tMnB0VTdrNXZ0TGtlZFhwVGd4WWFHL0lrbk1HRENZ?=
- =?utf-8?B?dTMyZ2ZncitkN0prTDEzd05ETllaMXVtS0VVNUVuL0NnTTdZUGN6eWJ1YUIz?=
- =?utf-8?B?MnFJNXU4TmNvWFpXUE0ydXpuSWFVYXYzaHNQcktyZllEZFFERERsOUJmZTJM?=
- =?utf-8?B?T1JubCtRYWRpd2ZuZVNpVEU0QmdJeFdaOVJUTnhDQlhTYWR2b3U3bDkwODBp?=
- =?utf-8?B?Ui9uT1Z2WE12LzU1NytNaWd5OFEzT2VOem1CaG9XUnF4V09zYmJMWmdEdnZZ?=
- =?utf-8?B?LzNWRnNuanordzZxRkpHY2hsNlFFVStUcW5pd0NOMDgzVUNVK3Z0UHA2S2ZI?=
- =?utf-8?B?bmZhZGt6bDlDb2ZYVmtEMjhlaWswcTkzd2NVeFZpOGIwN1pzUVVzWENnUnR6?=
- =?utf-8?B?RC95TUFlTHNjMTliU3dZZlV6QmNsekNrVW0zc3J4b1NVemRiMUhqdkozNk1p?=
- =?utf-8?B?NUdiWnR3eUEvNm5ZVXY3MlIzUzNZRzZzSjAvVWI0R1JRakVSL25pZ3YxM2ND?=
- =?utf-8?B?VDMyeTE1VkoxNHN3NWw0YW1SVWdrZzROMUErZ1NpWDM3cm9CMi91NkZSSXlh?=
- =?utf-8?B?dUlaNngvZ1BPRVR4cXpURkh6Z2FDTnM0NTJnSERJRDhud0xYdmNLVitKTXFu?=
- =?utf-8?B?ZWRhUUhEVjB3N0hmakx1Ym51djNRaXIvOUZjaFFKUms5ciszaFNlNTQyb3hL?=
- =?utf-8?B?d2ZwMzBaVkxhN0JXVFF4RTBWeG1VN3JLeUZuS3ZnZ0tacDRiL2hGNXFiQXZi?=
- =?utf-8?B?RHl1VFprVDUzdDNFdkVLT0hqK1ZPRnFVZ1h4K1VWNmdQb2s2WlZGdjFRZDJ4?=
- =?utf-8?B?MHA4dlBXUVBTMlYxalg0Y0xJWmw1K1Zua0hSTzJoSUtPZ1JPK0haVEE4NzhG?=
- =?utf-8?B?dExjMktXL3JVUnFKajlEL2JDZTl6aTIzU2p2QVczeEFreGVrVWJ5Wm1MQUNK?=
- =?utf-8?B?eSt4UkhhaEp6ZEloSkhiOUk3TnBnSW5nanlUV216RkhIOGVsYUNaTDdoc1RF?=
- =?utf-8?B?NW0waWE3aUFxWUozMkFXWGh3eWJPMUhJZG1hQ1VTbkQwT1MvZ1hrRi90K2Zj?=
- =?utf-8?B?MjRpRlQ5dVljUlBEY1pYZjZvL2ViZUVBMmNkdFZhcFp6NFhvM2JFU0ZRQkxa?=
- =?utf-8?B?THRlUVRYNFQwM3FmWWxFRlZJQW1ZTSsxcnBpa2NFa2c2S0dKYmFPQmp0NnpJ?=
- =?utf-8?B?ekxTVjdoUWdwckk3WXZsajZpQUNIeU0xSWJ5cUhtMFQ1TmJ6b2dxbHg4OHZw?=
- =?utf-8?B?MUkzbHRicHB4bWVUVFM2MTNkZVlHOXdSODJlZ2pld0RubkwxeEhWVWRNcmgy?=
- =?utf-8?B?Z00xRm5pL0NLMVRGc3lCazViWWZOTnBuS2wyeUVhNkxUcjltOEE1SHhqbGR2?=
- =?utf-8?B?MGcwaWZCVzY1SE4rbVA5N1k5Rzk0WnFKU0tUK3pXVW50SlJkRXR3MGZDcmNS?=
- =?utf-8?B?N05PanhTVEMrbDdrU0FNUkgzeHZ1L2l3THA0Zm1LcUFnVDlpTlErV0F4d2V2?=
- =?utf-8?B?Y05TTVRkcUZ0akxReHZreEtZL0swQldreWY3MGpCK1N4alNZZklLb1NqRjVs?=
- =?utf-8?B?TXhXbEx3SisxbTl4OCtaekVIV3BlaGc3STNLZ0x0SVZGQStaM0I1TEY1REk1?=
- =?utf-8?B?STNtRU1mdlNuZzlGNnNQdGhoRGVrblYyeUFqVGN0QXlSWVE4Z2MxdnFyUzNN?=
- =?utf-8?B?empIVkRSRC95OGc2WmZ1M3BKNDRVdWxETUUrYUVqOXhJUnppU3hIRFZHNktj?=
- =?utf-8?B?Wlk3aERDUzdFMm1oZW5mRWdwMWRsT3dHNDV6OXB6eGpLbVZFWEx4Uk45Q1hp?=
- =?utf-8?B?aUlaZE9LQ2xCaU9LckhMQXNWczB3Si96NG5ZTTZ4eVp1OHpCRStFVjk4Tkhv?=
- =?utf-8?B?OVdsWHpwcCs5RGxpMUFrS04vcjhacW1LVVgraE9iSTluWkVJNHlJQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: c62731bc-ce1e-45c5-24e0-08dea23751ff
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 19:26:01.6558
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XD5x1aq6apc+4pOfLHONymZ0IqWmKZnNYNXVK7/FZ6qDXQRBM073ceXv+oYO7d2tuY+bifF8EgbjOHvLhm3lIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB7217
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <xuitjl6tzfl6nl4ds4vdy3637i5cqtjuqntcpqt5fnkx2ogcws@iapcavrwhyzv>
 
-On Wed Apr 22, 2026 at 10:49 AM BST, Shashank Balaji wrote:
-> module_kset is initialized in param_sysfs_init(), a subsys_initcall. A nu=
-mber
-> of platform drivers register themselves prior to subsys_initcalls. With a=
-n
-> upcoming patch ("driver core: platform: set mod_name in driver registrati=
-on")
-> that sets their mod_name in struct device_driver, lookup_or_create_module=
-()
-> will be called for those drivers, which calls kset_find_object(module_kse=
-t, mod_name).
-> This fails because module_kset isn't alive yet.
->
-> Fix this by initializing module_kset on-demand in lookup_or_create_module=
-().
-> Retain the param_sysfs_init() subsys_initcall to ensure that module_kset =
-is
-> live after subsys_initcalls (assuming no OOM) for any users who may need =
-it,
-> on the off chance that it wasn't init'd on-demand because of no
-> pre-subsys_initcall drivers.
->
-> This on-demand path can trigger before subsys_initcall. kset_create_and_a=
-dd()
-> be should safe in those contexts because the allocator is up and running =
-by then,
-> no userspace to start uevent helper or listen to a uevent socket.
->
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
->
-> ---
->
-> Patch 3 depends on this patch.
-> ---
->  kernel/params.c | 41 +++++++++++++++++++++++++----------------
->  1 file changed, 25 insertions(+), 16 deletions(-)
->
-> diff --git a/kernel/params.c b/kernel/params.c
-> index 74d620bc2521..f25d6fda159c 100644
-> --- a/kernel/params.c
-> +++ b/kernel/params.c
-> @@ -745,6 +745,26 @@ void module_param_sysfs_remove(struct module *mod)
->  }
->  #endif
-> =20
-> +static int uevent_filter(const struct kobject *kobj)
-> +{
-> +	const struct kobj_type *ktype =3D get_ktype(kobj);
-> +
-> +	if (ktype =3D=3D &module_ktype)
-> +		return 1;
-> +	return 0;
-> +}
-> +
-> +static const struct kset_uevent_ops module_uevent_ops =3D {
-> +	.filter =3D uevent_filter,
-> +};
-> +
-> +static struct kset *__init_or_module ensure_module_kset(void)
-> +{
-> +	if (!module_kset)
-> +		module_kset =3D kset_create_and_add("module", &module_uevent_ops, NULL=
-);
-> +	return module_kset;
-> +}
-> +
->  struct module_kobject * __init_or_module
->  lookup_or_create_module_kobject(const char *name)
->  {
-> @@ -752,6 +772,9 @@ lookup_or_create_module_kobject(const char *name)
->  	struct kobject *kobj;
->  	int err;
-> =20
-> +	if (!ensure_module_kset())
-> +		return NULL;
-> +
->  	kobj =3D kset_find_obj(module_kset, name);
->  	if (kobj)
->  		return to_module_kobject(kobj);
-> @@ -911,19 +934,6 @@ static const struct sysfs_ops module_sysfs_ops =3D {
->  	.store =3D module_attr_store,
->  };
-> =20
-> -static int uevent_filter(const struct kobject *kobj)
-> -{
-> -	const struct kobj_type *ktype =3D get_ktype(kobj);
-> -
-> -	if (ktype =3D=3D &module_ktype)
-> -		return 1;
-> -	return 0;
-> -}
-> -
-> -static const struct kset_uevent_ops module_uevent_ops =3D {
-> -	.filter =3D uevent_filter,
-> -};
-> -
->  struct kset *module_kset;
-> =20
->  static void module_kobj_release(struct kobject *kobj)
-> @@ -940,7 +950,7 @@ const struct kobj_type module_ktype =3D {
->  };
-> =20
->  /*
-> - * param_sysfs_init - create "module" kset
-> + * param_sysfs_init - create module_kset if not already done
->   *
->   * This must be done before the initramfs is unpacked and
->   * request_module() thus becomes possible, because otherwise the
-> @@ -948,8 +958,7 @@ const struct kobj_type module_ktype =3D {
->   */
->  static int __init param_sysfs_init(void)
->  {
-> -	module_kset =3D kset_create_and_add("module", &module_uevent_ops, NULL)=
-;
-> -	if (!module_kset) {
-> +	if (!ensure_module_kset()) {
->  		printk(KERN_WARNING "%s (%d): error creating kset\n",
->  			__FILE__, __LINE__);
->  		return -ENOMEM;
+On Fri, Apr 24, 2026 at 07:11:35PM +0300, Dmitry Baryshkov wrote:
+> On Fri, Apr 24, 2026 at 03:34:38PM +0200, Greg Kroah-Hartman wrote:
+> > On Fri, Apr 24, 2026 at 06:12:09PM +0530, Vishnu Reddy wrote:
+> > > 
+> > > On 4/24/2026 5:25 PM, Greg Kroah-Hartman wrote:
+> > > > On Fri, Apr 24, 2026 at 05:15:02PM +0530, Vishnu Reddy wrote:
+> > > >> On 4/24/2026 4:43 PM, Greg Kroah-Hartman wrote:
+> > > >>> On Fri, Apr 24, 2026 at 04:01:13PM +0530, Vishnu Reddy wrote:
+> > > >>>> On 4/23/2026 7:07 PM, Greg Kroah-Hartman wrote:
+> > > >>>>> On Thu, Apr 23, 2026 at 06:59:31PM +0530, Vishnu Reddy wrote:
+> > > >>>>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> > > >>>>>>
+> > > >>>>>> When a driver needs to create virtual device at runtime and map it to
+> > > >>>>>> an IOMMU context for memory isolation, there is no common bus available
+> > > >>>>>> for this purpose. Each driver ends up implementing its own bus type,
+> > > >>>>>> leading to duplicated logic across multiple drivers.
+> > > >>>>>>
+> > > >>>>>> host1x driver implemented its own bus type to attach an IOMMU context to
+> > > >>>>>> a dynamically created device. The Iris VPU driver now has the same
+> > > >>>>>> requirement. Rather than duplicating the same bus logic again, a shared
+> > > >>>>>> bus type is introduced under drivers/base that multiple drivers can use
+> > > >>>>>> directly.
+> > > >>>>>>
+> > > >>>>>> The bus takes care of creating a device and attaching the IOMMU context
+> > > >>>>>> to it based on the client inputs.
+> > > >>>>>>
+> > > >>>>>> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > >>>>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> > > >>>>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> > > >>>>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+> > > >>>>>> ---
+> > > >>>>>>  drivers/base/Kconfig            |  3 ++
+> > > >>>>>>  drivers/base/Makefile           |  1 +
+> > > >>>>>>  drivers/base/dma_context_bus.c  | 77 +++++++++++++++++++++++++++++++++++++++++
+> > > >>>>>>  include/linux/dma_context_bus.h | 26 ++++++++++++++
+> > > >>>>>>  4 files changed, 107 insertions(+)
+> > > >>>>> as you can not have a device on multiple busses at the same time, this
+> > > >>>>> makes no sense to me at all.  "dma context" is a bus-specific thing, so
+> > > >>>>> please add it to the bus that you are wanting it for.  It can't be a
+> > > >>>>> generic bus as that just doesn't work.
+> > > >>>>>
+> > > >>>>> Or what am I missing here?
+> > > >>>>>
+> > > >>>>> And why is DMA somehow "special" here from any other hardware attribute?
+> > > >>>> Let me give brief information which was discussed, in the initial series,
+> > > >>>> the iris VPU used platform bus for dynamically created devices and we got
+> > > >>>> the comment/suggestion from Robin to implement a proper bus_type with a
+> > > >>>> .dma_configure callback.
+> > > >>>>
+> > > >>>> https://lore.kernel.org/all/02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com/
+> > > >>>>
+> > > >>>> based on the discussion, implemented the dma_context_bus and used for iris
+> > > >>>> VPU devices instead of platform bus.
+> > > >>> Why not make a irus_vpu_bus where you can do what you want?
+> > > >> Initially iris_vpu_bus was introduced, and it was made generic based on the
+> > > >> discussion,
+> > > >>
+> > > >> https://lore.kernel.org/all/20260227-kaanapali-iris-v2-3-850043ac3933@oss.qualcomm.com/
+> > > > I don't really see that request here, I see a "make this better and more
+> > > > generic for other busses" but that does not mean "dump it into
+> > > > drivers/bus/ for someone else to maintain" :)
+> > > >
+> > > >>>> Here, the device have only one bus (dma_context_bus), not multiple buses.
+> > > >>>>
+> > > >>>> Regarding the "DMA" naming, the core operation of this bus is its
+> > > >>>> .dma_configure callback, which calls of_dma_configure_id() to map the device
+> > > >>>> to a corresponding IOMMU stream ID. The name "dma_context" reflects this
+> > > >>>> purpose.
+> > > >>>>
+> > > >>>> I am open to suggestions from you or Robin or anyone else, if there is a
+> > > >>>> better or preferred way to achieve this, I am happy to consider it and
+> > > >>>> rework the implementation accordingly.
+> > > >>> As there is only one user, just make this your own bus please and do all
+> > > >>> of the needed bus operations for your devices there (i.e. don't hang an
+> > > >>> "empty" device off of it.)
+> > > >> The reasoning behind to make it generic was to have more users - host1x,
+> > > >> Iris VPU, QDA on the generic context bus, instead of each of them having
+> > > >> their own. Let me know if you suggest to have the iris_vpu_bus.
+> > > > But you did not add such users here, so how would we know this?
+> > > >
+> > > > And still, I have no idea what this bus really is doing.  Is it dynamic?
+> > > > Is it self-describing?  Why not just use aux-bus?  What is it supposed
+> > > > to be doing and used for?
+> > > 
+> > > This bus will allow users to create a dynamic device and map to IOMMU stream
+> > > ID via .dma_configure callback which calls the of_dma_confgure_id() based on
+> > > the user inputs. This bus is under the iommu_buses list to register for bus
+> > > notifier callbacks for iommu_probe_device() and iommu_release_device() during
+> > > add and remove.
+> > 
+> > But a device is nothing on its own.  You can not just have a random
+> > 'struct device' hanging out there that does nothing but iommu, right?
+> > It should be doing something else that is very "bus" specific.
+> 
+> Unfortunately, it is a pattern of IOMMU-only devices. All the actual
+> programmig is done through IO region associated with the main device,
+> while subdevices are mostly used for DMA buffer allocation.
 
-I don't think lazily creation of module_kset is the correct approach.
+Great, then you have a "host controller" for the devices, and children
+devices on that bus, with proper drivers binding to them.  Like all
+other normal busses.
 
-The only thing that param_sysfs_init does is create a kset_create_and_add, =
-which
-can be done really early. Driver core creates a couple of them during
-initialization too.
+Yes, writing a new bus is a bit more pain than it should be, one of
+these days someone will get around to making that simpler...
 
-This is ultimately just an init order problem, and you need things to be
-initialized earlier. Given lack of dependency of anything else, this could =
-just
-be a pure_initcall which will be initialized before everything else.
+Along those lines, why aren't these new drivers in rust?  :)
 
-Best,
-Gary
+thanks,
+
+greg k-h
