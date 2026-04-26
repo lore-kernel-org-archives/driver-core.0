@@ -1,139 +1,182 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B2F25DB1A
-	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 04:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE965433AD
+	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 12:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777177849; cv=none; b=B3oAfH9UQox6b0R9jpgzTOHLkHylcOhyArzgnNskbpULURs1jJrdnhdnBZkVGKfufqF7fszJvw00kreMU5ogR2vpB/qTJCW0vVYuqX8lRfwt4j/hFh4Cxol2+1icOmC+I0GAZ1d8gzbRwSHGt5F2i+Ug99ronN53XrGarn789SM=
+	t=1777205769; cv=none; b=jl9y6r2SWhExQz+5vqi7sEi8DrmFl7xNxLT8poa8kWiYg0qYV1/SOAByZ9ZIK2XtadNCcayOQjJiUMf9xJxlR/dRrY4l4MJ5YkEODMItDgpr1tk4lDW6ta0EkHwOoDrCicY0axh/fIZfR7FDHe0iMTnzzeQtBW9SC9mG49gjVUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777177849; c=relaxed/simple;
-	bh=/9GAaFVs2B12Fx3sJy2F/Md/+N5ty0d1m+0UA5rwdsg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mRjo9rhTJldQyEm1u2x4n7I/rbvpQmXyXrrEz4/YNP3XLmha5XxfB1sbGPBcKsh7nJKs9v1EfWTnl1Q9wAc8BJ2kHM6Pcrx3KknDItkyuy2IU1Lvk5Dh70kh/dVVNgzmG9U398cXiSNDyfB+7K6wgbtFGtcIEbztnObXpO29EvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q57aREDm; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777205769; c=relaxed/simple;
+	bh=sTH6zrHiQgzJ2dn9yyu9ZpKb/zzGMOU6idxjmTf2X0Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mZaNWcMQpv6k5Tm1HrVPBSbHXf98YxfjfpwNl7Khw2aQB3lz1iTCmHS4HWA4Hwe+C/h1/Dv+Mbzivr+RkAxSxOddHaurTtpwg3vJVWs/gxvecifFMMzBcTm9SMn1IvhaqAuN20ZabxZpHUEu9kPenvgEUxaOjMmSN7EcpiB4o80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eBbizPPP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dgW3ZOJY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q57aREDm"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2dec803f9f0so5207522eec.0
-        for <driver-core@lists.linux.dev>; Sat, 25 Apr 2026 21:30:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eBbizPPP";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dgW3ZOJY"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63QBU09h2455202
+	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 12:16:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Eu9oH6bIm++6Uod9f6mbJENn
+	f42CEvq9lNDJEscrW7U=; b=eBbizPPPtjcY6DIrYbD6qYZQ/8+0igrIAyTfcwSC
+	2yLd3BCGUJpCMiKlxy6zams0+3OjqFHBp0aJjN33GRaonbx/5ebBPOzM+6SzH0Aw
+	GMwo/fZHT7+NbrFqpRPXJ9vdPQwqOa9NDGIMFenynmAgcuqgrZJ2YB+/EzpYloN8
+	ldDQhuRtuxGtRWGbST7ny9qWjUaTWIi9KYCFCENx1i5M911mk2ig4aYJoy3uWZDp
+	6OEm3uysW64A8vJFyXbz1ssVSD7ubC8zOvTikyMqDvt5Zd8gkqa2GExmeVtJrbj0
+	Hdkd+dRKBDngFXPSJlkB0z5Ng1h8QTm1Su7eQ85XiJn1kA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4drnpw2tgg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 12:16:06 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50fb3c7b989so101178241cf.0
+        for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 05:16:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777177848; x=1777782648; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V7anmX684SpRJRGeOETMsIQPTKW5eKVp77hLeRWwHg0=;
-        b=q57aREDmrq7TPKuX8rwT6mildQ14s69UfevqsZvVqBD1+cuZvw+GRdJmxXOdwrmJgU
-         piD4X+yp0RRYiVMyoSK7VoCxGULSPIlqs+zWBXbHcwXoia0Al5jhYJQvOvQgCIkLaZg6
-         lNxjMVhB1HZkfHqNQ9Dbou+Kbhk+DemC7izr+stL2t87douEJNpWB/0xD4rC4mJql8kj
-         Wu6uySgQpTsnYqpva8cnNJ4Ayyl8kHKR5tKWzkOWc7e7MbA2+Eg5tbx8GFke/CuqpbXJ
-         BisiXmMozf00pNKW9EcSvleMtH87rjh49vD+5N3jBGQMINzDvvAw2Z3SFKGZs+qSYcU+
-         rvAw==
+        d=oss.qualcomm.com; s=google; t=1777205766; x=1777810566; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Eu9oH6bIm++6Uod9f6mbJENnf42CEvq9lNDJEscrW7U=;
+        b=dgW3ZOJYh1WPj4IFX9aJvQAWj8N9+MkX81It2QjzG+h90fUwoz3selrdoBC/dn8wDE
+         8lFwhOOxlrJFG2nXcW7uPvRsa+/qeaf38jxkbIteqryWFFN6XnRiJ7JRE5TGTX8NUgru
+         RKsdv1EsFGNWJfptPweSSt9KVafVXl+axZ4ZWAj5nGi8MZoys05ltdIU2Y63GKDq60KG
+         s525Vp3gByqG8oqf1PkXrjVFUtzw0VZdZTG00yeXi4DXGije4T+bTGQwjw5G1KJ4Z2/I
+         CiKYRQgTunt7SnZydSQxnX0j3dA5VjhEv2LbLKrmK3h+45sX+46/x5u3FHWMNNBBfXGG
+         4WMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777177848; x=1777782648;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V7anmX684SpRJRGeOETMsIQPTKW5eKVp77hLeRWwHg0=;
-        b=GSMLX4sAhlx9KkFAiU086+uILSIOvbofBwGQ76mL3+vhvdL5+qgTRKRunrRREX5T9e
-         hauKs2D7O+lv9VL1aO0I0MxOcyEwGe3ZvTNTVRvJ23WmLxproswOPH26jfxlfNQNhCew
-         NNsBuTbP80nJicqxFCSiziPZl51uWy7VyjGApxYdvy0+AxMOMV3kfCsAJo7A1lRi704g
-         TCQ2piyA+kMH9lw5PKCsBaviU5jkkYKk6wlsRq0HthZuD64es6V7nTVmn24yizzZzmwN
-         qdXXusJYD3qAadxL85romsxw6VxzrjUvP5IlFsMBnwLw2BJQLfsS/Pj76p4YLoVo030Q
-         jVDQ==
-X-Gm-Message-State: AOJu0YzonsemrbwkRs6f2S1Tgy4EKiX5P7V9YCqDPbInk56z2pKNH7t4
-	SoE7npV/+tOCl4TzplxsxcnLGiNIXLA6G3oRRd4ZBiaAuuXZsI1HVyko
-X-Gm-Gg: AeBDies0jKgCSPSUzCtxnxhUYlynDh6HXj79N4S66Jxy4KKC5+CgP/jwTjk5DCev8Nb
-	aW2K8MbtIlaIEkpMWqbxLVqzfW+kO8Ht2HLIoJ+SxGdk3w+UIZ6xbs83c8vMOxCh3xfgwviz6xP
-	jt5sOoXTpKtmRRIv8WTZZVYomiT0DbsDK3eYeZH18VpOtXvTqW/F1mxpA5HITT+r22d+3bEy7yv
-	DQEDj3W1G84wj3jjve0puPaFA0cC7VAOJQ04jB1o3gENfynSHGKkJane+VNIbaaFjnuzAMLlAfo
-	dsyFDGmbmcbMaqTXjOA9yHuW8zqIWVWkc2DYIs4wJRD8SnFER79rxJsMJBsJ2odGOIVtrrb2veD
-	9js5EpgX0oYG11nDBlkcVLcZRKYnNlxZaO8RGkMZJMqG+i07Fu2as0mm6CPktPPm8gCOVDS7rJs
-	yeMOVYe5+TuaplSc37K41vsCjDLEKxY0luBeO4kBvo/kpW9aiGanrfe6z2LeXfsudaGBYqvPFzC
-	UgGajq4DTZTmv+RVxR68ul6iQ==
-X-Received: by 2002:a05:7300:2382:b0:2be:88f2:3c98 with SMTP id 5a478bee46e88-2e42c253239mr17527430eec.1.1777177847772;
-        Sat, 25 Apr 2026 21:30:47 -0700 (PDT)
-Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:f359:aa0c:530d:9dfd])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d2cff04sm37796971eec.23.2026.04.25.21.30.46
+        d=1e100.net; s=20251104; t=1777205766; x=1777810566;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Eu9oH6bIm++6Uod9f6mbJENnf42CEvq9lNDJEscrW7U=;
+        b=iiPYLbnaVJKhdC+bK+/9kktjof9bLz8rMcdosRp/emVSwgQ0/fPVPhtdSYStd4csTm
+         fDaivY2HzDbQWPazsbStSeWwrBjNVuvwdggk6ik4fhBpCx6SwMgHC3vzTs2zLVM1ec99
+         2DnvqR10h9c15DApl4ppWIwUF1sc3JgjM0TcrgxOXh+nZ/WzoHvcBhvssmWoGxZn0dw2
+         F+bKCbIpbR7GbGuq+9WvgboTMaMBGyxhBJYs9BgVJYyw2iSSw4KrAiTiNJWRFA9EIhDK
+         AnEUjBMBgk1cQJc84WG5oFpbs25SfYthUNIpMdeyvMU4BhjRjkXC5DfQG+v5/ajoXh0Q
+         RQ/w==
+X-Forwarded-Encrypted: i=1; AFNElJ9nlI7pvQEPm4GkVKALLwbHntIPpPxIzXxxyVmxgfsqzWsgveJsmUP8XvQKgyQqP3uRJkOcF3raS3eAMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOsWcGIB/ciO20fwLMrjciAcUC19UiYc7CQVrcZ/LNKcLxByi5
+	devYvOMqlKTfce1llBdGjzPD4+S0/gjoSi4qr7EknXHws2JsCAOqYeiCO67agR2qbfMCIYvuVFc
+	nrjyMjTl80AP0Pswch2mzOxPeFHPPPOS6izZcvvIdtgURqdtT08z2EIzoO0OUy2Vuzg==
+X-Gm-Gg: AeBDiesJCfdPUByYa0m49FEyNZeC55ACDzDczsQ4QiZ+1SSpFsAJYGgGHUYjpR1CW3c
+	pmoIeOjxxJksmIcwNJoZGpwfbnlIM8SmAjeU3WpjdUGknct+0Nmsu2Q1fJDnYhSIvk9sYMWaZI5
+	tguT/4thAGO+DZ01AApVQTYXO37jDCnkjFyiqoEbzIqxTl6gBgBNTmJWjM3kGbG0n+RXMlxEnqG
+	CvSGWoGReDkncfXHJRBvfZ7NQgLVFaKTxBxr8hfwX6QIhBhlX+SmrtmvCilLenbXmJwLivAFdTX
+	mzHIEtUA1r/WExnRoJxPEyLkEX5X/URrVLrrl/Ew79DY6h/O4bdlgZdmV/iORwVO/MaQQcGIYB0
+	5vfv+cm0BglTvH85zo9YCDior7mCVZ2HBs1I/NmtkIE0/4gMSCANWdHWco9n2tFDLNRIVrZsMH9
+	hFe6IOwolV8TGXky/oT74Pycxs0lpbVMEM0+I0dXb8KUG8Vw==
+X-Received: by 2002:a05:622a:698f:b0:50e:5de8:6458 with SMTP id d75a77b69052e-50e5de873a3mr285408691cf.57.1777205765938;
+        Sun, 26 Apr 2026 05:16:05 -0700 (PDT)
+X-Received: by 2002:a05:622a:698f:b0:50e:5de8:6458 with SMTP id d75a77b69052e-50e5de873a3mr285408211cf.57.1777205765441;
+        Sun, 26 Apr 2026 05:16:05 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187ebfd6sm7326187e87.78.2026.04.26.05.16.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2026 21:30:47 -0700 (PDT)
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] firmware_loader: builtin: fail build on empty firmware
-Date: Sat, 25 Apr 2026 21:30:39 -0700
-Message-ID: <20260426043041.649202-2-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
-In-Reply-To: <20260426043041.649202-1-dmitry.torokhov@gmail.com>
-References: <20260426043041.649202-1-dmitry.torokhov@gmail.com>
+        Sun, 26 Apr 2026 05:16:04 -0700 (PDT)
+Date: Sun, 26 Apr 2026 15:16:02 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+        driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 11/13] media: iris: Select DMA_CONTEXT_BUS to create
+ firmware device
+Message-ID: <atmot2aw26hrystaxpnjtc6fmep2lsjdbarlfocysghl7db5gc@yrdyk6i6zd2p>
+References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
+ <20260423-glymur-v2-11-0296bccb9f4e@oss.qualcomm.com>
+ <2026042305-pungent-urban-c681@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026042305-pungent-urban-c681@gregkh>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI2MDEzMyBTYWx0ZWRfXzVeSIvf21ulC
+ RNb0dZyfKIO0dtHSXGyge+c/0/k8nDJy4nMh+OL5vOSWSEmLzfADHxcyydUPF4ihQj7a3eov/HN
+ cs5/I2i8jcuCjQeKcYVs3c7cwqd7tWgyJpVoTCLQD8EFVbrM8LWE1EDBOK4+kAgNEOjb4IiVlYy
+ keUbmr9VsOv7ntY5YFVYqu7I4sGAfLkEE8iW4oiKinAl6Y0z+SsZO+ihJZ5vwgbGCZoQJ0cwwIi
+ Vt4h5cv1jLM7+agpokg2B4t+We3HdlgF5FkBvcmMQTk9Lg9HjCn9vQ9vxPZKBPaX3qw4BPUG4s+
+ YFEz9fpNERgHG6II1oesAKO9OJca7uuOEgKS8ssFXE2Bn5T8ADm9RwrVecYbyrVfhVjFMFoMSvz
+ V20Qh8GYQqwR6EwoO8lLzZQL92UxDzelSusKc7oY7OIaxdjElcY7GQzwNWvMHg/jMDqZuvH2Lj9
+ fkzMwtXbPBKGfavKOTw==
+X-Proofpoint-ORIG-GUID: 5aO-vrWebbjz4oIE99Pw0Q5AhNJxtFcb
+X-Authority-Analysis: v=2.4 cv=RaGgzVtv c=1 sm=1 tr=0 ts=69ee0206 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=FZe96GFAMPEOsOiVEGMA:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: 5aO-vrWebbjz4oIE99Pw0Q5AhNJxtFcb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-26_04,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 clxscore=1015 suspectscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2604260133
 
-If an empty firmware file is supplied via CONFIG_EXTRA_FIRMWARE, the
-build currently succeeds but creates an empty section. While the
-firmware loader will not return such sections it is better to avoid
-adding them in the first place.
+On Thu, Apr 23, 2026 at 03:38:25PM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Apr 23, 2026 at 06:59:40PM +0530, Vishnu Reddy wrote:
+> > Iris need a firmware device to enable secure PAS (peripheral
+> > authentication service) support in case of non-Gunyah.
+> 
+> As gunyah isn't ever going upstream, why is this an issue here for us at
+> all?
 
-Add a compile-time size check to the filechk_fwbin macro to abort the
-build early if a 0-size firmware is encountered.
+Vishnu, this is a nice example of why we are always asking for the
+complete commit message, describing the problem that you are solving.
+You gave zero context for people outside of your group who don't have
+a knowledge of your issue.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/base/firmware_loader/builtin/Makefile | 32 +++++++++++--------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+Please start thinking from the reviewers point of view. Or consider
+yourself being an engineer in 5 years wishing to change that code and
+trying to understand, would you break something if you do this or that.
+You need to explain, explain and explain things.
 
-diff --git a/drivers/base/firmware_loader/builtin/Makefile b/drivers/base/firmware_loader/builtin/Makefile
-index 6c067dedc01e..af5b1bbb31e4 100644
---- a/drivers/base/firmware_loader/builtin/Makefile
-+++ b/drivers/base/firmware_loader/builtin/Makefile
-@@ -16,20 +16,24 @@ ASM_ALIGN = $(if $(CONFIG_64BIT),3,2)
- PROGBITS  = $(if $(CONFIG_ARM),%,@)progbits
- 
- filechk_fwbin = \
--	echo "/* Generated by $(src)/Makefile */"		;\
--	echo "    .section .rodata"				;\
--	echo "    .p2align 4"					;\
--	echo "_fw_$(FWSTR)_bin:"				;\
--	echo "    .incbin \"$(fwdir)/$(FWNAME)\""		;\
--	echo "_fw_end:"						;\
--	echo "    .section .rodata.str,\"aMS\",$(PROGBITS),1"	;\
--	echo "    .p2align $(ASM_ALIGN)"			;\
--	echo "_fw_$(FWSTR)_name:"				;\
--	echo "    .string \"$(FWNAME)\""			;\
--	echo "    .section .builtin_fw,\"a\",$(PROGBITS)"	;\
--	echo "    .p2align $(ASM_ALIGN)"			;\
--	echo "    $(ASM_WORD) _fw_$(FWSTR)_name"		;\
--	echo "    $(ASM_WORD) _fw_$(FWSTR)_bin"			;\
-+	if [ ! -s "$(fwdir)/$(FWNAME)" ]; then				 \
-+		echo "error: empty firmware: $(fwdir)/$(FWNAME)" >&2	;\
-+		exit							;\
-+	fi								;\
-+	echo "/* Generated by $(src)/Makefile */"			;\
-+	echo "    .section .rodata"					;\
-+	echo "    .p2align 4"						;\
-+	echo "_fw_$(FWSTR)_bin:"					;\
-+	echo "    .incbin \"$(fwdir)/$(FWNAME)\""			;\
-+	echo "_fw_end:"							;\
-+	echo "    .section .rodata.str,\"aMS\",$(PROGBITS),1"		;\
-+	echo "    .p2align $(ASM_ALIGN)"				;\
-+	echo "_fw_$(FWSTR)_name:"					;\
-+	echo "    .string \"$(FWNAME)\""				;\
-+	echo "    .section .builtin_fw,\"a\",$(PROGBITS)"		;\
-+	echo "    .p2align $(ASM_ALIGN)"				;\
-+	echo "    $(ASM_WORD) _fw_$(FWSTR)_name"			;\
-+	echo "    $(ASM_WORD) _fw_$(FWSTR)_bin"				;\
- 	echo "    $(ASM_WORD) _fw_end - _fw_$(FWSTR)_bin"
- 
- $(obj)/%.gen.S: FORCE
+For example (please correct it, it is based on my incomplete
+understanding):
+
+If Linux is run under the Gunyah control, the hypervisor will set up the
+SMMU SID for loading the firware (and protect it from being touched by
+te OS). If Linux is running in EL2 without Gunyah in play, it needs to
+take care of that setup. Since loading the firmware requires separate
+address mapping, corresponding SID is describing in DT as one of the
+functions inside the iommu-map property. Create the child device that
+will be used for allocating DMA buffers for the firmware and mapping
+them to the correct SID.
+
+Please review all your commit messages from this position and adjust /
+rewrite them as necessary.
+
 -- 
-2.54.0.545.g6539524ca2-goog
-
+With best wishes
+Dmitry
