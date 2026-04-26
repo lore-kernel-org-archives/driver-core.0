@@ -1,164 +1,122 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C520035F5EF
-	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 12:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431341A6810
+	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 14:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777206274; cv=none; b=EI3MX8TiuxDyQl6vGiiKtWaP7bbaMA1mM7kE73TQoFYjgvKMy0rhXncKlAoLnQeHl1Dae/hBWzEnD75ftgE3O1rqa0dAm2ccYk1O42i7A2aaKF5Jn94QUBqXntiELtKx3daQ4tVbWnrKTADAGavfKdR81ZG7W67ECcEowxvEWMw=
+	t=1777214717; cv=none; b=OUE92BW05HGD5mrMizhbxwtIjR5b6zPdZPcKLNxDSqcA+Uz5WAH1rWk4m5L4ttsyklCHtMOfAIvm+7qKcR8JZnkZqWTUbb2fRT3yXGQ7/6VvzNl48DMvB+E2KC+94ugUsWrGtWN5OiJ4xg3GRQ2AHxhXwq3x/Km5yk/EfXTQJEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777206274; c=relaxed/simple;
-	bh=M8+16Tj1x6WZs0f2AbNxWFKqP3GGmOYuJQcsOgQ1kHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q9rYIlZ4Cx5OiuWlWtZQ3CJk1Ve/W2WwPEdZnV5YJG9FY67ibBAIMUisM+lc15R7QWILIjw9u7pleRSj1lfwVTGsplaZmBqo7CRcYwcVxsK53pyBqUpjSosyhJAIqkOm2TKDfW/46tvjwxc42c4KdPshdJFrVM3kFCyieh+GW7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UBdSkHvT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=INcOAJg+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1777214717; c=relaxed/simple;
+	bh=G65XguRFTm7zXcup5EUJgGsyJNI1Wz/tFU4uJ30YpbQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DnuPVI5kA7M6w7cGFzZniXo2dvwbSzMbjiaqnV7WNmQW3m1c1BLWuMyRwK+OAg2roqVxz1y3S0iQKpbuAbxQqqhCmoiCCvTGukd9GxrdLAdmPKS8cDvJKEs/kRhacp/BfabP/5FpvEEC3dmXlqWr6wrzN+0w0aVXKr2uyREcde0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Y1BojnbL; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UBdSkHvT";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="INcOAJg+"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63Q002Jm047771
-	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 12:24:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=xbAF95i14HhsfSGXuY/tMJx2
-	G1OOoMWvPHHUcpNBgbM=; b=UBdSkHvT9cBi2Jo8+qaSxIm3tFuFv4IjHRt4Defp
-	J1pcgUKQsRlyAI6J6Y71om7S8eqnhHQVTuFCkx7ptJ7QA27qU7S/VyQUp9UcWtnT
-	Y2IgVf4CRsOsO2xc391JW3oeaeZ3NhFzKUZ3gYWSh8cI67CjqLoauKwTlSZzSf18
-	2m0BOY5JtPHm6EupG3ecLOWTCkKtN3KB0P/tBimb3QzkU11Zsc3ALX+aPIo4cRcx
-	nGQvgRP5s1+nh7TQd8F/p5FV+C+eWZm32aB7u1/uuve1j2Awgs0FBtC1Oh7DGAME
-	Tr11On8xNfWYgPnHwc7pgX7y17VyheojbE6BvrM+zyD9QA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4drnkxauke-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 12:24:30 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50d5d1c2289so201007561cf.2
-        for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 05:24:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Y1BojnbL"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82f6b592fc7so4196310b3a.3
+        for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 07:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777206270; x=1777811070; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xbAF95i14HhsfSGXuY/tMJx2G1OOoMWvPHHUcpNBgbM=;
-        b=INcOAJg+pePhwDmGK1NZt6NXPUrLdr5g3242Meg0RtY7RYBSuizuaCmHb3LgH9qxh9
-         lSkZf9sigqAC3z4bM13SPCWULW4Mr367x+DMVBpo6WRJtTHwfS0dPQn17vidiqLKndw/
-         AZswl2erOcTXyaYf4n30PvF9Uon/ovfqInA3+GxQcxMFOASY06I1jy4lEs1uJ9ndExBO
-         1lAsveT9HWL5kROFX0w1oQTVYd0/Qwn5heO2445E4qdSWraat9auA3U3vw74Lx2wuoZJ
-         4YsiVyWar5L1IUHddeVaJzCP65ybwccXQiBpqsKXIxmOYZYSDnehC/CLKPNAlShsCcSk
-         LnFQ==
+        d=bytedance.com; s=google; t=1777214713; x=1777819513; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OiFyBmC7gClh7pyL8uPE736qSNuG55EW852NdgZNRz4=;
+        b=Y1BojnbLR6PNjRwPCuHpjsGAdZt/a/+Uc+jLVvIMjQe83w9yWtptZVCJhNqbYyrV5q
+         e8JzxwqbLgiqHlGG+63t9UfkuBpdZjPIk/J/Gz6TqzK1VSEZjS23eDJp1rdMERS7GZXY
+         hby8bxanDORuupxoQp6MfI+mMsAPLVse+NZoTohjgEeGuiw5VboCD83Q4PaWynCCM3CL
+         LpxRq1S3LsqG227tXhS/RLsbq8NJRprbus+Vck1/XEJA8QziqauyrpHUMmiXcwsMYroK
+         DeiN/w3bilr9IMhOktYT/OeA7Kv+Pm1QUDl0l8eA7W//MdpDLVUr2xNPkjPkqPFtIH0x
+         tq5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777206270; x=1777811070;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xbAF95i14HhsfSGXuY/tMJx2G1OOoMWvPHHUcpNBgbM=;
-        b=MbbcZiKHNEf+juv+zRmlqjiDTj40pSajtxZR0sWGidcsnKQ+dgdEVfNhn2ob+pe6Jw
-         maEt/0y7yL6JHZR+h6vXieZGeUO4qJ2r5OOBdVEWZvoN/3grMe1Np7qQLnexg79WM+mV
-         7InF3rPexSrVWmsMZw0aHdePBD1eiIqWa1cg55dgCfMmM/um0zrpPGBj7GIJZH7p1ZrR
-         U3SO41E1FSdb8YZs6dmyszLq8r1iGbQZooE3reiG4UxOXK8ItA1NyoEMqo7vsXPkja3I
-         HRz650A5V3HWbdF55rQxOUxiEn72LC0GqIa/8+/EiHGgzmyE3IK4jVkEmn87NHetIADb
-         KlIQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/8qOLeDVZEpmPf1FgzTXzy40FrmScJSDewHPtG1hXpDmrbDDO7QR4A2oqTXS2GAGxSnjNq8LsxPSzkjw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzW+H4FEbUY+GsHCq+/ESM+AMGoRNIydrCvDCR1a3uthHPSOgUS
-	lFZukG9UNe73pkA4KzgXBfDj/SyTragX2rZ0+uwSAPqV6soOrKa5QRUQc8x+XbEgLgqCyQMJ0WY
-	ci+VgHNcYzlUuCFF7gJ9zFQiqQsad0E8Od8lAtGiznWaVeOFQerRxxwGzKw4tIqwwpA==
-X-Gm-Gg: AeBDiespIdLpwMxVHJin2Pec9yBU0RDi/SgBFt926Lh75C96OsxVCOUf1BDbuzuxguw
-	PjqNJJ+BbP1fZLmYC1g7FpCmLq9Wypzgt0eQnt+XmUKJHLh9RKwoVmqU7PlhQBJcyOZ1ChdERdW
-	TghRKWySzgWXLG1uFEPuIIbImgkQOf2zjy7iltQU6uwHDMlzZAA3/vji81pJgap1N/XtRmQ/gEx
-	uKTJW1Osk2m4Fe5Kqh5j4rg2tKlmpQdQGCDbdsdygKTkiJ7MVuDJEBUnVljD/22oUXYkFOiFKCJ
-	JbdMrk1PDCF2/YlSHuRXH0NcYK+TMaUmytDouc+LePI8/WNumcnN+TX1JWpGti/sH3QUUwxOvP5
-	sW+jVW0nQ46KbpaTuywxZxuE3GXQI4HWsvrN2isTY6qSk1xkDDTUdeuiveia9kudE1KSNHMD00p
-	ZcKmszll3+IJZmwWNfIHoRc+uAGl/AxHnVonxzPqBxmFO5ow==
-X-Received: by 2002:a05:622a:5a05:b0:50d:72e4:6df9 with SMTP id d75a77b69052e-50e36c7395emr549145201cf.50.1777206270013;
-        Sun, 26 Apr 2026 05:24:30 -0700 (PDT)
-X-Received: by 2002:a05:622a:5a05:b0:50d:72e4:6df9 with SMTP id d75a77b69052e-50e36c7395emr549144771cf.50.1777206269618;
-        Sun, 26 Apr 2026 05:24:29 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e7a3fsm7396347e87.59.2026.04.26.05.24.28
+        d=1e100.net; s=20251104; t=1777214713; x=1777819513;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OiFyBmC7gClh7pyL8uPE736qSNuG55EW852NdgZNRz4=;
+        b=EMYxYkexvrvV9Vc/k9qJwkG+HYVdbh2XrOVthZA+xYeDY7wARr4iVEAW4budMNF1Xa
+         5OXAwWCm9B0wMA0kqO/+7NvPrCwv72T5R4fe42ddkIdLzglVvjDYq5buawVkRrbajEMP
+         371ZkHZobYFKrH8a8/4ylFGs1o5KS091S/8bx8eu0/24A163X06m1QZ3GNmDbO1IfSOW
+         iUh/pud8hWkSFqvxe3RHpMDwKtb3NGguNksT4NO/K1aoCBuu/XXF3mP+m3+y+z3ZYcCE
+         x2ZzlULR8AY53zvIiwQYgzIdqIyCt6RF2W08DAErflLzgFI5+Yu+vozOqhYXUGu5rh7Z
+         WqCA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ICedStNfgEChvY+0eRtcjKr43QT4p8cpPOHddU1MvrRKkSL3bASYhnseRYXuQdoj6jcghPrDdG8tG3Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIOEMJZt2pfb4Lb0kimrrZfLgmeG21wcLxHF+7BXNbbvp/CsNM
+	fQkWNzWiWaiC3jYh0Hs0KOnZ+lEf0N9Zxm3B6F/BXVmhnn3n7+6b3A77rdmG5BrRe48=
+X-Gm-Gg: AeBDievzAA71tDHo9x8x94OgqnkUH4Wqg8LCWzosO3w9BZW5wA6DPi6X46F8VLxG53b
+	kxEVU6auBSdIP3OqdoI7f9Ftyl57zTByr3u2TnOhN2+fCZLYzuE6omwfc18YijHBBXcDXARX4GN
+	r4NRDcJ4VAxtPtHmOMEZgsyK8Yep3DHbmtMUAvZzgZHI5hAr/Q53FsvHx9p/hc6bjkz3aSFpdU9
+	FHSIS0Pj117u7bCyVH31bMf4LhSS3be75WQW/NI3KiCs7vx9mWZAHcV+EK48zqJO/a2jAsGn05Z
+	VinQtzlMRTEWTcfr01WT2tDOjiNCAmYSSPzQlGmL377mnaN/WHQ17pPg1QLO5XtL8tFOQBrmzF4
+	Hsp7hyw/8fDN2dZzVJ10TMGY4BsL+Pd1ikSj80vRY8Ep+77gNHOpxyBVJZFdaek+KaRatqq66Uo
+	+X7N/oXLzfOwoRovngDOOetH/4Hiq4
+X-Received: by 2002:a05:6a20:1b17:b0:39c:241:65a3 with SMTP id adf61e73a8af0-3a08d68777fmr31746742637.1.1777214712721;
+        Sun, 26 Apr 2026 07:45:12 -0700 (PDT)
+Received: from n232-176-004.byted.org ([240e:83:200::349])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c797703059fsm22340550a12.24.2026.04.26.07.45.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 05:24:28 -0700 (PDT)
-Date: Sun, 26 Apr 2026 15:24:26 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 12/13] media: iris: Add platform data for glymur
-Message-ID: <x5kuf3n4z4jn6qxkqshzzwofitz2wsh5ayjlpz24cm5weo4nqg@smtwh755sc3z>
-References: <20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com>
- <20260423-glymur-v2-12-0296bccb9f4e@oss.qualcomm.com>
+        Sun, 26 Apr 2026 07:45:12 -0700 (PDT)
+From: Muchun Song <songmuchun@bytedance.com>
+To: David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: muchun.song@linux.dev,
+	Ying Huang <huang.ying.caritas@gmail.com>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Muchun Song <songmuchun@bytedance.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 1/2] mm/memory_hotplug: fix memory block reference leak on remove
+Date: Sun, 26 Apr 2026 22:44:46 +0800
+Message-Id: <20260426144447.817722-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260423-glymur-v2-12-0296bccb9f4e@oss.qualcomm.com>
-X-Proofpoint-GUID: 7WbwtiGTfEHaF8grAYfxJpXOg4iSZ3D8
-X-Proofpoint-ORIG-GUID: 7WbwtiGTfEHaF8grAYfxJpXOg4iSZ3D8
-X-Authority-Analysis: v=2.4 cv=TuPWQjXh c=1 sm=1 tr=0 ts=69ee03fe cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
- a=54w5cVOzKzMHq45Zt3UA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI2MDEzNCBTYWx0ZWRfX4kmbkSknJ9/5
- e4o+wmKhtOCi+hZWQWV2WoPDdhjzHphjR5SHbLCV0jCloOKuoeyPGB3vlGSpRZ0PMwCEM2EPzuU
- Pc4jIXBMWPFhwazFeORtIHkkBSfqs7JVFQL/JJJs6r0mz0pMfAKqCpeiAIBuf9mL60Q8sL0DpMW
- JMBkSyRtZtB0m5IalDP2O7CsaFnaSEReCWjtPiHNSaxGrN+HOo2eHktob/9fIND7hRVZftMTsI9
- DYRxUUrl2gnSsp3SnOmBhZeWU4gWBXO/5PNlgYvW9ZhUSgW+uV26mjUM9NlK1daVll5mbY1gEbd
- V5aNrgIku+ZbVzSf+7K+Hr/GdW8vIQ2xA8zWo2EfsxMy8P2BWrZa+qzZ73eYzSYXntheGAOC1wi
- Fxi6LjjEXTkKHHuwXPzt+DhC07KTkbCwVFFUt1FSrkmbLufWQ3JiaiQoC3zc/0o9nXa4fUdJsZb
- 7+7Y5TEjDcAXTFt7kJA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-26_04,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
- impostorscore=0 clxscore=1015 suspectscore=0 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604260134
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 23, 2026 at 06:59:41PM +0530, Vishnu Reddy wrote:
-> Add glymur platform data by reusing most of the SM8550 definitions.
-> Move configuration that differs in a per-SoC platform specific data.
+remove_memory_blocks_and_altmaps() looks up each memory block with
+find_memory_block(), which acquires a reference to the memory block
+device.
 
-As a continuation to the previous patch. Compare your commit message to:
+That reference is never dropped on this path, resulting in a leaked
+device reference when removing memory blocks and their altmaps. Drop
+the reference after retrieving mem->altmap and clearing mem->altmap,
+before removing the memory block device.
 
-On the Glymur platform Iris core shares most of the properties with the
-Iris core on the SM8550 platform. The major differences come from Glymur
-using two cores, wile SM8550 had only one codec core inside Iris.  Add
-glymur-specific platform data, reusing SM8550 definitions where it makes
-sense.
+Fixes: 6b8f0798b85a ("mm/memory_hotplug: split memmap_on_memory requests across memblocks")
+Cc: stable@vger.kernel.org
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+---
+ mm/memory_hotplug.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Even for such small change it is much easier to first describe why you
-are going to perform your changes in a certain way.
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 2a943ec57c85..4426abb05655 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1422,6 +1422,7 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
+ 
+ 		altmap = mem->altmap;
+ 		mem->altmap = NULL;
++		put_device(&mem->dev);
+ 
+ 		remove_memory_block_devices(cur_start, memblock_size);
+ 
 
-> 
-> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-
+base-commit: 7080e32d3f09d8688c4a87d81bdcc71f7f606b16
 -- 
-With best wishes
-Dmitry
+2.20.1
+
