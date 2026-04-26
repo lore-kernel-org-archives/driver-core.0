@@ -1,61 +1,63 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 431341A6810
-	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 14:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BD61F7916
+	for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 14:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777214717; cv=none; b=OUE92BW05HGD5mrMizhbxwtIjR5b6zPdZPcKLNxDSqcA+Uz5WAH1rWk4m5L4ttsyklCHtMOfAIvm+7qKcR8JZnkZqWTUbb2fRT3yXGQ7/6VvzNl48DMvB+E2KC+94ugUsWrGtWN5OiJ4xg3GRQ2AHxhXwq3x/Km5yk/EfXTQJEk=
+	t=1777214726; cv=none; b=kisbbq35WAZR9dYZAWu64wrtyqsf60q1RD37L8salm8kgPqvChyEiMhqOFPL0UfXtdcLDvF4LbWvDlGjitXg3CNuBXCIdlqEWoPZ1N1zR7glcMYTW01vlGwIyjlsMMql0Ic7ipnGQou/jz1B8Cja3hoepdXugB6tXkxVBnalrss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777214717; c=relaxed/simple;
-	bh=G65XguRFTm7zXcup5EUJgGsyJNI1Wz/tFU4uJ30YpbQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DnuPVI5kA7M6w7cGFzZniXo2dvwbSzMbjiaqnV7WNmQW3m1c1BLWuMyRwK+OAg2roqVxz1y3S0iQKpbuAbxQqqhCmoiCCvTGukd9GxrdLAdmPKS8cDvJKEs/kRhacp/BfabP/5FpvEEC3dmXlqWr6wrzN+0w0aVXKr2uyREcde0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Y1BojnbL; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1777214726; c=relaxed/simple;
+	bh=7YaBT6iNVRZFSk14jBUoMTS77VVYE51p/LoYdbnTAqA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=oN3km4p6OFwXmWiTKJBkT47xBRqsc8VfZThP1Ja/NTayHAnM/sis183zU1qspWxNqE7dmLx5DTfvADhqj264CmX0TiYlWf4PJsrqPyVjNDNfD7qvCJXl3I9SsJs97LvgL84M1pmsvme6BRk4VowKPOM0w/vstLT6JItz/fx7i2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=ekrjItxI; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Y1BojnbL"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82f6b592fc7so4196310b3a.3
-        for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 07:45:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="ekrjItxI"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35dac556bb2so5298418a91.1
+        for <driver-core@lists.linux.dev>; Sun, 26 Apr 2026 07:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1777214713; x=1777819513; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OiFyBmC7gClh7pyL8uPE736qSNuG55EW852NdgZNRz4=;
-        b=Y1BojnbLR6PNjRwPCuHpjsGAdZt/a/+Uc+jLVvIMjQe83w9yWtptZVCJhNqbYyrV5q
-         e8JzxwqbLgiqHlGG+63t9UfkuBpdZjPIk/J/Gz6TqzK1VSEZjS23eDJp1rdMERS7GZXY
-         hby8bxanDORuupxoQp6MfI+mMsAPLVse+NZoTohjgEeGuiw5VboCD83Q4PaWynCCM3CL
-         LpxRq1S3LsqG227tXhS/RLsbq8NJRprbus+Vck1/XEJA8QziqauyrpHUMmiXcwsMYroK
-         DeiN/w3bilr9IMhOktYT/OeA7Kv+Pm1QUDl0l8eA7W//MdpDLVUr2xNPkjPkqPFtIH0x
-         tq5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777214713; x=1777819513;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=bytedance.com; s=google; t=1777214719; x=1777819519; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OiFyBmC7gClh7pyL8uPE736qSNuG55EW852NdgZNRz4=;
-        b=EMYxYkexvrvV9Vc/k9qJwkG+HYVdbh2XrOVthZA+xYeDY7wARr4iVEAW4budMNF1Xa
-         5OXAwWCm9B0wMA0kqO/+7NvPrCwv72T5R4fe42ddkIdLzglVvjDYq5buawVkRrbajEMP
-         371ZkHZobYFKrH8a8/4ylFGs1o5KS091S/8bx8eu0/24A163X06m1QZ3GNmDbO1IfSOW
-         iUh/pud8hWkSFqvxe3RHpMDwKtb3NGguNksT4NO/K1aoCBuu/XXF3mP+m3+y+z3ZYcCE
-         x2ZzlULR8AY53zvIiwQYgzIdqIyCt6RF2W08DAErflLzgFI5+Yu+vozOqhYXUGu5rh7Z
-         WqCA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ICedStNfgEChvY+0eRtcjKr43QT4p8cpPOHddU1MvrRKkSL3bASYhnseRYXuQdoj6jcghPrDdG8tG3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyIOEMJZt2pfb4Lb0kimrrZfLgmeG21wcLxHF+7BXNbbvp/CsNM
-	fQkWNzWiWaiC3jYh0Hs0KOnZ+lEf0N9Zxm3B6F/BXVmhnn3n7+6b3A77rdmG5BrRe48=
-X-Gm-Gg: AeBDievzAA71tDHo9x8x94OgqnkUH4Wqg8LCWzosO3w9BZW5wA6DPi6X46F8VLxG53b
-	kxEVU6auBSdIP3OqdoI7f9Ftyl57zTByr3u2TnOhN2+fCZLYzuE6omwfc18YijHBBXcDXARX4GN
-	r4NRDcJ4VAxtPtHmOMEZgsyK8Yep3DHbmtMUAvZzgZHI5hAr/Q53FsvHx9p/hc6bjkz3aSFpdU9
-	FHSIS0Pj117u7bCyVH31bMf4LhSS3be75WQW/NI3KiCs7vx9mWZAHcV+EK48zqJO/a2jAsGn05Z
-	VinQtzlMRTEWTcfr01WT2tDOjiNCAmYSSPzQlGmL377mnaN/WHQ17pPg1QLO5XtL8tFOQBrmzF4
-	Hsp7hyw/8fDN2dZzVJ10TMGY4BsL+Pd1ikSj80vRY8Ep+77gNHOpxyBVJZFdaek+KaRatqq66Uo
-	+X7N/oXLzfOwoRovngDOOetH/4Hiq4
-X-Received: by 2002:a05:6a20:1b17:b0:39c:241:65a3 with SMTP id adf61e73a8af0-3a08d68777fmr31746742637.1.1777214712721;
-        Sun, 26 Apr 2026 07:45:12 -0700 (PDT)
+        bh=mYEWwYPnxNhfjfvrN9NBByfvj86/jsr9iqTYqVjgdNU=;
+        b=ekrjItxIlW4eJC70qSoMeZxn+TonuIkwSNacXDGWXOr6J3Mds9gAs8Zui52RYD2MvW
+         /SgIsoGq7SSDg580Y10mUxMv74XsNqxSoMyDyoomNsDw9jorSOwzP23rkbQmo3V5WELO
+         Gc1B+j5OEKCc9CnCO56RKUGyoQ8onUXWPhNn9g3mPqOg/fEA1GP9aaFHnYz2WL4Ptk2O
+         zyqV/XQJWs8j4qFiifSmBcGteG/WBpLq7UKJr59Vojc7A12cYRh8/6G9q57V13JIaM/h
+         7+qDAoXzPiiUKLO5LN2ZLBtuvC6AI8fsGiL5Gsv3LH+IRNDN7C7WCPCcDQvGnnovorjO
+         m1jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777214719; x=1777819519;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mYEWwYPnxNhfjfvrN9NBByfvj86/jsr9iqTYqVjgdNU=;
+        b=eP71v+UWMPd0whQ8Zklku1klrpjKbQ3EXpWPAFfpv5Fuo1CZCfk7gIM0H9x1Aa5QOB
+         YnFxAEx9vb3+k7hPLVHO8a9RB7AF33KcSgq8ng9XN7sptQ+XkGDkqV9cRSAtBgNcXVUV
+         RHJKq4hFgfyYZNTqCPpEM86PZunVOgoXoDuZCWmp21b1mQTzwQws/zyuejp77L8BC546
+         sHgcHcCeyO3gSf2Oo5KYNl7aB9I1KDdTH1VTqjCSzDVbhCpfGTiv5YRGw26Qfx8+uafH
+         EtHzc1nsa1wfhPz0dhorXaV12wnvyxfh/h1WX2Z1rC7cVj5Xx0AKshEV7h/kLgHom4vZ
+         Cyzg==
+X-Forwarded-Encrypted: i=1; AFNElJ8cyMj5ckwOiCu2MQz5Enx3YxRy/w44b0EIWHcILTMK5CnW1jqL4Go5TNzFrWEamtx7zM26jEMFL7oywg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUznf/VFA63gtWCQS6GTD2tkjMzwWpySrDL/mGYFBz0DYX4a8R
+	wwUnJFZ7XerYbjPEuE5DmVNHE4An/Q7PBBsvdEDUjJm8GutyVLeoF6ypDarAxdVmP38=
+X-Gm-Gg: AeBDieuyUPQiovQf1xEDRO69WLNbj7NyCFLeZ3iF4FNXgjppk8hcVmBTYNcoA4hGf8D
+	ycHhwmofVrLmVm+8hwCU1JmH55AdMc72q7hTrQ2nC3wud4op7Y7+NgkLncIPoXZSWOkPR38lhHD
+	Fy3Uv4I3eBAeAwHEPnuEjLZLw6IJWlM1vVT1cjPSYnzpHaR0aFci3UX8x384hKt4Y4Ez4eRkJBv
+	7ofY/NveGYP11wty2cmqwD8KCZjNKJgzeqwi4CzFOpJhxF/2oCZ6QKAzqcnTbbwYg/OSf69cV+5
+	TEWVOmBqynT4/1FbdEk4WhFpfV/o/wSdnVcVpXDWMYZ3X7BFKl5yvc9BYyiZH8OwoKAEZ6iRSfM
+	I/MrZsNf5LG7YOuMmRHYuOf3QGKcdRGcexm3rjvk2BvtccRm/360cQgB53vZdL/6l0/zgNOKzVS
+	FKETVNqy/jmSsShxa1RLe4MGpUShe0
+X-Received: by 2002:a17:90a:f94f:b0:35f:c5cd:cc5 with SMTP id 98e67ed59e1d1-36140498686mr40821690a91.24.1777214718891;
+        Sun, 26 Apr 2026 07:45:18 -0700 (PDT)
 Received: from n232-176-004.byted.org ([240e:83:200::349])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c797703059fsm22340550a12.24.2026.04.26.07.45.08
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c797703059fsm22340550a12.24.2026.04.26.07.45.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 07:45:12 -0700 (PDT)
+        Sun, 26 Apr 2026 07:45:18 -0700 (PDT)
 From: Muchun Song <songmuchun@bytedance.com>
 To: David Hildenbrand <david@kernel.org>,
 	Oscar Salvador <osalvador@suse.de>,
@@ -75,10 +77,12 @@ Cc: muchun.song@linux.dev,
 	linux-kernel@vger.kernel.org,
 	Muchun Song <songmuchun@bytedance.com>,
 	stable@vger.kernel.org
-Subject: [PATCH 1/2] mm/memory_hotplug: fix memory block reference leak on remove
-Date: Sun, 26 Apr 2026 22:44:46 +0800
-Message-Id: <20260426144447.817722-1-songmuchun@bytedance.com>
+Subject: [PATCH 2/2] drivers/base/memory: fix memory block reference leak in poison accounting
+Date: Sun, 26 Apr 2026 22:44:47 +0800
+Message-Id: <20260426144447.817722-2-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20260426144447.817722-1-songmuchun@bytedance.com>
+References: <20260426144447.817722-1-songmuchun@bytedance.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -87,36 +91,49 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-remove_memory_blocks_and_altmaps() looks up each memory block with
-find_memory_block(), which acquires a reference to the memory block
-device.
+memblk_nr_poison_inc() and memblk_nr_poison_sub() look up a memory
+block via find_memory_block_by_id(), which acquires a reference to the
+memory block device.
 
-That reference is never dropped on this path, resulting in a leaked
-device reference when removing memory blocks and their altmaps. Drop
-the reference after retrieving mem->altmap and clearing mem->altmap,
-before removing the memory block device.
+Both helpers use the returned memory block without dropping that
+reference, leaking the device reference on each successful lookup. Drop
+the reference after updating nr_hwpoison.
 
-Fixes: 6b8f0798b85a ("mm/memory_hotplug: split memmap_on_memory requests across memblocks")
+Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
 Cc: stable@vger.kernel.org
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 ---
- mm/memory_hotplug.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/base/memory.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 2a943ec57c85..4426abb05655 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1422,6 +1422,7 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index f806a683b767..6981b55d582a 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -1230,8 +1230,10 @@ void memblk_nr_poison_inc(unsigned long pfn)
+ 	const unsigned long block_id = pfn_to_block_id(pfn);
+ 	struct memory_block *mem = find_memory_block_by_id(block_id);
  
- 		altmap = mem->altmap;
- 		mem->altmap = NULL;
+-	if (mem)
++	if (mem) {
+ 		atomic_long_inc(&mem->nr_hwpoison);
 +		put_device(&mem->dev);
++	}
+ }
  
- 		remove_memory_block_devices(cur_start, memblock_size);
+ void memblk_nr_poison_sub(unsigned long pfn, long i)
+@@ -1239,8 +1241,10 @@ void memblk_nr_poison_sub(unsigned long pfn, long i)
+ 	const unsigned long block_id = pfn_to_block_id(pfn);
+ 	struct memory_block *mem = find_memory_block_by_id(block_id);
  
-
-base-commit: 7080e32d3f09d8688c4a87d81bdcc71f7f606b16
+-	if (mem)
++	if (mem) {
+ 		atomic_long_sub(i, &mem->nr_hwpoison);
++		put_device(&mem->dev);
++	}
+ }
+ 
+ static unsigned long memblk_nr_poison(struct memory_block *mem)
 -- 
 2.20.1
 
