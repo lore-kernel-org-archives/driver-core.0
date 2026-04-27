@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC103B7B68;
-	Mon, 27 Apr 2026 11:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4463B8BA4;
+	Mon, 27 Apr 2026 11:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777289321; cv=none; b=dc3iME4HftHZC6rJ3GAkJXFe9pPRzttSje2CfzF+bBowyYlJiz8ag77UiYA3w6vsk8FH41HKmdfn3Iql/T8hTOrtV7u1JW0FGmk7uwbCS0BeeGw3sUkoWeHwW736mZD8q1WTWTghdFlEbNrG4Y72skoZAHD7GWl/AHm6tuTJxS8=
+	t=1777289326; cv=none; b=kmmPfZqb+qGMacNLq4SAj/bQ77+XItn3ddXYbFzjaL0oyaVADs2rYrd55PLgsGBCMDAMCPucdPrq7E6cA2fij7DlhfXN+d7PczckRzFFaG0zHbAubwi8k+sQFMv1fnKKncl9u9XaRge89WZbvie1/CAaaqDmhJmUg/1uaHDHlQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777289321; c=relaxed/simple;
-	bh=0ntWNbklvUzaFLNmsuPMmji7kfRyTy64xl0FVAXz08k=;
+	s=arc-20240116; t=1777289326; c=relaxed/simple;
+	bh=t8qbdGApkXc67C5NnjZ7tvOcU2R+JY87tSW+zpj3HpA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EgiXB00Y2FRitemxgoIsXeC1JyOu8+C2bOhPzQ/bpeeSJprsuEqq/n3v8b+ig5okW3Q9LH85v8gPD9mZMby9K4bneu25sWjS9pEVehKh261D1g6hJFIUDq63zHH2R4ivHxbO810/8PTTSIaa1vBlPCRKcmTyLtxvW8lDR1hU5as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hnrflk4Q; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=MPGdma+jflMOqYKYuFa6e37VCZzTPVWguNjTCXMhjusrtBwDblXKOPgVZYg6enK2A1SbEbD7mkIxXkYy8gq4LPQmb+BxHhaa1n8NB5MUeI0n6Wrm3K2Lyfc6CJ0p5P9arFpb1yGYam7Txv7TWzOVf5JIpZBT6twuju0LaBJDjos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKf7kjVa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hnrflk4Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590C8C2BCC4;
-	Mon, 27 Apr 2026 11:28:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKf7kjVa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48676C2BCB6;
+	Mon, 27 Apr 2026 11:28:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777289320;
-	bh=0ntWNbklvUzaFLNmsuPMmji7kfRyTy64xl0FVAXz08k=;
+	s=k20201202; t=1777289325;
+	bh=t8qbdGApkXc67C5NnjZ7tvOcU2R+JY87tSW+zpj3HpA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hnrflk4Qdm/hoBxk6yOl6mcleMj2mciyydKP3x2TywvalzuNUL2clXmwVx1M01F81
-	 dHfQAC3sBQEswGY/g59rwWcF9kHVRsO+nIYj2grspkxCLvN8LweCcaeqUfMNpNMzVt
-	 /V+ythcZMaiVBj+tdJu7kzNhSj6E4d4dXHrlLENZ8046FuAtCuUdDYP0GAavHXauOb
-	 QFhoCqW199YPKadQcJX7qx50jzNhyrp8Saa4GGj1hkesMPLO+D/6NiIZpM4vF9BRD3
-	 yF1v6bQ9P+UkMY6O5SXPc2a5Hl3pqnWYEjH+4YwGnwB6LowYXdEr9q1jlKIX3r5FJQ
-	 AYb6BErMWmYfg==
+	b=CKf7kjVaGTbyarud+ThC4Vxiu8xbySQouSnNVb/Vmzb1AWQR6AmGBbWlgljgoQzB4
+	 LW7crYz45tOqZ9D85aVv+f2uqFy/SO2IHk+sFtbb2oInLixMS2ezG8ZSAGOwhYkVD7
+	 W32cfeHWob0h39EEEo2xJkYjbfy8c9MM+i0dxqBMmmEtNwMkhj6BW4fxdoSd0MpvVG
+	 /lVb0IFO0ewg1qMpHZr7VDmt86BZps2ybG+B6Q813TXyiJpCO2fQhQvaTyQOCx4dTM
+	 +w+rPl/+gPc4BH3+v5baSFY5BLzzXNYmRkL2lLSALBeJ78T+zzkJWyPeFd+YE9eSoL
+	 K5U8sVVf59wOg==
 From: Andreas Hindborg <a.hindborg@kernel.org>
 To: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Abdiel
  Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida
@@ -39,13 +39,13 @@ To: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Abdiel
 Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Gary Guo <gary@garyguo.net>
-Subject: Re: [PATCH 5/5] rust: ptr: remove implicit index projection syntax
-In-Reply-To: <20260415-projection-syntax-rework-v1-5-450723cb3727@garyguo.net>
+Subject: Re: [PATCH 2/5] rust: dma: update to keyworded index projection syntax
+In-Reply-To: <20260415-projection-syntax-rework-v1-2-450723cb3727@garyguo.net>
 References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
- <ltBY5QYjK4tx6VmSUSi569gKrxT5ihMyaCPL6NuzcjUQNiX536ppjNAjUP9d5eTTBqcksl_pdY6QQrJ6Oy8rPg==@protonmail.internalid>
- <20260415-projection-syntax-rework-v1-5-450723cb3727@garyguo.net>
-Date: Mon, 27 Apr 2026 13:28:01 +0200
-Message-ID: <87lde8r6bi.fsf@t14s.mail-host-address-is-not-set>
+ <Y_UaWMYTo9Xb8viyPNggy28srKaFUvKR9HjIcL1PpalkyTdjVdIgSU_O-zU-kbfo7QT3pyp6v8v03_EeVCUNEw==@protonmail.internalid>
+ <20260415-projection-syntax-rework-v1-2-450723cb3727@garyguo.net>
+Date: Mon, 27 Apr 2026 13:25:58 +0200
+Message-ID: <87o6j4r6ex.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -56,16 +56,12 @@ Content-Type: text/plain
 
 "Gary Guo" <gary@garyguo.net> writes:
 
-> All users have been converted to use keyworded index projection syntax to
-> explicitly state their intention when doing index projection.
+> Demonstrate the preferred syntax of index projection in DMA documentation
+> and examples. A few `[i]?` cases are converted to demonstrate the new
+> variant.
 >
 > Signed-off-by: Gary Guo <gary@garyguo.net>
 
 Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-
-
-Best regards,
-Andreas Hindborg
-
 
 
