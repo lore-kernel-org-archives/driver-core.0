@@ -1,119 +1,120 @@
-Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DBAC325483
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 02:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AF527FB2A;
+	Mon, 27 Apr 2026 06:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777257745; cv=none; b=b70cbG0Nf8S/x2Pm2CDENnzRqnCWyYOoU9N3aPLewylqL+zwO9U7LBqqnJP+IFnLuX6nY6BMs53xUUZM4w/KvydOL4n/EMys8/LFrphzcw47ZL3tzBxSbLyAwDF9hGbAgmx7/oGE/5pp64TIfS4b4WbloDJpRG8tqiiHi9CoUG0=
+	t=1777272441; cv=none; b=Mz0tT+V5yCBqQtj1jJODVXKUQo3p+cMpEPAYBb2xxWLZuUbNIoHWJm8LJfHncIjpfvAsnFFAev2BWehmNITZ++1o0LoIN2EmI4Bitoopi0p4seg2vrgNb6aCSoz4cg0Jekg63v7Sc0hhipS69hmpxgntZCcULwnBF7N/Y0mF2Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777257745; c=relaxed/simple;
-	bh=Ntxs4LrM9nMix70BKY/iLLvKQ7C8YsLHb8BjcRBYfF0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZwCRlXNIQgUktBpo4cAzUPLsREXAHxxLMGIkvGA+O0ExpSL7RGxT9WlZu4sE7LNcbjdc5TKE3FbaeVKb/9oElpE54nRyu0OLdnBnTkuKpuBR4zf3clmOCAVCyF8V8jYWz2XYesFziVfJZx49w5fe302ka54IQ2L7U/dXbOYjqf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=yJd4diSr; arc=none smtp.client-ip=211.125.139.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+	s=arc-20240116; t=1777272441; c=relaxed/simple;
+	bh=ilnIqpXFCyNt6g6RokOmstrJQTMIjyHCwgEExR/hbPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eNtzB+fYptOvf6duINfmA1PVQX/WFM8kP9W/Q8AK9mXTaWXGWvBEHUd803vrbySvq0MfcG0YlYjbBo2yLG5htWnoZ1uwku5X81m8f2aWJpSvpRanScayNh4K2CxctaxkU4Y/++32wbggWxo+O86WGSes4dE826d1AOLZdw72s34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=tVn55DDp; arc=none smtp.client-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="yJd4diSr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1777257742; x=1808793742;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=9dNZSXPaU7SwRa36y6sq2F/bVDLBSOQWDoZdmR4n+V4=;
-  b=yJd4diSrQW3D88s6PEDKliIW9g4ujeHHfryAzYCKTDlLT9zsyTbUuS9h
-   Rxl0G5g7l6DmIUH36ZhnM6HW/nRldd0xbkJ4o1hp3yMpbl3OkNN+4MnzG
-   Acebe4ZTG7oJOJRVRdEK0SLxY65p3mDnv5SqVhbh6m95UzCLAacLBSdWf
-   GshjFXyv8NsZOObkup3tYtXc3HZBBfhTjlQsrsaOjlQddHfkkC+ENSqJb
-   F3O3zYn63A9mnT52G9BXKOYPTbhfp4hb7JLB0CfQNQ7K0SEGGn9Rzn5G5
-   pi/dhiZfQ5DEBbJ0cHsaZjqGnqTS+MZgSp74JJmHwVeaWWpkFRFG6VZY9
-   g==;
-X-CSE-ConnectionGUID: RGbSqVXxSGSqHmEfbpny9Q==
-X-CSE-MsgGUID: +Ee3aBHfShWKmW/wpS5k+g==
-Received: from unknown (HELO jpmta-ob02-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::7])
-  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 11:42:06 +0900
-X-CSE-ConnectionGUID: lBeFfeEhTdCwKS4pXM/ITA==
-X-CSE-MsgGUID: 4YLeYhxMRa2Yx4TTtDP+/g==
-X-IronPort-AV: E=Sophos;i="6.23,201,1770562800"; 
-   d="scan'208";a="52275261"
-Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
-  by jpmta-ob02-os7.noc.sony.co.jp with ESMTP; 27 Apr 2026 11:42:05 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-Date: Mon, 27 Apr 2026 11:41:24 +0900
-Subject: [PATCH v4 4/4] docs: driver-api: add mod_name argument to
- __platform_register_drivers()
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="tVn55DDp"
+Received: from francesco-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
+	by mail11.truemail.it (Postfix) with ESMTPA id 2944B1F94F;
+	Mon, 27 Apr 2026 08:47:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1777272429;
+	bh=kbd+KJ62CZU4qnR3q8Wb/lGJuOs9KI6EpKwpM2lUoVc=; h=From:To:Subject;
+	b=tVn55DDp/bNzLaXOdmrsekwW1j/RGVrzSryO6xtEvOGnM47lLZu4sHZoIbLZ3O50D
+	 QLuh58iINvRQlZPI2oGj7ijDMlBombEcGp2s8l7Q3FBbnFd61SujArKZkArTLsgeQ/
+	 8KL7u/Ias7XgtOuEtORdSLFCSDGyrOmLvQ3r7WQy50GvXVY8+M+84PkbchtzHu7Fmc
+	 d/yTv5mVVO8G+2veajDbG2BO9od7+77/ts0/pSmt1iVFL4SltVKOxvDZEc53S2gPY3
+	 w78TFRrQa3eRrvWRfBPkMUx69iEKQcoQ3jWRrCVcLMHByifQEwQXtJYW9yqeAZSiv0
+	 6hIZ5IIubfeSw==
+Date: Mon, 27 Apr 2026 08:47:04 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
+	regressions@lists.linux.dev
+Subject: Re: [PATCH v2 6/9] soc: imx8m: don't access of_root directly
+Message-ID: <20260427064704.GA17710@francesco-nb>
+References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+ <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
+ <6593091.DvuYhMxLoT@steina-w>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260427-acpi_mod_name-v4-4-22b42240c9bf@sony.com>
-References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
-In-Reply-To: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
- James Clark <james.clark@linaro.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Richard Cochran <richardcochran@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
- Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>, 
- Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@arm.com>
-Cc: Rahul Bukte <rahul.bukte@sony.com>, 
- Shashank Balaji <shashank.mahadasyam@sony.com>, 
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev, 
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
- Daniel Palmer <daniel.palmer@sony.com>, Tim Bird <tim.bird@sony.com>, 
- linux-modules@vger.kernel.org
-X-Mailer: b4 0.16-dev-3bfbc
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1165;
- i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
- bh=Ntxs4LrM9nMix70BKY/iLLvKQ7C8YsLHb8BjcRBYfF0=;
- b=owGbwMvMwCU2bX1+URVTXyjjabUkhsx3Z37dP5picffdXU5/nzP2lrWFZ/60ahV/nu7mI7aK/
- cZZ928bOkpZGMS4GGTFFFlKlap/7V0RtKTnzGtFmDmsTCBDGLg4BWAiVjKMDJMEdF50TzXKPv9U
- TVJjv4b/9lrv4CvbMmqLLvH9zhC/8JqRYTLXfx+7IA9NltunV3Jzzgq5qj/X4WDjH9tf3l9O7fU
- w5AUA
-X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
- fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6593091.DvuYhMxLoT@steina-w>
 
-Sync the function signature of __platform_register_driver() between the code and
-the doc.
+Hello Alexander, Bartosz
 
-Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
----
- Documentation/driver-api/driver-model/platform.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, Mar 24, 2026 at 11:24:09AM +0100, Alexander Stein wrote:
+> Hi,
+> 
+> Am Montag, 23. Februar 2026, 14:37:21 CET schrieb Bartosz Golaszewski:
+> > Don't access of_root directly as it reduces the build test coverage for
+> > this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
+> > to retrieve the relevant information.
+> > 
+> > Suggested-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> 
+> today I noticed the following warning running next-20260323:
+> > caam 30900000.crypto: No clock data provided for i.MX SoC
+> 
+> This happens when there is no matching against the soc_id.
+> 
+> Checking the source it turns out this patch is the cause that the SoC info
+> does not provide soc_id anymore.
+> next-20260323:
+> > $ grep . /sys/devices/soc0/*
+> > /sys/devices/soc0/family:Freescale i.MX
+> > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
+> > grep: /sys/devices/soc0/power: Is a directory
+> > /sys/devices/soc0/revision:unknown
+> > /sys/devices/soc0/serial_number:0000000000000000
+> > grep: /sys/devices/soc0/subsystem: Is a directory
+> 
+> reverting this patch (2524b293a59e586afd06358d0b191ab57208a920):
+> > $ grep . /sys/devices/soc0/*
+> > /sys/devices/soc0/family:Freescale i.MX
+> > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
+> > grep: /sys/devices/soc0/power: Is a directory
+> > /sys/devices/soc0/revision:1.1
+> > /sys/devices/soc0/serial_number:469677A693A4B8CE131D180033E44903
+> > /sys/devices/soc0/soc_id:i.MX8MP
+> > grep: /sys/devices/soc0/subsystem: Is a directory
+> 
+> soc_id is restored. Now that I write these lines I noticed that
+> serial_number also contained empty value which is restored with the revert.
 
-diff --git a/Documentation/driver-api/driver-model/platform.rst b/Documentation/driver-api/driver-model/platform.rst
-index cf5ff48d3115..9673470bded2 100644
---- a/Documentation/driver-api/driver-model/platform.rst
-+++ b/Documentation/driver-api/driver-model/platform.rst
-@@ -70,7 +70,8 @@ Kernel modules can be composed of several platform drivers. The platform core
- provides helpers to register and unregister an array of drivers::
- 
- 	int __platform_register_drivers(struct platform_driver * const *drivers,
--				      unsigned int count, struct module *owner);
-+				      unsigned int count, struct module *owner,
-+				      const char *mod_name);
- 	void platform_unregister_drivers(struct platform_driver * const *drivers,
- 					 unsigned int count);
- 
+Any update on this? I would say this is a regression in 7.1-rc1.
 
--- 
-2.43.0
+I noticed the same issue, and CAAM is not working.
+
+[    0.000000] Linux version 7.1.0-rc1-0.0.0-devel (oe-user@oe-host) (aarch64-tdx-linux-gcc (GCC) 15.2.0, GNU ld (GNU Binutils) 2.46) #1 SMP PREEMPT Sun Apr 26 21:19:00 UTC 2026
+...
+[   10.611139] caam 30900000.crypto: No clock data provided for i.MX SoC
+[   10.611211] caam 30900000.crypto: probe with driver caam failed with error -22
+
+Francesco
 
