@@ -1,342 +1,196 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020110.outbound.protection.outlook.com [52.101.195.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326003B3BE2
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 12:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777292369; cv=none; b=baoLqzKZcuvyME/HZe0suTPMG+lDHXfUXpNxiREO7USTIS2bkcydiZyD4639hpGSqPbBRBLW9EIjWY56ekZh5lKH0w8rHLFbD64TPVUc8/jDANDI1zwEYnnXiTIVgkxSJ4CfYSmD7Hr3T2xs8C0T82QYgPD8iiDJtUZFWJTvDEE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777292369; c=relaxed/simple;
-	bh=l4lnny3dGBJZoHOBatk5qgjCf18AZd9xMDIK67fuBWk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nKtshsU4p1ZAiM1aE5sLCk2sUjHUI60NS2FrfJ9meHfa8Cp/zLNDwSiQICJJWjCGKbWHA0/ExWUYNUna5AqemVaYWfoqLqT5RiI7+X/J0FrGYrIBp8NUFbNoe3qHiq+8ZUOTxBRQMf46B/PXp0u73Sc/qYIufJWehcqUTq0Ur0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WsivgD1E; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Icjz+Svu; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D142FC893
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 12:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.110
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777293923; cv=fail; b=RwnP6LaJ8oYpOvvhhgsDAT4dMNqSBOEgnLThdUDzbZTsghGFADZmWZCqV1cerX/o82AxmSYG2WV1f9cKTEcpYgjxu/vlj2icAKQ+eH25TP3meQOTZ+tbOuqCmBfBlu9Ec9+2V2x9O9JJeWw2X7LIsBrE8li+GIfosCtdY96Rwfc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777293923; c=relaxed/simple;
+	bh=OB8EPJLTJ5SXGR1Gh+8FDPEtLq6qQcXQ6mjLD/659EM=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=j7wSU2APsZilBt5m3VYLODhiFMoOh4QiUMXBlZ3PtYBg2PZ8C0hSW/16uhxsSdprm5H9RtwFoc7stKvNLGt35ws+eaocuMiYPoV9w7Xn8iSOMc3aiEzOE+wR2GhQtpYt1a2ZLStMZE4wPTIeTCyPK6VF9cnvpPkfkmBIXBrtfyE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=wVT3yWhV; arc=fail smtp.client-ip=52.101.195.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WsivgD1E";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Icjz+Svu"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63R8TAVQ2793074
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 12:19:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iM/iRe3Y9krYEM1ss3kFNB7NzrAjyV60b2tj+n+iAZU=; b=WsivgD1Ea/rClQoc
-	gvrzbgIgWeTvUJ70PJEPQQ3Lj9f08eUW9ZybG6HWQUahQ5hRMfSBC7ZHnOVHQZ3u
-	t26r9B0hry12hpfYcqvnuqHoB09roK6skdvuZabCcHi0+bnozcIezMNB9Umy8DWt
-	z5bv1N2gHl+VweZgqEgtvOtBmdS0CJL8Uvz2WjLa6PbLjUFaX5rq8Lz8kZ8Yo9j4
-	TlEkFP4YuGEZhvl7GQ/y/utypQNp5yQ+KYqMJGF4LfNxladVTDB3pKpuAMb/57MU
-	2oQQ6fIKYqkrdl38oq+Eo5GfxJyhrzP0nQpVqIF8VW05IXsbYRK6T8ohgUDYcdTz
-	yUbCDw==
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dsa4uv3yp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 12:19:27 +0000 (GMT)
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-56ef11518d3so17810810e0c.3
-        for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 05:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777292366; x=1777897166; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iM/iRe3Y9krYEM1ss3kFNB7NzrAjyV60b2tj+n+iAZU=;
-        b=Icjz+Svu0IJx3USGy9z6HuXTCo3iWNO7eAB4k7BLNkh6kmM6QuEsKoDp7u9/NMVM/u
-         tvaKTQeNkqPjL/dSoQelJWVE5FLtksQnm+Vk7wRKS0TDrloNIv2QKjqBw6Jbb8St/gxI
-         Xztp2aKNaXHyKBG9z40AfGLffytvVu4qctGA2ihhDhGOZGR36huJOiczQP6Ea6HVhJUI
-         H2bdr/YqzZAyMrlG1xgMeVI7k5Tvyw43Nl0lGPPWgI/pT1ygiOp/2puIg4wdawPzY38+
-         HLuqHxujxqN8xh/xIUSIgs7baa/3F/W3aqe+yeHzCNiukj4jREqMInkMXcEElw4bywtw
-         d7VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777292366; x=1777897166;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iM/iRe3Y9krYEM1ss3kFNB7NzrAjyV60b2tj+n+iAZU=;
-        b=RzHiTBiCFFRdcShm6KSUGTwtiiEDtpkuofgDyzMK4uklFSrDCwTrVz0K3iJTK5wA8b
-         1qsrI/uDgnLm/g+07EfNAc0CA5g5FN4v8Nli/cHwUvZ8xtUO2rDIR8P7ikFOHmoPnewV
-         pD6oXuvfzEnt2kUeU775j52J4TJexpTM7puh0ASK5lMnRB9isu7mE6Tyqz/D5d4StBv2
-         8G2AKcfNUW/m1HeBhO91QfvOU+Y8MxZgq63Y8zptjBAWlUugvde05edlp8h33XqDpTBA
-         Su8Fb344HQsS/hSMvnWsBXqMJG0kzfY9Bkuw6WZJoFdk1UYj5OXEZTpxIyQifFLcqnhn
-         f8uA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Xc+WVCGwbftgJ7WB+bD3hUJUOcg9lVQKDLfckGnylR37H7NlWdS4+Iolq8YG+BvuhI9h+mufcEz1Cag==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Z01NdxVn2Yy9IMQFoOXgRRLMq6J2kpQ6fxC49gctlBTOHywr
-	0USzLizN/o9Ql3QX4LUD+m3il42+LoV8k9AHqKsAfLpmja6mR4CELOBHXUzR8aHagsp76YaNKj5
-	F9nEMm584yQ8d0X5DR619XzqcmsAZEplQcLV718n1oZxFep6EfICXsydoGdaT5WvtfA==
-X-Gm-Gg: AeBDieuYWiVELRHHi5ZiGb4W0M1S27iFQLWtiLviSUyuqfWbyvwpt4lqKBMKrOEETCr
-	DAWZaOLv+ymZLg14ojpfN5Yk9uHziQWdbY+BcOQOxqVSEUq8EpTJb4RWUIEzwfHj/83jF1Rr+L4
-	+pDZTSsvgQb6+VMkBSnNkMTQ/uBrdZCDZKeiYLjSZ5fTeasI875LsHGUE1jB4Sj2hwsqKjxsgrN
-	5YpQB9xrVWLbLVvDcAQ9RxJxtsFZvZtcBAF69qsW5v+w3RGflbuo7/t2MgmA13vec3IkBhalMpH
-	LBuEkJNuT7JPJTlZRts2cmgHuaiXn9fh9PcenR/R2djHp1fbLnw/s6F311qDiMkP5R89440nYca
-	SWIUosRo8gac04+y7f7vm7C46RgMrSnhZssAkSCRLawPtzT638W5GZjjmLZ/bJA==
-X-Received: by 2002:a05:6122:45a0:b0:56e:f1d2:c3ca with SMTP id 71dfb90a1353d-56fa587e117mr23130380e0c.2.1777292366123;
-        Mon, 27 Apr 2026 05:19:26 -0700 (PDT)
-X-Received: by 2002:a05:6122:45a0:b0:56e:f1d2:c3ca with SMTP id 71dfb90a1353d-56fa587e117mr23130321e0c.2.1777292365598;
-        Mon, 27 Apr 2026 05:19:25 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:83be:e944:7b0e:ef3d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4891bb3d121sm882844295e9.14.2026.04.27.05.19.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 05:19:24 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 27 Apr 2026 14:19:11 +0200
-Subject: [PATCH v3 2/2] platform/x86: x86-android-tablets: enable fwnode
- matching of GPIO chips
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="wVT3yWhV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dqJLot80+C0GYxVyJb1ZJUK7DMdS0rr3GHvZ6HCMr60ssO1SLbGM3igMpYeVE70iVcvxbA+tJjAQhc9Dq25/UXvxIQEuHz8m1E1+IOkE1Ixz1C/hySYTNFjiUkJ6NMZoHGof3eMTF8Ch3rtsX2OPpaxVJkxyNIz9SnADZxsEwiMXmGV1UGxmZ3x+BB1lT2xoV38bcS0Eopw6pMzK22E7kB/Vom+Ovb6YQxjlPJikpKmfKhW5vy4KWuD+z7I+rbPtcLIEvJmlAZm9oq7DWDf3XZBJY4IIDLK75PrneoExDSpdgzL03ee4byTbHtc5bifmXJ28znaMIBQcliRpjjkqew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5iHVBJhs/o8gE8jQywXKLpuBwriRI5nRa8l9be1IwwI=;
+ b=rxi5/HgOGSy8mk2w3hYCuvPR91c32U1KrLSggbXdPXCJf6wJkNXrIkOytu8I3Wvew0k5ICedJ+CE0O2SWnhZqY8BWN5aHNjD5tIBcYexqEFfGRPsRZFvPyuS9JlJ2+05U5lg3p5sb/MJooAWD/tg+UkKBSR+Qrmg1juU8g1AdsIt4Iq9j61WN0Rb5Urpucus5C5y5g+URqRLkN1VkA+KcxbE0nOtBDOKZpuSK00aV5+T7dAwPRhVUgaTNZ5Ydo0gqiwEpxU9WciRzXmY7xv+IItVm1YTWwYAKUQG5IztU5FPgYDsLSLRIis9Csg9nv9I8giV0DLmIfNZ2PttGNhH0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5iHVBJhs/o8gE8jQywXKLpuBwriRI5nRa8l9be1IwwI=;
+ b=wVT3yWhVK6WiXj1Zu6gp+7x55QjRIR99vY6P9aJH+uUUSHHXlsFi0ibAzXTXjbPgzePNlyRjQeT2JZspUUK8Qak3yAZ3hH9Qv5OcZNu+QtT/DoLuK/MGIeLRqYngb5JYkVFcQhJQIFxghCGJ5JybKbl95JKSGjPPLea8rFHZIU0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWLP265MB7292.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1e8::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Mon, 27 Apr
+ 2026 12:45:18 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.025; Mon, 27 Apr 2026
+ 12:45:18 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 27 Apr 2026 13:45:16 +0100
+Message-Id: <DI3Y41UDFMAX.3M1CRGCMVKT4C@garyguo.net>
+Subject: Re: [PATCH 1/5] rust: ptr: add panicking index projection variant
+From: "Gary Guo" <gary@garyguo.net>
+To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
+ <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
+ <tmgross@umich.edu>, "Alexandre Courbot" <acourbot@nvidia.com>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
+Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+X-Mailer: aerc 0.21.0
+References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net> <FW-izTUZJ5UeE_3CsMTwNT-XlxQHmovjhfdXQpTE9Eb5aInlYy8Tj1H94gLDiBEOXlVVwadom47wXriTOW0iQQ==@protonmail.internalid> <20260415-projection-syntax-rework-v1-1-450723cb3727@garyguo.net> <87qzo0r6hu.fsf@t14s.mail-host-address-is-not-set>
+In-Reply-To: <87qzo0r6hu.fsf@t14s.mail-host-address-is-not-set>
+X-ClientProxiedBy: LO4P123CA0630.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:294::13) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260427-baytrail-real-swnode-v3-2-0003e4c1708c@oss.qualcomm.com>
-References: <20260427-baytrail-real-swnode-v3-0-0003e4c1708c@oss.qualcomm.com>
-In-Reply-To: <20260427-baytrail-real-swnode-v3-0-0003e4c1708c@oss.qualcomm.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>,
-        Hans de Goede <hansg@kernel.org>,
-        =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Len Brown <lenb@kernel.org>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, brgl@kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5641;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=l4lnny3dGBJZoHOBatk5qgjCf18AZd9xMDIK67fuBWk=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBp71RFQPCa08eCDZLrsx3NrxOmhQb+WV6JL+Q9e
- /PvrPWI3IyJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCae9URQAKCRAFnS7L/zaE
- w6G0D/9vQO3vVjL4oGvGOqANm4yOADnbbRmTrXxnt0HaNS2ePiUIHzIP+11cmq1rxlNgzdLs3P5
- uEf9NFzJPpQCCuy+/jjF47XrvZ/sw4IlCgyhPuCmTwcDttVtA/CqtDLM97EKyLmMG/Nd6OBoLHz
- DsGdBaIq7JEJwUDQ0aSVV28rbS1qj7hhJuSCkBuF5QiH5yY/dB5MrtuQnzVZJ61h58hObXtejX6
- iDjtPZb/cy6KPKH//q/KwhdSLuB8A7m90bECsQgslk2nLMRPWdSUTo+W0GfWK8O3cGk7OTLXm9Y
- HXz0uZqLHR6hltlMU2O7Qnh0zUf8nywg7dS3M6plhh0jvIUXaaVbRuS3V0RpopsLFcyE5gYXGV0
- jDwmkFeAU2GCMrC+4JmJKiEYbz2Wp/TGTxmuQ7tYeS3Nk/uNjkRolZ9570M+ZmX6AbHx0uUxo9D
- 2UWEY417Io21ladfzxNEDWMsYDqGeAjaKSC/O+dYsgiQfe5T90qauuGl28N+HNP6qCigk/F/Ie9
- GoJNwVuc5ryz7XvJP4rLoBeVAj32TI2T/DqJgO5NfLiTPIcU4tzul5Ujpny1OqszYkenqo0HBOv
- 5C1tdqMDtVnAd8xVLQfDh9Kdrj9cz1Bsry0XmD4AKvnqWTz7k63v5DXm2vtEIZc09m8C7Biggdq
- lO0Hm3DvTKIboRg==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: P7L4iZJuya-MhbQ-9F12Yvhk9EkdTcHc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEzMCBTYWx0ZWRfX0VI/+OThA1iQ
- /RyLrgMd3IKCoAaRBbF0X6fcM5aUO90MhH9WwPCpkvkVE0Kcym+/rM8JqzZGSlSxKSNZnKWD4TR
- rX+s3FzfXgRHpeYTkSNX4IBcdOJEGWvup4HqxJ4C+oY1mDogaiu+C5Gq1zXLzP34lM9w+NKTeW7
- 9Ow4s/RVH9m5RXHpBDOYtboYknkkwnPS5Pnh7mgqpJWvQ4sjzXRE9RTJlGQ8K8521opsCb2mStO
- tG+pRz9Dq88acmcnGlU94F5lfZ5OrXXuPRI9L5+Z8HPz+MJT92Ft8JVzY+17cPQhF9aWF0K8ztJ
- 0beGnRvu+igtXNtwuT2F0zyEkDl2Wmnw5wl2rp1oDRl2R6xuDEz+8aO3+lOtos6MRLBwtIQcJ+x
- UJNS+WITAYdIePSKO5Mwfxeox4ZzcL48oTeES+y6u+TW1HDN8f5oc8KhSN+Ny4oDZaRkrlta+uD
- ZZluDTNbISyQFAgf07w==
-X-Proofpoint-ORIG-GUID: P7L4iZJuya-MhbQ-9F12Yvhk9EkdTcHc
-X-Authority-Analysis: v=2.4 cv=J/GaKgnS c=1 sm=1 tr=0 ts=69ef544f cx=c_pps
- a=wuOIiItHwq1biOnFUQQHKA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
- a=6VCG6zWJw881NgsJBYMA:9 a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-27_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- impostorscore=0 priorityscore=1501 adultscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604270130
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB7292:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae16173c-9a50-4358-9b69-08dea45ad604
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|10070799003|376014|56012099003|18002099003|22082099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	Ac4KVZLEd+2LnvI+jFFV9fYliv59jAuVmAHVBHiuZURJ3fAcFav7bYTXUV2qyTqxf2GaBoCcLrjdb3jeArIH+rh1r4S2e2CrdYUhUSm1R1QmcQs3egXuf0GW3wLmoGgJYXJ17dNwfgPl9TjagGqbou4qo2nD8+uW9LZEDE72NhSMqFP+EMqXI0IYha1/bO/wNbB1Rk0IoUREIKIW8g7aFLNAMbVaFK7qHZQuJLiVWpyojrRZUw6frLwKG6ZPvvd/63sq2Q1gfkSxmEEcN6aqgw75+93qQHjEDgRxwQEdGj0TlDCCxDZ75IVt6WGHIYVbwUlG59/06s42G0Jlr3iQH6trOyuX4TisMtKJ3B+PndwFYD/yHo6vEgHv4A2BP/3K63lhPTETtCUSn+E3hjZNtk821/Es/ccZ/MFrta3ARCcItrCpWbtwWu+0xedGAvha3zAGXQ9Knsc15hGkFt5ALxM+qebpZV54E1LZBXlYrMxc67eU7AeDv+WlY5u5k2XWZzQk/zxZBQrPi1cGFIVdd/HT9iYPlpYVS+tq9IMJiWpgP49r0GoN5xuuf7odjs75pqdKpOiN2orX/grfxSINHycnU3O4jyonwriQ/U7+8uU49yl2oL9OUVVJbneb2vnyd0PEZBUqpNqM0VEOA4Tp58Pb4RcrLNWABjEdDGxeFxbBi7o6QshEDUeUCaAGDocbGmlkweAwr3fPt8Ca6bFBHW/KRqxgK07Ii0O9nuZgI3xVsx03ceWzVIOyQXyAvvnNOAxZ+I1yMIspPZuWNvZ8/g==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(10070799003)(376014)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZUJ4NlZBR1JiaDlnVDRQTzVGdEN3d1dRaUJMRnNkOERLVWVpMVdPbTRWSmEr?=
+ =?utf-8?B?S2krS2tnb01nd0NJYUI4ZThaemZYc0tVSUsyWEx5c1NodXRBUTFYNktrcFpR?=
+ =?utf-8?B?bW52b2ZXMEtBQzlZOGVYNFdHbUZJQ1NScUcybHY1SUQxb250UHNRU3M2d3Ju?=
+ =?utf-8?B?Tk1BUFRSRE9sc0o1RWpmTm5CWFpZSmU1cFFGdGxsK0xpbjVLMWt1Ny82VWNx?=
+ =?utf-8?B?MHNoeFZGVWpaVXpOUkp4bklOaGZSSzFsLzAvSVFQVHZLdDZqcXBScGlXa0Zu?=
+ =?utf-8?B?dG9UREZrNWJUdWplU0RUK3hlR2FyM1B3bmZEaDZQK0hMWVhJR3BTSTNDMnRo?=
+ =?utf-8?B?ckFVUlU5Qy9SVy9MZEJ2RCtXdEN4cm51cWppTmpmK1k4Y2ZJREJVWGhqVFB1?=
+ =?utf-8?B?dFFtSkFTK2J1Q2gyaFRtYUVUS3pVbkNZVUxJQ1d3M2lZb0IwenBmamFnb2pa?=
+ =?utf-8?B?cWV1V1VNaWhZK3MyNkZmQWFiaXQ1L3RkczA0Q21ZNEZJVW9BNmo0Qy9OY05T?=
+ =?utf-8?B?cVhGd0dyL2tNdmRVdFF6OEd5YjFzUy90MlFmQWtMWlZwOXVvQS9jSXh3YkJG?=
+ =?utf-8?B?R1BEbWpmd2JDQy9MM2RaY1dsOHpoZm9hU2xza1FPRGZMSXNDR3FGeGNzZ0Fz?=
+ =?utf-8?B?Qm9uRzMycVByT2FXVXVFR3BVdDJXOUJoZ2dNYnpodjdHRUVmbnpLSXFocit2?=
+ =?utf-8?B?UUdOc3hObHJvUzVFVE1YYm1oQXpCTmEwWERKQnowQ1dyM1ZYdHNTZE1iVDk1?=
+ =?utf-8?B?QjdSYlZHVy84M0lQaXNHTExOWlppdUNhTUtET0EzRHpScUZPc1M5TU5EemZN?=
+ =?utf-8?B?c3psRS9TUFJzbHhGS1Z0RWJhbmNDYnVyQ2xRVDk2ZVN3Y0ZPS2lsVHNGam9D?=
+ =?utf-8?B?YXFpL0tDUm9WWHAvVzB6elFkeXZ2U2FtdTBrUGovWng4SlNsVHRMeWhINGdt?=
+ =?utf-8?B?SG1yQXMzY2NGcFI1TTlta09FK0JCWC9FNHJqQm1NMFZZd3kvRXc4TnJMN29y?=
+ =?utf-8?B?YWpKYjI5Qmk3d00zMmgzWSsvWERtME5YNCtqamRrdGR2VVdtak9WYkVSMjEz?=
+ =?utf-8?B?enFOV2RKQlRlcXhwQmFkbWlSWG05WWtLNm9tazZJOFI3bmlOM0svTk9XQlBa?=
+ =?utf-8?B?Q0U2bFJ0YjlhNjJ0TGhQTmpIeUNGMndjS1I2bnAzSmlQWHk1SkdPdU1IZW1v?=
+ =?utf-8?B?Y3N3clUzakVVdyt1QXJseFJpRFVLb2xiSnZ4OGVydWtHdnFVMUxQUEZjaGsz?=
+ =?utf-8?B?eUVGQkpObnd1OFZJT2lEK1paSlptY1dMZ0FTcGs0YkRmT3k0QVRta0xEeFRW?=
+ =?utf-8?B?azlJZFFUS2xUcjArZHNWSy91eTRsM3F6MjczZ08zOUZTOUdzcXNVd29CRVNm?=
+ =?utf-8?B?RzdOakVZNGhpOXdIU2xVc0pvZUorYVZaYnFpWFUzY1JLN0NJUWZZRXlkb0hs?=
+ =?utf-8?B?UDZad3NSaUxVU3ZORTZMZ0N3bG1sNVprcHBDWmlwWlVlU2tLem54N2pBeFRt?=
+ =?utf-8?B?WDF2Vk5pY1JpT0dlQnUxdDdQYmhUZHBLNFA0MGZVY0ZNelR4RmFTYkhRQTBZ?=
+ =?utf-8?B?WXUzMzhNZWcwdkFmcTQ0T0g1UWM1YTQzNEFjTTlBblpSTy9oSHljYlRZS3c5?=
+ =?utf-8?B?L3QzTlZWVTNuSjBCcWt0K2dVRnlVanVUR2FOK2liU1lXVTFiMWNPc2tYTmFW?=
+ =?utf-8?B?Uy9XU3ZnTFBISi9COHlEUmIxTk1WcnJEVlo1VStTKzJyZkZvQ1d4TXVQZFhP?=
+ =?utf-8?B?dlYxNmR1SkVCck1iTUF5ajd5UjJyZHJSTmRldVp2VFF0Qnc4Q1BCOEdZemhT?=
+ =?utf-8?B?QkdaRWJ6eC9PNzEvSkhrRkFtbXpVQVBncE5aZXljZ3ptY2xHazN4RVVCeWt0?=
+ =?utf-8?B?b1JML3lNai84YzVteVpjbkM0REZXdjJzNnRmczUrUjRQWmVkREJiL3ZjMmZG?=
+ =?utf-8?B?YThoZE9ZV3Y2TE1kM0p1d1lyOWlocU1uVWpGU0lTdVowdXRuTGxyZnZzcDJz?=
+ =?utf-8?B?NG1wdUZnd2dhU1RxVHN1VnhqRXhiVEQ4dEJEOU9GS0EzdkQxeExRaDg5WjR1?=
+ =?utf-8?B?c3JZMUZsMEVXM0NXbnROODJnU3hjeHJNSWZQTzFQRFdRMjRUYm52cFZweDE1?=
+ =?utf-8?B?amNxVENsbUI0Sm9STzBqeFg0VGZ2QmFhSjBzeHZhcmFvOXBsMzlERXZESitm?=
+ =?utf-8?B?dWltY3pWTjU0U0xLblJqdHoreWZubDdYNXhsTFZtTTIvdklrWWFPUTBScDk1?=
+ =?utf-8?B?Y2xIc2hkZ2EvSXN2Z1pUWW9xUWV6VXN6YlRJb3QwUVhlTmRmeXBnUS8vVmRC?=
+ =?utf-8?B?clc3bUtIWWg2R3NnRm80WFFENyt0aTJrdWcwQm1sd0psaDJkNVpIZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae16173c-9a50-4358-9b69-08dea45ad604
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 12:45:17.9572
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S4haEIaEK/y7ocSWpTraTMgyLUHJjLtDRmv1cipe5bfxRMuFFZUx6JqaFTQtuc+XKzdGJk6t9YA1JtCXP9p+GA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7292
 
-In order to allow GPIOLIB to match cherryview and baytrail GPIO
-controllers by their firmware nodes instead of their names, we need to
-attach the - currently "dangling" - existing software nodes to their
-target devices dynamically.
+On Mon Apr 27, 2026 at 12:24 PM BST, Andreas Hindborg wrote:
+>> +
+>> +    #[inline(always)]
+>> +    fn index(self, slice: *mut [T]) -> *mut T {
+>> +        // Leverage Rust built-in operators for bounds checking.
+>> +        // SAFETY: All non-null and aligned pointers are valid for ZST =
+read.
+>> +        unsafe { core::slice::from_raw_parts::<()>(core::ptr::dangling(=
+), slice.len())[self] };
+>
+> I think this would be more readable if you move the indexing operation
+> out of the unsafe block:
+>
+>         // SAFETY: All non-null and aligned pointers are valid for ZST re=
+ad.
+>         let slice =3D unsafe { core::slice::from_raw_parts::<()>(core::pt=
+r::dangling(), slice.len()) };
+>         // Leverage Rust built-in operators for bounds checking.
+>         slice[self];
+>
+>> +        slice.cast::<T>().wrapping_add(self)
+>> +    }
+>>  }
+>>
+>>  // SAFETY: `get`-returned pointer has the same provenance as `slice` an=
+d the offset is checked to
+>> @@ -100,6 +116,18 @@ fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
+>>              new_len,
+>>          ))
+>>      }
+>> +
+>> +    #[inline(always)]
+>> +    fn index(self, slice: *mut [T]) -> *mut [T] {
+>> +        // Leverage Rust built-in operators for bounds checking.
+>> +        // SAFETY: All non-null and aligned pointers are valid for ZST =
+read.
+>> +        unsafe {
+>> +            _ =3D core::slice::from_raw_parts::<()>(core::ptr::dangling=
+(), slice.len())[self.clone()];
+>
+> Same comment regarding moving indexing to next line.
+>
+> Side question: Why do you need to explicitly discard the return value
+> here (`_ =3D ...`) and not above?
 
-We deal with devices described in ACPI so set up a bus notifier waiting
-for the ADD events. We know the name of the device we're waiting for so
-match against it and - on match - assign the appropriate software node
-as the secondary firmware node of the underlying ACPI node. In case the
-event was emitted earlier than this driver's probe: also make sure the
-device was not added before.
+Because the result of indexing is a slice, which is unsized.
 
-Scheduling fine-grained devres actions allows for proper teardown and
-unsetting of the secondary firmware nodes.
+Best,
+Gary
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- drivers/platform/x86/x86-android-tablets/core.c | 127 +++++++++++++++++++++++-
- 1 file changed, 124 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/platform/x86/x86-android-tablets/core.c
-index 021009e9085bec3db9c4daa1f6235600210a6099..9e6e8f272dfe16cda421b569802045c3d94fc0ab 100644
---- a/drivers/platform/x86/x86-android-tablets/core.c
-+++ b/drivers/platform/x86/x86-android-tablets/core.c
-@@ -13,10 +13,12 @@
- #include <linux/acpi.h>
- #include <linux/device.h>
- #include <linux/dmi.h>
-+#include <linux/fwnode.h>
- #include <linux/gpio/consumer.h>
- #include <linux/gpio/machine.h>
- #include <linux/irq.h>
- #include <linux/module.h>
-+#include <linux/notifier.h>
- #include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/serdev.h>
-@@ -360,6 +362,124 @@ static const struct software_node *cherryview_gpiochip_node_group[] = {
- 	NULL
- };
- 
-+struct auto_secondary_data {
-+	struct notifier_block nb;
-+	struct device *parent;
-+};
-+
-+static void auto_secondary_unset(void *data)
-+{
-+	struct fwnode_handle *fwnode = data;
-+
-+	fwnode->secondary = NULL;
-+}
-+
-+static int acpi_set_secondary_fwnode(struct device *parent, struct device *dev,
-+				     const struct software_node *const swnode)
-+{
-+	struct acpi_device *device = to_acpi_device(dev);
-+	struct fwnode_handle *fwnode;
-+	int ret;
-+
-+	fwnode = software_node_fwnode(swnode);
-+	if (WARN_ON(!fwnode))
-+		return -ENOENT;
-+
-+	fwnode->secondary = ERR_PTR(-ENODEV);
-+	device->fwnode.secondary = fwnode;
-+
-+	ret = devm_add_action_or_reset(parent, auto_secondary_unset, &device->fwnode);
-+	if (ret)
-+		dev_err(parent, "Failed to schedule the unset action for secondary fwnode\n");
-+
-+	return ret;
-+}
-+
-+static int acpi_auto_secondary_notifier(struct notifier_block *nb,
-+					unsigned long action, void *data)
-+{
-+	struct auto_secondary_data *auto_sec = container_of(nb, struct auto_secondary_data, nb);
-+	const struct software_node *const *swnode;
-+	struct device *dev = data;
-+	int ret;
-+
-+	switch (action) {
-+	case BUS_NOTIFY_ADD_DEVICE:
-+		for (swnode = gpiochip_node_group; *swnode; swnode++) {
-+			if (strcmp((*swnode)->name, dev_name(dev)) == 0) {
-+				ret = acpi_set_secondary_fwnode(auto_sec->parent, dev, *swnode);
-+				return ret ? NOTIFY_BAD : NOTIFY_OK;
-+			}
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static void auto_secondary_unregister_node_group(void *data)
-+{
-+	const struct software_node **nodes = data;
-+
-+	software_node_unregister_node_group(nodes);
-+}
-+
-+static void auto_secondary_unregister_notifier(void *data)
-+{
-+	struct notifier_block *nb = data;
-+
-+	bus_unregister_notifier(&acpi_bus_type, nb);
-+}
-+
-+static int auto_secondary_fwnode_init(struct device *parent)
-+{
-+	const struct software_node *const *swnode;
-+	struct auto_secondary_data *data;
-+	int ret;
-+
-+	ret = software_node_register_node_group(gpiochip_node_group);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(parent,
-+				       auto_secondary_unregister_node_group,
-+				       gpiochip_node_group);
-+	if (ret)
-+		return ret;
-+
-+	data = devm_kzalloc(parent, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->nb.notifier_call = acpi_auto_secondary_notifier;
-+	data->parent = parent;
-+
-+	ret = bus_register_notifier(&acpi_bus_type, &data->nb);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(parent,
-+				       auto_secondary_unregister_notifier,
-+				       &data->nb);
-+	if (ret)
-+		return ret;
-+
-+	/* Device may have been already added. */
-+	for (swnode = gpiochip_node_group; *swnode; swnode++) {
-+		struct device *dev __free(put_device) =
-+			bus_find_device_by_name(&acpi_bus_type, NULL, (*swnode)->name);
-+		if (dev) {
-+			ret = acpi_set_secondary_fwnode(parent, dev, *swnode);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static void x86_android_tablet_remove(struct platform_device *pdev)
- {
- 	int i;
-@@ -391,7 +511,6 @@ static void x86_android_tablet_remove(struct platform_device *pdev)
- 
- 	software_node_unregister_node_group(gpio_button_swnodes);
- 	software_node_unregister_node_group(swnode_group);
--	software_node_unregister_node_group(gpiochip_node_group);
- }
- 
- static __init int x86_android_tablet_probe(struct platform_device *pdev)
-@@ -427,9 +546,11 @@ static __init int x86_android_tablet_probe(struct platform_device *pdev)
- 		break;
- 	}
- 
--	ret = software_node_register_node_group(gpiochip_node_group);
--	if (ret)
-+	ret = auto_secondary_fwnode_init(&pdev->dev);
-+	if (ret) {
-+		x86_android_tablet_remove(pdev);
- 		return ret;
-+	}
- 
- 	ret = software_node_register_node_group(dev_info->swnode_group);
- 	if (ret) {
-
--- 
-2.47.3
+>
+>
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+>
+>
+> Best regards,
+> Andreas Hindborg
 
