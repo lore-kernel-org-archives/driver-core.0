@@ -1,83 +1,62 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022083.outbound.protection.outlook.com [52.101.101.83])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010044.outbound.protection.outlook.com [52.101.69.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FC23C8724
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 13:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43F43BD657
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 13:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777296603; cv=fail; b=DDsWaGyW6iUys5zgV6Q59Omu/RBHzhP9rpfR0dxyGhESx/hDdr6HrPnWIvnLrwnx3afjZp+la8d7VNdWs8LcjZWY9XbZJuD8HQ1FyvX/6jOZeJNlOdOmOIZTjS99GkIvewTEwbMEuG5hFLVXDieeFRpgvrN04VPhjXHqN26IFKY=
+	t=1777296962; cv=fail; b=i/e/VweNokwH1q38IAyRIAZLivVCy2iPSlWi7+vopegdqrS6Ej5THVcYAKpE39JCyHYdCRut9TPO+NuwBsWeihFSOMXBS5B3bT483f5iyLBQBQwMNrJwQrNzIfmtoSKGc/Y8rM186LWXomLA4Pgp9cjJ+mCVGvKG+JyzYLIc37M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777296603; c=relaxed/simple;
-	bh=A3bRJQhtO+5DTrNwsWGKdzLhDqP830dGmmto4lcUQoI=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=NQF0A9MciMXINrVmK1APbQySz/Lg5CLNhJNujK2DoVGY0GLZ5QUAsOUTBZsMQCnFqdEydtwQB20J7c8aPNMIGbcQpgu9geY0TPfpGhaFei7JugHuZ3qem6Pch20tDJc7vk8l1Veuam6k20hRjGNYCtEzu5AZqxYqGUJ6/DexPqw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=n3HHlCbT; arc=fail smtp.client-ip=52.101.101.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1777296962; c=relaxed/simple;
+	bh=1r3K4B5WbPaMcpqo3lvERM3ugPC+deqDM9R2RfmXREc=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=BFGaV6wL1aJlzdc1YoAPAIYF1AOH2++Lpd78odOo11m4LY7peh4pUmTtnwNhaPuI3zq1pUI0HBnffct8YQLhj2yVGpjph4ekXVieVWvw7GnbC6uFjZEiHgn7sw6+I95gRmp2ucPHfjEF6pbAt1OSTmZuihOglsLCKCTs3LYST4Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=teG8ybI5; arc=fail smtp.client-ip=52.101.69.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="n3HHlCbT"
+	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="teG8ybI5"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VV4VWpGb+41lJ/FnXxZcfy7SEgc78/UyQyOk0WHkGbZRwJr6/C4GZyBGXoNyBiGYzguT5WXW0mhNWgDHeo4w7kbwk5+/SA5exDDrZOU4ack6kvD2rAyI0De2PltSdTyEujLzPUcfem1aqWHuzmnNA7VHh6xZeQ8jLxmXif085vTjdE5AO1m4FnUmJv8ga43turTgiSjgsP0PwDerO1n2aLKi9f9iDPjs49QwrB0tI8RcFNjz3kyKI9rE9CX2Ox0/ICni2HLRPJN6I5swR+jFxTk6PjBAiLicnJDN+C0IESDxy9EmU3/G5J5Q0B1z2/XJacjuEGzzLdZn5WE8aky/1A==
+ b=J9wq6VtjM/2Abb4U4v9X+Anm9jlu+3IRr2mg2QorFZJSIumo8ccBBvXTfFkRzD68+lIa0+poLTOeXc5qQIn/o5KtwvGtTfF7JNTMj5g8T0rFwdB3zWzXS73HJQJvaGRJWM12hdOmIRWqDT3r7mLYVtPsfMw1yi2HMAvO42ImBGBq68w+eSwLfr+aY27BH3B8OZ3knjgZSTwztQLgExgtQhwt44nIrq7AUCTXErTmtMbKN3gGUbBhXwG7GU9lohxXocmlXqLP7bAUITqyxJ7Q3UyOYLJkMZE5M7Xl2I1qN0IJAJO5kqwa5Ij4jHEckN0xH0vIR5gnI5udXvxyseOWnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L5aMnw16kRZJmZSBiObovUG/8QP2+23ctzobvVKlEJE=;
- b=ZxKBqkDYY5dhHDkGKqlEpq5IRUh9bpxHrCq4kSuY5+MKT49u9eu/c9uN+HMHfpLU5RAsBxZaS3y5+aBzi2UyHXSouE3cEw5xnUKHDT7wnl/mpZjODriW10cfJSD1FVszJzzi5WOy7U/wU58AEIGVWjCDuktFsIY5W8dDBwpBrSFV9nms9nFX20IpOKn154VXCOjsyBKs4BuiNN+cr4g5azuNbreVRu8X/ECBlzHJpuh8xX0ISsB3cna010rqjt7Bcf1QoL1ls038Oaa36d6H1cNKu0Lln6UCoZn2dHh5Rwd33IO8//BhiE6UvRLt3infY6LnalytE6pwf3CiztO4qw==
+ bh=rXpC+4ufzGRKTGv6W1zHaN9YFCsAj7nS05oG/Ezpmvc=;
+ b=NW6KMD2Sw34WXnfr7KmIBvKzFYv7B2NEL5O0A36beIJVZNpODGlf+qB31KVFUNHDSjymv0KKNz/s/G1/A8DCChdhdsQN6YrQLmS7ThpzJVd2gHxUZvUr4w0hDsvsJIUgWZXevUKMhpKex5xo9q+ZFKHqhoUZta5ZULo4tX7Eg9i7YOoLNRXbBS2M/Rdagw+Qj0ZVma9DzVHOAfl2TojtbJVXmHsGrdyO2I/wnkGhsnUU83DzEXix4YfAT5WoCRiiP3o/45V8tyHboc3bZZ6vAQmfo1FVHtAYTj9DaWJ2IRZB5DQ+3LorA14nGjes8FknN/0paJcgi7Z8mLBGYS2nzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L5aMnw16kRZJmZSBiObovUG/8QP2+23ctzobvVKlEJE=;
- b=n3HHlCbT6Az0Cc0xwBNq96dF5e428Zj9qjTDMvkGoKd8JgT1QMvd5rMRdVMLdYFIQm/sMWvkn4uWLqlfGoFfKfP6GbXj0lQBrt54IXs7+6ZRYHdD9QXFCm3RKlva5noHMx5Vm1DKWqzOH7ZVmeUykuI3wJhZ94ECcM2ynkXvfzI=
+ bh=rXpC+4ufzGRKTGv6W1zHaN9YFCsAj7nS05oG/Ezpmvc=;
+ b=teG8ybI56r3vbR+mcOk77NToP4JvISEthHtE3N3J/2FGFnrY4CZ9QRxj8dyWjzXo34RxAI2J77V9RuWQpzfF24CBE3kkM4plaRQyJgTmgSh2zN6cvakW21ihMQ2XEdWBs2OB2ch8Jx16vPN4JxvwqQsa5MhZEdr/FbCCUJif8cTEm2AFMhmYva8sqocOO/dRtzcwQlJdnlWR6p50faDIntlvi3I1uvksXKxY1vp1e5Dct590my0wbCJBQZO9AZF4I382oZ3NvlIpATOmTouoU3SM+1CxrEWGP37rOSCJ+E0pKIiDbxiebmzi+u4qu+8sfIhFa2yHqxpotl2tfeLqVQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO4P265MB6729.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2f4::13) with
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6c::22)
+ by AM7P189MB0929.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:17d::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Mon, 27 Apr
- 2026 13:29:57 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.025; Mon, 27 Apr 2026
- 13:29:57 +0000
-Content-Transfer-Encoding: quoted-printable
+ 2026 13:35:56 +0000
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04]) by GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04%5]) with mapi id 15.20.9846.025; Mon, 27 Apr 2026
+ 13:35:56 +0000
+From: Ravineet Singh <ravineet.a.singh@est.tech>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	stable <stable@kernel.org>,
+	=?UTF-8?q?David=20Nystr=C3=B6m?= <david.nystrom@est.tech>
+Subject: [PATCH] kernfs: protect of->kn access in fop_read_iter/fop_mmap
+Date: Mon, 27 Apr 2026 15:35:21 +0200
+Message-ID: <20260427133521.62793-1-ravineet.a.singh@est.tech>
+X-Mailer: git-send-email 2.43.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Apr 2026 14:29:55 +0100
-Message-Id: <DI3Z28IZZOT9.349TTWNN9VDMB@garyguo.net>
-Cc: "Rahul Bukte" <rahul.bukte@sony.com>, <linux-kernel@vger.kernel.org>,
- <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, "Daniel Palmer" <daniel.palmer@sony.com>, "Tim
- Bird" <tim.bird@sony.com>, <linux-modules@vger.kernel.org>
-Subject: Re: [PATCH v4 1/4] kernel: param: initialize module_kset before
- do_initcalls()
-From: "Gary Guo" <gary@garyguo.net>
-To: "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Suzuki K Poulose"
- <suzuki.poulose@arm.com>, "James Clark" <james.clark@linaro.org>,
- "Alexander Shishkin" <alexander.shishkin@linux.intel.com>, "Maxime
- Coquelin" <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
- <alexandre.torgue@foss.st.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Richard
- Cochran" <richardcochran@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>, "Luis Chamberlain"
- <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez"
- <da.gomez@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>, "Aaron
- Tomlin" <atomlin@atomlin.com>, "Mike Leach" <mike.leach@arm.com>, "Leo Yan"
- <leo.yan@arm.com>
-X-Mailer: aerc 0.21.0
-References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
- <20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com>
-In-Reply-To: <20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com>
-X-ClientProxiedBy: LO4P265CA0198.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:318::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0340.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18c::21) To GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:6c::22)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -85,189 +64,161 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6729:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ff95767-0092-4642-9573-08dea46112e5
+X-MS-TrafficTypeDiagnostic: GVXP189MB2053:EE_|AM7P189MB0929:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6bc519bc-d405-4bd8-a540-08dea461e8c8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|56012099003|18002099003|22082099003|921020;
+	BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	SDyiiBD3iEfz7RCjysXc+dutLjjGs08VaCUPh/TaJDgxyNq4i+gIKSxHicTwWJYU03yrPAA1js8S3rRIEHuargJZBN9f67pNSHNjll4UABdnEKcmVVdV9NMwdI4Oj9aJhcIwL/INdUILSNRaF3vs2xUrvLRKChJ6j+m1jT9pcMrmOysjCi3hG0/+6geNg6DGsRWIp3JX4BUD4CwG+VUfLL/ATbCjtD4sfHAbETB6am+uCbrGaTTYwA8+3LPzZZ0XbwJjFBq+T8uIllaf4JJvIz4x+Y0O9pLydismd5x+pzRmH4TxSbXIOMRScpnYY40xqKBZKnsI0nWwDmancywxyrp9Dma9yg3jKATl03UhmLWOBy+ia3LJ1pSst/nO3XpohLIrDIi2L0pXafs87vMyrZeOq9AzgO7vBcYZVRHkOL6E2pxqfJXqw29LKhwCXya9axGuxM+oXO+JZFLdL9mEyr/xhFgPTrsB0OQKEn0xcA2x5Pk0wMgNaTomeHT+sbsyzDF3QCVIlcdMJLWtZZTyAWpEHj6C2/30ungmk2h0uo6UmB+8UiR2m0YQR7T9R6dwjaZi3gcvBdJE24sDj/JU+WPNyliQU78kTDi8buHjK63H/85jPgLSlFVahFu7IRd4VrxHzarRpyTb8wg70nfpDhaYZmqMP1iwIpVwsc4K9gwCkQKNmCzIxpl/nDMNiaE5Ly7jI2LYq9RttoMnHnaHM0XcQR1crSuD9W+UVj4FNxZEvB0Dc0RU9m4dvjZocPlL55BkdJmjWkL7HmH9MeuJFA==
+	4oxTEkdYyP5NySXz2ES1pysZiRg6vDRx4NsO6YmKcNjngIzm7WlZRm2fcAvGABqt2D1+oEpP3Tv16wUWzJG8TETOSnco73UCRNwbzS3QwGYAPya1RRW+ekXQKQ7S4BDO+d2RgkctHK8AyrrT1unhBt750n7cESRKdSCTQ7j+tckM7beOhjsUTJkvOLJXhGp+rmqnd8iwsVoLL2giK+e0qeQXrWnu95YVD+2FHMd2flf0GQXi/1AoapCmDpaoLaoazYGX0lVBTUrvWjEeUHXgQ62gk5RT0tMZWh8YW1E1UHlPfrGxRDuSokXMH8UxR/vXcpZFdXcx/vxu8X1Y9gJfXUwfXClphSZ7o9q8qKxFcWtkHjhwSihO2wT9GiUDvHdecNF5OXvreDwp3VrPcFNsd36+nQO+IftpUePZjU7Blc+ej0DKWG+zuKsVCsknScOSR5MBLtBpeHjreKflW7CXsN7z0XZluKAhEPL2M3mx0op2kO6BGf3Vtpbo1ezc9Z0du/8Tw9LR5Ot+G51DwmIi/RNqKoFngOZ+O9Ry3Zfsd3eDehKjnZZH6iOF73NMsb+GPTeSJump34A4bmsWQ0vXqV4af5Q5cj5oF1RrdmHl/c2kAYnOWam9470epV17Ai0xj7zA1QfcOdyaMSMbsjbV+MxtJCdo471mtKOqqXUGJYOYgHGweaz8TassmIJgwUcd8V1HPMGPfdy7UhEvXjtWeVZvTdNrjKZKPlPqQQ9eGgM=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXP189MB2053.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SS9RQUpHUmF4aHpyM2NTWHlubDMvVWJIZGZvMXV4RDFON2lTS0ZtYWpLVW5m?=
- =?utf-8?B?ZHBCMW91TmZlMnU1WVdjTlNYS2ZzSXQ3RDREQ2dlWlN5YnFUK1RscERSclor?=
- =?utf-8?B?NEZieEFaSzN3ZDBtOWRIUTgwMUVMYVJjTDVVbjIxNlI2eHF5UFhpODdOdWQz?=
- =?utf-8?B?NFJEbWp3YktpMDlwTHNEMjlZMDJwU1RYN21INmx6V3JLL3FkR3QzUld3WXM5?=
- =?utf-8?B?ZmpqT0NnQ0NUcHA0a1RYNFczeDF1Y01kRWhUY0FpazdNWGVoLy9ybHJGd0h3?=
- =?utf-8?B?eEZNa1lPQmRENDJxbzBMZkJqZE9TQkdGTitoWVVkVEJ5cEFwU1RwRmV6Y2Zu?=
- =?utf-8?B?THBKVVpVZmVBOHo5RXpHbG9SalZsR1NKRlZtRHd1Q3FuWEFiMWZrRSt0Z2xX?=
- =?utf-8?B?NUVuRXgyVGF3TzVOUTE0TmtBYVJUcTVyeldDRnY2Y0V4NEtUeDA1cU03YlI3?=
- =?utf-8?B?cS93M1I5c2pSVGJqMVNVSnJsU3UrWE14dXR3VVhqU3lTMXAzVU04R2piTWJB?=
- =?utf-8?B?bHdkeDEzbHhvZnlaOXRmbzU0amd6RnhCNC9CTlBuR21CaHdlSThlQW15bkR2?=
- =?utf-8?B?S2gycEx6bXJ0MjJKRmV6eFdOSTVBMTN4VFVXSEdJSEtVZDQ0dnY5SXRrOVJN?=
- =?utf-8?B?ZGwyeWw3ZWQ0WE9nMGd5QlFkZ0ZwaHEzY2JBbWNMOTI5UHQwK3o5YnJhK1NV?=
- =?utf-8?B?c2FDQ3lzWjMrcGNtQjVEVlRxVzltWXVkMy9YVG1TdXV3bnN0Wi9zT0g3dVJ4?=
- =?utf-8?B?UG84RmpQcWJUanBkNVBTTFFobzRFSDcwSXl2VGpwK0h4RzM1NHBPVk92cW45?=
- =?utf-8?B?dVZyczF4dTJ4dEgvRmdPKzRrTmtuczhPNWZSV1dPUlRscVI3VkJrbW1CaG5l?=
- =?utf-8?B?Nkx4TFViMFQ2YkxaNjA2dnJZV3lLR3hSWE01SHZueWlUZ09kenZxZGJvMDB0?=
- =?utf-8?B?RXA1WkdTMnFUT3RQME1POTZBK2d3M3RxL3I4U1U3N1ZCaHUxTjF0YTF1Slp0?=
- =?utf-8?B?QVNFV004UldseDZ0ekRBV1YySVlxYzNSZXJCQlpLMmVkUEdtVjRpY25HNW5T?=
- =?utf-8?B?b05rTnRYNU95S0VJSGlWWXhSSmtyek1lL1RnSjNjblN3QkJyRWpIeHJQZkt2?=
- =?utf-8?B?em43OHJYTGtQMjFSMVN0UDVZNko2VzN1S3ZlQkYxYnZnVnBtREFJWmt4a1NL?=
- =?utf-8?B?cVY3OVJjSzlNNDJpK3FiWk1PRWJTSEdDTGVxUmk4NFQrNFZYeGhMN3czUDdU?=
- =?utf-8?B?cDN3dFNvRWdDWm9PRmxmTTRaczNTZjV4bDRoVkIvVmtzcWRUS0I3cElpd3Q4?=
- =?utf-8?B?MS9UdFJoWi80R0J0YUNqSWNrT3BmQmVseFRVVE5BemxxOVl1S1l2MEpQVWpI?=
- =?utf-8?B?UXFLZXFxSnlnakpRY1VXQ2dhUzJjbmxmMmFnbUhLVXh6aC9aUlpCWjd4U3hO?=
- =?utf-8?B?WWRxTDhlNWlKRGFNTklvRVRzUjdaT0QrK0hOVFBTcVE0T1FMcTBudU5kaHZL?=
- =?utf-8?B?eHQzWmM0eHBEeXR4ZVJVK01CKzZ1Q3Uwc2VReUY3aldiRGs4cFZHRVdPMjBq?=
- =?utf-8?B?aXZieGllT0Q2SHNLOHllT3lwdmhPajR6bi9YNmY1U0VOSnNyb0c4dHJpemZa?=
- =?utf-8?B?MmVDREhlMkszT3gzREhFYWFmTnZtOVh2QTkyeXVQeFZzcGFWbGl6THZFdXVW?=
- =?utf-8?B?dmVqd2FLc3A5RjZrcUx3bnNZWFdxS2ZHamwxeUVTTGxFbzFyQzc2OHpsYmVF?=
- =?utf-8?B?SVM0bkR0b0hLSDlPaitaeTZPRWZlZStlSit6TGZpMUUycEtzcnhYY2ZUc05o?=
- =?utf-8?B?ZkdvR3NPTFJ0NTVKRlBvUkFlai8yUUJWUGxFNkJqWGM1c0Z2cEtibEQrOEZR?=
- =?utf-8?B?Q3ZjNmhaaWtZNmxLQUlSbFp6TW45b01QOTk3V2xhelRKTm9WS1FOdmJzazJp?=
- =?utf-8?B?US94SUw3UUdLZzVPT09FZGxxV3o2TDdLYlgzL3YvRzRpdWhUS1VzMXVOUGxi?=
- =?utf-8?B?WCtjNUFwclZMTlpoQVl3bFJnR1Rsb2lHRzBCcFJhdVJJSnh6azFRSGlaRjJ0?=
- =?utf-8?B?Y3JlU3JuMkZEOEFqRUgydVpuNGU5OENQeXBQcVBOM0h4NHlDVERnc1ErYU44?=
- =?utf-8?B?c0dmQXY1NmVOR0crWlVWb0VyMGI2UkRNclBpYlljN3hKQmNTeFVaeGFzZjVD?=
- =?utf-8?B?RHJ3R0IvOUdQV3NHU0tSSWpwaWVPK3BaUmp5SERDeFN2ZERnUHVaUzEweDJH?=
- =?utf-8?B?ZTlrZC9mZWo5Tkxla1pJSis1aVBNR3ZUR1U1UnphcTRBODdPd0JINFNodG1Q?=
- =?utf-8?B?RUxSYlhRVmxwdnNRUHBWYldLU2dtOFcyM3ozRVdiRGRqTStxNEI1QT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ff95767-0092-4642-9573-08dea46112e5
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+	=?utf-8?B?dWFBMXlJcWg0K0o1aWU2Q2tIbXo1elRMb0VHR3ZEdVFNT1VCbU9pVGI0MTIv?=
+ =?utf-8?B?dWs2bmw3a2dOSlVja3Z1V1ZZYlZJWko5eExVQ1JDc3lEN3FncXB6SURuWjIz?=
+ =?utf-8?B?czFmZDVpVHBRZWRiMWhBZS8zU0pqMitaOGRJS0p0bUwvTXc4UXo2T0xvVVhw?=
+ =?utf-8?B?cEpCTkFxTHJxK2hybmV1dUpHZ1ZFMmVyMXV5UnRMK2NYZzRpYXlvektPbjVL?=
+ =?utf-8?B?TjJ3SjNyTVFtN1N3cngwajFReEZQTWNITmFmSVpyclYrQ1BFcjVoaGwwZGFF?=
+ =?utf-8?B?bzNRRW1XenlmVDhUOEgxOHpaWTA1SHI3cGlpdVoreERMTHF3MzQvTzc5SHNu?=
+ =?utf-8?B?dkpSOEZNVlQ0VVNOamZqQ1ByaTV2QWRIcjEvVEJMdXozMnhGWElHdituaHA4?=
+ =?utf-8?B?SlZjMFhIdXhhWFg3eXVKTVdGbThTQTlJbmlucFNNcG9MQlhZTzVQaFJDUHFD?=
+ =?utf-8?B?VmUrWkVvc0FqdFBybmpidDUrOVI0STE3T0Z6bUpIckRvcmVnc29tUVFCeCtl?=
+ =?utf-8?B?ek04MkdJRnJnUTdYZnQ1ZUZTMGxYRjMyWFZqYVV2MHZGditGNjIzcnFwa1BD?=
+ =?utf-8?B?dDJXcWJNM0JTYTJ3MGU4YlJicmZUSkpyUjZ3eThXTzdIZlNna0pEbE0vNTZy?=
+ =?utf-8?B?cmFjaWRaRGRpVUhydTYwbEM0bS9acVZOam0wc0habUtPemU2cmp4RHF5UHJ4?=
+ =?utf-8?B?eFBuMXBnaE5FZWtLK1NzS0hmTnJDM3lyUnVRb2xsdlpsZzJBOXBuUGw3bFBQ?=
+ =?utf-8?B?NjQ0b1NTWS8vYTVPZTFwa3dqWHAyM2xWeVBDa2VjaEgweklWKzFCS2VwTHFF?=
+ =?utf-8?B?RkxJV2hES2VCWm8yR3QreTBsTHo5MU5NMWt6LzBWZ0xMdXlnam9ZZjZ3NjJ4?=
+ =?utf-8?B?USt1eFdHdUJ6V01VSzdhWTVyaFNxcTNseXpqRVJwckx2Yzh4eFd1Ky81TzdN?=
+ =?utf-8?B?WlM1NTAyWUZkQ29FQXpWRjRWdHhaTHF4OW90ckt0T21vTE9sNmxRSGxSaTg2?=
+ =?utf-8?B?U2EzWmVMVy85aytxTTIrcDJ6M2xMTXQ5dDZoOWYyUGlYaXNXSVVQNFBqdUdq?=
+ =?utf-8?B?cmI5ZHlTbUhFakpsMzRkaFZiWWJsVmkwVUlKVDJNd01pTVNZT0k0Y0w4Qm5i?=
+ =?utf-8?B?QVpyMnJ6eGI5Q1NHOWRJOW1pdG5tcDVxUW5EZExTUnVJNmNlWmNCQmpqR2sw?=
+ =?utf-8?B?bDUvZTJMZ0JXN3lVY01yaXZNcTB0amVpUzlMSjBYbXgxRi9uWVlUZWdYak9h?=
+ =?utf-8?B?Mmw1QjIvOU5zcmpRZGVDUW5EOUgrSHQyWkFJUGtjcFlZMnRoOW9FcWh0OXNn?=
+ =?utf-8?B?U3R5RWdiNVFZWnFIN09Ya0FWWWNLYUM3MU5NeEJoMGd3Q1VUdWlEcjlqV1FS?=
+ =?utf-8?B?TTNDb3VPMFpURkVzT0NkU2N2dWF5RTdmaHBDQnBvZnkvbk9ZS0FWVHBBZUo5?=
+ =?utf-8?B?SWJkWWY4K3BOYllaQ2x5aHFkY2hGWmZva2tYSmpGcjZJNktiaklKUW82Rk9l?=
+ =?utf-8?B?eEFmdktSbDZjei94OWpjVnI1ZHRWYkpHc0ExVE5WUEx2YzRQUkdjTEdzd2gr?=
+ =?utf-8?B?UHEzTGFYc0tmSVFna1h4WURuNnZhc0VLbHF5cXQzd0dlYk8xZmpBZ1RkZnY4?=
+ =?utf-8?B?VW5OL0JmUU1SM2hsNitGUERKTXhZODRLZ2Q4Z3V5c3JOZzluMTdLZDBIZE9V?=
+ =?utf-8?B?NWQyalhWNmR4RkNNS0JKSkEyK3R1Wk1Oa1dBVDcyenlWTGtSSjUxTnM3TzBZ?=
+ =?utf-8?B?R2l4M1p6VGxyeWpzOUFCS1dVbHBNNkZSTlpocG1iZEtjbU5pRlFoRW80Nk5O?=
+ =?utf-8?B?L0hqOWFYUmowV1Y4ME4yLy9QWDg2YWdWSElEcjAvMDRleEtQcFpPUVZDTmd4?=
+ =?utf-8?B?c1BhV2N3SzRmSkFZSTdqWXp3TjNFZG0xZE1BaUVsQSt4bjlZaWZ0cTJMSWE3?=
+ =?utf-8?B?VmRJQ2FvN1NCajBCa0QyV09jQUNPWDlMck53RkdxM2Mrc2pOQzRRaHlSYWpl?=
+ =?utf-8?B?Wmk3eVRySDJhMllNZ3FIdkVhbUI1Q2hoQkgvTDJBcDRKeHhrTU9uNzh3VWRX?=
+ =?utf-8?B?NEZiNFZ1NkZXcXpMZE5YK2VJWXVhRmFXSStaY2x5eWdRWGp2OVV0ZmRRemhY?=
+ =?utf-8?B?aFFpOUhpb3RsYW9CQmFFOUhqUGdoQ3BpN0hGeXN0ZkpML01Ha0xlVitRNktD?=
+ =?utf-8?B?SHE3R1ZZeHVkQTVrelZyZGlVejJrV0tBcXdNd0ErMjBzSDJJMkxBb1NtM3Yy?=
+ =?utf-8?B?d1FacFQ0bm5UTWZqRHMvdWdVcEN6ZVVsdDVZZWV3MzhzMzJ6dzdzV2RYVlNq?=
+ =?utf-8?B?SjRkRmpKS1owYWtwWkRVWmtoQnVQcUpZV2p2SVFYdWtwaUZueUtOY3JwbUZV?=
+ =?utf-8?Q?1qVzQaxrNwnOCEd1Ff5Y+TFs+3yHyXtZdudLMZewku9el?=
+X-MS-Exchange-AntiSpam-MessageData-1: FHbZxZB1Y57qZLnpxP6EkTXmIh/6kNMcI6E=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bc519bc-d405-4bd8-a540-08dea461e8c8
+X-MS-Exchange-CrossTenant-AuthSource: GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 13:29:56.9611
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 13:35:55.9698
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NrB/2WBkxTsifVL3k4mOyUHrDSoc5SyBx0tmULNhTqFeOpD07J423egJ1TVkc49r8/aMzPsUxfdmNbSfzf9NKQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6729
+X-MS-Exchange-CrossTenant-UserPrincipalName: T1Whgho0/j8wd7jxhTn9wyzt1iLzLj+ixC6gxn2yakfm4kfpkuSZnzg67YZkmylbzgiRxVEgbpOWzqd6DJ07EgH54hH8M7UgAJN/aLmdn1M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0929
 
-On Mon Apr 27, 2026 at 3:41 AM BST, Shashank Balaji wrote:
-> module_kset is initialized in param_sysfs_init(), a subsys_initcall. A nu=
-mber
-> of platform drivers register themselves prior to subsys_initcalls
-> (tegra194_cbb_driver registers in a pure_initcall, for example). With an
-> upcoming patch ("driver core: platform: set mod_name in driver registrati=
-on")
-> that sets their mod_name in struct device_driver, lookup_or_create_module=
-_kobject()
-> will be called for those drivers, which calls kset_find_obj(module_kset, =
-mod_name).
-> This causes a null deref because module_kset isn't alive yet.
->
-> Fix this by initializing module_kset in do_basic_setup() before do_initca=
-lls().
-> Modernize the pr_warn while we're at it.
->
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Suggested-by: Gary Guo <gary@garyguo.net>
+kernfs_fop_read_iter() and kernfs_fop_mmap() dereference of->kn->flags
+without holding an active reference on the kernfs node. If the node is
+removed concurrently, this leads to a use-after-free:
 
-I didn't suggest this change :)
+[  448.037888] Unable to handle kernel paging request at virtual address ffffff821d8cedf0
+[  448.093213] Mem abort info:
+[  448.104535]   ESR = 0x0000000096000005
+[  448.113391]   EC = 0x25: DABT (current EL), IL = 32 bits
+[  448.126411]   SET = 0, FnV = 0
+[  448.130758]   EA = 0, S1PTW = 0
+[  448.134268]   FSC = 0x05: level 1 translation fault
+[  448.140335] Data abort info:
+[  448.143275]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+[  448.150223]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+[  448.155668]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[  448.161233] swapper pgtable: 4k pages, 39-bit VAs, pgdp=00000000afab8000
+[  448.168835] [ffffff821d8cedf0] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
+[  448.178817] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+[  448.284717] pc : kernfs_fop_read_iter+0x1c/0x1ac
+[  448.289416] lr : vfs_read+0x1c0/0x2a0
+[  448.368374] Call trace:
+[  448.370855]  kernfs_fop_read_iter+0x1c/0x1ac
+[  448.375156]  vfs_read+0x1c0/0x2a0
+[  448.378508]  ksys_read+0x6c/0x100
+[  448.381901]  __arm64_sys_read+0x18/0x20
+[  448.385768]  invoke_syscall.constprop.0+0x4c/0xe0
+[  448.390502]  do_el0_svc+0x3c/0xb8
+[  448.393898]  el0_svc+0x18/0x4c
+[  448.396990]  el0t_64_sync_handler+0x118/0x124
+[  448.401377]  el0t_64_sync+0x14c/0x150
 
-I suggested `pure_initcall`, which is just a one line change.
+Use kernfs_get_active_of() to obtain an active reference that also
+checks the released flag, consistent with other of->kn accesses in
+fs/kernfs/file.c. These paths were not covered when
+kernfs_get_active_of() was introduced in commit 3c9ba2777d6c8
+("kernfs: Fix UAF in polling when open file is released").
 
-diff --git a/kernel/params.c b/kernel/params.c
-index 74d620bc2521..ac088d4b09a9 100644
---- a/kernel/params.c
-+++ b/kernel/params.c
-@@ -957,7 +957,7 @@ static int __init param_sysfs_init(void)
-=20
- 	return 0;
+Fixes: 4eaad21a6ac9 ("kernfs: implement ->read_iter")
+Cc: stable <stable@kernel.org>
+Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tech>
+Signed-off-by: David Nyström <david.nystrom@est.tech>
+---
+ fs/kernfs/file.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index 1163aa7697384..6a52d24a63156 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -293,7 +293,16 @@ static ssize_t kernfs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 
+ static ssize_t kernfs_fop_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ {
+-	if (kernfs_of(iocb->ki_filp)->kn->flags & KERNFS_HAS_SEQ_SHOW)
++	struct kernfs_open_file *of = kernfs_of(iocb->ki_filp);
++	bool has_seq;
++
++	if (!kernfs_get_active_of(of))
++		return -ENODEV;
++
++	has_seq = of->kn->flags & KERNFS_HAS_SEQ_SHOW;
++	kernfs_put_active_of(of);
++
++	if (has_seq)
+ 		return seq_read_iter(iocb, iter);
+ 	return kernfs_file_read_iter(iocb, iter);
  }
--subsys_initcall(param_sysfs_init);
-+pure_initcall(param_sysfs_init);
-=20
- /*
-  * param_sysfs_builtin_init - add sysfs version and parameter
-
-pure_initcall is level 0 so it happens before all other init calls. Does it=
- not
-work?
-
-Best,
-Gary
-
-> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> ---
->  include/linux/module.h |  4 ++++
->  init/main.c            |  1 +
->  kernel/params.c        | 21 +++++++++------------
->  3 files changed, 14 insertions(+), 12 deletions(-)
->
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index 7566815fabbe..6478596e8f9f 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -886,6 +886,10 @@ static inline void module_for_each_mod(int(*func)(st=
-ruct module *mod, void *data
->  #ifdef CONFIG_SYSFS
->  extern struct kset *module_kset;
->  extern const struct kobj_type module_ktype;
-> +
-> +void param_sysfs_init(void);
-> +#else
-> +static inline void param_sysfs_init(void) {}
->  #endif /* CONFIG_SYSFS */
-> =20
->  #define symbol_request(x) try_then_request_module(symbol_get(x), "symbol=
-:" #x)
-> diff --git a/init/main.c b/init/main.c
-> index 96f93bb06c49..01552c6b62ff 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -1486,6 +1486,7 @@ static void __init do_basic_setup(void)
->  	ksysfs_init();
->  	driver_init();
->  	init_irq_proc();
-> +	param_sysfs_init();
->  	do_ctors();
->  	do_initcalls();
->  }
-> diff --git a/kernel/params.c b/kernel/params.c
-> index 74d620bc2521..d1e3934fb3a7 100644
-> --- a/kernel/params.c
-> +++ b/kernel/params.c
-> @@ -942,22 +942,19 @@ const struct kobj_type module_ktype =3D {
->  /*
->   * param_sysfs_init - create "module" kset
->   *
-> - * This must be done before the initramfs is unpacked and
-> - * request_module() thus becomes possible, because otherwise the
-> - * module load would fail in mod_sysfs_init.
-> + * Must run before:
-> + * - do_initcalls(): some drivers register during initcalls and rely on
-> + *   module_kset existing for their sysfs module symlink.
-> + * - rootfs_initcall (initramfs unpack): request_module() becomes possib=
-le.
-> + *   But if module_kset is null, module load would fail in mod_sysfs_ini=
-t(),
-> + *   causing request_module() to fail.
->   */
-> -static int __init param_sysfs_init(void)
-> +void __init param_sysfs_init(void)
->  {
->  	module_kset =3D kset_create_and_add("module", &module_uevent_ops, NULL)=
-;
-> -	if (!module_kset) {
-> -		printk(KERN_WARNING "%s (%d): error creating kset\n",
-> -			__FILE__, __LINE__);
-> -		return -ENOMEM;
-> -	}
-> -
-> -	return 0;
-> +	if (!module_kset)
-> +		pr_warn("Error creating module kset\n");
->  }
-> -subsys_initcall(param_sysfs_init);
-> =20
->  /*
->   * param_sysfs_builtin_init - add sysfs version and parameter
+@@ -458,6 +467,7 @@ static int kernfs_fop_mmap(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct kernfs_open_file *of = kernfs_of(file);
+ 	const struct kernfs_ops *ops;
++	bool has_mmap;
+ 	int rc;
+ 
+ 	/*
+@@ -467,7 +477,13 @@ static int kernfs_fop_mmap(struct file *file, struct vm_area_struct *vma)
+ 	 * without grabbing @of->mutex by testing HAS_MMAP flag.  See the
+ 	 * comment in kernfs_fop_open() for more details.
+ 	 */
+-	if (!(of->kn->flags & KERNFS_HAS_MMAP))
++	if (!kernfs_get_active_of(of))
++		return -ENODEV;
++
++	has_mmap = of->kn->flags & KERNFS_HAS_MMAP;
++	kernfs_put_active_of(of);
++
++	if (!has_mmap)
+ 		return -ENODEV;
+ 
+ 	mutex_lock(&of->mutex);
+-- 
+2.43.0
 
