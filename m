@@ -1,113 +1,122 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9DB4370D75
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 10:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8683039A071
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 10:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777286973; cv=none; b=XoS7+wCc4qaMH6MYKQWdJ3/w39c3ZBQRXZA9X/YoMYmq1DH8uGX7ErAnO8vYdRHqW326+8Js4E5OXjeue4YauEHqo7rOapAg6EnY7eG6volE9FjDEL6znYGneDxnK8WdEp1P/18Nl+kMkcikU7aQQNsJNjTCGy6t/twb2uqdQA0=
+	t=1777287131; cv=none; b=ZiYcgbbNqHp2uzGL7I85pGPUDGdW9Yv3/yYZqi4+6UCPFOczrjxJx3LGh/bhgYbRutat+JqWYU1y9pN5r/gh8dWHrr9H589k/eapcKMFqHRWvpyA1wB+xKGGThFMwbdXXvl0w+jntY3u3IKIR70CcZ6YC4Yw7oJ9PSNGHHhBoCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777286973; c=relaxed/simple;
-	bh=1NDqOAekPri/m4O8impoBtCDJFr+DiW4Ny0SINZ8vm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uaThou3AFDRrOkYh3bImrS2dI855wa9WuRrA+fAXWzvrvkv5OGTHIQFHgq4HIxPJJs0VUOv6QPp+J8itABHN0yosH927Tg7LssccF5Ji1ZDc8f5EbzpoT74eDN2Yywp5WxjnJVns+zQPJTgCIJa7VkiwNe2N1bsmLhRwd82Y95E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=HybofPmE; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1777287131; c=relaxed/simple;
+	bh=4Q8RFZdoNcvjckQIC2L/uAHEUvkW3bgyntp44C+NCys=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=PBSHfxtuYFzLtPzSwEqaBhI1n7d6fZ0Kifzp8Am57pHHpQaQiX4ltK59hnRcQPsrSAGDFISXzWiPfqj1SvHg9cP77sv8+8P8lwH9JlJyw/LGDjcQkXB2dPsI7Uzy2aHP0WB5yF2tE51DO2MX6F80ciiuJXdrBArqjo1rHg+xue4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FfxgZOqt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j0vJanpD; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="HybofPmE"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87BBB1684;
-	Mon, 27 Apr 2026 03:49:24 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9BD633F62B;
-	Mon, 27 Apr 2026 03:49:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777286970; bh=1NDqOAekPri/m4O8impoBtCDJFr+DiW4Ny0SINZ8vm4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HybofPmElUWxhJiHsWQ0t8uWuAGLg77UZdYEmqbP0Vvm0a9mwb+0sCN01sSw/7Ah2
-	 7Q409dAH+foOqVQ2Lo3Gun2f++NmwGlOfy5rXY9PrLwwi/GgeNHzZv1y9+pIPJxEaG
-	 rNrCwutKSV6vMlGLmesc0H4+GCSPYVfFvnAbT2ko=
-Date: Mon, 27 Apr 2026 11:49:14 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
-	Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] coresight: pass THIS_MODULE implicitly through a
- macro
-Message-ID: <20260427104914.GG929984@e132581.arm.com>
-References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
- <20260427-acpi_mod_name-v4-2-22b42240c9bf@sony.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FfxgZOqt";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j0vJanpD"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 143071D000F0;
+	Mon, 27 Apr 2026 06:52:07 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Mon, 27 Apr 2026 06:52:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1777287127;
+	 x=1777373527; bh=4Q8RFZdoNcvjckQIC2L/uAHEUvkW3bgyntp44C+NCys=; b=
+	FfxgZOqt0HsjJNzo+JunHXzEHqRA7pPzyOcmEyOYh90P/StS0FXWQYEvRv7BYQnz
+	yk/r0+9nlFhfnYnG4bQkKmMqawcZGR52gcmV6JNPQ1QVBoWQs3tvjwdjXi1wsVOL
+	cqPnRvKxjYrkO1GAA6ZNWdzJtPcJ7drk/9NRKAVG131Cx6kCZe263/DH8MNWDzal
+	KqFWkHyJuprbniGbS0RPfsI5Gcot8nKGxSYz2R0AmALs3Crq88uhVGmHYhBVebzM
+	zlPmC23A1eEmIBUsfgsH1RGeVkFMjMO3NeAIhPHgvs2WP8SF2+Bdh3mgpO//SS9j
+	Rrt1xK3bFN59BocdCTdKSg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777287127; x=
+	1777373527; bh=4Q8RFZdoNcvjckQIC2L/uAHEUvkW3bgyntp44C+NCys=; b=j
+	0vJanpDpiGgsZQjn9xyBOKo0bTBwdr/95fPdkw2e9NifUdVOboF+AwiYhBwSzAMy
+	q71HGl6A3UgueBQZQH8qKpm4Vc1mSUN5IDvwzrylz3SdB+LF4f6p5zfSd7kaqudJ
+	jSi8RSwrEMqjnomS9rTZBLQhRQHJyN9fCaZGWpcuutHS7b8CKN0i8pQysL1AYUXj
+	9WSTjmnro3x+yUgvR8KXrDaK/4LsLWv8dKoIIpV5f0U4QyR5dlP8Q+GtvOlcGbw1
+	8yqZARZeLCxFQdAm0YCZT+SPnU/lNK9I64V01W5Z1iTmJ6VJQLLIIOiLv/cK/gvw
+	S4saNsdM7bhsIhxCk/6fw==
+X-ME-Sender: <xms:1j_vadm9Zu6S55StWER-9bJtpTiVnskxOD6gPD8kSdUIxo5VEH0E8w>
+    <xme:1j_vaTqf6t2BJasIXIEETOK1FxTOiDoP5LQ2CcPt4dkueguCOTozf8B-bZqlXW-cz
+    HQkCOsPo_zalZ5bzoHlQNjxq1hvV2VbU9nGEVqQ4xRHK8VpxkW3XcA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejkeehtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedvtddpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtth
+    hopehtohhnhiesrghtohhmihguvgdrtghomhdprhgtphhtthhopehkhhhilhhmrghnsegs
+    rgihlhhisghrvgdrtghomhdprhgtphhtthhopegujhhrshgtrghllhihsehgmhgrihhlrd
+    gtohhmpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhhhovhesghhmrghilhdrtgho
+    mhdprhgtphhtthhopehjmhhkrhiihihsiihtsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+    eprggrrhhordhkohhskhhinhgvnhesihhkihdrfhhipdhrtghpthhtohepsghrghhlsehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:1j_vaZ1WkpDZ1t2_8yc0PWrsmun432d_6BkzTZgGorggRhSwbZLY9w>
+    <xmx:1j_vadRFFB280YI8YQJ5Efsr0_50NyfFMzuM9GsF9rq_RDdZrANoNQ>
+    <xmx:1j_vaearhcehiiA4p6ZWS1mAXQOLj-FgKuVrCq1ar0qndn1-tGQbrw>
+    <xmx:1j_vaTDcKw5MER7CmioDf5riajU40HSQLsvxYG8WHhukFqoThl2MKA>
+    <xmx:1z_vaVax4mtKhdz5qnV-Zlnjuw-kGX1r05gOx_oJbZLu7Yr_KywLrwxs>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id AB86C70006A; Mon, 27 Apr 2026 06:52:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427-acpi_mod_name-v4-2-22b42240c9bf@sony.com>
+X-ThreadId: Ah9Y8yUapS6-
+Date: Mon, 27 Apr 2026 12:50:33 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Danilo Krummrich" <dakr@kernel.org>,
+ "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+ "Daniel Scally" <djrscally@gmail.com>,
+ "Heikki Krogerus" <heikki.krogerus@linux.intel.com>,
+ "Sakari Ailus" <sakari.ailus@linux.intel.com>,
+ "Aaro Koskinen" <aaro.koskinen@iki.fi>,
+ "Janusz Krzysztofik" <jmkrzyszt@gmail.com>,
+ "Tony Lindgren" <tony@atomide.com>, "Russell King" <linux@armlinux.org.uk>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Kevin Hilman" <khilman@baylibre.com>
+Cc: "Bartosz Golaszewski" <brgl@kernel.org>, driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Linux-OMAP <linux-omap@vger.kernel.org>
+Message-Id: <61df85c4-d5c1-4109-bbcf-fbb6b681eefe@app.fastmail.com>
+In-Reply-To: 
+ <20260427-nokia770-gpio-swnodes-v6-2-b693296c1985@oss.qualcomm.com>
+References: 
+ <20260427-nokia770-gpio-swnodes-v6-0-b693296c1985@oss.qualcomm.com>
+ <20260427-nokia770-gpio-swnodes-v6-2-b693296c1985@oss.qualcomm.com>
+Subject: Re: [PATCH v6 2/3] ARM: omap1: use platform_device_register_full() for GPIO
+ devices on OMAP 16xx
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Shashank,
+On Mon, Apr 27, 2026, at 12:46, Bartosz Golaszewski wrote:
+> Ahead of changes attaching GPIO controller's software nodes referenced
+> from the Nokia 770 board files to their target devices, switch the
+> method for registering the platform devices to the
+> platform_device_register_full() variant. This is done to leverage the
+> new swnode field of struct platform_device_info which automate the
+> software node's registration and assignment.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-On Mon, Apr 27, 2026 at 11:41:22AM +0900, Shashank Balaji wrote:
-
-[...]
-
-> --- a/drivers/hwtracing/coresight/coresight-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-core.c
-> @@ -1694,7 +1694,7 @@ static void __exit coresight_exit(void)
->  module_init(coresight_init);
->  module_exit(coresight_exit);
->  
-> -int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
-> +int __coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
->  			  struct platform_driver *pdev_drv, struct module *owner)
->  {
->  	int ret;
-> @@ -1713,7 +1713,7 @@ int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
->  	amba_driver_unregister(amba_drv);
->  	return ret;
->  }
-> -EXPORT_SYMBOL_GPL(coresight_init_driver);
-> +EXPORT_SYMBOL_GPL(__coresight_init_driver);
-
-For consistency, we usually use prefix "__" for internal functions.
-
-Could you rename this function as:
-
-  int coresight_init_driver_with_owner(..., struct module *owner);
-
-> +#define coresight_init_driver(drv, amba_drv, pdev_drv) \
-> +	__coresight_init_driver(drv, amba_drv, pdev_drv, THIS_MODULE)
-> +int __coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
->  			  struct platform_driver *pdev_drv, struct module *owner);
-
-Please first function declaration, then followed by the macro to
-define coresight_init_driver().
-
-With above changes:
-
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
