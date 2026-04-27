@@ -1,279 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234BE3D3D08;
-	Mon, 27 Apr 2026 14:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63553CD8AF
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 14:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777298405; cv=none; b=FYsRUiq5SQWKj6gWsVjX+ouXB0ZyNnXWFEtraDoYxKa8wc3BhpaOCggCaol8UdqCHmgeLTheDi3r/OrxUnRECPknpa6DTml+GcOJWxefeiw4bc5mNcCVtd0k5kTHQHYfVe0Hss7beP/1qoqT8x6NTEwlAduW8WFvyK4TQuxstwg=
+	t=1777299230; cv=none; b=NzeTS9Oo1zuPs8wDPadZv5plANpwD5kNuCOajv42EDU946T+tchVQXRBmfCCRzOyqqEh4yofFRuiOpzODDg/sYg0irD5b2MmWoeAJuL97KWzzuOa+1MYSyLDYDyWAMgzntsfnYpfdswcSxKhmKXB38aoIbP2FpV7LVikTUgJ0Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777298405; c=relaxed/simple;
-	bh=1M7X8jOCHkeLS6fn4xzZWtWs67rOTDG2AL/8546NOlk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FATFuPpyLc+BACxXi7d8AGSdVfx8Og1ECWGmdTDdWetNhpqCRVIRZiHEqLQbyiiqSHYpjgoU8Nz9x7qo5Oa3hO5+sR1/jJ/7DHWNJGJYqGtVzvo+di7w2oGs/c1k3+uzYK8viIILpX53DTmxG8S8oGBwUzFiPzRG1oXk74f4J6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XZVjs1KP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777299230; c=relaxed/simple;
+	bh=qLzwO8OUrBcbSicWoFk1sRnTUDK6pTn7gwEERvmGTGw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oaYTo1om2FwztTBYJuGMpVs8oYIqcS1HhIi7e96USe9hJk5dmhmIrU0sNyQfXK0WB5+ngEF1KRnB2UCsefKXLl5C9N88HRCWhg/QPO+yJLAFQiYOJQZEfN6gJGqRlYVy9cGySlomFLa7LSoESyBu4dgzd5x8gusPYhUBB61A3bU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lwObmfH6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XZVjs1KP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58B7AC19425;
-	Mon, 27 Apr 2026 14:00:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lwObmfH6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B25C19425
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 14:13:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777298405;
-	bh=1M7X8jOCHkeLS6fn4xzZWtWs67rOTDG2AL/8546NOlk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XZVjs1KPQbSj9+RUKCOXJI1F/eTohGWVETAO4evJbYcbtUxFKs5RJynM0j9ejwFAf
-	 0jgut4X+sdR7AToiMV9NyVJl5tkD79BLCfYXUxyXjECd/hL8ODyNqSF48s4vivIfUD
-	 epZxGxpb2jvXFxQeSGXRTer8E0Vq/uzHQU4hBUn5Rc1N7Sopw/wxShbS+JzaFFYs1l
-	 o7FtLFoLTXY5hqzAg4y6VOYt6zvm/X82ysLFmhTVB4Zpk41E4/P0YTZY/Bvdu/l4hr
-	 GT4HaTFNfyCSjHS3xnMSeICctwD16/ZyGhKW6a91+d1Aup5GRwcJfgs7Rt19gA4phi
-	 qaAemgtOjOVJA==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>,
-	tzungbi@kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>
-Subject: [PATCH v9 9/9] platform/chrome: cros_ec_chardev: Consume cros_ec_device via revocable
-Date: Mon, 27 Apr 2026 21:58:41 +0800
-Message-ID: <20260427135841.96266-10-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260427135841.96266-1-tzungbi@kernel.org>
-References: <20260427135841.96266-1-tzungbi@kernel.org>
+	s=k20201202; t=1777299230;
+	bh=qLzwO8OUrBcbSicWoFk1sRnTUDK6pTn7gwEERvmGTGw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lwObmfH6iqNrJwZVI7acHyfKt5cFUcANvX2VtZ5Y3XWSd0ohXFwbQRG8vc3MuFKBV
+	 EyztUqwO4ncRa7sBtEc+UsUCiS2tpffLxRvrvdTJXo6j94U7a+NqdCydFU9wAuQB+s
+	 krHdGJBoCLIPcfD9ooQrJnXT1WlN2tL7rQyZbyFv9f5UvXBVM4fWpukrHF+USCi2UF
+	 akSoaZ3RjUjPX6a81Dyvt/XIrSfIYx9FZXNRuqLr/N5ic7qN7uoNZ0CpAtFDfCDW8i
+	 uX7Xy8cUgofNOWdx/tgL/mNq9F903tg6VO1Jq4VsmTWIxhZ2AQlq8GOc6AeNKzRLir
+	 X9fpyEuV4NTQw==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a283c44478so16307165e87.3
+        for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 07:13:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+1dLscrEjqZrC/AE3HzGWAled3nXqukbQAIF5F2VA3z5AehG/IK06JHWuPF2DWsUpcn6gIjdJgB3fy8Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5z+Bim4ewLXOjo+l8SkFfn+bmXtmkmJGDNKgX1/QDlYpDpDKM
+	N+DqNwCPadRewXapYIfT4fRbyglk9Et3pemmVz3BVf+IiRaITlS+Mc8PkA4oMGjh4fNcQs6s8j2
+	/lRAIetrZXRXQ8RPQfV+ueT8kr/cHjqjj7W7+ksu8Hw==
+X-Received: by 2002:a05:6512:31d6:b0:5a3:e605:ee4a with SMTP id
+ 2adb3069b0e04-5a4172e3196mr17485635e87.44.1777299228688; Mon, 27 Apr 2026
+ 07:13:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260423-swnode-remove-on-dev-unreg-v2-0-0e5213cde2ed@oss.qualcomm.com>
+ <20260423-swnode-remove-on-dev-unreg-v2-1-0e5213cde2ed@oss.qualcomm.com>
+ <aepWdKzd8GPeayNJ@google.com> <CAMRc=Mcq8rP-AerT-A2Az_W-rsMFZe8_rQDB5mKOHALxEn9uUw@mail.gmail.com>
+ <ae2TMiUFAFd0-VuX@google.com>
+In-Reply-To: <ae2TMiUFAFd0-VuX@google.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 27 Apr 2026 16:13:36 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MdR+xKCP5e+RiF-MvHvD9-z-Vxno=0B7nmOm+1oS6TDMQ@mail.gmail.com>
+X-Gm-Features: AVHnY4Is8uMh0u0DwWBO9FyOj1q1VAxRLgjTv2wS4mgvG41HNICSK2XQinslgZE
+Message-ID: <CAMRc=MdR+xKCP5e+RiF-MvHvD9-z-Vxno=0B7nmOm+1oS6TDMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] driver core: platform: remove software node on release()
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The cros_ec_chardev driver provides a character device interface to the
-ChromeOS EC.  A file handle to this device can remain open in userspace
-even if the underlying EC device is removed.
+On Sun, Apr 26, 2026 at 6:24=E2=80=AFAM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> Still please check sashiko review - I think some of the concerns about
+> error unwinding are correct.
+>
 
-This creates a classic use-after-free vulnerability.  Any file operation
-(ioctl, release, etc.) on the open handle after the EC device has gone
-would access a stale pointer, leading to a system crash.
+Sigh... I hate the walls of text it generates. Can we set it to
+"caveman mode"? :)
 
-To prevent this, leverage the revocable and convert cros_ec_chardev to a
-resource consumer of cros_ec_device.
+The first part of the review - while valid - already has a precedence
+with this function. If someone allocates the platform device with
+platform_device_alloc() and assigns the address of a static structure
+as its platform data, on release() we'll unconditionally call kfree()
+on it. The user must not assign platform data directly but use the
+dedicated platform_device_add_data() helper. We could consider
+providing platform_device_add_software_node() but since there are no
+users, let's cross that bridge when we get there?
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-v9:
-- New to the series.
-- Change revocable API usages accordingly.
+For the second point: sashiko's right, we need to bump the refcount earlier=
+.
 
-v4 - v8:
-- Doesn't exist.
+For the third: I need to look into it deeper. I thought my second test
+case from patch 3/3 checks that use-case but the review makes sense.
 
-v3: https://lore.kernel.org/all/20250912081718.3827390-6-tzungbi@kernel.org
-- Use specific labels for different cleanup in cros_ec_chardev_open().
-
-v2: https://lore.kernel.org/all/20250820081645.847919-6-tzungbi@kernel.org
-- Rename "ref_proxy" -> "revocable".
-- Fix a sparse warning by removing the redundant __rcu annotation.
-
-v1: https://lore.kernel.org/all/20250814091020.1302888-4-tzungbi@kernel.org
-
----
- drivers/platform/chrome/cros_ec_chardev.c | 80 +++++++++++++++++------
- 1 file changed, 61 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-index 002be3352100..c597dc92d519 100644
---- a/drivers/platform/chrome/cros_ec_chardev.c
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -22,6 +22,7 @@
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
- #include <linux/poll.h>
-+#include <linux/revocable.h>
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/uaccess.h>
-@@ -32,7 +33,7 @@
- #define CROS_MAX_EVENT_LEN	PAGE_SIZE
- 
- struct chardev_priv {
--	struct cros_ec_device *ec_dev;
-+	struct revocable *rev;
- 	struct notifier_block notifier;
- 	wait_queue_head_t wait_event;
- 	unsigned long event_mask;
-@@ -55,6 +56,7 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	};
- 	struct ec_response_get_version *resp;
- 	struct cros_ec_command *msg;
-+	struct cros_ec_device *ec_dev;
- 	int ret;
- 
- 	msg = kzalloc(sizeof(*msg) + sizeof(*resp), GFP_KERNEL);
-@@ -64,12 +66,19 @@ static int ec_get_version(struct chardev_priv *priv, char *str, int maxlen)
- 	msg->command = EC_CMD_GET_VERSION + priv->cmd_offset;
- 	msg->insize = sizeof(*resp);
- 
--	ret = cros_ec_cmd_xfer_status(priv->ec_dev, msg);
--	if (ret < 0) {
--		snprintf(str, maxlen,
--			 "Unknown EC version, returned error: %d\n",
--			 msg->result);
--		goto exit;
-+	revocable_try_access_with_scoped(priv->rev, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
-+		}
-+
-+		ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-+		if (ret < 0) {
-+			snprintf(str, maxlen,
-+				 "Unknown EC version, returned error: %d\n",
-+				 msg->result);
-+			goto exit;
-+		}
- 	}
- 
- 	resp = (struct ec_response_get_version *)msg->data;
-@@ -92,10 +101,15 @@ static int cros_ec_chardev_mkbp_event(struct notifier_block *nb,
- {
- 	struct chardev_priv *priv = container_of(nb, struct chardev_priv,
- 						 notifier);
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct ec_event *event;
--	unsigned long event_bit = 1 << ec_dev->event_data.event_type;
--	int total_size = sizeof(*event) + ec_dev->event_size;
-+	unsigned long event_bit;
-+	int total_size;
-+
-+	revocable_try_access_or_return_err(priv->rev, ec_dev, NOTIFY_DONE);
-+
-+	event_bit = 1 << ec_dev->event_data.event_type;
-+	total_size = sizeof(*event) + ec_dev->event_size;
- 
- 	if (!(event_bit & priv->event_mask) ||
- 	    (priv->event_len + total_size) > CROS_MAX_EVENT_LEN)
-@@ -166,7 +180,8 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 	if (!priv)
- 		return -ENOMEM;
- 
--	priv->ec_dev = ec_dev;
-+	priv->rev = ec_dev->its_rev;
-+	revocable_get(priv->rev);
- 	priv->cmd_offset = ec->cmd_offset;
- 	filp->private_data = priv;
- 	INIT_LIST_HEAD(&priv->events);
-@@ -178,6 +193,7 @@ static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
- 					       &priv->notifier);
- 	if (ret) {
- 		dev_err(ec_dev->dev, "failed to register event notifier\n");
-+		revocable_put(priv->rev);
- 		kfree(priv);
- 	}
- 
-@@ -251,11 +267,13 @@ static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
- static int cros_ec_chardev_release(struct inode *inode, struct file *filp)
- {
- 	struct chardev_priv *priv = filp->private_data;
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct ec_event *event, *e;
- 
--	blocking_notifier_chain_unregister(&ec_dev->event_notifier,
--					   &priv->notifier);
-+	revocable_try_access_or_skip_scoped(priv->rev, ec_dev)
-+		blocking_notifier_chain_unregister(&ec_dev->event_notifier,
-+						   &priv->notifier);
-+	revocable_put(priv->rev);
- 
- 	list_for_each_entry_safe(event, e, &priv->events, node) {
- 		list_del(&event->node);
-@@ -273,6 +291,7 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- {
- 	struct cros_ec_command *s_cmd;
- 	struct cros_ec_command u_cmd;
-+	struct cros_ec_device *ec_dev;
- 	long ret;
- 
- 	if (copy_from_user(&u_cmd, arg, sizeof(u_cmd)))
-@@ -299,10 +318,17 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 	}
- 
- 	s_cmd->command += priv->cmd_offset;
--	ret = cros_ec_cmd_xfer(priv->ec_dev, s_cmd);
--	/* Only copy data to userland if data was received. */
--	if (ret < 0)
--		goto exit;
-+	revocable_try_access_with_scoped(priv->rev, ec_dev) {
-+		if (!ec_dev) {
-+			ret = -ENODEV;
-+			goto exit;
-+		}
-+
-+		ret = cros_ec_cmd_xfer(ec_dev, s_cmd);
-+		/* Only copy data to userland if data was received. */
-+		if (ret < 0)
-+			goto exit;
-+	}
- 
- 	if (copy_to_user(arg, s_cmd, sizeof(*s_cmd) + s_cmd->insize))
- 		ret = -EFAULT;
-@@ -313,10 +339,12 @@ static long cros_ec_chardev_ioctl_xcmd(struct chardev_priv *priv, void __user *a
- 
- static long cros_ec_chardev_ioctl_readmem(struct chardev_priv *priv, void __user *arg)
- {
--	struct cros_ec_device *ec_dev = priv->ec_dev;
-+	struct cros_ec_device *ec_dev;
- 	struct cros_ec_readmem s_mem = { };
- 	long num;
- 
-+	revocable_try_access_or_return(priv->rev, ec_dev);
-+
- 	/* Not every platform supports direct reads */
- 	if (!ec_dev->cmd_readmem)
- 		return -ENOTTY;
-@@ -370,11 +398,25 @@ static const struct file_operations chardev_fops = {
- #endif
- };
- 
-+static void cros_ec_chardev_free(void *data)
-+{
-+	struct revocable *rev = data;
-+
-+	revocable_put(rev);
-+}
-+
- static int cros_ec_chardev_probe(struct platform_device *pdev)
- {
- 	struct cros_ec_dev *ec = dev_get_drvdata(pdev->dev.parent);
- 	struct cros_ec_platform *ec_platform = dev_get_platdata(ec->dev);
-+	struct revocable *rev = ec->ec_dev->its_rev;
- 	struct miscdevice *misc;
-+	int ret;
-+
-+	revocable_get(rev);
-+	ret = devm_add_action_or_reset(&pdev->dev, cros_ec_chardev_free, rev);
-+	if (ret)
-+		return ret;
- 
- 	/* Create a char device: we want to create it anew */
- 	misc = devm_kzalloc(&pdev->dev, sizeof(*misc), GFP_KERNEL);
--- 
-2.51.0
-
+Bart
