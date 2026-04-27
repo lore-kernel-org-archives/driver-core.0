@@ -1,164 +1,76 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B4B397E86
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 08:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E2E1A8F84
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 08:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277634; cv=none; b=LljthPUeifAGm8k3HVeQdvyveI6mAn14iJSvB45of1WZDfeeefaeQblx4OYcA0cxIYPGMcJezQFAXKgftgoNU42ot5ZVx9ccCKNH6X7EFRhQN7QE5GMbpXLC999CErPLF8cQ0ZWg7km0GC/UdnOUlKRtiipF9n657dWJMwfmJOI=
+	t=1777277768; cv=none; b=OwJYjAfOCWL2A86hspfYXpxst15g+ey8sDfHj+rLvWHNryNV59wqKTelsMi3oE/JBIPcFKuINrSlq7HuJR7g7Wj9EP3JXejHuBSEZF2beBgUz1ZyMpYiPF3PmLSr9FPZT6XXRB3NiWYTR1W7Q72FcF+SN0lHVuebouwZB9tepsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777277634; c=relaxed/simple;
-	bh=kyja/qOn+Gep0NNihkLykCIrfJKYmPZmQ+16pvFk/g8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uflfTviY3bTquqnURBSDXQICkecvRdCN1/4CggiPjW16bOu9GzS98ufsEk30uMKJYq1O3WDZn7D7mw1230UsG6CwVydgLcGXNE9fE4I1TtY7jsy/bvO7N3iZAnXcJEQHfXGFValniu7VdG2oBo6bwOegIr5NK57l4rICF/PqpdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0z0jaFwz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1mckzUnH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0z0jaFwz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1mckzUnH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1777277768; c=relaxed/simple;
+	bh=6D6WI9h/HgOWdKUs0QWHirK2fOBqO/lvTMizpPavzhQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m06Tt+6A0L/9azDmPpeT47D7EcLH+MoLx7gZFu8Beob/RzM5shDIL3PmikqCWVq4n6r8f4Nfvq5i1eM2GD0C8rWL7jCWtdXfn0BD91mXMu7Wt9mhsJYk3i3rB8s1l2lPg4LyF47W7x1DVgJA7omR5xyBTnqddJ9A6SPX7IJhqdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQ+LjWUr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0z0jaFwz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1mckzUnH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0z0jaFwz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1mckzUnH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D30B65BCF0;
-	Mon, 27 Apr 2026 08:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777277630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AuQV9jJyH30aDM2Bz1IuN9VTNix0UN5WEuQpT3Fpupc=;
-	b=0z0jaFwzAjjEyKQxnVCt3DilS1qh8AVcUTdjyNX9unVq71cORSUkjbaygEJPik9LIzf4bc
-	Z8SuT053SuJrTslUBIKlc/x+7oM3wj0eXJKPhEN3JNP6wTyYIWhvCfw0Ddfw41EHJHuAif
-	jEHll/97pqpvBeKOeMxbUae/Tdvx3eM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777277630;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AuQV9jJyH30aDM2Bz1IuN9VTNix0UN5WEuQpT3Fpupc=;
-	b=1mckzUnHukCKa96Ks+LmlW+gcWarB1YUDjcdhkHHVovufNMZltT1GNl9/Yv2OiTSp4b2em
-	cmpT65Wlnu6oQTBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0z0jaFwz;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1mckzUnH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777277630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AuQV9jJyH30aDM2Bz1IuN9VTNix0UN5WEuQpT3Fpupc=;
-	b=0z0jaFwzAjjEyKQxnVCt3DilS1qh8AVcUTdjyNX9unVq71cORSUkjbaygEJPik9LIzf4bc
-	Z8SuT053SuJrTslUBIKlc/x+7oM3wj0eXJKPhEN3JNP6wTyYIWhvCfw0Ddfw41EHJHuAif
-	jEHll/97pqpvBeKOeMxbUae/Tdvx3eM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777277630;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AuQV9jJyH30aDM2Bz1IuN9VTNix0UN5WEuQpT3Fpupc=;
-	b=1mckzUnHukCKa96Ks+LmlW+gcWarB1YUDjcdhkHHVovufNMZltT1GNl9/Yv2OiTSp4b2em
-	cmpT65Wlnu6oQTBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 25062593B0;
-	Mon, 27 Apr 2026 08:13:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LtDpBr4a72nSCAAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Mon, 27 Apr 2026 08:13:50 +0000
-Date: Mon, 27 Apr 2026 10:13:48 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: Muchun Song <muchun.song@linux.dev>
-Cc: Muchun Song <songmuchun@bytedance.com>,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Ying Huang <huang.ying.caritas@gmail.com>,
-	Dan Williams <djbw@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, linux-mm@kvack.org,
-	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm/memory_hotplug: fix memory block reference leak
- on remove
-Message-ID: <ae8avFsiMx-45ZOW@localhost.localdomain>
-References: <20260426144447.817722-1-songmuchun@bytedance.com>
- <ae8U73RyTE2a6bdp@localhost.localdomain>
- <7887915D-E598-42B3-9AFE-BFFBACE8DE2D@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQ+LjWUr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CECC19425
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 08:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777277767;
+	bh=6D6WI9h/HgOWdKUs0QWHirK2fOBqO/lvTMizpPavzhQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dQ+LjWUrX7xm7J8IbCZ6g/BQHaYW+cWL5fMDLYpv9j2JE42awoxGMAHGleaOmK5er
+	 /l5UKVvDp9j/VRN6kKsqJXE2xQdV2IGQs/hNQBgK+L2vbIX6jGDFhkb421y1WZwLkD
+	 RxBKvR0w1Z4Rz2S/tnrjefvl+zZrzLxmEn0Pm7LjAAJo2SwiktzOcvCP1POKywrDul
+	 p4r1S+qMTKhNGQVFjidFBkRKzJI8u/gk+G8pVZwaGFZmfJm6o60SDuqBcwDz95DAJD
+	 KHftPDHuVrylsteQodhIK4/QvDDobo67FKvkQJFRq5brQHQzNdmvnKkMPVerlZj0eR
+	 xFXz8KM+/twQQ==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a742b8b72eso654569e87.1
+        for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 01:16:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/5lRr9Dk4BZwEQgYqIa/oARAhgGTrDMVdOvp1RcnsNC+T7usKH1GsS2LZlNwrquxykQhTAcmEMP3SSsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwH+/5FC3o3NhbQStcbvGQAjG19enGa/jrxh070Zh2ibxTy1hJ4
+	+q5cdt/xMNTF9h7n9PJKuBcH7AskkhVhCzBa8LmPhS92n1NKZp8EecyTS5YPQzM7fz8UwBFEONo
+	QDbzxuRdwUhPOB0XUVT8il1K8L4KGzbPCSB8co7Aykw==
+X-Received: by 2002:a05:6512:159f:b0:5a3:f0f7:7da1 with SMTP id
+ 2adb3069b0e04-5a4172cd17amr15273699e87.17.1777277766544; Mon, 27 Apr 2026
+ 01:16:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7887915D-E598-42B3-9AFE-BFFBACE8DE2D@linux.dev>
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,localhost.localdomain:mid,suse.de:dkim,suse.de:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[bytedance.com,kernel.org,linux-foundation.org,linuxfoundation.org,gmail.com,intel.com,huawei.com,kvack.org,vger.kernel.org,lists.linux.dev];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,localhost.localdomain:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: D30B65BCF0
+References: <20260424124250.92890-1-bartosz.golaszewski@oss.qualcomm.com>
+ <aetxEcjE8wD4-ZyV@ashevche-desk.local> <CAMRc=Mem3m8JZXafL9xrUvWZWuFaCofkNEdVYLNMgC+3N0i21g@mail.gmail.com>
+ <aeuNEYymSicUcMyZ@ashevche-desk.local>
+In-Reply-To: <aeuNEYymSicUcMyZ@ashevche-desk.local>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 27 Apr 2026 10:15:54 +0200
+X-Gmail-Original-Message-ID: <CAMRc=Mc-Tk7fqZT=JinL8+01YdTGJq-LciZgnnGkaNEXa8Db_Q@mail.gmail.com>
+X-Gm-Features: AVHnY4I6orj-67xKvyAVoxUvX0YJCp_u041CAHSIKuRD6hL_Ikhw7dI4X2Dj1oY
+Message-ID: <CAMRc=Mc-Tk7fqZT=JinL8+01YdTGJq-LciZgnnGkaNEXa8Db_Q@mail.gmail.com>
+Subject: Re: [PATCH] software node: provide wrappers around kobject_get/put()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 27, 2026 at 04:02:17PM +0800, Muchun Song wrote:
-> 
-> 
-> > On Apr 27, 2026, at 15:49, Oscar Salvador <osalvador@suse.de> wrote:
-> > 2) I kind of dislike having an internal put_device() lingering here in
-> >   memory-hotplug code, it feels like it does not really belong here.
-> >   Ideally we should have a high-level function in drivers/base/memory.c
-> >   that calls put_device itself.
-> >   Something like "put_memblock_dev", dunno, names are hard.
-> > 
-> 
-> I share your perspective. The current naming of find_memory_block_by_id
-> is ambiguous as it fails to signal the internal 'get' operation. To improve
-> clarity and reduce errors, it should be renamed to memory_block_get_by_id.
-> Pairing this with a new memory_block_put function to wrap put_device
-> would ensure a more robust and intuitive API.
+On Fri, Apr 24, 2026 at 5:32=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> should also work. And here I referred to the fact that we already have a =
+kobject
+> instance available. Yes, my counter example is just to reveal inconsisten=
+cy,
+> I kinda agree that using swnode specific API might be clearer approach.
+>
 
-Even better, yes.
+Let's do kobject_name() -> swnode_name() separately?
 
-Thanks!
-
-
--- 
-Oscar Salvador
-SUSE Labs
+Bart
