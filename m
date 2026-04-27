@@ -1,114 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DE431D375
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 14:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA181325483;
+	Mon, 27 Apr 2026 15:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777301577; cv=none; b=hMOlhhTb/Q86n4AwoWXi9/StjCTXq77+rSdXLUQUqtOKlr8R6AXpm2vuDM3KPpiljMDcp3SzUXawgz0Ff6ZvCV60UN32Sqo4oDBet/ySGKGaP5s/V/jqjkF4tAEcOGbhP04dbdmBdPtq7mGhF81rjbQFFx3YHpYn8j4DaKA2i3M=
+	t=1777302004; cv=none; b=SoMBkIrUHE7AUGOiW9k4ZMp4S/8Os+GYoDbUSWV1gvPGgUIObPtciuztcA04OOb9aekwQ4Mz+Wr/NiRvCiqIlpUce+peAPOoZJYaAAVbFoIGCe0l+fjBAznFIEojtjXMvqaVydcdPolvmV5KArbPWpDoq/M99yQk3UOt0lRdiHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777301577; c=relaxed/simple;
-	bh=GgZguPLQYsq+WYYBuzGAW6TXq7+26UZzZDptmmz1/20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cG2nEnCJzCHrVJ9NfFlwCCkR/ESuR8g7p5yOSPhgiwWdLJSJlpwDZW8SWXo1CrJRW3wZhf8jsNQKNLKyMaDthJpDl655HJnny1LcgXjN7JVm7m8av65p76WpGyTUAed6dmEnqq5dv779ZrA/ygySV2hiIC8ti/sp9svHU8snr4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iL1Afo8h; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1777302004; c=relaxed/simple;
+	bh=IGrroLTu2RtTp56RZqsX0hxGrIQB13lcQxS9JEkWIMU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=OlP6bUxDZ2CQE3rqoQ4SHHInJF5i9Bac+PMtgHx7ux5lMB+K8HV/5eDfr7VIWZOuAhGzIK0KudTxtZpTZZ+9yWy3+EXajjvkKEdCxa4G4aMr3vyHpOvISQPS+FC88vuiSGkwgHWUlz2R65mPDC/ewM0zpzjAu7KOmgsvjFgvnjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMiHnDib; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iL1Afo8h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777301577; x=1808837577;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GgZguPLQYsq+WYYBuzGAW6TXq7+26UZzZDptmmz1/20=;
-  b=iL1Afo8h8Idlam+bAJe+PaVyPUoltuGD3EIas9vD6NjI6xaB691T5Vc7
-   5W0PebHQAKheL9tqac8BXaE91KvkRDaEsvVACN+RPrj8zR1Hc0vCUynDg
-   XMydyRHO4T3Yadzzj4SiHWKv7ZC/VzybWc1bmdkKNNrrj+uKoLFxYCq8/
-   2eihRc+w3TkeBfyx3Ka01gKZpGFDoBIKuwpNY+8BvH8WX8H8QkhSKAx2a
-   J4mDe1iL8mAZOldNDuYdt7+/XmM3KvL7aADFD3UmTmDR4tFEckZzmbyd5
-   undzl86OeI0PI0ssi3gUCX6zuwDloHRhv+MN/OmL23R6p5elsIaRNh/yz
-   A==;
-X-CSE-ConnectionGUID: 4olVzbnLQzWnJ+tQY+pVWQ==
-X-CSE-MsgGUID: lmRjfQABRVS6x4SKt9/fyQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="77352507"
-X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
-   d="scan'208";a="77352507"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 07:52:56 -0700
-X-CSE-ConnectionGUID: Cl91Ct7QQuyDLm50uxEGsg==
-X-CSE-MsgGUID: 28KJ4+YZQ+GB0j5SJbz3MQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
-   d="scan'208";a="233930886"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.2])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 07:52:51 -0700
-Date: Mon, 27 Apr 2026 17:52:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Kevin Hilman <khilman@baylibre.com>, Arnd Bergmann <arnd@arndb.de>,
-	brgl@kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] ARM: omap1: enable real software node lookup of
- GPIOs on Nokia 770
-Message-ID: <ae94QVJCMpsXIPCH@ashevche-desk.local>
-References: <20260427-nokia770-gpio-swnodes-v6-0-b693296c1985@oss.qualcomm.com>
- <20260427-nokia770-gpio-swnodes-v6-3-b693296c1985@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMiHnDib"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2D59C2BCB5;
+	Mon, 27 Apr 2026 14:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777302004;
+	bh=IGrroLTu2RtTp56RZqsX0hxGrIQB13lcQxS9JEkWIMU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=gMiHnDibP2lvVXj8sftDu8/OmlvWjS8lRRDHBVuwVFkFlfPgeW2pvGkkfXPe42mUV
+	 kXa/9Au4apALe9vRcvbV5U0jCxD/ilgxTJOPksnaCjV0B+jAJWfNsgm/YAFfaSJWDD
+	 GRUSVJ8drHqEKuX1Ca38NAeMc4eVEnQBajvc/reQf/RYYXmzYOota38Os4uRRroTnO
+	 GKOWfRi/G1UMCm5tlZLbm6sIgHlULo7lkQRm5SP1gionof7qHJv0AWezbRNJZ2T69M
+	 QgBfbVdBuUnYGfVfeCPCm7Z9UcMYzJkugzeoj04NlbyT0D4TT1A7jDJTf77nlRIfMi
+	 PhlXX7VZx6mmA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun
+ Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6r?=
+ =?utf-8?Q?n?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Abdiel
+ Janulgue
+ <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 01/11] rust: io: generalize `MmioRaw` to pointer to
+ arbitrary type
+In-Reply-To: <20260421-io_projection-v2-1-4c251c692ef4@garyguo.net>
+References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
+ <20260421-io_projection-v2-1-4c251c692ef4@garyguo.net>
+Date: Mon, 27 Apr 2026 15:44:21 +0200
+Message-ID: <87ik9cr00a.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427-nokia770-gpio-swnodes-v6-3-b693296c1985@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
 
-On Mon, Apr 27, 2026 at 12:46:34PM +0200, Bartosz Golaszewski wrote:
-> Currently the board file for Nokia 770 creates dummy software nodes not
-> attached in any way to the actual GPIO controller devices and uses the
-> fact that GPIOLIB matching swnode's name to the GPIO chip's label during
-> software node lookup. This behavior is wrong and we want to remove it.
-> To that end, we need to first convert all existing users to creating
-> actual fwnode links.
-> 
-> Create real software nodes for GPIO controllers on OMAP16xx and
-> reference them from the software nodes in the nokia board file.
+Gary Guo <gary@garyguo.net> writes:
 
-...
-
->  #define ADS7846_PENDOWN_GPIO	15
+> Conceptually, `MmioRaw` is just `__iomem *`, so it should work for any
+> types. The existing use case where it represents a region of compile-time
+> known minimum size and run-time known actual size is moved to a custom
+> dynamic-sized type `Region<SIZE>` instead. The `maxsize` method is also
+> renamed to `size` to reflect that it is the actual size (not a bound) of
+> the region.
+>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 
 
-This is the only definition for a GPIO pin and its purpose obvious from the
-GPIO con_id below. So, while at it, perhaps get rid of it as well?..
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-> -	PROPERTY_ENTRY_GPIO("pendown-gpios", &nokia770_gpiochip1_node,
-> +	PROPERTY_ENTRY_GPIO("pendown-gpios", &omap16xx_gpio1_swnode,
->  			    ADS7846_PENDOWN_GPIO, GPIO_ACTIVE_LOW),
 
-...will become
+Best regards,
+Andreas Hindborg
 
-	PROPERTY_ENTRY_GPIO("pendown-gpios", &omap16xx_gpio1_swnode, 15, GPIO_ACTIVE_LOW),
-
-(or wrapped version).
-
--- 
-With Best Regards,
-Andy Shevchenko
 
 
