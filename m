@@ -1,286 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F05F3EF0B3
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 19:32:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEF826F2BE;
+	Mon, 27 Apr 2026 22:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777318363; cv=none; b=IdJrvupxpL1ZyLkmr3INjIoZdYVoKghSiGvl+tRd/vMVRwZ55s565cFCb8VfonwPPL22y5PyZAVPHWz6B0l40F6bhy4EIvdiSaq/S3z+68IhyD9YiNA6Qvet4iqjWae89czs7t20WmOWvXpXKi9LsaVAnDTUUU5Yt7y4JzlaQP4=
+	t=1777327810; cv=none; b=uTZ4xf9jKLCcUh+GwINF/g6oldQcQ6lxy3520+9U8j7cO4DgUTpZCRgi0eF0luZM6wBWoViq2tOLHZvopbEhsCm5yo5RSpg8k8N5GO5bAzhrcBJPPMKzpZvJkH7GA0ZZFtnw8wXR6VBa4ZfvjT7RZ6N8t7NTT2N0XvmEMbZpw0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777318363; c=relaxed/simple;
-	bh=GcVXS9DHM5KxSH9pj/UKoe1HEQEMUMwCF6ORNHkDtWY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eTLQh1/qc8oG73jL77C5b2ntrMGRH7lFjFuZ+gs8rx/L+WDuwpAf+cUpCVwYXhHc+j3oVFhim+OA9DZTaULmBM2Itn50iWg2BKbMdGz3ZriguC33D3wHvPX2fCceakkm1gHj2+i1dCLhK7AEYIzo9wf7sZAvcDNyFPzXdEdKti4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OOE7miFq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777327810; c=relaxed/simple;
+	bh=RhmjGyyC7zIoDOwBCTiwM6xx+/W2gzJoXMpyzbXHsLE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c8oXkXOcDwi1o9A9mfYyIp59ozuC9lYaDIwFx8tg+bKqzhn8L4edsbnHqMex/p6kFyqp750LGXMcRxPMZypgmrmzNOMwhUWo6tds/9NTRqjQXzFv/A30W/feXyUjAvaF1lsDsiUhC5UUTVMTTu6lLhYZ8XuMsyg5kqh2iN/NGKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hEl5bVKN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OOE7miFq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8884C19425
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 19:32:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hEl5bVKN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89BFC19425;
+	Mon, 27 Apr 2026 22:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777318362;
-	bh=GcVXS9DHM5KxSH9pj/UKoe1HEQEMUMwCF6ORNHkDtWY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OOE7miFq3mxasU1R85/vcilbMy/53K8jtyZ7HUsOiO4Oqvsbxd8FSMidIoQm43/jn
-	 734CPhh9uggVwsTcRz9E2+HFDa8e/X3nIe3XYlthRdXp0EHuT55uIE+VaXHD4p/Nam
-	 TkRPmmp/wN42yYCIfWJVQ4PsLY0m8ZSZhW57NnlUtymqhDWTZeroAM9uM4A1pqwUaG
-	 lFIG1Jgr14IGn7lXYqjq3jsdfHzcbG5W6PBRV17v77HE/L/OCmw+kwULfGtIlSJ34b
-	 8JqYb6JfQnjY9+CM8rqysaX2lcD3j09PrM3Y6G49rCAQ/rTMcdjKDjNYgdWJw7knI9
-	 Vq2u2uIAgIPDw==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38e8292423fso94122061fa.0
-        for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 12:32:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/fwqTObblKVSEcSI6oNPsk51U9fc9/7qEw7XMXHkLg628I38ZZR5+587quJgG+tlSKuYUxrX679ZsfGg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwN8HlKrSyiECXPkwgZsqLcIJVksNWx0H8hWXEnrUo/qxUVLDJY
-	AOxxKL4ClU32wIwXFklb5m9eXdnfNZeAl6nRNYK4BlAD6aSrV9uDEF7Jy/JqbYWUTiQvnYpY082
-	DngHb97Hr1q6JrqXw2F1ekO+UYqXZREQ=
-X-Received: by 2002:a05:6512:1256:b0:5a3:e7d7:c67 with SMTP id
- 2adb3069b0e04-5a7466035femr65340e87.5.1777318361178; Mon, 27 Apr 2026
- 12:32:41 -0700 (PDT)
+	s=k20201202; t=1777327809;
+	bh=RhmjGyyC7zIoDOwBCTiwM6xx+/W2gzJoXMpyzbXHsLE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hEl5bVKN4WCrK3inmbbdsojOPaPGka3q3/12uffAJq7M2Pj+MmebOoqXkcL/apLEQ
+	 wHyY/d1q951HKJB+NzvBZ9sgoj50gtGZbpdm2mLeAvyFILb03mPXDZaOP2K8kACRA3
+	 Hdm93IQdoi0lTExG6kBbd2CVa2wGZleTFe++y5RqxGZ70zCdO+uqmdfMAbvmzVt4SL
+	 eWHCHD4LM4IX8htp8lCaFmm0WCBOHvCKbdBeryZW3xd36LTn+iwQ9Ew2O0KJzh0qBl
+	 WwBt4G0dEasoMgdHDDzuxMKzt6C7nP5CkF/2VP5ctScmfFl1QRc0ENvizO0S7Re+Dx
+	 CrggkhI3g0VLQ==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	acourbot@nvidia.com,
+	aliceryhl@google.com,
+	david.m.ertman@intel.com,
+	ira.weiny@intel.com,
+	leon@kernel.org,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 0/2] rust: auxiliary: replace drvdata() with registration data
+Date: Tue, 28 Apr 2026 00:09:39 +0200
+Message-ID: <20260427221002.2143861-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260427-baytrail-real-swnode-v3-0-0003e4c1708c@oss.qualcomm.com> <20260427-baytrail-real-swnode-v3-2-0003e4c1708c@oss.qualcomm.com>
-In-Reply-To: <20260427-baytrail-real-swnode-v3-2-0003e4c1708c@oss.qualcomm.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 27 Apr 2026 21:32:28 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gR=wvgFomQzjS6rzoJYxwT2sxB60EM52PA4j-iwcXocw@mail.gmail.com>
-X-Gm-Features: AVHnY4JhHwVpV2lDxM_tmrikNutREbg4Pf9PEzlXufNxh7vs1vpuoZx2mRT4OyE
-Message-ID: <CAJZ5v0gR=wvgFomQzjS6rzoJYxwT2sxB60EM52PA4j-iwcXocw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] platform/x86: x86-android-tablets: enable fwnode
- matching of GPIO chips
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	brgl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 27, 2026 at 2:19=E2=80=AFPM Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
->
-> In order to allow GPIOLIB to match cherryview and baytrail GPIO
-> controllers by their firmware nodes instead of their names, we need to
-> attach the - currently "dangling" - existing software nodes to their
-> target devices dynamically.
->
-> We deal with devices described in ACPI so set up a bus notifier waiting
-> for the ADD events. We know the name of the device we're waiting for so
-> match against it and - on match - assign the appropriate software node
-> as the secondary firmware node of the underlying ACPI node. In case the
-> event was emitted earlier than this driver's probe: also make sure the
-> device was not added before.
->
-> Scheduling fine-grained devres actions allows for proper teardown and
-> unsetting of the secondary firmware nodes.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/platform/x86/x86-android-tablets/core.c | 127 ++++++++++++++++++=
-+++++-
->  1 file changed, 124 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/pl=
-atform/x86/x86-android-tablets/core.c
-> index 021009e9085bec3db9c4daa1f6235600210a6099..9e6e8f272dfe16cda421b5698=
-02045c3d94fc0ab 100644
-> --- a/drivers/platform/x86/x86-android-tablets/core.c
-> +++ b/drivers/platform/x86/x86-android-tablets/core.c
-> @@ -13,10 +13,12 @@
->  #include <linux/acpi.h>
->  #include <linux/device.h>
->  #include <linux/dmi.h>
-> +#include <linux/fwnode.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/gpio/machine.h>
->  #include <linux/irq.h>
->  #include <linux/module.h>
-> +#include <linux/notifier.h>
->  #include <linux/pci.h>
->  #include <linux/platform_device.h>
->  #include <linux/serdev.h>
-> @@ -360,6 +362,124 @@ static const struct software_node *cherryview_gpioc=
-hip_node_group[] =3D {
->         NULL
->  };
->
-> +struct auto_secondary_data {
-> +       struct notifier_block nb;
-> +       struct device *parent;
-> +};
-> +
-> +static void auto_secondary_unset(void *data)
-> +{
-> +       struct fwnode_handle *fwnode =3D data;
-> +
-> +       fwnode->secondary =3D NULL;
-> +}
-> +
-> +static int acpi_set_secondary_fwnode(struct device *parent, struct devic=
-e *dev,
-> +                                    const struct software_node *const sw=
-node)
-> +{
-> +       struct acpi_device *device =3D to_acpi_device(dev);
-> +       struct fwnode_handle *fwnode;
-> +       int ret;
-> +
-> +       fwnode =3D software_node_fwnode(swnode);
-> +       if (WARN_ON(!fwnode))
-> +               return -ENOENT;
-> +
-> +       fwnode->secondary =3D ERR_PTR(-ENODEV);
-> +       device->fwnode.secondary =3D fwnode;
-> +
-> +       ret =3D devm_add_action_or_reset(parent, auto_secondary_unset, &d=
-evice->fwnode);
-> +       if (ret)
-> +               dev_err(parent, "Failed to schedule the unset action for =
-secondary fwnode\n");
-> +
-> +       return ret;
-> +}
-> +
-> +static int acpi_auto_secondary_notifier(struct notifier_block *nb,
-> +                                       unsigned long action, void *data)
-> +{
-> +       struct auto_secondary_data *auto_sec =3D container_of(nb, struct =
-auto_secondary_data, nb);
-> +       const struct software_node *const *swnode;
-> +       struct device *dev =3D data;
-> +       int ret;
-> +
-> +       switch (action) {
-> +       case BUS_NOTIFY_ADD_DEVICE:
-> +               for (swnode =3D gpiochip_node_group; *swnode; swnode++) {
-> +                       if (strcmp((*swnode)->name, dev_name(dev)) =3D=3D=
- 0) {
-> +                               ret =3D acpi_set_secondary_fwnode(auto_se=
-c->parent, dev, *swnode);
-> +                               return ret ? NOTIFY_BAD : NOTIFY_OK;
-> +                       }
-> +               }
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +
-> +       return NOTIFY_DONE;
-> +}
-> +
-> +static void auto_secondary_unregister_node_group(void *data)
-> +{
-> +       const struct software_node **nodes =3D data;
-> +
-> +       software_node_unregister_node_group(nodes);
-> +}
-> +
-> +static void auto_secondary_unregister_notifier(void *data)
-> +{
-> +       struct notifier_block *nb =3D data;
-> +
-> +       bus_unregister_notifier(&acpi_bus_type, nb);
+When drvdata() was introduced in commit 6f61a2637abe ("rust: device: introduce
+Device::drvdata()"), its commit message already noted that a direct accessor to
+the driver's bus device private data is not commonly required -- bus callbacks
+provide access through &self, and other entry points (IRQs, workqueues, IOCTLs,
+etc.) carry their own private data.
 
-Please introduce acpi_bus_unregister_notifier() and use it here instead.
+The sole motivation for drvdata() was inter-driver interaction, e.g. a parent
+driver deriving its bus device private data from the child driver via the
+auxiliary bus.
 
-> +}
-> +
-> +static int auto_secondary_fwnode_init(struct device *parent)
-> +{
-> +       const struct software_node *const *swnode;
-> +       struct auto_secondary_data *data;
-> +       int ret;
-> +
-> +       ret =3D software_node_register_node_group(gpiochip_node_group);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D devm_add_action_or_reset(parent,
-> +                                      auto_secondary_unregister_node_gro=
-up,
-> +                                      gpiochip_node_group);
-> +       if (ret)
-> +               return ret;
-> +
-> +       data =3D devm_kzalloc(parent, sizeof(*data), GFP_KERNEL);
-> +       if (!data)
-> +               return -ENOMEM;
-> +
-> +       data->nb.notifier_call =3D acpi_auto_secondary_notifier;
-> +       data->parent =3D parent;
-> +
-> +       ret =3D bus_register_notifier(&acpi_bus_type, &data->nb);
+However, drvdata() exposes the driver's bus device private data beyond the
+driver's own scope. This creates ordering constraints -- drvdata may not be set
+yet when the first caller of drvdata() can appear -- and forces the driver's bus
+device private data to outlive all registrations that access it; a requirement
+that causes unnecessary complications.
 
-Please introduce acpi_bus_register_notifier() and use it here instead.
+Private data should be private to the entity that issues it; bus device private
+data belongs to bus callbacks, class device private data to class callbacks, IRQ
+private data to the IRQ handler, etc.
 
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D devm_add_action_or_reset(parent,
-> +                                      auto_secondary_unregister_notifier=
-,
-> +                                      &data->nb);
-> +       if (ret)
-> +               return ret;
-> +
-> +       /* Device may have been already added. */
-> +       for (swnode =3D gpiochip_node_group; *swnode; swnode++) {
-> +               struct device *dev __free(put_device) =3D
-> +                       bus_find_device_by_name(&acpi_bus_type, NULL, (*s=
-wnode)->name);
+This series replaces drvdata() with a dedicated registration_data pointer on
+struct auxiliary_device. The parent stores its private data explicitly during
+registration; the data is private to the registration and lives as long as the
+Registration object.
 
-Please introduce acpi_bus_find_device_by_name() and use it here instead.
+On teardown, Registration::drop() first triggers auxiliary_device_delete()
+(unbinding the child), then frees the registration data. Ordering constraints
+are structural -- the child's lifecycle is scoped to the registration by
+construction, not by convention.
 
-> +               if (dev) {
-> +                       ret =3D acpi_set_secondary_fwnode(parent, dev, *s=
-wnode);
-> +                       if (ret)
-> +                               return ret;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static void x86_android_tablet_remove(struct platform_device *pdev)
->  {
->         int i;
-> @@ -391,7 +511,6 @@ static void x86_android_tablet_remove(struct platform=
-_device *pdev)
->
->         software_node_unregister_node_group(gpio_button_swnodes);
->         software_node_unregister_node_group(swnode_group);
-> -       software_node_unregister_node_group(gpiochip_node_group);
->  }
->
->  static __init int x86_android_tablet_probe(struct platform_device *pdev)
-> @@ -427,9 +546,11 @@ static __init int x86_android_tablet_probe(struct pl=
-atform_device *pdev)
->                 break;
->         }
->
-> -       ret =3D software_node_register_node_group(gpiochip_node_group);
-> -       if (ret)
-> +       ret =3D auto_secondary_fwnode_init(&pdev->dev);
-> +       if (ret) {
-> +               x86_android_tablet_remove(pdev);
->                 return ret;
-> +       }
->
->         ret =3D software_node_register_node_group(dev_info->swnode_group)=
-;
->         if (ret) {
->
-> --
-> 2.47.3
->
->
+With no remaining use case for drvdata(), drvdata(), match_type_id(),
+set_type_id() and struct driver_type are removed.
+
+This is a prerequisite for [1], which builds on the removal of drvdata() to
+enable Higher-Ranked Lifetime Types (HRT) for Rust device drivers.
+
+[1] Posted as a reply to this series.
+
+Danilo Krummrich (2):
+  rust: auxiliary: add registration data to auxiliary devices
+  rust: driver core: remove drvdata() and driver_type
+
+ drivers/base/base.h                   |  16 --
+ drivers/gpu/nova-core/driver.rs       |  10 +-
+ include/linux/auxiliary_bus.h         |   4 +
+ rust/kernel/auxiliary.rs              | 208 ++++++++++++++++++--------
+ rust/kernel/device.rs                 |  60 --------
+ samples/rust/rust_driver_auxiliary.rs |  40 +++--
+ 6 files changed, 180 insertions(+), 158 deletions(-)
+
+
+base-commit: a7cc262a11354ab104b8e55c21200d099d141bc7
+-- 
+2.54.0
+
