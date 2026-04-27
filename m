@@ -1,60 +1,93 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AF527FB2A;
-	Mon, 27 Apr 2026 06:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C98F346FD2
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 07:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777272441; cv=none; b=Mz0tT+V5yCBqQtj1jJODVXKUQo3p+cMpEPAYBb2xxWLZuUbNIoHWJm8LJfHncIjpfvAsnFFAev2BWehmNITZ++1o0LoIN2EmI4Bitoopi0p4seg2vrgNb6aCSoz4cg0Jekg63v7Sc0hhipS69hmpxgntZCcULwnBF7N/Y0mF2Og=
+	t=1777276154; cv=none; b=XHqr2qE7NnHWlqBvturxU2TaQL3xUNfXwPSpNfy2Lb9Ape7OVLwBFxkCQxGFdgnoIeiygDqouO0snz1W8ww3IYu2bMcrdAQVFATnU4gu+9m+hhZiS9W25o6xu6Bs4fEbmUGSTH2LC4Ot+94twDuBASnl7DB5W5kfhY7kYMfTpqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777272441; c=relaxed/simple;
-	bh=ilnIqpXFCyNt6g6RokOmstrJQTMIjyHCwgEExR/hbPs=;
+	s=arc-20240116; t=1777276154; c=relaxed/simple;
+	bh=mKxnLWO8Hs+000xP7Y3fG6/BTTvgqFVWuahY7VFXHbE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eNtzB+fYptOvf6duINfmA1PVQX/WFM8kP9W/Q8AK9mXTaWXGWvBEHUd803vrbySvq0MfcG0YlYjbBo2yLG5htWnoZ1uwku5X81m8f2aWJpSvpRanScayNh4K2CxctaxkU4Y/++32wbggWxo+O86WGSes4dE826d1AOLZdw72s34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=tVn55DDp; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	 Content-Type:Content-Disposition:In-Reply-To; b=LfkyBytyzQSP5qbugjE5R53HQh8ygmTqBh+5RdZL32MxXIy5D+MUo7Cpaz7dib/lwRMmxagLpKV/uNXQ2Sk3CUdIeOVU+fv7oYARpXCOw8oaFIrv5H6vYAoUrFJHZFJ8AQKZWXjuO5oblo2dU8w24vWrffVVgKhwYAkd7IWSO5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0zemnqdL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=flHFUWs1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bdH024rO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QmA/N/+b; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="tVn55DDp"
-Received: from francesco-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
-	by mail11.truemail.it (Postfix) with ESMTPA id 2944B1F94F;
-	Mon, 27 Apr 2026 08:47:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1777272429;
-	bh=kbd+KJ62CZU4qnR3q8Wb/lGJuOs9KI6EpKwpM2lUoVc=; h=From:To:Subject;
-	b=tVn55DDp/bNzLaXOdmrsekwW1j/RGVrzSryO6xtEvOGnM47lLZu4sHZoIbLZ3O50D
-	 QLuh58iINvRQlZPI2oGj7ijDMlBombEcGp2s8l7Q3FBbnFd61SujArKZkArTLsgeQ/
-	 8KL7u/Ias7XgtOuEtORdSLFCSDGyrOmLvQ3r7WQy50GvXVY8+M+84PkbchtzHu7Fmc
-	 d/yTv5mVVO8G+2veajDbG2BO9od7+77/ts0/pSmt1iVFL4SltVKOxvDZEc53S2gPY3
-	 w78TFRrQa3eRrvWRfBPkMUx69iEKQcoQ3jWRrCVcLMHByifQEwQXtJYW9yqeAZSiv0
-	 6hIZ5IIubfeSw==
-Date: Mon, 27 Apr 2026 08:47:04 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0zemnqdL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="flHFUWs1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bdH024rO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QmA/N/+b"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6AC896A817;
+	Mon, 27 Apr 2026 07:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777276151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=arplvSPi2JFlECX/+/+1OAM+U1qZByH2H1+6yaAluqQ=;
+	b=0zemnqdLbFzIuiF6POubYzCgnUdYGnENR6z9NkwoYCGp+fkx2UHmXv2x81dag/ZfORCL8i
+	2XrznKWKZ/avFNycDXj+W71too2CV0CW4sTNiTcRob0hkb6s90EZDkxJ7VOKVCWjsJ50Vr
+	ESpukY4GRDk+8UrH85E1P0wQnLT2p7o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777276151;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=arplvSPi2JFlECX/+/+1OAM+U1qZByH2H1+6yaAluqQ=;
+	b=flHFUWs1SEZyeXMjuj6GNmcSL9G50Lha6N+QAValj8e1sC8qo4sMedr9dn4MDTURQqoA4a
+	AwdIIrsQY2Ek4gDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777276150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=arplvSPi2JFlECX/+/+1OAM+U1qZByH2H1+6yaAluqQ=;
+	b=bdH024rOeWnBryCQK53sX6ziBaA1h2RmcW+LhYa9OwCDd5bPDLOZfhceikcf3BGA7SzK+4
+	vMYDEXtgBUqDENyr2s+koaIc1AgiSX9iP/52tdpnCfnwaKY1HpRmqzTpLI4VSXcjtSEfW2
+	Xtcg82Nmm0oFgAD37JaAYypqBRMP1JE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777276150;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=arplvSPi2JFlECX/+/+1OAM+U1qZByH2H1+6yaAluqQ=;
+	b=QmA/N/+bhu33buru0WCSMhITNsx0qoAHm76iR1WJ6RjitDrfJVENulhibZrVyUIzNhrxrF
+	L/y1t1+xVnoVGQDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8035A593B0;
+	Mon, 27 Apr 2026 07:49:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UaCCHPUU72nrbAAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Mon, 27 Apr 2026 07:49:09 +0000
+Date: Mon, 27 Apr 2026 09:49:03 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v2 6/9] soc: imx8m: don't access of_root directly
-Message-ID: <20260427064704.GA17710@francesco-nb>
-References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
- <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
- <6593091.DvuYhMxLoT@steina-w>
+	Danilo Krummrich <dakr@kernel.org>, muchun.song@linux.dev,
+	Ying Huang <huang.ying.caritas@gmail.com>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm/memory_hotplug: fix memory block reference leak
+ on remove
+Message-ID: <ae8U73RyTE2a6bdp@localhost.localdomain>
+References: <20260426144447.817722-1-songmuchun@bytedance.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -63,58 +96,86 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6593091.DvuYhMxLoT@steina-w>
+In-Reply-To: <20260426144447.817722-1-songmuchun@bytedance.com>
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,linuxfoundation.org,linux.dev,gmail.com,intel.com,huawei.com,kvack.org,vger.kernel.org,lists.linux.dev];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,bytedance.com:email,suse.de:email,localhost.localdomain:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[localhost.localdomain:mid,imap1.dmz-prg2.suse.org:helo,bytedance.com:email,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-Hello Alexander, Bartosz
-
-On Tue, Mar 24, 2026 at 11:24:09AM +0100, Alexander Stein wrote:
-> Hi,
+On Sun, Apr 26, 2026 at 10:44:46PM +0800, Muchun Song wrote:
+> remove_memory_blocks_and_altmaps() looks up each memory block with
+> find_memory_block(), which acquires a reference to the memory block
+> device.
 > 
-> Am Montag, 23. Februar 2026, 14:37:21 CET schrieb Bartosz Golaszewski:
-> > Don't access of_root directly as it reduces the build test coverage for
-> > this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
-> > to retrieve the relevant information.
-> > 
-> > Suggested-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> That reference is never dropped on this path, resulting in a leaked
+> device reference when removing memory blocks and their altmaps. Drop
+> the reference after retrieving mem->altmap and clearing mem->altmap,
+> before removing the memory block device.
 > 
-> today I noticed the following warning running next-20260323:
-> > caam 30900000.crypto: No clock data provided for i.MX SoC
+> Fixes: 6b8f0798b85a ("mm/memory_hotplug: split memmap_on_memory requests across memblocks")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+
+The change looks good but some comments below:
+
+Acked-by: Oscar Salvador <osalvador@suse.de>
+
+The outcome of leaking the reference is that the final call to put_device()
+in device_unregister() leaves the memory block device linked in the
+system under /sys/ ? (besides not deleting the struct I guess)
+
+> ---
+>  mm/memory_hotplug.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> This happens when there is no matching against the soc_id.
-> 
-> Checking the source it turns out this patch is the cause that the SoC info
-> does not provide soc_id anymore.
-> next-20260323:
-> > $ grep . /sys/devices/soc0/*
-> > /sys/devices/soc0/family:Freescale i.MX
-> > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
-> > grep: /sys/devices/soc0/power: Is a directory
-> > /sys/devices/soc0/revision:unknown
-> > /sys/devices/soc0/serial_number:0000000000000000
-> > grep: /sys/devices/soc0/subsystem: Is a directory
-> 
-> reverting this patch (2524b293a59e586afd06358d0b191ab57208a920):
-> > $ grep . /sys/devices/soc0/*
-> > /sys/devices/soc0/family:Freescale i.MX
-> > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
-> > grep: /sys/devices/soc0/power: Is a directory
-> > /sys/devices/soc0/revision:1.1
-> > /sys/devices/soc0/serial_number:469677A693A4B8CE131D180033E44903
-> > /sys/devices/soc0/soc_id:i.MX8MP
-> > grep: /sys/devices/soc0/subsystem: Is a directory
-> 
-> soc_id is restored. Now that I write these lines I noticed that
-> serial_number also contained empty value which is restored with the revert.
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 2a943ec57c85..4426abb05655 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -1422,6 +1422,7 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
+>  
+>  		altmap = mem->altmap;
+>  		mem->altmap = NULL;
+> +		put_device(&mem->dev);
 
-Any update on this? I would say this is a regression in 7.1-rc1.
+1) Six months from now we might not remember why we need to call
+   put_device() here.
 
-I noticed the same issue, and CAAM is not working.
+   I would put a comment like remove_memory_block has:
 
-[    0.000000] Linux version 7.1.0-rc1-0.0.0-devel (oe-user@oe-host) (aarch64-tdx-linux-gcc (GCC) 15.2.0, GNU ld (GNU Binutils) 2.46) #1 SMP PREEMPT Sun Apr 26 21:19:00 UTC 2026
-...
-[   10.611139] caam 30900000.crypto: No clock data provided for i.MX SoC
-[   10.611211] caam 30900000.crypto: probe with driver caam failed with error -22
+   "/* drop the ref. we got via find_memory_block() */" or something like
+   that.
 
-Francesco
+2) I kind of dislike having an internal put_device() lingering here in
+   memory-hotplug code, it feels like it does not really belong here.
+   Ideally we should have a high-level function in drivers/base/memory.c
+   that calls put_device itself.
+   Something like "put_memblock_dev", dunno, names are hard.
+ 
 
+-- 
+Oscar Salvador
+SUSE Labs
