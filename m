@@ -1,46 +1,46 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010026.outbound.protection.outlook.com [40.93.198.26])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011034.outbound.protection.outlook.com [52.101.52.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B005734EF0D
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 15:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B858F35BDA4
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 15:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.34
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777305134; cv=fail; b=i9TtRdWVkG8Sbfs32SUUel75bF9twDVFQUyOKb0bd6C5qC37LmzukBINkhR3CXyKSGPolCVtep+Z7A9r9R6SCbqhyeN2hYCLN2NGgH91kzNurl5lKNS4mwAwDI0pxspsgF31errjtEIInQBvoF9U6s2UVAFL3yMbQoL/z2vNDbM=
+	t=1777305139; cv=fail; b=qsZ7RzQCeJrghyUqLOiVjyTwnOIE9/a41Inbt5hTAjCerz9dUTRXTPKGXO4KNssgnJQpUVW0Blw6evJnZ9wWKsFMJIxXsv2mlrZj7nWOdyzUiNQlWZYvdzzzh+qrHyBHpIxAzmh5d/sRtB537TdGxVtFK3xB6HdkG9JZpHaZUzA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777305134; c=relaxed/simple;
-	bh=Qvz3fYdz6hwenKM9MY5s5BT4RPrkpedMO1SHEOrDY/E=;
+	s=arc-20240116; t=1777305139; c=relaxed/simple;
+	bh=89C6CtEL/1+a7ADws1NjDQjAV4Pz/4jLzb8zy/2XArU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tyQ2IAbqpWsR+DyKlb2Yr487B35UCRrr8nwWxfrOTW1Y+WQY5PFZ77VOn0gU+wH1H842fUlGA1nUh8LlXKJsOmFg2+P38u1JYe7+FDBIyYpC2uFrN/d/e5gHr4PhSUJXNYITCikLWQNw2d/KfNzR5iwcS6QPvSxD2dSVIAdDnug=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KOq0RuP5; arc=fail smtp.client-ip=40.93.198.26
+	 MIME-Version:Content-Type; b=JvuNO5GGGo4YCrH98abRadEO1SvwJPC679oM2W3TPN9y0IoeIdWWBox0FdXerlKTXhSwPQvF7dSV8YJVgsU4dzKAJb7r8hPgfy5mpI/NiSKrLPcfqYFti6CsHSlk1X3VkPySsZbx9uPQol87Wztr1wBWyAMOuTxSFeS66r0Doq8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DeQMtPCG; arc=fail smtp.client-ip=52.101.52.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KOq0RuP5"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DeQMtPCG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J0SwXAQsuJ0I7NvFyw/veKI8jmLKYc7FfShtpKD/aoiOXUop1dPq0Ae/xKwznh6MiTLDWdpf/lY26FKhAEpvH0GQE6P8ckT7NAPTzqlQisUQ1jMM1Yd7vXIntksqdmOJqX3yybdAQ53pR17rtcZ6p8AUS+wB8YYBFoc9XIoB/fpRDNiNROls+qYaZ41Xwr6pIP0Xytaxu1rCC9bbSt70UKjtsWRfByDrKeOuqiCxWihxV6q2TBDahsbLw/VOL7zhe2XRYOfh7/hBLCIc6zYMkx0fVDM/BKwqdV/zFGQ1VPeGy3hFeojVjsnrKozWJN6pm8iIQMycLnxKAc0Td+e7Cg==
+ b=riz+tnXLekQ9i3/rNpBDD3xuCpCaDgdqZE+Q78ASQOcAG1fg0UFE9O0wYf1/4+9Q5FCjESdlf/b197XeyCHPZR4cPQmbEjRB7yO/Q1lBlHP3AAcjB428OK7YmPGC/B3fjqwn1W8tFPFYpxhFkwD2ywp2Nn4hJMbQyerD+MgRuNbkkOmljZe1EP4YL50B65MGWYcms5HKK3vkTim9TEuTN57Bom6WZOdauE2qnhmVamQaXy6KHWggrzKillUMXxpi988Cz6U/kaZPG5H+sGEF/8kZzqA1dMeruOhVa6Ptl7J7jZU49QzfYoQNmcdfW38I+Fae7kggovMXMg0HiXgVZg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7fqUNR8WHes34j6IDPkY/EnZzmfVsvEXnMtDoPFLvww=;
- b=Sm7hOcvGmUheEDNk04ds9R6OKexS3p3ilMsv5/bhMUdZmZb48bMbqKziXACyibdwJLLbDsij+II6qAW4g19qEapEgn1ySQATYRoJ7/bj5qUbqcb57f+91spIzvOBg/+LYEwp1Jml1DC/KXAlcsvh6aIWdYr4acnpJQnsX1gQos6TRgsW3u1Ulsy5bio7XlsGcfSiP0m1eLGuYrPnncj6Un5oRIYWrG6K0yGfAoHoLu8pUQfpIBnPq5TQ6JSUgwuVn1eD8+oUUG8LpqrKOhtXIvQmSkA5YWUWWmi3zMSQaxyzZLFsltHAKE+UrOEeDbLUpERWjYUNeqvEEJtaAOXvrA==
+ bh=Cfhcxc/jodwlIupqDilGhGxlSlodjXYp7tF1JmZv0vs=;
+ b=GdudgH61IRJT2TYcfUktvQPfyMMkU3u5E2H7L+YcVjChkLaZ/vxyYc+zOjMHnZO5Pim5n/HnpnvB3CEe6ILIVxQz+oa6S5Q+PKaxTkiexk4hOkkeXawZ/bBb6nvcQDdieKY5jxEdCvIEJ7gnZd1AtjA99baqs6jlEuX9lEndx4t0ubjda3kgdvbp6mXu4x4lUiCqs1Yafk4kYz5+LQi3vcr0euNlQVmV0K6o/cyV17G3t78cYmfuoqGpr0dfcpEJwEukQpdzTJV804Wq/Q35WWWqB9632kf9jSe6w5NSQlHMFoI2PfJwWq7RnoMVT/fxgpzOEvhLOo7aZaVpXfHPZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7fqUNR8WHes34j6IDPkY/EnZzmfVsvEXnMtDoPFLvww=;
- b=KOq0RuP5UXMMQhBkmsaOY7Y/VLZn47mWXYRu7SmDYERhCCb3eCsAxCdCXjTVyKcfbk07VgYJ+c8NqP7WjX7s65fza+mvDEDYc7mYIWoI8Ncx3jeOLo0YCLQ8FE8Z5r2SPH2bLRsH8Wm/7+S6tg2WnrTxAWp6WEiejmA7ix2K2tQ=
-Received: from BN0PR03CA0031.namprd03.prod.outlook.com (2603:10b6:408:e7::6)
- by SN7PR12MB6741.namprd12.prod.outlook.com (2603:10b6:806:26f::14) with
+ bh=Cfhcxc/jodwlIupqDilGhGxlSlodjXYp7tF1JmZv0vs=;
+ b=DeQMtPCGuSg5oQc9waZZ3Lc9HQ7X+4SenLyNN4QV9Cn+s6SZ7SPkgXdIMbCCOwBEB6VS4ikDyEdzc+k7b10n9FbrUssoSqDnClZeWv17AZiLH/WCGQ0nSOYjvFfg7BymGNO8a+ZRhpoGG9ZNRU8rrfvAjlWxeW9Pa3DDmenQ9CA=
+Received: from BN0PR03CA0034.namprd03.prod.outlook.com (2603:10b6:408:e7::9)
+ by CY5PR12MB6131.namprd12.prod.outlook.com (2603:10b6:930:25::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.16; Mon, 27 Apr
- 2026 15:52:02 +0000
-Received: from BL6PEPF00022574.namprd02.prod.outlook.com
- (2603:10b6:408:e7:cafe::5e) by BN0PR03CA0031.outlook.office365.com
- (2603:10b6:408:e7::6) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 15:52:08 +0000
+Received: from BL6PEPF00022572.namprd02.prod.outlook.com
+ (2603:10b6:408:e7:cafe::5) by BN0PR03CA0034.outlook.office365.com
+ (2603:10b6:408:e7::9) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.26 via Frontend Transport; Mon,
- 27 Apr 2026 15:52:01 +0000
+ 27 Apr 2026 15:52:08 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,22 +48,22 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF00022574.mail.protection.outlook.com (10.167.249.42) with Microsoft
+ BL6PEPF00022572.mail.protection.outlook.com (10.167.249.40) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Mon, 27 Apr 2026 15:52:00 +0000
+ 15.20.9846.18 via Frontend Transport; Mon, 27 Apr 2026 15:52:08 +0000
 Received: from dcsm-trdripper1.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 27 Apr
- 2026 10:51:58 -0500
+ 2026 10:52:05 -0500
 From: Muralidhara M K <muralidhara.mk@amd.com>
 To: <ilpo.jarvinen@linux.intel.com>, <gregkh@linuxfoundation.org>,
 	<rafael@kernel.org>
 CC: <platform-driver-x86@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<driver-core@lists.linux.dev>, Muralidhara M K <muralidhara.mk@amd.com>,
 	Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
-Subject: [PATCH v2 3/7] platform/x86/amd/hsmp: Unify response_sz validation to an upper-bound check
-Date: Mon, 27 Apr 2026 21:21:25 +0530
-Message-ID: <20260427155129.545327-4-muralidhara.mk@amd.com>
+Subject: [PATCH v2 6/7] platform/x86/amd/hsmp: Make metric table read locking use guard(mutex)
+Date: Mon, 27 Apr 2026 21:21:28 +0530
+Message-ID: <20260427155129.545327-7-muralidhara.mk@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260427155129.545327-1-muralidhara.mk@amd.com>
 References: <20260427155129.545327-1-muralidhara.mk@amd.com>
@@ -79,88 +79,102 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00022574:EE_|SN7PR12MB6741:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0029e367-7856-4484-3afb-08dea474eba0
+X-MS-TrafficTypeDiagnostic: BL6PEPF00022572:EE_|CY5PR12MB6131:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89a0ebe2-39b4-467c-2482-08dea474f01a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024|11006099003|56012099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|36860700016|1800799024|82310400026|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	E9QmcZ/T9DqzbGkD2/cKVkbLVdQdoIWON5a8f4Xpw2K8G47zBse8fQheYQOGkhWXyLPTpm4l5YWBAtyXLEckUFSuofDuMR7Nr0Q8LdnrNFAYGaQ4n8DBB23Mq8REzA+2yI+4imToCwvZsp2dx1pUipFoEutmNI/gAtVGevoFD4TLk7D1OEYXJjj9aWBKWVXx+nr4HVgVNrxmHKyuR+Hzmuq7sZsqiV+Shz4t8Ysn7D6/7QpHfFdE0zDEie0KpH8Qr0TzWtsdhveRr94uEFdZGYcvc6kmo0BW8lH6ibCgo/+YiTb1FLkKn4RF123FWljKRle/ylXj10NhBPb6vFAyOic6SmxTRP0jnf/2h6hIyLt5/9LHCHfUISWypBe1Q1V21JsCYJ/podJ1ZEhu558JZZflc1Tsrs8Lk6gFVIq2lTCGjywCKJCwo6YoVy0gbK2XKNinDuHkl2K2udrtDMarKtvp3GLOhubHtvZnNfORlMFBQD6d8CjgNT5LDIzJK2w62CUBTAegDH73duF65HHDQ9hVuI4sSp6JW2/LrqStWyhyjsI3QkdMMWbBJXRRClIB3DX44fjJmsT4e814j8NhbR7bByIouLmXUW99mJ03jhx8qshCabkr9KW5++vGIPy4ocnNnlbPT3AEFAxywORKZ0YbN6ydvd/k/rdl3Qit5hrBo/OZVjwUmOWXjYUxaXO1ka1OV4BlCzUjiG/halgQIXYZKQ6pyvrX5hR+ORsm3XE4kfbOVn8eZ7+ecBQ7KoNNdpsJb+S+Ri56WfbbJH/Qgw==
+	LsNtGJQCFIrSzD+JOgBX8oxtmeZO86UTEGcN8h/uOaNkI56etdS01Mey6W1cX+MHRWEEK/bLrBp8MjInAlhBef7CIztB4to1p9t4y9vDQZGq4rn3Sm921gnpCRloI0sDTiziF1HJOWIHKAO/naY9EazcmwJwEGTmZJq8070jhhLyo3SZvX15XhCAFhAs6yZcUd+0WWaxVf+mBHrPuleeaXgpKlNRHzB34BrOcBHQSlfmvMvGwWHxufHWQzgei8JYlstVLxOKMOb+j2oDoTznem2t3kLIorNH0krOMpXrzzJ00yiRCET4pDb6ketUOJTe6afQfnYW/pbIPiyY+xKECbiurcEL1IvQSERWV0dHbn2woOFebELlC2H3VOP/CyNDfzhPw279b88nuONF9ylC/XoOGLxvxh1W5NNsGoXLCnx4fiMZtF9X+myG40pMWwWfmC6sHcYZ0Xbkl1V0HTktmybxlGZ7tlGs0C0KWUY8JQCsPb/JsZrarj66CrzFSCs/txMAhMKu/BFsc86cggcLDDy0Zd9T8f0mVargKboa8ypQLn/rtjVfoyXYZqqv4Rppl9xQSotUDCPw+KmGcT82CPn4DQIOKsP2o1Z6nC5uIVWxQ/4aUcJMyEk8XsUWAy/tRIUaXeQPxkizThpPnJFNl7ZD5o4B5QDzj0/+MgN/hqc4jcdkEYkIUYL7qEq3JjKfXzngWmPNaLgRXW/HEjsXwfdj6cLlatnI9hZhzhBk4tlfSjFzBN2DwgQVUsJLK9/bx0kAJweXo/fZbCpRuNB97Q==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024)(11006099003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(82310400026)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	p7K+a8oQbiweFOICAZzOcn/tZEu5ebGMIUEcoD5bK3PyaisQQN+k1D3NnRt/pNJo5Lp7ffGkORvToLFaytpXxVj5XUzogn4L3ThD7RtDgNfL7IYFWF6YrBh9pQO3RbUFHulvfxBP0x3TtZflBGPyVc+U1DxtU6MRF4zWokwOsPdHj1SpZ/rbDXocBRX5sG3TPM0g7rwZ7ga3c3Y/SxjXtg+pFZQfAxmZwNmNOgX/yId5WmLfF8ZCsXfjsIaEWCxM2IdA2vz2V1YekhvtoLlTaMnRSYCbLNQbCCfYYSC6MCp3E2bJ5Bxjfuqhww5D3NJ7B8SPu6q0xFgQoxoPWmSEFqTQab7YvjtpHAGIaX5EGTEQxLgHGy/zvWONR59KwiQ1EstSviyai3F1YtIk2Ks+IFpnw3jxSjfCx2eKrvJ2Uz99Iocy8yMDj/sGSQLufyb3
+	6Y8VAArQ415yYX5EAUG/eiJWxdq8Mzaf1rFNnTDKhbQ9PLKH5N1rxzeaMe++OdvkIX1m8A+L/3t1sC/LPxVmv+XhoXSv+l91wDxD2xzzcY1b7308PyLo2j6Q2CNTBibdxuOIACUgZkq/X0FKxJJwbafQ/9ATAshejHkTl4g0DxQ+/IqIi5178RzmThico/hfgwOTVhk1ksTngyHoeQVjIb9ILyumSl66Hq0Lij6HwJGooFOSJMdCOklN5XUcu4PdFTFkWZlK6Hw9zHc9JIkb3Aj2/n54zIUDn38P/wg4BMcOcmpnWcaP7ycmJmlYE/l7wf5di4Pr7roUYHLnIt7Ac/WuCTav4nU4u+7mzSgcqH32HM3Iuwm1LRFSgPeaMSkYD6vVJfzaNOunzMtCub8A3oCA8SaT0PMhggMX10Sg7PJ6I3UUkOVretXLltGCjAw1
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 15:52:00.9072
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 15:52:08.4162
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0029e367-7856-4484-3afb-08dea474eba0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89a0ebe2-39b4-467c-2482-08dea474f01a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00022574.namprd02.prod.outlook.com
+	BL6PEPF00022572.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6741
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6131
 
-The original validate_message() enforced a strict equality check
-(response_sz != table.response_sz) for HSMP_SET and HSMP_GET messages,
-while only HSMP_SET_GET messages used a relaxed upper-bound check.
+Add a per-socket mutex (metric_tbl_lock) to serialize concurrent
+reads on the metric table sysfs file.  Without serialization, two
+simultaneous readers could interleave the SMU refresh command and
+the memcpy_fromio(), producing a torn (mixed old/new) snapshot.
 
-As HSMP protocol versions increase, existing message IDs may gain
-additional response arguments on newer platforms.  The strict equality
-check rejects older userspace callers that were compiled against an
-earlier hsmp_msg_desc_table[] and request fewer response words than the
-current table defines, breaking backward compatibility unnecessarily.
-
-Replace the per-type branching with a single upper-bound check for all
-message types.  This allows older userspace to request fewer response
-words while still rejecting any request that exceeds the hardware
-capability defined in the descriptor table.
+Use the scoped guard(mutex) API from <linux/cleanup.h> so the lock
+is automatically released when hsmp_metric_tbl_read() returns,
+including on error paths.
 
 Co-developed-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
 Signed-off-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
 Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
 ---
-Change v1->v2: New
+Changes v1->v2: New patch
 
- drivers/platform/x86/amd/hsmp/hsmp.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ drivers/platform/x86/amd/hsmp/hsmp.c | 5 +++++
+ drivers/platform/x86/amd/hsmp/hsmp.h | 3 +++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
-index 631ffc0978d1..9bad58fef304 100644
+index d6e377078182..49e7ed9981e9 100644
 --- a/drivers/platform/x86/amd/hsmp/hsmp.c
 +++ b/drivers/platform/x86/amd/hsmp/hsmp.c
-@@ -182,20 +182,15 @@ static int validate_message(struct hsmp_message *msg)
- 		return -EINVAL;
+@@ -10,7 +10,9 @@
+ #include <asm/amd/hsmp.h>
  
- 	/*
--	 * Some older HSMP SET messages are updated to add GET in the same message.
--	 * In these messages, GET returns the current value and SET also returns
--	 * the successfully set value. To support this GET and SET in same message
--	 * while maintaining backward compatibility for the HSMP users,
--	 * hsmp_msg_desc_table[] indicates only maximum allowed response_sz.
-+	 * As the HSMP protocol evolves, newer platforms may define more
-+	 * response arguments for existing messages.  Use an upper-bound
-+	 * check so that older userspace callers requesting fewer response
-+	 * words than what the current hsmp_msg_desc_table[] defines are
-+	 * still accepted, while rejecting requests that exceed the
-+	 * hardware capability.
- 	 */
--	if (hsmp_msg_desc_table[msg->msg_id].type == HSMP_SET_GET) {
--		if (msg->response_sz > hsmp_msg_desc_table[msg->msg_id].response_sz)
--			return -EINVAL;
--	} else {
--		/* only HSMP_SET or HSMP_GET messages go through this strict check */
--		if (msg->response_sz != hsmp_msg_desc_table[msg->msg_id].response_sz)
--			return -EINVAL;
--	}
-+	if (msg->response_sz > hsmp_msg_desc_table[msg->msg_id].response_sz)
-+		return -EINVAL;
+ #include <linux/acpi.h>
++#include <linux/cleanup.h>
+ #include <linux/delay.h>
++#include <linux/mutex.h>
+ #include <linux/device.h>
+ #include <linux/semaphore.h>
+ #include <linux/sysfs.h>
+@@ -364,6 +366,7 @@ ssize_t hsmp_metric_tbl_read(struct hsmp_socket *sock, char *buf, size_t size)
+ 	msg.msg_id	= HSMP_GET_METRIC_TABLE;
+ 	msg.sock_ind	= sock->sock_ind;
+ 
++	guard(mutex)(&sock->metric_tbl_lock);
+ 	ret = hsmp_send_message(&msg);
+ 	if (ret)
+ 		return ret;
+@@ -408,6 +411,8 @@ int hsmp_get_tbl_dram_base(u16 sock_ind)
+ 		dev_err(sock->dev, "Failed to ioremap metric table addr\n");
+ 		return -ENOMEM;
+ 	}
++
++	mutex_init(&sock->metric_tbl_lock);
  	return 0;
  }
+ EXPORT_SYMBOL_NS_GPL(hsmp_get_tbl_dram_base, "AMD_HSMP");
+diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
+index e7f051475728..038678b8ab0e 100644
+--- a/drivers/platform/x86/amd/hsmp/hsmp.h
++++ b/drivers/platform/x86/amd/hsmp/hsmp.h
+@@ -16,6 +16,7 @@
+ #include <linux/kconfig.h>
+ #include <linux/miscdevice.h>
+ #include <linux/pci.h>
++#include <linux/mutex.h>
+ #include <linux/semaphore.h>
+ #include <linux/sysfs.h>
  
+@@ -41,6 +42,8 @@ struct hsmp_socket {
+ 	struct bin_attribute hsmp_attr;
+ 	struct hsmp_mbaddr_info mbinfo;
+ 	void __iomem *metric_tbl_addr;
++	/* Serializes concurrent metric table reads */
++	struct mutex metric_tbl_lock;
+ 	void __iomem *virt_base_addr;
+ 	struct semaphore hsmp_sem;
+ 	char name[HSMP_ATTR_GRP_NAME_SIZE];
 -- 
 2.34.1
 
