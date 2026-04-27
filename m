@@ -1,166 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE9924293C;
-	Mon, 27 Apr 2026 09:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A53939A7F4;
+	Mon, 27 Apr 2026 09:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777282103; cv=none; b=ePgGdjefOOMXgbMOrEfgIihRUPHOnKzDazUbXARxV3G61iqOQ30QxIb2T3kNzZ1dNx2ueOnuh/ZIKtSVD06TIGNxp2ZNfTMVTJN3jTQ8j+2GmMNTkmMN9hKLaa79XUY2Ey4yY8udRqzp99ShzciwakWUXSpA61Ueup1rSia+6Us=
+	t=1777282296; cv=none; b=Y6QPpD/REBR03oFTohKkwiyxCNdatJ54i0rwpiwg2wXPkMckdDxSUv+weBCsqxjpSyqmI8CGOo6sFtct3qLZM8iQIM3loh/6BjhkcEiWkoiQrhWc9Ua/1arLa4rxsfDoDsA/eMN4dmD04Wq6FOHj/yFExairzeAlitGpEbxMq4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777282103; c=relaxed/simple;
-	bh=38Eg7fzUhEHcKQxPhK//RD3lF1LtVHnHiWyYCaGxWi4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C0L8FHWOGh7JbpPjdmoCDRtzmPTorEAUh5/ztGOFscgTPLa2hBnTKgErrjdbsPwtnQh4SdNrBgCb7aONsLKIE4fq2crkGljaBsQ90niDEvY7j6jaTYMzS4B0GojJw+l6D2uLFUT5s4q+7gURPYe4djjnQsHMzPPSdPQeoEaUKgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k9ko+X8h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777282296; c=relaxed/simple;
+	bh=A0oXCMrybLIEwLDt5XmVSSXvZtqREUvn/lU0xjuCu6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X7RlpiH4U48fP7xcaHQwOPkJx6htsaGnPx/MwzSXv/GL4y1XOtjahdgAfzubHJTJZpvxhlhpyLUHYpH73D6e7E/yAlG8/oXPCbNJ0LVVMEelN69/jc1rkvvotwD8JEamtzY10Gjt8bdUiiRyOv5QuQDhFk/zbA/TQHDdIN2G1eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=Oui0MOT0; arc=none smtp.client-ip=217.194.8.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9ko+X8h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DAD3C2BCB6;
-	Mon, 27 Apr 2026 09:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777282103;
-	bh=38Eg7fzUhEHcKQxPhK//RD3lF1LtVHnHiWyYCaGxWi4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=k9ko+X8hteZitT+P7Xd5MkF0CK4/Y98A6IupxRxKrxOYCU4MpLdgdWvbxewgoyW/R
-	 1k09eUdB4tsx0fShHBjfIs+iLz/gFBgGAwso7o6XmdmGHpIMFNphG9JkDCr5LwiRlR
-	 hlZ2xuODo6d6T7TWh2xv1/ibvaJNSp0QzzZgp+CLhK7kD2flIQs8qXkdsB5gfhWJMw
-	 qJYH9lIhhvyMBqTeM71FRS9WBKGg4dam4/jbk+Y6UVYkbZhg6btTPaX+zgQ8zeTEBS
-	 DoHd8WdD6h6ijsbaFKBMFAFIN1DlHULxvWR+h27dR/yRKW7tylMEKmgOQPuh1/MoNW
-	 0BriLFhOJAv1g==
-Message-ID: <572dc427-9598-4982-a015-d19904996dab@kernel.org>
-Date: Mon, 27 Apr 2026 11:28:15 +0200
+	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="Oui0MOT0"
+Received: from francesco-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
+	by mail11.truemail.it (Postfix) with ESMTPA id 39F831FB1B;
+	Mon, 27 Apr 2026 11:31:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1777282292;
+	bh=3f+ipyipbG9ve74SWingHtpF8ckpjt3qTGqxppXfFzY=; h=From:To:Subject;
+	b=Oui0MOT0x94+2dM3R5uOpRffJ9Wx9j6ylSA9QAkTg92XTx+dn56JG7xkyoASs/fa6
+	 jeurKD+LfLijfHlA9mg6wH5OqqjaEOvDVucHz17xzhALz3mdyDx+/MsPHaZVp+YVxJ
+	 VIU34BPvnoFHTPl+YThEFIUGqU6HzI1TbxO1HNl3JHKluUYtK9yGDDeiUXDnyOF/Yz
+	 U9rQ8naikD2oQ8qGchfq7QlTttc7kMhUh/sUuzk97naTvYQq6FTtCPfwqgnIJIqwXO
+	 eWElkycEwmM5cl9ZVK2doQf8R3IWlYTNVaMEWuAXQbf20IyJv35NG87Vt7cb+pgGT3
+	 aaV344jJwI6MA==
+Date: Mon, 27 Apr 2026 11:31:27 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Francesco Dolcini <francesco@dolcini.it>, peng.fan@oss.nxp.com,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Frank Li <Frank.Li@nxp.com>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, driver-core@lists.linux.dev,
+	regressions@lists.linux.dev
+Subject: Re: [PATCH v2 6/9] soc: imx8m: don't access of_root directly
+Message-ID: <20260427093127.GA50667@francesco-nb>
+References: <20260223-soc-of-root-v2-0-b45da45903c8@oss.qualcomm.com>
+ <20260223-soc-of-root-v2-6-b45da45903c8@oss.qualcomm.com>
+ <6593091.DvuYhMxLoT@steina-w>
+ <20260427064704.GA17710@francesco-nb>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drivers/base/memory: fix memory block reference leak
- in poison accounting
-To: Muchun Song <muchun.song@linux.dev>, Miaohe Lin <linmiaohe@huawei.com>
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Ying Huang <huang.ying.caritas@gmail.com>, Dan Williams <djbw@kernel.org>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>, linux-mm@kvack.org,
- linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Andrew Morton
- <akpm@linux-foundation.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>
-References: <20260426144447.817722-1-songmuchun@bytedance.com>
- <20260426144447.817722-2-songmuchun@bytedance.com>
- <7fe73023-1fd1-0c10-107e-5c0f47383453@huawei.com>
- <D07C436E-E6BF-4E6D-9431-48C496E350CE@linux.dev>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <D07C436E-E6BF-4E6D-9431-48C496E350CE@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427064704.GA17710@francesco-nb>
 
-On 4/27/26 11:16, Muchun Song wrote:
-> 
-> 
->> On Apr 27, 2026, at 17:13, Miaohe Lin <linmiaohe@huawei.com> wrote:
->>
->> On 2026/4/26 22:44, Muchun Song wrote:
->>> memblk_nr_poison_inc() and memblk_nr_poison_sub() look up a memory
->>> block via find_memory_block_by_id(), which acquires a reference to the
->>> memory block device.
->>>
->>> Both helpers use the returned memory block without dropping that
->>> reference, leaking the device reference on each successful lookup. Drop
->>> the reference after updating nr_hwpoison.
->>>
->>> Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->>
->> This patch looks good to me with one question below:
->>
->> Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
-> 
-> Thanks.
-> 
->>
->>> ---
->>> drivers/base/memory.c | 8 ++++++--
->>> 1 file changed, 6 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
->>> index f806a683b767..6981b55d582a 100644
->>> --- a/drivers/base/memory.c
->>> +++ b/drivers/base/memory.c
->>> @@ -1230,8 +1230,10 @@ void memblk_nr_poison_inc(unsigned long pfn)
->>> const unsigned long block_id = pfn_to_block_id(pfn);
->>> struct memory_block *mem = find_memory_block_by_id(block_id);
->>>
->>> - 	if (mem)
->>> + 	if (mem) {
->>> 		atomic_long_inc(&mem->nr_hwpoison);
->>> + 		put_device(&mem->dev);
->>
->> Comment above find_memory_block_by_id says it's called under device_hotplug_lock.
->>
->> /*
->> * A reference for the returned memory block device is acquired.
->> *
->> * Called under device_hotplug_lock.
->> */
->> struct memory_block *find_memory_block_by_id(unsigned long block_id)
->>
->> But device_hotplug_lock is missing here. Should we add it?
-> 
-> Yes. Otherwise mem can be freed concurrently.
++Peng
 
-I guess that is rather unlikely to happen, given that we just worked on online
-memory. But sure, if we can take that lock there easily, then let's do that.
+Hello all,
 
--- 
-Cheers,
+On Mon, Apr 27, 2026 at 08:47:04AM +0200, Francesco Dolcini wrote:
+> On Tue, Mar 24, 2026 at 11:24:09AM +0100, Alexander Stein wrote:
+> > Hi,
+> > 
+> > Am Montag, 23. Februar 2026, 14:37:21 CET schrieb Bartosz Golaszewski:
+> > > Don't access of_root directly as it reduces the build test coverage for
+> > > this driver with COMPILE_TEST=y and OF=n. Use existing helper functions
+> > > to retrieve the relevant information.
+> > > 
+> > > Suggested-by: Rob Herring <robh@kernel.org>
+> > > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> > 
+> > today I noticed the following warning running next-20260323:
+> > > caam 30900000.crypto: No clock data provided for i.MX SoC
+> > 
+> > This happens when there is no matching against the soc_id.
+> > 
+> > Checking the source it turns out this patch is the cause that the SoC info
+> > does not provide soc_id anymore.
+> > next-20260323:
+> > > $ grep . /sys/devices/soc0/*
+> > > /sys/devices/soc0/family:Freescale i.MX
+> > > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
+> > > grep: /sys/devices/soc0/power: Is a directory
+> > > /sys/devices/soc0/revision:unknown
+> > > /sys/devices/soc0/serial_number:0000000000000000
+> > > grep: /sys/devices/soc0/subsystem: Is a directory
+> > 
+> > reverting this patch (2524b293a59e586afd06358d0b191ab57208a920):
+> > > $ grep . /sys/devices/soc0/*
+> > > /sys/devices/soc0/family:Freescale i.MX
+> > > /sys/devices/soc0/machine:TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MP-RAS314
+> > > grep: /sys/devices/soc0/power: Is a directory
+> > > /sys/devices/soc0/revision:1.1
+> > > /sys/devices/soc0/serial_number:469677A693A4B8CE131D180033E44903
+> > > /sys/devices/soc0/soc_id:i.MX8MP
+> > > grep: /sys/devices/soc0/subsystem: Is a directory
+> > 
+> > soc_id is restored. Now that I write these lines I noticed that
+> > serial_number also contained empty value which is restored with the revert.
+> 
+> Any update on this? I would say this is a regression in 7.1-rc1.
+> 
+> I noticed the same issue, and CAAM is not working.
+> 
+> [    0.000000] Linux version 7.1.0-rc1-0.0.0-devel (oe-user@oe-host) (aarch64-tdx-linux-gcc (GCC) 15.2.0, GNU ld (GNU Binutils) 2.46) #1 SMP PREEMPT Sun Apr 26 21:19:00 UTC 2026
+> ...
+> [   10.611139] caam 30900000.crypto: No clock data provided for i.MX SoC
+> [   10.611211] caam 30900000.crypto: probe with driver caam failed with error -22
 
-David
+I guess this is the fix
+
+https://lore.kernel.org/all/20260427-soc-imx8m-fix-v1-1-1fe5b43d8090@nxp.com/
+
