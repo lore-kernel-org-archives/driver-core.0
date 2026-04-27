@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEF826F2BE;
-	Mon, 27 Apr 2026 22:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974AD3A1A54;
+	Mon, 27 Apr 2026 22:10:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777327810; cv=none; b=uTZ4xf9jKLCcUh+GwINF/g6oldQcQ6lxy3520+9U8j7cO4DgUTpZCRgi0eF0luZM6wBWoViq2tOLHZvopbEhsCm5yo5RSpg8k8N5GO5bAzhrcBJPPMKzpZvJkH7GA0ZZFtnw8wXR6VBa4ZfvjT7RZ6N8t7NTT2N0XvmEMbZpw0g=
+	t=1777327814; cv=none; b=rNmchKzafT7c1IznWZU8v0IUFSBX998eYyUqX4FsRQgCwyt0WuD6sdzmKlVUemtFiMWBfRx7XlFCRF6nuixZtxi+CsAS/pKuLKL0/W7k74O2sxneaGqVSYLI8wvYB6a8K6N8RFFwcJ70lbrOafP+Oj6Rq3eWNnX7zBXJqwJyycs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777327810; c=relaxed/simple;
-	bh=RhmjGyyC7zIoDOwBCTiwM6xx+/W2gzJoXMpyzbXHsLE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c8oXkXOcDwi1o9A9mfYyIp59ozuC9lYaDIwFx8tg+bKqzhn8L4edsbnHqMex/p6kFyqp750LGXMcRxPMZypgmrmzNOMwhUWo6tds/9NTRqjQXzFv/A30W/feXyUjAvaF1lsDsiUhC5UUTVMTTu6lLhYZ8XuMsyg5kqh2iN/NGKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hEl5bVKN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777327814; c=relaxed/simple;
+	bh=zI+mMBdbuau50/8YDiI0VaEPwOU1Qoarl3j0X+HD4BQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rJXQdPWiWa3bQ3BN0yxQU1e4JJ+xtG9+2WM/kjM8YPWxh+sQQZlL6JFaC6Te3nPx4VIgjK1PijLmMqSX1lUdxBbFGVGecGN+p6TIH6+mWKqsUQPQCxnfBuxe5VVbuJ2pu0g+ULACan3Q5EyZL5ybSlMgprhaUYVu7IuVoavLmQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y6qGnLzY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hEl5bVKN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89BFC19425;
-	Mon, 27 Apr 2026 22:10:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y6qGnLzY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43A6EC2BCB5;
+	Mon, 27 Apr 2026 22:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777327809;
-	bh=RhmjGyyC7zIoDOwBCTiwM6xx+/W2gzJoXMpyzbXHsLE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hEl5bVKN4WCrK3inmbbdsojOPaPGka3q3/12uffAJq7M2Pj+MmebOoqXkcL/apLEQ
-	 wHyY/d1q951HKJB+NzvBZ9sgoj50gtGZbpdm2mLeAvyFILb03mPXDZaOP2K8kACRA3
-	 Hdm93IQdoi0lTExG6kBbd2CVa2wGZleTFe++y5RqxGZ70zCdO+uqmdfMAbvmzVt4SL
-	 eWHCHD4LM4IX8htp8lCaFmm0WCBOHvCKbdBeryZW3xd36LTn+iwQ9Ew2O0KJzh0qBl
-	 WwBt4G0dEasoMgdHDDzuxMKzt6C7nP5CkF/2VP5ctScmfFl1QRc0ENvizO0S7Re+Dx
-	 CrggkhI3g0VLQ==
+	s=k20201202; t=1777327814;
+	bh=zI+mMBdbuau50/8YDiI0VaEPwOU1Qoarl3j0X+HD4BQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Y6qGnLzY3KZ7BzhazKAY+kJQ5PPKyrFVb0oAotjtfC6498nkJyOZaAzbdEZ5DpNA1
+	 Efy8fIllZGqNmhqJSVUEFOMWk0lOfxeEV8AK0JfD3gu6juFt/v/Jm03fPNo3AZ31HD
+	 oIR6CLAipt7nh4zEQZx+y4x4Sn9YuCBRp5ubCPzh8wzU2MWCF+SVuom1gqmemfbOYD
+	 r+lK5T37TWu8JY7+vTKU7Mehw9HyMR+hJGqj/R5eZ6D3HvYeTpi2oAAOLacJUrnEAl
+	 6YlMA5/pZd3hfYc/ETeDrGpS7fNaYZBFQ1zVUYsTYMRVW6GQQwwQUVFyyEfrTKZ9od
+	 ClwhKcx033PSw==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -46,10 +47,12 @@ Cc: driver-core@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
 	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 0/2] rust: auxiliary: replace drvdata() with registration data
-Date: Tue, 28 Apr 2026 00:09:39 +0200
-Message-ID: <20260427221002.2143861-1-dakr@kernel.org>
+Subject: [PATCH 1/2] rust: auxiliary: add registration data to auxiliary devices
+Date: Tue, 28 Apr 2026 00:09:40 +0200
+Message-ID: <20260427221002.2143861-2-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260427221002.2143861-1-dakr@kernel.org>
+References: <20260427221002.2143861-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -58,58 +61,421 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When drvdata() was introduced in commit 6f61a2637abe ("rust: device: introduce
-Device::drvdata()"), its commit message already noted that a direct accessor to
-the driver's bus device private data is not commonly required -- bus callbacks
-provide access through &self, and other entry points (IRQs, workqueues, IOCTLs,
-etc.) carry their own private data.
+Add a registration_data pointer to struct auxiliary_device, allowing the
+registering (parent) driver to attach private data to the device at
+registration time and retrieve it later when called back by the
+auxiliary (child) driver.
 
-The sole motivation for drvdata() was inter-driver interaction, e.g. a parent
-driver deriving its bus device private data from the child driver via the
-auxiliary bus.
+By tying the data to the device's registration, Rust drivers can bind
+the lifetime of device resources to it, since the auxiliary bus
+guarantees that the parent driver remains bound while the auxiliary
+device is bound.
 
-However, drvdata() exposes the driver's bus device private data beyond the
-driver's own scope. This creates ordering constraints -- drvdata may not be set
-yet when the first caller of drvdata() can appear -- and forces the driver's bus
-device private data to outlive all registrations that access it; a requirement
-that causes unnecessary complications.
+On the Rust side, Registration<T> takes ownership of the data via
+ForeignOwnable. A TypeId is stored alongside the data for runtime type
+checking, making Device::registration_data<T>() a safe method.
 
-Private data should be private to the entity that issues it; bus device private
-data belongs to bus callbacks, class device private data to class callbacks, IRQ
-private data to the IRQ handler, etc.
-
-This series replaces drvdata() with a dedicated registration_data pointer on
-struct auxiliary_device. The parent stores its private data explicitly during
-registration; the data is private to the registration and lives as long as the
-Registration object.
-
-On teardown, Registration::drop() first triggers auxiliary_device_delete()
-(unbinding the child), then frees the registration data. Ordering constraints
-are structural -- the child's lifecycle is scoped to the registration by
-construction, not by convention.
-
-With no remaining use case for drvdata(), drvdata(), match_type_id(),
-set_type_id() and struct driver_type are removed.
-
-This is a prerequisite for [1], which builds on the removal of drvdata() to
-enable Higher-Ranked Lifetime Types (HRT) for Rust device drivers.
-
-[1] Posted as a reply to this series.
-
-Danilo Krummrich (2):
-  rust: auxiliary: add registration data to auxiliary devices
-  rust: driver core: remove drvdata() and driver_type
-
- drivers/base/base.h                   |  16 --
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
  drivers/gpu/nova-core/driver.rs       |  10 +-
  include/linux/auxiliary_bus.h         |   4 +
  rust/kernel/auxiliary.rs              | 208 ++++++++++++++++++--------
- rust/kernel/device.rs                 |  60 --------
  samples/rust/rust_driver_auxiliary.rs |  40 +++--
- 6 files changed, 180 insertions(+), 158 deletions(-)
+ 4 files changed, 180 insertions(+), 82 deletions(-)
 
-
-base-commit: a7cc262a11354ab104b8e55c21200d099d141bc7
+diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
+index 84b0e1703150..8fe484d357f6 100644
+--- a/drivers/gpu/nova-core/driver.rs
++++ b/drivers/gpu/nova-core/driver.rs
+@@ -32,8 +32,7 @@
+ pub(crate) struct NovaCore {
+     #[pin]
+     pub(crate) gpu: Gpu,
+-    #[pin]
+-    _reg: Devres<auxiliary::Registration>,
++    _reg: Devres<auxiliary::Registration<()>>,
+ }
+ 
+ const BAR0_SIZE: usize = SZ_16M;
+@@ -96,14 +95,15 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
+ 
+             Ok(try_pin_init!(Self {
+                 gpu <- Gpu::new(pdev, bar.clone(), bar.access(pdev.as_ref())?),
+-                _reg <- auxiliary::Registration::new(
++                _reg: auxiliary::Registration::new(
+                     pdev.as_ref(),
+                     c"nova-drm",
+                     // TODO[XARR]: Use XArray or perhaps IDA for proper ID allocation/recycling. For
+                     // now, use a simple atomic counter that never recycles IDs.
+                     AUXILIARY_ID_COUNTER.fetch_add(1, Relaxed),
+-                    crate::MODULE_NAME
+-                ),
++                    crate::MODULE_NAME,
++                    (),
++                )?,
+             }))
+         })
+     }
+diff --git a/include/linux/auxiliary_bus.h b/include/linux/auxiliary_bus.h
+index bc09b55e3682..4e1ad8ccbcdd 100644
+--- a/include/linux/auxiliary_bus.h
++++ b/include/linux/auxiliary_bus.h
+@@ -62,6 +62,9 @@
+  * @sysfs.irqs: irqs xarray contains irq indices which are used by the device,
+  * @sysfs.lock: Synchronize irq sysfs creation,
+  * @sysfs.irq_dir_exists: whether "irqs" directory exists,
++ * @registration_data_rust: private data owned by the registering (parent)
++ *                          driver; valid for as long as the device is
++ *                          registered with the driver core,
+  *
+  * An auxiliary_device represents a part of its parent device's functionality.
+  * It is given a name that, combined with the registering drivers
+@@ -148,6 +151,7 @@ struct auxiliary_device {
+ 		struct mutex lock; /* Synchronize irq sysfs creation */
+ 		bool irq_dir_exists;
+ 	} sysfs;
++	void *registration_data_rust;
+ };
+ 
+ /**
+diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+index 93c0db1f6655..467befea8e44 100644
+--- a/rust/kernel/auxiliary.rs
++++ b/rust/kernel/auxiliary.rs
+@@ -19,12 +19,17 @@
+         to_result, //
+     },
+     prelude::*,
+-    types::Opaque,
++    types::{
++        ForeignOwnable,
++        Opaque, //
++    },
+     ThisModule, //
+ };
+ use core::{
++    any::TypeId,
+     marker::PhantomData,
+     mem::offset_of,
++    pin::Pin,
+     ptr::{
+         addr_of_mut,
+         NonNull, //
+@@ -257,6 +262,40 @@ pub fn parent(&self) -> &device::Device<device::Bound> {
+         // SAFETY: A bound auxiliary device always has a bound parent device.
+         unsafe { parent.as_bound() }
+     }
++
++    /// Returns a pinned reference to the registration data set by the registering (parent) driver.
++    ///
++    /// Returns [`EINVAL`] if `T` does not match the type used by the parent driver when calling
++    /// [`Registration::new()`].
++    ///
++    /// Returns [`ENOENT`] if no registration data has been set, e.g. when the device was
++    /// registered by a C driver.
++    pub fn registration_data<T: 'static>(&self) -> Result<Pin<&T>> {
++        // SAFETY: By the type invariant, `self.as_raw()` is a valid `struct auxiliary_device`.
++        let ptr = unsafe { (*self.as_raw()).registration_data_rust };
++        if ptr.is_null() {
++            dev_warn!(
++                self.as_ref(),
++                "No registration data set; parent is not a Rust driver.\n"
++            );
++            return Err(ENOENT);
++        }
++
++        // SAFETY: `ptr` is non-null and was set via `into_foreign()` in `Registration::new()`;
++        // `RegistrationData` is `#[repr(C)]` with `type_id` at offset 0, so reading a `TypeId`
++        // at the start of the allocation is valid regardless of `T`.
++        let type_id = unsafe { ptr.cast::<TypeId>().read() };
++        if type_id != TypeId::of::<T>() {
++            return Err(EINVAL);
++        }
++
++        // SAFETY: The `TypeId` check above confirms that the stored type is `T`; `ptr` remains
++        // valid until `Registration::drop()` calls `from_foreign()`.
++        let wrapper = unsafe { Pin::<KBox<RegistrationData<T>>>::borrow(ptr) };
++
++        // SAFETY: `data` is a structurally pinned field of `RegistrationData`.
++        Ok(unsafe { wrapper.map_unchecked(|w| &w.data) })
++    }
+ }
+ 
+ impl Device {
+@@ -326,87 +365,132 @@ unsafe impl Send for Device {}
+ // (i.e. `Device<Normal>) are thread safe.
+ unsafe impl Sync for Device {}
+ 
++/// Wrapper that stores a [`TypeId`] alongside the registration data for runtime type checking.
++#[repr(C)]
++#[pin_data]
++struct RegistrationData<T> {
++    type_id: TypeId,
++    #[pin]
++    data: T,
++}
++
+ /// The registration of an auxiliary device.
+ ///
+ /// This type represents the registration of a [`struct auxiliary_device`]. When its parent device
+ /// is unbound, the corresponding auxiliary device will be unregistered from the system.
+ ///
++/// The type parameter `T` is the type of the registration data owned by the registering (parent)
++/// driver. It can be accessed by the auxiliary driver through
++/// [`Device::registration_data()`].
++///
+ /// # Invariants
+ ///
+-/// `self.0` always holds a valid pointer to an initialized and registered
+-/// [`struct auxiliary_device`].
+-pub struct Registration(NonNull<bindings::auxiliary_device>);
+-
+-impl Registration {
+-    /// Create and register a new auxiliary device.
+-    pub fn new<'a>(
+-        parent: &'a device::Device<device::Bound>,
+-        name: &'a CStr,
++/// `self.adev` always holds a valid pointer to an initialized and registered
++/// [`struct auxiliary_device`], and `registration_data` points to a valid
++/// `Pin<KBox<RegistrationData<T>>>`.
++pub struct Registration<T: 'static> {
++    adev: NonNull<bindings::auxiliary_device>,
++    _data: PhantomData<T>,
++}
++
++impl<T: Send + 'static> Registration<T> {
++    /// Create and register a new auxiliary device with the given registration data.
++    ///
++    /// The `data` is owned by the registration and can be accessed through the auxiliary device
++    /// via [`Device::registration_data()`].
++    pub fn new<E>(
++        parent: &device::Device<device::Bound>,
++        name: &CStr,
+         id: u32,
+-        modname: &'a CStr,
+-    ) -> impl PinInit<Devres<Self>, Error> + 'a {
+-        pin_init::pin_init_scope(move || {
+-            let boxed = KBox::new(Opaque::<bindings::auxiliary_device>::zeroed(), GFP_KERNEL)?;
+-            let adev = boxed.get();
+-
+-            // SAFETY: It's safe to set the fields of `struct auxiliary_device` on initialization.
+-            unsafe {
+-                (*adev).dev.parent = parent.as_raw();
+-                (*adev).dev.release = Some(Device::release);
+-                (*adev).name = name.as_char_ptr();
+-                (*adev).id = id;
+-            }
+-
+-            // SAFETY: `adev` is guaranteed to be a valid pointer to a `struct auxiliary_device`,
+-            // which has not been initialized yet.
+-            unsafe { bindings::auxiliary_device_init(adev) };
+-
+-            // Now that `adev` is initialized, leak the `Box`; the corresponding memory will be
+-            // freed by `Device::release` when the last reference to the `struct auxiliary_device`
+-            // is dropped.
+-            let _ = KBox::into_raw(boxed);
+-
+-            // SAFETY:
+-            // - `adev` is guaranteed to be a valid pointer to a `struct auxiliary_device`, which
+-            //   has been initialized,
+-            // - `modname.as_char_ptr()` is a NULL terminated string.
+-            let ret = unsafe { bindings::__auxiliary_device_add(adev, modname.as_char_ptr()) };
+-            if ret != 0 {
+-                // SAFETY: `adev` is guaranteed to be a valid pointer to a
+-                // `struct auxiliary_device`, which has been initialized.
+-                unsafe { bindings::auxiliary_device_uninit(adev) };
+-
+-                return Err(Error::from_errno(ret));
+-            }
+-
+-            // INVARIANT: The device will remain registered until `auxiliary_device_delete()` is
+-            // called, which happens in `Self::drop()`.
+-            Ok(Devres::new(
+-                parent,
+-                // SAFETY: `adev` is guaranteed to be non-null, since the `KBox` was allocated
+-                // successfully.
+-                Self(unsafe { NonNull::new_unchecked(adev) }),
+-            ))
+-        })
++        modname: &CStr,
++        data: impl PinInit<T, E>,
++    ) -> Result<Devres<Self>>
++    where
++        Error: From<E>,
++    {
++        let data = KBox::pin_init::<Error>(
++            try_pin_init!(RegistrationData {
++                type_id: TypeId::of::<T>(),
++                data <- data,
++            }),
++            GFP_KERNEL,
++        )?;
++
++        let boxed = KBox::new(Opaque::<bindings::auxiliary_device>::zeroed(), GFP_KERNEL)?;
++        let adev = boxed.get();
++
++        // SAFETY: It's safe to set the fields of `struct auxiliary_device` on initialization.
++        unsafe {
++            (*adev).dev.parent = parent.as_raw();
++            (*adev).dev.release = Some(Device::release);
++            (*adev).name = name.as_char_ptr();
++            (*adev).id = id;
++            (*adev).registration_data_rust = data.into_foreign();
++        }
++
++        // SAFETY: `adev` is guaranteed to be a valid pointer to a `struct auxiliary_device`,
++        // which has not been initialized yet.
++        unsafe { bindings::auxiliary_device_init(adev) };
++
++        // Now that `adev` is initialized, leak the `Box`; the corresponding memory will be
++        // freed by `Device::release` when the last reference to the `struct auxiliary_device`
++        // is dropped.
++        let _ = KBox::into_raw(boxed);
++
++        // SAFETY:
++        // - `adev` is guaranteed to be a valid pointer to a `struct auxiliary_device`, which
++        //   has been initialized,
++        // - `modname.as_char_ptr()` is a NULL terminated string.
++        let ret = unsafe { bindings::__auxiliary_device_add(adev, modname.as_char_ptr()) };
++        if ret != 0 {
++            // SAFETY: `registration_data` was set above via `into_foreign()`.
++            let _ = unsafe {
++                Pin::<KBox<RegistrationData<T>>>::from_foreign((*adev).registration_data_rust)
++            };
++
++            // SAFETY: `adev` is guaranteed to be a valid pointer to a
++            // `struct auxiliary_device`, which has been initialized.
++            unsafe { bindings::auxiliary_device_uninit(adev) };
++
++            return Err(Error::from_errno(ret));
++        }
++
++        // INVARIANT: The device will remain registered until `auxiliary_device_delete()` is
++        // called, which happens in `Self::drop()`.
++        let reg = Self {
++            // SAFETY: `adev` is guaranteed to be non-null, since the `KBox` was allocated
++            // successfully.
++            adev: unsafe { NonNull::new_unchecked(adev) },
++            _data: PhantomData,
++        };
++
++        Devres::new::<core::convert::Infallible>(parent, reg)
+     }
+ }
+ 
+-impl Drop for Registration {
++impl<T: 'static> Drop for Registration<T> {
+     fn drop(&mut self) {
+-        // SAFETY: By the type invariant of `Self`, `self.0.as_ptr()` is a valid registered
++        // SAFETY: By the type invariant of `Self`, `self.adev.as_ptr()` is a valid registered
+         // `struct auxiliary_device`.
+-        unsafe { bindings::auxiliary_device_delete(self.0.as_ptr()) };
++        unsafe { bindings::auxiliary_device_delete(self.adev.as_ptr()) };
++
++        // SAFETY: `registration_data` was set in `new()` via `into_foreign()`.
++        drop(unsafe {
++            Pin::<KBox<RegistrationData<T>>>::from_foreign(
++                (*self.adev.as_ptr()).registration_data_rust,
++            )
++        });
+ 
+         // This drops the reference we acquired through `auxiliary_device_init()`.
+         //
+-        // SAFETY: By the type invariant of `Self`, `self.0.as_ptr()` is a valid registered
++        // SAFETY: By the type invariant of `Self`, `self.adev.as_ptr()` is a valid registered
+         // `struct auxiliary_device`.
+-        unsafe { bindings::auxiliary_device_uninit(self.0.as_ptr()) };
++        unsafe { bindings::auxiliary_device_uninit(self.adev.as_ptr()) };
+     }
+ }
+ 
+ // SAFETY: A `Registration` of a `struct auxiliary_device` can be released from any thread.
+-unsafe impl Send for Registration {}
++unsafe impl<T: Send> Send for Registration<T> {}
+ 
+ // SAFETY: `Registration` does not expose any methods or fields that need synchronization.
+-unsafe impl Sync for Registration {}
++unsafe impl<T: Send> Sync for Registration<T> {}
+diff --git a/samples/rust/rust_driver_auxiliary.rs b/samples/rust/rust_driver_auxiliary.rs
+index 5c5a5105a3ff..319ef734c02b 100644
+--- a/samples/rust/rust_driver_auxiliary.rs
++++ b/samples/rust/rust_driver_auxiliary.rs
+@@ -17,8 +17,6 @@
+     InPlaceModule, //
+ };
+ 
+-use core::any::TypeId;
+-
+ const MODULE_NAME: &CStr = <LocalModule as kernel::ModuleMetadata>::NAME;
+ const AUXILIARY_NAME: &CStr = c"auxiliary";
+ 
+@@ -49,13 +47,13 @@ fn probe(adev: &auxiliary::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<S
+     }
+ }
+ 
+-#[pin_data]
++struct Data {
++    index: u32,
++}
++
+ struct ParentDriver {
+-    private: TypeId,
+-    #[pin]
+-    _reg0: Devres<auxiliary::Registration>,
+-    #[pin]
+-    _reg1: Devres<auxiliary::Registration>,
++    _reg0: Devres<auxiliary::Registration<Data>>,
++    _reg1: Devres<auxiliary::Registration<Data>>,
+ }
+ 
+ kernel::pci_device_table!(
+@@ -71,10 +69,21 @@ impl pci::Driver for ParentDriver {
+     const ID_TABLE: pci::IdTable<Self::IdInfo> = &PCI_TABLE;
+ 
+     fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, Error> {
+-        try_pin_init!(Self {
+-            private: TypeId::of::<Self>(),
+-            _reg0 <- auxiliary::Registration::new(pdev.as_ref(), AUXILIARY_NAME, 0, MODULE_NAME),
+-            _reg1 <- auxiliary::Registration::new(pdev.as_ref(), AUXILIARY_NAME, 1, MODULE_NAME),
++        Ok(Self {
++            _reg0: auxiliary::Registration::new(
++                pdev.as_ref(),
++                AUXILIARY_NAME,
++                0,
++                MODULE_NAME,
++                Data { index: 0 },
++            )?,
++            _reg1: auxiliary::Registration::new(
++                pdev.as_ref(),
++                AUXILIARY_NAME,
++                1,
++                MODULE_NAME,
++                Data { index: 1 },
++            )?,
+         })
+     }
+ }
+@@ -83,7 +92,8 @@ impl ParentDriver {
+     fn connect(adev: &auxiliary::Device<Bound>) -> Result {
+         let dev = adev.parent();
+         let pdev: &pci::Device<Bound> = dev.try_into()?;
+-        let drvdata = dev.drvdata::<Self>()?;
++
++        let data = adev.registration_data::<Data>()?;
+ 
+         dev_info!(
+             dev,
+@@ -95,8 +105,8 @@ fn connect(adev: &auxiliary::Device<Bound>) -> Result {
+ 
+         dev_info!(
+             dev,
+-            "We have access to the private data of {:?}.\n",
+-            drvdata.private
++            "Connected to auxiliary device with index {}.\n",
++            data.index
+         );
+ 
+         Ok(())
 -- 
 2.54.0
 
