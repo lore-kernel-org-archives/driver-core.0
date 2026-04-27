@@ -1,67 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4463B8BA4;
-	Mon, 27 Apr 2026 11:28:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9300130E0D4
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 11:30:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777289326; cv=none; b=kmmPfZqb+qGMacNLq4SAj/bQ77+XItn3ddXYbFzjaL0oyaVADs2rYrd55PLgsGBCMDAMCPucdPrq7E6cA2fij7DlhfXN+d7PczckRzFFaG0zHbAubwi8k+sQFMv1fnKKncl9u9XaRge89WZbvie1/CAaaqDmhJmUg/1uaHDHlQQ=
+	t=1777289449; cv=none; b=CDiVAa6T3yxAkZJXCvpfVEL3hnSPDtWoo6q6qduedKEPEdzroS6QAMbT8xkUHBKXC2QsfEM8A9QVH9QD1lBrk/uTkIB1s55p7q6WeTnvKNTY95mBvKwszIfwDp78vHKOwfMFpCPez1KcnrKRIKrNHPxQunnUzViIK4uCPMzKdNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777289326; c=relaxed/simple;
-	bh=t8qbdGApkXc67C5NnjZ7tvOcU2R+JY87tSW+zpj3HpA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MPGdma+jflMOqYKYuFa6e37VCZzTPVWguNjTCXMhjusrtBwDblXKOPgVZYg6enK2A1SbEbD7mkIxXkYy8gq4LPQmb+BxHhaa1n8NB5MUeI0n6Wrm3K2Lyfc6CJ0p5P9arFpb1yGYam7Txv7TWzOVf5JIpZBT6twuju0LaBJDjos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKf7kjVa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777289449; c=relaxed/simple;
+	bh=uuhq7sA60Gqf+d9o89HegPUXAaIeJCCjhTAYQjVkdZw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fOaP95iA6A+8VTbaTEnh8IdFhwLGUixGoDccMQ41aNlEM3JB7UVKCz/NFn40exhzQt25//uRRuZYwGe1jYig+hEj4wfQ5dYpXZ2EaYXsHrebXWn3FtWtUuQK/d7x4/k8woIdqXnn2oadseiK8I3vfJfYAsekmijx0NWFPv4xxSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tSvWRqAj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKf7kjVa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48676C2BCB6;
-	Mon, 27 Apr 2026 11:28:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tSvWRqAj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61D52C2BCB9
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 11:30:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777289325;
-	bh=t8qbdGApkXc67C5NnjZ7tvOcU2R+JY87tSW+zpj3HpA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CKf7kjVaGTbyarud+ThC4Vxiu8xbySQouSnNVb/Vmzb1AWQR6AmGBbWlgljgoQzB4
-	 LW7crYz45tOqZ9D85aVv+f2uqFy/SO2IHk+sFtbb2oInLixMS2ezG8ZSAGOwhYkVD7
-	 W32cfeHWob0h39EEEo2xJkYjbfy8c9MM+i0dxqBMmmEtNwMkhj6BW4fxdoSd0MpvVG
-	 /lVb0IFO0ewg1qMpHZr7VDmt86BZps2ybG+B6Q813TXyiJpCO2fQhQvaTyQOCx4dTM
-	 +w+rPl/+gPc4BH3+v5baSFY5BLzzXNYmRkL2lLSALBeJ78T+zzkJWyPeFd+YE9eSoL
-	 K5U8sVVf59wOg==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>, Abdiel
- Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice
- Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Alexandre
- Courbot <acourbot@nvidia.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Gary Guo <gary@garyguo.net>
-Subject: Re: [PATCH 2/5] rust: dma: update to keyworded index projection syntax
-In-Reply-To: <20260415-projection-syntax-rework-v1-2-450723cb3727@garyguo.net>
-References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net>
- <Y_UaWMYTo9Xb8viyPNggy28srKaFUvKR9HjIcL1PpalkyTdjVdIgSU_O-zU-kbfo7QT3pyp6v8v03_EeVCUNEw==@protonmail.internalid>
- <20260415-projection-syntax-rework-v1-2-450723cb3727@garyguo.net>
-Date: Mon, 27 Apr 2026 13:25:58 +0200
-Message-ID: <87o6j4r6ex.fsf@t14s.mail-host-address-is-not-set>
+	s=k20201202; t=1777289449;
+	bh=uuhq7sA60Gqf+d9o89HegPUXAaIeJCCjhTAYQjVkdZw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tSvWRqAjQZPnE18tS/WSED4tXggK1kOvZF2lng31Vexe4UnmzFi/U/s5xZVxWMc0L
+	 M2PKVyk3iwd02FqluEWz+50hjpy6fL64GWROhU7zNqTwSRP9fdxHiBd4doWfvq7e3P
+	 8ERgmh4JvUYQ9P2GKx6t/D74EDZ2fdnEWoxZLGCBTMHQ+y/9F/5lxok3CJn7DElNQH
+	 30LGawrLnyQHTjC+emfAAyLM5MWXgJNPiKrGJoeoRlNHu1b6nbtCoPGaPqBMFuoGXl
+	 BBYt79Ea1YhGM2NXSDJSranc3rlxJ5d0gJzevFkGmMoHif+q6i0o8YiYELxYFZYcFO
+	 6O9r8OwtZnPtQ==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38e68e4389cso105312981fa.3
+        for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 04:30:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8yHuTfcDJxRAvZ22U5myhMJt2C2zdugI/7dJizVtlatxb8yeBIivd+a25BQQmxgnLekVrfL59AetyvSg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPK4kWVhdd28E6v/4zeRhHxVClI+zPcat0ab7SNEyrpdiF86OH
+	9t55JQ+y/hLMVBbos/nI8nFzLnADgd4cFwe7TmWDzXm8nkWLoSbhSyGzJ5wO/c2+Zk+yyDYIQZZ
+	K2YMK2xLO5pXO2Jusd3hx5uqIJEzPiBnchtoDO6CR5w==
+X-Received: by 2002:a05:651c:41d7:b0:38c:6b42:3d77 with SMTP id
+ 38308e7fff4ca-38ec780c22bmr131866391fa.2.1777289447975; Mon, 27 Apr 2026
+ 04:30:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260402-baytrail-real-swnode-v2-0-6f5054a4cc07@oss.qualcomm.com>
+ <20260402-baytrail-real-swnode-v2-4-6f5054a4cc07@oss.qualcomm.com> <CAJZ5v0iwfZPcFtM7Jv29bXFmh3zN0OaG9UfNY5iC5RpzRzp07w@mail.gmail.com>
+In-Reply-To: <CAJZ5v0iwfZPcFtM7Jv29bXFmh3zN0OaG9UfNY5iC5RpzRzp07w@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 27 Apr 2026 13:30:35 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MdU7RPefrq48+UwNZRZyY15xaVJxGPtgTkb=kormDid+w@mail.gmail.com>
+X-Gm-Features: AVHnY4JlotpDuyz8EzI3eJfkgs-1h8ebDHBxv3BtsLxXORU4YbE7QcSHGar9q8k
+Message-ID: <CAMRc=MdU7RPefrq48+UwNZRZyY15xaVJxGPtgTkb=kormDid+w@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] platform/x86: x86-android-tablets: enable fwnode
+ matching of GPIO chips
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-"Gary Guo" <gary@garyguo.net> writes:
-
-> Demonstrate the preferred syntax of index projection in DMA documentation
-> and examples. A few `[i]?` cases are converted to demonstrate the new
-> variant.
+On Sat, Apr 4, 2026 at 8:25=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
+> wrote:
 >
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+> > +
+> > +static void auto_secondary_unregister_notifier(void *data)
+> > +{
+> > +       struct notifier_block *nb =3D data;
+> > +
+> > +       bus_unregister_notifier(&acpi_bus_type, nb);
+> > +}
+>
+> Instead of exporting acpi_bus_type in the previous patch and defining
+> this function here, can you define
+>
+> void acpi_bus_unregister_notifier(void *data)
+> {
+>        struct notifier_block *nb =3D data;
+>
+>        bus_unregister_notifier(&acpi_bus_type, nb);
+> }
+>
+> in the previous patch and use it here?
+>
 
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+Not really because we still need to call bus_find_device_by_name(). I
+think it's better to just export this one symbol than to add three new
+ones.
 
-
+Bart
