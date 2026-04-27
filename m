@@ -1,196 +1,262 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020110.outbound.protection.outlook.com [52.101.195.110])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D142FC893
-	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 12:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.110
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777293923; cv=fail; b=RwnP6LaJ8oYpOvvhhgsDAT4dMNqSBOEgnLThdUDzbZTsghGFADZmWZCqV1cerX/o82AxmSYG2WV1f9cKTEcpYgjxu/vlj2icAKQ+eH25TP3meQOTZ+tbOuqCmBfBlu9Ec9+2V2x9O9JJeWw2X7LIsBrE8li+GIfosCtdY96Rwfc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777293923; c=relaxed/simple;
-	bh=OB8EPJLTJ5SXGR1Gh+8FDPEtLq6qQcXQ6mjLD/659EM=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=j7wSU2APsZilBt5m3VYLODhiFMoOh4QiUMXBlZ3PtYBg2PZ8C0hSW/16uhxsSdprm5H9RtwFoc7stKvNLGt35ws+eaocuMiYPoV9w7Xn8iSOMc3aiEzOE+wR2GhQtpYt1a2ZLStMZE4wPTIeTCyPK6VF9cnvpPkfkmBIXBrtfyE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=wVT3yWhV; arc=fail smtp.client-ip=52.101.195.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9163C3C1E
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 13:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777295916; cv=none; b=IRpseAdeXGKsvM0O9wxxe8IS6QB0T1601WaJb/5hCKD0iKlpr/j4LvPCxG6ymRqoE9i/6KTMgqG8jn8yj3pYC9vzTw5h/Kk9wv6V8AQlJMPpNsQEYaSaStJi4UksG4ibYqqZAhuneeyR0NzEboKVAbEagSPyPuOI8rK6i1QfOG0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777295916; c=relaxed/simple;
+	bh=qcZdDAZYcucxialNIwKMj7fy8LHoFUSymG/EEtHJ/94=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fe/WpAcijXwPFy0lhaiIT3aqYG3LtK3eNyDH63ivdzsT+BkWoQ/FBeg1z55W8hct+0brU05UIkKT6yJoIR/Wh9v6j0NmG/e0p/J4noHoVSDubHKu2jWQmaNMFApG0AVu9fgBuLYcuLr5+wpuQ711cVapPmX7YiLbHh0DUzKUK3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BPRs4Ri4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JHnKNIrX; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="wVT3yWhV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dqJLot80+C0GYxVyJb1ZJUK7DMdS0rr3GHvZ6HCMr60ssO1SLbGM3igMpYeVE70iVcvxbA+tJjAQhc9Dq25/UXvxIQEuHz8m1E1+IOkE1Ixz1C/hySYTNFjiUkJ6NMZoHGof3eMTF8Ch3rtsX2OPpaxVJkxyNIz9SnADZxsEwiMXmGV1UGxmZ3x+BB1lT2xoV38bcS0Eopw6pMzK22E7kB/Vom+Ovb6YQxjlPJikpKmfKhW5vy4KWuD+z7I+rbPtcLIEvJmlAZm9oq7DWDf3XZBJY4IIDLK75PrneoExDSpdgzL03ee4byTbHtc5bifmXJ28znaMIBQcliRpjjkqew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5iHVBJhs/o8gE8jQywXKLpuBwriRI5nRa8l9be1IwwI=;
- b=rxi5/HgOGSy8mk2w3hYCuvPR91c32U1KrLSggbXdPXCJf6wJkNXrIkOytu8I3Wvew0k5ICedJ+CE0O2SWnhZqY8BWN5aHNjD5tIBcYexqEFfGRPsRZFvPyuS9JlJ2+05U5lg3p5sb/MJooAWD/tg+UkKBSR+Qrmg1juU8g1AdsIt4Iq9j61WN0Rb5Urpucus5C5y5g+URqRLkN1VkA+KcxbE0nOtBDOKZpuSK00aV5+T7dAwPRhVUgaTNZ5Ydo0gqiwEpxU9WciRzXmY7xv+IItVm1YTWwYAKUQG5IztU5FPgYDsLSLRIis9Csg9nv9I8giV0DLmIfNZ2PttGNhH0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5iHVBJhs/o8gE8jQywXKLpuBwriRI5nRa8l9be1IwwI=;
- b=wVT3yWhVK6WiXj1Zu6gp+7x55QjRIR99vY6P9aJH+uUUSHHXlsFi0ibAzXTXjbPgzePNlyRjQeT2JZspUUK8Qak3yAZ3hH9Qv5OcZNu+QtT/DoLuK/MGIeLRqYngb5JYkVFcQhJQIFxghCGJ5JybKbl95JKSGjPPLea8rFHZIU0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB7292.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1e8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Mon, 27 Apr
- 2026 12:45:18 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.025; Mon, 27 Apr 2026
- 12:45:18 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Apr 2026 13:45:16 +0100
-Message-Id: <DI3Y41UDFMAX.3M1CRGCMVKT4C@garyguo.net>
-Subject: Re: [PATCH 1/5] rust: ptr: add panicking index projection variant
-From: "Gary Guo" <gary@garyguo.net>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
- <tmgross@umich.edu>, "Alexandre Courbot" <acourbot@nvidia.com>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-X-Mailer: aerc 0.21.0
-References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net> <FW-izTUZJ5UeE_3CsMTwNT-XlxQHmovjhfdXQpTE9Eb5aInlYy8Tj1H94gLDiBEOXlVVwadom47wXriTOW0iQQ==@protonmail.internalid> <20260415-projection-syntax-rework-v1-1-450723cb3727@garyguo.net> <87qzo0r6hu.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87qzo0r6hu.fsf@t14s.mail-host-address-is-not-set>
-X-ClientProxiedBy: LO4P123CA0630.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:294::13) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BPRs4Ri4";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JHnKNIrX"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63R9Oc9P3825223
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 13:18:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=zkk15cs4HQuTAwcx0rFc4UdYWGmvwU5NjUq
+	dwPsu1+U=; b=BPRs4Ri4eG80x+9Vb8VjxMScKoLcIBbFyXs1QYFv5rmc7ZCm9oC
+	iCSuySrFoP5p2pKa0p79XuUVdB5Y5Wn0NtfQvl5qhwn2D8B9vnYP1jH7C5WDWhlx
+	E1oaAYF/k0VL2h44fZZAOqvWMmpNtdiwmQm9B8lVX1LqTQ7J85d55HwEL1RQnpXx
+	hsVd41VE3Zd46oFAwEX66HCoDihU02JheuJCr4X4s8rX40YyUYnB8zJ1+ggJRC4s
+	xVqfJzTDE0t2v6DN+Rsw6ytWcK0JbC0M/pDNtCQ6eLcYszU52YnMKL7VH8QAhOTd
+	0HwLYyITCRfBW+56DkdkCx5vHQSC81T9YLQ==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dt5550vfd-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 13:18:32 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-56ae34d6738so15800358e0c.3
+        for <driver-core@lists.linux.dev>; Mon, 27 Apr 2026 06:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1777295912; x=1777900712; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zkk15cs4HQuTAwcx0rFc4UdYWGmvwU5NjUqdwPsu1+U=;
+        b=JHnKNIrXv1ayaCbd2HCF2dTTBkO0xyfFtmW5kqIrE1sa3GM1190UnhM5geWEmpogP/
+         gx1DScdRAgFSaqeJeF5dwF7PvYvDWf48ebTEHJo3mCEfcOrpzUmu+sHYP+DZlV/nk+oI
+         p6s70m84YgHM99iANb/uxlMS19ZP3D7NiLXjQ87S4+z545YRuYRA2oSJszfwsiripw1u
+         J++hk+MifyAgF+HE4izuiN7mFZmWhULwMTCxeS0MA4nmrjCxZ5AMDO6p5K50/xrArjSb
+         iZ9gqzA0lpz2WyORshtmtoeJfaVUhRRcDlnLLBFUw+peMA9Qf2OVlIjRsdGI9HLKaF+a
+         EgKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777295912; x=1777900712;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zkk15cs4HQuTAwcx0rFc4UdYWGmvwU5NjUqdwPsu1+U=;
+        b=oOcSLBt0gTp/wiAa3nzWtyLAub11KOuaOB7dByVtEQyucCOpCQbSkMI9Rw4tU5DWlo
+         HxM7hPn4Yt5Nfj62kaJPhL6KfAvFh7lhH1l6SWFQfRvGuV4jLuSx9yKDq9khjqrJTBnr
+         6/ywOaI6sHYMZELxGeX6ZoZva/3FWT8lEKn7BshMAczlJVHobpv3hUdCnW4JArrMVV+H
+         MAaPUH0DD2tMtXA5NBg8uQA1kAWT1hsiVwDi9HdJFq0egIvGM1uQMGgjzzYkPNdXQbIr
+         8GwrkF+5B6vtcdroHpLY/6CO8HYTK3TQkUT9z852nNaR97QtodLeyPdqrgO0B7SByVHb
+         fg1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9pSYSYrL1S793V2P/tpPr0CGjiMAPEiN6hlqQIF63Ks2HjlQx25bwfukL7aishMneVmfNK1UIqNEo+pg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLC4VTzOGvNInx796N3xLuw280uWShx++32KygyLOC/cfw8UcT
+	R8rzzrK/tytXXd6cIk1iXFD76hUKZN1J23CrWA4ToDdNzuI1MexQDihYCsO9p4QomE9PkK9TqEg
+	pJhmtAyeSZRogQXJ/FCj5En3OhtwSk/IS5byxDdsOvnIN30XwkmPAhu2mOhXtvIPHrA==
+X-Gm-Gg: AeBDieuSxDyaG6WAgiFR3Scp3Gj9I3qZRn4ImvsiDgjfng/AgpBUbO2SL+/iAu5s9VN
+	tq2OaU8rPHzUQBPR0ppRs/KLZOolP1KlM8brGAIZfjW/uvroBFNHML2gq1ba0qTB9OvsoAS0Ds4
+	l2JfoaWvZ5Kvnls1+qmDXtB71kReVCgIYTTHpPEMCFGiqSkE8Ope/FqPPa6eLVrFJeo0C8hV9fP
+	6b5dNedMKo/iYkyoy1HzshZEdFkx3PHLTHy0TJ5EzsHFRHm+ceHb50QJJ/LfhGeV5rRtwDh+4oF
+	xdzDVeUZlfM+eFWmJjs2xMM5qjksmVkZJtpTLSO36JapjTcetdTzDmcjgBM94gTRGq7FwPiRhXd
+	N+9CJD5dYlKWGCEflwUC+zYJSCck5UC9BjGaJic1eZaAdM2igFRYxwjMzLJN8
+X-Received: by 2002:a05:6102:dcd:b0:612:b3af:39f1 with SMTP id ada2fe7eead31-616f68d1bafmr21907528137.18.1777295911946;
+        Mon, 27 Apr 2026 06:18:31 -0700 (PDT)
+X-Received: by 2002:a05:6102:dcd:b0:612:b3af:39f1 with SMTP id ada2fe7eead31-616f68d1bafmr21907497137.18.1777295911521;
+        Mon, 27 Apr 2026 06:18:31 -0700 (PDT)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:83be:e944:7b0e:ef3d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a66533ff4sm112607135e9.6.2026.04.27.06.18.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Apr 2026 06:18:30 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, brgl@kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2] software node: provide wrappers around kobject_get/put()
+Date: Mon, 27 Apr 2026 15:18:25 +0200
+Message-ID: <20260427131825.15793-1-bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB7292:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae16173c-9a50-4358-9b69-08dea45ad604
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|10070799003|376014|56012099003|18002099003|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	Ac4KVZLEd+2LnvI+jFFV9fYliv59jAuVmAHVBHiuZURJ3fAcFav7bYTXUV2qyTqxf2GaBoCcLrjdb3jeArIH+rh1r4S2e2CrdYUhUSm1R1QmcQs3egXuf0GW3wLmoGgJYXJ17dNwfgPl9TjagGqbou4qo2nD8+uW9LZEDE72NhSMqFP+EMqXI0IYha1/bO/wNbB1Rk0IoUREIKIW8g7aFLNAMbVaFK7qHZQuJLiVWpyojrRZUw6frLwKG6ZPvvd/63sq2Q1gfkSxmEEcN6aqgw75+93qQHjEDgRxwQEdGj0TlDCCxDZ75IVt6WGHIYVbwUlG59/06s42G0Jlr3iQH6trOyuX4TisMtKJ3B+PndwFYD/yHo6vEgHv4A2BP/3K63lhPTETtCUSn+E3hjZNtk821/Es/ccZ/MFrta3ARCcItrCpWbtwWu+0xedGAvha3zAGXQ9Knsc15hGkFt5ALxM+qebpZV54E1LZBXlYrMxc67eU7AeDv+WlY5u5k2XWZzQk/zxZBQrPi1cGFIVdd/HT9iYPlpYVS+tq9IMJiWpgP49r0GoN5xuuf7odjs75pqdKpOiN2orX/grfxSINHycnU3O4jyonwriQ/U7+8uU49yl2oL9OUVVJbneb2vnyd0PEZBUqpNqM0VEOA4Tp58Pb4RcrLNWABjEdDGxeFxbBi7o6QshEDUeUCaAGDocbGmlkweAwr3fPt8Ca6bFBHW/KRqxgK07Ii0O9nuZgI3xVsx03ceWzVIOyQXyAvvnNOAxZ+I1yMIspPZuWNvZ8/g==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(10070799003)(376014)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZUJ4NlZBR1JiaDlnVDRQTzVGdEN3d1dRaUJMRnNkOERLVWVpMVdPbTRWSmEr?=
- =?utf-8?B?S2krS2tnb01nd0NJYUI4ZThaemZYc0tVSUsyWEx5c1NodXRBUTFYNktrcFpR?=
- =?utf-8?B?bW52b2ZXMEtBQzlZOGVYNFdHbUZJQ1NScUcybHY1SUQxb250UHNRU3M2d3Ju?=
- =?utf-8?B?Tk1BUFRSRE9sc0o1RWpmTm5CWFpZSmU1cFFGdGxsK0xpbjVLMWt1Ny82VWNx?=
- =?utf-8?B?MHNoeFZGVWpaVXpOUkp4bklOaGZSSzFsLzAvSVFQVHZLdDZqcXBScGlXa0Zu?=
- =?utf-8?B?dG9UREZrNWJUdWplU0RUK3hlR2FyM1B3bmZEaDZQK0hMWVhJR3BTSTNDMnRo?=
- =?utf-8?B?ckFVUlU5Qy9SVy9MZEJ2RCtXdEN4cm51cWppTmpmK1k4Y2ZJREJVWGhqVFB1?=
- =?utf-8?B?dFFtSkFTK2J1Q2gyaFRtYUVUS3pVbkNZVUxJQ1d3M2lZb0IwenBmamFnb2pa?=
- =?utf-8?B?cWV1V1VNaWhZK3MyNkZmQWFiaXQ1L3RkczA0Q21ZNEZJVW9BNmo0Qy9OY05T?=
- =?utf-8?B?cVhGd0dyL2tNdmRVdFF6OEd5YjFzUy90MlFmQWtMWlZwOXVvQS9jSXh3YkJG?=
- =?utf-8?B?R1BEbWpmd2JDQy9MM2RaY1dsOHpoZm9hU2xza1FPRGZMSXNDR3FGeGNzZ0Fz?=
- =?utf-8?B?Qm9uRzMycVByT2FXVXVFR3BVdDJXOUJoZ2dNYnpodjdHRUVmbnpLSXFocit2?=
- =?utf-8?B?UUdOc3hObHJvUzVFVE1YYm1oQXpCTmEwWERKQnowQ1dyM1ZYdHNTZE1iVDk1?=
- =?utf-8?B?QjdSYlZHVy84M0lQaXNHTExOWlppdUNhTUtET0EzRHpScUZPc1M5TU5EemZN?=
- =?utf-8?B?c3psRS9TUFJzbHhGS1Z0RWJhbmNDYnVyQ2xRVDk2ZVN3Y0ZPS2lsVHNGam9D?=
- =?utf-8?B?YXFpL0tDUm9WWHAvVzB6elFkeXZ2U2FtdTBrUGovWng4SlNsVHRMeWhINGdt?=
- =?utf-8?B?SG1yQXMzY2NGcFI1TTlta09FK0JCWC9FNHJqQm1NMFZZd3kvRXc4TnJMN29y?=
- =?utf-8?B?YWpKYjI5Qmk3d00zMmgzWSsvWERtME5YNCtqamRrdGR2VVdtak9WYkVSMjEz?=
- =?utf-8?B?enFOV2RKQlRlcXhwQmFkbWlSWG05WWtLNm9tazZJOFI3bmlOM0svTk9XQlBa?=
- =?utf-8?B?Q0U2bFJ0YjlhNjJ0TGhQTmpIeUNGMndjS1I2bnAzSmlQWHk1SkdPdU1IZW1v?=
- =?utf-8?B?Y3N3clUzakVVdyt1QXJseFJpRFVLb2xiSnZ4OGVydWtHdnFVMUxQUEZjaGsz?=
- =?utf-8?B?eUVGQkpObnd1OFZJT2lEK1paSlptY1dMZ0FTcGs0YkRmT3k0QVRta0xEeFRW?=
- =?utf-8?B?azlJZFFUS2xUcjArZHNWSy91eTRsM3F6MjczZ08zOUZTOUdzcXNVd29CRVNm?=
- =?utf-8?B?RzdOakVZNGhpOXdIU2xVc0pvZUorYVZaYnFpWFUzY1JLN0NJUWZZRXlkb0hs?=
- =?utf-8?B?UDZad3NSaUxVU3ZORTZMZ0N3bG1sNVprcHBDWmlwWlVlU2tLem54N2pBeFRt?=
- =?utf-8?B?WDF2Vk5pY1JpT0dlQnUxdDdQYmhUZHBLNFA0MGZVY0ZNelR4RmFTYkhRQTBZ?=
- =?utf-8?B?WXUzMzhNZWcwdkFmcTQ0T0g1UWM1YTQzNEFjTTlBblpSTy9oSHljYlRZS3c5?=
- =?utf-8?B?L3QzTlZWVTNuSjBCcWt0K2dVRnlVanVUR2FOK2liU1lXVTFiMWNPc2tYTmFW?=
- =?utf-8?B?Uy9XU3ZnTFBISi9COHlEUmIxTk1WcnJEVlo1VStTKzJyZkZvQ1d4TXVQZFhP?=
- =?utf-8?B?dlYxNmR1SkVCck1iTUF5ajd5UjJyZHJSTmRldVp2VFF0Qnc4Q1BCOEdZemhT?=
- =?utf-8?B?QkdaRWJ6eC9PNzEvSkhrRkFtbXpVQVBncE5aZXljZ3ptY2xHazN4RVVCeWt0?=
- =?utf-8?B?b1JML3lNai84YzVteVpjbkM0REZXdjJzNnRmczUrUjRQWmVkREJiL3ZjMmZG?=
- =?utf-8?B?YThoZE9ZV3Y2TE1kM0p1d1lyOWlocU1uVWpGU0lTdVowdXRuTGxyZnZzcDJz?=
- =?utf-8?B?NG1wdUZnd2dhU1RxVHN1VnhqRXhiVEQ4dEJEOU9GS0EzdkQxeExRaDg5WjR1?=
- =?utf-8?B?c3JZMUZsMEVXM0NXbnROODJnU3hjeHJNSWZQTzFQRFdRMjRUYm52cFZweDE1?=
- =?utf-8?B?amNxVENsbUI0Sm9STzBqeFg0VGZ2QmFhSjBzeHZhcmFvOXBsMzlERXZESitm?=
- =?utf-8?B?dWltY3pWTjU0U0xLblJqdHoreWZubDdYNXhsTFZtTTIvdklrWWFPUTBScDk1?=
- =?utf-8?B?Y2xIc2hkZ2EvSXN2Z1pUWW9xUWV6VXN6YlRJb3QwUVhlTmRmeXBnUS8vVmRC?=
- =?utf-8?B?clc3bUtIWWg2R3NnRm80WFFENyt0aTJrdWcwQm1sd0psaDJkNVpIZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae16173c-9a50-4358-9b69-08dea45ad604
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 12:45:17.9572
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S4haEIaEK/y7ocSWpTraTMgyLUHJjLtDRmv1cipe5bfxRMuFFZUx6JqaFTQtuc+XKzdGJk6t9YA1JtCXP9p+GA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7292
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: i44oeJ7TcCNDmtlIdJkuTfROE7PPk-vY
+X-Authority-Analysis: v=2.4 cv=CJEamxrD c=1 sm=1 tr=0 ts=69ef6229 cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=A5OVakUREuEA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=bCnx2AzvNVCsJt7Mrv4A:9
+ a=hhpmQAJR8DioWGSBphRh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDE0MSBTYWx0ZWRfXzdA6tjvJH6W6
+ gxFF1bMabWtxVqaX63k+ykYbBH6vSpJu+of40L+4fWczPz210tHElElNL6jX+CNbmciJ+YqHljJ
+ /lJxNImOqfGYi/pIZWgTUqrPnZDgGf2ihCmGtyqqbWr1UrxbGeSw9UrL0bMPPsYP1Fzq7WuG14+
+ 93TTlEcVedfEk3gx34UPpilTiv3hFFk5nqf9f5w/JasDexh6h+NKPCy6DuAnQd9+Pazq1anoJ1n
+ GWn8aZRidLE4dH0FZF2FEzsb12rmS8PB5aJpqGc3pnkEKSsAIGnonFHDdmyYw3a+BPC+B0Tkl67
+ fbAJJIx+L0tvnMlH+rBQ4hQi2GHF0iJ1iZGtwD3MzuFU/EQc/KMECqL0nfLEVUwlfmfytjuXuG1
+ ac2MEQP3uzp8hvNayxQiOfe3dM9N/qF7LjEDZJMqTXqyqsr7jI3GsIiXhhFme7IR7DYyvufPmcP
+ 6GQW2vb5KxAv1cSrfBg==
+X-Proofpoint-ORIG-GUID: i44oeJ7TcCNDmtlIdJkuTfROE7PPk-vY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-27_04,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604270141
 
-On Mon Apr 27, 2026 at 12:24 PM BST, Andreas Hindborg wrote:
->> +
->> +    #[inline(always)]
->> +    fn index(self, slice: *mut [T]) -> *mut T {
->> +        // Leverage Rust built-in operators for bounds checking.
->> +        // SAFETY: All non-null and aligned pointers are valid for ZST =
-read.
->> +        unsafe { core::slice::from_raw_parts::<()>(core::ptr::dangling(=
-), slice.len())[self] };
->
-> I think this would be more readable if you move the indexing operation
-> out of the unsafe block:
->
->         // SAFETY: All non-null and aligned pointers are valid for ZST re=
-ad.
->         let slice =3D unsafe { core::slice::from_raw_parts::<()>(core::pt=
-r::dangling(), slice.len()) };
->         // Leverage Rust built-in operators for bounds checking.
->         slice[self];
->
->> +        slice.cast::<T>().wrapping_add(self)
->> +    }
->>  }
->>
->>  // SAFETY: `get`-returned pointer has the same provenance as `slice` an=
-d the offset is checked to
->> @@ -100,6 +116,18 @@ fn get(self, slice: *mut [T]) -> Option<*mut [T]> {
->>              new_len,
->>          ))
->>      }
->> +
->> +    #[inline(always)]
->> +    fn index(self, slice: *mut [T]) -> *mut [T] {
->> +        // Leverage Rust built-in operators for bounds checking.
->> +        // SAFETY: All non-null and aligned pointers are valid for ZST =
-read.
->> +        unsafe {
->> +            _ =3D core::slice::from_raw_parts::<()>(core::ptr::dangling=
-(), slice.len())[self.clone()];
->
-> Same comment regarding moving indexing to next line.
->
-> Side question: Why do you need to explicitly discard the return value
-> here (`_ =3D ...`) and not above?
+Make the code more readable by avoid constant dereferencing of the
+swnode's kobject when managing references. Provide wrappers that take
+struct swnode * as argument and make them hide that logic.
 
-Because the result of indexing is a slice, which is unsized.
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v2:
+- Make swnode_get() return the address of the swnode whose refcount it
+  bumps and use that fact in software_node_get()
 
-Best,
-Gary
+ drivers/base/swnode.c | 40 ++++++++++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 16 deletions(-)
 
->
->
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
->
->
-> Best regards,
-> Andreas Hindborg
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index a19f8f722bc8e..869228a65cb36 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -374,20 +374,28 @@ EXPORT_SYMBOL_GPL(property_entries_free);
+ /* -------------------------------------------------------------------------- */
+ /* fwnode operations */
+ 
+-static struct fwnode_handle *software_node_get(struct fwnode_handle *fwnode)
++static struct swnode *swnode_get(struct swnode *swnode)
+ {
+-	struct swnode *swnode = to_swnode(fwnode);
+-
+ 	kobject_get(&swnode->kobj);
+ 
++	return swnode;
++}
++
++static void swnode_put(struct swnode *swnode)
++{
++	kobject_put(&swnode->kobj);
++}
++
++static struct fwnode_handle *software_node_get(struct fwnode_handle *fwnode)
++{
++	struct swnode *swnode = swnode_get(to_swnode(fwnode));
++
+ 	return &swnode->fwnode;
+ }
+ 
+ static void software_node_put(struct fwnode_handle *fwnode)
+ {
+-	struct swnode *swnode = to_swnode(fwnode);
+-
+-	kobject_put(&swnode->kobj);
++	swnode_put(to_swnode(fwnode));
+ }
+ 
+ static bool software_node_property_present(const struct fwnode_handle *fwnode,
+@@ -493,7 +501,7 @@ software_node_get_named_child_node(const struct fwnode_handle *fwnode,
+ 
+ 	list_for_each_entry(child, &swnode->children, entry) {
+ 		if (!strcmp(childname, kobject_name(&child->kobj))) {
+-			kobject_get(&child->kobj);
++			swnode_get(child);
+ 			return &child->fwnode;
+ 		}
+ 	}
+@@ -737,7 +745,7 @@ software_node_find_by_name(const struct software_node *parent, const char *name)
+ 		swnode = kobj_to_swnode(k);
+ 		if (parent == swnode->node->parent && swnode->node->name &&
+ 		    !strcmp(name, swnode->node->name)) {
+-			kobject_get(&swnode->kobj);
++			swnode_get(swnode);
+ 			break;
+ 		}
+ 		swnode = NULL;
+@@ -835,13 +843,13 @@ swnode_register(const struct software_node *node, struct swnode *parent,
+ 					   parent ? &parent->kobj : NULL,
+ 					   "node%d", swnode->id);
+ 	if (ret) {
+-		kobject_put(&swnode->kobj);
++		swnode_put(swnode);
+ 		return ERR_PTR(ret);
+ 	}
+ 
+ 	/*
+ 	 * Assign the flag only in the successful case, so
+-	 * the above kobject_put() won't mess up with properties.
++	 * the above swnode_put() won't mess up with properties.
+ 	 */
+ 	swnode->allocated = allocated;
+ 
+@@ -978,7 +986,7 @@ void fwnode_remove_software_node(struct fwnode_handle *fwnode)
+ 	if (!swnode)
+ 		return;
+ 
+-	kobject_put(&swnode->kobj);
++	swnode_put(swnode);
+ }
+ EXPORT_SYMBOL_GPL(fwnode_remove_software_node);
+ 
+@@ -1002,7 +1010,7 @@ int device_add_software_node(struct device *dev, const struct software_node *nod
+ 
+ 	swnode = software_node_to_swnode(node);
+ 	if (swnode) {
+-		kobject_get(&swnode->kobj);
++		swnode_get(swnode);
+ 	} else {
+ 		ret = software_node_register(node);
+ 		if (ret)
+@@ -1044,7 +1052,7 @@ void device_remove_software_node(struct device *dev)
+ 		software_node_notify_remove(dev);
+ 
+ 	set_secondary_fwnode(dev, NULL);
+-	kobject_put(&swnode->kobj);
++	swnode_put(swnode);
+ }
+ EXPORT_SYMBOL_GPL(device_remove_software_node);
+ 
+@@ -1097,7 +1105,7 @@ void software_node_notify(struct device *dev)
+ 	if (!swnode)
+ 		return;
+ 
+-	kobject_get(&swnode->kobj);
++	swnode_get(swnode);
+ 	ret = sysfs_create_link(&dev->kobj, &swnode->kobj, "software_node");
+ 	if (ret)
+ 		return;
+@@ -1119,11 +1127,11 @@ void software_node_notify_remove(struct device *dev)
+ 
+ 	sysfs_remove_link(&swnode->kobj, dev_name(dev));
+ 	sysfs_remove_link(&dev->kobj, "software_node");
+-	kobject_put(&swnode->kobj);
++	swnode_put(swnode);
+ 
+ 	if (swnode->managed) {
+ 		set_secondary_fwnode(dev, NULL);
+-		kobject_put(&swnode->kobj);
++		swnode_put(swnode);
+ 	}
+ }
+ 
+-- 
+2.47.3
 
