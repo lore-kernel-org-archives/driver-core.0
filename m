@@ -1,240 +1,206 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020119.outbound.protection.outlook.com [52.101.195.119])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165CF449EA4
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 12:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.119
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777380915; cv=fail; b=GQHq/VxqujpJM9xAqwFdoiqIlVKVgKD0hI5v/+ElmRfxxOKiOIT4pldAR0K85kqfi82CiOiZ+kreqMcWvy4EmW0OFl7wiMvZJgGE1ij2YMrWFCyHQZr1JhzIkFFRgoHXZ7AZEjUxM2deZtEVuJXz3xRkTdwjMEwbNii2JIXm/98=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777380915; c=relaxed/simple;
-	bh=/lOarKAQZ0B3zbiyrlRE8xG8n2UsnvRgzPpfcQN4jek=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=DX8n+747ryN9PPS80Sr/OY/5Cfb6Vp4ipr6j37bacEJjhSGPZ60xWbJB5+g2GhgSN4+lkbvxg/4++NRidx+ycUKmdewg3eZBYiO6lvw+lIcg2xfBQdkPgzgSv9IRccJzuHJCMrvAFAA+cS0l24nJHGtBWocAoq+OHdg4b6IcRd8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vfXZq4WG; arc=fail smtp.client-ip=52.101.195.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33AA44BC88
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 13:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777381672; cv=none; b=QzAU/uGVQxK9l6OlC0P6qWS+XhwzFR+IMG7HXJ3WQ+Lxg/MLq1WAwItlPHipuco6d9gerB3UlaSLIQG0lmtG2Lu8AaguG2jIscceC7SCGOZit1/f4b/sgVq9/mtfcYuaGFXtVXBEKXtdXVPTGGLEQR4F6tR5mCBTm/j/5Xr1/v0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777381672; c=relaxed/simple;
+	bh=OchKKLt9+Cgb8fGyJziupP2A1Fqw+PSpxW1pYFq9XJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KWTvJG1dCNXssVT/zV04O3co6e0w8Vs4/cGbxzXtVBaUPSHzmcmpDtQdX8S9IyWr3vqDyQDy0SJTta/347o9sB0j6itAWR8Yb1E9QQPC6yB2/Et3LVZPZQqbapv1GfkiAZ86G76HGGhDdgX93AhaHOPakKVXm6oi5qZy0ubyT+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=h8+nnWSp; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vfXZq4WG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gmdVZ/7THt5+y9dNFIRAdm5h7naAR0j3+S6c45vvG4hP10YceOeQdyzr6xj/vGKf0jTjAcYCQitp2N/QHZ356zd3rK3KlEYeiygLIQOSczFhpMQ0WyQAAhwr0yLtfQqyw4v0OoqotJwrgdacvGZX9NQeBNOOH0kNphewTK19wN3+wxjzSBqqvgJeLaFjqOiEFhIAjP9IFi7NdTV4sy++UYG037z0w9anzKsHcnAm3hRuITC8naDHSX+Rxibul6HKeZLYLkvZllhCfmrjnoWUVIE5O7TSabVXjsiXzjiRyuMewcQ3uFP7s7NESfa/hv2hog3sjlR2dzHqxKxMXf4PLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oUcRqAa9lbhVZMXo69nIEo85zdG1lw+Hn6b8QsUdB0I=;
- b=lZr5avVomgBJRh36G5DXhycetrJMnB4JAYzUvrWMuhj+9LzglEzNjzRx54zsXQ6E0WeS9aXcVkfJewpXB5Iev2iUh72ZpFlfdSlBaKrgad+AKDVMNO9kbW3a25iqHmzI7Ia0YMebI7PvbKgmQIK8A7uEW3iCwoK1tWF7EHGdOql3z6jyFIyQW7L6qm0QldoARotm2UbE4T+yOdgIGVoekTDu/eYtLD1Ya0dHim5pocdUHlM8vR6Yjr22u88q+Fy8XEggXeHwkRNLTJdvkAQTkugQi8Q+a2DMc4NXuHGqimHqcbEmUS5oFvEblCacJt/u1VgKBRiqR6acK+oJ+oOaSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oUcRqAa9lbhVZMXo69nIEo85zdG1lw+Hn6b8QsUdB0I=;
- b=vfXZq4WG77uNnlekvwEvcYaf9cmDd56UsjWLEnwe6jRW3VeVPw2XAzDg3AWU4ShD1sXbPFQFEiao27JLrdO1jmYSfFiLC3vc1zLo4MlnAb2dY8WzpLWflLTeUHDyxpKqF+61ZGkPyrpedumGK87TIJO68rN7AXCRsSWVO8p3hs4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB8445.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:26d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 12:55:01 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
- 12:55:01 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Apr 2026 13:55:00 +0100
-Message-Id: <DI4SY1NXU1XW.2VHPFEKIFBQVW@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 05/11] rust: io: restrict untyped IO access and
- `register!` to `Region`
-From: "Gary Guo" <gary@garyguo.net>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
- "Robin Murphy" <robin.murphy@arm.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0
-References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
- <20260421-io_projection-v2-5-4c251c692ef4@garyguo.net>
- <874ikvqwyd.fsf@t14s.mail-host-address-is-not-set>
- <vYp32vOGPut322JQ-5jSBZQNd6eXvnOvg8b6YDhYcYzBqTBVUvSajCJng33oXSQ9wiMvb62VLERzLYSa4g2pJQ==@protonmail.internalid> <DI4QT2U1098S.3K9K7INQ86M0Q@garyguo.net> <87tssvp9sq.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87tssvp9sq.fsf@t14s.mail-host-address-is-not-set>
-X-ClientProxiedBy: LO6P123CA0058.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:310::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="h8+nnWSp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1777381669; x=1808917669;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tBn8VqLDSKuQcw7PUXmOHeUfy7B2aRFPY4QqUqpeL/s=;
+  b=h8+nnWSpinkZLolHSI1DrjI29pyZX8USFdhNcfMp8U+ntfearbgDI+bW
+   F5jTVuZ5RIl/BJtqTLPCBCSF2mEixmZysvxmzoB5qG+Bj7OdkKNZf7zWx
+   pGrou+zUc3BLZmGm20Bw2ieLQjFqPAx6KN2MlLv/WOa3UhRecahI4e8Vy
+   YOqSz38XGsgdJHWRDwVzyTRcLozAM5L1W0IiEwDXN08ApCIXH2BLs7QL3
+   RiaiSA4f/5At9umxNNdv7wcZOjGxerCUN+UJmqV9te7Kq1+nXJiINFlr1
+   /K8vvLhBtzEnGMyWHrMfOWs+SlT/cnJER0sLoygvY4ZB7eqbwyOAea7wA
+   A==;
+X-CSE-ConnectionGUID: mgbHdQ2mRnCK2dhvCfKOLQ==
+X-CSE-MsgGUID: MPDqE1WISMO/8DLFOqjydw==
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 22:07:42 +0900
+X-CSE-ConnectionGUID: dQXwq35VQs6FZkNfdUoPYQ==
+X-CSE-MsgGUID: CInvrjD1Rz2rtwWAUCwLvQ==
+X-IronPort-AV: E=Sophos;i="6.23,204,1770562800"; 
+   d="scan'208";a="604129736"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 22:07:42 +0900
+Date: Tue, 28 Apr 2026 22:07:41 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Gary Guo <gary@garyguo.net>, Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
+	Leo Yan <leo.yan@arm.com>, Rahul Bukte <rahul.bukte@sony.com>,
+	linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] kernel: param: initialize module_kset before
+ do_initcalls()
+Message-ID: <afCxHUrjr3Z22U6V@JPC00244420>
+References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
+ <20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com>
+ <DI3Z28IZZOT9.349TTWNN9VDMB@garyguo.net>
+ <afABOMT_s9DvF6NY@JPC00244420>
+ <DI4QQA6EGIA1.N8WRFWVKG91S@garyguo.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB8445:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c4e3488-16a6-4989-dfba-08dea5255c4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|18096099003|56012099003|18002099003|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	TH8KbM8leSi2CWJMl00Z4868l7RitFAf3XZ1F1oYCOBdHuDbgT1muaQYpF08wOG1MzHDum8uJnUZFGQoulgH/hG+qa8fJG0I+b/B6YPlVta0slumLJoFZvx2/qkVDKrUsE7QLhPaJZ1Hsf3+q0Dj6VYJPla0Q8ovFZ0OsY7v6s1vnUNQHF/3lIgnWOmpm2TnAUtsFAsKJDLzR34gzd9DZ4DX4WuzZgAONXSsZxfd32HYUXmO/tuzB9oLCCv4bfxvn00ht7UVWt/5ROjy2916LFEfQcgvMNA1cE5bYAdyvhvO3SMzfAxP05Ca8pGQiuEF4gjY+Oqr7t9b6Zm9zlpyeYjU6FExUpux9Aa9qHL16jMf21tc+kJXuKKtDhaMRW76aVLJ+Si9qkCysZP6Yw0mBJYYQdaSh74NehU3qI35AXY57hodARsRh34nVnuAhWUbrqc7nw/miGJ1Mlfz9kf+H5XMaR3RhLhDx9q39q3ISV1z/96IfXBWttFs/3Z3B3qWocnpSB/vbjNt0jXHau9JzSqEwyz0Hmfsuoh8iWdn9YU4hiu/Zy4Z/wSZfbQtQeKTnb3b6/JaUaodhslt+w5s6KEUSWYDayMtpBJV/m2IJcxpjn8xaYPLnJgHar8N/gnPN2+DH6BYPg2fFfTiHvKgWWyaZgPEq5H91xQQnd8qZhpkJ7N7/oWflk62y+HcufQ8fyBW+C82udxDt9QbScTK929rZhZXHvOjpY0zkEm7IkKjndaf603+G6wMmMle/gxOOFXEfGWHkKvOlVnnq1FHlQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(18096099003)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZkltRDlUbFFkekt0ZW5xS09GRUZzRmJISlhHdUNaaStrS3BDeXk4b2t3THY2?=
- =?utf-8?B?RU9hTi9oZU5lU0JCUHVPOGxHeDZpb284ajRweG1ZOXRkVUxuZXFiWXFUaitq?=
- =?utf-8?B?cDBuOHU0emMzdVZpWFJqckVqNExuN0dIOXVRSkV3TzV5WEg4RFU1Skt2cUhF?=
- =?utf-8?B?d2l1ZmV1SjlWdDNzTGFVV1hadEtCZkdRaVBDTlB3K1E2VXVvRHp5dXhJWWd0?=
- =?utf-8?B?c1FYa3NWNWp5S2lGZExYVUJpc1lzQlhEY3FGWStYdWtLRThhTkJySzhTVnQv?=
- =?utf-8?B?SmU2MVoyWU9BWE1EZG1nUnd5d0hFajZRMEQ2RjlCcWxpVlhlUFMyRjRyZjJ3?=
- =?utf-8?B?bEZzb3hMNVZBM2wyUUs5NFBWZndLWldhSlMvZDlrdFJqSVVsWE4vc0xHby9u?=
- =?utf-8?B?TjBzbnIvNzEzY3g1NG1GckxmREE4MVpzZUVsd0pteHNuang4bWlOL0xiNGpn?=
- =?utf-8?B?MUFRMU5EZkJCWVprVHdUUzZBb2pZRGQ2Y1ltbnQ2WHE2YmpDZnJLWFhTdVcz?=
- =?utf-8?B?YUdCQnorNmNwSHp1cnNXZjNzS091cStWKzc4WGZFM1dQU3RCbnpWT0ZoRnVV?=
- =?utf-8?B?SDRjVncxQXAxVUFrUitOZXhsQ3cvY3NvbEFzZVFDSmVtM1pPaWpuK0tWQlRK?=
- =?utf-8?B?MG8vMkFNcCtMOWdhdlV1N2RIM1VHMmlTUlJPYjJ3RVJTWU9Xb0MxN25VVmtt?=
- =?utf-8?B?ZTFtVlJrY25NVmNnaUR2cDBxcVVLNWdMN2xrN1hveEdDMWkxRlM2a0lub0Qv?=
- =?utf-8?B?MHVpaWp3WmcybUZJNWsvRllQcW51dzdaN1RuSnYyeTlMYW9iZzFKSEh6dDdj?=
- =?utf-8?B?VkxHSS9UR1NPK0xER3NMa0JFMEpiK0JHVUFkQlVvZ2dRRFVsSjM2ODNDQ2Fa?=
- =?utf-8?B?c3p4NUthYnN6d0VKeFZQdXhtelN3WEFqU3A0ejk5VjJvWE5OWW5hWVVJWjBW?=
- =?utf-8?B?TDR4UUhMbXFFSVVxa2pMSFhsYjhJRmVDN09wSHR0MENNdWU2emVFanlQNDFC?=
- =?utf-8?B?ZFh2Z2svUUlwQWxYUm83cHhPaVZkSHJGMTN6NXo0MGE2WnZ1WUhFL0llYmdR?=
- =?utf-8?B?U0JRaGxzazJlRHVKajFDVi9tKy9pb0hER09xNnNiV3lmdC9rWkxMVjZISGVX?=
- =?utf-8?B?OEFwN2s4NXpkY1RlazQxcWRvTlZ6T2xnVzgxdGtpQVFreFpaSi9TNnhXRGJs?=
- =?utf-8?B?ZlUzVGw4Qlh0aDZBYzMvZGRmYkd0U1NPUTNOb0xuM2lzNHRIR0lKMlRHYktJ?=
- =?utf-8?B?azUzdWh5b0hNL2xUTXV1Ny9EaDlzSyswQlA3dnFoRDlFcUZMZGxLOG9mSWVL?=
- =?utf-8?B?aTJsSnVvNFRDY2UvKytZTUU2SGwzaFJxQndSNUh2YW5GZzJaZmhISFZFRGpK?=
- =?utf-8?B?cEEvcFRXWG8rYWRVTWhPV2RvN3pBcUdjMlNwS0RlNU9OQXFvQ2Q1eHNoWGcy?=
- =?utf-8?B?dHFKN1o3a1VxaWhrT242RGV4M1VralZRcmJmS0tpKy9CeFMvY3kwUFpuUDNQ?=
- =?utf-8?B?TWV6cEtQN0J2NVNwYWlmbnhnWGdNMHJUaGVkMWt5WjdJZXBvVUNWK3JCRENI?=
- =?utf-8?B?RHJSckluZDVGbVphaFBUN2dnWWJqZXI0UHBrTklFSFA4N3g4NmRmZEx6R0xT?=
- =?utf-8?B?MnVUbnUzOWZ6ZU9hRzFRUDd4UHBQVlRUK3AzN2ZGMDE2YmltVmpvaWI4MXI1?=
- =?utf-8?B?dVlHZlBPTGVzSG1pRDJSU1U1SkVZbGlJQ25TT00yVkdKejdhREhORzNnRS92?=
- =?utf-8?B?QTZ0UTdjdEpvTVVlcUJxaU92VnZRTWV2ZDZJN3VKQmFoWVJodGgzWHRMNjIx?=
- =?utf-8?B?TUxZaEIwbTI4L2dYOG4yTlk1Z2JKWUJKYjlyNnB3TmNpb2k1bVdmdW1lR2Fl?=
- =?utf-8?B?Q2ZFS3JrVk14L21sNjhJNFVyWmpkYWJmL0hSUkZlRkxNd0VkZkNCdUpJd3FD?=
- =?utf-8?B?RVF1QkZ0dDVKa3pCV2MvNTNxaVhGcGNrNTc1N0s4WVliL01hWGJybUhEUEpF?=
- =?utf-8?B?eVk4amtEVGM0Uml6OVRtRnhsRytxWEtXTjJES0VraXhsSTFaZG1xWWR2TWlj?=
- =?utf-8?B?SzRRS1o2aUp1N3lQckR4a3JZSitzU2JPM0Z6UzVaUktzMlp6TElQYWtndzB4?=
- =?utf-8?B?KytLc2RvZFQ3dXRXQzlaMjBXNEtEclNpNGRvaWViRTVWbFIyNFdKQ2owK054?=
- =?utf-8?B?b2pCV2hobzJPbG1mSDhBQXpnQ0xicU1NZHBvSU5tWGpqVUJwZ2dxbit1dEFl?=
- =?utf-8?B?WUZhVzZtb0Y5Qm9VWGNvdEcxeWgwRFBsY1RNQjczYUhJU2RaenJRY2JtK2xn?=
- =?utf-8?B?OG5hS2ZpN0JYdTRpU3NZL05yZ1JndkhLZ2J0SHhxNkQ2djZ4SE1YUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c4e3488-16a6-4989-dfba-08dea5255c4c
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 12:55:01.5058
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JhbyddpRr6WhXK0RGNfUtvKSJC1JLxQs/z9Dw7G6whijDf+RMANW6iv7qtGjUCE2tEkl+KHktHct3PhiX52wIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB8445
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DI4QQA6EGIA1.N8WRFWVKG91S@garyguo.net>
 
-On Tue Apr 28, 2026 at 1:08 PM BST, Andreas Hindborg wrote:
-> "Gary Guo" <gary@garyguo.net> writes:
->
->> On Tue Apr 28, 2026 at 10:02 AM BST, Andreas Hindborg wrote:
->>> Gary Guo <gary@garyguo.net> writes:
->>>
->>>> Currently the `Io` trait exposes a bunch of untyped IO accesses, but i=
-f the
->>>> `Io` region itself is typed, then it might be weird to have
->>>>
->>>>     let io: Mmio<u32> =3D /* ... */;
->>>>     io.read8(1);
->>>>
->>>> while not unsound, it is surely strange. Thus, restrict the untyped me=
-thods
->>>> and also the register macro to `Region` type only.
->>>>
->>>> The way it is implemented is by adding a generic type to `IoLoc`. This=
- also
->>>> paves the way to add typed register blocks in the future; for example,=
- we
->>>> could use this mechanism to block driver A's `register!()` generated m=
-acro
->>>> from being used on driver B's MMIO. The same mechanism could be used f=
-or
->>>> relative IO registers. These are future opoortunities, and for this pa=
-tch I
->>>> just restricted everything to require `IoLoc<Region<SIZE>, _>`.
->>>
->>> Does this not prevent `usize` from being used to index anything but
->>> `Mmio<Region<_>>`?
->>>
->>> It is my understanding that the following would work before this patch:
->>>
->>>    fn do_read(io: &Mmio<u32>) -> Result {
->>>        let v: u32 =3D io.try_read(8usize)?;
->>>        Ok(())
->>>    }
->>>
->>> But I think this will no longer work with this patch. Is that the inten=
-tion?
->>
->> Your example would always fail, as you're reading 4 bytes from offset 4 =
-from a
->> region that is only 4 bytes in size. I suppose you're trying to say
->>
->>     fn do_read(io: &Mmio<[u32]>) -> Result {
->>         let v: u32 =3D io.try_read(8usize)?;
->>         Ok(())
->>     }
->
-> Yep, that was my intention, with the assumption that final offset
-> becomes 8*4. I think that is also what would happen here as we would
-> invoke `try_read::<u32, usize>(&Mmio<[u32]>, usize) -> Result<u32>` with
->
->   usize: IoLoc<u32>
->   Mmio<[u32]>: IoCapable<u32>
+Adding Tegra maintainers.
 
-No, these methods behave the same as the old try_read32 macros, so these ar=
-e
-absolute byte offsets. I think the fact you're confused is a good indicatio=
-n
-that we probably want to remove these methods, or at least make them as
-inaccessible as possible :)
+On Tue, Apr 28, 2026 at 12:10:50PM +0100, Gary Guo wrote:
+> On Tue Apr 28, 2026 at 1:37 AM BST, Shashank Balaji wrote:
+> > Hi Gary,
+> >
+> > On Mon, Apr 27, 2026 at 02:29:55PM +0100, Gary Guo wrote:
+> >> On Mon Apr 27, 2026 at 3:41 AM BST, Shashank Balaji wrote:
+> >> > module_kset is initialized in param_sysfs_init(), a subsys_initcall. A number
+> >> > of platform drivers register themselves prior to subsys_initcalls
+> >> > (tegra194_cbb_driver registers in a pure_initcall, for example). With an
+> >> > upcoming patch ("driver core: platform: set mod_name in driver registration")
+> >> > that sets their mod_name in struct device_driver, lookup_or_create_module_kobject()
+> >> > will be called for those drivers, which calls kset_find_obj(module_kset, mod_name).
+> >> > This causes a null deref because module_kset isn't alive yet.
+> >> >
+> >> > Fix this by initializing module_kset in do_basic_setup() before do_initcalls().
+> >> > Modernize the pr_warn while we're at it.
+> >> >
+> >> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >> > Suggested-by: Gary Guo <gary@garyguo.net>
+> >> 
+> >> I didn't suggest this change :)
+> >> 
+> >> I suggested `pure_initcall`, which is just a one line change.
+> >
+> > Oops, sorry about the misattribution.
+> >
+> >> diff --git a/kernel/params.c b/kernel/params.c
+> >> index 74d620bc2521..ac088d4b09a9 100644
+> >> --- a/kernel/params.c
+> >> +++ b/kernel/params.c
+> >> @@ -957,7 +957,7 @@ static int __init param_sysfs_init(void)
+> >>  
+> >>  	return 0;
+> >>  }
+> >> -subsys_initcall(param_sysfs_init);
+> >> +pure_initcall(param_sysfs_init);
+> >>  
+> >>  /*
+> >>   * param_sysfs_builtin_init - add sysfs version and parameter
+> >> 
+> >> pure_initcall is level 0 so it happens before all other init calls. Does it not
+> >> work?
+> >
+> > tegra194_cbb_driver registers itself in a pure_initcall too. We wouldn't
+> > want the ordering of its registration and module_kset init to be link order
+> > dependent.
+> 
+> It's the only device driver that does this. And I don't think it's supposed to.
+> 
+> >From documentation:
+> 
+> > A "pure" initcall has no dependencies on anything else, and purely
+> > initializes variables that couldn't be statically initialized.
+> 
+> I understand that given large amount of drivers registering themselves during
+> core/arch_initcall that there might be regressions if all of them are moved, but
+> surely we can demote these two specific tegra driver to core/postcore_initcall?
+> This will still be called earlier than init_machine call which happens during
+> arch_initcall.
+> 
+> Looks like the tegra CBB driver is just doing error logging anyway.
 
->
->
->> ? In any case, it's intended to be unsupported. For types regions you ca=
-n use
->> projection. So the same code can be written as
->>
->>     fn do_read(io: &Mmio<[u32]>) -> Result {
->>         let v: u32 =3D io_read!(io, [try: 2]);
->>         Ok(())
->>     }
->>
->> i.e. reading from index 2 instead of byte offset 8. If one cares about b=
-yte
->> offset they would probably want to use the register macro instead or hav=
-ing the
->> MMIO region untyped.
->
-> Right, makes sense. Again, my thoughts were not around the byte-offset,
-> but the `location` parameter being in count of elements of `T`.
->
-> But why remove the ability to call `try_read::<u16, usize>(&Mmio<[u32]>,
-> usize) -> Result<u16>`?
+That's a good point, Gary. Thanks!
 
-If you're doing that it sounds like you don't actually want typed access an=
-d
-again, would want to use register macro to allow mixed register sizes.
+Hi Thierry and Jonathan,
 
-Best,
-Gary
+You can find the context for this email in this patch:
+https://lore.kernel.org/all/20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com/
+
+TL;DR: tegra194_cbb_driver and tegra234_cbb_driver are the only drivers
+registering themselves as early as in a pure_initcall. This is a problem
+on two fronts:
+1. Philosophical: As Gary pointed out, pure_initcalls are intended to purely
+initialize variables that couldn't be statically initialized. But these
+are doing driver registrations.
+2. module_kset not initialized at pure_initcall stage: This is needed to
+set the module sysfs symlink. Since module_kset is not alive yet during
+pure_initcalls, registering these drivers panics the kernel.
+
+We would like to do the tegra cbb driver registration in a core_initcall
+(or some later initcall works too), and move module_kset initialization
+to a pure_initcall. Like this:
+
+diff --git a/drivers/soc/tegra/cbb/tegra194-cbb.c b/drivers/soc/tegra/cbb/tegra194-cbb.c
+index ab75d50cc85c..2f69e104c838 100644
+--- a/drivers/soc/tegra/cbb/tegra194-cbb.c
++++ b/drivers/soc/tegra/cbb/tegra194-cbb.c
+@@ -2342,7 +2342,7 @@ static int __init tegra194_cbb_init(void)
+ {
+        return platform_driver_register(&tegra194_cbb_driver);
+ }
+-pure_initcall(tegra194_cbb_init);
++core_initcall(tegra194_cbb_init);
+
+ static void __exit tegra194_cbb_exit(void)
+ {
+diff --git a/drivers/soc/tegra/cbb/tegra234-cbb.c b/drivers/soc/tegra/cbb/tegra234-cbb.c
+index fb26f085f691..785072fa4e85 100644
+--- a/drivers/soc/tegra/cbb/tegra234-cbb.c
++++ b/drivers/soc/tegra/cbb/tegra234-cbb.c
+@@ -1774,7 +1774,7 @@ static int __init tegra234_cbb_init(void)
+ {
+        return platform_driver_register(&tegra234_cbb_driver);
+ }
+-pure_initcall(tegra234_cbb_init);
++core_initcall(tegra234_cbb_init);
+
+ static void __exit tegra234_cbb_exit(void)
+ {
+
+Would this work?
+
+Thanks,
+Shashank
