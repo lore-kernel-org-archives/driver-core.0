@@ -1,86 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC55334C27
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:20:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C703537F5
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:20:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777368046; cv=none; b=mUakkbN43YIEBjdtXgVb4EpeEr7y0d8QmiPzFST7yllFfWk63Yaapu6SYm6BU813Ul0BNYsQ9sQ1ww8Sqlcxhz/bwBCYbbpGatsSSrbdoLQ+X5/TozG1CLCELcUKVoT6BwF35g3xIg1KBkCJ+6tcvhFwwHymyYoROnEcbM1O8dQ=
+	t=1777368049; cv=none; b=GipVmqHsnLLwKYV7fLfGs8c30WF4Xua7PYr9ynhbg7u3lPG10TIB+WLRR/WjlAU7yhvv5BoVQNzv8wvOKXADnloMtyqAFJX6o+TEmAZOUKLRt2XNkaL01huNltPqToavbw4pXEo9Qrt5szOoCfuOq0IeEId4h0dVUUS4WLM7occ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777368046; c=relaxed/simple;
-	bh=DeQzfE7uEw87FoNwrajQBxkZ/sMoxBLsCBYIPXjNSsI=;
+	s=arc-20240116; t=1777368049; c=relaxed/simple;
+	bh=T8cDYp2DNAqsSajdUoTPkvXrB2+9GR9lrfSx0ziTXnQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QvXO6YYH+yorLxxTeFL151jgz4D9G83/GI2E70YZOmZPruDLREnytduDguKrSOa/fgVUHCwebUIeCF1rjQmJOj90i8c+xPPL/+wQ9XiEU7ypWHDjwZl1E85cJIt9Y69aLugEQC2wRqnbXdMCvWDvwlwpaImgVGOLZ1NKIoZs+FU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bYzgtmhA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TWP6xOjG; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=Xdy+wgCV75EmhEHTRaRjQA4EroiKx0C6VXUr/wM9tnBow76sp83o+vpnOhsnxCOQEcV7fqt3vAUnOgp/CzR4+tHMGB96rUqJTFxNKI85RkNo5BW0SxwDbf2S13IwTeM7Uih/kJFX3/Rbe38FupXQY2tuuIjyYawnsTAALZV71Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iGlAvFBw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=krvICtQv; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bYzgtmhA";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TWP6xOjG"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63S7vq9p1744983
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:20:44 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iGlAvFBw";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="krvICtQv"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63S6lTlX1624769
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:20:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	34bMm2QC5D3vRxjYjMA8BCTGNq2X+nM48LZ6CVNLD7Q=; b=bYzgtmhAlL2xOEog
-	bwiRdU5d99A0r7XLhrX3j5IqFAYqa97K/RbCTFMPLDZV3kylCEwhJ3h23J/J+3ns
-	Wqy4n95vc5PUYCZiha0S6cZiXzzPAQhjdYeWdPMA8DHcsJnC91VAyMU1W+qmAXbL
-	qCKpufsDq3BC7q0KPJ9cWPDCj7FVMSYGcDqrFMkIRVaRbLsjx3lMCHL8EC3Ilg0S
-	i5YuNllFb7wes7I9YJm6lmdIOn4WN7y3j3xrn8Dez+dv1itkY9gise/VM+wWU+OX
-	WAg/mh75+fhPhIF9isR9MQd7Wv97SHcAailD9cULx1qGtg0qAj3+Fj8hl8BXrYH2
-	urHanQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dtryd8apa-1
+	p8vfhMIPFT/sWGZjm7l26HgyrbyRR4i+eno24bHq3b4=; b=iGlAvFBwKsx2g8SM
+	bLBvtLP2mtu2ixoHUpUxDHk8Mnme4jXi1SJqbh+yJ9O6tCF4oyDmpPKHylIb2l1d
+	oeL7gRtBGQtVcmXYnPG+iOEy6uccnbPjZYk15dm10Wn5GvUM7UnfMeqaGQIxW8t0
+	944vwqGoc+BB8pIb+aEXAMnmP6QSi2g3ldh3ZdcCBWChIMC7EbfpIAhmL53j38zc
+	OCDKbxMO2xsTfJrV9W03xBV1371xVP4I2fDYt5NFXB1y9lYAyUhJoemVenckwe69
+	L0NKSysLPz9VItP8n6ZsQpBRDIY4zGRJ7GwCDk5Xe8l9fPV+GUebdG9d1Wq/afsl
+	Y7nljw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dtgmsa79u-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:20:44 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50e136aff17so204116551cf.3
-        for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 02:20:44 -0700 (PDT)
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:20:47 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50faf1ecd1dso232017681cf.1
+        for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 02:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777368043; x=1777972843; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1777368046; x=1777972846; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=34bMm2QC5D3vRxjYjMA8BCTGNq2X+nM48LZ6CVNLD7Q=;
-        b=TWP6xOjG7LQD168F0GfxYe/EdGYOEYMhEKpVfKJ0nmFXGqrPt67be8m+1xkxj/YOjY
-         rm676SZdothaKy4ZFwE+RIcYBqTYnrbP9zKAKeHGSmkc7O29G2ds3a0m/pESucfSJE8G
-         5OFDMuuLcXwUfh9tNQafb9H11trofFBghEbGX7zcZbM8HAIoQlT7NDDje+zPyp3j/UXr
-         tGCgpdeazK/jcoAkGAm4yWOl+rZcv+dv15jXBO2xskyh6XL1j04FAd8c0Q+nrpEUkFoJ
-         uBJg3KwA15rDuG/jkOpe3NCpunv+PnnNUMobuqNcKaT21iu8CtkSufHYlQfEDACAqlmg
-         m5VQ==
+        bh=p8vfhMIPFT/sWGZjm7l26HgyrbyRR4i+eno24bHq3b4=;
+        b=krvICtQvx2WwFQRm9wNcO+JzvGXUFQFOQnl/JKZWrgzqRCTQle2AOmK2O1DdKVzQb5
+         F+vuvft7x4vDe+Qsm5qr4XTnUSXx3ZJTJA/jWp7uXnC9C4KTCNE+uW7MpjAflw87RtO/
+         ZpXMZd9q0fH1cgPe4u4gpzgwI1yl5aDzCgWegZOKjecPgYIz2NUUt9+SGA1IoKAVYSU7
+         p/VIYGzjYhhCSj/cRP2kpvvWkXsrMy1xOnzIw443rucd3a5gzKO/7sz2AW57Rjjmz/Zm
+         LspbA3SViHam3RaLnSL3WQPUYF0mFkEQL4gw950zTfBH/QY/0WdoqMrRunMwNECw2WuF
+         dpfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777368043; x=1777972843;
+        d=1e100.net; s=20251104; t=1777368046; x=1777972846;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=34bMm2QC5D3vRxjYjMA8BCTGNq2X+nM48LZ6CVNLD7Q=;
-        b=bZdHBvjznzYGUKuT3wOs4hMp2HzhY3H9Lye1eExpXZ8IlLC2zO0LMca0Offm6xZYsx
-         9RmHy6bnc/Fp7tevKRJdwx9LKNIK06yDaBfPy2zOvwwHCVilVOOg/S4ef6qwSNPO7B3v
-         ggPtM7E7MVSvQ8w6hqJ8TvRV70tQGqjkoVoSXUGdD3Ye/MN32bLcjQqjIVDm4kIBcslX
-         blD/ne/1Wj8+9qU9X1B42KlUxrCEjAdySrPpTAXtoaantZ0WyG3K0DjWQ0YDCLh4Ir+W
-         QBkmezRtk9RKJnHjLNB9WRk4REA24iVeCaTE9J5Ox+JwwLJJ1EPemQFg6DeJqxcoUi2i
-         /Btw==
-X-Forwarded-Encrypted: i=1; AFNElJ/zCEu5Ri4tnv+t6xQSovlKkj6KlVHQAgTfr1v6epIW3kNq+9RjeR+iOUqtqn+wIAZ7JmyYyW+6zDOgUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzlL57ZL5xV/jh9fffryNTLbJuAXxovQvMtfwGuzCc/ichGref
-	m5tdbAQq//rj2K2sr0wCp2SbmSQCqjMeKtOaFQK5saBeAeIbYrOMo/7GFuvOHYfrjIkgtATax3C
-	DouUQPh5TzQVxAo2pBsJnsv0dyW93eT6a4wi/wskgGYTQVycq0sjCs90pGMQlKOpBkA==
-X-Gm-Gg: AeBDievcivQjJYmQsH9XK8cBwcnrixd0RnZX9Gav+3uv8n6+xHWfHgaAgylW7Rg5KNo
-	BAt4P0Ea9RSYuM2urAyWaRR4x2IdlMuAUcKGG3maUnYCa9uUVdruoH8OFiYX1bczfxwdOeeAOMs
-	HzadphZXRC8t2qxD01gfxO1FMP67zs/MJw02hP496j5QEbLJ25dR+KtaU2ZWzVcWzNen6pn58Kp
-	1ncmVre/RxLBYKk+thhR/mXAZBUxSRxLPVsDuCh7fTEJvpU6xudW9inj00joCa54ybGlFlF4uq8
-	jGCcdaX8ti+NC6RMBMDgL6HrPwpXUgrUNMfHnRaV5Ax3Cq9dQAbzT63pYQks4Hxu8qIilWktFD4
-	dw/BfgC23ZJhORiT7GIS3E5dYaxkgR8k0j9sXahUBItD/zCcfKSO+wMHSMgh9
-X-Received: by 2002:a05:622a:251a:b0:50b:4e4e:1a20 with SMTP id d75a77b69052e-5100e207f59mr27362241cf.59.1777368043518;
-        Tue, 28 Apr 2026 02:20:43 -0700 (PDT)
-X-Received: by 2002:a05:622a:251a:b0:50b:4e4e:1a20 with SMTP id d75a77b69052e-5100e207f59mr27361861cf.59.1777368043014;
-        Tue, 28 Apr 2026 02:20:43 -0700 (PDT)
+        bh=p8vfhMIPFT/sWGZjm7l26HgyrbyRR4i+eno24bHq3b4=;
+        b=iHRldL1EXVVrw90O/i/1DRnCNEKqHPmeELb0/RUDlfwDQOVIhQ5ExCkO86jktoGGDU
+         zPjjeYqdesKUgUXjWPu8bZ8YEnihpdycNsuif7K45L1T+5sUd9EJve/DGDL/ZMGYwOeM
+         3wxR9OJS4YgDkLpSNsCboJg9M9jOkJDRyA2aQ2bHs3DoGwv4D22kxIpKdbPqblETN3l4
+         ectANnY30Boiw+FVQtMtbXfinVHhQMdupVdJ6b6tDVm9HQMeY/YCyvf3B6nYSKOsExt7
+         9ma0prqSSpJfKZPAEOL8r0VhQtMhR6tPbQCUYKYXbmGTVoiaNcONDAiGEn6VFnUGnu19
+         7Cpw==
+X-Forwarded-Encrypted: i=1; AFNElJ/mYGESP3Gg1K5hWldAMmDtQumGZbeSfko0rHGhdAtfOrn4Ewi5mN2ieTnyKFwYOsIROEveh1DZn5IErg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzxw6awVMh1ZHhSpPSdzWNlQb33DHZwZUEJEdDF4kf34qKC7QMG
+	ChJ868edhdxU0FpJRtgUFJ8s0cA9hmjIRvZdbtjUvyB6ax3JLBS5aF6XtJaG4LCWLWrxLpEjBOO
+	MxaPa5ftkz58BdWOdnR+zpa6/tt9dqa1DH6bJSJCZ3qjhX8hE84EXfBEPSDa/4bcGaw==
+X-Gm-Gg: AeBDievDwbi7KxRl9husmB7RDEEdzrNbicujIRSGo/kTu1mZMidvtEWEsC97lrbFC5B
+	/7U2KpClYq1MmZI/whSRWKILCjo36ukaI8iFtDXZlPQ1Mc+6PmWVZvRd6CfEuekfnUrNaiYn/i7
+	k/Eh1gI386cfajKu5OXOvFJdFuSZBLJb1XVHeet04guk4/VVU0qujE5/Tju14ViadG6ESckFdhI
+	u4QCv0zslESlJ7JfJ8ahTa7zjZmOQR8/9EpYQ0e28rv4i1Yd8R0FqvOO2BZQGshGJOta8G5cjBt
+	RDeAhoYInjU36VK3iDyXcZUcZCBCtZiY3qBUuCjguElepCrO2WyM90nZXmeXoBs1pZkLTO0gnLf
+	QGUy95d+rtD7EWKV778NVTmEMNn8XhAIQgbfsMpQyjKJzr/Si4Q6wkK234UQG
+X-Received: by 2002:ac8:58d5:0:b0:50f:c5d3:a18c with SMTP id d75a77b69052e-5100e12dd9fmr27572621cf.20.1777368046065;
+        Tue, 28 Apr 2026 02:20:46 -0700 (PDT)
+X-Received: by 2002:ac8:58d5:0:b0:50f:c5d3:a18c with SMTP id d75a77b69052e-5100e12dd9fmr27572461cf.20.1777368045598;
+        Tue, 28 Apr 2026 02:20:45 -0700 (PDT)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:7473:f19:2705:c566])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7748f236sm15726195e9.5.2026.04.28.02.20.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7748f236sm15726195e9.5.2026.04.28.02.20.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 02:20:42 -0700 (PDT)
+        Tue, 28 Apr 2026 02:20:44 -0700 (PDT)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Tue, 28 Apr 2026 11:20:27 +0200
-Subject: [PATCH v3 2/3] kunit: provide kunit_software_node_register()
+Date: Tue, 28 Apr 2026 11:20:28 +0200
+Subject: [PATCH v3 3/3] driver core: platform: tests: add test cases for
+ correct swnode removal
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -89,7 +90,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-swnode-remove-on-dev-unreg-v3-2-533bdc71b22e@oss.qualcomm.com>
+Message-Id: <20260428-swnode-remove-on-dev-unreg-v3-3-533bdc71b22e@oss.qualcomm.com>
 References: <20260428-swnode-remove-on-dev-unreg-v3-0-533bdc71b22e@oss.qualcomm.com>
 In-Reply-To: <20260428-swnode-remove-on-dev-unreg-v3-0-533bdc71b22e@oss.qualcomm.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -103,154 +104,239 @@ Cc: brgl@kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
         linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
         Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3107;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6067;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=DeQzfE7uEw87FoNwrajQBxkZ/sMoxBLsCBYIPXjNSsI=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBp8HvjYPF7YvsnZDQyKI3cG13qVRN8CodRuRqEv
- 5QGGXs/HrqJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCafB74wAKCRAFnS7L/zaE
- wxonD/0W3xu1ONPw5UYpM1/xd+A/8K9nawsk6xomadRBYWW1A3uvxzvEWfSZ14N7w2x+rRKQ+2b
- 68a4ac24vsmx4wFXTwm3F1Ln3Un5A7nhMCRO2A65iqQ75CjOX5lWMe4lyZMIFptmev/o/1aChXi
- 7bbRE0RyV+lYiG8SJ1DzLQIrle0lOPxzBolO8aOG1uBUMNqIebRg740VYJcLu2DZT90y5tpeSfF
- 4/KO5u0ss2VWvjHHtRxqMY3OHCmQWvNpUZmM92vsr6NJMGtz6xglmv/KJwq2GHeUgbvIgWCY5/j
- in4ofLnaM9OoUnw39WsDvP0PPVgvTsEGOD3CD51TUDrXsrqmWQB3TP1UxrWB4NUWdGMDN4538bR
- /Bbln4CCGSIIfqwV6IJ2xUU3wV042eN6d8NTN1gmARcM1f/52hYGvjqWVNSG5GZt/5YmWEc1KYM
- vD8ixcyrnTZwJqsLFYxyjZgzuhu1tdKX9XUhhrnKI8Hz8N9boVHHyisbV1HA2lMsf8sfetp4JG1
- CVZgXDSavaYAHBlmtFIEjfIVFn7uRYN7/XFqgq5L7e25l1biS/UoLB6k1ooFivCQOomDRMcZ6wc
- IYXd+kCmkuZLXppSnpw5th/hWfyiBsXPRXXzYx+nW2mEVuoxmtH4S+v3jBbiihR7o8nXh/HOaLU
- vQeUgCsv0J2/fjA==
+ bh=T8cDYp2DNAqsSajdUoTPkvXrB2+9GR9lrfSx0ziTXnQ=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBp8HvkK3aARE5v16HitWeAITYrhw1b7vUsRJWGO
+ oOiPEUW1quJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCafB75AAKCRAFnS7L/zaE
+ wxlzD/93aEyaLYrv6CzlQiY8MU3aZm+VK+O2gnw9M1ctLlVaMh/NeWYDnJeGO1t50dAn8rOWCUh
+ So7WyOHHs6Wx1UQ47NcG2eEk97qi9dPo6wV+YXShKCXnr8+/TLPdze5JCu7lASLE6dk0+by36Jl
+ sP2iMDPXPpOt58ewSEGdLRMijh0PpFMy9Ji5Qnx10saLFTmz40Rrd6i0EmiCm+et3w++x6AOm7+
+ PvBHm1/EN56gBrA57cSo30BW+ijrCEJCP6eFn0LDdp0zOEsINf/6e2I6T5z79Z8CBgQlMXUjQgt
+ sua6Zf/qG1QmGzr+DsPnx+oq1QGwb3n3I0wGuPCzwc7pnd18X0nT9AedPfqU9avnnbHGD+WXl7A
+ 3sBjzyf5as9wNqJBzsZoBXn5EeWSVlYnPsKDDgAzPrAUSWaTpmyQgwzHPBXomm73B0wKa+h/TJq
+ adYf1nSF1B6lVyFGKRFAJIX+BsZ+O8DFL2lRP6KFUu09A+GG5mxeSxBhURsk8KJae2xFUEPtY29
+ kWMR8GC51nP4DZA3AM0JIqWa4L/50RULM6Jf4DxI3uvVRQ+xK9HRx/g82i/8NFNnhFTRcBXt5yb
+ /3ugyQLekmATa2avQD5D0Rp7dcmJ9x17Bi7K3tyV2RbbUZ7TE2aRDuJSU6fVbh4LYA7M4495RpL
+ jX6a0cshCbH3dOg==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: QuqJFvqOMixjwZD_KC0mISUm8z3Wfpy7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI4MDA4MiBTYWx0ZWRfX03mKxtU3YUXm
- mJdWj/nLgVJO2XaDJEH6oikTXmwrBJCU4xt2Dwik+2AQTuJ9jaScC+fnK+BlW7Q3PxNjZOjQ4bu
- cFZpn9/FZGL8+UMro8b+w1DAXZjxgMcRLgRg761V8u9FZIp4l0fRdNtl+d8CegsRoplTZ5xACY7
- V6vGAR0S3vPGKcdSeYYD6atR6yPTUB9vOlbPV5bgSXKquwcu+fMTGRP1C3YDIc1gBc4ymqczA3Y
- bfj5pZe5gIGuayaHGCLHpSAoPDW1900QISeExRTUQaP1eQp4k2lIzZuXkX/qmqNjvY46i2pDu1K
- mdtbUYbMSg9y3atGpNw3at1HQbtw3tdrivXtIDCLShQbozZHKQ0U0gXzJ0YxpzePv7iFIpRXWDI
- +d3z7r+dgtu4s/9WGR36KBbm2BNNvbRO7hMDnwgwrF+oVvAU/GjYSPYP9UKbJQV5oOLqkIqJKzv
- yOwA647kVEjh8RMUt8Q==
-X-Proofpoint-ORIG-GUID: QuqJFvqOMixjwZD_KC0mISUm8z3Wfpy7
-X-Authority-Analysis: v=2.4 cv=cMnQdFeN c=1 sm=1 tr=0 ts=69f07bec cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-GUID: cgu9M_DqGkjJVa_Cvq5oz1c-Vyo-96gS
+X-Authority-Analysis: v=2.4 cv=R4gz39RX c=1 sm=1 tr=0 ts=69f07bef cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
- a=0NWOcHYCwBz2ZqcsIPkA:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=vxuIP30iJWOd7SGqMXcA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI4MDA4MiBTYWx0ZWRfX7R8u2zX8aH7p
+ CRimy3nCRo7GEgViGgNx3q3+kLihizuHrCwU7ClerUhPcCi4Khg0/z96yZi/OyZx1z5FLg2reRH
+ nd0aObpCvmTeNnoNSonxxH03aaeCfOyNRj2eKzOftQJhA2oMa4MsXzgBETg7A9YWdEhdQW2MYD+
+ SRQ29FKyQdEGNNlN7MhkXCwSOEmKZy7bZeOtnMOG+W4JqK4SyAqeQFJljfIWwiLURHqY8E7lQQz
+ bgL18pOIoHZZmPyOfbJVaPAan+qGevlwhppCwhAFecE6lQiwER2NFPWvTJ64C2jav0BMhqX4//s
+ uHnWYGTClucurfvH8ymw9Eh5y0+gx1IAlzQtGi4b6zY2qqiO5XrvZf2sTW7TZmYGMPMdVNOBLSJ
+ B4YpZowiBfhrUrst6/8MDxD40ly75/V3e+S43w2AEKrPI7D/kqNYtc2GVMQIU3YZeGXkbORIJe+
+ uBoleEGZdgK0JojLibg==
+X-Proofpoint-ORIG-GUID: cgu9M_DqGkjJVa_Cvq5oz1c-Vyo-96gS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-04-28_02,2026-04-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ suspectscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
+ impostorscore=0 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
  definitions=main-2604280082
 
-Implement a helper for registering kunit test-managed software nodes.
+Extend the kunit module for platform devices with test cases verifying
+that the same software node can be added to platform devices repeatedly.
 
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- include/kunit/fwnode.h | 19 ++++++++++++++++++
- lib/kunit/Makefile     |  3 ++-
- lib/kunit/fwnode.c     | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 73 insertions(+), 1 deletion(-)
+ drivers/base/test/platform-device-test.c | 156 +++++++++++++++++++++++++++++++
+ 1 file changed, 156 insertions(+)
 
-diff --git a/include/kunit/fwnode.h b/include/kunit/fwnode.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..e1554ace64b8a5899aff9f4b4247e5157826a49b
---- /dev/null
-+++ b/include/kunit/fwnode.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * KUnit resource management helpers firmware nodes.
-+ *
-+ * Copyright (C) Qualcomm Technologies, Inc. and/or its subsidiaries
-+ */
-+
-+#ifndef _KUNIT_FWNODE_H
-+#define _KUNIT_FWNODE_H
-+
-+struct kunit;
-+struct fwnode_handle;
-+struct software_node;
-+
-+struct fwnode_handle *
-+kunit_software_node_register(struct kunit *test,
-+			     const struct software_node *node);
-+
-+#endif /* _KUNIT_FWNODE_H */
-diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-index 656f1fa35abcc635e67d5b4cb1bc586b48415ac5..7549a701791b5b7eaa8e0637b6818cdfd0b655a8 100644
---- a/lib/kunit/Makefile
-+++ b/lib/kunit/Makefile
-@@ -10,7 +10,8 @@ kunit-objs +=				test.o \
- 					executor.o \
- 					attributes.o \
- 					device.o \
--					platform.o
-+					platform.o \
-+					fwnode.o
+diff --git a/drivers/base/test/platform-device-test.c b/drivers/base/test/platform-device-test.c
+index 6355a2231b741791b54eb78af42e13f31f745184..19b3b2ea150738877278f7e37be7ef69539147c0 100644
+--- a/drivers/base/test/platform-device-test.c
++++ b/drivers/base/test/platform-device-test.c
+@@ -1,12 +1,15 @@
+ // SPDX-License-Identifier: GPL-2.0
  
- ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
- kunit-objs +=				debugfs.o
-diff --git a/lib/kunit/fwnode.c b/lib/kunit/fwnode.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..bc8bf06762dd71a741a3419c1ca04028d6ad3ec8
---- /dev/null
-+++ b/lib/kunit/fwnode.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) Qualcomm Technologies, Inc. and/or its subsidiaries
-+ */
-+
 +#include <kunit/fwnode.h>
-+#include <kunit/test.h>
-+
+ #include <kunit/platform_device.h>
+ #include <kunit/resource.h>
+ 
+ #include <linux/device.h>
+ #include <linux/device/bus.h>
 +#include <linux/fwnode.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
 +#include <linux/property.h>
-+
-+static void kunit_software_node_unregister(void *data)
+ 
+ #define DEVICE_NAME "test"
+ 
+@@ -253,9 +256,162 @@ static struct kunit_suite platform_device_match_test_suite = {
+ 	.test_cases = platform_device_match_tests,
+ };
+ 
++static int platform_device_swnode_test_probe(struct platform_device *pdev)
 +{
-+	const struct software_node *swnode = data;
-+
-+	software_node_unregister(swnode);
++	return 0;
 +}
 +
-+/**
-+ * kunit_software_node_register() - Register a KUnit-managed software node
-+ * @test: test context
-+ * @swnode: Software node to register
-+ *
-+ * Register a test-managed software node and return its firmware node handle.
-+ * The software node is unregistered after the test case completes.
-+ *
-+ * Return: Firmware node handle of the registered software node or IS_ERR()
-+ * on failure.
++static struct platform_driver platform_swnode_test_driver = {
++	.probe = platform_device_swnode_test_probe,
++	.driver = {
++		.name = DEVICE_NAME,
++	},
++};
++
++static const struct software_node platform_device_test_swnode = { };
++
++/*
++ * Check that reusing a software node works correctly. If the call to
++ * platform_device_register_full() fails after adding the secondary firmware
++ * node, the software node must be unregistered in the device's release()
++ * callback or the subsequent call to platform_device_register_full() will fail
++ * with -EBUSY due to the software node aleady having been registered.
 + */
-+struct fwnode_handle *
-+kunit_software_node_register(struct kunit *test,
-+			     const struct software_node *swnode)
++static void platform_device_swnode_add_twice(struct kunit *test)
 +{
++	struct platform_device_info pdevinfo;
++	struct platform_device *pdev;
++	struct fwnode_handle fwnode;
++	int ret;
++
++	ret = kunit_platform_driver_register(test, &platform_swnode_test_driver);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	fwnode_init(&fwnode, NULL);
++	pdevinfo = (struct platform_device_info){
++		.name = DEVICE_NAME,
++		.id = PLATFORM_DEVID_NONE,
++		.fwnode = &fwnode,
++		.swnode = &platform_device_test_swnode,
++	};
++
++	pdev = platform_device_register_full(&pdevinfo);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
++
++	wait_for_device_probe();
++	KUNIT_ASSERT_TRUE(test, device_is_bound(&pdev->dev));
++
++	platform_device_unregister(pdev);
++
++	pdev = platform_device_register_full(&pdevinfo);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
++
++	wait_for_device_probe();
++	KUNIT_ASSERT_TRUE(test, device_is_bound(&pdev->dev));
++
++	platform_device_unregister(pdev);
++}
++
++/*
++ * Check that passing a software node as the primary firmware node of the
++ * platform device does not result in it being unregistered by the call to
++ * device_remove_software_node() in its release path.
++ */
++static void platform_device_swnode_as_primary(struct kunit *test)
++{
++	struct platform_device_info pdevinfo;
++	struct platform_device *pdev;
 +	struct fwnode_handle *fwnode;
 +	int ret;
 +
-+	ret = software_node_register(swnode);
-+	if (ret)
-+		return ERR_PTR(ret);
++	ret = kunit_platform_driver_register(test, &platform_swnode_test_driver);
++	KUNIT_ASSERT_EQ(test, ret, 0);
 +
-+	fwnode = software_node_fwnode(swnode);
-+	if (WARN_ON(!fwnode))
-+		return ERR_PTR(-ENOENT);
++	fwnode = kunit_software_node_register(test, &platform_device_test_swnode);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
 +
-+	ret = kunit_add_action_or_reset(test, kunit_software_node_unregister,
-+					(void *)swnode);
-+	if (ret)
-+		return ERR_PTR(ret);
++	pdevinfo = (struct platform_device_info){
++		.name = DEVICE_NAME,
++		.id = PLATFORM_DEVID_NONE,
++		.fwnode = fwnode,
++	};
 +
-+	return fwnode;
++	pdev = platform_device_register_full(&pdevinfo);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
++
++	wait_for_device_probe();
++	KUNIT_ASSERT_TRUE(test, device_is_bound(&pdev->dev));
++
++	platform_device_unregister(pdev);
++
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, software_node_fwnode(&platform_device_test_swnode));
 +}
-+EXPORT_SYMBOL_GPL(kunit_software_node_register);
++
++static const struct software_node platform_device_test_primary_swnode = { };
++
++/*
++ * Check that passing two software nodes to platform_device_register_full()
++ * fails.
++ */
++static void platform_device_two_swnodes(struct kunit *test)
++{
++	static const struct property_entry properties[] = {
++		PROPERTY_ENTRY_U32("foo", 42),
++		{ }
++	};
++
++	struct platform_device_info pdevinfo;
++	struct platform_device *pdev;
++	struct fwnode_handle *fwnode;
++	int ret;
++
++	ret = kunit_platform_driver_register(test, &platform_swnode_test_driver);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	fwnode = kunit_software_node_register(test, &platform_device_test_swnode);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
++
++	pdevinfo = (struct platform_device_info){
++		.name = DEVICE_NAME,
++		.id = PLATFORM_DEVID_NONE,
++		.fwnode = fwnode,
++		.swnode = &platform_device_test_swnode,
++	};
++
++	pdev = platform_device_register_full(&pdevinfo);
++	KUNIT_ASSERT_TRUE(test, IS_ERR(pdev));
++	KUNIT_ASSERT_EQ_MSG(test, PTR_ERR(pdev), -EINVAL,
++			    "Expected errno == -EINVAL, got: %pe", pdev);
++
++	pdevinfo = (struct platform_device_info){
++		.name = DEVICE_NAME,
++		.id = PLATFORM_DEVID_NONE,
++		.swnode = &platform_device_test_swnode,
++		.properties = properties,
++	};
++
++	pdev = platform_device_register_full(&pdevinfo);
++	KUNIT_ASSERT_TRUE(test, IS_ERR(pdev));
++	KUNIT_ASSERT_EQ_MSG(test, PTR_ERR(pdev), -EINVAL,
++			    "Expected errno == -EINVAL, got: %pe", pdev);
++}
++
++static struct kunit_case platform_device_swnode_tests[] = {
++	KUNIT_CASE(platform_device_swnode_add_twice),
++	KUNIT_CASE(platform_device_swnode_as_primary),
++	KUNIT_CASE(platform_device_two_swnodes),
++	{}
++};
++
++static struct kunit_suite platform_device_swnode_test_suite = {
++	.name = "platform-device-swnode",
++	.test_cases = platform_device_swnode_tests,
++};
++
+ kunit_test_suites(
+ 	&platform_device_devm_test_suite,
+ 	&platform_device_match_test_suite,
++	&platform_device_swnode_test_suite,
+ );
+ 
+ MODULE_DESCRIPTION("Test module for platform devices");
 
 -- 
 2.47.3
