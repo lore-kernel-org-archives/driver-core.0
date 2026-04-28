@@ -1,120 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B203F0776;
-	Tue, 28 Apr 2026 10:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FEF3F23DA
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 11:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777373619; cv=none; b=Tp5I9MUcxz3FEvd2VcP46UHxi2vcg5rqEwsRZIiSTYSjpQf2w4xrQoGLXobLSdwrHSkBn717X1p33BcVp2H+++DC7+W9pzypGB9C1Yb0QAzZJM5vmA9QWvQRhQd72Y6azErf0iXjHL4r+V3fG1hcxlIvCgKVhw5mXY+45pqyd0Q=
+	t=1777374632; cv=none; b=LhUnnXbrtgWcbzGOszfTWnHFrrwreNL/tTX5r7G27E2LWnh0EXFj6H5jYVb0F7iYp7aX/ds/F/fyxwQpikX7cpjhDDfY8LX+N0QqLXUYfS45XjjVGekbnX+c4LA/7O2zrXRX6087e0XyyD7VgkFLXoSOeuXKvA/xdYx4KKRBXts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777373619; c=relaxed/simple;
-	bh=nli8iL0UDuKMNz0EFiwRnRD7S6+egKizQtirZgiozV8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Uvg11XvmobGkok9gnKlATAsthLJGS67xIBkvO3IqmdKsXMAXVBhjPPJvTqqYd5BClnMs+TkQGIyl7x1+ECBXP5+Nr7Garr9Qcf9wxQO1iKcaevLNsgr9yDEQ3y5wcm2p4tEIQmLeNMN8A13jKMfsp1PepXGh28H5SplucBAlLcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oS9hRR2M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777374632; c=relaxed/simple;
+	bh=guAyNWntqj2fLjXiO483YRDb/ECfTSoHy1PQa/2/AzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a6VBqEyH/vvN++SuMDI9owPuKaMhd8AS6cjVGBAwS4bxfj3S2xcDJIjzSWf/yOxJ/8GwARE0uY1pUMfdVRf5VbWruntYJXVUjFFdruv7jx0meBVye17VFmBbih+mjjq4vVdqESc47EQkdv7NUhzt38d+0MW+fJ9ilmPPPvtDa0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OprvIf9J; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oS9hRR2M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3101C2BCAF;
-	Tue, 28 Apr 2026 10:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777373619;
-	bh=nli8iL0UDuKMNz0EFiwRnRD7S6+egKizQtirZgiozV8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=oS9hRR2MY804BzfIchS3H290u1GhLRVebtOaPvj2AoKEK9SsiZK1hBt3R06g85rZa
-	 kPHNtylqx4TcVZhKJmpPpF0BloBFJ/Nyq9wsA//5dTcuEm+S9xIBxMdB8buhH28TCs
-	 /5ntXci365UEi5tFG7yOyLihiTmUIrJfj5/CUNdHMlW7LENk/CntVVjbeedCdC9Ei6
-	 yJxjOsflRj64ElaTEjTGDqucPB05E4nAEt/gpP+1mWXiDfQIVaOYdVz9N9u/5GnYWJ
-	 83XYZTPwiR7UoQusZc431NsSZDCuHcv7glukVjVEw2toCIsWFq4o3jh1FwgQWjwj1V
-	 HuAn5MXSjHj2Q==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun
- Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6r?=
- =?utf-8?Q?n?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel Almeida
- <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Abdiel
- Janulgue
- <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 06/11] rust: io: add view type
-In-Reply-To: <20260421-io_projection-v2-6-4c251c692ef4@garyguo.net>
-References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
- <20260421-io_projection-v2-6-4c251c692ef4@garyguo.net>
-Date: Tue, 28 Apr 2026 12:53:18 +0200
-Message-ID: <87zf2npd9d.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OprvIf9J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777374630; x=1808910630;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=guAyNWntqj2fLjXiO483YRDb/ECfTSoHy1PQa/2/AzM=;
+  b=OprvIf9JdF3/SVzsq88+tPrOXPEFGocEGtfspvbzVEqBqvgOLOJWKE0T
+   xrq5f/VtahTON77mtLd0WWQhJSoAY+xHrB97jqvPo/24MvAXtPAorppuo
+   xE96BZseqYejhT/d/3dbEYfwz9QLeqgW5qxrmP559RalVg+lmPbhqD6wh
+   BRTqqluAGjPvRY5mKDGPlIS3/UJmog5MYOWnw7hPt6P+Ligpc+QAHTwAk
+   ZreiB0+ojjR9j3DaE1jEWQqxtm2xqLmInblCRHYMXTDJgNuyDN3nTqRpZ
+   h2P56MPPxyVKaM23xbjyZhBOsq2q/0nHMNJSxkN2UZ70P3h72CXtV16ee
+   g==;
+X-CSE-ConnectionGUID: rPm36sPaRAOR/ifBSZyuNQ==
+X-CSE-MsgGUID: SuyJ9gfJR/6zaBtSMpGD7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="78390641"
+X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
+   d="scan'208";a="78390641"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 04:10:29 -0700
+X-CSE-ConnectionGUID: drHBfsXaQhK6/3i2u6xUYw==
+X-CSE-MsgGUID: QhDoYeQ8RO+vBrTOR2dC+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
+   d="scan'208";a="233873156"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.213])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 04:10:26 -0700
+Date: Tue, 28 Apr 2026 14:10:23 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>, brgl@kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Subject: Re: [PATCH v3 1/3] driver core: platform: remove software node on
+ release()
+Message-ID: <afCVn36EO4w0H0vS@ashevche-desk.local>
+References: <20260428-swnode-remove-on-dev-unreg-v3-0-533bdc71b22e@oss.qualcomm.com>
+ <20260428-swnode-remove-on-dev-unreg-v3-1-533bdc71b22e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428-swnode-remove-on-dev-unreg-v3-1-533bdc71b22e@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Gary Guo <gary@garyguo.net> writes:
+On Tue, Apr 28, 2026 at 11:20:26AM +0200, Bartosz Golaszewski wrote:
+> If we pass a software node to a newly created device using struct
+> platform_device_info, it will not be removed when the device is
+> released. This may happen when a module creating the device is removed
+> or on failure in platform_device_add().
+> 
+> When we try to reuse that software node in a subsequent call to
+> platform_device_register_full(), it will fails with -EBUSY. Add the
+> missing call to device_remove_software_node() in release path.
+> 
+> In addition to the above change, make sure that we still function
+> correctly if a software node is used as the primary firmware node as
+> well as disallow using two software nodes for platform devices as
+> device_add_software_node() does not handle this case correctly (in fact
+> a comment inside it states that only one software node per device is
+> allowed but it will not bail out if two are used so we need to handle it
+> here).
 
-> The view may be created statically via I/O projection using `io_project!()`
-> macro to perform compile-time checks, or created by type-casting an
-> existing view type with `try_cast()` function, where the size and alignment
-> checks are performed at runtime.
->
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Signed-off-by: Gary Guo <gary@garyguo.net>
-> ---
->  rust/kernel/io.rs | 147 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 146 insertions(+), 1 deletion(-)
->
-> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-> index a13be8c5fd2d..869071d47a13 100644
-> --- a/rust/kernel/io.rs
-> +++ b/rust/kernel/io.rs
-> @@ -7,7 +7,11 @@
->  use crate::{
->      bindings,
->      prelude::*,
-> -    ptr::KnownSize, //
-> +    ptr::KnownSize,
-> +    transmute::{
-> +        AsBytes,
-> +        FromBytes, //
-> +    }, //
->  };
->  
->  pub mod mem;
-> @@ -297,6 +301,13 @@ pub trait Io {
->      /// Type of this I/O region. For untyped I/O regions, [`Region`] type can be used.
->      type Type: ?Sized + KnownSize;
->  
-> +    /// Get a [`View`] covering the entire region.
-> +    #[inline]
-> +    fn as_view(&self) -> View<'_, Self, Self::Type> {
-> +        // SAFETY: This is an empty projection, so it trivially satisfies the invariant.
-> +        unsafe { View::new_unchecked(self, self.as_ptr()) }
-> +    }
-> +
+...
 
-Sorry, I missed your reply on v1. This is better. Should it be "identity
-projection" rather than "empty projection", or is "emtpy projection" the
-correct term?
+> +	device_remove_software_node(dev);
+>  	of_node_put(pa->pdev.dev.of_node);
 
-However, I don't see why we cannot put:
+So, why do we decide not to convert this to fwnode_handle_put() (and respective
+_get() elsewhere)?
 
-SAFETY:
- - By existence of `&self`, `self.as_ptr()` is aligned.
- - `self.as_ptr()` has same provenance as `self.as_ptr()`.
- - `self.byte_offset_from(self.as_ptr())` is 0.
+...
 
-I think the verbosity is fine. It makes it easier to check the safety
-preconditions when scanning the code.
+> +	/*
+> +	 * Only one software node per device is allowed. Make sure we don't
+> +	 * accept or create two.
+> +	 */
+> +	if (pdevinfo->swnode && (pdevinfo->properties || is_software_node(pdevinfo->fwnode)))
+>  		return ERR_PTR(-EINVAL);
 
+^^^ left for the context.
 
-Best regards,
-Andreas Hindborg
+...
+
+> +	/*
+> +	 * If the primary firmware node is a software node and there's no
+> +	 * secondary firmware node, the primary will be affected by the call
+> +	 * to device_remove_software_node() in platform_device_release() and
+> +	 * its reference count will be dropped by one. Take another reference
+> +	 * here to make it have no effect.
+> +	 */
+> +	if (is_software_node(pdevinfo->fwnode) && !pdevinfo->swnode)
+> +		fwnode_handle_get(pdevinfo->fwnode);
+
+IIUC the `is_software_node(pdevinfo->fwnode) && pdevinfo->swnode` may not
+happen here due to the above check. If I haven't missed anything, this check
+is simply
+
+	if (is_software_node(pdevinfo->fwnode))
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
