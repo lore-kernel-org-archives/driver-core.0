@@ -1,57 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948D63E556B;
-	Tue, 28 Apr 2026 10:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B203F0776;
+	Tue, 28 Apr 2026 10:53:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777371522; cv=none; b=O3heiGt9sCSBNh1/W0p3FacIWp6iH3RAvkuFdNf7ua3iJg/5bOP2x5JwNtfynV0t1Sc5LcVr5sIfeMX640yc3CtLY5EpwjlKQx/4NvWIC8/lAnYsRvBlWGrbb1Q6/LpAqlrUSR7Bsj+xTVmLUazNQmZmBlZzB5stP91q/cbEiSg=
+	t=1777373619; cv=none; b=Tp5I9MUcxz3FEvd2VcP46UHxi2vcg5rqEwsRZIiSTYSjpQf2w4xrQoGLXobLSdwrHSkBn717X1p33BcVp2H+++DC7+W9pzypGB9C1Yb0QAzZJM5vmA9QWvQRhQd72Y6azErf0iXjHL4r+V3fG1hcxlIvCgKVhw5mXY+45pqyd0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777371522; c=relaxed/simple;
-	bh=uHPyZdCkzCI448zeZqMv+wyuQZjfNzjXPtc17YEXI8U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Zz3J130BuP/32b95A+Dvigpb8xkTJZHKq1XfEl/B7R0rtC+fY3A1HgE+AKE6b3huzFjya967ETCL1lUe6zENYGHMXb1sPAMjTjEENOKmewFrQ+0BTEhFbeWflPiiCEMZRCJmlC5RUZkSQ/F8cL/zfcHxvkZ+2ALr9JxAhEX3Wbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahaIUlJh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777373619; c=relaxed/simple;
+	bh=nli8iL0UDuKMNz0EFiwRnRD7S6+egKizQtirZgiozV8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Uvg11XvmobGkok9gnKlATAsthLJGS67xIBkvO3IqmdKsXMAXVBhjPPJvTqqYd5BClnMs+TkQGIyl7x1+ECBXP5+Nr7Garr9Qcf9wxQO1iKcaevLNsgr9yDEQ3y5wcm2p4tEIQmLeNMN8A13jKMfsp1PepXGh28H5SplucBAlLcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oS9hRR2M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahaIUlJh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B305BC2BCB5;
-	Tue, 28 Apr 2026 10:18:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oS9hRR2M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3101C2BCAF;
+	Tue, 28 Apr 2026 10:53:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777371521;
-	bh=uHPyZdCkzCI448zeZqMv+wyuQZjfNzjXPtc17YEXI8U=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=ahaIUlJhSg632TunX/r/O68Yo4SbmrVt4yior8VLXk69Jba9ibkONUKWZOOfB1zWw
-	 g7lXj77kVrRSt9fD/KiW2ddFAFXjjNUIaqfUMW6xQIGGKxz2tef00LA/dZ+edSb/Pr
-	 kw/fkvFY6ff6u01bmbSObWtJsMXPQmyWnWXYx7twjW6YKwkYsJnMURdhIkx0pVlG3y
-	 sFdExSiuJ5GgR3VM3L4CoB8LHm4d6YDqcUzR3ErHcOdV6GkKK/gSPldPTm/h+p2pwS
-	 gqc5J+9EniuR3uZ+DB+9ohQN5ibMQ8YSf+7EwVrzVZ7rkK2cJnj5DGy9yk1S8+EzYJ
-	 AwwMdmK2nYdqQ==
+	s=k20201202; t=1777373619;
+	bh=nli8iL0UDuKMNz0EFiwRnRD7S6+egKizQtirZgiozV8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=oS9hRR2MY804BzfIchS3H290u1GhLRVebtOaPvj2AoKEK9SsiZK1hBt3R06g85rZa
+	 kPHNtylqx4TcVZhKJmpPpF0BloBFJ/Nyq9wsA//5dTcuEm+S9xIBxMdB8buhH28TCs
+	 /5ntXci365UEi5tFG7yOyLihiTmUIrJfj5/CUNdHMlW7LENk/CntVVjbeedCdC9Ei6
+	 yJxjOsflRj64ElaTEjTGDqucPB05E4nAEt/gpP+1mWXiDfQIVaOYdVz9N9u/5GnYWJ
+	 83XYZTPwiR7UoQusZc431NsSZDCuHcv7glukVjVEw2toCIsWFq4o3jh1FwgQWjwj1V
+	 HuAn5MXSjHj2Q==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun
+ Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6r?=
+ =?utf-8?Q?n?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Abdiel
+ Janulgue
+ <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 06/11] rust: io: add view type
+In-Reply-To: <20260421-io_projection-v2-6-4c251c692ef4@garyguo.net>
+References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
+ <20260421-io_projection-v2-6-4c251c692ef4@garyguo.net>
+Date: Tue, 28 Apr 2026 12:53:18 +0200
+Message-ID: <87zf2npd9d.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Apr 2026 12:18:36 +0200
-Message-Id: <DI4PMAG5RHC7.165W6MJA3R4TQ@kernel.org>
-Subject: Re: [PATCH 1/2] rust: auxiliary: add registration data to auxiliary
- devices
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, "Danilo Krummrich" <dakr@kernel.org>
-To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <acourbot@nvidia.com>, <aliceryhl@google.com>, <david.m.ertman@intel.com>,
- <ira.weiny@intel.com>, <leon@kernel.org>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
- <lossin@kernel.org>, <a.hindborg@kernel.org>, <tmgross@umich.edu>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260427221002.2143861-1-dakr@kernel.org>
- <20260427221002.2143861-2-dakr@kernel.org>
-In-Reply-To: <20260427221002.2143861-2-dakr@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Tue Apr 28, 2026 at 12:09 AM CEST, Danilo Krummrich wrote:
-> +impl<T: Send + 'static> Registration<T> {
+Gary Guo <gary@garyguo.net> writes:
 
-+ Sync
+> The view may be created statically via I/O projection using `io_project!()`
+> macro to perform compile-time checks, or created by type-casting an
+> existing view type with `try_cast()` function, where the size and alignment
+> checks are performed at runtime.
+>
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+>  rust/kernel/io.rs | 147 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 146 insertions(+), 1 deletion(-)
+>
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index a13be8c5fd2d..869071d47a13 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -7,7 +7,11 @@
+>  use crate::{
+>      bindings,
+>      prelude::*,
+> -    ptr::KnownSize, //
+> +    ptr::KnownSize,
+> +    transmute::{
+> +        AsBytes,
+> +        FromBytes, //
+> +    }, //
+>  };
+>  
+>  pub mod mem;
+> @@ -297,6 +301,13 @@ pub trait Io {
+>      /// Type of this I/O region. For untyped I/O regions, [`Region`] type can be used.
+>      type Type: ?Sized + KnownSize;
+>  
+> +    /// Get a [`View`] covering the entire region.
+> +    #[inline]
+> +    fn as_view(&self) -> View<'_, Self, Self::Type> {
+> +        // SAFETY: This is an empty projection, so it trivially satisfies the invariant.
+> +        unsafe { View::new_unchecked(self, self.as_ptr()) }
+> +    }
+> +
+
+Sorry, I missed your reply on v1. This is better. Should it be "identity
+projection" rather than "empty projection", or is "emtpy projection" the
+correct term?
+
+However, I don't see why we cannot put:
+
+SAFETY:
+ - By existence of `&self`, `self.as_ptr()` is aligned.
+ - `self.as_ptr()` has same provenance as `self.as_ptr()`.
+ - `self.byte_offset_from(self.as_ptr())` is 0.
+
+I think the verbosity is fine. It makes it easier to check the safety
+preconditions when scanning the code.
+
+
+Best regards,
+Andreas Hindborg
+
+
