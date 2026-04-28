@@ -1,75 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072223F20FE;
-	Tue, 28 Apr 2026 14:54:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F5B33D4FA
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 17:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777388072; cv=none; b=WPSbFn54ViqFajD24YfEI1040lu6I/W+qAK7IECTeI0yKkTsARij0s4g2BLhZmzRYXUZ1YeuU1EJNghXGTtdYUtsWWbe9JyBTSOhVMFKcSkdn8ObaldPFWEzGKDVYa3+I5AHqa4b3kVpPbjRIvEzSTu4Zde43sl3szhUzIWrjes=
+	t=1777398770; cv=none; b=aTaCOl5wIFUGNnd1eT2oybczjAiD60NdKWzCcMXRppg+ikkpT7qipM5g/03RFSGAfP1qbGXX4K9qQ3cv/c/6Vb3vqbgPuEH6txaKNpUzqVlCTMC/ujafvieIO+/cxKIvBxU1eb74ppBz93Dh57QhgfTjvMiCaInKYOEZvVxqWHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777388072; c=relaxed/simple;
-	bh=u5DGLyR5HD/1MGBsf8teWYoDSABc+D9y2JX4a/0KSqk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=mOYDDdquJH/0vUkvP5M6AerJvotF+cUXfMGSuu+F2GtLfZJYQJIgQ0OB3/AD9tJhDno5WKvRRiYErHxBeFNvkOMDMawASxYJP+ReNe/kgDr41bcoExkhUAYycHYTJBniMGeK6LnSyW2PYEa6/0VPxRezLHCjD2aoLU+OStdhToE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l74otaXl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777398770; c=relaxed/simple;
+	bh=vumAW2RFVHMxatUpH5GEYCNI+DjNpeDnApNOIrYkPIA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dH1FkWThpHojMBgeqhXqxL+15es8G2HbBI8t9ZMCFwpY/YFOfSMUHDbXz84I/owMKen/jC9mD+PkPt9X83zQPp0VwSOJALrNzxDpovgZbV1sPIPzJL/RFpvIJoaKko2usJSgWq4J9WePCAF0xgJVib41iP2TfUptS53dCmg3nIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=CORNI6xs; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l74otaXl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DF5CC2BCB5;
-	Tue, 28 Apr 2026 14:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777388071;
-	bh=u5DGLyR5HD/1MGBsf8teWYoDSABc+D9y2JX4a/0KSqk=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=l74otaXlxwMDVQrDfF61j4VgU+FzRLy4fUUwF3H6HBpKmA03eU2LCYfmcAlFs/YEQ
-	 A2N1h6J59/02mOogggPqpHHk82Ce1qP2xE/ZCsfZEef+E1pkeHtpUwdynt+dd/hogD
-	 7nVypud7lcZ+QDTVI4amd84NirO8RXdycMq/D1ns7Bwmvvhca8kww+1hgsdZEQ64jD
-	 bbFaUIBwxKuICOndPlEQBoTNK6lzRoET7Kw9ZKmlc+HWWvN7qOVnDPPfSCHs60E1K/
-	 STxdm7uT8irGGSRmDMMd9kfbcEcyK5cao7xuoXS+Q78BjU1udkHw/1+ozpaMgH2bje
-	 CBrRpKabXGycQ==
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="CORNI6xs"
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4g4p1Q4TFczlh2fs;
+	Tue, 28 Apr 2026 17:52:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1777398756; x=1779990757; bh=XJm/G9ISGpUcmxXEw+LSQg8J
+	3aA0kJK+ptYA0g9b4wI=; b=CORNI6xsngcO2b37tVbGnwc87cdx8AtEbXHhF+t5
+	80XugqGg3GjPcbk+YqU7K3tVhFqoWCgQ3NTha6igIFb20RPjD5+HChLvAHdRk+jd
+	6kezxkJ5uV/SJp8ANz4U8UaIFTaAmWZ/ATR9VQHY/839xB60dkJWIucygKo7aqDX
+	gxHj0UPG2D2r9gikX6HW96soyrOyGfXY55L7BBQ1tynQfiZjlOKYMmS0BDuPdKXd
+	8C31AlZWhvMsL5B+Kxm1KODg6JhhTf3E1hrQY2hPhhElMk5wakLWrJdV69n26btw
+	RYwvIv/qT8bbrvPMhUN0YEQ2D5Nzj/xha2TG4PmqRMA21A==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id cAPZW7nPvpKq; Tue, 28 Apr 2026 17:52:36 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4g4p1F6PH2zlfc3v;
+	Tue, 28 Apr 2026 17:52:33 +0000 (UTC)
+Message-ID: <16b434d9-ee15-4231-a722-ee2398c48c63@acm.org>
+Date: Tue, 28 Apr 2026 10:52:32 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Apr 2026 16:54:25 +0200
-Message-Id: <DI4VHH97CABG.3VW1RVS2O10K7@kernel.org>
-Subject: Re: [PATCH v2 05/11] rust: io: restrict untyped IO access and
- `register!` to `Region`
-Cc: "Gary Guo" <gary@garyguo.net>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
- <tmgross@umich.edu>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Abdiel
- Janulgue" <abdiel.janulgue@gmail.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
- <20260421-io_projection-v2-5-4c251c692ef4@garyguo.net>
- <874ikvqwyd.fsf@t14s.mail-host-address-is-not-set>
- <vYp32vOGPut322JQ-5jSBZQNd6eXvnOvg8b6YDhYcYzBqTBVUvSajCJng33oXSQ9wiMvb62VLERzLYSa4g2pJQ==@protonmail.internalid> <DI4QT2U1098S.3K9K7INQ86M0Q@garyguo.net> <87tssvp9sq.fsf@t14s.mail-host-address-is-not-set> <DI4SY1NXU1XW.2VHPFEKIFBQVW@garyguo.net> <87ik9bp2og.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87ik9bp2og.fsf@t14s.mail-host-address-is-not-set>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers: base: Set mod->async_probe_requested if needed
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Igor Pylypiv <ipylypiv@google.com>,
+ Chung-Kai Mei <chungkai@google.com>
+References: <20260407160511.56289-1-bvanassche@acm.org>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20260407160511.56289-1-bvanassche@acm.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue Apr 28, 2026 at 4:41 PM CEST, Andreas Hindborg wrote:
-> That is probably a good call =F0=9F=98=85 Going over the pieces again, I =
-am not
-> sure when and where I decided this was an index rather than a byte
-> offset.
+On 4/7/26 9:05 AM, Bart Van Assche wrote:
+> If PROBE_PREFER_ASYNCHRONOUS is set for a device driver, and if loading
+> other kernel modules depends on probing of that device driver to
+> complete, e.g. because it is a storage driver, and if
+> mod->async_probe_requested has not been set, then the
+> async_synchronize_full() call in do_init_module() introduces a delay.
+> Fix this by setting mod->async_probe_requested if
+> PROBE_PREFER_ASYNCHRONOUS has been set. This patch reduces the Pixel 10
+> boot time by 100 ms.
+> 
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Petr Pavlu <petr.pavlu@suse.com>
+> Cc: Daniel Gomez <da.gomez@kernel.org>
+> Cc: Sami Tolvanen <samitolvanen@google.com>
+> Cc: Aaron Tomlin <atomlin@atomlin.com>
+> Cc: Igor Pylypiv <ipylypiv@google.com>
+> Cc: Chung-Kai Mei <chungkai@google.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Bart Van Assche <bvanassche@acm.org>
+> ---
+>   drivers/base/module.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/base/module.c b/drivers/base/module.c
+> index 218aaa096455..e58fc189d389 100644
+> --- a/drivers/base/module.c
+> +++ b/drivers/base/module.c
+> @@ -39,6 +39,9 @@ int module_add_driver(struct module *mod, const struct device_driver *drv)
+>   	if (!drv)
+>   		return 0;
+>   
+> +	if (mod && drv->probe_type == PROBE_PREFER_ASYNCHRONOUS)
+> +		mod->async_probe_requested = true;
+> +
+>   	if (mod)
+>   		mk = &mod->mkobj;
+>   	else if (drv->mod_name) {
 
-This is not the first time I see someone stumble over this, assuming this h=
-as
-index semantics, i.e. I assume there might be something creating this
-impression.
+(replying to my own email)
 
-However, I can't see what that might be (probably I'm too used to the C
-primitives). In case you know, I'd be interesting for me to know.
+The above patch still applies fine on Linux kernel v7.1-rc1. Please help
+with reviewing the above patch.
+
+Thanks,
+
+Bart.
