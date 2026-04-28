@@ -1,147 +1,114 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3295C2EDD7D
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0611B2D9EED
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777367843; cv=none; b=Cs+E56dS1aUdIntRVU4m52gRDsnxyb+NFvzSJHRZGMbO3EFc/xiZ/F7WLNIse3/ba13Us2xcVf8jb/hYEaWQc+cAqIbx0M93UgIoE42DD/4UfGdy/vBGdWUd/VEdYfKRvtxwEiewOodw2agUFaG4UNfIBllaor9bVHVKhRYFkPY=
+	t=1777367974; cv=none; b=Eoe5Ai9EWCT8YUQR1FOn+C+aisk50l0o8pcRKBKRV/3BMU/dX9FPnInMZJQyscOFCePyPp4BCMnJaiLgSKKfVfqg/tu+1ys5PSKItBZHk/Lu4ctqFxOIWLuwxoFXrOjNk3Qaokf4GI0taiDt5UzoQMj5/Z3071ga9wPnIcSzL+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777367843; c=relaxed/simple;
-	bh=PA9fxKq7lxNskoryAjYyd3PLmeRKDI8bkansAKhg+Dw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/mDuqjxREMNaod1fFV4ruQ59gmzQ5MAncErsvAo/zvq2lWg3qhR4t67BcWaNdP79N6UkK06Mk57/warqCm5yu28lCHfDwVGbf9DXb/XBlNvxNaOaKBcOn9lQILSdEtYB6UaWbNVe0mqAyA8fBL9bCDGW/PRH4zKVjunQ6z74o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kUgg7TRV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PvulbjN4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kUgg7TRV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PvulbjN4; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1777367974; c=relaxed/simple;
+	bh=ZMSJhyCOtIvkpDAY1UyV0WQQ/akVYaE/bewN9HqkYjI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fW8U2L9HbZhpgfw0ucerW3tyNjz30E1eCf1cRDZVaccXU9rho3fmD+yKTahcdBx57p5eLRNghcKo+Ro4qyMFuecXP814z9vSz/nVf0b/rctSGFg+8L48eiaf4DVylU7VZ25garoN2rKXw62dXbv/UKWv0+I1XocDBt1GlHU1ngo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XA4n621B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kUgg7TRV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PvulbjN4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kUgg7TRV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PvulbjN4"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7AD8F5BCD7;
-	Tue, 28 Apr 2026 09:17:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777367840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
-	b=kUgg7TRVOIvhvznpuoMH3QRC5b4qXvdbH9zq8EU0zh9DZEZ3iHH48TrwTops0UY3vsC9jK
-	CJs/XrSVUW2pRq0/HnB8oe30+REtCMWFyBNoNp+tMdC/Y9qPhHJ3JgmrDPTkX7Jt4BQOAw
-	bASmqtJMW6jff733Qv/IU29/QQ05ddE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777367840;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
-	b=PvulbjN4QowOK2dqawYsA6yf4ixa0za3ASQd7XJZ9vDerVbkUEn3HuEc+x1VaKyjN/Sx7G
-	pyNk9z8KSSM0kCCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777367840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
-	b=kUgg7TRVOIvhvznpuoMH3QRC5b4qXvdbH9zq8EU0zh9DZEZ3iHH48TrwTops0UY3vsC9jK
-	CJs/XrSVUW2pRq0/HnB8oe30+REtCMWFyBNoNp+tMdC/Y9qPhHJ3JgmrDPTkX7Jt4BQOAw
-	bASmqtJMW6jff733Qv/IU29/QQ05ddE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777367840;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
-	b=PvulbjN4QowOK2dqawYsA6yf4ixa0za3ASQd7XJZ9vDerVbkUEn3HuEc+x1VaKyjN/Sx7G
-	pyNk9z8KSSM0kCCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6FA7593B0;
-	Tue, 28 Apr 2026 09:17:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YkB4Lh978Gl1ZwAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Tue, 28 Apr 2026 09:17:19 +0000
-Date: Tue, 28 Apr 2026 11:17:14 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: David Hildenbrand <david@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ying Huang <huang.ying.caritas@gmail.com>,
-	Dan Williams <djbw@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, linux-mm@kvack.org,
-	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	muchun.song@linux.dev
-Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison
- accounting lookup
-Message-ID: <afB7Go7JqhIpjU5J@localhost.localdomain>
-References: <20260428085219.1316047-1-songmuchun@bytedance.com>
- <20260428085219.1316047-4-songmuchun@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XA4n621B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA9A4C2BCFB
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777367973;
+	bh=ZMSJhyCOtIvkpDAY1UyV0WQQ/akVYaE/bewN9HqkYjI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XA4n621B4oxs87UXHlV5GM7gBt/2vn5/LdyCWHwfVBQZEGshe8CNZXj318dxb4fCB
+	 0xOi9b6b7XQdIQA/4XxbV7XNhFOvqmxglUSjQLsvERJWt1KIGGD9O7sJduiXdQyMND
+	 893pVGekl2a2PDWCxWqlQkUmJw1G06qw8Iu2fOmDZ6xwSpKE7Moc4n7691x3LTYgVG
+	 R3ddxwnIEIoPpvoyAQTqnxS/cvuW/+plVKWZTrX57sW4HBLb8ZtfpNZcDa8qDQyDff
+	 ZVbEOIJiHOrnBDwUM2AnxDV4EW2sE2Xs8GIDZzWL209dypeNWazYlIu+HzTmRcJpml
+	 GskwFfsGb6d+g==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-386b553c70eso90156451fa.0
+        for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 02:19:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9NJZBrEcwwuBBvNTwmqd3LyhZsrI7GDPoLzgt7wp2ImlQAUAcX5xmb24WRAugRP2JmBjkbr0lgbirl3w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNvWfiHp39FNjjXtErcEhvtmuuQ7r3SidnJmkCB/bqR3JbLDoy
+	DmWsmB40jKpuyRcAp8VKfI4VWPCqNx6UE38yulcEmn8lEFpHKmvjaUHNRtJyD1s+62XYFr8msb3
+	DGXmb3Q1YAogzwLy46f3b+oWX4zU4mQ7o2NYc4UU1mQ==
+X-Received: by 2002:a05:651c:513:b0:38e:58c7:cd0 with SMTP id
+ 38308e7fff4ca-39240ccfba3mr7100321fa.10.1777367972313; Tue, 28 Apr 2026
+ 02:19:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428085219.1316047-4-songmuchun@bytedance.com>
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux-foundation.org,intel.com,gmail.com,huawei.com,kvack.org,vger.kernel.org,lists.linux.dev,linux.dev];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bytedance.com:email,suse.de:email,imap1.dmz-prg2.suse.org:helo,localhost.localdomain:mid]
-X-Spam-Flag: NO
+References: <20260427-baytrail-real-swnode-v3-0-0003e4c1708c@oss.qualcomm.com>
+ <20260427-baytrail-real-swnode-v3-2-0003e4c1708c@oss.qualcomm.com> <f100e787-f45a-4d72-9664-a75b1181763e@kernel.org>
+In-Reply-To: <f100e787-f45a-4d72-9664-a75b1181763e@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 28 Apr 2026 11:19:20 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MfVMLz3jZvxdgaD8ZUdcX6pgYO=WGCfH-dDmpU_WsfDLA@mail.gmail.com>
+X-Gm-Features: AVHnY4L6HCdejwKae1mL2EFJhpoS5hPoP_ZtDkqrEE7U7UUevyusXQnkvGNf5lM
+Message-ID: <CAMRc=MfVMLz3jZvxdgaD8ZUdcX6pgYO=WGCfH-dDmpU_WsfDLA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] platform/x86: x86-android-tablets: enable fwnode
+ matching of GPIO chips
+To: Hans de Goede <hansg@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 28, 2026 at 04:52:19PM +0800, Muchun Song wrote:
-> memblk_nr_poison_inc() and memblk_nr_poison_sub() call
-> find_memory_block_by_id(), which requires device_hotplug_lock to
-> serialize the xarray lookup against memory block removal.
-> 
-> Take device_hotplug_lock around the lookup and nr_hwpoison update so
-> the memory block cannot disappear between xa_load() and get_device().
-> 
-> Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+On Tue, Apr 28, 2026 at 11:16=E2=80=AFAM Hans de Goede <hansg@kernel.org> w=
+rote:
+>
+> Hi Bartosz,
+>
+> On 27-Apr-26 14:19, Bartosz Golaszewski wrote:
+> > In order to allow GPIOLIB to match cherryview and baytrail GPIO
+> > controllers by their firmware nodes instead of their names, we need to
+> > attach the - currently "dangling" - existing software nodes to their
+> > target devices dynamically.
+> >
+> > We deal with devices described in ACPI so set up a bus notifier waiting
+> > for the ADD events. We know the name of the device we're waiting for so
+> > match against it and - on match - assign the appropriate software node
+> > as the secondary firmware node of the underlying ACPI node. In case the
+> > event was emitted earlier than this driver's probe: also make sure the
+> > device was not added before.
+> >
+> > Scheduling fine-grained devres actions allows for proper teardown and
+> > unsetting of the secondary firmware nodes.
+>
+> Thank you for your work on this.
+>
+> The x86-android-tablets.ko kernel module uses platform_create_bundle()
+> so its probe() cannot return -EPROBE_DEFER. IOW it expects all the GPIO
+> pins which it needs to already be there when it loads (which so far in
+> practice holds, since these x86 GPIO controllers are always builtin
+> for various reasons).
+>
+> This means that there is no need all the notifier stuff. Only adding
+> an acpi_bus_find_device_by_name() helper as suggested by Rafael and
+> then finding the GPIO controllers and attaching the swnodes is
+> necessary.
+>
+> And if the acpi_bus_find_device_by_name() fails it is ok to fail
+> the probe() just like it currently fails when gpiod_get() returns
+> -EPROBE_DEFER (or fails for other reasons).
+>
+> This should nicely simplify this patch.
+>
 
-It might have made sense to join both patches? Anyway:
+Thanks Hans, I was not aware of this. Given that this is the only
+driver needing this quirk, it will indeed make things much simpler.
+I'll have a v4 by the end of this week.
 
-Acked-by: Oscar Salvador <osalvador@suse.de>
-
-
--- 
-Oscar Salvador
-SUSE Labs
+Bart
