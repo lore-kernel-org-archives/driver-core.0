@@ -1,168 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964BD3E121B;
-	Tue, 28 Apr 2026 09:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECACB3D8115
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777366980; cv=none; b=PekDDXlxBo3IrytCaZmN16yLEhyhvXqL8RBnTedYspN/8I4MOTDJ3f+kR6brzYZPKYRyyHNpj/DsvfVJh2VySd94eR4Eg9NqxCQZO4gvR8hZ3KGZLdHhcMXm3g74aVKsQatzRc/IV9ZgKcINpkLNLKlgvNvYEA7mgJCqz7KdEyQ=
+	t=1777367645; cv=none; b=B8aO91uqQXROdwcquK4rCZcj0aRmX3OrT1bgx54lAaWgch/Lq1YjurVVxD7DdHUDhPTYD+nMzXGGdqw9dBEbJlfYyN5OnAAMytOwrllxSGtcHg0UsaAbANYcRkOv3sug+VN5FjvphpAdI/ZMntAXmo9QItI3HpPPNKUj+gKAviE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777366980; c=relaxed/simple;
-	bh=sMh3Q4aYjvxwlp3vAR4VOlGoadf0UJaonFkGF4Bi6tA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lHnlwRnX4Odku9zQtc7g8J+9nTVmyMK3ysC8Yxt1fi/KzT+p9nqaLbNNVbRRbjmbZB75jtcBdKa0zQq39rMibmBmKNO5S1gNAupde0dSUK5GmB3r+gJU+Si3YSgtNHmXPGNcQCpfvjsQOgmWWUaPbx5dI2+QIN4lgDvlvRhpim8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFyKzykH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777367645; c=relaxed/simple;
+	bh=Dlefgr4rBy85PIs12XDa/VfFOMyPLFHn68qTeJ1N6Ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G05zI2FmHM4tNJWKGz62p9t+S1bvHhUiTh3W6FB2ns/n3zK86C42Nr6h3wi7besgwz6mWESw5rIzC669OSfQ7+QytcCJtG/xxf2uIbvub6fauPh3ewr5XPitgO3d4wbjr3dAfSMjB+/oqpDIiVo9PLwmFKJ5ng3Rpmr2n9X2Vfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SfSXql6/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=63pBZFqr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hhYoRYt0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o8agQQ+W; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFyKzykH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A52EEC2BCFB;
-	Tue, 28 Apr 2026 09:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777366980;
-	bh=sMh3Q4aYjvxwlp3vAR4VOlGoadf0UJaonFkGF4Bi6tA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=aFyKzykHlwyNer/6emLE2w2vZjnqPDqkR3/CfY8qwjrtva/XCUC6Nn07Q5RUBwO7d
-	 JkbUclwj6yjVCzRkbIP2TRiPg3pBDCtX6ey0Oeq4deHwe8j4iq5/bfjmhtxnK1Xzim
-	 AzJSOqurqt3DLQ+rRUmitgFQix2R75s3BQoluqbDSf0AW+zn25wcMeVMxyASmx0xDy
-	 03Xx+xdkdw0TBYmhlXPQ39U1hI02aLAR027MG1urY8LBdp8Ho5AP9GM23twbdRnRPH
-	 zz4rC+T6gSBJJ/7nsQbbfyNEmNX1oQMQigb7CHYjWZi+etDNgeJf2X9H7SsaBw6rHi
-	 Jo26Cu18ObL5A==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun
- Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6r?=
- =?utf-8?Q?n?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel Almeida
- <daniel.almeida@collabora.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Abdiel
- Janulgue
- <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 03/11] rust: io: use pointer types instead of address
-In-Reply-To: <20260421-io_projection-v2-3-4c251c692ef4@garyguo.net>
-References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
- <20260421-io_projection-v2-3-4c251c692ef4@garyguo.net>
-Date: Tue, 28 Apr 2026 09:12:05 +0200
-Message-ID: <87a4unr22i.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SfSXql6/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="63pBZFqr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hhYoRYt0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o8agQQ+W"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0DF286A7E7;
+	Tue, 28 Apr 2026 09:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777367642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oa54dygvQ7e1WMzBvT0E6vQ7uFcWNMOK0rSl80PUuQ4=;
+	b=SfSXql6/ADqv1mmrAcvNAD2fVa/7oNjp5KqdI0gurwAhE655uJA/ACz6h8PkXmB+Qz2pss
+	DkJQe1O3wstOno4e/pTYxj0egdoQvBqWXgj4sTTORzMgME515sMG7mA3B9maWgF47BmdVq
+	fjBez3/Ky2HJWa07E9EZFtTOZSpytdA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777367642;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oa54dygvQ7e1WMzBvT0E6vQ7uFcWNMOK0rSl80PUuQ4=;
+	b=63pBZFqru3aPfGK4CMZNXrthBm5ESnZqWt2FXDgufav1luqClxSnCPXdr7nxd+1EtyXO8s
+	d7itJdzH0EJ2LfBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777367641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oa54dygvQ7e1WMzBvT0E6vQ7uFcWNMOK0rSl80PUuQ4=;
+	b=hhYoRYt0FdBOl15l/k6ZYXGkFGP1iiCETZvpRPatgdFGu+MzVu+BAu03SM5Yzeo6TtT0xN
+	3vDC0MoXOMmdbtLp8cJBHIkbXdimTbs2+BEFvC7bPbF96SlVkqRlhRrmud5x8ZY/BYY0U8
+	ry4Y5vddJ1Oo/Sh5RlR0FsY1msxsq00=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777367641;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oa54dygvQ7e1WMzBvT0E6vQ7uFcWNMOK0rSl80PUuQ4=;
+	b=o8agQQ+WsbKPzMbJZEsSG9vfXU8liYCM1F3jCjGCfKXBPmj0Yk510OWOnEIKJh0HPs0His
+	VgoDB+99ImRVu9Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34833593B0;
+	Tue, 28 Apr 2026 09:14:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xl1PCVh68GkSZAAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Tue, 28 Apr 2026 09:14:00 +0000
+Date: Tue, 28 Apr 2026 11:13:58 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: David Hildenbrand <david@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ying Huang <huang.ying.caritas@gmail.com>,
+	Dan Williams <djbw@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	muchun.song@linux.dev
+Subject: Re: [PATCH v2 2/3] drivers/base/memory: fix memory block reference
+ leak in poison accounting
+Message-ID: <afB6VueAvlhMSb7Z@localhost.localdomain>
+References: <20260428085219.1316047-1-songmuchun@bytedance.com>
+ <20260428085219.1316047-3-songmuchun@bytedance.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428085219.1316047-3-songmuchun@bytedance.com>
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux-foundation.org,intel.com,gmail.com,huawei.com,kvack.org,vger.kernel.org,lists.linux.dev,linux.dev];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,bytedance.com:email,imap1.dmz-prg2.suse.org:helo,huawei.com:email,localhost.localdomain:mid]
+X-Spam-Flag: NO
 
-Gary Guo <gary@garyguo.net> writes:
+On Tue, Apr 28, 2026 at 04:52:18PM +0800, Muchun Song wrote:
+> memblk_nr_poison_inc() and memblk_nr_poison_sub() look up a memory
+> block via find_memory_block_by_id(), which acquires a reference to the
+> memory block device.
+> 
+> Both helpers use the returned memory block without dropping that
+> reference, leaking the device reference on each successful lookup. Drop
+> the reference after updating nr_hwpoison.
+> 
+> Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
 
-> This carries the size information with the pointer type and metadata, makes
-> it possible to use I/O projections and paves the way for IO view types.
->
-> With this change, minimum size information becomes available through types;
-> so `KnownSize::MIN_SIZE` can be used and `IoKnownSize` trait is no longer
-> necessary. The trait is kept for compatibility and can be removed when
-> users stop using it for bounds.
->
-> PCI config space uses only offsets and not pointers like MMIO; for this
-> null pointers (with proper size metadata) is used. This is okay as I/O
-> trait impl and I/O projections can operate on invalid pointers, and for PCI
-> config space we will only use address info and ignore the provenance.
->
-> Signed-off-by: Gary Guo <gary@garyguo.net>
-> ---
->  rust/kernel/devres.rs |   2 +-
->  rust/kernel/io.rs     | 123 +++++++++++++++++++++-----------------------------
->  rust/kernel/io/mem.rs |   2 +-
->  rust/kernel/pci/io.rs |  74 ++++++++++++++++++------------
->  4 files changed, 99 insertions(+), 102 deletions(-)
->
-> diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
-> index 3e22c63efb98..ea86e9c62cdf 100644
-> --- a/rust/kernel/devres.rs
-> +++ b/rust/kernel/devres.rs
-> @@ -101,7 +101,7 @@ struct Inner<T> {
->  /// impl<const SIZE: usize> Drop for IoMem<SIZE> {
->  ///     fn drop(&mut self) {
->  ///         // SAFETY: `self.0.addr()` is guaranteed to be properly mapped by `Self::new`.
-> -///         unsafe { bindings::iounmap(self.0.addr() as *mut c_void); };
-> +///         unsafe { bindings::iounmap(self.0.as_ptr().cast()); };
->  ///     }
->  /// }
->  ///
-> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-> index 0b9c97c0a1d7..1682f2a0d20d 100644
-> --- a/rust/kernel/io.rs
-> +++ b/rust/kernel/io.rs
-> @@ -105,8 +105,8 @@ pub fn new_region(addr: usize, size: usize) -> Result<Self> {
->  impl<T: ?Sized + KnownSize> MmioRaw<T> {
->      /// Returns the base address of the MMIO region.
->      #[inline]
-> -    pub fn addr(&self) -> usize {
-> -        self.addr.addr()
-> +    pub fn as_ptr(&self) -> *mut T {
-> +        self.addr
->      }
->  
->      /// Returns the size of the MMIO region.
-> @@ -166,7 +166,7 @@ pub fn size(&self) -> usize {
->  /// impl<const SIZE: usize> Drop for IoMem<SIZE> {
->  ///     fn drop(&mut self) {
->  ///         // SAFETY: `self.0.addr()` is guaranteed to be properly mapped by `Self::new`.
-> -///         unsafe { bindings::iounmap(self.0.addr() as *mut c_void); };
-> +///         unsafe { bindings::iounmap(self.0.as_ptr().cast()); };
->  ///     }
->  /// }
->  ///
-> @@ -217,14 +217,14 @@ pub trait IoCapable<T> {
->      /// # Safety
->      ///
->      /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
-> -    unsafe fn io_read(&self, address: usize) -> T;
-> +    unsafe fn io_read(&self, address: *mut T) -> T;
->  
->      /// Performs an I/O write of `value` at `address`.
->      ///
->      /// # Safety
->      ///
->      /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
-> -    unsafe fn io_write(&self, value: T, address: usize);
-> +    unsafe fn io_write(&self, value: T, address: *mut T);
->  }
->  
->  /// Describes a given I/O location: its offset, width, and type to convert the raw value from and
-> @@ -291,23 +291,35 @@ fn offset(self) -> usize {
->  /// For MMIO regions, all widths (u8, u16, u32, and u64 on 64-bit systems) are typically
->  /// supported. For PCI configuration space, u8, u16, and u32 are supported but u64 is not.
->  pub trait Io {
-> -    /// Returns the base address of this mapping.
-> -    fn addr(&self) -> usize;
-> +    /// Type of this I/O region. For untyped I/O regions, [`Region`] type can be used.
-> +    type Type: ?Sized + KnownSize;
-> +
-> +    /// Returns the base pointer of this mapping.
-> +    ///
-> +    /// This is a pointer to capture metadata. The specific meaning of the pointer depends on
-> +    /// I/O backend and is not necessarily valid.
-> +    fn as_ptr(&self) -> *mut Self::Type;
-> +
-> +    /// Returns the absolute I/O address for a given `offset`,
-> +    /// performing compile-time bound checks.
-> +    // Always inline to optimize out error path of `build_assert`.
-> +    #[inline(always)]
-> +    fn io_addr_assert<U>(&self, offset: usize) -> *mut U {
-> +        build_assert!(offset_valid::<U>(offset, Self::Type::MIN_SIZE));
+Acked-by: Oscar Salvador <osalvador@suse.de>
 
-Consider renaming this function `io_addr_build_assert` for clarity.
+ 
 
-At any rate:
-
-Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-
-Best regards,
-Andreas Hindborg
-
-
+-- 
+Oscar Salvador
+SUSE Labs
