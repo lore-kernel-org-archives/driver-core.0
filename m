@@ -1,125 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4506B3F65EB
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 11:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA3E38F658
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 11:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777375616; cv=none; b=fIrWXhCtKSDYKsdhVmlx37EceDP8HIm6wtBdl2N4QWEI32R/CZW/kunCoB+qb9kQZcu9zAPlwTNwu2yrG8mJlFF5M/jvwnD4DNnQPdhi/QmvJdYj62OvguYLqSY04lqZzJqIKEF8ZzHI2VHVzKurv2pN2VEm5Omr+FwhS6WBstI=
+	t=1777376248; cv=none; b=SE/Jfz/82wF7TIQbJvCWjPBuWtEOiYk19TLYXEV7IDBOT+LIeZhAubxufpUUCrwKEoj4NnGNlGJQsK7jOpbLvG2EI0SoD3MNq6jl5zZaJQB5rcuvna4xJpczSfhtrIi2WYquytm+cjjnafq5R82YCgJvRlLMN6vb0KPM6C8xIb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777375616; c=relaxed/simple;
-	bh=WQYK/WLz53kX2SEvWMWFk2THTo/tMi2hleC06lM5Usc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bTLHcTTxdjXbHKHnx5TwRysAS0CELF1mQqTZS6LJXCpA+T/nitgp/WaieyUms3zOMH7OCt+BfDZuVIeycfGSe88xfbAALTd/qXzxjyCAI1nCFvIpDD1EAw6TVKSWr+pxDo5sK6z0HdKJn8ZuvnTlCqfJ4HzCoeF1OxXoqsbcUrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g6M33sB3; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777376248; c=relaxed/simple;
+	bh=cIhFdiuC/sLMm2BsvD39eZ3qa9Yt1htop66XZgtLjHA=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=QbVq/TI9peSoXNLE9QzJxqVJoVKalQ2VLJv1zSubmTJKCMGZ9c1+jax4raKZjYki9x1H/cdUUrI/9hEHb8vhL3BsQ25AByrT8q8yrkvr0o+mzXdGuutRB59a0AUmsJ99CdwZaH4LaWA9jaS3sSReszjrvgLP6GO17gFW/5+ctl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=v0bFUI0B; arc=none smtp.client-ip=113.46.200.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g6M33sB3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777375613; x=1808911613;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=WQYK/WLz53kX2SEvWMWFk2THTo/tMi2hleC06lM5Usc=;
-  b=g6M33sB3NPQsG6LPBuv3GVLQ5GCAZVM9LyXfHdqzj8pYLGOQr9hxZKx0
-   3Ej06paHdQBB1IwPkmF5QUMcx1Xs0uCdaeQYxBh/DKMpPJKNBSRibiWzJ
-   lrSN8laKyEhJoq+x33ps0eSLQ+YDet6UfxqBK20/OMzjwjipH7sL69Psi
-   BPwpcBqGMogyESdB3AKQvz3arzyDQt4HPsVYWnHP08RGO0RVN/jec6e91
-   OvY7x0vaqb79qnUIN9907zG6cEF9w+swdiKUaVWtXCz9ZXjEt2h6+2kaK
-   +xpkh+hJpTpgjF0F5OKCOu8ayGSYQXanzMHU72EsJEBbr0wnlSZbmPkUA
-   g==;
-X-CSE-ConnectionGUID: W4oWnzXYSM+E/iNwJy6rcA==
-X-CSE-MsgGUID: Ky63AFs6QPyWwWhhUF1e0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="82145113"
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="82145113"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 04:26:53 -0700
-X-CSE-ConnectionGUID: pShck56wSHOiGRQsmdD+Sw==
-X-CSE-MsgGUID: 8W3TgZuNQq68ZgA/lknHeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="233072530"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.213])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 04:26:50 -0700
-Date: Tue, 28 Apr 2026 14:26:47 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com
-Subject: Re: [PATCH v3 1/3] driver core: platform: remove software node on
- release()
-Message-ID: <afCZdxFDC2N4D9il@ashevche-desk.local>
-References: <20260428-swnode-remove-on-dev-unreg-v3-0-533bdc71b22e@oss.qualcomm.com>
- <20260428-swnode-remove-on-dev-unreg-v3-1-533bdc71b22e@oss.qualcomm.com>
- <afCVn36EO4w0H0vS@ashevche-desk.local>
- <CAMRc=Me4iPj84BdaqYRX5W-4XA1rCws8h4fe2jb=N+P9t7UMPg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="v0bFUI0B"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=yP5OQNhMmcwIxI1oI5Mx5fKdBBjTBBmIQZkVZovEd3g=;
+	b=v0bFUI0BEOyWueLy7pxnHCOKVoR0igzwxlVGdMA0Qyw81uWFz3SqQ8IPZMcyLRX01XUCsllDq
+	buzpaLWGFTiho+PSVkEx0QUmIuhhGNY9chtIZr3xID27VtEzn6XPzSqZ2zQ1nG4KdfnWkjZEDqE
+	lN3A5Uglgi494HwPD5AeF4k=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4g4dXv4h6bzmV6X;
+	Tue, 28 Apr 2026 19:30:55 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7998540565;
+	Tue, 28 Apr 2026 19:37:23 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 28 Apr 2026 19:37:23 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 28 Apr 2026 19:37:22 +0800
+Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison
+ accounting lookup
+To: Muchun Song <songmuchun@bytedance.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>, Ying Huang
+	<huang.ying.caritas@gmail.com>, Dan Williams <djbw@kernel.org>, "Naoya
+ Horiguchi" <nao.horiguchi@gmail.com>, <linux-mm@kvack.org>,
+	<linux-cxl@vger.kernel.org>, <driver-core@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
+	<muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>, Oscar Salvador
+	<osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael
+ J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, "Andrew
+ Morton" <akpm@linux-foundation.org>
+References: <20260428085219.1316047-1-songmuchun@bytedance.com>
+ <20260428085219.1316047-4-songmuchun@bytedance.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <fae6e568-fbdd-e697-8ea4-b12c73750ec9@huawei.com>
+Date: Tue, 28 Apr 2026 19:37:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Me4iPj84BdaqYRX5W-4XA1rCws8h4fe2jb=N+P9t7UMPg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260428085219.1316047-4-songmuchun@bytedance.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-On Tue, Apr 28, 2026 at 01:16:30PM +0200, Bartosz Golaszewski wrote:
-> On Tue, Apr 28, 2026 at 1:10 PM Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> > On Tue, Apr 28, 2026 at 11:20:26AM +0200, Bartosz Golaszewski wrote:
-
-...
-
-> > > +     device_remove_software_node(dev);
-> > >       of_node_put(pa->pdev.dev.of_node);
-> >
-> > So, why do we decide not to convert this to fwnode_handle_put() (and respective
-> > _get() elsewhere)?
+On 2026/4/28 16:52, Muchun Song wrote:
+> memblk_nr_poison_inc() and memblk_nr_poison_sub() call
+> find_memory_block_by_id(), which requires device_hotplug_lock to
+> serialize the xarray lookup against memory block removal.
 > 
-> Yes, I'll do it separately, I don't want to shove too much stuff into
-> this bugfix.
-
-Ah, good!
-
-...
-
-> > > +     /*
-> > > +      * If the primary firmware node is a software node and there's no
-> > > +      * secondary firmware node, the primary will be affected by the call
-> > > +      * to device_remove_software_node() in platform_device_release() and
-> > > +      * its reference count will be dropped by one. Take another reference
-> > > +      * here to make it have no effect.
-> > > +      */
-> > > +     if (is_software_node(pdevinfo->fwnode) && !pdevinfo->swnode)
-> > > +             fwnode_handle_get(pdevinfo->fwnode);
-> >
-> > IIUC the `is_software_node(pdevinfo->fwnode) && pdevinfo->swnode` may not
-> > happen here due to the above check. If I haven't missed anything, this check
-> > is simply
+> Take device_hotplug_lock around the lookup and nr_hwpoison update so
+> the memory block cannot disappear between xa_load() and get_device().
 > 
-> Right, it can be a simple is_software_node(pdevinfo->fwnode).
+> Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
-With that being addressed, the rest LGTM,
+Thanks for update.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> ---
+>  drivers/base/memory.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+> index 6981b55d582a..f76aee29e9a5 100644
+> --- a/drivers/base/memory.c
+> +++ b/drivers/base/memory.c
+> @@ -1228,23 +1228,29 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+>  void memblk_nr_poison_inc(unsigned long pfn)
+>  {
+>  	const unsigned long block_id = pfn_to_block_id(pfn);
+> -	struct memory_block *mem = find_memory_block_by_id(block_id);
+> +	struct memory_block *mem;
+>  
+> +	lock_device_hotplug();
 
-(also assuming we will have at some point the above mentioned amendment).
+memblk_nr_poison_inc() and memblk_nr_poison_sub() are both called from memory_failure() context.
+I'm afraid if memory_failure() is triggered while lock_device_hotplug is held, it will lead to
+deadlock. Or am I miss something?
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks.
+.
