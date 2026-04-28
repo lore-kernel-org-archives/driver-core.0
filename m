@@ -1,87 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E92F2D7DC8;
-	Tue, 28 Apr 2026 22:31:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6562ECD3A;
+	Tue, 28 Apr 2026 22:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777415466; cv=none; b=CFZomKkb7iisjJnFzWQ3oe/WmJdvXsNBt0oprJE6YA9pmrbO2e4L+OILqj2CNG5q94bLtka+OlUOqT8Jr24jGX5L693GzAsxxl+H2P47Kw2g/Snx9wpSoVdDtr0h8TGtuxpHV1bOwX53tOJleRZf4puuxT715i/mGNVpHRQk5x4=
+	t=1777415913; cv=none; b=a1PA72a46PW6dOabeIV2OriLV93B/a58FmHgRLCBM7wxPdYxreTo9uR8bcPGfACzPViMbotKBTL18rEuMIH+3pLenu3UoL3j5v5f4NsNgiqv7RGMukkq1g/4NBbiS0JEp+52miyYi3AuGQMRHxBcTQseHKB95bG4GLsvelPnEWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777415466; c=relaxed/simple;
-	bh=oDEfPq39Mqi5hC74Mb8AFuJQrxvUe85i/mRRK2y4jEw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=eINW/KdahIElgINISxPY5q+XR8CrCuWcLL62QKHxqwaWytRIZ2W+gS2r9SJLs/ezREdHMYD8iy+i4ph7Qdqck0V+5qDpsr4/btsXqoJMGMkL3SZhMZY7MEWakO3KndiESoYE1L19l/O/8t4Fn8RAzXCdMslp4GYrtC/Ny3WUKiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aC6H/U6Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777415913; c=relaxed/simple;
+	bh=bNfDr8iSLh5e0YNKj2qMvxEGn4w9HtP7G7v01gDIP/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l2XZoSI8Ulq98/xsquwPyC2SCW3Fz9Fyd+e12gbLKK/9Co7fGlR86Je938MYrjBfld52Hjy+zSrRoExbyfCoA5IpeNim1BUaeEfr4cBa/8QouhrKBY4Xmc7lhl37RnYsavYWTedd1FX7STpLZSgvN8iVKuBCzSl1QdKoY1vLAmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gk/gNzQB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aC6H/U6Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58505C2BCAF;
-	Tue, 28 Apr 2026 22:31:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gk/gNzQB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7172C2BCB7;
+	Tue, 28 Apr 2026 22:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777415466;
-	bh=oDEfPq39Mqi5hC74Mb8AFuJQrxvUe85i/mRRK2y4jEw=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
-	b=aC6H/U6Z98H5Q9tPcyGVbxkwf3EisDRl5tZYZX8ifpLp7o1XsleRpvIRzGo6On6th
-	 CoPdziguBpkoPkM+elGMrCZmPoLkoiJwMIpEE0U9XvaTkCPZSS0/Ty9F/MUkKu7RBT
-	 8UOjyaUY516svIVPrvWgLPUctJ0UteyfCKZ3uGmxDSAOrshqNGJMIZ2sp8e4HXK7OJ
-	 0pygrwhTnC0gLVRNT7HDUBI5BgDyfkVN7TWccKs0nHu712RvMIJ9troZtMaMWOYHYY
-	 Ym+HlLtVU8hQ5DQ7ZC6q5EPn66H1+dcLSTlgKA4HFIRWMmfdHP3mOTwbSydAIqzBCH
-	 RpMDi5KeHCdqw==
+	s=k20201202; t=1777415913;
+	bh=bNfDr8iSLh5e0YNKj2qMvxEGn4w9HtP7G7v01gDIP/E=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Gk/gNzQB4AsDHWU2kLbTImy/tG7FjkZ0SxbEtLmf6SVWOjmnXpvfu+1THc3CQPjzI
+	 vnairQHbKS/7zrZsUhv4O2pSl+akpaABATPLL7vwhYZpmm/X0d2qab/7Eiu+nhkuGI
+	 XlC9997uQ0WXgYsytW8C6Ph1Nduh2NZFYSeQj1jSkyJFtU4MdSKLJfUWJZYjiT8l2L
+	 NGIYDlQ+lQss7ElnOomDi5oigWCc4LoLexAv83QojPD5caplvwvX8CjOWusEYzEWr+
+	 9aykeli3pFr0SaiBfT0zF7O5DdJeo+BqLeAokOz2CDqNRXMvhMdukYq1km3DZO/zCb
+	 WJh1Igi+D2KQA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	saravanak@kernel.org,
+	ulf.hansson@linaro.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] driver core: use READ_ONCE() for dev->driver in dev_has_sync_state()
+Date: Wed, 29 Apr 2026 00:38:28 +0200
+Message-ID: <20260428223828.2713705-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260418162221.1121873-1-dakr@kernel.org>
+References: <20260418162221.1121873-1-dakr@kernel.org>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 00:31:02 +0200
-Message-Id: <DI55738N6DCN.185MD6ZLZQXYG@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] sysfs: return -ENOENT from move/rename when kobj->sd is
- NULL
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-bluetooth@vger.kernel.org>,
- <syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com>,
- <syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com>
-To: "Conor Kotwasinski" <conorkotwasinski2024@u.northwestern.edu>
-References: <20260416150600.2148935-1-conorkotwasinski2024@u.northwestern.edu>
-In-Reply-To: <20260416150600.2148935-1-conorkotwasinski2024@u.northwestern.edu>
+Content-Transfer-Encoding: 8bit
 
-On Thu Apr 16, 2026 at 5:06 PM CEST, Conor Kotwasinski wrote:
-> sysfs_move_dir_ns() and sysfs_rename_dir_ns() pass kobj->sd to
-> kernfs_rename_ns() unconditionally. If sysfs_remove_dir() has already
-> cleared kobj->sd, the NULL flows through and kernfs_rename_ns()
-> dereferences it via rcu_access_pointer(kn->__parent), which KASAN
-> surfaces as a stack-segment fault on the shadow lookup:
->
->   Oops: stack segment: 0000 [#1] SMP KASAN PTI
->   RIP: 0010:kernfs_rename_ns+0x3a/0x7a0 fs/kernfs/dir.c:1752
->   Call Trace:
->    kobject_move+0x525/0x6e0 lib/kobject.c:569
->    device_move+0xe0/0x730 drivers/base/core.c:4606
->    hci_conn_del_sysfs+0xb8/0x1a0 net/bluetooth/hci_sysfs.c:75
->    hci_conn_cleanup net/bluetooth/hci_conn.c:173 [inline]
->    hci_conn_del+0xc36/0x1240 net/bluetooth/hci_conn.c:1234
->    hci_conn_hash_flush+0x191/0x260 net/bluetooth/hci_conn.c:2638
->    hci_dev_close_sync+0x821/0x1100 net/bluetooth/hci_sync.c:5327
->    hci_dev_do_close net/bluetooth/hci_core.c:501 [inline]
->    hci_unregister_dev+0x21a/0x5b0 net/bluetooth/hci_core.c:2715
->
-> syzbot has reported 35 hits with this signature across net, net-next
-> and linux-next between July 2025 and January 2026, via both vhci
-> release and HCIDEVRESET ioctl.
->
-> Return -ENOENT in that case, consistent with sysfs_create_dir_ns().
-> The underlying ordering problem in bluetooth -- device_move() called
-> after the target's sysfs has been torn down -- is a separate issue.
->
-> Reported-by: syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/687c6966.a70a0220.693ce.00a5.GAE@goog=
-le.com/
-> Reported-by: syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com
->
+On Sat, 18 Apr 2026 18:22:18 +0200, Danilo Krummrich wrote:
+> [PATCH] driver core: use READ_ONCE() for dev->driver in dev_has_sync_state()
 
-No Closes: tag for the second report?
+Applied, thanks!
 
-Also, this should have a Fixes: tag and Cc: stable.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+
+[1/1] driver core: use READ_ONCE() for dev->driver in dev_has_sync_state()
+      commit: e9506871a8ea
+
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
