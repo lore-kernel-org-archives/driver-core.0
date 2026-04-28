@@ -1,129 +1,240 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020119.outbound.protection.outlook.com [52.101.195.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DF5423A8A
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 12:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777379678; cv=none; b=jg0X3uUqWzzqvTUGO6h06P1lprTWwAkvX7WvAR84jClnBAzVaWD7ueHtcg2WeWIxa5hTCyPwst5520avrAiLbizvq516St4cXBuAUNEkmudbUEZxph5ZzuQ5cWXIaOSostGyc0xE7gTeWxwuN+JimzxafUJ9f6GJgbDRvTxJmqQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777379678; c=relaxed/simple;
-	bh=d2Mq+UZRYClXrxCgQULHj/AsUiMRQgk3yEEpegzONLs=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=HQZw0oMrJJNEBi+CCuNOJdBClD7tJkyVw214k+VZlqsJPRCWlnoiDJ8r4hH62kFwbiiiFZriLBXXG8i+e8zVThMYZlR/GTyi4Ep2tJ7mf+Z+hOMcQhR0PksZ4Dq9cHSI0NunlZjRAXGeHVp4B8xI78NPUMSypZfejn2ZExRpwqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=oJqY9FNE; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165CF449EA4
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 12:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.119
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777380915; cv=fail; b=GQHq/VxqujpJM9xAqwFdoiqIlVKVgKD0hI5v/+ElmRfxxOKiOIT4pldAR0K85kqfi82CiOiZ+kreqMcWvy4EmW0OFl7wiMvZJgGE1ij2YMrWFCyHQZr1JhzIkFFRgoHXZ7AZEjUxM2deZtEVuJXz3xRkTdwjMEwbNii2JIXm/98=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777380915; c=relaxed/simple;
+	bh=/lOarKAQZ0B3zbiyrlRE8xG8n2UsnvRgzPpfcQN4jek=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=DX8n+747ryN9PPS80Sr/OY/5Cfb6Vp4ipr6j37bacEJjhSGPZ60xWbJB5+g2GhgSN4+lkbvxg/4++NRidx+ycUKmdewg3eZBYiO6lvw+lIcg2xfBQdkPgzgSv9IRccJzuHJCMrvAFAA+cS0l24nJHGtBWocAoq+OHdg4b6IcRd8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vfXZq4WG; arc=fail smtp.client-ip=52.101.195.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="oJqY9FNE"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=zzMDEYzsulY+KHA1t1QmO1PLem7Ek0Kh2oljY0po6pI=;
-	b=oJqY9FNEiXJzrwtJNuU8JXsbp+zDI90/SwPURrnq1/rKozrLjwLmQKIY7Wz6VW9wYu7M+Wyv1
-	vHIBWPB1HzZkaR/9xd0tPokQaSrfDFVEwjIM1hReOC+Kk6CzY69vcorMt7+fpJbJXmnVFz+q2KN
-	Y2qzhTEPruTUvNcKbzV1s9Y=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4g4fpF67ZfzcZyN;
-	Tue, 28 Apr 2026 20:27:33 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id E716140561;
-	Tue, 28 Apr 2026 20:34:27 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 28 Apr 2026 20:34:27 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 28 Apr 2026 20:34:26 +0800
-Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison
- accounting lookup
-To: Muchun Song <muchun.song@linux.dev>
-CC: Muchun Song <songmuchun@bytedance.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Ying Huang <huang.ying.caritas@gmail.com>, "Dan
- Williams" <djbw@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	<linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>,
-	<driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>, David Hildenbrand <david@kernel.org>, "Oscar
- Salvador" <osalvador@suse.de>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-References: <20260428085219.1316047-1-songmuchun@bytedance.com>
- <20260428085219.1316047-4-songmuchun@bytedance.com>
- <fae6e568-fbdd-e697-8ea4-b12c73750ec9@huawei.com>
- <68DFF29C-B3CC-4950-8A8E-7D42350939CA@linux.dev>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <3697dafa-7ff4-30d9-006b-860299421b63@huawei.com>
-Date: Tue, 28 Apr 2026 20:34:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vfXZq4WG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gmdVZ/7THt5+y9dNFIRAdm5h7naAR0j3+S6c45vvG4hP10YceOeQdyzr6xj/vGKf0jTjAcYCQitp2N/QHZ356zd3rK3KlEYeiygLIQOSczFhpMQ0WyQAAhwr0yLtfQqyw4v0OoqotJwrgdacvGZX9NQeBNOOH0kNphewTK19wN3+wxjzSBqqvgJeLaFjqOiEFhIAjP9IFi7NdTV4sy++UYG037z0w9anzKsHcnAm3hRuITC8naDHSX+Rxibul6HKeZLYLkvZllhCfmrjnoWUVIE5O7TSabVXjsiXzjiRyuMewcQ3uFP7s7NESfa/hv2hog3sjlR2dzHqxKxMXf4PLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oUcRqAa9lbhVZMXo69nIEo85zdG1lw+Hn6b8QsUdB0I=;
+ b=lZr5avVomgBJRh36G5DXhycetrJMnB4JAYzUvrWMuhj+9LzglEzNjzRx54zsXQ6E0WeS9aXcVkfJewpXB5Iev2iUh72ZpFlfdSlBaKrgad+AKDVMNO9kbW3a25iqHmzI7Ia0YMebI7PvbKgmQIK8A7uEW3iCwoK1tWF7EHGdOql3z6jyFIyQW7L6qm0QldoARotm2UbE4T+yOdgIGVoekTDu/eYtLD1Ya0dHim5pocdUHlM8vR6Yjr22u88q+Fy8XEggXeHwkRNLTJdvkAQTkugQi8Q+a2DMc4NXuHGqimHqcbEmUS5oFvEblCacJt/u1VgKBRiqR6acK+oJ+oOaSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oUcRqAa9lbhVZMXo69nIEo85zdG1lw+Hn6b8QsUdB0I=;
+ b=vfXZq4WG77uNnlekvwEvcYaf9cmDd56UsjWLEnwe6jRW3VeVPw2XAzDg3AWU4ShD1sXbPFQFEiao27JLrdO1jmYSfFiLC3vc1zLo4MlnAb2dY8WzpLWflLTeUHDyxpKqF+61ZGkPyrpedumGK87TIJO68rN7AXCRsSWVO8p3hs4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CW1P265MB8445.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:26d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
+ 2026 12:55:01 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
+ 12:55:01 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Apr 2026 13:55:00 +0100
+Message-Id: <DI4SY1NXU1XW.2VHPFEKIFBQVW@garyguo.net>
+Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2 05/11] rust: io: restrict untyped IO access and
+ `register!` to `Region`
+From: "Gary Guo" <gary@garyguo.net>
+To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>
+X-Mailer: aerc 0.21.0
+References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
+ <20260421-io_projection-v2-5-4c251c692ef4@garyguo.net>
+ <874ikvqwyd.fsf@t14s.mail-host-address-is-not-set>
+ <vYp32vOGPut322JQ-5jSBZQNd6eXvnOvg8b6YDhYcYzBqTBVUvSajCJng33oXSQ9wiMvb62VLERzLYSa4g2pJQ==@protonmail.internalid> <DI4QT2U1098S.3K9K7INQ86M0Q@garyguo.net> <87tssvp9sq.fsf@t14s.mail-host-address-is-not-set>
+In-Reply-To: <87tssvp9sq.fsf@t14s.mail-host-address-is-not-set>
+X-ClientProxiedBy: LO6P123CA0058.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:310::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <68DFF29C-B3CC-4950-8A8E-7D42350939CA@linux.dev>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB8445:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c4e3488-16a6-4989-dfba-08dea5255c4c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|18096099003|56012099003|18002099003|22082099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	TH8KbM8leSi2CWJMl00Z4868l7RitFAf3XZ1F1oYCOBdHuDbgT1muaQYpF08wOG1MzHDum8uJnUZFGQoulgH/hG+qa8fJG0I+b/B6YPlVta0slumLJoFZvx2/qkVDKrUsE7QLhPaJZ1Hsf3+q0Dj6VYJPla0Q8ovFZ0OsY7v6s1vnUNQHF/3lIgnWOmpm2TnAUtsFAsKJDLzR34gzd9DZ4DX4WuzZgAONXSsZxfd32HYUXmO/tuzB9oLCCv4bfxvn00ht7UVWt/5ROjy2916LFEfQcgvMNA1cE5bYAdyvhvO3SMzfAxP05Ca8pGQiuEF4gjY+Oqr7t9b6Zm9zlpyeYjU6FExUpux9Aa9qHL16jMf21tc+kJXuKKtDhaMRW76aVLJ+Si9qkCysZP6Yw0mBJYYQdaSh74NehU3qI35AXY57hodARsRh34nVnuAhWUbrqc7nw/miGJ1Mlfz9kf+H5XMaR3RhLhDx9q39q3ISV1z/96IfXBWttFs/3Z3B3qWocnpSB/vbjNt0jXHau9JzSqEwyz0Hmfsuoh8iWdn9YU4hiu/Zy4Z/wSZfbQtQeKTnb3b6/JaUaodhslt+w5s6KEUSWYDayMtpBJV/m2IJcxpjn8xaYPLnJgHar8N/gnPN2+DH6BYPg2fFfTiHvKgWWyaZgPEq5H91xQQnd8qZhpkJ7N7/oWflk62y+HcufQ8fyBW+C82udxDt9QbScTK929rZhZXHvOjpY0zkEm7IkKjndaf603+G6wMmMle/gxOOFXEfGWHkKvOlVnnq1FHlQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(18096099003)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZkltRDlUbFFkekt0ZW5xS09GRUZzRmJISlhHdUNaaStrS3BDeXk4b2t3THY2?=
+ =?utf-8?B?RU9hTi9oZU5lU0JCUHVPOGxHeDZpb284ajRweG1ZOXRkVUxuZXFiWXFUaitq?=
+ =?utf-8?B?cDBuOHU0emMzdVZpWFJqckVqNExuN0dIOXVRSkV3TzV5WEg4RFU1Skt2cUhF?=
+ =?utf-8?B?d2l1ZmV1SjlWdDNzTGFVV1hadEtCZkdRaVBDTlB3K1E2VXVvRHp5dXhJWWd0?=
+ =?utf-8?B?c1FYa3NWNWp5S2lGZExYVUJpc1lzQlhEY3FGWStYdWtLRThhTkJySzhTVnQv?=
+ =?utf-8?B?SmU2MVoyWU9BWE1EZG1nUnd5d0hFajZRMEQ2RjlCcWxpVlhlUFMyRjRyZjJ3?=
+ =?utf-8?B?bEZzb3hMNVZBM2wyUUs5NFBWZndLWldhSlMvZDlrdFJqSVVsWE4vc0xHby9u?=
+ =?utf-8?B?TjBzbnIvNzEzY3g1NG1GckxmREE4MVpzZUVsd0pteHNuang4bWlOL0xiNGpn?=
+ =?utf-8?B?MUFRMU5EZkJCWVprVHdUUzZBb2pZRGQ2Y1ltbnQ2WHE2YmpDZnJLWFhTdVcz?=
+ =?utf-8?B?YUdCQnorNmNwSHp1cnNXZjNzS091cStWKzc4WGZFM1dQU3RCbnpWT0ZoRnVV?=
+ =?utf-8?B?SDRjVncxQXAxVUFrUitOZXhsQ3cvY3NvbEFzZVFDSmVtM1pPaWpuK0tWQlRK?=
+ =?utf-8?B?MG8vMkFNcCtMOWdhdlV1N2RIM1VHMmlTUlJPYjJ3RVJTWU9Xb0MxN25VVmtt?=
+ =?utf-8?B?ZTFtVlJrY25NVmNnaUR2cDBxcVVLNWdMN2xrN1hveEdDMWkxRlM2a0lub0Qv?=
+ =?utf-8?B?MHVpaWp3WmcybUZJNWsvRllQcW51dzdaN1RuSnYyeTlMYW9iZzFKSEh6dDdj?=
+ =?utf-8?B?VkxHSS9UR1NPK0xER3NMa0JFMEpiK0JHVUFkQlVvZ2dRRFVsSjM2ODNDQ2Fa?=
+ =?utf-8?B?c3p4NUthYnN6d0VKeFZQdXhtelN3WEFqU3A0ejk5VjJvWE5OWW5hWVVJWjBW?=
+ =?utf-8?B?TDR4UUhMbXFFSVVxa2pMSFhsYjhJRmVDN09wSHR0MENNdWU2emVFanlQNDFC?=
+ =?utf-8?B?ZFh2Z2svUUlwQWxYUm83cHhPaVZkSHJGMTN6NXo0MGE2WnZ1WUhFL0llYmdR?=
+ =?utf-8?B?U0JRaGxzazJlRHVKajFDVi9tKy9pb0hER09xNnNiV3lmdC9rWkxMVjZISGVX?=
+ =?utf-8?B?OEFwN2s4NXpkY1RlazQxcWRvTlZ6T2xnVzgxdGtpQVFreFpaSi9TNnhXRGJs?=
+ =?utf-8?B?ZlUzVGw4Qlh0aDZBYzMvZGRmYkd0U1NPUTNOb0xuM2lzNHRIR0lKMlRHYktJ?=
+ =?utf-8?B?azUzdWh5b0hNL2xUTXV1Ny9EaDlzSyswQlA3dnFoRDlFcUZMZGxLOG9mSWVL?=
+ =?utf-8?B?aTJsSnVvNFRDY2UvKytZTUU2SGwzaFJxQndSNUh2YW5GZzJaZmhISFZFRGpK?=
+ =?utf-8?B?cEEvcFRXWG8rYWRVTWhPV2RvN3pBcUdjMlNwS0RlNU9OQXFvQ2Q1eHNoWGcy?=
+ =?utf-8?B?dHFKN1o3a1VxaWhrT242RGV4M1VralZRcmJmS0tpKy9CeFMvY3kwUFpuUDNQ?=
+ =?utf-8?B?TWV6cEtQN0J2NVNwYWlmbnhnWGdNMHJUaGVkMWt5WjdJZXBvVUNWK3JCRENI?=
+ =?utf-8?B?RHJSckluZDVGbVphaFBUN2dnWWJqZXI0UHBrTklFSFA4N3g4NmRmZEx6R0xT?=
+ =?utf-8?B?MnVUbnUzOWZ6ZU9hRzFRUDd4UHBQVlRUK3AzN2ZGMDE2YmltVmpvaWI4MXI1?=
+ =?utf-8?B?dVlHZlBPTGVzSG1pRDJSU1U1SkVZbGlJQ25TT00yVkdKejdhREhORzNnRS92?=
+ =?utf-8?B?QTZ0UTdjdEpvTVVlcUJxaU92VnZRTWV2ZDZJN3VKQmFoWVJodGgzWHRMNjIx?=
+ =?utf-8?B?TUxZaEIwbTI4L2dYOG4yTlk1Z2JKWUJKYjlyNnB3TmNpb2k1bVdmdW1lR2Fl?=
+ =?utf-8?B?Q2ZFS3JrVk14L21sNjhJNFVyWmpkYWJmL0hSUkZlRkxNd0VkZkNCdUpJd3FD?=
+ =?utf-8?B?RVF1QkZ0dDVKa3pCV2MvNTNxaVhGcGNrNTc1N0s4WVliL01hWGJybUhEUEpF?=
+ =?utf-8?B?eVk4amtEVGM0Uml6OVRtRnhsRytxWEtXTjJES0VraXhsSTFaZG1xWWR2TWlj?=
+ =?utf-8?B?SzRRS1o2aUp1N3lQckR4a3JZSitzU2JPM0Z6UzVaUktzMlp6TElQYWtndzB4?=
+ =?utf-8?B?KytLc2RvZFQ3dXRXQzlaMjBXNEtEclNpNGRvaWViRTVWbFIyNFdKQ2owK054?=
+ =?utf-8?B?b2pCV2hobzJPbG1mSDhBQXpnQ0xicU1NZHBvSU5tWGpqVUJwZ2dxbit1dEFl?=
+ =?utf-8?B?WUZhVzZtb0Y5Qm9VWGNvdEcxeWgwRFBsY1RNQjczYUhJU2RaenJRY2JtK2xn?=
+ =?utf-8?B?OG5hS2ZpN0JYdTRpU3NZL05yZ1JndkhLZ2J0SHhxNkQ2djZ4SE1YUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c4e3488-16a6-4989-dfba-08dea5255c4c
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 12:55:01.5058
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JhbyddpRr6WhXK0RGNfUtvKSJC1JLxQs/z9Dw7G6whijDf+RMANW6iv7qtGjUCE2tEkl+KHktHct3PhiX52wIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB8445
 
-On 2026/4/28 19:40, Muchun Song wrote:
-> 
-> 
->> On Apr 28, 2026, at 19:37, Miaohe Lin <linmiaohe@huawei.com> wrote:
->>
->> On 2026/4/28 16:52, Muchun Song wrote:
->>> memblk_nr_poison_inc() and memblk_nr_poison_sub() call
->>> find_memory_block_by_id(), which requires device_hotplug_lock to
->>> serialize the xarray lookup against memory block removal.
+On Tue Apr 28, 2026 at 1:08 PM BST, Andreas Hindborg wrote:
+> "Gary Guo" <gary@garyguo.net> writes:
+>
+>> On Tue Apr 28, 2026 at 10:02 AM BST, Andreas Hindborg wrote:
+>>> Gary Guo <gary@garyguo.net> writes:
 >>>
->>> Take device_hotplug_lock around the lookup and nr_hwpoison update so
->>> the memory block cannot disappear between xa_load() and get_device().
+>>>> Currently the `Io` trait exposes a bunch of untyped IO accesses, but i=
+f the
+>>>> `Io` region itself is typed, then it might be weird to have
+>>>>
+>>>>     let io: Mmio<u32> =3D /* ... */;
+>>>>     io.read8(1);
+>>>>
+>>>> while not unsound, it is surely strange. Thus, restrict the untyped me=
+thods
+>>>> and also the register macro to `Region` type only.
+>>>>
+>>>> The way it is implemented is by adding a generic type to `IoLoc`. This=
+ also
+>>>> paves the way to add typed register blocks in the future; for example,=
+ we
+>>>> could use this mechanism to block driver A's `register!()` generated m=
+acro
+>>>> from being used on driver B's MMIO. The same mechanism could be used f=
+or
+>>>> relative IO registers. These are future opoortunities, and for this pa=
+tch I
+>>>> just restricted everything to require `IoLoc<Region<SIZE>, _>`.
 >>>
->>> Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->>
->> Thanks for update.
->>
->>> ---
->>> drivers/base/memory.c | 10 ++++++++--
->>> 1 file changed, 8 insertions(+), 2 deletions(-)
+>>> Does this not prevent `usize` from being used to index anything but
+>>> `Mmio<Region<_>>`?
 >>>
->>> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
->>> index 6981b55d582a..f76aee29e9a5 100644
->>> --- a/drivers/base/memory.c
->>> +++ b/drivers/base/memory.c
->>> @@ -1228,23 +1228,29 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
->>> void memblk_nr_poison_inc(unsigned long pfn)
->>> {
->>> 	const unsigned long block_id = pfn_to_block_id(pfn);
->>> - 	struct memory_block *mem = find_memory_block_by_id(block_id);
->>> + 	struct memory_block *mem;
+>>> It is my understanding that the following would work before this patch:
 >>>
->>> + 	lock_device_hotplug();
+>>>    fn do_read(io: &Mmio<u32>) -> Result {
+>>>        let v: u32 =3D io.try_read(8usize)?;
+>>>        Ok(())
+>>>    }
+>>>
+>>> But I think this will no longer work with this patch. Is that the inten=
+tion?
 >>
->> memblk_nr_poison_inc() and memblk_nr_poison_sub() are both called from memory_failure() context.
->> I'm afraid if memory_failure() is triggered while lock_device_hotplug is held, it will lead to
->> deadlock. Or am I miss something?
-> 
-> I am curious is there any place where memory_failure() is called with holding lock_device_hotplug?
+>> Your example would always fail, as you're reading 4 bytes from offset 4 =
+from a
+>> region that is only 4 bytes in size. I suppose you're trying to say
+>>
+>>     fn do_read(io: &Mmio<[u32]>) -> Result {
+>>         let v: u32 =3D io.try_read(8usize)?;
+>>         Ok(())
+>>     }
+>
+> Yep, that was my intention, with the assumption that final offset
+> becomes 8*4. I think that is also what would happen here as we would
+> invoke `try_read::<u32, usize>(&Mmio<[u32]>, usize) -> Result<u32>` with
+>
+>   usize: IoLoc<u32>
+>   Mmio<[u32]>: IoCapable<u32>
 
-Sorry for dumb scenario, I was a bit too presumptuous. But there might be another possible deadlock:
+No, these methods behave the same as the old try_read32 macros, so these ar=
+e
+absolute byte offsets. I think the fact you're confused is a good indicatio=
+n
+that we probably want to remove these methods, or at least make them as
+inaccessible as possible :)
 
-remove_memory
-  lock_device_hotplug <-- first called here
-  try_remove_memory
-    remove_memory_block_devices
-      num_poisoned_pages_sub
-        memblk_nr_poison_sub
-          lock_device_hotplug <-- deadlock here
+>
+>
+>> ? In any case, it's intended to be unsupported. For types regions you ca=
+n use
+>> projection. So the same code can be written as
+>>
+>>     fn do_read(io: &Mmio<[u32]>) -> Result {
+>>         let v: u32 =3D io_read!(io, [try: 2]);
+>>         Ok(())
+>>     }
+>>
+>> i.e. reading from index 2 instead of byte offset 8. If one cares about b=
+yte
+>> offset they would probably want to use the register macro instead or hav=
+ing the
+>> MMIO region untyped.
+>
+> Right, makes sense. Again, my thoughts were not around the byte-offset,
+> but the `location` parameter being in count of elements of `T`.
+>
+> But why remove the ability to call `try_read::<u16, usize>(&Mmio<[u32]>,
+> usize) -> Result<u16>`?
 
-Hope I'm not mistaken again. :)
+If you're doing that it sounds like you don't actually want typed access an=
+d
+again, would want to use register macro to allow mixed register sizes.
 
-Thank.
-.
+Best,
+Gary
