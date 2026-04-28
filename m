@@ -1,294 +1,183 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011046.outbound.protection.outlook.com [40.93.194.46])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013038.outbound.protection.outlook.com [52.101.83.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4413F661C
-	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 07:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0680632FA3C
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 08:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.38
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777360841; cv=fail; b=C+WxyZC1XOePYVVdwxK9sx5OWIjtG2Vpfr460b6js6csdrhXDoBuAHQyZFra418JHTd/RWH/quulajqiYI0U09KeclJiS/LMdjWt7NcQug8rKj3wQgdP3OgYw0c99FcaX5hTM8kfRefdPrkHM897uallrEOyN91RuPlvDmDwr+Q=
+	t=1777363303; cv=fail; b=V7oMBL39ZLNa3Ea0gjLep7nHC0xa29jLPulMJaEz3G2pmFxP8ZFh0tHoTb4o3XR8J9gbJkZlyMsMNN2K3hvWhLnptfMXiwF4is3UoeBfaDQdQaYmdtHfy2vj5oguJqa+SAu58ZuAzVt3LoXtNDpfel7VVXPuM0cbRkNsCMDM7ZU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777360841; c=relaxed/simple;
-	bh=HkoUONN+mJYTgG8DWgcfa+I7PwwbUkBtyF83+0y1nq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GO8MZHfHH0XNskS9q7m0ubnLXoDsPoaBVg/cUoZkSkTk2uLsTkVH6ae7Sfa7mwapna4iyEtbXQcpEwnvw3KCyIbKr3P8SCKIz2TWVJKZEGi/oR+UjDp6BKJIpMscDTVEuMhVd0RG4S4BcYx1GFLhmHW55npdq+7eZl7cBMpMFbI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xDlLj0wr; arc=fail smtp.client-ip=40.93.194.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1777363303; c=relaxed/simple;
+	bh=4L3MPY44LeyEaZg3eu3yE8ZDCMv6ndf0HuILPRQWDeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=MB6zO6sx34E2jO33LtihOT/9qbzUhlAOferW+Yl7I9E0PppdlxFnu4n+pFF1lvkaWbY80Lp8EhzCgAp+rwVJCY5FvWAAe/TtXuvC3Gf6b827pqC6GNY15AoiFnuDP4kwphG+j+cYE2Xnl5/O6uJ+kXB5fzM7pAJfdKFmqbSkomc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=Z0ZoOsD+; arc=fail smtp.client-ip=52.101.83.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xDlLj0wr"
+	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="Z0ZoOsD+"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aWzFh4fU3R2Ot5xI8eaBpXaNmMuu1h36m8D+X0lrJ96hKXWgZG6m7K8vif8g7c2vm19ftQfhZdVdMuqQPDzKll+IDTmGQd4Er+m1P+gdyBRIsDk3/FILuyyNGmVDE8wSbz8pG7mxH3gYpmH1+M9MzhDY/0mmJmTTqioLcpIz++PYINy8H1TeySl5B07FyLWfe+zRdP9smuAzKj9AA6QGZohTLJYd4X0URpLtZMG2I71t70W2wemlpLgHmkxuIaf99CMV5Kx10A8b8HO1PlP+5b0klOALFa/MrwHQJ8ay13WMtENEm+KjgjuT0FKQT4ASY0dq/KxUbzTpHENkwYxn9g==
+ b=BFWD5dYqNg2QGcx1DKkZsefZwf+wPMBHHgD4CdrbstUyMWOPq/qSqyuZ97jUHY+0pt6xGlh6JD0zg0s4iWAFb4tSS8G51cAurj2YmL8pbFXiAvAYO03896RaqPhc6EiBW3afg8gw211QnpWrcH575vfG3J8ZXrNCyzAzBlJiySAFmnAUXORuWPopOq+5WAOgZzgP6Wz5blX2xW8v+uy4zFx4znTOHBAK4lE8Q41sUnqS0Nt0QyJUaSe+A+YuplyrB/CnmqsxDipjcUuftk2NOQHTJKR3K7Jv17JbTYLKhf/oJ9x+WqGOCvWxwHZcNeV8sKAO9WgvR3R/0bV4cKKvfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CXoc/gw9Vbd66Awu0dleGRRFkHfgTB/oNTpSX+hUnb4=;
- b=GMJnNtlPwNa1kUg7/enploc6kav6xbPxhj8bLVfIVgPSLrJmfND1MYx6r5HvhCh2uD8GNLqAB+Mq1vRRrosdtGjMNfyAxe4Th6iaKJGeejwCsUrAK1LPudR/FCl3Z74rrkLV+MvaZZdayx9i4LaWAjyxixECRhc03N37z+CkkiN8ItEEcGUHdzNsHooz2J8BV14AVcMLahL1pW/s7rAMCxSDrXanHYR4Rtyu3gdA6uRd00v09u/u4fqNyvZmadHGXc9cYok1+AGz2W3wcE7z8GuQDdWOymyp59aLDH4mnn2ONMSzMCQe+714Nx7DWaXQlRSy0vdV6ejtt/91dT+7Dw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=QYxLIO5gXXlvHzGovlklBeVKC+GLODsXcWd80oHXVxk=;
+ b=XXnvL0GluhHelM4zoeAHIgapWMPlj0JJZrCIUPMZxgMBW9nAmJ+vc4LqfxwbbjzryHQX0WkBuxivKR0bPXwex3OrkW0JaDAN5M4aoGxvBij9uMeg2x4uGgln/2Pmojk0hxKf8Hsyg3Ne0Ymaa8MNoPOy7b3AwMCJeroTcmvRMS2j9Bk35qR6w/ZO20s/yY9F7yAyJK8S5UA7RcWOMyf7USNBtwqXy7GZ1UPndwhxaHHVuep4N39VCmXaCf6YFm/AYlkST6ULJOs2McMNgfRnaYobObJw0gq7eFRfWh1G1H841w3xV33DDm+/elzcRNtTWVTOgnH9aKVEQeep0MNlTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CXoc/gw9Vbd66Awu0dleGRRFkHfgTB/oNTpSX+hUnb4=;
- b=xDlLj0wrXXAUgAAmNUilE31XYRrXhc6fexQA5d0tAoqPHpIdNPZAajf43O71eBSsHGDzzw42cKVL1U63xshDWPOg34d+rynkaj2OJwSMpWin1UehEbCST9QVezdSxJzDHuWf6D+lDQlSlbZSfNW2G6lPwN4yo989Avj1TGQChAI=
-Received: from SJ0P220CA0022.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::33)
- by DS0PR12MB7559.namprd12.prod.outlook.com (2603:10b6:8:134::19) with
+ bh=QYxLIO5gXXlvHzGovlklBeVKC+GLODsXcWd80oHXVxk=;
+ b=Z0ZoOsD+fAkOcL8zMLlYGCe6Yq2B2gkqDdZIrYUY7ef6XW3nWQtVNX0X3busM/KwVf29JWpBBw5P93JjSj58v7yjksjSUsskM8CMYHeJM3ttXQQtTph+8HvzwFvva0ogxoqBD41FtPLRiWkAPpmgI5dygqW8Jv05jmtsPPtDPlKWDoOSylsJnW3uwzQHr7gSPP8+XR+4EWb0SiRgcnizVINqAM4dwyyygOpqAsd8iZmGiy13iYeOeo9jSQIK19BbbZiKDtLQSkMiOil4vUHTOmdOPrqEfS2NXK7Cz+6tYwpT4QGviP1juH3jq6yU3wMH9Xceud05gAr3xSTnW+urIg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6c::22)
+ by AS4P189MB2111.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:517::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.17; Tue, 28 Apr
- 2026 07:20:30 +0000
-Received: from SJ1PEPF00002318.namprd03.prod.outlook.com
- (2603:10b6:a03:41b:cafe::f3) by SJ0P220CA0022.outlook.office365.com
- (2603:10b6:a03:41b::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.26 via Frontend Transport; Tue,
- 28 Apr 2026 07:20:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00002318.mail.protection.outlook.com (10.167.242.228) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Tue, 28 Apr 2026 07:20:30 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Tue, 28 Apr
- 2026 02:20:29 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 28 Apr
- 2026 02:20:29 -0500
-Received: from [10.136.41.76] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 28 Apr 2026 02:20:27 -0500
-Message-ID: <25c4f234-fa6f-4372-9865-41f824452f31@amd.com>
-Date: Tue, 28 Apr 2026 12:50:26 +0530
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
+ 2026 08:01:36 +0000
+Received: from GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04]) by GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ ([fe80::9996:4371:88cd:bc04%5]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
+ 08:01:35 +0000
+Date: Tue, 28 Apr 2026 10:01:33 +0200
+From: Ravineet Singh <ravineet.a.singh@est.tech>
+To: Tejun Heo <tj@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	stable <stable@kernel.org>, David =?utf-8?Q?Nystr=C3=B6m?= <david.nystrom@est.tech>
+Subject: Re: [PATCH] kernfs: protect of->kn access in fop_read_iter/fop_mmap
+Message-ID: <bw7qeqdc7ptyhxc6bgjip2jkvcuoth6k4dzchikwlbeksgx3y6@mvyalfk52sjy>
+References: <20260427133521.62793-1-ravineet.a.singh@est.tech>
+ <ae-ZiHku9wRYqfyo@slm.duckdns.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ae-ZiHku9wRYqfyo@slm.duckdns.org>
+X-ClientProxiedBy: GVZP280CA0025.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:276::16) To GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:150:6c::22)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] sysfs: Add SYSFS_HUGE_BIN_FILE flag for binary
- attributes larger than PAGE_SIZE
-To: Muralidhara M K <muralidhara.mk@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, Danilo Krummrich
-	<dakr@kernel.org>
-CC: <platform-driver-x86@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<driver-core@lists.linux.dev>
-References: <20260427155129.545327-1-muralidhara.mk@amd.com>
- <20260427155129.545327-5-muralidhara.mk@amd.com>
-Content-Language: en-US
-From: K Prateek Nayak <kprateek.nayak@amd.com>
-In-Reply-To: <20260427155129.545327-5-muralidhara.mk@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB04.amd.com: kprateek.nayak@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002318:EE_|DS0PR12MB7559:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43786323-16f4-4c21-9a62-08dea4f6a0ed
+X-MS-TrafficTypeDiagnostic: GVXP189MB2053:EE_|AS4P189MB2111:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0b9735c-d785-46db-c4dc-08dea4fc5d9c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700016|56012099003|17002099007|18002099003|22082099003;
+	BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	w599GtVhJZEqrtHIYPI267+9yxUQOsty5UirkiVJO37iu/EAnUvpKaTZSlzPt3/qjQufWUhWeyehfocmKRyn0TkjyRWRV0j0ObgrR6jVMTWPk5faMr2lHJbxLYrcZeS5CVCfKBDXyI0UzXCE1COM5708YCua4bSGP9qChhj+sryILONSdfd5ad8dxQhpO3ycOT+kv5LW8vCRDCgDPuuzeFjL/UshHSbBHn1CVApnk8Y59hhoVuL/uG92K4S6Yy+ye3Tb/us/25hf2ffZSmYDA88iv0nXIn8bv4RrGhU3BnkVDxcB3Hggcydgc8jSWyd20QtLV/YyU7IXetymeqpjBE/DEt7beQ2YDoDJ+F0HLApJ3ex85DaS1wpN2zOGxjw28AFvWtERBZHude6cVPwaE/IpOtQrB1UeAKAh7ADf48rkhGndDlBe6MiVLS+1SBb135r54JSAufhI1HOrEUT+3BN+IE0GcWxVJ4sjSAkVkne4uMF72WfqgEloClECjBp+4B+cL2KIUD8ALvDTYU590pNssaIZCNItC2xvQ6XO8oQ8kFlC+XlcuZrtuqNqFZstoqpwv4hphoUTilPPpjjSsqMDa2kYrecaa0JV1yIi/b/UbEm1XFvPuhZmZYT/9qPzjowIShWrGhtZXAbxoIATH2RO9aH3+PZZk6bjIAGh9n6U/h8XWo+noxDQW/MZwvbCM6sjGOTlfYAxWKnBgsEPYpmR6I9b/BJHR7+qJSys064Yh41dPL1L3gM8UEtFAOPg9ngVxc6bi4ObSD3yUFtxkw==
+	uY0KfLfSnro0Wj8Slb2ymB+y0lrd627wtYQJ6mmQJLcczYD5q3OrecMNv12TxWYyGIgnsRXEOozza7eu0cb9or69KBK2+nN16+lLm5XMZ8/+ZTCxEkGYngsbWEHySjo3StFFEGz2R8zgeaT4VCWN2BWCINsP4XWK3Xbxn3/6eyW6akuCHMmbQ5hu5fVuQzoc3K8zZoGOq0oXERi5FhtQtWEUBrHxEedoMIEcOb1qRW/8kNUxjXJnOPulI2/dbzlqPNknwEvKH0g50xT0XTFgvm8O0x5f0UXc63SaIHpipMgwGWZof+YJMV0uLYiJz6vICQgp5QO/NHQK27cbTXaZKX9FZU8zKKAJ+nBxtvuHHwo5YR0VZHyib8GYwz/yTZYi1X/G3CpcvgSrO7thO05IabecwWf308OBX7deWeMBttyCwyNCmxL6Y53umdM0Q4bf7Fr4lSjjW4mI0syJ6g17Qs0b2oecBHm7Ve5FLQyo+fjsjSoZEHep5qOkYD3THLp7utk3F5KOT6H1hKFVSpXYFL/en6DJzWP+fvX2lOvdPNci2jfJKgf22TioyJPakRPPEFpxgmrNz0NvWYmW6pjB1Wr7fJLryvmnBWZeZAXN7M0ZZwgvCJ0quwaiR5Nwx9lDgEShK0dqPExSDvAqUoE1ZgyqRbjnBAr4Mrv5fTh0L1SzoI1yZQM9m17cIuGdnvqOzdPZbIgS0Mq6T2hl2C+BoXxB0YWk2AobvhA3XddXM2Y=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700016)(56012099003)(17002099007)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXP189MB2053.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	5ADTSG2/OdLpUhM1ftdB3xS7LNbJgJOCeSotmuzcAXcOL56WF97fHb0r3Eij0qfv86nFLSzvVGMmRiYFBH1kLVO0CDYk+9mRfdiBbVUIGxDVw4scaQsQWkMJ1vzrosQ7cf6pyWbxU5Zs5SQ1AGz409G1WQfZak17vRYjcXHPBQIUEMksAFw6lwX2FTfmqZ1QU9C+x9gYjcBmGDfP79F9FkbRHU4uMpZQKlYaopwYM6eAsOwSQZLtae2CoEcY6zhxZ5KaCq2ACl0UZhFT9O6Gjg/GhZIOr/go7Nvw9MuXut3nBBVmypxpVEHSAlfmsbj0/Eq0ezA9z7YmdD19hjX2GgE+2GWvjGU78j6d21GS/AzEDiUVYQql++HZv6Hn2iOcsARbacS9A65v8XKY5VFxgeqjNFxdkUs5t0FKk9WhpIAhXg/HKkrhYxSBY9M3Oxt/
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 07:20:30.0678
+	=?us-ascii?Q?/mOCwWlY3PqcPCjlB/9rjoM6f5uCO6vP/v+9PASCV+Ug2Vnh9T6UlG8uPMzl?=
+ =?us-ascii?Q?nFA1tzhLULxTYGCDF6k7QZoDvf2tl3vAW0CGMhK3AFWkg5uEUq5Mz5mqZbEk?=
+ =?us-ascii?Q?4yI8U5BD7LEMcf5s28pWg55Gtx1xg8RLWnZ+MMrZS7dMJ7Vh+j1eCRiqIadE?=
+ =?us-ascii?Q?Q7Qqbk0+bGz2In9ILm0DRqR9BMZzJyqGK69xxASh/OysG7pUkfzpXMnyP11v?=
+ =?us-ascii?Q?0jZM3woCwv0Ym+aSQhRhmVhX+IX6qb1SWTXmbH2BvytNsoNHDmP+nGzOcOOp?=
+ =?us-ascii?Q?0vU88tTVzjBL/RRKsNXQBzqsXlnvjVZSHwsilKRiO7J/tnfg5j+49KOMKvQ5?=
+ =?us-ascii?Q?zmVsqKH42zm8jzYxWAH1llMXkB0xzT1PMO8d1GE1cYaYIez1iUQ0aGRud9dr?=
+ =?us-ascii?Q?sCZd4dvcAXexeDF3FQzvNb+R86AgX3dSD1EdcrE8Q4WcDg1XR9IjldJeESRu?=
+ =?us-ascii?Q?9W8uFpU8YFg1t8sj4pKkFkyOexhsBYEpcj6HQ/FZtAq3pR8cG3BejE6APrX9?=
+ =?us-ascii?Q?EmKCuNbcZNVka+GD+utob4/z+4+EsrO/iZJTeu6NeHh3RDI4XLXwehaL0C3E?=
+ =?us-ascii?Q?6mjNOD7AZLlbOfTy+TVu9rsLJuiooQHL9BAdBvuifycxdfj//FvGlTmBX+e0?=
+ =?us-ascii?Q?hWDT4PyC3ijEGrcq2VLkvu53u95eBNeekpUpldbGXrViEV2tWxUgEZFB+KJY?=
+ =?us-ascii?Q?ngYxjdFw3zX25xxNp06lOzXy4vFSDturF/H8hhXzrE+fs7R3wtPxR6poJpb7?=
+ =?us-ascii?Q?/TrpyvGVODg9SDcVFfdZRsiX8RcW8JtjN6j1ibaSgNGIiV/5mHAJQ3C22PyD?=
+ =?us-ascii?Q?b9A3KGgbrXRT6R9wrqKG9QdiPGTdN4yNqUwiUWc50tJQ6n7tWFS1i7MZwwbg?=
+ =?us-ascii?Q?63Yh2TOypTDpXjtxWiJWWX1wqIAQ0iA+SpuOdpVy1ZfGt/1hTN/WpLiqFP18?=
+ =?us-ascii?Q?v6e4dD1x6PO9sc3YBIrHD57ytBg5t9CAUaYB6IaXGiwIz5QbK440nKc/FTbX?=
+ =?us-ascii?Q?lwnnOOnlgYS2bY/0fNUU96aoJ8dyHUBglVX2cpDV7qiLKQCxdHgBHk2mlI/D?=
+ =?us-ascii?Q?9On7GzZRQzLXhgY0jVjmjzmCor+1amth3gRrD3re5AnPogs7zcjnQmDM2SaN?=
+ =?us-ascii?Q?1XjKl8qsCthnHASF5NpeJrHiti2pLQ4YLqTH+JsSWLHP2mzlhbB8xewzIpbk?=
+ =?us-ascii?Q?ipvYY9WsjDDHL+Y9If0ZDDJVKrUm37ts94EcRN3M/5IKq9xEDm3GuC5Su+9v?=
+ =?us-ascii?Q?WVVvgeCku/HlG+i5tfUBorQ4GhkmoYaOlqdtcXRSVR6n93NxYe4fvQsm2dep?=
+ =?us-ascii?Q?zQz52v6SojGhof+8hFqVnDZ61Zo2Uyfe1l2xVBn925mzGI5IHvKAfIlGA4EB?=
+ =?us-ascii?Q?UWv+q98el+FKgwbG4tozsXGkLXm9MZBbwLOiZLJ1ifILRkWKeRcOhC9vWARU?=
+ =?us-ascii?Q?UG/iwt2lg6/b+dKIdbb+04U3DcMGTtNHmn72EoI7veXa1qv/6ZDefFTMzs77?=
+ =?us-ascii?Q?lYxTYjPxZ1fr5lu5UdKR6L2POKmY2ve1I7jPjE5GAUhxFhXe5k7L/vbl0yll?=
+ =?us-ascii?Q?EsoyxIpVzFtU1d86VUf/AZKVc3wYPqej+ye6HVaKTaDTdIJmx3XrPY/7svGq?=
+ =?us-ascii?Q?nA6j83SYxsQ4pm5eZh2xNZMwALyPYAmnJj6ZbPjzf4jtC/1V+lWO1jcb7pdr?=
+ =?us-ascii?Q?Afoypp8xe1PJa0H8Z+jLVgxDqu7SC1c8/dgzmabuofx543vy44T7Rq0xql5+?=
+ =?us-ascii?Q?M6+6Ycj9kZAVMdW988IOpl2UqQAd7XgwWZzP/YckFaT9bnslnbBQ?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0b9735c-d785-46db-c4dc-08dea4fc5d9c
+X-MS-Exchange-CrossTenant-AuthSource: GVXP189MB2053.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 08:01:35.1044
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43786323-16f4-4c21-9a62-08dea4f6a0ed
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002318.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7559
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QGb+pnTfuTRXY9YGvHUXXDuColFXAy2WQf+SJNPyLc0r2JlPBgtcM6/5AyXXjdpbJHKzSq9bJ/10A8u0rKvuI51el3sRq9Ofnz2Xw/OSVuU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB2111
 
-(+ Danilo for the sysfs bits)
+On Mon, Apr 27, 2026 at 07:14:48AM -1000, Tejun Heo wrote:
+> Hello,
+Hi,
+thanks for the review.
+>
+> On Mon, Apr 27, 2026 at 03:35:21PM +0200, Ravineet Singh wrote:
+> > kernfs_fop_read_iter() and kernfs_fop_mmap() dereference of->kn->flags
+> > without holding an active reference on the kernfs node. If the node is
+> > removed concurrently, this leads to a use-after-free:
+> >
+> > [  448.037888] Unable to handle kernel paging request at virtual address ffffff821d8cedf0
+> > [  448.093213] Mem abort info:
+> > [  448.104535]   ESR = 0x0000000096000005
+> > [  448.113391]   EC = 0x25: DABT (current EL), IL = 32 bits
+> > [  448.126411]   SET = 0, FnV = 0
+> > [  448.130758]   EA = 0, S1PTW = 0
+> > [  448.134268]   FSC = 0x05: level 1 translation fault
+> > [  448.140335] Data abort info:
+> > [  448.143275]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+> > [  448.150223]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> > [  448.155668]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> > [  448.161233] swapper pgtable: 4k pages, 39-bit VAs, pgdp=00000000afab8000
+> > [  448.168835] [ffffff821d8cedf0] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
+> > [  448.178817] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+> > [  448.284717] pc : kernfs_fop_read_iter+0x1c/0x1ac
+> > [  448.289416] lr : vfs_read+0x1c0/0x2a0
+> > [  448.368374] Call trace:
+> > [  448.370855]  kernfs_fop_read_iter+0x1c/0x1ac
+> > [  448.375156]  vfs_read+0x1c0/0x2a0
+> > [  448.378508]  ksys_read+0x6c/0x100
+> > [  448.381901]  __arm64_sys_read+0x18/0x20
+> > [  448.385768]  invoke_syscall.constprop.0+0x4c/0xe0
+> > [  448.390502]  do_el0_svc+0x3c/0xb8
+> > [  448.393898]  el0_svc+0x18/0x4c
+> > [  448.396990]  el0t_64_sync_handler+0x118/0x124
+> > [  448.401377]  el0t_64_sync+0x14c/0x150
+>
+> Do you have a repro for this?
+No, unfortunately not, the crash was only seen once on an ARM64 platform
+and we haven't been able to reproduce it since.
+>
+> > Use kernfs_get_active_of() to obtain an active reference that also
+> > checks the released flag, consistent with other of->kn accesses in
+> > fs/kernfs/file.c. These paths were not covered when
+> > kernfs_get_active_of() was introduced in commit 3c9ba2777d6c8
+> > ("kernfs: Fix UAF in polling when open file is released").
+>
+> My memory is hazy but of->kn should be valid as long as of is alive. inode
+> holds the pin to its kn until inode is released and open files pin their
+> inodes. Active ref is something different - it's used to implement revoke
+> semantics so that the backend kernfs implementation can disconnect from
+> lingering open files, but that's not what controls the object lifetimes.
+>
+> Thanks.
+>
+> --
+> tejun
+You're right about the lifetime model. The patch does not solve the issue, please ignore the patch.
+I'll dig deeper into the actual root cause of the crash.
 
-Hello folks,
 
-Please treat this patch as an RFC.
-
-On 4/27/2026 9:21 PM, Muralidhara M K wrote:
-> Historically, sysfs read buffers were allocated with get_zeroed_page(),
-> limiting reads to PAGE_SIZE.  Commit 13c589d5b0ac ("sysfs: use seq_file
-> when reading regular files") transitioned regular (text) attribute reads
-> to seq_file, which can dynamically grow buffers beyond PAGE_SIZE.
-> However, the PAGE_SIZE limit was intentionally preserved for
-> compatibility.  When binary attribute handling was later unified into
-> the same codebase, the non-seq_file read path (kernfs_file_read_iter)
-> retained this PAGE_SIZE cap for binary files as well.
-> 
-> Drivers that expose binary attributes larger than PAGE_SIZE — such as
-> the AMD HSMP metric table (~13 KB) — cannot deliver the full content
-> in a single read() call through the existing path.
-
-I have to add that neither of us are familiar with filesystems so our
-assumptions might be a way off since we are out of our depths - we only
-brought up what we could dig from the commit logs and by looking at the
-implementation.
-
-It looks like HSMP users want a sysfs way to read the *entire* metric
-table in one go which has proved to be slightly harder to deliver with
-the PAGE_SIZE limits in presence on concurrent readers.
-
-Please forgive if this is not correct and if we have failed to uncover
-a better approach for the same. We are all ears. (This should have been
-ideally marked as an RFC; sorry for the oversight!)
-
-> 
-> Introduce a new opt-in flag SYSFS_HUGE_BIN_FILE (040000) that drivers
-> can OR into their bin_attribute mode.  When set, sysfs selects a new
-> kernfs_ops (sysfs_bin_kfops_huge_file_ro) whose .seq_show callback
-> pipes the bin_attribute ->read() result through seq_file, allowing
-> reads of arbitrary size in one shot.  Existing binary attributes
-> without the flag continue using the legacy capped path.
-> 
-> Co-developed-by: Nayak K Prateek <kprateek.nayak@amd.com>
-> Signed-off-by: Nayak K Prateek <kprateek.nayak@amd.com>
-> Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
-> ---
-> Changes v1->v2: New patch
-> 
->  fs/sysfs/file.c       | 45 +++++++++++++++++++++++++++++++++++++++++++
->  fs/sysfs/group.c      |  8 ++++----
->  include/linux/sysfs.h |  1 +
->  3 files changed, 50 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
-> index 5709cede1d75..be42c3c1e056 100644
-> --- a/fs/sysfs/file.c
-> +++ b/fs/sysfs/file.c
-> @@ -38,6 +38,45 @@ static const struct sysfs_ops *sysfs_file_ops(struct kernfs_node *kn)
->  	return kobj->ktype ? kobj->ktype->sysfs_ops : NULL;
->  }
->  
-> +/*
-> + * Reads on huge sysfs bin files are handled through seq_file, which
-> + * takes care of hairy details like buffering and seeking.  The
-> + * following function pipes the bin_attribute ->read() result through
-> + * seq_file so that reads larger than PAGE_SIZE work in one shot.
-> + */
-> +static int sysfs_kf_huge_file_seq_show(struct seq_file *sf, void *v)
-> +{
-> +	struct kernfs_open_file *of = sf->private;
-> +	const struct bin_attribute *battr = of->kn->priv;
-> +	struct kobject *kobj = sysfs_file_kobj(of->kn);
-> +	loff_t size = file_inode(of->file)->i_size;
-> +	ssize_t count;
-> +	char *buf;
-> +
-> +	if (!battr->read)
-> +		return -EIO;
-> +
-> +	if (!size)
-> +		return -EIO;
-> +
-> +	/* acquire buffer and ensure that it's >= size */
-> +	count = seq_get_buf(sf, &buf);
-> +	if (count < size) {
-> +		seq_commit(sf, -1);
-> +		return 0;
-> +	}
-> +
-> +	memset(buf, 0, size);
-> +
-> +	count = battr->read(of->file, kobj, battr, buf, 0, size);
-> +	if (count < 0)
-> +		return count;
-> +
-> +	WARN_ON(count > size);
-> +	seq_commit(sf, min_t(ssize_t, count, size));
-> +	return 0;
-> +}
-> +
->  /*
->   * Reads on sysfs are handled through seq_file, which takes care of hairy
->   * details like buffering and seeking.  The following function pipes
-> @@ -249,6 +288,10 @@ static const struct kernfs_ops sysfs_prealloc_kfops_rw = {
->  	.prealloc	= true,
->  };
->  
-> +static const struct kernfs_ops sysfs_bin_kfops_huge_file_ro = {
-> +	.seq_show	= sysfs_kf_huge_file_seq_show,
-> +};
-> +
->  static const struct kernfs_ops sysfs_bin_kfops_ro = {
->  	.read		= sysfs_kf_bin_read,
->  };
-> @@ -333,6 +376,8 @@ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
->  		ops = &sysfs_bin_kfops_mmap;
->  	else if (battr->read && battr->write)
->  		ops = &sysfs_bin_kfops_rw;
-> +	else if (battr->read && (mode & SYSFS_HUGE_BIN_FILE))
-> +		ops = &sysfs_bin_kfops_huge_file_ro;
->  	else if (battr->read)
->  		ops = &sysfs_bin_kfops_ro;
->  	else if (battr->write)
-> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-> index b3edae0578c0..2d0b01c00a97 100644
-> --- a/fs/sysfs/group.c
-> +++ b/fs/sysfs/group.c
-> @@ -74,11 +74,11 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
->  					continue;
->  			}
->  
-> -			WARN(mode & ~(SYSFS_PREALLOC | 0664),
-> +			WARN(mode & ~(SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664),
->  			     "Attribute %s: Invalid permissions 0%o\n",
->  			     (*attr)->name, mode);
->  
-> -			mode &= SYSFS_PREALLOC | 0664;
-> +			mode &= SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664;
-
-nit.
-
-Since we would like the flags to only apply to bin files, we probably
-don't need this hunk that allows for adding SYSFS_PREALLOC to plain
-files.
-
->  			error = sysfs_add_file_mode_ns(parent, *attr, mode, uid,
->  						       gid, NULL);
->  			if (unlikely(error))
-> @@ -107,11 +107,11 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
->  			if (grp->bin_size)
->  				size = grp->bin_size(kobj, *bin_attr, i);
->  
-> -			WARN(mode & ~(SYSFS_PREALLOC | 0664),
-> +			WARN(mode & ~(SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664),
->  			     "Attribute %s: Invalid permissions 0%o\n",
->  			     (*bin_attr)->attr.name, mode);
->  
-> -			mode &= SYSFS_PREALLOC | 0664;
-> +			mode &= SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664;
->  			error = sysfs_add_bin_file_mode_ns(parent, *bin_attr,
->  							   mode, size, uid, gid,
->  							   NULL);
-> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> index b1a3a1e6ad09..78f6c6252cf9 100644
-> --- a/include/linux/sysfs.h
-> +++ b/include/linux/sysfs.h
-> @@ -124,6 +124,7 @@ struct attribute_group {
->  
->  #define SYSFS_PREALLOC		010000
->  #define SYSFS_GROUP_INVISIBLE	020000
-> +#define SYSFS_HUGE_BIN_FILE		040000
->  
->  /*
->   * DEFINE_SYSFS_GROUP_VISIBLE(name):
-
--- 
-Thanks and Regards,
-Prateek
-
+Thanks,
+Ravineet
