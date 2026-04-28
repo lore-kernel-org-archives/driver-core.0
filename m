@@ -1,278 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257422DE70D;
-	Tue, 28 Apr 2026 09:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3295C2EDD7D
+	for <driver-core@lists.linux.dev>; Tue, 28 Apr 2026 09:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777367772; cv=none; b=LBq5Szs1mRmq2tPGXG2RKuUushk7i32pNoBdEYwMGG/2BFT4ccY03cOWRjQ/mELmA5edc1pBNcLBi81MaD3TEWnYGCtFUvqsLfMCN15ET3/72xYiIcbWSJMMb+21lHF1SY9XTk4aqqxc3kPiYsg76KWB59gGjyQDOe0u8cfy/e8=
+	t=1777367843; cv=none; b=Cs+E56dS1aUdIntRVU4m52gRDsnxyb+NFvzSJHRZGMbO3EFc/xiZ/F7WLNIse3/ba13Us2xcVf8jb/hYEaWQc+cAqIbx0M93UgIoE42DD/4UfGdy/vBGdWUd/VEdYfKRvtxwEiewOodw2agUFaG4UNfIBllaor9bVHVKhRYFkPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777367772; c=relaxed/simple;
-	bh=d7nQyxp5R2nQ8E6FB8Ki2Z4lRNOguQ70LNdUnV0Y47c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e/ZpZveZ1ro7Ut5fkj4HrXOiKqzu4+ecKC7pkJkikMwB89FVizPExUlUezofIniCS9vAGXE2c495NIW7LewxsFM6hiKabCb4vmc779+IBeoGryDqChxOSDQDtzns4tr7JbytGXByvxS+rLVeGCCVaotNKRJfl3Fwc7Bu/EPr2Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TfLq+sHl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777367843; c=relaxed/simple;
+	bh=PA9fxKq7lxNskoryAjYyd3PLmeRKDI8bkansAKhg+Dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E/mDuqjxREMNaod1fFV4ruQ59gmzQ5MAncErsvAo/zvq2lWg3qhR4t67BcWaNdP79N6UkK06Mk57/warqCm5yu28lCHfDwVGbf9DXb/XBlNvxNaOaKBcOn9lQILSdEtYB6UaWbNVe0mqAyA8fBL9bCDGW/PRH4zKVjunQ6z74o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kUgg7TRV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PvulbjN4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kUgg7TRV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PvulbjN4; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TfLq+sHl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B6FCC2BCB5;
-	Tue, 28 Apr 2026 09:16:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777367771;
-	bh=d7nQyxp5R2nQ8E6FB8Ki2Z4lRNOguQ70LNdUnV0Y47c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TfLq+sHle2bK5m59V+E5xC2OT1UwN5LVcljCK98cxtqpsmSAcR6bt2xwxxfEkwSA4
-	 m+zXVMfxtYQ0TEaDOCJFUIw/+QHSrAfP9hUWJBHG3AiL1KbozRk4N2PM2y/uqddab/
-	 62BPzczJn3KLa/08tONykbIC0Dcy25x+wu9C2y+CW2WwsIlAtxTu6TB+zKEzHDEtHf
-	 uQs4IONZZX/68ue3WVllwON8NqhYQjn42flebgIddMZ71rs6a6kRGhspnY7hp95HkW
-	 3sa7D1ph5fLHWnQsvJlQp7s+NUzWqeAF1H7axxLJJetQ40+ueuCtJiqHjrJ2LhetCS
-	 1IaOW5TQYNhsg==
-Message-ID: <f100e787-f45a-4d72-9664-a75b1181763e@kernel.org>
-Date: Tue, 28 Apr 2026 11:16:06 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kUgg7TRV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PvulbjN4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kUgg7TRV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PvulbjN4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7AD8F5BCD7;
+	Tue, 28 Apr 2026 09:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777367840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
+	b=kUgg7TRVOIvhvznpuoMH3QRC5b4qXvdbH9zq8EU0zh9DZEZ3iHH48TrwTops0UY3vsC9jK
+	CJs/XrSVUW2pRq0/HnB8oe30+REtCMWFyBNoNp+tMdC/Y9qPhHJ3JgmrDPTkX7Jt4BQOAw
+	bASmqtJMW6jff733Qv/IU29/QQ05ddE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777367840;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
+	b=PvulbjN4QowOK2dqawYsA6yf4ixa0za3ASQd7XJZ9vDerVbkUEn3HuEc+x1VaKyjN/Sx7G
+	pyNk9z8KSSM0kCCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777367840; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
+	b=kUgg7TRVOIvhvznpuoMH3QRC5b4qXvdbH9zq8EU0zh9DZEZ3iHH48TrwTops0UY3vsC9jK
+	CJs/XrSVUW2pRq0/HnB8oe30+REtCMWFyBNoNp+tMdC/Y9qPhHJ3JgmrDPTkX7Jt4BQOAw
+	bASmqtJMW6jff733Qv/IU29/QQ05ddE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777367840;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=adxW3bE/UIQhlebHqAzO4xAfXbzuOewNVGi1LVMnILU=;
+	b=PvulbjN4QowOK2dqawYsA6yf4ixa0za3ASQd7XJZ9vDerVbkUEn3HuEc+x1VaKyjN/Sx7G
+	pyNk9z8KSSM0kCCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6FA7593B0;
+	Tue, 28 Apr 2026 09:17:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YkB4Lh978Gl1ZwAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Tue, 28 Apr 2026 09:17:19 +0000
+Date: Tue, 28 Apr 2026 11:17:14 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: David Hildenbrand <david@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ying Huang <huang.ying.caritas@gmail.com>,
+	Dan Williams <djbw@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	muchun.song@linux.dev
+Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison
+ accounting lookup
+Message-ID: <afB7Go7JqhIpjU5J@localhost.localdomain>
+References: <20260428085219.1316047-1-songmuchun@bytedance.com>
+ <20260428085219.1316047-4-songmuchun@bytedance.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] platform/x86: x86-android-tablets: enable fwnode
- matching of GPIO chips
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, brgl@kernel.org
-References: <20260427-baytrail-real-swnode-v3-0-0003e4c1708c@oss.qualcomm.com>
- <20260427-baytrail-real-swnode-v3-2-0003e4c1708c@oss.qualcomm.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20260427-baytrail-real-swnode-v3-2-0003e4c1708c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428085219.1316047-4-songmuchun@bytedance.com>
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux-foundation.org,intel.com,gmail.com,huawei.com,kvack.org,vger.kernel.org,lists.linux.dev,linux.dev];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bytedance.com:email,suse.de:email,imap1.dmz-prg2.suse.org:helo,localhost.localdomain:mid]
+X-Spam-Flag: NO
 
-Hi Bartosz,
-
-On 27-Apr-26 14:19, Bartosz Golaszewski wrote:
-> In order to allow GPIOLIB to match cherryview and baytrail GPIO
-> controllers by their firmware nodes instead of their names, we need to
-> attach the - currently "dangling" - existing software nodes to their
-> target devices dynamically.
+On Tue, Apr 28, 2026 at 04:52:19PM +0800, Muchun Song wrote:
+> memblk_nr_poison_inc() and memblk_nr_poison_sub() call
+> find_memory_block_by_id(), which requires device_hotplug_lock to
+> serialize the xarray lookup against memory block removal.
 > 
-> We deal with devices described in ACPI so set up a bus notifier waiting
-> for the ADD events. We know the name of the device we're waiting for so
-> match against it and - on match - assign the appropriate software node
-> as the secondary firmware node of the underlying ACPI node. In case the
-> event was emitted earlier than this driver's probe: also make sure the
-> device was not added before.
+> Take device_hotplug_lock around the lookup and nr_hwpoison update so
+> the memory block cannot disappear between xa_load() and get_device().
 > 
-> Scheduling fine-grained devres actions allows for proper teardown and
-> unsetting of the secondary firmware nodes.
+> Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 
-Thank you for your work on this.
+It might have made sense to join both patches? Anyway:
 
-The x86-android-tablets.ko kernel module uses platform_create_bundle()
-so its probe() cannot return -EPROBE_DEFER. IOW it expects all the GPIO
-pins which it needs to already be there when it loads (which so far in
-practice holds, since these x86 GPIO controllers are always builtin
-for various reasons).
-
-This means that there is no need all the notifier stuff. Only adding
-an acpi_bus_find_device_by_name() helper as suggested by Rafael and
-then finding the GPIO controllers and attaching the swnodes is
-necessary.
-
-And if the acpi_bus_find_device_by_name() fails it is ok to fail
-the probe() just like it currently fails when gpiod_get() returns
--EPROBE_DEFER (or fails for other reasons).
-
-This should nicely simplify this patch.
-
-Regards,
-
-Hans
+Acked-by: Oscar Salvador <osalvador@suse.de>
 
 
-
-
-
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/platform/x86/x86-android-tablets/core.c | 127 +++++++++++++++++++++++-
->  1 file changed, 124 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/platform/x86/x86-android-tablets/core.c
-> index 021009e9085bec3db9c4daa1f6235600210a6099..9e6e8f272dfe16cda421b569802045c3d94fc0ab 100644
-> --- a/drivers/platform/x86/x86-android-tablets/core.c
-> +++ b/drivers/platform/x86/x86-android-tablets/core.c
-> @@ -13,10 +13,12 @@
->  #include <linux/acpi.h>
->  #include <linux/device.h>
->  #include <linux/dmi.h>
-> +#include <linux/fwnode.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/gpio/machine.h>
->  #include <linux/irq.h>
->  #include <linux/module.h>
-> +#include <linux/notifier.h>
->  #include <linux/pci.h>
->  #include <linux/platform_device.h>
->  #include <linux/serdev.h>
-> @@ -360,6 +362,124 @@ static const struct software_node *cherryview_gpiochip_node_group[] = {
->  	NULL
->  };
->  
-> +struct auto_secondary_data {
-> +	struct notifier_block nb;
-> +	struct device *parent;
-> +};
-> +
-> +static void auto_secondary_unset(void *data)
-> +{
-> +	struct fwnode_handle *fwnode = data;
-> +
-> +	fwnode->secondary = NULL;
-> +}
-> +
-> +static int acpi_set_secondary_fwnode(struct device *parent, struct device *dev,
-> +				     const struct software_node *const swnode)
-> +{
-> +	struct acpi_device *device = to_acpi_device(dev);
-> +	struct fwnode_handle *fwnode;
-> +	int ret;
-> +
-> +	fwnode = software_node_fwnode(swnode);
-> +	if (WARN_ON(!fwnode))
-> +		return -ENOENT;
-> +
-> +	fwnode->secondary = ERR_PTR(-ENODEV);
-> +	device->fwnode.secondary = fwnode;
-> +
-> +	ret = devm_add_action_or_reset(parent, auto_secondary_unset, &device->fwnode);
-> +	if (ret)
-> +		dev_err(parent, "Failed to schedule the unset action for secondary fwnode\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static int acpi_auto_secondary_notifier(struct notifier_block *nb,
-> +					unsigned long action, void *data)
-> +{
-> +	struct auto_secondary_data *auto_sec = container_of(nb, struct auto_secondary_data, nb);
-> +	const struct software_node *const *swnode;
-> +	struct device *dev = data;
-> +	int ret;
-> +
-> +	switch (action) {
-> +	case BUS_NOTIFY_ADD_DEVICE:
-> +		for (swnode = gpiochip_node_group; *swnode; swnode++) {
-> +			if (strcmp((*swnode)->name, dev_name(dev)) == 0) {
-> +				ret = acpi_set_secondary_fwnode(auto_sec->parent, dev, *swnode);
-> +				return ret ? NOTIFY_BAD : NOTIFY_OK;
-> +			}
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return NOTIFY_DONE;
-> +}
-> +
-> +static void auto_secondary_unregister_node_group(void *data)
-> +{
-> +	const struct software_node **nodes = data;
-> +
-> +	software_node_unregister_node_group(nodes);
-> +}
-> +
-> +static void auto_secondary_unregister_notifier(void *data)
-> +{
-> +	struct notifier_block *nb = data;
-> +
-> +	bus_unregister_notifier(&acpi_bus_type, nb);
-> +}
-> +
-> +static int auto_secondary_fwnode_init(struct device *parent)
-> +{
-> +	const struct software_node *const *swnode;
-> +	struct auto_secondary_data *data;
-> +	int ret;
-> +
-> +	ret = software_node_register_node_group(gpiochip_node_group);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_add_action_or_reset(parent,
-> +				       auto_secondary_unregister_node_group,
-> +				       gpiochip_node_group);
-> +	if (ret)
-> +		return ret;
-> +
-> +	data = devm_kzalloc(parent, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->nb.notifier_call = acpi_auto_secondary_notifier;
-> +	data->parent = parent;
-> +
-> +	ret = bus_register_notifier(&acpi_bus_type, &data->nb);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_add_action_or_reset(parent,
-> +				       auto_secondary_unregister_notifier,
-> +				       &data->nb);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Device may have been already added. */
-> +	for (swnode = gpiochip_node_group; *swnode; swnode++) {
-> +		struct device *dev __free(put_device) =
-> +			bus_find_device_by_name(&acpi_bus_type, NULL, (*swnode)->name);
-> +		if (dev) {
-> +			ret = acpi_set_secondary_fwnode(parent, dev, *swnode);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static void x86_android_tablet_remove(struct platform_device *pdev)
->  {
->  	int i;
-> @@ -391,7 +511,6 @@ static void x86_android_tablet_remove(struct platform_device *pdev)
->  
->  	software_node_unregister_node_group(gpio_button_swnodes);
->  	software_node_unregister_node_group(swnode_group);
-> -	software_node_unregister_node_group(gpiochip_node_group);
->  }
->  
->  static __init int x86_android_tablet_probe(struct platform_device *pdev)
-> @@ -427,9 +546,11 @@ static __init int x86_android_tablet_probe(struct platform_device *pdev)
->  		break;
->  	}
->  
-> -	ret = software_node_register_node_group(gpiochip_node_group);
-> -	if (ret)
-> +	ret = auto_secondary_fwnode_init(&pdev->dev);
-> +	if (ret) {
-> +		x86_android_tablet_remove(pdev);
->  		return ret;
-> +	}
->  
->  	ret = software_node_register_node_group(dev_info->swnode_group);
->  	if (ret) {
-> 
-
+-- 
+Oscar Salvador
+SUSE Labs
