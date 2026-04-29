@@ -1,111 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13E32701C4;
-	Wed, 29 Apr 2026 11:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54342E175F;
+	Wed, 29 Apr 2026 13:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777462404; cv=none; b=WNHpSOjg/gxUwbSc+z/djzvFfcB4uXc9FbzxMQjJB4AK9V2z4rwQxwoRLqIVf30qNnxq1O5Ti8wc7HYRyaxt0Hu1vUbIt9lCqqib+0uZQCOClJ85FSNENSu7WhYM9QomJzY5dt6ISlPm3T6HktAvvyt2+qz+6hxzomOGTx6igFQ=
+	t=1777471136; cv=none; b=oI3g1Ow0nfmVe9Fgh+I4VqPBi0ChDD5D3J97QtXiKlW5qI0rgALjDj6a1atCDCq/jYX03932yjsiYD7XyEqWzH0ReisItSwP9N9G+0LggNVFDPufpeQN24y8/+e65izckW7iRG3l+y7v14a0m5EcgEvQdNRuJs7nY18zcpHH9k0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777462404; c=relaxed/simple;
-	bh=lOlOp1v12Z1/RWZKLhuO3eKL8iTY0MHiXh40WE3cpTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d+pNLwJ8EaQqp+2uvt8M6n1iXAt6+2egDJxU90K6mSL/NwJVdADkzeU/z/oF+VswMCfmAttSxsw4s0IigszV+/bL4r2FRqDCxwUXqhKpfjfnfaS1LKxiFXcdoVYYKAf0L1o0XQobuYblC63DOcPOyZ/B8y5RlZiZk24j1MAmIpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRK80Ifo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777471136; c=relaxed/simple;
+	bh=CkAYCE/5j2/fp11dlpM312pzX8TqG3LYxtTmYqCQDEw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=kMRh4joerF2EEWuShypeErFZVPSI2313eZpYd5oSEhXB9jejVjwO5V9XugrhRRJaqp5kVHnbsIShasYNLrlGZquExqZ9MdqTyCe4I+/OMeYsZHCjA5G42F5KGtfnjirtlR7M1cyjyLed1zmlEowR3hyOGG9D4HefMKwHSETpB3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HETBOgpT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRK80Ifo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E47DC19425;
-	Wed, 29 Apr 2026 11:33:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HETBOgpT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6167C19425;
+	Wed, 29 Apr 2026 13:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777462404;
-	bh=lOlOp1v12Z1/RWZKLhuO3eKL8iTY0MHiXh40WE3cpTE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GRK80IforZJ75sPcUW5zH++ekHBwziLXY8Lv4I969ADGv/4fpg+SKdV/dqLvaGjFz
-	 qjcw2KQP9/dp3MQec8XRDyGpYfaTSrb7mZj+xJaJTljvbtMunEGUsrNJ2JsOUmuJFt
-	 9UisFcxVSXc4fGcTeDp65/RdvUvm/N/J5YU0SITTHYOA5/1qMNfQt+OK6MiB+xsQKV
-	 xXXPWh1WkZJ0fkSKO2bBUpD1lXawHWNKnZu6okSfpYd4n+TvlA1F/lZVh/8BmB9kAP
-	 FJOgk0oAZ/8NmSy0UK0xiXXVRjaMW2EIlUh6oDQO9FTCfMhxTRpR/3btDRqeiCf84y
-	 0sK478xoB2ZBA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1wI3AQ-00000000izu-0pnY;
-	Wed, 29 Apr 2026 13:33:22 +0200
-Date: Wed, 29 Apr 2026 13:33:22 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: reject devices with unregistered buses
-Message-ID: <afHsgv9SUqfn-G1x@hovoldconsulting.com>
-References: <20260427102852.2174-1-johan@kernel.org>
- <DI50WG9XK1I4.1R6DXSZSWFRDC@kernel.org>
- <afHZWasOhRaeBCnt@hovoldconsulting.com>
- <DI5LDIQW45PE.LPIWCARJV7WC@kernel.org>
+	s=k20201202; t=1777471136;
+	bh=CkAYCE/5j2/fp11dlpM312pzX8TqG3LYxtTmYqCQDEw=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+	b=HETBOgpT4IB8anE+gnU48PwtidV02pTBWMj9U9ARp8btM0k9xFdg5IXUEd5znKIBF
+	 UPYG3+5uYUUdrDNU+zayIzr4tyYNETQdktT1ve4s2qQvU82F6YIhJTVXBbk16tkm8U
+	 cDH9/GRyh77Of520Kyhijp1QdL63lV4SB6SEAMlEZfCVa+Ym6NBV7PelQquUb5xY3H
+	 k0mzt8XLmykgk4rEN+zzHE0FShYYpqQKfRYE6HV1f5xE9kRxe0dec7K9WRSnj/itys
+	 ECp2NfQsAxotUQVrF7xQ5gUW3qXRLNnU59OCVGL8lDaPdvyVR6m1DTGk1v2Uovvwmc
+	 aazSBOhiq0mNA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DI5LDIQW45PE.LPIWCARJV7WC@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 29 Apr 2026 15:58:51 +0200
+Message-Id: <DI5OXGXY5IW4.281BBJHGITWR9@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 1/2] rust: auxiliary: add registration data to auxiliary
+ devices
+Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <aliceryhl@google.com>, <david.m.ertman@intel.com>, <ira.weiny@intel.com>,
+ <leon@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+References: <20260427221002.2143861-1-dakr@kernel.org>
+ <20260427221002.2143861-2-dakr@kernel.org>
+ <DI5LKWS7J1D7.1O8GCHRV28QZ2@nvidia.com>
+In-Reply-To: <DI5LKWS7J1D7.1O8GCHRV28QZ2@nvidia.com>
 
-On Wed, Apr 29, 2026 at 01:11:44PM +0200, Danilo Krummrich wrote:
-> On Wed Apr 29, 2026 at 12:11 PM CEST, Johan Hovold wrote:
-> > On Tue, Apr 28, 2026 at 09:09:04PM +0200, Danilo Krummrich wrote:
-> >> On Mon Apr 27, 2026 at 12:28 PM CEST, Johan Hovold wrote:
-> >> > Trying to register a device on a bus which has not yet been registered
-> >> > used to trigger a NULL-pointer dereference, but since the const bus
-> >> > structure rework registration instead succeeds without the device being
-> >> > added to the bus.
-> >> >
-> >> > Reject devices with unregistered buses to catch any callers that get
-> >> > the ordering wrong and to handle bus registration failures more
-> >> > gracefully.
-> >> >
-> >> > Fixes: 5221b82d46f2 ("driver core: bus: bus_add/probe/remove_device() cleanups")
-> >> > Cc: stable@vger.kernel.org	# 6.3
-> >> 
-> >> Hm...this sounds like hardening and not like a "real" bug fix. Do you have a
-> >> specific reason why you added Cc: stable?
-> >
-> > It's certainly a bug fix and this change in behaviour was clearly
-> > unintended.
-> >
-> > Any caller getting the ordering wrong would now succeed in registering
-> > devices, but no driver would ever be bound which is harder to detect
-> > than the earlier crashes. 
-> >
-> > Whether any offenders have snuck in since 6.3 I don't know, but I still
-> > think this warrants a backport.
-> 
-> I see where you are coming from, and I agree that having an explicit error print
-> is an improvement over "the device just never got probed".
-> 
-> However, this isn't an actual bug -- it just happens to make a "real" bug less
-> obvious to catch.
+On Wed Apr 29, 2026 at 1:21 PM CEST, Alexandre Courbot wrote:
+> I'm wondering whether we could avoid introducing a Rust-only member
+> here, either by just allowing the aux device private data to be used in
+> C as well (which might be as simple as a rename, a couple helpers and a
+> bit more documentation),
 
-It seems we have differing definitions of "bug", but to me this is
-clearly a bug in driver core. Whether anyone will hit it, is a separate
-issue.
+This is intentional; if this pointer would be shared we loose the guarantee=
+ that
+the stored pointer is either NULL or of the following form.
 
-But if we have any racing subsystem vs device registrations this would
-allow us to catch and fix those more easily. And the fix is straight
-forward and only turns a silent breakage into a properly logged error.
+	#[repr(C)]
+	#[pin_data]
+	struct RegistrationData<T> {
+	    type_id: TypeId,
+	    #[pin]
+	    data: T,
+	}
 
-> That said, I don't see how this warrants a stable backport, i.e. it doesn't even
-> fall under the "this could be a problem" or "theoretical bug" category, which
-> typically are not accepted either.
+This is important, since otherwise we can't check the TypeId independent fr=
+om T.
+Of course, we could store the TypeId in a separate allocation and use this
+instead, but then we'd also end up with a Rust specific pointer.
 
-Yeah, under the documented rules it may be a bit of a stretch unless you
-consider it a "oh, that's not good" issue.
+> or using a wrapper type specifically for Rust
+> drivers:
+>
+> struct rust_auxiliary_device {
+> 	struct auxiliary_device auxdev;
+> 	void *registration_data;
+> };
+>
+> Although I am not sure what the implications would be for e.g. a Rust
+> auxiliary device spawned by a C driver? Is that even doable with the
+> current code anyway?
 
-> As mentioned in the other thread, if this was relaxed, I'm happy to hear about
-> it.
-
-It has been in practice as I mentioned there.
-
-Johan
+You gave the answer yourself with this. :) If we'd "subclass", there'd be n=
+o way
+to distinguish whether the struct auxiliary_device * passed by bus callback=
+s
+stems from a C or from a Rust registration, i.e. we'd not know whether the
+"upcast" is valid or not.
