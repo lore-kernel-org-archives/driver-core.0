@@ -1,257 +1,111 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021129.outbound.protection.outlook.com [52.101.100.129])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6003A75A4
-	for <driver-core@lists.linux.dev>; Wed, 29 Apr 2026 11:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.129
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777462195; cv=fail; b=eq2AC95hlx2P4XMnwEWoWsZQk5HsZC6o6gmssduo9CXB6Gt/WUvg51uMfnbjLaEyJO2UtHpJmf95UXJBEn+MYjg3RcG0rWLn9sXiBfqMHd8kmhNFMdFhVsvc/KhPSYZnd7Ga2xkRGRa4MIJ5TXQGpaKMxjYEyL3x0JLugXUcM8o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777462195; c=relaxed/simple;
-	bh=Qr4xS9i9ug6zuaBd4CKfO1N7QYGXCFp9DWsq6eHEaS8=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=JuIj7cWJCD0gwffDv1bHFfgr7cVf2KDaA3mt5eCqFeAq33E6rrVub10d9uvPA0/sUkQpgFWln9dLPgO1aa5/j3eaCyO6Bzt6KWnv2jiYO3BlTSOGnjzCw/dCLFSf7Mi9UjfPAMssbnFpM10Nbkx1/zWJYiVLft/BSaDzIg1VHj4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=LmN3bwZY; arc=fail smtp.client-ip=52.101.100.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13E32701C4;
+	Wed, 29 Apr 2026 11:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777462404; cv=none; b=WNHpSOjg/gxUwbSc+z/djzvFfcB4uXc9FbzxMQjJB4AK9V2z4rwQxwoRLqIVf30qNnxq1O5Ti8wc7HYRyaxt0Hu1vUbIt9lCqqib+0uZQCOClJ85FSNENSu7WhYM9QomJzY5dt6ISlPm3T6HktAvvyt2+qz+6hxzomOGTx6igFQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777462404; c=relaxed/simple;
+	bh=lOlOp1v12Z1/RWZKLhuO3eKL8iTY0MHiXh40WE3cpTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d+pNLwJ8EaQqp+2uvt8M6n1iXAt6+2egDJxU90K6mSL/NwJVdADkzeU/z/oF+VswMCfmAttSxsw4s0IigszV+/bL4r2FRqDCxwUXqhKpfjfnfaS1LKxiFXcdoVYYKAf0L1o0XQobuYblC63DOcPOyZ/B8y5RlZiZk24j1MAmIpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRK80Ifo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="LmN3bwZY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=das23J1br+o/GODeXzNAq4LqYcbgjlsBJSbzthLWIsQDwpqlNotD08EO7mZ4KaBP5U5UytciX7kM7d+s/xQOPkKHAfccPmEAjV7yxTkFPuSEj2uXZl5oQUXQxOJMU++CeMWSfDvS9nE8EClfM8Q55qRJRPxP0McUhUBVCb+IOi61tZ5tEBliZpMH7xrLoRq7L7ZigHaWbjfzJaSnDKULoaNfjAGrghA54xBfvv23C5rX5LiW09ZYAHILaHuhydNTbdY+QucKq/74qoBGCAQOLwcfc17l/XQSs8l77PuocRTWA08l79j/QxRe27J4s9/wambnFMSXSrP6ncP8T4smDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EwOXNQGrtvpzicuJ7h0cTsziM2v0gnPSQw6LF5ho47o=;
- b=CPucrJoyVczVtAMqsuOZOPZ50lwM7jOjb2tjSw6u32LzJBSEyE51GvYOwaICGLVwVWmZHRFe/gRnwc+bdFNzhN3E+dlMzEchLuIQ+/5hoYlPrpwKtacImKMeqOvphsXkqlkVIa8IAeHJbrLxDORiov3lwgew7QjQ+/oP20liDvG4flxoamHjAbNKsOIM12Uo2d7pAUO3cJlE0YoXH6kjWTHxqm5Y5Zw3TeqX5A504527x94hUOHUyNp0iwt2gMS1UR0A6QAYxQK5BfiGvoVBppXRXR+j8/ofybOFzInhPsxWrpPgyrHviJOPgjI3MA8xRSIHYsMaDpom1jrEcghJdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EwOXNQGrtvpzicuJ7h0cTsziM2v0gnPSQw6LF5ho47o=;
- b=LmN3bwZYooD69eSxN6337X8FaCCbxkQ3lw5u6L1O6g3nxiSUqu2wgkYp3/yyU3hxVGIlVqD8QpX2Xu0eebbgn0PLNERjC29/QLHXb9MWDEUCy8pTRDpbc368H2mm7hT8K2gUpb16L1ByGNf/Su/p48xH2PcDIONPGOnA7AhkWlo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO6P265MB6031.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2a4::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.19; Wed, 29 Apr
- 2026 11:29:49 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9870.020; Wed, 29 Apr 2026
- 11:29:49 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 12:29:48 +0100
-Message-Id: <DI5LRCUUKJJW.24ZCQBQYEPPVZ@garyguo.net>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
- <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 1/5] rust: ptr: add panicking index projection variant
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net> <20260415-projection-syntax-rework-v1-1-450723cb3727@garyguo.net> <DI5LLN2V3XCS.34H4CG99N4MPA@nvidia.com>
-In-Reply-To: <DI5LLN2V3XCS.34H4CG99N4MPA@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0111.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:192::8) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRK80Ifo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E47DC19425;
+	Wed, 29 Apr 2026 11:33:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777462404;
+	bh=lOlOp1v12Z1/RWZKLhuO3eKL8iTY0MHiXh40WE3cpTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GRK80IforZJ75sPcUW5zH++ekHBwziLXY8Lv4I969ADGv/4fpg+SKdV/dqLvaGjFz
+	 qjcw2KQP9/dp3MQec8XRDyGpYfaTSrb7mZj+xJaJTljvbtMunEGUsrNJ2JsOUmuJFt
+	 9UisFcxVSXc4fGcTeDp65/RdvUvm/N/J5YU0SITTHYOA5/1qMNfQt+OK6MiB+xsQKV
+	 xXXPWh1WkZJ0fkSKO2bBUpD1lXawHWNKnZu6okSfpYd4n+TvlA1F/lZVh/8BmB9kAP
+	 FJOgk0oAZ/8NmSy0UK0xiXXVRjaMW2EIlUh6oDQO9FTCfMhxTRpR/3btDRqeiCf84y
+	 0sK478xoB2ZBA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1wI3AQ-00000000izu-0pnY;
+	Wed, 29 Apr 2026 13:33:22 +0200
+Date: Wed, 29 Apr 2026 13:33:22 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] driver core: reject devices with unregistered buses
+Message-ID: <afHsgv9SUqfn-G1x@hovoldconsulting.com>
+References: <20260427102852.2174-1-johan@kernel.org>
+ <DI50WG9XK1I4.1R6DXSZSWFRDC@kernel.org>
+ <afHZWasOhRaeBCnt@hovoldconsulting.com>
+ <DI5LDIQW45PE.LPIWCARJV7WC@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6031:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16eeb77c-e3db-4c60-81dd-08dea5e29f9e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|376014|1800799024|7416014|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	IYgha/YLa7tnr7XzUhTbQUN+E4OJO9gZNrr6X2s0BExCiW4b4Zmwy614TAmX9Kds3KMTmGlATyO27xXfZUNAf/PKFRE2xAuVBjBEY7hgbhvk2QyBEGXEXPgQIDHi52lty8aIyLezG9JDHUWxm0YDBXI20G6x6pbjqaVEnTNr5QkhSnK804CRyOHkn8e9o9SngvkdmqD5+UdywYxdY+rbrIWsCmM0c1NVRkwpFKFjaDWEzJtULDBfNR7vJ12NbimI9AMSxCXl43zI5icAwJilYabMRi0Dvzbc4YZtp8WKu+GsqwVBk3rb8iwX7NizshkwcHU6RaEe0u46gg4hrUwzxDaNTCwggz/I4KYaG+0H4ecsAMrlidj0vlqBPAdCq3KGLExqOy77xAGVg4H96lpJShCt+hiNuxeQZ7um9BPGY8X1BLebpzxshsQIwCc6PjM2kFbNW4Xwkgne1zk1TzUrfZqWlwe217Va1book6RlcYKrEgfHI6rCm+PA5TVxI8KUi4hsxHr4selVLwNCrGtVVGNyOwYNRTg9lnGnvfwETS8z117EUk++0xaA3BbpFQT9m6gbdhQXSW1mqEcQLLoisJSGreSiLwni70QZVMUzOiNURq074x3sWBEqwFeQ8dnTTa+W+jaaeAuhXcrSCmOzN6vP+WZjOiz03a7NKEEx0R/AeBT3HmVthn3zaKMMkwJXgUSuCfyu+5TQFPaAZHc8n0ui1744IeelECqgHczozrE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(7416014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RGFsbk4xRDkzeVMwdkVKNExpZ1c2cEFlTEZIMzMvbWdLZ1U3bXRrckZGOE9F?=
- =?utf-8?B?Z2V3R0lhMkorMnVraXd2czlWYUNVZ1dweDJoR0NNc0NQMnZZcTBuQTltam9C?=
- =?utf-8?B?cGRGakpBUkdGOWNGYXJHRkFReWxKTi9ieDNSaGx0RUdwMk0zaEFzSWpsTlIx?=
- =?utf-8?B?ZEpIRHFSajVDVmtrM21DOGRVZ3NLUkFvbmNyelhBVDlNcE1hMDF3NUdYU0s2?=
- =?utf-8?B?UEtBQTFJK1ZXU1NPVDdVR084TXU3aDR1NmkxTmdKNXlNQTQ2YnZQTDlTdmJJ?=
- =?utf-8?B?Z2duK20rMUJISnhmQzhBVk9LNU5XdEtJMFQ3cEZkL0k2VVE4TlFKZUVjQ29E?=
- =?utf-8?B?WDVsVWk0dHB6RUZBQ2xLMjRSMDVIVXRpSGtsb2w4aEdYcHdNT29tRVpKWk9R?=
- =?utf-8?B?MWc2TWZTMkpIMGxheVQvZmRYUFlIeHZRRFE4Y09UREM3WUY1YUd1TG1RWU9o?=
- =?utf-8?B?MmJFSFh5TXZVYzFyK0xUdTdLeUtwMGlwSFgrblRiM2h0dkYwWk5UdENlZFFj?=
- =?utf-8?B?ZGx1UFh5dFYvSWtiQTVDQUUvRXdjL1d4RStNUVovam9ZUW84YkFZamJLdFpx?=
- =?utf-8?B?bmFvK1FLczNpNlBNRmZMNnFPaGpBZ2JnK3BRTWJoMTNUdElvdkJlNllQVnlv?=
- =?utf-8?B?bVIyQ3lWQm1MN1lrM21oUnhoSGoxRWhsMEhTRFgycWhITDVWNSs3SDRkUk1s?=
- =?utf-8?B?d1gzRURkYUJuOFF4SjFVSzdtL0VETkFZVFlCWmhvbjJUTDBrV0ZRT1lySEtU?=
- =?utf-8?B?NG44NWd2UVZvWEpVOXgrK2EyVlhKRmVJSWxHQnlQWU5UN3RPVkFwY1QxYlRD?=
- =?utf-8?B?NGhLRGlqNG1IY0hPYjRVNGxXTEliSzlHYVlERHBuZXVJUFh4eTIvRWtGeU5l?=
- =?utf-8?B?Z09WeUFaVElpNVNZSTg4RmtSVDA5MUY0WXJvMTlaVjBVQzBuZWhMc3d3QUlQ?=
- =?utf-8?B?NnVmNWJPaUphOFREY0hnZVEySTA5cmVRM0M2QU9KN3BKYTBjZmJkUll1bTdt?=
- =?utf-8?B?Mlh0WmlTV0MrTUhQdkdiUVRHRHdkeDBGRk5XbitaSHNPNitScElPbFNBVDg4?=
- =?utf-8?B?a2I0T1hTb21keUVlbG1KQVdRcTBTTG1EdjhCbGlJR0htZVJPS3NCOHdvZFN5?=
- =?utf-8?B?ekVGZ1hqV1hJaEpPdWxYdnBpMzlvRHMrVkpiWEZqNG1DRUxkUDVHT2V0ZEEv?=
- =?utf-8?B?dzhZczhMejRMREx6eEVUbGJyS3NJQU5YdzJmQ1V6bDdXaktOSFU3SExRYkRQ?=
- =?utf-8?B?UFZudVdCTlNnNDI2NElFR0ZCN1JUM3hBWWZhbS8wQVpNTW84bm5jRFZXcWUx?=
- =?utf-8?B?bnFzSk1tY2N2ellyZlE5cnNhU2REU3cyR2JIeVBsb2dDZVlDOUlmamhOVFRF?=
- =?utf-8?B?ZFNucGhRQnY4MGZ1c0tCOTkyZ0JpbU10Mnd3dmNkaU9mdGw4dkVDZ1RaRkNX?=
- =?utf-8?B?NFIrekZqdjc5QmhNZW8yQndYeXk0NE1kaW1ZVE9hemFWR0ZMdU0wZGJzeEFL?=
- =?utf-8?B?THFZSWpTYTkyQ2I0MFpXcHgxa1U4M29UWFdEbVF6LzM0bFpQQ2NiUUdIRm1v?=
- =?utf-8?B?enNrT0YrVWtrMXhXeXJZcFZxakdXd2ptWmhWZXFWbXJaWDRGa1RPbFV0emo2?=
- =?utf-8?B?U2ZXWS9WVWt5V0lDN01sVVhkYVJzNXliRnM5R09GWDdrUlZBRk1YbnBYa3pT?=
- =?utf-8?B?aTJEMW9tT1JzVXFwdnRlWTN6WHBjK3VxbGUzYkU2MHhpM3BZRWpnNlkxZ0Zt?=
- =?utf-8?B?bnVYc21WeFdTMndBTGloaDl1UUxxQ1ZocHgxZ2MyYWRMK3dvSnFiQldMN0Q5?=
- =?utf-8?B?dnhNcVZDa1lJNk0wZWJjZS96aGZLS2pCVnppc3lJK2RZWnJOK21Pc2o3d3Fa?=
- =?utf-8?B?bE5vb01PT01XRkY4V1RLZUdHc1FGRmllb0ZRNlI0UUFEYi85blVWQjdKSmkr?=
- =?utf-8?B?OUhHdjYyWEp3RVpZN1VsRUlHcTB3K0hLWHVUbTdMcFZSdmlYZVo4ZDF0WGVV?=
- =?utf-8?B?TDU5Y2ZiYjd0aHJ6V05wSTVuNzBETXlJUDJPN1VtK09KL3JjK0VlM29qTVQv?=
- =?utf-8?B?MEZkazJlL3JLbUN6WDVGbENMKytJTGxiRDIvTUVSREF0ak1TQk5LZkFGMDl0?=
- =?utf-8?B?TmFHdjNiVkZ6ZU5qcTJkMlFOamxqWDNEN2FJQ0p3cXVDVTZzRk13eDBNOEtj?=
- =?utf-8?B?KzBremU2M3BKaXJUaThpMEl4am9xQ1JEVThuT29XaFJ3dXJKZXdaeFFyYmJk?=
- =?utf-8?B?WHZOU0hnYWsvV2NuU2IyWUxQdDZWdkpvdTlTMFJoSE4xK1pubnFuSzI3YUNL?=
- =?utf-8?B?a21LdFJvalhwY2xjWTJMSkdtSGtRWFMvcDcwRHZaVlVETHFYRzR6Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16eeb77c-e3db-4c60-81dd-08dea5e29f9e
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 11:29:49.3335
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +/iPSwl4IOUFWqA/1rj1k5IiNfwgfDmRhA1yMMRg8EGxhldsy6mN3jsmZGKZoFepmPSe9/rPluy0iX/AwjZMgg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6031
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DI5LDIQW45PE.LPIWCARJV7WC@kernel.org>
 
-On Wed Apr 29, 2026 at 12:22 PM BST, Alexandre Courbot wrote:
-> On Thu Apr 16, 2026 at 4:57 AM JST, Gary Guo wrote:
->> There have been a few cases where the programmer knows that the indices =
-are
->> in bounds but compiler cannot deduce that. This is also
->> compiler-version-dependent, so using build indexing here can be
->> problematic. On the other hand, it is also not ideal to use the fallible
->> variant, as it adds error handling path that is never hit.
->>
->> Add a new panicking index projection for this scenario. Like all panicki=
-ng
->> operations, this should be used carefully only in cases where the user
->> knows the index is going to be in bounds, and panicking would indicate
->> something is catastrophically wrong.
->>
->> To signify this, require users to explicitly denote the type of index be=
-ing
->> used. The existing two types of index projections also gain the keyworde=
-d
->> version, which will be the recommended way going forward.
->>
->> The keyworded syntax also paves the way of perhaps adding more flavors i=
-n
->> the future, e.g. `unsafe` index projection. However, unless the code is
->> extremely performance sensitive and bounds checking cannot be tolerated,
->> panicking variant is safer and should be preferred, so it will be left t=
-o
->> future when demand arises.
->
-> Review nit (no need to respin for this): this patch would probably be
-> easier to review if the renaming of `index` to `build_index` was split
-> into its own patch. It would reduce the diff, while also removing the
-> burden of having to keep in mind that `index` means a different thing
-> depending on whether the line is removed or added. I've found it a bit
-> difficult to keep track of this.
+On Wed, Apr 29, 2026 at 01:11:44PM +0200, Danilo Krummrich wrote:
+> On Wed Apr 29, 2026 at 12:11 PM CEST, Johan Hovold wrote:
+> > On Tue, Apr 28, 2026 at 09:09:04PM +0200, Danilo Krummrich wrote:
+> >> On Mon Apr 27, 2026 at 12:28 PM CEST, Johan Hovold wrote:
+> >> > Trying to register a device on a bus which has not yet been registered
+> >> > used to trigger a NULL-pointer dereference, but since the const bus
+> >> > structure rework registration instead succeeds without the device being
+> >> > added to the bus.
+> >> >
+> >> > Reject devices with unregistered buses to catch any callers that get
+> >> > the ordering wrong and to handle bus registration failures more
+> >> > gracefully.
+> >> >
+> >> > Fixes: 5221b82d46f2 ("driver core: bus: bus_add/probe/remove_device() cleanups")
+> >> > Cc: stable@vger.kernel.org	# 6.3
+> >> 
+> >> Hm...this sounds like hardening and not like a "real" bug fix. Do you have a
+> >> specific reason why you added Cc: stable?
+> >
+> > It's certainly a bug fix and this change in behaviour was clearly
+> > unintended.
+> >
+> > Any caller getting the ordering wrong would now succeed in registering
+> > devices, but no driver would ever be bound which is harder to detect
+> > than the earlier crashes. 
+> >
+> > Whether any offenders have snuck in since 6.3 I don't know, but I still
+> > think this warrants a backport.
+> 
+> I see where you are coming from, and I agree that having an explicit error print
+> is an improvement over "the device just never got probed".
+> 
+> However, this isn't an actual bug -- it just happens to make a "real" bug less
+> obvious to catch.
 
-This'll need a respin anyway (to merge with the IO view series) for patch
-logistics reason, so I'll make that change.
+It seems we have differing definitions of "bug", but to me this is
+clearly a bug in driver core. Whether anyone will hit it, is a separate
+issue.
 
->
->>
->> Signed-off-by: Gary Guo <gary@garyguo.net>
->> ---
->>  rust/kernel/dma.rs            |  3 ++
->>  rust/kernel/ptr/projection.rs | 98 +++++++++++++++++++++++++++++++++++-=
--------
->>  2 files changed, 84 insertions(+), 17 deletions(-)
->>
->> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
->> index 4995ee5dc689..3e4d44749aaf 100644
->> --- a/rust/kernel/dma.rs
->> +++ b/rust/kernel/dma.rs
->> @@ -1207,6 +1207,9 @@ macro_rules! dma_write {
->>      (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) =3D> =
-{
->>          $crate::dma_write!(@parse [$dma] [$($proj)* .$field] [$($rest)*=
-])
->>      };
->> +    (@parse [$dma:expr] [$($proj:tt)*] [[$flavor:ident: $index:expr] $(=
-$rest:tt)*]) =3D> {
->> +        $crate::dma_write!(@parse [$dma] [$($proj)* [$flavor: $index]] =
-[$($rest)*])
->> +    };
->>      (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr]? $($rest:tt)*]) =
-=3D> {
->>          $crate::dma_write!(@parse [$dma] [$($proj)* [$index]?] [$($rest=
-)*])
->>      };
->> diff --git a/rust/kernel/ptr/projection.rs b/rust/kernel/ptr/projection.=
-rs
->> index 140ea8e21617..845811795393 100644
->> --- a/rust/kernel/ptr/projection.rs
->> +++ b/rust/kernel/ptr/projection.rs
->> @@ -26,14 +26,14 @@ fn from(_: OutOfBound) -> Self {
->>  ///
->>  /// # Safety
->>  ///
->> -/// The implementation of `index` and `get` (if [`Some`] is returned) m=
-ust ensure that, if provided
->> -/// input pointer `slice` and returned pointer `output`, then:
->> +/// The implementation of `index`, `build_index` and `get` (if [`Some`]=
- is returned) must ensure
->> +/// that, if provided input pointer `slice` and returned pointer `outpu=
-t`, then:
->>  /// - `output` has the same provenance as `slice`;
->>  /// - `output.byte_offset_from(slice)` is between 0 to
->>  ///   `KnownSize::size(slice) - KnownSize::size(output)`.
->>  ///
->> -/// This means that if the input pointer is valid, then pointer returne=
-d by `get` or `index` is
->> -/// also valid.
->> +/// This means that if the input pointer is valid, then pointer returne=
-d by `get`, `index` or
->> +/// `build_index` is also valid.
->>  #[diagnostic::on_unimplemented(message =3D "`{Self}` cannot be used to =
-index `{T}`")]
->>  #[doc(hidden)]
->>  pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
->> @@ -42,9 +42,12 @@ pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
->>      /// Returns an index-projected pointer, if in bounds.
->>      fn get(self, slice: *mut T) -> Option<*mut Self::Output>;
->> =20
->> +    /// Returns an index-projected pointer; panic if out of bounds.
->> +    fn index(self, slice: *mut T) -> *mut Self::Output;
->
-> This looks like this could have a default implementation:
->
->     fn index(self, slice: *mut T) -> *mut Self::Output {
->         Self::get(self, slice).unwrap()
->     }
->
-> I'm sure there is a good reason for now having this though, so at least
-> for my education: why not? :)
+But if we have any racing subsystem vs device registrations this would
+allow us to catch and fix those more easily. And the fix is straight
+forward and only turns a silent breakage into a properly logged error.
 
-It could, but the implementation is going to be dead code.
+> That said, I don't see how this warrants a stable backport, i.e. it doesn't even
+> fall under the "this could be a problem" or "theoretical bug" category, which
+> typically are not accepted either.
 
-Best,
-Gary
+Yeah, under the documented rules it may be a bit of a stretch unless you
+consider it a "oh, that's not good" issue.
 
+> As mentioned in the other thread, if this was relaxed, I'm happy to hear about
+> it.
+
+It has been in practice as I mentioned there.
+
+Johan
