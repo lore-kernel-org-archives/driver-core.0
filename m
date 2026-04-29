@@ -1,81 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9393CA4B6;
-	Wed, 29 Apr 2026 10:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F97395259
+	for <driver-core@lists.linux.dev>; Wed, 29 Apr 2026 10:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777457499; cv=none; b=MXEVaV2VgjqAgKpsBjK4k588cUjarI/4w5Vbf9gPcieeGjtNz5kWcCdiCAo/7HyS7JcFnx2eyakjLnZthJEru16johWcTq5FyXCb4u4290ov7SkSCtDfVYDTHHopSJ2fj/0OWSJ/Bx4ijY/AaL5m4hnTKdoEKB5gwWNB9U7gqRs=
+	t=1777457508; cv=none; b=b0wYlNXByeFpYNHUrpqV7BgJvanMiD3Xf9WpcCmrQ00/x1WCliEX30d634FofsrGyG0fFeJvoN975XKdPmUMtXbiClqAXS0eXWACVlVfFN1ps7npowfr3UfG8+fCj32QoviT6Uiyz6/crtzkOwD+QClkk7qv2UidqCyeXQmKkxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777457499; c=relaxed/simple;
-	bh=nOE+9uX50nDfGJAc5vKevUJM+C7rQPPSFyaTh3o32rs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QtmPQaMFTigBb6XR+YlZsAIBoNhZHo9QLBCg5fPMr0Jph+biZ1p1gdeKo5oZoxBMJsEc0rJ31Xcus/s8r6GTRU/1R2+qBdV/QQU6CQiuFnNGqtRymxv0rf3HfBIFzwBpQzJEpeZ+wnbLW2zXyiqaz32f9Mo2E8pq2uzFVrrm4Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QlHsBqc1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777457508; c=relaxed/simple;
+	bh=PIpMqLnvKeFPStlamgR5UkyiNO93rr7vphpSFu46dyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BbkpIbhdz7F4+vTDUnopyorTt8RICSKrTFlRec/MHS+mGLbrvhk9eqEfUfiqDnBVEAQfRczV8dD7JqX2n7lMluCXhaoQIzGVpYJdqAI4OAr/FYYS7F0QEOygjwP++tIs0CggttIWYxpoVXm8Ph+mPG3XJhUHaxEHZyjD0YyRZjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xEM+oNRW; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QlHsBqc1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 960A6C2BCC4;
-	Wed, 29 Apr 2026 10:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777457499;
-	bh=nOE+9uX50nDfGJAc5vKevUJM+C7rQPPSFyaTh3o32rs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QlHsBqc1f6w+v47Y9AV7veIwaHdrIhEYrTKT1neHqqxoDyuqNuMSTXrvW1A5bMiqn
-	 q6FLLI3Fg4FqmEnJXZkIOo2WWO1lUGJTtKeKnF+LWOWjkxroEzdOvzSZRnPr/qGyRM
-	 yczOpNjd96ggr5JmVuZCPB5KIqK82vvOG8pjWVWerRsc50/nZtgua1oNsG90BJqaMv
-	 RFNYUx+ljiI8iZW8/FaZ1jn9y9lG2G/AiNPnFkjeA0HBWBnrnQ9ilsHMPwKsw4aLsy
-	 jJOuk0AJyGRVaS9SJ7DYzJC5ipwixQYppKDC/Iyy4WR3IV1v2jwd615I4leaIQT0kE
-	 fuhn7zLfINFoQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1wI1tJ-00000000hzw-1MnH;
-	Wed, 29 Apr 2026 12:11:37 +0200
-Date: Wed, 29 Apr 2026 12:11:37 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: reject devices with unregistered buses
-Message-ID: <afHZWasOhRaeBCnt@hovoldconsulting.com>
-References: <20260427102852.2174-1-johan@kernel.org>
- <DI50WG9XK1I4.1R6DXSZSWFRDC@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xEM+oNRW"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777457504;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hQnZQYLrTlNYy1jc1rXnnTon8LpqLdCTjRpZns17oGo=;
+	b=xEM+oNRWB3iEUl7EvR41PZcCxwM+tlM71BYBVb0m6mTHUTUlRsZy9GVgnWzfYDsO7wLdvx
+	qqqBFWU0yQ8IgsOppvyiVpGtZRPXqj5d1PS22xkgYBQtdQrPjdRNGC6Ec9FZq1PHvHQCTe
+	D5/aom5/W69PK8yAlF8NAp+unM5fxYc=
+From: Usama Arif <usama.arif@linux.dev>
+To: Muchun Song <muchun.song@linux.dev>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Muchun Song <songmuchun@bytedance.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ying Huang <huang.ying.caritas@gmail.com>,
+	Dan Williams <djbw@kernel.org>,
+	Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	linux-mm@kvack.org,
+	linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rafael J Wysocki <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison accounting lookup
+Date: Wed, 29 Apr 2026 03:11:33 -0700
+Message-ID: <20260429101134.1358607-1-usama.arif@linux.dev>
+In-Reply-To: <A3EF6D95-E3B9-4228-9AED-A7018ED494C5@linux.dev>
+References: 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DI50WG9XK1I4.1R6DXSZSWFRDC@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Apr 28, 2026 at 09:09:04PM +0200, Danilo Krummrich wrote:
-> On Mon Apr 27, 2026 at 12:28 PM CEST, Johan Hovold wrote:
-> > Trying to register a device on a bus which has not yet been registered
-> > used to trigger a NULL-pointer dereference, but since the const bus
-> > structure rework registration instead succeeds without the device being
-> > added to the bus.
-> >
-> > Reject devices with unregistered buses to catch any callers that get
-> > the ordering wrong and to handle bus registration failures more
-> > gracefully.
-> >
-> > Fixes: 5221b82d46f2 ("driver core: bus: bus_add/probe/remove_device() cleanups")
-> > Cc: stable@vger.kernel.org	# 6.3
+On Wed, 29 Apr 2026 12:18:08 +0800 Muchun Song <muchun.song@linux.dev> wrote:
+
 > 
-> Hm...this sounds like hardening and not like a "real" bug fix. Do you have a
-> specific reason why you added Cc: stable?
+> 
+> > On Apr 29, 2026, at 11:32, Oscar Salvador <osalvador@suse.de> wrote:
+> > 
+> > On Wed, Apr 29, 2026 at 11:08:51AM +0800, Miaohe Lin wrote:
+> >> Right, I missed that. Thanks. But I'm still worried that there might be potential issues.
+> >> For example, this function could be called while lock_page is held. Acquiring lock_device_hotplug
+> >> while already holding lock_page might cause problems, though I haven't seen any specific issues yet.
+> >> Also there might be some other potential scenarios that haven't been considered. Hope I'm just
+> >> overthinking it. :)
+> > 
+> > lock_device_hotplug is a mutex lock, and we already take other mutex locks while
+> > holding lock_folio in other paths, so I am not sure I see what should be special
+> > in this case.
+> 
+> Hi Oscar and Miaohe,
+> 
+> I saw sashiko's report [1] related to folio lock and lock_device_hotplug.
+> Seems it is possible. You can correct me if I am wrong.
+> 
+> [1] https://sashiko.dev/#/patchset/20260428085219.1316047-1-songmuchun%40bytedance.com
+> 
+> We could fix this by calling action_result() without holding folio lock.
+> What do you think?
+> 
 
-It's certainly a bug fix and this change in behaviour was clearly
-unintended.
+Hello Muchun,
 
-Any caller getting the ordering wrong would now succeed in registering
-devices, but no driver would ever be bound which is harder to detect
-than the earlier crashes. 
+You could end up in memblk_nr_poison_sub() while holding hugetlb_lock spin lock
+from get_huge_page_for_hwpoison(), right?
 
-Whether any offenders have snuck in since 6.3 I don't know, but I still
-think this warrants a backport.
-
-Johan
+Lockdep would flag this as sleeping while atomic when acquiring mutex I think.
