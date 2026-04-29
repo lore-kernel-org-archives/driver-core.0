@@ -1,150 +1,209 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E4238C2A7
-	for <driver-core@lists.linux.dev>; Wed, 29 Apr 2026 17:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FB94218B4;
+	Wed, 29 Apr 2026 18:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777485086; cv=none; b=gIaLdyg9mnDeclBS2Wy/4waomy7gTFTzqb/dAuLvLZSzobAYtPEvS1r9Ix+OKPC4J4WEc3Vrh3o8Wi6y5iT1I51+6v2E+dghlde0bJIxPdqn91GKE4L7ey1smO5RPLJZ70Hfrfa6NO40QHwGBcjHCyd1S2ieVmVeBcHWL4F+Zx0=
+	t=1777486922; cv=none; b=RrRGvJp09IY9DXxrnlgVoXWs7rXmndeCImbAc1HtV/uE4D7ZgBbs/HHWP6E8VJ5UBiXVSDQqEYMmECM9dbETCeCnza61hi1Z9gxdmNy0efoucXlMLtfsDPzejpiaYam6XFF6LEpcV6eMIZP0G9zu/S4tpQn13/TRBRebmb6bM1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777485086; c=relaxed/simple;
-	bh=Nc5Cr28OkE2x5OT1A09Y8jID2eQr5wsfn890+tcJ1zE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=i2ESKc1x1wpudpG1VxxUNKQ6Mi1VU+G7vK6OYrA5Ap6AEbN2C/zi+i8fzZWId4+4RbWXEr2Ccrxl+QE/GxWn8wo9H3ze9uDysHjF576uRZuqaamu4kiIHHPQRHlWamm01G158gxVtF0V46CmJ80UHgofZ/TQq9fVV30PnNHH9i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UloZ6gWs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777486922; c=relaxed/simple;
+	bh=oK5pms9uVEMP/3te4JTH9eo/pbWJdjojqvXsoKHPuoc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=SzbLl6YqvMv15C2tHcMbYzpMowQQb7EKTnC3q6okEkIZxIEZ/eYTVd1gz0lmbSbVQdJILPrSAZOLi6ilb7dUH6LIAzBzZCD2XoIKIFuhM0r4K9jMaI40BwW+BeMfqkQusJpXRd5F8FDiJQf0cexY9Poyqp7U6ICkq0G7ZumrP7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZT+JMtaK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UloZ6gWs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777485083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EBdaR0NkwnB5xuO+5ZF2TJ2EyUG8XWEvOxuQoPiLdNw=;
-	b=UloZ6gWsO0Wl4wrMauB5k+ZBOmMqhQsewUXEAuXmGCfSuQydAspdTJX3VSd7ZbL1k8emKQ
-	2ArJbzXan73j1iGWJcSB5T6N9EZb9ay/uAV+dp4dsOJgTYj1MYIwRVBBF5cQZ2metl6eI6
-	1GIfxDMFkARgChxMYTp80yG1JPQxWfg=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-581-dm3F43fDMaia9pQhJ4kSRw-1; Wed,
- 29 Apr 2026 13:51:20 -0400
-X-MC-Unique: dm3F43fDMaia9pQhJ4kSRw-1
-X-Mimecast-MFC-AGG-ID: dm3F43fDMaia9pQhJ4kSRw_1777485077
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8D33F19560BB;
-	Wed, 29 Apr 2026 17:51:17 +0000 (UTC)
-Received: from fedora-work.redhat.com (unknown [10.22.80.165])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1AB0D300019F;
-	Wed, 29 Apr 2026 17:51:11 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Tarun Sahu <tarunsahu@google.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
-	Jordan Richards <jordanrichards@google.com>,
-	Ewan Milne <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	kexec@lists.infradead.org,
-	David Jeffery <djeffery@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH 5/5] scsi: Enable async shutdown support
-Date: Wed, 29 Apr 2026 13:50:16 -0400
-Message-ID: <20260429175016.7915-6-djeffery@redhat.com>
-In-Reply-To: <20260429175016.7915-1-djeffery@redhat.com>
-References: <20260429175016.7915-1-djeffery@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZT+JMtaK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BC87FC2BCC4;
+	Wed, 29 Apr 2026 18:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777486921;
+	bh=oK5pms9uVEMP/3te4JTH9eo/pbWJdjojqvXsoKHPuoc=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=ZT+JMtaKcKrQ8/vbWXgJWayChR83Sxg0r7Kf62JgweJKpu+7Rc4HkMTp/h5D0XrSP
+	 rmRIlNvyAWtTI8metgXWpYznkO/lQVRKBiyK0beohpd7N20ftuOz3iRVisws72YMmI
+	 6V+hTHiBmJ1cmIiuUyHznm+bDow9bi8FDRIH66FohFPyeWtZZEEFjDVSJ13t8KvVDG
+	 ZYIu8fP1iFHxKlkxaGVpTvQLE1r7C4QlKy3wWLu4EPnLSHkVxJJInBD7eSL5uiU+9o
+	 Ebk9PvOqJJm/rSvsFxfJu89WnUMrxJpIXVOxbFKg+an8E5OZv6B8MlD66DJwtfpTQK
+	 Di0Z610+nfzNw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5923FF8875;
+	Wed, 29 Apr 2026 18:22:01 +0000 (UTC)
+From: Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>
+Subject: [PATCH v7 0/4] rust: add basic serial device bus abstractions
+Date: Wed, 29 Apr 2026 20:21:30 +0200
+Message-Id: <20260429-rust_serdev-v7-0-0d89c791b5c8@posteo.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: zr_B6JAktf0rX0ausXY54PMcD25HTDaxGVGZ391TIXM_1777485077
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACpM8mkC/3XRTW7CMBAF4KtEXteRZ/wbVtyjqionmUBEIWAHq
+ xXi7nWgqCRql2Ppe/LMu7BIoafIVsWFBUp97IdDHuxLwZqtP2yI922eGQrUgGB5OMfxPaOWEif
+ SygFVwumGZXEM1PWft7TXtzxv+zgO4esWnmB6/clBMctJwAUnpYzS1liDsD4OcaShbIlNOQkf1
+ ggpzNziZKsaZa2wRq2XVj5ZkHMrs20qL32HoDrbLa36tQpgblW2TmmqjGiMQbu0+sku99XZaku
+ u9kJD1cmlNc92fvNksgUrbeVaTeBn9novIdDpnJsc702wPcXob02uikcmIgiBZV5bOgMceOt3Y
+ b2jcKCPcgibqc5/HGg9OeWU+9vVPhJvhv2+H1dFsmU+XAP5c9dvhJxzN24CAAA=
+X-Change-ID: 20251217-rust_serdev-ee5481e9085c
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Kari Argillander <kari.argillander@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boqun Feng <boqun@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5457;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=oK5pms9uVEMP/3te4JTH9eo/pbWJdjojqvXsoKHPuoc=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBp8kxHBzqHPk16mBaErmeqnqv5EIEd9OpEUXPlr
+ 30+9hosimWJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCafJMRxsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9JoYg//ZbQae5uhbRVIAsl7El1cMu6wwgX2d4X
+ W7FKaoZlupCzASxnyCrznyMLmV37wBQ3wg9Gq7OautEqryG7bjoGzR3skJ4IZY6gt0FdRH9LOsj
+ j6IVr9vKAkvWk9uXobkTyul2MfL3nxtKCCFAhFUznf11aaiEtsjXT1yvKdgcfJmR/qFH3nzXFe/
+ HlRBumC8oETC0G6Nl/d7UFpGhXnYELWc+ZCFPLfS/KRPF4eGs7jLPsa3HWL2wzvm/97goZJa6KN
+ twadXdACFiQNu1Lw/GVJl50QoN6hwZmIwC+GF7Pl9naTS0kQ+ULgeC31KpVtiE7dDIFd4JyHOok
+ TwI4GowcCdMUzNXxoPr1aX2eHWlhx3+cjhvK7+4UBP0OjXJXw6b36iIA2H0RmruAPtaszMnFswB
+ rOxh02YYC68z7JTiqA/dQkBz5dTuL8TWy1vWh+0wlvbBAbgtynL3PTRazMxwmAflOFLg9Vssd+o
+ N1wfrtTCJCjg9D6KhNrjYRM7oyCTNfuekkGTo10VJ0bwuFEyoVDLmbwKTJEGTXnRB3G0Ob9rRMn
+ zDoeiQHwX8MLbWnZg+F7SR9vTqu/Y8zHCpMTALdSv5xb8mrVwdy/f6uMLcAJt/xfDZMVGCpbUmc
+ AIsolueDT7n4ZPRRZfK0DSumycpDD8wenJm3+xAm5iAzTHzz8Tds=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+X-Endpoint-Received: by B4 Relay for markus.probst@posteo.de/default with
+ auth_id=680
+X-Original-From: Markus Probst <markus.probst@posteo.de>
+Reply-To: markus.probst@posteo.de
 
-Like scsi's async suspend support, allow scsi devices to be shut down
-asynchronously to reduce system shutdown time.
+This patch series adds the serdev device bus rust abstraction into the
+kernel.
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
+This abstraction will be used by a driver,
+which targets the MCU devices in Synology devices.
+
+Kari Argillander also messaged me, stating that he wants to write a
+watchdog driver with this abstraction (needing initial device data).
+
+@Rob: Are you willing to maintain these rust abstractions yourself,
+as you are the expert on this subsystem, otherwise I would take care of
+it with a "SERIAL DEVICE BUS [RUST]" section in the MAINTAINERS file. In
+the second case, I assume you are going to pick those patches as-is into
+your tree, after they have been reviewed?
+
+This series depends on [1].
+
+[1]
+https://lore.kernel.org/driver-core/20260427221155.2144848-1-dakr@kernel.org/
+
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
 ---
- drivers/scsi/hosts.c      | 2 ++
- drivers/scsi/scsi_sysfs.c | 3 +++
- 2 files changed, 5 insertions(+)
+Changes in v7:
+- adapted to driver-lifetime patch series
+- Link to v6: https://patch.msgid.link/20260427-rust_serdev-v6-0-173798d5e1a3@posteo.de
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index e047747d4ecf..471b5ce878b0 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -273,6 +273,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	pm_runtime_set_active(&shost->shost_gendev);
- 	pm_runtime_enable(&shost->shost_gendev);
- 	device_enable_async_suspend(&shost->shost_gendev);
-+	device_enable_async_shutdown(&shost->shost_gendev);
- 
- 	error = device_add(&shost->shost_gendev);
- 	if (error)
-@@ -282,6 +283,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	get_device(shost->shost_gendev.parent);
- 
- 	device_enable_async_suspend(&shost->shost_dev);
-+	device_enable_async_shutdown(&shost->shost_dev);
- 
- 	get_device(&shost->shost_gendev);
- 	error = device_add(&shost->shost_dev);
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index dfc3559e7e04..5946ed77b3bd 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1386,6 +1386,7 @@ static int scsi_target_add(struct scsi_target *starget)
- 	pm_runtime_set_active(&starget->dev);
- 	pm_runtime_enable(&starget->dev);
- 	device_enable_async_suspend(&starget->dev);
-+	device_enable_async_shutdown(&starget->dev);
- 
- 	return 0;
- }
-@@ -1412,6 +1413,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	transport_configure_device(&starget->dev);
- 
- 	device_enable_async_suspend(&sdev->sdev_gendev);
-+	device_enable_async_shutdown(&sdev->sdev_gendev);
- 	scsi_autopm_get_target(starget);
- 	pm_runtime_set_active(&sdev->sdev_gendev);
- 	if (!sdev->rpm_autosuspend)
-@@ -1431,6 +1433,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	}
- 
- 	device_enable_async_suspend(&sdev->sdev_dev);
-+	device_enable_async_shutdown(&sdev->sdev_dev);
- 	error = device_add(&sdev->sdev_dev);
- 	if (error) {
- 		sdev_printk(KERN_INFO, sdev,
--- 
-2.53.0
+Changes in v6:
+- rebased onto v7.1-rc1
+- Link to v5: https://patch.msgid.link/20260420-rust_serdev-v5-0-57e8ba0519f3@posteo.de
+
+Changes in v5:
+- fix typo in documentation
+- Link to v4: https://lore.kernel.org/r/20260411-rust_serdev-v4-0-845e960c6627@posteo.de
+
+Changes in v4:
+- fixed not selecting rust serdev abstraction in sample
+- Link to v3: https://lore.kernel.org/r/20260313-rust_serdev-v3-0-c9a3af214f7f@posteo.de
+
+Changes in v3:
+- fix vertical import style
+- add Kconfig entry for the rust abstraction
+- fix documentation in include/linux/serdev.h
+- rename private_data to rust_private_data
+- fix `complete_all` <-> `wait_for_completion` typo
+- move drvdata_borrow call after the completion
+- Link to v2: https://lore.kernel.org/r/20260306-rust_serdev-v2-0-e9b23b42b255@posteo.de
+
+Changes in v2:
+- fix documentation in `serdev::Driver::write` and
+  `serdev::Driver::write_all`
+- remove use of `dev_info` in probe from the sample
+- remove `properties_parse` from the sample
+- add optional `baudrate` property to the sample
+- remove 1. patch
+- remove `TryFrom<&device::Device<Ctx>> for &serdev::Device<Ctx>`
+  implementation
+- fix import style
+- add patch to return reference in `devres::register` to fix safety
+  issue
+- add patch to add private data to serdev_device, to fix
+  `Device.drvdata()` from failing
+- simplify abstraction by removing ability to receive the initial
+  transmission. It may be added later in a separate patch series if
+  needed.
+- Link to v1: https://lore.kernel.org/r/20251220-rust_serdev-v1-0-e44645767621@posteo.de
+
+---
+Markus Probst (4):
+      rust: devres: return reference in `devres::register`
+      serdev: add rust private data to serdev_device
+      rust: add basic serial device bus abstractions
+      samples: rust: add Rust serial device bus sample device driver
+
+ drivers/tty/serdev/Kconfig         |   7 +
+ include/linux/serdev.h             |  15 +-
+ rust/bindings/bindings_helper.h    |   1 +
+ rust/helpers/helpers.c             |   1 +
+ rust/helpers/serdev.c              |  22 ++
+ rust/kernel/cpufreq.rs             |   3 +-
+ rust/kernel/devres.rs              |  15 +-
+ rust/kernel/drm/driver.rs          |   3 +-
+ rust/kernel/lib.rs                 |   2 +
+ rust/kernel/serdev.rs              | 571 +++++++++++++++++++++++++++++++++++++
+ samples/rust/Kconfig               |  11 +
+ samples/rust/Makefile              |   1 +
+ samples/rust/rust_driver_serdev.rs |  86 ++++++
+ 13 files changed, 728 insertions(+), 10 deletions(-)
+---
+base-commit: 5e9b7d093f3f77cb0af4409559e3d139babfb443
+change-id: 20251217-rust_serdev-ee5481e9085c
+prerequisite-message-id: 20260427221002.2143861-1-dakr@kernel.org
+prerequisite-patch-id: 925690ac15ddd64777b2da34b343d2547bbf79e8
+prerequisite-patch-id: 67318671a5eed5fb4ad23a450f1cf0e442bf8ca2
+prerequisite-message-id: 20260427221155.2144848-1-dakr@kernel.org
+prerequisite-patch-id: 87127047dbf7d948ae98f1ff0f4a782214a516e2
+prerequisite-patch-id: 7664165039fb510368a721edfe60f5b67449b7b6
+prerequisite-patch-id: 1e8c97720bab512d8646409c129edd6047164c4c
+prerequisite-patch-id: f0fdd1e9912f31a3945f1c0f227dcb64cf71885d
+prerequisite-patch-id: be515f7e13f7800eaadb3ed85dec6a9ddb733828
+prerequisite-patch-id: 3a3c7749e017d9335f58497404d1350e96caf471
+prerequisite-patch-id: 3526c9154f581497a11465b936d83ef61a875454
+prerequisite-patch-id: 65d8c757b52475c2acc7d22ddc92cd3f0152b55d
+prerequisite-patch-id: 4bd31f1414d5248dc080884caadf5f21684a8427
+prerequisite-patch-id: 7beadbb0da3e589ed86d12f512d1c83427dd82b4
+prerequisite-patch-id: f04f5427c592cb078c08ee071b965ef6fd4a9a48
+prerequisite-patch-id: 64c0098c3d2420f82c89f44fccd3eed459557bfc
+prerequisite-patch-id: 3294340ecd964b8e3e87e5a787ff1ffa28e0b698
+prerequisite-patch-id: b2c14d06f068dc6a52814fc55d1188737dc29861
+prerequisite-patch-id: c7fd96983b606bc42cc5b003022b8fa2bb1c0c34
+prerequisite-patch-id: 8e9f4c2d5521fb6cdc5bed2d6661f4bbed5eb63d
+prerequisite-patch-id: d868f7925ee9dfe44c5ddf50f4deb50263ff203f
+prerequisite-patch-id: 5677248690560ec45e512a8cdbbf8aecfad62d77
+prerequisite-patch-id: 5d9674da330ee9d0f4c91edb8acc20727ba1cd9c
+prerequisite-patch-id: d5f29453bfd2e3354fb96b57d7a55521bedb2b0b
+prerequisite-patch-id: 9d6f96e26fe651304e950766d6bc2006dd33e86a
+prerequisite-patch-id: c7a73c58c6d4ca8556d29ce651ad78cc647f6f31
+prerequisite-patch-id: c5f35030637e78ab6f5fa489172f1506493fbae1
+prerequisite-patch-id: aad19e48d4fa45734050bba927a5b72d6def9673
+
 
