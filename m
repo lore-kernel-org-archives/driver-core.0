@@ -1,97 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004DA367F23;
-	Wed, 29 Apr 2026 11:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4D82F12AF;
+	Wed, 29 Apr 2026 11:19:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777461108; cv=none; b=tcIYxtSClnYDPH3s9J4INlxTjx4QTwffK4YbAwZ56RAZPzIqPiHilKFP9RM1cakZatFdatwz9xNhtMFz/Obmeo+OYAgBrqVW6HZg2hKNEg+Awq1WFJCRFQO/fFlz+AhykxKOFgxxXnE2C2G1Oi40Pp7k4XYE8XiRtBeqxvxv4V8=
+	t=1777461590; cv=none; b=aEDD/fYaHWhNFpt2bakA9isSLujfA7PoiauumnsULYSgdjFCCbgwefTIFbw/cC5CPHXQtRj3JPkJAPTNRRwDl7ifECy37DblOLEIWxchubBsb0/S03t/yDPaGiZNCjQGfdmWMl0kvhgK+IQ/aIeTfGLpnydEIOfS/dJTyiHFzoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777461108; c=relaxed/simple;
-	bh=syOXPPeZen3ifAWWngoKt0dD5VvYsSa/znr9tGMdl/4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=ToUXYpEG3JFf8nLwXZyUZRlZHkwDCqJc+sgyNrw2D4VSNA5E2CznlS1C0KAOHlfkwklNRbSZquJqHzwGElHC6g8CywimHYAmzsyRYLvcEowSlOYp5HIRetBy9gtyJd4HPIDYMhX9DFakCAzrRSg5sopBVjobXJOeNMf5PoLoC78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUsXX4pp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777461590; c=relaxed/simple;
+	bh=BFQp+YQiBU8zErQRGXepU7rsL4fe06Njb4MCK2eRm7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n+6HROJOiZ/kpkynHGZJaWaYfgjIQ5Qb+CweaUz68IUM+Pvozdpp+5wHgN5Vs1BT/eRnZ9nrq8XYicTTB2YhFQAt4xGeMqecaR/HIvV82OqaOugrlRsn/Eu0OZ+JgN2p3eO95hvjh7ZgFUk7BnFpg2w2mjQtbpmjzBRwkGmfpcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6LIqHlT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUsXX4pp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2938EC2BCC4;
-	Wed, 29 Apr 2026 11:11:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6LIqHlT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E48EC19425;
+	Wed, 29 Apr 2026 11:19:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777461107;
-	bh=syOXPPeZen3ifAWWngoKt0dD5VvYsSa/znr9tGMdl/4=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=cUsXX4ppZ6leE+BuPDsK9XgvhkMk4fef9UCEaBKFQzGu9cSuaYGty7av6Loxms6uw
-	 EktHjTzrV3PT6DRJFemlNR8EVj1AC36muvng+lPEKx3HmZZxvP//6OpBuOLRuOc4nY
-	 obUTgsxLFXMtn1mrXOGmjrQWD1s6x+8cVH1nkVNGUAmxLMYkDstXACPEfTbbIYnTsE
-	 x5AHYiu6bI5ohpKh8WaoyMRVo4Ia/kV6ArCv1Oj18YrozFoPjpYWJZwiKTUZk31rjl
-	 CBVongUUEVQ/ce20B/WJY/gSWhhPCljQWAvvL8F95M6j7Iw52Rldn9+BOrE4NY+5Of
-	 L83bFZIouUaeA==
+	s=k20201202; t=1777461590;
+	bh=BFQp+YQiBU8zErQRGXepU7rsL4fe06Njb4MCK2eRm7M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E6LIqHlTt752j4Ijg8+cfm+L1Cz1F1zeabJGOubkTLjZYLKlyoxGH9UatFyt9atUo
+	 HL7ihp9GrgA3NR1bGCidsqoJQun96BFbz2bCHyklAYPgYOFME4y/UXRxL4rWUYWDIg
+	 EO7KQQ7MGzInEOTLrvGCzw6CByLXM8N7ASbJKMymDA/jIvjScIZ+neEoyE5m3DCcK2
+	 Cp+LmAMGaPqOpSwZNkpTx47mO1TlgHbHBFE3ZxVajcB2xwiyw8YuftrVEUcOmETuAV
+	 61UX3/2IGuijsWDpiRdF9gm7gE7l4aHZP8MONurWVEwREJuFQclH5bgcI5hHuogTxM
+	 xww1o2WQBoKZQ==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1wI2xH-00000000ioJ-3Gx5;
+	Wed, 29 Apr 2026 13:19:47 +0200
+Date: Wed, 29 Apr 2026 13:19:47 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] driver core: faux: fix root device registration
+Message-ID: <afHpUxQ5U_4RWjDZ@hovoldconsulting.com>
+References: <20260424153127.2647405-1-johan@kernel.org>
+ <20260424153127.2647405-2-johan@kernel.org>
+ <DI54XY4CNFCD.30M3UJGK1M3BE@kernel.org>
+ <afHapCZz5C42euaD@hovoldconsulting.com>
+ <DI5KV97TNS9D.28EQTYL46PKT1@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 13:11:44 +0200
-Message-Id: <DI5LDIQW45PE.LPIWCARJV7WC@kernel.org>
-Subject: Re: [PATCH] driver core: reject devices with unregistered buses
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-To: "Johan Hovold" <johan@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260427102852.2174-1-johan@kernel.org>
- <DI50WG9XK1I4.1R6DXSZSWFRDC@kernel.org>
- <afHZWasOhRaeBCnt@hovoldconsulting.com>
-In-Reply-To: <afHZWasOhRaeBCnt@hovoldconsulting.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DI5KV97TNS9D.28EQTYL46PKT1@kernel.org>
 
-On Wed Apr 29, 2026 at 12:11 PM CEST, Johan Hovold wrote:
-> On Tue, Apr 28, 2026 at 09:09:04PM +0200, Danilo Krummrich wrote:
->> On Mon Apr 27, 2026 at 12:28 PM CEST, Johan Hovold wrote:
->> > Trying to register a device on a bus which has not yet been registered
->> > used to trigger a NULL-pointer dereference, but since the const bus
->> > structure rework registration instead succeeds without the device bein=
-g
->> > added to the bus.
->> >
->> > Reject devices with unregistered buses to catch any callers that get
->> > the ordering wrong and to handle bus registration failures more
->> > gracefully.
->> >
->> > Fixes: 5221b82d46f2 ("driver core: bus: bus_add/probe/remove_device() =
-cleanups")
->> > Cc: stable@vger.kernel.org	# 6.3
->>=20
->> Hm...this sounds like hardening and not like a "real" bug fix. Do you ha=
-ve a
->> specific reason why you added Cc: stable?
->
-> It's certainly a bug fix and this change in behaviour was clearly
-> unintended.
->
-> Any caller getting the ordering wrong would now succeed in registering
-> devices, but no driver would ever be bound which is harder to detect
-> than the earlier crashes.=20
->
-> Whether any offenders have snuck in since 6.3 I don't know, but I still
-> think this warrants a backport.
+On Wed, Apr 29, 2026 at 12:47:53PM +0200, Danilo Krummrich wrote:
+> On Wed Apr 29, 2026 at 12:17 PM CEST, Johan Hovold wrote:
+> > On Wed, Apr 29, 2026 at 12:19:06AM +0200, Danilo Krummrich wrote:
+> >> On Fri Apr 24, 2026 at 5:31 PM CEST, Johan Hovold wrote:
+> >> > A recent change made the faux bus root device be allocated dynamically
+> >> > but failed to provide a release function to free the memory when the
+> >> > last reference is dropped (on theoretical failure to register the device
+> >> > or bus).
+> >> >
+> >> > Fix this by using root_device_register() instead of open coding.
+> >> >
+> >> > Also add the missing sanity check when registering faux devices to avoid
+> >> > use-after-free if the bus failed to register (which would previously
+> >> > have triggered a bunch of use-after-free warnings).
+> >> >
+> >> > Fixes: 61b76d07d2b4 ("driver core: faux: stop using static struct device")
+> >> > Cc: stable@vger.kernel.org	# 7.0
+> >> 
+> >> I think this is more of a theoretical issue, do we need this in stable trees?
+> >
+> > Sure, this is borderline, but given that autosel would probably pick it
+> > up anyway we might as well mark it directly.
+> 
+> In such a case developers should probably give the stable team a hint that the
+> patch in question does not need backporting.
+> 
+> But using the expectation that autosel may pick it up as a justification to mark
+> it for stable in the first place seems wrong.
 
-I see where you are coming from, and I agree that having an explicit error =
-print
-is an improvement over "the device just never got probed".
+It fixes a memory leak (and some warnings). We backport such fixes all
+the time, including in other error paths which are unlikely to ever be
+hit.
 
-However, this isn't an actual bug -- it just happens to make a "real" bug l=
-ess
-obvious to catch.
+> The stable documentation [1] is very clear that theoretical issues must not be
+> backported into stable trees unless an explanation of how the bug can be
+> exploited can be provided.
+> 
+> If that was relaxed in some way, it probably needs updating.
 
-That said, I don't see how this warrants a stable backport, i.e. it doesn't=
- even
-fall under the "this could be a problem" or "theoretical bug" category, whi=
-ch
-typically are not accepted either.
+The stable rules have been relaxed in practice since Autosel. Anything
+that looks like a fix (e.g. has a Fixes tag) gets backported.
 
-As mentioned in the other thread, if this was relaxed, I'm happy to hear ab=
-out
-it.
+And people get tired of asking the stable team to drop patches that were
+not marked for backporting.
+
+But feel free to drop the CC-stable tag here if you want to.
+
+Johan
