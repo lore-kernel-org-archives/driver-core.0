@@ -1,66 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D1935A393;
-	Tue, 28 Apr 2026 22:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673E03822B1
+	for <driver-core@lists.linux.dev>; Wed, 29 Apr 2026 03:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777416084; cv=none; b=AGLkyjw+L128XT2Om634Zre8vATbq48RfNOWICft56ODEthL85eksrSJA1EA94EFCC2chOOM0mUkTqLrJp9vq2h/HuuK8bvUuUp0LwBJ8tKhteNkdPzcCzgCy8ytQlLVj5NowWQjj5nOEruXt2u21YzuvP6/5Jb6YAGQBmdtFAE=
+	t=1777432139; cv=none; b=sGKHg6g/dsQ6Btn2mAssZUMtDLT6Yi0RmzZ6JeSYD36F2N6c4S9aFA4qFS4ZB7Nd5Z+XoN5N5UI+ExtUJIELkgZZ3TjVPFuC85eFbJ/rVrYTV7xa/MXD9C4Lh8NpHG0zaGXbNt5SLx6dsORb24Ul5M7dnMe3OFLx6PO8e4h15Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777416084; c=relaxed/simple;
-	bh=894KP7uVDQasDSxR7Z4NTlupcvWoaSM9qjYWeIWI2/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=izz2WrXsSIABltMGRzheE1XvstWG2VceZHslLwEelmI3M9F95MN9VjKDKAozXC4HmlY/LWkDvzUFWYXYMCZfnSKaPSEjV6BRfrXJoKyhdWHKk5TN94gJdTwI/arsiGHndsadGI9uYrUTAuyLh0E0JkDM8U+7cgf/TYDI6dTJWfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D1pgIpMS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777432139; c=relaxed/simple;
+	bh=7+yC5hMF0qdU1S40QGVDkFTwKdacY27SAFDKbirVewQ=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=rW/gABhSVlyzxAKMOF4N+GXMfsVG02SG5wHYuw3COAlpOMCFeBO+GtK8mQ1SoeI95hLiQRN1DDBgQiAAeaTYf9aLRzOsz274uMwZflnW5k25/qHg9rv8qT/iGL1Qu2GD6/Z9LI8lJgjIaJOmYAReXvY0bP9ZFPEi7nrWSaeRm7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=wRZEtqG1; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D1pgIpMS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4892EC2BCAF;
-	Tue, 28 Apr 2026 22:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777416083;
-	bh=894KP7uVDQasDSxR7Z4NTlupcvWoaSM9qjYWeIWI2/0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D1pgIpMSnQWdAJYBjZHCSR0v1+4N97AGM7G95mbGoQoNojIuaspKT6JtPwdKt9x+i
-	 j06gv09eYP0yFqA2d4VueDYGl8I++4/np3Zoz1oVG6Kb2P2u2qGT+HWGdnRBIQSoFM
-	 tH06RKUkNY/gr0BUOSI05DytkNa1F8GTW2/qr0PPdWsfTaXNPkawU8F8QQkSdjQIvV
-	 sLyAUCvr/xvYcQ4UoFWqG7F0T9HtJb2PLYvSXzwJgS5uyz8Y4UTSMFg77YU2dw6zEp
-	 eQDS0KJo+A4bjT6W23JEFn9n0M+9xFlmJ18Nx3KmMdmMjOAnSFvoiJIll+IzdZEXUn
-	 tmKlhZ6SPPbRg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] driver core: move dev_has_sync_state() to drivers/base/base.h
-Date: Wed, 29 Apr 2026 00:41:18 +0200
-Message-ID: <20260428224118.2729980-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260420234153.2898532-1-dakr@kernel.org>
-References: <20260420234153.2898532-1-dakr@kernel.org>
-X-Patch-Reply: applied
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="wRZEtqG1"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=xX0viIPInKzZ41oL478Oobdtorp+A0qdchKgB4MiC+Q=;
+	b=wRZEtqG1ojzHisLsXlxwRdn5+Jd5rHXE0MjAblypteB/4bP6N7dY8K21sfS5P7ly81FOyw/br
+	+XvZYTvTsjMIkOWPKa2WMJGGARA4Rrs1RTZvJr0EnSiuUngmfpopv1U5etxTXFX5Ufm5QwPFXdA
+	iwWjvTtUImaOvMTxi+2vwng=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4g52C92vVHzcZxk;
+	Wed, 29 Apr 2026 11:01:57 +0800 (CST)
+Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 95FDD4048F;
+	Wed, 29 Apr 2026 11:08:52 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 29 Apr 2026 11:08:52 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 29 Apr 2026 11:08:51 +0800
+Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison
+ accounting lookup
+To: Muchun Song <muchun.song@linux.dev>
+CC: Muchun Song <songmuchun@bytedance.com>, Vishal Verma
+	<vishal.l.verma@intel.com>, Ying Huang <huang.ying.caritas@gmail.com>, "Dan
+ Williams" <djbw@kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>,
+	<linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>,
+	<driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>, David Hildenbrand <david@kernel.org>, "Oscar
+ Salvador" <osalvador@suse.de>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Rafael J Wysocki <rafael@kernel.org>, "Danilo
+ Krummrich" <dakr@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+References: <94F5B89A-008A-4EDB-920F-31B4895C2699@linux.dev>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <c6e1df1e-be5e-2468-d46e-453985ba1e79@huawei.com>
+Date: Wed, 29 Apr 2026 11:08:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <94F5B89A-008A-4EDB-920F-31B4895C2699@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-On Tue, 21 Apr 2026 01:40:44 +0200, Danilo Krummrich wrote:
-> [PATCH] driver core: move dev_has_sync_state() to drivers/base/base.h
+On 2026/4/28 21:52, Muchun Song wrote:
+> 
+> 
+> 
+>> On Apr 28, 2026, at 20:34, Miaohe Lin <linmiaohe@huawei.com> wrote:
+>> ﻿On 2026/4/28 19:40, Muchun Song wrote:
+>>>
+>>>
+>>>> On Apr 28, 2026, at 19:37, Miaohe Lin <linmiaohe@huawei.com> wrote:
+>>>> On 2026/4/28 16:52, Muchun Song wrote:
+>>>>> memblk_nr_poison_inc() and memblk_nr_poison_sub() call
+>>>>> find_memory_block_by_id(), which requires device_hotplug_lock to
+>>>>> serialize the xarray lookup against memory block removal.
+>>>>> Take device_hotplug_lock around the lookup and nr_hwpoison update so
+>>>>> the memory block cannot disappear between xa_load() and get_device().
+>>>>> Fixes: 5033091de814 ("mm/hwpoison: introduce per-memory_block hwpoison counter")
+>>>>> Cc: stable@vger.kernel.org
+>>>>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>>>> Thanks for update.
+>>>>> ---
+>>>>> drivers/base/memory.c | 10 ++++++++--
+>>>>> 1 file changed, 8 insertions(+), 2 deletions(-)
+>>>>> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+>>>>> index 6981b55d582a..f76aee29e9a5 100644
+>>>>> --- a/drivers/base/memory.c
+>>>>> +++ b/drivers/base/memory.c
+>>>>> @@ -1228,23 +1228,29 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+>>>>> void memblk_nr_poison_inc(unsigned long pfn)
+>>>>> {
+>>>>>    const unsigned long block_id = pfn_to_block_id(pfn);
+>>>>> -    struct memory_block *mem = find_memory_block_by_id(block_id);
+>>>>> +    struct memory_block *mem;
+>>>>> +    lock_device_hotplug();
+>>>> memblk_nr_poison_inc() and memblk_nr_poison_sub() are both called from memory_failure() context.
+>>>> I'm afraid if memory_failure() is triggered while lock_device_hotplug is held, it will lead to
+>>>> deadlock. Or am I miss something?
+>>>
+>>> I am curious is there any place where memory_failure() is called with holding lock_device_hotplug?
+>>
+>> Sorry for dumb scenario, I was a bit too presumptuous. But there might be another possible deadlock:
+>>
+>> remove_memory
+>>  lock_device_hotplug <-- first called here
+>>  try_remove_memory
+>>    remove_memory_block_devices
+>>      num_poisoned_pages_sub
+> 
+> Passing pfn = -1 here.
+> 
+>>        memblk_nr_poison_sub
+>>          lock_device_hotplug <-- deadlock here
+> 
+> No. Can’t reach here. No deadlock.
 
-Applied, thanks!
+Right, I missed that. Thanks. But I'm still worried that there might be potential issues.
+For example, this function could be called while lock_page is held. Acquiring lock_device_hotplug
+while already holding lock_page might cause problems, though I haven't seen any specific issues yet.
+Also there might be some other potential scenarios that haven't been considered. Hope I'm just
+overthinking it. :)
 
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
+Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
 
-[1/1] driver core: move dev_has_sync_state() to drivers/base/base.h
-      commit: 9db268212e0d
-
-The patch will appear in the next linux-next integration (typically within 24
-hours on weekdays).
-
-The patch is in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
+Thanks.
+.
