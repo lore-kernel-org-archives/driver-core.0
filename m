@@ -1,144 +1,95 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061513859E2
-	for <driver-core@lists.linux.dev>; Wed, 29 Apr 2026 04:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022D718A6D4;
+	Wed, 29 Apr 2026 08:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777436350; cv=none; b=iQE0W4xWK/FKrzWVBWfmONLxMscqmxv3tLImDc9MPPLE8TxHE8vrx6AlYMN9j2CkaVLwcRLhHxCUDPJQnaeWRMSPuOooAh8dM75ZCg47ifOCpLMc0LTUzNhXkfQZheTYMCSLRWJMGCysss4mpG8bFbDL5Ksw2o0XfEckp+QJUpI=
+	t=1777449854; cv=none; b=iAaxCmH6kMnrnKjfaMQu0KODEmbLOmNa3/tE186n7g4i9VqIO+HBu7ANOwr2if/OtPr3z4ZuqtLho9T2aO15ODBz2txLIBY3VdT4i1EWLrIpFwubG1mzZcXrGlKJXXqDc1wKjuPVPYVPBfiifQZKJxRefy6ZK8T0+u80PuMOg8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777436350; c=relaxed/simple;
-	bh=bw0qJOox+Dck+nB+/7DVwghKkNsp1T7hgyHMM4i1Wb4=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=GbhRji63dUQChkreMRYDhiVumoCxtgF0kleSJPECx9Uhvyewd/YlV8PxD+rjYJ+Tguj3Y3skEYKpxJ0l9/PX4jOPocyzWgi+ANAoSPcAQHdfFchBTO8GOBnUv/Zqf2jc8TpS7WkgU//CvheJYJoswkwNqwNVGC7+nNWT7oGCtsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WP7MpNsD; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777449854; c=relaxed/simple;
+	bh=GGIlJocKNB3iRq8vZ2TS6Y48JRlqzlQLb6ETaP74nU0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qVAGoIIjsEkWGkbdcBtFklhKPfBkSS8xypB7wywM+OYGV55mZjDcRNAFu2Byhs4vp05ePaed6VbEsSuqkWf/24yMIUDfR8wrUMSweLcAALzAzo6BHD1rKSJevylUs7uc0Ovc4Ps2/+6UnFTMn1LLidzgYh7FU4gYAXIYAo1Vdcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LeUJuCmi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WP7MpNsD"
-Content-Type: text/plain;
-	charset=us-ascii
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777436343;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OgdkPDsgSgyFBEabURf3W75QiN4fDtGI45IFE9lTYH4=;
-	b=WP7MpNsDlyw+uUIvXwQLhMDusj9kfWjZhgawN6yMi1hHqW0eD31IZPqp3Cwh+IbLopMsho
-	2yl/q6fB1znPpkEvLkzL3zkFgSMcooH0E3cFH3R/OrL77HAcmH8dUMWNPRTehx5bIagm+S
-	jSIsJEnan3SMjR2iEK4BVFruFG1ya/g=
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LeUJuCmi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06159C19425;
+	Wed, 29 Apr 2026 08:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777449853;
+	bh=GGIlJocKNB3iRq8vZ2TS6Y48JRlqzlQLb6ETaP74nU0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=LeUJuCmic1zvLoN87Fkn17i0m2S/j3AsHuwJQ+ZKmDHh0X/bfkURdCdh9kz0hcv5S
+	 bldFD+DqtrolQRrFA2GkXnLJXwrM8TQNOhh29xnE2m+NtVKt4pHuDIi6NsJl0iEzVE
+	 zqUBQ2j5fljSSjhvICtZmlP0APNRn4dLF/p31aw5BmZ0uSf9fmCLH3TI4Q33YYO+VF
+	 SHQD4q7hlTbAsUHuHKvzTsPnQU5vgJ82xRv7mmNrs0c3wPDzzzGOMCOMWKmb36lftZ
+	 Z4sDeZbHU/MYtVmsSfob24lP7eJ+0pE0kz7jdnTkEqaTgvsHheCQEwGjclJqKvJtG8
+	 3wCesWXFOxACA==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ =?utf-8?Q?Bj=C3=B6rn?= Roy
+ Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice
+ Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel
+ Almeida <daniel.almeida@collabora.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>,
+ Abdiel
+ Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 05/11] rust: io: restrict untyped IO access and
+ `register!` to `Region`
+In-Reply-To: <DI4VHH97CABG.3VW1RVS2O10K7@kernel.org>
+References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
+ <20260421-io_projection-v2-5-4c251c692ef4@garyguo.net>
+ <874ikvqwyd.fsf@t14s.mail-host-address-is-not-set>
+ <vYp32vOGPut322JQ-5jSBZQNd6eXvnOvg8b6YDhYcYzBqTBVUvSajCJng33oXSQ9wiMvb62VLERzLYSa4g2pJQ==@protonmail.internalid>
+ <DI4QT2U1098S.3K9K7INQ86M0Q@garyguo.net>
+ <87tssvp9sq.fsf@t14s.mail-host-address-is-not-set>
+ <DI4SY1NXU1XW.2VHPFEKIFBQVW@garyguo.net>
+ <87ik9bp2og.fsf@t14s.mail-host-address-is-not-set>
+ <DI4VHH97CABG.3VW1RVS2O10K7@kernel.org>
+Date: Wed, 29 Apr 2026 10:04:02 +0200
+Message-ID: <87fr4ep4zx.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
-Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison
- accounting lookup
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <afF7vI_fNXs4mCVA@localhost.localdomain>
-Date: Wed, 29 Apr 2026 12:18:08 +0800
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Ying Huang <huang.ying.caritas@gmail.com>,
- Dan Williams <djbw@kernel.org>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- linux-mm@kvack.org,
- linux-cxl@vger.kernel.org,
- driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- David Hildenbrand <david@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rafael J Wysocki <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <A3EF6D95-E3B9-4228-9AED-A7018ED494C5@linux.dev>
-References: <94F5B89A-008A-4EDB-920F-31B4895C2699@linux.dev>
- <c6e1df1e-be5e-2468-d46e-453985ba1e79@huawei.com>
- <afF7vI_fNXs4mCVA@localhost.localdomain>
-To: Oscar Salvador <osalvador@suse.de>,
- Miaohe Lin <linmiaohe@huawei.com>
-X-Migadu-Flow: FLOW_OUT
+
+"Danilo Krummrich" <dakr@kernel.org> writes:
+
+> On Tue Apr 28, 2026 at 4:41 PM CEST, Andreas Hindborg wrote:
+>> That is probably a good call =F0=9F=98=85 Going over the pieces again, I=
+ am not
+>> sure when and where I decided this was an index rather than a byte
+>> offset.
+>
+> This is not the first time I see someone stumble over this, assuming this=
+ has
+> index semantics, i.e. I assume there might be something creating this
+> impression.
+>
+> However, I can't see what that might be (probably I'm too used to the C
+> primitives). In case you know, I'd be interesting for me to know.
+
+Not sure, I think I just conflated things from `CoherentAllocation`
+where we used to have `item_from_index`. Once the mind is in that frame
+of understanding, it is easy to read `ptr.wrapping_byte_add` as
+`ptr.wrapping_add`.
 
 
+Best regards,
+Andreas Hindborg
 
-> On Apr 29, 2026, at 11:32, Oscar Salvador <osalvador@suse.de> wrote:
->=20
-> On Wed, Apr 29, 2026 at 11:08:51AM +0800, Miaohe Lin wrote:
->> Right, I missed that. Thanks. But I'm still worried that there might =
-be potential issues.
->> For example, this function could be called while lock_page is held. =
-Acquiring lock_device_hotplug
->> while already holding lock_page might cause problems, though I =
-haven't seen any specific issues yet.
->> Also there might be some other potential scenarios that haven't been =
-considered. Hope I'm just
->> overthinking it. :)
->=20
-> lock_device_hotplug is a mutex lock, and we already take other mutex =
-locks while
-> holding lock_folio in other paths, so I am not sure I see what should =
-be special
-> in this case.
-
-Hi Oscar and Miaohe,
-
-I saw sashiko's report [1] related to folio lock and =
-lock_device_hotplug.
-Seems it is possible. You can correct me if I am wrong.
-
-[1] =
-https://sashiko.dev/#/patchset/20260428085219.1316047-1-songmuchun%40byted=
-ance.com
-
-We could fix this by calling action_result() without holding folio lock.
-What do you think?
-
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index ee42d4361309..bc76066547ce 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -2534,8 +2534,9 @@ int memory_failure(unsigned long pfn, int flags)
-         * Abort on fail: __filemap_remove_folio() assumes unmapped =
-page.
-         */
-        if (!hwpoison_user_mappings(folio, p, pfn, flags)) {
-+               folio_unlock(folio);
-                res =3D action_result(pfn, MF_MSG_UNMAP_FAILED, =
-MF_FAILED);
--               goto unlock_page;
-+               goto unlock_mutex;
-        }
-
-        /*
-@@ -2543,16 +2544,15 @@ int memory_failure(unsigned long pfn, int flags)
-         */
-        if (folio_test_lru(folio) && !folio_test_swapcache(folio) &&
-            folio->mapping =3D=3D NULL) {
-+               folio_unlock(folio);
-                res =3D action_result(pfn, MF_MSG_TRUNCATED_LRU, =
-MF_IGNORED);
--               goto unlock_page;
-+               goto unlock_mutex;
-        }
-
- identify_page_state:
-        res =3D identify_page_state(pfn, p, page_flags);
-        mutex_unlock(&mf_mutex);
-        return res;
--unlock_page:
--       folio_unlock(folio);
- unlock_mutex:
-        mutex_unlock(&mf_mutex);
-        return res;
-
->=20
->=20
-> --=20
-> Oscar Salvador
-> SUSE Labs
 
