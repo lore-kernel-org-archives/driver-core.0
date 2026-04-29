@@ -1,95 +1,122 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022D718A6D4;
-	Wed, 29 Apr 2026 08:04:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FAC3B8955;
+	Wed, 29 Apr 2026 09:38:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777449854; cv=none; b=iAaxCmH6kMnrnKjfaMQu0KODEmbLOmNa3/tE186n7g4i9VqIO+HBu7ANOwr2if/OtPr3z4ZuqtLho9T2aO15ODBz2txLIBY3VdT4i1EWLrIpFwubG1mzZcXrGlKJXXqDc1wKjuPVPYVPBfiifQZKJxRefy6ZK8T0+u80PuMOg8s=
+	t=1777455533; cv=none; b=dLo0MEe8S0B4ZWZUSsjiQTEyER9g6UShnIbhfxasnC7Jo55yvlu8tCU/d1gUNMh8vU1QOFOL6bC9vWOiQkSXxQ/na/Q32NRyYw04ZZ1t3VF7OfpJ71it/DYiFXVTH3w8KygbtoWHgQvg9eUSneQZhpGrHvxG4tARrY8bfXNQvxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777449854; c=relaxed/simple;
-	bh=GGIlJocKNB3iRq8vZ2TS6Y48JRlqzlQLb6ETaP74nU0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qVAGoIIjsEkWGkbdcBtFklhKPfBkSS8xypB7wywM+OYGV55mZjDcRNAFu2Byhs4vp05ePaed6VbEsSuqkWf/24yMIUDfR8wrUMSweLcAALzAzo6BHD1rKSJevylUs7uc0Ovc4Ps2/+6UnFTMn1LLidzgYh7FU4gYAXIYAo1Vdcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LeUJuCmi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777455533; c=relaxed/simple;
+	bh=UYLe+Qx25A8v7VB+wy7G+C+L2zGH6z6ujt+Hu+Js9H8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bLO+mnmRd3NWYp8WywUeci164OJNfONuOHDkJQX74oMZ/7AzeEmH6K6byQEm/fxgjkq0lO0W4jhHkjRSl/YWLUNgiwF1JUnijwtlxlGItESmbKBExdAIyaokWL7PT8G2KRaoYr/YSG2V5O7BX4tv5G58Acl6PNy5+ZhGloQzF+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gKiYX7b6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LeUJuCmi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06159C19425;
-	Wed, 29 Apr 2026 08:04:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gKiYX7b6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1183CC19425;
+	Wed, 29 Apr 2026 09:38:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777449853;
-	bh=GGIlJocKNB3iRq8vZ2TS6Y48JRlqzlQLb6ETaP74nU0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LeUJuCmic1zvLoN87Fkn17i0m2S/j3AsHuwJQ+ZKmDHh0X/bfkURdCdh9kz0hcv5S
-	 bldFD+DqtrolQRrFA2GkXnLJXwrM8TQNOhh29xnE2m+NtVKt4pHuDIi6NsJl0iEzVE
-	 zqUBQ2j5fljSSjhvICtZmlP0APNRn4dLF/p31aw5BmZ0uSf9fmCLH3TI4Q33YYO+VF
-	 SHQD4q7hlTbAsUHuHKvzTsPnQU5vgJ82xRv7mmNrs0c3wPDzzzGOMCOMWKmb36lftZ
-	 Z4sDeZbHU/MYtVmsSfob24lP7eJ+0pE0kz7jdnTkEqaTgvsHheCQEwGjclJqKvJtG8
-	 3wCesWXFOxACA==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice
- Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Daniel
- Almeida <daniel.almeida@collabora.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>,
- Abdiel
- Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Alexandre Courbot <acourbot@nvidia.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 05/11] rust: io: restrict untyped IO access and
- `register!` to `Region`
-In-Reply-To: <DI4VHH97CABG.3VW1RVS2O10K7@kernel.org>
-References: <20260421-io_projection-v2-0-4c251c692ef4@garyguo.net>
- <20260421-io_projection-v2-5-4c251c692ef4@garyguo.net>
- <874ikvqwyd.fsf@t14s.mail-host-address-is-not-set>
- <vYp32vOGPut322JQ-5jSBZQNd6eXvnOvg8b6YDhYcYzBqTBVUvSajCJng33oXSQ9wiMvb62VLERzLYSa4g2pJQ==@protonmail.internalid>
- <DI4QT2U1098S.3K9K7INQ86M0Q@garyguo.net>
- <87tssvp9sq.fsf@t14s.mail-host-address-is-not-set>
- <DI4SY1NXU1XW.2VHPFEKIFBQVW@garyguo.net>
- <87ik9bp2og.fsf@t14s.mail-host-address-is-not-set>
- <DI4VHH97CABG.3VW1RVS2O10K7@kernel.org>
-Date: Wed, 29 Apr 2026 10:04:02 +0200
-Message-ID: <87fr4ep4zx.fsf@t14s.mail-host-address-is-not-set>
+	s=k20201202; t=1777455532;
+	bh=UYLe+Qx25A8v7VB+wy7G+C+L2zGH6z6ujt+Hu+Js9H8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=gKiYX7b6+RorGZIiBdCqYmEa7Zz6HOBaHL5zOGCrGVQmwT+RLdEhDb8NVSyXluOcv
+	 NO8JQ//p6OigMgATtXwl3SMPKssufasLmmA50SiBgT3m2YUtaCsPjdhKijmBPkOKYC
+	 IMj8Vbgttha9sAlKcY0F9fgiklqvtX0pDTNMG8lrBEX5yqRgSEXvqIdIiBFGckBdIU
+	 wWt9W6vtPkaBuz/Ewq/HZdY0+U17u4yfjfR6pUpmgf0N9M9ioWzW/yM2cieyKmUqEk
+	 3Ms/Shg5vta/wND5c1sJvW1HbaOU5fS9X4qjMnhJUSCMmBS2nXMTpa4aO3A9epygBY
+	 BYOX6DiKiMh9A==
+Message-ID: <0a16c8dc-3155-4886-8aa1-2d7dd3e3e13a@kernel.org>
+Date: Wed, 29 Apr 2026 11:38:46 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] mm/memory_hotplug: fix memory block reference leak
+ on remove
+To: Muchun Song <songmuchun@bytedance.com>, Oscar Salvador
+ <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Vishal Verma <vishal.l.verma@intel.com>,
+ Ying Huang <huang.ying.caritas@gmail.com>, Dan Williams <djbw@kernel.org>,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
+ <nao.horiguchi@gmail.com>, linux-mm@kvack.org, linux-cxl@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, muchun.song@linux.dev
+References: <20260428085219.1316047-1-songmuchun@bytedance.com>
+ <20260428085219.1316047-2-songmuchun@bytedance.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20260428085219.1316047-2-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-"Danilo Krummrich" <dakr@kernel.org> writes:
+On 4/28/26 10:52, Muchun Song wrote:
+> remove_memory_blocks_and_altmaps() looks up each memory block with
+> find_memory_block(), which acquires a reference to the memory block
+> device.
+> 
+> That reference is never dropped on this path, resulting in a leaked
+> device reference when removing memory blocks and their altmaps. Drop
+> the reference after retrieving mem->altmap and clearing mem->altmap,
+> before removing the memory block device.
+> 
+> Fixes: 6b8f0798b85a ("mm/memory_hotplug: split memmap_on_memory requests across memblocks")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Acked-by: Oscar Salvador <osalvador@suse.de>
 
-> On Tue Apr 28, 2026 at 4:41 PM CEST, Andreas Hindborg wrote:
->> That is probably a good call =F0=9F=98=85 Going over the pieces again, I=
- am not
->> sure when and where I decided this was an index rather than a byte
->> offset.
->
-> This is not the first time I see someone stumble over this, assuming this=
- has
-> index semantics, i.e. I assume there might be something creating this
-> impression.
->
-> However, I can't see what that might be (probably I'm too used to the C
-> primitives). In case you know, I'd be interesting for me to know.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Not sure, I think I just conflated things from `CoherentAllocation`
-where we used to have `item_from_index`. Once the mind is in that frame
-of understanding, it is easy to read `ptr.wrapping_byte_add` as
-`ptr.wrapping_add`.
+-- 
+Cheers,
 
-
-Best regards,
-Andreas Hindborg
-
-
+David
