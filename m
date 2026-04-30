@@ -1,282 +1,117 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022096.outbound.protection.outlook.com [52.101.101.96])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D58C402430
-	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 11:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777550058; cv=fail; b=JVZ2zQCOjmuIrc8SaGs+90KbMPM4xPhb5HXWZA7JJCVxW7EOjK2cOMcRr//XSKrzsL2vTWZ1pDeTEN71Tbgee48P/eHBG/jtDe4QXaiYhp/iNIQ3n2+EK7cNzEdr+rHzWul//dVKLITMQ4H1gh1OKYU8pLHxqfPavaUXprqtFJk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777550058; c=relaxed/simple;
-	bh=+wpg1MKEVoMy70dCWsHGJpgr+c3U1tacDnLM0yhz98s=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=F7YI7xcW4oxxz6xjUVEESPJz1GSODGlpbEKWtM3HQhvygigOtqFU/nvm/eSJsoTDLWv/UAh2ed57Cu8GYus9qO7MOxhwBOyQ1aorUOpSP/pdpWSr7BhMTae+F0K+zNDcjxV+8hDkeTpjtdlql7ECxq/lzVVY/x74xnX0qM8dS24=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vGgQ9C0+; arc=fail smtp.client-ip=52.101.101.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DDB383C65
+	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 12:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777550537; cv=none; b=e4abriWBnV7LpNOUuSTzn5ErRO5qTbhSCMI+RYy4iZuMzYkKZFpGlsknFvAvpnf8FdmkntJFG4Wx3bjOb05fU7ZS24QuqDJkmCV8hDAIYo29cDTmjS2q8KYkspaCmgCZmhe80AreFFr/Er2OeKATyF8DcDWnrtRfbl8mO70Kuqc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777550537; c=relaxed/simple;
+	bh=DfIVt+5jRdwB3q68pELtsG2fw1U9ElqZANdJf9i3wFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yh+6lZbMELSx21biPGdbkOE4QlWLDqItxDC6QMvUjCsI4LrEMxTR1aMxFQ9+pTudsHHY7jsTWkY0N/trV9DpcMf91YvLuvJkjz+CqupXhd7PtQNEfTVWKCVWdkVN7TnM6PssSQ+VjkVP3vwrekEHbgmkQd1F7eCOeM9xOU7lAqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5QbOYDu; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vGgQ9C0+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A+6ZtmEo/aFcBTSe5j2kvN46MmpV7rIIoLikGDwDnbOmT/5k5KgdwDX0lAbZ0byqI+foVDQAaPlz3c+XxBPQngiJ439aSLVFytmD9afQhBGOWWou2gcvjFg/zV06A6aWr2A+i1sCcq953PGnk4Cq0Mn0qLdUSCEot3CxkvgcU9BB6nd8PYGcsI9drr4Nb/hr/b0k6Yb/jsFbRgfmDk3AXOjlxLZk7DABGQMLLZEvFA1gfJtxYwD5I5ZcYnwzcqu+yXV0ujxWgMJVjhQvlMWt/2dEVf82k8AJ3819GqXYN8or7eCkbNA1LSEC9/bJ/1j0fBUHdUpIUnvPfvaGtir/Zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7p7CHnyYewfGs2rCmgs3lupW6G/2UtHPejBZiDJGqqE=;
- b=qzFCC8yTjcxhKzwByE3UhLPlhSm2f7W5WIhiwP+VfnjhK25C76M0UgNWaFGyv6Fag7o9Te0RMBweEa1hEfuj7WM/OLDUA6JFXyZDbVULhftDRGl7IvvdZ7eiOK4U8zdf8cG5UsrlCx8cSclVPyJ9QvA3ngA8TCRs0dnjFfN0XwiUztGWl15Ervi7w9indegSmyVEfsw4nOXXYFgEMfuQwmSLyyAJKtKTPH1qENcjqFT/zXPuiOBBtXEyOYrSUsFXB2ltgiViTNaGUF7XlGAoAT0cDRdmPQ3oA80czYgCmyN5kvII9+YD1ypRFIaCp5uelGk3fajEquyQGMaUsX8HaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7p7CHnyYewfGs2rCmgs3lupW6G/2UtHPejBZiDJGqqE=;
- b=vGgQ9C0+Z2no8bAuCCYtIzBPtclqFg3tcfBAk9re0PI74evviJXKiWvIlK3xRHWzBxBr+KdnLBJLKudRw0L8nNcMu8GJd1iVfMdqzTgX5PnO3fRisnqjWVJHHumZgjJDIiK2l2ccB523mQQZq9d1SZ21iX3uZAZLdrOw/ymiqB4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB7531.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:214::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.21; Thu, 30 Apr
- 2026 11:54:06 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9870.020; Thu, 30 Apr 2026
- 11:54:06 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 30 Apr 2026 12:54:05 +0100
-Message-Id: <DI6GWHHRIPDV.1R8KJL5AOUG5T@garyguo.net>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
- <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH 1/5] rust: ptr: add panicking index projection variant
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net> <20260415-projection-syntax-rework-v1-1-450723cb3727@garyguo.net> <DI5LLN2V3XCS.34H4CG99N4MPA@nvidia.com> <DI5LRCUUKJJW.24ZCQBQYEPPVZ@garyguo.net> <DI6G9FSQHM1B.4KGHIQWPC94J@nvidia.com>
-In-Reply-To: <DI6G9FSQHM1B.4KGHIQWPC94J@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0016.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:150::21) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5QbOYDu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777550536; x=1809086536;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DfIVt+5jRdwB3q68pELtsG2fw1U9ElqZANdJf9i3wFk=;
+  b=P5QbOYDuztlxcb/p+cKad42MlSCpUkX2vX96yG6o09xwfIqOoZkQG+Wk
+   oSLoxXGVnXYeDneDfe2oIdKuwLhFGlpKeZdGQ1upz/kzg5toFKZ0duyly
+   AWRN2lgAMRIC2aZPy/6HcK5D8ydiSxkMZVeMehLsxR3uSCSE92cAFHTN1
+   kC9m3z64DDlWRzRFU55LN9w4M9prMmyQqOj3VKYBj8iA/77fIsQjne07w
+   9arnsZ6sbR9GiYdDAsWFVKv0zDqnTnjTOXYUQH4HJjwWpkMbRgIW43Vgy
+   34Czndt7MeTHIt78minuBsxKcgjVeJCAL30ZExl7k1496vk411ftAv0N1
+   g==;
+X-CSE-ConnectionGUID: /ecXU/nJQo230q8wWapgXw==
+X-CSE-MsgGUID: N5cFijWfRXa4MHDxfVvZ1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78420000"
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="78420000"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:02:15 -0700
+X-CSE-ConnectionGUID: ERLcUKGtSKKEJ7ZYT49e1g==
+X-CSE-MsgGUID: UvLhpo3tTeS/LXvSz4qhnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="236343975"
+Received: from zzombora-mobl1 (HELO localhost) ([10.245.244.42])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:02:12 -0700
+Date: Thu, 30 Apr 2026 15:02:10 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>, brgl@kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Subject: Re: [PATCH v4 1/3] driver core: platform: remove software node on
+ release()
+Message-ID: <afNEwrHLNTA4ywrN@ashevche-desk.local>
+References: <20260430-swnode-remove-on-dev-unreg-v4-0-01574da0aed3@oss.qualcomm.com>
+ <20260430-swnode-remove-on-dev-unreg-v4-1-01574da0aed3@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB7531:EE_
-X-MS-Office365-Filtering-Correlation-Id: f600b1a2-0c3f-4f49-4ab1-08dea6af2e2c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|10070799003|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	RugDp7lQdPlJ6mZmiVQrpF1EAVtMEzhPgypFkWZ7GKXdu0uO1HcGQvAtw6mfISmZk8/0BZLSaxLsPzifWcHonJU6BrmS3J9FCQNjuUA39gRj1o15roJaNb6L+LJ4IoTuvkTt8W06ZFyl1HJYxeHm/cRwsWipGcMIkz671siB/I6w1eS7+DioHdcuGwFNIpozpKJj+g6DemXUUrQQQdI6VQiv3/mgjo2XGvAqmlUvONIpro9kSKfPVt8einH+oQcZgN9K0lCjaDHOqqFK+vj3txA7ieDFm20X9e5oiSLpZ7EHaIYK0H/ulX4bp1sg6nWslR1wUq6F4Z5SCxkoQimoyejB2rtOa2NN35vVsxE4QCWfoFVS7aPu5zUICBxOGajmKeTVzwIi/Np86bC5Qj5f7K1J8/Kq2RT6WZGruWWSmu3xVEUI9thffI94MvMbjXOhNOmceyPeMw0L4OH7XIMO5AR7AORAhzF+iqcig1Mm1po0vnLywHGcoP7WmTl6i9G9Erq4i4U3ya8uysiI1RlrVYNYyWEGFuya5Ytke6MGGyiBtaWHN54cSfoqahB7uRcNR0mmNyFPNlevOen1NykdbPpYOUAMiSYg6QVRbwO3GRc4cMpqpaKeUUHjTB384eolP8ChPBbgGTWsL8kXuI5TWnDJMZmux9Vi62V5GQUVlAi+GSvdtBz81xy8wwTcYiDaM2DzYvoxaIc3oEOv9NnnF4hiOoYRTBKTIq8adHY451Q=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(10070799003)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZW5mOWQveERGb3NaNmxudDZJdnZ5QzkyanZJMUp6azl6R2tlYnFzOTVIZktl?=
- =?utf-8?B?aDduSjlQT0tlNXdhcVcwVzVQa05ZT2lqUEN6VThSdEhNNDdkdlZVM0pYanox?=
- =?utf-8?B?Q3A3RzJvdXdnUURxUUUyaU43U2JIV3Vsb0RveXhtNERka2dDQVBVUFAyd0tW?=
- =?utf-8?B?VnVuUjg0UTFUMlNMODlQM0ZMbXIwN2NtSC9pbm9mUCs0V2l1T1NDbDFLdE4r?=
- =?utf-8?B?NnRnaEY4MlFWdjVTbnRudlluckN3ZWtnd0IrNFNRZzE1SXZuaWVqNVByT0Fv?=
- =?utf-8?B?QXBGOVdtRkpkZDJKNmRUZ2VwemdlbXoyTGRrQ3hueW53Y0RNQU55ejlHYkxW?=
- =?utf-8?B?YlBKQ3hKT2h6cXZLUU1pNHRkY0lMa1JjM09WYnpGVU5vajZNS0dHOGw3OXl3?=
- =?utf-8?B?UUFQb0RuQVFGUmMrMFVGczdiYTZCeGY5cU5iRzlQSmZPa2FwZkM4aDNGVzQ0?=
- =?utf-8?B?UFZWajY4RUxaVkNhMjdUVjhBZ3RsN2NjNjYyUHZSa3hyNzJGNHFQQWxlb1V1?=
- =?utf-8?B?Mk0xNDg3WXhYbFJxQUFCMW9DNVJxTGJVNkxUQ3c4cGVNUUMySW1pc2hITzM0?=
- =?utf-8?B?RW8yVDdoUUdHeWFSWUJVQzZ4VXRUVDNXZCtaV3RRY0tNbGRxOGFlY1RnU3RY?=
- =?utf-8?B?QytOcmRzczJJNEsrV2pjblEvTGRmS0tQWFkxbkZKMTBTamNSNGJiandaMGtF?=
- =?utf-8?B?eWNZekk0ckdqTjA5OGh4a2RUQ3VQQU9sR3VTOE5la0hDNHI4UDg1VjJXL2Ev?=
- =?utf-8?B?QXBiWkF3c3AxTFZ3VTE0MzhoQ0tPNVVxejV1cGlTSTNKMTMvc1h0a0NrWW1m?=
- =?utf-8?B?bFJpMlZOSWMrQ1BBb1pBczRDUFlhVkVxbmY3UjFXS2I2YVNaeG5lUkdkczZL?=
- =?utf-8?B?NkU4SkRzUUpNcG5aRGVyL253eUxUSWhpbmJzUTYvN2hscTRjaVo2UGdTbFUw?=
- =?utf-8?B?R1VLTXp0M2dlQ1FoaS9XMnd5NlpwYjljVWEzTTJJcnpOMmhEZWNjWG5ab3FY?=
- =?utf-8?B?Y1l6WWg0SlJKQzBRUGhBT2NzdWZQT0tqUEg5OUNGSzV3eWhxazJHVzVGN2Za?=
- =?utf-8?B?MGFLMzA3bGUxWG5NUW1CVmZHd2JsdzNqY3FiRlVSNElBaTBkSlFTdlNZWUdH?=
- =?utf-8?B?R0JoZXlPUXVuaEwyOTgxaCtWV0ZsTXJYbCsvNndaUFZMZ2xRSUVsS3RWOTRM?=
- =?utf-8?B?Vm9aQ0Y4dTFJOWd0dlZZNEhzd2QvZXFYUHJEbHgycDg2NlRkb1orWTBEVXNL?=
- =?utf-8?B?NFR5V3Z0YmpCYitCaCt1anNOVGhUcTFzOEpiZC9LVGErMHVqM0gwR1VMak9F?=
- =?utf-8?B?dTM3ZnVGdGJwSDkrcVMyY01Qb0NaaG9ZT3NjQ3lTa1BpN1N0bzk1SmkwYjdH?=
- =?utf-8?B?bXlGZHJFYUw3TEorb3ZYRWNBRWdQOENQWmU5dHdFWFNMRGduYzdPV2hPWE9D?=
- =?utf-8?B?WVE5MDdRQnBGTHU5ZzF5SUs5WWI2UVBYbTRtcldMYXZ2eUxhRlBuMlZvMEVx?=
- =?utf-8?B?bkEwV1lSYlhnWWYwVTdyTzFNNE5nUXJhOEl6Skd5NHdjU1poNU5MQ3oxd2tS?=
- =?utf-8?B?aW0xU1oraTNSRFJkZUlLdHpORkdYUkFiTVhkZXhISkF6RS83MUZzU2syUWp0?=
- =?utf-8?B?d25XUFJXWjR1SHpvZjUxZDNwT2lzLzRaZDFYSkFvckduVnVraCtRTmIrVVJP?=
- =?utf-8?B?SE45NndKYW5RTmRZS2ErYjgzYVFGMHMzaE9VZDJLWkpZeFczaTZmMVdDZEpp?=
- =?utf-8?B?YldpUEs0WFNYcEdVTDJiUDFIRlNlTUFMSWRRaFBqc0xqZGVNRHRrdnQwSEtq?=
- =?utf-8?B?MEJZYXUwMFMwMWc0RUdBOXNtRDVDVTE1cWh6NWFXYVhSVGJxK0laTHFmV1la?=
- =?utf-8?B?UGc4K3pJUGV3ZDdCb0xwdEZoeHFrUi93NnZtaGoxYXlHWkdiRlRpMWRnazVn?=
- =?utf-8?B?Q0ZaeWN6Y01BMnJONURERmxmZ0JjWWl0MmY5UE12NE55VHd5eTdlUHVQbWV3?=
- =?utf-8?B?OU5SaXh4UnhHSU5zd1dPWGJHZ0IyOWdFTGtvWUxTanR3bE95NlR4RWhGNmpS?=
- =?utf-8?B?UXpNY2ttc0trVzZVcU1ETDFZTFBZZmk1WWhEL3NwNkVTcy9sU3pacjRTYnAy?=
- =?utf-8?B?Zll0a2habEdXekxzYzl0ZExkNXBWNUFwT0JUeHdDQ05uTXBDVjFoSG9xSUdi?=
- =?utf-8?B?aFVIdnFEdWIrOTR1RDFOb01xYnBjb3ZIVk9iV3RXVERJaGJBYW1WZTRmdFpv?=
- =?utf-8?B?TFIreVF1V3BibkNxd2pVWldBdUYzem1pRW1US1N4TFgxWEtQYk5YbXF1MmRt?=
- =?utf-8?B?d1FHWkY1VWwvK0dWZHcrUktTaHNudW13OElsa05tVldoMFRaOHlIUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: f600b1a2-0c3f-4f49-4ab1-08dea6af2e2c
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:54:05.9774
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TYYo0geCLOZ/YUqjBEmlcZdrz8VwpixLTXUXrhf0lCDzrYBVSfh7Q9nxWXH314y7QadHqh8Byv0T3po0xt6llA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7531
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260430-swnode-remove-on-dev-unreg-v4-1-01574da0aed3@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu Apr 30, 2026 at 12:23 PM BST, Alexandre Courbot wrote:
-> On Wed Apr 29, 2026 at 8:29 PM JST, Gary Guo wrote:
->> On Wed Apr 29, 2026 at 12:22 PM BST, Alexandre Courbot wrote:
->>> On Thu Apr 16, 2026 at 4:57 AM JST, Gary Guo wrote:
->>>> There have been a few cases where the programmer knows that the indice=
-s are
->>>> in bounds but compiler cannot deduce that. This is also
->>>> compiler-version-dependent, so using build indexing here can be
->>>> problematic. On the other hand, it is also not ideal to use the fallib=
-le
->>>> variant, as it adds error handling path that is never hit.
->>>>
->>>> Add a new panicking index projection for this scenario. Like all panic=
-king
->>>> operations, this should be used carefully only in cases where the user
->>>> knows the index is going to be in bounds, and panicking would indicate
->>>> something is catastrophically wrong.
->>>>
->>>> To signify this, require users to explicitly denote the type of index =
-being
->>>> used. The existing two types of index projections also gain the keywor=
-ded
->>>> version, which will be the recommended way going forward.
->>>>
->>>> The keyworded syntax also paves the way of perhaps adding more flavors=
- in
->>>> the future, e.g. `unsafe` index projection. However, unless the code i=
-s
->>>> extremely performance sensitive and bounds checking cannot be tolerate=
-d,
->>>> panicking variant is safer and should be preferred, so it will be left=
- to
->>>> future when demand arises.
->>>
->>> Review nit (no need to respin for this): this patch would probably be
->>> easier to review if the renaming of `index` to `build_index` was split
->>> into its own patch. It would reduce the diff, while also removing the
->>> burden of having to keep in mind that `index` means a different thing
->>> depending on whether the line is removed or added. I've found it a bit
->>> difficult to keep track of this.
->>
->> This'll need a respin anyway (to merge with the IO view series) for patc=
-h
->> logistics reason, so I'll make that change.
->>
->>>
->>>>
->>>> Signed-off-by: Gary Guo <gary@garyguo.net>
->>>> ---
->>>>  rust/kernel/dma.rs            |  3 ++
->>>>  rust/kernel/ptr/projection.rs | 98 ++++++++++++++++++++++++++++++++++=
-+--------
->>>>  2 files changed, 84 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
->>>> index 4995ee5dc689..3e4d44749aaf 100644
->>>> --- a/rust/kernel/dma.rs
->>>> +++ b/rust/kernel/dma.rs
->>>> @@ -1207,6 +1207,9 @@ macro_rules! dma_write {
->>>>      (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) =3D=
-> {
->>>>          $crate::dma_write!(@parse [$dma] [$($proj)* .$field] [$($rest=
-)*])
->>>>      };
->>>> +    (@parse [$dma:expr] [$($proj:tt)*] [[$flavor:ident: $index:expr] =
-$($rest:tt)*]) =3D> {
->>>> +        $crate::dma_write!(@parse [$dma] [$($proj)* [$flavor: $index]=
-] [$($rest)*])
->>>> +    };
->>>>      (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr]? $($rest:tt)*])=
- =3D> {
->>>>          $crate::dma_write!(@parse [$dma] [$($proj)* [$index]?] [$($re=
-st)*])
->>>>      };
->>>> diff --git a/rust/kernel/ptr/projection.rs b/rust/kernel/ptr/projectio=
-n.rs
->>>> index 140ea8e21617..845811795393 100644
->>>> --- a/rust/kernel/ptr/projection.rs
->>>> +++ b/rust/kernel/ptr/projection.rs
->>>> @@ -26,14 +26,14 @@ fn from(_: OutOfBound) -> Self {
->>>>  ///
->>>>  /// # Safety
->>>>  ///
->>>> -/// The implementation of `index` and `get` (if [`Some`] is returned)=
- must ensure that, if provided
->>>> -/// input pointer `slice` and returned pointer `output`, then:
->>>> +/// The implementation of `index`, `build_index` and `get` (if [`Some=
-`] is returned) must ensure
->>>> +/// that, if provided input pointer `slice` and returned pointer `out=
-put`, then:
->>>>  /// - `output` has the same provenance as `slice`;
->>>>  /// - `output.byte_offset_from(slice)` is between 0 to
->>>>  ///   `KnownSize::size(slice) - KnownSize::size(output)`.
->>>>  ///
->>>> -/// This means that if the input pointer is valid, then pointer retur=
-ned by `get` or `index` is
->>>> -/// also valid.
->>>> +/// This means that if the input pointer is valid, then pointer retur=
-ned by `get`, `index` or
->>>> +/// `build_index` is also valid.
->>>>  #[diagnostic::on_unimplemented(message =3D "`{Self}` cannot be used t=
-o index `{T}`")]
->>>>  #[doc(hidden)]
->>>>  pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
->>>> @@ -42,9 +42,12 @@ pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
->>>>      /// Returns an index-projected pointer, if in bounds.
->>>>      fn get(self, slice: *mut T) -> Option<*mut Self::Output>;
->>>> =20
->>>> +    /// Returns an index-projected pointer; panic if out of bounds.
->>>> +    fn index(self, slice: *mut T) -> *mut Self::Output;
->>>
->>> This looks like this could have a default implementation:
->>>
->>>     fn index(self, slice: *mut T) -> *mut Self::Output {
->>>         Self::get(self, slice).unwrap()
->>>     }
->>>
->>> I'm sure there is a good reason for now having this though, so at least
->>> for my education: why not? :)
->>
->> It could, but the implementation is going to be dead code.
->
-> Would the generated code from this default implementation be worse than
-> the specialized ones you wrote? I'd have expected the compiler to
-> optimize things in such a way that they would be equivalent, only with
-> less code. Haven't looked at it though.
+On Thu, Apr 30, 2026 at 09:46:04AM +0200, Bartosz Golaszewski wrote:
+> If we pass a software node to a newly created device using struct
+> platform_device_info, it will not be removed when the device is
+> released. This may happen when a module creating the device is removed
+> or on failure in platform_device_add().
+> 
+> When we try to reuse that software node in a subsequent call to
+> platform_device_register_full(), it will fails with -EBUSY. Add the
+> missing call to device_remove_software_node() in release path.
+> 
+> In addition to the above change, make sure that we still function
+> correctly if a software node is used as the primary firmware node as
+> well as disallow using two software nodes for platform devices as
+> device_add_software_node() does not handle this case correctly (in fact
+> a comment inside it states that only one software node per device is
+> allowed but it will not bail out if two are used so we need to handle it
+> here).
 
-Panic in bounds checking have the index being included in the part of messa=
-ge.
-They're also size-optimized by having the panic path outlined. The speciali=
-zed
-ones can always re-use these outlined code paths. Of course, unwrap also ha=
-ve
-this optimization, but the message is just a generic "called `Option::unwra=
-p()`
-on a `None` value").
+...
 
-For the case of built-in indexing (not subslicing), it also has its own MIR
-primitive (TerminatorKind::Assert) so the MIR generated is small and more e=
-asily
-analyzable/optimizable by MIR passes.
+> -	if (pdevinfo->swnode && pdevinfo->properties)
+> +	/*
+> +	 * Only one software node per device is allowed. Make sure we don't
+> +	 * accept or create two.
+> +	 */
+> +	if ((pdevinfo->swnode && pdevinfo->properties) ||
+> +	    (pdevinfo->swnode && is_software_node(pdevinfo->fwnode)) ||
+> +	    (pdevinfo->properties && is_software_node(pdevinfo->fwnode)))
+>  		return ERR_PTR(-EINVAL);
 
-Best,
-Gary
+This makes me think of why we have these many ways of doing things...
+Perhaps we should kill pdevinfo::properties completely?
+
+Second thought is what about actually refusing this on the level of
+device_add_software_node()? And looking at it, we have that check
+there, why do we need it here then? Did we miss to check error code from
+device_add_software_node() somewhere?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
