@@ -1,221 +1,261 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012040.outbound.protection.outlook.com [40.107.209.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063CF3ACA5D
-	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 10:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777543425; cv=none; b=I/bJa6XJ6TIXanwD6ipatXpWlRxLdHUwPtoSVg+lI5X3vbEMmWEXt3vu7nzAMH7qc+76IZHkNa0qq9dbZkkEC52d4OKJKoyMOTHfJAO0yrM6Yv5GJakvq6HmXRUH5WUO2H8pnYKlu/LkoPlW1d+/ZB/qwCUVHw5HyY1bX3jGftU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777543425; c=relaxed/simple;
-	bh=24SUM8XNpgpD/jIkyrnqaESV6KB3r9PWuq9baM/oPwY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KC7MLsvfY5oLiDLIolinxp0CpZfNGSQ6GLoF0bOBV0lTEw288W4uyI+ya9yki7+HlGffworcbWEZNV3Hhejq6tG+x4GHlujNDzZn55iPRxlDbptJ4QT+LJl2GDqt20svZI5iIYSylfZbLnedqcoKJCin8YXpZROwIVEoVyE78+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fbm7bm/t; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBF535295E
+	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 11:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777548256; cv=fail; b=WDwpweJ62i7HXgncQo7PP1anBXAu1NHqaByEE7yBE13JRr/b5zpOi4RrpkgVne7CZb9QGfNcchLstzeZgobi6zXBuoeesU+iK+96/iIjK2FALh/N+bCtPZJlp1SbGBIN9doK7hl8ENFYxbFvoZcXlbiRn4MRBGnq70g4Kpo0q6s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777548256; c=relaxed/simple;
+	bh=cLT769gC4lIXuvy4uMiU3xaZZHThOmJioLXekRizLZw=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=KOVuQ3rtaz8X5S/OsWpy8EvrzAH4RpaTL2FrvlgYJLgBp2AO6arbMNh7398Jw0mZ5CI8Ye1ROI5mcis2pKWA7gnx+zUcllyCpLHKLEVUqEL/ODt+bG1P+OeRnMV47zbbwpd3xOo/Suf5sabmOrM212GNCaTaWbyFPXRV9F1KPgA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=L+ARXhWJ; arc=fail smtp.client-ip=40.107.209.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fbm7bm/t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC743C2BCF7
-	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 10:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777543424;
-	bh=24SUM8XNpgpD/jIkyrnqaESV6KB3r9PWuq9baM/oPwY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Fbm7bm/t+vu34+9t7voUW+wOOxbMCkLpxRdCIh99peme7yF2xulZ4cKP5EXb+2VzC
-	 Na+wpuETQ5x14dQJBJzo7rvklFJzOPeGYHO8rl0LUk8cZ3Uzib9TxhE658iCRzfM5f
-	 mq4oOK/NZeuMww+eKDCVvZz3ZbP1dEuRZ2S4kz++hJmsEb0UfGLGNdDfqGxQFRrL+t
-	 dF0jNT3lrD7+4/Zl52hk+xHKr4EFZL/wQMaoUU+LlYmZxuJ2eGnghCkj7+6XVm3R+M
-	 4EOmrnHGa6rhUqo4kt8iAEg+4pVCob+Dsyc0S5UR8W7FDyp/+q5oBig5vcpNJuc6IH
-	 M8CvFJxUuPTwg==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a0faa0d15cso682638e87.0
-        for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 03:03:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+Anf8czKA8in97MsQR/pTIF6bZaPW5ErjOrxYS0bpxynxpc8u8AH9EJSbcCVsFP/2lftMaBh9P+fsJOQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb0x83/b26++yMTWpzG25wexCviRciJwNZCWnveZynkjjqEYZE
-	0sz4S11BDgvIh7HxjrO6FGfVIj8bEAzE+TMULEWhzFZD/dOdQAXbx5Tc69rFu9RNw0zSuqTO82e
-	ri3GEIgLZ05TPDMvTrBADi40CposLTXM=
-X-Received: by 2002:a05:6512:10cb:b0:5a4:157:5354 with SMTP id
- 2adb3069b0e04-5a8522bc5ffmr780440e87.12.1777543423188; Thu, 30 Apr 2026
- 03:03:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="L+ARXhWJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ux2pjP+qzRO/+K4dSJefrofMx/0yVWf2nC9Ij4jMY3j5dKWCl+14LSAmgefZp/MlbtJJAQql3EfC7scJOBBgbrdw+17wV4jZDtzcywKpBlvYpanoOhUOT/wZoKQPpZIQNJddPzvmiXfqTRFNYXEXYuuuNg9grcNLgw41lQjSDgBFHFSd5T2wauQBRwqpCwIJazd6ikcFPvYKZKQBCF0M9TdXFhomOmEkKtqYd02Q3D4GoZbdRR+qYrPEXIIPJZk/SGrvRYKsHKDzESVY1E75PB2uvTcRGSKu2dcCCc+gTobNAHKIhClD5MrMYxGURsyHxL4xE8m1GyZx5L3stoiTiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Pf+SXqQqxLRjLO0A5gQ0qhj2W1j4Q8GR35yJ6qqop8=;
+ b=qqhy1MgWcxqXtLcxstGkJeLKdd5Zwa0P1TrE5WxygebSE13661SUlCCR3MyULTdZ/zDBmos0xH+kUKAzLSHZPhiHlKk78cgPHS1qj7wTsAuiy0PAdJvLHnXoZdTKSUWyVPxZXyNlA8EZ4O8VcQHi4x5nVksOg6CXnL2DrOUIpXb3VUQMYSSIuHtAUiuaGG2Kprq3rsESS8FG0eZudH8HHtc9z/v4DBE5v/IxKfUbc3eLYcPKpZ93oS/1MVthQKxXMtnSNsD9Ddfc20pFXxIH61s8wzAFaGfSGxD8xSbegbENQgAiTUazYw1K+1wen98jWWVg3L4lIn7SS8BF9REONA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Pf+SXqQqxLRjLO0A5gQ0qhj2W1j4Q8GR35yJ6qqop8=;
+ b=L+ARXhWJJbQWiH/0uyax1YYmvg2Axe5JRPP+URkE+eWZNYMUu2iEA1hXFWeftYFUPGSLn6CIEDjBIyvUXdy+tEqYSPCfZSFXa61+Phb+xGQurMdZjCjHSS9mzAjZbfEEDILl2wqyOh2rj/zf7O9SQPMCrlHPq0QiO0SnOGMrEaDiNFkiM8xIPndjExFcOFNNv6w5t2oV68Cy3OPF0jtzROpoZ6EeudCaO3gRDzfSzTvKqrfzv2QPE8Ih37Ifvr9mKaESztSMYhatAA2aJbfMc9FPbhJOawGy4PUCqgS7CHctCSoKo8FvS4SjIGcrdgRhvv6tiVczdQoC0qAN1zq7rQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DM4PR12MB6469.namprd12.prod.outlook.com (2603:10b6:8:b6::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9870.21; Thu, 30 Apr 2026 11:24:09 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.20.9870.013; Thu, 30 Apr 2026
+ 11:24:03 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 30 Apr 2026 20:23:59 +0900
+Message-Id: <DI6G9FSQHM1B.4KGHIQWPC94J@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Abdiel Janulgue"
+ <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
+ <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 1/5] rust: ptr: add panicking index projection variant
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+References: <20260415-projection-syntax-rework-v1-0-450723cb3727@garyguo.net> <20260415-projection-syntax-rework-v1-1-450723cb3727@garyguo.net> <DI5LLN2V3XCS.34H4CG99N4MPA@nvidia.com> <DI5LRCUUKJJW.24ZCQBQYEPPVZ@garyguo.net>
+In-Reply-To: <DI5LRCUUKJJW.24ZCQBQYEPPVZ@garyguo.net>
+X-ClientProxiedBy: OSTP286CA0038.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:224::11) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260430-baytrail-real-swnode-v4-0-767bcda6667f@oss.qualcomm.com> <20260430-baytrail-real-swnode-v4-2-767bcda6667f@oss.qualcomm.com>
-In-Reply-To: <20260430-baytrail-real-swnode-v4-2-767bcda6667f@oss.qualcomm.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 30 Apr 2026 12:03:30 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hs98RHqZxcMjsnQDB5JJ2gKQGG6c38y3vR3WO1aLgf3w@mail.gmail.com>
-X-Gm-Features: AVHnY4LRkqUG78amCXaKPu70AEG71fakKJrwqW9j-y8MndL15_3hAR17pY87BOk
-Message-ID: <CAJZ5v0hs98RHqZxcMjsnQDB5JJ2gKQGG6c38y3vR3WO1aLgf3w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] platform/x86: x86-android-tablets: enable fwnode
- matching of GPIO chips
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	brgl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB6469:EE_
+X-MS-Office365-Filtering-Correlation-Id: 643abb0f-48f2-4e57-d47e-08dea6aafb69
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|10070799003|7416014|376014|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	xiGG0JrlXi6QxyN7nOqJWlEkqhCpP2hRc/GKiE+CW4IX7JOcgJbUc2Jvcp7q3K/vvFazG/XnAmDJX1JTMSpmDNHSrnQJLLUz79bC0UISdIpKJ2A8va4O6IxoO8ff7oYh8U/T7JNCPmaIPE4z7ksKPyqGGztpaQn0//z+zgzh9xC95zTgdbvhqAhM2/6CvFGdYgi5zT3AzjoW9k75e6N5IdQUh74aBYIHq5FPzN3MGYb32Q2V3YS+l9LvwyZs7Jh7Xa7RllogpVzhAhGI1reVIPodXZmXnkRzYzYFP1/D2YvrFmsPStA10cpGyo3a47XZ9PMk8jnwYUF3PPNK8E4ufEFnyeBtt6/fn/pMyX3rmUhjaH3V03npf9VEz9HxYHW2IssPcviAB2LjtSc3J9Wkeb3bYvFJ8EYGMgkiy2ExDdK1jcGgISv1dxmYUh70ytmHYXkfVLFC99tf2QaDa8ajdXxmNPteRNT9NTvXu2t8T7FSyczt9qnV1udOa2NN39kxCynVe/W/DDB7UNTIXkRHUzoDxDSR4FUYzrnwKO4dggdoa8lQ0TsvLlI0MhtveLiIPsyztyii1QXVSsPwy1Rz7+3gP0k1jouJl5+oc4xF7UVogqjeCqW0ROmzGvYXUklhQMH3qXTw2t5UWq/fcRE2+XvoNmXxxIvtlv05RoWqs5ER2tHhw3wJ6pRn61E1x62fl3/d6YGHnKXD2VcOefNozjznLye40TSwcH7Q37MR1Cg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(7416014)(376014)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MUhEM0JWU3Bwcys5c3I4bDV0ME12RVc4bVhWdXU3TGNtMXJmTVlXSzVCcGlu?=
+ =?utf-8?B?RXRlUWJiZUdFNmhMbExDQ0k5VDBhc3haVTJUWkt5R204bFZMRjZWcUFRdnVx?=
+ =?utf-8?B?aUFEaW53M0JEMmEyYTIvK1U1eGdGVlBnRTk4UEZEazgxNHRRWElkQVN0d09U?=
+ =?utf-8?B?MkxtUFFta2xhblIrOEVJU01xZUhhUEZmdDZ6RHNrcE1ZTlFQdnhoalQ2N0JU?=
+ =?utf-8?B?M2E0aS8yaUpacGNmdE9kL3NvRXUxMm9Hb0pEYnFMZXBRZEd6YWJ5SjNTMFlp?=
+ =?utf-8?B?bzlqaEpIdFM1SjNTZVE5Ni9Ua3hjYmYwTUxEck1ERnVLK201NWVvZjRMVHd2?=
+ =?utf-8?B?YnJwMW95NXNDZERBZ1pEUlNXNWp2dGFzN0JhOGw0SXZsRDNjNkV4N3pqUTUz?=
+ =?utf-8?B?eENQc1J4YXYrMFV5TFdwWlF5dWlRVTJ1Y0pZRVk5OEpVVks5SkVtQithcVBp?=
+ =?utf-8?B?NXJyV05XdncremZkMGJWSzJZSGRpdUhMc1lubjhiS3JlTXdQZkpkVTA0eE9L?=
+ =?utf-8?B?b0wyRnlCb1BYblArWEZoemd0cWJnR3FkZDNPZGliQmZTK1dzQWJvc3pMblJH?=
+ =?utf-8?B?N1JPRUNZeVY2b0VyL1oyR1R3YUd5b0FVOE5Gc2crTURiS25LblBHU29WREhQ?=
+ =?utf-8?B?TTNyWjBhS2RTTEVpdGxaY1JKZjJ6Zm5zdytWdHFFejNSMXZIaUQvZm95ZG5L?=
+ =?utf-8?B?d2IzODNwZy9RNDVZeDZoV2Uxa3d6MnlZekpWZ1BOYWdObEVzUFQyK29MVUls?=
+ =?utf-8?B?cmhqMHdxUFVOa29lamhBQ3hpU2JtY2xBMVg5cy9Nd0NubW9BZERZY2hMS0ha?=
+ =?utf-8?B?N0NLNWNJenJxWC9XMkxkRUN4cHhMaGRtZGxiN1lQZFAwd3JjdmRqenZ3YVdF?=
+ =?utf-8?B?MFlMaUVZMU5ZVlRHTjQ4OVl4S01pbDVlUDE4UTdtSlBtZkY0QWFRZk95TDFu?=
+ =?utf-8?B?MGE5NmRhU28xODVMRlhsc05LMUZ3cldCdEN4RUl2TitVQk1sMXNwUWJOR05G?=
+ =?utf-8?B?ZmQyNk5saWNsbnFnbzFjNHBnWmZYMG9Jbk5LVVNYT2VSQXBiM2FpdWNmOU14?=
+ =?utf-8?B?Q1NXSW81dzM4V2hPSWoramgzUUdLTStMd0h1akRsekpRaXV5bXhVWDJXcmRR?=
+ =?utf-8?B?NlQwRnlpQXYxdDQxU0lyYjZzb0FnNUNpSFpDb2ZIVUFjWkNidDcwTy9KYXRn?=
+ =?utf-8?B?MjVQRmJpVzZ2QS9zbU5FU1A5VWRjVC9QbDNYQ0pmZWM5L3lPVzVMQlphYW53?=
+ =?utf-8?B?aTJCampWQmRyZzlRMWFKdFBZSDQxbTlqeWRFbTB2bnZodyttOHVNUlcvS256?=
+ =?utf-8?B?N2ZabUYrTDF0OUVPb1lOdDdXUk84NG1FQjJEZWFISzYvR1ZXN0ZUNnk1RllN?=
+ =?utf-8?B?dnVKSW96L29KWnYvMHhxWnhjaS9PT2VwTDNNVmFyamRDbWJjck5vakhIYld5?=
+ =?utf-8?B?MGJyWm9uMlp6VTd3Wjh2NUp5cFBQYVVXU0lxbkJXUVFTZmNjL1UwYUxuN1R4?=
+ =?utf-8?B?UnpmalhlZ3Q1MFFlVUVZOEF2YWpuYWRMWGtmU1hZTWVxUk1sdVZ2TWNBVEQy?=
+ =?utf-8?B?Q0djZzVXRmpReGFWcHBtbXUrVzR1VHVjYnNpejk4RFZNMHQ4V1lvaHFGQXEy?=
+ =?utf-8?B?elhNQTIyem5kajFVbWtFYm4veFF1c1NnZVBERGVRMlpsd0dMdU03N013L2lv?=
+ =?utf-8?B?SUVKdEVTL0F5cUxkVWVnaWJJNFZZaEdRY3p4YUlSMkpCRVUrODZnT0Zha3FY?=
+ =?utf-8?B?OFRYTEZ2Y2pTRmxXMEN3U0RvMXpGdXJ4SDdFMnJEVWU1Tk8wbWVidG9KbEhT?=
+ =?utf-8?B?ZGpOWmxtbWJwMUlrUXhUUzdxcU1ZYVd5Vm1lZlJhNGFKKzZNc0NITVYrOGdo?=
+ =?utf-8?B?eUF3U2l6L3R6R0JVN0ljQlBGVkhJMUJCemhwa04vci94bXk3THp0V0M3QlhB?=
+ =?utf-8?B?bU5aNFgwUzZsKzlRZzNzSWg1dUNMdjdrTHlkaC9ZMmk5V0dndVB3ZTFsNjlJ?=
+ =?utf-8?B?RXRYZXlsODZ2ckFncTVIQi9lQTlib1FYcC95L2IvODN5b3pQYTZKMGxjbjJX?=
+ =?utf-8?B?dkxZT29VK01vR1FvUVVWaUdlenBzWGM1OW12RW9zdDVIUE0zdEZyN0VWNElZ?=
+ =?utf-8?B?Sk1jcDlVUG9CZlRyRkNUWCtvUXBsSFBxTU5GOU95bGhqd1N5aFZmekc1c1Vr?=
+ =?utf-8?B?R2dqbC9lclR0VW5yL1ZFTDhnK0JyckNFZ0twUHc2dFZ4MjBvdDJ1MGRyLzhp?=
+ =?utf-8?B?OUU3NWo0blM4ckZWQkVVMHZ1clNGRzB6TjI2NFhXSHVCNDVURWQ1TlljTkFy?=
+ =?utf-8?B?aFoxTCtRbEVueEJEcm5PZWY3UDFReURoZ0wvTUpaTDF0KzNqVlZ1V1V3WGto?=
+ =?utf-8?Q?DFQG1375wSKYurQESoUWe/uERZazm6rluNeZWDDpju8iT?=
+X-MS-Exchange-AntiSpam-MessageData-1: RLTYMNQ2JkIihw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 643abb0f-48f2-4e57-d47e-08dea6aafb69
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:24:02.9573
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DudyOw9Vj4LBgWkTSfPRrYQLL0kzOFnvdNfJq/jP9n/wZ1qKVfWrr9vXVSh94Kd1oamlmsJhrGxy2Q4d4tqw6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6469
 
-On Thu, Apr 30, 2026 at 9:34=E2=80=AFAM Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
+On Wed Apr 29, 2026 at 8:29 PM JST, Gary Guo wrote:
+> On Wed Apr 29, 2026 at 12:22 PM BST, Alexandre Courbot wrote:
+>> On Thu Apr 16, 2026 at 4:57 AM JST, Gary Guo wrote:
+>>> There have been a few cases where the programmer knows that the indices=
+ are
+>>> in bounds but compiler cannot deduce that. This is also
+>>> compiler-version-dependent, so using build indexing here can be
+>>> problematic. On the other hand, it is also not ideal to use the fallibl=
+e
+>>> variant, as it adds error handling path that is never hit.
+>>>
+>>> Add a new panicking index projection for this scenario. Like all panick=
+ing
+>>> operations, this should be used carefully only in cases where the user
+>>> knows the index is going to be in bounds, and panicking would indicate
+>>> something is catastrophically wrong.
+>>>
+>>> To signify this, require users to explicitly denote the type of index b=
+eing
+>>> used. The existing two types of index projections also gain the keyword=
+ed
+>>> version, which will be the recommended way going forward.
+>>>
+>>> The keyworded syntax also paves the way of perhaps adding more flavors =
+in
+>>> the future, e.g. `unsafe` index projection. However, unless the code is
+>>> extremely performance sensitive and bounds checking cannot be tolerated=
+,
+>>> panicking variant is safer and should be preferred, so it will be left =
+to
+>>> future when demand arises.
+>>
+>> Review nit (no need to respin for this): this patch would probably be
+>> easier to review if the renaming of `index` to `build_index` was split
+>> into its own patch. It would reduce the diff, while also removing the
+>> burden of having to keep in mind that `index` means a different thing
+>> depending on whether the line is removed or added. I've found it a bit
+>> difficult to keep track of this.
 >
-> In order to allow GPIOLIB to match cherryview and baytrail GPIO
-> controllers by their firmware nodes instead of their names, we need to
-> attach the - currently "dangling" - existing software nodes to their
-> target devices dynamically.
+> This'll need a respin anyway (to merge with the IO view series) for patch
+> logistics reason, so I'll make that change.
 >
-> The driver uses platform_create_bundle() and expects all required
-> providers to be present before it itself is probed. We know the name of
-> the device we're waiting for so look them up and assign the appropriate
-> software node as the secondary firmware node of the underlying ACPI node.
+>>
+>>>
+>>> Signed-off-by: Gary Guo <gary@garyguo.net>
+>>> ---
+>>>  rust/kernel/dma.rs            |  3 ++
+>>>  rust/kernel/ptr/projection.rs | 98 +++++++++++++++++++++++++++++++++++=
+--------
+>>>  2 files changed, 84 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+>>> index 4995ee5dc689..3e4d44749aaf 100644
+>>> --- a/rust/kernel/dma.rs
+>>> +++ b/rust/kernel/dma.rs
+>>> @@ -1207,6 +1207,9 @@ macro_rules! dma_write {
+>>>      (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) =3D>=
+ {
+>>>          $crate::dma_write!(@parse [$dma] [$($proj)* .$field] [$($rest)=
+*])
+>>>      };
+>>> +    (@parse [$dma:expr] [$($proj:tt)*] [[$flavor:ident: $index:expr] $=
+($rest:tt)*]) =3D> {
+>>> +        $crate::dma_write!(@parse [$dma] [$($proj)* [$flavor: $index]]=
+ [$($rest)*])
+>>> +    };
+>>>      (@parse [$dma:expr] [$($proj:tt)*] [[$index:expr]? $($rest:tt)*]) =
+=3D> {
+>>>          $crate::dma_write!(@parse [$dma] [$($proj)* [$index]?] [$($res=
+t)*])
+>>>      };
+>>> diff --git a/rust/kernel/ptr/projection.rs b/rust/kernel/ptr/projection=
+.rs
+>>> index 140ea8e21617..845811795393 100644
+>>> --- a/rust/kernel/ptr/projection.rs
+>>> +++ b/rust/kernel/ptr/projection.rs
+>>> @@ -26,14 +26,14 @@ fn from(_: OutOfBound) -> Self {
+>>>  ///
+>>>  /// # Safety
+>>>  ///
+>>> -/// The implementation of `index` and `get` (if [`Some`] is returned) =
+must ensure that, if provided
+>>> -/// input pointer `slice` and returned pointer `output`, then:
+>>> +/// The implementation of `index`, `build_index` and `get` (if [`Some`=
+] is returned) must ensure
+>>> +/// that, if provided input pointer `slice` and returned pointer `outp=
+ut`, then:
+>>>  /// - `output` has the same provenance as `slice`;
+>>>  /// - `output.byte_offset_from(slice)` is between 0 to
+>>>  ///   `KnownSize::size(slice) - KnownSize::size(output)`.
+>>>  ///
+>>> -/// This means that if the input pointer is valid, then pointer return=
+ed by `get` or `index` is
+>>> -/// also valid.
+>>> +/// This means that if the input pointer is valid, then pointer return=
+ed by `get`, `index` or
+>>> +/// `build_index` is also valid.
+>>>  #[diagnostic::on_unimplemented(message =3D "`{Self}` cannot be used to=
+ index `{T}`")]
+>>>  #[doc(hidden)]
+>>>  pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
+>>> @@ -42,9 +42,12 @@ pub unsafe trait ProjectIndex<T: ?Sized>: Sized {
+>>>      /// Returns an index-projected pointer, if in bounds.
+>>>      fn get(self, slice: *mut T) -> Option<*mut Self::Output>;
+>>> =20
+>>> +    /// Returns an index-projected pointer; panic if out of bounds.
+>>> +    fn index(self, slice: *mut T) -> *mut Self::Output;
+>>
+>> This looks like this could have a default implementation:
+>>
+>>     fn index(self, slice: *mut T) -> *mut Self::Output {
+>>         Self::get(self, slice).unwrap()
+>>     }
+>>
+>> I'm sure there is a good reason for now having this though, so at least
+>> for my education: why not? :)
 >
-> Scheduling fine-grained devres actions allows for proper teardown and
-> unsetting of the secondary firmware nodes.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> It could, but the implementation is going to be dead code.
 
-I may have missed something subtle, but overall it looks reasonable to me, =
-so
-
-Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-
-> ---
->  drivers/platform/x86/x86-android-tablets/core.c | 78 +++++++++++++++++++=
-+++++-
->  1 file changed, 75 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/pl=
-atform/x86/x86-android-tablets/core.c
-> index 021009e9085bec3db9c4daa1f6235600210a6099..8fd0cffe351577182f31c90c1=
-04b616cec78c481 100644
-> --- a/drivers/platform/x86/x86-android-tablets/core.c
-> +++ b/drivers/platform/x86/x86-android-tablets/core.c
-> @@ -13,6 +13,7 @@
->  #include <linux/acpi.h>
->  #include <linux/device.h>
->  #include <linux/dmi.h>
-> +#include <linux/fwnode.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/gpio/machine.h>
->  #include <linux/irq.h>
-> @@ -360,6 +361,76 @@ static const struct software_node *cherryview_gpioch=
-ip_node_group[] =3D {
->         NULL
->  };
->
-> +static void auto_secondary_unset(void *data)
-> +{
-> +       struct fwnode_handle *fwnode =3D data;
-> +
-> +       fwnode->secondary =3D NULL;
-> +}
-> +
-> +static int acpi_set_secondary_fwnode(struct device *parent, struct devic=
-e *dev,
-> +                                    const struct software_node *const sw=
-node)
-> +{
-> +       struct acpi_device *device =3D to_acpi_device(dev);
-> +       struct fwnode_handle *fwnode;
-> +       int ret;
-> +
-> +       fwnode =3D software_node_fwnode(swnode);
-> +       if (WARN_ON(!fwnode))
-> +               return -ENOENT;
-> +
-> +       fwnode->secondary =3D ERR_PTR(-ENODEV);
-> +       device->fwnode.secondary =3D fwnode;
-> +
-> +       ret =3D devm_add_action_or_reset(parent, auto_secondary_unset, &d=
-evice->fwnode);
-> +       if (ret)
-> +               dev_err(parent, "Failed to schedule the unset action for =
-secondary fwnode\n");
-> +
-> +       return ret;
-> +}
-> +
-> +static void auto_secondary_unregister_node_group(void *data)
-> +{
-> +       const struct software_node **nodes =3D data;
-> +
-> +       software_node_unregister_node_group(nodes);
-> +}
-> +
-> +static int auto_secondary_fwnode_init(struct device *parent)
-> +{
-> +       const struct software_node *const *swnode;
-> +       int ret;
-> +
-> +       if (!gpiochip_node_group)
-> +               return 0;
-> +
-> +       ret =3D software_node_register_node_group(gpiochip_node_group);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D devm_add_action_or_reset(parent,
-> +                                      auto_secondary_unregister_node_gro=
-up,
-> +                                      gpiochip_node_group);
-> +       if (ret)
-> +               return ret;
-> +
-> +       for (swnode =3D gpiochip_node_group; *swnode; swnode++) {
-> +               struct device *dev __free(put_device) =3D
-> +                               acpi_bus_find_device_by_name((*swnode)->n=
-ame);
-> +               if (!dev) {
-> +                       dev_err(parent, "Failed to find the required GPIO=
- controller: %s\n",
-> +                               (*swnode)->name);
-> +                       return -ENODEV;
-> +               }
-> +
-> +               ret =3D acpi_set_secondary_fwnode(parent, dev, *swnode);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static void x86_android_tablet_remove(struct platform_device *pdev)
->  {
->         int i;
-> @@ -391,7 +462,6 @@ static void x86_android_tablet_remove(struct platform=
-_device *pdev)
->
->         software_node_unregister_node_group(gpio_button_swnodes);
->         software_node_unregister_node_group(swnode_group);
-> -       software_node_unregister_node_group(gpiochip_node_group);
->  }
->
->  static __init int x86_android_tablet_probe(struct platform_device *pdev)
-> @@ -427,9 +497,11 @@ static __init int x86_android_tablet_probe(struct pl=
-atform_device *pdev)
->                 break;
->         }
->
-> -       ret =3D software_node_register_node_group(gpiochip_node_group);
-> -       if (ret)
-> +       ret =3D auto_secondary_fwnode_init(&pdev->dev);
-> +       if (ret) {
-> +               x86_android_tablet_remove(pdev);
->                 return ret;
-> +       }
->
->         ret =3D software_node_register_node_group(dev_info->swnode_group)=
-;
->         if (ret) {
->
-> --
+Would the generated code from this default implementation be worse than
+the specialized ones you wrote? I'd have expected the compiler to
+optimize things in such a way that they would be equivalent, only with
+less code. Haven't looked at it though.
