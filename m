@@ -1,76 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879EB428488;
-	Thu, 30 Apr 2026 15:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21766314A65;
+	Thu, 30 Apr 2026 16:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777564260; cv=none; b=hKzj79zJ8DbHQ+RdhBEN0vtqCg74LYoy18sdWA6JZCmmwT/JFcPXJWHi6XxIK3kI5FtoZvsbZiEwQL3F/YG1oI+O1HT4rtqMhkhNljrpQ7Lr6xWEjTSyOfI8QxwiP7Lu4M0rRsUUUnzykk55inzzMp9FW/CM3ad35O+mF2dSimM=
+	t=1777565131; cv=none; b=nSp5v8G5R3h0hYMwnBTwcK1RYpa4hRiqzZKEuTCQey93pqu6kJnMzE0dM9UsdagmSOS3UXhVD38+ahy3idbXX7j5XEdmKM0VFHWUP38WqebqzKkgLl9bsgl9iR1PZ9kcd8CDCxmChtl5mWow+bCTOmDpTZuoyoosEdD39xp0few=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777564260; c=relaxed/simple;
-	bh=VCwG/evqvBgdVG6GZCPvR18G1PtMuMNk/bVzaUD/ngU=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=R6WpFZ/ZDtX7c+jjf5v7rw407EEX9L0RC6rymOImUnWVDcm3J8lnPlIVJ/YvvkNC+H/0+tY+hGX5U0eKNdNfwhHxkFa1XKkPUFD1TTi8eMK2n/EprjOmlJJnVX4UWgkbYa2ox7BBPYrNi12MfUa7WUL0EvHbaLyGtUxSWISnX30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=yGMSUjDg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777565131; c=relaxed/simple;
+	bh=I0Hn6+UL9P7mFG6XXZHpwThds4PDPN5q1vkLTTgDkVY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=GD/zreTecBnXhYISv+R1svn2pyOSP/YHapIS8VJ877bQ4vrMd/SR0KpJPMbKJV0UQxyx8KLyefXs1EDOMCoqxTck9Zmaa/Ow0Xs0lfHpG1kD4iDh0dAwmH36k0mDb2WKQAycHPlLjOrX4MUB1hxEzwyuS7X2SnS3uvPidRdKiVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uo2y+bxO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="yGMSUjDg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B317C2BCB3;
-	Thu, 30 Apr 2026 15:50:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1777564260;
-	bh=VCwG/evqvBgdVG6GZCPvR18G1PtMuMNk/bVzaUD/ngU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=yGMSUjDgcVWPfy1XYK0lJb4V8O16KsRRfBKQd/aD3cP6f+SYk9+hc2V4ICklHG6Sj
-	 8FHN0MJm3/mmxi77yGWm44pVUzUvRaAI3Dic1FDgpQoeCiZb1DBtUS4Ox2Qt5CKpny
-	 DuATWvnLOZDOFrVfhmkJR9Z6CfVrsiieyIbmhRoo=
-Date: Thu, 30 Apr 2026 08:50:58 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Muchun Song <muchun.song@linux.dev>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Usama Arif
- <usama.arif@linux.dev>, Oscar Salvador <osalvador@suse.de>, Miaohe Lin
- <linmiaohe@huawei.com>, Muchun Song <songmuchun@bytedance.com>, Vishal
- Verma <vishal.l.verma@intel.com>, Ying Huang
- <huang.ying.caritas@gmail.com>, Dan Williams <djbw@kernel.org>, Naoya
- Horiguchi <nao.horiguchi@gmail.com>, linux-mm@kvack.org,
- linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Rafael J Wysocki <rafael@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>
-Subject: Re: [PATCH v2 3/3] drivers/base/memory: fix locking for poison
- accounting lookup
-Message-Id: <20260430085058.f566bdc2aa5c19a54936da30@linux-foundation.org>
-In-Reply-To: <C2C5188E-76BF-444C-BF2D-8BDC1410BC61@linux.dev>
-References: <20260429101134.1358607-1-usama.arif@linux.dev>
-	<b67ff3f9-8661-45cc-b408-6a7b611d31c1@kernel.org>
-	<C2C5188E-76BF-444C-BF2D-8BDC1410BC61@linux.dev>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uo2y+bxO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A581C2BCB3;
+	Thu, 30 Apr 2026 16:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777565131;
+	bh=I0Hn6+UL9P7mFG6XXZHpwThds4PDPN5q1vkLTTgDkVY=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=Uo2y+bxOm2Qn6x7k7/chYmmzqsW9W6qHCbQ1MN9Zdszme+dDUXno2NwyOPefdHpw6
+	 JsjqyeyiGiWlYyfLzxbhw0TzlFoJemCKGhTpGTiDJuL/LbXKWuNO3YoB1HNdVsNXLg
+	 0X3b4i8q4Nw0BezQwnW03Dzo3c7p5vd4M4DbJcUCqL08OTgJqp+1JbmVQpWHXdzMm8
+	 qGE3aJzF4P0VYW1ZoY+C5QEtYIryBYbMJoFQs1mvanhHP/KPyUSYa5a5RWLxAlz7UW
+	 BGojLiwL5AuNx5ZftMW4Dz1GqwRsbJkX1ePVmfqmKp+mM3UdPes2RqZvlflkfLXcsX
+	 Ok7r7m1b1HcYg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 30 Apr 2026 18:05:26 +0200
+Message-Id: <DI6M8XMJUG33.2NYL9UVC0LLRM@kernel.org>
+Subject: Re: [PATCH 1/2] rust: auxiliary: add registration data to auxiliary
+ devices
+Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <acourbot@nvidia.com>, <aliceryhl@google.com>, <david.m.ertman@intel.com>,
+ <ira.weiny@intel.com>, <leon@kernel.org>, <ojeda@kernel.org>,
+ <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260427221002.2143861-1-dakr@kernel.org>
+ <20260427221002.2143861-2-dakr@kernel.org>
+ <DI6L13A5LMOW.DU7ZTHXZYB0K@garyguo.net>
+In-Reply-To: <DI6L13A5LMOW.DU7ZTHXZYB0K@garyguo.net>
 
-On Thu, 30 Apr 2026 15:59:33 +0800 Muchun Song <muchun.song@linux.dev> wrote:
+On Thu Apr 30, 2026 at 5:08 PM CEST, Gary Guo wrote:
+> I wonder if we could require auxillary drivers to specify a type, and the=
+n the
+> abstraction would check if the type matches; if it matches, it create a
+> `&Device<Core, T>` and `probe`, otherwise it skips over the driver comple=
+tely.
 
-> >> Lockdep would flag this as sleeping while atomic when acquiring mutex I think.
-> > 
-> > Another thought would be, that we always call the inc/sub from memory failure
-> > code while we hold a folio reference and the page is not poisoned yet.
-> > 
-> > That way, memory offlining cannot continue and the memory block cannot go away.
-> > 
-> > So we'd let out page reference keep the memory block alive.
-> 
-> It seems unnecessary to hold lock_device_hotplug if the user already holds a
-> refcount on the page. I'd like to drop this patch.
+The choice not to type auxiliary::Device over the registration data is
+intentional.
 
-Dropped, thanks.
+The registration data is not intended for the child driver to use, but for =
+the
+parent driver to retrieve when the child passes its device back to the pare=
+nt.
 
-mm-hotfixes-unstable still has
+By typing the Device over the parent's registration data we force the paren=
+t
+driver to expose its registration data to the child driver.
 
-"mm/memory_hotplug: fix memory block reference leak on remove"
-and
-"drivers/base/memory: fix memory block reference leak in poison accounting"
+>> +    /// Returns a pinned reference to the registration data set by the =
+registering (parent) driver.
+>> +    ///
+>> +    /// Returns [`EINVAL`] if `T` does not match the type used by the p=
+arent driver when calling
+>> +    /// [`Registration::new()`].
+>> +    ///
+>> +    /// Returns [`ENOENT`] if no registration data has been set, e.g. w=
+hen the device was
+>> +    /// registered by a C driver.
+>> +    pub fn registration_data<T: 'static>(&self) -> Result<Pin<&T>> {
+>
+> Any reason that this is not just `Result<&T>`?
+
+Mainly consistency with other APIs, but I'm not really opinionated about it=
+.
