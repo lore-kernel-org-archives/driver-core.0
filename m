@@ -1,117 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DDB383C65
-	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 12:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13539406264
+	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 12:38:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777550537; cv=none; b=e4abriWBnV7LpNOUuSTzn5ErRO5qTbhSCMI+RYy4iZuMzYkKZFpGlsknFvAvpnf8FdmkntJFG4Wx3bjOb05fU7ZS24QuqDJkmCV8hDAIYo29cDTmjS2q8KYkspaCmgCZmhe80AreFFr/Er2OeKATyF8DcDWnrtRfbl8mO70Kuqc=
+	t=1777552712; cv=none; b=Z//ffQfZSDr9ZIMgE9jyN8gogAVKyWLc3y73VkrIqe/71pVpOZAtPG3MAPtp+phqU/N3zWEpiJSqSbDIr/6wMD7F5Gt3RvoJ53togz+rlh52bo/tLC8F4O4PDoLGBZaaHs99IA8p6MHbJPsJqykd4hZnZGxH91hTzI1PUzwVrIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777550537; c=relaxed/simple;
-	bh=DfIVt+5jRdwB3q68pELtsG2fw1U9ElqZANdJf9i3wFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yh+6lZbMELSx21biPGdbkOE4QlWLDqItxDC6QMvUjCsI4LrEMxTR1aMxFQ9+pTudsHHY7jsTWkY0N/trV9DpcMf91YvLuvJkjz+CqupXhd7PtQNEfTVWKCVWdkVN7TnM6PssSQ+VjkVP3vwrekEHbgmkQd1F7eCOeM9xOU7lAqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5QbOYDu; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777552712; c=relaxed/simple;
+	bh=R9EllPnSfLGDbqIBQFH3hKWnn5nl7Y6RVmjcP2Kjwko=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RmthLvNtnktVE+Y87OvXg3BYTo1SkMGIZPMO6ddvmpyWC2eF96PaByfQhzYijLaT2ZXyOmU4JbVm4zst0emY6BkzMniYq1kfD2vafntPzOHxlsMEY35vmqSpJZFEA4icYtZgKOlOWC7FpchGZFsHzKy/BImMOI6pBjUp8JHP4mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oFLUH/QJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5QbOYDu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777550536; x=1809086536;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DfIVt+5jRdwB3q68pELtsG2fw1U9ElqZANdJf9i3wFk=;
-  b=P5QbOYDuztlxcb/p+cKad42MlSCpUkX2vX96yG6o09xwfIqOoZkQG+Wk
-   oSLoxXGVnXYeDneDfe2oIdKuwLhFGlpKeZdGQ1upz/kzg5toFKZ0duyly
-   AWRN2lgAMRIC2aZPy/6HcK5D8ydiSxkMZVeMehLsxR3uSCSE92cAFHTN1
-   kC9m3z64DDlWRzRFU55LN9w4M9prMmyQqOj3VKYBj8iA/77fIsQjne07w
-   9arnsZ6sbR9GiYdDAsWFVKv0zDqnTnjTOXYUQH4HJjwWpkMbRgIW43Vgy
-   34Czndt7MeTHIt78minuBsxKcgjVeJCAL30ZExl7k1496vk411ftAv0N1
-   g==;
-X-CSE-ConnectionGUID: /ecXU/nJQo230q8wWapgXw==
-X-CSE-MsgGUID: N5cFijWfRXa4MHDxfVvZ1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78420000"
-X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="78420000"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:02:15 -0700
-X-CSE-ConnectionGUID: ERLcUKGtSKKEJ7ZYT49e1g==
-X-CSE-MsgGUID: UvLhpo3tTeS/LXvSz4qhnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="236343975"
-Received: from zzombora-mobl1 (HELO localhost) ([10.245.244.42])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:02:12 -0700
-Date: Thu, 30 Apr 2026 15:02:10 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>, brgl@kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-Subject: Re: [PATCH v4 1/3] driver core: platform: remove software node on
- release()
-Message-ID: <afNEwrHLNTA4ywrN@ashevche-desk.local>
-References: <20260430-swnode-remove-on-dev-unreg-v4-0-01574da0aed3@oss.qualcomm.com>
- <20260430-swnode-remove-on-dev-unreg-v4-1-01574da0aed3@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oFLUH/QJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2A33C2BCC4
+	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 12:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777552711;
+	bh=R9EllPnSfLGDbqIBQFH3hKWnn5nl7Y6RVmjcP2Kjwko=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oFLUH/QJWv1zKJt6LJV4H/uDHLUX9C4aVCgQVaiaBh+XCKQHqAaatil8rAsmF8s1x
+	 4Ziwwsrjv4EbMQssuLgPXUb0EJJuFeANtiAnnUjbmXcx90EDXPvlhJ2UH3ivUiOhPO
+	 Dw6nUyC+Ev2AC5rFbxiYy7jurUiBx5tu0KguSWeXFuyXhljOwBmHzWjZ+Fs7kmY3w8
+	 O8vlT4w2kw8z3JvXh5wQWM7Rm3uODHfijopNyTeDHwjw9Nml0MSXF/BPORv3mGQvY/
+	 CqPm+Hmmdzcl4kBUz71UfBzsLrdk9YyvS4bcOiqCiZgT3NX63BdUCVPiEsW2hcaGcn
+	 VLvmHN6VoNmeg==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38e7bd07656so6921981fa.1
+        for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 05:38:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/Y6z7eFU6MwMhS9J9g8tnrAiIQNdSTR0ZpHPSSECOk/ZVXQbIxus9NACLzQxKT0ivQnCI/5CbwLcOxYA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEyW+DxF9F0bhcU+FTeQELPhgeheetIQ8F2xbiNZ6SNwXqeqkg
+	YdLBk4aSGXuMNpsjffEZSYdkFWdErdBgs8oQlbO0EiZHqgJvEork+aPv9dhvehKKpRLa/gwtkLA
+	KHtJje0ywbI0WusAEtTJAEaFWBcSvJacqfB2TSS3Yaw==
+X-Received: by 2002:a05:651c:1101:b0:38b:e464:f047 with SMTP id
+ 38308e7fff4ca-3934e18cf4fmr10214661fa.12.1777552710367; Thu, 30 Apr 2026
+ 05:38:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430-swnode-remove-on-dev-unreg-v4-1-01574da0aed3@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260430-swnode-remove-on-dev-unreg-v4-0-01574da0aed3@oss.qualcomm.com>
+ <20260430-swnode-remove-on-dev-unreg-v4-1-01574da0aed3@oss.qualcomm.com> <afNEwrHLNTA4ywrN@ashevche-desk.local>
+In-Reply-To: <afNEwrHLNTA4ywrN@ashevche-desk.local>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 30 Apr 2026 14:38:17 +0200
+X-Gmail-Original-Message-ID: <CAMRc=McH0zKz87z0TwPFrzZHMW6psytMaLZybM3pUk6OvUfo9Q@mail.gmail.com>
+X-Gm-Features: AVHnY4LbPmEDdDHJLshHzxLvBbhFx-kkBSGfgSxHm9nJThbWqvGXf8W8buCcC5o
+Message-ID: <CAMRc=McH0zKz87z0TwPFrzZHMW6psytMaLZybM3pUk6OvUfo9Q@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] driver core: platform: remove software node on release()
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Rae Moar <raemoar63@gmail.com>, Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 30, 2026 at 09:46:04AM +0200, Bartosz Golaszewski wrote:
-> If we pass a software node to a newly created device using struct
-> platform_device_info, it will not be removed when the device is
-> released. This may happen when a module creating the device is removed
-> or on failure in platform_device_add().
-> 
-> When we try to reuse that software node in a subsequent call to
-> platform_device_register_full(), it will fails with -EBUSY. Add the
-> missing call to device_remove_software_node() in release path.
-> 
-> In addition to the above change, make sure that we still function
-> correctly if a software node is used as the primary firmware node as
-> well as disallow using two software nodes for platform devices as
-> device_add_software_node() does not handle this case correctly (in fact
-> a comment inside it states that only one software node per device is
-> allowed but it will not bail out if two are used so we need to handle it
-> here).
+On Thu, Apr 30, 2026 at 2:02=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Thu, Apr 30, 2026 at 09:46:04AM +0200, Bartosz Golaszewski wrote:
+> > If we pass a software node to a newly created device using struct
+> > platform_device_info, it will not be removed when the device is
+> > released. This may happen when a module creating the device is removed
+> > or on failure in platform_device_add().
+> >
+> > When we try to reuse that software node in a subsequent call to
+> > platform_device_register_full(), it will fails with -EBUSY. Add the
+> > missing call to device_remove_software_node() in release path.
+> >
+> > In addition to the above change, make sure that we still function
+> > correctly if a software node is used as the primary firmware node as
+> > well as disallow using two software nodes for platform devices as
+> > device_add_software_node() does not handle this case correctly (in fact
+> > a comment inside it states that only one software node per device is
+> > allowed but it will not bail out if two are used so we need to handle i=
+t
+> > here).
+>
+> ...
+>
+> > -     if (pdevinfo->swnode && pdevinfo->properties)
+> > +     /*
+> > +      * Only one software node per device is allowed. Make sure we don=
+'t
+> > +      * accept or create two.
+> > +      */
+> > +     if ((pdevinfo->swnode && pdevinfo->properties) ||
+> > +         (pdevinfo->swnode && is_software_node(pdevinfo->fwnode)) ||
+> > +         (pdevinfo->properties && is_software_node(pdevinfo->fwnode)))
+> >               return ERR_PTR(-EINVAL);
+>
+> This makes me think of why we have these many ways of doing things...
+> Perhaps we should kill pdevinfo::properties completely?
+>
 
-...
+Good luck with that, I'm pretty sure a lot of users are still out
+there. :) It's also relatively convenient and skips one more struct
+definition.
 
-> -	if (pdevinfo->swnode && pdevinfo->properties)
-> +	/*
-> +	 * Only one software node per device is allowed. Make sure we don't
-> +	 * accept or create two.
-> +	 */
-> +	if ((pdevinfo->swnode && pdevinfo->properties) ||
-> +	    (pdevinfo->swnode && is_software_node(pdevinfo->fwnode)) ||
-> +	    (pdevinfo->properties && is_software_node(pdevinfo->fwnode)))
->  		return ERR_PTR(-EINVAL);
+> Second thought is what about actually refusing this on the level of
+> device_add_software_node()? And looking at it, we have that check
+> there, why do we need it here then? Did we miss to check error code from
+> device_add_software_node() somewhere?
+>
 
-This makes me think of why we have these many ways of doing things...
-Perhaps we should kill pdevinfo::properties completely?
+device_create_managed_software_node() doesn't seem to have that check
+unlike device_add_software_node() so we'd hit an issue with properties
+!=3D NULL && swnode supplied. I think failing earlier here makes for
+more readable code and less error-prone unwinding on failure.
 
-Second thought is what about actually refusing this on the level of
-device_add_software_node()? And looking at it, we have that check
-there, why do we need it here then? Did we miss to check error code from
-device_add_software_node() somewhere?
+Also: device_add_software_node() return -EBUSY while I think it makes
+more sense to return -EINVAL. I prefer to keep this check locally
+unless driver core maintainers object.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Bart
