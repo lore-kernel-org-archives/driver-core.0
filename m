@@ -1,112 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C5D36827E;
-	Thu, 30 Apr 2026 09:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638C03A7F70
+	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 09:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777540680; cv=none; b=nZLaPytBJzBD39FjrthM+DnqKkFEpEmlS1uTaxl2F3VpYnksAFPl52L/pJ9C69iUMBfGhalmvTvvFn2Ey5iNZR8ta2aWSyxgk0TtcAWjISbE7HTuTHfTGONsrgLc1VH7SJcpQABItzYkkkXOo8Qv2O2PLBaaATKI0Qxqomex95E=
+	t=1777543037; cv=none; b=jZsSBV73LnRCPAj76Kn4WDEzEWxAxAkLeASAdPS63CbOyZ/hKBZOfHbhJPUC/6VHQGiDq66H3P2Cj0sl3ub1JrzYWqS0nxOFtyIrOtk0nXD1e1gOjf3eMvx06YCrpAZIB6hfTU+qiY+4YwXlWfJQ14Am2TOYKOx2FX2Hv2KtxHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777540680; c=relaxed/simple;
-	bh=Y1IqjaKgqBrIy/QgUYgru/+YxC+AuARpeUSdDcOtnk4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uI3Tf+eFumpIW8PjMHuFfUKpLa1qipyx6CBjnbBmwLXy1zykMmSV68mlIP1bqvdjuQ+V9D3tUW+aW//pO6e0CNEjjN3JtdTDihROAI4vY8+wKuVvrb6S9yHrooxrPXRIu9V33bIpHRK6XKmH9gqkHQ6sB+aZMu4dqjyofWkQ/wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klmbMQK8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777543037; c=relaxed/simple;
+	bh=RwvCmSJulumGeXi0ewU+k1aaU5bqDhOyaS0bBtaKz2E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WuTxUr4TTjiYYk0WfMdjSpFTAk7gZWydXzPlEXOtg6ENjG4J8iUXtUA47cMONYCeE/3oO/yR036tb0VydetNsp0VtU+9PoAAJCrAqc2kIJd11nXlgyfd7T7n1wNJtkbfiXSog3Y1ZWELw/fBr7AQ5a1hz2Mv7wZ8q0qQyaK2rsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cU9Ff4nm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klmbMQK8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F199CC2BCB3;
-	Thu, 30 Apr 2026 09:17:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cU9Ff4nm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21127C2BCFB
+	for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 09:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777540680;
-	bh=Y1IqjaKgqBrIy/QgUYgru/+YxC+AuARpeUSdDcOtnk4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=klmbMQK8qMylNbonHELEWr1HvtdLV+lyPnA22PYwMCjUIsc5UBK5X0ObFiMKxOieT
-	 PmaCSZqd2aVm119RH1BA06UgrdTZiTvg6mpoQOVwO+Qh/X3gsNy4NDSzJzzCLJWpQ1
-	 LXQVQ5DkivLL+2g5ysgkYhgsEK0gnBLSD93lF9/+iPSgF563dsaRKa6V/6yyyhxt3J
-	 FaUy2mHACQwHoFq6S1s/dxzPLiL2BZCK3bbGUDlsT19mt8dqzoDzvYgeAM9qqZd5AQ
-	 4ERi8vrpEnR/SqeY4S1MAmUq0fv/O48jVAH+3b5jBGL3swfskksbj66Fipz+lWG5cV
-	 709iPBLeimTUg==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1wINWv-00000000xuJ-2rja;
-	Thu, 30 Apr 2026 11:17:57 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rafael J Wysocki <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] driver core: reject devices with unregistered buses
-Date: Thu, 30 Apr 2026 11:17:18 +0200
-Message-ID: <20260430091718.230228-1-johan@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	s=k20201202; t=1777543037;
+	bh=RwvCmSJulumGeXi0ewU+k1aaU5bqDhOyaS0bBtaKz2E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cU9Ff4nmkLDTLzmGXxKUOxohnzH4mL9BQn4BqdNSH/FJnveFlWSQlSM6H8nivu0ev
+	 0HUsZ0zlLuKIXXtdmpnuQzI9DfLmhIoj8M123u+C+kzy1HSroafDcYQlqGnDFKvgMF
+	 RmpxT9ePP+3svCU/swn35V3tuJ2d0oBWeXsqj/Uvsig8NagoZCOPNDy+A0mhyFVKud
+	 nqCC9Ir+dPsmOmypEm+ufJDvsM0tGcrTnALAAEhRlRuCKwYAjK5JQxmeeIelKVvOUL
+	 9/Usg4QfAN/biDR+XWh4tI0APNb9ewX3RSxjjGt9woPeyNFnbGcAG8oP5qU1q3jCfb
+	 8+POysTjEqX0g==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a40cfab24dso815546e87.2
+        for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 02:57:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9db+6WcuaHKxyKWUzWAUGOdEPcbEUHIrSWBaJ2Kn602L5F+Ph+9u96Ppg9PypNs09Vkb41/L2B3+zrMA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyyUnoXzSl/dF8l8oReojcAlTj3nQyOmHuo00ccs0lol6KIlv6
+	4erpNpSdknvR1T71ra4M2ATp9654Bxtjte6IkbV1LKNhIPT05bupKLOEOVzyWY4j/jy6OyiMtPs
+	h9art45NNMg0pdqDmSwRVS1iyF4siSBA=
+X-Received: by 2002:a05:6512:4017:b0:5a2:864a:bebb with SMTP id
+ 2adb3069b0e04-5a8522d4eb8mr758559e87.20.1777543035289; Thu, 30 Apr 2026
+ 02:57:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260430-baytrail-real-swnode-v4-0-767bcda6667f@oss.qualcomm.com> <20260430-baytrail-real-swnode-v4-1-767bcda6667f@oss.qualcomm.com>
+In-Reply-To: <20260430-baytrail-real-swnode-v4-1-767bcda6667f@oss.qualcomm.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 30 Apr 2026 11:57:01 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jooK3LqEXOH3m6Le4gDiMDOjCAawsmq_Kzim7T76kcDw@mail.gmail.com>
+X-Gm-Features: AVHnY4LLRxYWhknbQDaqqATspis7Xhq8JMKrXRvQlheeSpBHn0eRZucKuI2NAL8
+Message-ID: <CAJZ5v0jooK3LqEXOH3m6Le4gDiMDOjCAawsmq_Kzim7T76kcDw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] ACPI: provide acpi_bus_find_device_by_name()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	brgl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Trying to register a device on a bus which has not yet been registered
-used to trigger a NULL-pointer dereference, but since the const bus
-structure rework registration instead succeeds without the device being
-added to the bus.
+On Thu, Apr 30, 2026 at 9:34=E2=80=AFAM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+>
+> Provide a helper allowing to locate an ACPI device by its name.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-This specifically means that the device will never bind to a driver and
-that the bus sysfs attributes are not created (i.e. as if the device had
-no bus).
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-Reject devices with unregistered buses to catch any callers that get
-the ordering wrong and to handle bus registration failures more
-gracefully.
-
-Fixes: 5221b82d46f2 ("driver core: bus: bus_add/probe/remove_device() cleanups")
-Cc: stable@vger.kernel.org	# 6.3
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
-
-Changes in v2:
- - amend commit message with implications of the device not being added
-   to the bus
-
-
- drivers/base/bus.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index 8b6722ff8590..d17bd91490ee 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -544,10 +544,10 @@ static const struct attribute_group driver_override_dev_group = {
-  */
- int bus_add_device(struct device *dev)
- {
--	struct subsys_private *sp = bus_to_subsys(dev->bus);
-+	struct subsys_private *sp;
- 	int error;
- 
--	if (!sp) {
-+	if (!dev->bus) {
- 		/*
- 		 * This is a normal operation for many devices that do not
- 		 * have a bus assigned to them, just say that all went
-@@ -556,6 +556,13 @@ int bus_add_device(struct device *dev)
- 		return 0;
- 	}
- 
-+	sp = bus_to_subsys(dev->bus);
-+	if (!sp) {
-+		pr_err("%s: cannot add device '%s' to unregistered bus '%s'\n",
-+		       __func__, dev_name(dev), dev->bus->name);
-+		return -EINVAL;
-+	}
-+
- 	/*
- 	 * Reference in sp is now incremented and will be dropped when
- 	 * the device is removed from the bus
--- 
-2.53.0
-
+> ---
+>  drivers/acpi/bus.c   | 13 +++++++++++++
+>  include/linux/acpi.h |  7 +++++++
+>  2 files changed, 20 insertions(+)
+>
+> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+> index 2ec095e2009e40b0645f654fb051429e5679dc7c..5dd8459be03db4165bcb59943=
+b94ea7db273ad7b 100644
+> --- a/drivers/acpi/bus.c
+> +++ b/drivers/acpi/bus.c
+> @@ -1181,6 +1181,19 @@ int acpi_bus_for_each_dev(int (*fn)(struct device =
+*, void *), void *data)
+>  }
+>  EXPORT_SYMBOL_GPL(acpi_bus_for_each_dev);
+>
+> +/**
+> + * acpi_bus_find_device_by_name() - Locate an ACPI device by its name
+> + * @name: Name of the device to match
+> + *
+> + * Returns:
+> + * New reference to the matched device or NULL if the device can't be fo=
+und.
+> + */
+> +struct device *acpi_bus_find_device_by_name(const char *name)
+> +{
+> +       return bus_find_device_by_name(&acpi_bus_type, NULL, name);
+> +}
+> +EXPORT_SYMBOL_GPL(acpi_bus_find_device_by_name);
+> +
+>  struct acpi_dev_walk_context {
+>         int (*fn)(struct acpi_device *, void *);
+>         void *data;
+> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+> index 67effb91fa98373d7bf19be5ae3d8baa9328d6e1..10d6c6c11bdffcad14100601e=
+104520366dfc30b 100644
+> --- a/include/linux/acpi.h
+> +++ b/include/linux/acpi.h
+> @@ -798,6 +798,8 @@ int acpi_get_local_u64_address(acpi_handle handle, u6=
+4 *addr);
+>  int acpi_get_local_address(acpi_handle handle, u32 *addr);
+>  const char *acpi_get_subsystem_id(acpi_handle handle);
+>
+> +struct device *acpi_bus_find_device_by_name(const char *name);
+> +
+>  #ifdef CONFIG_ACPI_MRRM
+>  int acpi_mrrm_max_mem_region(void);
+>  #endif
+> @@ -1106,6 +1108,11 @@ static inline const char *acpi_get_subsystem_id(ac=
+pi_handle handle)
+>         return ERR_PTR(-ENODEV);
+>  }
+>
+> +static inline struct device *acpi_bus_find_device_by_name(const char *na=
+me)
+> +{
+> +       return NULL;
+> +}
+> +
+>  static inline int acpi_register_wakeup_handler(int wake_irq,
+>         bool (*wakeup)(void *context), void *context)
+>  {
+>
+> --
+> 2.47.3
+>
