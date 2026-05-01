@@ -1,47 +1,47 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010023.outbound.protection.outlook.com [52.101.201.23])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012068.outbound.protection.outlook.com [52.101.48.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEF030C34E;
-	Fri,  1 May 2026 17:47:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC10317169;
+	Fri,  1 May 2026 17:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.68
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777657678; cv=fail; b=SoVgNmszdN8q+Dk1Qdc/v5aT5yu7eLr5EkSBblLMrWM4jRCo/BIRvuEHS9+XbbTuCsEXxA72qQCWGVvpvQnTUlSAoHgKfSCO4ctbl82mV3tll1h6FX4Q/kT09HuL9CcRT3k5dY8Qr/gYDnCxNNdIUM87tQ6TQekzhunwVgGGV9w=
+	t=1777657879; cv=fail; b=ffRRsFukh7X1eulLlETFeOZmAMcqzkkAo67fyCoY47VQZG9GWUcynOahZLpmHU8j853AWUKpud1KO+XQUzZbKPQ7ZxqxKJMIlaq9gSBhJOYMheEd/bTC9U+jmD4ZuJQlXr5ZnyDuGULt91RCNbAsVtxIi7B/G35KryF1LNykkr0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777657678; c=relaxed/simple;
-	bh=vZTxZ1ZXadrjAm2Zy57CTUhrNXvQN3FZiZIMEypk8Q4=;
+	s=arc-20240116; t=1777657879; c=relaxed/simple;
+	bh=WNJS9JWm2QDlyKjVZwVytP1wctQ26+DnL/USg7XmCDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AUX6AD7sTbqIJir7IVUW+LG/qSpOolba03vM0REnJDFQ39+FGhdQTBJawm8C5WBBOBsGkpRIIIZlL2sC6n8bD0SN3+PENHj5jmMy8cV8B4oVizGjuRcy311JHcQgDL1iUrwZSDszynXXsbnoGCGZoKPQy7g9aVE3LpAtpto0FhY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=haG0Frld; arc=fail smtp.client-ip=52.101.201.23
+	 Content-Disposition:In-Reply-To:MIME-Version; b=f6edbEoTdCbQN2ApHKnsOOY+V5d8vIigON/5W562DsWtL8dfQpTYkFD9GgE0KCpWtN/AOGauVGeidn9HPG8scAic3XPr1eEKyytrHtZkIvO+ThHAHx9/234cTc7I/NPbVBTIDz9cVdqSp+fQWvXnWkBLLWBmlzcJX4F3+U5Wy0o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nWryic3m; arc=fail smtp.client-ip=52.101.48.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="haG0Frld"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nWryic3m"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vD1qk6kOu8bgLfcnwu6geaWRfInqaG8qR78ht2s7QFyOJqbHGdzrd3DFSRk9gB4/HmxPNu4+5ybMxaRcS9MW+ldWKh6TGsoSbCE0JVd0IR7FVzI9MdsJ7X8lBvWKu912oa4o9MvZvzB6X/pdmePnW4Ym8/UU/rd5vnFOnozM3L3vWTfLoIKm+BiRnSZ8u6zSM+IuuWfWGa51dP5Ju+fz2bPAlpUqEPnLZVZ03t6OwHQxCn7iBCiNLa/kD/5WN5Q1ZmZ8qtp7+HtzR9DItbiwrGixSqfr7Y6sF/9MObTFzg8fid5GWI4aPWOlcYEZc7cP17YeNqwH89fXXTbNJoJSPg==
+ b=JdZbUjsCzHU/DVjlvlkluLCtvmdFH/lEPLrtju8/LRwU9RU21qFW44C4TctHP0fFlmRkh/EcXqViCyw2v6jtQhbFG/xmWm4i1Kxp4hRfkOnGU+DJ8y698DKWt99cSAu0K+m4xstxG/dYfzMCJWDZqz3YI9nR6oDDJh/qBTYyGu+1iZKxzbJo0SR/4dGK7j2lo2T4+ACR0dQREE10cybuus3lY7OTzaQ2/N+awKdNktmQDhjjZSO1KFICYStcG/tA3CLhmDoqI2QDRxTR99axzVX4L7OSyxNbyedxACZL1Tj8pTMduJHzORMmijC/RBLHprmUByPF7KrASoPjEhXn/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jB5ekkYe3diTiGARMeqxSlAGvvZUu13jfwA3MmHtn6A=;
- b=oJyRYfvLRexKCQyhlajW5apH75jw4+IxdB/y8Uo2kdC7YdHfAEDD80HR6nlXXghFtPsanaCcTWSBZqqvFco8RyiqQsKSpE0Dq1BLwhCP3YW7qn8IVOgFdDd1h6YI7TEzVvF6uBiEPOIglpb3XH2bbNWte5UjMsda36U49xMnzRO+a/K8NP1qVVUHIE/7Tv834aINwJiJjFK4k4DfEIIHtvH9EQ1evCYiUXAeQBahZ2NzdvLrlBijX33n+KehprGi8E+1MH5EqNE/lgyYS0cUp86XcWaSabzGm4bkMr85YIWp4ZM+rLa9OyZXRvFcrCZt5iHyqdA0K04W/OEB3e6SUw==
+ bh=xDp7nbEe5X98agFsJAFCbZRO9qcA6O24B0aUmaM2yNg=;
+ b=GnSDQxkA3Jm1QSI4jLqQflTLk671LGQ9QptXzEUOcQMIqDoQStl/Jl5LzxE7f0CaHN8OgfCU/1IifesaeTnSYPm4c88rqG7atxjazLYqiislTh8rl3ZiIPzoH63LWRs1W2bGGFx0TrVI3qMhY7c4Su8nV3gLNiHkSYgXjOyes/uDt1XLjjShoIqRjJYaonbZp5DT+3PD6k/Ai0mCVQqqD6yrm9RFlzTDQsx3HPWXVDN5fVz8QnVg8gHWysm2X1VlFReuFvKzALIlZRUkBh9ilF5mCb5GQqhfq8I2WXw5sid1u2ThlEFbmf6ATaMyg6K9zxEvSq/DiraUhPwD9fMQbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jB5ekkYe3diTiGARMeqxSlAGvvZUu13jfwA3MmHtn6A=;
- b=haG0Frld/IZuAmxA3qEa6GgK8BWrjT9Yjv61XeMEixdp0GyfZpJaRFLJnGlyLU1NOL0EvhnvIdn/4AM+eUFyz9QNXFHOYLMkW4zqP5tsVg0BNStrR+QluD3uIODHQlZk9jRJCTyAOdc+bo6AL9QQkbUqJsoN/2Q8X+t5prHgF+ZsIvClgg6HjY7xWYOh9gGsscAee5BRAlQWYcicnp8jNosq6y97uhE1rS0sp4Pt6AQjNhlh/zYwddCcLOMdh8zV7duUGaD/v8bTChToiQx4jzNb7+xpS9Q9h2p0cyS4eoTuq7OJ0bEwEbsW4D6D14FUq0+rwlL/NOgWsWmvQ8Z9Yw==
+ bh=xDp7nbEe5X98agFsJAFCbZRO9qcA6O24B0aUmaM2yNg=;
+ b=nWryic3mRvQ0Nso9f/w8kiiLOxNBR/EQHjynvkatjHmZFgjFIoTrd7KnxHHu9XiLLh/AAM+4Y3FBWldDdGGCEWenQde5tDEvj8FSYgv/DKXN0yZZosdCekGw/rThgdzrwpHEBKvROnPRGM09KV75AWWiNxZbpOH9HqgJomJMT89Uj7alxknY9ADOdIqASL6M7wgM5J+nu+qmS9Kpd17L1Gt8hZfb4CvMPfumvot3EboILjOXS8ytwxjd441RVIQ/VuajBhUuvM5B4xMg+8mDqqx2cfFIk7/7qThTu3CX1qVorJkTcvdAsHakKQosYkbfGf/EJWDB96ThL9vLeipatQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CY8PR12MB8300.namprd12.prod.outlook.com (2603:10b6:930:7d::16)
  by DS0PR12MB8069.namprd12.prod.outlook.com (2603:10b6:8:f0::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9870.22; Fri, 1 May 2026 17:47:50 +0000
+ 15.20.9870.22; Fri, 1 May 2026 17:51:13 +0000
 Received: from CY8PR12MB8300.namprd12.prod.outlook.com
  ([fe80::ce75:8187:3ac3:c5de]) by CY8PR12MB8300.namprd12.prod.outlook.com
  ([fe80::ce75:8187:3ac3:c5de%3]) with mapi id 15.20.9870.022; Fri, 1 May 2026
- 17:47:50 +0000
-Date: Fri, 1 May 2026 13:47:47 -0400
+ 17:51:13 +0000
+Date: Fri, 1 May 2026 13:51:09 -0400
 From: Yury Norov <ynorov@nvidia.com>
 To: Alexandre Courbot <acourbot@nvidia.com>
 Cc: Joel Fernandes <joelagnelf@nvidia.com>,
@@ -60,14 +60,15 @@ Cc: Joel Fernandes <joelagnelf@nvidia.com>,
 	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
 	nova-gpu@lists.linux.dev, driver-core@lists.linux.dev
 Subject: Re: [PATCH v3 3/5] rust: io: use the `bitfield!` macro in `register!`
-Message-ID: <afTnQ1KCyybUE3pH@yury>
+Message-ID: <afToDUV3gNdPk-bw@yury>
 References: <20260501-bitfield-v3-0-aa1076c3337d@nvidia.com>
  <20260501-bitfield-v3-3-aa1076c3337d@nvidia.com>
+ <afTnQ1KCyybUE3pH@yury>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260501-bitfield-v3-3-aa1076c3337d@nvidia.com>
-X-ClientProxiedBy: SJ0PR05CA0021.namprd05.prod.outlook.com
- (2603:10b6:a03:33b::26) To CY8PR12MB8300.namprd12.prod.outlook.com
+In-Reply-To: <afTnQ1KCyybUE3pH@yury>
+X-ClientProxiedBy: BYAPR21CA0021.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::31) To CY8PR12MB8300.namprd12.prod.outlook.com
  (2603:10b6:930:7d::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -77,340 +78,72 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CY8PR12MB8300:EE_|DS0PR12MB8069:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a0f82af-c018-4296-66e2-08dea7a9c346
+X-MS-Office365-Filtering-Correlation-Id: e4bee8d0-36b9-4644-157e-08dea7aa3c17
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|366016|376014|10070799003|7416014|22082099003|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	7wKR87D0NBlwvLaWQMlKoVphoB4tE+3GXeOLJs4BVWJIlf3SPVK41HIp743OlzLerJcmLt69X+A/GngmFAQ/GbAUh64DAZtQH6I8a5AvbwTpMdQSx7RcjQJ8hZpqEgcROaZEsz2hijlThIRnDwbufZvjmP8IlzZIFfMKxcZnhTxv8afwR/DvGpXd3xduHiHn96eXl3SZ/wLKFeQZJRUhQ1DFnF5Vuff0TownDkHU8YFB0jlJen0NuXqiM3mJpXzUzcY5IRlP4bgNHfYIILxi8UrvKx2G8ts+deghENj79vWRw4ideyWX0uymfgVvA48SoGYkExApfxahGG8pHpnri6wsE82kghMdQWlpbvKRvPm7UaWRk3ZXTVx8M+N51Eq+87rRvVSSkTa8LAhRqj7scHho9yM2J8aNMvnGEb/+3H3ldBvjd0D/tWhGCt2enJQWyyo13JeoBXIW1jnNdXw6n3jyQsszPEEPwXJ5jKxfrwbXr4QXEY5KqT5hnmrP68hWi0gTSMl8t4kQPDa5dEQKKy0Z6d3hYN9s2hWqpo1T7Et9OQq5GGIhgY+pfGxQs5Jq+aSaADhlIuy+ui+TGa0XyYsg9QUi0n0OnZhuy30Qbzjts5OCFct4/fnRW8V1TTgp47IZ/fCqN3+5QBjS72TJE5RES8uMnymU8UpgwxvVKZNXnuDjWXv2AeNw2AWZVJg3
+	tHAZPzb1+8mgy3RsGt1wCnlrHWHkBJKWUkldLG95jvsPON8JOudDpIAWjJoD+GKOtFXh2lrn936xtndkSVGXIbQ/v1SWIkA6SRK3DkHhs1JRKK3WTI3booeax3RM+JRCa1Aa5JbMV59GQdilnR5dDxk9KLWAyncXZN/IuVJmgRHcLSM4BTmbHXji6aJ1PrIMkT9Pf6voIKSVcD9vn0IBwLtKvsN4CThLnCVNkGT1Sropi415wtjZyaLpZzOFXEutT94t1CmbM6RgGtQdrF10LDvXW4XfA5FKEBqTfhNOmUf9D1SduXulii2/gWycPoqP9F8XxrIm3TIvBhQto2pYttu9hA1nNadJXvnlG9kRb4vt+wMCTPhv/cmcUkUWn7rFqI/qqc7elEzJK3KfE1lPU7fpJi9tZy5HMpXdLJRqorUP0sNIoiFo2wQ90TbTgRI96pHxytRvQ8pu6hDklINHeBV9n3mc23jYZJidrTPRfegMAbNoYFGwrNpAuziSFV9KvP4eZFepQNUse22WPhxTznVFqE/V0SWCAkEmcrNKO/n51b1Gkyf76wsUWBHUq/jPf5X3TZ+CXPWZe6BPsB7QMkzfFI23inzb5R22wNFOEJB304ZcM+T3gu4/ceWB9NeaE2Dg5HMkL1j65H2CX5+gKk0moXXtJ2Z2rBA/MeNy3cKJCn4pIdk64KbotFyhdjvg
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB8300.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(10070799003)(7416014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?D+Ldxn0Pna0lQ0AA9gRlEqBs89B2poaxmUaZHw9qERcozIEqs4KJb1v7zx6x?=
- =?us-ascii?Q?4m0pIqcbTiFDlej4Gr5hxfssApE577+aQIjsNVpOWdXfdE3DEYjuCSbga+B2?=
- =?us-ascii?Q?G9BkgPJ8c6nkxS7GfnVtK5AghyakpyWh6F26zhVHKU8Nm8aim5atXNBhksby?=
- =?us-ascii?Q?cGtATwHwhIUlhY2E82MVO6Z8db2xszCqZbixfI1XiwqgYb7BFty7JMw2TzOw?=
- =?us-ascii?Q?evXC9SYFb0bqnooMMvTUHPSj1JuTJLjQkoyRo2IV42SfH9Q/B1sTeyxJxXEx?=
- =?us-ascii?Q?Okceko1Mg1AgXAw3DnUPPGmV7mfkhd33oO2K2/4wFm8szmD8Dhcwxwd8x1YK?=
- =?us-ascii?Q?4VBTB80sMXZbvClaNCnV91I6EJQ2jMxLuEWvE7ElaNcPwtcGbO6JFolEMJdx?=
- =?us-ascii?Q?OE9TKZuycMHfh2UYZb6Rqdjm5ZIuB5VR/IXy+4eaAY9vOyFzbyoO9rRmgUkP?=
- =?us-ascii?Q?hO/3ERFmKsOqWBzdZQVdcotzdS+nXf/iTZ9cc6oJj+9qaL8wegcLY5GwMFQd?=
- =?us-ascii?Q?/bJ1hOyF1GqEYjzUjuBKVGscqsDnk6tdZUl1gBobxXpyk1OdnXk8ZZiJoBUy?=
- =?us-ascii?Q?AZ5cIzol7GV67I7Wj1Ov7yIKUmt8wmVZAcI7Wn4t6KASiEXuoWqemFZ33Cez?=
- =?us-ascii?Q?iCiNqMemnJ1r3Jdf5S8hHVw4/Cfq9qFJypBiVAx5Tst8FSpyhx0I9bDHTlPe?=
- =?us-ascii?Q?SeiGm+6UMMU2v/sZqJNaR2ihe7JvLpbrbA8hymAkMhSvPC8BumCLD4sFsIKp?=
- =?us-ascii?Q?T0GnWhibY/SBTnxcqTCGZSAJavJrad5S1ajtmDdjuQPshyM+1G0DVj744vmW?=
- =?us-ascii?Q?Ua7cwq+uu+k45fzlH/bb67OtXWPqh3XXh80j5EN7CMFTVr2cK5UnEwYegFYm?=
- =?us-ascii?Q?be+4hPzxM2tpWsBSmoG4uqMWCPIqm+hMOGXAboYKGEqu52u0UFg7H05sQUMa?=
- =?us-ascii?Q?FDhiZqjZpLMeKtFChaQ+WwRNhYJDL1byeig6V72qf76iuPr/DNwVqIQfXqzW?=
- =?us-ascii?Q?6S5HoCmDyfp0FJju6gAzsvxtIr86bpv+OkFLzy7QP2QulkHLXSz2CPulbUqD?=
- =?us-ascii?Q?VqKAsbm93SDOVYX4nTgCM6sbgEr3MDpa/PlR5Cr8jlIwW2ZhU51EkH7GOu+u?=
- =?us-ascii?Q?0pO6DE/cUmAZiJpP8AYZRac+cpsoOBwZJ0BC76SXSxXoS4gLmv64zr7JLBmH?=
- =?us-ascii?Q?8x+zusufm8livLpCBowekkvGLwf+5vxodZpboXF9RPrjTzrmcBHbbRF2OGR0?=
- =?us-ascii?Q?pJjI4w2ZSN88Ruo4lqR/1bXm5+RrulsT8fNbKSbnwBG7FEzQKq2d2zb+Y6QC?=
- =?us-ascii?Q?WTyY5DrLKEUq3T4opWjSYsCULAAZVidz2LZtiz31RDwnRAvndnt560sICW0r?=
- =?us-ascii?Q?zY2sn89drl0hwu/8UHdMPEBoknVAMPQjgok13KeUyA/QNXYblbCiudzWAuY1?=
- =?us-ascii?Q?arrP/tfcgZiFDDU4aLAo5E63590K0kcdgFNRwC8G47bj6h/8TZUA/hyIIJA5?=
- =?us-ascii?Q?nO6qloA6JH4k9KU1OMwal82xZYEajh3gQ6kpLJzhuIPTznpivgI5sT2E19xz?=
- =?us-ascii?Q?pZiWbvOeIZhT/DMS4oLG0VaW7NBr51IJ/RYMwUIl2FlLqtVQwROlmcrD9qO8?=
- =?us-ascii?Q?2oYtAxdMl2h2BXlfI4/8k51WhffDxAtBs0pYVwIxmjpAtJGW5M5B9sHnM6hy?=
- =?us-ascii?Q?WZpZV4ylidCFejB4YQAGZ8rWYu1LjXL5nOHFlxDt9t65ncdtkfF27Zkh4aqZ?=
- =?us-ascii?Q?0rS3r6u6hPertj4ZSFo9g8okHCX+Y9MzY0i/pl25KeKVfvhV0S6B?=
+	=?us-ascii?Q?gHD6mf6I1n1H8n/rfLZyXI+urr4Cled1VEPVpJ9CDriCH/kXy5/uEA3uKA8X?=
+ =?us-ascii?Q?gE6ddOezUQUWsrTSqjzhHiJlV1Cfs8zLg833RFXqQQmUo0zrz9KP6W0NeXyp?=
+ =?us-ascii?Q?UYXFX9dUFUsCMT0bi2wwDcnHJbQSvx2K7jTenzONETHZYQLOUl1c6OQofHb9?=
+ =?us-ascii?Q?0BjRyMYw7EMRJ4+mPc03Bzx3j5Jmqho3qsfEZHe06GvI5p0O7Sel7N9pN+pr?=
+ =?us-ascii?Q?YKa5hDaPPlb+B1gqOHBoQcVSRFjma6WnPWai40RK1tVi7kM9F68arq8fHHzS?=
+ =?us-ascii?Q?BOztqZQuNnDz2EGHxkCgVns8tt7M2ScVjKNihhyaYrdFldDmJYTMPRsLjsYm?=
+ =?us-ascii?Q?WYpkSdjPzAR7blicyYF0CrDotWzdu+6l+8o1pHZcFBlAVAo/iY58UiyMAdjo?=
+ =?us-ascii?Q?VhH4H79tgaRr8Vtgl/f8yD1MKEttFSxrd7q/Mvo+x6qe9Gu1uFlvmtAin4qX?=
+ =?us-ascii?Q?HDCLf2qHPoqH+zHu77Jas8TuEaeGpTkMSEtRi5BOq3d6bGrScZPhSOldwE68?=
+ =?us-ascii?Q?wb+hBQ2GLTUjY2kNJTZXY8sabPtw9l4mZBpIIJJVn8Q/1AzBJNnMDvJ7k0+D?=
+ =?us-ascii?Q?roko9v8Oi8T9YbnZYjvvVZrwZa7y8XLF+YDWo9ChMfgLd7j5GAAJ1NcIrADw?=
+ =?us-ascii?Q?1zOLLaRRqk9BdX11lKFOYCOug3HRPlVN1D622+zRIkEkEUyDMjuaxEVjKQjd?=
+ =?us-ascii?Q?6bCe5Y/XRESz20Q3uuwwXGLUMWZmLmHwXjNLs78LoNfpVmZyXsAPZIX5V/Aa?=
+ =?us-ascii?Q?wtlzC2sZFl5xR49QizCggFDYqrucTey9yY8q3bKK4QPR/PtKJH3BpPuLdN2h?=
+ =?us-ascii?Q?aAYf4ipzeGazfqoDwgc/5Dn/iLTYVYhbg2eTUw4nrZOef8ldAuJX/wclq2MS?=
+ =?us-ascii?Q?0ul2nFoIAmkOlRTe8jVJGsG3ybBxCQT/EUkxIcFRgUA3qUxGePFTA5B5rxXg?=
+ =?us-ascii?Q?kh97Qc5uGy4QzCEzGWzzxGAtdE6UghBOMv3yH4QeV7XtFoDxrBMxaBCwFLHn?=
+ =?us-ascii?Q?DCZuQrSOLHqJsvZblj9Hf4lUGk+A4UeiN1evofUxF6O+9BDP+E0mWZkUCdp4?=
+ =?us-ascii?Q?IllLTETkIlbtpkv6GBjNdjoJfrdLL0bNLvOGEbFe1mct+aBJj+AjNzVrEFvR?=
+ =?us-ascii?Q?U/nxsYHr+gB7iRnHxOvkzTKLratudF7NFuvpuRvMdGgF++BGNqMPK9scOHQY?=
+ =?us-ascii?Q?cJXnyUghcmoBP7YBaZS4Xz78qip7jPmoQqgVbiGIiTCp22QSHPOy5QOaIc4+?=
+ =?us-ascii?Q?Dx9Vlrk/UvsJ0ix1zaJLJNf384BW4x7U0krFWTrkPYOoXmRYzAJETUWEK8j8?=
+ =?us-ascii?Q?MMUoQ7tVx86kVXFCo8HLay9kNzzNo2w7pXSUnuyBGYe05d9bcdXVijShAUMu?=
+ =?us-ascii?Q?DXo3Tsl67dbbxKs4HGjB328p5At8xVz6JzgOOd/UUTivWi8lOIYAcj7zT9gm?=
+ =?us-ascii?Q?OA6I8vZGxDqZ8XqAzDiOGmoWJLw6fN94WE5/XLVgUvPWTaMRqvzHpxYoJaPm?=
+ =?us-ascii?Q?jnN+y01RQ+C4a40CgZrOMIiTxDjmWa2StfMfF6lRqcEjIDd1IKlkcCbPUA22?=
+ =?us-ascii?Q?dPvmdjyUEiVd37UvuXy2kw9eMxs7otBt4Hsm5NUYFmqkRPGE9oYwUC1fBOi5?=
+ =?us-ascii?Q?e50TrP5PH6yanb4BFcv7S4VDckREeMgfjvU9BHgrHpXfWzk+cDO/LIvAtjip?=
+ =?us-ascii?Q?4p3JJX675MCSTDsQhbSXnlpgQVX1hK2I7Kf4DgUfkgrRVzuJdPN3Iq0iHVcs?=
+ =?us-ascii?Q?8P9p3dQtAwGDqrhQc7WSpEMu235HSizzNEUBio/raB3NkCPVJYJY?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a0f82af-c018-4296-66e2-08dea7a9c346
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4bee8d0-36b9-4644-157e-08dea7aa3c17
 X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB8300.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 17:47:50.2934
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 17:51:12.9682
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vaXgGur0J4R0ryBbGcj0kFB5KqkfBKlDjvKzSetDeDQYoTZlt5SJRs2S26qRJnMlBizH0DjfkxrgpeWnzg7E7g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: R9ox9sLQ5An2Mej5tm3zfsTftz7wYIE5SFBAMvaRAH8OfHvur+77ubAVXYa3nHAJTbHcQINoQpU1cGIfTCdUkA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8069
 
-On Fri, May 01, 2026 at 03:03:20PM +0900, Alexandre Courbot wrote:
-> Replace the local bitfield rules by the equivalent invocation of the
-> `bitfield!` macro.
+On Fri, May 01, 2026 at 01:47:47PM -0400, Yury Norov wrote:
+> On Fri, May 01, 2026 at 03:03:20PM +0900, Alexandre Courbot wrote:
+> > Replace the local bitfield rules by the equivalent invocation of the
+> > `bitfield!` macro.
+> > 
+> > No functional change should be introduced as the `bitfield!` macro has
+> > been extracted from the rules of `register!`.
+> > 
+> > Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 > 
-> No functional change should be introduced as the `bitfield!` macro has
-> been extracted from the rules of `register!`.
+> Acked-by: Yury Norov <yury.norov@gmail.com>
 > 
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> If it comes to another round, maybe split switching to a bitfields and
+> getting rid of the bitfield_core? For maintainability reasons.
 
-Acked-by: Yury Norov <yury.norov@gmail.com>
-
-If it comes to another round, maybe split switching to a bitfields and
-getting rid of the bitfield_core? For maintainability reasons.
-> ---
->  rust/kernel/io/register.rs | 246 +--------------------------------------------
->  1 file changed, 2 insertions(+), 244 deletions(-)
-> 
-> diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
-> index abc49926abfe..388647f28292 100644
-> --- a/rust/kernel/io/register.rs
-> +++ b/rust/kernel/io/register.rs
-> @@ -956,11 +956,10 @@ macro_rules! register {
->      (
->          @bitfield $(#[$attr:meta])* $vis:vis struct $name:ident($storage:ty) { $($fields:tt)* }
->      ) => {
-> -        $crate::register!(@bitfield_core
-> +        $crate::bitfield!(
->              #[allow(non_camel_case_types)]
-> -            $(#[$attr])* $vis $name $storage
-> +            $(#[$attr])* $vis struct $name($storage) { $($fields)* }
->          );
-> -        $crate::register!(@bitfield_fields $vis $name $storage { $($fields)* });
->      };
->  
->      // Implementations shared by all registers types.
-> @@ -1016,245 +1015,4 @@ impl $crate::io::register::RegisterArray for $name {
->  
->          impl $crate::io::register::RelativeRegisterArray for $name {}
->      };
-> -
-> -    // Defines the wrapper `$name` type and its conversions from/to the storage type.
-> -    (@bitfield_core $(#[$attr:meta])* $vis:vis $name:ident $storage:ty) => {
-> -        $(#[$attr])*
-> -        #[repr(transparent)]
-> -        #[derive(Clone, Copy, PartialEq, Eq)]
-> -        $vis struct $name {
-> -            inner: $storage,
-> -        }
-> -
-> -        #[allow(dead_code)]
-> -        impl $name {
-> -            /// Creates a bitfield from a raw value.
-> -            #[inline(always)]
-> -            $vis const fn from_raw(value: $storage) -> Self {
-> -                Self{ inner: value }
-> -            }
-> -
-> -            /// Turns this bitfield into its raw value.
-> -            ///
-> -            /// This is similar to the [`From`] implementation, but is shorter to invoke in
-> -            /// most cases.
-> -            #[inline(always)]
-> -            $vis const fn into_raw(self) -> $storage {
-> -                self.inner
-> -            }
-> -        }
-> -
-> -        // SAFETY: `$storage` is `Zeroable` and `$name` is transparent.
-> -        unsafe impl ::pin_init::Zeroable for $name {}
-> -
-> -        impl ::core::convert::From<$name> for $storage {
-> -            #[inline(always)]
-> -            fn from(val: $name) -> $storage {
-> -                val.into_raw()
-> -            }
-> -        }
-> -
-> -        impl ::core::convert::From<$storage> for $name {
-> -            #[inline(always)]
-> -            fn from(val: $storage) -> $name {
-> -                Self::from_raw(val)
-> -            }
-> -        }
-> -    };
-> -
-> -    // Definitions requiring knowledge of individual fields: private and public field accessors,
-> -    // and `Debug` implementation.
-> -    (@bitfield_fields $vis:vis $name:ident $storage:ty {
-> -        $($(#[doc = $doc:expr])* $hi:literal:$lo:literal $field:ident
-> -            $(?=> $try_into_type:ty)?
-> -            $(=> $into_type:ty)?
-> -        ;
-> -        )*
-> -    }
-> -    ) => {
-> -        #[allow(dead_code)]
-> -        impl $name {
-> -        $(
-> -        $crate::register!(@private_field_accessors $vis $name $storage : $hi:$lo $field);
-> -        $crate::register!(
-> -            @public_field_accessors $(#[doc = $doc])* $vis $name $storage : $hi:$lo $field
-> -            $(?=> $try_into_type)?
-> -            $(=> $into_type)?
-> -        );
-> -        )*
-> -        }
-> -
-> -        $crate::register!(@debug $name { $($field;)* });
-> -    };
-> -
-> -    // Private field accessors working with the exact `Bounded` type for the field.
-> -    (
-> -        @private_field_accessors $vis:vis $name:ident $storage:ty : $hi:tt:$lo:tt $field:ident
-> -    ) => {
-> -        ::kernel::macros::paste!(
-> -        $vis const [<$field:upper _RANGE>]: ::core::ops::RangeInclusive<u8> = $lo..=$hi;
-> -        $vis const [<$field:upper _MASK>]: $storage =
-> -            ((((1 << $hi) - 1) << 1) + 1) - ((1 << $lo) - 1);
-> -        $vis const [<$field:upper _SHIFT>]: u32 = $lo;
-> -        );
-> -
-> -        ::kernel::macros::paste!(
-> -        fn [<__ $field>](self) ->
-> -            ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }> {
-> -            // Left shift to align the field's MSB with the storage MSB.
-> -            const ALIGN_TOP: u32 = $storage::BITS - ($hi + 1);
-> -            // Right shift to move the top-aligned field to bit 0 of the storage.
-> -            const ALIGN_BOTTOM: u32 = ALIGN_TOP + $lo;
-> -
-> -            // Extract the field using two shifts. `Bounded::shr` produces the correctly-sized
-> -            // output type.
-> -            let val = ::kernel::num::Bounded::<$storage, { $storage::BITS }>::from(
-> -                self.inner << ALIGN_TOP
-> -            );
-> -            val.shr::<ALIGN_BOTTOM, { $hi + 1 - $lo } >()
-> -        }
-> -
-> -        const fn [<__with_ $field>](
-> -            mut self,
-> -            value: ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>,
-> -        ) -> Self
-> -        {
-> -            const MASK: $storage = <$name>::[<$field:upper _MASK>];
-> -            const SHIFT: u32 = <$name>::[<$field:upper _SHIFT>];
-> -
-> -            let value = value.get() << SHIFT;
-> -            self.inner = (self.inner & !MASK) | value;
-> -
-> -            self
-> -        }
-> -        );
-> -    };
-> -
-> -    // Public accessors for fields infallibly (`=>`) converted to a type.
-> -    (
-> -        @public_field_accessors $(#[doc = $doc:expr])* $vis:vis $name:ident $storage:ty :
-> -            $hi:literal:$lo:literal $field:ident => $into_type:ty
-> -    ) => {
-> -        ::kernel::macros::paste!(
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Returns the value of this field."]
-> -        #[inline(always)]
-> -        $vis fn $field(self) -> $into_type
-> -        {
-> -            self.[<__ $field>]().into()
-> -        }
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Sets this field to the given `value`."]
-> -        #[inline(always)]
-> -        $vis fn [<with_ $field>](self, value: $into_type) -> Self
-> -        {
-> -            self.[<__with_ $field>](value.into())
-> -        }
-> -
-> -        );
-> -    };
-> -
-> -    // Public accessors for fields fallibly (`?=>`) converted to a type.
-> -    (
-> -        @public_field_accessors $(#[doc = $doc:expr])* $vis:vis $name:ident $storage:ty :
-> -            $hi:tt:$lo:tt $field:ident ?=> $try_into_type:ty
-> -    ) => {
-> -        ::kernel::macros::paste!(
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Returns the value of this field."]
-> -        #[inline(always)]
-> -        $vis fn $field(self) ->
-> -            Result<
-> -                $try_into_type,
-> -                <$try_into_type as ::core::convert::TryFrom<
-> -                    ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>
-> -                >>::Error
-> -            >
-> -        {
-> -            self.[<__ $field>]().try_into()
-> -        }
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Sets this field to the given `value`."]
-> -        #[inline(always)]
-> -        $vis fn [<with_ $field>](self, value: $try_into_type) -> Self
-> -        {
-> -            self.[<__with_ $field>](value.into())
-> -        }
-> -
-> -        );
-> -    };
-> -
-> -    // Public accessors for fields not converted to a type.
-> -    (
-> -        @public_field_accessors $(#[doc = $doc:expr])* $vis:vis $name:ident $storage:ty :
-> -            $hi:tt:$lo:tt $field:ident
-> -    ) => {
-> -        ::kernel::macros::paste!(
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Returns the value of this field."]
-> -        #[inline(always)]
-> -        $vis fn $field(self) ->
-> -            ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>
-> -        {
-> -            self.[<__ $field>]()
-> -        }
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Sets this field to the compile-time constant `VALUE`."]
-> -        #[inline(always)]
-> -        $vis const fn [<with_const_ $field>]<const VALUE: $storage>(self) -> Self {
-> -            self.[<__with_ $field>](
-> -                ::kernel::num::Bounded::<$storage, { $hi + 1 - $lo }>::new::<VALUE>()
-> -            )
-> -        }
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Sets this field to the given `value`."]
-> -        #[inline(always)]
-> -        $vis fn [<with_ $field>]<T>(
-> -            self,
-> -            value: T,
-> -        ) -> Self
-> -            where T: Into<::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>>,
-> -        {
-> -            self.[<__with_ $field>](value.into())
-> -        }
-> -
-> -        $(#[doc = $doc])*
-> -        #[doc = "Tries to set this field to `value`, returning an error if it is out of range."]
-> -        #[inline(always)]
-> -        $vis fn [<try_with_ $field>]<T>(
-> -            self,
-> -            value: T,
-> -        ) -> ::kernel::error::Result<Self>
-> -            where T: ::kernel::num::TryIntoBounded<$storage, { $hi + 1 - $lo }>,
-> -        {
-> -            Ok(
-> -                self.[<__with_ $field>](
-> -                    value.try_into_bounded().ok_or(::kernel::error::code::EOVERFLOW)?
-> -                )
-> -            )
-> -        }
-> -
-> -        );
-> -    };
-> -
-> -    // `Debug` implementation.
-> -    (@debug $name:ident { $($field:ident;)* }) => {
-> -        impl ::kernel::fmt::Debug for $name {
-> -            fn fmt(&self, f: &mut ::kernel::fmt::Formatter<'_>) -> ::kernel::fmt::Result {
-> -                f.debug_struct(stringify!($name))
-> -                    .field("<raw>", &::kernel::prelude::fmt!("{:#x}", self.inner))
-> -                $(
-> -                    .field(stringify!($field), &self.$field())
-> -                )*
-> -                    .finish()
-> -            }
-> -        }
-> -    };
->  }
-> 
-> -- 
-> 2.54.0
+Moreover, you do the same for the other piece of bitfields in #4 and 5.
