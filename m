@@ -1,53 +1,53 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011020.outbound.protection.outlook.com [40.93.194.20])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012051.outbound.protection.outlook.com [40.107.209.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865BA19E839;
-	Fri,  1 May 2026 06:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B974434B410;
+	Fri,  1 May 2026 06:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777615466; cv=fail; b=sCCaPkMfCb38utODh3+5YAFJ22tXoTT+HWW/bA0naPNGRGFKteAiHNzdiYtMB5nSir2HQoXuKw20evtX8wv0ZxqET4ZriA4PeiME5FU482YfJ6CdxOHee0CIuzcbqxZ1t/1Lkb0sBkRkJrAGAI2asI6tmcgPAIVFehLTyUfZM44=
+	t=1777615469; cv=fail; b=Do0oA1c0KcA1kFagwl3uo7Mt8JowDSXGF7+WNbHTsZeAqqlKuIryFJG9yKCVEi7uQL8xJH2vh29A9+KrN/wqA0ig76+JidYcSXOp42mffUnps/WJfRw5Xxdsy+xSijQbps8a0cIT/cTklDsOEzfERu1XloCar7HP9YYYvtqJwDI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777615466; c=relaxed/simple;
-	bh=PU2LyDDG7z6hcbH+Aip3FtwHLLoqCYokGL97ezxuVLY=;
+	s=arc-20240116; t=1777615469; c=relaxed/simple;
+	bh=3YZJjm3Cf45diHV7cv+Eh7Pe+VhW1QWp+Qov68ZU/0g=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=GaQ8hlbk1kLGofPZIn4Vr0WoKPb7ssEfiDz4sMhLDK/PGjAcxnvYjy7UARtjb0JHPTF3K1JhJ50F8Xl5TWcS3huHob01eyNlzlWg6jpFvcNbK6FYDODUJ/YGaMUt3FAYsw0mhxy3IT3EUv/XfoOE81295sp38r2kIjAP3fI1BVo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dcEqJcYa; arc=fail smtp.client-ip=40.93.194.20
+	 To:Cc:MIME-Version; b=m7lcXufdTsw722aOItpGgNaY4LMV6cp7HkSXBBg84VS1nAnkypu2xL2//kqClozYo/eefoi3d02UChoMqD+lML/oEoEyAJu8wfzNGBNFLtUp4hT1Yt38KfDoRkqVPyUGONOQRiQOuZ8SWt81BBzk9NplqEa4rnCVXctWoexHk44=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SBY6sK1i; arc=fail smtp.client-ip=40.107.209.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dcEqJcYa"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SBY6sK1i"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J4eYWynDqnwftFVQA0mQE8EO66hCm1mtfcdCmbGjF+IPmsgWlCjPrbZSaXbqpwCs2sZzvZK1LtOjUtt2HWlY1Woqsy/JeRn8VjCtCppGpT1YQpy2tXM//9hJ7RtnLdKd7sOC/S8RaRbbmI9cEop24BeC6KnGuN9korw2Ch7W+1fb/mqcnc5PWFG5gtEIr79DWk/NsWDs7wSpEgmZiTcyGMZSlrDLDIU33RB8kBMMQnJPPx19zJ+Lp9tIKCEf9hOhvgmlgheXNQUlUGDxyuwCDe9GV9kPdEvGnyhyhiNgb+3qv31kNSPmgfgYOjhIGXm/KkM9nGUohJopsIHcgp0ZOA==
+ b=ucr1RXJRgBEuoDQsCylvCVHlq0RLOcZ8gcpyFNEJIxTZ1HUNizycbtHACsg4myLJ6s6cGwFzyMwxFVQSAXdKWeL+a+6KeOcSEi2G7+wbIw87aFBRydctRP6R08QotIB1iygRlrwAR2NkjK2l0R19CbD7h6ujVFCbZ1LYK9b/0EYTqisrsO4QHclgzu2LlFX66yodEJQpLhfYFtpank42ejT4b53BTCTPDbILM7BLOy7x3H2N+oncC4l+UYUVGb7EGiRLmrNyFX8Vsa7BknMy77Bjd2rif20aDkPusd2OJn1HA9LC4sF3NtuQHNP/8u96EIzqQS+lR3Bibm4tym0Jtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S/ZG6zCu6ofRvrF0GQdW6RpuEAwgrw3aqHEpWriP8MU=;
- b=LPJbfGaDKSrYhqvOV2yYATuFG0XupXY5JszT5SC9FY2SWcxhAmS5GgE7SBtMHdy9OOMj+JNupL0TuzlgwwdiAuyrLnwQ1nMMZUDoU28J8k0VHaCTFIoFukx13JMrkdoOfNUm+9MAggKU+4HJgAALIhnE66BM3/T4n3Lf7MWhyZrGGPwFnr5C71Q6S+acrXOywlNj6vvO1yHPfIfVD7Nj0/QtbquGKnFPa8cy8DKy8tmzOm9q4eBcSOGDGNJ83sGFgE6/OCvBi+B3W8wboyfYaRb5A7FOSa0Vqf56Z4CnpRSBgISJRw9sHeJVIeezXZQz7PsTd9i5UFGDoXPf5TxQiQ==
+ bh=XjCYBrCqA31WEFNVLPNt1+SphBEc0iS5+z7lPgsoFc8=;
+ b=Yqqyw9tdPB1ECcrKc97Q83z2+cCicy3M84KIKj06el2OdzGmLiCtjnXAmtbJqFfXfqC+CYqujgaJFSWASzEGbw+oksT3TJ49gH4nAZuhxDBNMQkcEcgOo51fe4Bp46HF4Ty5okeeCEo8zlkyq0ID8rkwg8AkGarHOqF/No4vP8s1+Ii0EIaL11A9rR8UGILNbG+LuQjT1jStZ+atAd3FpVawkkjqYSkNk6JZhaACs1c+7CEC1eRqF0S7STHB8pz+LAKSkLWmt7WVdiraIZeNU0nCjkwEg6BToiPQNg3sqYo9K6+y/aYQcXnb7ZadBF2VftbNaEOhTR9e3iJGEd4aGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S/ZG6zCu6ofRvrF0GQdW6RpuEAwgrw3aqHEpWriP8MU=;
- b=dcEqJcYaIuK5zvx+mfecl5BWiTzv1WNFiu2ikR+kuk2IDu///jXM0H9CwOSyjN9znYLNjffQvar8R/RgBisGpCoPVSIB/QBXfDFzfmTVoIQr95veuvNQ0sN9Ab3NomUf5jh1BL032QKWvsLLCMl8RGZPs8byxbMGBrCQG2nsJE5nrKbTEV/paWfYDNz97HzdNdTIT2IX1DafypA/6TqG2/Gv900PJJC5jYvG8X2AhurWEqG5fUb1pmT3IxLYgVdk3eNiQoZYu8uFvUPe2milZkpIAI6FNd3lxEHkKNy/8pc4gjTotWh4m4ohNjZcEBKEm/orsoWYSkW3ZjCkF2rkfA==
+ bh=XjCYBrCqA31WEFNVLPNt1+SphBEc0iS5+z7lPgsoFc8=;
+ b=SBY6sK1iyIY3kbHT1uWj1rOwn1fRhU6ENQzQEkjaxPGtayN3RCuJzFMW1svu06kWvuq89yuS4z3sQd7UWSIB6UiPqrl5IPbtqR38l7GkXyyjPtRsX/7rztWlkXpgTUztUG3rUnRyQdzIsgn47IPgepbKw5Zv3ETIEDJ7nyoX+bPM/WUsTvPL8axutDPt34L2uoHqYeUe/3nGIeD67Xiv9PX4JeS9WnwAqQQdQbhIyOfP6SonHTxdkHfvd3m+yH3JxFFO7uFyAuAHL3IuhvSwcrqRTsHWd5qm5sWkLzIEt8Y3rYIFt96GtlfVEXOFmueSS14w1qYNj5ksCBXsSk3JEg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by CH3PR12MB8584.namprd12.prod.outlook.com (2603:10b6:610:164::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.22; Fri, 1 May
- 2026 06:04:17 +0000
+ 2026 06:04:21 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.20.9870.013; Fri, 1 May 2026
- 06:04:17 +0000
+ 06:04:21 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Fri, 01 May 2026 15:03:18 +0900
-Subject: [PATCH v3 1/5] rust: extract `bitfield!` macro from `register!`
+Date: Fri, 01 May 2026 15:03:19 +0900
+Subject: [PATCH v3 2/5] rust: bitfield: Add KUnit tests for bitfield
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260501-bitfield-v3-1-aa1076c3337d@nvidia.com>
+Message-Id: <20260501-bitfield-v3-2-aa1076c3337d@nvidia.com>
 References: <20260501-bitfield-v3-0-aa1076c3337d@nvidia.com>
 In-Reply-To: <20260501-bitfield-v3-0-aa1076c3337d@nvidia.com>
 To: Joel Fernandes <joelagnelf@nvidia.com>, 
@@ -64,10 +64,10 @@ Cc: John Hubbard <jhubbard@nvidia.com>,
  Zhi Wang <zhiw@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
  nova-gpu@lists.linux.dev, driver-core@lists.linux.dev, 
- Alexandre Courbot <acourbot@nvidia.com>, Yury Norov <ynorov@nvidia.com>
+ Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.15.2
-X-ClientProxiedBy: OS7PR01CA0190.jpnprd01.prod.outlook.com
- (2603:1096:604:250::12) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYCP286CA0364.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:79::8) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -77,674 +77,435 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB8584:EE_
-X-MS-Office365-Filtering-Correlation-Id: 73b3bb60-11f9-4213-1086-08dea7477a9e
+X-MS-Office365-Filtering-Correlation-Id: 00b8bc49-6f77-42d2-912b-08dea7477ce1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|10070799003|18002099003|921020|56012099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	u8QuQuvEdy8XxmNluwjcW9GpLsv+eyBp2es3nQdoSc5/S8XieeGLygPTifNHP7OaW5lcUNyMsbPpHrQGuprRsoHrSjig3oyftErzHLHM5fQ07UnqEwBwP6sB4wjLlHISxyZ+1ENYbxS23SgnWN4bFgqLxAr2TnW3A2PAIJUQ5GKCVQmjujx/Uyvcu42IaFUheRt3YQwsnTiyRCHMlgGTQTbPwZ7Kzy7BIt7zyJbAHaXziJg+qQaa6fB5mRE4TT6aZ4+uh4cYLWN7nPJT4cITaaXOXcuqe5jid99JKC+4WKQMSe6qBYux49ObUPgLyXKobLY0oTWa/FZXw3Be9WsDlpCiEFTNmG/xLZ725vWnunRfaFLW0bAqFH861gce8TjtFVxvgIb8jScEvAYJPAivGHVVg6H5TN7A+tO/NfksSq/rY61TT5ZomULR+wTmP354/x6meh/Au8Ps5/IAjGEWfXB2USpUIyjqnZFucRhGDRMa8rBy0YipNs2K7wQQE7TRfyezcS6HDSqidVktesc7Zhqq+stvlfeaFrx3q+pXIRQntVgKMIQHQ7VasLYysXsQTGAve7bFKSI6tsUXXjfxtEBQ6kF0k1wWMAcFg1dki/nEAhpqQSn3UqPuy3kefD/dIgHUDzchx+M+kw54hKsFuJoQVENSUki7OVWfxFyzFHp6iKGMHxzuXIZ4HgogK/JqDCEyWKWSuJE5JKKfwAm3OW/Umb8XQfn2ICiBI6aN98abDaVLVEQ3e/fkEQZ6E3/+
+	Fg6JQLtaQWiWczYv5OQqfxQgCPUbdo0Dzn0D0Uhu2TGqH1eAIV1Y/U0FOv4HrkycbWb75APcFh7K48FhN6SKj6Fi5x73dvZQtB0KghJxABsuD3YISifKO4A4k0BF6kP7lRIK3Ar/oxfzJmx3RtNxhczR5JriHjt5PGyUnnSeS/vchwb+P46fPKWCH4EWZmc+hR2cCpSSr3uK+e8l4oZk7bk62Ct/t90Q1SAl7Ha+ZvcUY93+gKkAZ7fW5p/2B+54fOQmaWEM+gLp0zVy8Ppx0ODr1ohyE1FSvdcsVWv6GN8vLd6B7CPeHcSTdtXAih2swFXHOnzKUTVW0OqlxRgaJnsOQ423/haGMas8NkgmQkhyLmAjwreC3UF1O/HyJtXy1WR7WDCg7MAHApSjhLjCjjqKAmomFBOXjLSbMF4qTDsjYjBAtmNWuAtnq3JGeFq0KQ/0SR052Rnf2an699a+jYjzNEXRJE1C/Z6vsK32mFOQKilXRj0CeLbNgh2+j2ttowKOo3CfrH8SdK9mspvaU9xFIUV5el2q+6HHu8+7a4WJwA0hr5xJBHp/I+53HQ+Q9n5fErYaDwxuybHW4BZhOKL1rZ3myrtU5upbuw/N/oq9m5oUQitvtDhX+Luer01JSOnualazXHqafR4c67NEiVWmgoJvahuPkhcdsRduBG7yfvi1wPgIKRn0ocDcSJvZyouBY2O54cfaVEJWEnWQ3XQhuHvY5PlUu/Y3hcDgNTE=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(10070799003)(18002099003)(921020)(56012099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bWt5eXZBRGZsZTZUeHdVVDliN0h3bXRxOHJuRHI3YkFWbTRIT0lzeEl0NHl2?=
- =?utf-8?B?NUZnWGNXRGk5elNZSzllZjNjZUo5UzlXN0c0Y2hpUi9UVWRBbXZUYlZTZks2?=
- =?utf-8?B?cDdBc0EzZnJ3c1RVR3ptNDBDdTZ3SGJUOU5XanNyS2lMRCtrVGFMS1VtdlM1?=
- =?utf-8?B?ZUpZbXlzeXdZK1BlZS9uUkFMYWF4Yno0RUFOOUtaOVp1WFllTkxEd0s5aVlr?=
- =?utf-8?B?WGltcWJFWXpsUDhZcnhsdmk1TWZKalI4MDlPQytxUVl4S3RLZzBacE54clFm?=
- =?utf-8?B?SFppNTUzNm05aUNtQVdjMm5CNFFVTTJiNi9PMG1oMHBjbWZXQ1k1dWpLUnR6?=
- =?utf-8?B?UVZjZFdXcVJteVRtNWwwR0M4NGZGY01DYVlObzgzN2QwOGFDcW5HQmIvZVJZ?=
- =?utf-8?B?aFlhTlIyQ0l5VVpOQjVBUEFLV3RzM2JpQ0FsdWlDbmlmU0l3bEUzei95Tk1I?=
- =?utf-8?B?NXUyZFRvbVVtcFVyMlE4SDQvbW1wMHcrMGNsUXdJNmltdEF2T09QcmZjMGJC?=
- =?utf-8?B?bWNiOG8wRUFDWkc5R1RlcDlVRkhYeTk2NU1vckpDMURZNUM3b09tQnZkNVVw?=
- =?utf-8?B?VXJtR0hZczFrWnZMZCtPRU05ekdlU3BxR056UG5EREJLcGhLc2JBS09PQzly?=
- =?utf-8?B?QXlyL0ozYlRrV1d0YXo4TWVOb0NyaGEzaUVnb0tWbVhpbytMdzQrMjFFZ1h3?=
- =?utf-8?B?eitCUlJUUk9rSUdac3NLT0ZEODNWYXFkV0NiKzlUbHE3OEUvdWQ3aksrR1Qy?=
- =?utf-8?B?cXZOV2ZnMi9WdjdSM0FPdFViRUg1aDhxZk80NS9VYWpNQ3ZDMlM2Ui9vZDJk?=
- =?utf-8?B?K1p5MEoxNWM1VUUwNk0wSW03M3FFaEhKWlhOTGw5M0FINkZjc3U2MStDVzR4?=
- =?utf-8?B?WkNnTmdIV0lZSVNsWGlWSkFrSERsbVF6ZytrMERVRVQyeGpybldQNTVRZDhG?=
- =?utf-8?B?eDU3aTdpU3RTWjRCejlDQjJndFB2bW9LbzRzb3JEN0tuL2Mra1pCeE9UcTAy?=
- =?utf-8?B?aGdZWWpvQjFpQmRBTEV3eHVxZ0hBQVU4UlltazNHb09sK2VUREJSbkRYT2dq?=
- =?utf-8?B?djhvSVNZVTgxM0JJYkNpVUt1ZDlvaUlHWElJMmJZM1VQenpTTGZnbmRlSHdN?=
- =?utf-8?B?aHNzM2M2OGRkd3lpdjZQRVpnTGRtTUVIRlNXMzYraVJuV3duN0tQL1I0ck5G?=
- =?utf-8?B?ZnVzd00vU25kMDNmQjFRN3plTzJHck15cTVtQUVrdkZyUDY2QVE5OHNmQVVi?=
- =?utf-8?B?VTU1dk1iWERJNXlmcVZkN05KWFlKNng3K0VLWEFUcHhYdUdIM1NyWm9BQWs4?=
- =?utf-8?B?Z2VrNlRvNGRZQ0ljZHpOY1BhSDBFQlRMQ1NyRThWRW0zT1JVMWFFckJ1c1RM?=
- =?utf-8?B?ci9md2xtbWV0Z3RiSkFnQWFMZGw0UDhZQzU2ejFFL3VSN2xVV1kzUGZmN2lx?=
- =?utf-8?B?OURKU3FrZ25vU1VudXByMTBhYThrS0g2eXMvVm9yRDRjSSsrTFpuV25wRFYz?=
- =?utf-8?B?bzg5VHBUUENVZkJZdzg3RXhodWtQeDloN0wvbGhZOGpDdXhnMEhNbXZEU2VR?=
- =?utf-8?B?UEFUaVFKUEZvMC9SY1lHdURMa0F5cTE2ZFlEaTN1KzhFdzBDbUlFSm1zeEFB?=
- =?utf-8?B?ZE1XUVlIYlVMOXVqVjRQMERrZEM0ZU15R0xMTG5QZGtGL1dsbTNXM1p0MDJE?=
- =?utf-8?B?dzFxOWNmUytDb3k4Nm4vTWlqSllESzByN3RXa29Dc0Njb2UwMkN2eTlWK0V2?=
- =?utf-8?B?RGRRR1k1aTdZdTkvcGJJa2FHRTdzMW5RMkFQSzU3SFBrMUlrUE5ZdjRVRmxW?=
- =?utf-8?B?aVFld2pma0s5Y2xzUzBxQ3d5Q2VyR1lHK0VJVHJNNEJndU9HOEhPZHFlVzl5?=
- =?utf-8?B?UElnSG02T2NuQ1FvTUlSa2x6ZFNxdHdFMVFPMitUYnd6eEtaWHFtcTVpdW1D?=
- =?utf-8?B?SkI3V2IrbmxQOGtHWDFBQjlXMDFTcUJmRGQ1L0grM1VYS051UEpqUW5ST1Y1?=
- =?utf-8?B?MHdJbUlOY3JhR1Nxb0VyTHJhV3gvVXp0dmpPTVN0VDVEWm1EUVpWRW1pTzNj?=
- =?utf-8?B?Z0FQQlFSaGs0V09mZXdVblJWbU9GdjhPY1pNbUdyc0dVYTN6aUtiMW80TDlG?=
- =?utf-8?B?QjdFRk5YTW1XNUR1VEJFOUJQMEZmMU1ka01TQzhlSDNBKzZUQjk5REtHRU91?=
- =?utf-8?B?cW4vMGhBeDduZS9aQ285d1FVcGF3RXVueGtNZFhJRERyb3lUVlJTaUhUSWV5?=
- =?utf-8?B?d09yVi9xc3V1UXRFZ3hJOVVJOFNYZ0xzWTJiSGRBdlJjOTRpalVDbWVVdFk2?=
- =?utf-8?B?cm1QN29RL3RFanRCRzdSalJITkYwblF2eWxGcFNKMGFMd1hxd1MybHRwRkli?=
- =?utf-8?Q?cRXlL6DVSStJC6rsIlBQQkcNZ7p47pe7ItEjV8nBfrMhB?=
-X-MS-Exchange-AntiSpam-MessageData-1: tRPaQppXMbNwWw==
+	=?utf-8?B?Z1dWemlQeHgvVEpzVWVQdU5KL1R6T0pDYjVqQlpwL0F6ZWF6b2F4MFcwekUr?=
+ =?utf-8?B?RWVEUmw1cU1IeVlDMGRYRVlLV0NOdERrcGJGdnRiZHo4MitRSmtHL002cTEx?=
+ =?utf-8?B?SkpEbUxMZEUxem95aVpCRjVHakF0VGU0UnZxU05vc0ROUXJJOUJ1L1ZNdjQ2?=
+ =?utf-8?B?ckdXVyt6NXFnc2Qyampsd3lzeWtTVU9INVNkZEFTK3pEWGVHSXpVc1B5WUhM?=
+ =?utf-8?B?L0MrZWhiWWhTTHRkKzNiMGdmMTJOQ1E4d3ZvZHROR0lva2xCbjJ5TDdISVRC?=
+ =?utf-8?B?aE4zbjBnNkJWS3ZhSFh6MTl6MWY0OEx0dXgySU5PeWRhbE9jcHIzejJ4cHRT?=
+ =?utf-8?B?emg5Zmt6UDF1cFZiNzI1YUtmUHdoYmRXQzFhaU5NWGM1bE5wcm45MVN6KzZa?=
+ =?utf-8?B?bE5ManRpd2htTkhXMmNPc3lRM0N5R3ZoRWZiSzVVL3dDR0RCL2ozNzlVOEpQ?=
+ =?utf-8?B?MGdDdnJ6M0ZqTVdUaXc3VU9aTFRhRkw1aGQ4WWtnYzdwMEZLdnNiQ1E3a0w3?=
+ =?utf-8?B?QXVQTC80eGR1YUR4ZXZiMVhhRkVNZExHYjZHdUhSVEZ3elRHU2FDYS9mbCto?=
+ =?utf-8?B?ODc4TTIzbkdNN0twZjdwSlY0THlOSDZ4NjZmMFgyc1VxM1FEU1FxUUllWXY3?=
+ =?utf-8?B?bzF1QUFUbkltbWNJKzJ3TXVMWGtpc0UvVjdENVlydjlURGJOWjhpQktEZSt6?=
+ =?utf-8?B?MzRYb3FlMzNtK3F3aVJVWEFSS0ZBV1NvWnY1Yi96VlgyUHhaSVQ2UHpON0FK?=
+ =?utf-8?B?Y3Vob0FVNG83dTRSNkpTRm10eENSM2hwV0M5b1FFTzJNdjVWelAzWjdlQ2oy?=
+ =?utf-8?B?dHB5TkZuOFZwV3ZTNk52M3d1ZWR5VVFJblZNWXp3SzE1N042SHJxdTVsMStT?=
+ =?utf-8?B?eUZiMnhGRUZwcmpON3F0Rlg4bS93VnJRZS9DaS82SjZGcXhaMHJFSUdxcXkw?=
+ =?utf-8?B?Zy9sMWlIZmFpTGdUaUJCTnFZdkxJVStvbjhWNG02Vk1nZWwvQXlNZ1c2TFdn?=
+ =?utf-8?B?cmhkQkFPWFl2dldINWdnd3pZNXBkdEhPRjBUbmd2bDRXWVE0dzFDYlJCRXR6?=
+ =?utf-8?B?YzZuQ3lRUngvNW4rN2VPdzRISXAwZm4xcFk5NFJ6eUc2UXdGekQ4TUlmK0Fr?=
+ =?utf-8?B?V2o4S0k3djVtTWl3aGNzb1pWQUc3Q2RTK1Vvem1ibXMwMUVkWGRobE55NG81?=
+ =?utf-8?B?RFFleTZnMmpGQkRaNVpQMGFzWHZRNHRpMFpZNE1tUWtudXN5dloxUldud2w5?=
+ =?utf-8?B?Rzc2ZE9xZTVCblhUbWxrUmFBOHVyWmlhdFVpY3BGZ1h2S01GNFpYREY3YlBO?=
+ =?utf-8?B?UEJpOU5ZbXRCTEV3dWRjMnkxaVo4Rk1iVEJRUVRHbzluMTVmN2hPUUNZUy9L?=
+ =?utf-8?B?RW1pUFJWWEtFd3BCTm9XaGcyYTZWZWRZbWxrTHdrQTZzdStNK3NmMXFiaUow?=
+ =?utf-8?B?RU1PZlFHbnhuUzlERzN5Wms2S1hLaktqKzQ3YmFDZmxycTMvWlJoVm8zMlB5?=
+ =?utf-8?B?Y05QUG9UdzF0ZjJWSXVRY2ZkZkIwQUtNbFNhTjB2c0c4SURpRmtLQytKK0xB?=
+ =?utf-8?B?YUVEVXJua1grRm9jY0VlNzR6S0d5WXpOTkZEQTlZbkR0elRtM0xjR1AxNEJF?=
+ =?utf-8?B?Q1o4NHdWNHRjMWZlNDg3bHZlRGxIUVpvellIZnVMSVFMRHNYaUdFeUVPbDVh?=
+ =?utf-8?B?VnI1MlRyWUdkYzVNMlYzZ2JQdmFoSWo4Vm5hUS82OGNsbzQ1T0RMNGFVbHZP?=
+ =?utf-8?B?NFo2NHAvQ2NpZ0laR2ZLTXBOeEV6UGZKWXFZUnN4WUZVTW9YVlg0aTl3UFll?=
+ =?utf-8?B?RG42bjlMaXZkVzZmNUhMa3ltSWJIWklKWDNveUJjL1g5UXg0elpkcW02R2Y2?=
+ =?utf-8?B?U3VCY2YwTW15QlpOdjdzVzI0VmRVYnRMSmY1dEdJUytsTWhPVFhyeHdOQlR4?=
+ =?utf-8?B?MkpoY1VmZU8wSUt3OEIrS1ppRndvbkpySGhyTGpGTGJ4NHMvTmZVaUJKK2Q0?=
+ =?utf-8?B?YUhVUVdqcnZ1My9ablBDaHdVeEc5bGF5YVdKRXoybU5FdURDMzFoZERZU05i?=
+ =?utf-8?B?U0VUM1lWWTAxNUdTOW5hUC9WTVhRRlNGaHFBQXpVQjk0VHZHRjN6amk5Q1pl?=
+ =?utf-8?B?S3lnMlBIcDM0dUY2MjUrRnNEWTNhREpHUjFrakdPeXlHQmRjd2dCdDJRMnBY?=
+ =?utf-8?B?RXJ3SE9WRlN0VjFhb1hsOWorak9rWFl3dlFhNmZCOTk4YWVaalhZMkJCNEQ2?=
+ =?utf-8?B?MU10bEhjZHMyYWNSVmdlOVAvTWlYc2FhUDFmL2JmVk95Qmh1Snk1ekhwVUE2?=
+ =?utf-8?B?aFlXRmZWRG10S1ZuNjkvcUc4Mk50ck1QbWtyNnJOTy83QXY0QmVjWXp0ZFFo?=
+ =?utf-8?Q?IPm1f8DmeRbbIprcTqeW+OGW6m1R94a8/RdJE8OWq/WV4?=
+X-MS-Exchange-AntiSpam-MessageData-1: PX8HnTHSKWOTIA==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73b3bb60-11f9-4213-1086-08dea7477a9e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00b8bc49-6f77-42d2-912b-08dea7477ce1
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 06:04:17.6486
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 06:04:21.4308
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 210ljDhwoxuwi6/0/zFoqqEwvk9gaBqgCFLfQLVIXzU+eADsYw+esRvesGoXUWBJlXvzVTieuuGECy8bQ3r6YA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: BNF+gnbRDROVDo+RvIubwFsgZlJfCaPMvAvuL1PGcM9OKQprD4Nj1ziIzBIpY4dA3+v6ivo+dzt0xP+5Qp26tQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8584
 
-Extract the bitfield-defining part of the `register!` macro into an
-independent macro used to define bitfield types with bounds-checked
-accessors.
+From: Joel Fernandes <joelagnelf@nvidia.com>
 
-Each field is represented as a `Bounded` of the appropriate bit width,
-ensuring field values are never silently truncated.
+Add KUNIT tests to make sure the macro is working correctly. The unit
+tests are put behind the new `RUST_KERNEL_BITFIELD_KUNIT_TEST` Kconfig
+option.
 
-Fields can optionally be converted to/from custom types, either fallibly
-or infallibly.
-
-Appropriate documentation is also added, and a MAINTAINERS entry created
-for the new module.
-
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+Co-developed-by: Alexandre Courbot <acourbot@nvidia.com>
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-Acked-by: Yury Norov <ynorov@nvidia.com>
+Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
 ---
- MAINTAINERS             |   8 +
- rust/kernel/bitfield.rs | 546 ++++++++++++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs      |   1 +
- 3 files changed, 555 insertions(+)
+ lib/Kconfig.debug       |  12 ++
+ rust/kernel/bitfield.rs | 319 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 331 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2fb1c75afd16..b685f364cee4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23377,6 +23377,14 @@ T:	git https://github.com/Rust-for-Linux/linux.git alloc-next
- F:	rust/kernel/alloc.rs
- F:	rust/kernel/alloc/
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 8ff5adcfe1e0..916bf066c016 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -3608,6 +3608,18 @@ config RUST_KERNEL_DOCTESTS
  
-+RUST [BITFIELD]
-+M:	Alexandre Courbot <acourbot@nvidia.com>
-+M:	Joel Fernandes <joelagnelf@nvidia.com>
-+R:	Yury Norov <yury.norov@gmail.com>
-+L:	rust-for-linux@vger.kernel.org
-+S:	Maintained
-+F:	rust/kernel/bitfield.rs
+ 	  If unsure, say N.
+ 
++config RUST_KERNEL_BITFIELD_KUNIT_TEST
++	bool "KUnit tests for the Rust `bitfield!` macro" if !KUNIT_ALL_TESTS
++	depends on RUST && KUNIT=y
++	default KUNIT_ALL_TESTS
++	help
++	  This builds the KUnit tests for the Rust `bitfield!` macro.
 +
- RUST [INTEROP]
- M:	Joel Fernandes <joelagnelf@nvidia.com>
- M:	Alexandre Courbot <acourbot@nvidia.com>
++	  For more information on KUnit and unit tests in general please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  If unsure, say N.
++
+ config RUST_INLINE_HELPERS
+ 	bool "Inline C helpers into Rust code (EXPERIMENTAL)"
+ 	depends on RUST && RUSTC_CLANG_LLVM_COMPATIBLE
 diff --git a/rust/kernel/bitfield.rs b/rust/kernel/bitfield.rs
-new file mode 100644
-index 000000000000..4083e7b7a307
---- /dev/null
+index 4083e7b7a307..66358e6371f1 100644
+--- a/rust/kernel/bitfield.rs
 +++ b/rust/kernel/bitfield.rs
-@@ -0,0 +1,546 @@
-+// SPDX-License-Identifier: GPL-2.0
+@@ -544,3 +544,322 @@ fn fmt(&self, f: &mut ::kernel::fmt::Formatter<'_>) -> ::kernel::fmt::Result {
+         }
+     };
+ }
 +
-+//! Support for defining bitfields as Rust structures.
-+//!
-+//! The [`bitfield!`](kernel::bitfield!) macro declares integer types that are split into distinct
-+//! bit fields of arbitrary length. Each field is typed using [`Bounded`](kernel::num::Bounded) to
-+//! ensure values are properly validated and to avoid implicit data loss.
-+//!
-+//! # Example
-+//!
-+//! ```rust
-+//! use kernel::bitfield;
-+//! use kernel::num::Bounded;
-+//!
-+//! bitfield! {
-+//!     pub struct Rgb(u16) {
-+//!         15:11 blue;
-+//!         10:5 green;
-+//!         4:0 red;
-+//!     }
-+//! }
-+//!
-+//! // Valid value for the `blue` field.
-+//! let blue = Bounded::<u16, 5>::new::<0x18>();
-+//!
-+//! // Setters can be chained. Values ranges are checked at compile-time.
-+//! let color = Rgb::zeroed()
-+//!     // Compile-time bounds check of constant value.
-+//!     .with_const_red::<0x10>()
-+//!     .with_const_green::<0x1f>()
-+//!     // A `Bounded` can also be passed.
-+//!     .with_blue(blue);
-+//!
-+//! assert_eq!(color.red(), 0x10);
-+//! assert_eq!(color.green(), 0x1f);
-+//! assert_eq!(color.blue(), 0x18);
-+//! assert_eq!(
-+//!     color.into_raw(),
-+//!     (0x18 << Rgb::BLUE_SHIFT) + (0x1f << Rgb::GREEN_SHIFT) + 0x10,
-+//! );
-+//!
-+//! // Convert to/from the backing storage type.
-+//! let raw: u16 = color.into();
-+//! assert_eq!(Rgb::from(raw), color);
-+//! ```
-+//!
-+//! # Syntax
-+//!
-+//! ```text
-+//! bitfield! {
-+//!     #[attributes]
-+//!     // Documentation for `Name`.
-+//!     pub struct Name(storage_type) {
-+//!         // `field_1` documentation.
-+//!         hi:lo field_1;
-+//!         // `field_2` documentation.
-+//!         hi:lo field_2 => ConvertedType;
-+//!         // `field_3` documentation.
-+//!         hi:lo field_3 ?=> ConvertedType;
-+//!         ...
-+//!     }
-+//! }
-+//! ```
-+//!
-+//! - `storage_type`: The underlying unsigned integer type (`u8`, `u16`, `u32`, `u64`).
-+//!   Signed integer storage types are not supported.
-+//! - `hi:lo`: Bit range (inclusive), where `hi >= lo`.
-+//! - `=> Type`: Optional infallible conversion (see [below](#infallible-conversion-)).
-+//! - `?=> Type`: Optional fallible conversion (see [below](#fallible-conversion-)).
-+//! - Documentation strings and attributes are optional.
-+//!
-+//! # Generated code
-+//!
-+//! Each field is internally represented as a [`Bounded`] parameterized by its bit width. Field
-+//! values can either be set/retrieved directly, or converted from/to another type.
-+//!
-+//! The use of `Bounded` for each field enforces bounds-checking (at build time or runtime) of every
-+//! value assigned to a field. This ensures that data is never accidentally truncated.
-+//!
-+//! The macro generates the bitfield type, [`From`] and [`Into`] implementations for its storage
-+//! type, as well as [`Debug`] and [`Zeroable`](pin_init::Zeroable) implementations.
-+//!
-+//! For each field, it also generates:
-+//!
-+//! - `field()`: Getter method for the field value.
-+//! - `with_field(value)`: Infallible setter; the argument type must fit within the field's width.
-+//! - `with_const_field::<VALUE>()`: `const` setter; the value is validated at compile time.
-+//!   Usually shorter to use than `with_field` for constant values as it doesn't require
-+//!   constructing a [`Bounded`].
-+//! - `try_with_field(value)`: Fallible setter. Returns an error if the value is out of range.
-+//! - `FIELD_MASK`, `FIELD_SHIFT`, `FIELD_RANGE`: Constants for manual bit manipulation.
-+//!
-+//! # Reserved names for field identifiers
-+//!
-+//! Field identifiers are used to generate methods and associated constants on the bitfield type.
-+//! For a field named `field`, the macro may generate methods named `field`, `with_field`,
-+//! `with_const_field`, `try_with_field`, `__field` and `__with_field`, as well as constants named
-+//! `FIELD_MASK`, `FIELD_SHIFT` and `FIELD_RANGE`.
-+//!
-+//! Therefore, field identifiers must not use names that would collide with generated items for
-+//! any field in the same bitfield. The following prefixes are thus reserved for field identifiers:
-+//!
-+//! - `with_`
-+//! - `const_`
-+//! - `try_with_`
-+//! - `__`
-+//!
-+//! The field identifiers `from_raw`, `into_raw`, and `into` are also reserved.
-+//!
-+//! In addition, field identifiers should follow Rust `snake_case` conventions, since the associated
-+//! constants are generated by uppercasing the field name.
-+//!
-+//! # Implicit conversions
-+//!
-+//! Types that fit entirely within a field's bit width can be used directly with setters. For
-+//! example, `bool` works with single-bit fields, and `u8` works with 8-bit fields:
-+//!
-+//! ```rust
-+//! use kernel::bitfield;
-+//!
-+//! bitfield! {
-+//!     pub struct Flags(u32) {
-+//!         15:8 byte_field;
-+//!         0:0 flag;
-+//!     }
-+//! }
-+//!
-+//! let flags = Flags::zeroed()
-+//!     .with_byte_field(0x42_u8)
-+//!     .with_flag(true);
-+//!
-+//! assert_eq!(flags.into_raw(), (0x42 << Flags::BYTE_FIELD_SHIFT) | 1);
-+//! ```
-+//!
-+//! # Runtime bounds checking
-+//!
-+//! When a value is not known at compile time, use `try_with_field()` to check bounds at runtime:
-+//!
-+//! ```rust
-+//! use kernel::bitfield;
-+//!
-+//! bitfield! {
-+//!     pub struct Config(u8) {
-+//!         3:0 nibble;
-+//!     }
-+//! }
-+//!
-+//! fn set_nibble(config: Config, value: u8) -> Result<Config, Error> {
-+//!     // Returns `EOVERFLOW` if `value > 0xf`.
-+//!     config.try_with_nibble(value)
-+//! }
-+//! # Ok::<(), Error>(())
-+//! ```
-+//!
-+//! # Type conversion
-+//!
-+//! Fields can be automatically converted to/from a custom type using `=>` (infallible) or `?=>`
-+//! (fallible). The custom type must implement the appropriate `From` or `TryFrom` traits with
-+//! `Bounded`.
-+//!
-+//! ## Infallible conversion (`=>`)
-+//!
-+//! Use this when all possible bit patterns of a field map to valid values:
-+//!
-+//! ```rust
-+//! use kernel::bitfield;
-+//! use kernel::num::Bounded;
-+//!
-+//! #[derive(Debug, Clone, Copy, PartialEq)]
-+//! enum Power {
-+//!     Off,
-+//!     On,
-+//! }
-+//!
-+//! impl From<Bounded<u32, 1>> for Power {
-+//!     fn from(v: Bounded<u32, 1>) -> Self {
-+//!         match *v {
-+//!             0 => Power::Off,
-+//!             _ => Power::On,
-+//!         }
-+//!     }
-+//! }
-+//!
-+//! impl From<Power> for Bounded<u32, 1> {
-+//!     fn from(p: Power) -> Self {
-+//!         (p as u32 != 0).into()
-+//!     }
-+//! }
-+//!
-+//! bitfield! {
-+//!     pub struct Control(u32) {
-+//!         0:0 power => Power;
-+//!     }
-+//! }
-+//!
-+//! let ctrl = Control::zeroed().with_power(Power::On);
-+//! assert_eq!(ctrl.power(), Power::On);
-+//! ```
-+//!
-+//! ## Fallible conversion (`?=>`)
-+//!
-+//! Use this when some bit patterns of a field are invalid. The getter returns a [`Result`]:
-+//!
-+//! ```rust
-+//! use kernel::bitfield;
-+//! use kernel::num::Bounded;
-+//!
-+//! #[derive(Debug, Clone, Copy, PartialEq)]
-+//! enum Mode {
-+//!     Low = 0,
-+//!     High = 1,
-+//!     Auto = 2,
-+//!     // 3 is invalid
-+//! }
-+//!
-+//! impl TryFrom<Bounded<u32, 2>> for Mode {
-+//!     type Error = u32;
-+//!
-+//!     fn try_from(v: Bounded<u32, 2>) -> Result<Self, u32> {
-+//!         match *v {
-+//!             0 => Ok(Mode::Low),
-+//!             1 => Ok(Mode::High),
-+//!             2 => Ok(Mode::Auto),
-+//!             n => Err(n),
-+//!         }
-+//!     }
-+//! }
-+//!
-+//! impl From<Mode> for Bounded<u32, 2> {
-+//!     fn from(m: Mode) -> Self {
-+//!         match m {
-+//!             Mode::Low => Bounded::<u32, _>::new::<0>(),
-+//!             Mode::High => Bounded::<u32, _>::new::<1>(),
-+//!             Mode::Auto => Bounded::<u32, _>::new::<2>(),
-+//!         }
-+//!     }
-+//! }
-+//!
-+//! bitfield! {
-+//!     pub struct Config(u32) {
-+//!         1:0 mode ?=> Mode;
-+//!     }
-+//! }
-+//!
-+//! let cfg = Config::zeroed().with_mode(Mode::Auto);
-+//! assert_eq!(cfg.mode(), Ok(Mode::Auto));
-+//!
-+//! // Invalid bit pattern returns an error.
-+//! assert_eq!(Config::from(0b11).mode(), Err(3));
-+//! ```
-+//!
-+//! # Bits outside of declared fields
-+//!
-+//! Bits of the storage type that are not part of any declared field are preserved by the setter
-+//! methods, and can only be modified through `from_raw` or the [`From`] implementation from the
-+//! storage type.
-+//!
-+//! ```rust
-+//! use kernel::bitfield;
-+//!
-+//! bitfield! {
-+//!     pub struct Sparse(u8) {
-+//!         7:6 high;
-+//!         // Bits 5:1 are not covered by any field.
-+//!         0:0 low;
-+//!     }
-+//! }
-+//!
-+//! // Set the gap bits via `from_raw`, then mutate the declared fields.
-+//! let val = Sparse::from_raw(0b0010_1010)
-+//!     .with_const_high::<0b11>()
-+//!     .with_low(true);
-+//!
-+//! // Bits 5:1 are unchanged.
-+//! assert_eq!(val.into_raw(), 0b1110_1011);
-+//! ```
-+//!
-+//! # Signed field values
-+//!
-+//! Bitfield storage types are unsigned. Since field getter methods return a [`Bounded`] of the
-+//! storage type, fields are also unsigned by default.
-+//!
-+//! If a field needs to encode a signed value, use a custom conversion type with `=>` or `?=>` to
-+//! perform the sign interpretation explicitly.
-+//!
-+//! [`Bounded`]: kernel::num::Bounded
++#[cfg(CONFIG_RUST_KERNEL_BITFIELD_KUNIT_TEST)]
++#[::kernel::macros::kunit_tests(kernel_bitfield)]
++mod tests {
++    use core::convert::TryFrom;
 +
-+/// Defines a bitfield struct with bounds-checked accessors for individual bit ranges.
-+///
-+/// See the [`mod@kernel::bitfield`] module for full documentation and examples.
-+#[macro_export]
-+macro_rules! bitfield {
-+    // Entry point defining the bitfield struct, its implementations and its field accessors.
-+    (
-+        $(#[$attr:meta])* $vis:vis struct $name:ident($storage:ty) { $($fields:tt)* }
-+    ) => {
-+        $crate::bitfield!(@core
-+            #[allow(non_camel_case_types)]
-+            $(#[$attr])* $vis $name $storage
-+        );
-+        $crate::bitfield!(@fields $vis $name $storage { $($fields)* });
-+    };
++    use pin_init::Zeroable;
 +
-+    // All rules below are helpers.
++    use kernel::num::Bounded;
 +
-+    // Defines the wrapper `$name` type and its conversions from/to the storage type.
-+    (@core $(#[$attr:meta])* $vis:vis $name:ident $storage:ty) => {
-+        $(#[$attr])*
-+        #[repr(transparent)]
-+        #[derive(Clone, Copy, PartialEq, Eq)]
-+        $vis struct $name {
-+            inner: $storage,
-+        }
-+
-+        #[allow(dead_code)]
-+        impl $name {
-+            /// Creates a bitfield from a raw value.
-+            #[inline(always)]
-+            $vis const fn from_raw(value: $storage) -> Self {
-+                Self{ inner: value }
-+            }
-+
-+            /// Turns this bitfield into its raw value.
-+            ///
-+            /// This is similar to the [`From`] implementation, but is shorter to invoke in
-+            /// most cases.
-+            #[inline(always)]
-+            $vis const fn into_raw(self) -> $storage {
-+                self.inner
-+            }
-+        }
-+
-+        // SAFETY: `$storage` is `Zeroable` and `$name` is transparent.
-+        unsafe impl ::pin_init::Zeroable for $name {}
-+
-+        impl ::core::convert::From<$name> for $storage {
-+            #[inline(always)]
-+            fn from(val: $name) -> $storage {
-+                val.into_raw()
-+            }
-+        }
-+
-+        impl ::core::convert::From<$storage> for $name {
-+            #[inline(always)]
-+            fn from(val: $storage) -> $name {
-+                Self::from_raw(val)
-+            }
-+        }
-+    };
-+
-+    // Definitions requiring knowledge of individual fields: private and public field accessors,
-+    // and `Debug` implementation.
-+    (@fields $vis:vis $name:ident $storage:ty {
-+        $($(#[doc = $doc:expr])* $hi:literal:$lo:literal $field:ident
-+            $(?=> $try_into_type:ty)?
-+            $(=> $into_type:ty)?
-+        ;
-+        )*
++    // Enum types for testing => and ?=> conversions
++    #[derive(Debug, Clone, Copy, PartialEq)]
++    enum MemoryType {
++        Unmapped = 0,
++        Normal = 1,
++        Device = 2,
++        Reserved = 3,
 +    }
-+    ) => {
-+        #[allow(dead_code)]
-+        impl $name {
-+        $(
-+        $crate::bitfield!(@private_field_accessors $vis $name $storage : $hi:$lo $field);
-+        $crate::bitfield!(
-+            @public_field_accessors $(#[doc = $doc])* $vis $name $storage : $hi:$lo $field
-+            $(?=> $try_into_type)?
-+            $(=> $into_type)?
-+        );
-+        )*
-+        }
 +
-+        $crate::bitfield!(@debug $name { $($field;)* });
-+    };
-+
-+    // Private field accessors working with the exact `Bounded` type for the field.
-+    (
-+        @private_field_accessors $vis:vis $name:ident $storage:ty : $hi:tt:$lo:tt $field:ident
-+    ) => {
-+        ::kernel::macros::paste!(
-+        $vis const [<$field:upper _RANGE>]: ::core::ops::RangeInclusive<u8> = $lo..=$hi;
-+        $vis const [<$field:upper _MASK>]: $storage =
-+            ((((1 << $hi) - 1) << 1) + 1) - ((1 << $lo) - 1);
-+        $vis const [<$field:upper _SHIFT>]: u32 = $lo;
-+        );
-+
-+        ::kernel::macros::paste!(
-+        fn [<__ $field>](self) ->
-+            ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }> {
-+            // Left shift to align the field's MSB with the storage MSB.
-+            const ALIGN_TOP: u32 = $storage::BITS - ($hi + 1);
-+            // Right shift to move the top-aligned field to bit 0 of the storage.
-+            const ALIGN_BOTTOM: u32 = ALIGN_TOP + $lo;
-+
-+            // Extract the field using two shifts. `Bounded::shr` produces the correctly-sized
-+            // output type.
-+            let val = ::kernel::num::Bounded::<$storage, { $storage::BITS }>::from(
-+                self.inner << ALIGN_TOP
-+            );
-+            val.shr::<ALIGN_BOTTOM, { $hi + 1 - $lo } >()
-+        }
-+
-+        const fn [<__with_ $field>](
-+            mut self,
-+            value: ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>,
-+        ) -> Self
-+        {
-+            const MASK: $storage = <$name>::[<$field:upper _MASK>];
-+            const SHIFT: u32 = <$name>::[<$field:upper _SHIFT>];
-+
-+            let value = value.get() << SHIFT;
-+            self.inner = (self.inner & !MASK) | value;
-+
-+            self
-+        }
-+        );
-+    };
-+
-+    // Public accessors for fields infallibly (`=>`) converted to a type.
-+    (
-+        @public_field_accessors $(#[doc = $doc:expr])* $vis:vis $name:ident $storage:ty :
-+            $hi:literal:$lo:literal $field:ident => $into_type:ty
-+    ) => {
-+        ::kernel::macros::paste!(
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Returns the value of this field."]
-+        #[inline(always)]
-+        $vis fn $field(self) -> $into_type
-+        {
-+            self.[<__ $field>]().into()
-+        }
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Sets this field to the given `value`."]
-+        #[inline(always)]
-+        $vis fn [<with_ $field>](self, value: $into_type) -> Self
-+        {
-+            self.[<__with_ $field>](value.into())
-+        }
-+
-+        );
-+    };
-+
-+    // Public accessors for fields fallibly (`?=>`) converted to a type.
-+    (
-+        @public_field_accessors $(#[doc = $doc:expr])* $vis:vis $name:ident $storage:ty :
-+            $hi:tt:$lo:tt $field:ident ?=> $try_into_type:ty
-+    ) => {
-+        ::kernel::macros::paste!(
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Returns the value of this field."]
-+        #[inline(always)]
-+        $vis fn $field(self) ->
-+            Result<
-+                $try_into_type,
-+                <$try_into_type as ::core::convert::TryFrom<
-+                    ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>
-+                >>::Error
-+            >
-+        {
-+            self.[<__ $field>]().try_into()
-+        }
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Sets this field to the given `value`."]
-+        #[inline(always)]
-+        $vis fn [<with_ $field>](self, value: $try_into_type) -> Self
-+        {
-+            self.[<__with_ $field>](value.into())
-+        }
-+
-+        );
-+    };
-+
-+    // Public accessors for fields not converted to a type.
-+    (
-+        @public_field_accessors $(#[doc = $doc:expr])* $vis:vis $name:ident $storage:ty :
-+            $hi:tt:$lo:tt $field:ident
-+    ) => {
-+        ::kernel::macros::paste!(
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Returns the value of this field."]
-+        #[inline(always)]
-+        $vis fn $field(self) ->
-+            ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>
-+        {
-+            self.[<__ $field>]()
-+        }
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Sets this field to the compile-time constant `VALUE`."]
-+        #[inline(always)]
-+        $vis const fn [<with_const_ $field>]<const VALUE: $storage>(self) -> Self {
-+            self.[<__with_ $field>](
-+                ::kernel::num::Bounded::<$storage, { $hi + 1 - $lo }>::new::<VALUE>()
-+            )
-+        }
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Sets this field to the given `value`."]
-+        #[inline(always)]
-+        $vis fn [<with_ $field>]<T>(
-+            self,
-+            value: T,
-+        ) -> Self
-+            where T: Into<::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>>,
-+        {
-+            self.[<__with_ $field>](value.into())
-+        }
-+
-+        $(#[doc = $doc])*
-+        #[doc = "Tries to set this field to `value`, returning an error if it is out of range."]
-+        #[inline(always)]
-+        $vis fn [<try_with_ $field>]<T>(
-+            self,
-+            value: T,
-+        ) -> ::kernel::error::Result<Self>
-+            where T: ::kernel::num::TryIntoBounded<$storage, { $hi + 1 - $lo }>,
-+        {
-+            Ok(
-+                self.[<__with_ $field>](
-+                    value.try_into_bounded().ok_or(::kernel::error::code::EOVERFLOW)?
-+                )
-+            )
-+        }
-+
-+        );
-+    };
-+
-+    // `Debug` implementation.
-+    (@debug $name:ident { $($field:ident;)* }) => {
-+        impl ::kernel::fmt::Debug for $name {
-+            fn fmt(&self, f: &mut ::kernel::fmt::Formatter<'_>) -> ::kernel::fmt::Result {
-+                f.debug_struct(stringify!($name))
-+                    .field("<raw>", &::kernel::prelude::fmt!("{:#x}", self.inner))
-+                $(
-+                    .field(stringify!($field), &self.$field())
-+                )*
-+                    .finish()
++    impl TryFrom<Bounded<u64, 4>> for MemoryType {
++        type Error = u64;
++        fn try_from(value: Bounded<u64, 4>) -> Result<Self, Self::Error> {
++            match value.get() {
++                0 => Ok(MemoryType::Unmapped),
++                1 => Ok(MemoryType::Normal),
++                2 => Ok(MemoryType::Device),
++                3 => Ok(MemoryType::Reserved),
++                _ => Err(value.get()),
 +            }
 +        }
-+    };
++    }
++
++    impl From<MemoryType> for Bounded<u64, 4> {
++        fn from(mt: MemoryType) -> Bounded<u64, 4> {
++            Bounded::from_expr(mt as u64)
++        }
++    }
++
++    #[derive(Debug, Clone, Copy, PartialEq)]
++    enum Priority {
++        Low = 0,
++        Medium = 1,
++        High = 2,
++        Critical = 3,
++    }
++
++    impl From<Bounded<u16, 2>> for Priority {
++        fn from(value: Bounded<u16, 2>) -> Self {
++            match value & 0x3 {
++                0 => Priority::Low,
++                1 => Priority::Medium,
++                2 => Priority::High,
++                _ => Priority::Critical,
++            }
++        }
++    }
++
++    impl From<Priority> for Bounded<u16, 2> {
++        fn from(p: Priority) -> Bounded<u16, 2> {
++            Bounded::from_expr(p as u16)
++        }
++    }
++
++    bitfield! {
++        struct TestPageTableEntry(u64) {
++            61:52     available2;
++            51:16     pfn;
++            15:12     mem_type ?=> MemoryType;
++            11:9      available;
++            1:1       writable;
++            0:0       present;
++        }
++    }
++
++    bitfield! {
++        struct TestControlRegister(u16) {
++            15:8      channel;
++            7:4       priority_nibble;
++            5:4       priority => Priority;
++            3:1       mode;
++            0:0       enable;
++        }
++    }
++
++    bitfield! {
++        struct TestStatusRegister(u8) {
++            7:0       full_byte;  // For entire register
++            7:4       reserved;
++            3:2       state;
++            1:1       error;
++            0:0       ready;
++        }
++    }
++
++    #[test]
++    fn test_single_bits() {
++        let mut pte = TestPageTableEntry::zeroed();
++
++        assert!(!pte.present().into_bool());
++        assert!(!pte.writable().into_bool());
++        assert_eq!(u64::from(pte), 0x0);
++
++        pte = pte.with_present(true);
++        assert!(pte.present().into_bool());
++        assert_eq!(u64::from(pte), 0x1);
++
++        pte = pte.with_writable(true);
++        assert!(pte.writable().into_bool());
++        assert_eq!(u64::from(pte), 0x3);
++
++        pte = pte.with_writable(false);
++        assert!(!pte.writable().into_bool());
++        assert_eq!(u64::from(pte), 0x1);
++
++        assert_eq!(pte.available(), 0);
++        pte = pte.with_const_available::<0x5>();
++        assert_eq!(pte.available(), 0x5);
++        assert_eq!(u64::from(pte), 0xA01);
++    }
++
++    #[test]
++    fn test_range_fields() {
++        let mut pte = TestPageTableEntry::zeroed();
++        assert_eq!(u64::from(pte), 0x0);
++
++        pte = pte.with_const_pfn::<0x123456>();
++        assert_eq!(pte.pfn(), 0x123456);
++        assert_eq!(u64::from(pte), 0x1234560000);
++
++        pte = pte.with_const_available::<0x7>();
++        assert_eq!(pte.available(), 0x7);
++        assert_eq!(u64::from(pte), 0x1234560E00);
++
++        pte = pte.with_const_available2::<0x3FF>();
++        assert_eq!(pte.available2(), 0x3FF);
++        assert_eq!(u64::from(pte), 0x3FF0_0012_3456_0E00u64);
++
++        // Test TryFrom with ?=> for MemoryType
++        pte = pte.with_mem_type(MemoryType::Device);
++        assert_eq!(pte.mem_type(), Ok(MemoryType::Device));
++        assert_eq!(u64::from(pte), 0x3FF0_0012_3456_2E00u64);
++
++        pte = pte.with_mem_type(MemoryType::Normal);
++        assert_eq!(pte.mem_type(), Ok(MemoryType::Normal));
++        assert_eq!(u64::from(pte), 0x3FF0_0012_3456_1E00u64);
++
++        // Test all valid values for mem_type
++        pte = pte.with_mem_type(MemoryType::Reserved);
++        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
++        assert_eq!(u64::from(pte), 0x3FF0_0012_3456_3E00u64);
++
++        // Test failure case using mem_type field which has 4 bits (0-15)
++        // MemoryType only handles 0-3, so values 4-15 should return Err
++        let mut raw = pte.into_raw();
++        // Set bits 15:12 to 7 (invalid for MemoryType)
++        raw = (raw & !::kernel::bits::genmask_u64(12..=15)) | (0x7 << 12);
++        let invalid_pte = TestPageTableEntry::from_raw(raw);
++        // Should return Err with the invalid value
++        assert_eq!(invalid_pte.mem_type(), Err(0x7));
++
++        // Test a valid value after testing invalid to ensure both cases work
++        // Set bits 15:12 to 2 (valid: Device)
++        raw = (raw & !::kernel::bits::genmask_u64(12..=15)) | (0x2 << 12);
++        let valid_pte = TestPageTableEntry::from_raw(raw);
++        assert_eq!(valid_pte.mem_type(), Ok(MemoryType::Device));
++
++        const MAX_PFN: u64 = ::kernel::bits::genmask_u64(0..=35);
++        pte = pte.with_const_pfn::<{ MAX_PFN }>();
++        assert_eq!(pte.pfn(), MAX_PFN);
++    }
++
++    #[test]
++    fn test_builder_pattern() {
++        let pte = TestPageTableEntry::zeroed()
++            .with_present(true)
++            .with_writable(true)
++            .with_const_available::<0x7>()
++            .with_const_pfn::<0xABCDEF>()
++            .with_mem_type(MemoryType::Reserved)
++            .with_const_available2::<0x3FF>();
++
++        assert!(pte.present().into_bool());
++        assert!(pte.writable().into_bool());
++        assert_eq!(pte.available(), 0x7);
++        assert_eq!(pte.pfn(), 0xABCDEF);
++        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
++        assert_eq!(pte.available2(), 0x3FF);
++    }
++
++    #[test]
++    fn test_raw_operations() {
++        let raw_value = 0x3FF0000031233E03u64;
++
++        let pte = TestPageTableEntry::from_raw(raw_value);
++        assert_eq!(u64::from(pte), raw_value);
++
++        assert!(pte.present().into_bool());
++        assert!(pte.writable().into_bool());
++        assert_eq!(pte.available(), 0x7);
++        assert_eq!(pte.pfn(), 0x3123);
++        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
++        assert_eq!(pte.available2(), 0x3FF);
++
++        // Test using direct constructor syntax TestStruct(value)
++        let pte2 = TestPageTableEntry::from_raw(raw_value);
++        assert_eq!(u64::from(pte2), raw_value);
++    }
++
++    #[test]
++    fn test_u16_bitfield() {
++        let mut ctrl = TestControlRegister::zeroed();
++
++        assert!(!ctrl.enable().into_bool());
++        assert_eq!(ctrl.mode(), 0);
++        assert_eq!(ctrl.priority(), Priority::Low);
++        assert_eq!(ctrl.priority_nibble(), 0);
++        assert_eq!(ctrl.channel(), 0);
++
++        ctrl = ctrl.with_enable(true);
++        assert!(ctrl.enable().into_bool());
++
++        ctrl = ctrl.with_const_mode::<0x5>();
++        assert_eq!(ctrl.mode(), 0x5);
++
++        // Test From conversion with =>
++        ctrl = ctrl.with_priority(Priority::High);
++        assert_eq!(ctrl.priority(), Priority::High);
++        assert_eq!(ctrl.priority_nibble(), 0x2); // High = 2 in bits 5:4
++
++        ctrl = ctrl.with_channel(0xAB);
++        assert_eq!(ctrl.channel(), 0xAB);
++
++        // Test overlapping fields
++        ctrl = ctrl.with_const_priority_nibble::<0xF>();
++        assert_eq!(ctrl.priority_nibble(), 0xF);
++        assert_eq!(ctrl.priority(), Priority::Critical); // bits 5:4 = 0x3
++
++        let ctrl2 = TestControlRegister::zeroed()
++            .with_enable(true)
++            .with_const_mode::<0x3>()
++            .with_priority(Priority::Medium)
++            .with_channel(0x42);
++
++        assert!(ctrl2.enable().into_bool());
++        assert_eq!(ctrl2.mode(), 0x3);
++        assert_eq!(ctrl2.priority(), Priority::Medium);
++        assert_eq!(ctrl2.channel(), 0x42);
++
++        let raw_value: u16 = 0x4217;
++        let ctrl3 = TestControlRegister::from_raw(raw_value);
++        assert_eq!(u16::from(ctrl3), raw_value);
++        assert!(ctrl3.enable().into_bool());
++        assert_eq!(ctrl3.priority(), Priority::Medium);
++        assert_eq!(ctrl3.priority_nibble(), 0x1);
++        assert_eq!(ctrl3.channel(), 0x42);
++    }
++
++    #[test]
++    fn test_u8_bitfield() {
++        let mut status = TestStatusRegister::zeroed();
++
++        assert!(!status.ready().into_bool());
++        assert!(!status.error().into_bool());
++        assert_eq!(status.state(), 0);
++        assert_eq!(status.reserved(), 0);
++        assert_eq!(status.full_byte(), 0);
++
++        status = status.with_ready(true);
++        assert!(status.ready().into_bool());
++        assert_eq!(status.full_byte(), 0x01);
++
++        status = status.with_error(true);
++        assert!(status.error().into_bool());
++        assert_eq!(status.full_byte(), 0x03);
++
++        status = status.with_const_state::<0x3>();
++        assert_eq!(status.state(), 0x3);
++        assert_eq!(status.full_byte(), 0x0F);
++
++        status = status.with_const_reserved::<0xA>();
++        assert_eq!(status.reserved(), 0xA);
++        assert_eq!(status.full_byte(), 0xAF);
++
++        // Test overlapping field
++        status = status.with_full_byte(0x55);
++        assert_eq!(status.full_byte(), 0x55);
++        assert!(status.ready().into_bool());
++        assert!(!status.error().into_bool());
++        assert_eq!(status.state(), 0x1);
++        assert_eq!(status.reserved(), 0x5);
++
++        let status2 = TestStatusRegister::zeroed()
++            .with_ready(true)
++            .with_const_state::<0x2>()
++            .with_const_reserved::<0x5>();
++
++        assert!(status2.ready().into_bool());
++        assert!(!status2.error().into_bool());
++        assert_eq!(status2.state(), 0x2);
++        assert_eq!(status2.reserved(), 0x5);
++        assert_eq!(status2.full_byte(), 0x59);
++
++        let raw_value: u8 = 0x59;
++        let status3 = TestStatusRegister::from_raw(raw_value);
++        assert_eq!(u8::from(status3), raw_value);
++        assert!(status3.ready().into_bool());
++        assert!(!status3.error().into_bool());
++        assert_eq!(status3.state(), 0x2);
++        assert_eq!(status3.reserved(), 0x5);
++        assert_eq!(status3.full_byte(), 0x59);
++
++        let status4 = TestStatusRegister::from_raw(0xFF);
++        assert!(status4.ready().into_bool());
++        assert!(status4.error().into_bool());
++        assert_eq!(status4.state(), 0x3);
++        assert_eq!(status4.reserved(), 0xF);
++        assert_eq!(status4.full_byte(), 0xFF);
++    }
 +}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index b72b2fbe046d..9512af7156df 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -44,6 +44,7 @@
- pub mod alloc;
- #[cfg(CONFIG_AUXILIARY_BUS)]
- pub mod auxiliary;
-+pub mod bitfield;
- pub mod bitmap;
- pub mod bits;
- #[cfg(CONFIG_BLOCK)]
 
 -- 
 2.54.0
