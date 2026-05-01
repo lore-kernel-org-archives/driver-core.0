@@ -1,287 +1,205 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012006.outbound.protection.outlook.com [40.93.195.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7812DEA94
-	for <driver-core@lists.linux.dev>; Fri,  1 May 2026 03:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777606130; cv=none; b=cI7nzHiDAa/9PsCN2LNqCDLZ4vuS1lxlKjaq+W8nY2yu4JxpFVhCoDI/Q/G+u8cyF4iohq7JNAFyrRuFWuMmhdAHFxG7IhcJqgsvYk9Ak3taa9JZsO9sCblJcEdz7PpkPSsXAS49H14vjJ8v97ojef6hkPaNlg0kIvr3Scc1QIM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777606130; c=relaxed/simple;
-	bh=4md3m4LmrE4S3agwDm1tdU1h3LAXl6T1ke1Y6zrCyEs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d4jFgRVvjp5RsB80ntYTpch8KtbwQnyFdB8XAyq6AX8yxVlfjQfqV9VyFHyuaurx3kewwQTV9FWVqPcJCqZ/3ZC8wnp+J2J/4KFVpRpJoqMLutDXpfjMcuB+ImugzGbZKP8CIKMZMyzxHa0AKNjrkBwvpvvnfSMxxFkXtP1uKc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j7WEtSdL; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A9A19E839;
+	Fri,  1 May 2026 06:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777615461; cv=fail; b=nMGkuO7R4BGM3olPMWHoWEoD9Pglz/URcTfOOvoDLxU9aFwgYJTgDnZFa0DOetbMwlxFDQkBuSfSM1BUmUOneBWAaohenPFO/nv/2ZJlHsXnkqHIWlDGBeV/oIRhuQZDTPHFCQHT1oqSJppX8w27G3qQ8E+sFnjcEqOzW8KnQz0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777615461; c=relaxed/simple;
+	bh=uopLi0v8gQZAKh4OhJbhBDBLte+CAmXccP/dtmfO1Sk=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=NyN89Gd1MhBIWCdKtsfKEPfzQw/L5xHNQdfh3yO25Psxq2TqHCNuydAqjI6xiCFeOXTuvgO+Ra9ZTabeGvvjbVl/lj+5VJN+vviBAdU6sGvXIqpXD8muZPu2gDFNeOxZQyW2tj9FDBU2BMz2M/VNUBNFQk0dRjhvlvalq9TkXmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lDN2vOSI; arc=fail smtp.client-ip=40.93.195.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j7WEtSdL"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2c15849aa2cso2354353eec.0
-        for <driver-core@lists.linux.dev>; Thu, 30 Apr 2026 20:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777606129; x=1778210929; darn=lists.linux.dev;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eYd7+zRIuqZpCWzJf7jANSx+Kankukycdkw0qBK1GPw=;
-        b=j7WEtSdLzb35QEayK7Tu64lI9FV81r8pTg8/iBXCKqwDqY9hgMzfBvOqHdeR8bjYCm
-         8VueGz8MF7oQr8nCvb7M0JkwG/VC0LdAfRnMLMIZrDV2zX6dyq/QwEd56SdbhV6jlKSm
-         jaK7oCmqgcs/ljujOv4sU1YRHUct7ZASaz/5YxrSIPFrLcmLmWACl6o3zSLxqEthwAw/
-         yoS4F+XWo6rdr2/VfKY3i9fJVUGmkxnkrB9Fhx1zuaNh92XHanFj3ESJ9k+tyKCH5HRZ
-         ozFjGrWF6JhXL5c0Kr5Ex1lWSiABxSoNrQ1SOfqbtSBwkC0c7vhSaG5dKpxJxDGz20r3
-         QmBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777606129; x=1778210929;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eYd7+zRIuqZpCWzJf7jANSx+Kankukycdkw0qBK1GPw=;
-        b=YqOQzRBR/XqS5Oy5OCkcYQDepUB7FVRsdEAPJs+rGqtY557TEUoGDUVoKpbaFOCKgi
-         0tPPiJFTvW3Z5oJYuDKXJGnt03Q9Rg/yRw1ozy2Cp+QZwoPymLXnc6z+2QMtCDJBEH/h
-         7zKtVDakCMzmF4F9GvrQn1sVg2snaImtjoxmv/PqcMZ5qluTWczZAf7VXM2hQ1iXdER6
-         pD8RuGkRXyXWPF1H2q6SnodIyH2kIT2SjiUxWOc4xGwvtW9M0ULMeisRuCqqXLEd0Rtc
-         MnUAuHpYgGQOcHXaypTsRR1HC6goDl18XJMfPluJzYN3GTvTQmM13PT89s2Sh8IXS0E/
-         Rl4A==
-X-Forwarded-Encrypted: i=1; AFNElJ8tzMiGfCev02GU7tbSYOIsw1BCkH7zXhd5dsz5rjmCXMZ/iw4GGfUZf99BSpQ7LyEaZ62raq8lvUd8mg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5tbQ26wGmOhzz0+AO+5E7Zr0xp2MV718SyNgwKgEXB8y78rBM
-	67O6nxRIf5GqkQdCvsnKb/3pVPQWnPJ5TWL6Oh7UNq+3uD0t/yi3rHaT
-X-Gm-Gg: AeBDieu5M9CY+0EsfJmpYHup3q3hPicTMcnGKmpQf89W9OjS9zCcD7V1mzAB067aIuc
-	FoSMoxyW+2OIVcK1p1fqeXqywC8p6wW/GdFYk9HgYV/4r+EDnGcKeUfTRwiyghhUihaMeiS3Ld8
-	XYbWuOPy9xEqjLB4a6QEeEBitnOtemb+wWLAgvp46i302yxlefrrMvfzXHzD93V7a4gDiCTTqe5
-	F7RMHrtk1vuau6PJMFKaA/nJJtGlRbjRdTTSa+w1kAgDSMyJbuxfdn+ItyJfVlSOUezrAGC3YI4
-	NYRMjbUZK6xpD13yEft/AKgSFd4hGFCSh2cvbkCFa1lkIZr4HUDf6wIcRJWEvtpuUtN+E6Zocel
-	bhqaTEg1gOCWDLiP57Ga2iAY/ygxHDZi42GImfRqbCLUekM43W3kikd8j4TzQArHq8XK04A2oVa
-	aML2ZELahk/fHTNkrUtUu8FQCIFUzSCW5WFvVxbJri5z9V73BqHlp31GnnV/63mN7mHvY34oe4f
-	veasPBIIjIG
-X-Received: by 2002:a05:7300:4341:b0:2da:d4b4:c85a with SMTP id 5a478bee46e88-2ed3d8b85a3mr2320272eec.11.1777606128411;
-        Thu, 30 Apr 2026 20:28:48 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3889d634sm3714594eec.3.2026.04.30.20.28.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 20:28:47 -0700 (PDT)
-Message-ID: <662ed68f-dd37-4a3e-821b-e2f715cb4a47@gmail.com>
-Date: Fri, 1 May 2026 00:28:40 -0300
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lDN2vOSI"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ag0+N835SIZH/U8K4rPTmwsDxgb6IMy64fj6vnwDberygiP5iWVGKdRoXWLf8XudilreTaJVqWTFsca8YKCUpHDrAFHBDVvlkQURTRvsCnrSgeaoi8FYcSw2BLldUy00izD1IFcehktPnF0Jr9UbKI+u5xqK4cXMFrYNdBdsnsVhLe5OwkSdAtzJgvvSnY9jDigX96hoA7uWQLTlAsaXU3A1pG1y4HE/ICp4Cyj3Wwf5XQmi8fPQRghvraB/b2uxPdrHVW4cll7H1c0lqdT62gLNqnnrL7BCMgFTrBxd53KHTKxlSqvV31HwnuWnAWoaEt3uDBjbG6udcKBQlaeBcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dyYX5pUzlprjoLTKXAfSs+VSSaYbopJUB6NW4kTDmf4=;
+ b=LmCGeeL5bTpdfM04htuHUdHKDf6QpYOUA6LkgWWhXbUBoL9rOjUny9Jigh/ifr3ErTOWbhosxR3odgosHWHCDxvK62aWvKlisBwhd2Gp/sMML4rsz0okthvD+zGXU5X8ubbMTsutY6caGB0uu+zTZXKOb9MhOoGa8pahDNMaTU/gNduqwLyBBdm88K6fpw7R4MgVE0nLyepGNgB/a4zMsgPvvTkSWpD/AXLBxiSPGD1E7yld74by8bBE/PY0aa1FOUCFvLzgHZCjDbxdY15olm2SwZvXhl08b/cjPgT+HqYF+m47epzxZMt1A5SP6BEu4oDwaLNc4SRRt6GH6U7xxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dyYX5pUzlprjoLTKXAfSs+VSSaYbopJUB6NW4kTDmf4=;
+ b=lDN2vOSICNsZ1EMtFH3aevIZBwscv6HrjzZmV1OfgOstqiej8dbG79JlAeIjjtN0hLxI1juwGOPf7K0oiW4ryODdzYcE8vdkgOCv7MECk5pM8NeD+aah+RUA5Hgxn+KoomIhmTJje6KX9mBhoL79KkFgpVFKygCwr01IRbojCMr3zuYb1eJdjj83BqkXRTQ8gimAhdEgWXBCsKFcDaZMgNqWoAGGDCMttOlBnoQOghzePAQeYAn9cW7FyGGBi9fksT5/bivYThSjo/yOP1gb9NMcjA9n+CCWDGr9Lz/YTgZhSjkagNRLJwpeuXwo8nurTMNAP+nX1/5/Q6DiyJ/C/Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CH3PR12MB8584.namprd12.prod.outlook.com (2603:10b6:610:164::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.22; Fri, 1 May
+ 2026 06:04:13 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.20.9870.013; Fri, 1 May 2026
+ 06:04:12 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Subject: [PATCH v3 0/5] rust: add `bitfield!` macro
+Date: Fri, 01 May 2026 15:03:17 +0900
+Message-Id: <20260501-bitfield-v3-0-aa1076c3337d@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/0WNyw6CMBBFf4XM2pqhVERX/odh0cdUxmgxLTYaw
+ r8LGOPyJOeeO0KiyJTgWIwQKXPiPsxQbQqwnQ4XEuxmBomyRoWNMDx4ppsTNZWN3CmvvLMw649
+ Inl9r6tx+OT3Nleyw7Bej4zT08b1+Zbl4v+zhn81SoJCVtgoR96U1p5DZsd7a/g7tNE0fHj7e1
+ rMAAAA=
+X-Change-ID: 20260408-bitfield-6e18254f4fdc
+To: Joel Fernandes <joelagnelf@nvidia.com>, 
+ Yury Norov <yury.norov@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: John Hubbard <jhubbard@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Zhi Wang <zhiw@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ nova-gpu@lists.linux.dev, driver-core@lists.linux.dev, 
+ Alexandre Courbot <acourbot@nvidia.com>, Yury Norov <ynorov@nvidia.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: OSTP286CA0076.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:227::12) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] firmware_loader: Add cancel helper for async
- requests
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-References: <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-0-2c7d89cb3175@gmail.com>
- <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-1-2c7d89cb3175@gmail.com>
- <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YGdOVAJBVEA1TPH3T13ph9kG"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB8584:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1d7b15b-1afe-4f4d-a144-08dea7477709
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|10070799003|18002099003|921020|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	p8z5KMvRpt8VoCsfSFMP7RH55rG/SBfW5a96qVcN4w00bEKaOIUX3te9k8CBcVfVbB2Rvwww5S+02bXXT91ixE6m+QOHq19/9rsb7wZz11uIQpk1MmO2L4+S0Cgcy7PKXKgbqDMwPCg8jsDKS1U9ZvzBfYL42JZejPkXtJ71/ViuxOLVV8ktpiKgDyULkpHY35Ic6swpm7eOTsddL5XeAcL0NUSnb1DoCH82BRuyIUNd33tOywnkWS4x10d8nJyEhcW5VUKzuzDutZorgZJkn44VbDlNSaOEUq7h1GObPNDIE6WBkOxCLdBLazM5EEwKPEJwCJG5N6N6DMdHd50imPJIhNU6gWwtol2+dZn845Z3eMelGJxsUdbh4Or8tUxl/PPFYRYkYjPm5EP+jqUh3wYOjz3ogg7g63rpI+qmZWrK07fMb76ILH54hpv6tbDx1AKacGxlItDlt2dBngxIMwPJqZczKcYuTRYtmSZu0BOZTekyY8Ol1O4g6EUav/t/JjMuim2mEKibw5Ix7KZgEN9yvVujVGJGsuzDOi9D6jf5T9TQrBZjkK3x7Bijpa+2jm84Vgr+GSW+ffcg3S+ZLNicggm+3EB+FQHnuvIEw+vAztyqDnhUEpB8OQuY3aNEifbMLqCCXRKCq2s74FEFSFrTyK4g87YQlui9G2AS4fuUsbBxFFEt6JCnts0TSrO1H2yn1BUbT79edln9/ySaz56ryhoTMNfNX+2wAdMg6ZjNTm/ekzEnYOoWCLhtw49E
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(10070799003)(18002099003)(921020)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aXBWTVV1aTgzSDU1RzkzQk01SHc2eTdPbGVIZG1oeS9uVWlFRTVVT3N0NmVR?=
+ =?utf-8?B?ckp1TTczM1g4cDd2d0lHMm1kM0w4Q05CODF2VGJqYkdHVmVYT29YV0NwTXQ2?=
+ =?utf-8?B?TEJseDhVKzY4cTVyRDhTYVhCSlFkYk5jYStaK005U2piM1EzWkpEdW53UG94?=
+ =?utf-8?B?L2VLVjh3NGdBTm1JNmhSd3VmNXlTL1lhV1JsVzJjZEZoOXBCek5HK3FuRmFj?=
+ =?utf-8?B?enBNRzJTWTM1T283UUdDM0FnVi8yQkZDRUdpc0c4Ly85dWxlb2xPUy8zZkxN?=
+ =?utf-8?B?bGpNTzdla3FRci9wQktva3IvWDJIOVllTGtacEhsMEdHOFRRZG1SVnBEYUdn?=
+ =?utf-8?B?MXpERk5kSUdabTFsU2ZiQ3JRNEpoclFqbGk2RVVKakNFQWNRQTZVcVVwQVg1?=
+ =?utf-8?B?Q01qbFIxVnB1NGN2a3BZbEVWL3Y2MlUvaXc2MFRiMGtDTXFCODJsckVpUDQy?=
+ =?utf-8?B?Tm1Jb01RMVdncno3a1NONXY2Rk56bUN5dGVidHk5RkVzbFVjdGQxb1lmUHpl?=
+ =?utf-8?B?ZVFRRjF1ODRCbkh6UHk4cG5CMGtxVjNnME4zam45aTFNa3VpQlluSEdjQ0pD?=
+ =?utf-8?B?aG9WWEQxT2V5eG90WGlEUG1wVzVSbWdtWUd6bUhNdVRoWEZ3SzZGMTlZVVNZ?=
+ =?utf-8?B?a2h3TndaTCtudnRRV0NyK3hibWtuQUZuL3BjNGMxajlnYkRodWJBWkYxMCsv?=
+ =?utf-8?B?eHJHQUFpRkc0SE55V3B5Zkx5VWo1aUZVejFlRVdsRGhMM1BscUhrSTY5TU10?=
+ =?utf-8?B?OExibmlJVXJnSEpTcGE3Y3RPeUVwanRPNXBEVzE4aVFVSzBnSnlvcTRjNzlW?=
+ =?utf-8?B?aHYrRjg2TU5WT29HdlpJalh2K1FGYWdoL3RmaGdzb2thUVFIbWhzSXNpUHNO?=
+ =?utf-8?B?SENBVG1hMktDSGVmc29yUndhN0w0SFpJNUFEcFFRbTgyUHIwYk5HSVlEWVRy?=
+ =?utf-8?B?V2FKNlVIQS9mb3dzSVFzVHZXRFNzSFJlcFRaaHhqbXJmSklDK29NbVQzeENl?=
+ =?utf-8?B?SXdVUnJmRDR3bnl5N2kraW9NRm9jeS9Zdlh6VWNUY3NpMG45TkhIa1YyTEVD?=
+ =?utf-8?B?UjYxbkI0UGlLOXZ1OU9teWlKSXdHSEdBR0F5TDQ3Q0haUmJyYW9VMnNYb0d1?=
+ =?utf-8?B?QzZQMWtza0ZMOUtrR0pjOHhQVmN1ZkVrcStDTzdOWFdEcWNvMnJzeHZSZnJP?=
+ =?utf-8?B?Wlg1L0Y3a2lmRmdZTDZtS043WEErU3RHUzBSdS81azdQTmZVWFJhbDlpek9D?=
+ =?utf-8?B?dHpyK3g0OEJyWGxnM2pKZHJyMkpBUkY2UXFDelluMHpRRVJlV1ErNjFSeDlR?=
+ =?utf-8?B?czB6UDhWeGJ1R3laSWhzMWJGK1hsaHpsVHM1NDlUVkZ3aWU2RVBrNHkrSkNV?=
+ =?utf-8?B?QlgvUG1RL3I4U1lwT1p2OWNXWUNYS0VScDFiNGVxU3V5MmVNdm54Mk1pODE2?=
+ =?utf-8?B?eGd6NVZXRjJ2QXBRZXZqZDZ3V1dLOHFWRUFhSEMxVHFQVWpTVEt3MEZrc3Zn?=
+ =?utf-8?B?RnpSdytERWVKNzhGVFZlUjczRklqSTN5cWlCM0RacUtuK1RFVElRTVZTbFRW?=
+ =?utf-8?B?SE5LYmwzL1B0ZkRrSk5NK1dURjJmd3k4NFBVUmwvZ1lJQXlyd2tCd1NKYWZw?=
+ =?utf-8?B?d3I2bGh2WGdyRzRYU0oxb3lWMm92c1A2SS9nOVJLUjI3OEJrNkZKTFM0a0NH?=
+ =?utf-8?B?L1c5R0hsdW13ODQrU3ZtZng5Zno5Y0NvSENkd1AwZWtoOWtWVjBpMm94Qm9a?=
+ =?utf-8?B?Z2VlbEdzZVJNWHJhS2dWeHhQSlpiQzNsZWIrWTlqdzlEbVNESnlRMDZCd3lk?=
+ =?utf-8?B?SXd5OXFJV2xDdG5Db3FUYWlyQWQxSEg4QkxDS2pHT1diYkd3RHpLSTBKeTh1?=
+ =?utf-8?B?bUwvcVh3L3dNL1h5U2tOQzlQbW13ZnFxZDdtOGpUd3dmMHRmNGhid1VMOVZZ?=
+ =?utf-8?B?a0xXNE9IVHVSS0NWMDNPUGpTNEsvT2NoSDgyTVppbFk1U3hybU80YytYbFRW?=
+ =?utf-8?B?U3NPODJYL0FxUDlPc3B1Qlk1ZkhCSk5FNXlBQzdUeGxZcnJWMzJPV1B4RXhh?=
+ =?utf-8?B?VDQyK3RVQit5MGxTckFsZVVMSk95QXRRdkE3OWM1T1lKckJOcnNEK2I3VmlR?=
+ =?utf-8?B?aVFieUlkRWtDWXpkeHJNelRIdkRVSmk5czVscDJMSFp0azlyNyt2YlZDNmZU?=
+ =?utf-8?B?aDhhZnY5Uy9aeUxicjhMalh3Y2hNOGlUODJnYUxpd0VNWllKamd0aW5YeG9R?=
+ =?utf-8?B?U0ZlMXFHeUFNVW9zaU5BU3laYytUNHFjZnRuQlNJNDBkM2dwMXEwQjFjalgy?=
+ =?utf-8?B?NUIvcndXY21XellZQm9CQU41eXlSWXplRGVQMTFHNHRpenRMY2xBSjBVZFFH?=
+ =?utf-8?Q?2hhqOJWVMHEdAxfGDL625hTiqZBNzNWN90ImWJflkRC72?=
+X-MS-Exchange-AntiSpam-MessageData-1: VzrXODEFiDRWBQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1d7b15b-1afe-4f4d-a144-08dea7477709
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 06:04:12.1556
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XEn4a9nvuLbkZR0O1Z5/LUohIqfx460aYh5plWrjU6lDtxaTQ8BUHFAJroOo9uzvbDiVhX6KhSMBHEN8xPwZwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8584
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YGdOVAJBVEA1TPH3T13ph9kG
-Content-Type: multipart/mixed; boundary="------------aV2TDdxkkyQRlrI9J4ccR6AJ";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Message-ID: <662ed68f-dd37-4a3e-821b-e2f715cb4a47@gmail.com>
-Subject: Re: [PATCH v2 1/2] firmware_loader: Add cancel helper for async
- requests
-References: <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-0-2c7d89cb3175@gmail.com>
- <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-1-2c7d89cb3175@gmail.com>
- <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-In-Reply-To: <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-Autocrypt-Gossip: addr=perex@perex.cz; keydata=
- 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
+This is the continuation of the `bitfield!` macro which started
+alongside the `register!` one before being temporarily integrated into
+it [1].
 
---------------aV2TDdxkkyQRlrI9J4ccR6AJ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Thanks for all the feedback on v2; I believe this version addresses all
+of it, modulo Eliot's suggestion for more explicit range error messages.
+Since this is not fundamentally broken, I'd like to address this in a
+follow-up change to keep the series focused on the macro extraction from
+`register!`.
 
-Hi!
+This version is based on today's `rust-next`, which happens to be
+`7.1-rc1`. If review proves satisfying, I see several possible merge
+strategies, the one with the least friction being patches 1 and 2 are
+merged into the rust tree this cycle, followed by patches 3-5 via the
+I/O and DRM trees during the following cycle. This path would not
+require any signed tag.
 
-On 4/30/26 19:44, Danilo Krummrich wrote:
-> On Thu Apr 30, 2026 at 11:15 PM CEST, C=C3=A1ssio Gabriel wrote:
->> request_firmware_nowait() keeps the callback module pinned and holds
->> a device reference until the firmware work completes.
->>
->> Callers still have no way to cancel or synchronize the queued callback=
+[1] https://lore.kernel.org/all/20260120-register-v1-0-723a1743b557@nvidia.com/
 
->> before tearing down their driver-private state.
->>
->> Track async firmware work with devres and add
->> request_firmware_nowait_cancel().
->=20
-> I assume this is needed for manual ordering in case the callback access=
-es
-> resources that are not managed by devres, but are released in remove().=
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+Changes in v3:
+- Split patch 1 into the addition of the `bitfield!` macro and its use
+  in the `io` module.
+- Mention reserved field names in `bitfield!`'s doccomment.
+- Properly order fields in the KUnit test.
+- Add a Kconfig option for building the KUnit tests.
+- Document behavior on non-covered bits.
+- Document support for signed fields and storage types (TL;DR: not
+  supported).
+- Move `nova-core`'s `bitfield` module deletion into its own patch.
+- Link to v2: https://patch.msgid.link/20260409-bitfield-v2-0-23ac400071cb@nvidia.com
 
->=20
-> So, I think this is mixing two patterns, managed by the caller and devr=
-es
-> managed.
->=20
-> For the former we just want the ability to cancel things, this should b=
-e
-> compatible with the existing request_firmware_nowait().
->=20
-> Note that some (hopefully most) drivers already open code synchronizati=
-on
-> patterns, e.g. a completion that is waited for in remove().
->=20
-> However, some drivers also seem to just check a pointer, which is obvio=
-usly
-> vulnerable to TOCTOU races.
->=20
-> For a devres managed version, I think it should be a new API,
-> devm_request_firmware_nowait(), which should be possible to simply laye=
-r on top
-> of the existing API with devm_add_action(), so you can just call cancel=
-() from
-> the release callback.
->=20
->> The helper cancels work that has not
->> started yet and waits for an already-running callback to return. If th=
-e
->> request has already completed, it is a no-op.
->>
->> The devres release path uses the same synchronization so device teardo=
-wn
->> cannot free the firmware work state while the queued work can still ru=
-n.
->>
->> Signed-off-by: C=C3=A1ssio Gabriel <cassiogabrielcontato@gmail.com>
->=20
-> <snip>
->=20
->> @@ -1184,18 +1213,19 @@ static int _request_firmware_nowait(
->> =20
->>  	if (!uevent && fw_cache_is_setup(device, name)) {
->>  		kfree_const(fw_work->name);
->> -		kfree(fw_work);
->> +		devres_free(fw_work);
->>  		return -EOPNOTSUPP;
->>  	}
->> =20
->>  	if (!try_module_get(module)) {
->>  		kfree_const(fw_work->name);
->> -		kfree(fw_work);
->> +		devres_free(fw_work);
->>  		return -EFAULT;
->>  	}
->> =20
->>  	get_device(fw_work->device);
->>  	INIT_WORK(&fw_work->work, request_firmware_work_func);
->> +	devres_add(device, fw_work);
->=20
-> This puts the requirement on request_firmware_nowait() that it must be =
-called
-> from a context where the device is guaranteed to not be unbound concurr=
-ently,
-> otherwise this may race with firmware_work_release(), which could free =
-fw_work
-> before this functions attempts to schedule it below.
->=20
-> As mentioned above, I think this patch should just add a cancel() funct=
-ion, so
-> we can layer devres managed functionality on top of that as needed.
+---
+Alexandre Courbot (4):
+      rust: extract `bitfield!` macro from `register!`
+      rust: io: use the `bitfield!` macro in `register!`
+      gpu: nova-core: switch to kernel bitfield macro
+      gpu: nova-core: remove the driver-local `bitfield!` macro
 
-Thanks for pointing this out.
+Joel Fernandes (1):
+      rust: bitfield: Add KUnit tests for bitfield
 
-I=E2=80=99ll split the two lifetime models. For v3 I=E2=80=99ll keep the =
-existing
-request_firmware_nowait() semantics and add only an explicit cancel/sync =
-path
-for callers that manage teardown manually.
+ MAINTAINERS                        |   8 +
+ drivers/gpu/nova-core/bitfield.rs  | 329 --------------
+ drivers/gpu/nova-core/gsp/fw.rs    |  11 +-
+ drivers/gpu/nova-core/nova_core.rs |   3 -
+ lib/Kconfig.debug                  |  12 +
+ rust/kernel/bitfield.rs            | 865 +++++++++++++++++++++++++++++++++++++
+ rust/kernel/io/register.rs         | 246 +----------
+ rust/kernel/lib.rs                 |   1 +
+ 8 files changed, 894 insertions(+), 581 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260408-bitfield-6e18254f4fdc
 
-That should cover the TAS2781 case without making the existing API implic=
-itly
-devres-managed. If a managed variant is useful, it can be added separatel=
-y as
-devm_request_firmware_nowait() on top of the explicit cancel path.
+Best regards,
+--  
+Alexandre Courbot <acourbot@nvidia.com>
 
-I=E2=80=99ll also avoid the devres_add() / schedule_work() ordering issue=
- in the
-current version.
-
---=20
-Thanks,
-C=C3=A1ssio
-
-
---------------aV2TDdxkkyQRlrI9J4ccR6AJ--
-
---------------YGdOVAJBVEA1TPH3T13ph9kG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCafQd6QUDAAAAAAAKCRDQXT8aWv/ug+RH
-AP9HQg53zZJFnXm7+M5h8QCkDPtpDeepvobxBCADZe8uSwEAt0sk2q2cf9VilZUUkqneF3Bmy+LY
-vffG7i2is5U9zgM=
-=pMut
------END PGP SIGNATURE-----
-
---------------YGdOVAJBVEA1TPH3T13ph9kG--
