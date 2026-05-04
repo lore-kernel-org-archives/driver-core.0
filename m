@@ -1,86 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457533A5449
-	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 11:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3939A3A1E67
+	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 11:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777892487; cv=none; b=A1BYfwAFnRHCwhU9g1DVhjzXhqnmrdUnLAaXcMBvplwVDEV8gt/MY0rq+c7GX280UWDCkKnrWIrkkzUmsm4fdLbi5zmIMFeaYKgFabJH3jg/wLpTFzujgCnqQKyuOej9U1eh7Uwu7a9bhOke6WVv+RUSwRsBKOzkJkxBbKkeCNk=
+	t=1777892640; cv=none; b=Sau1TVOs317dzzde46X/FyVI0OznuKXWhuVCSe88OK0uJPJEd+ah6+e68ntbgWHJuLDy0JiLjdqgag/4H1TuCtf8NrxIwnu9CRquV43GrWY6FZ3mQJXP6gpHZOvRGky+JACJ6EpkTL0tZuZiylcdJqrg6P0wNLSYyGmylPTtVAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777892487; c=relaxed/simple;
-	bh=ImXrHCwGy8/aN+MYwFMS9Bky+rG6EWRzoWw+lbmYY5s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YbB9jMqLtV8n2OYACbbLldIAPTkoCmcOp6PvRpG9sTnBd6O7NT+T6x9ky/gl5AhJB/LZIBTdbv12LFSDf0HEP7hluWEIRXudLRuWr1IoO+P7r2Qw5CA/ei5VdF/6v5LKbE+Z86DQ9E3HRMyUnMfq859fNQAWEjQJqWzQ2KGwB3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ovDj9JGW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777892640; c=relaxed/simple;
+	bh=XC5hw9l5n+Yc6dUs8zLcR1At+vl5AcoyA6EL8K+FULM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S297GgKWsysv583BrDVrvgehS0rz8ejZFwwisYAKjbaOE2FGq8H3YetLc+mVS2JIfH9GzFW7CxsATFZEcnukLr0qOQqlNOBg+7I5s84DvE56oupcSoKIPNyMtSy2Ho21JBIF0fvW8qP3l+QTBnGwHlaVEqap3h4MRpxUwKWUeAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kiBmkhfY; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ovDj9JGW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00EB8C2BCB9
-	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 11:01:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777892487;
-	bh=ImXrHCwGy8/aN+MYwFMS9Bky+rG6EWRzoWw+lbmYY5s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ovDj9JGWejYHYhvl7ZaptOOmM4bW4wqKg31G0QeKeDCF6UlBLWXg+8kZr37azQVbk
-	 lHhnZkcWUkyMiwFZimWeATb0NdqdWdIBU9Xr6akMEfijCFvmX5jl8TXAT8Nh9bHukd
-	 YGJGUyRpGeuBW82+OfAsUmlJvdkVYDaJxDEoF/5DTRjlwGjfzF2117B69tfCO7hpUs
-	 uqrEKtGrLo16Qu/p9fDU9mL2vAeKjLAGN378cnef3aee0UpsGW+oAUvTJXofHcGITw
-	 reb0pmYk0+JkRhzTCUZVCAqHI7RZ5AJ/dMtVoBApDQ18JnZ7NZoNVEV4ycKw5/fT8r
-	 cX2R7G68xDDEw==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a40d02b58bso3318986e87.3
-        for <driver-core@lists.linux.dev>; Mon, 04 May 2026 04:01:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/ZzzV9YoOhDXs1y+eC6Zd/GsdKnybCqDxnQYL24zwjEV8LMtM/CFI72LqxP/M/3sttvVhB7TXSMX/qxQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YznJ22KCjFQXHCoZkmEnMPb14jaeIYUNg5mu/gDEi1PLdHeHzle
-	bklpZL0f7b6zKpmIIYQdeVNJuGcIA5o2KAbG3V9hyWIQZXfBmNFpBaBuMAd6g0PQpTaXB+pZc3z
-	s7a8Bcu2RzFmN/pTiNZ6t+W67QtYR/iCr1T2V2fQlFA==
-X-Received: by 2002:a05:6512:696:b0:5a8:704d:c20b with SMTP id
- 2adb3069b0e04-5a8704dc59dmr1533607e87.27.1777892485701; Mon, 04 May 2026
- 04:01:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kiBmkhfY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777892639; x=1809428639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XC5hw9l5n+Yc6dUs8zLcR1At+vl5AcoyA6EL8K+FULM=;
+  b=kiBmkhfYz0aWiwJ/xkGTZx//MqchaOQ9QvmtjOQuI1+nRqIc1u9UifpD
+   f76YFEuu8gP41ZkekEBpIOV1NkrSviM40R98PRlR6VXf7fXjti1Mnq+s4
+   zplo5IHz4DdHOAnEnCTHkUx4kIjIGGMdCLiB33Q4irqWw2sqIGtjQ6VCC
+   VbMN9+/fyxrZuubmSgAVWoYXrYCTFtH5I4KJI+DfC1nNCOv7rXPyAFxr+
+   yuWmJv0QWoJaluw3mVcYZfpSeMBMl6F4V51f2kIWSo+I3Hp1TGt5MefxK
+   IdZqqkLaQ6Hko8Kiq6IvQuucjDcY7IhaIrq7kIVFOJJORA2dJJBxjHYAK
+   A==;
+X-CSE-ConnectionGUID: k2jlZZ1iT8eVw6Q5NgMNtQ==
+X-CSE-MsgGUID: d+a8JGn9RP64etAGkwFGfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78610734"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="78610734"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 04:03:58 -0700
+X-CSE-ConnectionGUID: +sdGNIo0RTqs1g9KV8XngQ==
+X-CSE-MsgGUID: Id5h40RoSK2pKftF/ks7dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="232339893"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.78])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 04:03:53 -0700
+Date: Mon, 4 May 2026 14:03:51 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	brgl@kernel.org
+Subject: Re: [PATCH v5 1/2] ACPI: provide acpi_bus_find_device_by_name()
+Message-ID: <afh9F0uEkYKV5jVm@ashevche-desk.local>
+References: <20260504-baytrail-real-swnode-v5-0-c7878b69e383@oss.qualcomm.com>
+ <20260504-baytrail-real-swnode-v5-1-c7878b69e383@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260504-baytrail-real-swnode-v5-0-c7878b69e383@oss.qualcomm.com> <20260504-baytrail-real-swnode-v5-2-c7878b69e383@oss.qualcomm.com>
-In-Reply-To: <20260504-baytrail-real-swnode-v5-2-c7878b69e383@oss.qualcomm.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 4 May 2026 13:01:13 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MdNPkVH7zmrypXcfN3rQR_nmSAFPFunZak_NjbWb4VYcA@mail.gmail.com>
-X-Gm-Features: AVHnY4IxCBxO6eTgS-AVpI_BYjwldDfRg6f2ELcYNkBfYeLOHpEzH1V0noCK12I
-Message-ID: <CAMRc=MdNPkVH7zmrypXcfN3rQR_nmSAFPFunZak_NjbWb4VYcA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] platform/x86: x86-android-tablets: enable fwnode
- matching of GPIO chips
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260504-baytrail-real-swnode-v5-1-c7878b69e383@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, May 4, 2026 at 12:59=E2=80=AFPM Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
->
-> In order to allow GPIOLIB to match cherryview and baytrail GPIO
-> controllers by their firmware nodes instead of their names, we need to
-> attach the - currently "dangling" - existing software nodes to their
-> target devices dynamically.
->
-> The driver uses platform_create_bundle() and expects all required
-> providers to be present before it itself is probed. We know the name of
-> the device we're waiting for so look them up and assign the appropriate
-> software node as the secondary firmware node of the underlying ACPI node.
->
-> Scheduling fine-grained devres actions allows for proper teardown and
-> unsetting of the secondary firmware nodes.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
+On Mon, May 04, 2026 at 12:58:56PM +0200, Bartosz Golaszewski wrote:
+> Provide a helper allowing to locate an ACPI device by its name.
 
-Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Hmm... I thought Rafael gave you his Ack, but I may be mistaken.
+
+FWIW,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
