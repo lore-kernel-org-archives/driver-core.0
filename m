@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247A1281357;
-	Mon,  4 May 2026 20:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC9637B415;
+	Mon,  4 May 2026 22:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777928146; cv=none; b=ukAgm4ywuaPY8TGbm7nvGw8eueUlAPw3fIWJ6KCX8i8WQ5WMjUGQKeYdN3k0HsZdsQElWyz6Yz4SzihNAULd7ORXVaJTNPbfH6PFkcrdcwy76vBiW7if3muvi168rAtEg2UsLRAiViQz/nUjU+nQhcPt0lE5hm9hy5GKA3rhFO8=
+	t=1777932292; cv=none; b=Ori5L8ZnoB95fzXBo3ReD5hg102r2T6r52CQ9pwIQZBl7omejTcuPw94beuSdFR1TQOon36MqEHbMlCLbLE7rv5UU3nd+Hs9XRZMxYOi64ADbNUezujirXMFO8WFIQM2mxeLF6nw2jkjTbbbwfI2MlOyHfXFL5PzV0uCZTOZHtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777928146; c=relaxed/simple;
-	bh=fjSHG95gGb7IT7lXBJRI1uIB47QHMOdwdAvTLl9GHwU=;
+	s=arc-20240116; t=1777932292; c=relaxed/simple;
+	bh=d7uP+s+lhqI8Q9mHdC9Wdrr8e2FIA5NOrAU8TxiL0oA=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=NTLItaDer8+xSLHQAR1iWOEGuiIXoOZ5ca8mLHVxLPIaHHscdBzRI0hicGcPfbu6qC2JDXiZkJPnyStvjrIRF7UowK3zJScF1cEOowHB2i/HtKv0GMcFOUjsA4lAZxxsLJ01AOpAOcwkpeFEmhHvHDyvypJewY9zur5izMnPR6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XkLP2g/m; arc=none smtp.client-ip=10.30.226.201
+	 References:In-Reply-To; b=MHNSuXQmLrBcYPe90lAC1aRf+R0mD6w1dV9ZiqbRrFrsK3m9MuwyiIIo0XAz2I1Tz+7Yba37KfiIGGJEQol6yzABnPAqh5BAVHIcLkyab8sowsUWmqfo01dDhLLEAhhySdbbEmh/oz8A9BoQ5xmj6UvsiCc9RRwDS1nidSXiPcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hW8touS3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XkLP2g/m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FB1C2BCC4;
-	Mon,  4 May 2026 20:55:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hW8touS3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F211C2BCC4;
+	Mon,  4 May 2026 22:04:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777928145;
-	bh=fjSHG95gGb7IT7lXBJRI1uIB47QHMOdwdAvTLl9GHwU=;
+	s=k20201202; t=1777932292;
+	bh=d7uP+s+lhqI8Q9mHdC9Wdrr8e2FIA5NOrAU8TxiL0oA=;
 	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=XkLP2g/mhkEbDClQBvH0VXTMAkbBaWf4yLdEMbc7hIRyfa2BaZ9CKfbpTdfgKkSR7
-	 NKd437UfE5paIA10TYFhZXn4mGZHDPCbIgbnCtlBq34Nk0E6lqYz1QDhz2Up6YHHjs
-	 FSj6UOzMySPtig3pXeO9ABwAxvhNeS7zp/N5jgGEqYO6GuwvjZjHnCcKbppo7HwS4k
-	 vzqlsB4ws60HkOLXHeQyW8XbWBMyV32ZGQusGIWPxPstQgcBhWL9ReDB7173Nfd+5X
-	 V2aQdgqLrJbSvYXft5n5OcyRMeutMoh/sOy85b3JrX9XJbvgkmNOxPq5MA4GkvpbKl
-	 SWX9yOQhiQ73Q==
+	b=hW8touS354oPIA7u1pz20iBsGUFtzrUCQomo4oZytEL7gGWNh4LV6mfKSbZ/VkL1o
+	 PDowkfzImr0kieYX/9YLU0UzaUIdQMz8Enu4bGo4oNQ9wNlmysZ7qMngeAgW5YpEnJ
+	 rsEOV5b9CpOlZpKeCQ4iahShOTK/8C29Vch/mvlwJx8GqHYkOpiq5vrlM8JoL6WuZY
+	 S8Ar5hcE2HCRjsIVOb1zMykBzvahv1q9+Tii3+/C0ijusM5R6akyZQIKMgfRb2Ch99
+	 nrOlKfy5WbvbgzbEzrhKiw7hcAudfko9eAq9xhszwmTqdJIGeZM2PiWqIvLBnYXVpe
+	 dRoWMFg1ffFFA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,81 +34,111 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 04 May 2026 22:55:42 +0200
-Message-Id: <DIA6XD2G5094.1FA2NH60YN1C0@kernel.org>
-Subject: Re: [PATCH v2] sysfs: return -ENOENT from move/rename when kobj->sd
- is NULL
+Date: Tue, 05 May 2026 00:04:47 +0200
+Message-Id: <DIA8E91NKUP3.247LCXIKRDJEA@kernel.org>
+Subject: Re: [PATCH v2] rust: io: use newtype for PhysAddr
 Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-bluetooth@vger.kernel.org>,
- <syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com>,
- <syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com>
-To: "Conor Kotwasinski" <conorkotwasinski2024@u.northwestern.edu>
+ <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Joerg Roedel" <joro@8bytes.org>, "Will
+ Deacon" <will@kernel.org>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Robin Murphy" <robin.murphy@arm.com>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>
+To: <x@2005.tr>
 From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260416150600.2148935-1-conorkotwasinski2024@u.northwestern.edu> <20260504050736.17672-1-conorkotwasinski2024@u.northwestern.edu>
-In-Reply-To: <20260504050736.17672-1-conorkotwasinski2024@u.northwestern.edu>
+References: <20260503103050.200526-1-x@2005.tr>
+ <20260504111421.72130-1-x@2005.tr>
+In-Reply-To: <20260504111421.72130-1-x@2005.tr>
 
-On Mon May 4, 2026 at 7:07 AM CEST, Conor Kotwasinski wrote:
-> sysfs_move_dir_ns() and sysfs_rename_dir_ns() pass kobj->sd to
-> kernfs_rename_ns() unconditionally. If sysfs_remove_dir() has already
-> cleared kobj->sd, the NULL flows through and kernfs_rename_ns()
-> dereferences it via rcu_access_pointer(kn->__parent), which KASAN
-> surfaces as a stack-segment fault on the shadow lookup:
->
->   Oops: stack segment: 0000 [#1] SMP KASAN PTI
->   RIP: 0010:kernfs_rename_ns+0x3a/0x7a0 fs/kernfs/dir.c:1752
->   Call Trace:
->    kobject_move+0x525/0x6e0 lib/kobject.c:569
->    device_move+0xe0/0x730 drivers/base/core.c:4606
->    hci_conn_del_sysfs+0xb8/0x1a0 net/bluetooth/hci_sysfs.c:75
->    hci_conn_cleanup net/bluetooth/hci_conn.c:173 [inline]
->    hci_conn_del+0xc36/0x1240 net/bluetooth/hci_conn.c:1234
->    hci_conn_hash_flush+0x191/0x260 net/bluetooth/hci_conn.c:2638
->    hci_dev_close_sync+0x821/0x1100 net/bluetooth/hci_sync.c:5327
->    hci_dev_do_close net/bluetooth/hci_core.c:501 [inline]
->    hci_unregister_dev+0x21a/0x5b0 net/bluetooth/hci_core.c:2715
->
-> syzbot has reported 35 hits with this signature across net, net-next
-> and linux-next between July 2025 and January 2026, via both vhci
-> release and HCIDEVRESET ioctl.
->
-> Return -ENOENT in that case, consistent with sysfs_create_dir_ns().
-> The underlying ordering problem in bluetooth -- device_move() called
-> after the target's sysfs has been torn down -- is a separate issue.
->
-> Reported-by: syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/687c6966.a70a0220.693ce.00a5.GAE@goog=
-le.com/
-> Reported-by: syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Dfaeac5b54ba997a96278
-> Fixes: 324a56e16e44 ("kernfs: s/sysfs_dirent/kernfs_node/ and rename its =
-friends accordingly")
+Hi Favilances,
 
-This is just a rename commit with no functional change, so I think we shoul=
-d
-pick the following commit instead:
+(I assume you are Favilances; asking since the mail came from just x@2005.t=
+r.)
 
-Fixes: 608e266a2d4e ("sysfs: make kobj point to sysfs_dirent instead of den=
-try")
+On Mon May 4, 2026 at 1:14 PM CEST, x wrote:
+> From: Favilances Noir <favilances@proton.me>
+>
+> Currently, PhysAddr is a type alias for phys_addr_t. This means
+> that physical addresses can be mixed with unrelated integer values
+> without Rust noticing.
+>
+> Use a transparent newtype for PhysAddr instead, and update the
+> affected call sites to perform explicit raw conversions at the FFI
+> boundary.
+>
+> This keeps the existing phys_addr_t representation while making
+> physical addresses distinct in Rust type checking.
+>
+> Drop the unused Clone and Copy derives from PhysAddr, as pointed out
+> in review.
 
-However, that commit is quite old, so it raises a bit the question, why doe=
+This should be part of the version change log and should go below the "---"
+line.
+
+Please also consider the subsequent replies to this feedback, which point o=
+ut
+that this should indeed have Clone and Copy (and probably also other derive=
 s
-this pop up now?
+such as PartialEq).
 
-Technically, the API contract only talks about callers have to serialize ca=
-lls,
-i.e. your if (!kobj->sd) check should not have any TOCTOU issues, but it do=
-es
-not talk about ordering.
+For instance, consider the case where you call into_raw() because you need =
+the
+raw value but then still want to do something with the PhysAddr. Without Co=
+py
+you'd need to write something like:
 
-That said, why does the bluetooth API run into this now?
+	let r =3D p.into_raw();
+	let p =3D PhysAddr::from_raw(r); // `r` implements `Copy`.
 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Conor Kotwasinski <conorkotwasinski2024@u.northwestern.edu=
->
+	// Use `r` and `p`.
 
-Regardless of the above, the patch seems still fine even if it turns out to=
- be
-hardening only.
+> Signed-off-by: Favilances Noir <favilances@proton.me>
 
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+<snip>
+
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index fcc7678fd9e3..999fa285a6ec 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -21,9 +21,24 @@
+> =20
+>  /// Physical address type.
+>  ///
+> -/// This is a type alias to either `u32` or `u64` depending on the confi=
+g option
+> -/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit archi=
+tectures.
+> -pub type PhysAddr =3D bindings::phys_addr_t;
+> +/// This wraps either `u32` or `u64` depending on the config option
+> +/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a `u64` even on 32-bit arc=
+hitectures.
+> +#[repr(transparent)]
+> +pub struct PhysAddr(bindings::phys_addr_t);
+> +
+> +impl PhysAddr {
+> +    /// Creates a physical address from the raw C type.
+> +    #[inline]
+> +    pub const fn from_raw(value: bindings::phys_addr_t) -> Self {
+> +        Self(value)
+> +    }
+> +
+> +    /// Turns this physical address into the raw C type.
+> +    #[inline]
+> +    pub const fn into_raw(self) -> bindings::phys_addr_t {
+> +        self.0
+> +    }
+> +}
+
+I like the explicit methods, but I can also see that this might become a bi=
+t
+verbose; maybe consider adding From impls as well.
+
+I think eventually we also want {Try}From impls for usize etc., but let's w=
+ait
+until we have a user.
+
+Maybe also consider a Debug impl that prints a hex value.
