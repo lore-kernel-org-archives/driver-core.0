@@ -1,241 +1,108 @@
-Received: from forward502d.mail.yandex.net (forward502d.mail.yandex.net [178.154.239.210])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB6737DE85;
-	Mon,  4 May 2026 11:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4121146588
+	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 15:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777893903; cv=none; b=WEJR/beHsXHRz9iS3uT95z83iB+jjFmpL7yA/Mh5SDVkXckMVgfE+6yb+QchWwVbmYhScoERoW8ul0zoue7zAUZ+dxGZgG2xQeW+1sXuIcZyFbOmIg1OH5i/BrP5LxezZCQE39uumgk34BLQC92jb7t6yhQ4DsflPIs9zWf86D4=
+	t=1777907799; cv=none; b=rkstQqj2/OZ42+A6dXZz4MossBXFaaqB+lB0r1WgLzKKTi70szt21QF55mEDSmFAyGFwYRm2anOQmeQITg+wpyULGXs4IddY0psaUNqUTJFDRCBqBpQQK/WWLrTEpQom9kncKVl6FHBCpE0mxthYIeWqoiOaDdv17Xk3I41EwTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777893903; c=relaxed/simple;
-	bh=tUzzMutq4Sx7of0cMGJidiHPmwK9ZP0wtz5XQHd8UAc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mQWfJxjWp9lGdMtWKewaWxqgbhXKtiqHJhw5DCY5xLS2267tc0CqzStCc6ORZrzaqAjr8bHOItltKczG6xOT28wm3cynM0OomJAFg1qaH6uXPGVUJbD/eMJoOhK+QomFTQstb0NnkKf40Y9n5qirfFn96t6/GpXahywYOntSEIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=2005.tr; spf=pass smtp.mailfrom=2005.tr; dkim=pass (1024-bit key) header.d=2005.tr header.i=@2005.tr header.b=Nm4Weixd; arc=none smtp.client-ip=178.154.239.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=2005.tr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=2005.tr
+	s=arc-20240116; t=1777907799; c=relaxed/simple;
+	bh=i/4hYMFf//svTflcq9f9gKFs+2rGtotqjH1ofCdpbP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BoFvPtPifM+25lCk5inTFqwVQWZ5cZiP0wNUdVs4ekNptmwxCCex3rG/aBWcOEG7wbY21UYQZMYe6DjTsXGs1GiqKFrzMS2LNfVuvJKtv6iO6KGkYfn/z/rTB3MhIjxOvY4i9skVW3pyFNsTUAzjRBvyDbpEukt7HA1R8k3TyiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HhnBy3Pv; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=2005.tr header.i=@2005.tr header.b="Nm4Weixd"
-Received: from mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:494f:0:640:ed81:0])
-	by forward502d.mail.yandex.net (Yandex) with ESMTPS id 93E68C0CE6;
-	Mon, 04 May 2026 14:14:51 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net (smtp) with ESMTPSA id bEdRaMsSLSw0-lv5ex7uR;
-	Mon, 04 May 2026 14:14:50 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=2005.tr; s=mail;
-	t=1777893290; bh=EyRXmwAUXgiBKVinT8b1roGNdRCmdbZK3Hh4r5I0of0=;
-	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
-	b=Nm4Weixd7OH/si+5SYYFS8IdnVdc4VdeokB4lWUxwdU19NNCZNB9JpMLPqazTy8GS
-	 T/ezmEbGNWiTwoNP3tok3i6ddk+GNQITRK9qIL9igFgFpFJ2Kk5Ukiklh69dj+ElLj
-	 F39MMgoLdw376zcPQU9wxYn4LINJDPTi638Ia/s8=
-Authentication-Results: mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net; dkim=pass header.i=@2005.tr
-From: x@2005.tr
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>
-Cc: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Robin Murphy <robin.murphy@arm.com>,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: [PATCH v2] rust: io: use newtype for PhysAddr
-Date: Mon,  4 May 2026 14:14:21 +0300
-Message-ID: <20260504111421.72130-1-x@2005.tr>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260503103050.200526-1-x@2005.tr>
-References: <20260503103050.200526-1-x@2005.tr>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HhnBy3Pv"
+Date: Mon, 4 May 2026 09:16:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777907795;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bfwD5Irdem1njLTO4qcSxhBNtYSz/64bwE1nCVFo0kM=;
+	b=HhnBy3Pvznh/jfbaqwnrS3Sr1LgnK9907GuwDqCeA7BJiUuV/C0L53j3p0tPlo2ceNmbOF
+	kxH+qVW8EopVYJkr5PxfSFnV3aRpW2P9sW+dFuliPm9WaXEAoX1UsueOSw55Y5a72fTn4c
+	UGUggb9SGS78EM+UNMJVtFXt8DL+BY4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Russ Weight <russ.weight@linux.dev>
+To: Guangshuo Li <lgs201920130244@gmail.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Tianfei zhang <tianfei.zhang@intel.com>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] firmware_loader: fix device reference leak in
+ firmware_upload_register()
+Message-ID: <lmyvhhsg5f6cwkjuyt3ugvch2beahrau43sz66bkrzyuwpbqtn@ts3oawaepou3>
+References: <20260418070220.64542-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260418070220.64542-1-lgs201920130244@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-From: Favilances Noir <favilances@proton.me>
+On Sat, Apr 18, 2026 at 03:02:20PM +0800, Guangshuo Li wrote:
+> firmware_upload_register()
+>   -> fw_create_instance()
+>      -> device_initialize()
+> 
+> After fw_create_instance() succeeds, the lifetime of the embedded struct
+> device is expected to be managed through the device core reference
+> counting, since fw_create_instance() has already called
+> device_initialize().
+> 
+> In firmware_upload_register(), if alloc_lookup_fw_priv() fails after
+> fw_create_instance() succeeds, the code reaches free_fw_sysfs and frees
+> fw_sysfs directly instead of releasing the device reference with
+> put_device(). This may leave the reference count of the embedded struct
+> device unbalanced, resulting in a refcount leak.
+> 
+> The issue was identified by a static analysis tool I developed and
+> confirmed by manual review. Fix this by using put_device(fw_dev) in the
+> failure path and letting fw_dev_release() handle the final cleanup,
+> instead of freeing the instance directly from the error path.
+> 
+> Fixes: 97730bbb242c ("firmware_loader: Add firmware-upload support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 
-Currently, PhysAddr is a type alias for phys_addr_t. This means
-that physical addresses can be mixed with unrelated integer values
-without Rust noticing.
+Reviewed-by: Russ Weight <russ.weight@linux.dev>
 
-Use a transparent newtype for PhysAddr instead, and update the
-affected call sites to perform explicit raw conversions at the FFI
-boundary.
-
-This keeps the existing phys_addr_t representation while making
-physical addresses distinct in Rust type checking.
-
-Drop the unused Clone and Copy derives from PhysAddr, as pointed out
-in review.
-
-Signed-off-by: Favilances Noir <favilances@proton.me>
----
- rust/kernel/devres.rs        |  8 +++++---
- rust/kernel/io.rs            | 29 +++++++++++++++++++++++------
- rust/kernel/io/mem.rs        |  4 ++--
- rust/kernel/io/resource.rs   |  6 +++---
- rust/kernel/iommu/pgtable.rs |  2 +-
- 5 files changed, 34 insertions(+), 15 deletions(-)
-
-diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
-index 9e5f93aed20c..beb3723d2519 100644
---- a/rust/kernel/devres.rs
-+++ b/rust/kernel/devres.rs
-@@ -85,10 +85,10 @@ struct Inner<T> {
- ///     ///
- ///     /// [`paddr`, `paddr` + `SIZE`) must be a valid MMIO region that is mappable into the CPUs
- ///     /// virtual address space.
--///     unsafe fn new(paddr: usize) -> Result<Self>{
-+///     unsafe fn new(paddr: PhysAddr) -> Result<Self>{
- ///         // SAFETY: By the safety requirements of this function [`paddr`, `paddr` + `SIZE`) is
- ///         // valid for `ioremap`.
--///         let addr = unsafe { bindings::ioremap(paddr as PhysAddr, SIZE) };
-+///         let addr = unsafe { bindings::ioremap(paddr.into_raw(), SIZE) };
- ///         if addr.is_null() {
- ///             return Err(ENOMEM);
- ///         }
-@@ -114,7 +114,9 @@ struct Inner<T> {
- /// }
- /// # fn no_run(dev: &Device<Bound>) -> Result<(), Error> {
- /// // SAFETY: Invalid usage for example purposes.
--/// let iomem = unsafe { IoMem::<{ core::mem::size_of::<u32>() }>::new(0xBAAAAAAD)? };
-+/// let iomem = unsafe {
-+///     IoMem::<{ core::mem::size_of::<u32>() }>::new(PhysAddr::from_raw(0xBAAAAAAD))?
-+/// };
- /// let devres = Devres::new(dev, iomem)?;
- ///
- /// let res = devres.try_access().ok_or(ENXIO)?;
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index fcc7678fd9e3..999fa285a6ec 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -21,9 +21,24 @@
- 
- /// Physical address type.
- ///
--/// This is a type alias to either `u32` or `u64` depending on the config option
--/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit architectures.
--pub type PhysAddr = bindings::phys_addr_t;
-+/// This wraps either `u32` or `u64` depending on the config option
-+/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a `u64` even on 32-bit architectures.
-+#[repr(transparent)]
-+pub struct PhysAddr(bindings::phys_addr_t);
-+
-+impl PhysAddr {
-+    /// Creates a physical address from the raw C type.
-+    #[inline]
-+    pub const fn from_raw(value: bindings::phys_addr_t) -> Self {
-+        Self(value)
-+    }
-+
-+    /// Turns this physical address into the raw C type.
-+    #[inline]
-+    pub const fn into_raw(self) -> bindings::phys_addr_t {
-+        self.0
-+    }
-+}
- 
- /// Resource Size type.
- ///
-@@ -101,10 +116,10 @@ pub fn maxsize(&self) -> usize {
- ///     ///
- ///     /// [`paddr`, `paddr` + `SIZE`) must be a valid MMIO region that is mappable into the CPUs
- ///     /// virtual address space.
--///     unsafe fn new(paddr: usize) -> Result<Self>{
-+///     unsafe fn new(paddr: PhysAddr) -> Result<Self>{
- ///         // SAFETY: By the safety requirements of this function [`paddr`, `paddr` + `SIZE`) is
- ///         // valid for `ioremap`.
--///         let addr = unsafe { bindings::ioremap(paddr as PhysAddr, SIZE) };
-+///         let addr = unsafe { bindings::ioremap(paddr.into_raw(), SIZE) };
- ///         if addr.is_null() {
- ///             return Err(ENOMEM);
- ///         }
-@@ -131,7 +146,9 @@ pub fn maxsize(&self) -> usize {
- ///
- ///# fn no_run() -> Result<(), Error> {
- /// // SAFETY: Invalid usage for example purposes.
--/// let iomem = unsafe { IoMem::<{ core::mem::size_of::<u32>() }>::new(0xBAAAAAAD)? };
-+/// let iomem = unsafe {
-+///     IoMem::<{ core::mem::size_of::<u32>() }>::new(PhysAddr::from_raw(0xBAAAAAAD))?
-+/// };
- /// iomem.write32(0x42, 0x0);
- /// assert!(iomem.try_write32(0x42, 0x0).is_ok());
- /// assert!(iomem.try_write32(0x42, 0x4).is_err());
-diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
-index 7dc78d547f7a..f21f9038b297 100644
---- a/rust/kernel/io/mem.rs
-+++ b/rust/kernel/io/mem.rs
-@@ -254,12 +254,12 @@ fn ioremap(resource: &Resource) -> Result<Self> {
-             // SAFETY:
-             // - `res_start` and `size` are read from a presumably valid `struct resource`.
-             // - `size` is known not to be zero at this point.
--            unsafe { bindings::ioremap_np(res_start, size) }
-+            unsafe { bindings::ioremap_np(res_start.into_raw(), size) }
-         } else {
-             // SAFETY:
-             // - `res_start` and `size` are read from a presumably valid `struct resource`.
-             // - `size` is known not to be zero at this point.
--            unsafe { bindings::ioremap(res_start, size) }
-+            unsafe { bindings::ioremap(res_start.into_raw(), size) }
-         };
- 
-         if addr.is_null() {
-diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-index b7ac9faf141d..5dda1061db68 100644
---- a/rust/kernel/io/resource.rs
-+++ b/rust/kernel/io/resource.rs
-@@ -58,7 +58,7 @@ fn drop(&mut self) {
-         };
- 
-         // SAFETY: Safe as per the invariant of `Region`.
--        unsafe { release_fn(start, size) };
-+        unsafe { release_fn(start.into_raw(), size) };
-     }
- }
- 
-@@ -113,7 +113,7 @@ pub fn request_region(
-         let region = unsafe {
-             bindings::__request_region(
-                 self.0.get(),
--                start,
-+                start.into_raw(),
-                 size,
-                 name.as_char_ptr(),
-                 flags.0 as c_int,
-@@ -137,7 +137,7 @@ pub fn size(&self) -> ResourceSize {
-     pub fn start(&self) -> PhysAddr {
-         let inner = self.0.get();
-         // SAFETY: Safe as per the invariants of `Resource`.
--        unsafe { (*inner).start }
-+        PhysAddr::from_raw(unsafe { (*inner).start })
-     }
- 
-     /// Returns the name of the resource.
-diff --git a/rust/kernel/iommu/pgtable.rs b/rust/kernel/iommu/pgtable.rs
-index c88e38fd938a..ae724ca1e8ad 100644
---- a/rust/kernel/iommu/pgtable.rs
-+++ b/rust/kernel/iommu/pgtable.rs
-@@ -182,7 +182,7 @@ pub unsafe fn map_pages(
-             (map_pages)(
-                 self.raw_ops(),
-                 iova,
--                paddr,
-+                paddr.into_raw(),
-                 pgsize,
-                 pgcount,
-                 prot as i32,
--- 
-2.54.0
-
+> ---
+>  drivers/base/firmware_loader/sysfs_upload.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
+> index f59a7856934c..a6dab34b22d8 100644
+> --- a/drivers/base/firmware_loader/sysfs_upload.c
+> +++ b/drivers/base/firmware_loader/sysfs_upload.c
+> @@ -351,7 +351,8 @@ firmware_upload_register(struct module *module, struct device *parent,
+>  	if (ret != 0) {
+>  		if (ret > 0)
+>  			ret = -EINVAL;
+> -		goto free_fw_sysfs;
+> +		put_device(fw_dev);
+> +		goto exit_module_put;
+>  	}
+>  	fw_priv->is_paged_buf = true;
+>  	fw_sysfs->fw_priv = fw_priv;
+> @@ -365,9 +366,6 @@ firmware_upload_register(struct module *module, struct device *parent,
+>  
+>  	return fw_upload;
+>  
+> -free_fw_sysfs:
+> -	kfree(fw_sysfs);
+> -
+>  free_fw_upload_priv:
+>  	kfree(fw_upload_priv);
+>  
+> -- 
+> 2.43.0
+> 
