@@ -1,31 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80B2266B46
-	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 05:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECFA282F3A
+	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 05:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777872839; cv=none; b=IV3ebammd/uLZEOkYnb1fMQjOhdJvbUMBUjNIBTQhgEBUO/CwE1WDlD/udVQl/zRRoXEUnRjTYlS67/c9HP2P/GWRQmFPh7ggplDUWnnS8803zP6QF9Rf16l5f5DblQJkOovkvUWR3U9lOieZ0YXuUESHKvI6XvrOJDK5A4Vknw=
+	t=1777872842; cv=none; b=ophIYrlcbukX+tqp6I3/7JkCyT/wA5fKLSXN+R2tvNaHLZpzvZS5XX9cOpxrJNW++pwXsINo8WsQJfd0MlJlNe3ZBDUMj/UJYNnTH2NMUj9EhTpJTQbr7qrA7PJ8q/2OtYv6QzLXQ1czEH9wcdbC9WcyZcxxOMt7TG9u/lALgn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777872839; c=relaxed/simple;
-	bh=qVTV8qeG6V+Z9IZtbOivrANMEblCi5CBzzop6HZ4Z0U=;
+	s=arc-20240116; t=1777872842; c=relaxed/simple;
+	bh=GJzXC9MC3E6J4BElz4+/m2MofXQnovBTRlLTUNm3Zfc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Tnw+uFDSuqcULO6ZH5P+6M1BOUTcCYeg3ddeI5zLLLsXJplguJTUuIlpasBhyK2f2z6fxXZZVEAUlGRYLKDG9H5vevuqj/aAJW5KFA9oddtoAoxJkvrUQbo0EwCejn3CAfk1LK1oc857l/zPNAc7TTapMo/Mo2ojtnqPkYmHEAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jgAGqCau; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=GhMeimbggnbybZx3PDFc8eYM41ggpD1YHGg21IHfpv9CDRClg2mk2Q1nBGr4UO9+6U5s80auXWyut9JL6nemNWvzCOEvQTcxQxaIsksAPNjy512u88fHVnaG6VBoULp4ECuFhxXmqUx/DRVDz7DH2jB0jhPTJmqw61F11p+fdHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=elRx7MWZ; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jgAGqCau"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="elRx7MWZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1777872835;
-	bh=qVTV8qeG6V+Z9IZtbOivrANMEblCi5CBzzop6HZ4Z0U=;
+	bh=GJzXC9MC3E6J4BElz4+/m2MofXQnovBTRlLTUNm3Zfc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jgAGqCauDCC2Wv3WI+64HzR8sdFJIc+8QMOyy0CE3EvekQNBQM+aKhBm0BMdY528R
-	 TwdCrXSjxqThAhf5GpGd4FyQHRO9stTokWH7SoGalv1VCBLedJOKuOGMjzdkKyQwxV
-	 NaDXKCJqZUZ7Un1TBVORayBlXwu2HfGuJsyQryV8=
+	b=elRx7MWZ+xb5GXnBlmCpANT6+UaHC24V1sVsC8BS2yMUYq8gq9AMBacpretBj1TYC
+	 rrW0qJSyE84lGaqmS+P90zSdoBqCIXV/PYXgHtPQH6iJQUwaNTnMzpEBMhEaOiEpit
+	 6unr208Shcr+NwHR3vtTnnL7eIEZcUKwRAsZcx/M=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 04 May 2026 07:33:51 +0200
-Subject: [PATCH v2 2/5] driver core: Add low-level macros for device
+Date: Mon, 04 May 2026 07:33:53 +0200
+Subject: [PATCH v2 4/5] driver core: Allow the constification of device
  attributes
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260504-sysfs-const-attr-device_attr-prep-v2-2-79d291cb3071@weissschuh.net>
+Message-Id: <20260504-sysfs-const-attr-device_attr-prep-v2-4-79d291cb3071@weissschuh.net>
 References: <20260504-sysfs-const-attr-device_attr-prep-v2-0-79d291cb3071@weissschuh.net>
 In-Reply-To: <20260504-sysfs-const-attr-device_attr-prep-v2-0-79d291cb3071@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -43,152 +43,154 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777872834; l=5979;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777872834; l=5144;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=qVTV8qeG6V+Z9IZtbOivrANMEblCi5CBzzop6HZ4Z0U=;
- b=yR8gKkRvWMAWQfjfYHLwCgVP1BsP5OUeTMiWhHn54bNuGLbmk8YTcEDtNQY9W05pnj8/GliuB
- 6xiDS2zKzO7D/xEJETgIQ91CEf0ONcfoL4FmV1BfVkLFKQlYDrDLo37
+ bh=GJzXC9MC3E6J4BElz4+/m2MofXQnovBTRlLTUNm3Zfc=;
+ b=Wd//sf7xKU5ONMB4qJDYFkmETOBS8ASNXnvi5QRCfmZ6uCwb6TKoyoMyKJ5S9XB7Zs2U6hG+R
+ NN+hGQtYIvcArnYtdehRRSlYV3vBdK+C12W64i6otjO+DvoijcWPVGI
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-For the upcoming constification of device attributes the generic
-__ATTR() macros are insufficient.
-
-Prepare for a split by introducing new low-level macros specific to
-device attributes.
+Allow device attribute to reside in read-only memory.
+Both const and non-const attributes are handled by the utility macros
+and attributes can be migrated one-by-one.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- include/linux/device.h | 43 ++++++++++++++++++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 11 deletions(-)
+ drivers/base/core.c    | 12 ++++++----
+ include/linux/device.h | 62 +++++++++++++++++++++++++++++++++++++++++++-------
+ 2 files changed, 62 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index bd2ddf2aab50..6e2ee6d55a0b 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2419,9 +2419,11 @@ static ssize_t dev_attr_show(struct kobject *kobj, struct attribute *attr,
+ 
+ 	if (dev_attr->show)
+ 		ret = dev_attr->show(dev, dev_attr, buf);
++	else if (dev_attr->show_const)
++		ret = dev_attr->show_const(dev, dev_attr, buf);
+ 	if (ret >= (ssize_t)PAGE_SIZE) {
+-		printk("dev_attr_show: %pS returned bad count\n",
+-				dev_attr->show);
++		printk("dev_attr_show: %pS/%pS returned bad count\n",
++				dev_attr->show, dev_attr->show_const);
+ 	}
+ 	return ret;
+ }
+@@ -2435,6 +2437,8 @@ static ssize_t dev_attr_store(struct kobject *kobj, struct attribute *attr,
+ 
+ 	if (dev_attr->store)
+ 		ret = dev_attr->store(dev, dev_attr, buf, count);
++	else if (dev_attr->store_const)
++		ret = dev_attr->store_const(dev, dev_attr, buf, count);
+ 	return ret;
+ }
+ 
+@@ -3047,10 +3051,10 @@ int device_create_file(struct device *dev,
+ 	int error = 0;
+ 
+ 	if (dev) {
+-		WARN(((attr->attr.mode & S_IWUGO) && !attr->store),
++		WARN(((attr->attr.mode & S_IWUGO) && !(attr->store || attr->store_const)),
+ 			"Attribute %s: write permission without 'store'\n",
+ 			attr->attr.name);
+-		WARN(((attr->attr.mode & S_IRUGO) && !attr->show),
++		WARN(((attr->attr.mode & S_IRUGO) && !(attr->show || attr->show_const)),
+ 			"Attribute %s: read permission without 'show'\n",
+ 			attr->attr.name);
+ 		error = sysfs_create_file(&dev->kobj, &attr->attr);
 diff --git a/include/linux/device.h b/include/linux/device.h
-index 06ec4e27a1e1..24ed3a6caad2 100644
+index 17150b0dfcd6..415a0c483db3 100644
 --- a/include/linux/device.h
 +++ b/include/linux/device.h
-@@ -135,6 +135,27 @@ ssize_t device_store_bool(struct device *dev, struct device_attribute *attr,
+@@ -104,10 +104,18 @@ struct device_type {
+  */
+ struct device_attribute {
+ 	struct attribute	attr;
+-	ssize_t (*show)(struct device *dev, struct device_attribute *attr,
+-			char *buf);
+-	ssize_t (*store)(struct device *dev, struct device_attribute *attr,
+-			 const char *buf, size_t count);
++	__SYSFS_FUNCTION_ALTERNATIVE(
++		ssize_t (*show)(struct device *dev, struct device_attribute *attr,
++				char *buf);
++		ssize_t (*show_const)(struct device *dev, const struct device_attribute *attr,
++				      char *buf);
++	);
++	__SYSFS_FUNCTION_ALTERNATIVE(
++		ssize_t (*store)(struct device *dev, struct device_attribute *attr,
++				 const char *buf, size_t count);
++		ssize_t (*store_const)(struct device *dev, const struct device_attribute *attr,
++				       const char *buf, size_t count);
++	);
+ };
+ 
+ /**
+@@ -135,11 +143,50 @@ ssize_t device_store_bool(struct device *dev, struct device_attribute *attr,
  ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
  			   char *buf);
  
-+#define __DEVICE_ATTR(_name, _mode, _show, _store) \
-+	__ATTR(_name, _mode, _show, _store)
++typedef ssize_t __device_show_handler_const(struct device *dev, const struct device_attribute *attr,
++					    char *buf);
++typedef ssize_t __device_store_handler_const(struct device *dev, const struct device_attribute *attr,
++					     const char *buf, size_t count);
 +
-+#define __DEVICE_ATTR_RO_MODE(_name, _mode) \
-+	__ATTR_RO_MODE(_name, _mode)
++#ifdef CONFIG_CFI
 +
-+#define __DEVICE_ATTR_RO(_name) \
-+	__ATTR_RO(_name)
++#define __DEVICE_ATTR_SHOW_STORE(_show, _store)						\
++	.show		= _Generic(_show,						\
++			  __device_show_handler_const * : NULL,				\
++			  default : _show						\
++	),										\
++	.show_const	= _Generic(_show,						\
++			  __device_show_handler_const * : _show,			\
++			  default : NULL						\
++	),										\
++	.store		= _Generic(_store,						\
++			  __device_store_handler_const * : NULL,			\
++			  default : _store						\
++	),										\
++	.store_const	= _Generic(_store,						\
++			  __device_store_handler_const * : _store,			\
++			  default : NULL \
++	),
 +
-+#define __DEVICE_ATTR_WO(_name) \
-+	__ATTR_WO(_name)
++#else
 +
-+#define __DEVICE_ATTR_RW_MODE(_name, _mode) \
-+	__ATTR_RW_MODE(_name, _mode)
++#define __DEVICE_ATTR_SHOW_STORE(_show, _store)						\
++	.show		= _Generic(_show,						\
++			  __device_show_handler_const * : (void *)_show,		\
++			  default : _show						\
++	),										\
++	.store		= _Generic(_store,						\
++			  __device_store_handler_const * : (void *)_store,		\
++			  default : _store						\
++	),										\
 +
-+#define __DEVICE_ATTR_RW(_name) \
-+	__ATTR_RW(_name)
++#endif
 +
-+#define __DEVICE_ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store) \
-+	__ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store)
 +
- /**
-  * DEVICE_ATTR - Define a device attribute.
-  * @_name: Attribute name.
-@@ -155,7 +176,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  *	};
-  */
- #define DEVICE_ATTR(_name, _mode, _show, _store) \
--	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR(_name, _mode, _show, _store)
+ #define __DEVICE_ATTR(_name, _mode, _show, _store) {			\
+ 	.attr = {.name = __stringify(_name),				\
+ 		 .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },		\
+-	.show	= _show,						\
+-	.store	= _store,						\
++	__DEVICE_ATTR_SHOW_STORE(_show, _store)				\
+ }
  
- /**
-  * DEVICE_ATTR_RW - Define a read-write device attribute.
-@@ -165,7 +186,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * and @_store is <_name>_store.
-  */
- #define DEVICE_ATTR_RW(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RW(_name)
- 
- /**
-  * DEVICE_ATTR_ADMIN_RW - Define an admin-only read-write device attribute.
-@@ -174,7 +195,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR_RW(), but @_mode is 0600.
-  */
- #define DEVICE_ATTR_ADMIN_RW(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RW_MODE(_name, 0600)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RW_MODE(_name, 0600)
- 
- /**
-  * DEVICE_ATTR_RW_NAMED - Define a read-write device attribute with a sysfs name
-@@ -199,7 +220,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR(), but @_mode is 0444 and @_show is <_name>_show.
-  */
- #define DEVICE_ATTR_RO(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RO(_name)
- 
- /**
-  * DEVICE_ATTR_ADMIN_RO - Define an admin-only readable device attribute.
-@@ -208,7 +229,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR_RO(), but @_mode is 0400.
-  */
- #define DEVICE_ATTR_ADMIN_RO(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_RO_MODE(_name, 0400)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_RO_MODE(_name, 0400)
- 
- /**
-  * DEVICE_ATTR_RO_NAMED - Define a read-only device attribute with a sysfs name
-@@ -232,7 +253,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  * Like DEVICE_ATTR(), but @_mode is 0200 and @_store is <_name>_store.
-  */
- #define DEVICE_ATTR_WO(_name) \
--	struct device_attribute dev_attr_##_name = __ATTR_WO(_name)
-+	struct device_attribute dev_attr_##_name = __DEVICE_ATTR_WO(_name)
- 
- /**
-  * DEVICE_ATTR_WO_NAMED - Define a read-only device attribute with a sysfs name
-@@ -260,7 +281,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_ULONG_ATTR(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, _mode, device_show_ulong, device_store_ulong), &(_var) }
-+		{ __DEVICE_ATTR(_name, _mode, device_show_ulong, device_store_ulong), &(_var) }
- 
- /**
-  * DEVICE_INT_ATTR - Define a device attribute backed by an int.
-@@ -272,7 +293,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_INT_ATTR(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, _mode, device_show_int, device_store_int), &(_var) }
-+		{ __DEVICE_ATTR(_name, _mode, device_show_int, device_store_int), &(_var) }
- 
- /**
-  * DEVICE_BOOL_ATTR - Define a device attribute backed by a bool.
-@@ -284,7 +305,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_BOOL_ATTR(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, _mode, device_show_bool, device_store_bool), &(_var) }
-+		{ __DEVICE_ATTR(_name, _mode, device_show_bool, device_store_bool), &(_var) }
- 
- /**
-  * DEVICE_STRING_ATTR_RO - Define a device attribute backed by a r/o string.
-@@ -297,11 +318,11 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
-  */
- #define DEVICE_STRING_ATTR_RO(_name, _mode, _var) \
- 	struct dev_ext_attribute dev_attr_##_name = \
--		{ __ATTR(_name, (_mode) & ~0222, device_show_string, NULL), (_var) }
-+		{ __DEVICE_ATTR(_name, (_mode) & ~0222, device_show_string, NULL), (_var) }
- 
- #define DEVICE_ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store) \
- 	struct device_attribute dev_attr_##_name =		\
--		__ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store)
-+		__DEVICE_ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store)
- 
- int device_create_file(struct device *device,
- 		       const struct device_attribute *entry);
+ #define __DEVICE_ATTR_RO_MODE(_name, _mode) \
+@@ -161,8 +208,7 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define __DEVICE_ATTR_IGNORE_LOCKDEP(_name, _mode, _show, _store) {	\
+ 	.attr = {.name = __stringify(_name), .mode = _mode,		\
+ 			.ignore_lockdep = true },			\
+-	.show		= _show,					\
+-	.store		= _store,					\
++	__DEVICE_ATTR_SHOW_STORE(_show, _store)				\
+ }
+ #else
+ #define __DEVICE_ATTR_IGNORE_LOCKDEP	__DEVICE_ATTR
 
 -- 
 2.54.0
