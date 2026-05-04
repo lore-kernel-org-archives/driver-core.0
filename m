@@ -1,145 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07664222580;
-	Mon,  4 May 2026 06:23:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73ACAB640;
+	Mon,  4 May 2026 06:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777875811; cv=none; b=jdXzyvwxHKVqAg1YvJKxw3e+gxJghVN1PNZKmbIW4DYBYzFY688bHMdXB3zpjR4rMUFDNoGRYV+fuvhxUyDWElmGs1Yxk9H0chOxSP3WTtL6vXnToyKOEhiYEUdVH4Bv5pCMAlpyuCWR/DcGKP8setDKgsM7FeHORKhUTnEVlrU=
+	t=1777876528; cv=none; b=TXPOySe+VdOlBznY8OnJsjwtmjq3XHNnzd76E2K5dPR7wWOKBWBPtFVnX55NwGpsh+TOOPM5ESg+8gkhOX8QUTpdaOx9+c9J+LoioTNaUp84rjMzpmPFp/qUqHSaNfJ7GxFZZRVswGqT508wuMwuNeYAUYDbm+D3CRYFnAt3XGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777875811; c=relaxed/simple;
-	bh=M2p2YLE/JJsLA8h4FleVrhqYQHUgfRz3l8jdG0jHFPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=my5qTh2TH9weNllFkYB633ZdXpnR5F6TmWGcRid6y0x3zjHqICVTcOeUMtSsOdOpivsHL43H+EKW2OpFn1KZBCrTAe7lBey1KZwrqQoh9kSKbWuHkAObzQo/11Fpxj1/kPwbh+c4RXSrxa9b6MBfr9+Y8Zm+ufLZYbe2ywuODs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Nlt0j+1A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777876528; c=relaxed/simple;
+	bh=9rpSPV3ZPugDrz+K1Oxjt0MUYGqQzhFBP0oUNrlqsls=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HGPHmds9OtfQl4tPK98uXwGu9Y8F2ciYfwFDom//HpUVxU/wZRNt3OLiN8jsnr0es4LiA1NfTz855BSZo+GPm7e+s2ieHGzeIc6iJbQ3OCL3N1q3LhgDUo2fMs14VYFm/nmTHZbHNX1AztUJF3RyIjPB/4yxR2HqIhgWdmmN5H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UK6muk48; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nlt0j+1A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1A1C2BCB8;
-	Mon,  4 May 2026 06:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777875810;
-	bh=M2p2YLE/JJsLA8h4FleVrhqYQHUgfRz3l8jdG0jHFPo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nlt0j+1A/kerXp2iYBB9O67wKpDLmpEDYym+gaXNO1EVlIps8Dkv4VYERiKB5XWp3
-	 Gf/yoGZ1RJ/IUVO71KTm4D0RkZHSzVoMBcs9OlLnj8vhfCHABche98jBDiq1MBjkAh
-	 L8uvDXIOkHctOPKttkcVedUG1g+7F/l7YPZMQ2VE=
-Date: Mon, 4 May 2026 08:22:49 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Conor Kotwasinski <conorkotwasinski2024@u.northwestern.edu>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com,
-	syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] sysfs: return -ENOENT from move/rename when kobj->sd
- is NULL
-Message-ID: <2026050437-matter-concur-d533@gregkh>
-References: <20260416150600.2148935-1-conorkotwasinski2024@u.northwestern.edu>
- <20260504050736.17672-1-conorkotwasinski2024@u.northwestern.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UK6muk48"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2717C2BCB8;
+	Mon,  4 May 2026 06:35:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777876528;
+	bh=9rpSPV3ZPugDrz+K1Oxjt0MUYGqQzhFBP0oUNrlqsls=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UK6muk485H6RVgdub7f3Ln42g3AASzfYbTkGOSk/hdQQiv3jT4J3NlnmH8ydEUXAT
+	 bk54eUl2P4jK7VPmZ2kDiKrqRVj96c+UV3xmzmNcz4nmFPT5Ph4/xHd78oUF3sNK7z
+	 1kbx5HuuVpmNR8a9q1O12fus2wIv6yikGAap42TisWG56jxbB2hSdCFOnu4nGhKfor
+	 hqtcncU81VA92it8qCBpeFsdaHvt9/c5DCZG+lBI2XwIG4oZANEgnZm1/d6KTVvk9i
+	 o89gVoNgvQs1OuTvoLw0oJ0/oXS2RYhU4+B9ZaWcMYkLA/OB2Y3bxHaKQoC4jjhGS5
+	 cpZNM7bs/U9Bg==
+From: William Breathitt Gray <wbg@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>
+Cc: William Breathitt Gray <wbg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] isa: switch to dynamic root device
+Date: Mon,  4 May 2026 15:35:17 +0900
+Message-ID: <20260504063518.515620-1-wbg@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <DI95SZ1X7Q2U.DG2BN03FERO9@kernel.org>
+References: <DI95SZ1X7Q2U.DG2BN03FERO9@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504050736.17672-1-conorkotwasinski2024@u.northwestern.edu>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1453; i=wbg@kernel.org; h=from:subject; bh=9rpSPV3ZPugDrz+K1Oxjt0MUYGqQzhFBP0oUNrlqsls=; b=owGbwMvMwCW21SPs1D4hZW3G02pJDJk/7OS9eEot6+c4Clgt1nGL/MMg8XH9oc+Zv7QuJE3/J mY83bSno5SFQYyLQVZMkaXX/OzdB5dUNX68mL8NZg4rE8gQBi5OAZjIuj0M/ywyAnJdVj3gU1gz R19S61sTZ3CGp98c35QPJ1scZcOuXWb4Z6ezMvpBtJCX3PXr012ThDOOFbyNelyw1K+h7csluwX cXAA=
+X-Developer-Key: i=wbg@kernel.org; a=openpgp; fpr=8D37CDDDE0D22528F8E89FB6B54856CABE12232B
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 04, 2026 at 01:07:36AM -0400, Conor Kotwasinski wrote:
-> sysfs_move_dir_ns() and sysfs_rename_dir_ns() pass kobj->sd to
-> kernfs_rename_ns() unconditionally. If sysfs_remove_dir() has already
-> cleared kobj->sd, the NULL flows through and kernfs_rename_ns()
-> dereferences it via rcu_access_pointer(kn->__parent), which KASAN
-> surfaces as a stack-segment fault on the shadow lookup:
+On Sun, May 03, 2026 at 05:50:17PM +0200, Danilo Krummrich wrote:
+> On Sun May 3, 2026 at 7:08 AM CEST, William Breathitt Gray wrote:
+> > Would you resend with a Fixes tag
 > 
->   Oops: stack segment: 0000 [#1] SMP KASAN PTI
->   RIP: 0010:kernfs_rename_ns+0x3a/0x7a0 fs/kernfs/dir.c:1752
->   Call Trace:
->    kobject_move+0x525/0x6e0 lib/kobject.c:569
->    device_move+0xe0/0x730 drivers/base/core.c:4606
->    hci_conn_del_sysfs+0xb8/0x1a0 net/bluetooth/hci_sysfs.c:75
->    hci_conn_cleanup net/bluetooth/hci_conn.c:173 [inline]
->    hci_conn_del+0xc36/0x1240 net/bluetooth/hci_conn.c:1234
->    hci_conn_hash_flush+0x191/0x260 net/bluetooth/hci_conn.c:2638
->    hci_dev_close_sync+0x821/0x1100 net/bluetooth/hci_sync.c:5327
->    hci_dev_do_close net/bluetooth/hci_core.c:501 [inline]
->    hci_unregister_dev+0x21a/0x5b0 net/bluetooth/hci_core.c:2715
+> Devices should generally be allocated dynamically for various reasons (e.g. I
+> recently had a case where adding a dynamic lock class key to struct device for
+> debugging purposes caused warnings for all the static devices).
 > 
-> syzbot has reported 35 hits with this signature across net, net-next
-> and linux-next between July 2025 and January 2026, via both vhci
-> release and HCIDEVRESET ioctl.
+> While it clearly should be improved, I don't think this causes a bug in the ISA
+> code -- there is no "real" leak as the device is static anyway and there's no
+> spurious WARN() as release() is never hit, since ISA is always built-in.
 > 
-> Return -ENOENT in that case, consistent with sysfs_create_dir_ns().
-> The underlying ordering problem in bluetooth -- device_move() called
-> after the target's sysfs has been torn down -- is a separate issue.
+> I'd assume this is why Johan did not add it in the first place.
 > 
-> Reported-by: syzbot+d1db96f72a452dc9cbd2@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/687c6966.a70a0220.693ce.00a5.GAE@google.com/
-> Reported-by: syzbot+faeac5b54ba997a96278@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=faeac5b54ba997a96278
-> Fixes: 324a56e16e44 ("kernfs: s/sysfs_dirent/kernfs_node/ and rename its friends accordingly")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Conor Kotwasinski <conorkotwasinski2024@u.northwestern.edu>
-> ---
->  fs/sysfs/dir.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/fs/sysfs/dir.c b/fs/sysfs/dir.c
-> index ffdcd4153c58..6664fae288c9 100644
-> --- a/fs/sysfs/dir.c
-> +++ b/fs/sysfs/dir.c
-> @@ -108,6 +108,9 @@ int sysfs_rename_dir_ns(struct kobject *kobj, const char *new_name,
->  	struct kernfs_node *parent;
->  	int ret;
->  
-> +	if (!kobj->sd)
-> +		return -ENOENT;
-> +
->  	parent = kernfs_get_parent(kobj->sd);
->  	ret = kernfs_rename_ns(kobj->sd, parent, new_name, new_ns);
->  	kernfs_put(parent);
-> @@ -120,6 +123,9 @@ int sysfs_move_dir_ns(struct kobject *kobj, struct kobject *new_parent_kobj,
->  	struct kernfs_node *kn = kobj->sd;
->  	struct kernfs_node *new_parent;
->  
-> +	if (!kn)
-> +		return -ENOENT;
-> +
->  	new_parent = new_parent_kobj && new_parent_kobj->sd ?
->  		new_parent_kobj->sd : sysfs_root_kn;
->  
-> 
-> base-commit: 36f35b8df6972167102a1c3d4361e0afb6a84534
-> -- 
-> 2.50.1 (Apple Git-155)
-> 
-> 
+> That said, if you mean to add a Fixes: tag anyway to indicate the technically
+> wrong usage pattern of struct device, that seems reasonable to me.
 
-Hi,
+Okay that makes sense, this is improvement of the code rather than a
+true bug fix, so we don't need a Fixes tag.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Johan, I do have another request. Would you refactor the changes in
+isa_bus_init() to avoid the nested blocks? For example:
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+	error = bus_register(&isa_bus_type);
+	if (error)
+		return error;
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+	isa_bus = root_device_register("isa");
+	if (IS_ERR(isa_bus)) {
+		bus_unregister(&isa_bus_type);
+		return PTR_ERR(isa_bus);
+	}
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+	return 0;
 
-thanks,
+I believe that makes the logic easier to understand when reading the
+code here.
 
-greg k-h's patch email bot
+William Breathitt Gray
