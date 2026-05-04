@@ -1,195 +1,118 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7433DFC83
-	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 15:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777908312; cv=none; b=T/4l8+mbjvowAzrCJMEcWi5akSYSyBsbbaUsa1/8g8toJ/WPyeAKcw1iHeFvT5BTxBIRIwTu7dlr5xfCZfidlO++bl7MgCrxpLiQAh3ArUxuq3BNAFMjy72uXKWOOKclUMpoF5AhPmGe4IXpMt5fOgULQUM1zSkEnADr276I01k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777908312; c=relaxed/simple;
-	bh=WTttH7EilVB42FXttHGWpNmaVuaYhqJL4ZVyMCXetyU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MlTQNXiRsffXK9Vw/zBjDjgORD7nYVzEnMBRtYkiKwYjmNKfjBjb9X6rNsUGXqY+nJZAVspHKpwDXq6/bbery670+o0RZccJ0EQhNr96rDiTSjcse9EJvlzN1XzHCUo1Skhly+8xPpfxsATjGUDXaYsmnm9a8XuZphAwB0DcCoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1S2hefqt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=n3E1N9xK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lO9XOheC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QPnVOEbR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098073DFC74
+	for <driver-core@lists.linux.dev>; Mon,  4 May 2026 18:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777920238; cv=pass; b=G54w7cXpdxcMowna8oclcDxzeZx7VbG/ixbnQNB/cuK7f9eruruQyAEXrDR7dPCYVPDP6e6x/rvot7SvtS1eCX5xYJvQBhPGfaL9heu1clZtKxzjxJNEJph7PM/2xw1L1EVhFnJwPSHwkinUuPKlXCoUQfbq+w3zF0/AUalp3K4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777920238; c=relaxed/simple;
+	bh=lSynTiYI8CS+Dz8+cJPut2vQT9F9qIWMrxO2xn7wBcI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P0bIxy6WdWNw3VAVesLFEi3OGVNqVRyjZrJALeNpsd91K/I1i3DI1J8KDaA1blCb7nrwc5wngl7JjGN13Rbgw8acEgJ+TgdADWSfnUDz063TmORNaCbIe4sDTnQZMatgGkzUcfcN4+BHSEqy8pHOAnQpiIGBcYY9ToMWXJTMRdg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IAZ7fztw; arc=pass smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1S2hefqt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n3E1N9xK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lO9XOheC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QPnVOEbR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D0D9E6B385;
-	Mon,  4 May 2026 15:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777908309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=1S2hefqttJhYyoq3HWi2wIfrnXaJ2+jB4zPeXKjps1bva7TMuYFCy6jKJu/Q2Q+N1uueRv
-	g4dT4iN8f6ffqiWR/lfpTq7w2xk33Fum18Si1+l1rHy30EWfW0ZmgfaJremk3+mLaZvlto
-	3w8JVA5INHbFL8pB7tjU8EWiVyT5Fug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777908309;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=n3E1N9xKKf77A/hyPbtER8I1AXhVGPkY8yS/iyMQ+wqFniaV/yBsRVngBzGVhHmZWQ0wCm
-	AJeSTi9/48D5RnDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lO9XOheC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QPnVOEbR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777908308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=lO9XOheCWPzetSSv9MwQ4ZHwArg4IOPxR0kyuIinh6YumCybbvARGh0dIj85Hqx7gIzBcq
-	j8dfdObRzQ+DQuwLD7UzQmqlLb6NllxvR1XiUN/cXBnkVtaZwf4WfitaO5NHf5p8GxNfgi
-	EcY6GLCoDnlNW1kgdqnWs91/DD2qywY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777908308;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=QPnVOEbRzABPwJkSIZb8m2XZ0dWBgUhurPYvhXGdqO+gedi7YIw5KYisc158PPXHqMD6Y+
-	rur0PvFRV7ISZ3BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7215E593A3;
-	Mon,  4 May 2026 15:25:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T8ioGlS6+GleEwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 May 2026 15:25:08 +0000
-Date: Mon, 04 May 2026 17:25:08 +0200
-Message-ID: <871pfrxkmj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] firmware_loader: Add cancel helper for async requests
-In-Reply-To: <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-1-8d9f873b97bd@gmail.com>
-References: <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-0-8d9f873b97bd@gmail.com>
-	<20260501-alsa-hda-tas2781-fw-callback-teardown-v3-1-8d9f873b97bd@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IAZ7fztw"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39394e1e8f3so12593161fa.1
+        for <driver-core@lists.linux.dev>; Mon, 04 May 2026 11:43:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777920235; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KBRZwfOGK97Qtnm3OrJy6TeP8fP8Xk2cGko/VF8N/8Fr5l4DzfgOeW8MjpM3n2CHb7
+         phtPamgWIhH1FkKtlNHyMi9uBY2+Hcy7n05/2fLJcT7Js3gFtfTyloOccnhXjUuSdjtr
+         NbpX/imA5HXpZ20wiwqO0edsWbXjp4eW51SYx9pJZJvZzpzjX5HLKji/Vullhhoy6s9N
+         46HguEHmnNgeCLFcNyOawc+Wko+81OAXOgaIXjVbLFQyWALCa6p/Of32b2qBPsaCP+Ab
+         1OXUqoc22bMkVW8yonzAaQPIiB2D2o5ghuY0fy/hvD9JZLVjD9JqXGr8IizO2Ae1trw2
+         ZlaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=lSynTiYI8CS+Dz8+cJPut2vQT9F9qIWMrxO2xn7wBcI=;
+        fh=bOKh/XdTpEGwGf/q+kevak80DtK79GsI0f+o1lZVMtc=;
+        b=VllaS2hlvThWBNVM8Nujt7lWzD/F5UPN5BgjyO8uW27aw2ND99L20Jhi7In9EjBg7a
+         Vpw84kS/YsdMTWt9VMGGE07g2Igx8uMaUoH58B7xwmiw6WwVReVJOjqoO4XVyC1jseb9
+         U3Zjn+gBMY0QOGKu2UUayxS/tOyNOeJ150Kt+/u8Bdf4jfOzXdoKe4pn49NKyEyR0YkH
+         F69XTXReggasQypJIaQkw6GONb48w7xfvTyQ3LWFWgEuMQa38sqm+4k3tUrqiKs8q4/7
+         vsNvmSNf6veodWsFbC4AOMmkG8GjUOnIXMOx1h3Utv+Sh1UIL50PCsK2f8/dbTPmZQql
+         EMIA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1777920235; x=1778525035; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lSynTiYI8CS+Dz8+cJPut2vQT9F9qIWMrxO2xn7wBcI=;
+        b=IAZ7fztwqIThuU+LLa+NCuh9KOedH0E2Cz7k4KLGcKgYOwfs03+EpY8rViB3nWbJU2
+         +YUbulNfzhw7iYQcnJwf16+09RUSCvfZ+vte4tltKpb/wC34R2ubYAbrOYkGVkkDXzV8
+         kkdLbPENl0DtUD3Ew9A/9PjFRY4jogXpwYo5JN+DAeGhRA4hwhZSzlA4IYRZ14xwlt8J
+         DN+rXxem4Dcwg9KY4We8lZdCqVv1KuhBiw0nAN3KfvdIftvP1nxz732cBMleJ/2CnX2f
+         OBcrARycjq3xOpi6ntaKpww4yCUvkTqJ/Stfbic6SvIRMUQWiABfWFYQ5vvUA1aSiqtC
+         39fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777920235; x=1778525035;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lSynTiYI8CS+Dz8+cJPut2vQT9F9qIWMrxO2xn7wBcI=;
+        b=YVN6XKCo86tReUNYVTasa0nwMcRI1WYP3DcuDqXhhfzIFw8et1ctgAyc0mJsnJqClB
+         TleT71xID7+3/y9Ep0rsrfVWBGo2tbJ2GT6CZqRBN+Q9PqYeaMH82NG/9faEqeIXpHil
+         9dTRbyu/Ji5u0RJHx6GDFOcN7T3BRuRcrTG3LkJ3387zweiu0RxSaT9Yd2V8Lq+hWtkY
+         W/TCNOSNIQr63Nh05rensu2j7e9qUxpr2HO3eDyxL3YoriyPgX+X5wPZTxmSNmDymKwk
+         XYViuRvZLodSlMW67mx5AgHQxEUp6gkCgGZmRDSIaljJTOsEp4hUO9KjaAaIGG4Yu3/A
+         KH9A==
+X-Forwarded-Encrypted: i=1; AFNElJ9AamL5Or3mcW31oSVMO2mAsYOr7ksCu06asc3I7/cVwJxLRDbi82PC38BQPc2P6jiDM/GElLIlCWplMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxgt/W9ckGKcpUE3Fm1f4aeLWznMa/1BrO3bF6eUUGf09Gf7QEw
+	Pok2ynaoSypIsoyoLns9KKMlyGkQXkvVVA8X45h2/AALYNybwR8vESFOmocNbgNKPmDoC5Mj7bG
+	bTmX/ukd/SrrBeXmzZuF+JWLpfb5Hu4p/FrK+3V4SnQ==
+X-Gm-Gg: AeBDiesu4Ze5O5BHWcfYP1JKV8D5oiJi1QUDHaue7x3BfbXw49aElLgL889wH7ZCr4l
+	pkZ1uMhK+2e6nzmFVSOk2Q7uuEhB7D/9GzTEtJ6IXtgibUmMAp5sE+/TIcykxK5Kavz0CdJ3oYl
+	RlBnqvTlIg4CUbPLOs6IFfl1Oc6iI5xR1vv+VWxWai8ak/1eWkeL72cJ3gasyHcWBO/G/Inwrn1
+	I3JHfokYYbY0cUjZLFRo6u0OHfAe6/Vahs6Aj60s7xRmUxYAmgPMRf6HPmvGhm8wZ9kedLqscPi
+	VURnIX5uYXNSEIbu1ek=
+X-Received: by 2002:a05:651c:4196:b0:38e:2de3:f8ad with SMTP id
+ 38308e7fff4ca-393783a5dbdmr34262471fa.4.1777920235089; Mon, 04 May 2026
+ 11:43:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: D0D9E6B385
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <20260418162221.1121873-1-dakr@kernel.org> <CAJZ5v0jkm9K9=-U_51FMsyxN2msdouRnz4sEjmxG0Btd6Hmw0w@mail.gmail.com>
+ <CAPDyKFo9wcxLnCdykwE9J_vevBtjq7UVL4Yq3M=MOZ8M=j6LCA@mail.gmail.com> <DI9TMWIP69JZ.3LTL282WBVCOT@kernel.org>
+In-Reply-To: <DI9TMWIP69JZ.3LTL282WBVCOT@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 4 May 2026 20:43:17 +0200
+X-Gm-Features: AVHnY4KHnQBSBeOtislk924mA0MWE7UtS3xIbcfOQK00sWTok9rFGrcRZnMWyp0
+Message-ID: <CAPDyKFo6Jyq+VTVvrX=DkQoxbGVi4cunvsNYya6oyz7=OZY6BA@mail.gmail.com>
+Subject: Re: [PATCH] driver core: use READ_ONCE() for dev->driver in dev_has_sync_state()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, gregkh@linuxfoundation.org, saravanak@kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 01 May 2026 12:22:12 +0200,
-Cássio Gabriel wrote:
-> +static void firmware_work_free(struct firmware_work *fw_work)
-> +{
-> +	put_device(fw_work->device); /* taken in request_firmware_nowait() */
-> +	module_put(fw_work->module);
-> +	kfree_const(fw_work->name);
-> +}
-> +
->  static void request_firmware_work_func(struct work_struct *work)
->  {
->  	struct firmware_work *fw_work;
->  	const struct firmware *fw;
-> +	unsigned long flags;
->  
->  	fw_work = container_of(work, struct firmware_work, work);
->  
->  	_request_firmware(&fw, fw_work->name, fw_work->device, NULL, 0, 0,
->  			  fw_work->opt_flags);
->  	fw_work->cont(fw, fw_work->context);
-> -	put_device(fw_work->device); /* taken in request_firmware_nowait() */
->  
-> -	module_put(fw_work->module);
-> -	kfree_const(fw_work->name);
-> -	kfree(fw_work);
-> +	spin_lock_irqsave(&firmware_work_lock, flags);
+On Mon, 4 May 2026 at 12:30, Danilo Krummrich <dakr@kernel.org> wrote:
+>
+> On Mon May 4, 2026 at 11:49 AM CEST, Ulf Hansson wrote:
+> > Apologize for the delay. Genpd needs the function [1] when it tries to
+> > assign a common ->sync_state() callback for its providers.
+>
+> Can you add a revert of [1] to your patch series, so it gets (re-)exported with
+> a user?
 
-This is a sleepable context, so you can use spin_lock_irq().
+Yes!
 
-> +	if (!list_empty(&fw_work->list)) {
-> +		list_del_init(&fw_work->list);
-> +		spin_unlock_irqrestore(&firmware_work_lock, flags);
-> +		firmware_work_free(fw_work);
-> +		kfree(fw_work);
+I was trying to avoid dependent changes to the driver core to funnel
+my series entirely through my pmdomain tree. Anyway, perhaps you can
+host an immutable branch for me to pull in, in this case.
 
-Can kfree(fw_work) be in firmware_work_free(), too?  All callers free
-it in anyway.
+Let's see, I will suggest something for the merge path in the cover
+letter when I post my new version.
 
-(snip)
-> +void request_firmware_nowait_cancel(struct device *device, void *context,
-> +				    void (*cont)(const struct firmware *fw,
-> +						 void *context))
-> +{
-> +	struct firmware_work *fw_work = NULL;
-> +	struct firmware_work *tmp;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&firmware_work_lock, flags);
+Kind regards
+Uffe
 
-Here you can use spin_lock_irq() as well.
-
-
-thanks,
-
-Takashi
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git/commit/?h=driver-core-next&id=9db268212e0d7c7e3c4aef3494e55afbc1695b1f
