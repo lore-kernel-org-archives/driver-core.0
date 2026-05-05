@@ -1,246 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58333346E4E
-	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 12:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106293EF0D2;
+	Tue,  5 May 2026 13:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777985746; cv=none; b=GcH9jm2hbQU2smmuz1hoHMvK2gh6oTxoAQvruFZM0Kij9UsDPZI0mePqWQER306yauOpwr4Ipz6qdvDdz8jcqHqR9FMVgeCCgi+WcrgwdhBZaYPQph8FiixaOmuqanCHIJIxKFxHqGGTWvJByLEjymROC+EH8TzDAObUoFkeun0=
+	t=1777988389; cv=none; b=Nc4537Q8QMvoe2lntRbPXsVRzMzseVoF4bc2rynMcqrFZut7TA4b9sN3Xbs1QAN2pUu51/dT81KQ205dLU1+T5Fdd6cGL/GaSnZyK6s9Pu1MoUHXZf+keNGwNAHiIFQ4qgbJRgASiqb7Erx2VA/efC8oT4Tc9JeHIaI0xVEiUWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777985746; c=relaxed/simple;
-	bh=UnN0jOPebvT4ULqsOFlg4D3U21PYxFyl5bPxVCb+01s=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ssIWZH8K1npVHkbAuOW7r2pC7IFDEVIrYnNk3mJem9tcq/djV3cDdq81y9t82b6UKaF/GJfJnZgZC3VvXewL/xJBn/3BAxWzXMZEv2nlUR4TznMie+xI2M4/DZcw5ICwjToiHnPKP59RJ1zGYEreTKpndSTnptdWv/fwjpDBGzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRlsSHll; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777988389; c=relaxed/simple;
+	bh=lDmxIrb2TXzASfiuCLeb0bitGj5KO4NOFTyIIw2rOK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kHNcGx7CG7Xu0nd1/GObr+W2GnirYeWt7PDcQ5Qvf6ybvMZgt2bqO65C4IWhpiFkH4xNQXtHzIsWE/OivPbtMNP+dackZueVbR0RIfbo+qVDQo4WMyJWpJbeUWW4rdXqr3Urde9XEtCXY/O2YxeMMRlHR1J6DEzyhVf5LX31KhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L2m8SQPR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRlsSHll"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35929C4AF0C
-	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 12:55:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L2m8SQPR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 362D9C2BCB4;
+	Tue,  5 May 2026 13:39:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777985746;
-	bh=UnN0jOPebvT4ULqsOFlg4D3U21PYxFyl5bPxVCb+01s=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=IRlsSHllZD8/BQuRnRn6ONlKN4qlDzwn3ekAO14LWzEJKCcUgI2hurnCRL8xzBFNx
-	 suQqXUngXfqglxi1QUCGF1Lwi3ZpTdfesFOXzVp1Et8Q0WKfeu/5ZGctL32HnbrX9q
-	 TpoECMP8Tg7fzz1nmrdfpWWZlhXiNGWIUTzWvIfzymVHbUFar08jvGg4Gl8UUzBLCj
-	 5Zvda88au5BJ/JevMqoA5jwIsPGCbR3d5dsL4dkDaaqeXd4hGZkEJOljjtwC+aLq3T
-	 5/a9CTzBICrHDbhmKUuRBaOoubGld68PchNtFSBKrOvSUt+EDLar9MfjnWnz12+cNI
-	 7Gu09GrBtLbgQ==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-393800586aeso27937481fa.1
-        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 05:55:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9+I3aNW0m8Ank1nPmFzBydMnNJ0RRH5YUaxEpWNO8fWn+8SJajkzsf+doorn2Bl8pwoCF1PKxerLDp+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3TKvEx0c6Am+1/Uq8U3t+mcnFWxfWw9vsvHff6BxDuom3GXvF
-	OQmbxTBvFZyb0LAMWHqi6Epq7btieiHDCuaInHd7z3Pqvc/NDG+vtHIPtqOIv0Vqr64cm5FROEo
-	D6E15/1KTo7lDR9g3c5IsfUYdoAu9e23JFCrnQlqScw==
-X-Received: by 2002:a05:6512:2396:b0:5a8:6def:7e38 with SMTP id
- 2adb3069b0e04-5a87e8a74afmr1340645e87.15.1777985744792; Tue, 05 May 2026
- 05:55:44 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 May 2026 05:55:40 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 May 2026 05:55:40 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260427135841.96266-2-tzungbi@kernel.org>
+	s=k20201202; t=1777988388;
+	bh=lDmxIrb2TXzASfiuCLeb0bitGj5KO4NOFTyIIw2rOK8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=L2m8SQPRJ3APZQXbtipIvBXYMXRv6nK126TQs+FDyLprMbkAEfZzwid2Nr4bW2/gH
+	 Vm/n9UtyqcIHPQJZj1G27ywzVIT4NQI82fqvm9XqinNGi4aWgsKuM6tAYU6D00YHl6
+	 RYZ75swH44LjpA9OTUB1SEtOWaIRXI9L9WSYR+BSeq0a40LZ06KGwrN1PDtTDao0hT
+	 PG8FgQFTDCLg586NU3YF1wIUI+C42tvMmorH2WPWhUBEyO+ArGyl9wegHDN6LDssr/
+	 NLs5GaL8U+ybDCF6S2ehfV3EDwOmBnTgBsj2wq3y2ucUzn8BI75M9wj6QrSqs+IW7/
+	 fuSCZB5AEQ5Qg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	linux@armlinux.org.uk,
+	nipun.gupta@amd.com,
+	nikhil.agarwal@amd.com,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andersson@kernel.org,
+	mathieu.poirier@linaro.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v2 0/5] treewide: Convert buses to use generic driver_override
+Date: Tue,  5 May 2026 15:37:20 +0200
+Message-ID: <20260505133935.3772495-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260427135841.96266-1-tzungbi@kernel.org> <20260427135841.96266-2-tzungbi@kernel.org>
-Date: Tue, 5 May 2026 05:55:40 -0700
-X-Gmail-Original-Message-ID: <CAMRc=McG41iHWfY+3U4Xp6YNFCwbt_zAUE-2417LrQVrTfdWjA@mail.gmail.com>
-X-Gm-Features: AVHnY4JHhyoRRLQHDzVdkZddcUWNNiJ_tsC-WyKv8TzUklOV0hBAVmtSZU68jtM
-Message-ID: <CAMRc=McG41iHWfY+3U4Xp6YNFCwbt_zAUE-2417LrQVrTfdWjA@mail.gmail.com>
-Subject: Re: [PATCH v9 1/9] revocable: Revocable resource management
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Apr 2026 15:58:33 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
-> The "revocable" mechanism is a synchronization primitive designed to
-> manage safe access to resources that can be asynchronously removed or
-> invalidated.  Its primary purpose is to prevent Use-After-Free (UAF)
-> errors when interacting with resources whose lifetimes are not
-> guaranteed to outlast their consumers.
->
-> This is particularly useful in systems where resources can disappear
-> unexpectedly, such as those provided by hot-pluggable devices like
-> USB.  When a consumer holds a reference to such a resource, the
-> underlying device might be removed, causing the resource's memory to
-> be freed.  Subsequent access attempts by the consumer would then lead
-> to UAF errors.
->
-> Revocable addresses this by providing a form of "weak reference" and
-> a controlled access method.  It allows a resource consumer to safely
-> attempt to access the resource.  The mechanism guarantees that any
-> access granted is valid for the duration of its use.  If the resource
-> has already been revoked (i.e., freed), the access attempt will fail
-> safely, typically by returning NULL, instead of causing a crash.
->
-> It uses a provider/consumer model built on Sleepable RCU (SRCU) to
-> guarantee safe memory access:
->
-> - A resource provider, such as a driver for a hot-pluggable device,
->   allocates a struct revocable and initializes it with a pointer
->   to the resource.
->
-> - A resource consumer that wants to access the resource allocates a
->   struct revocable_consumer containing a reference to the provider.
->
-> - To access the resource, the consumer uses revocable_try_access().
->   This function enters an SRCU read-side critical section and returns
->   the pointer to the resource.  If the provider has already freed the
->   resource, it returns NULL.  After use, the consumer calls
->   revocable_withdraw_access() to exit the SRCU critical section.  There
->   are some macro level helpers for doing that.
->
->   The API provides the following contract:
->
->   - revocable_try_access() can be safely called from both process and
->     atomic contexts.
->   - It is permitted to sleep within the critical section established
->     between revocable_try_access() and revocable_withdraw_access().
->   - revocable_try_access() and the matching revocable_withdraw_access()
->     must occur in the same context.  For example, it is illegal to
->     invoke revocable_withdraw_access() in an irq handler if the matching
->     revocable_try_access() was invoked in process context.
->
-> - When the provider needs to remove the resource, it calls
->   revocable_revoke().  This function sets the internal resource
->   pointer to NULL and then calls synchronize_srcu() to wait for all
->   current readers to finish before the resource can be completely torn
->   down.
->
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
+This is the follow-up of the driver_override generalization in [1], converting
+the remaining 4 busses and removing the now-unused driver_set_override() helper.
 
-...
+All of them are prone to the potential UAF described in [2], caused by accessing
+the driver_override field from their corresponding match() callback.
 
-> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
-> new file mode 100644
-> index 000000000000..2bcf23f01ace
-> --- /dev/null
-> +++ b/include/linux/revocable.h
-> @@ -0,0 +1,214 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2026 Google LLC
-> + */
-> +
-> +#ifndef __LINUX_REVOCABLE_H
-> +#define __LINUX_REVOCABLE_H
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/compiler.h>
+In order to address this, the generalized driver_override field in struct device
+is protected with a spinlock. The driver-core provides accessors, such as
+device_match_driver_override(), device_has_driver_override() and
+device_set_driver_override(), which all ensure proper locking internally.
 
-I don't think you need this header.
+Additionally, the driver-core provides a driver_override flag in struct
+bus_type, which, once enabled, automatically registers generic sysfs callbacks,
+allowing userspace to modify the driver_override field.
 
-> +#include <linux/kref.h>
-> +#include <linux/srcu.h>
-> +
-> +/**
-> + * enum revocable_alloc_type - The allocation method for a revocable provider.
-> + * @REVOCABLE_DYNAMIC: The struct revocable was dynamically allocated using
-> + *                     revocable_alloc() and its lifetime is managed by
-> + *                     reference counting.
-> + * @REVOCABLE_EMBEDDED: The struct revocable is embedded within another
-> + *                      structure.  Its lifetime is tied to the parent
-> + *                      structure and is not reference counted.
-> + */
-> +enum revocable_alloc_type {
-> +	REVOCABLE_DYNAMIC,
-> +	REVOCABLE_EMBEDDED,
-> +};
+This series is based on v7.1-rc1 with no additional dependencies, hence those
+patches can be picked up by subsystems individually.
 
-Maybe we don't need this public enum at all, we could just use a different
-release callback for kref_put() depending on how the revocable was allocated?
+[1] https://lore.kernel.org/driver-core/20260303115720.48783-1-dakr@kernel.org/
+[2] https://bugzilla.kernel.org/show_bug.cgi?id=220789
+[3] https://gitlab.com/driverctl/driverctl/-/blob/0.121/driverctl?ref_type=tags#L99
 
-The enum is not used elsewhere so it doesn't make sense to document it as if it
-was part of the revocable API.
+Changes in v2:
+  - Rebase on v7.1-rc1
+  - Drop already merged patches
+  - vmbus documentation changes as requested by Michael
 
-> +
-> +/**
-> + * struct revocable - A handle for resource provider.
-> + * @srcu: The SRCU to protect the resource.
-> + * @res:  The pointer of resource.  It can point to anything.
-> + * @kref: The refcount for this handle.
-> + * @alloc_type: The memory allocation type.
-> + */
-> +struct revocable {
-> +	struct srcu_struct srcu;
-> +	void __rcu *res;
-> +	struct kref kref;
-> +	enum revocable_alloc_type alloc_type;
+Danilo Krummrich (5):
+  amba: use generic driver_override infrastructure
+  cdx: use generic driver_override infrastructure
+  Drivers: hv: vmbus: use generic driver_override infrastructure
+  rpmsg: use generic driver_override infrastructure
+  driver core: remove driver_set_override()
 
-This could be replaced with the pointer to the release callback, assigned
-by revocable_alloc()/revocable_init() respectively.
+ drivers/amba/bus.c                | 37 +++------------
+ drivers/base/driver.c             | 75 -------------------------------
+ drivers/cdx/cdx.c                 | 40 +++--------------
+ drivers/hv/vmbus_drv.c            | 43 +++++-------------
+ drivers/rpmsg/qcom_glink_native.c |  2 -
+ drivers/rpmsg/rpmsg_core.c        | 43 +++---------------
+ drivers/rpmsg/virtio_rpmsg_bus.c  |  1 -
+ include/linux/amba/bus.h          |  5 ---
+ include/linux/cdx/cdx_bus.h       |  4 --
+ include/linux/device/driver.h     |  2 -
+ include/linux/hyperv.h            |  5 ---
+ include/linux/rpmsg.h             |  4 --
+ 12 files changed, 28 insertions(+), 233 deletions(-)
 
-> +};
-> +
-> +/**
-> + * struct revocable_consumer - A handle for resource consumer.
-> + * @rev: The pointer of resource provider.
-> + * @idx: The index for the SRCU critical section.
 
-Should any of these be accessed directly by the user? Maybe document them
-as __private?
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.54.0
 
-> + */
-> +struct revocable_consumer {
-> +	struct revocable *rev;
-> +	int idx;
-> +};
-
-I'd rename it to struct revocable_handle which indicates better what it is:
-it's a handle *owned* by the consumer.
-
-> +
-> +void revocable_get(struct revocable *rev);
-> +void revocable_put(struct revocable *rev);
-> +
-> +struct revocable *revocable_alloc(void *res);
-> +void revocable_revoke(struct revocable *rev);
-> +int revocable_embed_init(struct revocable *rev, void *res);
-> +void revocable_embed_destroy(struct revocable *rev);
-> +
-> +void revocable_init(struct revocable *rev, struct revocable_consumer *rc);
-> +void revocable_deinit(struct revocable_consumer *rc);
-
-If we hid the release logic, we could drop revocable_embed_destroy() and use
-the same refcounting functions for both variants. I'd suggest the following:
-
-For refcounting (same for both variants):
-
-	void revocable_get(struct revocable *rev);
-	void revocable_put(struct revocable *rev);
-
-For dynamic variant:
-
-	struct revocable *revocable_alloc(void *res);
-
-For embedded:
-
-	int revocable_init(struct revocable *rev, void *res);
-
-For handles:
-
-	void revocable_handle_init(struct revocable *rev, struct
-revocable_consumer *rc);
-	void revocable_handle_deinit(struct revocable_consumer *rc);
-
-Does it make sense?
-
-Other (try_access_*, etc.) helpers look good. And the API in general looks
-pretty good to me too.
-
-Bart
