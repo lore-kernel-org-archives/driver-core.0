@@ -1,161 +1,160 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21899324B2C
-	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 11:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777979607; cv=pass; b=DbZnssYeWUW/RobxQrtz8kXcfPmo7M8JC2scKcu6U1N4eHiiU7U2N0bCJgURFnx/eeNIuFiF0AjMw+NQMjqtFf6OJZsEehFtrtgNL6GWy8H2zbKC3xhpQ48SuVuUuZnbhhJNiYD5SmqIxPVx2FM7tFhJo/Prpre5hN49flgTYJI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777979607; c=relaxed/simple;
-	bh=Os9gwDsHZQMlqqIBFGdN3USXXITiLKFrWc3TuCSD3Fk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=REi0Agsf0Vk3HPoCP/VMV+/yQW9BoZ4CXc+4tmRertp6eah24Jy2c3DOyIGsXm6JKfDMvPkb0H9/7AmKJeTr06HttXQWd6c7ukEqKaw7KpDIiHZRP42eaY2X35Sq4TvcV4qpfDQwqITbQZA6A7AbSmsbcaNnf4Fcc1ME6wFryBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IbtrjZJb; arc=pass smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F6131F9A5
+	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 11:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777979924; cv=none; b=oUkLZVDpnZ3cd1Cysd3K6R4nKdqJknLjE0Vr03Lf3ILXyC9On6ZN0E+mPi/DGYV95acmkLUiLw3fuXXQvpvbU/HUmtiictM03ULFpRzRg0Cm57ZC7SkVZsYNx9syRBFaiWo8y6ATWRBe2N8sDLVWDQNq3GLi6tIWmfr1MENEbNw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777979924; c=relaxed/simple;
+	bh=goTqNX4LIT0yuiv/ihZXreJ6jCrxDpey8ywhTwK7eI4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=k3uZqOUERRyeVnZwZD6E0CeAUNrtVa6mhf8RMO6XC4Ojh+l2hp7Z7MQYUjrrYG9hzh4jiD+38aDUqmY5fmnGQfl9MDdaHjVp9aIjNsYNo3PnVU38U997IUuhFfqIUr64X8fm9WIu2kCjpa5uLSXyCgrgRumTThLAbBAN+TzDmLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o1Gl/nfR; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IbtrjZJb"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a858881ad2so5204116e87.3
-        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 04:13:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777979602; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iPQ6vqP4Mb/JRAKKWwmLS3l5drE6c9MjlziYieWUWZqGD5ZU/c8PQY0iq62b5NZQMR
-         ddvMrgEcdNrJG98loS3fY4G/iQl0ns0ZJoUu4sZGsfkqNsyKe6KZAxoLyR6/RBfF0IQ7
-         Ur8eNFHY5Heu+7t8rGejjhbMmC7DR0dAXG0VCIoqvEIB0FG+PHWmlsorJjnLhFdUfY96
-         OiFah+4M55oSTkg/f4umvC2cc3xRwXe+RUB7ULLQgKBFxtrcXxOrSlvkIoCYwghO0UZ+
-         qVATxiGCq02cKutzvdJ2QQpwlGbcEDO9eztNJI7qR1cspHf7iTUgopxTXnkPWxwUbppf
-         uDow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vHtD1aX9zPxNRjWtqJ4oSWNxhaYMbBh5QHVWQYJquis=;
-        fh=yEO/fZRg/THVyhhbxuh19+4CHyJAcqgAwk44dYJkZ04=;
-        b=AOYGr5CtsciyVCXBcwSseWu4DBIqlEaTNQdjPnmnyUfV9wvnVukhIOiG+sZ39KD5sU
-         aje9Ow1Vf3rCHau1LTOfp6fE3tGrAabHwUfGnGkKV4omc8mljZFBLAeSQZoXPEPbwg/E
-         BGOK9JFwsqTyOr6MIGdaAbWWR0rfv4R2xni3fR+JinUsXt93Ch5Lp9R1vGdHRI1zrPCq
-         5VKypJm89UNFzdVKAdH5MAVUe2mfdXfH9SqP8j5D4XH2q9rzb/BybYwXSJQZXiiFpxUr
-         HtOiyLFbUFaM5dtudi3qWdNEzBUAqtZxgun3mv2JWb2Y+hjcglxSSBSHwXCveTjSGfH2
-         IrQQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o1Gl/nfR"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12c8c9c4cd8so3410349c88.0
+        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 04:18:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1777979602; x=1778584402; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vHtD1aX9zPxNRjWtqJ4oSWNxhaYMbBh5QHVWQYJquis=;
-        b=IbtrjZJbYM88XVdji2wHYGOHT5/FbI+K5dl/51tVZN2QBtNRKhx0dUBq/dqyjJeujW
-         T8zZQAdE9HoFOjpChK72/S+ZmRnW593zXRb6a89x7PXzQDaDoOiDCuAy48XuxQ4UtTGQ
-         kYsddD1bvYdm+2RfxppNlkUIV8Tmpe+uZzXpDvpFUp3POfiVAvD4k7lCFsGfNuyWOnfa
-         Xa7G1RaN6YlV2VVEPEgbeT0nddfnd+wQc5Ir8nvcyTcnxHJwc+WyXkyzOCdXL03Rtthk
-         MoLne6/AOLXXJBOJXs9ZI3a9jv+1Gb2XQRibjmyAlXB+l1WIpCzYZyHC+LClHeEleSTB
-         VaNw==
+        d=gmail.com; s=20251104; t=1777979922; x=1778584722; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eMDieuGvwMdUNo4lHwtE/hWCLLdhMWURBnkYQ/fDr68=;
+        b=o1Gl/nfReO5sUq+h2pG+cvdHdgHGuh5RfVQbUwKYkTl9+k14jtNJ4gOl5xsFASGkdU
+         6Vep2CYvHHRXkwhiU3wdW3miV3faHbe8BwLabXZXGPhxr04cEBKWROzncDWify9iyP3M
+         iE17w7aXpql8hC7HSiJkmAXokuWwLnkCVSwQwnEAjpX/Fe/LLiq1GIeFS+2IZjLgDbnL
+         vRK4v7DsEGGROJK+c6TohbK965nqjlbxUo0aiPqpdUgVpLra3vMkWVyNhjdhTNwT0Rxk
+         QGi4847614CSQaIbzb2Fcof0exhOznr4n9Z9Yq98bMXy8wCxvA2rzmVQymNtvl8l7xnt
+         HyaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777979602; x=1778584402;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777979922; x=1778584722;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vHtD1aX9zPxNRjWtqJ4oSWNxhaYMbBh5QHVWQYJquis=;
-        b=QWdtnxr3DQ23Dpay2Z7PwDqNGIBSbRe9NuDNOXdtNrkeRD/x4bz+RLB9yzTPKXSVtx
-         o6Gj7ZUvPPsyNajeZ7h2eC+txXoo3AyihoWlvE1JfVAAhLbeNrA6V5flVwwwCwSAvmqc
-         vojzQjxDikmgVJuwl7mN7DI8P6ClrceNu2TvF7LwCpV+HFuRjDPEtC73b73Ux6BL3FaC
-         YZs34IzsLn+k1q7dFzH646oZEG23J4CjEc4DtKyrbiVRMZWqYDwK78Zyth9rUR9Nd7Tx
-         ftlcqVaKpGLDb83+vgBqa0a1s4YuGG1ZV6sIDyLcwmpYyVuG984cv8PnfUeZGryaxSoa
-         a9Ig==
-X-Forwarded-Encrypted: i=1; AFNElJ+FEOZuxETJTrogN0LS9mIJV40iadGKxtwXaLsqa4yzlFqrNHoZrx9RGwgktrwBLdyPIYQzzj+MHQCtTw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy82YArRvoX+CxCfOSEA53BsalF11ElE9MkhLQppAD3MdHzWYip
-	IuzUIEsfVct8jnh/4+mNbgXa2RtIkXo0UMR2O/BCEa8TUDB/7owH9NIRL/gKHZCcvgyECUBwnAc
-	/8F2o6QEpfZm8hO98S1RpuEpxWfbURfspyK0SdFHu1w==
-X-Gm-Gg: AeBDiet7tBdo8H2cffZk/fMdu1ALszZdGzkGtLuvCaaGUvRPqbhw6Lz09fgLxekO8Yf
-	pmVGXd7I4fRpNZ31KuP2oAfsbNaIpqseTNqV3pqt2T+KdGfRFPczXtJrhPYSODam5CETErQCL4K
-	/JljrKe+oE7c42pmhmvKpUm59mGCwTw2D+voAI08f5EwIFI3eOmleTKUh3jevF9Ht16ohTDXsWn
-	YI7SmNOn5xYpnF/6DJzUP/UTWCS9U828RcGJnNCBDrzMJl3zAHvoioA1iYV+ar+J8wrn8oJmzKc
-	wGKisHdyHU3UChVNhHE=
-X-Received: by 2002:a05:6512:1255:b0:5a8:6b81:6694 with SMTP id
- 2adb3069b0e04-5a86b8167c7mr5154556e87.30.1777979602140; Tue, 05 May 2026
- 04:13:22 -0700 (PDT)
+        bh=eMDieuGvwMdUNo4lHwtE/hWCLLdhMWURBnkYQ/fDr68=;
+        b=XZbuDFcRWRu6aSS0NE66ZS2pR2c/O2MDEXAXgsRyV6r8ksYDqA2gBkrKPYTHNTJJTZ
+         kbrymBfTLJ84d+M2rVkk36C2yv9UpVam5OSjrn+ka1DB/3zTKXhAmOgVb6dvGKJh1G6w
+         +BPT5bAjFM/6Ff40SvWSZttybt3dd/D5Ng5b8eEyV0IjmonA1x/XZWblkUImqxp7Wcwi
+         GpNlCrnJ6owV7v2zqM6HRwsCU31x1oUlfjiRyHs9DP20VZMZbYDVAaTeBm6ur6WG7kF3
+         WuAtMbHVeengMHEPiRXj7d963EXueWqOyOaYpjCxLND2rfeXX7s8ZKUfKtb2exKwBP+x
+         pknw==
+X-Gm-Message-State: AOJu0Yz3COT5gjSMLjWvaA3xpTkgE5xfQH26EsSNMitOekQo5S5s8Nnk
+	6RWfPLEED5zna8Y51leDo2v+dX9wcjsYU5TBFLJhG7i2Gr29PwzliN+iUB6JbUIF
+X-Gm-Gg: AeBDies+7TxYZxMsu2lczopFAXYDd4mdpDy07wTP5N4jwXpHbFsD3Wmcy+XWqRnqHBi
+	TGtX8IEyTdlAemJt90Me8x+XB0+qSyhIZ7kQBkEOxX9gHM74Zk4YPtsFprVSIrboHT63HFNu6V0
+	SVYRlJzecgjPhH9tUIJS9y0OQ7DCeGl+dHQ2wX3saUztg4QWjNxpf/+WQz0fJgBQIJru7uGe62I
+	iA6azL324i0j6pBo6Gp52LNMmv9VLDMP3bDe7BG0ES9QKd6DWKAYsgHAOlgPEXLZuBH8el/NyDW
+	62E/bHtuUN4Y21RF340oyfy477L/nQRfoVjsmzVLcbk+URbESOmfHbLYtXyuabCIy2bgOCVoEji
+	DPIOqoNOeURjY5zXkNXqAShHH2sH2J6gsTsM1w7cpYsTJ/PlgcsJkP2SI0BsAQ/ja0pBSv9S1Zy
+	mka3oeoKweezNw9OmNMGvms3Q439UE/HbsoIDlMi4LpqBg6MIrJS9vL7kWxi2sfmU4xiMrFJTq/
+	AqCcFN/5wmo
+X-Received: by 2002:a05:7022:22b:b0:12d:b8e5:5e2 with SMTP id a92af1059eb24-130a9ff69abmr1380445c88.23.1777979921750;
+        Tue, 05 May 2026 04:18:41 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df828849dsm17247290c88.5.2026.05.05.04.18.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 04:18:41 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Subject: [PATCH v4 0/2] firmware_loader/ALSA: Fix TAS2781 async firmware
+ teardown
+Date: Tue, 05 May 2026 08:18:15 -0300
+Message-Id: <20260505-alsa-hda-tas2781-fw-callback-teardown-v4-0-e7c4bf930dc8@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260410104058.83748-1-ulf.hansson@linaro.org>
- <20260410104058.83748-2-ulf.hansson@linaro.org> <DHW8QPU1VU1F.3P6PH69HLFBYC@kernel.org>
- <CAPDyKFqMDPiqvqJrq5Qs6Tw4Sc7szG4G-=y0NFkNSPoNd9kdVA@mail.gmail.com> <DHZMQLCIRJIS.174HZR6DIAOMM@kernel.org>
-In-Reply-To: <DHZMQLCIRJIS.174HZR6DIAOMM@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 5 May 2026 13:12:45 +0200
-X-Gm-Features: AVHnY4LlCgMgAkU1pCqSb5NGsrhZtKGgNNx2kcRO5ejJAWo_ZbIw6N5C10vsCeg
-Message-ID: <CAPDyKFoKNpUexGrM0zcysKMKcdYT-cU0_Q_AHbgiGPk_gU-3nA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] driver core: Enable suppliers to implement fine
- grained sync_state support
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Saravana Kannan <saravanak@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Abel Vesa <abel.vesa@oss.qualcomm.com>, Peng Fan <peng.fan@oss.nxp.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Maulik Shah <maulik.shah@oss.qualcomm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/52QzW7CMBAGXwX53EX+I3Y48R5VD7u2Q9yGBNmpK
+ UJ5dxKoVMQJ9TjSp5nVXlgOKYbMtqsLS6HEHId+Bv22Yq7Ffh8g+pmZ5LLiWgrALiO0HmHELI0
+ V0JzAYdcRui8YAyY/nHpQZCrNNVEtLZtdxxSa+HPrvH/cOX/TZ3DjIl8WbczjkM63Q4pYdr9Nx
+ V9sFgECrNGqMr4iLWi3P2Ds1m44sKVZ5L+sEjhIZ7ytHSlhNs9W9Wfd8Ff/U9Rstb5urFFUG/K
+ P1mmarlJRyX+YAQAA
+X-Change-ID: 20260421-alsa-hda-tas2781-fw-callback-teardown-3b76404bb928
+To: Luis Chamberlain <mcgrof@kernel.org>, 
+ Russ Weight <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2860;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=goTqNX4LIT0yuiv/ihZXreJ6jCrxDpey8ywhTwK7eI4=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJk/L/FWz9tzskQ32vnFwVcbV9V5fdOWOqXwJ+HXjsWnB
+ JnnCy5K7yhlYRDjYpAVU2RZnbTIck/Xg6v1cSs8YOawMoEMYeDiFICJLLJi+CuVVvnHUu+YptHZ
+ h45zmIU5z+T68Ga2W/yOmvDkQHuNbD4jw40DnEvcnc14zh34tHaug2DAwxO8tzd3hSR0vJ2Q7PB
+ PmB8A
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-On Wed, 22 Apr 2026 at 12:59, Danilo Krummrich <dakr@kernel.org> wrote:
->
-> On Wed Apr 22, 2026 at 12:07 PM CEST, Ulf Hansson wrote:
-> > On Sat, 18 Apr 2026 at 13:23, Danilo Krummrich <dakr@kernel.org> wrote:
-> >> On Fri Apr 10, 2026 at 12:40 PM CEST, Ulf Hansson wrote:
-> >> > @@ -1126,6 +1128,9 @@ static void __device_links_queue_sync_state(struct device *dev,
-> >> >       if (dev->state_synced)
-> >> >               return;
-> >> >
-> >> > +     if (dev->driver && dev->driver->queue_sync_state)
-> >> > +             dev->driver->queue_sync_state(dev);
-> >>
-> >> This seems to be called without the device lock being held, which seems to allow
-> >> the queue_sync_state() callback to execute concurrently with remove(). This
-> >> opens the door for all kinds of UAF conditions in drivers.
-> >
-> > If that were the case, this whole function would be unsafe even before
-> > this change. I assume this isn't because of how the function is being
-> > called, but I may be wrong.
->
-> This function does not issue any driver callbacks intentionally; the existing
-> sync_state() callback is deferred to device_links_flush_sync_list(), which is
-> called without the device_links_write_lock() held, but takes the device_lock()
-> to protect against other concurrent driver callbacks, such as remove().
->
-> I.e. we can't take the device_lock() when the device_links_write_lock() is held,
-> as it would be prone to lock inversion.
+TAS2781 HDA I2C and SPI queue RCA firmware loading with
+request_firmware_nowait() during component bind. The firmware loader
+keeps the callback module pinned and holds a device reference, but it
+does not provide a way for drivers to cancel or synchronize the queued
+callback before tearing down driver-private state.
 
-You are right, the device_lock() is needed in
-device_links_flush_sync_list() to protect against concurrent driver
-callbacks from being invoked, such as the ->remove().
+Add a small firmware-loader helper to cancel or synchronize async firmware
+requests, then use it from TAS2781 HDA unbind before controls and DSP state
+are removed.
 
-However, as part of the removal procedure in
-__device_release_driver(), we also need to account for device links.
-Hence we call device_links_busy() which takes the
-device_links_write_lock().
+No hardware runtime test was available.
 
->
-> The documentation of __device_links_queue_sync_state() actually slightly hints
-> at this, but focuses more on the other reason for the deferred semantics -- the
-> sync_state() callback may want to call device link APIs.
->
-> > Anyway, let me add a get/put_device() here somewhere, to ensure we
-> > prevent this from happening. I assume that is what you are proposing?
->
-> No, an additional device reference count won't protect against other concurrent
-> driver callbacks, such as remove().
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+Changes in v4:
+- Use spin_lock_irq() in the worker and cancel paths, which run from
+  sleepable contexts.
+- Fold kfree(fw_work) into firmware_work_free().
+- Keep irqsave in the request path so GFP_ATOMIC callers do not depend on
+  IRQ state assumptions.
+- Link to v3: https://patch.msgid.link/20260501-alsa-hda-tas2781-fw-callback-teardown-v3-0-8d9f873b97bd@gmail.com
 
-Because _device_links_queue_sync_state() is always called while
-holding the device_links_write_lock(), it I believe it should be
-perfectly safe to invoke the driver callbacks from there.
+Changes in v3:
+- Keep request_firmware_nowait() manually managed instead of making the
+  existing API implicitly devres-managed.
+- Track scheduled async firmware work in an internal list protected by a
+  spinlock so request_firmware_nowait_cancel() can find and synchronize a
+  pending request without weakening the GFP_ATOMIC caller contract.
+- Match pending requests by device, callback context and callback function
+  instead of matching by callback alone.
+- Avoid the devres_add() / schedule_work() ordering race pointed out in
+  review.
+- Leave devres-managed support for a separate devm_request_firmware_nowait()
+  API if needed.
+- Link to v2: https://patch.msgid.link/20260430-alsa-hda-tas2781-fw-callback-teardown-v2-0-2c7d89cb3175@gmail.com
 
-Kind regards
-Uffe
+Changes in v2:
+- Add request_firmware_nowait_cancel() in the firmware loader instead of
+  tracking the callback lifetime locally in the TAS2781 HDA driver.
+- Keep the TAS2781 change to a cancel/sync call in I2C and SPI unbind.
+- Drop the unrelated cached kcontrol pointer cleanup from the previous
+  local-driver version.
+- Link to v1: https://patch.msgid.link/20260430-alsa-hda-tas2781-fw-callback-teardown-v1-1-874367d6b41b@gmail.com
+
+---
+Cássio Gabriel (2):
+      firmware_loader: Add cancel helper for async requests
+      ALSA: hda/tas2781: Cancel async firmware request at unbind
+
+ drivers/base/firmware_loader/main.c            | 68 ++++++++++++++++++++++++--
+ include/linux/firmware.h                       | 10 ++++
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c |  3 ++
+ sound/hda/codecs/side-codecs/tas2781_hda_spi.c |  3 ++
+ 4 files changed, 80 insertions(+), 4 deletions(-)
+---
+base-commit: 0d672ef050d4e1c3891c9944f72c85769978bbee
+change-id: 20260421-alsa-hda-tas2781-fw-callback-teardown-3b76404bb928
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
