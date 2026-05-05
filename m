@@ -1,235 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F1E481FAF;
-	Tue,  5 May 2026 15:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78296481257
+	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 15:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777994660; cv=none; b=K+FDbrZXP/B9x0sc82LGPb0iJzTOj4+/m7INLDsZLGcw3rzmHq5HZhR6msJuzsww+izxSbtSK16rtxjmqsiv04ISxqr90IaaZdc2HTb4vZEGTiwBwTo1U/EcD81pnD32SSFXcgfDfQQVgyTBWiqfo8iQRH7O/B2WnfYP0w2Zcos=
+	t=1777996133; cv=none; b=PCXumxfXSuRhfAKi7XkaFYbw/JE0Fyg7kiyntuNx/hv3/oa1fvWRhgxjGVxi52P9n9h/2MDwlOYEVQVOI9YSbsBdnR7/i9F/7VHqVuOweKRlk/U2/CIvojNW6IUjuqCBdJvPSP8kaniiS8HSziS8T6GplNWH6hweih/WCzdo0j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777994660; c=relaxed/simple;
-	bh=dC7AHxeF5HBFGmWhygEDRND5nAaKwuopbPHrGPWQa68=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RN+cYSEJ6zASaif1aV+BnykwkX8YX0Ncg2CB7lbV6wul+a3sxGO5ZszO3dtV2p7knM0DOCZndKlZJrir741vApk5C8Minvgu4RwWShVTmRnU1AfihetcI4gqe/+HSXrOhvnJgtVD/p0pZ/es9MLuDiZXEVs/egoLY2Ds++YVXrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dEUvZKHJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777996133; c=relaxed/simple;
+	bh=xYPp5aLMlcFbbyc2Tvslw5PfcoWXbnSljC6zGT0v7Jk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=srQDpOrIM//zda5n197IaR+vzp+AoAO4CkQdqEidEwSrxMHqyTIeni9pBa6NwHAFuBR8xol+V/hxzMiIc618x3QRTfUp5sneRV6U4KPSzSYpZlDcfKzAhyBx6w4JQi5B4LFxF+W/JZ5qmZupI06/mmchhvwrPmKPp7NWzK2OEv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MEaNmnNb; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dEUvZKHJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB21CC2BCF4;
-	Tue,  5 May 2026 15:24:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777994659;
-	bh=dC7AHxeF5HBFGmWhygEDRND5nAaKwuopbPHrGPWQa68=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dEUvZKHJkYv36Vu8X9bDVLSXK2Bf79p4daOvLsDuQbiCBzpIa9oqYJvJDezD8t0B5
-	 zBJskNfqg0dVPOfsE7xxi6ItfJfFWFcvCP0/7Amm60Pbgtx/fmemd8H3Y7thGGlgTJ
-	 GXeDwEeWXPgbyY9s+8a6PbwZCVrNpLBo9kNfnXyTjgvj2BOwZ4xx0nPrufbUYHK4ak
-	 138zZUPa++ZJfrfUMCDeCrYRC+YLff3VPlSf2GWMK9Z8TyfaBLDC/zmhyxLi7CpF0V
-	 esjOANc+gHnFpDPSsZYd6NJEwR8GvjXGBTdXUb+3PTTlvFft1qw7Cz20s1uH0xi+WX
-	 NdI//19YYUDfA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	acourbot@nvidia.com,
-	aliceryhl@google.com,
-	david.m.ertman@intel.com,
-	ira.weiny@intel.com,
-	leon@kernel.org,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v2 3/3] rust: driver core: remove drvdata() and driver_type
-Date: Tue,  5 May 2026 17:23:09 +0200
-Message-ID: <20260505152400.3905096-4-dakr@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260505152400.3905096-1-dakr@kernel.org>
-References: <20260505152400.3905096-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MEaNmnNb"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-6749e8562a7so4601946a12.3
+        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 08:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777996128; x=1778600928; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=88jGTJt1jUBTa9gUMTrSJbkV2SqxUXuXjo+gX1FmdT4=;
+        b=MEaNmnNbjixh8FgzPdca1wSs65jlR7m1dLy78vmvXUPLzRKdMqiQrmFqNG4ZogNlfU
+         +YE4nYsGRlsrSeYzdlioTVRlrrQCj/gQCDAyYDjiZfDKGwljgrO+zyOk8+XhmiILsk2Y
+         EnKUw29F2mnwD5e9yB0aGcmmtwg+SI2NYf3Opz22UYI2PeYbwz5ioPoZjV8qm+5UYlFP
+         0sZu0uzpkGUdf6cXAt+7BSzy5BSzAwZtGBej99Z6nTc9rghupxScC+dzDaMrYIuufR2l
+         yRa2k1XmZ1wJTPAG9WVvzQOOBMprVBou9hg6FK13VwrB8XPm1eDDfbzwpNvlEBzGNw/N
+         2nzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777996128; x=1778600928;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=88jGTJt1jUBTa9gUMTrSJbkV2SqxUXuXjo+gX1FmdT4=;
+        b=bC1K2FBskLU4Zjy+wrGkR8SXGVqgiLguGhnxBsGtw2uF9AWS4BHq71eizjGk7jVZp8
+         ArbMiCWIY/0Rf8sIwUhGw3Wkk1udZrMxPW9zDZdFUiIVTpF8CPLqjfWPZBiXoGYCbNcn
+         ltFO8JDSg/pYp8p9iN9C38kYt+O90g0+MYLCSVL4jEDcLFLeHbVV//ggTBszH11CNnrP
+         9BNOUkFZbKJZnPD0EQUIDHNyi1OZIWTYj83BVxdwv3U5nnmljQ1J+Ii5d2ih8xEgRLFF
+         cBJbxqPDI4VDI5pPXYnldyKAnUeMC1C2qaxpQ/S/n00OnDYMxKuZa82Mp3GiGQAITLxN
+         7GQA==
+X-Forwarded-Encrypted: i=1; AFNElJ+jKDUQbPiBTsdX5t0pbN+EPkdcR4kXbodWywOrgbZzI1XCTDPNtN2bWx4qxlq0ChE6aegudWG1lEESmw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2RTr6BBjvJs/0kG/Ee9LER1w07EqN3A/MyTDSbnMyypgvts6L
+	pv9lvXQ852lIr/F1ybC31+CORgPqBYpKZaXcDg+bTzqrut/V/zMUBN53uw6lvQYK1D0SNqp8qkO
+	O1A1aeSN5Rrzxh6EXJA==
+X-Received: from edvb16.prod.google.com ([2002:a05:6402:1390:b0:674:5a86:ecaa])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:a0c3:b0:67c:ba33:c605 with SMTP id 4fb4d7f45d1cf-67cca92e19amr1615859a12.6.1777996127373;
+ Tue, 05 May 2026 08:48:47 -0700 (PDT)
+Date: Tue, 5 May 2026 15:48:46 +0000
+In-Reply-To: <20260505152400.3905096-2-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260505152400.3905096-1-dakr@kernel.org> <20260505152400.3905096-2-dakr@kernel.org>
+Message-ID: <afoRXrwKjZAJuMaQ@google.com>
+Subject: Re: [PATCH v2 1/3] rust: alloc: add Box::zeroed()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, acourbot@nvidia.com, 
+	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org, 
+	ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
+	tmgross@umich.edu, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-When drvdata() was introduced in commit 6f61a2637abe ("rust: device:
-introduce Device::drvdata()"), its commit message already noted that a
-direct accessor to the driver's bus device private data is not commonly
-required -- bus callbacks provide access through &self, and other entry
-points (IRQs, workqueues, IOCTLs, etc.) carry their own private data.
-
-The sole motivation for drvdata() was inter-driver interaction -- an
-auxiliary driver deriving the parent's bus device private data from the
-parent device.
-
-However, drvdata() exposes the driver's bus device private data beyond
-the driver's own scope. This creates ordering constraints; for instance
-drvdata may not be set yet when the first caller of drvdata() can
-appear. It also forces the driver's bus device private data to outlive
-all registrations that access it, which causes unnecessary
-complications.
-
-Private data should be private to the entity that issues it, i.e. bus
-device private data belongs to bus callbacks, class device private data
-to class callbacks, IRQ private data to the IRQ handler, etc.
-
-With registration-private data now available through the auxiliary bus,
-there is no remaining user of drvdata(), thus remove it.
+On Tue, May 05, 2026 at 05:23:07PM +0200, Danilo Krummrich wrote:
+> Add Box::zeroed() for T: Zeroable types.
+> 
+> This allocates with __GFP_ZERO directly, letting the underlying
+> allocator deal with zeroing out the memory compared to
+> Box::new(T::zeroed(), flags).
+> 
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- drivers/base/base.h   | 16 ------------
- rust/kernel/device.rs | 60 -------------------------------------------
- 2 files changed, 76 deletions(-)
 
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 0ed1e278b957..483b99b4fa3d 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -86,18 +86,6 @@ struct driver_private {
- };
- #define to_driver(obj) container_of(obj, struct driver_private, kobj)
- 
--#ifdef CONFIG_RUST
--/**
-- * struct driver_type - Representation of a Rust driver type.
-- */
--struct driver_type {
--	/**
--	 * @id: Representation of core::any::TypeId.
--	 */
--	u8 id[16];
--} __packed;
--#endif
--
- /**
-  * struct device_private - structure to hold the private to the driver core
-  *			   portions of the device structure.
-@@ -115,7 +103,6 @@ struct driver_type {
-  *			   dev_err_probe() for later retrieval via debugfs
-  * @device: pointer back to the struct device that this structure is
-  *	    associated with.
-- * @driver_type: The type of the bound Rust driver.
-  * @dead: This device is currently either in the process of or has been
-  *	  removed from the system. Any asynchronous events scheduled for this
-  *	  device should exit without taking any action.
-@@ -132,9 +119,6 @@ struct device_private {
- 	const struct device_driver *async_driver;
- 	char *deferred_probe_reason;
- 	struct device *device;
--#ifdef CONFIG_RUST
--	struct driver_type driver_type;
--#endif
- 	u8 dead:1;
- };
- #define to_device_private_parent(obj)	\
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 6d5396a43ebe..fd50399aadea 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -15,16 +15,12 @@
-     }, //
- };
- use core::{
--    any::TypeId,
-     marker::PhantomData,
-     ptr, //
- };
- 
- pub mod property;
- 
--// Assert that we can `read()` / `write()` a `TypeId` instance from / into `struct driver_type`.
--static_assert!(core::mem::size_of::<bindings::driver_type>() >= core::mem::size_of::<TypeId>());
--
- /// The core representation of a device in the kernel's driver model.
- ///
- /// This structure represents the Rust abstraction for a C `struct device`. A [`Device`] can either
-@@ -206,29 +202,12 @@ pub unsafe fn as_bound(&self) -> &Device<Bound> {
- }
- 
- impl Device<CoreInternal> {
--    fn set_type_id<T: 'static>(&self) {
--        // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer to a `struct device`.
--        let private = unsafe { (*self.as_raw()).p };
--
--        // SAFETY: For a bound device (implied by the `CoreInternal` device context), `private` is
--        // guaranteed to be a valid pointer to a `struct device_private`.
--        let driver_type = unsafe { &raw mut (*private).driver_type };
--
--        // SAFETY: `driver_type` is valid for (unaligned) writes of a `TypeId`.
--        unsafe {
--            driver_type
--                .cast::<TypeId>()
--                .write_unaligned(TypeId::of::<T>())
--        };
--    }
--
-     /// Store a pointer to the bound driver's private data.
-     pub fn set_drvdata<T: 'static>(&self, data: impl PinInit<T, Error>) -> Result {
-         let data = KBox::pin_init(data, GFP_KERNEL)?;
- 
-         // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer to a `struct device`.
-         unsafe { bindings::dev_set_drvdata(self.as_raw(), data.into_foreign().cast()) };
--        self.set_type_id::<T>();
- 
-         Ok(())
-     }
-@@ -292,45 +271,6 @@ unsafe fn drvdata_unchecked<T: 'static>(&self) -> Pin<&T> {
-         //   in `into_foreign()`.
-         unsafe { Pin::<KBox<T>>::borrow(ptr.cast()) }
-     }
--
--    fn match_type_id<T: 'static>(&self) -> Result {
--        // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer to a `struct device`.
--        let private = unsafe { (*self.as_raw()).p };
--
--        // SAFETY: For a bound device, `private` is guaranteed to be a valid pointer to a
--        // `struct device_private`.
--        let driver_type = unsafe { &raw mut (*private).driver_type };
--
--        // SAFETY:
--        // - `driver_type` is valid for (unaligned) reads of a `TypeId`.
--        // - A bound device guarantees that `driver_type` contains a valid `TypeId` value.
--        let type_id = unsafe { driver_type.cast::<TypeId>().read_unaligned() };
--
--        if type_id != TypeId::of::<T>() {
--            return Err(EINVAL);
--        }
--
--        Ok(())
--    }
--
--    /// Access a driver's private data.
--    ///
--    /// Returns a pinned reference to the driver's private data or [`EINVAL`] if it doesn't match
--    /// the asserted type `T`.
--    pub fn drvdata<T: 'static>(&self) -> Result<Pin<&T>> {
--        // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer to a `struct device`.
--        if unsafe { bindings::dev_get_drvdata(self.as_raw()) }.is_null() {
--            return Err(ENOENT);
--        }
--
--        self.match_type_id::<T>()?;
--
--        // SAFETY:
--        // - The above check of `dev_get_drvdata()` guarantees that we are called after
--        //   `set_drvdata()`.
--        // - We've just checked that the type of the driver's private data is in fact `T`.
--        Ok(unsafe { self.drvdata_unchecked() })
--    }
- }
- 
- impl<Ctx: DeviceContext> Device<Ctx> {
--- 
-2.54.0
+>  rust/kernel/alloc/kbox.rs | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
+> index bd6da02c7ab8..c824ed6e1523 100644
+> --- a/rust/kernel/alloc/kbox.rs
+> +++ b/rust/kernel/alloc/kbox.rs
+> @@ -19,6 +19,7 @@
+>  use crate::fmt;
+>  use crate::init::InPlaceInit;
+>  use crate::page::AsPageIter;
+> +use crate::prelude::*;
+>  use crate::types::ForeignOwnable;
+>  use pin_init::{InPlaceWrite, Init, PinInit, ZeroableOption};
 
+I suspect some of these imports can be removed when you add the prelude.
+
+> @@ -256,6 +257,27 @@ pub fn new_uninit(flags: Flags) -> Result<Box<MaybeUninit<T>, A>, AllocError> {
+>          Ok(Box(ptr.cast(), PhantomData))
+>      }
+>  
+> +    /// Creates a new zero-initialized `Box<T, A>`.
+> +    ///
+> +    /// New memory is allocated with `A` and the [`__GFP_ZERO`] flag. The allocation may fail, in
+> +    /// which case an error is returned. For ZSTs no memory is allocated.
+> +    ///
+> +    /// # Examples
+> +    ///
+> +    /// ```
+> +    /// let b = KBox::<[u8; 128]>::zeroed(GFP_KERNEL)?;
+> +    /// assert_eq!(*b, [0; 128]);
+> +    /// # Ok::<(), Error>(())
+> +    /// ```
+> +    pub fn zeroed(flags: Flags) -> Result<Self, AllocError>
+
+#[inline]?
+
+Alice
