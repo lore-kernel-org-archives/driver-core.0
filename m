@@ -1,121 +1,124 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78296481257
-	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 15:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777996133; cv=none; b=PCXumxfXSuRhfAKi7XkaFYbw/JE0Fyg7kiyntuNx/hv3/oa1fvWRhgxjGVxi52P9n9h/2MDwlOYEVQVOI9YSbsBdnR7/i9F/7VHqVuOweKRlk/U2/CIvojNW6IUjuqCBdJvPSP8kaniiS8HSziS8T6GplNWH6hweih/WCzdo0j0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777996133; c=relaxed/simple;
-	bh=xYPp5aLMlcFbbyc2Tvslw5PfcoWXbnSljC6zGT0v7Jk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=srQDpOrIM//zda5n197IaR+vzp+AoAO4CkQdqEidEwSrxMHqyTIeni9pBa6NwHAFuBR8xol+V/hxzMiIc618x3QRTfUp5sneRV6U4KPSzSYpZlDcfKzAhyBx6w4JQi5B4LFxF+W/JZ5qmZupI06/mmchhvwrPmKPp7NWzK2OEv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MEaNmnNb; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF0C4A340F
+	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 18:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778005706; cv=pass; b=aUG+TscabnmY/kjKX8hhHIStI5BeXRerAVXV9HbG45QdZlIVFa3nuBaORGSsfp7iq1OJBFOvXj5zZ8JZ1c+d7r+oqwk3CVPUtknD/fsigt1l9Gtk/Uc/DPRxiCfWHs2B0AvPgFKM/EB9+RNb8lvXhrfxjsIb2sI/UBOepPH6RGM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778005706; c=relaxed/simple;
+	bh=u0J/DG3q3l3oTdmjlcJn4ywY61k9yybeZt0U6uv+BvI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V2Dq3O97C5UMR58KrX++JGmsyCaUMH84iWmC1B8BsDNhhznrLYmha5SHthBv3f2HooPNK8gw6xMvXNhVGZc6iQtjsXQFHbYLtuvESZJwOfqbRIWY82u2mrGB5ctW0FoWNGiH7Z6mWGgvZrcc19ml8eE3UHqPe1hUMUxBYSWMUtY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ASfG9/C3; arc=pass smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MEaNmnNb"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-6749e8562a7so4601946a12.3
-        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 08:48:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ASfG9/C3"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2b8095668ebso320731eec.2
+        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 11:28:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778005704; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CC5RFuFU2/69POKYOyr4AgGzueJJBBlUd88d1dmBvmY9av0bCUuFtoxqx21z4tFk11
+         P9q9Wx0lH2RGm/VnK/pwWEK4Iv+TuDwbZZI/v/FOaHpUUpo75k0V0E9q4YySDBTTfL0M
+         SxNwe0IkWypMo2gu3PeFmubwjIawEg7kFi5D8AH1KOET2jIjT1XjL0EEJSrrxk0hh9X1
+         RzIyYvBo9oUCrmsZrwtwIs+xIntgka2OcMwg1c+NwpgTgeqMJNR9unXuKSahCwEStkk/
+         nPKOl+oUtqzVXOJie3qELiBca1BchdelS8/vD4/tpvWOKMXimEb0mdjEN1f62E/PI8gq
+         VtMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=u0J/DG3q3l3oTdmjlcJn4ywY61k9yybeZt0U6uv+BvI=;
+        fh=WHLqc2WAVafjyatx/fKqMpUkNss0cDmrtFpMjBXG6P0=;
+        b=JM77j99A6ui5dcHkJSEf7nGidEFXFxwBeVVd6B64qzQlDR89IpY731uLVtmR+uiEZo
+         4gX4QWQho1lQ1cexPjUavcJ94McvwgtYf4JDI0NX3EItYN9P3h0hEeTgJAx53frh1ARF
+         ZIyGkCT3Phcj23HEBCvsZK50rkAfrOeafcbwaIJcVbS70npjEi0+FAizYMeVDOE8dElP
+         bxObuC9on4MZD/ug7xtmzxItWDkgz5myJqkk0wR5CtfiGyL6FzTqsatSktRGVXYyycOG
+         II7xnWAP47kg6GiG0v/wgnLjG1SMCIhaEDQ+mMrkzkvtkADh/wSoLgIQ1UZ7kiF5+1c3
+         75AQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777996128; x=1778600928; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=88jGTJt1jUBTa9gUMTrSJbkV2SqxUXuXjo+gX1FmdT4=;
-        b=MEaNmnNbjixh8FgzPdca1wSs65jlR7m1dLy78vmvXUPLzRKdMqiQrmFqNG4ZogNlfU
-         +YE4nYsGRlsrSeYzdlioTVRlrrQCj/gQCDAyYDjiZfDKGwljgrO+zyOk8+XhmiILsk2Y
-         EnKUw29F2mnwD5e9yB0aGcmmtwg+SI2NYf3Opz22UYI2PeYbwz5ioPoZjV8qm+5UYlFP
-         0sZu0uzpkGUdf6cXAt+7BSzy5BSzAwZtGBej99Z6nTc9rghupxScC+dzDaMrYIuufR2l
-         yRa2k1XmZ1wJTPAG9WVvzQOOBMprVBou9hg6FK13VwrB8XPm1eDDfbzwpNvlEBzGNw/N
-         2nzQ==
+        d=gmail.com; s=20251104; t=1778005704; x=1778610504; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u0J/DG3q3l3oTdmjlcJn4ywY61k9yybeZt0U6uv+BvI=;
+        b=ASfG9/C3RCykcQkX0mMTnawbQ6O7HQPaUrJaStSyJafiENLAmcv89IMzi2o6x6d5wd
+         FAZXqhGWnd4duwOBYwA7gFG24FYhX75O+i9Os6GdzaLygUGRZXmr3ZKo/zQl1cnHUZVa
+         TRwKx8eVO7y237tvQjfq9P7Y9FMqsySWwTmAT/ZSATUodbofnuadLPjP9uwZT710AdM0
+         Y72WY9anXtjVkUr5t7Op1eH0EYlxqwtWCl65i/gTMDG3Sr83WXKzKC6VYOy2EtWBf8KT
+         RgA2ntynOy2xDTAU1+m81YWvDcdg2PkfnAWQuwud3fuPPfgsDBaNzG5ytDokzGY8nfs6
+         mmyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777996128; x=1778600928;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=88jGTJt1jUBTa9gUMTrSJbkV2SqxUXuXjo+gX1FmdT4=;
-        b=bC1K2FBskLU4Zjy+wrGkR8SXGVqgiLguGhnxBsGtw2uF9AWS4BHq71eizjGk7jVZp8
-         ArbMiCWIY/0Rf8sIwUhGw3Wkk1udZrMxPW9zDZdFUiIVTpF8CPLqjfWPZBiXoGYCbNcn
-         ltFO8JDSg/pYp8p9iN9C38kYt+O90g0+MYLCSVL4jEDcLFLeHbVV//ggTBszH11CNnrP
-         9BNOUkFZbKJZnPD0EQUIDHNyi1OZIWTYj83BVxdwv3U5nnmljQ1J+Ii5d2ih8xEgRLFF
-         cBJbxqPDI4VDI5pPXYnldyKAnUeMC1C2qaxpQ/S/n00OnDYMxKuZa82Mp3GiGQAITLxN
-         7GQA==
-X-Forwarded-Encrypted: i=1; AFNElJ+jKDUQbPiBTsdX5t0pbN+EPkdcR4kXbodWywOrgbZzI1XCTDPNtN2bWx4qxlq0ChE6aegudWG1lEESmw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2RTr6BBjvJs/0kG/Ee9LER1w07EqN3A/MyTDSbnMyypgvts6L
-	pv9lvXQ852lIr/F1ybC31+CORgPqBYpKZaXcDg+bTzqrut/V/zMUBN53uw6lvQYK1D0SNqp8qkO
-	O1A1aeSN5Rrzxh6EXJA==
-X-Received: from edvb16.prod.google.com ([2002:a05:6402:1390:b0:674:5a86:ecaa])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:a0c3:b0:67c:ba33:c605 with SMTP id 4fb4d7f45d1cf-67cca92e19amr1615859a12.6.1777996127373;
- Tue, 05 May 2026 08:48:47 -0700 (PDT)
-Date: Tue, 5 May 2026 15:48:46 +0000
-In-Reply-To: <20260505152400.3905096-2-dakr@kernel.org>
+        d=1e100.net; s=20251104; t=1778005704; x=1778610504;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=u0J/DG3q3l3oTdmjlcJn4ywY61k9yybeZt0U6uv+BvI=;
+        b=Wrw7+EUUAqWbDGRkNRg/nracw5ltav95uA5vCWRzZwHO/q6/MrwIMQ6DspmnDDbFBl
+         rfzf0yXMmvcyNW/cTdA4Yo1bjMsw7XouHKqHOatqDIfrXaUhtv9rjQBT5qfHU9lJKsj4
+         MaLWi04Z+PtXw7afID+Zgpuj65+Q2mZas5pYBBojn7YvMsMAWi4o0MyNUQ1nyHWCLlTU
+         xLLbjHvXeFXF4FJEO7FQhOc/r8uTqbTt4IxrRVFSrlqcTK9j2eKlzwdP14KWSiVlKc25
+         DBV/Wx0meMD74w8aAsT8DvNQNJiDyHbwrsn323I0QPcyQN6gF6crzcsxPATtZkNlNqQV
+         +VbA==
+X-Forwarded-Encrypted: i=1; AFNElJ+9lad6BepuBEcCwamRXyWovft3+7nTiX7flHY/ClWOouLrpy047WXAhPQ5JTRVcOSDTMr14vSXUytVZA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOheFlE82+rlhXoKDXwm2uWWaU7ZUFu3m5AGosArm5+qvyFkrU
+	q9jEg/Y++UH4C0ge498Di/20Umz/2CF8VDMitcQsRQ+RxVw16robfbHafHsxf6Z75lveYF5QKCG
+	6ul0d9gdwle2T/ff+/GwHOg5PLnNozPw=
+X-Gm-Gg: AeBDieuNFN9mwhuECcynkqqaNwsiVC3bOIz2PCDMP38no8YmUPlLYU68Nqa4e06WXQc
+	Ll7Gtqh12lPvuGXtlpyIzWLy/mqXddmcidbSQK5rA+fvYSpeRMMBYio6XzAF3GC6cFSt4XCuOGg
+	MXQJ14TON7vTejh8+pcwGuzRu+XtYAeRd9eVlUUlnXrEIm8ty30cYycV2r/Ov20VngdhVBzagYc
+	7aP68tqqttoR4+bdauL3FzFTQNQmB9i+Mn5yV4zDPWxV3wfii9Dz6QBuqxFJ9JEEou3owX4ecHv
+	88cZnjNsIN0pX1S3uZZvyo5dJ0m9DvAy70MoqqY7Y37GqxpmJaqNxZwTcer8mUwsMeJCBbaud+2
+	4U5YB3+/ngMz8UWZsBW+OcgNsKYCXNhIbAA==
+X-Received: by 2002:a05:7301:6784:b0:2f5:2154:c7b with SMTP id
+ 5a478bee46e88-2f548a8c16fmr96868eec.1.1778005704160; Tue, 05 May 2026
+ 11:28:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260505152400.3905096-1-dakr@kernel.org> <20260505152400.3905096-2-dakr@kernel.org>
-Message-ID: <afoRXrwKjZAJuMaQ@google.com>
-Subject: Re: [PATCH v2 1/3] rust: alloc: add Box::zeroed()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, acourbot@nvidia.com, 
-	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org, 
-	ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
-	tmgross@umich.edu, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20260504111421.72130-1-x@2005.tr> <20260505082323.37335-1-x@2005.tr>
+In-Reply-To: <20260505082323.37335-1-x@2005.tr>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 5 May 2026 20:28:10 +0200
+X-Gm-Features: AVHnY4I1gAHbg4OBDbK2BRfiEoG_N6cd2k5zc2o6_6hC4CBMbryprYyf6O6Wea0
+Message-ID: <CANiq72kGEB4769kC=-S8e6eY_xqwHTtmbuTvVqjsgL18SGPUYw@mail.gmail.com>
+Subject: Re: [PATCH v3] rust: io: use newtype for PhysAddr
+To: x@2005.tr
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Robin Murphy <robin.murphy@arm.com>, driver-core@lists.linux.dev, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 05, 2026 at 05:23:07PM +0200, Danilo Krummrich wrote:
-> Add Box::zeroed() for T: Zeroable types.
-> 
-> This allocates with __GFP_ZERO directly, letting the underlying
-> allocator deal with zeroing out the memory compared to
-> Box::new(T::zeroed(), flags).
-> 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On Tue, May 5, 2026 at 10:24=E2=80=AFAM <x@2005.tr> wrote:
+>
+> From: Favilances Noir <favilances@proton.me>
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+It is great to see more strong types, thanks for this!
 
->  rust/kernel/alloc/kbox.rs | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
-> index bd6da02c7ab8..c824ed6e1523 100644
-> --- a/rust/kernel/alloc/kbox.rs
-> +++ b/rust/kernel/alloc/kbox.rs
-> @@ -19,6 +19,7 @@
->  use crate::fmt;
->  use crate::init::InPlaceInit;
->  use crate::page::AsPageIter;
-> +use crate::prelude::*;
->  use crate::types::ForeignOwnable;
->  use pin_init::{InPlaceWrite, Init, PinInit, ZeroableOption};
+From the other parallel patch:
 
-I suspect some of these imports can be removed when you add the prelude.
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+Link: https://github.com/Rust-for-Linux/linux/issues/1204
 
-> @@ -256,6 +257,27 @@ pub fn new_uninit(flags: Flags) -> Result<Box<MaybeUninit<T>, A>, AllocError> {
->          Ok(Box(ptr.cast(), PhantomData))
->      }
->  
-> +    /// Creates a new zero-initialized `Box<T, A>`.
-> +    ///
-> +    /// New memory is allocated with `A` and the [`__GFP_ZERO`] flag. The allocation may fail, in
-> +    /// which case an error is returned. For ZSTs no memory is allocated.
-> +    ///
-> +    /// # Examples
-> +    ///
-> +    /// ```
-> +    /// let b = KBox::<[u8; 128]>::zeroed(GFP_KERNEL)?;
-> +    /// assert_eq!(*b, [0; 128]);
-> +    /// # Ok::<(), Error>(())
-> +    /// ```
-> +    pub fn zeroed(flags: Flags) -> Result<Self, AllocError>
+By the way, please try to fix the email From header -- it can be quite
+confusing to see "x" in the mailing list and other tooling... :)
 
-#[inline]?
+We also probably want a few more `#[inline]`s as Sashiko mentions.
 
-Alice
+Cheers,
+Miguel
