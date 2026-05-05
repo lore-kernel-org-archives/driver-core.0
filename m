@@ -1,73 +1,310 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7F021ABD7;
-	Tue,  5 May 2026 20:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778011862; cv=none; b=MTTG/XexR4WoIjyQmAp4bAzoN6vBMy3hvoPelHI+27cHGhm1kO9BR/9MSKPWnBLSIRLLDGKSN0gG3/2OSUehqVUBUSogRGR+Ld7P3JzyJukvHYwAlOUXw6LZvCcJAbS2tRcGTeVejxuGxqOXHcU/5Rjk4+9V/6Ea2wKeHXE8h90=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778011862; c=relaxed/simple;
-	bh=gOs0o/TFscQxi9grZd1anD57wA4XSsfTcgDVQxqV7Ss=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=GgTjsbLBc6IHglJmFTeqPn/rjHn02JLGBWV/u2otiMIaImtgmUCbC/uXrZKnV37VgTZgCBuxK+LLf/bzQqSY5VhPIQ/T9ZwbA4cZ7LWD6VXACCWAk1YDPCdIccSIJzFanBR1LznGRIUHCtiHm6vd4med1HAgXych42WoKxsEOnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=swmayGhQ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644FD2DECB2;
+	Tue,  5 May 2026 22:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778021828; cv=pass; b=o8AoQOgi9D+o7iXy8cfa1a3wEida2psJ1q5fTn4VLGcvpfjfJiidEU06Y7XtcZ3yZ5Ota+fRHCTEn7UU24dFwWMG8VaFpAQB46tYDgpc6y71AcwTEX0lWi9ObNujCWua8vkGLe0/hxDsAyfviVvWeWZgj2SpmkmbKLHDqAtRohg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778021828; c=relaxed/simple;
+	bh=R+ca3AMiLBWOUECbtm9IjAaUWVdGUVmacd/feCRKY2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tJ2iOO7eZYZ/cg7wsIN5LtCXDMHjcRZSmJeSsvejdYJB+q67p/ZfStsfcTOXJLPX6d96DNIwoqz5rJ+qISit+nwWdNu84OanIvPgy4uyucJ6TuL7idrKAE+Qhpv0URSMb72PspHWaZcUkvRHhxR+PUr+dZOh+nG0aVz08YD6xwA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b=TdFzC2WV; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="swmayGhQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB47C2BCB4;
-	Tue,  5 May 2026 20:10:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778011861;
-	bh=gOs0o/TFscQxi9grZd1anD57wA4XSsfTcgDVQxqV7Ss=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=swmayGhQHSW6VEqPPE5oVPeWKIeC86o7p6C9cV2r+vHGDeIs4U/Hk0Jknnqp4+ER0
-	 xiBTtrl4lY1TV6q3/GFUr/cI9tZaFmz572hac3FFKJErCPMuePcTu9ZH5jVRNjOR/z
-	 zwumGJn9cnob7x9gC8A7P0HbpW8hLQnF4bp2/eKSS7zbAbjUjdrdyzu/AuIzeWb2G3
-	 RTe4H40vk9wwQWrTtoRl0fuJfqOH8uzq2uvBjPyBOJC9yGbk05fcVoarurytfd8MAj
-	 lKZPPRdMugQ6ZLxA5cvseyW1ppajkauczS9v4hUTFji4DlIM74zjBcp7+/bojj1b4F
-	 1iBZMPtQMnbzw==
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="TdFzC2WV"
+ARC-Seal: i=1; a=rsa-sha256; t=1778021808; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=TkBzLU05ksB2nEv8kqGU/EyYklw9RuRIllsqtAutyBeed/U7aSHbzP/0jA2AXvBGRMENGlyJwVsdHHrmR2YyLzF7bQwVFoZHTJoiLNeJKwwXidSQQa09Iu0g0v7b6ZLPTl0menX8L+zMQK0jLkg7Je3qa3Hpx/l0gmiBRiP2jeU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778021808; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=nN1bsW6ym83D5h4xk8uw3mGGisLu7l3PYo92knzTzHs=; 
+	b=liEnIGygPffnEAQtPIfEJ9KniLjismmiR4BlGvljE/DMTG3rrAWkFJrys7lSlRqxGoPzG/itVdQyrVnWPVsCUxZe/cuKSqPLqvCCUj3p1xSnjIrdmCBmOzzIw+Li1PvTz/EtdSwSFn6Ew6SLoGN2wDgPtWiv2GUyPcwhC34oDZA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+	dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778021808;
+	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=nN1bsW6ym83D5h4xk8uw3mGGisLu7l3PYo92knzTzHs=;
+	b=TdFzC2WVuACGhfR1Td+zqRSNUVy1L/7MgfBuIW3cemd8j6q/F1aFES3DArc2E+zo
+	FsYBaxO6hIaFKw/BUf7S0bUHxtfDoP4KUNCaw/VfXV5KNARZmBp3bW0dUSh4NRISmqj
+	wcQj23tVTz7fzIyYktz/+yLzAYaHbJABNDUenuYQ=
+Received: by mx.zohomail.com with SMTPS id 1778021805371420.73637190632087;
+	Tue, 5 May 2026 15:56:45 -0700 (PDT)
+Date: Tue, 5 May 2026 15:56:44 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, acourbot@nvidia.com,
+	aliceryhl@google.com, david.m.ertman@intel.com, ira.weiny@intel.com,
+	leon@kernel.org, viresh.kumar@linaro.org, m.wilczynski@samsung.com,
+	ukleinek@kernel.org, bhelgaas@google.com, kwilczynski@kernel.org,
+	abdiel.janulgue@gmail.com, robin.murphy@arm.com,
+	markus.probst@posteo.de, ojeda@kernel.org, boqun@kernel.org,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+	a.hindborg@kernel.org, tmgross@umich.edu,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH REF 24/24] gpu: drm: tyr: use HRT lifetime for IoMem
+Message-ID: <afp1rLvvdh_mo_g7@um790>
+References: <20260427221155.2144848-1-dakr@kernel.org>
+ <20260427221155.2144848-25-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 05 May 2026 22:10:54 +0200
-Message-Id: <DIB0LLUFPZQN.1SM466VKCHKWX@kernel.org>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 1/3] rust: alloc: add Box::zeroed()
-Cc: "Alice Ryhl" <aliceryhl@google.com>, <gregkh@linuxfoundation.org>,
- <rafael@kernel.org>, <acourbot@nvidia.com>, <david.m.ertman@intel.com>,
- <ira.weiny@intel.com>, <leon@kernel.org>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>
-References: <20260505152400.3905096-1-dakr@kernel.org>
- <20260505152400.3905096-2-dakr@kernel.org> <afoRXrwKjZAJuMaQ@google.com>
- <DIB0GYCMV121.2VPS75GHH082B@kernel.org>
- <DIB0IGF35JE8.2EQQRLEKVWSBW@garyguo.net>
-In-Reply-To: <DIB0IGF35JE8.2EQQRLEKVWSBW@garyguo.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427221155.2144848-25-dakr@kernel.org>
 
-On Tue May 5, 2026 at 10:06 PM CEST, Gary Guo wrote:
-> On Tue May 5, 2026 at 9:04 PM BST, Danilo Krummrich wrote:
->> On Tue May 5, 2026 at 5:48 PM CEST, Alice Ryhl wrote:
->>> I suspect some of these imports can be removed when you add the prelude=
-.
->>
->> Yes, but I want to convert the imports separately, so keeping the change
->> minimal.
->
-> So far we've been asking people to convert import styles whenever imports=
- are
-> being touched. What's the reason for doing that in this specific case?
+On Tue, Apr 28, 2026 at 12:11:22AM +0200, Danilo Krummrich wrote:
+> Take advantage of the lifetime-parameterized IoMem<'a> to use the
+> memory mapping directly during probe, eliminating the Arc<Devres<IoMem>>
+> indirection.
+> 
+> Since the IoMem is only used during probe, this also simplifies
+> Register::read/write to be infallible -- the Devres access check is no
+> longer needed, so reads return u32 directly and writes return ().
 
-I will take this through the driver-core tree as a dependency; the import u=
-pdate
-for the alloc module will go through the alloc tree. A minimal change avoid=
-s
-unnecessary conflicts.
+Hi Danilo,
+Is the intended model that DRM drivers keep lifetime-bound resources such as
+IoMem<'bound> only in platform drvdata and access them via Device::drvdata_borrow()?
+
+Or is the expectation that drm::Driver should also have a lifetime-parameterized
+Data associated type?
+
+The reason I ask is that Tyr currently stores an MMIO handle in several areas,
+(firmware, MMU/address-space management, and IRQ handling)  and it does register
+accesses directly. See what we're trying to do:
+https://lore.kernel.org/rust-for-linux/20260424-b4-fw-boot-v4-v4-0-a5d91050789d@collabora.com/
+
+Moving IoMem<'bound> only into platform drvdata would require a big refactor
+to thread &IoMem<'_> through those paths or fetch it from drvdata at each hardware
+access site. So, I wanted to clarify the plan first before I start this work.
+
+Thanks,
+Deborah
+
+> 
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+> Not yet updated to Tyr using the register!() macro, but probably good enough for
+> reference.
+> ---
+>  drivers/gpu/drm/tyr/driver.rs | 14 ++++----
+>  drivers/gpu/drm/tyr/gpu.rs    | 62 +++++++++++++++++------------------
+>  drivers/gpu/drm/tyr/regs.rs   | 21 +++---------
+>  3 files changed, 41 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+> index eaa84efdfdf7..d305ad433e03 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -10,7 +10,6 @@
+>          Core,
+>          Device, //
+>      },
+> -    devres::Devres,
+>      drm,
+>      drm::ioctl,
+>      io::poll,
+> @@ -23,7 +22,6 @@
+>      sizes::SZ_2M,
+>      sync::{
+>          aref::ARef,
+> -        Arc,
+>          Mutex, //
+>      },
+>      time, //
+> @@ -37,7 +35,7 @@
+>      regs, //
+>  };
+>  
+> -pub(crate) type IoMem = kernel::io::mem::IoMem<'static, SZ_2M>;
+> +pub(crate) type IoMem = kernel::io::Mmio<SZ_2M>;
+>  
+>  pub(crate) struct TyrDrmDriver;
+>  
+> @@ -65,11 +63,11 @@ pub(crate) struct TyrDrmDeviceData {
+>      pub(crate) gpu_info: GpuInfo,
+>  }
+>  
+> -fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
+> -    regs::GPU_CMD.write(dev, iomem, regs::GPU_CMD_SOFT_RESET)?;
+> +fn issue_soft_reset(dev: &Device<Bound>, iomem: &IoMem) -> Result {
+> +    regs::GPU_CMD.write(iomem, regs::GPU_CMD_SOFT_RESET);
+>  
+>      poll::read_poll_timeout(
+> -        || regs::GPU_IRQ_RAWSTAT.read(dev, iomem),
+> +        || Ok(regs::GPU_IRQ_RAWSTAT.read(iomem)),
+>          |status| *status & regs::GPU_IRQ_RAWSTAT_RESET_COMPLETED != 0,
+>          time::Delta::from_millis(1),
+>          time::Delta::from_millis(100),
+> @@ -109,12 +107,12 @@ fn probe(
+>          let sram_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"sram")?;
+>  
+>          let request = pdev.io_request_by_index(0).ok_or(ENODEV)?;
+> -        let iomem = Arc::new(request.iomap_sized::<SZ_2M>()?.into_devres()?, GFP_KERNEL)?;
+> +        let iomem = request.iomap_sized::<SZ_2M>()?;
+>  
+>          issue_soft_reset(pdev.as_ref(), &iomem)?;
+>          gpu::l2_power_on(pdev.as_ref(), &iomem)?;
+>  
+> -        let gpu_info = GpuInfo::new(pdev.as_ref(), &iomem)?;
+> +        let gpu_info = GpuInfo::new(&iomem);
+>          gpu_info.log(pdev);
+>  
+>          let platform: ARef<platform::Device> = pdev.into();
+> diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
+> index a88775160f98..bb0473c85bf7 100644
+> --- a/drivers/gpu/drm/tyr/gpu.rs
+> +++ b/drivers/gpu/drm/tyr/gpu.rs
+> @@ -10,7 +10,6 @@
+>          Bound,
+>          Device, //
+>      },
+> -    devres::Devres,
+>      io::poll,
+>      platform,
+>      prelude::*,
+> @@ -35,37 +34,36 @@
+>  pub(crate) struct GpuInfo(pub(crate) uapi::drm_panthor_gpu_info);
+>  
+>  impl GpuInfo {
+> -    pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
+> -        let gpu_id = regs::GPU_ID.read(dev, iomem)?;
+> -        let csf_id = regs::GPU_CSF_ID.read(dev, iomem)?;
+> -        let gpu_rev = regs::GPU_REVID.read(dev, iomem)?;
+> -        let core_features = regs::GPU_CORE_FEATURES.read(dev, iomem)?;
+> -        let l2_features = regs::GPU_L2_FEATURES.read(dev, iomem)?;
+> -        let tiler_features = regs::GPU_TILER_FEATURES.read(dev, iomem)?;
+> -        let mem_features = regs::GPU_MEM_FEATURES.read(dev, iomem)?;
+> -        let mmu_features = regs::GPU_MMU_FEATURES.read(dev, iomem)?;
+> -        let thread_features = regs::GPU_THREAD_FEATURES.read(dev, iomem)?;
+> -        let max_threads = regs::GPU_THREAD_MAX_THREADS.read(dev, iomem)?;
+> -        let thread_max_workgroup_size = regs::GPU_THREAD_MAX_WORKGROUP_SIZE.read(dev, iomem)?;
+> -        let thread_max_barrier_size = regs::GPU_THREAD_MAX_BARRIER_SIZE.read(dev, iomem)?;
+> -        let coherency_features = regs::GPU_COHERENCY_FEATURES.read(dev, iomem)?;
+> -
+> -        let texture_features = regs::GPU_TEXTURE_FEATURES0.read(dev, iomem)?;
+> -
+> -        let as_present = regs::GPU_AS_PRESENT.read(dev, iomem)?;
+> -
+> -        let shader_present = u64::from(regs::GPU_SHADER_PRESENT_LO.read(dev, iomem)?);
+> +    pub(crate) fn new(iomem: &IoMem) -> Self {
+> +        let gpu_id = regs::GPU_ID.read(iomem);
+> +        let csf_id = regs::GPU_CSF_ID.read(iomem);
+> +        let gpu_rev = regs::GPU_REVID.read(iomem);
+> +        let core_features = regs::GPU_CORE_FEATURES.read(iomem);
+> +        let l2_features = regs::GPU_L2_FEATURES.read(iomem);
+> +        let tiler_features = regs::GPU_TILER_FEATURES.read(iomem);
+> +        let mem_features = regs::GPU_MEM_FEATURES.read(iomem);
+> +        let mmu_features = regs::GPU_MMU_FEATURES.read(iomem);
+> +        let thread_features = regs::GPU_THREAD_FEATURES.read(iomem);
+> +        let max_threads = regs::GPU_THREAD_MAX_THREADS.read(iomem);
+> +        let thread_max_workgroup_size = regs::GPU_THREAD_MAX_WORKGROUP_SIZE.read(iomem);
+> +        let thread_max_barrier_size = regs::GPU_THREAD_MAX_BARRIER_SIZE.read(iomem);
+> +        let coherency_features = regs::GPU_COHERENCY_FEATURES.read(iomem);
+> +
+> +        let texture_features = regs::GPU_TEXTURE_FEATURES0.read(iomem);
+> +
+> +        let as_present = regs::GPU_AS_PRESENT.read(iomem);
+> +
+> +        let shader_present = u64::from(regs::GPU_SHADER_PRESENT_LO.read(iomem));
+>          let shader_present =
+> -            shader_present | u64::from(regs::GPU_SHADER_PRESENT_HI.read(dev, iomem)?) << 32;
+> +            shader_present | u64::from(regs::GPU_SHADER_PRESENT_HI.read(iomem)) << 32;
+>  
+> -        let tiler_present = u64::from(regs::GPU_TILER_PRESENT_LO.read(dev, iomem)?);
+> -        let tiler_present =
+> -            tiler_present | u64::from(regs::GPU_TILER_PRESENT_HI.read(dev, iomem)?) << 32;
+> +        let tiler_present = u64::from(regs::GPU_TILER_PRESENT_LO.read(iomem));
+> +        let tiler_present = tiler_present | u64::from(regs::GPU_TILER_PRESENT_HI.read(iomem)) << 32;
+>  
+> -        let l2_present = u64::from(regs::GPU_L2_PRESENT_LO.read(dev, iomem)?);
+> -        let l2_present = l2_present | u64::from(regs::GPU_L2_PRESENT_HI.read(dev, iomem)?) << 32;
+> +        let l2_present = u64::from(regs::GPU_L2_PRESENT_LO.read(iomem));
+> +        let l2_present = l2_present | u64::from(regs::GPU_L2_PRESENT_HI.read(iomem)) << 32;
+>  
+> -        Ok(Self(uapi::drm_panthor_gpu_info {
+> +        Self(uapi::drm_panthor_gpu_info {
+>              gpu_id,
+>              gpu_rev,
+>              csf_id,
+> @@ -88,7 +86,7 @@ pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
+>              core_features,
+>              pad: 0,
+>              gpu_features: 0,
+> -        }))
+> +        })
+>      }
+>  
+>      pub(crate) fn log(&self, pdev: &platform::Device) {
+> @@ -208,11 +206,11 @@ fn from(value: u32) -> Self {
+>  }
+>  
+>  /// Powers on the l2 block.
+> -pub(crate) fn l2_power_on(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
+> -    regs::L2_PWRON_LO.write(dev, iomem, 1)?;
+> +pub(crate) fn l2_power_on(dev: &Device<Bound>, iomem: &IoMem) -> Result {
+> +    regs::L2_PWRON_LO.write(iomem, 1);
+>  
+>      poll::read_poll_timeout(
+> -        || regs::L2_READY_LO.read(dev, iomem),
+> +        || Ok(regs::L2_READY_LO.read(iomem)),
+>          |status| *status == 1,
+>          Delta::from_millis(1),
+>          Delta::from_millis(100),
+> diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
+> index 611870c2e6af..0881b3812afd 100644
+> --- a/drivers/gpu/drm/tyr/regs.rs
+> +++ b/drivers/gpu/drm/tyr/regs.rs
+> @@ -7,16 +7,7 @@
+>  // does.
+>  #![allow(dead_code)]
+>  
+> -use kernel::{
+> -    bits::bit_u32,
+> -    device::{
+> -        Bound,
+> -        Device, //
+> -    },
+> -    devres::Devres,
+> -    io::Io,
+> -    prelude::*, //
+> -};
+> +use kernel::{bits::bit_u32, io::Io};
+>  
+>  use crate::driver::IoMem;
+>  
+> @@ -29,15 +20,13 @@
+>  
+>  impl<const OFFSET: usize> Register<OFFSET> {
+>      #[inline]
+> -    pub(crate) fn read(&self, dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<u32> {
+> -        let value = (*iomem).access(dev)?.read32(OFFSET);
+> -        Ok(value)
+> +    pub(crate) fn read(&self, iomem: &IoMem) -> u32 {
+> +        iomem.read32(OFFSET)
+>      }
+>  
+>      #[inline]
+> -    pub(crate) fn write(&self, dev: &Device<Bound>, iomem: &Devres<IoMem>, value: u32) -> Result {
+> -        (*iomem).access(dev)?.write32(value, OFFSET);
+> -        Ok(())
+> +    pub(crate) fn write(&self, iomem: &IoMem, value: u32) {
+> +        iomem.write32(value, OFFSET);
+>      }
+>  }
+>  
+> -- 
+> 2.54.0
+> 
