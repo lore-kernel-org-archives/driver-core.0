@@ -1,159 +1,161 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CDE3BE642
-	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 09:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777972367; cv=none; b=TIrNSa+SqIXX7MOebPrpPUSPMthqB9jUEMGAhxGR0eDexQolxiUQcVLdaZvdDTsmQHubFWf37xMWGJ8FAe5Sxj557Dwy1LJerX+itmmlbypXWuTQlhJd1Xw7aDR62awGEQqgPpGvJ/FzEkJJ2VBxkD1WBickDkw4vkq73GVH6VA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777972367; c=relaxed/simple;
-	bh=ES7r8hh3t5MoXyYNPDh7ECZ6Siwy/fIWOIkEuMhHPCE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IyHP3OKOz/FoJIVZGUXUmCQGWUgNSQQTUPSb3lKYRhPAjOGY6PSWjiPbclksqZnmy5y3IDXQMahyeT0bWBt14dUpwdUaCQjivin9BVIeNhjJQKCOgslcVE6Okcg/Ptp2fwG/wcQuYD3+uF9LHUTg4aFigeV+zdM9V5qQobdAAXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIFEiGIG; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21899324B2C
+	for <driver-core@lists.linux.dev>; Tue,  5 May 2026 11:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777979607; cv=pass; b=DbZnssYeWUW/RobxQrtz8kXcfPmo7M8JC2scKcu6U1N4eHiiU7U2N0bCJgURFnx/eeNIuFiF0AjMw+NQMjqtFf6OJZsEehFtrtgNL6GWy8H2zbKC3xhpQ48SuVuUuZnbhhJNiYD5SmqIxPVx2FM7tFhJo/Prpre5hN49flgTYJI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777979607; c=relaxed/simple;
+	bh=Os9gwDsHZQMlqqIBFGdN3USXXITiLKFrWc3TuCSD3Fk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=REi0Agsf0Vk3HPoCP/VMV+/yQW9BoZ4CXc+4tmRertp6eah24Jy2c3DOyIGsXm6JKfDMvPkb0H9/7AmKJeTr06HttXQWd6c7ukEqKaw7KpDIiHZRP42eaY2X35Sq4TvcV4qpfDQwqITbQZA6A7AbSmsbcaNnf4Fcc1ME6wFryBA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IbtrjZJb; arc=pass smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIFEiGIG"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-364d72f2986so3458797a91.3
-        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 02:12:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IbtrjZJb"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a858881ad2so5204116e87.3
+        for <driver-core@lists.linux.dev>; Tue, 05 May 2026 04:13:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777979602; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iPQ6vqP4Mb/JRAKKWwmLS3l5drE6c9MjlziYieWUWZqGD5ZU/c8PQY0iq62b5NZQMR
+         ddvMrgEcdNrJG98loS3fY4G/iQl0ns0ZJoUu4sZGsfkqNsyKe6KZAxoLyR6/RBfF0IQ7
+         Ur8eNFHY5Heu+7t8rGejjhbMmC7DR0dAXG0VCIoqvEIB0FG+PHWmlsorJjnLhFdUfY96
+         OiFah+4M55oSTkg/f4umvC2cc3xRwXe+RUB7ULLQgKBFxtrcXxOrSlvkIoCYwghO0UZ+
+         qVATxiGCq02cKutzvdJ2QQpwlGbcEDO9eztNJI7qR1cspHf7iTUgopxTXnkPWxwUbppf
+         uDow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=vHtD1aX9zPxNRjWtqJ4oSWNxhaYMbBh5QHVWQYJquis=;
+        fh=yEO/fZRg/THVyhhbxuh19+4CHyJAcqgAwk44dYJkZ04=;
+        b=AOYGr5CtsciyVCXBcwSseWu4DBIqlEaTNQdjPnmnyUfV9wvnVukhIOiG+sZ39KD5sU
+         aje9Ow1Vf3rCHau1LTOfp6fE3tGrAabHwUfGnGkKV4omc8mljZFBLAeSQZoXPEPbwg/E
+         BGOK9JFwsqTyOr6MIGdaAbWWR0rfv4R2xni3fR+JinUsXt93Ch5Lp9R1vGdHRI1zrPCq
+         5VKypJm89UNFzdVKAdH5MAVUe2mfdXfH9SqP8j5D4XH2q9rzb/BybYwXSJQZXiiFpxUr
+         HtOiyLFbUFaM5dtudi3qWdNEzBUAqtZxgun3mv2JWb2Y+hjcglxSSBSHwXCveTjSGfH2
+         IrQQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777972365; x=1778577165; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pT76M5XvZ7WL+LrVhY8ppYSbulf6Va7vbJcXm5Lk6Nk=;
-        b=EIFEiGIGayD5U8ewznlG5jpB0dL8B0HrKi4TivHxikDTW8VOcFNdhvvdOY55FtzG7T
-         KzRrEXGdIhrfOogAUtvbRhEwfySx+6qVFGNY0ekrW3kHtaSDBcGKpmrrWJB/+FrtUazD
-         Rh7peWACobqpvEQzd9SbXiwG64sdv1NijC60E3SPG6qgqHa2b2pntuirzNMKlkfd9zg6
-         tmyEPtCUjEiAB5eFv1w8wJNWlYsI8CI3pVLoR2AnKjcR7pD3Kket/iEoxv2xYlS//kmB
-         vtijsL/TMbcGIPEMIYt3ahlIbuNjsgd609VYPRnoyuA4K92+9zDbGxe16UfkmdAJ1paq
-         e0Dg==
+        d=linaro.org; s=google; t=1777979602; x=1778584402; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vHtD1aX9zPxNRjWtqJ4oSWNxhaYMbBh5QHVWQYJquis=;
+        b=IbtrjZJbYM88XVdji2wHYGOHT5/FbI+K5dl/51tVZN2QBtNRKhx0dUBq/dqyjJeujW
+         T8zZQAdE9HoFOjpChK72/S+ZmRnW593zXRb6a89x7PXzQDaDoOiDCuAy48XuxQ4UtTGQ
+         kYsddD1bvYdm+2RfxppNlkUIV8Tmpe+uZzXpDvpFUp3POfiVAvD4k7lCFsGfNuyWOnfa
+         Xa7G1RaN6YlV2VVEPEgbeT0nddfnd+wQc5Ir8nvcyTcnxHJwc+WyXkyzOCdXL03Rtthk
+         MoLne6/AOLXXJBOJXs9ZI3a9jv+1Gb2XQRibjmyAlXB+l1WIpCzYZyHC+LClHeEleSTB
+         VaNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777972365; x=1778577165;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777979602; x=1778584402;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pT76M5XvZ7WL+LrVhY8ppYSbulf6Va7vbJcXm5Lk6Nk=;
-        b=Fm/JjQLVg/iX8b6OSXUB1P5ye3hC1YhH8nW4+3zTRTn+ls/YrW0Qeds/yb5NTU2r5s
-         ciPUVKIt2YABngM9HUztuKDDChkY4tSGPNy9qxPAkG5FnD6J44oUH+WpNUwsr9RrluMr
-         QuHUugIBJlkam6SKMUY90APVLsxtW+yobgidzR2D6EbiMsKRZF4SIzMOTbGjln2hhjPX
-         r1jUmMMWI5R0UC1IRSoDzPxqDU1CpbeQPgEbn2eQq38Eub7AI5/kT4NKIfIWhhCLwbyS
-         Lpyhq1bSbwLP2R6J9RGjFQr5BSf/J5t65S5YBi2j3MpovmE1dbWRV7dU3qlkGVoEttyz
-         fcQA==
-X-Forwarded-Encrypted: i=1; AFNElJ+ZQCSSGmThhvcwrGqSIo5xupmvo8rRo3fj6VTvu/DcNoSmBi5OvmWnRzGhhX6ms+4EmHDmkBDtE+2b4A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywg3vVcmUHwKXVcCAAWkMpH8KJdCOHXwrXUrginh0Nf6xIAQtlP
-	EsQsVOWpY61WdWt7xBtI6Vb3OXxUf3w6xHnfyMHVaDp2VEwO17R/vqLQ
-X-Gm-Gg: AeBDietqb/z2yr77lFqnS2KbjEr5lFH8rvl4Zf8j/1Nki/2zwZncDNb5KjKXoigRXxb
-	X+7CiPjtz1oLtw53FXVYwM1iGOxN82kMHUFba7kMRyMH1Krk9YMiBsTzrMe7t41hys2+zpE/z1z
-	zTIxDnDZvCGxEjvoLlHXDwE9yuvZSEzCCAoxQfK2bs64DhotmRqrBs3qzWKPk3HLpKB4pE9OIHd
-	xhhF/h1XDCBdWX7Dj498VGAaX0opIMg0UdyVCtxb5WgJ7NZl3bUqRHcIJk6qbaJH/xoQtjj7RQt
-	hq+F35HyQS9azfr/zCnYJ8D8hCMTvIyMkD5dgXnET6Y7pAkd4PQIeZoDnG3lmw8NEtRem+ja52w
-	ySGoMAvQ5jqCgY4zXkPNU8bjtt/DQHk8MvQGWjhshIH5k3+7merFdU2QXX0LEaKruJh6qC1ikO4
-	Dk45/fxr7kyp1kP5BlRhCov8iRAdbklaQhkXtKJ4U0Hw==
-X-Received: by 2002:a17:90b:3901:b0:361:45df:102 with SMTP id 98e67ed59e1d1-3650ce714a8mr12247878a91.17.1777972364997;
-        Tue, 05 May 2026 02:12:44 -0700 (PDT)
-Received: from lgs.. ([223.80.110.53])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364bdf2ac19sm21648683a91.3.2026.05.05.02.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 02:12:44 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Tianfei zhang <tianfei.zhang@intel.com>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Guangshuo Li <lgs201920130244@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3] firmware_loader: fix device reference leak in firmware_upload_register()
-Date: Tue,  5 May 2026 17:12:31 +0800
-Message-ID: <20260505091231.607089-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=vHtD1aX9zPxNRjWtqJ4oSWNxhaYMbBh5QHVWQYJquis=;
+        b=QWdtnxr3DQ23Dpay2Z7PwDqNGIBSbRe9NuDNOXdtNrkeRD/x4bz+RLB9yzTPKXSVtx
+         o6Gj7ZUvPPsyNajeZ7h2eC+txXoo3AyihoWlvE1JfVAAhLbeNrA6V5flVwwwCwSAvmqc
+         vojzQjxDikmgVJuwl7mN7DI8P6ClrceNu2TvF7LwCpV+HFuRjDPEtC73b73Ux6BL3FaC
+         YZs34IzsLn+k1q7dFzH646oZEG23J4CjEc4DtKyrbiVRMZWqYDwK78Zyth9rUR9Nd7Tx
+         ftlcqVaKpGLDb83+vgBqa0a1s4YuGG1ZV6sIDyLcwmpYyVuG984cv8PnfUeZGryaxSoa
+         a9Ig==
+X-Forwarded-Encrypted: i=1; AFNElJ+FEOZuxETJTrogN0LS9mIJV40iadGKxtwXaLsqa4yzlFqrNHoZrx9RGwgktrwBLdyPIYQzzj+MHQCtTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy82YArRvoX+CxCfOSEA53BsalF11ElE9MkhLQppAD3MdHzWYip
+	IuzUIEsfVct8jnh/4+mNbgXa2RtIkXo0UMR2O/BCEa8TUDB/7owH9NIRL/gKHZCcvgyECUBwnAc
+	/8F2o6QEpfZm8hO98S1RpuEpxWfbURfspyK0SdFHu1w==
+X-Gm-Gg: AeBDiet7tBdo8H2cffZk/fMdu1ALszZdGzkGtLuvCaaGUvRPqbhw6Lz09fgLxekO8Yf
+	pmVGXd7I4fRpNZ31KuP2oAfsbNaIpqseTNqV3pqt2T+KdGfRFPczXtJrhPYSODam5CETErQCL4K
+	/JljrKe+oE7c42pmhmvKpUm59mGCwTw2D+voAI08f5EwIFI3eOmleTKUh3jevF9Ht16ohTDXsWn
+	YI7SmNOn5xYpnF/6DJzUP/UTWCS9U828RcGJnNCBDrzMJl3zAHvoioA1iYV+ar+J8wrn8oJmzKc
+	wGKisHdyHU3UChVNhHE=
+X-Received: by 2002:a05:6512:1255:b0:5a8:6b81:6694 with SMTP id
+ 2adb3069b0e04-5a86b8167c7mr5154556e87.30.1777979602140; Tue, 05 May 2026
+ 04:13:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260410104058.83748-1-ulf.hansson@linaro.org>
+ <20260410104058.83748-2-ulf.hansson@linaro.org> <DHW8QPU1VU1F.3P6PH69HLFBYC@kernel.org>
+ <CAPDyKFqMDPiqvqJrq5Qs6Tw4Sc7szG4G-=y0NFkNSPoNd9kdVA@mail.gmail.com> <DHZMQLCIRJIS.174HZR6DIAOMM@kernel.org>
+In-Reply-To: <DHZMQLCIRJIS.174HZR6DIAOMM@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 5 May 2026 13:12:45 +0200
+X-Gm-Features: AVHnY4LlCgMgAkU1pCqSb5NGsrhZtKGgNNx2kcRO5ejJAWo_ZbIw6N5C10vsCeg
+Message-ID: <CAPDyKFoKNpUexGrM0zcysKMKcdYT-cU0_Q_AHbgiGPk_gU-3nA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] driver core: Enable suppliers to implement fine
+ grained sync_state support
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Saravana Kannan <saravanak@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-pm@vger.kernel.org, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Abel Vesa <abel.vesa@oss.qualcomm.com>, Peng Fan <peng.fan@oss.nxp.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Maulik Shah <maulik.shah@oss.qualcomm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-firmware_upload_register()
-  -> fw_create_instance()
-     -> device_initialize()
+On Wed, 22 Apr 2026 at 12:59, Danilo Krummrich <dakr@kernel.org> wrote:
+>
+> On Wed Apr 22, 2026 at 12:07 PM CEST, Ulf Hansson wrote:
+> > On Sat, 18 Apr 2026 at 13:23, Danilo Krummrich <dakr@kernel.org> wrote:
+> >> On Fri Apr 10, 2026 at 12:40 PM CEST, Ulf Hansson wrote:
+> >> > @@ -1126,6 +1128,9 @@ static void __device_links_queue_sync_state(struct device *dev,
+> >> >       if (dev->state_synced)
+> >> >               return;
+> >> >
+> >> > +     if (dev->driver && dev->driver->queue_sync_state)
+> >> > +             dev->driver->queue_sync_state(dev);
+> >>
+> >> This seems to be called without the device lock being held, which seems to allow
+> >> the queue_sync_state() callback to execute concurrently with remove(). This
+> >> opens the door for all kinds of UAF conditions in drivers.
+> >
+> > If that were the case, this whole function would be unsafe even before
+> > this change. I assume this isn't because of how the function is being
+> > called, but I may be wrong.
+>
+> This function does not issue any driver callbacks intentionally; the existing
+> sync_state() callback is deferred to device_links_flush_sync_list(), which is
+> called without the device_links_write_lock() held, but takes the device_lock()
+> to protect against other concurrent driver callbacks, such as remove().
+>
+> I.e. we can't take the device_lock() when the device_links_write_lock() is held,
+> as it would be prone to lock inversion.
 
-After fw_create_instance() succeeds, the lifetime of the embedded struct
-device is expected to be managed through the device core reference
-counting, since fw_create_instance() has already called
-device_initialize().
+You are right, the device_lock() is needed in
+device_links_flush_sync_list() to protect against concurrent driver
+callbacks from being invoked, such as the ->remove().
 
-In firmware_upload_register(), if alloc_lookup_fw_priv() fails after
-fw_create_instance() succeeds, the code reaches free_fw_sysfs and frees
-fw_sysfs directly instead of releasing the device reference with
-put_device(). This may leave the reference count of the embedded struct
-device unbalanced, resulting in a refcount leak.
+However, as part of the removal procedure in
+__device_release_driver(), we also need to account for device links.
+Hence we call device_links_busy() which takes the
+device_links_write_lock().
 
-The issue was identified by a static analysis tool I developed and
-confirmed by manual review. Fix this by using put_device(fw_dev) in the
-failure path and letting fw_dev_release() handle the final cleanup,
-instead of freeing the instance directly from the error path.
+>
+> The documentation of __device_links_queue_sync_state() actually slightly hints
+> at this, but focuses more on the other reason for the deferred semantics -- the
+> sync_state() callback may want to call device link APIs.
+>
+> > Anyway, let me add a get/put_device() here somewhere, to ensure we
+> > prevent this from happening. I assume that is what you are proposing?
+>
+> No, an additional device reference count won't protect against other concurrent
+> driver callbacks, such as remove().
 
-Fixes: 97730bbb242c ("firmware_loader: Add firmware-upload support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
-v3:
-  - Move fw_sysfs->fw_upload_priv assignment after fw_sysfs->fw_priv is
-    initialized, so the alloc_lookup_fw_priv() failure path does not enter
-    fw_upload_free() with an uninitialized fw_sysfs->fw_priv.
-  - On alloc_lookup_fw_priv() failure, call put_device(fw_dev) and then
-    free fw_upload_priv and fw_upload explicitly.
+Because _device_links_queue_sync_state() is always called while
+holding the device_links_write_lock(), it I believe it should be
+perfectly safe to invoke the driver callbacks from there.
 
-v2:
-  - Remove the free_fw_sysfs label.
-  - Call put_device(fw_dev) directly in the alloc_lookup_fw_priv() failure
-    path and jump to exit_module_put.
-
- drivers/base/firmware_loader/sysfs_upload.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/base/firmware_loader/sysfs_upload.c b/drivers/base/firmware_loader/sysfs_upload.c
-index f59a7856934c..efc33294212f 100644
---- a/drivers/base/firmware_loader/sysfs_upload.c
-+++ b/drivers/base/firmware_loader/sysfs_upload.c
-@@ -343,7 +343,6 @@ firmware_upload_register(struct module *module, struct device *parent,
- 		goto free_fw_upload_priv;
- 	}
- 	fw_upload->priv = fw_sysfs;
--	fw_sysfs->fw_upload_priv = fw_upload_priv;
- 	fw_dev = &fw_sysfs->dev;
- 
- 	ret = alloc_lookup_fw_priv(name, &fw_cache, &fw_priv,  NULL, 0, 0,
-@@ -351,10 +350,12 @@ firmware_upload_register(struct module *module, struct device *parent,
- 	if (ret != 0) {
- 		if (ret > 0)
- 			ret = -EINVAL;
--		goto free_fw_sysfs;
-+		put_device(fw_dev);
-+		goto free_fw_upload_priv;
- 	}
- 	fw_priv->is_paged_buf = true;
- 	fw_sysfs->fw_priv = fw_priv;
-+	fw_sysfs->fw_upload_priv = fw_upload_priv;
- 
- 	ret = device_add(fw_dev);
- 	if (ret) {
-@@ -365,9 +366,6 @@ firmware_upload_register(struct module *module, struct device *parent,
- 
- 	return fw_upload;
- 
--free_fw_sysfs:
--	kfree(fw_sysfs);
--
- free_fw_upload_priv:
- 	kfree(fw_upload_priv);
- 
--- 
-2.43.0
-
+Kind regards
+Uffe
