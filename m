@@ -1,109 +1,99 @@
-Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774533E7171
-	for <driver-core@lists.linux.dev>; Wed,  6 May 2026 18:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0229F3161AD
+	for <driver-core@lists.linux.dev>; Wed,  6 May 2026 19:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778093888; cv=none; b=TqyNW9dm1lpcCJfdb22v5ru/axs8/JSU0nALeQj3HZ8h7Vgf2afvvabH33/TGfS96TQAY5tACaaKEYEcLE/OZaKaRA0fPBfh/CEcWlrX0ZdrY26Yl0/J678dT8SeWQEQ7dnkMWKU83LxAsXuainILVtsHhOqs8DCDAmp42iAPcM=
+	t=1778095575; cv=none; b=YTlIDblhBAgs9qgo6606jJFuFvF+wpS4RCRfXO5hCicZIq2Psd3n7ZcA1Rq2EdK2k25Fq3N/5bmgRDFEGcvA38ntKo+RYbJLa99lwmjfYAKnQpWQAiFz8dSk1OLtZNBBbIiainLTbVRFRXZ3klnlW3nUYS5iVAEao5R53Wxglco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778093888; c=relaxed/simple;
-	bh=Jh8dRSsZA+SwPzKtNF0Q3FCiISzC/DzVkcO8uvkFP80=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qo2G9IhH0jvTtTAesjr5Gmbss0D9tLgHhSKPSiGSy2nWWPJGBFxx9prFEoY8CDTQLvh+F3omcAf8XOWKfG27RY8IfB6gllABLU2uwhMWr6ZZ8DLWPwqTFY6SCBdLmNFOQ/maci+dkbYaeEwpDERSFjSGK+UiSwUMHEHsNeEx4Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=FOryj9Kv; arc=none smtp.client-ip=79.135.106.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onurozkan.dev
+	s=arc-20240116; t=1778095575; c=relaxed/simple;
+	bh=SHjwx8WAVtwlWVCkuLYCj4e2j7SsWE8uM4rrhcuQlZ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uhB1aLpTLLkflzPsbgShVS5wEe3RXbaaW1gfYrenPGkah42DgpMglbVAHrgV08lNZ97sjn5kNjsrJ22M8cbjehWH+p0o9MpZmTckllv6HFPN7yhnAZsRV89wg5srznaZ7NQpoedWyxdGPJGrAtMit6n4M7nP6m8aqK5jWM6aw4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BXrpt+uF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="FOryj9Kv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=protonmail; t=1778093877; x=1778353077;
-	bh=j2jb6pDWytCnzPIoxX5bidCRS1zNhWu4x26eJoWFxK4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=FOryj9KvWYeojcv/0kDCxfcx11fE9EZxZ9qMAQDc+gEu4yB6jOhaT1voDvEsCaorL
-	 W9JmBwuTPNWNvlghgdmn241eBlq9rQcSmjEpQkiZNTxzHMuIWGqGqikAP0UfFQyCg3
-	 wFrVtER86AcMriYLI4skB0qXSvyrFRFPYqgNrdsshLhc6y5Ssj1syguW+nbRA0e+Up
-	 X/UdNU2LHAAR3hFQkPHqB/mekhwA+tcXk3Z36Ef0jkAZst6wz7gWBH4ho6SwDZINQq
-	 kMckebl6o5ZvGU36MhhVnvLYF1s/lgHXFPlfLkzcWk89USyZK3tFVf4hpWEJIKyJBk
-	 6oi1ws6gV/Xzw==
-X-Pm-Submission-Id: 4g9l4y65WGz1DF7J
-From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-To: Melih Emik <melihemik@noirlang.tr>
-Cc: Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rust: dma: drop placeholder TODO comment
-Date: Wed,  6 May 2026 21:57:35 +0300
-Message-ID: <20260506185753.8786-1-work@onurozkan.dev>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260506174637.22687-1-melihemik@noirlang.tr>
-References: <20260506174637.22687-1-melihemik@noirlang.tr>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BXrpt+uF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952CDC2BCF6
+	for <driver-core@lists.linux.dev>; Wed,  6 May 2026 19:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778095574;
+	bh=SHjwx8WAVtwlWVCkuLYCj4e2j7SsWE8uM4rrhcuQlZ0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=BXrpt+uFj10aSYQHL8oQZHM2AqEsM0UKWSDgWWwYsKqxp2ilIUWNZjFo0jFBelIAj
+	 fnhToU0a9U35cDet+0LuUH5z5V3sYbG2kg7GhjeyQyiAN/Z4bVikdHzO3TOtzkfT7v
+	 10F1xiE3jNSZt4OYJA5QzYYhiBn3e766EIm6crYRWbdQAcH+jyd1q4nAt/Tqvl67+7
+	 wMNyXOeKy7Iqo+b6UbsKtZ3af3oYuhJmi3oYRONBc1IzYSzcMQ54YfKDreEYIQ7D8c
+	 LYrwTxWNc//2eOwQFnMaRkjEzDL1gy//n4k/6fk3Lknytr6rsZGl/doW1+aMH4GMO1
+	 JtFoVIjXT01gQ==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so10113904e87.0
+        for <driver-core@lists.linux.dev>; Wed, 06 May 2026 12:26:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8Fb1McRKofW9cnYjOD3VcmW2AK42+vcvvbHc+sEqNRZt+YyYwNBaDS1WxlBVSVfjjkRkMX2MkYYjSGxA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3ks2LI/i0bHINHoaRUzM3gIHyhOVVUN0Qsma820Lc0jcGSv65
+	j+vNxJ2ZJGgmsBtIiLi/oZbRwYnbxicwWce/fQwqeVU16uRs0wCOMKwG8TIXCybV9Ig3ffqbDKN
+	UlAB8FSxGuqmVRIKDV52Gbg4M44xvqoY=
+X-Received: by 2002:a05:6512:4008:b0:5a2:bb8e:d4f4 with SMTP id
+ 2adb3069b0e04-5a887ae1897mr1782471e87.15.1778095572920; Wed, 06 May 2026
+ 12:26:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260506115701.23035-1-bartosz.golaszewski@oss.qualcomm.com>
+In-Reply-To: <20260506115701.23035-1-bartosz.golaszewski@oss.qualcomm.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 6 May 2026 21:26:00 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0h_mOTJh24nY2nMetb6+V9YX2k7pm9c4KQL0UnkNWfCBw@mail.gmail.com>
+X-Gm-Features: AVHnY4KNiOZb3EUI-ZUonk7tswg3J53sY87FS-DrxRZKslELyo8d53tW5I3y3GE
+Message-ID: <CAJZ5v0h_mOTJh24nY2nMetb6+V9YX2k7pm9c4KQL0UnkNWfCBw@mail.gmail.com>
+Subject: Re: [PATCH] device property: set fwnode->secondary to NULL in fwnode_init()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, driver-core@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, brgl@kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 06 May 2026 20:46:37 +0300=0D
-Melih Emik <melihemik@noirlang.tr> wrote:=0D
-=0D
-> The comment above Coherent already describes the outstanding design=0D
-> =0D
-> considerations around device resource lifetime.=0D
-> =0D
-> Drop the standalone placeholder TODO marker and keep the explanatory=0D
-> =0D
-> text, including a minor wording fix.=0D
-=0D
-This formatting is a bit off. Please consider tightening the paragraph and =
-drop=0D
-the unnecessary empty lines.=0D
-=0D
--Onur=0D
-=0D
-> =0D
-> No functional change intended.=0D
-> =0D
-> Signed-off-by: Melih Emik <melihemik@noirlang.tr>=0D
-> ---=0D
->  rust/kernel/dma.rs | 4 +---=0D
->  1 file changed, 1 insertion(+), 3 deletions(-)=0D
-> =0D
-> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs=0D
-> index 4995ee5dc689..60c458adba0c 100644=0D
-> --- a/rust/kernel/dma.rs=0D
-> +++ b/rust/kernel/dma.rs=0D
-> @@ -580,9 +580,7 @@ fn from(value: CoherentBox<T>) -> Self {=0D
->  ///   to an allocated region of coherent memory and `dma_handle` is the =
-DMA address base of the=0D
->  ///   region.=0D
->  /// - The size in bytes of the allocation is equal to size information v=
-ia pointer.=0D
-> -// TODO=0D
-> -//=0D
-> -// DMA allocations potentially carry device resources (e.g.IOMMU mapping=
-s), hence for soundness=0D
-> +// DMA allocations potentially carry device resources (e.g. IOMMU mappin=
-gs), hence for soundness=0D
->  // reasons DMA allocation would need to be embedded in a `Devres` contai=
-ner, in order to ensure=0D
->  // that device resources can never survive device unbind.=0D
->  //=0D
-> -- =0D
-> 2.54.0=0D
-> =0D
+On Wed, May 6, 2026 at 1:57=E2=80=AFPM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+>
+> If a firmware node is allocated on the stack (for instance: temporary
+> software node whose life-time we control) or on the heap - but using a
+> non-zeroing allocation function - and initialized using fwnode_init(),
+> its secondary pointer will contain uninitalized memory which likely will
+> be neither NULL nor IS_ERR() and so may end up being dereferenced (for
+> example: in dev_to_swnode()). Set fwnode->secondary to NULL on
+> initialization.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 01bb86b380a3 ("driver core: Add fwnode_init()")
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
+Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+
+> ---
+>  include/linux/fwnode.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/include/linux/fwnode.h b/include/linux/fwnode.h
+> index 80b38fbf2121..31df7608737e 100644
+> --- a/include/linux/fwnode.h
+> +++ b/include/linux/fwnode.h
+> @@ -208,6 +208,7 @@ struct fwnode_operations {
+>  static inline void fwnode_init(struct fwnode_handle *fwnode,
+>                                const struct fwnode_operations *ops)
+>  {
+> +       fwnode->secondary =3D NULL;
+>         fwnode->ops =3D ops;
+>         INIT_LIST_HEAD(&fwnode->consumers);
+>         INIT_LIST_HEAD(&fwnode->suppliers);
+> --
+> 2.47.3
+>
+>
