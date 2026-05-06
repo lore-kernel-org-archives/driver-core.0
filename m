@@ -1,102 +1,98 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21AE44D033
-	for <driver-core@lists.linux.dev>; Wed,  6 May 2026 12:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D5F23D7FF
+	for <driver-core@lists.linux.dev>; Wed,  6 May 2026 13:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778071353; cv=none; b=SUBdVsJbljSivso+B6vfPAUzwv5SMyrJznCgMm3qOzUOdeMdfMRo6Kv8dP3eK+A0nbYc3nk+1rBmZoCJUHY+iXDL+8pSKuCgEXnloRuG3EmwOV05nMxfl+Y0KsGvLKCdNdArQnZe7851TR6p+GwLdg43pKxvd5RBGDq6VgjkLnc=
+	t=1778073062; cv=none; b=hWJCfS1FVQ6OZTtR83GHit+hgjreRJHh5oliGiKkYZx5+b9ojalUnIYe285NrheOQJcgcnSG1jfo+RmrUMSv1bMtOrM5y6LiDCtpe+NZhLNR0wVNkNmChx1EkD4R8IKabrlHVRbOB+pp5N5Gg3LRdWWVtMEuqAvwWMR1Qgq5h9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778071353; c=relaxed/simple;
-	bh=FWXRoarZwbuPU0CvSG62/+ZjpGP5KpwDFvefCjFI/Sw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=mWt1LXxg5pjpablNwX1LqPw2nxbqqzsTCgNjZ2K7e3I/Qm8R1FfBXvDlYIij27CwbbZ1vHjI6HkLbqGDUE2d8brZRwfWLlEWaEZ4ZgUfM9c55q11Up2SyVfVoU+1uYPhifuHrCON3xWkxEx6DQz9JsDN2GjLlbx8HKh0q+0HcMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fWk6xWga; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1778073062; c=relaxed/simple;
+	bh=24YuqCcsqTq/GIGHlCulkgKOcT0NLKKug6WMtvtUi70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ifBSRRYoeDt7wmiZXcyjiN2EXW8dOjtkxV0Zw/t/DZeFTQ35sU641siXrLgdNmQLQGHGpKREYRWZhsNdl5Y3rqD/FjFvs3MYcSwKuqjjpytwBSwFlkSZXf75bbw5hZAFaja+qDCcf5TPh5G7CYDdxq/e2Mn/SLrBdMsCn/7PTRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzb1S1gj; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fWk6xWga"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-48a5952c635so69483335e9.2
-        for <driver-core@lists.linux.dev>; Wed, 06 May 2026 05:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778071349; x=1778676149; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GgVBoDfFSnA8IrE1su9Kgw5EWmAPu4xV1AP/RXJBkOw=;
-        b=fWk6xWgapugekAD1nC5jryjAja5LyD1KplHPDYXnmZ+8TP+NV3NUuoTSn7nRXpKzfo
-         Q8a5D49KczVBQz+Vz5KIlWGwMZbPquQ4w0x1NXJM8crbuXh8DBmYc9LssSog28jJEUxy
-         nq0PDrPvUXWTP8LiBqf6QIo7MpdylNIaEQokCAk6Oa/fTNdZCXb14uQWbpzrGCbnJwVw
-         SU0+lJeM1Ckooj1OGJ8h+r7yTVgrmKfAm0Dqn/lRGEYW2AVxqKVr++wlfWBg3ME33+99
-         wdCSMherZc6luaJlwEECtgvNAbV41ssLo0zTbuKHkfcJUxCApezeSi4zEUvhyXdQDb4Z
-         F+hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778071349; x=1778676149;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GgVBoDfFSnA8IrE1su9Kgw5EWmAPu4xV1AP/RXJBkOw=;
-        b=CerOihZOgi1Pwp6U3Tr9GFk+GLm2+VzvVcFNYEh/cpyxYP8JZnT4QEiy7li6/eQkwl
-         QQ5Fo+wlzvA8jPRLbbosy9mUo8jSSRLQ5Mt/O7MMbLwdvKpfmq3KieJz4MAJeehueLSX
-         puY9+kY1GH1I7nclFrKTQKNQoMNs7/cfFLAVpybBvcYLYvtg7I73Qv+3jws3ofKjehkd
-         3tpmQP6/+eJIMI3ls8f0QigcoRJT9UjjCvkD3SAQXcfy8j/Rawsi7IWaMdxnq3BSxS6C
-         yNTP2lgsu/ydEgq7Pkqei6ooCadwGeMNJCVIyIEJWIeVOsSSeiMaUkAWFuY5dHLw6f4x
-         PP7Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+emDiPwYgBwVQQ9MI/6P2cWT38Ltir531ULnG7az58Yfl8NrT6LdlwZRuATJNz1/x5LxjGIHs9sS1o1Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzzegt5CV147mwnY6dorKkYuxtU6zx2zJeYEc72k6wGL9fMruRi
-	Dib7iEwy2RXT0++oLku7PHhg22ijMcN1hOLJV+duwb74gQXEGjb67fIjGZu7QnttdEVIZyPMxDb
-	WZyVl2QREmMYqcgg0QA==
-X-Received: from wmbil16.prod.google.com ([2002:a05:600c:a590:b0:48a:73ac:6247])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:a08b:b0:489:1ba8:5bf0 with SMTP id 5b1f17b1804b1-48e51f4119bmr57153895e9.21.1778071348766;
- Wed, 06 May 2026 05:42:28 -0700 (PDT)
-Date: Wed, 6 May 2026 12:42:27 +0000
-In-Reply-To: <20260505152400.3905096-3-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzb1S1gj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778073062; x=1809609062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=24YuqCcsqTq/GIGHlCulkgKOcT0NLKKug6WMtvtUi70=;
+  b=gzb1S1gjE7YZyukpHdSiZERA7dyF8vY7yhXc4czCKYjVVXomEKroBIPm
+   zl9YpRm9hiFJ9DRmx00sPLJ0YwOHUDU9mJP77359yF6NYEbvWkWW2KNIp
+   3KMmEL3ZOidwSQtGUXuUu0QTU01P2J8DImN2ZaiKkO1is9TrIDX+83N9e
+   0CdJ4M8HdMJw3cvKG+4j33VtGKvaSixvzSqZ2/5bh97+kgXMuE/x80XEM
+   jfyEXGsyV6Bpv9sDonq3h2Jrad+jcFETFZamsjaA88JPrJkJV1cV80/2h
+   p99KnEPZnndcnjmP/Nf2cVMxAdtwle/OSkxavRbFOXeMTEaQwFCjc72MN
+   Q==;
+X-CSE-ConnectionGUID: i5PABkb8RsOVQYHhmh38NA==
+X-CSE-MsgGUID: AG5ROY3oRSiyKTnKYL5l/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="90458538"
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="90458538"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 06:11:02 -0700
+X-CSE-ConnectionGUID: gAMLFi/8RG2oGotNvk8cNw==
+X-CSE-MsgGUID: AnsU1tydQp+u0mkVqwg7Pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="237956491"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.183])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 06:10:57 -0700
+Date: Wed, 6 May 2026 16:10:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>, driver-core@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	brgl@kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] device property: set fwnode->secondary to NULL in
+ fwnode_init()
+Message-ID: <afs93y7nW_VTc1Y5@ashevche-desk.local>
+References: <20260506115701.23035-1-bartosz.golaszewski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260505152400.3905096-1-dakr@kernel.org> <20260505152400.3905096-3-dakr@kernel.org>
-Message-ID: <afs3Mz8J9oOeqF34@google.com>
-Subject: Re: [PATCH v2 2/3] rust: auxiliary: add registration data to
- auxiliary devices
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, acourbot@nvidia.com, 
-	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org, 
-	ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
-	tmgross@umich.edu, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506115701.23035-1-bartosz.golaszewski@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, May 05, 2026 at 05:23:08PM +0200, Danilo Krummrich wrote:
-> Add a registration_data pointer to struct auxiliary_device, allowing the
-> registering (parent) driver to attach private data to the device at
-> registration time and retrieve it later when called back by the
-> auxiliary (child) driver.
-> 
-> By tying the data to the device's registration, Rust drivers can bind
-> the lifetime of device resources to it, since the auxiliary bus
-> guarantees that the parent driver remains bound while the auxiliary
-> device is bound.
-> 
-> On the Rust side, Registration<T> takes ownership of the data via
-> ForeignOwnable. A TypeId is stored alongside the data for runtime type
-> checking, making Device::registration_data<T>() a safe method.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On Wed, May 06, 2026 at 01:57:00PM +0200, Bartosz Golaszewski wrote:
+> If a firmware node is allocated on the stack (for instance: temporary
+> software node whose life-time we control) or on the heap - but using a
+> non-zeroing allocation function - and initialized using fwnode_init(),
+> its secondary pointer will contain uninitalized memory which likely will
+> be neither NULL nor IS_ERR() and so may end up being dereferenced (for
+> example: in dev_to_swnode()). Set fwnode->secondary to NULL on
+> initialization.
 
-The change itself LGTM.
+Hmm... Are you going to use that outside of fw_devlink?
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+The patch itself looks good to me, but I'm not sure I understand how it's
+related to all the work you are doing WRT fwnode core implementation.
 
-But I'm not entirely convinced that this is the most convenient
-user-interface. I'm wondering if the auxiliary driver trait could
-specify which type the parent driver data is using in an associated
-type, and whether you could eliminate the check and error path that way.
-But then again, AuxiliaryDriver does not appear as a generic parameter
-in auxiliary::Driver, so it might not work.
+FWIW,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Alice
+But Saravana is the best person to actually tell if this patch makes sense.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
