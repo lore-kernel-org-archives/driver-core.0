@@ -1,198 +1,131 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78FC3876B8
-	for <driver-core@lists.linux.dev>; Wed,  6 May 2026 20:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCD434C806
+	for <driver-core@lists.linux.dev>; Wed,  6 May 2026 21:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778099434; cv=none; b=VDfurvTQOdS0B0uG1LSUILgz+u4MZUZ+gftC+wo+iiAwRlqmHnDl1064mIab0wvDPTowhb/LdAXMK/VQfJ4xSg/hkymhrrXA+LKSWdtVVsp1wrRFIcXQWj5ajuwcVmdYZcg+RFY3rPvA7cGNTEP2vKYaUcm5VYFvC/Y28W6l1Ww=
+	t=1778101836; cv=none; b=Nx+rLRICcairrsGx7Otf5JDOwJy92HsrjW+V/i4PG0WDGJ86j57I2wpBMKPRxfk1e1T/gRGYliCdCfaTNFsLkboXv5dqsJn8jEgSG4otTekdSxUUYz6EYULHoqYLfB0Qb7mSeKFMLpR8FQawf1jf2aB//Dflp+GYPTYXj/OvR9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778099434; c=relaxed/simple;
-	bh=ElJosHTYLcI9BgvAkBOdPtaYbxUdlkp93c6ZPh+hIQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lO1OFGrxg8KZmmr6cvOCOOmNddD+n9Y/04/ocGHMCdhTeG6YMHXWN42f9ofz8NIFkDsA3WikvgJ8zHqCOYDIkVDSeJIDR+giFIcF3wLHoy4I1VCtwpk3247ZU3CLCdre4IhAaK8cTTsuieQ2Wz1Kw85ssveeHCBLB0DrRcQM65o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=P6Hvk6+A; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1778101836; c=relaxed/simple;
+	bh=QqaD8UmQ8Z3VOreDAgWf/h1HMc4iYrLZBevxSmnzqSE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hGeRPth1es8YI2zMpGLrHLuEH9m30HYHQO5LcksO/+k2Sv13E0g/C72K4dqFGobIFKVR5yf1Voqy69sKfO0gk6fU5TZYBSkR8KBzN/GqYKyKCjHSdzCVeIGK9SV6rACzwWfY3oFKoKQS83in8duvwUq8cRur4TNG82tae3PFr4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Aq2VgTG8; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="P6Hvk6+A"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 2C2E84E42C11;
-	Wed,  6 May 2026 20:30:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CA07A6053C;
-	Wed,  6 May 2026 20:30:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 879BB107F1E2B;
-	Wed,  6 May 2026 22:30:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778099425; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Vrqq7dyzDgCl+FqaMvTiuXKBdsOhTj/wqsPWsAfCeVU=;
-	b=P6Hvk6+A9KAGIiXMc5ppzQ8YnInesNyobJwlVOScdEn3BK6ZEG23RDVXqJ6UhXoJCZ/ClQ
-	IUaW5ffmO1GB5JT6pTn4JtgmuSK+cRR3G1OcUYmDqGuh+VBCxuJ5HSm/LVFRPC4a7eFPCK
-	lYEJgLQ08RS58hm0mDonItlSHMq4n57ZfMggV7q1BtmhvLggvm/45yz/tuzkuo9gCOFf+u
-	3K5HNHEI5PY46RtLY6F5VEi1OqnYZRWCqhL897NXI0JaUY6wU9HQsCRvqSXESwzhM7jo2T
-	za6fvFc/XcHv7AFGlUDrBhtbj3FxDismo+IFvtdNJhuaoK/yerA+Brrcvr3ndA==
-Date: Wed, 6 May 2026 22:30:15 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
- Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Mark
- Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang
- <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 13/27] PCI: of: Remove fwnode_dev_initialized() call
- for a PCI root bridge node
-Message-ID: <20260506222846.68963c71@bootlin.com>
-In-Reply-To: <20260325202037.GA1291636@bhelgaas>
-References: <20260325143555.451852-14-herve.codina@bootlin.com>
-	<20260325202037.GA1291636@bhelgaas>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Aq2VgTG8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778101834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wxnLsY+y7KxAKQJwPXt/psWoOCQobXjWIWQgMudLMZw=;
+	b=Aq2VgTG87Mq6nNdZ1rGTHn1KEX5KL7ujxRNFCKJgPaoIWzd9TbiFQiBAGN9hTVVPE6R9Pv
+	9TQ018o+XIjEibL30mZOWreEkj1IfBMKz9S3ZVEVV2uGwZxbewd9xl9OYeLSxYyxmgnCeL
+	AFGVb2A4hi4fQmExW9Pf90Cv72/woxg=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-148-SbPYsTCgNGqOA0FuUrdhLA-1; Wed, 06 May 2026 17:10:33 -0400
+X-MC-Unique: SbPYsTCgNGqOA0FuUrdhLA-1
+X-Mimecast-MFC-AGG-ID: SbPYsTCgNGqOA0FuUrdhLA_1778101833
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-95d2303e591so348651241.1
+        for <driver-core@lists.linux.dev>; Wed, 06 May 2026 14:10:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778101832; x=1778706632;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wxnLsY+y7KxAKQJwPXt/psWoOCQobXjWIWQgMudLMZw=;
+        b=jvJATrrs4RBRFbYj00LUu1u0Ch+CD+jTLj4AEIVjf7d+9VoCv15DYJoCyUaPHia292
+         CAXYp4zBGUOdbUCP0oR0bzgbZBGtzUJVxjQVzerm9BmZ9/Wy5AgYQULWOgYk97RHuiqC
+         JoIb71l9cj9JQPfRInWf9I2BNPOnDuAPfpPxtYtKbpLfuKodLLykPuvOrK1QsElgmcXU
+         +NsrhyaoOaAP1mlmV3MUJI6ABkSqQEoA0E0QGucLTI7lBP42DN4MHMSoURlo1XY1mnaC
+         Va8W2DbDlGCzrR1+YnR1qJBJ3RpVlOsrYhH/bv0OQ0qH6EfrlcSKbKT3YTvfra1NzmmW
+         gHWg==
+X-Forwarded-Encrypted: i=1; AFNElJ9F1171wbojNBuLFLL0Jshvm7TIcluhXhWta3AhBS4nQoTMUWP8Spep68fb41P+cCT2+50ztyrU52HinA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2ol/50MfoYEZfNvqo+e9GJEYXLnXasyvTBGGDs8RyFMLPeOL1
+	EjeZddDZI6xQD0T9+UPPRl4CIpDD/mGFa4nNKRzs4k4ng9G7mMk68j+mBJmYd/IzR0nj/FMq0AM
+	UVoyAKGMuVIw19kSVzJaiUJYV2trrl12i0w5wZjT07tLexZdHGHEw9u6n6oc3mCqiCITy4kRa/G
+	wm6ENKs8U77rO4b6Qi+1Jr2YwVPCXlyAcEG3syOmg=
+X-Gm-Gg: AeBDietTtoZmhLT1OWNFaR9juAfSrRZbqvA12b6ZiD/ypF5j3GNho6CkoUG7INkK/K9
+	UKcvDcsW51Jeil4fJ/Yes8+RqBrnj+BBR+MNE1DZqgkDeP2Fdi1v9fpeE75/YMZgR6vE4t7fNRP
+	YgUHMpnfuR39OdZMQLXP0pVUmwgOYWAzdRZ52TfBq6izXcofAEDIWOhY6soiaZnqRFUYxyDgxIO
+	ROLuZxd9TiGwPvzTocdKfCaJG2Ltl+Y+iq4XGo+Tc2gYh98al/BmXesPoGFyLBJvZrdqdG7JnGF
+	Ov2ecg==
+X-Received: by 2002:a05:6102:6a92:b0:605:8280:5e6b with SMTP id ada2fe7eead31-630f8fda840mr2980743137.16.1778101832528;
+        Wed, 06 May 2026 14:10:32 -0700 (PDT)
+X-Received: by 2002:a05:6102:6a92:b0:605:8280:5e6b with SMTP id
+ ada2fe7eead31-630f8fda840mr2980722137.16.1778101832091; Wed, 06 May 2026
+ 14:10:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260429175016.7915-5-djeffery@redhat.com> <20260506182801.GA805231@bhelgaas>
+In-Reply-To: <20260506182801.GA805231@bhelgaas>
+From: David Jeffery <djeffery@redhat.com>
+Date: Wed, 6 May 2026 17:10:19 -0400
+X-Gm-Features: AVHnY4IXvba8Tz17dkRY5kRjhQZN70nrQGJ8xeOK7b1DB0TCF0AP8sKV7dUTWys
+Message-ID: <CA+-xHTFj_J4r2oqG8cPOU_wx7pChjHt9SgyHzKbTD8+KgeSFXw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] PCI: Enable async shutdown support
+To: Bjorn Helgaas <helgaas@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Tarun Sahu <tarunsahu@google.com>, 
+	Pasha Tatashin <tatashin@google.com>, =?UTF-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?= <mclapinski@google.com>, 
+	Jordan Richards <jordanrichards@google.com>, Ewan Milne <emilne@redhat.com>, 
+	John Meneghini <jmeneghi@redhat.com>, "Lombardi, Maurizio" <mlombard@redhat.com>, 
+	Stuart Hayes <stuart.w.hayes@gmail.com>, Laurence Oberman <loberman@redhat.com>, 
+	Bart Van Assche <bvanassche@acm.org>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	John Garry <john.g.garry@oracle.com>, kexec@lists.infradead.org, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: tDx0SmAq9tspm3iQmtFgNeLP65KzwVcSmzUpMMVq-qA_1778101833
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bjorn,
+On Wed, May 6, 2026 at 2:28=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> w=
+rote:
+>
+> On Wed, Apr 29, 2026 at 01:50:15PM -0400, David Jeffery wrote:
+> > Like its async suspend support, allow PCI device shutdown to be perform=
+ed
+> > asynchronously to reduce shutdown time.
+> >
+> > Signed-off-by: David Jeffery <djeffery@redhat.com>
+> > Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
+> > Tested-by: Laurence Oberman <loberman@redhat.com>
+> > Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+> > Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>
+> Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+>
+> I'm concerned about tripping over driver issues, but it's a pretty big
+> benefit.  I think it's worth mentioning the "async_shutdown" module
+> parameter somewhere in the commit logs and putting an example in
+> Documentation/admin-guide/kernel-parameters.txt.
 
-On Wed, 25 Mar 2026 15:20:37 -0500
-Bjorn Helgaas <helgaas@kernel.org> wrote:
+Sure, I can see about adding a document patch to it.
 
-> On Wed, Mar 25, 2026 at 03:35:40PM +0100, Herve Codina wrote:
-> > During the instantiation of devices described by a device-tree overlay
-> > applied on a PCI device, devlink displays the following kind of debug
-> > messages instead of creating the expected links:
-> >    'Not linking xxxx - might never become dev'
-> > 
-> > Without those expected links, the device removal order cannot be
-> > correct.
-> > 
-> > Those debug traces are printed by fw_devlink_create_devlink(). In our
-> > use case, they are all printed because the supplier of the link has at
-> > least one of its ancestor with its fwnode flag FWNODE_FLAG_INITIALIZED
-> > set.
-> > 
-> > The culprit ancestor is the PCI root bridge.
-> > 
-> > The fwnode related to the PCI root bridge is created dynamically by the
-> > of_pci_make_host_bridge_node() function. During this creation
-> > fwnode_dev_initialized() is called which set the FWNODE_FLAG_INITIALIZED
-> > flag.
-> > 
-> > Calling fwnode_dev_initialized() tells devlink that the device related
-> > to this node is handled out of the driver core. This is not correct in
-> > our case. Indeed the device related to this firmware node is handled
-> > using driver core mechanisms and is fully compliant devlink
-> > expectations.
-> > 
-> > Simply remove the fwnode_dev_initialized() call. With that done, the
-> > devlink debug messages are no more displayed and links that were missing
-> > are correctly created.
-> > 
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>  
-> 
-> I would ordinarily make sure the person who added
-> fwnode_dev_initialized() here was ok with its removal, but it looks
-> like you added this with 1f340724419e ("PCI: of: Create device tree
-> PCI host bridge node"), so I assume you're ok with removing it :)
+> Might even consider keeping in -next for a cycle+ and targeting v7.3.
 
-Yes, I am really ok to remove it :)
+I would be happy for it to spend as much time in linux-next as needed
+for people to be comfortable with the risk of odd interactions with
+all the pci drivers it will indirectly impact.
 
-> 
-> I suppose there could be a "Fixes: 1f340724419e" tag, but maybe
-> there's no need to backport this anywhere?
+But I must admit my ignorance with some of the details of linux-next.
+Looking at the main code changes, the patchset would seem to want to
+go through driver-core to get to linux-next. But as far as indirect
+impact, it is the diverse collection of devices and drivers under PCI
+which are most affected by the changes. Is there a consensus on how to
+steward a patchset like this one into linux-next?
 
-Yes, I will add the Fixes tag.
+David Jeffery
 
-Also the previous patch ("PCI: of: Set fwnode device of newly created PCI
-device nodes") fixes 407d1a51921e ("PCI: Create device tree node for bridge")
-
-I plan to add "Fixes: 407d1a51921e" to the previous patch to make things
-consistent.
-
-To ease backports and avoid conflicts, I plan to add 'Cc: stable' in 4
-patches:
- - patch 13 "PCI: of: Remove fwnode_dev_initialized() call for a PCI root
-   bridge node"
-   This current patch with Fixes added
-
- - patch 12 "PCI: of: Set fwnode device of newly created PCI device nodes"
-   The previous patch with Fixes added
-
- - patch 11 "PCI: of: Use fw_devlink_set_device()"
-   Avoid conflict when patch 13 is applied
-
- - patch 6  "driver core: fw_devlink: Introduce fw_devlink_set_device()"
-   Needed for patch 11 and 12
-
-Do you think it makes sense ?
-
-Best regards,
-Hervé
-
-> 
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> > ---
-> >  drivers/pci/of.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> > index b694fcda16b1..0993257fe025 100644
-> > --- a/drivers/pci/of.c
-> > +++ b/drivers/pci/of.c
-> > @@ -811,7 +811,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
-> >  	 */
-> >  	of_node_set_flag(np, OF_POPULATED);
-> >  	fw_devlink_set_device(&np->fwnode, &bridge->dev);
-> > -	fwnode_dev_initialized(&np->fwnode, true);
-> >  
-> >  	ret = of_changeset_apply(cset);
-> >  	if (ret)
-> > -- 
-> > 2.53.0
-> >   
-
-
-
--- 
-Hervé Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
