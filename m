@@ -1,110 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114A53BF68D
-	for <driver-core@lists.linux.dev>; Thu,  7 May 2026 09:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EB33B530D;
+	Thu,  7 May 2026 09:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778146053; cv=none; b=bS2vHuLT325+XplGppYlKjQHvtkDlmdsbK22eqTjF/jaN/lOmp3B07Glsl48b43AJyLbuY01HlKYXvKkJTj4kirAsBLrOUrCW6rCLAviqAmxJ8gW5uNhmCLjv1qoFgk3+iFyUGn+j5EIhTCjV4TrLUu40YYRCxvvt6I5+RrYbS4=
+	t=1778146111; cv=none; b=Nfd0mzHF4UX9/LMPtpoJpcogQdbWYZ2FjctsAIN0c40qPb/JPWYAKYaHLj06WmNUCbhD903gHknd1fRmGaYx0y0dAyCPjvycg3enxKWhFfZN96NGymzhusi0AMbKAHPMeaW4zO/cO2Bm79n7w0ep3IGUFyt5Wkdd6yfd6glRe2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778146053; c=relaxed/simple;
-	bh=x/JAxKHI7Ael5G6MScPlk2H+HssAyXfZZlY70tK9iiU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JeJnYEXcJrGn4XDQWpz9AFKbzCHtKmOZipOcz3ditdt6LWZQYkd93VA1AZiJniuUznWXa7+xc4f4IBY5aACs0HZONq4mHTvP45FpELSUzZKWA8FveKuJe2n9ZmZ2lnCAz69yuGL2t28X0yuv0iEd5fluDOFC5AIRG1Sslw2xW6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M0rprqbA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778146111; c=relaxed/simple;
+	bh=178o+5XAJR9FcxxECLB4eJNmOcRXDFiwLbay6hI9XDs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=ZW/+cZmAqVB9hGfjlq5fxi+c1Y7UYWeQRxGuMrEJOZprT6K+eCxMgUqnltBeRQDKjmC2yIyAWjBb9yFtkRRMZ5IYb6wHigzIcTaIf7pEH44AAKTIwYyTvCqz+fgnVP/5s//fx4QlH7pOMF/zrnaC1m32JfuYIMnShxHZjgdggb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sU/zMiTh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M0rprqbA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E82FEC2BCFA
-	for <driver-core@lists.linux.dev>; Thu,  7 May 2026 09:27:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sU/zMiTh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA53C2BCB2;
+	Thu,  7 May 2026 09:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778146052;
-	bh=x/JAxKHI7Ael5G6MScPlk2H+HssAyXfZZlY70tK9iiU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=M0rprqbASG9AzM5L1LoCdxk36ssdaXCyannccq+gQqgcNbj1cx719RJBDVV3bb4dG
-	 oLT/r6JTAbAuNB26XMU7HHp6cDkKBiYx3jN993WhWhZ6kfi+qMGLgO0G8fQGJpRJia
-	 Rpu5solDUtB9CV0evm1gwu3/GX6cqyKIjJLF2YlSZ1CIvL2LYruBuBV/6ZzR29YVmN
-	 +UmK6BCu/NQKuvEQmqLRV3a3ZVy4l6WAo9/EUUwrLIfYVgY5x/TaIglHYErxlJS+l8
-	 4Ec1tWvIAlyKoFjj01NnecWNOa/mexcdaTbvHwmLzL86VJeL087WfJaJMARbT1XVU7
-	 jhVz9zWSmDrhQ==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a283c44478so816628e87.3
-        for <driver-core@lists.linux.dev>; Thu, 07 May 2026 02:27:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9LzZ7djjIvxNtb9jRRUUpsR7ZtC7IfLgeD+9wHAZ2ZjncS7VpzQoM//KQvlDjMzpd4DhWDIWXULJFEug==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzm3nEcFISOKYX5mJKVVAhqfytLzHVGnNJVGRYoGAbhwml+/sh7
-	nWwQtuTfFnw8OQS+rSv5nXQz1rd/4gWHuyA85M9ZJgwzdbqMucWWK45xwXNbju7cUz4AkLYKBhP
-	ioL7EtzwCUU8/u9ezpoAzq+jFInjcGVc=
-X-Received: by 2002:a05:6512:3ba7:b0:5a4:d34:5b38 with SMTP id
- 2adb3069b0e04-5a887ada944mr2206033e87.2.1778146051005; Thu, 07 May 2026
- 02:27:31 -0700 (PDT)
+	s=k20201202; t=1778146111;
+	bh=178o+5XAJR9FcxxECLB4eJNmOcRXDFiwLbay6hI9XDs=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=sU/zMiThEqUIGCXpYuDolUL9oExUHccG9nQDTkBFmCpdQWq2+vzizQAanCx4ETwzH
+	 lrxi0tMkXwPlRVm+SIHWtE7EWtC5zo9mBALsrUNajbxpEguO+o0+DEWy625/2MebZF
+	 n9rWyyHoM00mSE1OKle5eAy2qOaVw9CRbn4c6TO7qV0udyZOYZ1VbxbTXET9kU0U2Q
+	 TD6c0AFT6bsLNnhQuhk/dObaRAgKK4h4HvUDfFGmZ+5r1GDm/C1c0RRNmkP+k1U0ks
+	 O8BDn1LAIHG7Fvvp0yjJ9E9kMyIF8CGQlMvyPsFrqcEAXs8dUiXiHASPU7wlNtdDls
+	 dZ/KADDtfTpPA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260325143555.451852-1-herve.codina@bootlin.com>
- <20260325143555.451852-21-herve.codina@bootlin.com> <CAD++jLkFu+Z22QBFiaa9S+Epeh=RJZOYX8BOLVDFw4bhEoYF1Q@mail.gmail.com>
- <20260507092326.2f8e3b47@bootlin.com>
-In-Reply-To: <20260507092326.2f8e3b47@bootlin.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 7 May 2026 11:27:19 +0200
-X-Gmail-Original-Message-ID: <CAD++jLmsaddK4MLYhfK+1OkK263QqJfMZ3HF=L0Y7QdDsgX4XQ@mail.gmail.com>
-X-Gm-Features: AVHnY4J4kpHKlWyF60L1gEgZ_kRiVmUaWPxnRdg2mF7S7on9qK93oGWvqiVfuCU
-Message-ID: <CAD++jLmsaddK4MLYhfK+1OkK263QqJfMZ3HF=L0Y7QdDsgX4XQ@mail.gmail.com>
-Subject: Re: [PATCH v6 20/27] misc: lan966x_pci: Fix dtso nodes ordering
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
-	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 07 May 2026 11:28:29 +0200
+Message-Id: <DICC6TIGNBZA.1ZW4SSME21HRF@kernel.org>
+Subject: Re: [PATCH] sysfs: upgrade OOB write by buggy .show hook into
+ WARNing
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Alexey Dobriyan" <adobriyan@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <5f794f46-5afd-405c-9747-76f2c95d4598@p183>
+ <3cc3e8c6-c6e8-4625-a88f-f5708b935dab@p183>
+In-Reply-To: <3cc3e8c6-c6e8-4625-a88f-f5708b935dab@p183>
 
-On Thu, May 7, 2026 at 9:23=E2=80=AFAM Herve Codina <herve.codina@bootlin.c=
-om> wrote:
+(Cc: driver-core)
 
-> > Recommended practice is:
-> >
-> > ethernet-switch@...
-(...)
-> > Recommended practice is:
-> > ethernet-port@...
+On Thu May 7, 2026 at 11:01 AM CEST, Alexey Dobriyan wrote:
+> Buggy .show hook will get just 1 line of dmesg:
 >
-> Yes, it should be but the DT binding [0] says "switch" and "port".
-(...)
-> Those node names have to follow the DT binding even if this binding doesn=
-'t
-> follow recommended practice.
+> 	fill_read_buffer: ext4_attr_show+0x0/0x600 returned bad count
+>
+> It may or may not oops later in some unrelated process.
+>
+> But buggy .show hook most likely is corrupting random memory past sysfs
+> buffer therefore deserving more. WARN, make it more visible and let
+> QA machines panic earlier.
+>
+> Also, delete useless cast -- "count" is >=3D0 at this point.
+>
+> Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
 
-Aha this binding is not referencing the standard ethernet-switch.yaml,
-that's why I got confused.
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
 
-OK let's just fix it then, I sent a patch.
-
-Yours,
-Linus Walleij
+NIT: This patch also cleans up the stale "fill_read_buffer:" prefix, and in=
+stead
+points out the actual caller, which could be mentioned in the commit messag=
+e --
+no need to resend for this though.
