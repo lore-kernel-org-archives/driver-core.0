@@ -1,334 +1,88 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022132.outbound.protection.outlook.com [52.101.101.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51ACA3B7B80;
-	Thu,  7 May 2026 12:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.132
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778156656; cv=fail; b=Ys77MFFdF8vImVeFrghroTGakGj50sACR3DvzFNARPIGZqX/R6T3kkhKshDWGTGEWoRF2S9+7gAsXLMWfbflE20ZHr+ZRRDFR+JGTSPZahx4t8Aj7/fKQPaeu/gS6tKxn6wjEWmxQ7iodOJX+70Wh4fN+AjQELL9eTA7qYa//CA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778156656; c=relaxed/simple;
-	bh=IX2hCSFnalo7yeKaWpDIy59Pamcw9RTNzmyXN7tnPZs=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=pfkx+ndaWNY9yeUUrwlW5elJRBuBvFQucDK2SU9t3l78ZVlmz4q7HBWLZX3AnML7b1kVN9mm0MOVNP+KbVQMSfpoEYb7gqxJvgiERNuIVjzvNTLNnyB+X1Scvd3YFA0ZkP4K8f5nCEUtA/of5lrkkhCn9UrY4LAhp8HB6B2rloA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=i6yc4tkN; arc=fail smtp.client-ip=52.101.101.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F143EE1DC
+	for <driver-core@lists.linux.dev>; Thu,  7 May 2026 12:50:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778158263; cv=none; b=P3Syh7OcK7HHUMvdT3wP0tHq1LGgZzQc8ks5Uu2EDlOgqGMoJL22F25ZAOUjYgOOQeTdi/5j9Azvyx9wzWSwlrFlmXRswCqlO7QrN7YfHi+3VuQeRhKUsu5lXITqUurdykuMHFnQjQh1TIJvmqK2oQOF6cZU0VvBPXKMSjLz01A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778158263; c=relaxed/simple;
+	bh=h3Vlkbk5sdnGg13yM94cBpckZTupKbTqjZZ6gANaolw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iPJ4kf1WHobHB6KB3pztFBj3Dxj8cxFDHZ/r8LtJ0fy09cKYTK+NL8luI4YuPmCssOH1LQJx7ggPfbuWfZJqOolDfqwHUUcKqjemaRZC1lV0Y9wmtOTfOFxZ7Tx2p7dfX7eHyVQJvAVgFdkIoYvawQ2S/d7GcKIQL0avPFMwxDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h7WBMB17; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="i6yc4tkN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZnY6E5NsSOjL1tV8yCL0n2hKbHDKo25lqzIMc4HjoAT/n/rPBu4hu2Blt82etihKtybBTTgiJoE/F+F5jw8iQboage33ZaRr/mbwhQ4YuL747m68+NKdjyPpbie+oB9wH3RTNPZSHMQPcYNf97KkOhbplU7oi9rb/ULPUrNTq26DqeS0vICvgvcz/YEomRHa97sYUfOHme6EgwJJX4hxxzldQscAxUm75Rj2V76/bdToVBBmyrqh9ORPnAww7Sj/Hm1fCMRGBhNJjE/YFhXD4zU4/VCMVAXmTDQoHtigAFqRSK9tX90Dr9sN7X5Ffbsiz11nCNunieFuinAbx3QhZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=saH0XsYH+p9Utp92n8Wo7SnfH0odMFlLMpwzNwnhcRg=;
- b=VrfHS17Vg2tAbAMfDfiZ5jD+VZGY/0FAdwx4SRuJc4oT8bz1JZDPsGqNydZ5/1sN1xfryhfGViSTw2+BR76YQeCnGu9Fg5hEPj2OdqLrlg+ZMvYirHP1m+uj3Wgalhbh2oHIasT9OCkidIbCbmZKSZ5cNl8CRcRsyLLGvsYUdpRZwIC8j+D8HLBzF35OIksGjfJYvvgW/nt09ueLKJZlBzQr3tTem8qMckQjdZZ9fAEqGZvDdbfPa7UVIOv3aNo6zxcTB+bVBP8MVGoYev8zWfVc3G6Rs+QPQ+jwtkOBY8/xbuZdfbuMAicRZdYzeuUcMzKtr49nxny2hwTRE9joxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=saH0XsYH+p9Utp92n8Wo7SnfH0odMFlLMpwzNwnhcRg=;
- b=i6yc4tkNykDsYk1gzPcf0BNP9Ed0CnzXQ0VC4/Elrlg7FEGFmUOH76WaigFMRrZ0/zlDcJTOkXWOGVP6wOCJmpkEpsckd26lyDYk3EG1SZKBEPGybHeh5AU70zV8kzEHr5tChqY2qOYHkNllL62sRPI+QkiYb6xvYoVFieH21hU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO0P265MB5191.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:241::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.17; Thu, 7 May
- 2026 12:24:09 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9891.016; Thu, 7 May 2026
- 12:24:09 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 07 May 2026 13:24:08 +0100
-Message-Id: <DICFXB4BLACF.3GTAQPRYURQCB@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2 04/25] rust: driver: make Adapter trait
- lifetime-parameterized
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <gregkh@linuxfoundation.org>,
- <rafael@kernel.org>, <acourbot@nvidia.com>, <aliceryhl@google.com>,
- <david.m.ertman@intel.com>, <ira.weiny@intel.com>, <leon@kernel.org>,
- <viresh.kumar@linaro.org>, <m.wilczynski@samsung.com>,
- <ukleinek@kernel.org>, <bhelgaas@google.com>, <kwilczynski@kernel.org>,
- <abdiel.janulgue@gmail.com>, <robin.murphy@arm.com>,
- <markus.probst@posteo.de>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <igor.korotin@linux.dev>,
- <daniel.almeida@collabora.com>
-X-Mailer: aerc 0.21.0
-References: <20260506215113.851360-1-dakr@kernel.org>
- <20260506215113.851360-5-dakr@kernel.org>
-In-Reply-To: <20260506215113.851360-5-dakr@kernel.org>
-X-ClientProxiedBy: LO2P265CA0259.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:8a::31) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h7WBMB17"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-48a5952c635so8304095e9.2
+        for <driver-core@lists.linux.dev>; Thu, 07 May 2026 05:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778158256; x=1778763056; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B8srcPUz2iRMxUgzpDjJPZ915RsxNlRqzvXbEly4DTQ=;
+        b=h7WBMB17bwvjjC6S5qtTrB2xLInyRv/j6NbIakHN0xZcMUpuRDYgIKTo9u/1R3TBMC
+         Xa4PHfhzj/dMJu5wUplGmPvFOefQ9AniUGhXlDMAQY9c6r2n2koBCRFWhb97PbAc/int
+         V/gTstmPlNMfoj4TQsL9OCRhQ41tTms6LjEBRpmZ5AOFJlyTB8aPW9wR2730R3XO8OHC
+         LHW2QO4HPYcsxG7I4DAvJm4w6fp5dztNwVduEjEHheWFSMA/bZefutwHqJng+5X0vzFs
+         f73G+xWEl4llvXHwqO7Xb8FioVBIZCz1uGzc/VisbRszfhXdtEA8c0p03oYA2FU6uxSa
+         GdMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778158256; x=1778763056;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B8srcPUz2iRMxUgzpDjJPZ915RsxNlRqzvXbEly4DTQ=;
+        b=VNtK+thNRUpNXi/Wp1B8+MHu/VF8aJzmrmWgUEuvlhVRTICRAupoSu8c2VOUGVv536
+         6hZQM2alxsX6N5OmHeR9EUtDIeJxiguzRJ+C34ogkF4+96RSW2OQvI7kv2uSjSGbqmZ1
+         s7sQUqn/Gp8SjOvzBlyFws6FJiTR7npyw0h/uBJPZFxUqElfFGh1PrB5CksYP2B9/xpf
+         TRQ4Vlbr2jGxS4XF4KEGDZGukT6uOWkvWCWUSerQvh3rRdqvnxZep94ffDEBs6suwoPG
+         kDVypTTQksdpRibB8xIuxTlbAhfkGeXq5eJDV+9/7aLyxuF5wCIyPY8h5u6+4yngvRZ9
+         9PAw==
+X-Forwarded-Encrypted: i=1; AFNElJ++0BVzThHaUFRHF47UWc0DoQGGeLL40J0NSnBqKBg9e7zf+xagvKQOYC/YmUzg9sI52jiKSqBai/pt9Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjT+KV8lYWXRA7RzkAn6FLhjOKCifYONmt6cdLX7i+0PwhZ8p2
+	83ksllJlVMOyF9KwI6SJQWjGnVdINi4chrxezrr6VhrWYBFjnqG3ZIv9lxFuJrS6Sfbh2Ca/Gr1
+	KMNDqIvxW+Ulorhf/ug==
+X-Received: from wrpu17.prod.google.com ([2002:adf:f891:0:b0:43d:70b2:d297])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3f18:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48e51e19668mr127556795e9.8.1778158255465;
+ Thu, 07 May 2026 05:50:55 -0700 (PDT)
+Date: Thu, 7 May 2026 12:50:51 +0000
+In-Reply-To: <20260506215113.851360-4-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB5191:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6aa2801c-a4f6-4139-9617-08deac3389ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|10070799003|1800799024|366016|921020|56012099003|22082099003|18002099003|3023799003;
-X-Microsoft-Antispam-Message-Info:
-	DihueJANQeew+ghSe7kD7PRovLE5M/hxH4v2YpQstRceTL4G52aQY7v8rfm/BWmJ//ejQ2jDGFODO2z+XKpj3cunm+tgl1x1hE1vbMXohDqxtuOm05c7EYCRCHtpMtsEqoPV0dfTUQzyrMcsT5PXB8gkGtweTaycjqis9QKoGUVtKNn/ZTbh8woh0rwFKDERqjCudhrqgyiZBX5N23ADAGjJ9kV0Yeng1TRvW6S+Vmj2hhs/dLAE6halXNXhCB1/nRlkcHCl/mPDE2g3etQqhe61S24sEU2b8idLrbm15Q/TLyiHwJnOH9AW6KOc0wr8xA724m8SDSCeRWHGc9KtOy3u0hA/G5VO7wkq4fGt/mHpslI/tWFiBTe1JP0zrTibzkXKOldkJX9uQEaq0rJOv4zwK/V4lD4ZaiFk58wi8qYVTi8GhiZNCDFsyI9YokK+zyFB8N+ODIE52K6N/Jw3f+DCYeCOUf1AFEr5wSs9DSQMhru3zXwEAOKrBVCX8McyOMjAKcIyu8ZtsheVYRhuh/VJnIVkz3GwkRK2XWsufFtvM4N2Rwf4ipQ1W4+UtLMyiaaasqufteGIDFlktDkznzbmgYrQASAvRULM3LW/9+kLz/K1/6SGxjZ+X5AavraEqR9bei9KGBS0YqoHblddcM2nezvGN86x1i3Tm8VN5TYDR7wDnaZqgGdyJHK4bf378Pzb1/o3+N5sk+nJwtoPFlrKcVqfOQoK1GNjstkBLXI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(1800799024)(366016)(921020)(56012099003)(22082099003)(18002099003)(3023799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TjREZkpUTGZUUlNWdmp4WVZ0TS9oeFJNd1h4MGpHUmtVWnRNRzBDNTFLblVI?=
- =?utf-8?B?SzlwNFJIUkg0TWNabHlnbUpiRGRZb2RvZE5oc1d4cTNqbjJiQjU4S2xmTGlM?=
- =?utf-8?B?QjA4Q1FneSt0bXo5RUtKYlpDRDFvYUVvV3piaXBxbkIvSEZ0VVVhUVFTVDh5?=
- =?utf-8?B?OCtkdlc2NjQ1V2lINlpMR3NLMDVoVEFCWXpIWnhuS1FHSldyOFJ2SnY0cGNP?=
- =?utf-8?B?RVl5b3ptNU9qS0ZZZFlId0hhbHp2c0dwcHROa1o0SHRNUGhSQ3dOSjMwRUNF?=
- =?utf-8?B?d2RvMzBZaVVLTWRCZUFxUlhqRnI1ZkEvYzVRMkM0U05MSm9wN1c2OVdiQ0RZ?=
- =?utf-8?B?VU13Y01nU2hOTEoyalhxaDA0bTlBR1ByTXZOQmsvQ0t0alVRUkpORmNwS3JS?=
- =?utf-8?B?bE9qQ3ROb1hveGQrRVBaakdYcGY1cHlqN3cyRGpCVGxNZkRzZStZeVJQYnVP?=
- =?utf-8?B?U2FrTGx2c0ZsQU9vVE5oeDZwR2JmcEM2QmZBVmR6cDNVdnNWb2FrRVo1ZGhH?=
- =?utf-8?B?Znp3STAxYlBVTWxFMy9FaGtxMXlTeVg1NEV5OVhKWDhKaWxSeW51THJJWnVo?=
- =?utf-8?B?R29DTHFERkpIdVNJdTZ0V0FESjVybk50RnQzSFYvZ2ZUQmNDNGJiYlpMSDlD?=
- =?utf-8?B?OUZVam5ZS1RGRHNNNGVKR1BEL1lqRTFTQzlwQkNGUUJNd09uQ0FkdUlzS2k4?=
- =?utf-8?B?bHdqTzZycVhFNjFyMStNK3NLRGNXZUozUm1vVmx4WkdSdlB1ZUthVXB3ZXVJ?=
- =?utf-8?B?WEp4eFl5UDhpd0VmTXhaZUcySitYaHRacUdpRUJWOWJwdzdoMEpadElMYkRR?=
- =?utf-8?B?ank5cXFOcWhlNE04d1loVUVudWhwby8xNVEwWUNMOGhjN0t0L0dEV2w0UEYw?=
- =?utf-8?B?NFlFb28zMjlnNXJZb2hpS1NUSThPZCthTXgrMHgzTC82M2tmc0RGWDNHcHVz?=
- =?utf-8?B?dzdUUzJ6TmtsR2hvb2hub2hibHUrTFhxRDMyRmNNY2F6azJRQ1BOTnhjaWVO?=
- =?utf-8?B?OXRhQVhSMVBkQWdRa0o4eGR6NGh3bmRiemhrc0ZSL3NhSXhaWjZoaXZpS3Iz?=
- =?utf-8?B?d0luZFV2aWJTTUJjKzN0ZlVFWGlISkpFT083TVVhWTJJcjNlM3h4eUVrL2Vk?=
- =?utf-8?B?dGtieFRHQS9ybDU5cHFIbTN5aG5OS2JWRkJNQWVUM2pkd3Q1UnZRZ2F1R2sw?=
- =?utf-8?B?QWxiSEtBbmp2SDNqa1JNdGpMSkNCM1VHNXpER1Bnb0pzQVdDa2pRZi9VYURo?=
- =?utf-8?B?bElwc3Y4NmVYcU9TTmgrb0FwVVpFd0NhWUFZeGZoVkg1K2lJWDZtUnJaLzdl?=
- =?utf-8?B?VDczMGNDVW16eGZQcG9JRisxbStqZHVMMzRhMXlvYVVoSlNoRTIvemZqcUFT?=
- =?utf-8?B?bWdndjhrMjZEeVB1c2tMak1PVjJtWm1yUGtobFYzdkRKV1B5TTJFQUh3aW9J?=
- =?utf-8?B?Q0RsSmhtRkt6cks3Uzk5QldPYkt6Z0xwZE5sRUxsVGNsS2dBM2V6bmdlNE92?=
- =?utf-8?B?Q3RhdURCSFZKZ3A4SFRUT1NKM0VOcVBFNVhmSDh6ZzNBRHpDaFRqT3MxVHcx?=
- =?utf-8?B?M0U0dE1VdTUrL3llNEk5bDIxK3BlamdVUEFLTjhuUTIzM095alk5TUwzeGVn?=
- =?utf-8?B?eVhoWUJ1U2g4Rk8zbmQxakhVM0FGM3ZMajlta3dubU15TURnMkpwM3JGcEpN?=
- =?utf-8?B?UnNLODlkUmdUQk52RDFUNjgxWmhva3JmWmh3WXJMd3A1WTNybHhqRUlndTVU?=
- =?utf-8?B?dlUxNTg2ZGRHSFVnWHZ0R05OZ3M3TjYzSDV4VVVPb1U4V3FJVHZ0bGlaQWVj?=
- =?utf-8?B?d0FRWjg5c3lRSW12WFhQTk5hUXdvbEdpSmNWS0JMVHlxS3NMQmg4SExyTGp5?=
- =?utf-8?B?Y1dEenVPQlNkWVVsS1FDRkIrRHhCNnJFWXR1TVQ5R2sxdzhxbWZ1eGt1dXp3?=
- =?utf-8?B?Vzh0WjBteTc2YWpCQkhzVnMrOHovdWlTQlVKRExUTy9PZDNsNDBuY2VqLzdE?=
- =?utf-8?B?Y3JwZ0dadDl6aUNUR1M0NXFuUEtNcERjUTR2YVVCSXIwK056em5mbjFPODhm?=
- =?utf-8?B?U3h5Y0RHTndibXNIblNBMU9EQ1ZKdnB4bUg1djJ3NEZNdTFBWmUzS05KTUla?=
- =?utf-8?B?cG1DS3AwczVNWkptSllUYlI3UEwyUzMvTWxyaXJvejlCUVpCdEZNTkUza2Vh?=
- =?utf-8?B?eWNYbnNteXhIYUd0TFhUcHQ4K2hsQmcxS05iRHlwK2JaQ2ZkZ2haOXVQK3VK?=
- =?utf-8?B?dFFCS0l6ZGdGWVMzZHdmYnVqU0hwZ3ZRU0RHeDJxNHVBK1N1NlVZVktXemJO?=
- =?utf-8?B?L1dzNWlhYUVuTVJsQmJIRjZva2x6ZW1kT3Nkb3E3QzlPbXFFUzVaZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6aa2801c-a4f6-4139-9617-08deac3389ce
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 12:24:08.9744
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nn8iNDywF/ZfqdeIPZ8hN9NqQuZZhV8H/SDvi3+kd2cTldv++EVYXOm79X6KkmrUW8LvGqxAa8f63s8nhQjFSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB5191
+Mime-Version: 1.0
+References: <20260506215113.851360-1-dakr@kernel.org> <20260506215113.851360-4-dakr@kernel.org>
+Message-ID: <afyKqwxDxu3cT7U9@google.com>
+Subject: Re: [PATCH v2 03/25] rust: device: generalize drvdata methods over ForLt
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, acourbot@nvidia.com, 
+	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org, 
+	viresh.kumar@linaro.org, m.wilczynski@samsung.com, ukleinek@kernel.org, 
+	bhelgaas@google.com, kwilczynski@kernel.org, abdiel.janulgue@gmail.com, 
+	robin.murphy@arm.com, markus.probst@posteo.de, ojeda@kernel.org, 
+	boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, 
+	igor.korotin@linux.dev, daniel.almeida@collabora.com, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Wed May 6, 2026 at 10:50 PM BST, Danilo Krummrich wrote:
-> Parameterize the Adapter trait with a lifetime, changing the id_info(),
-> of_id_info() and acpi_id_info() methods to take &'bound Device<Bound> and
-> return &'bound Self::IdInfo instead of &'static.
->
-> This is needed for the ForLt conversion of bus driver traits. Once
-> Driver becomes lifetime-parameterized, its IdInfo associated type may
-> depend on the lifetime parameter.
+On Wed, May 06, 2026 at 11:50:39PM +0200, Danilo Krummrich wrote:
+> -    /// The type of the driver's device private data.
+> -    type DriverData;
+> +    /// The [`ForLt`](trait@ForLt) encoding of the driver's device private data type.
+> +    type DriverData: ForLt;
 
-How? The `IdInfo` is part of the ID table which is static.
+Associated types support ForLt natively.
 
-I feel that this is really just adding lifetime for the sake of adding it.
-Nothing in `Adapter` is really tied to device lifetime.
+    type DriverData<'bound>;
 
-> With Adapter<'bound>, the impl can set
-> IdInfo =3D <F::Of<'bound> as Driver<'bound>>::IdInfo and the lifetime flo=
-ws
-
-Well, I do get that you're trying to avoid writing `Driver<'static>`. This =
-is
-needed because conceptually, a `Driver` trait have a lifetime-dependent par=
-t and
-a lifetime independent part.
-
-`IdInfo` and `ID_TABLE` are the lifetime-independent part, and `probe` and
-`unbind` are lifetime dependent part. We really only have this issue becaus=
-e we
-use `Self` instead of an associated data for driver's data.
-
-The `Driver` could be more cleanly designed if expressed like this:
-
-    trait Driver {
-        type IdInfo;
-        const ID_TABLE: IdTable<Self::IdInfo>;
-
-        type Data<'bound>;
-
-        fn probe<'bound>(
-            dev: &'bound Device<device::Core>,
-            id_info: &'bound Self::IdInfo,
-        ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound;
-
-        ...
-    }
-
-Then there's no `Driver<'static>` at all.
-
-But even if we don't go with that design, I'd prefer using `Driver<'static>=
-` to
-giving lifetime parameters to types that shouldn't have one.
-
-> through naturally, avoiding the need for transmute.
-
-I applied the following diff and it doesn't require
-additional transmute?
-
-diff --git a/rust/kernel/driver.rs b/rust/kernel/driver.rs
-index 7c5148772697..4c5bc31fd71d 100644
---- a/rust/kernel/driver.rs
-+++ b/rust/kernel/driver.rs
-@@ -316,7 +316,7 @@ unsafe fn acpi_of_match_device(
- /// of a device and a driver.
- ///
- /// It provides bus independent functions for device / driver interactions=
-.
--pub trait Adapter<'bound> {
-+pub trait Adapter {
-     /// The type holding driver private data about each device id supporte=
-d by the driver.
-     type IdInfo: 'static;
-=20
-@@ -326,7 +326,7 @@ pub trait Adapter<'bound> {
-     /// Returns the driver's private data from the matching entry in the [=
-`acpi::IdTable`], if any.
-     ///
-     /// If this returns `None`, it means there is no match with an entry i=
-n the [`acpi::IdTable`].
--    fn acpi_id_info(dev: &'bound Device<Bound>) -> Option<&'bound Self::Id=
-Info> {
-+    fn acpi_id_info(dev: &Device<Bound>) -> Option<&'static Self::IdInfo> =
-{
-         #[cfg(not(CONFIG_ACPI))]
-         {
-             let _ =3D dev;
-@@ -360,7 +360,7 @@ fn acpi_id_info(dev: &'bound Device<Bound>) -> Option<&=
-'bound Self::IdInfo> {
-     /// Returns the driver's private data from the matching entry in the [=
-`of::IdTable`], if any.
-     ///
-     /// If this returns `None`, it means there is no match with an entry i=
-n the [`of::IdTable`].
--    fn of_id_info(dev: &'bound Device<Bound>) -> Option<&'bound Self::IdIn=
-fo> {
-+    fn of_id_info(dev: &Device<Bound>) -> Option<&'static Self::IdInfo> {
-         let table =3D Self::of_id_table()?;
-=20
-         #[cfg(not(any(CONFIG_OF, CONFIG_ACPI)))]
-@@ -424,7 +424,7 @@ fn of_id_info(dev: &'bound Device<Bound>) -> Option<&'b=
-ound Self::IdInfo> {
-     ///
-     /// If this returns `None`, it means that there is no match in any of =
-the ID tables directly
-     /// associated with a [`device::Device`].
--    fn id_info(dev: &'bound Device<Bound>) -> Option<&'bound Self::IdInfo>=
- {
-+    fn id_info(dev: &Device<Bound>) -> Option<&'static Self::IdInfo> {
-         let id =3D Self::acpi_id_info(dev);
-         if id.is_some() {
-             return id;
-diff --git a/rust/kernel/i2c.rs b/rust/kernel/i2c.rs
-index 5a601cba7dc0..739b97c9917d 100644
---- a/rust/kernel/i2c.rs
-+++ b/rust/kernel/i2c.rs
-@@ -183,7 +183,7 @@ extern "C" fn probe_callback(idev: *mut bindings::i2c_c=
-lient) -> kernel::ffi::c_
-=20
-         from_result(|| {
-             let info =3D Self::i2c_id_info(idev)
--                .or_else(|| <Self as driver::Adapter<'_>>::id_info(idev.as=
-_ref()));
-+                .or_else(|| <Self as driver::Adapter>::id_info(idev.as_ref=
-()));
-             let data =3D <F::Of<'_> as Driver<'_>>::probe(idev, info);
-=20
-             idev.as_ref().set_drvdata::<F>(data)?;
-@@ -243,19 +243,19 @@ fn i2c_id_info<'bound>(
-     }
- }
-=20
--impl<'bound, F> driver::Adapter<'bound> for Adapter<F>
-+impl<F> driver::Adapter for Adapter<F>
- where
-     F: ForLt + 'static,
--    F::Of<'bound>: Driver<'bound>,
-+    for<'bound> F::Of<'bound>: Driver<'bound>,
- {
--    type IdInfo =3D <F::Of<'bound> as Driver<'bound>>::IdInfo;
-+    type IdInfo =3D <F::Of<'static> as Driver<'static>>::IdInfo;
-=20
-     fn of_id_table() -> Option<of::IdTable<Self::IdInfo>> {
--        <F::Of<'bound> as Driver<'bound>>::OF_ID_TABLE
-+        <F::Of<'static> as Driver<'static>>::OF_ID_TABLE
-     }
-=20
-     fn acpi_id_table() -> Option<acpi::IdTable<Self::IdInfo>> {
--        <F::Of<'bound> as Driver<'bound>>::ACPI_ID_TABLE
-+        <F::Of<'static> as Driver<'static>>::ACPI_ID_TABLE
-     }
- }
-=20
-diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-index f59f22283c53..f4df2e474ca0 100644
---- a/rust/kernel/platform.rs
-+++ b/rust/kernel/platform.rs
-@@ -120,7 +120,7 @@ extern "C" fn probe_callback(pdev: *mut bindings::platf=
-orm_device) -> kernel::ff
-         let pdev =3D unsafe { &*pdev.cast::<Device<device::CoreInternal>>(=
-) };
-=20
-         from_result(|| {
--            let info =3D <Self as driver::Adapter<'_>>::id_info(pdev.as_re=
-f());
-+            let info =3D <Self as driver::Adapter>::id_info(pdev.as_ref())=
-;
-             let data =3D <F::Of<'_> as Driver<'_>>::probe(pdev, info);
-=20
-             pdev.as_ref().set_drvdata::<F>(data)?;
-@@ -143,19 +143,19 @@ extern "C" fn remove_callback(pdev: *mut bindings::pl=
-atform_device) {
-     }
- }
-=20
--impl<'bound, F> driver::Adapter<'bound> for Adapter<F>
-+impl<F> driver::Adapter for Adapter<F>
- where
-     F: ForLt + 'static,
-     for<'b> F::Of<'b>: Driver<'b>,
- {
--    type IdInfo =3D <F::Of<'bound> as Driver<'bound>>::IdInfo;
-+    type IdInfo =3D <F::Of<'static> as Driver<'static>>::IdInfo;
-=20
-     fn of_id_table() -> Option<of::IdTable<Self::IdInfo>> {
--        <F::Of<'bound> as Driver<'bound>>::OF_ID_TABLE
-+        <F::Of<'static> as Driver<'static>>::OF_ID_TABLE
-     }
-=20
-     fn acpi_id_table() -> Option<acpi::IdTable<Self::IdInfo>> {
--        <F::Of<'bound> as Driver<'bound>>::ACPI_ID_TABLE
-+        <F::Of<'static> as Driver<'static>>::ACPI_ID_TABLE
-     }
- }
-=20
+Alice
