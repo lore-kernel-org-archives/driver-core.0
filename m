@@ -1,127 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9357F2FE056;
-	Fri,  8 May 2026 17:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761B537B025
+	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 18:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778262776; cv=none; b=n8Uc4bEMefzvAcq8QWzGPxTBEhiaXgCsmRhscvDf8GAJW/WwaEANBslEBiOOKJN/wAAGsGQeDjqnpTbyid12ESdRWqXuLsCc+AGWVsBgsSWiyjwPvvi/a1w+qOeMndb+KWVQ9TlP8vy8kOyL9+SivG8gFDEiG23fGLizRS2YxFQ=
+	t=1778264139; cv=none; b=UlTtCndByExgJpesYfWAsIF3GqaS5antQK0HCk/MuZhbVDQIsO7S9X/xwINUytF8oDm92Q4WReWo7ktJjnasleawCZIh7Fd4kEsq/hxYxEDjaZ6fChiqpxOUN/b3tu2JYZIinkMsYcC8qQ4d/0frMkoXzPQf3WZFHS8alEnxivE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778262776; c=relaxed/simple;
-	bh=7FO/OvjB81khbVySOVw1mhcX4mL/VhbRPd35cA9Jelc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u8raS1IdjyzdMKlJzkNKkcQpCUuVQlhxY0crvAP9mT/IowDujSWTxbBOkfoPtD/8bzP4Pej45gNnv4tMV8LhZ89Y0r6ttuqC1XQ3RUSMop/wjXRM1GRyD34nRc7tWtrg1uym0WCL/AtY0HM9RMu2KsHj7kkVFvjgT5WWv3fWWsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bhp/xG+x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778264139; c=relaxed/simple;
+	bh=VXdNdUVDlNnrZMEfP58I/g5Qk2zen5k91cmmz+Eb7dU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oWbusas8Yvf6OFJD46ArPpF87s88vel775OnfpxQTqRcf2N5vV4hAgFrU8BrhGt5cw2lhkGYgRl1RcajvKwZL/MnXroP/cmsbmkemMBzsHPNquhJxegtyMQTI6EmzRf4FcCytSahDmvWzK53NDQZZNfxHnWCC2pfgksblxLOSxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoVtHq3L; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bhp/xG+x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35495C2BCB0;
-	Fri,  8 May 2026 17:52:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778262776;
-	bh=7FO/OvjB81khbVySOVw1mhcX4mL/VhbRPd35cA9Jelc=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=Bhp/xG+xadRrlmz/bfTShSKS7y2H/NrORoSuGsy2gx2sEAXSdSN2O6nEdoCn2+/oE
-	 ai/3ujkjYhPSv6Q2VQ3yBLiXOYoMcD66gIbByk29qLaqxz5BGkPnxaV9weOix5FwAW
-	 VJfBK8byNFeo5ZGNFdXKPeTL4u9GT+GV6lPj+IILe2o7Yc8mUatY6Ck1vCnM7Emhhh
-	 oOuaH3u/OiIV2NtyEe0gNDu+RGmxZf2NTgueCVd12rb9wR2OibZY4Jp7YyQthlDfLy
-	 Xf5ZFsbvYUIjRjeahDmaHky1CFECNsfxhm9hbYzmE0Yyq2qU60oIwJ29TFZ5x6+Z73
-	 dY74NSOlqN5Dg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D2C3CCE06FB; Fri,  8 May 2026 10:52:55 -0700 (PDT)
-Date: Fri, 8 May 2026 10:52:55 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Adrien Reynard <reynard.adrien.08@gmail.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	"open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS" <driver-core@lists.linux.dev>,
-	"open list:FILESYSTEMS [NETFS LIBRARY]" <netfs@lists.linux.dev>,
-	"open list:FILESYSTEMS [NETFS LIBRARY]" <linux-fsdevel@vger.kernel.org>,
-	"open list:TRACING" <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
-Message-ID: <6acba84c-c92c-4f64-ac26-3308620b2398@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
- <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
- <5f68ac30-21ac-494b-a140-2307e236f0a2@infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoVtHq3L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778264138; x=1809800138;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=VXdNdUVDlNnrZMEfP58I/g5Qk2zen5k91cmmz+Eb7dU=;
+  b=ZoVtHq3LVX7dacbIK1MgIgBBAFv1PNlBGb3o4xsiVwCISbFTJaED6rBL
+   xnU/h5k7NJTatOF7FxrCvBGcWwviRMAIzCFvseEBKMpLjXTOGacmoNi2v
+   lpD7IBdNTWqdQV2JngB6bvogTVRe1Q2QCcz4fAaFHcyLtogeiKAN785r8
+   Z+QHVOKk4/AZr63VeBsJ9uoNakW6GCT2YYXiJsHHz3YmlTKEh9EprpRTS
+   457fshUrP6mhNzBla5lgDU4PzP8ceidpPt+v3mRYK/M8x1XDcKvEaBmdt
+   vT2REkvB9Uwr6VT0+m4/dZ/AQvgaq5BwKSlNUpKUeJPtxi748Qcx51SlQ
+   g==;
+X-CSE-ConnectionGUID: w4MffIdiQlipEWpVPXCyDQ==
+X-CSE-MsgGUID: Z/P03TDlRkat8kQpeYL5jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="96665838"
+X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
+   d="scan'208";a="96665838"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 11:15:38 -0700
+X-CSE-ConnectionGUID: vFA22ba1Qma2f4jms0kdEw==
+X-CSE-MsgGUID: gUkmPBOORTG+RDk/G1VHvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,224,1770624000"; 
+   d="scan'208";a="232320521"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.100])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 11:15:31 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Daniel Scally <djrscally@gmail.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Andy Shevchenko <andy@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Len Brown <lenb@kernel.org>, 
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ platform-driver-x86@vger.kernel.org, brgl@kernel.org
+In-Reply-To: <20260504-baytrail-real-swnode-v5-0-c7878b69e383@oss.qualcomm.com>
+References: <20260504-baytrail-real-swnode-v5-0-c7878b69e383@oss.qualcomm.com>
+Subject: Re: [PATCH v5 0/2] platform/x86: x86-android-tablets: use real
+ firmware node references with intel drivers
+Message-Id: <177826412637.8043.3507805822778132637.b4-ty@linux.intel.com>
+Date: Fri, 08 May 2026 21:15:26 +0300
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5f68ac30-21ac-494b-a140-2307e236f0a2@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Fri, May 08, 2026 at 10:40:49AM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 5/8/26 10:15 AM, Shuah Khan wrote:
-> > On 5/8/26 10:37, Adrien Reynard wrote:
-> > 
-> > Missing commit log in all your patches - I don't patch 1/5 in
-> > my Inbox.
-> > 
-> >> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> >> ---
-> >>   Documentation/RCU/rcu.rst                          | 2 +-
-> >>   Documentation/driver-api/driver-model/overview.rst | 2 +-
-> >>   Documentation/filesystems/netfs_library.rst        | 2 +-
-> >>   Documentation/trace/histogram-design.rst           | 2 +-
-> >>   Documentation/trace/histogram.rst                  | 2 +-
-> >>   5 files changed, 5 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-> >> index bf6617b330a7..320ad3292b75 100644
-> >> --- a/Documentation/RCU/rcu.rst
-> >> +++ b/Documentation/RCU/rcu.rst
-> >> @@ -32,7 +32,7 @@ Frequently Asked Questions
-> >>     Just as with spinlocks, RCU readers are not permitted to
-> >>     block, switch to user-mode execution, or enter the idle loop.
-> >>     Therefore, as soon as a CPU is seen passing through any of these
-> >> -  three states, we know that that CPU has exited any previous RCU
-> >> +  three states, we know that CPU has exited any previous RCU
-> > 
-> > The original intent might have been to say, "that cpu", so adding
-> > the missing comma after the first "that" or change "that" to "the"
-> > would make sense.
-> 
-> Not a comma, please.
-> I don't see a problem with "that that," but "that the" could also be OK.
+On Mon, 04 May 2026 12:58:55 +0200, Bartosz Golaszewski wrote:
 
-This CPU was already mentioned.  So if for whatever reason we cannnot
-stomach "that that", then "that this" would be better than "that the".
-
-I suppose that false positives from simple grammar checkers might be
-sufficient reason, but in this brave new world of LLMs, shouldn't we
-be hoping for better?  ;-)
-
-						Thanx, Paul
-
-> >>     read-side critical sections.  So, if we remove an item from a
-> >>     linked list, and then wait until all CPUs have switched context,
-> >>     executed in user mode, or executed in the idle loop, we can
+> First let me repeat the problem statement:
 > 
+> ==
 > 
-> -- 
-> ~Randy
+> GPIO software node lookup should rely exclusively on matching the
+> addresses of the referenced firmware nodes. I tried to enforce it with
+> commit e5d527be7e69 ("gpio: swnode: don't use the swnode's name as the
+> key for GPIO lookup") but it broke existing users who abuse the software
+> node mechanism by creating "dummy" software nodes named after the device
+> they want to get GPIOs from but never attaching them to the actual GPIO
+> devices. They rely on the current behavior of GPIOLIB where it will match
+> the label of the GPIO controller against the name of the software node
+> and does not require a true link.
 > 
+> [...]
+
+
+Thank you for your contribution, it has been applied to my local
+review-ilpo-next branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+local branch there, which might take a while.
+
+The list of commits applied:
+[1/2] ACPI: provide acpi_bus_find_device_by_name()
+      commit: 083a59e05db9203c346e87d822c0c12a0f7a7c85
+[2/2] platform/x86: x86-android-tablets: enable fwnode matching of GPIO chips
+      commit: 1448c2d2ca5cc7f4ea6694e6bc809946de0a751c
+
+--
+ i.
+
