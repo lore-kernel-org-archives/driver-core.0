@@ -1,149 +1,220 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF25F1862A
-	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 18:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53DA2D8795
+	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 18:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778264774; cv=none; b=XXBYoBlUUILsV4hnxSIAGkqDJlgA3c+HbLG10OB2M9FTDCOOSieIicWNfI0935p2VUnRbC5vZOJaRhLosoN6KyzU+LXLpG23uj9Pcq9RQLOELn62uKVd+OSWrs1n3e6Crl4cZeFwWr/GTZqBq5LbDd66dgJrcEd5sCeuG7T0CKw=
+	t=1778266077; cv=none; b=j+Q/XRXXjaLOCtfXkmg5e6l+McEZape0dMgG7T/Qf4tAXaTcWeUWieQR8vDoEGpp43u7QMdHnoQ7DSZ9vLMvwNl5iohqgiz3xr+6UwL1dPhF0enaRRacoiV7EXRu8bHHLPtAbnyTepUdFFUrS1MKz8FiUh7a/sCGJk0dCE3s1zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778264774; c=relaxed/simple;
-	bh=gPt2p5mRydIx09aB5eoi5h+EjR87ILB07pmtiyqKD6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ECR7b9wx7NHSI0WUtWJy8mx7fWaiWaW3J9/P6BN/cmiCIWweOBxqj8wKe+nMT7lZvFLHIcVoCLJrfW/S732lyt3BqakYSx4bpFWuwE147gEXYMOQALl+9Bcpy5ANBjh8vcq1iZgRolveKidnnZ/YHtuPw9Z44Ir2NVKBJ508StI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDacNlXs; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778266077; c=relaxed/simple;
+	bh=7jpoG7kUm+k+fpqP2bCJreu5zXQDZII0qcCjSs2ODLU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HEitg45oZJwyRdWsK5Xrx+WAM7k0bcw6sHiu872Yg/C1r077nLVHOC8i0Bi8pb8uc9istgKEKEHvjkzN5RkAayqqCAkPfQiPZq12xvSAPBBcQRh2aumTCqf2SYY2jqlCeuk9hubd9STbyUKL7BJcQIOJrGda4Nh9Jjmu/1ld7Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2dWVDH8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDacNlXs"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45562c41ec7so165644f8f.1
-        for <driver-core@lists.linux.dev>; Fri, 08 May 2026 11:26:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778264770; x=1778869570; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
-        b=aDacNlXs4QwNSnrFhYBknhe5X3ZNuTEi/adJel56gS73CAmFYWl9vnKxVsvYyzVRHR
-         8+o+TI9dHBkDZY57p87lgtLztBiw1Orvt8W4C3iKgb3bVzxii+/UWXPRIymnuzzfEhyk
-         AdpuVCsdaWFgT4Iyz8qWTryiFFKVln/CqYWlffFi6gfqWSu4njJNXAfObUVNQecO1EF5
-         QK5qGuJrSOsasIs1zCSDWi8MXQOworcBl30cLaOZ9Hn81utkd/GTGgu3o5Op+qBVNte6
-         QH0AUHTMftxs2zQQ0BOBQhcwvZ7kUzh0wZJQ4K1I6iZ6TQ+TuXOkabTEmp624iyzhzOC
-         AU8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778264770; x=1778869570;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
-        b=juq7OG6IbI0cN6GcZd8F8oCIWQBDTOsDUXudWSytSIG1PMIIhMBFsrZDU36TM5MEFb
-         JbWcqp5t35sLQWBFF//txSHP6DeWYB+7ek5CFZgrvrnytSBKx9Xz5pG7DczVfh+HIOPa
-         d1dD2vbcLoferuHi75xFrph47j65FpLTZnyWlHdK0CobN4D2iU0VkcElwu6QWzPxmfer
-         BNGgufs2B3XcE3F1hjDKMmyX/PyJHdaOzB0BTYkOU8SMm/Zk8K8VTJ4OFKFT+5ZU5vUi
-         xDkyLqdcScuHfk/G5WGKhwuY6+v4NYAfXoJI5gvGOHpwB30raFuqyRZW5D4bPsHnWhlu
-         f89g==
-X-Forwarded-Encrypted: i=1; AFNElJ8s9dwRCmw9Mw7vbqz99uqyr2Q1mpbCAGkX7nesBpCP2ZyeZIAG8p9AdHX0YEUK7dS1sba+dV+hfvExQw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPkR3/YW1q3HzRwIachTUMlRFeAZD6trYiY/iIzk8ssvWotRv4
-	E1JXVlTq5I1dTkMbdX0lo+dxyVsFgWnwDX1P8Z9NHqggJCfWGCycwXmR
-X-Gm-Gg: Acq92OFxcd0B1uQQEYP4jvb++swnNqkICt2U3rghX3+1zf5O6rErbgEEFyASRsJ8KPh
-	lHeksUk0N2PSA8FjkC0Y4rmu2NTNXkE9sKIkYoGCC83mheaHPcgUFFvJzZaH1wwL74rRTwwj7hY
-	vsyjGX4ZBLMYauRv09tqmk6N72zkmngK8j7Z/VPVkAMP/RxoKC7kVG3oYgihJZpoGM1QlPL13Gb
-	JFDO5iorY9Os4Obj8mHs98gB+E/O00z56gBC6ddneMZ8pVFKisYowMZGiviYo4Dx6msjkacL1Nt
-	FbMnCBOKxCPr4/LV1xpSDlyhMXjhypEtpdf8q8iwWV0NvL3ts3e6Vmv2SU6TR9uanBL8Rc/g3eL
-	eVzu5joQVIaWILsRIeVQclrwcyau22Ec3SS+53/5olirUCOsYIaoX4SUWKCkFskqX3jFVdLsek5
-	p78xYVAkD/yBWQH7f64EQhsTaV/vEfuHL1bB2yuELYLDAoaX+VFG5DDomatcm3Wwax
-X-Received: by 2002:a05:6000:420c:b0:43d:7508:c9c9 with SMTP id ffacd0b85a97d-4515c5752d8mr22366137f8f.27.1778264770073;
-        Fri, 08 May 2026 11:26:10 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6c79fsm6435208f8f.15.2026.05.08.11.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 11:26:09 -0700 (PDT)
-Date: Fri, 8 May 2026 19:26:06 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Adrien Reynard <reynard.adrien.08@gmail.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
- Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
- <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt
- <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
- Paulo Alcantara <pc@manguebit.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- "open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:DRIVER CORE, KOBJECTS, DEBUGFS
- AND SYSFS" <driver-core@lists.linux.dev>, "open list:FILESYSTEMS [NETFS
- LIBRARY]" <netfs@lists.linux.dev>, "open list:FILESYSTEMS [NETFS LIBRARY]"
- <linux-fsdevel@vger.kernel.org>, "open list:TRACING"
- <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
-Message-ID: <20260508192606.2423f50e@pumpkin>
-In-Reply-To: <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
-References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
-	<1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2dWVDH8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90ADEC4AF09
+	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 18:47:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778266077;
+	bh=7jpoG7kUm+k+fpqP2bCJreu5zXQDZII0qcCjSs2ODLU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=d2dWVDH8VGMfzunN1nwLfstC7kJIIV8/giCrtjdmnNuNwYFUCqtYarUtJ/+StKtQS
+	 lo0ogd5ajyiTjeh1d/bD932VSvJNsmpRPf2vgyKBN9nPPSOKaRyNrMG1+7epK1OXX3
+	 5FSM9pRMf2WSMELSUgOnrQLzHBJdt/A8Sly+o9H7z45HpTaV5MVodPWZbwwG4eThS7
+	 z5u10urD/8opaoVB1yUEaowna+UXEQPvr2oaSNqW9+SK1tH+BHObtXVPFFC4nGVHe3
+	 E0ara+LLS/30O94IePOKt/tsaSNWDD6H5Ongr+kBqFWZOT4xhbW9Y2Zso1ZPxFzmVo
+	 75llra0R6ldZw==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a865d1547aso3193063e87.1
+        for <driver-core@lists.linux.dev>; Fri, 08 May 2026 11:47:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+eLM/C+i3XWQUVYHgp/+K4GcCF6qPx7pyiUYTrvm7HK6nmzpOvYAmNHpBg8MCbXdnTAUpeDSAo89bvEg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaAuEnLTveav0WPGoqXdmzq2xwysNh/Xa9SMcYXezhC0SoRMqe
+	YrSd8xweV9NTKjq6yW7p3J/dPG+eMzrJkuOKPhyPKQ8/vV+Dwab329/b6/caqk2guXfggLSApDF
+	rEjq7xAczxDoH7K2V6sFycZmM+GaKp4s=
+X-Received: by 2002:a05:6512:308e:b0:5a8:8814:5662 with SMTP id
+ 2adb3069b0e04-5a899b8fc0emr3746893e87.4.1778266075925; Fri, 08 May 2026
+ 11:47:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260427131825.15793-1-bartosz.golaszewski@oss.qualcomm.com>
+In-Reply-To: <20260427131825.15793-1-bartosz.golaszewski@oss.qualcomm.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 8 May 2026 20:47:44 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jAiM03j57MSgjxz-yO2_a7JngfG6F35V2Yxs0GMmq1_w@mail.gmail.com>
+X-Gm-Features: AVHnY4JOQ5kSDJUQvKVr0nREtX0aKgzABMTYh_cjR2bJqKcjyBvdhQnAqI0U6tM
+Message-ID: <CAJZ5v0jAiM03j57MSgjxz-yO2_a7JngfG6F35V2Yxs0GMmq1_w@mail.gmail.com>
+Subject: Re: [PATCH v2] software node: provide wrappers around kobject_get/put()
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, brgl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 8 May 2026 11:15:28 -0600
-Shuah Khan <skhan@linuxfoundation.org> wrote:
+On Mon, Apr 27, 2026 at 3:18=E2=80=AFPM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+>
+> Make the code more readable by avoid constant dereferencing of the
+> swnode's kobject when managing references. Provide wrappers that take
+> struct swnode * as argument and make them hide that logic.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Make swnode_get() return the address of the swnode whose refcount it
+>   bumps and use that fact in software_node_get()
 
-> On 5/8/26 10:37, Adrien Reynard wrote:
-> 
-> Missing commit log in all your patches - I don't patch 1/5 in
-> my Inbox.
-> 
-> > Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> > ---
-> >   Documentation/RCU/rcu.rst                          | 2 +-
-> >   Documentation/driver-api/driver-model/overview.rst | 2 +-
-> >   Documentation/filesystems/netfs_library.rst        | 2 +-
-> >   Documentation/trace/histogram-design.rst           | 2 +-
-> >   Documentation/trace/histogram.rst                  | 2 +-
-> >   5 files changed, 5 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
-> > index bf6617b330a7..320ad3292b75 100644
-> > --- a/Documentation/RCU/rcu.rst
-> > +++ b/Documentation/RCU/rcu.rst
-> > @@ -32,7 +32,7 @@ Frequently Asked Questions
-> >     Just as with spinlocks, RCU readers are not permitted to
-> >     block, switch to user-mode execution, or enter the idle loop.
-> >     Therefore, as soon as a CPU is seen passing through any of these
-> > -  three states, we know that that CPU has exited any previous RCU
-> > +  three states, we know that CPU has exited any previous RCU  
-> 
-> The original intent might have been to say, "that cpu", so adding
-> the missing comma after the first "that" or change "that" to "the"
-> would make sense.
-...
+No issues found, so
 
-I don't think adding a comma would be correct.
-The clause splits as 'we know that' 'that CPU' and the repeated 'that'
-is absolutely correct.
-Maybe 'that CPU' could be replaced by 'it'; but it can be difficult to
-work out what back references like 'it' refer to.
+Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-You can re-order it, as (say):
-	Therefore we know that as soon as a CPU is seen passing through any of these
-	three states it has exited any previous RCU read-side critical sections.
-
-But just because some grammar book says you shouldn't have repeated words
-doesn't mean there aren't exceptions.
-
-The sign writer was doing a new sign for the 'Pig and Whistle'.
-Unfortunately the gaps between Pig and and and and and Whistle
-ended up visibly different.
-
--- David
-
-
+>  drivers/base/swnode.c | 40 ++++++++++++++++++++++++----------------
+>  1 file changed, 24 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> index a19f8f722bc8e..869228a65cb36 100644
+> --- a/drivers/base/swnode.c
+> +++ b/drivers/base/swnode.c
+> @@ -374,20 +374,28 @@ EXPORT_SYMBOL_GPL(property_entries_free);
+>  /* ---------------------------------------------------------------------=
+----- */
+>  /* fwnode operations */
+>
+> -static struct fwnode_handle *software_node_get(struct fwnode_handle *fwn=
+ode)
+> +static struct swnode *swnode_get(struct swnode *swnode)
+>  {
+> -       struct swnode *swnode =3D to_swnode(fwnode);
+> -
+>         kobject_get(&swnode->kobj);
+>
+> +       return swnode;
+> +}
+> +
+> +static void swnode_put(struct swnode *swnode)
+> +{
+> +       kobject_put(&swnode->kobj);
+> +}
+> +
+> +static struct fwnode_handle *software_node_get(struct fwnode_handle *fwn=
+ode)
+> +{
+> +       struct swnode *swnode =3D swnode_get(to_swnode(fwnode));
+> +
+>         return &swnode->fwnode;
+>  }
+>
+>  static void software_node_put(struct fwnode_handle *fwnode)
+>  {
+> -       struct swnode *swnode =3D to_swnode(fwnode);
+> -
+> -       kobject_put(&swnode->kobj);
+> +       swnode_put(to_swnode(fwnode));
+>  }
+>
+>  static bool software_node_property_present(const struct fwnode_handle *f=
+wnode,
+> @@ -493,7 +501,7 @@ software_node_get_named_child_node(const struct fwnod=
+e_handle *fwnode,
+>
+>         list_for_each_entry(child, &swnode->children, entry) {
+>                 if (!strcmp(childname, kobject_name(&child->kobj))) {
+> -                       kobject_get(&child->kobj);
+> +                       swnode_get(child);
+>                         return &child->fwnode;
+>                 }
+>         }
+> @@ -737,7 +745,7 @@ software_node_find_by_name(const struct software_node=
+ *parent, const char *name)
+>                 swnode =3D kobj_to_swnode(k);
+>                 if (parent =3D=3D swnode->node->parent && swnode->node->n=
+ame &&
+>                     !strcmp(name, swnode->node->name)) {
+> -                       kobject_get(&swnode->kobj);
+> +                       swnode_get(swnode);
+>                         break;
+>                 }
+>                 swnode =3D NULL;
+> @@ -835,13 +843,13 @@ swnode_register(const struct software_node *node, s=
+truct swnode *parent,
+>                                            parent ? &parent->kobj : NULL,
+>                                            "node%d", swnode->id);
+>         if (ret) {
+> -               kobject_put(&swnode->kobj);
+> +               swnode_put(swnode);
+>                 return ERR_PTR(ret);
+>         }
+>
+>         /*
+>          * Assign the flag only in the successful case, so
+> -        * the above kobject_put() won't mess up with properties.
+> +        * the above swnode_put() won't mess up with properties.
+>          */
+>         swnode->allocated =3D allocated;
+>
+> @@ -978,7 +986,7 @@ void fwnode_remove_software_node(struct fwnode_handle=
+ *fwnode)
+>         if (!swnode)
+>                 return;
+>
+> -       kobject_put(&swnode->kobj);
+> +       swnode_put(swnode);
+>  }
+>  EXPORT_SYMBOL_GPL(fwnode_remove_software_node);
+>
+> @@ -1002,7 +1010,7 @@ int device_add_software_node(struct device *dev, co=
+nst struct software_node *nod
+>
+>         swnode =3D software_node_to_swnode(node);
+>         if (swnode) {
+> -               kobject_get(&swnode->kobj);
+> +               swnode_get(swnode);
+>         } else {
+>                 ret =3D software_node_register(node);
+>                 if (ret)
+> @@ -1044,7 +1052,7 @@ void device_remove_software_node(struct device *dev=
+)
+>                 software_node_notify_remove(dev);
+>
+>         set_secondary_fwnode(dev, NULL);
+> -       kobject_put(&swnode->kobj);
+> +       swnode_put(swnode);
+>  }
+>  EXPORT_SYMBOL_GPL(device_remove_software_node);
+>
+> @@ -1097,7 +1105,7 @@ void software_node_notify(struct device *dev)
+>         if (!swnode)
+>                 return;
+>
+> -       kobject_get(&swnode->kobj);
+> +       swnode_get(swnode);
+>         ret =3D sysfs_create_link(&dev->kobj, &swnode->kobj, "software_no=
+de");
+>         if (ret)
+>                 return;
+> @@ -1119,11 +1127,11 @@ void software_node_notify_remove(struct device *d=
+ev)
+>
+>         sysfs_remove_link(&swnode->kobj, dev_name(dev));
+>         sysfs_remove_link(&dev->kobj, "software_node");
+> -       kobject_put(&swnode->kobj);
+> +       swnode_put(swnode);
+>
+>         if (swnode->managed) {
+>                 set_secondary_fwnode(dev, NULL);
+> -               kobject_put(&swnode->kobj);
+> +               swnode_put(swnode);
+>         }
+>  }
+>
+> --
+> 2.47.3
+>
