@@ -1,160 +1,89 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231953DFC92
-	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 12:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3353806D5;
+	Fri,  8 May 2026 13:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778243987; cv=none; b=bQDLgAKX5CnTSly36Hg0wj0ryzVDFJkp67LK/RSlAh/gJdpksuONsRqIqUVc1RuCogW4fgNhJKiHNqYrvmeDfiFFQWx7Pr9OU4c83T8dYwWmG1TiKSmfdR9fX0zT68f9rMYy93s8rT3kCnfKagkCd+xYLkkpudzGmKoYVVgcRAo=
+	t=1778248436; cv=none; b=cizGYHuknHrfjY7BDDZhhCZ7F7v86Crd48w4ARFSg9nmOImyPJ2UdRZFDBM0XElRFkrF8OMJObNbAMla8s0eURbDL0NVm1ZBkVcuM5sq7d+xc1XknYSBxPY9jjG1noGRK7pryPRciOISn64lZcEDhwOiNQePdW0voUpE1n7NwDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778243987; c=relaxed/simple;
-	bh=hwsTYxE8EG28UGJ/9uJBMJiUsrm4KBw9SMV/lotgNm8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h7H5AXyWSLWzN0OFG5XcQ2iny85gpysu6TMkSRn70Do0jVVZCdCo7V4GnS2oey6c4g7pZDGr7BG5rmC/M4RUXHTUhNiYFYMqzf2RKl5cvS5W0Az4bjd2xePZrM29X7kaIOuyCQZ06uz1BmQVqQ55dH10kr8Ihxp18cwTxM3dKPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vl3Oo3mx; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1778248436; c=relaxed/simple;
+	bh=ImULPTll6/DKw9MUjoqJ04IJ5i3jazrS0ThlE7j1Kv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LdV2OBt5RiGn+l6WnEB6rsDc1vehJQrq91Gt/Lpojshm6E+Xdy2zjeGy1LE65+c3MOnYA4KBVRNbYLcGNWhZ6/qaezacYy65O3///GrsiKPpbgj9r89cxzhaVqjoMsYiay2JD4hRhnj2droocC5h1W32ToH6sIPnU9P/rmvb+2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVjuE67T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vl3Oo3mx"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3939d2bd739so18323311fa.0
-        for <driver-core@lists.linux.dev>; Fri, 08 May 2026 05:39:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1778243974; x=1778848774; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9GaxAP6ysJuJBahsu75EBbPBsRu50PTWws4c1kr5c8Q=;
-        b=Vl3Oo3mxncAauaW/9yDnRhB6qXLgttA0u/P6VRYMt6U+gSORr2Nq8f4nzzxaH1vrOJ
-         6jD4MQJUyaLViWAMB+5UmhOLCvFtxbLBvB8jGn9qLQ4uPdlxO15oBBeqfdZQMXb1u3jg
-         LervNKlCXhVGFyqKIVCY+q5MdZ2AKer6TiSQQDsWn4sHuJLVNlqRYpLmtchqhIYuowMw
-         9TduH9AO+YpBMZHe8aD71nR6Dxo4aCWLt3eUg5aOjBV36ZlBXWWbAGh/bHVPUshgnK/K
-         6c2pCuo4lVBjXPuYnDvjQNnpyRkYhkuBNjZEgpijzmhJMUi0zehVtuq65TakRgnNiw8c
-         IvLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778243974; x=1778848774;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9GaxAP6ysJuJBahsu75EBbPBsRu50PTWws4c1kr5c8Q=;
-        b=QPZ12PAYG239/yB9BGAMPS1yeix6RbCJiSRdDfREMTj1aTBmkyC+qtgZHiCQUgSOr4
-         LKEgFx7qJkJMxPT0hHQX8/VIqJWBoDguqah+UQFVXDhwyG2FR1nqZvlXzM1l2jJ1sJIT
-         DOZnaToR/ehdGkeBDTHSKfT7v/+NzHnl34W7aq+MNAkG6Evh4tvIkh6SofX5ZE6lVwVg
-         7A1jYjt6UAxZttUywVVfKwlC8wWPlSfBti1/89fWaL6RHzN+SHgs7NW1/1ewoqCDPCv5
-         GvOH3NAtb/us/QU5mf0NGyVTTRjG8B/pJvkQaIY39663hGsx4sQbJWQJqnWwyV/D6xa2
-         AgbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9tumrLXMNh43gQPAKUWRTCPBUnlxOcNv6aEtv/IvjbSqg4z2AQiJlm85v/aSyYh6C4cqrbVukOrg4N7A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXY+iGsiXubPevyubd83TehLJCTj1ywIVmypJGQYCzplO/fF6T
-	4XVaOWP1u+1hZIgPl7Qji/CI0Tg9QwGOvXxfhmCrV3bBLqzglIPsMSepNqkulHstPYC99zn9ld+
-	iw65S
-X-Gm-Gg: Acq92OE1rrVVsK7O+8MyZo3My/dgcdfKWC7y1do1PwHGLkQqh5gE9swPc38B42+BRyq
-	FO0/MFnymMi7x/1OJJrAXBYp5/Vw2oWmo8NzLt1zR0OgFcuMnN8OhsWVwZQjEKYwgG+CiQmq58V
-	rTgTg44FlHXIes2BSwqxcMDSx2oiEke+VWzoxUTIKCyMf4YeUwp6R68sXjPEVg9YkVH72/zLf6k
-	o/RJDCkI6TgDJ5YJ7fjl+slW6sPqWfIviMBQmbamlKtduAHTgjeaTs0IH1xsvfQjsuAypiJlmU8
-	yGrsCB0odd7/40c4pT/UHECB9okt/AwMOoaZJ6HvsY1mUd5Z1rBJhgC8BuJ6B9RduCL2WNH/K9T
-	kQWE+9vTytcqkBDoA9dn+LqDs1ag9Izx/ElEHpEtsBvaSycaHSJprvnOUrAjI9xNyAz15P62Coo
-	2WIyL/jY1QiOOy66jckdCh8S7PFkIV7a+zMbup78FAgkDf5SCeYZUhqoAKjA0d1MzRMwj4b4vn4
-	tdiJl+azmQ=
-X-Received: by 2002:a2e:9bd5:0:b0:393:bb14:9ae with SMTP id 38308e7fff4ca-393c40ce7a6mr36476961fa.3.1778243974261;
-        Fri, 08 May 2026 05:39:34 -0700 (PDT)
-Received: from uffe-tuxpro14.. (h-178-174-189-39.A498.priv.bahnhof.se. [178.174.189.39])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f5f5fcc7sm4569621fa.18.2026.05.08.05.39.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 05:39:33 -0700 (PDT)
-From: Ulf Hansson <ulf.hansson@linaro.org>
-To: Danilo Krummrich <dakr@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVjuE67T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06129C2BCB0;
+	Fri,  8 May 2026 13:53:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778248436;
+	bh=ImULPTll6/DKw9MUjoqJ04IJ5i3jazrS0ThlE7j1Kv4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CVjuE67TEM7hshiU486fmDOitypmjxAFnEgskHtV+EGQtxmJcjFZ4VpFt+CGp7Mf7
+	 52LGJ/MMdLdofHq+hC6PMsx0S64vXu24CcwIg8/OH/wC6SlTWGeoidSsgEK208T5El
+	 jRqVqAAdTa9oUpvzUXlFXjpnSZZJ5iD5goJdeKB5P2ARMSkG+WWnrTOrlMiTN8bNa0
+	 K2vzzIXkQMnVVDOX7xtMZL8387LwgJqNCflbk0CxgsiRHKe+4o7MmdcauKpS7H15Ch
+	 7n63VUxhbpHGdkN37o6/A8FEv1Pb2WIMbO2qssxmUpg0XoUyorxuk8i62Dghjy4yd7
+	 cdL1Csh8L1dSA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id A43C31AC5896; Fri, 08 May 2026 14:53:51 +0100 (BST)
+Date: Fri, 8 May 2026 22:53:51 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-spi@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org
-Cc: Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Abel Vesa <abel.vesa@oss.qualcomm.com>,
-	Peng Fan <peng.fan@oss.nxp.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Maulik Shah <maulik.shah@oss.qualcomm.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 13/13] pmdomain: core: Add a couple of debug prints for sync_state
-Date: Fri,  8 May 2026 14:39:02 +0200
-Message-ID: <20260508123910.114273-14-ulf.hansson@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260508123910.114273-1-ulf.hansson@linaro.org>
-References: <20260508123910.114273-1-ulf.hansson@linaro.org>
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v1 2/4] spi: Support suppress_override_attrs flag
+Message-ID: <af3q7yfFnVP1AcZG@sirena.co.uk>
+References: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
+ <20260508095224.1275645-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Jv3ljE2IBBPcqet+"
+Content-Disposition: inline
+In-Reply-To: <20260508095224.1275645-3-andriy.shevchenko@linux.intel.com>
+X-Cookie: Truckers welcome.
 
-To inform the developer of what is happening during sync_state transitions
-in genpd, let's add a couple of debug prints for it.
 
-Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
----
+--Jv3ljE2IBBPcqet+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Changes in v3:
-	- New patch.
+On Fri, May 08, 2026 at 11:42:40AM +0200, Andy Shevchenko wrote:
+> Some device driver may want to suppress the driver_override sysfs attribute
+> by specifying a certain flag in their struct device_driver. Since SPI uses
+> explicit attribute instantiation, add that support here.
 
----
- drivers/pmdomain/core.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Acked-by: Mark Brown <broonie@kernel.org>
 
-diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
-index b5d90ddfd698..3d3e0f38815b 100644
---- a/drivers/pmdomain/core.c
-+++ b/drivers/pmdomain/core.c
-@@ -2756,6 +2756,9 @@ static void genpd_parse_for_consumer(struct device_node *sup,
- 			genpd_lock(genpd);
- 			genpd->wait_for_consumer = true;
- 			genpd_unlock(genpd);
-+
-+			pr_debug("%s: wait for consumer %pOF\n",
-+				 dev_name(&genpd->dev), con);
- 		}
- 		mutex_unlock(&gpd_list_lock);
- 
-@@ -2772,6 +2775,9 @@ static void genpd_queue_sync_state(struct device_node *np)
- 		if (genpd->provider == of_fwnode_handle(np)) {
- 			genpd_lock(genpd);
- 			if (genpd->stay_on && !genpd->wait_for_consumer) {
-+				pr_debug("%s: queuing sync state\n",
-+					 dev_name(&genpd->dev));
-+
- 				genpd->stay_on = false;
- 				genpd_queue_power_off_work(genpd);
- 			}
-@@ -3637,6 +3643,9 @@ void of_genpd_sync_state(struct device_node *np)
- 		if (genpd->provider == of_fwnode_handle(np)) {
- 			genpd_lock(genpd);
- 			if (genpd->stay_on) {
-+				pr_debug("%s: sync state\n",
-+					 dev_name(&genpd->dev));
-+
- 				genpd->stay_on = false;
- 				genpd_power_off(genpd, false, 0);
- 			}
-@@ -3677,6 +3686,8 @@ static void genpd_provider_sync_state(struct device *dev)
- 	case GENPD_SYNC_STATE_SIMPLE:
- 		genpd_lock(genpd);
- 		if (genpd->stay_on) {
-+			pr_debug("%s: sync state\n", dev_name(&genpd->dev));
-+
- 			genpd->stay_on = false;
- 			genpd_power_off(genpd, false, 0);
- 		}
--- 
-2.43.0
+--Jv3ljE2IBBPcqet+
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn96u4ACgkQJNaLcl1U
+h9BdGwf+OrXFUp18zrinWYIHAzkGcPws8ctEnTduqr1dE4uXXaSwaOTQccdK5Lco
+lBteLIUSpiiu7T+OqTpoZCQ6W/1SYH7Mk0cHtkPmFCP/zu9PxYspSd/EQtgCHWyd
+XB9NuM5PrHVGGmG2cEhe5Ls9M3KrKyFQvU3yVjuL8pLjxLwJF0gR56sCRqmCGfMN
+sc3TExtDQmUyzfvKeqYPXqv64+XWSjRjLRVeHyT7spT1meAb7ibfqy2cDmw/fGht
+SV1KRvFpNRf6pCuiv1Fe7NCaWMBEOpA1B2nJCilikUPaIxasnFFd2pltvz9h+gmA
+bHPTnOZDZVoj8iA27aknR80+XkbgVg==
+=TUzV
+-----END PGP SIGNATURE-----
+
+--Jv3ljE2IBBPcqet+--
