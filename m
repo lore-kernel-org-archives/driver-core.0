@@ -1,169 +1,133 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010039.outbound.protection.outlook.com [52.101.193.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D78C4A07;
-	Fri,  8 May 2026 11:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778241363; cv=fail; b=CxcheSW6ShIzWMZhtBUCWcCn0TCEXJp3oZcmNbmdVY8Apq4YW2Za/R5Z8ewzN711rc0WAm6em5OQYLDyH6cWBXIds2zzzqE8OhXd8b/SgYLdCoqyEW//VemUm2vnKdjUISaG/OovSKvpzTYbIGvM9aHztZ2lDOjZ0NmubAWSuiE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778241363; c=relaxed/simple;
-	bh=kUruMmg4aOFo9e3NNr9KsKyOO8lo94kuiR9hXz3V4is=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=hVsX6bncsvsxykYecq4JvoIsa29Pq+FFalzsO1QXdsr4FAmyAd/o8oroP1xtZvoL6eSjU6CSnddfS2yNWz3PtTknmS5reCftfT54fjmO71Fptowc+tVT3amViMgwllQWZdMcI0gr2rrObf5bO0tIBwksEmRyIrOqbVLmiEDia/Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IDB4Kc2i; arc=fail smtp.client-ip=52.101.193.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FEA23233F4;
+	Fri,  8 May 2026 12:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778242947; cv=none; b=lANW3nCw7g13uHrgoWkoTCntmhxN/sShSReSOjd4Ep4u9SnHgpMahmKbe8RKb19o8M5LR+ksSetJildpMud5p/3mUnoGcTjDe2F7+19C+xmPKR6w7rMxaLthCRESiLF2HGHh3QxcslERzSZFTdZQrSuvpWn++tHIFAyXW3h37hs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778242947; c=relaxed/simple;
+	bh=dv1/ywqlZBVFXy+DrFAxaMz7jCZLnY5k8yOKMEgT1wk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hvX+4pjzcUsjo3SmI3JSeps4S7bYj+Oits1N9t/JZsAh4R7KWPAIZPcPMc3PHoAFfKRRpJWtrFh71/NbU3AoqDPpkF5ylMTo/FnpQlSP7APhvwDZthbjyCo0eKiKU6GLo7Bb3+2i4eqOJd4LMNwUM3V3bs3K3UHSyZC1VAUPL3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jQM3MFty; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IDB4Kc2i"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FmaQuh8tHB+DHtkNRGwrAPbk5wKr46jSzsIazBfb+B8sO1MddihgVBDfiXfaUjQ3NPY17OhbB1tIw+b0VpwRNW+F5yjBnQrC2GL8oDkQ1H5bgWqb0UBty4sgSMUoQzEsHCjXTPr5Fa5WMirN987MPthsROWUVJ+hC77hcvWtY/CPyLZet9CDNk6EDFier5X6QYubdCE7uSEdepxVV6ifzBvd70MYBqiyRCGnv/Cg8yys2iC1MASf9MKmsUBdFYwDp6rw3pwKu0c5arBTYjNUhspj8rY7ulNFGm4kV/9hhjZEPD2T0j0Xzp6Ti20ReY/CIPSBkxH6wubo+oH6Q54PcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0rIgBVNnQtKV9bJPq8waCbpORckLkslBlkOWlwr9rHE=;
- b=WYxXQ9f5pu3Il4pg7GO8rfHFwo7UjfxAb/Za98HFQn2h7QTXjnplPPAUCP5aM/Hkyfs0IDelrCY9Cms0UMgVGtZMwo47l6MxnWVb6S3znNPgivHa2X2Bjg6huwxBTQvdmD4yCdzpzm1dKQofqSsqysJiuXUJvBoBvhIjlJKyPAgiNuybTQcOIqAK9b/3YX9IdAmyfDwk7o2yDMo6lBy1z0xO4LuhpEcO+6WeyMGXLCKfmTyxlpNbYNYppuSbgJ6Jfonixo99d3X7sJUbhyVRpFK67tsYqLDCrEvMlG7vuvxIyKVIMMBYX2DMR6g1K1MYuOC//MkeqIKLfiAt1jsdtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0rIgBVNnQtKV9bJPq8waCbpORckLkslBlkOWlwr9rHE=;
- b=IDB4Kc2iUH80uaISiABF2NexgU3i1veYOOQtAqMndb1VEWWuOG6Y2zSxJa77o4xuyx01kxw9RNlra0ApcWWQqPKH7DN3fRBjYPgb+PDAgB5rLCZb+61f3VUL7fJsLVVkQgGc4NFT+xYsJqnvQ2W2I9qdPHNV+vSCzuHh/3AReEVinx0+PtYlCojH0+tGnfESgyIoxQ/c7X+ZIs4jh+KiY0CniB3KLmZrMK0FCrXsU0C3OGN/CRXFmpg/TqWTZ+AZBPtGkcV6S8Nh2XwF+JbPlgJ8/emyy7moWaXbnKAX+C5PLmScIQ4rmPlNKlw1L53DhQsz61hKMb2Jji1xKQhQnA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by SA0PR12MB7076.namprd12.prod.outlook.com (2603:10b6:806:2d5::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Fri, 8 May
- 2026 11:53:11 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9891.017; Fri, 8 May 2026
- 11:53:11 +0000
-Date: Fri, 8 May 2026 08:53:09 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v10 8/9] platform/chrome: Protect cros_ec_device
- lifecycle with revocable
-Message-ID: <20260508115309.GA9254@nvidia.com>
-References: <20260508105448.31799-1-tzungbi@kernel.org>
- <20260508105448.31799-9-tzungbi@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260508105448.31799-9-tzungbi@kernel.org>
-X-ClientProxiedBy: SN7P222CA0024.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::20) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQM3MFty"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9069C2BCB0;
+	Fri,  8 May 2026 12:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778242946;
+	bh=dv1/ywqlZBVFXy+DrFAxaMz7jCZLnY5k8yOKMEgT1wk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jQM3MFtyaURYyFsQ3N4Ut3uE25wOfNwNyq9cXuSscKwG2ZCBTZwGj/faLkzz7pjD2
+	 3M9KyQcES8vl2vUxlxC45Cen79BLMR5SYAnEWAAVgcWI9b0ItnbSCpRiXD/maAqW08
+	 5Yn9Vtbibwud6PyYg8aK2NSkxxSfDFUSDHDTwbp2fmn6jKL4HdRvgFq1qmGyE83mZ4
+	 3lDn53w8dlaY3taubZUe6LVTxjPqdZtWnlOk9VgpnYICPhhv4zEDqCk5OQmyiLnkld
+	 tLWJmK5sx+HOKLZf0nrMi1H5bpqSZFBswP0YjHBuKpAIu60c6cI238uAmEgEPyZakP
+	 FPbgTSbhdWtLQ==
+Date: Fri, 8 May 2026 13:22:14 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Mark Brown <broonie@kernel.org>,
+ driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-spi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Jean-Baptiste Maneyrol
+ <jean-baptiste.maneyrol@tdk.com>, David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
+ <andy@kernel.org>
+Subject: Re: [PATCH v1 0/4] driver core, iio: suppress driver_override
+Message-ID: <20260508132214.57e57df0@jic23-huawei>
+In-Reply-To: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
+References: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SA0PR12MB7076:EE_
-X-MS-Office365-Filtering-Correlation-Id: d07708bd-fb1d-45e8-5c9d-08deacf860eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|18002099003|56012099003|22082099003|3023799003;
-X-Microsoft-Antispam-Message-Info:
-	4zi5IIremP9VsW1EXLtNtdICHLO+NvApW5I5OTFUjbi5R0V6KnzBeMfIlesuDEJvBP/YplokrmtHyzoOVwh7a+sm9KfHOFPbJqreqenwTx3KazD6fJ6tECxN3aZ4xuF91yGPA4JkbwqXK5GJgc5LJgb9fqPKOhHgpQiPhdpU2x33gbkWoVF2glkmu1F4fmcY+RkyEInG0IkjqtpiiUA8uCYk3QPwykeaezCiPf0oPOpJGvePBz0oG2/yi0uGVwg6jvq2GCFXNQ99sUgscVNONB0z5NAN5DIrNZA48KZCKUIBMyZQXw/ooABBrtEAXk8erVGXICyTdrAdUO9DlbjS7jKQM2C/FpDlLkjQ25Q0MfXeUCIxzWrodSQi+ZSIDIC7tV0sWK55nAGmxojZ8o7rNA/uKXiojk1dClodd7lWwE0q//1T8WlcurTdy6rzI7YeQ7JFmM26bFz95XgptRdn7aRk4KACrBw/tYiozKJCKZGKBnUT+qGdGF2iRQAeRpYOYUxxPK5uOtUZHorKkgvK3qsAZt5Wz/HeXjUgobvci3eAR6L9KWImwwOqQLQE6Cv4ls7zp6jCaoBRhbx4rudAS39looJb/oVlaK3BpnxAWvpLezMqnRgbuM3rO4rfrCG5EpHyUWdVyd+IuUFmZODQqZ9BoDXGmnwULDpehEV/q3PkT/HKC2JK/JKq48XKl6ed
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(18002099003)(56012099003)(22082099003)(3023799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZDvGRynBZLHdmnhsG0qWCCl9RJQ+2CBIHfpwFuoX6NTQe9MHVqXfzQe39Grc?=
- =?us-ascii?Q?3RcpF4k8ATGx/sWUpALxZPnHS988JB2CgScd8fL6OUdDQOiLs8hY2Q6gSy4B?=
- =?us-ascii?Q?7VTARE5naeONfcrHQuxLa48JA25Vp6wcEY0y0GUH7w/cRUeYuQQQrWra8jv7?=
- =?us-ascii?Q?vhDZJzxYRQmI3NEmPMPEQHsMUeSPdhKlqrEvCsAGwQrMbyt2B2MVXsw8Vtx4?=
- =?us-ascii?Q?FHoluiDQ+f10XiV7QW4nOpZZM5wjpeTPbWHvm9PRBUZzvvYRlEJOMkRCPa/l?=
- =?us-ascii?Q?YdG2vfOCUNUomKW5bdZQgnai0+U4hyMwM2OQkzjUg4MCmnYGU28z064Zoj4A?=
- =?us-ascii?Q?dCCdKbUHArvhyKknJpcijFoeWwQ911st9UguuO5B8CCX+VukT2kVSm41s8tI?=
- =?us-ascii?Q?Z7xB80sqTiCtlvq64hLSMLKGiauMHujK5Eg/EvZ7GJGmvgDpRAL/hNPAGQjO?=
- =?us-ascii?Q?VKevuvQLvf4phL+eP43RYeLVekQlA8ndA78Uhvaxz0NlFBqmOK5FJboToK14?=
- =?us-ascii?Q?2YTVDH5TZ56joC3iUobH3vDTkqiX8HDwG2u5a6jLzc4OT0aVgLvvMZoFqDqS?=
- =?us-ascii?Q?8UHrFXMGDF2Wvm6WParQnQktPII4SCNKZTcQSQsAeEbNjHgboMA9rpbaW7Ym?=
- =?us-ascii?Q?SfT2WO+1Ktma18lBY3dbiYdRmn01or5Hm+2csxihvQCFHmav1MAFKSaZOJvu?=
- =?us-ascii?Q?Vx82Up14U9ur6Fy4LlEk72i+Fk9CR9zvZlMwczmIIhh1p/hSUj3yRr6bBgXm?=
- =?us-ascii?Q?NLWEPkMsjGaTZ3TpFKGHc/GekvOKksoY//1MYpmaDBr6UVYj75yF+9T8pwXM?=
- =?us-ascii?Q?n34+n3sVsL4zray0OHdthQYuwhvFadIL42qiKQV1qH1uKkMBrI0FiElgB0M4?=
- =?us-ascii?Q?vEZJ5cS+2vVo4qs1NUy9xdwDMjd5pFYTCViPZprlDZ71K2mZTGalUVkAH3/M?=
- =?us-ascii?Q?5u1VMvaasPQE2ZuLgOz8tBgaqrKWruR0tRp1dUe2Dfz+0e3KDTMwM0/8+g4q?=
- =?us-ascii?Q?blHaJbc0xY/R3oXBv9YGaSeebKJY5MZlqvc3Mt/3T+TEPys+mzViuWHSgkJq?=
- =?us-ascii?Q?jR0pJUTpsrnUUo3NxJbMkWLFUp+Jy+ZRehjCABYQtp8Xd+KNAQALxL5q56u0?=
- =?us-ascii?Q?YvrfH2jF90Yv9PXsiIUyN7S2FXYd60V1XTtsQOKOfPdYKjBNjpfI6jg5rEQ6?=
- =?us-ascii?Q?RqsBNDOCqZ+S2x58ui5+rRW0rjTSg2k1gRn2V6IfHoycz0M59gKuI7RQROVR?=
- =?us-ascii?Q?wtrCgBJhRubBBTZgJSypEqXIW2S8ERDBqCrTHoDSTokS3bGw13TlUD9c181S?=
- =?us-ascii?Q?/YUgesrR+jGHBa/1dfmgCXzEONWvoLIlu6QUZkRC/f3IVE+pZV64gvwTrRxk?=
- =?us-ascii?Q?S0tDkajgnGQRwTl4UiFpv9//6xOfzxM6an/L8WuoQxABOiS8W3QWU1uEGWx1?=
- =?us-ascii?Q?l2wDigaBML/8DFRDY4mvfd3fNfdFIWytTg7udZ/O9w21/8VTkJVzml/f9/em?=
- =?us-ascii?Q?7wid8Kbt2HqJGaDc4r/aheOlgQPmE02DTBMcij0qhPUgftyBN0jfAdzHp8cZ?=
- =?us-ascii?Q?6xbz5JQS8ECGT6TPS72jYd5TPCLP/VbNedTPn+2GfpW791pXcMMIvO/xSXzX?=
- =?us-ascii?Q?z52/Jg0GLmV4Lc7EKGTQzANYN+MmEEqK5bVZyCeSHLs/HTuKnPrPCSZLrAD8?=
- =?us-ascii?Q?n6qhI7eC8CLo1FIQhBCh9GvEuxrc6r3o/1Cwf14ZwIfDDviZ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d07708bd-fb1d-45e8-5c9d-08deacf860eb
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 11:53:11.2786
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v5XO68bUrStqZpJOVcv9Ac/RkMTV02P2ZFJM4o4j+64z5XeV9/MgWCY5VciUrMpR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB7076
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 08, 2026 at 06:54:47PM +0800, Tzung-Bi Shih wrote:
->  struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
-> @@ -47,6 +49,15 @@ struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
->  	if (!ec_dev)
->  		return NULL;
->  
-> +	ec_dev->its_rev = revocable_alloc(ec_dev);
-> +	if (!ec_dev->its_rev)
-> +		return NULL;
-> +	/*
-> +	 * Drop the extra reference for the caller as the caller is the
-> +	 * resource provider.
-> +	 */
-> +	revocable_put(ec_dev->its_rev);
-> +
->  	ec_dev->din_size = sizeof(struct ec_host_response) +
->  			   sizeof(struct ec_response_get_protocol_info) +
->  			   EC_MAX_RESPONSE_OVERHEAD;
+On Fri,  8 May 2026 11:42:38 +0200
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-FWIW I am still very much against seeing any revokable concept used
-*between two drivers*. That will turn the kernel's lifetime model into
-spaghetti code.
+> Recently Sashiko started reporting the missed NULL check of
+> spi_get_device_match_data() or device_get_match_data() in SPI drivers
+> in IIO subsystem. It appears that the way to crash can be made by use
+> of driver_override sysfs attribute. However, many drivers, that may be
+> instantiate via ACPI, OF, or, in some cases, user space won't work
+> without necessary driver data. These are, e.g., most of the drivers
+> in IIO subsystem. Trying to override the driver for the device that
+> has no matching entry makes no sense in such cases and might lead to
+> a crash, when the driver is not prepared for that.  Instead of adding
+> a NULL check for driver data pointer in each of that drivers, effectively
+> meaning a dead code for normal functionality, introduce a special
+> attribute in the struct device_driver to allow drivers just to hide
+> the attribute for good.
+> 
+> The last two patches are the examples of use and code simplification
+> at the same time.
+> 
+> I consider getting an Ack from Mark for SPI, and from Jonathan for IIO
+> and route this via driver core, while providing an immutable branch/tag
+> for the above mentioned stakeholders.
 
-Your other series where you only have to change
-drivers/platform/chrome/cros_ec_chardev.c just confirms how wrong this
-approach is.
+Works for me.
 
-Given you say this is such a bug I think you really should be sending
-a series that is patches 5 through 7 from the other series and a
-simple rwsem instead of misc_deregister_sync() to deal with this bug
-ASAP. No need to complicate a simple bug fix in a driver with all
-these core changes.
+> 
+> Note, this doesn't change the state of affairs for some busses that
+> do not have driver_override flag set while using custom approach.
+> On a brief look it's the s390 crypto case which may not ever need
+> the above and hence left untouched.
 
-Once the bug is fixed you can continue to try to propose more general
-solutions.
+Excellent!  To me this makes a lot of sense as removing an attribute
+that never works for particular drivers is neat and tidy.  I suppose
+there is a very small risk that some really strange scripts rely on
+that attribute existing but not on it doing anything useful.
+If that turns out to be the case we can just make it fail in the callbacks
+but definitely not as neat.
 
-Jason
+One possible concern though based on a typical driver evolution:
+
+1) Driver written - supports only one part, so to match_data involved
+   and driver_override is fine.
+2) Driver gains support for second device.  match_data added and now
+   driver_override is not ok so we set the new flag.  Interface
+   disappears and perhaps someone was using it.  Obviously that case
+   is broken anyway.
+
+I guess I can make an IIO wide rule that we always set the flag. That
+leaves us with a gap though as we have a lot of drivers currently at
+step 1 of above that might progress to step 2 over time. I guess we deal
+with any reported regressions on a case by case basis.
+
+Ah well - still a step in the right direction even with risks of
+regressions.
+
+For all patches
+Reviewed-by: Jonathan Cameron <jic23@kernel.org>
+
+Thanks for proposing this Andy
+
+Jonathan
+
+> 
+> Andy Shevchenko (4):
+>   driver core: allow certain drivers prohibit override via sysfs
+>   spi: Support suppress_override_attrs flag
+>   iio: imu: inv_mpu6050: Suppress driver_override sysfs attribute
+>   iio: imu: inv_icm42600: Suppress driver_override sysfs attribute
+> 
+>  Documentation/driver-api/driver-model/binding.rst |  4 ++++
+>  drivers/base/bus.c                                |  4 ++--
+>  drivers/iio/imu/inv_icm42600/inv_icm42600_spi.c   |  8 ++------
+>  drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c         |  3 +--
+>  drivers/spi/spi.c                                 | 11 +++++++++++
+>  include/linux/device/driver.h                     |  2 ++
+>  6 files changed, 22 insertions(+), 10 deletions(-)
+> 
+
