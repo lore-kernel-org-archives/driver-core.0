@@ -1,49 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE647383C97
-	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 09:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C47B379996
+	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 09:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778233959; cv=none; b=k9miwttsFEWIAACE6BnXASb8Ap5DMYIqb2YjtbsYf2JTXMCPxyyTBNL+PitrFF4N0lLN9KvvkHkdtKC1xBraI6J5HzpcnPQ7IHP5vUcqgg5JYWdQ1QkVmRFWtU915HXEnj5vkvZj9RiwPYycTQG6uJwyj5J79ijjV45+o95xvG8=
+	t=1778233960; cv=none; b=qAa1BSD0udAkktzcQNiyOVYjaAV8bXZLK2e+uOnwsv/JHAx2hUsZgw+i2KhKjflF/AGGxPfsB6Yyov3ns5Cr3AJ3fUhDAPlZ/7QOq3oXHRSS/NxWj8b9v2zQQl2L+vAxQiM3oJtT8spH5LAONh+MtK+meFj6F+5L7fvAaw3BJNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778233959; c=relaxed/simple;
-	bh=tcT4Ke3eonYhGbRY7q/wz2GsdpR5v03TooPgQ/VT3So=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HC74z5Gln8rfjfQdpLYZhOR7rTaPj3QzYJmV1kEP1t4vjXilaTYqMb46L+3IsY/2/92enhzuHWGUXrvk+HZka7qP7LlRQ9OjVtCHWdF4ETVHSxBOA8+E4qFEo/vPXqckB16rK/anVD89bRLGBzi5PaBRPliYoxWyO5Q/RdLQ9mU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ync9TNYo; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1778233960; c=relaxed/simple;
+	bh=zi2Eq5Nx9ILrXnLAdjuej3Tr3Z7lDXPzlUP/KHyHTOU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TRWe9abXM3ClHwxOde14r1ihDpBrK9hKHUWbWFwlAGrTuIBZZ7JjKrcl1u8q7B4jkcrbcQ8n40RBQWVtfN4gxyl2obYoIitaVh6iiEngy1tP9tfOQechPp3sak3qAhTZN10HdYWCINswG7MzyYL14MHlvY7j+Xcw4ygDF+7b8sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gfxXGNfC; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ync9TNYo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gfxXGNfC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778233957; x=1809769957;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tcT4Ke3eonYhGbRY7q/wz2GsdpR5v03TooPgQ/VT3So=;
-  b=Ync9TNYoqCqhsTlmrTodZziJwnEhhvqEqEcDTTRpMWwa5x7HCJk2VBd3
-   4pyrZb+w6lmGQZDzKC31zmra4b0SdEbVCJRAFv075N8mZ2vBZqZkW0n0/
-   yKfhKZFkpSIbwsyltJ5/0CLInEKmDfDjmuq+a9EatcX3SXaqSe3EViZEf
-   fORAHoCUbTfn5gLzEYiCgoYK9yrEZbEiOiGM+kCV7zMDi1qAkbKjXdiAj
-   YOj6NbOww8NCq+c1c6KRn/4zs7MG+yghsALTBha8T4pop8z7/B0Mqjh4B
-   f8YimTQlB0VudRNIOreGf+dDDC841FThgoETmym6cvkmg6cgwwKBswpkq
-   w==;
-X-CSE-ConnectionGUID: Agd1z+uWT16DMadhl7XPfQ==
-X-CSE-MsgGUID: isr+LCmiRA+s0oBzjGo1nQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="104659531"
+  t=1778233958; x=1809769958;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=zi2Eq5Nx9ILrXnLAdjuej3Tr3Z7lDXPzlUP/KHyHTOU=;
+  b=gfxXGNfC2ePMRUDeKMI5pzDv03dkZyy/IUosNOcj2j37E4+lOdktUlGm
+   rt8jJdUypcN9q3x1f9m96r/7USML5K8ZKpbiwwLLZl5/9NGuuRXSrUC3M
+   PNg4D6+QRyzFmKXShHvFeqjxtwFMfOlDxK32bmc0K7yUigWsN4DIm+FOc
+   gdiJF+VEL/HLiveu/hj7mVBC2DlsbnSXZ5MXlfLffvz9qsfU7xe6EUZks
+   90tpsYxkyDxnChgKJmqt/JKHy8mYXBEWWxUGlSdA3Pq/ADpLMCzMofexH
+   0Ozu1qLTKJAAYe+Q3EytScKMuzJSYk6d1z65r8LhWaDhRoH9idGCZKrvc
+   g==;
+X-CSE-ConnectionGUID: QfHMpcE0RWCqmGP0N7LOcA==
+X-CSE-MsgGUID: hOnFVCoYTOq4+gonhEvB0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="96623821"
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="104659531"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 02:52:33 -0700
-X-CSE-ConnectionGUID: 44ayaFGvTg6nqP32p7SG/Q==
-X-CSE-MsgGUID: /Kk7z0f3Qe+4X+3NVhkh6w==
+   d="scan'208";a="96623821"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 02:52:33 -0700
+X-CSE-ConnectionGUID: HpMymi5ESJOEvOzUxWozMA==
+X-CSE-MsgGUID: QCGJySUfQVWeYOq0/TZofw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="235740003"
+   d="scan'208";a="241728648"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 08 May 2026 02:52:30 -0700
+  by orviesa005.jf.intel.com with ESMTP; 08 May 2026 02:52:30 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 4C08398; Fri, 08 May 2026 11:52:28 +0200 (CEST)
+	id 573E49D; Fri, 08 May 2026 11:52:28 +0200 (CEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Danilo Krummrich <dakr@kernel.org>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -62,10 +63,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	David Lechner <dlechner@baylibre.com>,
 	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v1 0/4] driver core, iio: suppress driver_override
-Date: Fri,  8 May 2026 11:42:38 +0200
-Message-ID: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 3/4] iio: imu: inv_mpu6050: Suppress driver_override sysfs attribute
+Date: Fri,  8 May 2026 11:42:41 +0200
+Message-ID: <20260508095224.1275645-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
+References: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -74,46 +77,36 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Recently Sashiko started reporting the missed NULL check of
-spi_get_device_match_data() or device_get_match_data() in SPI drivers
-in IIO subsystem. It appears that the way to crash can be made by use
-of driver_override sysfs attribute. However, many drivers, that may be
-instantiate via ACPI, OF, or, in some cases, user space won't work
-without necessary driver data. These are, e.g., most of the drivers
-in IIO subsystem. Trying to override the driver for the device that
-has no matching entry makes no sense in such cases and might lead to
-a crash, when the driver is not prepared for that.  Instead of adding
-a NULL check for driver data pointer in each of that drivers, effectively
-meaning a dead code for normal functionality, introduce a special
-attribute in the struct device_driver to allow drivers just to hide
-the attribute for good.
+The driver makes no sense for the devices without associated driver data.
+Instead of checking for absence of it, disable driver_override feature
+and drop the no more required check.
 
-The last two patches are the examples of use and code simplification
-at the same time.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-I consider getting an Ack from Mark for SPI, and from Jonathan for IIO
-and route this via driver core, while providing an immutable branch/tag
-for the above mentioned stakeholders.
-
-Note, this doesn't change the state of affairs for some busses that
-do not have driver_override flag set while using custom approach.
-On a brief look it's the s390 crypto case which may not ever need
-the above and hence left untouched.
-
-Andy Shevchenko (4):
-  driver core: allow certain drivers prohibit override via sysfs
-  spi: Support suppress_override_attrs flag
-  iio: imu: inv_mpu6050: Suppress driver_override sysfs attribute
-  iio: imu: inv_icm42600: Suppress driver_override sysfs attribute
-
- Documentation/driver-api/driver-model/binding.rst |  4 ++++
- drivers/base/bus.c                                |  4 ++--
- drivers/iio/imu/inv_icm42600/inv_icm42600_spi.c   |  8 ++------
- drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c         |  3 +--
- drivers/spi/spi.c                                 | 11 +++++++++++
- include/linux/device/driver.h                     |  2 ++
- 6 files changed, 22 insertions(+), 10 deletions(-)
-
+diff --git a/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c b/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c
+index 1f4c62142b60..bdd4ba4e117e 100644
+--- a/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c
++++ b/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c
+@@ -46,8 +46,6 @@ static int inv_mpu_probe(struct spi_device *spi)
+ 	} else if ((match = device_get_match_data(&spi->dev))) {
+ 		chip_type = (uintptr_t)match;
+ 		name = dev_name(&spi->dev);
+-	} else {
+-		return -ENODEV;
+ 	}
+ 
+ 	regmap = devm_regmap_init_spi(spi, &inv_mpu_regmap_config);
+@@ -175,6 +173,7 @@ static struct spi_driver inv_mpu_driver = {
+ 		.acpi_match_table = inv_acpi_match,
+ 		.name	=	"inv-mpu6000-spi",
+ 		.pm     =       pm_ptr(&inv_mpu_pmops),
++		.suppress_override_attrs = true,
+ 	},
+ };
+ 
 -- 
 2.50.1
 
