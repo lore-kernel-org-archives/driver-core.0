@@ -1,74 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C47B379996
-	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 09:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8081862A;
+	Fri,  8 May 2026 10:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778233960; cv=none; b=qAa1BSD0udAkktzcQNiyOVYjaAV8bXZLK2e+uOnwsv/JHAx2hUsZgw+i2KhKjflF/AGGxPfsB6Yyov3ns5Cr3AJ3fUhDAPlZ/7QOq3oXHRSS/NxWj8b9v2zQQl2L+vAxQiM3oJtT8spH5LAONh+MtK+meFj6F+5L7fvAaw3BJNY=
+	t=1778237721; cv=none; b=q7URh7EYDyjnEm9jLIbNdaZtTPwSk7yZl4Z+WwNUSRwtz2ZggFhpjpuT1aVfaW6/ywmZyn+dB42qcNO8YOmaY3ebMjA7QO16bRu/CXCSsVAPGtL9nxwtypZpCihWA3j8u3mPhZ9AD5ZHCM5QN8mi670dB/MBbKhcy9gonuwpzV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778233960; c=relaxed/simple;
-	bh=zi2Eq5Nx9ILrXnLAdjuej3Tr3Z7lDXPzlUP/KHyHTOU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TRWe9abXM3ClHwxOde14r1ihDpBrK9hKHUWbWFwlAGrTuIBZZ7JjKrcl1u8q7B4jkcrbcQ8n40RBQWVtfN4gxyl2obYoIitaVh6iiEngy1tP9tfOQechPp3sak3qAhTZN10HdYWCINswG7MzyYL14MHlvY7j+Xcw4ygDF+7b8sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gfxXGNfC; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778237721; c=relaxed/simple;
+	bh=sZoKk2j+9/Xh2m14M9z96ycQqA159DiqMv2u5K6uIAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=klXsy8IfHHQH+pVaVx4gm1IH/u4h1h2OXzbwUmmvxJj1PPCF7gGuQTTCKQaznVAkmWR/kIbd+zGk6BmGjYrOsPZDizCXR5zF2v9oY19dCpwHrLyj6nIN3xkhWaz3+sYjzMK5PDj3u8dHzD94FJz2OIe9J3jyvHrLqkE9kKP8lgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KY2XxI5e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gfxXGNfC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778233958; x=1809769958;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=zi2Eq5Nx9ILrXnLAdjuej3Tr3Z7lDXPzlUP/KHyHTOU=;
-  b=gfxXGNfC2ePMRUDeKMI5pzDv03dkZyy/IUosNOcj2j37E4+lOdktUlGm
-   rt8jJdUypcN9q3x1f9m96r/7USML5K8ZKpbiwwLLZl5/9NGuuRXSrUC3M
-   PNg4D6+QRyzFmKXShHvFeqjxtwFMfOlDxK32bmc0K7yUigWsN4DIm+FOc
-   gdiJF+VEL/HLiveu/hj7mVBC2DlsbnSXZ5MXlfLffvz9qsfU7xe6EUZks
-   90tpsYxkyDxnChgKJmqt/JKHy8mYXBEWWxUGlSdA3Pq/ADpLMCzMofexH
-   0Ozu1qLTKJAAYe+Q3EytScKMuzJSYk6d1z65r8LhWaDhRoH9idGCZKrvc
-   g==;
-X-CSE-ConnectionGUID: QfHMpcE0RWCqmGP0N7LOcA==
-X-CSE-MsgGUID: hOnFVCoYTOq4+gonhEvB0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="96623821"
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="96623821"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 02:52:33 -0700
-X-CSE-ConnectionGUID: HpMymi5ESJOEvOzUxWozMA==
-X-CSE-MsgGUID: QCGJySUfQVWeYOq0/TZofw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="241728648"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 08 May 2026 02:52:30 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 573E49D; Fri, 08 May 2026 11:52:28 +0200 (CEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Danilo Krummrich <dakr@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KY2XxI5e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53A77C2BCB0;
+	Fri,  8 May 2026 10:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778237720;
+	bh=sZoKk2j+9/Xh2m14M9z96ycQqA159DiqMv2u5K6uIAg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KY2XxI5e4Ann33s+XxOVYt4V8lYlI1fwmVjf9E8afHTLfxPH0r/Zl1m9i/3L8+SBm
+	 xwh49j/LLGdCFDgU/AIoHAGIyY5duAtxbFUsH3IcyNAmALVi3CBilk0lWxpFMOigpw
+	 GfKppZLtKPCE/+irov3FQdutr5nYEW0FwE2vUb4orM457uIt937k5GhJOrWLqr2wYH
+	 91GkHBTxoOXNYCMmIs4U2Xd+MNGQSxJ9b80SFF1z5z808yTakuEq/XRpQhQ7Ttn01C
+	 SZwHEsa8uD4zFmg6KhI4Qs/0s9S55R//o/+YvJa2+3llM9WjRm1jFtQykV7d7Vbt6g
+	 ps0FFB7aG2w7Q==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	tzungbi@kernel.org,
+	linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev,
 	driver-core@lists.linux.dev,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-gpio@vger.kernel.org,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>
-Subject: [PATCH v1 3/4] iio: imu: inv_mpu6050: Suppress driver_override sysfs attribute
-Date: Fri,  8 May 2026 11:42:41 +0200
-Message-ID: <20260508095224.1275645-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
-References: <20260508095224.1275645-1-andriy.shevchenko@linux.intel.com>
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Johan Hovold <johan@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: [PATCH v10 0/9] drivers/base: Introduce revocable
+Date: Fri,  8 May 2026 18:54:39 +0800
+Message-ID: <20260508105448.31799-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -77,36 +58,112 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver makes no sense for the devices without associated driver data.
-Instead of checking for absence of it, disable driver_override feature
-and drop the no more required check.
+This series introduces the "revocable" mechanism, a synchronization
+primitive designed to prevent Use-After-Free errors.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+- Patch 1 introduces the revocable which is an implementation of ideas
+  from the talk [1].
+
+- Patch 2 adds KUnit test cases.
+
+- Patches 3 to 7 transitions the UAF prevention logic within the GPIO
+  core (gpiolib) to use the "revocable" mechanism.
+
+  The existing code aims to prevent UAF issues when the underlying GPIO
+  chip is removed.  They replace that custom logic with the generic
+  "revocable" API, which is designed to handle such lifecycle
+  dependencies.  There should be no changes in behavior.
+
+- Patches 8 to 9 uses "revocable" mechanism to fix an UAF in
+  cros_ec_chardev driver.  Alternatively, [2] is a series for fixing the
+  same issue without using "revocable".
+
+Since v9, there are two ways to manage the resource provider handle.
+- Embedded allocation: patches 3 to 7 might be the potential user.
+- Dynamic allocation: patches 8 to 9 might be the potential user.
+
+[1] https://lpc.events/event/17/contributions/1627/
+[2] https://lore.kernel.org/all/20260427134659.95181-1-tzungbi@kernel.org
+
 ---
- drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+v10:
+- Unify handling of embedded and dynamic allocation.
 
-diff --git a/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c b/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c
-index 1f4c62142b60..bdd4ba4e117e 100644
---- a/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c
-+++ b/drivers/iio/imu/inv_mpu6050/inv_mpu_spi.c
-@@ -46,8 +46,6 @@ static int inv_mpu_probe(struct spi_device *spi)
- 	} else if ((match = device_get_match_data(&spi->dev))) {
- 		chip_type = (uintptr_t)match;
- 		name = dev_name(&spi->dev);
--	} else {
--		return -ENODEV;
- 	}
- 
- 	regmap = devm_regmap_init_spi(spi, &inv_mpu_regmap_config);
-@@ -175,6 +173,7 @@ static struct spi_driver inv_mpu_driver = {
- 		.acpi_match_table = inv_acpi_match,
- 		.name	=	"inv-mpu6000-spi",
- 		.pm     =       pm_ptr(&inv_mpu_pmops),
-+		.suppress_override_attrs = true,
- 	},
- };
- 
+v9: https://lore.kernel.org/all/20260427135841.96266-1-tzungbi@kernel.org
+- Rebase onto v7.1-rc1.
+- Remove the selftests patch as it makes less sense to test revocable
+  APIs via kselftests.
+- Merge patches 7 to 11 from
+  https://lore.kernel.org/all/20260213092958.864411-1-tzungbi@kernel.org
+  into the series.
+- Merge patch from
+  https://lore.kernel.org/all/20250923075302.591026-5-tzungbi@kernel.org
+- Merge patch from
+  https://lore.kernel.org/all/20250912081718.3827390-6-tzungbi@kernel.org
+
+v8: https://lore.kernel.org/all/20260213092307.858908-1-tzungbi@kernel.org
+- Rework on the revocable APIs.  See changelog in [PATCH v8 1/3] for details.
+
+v7: https://lore.kernel.org/all/20260116080235.350305-1-tzungbi@kernel.org
+- Rebase onto next-20260115.
+
+v6: https://lore.kernel.org/all/20251106152330.11733-1-tzungbi@kernel.org
+- Rebase onto next-20251106.
+- Separate revocable core and use cases.
+
+v5: https://lore.kernel.org/all/20251016054204.1523139-1-tzungbi@kernel.org
+- Rebase onto next-20251015.
+- Add more context about the PoC.
+- Support multiple revocable providers in the PoC.
+
+v4: https://lore.kernel.org/all/20250923075302.591026-1-tzungbi@kernel.org
+- Rebase onto next-20250922.
+- Remove the 5th patch from v3.
+- Add fops replacement PoC in 5th - 7th patches.
+
+v3: https://lore.kernel.org/all/20250912081718.3827390-1-tzungbi@kernel.org
+- Rebase onto https://lore.kernel.org/all/20250828083601.856083-1-tzungbi@kernel.org
+  and next-20250912.
+- The 4th patch changed accordingly.
+
+v2: https://lore.kernel.org/all/20250820081645.847919-1-tzungbi@kernel.org
+- Rename "ref_proxy" -> "revocable".
+- Add test cases in Kunit and selftest.
+
+v1: https://lore.kernel.org/all/20250814091020.1302888-1-tzungbi@kernel.org
+
+Tzung-Bi Shih (9):
+  revocable: Revocable resource management
+  revocable: Add KUnit test cases
+  gpio: Add revocable provider handle for struct gpio_chip
+  gpio: cdev: Leverage revocable for accessing struct gpio_chip
+  gpio: Remove gpio_chip_guard by using revocable
+  gpio: Leverage revocable for accessing struct gpio_chip
+  gpio: Remove unused `chip` and `srcu` in struct gpio_device
+  platform/chrome: Protect cros_ec_device lifecycle with revocable
+  platform/chrome: cros_ec_chardev: Consume cros_ec_device via revocable
+
+ .../driver-api/driver-model/index.rst         |   1 +
+ .../driver-api/driver-model/revocable.rst     | 384 +++++++++++++++++
+ MAINTAINERS                                   |  10 +
+ drivers/base/Kconfig                          |   5 +
+ drivers/base/Makefile                         |   5 +-
+ drivers/base/revocable.c                      | 267 ++++++++++++
+ drivers/base/revocable_test.c                 | 405 ++++++++++++++++++
+ drivers/gpio/gpiolib-cdev.c                   |  77 ++--
+ drivers/gpio/gpiolib-sysfs.c                  |  31 +-
+ drivers/gpio/gpiolib.c                        | 263 +++++-------
+ drivers/gpio/gpiolib.h                        |  28 +-
+ drivers/platform/chrome/cros_ec.c             |  11 +
+ drivers/platform/chrome/cros_ec_chardev.c     |  80 +++-
+ include/linux/platform_data/cros_ec_proto.h   |   3 +
+ include/linux/revocable.h                     | 204 +++++++++
+ 15 files changed, 1505 insertions(+), 269 deletions(-)
+ create mode 100644 Documentation/driver-api/driver-model/revocable.rst
+ create mode 100644 drivers/base/revocable.c
+ create mode 100644 drivers/base/revocable_test.c
+ create mode 100644 include/linux/revocable.h
+
 -- 
-2.50.1
+2.51.0
 
