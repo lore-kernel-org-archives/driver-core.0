@@ -1,131 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6E033A029;
-	Fri,  8 May 2026 18:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF25F1862A
+	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 18:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778264603; cv=none; b=rmand87pwyknHgwcGAAUC6TrDFVLYIqLeqK50v/7GXZEfls4Emwlp2qNKfaDRPq1z/8WnBZZWBQ93l6SRmUgnIet4XfWz+Jan1OzWbXCim1z3E64C4HksdGoGZRmXuuh6NxGXQtBtge2XamIR+mTcMYslagyBFf6M05iUrdKnN8=
+	t=1778264774; cv=none; b=XXBYoBlUUILsV4hnxSIAGkqDJlgA3c+HbLG10OB2M9FTDCOOSieIicWNfI0935p2VUnRbC5vZOJaRhLosoN6KyzU+LXLpG23uj9Pcq9RQLOELn62uKVd+OSWrs1n3e6Crl4cZeFwWr/GTZqBq5LbDd66dgJrcEd5sCeuG7T0CKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778264603; c=relaxed/simple;
-	bh=PT33hPVUf3Z1XzPwnKsjfQUflnA93EQa7d+QeZmaP5Q=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=IeezmbtPigQlYfSrwCa6PiKmFSIFkfEHxw67GPk3QKV4azvsYcSCAmqJeb3JssFbQaWs4Uk4SMz3P9KGLecmsSGuJ4LYG0X+p4dnxkBxECM87shxx75DCMwrLRift34qWBISKruEU605Zaix2vY+aQ9UpxNy8gQ3QmfNJWloEjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qpeBLG1T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778264774; c=relaxed/simple;
+	bh=gPt2p5mRydIx09aB5eoi5h+EjR87ILB07pmtiyqKD6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ECR7b9wx7NHSI0WUtWJy8mx7fWaiWaW3J9/P6BN/cmiCIWweOBxqj8wKe+nMT7lZvFLHIcVoCLJrfW/S732lyt3BqakYSx4bpFWuwE147gEXYMOQALl+9Bcpy5ANBjh8vcq1iZgRolveKidnnZ/YHtuPw9Z44Ir2NVKBJ508StI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aDacNlXs; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qpeBLG1T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A5C2C2BCB0;
-	Fri,  8 May 2026 18:23:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778264603;
-	bh=PT33hPVUf3Z1XzPwnKsjfQUflnA93EQa7d+QeZmaP5Q=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=qpeBLG1TYeibesM13Z5pX3y8bJ4F7lEefoKDKJ4p4ivXV9zAHRU8316aYlrMSo2wS
-	 X0RcaKa62KqRQbclf7DUgo5ktHnBasfQ//QtgMlYyVfbeW9xGZY1NgB6taZhGyBTRd
-	 X0XvKUG+gwEOLlVuWqjiKoAr1x+u1qZB2IkOZc7yidJIGQa2NL1BmkHuJ71hEUZw57
-	 6xwdy3h7Ei19mYCoElxRmfcOw18cTley7QSnipUiQL9Ij0E0WTeHWHUy51tLfkwkDr
-	 sBGjJ0xby4ddnQAkxfwrLhy+qC7qKxgRjGhabzAKhPNHs3+pHea3umsqWjiOUJf4fe
-	 g7o1Ng220ox/Q==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aDacNlXs"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45562c41ec7so165644f8f.1
+        for <driver-core@lists.linux.dev>; Fri, 08 May 2026 11:26:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778264770; x=1778869570; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
+        b=aDacNlXs4QwNSnrFhYBknhe5X3ZNuTEi/adJel56gS73CAmFYWl9vnKxVsvYyzVRHR
+         8+o+TI9dHBkDZY57p87lgtLztBiw1Orvt8W4C3iKgb3bVzxii+/UWXPRIymnuzzfEhyk
+         AdpuVCsdaWFgT4Iyz8qWTryiFFKVln/CqYWlffFi6gfqWSu4njJNXAfObUVNQecO1EF5
+         QK5qGuJrSOsasIs1zCSDWi8MXQOworcBl30cLaOZ9Hn81utkd/GTGgu3o5Op+qBVNte6
+         QH0AUHTMftxs2zQQ0BOBQhcwvZ7kUzh0wZJQ4K1I6iZ6TQ+TuXOkabTEmp624iyzhzOC
+         AU8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778264770; x=1778869570;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nadJ4F3fO0o2IbMhIzDipftu6czfRb7SQ9fGD7WtGtQ=;
+        b=juq7OG6IbI0cN6GcZd8F8oCIWQBDTOsDUXudWSytSIG1PMIIhMBFsrZDU36TM5MEFb
+         JbWcqp5t35sLQWBFF//txSHP6DeWYB+7ek5CFZgrvrnytSBKx9Xz5pG7DczVfh+HIOPa
+         d1dD2vbcLoferuHi75xFrph47j65FpLTZnyWlHdK0CobN4D2iU0VkcElwu6QWzPxmfer
+         BNGgufs2B3XcE3F1hjDKMmyX/PyJHdaOzB0BTYkOU8SMm/Zk8K8VTJ4OFKFT+5ZU5vUi
+         xDkyLqdcScuHfk/G5WGKhwuY6+v4NYAfXoJI5gvGOHpwB30raFuqyRZW5D4bPsHnWhlu
+         f89g==
+X-Forwarded-Encrypted: i=1; AFNElJ8s9dwRCmw9Mw7vbqz99uqyr2Q1mpbCAGkX7nesBpCP2ZyeZIAG8p9AdHX0YEUK7dS1sba+dV+hfvExQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPkR3/YW1q3HzRwIachTUMlRFeAZD6trYiY/iIzk8ssvWotRv4
+	E1JXVlTq5I1dTkMbdX0lo+dxyVsFgWnwDX1P8Z9NHqggJCfWGCycwXmR
+X-Gm-Gg: Acq92OFxcd0B1uQQEYP4jvb++swnNqkICt2U3rghX3+1zf5O6rErbgEEFyASRsJ8KPh
+	lHeksUk0N2PSA8FjkC0Y4rmu2NTNXkE9sKIkYoGCC83mheaHPcgUFFvJzZaH1wwL74rRTwwj7hY
+	vsyjGX4ZBLMYauRv09tqmk6N72zkmngK8j7Z/VPVkAMP/RxoKC7kVG3oYgihJZpoGM1QlPL13Gb
+	JFDO5iorY9Os4Obj8mHs98gB+E/O00z56gBC6ddneMZ8pVFKisYowMZGiviYo4Dx6msjkacL1Nt
+	FbMnCBOKxCPr4/LV1xpSDlyhMXjhypEtpdf8q8iwWV0NvL3ts3e6Vmv2SU6TR9uanBL8Rc/g3eL
+	eVzu5joQVIaWILsRIeVQclrwcyau22Ec3SS+53/5olirUCOsYIaoX4SUWKCkFskqX3jFVdLsek5
+	p78xYVAkD/yBWQH7f64EQhsTaV/vEfuHL1bB2yuELYLDAoaX+VFG5DDomatcm3Wwax
+X-Received: by 2002:a05:6000:420c:b0:43d:7508:c9c9 with SMTP id ffacd0b85a97d-4515c5752d8mr22366137f8f.27.1778264770073;
+        Fri, 08 May 2026 11:26:10 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6c79fsm6435208f8f.15.2026.05.08.11.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 11:26:09 -0700 (PDT)
+Date: Fri, 8 May 2026 19:26:06 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Adrien Reynard <reynard.adrien.08@gmail.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
+ Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
+ <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
+ <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, David Howells <dhowells@redhat.com>,
+ Paulo Alcantara <pc@manguebit.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ "open list:READ-COPY UPDATE (RCU)" <rcu@vger.kernel.org>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:DRIVER CORE, KOBJECTS, DEBUGFS
+ AND SYSFS" <driver-core@lists.linux.dev>, "open list:FILESYSTEMS [NETFS
+ LIBRARY]" <netfs@lists.linux.dev>, "open list:FILESYSTEMS [NETFS LIBRARY]"
+ <linux-fsdevel@vger.kernel.org>, "open list:TRACING"
+ <linux-trace-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/5] docs: fix repeated word 'that' across documentation
+Message-ID: <20260508192606.2423f50e@pumpkin>
+In-Reply-To: <1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
+	<1501caea-8cff-4968-aca6-e8d4b20e0e80@linuxfoundation.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 08 May 2026 20:23:17 +0200
-Message-Id: <DIDI6UCUFTWA.3GANQE923DAP9@kernel.org>
-Subject: Re: [PATCH v3 02/13] driver core: Enable suppliers to implement
- fine grained sync_state support
-Cc: "Saravana Kannan" <saravanak@kernel.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- <driver-core@lists.linux.dev>, <linux-pm@vger.kernel.org>, "Sudeep Holla"
- <sudeep.holla@kernel.org>, "Cristian Marussi" <cristian.marussi@arm.com>,
- "Kevin Hilman" <khilman@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>,
- "Marek Szyprowski" <m.szyprowski@samsung.com>, "Bjorn Andersson"
- <andersson@kernel.org>, "Abel Vesa" <abel.vesa@oss.qualcomm.com>, "Peng
- Fan" <peng.fan@oss.nxp.com>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Maulik Shah"
- <maulik.shah@oss.qualcomm.com>, "Konrad Dybcio" <konradybcio@kernel.org>,
- "Thierry Reding" <thierry.reding@gmail.com>, "Jonathan Hunter"
- <jonathanh@nvidia.com>, "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-To: "Ulf Hansson" <ulf.hansson@linaro.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260508123910.114273-1-ulf.hansson@linaro.org>
- <20260508123910.114273-3-ulf.hansson@linaro.org>
-In-Reply-To: <20260508123910.114273-3-ulf.hansson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri May 8, 2026 at 2:38 PM CEST, Ulf Hansson wrote:
-> diff --git a/drivers/base/base.h b/drivers/base/base.h
-> index 30b416588617..c8be24af92c3 100644
-> --- a/drivers/base/base.h
-> +++ b/drivers/base/base.h
-> @@ -196,6 +196,24 @@ static inline void dev_sync_state(struct device *dev=
-)
->  		dev->driver->sync_state(dev);
->  }
-> =20
-> +static inline bool dev_has_queue_sync_state(struct device *dev)
-> +{
-> +	struct device_driver *drv;
-> +
-> +	if (!dev)
-> +		return false;
-> +	drv =3D READ_ONCE(dev->driver);
-> +	if (drv && drv->queue_sync_state)
-> +		return true;
-> +	return false;
-> +}
-> +
-> +static inline void dev_queue_sync_state(struct device *dev)
-> +{
+On Fri, 8 May 2026 11:15:28 -0600
+Shuah Khan <skhan@linuxfoundation.org> wrote:
 
-Let's add device_lock_assert(dev), as this function requires it to be held.
+> On 5/8/26 10:37, Adrien Reynard wrote:
+> 
+> Missing commit log in all your patches - I don't patch 1/5 in
+> my Inbox.
+> 
+> > Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
+> > ---
+> >   Documentation/RCU/rcu.rst                          | 2 +-
+> >   Documentation/driver-api/driver-model/overview.rst | 2 +-
+> >   Documentation/filesystems/netfs_library.rst        | 2 +-
+> >   Documentation/trace/histogram-design.rst           | 2 +-
+> >   Documentation/trace/histogram.rst                  | 2 +-
+> >   5 files changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/Documentation/RCU/rcu.rst b/Documentation/RCU/rcu.rst
+> > index bf6617b330a7..320ad3292b75 100644
+> > --- a/Documentation/RCU/rcu.rst
+> > +++ b/Documentation/RCU/rcu.rst
+> > @@ -32,7 +32,7 @@ Frequently Asked Questions
+> >     Just as with spinlocks, RCU readers are not permitted to
+> >     block, switch to user-mode execution, or enter the idle loop.
+> >     Therefore, as soon as a CPU is seen passing through any of these
+> > -  three states, we know that that CPU has exited any previous RCU
+> > +  three states, we know that CPU has exited any previous RCU  
+> 
+> The original intent might have been to say, "that cpu", so adding
+> the missing comma after the first "that" or change "that" to "the"
+> would make sense.
+...
 
-> +	if (dev->driver && dev->driver->queue_sync_state)
-> +		dev->driver->queue_sync_state(dev);
-> +}
+I don't think adding a comma would be correct.
+The clause splits as 'we know that' 'that CPU' and the repeated 'that'
+is absolutely correct.
+Maybe 'that CPU' could be replaced by 'it'; but it can be difficult to
+work out what back references like 'it' refer to.
 
-<snip>
+You can re-order it, as (say):
+	Therefore we know that as soon as a CPU is seen passing through any of these
+	three states it has exited any previous RCU read-side critical sections.
 
-> @@ -1175,6 +1188,25 @@ static void device_links_flush_sync_list(struct li=
-st_head *list,
-> =20
->  		put_device(dev);
->  	}
-> +
-> +	if (!q_list)
-> +		return;
-> +
-> +	list_for_each_entry_safe(dev, tmp, q_list, links.queue_sync) {
-> +		list_del_init(&dev->links.queue_sync);
+But just because some grammar book says you shouldn't have repeated words
+doesn't mean there aren't exceptions.
 
-Hm...this is called without the device_links_write_lock() held, so this loo=
-ks
-like this could this race with the list_del_init() from
-device_links_driver_cleanup() and create an infinite loop.
+The sign writer was doing a new sign for the 'Pig and Whistle'.
+Unfortunately the gaps between Pig and and and and and Whistle
+ended up visibly different.
 
-(The other list iterator above might have the same issue.)
+-- David
 
-> +
-> +		if (dev !=3D dont_lock_dev)
 
-This is pre-existing, but I think it would be good to add a device_lock_ass=
-ert()
-call for this as well.
-
-> +			device_lock(dev);
-> +
-> +		device_links_write_lock();
-> +		dev_queue_sync_state(dev);
-> +		device_links_write_unlock();
-> +
-> +		if (dev !=3D dont_lock_dev)
-> +			device_unlock(dev);
-> +
-> +		put_device(dev);
-> +	}
->  }
