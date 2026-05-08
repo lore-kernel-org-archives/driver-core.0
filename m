@@ -1,63 +1,65 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2C13DEAD0
-	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 12:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231953DFC92
+	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 12:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778243985; cv=none; b=FGOKQUoPXm+yGjbk+zsRl9VPWr+gAayBUYAaxQlJR6QrCaGYk2XMBGyyXhdF3LJtSeCH4Ie93JPWLS11sLx/sDU1b6Ttd9DTjVjXjXbouhi7pHvBfTDAVNjwmXZi2n79fvweJU+GJVfdDWNzCTgF3TXL1o9W6z6e2Q+grWcv8Aw=
+	t=1778243987; cv=none; b=bQDLgAKX5CnTSly36Hg0wj0ryzVDFJkp67LK/RSlAh/gJdpksuONsRqIqUVc1RuCogW4fgNhJKiHNqYrvmeDfiFFQWx7Pr9OU4c83T8dYwWmG1TiKSmfdR9fX0zT68f9rMYy93s8rT3kCnfKagkCd+xYLkkpudzGmKoYVVgcRAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778243985; c=relaxed/simple;
-	bh=I4pKmmwjevq8dz1UuOr+v5418ApVsdlP3YsqqByAvRM=;
+	s=arc-20240116; t=1778243987; c=relaxed/simple;
+	bh=hwsTYxE8EG28UGJ/9uJBMJiUsrm4KBw9SMV/lotgNm8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KuT7o73GxKCjI/lwSC6UVYwdRaOfwk6FEsz7tkSvcZuEggk4O7H1Zi9eaQCZfgms2VfRXBX+RwrYamvRcRKJrWwZtXxzaOUfo9zGp61Z9QGHB3cKAZDciu6TRNA0v1Crh0hXP+gCN/sF4ELzQ6L5iaN2b+1bP35+33k03j3Xcd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F74/hkw7; arc=none smtp.client-ip=209.85.208.177
+	 MIME-Version; b=h7H5AXyWSLWzN0OFG5XcQ2iny85gpysu6TMkSRn70Do0jVVZCdCo7V4GnS2oey6c4g7pZDGr7BG5rmC/M4RUXHTUhNiYFYMqzf2RKl5cvS5W0Az4bjd2xePZrM29X7kaIOuyCQZ06uz1BmQVqQ55dH10kr8Ihxp18cwTxM3dKPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vl3Oo3mx; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F74/hkw7"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-393800f638bso15359361fa.1
-        for <driver-core@lists.linux.dev>; Fri, 08 May 2026 05:39:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vl3Oo3mx"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3939d2bd739so18323311fa.0
+        for <driver-core@lists.linux.dev>; Fri, 08 May 2026 05:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1778243972; x=1778848772; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1778243974; x=1778848774; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rD2aCPCHqZRuH2DBiEm63Gtf8tVlRjph1PzHrc+ZXrk=;
-        b=F74/hkw7L9aT6PqhEOjbem468QEhAfeUi4FF4oQ5umxxkIGEMV/NnrJ7wZsd8tBRTn
-         E9qevpRcPY/PAQFLrgcQ7snV0j43FZSWF1CETxVrGnXGguDHzBVBUc09pJ01ztR3v9jJ
-         520mClXgMOVV65vinafxPbszCWo5caaTUEfnC7ZT27nApuv5JLuZ1fGz1kI0FB9+GFZC
-         XlWcXd8JYMNsW/5mITdYoIBu/b+dhcUihc/iGAHu2anxrW48q+b/Ud1XNoXr1xF4CRp+
-         TeZ6G3S+2JC8NVd1WvZ3TCqbOR8YjBjs2MCPkrQz9bo+fzbMBsWM+eG8o8uqkYUQZgdX
-         fnig==
+        bh=9GaxAP6ysJuJBahsu75EBbPBsRu50PTWws4c1kr5c8Q=;
+        b=Vl3Oo3mxncAauaW/9yDnRhB6qXLgttA0u/P6VRYMt6U+gSORr2Nq8f4nzzxaH1vrOJ
+         6jD4MQJUyaLViWAMB+5UmhOLCvFtxbLBvB8jGn9qLQ4uPdlxO15oBBeqfdZQMXb1u3jg
+         LervNKlCXhVGFyqKIVCY+q5MdZ2AKer6TiSQQDsWn4sHuJLVNlqRYpLmtchqhIYuowMw
+         9TduH9AO+YpBMZHe8aD71nR6Dxo4aCWLt3eUg5aOjBV36ZlBXWWbAGh/bHVPUshgnK/K
+         6c2pCuo4lVBjXPuYnDvjQNnpyRkYhkuBNjZEgpijzmhJMUi0zehVtuq65TakRgnNiw8c
+         IvLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778243972; x=1778848772;
+        d=1e100.net; s=20251104; t=1778243974; x=1778848774;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rD2aCPCHqZRuH2DBiEm63Gtf8tVlRjph1PzHrc+ZXrk=;
-        b=XRN8LpQO9s7nsXmgVxlmyWIAFMEqOxDw2GrGPmrKRx1esOaXrenhnv/Ps6gzhVGzFc
-         i73J16n+AQ9nk/PADtSET0L78B2RTBd7kF9YrELPik8OPO3pe5+ld+ABGSruJoFmgn9O
-         S8+RWL51y59A6qb439XdC+WpuHUB8snRFbP6zo2E3f0KSjiPtofVez9rx9hyL0YaHIAh
-         8PtP4Bx8rE0LlJYII6s5ODBRFKEjnrIr/2PGb6oBxvy3kFdB25amIUYlUSFJbS3B9iJv
-         10aC5ErFpa7Jfxd4Oc8zkAnY7roEHgd6BiuhNi1M+EBUlSTygr74GplwJrcTwnqSHPCD
-         YgoA==
-X-Forwarded-Encrypted: i=1; AFNElJ+eC0kXCzFPIuocYl+H7LJPVi1nqev8sqaZahel0OeuI5D7+mry9rhVAZLb+5tuFrDe6/9Ib12FEKZ8/w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFAWIVGE0E+OmdqfT/1UZedzDgfVDZNmtNdhk+0nH1K5vCO/w7
-	p29wXuAdeglP0T6s3Vw7KTDclliMSnpP1XC//lVSfOkEew+kdqHDp2Fr495TFgDOY2Y=
-X-Gm-Gg: Acq92OE8UDSyabFKDs0AB9e66Yn1/ZBpnx9sfG2VPa1nyB7Di++E5qgALMG/1bLop0n
-	l1EC+y5UT3jtPXjzU15v1+3s2s9gxCTyGWhPs57MbVCsXqMx8ATPjiJzuhvpA01he5aPaeCFPfG
-	iic8KnRBP49hwJTT4GGHJhju4jA4ZKjn1wGKb0NDuP5v80cAsBEvq0ja4lCUY1BFaOFQIFlNlbA
-	jApD8JYfPuVUgL/JAPtRhUvYDNnMTJQMbPuEyTLxLfpHdONQgvk9CjfABLUtSsOmpfy+fBNZYgZ
-	0mkaqc7UpsH7CHRcrR6TaUPJzKGEaSFYVVzFAw48+1X/7kJEyyFlMAeMkB412ovOFg7Ij7ZsEJC
-	WAbrxkjx3fhVFirp/Mc/M9ONR7+mm7Whwcnp4kOdJ2CCTkNBe4UPHoOzr2UbIPFh7Sxj4i7tr1m
-	WRMeobdLZb6ECn+atHy23Ceb/RLFZI4YtVGYMYQZgUOyH3VDZXYapiQhAIcovcu8NGwEcOIMNp
-X-Received: by 2002:a2e:9783:0:b0:393:903c:225b with SMTP id 38308e7fff4ca-393c4338719mr34887901fa.31.1778243971807;
-        Fri, 08 May 2026 05:39:31 -0700 (PDT)
+        bh=9GaxAP6ysJuJBahsu75EBbPBsRu50PTWws4c1kr5c8Q=;
+        b=QPZ12PAYG239/yB9BGAMPS1yeix6RbCJiSRdDfREMTj1aTBmkyC+qtgZHiCQUgSOr4
+         LKEgFx7qJkJMxPT0hHQX8/VIqJWBoDguqah+UQFVXDhwyG2FR1nqZvlXzM1l2jJ1sJIT
+         DOZnaToR/ehdGkeBDTHSKfT7v/+NzHnl34W7aq+MNAkG6Evh4tvIkh6SofX5ZE6lVwVg
+         7A1jYjt6UAxZttUywVVfKwlC8wWPlSfBti1/89fWaL6RHzN+SHgs7NW1/1ewoqCDPCv5
+         GvOH3NAtb/us/QU5mf0NGyVTTRjG8B/pJvkQaIY39663hGsx4sQbJWQJqnWwyV/D6xa2
+         AgbQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9tumrLXMNh43gQPAKUWRTCPBUnlxOcNv6aEtv/IvjbSqg4z2AQiJlm85v/aSyYh6C4cqrbVukOrg4N7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXY+iGsiXubPevyubd83TehLJCTj1ywIVmypJGQYCzplO/fF6T
+	4XVaOWP1u+1hZIgPl7Qji/CI0Tg9QwGOvXxfhmCrV3bBLqzglIPsMSepNqkulHstPYC99zn9ld+
+	iw65S
+X-Gm-Gg: Acq92OE1rrVVsK7O+8MyZo3My/dgcdfKWC7y1do1PwHGLkQqh5gE9swPc38B42+BRyq
+	FO0/MFnymMi7x/1OJJrAXBYp5/Vw2oWmo8NzLt1zR0OgFcuMnN8OhsWVwZQjEKYwgG+CiQmq58V
+	rTgTg44FlHXIes2BSwqxcMDSx2oiEke+VWzoxUTIKCyMf4YeUwp6R68sXjPEVg9YkVH72/zLf6k
+	o/RJDCkI6TgDJ5YJ7fjl+slW6sPqWfIviMBQmbamlKtduAHTgjeaTs0IH1xsvfQjsuAypiJlmU8
+	yGrsCB0odd7/40c4pT/UHECB9okt/AwMOoaZJ6HvsY1mUd5Z1rBJhgC8BuJ6B9RduCL2WNH/K9T
+	kQWE+9vTytcqkBDoA9dn+LqDs1ag9Izx/ElEHpEtsBvaSycaHSJprvnOUrAjI9xNyAz15P62Coo
+	2WIyL/jY1QiOOy66jckdCh8S7PFkIV7a+zMbup78FAgkDf5SCeYZUhqoAKjA0d1MzRMwj4b4vn4
+	tdiJl+azmQ=
+X-Received: by 2002:a2e:9bd5:0:b0:393:bb14:9ae with SMTP id 38308e7fff4ca-393c40ce7a6mr36476961fa.3.1778243974261;
+        Fri, 08 May 2026 05:39:34 -0700 (PDT)
 Received: from uffe-tuxpro14.. (h-178-174-189-39.A498.priv.bahnhof.se. [178.174.189.39])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f5f5fcc7sm4569621fa.18.2026.05.08.05.39.30
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f5f5fcc7sm4569621fa.18.2026.05.08.05.39.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 05:39:31 -0700 (PDT)
+        Fri, 08 May 2026 05:39:33 -0700 (PDT)
 From: Ulf Hansson <ulf.hansson@linaro.org>
 To: Danilo Krummrich <dakr@kernel.org>,
 	Saravana Kannan <saravanak@kernel.org>,
@@ -82,11 +84,10 @@ Cc: Sudeep Holla <sudeep.holla@kernel.org>,
 	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
 	Ulf Hansson <ulf.hansson@linaro.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 11/13] pmdomain: renesas: rmobile-sysc: Drop GENPD_FLAG_NO_STAY_ON
-Date: Fri,  8 May 2026 14:39:00 +0200
-Message-ID: <20260508123910.114273-12-ulf.hansson@linaro.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 13/13] pmdomain: core: Add a couple of debug prints for sync_state
+Date: Fri,  8 May 2026 14:39:02 +0200
+Message-ID: <20260508123910.114273-14-ulf.hansson@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260508123910.114273-1-ulf.hansson@linaro.org>
 References: <20260508123910.114273-1-ulf.hansson@linaro.org>
@@ -98,34 +99,62 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rmobile-sysc is not a onecell provider and didn't really needed
-the GENPD_FLAG_NO_STAY_ON flag in the first place. Let's drop it.
+To inform the developer of what is happening during sync_state transitions
+in genpd, let's add a couple of debug prints for it.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
 
 Changes in v3:
-	- No changes.
+	- New patch.
 
 ---
- drivers/pmdomain/renesas/rmobile-sysc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/pmdomain/core.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/pmdomain/renesas/rmobile-sysc.c b/drivers/pmdomain/renesas/rmobile-sysc.c
-index 93103ff33d6e..e36f5d763c91 100644
---- a/drivers/pmdomain/renesas/rmobile-sysc.c
-+++ b/drivers/pmdomain/renesas/rmobile-sysc.c
-@@ -100,8 +100,7 @@ static void rmobile_init_pm_domain(struct rmobile_pm_domain *rmobile_pd)
- 	struct generic_pm_domain *genpd = &rmobile_pd->genpd;
- 	struct dev_power_governor *gov = rmobile_pd->gov;
+diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+index b5d90ddfd698..3d3e0f38815b 100644
+--- a/drivers/pmdomain/core.c
++++ b/drivers/pmdomain/core.c
+@@ -2756,6 +2756,9 @@ static void genpd_parse_for_consumer(struct device_node *sup,
+ 			genpd_lock(genpd);
+ 			genpd->wait_for_consumer = true;
+ 			genpd_unlock(genpd);
++
++			pr_debug("%s: wait for consumer %pOF\n",
++				 dev_name(&genpd->dev), con);
+ 		}
+ 		mutex_unlock(&gpd_list_lock);
  
--	genpd->flags |= GENPD_FLAG_PM_CLK | GENPD_FLAG_ACTIVE_WAKEUP |
--		GENPD_FLAG_NO_STAY_ON;
-+	genpd->flags |= GENPD_FLAG_PM_CLK | GENPD_FLAG_ACTIVE_WAKEUP;
- 	genpd->attach_dev = cpg_mstp_attach_dev;
- 	genpd->detach_dev = cpg_mstp_detach_dev;
- 
+@@ -2772,6 +2775,9 @@ static void genpd_queue_sync_state(struct device_node *np)
+ 		if (genpd->provider == of_fwnode_handle(np)) {
+ 			genpd_lock(genpd);
+ 			if (genpd->stay_on && !genpd->wait_for_consumer) {
++				pr_debug("%s: queuing sync state\n",
++					 dev_name(&genpd->dev));
++
+ 				genpd->stay_on = false;
+ 				genpd_queue_power_off_work(genpd);
+ 			}
+@@ -3637,6 +3643,9 @@ void of_genpd_sync_state(struct device_node *np)
+ 		if (genpd->provider == of_fwnode_handle(np)) {
+ 			genpd_lock(genpd);
+ 			if (genpd->stay_on) {
++				pr_debug("%s: sync state\n",
++					 dev_name(&genpd->dev));
++
+ 				genpd->stay_on = false;
+ 				genpd_power_off(genpd, false, 0);
+ 			}
+@@ -3677,6 +3686,8 @@ static void genpd_provider_sync_state(struct device *dev)
+ 	case GENPD_SYNC_STATE_SIMPLE:
+ 		genpd_lock(genpd);
+ 		if (genpd->stay_on) {
++			pr_debug("%s: sync state\n", dev_name(&genpd->dev));
++
+ 			genpd->stay_on = false;
+ 			genpd_power_off(genpd, false, 0);
+ 		}
 -- 
 2.43.0
 
