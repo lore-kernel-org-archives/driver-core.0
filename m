@@ -1,260 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7273290A9
-	for <driver-core@lists.linux.dev>; Fri,  8 May 2026 21:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D76E38B12F
+	for <driver-core@lists.linux.dev>; Sat,  9 May 2026 09:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778276988; cv=none; b=BdxSn8jDvhhaonFDAWHCqIuqpDrUtRo3fjo0svkivwbADLfu7imY44GOqXq64mvjjoktwI3mED08fcAZw+g3ReBBcNRfYyI5fcjq9ImD2I+FsDT291WzzbopG3WxsVch3x7ZSnj/3qI4Eu6cP8PGPx/6Z6jA+06afNQZL71FQgo=
+	t=1778318852; cv=none; b=mwcDxoPoN2Xm66YUJkVnjbVCwPXGBlY9eDAAJjBHx2WURj5nNb2ayaWqnK0UDKp7a9kYBVNEWFkUbCm96+zkEsvvlo5JEF+B+m/5dpGqsQ62e2qHGX0U36n+F9Y4QgLu7ZXhISXEeCPv1DgWOidC85ivv9T+ZCvINDmGmiWrvsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778276988; c=relaxed/simple;
-	bh=xneW9n/eFyYFwX151QQV138RZGgNafKZ/KvLb6N/acE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gwhf7jaqG8MddPkKLikyXKq1u99cXvkeWeJdvC9I3Mz4vMXTaJ1FottQNIZVtVC9BBHIhBEP17UtO1IJIEN8gB6pI14mVgEMonRTiLFz/X+DEp/5X5erIl8sgRjFVKlDDszTnZ+1aSPULeNdua1qEMoG48sJg3wn5D06FrkfZC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dTdPYgyo; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dTdPYgyo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778276986;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xneW9n/eFyYFwX151QQV138RZGgNafKZ/KvLb6N/acE=;
-	b=dTdPYgyo+9jth3cLbgDka5ipvOk3KoBYLH3tsUfDcnjqLVNPF0LxYEz89St58IOG816Uhe
-	4W+RGiNx3Ztcr5sZksWPtmJoB3prDip4YWRoryrlG3dAHXJZhHKOt8wkiNEFg+R81YxYdK
-	Dfp3a1cbvkNTbJpvyDPmHkqhXLrH4FA=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-149-x6-9Sb28Phu__vb-kWPaXQ-1; Fri, 08 May 2026 17:49:43 -0400
-X-MC-Unique: x6-9Sb28Phu__vb-kWPaXQ-1
-X-Mimecast-MFC-AGG-ID: x6-9Sb28Phu__vb-kWPaXQ_1778276983
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8ed2c173d3bso472205485a.2
-        for <driver-core@lists.linux.dev>; Fri, 08 May 2026 14:49:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778276983; x=1778881783;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xneW9n/eFyYFwX151QQV138RZGgNafKZ/KvLb6N/acE=;
-        b=E82uoZ6YeVAMMKeM0yvHcPa5K8Fo+z2qNvFaobZSkMRtTQ82zdMbF7CCSsFLPjgPIN
-         /l6UAbLvC/MPA9EiByoTl6y7uvyDaZfnaBG/uNSAI1ndlXjv+qEEi7tyHXkTFrUhture
-         +SI1VMYe3cac33FqAaFX9TolsNEncwdClkibLx/u2GO6Y01WkvCMxoZhYxZBi8QL1uQ2
-         dHm0voQmhvkl7d9jyLUK9yX8vJsBWbUfnp1JW4DIeOKO5ds6DFQgpDVyB2mu40GIPh7h
-         4VpdjpnAxPL5mUXBACe1FYuQyZxZk5f9QPn51sCWH8/JANi3f7bTnfjuHeuqcQ7wwlvG
-         Ok1w==
-X-Gm-Message-State: AOJu0Yz2qIG8aHtZbx2fqp/OZu5Ps3hTJpG0HWzCF+YhLq/AVyx+VlLF
-	b4UQISkdPqadNTGKrBPniXimJULB6rt7BBha9xJQhHbiNuA3nyI3mi8xELLmsyorH8h6BtkZ4mp
-	XLIT2w2N/ZDMe/aSDEDyLE3Hd/SdW6U7SlVfIsK3/MWFzYPzNBWTGZnyyRfyN3ew7
-X-Gm-Gg: AeBDietleBgbw26AS+ETmSujpJmXk/ir/lsHZfW6RYe+l9yzZgjijPv8QI3Z1ZeEAhI
-	qgVw8I5ODeQbuf3HbQ8Toh1XooTA+0QfmU45q9rWCTw0rfYu4/G7uKlM65JXTdTQaU+oPz/5wR6
-	gi0ZF8AW+GsK603OSJ1GOkUSd5fLEp/mMYerQsXkCI+k6OKGtrnQIHWhYgxRi4oQBl6WGZaVmhs
-	WSPmHDUq93BFrpYmSG3ZXuk14ON7LK9XAALFJgq8RbWqk/JeYPqEMeHoPw64xPjUN+75RPAC18d
-	ATAVwWDRLF4xyb8IU2nK+K8cOTkJimjWkiJIHFmsZe1OXYWRrSXeelxe+1Yhs56dOmYHN3AaacE
-	gDrYnmIYMFHZ93jZhEyPURPVNdS64
-X-Received: by 2002:a05:620a:2544:b0:8f8:82a8:a31e with SMTP id af79cd13be357-904d72c5b2bmr2085910985a.60.1778276982589;
-        Fri, 08 May 2026 14:49:42 -0700 (PDT)
-X-Received: by 2002:a05:620a:2544:b0:8f8:82a8:a31e with SMTP id af79cd13be357-904d72c5b2bmr2085905585a.60.1778276982047;
-        Fri, 08 May 2026 14:49:42 -0700 (PDT)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b9c524bbsm309451785a.1.2026.05.08.14.49.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 14:49:41 -0700 (PDT)
-Message-ID: <56009df378bc90f171bccd89c80222dcfddd6884.camel@redhat.com>
-Subject: Re: [PATCH 1/6] rust: drm: Add Driver::ParentDevice associated type
-From: lyude@redhat.com
-To: Danilo Krummrich <dakr@kernel.org>, aliceryhl@google.com,
- airlied@gmail.com, 	simona@ffwll.ch, daniel.almeida@collabora.com,
- acourbot@nvidia.com, 	apopple@nvidia.com, ecourtney@nvidia.com,
- deborah.brouwer@collabora.com, 	ojeda@kernel.org, boqun@kernel.org,
- gary@garyguo.net, bjorn3_gh@protonmail.com, 	lossin@kernel.org,
- a.hindborg@kernel.org, tmgross@umich.edu
-Cc: driver-core@lists.linux.dev, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Date: Fri, 08 May 2026 17:49:40 -0400
-In-Reply-To: <20260506221027.858481-2-dakr@kernel.org>
-References: <20260506221027.858481-1-dakr@kernel.org>
-	 <20260506221027.858481-2-dakr@kernel.org>
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43)
+	s=arc-20240116; t=1778318852; c=relaxed/simple;
+	bh=8tfSMCNSxrzmA7fK4BAtFJcw4hhOwP0+zl00SMQFpCk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y2fM2ux2LZSxv7lF9NcoXpElhJPAWv+D9rem3SNAzWOkhFqnu0J6umvVXokh+rPiF6truBR7fgYYDDfJCPEZqNAgjDeraqzlClZa+OOMySRYrO5bPnNnI03gTZQFg89OZjY3MH5e1MiClw9/RuljtyobsOXCHgU0tr7k3iOp9uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn; spf=pass smtp.mailfrom=mails.ucas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mails.ucas.ac.cn
+Received: from fric.. (unknown [36.110.52.2])
+	by APP-03 (Coremail) with SMTP id rQCowAAnC+Lt_f5pX4x7EA--.10838S2;
+	Sat, 09 May 2026 17:27:09 +0800 (CST)
+From: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+To: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Colin Cross <ccross@android.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+Subject: [PATCH] PM: sleep: Use complete() instead of complete_all() in device_pm_sleep_init()
+Date: Sat,  9 May 2026 09:27:07 +0000
+Message-Id: <20260509092707.3426533-1-xujiakai24@mails.ucas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fjvae137j8zO0yXXAXbUuOqZ-qK1Yusl63oR-lfsBuY_1778276983
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAAnC+Lt_f5pX4x7EA--.10838S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw4kGry5JrW3XrW5Ary5Arb_yoW8WryUp3
+	4xK3yFgw1j9r4vy3Wqq3W8XF15Was3Cr97CryrCw15CwsxWrZ0yFy5tFZ8Jr4DZ3yDtasa
+	qF15Ja1rGrnF9r7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJw
+	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAG
+	YxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7V
+	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+	0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbknY7UUUUU==
+X-CM-SenderInfo: 50xmxthndljko6pdxz3voxutnvoduhdfq/
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+device_pm_sleep_init() is called during device initialization via
+device_initialize(), where no threads can be waiting on
+dev->power.completion. Using complete_all() here triggers a false-positive
+WARNING from lockdep_assert_RT_in_threaded_ctx() when
+CONFIG_PROVE_RAW_LOCK_NESTING is enabled, because holding a raw_spinlock
+elsewhere in the call chain makes lockdep_hardirq_context() appear non-zero.
 
-On Thu, 2026-05-07 at 00:05 +0200, Danilo Krummrich wrote:
-> Add a ParentDevice associated type to the Driver trait, allowing each
-> DRM driver to declare its parent bus device type (e.g.
-> auxiliary::Device, platform::Device).
->=20
-> Change UnregisteredDevice::new() to take &T::ParentDevice<Bound>,
-> ensuring at the type level that the DRM device's parent matches the
-> declared bus device type.
->=20
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
-> =C2=A0drivers/gpu/drm/nova/driver.rs | 8 ++++++--
-> =C2=A0drivers/gpu/drm/tyr/driver.rs=C2=A0 | 6 ++++--
-> =C2=A0rust/kernel/drm/device.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7 +++++--
-> =C2=A0rust/kernel/drm/driver.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 +++
-> =C2=A04 files changed, 18 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/nova/driver.rs
-> b/drivers/gpu/drm/nova/driver.rs
-> index 9eef28b506bb..9d4100f01ea7 100644
-> --- a/drivers/gpu/drm/nova/driver.rs
-> +++ b/drivers/gpu/drm/nova/driver.rs
-> @@ -2,7 +2,10 @@
-> =C2=A0
-> =C2=A0use kernel::{
-> =C2=A0=C2=A0=C2=A0=C2=A0 auxiliary,
-> -=C2=A0=C2=A0=C2=A0 device::Core,
-> +=C2=A0=C2=A0=C2=A0 device::{
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Core,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceContext, //
-> +=C2=A0=C2=A0=C2=A0 },
-> =C2=A0=C2=A0=C2=A0=C2=A0 drm::{
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gem,
-> @@ -59,7 +62,7 @@ fn probe(
-> =C2=A0=C2=A0=C2=A0=C2=A0 ) -> impl PinInit<Self, Error> + 'bound {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D try_pin_ini=
-t!(NovaData { adev: adev.into() });
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let drm =3D
-> drm::UnregisteredDevice::<Self>::new(adev.as_ref(), data)?;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let drm =3D drm::Unregistered=
-Device::<Self>::new(adev, data)?;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let drm =3D drm::Registr=
-ation::new_foreign_owned(drm,
-> adev.as_ref(), 0)?;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(Self { drm: drm.into(=
-) })
-> @@ -71,6 +74,7 @@ impl drm::Driver for NovaDriver {
-> =C2=A0=C2=A0=C2=A0=C2=A0 type Data =3D NovaData;
-> =C2=A0=C2=A0=C2=A0=C2=A0 type File =3D File;
-> =C2=A0=C2=A0=C2=A0=C2=A0 type Object<Ctx: drm::DeviceContext> =3D gem::Ob=
-ject<NovaObject,
-> Ctx>;
-> +=C2=A0=C2=A0=C2=A0 type ParentDevice<Ctx: DeviceContext> =3D auxiliary::=
-Device<Ctx>;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 const INFO: drm::DriverInfo =3D INFO;
-> =C2=A0
-> diff --git a/drivers/gpu/drm/tyr/driver.rs
-> b/drivers/gpu/drm/tyr/driver.rs
-> index 2743178af325..747745d23f31 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -8,7 +8,8 @@
-> =C2=A0=C2=A0=C2=A0=C2=A0 device::{
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Bound,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Core,
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Device, //
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Device,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DeviceContext, //
-> =C2=A0=C2=A0=C2=A0=C2=A0 },
-> =C2=A0=C2=A0=C2=A0=C2=A0 drm,
-> =C2=A0=C2=A0=C2=A0=C2=A0 drm::ioctl,
-> @@ -131,7 +132,7 @@ fn probe(
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 gpu_info,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 });
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let tdev =3D
-> drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref(), data)?;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let tdev =3D
-> drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, data)?;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let tdev =3D
-> drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(),
-> 0)?;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let driver =3D TyrPlatfo=
-rmDriverData {
-> @@ -176,6 +177,7 @@ impl drm::Driver for TyrDrmDriver {
-> =C2=A0=C2=A0=C2=A0=C2=A0 type Data =3D TyrDrmDeviceData;
-> =C2=A0=C2=A0=C2=A0=C2=A0 type File =3D TyrDrmFileData;
-> =C2=A0=C2=A0=C2=A0=C2=A0 type Object<R: drm::DeviceContext> =3D drm::gem:=
-:Object<TyrObject,
-> R>;
-> +=C2=A0=C2=A0=C2=A0 type ParentDevice<Ctx: DeviceContext> =3D platform::D=
-evice<Ctx>;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 const INFO: drm::DriverInfo =3D INFO;
-> =C2=A0
-> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> index d91f19dcc375..492c2f2c7ca4 100644
-> --- a/rust/kernel/drm/device.rs
-> +++ b/rust/kernel/drm/device.rs
-> @@ -197,7 +197,10 @@ impl<T: drm::Driver> UnregisteredDevice<T> {
-> =C2=A0=C2=A0=C2=A0=C2=A0 /// Create a new `UnregisteredDevice` for a `drm=
-::Driver`.
-> =C2=A0=C2=A0=C2=A0=C2=A0 ///
-> =C2=A0=C2=A0=C2=A0=C2=A0 /// This can be used to create a
-> [`Registration`](kernel::drm::Registration).
-> -=C2=A0=C2=A0=C2=A0 pub fn new(dev: &device::Device, data: impl PinInit<T=
-::Data,
-> Error>) -> Result<Self> {
-> +=C2=A0=C2=A0=C2=A0 pub fn new(
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev: &T::ParentDevice<device:=
-:Bound>,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data: impl PinInit<T::Data, E=
-rror>,
-> +=C2=A0=C2=A0=C2=A0 ) -> Result<Self> {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // `__drm_dev_alloc` use=
-s `kmalloc()` to allocate memory,
-> hence ensure a `kmalloc()`
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // compatible `Layout`.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let layout =3D Kmalloc::=
-aligned_layout(Layout::new::<Device<T,
-> Uninit>>());
-> @@ -207,7 +210,7 @@ pub fn new(dev: &device::Device, data: impl
-> PinInit<T::Data, Error>) -> Result<S
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // - `dev` is valid by i=
-ts type invarants,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let raw_drm: *mut Device=
-<T, Uninit> =3D unsafe {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-bindings::__drm_dev_alloc(
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 dev.as_raw(),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 dev.as_ref().as_raw(),
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 &Self::VTABLE,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 layout.size(),
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 mem::offset_of!(Device<T, Uninit>, dev),
-> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> index 294e17af86a3..9d06f8c5b2da 100644
-> --- a/rust/kernel/drm/driver.rs
-> +++ b/rust/kernel/drm/driver.rs
-> @@ -114,6 +114,9 @@ pub trait Driver {
-> =C2=A0=C2=A0=C2=A0=C2=A0 /// The type used to represent a DRM File (clien=
-t)
-> =C2=A0=C2=A0=C2=A0=C2=A0 type File: drm::file::DriverFile;
-> =C2=A0
-> +=C2=A0=C2=A0=C2=A0 /// The bus device type of the parent device that the=
- DRM device
-> is associated with.
-> +=C2=A0=C2=A0=C2=A0 type ParentDevice<Ctx: device::DeviceContext>:
-> device::AsBusDevice<Ctx>;
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0 /// Driver metadata
-> =C2=A0=C2=A0=C2=A0=C2=A0 const INFO: DriverInfo;
-> =C2=A0
+Replace complete_all() with complete(), which is semantically equivalent
+when no waiters exist (sets done to 1 instead of UINT_MAX). The completion
+is always reinitialized via reinit_completion() in dpm_clear_async_state()
+before each suspend/resume phase, so this initialization value has no
+effect on later suspend operations.
+
+Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+Fixes: 152e1d592071c ("PM: Prevent waiting forever on asynchronous resume after failing suspend")
+---
+ drivers/base/power/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+index e1b550664bab..7a948dd134df 100644
+--- a/drivers/base/power/main.c
++++ b/drivers/base/power/main.c
+@@ -115,7 +115,7 @@ void device_pm_sleep_init(struct device *dev)
+ 	dev->power.is_noirq_suspended = false;
+ 	dev->power.is_late_suspended = false;
+ 	init_completion(&dev->power.completion);
+-	complete_all(&dev->power.completion);
++	complete(&dev->power.completion);
+ 	dev->power.wakeup = NULL;
+ 	INIT_LIST_HEAD(&dev->power.entry);
+ }
+-- 
+2.34.1
 
