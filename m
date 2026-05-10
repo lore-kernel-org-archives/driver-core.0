@@ -1,86 +1,74 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E10CA4E;
-	Sat,  9 May 2026 21:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891D63242BE;
+	Sun, 10 May 2026 11:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778361175; cv=none; b=SAW4DavZjXI/pGMCdzLDfjCJdKPzpa5z7Mf8QI5fY5UipGz9nvYWBGbQiu2fWFnZ65zbnourDOyhTYsVLVhRYY7FkLQK6Z2RZzpZ86RZaE1RwUgD+Dzoxk1fxHf4nfd8QfTOfgL4hv8TuEHCFOIbO3jxXiNAu8sehkbzjCB71XI=
+	t=1778412373; cv=none; b=aRSZfob8TwLEtuZ3ZQvgbDYUeNTiaCazpEzLHOJmwire8zBHP4yvosEU2Xl31SiZvK3jQw3wISqJjXveFe8jQzJ6YkvK1oq9KN/idDfyyX91DDjFbsCMfSaH3s4bktCtLqXp6//k1+y2HhhQTWO5q9FXmoYrrhUCB1v6q1vYFpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778361175; c=relaxed/simple;
-	bh=uBUThkzPq3bIh8exkMvvIMZ3xi0qvfWeGRDf4xCY3bA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NonlvrMHfukAxMkenYvI4J1CnwhBNFPH8zTJ+A2Xhuq4KxO5v2z+hiRxN5ye37s8thvuyrQEPh21vC0XjXH6CzdLEs7xVqWyk85Cn6XujJdSY5Ih0dA710Qz08QmYEGn0B8PY/MkAJu4QxDtPl8J3wG6ANntjmYIUwGtXdUdq3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Mjt5OQkl; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1778412373; c=relaxed/simple;
+	bh=2KRTjZ2Lq8ZGRTyfYZPEXXRsQjgKx/NzMCHPT9+g3SI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uYK4mkAhEvu7lHJNpQO5A7QIR0poBteYmJBPpp9QZwMOArgqQxe6wXA4JlFhVvKcRA698J8MYQFZpILEsshtfrCimhlqb01fhtcH88p8JI194TFGJ5ld3Zf3irXNyj2C6Q/DF80pjPoxx9ei2VC4aKgPc1eIjZQGRLh/A353rPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okjxQ6ZO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Mjt5OQkl"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DF4041084
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1778361166; bh=YBtbi7A9YrkmaUhKGVC2kX+uo3qrOmV8imEJ0JVJ4g4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Mjt5OQklw/q0tOxGnFv39kDSqfDkjS6mig9GI1AWkdAPa4cvTRNrNmfpymjESUFi6
-	 H/5FakCtFplnTQnl9nZRo/fnegO8vkIXQvGFIZm2hHkOPBIHdefRa3KJ4X+KSry3p0
-	 8dZISKSFgyrQYN/1LKrpJRLd7dka+/NZCfofGK1GocxfGMQTNvP92mAU6eWMM37PaK
-	 wHbR3WasqikofHbBUvC+f9BEkcUp3ZE5H0hzMpvzxk4qnLfaNcYFlnYQCX2XR46ys8
-	 5zJT8dwRorNdXw6bqCfO4cVxjbEkC8tbwufzeeduIu6LLSPsH2YJM0iOI7YEbkIEgh
-	 y7top2NlvevUw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3DF4041084;
-	Sat,  9 May 2026 21:12:46 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Adrien Reynard <reynard.adrien.08@gmail.com>, paulmck@kernel.org,
- gregkh@linuxfoundation.org, dhowells@redhat.com, mhiramat@kernel.org
-Cc: frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, boqun@kernel.org, urezki@gmail.com,
- rostedt@goodmis.org, skhan@linuxfoundation.org, rafael@kernel.org,
- dakr@kernel.org, pc@manguebit.org, rcu@vger.kernel.org,
- linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
- netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org, Adrien
- Reynard <reynard.adrien.08@gmail.com>
-Subject: Re: [PATCH v2 2/4] docs: fix repeated word 'that' across documentation
-In-Reply-To: <20260509143050.16458-1-reynard.adrien.08@gmail.com>
-References: <20260508163759.16231-1-reynard.adrien.08@gmail.com>
- <20260509143050.16458-1-reynard.adrien.08@gmail.com>
-Date: Sat, 09 May 2026 15:12:45 -0600
-Message-ID: <87wlxcz3qq.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okjxQ6ZO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DB5EC2BCB8;
+	Sun, 10 May 2026 11:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778412373;
+	bh=2KRTjZ2Lq8ZGRTyfYZPEXXRsQjgKx/NzMCHPT9+g3SI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=okjxQ6ZO2rCXK0FiyK77U2aTNgcVTcTMEALrRzyYXJoz/CRP62qy1NUH6tWADKkf0
+	 isu7QOlxxiBapWJhB4qY3oU6FAtuX+C5Yzx+8B0tGvmqPuIG2u+RliTjjhRkaEpHlg
+	 UIWjvvw+YhY910QWp9EIktPQ7gwAtBzz+HbHHhsDBcXLm91Hzh6NGOyydPmJ6gO+QX
+	 PE+Is2ED9RuUB225NOZ10NmtI1cg60/A0X1T4wQnyF3xtBnFhEdddYYNkKFk53xDlY
+	 J3As1YwnIgvhxHQZgXAvH54TOotwgSSPrXJfQQEfTJxY12U1cU/THOsOuTCZpbJX3H
+	 kp9cdbXw1mVbA==
+Date: Sun, 10 May 2026 16:56:08 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Peter Rosin <peda@axentia.se>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-spi@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-fpga@vger.kernel.org, driver-core@lists.linux.dev
+Subject: Re: [PATCH 02/10] phy: core: switch to using
+ class_find_device_by_fwnode()
+Message-ID: <agBrUA7SsOLwhOMc@vaman>
+References: <20260322-remove-device-find-by-of-node-v1-0-b72eb22a1215@gmail.com>
+ <20260322-remove-device-find-by-of-node-v1-2-b72eb22a1215@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260322-remove-device-find-by-of-node-v1-2-b72eb22a1215@gmail.com>
 
-Adrien Reynard <reynard.adrien.08@gmail.com> writes:
+On 22-03-26, 18:54, Dmitry Torokhov wrote:
+> In preparation to class_find_device_by_of_node() going away switch to
+> using class_find_device_by_fwnode().
 
-> Remove duplicated word 'that' found in RCU/rcu.rst,
-> driver-api/driver-model/overview.rst,
-> filesystems/netfs_library.rst, trace/histogram-design.rst
-> and trace/histogram.rst.
->
-> Signed-off-by: Adrien Reynard <reynard.adrien.08@gmail.com>
-> ---
->  Documentation/RCU/rcu.rst                          | 2 +-
->  Documentation/driver-api/driver-model/overview.rst | 2 +-
->  Documentation/filesystems/netfs_library.rst        | 2 +-
->  Documentation/trace/histogram-design.rst           | 2 +-
->  Documentation/trace/histogram.rst                  | 2 +-
->  5 files changed, 5 insertions(+), 5 deletions(-)
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-When you send an updated version of a patch, please:
 
-- Post it as its own thread, rather than as a response to a previous
-  version
-
-- Include a note after the "---" line explaining the changes from the
-  previous version.
-
-Thanks,
-
-jon
+-- 
+~Vinod
