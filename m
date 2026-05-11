@@ -1,59 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689F24014B4;
-	Mon, 11 May 2026 15:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43E241C318
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 15:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778513909; cv=none; b=NIbO8mYTK6MtG1OeqFSLxBwNpq2wGR1/US0IUZePpOagdXKyZvjUftJRkDAjm0HtvwZXNLydgfY/jcggsPTeokyUaOEngkqWwq/IlP1MNxIG9yE5VwDRdBMhNWgrdvZEQnzvYoFwjESzR70bO6WBLpEuAwgcev3KysH6cbwAHD8=
+	t=1778515108; cv=none; b=p7UZr6H5DJql0J2OBc2x/pSeJ0nards8zclaLzUdSRfRxaDJs9Cya2sR0lQ9zmlBZzv6FT9TryN1UWUdYl2aT8W5YMTecfDKkfMsZb+mcbLa1aCCIkvGadfF7ABk6BUdwTxf6YurLhzowhzmV7K5k9nbn21YCQVbBd/Ok1M/Kjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778513909; c=relaxed/simple;
-	bh=9ia61t/3shFk1R60vyvSaUERpQ90L5BXzWA6QW+wDtc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e54Wl5wxQQ1ifCh7p4Z9WaOsjX+bcdDSPd1HEpZgwd2+Ajk6uOom4vUVoFgKd5tu30h8Qy3H2ekWABfYZaGv53LP4LVaQnQB6T2xpQdy2y9t9oYMuezIuHeQXAxpWV5pWGkjzwo4uS6Is78Go0NGXeuV+B/2xnYktC71wv63Qos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BoIhIUOn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778515108; c=relaxed/simple;
+	bh=faV48x66qT9Y451ucIdOMrXgpUrUv733nxGN+U0gWIA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rY0qptxL4UyKkggU2xoCrH/PbEA4hi6ez/sywmOiXyNEGNs0SS4r3Aq/qwkufgdkxxy96r0jt4magoRgCm88ozfowKleRxACLhDm0kmz8nEtwwrADZXPagqBH2JcjS1lrJQNd3DlCvPTeII0/I3TEEjv1l30DP6hXi3PvVAhQT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jYe5/IyV; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BoIhIUOn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0950C2BCB0;
-	Mon, 11 May 2026 15:38:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778513909;
-	bh=9ia61t/3shFk1R60vyvSaUERpQ90L5BXzWA6QW+wDtc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BoIhIUOnaIlW+MnzxR/uMWc16ngYvlR47JXvEOIojWCgv+yOsqkEnUBrTlv31Vp2d
-	 rDDG/1ax8xJqaWFPjyqfokqcrAJc+29kCVr50Ed8F/sxflOhNNnarm8nfpJV4l0x1T
-	 Y+vEnQY+hLuco2xJ/nODUHCa5BOsPzYm83l+pttcySsAH86raeKFCGk0zFW05pxJnY
-	 YEcznmxGerOMikP0VFpfqjNhmkp9gYUDF5zrK/Iwbj79Igo4lMGAsMzb+V51E5XyNZ
-	 o0EWjDiCjAQTPqvx1XovFVTJb+pv8T2Onz0fSn50edXo62GI3cV85B8fY+5gOGZ1YY
-	 gY5SGialON/xw==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	acourbot@nvidia.com,
-	aliceryhl@google.com,
-	david.m.ertman@intel.com,
-	ira.weiny@intel.com,
-	leon@kernel.org,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	tmgross@umich.edu,
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jYe5/IyV"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D7818C5E14B;
+	Mon, 11 May 2026 15:59:13 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3184760646;
+	Mon, 11 May 2026 15:58:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0FFCD11AF9F17;
+	Mon, 11 May 2026 17:58:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1778515102; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=6PvZiJbdFgg6CfVXI3ZnA/W5wMYdblVvpzZVyQN69HA=;
+	b=jYe5/IyV4+QQoPJhoH7kASCQK5hWPxqcsQRvqBqCShiZy80aw0NHrK/bRUrBiV5WbDCiry
+	/8JLDvNB6TNUw2z1KYOuG43u+dnPBL+j6KyU20SWwuuGIoIL5/ZMss7RWIzfc5fEfQogdg
+	91P65zTkGl/3A8bCLa9FlGNWKPYfQa/+wZyNiB1SHEXeKDXurNSCCJMEgXABD+4FfSoyfH
+	s0DXPDs0iJXUUlljvxnUT2JX0EVBicPQHfIgDilYiACGtiqQkfba7QGiIL/DJViqR86wdY
+	ZPlO2RSX+fQp9jT8ff+AbeAyzZPKUEqiD2ypxBO1MjuQe4+VmR9cAexa5Vtf8Q==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kalle Niemi <kaleposti@gmail.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>
+Cc: Wolfram Sang <wsa@kernel.org>,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] rust: auxiliary: replace drvdata() with registration data
-Date: Mon, 11 May 2026 17:36:17 +0200
-Message-ID: <20260511153616.3241557-2-dakr@kernel.org>
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	Allan Nielsen <allan.nielsen@microchip.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	Steen Hegelund <steen.hegelund@microchip.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: [PATCH v7 0/3] lan966x pci device: Add support for SFPs, core part
+Date: Mon, 11 May 2026 17:57:47 +0200
+Message-ID: <20260511155755.34428-1-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260505152400.3905096-1-dakr@kernel.org>
-References: <20260505152400.3905096-1-dakr@kernel.org>
-X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -61,25 +80,86 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue,  5 May 2026 17:23:06 +0200, Danilo Krummrich wrote:=0D
-> [PATCH v2 0/3] rust: auxiliary: replace drvdata() with registration data=
-=0D
-=0D
-Applied, thanks!=0D
-=0D
-  Branch: topic/dd-lifetimes=0D
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-=
-core.git=0D
-=0D
-[1/3] rust: alloc: add Box::zeroed()=0D
-      commit: abb21500e7e5=0D
-[2/3] rust: auxiliary: add registration data to auxiliary devices=0D
-      commit: fd3b87ff0232=0D
-[3/3] rust: driver core: remove drvdata() and driver_type=0D
-      commit: 95ade775c4ab=0D
-=0D
-The patches are in the topic/dd-lifetimes topic branch and will be merged i=
-nto=0D
-the corresponding target branch soon.=0D
+Hi,
+
+Previously, I sent a big picture series adding support for SFP ports
+available on the LAN966x PCI device [0].
+
+In this series patches touch several parts and sub-system in the kernel.
+Reviews have be done and it makes sense to split the series and send
+parts separately.
+
+This current series is the extraction of patches related to driver core
+subsystem. It fixes devlink issues when a device-tree overlay is applied
+and avoid a warning when a device is removed.
+
+It has to be seen as a continuation of the big picture series but
+related to this specific core part.
+
+Patches 1 and 2 fixes fw_devlink when it is used with overlay. Those
+patches were previously sent by Saravana [1].
+
+I rebased them on top of v7.1-rc1 and I added a call to
+driver_deferred_probe_trigger() in Saravana's patch (patch 2) to ensure
+that probes are retried after the modification performed on the dangling
+consumers. This allows to fix issues reported by Matti and Geert [2]
+with the previous iteration patches.
+
+Patch 3 avoids a warning on device removal.
+
+Those 3 patches seem ready to land and so having them extracted in this
+current series will help having them applied.
+
+[0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+[1] https://lore.kernel.org/lkml/20240411235623.1260061-1-saravanak@google.com/
+[2] https://lore.kernel.org/all/072dde7c-a53c-4525-83ac-57ea38edc0b5@gmail.com/
+
+Best regards,
+Hervé
+
+Changes:
+
+v6 -> v7
+
+  Rebase on top v7.1-rc1
+
+  - Patch 1
+    Fix conflict due to commit f72e77c33e4b ("device property: Make
+    modifications of fwnode "flags" thread safe")
+    Add 'Acked-by: Rob Herring'
+
+  - Patch 2
+    Use fwnode_test_flag() to test fwnode flags value
+    Add 'Acked-by: Rob Herring'
+
+  - Patche 3
+    No changes
+
+Older iterations:
+  Patches 1 to 3 in the big picture series
+  https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+
+Herve Codina (1):
+  driver core: Avoid warning when removing a device while its supplier
+    is unbinding
+
+Saravana Kannan (2):
+  Revert "treewide: Fix probing of devices in DT overlays"
+  of: dynamic: Fix overlayed devices not probing because of fw_devlink
+
+ drivers/base/core.c       | 86 ++++++++++++++++++++++++++++++++++-----
+ drivers/bus/imx-weim.c    |  6 ---
+ drivers/i2c/i2c-core-of.c |  5 ---
+ drivers/of/dynamic.c      |  1 -
+ drivers/of/overlay.c      | 15 +++++++
+ drivers/of/platform.c     |  5 ---
+ drivers/spi/spi.c         |  5 ---
+ include/linux/fwnode.h    |  1 +
+ 8 files changed, 92 insertions(+), 32 deletions(-)
+
+-- 
+2.54.0
+
