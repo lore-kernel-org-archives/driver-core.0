@@ -1,408 +1,216 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013042.outbound.protection.outlook.com [40.93.201.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9921736E473
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 11:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778498327; cv=none; b=pJrYQHzBEC9LuxiTYXOIhSdOTCV4NW6O4YqIT0S5Vh2kLCb9dz7lcvFUhUVKh+DjXhT0wx/O450+02m72ln8E9BZuQzesvIPA8Alzl9MbMB7LhSV8M9/qpNBfVIvc1gvhvnkTGHpbgxOHVCehuwzr4tX+AbJovMlLmf1MEA3lbs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778498327; c=relaxed/simple;
-	bh=8BBgxVCsv5YDCYQ2sR+dsQPRg5HbgVlv6JuCI3/17zM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J/EKBHQiXsik/8+aduFwKisI41C3Eg/AcTJXAXlqaV8lpZdPWXZgUHb3F3S5WH2Eu8oCIIWGe2GLTuVxPZT6R0zD3I1DAdmIPIuzJ+GeIK6oRp72KID9kCWD0nUMhaIwuLJePgAW4Rw3fgctb8dC8vVzNexgNK4lWce5/RTxO6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=fy+CK50t; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC7336E495
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 11:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778498434; cv=fail; b=oNZb1bnvIx+kbDQYDTg5HKkW93X8RNFh1SYqn2SII2aGvFvygYmZO2J/EJS4ZNw7TnWjeB1iO1JXL63uMiEflSTlTxTYar1vK8palnUmdlhA133HM2ogfwsQiLA5LeBna15kOXIp3HbCxFNNThbQx+jytFZq5/wjFbwtqodhXbs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778498434; c=relaxed/simple;
+	bh=7jGmI3Vu5Tg9+daggFnhtrnirN8bIbcKdCXGv59j8Q4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=a8O/i0FzqU76WLWAtJAbuIp3MsRepHBGN4P9tD7/gQb/e4qgTQ86yLlnZvXIOSzthNw3i7J1RLG/TVNoNPkne3OWXxBB5lzLEZlUvOjEA5Bdh9mYR+h8FpSd2FrVVrSjSDwMS0xDiNw5U4dI/1IZ8TohqdMcswsV3NvYFJtc/gU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Qc+2qR8s; arc=fail smtp.client-ip=40.93.201.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="fy+CK50t"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ba4efedbeaso29755145ad.1
-        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 04:18:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1778498324; x=1779103124; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4nZ855QhOS6+DUu6cu1Pi5l2CbbOQ+24Qk9Hlm6rENI=;
-        b=fy+CK50toZywCMc+Zvry8rgdjKbc/kMgh6QamxaJu56TO7pzGYIGJTVrLgjDir1ONs
-         6V9RF5A4NS1LzHqNb4/A0rf9yz09Xv7kZMGzVb2IzEsDiNod0aInbzUByQAW7gpoFiue
-         6hgCuq8RTwwnlwYPzXZ/q5sI/jnXcY69CZrn+P5lpiebDXZ7c7ANlWObgT8GmbI45HcM
-         8lxjuGysU7/C1mO1R/zlAEYeo2FpwmzbhgJzuTbC9jieHn8hgoGUYFj8Wd8+04l7O91f
-         9riZSEHV+j2b3+e1+dhTr1ne3ZaP5jl3qw0HNYCZ63fq8ihDx4vH/dYGstcQXo7slD19
-         KtOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778498324; x=1779103124;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4nZ855QhOS6+DUu6cu1Pi5l2CbbOQ+24Qk9Hlm6rENI=;
-        b=O2IWcmxKq4awNewpcaFK3r0ngJM8ErcGFvW8l9yXJQskiK9jVgTPYYMLVvcc3l0M5k
-         aYkEZfJRpqmV56mt5gbdCRG4HZqb/9B1kyp6CKeEK983fuqBwz2rZTr4CtdphZZ2OBGW
-         z54itsbS+lQdVkGzqbdhpbJxIkC+P6CsRCH+P8U7eiuqNFssYDsufm/9oO3xEgeUmxaw
-         7rijVSn1A2v3kLQpFAn7uE7+gY7+JVuaFcAe7F/Jj5ObdchVnJYW/Ijs2gBsOSqQ9Srt
-         0T37N0wUQ6RhStMzJm4m3wT0HLH7wqlDtfXbVo061VMjxsDK4O5U5ow7TTOqFm2kRKhb
-         H4hg==
-X-Forwarded-Encrypted: i=1; AFNElJ+YtadN8qC0A9jYUdr8GSEVd0kMYvUR7Pm361S0xNbYH6ut+WrjS63ybU/lMNIbm6NfqYW6Q60zXZ78Tg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSWm53mpmhqW9fk3oEMxJEHKvS7tJxJzVU04f+nI0U39AZ18LE
-	J311sXpTXfMUwbs44CCRjQaMCcsa8uMbTDc7rN+LFervvknzYIilI4DsQis7jttVIDo=
-X-Gm-Gg: Acq92OFu/Ybfo9I6OIu6NhaHW8O8lpC/sFV8IH0DJ+GCLnymeX4VOCrwasnkfHxfCqj
-	H/r00FluX2SAxNj4GN+wmFGTkYAyDLwvodqOdEGmijot1qy06xmKnNF5MKLvRtoJu9vzljJXD+6
-	VosGa8VXoVvXUMArdjsSWdVnS2C+VJqKuOduAg6EKgxQTDpVhrpi7mt7pibZHTn48+jAPD8BU5V
-	/C/zAi9h8a1yp/JEs2gYSWInnnRtoSVomDF/GEdUVnqcR9rqvmXIjRvxNRK/NLQknmQFu1/VBZI
-	qsGSlzj1Zt11F2OjarXiCO0siJ8E1dvIU+3Q8dtLJOYt1QggQIzPXBt3DnJDYMx7CMqkXqFB9AJ
-	cxAZohvp/uHN4ILfDnMcnaeI+zAiSw+N59qu4M3tDZbMOtj8Po+K1AHNNxQxzkB4AxrWAM9FllG
-	FESqyVfEGgWDPKyY+Bkwwdzfp5yUuGfn6ar4yZ8lDLCmxh
-X-Received: by 2002:a17:903:13cf:b0:2b2:501c:bc0 with SMTP id d9443c01a7336-2ba79290f29mr226590505ad.7.1778498323836;
-        Mon, 11 May 2026 04:18:43 -0700 (PDT)
-Received: from n232-176-004.byted.org ([36.110.163.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e75fffsm96826495ad.59.2026.05.11.04.18.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 04:18:43 -0700 (PDT)
-From: Muchun Song <songmuchun@bytedance.com>
-To: David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	linux-mm@kvack.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org,
-	Muchun Song <songmuchun@bytedance.com>,
-	muchun.song@linux.dev
-Subject: [PATCH] drivers/base/memory: make memory block get/put explicit
-Date: Mon, 11 May 2026 19:18:00 +0800
-Message-ID: <20260511111800.2181785-1-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Qc+2qR8s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qUkSSnNDSyGYYNoACiPatUKZZJuYy3tzSv38UkOapz6XX+TGtsde6dumxjHr6iz4HCjpLkPTkUYKn4xoBfm7qKxtYfRdzVjFGIX8Q/WWez4ktrVKMNWe1oZW22fDuSi4O7HfdXOerD+SZg3kOia0TDBCqJUGLNn/wVmAigkYgwlVD6anH1dObaqaM131W9O34XR4WodfaTyQX48LlRbYuLRyfuWr7XuY4wPURJIr5hAhg8B/YTCFNcZ/Y7fuL/IZmtQQeE0A0t/tPdzw7vnP+e5JHsJBk5wG1jxiyNSZezOaxNZ2uyU8MGTf663e6Bz42W45qRxjMDwtIDltinlTCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5vEyQ9hqpnLXAEbizicIc/pa2uDDZUm7AjhE5IEJ0Lk=;
+ b=kb6PKreLou59cP1lgsZKGN4JYOq2xvZCGZI+7qTsVyS+74vNiqrlLO1F2qioWN+DKBTxY5lTp6jUr88ewDjuJ4quNkzsfhpKAEV55PSstDvMb0SaKcYvqLaLf94N8FDhB9yK4v7gNXzhGeWpECTJ58V3fQup8JG2rv3PaUxXjVSqmps9I3tKLrEJbVaBSoEAdz/SGiEzhCz7I4LeR1IJx9DWxPnc8fDTgp1VrrcjmN2pIIeq5Kq6UrIllMUMtdP6ijT8LFRw2/YRRPiTdAga/u5XlQy87zxLOyMmAD1PjAl1YbTPeq6IXD+aqi5Bb1cw91DmKRvIhR9FijVyIkLUiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5vEyQ9hqpnLXAEbizicIc/pa2uDDZUm7AjhE5IEJ0Lk=;
+ b=Qc+2qR8s+fROzhfHlFru8iLgvaogdpANLVDGyjOwqoZ7vb+ge/DcW+3fluX/UgtgZij2lm/cHKCq9aKQlS+0Yj5cm0hehYajDslx02qrHZz7ubRUcPbA1rGRIlWJFDBmiHPS/jW4bDTg2mD+4p7g+u7XW3OlTnfPppD28EHXgh0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7325.namprd12.prod.outlook.com (2603:10b6:510:217::19)
+ by DS7PR12MB6047.namprd12.prod.outlook.com (2603:10b6:8:84::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 11:20:29 +0000
+Received: from PH8PR12MB7325.namprd12.prod.outlook.com
+ ([fe80::8024:a7ee:b29c:a4fc]) by PH8PR12MB7325.namprd12.prod.outlook.com
+ ([fe80::8024:a7ee:b29c:a4fc%6]) with mapi id 15.20.9891.021; Mon, 11 May 2026
+ 11:20:28 +0000
+Message-ID: <0fbf4355-4ba0-4cc9-908d-001747bcfc67@amd.com>
+Date: Mon, 11 May 2026 16:50:22 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] AMD HSMP: metrics table improvements and Family
+ 1Ah Model 50h-5Fh support
+To: Muralidhara M K <muralidhara.mk@amd.com>, ilpo.jarvinen@linux.intel.com,
+ gregkh@linuxfoundation.org, rafael@kernel.org
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev
+References: <20260427155129.545327-1-muralidhara.mk@amd.com>
+Content-Language: en-US
+From: "M K, Muralidhara" <muralimk@amd.com>
+In-Reply-To: <20260427155129.545327-1-muralidhara.mk@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0249.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1ae::15) To PH8PR12MB7325.namprd12.prod.outlook.com
+ (2603:10b6:510:217::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7325:EE_|DS7PR12MB6047:EE_
+X-MS-Office365-Filtering-Correlation-Id: cebcac0f-8a3c-42f7-d840-08deaf4f4e3a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|3023799003|11063799002|56012099003|18002099003|18092099006|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Z8JVBNJ2PoiWXQJUyiiUU8naCrMksSp0y70i+Uz2Qrnj/HOv8/UvayrdZzpd6sKOdHptuSvIil8EXeEmTBx+FrY5IO1HVv0jP/hRpCj6SP25VE0LtLeB+KCQVLcYHWzrxLSTV2nPcQxQjl2NaQPgSw5nYlRLEq0WU+DNqULHo17yYbWPZUdHppVi8lUPOicB7KfG0xzKJccqZu0WghhiWck1g2QnY8tC+Ncr6a9Rt4g4fZAO3i4BtRvg+eRUnFp2yc5nnVhxAho8Nghwm/yxeQ6uX4n5adsD7i2crugfaMwBwGksJS6KW4xc5KC0Rnu3QGHZPslMu8PqbFqBZxRfV5FFlXcKXf79EhNenCxais4AJ356qA57qpkbJKuS4XlNPtGtwldk7AErmGTuZsRtr5w8EfD6rk7ZPGqfDl4SQXUiErzzhocr+1cAodfvV0xKnTt2+35UIc9NXUL0kSXhPS1e3gVQFmbBXjsEQYZgNn7pDUpvaSHg4Am9enn+phmDTIihPr/KmkDbrRZkPdrx+IDC869u2s5KRMABRBPsBs/sTPhLj2fHX0RW9wXRN01LnO/HwTDVmYEVfKrXzUM7QVHLMnziPjRkb0XbPqhbeyh0Nihkd9EeGjqrnI82iwJqqQ9dxHLSNkKpyeYrDLUUa8AYjHAJ9e0HKB/dcmyqGPH4zeCVLMYzx7wG10OXlpeMC0GZb1uPfrq4RLFpagyvwA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7325.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(3023799003)(11063799002)(56012099003)(18002099003)(18092099006)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eW1idW1LLysvZHdTbkRzbmxnL0hic1RYOG1QeFQzakxGZ2tabDFiaXdFRUNa?=
+ =?utf-8?B?cVFkK2s3Sk5iZ2hOc1VVMlBhQWFETlhrQnJ0eEx0U29razhQSG4yeHFldkE3?=
+ =?utf-8?B?WWRzMkt0RTZpSC9TR2pRb2JLSHZGcGpZTFNPa0tuS29BenV0QlRPK21rN1dh?=
+ =?utf-8?B?V0gzRExFUlc3ellxNEUxNlIxTGZVREErN001R1FZZi9FS2VJK0VVaWt5VWUv?=
+ =?utf-8?B?WE9vaXFqUC9hbXYzRkhidlV2dXZ4Sm9RWUZhUERrakhWanhIZHZZVHI1UUI5?=
+ =?utf-8?B?WHpCYnRLN2Y4YkVGSG9sZkdGNjZ2TFJoS0tFTzBxcFVhVFdyMjBWQWsrTWpp?=
+ =?utf-8?B?NnJGdGs3U0pYa2NFNCtSK0dqTmJBbnM3NEZHZkVVS01GMitRVHhrdjhqMFdG?=
+ =?utf-8?B?RzNhMzRmMWh6SjlNeS9KbTZybm9pYUQwQklWSmFIYTJHZjM1WlVBaXk4dDVk?=
+ =?utf-8?B?eVlIaDhqZzVRU01JaGhRMklqZyt4bGg1V2t5QyswUmx4WW9tZ2VraHRFZEdE?=
+ =?utf-8?B?T3h1czFLMmk1TnNwbzdxQzgzOHRaMldWMjNENVJic3l5YTJ6cVhPV01qV0hv?=
+ =?utf-8?B?Mld2TFJSL3djdElBQ1JoTXNYbUtKV0JLNXZTU0dqVkpkVWdSaDE2TGhwU2Vv?=
+ =?utf-8?B?V1hzUVI2eUVOOFZzaCsyUXlXRXowNWczdFVDT3VhRzVoUmxUeTdOZ3FwZjhS?=
+ =?utf-8?B?cDhFWXNyMUxiRkdaaTRHdFppQ24yTkJoN1phcExKNnVLbVYzdUZMdFBhMk85?=
+ =?utf-8?B?bU1yb0YrOUJuSW5LK0gyQU10bWNaRWVOOGVMMkdFc1lSU2FaL09OUXgyWTB3?=
+ =?utf-8?B?R0ErdDRnWlBaTUpuMDBQZUVQMHltbFoxMWM4WWtmQzh3Q25Od3RrT0ZBQ3RP?=
+ =?utf-8?B?MnBNUlNKdU9ZWXVISUZRdkhhdG8wMGNpSnE3UkhPb091L3I0bjlnbjlyeU8y?=
+ =?utf-8?B?SVJWWERMZS9MdzVRZGFvcjI3MVlGTGUxUGlkQVlMN3RRUkxHMzJIWXFwcWRt?=
+ =?utf-8?B?cFpmQzgyNnFyWTBQcDR0RWxyQzFMUmdYZ213WDRSL1llb2h6SzMwSlNxeWd2?=
+ =?utf-8?B?U1NzUEEyRElKSy9yYkJrdFlRc0hXU29lSjNHeFhqRU5BWHpGSXJCQ1VXcU1Q?=
+ =?utf-8?B?QWpJTFhiNHBYWCs5OXRoMUtGRktxTHdsUU01SWcxQUpWZGZpU2o2NmhteXYr?=
+ =?utf-8?B?Zk5Yd1IrYTMyeW9lbDgybXo1YjNWUE0wREVZWktwNUlkNExGRTNOekl6V080?=
+ =?utf-8?B?Q25LenFQVzZYdkxxamhFZ0E5ZG44bmNyY3FXWnd2NTg5bzUxTGd4MmNHMmxI?=
+ =?utf-8?B?aDNjS2xQcDNHRVMyYm51Z1hqS3dweGpZcHJORGFpYzdVUDl1Mm9FRXN4VThB?=
+ =?utf-8?B?bUpnTEJBb0w4bmZjcGhvcTVKNWVXTnRiYVY0NGZXZkQ4YjlMNW9FZ2dBaWEr?=
+ =?utf-8?B?Ykh2L3o5QmtISUFJdmxYczR2TENvOFgycTNvOTBqYW5INlpWQjV3ampFckxX?=
+ =?utf-8?B?RE1FeUtaeDI1U253dW1ZbWhTNXR0STd0TUlFUm1LbEdQZEp6bnFKV01ZbjVt?=
+ =?utf-8?B?NEtnY2U5ckRWcXpmbXJQOStwWWo3SE1SR3hVUVhZdE1FMDBpOU9JV3gxQWpu?=
+ =?utf-8?B?ZTF5Sy8rZm1DelAwMWhZenlhQ0RXTUk4SW5rTG8zQ2FSK1lUMVNPOUtZNm9i?=
+ =?utf-8?B?L3hLc09NNlBPaDNFK0p6Nk9IR09kS2l0Sm4xNEUxL1lPS0NhMGRXYUZHK1pt?=
+ =?utf-8?B?M0MrK0hLSlBUY0V4cFZrMnMrRlgrUWpmeTdTazVTZDZOWGtSN25QMnhWMnV0?=
+ =?utf-8?B?OHFJUEt5elAwcVowZ1RHTUIySEJzbEJ6NWs5d1pSUnFIMVFpUEJOa3lPMkFI?=
+ =?utf-8?B?ZVZkdERpZUl5Tk9tN3lmSTBVRStWaXhaSjVsdlNHVW90a2U5NG9uUkgvQ3ZP?=
+ =?utf-8?B?ZklQZ2M0SEhTeFl3eUFuZGE3T28xa0tQa2o0ZS93dUNXbHR2M1BLUGN3N0Jp?=
+ =?utf-8?B?YmFLNVVxa3czc3ExU2piTVppZXAwWTNZNWdMQ0o4ejlSVHp3cTdoRjJhZExC?=
+ =?utf-8?B?RDNmM3JDOTFSaUErTmtoeWRYT2tyS0Y3TWxQV2Y1MUd2cFczcExGYitNQVlx?=
+ =?utf-8?B?bFpBWmV4blk2aTBJb0FBeHg2RVNzZ0h2L3U1dEJFTkUrN3l5RzJVMWVIcCtV?=
+ =?utf-8?B?NHJhaklTODk5L1lWUkZIaTQrQTJPbko1R0R5VTV4VGJOT3Z1RTRZQ21vVUJt?=
+ =?utf-8?B?QnJZTlVTOFhKd0JaZ3U4cStQUkNtbGdTWGdjbkQzZVFqZERLaS9HTVh6OUN1?=
+ =?utf-8?B?cjBXYWN6NWdzSGdKODVEQUNOZU9rd3dtaWdnN252UklQM0NaODZsdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cebcac0f-8a3c-42f7-d840-08deaf4f4e3a
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7325.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 11:20:28.6419
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: reEjRKt8paLW0hPy5yUfsarPdFfbcglEAfsBepHKs6eSZWM+JafmvAR6oYwQM+QLoug5xeLPMgaR/XonpaPd9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6047
 
-Rename the memory block lookup helper to make the acquired reference
-explicit, add memory_block_put() to wrap put_device(), and collapse the
-redundant section-number wrapper into a single block-id based lookup
-interface.
+Hi ilpo,
 
-This makes it clearer to callers that a successful lookup holds a
-reference that must be dropped, reducing the chance of forgetting the
-matching put and leaking the memory block device reference.
+I submitted this patch series and wanted to check if you had
+a chance to review it. Please let me know if there's anything I can
+do to help move this forward.
 
-Link: https://lore.kernel.org/linux-mm/7887915D-E598-42B3-9AFE-BFFBACE8DE2D@linux.dev/#t
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- .../platforms/pseries/hotplug-memory.c        | 14 ++-----
- drivers/base/memory.c                         | 38 +++++++------------
- drivers/base/node.c                           |  4 +-
- drivers/s390/char/sclp_mem.c                  | 17 ++++-----
- include/linux/memory.h                        |  7 +++-
- mm/memory_hotplug.c                           |  5 +--
- 6 files changed, 35 insertions(+), 50 deletions(-)
 
-diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
-index 75f85a5da981..94f3b57054b6 100644
---- a/arch/powerpc/platforms/pseries/hotplug-memory.c
-+++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
-@@ -164,13 +164,7 @@ static int update_lmb_associativity_index(struct drmem_lmb *lmb)
- 
- static struct memory_block *lmb_to_memblock(struct drmem_lmb *lmb)
- {
--	unsigned long section_nr;
--	struct memory_block *mem_block;
--
--	section_nr = pfn_to_section_nr(PFN_DOWN(lmb->base_addr));
--
--	mem_block = find_memory_block(section_nr);
--	return mem_block;
-+	return memory_block_get(phys_to_block_id(lmb->base_addr));
- }
- 
- static int get_lmb_range(u32 drc_index, int n_lmbs,
-@@ -220,7 +214,7 @@ static int dlpar_change_lmb_state(struct drmem_lmb *lmb, bool online)
- 	else
- 		rc = 0;
- 
--	put_device(&mem_block->dev);
-+	memory_block_put(mem_block);
- 
- 	return rc;
- }
-@@ -319,12 +313,12 @@ static int dlpar_remove_lmb(struct drmem_lmb *lmb)
- 
- 	rc = dlpar_offline_lmb(lmb);
- 	if (rc) {
--		put_device(&mem_block->dev);
-+		memory_block_put(mem_block);
- 		return rc;
- 	}
- 
- 	__remove_memory(lmb->base_addr, memory_block_size);
--	put_device(&mem_block->dev);
-+	memory_block_put(mem_block);
- 
- 	/* Update memory regions for memory remove */
- 	memblock_remove(lmb->base_addr, memory_block_size);
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index 11d57cfa8d72..5b5d41089e81 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -649,7 +649,7 @@ int __weak arch_get_memory_phys_device(unsigned long start_pfn)
-  *
-  * Called under device_hotplug_lock.
-  */
--struct memory_block *find_memory_block_by_id(unsigned long block_id)
-+struct memory_block *memory_block_get(unsigned long block_id)
- {
- 	struct memory_block *mem;
- 
-@@ -659,16 +659,6 @@ struct memory_block *find_memory_block_by_id(unsigned long block_id)
- 	return mem;
- }
- 
--/*
-- * Called under device_hotplug_lock.
-- */
--struct memory_block *find_memory_block(unsigned long section_nr)
--{
--	unsigned long block_id = memory_block_id(section_nr);
--
--	return find_memory_block_by_id(block_id);
--}
--
- static struct attribute *memory_memblk_attrs[] = {
- 	&dev_attr_phys_index.attr,
- 	&dev_attr_state.attr,
-@@ -701,7 +691,7 @@ static int __add_memory_block(struct memory_block *memory)
- 
- 	ret = device_register(&memory->dev);
- 	if (ret) {
--		put_device(&memory->dev);
-+		memory_block_put(memory);
- 		return ret;
- 	}
- 	ret = xa_err(xa_store(&memory_blocks, memory->dev.id, memory,
-@@ -795,9 +785,9 @@ static int add_memory_block(unsigned long block_id, int nid, unsigned long state
- 	struct memory_block *mem;
- 	int ret = 0;
- 
--	mem = find_memory_block_by_id(block_id);
-+	mem = memory_block_get(block_id);
- 	if (mem) {
--		put_device(&mem->dev);
-+		memory_block_put(mem);
- 		return -EEXIST;
- 	}
- 	mem = kzalloc_obj(*mem);
-@@ -845,8 +835,8 @@ static void remove_memory_block(struct memory_block *memory)
- 		memory->group = NULL;
- 	}
- 
--	/* drop the ref. we got via find_memory_block() */
--	put_device(&memory->dev);
-+	/* drop the ref. we got via memory_block_get() */
-+	memory_block_put(memory);
- 	device_unregister(&memory->dev);
- }
- 
-@@ -880,7 +870,7 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
- 		end_block_id = block_id;
- 		for (block_id = start_block_id; block_id != end_block_id;
- 		     block_id++) {
--			mem = find_memory_block_by_id(block_id);
-+			mem = memory_block_get(block_id);
- 			if (WARN_ON_ONCE(!mem))
- 				continue;
- 			remove_memory_block(mem);
-@@ -908,7 +898,7 @@ void remove_memory_block_devices(unsigned long start, unsigned long size)
- 		return;
- 
- 	for (block_id = start_block_id; block_id != end_block_id; block_id++) {
--		mem = find_memory_block_by_id(block_id);
-+		mem = memory_block_get(block_id);
- 		if (WARN_ON_ONCE(!mem))
- 			continue;
- 		num_poisoned_pages_sub(-1UL, memblk_nr_poison(mem));
-@@ -1015,12 +1005,12 @@ int walk_memory_blocks(unsigned long start, unsigned long size,
- 		return 0;
- 
- 	for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
--		mem = find_memory_block_by_id(block_id);
-+		mem = memory_block_get(block_id);
- 		if (!mem)
- 			continue;
- 
- 		ret = func(mem, arg);
--		put_device(&mem->dev);
-+		memory_block_put(mem);
- 		if (ret)
- 			break;
- 	}
-@@ -1228,22 +1218,22 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
- void memblk_nr_poison_inc(unsigned long pfn)
- {
- 	const unsigned long block_id = pfn_to_block_id(pfn);
--	struct memory_block *mem = find_memory_block_by_id(block_id);
-+	struct memory_block *mem = memory_block_get(block_id);
- 
- 	if (mem) {
- 		atomic_long_inc(&mem->nr_hwpoison);
--		put_device(&mem->dev);
-+		memory_block_put(mem);
- 	}
- }
- 
- void memblk_nr_poison_sub(unsigned long pfn, long i)
- {
- 	const unsigned long block_id = pfn_to_block_id(pfn);
--	struct memory_block *mem = find_memory_block_by_id(block_id);
-+	struct memory_block *mem = memory_block_get(block_id);
- 
- 	if (mem) {
- 		atomic_long_sub(i, &mem->nr_hwpoison);
--		put_device(&mem->dev);
-+		memory_block_put(mem);
- 	}
- }
- 
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 126f66aa2c3e..b3333ca92090 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -847,13 +847,13 @@ static void register_memory_blocks_under_nodes(void)
- 		for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
- 			struct memory_block *mem;
- 
--			mem = find_memory_block_by_id(block_id);
-+			mem = memory_block_get(block_id);
- 			if (!mem)
- 				continue;
- 
- 			memory_block_add_nid_early(mem, nid);
- 			do_register_memory_block_under_node(nid, mem);
--			put_device(&mem->dev);
-+			memory_block_put(mem);
- 		}
- 
- 	}
-diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
-index 78c054e26d17..6df1926d4c62 100644
---- a/drivers/s390/char/sclp_mem.c
-+++ b/drivers/s390/char/sclp_mem.c
-@@ -204,7 +204,7 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
- 	addr = sclp_mem->id * block_size;
- 	/*
- 	 * Hold device_hotplug_lock when adding/removing memory blocks.
--	 * Additionally, also protect calls to find_memory_block() and
-+	 * Additionally, also protect calls to memory_block_get() and
- 	 * sclp_attach_storage().
- 	 */
- 	rc = lock_device_hotplug_sysfs();
-@@ -231,20 +231,19 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
- 			sclp_mem_change_state(addr, block_size, 0);
- 			goto out_unlock;
- 		}
--		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
--		put_device(&mem->dev);
-+		mem = memory_block_get(phys_to_block_id(addr));
-+		memory_block_put(mem);
- 		WRITE_ONCE(sclp_mem->config, 1);
- 	} else {
- 		if (!sclp_mem->config)
- 			goto out_unlock;
--		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
-+		mem = memory_block_get(phys_to_block_id(addr));
- 		if (mem->state != MEM_OFFLINE) {
--			put_device(&mem->dev);
-+			memory_block_put(mem);
- 			rc = -EBUSY;
- 			goto out_unlock;
- 		}
--		/* drop the ref just got via find_memory_block() */
--		put_device(&mem->dev);
-+		memory_block_put(mem);
- 		sclp_mem_change_state(addr, block_size, 0);
- 		__remove_memory(addr, block_size);
- #ifdef CONFIG_KASAN
-@@ -294,11 +293,11 @@ static ssize_t sclp_memmap_on_memory_store(struct kobject *kobj, struct kobj_att
- 		return rc;
- 	block_size = memory_block_size_bytes();
- 	sclp_mem = container_of(kobj, struct sclp_mem, kobj);
--	mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(sclp_mem->id * block_size)));
-+	mem = memory_block_get(phys_to_block_id(sclp_mem->id * block_size));
- 	if (!mem) {
- 		WRITE_ONCE(sclp_mem->memmap_on_memory, value);
- 	} else {
--		put_device(&mem->dev);
-+		memory_block_put(mem);
- 		rc = -EBUSY;
- 	}
- 	unlock_device_hotplug();
-diff --git a/include/linux/memory.h b/include/linux/memory.h
-index 5bb5599c6b2b..29edef1f975c 100644
---- a/include/linux/memory.h
-+++ b/include/linux/memory.h
-@@ -158,7 +158,11 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
- void remove_memory_block_devices(unsigned long start, unsigned long size);
- extern void memory_dev_init(void);
- extern int memory_notify(enum memory_block_state state, void *v);
--extern struct memory_block *find_memory_block(unsigned long section_nr);
-+extern struct memory_block *memory_block_get(unsigned long block_id);
-+static inline void memory_block_put(struct memory_block *mem)
-+{
-+	put_device(&mem->dev);
-+}
- typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void *);
- extern int walk_memory_blocks(unsigned long start, unsigned long size,
- 			      void *arg, walk_memory_blocks_func_t func);
-@@ -171,7 +175,6 @@ struct memory_group *memory_group_find_by_id(int mgid);
- typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
- int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
- 			       struct memory_group *excluded, void *arg);
--struct memory_block *find_memory_block_by_id(unsigned long block_id);
- #define hotplug_memory_notifier(fn, pri) ({		\
- 	static __meminitdata struct notifier_block fn##_mem_nb =\
- 		{ .notifier_call = fn, .priority = pri };\
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 462d8dcd636d..890c6453e887 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1417,14 +1417,13 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
- 		struct vmem_altmap *altmap = NULL;
- 		struct memory_block *mem;
- 
--		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(cur_start)));
-+		mem = memory_block_get(phys_to_block_id(cur_start));
- 		if (WARN_ON_ONCE(!mem))
- 			continue;
- 
- 		altmap = mem->altmap;
- 		mem->altmap = NULL;
--		/* drop the ref. we got via find_memory_block() */
--		put_device(&mem->dev);
-+		memory_block_put(mem);
- 
- 		remove_memory_block_devices(cur_start, memblock_size);
- 
-
-base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
--- 
-2.54.0
+On 4/27/2026 9:21 PM, Muralidhara M K wrote:
+> This series adds HSMP protocol version 7 support for AMD Family 1Ah
+> Model 50h-5Fh processors and replaces offset-based chunked reading
+> with a single read method for variable-sized metrics data larger than
+> 4 KB, and addresses locking to allow concurrent reads safely.
+> 
+> The zen6 metric table (~13 KB) exceeds the PAGE_SIZE (4096 bytes) read
+> cap imposed by kernfs_file_read_iter().  Commit 3124eb1679b2 ("sysfs:
+> remove bin_attribute.size") cleared i_size for sysfs binary files,
+> which made kernfs_file_read_iter() fall back to PAGE_SIZE as the
+> maximum single-read length.  This means userspace gets a silently
+> truncated snapshot when reading the metric table via sysfs.
+> 
+> To solve this, the series introduces SYSFS_HUGE_BIN_FILE, a new sysfs
+> mode flag that routes binary attribute reads through the seq_file path
+> (seq_read_iter) instead of kernfs_file_read_iter().  The seq_file
+> buffer grows dynamically (doubling from PAGE_SIZE) and has no built-in
+> size cap, so it can serve arbitrarily large binary attributes in a
+> single read.
+> 
+> Additionally, the series retrieves the actual metric table size from
+> the SMU at init time (via args[2] of HSMP_GET_METRIC_TABLE_DRAM_ADDR)
+> rather than relying on a compiled-in sizeof(), and adds per-socket
+> mutex serialization for metric table reads using the scoped guard(mutex)
+> API.
+> 
+> Link: https://lore.kernel.org/platform-driver-x86/81915669-87e0-f06d-7a91-eaec41ecc0e1@linux.intel.com/T/#m28341c51bcf27862ef6615414b1970d3db279fd7
+> 
+> Patch breakdown:
+> 
+>    1/7  HSMP messages    - Define HSMP protocol v7 message IDs and
+>                            response sizes in the UAPI header.
+>    2/7  UAPI structs     - Add hsmp_metric_table_zen6 UAPI structures
+>                            and widen acpi.c proto_ver checks to >= VER6.
+>    3/7  response_sz      - Unify response_sz validation to an upper-bound
+>                            check, allowing HSMP_GET_METRIC_TABLE_DRAM_ADDR
+>                            to return 3 dwords (including table size).
+>    4/7  SYSFS_HUGE_BIN_FILE - Add the sysfs infrastructure: new flag,
+>                            seq_show callback, and kernfs_ops for binary
+>                            files larger than PAGE_SIZE.
+>    5/7  Dynamic size     - Read actual table size from SMU args[2] at
+>                            init time; use bin_size callback to report it
+>                            to sysfs.
+>    6/7  Read locking     - Add per-socket guard(mutex) serialization for
+>                            metric table reads to prevent torn snapshots.
+>    7/7  Wire it up       - Set SYSFS_HUGE_BIN_FILE mode on metric table
+>                            bin_attributes in both acpi.c and plat.c.
+> 
+> Build-tested each patch individually with W=1, zero warnings.
+> Tested on AMD Family 1Ah Model 50h platform with HSMP protocol v7.
+> 
+> Muralidhara M K (6):
+>    platform/x86/amd/hsmp: Add metrics table support for Family 1Ah Model
+>      50h-5Fh
+>    platform/x86/amd/hsmp: Unify response_sz validation to an upper-bound
+>      check
+>    sysfs: Add SYSFS_HUGE_BIN_FILE flag for binary attributes larger than
+>      PAGE_SIZE
+>    platform/x86/amd/hsmp: Add dynamic table size for metric table
+>    platform/x86/amd/hsmp: Make metric table read locking use guard(mutex)
+>    platform/x86/amd/hsmp: Support SYSFS_HUGE_BIN_FILE for metric table
+>      reads
+> 
+> Suma Hegde (1):
+>    platform/x86/amd/hsmp: Add new HSMP messages for Family 1Ah, Model
+>      50h-5Fh
+> 
+>   arch/x86/include/uapi/asm/amd_hsmp.h | 235 ++++++++++++++++++++++++---
+>   drivers/platform/x86/amd/hsmp/acpi.c |  14 +-
+>   drivers/platform/x86/amd/hsmp/hsmp.c |  36 ++--
+>   drivers/platform/x86/amd/hsmp/hsmp.h |   6 +-
+>   drivers/platform/x86/amd/hsmp/plat.c |  13 +-
+>   fs/sysfs/file.c                      |  45 +++++
+>   fs/sysfs/group.c                     |   8 +-
+>   include/linux/sysfs.h                |   1 +
+>   8 files changed, 312 insertions(+), 46 deletions(-)
+> 
 
