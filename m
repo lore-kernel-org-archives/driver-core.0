@@ -1,99 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8743E5EC9
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 13:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1512D5922
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 13:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778505596; cv=none; b=F7hK9Hlb/c+Gr8fDEVpzp8D6R+36zybiNhcSJlxq5fpaEdhYuZ/5XkuJoOqv6T/0+NWp/qunhLMTzG9qrZMihTXQXon0ob07JxEt4GOExGlqMDK9lcqv6Us13uSoKq712WPCfOW1DxUledYjYYJRsoTDL75Y1lY4mHam745y8Vw=
+	t=1778505856; cv=none; b=mbbF0/p+2eRGMPGQXObQOfmwVINek8vsM+WAly+Bpwcq87WsZAG0vY3kYcpl2vbTVqEoLD8jYWamF91z2CMIKCL4gbQrPhDRGYDfysbqNXu85RjPyEzs6o6pRCQZg5NEuy52uspp50Jw2qmthWFquL5eEwzXM9YxzbENIR+HzO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778505596; c=relaxed/simple;
-	bh=d7UugrGvTHVZ5x6A2v3kOZ5TDSHieQcjxA5S4lHpomY=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fbSUuMJ8UstZ3rbBksMGB4/eIwxdS4SuXbuRyYGhEW7FcpmfI2zPhS+sklbruid9iauYov3gKYvL/pKZcecQ9TpXlX1Y5ivmpM1n72i2uGB3Fse/NC/5k23QgqZw+Ft0G4rwk6c/2CSfGw3NLTH4pq6O2pzjEmHehi/mlSoHxpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+HaHQTq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778505856; c=relaxed/simple;
+	bh=4Oty7p29C8oNyyH72Iy8dxZZ6HAi9idSJYItIxPswfs=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=rM2Kl84+V9pXypZGGdhnYGqkm1F9t0O7ETZyD67AHl7ly2xmMPhv1YmlyI3gpbOJ2ybpQ2xrkCDr4ZYRKSaQD1rQCGWVFXpG4fCW4o07bme9DNYUHBT+zTNYz3GzNv9XG+t2VUn1x1m0KxiMFmnENxZ3aZsnD9RYBgoBDH51Fvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tR6uiK4v; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+HaHQTq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04760C2BCB0
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 13:19:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778505596;
-	bh=d7UugrGvTHVZ5x6A2v3kOZ5TDSHieQcjxA5S4lHpomY=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=V+HaHQTq0y4rQ3LrJfw/i+rCOL13kXMnnah907+ffZEk4wpwwoVAtymps0dY/wqCk
-	 +lwcuVVuxjltWj+fBO2iARPElgr7rVh2TUvWp1qZv9OwvfK2B6hA+NzvqXdw3nxhPv
-	 teSX5RQfKnRTJVvUJaYDCoBENTX3ai+/nTeDF5b5mAvtcEWRX8bpf+yGmYmYWl7w+p
-	 DX/JceA//7hL59AdZYZI08vzt1WcpFzJ+M1EkusMd3hpr5wg8mBGU0qGZgwp8dDDOY
-	 HmOS+7a8FhMffDaQgW7tMzxfY+ovgLNsmotJjH4VS7OKhsPfFbciqq0I/FVIZyJ1KI
-	 EZMFVjb8Zmnaw==
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12e332315a8so9586746c88.0
-        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 06:19:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8hkHIOOa3cDV1smcIDwnb6ybUz0pN0lSHByc0bloJ7R4kZMOghv5M6ftFqKB+8DueO7llzhaI4yeLNPg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFdPMP1nuht+K+fvg8uwle+huhlsFECI/fblPjodNC+Vtpddh4
-	bFGEBxvi48/wr+U1c6VKhYjge5HfwtxgH2cfeLAtgVAJ7cSEHowGrMwGEwSwrXNxmxQC6d4R19p
-	9SzdHhqeFGkuyYWRo0dzL7eYUS2Ugmk1zoFUYClK2Aw==
-X-Received: by 2002:a05:7022:2508:b0:127:33e0:ea44 with SMTP id
- a92af1059eb24-132a82ddb67mr4949446c88.29.1778505594800; Mon, 11 May 2026
- 06:19:54 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 11 May 2026 06:19:52 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 11 May 2026 06:19:52 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260508115309.GA9254@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tR6uiK4v"
+Content-Type: text/plain; charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778505849;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5z8Lm7PbYzdvsHr44p/Kq/5LGVMLu1AFqGqWWK02nUg=;
+	b=tR6uiK4vEp5eioru6Ipra4Az/BhAvo1kWF1fPx6I9XeodPF8HIrBISmioNv7imWa3B6iiI
+	/VEPQtEj82FsW6aw7jq/5BB4OkswlViDVjO+jJucIVX6gDAj4r/773nRMQen1GTVH5A6RO
+	KhzO5EEzI5sjkIVCHpA+MgQlMRr49rQ=
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260508105448.31799-1-tzungbi@kernel.org> <20260508105448.31799-9-tzungbi@kernel.org>
- <20260508115309.GA9254@nvidia.com>
-Date: Mon, 11 May 2026 06:19:52 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mfks9HAGHedQhZY+3UgRJwg_RF9cVOyA3jGh7oiNqDn-w@mail.gmail.com>
-X-Gm-Features: AVHnY4KJ3daWyTdJHgf81o2MnLKt19plZceoNb1ciLx1gSE_TrwC8qpPQuR4MX0
-Message-ID: <CAMRc=Mfks9HAGHedQhZY+3UgRJwg_RF9cVOyA3jGh7oiNqDn-w@mail.gmail.com>
-Subject: Re: [PATCH v10 8/9] platform/chrome: Protect cros_ec_device lifecycle
- with revocable
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>, Benson Leung <bleung@chromium.org>, 
-	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Johan Hovold <johan@kernel.org>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] drivers/base/memory: make memory block get/put explicit
+Date: Mon, 11 May 2026 21:23:18 +0800
+Message-Id: <3234B4D3-8202-4E79-B85B-8B6373BB76F6@linux.dev>
+References: <2841f424-580c-48c6-bb26-de30e4397b7f@kernel.org>
+Cc: Muchun Song <songmuchun@bytedance.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, linux-mm@kvack.org,
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org
+In-Reply-To: <2841f424-580c-48c6-bb26-de30e4397b7f@kernel.org>
+To: David Hildenbrand <david@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 8 May 2026 13:53:09 +0200, Jason Gunthorpe <jgg@nvidia.com> said:
-> On Fri, May 08, 2026 at 06:54:47PM +0800, Tzung-Bi Shih wrote:
->>  struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
->> @@ -47,6 +49,15 @@ struct cros_ec_device *cros_ec_device_alloc(struct device *dev)
->>  	if (!ec_dev)
->>  		return NULL;
->>
->> +	ec_dev->its_rev = revocable_alloc(ec_dev);
->> +	if (!ec_dev->its_rev)
->> +		return NULL;
->> +	/*
->> +	 * Drop the extra reference for the caller as the caller is the
->> +	 * resource provider.
->> +	 */
->> +	revocable_put(ec_dev->its_rev);
->> +
->>  	ec_dev->din_size = sizeof(struct ec_host_response) +
->>  			   sizeof(struct ec_response_get_protocol_info) +
->>  			   EC_MAX_RESPONSE_OVERHEAD;
->
-> FWIW I am still very much against seeing any revokable concept used
-> *between two drivers*. That will turn the kernel's lifetime model into
-> spaghetti code.
->
 
-I gave my R-b under the API definition and I'm fine with the GPIO changes.
-Just for the record: I don't have an opinion on using it in this driver and
-don't know if it's a good idea or not.
 
-Bart
+> On May 11, 2026, at 20:22, David Hildenbrand (Arm) <david@kernel.org> wrot=
+e:
+>=20
+> =EF=BB=BFOn 5/11/26 13:18, Muchun Song wrote:
+>> Rename the memory block lookup helper to make the acquired reference
+>> explicit, add memory_block_put() to wrap put_device(), and collapse the
+>> redundant section-number wrapper into a single block-id based lookup
+>> interface.
+>>=20
+>> This makes it clearer to callers that a successful lookup holds a
+>> reference that must be dropped, reducing the chance of forgetting the
+>> matching put and leaking the memory block device reference.
+>=20
+> Better mention some of the other changes here, like removing find_memory_b=
+lock().
+
+Will do.
+
+>=20
+> [...]
+>=20
+>>    unlock_device_hotplug();
+>> diff --git a/include/linux/memory.h b/include/linux/memory.h
+>> index 5bb5599c6b2b..29edef1f975c 100644
+>> --- a/include/linux/memory.h
+>> +++ b/include/linux/memory.h
+>> @@ -158,7 +158,11 @@ int create_memory_block_devices(unsigned long start,=
+ unsigned long size,
+>> void remove_memory_block_devices(unsigned long start, unsigned long size)=
+;
+>> extern void memory_dev_init(void);
+>> extern int memory_notify(enum memory_block_state state, void *v);
+>> -extern struct memory_block *find_memory_block(unsigned long section_nr);=
+
+>> +extern struct memory_block *memory_block_get(unsigned long block_id);
+>=20
+> While at it, please drop the "extern".
+
+OK.
+
+>=20
+>> +static inline void memory_block_put(struct memory_block *mem)
+>> +{
+>> +    put_device(&mem->dev);
+>> +}
+>> typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void *);
+>> extern int walk_memory_blocks(unsigned long start, unsigned long size,
+>>                  void *arg, walk_memory_blocks_func_t func);
+>> @@ -171,7 +175,6 @@ struct memory_group *memory_group_find_by_id(int mgid=
+);
+>> typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
+>> int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+>>                   struct memory_group *excluded, void *arg);
+>> -struct memory_block *find_memory_block_by_id(unsigned long block_id);
+>> #define hotplug_memory_notifier(fn, pri) ({        \
+>>    static __meminitdata struct notifier_block fn##_mem_nb =3D\
+>>        { .notifier_call =3D fn, .priority =3D pri };\
+>> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+>> index 462d8dcd636d..890c6453e887 100644
+>> --- a/mm/memory_hotplug.c
+>> +++ b/mm/memory_hotplug.c
+>> @@ -1417,14 +1417,13 @@ static void remove_memory_blocks_and_altmaps(u64 s=
+tart, u64 size)
+>>        struct vmem_altmap *altmap =3D NULL;
+>>        struct memory_block *mem;
+>>=20
+>> -        mem =3D find_memory_block(pfn_to_section_nr(PFN_DOWN(cur_start))=
+);
+>> +        mem =3D memory_block_get(phys_to_block_id(cur_start));
+>>        if (WARN_ON_ONCE(!mem))
+>>            continue;
+>>=20
+>>        altmap =3D mem->altmap;
+>>        mem->altmap =3D NULL;
+>> -        /* drop the ref. we got via find_memory_block() */
+>> -        put_device(&mem->dev);
+>> +        memory_block_put(mem);
+>=20
+> Would guards come in handy here?
+
+You mean to introduce something like:
+
+scoped_guard(memory_block, id) {
+}
+
+Right? If yes, I will give it a try.
+
+>=20
+> In general
+>=20
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Thanks.
+
+Muchun
+
+>=20
+> --
+> Cheers,
+>=20
+> David
