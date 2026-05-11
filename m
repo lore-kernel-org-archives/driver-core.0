@@ -1,97 +1,94 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CCE33F8D6
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 11:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9921736E473
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 11:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778497344; cv=none; b=g8KfopCzbpqhPx5AXg0kf7x9EsYGEkLbF6u/+4ok6Xo5nHGZpyd2HV8JtqwNK+M1qcSX1LGnOBSgSNbDOUlQIo5ckDFWZAPT3ZpvjPgZypvnPUmP7r/5z9mdxQS0SDgV1hoBuDuhSDPk1WTgIZXY1kvyaUcOtEnnHvXwN1V0b9w=
+	t=1778498327; cv=none; b=pJrYQHzBEC9LuxiTYXOIhSdOTCV4NW6O4YqIT0S5Vh2kLCb9dz7lcvFUhUVKh+DjXhT0wx/O450+02m72ln8E9BZuQzesvIPA8Alzl9MbMB7LhSV8M9/qpNBfVIvc1gvhvnkTGHpbgxOHVCehuwzr4tX+AbJovMlLmf1MEA3lbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778497344; c=relaxed/simple;
-	bh=tTNXMZH6Ae+7u/TjfyIMvdzqq0hdS/+lhtAgJD0DOPU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hRHsNzYWNbf0lZzMeaOUA1sxBqgdpYQpZnPC53ELc5rh06i6MbaSaj9JcWUM3G5MFLNalAcUslkEAJLPYplObJly0+DSWDUMXANLPOa1IVkzOBxlYmt7w+aDYPD9cbQM1Anc+VPSiP6mNjeqPLwXkyjP8KHdcGBGjyI6LC6YNDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AvffCpGg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AoNweq9U; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1778498327; c=relaxed/simple;
+	bh=8BBgxVCsv5YDCYQ2sR+dsQPRg5HbgVlv6JuCI3/17zM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J/EKBHQiXsik/8+aduFwKisI41C3Eg/AcTJXAXlqaV8lpZdPWXZgUHb3F3S5WH2Eu8oCIIWGe2GLTuVxPZT6R0zD3I1DAdmIPIuzJ+GeIK6oRp72KID9kCWD0nUMhaIwuLJePgAW4Rw3fgctb8dC8vVzNexgNK4lWce5/RTxO6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=fy+CK50t; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AvffCpGg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AoNweq9U"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64B7AEiP1258762
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 11:02:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=yMmxsHM6Uj0ezvVVKE35kNxfWzaw7YGLP+g
-	ykgxHWXQ=; b=AvffCpGgIyC4GPNB+NsO/7GqsYPjpKtpaDnvWyzJsXXHU2V8MVj
-	u6NJiopbN8d3rn3Pb6mZpErVt4hulbzaPob2+Ymgc8YGqXgJEqcLkbee1Q0N5nVB
-	sC30wU8p5ypVBbJYDhfJgcsR1x5VBgpcBiQzHdSHJdVymSXEUcaxfWKiAs69oHD1
-	uX9NcKp5YleHe2O1D4Z+SelyRvlYkQomvH7elqgnbYR/f9QysOUF0yLK/1qpU0B8
-	OyO+dgirOSmkA2rJEyWMZlKcUs84puxBy/zHCWYSBjiLNWTxnjGAJA1zEFiyOsgm
-	ZqBquMHFEUKk4AWBf7zjTG1ugAxSibri8aQ==
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e3ag20uc2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 11:02:21 +0000 (GMT)
-Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-6967b799acdso8036134eaf.3
-        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 04:02:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="fy+CK50t"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2ba4efedbeaso29755145ad.1
+        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 04:18:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778497341; x=1779102141; darn=lists.linux.dev;
+        d=bytedance.com; s=google; t=1778498324; x=1779103124; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yMmxsHM6Uj0ezvVVKE35kNxfWzaw7YGLP+gykgxHWXQ=;
-        b=AoNweq9UDIH2SuHhVd/SfVwH/K4IitXxHynfk+VjeUlsi0DPa2TarVbbyXTwsYUmbR
-         V2mDNkA1KpGPSDZdoXFbxVEOzD4J+l6/H7xabrGYBV7ZGUpJQNonM2lRLN3CSudAEhSh
-         FsJ9af1vYlIFQxND3wRI34fZAMsqP/mb2pGVNOXHrKcyIXvjEqUk4TPw6GHJw60O3IWg
-         aDllSy8Z28/xX7uwtSRlgJpxc/8SUaDerspbW3V/TemXssw6jRDrFIrY3lOpNojOcYFX
-         gyFP7tGrRrUqqd1TkLWkmG72UWSWz/TvuTF9jV3YYRVR6PwTtXUESsEWmxTwa+35FzU9
-         YCIQ==
+        bh=4nZ855QhOS6+DUu6cu1Pi5l2CbbOQ+24Qk9Hlm6rENI=;
+        b=fy+CK50toZywCMc+Zvry8rgdjKbc/kMgh6QamxaJu56TO7pzGYIGJTVrLgjDir1ONs
+         6V9RF5A4NS1LzHqNb4/A0rf9yz09Xv7kZMGzVb2IzEsDiNod0aInbzUByQAW7gpoFiue
+         6hgCuq8RTwwnlwYPzXZ/q5sI/jnXcY69CZrn+P5lpiebDXZ7c7ANlWObgT8GmbI45HcM
+         8lxjuGysU7/C1mO1R/zlAEYeo2FpwmzbhgJzuTbC9jieHn8hgoGUYFj8Wd8+04l7O91f
+         9riZSEHV+j2b3+e1+dhTr1ne3ZaP5jl3qw0HNYCZ63fq8ihDx4vH/dYGstcQXo7slD19
+         KtOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778497341; x=1779102141;
+        d=1e100.net; s=20251104; t=1778498324; x=1779103124;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yMmxsHM6Uj0ezvVVKE35kNxfWzaw7YGLP+gykgxHWXQ=;
-        b=EcXOPYtktnfX6v2dtVfowcDSe0yYc/ScvXCMA+YvOXziR4O/TOExvCk3Mwb2VXjAs8
-         4QncbIE4ic00tLTrXe0hOOeXuOJ1lADHlxYp+BHlSfnGZ7jX6m+eI2D5kWiMSM9LaXk1
-         vI0jCMwAFCmyinbaF5z6dvkqKVRJxTDuIlKDa2NHMIvNq9n56YRwaV3f17ffi0ctUjCv
-         Y1LeEU6FPVK1PROsi4lUQLUB7a0/5t9cw2GOEMiW7wY2rRv+fRIBgNRXJfvOWXGP0ceS
-         ttrkidgJLB1nCnn3sSB2A1eF4H/jfbHryZYNWLjuBeyUcgakcv9XumfXbIEmvA18nk+f
-         uwyQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8vevZ/pcJrbkHOg9yQmqMiJcZI5XIN1Vk49/4g25ULQi1Ia4ej9wy+SxqpxPtjglZ5ICKsxPND3SAqxw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywy72cbE2kYNWwTMBp9sbB8h5qA22uaOcnnzhaVev2e82PzWtjT
-	5zkOcdEsZarqGMOcUo3Fs/z+YZzpTXdqUL5hBMeRI47BrrAULetHZC5FRho1ItFVazijHfbrwux
-	QmHMMRTh205PahbDbvY34nPPgNCtk6Hq7rJdwgCVgG6rTFS+RrP6aAdCUFcNj7jqcug==
-X-Gm-Gg: Acq92OFK9p/k3/HXRQKheHUzHv8fKCAruSpbaylvm1Oi0TzsGGAaXWRpP27W750kJxe
-	ue8kxMTfI0sLP/WwrIn2W5VpyjcVkOzwz0yutOoe7qwCDIZsLX+f+rg8qzwThdPnyyXhHOm1UDQ
-	WPlNakqrk0o5LNyhcs5H9U9TVBM2NzykUiiHNLmMDydu9b+RrCXrLJK9LrUKGhGX5a6ZHnb/Dq4
-	zJ/G28BRpp6I5jm1jPmmfWqXt1J3V9w4648uDRlNXvxY6DSYn/T3fh//IVdAdGYN2VlN0GPY4RX
-	1JVT7r+B1kffybfh05Baq5qCiVbav8b7Pg4t7221xHdDxNuMMu05KboQMW9TN9n2bR1DoY+MD5O
-	GEXp9t/GTY00voB5junYT/zPufL5FJJG0xR2DorumMh8aNvo+q7VtyS2X1UeO
-X-Received: by 2002:a05:6820:160b:b0:694:9a8a:2ce with SMTP id 006d021491bc7-69998c8fed0mr12284320eaf.8.1778497340823;
-        Mon, 11 May 2026 04:02:20 -0700 (PDT)
-X-Received: by 2002:a05:6820:160b:b0:694:9a8a:2ce with SMTP id 006d021491bc7-69998c8fed0mr12284298eaf.8.1778497340436;
-        Mon, 11 May 2026 04:02:20 -0700 (PDT)
-Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:63bd:c2f9:cedb:aa32])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6d895781sm109967955e9.0.2026.05.11.04.02.18
+        bh=4nZ855QhOS6+DUu6cu1Pi5l2CbbOQ+24Qk9Hlm6rENI=;
+        b=O2IWcmxKq4awNewpcaFK3r0ngJM8ErcGFvW8l9yXJQskiK9jVgTPYYMLVvcc3l0M5k
+         aYkEZfJRpqmV56mt5gbdCRG4HZqb/9B1kyp6CKeEK983fuqBwz2rZTr4CtdphZZ2OBGW
+         z54itsbS+lQdVkGzqbdhpbJxIkC+P6CsRCH+P8U7eiuqNFssYDsufm/9oO3xEgeUmxaw
+         7rijVSn1A2v3kLQpFAn7uE7+gY7+JVuaFcAe7F/Jj5ObdchVnJYW/Ijs2gBsOSqQ9Srt
+         0T37N0wUQ6RhStMzJm4m3wT0HLH7wqlDtfXbVo061VMjxsDK4O5U5ow7TTOqFm2kRKhb
+         H4hg==
+X-Forwarded-Encrypted: i=1; AFNElJ+YtadN8qC0A9jYUdr8GSEVd0kMYvUR7Pm361S0xNbYH6ut+WrjS63ybU/lMNIbm6NfqYW6Q60zXZ78Tg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSWm53mpmhqW9fk3oEMxJEHKvS7tJxJzVU04f+nI0U39AZ18LE
+	J311sXpTXfMUwbs44CCRjQaMCcsa8uMbTDc7rN+LFervvknzYIilI4DsQis7jttVIDo=
+X-Gm-Gg: Acq92OFu/Ybfo9I6OIu6NhaHW8O8lpC/sFV8IH0DJ+GCLnymeX4VOCrwasnkfHxfCqj
+	H/r00FluX2SAxNj4GN+wmFGTkYAyDLwvodqOdEGmijot1qy06xmKnNF5MKLvRtoJu9vzljJXD+6
+	VosGa8VXoVvXUMArdjsSWdVnS2C+VJqKuOduAg6EKgxQTDpVhrpi7mt7pibZHTn48+jAPD8BU5V
+	/C/zAi9h8a1yp/JEs2gYSWInnnRtoSVomDF/GEdUVnqcR9rqvmXIjRvxNRK/NLQknmQFu1/VBZI
+	qsGSlzj1Zt11F2OjarXiCO0siJ8E1dvIU+3Q8dtLJOYt1QggQIzPXBt3DnJDYMx7CMqkXqFB9AJ
+	cxAZohvp/uHN4ILfDnMcnaeI+zAiSw+N59qu4M3tDZbMOtj8Po+K1AHNNxQxzkB4AxrWAM9FllG
+	FESqyVfEGgWDPKyY+Bkwwdzfp5yUuGfn6ar4yZ8lDLCmxh
+X-Received: by 2002:a17:903:13cf:b0:2b2:501c:bc0 with SMTP id d9443c01a7336-2ba79290f29mr226590505ad.7.1778498323836;
+        Mon, 11 May 2026 04:18:43 -0700 (PDT)
+Received: from n232-176-004.byted.org ([36.110.163.101])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e75fffsm96826495ad.59.2026.05.11.04.18.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 04:02:19 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
-        quic_vbadigan@quicinc.com, sherry.sun@nxp.com,
-        driver-core@lists.linux.dev, devicetree@vger.kernel.org
-Subject: [GIT PULL] Immutable branch between the GPIO and PCI trees for v7.2-rc1
-Date: Mon, 11 May 2026 13:02:09 +0200
-Message-ID: <20260511110210.46711-1-bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
+        Mon, 11 May 2026 04:18:43 -0700 (PDT)
+From: Muchun Song <songmuchun@bytedance.com>
+To: David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	linux-mm@kvack.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org,
+	Muchun Song <songmuchun@bytedance.com>,
+	muchun.song@linux.dev
+Subject: [PATCH] drivers/base/memory: make memory block get/put explicit
+Date: Mon, 11 May 2026 19:18:00 +0800
+Message-ID: <20260511111800.2181785-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -99,60 +96,313 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 3c0r_7bE98fA9KCg4PIZq9ksYXbk3J_7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTExMDEyMiBTYWx0ZWRfX2335q3yFR8si
- uNL/UqzZ5yM2vW3gNP7A7924Ec/uTDx1JubjNLjy/sEubrm2t1STOcaOX7RY8DTA0hOkkHpewpr
- 5z8ppmW57FY6e4NOXtCVaobAKDm2UeCIjebp0AeLn0LyCbu13Iw9Wcuau4ThI1AjkhUZFOUGCk0
- InkqdH2tyu/MGc8Cn7Nvy5y6AGPwecjEe3hjfAq48i6Vx+mmr+zcB+tGy1U53eZ6paEGMOLzq5T
- sMUQ6FamAmzZn1DcBEwDYWOD5b0btLmdU37J20iMNNj1Sy+lZuKSmal76TBoQU19tJsuXym4oXa
- aVSoqJpZ2heqUKJJ+ZDlyEmCQb8GsEe6OKlC7Ad/wRn+4bl8rxAy6EltpwWRT8r/m537cQIvouH
- LptyvAQseu3BMEAJB/LigSCd5qgVk75YdHzFS93/1AIcvXYwrQ4SdrxCXh+lkXsyzmYfvmPbr8f
- s9dzEsIefBCl0/4Ivyg==
-X-Proofpoint-GUID: 3c0r_7bE98fA9KCg4PIZq9ksYXbk3J_7
-X-Authority-Analysis: v=2.4 cv=NODlPU6g c=1 sm=1 tr=0 ts=6a01b73d cx=c_pps
- a=lkkFf9KBb43tY3aOjL++dA==:117 a=xqWC_Br6kY4A:10 a=NGcC8JguVDcA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=3WHJM1ZQz_JShphwDgj5:22 a=VwQbUJbxAAAA:8 a=OnGjS8KU5By8L4kgiv0A:9
- a=k4UEASGLJojhI9HsvVT1:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-11_03,2026-05-08_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 phishscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605110122
 
-From: 
+Rename the memory block lookup helper to make the acquired reference
+explicit, add memory_block_put() to wrap put_device(), and collapse the
+redundant section-number wrapper into a single block-id based lookup
+interface.
 
-Bjorn,
+This makes it clearer to callers that a successful lookup holds a
+reference that must be dropped, reducing the chance of forgetting the
+matching put and leaking the memory block device reference.
 
-Please pull the following changeset adding a new helper to the GPIO
-consumer API.
+Link: https://lore.kernel.org/linux-mm/7887915D-E598-42B3-9AFE-BFFBACE8DE2D@linux.dev/#t
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+---
+ .../platforms/pseries/hotplug-memory.c        | 14 ++-----
+ drivers/base/memory.c                         | 38 +++++++------------
+ drivers/base/node.c                           |  4 +-
+ drivers/s390/char/sclp_mem.c                  | 17 ++++-----
+ include/linux/memory.h                        |  7 +++-
+ mm/memory_hotplug.c                           |  5 +--
+ 6 files changed, 35 insertions(+), 50 deletions(-)
 
-Thanks,
-Bartosz
+diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
+index 75f85a5da981..94f3b57054b6 100644
+--- a/arch/powerpc/platforms/pseries/hotplug-memory.c
++++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
+@@ -164,13 +164,7 @@ static int update_lmb_associativity_index(struct drmem_lmb *lmb)
+ 
+ static struct memory_block *lmb_to_memblock(struct drmem_lmb *lmb)
+ {
+-	unsigned long section_nr;
+-	struct memory_block *mem_block;
+-
+-	section_nr = pfn_to_section_nr(PFN_DOWN(lmb->base_addr));
+-
+-	mem_block = find_memory_block(section_nr);
+-	return mem_block;
++	return memory_block_get(phys_to_block_id(lmb->base_addr));
+ }
+ 
+ static int get_lmb_range(u32 drc_index, int n_lmbs,
+@@ -220,7 +214,7 @@ static int dlpar_change_lmb_state(struct drmem_lmb *lmb, bool online)
+ 	else
+ 		rc = 0;
+ 
+-	put_device(&mem_block->dev);
++	memory_block_put(mem_block);
+ 
+ 	return rc;
+ }
+@@ -319,12 +313,12 @@ static int dlpar_remove_lmb(struct drmem_lmb *lmb)
+ 
+ 	rc = dlpar_offline_lmb(lmb);
+ 	if (rc) {
+-		put_device(&mem_block->dev);
++		memory_block_put(mem_block);
+ 		return rc;
+ 	}
+ 
+ 	__remove_memory(lmb->base_addr, memory_block_size);
+-	put_device(&mem_block->dev);
++	memory_block_put(mem_block);
+ 
+ 	/* Update memory regions for memory remove */
+ 	memblock_remove(lmb->base_addr, memory_block_size);
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index 11d57cfa8d72..5b5d41089e81 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -649,7 +649,7 @@ int __weak arch_get_memory_phys_device(unsigned long start_pfn)
+  *
+  * Called under device_hotplug_lock.
+  */
+-struct memory_block *find_memory_block_by_id(unsigned long block_id)
++struct memory_block *memory_block_get(unsigned long block_id)
+ {
+ 	struct memory_block *mem;
+ 
+@@ -659,16 +659,6 @@ struct memory_block *find_memory_block_by_id(unsigned long block_id)
+ 	return mem;
+ }
+ 
+-/*
+- * Called under device_hotplug_lock.
+- */
+-struct memory_block *find_memory_block(unsigned long section_nr)
+-{
+-	unsigned long block_id = memory_block_id(section_nr);
+-
+-	return find_memory_block_by_id(block_id);
+-}
+-
+ static struct attribute *memory_memblk_attrs[] = {
+ 	&dev_attr_phys_index.attr,
+ 	&dev_attr_state.attr,
+@@ -701,7 +691,7 @@ static int __add_memory_block(struct memory_block *memory)
+ 
+ 	ret = device_register(&memory->dev);
+ 	if (ret) {
+-		put_device(&memory->dev);
++		memory_block_put(memory);
+ 		return ret;
+ 	}
+ 	ret = xa_err(xa_store(&memory_blocks, memory->dev.id, memory,
+@@ -795,9 +785,9 @@ static int add_memory_block(unsigned long block_id, int nid, unsigned long state
+ 	struct memory_block *mem;
+ 	int ret = 0;
+ 
+-	mem = find_memory_block_by_id(block_id);
++	mem = memory_block_get(block_id);
+ 	if (mem) {
+-		put_device(&mem->dev);
++		memory_block_put(mem);
+ 		return -EEXIST;
+ 	}
+ 	mem = kzalloc_obj(*mem);
+@@ -845,8 +835,8 @@ static void remove_memory_block(struct memory_block *memory)
+ 		memory->group = NULL;
+ 	}
+ 
+-	/* drop the ref. we got via find_memory_block() */
+-	put_device(&memory->dev);
++	/* drop the ref. we got via memory_block_get() */
++	memory_block_put(memory);
+ 	device_unregister(&memory->dev);
+ }
+ 
+@@ -880,7 +870,7 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
+ 		end_block_id = block_id;
+ 		for (block_id = start_block_id; block_id != end_block_id;
+ 		     block_id++) {
+-			mem = find_memory_block_by_id(block_id);
++			mem = memory_block_get(block_id);
+ 			if (WARN_ON_ONCE(!mem))
+ 				continue;
+ 			remove_memory_block(mem);
+@@ -908,7 +898,7 @@ void remove_memory_block_devices(unsigned long start, unsigned long size)
+ 		return;
+ 
+ 	for (block_id = start_block_id; block_id != end_block_id; block_id++) {
+-		mem = find_memory_block_by_id(block_id);
++		mem = memory_block_get(block_id);
+ 		if (WARN_ON_ONCE(!mem))
+ 			continue;
+ 		num_poisoned_pages_sub(-1UL, memblk_nr_poison(mem));
+@@ -1015,12 +1005,12 @@ int walk_memory_blocks(unsigned long start, unsigned long size,
+ 		return 0;
+ 
+ 	for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
+-		mem = find_memory_block_by_id(block_id);
++		mem = memory_block_get(block_id);
+ 		if (!mem)
+ 			continue;
+ 
+ 		ret = func(mem, arg);
+-		put_device(&mem->dev);
++		memory_block_put(mem);
+ 		if (ret)
+ 			break;
+ 	}
+@@ -1228,22 +1218,22 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+ void memblk_nr_poison_inc(unsigned long pfn)
+ {
+ 	const unsigned long block_id = pfn_to_block_id(pfn);
+-	struct memory_block *mem = find_memory_block_by_id(block_id);
++	struct memory_block *mem = memory_block_get(block_id);
+ 
+ 	if (mem) {
+ 		atomic_long_inc(&mem->nr_hwpoison);
+-		put_device(&mem->dev);
++		memory_block_put(mem);
+ 	}
+ }
+ 
+ void memblk_nr_poison_sub(unsigned long pfn, long i)
+ {
+ 	const unsigned long block_id = pfn_to_block_id(pfn);
+-	struct memory_block *mem = find_memory_block_by_id(block_id);
++	struct memory_block *mem = memory_block_get(block_id);
+ 
+ 	if (mem) {
+ 		atomic_long_sub(i, &mem->nr_hwpoison);
+-		put_device(&mem->dev);
++		memory_block_put(mem);
+ 	}
+ }
+ 
+diff --git a/drivers/base/node.c b/drivers/base/node.c
+index 126f66aa2c3e..b3333ca92090 100644
+--- a/drivers/base/node.c
++++ b/drivers/base/node.c
+@@ -847,13 +847,13 @@ static void register_memory_blocks_under_nodes(void)
+ 		for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
+ 			struct memory_block *mem;
+ 
+-			mem = find_memory_block_by_id(block_id);
++			mem = memory_block_get(block_id);
+ 			if (!mem)
+ 				continue;
+ 
+ 			memory_block_add_nid_early(mem, nid);
+ 			do_register_memory_block_under_node(nid, mem);
+-			put_device(&mem->dev);
++			memory_block_put(mem);
+ 		}
+ 
+ 	}
+diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
+index 78c054e26d17..6df1926d4c62 100644
+--- a/drivers/s390/char/sclp_mem.c
++++ b/drivers/s390/char/sclp_mem.c
+@@ -204,7 +204,7 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
+ 	addr = sclp_mem->id * block_size;
+ 	/*
+ 	 * Hold device_hotplug_lock when adding/removing memory blocks.
+-	 * Additionally, also protect calls to find_memory_block() and
++	 * Additionally, also protect calls to memory_block_get() and
+ 	 * sclp_attach_storage().
+ 	 */
+ 	rc = lock_device_hotplug_sysfs();
+@@ -231,20 +231,19 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
+ 			sclp_mem_change_state(addr, block_size, 0);
+ 			goto out_unlock;
+ 		}
+-		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
+-		put_device(&mem->dev);
++		mem = memory_block_get(phys_to_block_id(addr));
++		memory_block_put(mem);
+ 		WRITE_ONCE(sclp_mem->config, 1);
+ 	} else {
+ 		if (!sclp_mem->config)
+ 			goto out_unlock;
+-		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
++		mem = memory_block_get(phys_to_block_id(addr));
+ 		if (mem->state != MEM_OFFLINE) {
+-			put_device(&mem->dev);
++			memory_block_put(mem);
+ 			rc = -EBUSY;
+ 			goto out_unlock;
+ 		}
+-		/* drop the ref just got via find_memory_block() */
+-		put_device(&mem->dev);
++		memory_block_put(mem);
+ 		sclp_mem_change_state(addr, block_size, 0);
+ 		__remove_memory(addr, block_size);
+ #ifdef CONFIG_KASAN
+@@ -294,11 +293,11 @@ static ssize_t sclp_memmap_on_memory_store(struct kobject *kobj, struct kobj_att
+ 		return rc;
+ 	block_size = memory_block_size_bytes();
+ 	sclp_mem = container_of(kobj, struct sclp_mem, kobj);
+-	mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(sclp_mem->id * block_size)));
++	mem = memory_block_get(phys_to_block_id(sclp_mem->id * block_size));
+ 	if (!mem) {
+ 		WRITE_ONCE(sclp_mem->memmap_on_memory, value);
+ 	} else {
+-		put_device(&mem->dev);
++		memory_block_put(mem);
+ 		rc = -EBUSY;
+ 	}
+ 	unlock_device_hotplug();
+diff --git a/include/linux/memory.h b/include/linux/memory.h
+index 5bb5599c6b2b..29edef1f975c 100644
+--- a/include/linux/memory.h
++++ b/include/linux/memory.h
+@@ -158,7 +158,11 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
+ void remove_memory_block_devices(unsigned long start, unsigned long size);
+ extern void memory_dev_init(void);
+ extern int memory_notify(enum memory_block_state state, void *v);
+-extern struct memory_block *find_memory_block(unsigned long section_nr);
++extern struct memory_block *memory_block_get(unsigned long block_id);
++static inline void memory_block_put(struct memory_block *mem)
++{
++	put_device(&mem->dev);
++}
+ typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void *);
+ extern int walk_memory_blocks(unsigned long start, unsigned long size,
+ 			      void *arg, walk_memory_blocks_func_t func);
+@@ -171,7 +175,6 @@ struct memory_group *memory_group_find_by_id(int mgid);
+ typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
+ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+ 			       struct memory_group *excluded, void *arg);
+-struct memory_block *find_memory_block_by_id(unsigned long block_id);
+ #define hotplug_memory_notifier(fn, pri) ({		\
+ 	static __meminitdata struct notifier_block fn##_mem_nb =\
+ 		{ .notifier_call = fn, .priority = pri };\
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 462d8dcd636d..890c6453e887 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1417,14 +1417,13 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
+ 		struct vmem_altmap *altmap = NULL;
+ 		struct memory_block *mem;
+ 
+-		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(cur_start)));
++		mem = memory_block_get(phys_to_block_id(cur_start));
+ 		if (WARN_ON_ONCE(!mem))
+ 			continue;
+ 
+ 		altmap = mem->altmap;
+ 		mem->altmap = NULL;
+-		/* drop the ref. we got via find_memory_block() */
+-		put_device(&mem->dev);
++		memory_block_put(mem);
+ 
+ 		remove_memory_block_devices(cur_start, memblock_size);
+ 
 
-The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
+base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
+-- 
+2.54.0
 
-  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git tags/ib-gpio-add-fwnode-gpiod-get-for-v7.2
-
-for you to fetch changes up to 8a46bd2638f1ad6d1ed73dc3ab10919e67274738:
-
-  gpio: Add fwnode_gpiod_get() helper (2026-05-11 12:57:48 +0200)
-
-----------------------------------------------------------------
-Immutable branch between the GPIO and PCI trees for v7.2
-
-- add fwnode_gpiod_get() helper to GPIOLIB
-
-----------------------------------------------------------------
-Krishna Chaitanya Chundru (1):
-      gpio: Add fwnode_gpiod_get() helper
-
- include/linux/gpio/consumer.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
