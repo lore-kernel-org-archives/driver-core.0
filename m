@@ -1,38 +1,36 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1775E3C4544
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 15:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EDC2ECD32
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 15:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515138; cv=none; b=mmgZOR0hLNlagy6qNzTlYlpgqUJaxnnYmi+R3Rw2a0wE4WVhzfwYb2NBMzniywX5aaOr2QOYGQYkgTEl4fCyOtvmv/OoF/VqHgs381NBR+VqsmChL6QCYUnkUY71JcF+IeJnmF6o2/bdJfRxrSt0A72CY6dWUmcYOJI1FaxvK4k=
+	t=1778515154; cv=none; b=s5t/lbmwPfnyHDXxRhI7aojanrkuHQe7ZlSUkHAgOAhB0+EUU8WghfpIdY+OEsnIPGz8Wey4+t1z3k/JSorobo1ogEYRGBU/ZU8zkBgA8B7Yeqdzw1izDM5QFp+mBIoP1WrYbH2UuRgb5AVVIyrsgWa77uMzIBILq28SokaR2Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515138; c=relaxed/simple;
-	bh=JACkPVMi6kLYjvDay65/oaNnTW+0gdDyTP76FN4jbpk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Du1K7mRqUbNNO1ewni1MiSyENvRm8aQpLJYeFBjAxl+C3aUW0TfUnXuw0PPy/FaX47uYDBR6ceaIb4RJXqk9dqJBhIemnYNAWrQkn89va+m3/o2NQOLa2CEHfd82zcvo3D38P1VKDzmGjbFO5Ed9lpoGwwG6N558wmu4UOYGDeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=b3nhhjXt; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1778515154; c=relaxed/simple;
+	bh=zNz+72mronL8xi65Ve4VwrV2WLO37h5vtN/4YLQXjrI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TGIPlfSWJc97qG/R863WROkoytwrmZOZibKIHBIFRJ1jVNmy6v6KAk4WNZ89uYYhAEXoO8DtGevrYzJR/WPQgimes1X+QG0t8h9XZvBXoYG7512YphA0jXBaZTttKnQJzj7cbg7W+zF491lu1pyVu45J4baaeG8aOudydbzh1DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rHX2MfJe; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="b3nhhjXt"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rHX2MfJe"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 51F24C5E14B;
-	Mon, 11 May 2026 15:59:44 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 671B11A1DD5;
+	Mon, 11 May 2026 15:59:12 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B6D6460646;
-	Mon, 11 May 2026 15:58:54 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 422DE11AF9E9C;
-	Mon, 11 May 2026 17:58:46 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3BC5E60646;
+	Mon, 11 May 2026 15:59:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C9F9F11AF9E9C;
+	Mon, 11 May 2026 17:59:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778515132; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=BMcCo2NEq+3I/LKffthF0Fo2WFktMRZxIo2NvB919j0=;
-	b=b3nhhjXtBGwh0KCqjI0N6xnELkPNge8O/OCyx6o8I6TZazi8Aao/V2j6PhT2g3dxRk1fcE
-	MSuINpl8YXqd6Gfu15PqKhOW6j4yzUKNNJOGx4UZOV4GQv85HD2+QIkWIAu+WfLcuYSNig
-	DjnIjJB9uuzJ5uYrX7VsUcPHijM5oofXF3iZBT+IsvjCZC3RiuxuttOGXQ+ZTqBGaUGX35
-	PUNyEjOKXm0FrMI03TeBLMjsOz3wYBdl83Zndmeg5HYX1xk4TH97ScUNE4BTj2HREzItR6
-	2zfoiHKPCa/CGCLp18EwuM0E7B1RApLLHQfT+O2Y1HY/fSWBwPe9gXpBvcmstw==
+	t=1778515151; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=3ilf3PIdNIBxgEFgzbpGU4XYlQFsaFxql6CNgMkJTac=;
+	b=rHX2MfJe7SFDHSh6qzNNgTj+hD31PHMjfuMQD21vWry8ibphbrC5tRB41KahIwEK3XqrN1
+	kdFPiIaUoW8hRnFgH/Hv19autnC35vuBoo8ASHU7TjL/pTk/j6acHEm2l8vTACoMZngxXd
+	L+4riejGXnyImM4Ld/5Vw7hj2eEBSK6mcWBjLbNhT3c+BJfrJ+dv7DSPQYkMwmfXshpQI8
+	AX4WrBfUq7L1RThlqWaX0ZvWqY4oP7mD6oQCoVJP+XCh53nYfuPXc9/VHcO/zrw1i06PDH
+	AWCQDuYajDKa8jMIuf2YuS1POUH7I0nyzCE6ft4zxONm+PSEAO2EzUuZ7d1Lew==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Andrew Lunn <andrew@lunn.ch>,
 	Rob Herring <robh@kernel.org>,
@@ -42,147 +40,75 @@ To: Andrew Lunn <andrew@lunn.ch>,
 	Matti Vaittinen <mazziesaccount@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Mark Brown <broonie@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>
-Cc: Wolfram Sang <wsa@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-i2c@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev,
 	devicetree@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Allan Nielsen <allan.nielsen@microchip.com>,
 	Horatiu Vultur <horatiu.vultur@microchip.com>,
 	Daniel Machon <daniel.machon@microchip.com>,
 	Steen Hegelund <steen.hegelund@microchip.com>,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Saravana Kannan <saravanak@google.com>
-Subject: [PATCH v7 3/3] driver core: Avoid warning when removing a device while its supplier is unbinding
-Date: Mon, 11 May 2026 17:57:50 +0200
-Message-ID: <20260511155755.34428-4-herve.codina@bootlin.com>
+	Herve Codina <herve.codina@bootlin.com>
+Subject: [PATCH v7 0/2] lan966x pci device: Add support for SFPs, simple-bus part
+Date: Mon, 11 May 2026 17:58:58 +0200
+Message-ID: <20260511155902.34534-1-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260511155755.34428-1-herve.codina@bootlin.com>
-References: <20260511155755.34428-1-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-During driver removal, the following warning can appear:
-   WARNING: CPU: 1 PID: 139 at drivers/base/core.c:1497 __device_links_no_driver+0xcc/0xfc
-   ...
-   Call trace:
-     __device_links_no_driver+0xcc/0xfc (P)
-     device_links_driver_cleanup+0xa8/0xf0
-     device_release_driver_internal+0x208/0x23c
-     device_links_unbind_consumers+0xe0/0x108
-     device_release_driver_internal+0xec/0x23c
-     device_links_unbind_consumers+0xe0/0x108
-     device_release_driver_internal+0xec/0x23c
-     device_links_unbind_consumers+0xe0/0x108
-     device_release_driver_internal+0xec/0x23c
-     driver_detach+0xa0/0x12c
-     bus_remove_driver+0x6c/0xbc
-     driver_unregister+0x30/0x60
-     pci_unregister_driver+0x20/0x9c
-     lan966x_pci_driver_exit+0x18/0xa90 [lan966x_pci]
+Hi,
 
-This warning is triggered when a consumer is removed because the links
-status of its supplier is not DL_DEV_DRIVER_BOUND and the link flag
-DL_FLAG_SYNC_STATE_ONLY is not set.
+Previously, I sent a big picture series adding support for SFP ports
+available on the LAN966x PCI device [0].
 
-The topology in terms of consumers/suppliers used was the following
-(consumer ---> supplier):
+In this series patches touch several parts and sub-system in the kernel.
+Reviews have be done and it makes sense to split the series and send
+parts separately.
 
-      i2c -----------> OIC ----> PCI device
-       |                ^
-       |                |
-       +---> pinctrl ---+
+This current series is the extraction of patches related to the
+simple-bus driver. It has to be seen as a continuation of the big
+picture series but related to this specific simple-bus part.
 
-When the PCI device is removed, the OIC (interrupt controller) has to be
-removed. In order to remove the OIC, pinctrl and i2c need to be removed
-and to remove pinctrl, i2c need to be removed. The removal order is:
-  1) i2c
-  2) pinctrl
-  3) OIC
-  4) PCI device
+Patches 1 and 2 makes the simple-bus driver compatible with fw_devlink
+expectation consisting in creating its child devices at probe.
 
-In details, the removal sequence is the following (with 0000:01:00.0 the
-PCI device):
-  driver_detach: call device_release_driver_internal(0000:01:00.0)...
-    device_links_busy(0000:01:00.0):
-      links->status = DL_DEV_UNBINDING
-    device_links_unbind_consumers(0000:01:00.0):
-      0000:01:00.0--oic link->status = DL_STATE_SUPPLIER_UNBIND
-      call device_release_driver_internal(oic)...
-        device_links_busy(oic):
-          links->status = DL_DEV_UNBINDING
-        device_links_unbind_consumers(oic):
-          oic--pinctrl link->status = DL_STATE_SUPPLIER_UNBIND
-          call device_release_driver_internal(pinctrl)...
-            device_links_busy(pinctrl):
-              links->status = DL_DEV_UNBINDING
-            device_links_unbind_consumers(pinctrl):
-              pinctrl--i2c link->status = DL_STATE_SUPPLIER_UNBIND
-              call device_release_driver_internal(i2c)...
-                device_links_busy(i2c): links->status = DL_DEV_UNBINDING
-                __device_links_no_driver(i2c)...
-                  pinctrl--i2c link->status is DL_STATE_SUPPLIER_UNBIND
-                  oic--i2c link->status is DL_STATE_ACTIVE
-                  oic--i2c link->supplier->links.status is DL_DEV_UNBINDING
+[0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
 
-The warning is triggered by the i2c removal because the OIC (supplier)
-links status is not DL_DEV_DRIVER_BOUND. Its links status is indeed set
-to DL_DEV_UNBINDING.
+Best regards,
+Hervé
 
-It is perfectly legit to have the links status set to DL_DEV_UNBINDING
-in that case. Indeed we had started to unbind the OIC which triggered
-the consumer unbinding and didn't finish yet when the i2c is unbound.
+Changes:
 
-Avoid the warning when the supplier links status is set to
-DL_DEV_UNBINDING and thus support this removal sequence without any
-warnings.
+v6 -> v7
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Reviewed-by: Rafael J. Wysocki <rafael@kernel.org>
-Reviewed-by: Saravana Kannan <saravanak@google.com>
----
- drivers/base/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  Rebase on top v7.1-rc1
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 478aa3fbf1e8..934da2566c61 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -1500,7 +1500,8 @@ static void __device_links_no_driver(struct device *dev)
- 		if (link->supplier->links.status == DL_DEV_DRIVER_BOUND) {
- 			WRITE_ONCE(link->status, DL_STATE_AVAILABLE);
- 		} else {
--			WARN_ON(!device_link_test(link, DL_FLAG_SYNC_STATE_ONLY));
-+			WARN_ON(link->supplier->links.status != DL_DEV_UNBINDING &&
-+				!device_link_test(link, DL_FLAG_SYNC_STATE_ONLY));
- 			WRITE_ONCE(link->status, DL_STATE_DORMANT);
- 		}
- 	}
+  - Patch 1
+    No changes
+
+  - Patch 2
+    Fix conflict due to device_has_driver_override() introduction.
+
+Older iterations:
+  Patches 4 and 5 in the big picture series
+  https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+
+Herve Codina (2):
+  bus: simple-pm-bus: Remove child devices when the bus is unbound
+  bus: simple-pm-bus: Populate child nodes at probe
+
+ drivers/bus/simple-pm-bus.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
+
 -- 
 2.54.0
 
