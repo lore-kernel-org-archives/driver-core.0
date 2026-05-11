@@ -1,178 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BC936606A;
-	Mon, 11 May 2026 12:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927A53A3E8B
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 13:10:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778502154; cv=none; b=hdR7S3QkrQalcW27ATVQWPDnaxyevln/ewMvO4javEODSQzNhgCvnmH8HeKSbzqgnbv8VGBxYhnbp96hnAnPOsE1uNg79+vGviFz4sw7CuBLd84ADHBoGeKUhlN6RqeAJsBNu+TFPQ+xnBXHUZlTNY3/6EdEGFFo5BW5hNvKEJs=
+	t=1778505035; cv=none; b=HvhkgR+gYrNIwaJ4xIFULJxuWaebTwho4J3YyCskziUklE+jLtLSSMV5MDNreSsgArbJZe1DzVOigkC1ijxNtVfq5SqvUO7k4GCj7OZYSeEERQ+VV8mfrQUjdjuM1NieE02O4sGeMLcgUFCAq/X14KzA0MLzcX7tlqN6yHithu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778502154; c=relaxed/simple;
-	bh=2rnwGRjBmZwkmLDXWbAeEC18DQrH8JRTazD+yQeB2OQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G7Yf7qlpJsxotZGFcsTBLFg8lMQ6F74GAI6ZjawmjcLY4FyuNXnmD22Qlb4xLyYSI218NhSQlXXdBqFvHvsIBsqYFyFehj+/I5L3G4MWKRX5fsXODBPVMePob9G8NIAAUqHShz3qpkk1zi/3jVyZUxqNfOb0XtTzCwVHnPV1kKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DmpuWN7u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778505035; c=relaxed/simple;
+	bh=RJmAU8Xm5a8eeec1e82BQsegJUkIaJkwUrllB2D/02Q=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ICJj6XXiYOCGz7WczpeYNUjRRBr1Po2Y4Nb/iSphDwtGngVmE41K4mXx3w5/ANsY58ij8psABb+UtoVGI7ZL4PwDD4m0PaUAzQhSwSy75IzG/wjX6A5sAshScYMsvEI+nH3paP5D4cC+x8pEurEhTtnxg9q5G9qV+0IWWWWUU5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ab9Hpr10; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DmpuWN7u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9B0C2BCB0;
-	Mon, 11 May 2026 12:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ab9Hpr10"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77350C2BD04
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 13:10:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778502154;
-	bh=2rnwGRjBmZwkmLDXWbAeEC18DQrH8JRTazD+yQeB2OQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DmpuWN7u/aNBrVr6S4NCkSG90RyEDQAwy7lT0bv9sOkf4cV9XeoheC1A+79QFzc77
-	 2g7hKN8WPGTp1DiUYRMLZJ038Z+LDME0/WD0UKJv9UXsKa/GZ+TVjIAB+SDrElauVB
-	 HED6EoEQjsgmKHoQIRxXQaOnzwQvWJIbgJPIpJ9jv1Kj4+8NLmgiswpBngzzgFIgcq
-	 OLERCeDC3g2q0BNmFYtvjbpUtiziHBsc2tgUuOjRrbvQgl9n6EJAcywhaaeeBHVuQK
-	 aE2qXLF/yKnZQC1yR375kwEolGQq8uzvLq/uMJzP1bQYrz3z8kGnWPx1H4d/QGHYAE
-	 dHKRtKsmaCJIw==
-Message-ID: <2841f424-580c-48c6-bb26-de30e4397b7f@kernel.org>
-Date: Mon, 11 May 2026 14:22:28 +0200
+	s=k20201202; t=1778505035;
+	bh=RJmAU8Xm5a8eeec1e82BQsegJUkIaJkwUrllB2D/02Q=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=Ab9Hpr103rovvA8//n/aB6bbKLkL9ZvZz03H7gaJEtxiCDpRs0nmuJSCCviPhBxLY
+	 MQgSmb0+Vn21Sg7a5oejZqWsP7GUoA41BzxXKcl2H/6hKTqW2UjQysxm0nBnDth+bR
+	 zsVMtheLXi0X57Ds1NXGSwuOt8YLwhncQ/FVilnaffXjRAcgXIzWs4ZykT1WxNl+VN
+	 RWahbpwc0VR40PoHkyv0u8i4yt0KKJ6NIqefZn8BTgIhhgciVc5xfPgaBrgfSm509a
+	 IrolISyKdRGDg/v7KDRRrSsg38PNt688ZH7EzWB5z6yuS5YuDYSKpn8/GcgJ4Dd/s1
+	 xaK+IcJiiEu4w==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38e7b0903cdso40806951fa.3
+        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 06:10:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9XNQxTj8i6610lzoodnC1s7qNVpBbgClB7di7C9lANz/s/1WFVDwOZ3LoX+Hhk1RLYYWuHiz1MROjwhQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyM4BwCV9r2mF+/8IJbuRV3tgKj7+e2odT++slOMS0NAAqx3d6K
+	Rtj6umm0+krWHFgzVhh0GWwBldr6O9ZqhPtSaP9uaFUh26t2HyKL173x/bFHfFznroxeU5IxJzP
+	gdQgtyjdRqjGXfWrWlPyUg0eABaPs2AAWKkg3hVdMcQ==
+X-Received: by 2002:a2e:3a05:0:b0:38e:2aa7:3984 with SMTP id
+ 38308e7fff4ca-393c4126752mr63885091fa.11.1778505033770; Mon, 11 May 2026
+ 06:10:33 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 May 2026 06:10:32 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 11 May 2026 06:10:32 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260508105448.31799-3-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers/base/memory: make memory block get/put explicit
-To: Muchun Song <songmuchun@bytedance.com>, Oscar Salvador
- <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, linux-mm@kvack.org,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- muchun.song@linux.dev
-References: <20260511111800.2181785-1-songmuchun@bytedance.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260511111800.2181785-1-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260508105448.31799-1-tzungbi@kernel.org> <20260508105448.31799-3-tzungbi@kernel.org>
+Date: Mon, 11 May 2026 06:10:32 -0700
+X-Gmail-Original-Message-ID: <CAMRc=McPez6Ver5NgrDPnM9YDb7cPonWE7BBsS_5AnY9tGf3xQ@mail.gmail.com>
+X-Gm-Features: AVHnY4IhmzoJd3wLNYsrAs66xOTMErOgy7HuqiZ7uCrCAjxL0Y1y70L8YCPCxdU
+Message-ID: <CAMRc=McPez6Ver5NgrDPnM9YDb7cPonWE7BBsS_5AnY9tGf3xQ@mail.gmail.com>
+Subject: Re: [PATCH v10 2/9] revocable: Add KUnit test cases
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org, 
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Johan Hovold <johan@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/11/26 13:18, Muchun Song wrote:
-> Rename the memory block lookup helper to make the acquired reference
-> explicit, add memory_block_put() to wrap put_device(), and collapse the
-> redundant section-number wrapper into a single block-id based lookup
-> interface.
-> 
-> This makes it clearer to callers that a successful lookup holds a
-> reference that must be dropped, reducing the chance of forgetting the
-> matching put and leaking the memory block device reference.
+On Fri, 8 May 2026 12:54:41 +0200, Tzung-Bi Shih <tzungbi@kernel.org> said:
+> Add KUnit test cases for the revocable API.
+>
+> The test cases cover the following scenarios:
+>
+> - Basic: Verifies that a consumer can successfully access the resource.
+> - Revocation: Verifies that after the provider revokes the resource,
+>   the consumer correctly receives a NULL pointer on a subsequent access.
+> - Try Access Macro: Same as "Revocation" but uses the macro level
+>   helpers.
+> - Concurrent Access: Verifies multiple threads can access the resource.
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
 
-Better mention some of the other changes here, like removing find_memory_block().
+...
 
-[...]
+> +
+> +config REVOCABLE_KUNIT_TEST
+> +	tristate "KUnit tests for revocable" if !KUNIT_ALL_TESTS
+> +	depends on KUNIT
+> +	default KUNIT_ALL_TESTS
+> diff --git a/drivers/base/Makefile b/drivers/base/Makefile
+> index bdf854694e39..5fd19abbc83e 100644
+> --- a/drivers/base/Makefile
+> +++ b/drivers/base/Makefile
+> @@ -35,3 +35,6 @@ ccflags-$(CONFIG_DEBUG_DRIVER) := -DDEBUG
+>  # define_trace.h needs to know how to find our header
+>  CFLAGS_trace.o		:= -I$(src)
+>  obj-$(CONFIG_TRACING)	+= trace.o
+> +
+> +# KUnit test cases
+> +obj-$(CONFIG_REVOCABLE_KUNIT_TEST)	+= revocable_test.o
+> diff --git a/drivers/base/revocable_test.c b/drivers/base/revocable_test.c
 
->  	unlock_device_hotplug();
-> diff --git a/include/linux/memory.h b/include/linux/memory.h
-> index 5bb5599c6b2b..29edef1f975c 100644
-> --- a/include/linux/memory.h
-> +++ b/include/linux/memory.h
-> @@ -158,7 +158,11 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
->  void remove_memory_block_devices(unsigned long start, unsigned long size);
->  extern void memory_dev_init(void);
->  extern int memory_notify(enum memory_block_state state, void *v);
-> -extern struct memory_block *find_memory_block(unsigned long section_nr);
-> +extern struct memory_block *memory_block_get(unsigned long block_id);
+Please move this under drivers/base/tests/ where the rest of kunit modules
+live and name it revocable-test.c for consistency with the existing ones.
 
-While at it, please drop the "extern".
+> new file mode 100644
+> index 000000000000..bb776a747ff7
+> --- /dev/null
+> +++ b/drivers/base/revocable_test.c
+> @@ -0,0 +1,405 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright 2026 Google LLC
+> + *
+> + * KUnit tests for the revocable API.
+> + *
+> + * The test cases cover the following scenarios:
+> + *
+> + * - Basic: Verifies that a consumer can successfully access the resource.
+> + *
+> + * - Revocation: Verifies that after the provider revokes the resource,
+> + *   the consumer correctly receives a NULL pointer on a subsequent access.
+> + *
+> + * - Try Access Macro: Same as "Revocation" but uses the macro level
+> + *   helpers.
+> + *
+> + * - Concurrent Access: Verifies multiple threads can access the resource.
+> + */
+> +
+> +#include <kunit/test.h>
 
-> +static inline void memory_block_put(struct memory_block *mem)
-> +{
-> +	put_device(&mem->dev);
-> +}
->  typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void *);
->  extern int walk_memory_blocks(unsigned long start, unsigned long size,
->  			      void *arg, walk_memory_blocks_func_t func);
-> @@ -171,7 +175,6 @@ struct memory_group *memory_group_find_by_id(int mgid);
->  typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
->  int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
->  			       struct memory_group *excluded, void *arg);
-> -struct memory_block *find_memory_block_by_id(unsigned long block_id);
->  #define hotplug_memory_notifier(fn, pri) ({		\
->  	static __meminitdata struct notifier_block fn##_mem_nb =\
->  		{ .notifier_call = fn, .priority = pri };\
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 462d8dcd636d..890c6453e887 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -1417,14 +1417,13 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
->  		struct vmem_altmap *altmap = NULL;
->  		struct memory_block *mem;
->  
-> -		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(cur_start)));
-> +		mem = memory_block_get(phys_to_block_id(cur_start));
->  		if (WARN_ON_ONCE(!mem))
->  			continue;
->  
->  		altmap = mem->altmap;
->  		mem->altmap = NULL;
-> -		/* drop the ref. we got via find_memory_block() */
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
+Add a newline here as do other kunit modules.
 
-Would guards come in handy here?
+> +#include <linux/completion.h>
+> +#include <linux/delay.h>
+> +#include <linux/kthread.h>
+> +#include <linux/refcount.h>
+> +#include <linux/revocable.h>
+> +
 
-In general
+Otherwise looks good, with the above:
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
--- 
-Cheers,
-
-David
+Thanks,
+Bartosz
