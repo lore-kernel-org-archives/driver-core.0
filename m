@@ -1,116 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB5D3D668F
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 17:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F24F37BE81
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 17:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778521117; cv=none; b=FtpYjeO/yriPbhPHoE5qjp4OAWJnOYk4owH3PKFzyulIkkYYusYlhg5SCZzluqdC3wm9VrttnDilwu6AkwbjzjdLM6SNu8YgJ77c9MjzKClCoRX/lqIIftJ9M9iHg6J6VGdeTfPg4ps2NaDCnm2TDsWgMNzdQ87PR87KmY5/qaY=
+	t=1778521809; cv=none; b=m1/8wJGl3hHkS3Ae/39SW5U6z/xT5gBhxtIh7aSvdm4wp23MaTJP8NdWFjHhF6Kn8lbNrCH9+j2AJQzYKJX08tUse4XOy9/XF3wwTBCybQq6v8oucAqPTOsQ8wTCVltxaGrj/iEJ5Tea+6s2C4N1lGjKG/1XD8ruJp+MS+Ql/po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778521117; c=relaxed/simple;
-	bh=nHcVkKfhFF+X3gqOjdsQoO7EnjM12dAR0t6+kvQ16/A=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=o5lEB8rpP1xY/EeFLLq32KOs3je5oIK8FepUc/tkKFV6zXYrV4gh7JRrW8e1WFFGllnpaOWmGMuv6X+CIgaa5F7ywaxNoBbA+T2jl3oN8OrzqSwMTYhN0zloQoTqC9YgxnJnrYGd30czmDvB2OQ2+7uC0Fwj+hQJ2FaGbb23KzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fbRJ9EiP; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778521809; c=relaxed/simple;
+	bh=g1G/+PoWZdAvQmXojSHIDbtBFrtB6n8uPkg6HEziu0I=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=nEOpka+W5fzowd66udSH2vcKaipedgIkGsIjKupZ9ywRG0ma+1KfUNlQVR9HrQQgp8/0MtTmo3LTU9N1pMCSwi22VIJNcMyWiQXl7mxtldkRvLEjZZkrboxwBwUUwO48cR7+a0kBSuEXtvFlt8UcTof3wkLgkRaY6G4V8hNpxbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=od6Bgm0L; arc=none smtp.client-ip=74.125.82.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fbRJ9EiP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778521117; x=1810057117;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=nHcVkKfhFF+X3gqOjdsQoO7EnjM12dAR0t6+kvQ16/A=;
-  b=fbRJ9EiPlkb6JI5S8i3GfQcYXwQA5J7bEivYYDMe4dVHem+jN5sUmkCe
-   Nc4SE1HulS+xLfA+/egAtj+TACtorr1Z/qK/q77F6kCqPCVyN2l2sf4aF
-   My02yj8wH/vVkCl0iPYahMnGegb/TrgO2OhILQ2kSClIxCGPxqUJuGYNW
-   mHwrkyjKHMwzTsg+q6V0Mj4I0ptFF+FXhd+QOwopA9yX62ZHcdGanXdQ3
-   faPf7Smn/i7iv6ZTQywy7cKkiwSvvInDjZG1+BbMWvwkDX4v09vS7cTMX
-   0x0sxlsGFCov1n8eqJZdFX7rSQnYvSeyMKld7PxP78fzWlVQ70UdJK23k
-   g==;
-X-CSE-ConnectionGUID: SyETofsCTRarUoimZBSpIA==
-X-CSE-MsgGUID: nDj+I3s+Si2bgTQhhSaOqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79314999"
-X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="79314999"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 10:38:37 -0700
-X-CSE-ConnectionGUID: jrjOcpCqRvmApRbwePHLTw==
-X-CSE-MsgGUID: FYzb2oHMQWyderX/lwlCXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="261006895"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.28])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 10:38:32 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 11 May 2026 20:38:28 +0300 (EEST)
-To: Muralidhara M K <muralidhara.mk@amd.com>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    "Rafael J. Wysocki" <rafael@kernel.org>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    driver-core@lists.linux.dev, 
-    Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
-Subject: Re: [PATCH v2 2/7] platform/x86/amd/hsmp: Add metrics table support
- for Family 1Ah Model 50h-5Fh
-In-Reply-To: <20260427155129.545327-3-muralidhara.mk@amd.com>
-Message-ID: <eea60cbe-1200-6c42-cfb6-f5eea88242ab@linux.intel.com>
-References: <20260427155129.545327-1-muralidhara.mk@amd.com> <20260427155129.545327-3-muralidhara.mk@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="od6Bgm0L"
+Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2bdd327d970so2682731eec.1
+        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 10:50:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778521807; x=1779126607; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=F3SSM/7OmGT1DQhDHuFPYpuDPGpRg8FSNXFpqlLPkoo=;
+        b=od6Bgm0LvYvXUmb+/TcrLXLGbXkLEOicwSyLz9DSM4BnWaCcLkPBWi3URJAn+fZ984
+         tBo530PrY2LoZf6R+99oYn2T1U5DHmlRQZWUe/9EsiRB1xrxeZo59t+H/NPwyMsC2bRL
+         472Iss4UbyTCLa5PPnFV2MKuxkTVTnaLmKALPORgrbv/YadQCPhOLfKLfm9ztgZ6QTRc
+         e0Q/bDT9GffqPWVk9wZ9/D+Ipis+Q9XBH/H7CqL4bkUAOvZdJjIuqqW/SAC3L1/egBc+
+         2c047PvHuZLC5sMziI0V3nJVz+vvOPLrkMKTbf7kV0cp865DQd+yevJdSBR7sTST4xvW
+         Ufhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778521807; x=1779126607;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F3SSM/7OmGT1DQhDHuFPYpuDPGpRg8FSNXFpqlLPkoo=;
+        b=AmKUkUzpsM8nLjfTY97o646yBBj5Pzk8tvJmqINZkTSjkFqJB4dHhEpSVPfwY76zZF
+         IJ2/Plpf0MTcVEcOoSJ0ji8dbNStC++H06xX89nvzJuxQklP5OncjgXTRE+84907GyKp
+         lDhEThvfvJOcE4GpoWAJNDtY8n7pBVbCJt2z+DTpotbwuRAEhkTaO6DCOqT3ust76few
+         7nRGw6an1G0rU2je9sRJx2woIsQ9vM3dUQ5b6SzMbIkdOHNb/VioTwt2PpD7E4Rol95/
+         LhJEINEDYD80G/8zS8LBYyyg/93209DwCVebAgjBC315eEJ+zN0Ggie1TvzhKSU+vQen
+         scCQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9A2feSDhUWkEtfj3qvBFryBQYF69i+y3cDmTj+Qnrjr5+uCkzGQwGevfLFBzBNI5JQ4fQfqHKC+uYoPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywu8F3G0s3uTsxemb9RrTJzI4yqoWae6XJTqOiTnTcTv96CH6RU
+	EcoROabQiX8g6XL+c9DiqvEckLoFeojtn8v7pDAZAzbesvVJe1iRoirdivW0R+Ry3+asBhEzjah
+	2HXrf1ImtqOGN5Q==
+X-Received: from dybdf6.prod.google.com ([2002:a05:7300:b586:b0:2da:4e8f:1752])
+ (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7301:5807:b0:2f0:ee2:f6c6 with SMTP id 5a478bee46e88-2ff95e5e234mr269219eec.19.1778521806295;
+ Mon, 11 May 2026 10:50:06 -0700 (PDT)
+Date: Mon, 11 May 2026 10:45:55 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.563.g4f69b47b94-goog
+Message-ID: <20260511174559.659782-1-wusamuel@google.com>
+Subject: [PATCH v4 0/2] Support BPF traversal of wakeup sources
+From: Samuel Wu <wusamuel@google.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>
+Cc: Samuel Wu <wusamuel@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 27 Apr 2026, Muralidhara M K wrote:
+This patchset adds requisite kfuncs for BPF programs to safely traverse
+wakeup_sources, and puts a config flag around the sysfs interface.
 
-> Define the UAPI structures hsmp_metric_table_zen6_iod,
-> hsmp_metric_table_zen6_ccd and the top-level hsmp_metric_table_zen6
-> to describe the per-IOD and per-CCD metrics layout for AMD Family 1Ah
-> Model 50h-5Fh processors (HSMP protocol version 7).  These structures
-> allow userspace tools to interpret the raw metric table binary exposed
-> via sysfs.
-> 
-> Widen the ACPI driver protocol version checks from
-> == HSMP_PROTO_VER6 to >= HSMP_PROTO_VER6 so the metric table
-> sysfs binary attribute is also created for protocol version 7 and
-> future versions.
-> 
-> Co-developed-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
-> Signed-off-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
-> Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
-> ---
+Currently, a traversal of wakeup sources require going through
+/sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to query
+sysfs is inefficient, as there can be hundreds of wakeup_sources, with each
+wakeup source also having multiple attributes. debugfs is unstable and
+insecure.
 
-> diff --git a/drivers/platform/x86/amd/hsmp/acpi.c b/drivers/platform/x86/amd/hsmp/acpi.c
-> index 97ed71593bdf..8044df862275 100644
-> --- a/drivers/platform/x86/amd/hsmp/acpi.c
-> +++ b/drivers/platform/x86/amd/hsmp/acpi.c
-> @@ -244,7 +244,7 @@ static ssize_t hsmp_metric_tbl_acpi_read(struct file *filp, struct kobject *kobj
->  static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
->  					 const struct bin_attribute *battr, int id)
->  {
-> -	if (hsmp_pdev->proto_ver == HSMP_PROTO_VER6)
-> +	if (hsmp_pdev->proto_ver >= HSMP_PROTO_VER6)
->  		return battr->attr.mode;
->  
->  	return 0;
-> @@ -491,7 +491,7 @@ static int init_acpi(struct device *dev)
->  		return ret;
->  	}
->  
-> -	if (hsmp_pdev->proto_ver == HSMP_PROTO_VER6) {
-> +	if (hsmp_pdev->proto_ver >= HSMP_PROTO_VER6) {
->  		ret = hsmp_get_tbl_dram_base(sock_ind);
->  		if (ret)
->  			dev_info(dev, "Failed to init metric table\n");
+Adding kfuncs to lock/unlock wakeup sources allows BPF program to safely
+traverse the wakeup sources list, and a kfunc to get head of wakeup
+sources list is needed to start traversing the list.
 
-I'm trying to understand is changing these checks safe at this point of 
-series, or should it be the last patch of the series? What will occur on 
-v7 hw when this patch is applied but not the rest of the series, are the 
-tables returned binary combatible with v6?
+On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~34x
+speedup (sampled 75 times in table below). For a device under load, the
+speedup is greater.
++-------+----+----------+----------+
+|       | n  | AVG (ms) | STD (ms) |
++-------+----+----------+----------+
+| sysfs | 75 | 44.9     | 12.6     |
++-------+----+----------+----------+
+| BPF   | 75 | 1.3      | 0.7      |
++-------+----+----------+----------+
+
+The initial attempts for BPF traversal of wakeup_sources was with BPF
+iterators [1]. However, BPF already allows for traversing of a simple list
+with bpf_for(), and this current patchset has the added benefit of being
+~2-3x more performant than BPF iterators.
+
+[1]: https://lore.kernel.org/all/20260225210820.177674-1-wusamuel@google.com/
+
+Changes in v4:
+- Removed `.owner = THIS_MODULE` for btf_kfunc_id_set per Greg
+- Add a graceful exit in selftest if bpf_wakeup_sources_get_head() is not
+  present due to kernel configs without CONFIG_PM_SLEEP (e.g. s390)
+- Relaxed substr match in wakeup_source_unlock_null() selftest
+- v3 link: https://lore.kernel.org/all/20260331153413.2469218-1-wusamuel@google.com/
+
+Changes in v3:
+- Changed return type of bpf_wakeup_sources_get_head() to `void *` per Alexei
+- Added failure test for direct dereference of wakeup source head
+- Use bpf_core_cast() instead of macros in BPF program per Kumar
+- v2 link: https://lore.kernel.org/all/20260326112521.2827500-1-wusamuel@google.com/
+
+Changes in v2:
+- Dropped CONFIG_PM_WAKEUP_STATS_SYSFS patch for future patchset
+- Added declarations for kfuncs to .h to fix sparse and checkpatch warnings
+- Added kfunc to get address of wakeup_source's head
+- Added example bpf prog selftest for traversal of wakeup sources per Kumar
+- Added *_fail.c selftest per Kumar
+- More concise commit message in patch 1/2
+- v1 link: https://lore.kernel.org/all/20260320160055.4114055-1-wusamuel@google.com/
+
+Samuel Wu (2):
+  PM: wakeup: Add kfuncs to traverse over wakeup_sources
+  selftests/bpf: Add tests for wakeup_sources kfuncs
+
+ drivers/base/power/power.h                    |   7 ++
+ drivers/base/power/wakeup.c                   |  71 ++++++++++-
+ tools/testing/selftests/bpf/config            |   3 +-
+ .../selftests/bpf/prog_tests/wakeup_source.c  | 118 ++++++++++++++++++
+ .../selftests/bpf/progs/test_wakeup_source.c  |  92 ++++++++++++++
+ .../selftests/bpf/progs/wakeup_source.h       |  22 ++++
+ .../selftests/bpf/progs/wakeup_source_fail.c  |  76 +++++++++++
+ 7 files changed, 386 insertions(+), 3 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/wakeup_source.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_wakeup_source.c
+ create mode 100644 tools/testing/selftests/bpf/progs/wakeup_source.h
+ create mode 100644 tools/testing/selftests/bpf/progs/wakeup_source_fail.c
 
 -- 
- i.
+2.54.0.563.g4f69b47b94-goog
 
