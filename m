@@ -1,144 +1,137 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF93D3D301E
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 16:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A97343DA2E
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 16:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515244; cv=none; b=HhyntJjNEOCpyealQ1eCnyZTuDevkq7d2+3+Lfv2/TcN5dt0aIWZJ4gQIa4tuCe+2GN1J2X3Aej/U8+K9MKnQJt5bUuIWXje7qPRdQtglUXlE1cdQLrepmkurGMcAc0SlYIVJkUkiPZ6DVUGlZsOGUHHqwpl9y24U6JphgaJsms=
+	t=1778515738; cv=none; b=c64WC9sbuLaxkNpqR6xHFuaKvij4+Rpsg6uzt5PPsBvAWNYCTpAvl5wFQZmhTjDmnu6rpmFakUxVi9H+s4NKFA1ZYeQ6BOdZXB4nvXVSTTzgQmTG3eE2MGNPJMyugpOgCz7508Hi2UZrfUhFsKUzsbU0C/SHD72+ZARYW0MZE8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515244; c=relaxed/simple;
-	bh=4TP647h6bUcWpLakNWuVEPNBqVaigqPU6a5rJXnvNrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jRxpf8LkFOTdDQGWpNG0kj0bK+JFac03/gjfQ4cBAwuAcOMMJnzIzRkf3HJS2G4HZmL8+pjtNcTI/BZlZdeCWzZGE63++XlfSXt+jUXdWKFxMO1zbAIdHOgLSv9W2W0rjEaClz2uLx/pKqGCMmNgN29iGVzUhsWlHg37t39XtVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Vj95Q6ZP; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1778515738; c=relaxed/simple;
+	bh=HI/UnGrm/4SRY0s10k1WXENBF1WjaceEuaVjGrogGMM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u+/QWwh8DhV1oS5BJg9rVgQl4KRpgrQLqMY1q6iAiK/ASqbP08HTCtzhz9TxLyMVSpw1WVqZWRb7BYFJNKQbqZzXwNW8RgSRZEN1nEj8AWprgzxFMDKtK49kbOjnPXKeyYit8ex4LS72BFtFsG+35p3su/bVia+T/ch+3WI/200=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g073bAtm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Vj95Q6ZP"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id AA80C4E42BF3;
-	Mon, 11 May 2026 16:00:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7D27B60646;
-	Mon, 11 May 2026 16:00:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C4D7E11AF9F2D;
-	Mon, 11 May 2026 18:00:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778515239; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=bKqIe7WRSBpcbkduycfdUius+fdoa8lS+ROf87HCzsw=;
-	b=Vj95Q6ZPshNanZOcR9ZKav90YIJrBT58CHMzeCV960whdbMmwRonhTR4DxYcbPkZDcIsUt
-	8Lo8LoH8LmUo6wLiqD2rMkT00ApFiamXjMMaoEmK5xSr7jHfeZwSws2M9Iutz9nHB8ev6U
-	K8zBaH+9GrYqtaXUqkjWsB3gz6gH79p+3FnbQIXgs9oEOEEVP2jv7BXCsPzy8CbNmyjbVy
-	tLbE2ssOjgosNUQC+Vzy69fiOvMOE42T1gnbo+/p9Lj4tr76+BB6/qijyXvrvZfzKPlPBg
-	3juJBPm6aCd8ozPqyt9ssknX7Xv8QcOjm6Ec5+EsvnwJW2BQ9jWrcB7bgHgQrQ==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <djbw@kernel.org>,
-	Lizhi Hou <lizhi.hou@amd.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v7 8/8] PCI: of: Remove fwnode_dev_initialized() call for a PCI root bridge node
-Date: Mon, 11 May 2026 17:59:28 +0200
-Message-ID: <20260511155930.34604-9-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260511155930.34604-1-herve.codina@bootlin.com>
-References: <20260511155930.34604-1-herve.codina@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g073bAtm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C6CC2BD04
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 16:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778515738;
+	bh=HI/UnGrm/4SRY0s10k1WXENBF1WjaceEuaVjGrogGMM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=g073bAtmUOFfqV7MjCB3Arwyc1vq4f/UUofTReGtmMvhZRK2tE+JacTePTjGJD8v9
+	 ZgSiQzDNnD7MN6x1q0VsmuVf0+usOfuy3FPw63bqfBKcv/OhOLWncpr3DVq5z/PJXh
+	 KCHpodpbwR7ckfJTz8OHmm5XwWUoFzvF+5Os7KbEveImBTj852KpTX5lkXmRO8JB5Y
+	 p8zgt8RyERCtdjprOmGLs5UbH8y8YPWrYYdZBdmdNjg1KWG0xhurr184V2vMt4Aay1
+	 wPVI6AOkDlOIYE1pj1a2nHpRPjN9hQrEhG06bqnZylPUm+guVX0ztXmzODbYs3qCDT
+	 s7o47OVxF7EAQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a748d5ece4so4334632e87.2
+        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 09:08:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+lZhR5NhCpImRmn7CVSRJMYjOBZmZdJcz6P6lvdKYErhrgYncE0ObZo5nI17DxY2plH+OaWZGA2wxH7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWqpDOjK1QFDG05/NCVL+Wox/fsP0J8TGkC/FBpRphNbcWpXgw
+	19Tcafy7lTF3NwQh6ZZh8axOgP0U/yY2qlcjkmS7MNevPz9etM+HqsI0J+bX7/moNEofVEfHEEu
+	oJVKcrXHnxb8xTKA/+yoJX5oi0ExoiSbnF32JlKvadw==
+X-Received: by 2002:a05:6512:6d6:b0:5a4:6dd:87 with SMTP id
+ 2adb3069b0e04-5a887ad9a16mr8022760e87.2.1778515736764; Mon, 11 May 2026
+ 09:08:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260430-swnode-remove-on-dev-unreg-v4-0-01574da0aed3@oss.qualcomm.com>
+ <20260430-swnode-remove-on-dev-unreg-v4-1-01574da0aed3@oss.qualcomm.com>
+ <afNEwrHLNTA4ywrN@ashevche-desk.local> <CAMRc=McH0zKz87z0TwPFrzZHMW6psytMaLZybM3pUk6OvUfo9Q@mail.gmail.com>
+ <CAMRc=Mc_huU0HxHpD+RMNWeX2Sg84-LEg8y96BcF_qdtPr31eA@mail.gmail.com>
+ <DIFWH6TWTOOT.37CW17JHKWBQR@kernel.org> <CAMRc=MeiL+MeFsiPrWja2qJx=zU3RXKLL7CDccX1epXWgNtvdA@mail.gmail.com>
+ <DIFX59JPJI9U.1Y41563GD6YJL@kernel.org> <CAMRc=MfBnbSUxwjVjf81K-W8uQ8ecXmK=8=FkRqVvK+6AipQuw@mail.gmail.com>
+ <DIFXTWSAEDHD.RMJBLY7XXEXU@kernel.org>
+In-Reply-To: <DIFXTWSAEDHD.RMJBLY7XXEXU@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 11 May 2026 18:08:44 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MeLa_pMy5cMwTBCr+TLhg2HyxrYBXEHXC2emm04iVnfGg@mail.gmail.com>
+X-Gm-Features: AVHnY4JawaaCEnkyiNFpPNw6Fw0HbGkCHbjjTC9tMBcTdovwkdrWnmhHpgsuskE
+Message-ID: <CAMRc=MeLa_pMy5cMwTBCr+TLhg2HyxrYBXEHXC2emm04iVnfGg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] driver core: platform: remove software node on release()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-During the instantiation of devices described by a device-tree overlay
-applied on a PCI device, devlink displays the following kind of debug
-messages instead of creating the expected links:
-   'Not linking xxxx - might never become dev'
+On Mon, May 11, 2026 at 5:04=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
+>
+> On Mon May 11, 2026 at 4:50 PM CEST, Bartosz Golaszewski wrote:
+> > On Mon, May 11, 2026 at 4:31=E2=80=AFPM Danilo Krummrich <dakr@kernel.o=
+rg> wrote:
+> >>
+> >> On Mon May 11, 2026 at 4:17 PM CEST, Bartosz Golaszewski wrote:
+> >> > On Mon, 11 May 2026 16:00:23 +0200, Danilo Krummrich <dakr@kernel.or=
+g> said:
+> >> >> On Mon May 11, 2026 at 9:33 AM CEST, Bartosz Golaszewski wrote:
+> >> >>> Danilo: if there are no further comments, can you pick it up for v=
+7.1?
+> >> >>
+> >> >> It seems that sashiko has a valid concern in [1]; can you confirm?
+> >> >>
+> >> >> [1] https://sashiko.dev/#/patchset/20260430-swnode-remove-on-dev-un=
+reg-v4-0-01574da0aed3%40oss.qualcomm.com
+> >> >>
+> >> >
+> >> > Yes, I explained it here[1]. Basically it's similar to how we need t=
+o call
+> >> > platform_device_add_data() for devices created with platform_device_=
+alloc().
+> >> >
+> >> > We can consider adding platform_device_add_software_node() once ther=
+e's
+> >> > a potential user but for now I'd just leave it like this.
+> >>
+> >> But there are users that already need this, no? There is Xe [1] and Su=
+rface GPE
+> >> [2], or am I missing something?
+> >>
+> >> [1] https://elixir.bootlin.com/linux/v7.1-rc2/source/drivers/gpu/drm/x=
+e/xe_i2c.c#L99
+> >> [2] https://elixir.bootlin.com/linux/v7.1-rc2/source/drivers/platform/=
+surface/surface_gpe.c#L308
+> >
+> > Right, I was not aware of these. That could indeed cause a regression.
+> > I'd like to fix the problem in v7.1 but also keep it minimal so adding
+> > platform_device_add_software_node() and updating drivers to using it
+> > may be the next step but for now: how about adding
+> > platform_device_release_full() which would call
+> > device_remove_software_node() and then the existing
+> > platform_device_release()? We'd replace the .release callback of
+> > struct device in platform_device_register_full() but if the user just
+> > uses platform_device_alloc(), they would keep the regular .release()
+> > that doesn't remove the software node?
+> >
+> > That would go into v7.1 and then I'd provide
+> > platform_device_add_software_node(), use it in all drivers that need
+> > it, and then we'd remove platform_device_release_full() and go back to
+> > a single, unified release callback?
+> >
+> > Does it make sense?
+>
+> If it is just those two (and at least I did not find any other drivers) i=
+t might
+> be easier to just add platform_device_add_software_node(), use it within =
+those
+> two drivers and still land it for v7.1.
+>
+> I feel like this change turns out simpler and less error prone than the a=
+bove
+> workaround to keep changes local to the driver core.
 
-Without those expected links, the device removal order cannot be
-correct.
+Sounds good, I'll do this then.
 
-Those debug traces are printed by fw_devlink_create_devlink(). In our
-use case, they are all printed because the supplier of the link has at
-least one of its ancestor with its fwnode flag FWNODE_FLAG_INITIALIZED
-set.
-
-The culprit ancestor is the PCI root bridge.
-
-The fwnode related to the PCI root bridge is created dynamically by the
-of_pci_make_host_bridge_node() function. During this creation
-fwnode_dev_initialized() is called which set the FWNODE_FLAG_INITIALIZED
-flag.
-
-Calling fwnode_dev_initialized() tells devlink that the device related
-to this node is handled out of the driver core. This is not correct in
-our case. Indeed the device related to this firmware node is handled
-using driver core mechanisms and is fully compliant devlink
-expectations.
-
-Simply remove the fwnode_dev_initialized() call. With that done, the
-devlink debug messages are no more displayed and links that were missing
-are correctly created.
-
-Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
-Cc: stable@vger.kernel.org
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
----
- drivers/pci/of.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 25fb02c3dc72..53a8a4f30eb6 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -811,7 +811,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	 */
- 	of_node_set_flag(np, OF_POPULATED);
- 	fw_devlink_set_device(&np->fwnode, &bridge->dev);
--	fwnode_dev_initialized(&np->fwnode, true);
- 
- 	ret = of_changeset_apply(cset);
- 	if (ret)
--- 
-2.54.0
-
+Bart
