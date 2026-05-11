@@ -1,201 +1,148 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021075.outbound.protection.outlook.com [52.101.100.75])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6BE481AA3;
-	Mon, 11 May 2026 16:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778517286; cv=fail; b=Scbyt9GbHkFyzSpH4Np2ehs1H6iwncZgECWr0tSSBjI1l6D8DI3loptXL3nF6ObQYzCE0rKvxEvzu4GT88PXlzcL2i9pESu6ld6SMQlGnRI86aSbd4eOTB7dq9A8eJFuvIya0kp551/FDlM34C7eEbJ0Nf7KfHyIwMJ3gNrIJec=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778517286; c=relaxed/simple;
-	bh=tl6CugNzWpKHvpoZ5lpgKFcLkLi2HRnVWo9nntjLwnE=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=HPb8R9yEsYxzq35I2BnK2HXDH3JMVSEpoYTGyN2USk7bgOM7waxeRDrmTUov4+Goc8ajb6cmk3LbAM1ufzBq99pqjwSFMIcdOqBgHDVtVd2g3xZGIS8Rg9XRPXRyFk4FfHw9k+7qh/Zar/6c1AWT9cRJ/Fo8k1KhiESBvjCElEw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=mVgd5/++; arc=fail smtp.client-ip=52.101.100.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7D644CAC2
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 17:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778520460; cv=none; b=LUCbSHQB8HFZDrf3WKFxcqJ2VZkavVOgk82cFZl6K+VwrkjKR/SuMYAaCxSRQ1u2jxTycDAoBAhukZ0XWwHBu6B8REI8oEnDMjmTKI7KPaMYJz2XP5ScbzBLpW7TI5nZr1PTBQm/7lnSwXsmKOdVkDWc4B26Vo0vqD/euFxILMw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778520460; c=relaxed/simple;
+	bh=/kzZF/YOifgcQmLU9y0waEdN3TdI6aTk2vWhPLH9RMs=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ug7KwwlSWwqwx5ljNFQ7smniUj/tn4YP7/pT6xI9exYgFNvbXeyKDjZkKYYzE3zE3BcmD/NuikuHGOXA5Vv9IEfHt+aop06EbXxWVWJRNGyB5WMgMJgQCAms4oPt2IBysVO7KH0ISkTqOur6hupyu28MdgpIvjZ6wZuI7KERp1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HhA0tYHa; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="mVgd5/++"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gdb9fANloAxVGWo+Kkgt6MJtgQDcTgNPKzditPOVP8Z+jUu8BebGjbvgvVmjLe9FitLRFm826Ngd6x4IGuAslSfzNX1zBOq2caaPo5mNiEfRQa2psyk/4m7QupMXWvjkZgjnkQP4BmZzg+Yzz+08ibM7H9rdKKaTVXp3IVfRAbgyqa+aM1rJgrXO7ZMX96vg+3wD0qvbwA5eXrgZACoG8+YmhUv1TeZPgDaVGbRY7y+6VaLAXqir8ej6zNDIKVZ4vDdMsU+CKhBrNXl18F4yWxirJggGKlqN7hTuTmBWZ5+AEbDzI71ouqEBo4BEWfUKfFB5GMj8sG5bXgG7jQw0qQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nHWuAO36hLTkX1Nk81hRkzHDJ+5JojMYY6mJJGrMIFQ=;
- b=x9s/WB2MKvZdrkaDPjZO7Vwl+wzFtQ6b3AYyUz8Ue1VodMv71SAOxz61yKy2TP1e9pRg1yfOLw/A5a1kgusmIGvhJ0+wjjvFBTvuO93y/r0ioOf+0p62Pw3qkHczzmEBaN8PN8TgpjNaMvYeHoMwimDqh8w7YkyvU4B5wZes5YCsBKaFleFgNAwDCXFGbYG0/I4IlCpo0XZUQZAuKhlAt7fAc44FoKNyIgrr7uUz8QKe8mKOzOUnqUYQcwWKJLZ8XJmzZtmPZSUw1/nsN9znXEzCvirngrapRd+1Ywwvovq/nVe8W7Zit0Citq66dssi4Q64EkYXZxxDjOCPcbrXoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nHWuAO36hLTkX1Nk81hRkzHDJ+5JojMYY6mJJGrMIFQ=;
- b=mVgd5/++yanZ5NDb3mFGQDwFz5u5cBbvzgVdjQdYEVNa5ud2w6UpPQXmgMBgsZpuJmoVoqnq9esVJgAkOS2MyEGE/Vv1E0JSVvipVzn7OZ3hUm1t3N8npyLHRSJpdHdIaoUPQKSBWRubcCcziYfxQWJF5bKM/6TDSHUUjR8DlY0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO4P265MB6185.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:27e::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
- 2026 16:34:41 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9891.021; Mon, 11 May 2026
- 16:34:41 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 11 May 2026 17:34:40 +0100
-Message-Id: <DIFZRBF3LYHN.19Z6RBMECXDVM@garyguo.net>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <driver-core@lists.linux.dev>, "Yury Norov"
- <ynorov@nvidia.com>
-Subject: Re: [PATCH v3 1/5] rust: extract `bitfield!` macro from `register!`
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "Yury Norov" <yury.norov@gmail.com>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-X-Mailer: aerc 0.21.0
-References: <20260501-bitfield-v3-0-aa1076c3337d@nvidia.com>
- <20260501-bitfield-v3-1-aa1076c3337d@nvidia.com>
-In-Reply-To: <20260501-bitfield-v3-1-aa1076c3337d@nvidia.com>
-X-ClientProxiedBy: LO4P302CA0030.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c1::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HhA0tYHa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778520459; x=1810056459;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=/kzZF/YOifgcQmLU9y0waEdN3TdI6aTk2vWhPLH9RMs=;
+  b=HhA0tYHaUwZ8RQ9vvM23JuvIgJ8znYg/OSj3wK/Esfes2L8ii4q9XCCO
+   12OXPUb6Eujl3oLW+yfRJLagAFoHPbHfnx6/fFGgDlxkOtu08GT72WrAs
+   yoGV9Y3ai76460bJKS8ujKp7Ur/t+CM8Hiy7fNvXTniqCjhs85sSOjXYG
+   34+G/kkJMcKTAsrmcr1P1TBKxpjqClpI6QsJCfmqsomkf5lV4m7dRzVEZ
+   hUrleGt+KNrLmwhYgpAV8V+VSx9jrAdiOxzOVfDLjdvHlGjGYqN+8LZfs
+   3ZEpf8HoRaHftlAgLn2Yp2K3XfAf5qlk2H/wyU55KXdn47NO3zBfuiHEf
+   A==;
+X-CSE-ConnectionGUID: jFOcEn0CS36OzpRCtBri1Q==
+X-CSE-MsgGUID: hbMqMUVXRPaf3LDZKts2Gg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="89721702"
+X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
+   d="scan'208";a="89721702"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 10:27:38 -0700
+X-CSE-ConnectionGUID: TD491S3oTyWaAhMFhkQ+4g==
+X-CSE-MsgGUID: YDLRWhI2RNS/cqitxuewKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
+   d="scan'208";a="242479488"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.28])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 10:27:35 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 11 May 2026 20:27:31 +0300 (EEST)
+To: Muralidhara M K <muralidhara.mk@amd.com>
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    "Rafael J. Wysocki" <rafael@kernel.org>, 
+    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    driver-core@lists.linux.dev, 
+    Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
+Subject: Re: [PATCH v2 6/7] platform/x86/amd/hsmp: Make metric table read
+ locking use guard(mutex)
+In-Reply-To: <20260427155129.545327-7-muralidhara.mk@amd.com>
+Message-ID: <9e34e44c-d19c-5994-1390-107b4058367c@linux.intel.com>
+References: <20260427155129.545327-1-muralidhara.mk@amd.com> <20260427155129.545327-7-muralidhara.mk@amd.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6185:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ea102a4-5483-4715-209f-08deaf7b3376
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|366016|7416014|376014|921020|3023799003|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	3aYNwHTNZHnZ0lavoVUyBAFjuM20DKKvm4uVdPU6QGrpsIlWUsGHDbegrquhQyu9oa1PT7h74JJ1OH5GbQv4BYrZsE86QMdW+PbgMXKFx+db0G2jhNRCoVxEcDlhZuophq21VJhuMX64SndREvywyZAbNuy3mNXN2LoSvhPGC3U1nXOesO2VwNC9PpIwxtAqME81DPSicmJFuJa0CnH7lyZJl3BGDHEGWryamRdBFjmk9GhcPZyvH5xe+fja6RcMTvSa33iwuvWL8NxLbmwI7ic1EGZCW+zAaVm1YvFfqnlX+go7ehGvi3SWmbAAb+gvgiOkSDq95mOnIdBGfmCljW9+qauogmSu9XXXyOHjMcD2GXvkMXLEQeu1RNvkr1wiE5qRUbjnil+/pxME+yR0WdB24nS7bqnXd8+ENG59OwD6Py/8rUgctO3R8O+1TQc5VqIk5bBJvHK8uadr3/8ui9lUi6oBeMbL7YGdNrQxuZnbqh/4vf12jR4fL+sPZ6xfuA9ppfvz7i8uMOA3glJN2x3pDQZEXbXhsheHyVpyST9RI70U7cTy3r2TPo9G2cUm+hZdHiZKZxScHyEk1KOWokkWktR6cQs7EDaEccxEMill59jPQxF4sORvd+hefOwx4i9SjrICH6NvfsK1SkCVH3pH6I/f+XKA9/SHfCwCrBqGa6J4O5wGw1N5TO2AQY4/48mDxhFdEdZhjSGUUkh4XWRw6e4vCsFvv8MOdPAraKU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(7416014)(376014)(921020)(3023799003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cVphSVo2NkFPangwbFZPWVl1MG95aC8wcjd1SjlrSmkwSFpQc0lNM2NRblF4?=
- =?utf-8?B?Zk8ralBZclNTNGNMYWZtRUZGbVlSTExpY1NDbnNweWhBQ0Z6Q3JRYWVPRU1o?=
- =?utf-8?B?MCt4ZzB0d2V5NUZUbGJJVW93YXlMZ3dPSkQxL29mWUFHNkhwZ0pkZkszejRu?=
- =?utf-8?B?L0ZyY291YXdDMmdIdlVrSkZsd1BRUytRQVprTVFDMXhPaTdKTlBGSGRiclpt?=
- =?utf-8?B?WitNN21CZ2hWMFd5UksxYXFDcmxkVHRtV2ZJVFZNQVNsNURJZGxiOUhEVHFs?=
- =?utf-8?B?RlZwSHUvNjdibjZzTUxXRWkxVW1PSlBlWFo0YS9QSlFTU0RVb21zeGlvRnB0?=
- =?utf-8?B?S0ZwNVpQZHRxMk5BNzd2NE9YZTMyZjZ2cHB5ZFYyTDUrRWJjQ3pFcHZsYXhU?=
- =?utf-8?B?RlppSnJhV0xKOHJuNFJZZ2pwL3cwVkV6QUVjUnh5UkdCSzJveUtaZFE3VzZS?=
- =?utf-8?B?eUZOcmIwSGtiK0Q1Vmt4OVN4RU9icXovRE9ycDI2ZTR3d3k4U3pOdHVCdU9v?=
- =?utf-8?B?UWJnNHc0Z0ZyNUdkUEozZzV6RlhjWWxkVzBnNFhwMEJlZW5FTi82K1NFNGhC?=
- =?utf-8?B?cjJJWWZoNEUyRTFJOG9TR1Y0WVllaFFQOVYxcjFUWjlyM014TzlOZm5IUnJM?=
- =?utf-8?B?eHJrWWVJSmgwVU42TEhmcGQ3TGRtSmcwejZNSXN3TWpkYkl1SXZ2a1dBeHhM?=
- =?utf-8?B?d1dwd2hOaGp3S08rdTFJSzFNQ1hSdG83cDA0a1JJV0JvdU1uYWc1NjUwREto?=
- =?utf-8?B?c2xnWE5XaDl5WDR4T1Q2NUUyTUVGWVBmOG5JRk9kT281ekE0bEhXc1VaanF6?=
- =?utf-8?B?OFFScldDNVFyTTh1Y2ZTYjlhRSttbmd4WTIvais1cEdHdDdSNjdyMjFPVERM?=
- =?utf-8?B?Y0tXTkhnQ0hMSnRWWkF4YWhLNXRUTGhYeEx0aWMxd0tEK3VaMUR3eDVVNVBz?=
- =?utf-8?B?TGNwQ1BnRlF6UGNHM0hTT1hTaFROWWpTcXM0RWdxeVlQTlRxZ2ZPaUw5UHpR?=
- =?utf-8?B?Q1ZqYmdiZG1SYXdFaU1yWnhFZmt3bWp6WW9DVTV5SEF3VVZTOVZpTjVxcWxm?=
- =?utf-8?B?bTJ0ZUtiZkxrMVZ4U0llVDNiSXo4d1hsUENLY2lXdUhRcU1KU1hBbXRNUmtX?=
- =?utf-8?B?a2M5Sm9NNy9ieUppMHU5TGsxdUhYbk16OUpZWEFsZ3IxRU9WNmU3U2IwVmcr?=
- =?utf-8?B?WUVBZEZUWVVWSXVjUTFyaWFvWXFCV3IwOFlmcnh4VXk3OFZ6N2VqcUgwQ25U?=
- =?utf-8?B?eFRtRkRFU0ZPNCtOcU9vWDUyQUVxQVZnRjZkSjU1TTQyV2kxSUtKQlloTTVV?=
- =?utf-8?B?K1VWVjNaM2tIWis3Y2l0cWp3YU40NnMwdi81UHhEcDRTTldmeWRoK043ejQy?=
- =?utf-8?B?b1A0M0lRSDhRQ0hJb0xzRUpUMXlnUFl0WEZyRVZoOW9QZkpGV0pDeG5NY3pP?=
- =?utf-8?B?eFo5c1hrWEcySy9GMi9SZmZzN0x6RFdZNnNLeGQzS0U4aEkvWFZPOFlNcllH?=
- =?utf-8?B?Z1U5Z2R6ZVhONDVvc3doL3hEbUlCZWxXUXBENXUrREdXOUJWUkg1QWw2VW82?=
- =?utf-8?B?UTNyUldPaUE0V21uWjZMb2pQelhwZWxYTFpQWGx4TUpKZUNDR1FKbEFkRWl2?=
- =?utf-8?B?ZFQrYURGWmtmSUlQM3BsK2diZi95eU9wSVRVVHZ4c1lDZ1hJWTF5U3ZJLysv?=
- =?utf-8?B?ZVg0b25rSmU1TlVCQ0Q5TEY4UGlrd2orM0ZlcXV2T3ZiTnBmRHBuQkVKNGl1?=
- =?utf-8?B?U2xXa25pdkRYUitnT1RYYW01TnNVK1ZnNHRlM1I2dk9LUElqMmRQL2dTQVV2?=
- =?utf-8?B?QzkwM0J4K2FYdmZmWEV2OFdQNjFNUHo1cVRmWE82MFFFUmF4cVJ0REFMbmxD?=
- =?utf-8?B?ejFCVllDSFltUWVTUVJMYzc2MkpRcG9TelVyZm9uK0FSalg3VCtBbitBRGpz?=
- =?utf-8?B?Mzk4TEk1SWovYzBsZFpwd2RBSGUzZ3U2WW0xcmdHTWpnVXc2d1FiejVNN2R6?=
- =?utf-8?B?L1FMUFlkRVkrbXFGTjc3ZE4wV2tTbmRpVnNVTlhZU0NtUnI0WFJhV3FsVC9X?=
- =?utf-8?B?eWUyVGh1Ym9raTJ3Z1gwb29yYUs2Q1ZJTzltWlA2bDdRK0wyTzNBYm1CUGt5?=
- =?utf-8?B?NGNzQkRWUW53elovMU04cGJOdk4zUng5eUVscGZ6M1ZDTjRKWldxQ0g5Z2Rp?=
- =?utf-8?B?WlRJaW5mQ0lGMGRLVkNNUUlpL2dMTDh1ZnlSWjdjMThhd3ZJK25mY0V0TEMw?=
- =?utf-8?B?aXhKaGRpQlppUXNaWGUrUjVVVGJNYzc3K21vTVJMWEtHdkkxWjdpVjBGb1Mz?=
- =?utf-8?B?Zkt5cHQ2bmZFaFNsSHdvbEE0dCszbFQ4WkNKL1RUc0Fnd3d4UEtndz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ea102a4-5483-4715-209f-08deaf7b3376
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 16:34:41.3897
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ftVbKo0aLVkFHqQiHVOZakYFpLwN1o4mh+fUrwiLt1BBgXJ/xIyw4V09luxspXJjv8JpetXZBNivaI7kJVgn+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6185
+Content-Type: text/plain; charset=US-ASCII
 
-On Fri May 1, 2026 at 7:03 AM BST, Alexandre Courbot wrote:
-> +    // Private field accessors working with the exact `Bounded` type for=
- the field.
-> +    (
-> +        @private_field_accessors $vis:vis $name:ident $storage:ty : $hi:=
-tt:$lo:tt $field:ident
-> +    ) =3D> {
-> +        ::kernel::macros::paste!(
-> +        $vis const [<$field:upper _RANGE>]: ::core::ops::RangeInclusive<=
-u8> =3D $lo..=3D$hi;
-> +        $vis const [<$field:upper _MASK>]: $storage =3D
-> +            ((((1 << $hi) - 1) << 1) + 1) - ((1 << $lo) - 1);
-> +        $vis const [<$field:upper _SHIFT>]: u32 =3D $lo;
-> +        );
-> +
-> +        ::kernel::macros::paste!(
-> +        fn [<__ $field>](self) ->
+On Mon, 27 Apr 2026, Muralidhara M K wrote:
 
-This and the __with_ methods are missing inline annotations. I'm witnessing
-these functions showing up in the vmlinux uninlined. (To be fair, this is a=
-n
-existing issue because the `register!` macro generated onces are also showi=
-ng up).
+> Add a per-socket mutex (metric_tbl_lock) to serialize concurrent
+> reads on the metric table sysfs file.  Without serialization, two
+> simultaneous readers could interleave the SMU refresh command and
+> the memcpy_fromio(), producing a torn (mixed old/new) snapshot.
+> 
+> Use the scoped guard(mutex) API from <linux/cleanup.h> so the lock
+> is automatically released when hsmp_metric_tbl_read() returns,
+> including on error paths.
+> 
+> Co-developed-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
+> Signed-off-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
+> Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
+> ---
+> Changes v1->v2: New patch
+> 
+>  drivers/platform/x86/amd/hsmp/hsmp.c | 5 +++++
+>  drivers/platform/x86/amd/hsmp/hsmp.h | 3 +++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
+> index d6e377078182..49e7ed9981e9 100644
+> --- a/drivers/platform/x86/amd/hsmp/hsmp.c
+> +++ b/drivers/platform/x86/amd/hsmp/hsmp.c
+> @@ -10,7 +10,9 @@
+>  #include <asm/amd/hsmp.h>
+>  
+>  #include <linux/acpi.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/delay.h>
+> +#include <linux/mutex.h>
+>  #include <linux/device.h>
+>  #include <linux/semaphore.h>
+>  #include <linux/sysfs.h>
+> @@ -364,6 +366,7 @@ ssize_t hsmp_metric_tbl_read(struct hsmp_socket *sock, char *buf, size_t size)
+>  	msg.msg_id	= HSMP_GET_METRIC_TABLE;
+>  	msg.sock_ind	= sock->sock_ind;
+>  
+> +	guard(mutex)(&sock->metric_tbl_lock);
+>  	ret = hsmp_send_message(&msg);
+>  	if (ret)
+>  		return ret;
+> @@ -408,6 +411,8 @@ int hsmp_get_tbl_dram_base(u16 sock_ind)
+>  		dev_err(sock->dev, "Failed to ioremap metric table addr\n");
+>  		return -ENOMEM;
+>  	}
+> +
+> +	mutex_init(&sock->metric_tbl_lock);
 
-Best,
-Gary
+devm_mutex_init() + don't forget to handle errors. (without devm_ you'd 
+have to handle mutex_destroy() calls too)
 
-> +            ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }> {
-> +            // Left shift to align the field's MSB with the storage MSB.
-> +            const ALIGN_TOP: u32 =3D $storage::BITS - ($hi + 1);
-> +            // Right shift to move the top-aligned field to bit 0 of the=
- storage.
-> +            const ALIGN_BOTTOM: u32 =3D ALIGN_TOP + $lo;
-> +
-> +            // Extract the field using two shifts. `Bounded::shr` produc=
-es the correctly-sized
-> +            // output type.
-> +            let val =3D ::kernel::num::Bounded::<$storage, { $storage::B=
-ITS }>::from(
-> +                self.inner << ALIGN_TOP
-> +            );
-> +            val.shr::<ALIGN_BOTTOM, { $hi + 1 - $lo } >()
-> +        }
-> +
-> +        const fn [<__with_ $field>](
-> +            mut self,
-> +            value: ::kernel::num::Bounded<$storage, { $hi + 1 - $lo }>,
-> +        ) -> Self
-> +        {
-> +            const MASK: $storage =3D <$name>::[<$field:upper _MASK>];
-> +            const SHIFT: u32 =3D <$name>::[<$field:upper _SHIFT>];
-> +
-> +            let value =3D value.get() << SHIFT;
-> +            self.inner =3D (self.inner & !MASK) | value;
-> +
-> +            self
-> +        }
-> +        );
-> +    };
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_NS_GPL(hsmp_get_tbl_dram_base, "AMD_HSMP");
+> diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
+> index e7f051475728..038678b8ab0e 100644
+> --- a/drivers/platform/x86/amd/hsmp/hsmp.h
+> +++ b/drivers/platform/x86/amd/hsmp/hsmp.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/kconfig.h>
+>  #include <linux/miscdevice.h>
+>  #include <linux/pci.h>
+> +#include <linux/mutex.h>
+>  #include <linux/semaphore.h>
+>  #include <linux/sysfs.h>
+>  
+> @@ -41,6 +42,8 @@ struct hsmp_socket {
+>  	struct bin_attribute hsmp_attr;
+>  	struct hsmp_mbaddr_info mbinfo;
+>  	void __iomem *metric_tbl_addr;
+> +	/* Serializes concurrent metric table reads */
+> +	struct mutex metric_tbl_lock;
+>  	void __iomem *virt_base_addr;
+>  	struct semaphore hsmp_sem;
+>  	char name[HSMP_ATTR_GRP_NAME_SIZE];
+> 
+
+-- 
+ i.
+
