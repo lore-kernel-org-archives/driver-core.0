@@ -1,119 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5223FE66F
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 14:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8043FE67E;
+	Mon, 11 May 2026 14:53:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778511064; cv=none; b=mfBIqLlBJnTlw5wsMcR/5ThknT/rqqL91EHmsfsa8pcCFwdizsQecEAgrgKK7EqBusYVPWhRdH3gwr1rI7u8TLCSkDtMFqa6JhX1WPQkWdBnlVALnXEvchKPS9jt7qIsowVOg6bnEy7uDDxJuOePa/4oigPnj6uPAgKEpj+26hI=
+	t=1778511233; cv=none; b=DQITgXEkSFNOgGYLGMc42lInLxOZkyerw1EraYVbs3X88CIhJcev1/alLClj5z9Yizh/OxKfyhhjKPpXDBlthcK56J0evpKbp/wkpFC2gJC9izH5hP2cI4D0xAAp0L6obcM3DXH9tWfIKXv1ubIFPD0anySU4TO0uqWQJX2hGkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778511064; c=relaxed/simple;
-	bh=3b5Gy4LOWv3PDMN5ZONadC6shz2zFT3ZNBZe+VDO9iY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VMXneUEr32if7MK8tEUgwXOiTZJqakotq6gSv6PgO61MvxTbegWpjmUf+UPLtR4ggQiluT5X4VR3xElwOhBh/m6Uhc//SPphTqCx25UmYHcrJr5wvli6aEjkVfFQqAZRxT8NOgQncKBiHfU0lSyoQ6M78YH2E2yNny9Dsa5Cs+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYU67d9c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778511233; c=relaxed/simple;
+	bh=QFH8ARnvfJankAjYcrDqCNJo6omkviJqCENnR8GjxG8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=kQwfTcaMo4MvlPk0vRQSLff915jHYO1Bfisq6fP36ITmEAb6c0wzbCs2xDHMoGCNhsU54E3UkuWvlxgp3sXWHRszo4hLs1CvVJqjhaAK7J190Kd5f31/RLaoarA0D3XeMEYnoEFqbMK3QOf8n7/Zl4yvDAizwFsKcX7GBrX4h+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsEBOXHA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYU67d9c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B37C2BCFB
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 14:51:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsEBOXHA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FBC2C2BCB0;
+	Mon, 11 May 2026 14:53:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778511064;
-	bh=3b5Gy4LOWv3PDMN5ZONadC6shz2zFT3ZNBZe+VDO9iY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fYU67d9clwaTqnSxMk9ZbjtQoVcpGY/lS3dx4a5LeB63lPz/oK5uFhArwm4YLgZBQ
-	 5lMO3HAQWc8ZhhgZjkkM75C7FcEt7s1UT+1kTVptqVCva6UM38ig9raEX7BGK5GXDV
-	 2+/rD+HP1Wi881e1cWf3muPq7mJCVSpIjcv78bXOb6iiGXY44QvUJtSAqqzc2PakAs
-	 5qf4qIODjlz2lNxEoAEhJChmY87AUbxCNBRISoKLIqD9frRMsMNH4XW10qMwjnUQ+o
-	 syqpOaotvo+9XW+D1/Ghjd5HkHLSX+Ae23nybB7IG6+zpwe7Zv/8jL7/c+GZj2J5/6
-	 1TgQjNNwbtFlQ==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-393a49d2e5eso37383991fa.2
-        for <driver-core@lists.linux.dev>; Mon, 11 May 2026 07:51:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+So9z2exCRd5mk+mLe2mHDAkGE0ylG3SJ6IcHdsKCkxedjEGAZq+NbzPdpLbi0R6qmONkdEhww+tmTfA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzICHkJPn99uilXbBnrCapaMgh6RntO5CRgrIGLO/82d4Z+o8k8
-	V7yDwc8aOfI8HulCnR5Xrk/uZUotKPKSwyZ4TukNS4fkv+GJjHqlT3wwcAji4kFAfjDBtFf/uDZ
-	jD7eHwWYO4VacrRI/0oQsCh+rz2RN+/lnxLFrc0EqVg==
-X-Received: by 2002:a05:651c:982:b0:38a:4401:d2ac with SMTP id
- 38308e7fff4ca-393c41c97d2mr82572171fa.17.1778511062837; Mon, 11 May 2026
- 07:51:02 -0700 (PDT)
+	s=k20201202; t=1778511232;
+	bh=QFH8ARnvfJankAjYcrDqCNJo6omkviJqCENnR8GjxG8=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=RsEBOXHALa2gYD1SWhAMTlHgEZRsZL4qXtd29GUyhP8R/GaHXc8v+HKkjNxqNd5xb
+	 Ky1TVvn5qoDfHWrsn2m5n9FuD7u1xm+g62f3Ns41ZHADDtPWSeJ5QaDesvMfY8TUdg
+	 RkSAmUWsWiEbouIwV4ScE3llj8YNRUDazjCdpJ8YrGJ1fgziJSGjlmBbqmVAq750va
+	 NBApeK8MNNaph0487yUNFR/ydMbswKOhft2Z8KkLtWkF/vXSXI+ENKEtDEeAwRqshd
+	 QtZjroi7lEBnxMWZqVqwvJF8XH+EtskxHnrfZNC5LtEGq7rHz8Avt457Mh52Jx9qi4
+	 nqNwL+l8D5Diw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260430-swnode-remove-on-dev-unreg-v4-0-01574da0aed3@oss.qualcomm.com>
- <20260430-swnode-remove-on-dev-unreg-v4-1-01574da0aed3@oss.qualcomm.com>
- <afNEwrHLNTA4ywrN@ashevche-desk.local> <CAMRc=McH0zKz87z0TwPFrzZHMW6psytMaLZybM3pUk6OvUfo9Q@mail.gmail.com>
- <CAMRc=Mc_huU0HxHpD+RMNWeX2Sg84-LEg8y96BcF_qdtPr31eA@mail.gmail.com>
- <DIFWH6TWTOOT.37CW17JHKWBQR@kernel.org> <CAMRc=MeiL+MeFsiPrWja2qJx=zU3RXKLL7CDccX1epXWgNtvdA@mail.gmail.com>
- <DIFX59JPJI9U.1Y41563GD6YJL@kernel.org>
-In-Reply-To: <DIFX59JPJI9U.1Y41563GD6YJL@kernel.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 11 May 2026 16:50:50 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MfBnbSUxwjVjf81K-W8uQ8ecXmK=8=FkRqVvK+6AipQuw@mail.gmail.com>
-X-Gm-Features: AVHnY4JWbeYWH-pjUxRjbO7pS6F8QxJJ_85GfwjN4Tyy1zumbbQq0kZQFKAa_mE
-Message-ID: <CAMRc=MfBnbSUxwjVjf81K-W8uQ8ecXmK=8=FkRqVvK+6AipQuw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] driver core: platform: remove software node on release()
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
-	Andy Shevchenko <andy@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 11 May 2026 16:53:47 +0200
+Message-Id: <DIFXM2N21Q5J.2RIYLU11C5FR6@kernel.org>
+Subject: Re: [PATCH v2 2/3] rust: auxiliary: add registration data to
+ auxiliary devices
+Cc: "Alice Ryhl" <aliceryhl@google.com>, <gregkh@linuxfoundation.org>,
+ <rafael@kernel.org>, <acourbot@nvidia.com>, <david.m.ertman@intel.com>,
+ <ira.weiny@intel.com>, <leon@kernel.org>, <ojeda@kernel.org>,
+ <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260505152400.3905096-1-dakr@kernel.org>
+ <20260505152400.3905096-3-dakr@kernel.org> <afs3Mz8J9oOeqF34@google.com>
+ <DIBMXPC3ZKIA.1UQORYD223AY6@garyguo.net>
+ <DIFBME3GXDC0.14UHJTPD6TTAE@kernel.org>
+In-Reply-To: <DIFBME3GXDC0.14UHJTPD6TTAE@kernel.org>
 
-On Mon, May 11, 2026 at 4:31=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
-wrote:
+On Sun May 10, 2026 at 11:39 PM CEST, Danilo Krummrich wrote:
+> Technically, this would be an additional driver match criteria, i.e. the =
+name
+> string in struct auxiliary_device_id *and* the asserted type of the paren=
+t's
+> registration data must match.
 >
-> On Mon May 11, 2026 at 4:17 PM CEST, Bartosz Golaszewski wrote:
-> > On Mon, 11 May 2026 16:00:23 +0200, Danilo Krummrich <dakr@kernel.org> =
-said:
-> >> On Mon May 11, 2026 at 9:33 AM CEST, Bartosz Golaszewski wrote:
-> >>> Danilo: if there are no further comments, can you pick it up for v7.1=
-?
-> >>
-> >> It seems that sashiko has a valid concern in [1]; can you confirm?
-> >>
-> >> [1] https://sashiko.dev/#/patchset/20260430-swnode-remove-on-dev-unreg=
--v4-0-01574da0aed3%40oss.qualcomm.com
-> >>
-> >
-> > Yes, I explained it here[1]. Basically it's similar to how we need to c=
-all
-> > platform_device_add_data() for devices created with platform_device_all=
-oc().
-> >
-> > We can consider adding platform_device_add_software_node() once there's
-> > a potential user but for now I'd just leave it like this.
+> Given that drivers can match against multiple entries in the auxiliary_de=
+vice_id
+> table, we must consider that they can have different registration data ty=
+pes
+> (depending on the specific parent driver that exposed the auxiliary devic=
+e).
 >
-> But there are users that already need this, no? There is Xe [1] and Surfa=
-ce GPE
-> [2], or am I missing something?
+> Thus, I don't think we can solve this without a runtime dispatch (over al=
+l types
+> that would need to be listed in the ID table) anyway; and having this dis=
+patch
+> in the child driver - essentially leaking an implementation detail of eac=
+h of
+> the parents into the child - does not seem to add any value; quite the op=
+posite
+> unfortunately.
 >
-> [1] https://elixir.bootlin.com/linux/v7.1-rc2/source/drivers/gpu/drm/xe/x=
-e_i2c.c#L99
-> [2] https://elixir.bootlin.com/linux/v7.1-rc2/source/drivers/platform/sur=
-face/surface_gpe.c#L308
+> (OOC, I hacked up the statically typed version -- I think it turns out OK=
+,
+> despite the fact that it still leaks the parent's registration private da=
+ta type
+> to the child, which I dislike, plus a few hiccups with the generic device
+> context infrastructure. But as mentioned, I don't think that's an option =
+in the
+> first place.)
 
-Right, I was not aware of these. That could indeed cause a regression.
-I'd like to fix the problem in v7.1 but also keep it minimal so adding
-platform_device_add_software_node() and updating drivers to using it
-may be the next step but for now: how about adding
-platform_device_release_full() which would call
-device_remove_software_node() and then the existing
-platform_device_release()? We'd replace the .release callback of
-struct device in platform_device_register_full() but if the user just
-uses platform_device_alloc(), they would keep the regular .release()
-that doesn't remove the software node?
+One additional note: It would however be possible to support this as an
+additional special case (it is special implementation wise, but usage wise =
+it is
+the common case) when there's only a single entry in the match table, and
+otherwise provide the option to fall back on the existing runtime dispatch.
 
-That would go into v7.1 and then I'd provide
-platform_device_add_software_node(), use it in all drivers that need
-it, and then we'd remove platform_device_release_full() and go back to
-a single, unified release callback?
+That said, I'm still not convinced about exposing the type and whether it i=
+s
+worth the extra complexity on the child driver side, but I'd also like to
+further consider it as a potential subsequent improvement.
 
-Does it make sense?
+The draft implementation I mentioned previously can be found in [1]; it is =
+based
+on top of the HRT rework, as it provides a much better picture of how it tu=
+rns
+out eventually.
 
-Bart
+For now, I'll pick this up as is.
+
+Thanks,
+Danilo
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=
+=3Dpoc/aux-typed
