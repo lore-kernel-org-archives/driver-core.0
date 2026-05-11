@@ -1,36 +1,38 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EDC2ECD32
-	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 15:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157EA421EE8
+	for <driver-core@lists.linux.dev>; Mon, 11 May 2026 15:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515154; cv=none; b=s5t/lbmwPfnyHDXxRhI7aojanrkuHQe7ZlSUkHAgOAhB0+EUU8WghfpIdY+OEsnIPGz8Wey4+t1z3k/JSorobo1ogEYRGBU/ZU8zkBgA8B7Yeqdzw1izDM5QFp+mBIoP1WrYbH2UuRgb5AVVIyrsgWa77uMzIBILq28SokaR2Y8=
+	t=1778515157; cv=none; b=XUSg73BdXXcdNzk4VOm18qOjOUMqUuezAnPE8uYDcfz7l/+1BWdMuniQaoD9Ksgi/0GW3QCx4sF5lsVfzfXSDdg67Gkgkk3PKmUiogI5spy/YgOyA6lN+Pf09zeWA6Ou1j0hxFqpZ6pmK9CUYBUrRnrWgKymVDhSjb3HY5LRTVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515154; c=relaxed/simple;
-	bh=zNz+72mronL8xi65Ve4VwrV2WLO37h5vtN/4YLQXjrI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TGIPlfSWJc97qG/R863WROkoytwrmZOZibKIHBIFRJ1jVNmy6v6KAk4WNZ89uYYhAEXoO8DtGevrYzJR/WPQgimes1X+QG0t8h9XZvBXoYG7512YphA0jXBaZTttKnQJzj7cbg7W+zF491lu1pyVu45J4baaeG8aOudydbzh1DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rHX2MfJe; arc=none smtp.client-ip=185.246.84.56
+	s=arc-20240116; t=1778515157; c=relaxed/simple;
+	bh=V6UN6bwqEMS1zE4MxmGghRi6KxBqT1KqYJihRW1kRKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RSFAI5aFlVEAruyXbPxyCJkH4ORFhwCb33d9e6ZU3dZR9xAI/Yk/gurB50YeY4gPH6xMyemBd6lFtM6mhBFuu/n4+zcNcuGNCSkOgbELu9J66ZsiIiLXbFk4xSKZ3VaxcSV11f/hnbbfmzGdFMHJ/+4DIip7m/sNHN9bgVCoaDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Yeq34t9x; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rHX2MfJe"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Yeq34t9x"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 671B11A1DD5;
-	Mon, 11 May 2026 15:59:12 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 67835C5E154;
+	Mon, 11 May 2026 16:00:04 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3BC5E60646;
-	Mon, 11 May 2026 15:59:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C9F9F11AF9E9C;
-	Mon, 11 May 2026 17:59:06 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CF48260646;
+	Mon, 11 May 2026 15:59:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1E0E711AF9F0C;
+	Mon, 11 May 2026 17:59:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778515151; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=3ilf3PIdNIBxgEFgzbpGU4XYlQFsaFxql6CNgMkJTac=;
-	b=rHX2MfJe7SFDHSh6qzNNgTj+hD31PHMjfuMQD21vWry8ibphbrC5tRB41KahIwEK3XqrN1
-	kdFPiIaUoW8hRnFgH/Hv19autnC35vuBoo8ASHU7TjL/pTk/j6acHEm2l8vTACoMZngxXd
-	L+4riejGXnyImM4Ld/5Vw7hj2eEBSK6mcWBjLbNhT3c+BJfrJ+dv7DSPQYkMwmfXshpQI8
-	AX4WrBfUq7L1RThlqWaX0ZvWqY4oP7mD6oQCoVJP+XCh53nYfuPXc9/VHcO/zrw1i06PDH
-	AWCQDuYajDKa8jMIuf2YuS1POUH7I0nyzCE6ft4zxONm+PSEAO2EzUuZ7d1Lew==
+	t=1778515153; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=IaXeqB2sKsDIMtRh37GrofBANs4uMS/5foflrswZ0z0=;
+	b=Yeq34t9xS0vwWcNADhMWcohBtzDHpA1cyT927x0zts5iHmwnnOuPxYKPeFevmi2aWNms5T
+	MTyJU5RC6SadeoKZxwS5knz8HzbMeLLiDTMSu8+7fuWPd263TqwxMiujn5K+/owC53l5Xw
+	FhXqHjoeL+vPkdqJrue8PC1ZX0e4XTsov3AtZdBqKLbfs6QU/3EhsKIvUzX9t46epIwIBW
+	At6HgM1gY0n/G97gQRsJlye0ekxaopeZ3XCABp7sgWymfIB6Ydn/KjLfkL8pYrbO+2xU/g
+	hX8o7G883vjxGxkGlWx/ConIogwKiF1xfWKalxATafxzT7VOGYiK0euzG3ggUw==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Andrew Lunn <andrew@lunn.ch>,
 	Rob Herring <robh@kernel.org>,
@@ -51,64 +53,49 @@ Cc: driver-core@lists.linux.dev,
 	Luca Ceresoli <luca.ceresoli@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH v7 0/2] lan966x pci device: Add support for SFPs, simple-bus part
-Date: Mon, 11 May 2026 17:58:58 +0200
-Message-ID: <20260511155902.34534-1-herve.codina@bootlin.com>
+Subject: [PATCH v7 1/2] bus: simple-pm-bus: Remove child devices when the bus is unbound
+Date: Mon, 11 May 2026 17:58:59 +0200
+Message-ID: <20260511155902.34534-2-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260511155902.34534-1-herve.codina@bootlin.com>
+References: <20260511155902.34534-1-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
+During its probe, the simple-pm-bus driver (simple-pm-bus compatible
+variant) populates its child devices but it doesn't touch them during
+its removal.
 
-Previously, I sent a big picture series adding support for SFP ports
-available on the LAN966x PCI device [0].
+This leads to bus child devices present and bound to drivers whereas the
+bus itself is unbound.
 
-In this series patches touch several parts and sub-system in the kernel.
-Reviews have be done and it makes sense to split the series and send
-parts separately.
+Be consistent and remove child devices when the bus itself is unbound.
 
-This current series is the extraction of patches related to the
-simple-bus driver. It has to be seen as a continuation of the big
-picture series but related to this specific simple-bus part.
+Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+---
+ drivers/bus/simple-pm-bus.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Patches 1 and 2 makes the simple-bus driver compatible with fw_devlink
-expectation consisting in creating its child devices at probe.
-
-[0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
-
-Best regards,
-Hervé
-
-Changes:
-
-v6 -> v7
-
-  Rebase on top v7.1-rc1
-
-  - Patch 1
-    No changes
-
-  - Patch 2
-    Fix conflict due to device_has_driver_override() introduction.
-
-Older iterations:
-  Patches 4 and 5 in the big picture series
-  https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
-
-Herve Codina (2):
-  bus: simple-pm-bus: Remove child devices when the bus is unbound
-  bus: simple-pm-bus: Populate child nodes at probe
-
- drivers/bus/simple-pm-bus.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/bus/simple-pm-bus.c b/drivers/bus/simple-pm-bus.c
+index c920bd6fbaaf..4b2a793dfbd9 100644
+--- a/drivers/bus/simple-pm-bus.c
++++ b/drivers/bus/simple-pm-bus.c
+@@ -83,6 +83,9 @@ static void simple_pm_bus_remove(struct platform_device *pdev)
+ 
+ 	dev_dbg(&pdev->dev, "%s\n", __func__);
+ 
++	if (pdev->dev.of_node)
++		of_platform_depopulate(&pdev->dev);
++
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
 -- 
 2.54.0
 
