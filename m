@@ -1,223 +1,138 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010068.outbound.protection.outlook.com [52.101.56.68])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34BB38B7D5
-	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 08:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778576124; cv=fail; b=IzWjYHNIEMTT6dMhlSN5PLNJbrDuru/iCk8j64hrCxOH/uDJXF32+wz+tCuy2z0gJbNb0+V7/mnYKOeU4UZi/KllT5I5C4DIV1NJ6Cx+xVLRYJZKvxSCjuR1IujLONCxQi0hdZ38vbj31FUd1BSswxFfAXUXVsiifkh5B+9CC4c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778576124; c=relaxed/simple;
-	bh=OtpNJ9Ly8k1ljbaeESa6Pnafu+zfEyQnQD/9fs3u62Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=A+4ueGNfgafBkcMRpNGmoz2/XFaxqmD1VB8nAswmZm0GJxnlqueWWDLRaJwpMrVoEYOv15eWflMfaQ51heesGYp/I0k4D72RfUvqTyBaByfX6hhjvM/anOD8GeKWeUgmazPJufiIRTYkKJq6kZjEiPZcVcOFqMMnEESXodOGrIM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eRBaFOP4; arc=fail smtp.client-ip=52.101.56.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582103AC0FD
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 09:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778577111; cv=none; b=rtCqDV9KTiX54gK9D83JFzOsNfzuP8a3YiuV4craPSaIenUOe2Nton86NQ31ydnZQBkA2n1xWe+C+XmjWaT1q+L0WVbjIGgnaXAdHtJRWn+/qOQ0DI9ZLAikWSx+40tBTXdzurbwyLmAKj+/my2nDezBIoPIgOIevAKnxE6GKL0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778577111; c=relaxed/simple;
+	bh=2NZCyud9oh0LVcsFN1dmq9Nq45QgNNkI4jnBKe22GbA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tmGhW4S+TIsyLxBIQiTbgwJ4vrLn0X6eudRzxd+Va80FxCbNcL5wf97eG/8x27N1RQVD44H6Mpc9woS99NEnJm1KS6HhHKkveSYMWAltFH55KDH05EQJPz7kNHK2B1HTzY3YEdo7uiss6BgtgkY61eWJWmmNO6J3gbef6SazAzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=PRB+G7+a; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eRBaFOP4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iEbzGBs1cnIxZsHzY/k9jXqwuUKHdpsSWhOu59ssQiYtWfQ/d6wJ1PtD0kykKwyAhQ+XZ9j25iG7U2nRU+tmkuo1mILxKA4bi/M5YRQyx6SBuvIRE+g/SRgf68NnS/tyj11/EaDYHLGqUxSnwMDUQ6pGPslr585G55lwFC6lEHoWikb4wZmeTMtsqjpmFe/PvMhq1h/ICkSZQAJXhYkAgMn17ZvebJUfthFVC9QRltTsheOu4VZGDWEv2uNdlwKny/eryXawrvZbzvSjmq0x3zzfcPKEQuB2IPeWNJ/CRbUTCWGNbgcSeTEYLGVnPrxYpTloThcFkLQSOMDiB+2VUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fj3Vuo9GMfeHPQDMhxuRQydEpui0Y6zehvhn1dWs0OY=;
- b=pQ+6OwhyTccd+TtiqzwRF7gjw3gvhjXfO9G/vhqmA8JdXHVcTuNND+C4vJALu0IAgde2LS1s+ov2saKVnT8TeBMNtOrMNGUU44IdD8mjF48V6PKAM6ctmErzlEYz2DhBnvvBF7jw9h5RQuNREpwnGwE2LLs2I5VMpkC//Rb4GOeZPmozwN27ry7IeankOlP2y5ZYlhJiyb46o+zLN9/3PiBKeYWmNnP9st6FSaVRmu1HWawTDhE/+5lTRO1Z4F5DlMFFP4tAFfjZ3rsMFgop2rK+xmCykh0RiVzFxhMBP/PhYm7nikcWpJjYazkfbvtxE+DYWlus9Jr+b1AONbuJeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fj3Vuo9GMfeHPQDMhxuRQydEpui0Y6zehvhn1dWs0OY=;
- b=eRBaFOP4wTpPKYs2885V4zet9hOnlvzN1xuihuyNHToF9RsuOfax2BSImRYn2LPgqryUIfoMomzICtDV+7KCIbONGf302KfDeMeufyqh0SF2B9GP4vRah170AnYg+zat1TQ4c/yoWf6VyvrXOfyhHTuo1XKU+AcJPNAcAtCwB4JxI5xWyG2EPM0iz7IMk91aO6sgvws90kZdDsaYs2T8RFLdv0GjL8ITavUDKJQyXa2X+x5Afx3vSy+Hx34CTWdxGUMxYKVlKWF7OD9yvu5+oY1VUwLDoiLzkqRGxdjle3zrwzZNiguUx2IQyxVoqkwGtXicTGoz4CpgKrSglrMktg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
- by PH7PR12MB8595.namprd12.prod.outlook.com (2603:10b6:510:1b5::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
- 2026 08:55:11 +0000
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391%6]) with mapi id 15.20.9913.009; Tue, 12 May 2026
- 08:55:10 +0000
-Message-ID: <40c3aab2-b5cf-4297-9b14-3ccfea377c83@nvidia.com>
-Date: Tue, 12 May 2026 09:55:03 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] kernel: param: initialize module_kset before
- do_initcalls()
-To: Shashank Balaji <shashank.mahadasyam@sony.com>,
- Thierry Reding <thierry.reding@kernel.org>, Sumit Gupta <sumitg@nvidia.com>
-Cc: Gary Guo <gary@garyguo.net>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- James Clark <james.clark@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Richard Cochran <richardcochran@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
- Leo Yan <leo.yan@arm.com>, Rahul Bukte <rahul.bukte@sony.com>,
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- Daniel Palmer <daniel.palmer@sony.com>, Tim Bird <tim.bird@sony.com>,
- linux-modules@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
- <20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com>
- <DI3Z28IZZOT9.349TTWNN9VDMB@garyguo.net> <afABOMT_s9DvF6NY@JPC00244420>
- <DI4QQA6EGIA1.N8WRFWVKG91S@garyguo.net> <afCxHUrjr3Z22U6V@JPC00244420>
- <agKMcA7a_UqMua5V@JPC00244420>
-From: Jon Hunter <jonathanh@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <agKMcA7a_UqMua5V@JPC00244420>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P265CA0143.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c4::19) To DS2PR12MB9750.namprd12.prod.outlook.com
- (2603:10b6:8:2b0::12)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="PRB+G7+a"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64BK7FWo3775794;
+	Tue, 12 May 2026 09:11:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=ewLHYzVyPIcnfA0lWvcYFQpDp7JkXV
+	t+pOOD3Figg4E=; b=PRB+G7+arGYomjB3z3x33qbhpQNSiKXpaIlzhEdy+CL8hX
+	uPGJyzns1MSvMNOF0kpe3uKexcsu7ag6GSr6JW9jYoG8EB1DvDIAzjpkThbNPy+1
+	8oX5/4eF0ZghhSJOEmOmgKLx8NHEJpWUUXF5sZ/ADscKE/Dpi2zv2aM+Io41BHaE
+	SJM/TUsa/UI8sgv/Wj2ZPujkgC2s5nFBfzacRxKhl56SLu1OwBd//Ly/EedVknXw
+	kkLUtBSQOTYgVaWzo8RX8Sox0UFpClpdX/a+2pLzXqP1EutEQe/JjXLV3bmobBDB
+	ec6Sff9h4NJC+NtyFlXoPPiiq0mH/s0rjJEnVZgQ==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e3nv6j5rh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 May 2026 09:11:07 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64C99PJC008832;
+	Tue, 12 May 2026 09:11:06 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e3nfgtfd9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 May 2026 09:11:06 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64C9B29h60752286
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 12 May 2026 09:11:02 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C71732004D;
+	Tue, 12 May 2026 09:11:02 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 61A1120040;
+	Tue, 12 May 2026 09:11:01 +0000 (GMT)
+Received: from li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com (unknown [9.87.138.92])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 12 May 2026 09:11:01 +0000 (GMT)
+Date: Tue, 12 May 2026 11:10:59 +0200
+From: Sumanth Korikkar <sumanthk@linux.ibm.com>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-mm@kvack.org,
+        driver-core@lists.linux.dev, Oscar Salvador <osalvador@suse.de>,
+        Lorenzo Stoakes <ljs@kernel.org>,
+        "Liam R . Howlett" <liam@infradead.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Danilo Krummrich <dakr@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-cxl@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-s390@vger.kernel.org, Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <chleroy@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Kees Cook <kees@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Donet Tom <donettom@linux.ibm.com>, muchun.song@linux.dev
+Subject: Re: [PATCH v2] drivers/base/memory: make memory block get/put
+ explicit
+Message-ID: <agLuo_m5zQqbxTbD@li-2b55cdcc-350b-11b2-a85c-a78bff51fc11.ibm.com>
+References: <20260512072635.3969576-1-songmuchun@bytedance.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|PH7PR12MB8595:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac3f25da-ae05-42fa-bb1c-08deb0042c93
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|22082099003|18002099003|11063799003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	AfCcAJEsxlYiZZkf333KJueJnPzpOcWMCvdtTNl/ZiJG7SHvBEvx5ezJHXvtxwyE6J4U89dPqfzLqUBkyAxBN1HjOm75my6XqOOdyPCAG7hc3ytdz4GUrzx+mWoj7+3nqLcAilIrFXueqBFkiZCo1LG4B4/lhLJPzAFVMwTeWaF6/mB6JzKurGMah0tXCh48KvBa8ZTobOTUVEb0CJC553HHVAr7dvleDkTOtoioLNH+VJqWv3U643DHKgWk4nwIPW1znu++NE0GS7oaLKTpXpjYY8ufYf4oljvyv1A3MUg17KTEbEjJLGX5DJkV+WJa/gNwnBt9M7Nlia25RX29ZGpudTgFje7CvMQ1u0Gby8nZ/ZtP/imYrEQ7Sbv6IEDgRE9sM4c+qyVT0o3ARE2hC9wl4aCtvH31n8ASG2RPoVsto6BLD4mgIsXnUOOOHgZC2JkMR4YjA5/OaRQQvqS+i9VzpaSV7ieoXafuWbDHjWf3K6itrZ9HQ8HymsbFq7nxISE+3fc+E7yIsa396hZKXGu+EOaDDjunEsKX5rd4w1AVmkrplza/nZUDcOeGreGSs+vlIl5pUKd6IPxeJt5leGmP8Vgij6qNTBClNvVN6j/6DsNfsDpFjFfd9+GmL4618nXUcTorLREuVdLtg0DfbP4UuzrVnp0JXoIQ9sF8X/0GtwWlWspFQhlXZCbvDuRdJxdLxwYl9iht0HJ33oknGA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(22082099003)(18002099003)(11063799003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aGhORWVPSEp0KzVrbmc1ZzJLNlNlTDB5S1ZIbzVPY2MweUpOQkt4cmxwZDg4?=
- =?utf-8?B?eDc0ZmsxV282cG9EQVRkUGJJOVFiN3RscGRkUUlPRlRMN0t1QWdyV3NjUjd4?=
- =?utf-8?B?UU9qSkVqMzlXdXhpQS93RWhwS09lY0FwSGpzVWdwZjd2ZlhYczRmWmRZd2kw?=
- =?utf-8?B?b3FrazNhMytGczEwdVhuSXllSXZDMExDUVE2WHVzRVFxekU4VjRINGg2VmpX?=
- =?utf-8?B?dzFoK0Y5ejRDTGNUNWI2NnA4eXo5cG1ZWWE0MjZNNTNFcHBJZjBEZ2hQcGtJ?=
- =?utf-8?B?QVk2WGFkVjNWemxwejhMakZNR0lyaWExZWlYQWY4K28xa09uYlpIaElOZVZI?=
- =?utf-8?B?MzRNRGJLbWxTYkd6SGRDdVlmR1pUTzBCcHlYeGIzclBORnhndXcxUnRSQXV3?=
- =?utf-8?B?S2RjU2JIWTZtUjIxblBZMmVaSVlmY1JISld1NEdlZjYwU2xyRWFrcThvMWF0?=
- =?utf-8?B?U0FKYWxnc2lsT1pYdWY0S2Rsa2h5MnltNzRwYVExa3lrakkvaWdHTDhiZVFq?=
- =?utf-8?B?aHlBTXptZS9DTk94d3Rqb3Jpa0t0a0U4REN2YUNlcTlEM3NRTzdXd25uN0c3?=
- =?utf-8?B?MjhvTktvUnpNbk5Qa2FYWU9TeGlOVUowVjAwY2lrTU1Najg0S0xTaWVMZHkr?=
- =?utf-8?B?UnM0RW11aGxwVDNlbFlNbnNGNlhhSWxwU2F6L3pBb3NYaUxMRmxFZW9xUSsr?=
- =?utf-8?B?Ri9ERCtsMDVwUVpPbE1ZVWU3bnU3V01rSU5TRnhVUUQ3MFdmdVQyWmwxVHdB?=
- =?utf-8?B?Sk44RWplUjNrZFIyZm5sVlBIdjdVdDJrajNqWmNYUGptOWhHc2tRU1NZUzZ1?=
- =?utf-8?B?akE5cG9BYlo5dXBnd3k2YU1QVW1DQ2VzMjdjVEVKZzJIMlV4dVIwOUcyV1Nz?=
- =?utf-8?B?aGhPVjdrUWVJV3c0ZW82TC9qdFpRRTd3WFNKSmUxeHlKZ2VuejZMT0g3ZzFq?=
- =?utf-8?B?SHVsQXdwKzRrL1pORXVNZnhzUlhOQlpUUFBOWGkwbTNsZ00rQ1UwcUhzZHFF?=
- =?utf-8?B?MHVQamNTZE1UbDNqeFB2dm03TjBtaFFBQ3pCY1hIbHNHTWtURHVTSFdwVzNO?=
- =?utf-8?B?VFQ0V1M0aGMwWThlcGx4OThDSFJ4N01YaWxHUkVaODArMHhtYW4rcnhlNUts?=
- =?utf-8?B?SXB1NFQycFNvRVFQaVB5YTY5bm9tRHJLWjc1TWJXcWdaYkx4TWpUbVRqMGRC?=
- =?utf-8?B?WVhDUlJKWEI5bGY0SHFQUis5V1gwTVlOMWpBYXhsdHFnZWhCL0tCNk9OaFZW?=
- =?utf-8?B?aVVGQWxSeTRnbDN3QVYrMitvdU4yVUJlcEpPcFBWQVp5Y2Fwa2pyeHhzSm1S?=
- =?utf-8?B?NFZSZStaRHYvbjViMFJnRzFSRTVwWkxsS05RR3lXeUJTYSszR2RuUG5UNEdC?=
- =?utf-8?B?czZxQmthRFJjeDV2UWJIc0hrYUZCUEtpb1BFUEsyZ2cxMUw2bzY0UWNIb1FC?=
- =?utf-8?B?Ky9wcVYxa2hyR09JUC91bVIwMmFHUlI0T0lud2tuR3UwLzFIWDg0ck0wRDE5?=
- =?utf-8?B?d254QWtWbWlTdFpTVHNQYUc4QXgxR0ljWFlzaUw2R1VZMGtuV0JYMGpxTlUy?=
- =?utf-8?B?NDROTkVLMHozKy9lZ0FmTGtYOE9PRVQ4eE9rSUVlODE3enoxQ2MrazNLRHVU?=
- =?utf-8?B?dlpRb1J3Q0NRdWZ6S2ppYmRnQUwwR1hTQUpNdENwMUxKdkNDM2hqNnZpbXdt?=
- =?utf-8?B?Nno3OVpNZWczcXJOditkYTlaL0RvSUR2SGhEWnNPUm15SHpNN1VlSmVaSFhT?=
- =?utf-8?B?WTlXV2VVQkVOV0pmRUtodFFhYmVGUEtkZTkxdjkwR01SNVh1WmJoaHc2bDdn?=
- =?utf-8?B?RFpUMytwMmVTMUhzNUR3Q3VabGdhZ3gyVGI3RXJVVm1NdnA4SStHSTJuR2Ri?=
- =?utf-8?B?Q2hzOXhDajNYcXpDbDNuT0pubXVFbGxqN2N5NG0xN0tESDFaMDhhNHp2ZTFx?=
- =?utf-8?B?Y0VjdVlOM3gvRXFZOFk5VGY3RUw1VTQ0elUwSExhZ2Q4czZSWmJ2b01BUUY5?=
- =?utf-8?B?eUV1Tkxkb01rRmk4VDIybW5SSnBKVnNBenNVQ1lySFFNdUJlVUZLbC9LMWxL?=
- =?utf-8?B?TXJYY2YvNUdSRUFFMWhJQVFKT1BTRWRDNUM0ZG1sRUNUemx2cTlyb3hmb2d2?=
- =?utf-8?B?UzdJQU03dXRIMEYrYTJ3TUdkS0tBWC9LSW5yVXJRUTRveU05cXI3Y1lWVFRr?=
- =?utf-8?B?SFcrbk03b0l6UVJ6Qm5IcGtaSGE1VmZvY2w4RUZhNmIreEM0QnVtMG85VEt3?=
- =?utf-8?B?cVdyNVVSVHRsdnplQ1JOcDVkQXhXRkgrQ0NzQ20yMEo2RGtxQUhqMG9yQWhz?=
- =?utf-8?B?RFVDZ0w1TzZiWDVtaUI3NXRFZDdRNzIwbXR2S0dVdXdNTXRLblE3UT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac3f25da-ae05-42fa-bb1c-08deb0042c93
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 08:55:10.8172
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JSYoLgtK5Nfy2BY+do1cxPfFg64oyWDLByGsit3sqo05ajl2HI7z0NOi+t5vqEZoJsbJZVOfpl85m9hqcIZRVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8595
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512072635.3969576-1-songmuchun@bytedance.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=KbvidwYD c=1 sm=1 tr=0 ts=6a02eeac cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=VwQbUJbxAAAA:8
+ a=968KyxNXAAAA:8 a=iox4zFpeAAAA:8 a=VnNF1IyMAAAA:8 a=YAm8QR2gnoILv_Wa2p8A:9
+ a=CjuIK1q_8ugA:10 a=WzC6qhA0u3u7Ye7llzcV:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDA5MiBTYWx0ZWRfX1uUy5DU8yQym
+ J4XkJjIEkPTbZdE9YFwMIa2Kt4hhshMO4XebX9z9M6CeML9oIWNXXDqNMmzk0Xautn6MgAKwJfS
+ nEj6ZJ/qaViKvn6wlOUVt4hY0oxz73evURw16Dlpvr7vfWPSrnsNgiiwI+sgY7UZe96RJesya5W
+ avsU5cTH7loipW1URaKMpdLGbmoLbF9WSnwZOE29jf5535XRFtOPbBBlQosxmcTDFBEtbrB7WNg
+ B3kINotmKXT+IkL3Lgsl6upXkAOTtKXzBwobeJm0PoIS6bH9u3e7G+BCXhdLrZ+8ouQ1+8ULlU4
+ 5syABJUTpbEGkCn+ToG5qh+3KXWfkhhKuXyLq6BwcD2Aihp6JvC5Qo7nAPFv1kZA/DfaPbAMr2w
+ f0LWQJzAOFCdbfuwXuU1rwbRhGVlXJ/zuP/qVvCXh1P05wXyua6W9bCstNhjl8kXGlgb4fEFxv0
+ GKAJimPwyx/3VIP5HaQ==
+X-Proofpoint-GUID: BwsJ5X2pLXcwXHTrX6Rw9tGfynxABbWb
+X-Proofpoint-ORIG-GUID: q7xDGR8Cmfhkkj9U_wVZEmghYWVpiYxZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 suspectscore=0 clxscore=1011
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605120092
 
-Hi Shashank,
+On Tue, May 12, 2026 at 03:26:35PM +0800, Muchun Song wrote:
+> Rename the memory block lookup helper to make the acquired reference
+> explicit, add memory_block_put() to wrap put_device(), remove
+> find_memory_block(), and use memory_block_get() as the single block-id
+> based lookup interface.
+> 
+> This makes it clearer to callers that a successful lookup holds a
+> reference that must be dropped, reducing the chance of forgetting the
+> matching put and leaking the memory block device reference.
+> 
+> Link: https://lore.kernel.org/linux-mm/7887915D-E598-42B3-9AFE-BFFBACE8DE2D@linux.dev/#t
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Acked-by: Oscar Salvador <osalvador@suse.de>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Acked-by: Michal Hocko <mhocko@suse.com>
+> Tested-by: Donet Tom <donettom@linux.ibm.com>
+> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
 
-On 12/05/2026 03:12, Shashank Balaji wrote:
-
-...
-
->> Hi Thierry and Jonathan,
->>
->> You can find the context for this email in this patch:
->> https://lore.kernel.org/all/20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com/
->>
->> TL;DR: tegra194_cbb_driver and tegra234_cbb_driver are the only drivers
->> registering themselves as early as in a pure_initcall. This is a problem
->> on two fronts:
->> 1. Philosophical: As Gary pointed out, pure_initcalls are intended to purely
->> initialize variables that couldn't be statically initialized. But these
->> are doing driver registrations.
->> 2. module_kset not initialized at pure_initcall stage: This is needed to
->> set the module sysfs symlink. Since module_kset is not alive yet during
->> pure_initcalls, registering these drivers panics the kernel.
-
-Where exactly is this panic seen? Ie. why are we not seeing this?
-
->> We would like to do the tegra cbb driver registration in a core_initcall
->> (or some later initcall works too), and move module_kset initialization
->> to a pure_initcall. Like this:
->>
->> diff --git a/drivers/soc/tegra/cbb/tegra194-cbb.c b/drivers/soc/tegra/cbb/tegra194-cbb.c
->> index ab75d50cc85c..2f69e104c838 100644
->> --- a/drivers/soc/tegra/cbb/tegra194-cbb.c
->> +++ b/drivers/soc/tegra/cbb/tegra194-cbb.c
->> @@ -2342,7 +2342,7 @@ static int __init tegra194_cbb_init(void)
->>   {
->>          return platform_driver_register(&tegra194_cbb_driver);
->>   }
->> -pure_initcall(tegra194_cbb_init);
->> +core_initcall(tegra194_cbb_init);
->>
->>   static void __exit tegra194_cbb_exit(void)
->>   {
->> diff --git a/drivers/soc/tegra/cbb/tegra234-cbb.c b/drivers/soc/tegra/cbb/tegra234-cbb.c
->> index fb26f085f691..785072fa4e85 100644
->> --- a/drivers/soc/tegra/cbb/tegra234-cbb.c
->> +++ b/drivers/soc/tegra/cbb/tegra234-cbb.c
->> @@ -1774,7 +1774,7 @@ static int __init tegra234_cbb_init(void)
->>   {
->>          return platform_driver_register(&tegra234_cbb_driver);
->>   }
->> -pure_initcall(tegra234_cbb_init);
->> +core_initcall(tegra234_cbb_init);
->>
->>   static void __exit tegra234_cbb_exit(void)
->>   {
->>
->> Would this work?
-
-
-I am adding Sumit who has been doing a lot of the Tegra CBB driver work.
-
-Sumit, any concerns here? We could run this change through our internal 
-testing to confirm.
-
-Jon
-
--- 
-nvpublic
-
+Tested-by: Sumanth Korikkar <sumanthk@linux.ibm.com> #s390
