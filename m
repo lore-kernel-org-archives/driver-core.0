@@ -1,75 +1,91 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010026.outbound.protection.outlook.com [52.101.46.26])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013048.outbound.protection.outlook.com [40.93.201.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792EF3CB2FD
-	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 12:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4098A372040
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 12:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778587449; cv=fail; b=FHtHil69aQv9kmu59lMVT6AZiF5C+hBHh2LCJzxCq1m4nBkyEC3D5I43TyXWYozSg//Em64RWc8R7J2a73wMEUdK/cYWll3N8yvl5DA8XeCLQ7ARYAO70KgnF/pKATBtgFOSQS7kqVp+d7gqv5y0gl7pJf3mKyjRqJ4mTGLFEg4=
+	t=1778588107; cv=fail; b=M+8fOp0V0qZDWCWACk1GhtKm8f5q4cBK3coJ98RR3dsajOfAsIKScrpfuyvrpceWSD1IB/xy8208f4q6bP7HQ8i/z3oSfqYr0Cw5GOoiQZjzxVBeCE+Fq1l1XbcW8OWXsMX2tBsnYQlSoywFeR9/fjNDTAuxyLQ3+qnuSchmCrI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778587449; c=relaxed/simple;
-	bh=hC8RRyWPdt8U/+ZL9PAZZGzjeFjdkh711EPclWOk9d8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Grfh/M1dyryfZGx+NPa7H0nx5brPZT1shUuvwU0dIEOZL78vK+YH4an+ZaET/Qla4vONcvMa5Q1ukTA/Y80wpeMUIHq7lXwiGJm3G3QtDYyNErD1VVSliDVdKozVVYf4FJ1ljcjVD74zKXUTSKQ8WV+W6Wxr995hKwMaAEDt19E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=E8PRMTLE; arc=fail smtp.client-ip=52.101.46.26
+	s=arc-20240116; t=1778588107; c=relaxed/simple;
+	bh=K9sebrBi9zrOCL/ToPcYZh9Ihz0HQb5QeYID7gJhNLs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TfNc7TKaqGeMzylubbOjzUUA9E43pza6i34PJdWQWIHwa35+eL9I9z2WR2Whvq3ge564BxP9Vg4Ghk6FxRxFwgrdVLaCSGgK4xrvFU+a/SnO/cRI0Jv+DvxCkY1W2Mx3mwrva5HFbHPWPIqzTqkm5rIl2AaatiaJi0DNk0yRJIk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fp3dnrF5; arc=fail smtp.client-ip=40.93.201.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="E8PRMTLE"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fp3dnrF5"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IFIovmhusbz12gqLjhc/hL++LP6NFK4pjljr+yG4X6kBan5Q5zripYgie2g7oyCfZaksytgpQI/fs42TnM8Vs+UEpAOxKrSH3arSb6mubw6mV+YtJuruaRRaNR6vbkAacIIY215DHDlTReVaGwbzUrZumjJ5CuWRFJYUEeWVffGm7keY24YJKGKDf/avc1FwnNF7ZUZyyJkl6ZbYCk3xKQkpLxGGIjU1ruHxbfZD1lT55DHVxNzjbXKaehHupAy2ZnGG31BFbPgeN/JOb/94qpWNSUsQ/2z9X/tM0QMZTI79hPVIaiDZLx0JhEvlkx3BQCqgcm6ABLR6V+syK70TCw==
+ b=oTXPqjDNTW7QHcxcpt+l48cndxoaTwstlY4oCshmk2/5SjKGO2rG5JBe6dyaNmfo3rNBPwaVS8mfgofrwqj7p1A0C9cpHT3eJk/07bHFrKhmZHRajgIcrLmpg3y69IIfz3ypeonBSsNfHP/r38q8IW6ZaddVW9Cy0I5FixODJVNyUQ2Z0r3nzjWrFRh6GJa0MbtD6MFzlBeidWjtETSP5sUumIiOskDbefgI2t6knLPurGfWLotg8/Bt3MJWJOw6uNTg9asxDrnmjtylPUgR54R4u8WN9jWeiYkIE+5s8Gt7itr8XezEJtMIu/wa2uYbuARFDtIQq/ghjjJn9BE0hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=po7QUbVTsST//VXwxpsP6KuwY2R/uvZcYASCzSS70KA=;
- b=qtX0C+BOYKrdnhZ46Ha+CKgtocQ57E8TT8h6wB0DW7SgjAAk8FEWUfZmmWc/O6lNbJqPomLVisYQahatgkuW2CiXXQfjfHQwvmFqYaQdCnYu3UapP02KxHrTxU9HyHe88RrMK98iQ8vBfJ2cwWdyDTrCCAZPXwULdvc/FiHB+2sP8qC2s6A5v0k3jKEJT6hY5oWZkvgb3LlkRV+0YUbLjUez0GcYqkr8PL4WGEiaTtGZ+MjNTWGgDuG2m5QxCloUknxzqeJj+JiSoZNEPhdLwX1DwSDv+hMS+puTc8glD0ADxhdfCXdQ9VL5Wu6Ja/RFuQpCtWROOUHXaLlKKYN71Q==
+ bh=dMTW3vvS9T4Zb/uExa1ks9EK1Km2b35FqvsMRFtFekE=;
+ b=btUclQnrzfurY5MB3TQVncGXqxioUatgQKK+JFBNeA9Yz2eIdJ6UYLuj16/aKqYP1ZWDj4WfXlY7HHqa3qItytKbgsTaoaiCx0hk7UNlh5+SI1ZSRMVSjjt5NtTU+VTl67dX75Qfr1E7pDuphr4+NvakkPeX52HZtb++IuydZdduPPGNsxuQ6aLHTtKoDvF1O+31M2NojGhk2kA4R4R+so0lLPaA4WXoXpDcAtsORa5B4EOC/aSKoPQ8H7bxi9XzLGuUjKju+t5fujdeEuuczUd0z3MqCmsTyiCpLUXk7AgAjT7sOCleFqxGdT3bP1Beh+7s3HGkgTHxIn07O/rSyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=po7QUbVTsST//VXwxpsP6KuwY2R/uvZcYASCzSS70KA=;
- b=E8PRMTLEy7Fn5N5G7btU8KQ5C1Zjfoj1eperpPp5l+WT9orfIGS661hg/fB9j8h5JRCic0AZkbkgiX9MbRCT7g1+Ldva7QJllnYCkfkIWDMduSU/ey/8WEIveVsKYNbWkER+tuMMzMm5KZGunQxNwNVpM0kus4ZxfPUGpihgtEI0DGBOANsVXOozQMoRIFJpW1gNX0nDcIVhqV+1FS2Y8IJJiOvou4SCgB11QLw8iu7zkkCHT5+QxbtgkzpySeCacD7UOwsABouuUB2USEUOsDEgLqE+76HnOjI9d/zcl1/nqN3f3JGUOzq6TfQ1r6vLavoiUMAacl80TmMNb/u/IA==
+ bh=dMTW3vvS9T4Zb/uExa1ks9EK1Km2b35FqvsMRFtFekE=;
+ b=fp3dnrF56fPbx8ah6Ls6Ps5fNIFwV7DPOYb6S/Bbr0lQZzqUrMmvaGngJ2o2wFkcHz/9gNtedj9oBF7yI3PAcP7LRDOWZqtFixMLoqWAbZYipQerf9wZZxZNfMLR7oKAzZVdML99l5G/7hJ11X2X7nAVbSnC1mOWItGS2TGihYi8VdgcQoDiK1uyxF5x+lxRj5opKeioW/PLnYHLvGonxC9VUQ5kgbv4rb8tHYG8OAEdjic3j2r35B2u00bkZ78KgvlTa596bYKImZi77Ni0G03eI2J2T5gIk68w7BUv2+C1nYP77f3NOa+CCJ2+sI6XDXgvsGv9JZwGj8uGKogPvQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com (2603:10b6:207:47::27)
- by PH7PR12MB6762.namprd12.prod.outlook.com (2603:10b6:510:1ac::11) with
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by SJ2PR12MB7894.namprd12.prod.outlook.com (2603:10b6:a03:4c6::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
- 2026 12:03:56 +0000
-Received: from BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8]) by BL0PR12MB2370.namprd12.prod.outlook.com
- ([fe80::86cf:c3ec:2cf5:74c8%5]) with mapi id 15.20.9891.021; Tue, 12 May 2026
- 12:03:55 +0000
-Date: Tue, 12 May 2026 20:03:46 +0800
-From: Richard Cheng <icheng@nvidia.com>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, Oscar Salvador <osalvador@suse.de>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Danilo Krummrich <dakr@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-s390@vger.kernel.org, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <chleroy@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Sumanth Korikkar <sumanthk@linux.ibm.com>, Kees Cook <kees@kernel.org>, 
-	Douglas Anderson <dianders@chromium.org>, Donet Tom <donettom@linux.ibm.com>, muchun.song@linux.dev
-Subject: Re: [PATCH v2] drivers/base/memory: make memory block get/put
- explicit
-Message-ID: <agMVtO5QPGYVb48D@MWDK4CY14F>
-References: <20260512072635.3969576-1-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512072635.3969576-1-songmuchun@bytedance.com>
-X-ClientProxiedBy: TP0P295CA0031.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:4::12) To BL0PR12MB2370.namprd12.prod.outlook.com
- (2603:10b6:207:47::27)
+ 2026 12:14:56 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.20.9913.009; Tue, 12 May 2026
+ 12:14:56 +0000
+Message-ID: <0d9e5a78-948e-42da-9d37-78cc2a700cd6@nvidia.com>
+Date: Tue, 12 May 2026 17:44:40 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] kernel: param: initialize module_kset before
+ do_initcalls()
+To: Jon Hunter <jonathanh@nvidia.com>,
+ Shashank Balaji <shashank.mahadasyam@sony.com>,
+ Thierry Reding <thierry.reding@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ James Clark <james.clark@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Richard Cochran <richardcochran@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
+ Leo Yan <leo.yan@arm.com>, Rahul Bukte <rahul.bukte@sony.com>,
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ Daniel Palmer <daniel.palmer@sony.com>, Tim Bird <tim.bird@sony.com>,
+ linux-modules@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
+ <20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com>
+ <DI3Z28IZZOT9.349TTWNN9VDMB@garyguo.net> <afABOMT_s9DvF6NY@JPC00244420>
+ <DI4QQA6EGIA1.N8WRFWVKG91S@garyguo.net> <afCxHUrjr3Z22U6V@JPC00244420>
+ <agKMcA7a_UqMua5V@JPC00244420>
+ <40c3aab2-b5cf-4297-9b14-3ccfea377c83@nvidia.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <40c3aab2-b5cf-4297-9b14-3ccfea377c83@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5PR01CA0221.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1f3::11) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -77,393 +93,156 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2370:EE_|PH7PR12MB6762:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbc10bf5-d8f7-4677-c511-08deb01e8a9a
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|SJ2PR12MB7894:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40e78614-39ea-40d5-76e5-08deb0201446
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|11063799003|56012099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|11063799003|56012099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	YdatAwBFh9uTbS7WsPgAE9Rh6jXSAMgWWUaZ2ZCAqLUeX11hLJcQhNIRjh72ZxvHRZiqaHRX4deFAPFT3elyt/ls/0jcb6G7ztOOrQ/1TKDiQl4f5WSRfiQ7OboMm0Ll+fktFT14DfvWqoCCKOJk9mEiOgwUTUUOntobbHzRAasqT2FjWiZUsYsXSNyQJWCt13AVwTG5oCsIDV2ajaCtmKDT2ZZC6X18knBDgAakcpG5wGav0Nspp9dm5TGvSPWOzSALvLljY5hUmVB/+o93G/oXwKxHGHnKLjlV2zotVvkDgkqxa8AOWAHB5LBIHbukk/XxiiLZ3pm73F/otiiHO8kM56rwjqLzD1Th7/RDibZnULqHbSzrVeLWO+tRVO4781yuHznbrqWawU7dhSUeWxj96ryRpWVkG/8KB5xbRZ+gkZvYUDwufBT9SKQggcGiYwOR+nb91jgeSGPfLI/3YTqx3eBW4VpQ1205FNvjsCHf9hb0jbdp48/aZ0+Ux29w+JohWMHUsz/EyMfi/HM5PzNI7PPaaPEfAZw/PPFFGW4vTZPIH99xTaz9gfxTxQ38HYU15m7P3ONvf+DIhpHgSB4mvw+pk+UFCCTif0tOfVqFwDxRQT26VW5k4m5v91qgKQIMj6oand9p98iCtfI33Ho4efVvi0xi34OnzknfNCGGspudD/X8KmarYha/Ny79Lqz1mrMJBSvSnhYrtCAWUA==
+	Onob4x0jHc4Y47UDeqEyysluVd/xLj5NvPL3tYv9RiZAqJTcyrY08n8H+NhV91EBCy97+JNInLiFY581a0bG1vej+AcB2zuCinf0pLAh8P6ndbRfResxHEHwNFLCiZRy0MUvOqnz1Zjurwea9FtzVozgIZz2Qr2YBYsXrcIGCqqenhWQMWNP1d1o8Cu4E6cq4SqfUBhtpNg7ZBkLrU4pOeSwEDMh6ffh66HTQW/+OuXRkDQ3/o+cgLj/QAJQmRJ/aOMoOa1859WW8820bKKSMb6CY/tE2T3vPGkaylo/Di9stEi6zzmNdtkEJIxMNVdAanz5uR1dLkyMxJtXl6PlhdAqkzcyy07TFY5HY+lYHKKRzhfU75rkjQD7QiL7Ign4sd12meKonrDfib0KwO5MLpl0ihJwo3FkJ9k4E/ExoYUwnW6xPiOLJT09zLpcpybwqhdcTOUz7HXvpOASSnTbPcIQVaN3MeXoFtPWKU99ctevH0976bye/TVkLe2RGU8p3k43Z/y4WY6GPqxA3Ed3WmVVH0uJ+Hedu9NwJrjda8ZP0rGakDnMvs9yx3kax0+AKyFrSZ7nQBtHcOSHt0Y5IMQH1lE26IEVBAb10AamnrVmwaiWrRStlo9U8WL0iwc4rzqyBRpy2AMsZiVt61/ORCnbXaiqfQ6weEW2TZKQF34mu3u9J8VKvkPLWRBvio1U7tjpNsGbKWmijxb8iQZqoQ==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(11063799003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(11063799003)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?872l5KLeuHiglcpP3y82QnRSqdDLNgjdh5R8Cu1ri8SdesXACakDLPYw60U0?=
- =?us-ascii?Q?c80ClMsQiR7DY5O4zVtzPmg5JwZZ/QFrp/CqWcC2eIqgjxrmuUkRmLczdd3X?=
- =?us-ascii?Q?tc/eFJ2DerW/6Hwzt+pnjO/e3CP965WjsHwStDUIvJ2r9s8aYLcWHJ9iL+ai?=
- =?us-ascii?Q?2RvhgOzPwlqmecQyK4QIvsd5VCsyCXnWFGJJZF2cENrYHPYW1XZy3RElENFk?=
- =?us-ascii?Q?t9jhfttEcHT+bH6PFu+cy86IJ79Q7yXY3tTu/PIcMX1+MpenigMjVvC0PURw?=
- =?us-ascii?Q?e8jiHfrl6TvyoPwh3s6w9qb+o07sJl0pPCxuqoQoEEs53sdblJZJ1mSYOfFz?=
- =?us-ascii?Q?MGg4cz3UE3590/L2orAZsGVmg3C7psRqrjDeghHecJ7nJMExT+pNQRKpjw+I?=
- =?us-ascii?Q?3kMmiSQrNelL2q4iH34x1uFvOV1NYuAlOWRRqXs2ILlITvlTUFnG58GqMPjV?=
- =?us-ascii?Q?M2m7txuf9XKCliBjMASShuAkZSVtijzd2HtSBkh//pRfIBXFcwB3W8BrYOfw?=
- =?us-ascii?Q?MwdRzDIQoCQsfMVeeC3qRGziqzhb46junL8Ac80Ymsuw+L0AFAbncTdvZTqb?=
- =?us-ascii?Q?Utxt3ABqXiBXQjsIKTYmnRIS+kY0J5DYM0yILuOnQumBonV3GLOQnQmmB3PU?=
- =?us-ascii?Q?8LEtF+Il17Gq9bSlp+dF/aJuNKYOXTrT75ha/ooPI64L4WAd62qjJ18li4c/?=
- =?us-ascii?Q?X7Ky9k6V8WuT2KaRqE3tHR8K6DoktVO0Fgp/0OALrBW7cD2soraZcdK5gthz?=
- =?us-ascii?Q?XnVO6onvgxfGPbFBekpQcvRtkmgAB5RYEM9N24up80/1NN1BXYPX8GbPKnYZ?=
- =?us-ascii?Q?wr7wjgWdGnXwKQRm8DbG3u7E+rAt9DZyfhZDdM/87joxz+BiUzJao2FxWL4A?=
- =?us-ascii?Q?KaUYkL9r8CixpHRSZVyZX9BzMRAAcOaKiOKCIaEA743jmctz1G9/TYxF2LlS?=
- =?us-ascii?Q?veZoKoz9rOPSdHMMH3/Ki+P7tBwJDol2lITq+VfycJ1eMj/jL1TXOvi9CTWN?=
- =?us-ascii?Q?IxuEBwUQDOj8ARzo5U72sFBic0bMyG89C/A0zRUJ8eV74EqBOo9VGbzZR4JM?=
- =?us-ascii?Q?19VkS0Wz9F/zHlWYMLKeTHqUXei9H8FJQ1w0wgjdx8FsFPAlw+FH81HFG+Zv?=
- =?us-ascii?Q?NHVgOAHqjICxj47Rt7Nb3jXrxqw+zNxiktolNdF+DmpiiNncHEmZXeuXeWEP?=
- =?us-ascii?Q?gTTFoPrEeFBmYKnFGWX2FXLrDqLXmlw1rabSxqvEqrV+AFkBn/E6dPwgEbu4?=
- =?us-ascii?Q?fSoh5/ILpze8Z/ZexYI0oFv/vZYAmBC9aAZSwms66DIWKQ34zY2YN+0H7UCN?=
- =?us-ascii?Q?g7IR/XBd1CYcn3YFPRAO/HSmKxuNr4T2SmOvhj4A4X5Szs5GXXBjYBr3vMlE?=
- =?us-ascii?Q?Cr3Oo4EhozaIeXVvO45TDjFO0H33vOCA7dR0dCHV81G+1vUBIoEGWYVdT24Y?=
- =?us-ascii?Q?E6IabuYpnI4u762DkKIRgJBj5ikNxgbKiTNVxu3NKkQlsSSqN+lLwmQ4pU/c?=
- =?us-ascii?Q?M7T3qoVJNB19Kvgn6huD9CYYcbjt3BqgZ2aiGPxFBsrv0e7KtFofZk8bgwrV?=
- =?us-ascii?Q?WuG9FCFXrEnr0YYMxeg+ywblVk3JTqSfi6kdhnBxgtUici0zQi5RtIt44KOg?=
- =?us-ascii?Q?ECFUv7z/PunLmqY5nk6r0qP6TtVNigcy5bC/kI8FshTqfAZ90j6OANsCZwi6?=
- =?us-ascii?Q?i40xA3dIagNQ7K4oHDS89dmWLhKYu8mKKWnTC0geB+M1SfXuacxU/U36fqLf?=
- =?us-ascii?Q?h55G9LY6fA=3D=3D?=
+	=?utf-8?B?d0R0TUl0bzNDdkJ2KzRKai9iNVFhVmNtYkdIWlV1dVpFcWNOdnJTUEJFTWdy?=
+ =?utf-8?B?cUNKZldSR2QrYitqQjRXdzhyTXMrSFNicTVVZk5xYjIybEVoOTZ0c2o5dWJL?=
+ =?utf-8?B?TzZIQ0E0N0tCWFF0Q08wYVpwT3BiSFFIUWxTR0lpUzBiU0NFMkkzTTkwbkpE?=
+ =?utf-8?B?bC8xaGUzdUlpOThMemlPMHZKbEkvYy9rMS9PRjZFQURPTVljWno5MWs0ck5n?=
+ =?utf-8?B?Mld6V2tYbEwrb1djZUV6eXBNNGlmUjhFMVpTSHJKZFRpeDZhaTh3UXUzOVFQ?=
+ =?utf-8?B?b01jckxYZk5haVJTQThvaEh0VHdlMEsxclRjU3h3VVdtakNXcndubXZKSjla?=
+ =?utf-8?B?T1Fxb0dxTXFJemMzd2xsTmdLSk1iZitiMitESC8zdThJQ0doTHVuOVh1bEJI?=
+ =?utf-8?B?bExtU0NqbmhqdHVhK3ZDQVFhYml0VEtpVWhUbWtwaGR5YlB1Zk1YdUtFNUF1?=
+ =?utf-8?B?OWFWZSs5VU1aWThRcUV2enVydkhLVzJDNFF1cmtMT0Vtd0twa0paeUtoeGFO?=
+ =?utf-8?B?dHNpR3VzQkZFeHBZbWlFVVhJWXNCUmQwa2sxNHFnZ2dCZ2daOEZ6L2RLWG1q?=
+ =?utf-8?B?ZHg0ZFFZQ0tyZVExQVlRVWVwTHJFOFdHM3dkMCt4cUVsQlNtd0Iva2NLVXZi?=
+ =?utf-8?B?ZUY1YXB0K3FGRHNCeDIyWE9IV2ZNZk93QnhKanROREVrOHJVR0VZSGREclV1?=
+ =?utf-8?B?b3hTdkNBZE4yaXp3TGg1Q2pUNjZWV3ZYS1M0eVdwY3A0bHVEamZKMmxvaHkx?=
+ =?utf-8?B?eHRJSHdPRFpwQkJ2dEJPUUJSZ3hxUFVNMUNTMUdPK0dEd1ZNakdrcERIMXR5?=
+ =?utf-8?B?TUlKRFAxQTNZN09JbWQ5UnQ0dW1HVldUbjg0NkZhaUYydFlVUzVJMXpZSisv?=
+ =?utf-8?B?Q1JRTlVEenhnQlZDVTdJdEFxNm1IYmdmMGkyeWFYOHhXSERZMEhYd05XSEdz?=
+ =?utf-8?B?bmdDcjRaR095dEtOSUVBbkp1R3ljbE5qTmtPclQ0ZUZqTnMrVS9vLysyMkcz?=
+ =?utf-8?B?SEliNmhMUFRLSTd4VDQwdmtGcTBCWUpNM2JaT2hvbmhxRFdJbVpaUGlTRnNv?=
+ =?utf-8?B?bW9Cem9pM3ZBcFc1eHVQeUpaSmt2M0ZqOXBLZVFyNmxXTitGRWdhMjl0ZjZl?=
+ =?utf-8?B?aDN0MHZ5bUJXR2c4MmFMNy81blRqZlJVaUZwZUYyN3BVWTB1U3E3TitmS1Fk?=
+ =?utf-8?B?Q0FtNTVXYlFha2VMTFN0VFBEekFoUmRwbm5tWFNNTG40enpyckpaeTNyL1hN?=
+ =?utf-8?B?ZytCTDJoOHo0bFBrWUo5UGg4RHVRWWlzY05ja25sRk9mUlRUU00wTHZsQyt4?=
+ =?utf-8?B?VktQNXBQL0l6L1kwdklWRTRNd3JvU21qaENwZUl5ZXdxdE1zMGpYUU1iUyth?=
+ =?utf-8?B?ZzVWNnIrcVl4Z3FsR043R3g4QWJPM3pwRklZSUZrWUlwWkp0RlJQaTc5d1Zk?=
+ =?utf-8?B?YzRiS0k4RitMSExxeTY0aVFHRVFyUDUwa2U0aHZGdjl5ZDB4ZWxhYmIrVVJq?=
+ =?utf-8?B?YWVGVG9KVzdQNnBHSlFHZitYemlORU4vc3kvdFFEZ2RWYm1VTDVVWnd0RjJK?=
+ =?utf-8?B?NW80R1VyTG1OYU1ZQ0F4c0xPZmY3YnRXeUJaNmM2RXJFNkJIUFVERVkyVUM5?=
+ =?utf-8?B?OWpVV0ZlMURPQmRGLzF0bEhwajZ5M1JidW9kS1ZIVnpLZEtoZWpxbTRRd2Ux?=
+ =?utf-8?B?dUQ2b2JWQnpKaTFUdmhDY2FBU1ZhUU5xeXM0YkhpVFpuYlB0djJHNEo3S2Q2?=
+ =?utf-8?B?R2dJK29rMmh2cm1UdnVEaWtOdTUxc2d1citLbXYzTFFmQm5SaldOVDBPY0dp?=
+ =?utf-8?B?cjRBM3hnUXRhdEhEek1ZWEtSRUt6WXdFK1VsU3ZHd2srYUZCV1c1aTE5VlRs?=
+ =?utf-8?B?cEQyQ3ltdnI3NmRrL00rYmxYc0MwNHoyS1IzSGJ4VkNnNzc5Wkt5RkxMV1Zx?=
+ =?utf-8?B?RkNPQUo3UjNzME8yTWNlMFpaUmlTT2I5Sk53ZGFuZFgyY1RMejB2bVpwWExG?=
+ =?utf-8?B?VGNCcDQvR2xEVXl3d1VBWmdhRVZ5MXJqZEticERLNTZhUVA4b3M3Yk5DQUtY?=
+ =?utf-8?B?c0wvOFZYYTFweEVRYWM1RjJkb1JkTkFLS0ltUjRRenUweStFNjVhbkQ3OGdT?=
+ =?utf-8?B?Z0FBKzM4MUIySHBnb1lmTTd4cVBlOEtkRTh5OXc3R0pCWDNVTU92N21UNE1m?=
+ =?utf-8?B?bUlnY0NrdnJFekh4UUtkbFQyaFN1VDZucWVwdG45RytDYkF0QW0yTGt5Ykha?=
+ =?utf-8?B?YnNEKytMMHBmMTI2RXdvTEF3T0diRTFCVXRBRlQ0Q2R0a0luU2NJMUV1dHls?=
+ =?utf-8?B?eFU5T3lreDBYcDUzYXR4UmRNVVFwRkFKRDNkdk5iU2JXOGZ2eGJ5UT09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbc10bf5-d8f7-4677-c511-08deb01e8a9a
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40e78614-39ea-40d5-76e5-08deb0201446
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 12:03:55.7403
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 12:14:56.2514
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2hTCP9qs5vT7n+FcVA8TFtAft1x3O44r+YmVEYNpYMKM+oMNUEp9kIiWIBuq7304hM1ZREnRZzaLNhDY6nsGKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6762
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9joHYoIYZ7H2muRcThJHh9sDN9mpCH6xqtYJ+RuaBD1G/FjBjK2DrgAJ45mxe85NFRzQMJmPY+EBLqIbrDQLAA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7894
 
-On Tue, May 12, 2026 at 03:26:35PM +0800, Muchun Song wrote:
-> Rename the memory block lookup helper to make the acquired reference
-> explicit, add memory_block_put() to wrap put_device(), remove
-> find_memory_block(), and use memory_block_get() as the single block-id
-> based lookup interface.
-> 
-> This makes it clearer to callers that a successful lookup holds a
-> reference that must be dropped, reducing the chance of forgetting the
-> matching put and leaking the memory block device reference.
-> 
-> Link: https://lore.kernel.org/linux-mm/7887915D-E598-42B3-9AFE-BFFBACE8DE2D@linux.dev/#t
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Acked-by: Oscar Salvador <osalvador@suse.de>
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Acked-by: Michal Hocko <mhocko@suse.com>
-> Tested-by: Donet Tom <donettom@linux.ibm.com>
-> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
-> ---
-> Changes in v2:
-> - mention the removal of find_memory_block() in the commit message
-> - drop the redundant extern from the memory_block_get() declaration
-> ---
->  .../platforms/pseries/hotplug-memory.c        | 14 ++-----
->  drivers/base/memory.c                         | 38 +++++++------------
->  drivers/base/node.c                           |  4 +-
->  drivers/s390/char/sclp_mem.c                  | 17 ++++-----
->  include/linux/memory.h                        |  7 +++-
->  mm/memory_hotplug.c                           |  5 +--
->  6 files changed, 35 insertions(+), 50 deletions(-)
-> 
-> diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
-> index 75f85a5da981..94f3b57054b6 100644
-> --- a/arch/powerpc/platforms/pseries/hotplug-memory.c
-> +++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
-> @@ -164,13 +164,7 @@ static int update_lmb_associativity_index(struct drmem_lmb *lmb)
->  
->  static struct memory_block *lmb_to_memblock(struct drmem_lmb *lmb)
->  {
-> -	unsigned long section_nr;
-> -	struct memory_block *mem_block;
-> -
-> -	section_nr = pfn_to_section_nr(PFN_DOWN(lmb->base_addr));
-> -
-> -	mem_block = find_memory_block(section_nr);
-> -	return mem_block;
-> +	return memory_block_get(phys_to_block_id(lmb->base_addr));
->  }
->  
->  static int get_lmb_range(u32 drc_index, int n_lmbs,
-> @@ -220,7 +214,7 @@ static int dlpar_change_lmb_state(struct drmem_lmb *lmb, bool online)
->  	else
->  		rc = 0;
->  
-> -	put_device(&mem_block->dev);
-> +	memory_block_put(mem_block);
->  
->  	return rc;
->  }
-> @@ -319,12 +313,12 @@ static int dlpar_remove_lmb(struct drmem_lmb *lmb)
->  
->  	rc = dlpar_offline_lmb(lmb);
->  	if (rc) {
-> -		put_device(&mem_block->dev);
-> +		memory_block_put(mem_block);
->  		return rc;
->  	}
->  
->  	__remove_memory(lmb->base_addr, memory_block_size);
-> -	put_device(&mem_block->dev);
-> +	memory_block_put(mem_block);
->  
->  	/* Update memory regions for memory remove */
->  	memblock_remove(lmb->base_addr, memory_block_size);
-> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-> index 11d57cfa8d72..5b5d41089e81 100644
-> --- a/drivers/base/memory.c
-> +++ b/drivers/base/memory.c
-> @@ -649,7 +649,7 @@ int __weak arch_get_memory_phys_device(unsigned long start_pfn)
->   *
->   * Called under device_hotplug_lock.
->   */
-> -struct memory_block *find_memory_block_by_id(unsigned long block_id)
-> +struct memory_block *memory_block_get(unsigned long block_id)
->  {
->  	struct memory_block *mem;
->  
-> @@ -659,16 +659,6 @@ struct memory_block *find_memory_block_by_id(unsigned long block_id)
->  	return mem;
->  }
->  
-> -/*
-> - * Called under device_hotplug_lock.
-> - */
-> -struct memory_block *find_memory_block(unsigned long section_nr)
-> -{
-> -	unsigned long block_id = memory_block_id(section_nr);
-> -
-> -	return find_memory_block_by_id(block_id);
-> -}
-> -
->  static struct attribute *memory_memblk_attrs[] = {
->  	&dev_attr_phys_index.attr,
->  	&dev_attr_state.attr,
-> @@ -701,7 +691,7 @@ static int __add_memory_block(struct memory_block *memory)
->  
->  	ret = device_register(&memory->dev);
->  	if (ret) {
-> -		put_device(&memory->dev);
-> +		memory_block_put(memory);
->  		return ret;
->  	}
->  	ret = xa_err(xa_store(&memory_blocks, memory->dev.id, memory,
-> @@ -795,9 +785,9 @@ static int add_memory_block(unsigned long block_id, int nid, unsigned long state
->  	struct memory_block *mem;
->  	int ret = 0;
->  
-> -	mem = find_memory_block_by_id(block_id);
-> +	mem = memory_block_get(block_id);
->  	if (mem) {
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
->  		return -EEXIST;
->  	}
->  	mem = kzalloc_obj(*mem);
-> @@ -845,8 +835,8 @@ static void remove_memory_block(struct memory_block *memory)
->  		memory->group = NULL;
->  	}
->  
-> -	/* drop the ref. we got via find_memory_block() */
-> -	put_device(&memory->dev);
-> +	/* drop the ref. we got via memory_block_get() */
-> +	memory_block_put(memory);
->  	device_unregister(&memory->dev);
->  }
->  
-> @@ -880,7 +870,7 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
->  		end_block_id = block_id;
->  		for (block_id = start_block_id; block_id != end_block_id;
->  		     block_id++) {
-> -			mem = find_memory_block_by_id(block_id);
-> +			mem = memory_block_get(block_id);
->  			if (WARN_ON_ONCE(!mem))
->  				continue;
->  			remove_memory_block(mem);
-> @@ -908,7 +898,7 @@ void remove_memory_block_devices(unsigned long start, unsigned long size)
->  		return;
->  
->  	for (block_id = start_block_id; block_id != end_block_id; block_id++) {
-> -		mem = find_memory_block_by_id(block_id);
-> +		mem = memory_block_get(block_id);
->  		if (WARN_ON_ONCE(!mem))
->  			continue;
->  		num_poisoned_pages_sub(-1UL, memblk_nr_poison(mem));
-> @@ -1015,12 +1005,12 @@ int walk_memory_blocks(unsigned long start, unsigned long size,
->  		return 0;
->  
->  	for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
-> -		mem = find_memory_block_by_id(block_id);
-> +		mem = memory_block_get(block_id);
->  		if (!mem)
->  			continue;
->  
->  		ret = func(mem, arg);
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
->  		if (ret)
->  			break;
->  	}
-> @@ -1228,22 +1218,22 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
->  void memblk_nr_poison_inc(unsigned long pfn)
->  {
->  	const unsigned long block_id = pfn_to_block_id(pfn);
-> -	struct memory_block *mem = find_memory_block_by_id(block_id);
-> +	struct memory_block *mem = memory_block_get(block_id);
->  
->  	if (mem) {
->  		atomic_long_inc(&mem->nr_hwpoison);
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
->  	}
->  }
->  
->  void memblk_nr_poison_sub(unsigned long pfn, long i)
->  {
->  	const unsigned long block_id = pfn_to_block_id(pfn);
-> -	struct memory_block *mem = find_memory_block_by_id(block_id);
-> +	struct memory_block *mem = memory_block_get(block_id);
->  
->  	if (mem) {
->  		atomic_long_sub(i, &mem->nr_hwpoison);
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
->  	}
->  }
->  
-> diff --git a/drivers/base/node.c b/drivers/base/node.c
-> index 126f66aa2c3e..b3333ca92090 100644
-> --- a/drivers/base/node.c
-> +++ b/drivers/base/node.c
-> @@ -847,13 +847,13 @@ static void register_memory_blocks_under_nodes(void)
->  		for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
->  			struct memory_block *mem;
->  
-> -			mem = find_memory_block_by_id(block_id);
-> +			mem = memory_block_get(block_id);
->  			if (!mem)
->  				continue;
->  
->  			memory_block_add_nid_early(mem, nid);
->  			do_register_memory_block_under_node(nid, mem);
-> -			put_device(&mem->dev);
-> +			memory_block_put(mem);
->  		}
->  
->  	}
-> diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
-> index 78c054e26d17..6df1926d4c62 100644
-> --- a/drivers/s390/char/sclp_mem.c
-> +++ b/drivers/s390/char/sclp_mem.c
-> @@ -204,7 +204,7 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
->  	addr = sclp_mem->id * block_size;
->  	/*
->  	 * Hold device_hotplug_lock when adding/removing memory blocks.
-> -	 * Additionally, also protect calls to find_memory_block() and
-> +	 * Additionally, also protect calls to memory_block_get() and
->  	 * sclp_attach_storage().
->  	 */
->  	rc = lock_device_hotplug_sysfs();
-> @@ -231,20 +231,19 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
->  			sclp_mem_change_state(addr, block_size, 0);
->  			goto out_unlock;
->  		}
-> -		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
-> -		put_device(&mem->dev);
-> +		mem = memory_block_get(phys_to_block_id(addr));
-> +		memory_block_put(mem);
->  		WRITE_ONCE(sclp_mem->config, 1);
->  	} else {
->  		if (!sclp_mem->config)
->  			goto out_unlock;
-> -		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
-> +		mem = memory_block_get(phys_to_block_id(addr));
->  		if (mem->state != MEM_OFFLINE) {
-> -			put_device(&mem->dev);
-> +			memory_block_put(mem);
->  			rc = -EBUSY;
->  			goto out_unlock;
->  		}
-> -		/* drop the ref just got via find_memory_block() */
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
->  		sclp_mem_change_state(addr, block_size, 0);
->  		__remove_memory(addr, block_size);
->  #ifdef CONFIG_KASAN
-> @@ -294,11 +293,11 @@ static ssize_t sclp_memmap_on_memory_store(struct kobject *kobj, struct kobj_att
->  		return rc;
->  	block_size = memory_block_size_bytes();
->  	sclp_mem = container_of(kobj, struct sclp_mem, kobj);
-> -	mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(sclp_mem->id * block_size)));
-> +	mem = memory_block_get(phys_to_block_id(sclp_mem->id * block_size));
->  	if (!mem) {
->  		WRITE_ONCE(sclp_mem->memmap_on_memory, value);
->  	} else {
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
->  		rc = -EBUSY;
->  	}
->  	unlock_device_hotplug();
-> diff --git a/include/linux/memory.h b/include/linux/memory.h
-> index 5bb5599c6b2b..463dc02f6cff 100644
-> --- a/include/linux/memory.h
-> +++ b/include/linux/memory.h
-> @@ -158,7 +158,11 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
->  void remove_memory_block_devices(unsigned long start, unsigned long size);
->  extern void memory_dev_init(void);
->  extern int memory_notify(enum memory_block_state state, void *v);
-> -extern struct memory_block *find_memory_block(unsigned long section_nr);
-> +struct memory_block *memory_block_get(unsigned long block_id);
-> +static inline void memory_block_put(struct memory_block *mem)
-> +{
-> +	put_device(&mem->dev);
-> +}
 
-Hi Muchun,
+On 12/05/26 14:25, Jon Hunter wrote:
+> Hi Shashank,
+>
+> On 12/05/2026 03:12, Shashank Balaji wrote:
+>
+> ...
+>
+>>> Hi Thierry and Jonathan,
+>>>
+>>> You can find the context for this email in this patch:
+>>> https://lore.kernel.org/all/20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com/ 
+>>>
+>>>
+>>> TL;DR: tegra194_cbb_driver and tegra234_cbb_driver are the only drivers
+>>> registering themselves as early as in a pure_initcall. This is a 
+>>> problem
+>>> on two fronts:
+>>> 1. Philosophical: As Gary pointed out, pure_initcalls are intended 
+>>> to purely
+>>> initialize variables that couldn't be statically initialized. But these
+>>> are doing driver registrations.
+>>> 2. module_kset not initialized at pure_initcall stage: This is 
+>>> needed to
+>>> set the module sysfs symlink. Since module_kset is not alive yet during
+>>> pure_initcalls, registering these drivers panics the kernel.
+>
+> Where exactly is this panic seen? Ie. why are we not seeing this?
+>
+>>> We would like to do the tegra cbb driver registration in a 
+>>> core_initcall
+>>> (or some later initcall works too), and move module_kset initialization
+>>> to a pure_initcall. Like this:
+>>>
+>>> diff --git a/drivers/soc/tegra/cbb/tegra194-cbb.c 
+>>> b/drivers/soc/tegra/cbb/tegra194-cbb.c
+>>> index ab75d50cc85c..2f69e104c838 100644
+>>> --- a/drivers/soc/tegra/cbb/tegra194-cbb.c
+>>> +++ b/drivers/soc/tegra/cbb/tegra194-cbb.c
+>>> @@ -2342,7 +2342,7 @@ static int __init tegra194_cbb_init(void)
+>>>   {
+>>>          return platform_driver_register(&tegra194_cbb_driver);
+>>>   }
+>>> -pure_initcall(tegra194_cbb_init);
+>>> +core_initcall(tegra194_cbb_init);
+>>>
+>>>   static void __exit tegra194_cbb_exit(void)
+>>>   {
+>>> diff --git a/drivers/soc/tegra/cbb/tegra234-cbb.c 
+>>> b/drivers/soc/tegra/cbb/tegra234-cbb.c
+>>> index fb26f085f691..785072fa4e85 100644
+>>> --- a/drivers/soc/tegra/cbb/tegra234-cbb.c
+>>> +++ b/drivers/soc/tegra/cbb/tegra234-cbb.c
+>>> @@ -1774,7 +1774,7 @@ static int __init tegra234_cbb_init(void)
+>>>   {
+>>>          return platform_driver_register(&tegra234_cbb_driver);
+>>>   }
+>>> -pure_initcall(tegra234_cbb_init);
+>>> +core_initcall(tegra234_cbb_init);
+>>>
+>>>   static void __exit tegra234_cbb_exit(void)
+>>>   {
+>>>
+>>> Would this work?
+>
+>
+> I am adding Sumit who has been doing a lot of the Tegra CBB driver work.
+>
+> Sumit, any concerns here? We could run this change through our 
+> internal testing to confirm.
+>
+> Jon
+>
 
-Thanks for the work, I have a small suggestion if that fits your thought.
+CBB driver can be switched to core_initcall.
+pure_initcall was originally added so its IRQ handler is registered
+before other Tegra drivers to catch and print any bad MMIO error
+during their probe.
+Looked at the current state of Tegra drivers:
+  - The other early Tegra drivers (PMC, fuse, flowctrl, ARI) all run at
+    early_initcall, before either pure_ or core_initcall.
+  - The only other Tegra core_initcall is tegra-hsp, and link order keeps
+    CBB ahead of it (drivers/soc/ links before drivers/mailbox/).
 
-I think we should at least add a comment  above memory_block_put() to remind the caller to check
-for the availabitliy of "mem" before calling this function.
-We perform the check in memory_block_get() inside the function body, I see different usage pattern
-across the caller when they're dealing with "mem == NULL" and avoid to call memory_block_put(), 
-I can understand we should leverage the check to caller, not inside memory_block_put().
-But just in case the next caller might forgot to do the check or think the behavior might be symmetric
-bettween memory_block_get() and memory_block_put(), a comment above the function would be nice.
+Acked-by: Sumit Gupta <sumitg@nvidia.com>
 
-Best regards,
-Richard Cheng.
+Thank you,
+Sumit Gupta
 
->  typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void *);
->  extern int walk_memory_blocks(unsigned long start, unsigned long size,
->  			      void *arg, walk_memory_blocks_func_t func);
-> @@ -171,7 +175,6 @@ struct memory_group *memory_group_find_by_id(int mgid);
->  typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
->  int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
->  			       struct memory_group *excluded, void *arg);
-> -struct memory_block *find_memory_block_by_id(unsigned long block_id);
->  #define hotplug_memory_notifier(fn, pri) ({		\
->  	static __meminitdata struct notifier_block fn##_mem_nb =\
->  		{ .notifier_call = fn, .priority = pri };\
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 462d8dcd636d..890c6453e887 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -1417,14 +1417,13 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
->  		struct vmem_altmap *altmap = NULL;
->  		struct memory_block *mem;
->  
-> -		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(cur_start)));
-> +		mem = memory_block_get(phys_to_block_id(cur_start));
->  		if (WARN_ON_ONCE(!mem))
->  			continue;
->  
->  		altmap = mem->altmap;
->  		mem->altmap = NULL;
-> -		/* drop the ref. we got via find_memory_block() */
-> -		put_device(&mem->dev);
-> +		memory_block_put(mem);
->  
->  		remove_memory_block_devices(cur_start, memblock_size);
->  
-> 
-> base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
-> -- 
-> 2.54.0
-> 
-> 
+
