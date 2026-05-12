@@ -1,179 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011003.outbound.protection.outlook.com [52.101.52.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F06E4DC530;
-	Tue, 12 May 2026 06:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778567140; cv=none; b=MLTlIDmXYX1x9U4ivIzJDjOL+KhvfwZwdsOdFv5GWwl1h6R9qf7zFxHOdptLorIW63vVVG8O8U85Z/aKt4aignicAmJT5zXm99kdWXc2iowY2OUUnMZeXVTNKyNE/Occyo9AisHp7hB7nrd+B2iY7Wu3ZN4VEVyO1H2JbQh3sKo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778567140; c=relaxed/simple;
-	bh=bvbc8NXu/FH7JnxQJ63NcUmUspxbFGn5COPiYbadr3A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EiMbpSmz2lu726kgYOA4wKR1c5wRCcSTMzEAYJrWBBKT/fBI7XbAoA23KbURlxCILHuq8dNGS8Ez6I1NOW+I5MGCjJKzeMZkxxt1nl0PS/4xpuQLLdig8G9K8fCxvQfhI0KhxkV7uApNEKKqqZX4UrUt3CpXnPk2hiUMDDT29GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPJcQ42l; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407134F798B
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 06:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778567227; cv=fail; b=H809NrWnBlMHtWns4ktvZ9+SDENHzbgGLHtfwwXTmLAN/7Fv+sxq7pkRvrOIfH6HcpEccBNWJYS/GlACt191Z0ER00amIZk7BbuSfIyVurzkYqfisza4EruNfIOLC36Q7JvXHjcNY8hiaVRiRxfYWpzAJ5Jwjd/BCRHABAaTRSk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778567227; c=relaxed/simple;
+	bh=Cb6bTnBRgUMpnNjpQB1A3kJ7cwcbHmEpCiG+yB1MR74=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DPa1iRMQJOZ+54uqm7YpE35wQGyEBaqeQjdMaBXtRDqDOJ6emGaTqfdu7AZzYxoMFGTwUJ5WodB6XUvyDaYEr6N71M1p2Qk/7yl0i2ZhGPnqpmvppm7CirgKXOn5a7RWZ4Tn1g58P1ipbrwInS9MWRhtPezYgi66QSW7cVetmbI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=qzBYb6KJ; arc=fail smtp.client-ip=52.101.52.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPJcQ42l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 390C1C2BCF7;
-	Tue, 12 May 2026 06:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778567138;
-	bh=bvbc8NXu/FH7JnxQJ63NcUmUspxbFGn5COPiYbadr3A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KPJcQ42lqoBcaETRv9s+IzNGz//Ivc3JXk62CLGniVddCcT7ZanylFrpu5HvNcC72
-	 8YEE0SbmT1B3xZ4lA1+2Qsjkh1eXEslJ/tY8CMEED1WfQJQ14v9wTsLocbwC9h3gCL
-	 jccrj5ez6EJPBy2q3LVN/R1TErMfH+SvCgv2cpqkH611/p+ILQTxG6cVhb0ucvazyI
-	 F90DLpobyL8sA1ptsK1UAA3yb7vOWSkrGWgpanWP2o/5xSobicfFs8pvRks7wYEXMK
-	 5dQVpp0DW6QfrHV0VstIURYs3Hxu6a8pKNDYl/Wc2Wo+kLpw1dZZjii2Jp2ju/Itia
-	 HTqfliANKU/Zg==
-Message-ID: <9171623c-4775-49e9-bc05-3ecf1a81c7bb@kernel.org>
-Date: Tue, 12 May 2026 08:25:31 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="qzBYb6KJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hnjXDlHD1YySRQKM05AFZiOObUhT8JIZslsceysYPFenQG3MZPvWbFQ0IcaCzKyHKtm+c+1yhHfqz1I3Rj+rZIBFuCn7YwbYy4o3XMT0uDUQz+bUovfJz/f19D79qvyAqfl40Q8BNESGUonCEIUFPPH68w4yHwj2OTOEONedxw0woOJUEZcp2ai9pXKat2Nu2qgc5FH/c+9v5QBEEGIqn5+evMPIekW+yHvqlHFVRDY8N+RHSs2H2onFN3ZJOe6U62kZZO4lu77rPp7KTfznZ6ryRX0tnPgZfjtJWcj5elKX3lEY5sUBth6UwkNv72GqLDomqGUgxwERqiMMfsiX2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nyZPjZkF7osE7URieCZY80sJTcCg338GiCsqQe5tkAc=;
+ b=JtcGxJ5Yokh88b9XesehEQvNdufgBjqPCjNogt4TVfS5htC3Vcxmrt6A3qTxk32f09YkS0CBnOYRjqYrmJ1fG/KqseQnW9SxHMQdvDrLBbvV4WIG7WmfHUQvFSCDqSzb58ufc4eMwZnUl/vle9MAKBvOn1mkpJmYzr2nIpt1Hrw6/nLqhk8t3ITEWSuC7yhVP5VNuyvdXcfrMtVsvJKhkzbZHXG1kwfh5l/w7uF7uNHES+96M2nB4btTvuGXKuLmdd/UP3gWybMxxUwNsxV2TVkAjSa/ilTQgi0S+C+ybBCK+o+RYA8TLp4Lxz6H9Vqppxsg+vdw0A8uiShg4AcADA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nyZPjZkF7osE7URieCZY80sJTcCg338GiCsqQe5tkAc=;
+ b=qzBYb6KJqMZrSH0ncA/1erfpdlL07fXzLXFklQYbGDW7pB6SL34OscZqnMUCQJwiNfbyaba3Kt1M4npEZhDtlcQwigY9tBqb480Nr4NpIRGd1RpRUzbSexgdVoNBEyo/eMzHMYy/rrF8DSSIVZWBbzfw80K8duKTea6dkSbFmSc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7325.namprd12.prod.outlook.com (2603:10b6:510:217::19)
+ by SA1PR12MB6776.namprd12.prod.outlook.com (2603:10b6:806:25b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
+ 2026 06:26:48 +0000
+Received: from PH8PR12MB7325.namprd12.prod.outlook.com
+ ([fe80::8024:a7ee:b29c:a4fc]) by PH8PR12MB7325.namprd12.prod.outlook.com
+ ([fe80::8024:a7ee:b29c:a4fc%6]) with mapi id 15.20.9891.021; Tue, 12 May 2026
+ 06:26:48 +0000
+Message-ID: <d4cf0ef8-eb54-4962-b58e-afde936b768e@amd.com>
+Date: Tue, 12 May 2026 11:56:38 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/7] platform/x86/amd/hsmp: Make metric table read
+ locking use guard(mutex)
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Muralidhara M K <muralidhara.mk@amd.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ driver-core@lists.linux.dev,
+ Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
+References: <20260427155129.545327-1-muralidhara.mk@amd.com>
+ <20260427155129.545327-7-muralidhara.mk@amd.com>
+ <9e34e44c-d19c-5994-1390-107b4058367c@linux.intel.com>
+Content-Language: en-US
+From: "M K, Muralidhara" <muralimk@amd.com>
+In-Reply-To: <9e34e44c-d19c-5994-1390-107b4058367c@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN4P287CA0093.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:268::13) To PH8PR12MB7325.namprd12.prod.outlook.com
+ (2603:10b6:510:217::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers/base/memory: make memory block get/put explicit
-To: Muchun Song <muchun.song@linux.dev>
-Cc: Muchun Song <songmuchun@bytedance.com>, Oscar Salvador
- <osalvador@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, linux-mm@kvack.org,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org
-References: <2841f424-580c-48c6-bb26-de30e4397b7f@kernel.org>
- <3234B4D3-8202-4E79-B85B-8B6373BB76F6@linux.dev>
- <E9BB5FC5-0785-4162-8D1A-2A51C7250B34@linux.dev>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <E9BB5FC5-0785-4162-8D1A-2A51C7250B34@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7325:EE_|SA1PR12MB6776:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ee4875c-b96b-4651-e95e-08deafef7257
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|18002099003|22082099003|56012099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	fTn+wi8LdVGLvbBzD5iFqlKgTXgai4rDxU1Weql9q4hS1UcA/tlgdtv6aeRHVYlEvwuJOVEMK9pkKVqjlkIyDOLbW2jFyD3IY1gDvo8nlz5ZJ8rjLnnWaPvcqfId0WAXWfZsstTe7c+iTlyGj3txY+n67adKu8t6YAVPv/TEeqUwvG8sTAWS0vAUWnQJudq3VJk4QwtnOC9nFWvUxAcQKvXgx6H+Im03Km+dxOdOXMqWZXCiT2oLi5ZsBXi4Gbp/FxC0h9biSbhw2Zm1qHd6R/9O3+j2NBGOnFcafZ0zumPjdKpp0ABi+J4/tfGRA1vSjgrsu1YLkshtdysIeHn0ylRuKcYRCUyK++Y4YQ++YXA9DKH7VBMxCR2cMdtC3tqLP7RwdEwrEFR9viF1xDw+vI2zUUqjJ+PnkK2xTLU3dGk0v2//G6nms8CpjOZcJvXRF01WbADvqEFhr3Wl4lBQ37pAJSmReuZrkH64qWgQAwB8jcFXO6wfpu8bpgn2G8vfYjmt0a4gObHY8rlhbgIJDdBaJU/nk9DF+Wkf4oo/kj4/0/n0Kq4Nk8x1gS+rHT/9CVB7V2AnaUq1JoOXt8hiKdVSP/e5H0Nih9rNzr4m75Ex+nkGEBxHlYjcBqald2jtKGLYhnLUIO6iMWMo44bZdMVJgHPTzfrSjsca7O6oEZWD3vXtKIXXJ2+BwxoYjrMl
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7325.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(18002099003)(22082099003)(56012099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?N0RiblQ3VUZaZnovbUUyUUFraVJ2NkVtRzhSVlJvb3NjZVJuaUdUUEZVVUs1?=
+ =?utf-8?B?N3lzZHZWcXhoYmNBM0dNRUtxNGFVK0pLaG1Db1NOTXRFalZwNk1PeGhIdEQ3?=
+ =?utf-8?B?TzJpeklWdnkvTXBVc3p3UlFDSmgrL1Y5alQ1enRORThGRmxrVnJzdWdjelcr?=
+ =?utf-8?B?MGJra2F0dkNsdXlOOEFRc0F1dmd5RzdnQVlkUmUzemRRRmdMVmtQUzF2NDh2?=
+ =?utf-8?B?Z1BabTF3YlRGNzBsTjZWczcrUVRLWTl5TmRFLzFlMlNhaC9IZWRVVDJ3VWpv?=
+ =?utf-8?B?RHJlZjYwaXJ5VEhMVTFDOHdsYytGM3JPcFpoNk5CbjFZSnlxRWlXalFLT3Rv?=
+ =?utf-8?B?NVRSa2RMMXNiTkFyd3hJK0k2ekxLU1VZTEhSYlZVdUhZUnR5dnZndlJBNk8w?=
+ =?utf-8?B?MDNMaGRmc3ppTHNnZkN5VUtqa0hndnA5MWpOTXhCNUVGQU42S3doV2RXYUNx?=
+ =?utf-8?B?UjM5enBxT2ZNNXY5ZFA5K0hQWHJBYnZjYTJMN3pyWXR1Qzc5Zmc4eXc2akYx?=
+ =?utf-8?B?QzlQbkw5cXhrNXJ0L29SOHBCdEhuNnV6eHFqTEN1UncrR0QyM1YvYnZlTnpp?=
+ =?utf-8?B?c0dZN254dTV6R0tUQkluL2UvUXJReU00NGFBQW9sNnNWeVZuNXNWQ1J2ZDNG?=
+ =?utf-8?B?T1kvbHVZYXAydFRLODlxN0pWN0FPbFEwcjRNd2toS2ZrTjZsVEFUQmxyNldw?=
+ =?utf-8?B?Y0hSV1dTTUJST2IrTU9xSGNSN29adzJocXBnY3plQTdwa2lQN3JXL0tzZ1dF?=
+ =?utf-8?B?OEJyajI3WGk1dXdvOW14NVA0d1dnT2s1VDhrdTdUK3Q5YWN2MFRQZUFwWThs?=
+ =?utf-8?B?TllsRzYySmlLUk9XOVJEV2ZKVE44NVI5RWVEdkNHUDhCSGZuZUtZUW1ORmtT?=
+ =?utf-8?B?cE9iVmVoeXNvTzltVERESVA0WmdnTWxXQ09WTVNGTDFTMXRrN3VGQ3h0cStX?=
+ =?utf-8?B?WG1wSXdpUmhLMnRWa0xKWUxSMkM0UmVXbDNBVmpLTUwzV0xXQ092S0hteUtO?=
+ =?utf-8?B?dkMxSGFyMzN6VzVJczhQcEFueWZwa2Z3bjQ5QmcvejdIeTNEYlhCVnRQUHlh?=
+ =?utf-8?B?MjVuS0N0Si9ISy9rWUs1b1Z2YnowQjh4ZjRmN3lsaUVxZW5xQnh2OXFublVM?=
+ =?utf-8?B?VGZuaWZkeHZRREI1OWhlRUdqcTJRQ1RyemxGYjNxVEwvdzEybG5PdEwzQlIx?=
+ =?utf-8?B?ajBibTFRV2VHeVl5bmtYQnNKRzJvN25FMDdzbXlhMXVxRWlEL2VvUnliSzJQ?=
+ =?utf-8?B?cDJJc2dkb3BUR2Z1aWtZb0dDQXU1N2IrcXVickY2NHYzUGNCTVpGcStsVHVE?=
+ =?utf-8?B?L1E0SE5QWUFpZjhnaHFDWS9LQjQ4Sk9wZDBvL2NSRGNGNUZKMnZFUDUvS1Iv?=
+ =?utf-8?B?dWp4OTJLN3dZMFVaOUQvYXJQY0JIdEpTRi8yOWx0TDNnbWx2bjRlU0dBc284?=
+ =?utf-8?B?enI2SnhmaEk0KzM4KzZyTXpXbnFveGV3MTRRTDlhOHg4MVVwS1g2and0SjFh?=
+ =?utf-8?B?OTNNM0hYcEJEN0M1bURhbnE1SitDSURpczFGZ2ZrYU9qdEZSRjlkQVlzRytV?=
+ =?utf-8?B?QVVodnh4dG9FN0FBam1xbWtpWG05MVl2ZmIrM0R3UGtKaXozYjlySDYrR0VU?=
+ =?utf-8?B?QjlMYzd0YnZtb1BnWWt4NWs3MTFvNk9Vanp6VGorUzFhTlpDcEhOaGJBNE5m?=
+ =?utf-8?B?eG5nMVNQaWlJMlovQ1JNdGlqdHhVV0RTVjYyUmZQRUR5YXNDWDRSdFUwRVpS?=
+ =?utf-8?B?TXY4YjlOc1JUYlVMSm5IV2gvR0ZRWUZORTVmMDBnTmprOTVRTHlFUkszMndo?=
+ =?utf-8?B?YkZFakNOUlpBZWJkZXhrYTlzQjM3cldVQm1KQzhCL1kxRU9ZSzFBK3pnSHhj?=
+ =?utf-8?B?ZEdULzNDT09Gc3lGMFM5Z2wvTU9UUEpVVmlNZ25jdUY5aFg3REM3dXBLRHZ0?=
+ =?utf-8?B?aHRLVnBhSXNmYnZVM3MvY2RkRkUxWkdiS0tHSHZ1ZS9Td0xJL1RJK2NVWnZs?=
+ =?utf-8?B?NHZpSUwyN1FHRmtyMm1zcmVwTmdGLzh5WGhqSC9HcUViYVlWZm1pQmU5V2RO?=
+ =?utf-8?B?QWYrMmY3alVrNGJiUFdnTkc0UUFMWmY4QmhJUCt5YnJvQjVOT2IyazZmR0F5?=
+ =?utf-8?B?REh2OWFmWmo2aDgrQXhSK0UydVdPeTVCRHBqZnlPMmR4Q0pGUHloS2krQXRF?=
+ =?utf-8?B?MVdkaVI2OWMwNy8yVVk4MlpwVUpzY1NCeXZsemU0VWtuTzdCZkxyNlc0SGcw?=
+ =?utf-8?B?S1ZUaGNjamNTOHJZVTlDSExVUksyZTJhcm5DWTBxWmRUcllBSkMyT2s1d0dF?=
+ =?utf-8?B?Y2I2Z0dpajA3M012VEFVZzNTOXdLcGhRREtuUHFWOG43Y09pRXJoQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ee4875c-b96b-4651-e95e-08deafef7257
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7325.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 06:26:48.4682
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dkQTGlHKRM66/to0Vu450KI3xVkJ3+Z+x9KLP6qt0HLKBJDYCyxS5c+x/Bow3pH0ECx0nrWF25V9P4x00H7nZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6776
 
-On 5/12/26 05:11, Muchun Song wrote:
+
+
+On 5/11/2026 10:57 PM, Ilpo Järvinen wrote:
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
 > 
 > 
->> On May 11, 2026, at 21:23, Muchun Song <muchun.song@linux.dev> wrote:
->>
->>
->>
->>>
->>> ﻿On 5/11/26 13:18, Muchun Song wrote:
->>>
->>> Better mention some of the other changes here, like removing find_memory_block().
->>
->> Will do.
->>
->>>
->>> [...]
->>>
->>>
->>> While at it, please drop the "extern".
->>
->> OK.
->>
->>>
->>>
->>> Would guards come in handy here?
->>
->> You mean to introduce something like:
->>
->> scoped_guard(memory_block, id) {
->> }
->>
->> Right? If yes, I will give it a try.
+> On Mon, 27 Apr 2026, Muralidhara M K wrote:
 > 
-> Hi David,
-
-Hi,
-
+>> Add a per-socket mutex (metric_tbl_lock) to serialize concurrent
+>> reads on the metric table sysfs file.  Without serialization, two
+>> simultaneous readers could interleave the SMU refresh command and
+>> the memcpy_fromio(), producing a torn (mixed old/new) snapshot.
+>>
+>> Use the scoped guard(mutex) API from <linux/cleanup.h> so the lock
+>> is automatically released when hsmp_metric_tbl_read() returns,
+>> including on error paths.
+>>
+>> Co-developed-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
+>> Signed-off-by: Muthusamy Ramalingam <muthusamy.ramalingam@amd.com>
+>> Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
+>> ---
+>> Changes v1->v2: New patch
+>>
+>>   drivers/platform/x86/amd/hsmp/hsmp.c | 5 +++++
+>>   drivers/platform/x86/amd/hsmp/hsmp.h | 3 +++
+>>   2 files changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/amd/hsmp/hsmp.c b/drivers/platform/x86/amd/hsmp/hsmp.c
+>> index d6e377078182..49e7ed9981e9 100644
+>> --- a/drivers/platform/x86/amd/hsmp/hsmp.c
+>> +++ b/drivers/platform/x86/amd/hsmp/hsmp.c
+>> @@ -10,7 +10,9 @@
+>>   #include <asm/amd/hsmp.h>
+>>
+>>   #include <linux/acpi.h>
+>> +#include <linux/cleanup.h>
+>>   #include <linux/delay.h>
+>> +#include <linux/mutex.h>
+>>   #include <linux/device.h>
+>>   #include <linux/semaphore.h>
+>>   #include <linux/sysfs.h>
+>> @@ -364,6 +366,7 @@ ssize_t hsmp_metric_tbl_read(struct hsmp_socket *sock, char *buf, size_t size)
+>>        msg.msg_id      = HSMP_GET_METRIC_TABLE;
+>>        msg.sock_ind    = sock->sock_ind;
+>>
+>> +     guard(mutex)(&sock->metric_tbl_lock);
+>>        ret = hsmp_send_message(&msg);
+>>        if (ret)
+>>                return ret;
+>> @@ -408,6 +411,8 @@ int hsmp_get_tbl_dram_base(u16 sock_ind)
+>>                dev_err(sock->dev, "Failed to ioremap metric table addr\n");
+>>                return -ENOMEM;
+>>        }
+>> +
+>> +     mutex_init(&sock->metric_tbl_lock);
 > 
-> Did I get that right?
+> devm_mutex_init() + don't forget to handle errors. (without devm_ you'd
+> have to handle mutex_destroy() calls too)
+> 
+Thank you for the suggestion. I will update the code and test the changes.
+I'll send the next version once I've verified it works properly.
 
-I assume so, but it's indeed rather ugly. ... in particular the CLASS and
-scoped_class() thingies are pretty intuitive.
+>>        return 0;
+>>   }
+>>   EXPORT_SYMBOL_NS_GPL(hsmp_get_tbl_dram_base, "AMD_HSMP");
+>> diff --git a/drivers/platform/x86/amd/hsmp/hsmp.h b/drivers/platform/x86/amd/hsmp/hsmp.h
+>> index e7f051475728..038678b8ab0e 100644
+>> --- a/drivers/platform/x86/amd/hsmp/hsmp.h
+>> +++ b/drivers/platform/x86/amd/hsmp/hsmp.h
+>> @@ -16,6 +16,7 @@
+>>   #include <linux/kconfig.h>
+>>   #include <linux/miscdevice.h>
+>>   #include <linux/pci.h>
+>> +#include <linux/mutex.h>
+>>   #include <linux/semaphore.h>
+>>   #include <linux/sysfs.h>
+>>
+>> @@ -41,6 +42,8 @@ struct hsmp_socket {
+>>        struct bin_attribute hsmp_attr;
+>>        struct hsmp_mbaddr_info mbinfo;
+>>        void __iomem *metric_tbl_addr;
+>> +     /* Serializes concurrent metric table reads */
+>> +     struct mutex metric_tbl_lock;
+>>        void __iomem *virt_base_addr;
+>>        struct semaphore hsmp_sem;
+>>        char name[HSMP_ATTR_GRP_NAME_SIZE];
+>>
+> 
+> --
+>   i.
+> 
 
-I thought we could use guard()/scoped_guard(), but reading the details, it's
-mostly for locks only.
-
-There is only one users of scoped_class in the tree (overlayfs).
-
-Maybe, if we would do this properly, we would actually provide our own wrappers,
-like
-
-	MEMORY_BLOCK
-	scoped_memory_block
-
-not even providing "memory_block_get", as that would be implicit.
-
-Like
-
-	MEMORY_BLOCK(mem)(block_id); // the second () is confusing
-	scoped_memory_block(mem, block_id) {
-
-	}
-
-
-But that requires more thought, and I don't really know what the best practice
-is there ...
-
-So thanks for trying, but let's leave it as is for now.
-
--- 
-Cheers,
-
-David
