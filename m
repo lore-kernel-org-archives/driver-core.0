@@ -1,262 +1,236 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0D1360ED7
-	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 11:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B830016A956
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 11:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778586250; cv=none; b=MuTv6YDfHG1Jg+Fig1102N4NZHsJN2pwxbzST431lDtWumMAG365XBC3c00WM/J+vF2j1DNVw38CPQoy1FC8sIci4O2At61dGqT38mflMSFXNoWLVNj7jbggiZxsKtbD7AFTkRmZZPsXyhC3P73iLz0r+3OLTwV2YJGK7xObsFU=
+	t=1778587195; cv=none; b=bcccLy7NOlJH4PUSo1s3hVCd+9hfm5WImtbWFwAHqwRtUgpiCafYjX2lOWI1FwZwADdo3DQJ6nemEXhSvCCeUYsj+0Ak0Pj+sCwXiMqIoqMB3fZiqLSHv+M9Da3lYWViZDB+NZJHybCeZDYQ1ghnuVKquh5NGDkhTqjY0I/g/Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778586250; c=relaxed/simple;
-	bh=uAvaqa1KNi6OV2RqXx7H2u2WDoQ6v+Z2nJ7wFUgfp2M=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=QehAaL8FPhxM/7Gwn9UiVhC9bVtsxU1B74jhWTFHhS0DSI4k5fl7Mi1nSQ2GMWenj55rR+HxLVi+JlBsS9EgIFvGLjATh/X4JD0x7mNEYmxApNZsPfFnM9JRs2TOxWXmChWiBCsoxY3v7JDnggnS0pRKx//ffixGJsb6wFd03II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eplXsrpM; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778587195; c=relaxed/simple;
+	bh=RgA2s/ETiOsSC/3tONU50v90I3+p2ImRh+ak2kO9UFU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kliDD+nwuvDgSYLfIFFIw3fOcmQ2xhKK7GKHeA1xYn8l85yYRNxeUbrp8UKDV/MQLIPNmIPws/luHJAf2TiHTxBTvw8UMr0kGVXsRbW7UWqfr3qg8V6bD3VMMzSu9//66R7X6AHkidpOK3fBB85EcKtMcceDkK9HVkLySy7ITgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MeprPw79; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=C+zPLfq1; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eplXsrpM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778586249; x=1810122249;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=uAvaqa1KNi6OV2RqXx7H2u2WDoQ6v+Z2nJ7wFUgfp2M=;
-  b=eplXsrpMABJA8arW0CzZuuJ0p2tNqAq69ujHPCQHdMdfvkW6TsIp7vBz
-   Zje6K64JYYU+xA5u89s+8+45BM86zasYk0hqWXx55u55271J4vIX5nEAG
-   M5hhORFQe315HaOsuFdXMpVpfRaq2P4roaO16n1NzO0ejpjIXV+pSJKS4
-   /+gvdenhUvNxFwR5Ti4Xoz8WWWKGSbnzjj5p3ekSFcG8wfpOL3v2p61CJ
-   pjIDANUqdWPA23lzrTfwPPEDOlchHvNZsa7h/D+3w4Y02p5BsVuv6rUXv
-   Hd+IzXl7Zd7i9Rz7Y63B+V4wnJA33ffPQVu0fXeaQb/jN8iOV0oK18b7T
-   A==;
-X-CSE-ConnectionGUID: CWjoYK3GTPOusefp4PB3DA==
-X-CSE-MsgGUID: H7c8kHz2QIKr10nigKoYhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79209617"
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="79209617"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 04:44:08 -0700
-X-CSE-ConnectionGUID: V6cKCQp5T0C0u7mIiBAsMA==
-X-CSE-MsgGUID: 2XNJ+K96QtmX0ICOQ/0Fug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="233438855"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.190])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 04:44:04 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 12 May 2026 14:44:01 +0300 (EEST)
-To: Muralidhara M K <muralidhara.mk@amd.com>, 
-    Danilo Krummrich <dakr@kernel.org>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    "Rafael J. Wysocki" <rafael@kernel.org>, 
-    platform-driver-x86@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    driver-core@lists.linux.dev, Nayak K Prateek <kprateek.nayak@amd.com>
-Subject: Re: [PATCH v2 4/7] sysfs: Add SYSFS_HUGE_BIN_FILE flag for binary
- attributes larger than PAGE_SIZE
-In-Reply-To: <20260427155129.545327-5-muralidhara.mk@amd.com>
-Message-ID: <c288b106-b8fb-bd4c-fd47-062cd03cd337@linux.intel.com>
-References: <20260427155129.545327-1-muralidhara.mk@amd.com> <20260427155129.545327-5-muralidhara.mk@amd.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MeprPw79";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="C+zPLfq1"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64CB48eF3385016
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 11:59:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=3neawzxRuWoJiguAZtl2rO
+	1U5dIQZaPDLZpbfcRIhj8=; b=MeprPw791zFDSZDkXkrnYgN8hAi+1yvykZs6yg
+	p3ah7WWeZSs0NpgxcL5qjOoU4t5ZPnlmLuBjjhPUkuhIxpuzPfnJOp1niXGVUYgB
+	0Vs0ZjnvytQrgBD4UhvRq+ixovFmXFGDqckcK623t2QpSKizfzzCNJeaF8UYuGtb
+	uw+udkDsxrAJjQMb6Pol6zZXBHR2DXD8qeiC4zE4ZQXLcn/vHrjP+cCwjTD4tASY
+	ChBu5iv1ftBhk6FwPrKzqheJtq/KImKlg3/WsFDAEBxtoFBn6wLwp+PxRpXmWywg
+	FxM0eykpG0iQLOjXzjT545l+sLBM/PrpGVdCq2wJ2Lzvd2Gg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e3nv4k3w6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 11:59:52 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50d8e8c47a3so124664181cf.0
+        for <driver-core@lists.linux.dev>; Tue, 12 May 2026 04:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778587192; x=1779191992; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3neawzxRuWoJiguAZtl2rO1U5dIQZaPDLZpbfcRIhj8=;
+        b=C+zPLfq1wyFjEpqXjBjAHgAZshXvD1hluxbhK0l6GoHGhuBskHwdhD1JJktVxhhNvb
+         DKVHoH0IHW2Jl7Dqygfhd8fLI1O32KzUv3dZaWEE7xEUiTz3SoqUqC2oFaQf/BA/k212
+         o1QdboFIwKYAkugiabSCQiaocbsx5t03Xp0rrvyEsvVPzDxESwE4jcfyGry/Akl2CcCI
+         S1zGr8DIkfFacaCdiqPvaZukqfOg6dWDErjHuqH7dMhYQGE9BuWUBypG3Ve7DSjLPmxJ
+         15aJdE3NpBnNR939SPzphetqNas7lZPq2MGkNyKtN8Nub2gdkEKmXDWaVSCVOfP71NKZ
+         DRrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778587192; x=1779191992;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3neawzxRuWoJiguAZtl2rO1U5dIQZaPDLZpbfcRIhj8=;
+        b=iKX9NdUpXpbDH/4w5j7Kr8e4Ki1qE+BsBkdrBrUQIN7cSLN0eIT1FQz4JXQKYQtsf6
+         Nk/CcmK93EEimT2FFReCRFXepTcoHLjjDJ0SiqmqYifiLAibmuU19f38URZrYc05MCBN
+         oWLdEif+hH8Xh99Ed1yd8NZKiRbQWASijGA8MOGb+hl6bi5JVWEqB4Lgx6k5zqxxkE/3
+         o/Kvl/L5SI81KOgrPbK41tNNuqU3cx2qmxg4Hjz2JOSzuhQdmKRgVmd4tmRU47yw9r3e
+         tI4+IJ8tq6uG9XRT0Z7aEpKGMWzcDKaf7F4VIRV4M2HBLmc5CFVxuS2NUKnciAOCbarD
+         U8ng==
+X-Forwarded-Encrypted: i=1; AFNElJ/Ph5jqLvxKdcJMCcqXalpwyhG4HO0A4xqR0YWb+RWK7QBzRelzTx6QSXa9hcMDbD2stAxVZu4gYaxbMg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFotJPTBVffgwa+5Dwz+RFwIwVzF71z92wZQX0XplNDT0xq0op
+	057t4mHkl7hxDp6egxqnl8bwVWQcHcF8Grg+J+HTBgrsQ2t4MtwDtrQS3VFAGuuP148oKoNXGU6
+	fUIrAnhLmOsIrjaXfHPGv74GHSZv8dVmOoQZBmtT0Sk8zESJQ/oe3xQH0iQt/jDm3/w==
+X-Gm-Gg: Acq92OFOk0PL+D88IphvO6gCwjQF5DPdMVxy/y1C6eQsP105aCU8ddPmjepWrFKqnGW
+	p5IezW1Lxq4aZEaKUdJWDxwyokaDnNEzvkDB5LRBz7g0dFenVEVI45GDp8a7M2gvFnCXEMbwt4v
+	cocMpAI9aeZxM1553P9DoAa5Hf0gohLLb1AAzugnxhiR3eNN/5MecpuK42YqZ1zJjiyhrADAM+8
+	b27YIGvLPASixkoImcSEf1ZIRFV8WPHauelQDchhy6jP2vNdkgXbKyYecrO2bwfjlYYydkn6TZR
+	JKId1pNeFFq15QcmuWcY713bNlpszjJspS+DMU5yraoGwSnavxhHiydZJVWr6Ea/fjrJs22H5S8
+	6f83EnZ+w/VTYaC/6jyjeO9aRlVY4InzAeKgv9ZX85Np0+hK7I5E=
+X-Received: by 2002:a05:622a:199a:b0:50b:2eee:4b38 with SMTP id d75a77b69052e-514619de95emr397545011cf.8.1778587191951;
+        Tue, 12 May 2026 04:59:51 -0700 (PDT)
+X-Received: by 2002:a05:622a:199a:b0:50b:2eee:4b38 with SMTP id d75a77b69052e-514619de95emr397544511cf.8.1778587191457;
+        Tue, 12 May 2026 04:59:51 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:74a7:1c82:3f14:b431])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e9067811dsm73933355e9.9.2026.05.12.04.59.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 04:59:50 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v5 0/7] driver core: remove software node from platform
+ devices on device release
+Date: Tue, 12 May 2026 13:59:22 +0200
+Message-Id: <20260512-swnode-remove-on-dev-unreg-v5-0-0035eff63812@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-1646307465-1778585693=:11125"
-Content-ID: <9422f24f-3d97-62ff-1f13-05d80ec3240c@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABoWA2oC/43PsW4DIQwG4FeJmEsENvSiTn2PqgNgX4LUgxYak
+ iq6dy+X6Ybm1MXS7+H77ZuoXCJX8bK7icIt1phTD/ZpJ8LJpSPLSD0LUPCsjFayXlImloWn3Fj
+ mJImbPKfCR2nAj8F4QO8OogOfhcd4veNv7z2fYv3O5efe1fSy/RfbtFQy0ECo7Ijk4TXXuv86u
+ 4+Qp2nfh1j0BisRcFOELiq2oDEQA9MDEdfiYVPELlpET2HQHoAfiGYl4vbXZrlR28GQU44J/xD
+ nef4FFJbieMEBAAA=
+X-Change-ID: 20260410-swnode-remove-on-dev-unreg-42bfc4b23ba8
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Hans de Goede <hansg@kernel.org>,
+        =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: brgl@kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3503;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=RgA2s/ETiOsSC/3tONU50v90I3+p2ImRh+ak2kO9UFU=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqAxYnbnSB8uRw3SqZx+7HL9YftDRf2Hmavqm77
+ 0qwC5oVHaCJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCagMWJwAKCRAFnS7L/zaE
+ wxghEACowF1Mkl+w1sNCuuqh+NdmCs1NUavW4nlxm3wgGBZAAFJ8ZgwcWUe2rPCdwhTljkV8G05
+ cYP5RwR1c97BjKXb+aSKMTOBS+xCKCw0LZp4j1kP6GqehfgMcRgVeqlvuG8MsMluEQCrssOmxJt
+ PV9sPTtRVjCWIZqeEatN9V/3xT8qSwWs2uK0jyitb1xSmgV7/cjnjrEAdQAe9PuZtgpoZc+03Td
+ x2SVw6/ZVG3duDEte5pBHE0yHYy7nFwEdkXfmSh1hEGiAAVHPWmZiW/hD6OWWpImba6gl4V8SEO
+ 8VDUC3UoPQiJj2F1b8lMxVHN/Te/xczH/u9A/OtU4KZKLeYf4H2N6h4Wokd50hE+gEKUxBHQKZ0
+ lBoCkfWsIIy215PHedxu4RZo4L3eA0aLE8u+v/HKAyEoT8YceSX2qsM3uLv4F51CbJaTnLSS9Eu
+ x3HNVAfVPpdYiqa1NMlAa5z66FM5OKeVsQVoH6qYNqph44vJIl/D46zsEx3CIAjIwhCegTFk98R
+ xnR5HwFwBiInYWcfkDdyMZBF5DCWM85bs65Sd8Q9lQzoVISrZfoUV22rpXAW3AtmF9HJEzt40Q7
+ zYW7nc9b/vxJ04kKY+e868muDM3PKHe/MtL1dCcn6l2LDqGFzcJD+S1zwFZwEsU5k3O15kSLFcQ
+ q8BoUymNuBisTfA==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Authority-Analysis: v=2.4 cv=ZrTd7d7G c=1 sm=1 tr=0 ts=6a031639 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=pOVGAA1bDAHTFGk8ZFsA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDEyNCBTYWx0ZWRfX/m4N3DRDW7K4
+ GzNkwfVfh9sTMZ5o/lA2rLNeOeMU2UBJr2Ldw7n17DY6IzBm6jXdlocFP7dxup2pkcQyMdv9mfj
+ +orKtgQr+dyDUZRPiO8V8wABYS7rRCm1ukGFfuJwpjTDox3R7AS+8AYsA49u3bQoM4J2xWgvR5S
+ 80VedkS674J9T4g8x+p9WMH5VBK39QhVfVaPnMBseKILuDX0FLutjHZ9yx0ougjeBYyGJnTUyFO
+ aqYFuvJwywhnYu6bExDATP5tZsZMl8yYmtKeT4iYIWXytGAXhiDZhB8NCFZ2kDmORx1ZMAjW4TP
+ zjZjf7rN0SStEvualUKH+pUrUSX3l5er9UywN9U55oBtiv1rnEBtU/SB6yTHaADL2MB6Os4wVh7
+ eyKCrZip/C9R9JQHh5o1H9808Uq/mXepzUpvoKAW5+Wu5yKpksRvVivJqMaZ1IRFaq48ftJyoNb
+ Fg+JUB1Np9iI38zqQYQ==
+X-Proofpoint-ORIG-GUID: 6fBti7zbhM_CXOxLK_P1mmVg27zHa9Y4
+X-Proofpoint-GUID: 6fBti7zbhM_CXOxLK_P1mmVg27zHa9Y4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 spamscore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605120124
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This fixes an issue in platform device code where, if we specify a
+software node for a platform device using struct platform_device_info,
+it will not be removed on device .release().
 
---8323328-1646307465-1778585693=:11125
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <0a2a38db-660b-12d8-d59b-d1f96c20a200@linux.intel.com>
+This is an extended approach from v4 where we also first introduce
+necessary changes in drivers where the fix may cause a regression.
 
-On Mon, 27 Apr 2026, Muralidhara M K wrote:
+Merging strategy: Danilo suggested that the new interface we add in this
+series as well as prerequisite driver changes can still land in v7.1 so I
+think the entire series should go upstream through the driver core. The first
+5 patches are part of the fix and the remaining two add tests which
+can't really do harm.
 
-It would be really nice to have sysfs comment on this approach, as we'll=20
-need their Ack for this (or a suggestion what would be more appropriate=20
-than this if this is not acceptable to them).
+DRM and platform maintainers: please Ack the two driver patches in this
+series.
 
-Please try to make sure you Cc all the relevant people for the next=20
-version right from the start.
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v5:
+- Provide a helper for users of platform_device_alloc() that wish to
+  assign a software node to a platform device
+- Rework drivers that could regress after the swnode leak fix
+- Split the series into several patches as necessary
+- Link to v4: https://patch.msgid.link/20260430-swnode-remove-on-dev-unreg-v4-0-01574da0aed3@oss.qualcomm.com
 
-> Historically, sysfs read buffers were allocated with get_zeroed_page(),
-> limiting reads to PAGE_SIZE.  Commit 13c589d5b0ac ("sysfs: use seq_file
-> when reading regular files") transitioned regular (text) attribute reads
-> to seq_file, which can dynamically grow buffers beyond PAGE_SIZE.
+Changes in v4:
+- Drop redundant !pdevinfo->swnode check in
+  platform_device_register_full()
+- Handle all three combinations with which two software nodes can be
+  assigned to a platform device
+- Extend the new kunit test to verify all three combinations
+- Link to v3: https://patch.msgid.link/20260428-swnode-remove-on-dev-unreg-v3-0-533bdc71b22e@oss.qualcomm.com
 
+Changes in v3:
+- Make sure the reference of the primary software node we possibly take,
+  is always released by moving the get() before calls that may fail
+- Don't allow passing two software nodes
+- Add a test case for that situation
+- Link to v2: https://patch.msgid.link/20260423-swnode-remove-on-dev-unreg-v2-0-0e5213cde2ed@oss.qualcomm.com
 
-> However, the PAGE_SIZE limit was intentionally preserved for
-> compatibility. When binary attribute handling was later unified into
-> the same codebase, the non-seq_file read path (kernfs_file_read_iter)
-> retained this PAGE_SIZE cap for binary files as well.
+Changes in v2:
+- Change the order between removing the software node and dropping the
+  reference to the device's OF node
+- Address a situation where a software node is used as the primary
+  firmware node
+- Add a patch adding a new kunit helper
+- Add another test case
+- Link to v1: https://patch.msgid.link/20260410-swnode-remove-on-dev-unreg-v1-0-cd7d305f3db2@oss.qualcomm.com
 
-I tried to investigate these claims but with the lack of references,
-I didn't get very far. At least the thread where 13c589d5b0ac came from=20
-didn't seem to clearly say the things claimed here (assuming I managed=20
-to find all its emails from the archives).
+---
+Bartosz Golaszewski (7):
+      platform/surface: gpe: use platform_device_register_full()
+      driver core: platform: make the swnode check stricter
+      driver core: platform: provide platform_device_add_software_node()
+      drm/xe/i2c: use platform_device_add_software_node()
+      driver core: platform: remove software node on release()
+      kunit: provide kunit_software_node_register()
+      driver core: platform: tests: add test cases for correct swnode removal
 
-> Drivers that expose binary attributes larger than PAGE_SIZE =E2=80=94 suc=
-h as
-> the AMD HSMP metric table (~13 KB) =E2=80=94 cannot deliver the full cont=
-ent
-> in a single read() call through the existing path.
->=20
-> Introduce a new opt-in flag SYSFS_HUGE_BIN_FILE (040000)
+ drivers/base/platform.c                  |  44 +++++++-
+ drivers/base/test/platform-device-test.c | 168 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_i2c.c              |  21 ++--
+ drivers/platform/surface/surface_gpe.c   |  36 ++-----
+ include/kunit/fwnode.h                   |  19 ++++
+ include/linux/platform_device.h          |   3 +
+ lib/kunit/Makefile                       |   3 +-
+ lib/kunit/fwnode.c                       |  52 ++++++++++
+ 8 files changed, 307 insertions(+), 39 deletions(-)
+---
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+change-id: 20260410-swnode-remove-on-dev-unreg-42bfc4b23ba8
 
-> that drivers can OR into their bin_attribute mode.
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Simplify to:
-
-for bin_attribute mode.
-
-?
-
-> When set, sysfs selects a new
-> kernfs_ops (sysfs_bin_kfops_huge_file_ro) whose .seq_show callback
-> pipes the bin_attribute ->read() result through seq_file, allowing
-> reads of arbitrary size in one shot.  Existing binary attributes
-> without the flag continue using the legacy capped path.
-
-I suggest you avoid using "legacy" as a term for anything that is in use=20
-in any way or still exists. I've seen people to jump on that particular=20
-word enough times, it can sidetrack discussions.
-
---=20
- i.
-
-> Co-developed-by: Nayak K Prateek <kprateek.nayak@amd.com>
-> Signed-off-by: Nayak K Prateek <kprateek.nayak@amd.com>
-> Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
-> ---
-> Changes v1->v2: New patch
->=20
->  fs/sysfs/file.c       | 45 +++++++++++++++++++++++++++++++++++++++++++
->  fs/sysfs/group.c      |  8 ++++----
->  include/linux/sysfs.h |  1 +
->  3 files changed, 50 insertions(+), 4 deletions(-)
->=20
-> diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
-> index 5709cede1d75..be42c3c1e056 100644
-> --- a/fs/sysfs/file.c
-> +++ b/fs/sysfs/file.c
-> @@ -38,6 +38,45 @@ static const struct sysfs_ops *sysfs_file_ops(struct k=
-ernfs_node *kn)
->  =09return kobj->ktype ? kobj->ktype->sysfs_ops : NULL;
->  }
-> =20
-> +/*
-> + * Reads on huge sysfs bin files are handled through seq_file, which
-> + * takes care of hairy details like buffering and seeking.  The
-> + * following function pipes the bin_attribute ->read() result through
-> + * seq_file so that reads larger than PAGE_SIZE work in one shot.
-> + */
-> +static int sysfs_kf_huge_file_seq_show(struct seq_file *sf, void *v)
-> +{
-> +=09struct kernfs_open_file *of =3D sf->private;
-> +=09const struct bin_attribute *battr =3D of->kn->priv;
-> +=09struct kobject *kobj =3D sysfs_file_kobj(of->kn);
-> +=09loff_t size =3D file_inode(of->file)->i_size;
-> +=09ssize_t count;
-> +=09char *buf;
-> +
-> +=09if (!battr->read)
-> +=09=09return -EIO;
-> +
-> +=09if (!size)
-> +=09=09return -EIO;
-> +
-> +=09/* acquire buffer and ensure that it's >=3D size */
-> +=09count =3D seq_get_buf(sf, &buf);
-> +=09if (count < size) {
-> +=09=09seq_commit(sf, -1);
-> +=09=09return 0;
-> +=09}
-> +
-> +=09memset(buf, 0, size);
-> +
-> +=09count =3D battr->read(of->file, kobj, battr, buf, 0, size);
-> +=09if (count < 0)
-> +=09=09return count;
-> +
-> +=09WARN_ON(count > size);
-> +=09seq_commit(sf, min_t(ssize_t, count, size));
-> +=09return 0;
-> +}
-> +
->  /*
->   * Reads on sysfs are handled through seq_file, which takes care of hair=
-y
->   * details like buffering and seeking.  The following function pipes
-> @@ -249,6 +288,10 @@ static const struct kernfs_ops sysfs_prealloc_kfops_=
-rw =3D {
->  =09.prealloc=09=3D true,
->  };
-> =20
-> +static const struct kernfs_ops sysfs_bin_kfops_huge_file_ro =3D {
-> +=09.seq_show=09=3D sysfs_kf_huge_file_seq_show,
-> +};
-> +
->  static const struct kernfs_ops sysfs_bin_kfops_ro =3D {
->  =09.read=09=09=3D sysfs_kf_bin_read,
->  };
-> @@ -333,6 +376,8 @@ int sysfs_add_bin_file_mode_ns(struct kernfs_node *pa=
-rent,
->  =09=09ops =3D &sysfs_bin_kfops_mmap;
->  =09else if (battr->read && battr->write)
->  =09=09ops =3D &sysfs_bin_kfops_rw;
-> +=09else if (battr->read && (mode & SYSFS_HUGE_BIN_FILE))
-> +=09=09ops =3D &sysfs_bin_kfops_huge_file_ro;
->  =09else if (battr->read)
->  =09=09ops =3D &sysfs_bin_kfops_ro;
->  =09else if (battr->write)
-> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-> index b3edae0578c0..2d0b01c00a97 100644
-> --- a/fs/sysfs/group.c
-> +++ b/fs/sysfs/group.c
-> @@ -74,11 +74,11 @@ static int create_files(struct kernfs_node *parent, s=
-truct kobject *kobj,
->  =09=09=09=09=09continue;
->  =09=09=09}
-> =20
-> -=09=09=09WARN(mode & ~(SYSFS_PREALLOC | 0664),
-> +=09=09=09WARN(mode & ~(SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664),
->  =09=09=09     "Attribute %s: Invalid permissions 0%o\n",
->  =09=09=09     (*attr)->name, mode);
-> =20
-> -=09=09=09mode &=3D SYSFS_PREALLOC | 0664;
-> +=09=09=09mode &=3D SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664;
->  =09=09=09error =3D sysfs_add_file_mode_ns(parent, *attr, mode, uid,
->  =09=09=09=09=09=09       gid, NULL);
->  =09=09=09if (unlikely(error))
-> @@ -107,11 +107,11 @@ static int create_files(struct kernfs_node *parent,=
- struct kobject *kobj,
->  =09=09=09if (grp->bin_size)
->  =09=09=09=09size =3D grp->bin_size(kobj, *bin_attr, i);
-> =20
-> -=09=09=09WARN(mode & ~(SYSFS_PREALLOC | 0664),
-> +=09=09=09WARN(mode & ~(SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664),
->  =09=09=09     "Attribute %s: Invalid permissions 0%o\n",
->  =09=09=09     (*bin_attr)->attr.name, mode);
-> =20
-> -=09=09=09mode &=3D SYSFS_PREALLOC | 0664;
-> +=09=09=09mode &=3D SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664;
->  =09=09=09error =3D sysfs_add_bin_file_mode_ns(parent, *bin_attr,
->  =09=09=09=09=09=09=09   mode, size, uid, gid,
->  =09=09=09=09=09=09=09   NULL);
-> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> index b1a3a1e6ad09..78f6c6252cf9 100644
-> --- a/include/linux/sysfs.h
-> +++ b/include/linux/sysfs.h
-> @@ -124,6 +124,7 @@ struct attribute_group {
-> =20
->  #define SYSFS_PREALLOC=09=09010000
->  #define SYSFS_GROUP_INVISIBLE=09020000
-> +#define SYSFS_HUGE_BIN_FILE=09=09040000
-> =20
->  /*
->   * DEFINE_SYSFS_GROUP_VISIBLE(name):
->=20
---8323328-1646307465-1778585693=:11125--
