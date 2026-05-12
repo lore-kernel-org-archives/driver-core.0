@@ -1,142 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2FD3C2BB4;
-	Tue, 12 May 2026 15:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92683C4176
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 16:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778601081; cv=none; b=RWhBHAYBxvdsTv+KL6xnqoHH3zVDztsTK6BYJGljoe1wizfIVaWSpxaMiwAMEMa+HlxHQEK8oqpUNVDsKtUrBoOiMwVWgZZWoT+DCUhyZe3dMEIk2p93JM4VhibNliM+4gsWe/Ph44EtZm4HWO38WBIOjDld5+4AkpTdbdHBW8o=
+	t=1778602909; cv=none; b=lHPnPgDwW3r0kH2UNkaEW+Wek1cz+GIzWVaa1Qx62rWnePpGKotX43ZNaDzHxuVZMqiphnwrPEflJWF9Rl1wUkan3AcDUjJISV0AGj4z8AaNfCeERYmiSMayIdLfdboSxB0YTAz85AWXRLPAC2zuvpAPjA2QAZSoGxSVqEIOxAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778601081; c=relaxed/simple;
-	bh=OZdk7I5/tOC4M+HaFenANpPQ6VqaTc1ncZYoupPLnxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nB7FEp1ZCll6NhhIWIZCtPlSKy0tnK2kC3iWw3G/lszaSEV/7oUsBiYY8rtvTEAhr0FvFZq1PHrxztvG6FuKXFCss8aWT5BAW6AcpOiKX0R+bjmMGP7hNdK1IDWYVm/dR/UjrVx/KT/fQKMpI/ygkHdt/uabA7sDBYWfvJ9vUpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MjEHQCBp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778602909; c=relaxed/simple;
+	bh=Oph/YYZUN1eVVob1hwraR+iR6aig1Z0jrnNZaGi31r0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=SAICtonJq07d1agW3pLx9zC/UjDk5hrBazig4ro4txlHWEjvSv6aumGsEJ0YUPiU5LCQhCN8/qL2ZT3qcDfs6Vqph2iYY6IwTgF/bHtzI78cUAtxdrkzla1c1ap0Jgfdx6NIHGes75mqbmiRro3zV6bjMSpVlzfDM7wFwf6NRFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o4YlqqCn; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MjEHQCBp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0B6C2BCB0;
-	Tue, 12 May 2026 15:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778601080;
-	bh=OZdk7I5/tOC4M+HaFenANpPQ6VqaTc1ncZYoupPLnxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MjEHQCBp+A0R0KVJCJPFLtmLpi8kKhNPsa+gzK09mVKNV/0zsE7/HIQebVmoNYV2n
-	 KIz3TmHnMI7sDk6G3aQfoQU0vyIJ51u3ucNRCzg5Iudu5gv+tHCkLqYeqzczqZCl7K
-	 ox8idSy3FoL+klcQOXreckSpZyC/DwSW8+52BYMY=
-Date: Tue, 12 May 2026 17:51:25 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Feng Tang <feng.tang@linux.alibaba.com>
-Cc: Sudeep Holla <sudeep.holla@kernel.org>, rafael@kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, David Hildenbrand <david@kernel.org>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH RFC] arch_topology: Introduce nr_possible_packages
-Message-ID: <2026051214-supermom-brim-4608@gregkh>
-References: <20260512150505.43871-1-feng.tang@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o4YlqqCn"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-6749e8562a7so4874695a12.3
+        for <driver-core@lists.linux.dev>; Tue, 12 May 2026 09:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778602906; x=1779207706; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J0Ccv1UfqMOOxOflEQc2h7d3MsFikd1q1lwa5Y7ivPA=;
+        b=o4YlqqCntCsAQ4igJOZtKj1FbxuY31wVkyavTWaQ+usWU7zrfvPlovrvm4h10rruwh
+         gpKrAQrIji8ShFcWubdqzX/8tmJYRP3hutbdPIWLeb7zcWWr5vIESI/J9IKc9reafvgg
+         FYz/uBN7Rzb1WV8NSCbqShIYsesnAhymQGREMnibX4yxc/FKhgtIfHfDb50W1txbMXpQ
+         w01uJemUqFJJsGBvPOB2EjUQEvjaMJF/Dtk17WychQu2OTeoGIIj/kG1/hM6CcecIOCu
+         l2cNSFBfGZB8JmfkvmbtTtcenI11c6a8Si/KwvJP6wRctw68B876n4LHoF5qRHaeIIBa
+         +45w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778602906; x=1779207706;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=J0Ccv1UfqMOOxOflEQc2h7d3MsFikd1q1lwa5Y7ivPA=;
+        b=G8grdBAy7CGcG7mnJguZT+PSYgRWpIGaWB5RdgM9oopUh1vPPJaEyHxqU7oRBmOLqi
+         sVNKnsUa2eLmlWrbs5pfBvIE8pGnBlF+Xa8dhqUViD64EFkC7Of1AVKS6+0iFjuz4DzB
+         wWRh5n3HOFztTSm0j5nsTyVfxWorjT/alOzhmBKhFEyIqMGsXglDTsRf+gPGld6YgHal
+         QLuD4IczSTGWOX0hh+Fkdyf4QkN5nLRJTz3GgZOnJattEiluOfHyOQQV+ADWBb0yuOg2
+         16lkr9QueGkg6+P/pWLNSqsjoJbyKL2d2WY7pVTY0OUXCWh9lJrIXaPlH7wuLHJLYhPp
+         4aKQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9qnGFPwB0UhMMga1hFkKyc43kUbyhr4qBbS/emLzCaYH2j3O4oEiMf3WZ1NmuuKpPUHWrdV/Uj95m6fg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6NfKhojQ2VCk8DuSiC95aQWm74hjXvT3BANPyULdAyBTj1nI4
+	wjGIRrpvmeH9ZxloUytpsirSQ4r37qkiZdwRdeWvnWFxyv04Oq6Ipm0Hxy5u8UuWGbkbBBLQ/dE
+	3wDyL8emXtJAarLOy/w==
+X-Received: from edbij16.prod.google.com ([2002:a05:6402:1590:b0:672:29ae:9a33])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:158d:b0:677:15b6:4d6b with SMTP id 4fb4d7f45d1cf-680d02f613cmr2154738a12.26.1778602905910;
+ Tue, 12 May 2026 09:21:45 -0700 (PDT)
+Date: Tue, 12 May 2026 16:21:44 +0000
+In-Reply-To: <20260429175016.7915-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512150505.43871-1-feng.tang@linux.alibaba.com>
+Mime-Version: 1.0
+References: <20260429175016.7915-1-djeffery@redhat.com>
+Message-ID: <9huzh5ocmwdj.fsf@tarunix.c.googlers.com>
+Subject: Re: [PATCH v15 0/5] shut down devices asynchronously
+From: tarunsahu@google.com
+To: David Jeffery <djeffery@redhat.com>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pci@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: Pasha Tatashin <tatashin@google.com>, 
+	"=?utf-8?B?TWljaGHFgiBDxYJhcGk=?= =?utf-8?B?xYRza2k=?=" <mclapinski@google.com>, Jordan Richards <jordanrichards@google.com>, 
+	Ewan Milne <emilne@redhat.com>, John Meneghini <jmeneghi@redhat.com>, 
+	"Lombardi, Maurizio" <mlombard@redhat.com>, Stuart Hayes <stuart.w.hayes@gmail.com>, 
+	Laurence Oberman <loberman@redhat.com>, Bart Van Assche <bvanassche@acm.org>, 
+	Bjorn Helgaas <helgaas@kernel.org>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	John Garry <john.g.garry@oracle.com>, kexec@lists.infradead.org, 
+	David Jeffery <djeffery@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 12, 2026 at 11:05:05PM +0800, Feng Tang wrote:
-> In multi-sockets platform, kernel or driver code may need the number
-> of packages for chosing different code directions. Some architecture
-> already provide such kind of interface like x86, which is being used
-> in some architecture code and drivers.
-> 
-> Add similar interface 'nr_possible_packages' for platforms which can
-> get package topology information by parsing ACPI tables in boot phase.
-> 
-> Signed-off-by: Feng Tang <feng.tang@linux.alibaba.com>
-> ---
->  drivers/base/arch_topology.c  | 21 +++++++++++++++++++++
->  include/linux/arch_topology.h |  5 +++++
->  2 files changed, 26 insertions(+)
-> 
-> diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
-> index 8c5e47c28d9a..796d8a7aceea 100644
-> --- a/drivers/base/arch_topology.c
-> +++ b/drivers/base/arch_topology.c
-> @@ -850,6 +850,16 @@ static bool __init acpi_cpu_is_threaded(int cpu)
->  	return !!is_threaded;
->  }
+David Jeffery <djeffery@redhat.com> writes:
+
+FWIW,
+I have tested this series by opting it for NVMe devices and observed
+significant performance benefit (from 9 sec to 2 sec).
+
+Please feel free to use
+Tested-by: Tarun Sahu <tarunsahu@google.com>
+
+> This patchset allows the kernel to shutdown devices asynchronously and
+> unrelated async devices to be shut down in parallel to each other.
+>
+> Only devices which explicitly enable it are shut down asynchronously. The
+> default is for a device to be shut down from the synchronous shutdown loop.
+>
+> This can dramatically reduce system shutdown/reboot time on systems that
+> have multiple devices that take many seconds to shut down (like certain
+> NVMe drives). On one system tested, the shutdown time went from 11 minutes
+> without this patch to 55 seconds with the patch. And on another system from
+> 80 seconds to 11.
+>
+> And thank you to everyone who has spent some of their valuable time
+> providing reviews, suggestions, criticisms, or tests on the various
+> iterations of this patchset.
+>
+>
+> Changes from V14:
+>
+> Remove unneeded use of '!!' with boolean type
+>
+> Changes from V13:
+>
+> Remove duplicate flagging of async shutdown on scsi hosts/targets/devices
+>
+> Changes from V12:
+>
+> Only acquire a parent reference if acquiring the parent's lock
+> device_enable_async_shutdown should return void
+> Minor comment and description cleanups
+>
+> Changes from V11:
+>
+>   * Swap the order of the first two patches
+>   * Rework conditional parent locking so that lock and unlock no longer use
+>     separate conditional checks
+>   * Remove an used variable
+>   * Comment and description text cleanups
+>
+> Changes from V10:
+>
+> Reworked to more closely match the design used for async suspend
+>   * No longer uses async subsystem cookies for synchronization
+>   * Minimized changes to struct device
+>   * Enable async shutdown for pci and scsi devices which support async suspend
+>
+> Changes from V9:
+>
+> Address resource and timing issues when spawning a unique async thread
+> for every device during shutdown:
+>   * Make the asynchronous threads able to shut down multiple devices,
+>     instead of spawning a unique thread for every device.
+>   * Modify core kernel async code with a custom wake function so it
+>     doesn't wake up a thread waiting to synchronize on a cookie until
+>     the cookie has reached the desired value, instead of waking up
+>     every waiting thread to check the cookie every time an async thread
+>     ends.
+>
+> Changes from V8:
+>
+> Deal with shutdown hangs resulting when a parent/supplier device is
+>   later in the devices_kset list than its children/consumers:
+>   * Ignore sync_state_only devlinks for shutdown dependencies
+>   * Ignore shutdown_after for devices that don't want async shutdown
+>   * Add a sanity check to revert to sync shutdown for any device that
+>     would otherwise wait for a child/consumer shutdown that hasn't
+>     already been scheduled
+>
+> Changes from V7:
+>
+> Do not expose driver async_shutdown_enable in sysfs.
+> Wrapped a long line.
+>
+> Changes from V6:
+>
+> Removed a sysfs attribute that allowed the async device shutdown to be
+> "on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+> previously "safe" is now the only behavior, so drivers now only need to
+> have the option to enable or disable async shutdown.
+>
+> Changes from V5:
+>
+> Separated into multiple patches to make review easier.
+> Reworked some code to make it more readable
+> Made devices wait for consumers to shut down, not just children
+>   (suggested by David Jeffery)
+>
+> Changes from V4:
+>
+> Change code to use cookies for synchronization rather than async domains
+> Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+>   opt-out of async shutdown (when not disabled), with ability to control
+>   driver opt-in/opt-out via sysfs
+>   
+> Changes from V3:
+>
+> Bug fix (used "parent" not "dev->parent" in device_shutdown)
 >  
-> +unsigned int nr_possible_packages __ro_after_init = 1;
-> +EXPORT_SYMBOL(nr_possible_packages);
-
-EXPORT_SYMBOL_GPL() please?
-
-And you don't have a user for this, so we can't verify how it actually
-works :(
-
-thanks,
-
-greg k-h
-
-> +/*
-> + * Assuming silicon has a sane package ID decoding method to not have
-> + * an ID bigger than 255 (1 byte).
-
-Is that a valid assumption?  What about packages bigger than 255?  Don't
-we have those today?
-
-> + */
-> +#define MAX_PACKAGE_ID	255
-> +DECLARE_BITMAP(package_id_mask, MAX_PACKAGE_ID + 1);
-> +
->  /*
->   * Propagate the topology information of the processor_topology_node tree to the
->   * cpu_topology array.
-> @@ -912,6 +922,13 @@ __weak int __init parse_acpi_topology(void)
->  		cpu_topology[cpu].cluster_id = topology_id;
->  		topology_id = find_acpi_cpu_topology_package(cpu);
->  		cpu_topology[cpu].package_id = topology_id;
-> +
-> +
-> +		if (topology_id >= 0 && topology_id <= MAX_PACKAGE_ID)
-> +			bitmap_set(package_id_mask, topology_id, 1);
-> +		else
-> +			pr_warn("ACPI: abnormal package ID: %d !\n",
-> +				topology_id);
->  	}
+> Changes from V2:
 >  
->  	/*
-> @@ -927,6 +944,10 @@ __weak int __init parse_acpi_topology(void)
+> Removed recursive functions to schedule children to be shutdown before
+>   parents, since existing device_shutdown loop will already do this
 >  
->  	cpu_smt_set_num_threads(max_smt_thread_num, max_smt_thread_num);
->  	xa_destroy(&hetero_cpu);
-> +
-> +	/* Count the number of possible packages in system */
-> +	nr_possible_packages = bitmap_weight(package_id_mask, MAX_PACKAGE_ID + 1);
-> +	pr_info("ACPI: System has %u Package(s) detected\n", nr_possible_packages);
-
-Why "P" and not "p"?
-
-
->  	return 0;
->  }
->  
-> diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
-> index ebd7f8935f96..dee076cc9c7a 100644
-> --- a/include/linux/arch_topology.h
-> +++ b/include/linux/arch_topology.h
-> @@ -111,4 +111,9 @@ static inline bool topology_core_has_smt(int cpu) { return false; }
->  
->  #endif /* CONFIG_GENERIC_ARCH_TOPOLOGY */
->  
-> +
-> +#if defined(CONFIG_ARM64) || defined(CONFIG_RISCV)
-> +extern unsigned int nr_possible_packages;
-> +#endif
-
-Why the ifdef?
-
-thanks,
-
-greg k-h
+> Changes from V1:
+>
+> Rewritten using kernel async code (suggested by Lukas Wunner)
+>
+>
+> Stuart Hayes (2):
+>   driver core: separate function to shutdown one device
+>   driver core: do not always lock parent in shutdown
+>
+> David Jeffery (3):
+>   driver core: async device shutdown infrastructure
+>   PCI: Enable async shutdown support
+>   scsi: Enable async shutdown support
+>
+>  drivers/base/base.h       |   2 +
+>  drivers/base/core.c       | 180 ++++++++++++++++++++++++++++++--------
+>  drivers/pci/probe.c       |   2 +
+>  drivers/scsi/hosts.c      |   2 +
+>  drivers/scsi/scsi_sysfs.c |   3 +
+>  include/linux/device.h    |  14 ++-
+>  6 files changed, 166 insertions(+), 37 deletions(-)
+>
+> -- 
+> 2.53.0
