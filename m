@@ -1,31 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD153CE0B4
-	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 16:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B3E3D1ABA
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 16:39:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778603969; cv=none; b=Ojw5kysQjJJLU9dJ7bo/sRVuXUU5f2dttJHOdTRosletW518aylQDdeuZ1apVTjf8H6myK6fDr/F6jvC9yKBSCxmUkgVF9reVZYREfPlp1SKFq7+ErA8xu+cPZ/tSfbxzo9qEKdB35QnG6ozxJtTnCgw/ZGJUOx/WAa4gIRuQQU=
+	t=1778603970; cv=none; b=JLqh1KudFHgCo8GatiJhqDmTWYNmLESBSddTK9Gv76vjglnqzZqpn1WaRRnfzqLjKs47aRywMj41FnlnzEjr/vHjRNatHEuP8losITLTGYON1QuPVKSUY61WzK6E0Am6z0wVqhRZBn09GenKfFnPMwRBANXkMgw4o2DrBwKybo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778603969; c=relaxed/simple;
-	bh=VxuYWSwBKFFH32VXfB6zYskoltvcu43x2BtIsZN1AAI=;
+	s=arc-20240116; t=1778603970; c=relaxed/simple;
+	bh=vqKSWoKvW5QRnRu+bO9tguWyf/3swh3oVBfCT9wypb8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MY/JVPMLkQLIIgCggDAtkLGM2ame+ID1HhR6hK8zx/MieNP+fFjIaIQ8BFUZZx+21skd66ucDHBCPK4JIrbn/B8vpDNBtDDg/dZyaQ81OUR7o6liP5LBeRqvrxXMf2y5uw0NEH6MShaXMBHuw+Jf4JftPyk2Nd24exr/K6XkD2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=qlz/xUed; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=nlCajaqEwBMMRZeSWzKuCN5hiLICfB7CR/uljKYRRe7s3mFy4yFUkujKLnRXgeS7h3WwgmxZoureMN4b/I0/Duv2X0SUWrBrB6Gh3imcSaT0aZhtcF70QVqo95FOLvX5L4vn4yybJaKtfIdbBoZp7RTtZBMYUAWEFh2OqJ24l2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=fPUz1Kzf; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="qlz/xUed"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="fPUz1Kzf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1778603957;
-	bh=VxuYWSwBKFFH32VXfB6zYskoltvcu43x2BtIsZN1AAI=;
+	s=mail; t=1778603956;
+	bh=vqKSWoKvW5QRnRu+bO9tguWyf/3swh3oVBfCT9wypb8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qlz/xUedjV4TLm31I/p1sm/JRAeh6f9OWzqActmm0AlchJSVAgwM52qzI1Cq7wjkg
-	 P31GjFMf2BQQjVgcKdTbhdHHhMMTFIB3DEbjPOh5+aZFHb3jPK9Zecd/Ru86PCpMZo
-	 u0QQNAsuT7m9bJD8AiKUHFO0yOmCNptiEaJv1EBc=
+	b=fPUz1Kzfeh6Zwq2WuMmi/P8FrWF62c6gCNko29LHYn6giymcRBVMWadCzXRm2X6Vy
+	 LNZyrqk7B7bXcCyt7eYZUdY9zVEa6yWURo4bf5bJXrwUaTZMQmTEWVC7E72p7WqkxI
+	 t5zsyLWSL0cMhwkJYs8u0SWk+M4Wva/23CRKm14w=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 12 May 2026 18:39:15 +0200
-Subject: [PATCH v3 5/5] driver core: Constify core device attributes
+Date: Tue, 12 May 2026 18:39:11 +0200
+Subject: [PATCH v3 1/5] driver core: Delete DEVICE_ATTR_PREALLOC()
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260512-sysfs-const-attr-device_attr-prep-v3-5-cb7c17b34d52@weissschuh.net>
+Message-Id: <20260512-sysfs-const-attr-device_attr-prep-v3-1-cb7c17b34d52@weissschuh.net>
 References: <20260512-sysfs-const-attr-device_attr-prep-v3-0-cb7c17b34d52@weissschuh.net>
 In-Reply-To: <20260512-sysfs-const-attr-device_attr-prep-v3-0-cb7c17b34d52@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -42,175 +42,46 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778603956; l=5762;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778603956; l=1296;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=VxuYWSwBKFFH32VXfB6zYskoltvcu43x2BtIsZN1AAI=;
- b=ImBmo5GgBMwu66gbvkxL5/ohm0HkZ6ATQKy+OmGtPHdyUF3mgar0eKkHXz/RUiISwxVYDkaTS
- 98+IRUWkt/xBlCrfuMAlpwJCMwvy/oLVbBT3HmmQmSfCTlbd4QFYMPX
+ bh=vqKSWoKvW5QRnRu+bO9tguWyf/3swh3oVBfCT9wypb8=;
+ b=gu/REruyP7/wOXLhV04RqczWgg62iirHTzFcP5uZtjP/Z84JdokDPsoJKAXIOal8zKgwNwblG
+ pK1ntZ6lcA9BqMDM9N7/JSYarg1a3BwIkttIQGAMoJcfVHNVjuNvdEG
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-To make sure these attributes are not modified by accident or by an
-attacker, move them to read-only memory.
+This macro is unused and would create extra work during the upcoming
+constification of device attributes. Remove it.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/base/core.c | 42 +++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ include/linux/device.h | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 6e2ee6d55a0b..57650f4c4dc9 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -422,7 +422,7 @@ void device_pm_move_to_tail(struct device *dev)
- #define to_devlink(dev)	container_of((dev), struct device_link, link_dev)
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 9c8fde6a3d86..06ec4e27a1e1 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -157,19 +157,6 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define DEVICE_ATTR(_name, _mode, _show, _store) \
+ 	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
  
- static ssize_t status_show(struct device *dev,
--			   struct device_attribute *attr, char *buf)
-+			   const struct device_attribute *attr, char *buf)
- {
- 	const char *output;
- 
-@@ -452,10 +452,10 @@ static ssize_t status_show(struct device *dev,
- 
- 	return sysfs_emit(buf, "%s\n", output);
- }
--static DEVICE_ATTR_RO(status);
-+static const DEVICE_ATTR_RO(status);
- 
- static ssize_t auto_remove_on_show(struct device *dev,
--				   struct device_attribute *attr, char *buf)
-+				   const struct device_attribute *attr, char *buf)
- {
- 	struct device_link *link = to_devlink(dev);
- 	const char *output;
-@@ -469,27 +469,27 @@ static ssize_t auto_remove_on_show(struct device *dev,
- 
- 	return sysfs_emit(buf, "%s\n", output);
- }
--static DEVICE_ATTR_RO(auto_remove_on);
-+static const DEVICE_ATTR_RO(auto_remove_on);
- 
- static ssize_t runtime_pm_show(struct device *dev,
--			       struct device_attribute *attr, char *buf)
-+			       const struct device_attribute *attr, char *buf)
- {
- 	struct device_link *link = to_devlink(dev);
- 
- 	return sysfs_emit(buf, "%d\n", device_link_test(link, DL_FLAG_PM_RUNTIME));
- }
--static DEVICE_ATTR_RO(runtime_pm);
-+static const DEVICE_ATTR_RO(runtime_pm);
- 
- static ssize_t sync_state_only_show(struct device *dev,
--				    struct device_attribute *attr, char *buf)
-+				    const struct device_attribute *attr, char *buf)
- {
- 	struct device_link *link = to_devlink(dev);
- 
- 	return sysfs_emit(buf, "%d\n", device_link_test(link, DL_FLAG_SYNC_STATE_ONLY));
- }
--static DEVICE_ATTR_RO(sync_state_only);
-+static const DEVICE_ATTR_RO(sync_state_only);
- 
--static struct attribute *devlink_attrs[] = {
-+static const struct attribute *const devlink_attrs[] = {
- 	&dev_attr_status.attr,
- 	&dev_attr_auto_remove_on.attr,
- 	&dev_attr_runtime_pm.attr,
-@@ -1233,7 +1233,7 @@ static void device_link_drop_managed(struct device_link *link)
- }
- 
- static ssize_t waiting_for_supplier_show(struct device *dev,
--					 struct device_attribute *attr,
-+					 const struct device_attribute *attr,
- 					 char *buf)
- {
- 	bool val;
-@@ -1244,7 +1244,7 @@ static ssize_t waiting_for_supplier_show(struct device *dev,
- 	device_unlock(dev);
- 	return sysfs_emit(buf, "%u\n", val);
- }
--static DEVICE_ATTR_RO(waiting_for_supplier);
-+static const DEVICE_ATTR_RO(waiting_for_supplier);
- 
+-/**
+- * DEVICE_ATTR_PREALLOC - Define a preallocated device attribute.
+- * @_name: Attribute name.
+- * @_mode: File mode.
+- * @_show: Show handler. Optional, but mandatory if attribute is readable.
+- * @_store: Store handler. Optional, but mandatory if attribute is writable.
+- *
+- * Like DEVICE_ATTR(), but ``SYSFS_PREALLOC`` is set on @_mode.
+- */
+-#define DEVICE_ATTR_PREALLOC(_name, _mode, _show, _store) \
+-	struct device_attribute dev_attr_##_name = \
+-		__ATTR_PREALLOC(_name, _mode, _show, _store)
+-
  /**
-  * device_links_force_bind - Prepares device to be force bound
-@@ -2726,7 +2726,7 @@ static const struct kset_uevent_ops device_uevent_ops = {
- 	.uevent =	dev_uevent,
- };
- 
--static ssize_t uevent_show(struct device *dev, struct device_attribute *attr,
-+static ssize_t uevent_show(struct device *dev, const struct device_attribute *attr,
- 			   char *buf)
- {
- 	struct kobject *top_kobj;
-@@ -2769,7 +2769,7 @@ static ssize_t uevent_show(struct device *dev, struct device_attribute *attr,
- 	return len;
- }
- 
--static ssize_t uevent_store(struct device *dev, struct device_attribute *attr,
-+static ssize_t uevent_store(struct device *dev, const struct device_attribute *attr,
- 			    const char *buf, size_t count)
- {
- 	int rc;
-@@ -2783,9 +2783,9 @@ static ssize_t uevent_store(struct device *dev, struct device_attribute *attr,
- 
- 	return count;
- }
--static DEVICE_ATTR_RW(uevent);
-+static const DEVICE_ATTR_RW(uevent);
- 
--static ssize_t online_show(struct device *dev, struct device_attribute *attr,
-+static ssize_t online_show(struct device *dev, const struct device_attribute *attr,
- 			   char *buf)
- {
- 	bool val;
-@@ -2796,7 +2796,7 @@ static ssize_t online_show(struct device *dev, struct device_attribute *attr,
- 	return sysfs_emit(buf, "%u\n", val);
- }
- 
--static ssize_t online_store(struct device *dev, struct device_attribute *attr,
-+static ssize_t online_store(struct device *dev, const struct device_attribute *attr,
- 			    const char *buf, size_t count)
- {
- 	bool val;
-@@ -2814,9 +2814,9 @@ static ssize_t online_store(struct device *dev, struct device_attribute *attr,
- 	unlock_device_hotplug();
- 	return ret < 0 ? ret : count;
- }
--static DEVICE_ATTR_RW(online);
-+static const DEVICE_ATTR_RW(online);
- 
--static ssize_t removable_show(struct device *dev, struct device_attribute *attr,
-+static ssize_t removable_show(struct device *dev, const struct device_attribute *attr,
- 			      char *buf)
- {
- 	const char *loc;
-@@ -2833,7 +2833,7 @@ static ssize_t removable_show(struct device *dev, struct device_attribute *attr,
- 	}
- 	return sysfs_emit(buf, "%s\n", loc);
- }
--static DEVICE_ATTR_RO(removable);
-+static const DEVICE_ATTR_RO(removable);
- 
- int device_add_groups(struct device *dev,
- 		      const struct attribute_group *const *groups)
-@@ -2984,12 +2984,12 @@ static void device_remove_attrs(struct device *dev)
- 		device_remove_groups(dev, class->dev_groups);
- }
- 
--static ssize_t dev_show(struct device *dev, struct device_attribute *attr,
-+static ssize_t dev_show(struct device *dev, const struct device_attribute *attr,
- 			char *buf)
- {
- 	return print_dev_t(buf, dev->devt);
- }
--static DEVICE_ATTR_RO(dev);
-+static const DEVICE_ATTR_RO(dev);
- 
- /* /sys/devices/ */
- struct kset *devices_kset;
+  * DEVICE_ATTR_RW - Define a read-write device attribute.
+  * @_name: Attribute name.
 
 -- 
 2.54.0
