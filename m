@@ -1,282 +1,454 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011064.outbound.protection.outlook.com [40.107.208.64])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0CC25B0B0
-	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 06:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778567368; cv=fail; b=gkVYTboZuluZ/EoBfcypTcMHcLrUqiw4g2DO39wVYEi5WNKKZDP3Khfw+EF+h++AI7UGrQp2T1k+yt7fTznwe8JHPOpLcYkIcgT9OGYFsGIUW+2HKHB0xPAgDcSDTi3mq3pDO0t/igM2fPVsIZg6Or6TRCsSbSVgyxjyt/2Aih4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778567368; c=relaxed/simple;
-	bh=eUuNSvnb0mSSViEpTVdiNEKOqEikCjgd7dcxvotdSuA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Tm+9sW5l00MunhBwcrT4B/FAKyWfDXaJBLfq2dmxVlUC+Sz3XYhHSjWc57xbnok76G7EppsZzt9B+lZBgiLkNuHk1d2Rm7s2BEUXbRzKPBFWVv6BHngoqO4nw7ZJmSsxvcqaIXISJC2m9GeOOdDIslsJai1iW4NIDH5Odb5RDg8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=a9U4LqXd; arc=fail smtp.client-ip=40.107.208.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275302F12DA
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 06:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778568859; cv=none; b=rEN2yF26dnO4mSiyAhxkx9tmAZNiPITRqdSkK/cS9AqHabVRJsigg0nXRHEiKPRmdktPSmOSM/8vNI+3PL8wuc5Kv5Cal8wPqx1DIpVguGdwD6fvbjLWo98pGKaZHSVK7TsaJx3llFExUld+5O25UYCMN/Vv+GgTlnbBazb7kHQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778568859; c=relaxed/simple;
+	bh=hSRNnVvjy42ucTL9yDNc9f+MiLC49s8FoJCJcX9mH2M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TJakrL9J9ly1HfVIcPkTMzhoo4SVbT+kkACzOOVnwIR19/FyFERL68onTjwLdqLlbgX2Hk6JaeWX7qBIvFvQVzhU/IvyzP9Wfh7mi0XV/azpUf31fo/PplSgFwmx2qIC+UyoilBNFcNO96vn+oPBXi8EQQKcmPXO+Y98c5RSLes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=idBAtUjK; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="a9U4LqXd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uhUtnMK5RrRaw4lxpdmoCV6MDXnWFn+qfr1BbwrKC1WJg6zD4NQhlQpOWCqTAGZXCAwCW+vNNmUCqN0BN3qKwbs6Ij/UABr1xAVL3wHIJWoBO+z/1AzTuNKZRATrYrxBeVBANQu4qUo0mld97HNZ0l0GytJvxVTDTnpS5SsKpB6ASB26p27sf6Husq1ptxISZb0URIHuCbil/XkAPcbHHMajQcPjUppHDfVkdychA6wIqsw+wCXJJ3bwIIhTgNtzvjdLMGosuB4nmfJxuR7Xi3OFQDVA+Ehb0pK0379Ex1qJ7zkkJLpeKXgs1HJwGvnNMtS0sgcqJIHZxJ2VoT6rfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0p5ein7Cu6mvqSn66Y6HVjTCG00V0v/Nde2arFW9l9M=;
- b=bqvfGv1OqMPE2f4q2sZtRxs7kEVsn9p8rpm9u/FYue2QpWkLiP/d6VT83Z5zvbvbZ5KrQR5qjkf+MxbbzFsPYcor9RQ2oMp14HL1lwW35/8WqIgmeyWIapSX1hzu33D5VaphgU2eZa8ynUa0rI+vcjGYKfKJqqoHMAbwhxDf9QTKizX30jYADvlQToZaf0z21cHE4YDMu6/RHDG2oZzS0Ho1es2ICIqjDAQvBOrEKODhyN0PmJvKpDGMfDRW9UJ4fVZ46z7O5FgBQGL23M8D+W1iVkWmCV/orGjEY7HhxclsdZ0TxLx5oxQrlw4MBlTBUETWh9jj0y0IgJdoj17VJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0p5ein7Cu6mvqSn66Y6HVjTCG00V0v/Nde2arFW9l9M=;
- b=a9U4LqXda9WeUzFaKeZD/ud1pppMUmjPYo9SeozSszwPCkWn6UP7yYNNdrF+h4po9gqK+8pfkjAQAqF3kZwig4q+7IzVCqWTeOWpziBioZAWaD+/56gADhjCp5KMMMbDonUzppOhTNqgc1Ez5YMHVSDDK8f8MWdeWxAdsCSaibQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB7325.namprd12.prod.outlook.com (2603:10b6:510:217::19)
- by SA1PR12MB6776.namprd12.prod.outlook.com (2603:10b6:806:25b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Tue, 12 May
- 2026 06:29:08 +0000
-Received: from PH8PR12MB7325.namprd12.prod.outlook.com
- ([fe80::8024:a7ee:b29c:a4fc]) by PH8PR12MB7325.namprd12.prod.outlook.com
- ([fe80::8024:a7ee:b29c:a4fc%6]) with mapi id 15.20.9891.021; Tue, 12 May 2026
- 06:29:08 +0000
-Message-ID: <5f20b0af-bb3a-499e-8ee0-c1ef0429345b@amd.com>
-Date: Tue, 12 May 2026 11:58:59 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] sysfs: Add SYSFS_HUGE_BIN_FILE flag for binary
- attributes larger than PAGE_SIZE
-To: Muralidhara M K <muralidhara.mk@amd.com>, ilpo.jarvinen@linux.intel.com,
- gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, Nayak K Prateek <kprateek.nayak@amd.com>
-References: <20260427155129.545327-1-muralidhara.mk@amd.com>
- <20260427155129.545327-5-muralidhara.mk@amd.com>
-Content-Language: en-US
-From: "M K, Muralidhara" <muralimk@amd.com>
-In-Reply-To: <20260427155129.545327-5-muralidhara.mk@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0115.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:96::14) To PH8PR12MB7325.namprd12.prod.outlook.com
- (2603:10b6:510:217::19)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="idBAtUjK"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64BK71hk3186917;
+	Tue, 12 May 2026 06:53:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=z8usfq
+	o9ZjJvq3jCjiATXiyRq9FwkYThylveTQxP7xU=; b=idBAtUjK87nQIqhxp+mR93
+	toYfFRwiCplGnCPzgQjH0OfRbw4LUmTaQJh0QsBN+bZQRstGw4lmkIIki6EPYSOg
+	yHkpLP2EvJxEb/CXXGFyLKcaPGCI6SH8jdQN33FhswioIq9YS+rBZKModMM4jokb
+	FhS7+PN8/pX64O4iGWjWRBmhVI+3t/X8nj0Lx/ZxSRkEw/2kBDBxOuqPNcim8X51
+	9kKaKtiE3xcLetwbTOTqdlYf4NB49fQe/EcDWTF4tSFrlOyzfK3IGLS8JNDvUwKe
+	+DXMdAFi7wS7tx5zp3mAULIABQx0NCOX5XtRWAnRJa0BVqg5YRL6hB9Q5K3oCXAw
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4e3nv59tv1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 May 2026 06:53:08 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 64C6dKxq015426;
+	Tue, 12 May 2026 06:53:07 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4e3nfgj10c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 May 2026 06:53:07 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 64C6r69V58851702
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 12 May 2026 06:53:06 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8D0DB58053;
+	Tue, 12 May 2026 06:53:06 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2EB2E58043;
+	Tue, 12 May 2026 06:52:57 +0000 (GMT)
+Received: from [9.123.6.34] (unknown [9.123.6.34])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 12 May 2026 06:52:56 +0000 (GMT)
+Message-ID: <943c5cd9-0796-45f5-9f8d-cb7e44457961@linux.ibm.com>
+Date: Tue, 12 May 2026 12:22:55 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7325:EE_|SA1PR12MB6776:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e7c9402-2858-4ce7-b115-08deafefc56a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|17002099007|18002099003|22082099003|56012099003|11063799003;
-X-Microsoft-Antispam-Message-Info:
-	gwaWBqeQt/qxwb0Vinac9c+A7XowE5WO3K+jMx2Pqr2lJtctuOMWLi8ybw3OoyNwh91brjUIG70wUN6d3eYdUtwx3THApsHIYS5ZUJilhje4FGEb7qg+AcShJrm4OJDNTG4J8hCzimr8p9C3JJdJPAsFKKuo9eJQS4sn8Q2vgVFjSxB+04MDUpGpUsSgfYNQbPNbxV4WF3n2I+b60auQdd5IYdOt9RcrzxK4BFE3u+tgBxJP+GqQp8iukXYOusAxBFq1uxQBm4deE2rY8O6nJ0fQ7OGdKWpd6ey7pibJpOZRIEcbRyGhAAuDxngN0MegIi+zvIMKrHIpqjEi4eTasSaun1a9+5RYVVhZTCxMt/VhtFGRDwL0BJhxvRYk3G06Jy86kGR9nhazrdNigcCDe32LX3ou2uqZzlVCkb1lZV3kEADg08QEotGH1CmKY5yWTeOXGQbPvEownwGRibcuYxLHelZHJKr1sr60QE8WqxFRqOUmIKxm1NvbZgsb0TouTEImw+tkMjulczXn2wnxs0jce7xrK2R/12PqnA6T8f2AhpuBZRooqSF56Gnl6GjjN7/Xm31BkJcrj+B7uKSCV+22lT40fYEbBXecBUBSJY2oKA8awe6g0obZ4gzLfBsxDGHMvVzEZ3HrSLLqWfJsKesrMc9CBEWIlHgDLPx/9/QTU+u8sTE+sEkse24XW6Ri
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7325.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(17002099007)(18002099003)(22082099003)(56012099003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eUk0SEZDRTVtVkdSdzFtTEpuVXJBT1JjT3JRRVJub3NJNGVUMHpmd2JWUHZy?=
- =?utf-8?B?SnFUNGYwR0xuVkJuR2NRRGZzMXFtWGtIN1pMTGkxQ21GOHBOOXcvZkZ4djVu?=
- =?utf-8?B?a2c2M1VsWmxGd0J2cWhFZ3JzaUV3eEdNQnVWUEZjajNYQXE3WGNSNCt6dmRO?=
- =?utf-8?B?dHFUYWVraC9PcHgxTTZLSVhjc0dxbm9lMWRScksrVlAxek00Q1lvbnBwR0d4?=
- =?utf-8?B?N0dtOHFCRGYyaVpCVmVhd0dNV1BBWHQ5ODBjai9SaXdOVGo4eSt0Z1VSNEsv?=
- =?utf-8?B?akVzcFF6QzhGMW1ZZ1lnMUsvU3VPWlBOVE1SNHlNc0dCSGdyYXlzaWFWZ0dN?=
- =?utf-8?B?cGRLUkczZzJJV2NDNVBuZXpJVkVWeVdENnprNVVQMEhEcDRKMlkwb1FrT0Zo?=
- =?utf-8?B?NURsRTV6bHlQQ2VtaXN2SzhObzhIa0RHUTZMbzc2ZDhrZXU3TUNNcTNxUmU2?=
- =?utf-8?B?QmZCeGZZUk8xbE9keENqMGRpSENwYlJSQit6NDMrdzFRWUNlZHBja1Fra1R2?=
- =?utf-8?B?Uyt1Z09hMHNEb3R0Y1ZRWTd5Y0htbFdndHkvcThONFVBcEEyNXBvOWphNWdv?=
- =?utf-8?B?Q09sRHRIQ0NGSDd2ZHR0U3BZeXZNZ3NqWXExeFpWN0tmZVlRUU93UFVJQWhJ?=
- =?utf-8?B?YXhqeGVEbXN2ek9NT0EvM3I2WkNJT3d6bk05WTV0NEdRVkdCQVB1eEVOK1VL?=
- =?utf-8?B?K0Z1QWd1NHltRmVvU2Z3eThBeVJsekpJMnNNREk2Uk5WbmV0ZGtSejkydGJ2?=
- =?utf-8?B?RVlVWEg3YVJSQThGTUMyWGNPQ01JbjVZNjdmcEZGemlsZEhQNGxCb2pzUjJ4?=
- =?utf-8?B?M0FpU09NTFRNcmNhdmFGQjR2TDhPNnZyeitlbnZvOXpzRDdCdFlqanV5Qkcr?=
- =?utf-8?B?TGJQc1RMODY5MkdDeERZOGNjQ2NERFdEdy9qaDNSRG9pM3dEOEtYN3Jzejc1?=
- =?utf-8?B?UVlRQTc2Z3ZjUkpkVHg3L1VSVmdYU2VxY0dHbk9QaE1xVG1HN2JoS1ZLRmJk?=
- =?utf-8?B?Qnh0dS8xL21tMzJsS3RxaE4xODBFdGg4dnNVbWFZYjVrR3U3emwxY1ZQcWtL?=
- =?utf-8?B?NHNEL2xqNGNPNGJVSjVVWWFzWW9RbENOdUxEbkhaQlUxck5xUHhKb2xSZFVp?=
- =?utf-8?B?cEc5SC81UDR0QjQ4M0Q5ZTg2RGtEWXM1cFE3K25EZ2tZeEMydjByeVpPRmhS?=
- =?utf-8?B?OE9nM1lEeE8zNm1UOVc5YmtIektod0NWN2lsZlRwM0VQdlhCN3ZVWXlWTEhs?=
- =?utf-8?B?eGwycEEwakdkQVpwZVBObHY2MURYV2hra2RhM1RkSWtyQlkxSVVQamNXbnVh?=
- =?utf-8?B?bHBzWVFtSG1xa0ptaFUrZFBwSi9iM0JsblB6VlA3NzJyWkd3MkRFSGw1R0Fq?=
- =?utf-8?B?UzY2WGlmY2VHQkRmTWJMTXFPMFRCWUxCMXdJaVhrbXI5UzMxZjJIY2tKMGZL?=
- =?utf-8?B?RitURVNZRGdYZ1ZiRTJUYjBQSUNxdnZnSkZ5d2V6M1BSSkZERkhXaG8yTkdU?=
- =?utf-8?B?dm5yNnU3RmIwdHNseWFFVVNmWVB1QVRaazcvVHU0Yi9KM2dkaE1IZE5BOS9Y?=
- =?utf-8?B?ZCtpTkx3ajI1VkljR3RJQ3NRSFdyTzNJSkJFdGtJakdGK29UeW5wZjIxcGta?=
- =?utf-8?B?bVdjVElvQlBiSzZYZmcwMmZUWkE1YlQ2TFcxVXlmeDVVcytqa3JJeFByeDAr?=
- =?utf-8?B?KzZGS2xXNC9NQVE5UzRmWHR3dDVOSzUwY1h1SnpvdjRTMXpRVzdmQklIZmZm?=
- =?utf-8?B?TUlrQ3IrVlF1UHdmcE9uRGRJQ0V5NGJwRzBWWUx0TWdoN1hTbi9tSnJPQWFS?=
- =?utf-8?B?NFJEL2FGaXNyQTl1akFMWXVJZHNRSGszeXBaMERlcGhYWk5qTnlGUEFmZTl4?=
- =?utf-8?B?V1k2bmpIbktJQjJISCtNamJsRDhHaFFncWN6cEZFakM5MVRrT3QzTk1NRWcx?=
- =?utf-8?B?RkhNS3dwb3RPd2tHTmUzSkt1ZXhaeFRxZXRQMnJxUm5tb3Fwckl4V2xsVjdL?=
- =?utf-8?B?MnljVXhIaHJDRExIWWN4Q2szZGV2eGxacjFIWVQwc1A4ZFNtVDhTZTNEZTVq?=
- =?utf-8?B?dzlCenY5ai9ta1hISG5NcmtlOHZycDcydDRZdWc2TVdvUkxNSjAwWjl6SUFN?=
- =?utf-8?B?YkNkVytCN2poNERidUpGVklUZXJpNTVIc3lpNFhIRmMrQzVObUtmMUR5bkdL?=
- =?utf-8?B?RXBPU0l6UnBCYitibElYS3J6cHgzbDN5STRiRWNOc3R4enlna3JWSzBsM01K?=
- =?utf-8?B?VlFTYlFkYzczY1ZBV25POTRucjFHVDc2RGxaMzYxbXJlblpmZlBHOGZTVTJL?=
- =?utf-8?B?cnRCVEdBL1pJMUdpUkZtZERwMkpZaFhRVHowbjRyVGpSRjQyaWF5dz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e7c9402-2858-4ce7-b115-08deafefc56a
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7325.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 06:29:08.1119
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KDD5HGxKBl5voNJzKFUfMxHzbBX2MWkZhlHFvYh5lk6r9BvPr07LCZRrPEQ2svPY+6K4fssri6q7lBcfi0D4Bg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6776
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers/base/memory: make memory block get/put explicit
+To: Muchun Song <songmuchun@bytedance.com>,
+        David Hildenbrand <david@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        Lorenzo Stoakes <ljs@kernel.org>,
+        "Liam R. Howlett" <liam@infradead.org>,
+        Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, linux-mm@kvack.org,
+        driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        muchun.song@linux.dev
+References: <20260511111800.2181785-1-songmuchun@bytedance.com>
+Content-Language: en-US
+From: Donet Tom <donettom@linux.ibm.com>
+In-Reply-To: <20260511111800.2181785-1-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=cPHQdFeN c=1 sm=1 tr=0 ts=6a02ce55 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=VwQbUJbxAAAA:8
+ a=968KyxNXAAAA:8 a=VnNF1IyMAAAA:8 a=celaVYaThZoO3EmEkQQA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: 3iXNAsZwJoh2-sRW5JrH5NVNDGiEvKfW
+X-Proofpoint-GUID: 9-jgzV9kmWIieloOmYHSmmkqUMDM_L1h
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEyMDA2MyBTYWx0ZWRfX6QWOWos8A3ve
+ yaW+QAsAFoV0hzBslnPAGPSeVL6eU8SzDYftGBeUKOx7QDzmAy2et8+mLvYh1gXbmySUXYjsHXn
+ QDafr0DriHgltGnffCMNhXa0hM+Vt4eIJ8tLFt+OKfysQ1AOTYIQ68xAcJHZFsECeN4x6zh/mET
+ U1x2SwzpIwBzX0DPKtZrSBbiJk9fwwAV1LvzrMLCfzF0asgf4HQoWzoD5AqlczGN6QOJOzsyTAi
+ otzDzyHftRkMB0SbIsax97vPwIlPl/HbwvJRih44vvO7vgaAH4jNKA1IPigtMmdrTMd+o7R5GYV
+ Ot1WvkgdeVC1+waMINGAjft00XDW7NGd491lqxzILsKqTwAxa0rSTSOGElk0G1Hmw1bW3WPrEL9
+ /7WroWUFk1CfSA/oF/uDLyie0+0VCXFxC9/lvawCFlvKS3iGuVsmn2wzBKvd3LQXd+YxyR6c/65
+ 4XtbCooWpUgXv+noiOA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 phishscore=0 clxscore=1011 spamscore=0
+ impostorscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605120063
 
-Hi Greg and rafael,
-Could you please review and provide your feedback on this patch.
+On 5/11/26 4:48 PM, Muchun Song wrote:
 
-On 4/27/2026 9:21 PM, Muralidhara M K wrote:
-> Historically, sysfs read buffers were allocated with get_zeroed_page(),
-> limiting reads to PAGE_SIZE.  Commit 13c589d5b0ac ("sysfs: use seq_file
-> when reading regular files") transitioned regular (text) attribute reads
-> to seq_file, which can dynamically grow buffers beyond PAGE_SIZE.
-> However, the PAGE_SIZE limit was intentionally preserved for
-> compatibility.  When binary attribute handling was later unified into
-> the same codebase, the non-seq_file read path (kernfs_file_read_iter)
-> retained this PAGE_SIZE cap for binary files as well.
-> 
-> Drivers that expose binary attributes larger than PAGE_SIZE — such as
-> the AMD HSMP metric table (~13 KB) — cannot deliver the full content
-> in a single read() call through the existing path.
-> 
-> Introduce a new opt-in flag SYSFS_HUGE_BIN_FILE (040000) that drivers
-> can OR into their bin_attribute mode.  When set, sysfs selects a new
-> kernfs_ops (sysfs_bin_kfops_huge_file_ro) whose .seq_show callback
-> pipes the bin_attribute ->read() result through seq_file, allowing
-> reads of arbitrary size in one shot.  Existing binary attributes
-> without the flag continue using the legacy capped path.
-> 
-> Co-developed-by: Nayak K Prateek <kprateek.nayak@amd.com>
-> Signed-off-by: Nayak K Prateek <kprateek.nayak@amd.com>
-> Signed-off-by: Muralidhara M K <muralidhara.mk@amd.com>
+> Rename the memory block lookup helper to make the acquired reference
+> explicit, add memory_block_put() to wrap put_device(), and collapse the
+> redundant section-number wrapper into a single block-id based lookup
+> interface.
+>
+> This makes it clearer to callers that a successful lookup holds a
+> reference that must be dropped, reducing the chance of forgetting the
+> matching put and leaking the memory block device reference.
+>
+> Link: https://lore.kernel.org/linux-mm/7887915D-E598-42B3-9AFE-BFFBACE8DE2D@linux.dev/#t
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > ---
-> Changes v1->v2: New patch
-> 
->   fs/sysfs/file.c       | 45 +++++++++++++++++++++++++++++++++++++++++++
->   fs/sysfs/group.c      |  8 ++++----
->   include/linux/sysfs.h |  1 +
->   3 files changed, 50 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
-> index 5709cede1d75..be42c3c1e056 100644
-> --- a/fs/sysfs/file.c
-> +++ b/fs/sysfs/file.c
-> @@ -38,6 +38,45 @@ static const struct sysfs_ops *sysfs_file_ops(struct kernfs_node *kn)
->   	return kobj->ktype ? kobj->ktype->sysfs_ops : NULL;
+>   .../platforms/pseries/hotplug-memory.c        | 14 ++-----
+>   drivers/base/memory.c                         | 38 +++++++------------
+>   drivers/base/node.c                           |  4 +-
+>   drivers/s390/char/sclp_mem.c                  | 17 ++++-----
+>   include/linux/memory.h                        |  7 +++-
+>   mm/memory_hotplug.c                           |  5 +--
+>   6 files changed, 35 insertions(+), 50 deletions(-)
+
+
+
+Hi
+
+I did some basic DLPAR memory add/remove tests on PowerPC with this 
+patch, and it is working fine.
+
+Initial memory
+==============
+[]# cat /proc/meminfo |grep -i MemTotal
+MemTotal:       205169920 kB
+
+After Add
+=========
+[]# cat /proc/meminfo |grep -i MemTotal
+MemTotal:       247112960 kB
+
+After Remove
+============
+[]# cat /proc/meminfo |grep -i MemTotal
+MemTotal:       173729024 kB
+[]#
+
+Tested-by: Donet Tom <donettom@linux.ibm.com>
+
+
+> diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
+> index 75f85a5da981..94f3b57054b6 100644
+> --- a/arch/powerpc/platforms/pseries/hotplug-memory.c
+> +++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
+> @@ -164,13 +164,7 @@ static int update_lmb_associativity_index(struct drmem_lmb *lmb)
+>   
+>   static struct memory_block *lmb_to_memblock(struct drmem_lmb *lmb)
+>   {
+> -	unsigned long section_nr;
+> -	struct memory_block *mem_block;
+> -
+> -	section_nr = pfn_to_section_nr(PFN_DOWN(lmb->base_addr));
+> -
+> -	mem_block = find_memory_block(section_nr);
+> -	return mem_block;
+> +	return memory_block_get(phys_to_block_id(lmb->base_addr));
 >   }
 >   
-> +/*
-> + * Reads on huge sysfs bin files are handled through seq_file, which
-> + * takes care of hairy details like buffering and seeking.  The
-> + * following function pipes the bin_attribute ->read() result through
-> + * seq_file so that reads larger than PAGE_SIZE work in one shot.
-> + */
-> +static int sysfs_kf_huge_file_seq_show(struct seq_file *sf, void *v)
+>   static int get_lmb_range(u32 drc_index, int n_lmbs,
+> @@ -220,7 +214,7 @@ static int dlpar_change_lmb_state(struct drmem_lmb *lmb, bool online)
+>   	else
+>   		rc = 0;
+>   
+> -	put_device(&mem_block->dev);
+> +	memory_block_put(mem_block);
+>   
+>   	return rc;
+>   }
+> @@ -319,12 +313,12 @@ static int dlpar_remove_lmb(struct drmem_lmb *lmb)
+>   
+>   	rc = dlpar_offline_lmb(lmb);
+>   	if (rc) {
+> -		put_device(&mem_block->dev);
+> +		memory_block_put(mem_block);
+>   		return rc;
+>   	}
+>   
+>   	__remove_memory(lmb->base_addr, memory_block_size);
+> -	put_device(&mem_block->dev);
+> +	memory_block_put(mem_block);
+>   
+>   	/* Update memory regions for memory remove */
+>   	memblock_remove(lmb->base_addr, memory_block_size);
+> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+> index 11d57cfa8d72..5b5d41089e81 100644
+> --- a/drivers/base/memory.c
+> +++ b/drivers/base/memory.c
+> @@ -649,7 +649,7 @@ int __weak arch_get_memory_phys_device(unsigned long start_pfn)
+>    *
+>    * Called under device_hotplug_lock.
+>    */
+> -struct memory_block *find_memory_block_by_id(unsigned long block_id)
+> +struct memory_block *memory_block_get(unsigned long block_id)
+>   {
+>   	struct memory_block *mem;
+>   
+> @@ -659,16 +659,6 @@ struct memory_block *find_memory_block_by_id(unsigned long block_id)
+>   	return mem;
+>   }
+>   
+> -/*
+> - * Called under device_hotplug_lock.
+> - */
+> -struct memory_block *find_memory_block(unsigned long section_nr)
+> -{
+> -	unsigned long block_id = memory_block_id(section_nr);
+> -
+> -	return find_memory_block_by_id(block_id);
+> -}
+> -
+>   static struct attribute *memory_memblk_attrs[] = {
+>   	&dev_attr_phys_index.attr,
+>   	&dev_attr_state.attr,
+> @@ -701,7 +691,7 @@ static int __add_memory_block(struct memory_block *memory)
+>   
+>   	ret = device_register(&memory->dev);
+>   	if (ret) {
+> -		put_device(&memory->dev);
+> +		memory_block_put(memory);
+>   		return ret;
+>   	}
+>   	ret = xa_err(xa_store(&memory_blocks, memory->dev.id, memory,
+> @@ -795,9 +785,9 @@ static int add_memory_block(unsigned long block_id, int nid, unsigned long state
+>   	struct memory_block *mem;
+>   	int ret = 0;
+>   
+> -	mem = find_memory_block_by_id(block_id);
+> +	mem = memory_block_get(block_id);
+>   	if (mem) {
+> -		put_device(&mem->dev);
+> +		memory_block_put(mem);
+>   		return -EEXIST;
+>   	}
+>   	mem = kzalloc_obj(*mem);
+> @@ -845,8 +835,8 @@ static void remove_memory_block(struct memory_block *memory)
+>   		memory->group = NULL;
+>   	}
+>   
+> -	/* drop the ref. we got via find_memory_block() */
+> -	put_device(&memory->dev);
+> +	/* drop the ref. we got via memory_block_get() */
+> +	memory_block_put(memory);
+>   	device_unregister(&memory->dev);
+>   }
+>   
+> @@ -880,7 +870,7 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
+>   		end_block_id = block_id;
+>   		for (block_id = start_block_id; block_id != end_block_id;
+>   		     block_id++) {
+> -			mem = find_memory_block_by_id(block_id);
+> +			mem = memory_block_get(block_id);
+>   			if (WARN_ON_ONCE(!mem))
+>   				continue;
+>   			remove_memory_block(mem);
+> @@ -908,7 +898,7 @@ void remove_memory_block_devices(unsigned long start, unsigned long size)
+>   		return;
+>   
+>   	for (block_id = start_block_id; block_id != end_block_id; block_id++) {
+> -		mem = find_memory_block_by_id(block_id);
+> +		mem = memory_block_get(block_id);
+>   		if (WARN_ON_ONCE(!mem))
+>   			continue;
+>   		num_poisoned_pages_sub(-1UL, memblk_nr_poison(mem));
+> @@ -1015,12 +1005,12 @@ int walk_memory_blocks(unsigned long start, unsigned long size,
+>   		return 0;
+>   
+>   	for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
+> -		mem = find_memory_block_by_id(block_id);
+> +		mem = memory_block_get(block_id);
+>   		if (!mem)
+>   			continue;
+>   
+>   		ret = func(mem, arg);
+> -		put_device(&mem->dev);
+> +		memory_block_put(mem);
+>   		if (ret)
+>   			break;
+>   	}
+> @@ -1228,22 +1218,22 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+>   void memblk_nr_poison_inc(unsigned long pfn)
+>   {
+>   	const unsigned long block_id = pfn_to_block_id(pfn);
+> -	struct memory_block *mem = find_memory_block_by_id(block_id);
+> +	struct memory_block *mem = memory_block_get(block_id);
+>   
+>   	if (mem) {
+>   		atomic_long_inc(&mem->nr_hwpoison);
+> -		put_device(&mem->dev);
+> +		memory_block_put(mem);
+>   	}
+>   }
+>   
+>   void memblk_nr_poison_sub(unsigned long pfn, long i)
+>   {
+>   	const unsigned long block_id = pfn_to_block_id(pfn);
+> -	struct memory_block *mem = find_memory_block_by_id(block_id);
+> +	struct memory_block *mem = memory_block_get(block_id);
+>   
+>   	if (mem) {
+>   		atomic_long_sub(i, &mem->nr_hwpoison);
+> -		put_device(&mem->dev);
+> +		memory_block_put(mem);
+>   	}
+>   }
+>   
+> diff --git a/drivers/base/node.c b/drivers/base/node.c
+> index 126f66aa2c3e..b3333ca92090 100644
+> --- a/drivers/base/node.c
+> +++ b/drivers/base/node.c
+> @@ -847,13 +847,13 @@ static void register_memory_blocks_under_nodes(void)
+>   		for (block_id = start_block_id; block_id <= end_block_id; block_id++) {
+>   			struct memory_block *mem;
+>   
+> -			mem = find_memory_block_by_id(block_id);
+> +			mem = memory_block_get(block_id);
+>   			if (!mem)
+>   				continue;
+>   
+>   			memory_block_add_nid_early(mem, nid);
+>   			do_register_memory_block_under_node(nid, mem);
+> -			put_device(&mem->dev);
+> +			memory_block_put(mem);
+>   		}
+>   
+>   	}
+> diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
+> index 78c054e26d17..6df1926d4c62 100644
+> --- a/drivers/s390/char/sclp_mem.c
+> +++ b/drivers/s390/char/sclp_mem.c
+> @@ -204,7 +204,7 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
+>   	addr = sclp_mem->id * block_size;
+>   	/*
+>   	 * Hold device_hotplug_lock when adding/removing memory blocks.
+> -	 * Additionally, also protect calls to find_memory_block() and
+> +	 * Additionally, also protect calls to memory_block_get() and
+>   	 * sclp_attach_storage().
+>   	 */
+>   	rc = lock_device_hotplug_sysfs();
+> @@ -231,20 +231,19 @@ static ssize_t sclp_config_mem_store(struct kobject *kobj, struct kobj_attribute
+>   			sclp_mem_change_state(addr, block_size, 0);
+>   			goto out_unlock;
+>   		}
+> -		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
+> -		put_device(&mem->dev);
+> +		mem = memory_block_get(phys_to_block_id(addr));
+> +		memory_block_put(mem);
+>   		WRITE_ONCE(sclp_mem->config, 1);
+>   	} else {
+>   		if (!sclp_mem->config)
+>   			goto out_unlock;
+> -		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(addr)));
+> +		mem = memory_block_get(phys_to_block_id(addr));
+>   		if (mem->state != MEM_OFFLINE) {
+> -			put_device(&mem->dev);
+> +			memory_block_put(mem);
+>   			rc = -EBUSY;
+>   			goto out_unlock;
+>   		}
+> -		/* drop the ref just got via find_memory_block() */
+> -		put_device(&mem->dev);
+> +		memory_block_put(mem);
+>   		sclp_mem_change_state(addr, block_size, 0);
+>   		__remove_memory(addr, block_size);
+>   #ifdef CONFIG_KASAN
+> @@ -294,11 +293,11 @@ static ssize_t sclp_memmap_on_memory_store(struct kobject *kobj, struct kobj_att
+>   		return rc;
+>   	block_size = memory_block_size_bytes();
+>   	sclp_mem = container_of(kobj, struct sclp_mem, kobj);
+> -	mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(sclp_mem->id * block_size)));
+> +	mem = memory_block_get(phys_to_block_id(sclp_mem->id * block_size));
+>   	if (!mem) {
+>   		WRITE_ONCE(sclp_mem->memmap_on_memory, value);
+>   	} else {
+> -		put_device(&mem->dev);
+> +		memory_block_put(mem);
+>   		rc = -EBUSY;
+>   	}
+>   	unlock_device_hotplug();
+> diff --git a/include/linux/memory.h b/include/linux/memory.h
+> index 5bb5599c6b2b..29edef1f975c 100644
+> --- a/include/linux/memory.h
+> +++ b/include/linux/memory.h
+> @@ -158,7 +158,11 @@ int create_memory_block_devices(unsigned long start, unsigned long size,
+>   void remove_memory_block_devices(unsigned long start, unsigned long size);
+>   extern void memory_dev_init(void);
+>   extern int memory_notify(enum memory_block_state state, void *v);
+> -extern struct memory_block *find_memory_block(unsigned long section_nr);
+> +extern struct memory_block *memory_block_get(unsigned long block_id);
+> +static inline void memory_block_put(struct memory_block *mem)
 > +{
-> +	struct kernfs_open_file *of = sf->private;
-> +	const struct bin_attribute *battr = of->kn->priv;
-> +	struct kobject *kobj = sysfs_file_kobj(of->kn);
-> +	loff_t size = file_inode(of->file)->i_size;
-> +	ssize_t count;
-> +	char *buf;
-> +
-> +	if (!battr->read)
-> +		return -EIO;
-> +
-> +	if (!size)
-> +		return -EIO;
-> +
-> +	/* acquire buffer and ensure that it's >= size */
-> +	count = seq_get_buf(sf, &buf);
-> +	if (count < size) {
-> +		seq_commit(sf, -1);
-> +		return 0;
-> +	}
-> +
-> +	memset(buf, 0, size);
-> +
-> +	count = battr->read(of->file, kobj, battr, buf, 0, size);
-> +	if (count < 0)
-> +		return count;
-> +
-> +	WARN_ON(count > size);
-> +	seq_commit(sf, min_t(ssize_t, count, size));
-> +	return 0;
+> +	put_device(&mem->dev);
 > +}
-> +
->   /*
->    * Reads on sysfs are handled through seq_file, which takes care of hairy
->    * details like buffering and seeking.  The following function pipes
-> @@ -249,6 +288,10 @@ static const struct kernfs_ops sysfs_prealloc_kfops_rw = {
->   	.prealloc	= true,
->   };
+>   typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void *);
+>   extern int walk_memory_blocks(unsigned long start, unsigned long size,
+>   			      void *arg, walk_memory_blocks_func_t func);
+> @@ -171,7 +175,6 @@ struct memory_group *memory_group_find_by_id(int mgid);
+>   typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
+>   int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+>   			       struct memory_group *excluded, void *arg);
+> -struct memory_block *find_memory_block_by_id(unsigned long block_id);
+>   #define hotplug_memory_notifier(fn, pri) ({		\
+>   	static __meminitdata struct notifier_block fn##_mem_nb =\
+>   		{ .notifier_call = fn, .priority = pri };\
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 462d8dcd636d..890c6453e887 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -1417,14 +1417,13 @@ static void remove_memory_blocks_and_altmaps(u64 start, u64 size)
+>   		struct vmem_altmap *altmap = NULL;
+>   		struct memory_block *mem;
 >   
-> +static const struct kernfs_ops sysfs_bin_kfops_huge_file_ro = {
-> +	.seq_show	= sysfs_kf_huge_file_seq_show,
-> +};
-> +
->   static const struct kernfs_ops sysfs_bin_kfops_ro = {
->   	.read		= sysfs_kf_bin_read,
->   };
-> @@ -333,6 +376,8 @@ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
->   		ops = &sysfs_bin_kfops_mmap;
->   	else if (battr->read && battr->write)
->   		ops = &sysfs_bin_kfops_rw;
-> +	else if (battr->read && (mode & SYSFS_HUGE_BIN_FILE))
-> +		ops = &sysfs_bin_kfops_huge_file_ro;
->   	else if (battr->read)
->   		ops = &sysfs_bin_kfops_ro;
->   	else if (battr->write)
-> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
-> index b3edae0578c0..2d0b01c00a97 100644
-> --- a/fs/sysfs/group.c
-> +++ b/fs/sysfs/group.c
-> @@ -74,11 +74,11 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
->   					continue;
->   			}
+> -		mem = find_memory_block(pfn_to_section_nr(PFN_DOWN(cur_start)));
+> +		mem = memory_block_get(phys_to_block_id(cur_start));
+>   		if (WARN_ON_ONCE(!mem))
+>   			continue;
 >   
-> -			WARN(mode & ~(SYSFS_PREALLOC | 0664),
-> +			WARN(mode & ~(SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664),
->   			     "Attribute %s: Invalid permissions 0%o\n",
->   			     (*attr)->name, mode);
+>   		altmap = mem->altmap;
+>   		mem->altmap = NULL;
+> -		/* drop the ref. we got via find_memory_block() */
+> -		put_device(&mem->dev);
+> +		memory_block_put(mem);
 >   
-> -			mode &= SYSFS_PREALLOC | 0664;
-> +			mode &= SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664;
->   			error = sysfs_add_file_mode_ns(parent, *attr, mode, uid,
->   						       gid, NULL);
->   			if (unlikely(error))
-> @@ -107,11 +107,11 @@ static int create_files(struct kernfs_node *parent, struct kobject *kobj,
->   			if (grp->bin_size)
->   				size = grp->bin_size(kobj, *bin_attr, i);
+>   		remove_memory_block_devices(cur_start, memblock_size);
 >   
-> -			WARN(mode & ~(SYSFS_PREALLOC | 0664),
-> +			WARN(mode & ~(SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664),
->   			     "Attribute %s: Invalid permissions 0%o\n",
->   			     (*bin_attr)->attr.name, mode);
->   
-> -			mode &= SYSFS_PREALLOC | 0664;
-> +			mode &= SYSFS_PREALLOC | SYSFS_HUGE_BIN_FILE | 0664;
->   			error = sysfs_add_bin_file_mode_ns(parent, *bin_attr,
->   							   mode, size, uid, gid,
->   							   NULL);
-> diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-> index b1a3a1e6ad09..78f6c6252cf9 100644
-> --- a/include/linux/sysfs.h
-> +++ b/include/linux/sysfs.h
-> @@ -124,6 +124,7 @@ struct attribute_group {
->   
->   #define SYSFS_PREALLOC		010000
->   #define SYSFS_GROUP_INVISIBLE	020000
-> +#define SYSFS_HUGE_BIN_FILE		040000
->   
->   /*
->    * DEFINE_SYSFS_GROUP_VISIBLE(name):
-
+>
+> base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
