@@ -1,217 +1,381 @@
-Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374A0383323
-	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 02:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1869D1FC101
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 03:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778552535; cv=none; b=E32cj+kj5uvJXEyLExx5s6x8mDzS7MHS+rPrgp6knd/kSOGcUikuzAYPw+W3se3g4PtQ2nQtedF+ltJ1WDx5tEfEu7BGphgLNSqpMTwC8+N55PhboSd08U9X369THWfh1g0wMEUCDwpJkakPlpN72SNrk0hwjZ9WVENaEO0EXr8=
+	t=1778555542; cv=none; b=VO8cc1e8qcpTJd7Xyb8zKCPgSGeSZqoDHQxiyWdFV/wJDW4v5HqKP3NjKkk6KSP9k9ChZlMcApf1Ej5aRokJD09783OnJ93F0qcCXqEqUHHV62W/d8A14wfcfdUfm2/9bfQ9CILdxyDjFS2iFqB3A58Iew7tAWrOX4dt1iBYeRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778552535; c=relaxed/simple;
-	bh=GklZYUKJX6KCfliVPjcXd8Jfg1EfG4Yx/dYPm0oFv3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JuS2SEH9iDLLPVvuBkvwabBy4WaOBxQrAczujUA0ouyVL7MgStiOcCLTd6643ZA3fXA0WbuBaVrdMcCFzAmEYhawdcffV80q9v9EV9oIMkFZ9yjFalzWuiz1sMaW5GQPhhwDv8cTm5NmotQRmroRUknCrOYHwqHAhELeYLZ1bz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=AOO8gzpc; arc=none smtp.client-ip=211.125.140.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1778555542; c=relaxed/simple;
+	bh=Iq8ZUfmdyCW2lZ4K7gHwBOoFCVR04tWf5wjLLL+IPzc=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=Jm1w+Lek0J7s4XXBFHccmeh96gmbqTtMd1pb4P7JYU73G1sBJa0O1pLs5BCO/0Uq8cIo1Hdmi5tZgS406jjBAXI0bw9opPlfydkBybcLOi9QbKZsjt30rDRVLU8bxjuqHP7y5AofJIUJhQMQF23KvRfzZbjF4CWrAxJH9S6YH7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Azi14Ppr; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="AOO8gzpc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1778552533; x=1810088533;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hPXs4xfe9WaD1xaFn0d8PPw/gVNLx2J4xPkxz7s4xqs=;
-  b=AOO8gzpcmJA16ZEdoncqmX7yTmNwNuDBGE4MgRk69OW4/qdfvseM+FjZ
-   Lms9zpKFvlu+tNj80/Ir1DSuulmOv5cZan3ieCF0+FYDdWmadAWRMaGJV
-   Y8YFzI1x9iwe4H5PJbNUJ+kLnRj+yZySGqA3shiAdiRmZdenyxUzEp+uT
-   nX9oj3jvnyLm4vrYLBZ4UlhkCbn3UjDxwalxK7mOt+sXpSTMRZHvW/TLf
-   25UI/NDkVUy3y3jrTJ20hOxMY3flEm8x1/zh0fnhiQ+aFszLXMQYMRUwF
-   sPQvL2MzPolRQipbHUv6BygjovFuDztO0mVXSfz5NXBflOMbEUwepCvIA
-   A==;
-X-CSE-ConnectionGUID: EKqNNX0ISn6m/jBKNrMWQA==
-X-CSE-MsgGUID: plUJToXDTwSzpIwW0iW3iw==
-Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
-  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 11:12:02 +0900
-X-CSE-ConnectionGUID: E4sXDblmSuKgQZmCqCcvnA==
-X-CSE-MsgGUID: Qwx43BEcSKO83PNWSCJ4AQ==
-X-IronPort-AV: E=Sophos;i="6.23,230,1770562800"; 
-   d="scan'208";a="606139396"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 11:12:01 +0900
-Date: Tue, 12 May 2026 11:12:00 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Gary Guo <gary@garyguo.net>, Suzuki K Poulose <suzuki.poulose@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
-	Leo Yan <leo.yan@arm.com>, Rahul Bukte <rahul.bukte@sony.com>,
-	linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] kernel: param: initialize module_kset before
- do_initcalls()
-Message-ID: <agKMcA7a_UqMua5V@JPC00244420>
-References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
- <20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com>
- <DI3Z28IZZOT9.349TTWNN9VDMB@garyguo.net>
- <afABOMT_s9DvF6NY@JPC00244420>
- <DI4QQA6EGIA1.N8WRFWVKG91S@garyguo.net>
- <afCxHUrjr3Z22U6V@JPC00244420>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Azi14Ppr"
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778555537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I4poRjePR6cFEz+knzlKugzzQz/9NFbmis/RU8TnLm8=;
+	b=Azi14PprPniBe1V5WjMKA+afCZiQgf72uIBSnpUmv60pYeWqC3IjNVcI+F6g/cUtrfmtoK
+	9eWQnG6XAjQL2a/frLRhyjpMZjyu55AeB1Kab2o/jQHGfyaMSajaAmtzR8NrIrBYLHxonL
+	73at8Z7GhpsUWTub3wdFAO6VUW0iJj0=
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afCxHUrjr3Z22U6V@JPC00244420>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
+Subject: Re: [PATCH] drivers/base/memory: make memory block get/put explicit
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <3234B4D3-8202-4E79-B85B-8B6373BB76F6@linux.dev>
+Date: Tue, 12 May 2026 11:11:15 +0800
+Cc: Muchun Song <songmuchun@bytedance.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ linux-mm@kvack.org,
+ driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <E9BB5FC5-0785-4162-8D1A-2A51C7250B34@linux.dev>
+References: <2841f424-580c-48c6-bb26-de30e4397b7f@kernel.org>
+ <3234B4D3-8202-4E79-B85B-8B6373BB76F6@linux.dev>
+To: David Hildenbrand <david@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Thierry, Jonathan,
 
-Just following up on the below, would moving tegra194_cbb_driver and
-tegra234_cbb_driver from pure_initcall to core_initcall work for you?
+
+> On May 11, 2026, at 21:23, Muchun Song <muchun.song@linux.dev> wrote:
+>=20
+>=20
+>=20
+>> On May 11, 2026, at 20:22, David Hildenbrand (Arm) <david@kernel.org> =
+wrote:
+>>=20
+>> =EF=BB=BFOn 5/11/26 13:18, Muchun Song wrote:
+>>> Rename the memory block lookup helper to make the acquired reference
+>>> explicit, add memory_block_put() to wrap put_device(), and collapse =
+the
+>>> redundant section-number wrapper into a single block-id based lookup
+>>> interface.
+>>>=20
+>>> This makes it clearer to callers that a successful lookup holds a
+>>> reference that must be dropped, reducing the chance of forgetting =
+the
+>>> matching put and leaking the memory block device reference.
+>>=20
+>> Better mention some of the other changes here, like removing =
+find_memory_block().
+>=20
+> Will do.
+>=20
+>>=20
+>> [...]
+>>=20
+>>>   unlock_device_hotplug();
+>>> diff --git a/include/linux/memory.h b/include/linux/memory.h
+>>> index 5bb5599c6b2b..29edef1f975c 100644
+>>> --- a/include/linux/memory.h
+>>> +++ b/include/linux/memory.h
+>>> @@ -158,7 +158,11 @@ int create_memory_block_devices(unsigned long =
+start, unsigned long size,
+>>> void remove_memory_block_devices(unsigned long start, unsigned long =
+size);
+>>> extern void memory_dev_init(void);
+>>> extern int memory_notify(enum memory_block_state state, void *v);
+>>> -extern struct memory_block *find_memory_block(unsigned long =
+section_nr);
+>>> +extern struct memory_block *memory_block_get(unsigned long =
+block_id);
+>>=20
+>> While at it, please drop the "extern".
+>=20
+> OK.
+>=20
+>>=20
+>>> +static inline void memory_block_put(struct memory_block *mem)
+>>> +{
+>>> +    put_device(&mem->dev);
+>>> +}
+>>> typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void =
+*);
+>>> extern int walk_memory_blocks(unsigned long start, unsigned long =
+size,
+>>>                 void *arg, walk_memory_blocks_func_t func);
+>>> @@ -171,7 +175,6 @@ struct memory_group *memory_group_find_by_id(int =
+mgid);
+>>> typedef int (*walk_memory_groups_func_t)(struct memory_group *, void =
+*);
+>>> int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t =
+func,
+>>>                  struct memory_group *excluded, void *arg);
+>>> -struct memory_block *find_memory_block_by_id(unsigned long =
+block_id);
+>>> #define hotplug_memory_notifier(fn, pri) ({        \
+>>>   static __meminitdata struct notifier_block fn##_mem_nb =3D\
+>>>       { .notifier_call =3D fn, .priority =3D pri };\
+>>> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+>>> index 462d8dcd636d..890c6453e887 100644
+>>> --- a/mm/memory_hotplug.c
+>>> +++ b/mm/memory_hotplug.c
+>>> @@ -1417,14 +1417,13 @@ static void =
+remove_memory_blocks_and_altmaps(u64 start, u64 size)
+>>>       struct vmem_altmap *altmap =3D NULL;
+>>>       struct memory_block *mem;
+>>>=20
+>>> -        mem =3D =
+find_memory_block(pfn_to_section_nr(PFN_DOWN(cur_start)));
+>>> +        mem =3D memory_block_get(phys_to_block_id(cur_start));
+>>>       if (WARN_ON_ONCE(!mem))
+>>>           continue;
+>>>=20
+>>>       altmap =3D mem->altmap;
+>>>       mem->altmap =3D NULL;
+>>> -        /* drop the ref. we got via find_memory_block() */
+>>> -        put_device(&mem->dev);
+>>> +        memory_block_put(mem);
+>>=20
+>> Would guards come in handy here?
+>=20
+> You mean to introduce something like:
+>=20
+> scoped_guard(memory_block, id) {
+> }
+>=20
+> Right? If yes, I will give it a try.
+
+Hi David,
+
+Did I get that right?
+
+5 files changed, 26 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index 5b5d41089e81..eba48320fc30 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -997,7 +997,6 @@ int walk_memory_blocks(unsigned long start, unsigned =
+long size,
+ {
+ 	const unsigned long start_block_id =3D phys_to_block_id(start);
+ 	const unsigned long end_block_id =3D phys_to_block_id(start + =
+size - 1);
+-	struct memory_block *mem;
+ 	unsigned long block_id;
+ 	int ret =3D 0;
+
+@@ -1005,12 +1004,11 @@ int walk_memory_blocks(unsigned long start, =
+unsigned long size,
+ 		return 0;
+
+ 	for (block_id =3D start_block_id; block_id <=3D end_block_id; =
+block_id++) {
+-		mem =3D memory_block_get(block_id);
++		CLASS(memory_block_get, mem)(block_id);
+ 		if (!mem)
+ 			continue;
+
+ 		ret =3D func(mem, arg);
+-		memory_block_put(mem);
+ 		if (ret)
+ 			break;
+ 	}
+@@ -1218,23 +1216,19 @@ int walk_dynamic_memory_groups(int nid, =
+walk_memory_groups_func_t func,
+ void memblk_nr_poison_inc(unsigned long pfn)
+ {
+ 	const unsigned long block_id =3D pfn_to_block_id(pfn);
+-	struct memory_block *mem =3D memory_block_get(block_id);
++	CLASS(memory_block_get, mem)(block_id);
+
+-	if (mem) {
++	if (mem)
+ 		atomic_long_inc(&mem->nr_hwpoison);
+-		memory_block_put(mem);
+-	}
+ }
+
+ void memblk_nr_poison_sub(unsigned long pfn, long i)
+ {
+ 	const unsigned long block_id =3D pfn_to_block_id(pfn);
+-	struct memory_block *mem =3D memory_block_get(block_id);
++	CLASS(memory_block_get, mem)(block_id);
+
+-	if (mem) {
++	if (mem)
+ 		atomic_long_sub(i, &mem->nr_hwpoison);
+-		memory_block_put(mem);
+-	}
+ }
+
+ static unsigned long memblk_nr_poison(struct memory_block *mem)
+diff --git a/drivers/base/node.c b/drivers/base/node.c
+index b3333ca92090..32a5431cbb60 100644
+--- a/drivers/base/node.c
++++ b/drivers/base/node.c
+@@ -845,15 +845,12 @@ static void =
+register_memory_blocks_under_nodes(void)
+ 			continue;
+
+ 		for (block_id =3D start_block_id; block_id <=3D =
+end_block_id; block_id++) {
+-			struct memory_block *mem;
+-
+-			mem =3D memory_block_get(block_id);
++			CLASS(memory_block_get, mem)(block_id);
+ 			if (!mem)
+ 				continue;
+
+ 			memory_block_add_nid_early(mem, nid);
+ 			do_register_memory_block_under_node(nid, mem);
+-			memory_block_put(mem);
+ 		}
+
+ 	}
+diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
+index 6df1926d4c62..c9a1a7adcab6 100644
+--- a/drivers/s390/char/sclp_mem.c
++++ b/drivers/s390/char/sclp_mem.c
+@@ -237,13 +237,12 @@ static ssize_t sclp_config_mem_store(struct =
+kobject *kobj, struct kobj_attribute
+ 	} else {
+ 		if (!sclp_mem->config)
+ 			goto out_unlock;
+-		mem =3D memory_block_get(phys_to_block_id(addr));
+-		if (mem->state !=3D MEM_OFFLINE) {
+-			memory_block_put(mem);
+-			rc =3D -EBUSY;
+-			goto out_unlock;
++		scoped_class(memory_block_get, mem, =
+phys_to_block_id(addr)) {
++			if (mem->state !=3D MEM_OFFLINE) {
++				rc =3D -EBUSY;
++				goto out_unlock;
++			}
+ 		}
+-		memory_block_put(mem);
+ 		sclp_mem_change_state(addr, block_size, 0);
+ 		__remove_memory(addr, block_size);
+ #ifdef CONFIG_KASAN
+@@ -293,12 +292,12 @@ static ssize_t sclp_memmap_on_memory_store(struct =
+kobject *kobj, struct kobj_att
+ 		return rc;
+ 	block_size =3D memory_block_size_bytes();
+ 	sclp_mem =3D container_of(kobj, struct sclp_mem, kobj);
+-	mem =3D memory_block_get(phys_to_block_id(sclp_mem->id * =
+block_size));
+-	if (!mem) {
+-		WRITE_ONCE(sclp_mem->memmap_on_memory, value);
+-	} else {
+-		memory_block_put(mem);
+-		rc =3D -EBUSY;
++	scoped_class(memory_block_get, mem,
++		     phys_to_block_id(sclp_mem->id * block_size)) {
++		if (!mem)
++			WRITE_ONCE(sclp_mem->memmap_on_memory, value);
++		else
++			rc =3D -EBUSY;
+ 	}
+ 	unlock_device_hotplug();
+ 	return rc ? rc : count;
+diff --git a/include/linux/memory.h b/include/linux/memory.h
+index 463dc02f6cff..fb67041941a8 100644
+--- a/include/linux/memory.h
++++ b/include/linux/memory.h
+@@ -18,6 +18,7 @@
+
+ #include <linux/node.h>
+ #include <linux/compiler.h>
++#include <linux/cleanup.h>
+ #include <linux/mutex.h>
+ #include <linux/memory_hotplug.h>
+
+@@ -163,6 +164,8 @@ static inline void memory_block_put(struct =
+memory_block *mem)
+ {
+ 	put_device(&mem->dev);
+ }
++DEFINE_CLASS(memory_block_get, struct memory_block *, if (_T) =
+memory_block_put(_T),
++	     memory_block_get(block_id), unsigned long block_id)
+ typedef int (*walk_memory_blocks_func_t)(struct memory_block *, void =
+*);
+ extern int walk_memory_blocks(unsigned long start, unsigned long size,
+ 			      void *arg, walk_memory_blocks_func_t =
+func);
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 890c6453e887..3f89ffb286d6 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1415,15 +1415,13 @@ static void remove_memory_blocks_and_altmaps(u64 =
+start, u64 size)
+ 	for (cur_start =3D start; cur_start < start + size;
+ 	     cur_start +=3D memblock_size) {
+ 		struct vmem_altmap *altmap =3D NULL;
+-		struct memory_block *mem;
+-
+-		mem =3D memory_block_get(phys_to_block_id(cur_start));
+-		if (WARN_ON_ONCE(!mem))
+-			continue;
++		scoped_class(memory_block_get, mem, =
+phys_to_block_id(cur_start)) {
++			if (WARN_ON_ONCE(!mem))
++				continue;
+
+-		altmap =3D mem->altmap;
+-		mem->altmap =3D NULL;
+-		memory_block_put(mem);
++			altmap =3D mem->altmap;
++			mem->altmap =3D NULL;
++		}
+
+ 		remove_memory_block_devices(cur_start, memblock_size);
 
 Thanks,
-Shashank
+Muchun
 
-On Tue, Apr 28, 2026 at 10:07:41PM +0900, Shashank Balaji wrote:
-> Adding Tegra maintainers.
-> 
-> On Tue, Apr 28, 2026 at 12:10:50PM +0100, Gary Guo wrote:
-> > On Tue Apr 28, 2026 at 1:37 AM BST, Shashank Balaji wrote:
-> > > Hi Gary,
-> > >
-> > > On Mon, Apr 27, 2026 at 02:29:55PM +0100, Gary Guo wrote:
-> > >> On Mon Apr 27, 2026 at 3:41 AM BST, Shashank Balaji wrote:
-> > >> > module_kset is initialized in param_sysfs_init(), a subsys_initcall. A number
-> > >> > of platform drivers register themselves prior to subsys_initcalls
-> > >> > (tegra194_cbb_driver registers in a pure_initcall, for example). With an
-> > >> > upcoming patch ("driver core: platform: set mod_name in driver registration")
-> > >> > that sets their mod_name in struct device_driver, lookup_or_create_module_kobject()
-> > >> > will be called for those drivers, which calls kset_find_obj(module_kset, mod_name).
-> > >> > This causes a null deref because module_kset isn't alive yet.
-> > >> >
-> > >> > Fix this by initializing module_kset in do_basic_setup() before do_initcalls().
-> > >> > Modernize the pr_warn while we're at it.
-> > >> >
-> > >> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > >> > Suggested-by: Gary Guo <gary@garyguo.net>
-> > >> 
-> > >> I didn't suggest this change :)
-> > >> 
-> > >> I suggested `pure_initcall`, which is just a one line change.
-> > >
-> > > Oops, sorry about the misattribution.
-> > >
-> > >> diff --git a/kernel/params.c b/kernel/params.c
-> > >> index 74d620bc2521..ac088d4b09a9 100644
-> > >> --- a/kernel/params.c
-> > >> +++ b/kernel/params.c
-> > >> @@ -957,7 +957,7 @@ static int __init param_sysfs_init(void)
-> > >>  
-> > >>  	return 0;
-> > >>  }
-> > >> -subsys_initcall(param_sysfs_init);
-> > >> +pure_initcall(param_sysfs_init);
-> > >>  
-> > >>  /*
-> > >>   * param_sysfs_builtin_init - add sysfs version and parameter
-> > >> 
-> > >> pure_initcall is level 0 so it happens before all other init calls. Does it not
-> > >> work?
-> > >
-> > > tegra194_cbb_driver registers itself in a pure_initcall too. We wouldn't
-> > > want the ordering of its registration and module_kset init to be link order
-> > > dependent.
-> > 
-> > It's the only device driver that does this. And I don't think it's supposed to.
-> > 
-> > >From documentation:
-> > 
-> > > A "pure" initcall has no dependencies on anything else, and purely
-> > > initializes variables that couldn't be statically initialized.
-> > 
-> > I understand that given large amount of drivers registering themselves during
-> > core/arch_initcall that there might be regressions if all of them are moved, but
-> > surely we can demote these two specific tegra driver to core/postcore_initcall?
-> > This will still be called earlier than init_machine call which happens during
-> > arch_initcall.
-> > 
-> > Looks like the tegra CBB driver is just doing error logging anyway.
-> 
-> That's a good point, Gary. Thanks!
-> 
-> Hi Thierry and Jonathan,
-> 
-> You can find the context for this email in this patch:
-> https://lore.kernel.org/all/20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com/
-> 
-> TL;DR: tegra194_cbb_driver and tegra234_cbb_driver are the only drivers
-> registering themselves as early as in a pure_initcall. This is a problem
-> on two fronts:
-> 1. Philosophical: As Gary pointed out, pure_initcalls are intended to purely
-> initialize variables that couldn't be statically initialized. But these
-> are doing driver registrations.
-> 2. module_kset not initialized at pure_initcall stage: This is needed to
-> set the module sysfs symlink. Since module_kset is not alive yet during
-> pure_initcalls, registering these drivers panics the kernel.
-> 
-> We would like to do the tegra cbb driver registration in a core_initcall
-> (or some later initcall works too), and move module_kset initialization
-> to a pure_initcall. Like this:
-> 
-> diff --git a/drivers/soc/tegra/cbb/tegra194-cbb.c b/drivers/soc/tegra/cbb/tegra194-cbb.c
-> index ab75d50cc85c..2f69e104c838 100644
-> --- a/drivers/soc/tegra/cbb/tegra194-cbb.c
-> +++ b/drivers/soc/tegra/cbb/tegra194-cbb.c
-> @@ -2342,7 +2342,7 @@ static int __init tegra194_cbb_init(void)
->  {
->         return platform_driver_register(&tegra194_cbb_driver);
->  }
-> -pure_initcall(tegra194_cbb_init);
-> +core_initcall(tegra194_cbb_init);
-> 
->  static void __exit tegra194_cbb_exit(void)
->  {
-> diff --git a/drivers/soc/tegra/cbb/tegra234-cbb.c b/drivers/soc/tegra/cbb/tegra234-cbb.c
-> index fb26f085f691..785072fa4e85 100644
-> --- a/drivers/soc/tegra/cbb/tegra234-cbb.c
-> +++ b/drivers/soc/tegra/cbb/tegra234-cbb.c
-> @@ -1774,7 +1774,7 @@ static int __init tegra234_cbb_init(void)
->  {
->         return platform_driver_register(&tegra234_cbb_driver);
->  }
-> -pure_initcall(tegra234_cbb_init);
-> +core_initcall(tegra234_cbb_init);
-> 
->  static void __exit tegra234_cbb_exit(void)
->  {
-> 
-> Would this work?
-> 
-> Thanks,
-> Shashank
-> 
+>=20
+>>=20
+>> In general
+>>=20
+>> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+>=20
+> Thanks.
+>=20
+> Muchun
+>=20
+>>=20
+>> --
+>> Cheers,
+>>=20
+>> David
+
