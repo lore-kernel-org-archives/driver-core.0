@@ -1,75 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DE9383327;
-	Tue, 12 May 2026 16:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9E73D0BED
+	for <driver-core@lists.linux.dev>; Tue, 12 May 2026 16:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778603510; cv=none; b=dLy9SJy9B6Y3QYHbklF+LGVxtBAjV2XIy/u53eN2mKD4HFUP2CV554Sql5Dv/5KEwxiT6flBBfb56hBg9EmHxGtWWoY56Zph8nqSJ/JaCYEdinoIYihqoMlymUtGor5tsgxhtebc2cF3FWPqxOexElRnoz/uaof0vSa122li8ps=
+	t=1778603966; cv=none; b=PmyT83SoKVWRdTqhDOZM4sXxY6LoQtP9xHfCOFyQNoD6QlPzONC8Ehej06W/qdKYw/ERiu5FFgefN8IB/BRWKBxYC4W7E6XD8sJqNpEUk3Wate3gpHNm3LbllmEml0fKj3Ww8TCogcOcJO5sGrzlJnzE5EZfHEZzr7Eoc8vsjpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778603510; c=relaxed/simple;
-	bh=sblpOtK2lQq5+S4Sem63m6E70MmkLH+vjHxwFv70MY0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=kSFl6kEc8uujDRLlEPMlvbwpCoYs/79npXVnaLPZAFmIDNu8By/NkcTJ0h4FkEb6AUGh9sYx2gRzKnAuvN/AFW52cmQUupQ188XzDTVAcsLxzywD5F9TcXGRXP3jzxe/XdA6JF6NTnAZMgXgjQW61dBVO2Lmmuw+psIwA2lekbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uG8OfP8I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778603966; c=relaxed/simple;
+	bh=bhX/uExq36XR2B5BBZe8MSmuueLve7yslUKIQx34rgQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EVsawrDBIYf7BaA/HF/Immo3G7ynsmDQc6/8keJshYjxTbBMmtnq3W0UTRjN50vUl1vCjzvqP/oZl/LZK656aMSPrwIIZSAfrVPzviMsM69tojW5sMRdZuK73+Jd9+vjvTwUDC92fmZMuct9DIHxKEKfO/MBg4XbJSB1ufkL5Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=O99zO7fv; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uG8OfP8I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E460FC2BCB0;
-	Tue, 12 May 2026 16:31:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778603510;
-	bh=sblpOtK2lQq5+S4Sem63m6E70MmkLH+vjHxwFv70MY0=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=uG8OfP8IAYLS92UPnfRbS+xC22SKgEeek73+SJbCW/Q1wxhtGAR5HsBttZZgsDjow
-	 W/gjOCl57L3P/aY4qksrIRtvOCHnVX+n75Oop6ji+09hKNZEitGmxPiOwazyIhkFtz
-	 ZcYnw7GxxMqBYqwv07DYMgLDxTjxK64e7sWNbuXNBOc0KpwZ3m5m36PcNNfWPdOruN
-	 6bV2yOdfJ0VB9wNp/3PpLzXkPdEprKrg6r0aJCLePQyKwQwvtlTZ/VljF8nhGdp5Ii
-	 GwvySQJMyKq0nvGiEkcL5JjUA2U1ms35IThuo3f5+8Y0vCMcblIQJ1KRqA2aCVvgsT
-	 HU+KchwapPiLQ==
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="O99zO7fv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1778603956;
+	bh=bhX/uExq36XR2B5BBZe8MSmuueLve7yslUKIQx34rgQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=O99zO7fvlSK+0L24vN3/S50Tka8H8A2v+p25hcVYFPeF0OvjIZY+3hg3104ZB3Bxw
+	 0XKFMzpacimMjgp36/HFzf4uLJaOtEFqptKszPOyx3tNqd7k2PIdGchXKlruccNKG5
+	 Pvjm73HnwAwWux2tBBQWAFQmmtiDK4zoKvyk3Src=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH v3 0/5] driver core: Allow the constification of device
+ attributes
+Date: Tue, 12 May 2026 18:39:10 +0200
+Message-Id: <20260512-sysfs-const-attr-device_attr-prep-v3-0-cb7c17b34d52@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 12 May 2026 18:31:44 +0200
-Message-Id: <DIGUBLZXZXPJ.8CX0K5EL6255@kernel.org>
-Subject: Re: [PATCH v5 3/7] driver core: platform: provide
- platform_device_add_software_node()
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
- <david@davidgow.net>, "Rae Moar" <raemoar63@gmail.com>, "Andy Shevchenko"
- <andy@kernel.org>, "Maximilian Luz" <luzmaximilian@gmail.com>, "Hans de
- Goede" <hansg@kernel.org>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, "Matthew Brost" <matthew.brost@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Rodrigo Vivi" <rodrigo.vivi@intel.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, <brgl@kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
- <platform-driver-x86@vger.kernel.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260512-swnode-remove-on-dev-unreg-v5-0-0035eff63812@oss.qualcomm.com> <20260512-swnode-remove-on-dev-unreg-v5-3-0035eff63812@oss.qualcomm.com>
-In-Reply-To: <20260512-swnode-remove-on-dev-unreg-v5-3-0035eff63812@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOyw6CMBBFf4V0bU1fWuvK/zDG0HaQugDSKSgh/
+ LsFFy7c6G7u5M45MxGEGADJsZhIhCFgaJsc5KYgri6bG9DgcyaCiT1T7EBxxAqpaxtMtEwpUp+
+ vHFzXuYvQUWM0r6xS0viSZE5eVuG5Os6Xd8be3sGlBbw06oCpjeP6xMCX3j++gVNGhRRGqkprK
+ 93pAQERXd3X2wYSWaSD+GB3TP2CFRmrjReGOyuZ5l/YeZ5fF537TUABAAA=
+X-Change-ID: 20260408-sysfs-const-attr-device_attr-prep-9971fb4439da
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778603956; l=1929;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=bhX/uExq36XR2B5BBZe8MSmuueLve7yslUKIQx34rgQ=;
+ b=OP1VDKEWmTNrAOKiedwucwZKqhc8giQMGQ6bHt4WPx5qk+t8hPB8hDuBaawZvJcA890TQNNZm
+ eg/H5+d1YDtBYckQmPQgwlK9iNNo0C+K7xekrBOS6Pm1VDBvv5RTjSd
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Tue May 12, 2026 at 1:59 PM CEST, Bartosz Golaszewski wrote:
-> +int platform_device_add_software_node(struct platform_device *pdev,
-> +				      const struct software_node *swnode)
-> +{
-> +	return device_add_software_node(&pdev->dev, swnode);
+Allow device attribute to reside in read-only memory.
+Both const and non-const attributes are handled by the utility macros
+and attributes can be migrated one-by-one.
 
-I think this should be device_create_managed_software_node(), see also [1].
+My goal is to migrate all sysfs attribute of a given driver or subsystem
+at once to avoid code churn through. To do that all sysfs features the
+subsystem uses need to be const-compatible. Which means that the
+migration of device attributes and is_visible() are happening
+concurrently.
 
-That said, now that I see the resulting code and the corresponding subletie=
-s, I
-think we should reconsider your (well predicted) "temporary
-platform_device_release_full()" idea for -fixes, while iterating this for -=
-next.
+After device attributes only kobject attributes are missing for a full
+conversion.
 
-[1] https://lore.kernel.org/driver-core/DIGU67TAWF7W.1DWZMO4XAVK7G@kernel.o=
-rg/
+---
+Changes in v3:
+- Also constify DEVICE_ATTR_RO(dev)
+- Also handle DEVICE_ATTR_*_NAMED()
+- Link to v2: https://patch.msgid.link/20260504-sysfs-const-attr-device_attr-prep-v2-0-79d291cb3071@weissschuh.net
+
+Changes in v2:
+- Rebase on v7.1-rc1
+- Extend cover letter a bit
+- Link to v1: https://patch.msgid.link/20260408-sysfs-const-attr-device_attr-prep-v1-0-232934f77b3c@weissschuh.net
+
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
+Signed-of-by: Thomas Weißschuh <linux@weissschuh.net>
+
+---
+Thomas Weißschuh (5):
+      driver core: Delete DEVICE_ATTR_PREALLOC()
+      driver core: Add low-level macros for device attributes
+      driver core: Stop using generic sysfs macros for device attributes
+      driver core: Allow the constification of device attributes
+      driver core: Constify core device attributes
+
+ drivers/base/core.c    |  54 +++++++++++----------
+ include/linux/device.h | 129 +++++++++++++++++++++++++++++++++++++------------
+ 2 files changed, 126 insertions(+), 57 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260408-sysfs-const-attr-device_attr-prep-9971fb4439da
+
+Best regards,
+--  
+Thomas Weißschuh <linux@weissschuh.net>
+
