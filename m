@@ -1,140 +1,134 @@
-Received: from mail-ot1-f78.google.com (mail-ot1-f78.google.com [209.85.210.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAAF3446C5
-	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 16:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A243B95F2
+	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 19:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778688330; cv=none; b=MefylF33sQIWrLqCG06TBnOcnq0rN2Jp14OdHet/v+MEBZBRJRx8OnjrD4bgeWHDDV6HZDlPqi4B4ZmWNoamb0EDgpWsm+gtqQ0G+UPcJsYJdxNePYRqXo8T43uXnZDjBUgDOPuRpvdK/gK/2dpzUg/Q8ZsWrkcol+XTPJxxNc0=
+	t=1778701965; cv=none; b=t85E23GkpamOHq+43FP68BHFJ+bADrif1IHQ2Wwasx6tdJFqZ//2dOJfgU72Ht70xP/zDXfKMPX5KkoV5ug0nxh0I7BiWfp+JYxT5p6UX4Vbb9K3K6j4cJs2cjvquZhjqwsrJbINtRNbVHbD1a7ekgiD5RxUFTkvtG4u4sz9K5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778688330; c=relaxed/simple;
-	bh=Uxd395M5No0tmeds3CebbzdYyl+spfrNZo6wL1EyNxE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=MtXLyz41hCq/ZqwSZkMA7dMg1t9fE9xNarolACOb6vcjB2ahwD3qKzE5dOyz1HbzmTxt+4cWKZy8hbwFO3qR1kURw9D674Aq1nCuwW9n9LSjnZe0Bgbk9U4C9eW/xAJAdZ2HfqbeNa4BeJPuf38OOMYPTg8ufc/zAJmXKok+bGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f78.google.com with SMTP id 46e09a7af769-7dce1e67fccso9002451a34.2
-        for <driver-core@lists.linux.dev>; Wed, 13 May 2026 09:05:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778688326; x=1779293126;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yPmji9BqOQnsHVACLKL7Cn6kb40BuI/VFnSiEA244Zo=;
-        b=cozaT/ypuxXDQhcJ8L1AYhd7df688atSEiRWeD33j4gCGp2HCwT3MYSNxtMcpHnhCe
-         hubqk347swPXRI8mcHMQ9G+4wB3n/3X2llKPrOt346hWnNJOe0t1THsKwc+HiaXfSw/s
-         vpkah59fzuYX1Uvjg832WRfF2X9bHNTRP9K3jMAnRPhFetvwUsAEbKPfldkMwNp/NW4x
-         w81ge7haXzExPpeo7kuvHCQlyKdix73r86ZSfJQsk7ePitAehmVjaQm9gaoil+TpjQDv
-         DhtNdxTl2lf4dsP9Ss+Bvx5cT8krgDvHuj7EqXy80SQrc+oBTup21TqB3WcwkUAIZX9J
-         VkpA==
-X-Forwarded-Encrypted: i=1; AFNElJ9zp9M2hWUDcssh0sbDG8EZiXCaM23cAXHTuEPWIRIQmqGxxQvQ/ib2lK1QJGMFMCn2HRIt8ZhRfyZ7/Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYPRO6xlQMXTv2St54jLw+vPnegzzkAVctove7OJanrsJRd7iL
-	29cj6W/gYAGGycROop7PrRXsNuUG55lZ4guhbpjK+fYgLDGQJdKlYcYUobhxTqYOoHuuDfXCWmp
-	1QXBqjChYHeBu1l3hgkWv/5oIybxmOJQqla2uwDBS834o4WeTrtUaeKFAdzo=
+	s=arc-20240116; t=1778701965; c=relaxed/simple;
+	bh=xBRPX/Dfojxagl7fZvimMhfqlgUmbDz+PjfCGyhfbT0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qwZXY6SJWAv57mZ16WijpkyU/lxzv0V5vhaK4UzfUUtvDXLjmkVvFp7i9p05u4eoHAqET61rmfZqJtBLhMU4uFlwvQvw20Uw7hbxBXZpgHn38N9u2YYXdVGXAwaxqgjahOK2fDD42ScJ1FRsC8vmJIE7SqS2bPtQVGFQN/JUIf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AhXiTBfD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AhXiTBfD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1FD0C2BCF7
+	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 19:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778701964;
+	bh=xBRPX/Dfojxagl7fZvimMhfqlgUmbDz+PjfCGyhfbT0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=AhXiTBfDu63RgeX0ZPQZp5HzQtNlaR96YvSwQeHom3/3OZISPFHKHez4ljM4ldAp3
+	 msN4zoZvt84NAn8P8WrIIqFjp44nF6PjNnO5RYfdjA5aH3xEnTvPj5JeiKSP2HFEFD
+	 78BkYoM0pKTt9vsgVamMI3J47nTWRUzO27IB+BSHFdNcLwyHS59t9PrZee22E+PDxm
+	 TLOf1EBKNXzC6yF95cOULO3cuBKM0iP4tEWODWwr/F1CJZLYjStxSzau/N0tJZ5SOz
+	 HhWKyF+ndSUXJKtmyWVQ8+IPMSi05d2dzEmSyQljXu81XjMNQb4UvO3g4v9DOX5bSP
+	 qN3WXqGDrWM5Q==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a86c1fe573so8339319e87.3
+        for <driver-core@lists.linux.dev>; Wed, 13 May 2026 12:52:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9rt9T3nOwP0UIj7sZzkZEZpIAm7HFa0ZmqAiTFgIDSjUXT2iLHSdS1pVv8mHsSaC3EPsMA40+uisXHUQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvM0OniTG1/peucPRvAe7jxBZCUS3jeHur9cQoSM2qJf0Gjiu/
+	KZD/0NNCaxcLVYkIRXM5IYlppJBngCKn+BnFjaleMG7VFqcz/ujMK1qh/Y2RVnj1fqVYNDGT4/5
+	vomcME67e3BL/Td7iAQTxvJrtIKX+vlM=
+X-Received: by 2002:a05:6512:2397:b0:5a7:470c:daed with SMTP id
+ 2adb3069b0e04-5a8ef979ad1mr1519384e87.16.1778701962988; Wed, 13 May 2026
+ 12:52:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6830:6488:b0:7d7:fcac:6374 with SMTP id
- 46e09a7af769-7e3da0fcacemr2190878a34.8.1778688326574; Wed, 13 May 2026
- 09:05:26 -0700 (PDT)
-Date: Wed, 13 May 2026 09:05:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a04a146.050a0220.54aed.0003.GAE@google.com>
-Subject: [syzbot] [pm?] WARNING in complete_all (3)
-From: syzbot <syzbot+7227d49ef464b1dff36d@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	lenb@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	pavel@kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+References: <20260511174559.659782-1-wusamuel@google.com> <CAP01T74KQ6bie5o++i_gHM19J+s2RzDyM6=w87=oUZgPagPejw@mail.gmail.com>
+ <CAADnVQJtuKQh-bpDDeqWCQRM1zb2sSgo0qET_+1+JFOL-6cpDg@mail.gmail.com>
+In-Reply-To: <CAADnVQJtuKQh-bpDDeqWCQRM1zb2sSgo0qET_+1+JFOL-6cpDg@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 13 May 2026 21:52:29 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hqdyMnBtvvo7RwUkh5saLvAHkTEVz8Ln09UaKMqoP=Dg@mail.gmail.com>
+X-Gm-Features: AVHnY4LmM8Vv_OoKGu6J_Ex4o-83kMNCI18g9TG-3cwnjduMTe-j6feES7nw_ic
+Message-ID: <CAJZ5v0hqdyMnBtvvo7RwUkh5saLvAHkTEVz8Ln09UaKMqoP=Dg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] Support BPF traversal of wakeup sources
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, Samuel Wu <wusamuel@google.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Shuah Khan <shuah@kernel.org>, Android Kernel Team <kernel-team@android.com>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Linux Power Management <linux-pm@vger.kernel.org>, driver-core@lists.linux.dev, 
+	bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Wed, May 13, 2026 at 2:51=E2=80=AFAM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Mon, May 11, 2026 at 1:44=E2=80=AFPM Kumar Kartikeya Dwivedi
+> <memxor@gmail.com> wrote:
+> >
+> > On Mon, 11 May 2026 at 19:50, Samuel Wu <wusamuel@google.com> wrote:
+> > >
+> > > This patchset adds requisite kfuncs for BPF programs to safely traver=
+se
+> > > wakeup_sources, and puts a config flag around the sysfs interface.
+> > >
+> > > Currently, a traversal of wakeup sources require going through
+> > > /sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to =
+query
+> > > sysfs is inefficient, as there can be hundreds of wakeup_sources, wit=
+h each
+> > > wakeup source also having multiple attributes. debugfs is unstable an=
+d
+> > > insecure.
+> > >
+> > > Adding kfuncs to lock/unlock wakeup sources allows BPF program to saf=
+ely
+> > > traverse the wakeup sources list, and a kfunc to get head of wakeup
+> > > sources list is needed to start traversing the list.
+> > >
+> > > On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~34=
+x
+> > > speedup (sampled 75 times in table below). For a device under load, t=
+he
+> > > speedup is greater.
+> > > +-------+----+----------+----------+
+> > > |       | n  | AVG (ms) | STD (ms) |
+> > > +-------+----+----------+----------+
+> > > | sysfs | 75 | 44.9     | 12.6     |
+> > > +-------+----+----------+----------+
+> > > | BPF   | 75 | 1.3      | 0.7      |
+> > > +-------+----+----------+----------+
+> > >
+> > > The initial attempts for BPF traversal of wakeup_sources was with BPF
+> > > iterators [1]. However, BPF already allows for traversing of a simple=
+ list
+> > > with bpf_for(), and this current patchset has the added benefit of be=
+ing
+> > > ~2-3x more performant than BPF iterators.
+> >
+> > This looks good to me, you can add for the set:
+> > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+>
+> Rafael,
+> how do you want to route it?
+>
+> If you ack it we can take it into bpf-next.
 
-syzbot found the following issue on:
+I guess if someone really wants this, I have no particular reason to
+object, so please feel free to add
 
-HEAD commit:    f2abc305aa93 riscv: Define __riscv_copy_{,vec_}{words,byte..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git for-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=11732a1f980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1cf93e35eaea44b1
-dashboard link: https://syzkaller.appspot.com/bug?extid=7227d49ef464b1dff36d
-compiler:       riscv64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: riscv64
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-Unfortunately, I don't have any reproducer for this issue yet.
+to the first patch.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/a741b348759c/non_bootable_disk-f2abc305.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/94904c75b810/vmlinux-f2abc305.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2195b3067ea1/Image-f2abc305.xz
+> I'd think patch 1 shouldn't conflict with other 'wakeup' changes.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7227d49ef464b1dff36d@syzkaller.appspotmail.com
+Sure, there are none ATM anyway.
 
-WARNING: [] kernel/sched/completion.c:76 at complete_all+0x1d2/0x24c kernel/sched/completion.c:76, CPU#1: syz-executor/4284
-Modules linked in:
-CPU: 1 UID: 0 PID: 4284 Comm: syz-executor Tainted: G        W           syzkaller #0 PREEMPT 
-Tainted: [W]=WARN
-Hardware name: riscv-virtio,qemu (DT)
-epc : complete_all+0x1d2/0x24c kernel/sched/completion.c:76
- ra : complete_all+0x1d2/0x24c kernel/sched/completion.c:76
-epc : ffffffff802d3be2 ra : ffffffff802d3be2 sp : ffff8f800b147010
- gp : ffffffff8a24a9a0 tp : ffffaf8019989ac0 t0 : 0000000000000000
- t1 : fffff5ef03994000 t2 : ffffffff91623ec8 s0 : ffff8f800b147050
- s1 : ffffaf80339588e0 a0 : ffffaf8019989ac8 a1 : ffffffff86deaee0
- a2 : 0000000000000002 a3 : ffffffff8014e99c a4 : 0000000000000000
- a5 : 0000000000000000 a6 : fffff5ef03994001 a7 : ffffaf801cca0003
- s2 : ffffaf8072c654a8 s3 : ffffaf801998aac0 s4 : ffffffff91623ec0
- s5 : 1ffff5f00672b110 s6 : 0000000000000001 s7 : ffff8f800b1471c0
- s8 : ffff8f800b147200 s9 : 1ffff1f001628e34 s10: ffffaf801978a380
- s11: ffffaf80339580e0 t3 : ffffffff88060bc0 t4 : fffff5ef03994000
- t5 : fffff5ef03994001 t6 : 0000000000000002 ssp : 0000000000000000
-status: 0000000200000120 badaddr: ffffffff802d3be2 cause: 0000000000000003
-[<ffffffff802d3be2>] complete_all+0x1d2/0x24c kernel/sched/completion.c:76
-[<ffffffff82c8ae64>] device_pm_sleep_init+0x8c/0x124 drivers/base/power/main.c:118
-[<ffffffff82c32670>] device_pm_init drivers/base/power/power.h:168 [inline]
-[<ffffffff82c32670>] device_initialize+0x200/0x4e4 drivers/base/core.c:3167
-[<ffffffff8535e4f8>] netdev_register_kobject+0x28/0x32c net/core/net-sysfs.c:2324
-[<ffffffff85263dbc>] register_netdevice+0x1374/0x2490 net/core/dev.c:11420
-[<ffffffff832ff322>] wg_newlink+0x3aa/0x75c drivers/net/wireguard/device.c:372
-[<ffffffff852a7684>] rtnl_newlink_create net/core/rtnetlink.c:3863 [inline]
-[<ffffffff852a7684>] __rtnl_newlink net/core/rtnetlink.c:3994 [inline]
-[<ffffffff852a7684>] rtnl_newlink+0xd74/0x2054 net/core/rtnetlink.c:4109
-[<ffffffff852aa8aa>] rtnetlink_rcv_msg+0x8e2/0xd84 net/core/rtnetlink.c:6995
-[<ffffffff8560bc98>] netlink_rcv_skb+0x1e8/0x394 net/netlink/af_netlink.c:2550
-[<ffffffff85297852>] rtnetlink_rcv+0x26/0x30 net/core/rtnetlink.c:7022
-[<ffffffff8560a0f6>] netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
-[<ffffffff8560a0f6>] netlink_unicast+0x4f6/0x7c0 net/netlink/af_netlink.c:1344
-[<ffffffff8560aba0>] netlink_sendmsg+0x7e0/0xd64 net/netlink/af_netlink.c:1894
-[<ffffffff8517a596>] sock_sendmsg_nosec net/socket.c:787 [inline]
-[<ffffffff8517a596>] __sock_sendmsg+0xca/0x160 net/socket.c:802
-[<ffffffff85185400>] __sys_sendto+0x278/0x350 net/socket.c:2265
-[<ffffffff85185598>] __do_sys_sendto net/socket.c:2272 [inline]
-[<ffffffff85185598>] __se_sys_sendto net/socket.c:2268 [inline]
-[<ffffffff85185598>] __riscv_sys_sendto+0xc0/0x158 net/socket.c:2268
-[<ffffffff80078f0a>] syscall_handler+0x92/0x114 arch/riscv/include/asm/syscall.h:112
-[<ffffffff8648ebf0>] do_trap_ecall_u+0x3dc/0x61c arch/riscv/kernel/traps.c:342
-[<ffffffff864b9f62>] handle_exception+0x15e/0x16a arch/riscv/kernel/entry.S:232
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks!
