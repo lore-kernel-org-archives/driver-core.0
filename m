@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F1B38E8DA
-	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 05:01:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD163A4F51
+	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 05:34:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778648507; cv=none; b=Ygmid0dxh9yVvcuctXiQ9nNKpE9vLV8djRB+zMcYQDXhN0uOei7nxu0ReDTxxopu5a0+5fDFKUsLi+8fnpjgl9XRG7+UI3bYTsKETU+lNBaOu1arBQWXEAqYh9WojOG1i+ePcvZbYkR2Wj9TXxUYFXbi400j0ElpMyO35e7iMus=
+	t=1778650486; cv=none; b=tzSVDvjM77hCl6/X5VfPsxYohFfazEuPW2bvSoK5wfYWbJot5c6CAYznqYlsoXikrgmG1bpwYZbERdyvQ+ulvpiEDDjcm1wrPHtKYvrU18IH+p0StU2mow+CknjgpdmBguHcWqrS3NqXomSl05dpMgYdF3hKhEgMB0v//gavCwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778648507; c=relaxed/simple;
-	bh=SgdyJpkErT45191oBzv8/mmZMYMvkPQ+SSf9Wq8CFNo=;
+	s=arc-20240116; t=1778650486; c=relaxed/simple;
+	bh=2dm9LJzKS2vHlnPyimeXOnAI0qwpLFhX3y1a2u/Y9Bw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bjCBNzIzxJPtrDzC7yH7uSlQhVb1WAOdLJpHZjjzYzxIXQZq11FsWsnhsFt3KcMhZTphytAXRG51fH1s0kSpwRzyzjShliG06K5Pm/ijrkoWWxN2dQIz6F1KJc64Oc7a7iOz/QrQo2hWDr38aDUAa/A/2uyvRlHDY+ZVsYz+QJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V0C53Vvj; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=pQIIbTEWuCaMQt2luT5mGavMpPtJJuSm/swTN/x6dlE0z4610VGsigCaGPlf+/P5iO0bi9C+qNONyaVO8SkyQ0lfsisTjXK9wYanMDl5vi71l0Bb+f7/8H1ir9mhRS2bLQr5keFpNe7Zr+Q0SPFpfZm+ygbwmTaX3uSBxm/GZM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M8gM3oBs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V0C53Vvj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4493C2BD00
-	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 05:01:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M8gM3oBs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AAEC2BCC9
+	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 05:34:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778648507;
-	bh=SgdyJpkErT45191oBzv8/mmZMYMvkPQ+SSf9Wq8CFNo=;
+	s=k20201202; t=1778650485;
+	bh=2dm9LJzKS2vHlnPyimeXOnAI0qwpLFhX3y1a2u/Y9Bw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=V0C53Vvjkz/2UoNXsbYie459zO1ZEYZe7Oonv6YPPkH2KTI14c87qLqTd0yS6uQNC
-	 AZi8SDwg0tGmFbvpDg0VjfMXADnU2LzKeSBkMRTh0PH05/GzwJN/Ys/Ff5zpkxhXJj
-	 3b3yu0sXh6ZFePA+LC2S+BjoSGeHaoFaP/BfzhnUBEh4o7cMIzbfYw0wT/q2fVnl0z
-	 +JIsMpJHTCDnf1hBixx14ejA4SlBcbgypE0r6kKttN/teFtw4rNa6BA3ofWzfqLI9H
-	 UyMpMEGxfNNbhKup73At5tJaWLKae/DdscJksZarc7xZJ06LgHo/oTxaJxRfiL6L2e
-	 wNX69qWe9Xshg==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-67f94c078e8so5022224a12.1
-        for <driver-core@lists.linux.dev>; Tue, 12 May 2026 22:01:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9uxDEGDglKlxpt4y+y64WbdvnauQkU1WqCN9WkeKimiO7LVaajpoVVgfF6fJJ6+2O6swllK3KZbfQMcA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzwlKEYz45lOpYEMx7Xj7aH4DMxyHH2fbEPKl2TabkqNHXurMdb
-	ZU6aIF2ihTICwpvF4sqjrLUcFtnLr4FNRPL8+wtAOUVi5H/edxiiIWkJ37SP4viivzFuuQIn2qx
-	1VEitCX4AcTL9myG9CLxh2KdWH/Rd9TE=
-X-Received: by 2002:aa7:d689:0:b0:67e:fea7:68a with SMTP id
- 4fb4d7f45d1cf-68255afe8b2mr506591a12.10.1778648505272; Tue, 12 May 2026
- 22:01:45 -0700 (PDT)
+	b=M8gM3oBsbHV8k34o9bhkyMz0b5wdcK8C/sgC+p5gbihq2la7ktttWgVB3vtArXM+1
+	 a1cANCChgi94ji6Jt2qiuhzfW8fgQLwCYQzDR+c50iWBPXqWI9DBUhoi6w8fTKbEvL
+	 QSWCrAu8neKj7OqQ67rVcJ5ZtLhs4mAaPXnBChN0sEhB3Tkh0mE/beenNUP2q7IAKZ
+	 PPRCCPEhFGz7kJF16oOYq1AqQwPgxysQjE1rfDDtBAMlkcpYfwVYgP0GGxDQpvK5fD
+	 R9FVrGgfiEBeS1/rzLPTDZaTLyT0s8jE2d5zAdenyru+xuLG/IZ9DaJ6K5vYjeokGg
+	 FqV2o9LefrMgg==
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b941762394aso996686166b.1
+        for <driver-core@lists.linux.dev>; Tue, 12 May 2026 22:34:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/QPXc1DtrSsyXlymzkH5WD/d1l7ElbE+WnFZfEWTellamhzcWXufCsaOvzG5dRi6Nt/4kzC5etWdz1MA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx38Mi+429PXgNz63P+/rjt+VYpqhJ7aBg2s5vbgTe6uWRTMf9g
+	qheslpMCTMe1xBgfS885daZ32tjvkiRkA6UHHNzDwg7DlVaP24vvK4uC3FM008z3003wDou0ZUp
+	BjPm73vjxzuO45HqAE1d66CJiUO/XUD0=
+X-Received: by 2002:a17:906:8d8b:b0:ba4:94f8:4df with SMTP id
+ a640c23a62f3a-bd3bfb8f581mr101033666b.17.1778650484437; Tue, 12 May 2026
+ 22:34:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,16 +42,16 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260508123910.114273-1-ulf.hansson@linaro.org>
- <20260508123910.114273-3-ulf.hansson@linaro.org> <CACRMN=fseD6-ODYnOEE42S9VKAb2F33kRv_VPYBGyPsitG2how@mail.gmail.com>
- <CAPDyKFq+F=zn_Coicb9LzyMtQ=b2Lrd+3Czx6r4ReY-DNyb9eg@mail.gmail.com>
-In-Reply-To: <CAPDyKFq+F=zn_Coicb9LzyMtQ=b2Lrd+3Czx6r4ReY-DNyb9eg@mail.gmail.com>
+ <20260508123910.114273-7-ulf.hansson@linaro.org> <CACRMN=cowCsGb3x=tPOWLYdittwLCsSb2N2SXVPyxBRHThGAVg@mail.gmail.com>
+ <CAPDyKFoxJ8AOyqzbEQc8x-e5fRf0p3faE23PRNcbA4aPSY_cdg@mail.gmail.com>
+In-Reply-To: <CAPDyKFoxJ8AOyqzbEQc8x-e5fRf0p3faE23PRNcbA4aPSY_cdg@mail.gmail.com>
 From: Saravana Kannan <saravanak@kernel.org>
-Date: Tue, 12 May 2026 22:01:28 -0700
-X-Gmail-Original-Message-ID: <CACRMN=dZFvbXjZGqTvFdNVyXfyvS6YtWNKQnej9A1jihGJHcqA@mail.gmail.com>
-X-Gm-Features: AVHnY4Ljbmr44nAGAx7p39M429gsmtpNStbNRwWRGcWCGcsqtEH3K3FUntwIZDQ
-Message-ID: <CACRMN=dZFvbXjZGqTvFdNVyXfyvS6YtWNKQnej9A1jihGJHcqA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/13] driver core: Enable suppliers to implement fine
- grained sync_state support
+Date: Tue, 12 May 2026 22:34:28 -0700
+X-Gmail-Original-Message-ID: <CACRMN=cyMjHtW1xjoYPWa8_TjmQEoJBvKtMo-UgP5yZJ=zDh2Q@mail.gmail.com>
+X-Gm-Features: AVHnY4LyfY4cUuXax6ixWmnl65gxoZBZuMNMRgoV0xiInOYdE0OY_bavPn835OQ
+Message-ID: <CACRMN=cyMjHtW1xjoYPWa8_TjmQEoJBvKtMo-UgP5yZJ=zDh2Q@mail.gmail.com>
+Subject: Re: [PATCH v3 06/13] pmdomain: core: Add initial fine grained
+ sync_state support
 To: Ulf Hansson <ulf.hansson@linaro.org>
 Cc: Saravana Kannan <saravanak@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
 	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -68,7 +68,7 @@ Cc: Saravana Kannan <saravanak@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 11, 2026 at 2:43=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org=
+On Mon, May 11, 2026 at 3:25=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org=
 > wrote:
 >
 > On Mon, 11 May 2026 at 07:09, Saravana Kannan <saravanak@kernel.org> wrot=
@@ -77,494 +77,303 @@ e:
 > > On Fri, May 8, 2026 at 5:39=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.=
 org> wrote:
 > > >
-> > > The common sync_state support isn't fine grained enough for some type=
-s of
-> > > suppliers, like power domains for example. Especially when a supplier
-> > > provides multiple independent power domains, each with their own set =
-of
-> > > consumers. In these cases we need to wait for all consumers for all t=
-he
-> > > provided power domains before invoking the supplier's ->sync_state().
+> > > A onecell (#power-domain-cells =3D <1 or 2>; in DT) power domain prov=
+ider
+> > > typically provides multiple independent power domains, each with thei=
+r own
+> > > corresponding consumers. In these cases we have to wait for all consu=
+mers
+> > > for all the provided power domains before the ->sync_state() callback=
+ gets
+> > > called for the supplier.
 > > >
-> > > To allow a more fine grained sync_state support to be implemented on =
-per
-> > > supplier's driver basis, let's add a new optional callback. As soon a=
-s
-> > > there is an update worth to consider in regards to managing sync_stat=
-e for
-> > > a supplier device, __device_links_queue_sync_state() queues the devic=
-e in a
-> > > list, allowing the new callback to be invoked when flushing the list =
-in
-> > > device_links_flush_sync_list().
+> > > In a first step to improve this, let's implement support for fine gra=
+ined
+> > > sync_state support a per genpd basis by using the ->queue_sync_state(=
+)
+> > > callback. To take step by step, let's initially limit the improvement=
+ to
+> > > the internal genpd provider driver and to its corresponding genpd dev=
+ices
+> > > for onecell providers.
 > > >
 > > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
 > > > ---
 > > >
 > > > Changes in v3:
-> > >         - Re-worked the approach to use a list to queue/flush devices=
- for
-> > >         ->queue_sync_state(). This should make sure the device lock i=
-s being
-> > >         held when it's needed, as pointed out by Danilo.
+> > >         - Addressed some cosmetic comments from Geert.
 > > >
-> >
-> > Hi Ulf,
-> >
-> > Thanks for working on this!
-> >
-> > And please bear with my slow replies.
->
-> I will try, but taking more than 2 months to reply isn't sustainable,
-> I think. Let's hope you can get some more bandwidth for reviews when
-> moving forward.
->
-> >
 > > > ---
-> > >  drivers/base/base.h           | 18 ++++++++
-> > >  drivers/base/core.c           | 77 ++++++++++++++++++++++++++-------=
---
-> > >  drivers/base/driver.c         |  7 ++++
-> > >  include/linux/device.h        |  2 +
-> > >  include/linux/device/driver.h |  7 ++++
-> > >  5 files changed, 91 insertions(+), 20 deletions(-)
+> > >  drivers/pmdomain/core.c   | 124 ++++++++++++++++++++++++++++++++++++=
+++
+> > >  include/linux/pm_domain.h |   1 +
+> > >  2 files changed, 125 insertions(+)
 > > >
-> > > diff --git a/drivers/base/base.h b/drivers/base/base.h
-> > > index 30b416588617..c8be24af92c3 100644
-> > > --- a/drivers/base/base.h
-> > > +++ b/drivers/base/base.h
-> > > @@ -196,6 +196,24 @@ static inline void dev_sync_state(struct device =
-*dev)
-> > >                 dev->driver->sync_state(dev);
+> > > diff --git a/drivers/pmdomain/core.c b/drivers/pmdomain/core.c
+> > > index ad57846f02a3..c01a9a96e5c2 100644
+> > > --- a/drivers/pmdomain/core.c
+> > > +++ b/drivers/pmdomain/core.c
+> > > @@ -2699,6 +2699,119 @@ static struct generic_pm_domain *genpd_get_fr=
+om_provider(
+> > >         return genpd;
 > > >  }
 > > >
-> > > +static inline bool dev_has_queue_sync_state(struct device *dev)
-> >
-> > Let's please pick a better name. This is too similar to the actual
-> > queue function you call __device_links_queue_sync_state() and is very
-> > confusing. Maybe something that has a meaning along the lines of
-> > "another consumer probed". So, maybe:
-> > * consumer_probed()
-> > * change_of_active_consumers()
->
-> The whole point of naming it "queue_sync_state" was exactly to refer
-> to __device_links_queue_sync_state(). The point is, the callback can't
-> be invoked unless __device_links_queue_sync_state() has been called
-> for the device first.
->
-> Not sure why you think that is confusing? To me, that is rather the
-> opposite. :-)
-
-
-sync_state() is a callback telling the driver that it's okay to sync
-the state of the hardware with the software.
-
-queue_sync_state() means nothing to the driver. It's just leaking an
-internal implementation detail (name of the internal function) to the
-driver that's not really relevant. What you are really telling the
-driver is that some additional consumers have probed.
-
-> Before deciding on another name, note also that
-> __device_links_queue_sync_state() is called when resuming sync_state
-> from device_links_supplier_sync_state_resume() and from
-> device_links_driver_bound(). I am not sure "consumer_probed" a good
-> name that covers both of these cases; what do you think?
-
-Yes, I'm well aware of that :) The contract of sync_state() is that
-it'll come after a point where it's safe to sync the state. Not "as
-soon as it's safe" -- meaning no timing guarantee. Really, this is
-just to make sure sync_state() doesn't come before late initcalls
-(because a lot of frameworks make assumptions around it) are done and
-before all the top level devices are added.
-
-So, even today, sync_state() can come a bit late. In general, the
-driver framework doesn't guarantee immediate action. There is no
-guarantee that a drive probe will be called as soon as it's registered
-(if there is a device) and vice versa. The same will be true for a
-"consumer_probed()" callback too.
-
-Also, your implementation is literally trying to check which consumers
-have probed and which ones haven't. So something like
-"consumer_probed()" or "consumer_change()" should work well and is
-actually meaningful for a driver developer.
-
->
-> >
-> > I'm going to refer to this new callback as "consumer_probed()" in the
-> > rest of my replies so I can keep it straight in my head.
-> >
+> > > +static bool genpd_should_wait_for_consumer(struct device_node *np)
 > > > +{
-> > > +       struct device_driver *drv;
+> > > +       struct generic_pm_domain *genpd;
+> > > +       bool should_wait =3D false;
 > > > +
-> > > +       if (!dev)
-> > > +               return false;
-> > > +       drv =3D READ_ONCE(dev->driver);
-> > > +       if (drv && drv->queue_sync_state)
-> > > +               return true;
-> > > +       return false;
-> > > +}
+> > > +       mutex_lock(&gpd_list_lock);
+> > > +       list_for_each_entry(genpd, &gpd_list, gpd_list_node) {
+> > > +               if (genpd->provider =3D=3D of_fwnode_handle(np)) {
+> > > +                       genpd_lock(genpd);
 > > > +
-> > > +static inline void dev_queue_sync_state(struct device *dev)
-> > > +{
-> > > +       if (dev->driver && dev->driver->queue_sync_state)
-> > > +               dev->driver->queue_sync_state(dev);
-> > > +}
+> > > +                       /* Clear the previous state before reevaluati=
+ng. */
+> > > +                       genpd->wait_for_consumer =3D false;
 > > > +
-> > >  int driver_add_groups(const struct device_driver *drv, const struct =
-attribute_group **groups);
-> > >  void driver_remove_groups(const struct device_driver *drv, const str=
-uct attribute_group **groups);
-> > >  void device_driver_detach(struct device *dev);
-> > > diff --git a/drivers/base/core.c b/drivers/base/core.c
-> > > index d49420e066de..f1f95b3c81e5 100644
-> > > --- a/drivers/base/core.c
-> > > +++ b/drivers/base/core.c
-> > > @@ -1101,15 +1101,18 @@ int device_links_check_suppliers(struct devic=
-e *dev)
-> > >  /**
-> > >   * __device_links_queue_sync_state - Queue a device for sync_state()=
- callback
-> > >   * @dev: Device to call sync_state() on
-> > > - * @list: List head to queue the @dev on
-> > > + * @s_list: List head for the sync_state to queue the @dev on
-> > > + * @q_list: List head for the queue_sync_state to queue the @dev on
-> > >   *
-> > >   * Queues a device for a sync_state() callback when the device links=
- write lock
-> > >   * isn't held. This allows the sync_state() execution flow to use de=
-vice links
-> > >   * APIs.  The caller must ensure this function is called with
-> > > - * device_links_write_lock() held.
-> > > + * device_links_write_lock() held.  Note, if the optional queue_sync=
-_state()
-> > > + * callback has been assigned too, the device is queued for that lis=
-t to allow a
-> > > + * more fine grained support to be implemented on per supplier basis=
-.
-> >
-> > Why not keep this in the same format as the existing doc? Something lik=
-e:
-> > If option list xxx is provided, queues the device for the
-> > consumer_probed() callback.
->
-> Okay, let me clarify this.
-
-Thanks
-
->
-> >
-> > >   *
-> > >   * This function does a get_device() to make sure the device is not =
-freed while
-> > > - * on this list.
-> > > + * on the corresponding list.
-> > >   *
-> > >   * So the caller must also ensure that device_links_flush_sync_list(=
-) is called
-> > >   * as soon as the caller releases device_links_write_lock().  This i=
-s necessary
-> > > @@ -1117,7 +1120,8 @@ int device_links_check_suppliers(struct device =
-*dev)
-> > >   * put_device() is called on this device.
-> > >   */
-> > >  static void __device_links_queue_sync_state(struct device *dev,
-> > > -                                           struct list_head *list)
-> > > +                                           struct list_head *s_list,
-> > > +                                           struct list_head *q_list)
-> > >  {
-> > >         struct device_link *link;
-> > >
-> > > @@ -1129,8 +1133,14 @@ static void __device_links_queue_sync_state(st=
-ruct device *dev,
-> > >         list_for_each_entry(link, &dev->links.consumers, s_node) {
-> > >                 if (!device_link_test(link, DL_FLAG_MANAGED))
-> > >                         continue;
-> > > -               if (link->status !=3D DL_STATE_ACTIVE)
-> > > +               if (link->status !=3D DL_STATE_ACTIVE) {
-> > > +                       if (dev_has_queue_sync_state(dev) &&
-> > > +                           list_empty(&dev->links.queue_sync)) {
-> > > +                               get_device(dev);
-> > > +                               list_add_tail(&dev->links.queue_sync,=
- q_list);
-> > > +                       }
-> > >                         return;
+> > > +                       /*
+> > > +                        * Unless there is at least one genpd for the=
+ provider
+> > > +                        * that is being kept powered-on, we don't ha=
+ve to care
+> > > +                        * about waiting for consumers.
+> > > +                        */
+> > > +                       if (genpd->stay_on)
+> > > +                               should_wait =3D true;
+> > > +
+> > > +                       genpd_unlock(genpd);
 > > > +               }
-> > >         }
-> > >
-> > >         /*
-> > > @@ -1144,25 +1154,28 @@ static void __device_links_queue_sync_state(s=
-truct device *dev,
-> > >                 return;
-> > >
-> > >         get_device(dev);
-> > > -       list_add_tail(&dev->links.defer_sync, list);
-> > > +       list_add_tail(&dev->links.defer_sync, s_list);
-> > >  }
-> > >
-> > >  /**
-> > > - * device_links_flush_sync_list - Call sync_state() on a list of dev=
-ices
-> > > - * @list: List of devices to call sync_state() on
-> > > + * device_links_flush_sync_list - Call sync_state callbacks for the =
-devices
-> > > + * @s_list: List of devices to call sync_state() on
-> > > + * @q_list: List of devices to call queue_sync_state() on
-> > >   * @dont_lock_dev: Device for which lock is already held by the call=
-er
-> > >   *
-> > > - * Calls sync_state() on all the devices that have been queued for i=
-t. This
-> > > - * function is used in conjunction with __device_links_queue_sync_st=
-ate(). The
-> > > - * @dont_lock_dev parameter is useful when this function is called f=
-rom a
-> > > - * context where a device lock is already held.
-> > > + * Calls sync_state() and queue_sync_state() on all the devices that=
- have been
-> > > + * queued for it. This function is used in conjunction with
-> > > + * __device_links_queue_sync_state(). The @dont_lock_dev parameter i=
-s useful
-> > > + * when this function is called from a context where a device lock i=
-s already
-> > > + * held.
-> > >   */
-> > > -static void device_links_flush_sync_list(struct list_head *list,
-> > > +static void device_links_flush_sync_list(struct list_head *s_list,
-> > > +                                        struct list_head *q_list,
-> > >                                          struct device *dont_lock_dev=
-)
-> > >  {
-> > >         struct device *dev, *tmp;
-> > >
-> > > -       list_for_each_entry_safe(dev, tmp, list, links.defer_sync) {
-> > > +       list_for_each_entry_safe(dev, tmp, s_list, links.defer_sync) =
-{
-> > >                 list_del_init(&dev->links.defer_sync);
-> > >
-> > >                 if (dev !=3D dont_lock_dev)
-> > > @@ -1175,6 +1188,25 @@ static void device_links_flush_sync_list(struc=
-t list_head *list,
-> > >
-> > >                 put_device(dev);
-> > >         }
+> > > +       }
+> > > +       mutex_unlock(&gpd_list_lock);
+> >
+> > I think I understand the intent of this function, but haven't dug into
+> > genpd code enough to comment on this yet. I'll come back to this
+> > later.
+> >
 > > > +
-> > > +       if (!q_list)
+> > > +       return should_wait;
+> > > +}
+> > > +
+> > > +static void genpd_parse_for_consumer(struct device_node *sup,
+> > > +                                    struct device_node *con)
+> > > +{
+> > > +       struct generic_pm_domain *genpd;
+> > > +
+> > > +       for (unsigned int i =3D 0; ; i++) {
+> > > +               struct of_phandle_args pd_args;
+> > > +
+> > > +               if (of_parse_phandle_with_args(con, "power-domains",
+> > > +                                              "#power-domain-cells",
+> > > +                                              i, &pd_args))
+> > > +                       break;
+> >
+> > Why not use a while or a do while() instead of this infinite for loop
+> > with a break?
+>
+> I guess it's a matter of personal preference. I'm not sure the code
+> gets any nicer with a do/while, but if you really insist I can change
+> it.
+>
+> >
+> > > +
+> > > +               /*
+> > > +                * The phandle must correspond to the supplier's genp=
+d provider
+> > > +                * to be relevant else let's move to the next index.
+> > > +                */
+> > > +               if (sup !=3D pd_args.np) {
+> > > +                       of_node_put(pd_args.np);
+> > > +                       continue;
+> > > +               }
+> > > +
+> > > +               mutex_lock(&gpd_list_lock);
+> > > +               genpd =3D genpd_get_from_provider(&pd_args);
+> > > +               if (!IS_ERR(genpd)) {
+> > > +                       genpd_lock(genpd);
+> > > +                       genpd->wait_for_consumer =3D true;
+> > > +                       genpd_unlock(genpd);
+> > > +               }
+> > > +               mutex_unlock(&gpd_list_lock);
+> > > +
+> > > +               of_node_put(pd_args.np);
+> > > +       }
+> > > +}
+> > > +
+> > > +static void _genpd_queue_sync_state(struct device_node *np)
+> > > +{
+> > > +       struct generic_pm_domain *genpd;
+> > > +
+> > > +       mutex_lock(&gpd_list_lock);
+> > > +       list_for_each_entry(genpd, &gpd_list, gpd_list_node) {
+> > > +               if (genpd->provider =3D=3D of_fwnode_handle(np)) {
+> > > +                       genpd_lock(genpd);
+> > > +                       if (genpd->stay_on && !genpd->wait_for_consum=
+er) {
+> > > +                               genpd->stay_on =3D false;
+> > > +                               genpd_queue_power_off_work(genpd);
+> > > +                       }
+> > > +                       genpd_unlock(genpd);
+> > > +               }
+> > > +       }
+> > > +       mutex_unlock(&gpd_list_lock);
+> > > +}
+> > > +
+> > > +static void genpd_queue_sync_state(struct device *dev)
+> > > +{
+> > > +       struct device_node *np =3D dev->of_node;
+> > > +       struct device_link *link;
+> > > +
+> > > +       if (!genpd_should_wait_for_consumer(np))
 > > > +               return;
 > > > +
-> > > +       list_for_each_entry_safe(dev, tmp, q_list, links.queue_sync) =
-{
-> > > +               list_del_init(&dev->links.queue_sync);
-> > > +
-> > > +               if (dev !=3D dont_lock_dev)
-> > > +                       device_lock(dev);
-> > > +
-> > > +               device_links_write_lock();
-> > > +               dev_queue_sync_state(dev);
-> > > +               device_links_write_unlock();
-> > > +
-> > > +               if (dev !=3D dont_lock_dev)
-> > > +                       device_unlock(dev);
-> > > +
-> > > +               put_device(dev);
-> > > +       }
-> > >  }
-> > >
-> > >  void device_links_supplier_sync_state_pause(void)
-> > > @@ -1188,6 +1220,7 @@ void device_links_supplier_sync_state_resume(vo=
-id)
-> > >  {
-> > >         struct device *dev, *tmp;
-> > >         LIST_HEAD(sync_list);
-> > > +       LIST_HEAD(queue_list);
-> > >
-> > >         device_links_write_lock();
-> > >         if (!defer_sync_state_count) {
-> > > @@ -1204,12 +1237,12 @@ void device_links_supplier_sync_state_resume(=
-void)
-> > >                  * sync_list because defer_sync is used for both list=
-s.
-> > >                  */
-> > >                 list_del_init(&dev->links.defer_sync);
-> > > -               __device_links_queue_sync_state(dev, &sync_list);
-> > > +               __device_links_queue_sync_state(dev, &sync_list, &que=
-ue_list);
-> > >         }
-> > >  out:
-> > >         device_links_write_unlock();
-> > >
-> > > -       device_links_flush_sync_list(&sync_list, NULL);
-> > > +       device_links_flush_sync_list(&sync_list, &queue_list, NULL);
-> > >  }
-> > >
-> > >  static int sync_state_resume_initcall(void)
-> > > @@ -1296,6 +1329,7 @@ void device_links_driver_bound(struct device *d=
-ev)
-> > >  {
-> > >         struct device_link *link, *ln;
-> > >         LIST_HEAD(sync_list);
-> > > +       LIST_HEAD(queue_list);
-> > >
-> > >         /*
-> > >          * If a device binds successfully, it's expected to have crea=
-ted all
-> > > @@ -1351,7 +1385,7 @@ void device_links_driver_bound(struct device *d=
-ev)
-> > >         if (defer_sync_state_count)
-> > >                 __device_links_supplier_defer_sync(dev);
-> > >         else
-> > > -               __device_links_queue_sync_state(dev, &sync_list);
-> > > +               __device_links_queue_sync_state(dev, &sync_list, &que=
-ue_list);
+> > > +       list_for_each_entry(link, &dev->links.consumers, s_node) {
 > >
-> > This path is really meant only for situations when the device has no
-> > consumers. So, I don't think fine grained control is relevant.
+> > Couple of issues:
+> > 1. I don't want the frameworks to be so deeply aware of driver core
+> > internals. I want the driver core maintainers to be able to change the
+> > devlink implementation without having to worry about going and fixing
+> > all the frameworks. So, please add a for_each_consumer_dev(supplier,
+> > callback) and for_each_supplier_dev(consumer, callback) helper
+> > functions.
 >
-> Okay, makes sense!
+> I understand your concern and I like the idea. However, maybe it's
+> better to get this landed (the series is complicated as is) first and
+> then can continue to improve the code on top, with helper functions
+> etc.
+
+That patch should be pretty simple, so let's just do it? You are
+literally just moving the code to another file and massaging it a bit.
+I can send one out if you want/
+
+> >
+> > 2. This doesn't ignore "SYNC_STATE_ONLY" links and that's going to
+> > confuse the consumer count/check you might do or at the least waste
+> > parsing those.
+>
+> I am not sure I understand how I should take SYNC_STATE_ONLY links
+> into account here.
+>
+> At each call to the genpd_queue_sync_state(), we walk through all the
+> provided genpds for the provider. No previous state is cached to track
+> consumer counts.
+
+Ok, correct me if I'm wrong here, but it looks like you are looking at
+all the consumers, finding the ones that haven't probed yet and then
+trying to see which specific genpd provider each one of them is using
+by parsing their dt properties and then keep those ON.
+
+If my understanding above is wrong then, please help me understand
+what the code is trying to do.
+
+If it's right, then here's the issue:
+
+fw_devlink relies on device links and fwnode links to keep track of
+consumers. fwnode links get created first and then get converted to
+device links when both the supplier AND consumer devices are created.
+
+Consider a case when the supplier S is created and the consumer device
+C is several levels deep inside a parent device A.
+S { #power-domain-cells =3D <1>; }
+A { B { C { power-domains =3D <&S MY_DOMAIN>; } } }
+
+fw_devlink can't just go "oh there's no consumer device that hasn't
+probed yet, let me call sync_state()". It needs to wait for C. But
+there's no way to create a device link to C. So, here's the sequence
+that happens:
+
+1. When device A gets added, it creates a "proxy" SYNC_STATE_ONLY link
+between S and A.
+2. When A probes, it adds device B.
+3. The SYNC_STATE_ONLY link between S to B is created.
+4. The SYNC_STATE_ONLY link between S to A is deleted.
+5. When B probes, it adds device C.
+6. The actual device link between S and C is created.
+7. The SYNC_STATE_ONLY link between S to B is deleted.
+8. Device C probes, the device links get updated, sync_state() gets called.
+
+So, if your code doesn't account for SYNC_STATE_ONLY links, you are
+going to check device "A" to see which providers are used. You'll
+think that MY_DOMAIN isn't used by any unprobed consumer and turn it
+off.
+
 >
 > >
-> > >
-> > >         list_for_each_entry_safe(link, ln, &dev->links.suppliers, c_n=
-ode) {
-> > >                 struct device *supplier;
-> > > @@ -1393,14 +1427,15 @@ void device_links_driver_bound(struct device =
-*dev)
-> > >                 if (defer_sync_state_count)
-> > >                         __device_links_supplier_defer_sync(supplier);
-> > >                 else
-> > > -                       __device_links_queue_sync_state(supplier, &sy=
-nc_list);
-> > > +                       __device_links_queue_sync_state(supplier, &sy=
-nc_list,
-> > > +                                                       &queue_list);
-> > >         }
-> > >
-> > >         dev->links.status =3D DL_DEV_DRIVER_BOUND;
-> > >
-> > >         device_links_write_unlock();
-> > >
-> > > -       device_links_flush_sync_list(&sync_list, dev);
-> > > +       device_links_flush_sync_list(&sync_list, &queue_list, dev);
-> > >  }
-> > >
-> > >  /**
-> > > @@ -1516,6 +1551,7 @@ void device_links_driver_cleanup(struct device =
-*dev)
-> > >         }
-> > >
-> > >         list_del_init(&dev->links.defer_sync);
-> > > +       list_del_init(&dev->links.queue_sync);
-> > >         __device_links_no_driver(dev);
-> > >
-> > >         device_links_write_unlock();
-> > > @@ -1808,7 +1844,7 @@ void fw_devlink_probing_done(void)
-> > >         class_for_each_device(&devlink_class, NULL, &sync_list,
-> > >                               fw_devlink_dev_sync_state);
-> > >         device_links_write_unlock();
-> > > -       device_links_flush_sync_list(&sync_list, NULL);
-> > > +       device_links_flush_sync_list(&sync_list, NULL, NULL);
-> > >  }
-> > >
-> > >  /**
-> > > @@ -3169,6 +3205,7 @@ void device_initialize(struct device *dev)
-> > >         INIT_LIST_HEAD(&dev->links.consumers);
-> > >         INIT_LIST_HEAD(&dev->links.suppliers);
-> > >         INIT_LIST_HEAD(&dev->links.defer_sync);
-> > > +       INIT_LIST_HEAD(&dev->links.queue_sync);
-> > >         dev->links.status =3D DL_DEV_NO_DRIVER;
-> > >         dev_assign_dma_coherent(dev, dma_default_coherent);
-> > >         swiotlb_dev_init(dev);
-> > > diff --git a/drivers/base/driver.c b/drivers/base/driver.c
-> > > index 8ab010ddf709..b8f4d08bbd58 100644
-> > > --- a/drivers/base/driver.c
-> > > +++ b/drivers/base/driver.c
-> > > @@ -239,6 +239,13 @@ int driver_register(struct device_driver *drv)
-> > >                 pr_warn("Driver '%s' needs updating - please use "
-> > >                         "bus_type methods\n", drv->name);
-> > >
-> > > +       if (drv->queue_sync_state && !drv->sync_state &&
-> > > +           !drv->bus->sync_state) {
-> > > +               pr_err("Driver '%s' or its bus_type needs ->sync_stat=
-e()",
-> > > +                      drv->name);
-> > > +               return -EINVAL;
-> > > +       }
-> > > +
-> > >         other =3D driver_find(drv->name, drv->bus);
-> > >         if (other) {
-> > >                 pr_err("Error: Driver '%s' is already registered, "
-> > > diff --git a/include/linux/device.h b/include/linux/device.h
-> > > index 56a96e41d2c9..6848b0a2c2d9 100644
-> > > --- a/include/linux/device.h
-> > > +++ b/include/linux/device.h
-> > > @@ -414,12 +414,14 @@ enum device_removable {
-> > >   * @suppliers: List of links to supplier devices.
-> > >   * @consumers: List of links to consumer devices.
-> > >   * @defer_sync: Hook to global list of devices that have deferred sy=
-nc_state.
-> > > + * @defer_sync: Hook to global list of devices scheduled for queue_s=
-ync_state.
-> > >   * @status: Driver status information.
-> > >   */
-> > >  struct dev_links_info {
-> > >         struct list_head suppliers;
-> > >         struct list_head consumers;
-> > >         struct list_head defer_sync;
-> > > +       struct list_head queue_sync;
-> > >         enum dl_dev_state status;
-> > >  };
-> > >
-> > > diff --git a/include/linux/device/driver.h b/include/linux/device/dri=
-ver.h
-> > > index bbc67ec513ed..bc9ae1cbe03c 100644
-> > > --- a/include/linux/device/driver.h
-> > > +++ b/include/linux/device/driver.h
-> > > @@ -68,6 +68,12 @@ enum probe_type {
-> > >   *             be called at late_initcall_sync level. If the device =
-has
-> > >   *             consumers that are never bound to a driver, this func=
-tion
-> > >   *             will never get called until they do.
-> > > + * @queue_sync_state: Similar to the ->sync_state() callback, but ca=
-lled to
-> > > + *             allow syncing device state to software state in a mor=
-e fine
-> > > + *             grained way. It is called when there is an updated st=
-ate that
-> > > + *             may be worth to consider for any of the consumers lin=
-ked to
-> > > + *             this device. If implemented, the ->sync_state() callb=
-ack is
-> > > + *             required too.
+> > 3. **Device** links are not the complete list of consumers because
+> > they can only link consumer **devices** once the consumer **device**
+> > is created.
 > >
-> > Let's make it clear that if a device gets sync_state() callback, it
-> > needs to sync the state independent of whether it has received any/all
-> > "consumer_probed()".
+> > 4. What you really need is a for_each_consumer_fwnode(supplier,
+> > callback) that first loops through all the consumer device links and
+> > calls the callback() on their fwnode and then the same function needs
+> > to loop through all the fwnode links and then pass those consumer
+> > fwnodes to the callback. And inside that callback you can do whatever
+> > you want.
 >
-> Right, good point! Let me clarify that!
->
+> The ->queue_sync_state() callback is invoked *after*
+> __device_links_queue_sync_state() has been called for the device,
+> which is also when the conditions for calling ->sync_state() is
+> checked.
+
+I'm not sure what you are trying to say here. Yes, what you are saying
+is true. But at the point the current code returns before calling
+sync_state(), your patch 2/13 ends up calling the "consumer_probed()"
+callback.
+
+If you see the example I gave above, there is a SYNC_STATE_ONLY link
+all the way up to step 7 that'll prevent sync_state() from being
+called. And until step 5, there is no device link between S and C and
+you'll have to go look at S's fwnode links to find C.
+
+> If there are problems with not yet registered consumer device links,
+> why isn't that as problem for regular ->sync_state() in
+> __device_links_queue_sync_state()?
+
+Does my explanation above make sense?
+
+Welcome to the annoying worlds of fw_devlink corner cases/nuances.
+There's a case where the child is the supplier of the
+parent/grandparent. There's a comment for that in the fw_devlink code.
 
 Thanks,
 Saravana
 
 > >
+> > 5. You might want to add a for_each_inactive_consumer(supplier,
+> > callback) too to simplify your need for checking if a fwnode has a
+> > device and then checking if it's probed.
+> >
 > > Thanks,
 > > Saravana
 > >
 > >
-> > >   * @remove:    Called when the device is removed from the system to
-> > >   *             unbind a device from this driver.
-> > >   * @shutdown:  Called at shut-down time to quiesce the device.
-> > > @@ -110,6 +116,7 @@ struct device_driver {
-> > >
-> > >         int (*probe) (struct device *dev);
-> > >         void (*sync_state)(struct device *dev);
-> > > +       void (*queue_sync_state)(struct device *dev);
-> > >         int (*remove) (struct device *dev);
-> > >         void (*shutdown) (struct device *dev);
-> > >         int (*suspend) (struct device *dev, pm_message_t state);
-> > > --
-> > > 2.43.0
-> > >
+> > > +               struct device *consumer =3D link->consumer;
+> > > +
+> > > +               if (!device_link_test(link, DL_FLAG_MANAGED))
+> > > +                       continue;
+> > > +
+> > > +               if (link->status =3D=3D DL_STATE_ACTIVE)
+> > > +                       continue;
+> > > +
+> > > +               if (!consumer->of_node)
+> > > +                       continue;
+> > > +
+> > > +               /*
+> > > +                * A consumer device has not been probed yet. Let's p=
+arse its
+> > > +                * device node for the power-domains property, to fin=
+d out the
+> > > +                * genpds it may belong to and then prevent sync stat=
+e for them.
+> > > +                */
+> > > +               genpd_parse_for_consumer(np, consumer->of_node);
+> > > +       }
+> > > +
+> > > +       _genpd_queue_sync_state(np);
+> > > +}
+> > > +
+>
+> [...]
 >
 > Kind regards
 > Uffe
