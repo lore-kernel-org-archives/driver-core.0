@@ -1,187 +1,217 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6223914F8
-	for <driver-core@lists.linux.dev>; Wed, 13 May 2026 21:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778706236; cv=pass; b=bgwhbUCvRWSpAOe93BXITg9APMECJOeTd2uxEN6oHe+6eR++WbDjNEPgMnFIJQm9BMkv+IcsbSCz25gC31TnnnN7t84me66tyc6PzPFfAC8py4oFzQFSs65M1RdVfv2EZm1q50hSIdrUxmZAp+4y6OcVzPzlvrsvoqJ5+WF9Tww=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778706236; c=relaxed/simple;
-	bh=Ak9QebyPplmvEVZxfnV5E+i53CeeU7rfM7MEpmPpjGc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A363597B
+	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 00:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778717110; cv=none; b=MwnXtz9GG6UkErTycbGwV90tMj70/w4/S7Kj4LXFQIxHaM1f+XZgMterHalUHUBHOhNrt9WN+15DfT1z2ClBN/Dce3wjQs78uiukvXu1p1U6mIpN4zMq9zSDSqSfCFg2ZwRYlhTeAe0KsSstxhbLVu7DExS6joflbssxSTwvtYg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778717110; c=relaxed/simple;
+	bh=fKZ3CvKEmWz4+/oeIHxkB/mW5xs10t3qGPYefEwGd5A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g6WHtPuVfVyC2P8+sgQilTJpkRPFgJJFY8Ozeaahg/QHK2mw2DMQKf5lo7IvndDGTl3OJI042NRWM2JwJMfxkUU9nX8tLoTSYwxKL1KCF+ujCiC+HFVa0ZJCFE0S20yUIeZ5DBt3dQHS3VhwpWV2aKE2rqLjYIzL8li27hc8Lbs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjaTkhR1; arc=pass smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=sXogQu1eTscVrz8ZWYfmcDlRwih+dq64X1fP4k1Z1oNipIz1iwcmA8fNKWfgqTVpslqSK0XOILQi71fzb194xfWLpBXskJxbPxC0JWenajXq7wf9PA5iQAkXm3Dahg29L72MPDRXxnohv4daiQwy3Pneh9W9Vt9UxAp4PeEGwCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNA3xk2/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjaTkhR1"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-449d6c68ed8so6271017f8f.0
-        for <driver-core@lists.linux.dev>; Wed, 13 May 2026 14:03:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778706232; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EntTRXKZobf8Z3x8xDwngxGDBlpOvb63QALJMb3lxhEyXG5/NvKjd7AE3EJfyEKdQ5
-         ZmXLE3KxMSn1/1ZUSsrtNM7B79zZ3Qxg38Qm5TcS34LKofI/PROAtRA7GpXdj0Sy2dBg
-         h3dZl/AAXNE8OcNpgcCFA2AJSwzSvLLiVEQ4aDnR0BuX08fHR4AXT4m9Z6bTlxAhA9Y3
-         S85hlplZsh/hRzxfj8OHQwo6qci7uOwxUlyGojYZXsv9AG855ApZp0TNqPJG/nFyaY4K
-         Iw3XZvPr6o2+Vx/jGbhcUIUnFxbxYQtGXVCd0ljfb4r4Do2CPodAATdyjJGE0asZrltd
-         zcnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=11Jb0dd2cFuHeuXRLOYq2HD+pUqkjW/pEpvn5zyVRwI=;
-        fh=MSV2E5M3KYghXpisO3xXcdZ6zY8dy1vWiKv/zPoa6VA=;
-        b=RT2B37Zv2/7Xz37gft1ChyI4JPtpAp5ZoJdE8ORJ+NjGTRM8NQsSF7wzw6FIVzIKJy
-         P1HcR2fgWp+cL5W/sHDnBVENF1lSWNSjoNH5hxtxfYbP5tt84maSfKKo8SKRctzdIf8G
-         WoxlYnIsEjoF+iG3aT+UnJhocPx3sjeAE3yvJM3NxAMTN8/VxOwnKJRhpdzU3K5AMG+U
-         /EFcpmhxSbXBlSslx/Y1vVk70ob0MkI71fw5F72j3yIj/dFujdTKyxud/AQaIRtd+7T2
-         ezGdm7Ygfm2HxwiiMdvMoNR0F+7txvevfycIMjm48Xxytup4VDucQD3MHH5JJ/pHOteD
-         x5NA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778706232; x=1779311032; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=11Jb0dd2cFuHeuXRLOYq2HD+pUqkjW/pEpvn5zyVRwI=;
-        b=LjaTkhR11aHPI4yqq5mrT9aXIM9ET0fNknigK3r0pKmBRsCz83KtyNpnKvLTPT3wWc
-         0t7ogDldZb8CnKqWEVwJeG0NCvNEFx4uCWXcdvzFkz4u+Em6rwOGfhmciMZQhDaOd6Sv
-         OAjbNqtzvCw7fM1HCt6S3YMctHBPsL86djoOihClq1y+SMLsZT2BpKc/w8v3hGmiDogX
-         W9FFUMOdZLsG+wPoAcCRETjHusRDhrvYN/mkjqsZOshnA6GiMHBsRcVvBfCaw0oVZ3p7
-         8gxl4L3Tfl09OZl0928wihnVYNyA1wC8YjY868VLJu4seTxrFRa8JBE+LoprDLc8MCSS
-         BvTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778706232; x=1779311032;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=11Jb0dd2cFuHeuXRLOYq2HD+pUqkjW/pEpvn5zyVRwI=;
-        b=pKt1V76pxuFEqKw3hzUleGgEuB3y1uR5ZSYItxhCifKkSWc9ES53U9CtSk+PTaL440
-         2Xoc4oxYbYfP0Xf82AkOYls31AnraIvdfRsw84hZDpfObd38ECBx611EUYd+s2ZEcf8F
-         /Yv+ioAFQwPc9YXXkrrENe1UfhHVCUmUYQNv6xR2zitO9J4+ADJU7NnnKMWXJU9W/P+O
-         8X0I2SepI942NZTh+MAE3ztLFNd5Q3gPEsB4u0/DHhMOJ2d+bvfDbE+0jxjN+21QhevU
-         xpP5fXw8fmqNELMmZB4FyfUDgMvU192Qr4t4o1cBdNlQ7O5cGfTrU/PoHaoqyRiltrBd
-         qX/g==
-X-Forwarded-Encrypted: i=1; AFNElJ8waXJRPvoV+L9igcE9nKyGyF5167VP2HMxV67T1PS0DJe3UHuFjmZb3zv9OD0BLafbQHgeBrn+j50g6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPD/7xZYSGvV4Jsw0hXxyJkDiAjZhuez0U4Zft1YBLVY4pgery
-	lSB4T4Wiw2JW0TKPLwWi4FyidWGml+bEBcWm915QgZQa58w6FpiYjqdPHkMmlynJ7Yo303j5Lk8
-	cCcqrgZ6Tg5WfH+Jj3+nOv7yz7fJ2UQ0=
-X-Gm-Gg: Acq92OHJKSLrtP27VpR4OnvS4l4abCK14/VRn1Tmh0416QRy8Dyy9e5dyN6okw7SzIT
-	iqyqf9dslfV2N8h2436SYH6GXuOUGmoYUeZsyu/CcVwiyNbL5FF2pEm/x5Dg0vGn6OcVwz3YyLz
-	oqwt8dTBhNnoRzPGxQCMYjJJRyXVAqtxOk+aGXKRBxd1Kn1Qnp7hZ+m01DvGdNulvldBlFn7w5u
-	vWZJ0BAs6xJddCURo8fHpUNBtIoKquVR7vl8c9kgi5wvB0KVg6jBVcFT7G6D9dEojpDABtjo49+
-	FW/H7UMfdXfMaxL/Xa7aEoIVpbCufdYE3QTQ5mfYcKxSM4lKP+nPR3JQFfx4OszTJc6t6mbVIN2
-	CF5Ie//Tbm87WDUWOtUhJqrQX8w==
-X-Received: by 2002:a5d:5f51:0:b0:453:f951:4e5b with SMTP id
- ffacd0b85a97d-45c584a86acmr8273177f8f.13.1778706231832; Wed, 13 May 2026
- 14:03:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNA3xk2/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976D8C2BCB3
+	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 00:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778717109;
+	bh=fKZ3CvKEmWz4+/oeIHxkB/mW5xs10t3qGPYefEwGd5A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cNA3xk2/2JDDfZ/BZSO0I1jN0RZJ8+pBuQjzr1SBsHlRVj+uBdw1Qmb1kU0u3e034
+	 dXa4aY9k0Lc1SGwX2Bcz447qxPoKgsAd/wCYbg7+DnJGbIUUa67XrsHDERmULcHjc9
+	 YS9ET2x7IuOdfyxfkSKdCrPxZR4oXIwQxalsmVSFTF5zr4PqywtZ68hP4VrxybQBLc
+	 PTp5kdSQoZi2Fzcv1pkh+NaO/58zCrbO34YO8wd2OoXXEBwIZIIJWh8Wr0KRcduQ3P
+	 hFyaI42Br9zNNQSBMGSYRK6qOqB8Qm9zjvw1lR9T54Kajd3L15JfXl5ItJ0B8KWyrd
+	 hnTpUK1L68WSw==
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bd22b2abaa4so467357466b.0
+        for <driver-core@lists.linux.dev>; Wed, 13 May 2026 17:05:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+ooT8PlIclh+8+Z4bNNqRwjvN6UFlFoe7x/ozxLQZmiT3zU1ZFX3eXRYfjgZfh9NlBIfPLioq+eKtM4g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrV5lOHjmZ7/QW13KSaxIodjUgfgnCPq1p0bbt/N9UWVCmQ2BJ
+	IZ+vfK/TOsyFKuE5rpJHVsFyEXsw3JFbhhSWbEMHLREaiS9MtpRoIzb/ZLh2wA1WpEdp3Hf5Ob9
+	ze+Nu6BVmUy8zKqL8/nVOQshJFkY4eEI=
+X-Received: by 2002:a17:906:fd8d:b0:bd3:897c:7800 with SMTP id
+ a640c23a62f3a-bd3dfb605cfmr337600766b.15.1778717108461; Wed, 13 May 2026
+ 17:05:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260511174559.659782-1-wusamuel@google.com> <CAP01T74KQ6bie5o++i_gHM19J+s2RzDyM6=w87=oUZgPagPejw@mail.gmail.com>
- <CAADnVQJtuKQh-bpDDeqWCQRM1zb2sSgo0qET_+1+JFOL-6cpDg@mail.gmail.com> <CAJZ5v0hqdyMnBtvvo7RwUkh5saLvAHkTEVz8Ln09UaKMqoP=Dg@mail.gmail.com>
-In-Reply-To: <CAJZ5v0hqdyMnBtvvo7RwUkh5saLvAHkTEVz8Ln09UaKMqoP=Dg@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Wed, 13 May 2026 14:03:39 -0700
-X-Gm-Features: AVHnY4JXZcwxzcwywRgvFsuXdvDflXIGcM__yxtCZ9WZk-JETjoc5UQtPM5_vFs
-Message-ID: <CAADnVQLvuCKLUHnxcEx2+t4diLmuOb9VSthoDea5iktsAZxhTg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Support BPF traversal of wakeup sources
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>, Samuel Wu <wusamuel@google.com>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Shuah Khan <shuah@kernel.org>, Android Kernel Team <kernel-team@android.com>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux Power Management <linux-pm@vger.kernel.org>, driver-core@lists.linux.dev, 
-	bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+References: <20260508123910.114273-1-ulf.hansson@linaro.org>
+ <20260508123910.114273-3-ulf.hansson@linaro.org> <CACRMN=fseD6-ODYnOEE42S9VKAb2F33kRv_VPYBGyPsitG2how@mail.gmail.com>
+ <CAPDyKFq+F=zn_Coicb9LzyMtQ=b2Lrd+3Czx6r4ReY-DNyb9eg@mail.gmail.com>
+ <CACRMN=dZFvbXjZGqTvFdNVyXfyvS6YtWNKQnej9A1jihGJHcqA@mail.gmail.com> <CAPDyKFpYkzmmx+d2-x0YskO0H2UD2v1LmZLMRqMmDoLSfPk8Xg@mail.gmail.com>
+In-Reply-To: <CAPDyKFpYkzmmx+d2-x0YskO0H2UD2v1LmZLMRqMmDoLSfPk8Xg@mail.gmail.com>
+From: Saravana Kannan <saravanak@kernel.org>
+Date: Wed, 13 May 2026 17:04:57 -0700
+X-Gmail-Original-Message-ID: <CACRMN=ecKDQPTvBFOxukodq-n87G0eE-gKrJpMSnBVg+ECS7JA@mail.gmail.com>
+X-Gm-Features: AVHnY4KA3ly_Sb8EybV6Zuiap53KAX57UpEaxPTX2pvCtMlxPfvoP6wHKC3FClg
+Message-ID: <CACRMN=ecKDQPTvBFOxukodq-n87G0eE-gKrJpMSnBVg+ECS7JA@mail.gmail.com>
+Subject: Re: [PATCH v3 02/13] driver core: Enable suppliers to implement fine
+ grained sync_state support
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Saravana Kannan <saravanak@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Abel Vesa <abel.vesa@oss.qualcomm.com>, Peng Fan <peng.fan@oss.nxp.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Maulik Shah <maulik.shah@oss.qualcomm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 13, 2026 at 12:52=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.o=
-rg> wrote:
+On Wed, May 13, 2026 at 2:05=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org=
+> wrote:
 >
-> On Wed, May 13, 2026 at 2:51=E2=80=AFAM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
+> On Wed, 13 May 2026 at 07:01, Saravana Kannan <saravanak@kernel.org> wrot=
+e:
 > >
-> > On Mon, May 11, 2026 at 1:44=E2=80=AFPM Kumar Kartikeya Dwivedi
-> > <memxor@gmail.com> wrote:
+> > On Mon, May 11, 2026 at 2:43=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro=
+.org> wrote:
 > > >
-> > > On Mon, 11 May 2026 at 19:50, Samuel Wu <wusamuel@google.com> wrote:
+> > > On Mon, 11 May 2026 at 07:09, Saravana Kannan <saravanak@kernel.org> =
+wrote:
 > > > >
-> > > > This patchset adds requisite kfuncs for BPF programs to safely trav=
-erse
-> > > > wakeup_sources, and puts a config flag around the sysfs interface.
+> > > > On Fri, May 8, 2026 at 5:39=E2=80=AFAM Ulf Hansson <ulf.hansson@lin=
+aro.org> wrote:
+> > > > >
+> > > > > The common sync_state support isn't fine grained enough for some =
+types of
+> > > > > suppliers, like power domains for example. Especially when a supp=
+lier
+> > > > > provides multiple independent power domains, each with their own =
+set of
+> > > > > consumers. In these cases we need to wait for all consumers for a=
+ll the
+> > > > > provided power domains before invoking the supplier's ->sync_stat=
+e().
+> > > > >
+> > > > > To allow a more fine grained sync_state support to be implemented=
+ on per
+> > > > > supplier's driver basis, let's add a new optional callback. As so=
+on as
+> > > > > there is an update worth to consider in regards to managing sync_=
+state for
+> > > > > a supplier device, __device_links_queue_sync_state() queues the d=
+evice in a
+> > > > > list, allowing the new callback to be invoked when flushing the l=
+ist in
+> > > > > device_links_flush_sync_list().
+> > > > >
+> > > > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > > > > ---
+> > > > >
+> > > > > Changes in v3:
+> > > > >         - Re-worked the approach to use a list to queue/flush dev=
+ices for
+> > > > >         ->queue_sync_state(). This should make sure the device lo=
+ck is being
+> > > > >         held when it's needed, as pointed out by Danilo.
+> > > > >
 > > > >
-> > > > Currently, a traversal of wakeup sources require going through
-> > > > /sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls t=
-o query
-> > > > sysfs is inefficient, as there can be hundreds of wakeup_sources, w=
-ith each
-> > > > wakeup source also having multiple attributes. debugfs is unstable =
-and
-> > > > insecure.
+> > > > Hi Ulf,
 > > > >
-> > > > Adding kfuncs to lock/unlock wakeup sources allows BPF program to s=
-afely
-> > > > traverse the wakeup sources list, and a kfunc to get head of wakeup
-> > > > sources list is needed to start traversing the list.
+> > > > Thanks for working on this!
 > > > >
-> > > > On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~=
-34x
-> > > > speedup (sampled 75 times in table below). For a device under load,=
- the
-> > > > speedup is greater.
-> > > > +-------+----+----------+----------+
-> > > > |       | n  | AVG (ms) | STD (ms) |
-> > > > +-------+----+----------+----------+
-> > > > | sysfs | 75 | 44.9     | 12.6     |
-> > > > +-------+----+----------+----------+
-> > > > | BPF   | 75 | 1.3      | 0.7      |
-> > > > +-------+----+----------+----------+
-> > > >
-> > > > The initial attempts for BPF traversal of wakeup_sources was with B=
-PF
-> > > > iterators [1]. However, BPF already allows for traversing of a simp=
-le list
-> > > > with bpf_for(), and this current patchset has the added benefit of =
-being
-> > > > ~2-3x more performant than BPF iterators.
+> > > > And please bear with my slow replies.
 > > >
-> > > This looks good to me, you can add for the set:
-> > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> > > I will try, but taking more than 2 months to reply isn't sustainable,
+> > > I think. Let's hope you can get some more bandwidth for reviews when
+> > > moving forward.
+> > >
+> > > >
+> > > > > ---
+> > > > >  drivers/base/base.h           | 18 ++++++++
+> > > > >  drivers/base/core.c           | 77 ++++++++++++++++++++++++++---=
+------
+> > > > >  drivers/base/driver.c         |  7 ++++
+> > > > >  include/linux/device.h        |  2 +
+> > > > >  include/linux/device/driver.h |  7 ++++
+> > > > >  5 files changed, 91 insertions(+), 20 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/base/base.h b/drivers/base/base.h
+> > > > > index 30b416588617..c8be24af92c3 100644
+> > > > > --- a/drivers/base/base.h
+> > > > > +++ b/drivers/base/base.h
+> > > > > @@ -196,6 +196,24 @@ static inline void dev_sync_state(struct dev=
+ice *dev)
+> > > > >                 dev->driver->sync_state(dev);
+> > > > >  }
+> > > > >
+> > > > > +static inline bool dev_has_queue_sync_state(struct device *dev)
+> > > >
+> > > > Let's please pick a better name. This is too similar to the actual
+> > > > queue function you call __device_links_queue_sync_state() and is ve=
+ry
+> > > > confusing. Maybe something that has a meaning along the lines of
+> > > > "another consumer probed". So, maybe:
+> > > > * consumer_probed()
+> > > > * change_of_active_consumers()
+> > >
+> > > The whole point of naming it "queue_sync_state" was exactly to refer
+> > > to __device_links_queue_sync_state(). The point is, the callback can'=
+t
+> > > be invoked unless __device_links_queue_sync_state() has been called
+> > > for the device first.
+> > >
+> > > Not sure why you think that is confusing? To me, that is rather the
+> > > opposite. :-)
 > >
-> > Rafael,
-> > how do you want to route it?
 > >
-> > If you ack it we can take it into bpf-next.
+> > sync_state() is a callback telling the driver that it's okay to sync
+> > the state of the hardware with the software.
+> >
+> > queue_sync_state() means nothing to the driver. It's just leaking an
+> > internal implementation detail (name of the internal function) to the
+> > driver that's not really relevant. What you are really telling the
+> > driver is that some additional consumers have probed.
+> >
+> > > Before deciding on another name, note also that
+> > > __device_links_queue_sync_state() is called when resuming sync_state
+> > > from device_links_supplier_sync_state_resume() and from
+> > > device_links_driver_bound(). I am not sure "consumer_probed" a good
+> > > name that covers both of these cases; what do you think?
+> >
+> > Yes, I'm well aware of that :) The contract of sync_state() is that
+> > it'll come after a point where it's safe to sync the state. Not "as
+> > soon as it's safe" -- meaning no timing guarantee. Really, this is
+> > just to make sure sync_state() doesn't come before late initcalls
+> > (because a lot of frameworks make assumptions around it) are done and
+> > before all the top level devices are added.
+> >
+> > So, even today, sync_state() can come a bit late. In general, the
+> > driver framework doesn't guarantee immediate action. There is no
+> > guarantee that a drive probe will be called as soon as it's registered
+> > (if there is a device) and vice versa. The same will be true for a
+> > "consumer_probed()" callback too.
+> >
+> > Also, your implementation is literally trying to check which consumers
+> > have probed and which ones haven't. So something like
+> > "consumer_probed()" or "consumer_change()" should work well and is
+> > actually meaningful for a driver developer.
 >
-> I guess if someone really wants this, I have no particular reason to
-> object, so please feel free to add
->
-> Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
->
-> to the first patch.
->
-> > I'd think patch 1 shouldn't conflict with other 'wakeup' changes.
->
-> Sure, there are none ATM anyway.
+> I have no strong opinion on the name, so if you prefer
+> "consumer_probed|changed", let me just pick one of them then.
 
-Thanks!
+Thanks for taking my input.
 
-Greg,
-are you ok with it too?
-I hear your api concerns, but imo it's a nice improvement.
-And bpf is not a stable interface despite some sceptics saying otherwise.
-Just see how much sched-ext api surface has changed.
+I'm thinking "consumer_state_changed()" would be good because:
+1. Not using "probed" because we might need to send this in the future
+when a consumer gets deleted.
+2. Adding "state" because "consumer_changed()" could be mistaken to
+mean the actual consumer(s) changed.
 
-So if pm:wakeup folks need to tweak it later they're certainly
-free to do it. Of course, it's better to keep things backward compact
-and deprecate gradually. All options in developer's hands.
+With that said, I don't have a strong preference between
+consumer_probed(), consumer_changed() or consumer_state_changed().
+
+Thanks,
+Saravana
