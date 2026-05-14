@@ -1,223 +1,219 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011025.outbound.protection.outlook.com [40.107.208.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED06450F2
-	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 14:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D97C3E0251
+	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 15:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778768016; cv=fail; b=pwwM02Nkc4rkjGK0IifzfZ0zoi1rFxOsxJciG+i26x7s/yCdi3yoXXf+TkeVjky5ZyWx00RDI7AnIMP1r98YuKga0iRFzFZmMlm/RnS5UGORY/LUV8Pj2vcmk2JxnjFRxUkx/UBskgDvCRApZjzTlAWBVzhyBZuHftBQf1ltwGY=
+	t=1778771360; cv=pass; b=Fl+FXrkHcgPrgkBMsivT9fVE9enIwquz8kDhemGp21ktf/TqV8X+X2e+UhQh16NTo8x2Y1eTVhApXlLTPc1LqmAvItgsrJDbsHFLFRBIXFXZZwVs9RM8upblvI79Qd/pUBoTNADAylhROhLpNJ9D/U6NxJx49mON+rrZktAstfQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778768016; c=relaxed/simple;
-	bh=E8jFkYPcO8kco3TOAFUTdMdKpJT17CdyfTB4hgwq/lo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pZeTQ6raD6irt7l4bocAZItxyX+9rCBex8vOkXs5YuzoG4iKTwMxGdQbvAWGHRCBW91IvMCXwQvNGzgnsUEMJwT+RFkGih82bcqB8EP7IMLy9LDL0creyB2B5nCN/zxvQl4VifxNP9t94wD5DbsLXhnOX22/xvAxdqkmqflpSU4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AFlCgKMD; arc=fail smtp.client-ip=40.107.208.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1778771360; c=relaxed/simple;
+	bh=9VWkUyUAPDFo9IHMN2LN9rQ2SLm6OqvalmrrIvc1kBU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UjDPcmjwYCxib1Yc6z8tp+El42f4fQAHxB68ySvsZ5Ok0F+56OK2zjh56VCQO/sTxWZusvmJKzWXyEi+4vskG/cBdq5bZEWSTmj/FWn/1vz2C/4dV49KW3sdjBdU9J88byXof3eU8FZjBXgA+h/86esVqG9+0RJ48U2iP8KGw3M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S7boWmyJ; arc=pass smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AFlCgKMD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RhUbew6C6vOjTBHA6i64Wjs/IOB/Aq0n9jbJnW+d5TrWcts5BEmXmkjz3aOkOpcG5B9jdE8sNojXnu4/C1xfDsGTfjuIqT8eeuSndD8WJYQpC4aEbIUXbIx36RiXkvp2e5G8P+kL1kT4P+rC9UnEk1xXL1Vf/6lXS5/3J+U2Cs7uoglqQG+CShLlU3DLb/MT+Fo+s+UN43YjHfL87yTY8OpFIi/g6mzNjGm628cPffNzuAfb3Sk5vfT0RBZV9HHN+9fhMVRBpRB+15sKOZj3B2nm2VixkikvtBptO6FNVLWTTyB9VCzAR/scX5xrlg7qbtpNFzJfC09T0ATKrq+fAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tHKAxINRqfb0peObtD7HjR8gFOJrbuoc2vMZ1ba4rEA=;
- b=ucpPLikLWOHNjV2PZZXonUcFDzOgFgPf/AQSA0s20P9fmh/KSmJWkkoSxJn6u2+ys5atI4bfF1Jf9D2iCnwOfjQ0xK2tHmPTQrwXqF2uPPFZEMXlNfUEPLb+rS9wvPWGZ6Ba9dekpVuEbS5MoOV0cyG3NO4l8vHF79K3F4Vhya7/InlyvFSrlY1wB1RCtcbwwd2Sl/HQ1NNHE49NMX2zE+J5kafVbF8uO3eSQ75j5UGQ37EFzF4HDz1xXo9V/FNF4XIpJWkjfUiDmBKpAJQ0Dn68tPSRL+74JJPL8Rpl0CzJJ+VUQZOrZp4bMA1IxUXvvxrtyeA4kInzkxIg1Jnn7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tHKAxINRqfb0peObtD7HjR8gFOJrbuoc2vMZ1ba4rEA=;
- b=AFlCgKMDxrOntFWppmsL46UbjjWd/e8/UOGfLTkFcOJ5AsrF0O6cyRF6JWbblRW9PCaBXgxJ2/u9eqm5B9tnBvDFQsT/VEblC+uMBpHRGNAe8Oa/TgkEBwKSb6FW6J/mByt343v4UmYBZLGmpKjCFvP48FciG2Cb6ocMImQqzKc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB7325.namprd12.prod.outlook.com (2603:10b6:510:217::19)
- by PH7PR12MB6836.namprd12.prod.outlook.com (2603:10b6:510:1b6::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Thu, 14 May
- 2026 14:13:23 +0000
-Received: from PH8PR12MB7325.namprd12.prod.outlook.com
- ([fe80::8024:a7ee:b29c:a4fc]) by PH8PR12MB7325.namprd12.prod.outlook.com
- ([fe80::8024:a7ee:b29c:a4fc%6]) with mapi id 15.21.0025.012; Thu, 14 May 2026
- 14:13:23 +0000
-Message-ID: <d4cadf88-cfc6-486c-bd5a-8de277fc4874@amd.com>
-Date: Thu, 14 May 2026 19:43:17 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] sysfs: Add SYSFS_HUGE_BIN_FILE flag for binary
- attributes larger than PAGE_SIZE
-To: Greg KH <gregkh@linuxfoundation.org>,
- K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: Muralidhara M K <muralidhara.mk@amd.com>, ilpo.jarvinen@linux.intel.com,
- rafael@kernel.org, platform-driver-x86@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-References: <20260427155129.545327-1-muralidhara.mk@amd.com>
- <20260427155129.545327-5-muralidhara.mk@amd.com>
- <2026051214-getaway-mammary-debb@gregkh>
- <47c6134b-c0ed-44af-b77e-145bfceded74@amd.com>
- <2026051354-succulent-acting-e006@gregkh>
-Content-Language: en-US
-From: "M K, Muralidhara" <muralimk@amd.com>
-In-Reply-To: <2026051354-succulent-acting-e006@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0292.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:221::19) To PH8PR12MB7325.namprd12.prod.outlook.com
- (2603:10b6:510:217::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S7boWmyJ"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7dbc5ba0661so1198333a34.3
+        for <driver-core@lists.linux.dev>; Thu, 14 May 2026 08:09:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778771356; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Nbfd1RF2C++0l899LDRAUBXFbYiztR+aIhVfzKwNMRZER9Of02f54RJBc4Hv87CeDJ
+         SMvntIe8j75iRMfSpaUt6pv+Iw9U4LheN2HyNbVdHGFSlTcvAzCaA46EghqlBXuk+PUw
+         G657zQZ83lYBejVylviJz2+8fs7aYSgBaA4asz2MBpzcPrd6NPuTugQEGGHJ5cvZDOsR
+         ncg/v6JIcQ7yNz77GGvH8pjv7MaDPdwFMF9NKV8bIyp0zFT1tGlX0/Sp1CziqNRxzZaQ
+         1cKbkKfjEc8hSZmaOwF3SUR0VT8mbTq+17ca4W9cJXZTyKTcRsT9WzyPFd7DcqAuSBnZ
+         3FMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ESax1I69XZe2pTasflsIowumfd1TUPTULL6KM+u28lk=;
+        fh=ztoCpbPMP9recKD2Fr9NrDqtv3SaX/ESEx4kUFIIZzg=;
+        b=CdrVKAmVkdJfb6WAh6gZQlkvwkraHmd5l+K/RCTHse1PwXsgB49TIaArppWBr48Hpv
+         o9nCxDmedmbChGGlAGCCi17mmNWT3EIrv6ITqt1obYhAkl73WyG5oIAZublndik8Lz/c
+         G03kqdHesnxEjt/r1htNFjFj56wSr1Xwhskx22KyXThspfBGqybdrL4tztkJ0OTPjK82
+         n9kYxFidXwEFUb9ME8t/2w7dlFJw09Nl/UmqtPIMsMAxlfwEIhPTihuTa6LWTDlrhuex
+         wkCozGpeqSxeP33gNDlVxbrG9mCJBa6qSPW2uFCyKBT1opxqRB0T1J/zlEwMb2bhAO+T
+         qyvw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778771356; x=1779376156; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ESax1I69XZe2pTasflsIowumfd1TUPTULL6KM+u28lk=;
+        b=S7boWmyJspf3wuy3uL6YJ8PJW9TI7UHBYMHFyZCD0NoQA1NNF/h8kJGEkBMRR/Uy0B
+         LvrCJtLt2iPQoIov0d2OO5JIiYvnaabOYS7VFyx71EKYiGm/6oVF7XZGXoYUoLI7wzez
+         nBbBzDM4yGRrqnBzYtsGLPO5nehX6IN4vgcxSwaRXG/dojTMiJwyYG5EMGzj5BC1xTP+
+         6DyaD+HDY7a000dXrA5PYoEdwsH9sheEq4T0bsyaYAW/Nc3eBU1LiPdkRmmAbSGQ0KZC
+         jli0V4paGE2AI1ESorj22LhnUkwcbtSzEkrnAixvchVnRy24S/AelnP2/DSjy7saeOMj
+         VuOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778771356; x=1779376156;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ESax1I69XZe2pTasflsIowumfd1TUPTULL6KM+u28lk=;
+        b=dBcEs0PQt72Yb5LKrFw2F5Emd1sN+XEHXaoeIR3+5IAqCxopxTG9ThMK3JDJKqB5su
+         bTZH5N9x1xhdN1cVys1LmSk5y5Ys2I2f0NhOu+d5lYRo0G9X29x6l6gvBfSFwpbfZ6AW
+         xalYEhV9/x2AoKDJUEPj+8FLZZJPpZ754TDcBxAkMSDes4BPTGbkCvvq5Wpt1tci8riP
+         XFnx6l7vrifsHYWMTmHNWf9N6JhgnxzYHiddh3qYmoqL0zkKIk3efBsNZt3PpYeVXxnh
+         k7Vag9Ncfgohcievid8P/lB3vflqbVVefUKL0zRZ0usntTMNvLHtJBRHRDil5Lz3ZWi/
+         A44g==
+X-Forwarded-Encrypted: i=1; AFNElJ93Cr8NgrX3fWRUOfDvnsNwbsmabETzJMox2outujoz1sSXk96uJPJAuW2eW1yW/Xz5Qzu+r8Mn02rHuQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwbWBc0AxKwSpfxjGQA3SeQTFm09I1SdCgLnCUfXRg1AIlkngyx
+	6+CBKivf1bYGeKYtwWnZIV/Fp4hSYQVwTqNPLRpp4ucj4JSGDeccvfRNfeZ79mmzdoTK1cjNKat
+	40CFT35qfhJloyql9CZ00fNsCB7YhNZk=
+X-Gm-Gg: Acq92OGCebutsOjR3zVOqHY2WwrR9qZnAFVWarvEnhofyT4NucPn0jcoPSJjSvET10f
+	E1GKpkW9Le0ZiUakg0UbWtYYG1NFFThOrf5ts6Or5ago8G65HFCh3iusnP1GCfeVtPsX2q0/h36
+	DaHQsGmbwdjW+rL1kx0zSVLi0j5CWQPWWAip4gmLTsyvhP8dEM5wCjUnSJWnVglloLAlPcVvBYQ
+	wffOQsTGOVwEzeDimSdC0X+vDDJ6fIe4JlTdYSmBefKZjDcGC6DeOcE7Qzlj/mdwt/ESxj3k5Ka
+	raRZ6JseLBXVuGN5LfM=
+X-Received: by 2002:a05:6808:1641:b0:467:53b0:b44d with SMTP id
+ 5614622812f47-482b2d31b1bmr3042378b6e.5.1778771356079; Thu, 14 May 2026
+ 08:09:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7325:EE_|PH7PR12MB6836:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9e54ecb-b1df-4e38-ab05-08deb1c2f57e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|22082099003|18002099003|56012099003|4143699003|11063799003;
-X-Microsoft-Antispam-Message-Info:
-	SOxS7qlsUHw7BDDE68pu1hagUdDUj5YCDAURuerZQotStvv37FAU41G8+KlmK8VyLuT5NghJ/1xdyJrdM3UpwJjdAo0nC21u8ke7z9UQS6b3/Ak9c6st9aqIdgYCnUl1WDhjbo/y30Tsdnq9MrvcAEuwSBOIxzoyKTOLDQPqUX7BqW0yds1n3pdBZpfAGFF1ejLAJ9gQuqDi53iUkw0Y8WJA5Q3ZSbaoL3X8g6e1tpxnzklx8l1miaKr5wC+GArK0bwsMXL6IZp1ReXnjpVQkhq450NopsvfY/tZsLkc8VZvc9yrvVDsVebdwfdEH7RDbSiLUkjw794XOU4IWuIZKZGacYz0U77QqaJ4v3rfh5c4u32w9unxRI4xRSiG0bOFuTDOPnBKg+54ivk85mnNGJ3Sa+j7twwB1J5o8l70qBJHNHe85FzgIvTzVCzz0k6ZPGTJ8Ze/W+X6PY8bgMpcXy9HX23u7CTKaK/SBWd2hQiUtN7LN2Uq8ec3dn1a6GqssiukDKOnGcvHOQFV6s20WawFpOPrpkyUQ5+thpRWB0WuGFOMfGkG1YOgGMWOs7nUvlXqv47/+HLJ0xLM3hnh4tK+viNYcMAPVEwkN5iGQ90WgVWG0HaOPqi3HUOuj1e5LVADtuRRVCYBC+t8g9UWSps4ogPhR1hqk7B5F137y3/s2jbm4aZXKRL3WrRqTI/x
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7325.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(22082099003)(18002099003)(56012099003)(4143699003)(11063799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cFJkM21xM3g2MUF4MGpraksvZmE2aUNyVXJBa3gwem9zRG5wTkVLYmpIWU5s?=
- =?utf-8?B?R3RCU1pMckU5TXVVaG9mY3dGVzZGNTQybDlCNWhjRnVQQVNEdEtTSHVtWUlx?=
- =?utf-8?B?V2dJUzR4V3lMSW9JT1lpTThyV3BnUUcyUEx1YmhKdmpPeWNqVlNuRW5lZW9I?=
- =?utf-8?B?S3M0K1ZvSnVQZHAxK0VBWnVYa1dQSnFLbWJ1N2RzSDBVS1ZpQWp5eGZkN2g0?=
- =?utf-8?B?L0ErSlBLWXFLTEJWM3lEYW0zajg5OFZ6clA2ZUxHL1pKQ3ZsZnBVZmgvdWZa?=
- =?utf-8?B?Sm5HY1lWTUhybGtEUU9XMnl1UnBXdEVMQ1ZkdW90aUtGQWlhUHBRMkJOSTR6?=
- =?utf-8?B?ZHpCL1RzcUlLNUlhMmJXVTIwcmtPZDVhNjhnaFJxQXVXbkl5b0NvRmRveENH?=
- =?utf-8?B?SHl1RXB6K2RyOEg3RjVSalVpT2ZLUGJiM3lzc0hMYUZZVmxYeXI0T0lnTHU4?=
- =?utf-8?B?TzVXSXNhVElldHFNMXI2TUJtODRReFhkcldFWXVxMkhrTVZDUlhqTzc1bVdy?=
- =?utf-8?B?empHMk45V3FvNmIyUldZUkE5SGhzK2lxRVhBaERNVThjMGR1Sy81UmdLUkJY?=
- =?utf-8?B?RXBtNzNrQklqVWo5dVdiN3JsVlZCa3JBdE5Xb3poKzdHUmFWaTVYUk1BdnNR?=
- =?utf-8?B?Z0xONTlvUjBsRGxnOGQzQkJlc2JqVWt2T21sR2ZsS3RhNDFCWkxrT1NLZWNZ?=
- =?utf-8?B?dU1tSVhnVWlEVEplWndOOGZweUpHQkpDRDFucTE3aUZKYWs2eFRRRVd0L0Nm?=
- =?utf-8?B?MytCN3ZRY0tmY1FSTGN0bGRHb01RN2NIcWNJOXB4YzhpekExRFBCL1VkWnlD?=
- =?utf-8?B?cVdLOGhFWHp4V3NyRTZRdXBibXcweHExY0VUVUlyQUFCZEM4NC9KcS9jcExL?=
- =?utf-8?B?T0VOZmdmN1RqejN3ZmpMa3g4QjJoMlpWUy8vUU02SU8rRC9IT0tzUTFsV2dx?=
- =?utf-8?B?TlplK0dEOGt6aExlUzRmcjRsYVNaeUtzNGpvYTA5QkE4bGdqOXhyTHpvUTUw?=
- =?utf-8?B?eGdDTGZtMHh0UTRRbnRsMzk3MlpLQWpuaXFmRy9od0FiTm1KZCtleHdydk5H?=
- =?utf-8?B?NjFjMmlrREtzVTlTbXFiSDFsV0IvVHN5ZFZHMWlVK1JNQXcxTFFZTHVoalBV?=
- =?utf-8?B?TDAvVnhmeE5PWi9kb0lVRWZqbUdRUGNZWnFsOUVhdC8xRnQ3NHhqODlWTUc2?=
- =?utf-8?B?ZVVTQ3JsTzRPWjR3b1FGTkNlTmJFRDBIVDhFTWFFdUd0bVhpMm9xRjZ0dDlp?=
- =?utf-8?B?dVlvZ0RVMWQzTUZDcDJEdUJlazJXYllZNzg0T282M0JWUGtSSmNHY0RTVFpx?=
- =?utf-8?B?c0UxNmtVbUk2RVhlS3NXRFpVekpOYUJWTEV1emhzYTdtWGZ2Y1owbU9wSkFw?=
- =?utf-8?B?YUlxQjQ0bU9MWDhrbzBUN1EzV3o0Y2hxNkpmcTk0OFpMa3B1Tlo3VUpBbGxh?=
- =?utf-8?B?RGVJdWtBYUVRc2VaR0lPTlZreTlTMEpYdmlyY0FqcGQ2RVpXckVrcDY5T0Vi?=
- =?utf-8?B?REJiSW5qR1hmYm9PcmVSSnMzbUpkSUdKV01zMWRBOU5SRFhDcmJ3WEMzUE5y?=
- =?utf-8?B?ZFBsUjZDaE9KTjZWSk8wRC9qYVk4andkeUpwMTIwNnlabzAyMnB4cnkxYlky?=
- =?utf-8?B?YVh0QlNCWDFsUm1taFVER3JxRGxaY3R5VlUwbDZjcEk3RUpwYUNHc3FkZXhz?=
- =?utf-8?B?dEVHNEliZDBlWmtQY0dDQURSZy9HaVk0UUxheWYrWnBkNkw2dWxxR0VoNmlX?=
- =?utf-8?B?Nk83eml2U0ZqUjIvNDBFeU4yUHVHaDZoT1dkMEpKeDVOT2VlRGVnWm5tRUFy?=
- =?utf-8?B?eSs0Y0JjSktiejd6bHAxdE9zMUFaSUJHWG40Q0NReFpwem45WFZUVlBOUkUv?=
- =?utf-8?B?Ni9xZEk4KzQxMGIzUnh3Zjc3eHFHSVdReXdVQVVtcjU5R0QzLzNsK2JCZ1lm?=
- =?utf-8?B?OCtMOURiaWVvb3M0RythQUlQck5aYTZPZmFXWFo4TGlSSjg3ZjhlblJBQitk?=
- =?utf-8?B?V1NsaTVxaGw5dHRvclNYK1ZjQVhlNWh2NVFWdkZkeDc4T0xBMi9PMnRRcVB0?=
- =?utf-8?B?VjZ1WHlpdmhnSFZWZ0RKa2I2OG5yTHFvemVnS1BQUEtJTWVsaFpQRytUMWUr?=
- =?utf-8?B?a0pOT0JGNWJEVUtlQUtheHVYVW9SbkcyOTJNa09DbEFidldtd2tWY3FnM0xm?=
- =?utf-8?B?MU9aT2psUXYyT1cyVk5ib0JDRzAwMzhUR3RqQmwydW1oRU1Obnh3Q0ppbTlG?=
- =?utf-8?B?NGo2dGd0aks4VWxZb3UzSUsrZUV0MFl4RUtJa1hPMjdZR0pZUlllem85bzBR?=
- =?utf-8?B?OUVpWXJSWEZUb05aMmU2cHloQ000b25jZldoeDA5OWF3NG1xb0FrUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9e54ecb-b1df-4e38-ab05-08deb1c2f57e
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7325.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2026 14:13:23.7474
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PTqKY3LZ17z95FABAbd1izoFme8e7Pna4XxXT9BLjPrJ4di362LYcizu8iOKMfZ/aWphmxIWwVpNcztLrEuGjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6836
+References: <20260514094955.76305-1-jianlv@ebay.com> <2026051443-exuberant-important-534f@gregkh>
+ <CAFA-uR93Wf2ALpYnnU79kruv7XO=uFePqioaEXNNEfrUtRw2xQ@mail.gmail.com> <2026051406-corridor-equation-c50e@gregkh>
+In-Reply-To: <2026051406-corridor-equation-c50e@gregkh>
+From: Jianlin Lv <iecedge@gmail.com>
+Date: Thu, 14 May 2026 23:09:03 +0800
+X-Gm-Features: AVHnY4J2dkhFy6eGlghPANY01Lmp0sHVjJRnqMskvc_iSu6OzpshOwPJLL8rs3c
+Message-ID: <CAFA-uR9=rHPbiVFYgDBAdRHCoujKjqtTxsMVupEwGhGmXoLw8w@mail.gmail.com>
+Subject: Re: [PATCH] driver core: Add cmdline option to force probe type
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rafael@kernel.org, 
+	dakr@kernel.org, jianlv@ebay.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 14, 2026 at 9:49=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Thu, May 14, 2026 at 09:35:08PM +0800, Jianlin Lv wrote:
+> > On Thu, May 14, 2026 at 6:16=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > >
+> > > On Thu, May 14, 2026 at 05:49:55PM +0800, Jianlin Lv wrote:
+> > > > From: Jianlin Lv <iecedge@gmail.com>
+> > > >
+> > > > Device drivers that use asynchronous probing can cause non-determin=
+istic
+> > > > device ordering and naming across reboots. A typical example is sto=
+rage
+> > > > drivers (like sd/nvme): asynchronous probing can lead to inconsiste=
+nt disk
+> > > > logical names after reboot. In scenarios where disk naming consiste=
+ncy is
+> > > > critical, the probe type should be set to synchronous.
+> > > >
+> > > > This patch introduces a driver_probe kernel parameter that override=
+s any
+> > > > driver's hard-coded probe type settings and allows runtime control =
+without
+> > > > requiring kernel recompilation:
+> > > >
+> > > >   driver_probe=3DPROBE_TYPE_SYNC,nvme,sd      # Force specific driv=
+ers sync
+> > > >   driver_probe=3DPROBE_TYPE_ASYNC,*,usb       # Force all async exc=
+ept usb
+> > > >   driver_probe=3DPROBE_TYPE_SYNC,*            # Force all drivers s=
+ynchronous
+> > > >
+> > > > The implementation replaces the limited driver_async_probe paramete=
+r with
+> > > > a more flexible interface that can force either synchronous or asyn=
+chronous
+> > > > probing as needed.
+> > > >
+> > > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
+> > > > ---
+> > > >  .../admin-guide/kernel-parameters.txt         | 27 +++++--
+> > > >  drivers/base/dd.c                             | 71 ++++++++++++++-=
+----
+> > > >  2 files changed, 74 insertions(+), 24 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Docu=
+mentation/admin-guide/kernel-parameters.txt
+> > > > index 4d0f545fb3ec..b43a8bd20356 100644
+> > > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > > @@ -1377,12 +1377,27 @@ Kernel parameters
+> > > >                       it becomes active and is searched during sign=
+ature
+> > > >                       verification.
+> > > >
+> > > > -     driver_async_probe=3D  [KNL]
+> > > > -                     List of driver names to be probed asynchronou=
+sly. *
+> > > > -                     matches with all driver names. If * is specif=
+ied, the
+> > > > -                     rest of the listed driver names are those tha=
+t will NOT
+> > > > -                     match the *.
+> > > > -                     Format: <driver_name1>,<driver_name2>...
+> > >
+> > > You can not remove an existing user/kernel api, sorry, that is not
+> > > allowed as you just broke all systems that were relying on this :(
+> > >
+> > Could you provide more suggestions on how to improve this patch?
+>
+> Not really, sorry, I don't think this is a change that should be done at
+> all.  disk naming is a long-solved issue, to think that you can fix that
+> by doing sync/async device probing is not understanding both the issues
+> involved, and how we solved it already :)
 
+Do you mean referencing disks via by-path/by-id? In our production env
+they can also be unstable; this is an example I encountered before:
+https://lore.kernel.org/all/CAFA-uR_jk6jCmf9DTebSVBRwtoLuXuyvf1Biq+OObqRVAO=
+ZbBw@mail.gmail.com/
 
-On 5/13/2026 11:54 AM, Greg KH wrote:
-> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
-> 
-> 
-> On Wed, May 13, 2026 at 09:43:57AM +0530, K Prateek Nayak wrote:
->> Hello Greg,
->>
->> On 5/12/2026 5:31 PM, Greg KH wrote:
->>> On Mon, Apr 27, 2026 at 09:21:26PM +0530, Muralidhara M K wrote:
->>>> Historically, sysfs read buffers were allocated with get_zeroed_page(),
->>>> limiting reads to PAGE_SIZE.  Commit 13c589d5b0ac ("sysfs: use seq_file
->>>> when reading regular files") transitioned regular (text) attribute reads
->>>> to seq_file, which can dynamically grow buffers beyond PAGE_SIZE.
->>>> However, the PAGE_SIZE limit was intentionally preserved for
->>>> compatibility.  When binary attribute handling was later unified into
->>>> the same codebase, the non-seq_file read path (kernfs_file_read_iter)
->>>> retained this PAGE_SIZE cap for binary files as well.
->>>>
->>>> Drivers that expose binary attributes larger than PAGE_SIZE — such as
->>>> the AMD HSMP metric table (~13 KB) — cannot deliver the full content
->>>> in a single read() call through the existing path.
->>>
->>> That's fine, userspace must be able to handle a "short" read, and will
->>> just continue on and read everything afterward, right?  You can't rely
->>> on userspace always asking for more data.
->>
->> I think this is complicated by the HSMP driver bits that requires the
->> read to issue a HSMP command to the hardware first to updates the
->> table before copying from the MMIO region.
-> 
-> Then you have bigger problems here :(
-> 
->> If a concurrent reader arrives, they'll refresh the table for their
->> PAGE_SIZE chunk read and the prior user will see a torn value. For
->> most part it shouldn't be a problem but folks try to co-relate the
->> Temperature and Power data from the first chunk with the Throttle
->> Indicators in the second chunk and sometimes, they don't match the
->> expectations.
-> 
-> Again, this is a problem, perhaps do not use sysfs for this?  You can't
-> control userspace, and to expect it to always work properly is not going
-> to end well.  This change isn't going to fix your problems listed above
-> at all.
-> 
->> The table should never have grown this big but some folks decided it
->> was a good idea and we can't fix it for a while and have hit the
->> PAGE_SIZE limit now.
-> 
-> Just delete it and use a different interface to the kernel instead
-> please.  If you need atomic read/writes, use an ioctl.  Don't try to fix
-> sysfs into something that it was not designed for at all.
-> 
+I understand that device naming in the kernel can change at any time. Howev=
+er,
+Is it necessary to provide an interface that allows users to choose
+the probe mode themselves?
+Currently, driver_async_probe has lower priority than the drivers=E2=80=99
+hard-coded probe_type settings.
+Could we adjust the code as follows so that driver_async_probe has the
+highest priority?
 
-Thank you for the suggestion, Greg. The IOCTL interface approach works 
-well. I'll implement this, test and send the next version for review.
+ static bool driver_allows_async_probing(const struct device_driver *drv)
+ {
++       if (cmdline_requested_async_probing(drv->name))
++                        return true;
++
+        switch (drv->probe_type) {
+        case PROBE_PREFER_ASYNCHRONOUS:
+                return true;
+@@ -876,9 +879,6 @@ static bool driver_allows_async_probing(const
+struct device_driver *drv)
+                return false;
 
->> If there is a better alternate, we are all ears, and more than happy
->> to try out an alternative suggestion for the described problem.
-> 
-> A misc device sounds like the properly solution.
-> 
->>>> Introduce a new opt-in flag SYSFS_HUGE_BIN_FILE (040000) that drivers
->>>> can OR into their bin_attribute mode.  When set, sysfs selects a new
->>>> kernfs_ops (sysfs_bin_kfops_huge_file_ro) whose .seq_show callback
->>>> pipes the bin_attribute ->read() result through seq_file, allowing
->>>> reads of arbitrary size in one shot.  Existing binary attributes
->>>> without the flag continue using the legacy capped path.
->>>
->>> If this is such a big issue, why not just do it always for binary files?
->>> What is the benefit of keeping two different code paths just for this
->>> "new" flag?
->>
->> We can do that! For bin attributes that specify .size or a size
->> function, we can use a flexible buffer and for the ones that don't, we
->> can enforce a PAGE_SIZE cap like today.
->>
->> Would that be okay?
-> 
-> Overall, yes, but again, I don't think this is going to fix your
-> problem.
-> 
+        default:
+-               if (cmdline_requested_async_probing(drv->name))
+-                       return true;
+-
+                if (module_requested_async_probing(drv->owner))
+
+Jianlin
+
+>
+> Hint, never count on block device, or any device, names to be the same
+> across reboots.  That has NEVER been guaranteed on systems built in the
+> past 20+ years.
+>
+> Please, just use the existing solutions, no new command line option
+> should ever be needed here.
+>
 > thanks,
-> 
+>
 > greg k-h
-
