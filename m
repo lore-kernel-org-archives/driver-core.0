@@ -1,217 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A363597B
-	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 00:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D58225A2BB;
+	Thu, 14 May 2026 00:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778717110; cv=none; b=MwnXtz9GG6UkErTycbGwV90tMj70/w4/S7Kj4LXFQIxHaM1f+XZgMterHalUHUBHOhNrt9WN+15DfT1z2ClBN/Dce3wjQs78uiukvXu1p1U6mIpN4zMq9zSDSqSfCFg2ZwRYlhTeAe0KsSstxhbLVu7DExS6joflbssxSTwvtYg=
+	t=1778718250; cv=none; b=Y6ma0E08rFaQJMnctLHDS6ZhCn9S9TQdmVkVW1MveLWZRBIv1mGtbhFTaIcFSQsQPyBd/1nPp2iCuPf1QSvAJLN8Fy/gpsJQByLW9Bq4FLeJzoF74eVnGhhz/cCanEI9p041jwDvGm5JD5tTQKBkC/cdOvW5zPm4EvSxd/uAvTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778717110; c=relaxed/simple;
-	bh=fKZ3CvKEmWz4+/oeIHxkB/mW5xs10t3qGPYefEwGd5A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sXogQu1eTscVrz8ZWYfmcDlRwih+dq64X1fP4k1Z1oNipIz1iwcmA8fNKWfgqTVpslqSK0XOILQi71fzb194xfWLpBXskJxbPxC0JWenajXq7wf9PA5iQAkXm3Dahg29L72MPDRXxnohv4daiQwy3Pneh9W9Vt9UxAp4PeEGwCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNA3xk2/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778718250; c=relaxed/simple;
+	bh=NqTvVIlot6Nb0r8ZPjLmjRZqNKYxl16s8XgEe0ozoIk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nTbqv4Ha56X6w0ieGX1kFC1qt4fkqTek+cJer0Rse4uMpVWfvPgSp2NoDciPPlAdgfQSD+i0Rgn8Y5yAfi1QlaIzgwOK1oD7fLNG15SRqpiKmmNKr3572FWZjXZpDiFimnQIsrgKpL0yZLAGPbSVRPh99la+adRkLEpAk0y85c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D9vSb8xJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNA3xk2/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976D8C2BCB3
-	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 00:05:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D9vSb8xJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF790C19425;
+	Thu, 14 May 2026 00:24:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778717109;
-	bh=fKZ3CvKEmWz4+/oeIHxkB/mW5xs10t3qGPYefEwGd5A=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cNA3xk2/2JDDfZ/BZSO0I1jN0RZJ8+pBuQjzr1SBsHlRVj+uBdw1Qmb1kU0u3e034
-	 dXa4aY9k0Lc1SGwX2Bcz447qxPoKgsAd/wCYbg7+DnJGbIUUa67XrsHDERmULcHjc9
-	 YS9ET2x7IuOdfyxfkSKdCrPxZR4oXIwQxalsmVSFTF5zr4PqywtZ68hP4VrxybQBLc
-	 PTp5kdSQoZi2Fzcv1pkh+NaO/58zCrbO34YO8wd2OoXXEBwIZIIJWh8Wr0KRcduQ3P
-	 hFyaI42Br9zNNQSBMGSYRK6qOqB8Qm9zjvw1lR9T54Kajd3L15JfXl5ItJ0B8KWyrd
-	 hnTpUK1L68WSw==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-bd22b2abaa4so467357466b.0
-        for <driver-core@lists.linux.dev>; Wed, 13 May 2026 17:05:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+ooT8PlIclh+8+Z4bNNqRwjvN6UFlFoe7x/ozxLQZmiT3zU1ZFX3eXRYfjgZfh9NlBIfPLioq+eKtM4g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrV5lOHjmZ7/QW13KSaxIodjUgfgnCPq1p0bbt/N9UWVCmQ2BJ
-	IZ+vfK/TOsyFKuE5rpJHVsFyEXsw3JFbhhSWbEMHLREaiS9MtpRoIzb/ZLh2wA1WpEdp3Hf5Ob9
-	ze+Nu6BVmUy8zKqL8/nVOQshJFkY4eEI=
-X-Received: by 2002:a17:906:fd8d:b0:bd3:897c:7800 with SMTP id
- a640c23a62f3a-bd3dfb605cfmr337600766b.15.1778717108461; Wed, 13 May 2026
- 17:05:08 -0700 (PDT)
+	s=k20201202; t=1778718250;
+	bh=NqTvVIlot6Nb0r8ZPjLmjRZqNKYxl16s8XgEe0ozoIk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=D9vSb8xJYf/Q/rPGAK1bR24UGmaQuaeMybhf4c50GuGLwAjx1Bdwwhn6BaNYxtyKR
+	 eDTgB6YidzWwVdFy9rEPztW3/lhOWERBvdt0k6iDUtW9nDr/SNuVLLBURBGEkepKnZ
+	 tEdGdi0vKyS+eHBom5htZm6wyeALz5mH5SLn3+kg08iRN4DcpfgaswEnbl6zFsSCl8
+	 51FJF5pnPw0bOPUHBlZcZSXYTmSI0XJsHXkHEbSXv9vHi+C81NcmZCsekvko1/Rb2s
+	 ec8YT4QahQHzV4VBH244ZwmeaRZEVcy6l9qEigbb/CG9WsHwb7eoN1/qIfozLQzCM6
+	 V4fu7qaetErUg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>,
+	Rae Moar <raemoar63@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	brgl@kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	platform-driver-x86@vger.kernel.org,
+	intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH v6 0/6] driver core: remove software node from platform devices on device release
+Date: Thu, 14 May 2026 02:24:00 +0200
+Message-ID: <20260514002400.869648-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260513-swnode-remove-on-dev-unreg-v6-0-f9c58939df27@oss.qualcomm.com>
+References: <20260513-swnode-remove-on-dev-unreg-v6-0-f9c58939df27@oss.qualcomm.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260508123910.114273-1-ulf.hansson@linaro.org>
- <20260508123910.114273-3-ulf.hansson@linaro.org> <CACRMN=fseD6-ODYnOEE42S9VKAb2F33kRv_VPYBGyPsitG2how@mail.gmail.com>
- <CAPDyKFq+F=zn_Coicb9LzyMtQ=b2Lrd+3Czx6r4ReY-DNyb9eg@mail.gmail.com>
- <CACRMN=dZFvbXjZGqTvFdNVyXfyvS6YtWNKQnej9A1jihGJHcqA@mail.gmail.com> <CAPDyKFpYkzmmx+d2-x0YskO0H2UD2v1LmZLMRqMmDoLSfPk8Xg@mail.gmail.com>
-In-Reply-To: <CAPDyKFpYkzmmx+d2-x0YskO0H2UD2v1LmZLMRqMmDoLSfPk8Xg@mail.gmail.com>
-From: Saravana Kannan <saravanak@kernel.org>
-Date: Wed, 13 May 2026 17:04:57 -0700
-X-Gmail-Original-Message-ID: <CACRMN=ecKDQPTvBFOxukodq-n87G0eE-gKrJpMSnBVg+ECS7JA@mail.gmail.com>
-X-Gm-Features: AVHnY4KA3ly_Sb8EybV6Zuiap53KAX57UpEaxPTX2pvCtMlxPfvoP6wHKC3FClg
-Message-ID: <CACRMN=ecKDQPTvBFOxukodq-n87G0eE-gKrJpMSnBVg+ECS7JA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/13] driver core: Enable suppliers to implement fine
- grained sync_state support
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Saravana Kannan <saravanak@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Abel Vesa <abel.vesa@oss.qualcomm.com>, Peng Fan <peng.fan@oss.nxp.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Maulik Shah <maulik.shah@oss.qualcomm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 13, 2026 at 2:05=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org=
-> wrote:
->
-> On Wed, 13 May 2026 at 07:01, Saravana Kannan <saravanak@kernel.org> wrot=
-e:
-> >
-> > On Mon, May 11, 2026 at 2:43=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro=
-.org> wrote:
-> > >
-> > > On Mon, 11 May 2026 at 07:09, Saravana Kannan <saravanak@kernel.org> =
-wrote:
-> > > >
-> > > > On Fri, May 8, 2026 at 5:39=E2=80=AFAM Ulf Hansson <ulf.hansson@lin=
-aro.org> wrote:
-> > > > >
-> > > > > The common sync_state support isn't fine grained enough for some =
-types of
-> > > > > suppliers, like power domains for example. Especially when a supp=
-lier
-> > > > > provides multiple independent power domains, each with their own =
-set of
-> > > > > consumers. In these cases we need to wait for all consumers for a=
-ll the
-> > > > > provided power domains before invoking the supplier's ->sync_stat=
-e().
-> > > > >
-> > > > > To allow a more fine grained sync_state support to be implemented=
- on per
-> > > > > supplier's driver basis, let's add a new optional callback. As so=
-on as
-> > > > > there is an update worth to consider in regards to managing sync_=
-state for
-> > > > > a supplier device, __device_links_queue_sync_state() queues the d=
-evice in a
-> > > > > list, allowing the new callback to be invoked when flushing the l=
-ist in
-> > > > > device_links_flush_sync_list().
-> > > > >
-> > > > > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-> > > > > ---
-> > > > >
-> > > > > Changes in v3:
-> > > > >         - Re-worked the approach to use a list to queue/flush dev=
-ices for
-> > > > >         ->queue_sync_state(). This should make sure the device lo=
-ck is being
-> > > > >         held when it's needed, as pointed out by Danilo.
-> > > > >
-> > > >
-> > > > Hi Ulf,
-> > > >
-> > > > Thanks for working on this!
-> > > >
-> > > > And please bear with my slow replies.
-> > >
-> > > I will try, but taking more than 2 months to reply isn't sustainable,
-> > > I think. Let's hope you can get some more bandwidth for reviews when
-> > > moving forward.
-> > >
-> > > >
-> > > > > ---
-> > > > >  drivers/base/base.h           | 18 ++++++++
-> > > > >  drivers/base/core.c           | 77 ++++++++++++++++++++++++++---=
-------
-> > > > >  drivers/base/driver.c         |  7 ++++
-> > > > >  include/linux/device.h        |  2 +
-> > > > >  include/linux/device/driver.h |  7 ++++
-> > > > >  5 files changed, 91 insertions(+), 20 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/base/base.h b/drivers/base/base.h
-> > > > > index 30b416588617..c8be24af92c3 100644
-> > > > > --- a/drivers/base/base.h
-> > > > > +++ b/drivers/base/base.h
-> > > > > @@ -196,6 +196,24 @@ static inline void dev_sync_state(struct dev=
-ice *dev)
-> > > > >                 dev->driver->sync_state(dev);
-> > > > >  }
-> > > > >
-> > > > > +static inline bool dev_has_queue_sync_state(struct device *dev)
-> > > >
-> > > > Let's please pick a better name. This is too similar to the actual
-> > > > queue function you call __device_links_queue_sync_state() and is ve=
-ry
-> > > > confusing. Maybe something that has a meaning along the lines of
-> > > > "another consumer probed". So, maybe:
-> > > > * consumer_probed()
-> > > > * change_of_active_consumers()
-> > >
-> > > The whole point of naming it "queue_sync_state" was exactly to refer
-> > > to __device_links_queue_sync_state(). The point is, the callback can'=
-t
-> > > be invoked unless __device_links_queue_sync_state() has been called
-> > > for the device first.
-> > >
-> > > Not sure why you think that is confusing? To me, that is rather the
-> > > opposite. :-)
-> >
-> >
-> > sync_state() is a callback telling the driver that it's okay to sync
-> > the state of the hardware with the software.
-> >
-> > queue_sync_state() means nothing to the driver. It's just leaking an
-> > internal implementation detail (name of the internal function) to the
-> > driver that's not really relevant. What you are really telling the
-> > driver is that some additional consumers have probed.
-> >
-> > > Before deciding on another name, note also that
-> > > __device_links_queue_sync_state() is called when resuming sync_state
-> > > from device_links_supplier_sync_state_resume() and from
-> > > device_links_driver_bound(). I am not sure "consumer_probed" a good
-> > > name that covers both of these cases; what do you think?
-> >
-> > Yes, I'm well aware of that :) The contract of sync_state() is that
-> > it'll come after a point where it's safe to sync the state. Not "as
-> > soon as it's safe" -- meaning no timing guarantee. Really, this is
-> > just to make sure sync_state() doesn't come before late initcalls
-> > (because a lot of frameworks make assumptions around it) are done and
-> > before all the top level devices are added.
-> >
-> > So, even today, sync_state() can come a bit late. In general, the
-> > driver framework doesn't guarantee immediate action. There is no
-> > guarantee that a drive probe will be called as soon as it's registered
-> > (if there is a device) and vice versa. The same will be true for a
-> > "consumer_probed()" callback too.
-> >
-> > Also, your implementation is literally trying to check which consumers
-> > have probed and which ones haven't. So something like
-> > "consumer_probed()" or "consumer_change()" should work well and is
-> > actually meaningful for a driver developer.
->
-> I have no strong opinion on the name, so if you prefer
-> "consumer_probed|changed", let me just pick one of them then.
+On Wed, 13 May 2026 17:04:47 +0200, Bartosz Golaszewski wrote:
+> [PATCH v6 0/6] driver core: remove software node from platform devices on device release
 
-Thanks for taking my input.
+Applied, thanks!
 
-I'm thinking "consumer_state_changed()" would be good because:
-1. Not using "probed" because we might need to send this in the future
-when a consumer gets deleted.
-2. Adding "state" because "consumer_changed()" could be mistaken to
-mean the actual consumer(s) changed.
+  Branch: driver-core-linus
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-With that said, I don't have a strong preference between
-consumer_probed(), consumer_changed() or consumer_state_changed().
+[1/6] driver core: platform: remove software node on release()
+      commit: 50030d63b4d3
 
-Thanks,
-Saravana
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patch is queued up for Linus's tree and should land in the next -rc release.
