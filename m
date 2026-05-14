@@ -1,121 +1,224 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B413612E8
-	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 17:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778778917; cv=none; b=c+DWk2WCUcvhsjFx7EIjtqVVIn2ONyPbrKggjl11e32A10nwllPPtqDx9Oo/QC0BIqriEmBaT2V+g9RckiTLA55KuxWpUphXiF2wc/NYznUy7qqdtoblhmQGQ2NXc3Va+5ZbRKrIC0SOANya4CnYdBlL019zNGlzb8hBl5G+kbc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778778917; c=relaxed/simple;
-	bh=ivj++8EEc8JlI2w+Z2OFdOY8bVnTMVXsBXlbHYT0bAw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bvGHtI5RMCmRaefxHes6BIw1mmlDDAhCdTpwoh1YU+Tt0w11u/mggmlxpd7EIanr/k59sYiOh5GqMGyrW0HCIXuigyIU7s7jKXpdUz+y6B6a8Ukp2BGDoR5XdPc4tXwShhk51Ne6Q/IoPnCJWnKBLUpPHaDePSe3tXqv8pdsOCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=btsE32n9; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A194246766;
+	Thu, 14 May 2026 19:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778785203; cv=pass; b=mIVx6bPnN2sbstZWLDzvjbGxzO1NKX3vVswxfxX4vrrA+V096aymjZx2ExaiG5GEV/i1I6EABnGIf+O06XYDalPDKooibuGI/eCS1rpdu4yDVdB30rOz2ByGhDWz9GQNoNz/pcViUjBCgtR1rCd/w5JLyOk2CVkoOkDjPqe0xqg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778785203; c=relaxed/simple;
+	bh=jvsSQ989EQdTKY/wlAA3qCzADMn3ERPj33JRrb4OCbI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t6pklqKggB7jW0SfL4GFGnscySeo3hkc0ztj05xYrWs/Qkx+WmBvLGqfICJ+yttMX7weqm1eZvJ/c1g2yqGJzgHfs1+ZN7iXOd6YHGqceqG8jg67XxG7DojsVxUAYsVIonzTJUHGwVDvF0WylqUqWri4DGU8mHXzcZscVK5u434=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b=IMZQQBlk; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="btsE32n9"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48e69e60063so6997335e9.1
-        for <driver-core@lists.linux.dev>; Thu, 14 May 2026 10:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778778913; x=1779383713; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SacI+DuUhjcebVDrBlp90eiFYi0OuIGxxQMFGnDHmH4=;
-        b=btsE32n9NxgKiOZJAoeNND3LdYGggBSJgLPUKsIoAuASlQXZ8ehYvNX8Hn8nBWSqoM
-         08l8sYB1tYhHfy1CeWr/0uO5TrKly0+CESrf2mNh6iIZjVewGwTSHSDMu25TAny+Xl3E
-         uyVyUS0dOh4PQCp2fkVhChc4PsF6KKN0U1F/KExw9gVFX4tcMtIFEVQTAsFpT0wRMCuP
-         UPcVB6N/dhc+EwgOkah6dcwI/N4M13M3DrJe0VofOYNgLiItZpCw8ymb9krl7RPgcnHq
-         POjMyEv2ZFq/Grlz+Vbae9xz/ESuJKusYpQMXfjxg7CKaso2iuFqmSXWQeT6Tl6HIdsf
-         lOiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778778913; x=1779383713;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SacI+DuUhjcebVDrBlp90eiFYi0OuIGxxQMFGnDHmH4=;
-        b=ghfk0+vNWiPGXk6kLXCxy+SCvJIYtTvZ+jyK2c5NuZBG59uzQ+TZ9pAEtCRNGVQnTz
-         4tg6G0YOtej8+uomqb7x51zcsDfrrXQxV0V5lGk+Lt2uLfurJA0ZrUQ/R6tWKhfkJifW
-         4bejjFdGAJqC3j0TF6JedzGYdtF4uGR7IxRofBGhzckbaHzLye5lbNGigN2pIW2sGskA
-         6My+HBvAYD9l0MJrnQkO+Q3QPK9osLyOGrRxc3Exd+S0EKFFmC3OETgM63FB0O499bki
-         eVx7hxORxBjATY0NcVS64J+Vij3OgZOmfklV4b/ob+HGSHH8lFXfF3gR5AAq7ON8Iq/7
-         gbZg==
-X-Forwarded-Encrypted: i=1; AFNElJ+zWrEsjG+UW3TlfPsPg2uTK/TA0RGZ1WRfGXYELfuCL/C00qg17rhD7fnPLP1TNfhJPAOZpQYf+AssiQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAo1dUWqe3EGGLInI/ZA2l/32Envgxa3l0zBQU2QRnD6HhAMEu
-	0vtDRpLlPINSE58SVa9ojUmBfdQT3rDPFkzHLppIHieMI7xvdSFGw39r
-X-Gm-Gg: Acq92OFJLEckXSKrjiQEhlnr4rcBl13r0DhAsoiH0Wl0YiOMeDn1+vkG8Su6+0xcxsy
-	YufeDSqBZIAqe6f8XGt0wHc1QADWX88neN0oNSRnQEbucUt7nnoWE+bdwPZOLDt+Vwh5QQH+ipM
-	r3k9wwPZIIsZ/sucU5wJRD9WhW3Lw+Q6gpReeJld6ZBsA3MneGdSp67jtfOo1nzuTauylgVH9NY
-	Pu52YWC+6smMDDehqEbkxGneWvAzOgpGDal3PdoLyfMyaQU/NmshSTSA/sjeLp9rTqFyJlCOSYx
-	5FAPIrGES43m3C1MhV4IT7udrFEEaNekzHNAuCw3Bu5IwTqIxpLjaYgb/DSV8NlZeFqTwX7Vfc8
-	mK0+47ZjQ6dd8Vh1F5/Rwu30+/Tx3KpNWwGdTxBX1Y1O1UPCSFToCFumcLcjT0ChTLESl+9PmUX
-	wTuaX73eQhjGauliyqIXduo/fvOGr69UO/tQm/hwED04HK
-X-Received: by 2002:a05:600c:4504:b0:48a:5664:f44a with SMTP id 5b1f17b1804b1-48fe5fd16f6mr2252655e9.2.1778778913036;
-        Thu, 14 May 2026 10:15:13 -0700 (PDT)
-Received: from localhost.localdomain ([82.215.118.79])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe4c90b27sm6314265e9.8.2026.05.14.10.15.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 10:15:12 -0700 (PDT)
-From: Stepan Ionichev <sozdayvek@gmail.com>
-To: andriy.shevchenko@linux.intel.com
-Cc: djrscally@gmail.com,
-	heikki.krogerus@linux.intel.com,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	sozdayvek@gmail.com
-Subject: [PATCH] device property: fix fwnode reference leak in fwnode_graph_get_endpoint_by_id()
-Date: Thu, 14 May 2026 22:14:55 +0500
-Message-Id: <20260514171455.27271-1-sozdayvek@gmail.com>
-X-Mailer: git-send-email 2.33.0.windows.2
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="IMZQQBlk"
+ARC-Seal: i=1; a=rsa-sha256; t=1778785194; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=YPR7GBJToEeqRtv8HWtn23wZUB0lztq3jFzE/XVy1IWdAncNoP7DG0vg5Gmp2q/bWz5rK6IBo5KBpHRKILRJGQ8jLQmtCCCDwdTsuQMoYO3AuflVfqYRai4HDWqqnZnKm+vwJWq3g56xWHpYSXEmThh+NeVHvV+mN3whs/3HOR0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778785194; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=qelSeKsMQl4VDT2VXj+KY7L5fpuxA0yPXVlURbeTUzM=; 
+	b=Ym5r9Z6kQe1kSqdUsypyMNsI9qi35h8lJum/TvanZuarIIbI6BE2j4BsgFhlej8sHifu9wH60KXBGk68IA0A4pCtQEjQFtvLJKHfJTXiQ5lGdDULHYpEbffqlVTJJWlec6jppPTHRHVWQwVz8sJdftnDZctb8/83jOXiTovn8Ks=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+	dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778785194;
+	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=qelSeKsMQl4VDT2VXj+KY7L5fpuxA0yPXVlURbeTUzM=;
+	b=IMZQQBlkLpJYMTuua3UPpAcN5t0cuSLhuOyoEvJLN3UR2QZHsmppCC6WVDpLcwoB
+	7BVvFZIuyhBpWT2rEq+IrE2C5wae6DG8iTU8EHGw9hcSvxI9lqxd+wdpHBd6ISJLduJ
+	BcgKQi7AQfu7EMi7mc1YRsfdiWTPGWRFgcKvdTBY=
+Received: by mx.zohomail.com with SMTPS id 1778785191961267.0462243779699;
+	Thu, 14 May 2026 11:59:51 -0700 (PDT)
+Date: Thu, 14 May 2026 11:59:50 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: aliceryhl@google.com, airlied@gmail.com, simona@ffwll.ch,
+	daniel.almeida@collabora.com, acourbot@nvidia.com,
+	apopple@nvidia.com, ecourtney@nvidia.com, lyude@redhat.com,
+	ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
+	tmgross@umich.edu, driver-core@lists.linux.dev,
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 0/6] rust: drm: Higher-Ranked Lifetime private data
+Message-ID: <agYbppHWXk_hW99M@um790>
+References: <20260506221027.858481-1-dakr@kernel.org>
+ <DICCEKZ3HU84.34ES3SW3D1FNI@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DICCEKZ3HU84.34ES3SW3D1FNI@kernel.org>
 
-When called with FWNODE_GRAPH_ENDPOINT_NEXT, the function walks every
-endpoint under the requested port and, for any endpoint whose ID is
-greater than or equal to the requested one, may store a fwnode
-reference in best_ep via fwnode_handle_get(). If a later iteration
-finds an exact-ID match, the function returns that endpoint directly
-without dropping the reference held by best_ep, leaking it.
+On Thu, May 07, 2026 at 11:38:37AM +0200, Danilo Krummrich wrote:
+> On Thu May 7, 2026 at 12:05 AM CEST, Danilo Krummrich wrote:
+> > Danilo Krummrich (6):
+> >   rust: drm: Add Driver::ParentDevice associated type
+> >   rust: drm: Add UnbindGuard for drm_dev_enter/exit critical sections
+> >   rust: drm: Add RegistrationData to drm::Driver
+> >   rust: drm: Wrap ioctl dispatch in UnbindGuard
+> >   rust: drm: Pass registration data to ioctl handlers
+> >   rust: drm: Pass bound parent device to ioctl handlers
+> 
+> Deborah, following up on your question in the other thread, this is roughly how
+> you'd use this in Tyr.
 
-Drop the saved candidate before returning the exact-match endpoint.
+Hi Danilo,
 
-This affects callers that use FWNODE_GRAPH_ENDPOINT_NEXT to ask for
-the next endpoint with ID >= the requested one (used by a number of
-media drivers, e.g. imx7/8, sun6i CSI, omap3isp, xilinx-csi2,
-stm32-csi). Each leak retains a fwnode reference until reboot/unbind.
+Thanks for this advice, I've been working on applying these changes
+to Tyr's MCU/firmware boot series. One problem i've had is that we used
+to be able to get an unregistered device without providing the drm::Driver
+type Data like this:
 
-Fixes: 0fcc2bdc8aff ("device property: Add fwnode_graph_get_endpoint_by_id()")
-Signed-off-by: Stepan Ionichev <sozdayvek@gmail.com>
----
- drivers/base/property.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev)?;
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 8e0148a37..e08eadd66 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -1277,8 +1277,10 @@ fwnode_graph_get_endpoint_by_id(const struct fwnode_handle *fwnode,
- 		if (fwnode_ep.port != port)
- 			continue;
- 
--		if (fwnode_ep.id == endpoint)
-+		if (fwnode_ep.id == endpoint) {
-+			fwnode_handle_put(best_ep);
- 			return ep;
-+		}
- 
- 		if (!endpoint_next)
- 			continue;
--- 
-2.43.0
+Then Tyr used that unregistered device to create a gem::shmem::Object
+and initialize a gpuvm tree which we used to map the shared memory
+to load the firmware.
 
+Has the design changed so that the drm::Driver type Data must be
+provided now to get the unregistered devices? Like this?
+
+let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, data)?;
+
+Just checking that this is what we need to work with? If so, I was
+thinking of just simplifying the firmware boot to use a small coherent
+dma allocation instead like this:
+https://gitlab.freedesktop.org/dbrouwer/linux/-/merge_requests/3/diffs?commit_id=39be9140e22c6252317082a1424a66c35dc004b3
+
+Could you let me know if this aligns with your driver core changes?
+
+Deborah
+
+> 
+> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+> index 7ac3707823b6..447e53c0eecf 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -37,13 +37,17 @@
+>      regs, //
+>  };
+> 
+> -pub(crate) type IoMem = kernel::io::Mmio<SZ_2M>;
+> +pub(crate) type IoMem<'bound> = kernel::io::mem::IoMem<'bound, SZ_2M>;
+> 
+>  pub(crate) struct TyrDrmDriver;
+> 
+>  /// Convenience type alias for the DRM device type for this driver.
+>  pub(crate) type TyrDrmDevice<Ctx = drm::Registered> = drm::Device<TyrDrmDriver, Ctx>;
+> 
+> +pub(crate) struct RegData<'bound> {
+> +    pub(crate) iomem: IoMem<'bound>,
+> +}
+> +
+>  #[pin_data(PinnedDrop)]
+>  pub(crate) struct TyrPlatformDriverData {
+>      _device: ARef<TyrDrmDevice>,
+> @@ -65,7 +69,7 @@ pub(crate) struct TyrDrmDeviceData {
+>      pub(crate) gpu_info: GpuInfo,
+>  }
+> 
+> -fn issue_soft_reset(dev: &Device<Bound>, iomem: &IoMem) -> Result {
+> +fn issue_soft_reset(dev: &Device<Bound>, iomem: &IoMem<'_>) -> Result {
+>      regs::GPU_CMD.write(iomem, regs::GPU_CMD_SOFT_RESET);
+> 
+>      poll::read_poll_timeout(
+> @@ -133,8 +137,10 @@ fn probe(
+>                  gpu_info,
+>          });
+> 
+> +        let reg_data = RegData { iomem };
+> +
+>          let tdev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, data)?;
+> -        let tdev = drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), (), 0)?;
+> +        let tdev = drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), reg_data, 0)?;
+> 
+>          let driver = TyrPlatformDriverData {
+>              _device: tdev.into(),
+> @@ -176,7 +182,7 @@ fn drop(self: Pin<&mut Self>) {
+>  #[vtable]
+>  impl drm::Driver for TyrDrmDriver {
+>      type Data = TyrDrmDeviceData;
+> -    type RegistrationData = ForLt!(());
+> +    type RegistrationData = ForLt!(for<'a> RegData<'a>);
+>      type File = TyrDrmFileData;
+>      type Object<R: drm::DeviceContext> = drm::gem::Object<TyrObject, R>;
+>      type ParentDevice<Ctx: DeviceContext> = platform::Device<Ctx>;
+> diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+> index 9f53da7633ab..30efdf924cc2 100644
+> --- a/drivers/gpu/drm/tyr/file.rs
+> +++ b/drivers/gpu/drm/tyr/file.rs
+> @@ -10,6 +10,7 @@
+>  };
+> 
+>  use crate::driver::{
+> +    RegData,
+>      TyrDrmDevice,
+>      TyrDrmDriver, //
+>  };
+> @@ -32,10 +33,12 @@ impl TyrDrmFileData {
+>      pub(crate) fn dev_query(
+>          ddev: &TyrDrmDevice,
+>          _pdev: &platform::Device<device::Bound>,
+> -        _reg_data: &(),
+> +        reg_data: &RegData<'_>,
+>          devquery: &mut uapi::drm_panthor_dev_query,
+>          _file: &TyrDrmFile,
+>      ) -> Result<u32> {
+> +        let _iomem = reg_data.iomem;
+> +
+>          if devquery.pointer == 0 {
+>              match devquery.type_ {
+>                  uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
+> diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
+> index bb0473c85bf7..f169fb1ccc03 100644
+> --- a/drivers/gpu/drm/tyr/gpu.rs
+> +++ b/drivers/gpu/drm/tyr/gpu.rs
+> @@ -34,7 +34,7 @@
+>  pub(crate) struct GpuInfo(pub(crate) uapi::drm_panthor_gpu_info);
+> 
+>  impl GpuInfo {
+> -    pub(crate) fn new(iomem: &IoMem) -> Self {
+> +    pub(crate) fn new(iomem: &IoMem<'_>) -> Self {
+>          let gpu_id = regs::GPU_ID.read(iomem);
+>          let csf_id = regs::GPU_CSF_ID.read(iomem);
+>          let gpu_rev = regs::GPU_REVID.read(iomem);
+> @@ -206,7 +206,7 @@ fn from(value: u32) -> Self {
+>  }
+> 
+>  /// Powers on the l2 block.
+> -pub(crate) fn l2_power_on(dev: &Device<Bound>, iomem: &IoMem) -> Result {
+> +pub(crate) fn l2_power_on(dev: &Device<Bound>, iomem: &IoMem<'_>) -> Result {
+>      regs::L2_PWRON_LO.write(iomem, 1);
+> 
+>      poll::read_poll_timeout(
+> diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
+> index 0881b3812afd..2b0da6019512 100644
+> --- a/drivers/gpu/drm/tyr/regs.rs
+> +++ b/drivers/gpu/drm/tyr/regs.rs
+> @@ -20,12 +20,12 @@
+> 
+>  impl<const OFFSET: usize> Register<OFFSET> {
+>      #[inline]
+> -    pub(crate) fn read(&self, iomem: &IoMem) -> u32 {
+> +    pub(crate) fn read(&self, iomem: &IoMem<'_>) -> u32 {
+>          iomem.read32(OFFSET)
+>      }
+> 
+>      #[inline]
+> -    pub(crate) fn write(&self, iomem: &IoMem, value: u32) {
+> +    pub(crate) fn write(&self, iomem: &IoMem<'_>, value: u32) {
+>          iomem.write32(value, OFFSET);
+>      }
+>  }
