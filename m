@@ -1,90 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3502E7BB6;
-	Thu, 14 May 2026 03:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD1939DBCA;
+	Thu, 14 May 2026 07:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778729658; cv=none; b=TKT2WrAVRm9D0HqVkZPzDT+oJmK5PyOjoKCk29wuXLNvgvZcLLtHVASoAdQsas9V/h3XR3+ybAFWnZ4xidbh5Z3xuvTKuiczigmGOBXdl4G8Abca3rGVNqpZ4UOi7RfxRTM9UT518vEKz2lXBjMhdelWvCuPog+Yz/WF2e6alTQ=
+	t=1778743355; cv=none; b=bNSVSh5a9zjuULueQPi9NLrHIh9U3bt+H9F00Nk30b605bXNQ/j8jJx5lKWptiKe0rGawDhvzeBTLKpWd6Zy6pdb2K5y6mRJApR8Ck36ayto5l9VRoiCbPzzzxre2VoaswaJTp4PZGzdiqozkaP6D0nxl82/4lJ51k5RmnS1YXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778729658; c=relaxed/simple;
-	bh=33BcRwsUcW1XRj/svO+B7Rak+cHqxlsE+eppIApBnkY=;
+	s=arc-20240116; t=1778743355; c=relaxed/simple;
+	bh=SDSfEtpecQQXPBh9om6SLWCqztY/2MxKoykeg6ED4QM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gZuGOJ0YW13YYM6Di+NyIDpa1MrI6uzgTItrBnAMcYaHEk01kbOGXkrkFtVZtWBIkP9lPEu+gZX07FIkNL7fonrkE8anNEw8wbRhy2gcxBS1hCOFzhCzfXioFQ8ZpP9dgrkyA0RbFN5quPzBNKV/woI+njtz1FUihQQTw1WgHts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZn/unQy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gx2Q4cb84cxwQ0hyJTjeVEr7s8gHQ8+2ejy6ZeiJq4m38VM42rNhTlVFAPQdE3T/uAFR9vc8NBO3MUmYkaupxe6JWZSkNPgfyO4QKdhRZsd0esd2VpTay7JNcuCrzjiGV33cUY/COHA9tkEE97qWQ35T57VsP71E0s3F9e7EEjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=z2zCe5sc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZn/unQy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D4CC19425;
-	Thu, 14 May 2026 03:34:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778729657;
-	bh=33BcRwsUcW1XRj/svO+B7Rak+cHqxlsE+eppIApBnkY=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="z2zCe5sc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47AA6C2BCB7;
+	Thu, 14 May 2026 07:22:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778743354;
+	bh=SDSfEtpecQQXPBh9om6SLWCqztY/2MxKoykeg6ED4QM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IZn/unQyJQRQn5/WzqkpLAWVOdUchDzIjPhbETty9FdTy3gCSLK23WFc4k0fuyVBj
-	 ZK5v7ECbykJX7rjHFnXG8Rt+eiOfMqpzO5YgUiQ07EAwv1AXNz4Zc3dPiUFYknIXX8
-	 nRkqjFg8si4ejN81P4/lWlJlo5G5Mr1SHPBFLe07jcq4tyCtZ2DDdRudXVYqGYf74S
-	 GWDv/vHPEvojfG2BXho2LM3IWye5T+8yPVkWhKQIJAYJGm1AZqF4C+hSku+3//Ymrf
-	 SMk0J/CtMgCVsy72oJp+ViN/rtrGpzAnlfVsuBF3Xs9jQInTdBbz4oj7bWI2NHfc/t
-	 hcpcK+ZYbcm/A==
-Date: Thu, 14 May 2026 03:34:12 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Johan Hovold <johan@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v11 4/5] platform/chrome: Protect cros_ec_device
- lifecycle with revocable
-Message-ID: <agVCtBbqT6aZL0mx@google.com>
-References: <20260513091043.6766-1-tzungbi@kernel.org>
- <20260513091043.6766-5-tzungbi@kernel.org>
- <20260513115102.GF7655@nvidia.com>
+	b=z2zCe5sc2K/ZXdFiOraGh+Iyx3NKmV826UNPXHngbWCGbMnadzGuBH7sRWNjw2LVg
+	 FBqldvWkuzt4LCpgbgG1kFe0ErFXHqfh3dfA8LIDUbbKQ9GSpeOitVP2qYh1/N9sN/
+	 Vn87LrIpEG1RwIgW+Zdu1iquGXnev4FNORpaTl3c=
+Date: Thu, 14 May 2026 09:21:49 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Samuel Wu <wusamuel@google.com>, Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	Android Kernel Team <kernel-team@android.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>,
+	driver-core@lists.linux.dev, bpf <bpf@vger.kernel.org>,
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v4 0/2] Support BPF traversal of wakeup sources
+Message-ID: <2026051417-handbook-uncivil-1a56@gregkh>
+References: <20260511174559.659782-1-wusamuel@google.com>
+ <CAP01T74KQ6bie5o++i_gHM19J+s2RzDyM6=w87=oUZgPagPejw@mail.gmail.com>
+ <CAADnVQJtuKQh-bpDDeqWCQRM1zb2sSgo0qET_+1+JFOL-6cpDg@mail.gmail.com>
+ <CAJZ5v0hqdyMnBtvvo7RwUkh5saLvAHkTEVz8Ln09UaKMqoP=Dg@mail.gmail.com>
+ <CAADnVQLvuCKLUHnxcEx2+t4diLmuOb9VSthoDea5iktsAZxhTg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260513115102.GF7655@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAADnVQLvuCKLUHnxcEx2+t4diLmuOb9VSthoDea5iktsAZxhTg@mail.gmail.com>
 
-On Wed, May 13, 2026 at 08:51:02AM -0300, Jason Gunthorpe wrote:
-> On Wed, May 13, 2026 at 05:10:42PM +0800, Tzung-Bi Shih wrote:
-> > The cros_ec_device can be unregistered when the underlying device is
-> > removed.  Other kernel drivers that interact with the EC may hold a
-> > pointer to the cros_ec_device, creating a risk of a use-after-free
-> > error if the EC device is removed while still being referenced.
-> > 
-> > To prevent this, leverage the revocable and convert the underlying
-> > device drivers to resource providers of cros_ec_device.
-> > 
-> > ---
-> > v11:
-> > - No changes.
+On Wed, May 13, 2026 at 02:03:39PM -0700, Alexei Starovoitov wrote:
+> On Wed, May 13, 2026 at 12:52 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> >
+> > On Wed, May 13, 2026 at 2:51 AM Alexei Starovoitov
+> > <alexei.starovoitov@gmail.com> wrote:
+> > >
+> > > On Mon, May 11, 2026 at 1:44 PM Kumar Kartikeya Dwivedi
+> > > <memxor@gmail.com> wrote:
+> > > >
+> > > > On Mon, 11 May 2026 at 19:50, Samuel Wu <wusamuel@google.com> wrote:
+> > > > >
+> > > > > This patchset adds requisite kfuncs for BPF programs to safely traverse
+> > > > > wakeup_sources, and puts a config flag around the sysfs interface.
+> > > > >
+> > > > > Currently, a traversal of wakeup sources require going through
+> > > > > /sys/class/wakeup/* or /d/wakeup_sources/*. The repeated syscalls to query
+> > > > > sysfs is inefficient, as there can be hundreds of wakeup_sources, with each
+> > > > > wakeup source also having multiple attributes. debugfs is unstable and
+> > > > > insecure.
+> > > > >
+> > > > > Adding kfuncs to lock/unlock wakeup sources allows BPF program to safely
+> > > > > traverse the wakeup sources list, and a kfunc to get head of wakeup
+> > > > > sources list is needed to start traversing the list.
+> > > > >
+> > > > > On a quiescent Pixel 6 traversing 150 wakeup_sources, I am seeing ~34x
+> > > > > speedup (sampled 75 times in table below). For a device under load, the
+> > > > > speedup is greater.
+> > > > > +-------+----+----------+----------+
+> > > > > |       | n  | AVG (ms) | STD (ms) |
+> > > > > +-------+----+----------+----------+
+> > > > > | sysfs | 75 | 44.9     | 12.6     |
+> > > > > +-------+----+----------+----------+
+> > > > > | BPF   | 75 | 1.3      | 0.7      |
+> > > > > +-------+----+----------+----------+
+> > > > >
+> > > > > The initial attempts for BPF traversal of wakeup_sources was with BPF
+> > > > > iterators [1]. However, BPF already allows for traversing of a simple list
+> > > > > with bpf_for(), and this current patchset has the added benefit of being
+> > > > > ~2-3x more performant than BPF iterators.
+> > > >
+> > > > This looks good to me, you can add for the set:
+> > > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> > >
+> > > Rafael,
+> > > how do you want to route it?
+> > >
+> > > If you ack it we can take it into bpf-next.
+> >
+> > I guess if someone really wants this, I have no particular reason to
+> > object, so please feel free to add
+> >
+> > Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+> >
+> > to the first patch.
+> >
+> > > I'd think patch 1 shouldn't conflict with other 'wakeup' changes.
+> >
+> > Sure, there are none ATM anyway.
 > 
-> Two people are opposing this and yet no changes? Why haven't you
-> followed my advice to fix the bug in this driver in the obvious way?
+> Thanks!
+> 
+> Greg,
+> are you ok with it too?
+> I hear your api concerns, but imo it's a nice improvement.
+> And bpf is not a stable interface despite some sceptics saying otherwise.
+> Just see how much sched-ext api surface has changed.
+> 
+> So if pm:wakeup folks need to tweak it later they're certainly
+> free to do it. Of course, it's better to keep things backward compact
+> and deprecate gradually. All options in developer's hands.
 
-I understand there's opposition to this approach for this specific driver.
-The main goal of the series is to introduce the revocable APIs and show
-potential use cases.  I used this patch to illustrate how revocable could
-solve this class of problem, not necessarily as the definitive fix in this
-instance.
+I still feel it's really odd to be wanting to iterate over a zillion
+sysfs files all at once, but sure, if this fixes the problem for this
+user, might as well take it...
 
-To help me understand, could you elaborate on why the revocable mechanism
-isn't suitable here?  I'm wondering because if this piece of code were to
-transition to Rust in the future, would the concerns you have also apply
-to using Revocable[1] in the Rust context for this driver?
-
-[1] https://rust.docs.kernel.org/kernel/revocable/struct.Revocable.html
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
