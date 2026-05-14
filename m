@@ -1,31 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EC3E3BB683
-	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 15:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EE0A42B726
+	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 15:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778771447; cv=none; b=tN/4HKQk9zTD6LsG2vVA15p053/FocKepE2/RwPPi5CwmBG1hihMy0vusBT2OOIUc0/Pkb35h9IwNcewKUF2DguLjsh37HLFkJx/ggxxBcq0jz1IN6BxBpGwGDEb+wl0fNtVmy3PrlrWl1+qHQpYrmLKYbmnuxjj2UWlvUunix0=
+	t=1778771449; cv=none; b=mTwjYgaFk7xiBVKbVBi1YjM8LnlwgG9qcInXbNh7sc62vsQrNN7Po6oZ5efOiSQ5zU8PkpM/5HuE34Qvy6MoInRzaIKT4vVgEJVrvw/GdzGxiBGK2MAyIFLvr4ZBDsE3OGIMlqze6X0anK1upWL3gCoGPCsDiAxtc+BoGjWgYiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778771447; c=relaxed/simple;
-	bh=vpnqcCkdkxkjCbHeMjUGkoQBZ0cBqZL5/yo/spdfsjk=;
+	s=arc-20240116; t=1778771449; c=relaxed/simple;
+	bh=oH77PiL1cpVbCsomfXoCXl5xmvUBF/D51Ru9RKD4tSA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gQJDuAhaQqpP80Rhk6Ve1VyjQbmz0E6PdKpxJmWajnnnWXDcAA/OAcX7qj0N13yr/EP5s36ozFTCPJd0hOXnKvt0Ga5gWbmz0o3gRvKofrHb4rEzfCUC9DQnBZ1KRECWHlVo+RbiYumzNpwYrtYyKCeKrEkQ0HwTMP8wluuYP0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=je8I2rY8; arc=none smtp.client-ip=217.140.110.172
+	 MIME-Version; b=clHVANKCi0ZLiop3lDolE861yhAEYrk7vjq+AnlqVlTM6eYmH7Z8PElPVs221t/Xj82iiJUcIfZ7seulwA65UbH8rWhiMo8Tn2T82LiAOUbxSt5jIJH3N7pl9faqF8l+D+ofcpyTkzvNxfiVJB65AjPxaptW0DW54Nd8AglSIAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=W9VZh1gO; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="je8I2rY8"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="W9VZh1gO"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9A24F1477;
-	Thu, 14 May 2026 08:10:34 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67AFB244B;
+	Thu, 14 May 2026 08:10:39 -0700 (PDT)
 Received: from e143943.arm.com (unknown [10.57.23.78])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 08B3D3F836;
-	Thu, 14 May 2026 08:10:35 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6AC103F836;
+	Thu, 14 May 2026 08:10:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778771439; bh=vpnqcCkdkxkjCbHeMjUGkoQBZ0cBqZL5/yo/spdfsjk=;
+	t=1778771444; bh=oH77PiL1cpVbCsomfXoCXl5xmvUBF/D51Ru9RKD4tSA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=je8I2rY88tHi3txa9qyczzTte3znDUsNnImNnqM3bSgg+rMmEeLus8il0/aKoZnXO
-	 wcyoCrhZOdIT88VL+sRruDZw94CPVg6c9IK7pRVYSFncLk0W24EJLa1PDfiSBgMW1m
-	 LCh6OfW5GCvHlSIkOKDRPkjOdXioKvp7bN/1J294=
+	b=W9VZh1gOsr5o9Zs868dK+zq6z4BxQ+1pkH2KJ9Ocx2K+ESjLMRhsOO+ZSlTcViqUW
+	 3/px2u88PMdC6BSzLUjoQVw/7DBDdMNk8rsE6VWEEW5bgPOZ6qW3buL1ahJs9OZzGX
+	 nTIHVFB6nfJvvqD0Nvw9MzXNDth+WWxbnbspA+2A=
 From: Beata Michalska <beata.michalska@arm.com>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -43,9 +43,9 @@ Cc: Boqun Feng <boqun@kernel.org>,
 	rust-for-linux@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/3] rust/platform: Add support for runtime PM
-Date: Thu, 14 May 2026 17:09:04 +0200
-Message-ID: <20260514150957.3501924-3-beata.michalska@arm.com>
+Subject: [RFC PATCH 3/3] [DO NOT MERGE] drm/tyr: wire runtime PM hooks
+Date: Thu, 14 May 2026 17:09:05 +0200
+Message-ID: <20260514150957.3501924-4-beata.michalska@arm.com>
 In-Reply-To: <20260514150957.3501924-1-beata.michalska@arm.com>
 References: <20260514150957.3501924-1-beata.michalska@arm.com>
 Precedence: bulk
@@ -56,68 +56,228 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Wire the per-driver dev_pm_ops pointer into platform_driver
-registration so Rust drivers can expose PM callbacks to the PM core.
-Also add a TryFrom implementation from Device<CoreInternal>
-to platform::Device so generated PM callbacks can recover
-a platform device from the generic device pointer received
-from the PM core.
+Add support for runtime PM.
+Apply basic configuration and add suspend/resume hooks, ready for
+future power-gating support.
 
 Signed-off-by: Beata Michalska <beata.michalska@arm.com>
 ---
- rust/kernel/platform.rs | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/tyr/driver.rs | 123 +++++++++++++++++++++++++++-------
+ drivers/gpu/drm/tyr/file.rs   |   3 +
+ 2 files changed, 103 insertions(+), 23 deletions(-)
 
-diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-index 8917d4ee499f..d100adc2ef76 100644
---- a/rust/kernel/platform.rs
-+++ b/rust/kernel/platform.rs
-@@ -72,6 +72,11 @@ unsafe fn register(
-             None => core::ptr::null(),
-         };
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index 279710b36a10..cda3b7bcd352 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 or MIT
  
-+        let pm_ops = match T::PM_OPS {
-+            Some(ops) => ops,
-+            None => core::ptr::null(),
-+        };
+ use kernel::{
++    bindings,
+     clk::{
+         Clk,
+         OptionalClk, //
+@@ -17,6 +18,7 @@
+     new_mutex,
+     of,
+     platform,
++    pm::*,
+     prelude::*,
+     regulator,
+     regulator::Regulator,
+@@ -53,12 +55,12 @@ pub(crate) struct TyrPlatformDriverData {
+ pub(crate) struct TyrDrmDeviceData {
+     pub(crate) pdev: ARef<platform::Device>,
+ 
+-    #[pin]
+-    clks: Mutex<Clocks>,
+-
+     #[pin]
+     regulators: Mutex<Regulators>,
+ 
++    /// Runtime PM context
++    pub(crate) pm_context: PMContext<TyrPlatformDriverData, kernel::pm::Active>,
 +
-         // SAFETY: It's safe to set the fields of `struct platform_driver` on initialization.
-         unsafe {
-             (*pdrv.get()).driver.name = name.as_char_ptr();
-@@ -79,6 +84,7 @@ unsafe fn register(
-             (*pdrv.get()).remove = Some(Self::remove_callback);
-             (*pdrv.get()).driver.of_match_table = of_table;
-             (*pdrv.get()).driver.acpi_match_table = acpi_table;
-+            (*pdrv.get()).driver.pm = pm_ops;
-         }
- 
-         // SAFETY: `pdrv` is guaranteed to be a valid `DriverType`.
-@@ -218,6 +224,9 @@ pub trait Driver: Send {
-     /// The table of ACPI device ids supported by the driver.
-     const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = None;
- 
-+    /// Runtime PM callbacks
-+    const PM_OPS: Option<&'static bindings::dev_pm_ops> = None;
-+
-     /// Platform driver probe.
+     /// Some information on the GPU.
      ///
-     /// Called when a new platform device is added or discovered.
-@@ -555,6 +564,15 @@ fn try_from(dev: &device::Device<Ctx>) -> Result<Self, Self::Error> {
-     }
+     /// This is mainly queried by userspace, i.e.: Mesa.
+@@ -92,25 +94,23 @@ fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
+ impl platform::Driver for TyrPlatformDriverData {
+     type IdInfo = ();
+     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
++    const PM_OPS: Option<&'static bindings::dev_pm_ops> = Some(&PMContext::<Self>::PM_OPS);
+ 
+     fn probe(
+         pdev: &platform::Device<Core>,
+         _info: Option<&Self::IdInfo>,
+     ) -> impl PinInit<Self, Error> {
+-        let core_clk = Clk::get(pdev.as_ref(), Some(c"core"))?;
+-        let stacks_clk = OptionalClk::get(pdev.as_ref(), Some(c"stacks"))?;
+-        let coregroup_clk = OptionalClk::get(pdev.as_ref(), Some(c"coregroup"))?;
+-
+-        core_clk.prepare_enable()?;
+-        stacks_clk.prepare_enable()?;
+-        coregroup_clk.prepare_enable()?;
+-
++        let pm_state = TyrRuntimeState::pm_init(pdev.as_ref())?;
+         let mali_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"mali")?;
+         let sram_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"sram")?;
+ 
+         let request = pdev.io_request_by_index(0).ok_or(ENODEV)?;
+         let iomem = Arc::pin_init(request.iomap_sized::<SZ_2M>(), GFP_KERNEL)?;
+ 
++        let pm_context = PMContext::new(pdev.as_ref(), None)?;
++        pm_context.apply_config(&[PMConfig::AutoSuspend(true),PMConfig::AutoSuspendDelay(300)])?;
++        pm_context.init_state(RuntimePMState::Active, Some(pm_state))?;
++
+         issue_soft_reset(pdev.as_ref(), &iomem)?;
+         gpu::l2_power_on(pdev.as_ref(), &iomem)?;
+ 
+@@ -121,15 +121,11 @@ fn probe(
+ 
+         let data = try_pin_init!(TyrDrmDeviceData {
+                 pdev: platform.clone(),
+-                clks <- new_mutex!(Clocks {
+-                    core: core_clk,
+-                    stacks: stacks_clk,
+-                    coregroup: coregroup_clk,
+-                }),
+                 regulators <- new_mutex!(Regulators {
+                     _mali: mali_regulator,
+                     _sram: sram_regulator,
+                 }),
++                pm_context: pm_context.enable()?,
+                 gpu_info,
+         });
+ 
+@@ -152,13 +148,7 @@ fn drop(self: Pin<&mut Self>) {}
+ 
+ #[pinned_drop]
+ impl PinnedDrop for TyrDrmDeviceData {
+-    fn drop(self: Pin<&mut Self>) {
+-        // TODO: the type-state pattern for Clks will fix this.
+-        let clks = self.clks.lock();
+-        clks.core.disable_unprepare();
+-        clks.stacks.disable_unprepare();
+-        clks.coregroup.disable_unprepare();
+-    }
++    fn drop(self: Pin<&mut Self>) {}
  }
  
-+impl TryFrom<&device::Device<device::CoreInternal>> for &Device {
-+    type Error = kernel::error::Error;
+ // We need to retain the name "panthor" to achieve drop-in compatibility with
+@@ -196,3 +186,90 @@ struct Regulators {
+     _mali: Regulator<regulator::Enabled>,
+     _sram: Regulator<regulator::Enabled>,
+ }
 +
-+    fn try_from(dev: &device::Device<device::CoreInternal>) -> Result<Self, Self::Error> {
-+        let pdev_ci: &Device<device::CoreInternal> = TryFrom::try_from(dev)?;
-+        Ok(pdev_ci)
++pub(crate) struct TyrRuntimeState {
++    clks: Clocks,
++}
++
++impl TyrRuntimeState {
++    fn pm_init(dev: &'_ kernel::device::Device<kernel::device::Bound>) -> Result<Arc<Self>> {
++         let core_clk = Clk::get(dev, Some(c"core"))?;
++         let stacks_clk = OptionalClk::get(dev, Some(c"stacks"))?;
++         let coregroup_clk = OptionalClk::get(dev, Some(c"coregroup"))?;
++
++         core_clk.prepare_enable()?;
++         stacks_clk.prepare_enable()?;
++         coregroup_clk.prepare_enable()?;
++
++         Ok(Arc::new(
++             Self {
++                clks: Clocks {
++                     core: core_clk,
++                    stacks: stacks_clk,
++                    coregroup: coregroup_clk,
++                 }
++            },
++            GFP_KERNEL
++        )?)
 +    }
 +}
 +
- // SAFETY: A `Device` is always reference-counted and can be released from any thread.
- unsafe impl Send for Device {}
++#[vtable]
++impl PMOps for TyrPlatformDriverData {
++    type DriverDataType = TyrPlatformDriverData;
++    type DeviceType<'a> = &'a platform::Device;
++    type RuntimePayloadType = TyrRuntimeState;
++    type PMContextRef<'a> = &'a PMContext<TyrPlatformDriverData, Active>;
++
++    fn get_pmcontext(data: &Self::DriverDataType) -> Result<Self::PMContextRef<'_>> {
++        Ok(&data._device.pm_context)
++    }
++
++    fn runtime_suspend(
++        _dev:  Self::DeviceType<'_>,
++        data: Option<Arc<Self::RuntimePayloadType>>
++    ) -> Result<
++            Option<Arc<Self::RuntimePayloadType>>,
++            (Option<Arc<Self::RuntimePayloadType>>, kernel::error::Error)
++    > {
++        match data {
++            Some(state) => {
++                state.clks.core.disable_unprepare();
++                state.clks.stacks.disable_unprepare();
++                state.clks.coregroup.disable_unprepare();
++
++                Ok(Some(state))
++            }
++            None => {
++                pr_err!("Tyr: no runtime data\n");
++                Ok(None)
++            }
++        }
++    }
++
++    fn runtime_resume(
++        _dev: Self::DeviceType<'_>,
++        data: Option<Arc<Self::RuntimePayloadType>>
++    ) -> Result<
++            Option<Arc<Self::RuntimePayloadType>>,
++            (Option<Arc<Self::RuntimePayloadType>>, kernel::error::Error)
++    > {
++
++        match data {
++            Some(state) => {
++                let previous_state = Some(state.clone());
++                (|| {
++                    //@TODO: @FIXME: this needs to be able to unroll changes
++                    state.clks.core.prepare_enable()?;
++                    state.clks.stacks.prepare_enable()?;
++                    state.clks.coregroup.prepare_enable()?;
++
++                    Ok(Some(state))
++                }
++                )()
++                .map_err(|e| (previous_state, e))
++            },
++            None => Err((data, EINVAL)),
++        }
++    }
++}
+diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
+index 31411da203c5..8256ce05fb6f 100644
+--- a/drivers/gpu/drm/tyr/file.rs
++++ b/drivers/gpu/drm/tyr/file.rs
+@@ -2,6 +2,7 @@
  
+ use kernel::{
+     drm,
++    pm::*,
+     prelude::*,
+     uaccess::UserSlice,
+     uapi, //
+@@ -32,6 +33,8 @@ pub(crate) fn dev_query(
+         devquery: &mut uapi::drm_panthor_dev_query,
+         _file: &TyrDrmFile,
+     ) -> Result<u32> {
++        let _pm_scope = ddev.pm_context.get(Profile::new())?;
++
+         if devquery.pointer == 0 {
+             match devquery.type_ {
+                 uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
 -- 
 2.43.0
 
