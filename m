@@ -1,283 +1,151 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EE0A42B726
-	for <driver-core@lists.linux.dev>; Thu, 14 May 2026 15:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778771449; cv=none; b=mTwjYgaFk7xiBVKbVBi1YjM8LnlwgG9qcInXbNh7sc62vsQrNN7Po6oZ5efOiSQ5zU8PkpM/5HuE34Qvy6MoInRzaIKT4vVgEJVrvw/GdzGxiBGK2MAyIFLvr4ZBDsE3OGIMlqze6X0anK1upWL3gCoGPCsDiAxtc+BoGjWgYiA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778771449; c=relaxed/simple;
-	bh=oH77PiL1cpVbCsomfXoCXl5xmvUBF/D51Ru9RKD4tSA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=clHVANKCi0ZLiop3lDolE861yhAEYrk7vjq+AnlqVlTM6eYmH7Z8PElPVs221t/Xj82iiJUcIfZ7seulwA65UbH8rWhiMo8Tn2T82LiAOUbxSt5jIJH3N7pl9faqF8l+D+ofcpyTkzvNxfiVJB65AjPxaptW0DW54Nd8AglSIAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=W9VZh1gO; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012020.outbound.protection.outlook.com [40.93.195.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ED43242CF;
+	Thu, 14 May 2026 16:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778774452; cv=fail; b=alWFfxV4Jqq+MvVHN4GOT7Ld2//exmZOWc1QRSNfLjnf+BEEilCPVU0xBQ8NHsX09FFY+B4Jipw6oB8Sfyd007i4bVV3N1ldMqkLWhCR0O+tK+xSj5yYDtZUATYctnNlO9AdCQdt5js1stcwIcH5rbvYiMLzpn2bLLsa1Qec+uc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778774452; c=relaxed/simple;
+	bh=9mAvxMGi/PRWKGVza1iy5dgEjIiaYryQHeFe8Q3LuGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=jIC3wfYk8iU64/mzGmwec8llWxSPa52FvQJjdfhIovVfmdPD47Vpgh22HuqrDU8R1+VZPi728jhZIgzDscA7NvVfeFzhTobKnKkVXz64Gq0qegYPP+5js/aEsSP1zZQBllrkfsG6SuMt0vKKEnCsJhNkiDnuGVv+GynLxktQ3ss=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cf4v8iGz; arc=fail smtp.client-ip=40.93.195.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="W9VZh1gO"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67AFB244B;
-	Thu, 14 May 2026 08:10:39 -0700 (PDT)
-Received: from e143943.arm.com (unknown [10.57.23.78])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6AC103F836;
-	Thu, 14 May 2026 08:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778771444; bh=oH77PiL1cpVbCsomfXoCXl5xmvUBF/D51Ru9RKD4tSA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W9VZh1gOsr5o9Zs868dK+zq6z4BxQ+1pkH2KJ9Ocx2K+ESjLMRhsOO+ZSlTcViqUW
-	 3/px2u88PMdC6BSzLUjoQVw/7DBDdMNk8rsE6VWEEW5bgPOZ6qW3buL1ahJs9OZzGX
-	 nTIHVFB6nfJvvqD0Nvw9MzXNDth+WWxbnbspA+2A=
-From: Beata Michalska <beata.michalska@arm.com>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cf4v8iGz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VZzwq3qOX8/pqiWbWmemFUMyh+21oATtgJBY1caK7ycVIn2FfO/ClK519f6AC65QaWeuA0K1CiwusCWo5qpfiyUGSdpH3OPwSeXvRWF5gT80j3UTIsJeDmgqsKMoo5XjyDPZoRUuT5s/Sc5uLgX0aBOXf4SSQxv4jQ0bJYVkMiqMkChXC/GA4BaSUW/JFq2Po8C6HXEx5yEY94oprwXZ+5te+ZT83J2qGYmnmwapN6wbutmCFDEGgKEjFpqKVfMKGNRNR8QzlRXYsPoembBBXlbm80eUxEGeUqljHaiJwrqwcPFsvEyn6hkaPsNUij6Z7FjwNeufmlkzEruTsA81ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9mAvxMGi/PRWKGVza1iy5dgEjIiaYryQHeFe8Q3LuGo=;
+ b=OmfxS2mQGkVfile8opr1rmyUqOblNvbNOar43D0nSBpBtmg9psbcb0c5rg0iJWUDRUCtgz8oinwoMfUDZF9mJds5+CSZ+w7KmZHiiJhjsGl6E+RwMUe2K/RHo0xbpC+PSQJ2V5SMpBUQ25DF+RiKMhscvnpzGAo1W6GmZbMos1Bxdjn1xAL6lmBgyeN+Se6/dK7Vvc6gynCoj8PThzBvSoGitdTAp3oXKAB7vuNx5riuGc3h5BxJq2bgALHJXUUvf+gaphNyZ8zJ9eochWIA/z0rEotgG0jL3r5nw31z9tcjC9WLuZZOKM/ypZf8kKAfHzlaYttiOXry3NvBR46ChA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9mAvxMGi/PRWKGVza1iy5dgEjIiaYryQHeFe8Q3LuGo=;
+ b=cf4v8iGzJHf88lViktd9C2mnM+iOdWnjXs+Ax61al1qgo1toPdQEkS8jqq7awXw0gqJamJwENT7HTmQpHzP2llpLpGFRgB1k8DmQ6w61y+tyQt3WcEVhHAj7PoURN+e8qoEgjQQxjnv90m6Ib0kHEvr1ssOkf5he6XlQpHyy9tnMz8FyE3wB6b7UnOv2VK0agtfmDoHkg9yFahEDvvhBMTYH6vsdl0HG0qmuMPgDQR85dAPVSKSFYMZxF9XHc9I0eESdThf48qQQzlbc6v/WIUgndwga5yNev7zXf9M+hl/bP27gJhY3BlzxZDcCfDgQiM7DVblWp/1OS3e6/jWqTg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by DM4PR12MB8474.namprd12.prod.outlook.com (2603:10b6:8:181::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Thu, 14 May
+ 2026 16:00:45 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.21.0025.012; Thu, 14 May 2026
+ 16:00:45 +0000
+Date: Thu, 14 May 2026 13:00:43 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 3/3] [DO NOT MERGE] drm/tyr: wire runtime PM hooks
-Date: Thu, 14 May 2026 17:09:05 +0200
-Message-ID: <20260514150957.3501924-4-beata.michalska@arm.com>
-In-Reply-To: <20260514150957.3501924-1-beata.michalska@arm.com>
-References: <20260514150957.3501924-1-beata.michalska@arm.com>
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Benson Leung <bleung@chromium.org>, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, driver-core@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Johan Hovold <johan@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v11 4/5] platform/chrome: Protect cros_ec_device
+ lifecycle with revocable
+Message-ID: <20260514160043.GG787748@nvidia.com>
+References: <20260513091043.6766-1-tzungbi@kernel.org>
+ <20260513091043.6766-5-tzungbi@kernel.org>
+ <20260513115102.GF7655@nvidia.com>
+ <agVCtBbqT6aZL0mx@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agVCtBbqT6aZL0mx@google.com>
+X-ClientProxiedBy: MN2PR03CA0029.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::34) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|DM4PR12MB8474:EE_
+X-MS-Office365-Filtering-Correlation-Id: 547f3974-7d62-4c07-2c56-08deb1d1f50f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|4143699003|18002099003|56012099003|22082099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	l5rUoUuxpERc65wKy8DcsPAA0V5OvdXZfSR4q2EpPAaSh53U91c0+JSBN77XfhUvqy56jDICcVW6e+ZsycxXUwQLI3EFrHEMhr87UhX5tKsvOx8xlURJ07fffXpQnMcz8+xsEu4YlsMf224xa1FJk/FDwekqSYf8t8LYpIoAtxb/XaiF4FeyoaZTekvxQefjxcwH+8dEwTzo0H+WL+6+FWIRzRZ5jchIVTA1NBZDjgevS4x+dwaij+XxO0Hts/yam/ZmTBM5DvIA+zZiOBCR3k4dDpQM6/psxCkrw18/aFZB8KvYdRKC1EmE6xIWGWKzVrfVG0ar2XohtPsVBDVuIir2L24ofFmQLbW6qEvCXuO0Bug/1rWXYHmxJdZLThLlVmG9Kg871dK1MU+b+ZnPJsB8YndbEUsQewEM8mgwWs512bkBiDo59O+5cbQXfGmsqVUQ+gobzdfGAnXq0p7lsUgE+KKJgXju57oMtYiF/yUthYyVPBYEVpITl0Fya5QWUvEczcXlTW2zNcvlw2uyfzUYbkicMtYZxZUkFSGciUyApMvd1JKODbtB+UrZ9sZa0wsqB0LBuuMq5bNq3Hdcxr7xmU0NeTUHotb4WA0oxIss5F4p8xZ4En96EBnNXqesFt5WWwoi/ml1cYTA9Ar+3CZl8doXxkb4h4Viu60XSDgBm795RLUXEYGsM/2RGIMT
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(4143699003)(18002099003)(56012099003)(22082099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2w7Z3nNgQFkeMzvBmpW1jzyJBgFltsKnT8KsNHPqAUWxnEXd3gKXsQM+tZV9?=
+ =?us-ascii?Q?VZySS2RzV5WHtzfZCXKNPUSFC9g/h5LrBOAfdeBUn6bkjf8JlDrz9zrlS1Dj?=
+ =?us-ascii?Q?ZKXjxYsJ/m/Vukj6lPcmOA91JS2FD8rOPS6v5+H+XwwZwLSVfcLqpN/Qi/8Y?=
+ =?us-ascii?Q?7bHDzQ/wJ6sPWS+/H51eSH+mOWGtIK+01DLxgzrLFwHU/EFAvGdUk967mzj4?=
+ =?us-ascii?Q?IwsaQUSuCdAzsSntEjjCpls7DCGAlOVKxmuLdby6OHPu/ssh0HOVgXPtvQkm?=
+ =?us-ascii?Q?+xMIV0IqLj3172GQCO5GPcuuXNfaTmxBfesprlG2COYEEGKkFDkqhvp5FChO?=
+ =?us-ascii?Q?zeBqcXC4or3O+o57l3kZXn52LrNOi8qO4be6EHLDCX04s/8vxo/4FRrifvah?=
+ =?us-ascii?Q?YH6IR795RiCJhE3p7GSBq/JFJeVBN187JKPWs0cIUOlCHco+8RG3KUv113BO?=
+ =?us-ascii?Q?QE2/BXX9QvNVYyat3rfu5GOg6UGYg5wcV7/H73jfHpRQn1hgunF2kHgF2Gim?=
+ =?us-ascii?Q?fOw+jKs7IInvDn2oF6ShlSWGpd0wapWnYuJpaqTLPAq2V2SmOB3+pvfy+Oe1?=
+ =?us-ascii?Q?ZxqzXVIwvPM/K05aUKjr1mueO8XrRHhzAZA0exhtEmsUifC08mspI64aXktA?=
+ =?us-ascii?Q?erv5Ryqu44DyWhblTzgUmBfv3O5eOABcDNo1q3Mb8Yx7Y8S0ZsqzzuO/6wRL?=
+ =?us-ascii?Q?3ZCFAotdCihzmXv0kk0j5EABDxIuGGhmSk6D0mWWktjmArp2nkrgOY/01or7?=
+ =?us-ascii?Q?Qtu3aYg/QLo8lGF1A+Vc3pr1X4+44jDcfwQlWtUhAGpiQpA664lH6TsuiIRL?=
+ =?us-ascii?Q?tl2qefXr+46W6RrIjT54zoWAGyB6Iv7jC9HXdMxh8uphEjb4QqGdNX5E+Y71?=
+ =?us-ascii?Q?lP7ZoYmzN+rK3eIlIjLVtlN8K7h7EVFIa9U1VEVu1wqcK60DlvWVS7jsOsBU?=
+ =?us-ascii?Q?27DBvH5HWYECoCLPugkZCTQ27I2ilfAzu1CqBium34mOFE4hReFFD9lOGBAn?=
+ =?us-ascii?Q?jAmBy2hEAPPY+A3mFQKuZAsUQZ28EWVaWqN6PYuTr5/B7eHKMa93CCH8DspJ?=
+ =?us-ascii?Q?jXf/pH1ZifZ055hgpiRhVFTfmdwgnMZ10obsS65QPrQbfaFp8AwHaZ6Z6TSr?=
+ =?us-ascii?Q?DuPX5grD/ySMPuXtYL23FR4bg8ucZdq+a2Khg4RZ2LznXODYXsuQBwzphcUA?=
+ =?us-ascii?Q?eNLfftfqnboTzPcLJd1rGFa11MAoycXOuXYoqtHbtxO6hZN1cwqC2jEPXimS?=
+ =?us-ascii?Q?qNvbv75yw03+9kW8zihRUEWCNsPTOugPOZ2F9DMn0JsIMIVvD6SuMJakxEOC?=
+ =?us-ascii?Q?m/us+k6VPSRoTIAI+W5IVC83CfJqsn88NiPsq4927i/8XnW3Spa5ywBlUyCn?=
+ =?us-ascii?Q?zmHXCW3GCSra36/PdMKg07Qoz3kSNeEmSRZJI3dX9FFnN2vi8FOw8pW5Ypjh?=
+ =?us-ascii?Q?SyY2d1gvZu2k1O0ZqnK03Rak2g/H0BHrD1cmNPv7ZWYffb7KDDfj/wIyabmR?=
+ =?us-ascii?Q?hFryiptv7xY6DSRcih8U6APirbMY97F2TANVGFlPFT0vSX9v2wPKwK9d5IVA?=
+ =?us-ascii?Q?aeGtWg0R5ClqqSPJ91ehUmsQrRsG/dUJjgeHBgbI0n8HPUifR35mm+Qf+h0u?=
+ =?us-ascii?Q?j2W+vpMJp7xNPA2ORMvfeGWLW/XP1iJG3CG+BGc4odZZwABBqrcHWNzYuhvJ?=
+ =?us-ascii?Q?OvU3hojpe7M8NJguHb+ipSG5MstKd7EDwm8tK0D7x1LLZQxa?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 547f3974-7d62-4c07-2c56-08deb1d1f50f
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2026 16:00:45.3766
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BwD9CrhSRKj6A6fQ6M9DBLzcV2hskiKGstpklMmXucvDJDmsDo4HSS8t/x+vT4vd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8474
 
-Add support for runtime PM.
-Apply basic configuration and add suspend/resume hooks, ready for
-future power-gating support.
+On Thu, May 14, 2026 at 03:34:12AM +0000, Tzung-Bi Shih wrote:
 
-Signed-off-by: Beata Michalska <beata.michalska@arm.com>
----
- drivers/gpu/drm/tyr/driver.rs | 123 +++++++++++++++++++++++++++-------
- drivers/gpu/drm/tyr/file.rs   |   3 +
- 2 files changed, 103 insertions(+), 23 deletions(-)
+> To help me understand, could you elaborate on why the revocable mechanism
+> isn't suitable here?
 
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index 279710b36a10..cda3b7bcd352 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- 
- use kernel::{
-+    bindings,
-     clk::{
-         Clk,
-         OptionalClk, //
-@@ -17,6 +18,7 @@
-     new_mutex,
-     of,
-     platform,
-+    pm::*,
-     prelude::*,
-     regulator,
-     regulator::Regulator,
-@@ -53,12 +55,12 @@ pub(crate) struct TyrPlatformDriverData {
- pub(crate) struct TyrDrmDeviceData {
-     pub(crate) pdev: ARef<platform::Device>,
- 
--    #[pin]
--    clks: Mutex<Clocks>,
--
-     #[pin]
-     regulators: Mutex<Regulators>,
- 
-+    /// Runtime PM context
-+    pub(crate) pm_context: PMContext<TyrPlatformDriverData, kernel::pm::Active>,
-+
-     /// Some information on the GPU.
-     ///
-     /// This is mainly queried by userspace, i.e.: Mesa.
-@@ -92,25 +94,23 @@ fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
- impl platform::Driver for TyrPlatformDriverData {
-     type IdInfo = ();
-     const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
-+    const PM_OPS: Option<&'static bindings::dev_pm_ops> = Some(&PMContext::<Self>::PM_OPS);
- 
-     fn probe(
-         pdev: &platform::Device<Core>,
-         _info: Option<&Self::IdInfo>,
-     ) -> impl PinInit<Self, Error> {
--        let core_clk = Clk::get(pdev.as_ref(), Some(c"core"))?;
--        let stacks_clk = OptionalClk::get(pdev.as_ref(), Some(c"stacks"))?;
--        let coregroup_clk = OptionalClk::get(pdev.as_ref(), Some(c"coregroup"))?;
--
--        core_clk.prepare_enable()?;
--        stacks_clk.prepare_enable()?;
--        coregroup_clk.prepare_enable()?;
--
-+        let pm_state = TyrRuntimeState::pm_init(pdev.as_ref())?;
-         let mali_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"mali")?;
-         let sram_regulator = Regulator::<regulator::Enabled>::get(pdev.as_ref(), c"sram")?;
- 
-         let request = pdev.io_request_by_index(0).ok_or(ENODEV)?;
-         let iomem = Arc::pin_init(request.iomap_sized::<SZ_2M>(), GFP_KERNEL)?;
- 
-+        let pm_context = PMContext::new(pdev.as_ref(), None)?;
-+        pm_context.apply_config(&[PMConfig::AutoSuspend(true),PMConfig::AutoSuspendDelay(300)])?;
-+        pm_context.init_state(RuntimePMState::Active, Some(pm_state))?;
-+
-         issue_soft_reset(pdev.as_ref(), &iomem)?;
-         gpu::l2_power_on(pdev.as_ref(), &iomem)?;
- 
-@@ -121,15 +121,11 @@ fn probe(
- 
-         let data = try_pin_init!(TyrDrmDeviceData {
-                 pdev: platform.clone(),
--                clks <- new_mutex!(Clocks {
--                    core: core_clk,
--                    stacks: stacks_clk,
--                    coregroup: coregroup_clk,
--                }),
-                 regulators <- new_mutex!(Regulators {
-                     _mali: mali_regulator,
-                     _sram: sram_regulator,
-                 }),
-+                pm_context: pm_context.enable()?,
-                 gpu_info,
-         });
- 
-@@ -152,13 +148,7 @@ fn drop(self: Pin<&mut Self>) {}
- 
- #[pinned_drop]
- impl PinnedDrop for TyrDrmDeviceData {
--    fn drop(self: Pin<&mut Self>) {
--        // TODO: the type-state pattern for Clks will fix this.
--        let clks = self.clks.lock();
--        clks.core.disable_unprepare();
--        clks.stacks.disable_unprepare();
--        clks.coregroup.disable_unprepare();
--    }
-+    fn drop(self: Pin<&mut Self>) {}
- }
- 
- // We need to retain the name "panthor" to achieve drop-in compatibility with
-@@ -196,3 +186,90 @@ struct Regulators {
-     _mali: Regulator<regulator::Enabled>,
-     _sram: Regulator<regulator::Enabled>,
- }
-+
-+pub(crate) struct TyrRuntimeState {
-+    clks: Clocks,
-+}
-+
-+impl TyrRuntimeState {
-+    fn pm_init(dev: &'_ kernel::device::Device<kernel::device::Bound>) -> Result<Arc<Self>> {
-+         let core_clk = Clk::get(dev, Some(c"core"))?;
-+         let stacks_clk = OptionalClk::get(dev, Some(c"stacks"))?;
-+         let coregroup_clk = OptionalClk::get(dev, Some(c"coregroup"))?;
-+
-+         core_clk.prepare_enable()?;
-+         stacks_clk.prepare_enable()?;
-+         coregroup_clk.prepare_enable()?;
-+
-+         Ok(Arc::new(
-+             Self {
-+                clks: Clocks {
-+                     core: core_clk,
-+                    stacks: stacks_clk,
-+                    coregroup: coregroup_clk,
-+                 }
-+            },
-+            GFP_KERNEL
-+        )?)
-+    }
-+}
-+
-+#[vtable]
-+impl PMOps for TyrPlatformDriverData {
-+    type DriverDataType = TyrPlatformDriverData;
-+    type DeviceType<'a> = &'a platform::Device;
-+    type RuntimePayloadType = TyrRuntimeState;
-+    type PMContextRef<'a> = &'a PMContext<TyrPlatformDriverData, Active>;
-+
-+    fn get_pmcontext(data: &Self::DriverDataType) -> Result<Self::PMContextRef<'_>> {
-+        Ok(&data._device.pm_context)
-+    }
-+
-+    fn runtime_suspend(
-+        _dev:  Self::DeviceType<'_>,
-+        data: Option<Arc<Self::RuntimePayloadType>>
-+    ) -> Result<
-+            Option<Arc<Self::RuntimePayloadType>>,
-+            (Option<Arc<Self::RuntimePayloadType>>, kernel::error::Error)
-+    > {
-+        match data {
-+            Some(state) => {
-+                state.clks.core.disable_unprepare();
-+                state.clks.stacks.disable_unprepare();
-+                state.clks.coregroup.disable_unprepare();
-+
-+                Ok(Some(state))
-+            }
-+            None => {
-+                pr_err!("Tyr: no runtime data\n");
-+                Ok(None)
-+            }
-+        }
-+    }
-+
-+    fn runtime_resume(
-+        _dev: Self::DeviceType<'_>,
-+        data: Option<Arc<Self::RuntimePayloadType>>
-+    ) -> Result<
-+            Option<Arc<Self::RuntimePayloadType>>,
-+            (Option<Arc<Self::RuntimePayloadType>>, kernel::error::Error)
-+    > {
-+
-+        match data {
-+            Some(state) => {
-+                let previous_state = Some(state.clone());
-+                (|| {
-+                    //@TODO: @FIXME: this needs to be able to unroll changes
-+                    state.clks.core.prepare_enable()?;
-+                    state.clks.stacks.prepare_enable()?;
-+                    state.clks.coregroup.prepare_enable()?;
-+
-+                    Ok(Some(state))
-+                }
-+                )()
-+                .map_err(|e| (previous_state, e))
-+            },
-+            None => Err((data, EINVAL)),
-+        }
-+    }
-+}
-diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-index 31411da203c5..8256ce05fb6f 100644
---- a/drivers/gpu/drm/tyr/file.rs
-+++ b/drivers/gpu/drm/tyr/file.rs
-@@ -2,6 +2,7 @@
- 
- use kernel::{
-     drm,
-+    pm::*,
-     prelude::*,
-     uaccess::UserSlice,
-     uapi, //
-@@ -32,6 +33,8 @@ pub(crate) fn dev_query(
-         devquery: &mut uapi::drm_panthor_dev_query,
-         _file: &TyrDrmFile,
-     ) -> Result<u32> {
-+        let _pm_scope = ddev.pm_context.get(Profile::new())?;
-+
-         if devquery.pointer == 0 {
-             match devquery.type_ {
-                 uapi::drm_panthor_dev_query_type_DRM_PANTHOR_DEV_QUERY_GPU_INFO => {
--- 
-2.43.0
+Stay within one driver. Create the revokable is probe, consume it
+within that drivers fops/etc, destroy it on remove. Do not randomly
+pass it to other drivers.
 
+> I'm wondering because if this piece of code were to transition to
+> Rust in the future, would the concerns you have also apply to using
+> Revocable[1] in the Rust context for this driver?
+
+Yes, even in rust driver local revocable objects should not be
+spaghetti coded through different layers.
+
+Jason
