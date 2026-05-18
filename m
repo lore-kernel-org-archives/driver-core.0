@@ -1,77 +1,219 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2AF37266D;
-	Mon, 18 May 2026 16:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EBA38F947
+	for <driver-core@lists.linux.dev>; Mon, 18 May 2026 19:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779120668; cv=none; b=bIXyjvgwB9ruEK+2uBI5bgbqewB2xMcl9FkC8X7ZlYPL66l3A5U3fM/WKdc72ALWORtpUD9pxuPXmg+sPrvcmcJhrdP1M6oYgceNtq9r3wVt6Ked+bbxVKN5EQJYbtptV+6MKA1y9BD7p5SUeG7O5HJNm4n2fBzsbJMZ272eVRE=
+	t=1779132757; cv=none; b=e6CR0VZUWVk2wHB3tclh8lp0gIFkBpihC2rXcGLRgRtsfhYxuPhcefYYTdQS0Yt9BnSLCiBNuWTEPloYJDjIwgsqxKKx4/FM2nfKVHL4L04cdspn9EEgp8KqyPtECWJS68W+UGmcKBHoVI2lcrNDey+3gMbefufoHijqa4FbAnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779120668; c=relaxed/simple;
-	bh=T//OFr0mDkF3tjl7LVEO5CAeVXbcx9hS1UZdVnD6HbY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=HfiVZrow7Loo7i+aPTrvLp/jduAP0TWNpylAoqf6RF/Yj9lv9rO/GFZP+NpHMZmIvw90iQqFSodtygrQSjCWIGLOMdDYZGuOxizfsKI5RY379NGMC4PWHUxcdnt5B0tcPIs5hupPddosr43FHr7EyRRI/Hwu+tBtAVxlCcFUqEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n6oBjBu2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779132757; c=relaxed/simple;
+	bh=ZM28tokkyaozRN0tI8tYOZA4DdtRMCPT82/z4rmYPmQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=Zh30ZmtFuAh9hPO/34p9BcuH7oGlcV1ScSHJA5CUHR9mZV/ugzgqEqEbIWMRclOgDceeZ51fyvmiG02FcTyQYqEnAy+KcNtCoMBlrGAELg1KOYxRp3MCB0PxNBPKo/uiPFSpv3B/i+lfQa8wwDa6QJY7y//Kn1CvOKel37oKLio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NTZE8ufb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n6oBjBu2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 958D6C2BCB7;
-	Mon, 18 May 2026 16:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779120666;
-	bh=T//OFr0mDkF3tjl7LVEO5CAeVXbcx9hS1UZdVnD6HbY=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=n6oBjBu2u5eB7+AzCKDXdsSysgW9ESFJCjw3WVuUNdCBHbWUXCdjX1Arojah/0BdF
-	 nKNBuUS5VOqDCgFOEZMV1yU9JkRhCsl8h9NawTLNDeE7w1I3bteaVKpduxkna8iFlB
-	 aeJ9dlodQK+ADM0SgQ99v0qvaFxHitbemJgWAIxq9ad3rnXru+dxFQR6lnciSr5D3e
-	 0mEs08OWS64wVltIxzrYvWEVU3TT6g++3+x27u+ef9Ru5OtEZ472Mdd9Xm50v8GzoC
-	 MNef426y7LLrakd0VPAH+efoP9eiJ0Enyl66yUIolFpGjhiUaOHbI1QiVkt99VNOS9
-	 RcrPOg2IoQLtg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NTZE8ufb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779132755;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=k9u89nPBRLU9676XQAfHPzMt/u0IBzghL76syDeURks=;
+	b=NTZE8ufbNt99nZeTgWL/yMc9C9/nxEVD1Ugd3Im2sCmMVnI4ehXeyppsIXstB2sy/Sjn6X
+	cNNYQytXVRPQsZx1ACxQyRxYvMd7CvKqiISC5ZgKHcpr6DDUB7TaGvG513R4A0peI3Yv45
+	jHriO2mELgku5rkZVBcpm3aV66n2S64=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-425-dQrQi7raN-CF7rP9k1hsMw-1; Mon,
+ 18 May 2026 15:32:30 -0400
+X-MC-Unique: dQrQi7raN-CF7rP9k1hsMw-1
+X-Mimecast-MFC-AGG-ID: dQrQi7raN-CF7rP9k1hsMw_1779132747
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 71FA8195608E;
+	Mon, 18 May 2026 19:32:27 +0000 (UTC)
+Received: from fedora-work.redhat.com (unknown [10.22.65.152])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D1C98180076B;
+	Mon, 18 May 2026 19:32:21 +0000 (UTC)
+From: David Jeffery <djeffery@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Tarun Sahu <tarunsahu@google.com>,
+	Pasha Tatashin <tatashin@google.com>,
+	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
+	Jordan Richards <jordanrichards@google.com>,
+	Ewan Milne <emilne@redhat.com>,
+	John Meneghini <jmeneghi@redhat.com>,
+	"Lombardi, Maurizio" <mlombard@redhat.com>,
+	Stuart Hayes <stuart.w.hayes@gmail.com>,
+	Laurence Oberman <loberman@redhat.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	John Garry <john.g.garry@oracle.com>,
+	kexec@lists.infradead.org,
+	David Jeffery <djeffery@redhat.com>
+Subject: [PATCH v16 0/5] shut down devices asynchronously
+Date: Mon, 18 May 2026 15:31:59 -0400
+Message-ID: <20260518193204.14273-1-djeffery@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 18 May 2026 18:10:58 +0200
-Message-Id: <DILXMZIF3NYC.2G7E0DEBJS90R@kernel.org>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v3 10/27] rust: pci: make Driver trait
- lifetime-parameterized
-Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <acourbot@nvidia.com>, <aliceryhl@google.com>, <david.m.ertman@intel.com>,
- <ira.weiny@intel.com>, <leon@kernel.org>, <viresh.kumar@linaro.org>,
- <m.wilczynski@samsung.com>, <ukleinek@kernel.org>, <bhelgaas@google.com>,
- <kwilczynski@kernel.org>, <abdiel.janulgue@gmail.com>,
- <robin.murphy@arm.com>, <markus.probst@posteo.de>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <igor.korotin@linux.dev>,
- <daniel.almeida@collabora.com>, <pcolberg@redhat.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-References: <20260517000149.3226762-1-dakr@kernel.org>
- <20260517000149.3226762-11-dakr@kernel.org>
- <DILWWIPKW00V.2W06IJU4ET4AX@garyguo.net>
-In-Reply-To: <DILWWIPKW00V.2W06IJU4ET4AX@garyguo.net>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Mimecast-MFC-PROC-ID: JNBSEHGnN1hJGP7stdS-eaZGdGvWy59p3EoFSN3IdrU_1779132747
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Mon May 18, 2026 at 5:36 PM CEST, Gary Guo wrote:
->> +    fn probe<'bound>(
->> +        pdev: &'bound pci::Device<Core>,
->
-> This is technically incorrect, as the `Device<Core>` only lives as long a=
-s the
-> callback. Having `'bound` would be incorrect.
+These patches are now rebased against the driver-core tree's driver-core-next
+branch. Please let me know if there is a different tree/branch which would be
+better to use for possible inclusion of these patches.
 
-I think that's more on the theoretical side, as Core is not Sync, but I agr=
-ee it
-makes sense to address.
+This patchset allows the kernel to shutdown devices asynchronously and
+unrelated async devices to be shut down in parallel to each other.
 
-> or perhaps by adding a lifetime to `Core<'_>`
->
->     pdev: &'bound pci::Device<Core<'_>>,
+Only devices which explicitly enable it are shut down asynchronously. The
+default is for a device to be shut down from the synchronous shutdown loop.
 
-This seems reasonable.
+This can dramatically reduce system shutdown/reboot time on systems that
+have multiple devices that take many seconds to shut down (like certain
+NVMe drives). On one system tested, the shutdown time went from 11 minutes
+without this patch to 55 seconds with the patch. And on another system from
+80 seconds to 11.
+
+And thank you to everyone who has spent some of their valuable time
+providing reviews, suggestions, criticisms, or tests on the various
+iterations of this patchset.
+
+Changes from V15:
+
+The async_shutdown bit field is converted to a device flags bit
+Convert all patches to use the flag bit accessor macros to set or check if
+  async shutdown should be used
+Added documentation on the kernel parameter to control use of async shutdown
+
+Changes from V14:
+
+Remove unneeded use of '!!' with boolean type
+
+Changes from V13:
+
+Remove duplicate flagging of async shutdown on scsi hosts/targets/devices
+
+Changes from V12:
+
+Only acquire a parent reference if acquiring the parent's lock
+device_enable_async_shutdown should return void
+Minor comment and description cleanups
+
+Changes from V11:
+
+  * Swap the order of the first two patches
+  * Rework conditional parent locking so that lock and unlock no longer use
+    separate conditional checks
+  * Remove an used variable
+  * Comment and description text cleanups
+
+Changes from V10:
+
+Reworked to more closely match the design used for async suspend
+  * No longer uses async subsystem cookies for synchronization
+  * Minimized changes to struct device
+  * Enable async shutdown for pci and scsi devices which support async suspend
+
+Changes from V9:
+
+Address resource and timing issues when spawning a unique async thread
+for every device during shutdown:
+  * Make the asynchronous threads able to shut down multiple devices,
+    instead of spawning a unique thread for every device.
+  * Modify core kernel async code with a custom wake function so it
+    doesn't wake up a thread waiting to synchronize on a cookie until
+    the cookie has reached the desired value, instead of waking up
+    every waiting thread to check the cookie every time an async thread
+    ends.
+
+Changes from V8:
+
+Deal with shutdown hangs resulting when a parent/supplier device is
+  later in the devices_kset list than its children/consumers:
+  * Ignore sync_state_only devlinks for shutdown dependencies
+  * Ignore shutdown_after for devices that don't want async shutdown
+  * Add a sanity check to revert to sync shutdown for any device that
+    would otherwise wait for a child/consumer shutdown that hasn't
+    already been scheduled
+
+Changes from V7:
+
+Do not expose driver async_shutdown_enable in sysfs.
+Wrapped a long line.
+
+Changes from V6:
+
+Removed a sysfs attribute that allowed the async device shutdown to be
+"on" (with driver opt-out), "safe" (driver opt-in), or "off"... what was
+previously "safe" is now the only behavior, so drivers now only need to
+have the option to enable or disable async shutdown.
+
+Changes from V5:
+
+Separated into multiple patches to make review easier.
+Reworked some code to make it more readable
+Made devices wait for consumers to shut down, not just children
+  (suggested by David Jeffery)
+
+Changes from V4:
+
+Change code to use cookies for synchronization rather than async domains
+Allow async shutdown to be disabled via sysfs, and allow driver opt-in or
+  opt-out of async shutdown (when not disabled), with ability to control
+  driver opt-in/opt-out via sysfs
+  
+Changes from V3:
+
+Bug fix (used "parent" not "dev->parent" in device_shutdown)
+ 
+Changes from V2:
+ 
+Removed recursive functions to schedule children to be shutdown before
+  parents, since existing device_shutdown loop will already do this
+ 
+Changes from V1:
+
+Rewritten using kernel async code (suggested by Lukas Wunner)
+
+
+Stuart Hayes (2):
+  driver core: separate function to shutdown one device
+  driver core: do not always lock parent in shutdown
+
+David Jeffery (3):
+  driver core: async device shutdown infrastructure
+  PCI: Enable async shutdown support
+  scsi: Enable async shutdown support
+
+ .../admin-guide/kernel-parameters.txt         |  10 +
+ drivers/base/base.h                           |   2 +
+ drivers/base/core.c                           | 180 ++++++++++++++----
+ drivers/pci/probe.c                           |   2 +
+ drivers/scsi/hosts.c                          |   2 +
+ drivers/scsi/scsi_sysfs.c                     |   3 +
+ include/linux/device.h                        |   2 +
+ 7 files changed, 165 insertions(+), 36 deletions(-)
+
+-- 
+2.53.0
+
