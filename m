@@ -1,47 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA752DC767
-	for <driver-core@lists.linux.dev>; Mon, 18 May 2026 19:32:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7AF3909A9
+	for <driver-core@lists.linux.dev>; Mon, 18 May 2026 19:32:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779132762; cv=none; b=IFUzWtdxntGOrLkc0mcGwfJy0q6M7SZSOdZTloF6fcLs232XKiP5pLXMZKMEBzMhozPMxx3QUU7AspFiNBjO9NLzDc6jkOi5K8XhZYJXdIpZMcicpqykw28TQ85x4jQMjWHGJ8QWX33TcAhVc2STHVarEIQ7M+V4VOpSRY0HXU8=
+	t=1779132767; cv=none; b=czv8qj5I85qQEtiKT8qvZ+0ujHpvhjI+GOXpK80vUSq9Uf96LX1uhReLVNK/BGuUzvnsI4mQXA49v1cSj2R8r+hpeZOWd9MbjaBBFWQOs2fjIxqJYZYzlT2Kpq/RqwtzkcsAzPMKjcqCPyUTmxp+B/xgfumNbzzFI54PqrKmy8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779132762; c=relaxed/simple;
-	bh=IIRHCnVj1kX8zn6wuGPePV3IttKqKOMHUG8l3MzGKqQ=;
+	s=arc-20240116; t=1779132767; c=relaxed/simple;
+	bh=Hw2l+SM+6/7rTA3960MSyjQ7M8RDG1rDl0U21kueAxc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=SW4v7xQJaYuFHbmsClcwCVfCssQImN2GgMQca06QmTO0cHn3pB0481caJ2egE1Mz9bqipSR7qzU7055kKj4K4akqXe2bWUMFkGOYY0KWuAK66FGPUixPmKa3V5BRDKyG4yFMdNv+YyNrKbO17JU9A9+0FZqxEpDiRL8MS9wiZ2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fAOy+rY/; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:content-type; b=q1QlTkGXkL/qtsr5qGPMQq9LxO3KZIKlNSpsqpJQt2F8DmZikxHKqObtrpXLu1MWUBOUvZuvDv8BfAHg8YpYB8eSspp0Qh4okO0cjLu4+he0z5EsafSy0+rQIs/hRlJfQeB3M6VUgeRYpCl6TXm5w+e4eY1RGGsD0Wf3gEzyftg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GAnouzr3; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fAOy+rY/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GAnouzr3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779132760;
+	s=mimecast20190719; t=1779132762;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Hmj7+uAJKKkRlThg41ZSGB94iiYxo+Hfgee3MngZrIo=;
-	b=fAOy+rY/8LBvQrx84Z/HcBztStkCOCA3rJuLKq2Y+Eqt/j5RujeYSWQT6r1KBm9Bjg221W
-	szlP9pe+I04JpputFLKx+y1N4c/ysOqhBTdnL/gtq4YUaEZ2CfSwMx2HnBVYZtzUHYYaTW
-	25V2tZVeSZUCOo738XzhsSRpdpdYFdo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=Nqk72bG//fPU4sQo4pIFsdxIJ3sb1ha1IaNOs+/lbsM=;
+	b=GAnouzr3JVDz49kJJt0Ea1uhh+3sCvWt/yiyOYIsNcMYLPd7T6kZltH13SDp2umgTs00RY
+	rSn2qCIGdbzKGFTl6lKUJjmewAiAJ0UZQ4miAOMroB7/s1q42BTVQVEcsVzBfZPfJGTBci
+	Gpi5eeRDL+BBKR1K6W4JpTMk86fsmdQ=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-630-Q2uPVdsvMNmdyw3tWJXI-A-1; Mon,
- 18 May 2026 15:32:35 -0400
-X-MC-Unique: Q2uPVdsvMNmdyw3tWJXI-A-1
-X-Mimecast-MFC-AGG-ID: Q2uPVdsvMNmdyw3tWJXI-A_1779132753
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-468-SDOxfBqpMNCBceTnGg7BLA-1; Mon,
+ 18 May 2026 15:32:40 -0400
+X-MC-Unique: SDOxfBqpMNCBceTnGg7BLA-1
+X-Mimecast-MFC-AGG-ID: SDOxfBqpMNCBceTnGg7BLA_1779132758
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D4AFA1956050;
-	Mon, 18 May 2026 19:32:32 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F27C01956089;
+	Mon, 18 May 2026 19:32:37 +0000 (UTC)
 Received: from fedora-work.redhat.com (unknown [10.22.65.152])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D22611800370;
-	Mon, 18 May 2026 19:32:27 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1D4E51800357;
+	Mon, 18 May 2026 19:32:32 +0000 (UTC)
 From: David Jeffery <djeffery@redhat.com>
 To: linux-kernel@vger.kernel.org,
 	driver-core@lists.linux.dev,
@@ -66,9 +66,9 @@ Cc: Tarun Sahu <tarunsahu@google.com>,
 	kexec@lists.infradead.org,
 	David Jeffery <djeffery@redhat.com>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH 1/5] driver core: separate function to shutdown one device
-Date: Mon, 18 May 2026 15:32:00 -0400
-Message-ID: <20260518193204.14273-2-djeffery@redhat.com>
+Subject: [PATCH 2/5] driver core: do not always lock parent in shutdown
+Date: Mon, 18 May 2026 15:32:01 -0400
+Message-ID: <20260518193204.14273-3-djeffery@redhat.com>
 In-Reply-To: <20260518193204.14273-1-djeffery@redhat.com>
 References: <20260518193204.14273-1-djeffery@redhat.com>
 Precedence: bulk
@@ -78,14 +78,18 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: N0iXT8wgiwnCRUQmvBIeqHfLUeOUk4bNSmntx2kO818_1779132753
+X-Mimecast-MFC-PROC-ID: UBBVMrDPtqIt1ywGmZC6EVDfUkADJHmXx5QA-FDoeho_1779132758
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Make a separate function for the part of device_shutdown() that does the
-shutown for a single device.  This is in preparation for making device
-shutdown asynchronous.
+Don't lock a parent device unless it is needed in device_shutdown. This
+is in preparation for making device shutdown asynchronous, when it will
+be needed to allow children of a common parent to shut down
+simultaneously.
+
+And only acquire a reference to the parent device if the parent is to be
+locked.
 
 Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
 Signed-off-by: David Jeffery <djeffery@redhat.com>
@@ -94,110 +98,67 @@ Tested-by: Tarun Sahu <tarunsahu@google.com>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- drivers/base/core.c | 71 +++++++++++++++++++++++++--------------------
- 1 file changed, 39 insertions(+), 32 deletions(-)
+ drivers/base/core.c | 30 ++++++++++++++++--------------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/base/core.c b/drivers/base/core.c
-index d49420e066de..127432248165 100644
+index 127432248165..6e2c37115bc1 100644
 --- a/drivers/base/core.c
 +++ b/drivers/base/core.c
-@@ -4795,12 +4795,48 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
+@@ -4795,13 +4795,8 @@ int device_change_owner(struct device *dev, kuid_t kuid, kgid_t kgid)
  	return error;
  }
  
-+static void shutdown_one_device(struct device *dev)
-+{
-+	struct device *parent = dev->parent;
-+
-+	/* hold lock to avoid race with probe/release */
-+	if (parent)
-+		device_lock(parent);
-+	device_lock(dev);
-+
-+	/* Don't allow any more runtime suspends */
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_barrier(dev);
-+
-+	if (dev->class && dev->class->shutdown_pre) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown_pre\n");
-+		dev->class->shutdown_pre(dev);
-+	}
-+	if (dev->bus && dev->bus->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->bus->shutdown(dev);
-+	} else if (dev->driver && dev->driver->shutdown) {
-+		if (initcall_debug)
-+			dev_info(dev, "shutdown\n");
-+		dev->driver->shutdown(dev);
-+	}
-+
-+	device_unlock(dev);
-+	if (parent)
-+		device_unlock(parent);
-+
-+	put_device(parent);
-+	put_device(dev);
+-static void shutdown_one_device(struct device *dev)
++static void __shutdown_one_device(struct device *dev)
+ {
+-	struct device *parent = dev->parent;
+-
+-	/* hold lock to avoid race with probe/release */
+-	if (parent)
+-		device_lock(parent);
+ 	device_lock(dev);
+ 
+ 	/* Don't allow any more runtime suspends */
+@@ -4824,10 +4819,23 @@ static void shutdown_one_device(struct device *dev)
+ 	}
+ 
+ 	device_unlock(dev);
+-	if (parent)
 +}
 +
- /**
-  * device_shutdown - call ->shutdown() on each device to shutdown.
-  */
- void device_shutdown(void)
- {
--	struct device *dev, *parent;
-+	struct device *dev;
++static void shutdown_one_device(struct device *dev)
++{
++	struct device *parent;
++
++	/* hold lock if needed to avoid race with probe/release */
++	if (dev->bus && dev->bus->need_parent_lock &&
++	    (parent = get_device(dev->parent))) {
++		device_lock(parent);
++		__shutdown_one_device(dev);
+ 		device_unlock(parent);
++		put_device(parent);
++	} else {
++		__shutdown_one_device(dev);
++	}
  
- 	wait_for_device_probe();
- 	device_block_probing();
-@@ -4822,7 +4858,7 @@ void device_shutdown(void)
- 		 * prevent it from being freed because parent's
- 		 * lock is to be held
- 		 */
--		parent = get_device(dev->parent);
-+		get_device(dev->parent);
+-	put_device(parent);
+ 	put_device(dev);
+ }
+ 
+@@ -4853,12 +4861,6 @@ void device_shutdown(void)
+ 		dev = list_entry(devices_kset->list.prev, struct device,
+ 				kobj.entry);
+ 
+-		/*
+-		 * hold reference count of device's parent to
+-		 * prevent it from being freed because parent's
+-		 * lock is to be held
+-		 */
+-		get_device(dev->parent);
  		get_device(dev);
  		/*
  		 * Make sure the device is off the kset list, in the
-@@ -4831,36 +4867,7 @@ void device_shutdown(void)
- 		list_del_init(&dev->kobj.entry);
- 		spin_unlock(&devices_kset->list_lock);
- 
--		/* hold lock to avoid race with probe/release */
--		if (parent)
--			device_lock(parent);
--		device_lock(dev);
--
--		/* Don't allow any more runtime suspends */
--		pm_runtime_get_noresume(dev);
--		pm_runtime_barrier(dev);
--
--		if (dev->class && dev->class->shutdown_pre) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown_pre\n");
--			dev->class->shutdown_pre(dev);
--		}
--		if (dev->bus && dev->bus->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->bus->shutdown(dev);
--		} else if (dev->driver && dev->driver->shutdown) {
--			if (initcall_debug)
--				dev_info(dev, "shutdown\n");
--			dev->driver->shutdown(dev);
--		}
--
--		device_unlock(dev);
--		if (parent)
--			device_unlock(parent);
--
--		put_device(dev);
--		put_device(parent);
-+		shutdown_one_device(dev);
- 
- 		spin_lock(&devices_kset->list_lock);
- 	}
 -- 
 2.53.0
 
