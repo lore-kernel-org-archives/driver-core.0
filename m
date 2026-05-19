@@ -1,75 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE461319871;
-	Tue, 19 May 2026 12:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C714DB56F;
+	Tue, 19 May 2026 12:36:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779193417; cv=none; b=LFGs2o4JbDcXDL1KZrQlAomcbfKBv40kdYOsAEjupKhM2A/2youD4hiqvR+jM3YLoV+wsnYSXi7tjDFeIapZzRAgvkJDjXQRvzdnC1j1blKtNaNh8dhuUqhw33E9JiTPKibs6abx1+TrfUR6hESrqM1PpVdLndrXSgEgK52vENY=
+	t=1779194213; cv=none; b=Ky1s5hU6ok38e0xPPgLrLKeVufLIqnfnmEkwi0XIXKwHyrRTlLdjQWpH49qX/XNX+pecgpBMvSjAaJEU2bwmCPYNV2PEPx/j/CxaZwTUn9b57Hgc+4UcB89+yRTAecd5J1b3oYn/mD6IDy7cMY9M1bn/l5HFkev19KXdEzzyrUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779193417; c=relaxed/simple;
-	bh=qGZP8hXYGPQB/iOgWSSD3DsF3WO8hjlg2hcQI+4q6Jo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qrfhJ3yuLFxzcYMVwve8qDFnUANgj+NCMi5t3RDTo+HF7TAN65ccTPZ2RWs9wFtyEhBtDAavkfNR37zwoAXWpj1x6FnYIyWXAmCD8hVsRMY2m1Wd7RXW8HKWCAqOrM19osFz2gTZesd7NHstTn/AH+3N0xy+VOwSbR+aKg62tCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ct1Ne8MA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779194213; c=relaxed/simple;
+	bh=nJYV/ap6zHLvQFCShv1/uTv1aMCcDLeKnHs+8n4ntjw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=DJSC2ek+nldA5j07utobbTCppzre+8OdTyaorVacTeaR98Wv0vec8nz2GhdqjAYETbFOJ75S99bTSx7ezgIYQuR92w76/0h2bpZ2cht0A8JI1lWi1XaY0B7iAKy7ZcBFQBVPvH2clGd647h5kwjWnIg9VUe05uROVcJj8/7ylIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pXdkD0ON; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ct1Ne8MA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07C3BC2BCB8;
-	Tue, 19 May 2026 12:23:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779193417;
-	bh=qGZP8hXYGPQB/iOgWSSD3DsF3WO8hjlg2hcQI+4q6Jo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ct1Ne8MAEsBe7HdF9DS3R9J2gQcEvg/MS4xCUyHRGSmMckS58uaQq+4uqrzPyCVkG
-	 f4UxT9i5/jjjCo8tQgDexwg+WM21vkKo7HpB/WwY0+hM2y3ut/T4+t5wr98aS5r/tn
-	 yxzTY1E3h3lX5eROnxGj7b+QkvTa7RKLMSYw1v8s=
-Date: Tue, 19 May 2026 14:22:50 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Ping-Ke Shih <pkshih@realtek.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	Johnson Tsai <wenjie.tsai@realtek.com>, driver-core@lists.linux.dev
-Subject: Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add hw_info sysfs attribute
-Message-ID: <2026051957-refract-barge-b21e@gregkh>
-References: <20260519072415.25746-1-pkshih@realtek.com>
- <efb61959e14e4f57b78fbd49a563398e@realtek.com>
- <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pXdkD0ON"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AF43C2BCB3;
+	Tue, 19 May 2026 12:36:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779194213;
+	bh=nJYV/ap6zHLvQFCShv1/uTv1aMCcDLeKnHs+8n4ntjw=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=pXdkD0ON+gTtqAfmHdV2+ZlJJdoHdFQI0lWKl2u+WYWQMoLn7gbY7EPrs2eSe3szw
+	 vH7vAu76tm5kEIjgDVABxnCGJvcXk+cVx4atcbY/dRM/247u+aecXZaa6Ey2m/Gieh
+	 P7bQjNQ6dC/7ynOZAhCNBPXQZ6WrIWJ1gj/JZbRN7ldklXmjrDeTvn2c+agudMk79N
+	 nuNRqoZPfbqjZtKbwa/pNSs/WGEuBxKzFkxN9GrEJIbK9pYHMFlYLNDncJMiOn8nQm
+	 jM7ds8QSjCecf0syRnMwaKhimwaXpklCU7tLUKZr2im5PUaSwqJHwobZwDenbDOHdE
+	 F95Qt0z7yLb5Q==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 19 May 2026 14:36:44 +0200
+Message-Id: <DIMNPI2H382T.2U2OH39B7C2B4@kernel.org>
+Subject: Re: [PATCH v3 10/27] rust: pci: make Driver trait
+ lifetime-parameterized
+Cc: "Eliot Courtney" <ecourtney@nvidia.com>, <gregkh@linuxfoundation.org>,
+ <rafael@kernel.org>, <acourbot@nvidia.com>, <aliceryhl@google.com>,
+ <david.m.ertman@intel.com>, <ira.weiny@intel.com>, <leon@kernel.org>,
+ <viresh.kumar@linaro.org>, <m.wilczynski@samsung.com>,
+ <ukleinek@kernel.org>, <bhelgaas@google.com>, <kwilczynski@kernel.org>,
+ <abdiel.janulgue@gmail.com>, <robin.murphy@arm.com>,
+ <markus.probst@posteo.de>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <tmgross@umich.edu>, <igor.korotin@linux.dev>,
+ <daniel.almeida@collabora.com>, <pcolberg@redhat.com>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260517000149.3226762-1-dakr@kernel.org>
+ <20260517000149.3226762-11-dakr@kernel.org>
+ <DIMDU2XL6PKO.RUXA0XPFT94R@nvidia.com>
+ <DIML7T3R6BXP.2WSFVG2VY63LP@kernel.org>
+ <DIMMO6Q6WKOY.1DKWK8IBAP0W9@garyguo.net>
+In-Reply-To: <DIMMO6Q6WKOY.1DKWK8IBAP0W9@garyguo.net>
 
-On Tue, May 19, 2026 at 02:11:32PM +0200, Johannes Berg wrote:
-> Hi,
-> 
-> > > Example usage from user-space:
-> > >   $ cat /sys/bus/usb/devices/2-3.1.2:1.0/hw_info
-> > >   SN: 36 42 00 01 23
-> > >   UUID: aa ec 2b 7c 0a 55 47 27 8d e0 b3 0f eb cc bb aa
-> 
-> Sysfs has a "one value per file" rule (soft rule according to the docs,
-> but harder in practice, I believe), so seems if anything that should be
-> two files. Maybe a UUID should also be formatted as such with %pU or
-> similar.
+On Tue May 19, 2026 at 1:48 PM CEST, Gary Guo wrote:
+> the callback should have `Pin<&Self::Data<'bound>>` instead (the outer
+> lifetime should be callback-scoped)`. Did you forget to make the change?
 
-That should be 2 separate sysfs files please.
-
-And yes, use %pU.
-
-And be careful about exposing serial numbers to userspace, some systems
-don't like normal users to read them so be sure to get the permissions
-correct.  We had to add some USB code for ALLOW_SERIAL_NUMBER to make it
-so that systems can handle this if they want to.
-
-And shouldn't this just be the USB serial number to start with?  Why is
-there a different string here?  We already have a sysfs file for this
-value.
-
-thanks,
-
-greg k-h
+Yes, I thought I had that staged already, but forgot about it; good catch,
+thanks!
