@@ -1,177 +1,85 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022094.outbound.protection.outlook.com [52.101.101.94])
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03DC44D011;
-	Tue, 19 May 2026 11:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779191938; cv=fail; b=bDE2wkfAVAwTjyAXSiYlJNdxlZgoU8qUVXbM3Lh5Vt6JrqRRs1FG3MaIplFNQNBOsn81a4G8pLRxs++us02vxdsAACPCj99ut8qE2ti8+hhZQ+O+mU5KUUcLSEOrDmAYN7Zw/qb/LY18RYQvwoznZHG/G5erwIMqVOuFhxQLezs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779191938; c=relaxed/simple;
-	bh=fn7QhmASbvaY4ON8WGWIy9EFukpo77ibZh7HfcmM+2U=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=BVAkf0OF0B2DtS/Ptr1p1mHUAz/K89AIxIGqfUeK8vIkyjZHsbYxwKyolbqTeGjE27748+7xZf5CzBIeiqLHYEWFqULtocIux/eD/9G6/BqH0RHU7bdsqopVQa0gcc+aHjg4oHqzI3jokAusWUfUvpSrrXjKqVZwfvE5Q/Wra/c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=qImMKKku; arc=fail smtp.client-ip=52.101.101.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D255A4C77AD;
+	Tue, 19 May 2026 12:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779192701; cv=none; b=Nro1WBaTI6b/myNfvxnxoil5hG3QF6BL4L5MOrMAfsDxFXvl6ztZqvr2fBimwZZ1ReseCCfGY3esqq9WKYARVNF01iFutBOgD3PGO2clzqN0ndpeIultAKMqMSxqX7xUqOdCcUbqtC2F1ACpj0eTnNufnfs+r5mOmWhh3ApVmX4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779192701; c=relaxed/simple;
+	bh=BzPILivh8u0VPbKcKjEXQnpX2c2Ts/Bj0Ue0PAy66jM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mEOmtaoeDbsOecbhWBcKqwQSJ/nGo9IleLaXdQZnCO2yAl7HoQoTrJ5xCdc8ZpQFhOa+5Mtv6qr+XibsZPraT6gMSweze4hrL8Z+4AwU1NP3YH/8AEeMCnV0iiNVdelHH93INkSU23GXG6A7DF++YUBGJShadsiy7PLExJsXfxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=permerror header.from=sipsolutions.net; spf=none smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=WMk6sCbk; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=permerror header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="qImMKKku"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HWjooaiRFHhpUcLZbZpSCBTaiKEEwexZA/wNkt7V6+CHsJMDgSJ2IcseM+iKV+Kav2NzN7fw/y5nUOed2S4wl/8uRrnRSS9Tuo+5IGGde0kkIc4rjKzKPg6nrpz7uRFwTHZz7xhzYHk7svSUPUZMe8EKwUX3vXdDSAv+xhqVRIMKHDTqkH+3XUGixUFVRGZT5t82SAgU0qhENCa+jdwykvvO2AGqDLUXkxdQMqUzMT2+vP+c6Mp/jHZlFSx3zmU1FM+JdAubUtIUN9rrk+ODCBJXT/GNpURwvT4Q5G8fN5qeQ2TFWwBCQdkf1JVQA5XgcLLiRLPjNEA39MilwBaSiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u9knb06Hw47mkU6lucodvvYqk/OEyjN7f3VA1uKrtio=;
- b=hBqXJr7//IQlNOxmEvwSiLy59ezUws4CWfuEuuMHpbC6Zjmq4uRFiQgURDuEra70BIbYKqvaAncRaqTSnH3Xe1GQArKEXo37s+6a8FW2gPcgp38oadRv7MCzjBa7Q3YChvKyFfNmE2KZMn8LkJN/TN/BD9UrfOdagMT+MZVSCFcc8upzrZQgEOtXa357EqKREf1A98yeZbfJ3Kkjqf95FwvUaJksZHJw5Wu9cUb2QftGuDheqRWL3cXkwyp2A7l18KGnWbR4yl4Y67x3Hm8/9Dn7Yj8T/oOfPRBXC2zGkVn8t4n4CuU8slXNHcsq9tyBMc1wLpZgUCJnc/w53GaJlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u9knb06Hw47mkU6lucodvvYqk/OEyjN7f3VA1uKrtio=;
- b=qImMKKkueZ0vPwkInK3Xq50l4VU1dWZchkXfzdp4iM6bvz0hI2qFTXxdqkiAPsD7HzG0utaEiAJOwHQuGekwajwbkfXT6mVcm5wo36SDsIixGFFmpkjGOefCBlp+HdgBX9nIljTD484+bsI9IaelwAw9+F2HXRkEfcbghj+A4Og=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO2P265MB3708.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1c6::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.24; Tue, 19 May
- 2026 11:58:52 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0025.023; Tue, 19 May 2026
- 11:58:52 +0000
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="WMk6sCbk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=Ii8DV8jwO7CRY9lsiWuhphBYKigNJYNHkFu2YjA2p4A=;
+	t=1779192699; x=1780402299; b=WMk6sCbkgzb+GmDru/5SYDjY9GXm07/dJ8pUJEWBXFOlDtk
+	LmREyj2tBD9njzGSAMmvQBo9oW+j6GYSQ/xrwrNApiA3jD3b0RPt/4nK61yTuHbdEo7LEf9E+J3eN
+	4SvJnrLd18eo1JpSDsn+ZLoX0m2P036t1L2/sRRUZ55Re8zwxj/dSFlVRJoqlgLIWFPDyzMLEfZJR
+	ubqlGgRpL0GcoJRjIaA/7n2etvvjt4wQQxCtFpq0LpTtBSpFL+BeaIp9OSgqxyTCpJuJHdxxe3UIR
+	S3E5qanhtPbBo6vLJKI2Th4nn7CQYZ9UpJj8FRIvKQp0y6QXgIvyUbhehBkBfJDQ==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.2)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1wPJIO-00000006ZBJ-1TkK;
+	Tue, 19 May 2026 14:11:36 +0200
+Message-ID: <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
+Subject: Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add hw_info sysfs attribute
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Ping-Ke Shih <pkshih@realtek.com>, "linux-wireless@vger.kernel.org"
+	 <linux-wireless@vger.kernel.org>
+Cc: Johnson Tsai <wenjie.tsai@realtek.com>, driver-core@lists.linux.dev
+Date: Tue, 19 May 2026 14:11:32 +0200
+In-Reply-To: <efb61959e14e4f57b78fbd49a563398e@realtek.com>
+References: <20260519072415.25746-1-pkshih@realtek.com>
+	 <efb61959e14e4f57b78fbd49a563398e@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 19 May 2026 12:58:51 +0100
-Message-Id: <DIMMWHUOLPSH.13JFRHDKDQJGO@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alvin Sun" <alvin.sun@linux.dev>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "Luis Chamberlain" <mcgrof@kernel.org>, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez" <da.gomez@kernel.org>, "Sami
- Tolvanen" <samitolvanen@google.com>, "Aaron Tomlin" <atomlin@atomlin.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Arnd
- Bergmann" <arnd@arndb.de>
-Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-modules@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <nova-gpu@lists.linux.dev>
-Subject: Re: [PATCH 3/8] rust: drm: add `ThisModule` associated type to
- `Driver` trait
-X-Mailer: aerc 0.21.0
-References: <20260519-fix-fops-owner-v1-0-2ded9830da14@linux.dev>
- <20260519-fix-fops-owner-v1-3-2ded9830da14@linux.dev>
-In-Reply-To: <20260519-fix-fops-owner-v1-3-2ded9830da14@linux.dev>
-X-ClientProxiedBy: LO4P123CA0466.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1aa::21) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB3708:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9dc19d8-2f0c-4ff9-5d1a-08deb59dfed3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|10070799003|366016|1800799024|921020|4143699003|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	f4Buitu9mJFGv4blrOtF7HkrFf1/r5r0J4U3Jscudiu4UbS+0Xwj8RMxYNx1OXaxACrtwVnBFaImQMiv+KdVAhZNEuE4zDjXcC/LmXxKMnxcISbqsBeXpCTqZHNCMXMguMrUF9hsZxD0k5jButLW7qpEv5jyBefIqTe8DK0nDrw1aO1Qhi6sP//sGWo1DQGaNGOrXP2rU7c9I4mDKqokKKEo22kRDm7o/SgBe14dzJLtg1KBeOUEtY2ipmKoje2BeAzM0/CgPZhLAtNzvqS/EmpI8V+CIQvlXpUJhGQWCaHqNYkU3HKbsgyfduXow7zMZ1caCsaCGSmCFtPprz1lKCEvQ/SxsGrp6hjiY0fecpCUJfZBZCjvo8sXQx54LyKlmHf8VhccXcO6EZF+RJ6j171g+hC9UMsRuKIogHyxuOwCuA7HczXNC7++OCpaSnrTbASJHiwkTDoBjr5H25oC3CDPsdkx2McEnQ5bdb1IXbYJdkYuohgrESOu66u1akfp7MP3Ho5+PuysqJsZnyr4/hRWArkve5fcev7agZQyCfwS7NjfGubJEKQmUqY7QdRH8Jtjv/AYcISCQfmu+zQHa+pn0kPS+uPQtS8wEXnlPKo+hTz8l1KOaaWZLK2ANr9zO18XqR8yzMKvSkTQwJNp2W5gcw4kSLWFQ7vUNIHSDE4vAfYuyBV8Z3pxm2eJ47DlJzT1cN6u699BM9l8xGut5zqsPlvvkSw+2Jd1ko1p3PQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024)(921020)(4143699003)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UW1yVjcrYjJEYXhyaXdFMlViekFLdDg4VnlFbVhQQSsvQlQzeE85aE5RbXNT?=
- =?utf-8?B?Z3lQTG9zL1M3bXRGeEF3S3FWeDUwNWdCMHZHSERYRFNpcVRDcEM0bEhPZlJl?=
- =?utf-8?B?NEhyN0xRM2ZqWTZ4M3ByMGlvNENqQ2hseW9pL1BCMUlSTmo1NGk5TlIrWGRX?=
- =?utf-8?B?RFUwTW5ZbEJLeE9nUVRvQzVVM2wvNDBoS3VkWGM5M2wrc0I0L1BPM2JmUWlJ?=
- =?utf-8?B?UE92blU2cEIzNW9DdnE4Z2RzSlcyTmQwbHVJS2loN2ZKaDJ3TGhET3JmbkVP?=
- =?utf-8?B?RzNScm1IRDRsS1M0ak1meFptbVUzRXBwRENkd3F4citvaXh4YWlxMGduWDhK?=
- =?utf-8?B?aEpkeFE3akdGQVJlL202ZG5ycUN3TE9aNWVkNmxqTFJLS3ZhZmR1dFFhSmVX?=
- =?utf-8?B?QWpJc3JrblRDb3VjQWtiZXpreldCM3RPWTJwVFQzcDR3VHZIWTljTXpqOHpU?=
- =?utf-8?B?anBNRVJkRWZsZUNBMVUrWkdaTHNLbThBM3Njay9iZkJqRm96TzFycUJCcU1N?=
- =?utf-8?B?bzhFNC9iWE4zdC9PMW5jWEZkbGhoOS9ka0FoeW5HRWJmM3JJYXJyeldkQUdv?=
- =?utf-8?B?ckE5aWFtcW1XQzEvaitZcXdla0t0dyt4UGc0Z1UrQ1lTOWE3YlpKb0hzU3Bj?=
- =?utf-8?B?MFJyZTRTSUF6MEhpV0ZQNWp0N01BTmxPNEhwN3M4WkZkY0dodEVVSy83VTBL?=
- =?utf-8?B?V1BPWUVBOXFoQ0cvTm1ueWNNcDNYQTF2b21lZ09zYklnMkUyUC9OS2U2Mmxh?=
- =?utf-8?B?MzBNWmd4Q3pScFdCZlZINjJFeWJRNnRFMi9Ea1NENmpmSHpmMi9RMWl6ZzZp?=
- =?utf-8?B?NVVITThwdHhIU0hHYXllMHJJWURCZjhQMnB4UGlkY05nQWdCNUlDSU9RS0Za?=
- =?utf-8?B?M3JCczhjR3hLSHZYRDNpSkllK1hBcU5yRzZocFFYWUU0aHh0bWlrY3Ezb1o1?=
- =?utf-8?B?cXRRNXJnc1hBZ0dEdEFjdk1iNlQxREUzaGU3ZWpYbW9ibHhNdHd6c01jWHc1?=
- =?utf-8?B?SC9GU0Z4MWpNTHdDNkUrdEpNSGdVc0Q3cFExT0dIUDZ4bzRKbXRINWU5TlQ0?=
- =?utf-8?B?MUlhNE1sY1ZseWNadE9yUE9mRTBtTUdPajV2L1VBSnlhd3UySmswMDlLOFNP?=
- =?utf-8?B?R3lLU00vMFdiQ1AvblJMZ3lYWXBNaUx3aDQ1V2p1L3o4UDg1N0dDTU12Z290?=
- =?utf-8?B?R2xtbTRCdytHNTFvN0hoTFMzU0FmNTM4TVpHenErTHlVaUs4cE5OaWlTSUpT?=
- =?utf-8?B?bFRIOVYvRjlnbW52RVF6V3J6a0Q2Tkt4V1NTdk1WNiszWU1USXgyNmlXQVUx?=
- =?utf-8?B?bjZaQ0diU21wWEJHTFF1N3QrRU8wNm9lWWU3T2t5Smh4d1RQNzF4akFESFNV?=
- =?utf-8?B?TmRxdi9CN05DOXBiU2ZtaEExKzFpeVNmQ0VRTUg5TlQrWFhweU0xNCt6VjhJ?=
- =?utf-8?B?VWlRMW9jaHNkUXRtQTl4V09iQytYM0l4cGc5YVVVODlyck1LWjlmQVhWRFRs?=
- =?utf-8?B?bnVZYzVWeGtuQ25sZlRTZzhPL2NWSi8xUEtnWTdGRzVFYWhSb1dqUXVwcVY0?=
- =?utf-8?B?UXBqY0ZYR3JhWUpXeXVrQ0JFVSt4TU1haDhzcmR6V3o2YlF2N1lzVXNKZERy?=
- =?utf-8?B?eWxjQzRwUW9YZERIYk5EM1BPMnZ1L2VWR1QvTkdLUTBNOWgzdUpCTGR4Sm82?=
- =?utf-8?B?UkgzMCtmUVQyV29TM3JyL0ZVcnRibTNsQUhKc2lIQk9mUjlyYVNWSWJZczZt?=
- =?utf-8?B?eFVIck10cTREUlRKbWN3VU9paktlbEpHNlIvN2tDSExmZE1VdlVaenJXUkdC?=
- =?utf-8?B?NVdDcHEyNWFFTGROU21UNzV6Umw0dlU4bFBTdEdRWmtmcXI1TDZxU1Bjb29J?=
- =?utf-8?B?UzhIc2NpVmVaMy9QTURJWVBBTnU2enoyOHVQM1doMVhCTDEwbkFJZHVCWm4y?=
- =?utf-8?B?TGo2cW5UeVhwRjVlRXRNWlVLOElELzAyTEt1Y3E4WDBYMGdXTkxXRkZtYXpH?=
- =?utf-8?B?Z3d6SnRYOEg1UEo0ZVZjbFNZZks4NXV5TmErUWl1RFBoTjEvUTFzcEtzbUhQ?=
- =?utf-8?B?SXQzSFZJSHd5ZEpqOUhQTjZDM2VGUDRZVFh1cnlHSGxoRTFheTlCTmFXMzhm?=
- =?utf-8?B?OThkTGxWK0NPSjgzM0VOK2x1L0plS0NMTEFiRCtacEJNa2pBd1VvUnFXMDNH?=
- =?utf-8?B?Yk5RRm9SYXIxaFVFdE9yZXlVczRmU3I0RHJwaTNpdDlaNHg0Z05walFHQTBZ?=
- =?utf-8?B?OGhoeFE5YTBKNElFRmtQZGwwaGptL2RGSEgza2U3bzA4cnMwaUlYanRLVDVJ?=
- =?utf-8?B?TmVBUFFKSTBvU1lnQTg4RVB5VlF5UkRyRHBqMUJCU3M4dkpaL2pUQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9dc19d8-2f0c-4ff9-5d1a-08deb59dfed3
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 11:58:52.4363
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BtotIq5pWhe9P9sgCcgDBU92esnbEBDIXsFWEkc9KJLaxFfvbFEhPhaAyn6sQA9uDKsDqIrdLJi79kneYOhW/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3708
+X-malware-bazaar: not-scanned
 
-On Tue May 19, 2026 at 7:26 AM BST, Alvin Sun wrote:
-> Add a `ThisModule` associated type bound by `ModuleMetadata` to the
-> `drm::Driver` trait, allowing DRM drivers to expose their module
-> pointer for use in file operations.
+Hi,
 
-FWIW, I was considering adding this automatically to the `#[vtable]` macro
-(associated types/consts won't have any costs if they're unused anyway).
+> > Example usage from user-space:
+> >   $ cat /sys/bus/usb/devices/2-3.1.2:1.0/hw_info
+> >   SN: 36 42 00 01 23
+> >   UUID: aa ec 2b 7c 0a 55 47 27 8d e0 b3 0f eb cc bb aa
 
-But requiring an explicit specification isn't too bad either.
+Sysfs has a "one value per file" rule (soft rule according to the docs,
+but harder in practice, I believe), so seems if anything that should be
+two files. Maybe a UUID should also be formatted as such with %pU or
+similar.
 
-Best,
-Gary
+> I also looked up lore.kernel.org and only found a thread commented by Kal=
+le [1].
+> However, it is not clear to us if sysfs is suitable to read efuse SN/UUID=
+.
+>=20
+> [1] https://lore.kernel.org/linux-wireless/87ziib3da5.fsf@kamboji.qca.qua=
+lcomm.com/
 
->
-> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> ---
->  rust/kernel/drm/driver.rs | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> index 5233bdebc9fcd..c798961650c1a 100644
-> --- a/rust/kernel/drm/driver.rs
-> +++ b/rust/kernel/drm/driver.rs
-> @@ -115,6 +115,9 @@ pub trait Driver {
-> =20
->      /// IOCTL list. See `kernel::drm::ioctl::declare_drm_ioctls!{}`.
->      const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor];
-> +
-> +    /// The module implementing this driver.
-> +    type ThisModule: crate::ModuleMetadata;
->  }
-> =20
->  /// The registration type of a `drm::Device`.
+It seems to me this was more in the context of _writable_ files to do
+some operations.
 
+I don't think I have a problem with this, but sysfs also has
+documentation requirements, and we should probably ask
+driver-core@lists.linux.dev.
+
+I'm not really quite sure I see the _point_ of identifying the serial
+number of a wifi device in a container, but I guess you do.
+
+johannes
