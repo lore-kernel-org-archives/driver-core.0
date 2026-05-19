@@ -1,106 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E126837FF40;
-	Tue, 19 May 2026 06:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0C427816C;
+	Tue, 19 May 2026 06:26:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779171505; cv=none; b=mZZZdElFO+wnYqJQtFA46Tc7n/7m5Y58B70hqi4WbKxxq1+q7pv4VEKZV7nE2R7FzX9MCd+G/imfLoPANVcRND+8bz6R01h2FqJCNACnVVZ0tJl1N5HwSziP+KV/NaXHISn4hxjcHJKG9yohi28ZKymrKvOleYEtuHrCgcJsS6E=
+	t=1779171977; cv=none; b=Ix3r6682G4emgDycoT5HY1/SrWxD9aiZNaP6VW5A34VGXPhdiH6GdDexWrntrclPV5MlNku2eXnlMRERX/XFi+a5dIP3APwAw40hsUrvQSsQN84ARPiZhLp8NiLeA59kHC3W/vkYqvRlS1IScTIs2lEqaNSwp78CRJlnSU9GzU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779171505; c=relaxed/simple;
-	bh=HDRhc31CvFqZU4Dpr1nIp9CwCZi9lQiE1Y3CzkPcOBw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LNeudRWqIiVbJiKfM8AfmuE/awOpjSv9UsjrwdGx5mtJ7iGgfWMxHk8NIBO3Tdx/7jEevg2whyTW9uI77lrRZYlsk5ZEcWiIJec4hlso/6fsiXowi9pa7PS20+IcrsvxckZ8PBx/iZfbtz6dFDUowodzfZcJ1GxkKxeYFapSKFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IFdgOXvR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779171977; c=relaxed/simple;
+	bh=M3dpPwalF2NocfqTid6q3XDvlD/d7Tn+i9Og7LQzuig=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qFb6cSf+5lmS6N6bu5deUr80IsqZhir5rNPTYAe4IFqNyntY4D+QFChjxOGtRB/AtVEZNc0NGyzMP2naVTKSPljAOndBR8G7deo9Ey9MFJRaO4Uimqm3JxuLz5fdMFsB1cn44eJOA8YiUjZte9yGr+Z6743IUeJUK05apzLDs5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wwo4GUzM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IFdgOXvR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D0BEC2BCB3;
-	Tue, 19 May 2026 06:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779171504;
-	bh=HDRhc31CvFqZU4Dpr1nIp9CwCZi9lQiE1Y3CzkPcOBw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=IFdgOXvR5FfbL2FJUD97YOOt3Sv1+Nv/tSjIP6nRxI2USdT75QKo11r+xTpChQJ6l
-	 fgbALL14Rd5XrbJYisvNUOeYUg68203kO9k0dAaw6cbZrleZMPjWY8GDGkQm7BFKMA
-	 VtaJMA5yh8mIQp9egf7FjaV4xoH+6t/5xsq//Q1THQEOxT14t/V2M3VotK7osk2Sl7
-	 zAQiURosFfuRJX9mjdqQ4Fi+4PPIKg1HPB4/WWzKR1pKevRtohjbPFbsoeCMFsibRm
-	 d4RupwtWPF/Dm4yr3qwaMKsP/WjmZY5H8Z24Ar2M5LqVfAtUBKfskJvu5EwPDxL775
-	 pCtk6PBoC3CTQ==
-From: Jisheng Zhang <jszhang@kernel.org>
-To: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] PM: Use LIST_HEAD() to initialize on stack list head
-Date: Tue, 19 May 2026 13:59:20 +0800
-Message-ID: <20260519055920.13180-1-jszhang@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wwo4GUzM"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B0FBC2BCFB;
+	Tue, 19 May 2026 06:26:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1779171977; bh=M3dpPwalF2NocfqTid6q3XDvlD/d7Tn+i9Og7LQzuig=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=wwo4GUzMgBDhhtPS4J7hT530U+FIJci1rtMF0WfxgcULyFfkxuvTR/Hf6veg7kCSZ
+	 Byl4nr+CiuDd7js7gnbt1bzEA7VSTxSQRTA99Uxkp4fD1L6mrCcD3nrU67XTsn03Zn
+	 u5rV8JTBdipp9rrGBURR8724/EH8nwn7UlMxarsQ=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A420CD4F5B;
+	Tue, 19 May 2026 06:26:17 +0000 (UTC)
+From: Alvin Sun <alvin.sun@linux.dev>
+Date: Tue, 19 May 2026 14:26:15 +0800
+Subject: [PATCH 3/8] rust: drm: add `ThisModule` associated type to
+ `Driver` trait
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260519-fix-fops-owner-v1-3-2ded9830da14@linux.dev>
+References: <20260519-fix-fops-owner-v1-0-2ded9830da14@linux.dev>
+In-Reply-To: <20260519-fix-fops-owner-v1-0-2ded9830da14@linux.dev>
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-modules@vger.kernel.org, driver-core@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev, 
+ Alvin Sun <alvin.sun@linux.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779171975; l=819;
+ i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
+ bh=M3dpPwalF2NocfqTid6q3XDvlD/d7Tn+i9Og7LQzuig=;
+ b=dljVO2vk92ayJATiwozOI2qCWLcVZLtXkz//3VFX2GABwDBBjyg9sQBeD0lchTq996i2OwnoG
+ n7BHGuiImStAmxErDZevujd6j3jUS4LrqRkaP0/+KeO9J+MGxSCUbWp
+X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
+ pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
+X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
+ auth_id=684
 
-Use LIST_HEAD to initialize on stack list head. No intentional
-functional impact.
+Add a `ThisModule` associated type bound by `ModuleMetadata` to the
+`drm::Driver` trait, allowing DRM drivers to expose their module
+pointer for use in file operations.
 
-Change generated with below coccinelle script:
-
-@@
-identifier name;
-@@
-- struct list_head name;
-+ LIST_HEAD(name);
-... when != name
-- INIT_LIST_HEAD(&name);
-
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 ---
- drivers/base/power/clock_ops.c | 4 +---
- drivers/base/power/main.c      | 3 +--
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ rust/kernel/drm/driver.rs | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/base/power/clock_ops.c b/drivers/base/power/clock_ops.c
-index 59bb37e8244c..1f708e10e711 100644
---- a/drivers/base/power/clock_ops.c
-+++ b/drivers/base/power/clock_ops.c
-@@ -422,13 +422,11 @@ void pm_clk_destroy(struct device *dev)
- {
- 	struct pm_subsys_data *psd = dev_to_psd(dev);
- 	struct pm_clock_entry *ce, *c;
--	struct list_head list;
-+	LIST_HEAD(list);
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index 5233bdebc9fcd..c798961650c1a 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -115,6 +115,9 @@ pub trait Driver {
  
- 	if (!psd)
- 		return;
+     /// IOCTL list. See `kernel::drm::ioctl::declare_drm_ioctls!{}`.
+     const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor];
++
++    /// The module implementing this driver.
++    type ThisModule: crate::ModuleMetadata;
+ }
  
--	INIT_LIST_HEAD(&list);
--
- 	pm_clk_list_lock(psd);
- 
- 	list_for_each_entry_safe_reverse(ce, c, &psd->clock_list, node)
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index e1b550664bab..d0c7b1d4101e 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -1257,11 +1257,10 @@ static void device_complete(struct device *dev, pm_message_t state)
-  */
- void dpm_complete(pm_message_t state)
- {
--	struct list_head list;
-+	LIST_HEAD(list);
- 
- 	trace_suspend_resume(TPS("dpm_complete"), state.event, true);
- 
--	INIT_LIST_HEAD(&list);
- 	mutex_lock(&dpm_list_mtx);
- 	while (!list_empty(&dpm_prepared_list)) {
- 		struct device *dev = to_device(dpm_prepared_list.prev);
+ /// The registration type of a `drm::Device`.
+
 -- 
-2.53.0
+2.43.0
+
 
