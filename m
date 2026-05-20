@@ -1,58 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-172.mimecast.com (us-smtp-delivery-172.mimecast.com [170.10.129.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21733CCFB0;
-	Wed, 20 May 2026 18:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3459333FE05
+	for <driver-core@lists.linux.dev>; Wed, 20 May 2026 19:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779301176; cv=none; b=mAvobrI66fwsMW04AwrBiGxOpVNgmPFw8YqoB/q+9ADaSqI6/y7wr/iOmzyS2v4GkCzZjjtuX326q4YueM39mdYdfG40GJq/BM8FPc/hyoMFxmcUFw+FmpBzirZwJvBNikv9rhCHj5YS8mogPt1V5GnLmaVIMPYymKhDN/s4NSc=
+	t=1779305539; cv=none; b=E4HrGry+qLde1F/TUSf86+JsySir1cq9IoI69z2WtXy3ZYgV1NR2pc1hTEDGYmA4mvD0Bc+my/HtM0oIEgHwJwCV7W/b08SbZ6jgecyeqT3QFzgAq2VL9opYjpyuSvd7ig1HvLnAQ1j5hFvNCcc0eQhTUYRoY80edIkyZNZZTmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779301176; c=relaxed/simple;
-	bh=VuHUWHwB7gVrowq/vm9phUdpZZgq+NKCqtXaFehR50s=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=RDs6CqHsZBshbhzJ/mTj3fcNhhItFdf/92vRMPdlEakkTI0oF7zCH4AaWXjYzEVd0xifqoI0O+iau4mbOVSxm/VrLShfnfxptz+OiOVZJzf2B8a0d4M3jE4fuh+Pp02Gb5xW2+cpwBA9pbyAKCYbWQ1xQaI2BHHvfSZF2X0z63M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eOhauweZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779305539; c=relaxed/simple;
+	bh=xCGPosPoOBqmiHmmAMZeLaQmUo6jTO0qDbWxKThBXkQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=HlsppRjrNo32w9WZwj55z/EU8xd3WbnBaS5NNGpq/AK15VwpemUVi8GiFUH/72+UfM3jqoLxOmPAAbsEClDLFQCqyrsFmM9YAsgGc2n4OP6gE5HpAwBxzrWWo/ywRLBeENZrt4M6x8rM/rc2HkCHz1gXp5ctomMxnoRBX1FqBic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com; spf=pass smtp.mailfrom=valvesoftware.com; dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b=fhfCiSh7; arc=none smtp.client-ip=170.10.129.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valvesoftware.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eOhauweZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C9451F00893;
-	Wed, 20 May 2026 18:19:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779301175;
-	bh=tg093BcpkpUpDBMTayGuZbAedTRk6TygM1DRnS3fC0A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=eOhauweZaGNc1BQBb4gBsTghxexO9sLUNZiSxpP0Dqrg5zFXrOkGVCCZfkg9eexrg
-	 +Q1vKlpJhM06erL+glYDCVE1/yHKbAUTXzfV+wk2VVqtZQ2q0KUK61PtvkcvchrX8u
-	 /zWgiPe+r4J+FL4KQn0SDwStr2qYS1WwmmhVpJ+oA7B4Yag5SHzH/1Ggtn4Ik2JchZ
-	 vgfUkd6wwZIQnG5km0iYu5xUQLNogfoe2AxeNs1twbY/GHn37LwT3GDcs8V5k+C873
-	 9XIxC60iMo1JwwNJ8RelDVtx2hV632PrCvf7SOqDyjSOJ8TXKQfBpsKWSjzQS2mU/U
-	 /tE2VbFfKZbVQ==
-Date: Wed, 20 May 2026 08:19:34 -1000
-Message-ID: <3fb84b4c71fce994cfe1e06a5fe3970f@kernel.org>
-From: Tejun Heo <tj@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	NeilBrown <neil@brown.name>
-Subject: Re: [PATCH] sysfs: clamp show() return value in sysfs_kf_read()
-In-Reply-To: <2026052000-drove-unicycle-d61b@gregkh>
-References: <2026052000-drove-unicycle-d61b@gregkh>
+	dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b="fhfCiSh7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valvesoftware.com;
+	s=mc20150811; t=1779305537;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xCGPosPoOBqmiHmmAMZeLaQmUo6jTO0qDbWxKThBXkQ=;
+	b=fhfCiSh7K6gNg5hhaohfSH7Gqxxv+82Ct7Ir4KYzher2gQLeNR3fhbjYsYXOWgfUZd/tQE
+	ItL2+zr3of4mee2yf2+UvtJ8ZSU7+pudYRLu1JHjHyNypc5zTeRLs/U1KoFAfmgi8QGvUV
+	o/+bSEYE44SPdE69JS3Tv54c1rhxYWs=
+Received: from smtp-02-tuk3.valvesoftware.com
+ (smtp-02-blv1.valvesoftware.com [208.64.203.182]) by relay.mimecast.com
+ with ESMTP with STARTTLS (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384)
+ id us-mta-373-Jfwx-6UmPzG0yRuCXt__YQ-1; Wed, 20 May 2026 15:32:14 -0400
+X-MC-Unique: Jfwx-6UmPzG0yRuCXt__YQ-1
+X-Mimecast-MFC-AGG-ID: Jfwx-6UmPzG0yRuCXt__YQ_1779305533
+Received: from antispam.valve.org ([172.16.1.107])
+	by smtp-02-tuk3.valvesoftware.com with esmtp (Exim 4.97)
+	(envelope-from <sabae@valvesoftware.com>)
+	id 1wPmeL-00000004qw0-3S5X
+	for driver-core@lists.linux.dev;
+	Wed, 20 May 2026 12:32:13 -0700
+Received: from antispam.valve.org (127.0.0.1) id h1o63q0171sc for <driver-core@lists.linux.dev>; Wed, 20 May 2026 12:32:13 -0700 (envelope-from <sabae@valvesoftware.com>)
+Received: from mail1.valvemail.org ([172.16.144.22])
+	by antispam.valve.org ([172.16.1.107]) (SonicWall 10.0.15.7233)
+	with ESMTP id o202605201932130035107-5; Wed, 20 May 2026 12:32:13 -0700
+Received: from mail2.valvemail.org (172.16.144.23) by mail1.valvemail.org
+ (172.16.144.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 20 May
+ 2026 12:32:13 -0700
+Received: from mail2.valvemail.org ([::1]) by mail2.valvemail.org ([::1]) with
+ mapi id 15.02.2562.017; Wed, 20 May 2026 12:32:13 -0700
+From: Elliot Saba <sabae@valvesoftware.com>
+To: Greg KH <gregkh@linuxfoundation.org>, Johnson Tsai
+	<wenjie.tsai@realtek.com>
+CC: Johannes Berg <johannes@sipsolutions.net>, Ping-Ke Shih
+	<pkshih@realtek.com>, "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>, "driver-core@lists.linux.dev"
+	<driver-core@lists.linux.dev>, Charles Lohr <charlesl@valvesoftware.com>
+Subject: Re: [External Mail] Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add
+ hw_info sysfs attribute
+Thread-Topic: [External Mail] Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add
+ hw_info sysfs attribute
+Thread-Index: AQHc52CHOsKUzQ+SEUSORaNAsdGbNbYUb+IAgABMgwCAAAMoAIAB5JEQgACcKACAAA9+Dg==
+Date: Wed, 20 May 2026 19:32:13 +0000
+Message-ID: <9ce7404ea7bc480786b5ed0bb2182157@valvesoftware.com>
+References: <20260519072415.25746-1-pkshih@realtek.com>
+ <efb61959e14e4f57b78fbd49a563398e@realtek.com>
+ <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
+ <2026051957-refract-barge-b21e@gregkh>
+ <b8640de28c5e4a94a3c2bbc3a101c1fa@realtek.com>,<2026052025-daringly-prolonged-5b2a@gregkh>
+In-Reply-To: <2026052025-daringly-prolonged-5b2a@gregkh>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-Mlf-DSE-Version: 6871
+X-Mlf-Rules-Version: s20260520005434; ds20230628172248;
+	di20260507172443; ri20160318003319; fs20260520154049
+X-Mlf-Smartnet-Version: 20210917223710
+X-Mlf-Envelope-From: sabae@valvesoftware.com
+X-Mlf-CnxnMgmt-Allow: 172.16.144.22
+X-Mlf-Version: 10.0.15.7233
+X-Mlf-License: BSV_C_AP_T_R
+X-Mlf-UniqueId: o202605201932130035107
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: DZYBrgzhpA9ZDGXuvcaxnv2GouCDodG95uATv93AAMs_1779305533
+X-Mimecast-Originator: valvesoftware.com
+Content-Language: en-US
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hello Greg, Johannes, thank you for your time and feedback on this patchset=
+.
 
-Two nits:
+The purpose of this information is to provide access to two pieces of infor=
+mation, a serial number (also printed on the outside of the device, used fo=
+r product tracking, RMAs, etc...) and a GUID (random entropy that is intent=
+ionally difficult to guess).
+We use the GUID to establish=A0a direct=A0connection=A0between the USB netw=
+ork adapter and another device.
 
-- Buffer is atomic_write_len ?: PAGE_SIZE, so probably better to clamp
-  to that than hardcode PAGE_SIZE.
+To directly answer your USB questions, unfortunately the ASIC used in this =
+product does not support customization of the USB serial number; all device=
+s have the same USB serial number.=A0 Indeed, I believe there is no mutable=
+ state on the device at all except for the e-fuses that are written at the =
+factory to write these two values.=A0 Given those constraints, we're trying=
+ to find the best way to raise this up to userspace, and we're grateful for=
+ your feedback.
 
-- pr_warn() instead of bare printk()?
+This USB=A0device is expected to operate on both Windows and Linux hosts, o=
+n the Windows side we have a custom driver that allows our host application=
+ (Steam) to directly query these fuses and setup the network connection app=
+ropriately.=A0 We're attempting to upstream this capability as much as poss=
+ible so that users running a vanilla kernel can take advantage of these fea=
+tures as much as possible.
 
-Thanks.
+With regards to permissions, we'd really like to make this serial number re=
+adable by non-root users so that the pairing functionality can work out-of-=
+the-box without needing special udev/tmpfiles.d rules to adjust permissions=
+ to allow Steam to read this information, but we are simultaneously sympath=
+etic to the desire to limit trackable/identifying information by default.=
+=A0 Of course we can adjust permissions however needed for our own Linux di=
+stribution, but in our effort to support the rest of the Linux ecosystem as=
+ best we can, we'd like to do our best to find a solution that would work e=
+verywhere.=A0 We're open to comparing against any existing precedent for de=
+vices that necessarily require identifying information to perform their bas=
+ic function, if you know of any.
 
--- 
-tejun
+Thank you,
+-Elliot Saba
+
