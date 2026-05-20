@@ -1,161 +1,118 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010048.outbound.protection.outlook.com [52.101.201.48])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80919263F44;
-	Wed, 20 May 2026 06:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779257684; cv=fail; b=E6nIVAxOCJNMBHGGt7qAmd+TYpn8Tfh4lnfYAC0fmcz2kb1nKQYK4n4i2FDmCP1G027+UxJQNoFpPT1tqG+Jpl5H6hSqafHk2bx8o78VjhhkqdKByKzJ7RVZv0A6vprMt+QT66aMl6RLntsrPfMQrWnR0443iJRPxs7Xp9ac5iY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779257684; c=relaxed/simple;
-	bh=D177hHmYQFF0z/LyMIIpkd6AQHMRIrfp8dblVOTwD6g=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=LxaGkHNkVJ6t0hG5IUeP6w95Dn0CuZ1CfT6xwmWfN5MgiSGaBZVoGaIEEN+vsiNXVrGfMWgP9S6A+wiTbDBw58wRNkxf2tUQHMwQeyVwK77nBJz5havaiAayWL+7Xtzmx3FdmTPzb3DamCjwuT3zpnVd2CQ9WJ11ZQj650ylL04=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ie1rEgCT; arc=fail smtp.client-ip=52.101.201.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B192DF717;
+	Wed, 20 May 2026 06:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779259102; cv=none; b=ISP60EnKur6w/7xhgixPHrEoHIzQjVNNKO2hF1WNk4y6dbWdid3A0y0fLriOTz6ooASpr0NQgS4KCFcbM8eh1PynyMRnbzd3ObQhIwUYRZtbduddQnlDxgpgHrqHTC+YrbmAAJ5hmc3mDBqo5lNuvZ0URNFY6c677TsVECI2TZI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779259102; c=relaxed/simple;
+	bh=5/0w95zT8qqc5wrj4w7eoqfoe/TewRnWkweqFYLCcvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GyY98R2yiKvsWPrf1Gx8Vu4PSbs3Fh9eHB1WOV8qOE8KN9hWbmqCdvV6cF+aMbUm0Tm3RB1CfVy3ZhHaDS+9LinnQ07IVzll3xzvJfdleaETwHQ7H/q5vR4M5TcfjZr5YCTfdN7irsowXMG12C0E9hR3WqUG9W5M3wYOd53zAXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=najsP0gI; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ie1rEgCT"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lu7FDwj6umNRnBIHwECg0Q5tsPxLJfoXk2DlTtt7KeQQZmoPJr+/h6z41j7lTVfsd56FNNmAZvMyc+ZdpFXzispZ8nOKTIBIr4ePg7RS9Cjt86uNpBUj4N1VAm7VT9OP7xnGg089QUt3DTqexIaE++6fAgfIMM2lqErKKlU2AA9w3qF/obMU1PHxIkoJn6ix6hif4sWMo87WV3D1vk2MMSG9JL4hEV6p2uqwLD47oGyUq/G5EAP2VFWDi60JvWrpEZ2Vcdnbn2YQJbTgQQELFCGFc/UsgesIqvBEDNJiMp98T2RGXQrv0mduCB7YJVVGRsaB7/bwd0EqlWNwWiqjiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D177hHmYQFF0z/LyMIIpkd6AQHMRIrfp8dblVOTwD6g=;
- b=LaYMC5w2qKqZw1sSTGez/ATrphuUkYQX61px5WD/io2aqc0OC96d7aXGt5tmGy7AamIxMrkI3pSgVC5sH1yQ53xA1dmalcT/fEroca1SFdCef7+CcEVQ76DF0JlRb12NP/aSJ7waJNDrW3XC4dGfFqVRJWJ/Dej/T+hYkqExLA3dNRWspFfSrfldePZSVl7VFZ+1ZDpO7dWvLX5mY4PMO/L1x4u84DgYVuxO4Scu3GmZpyTHhpojpzcN/GxPAVvwQ5QRS5dXJlKNuBTGIpRt/qjTe4ugBxyCOdtBTd69Sesy8jjK3vD78XfgApR9ZC6HvNthKHXysAH9hsxJy+Ojvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D177hHmYQFF0z/LyMIIpkd6AQHMRIrfp8dblVOTwD6g=;
- b=ie1rEgCTm15zXVwFb7WBI4tFissq5ba63lJCHfm8TXkSxSnqtxvOguHwuuZtzV84mtjXwhCF5bthX6Z26JyicEZU9fn+W4z60qJl0K3bQRTAJudv55nOx7y8WfGqXd7G2MfptN79/RdA3WALnVIWe04uG2bJT4XDoJufnZ0j0W3uCJA9Z6SgUVZKkG0o4EYv31FrdA/61Q3VzP9Ob2TN2achdKlGjJXRE/9b2p8k5qREoNFbbG0ORZIPB/QRkQrKa2nWJ+zT7ThbsufEWpRI2B7r5+XHmd3ZT30VRFL1yqkrYvgkld6livpCCU8Z/+FmEF6LA+UUzgBs/+uALrVJWw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by IA1PR12MB7517.namprd12.prod.outlook.com (2603:10b6:208:41a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
- 2026 06:14:39 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.21.0025.023; Wed, 20 May 2026
- 06:14:38 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 20 May 2026 15:14:36 +0900
-Message-Id: <DINA7GB0LJB7.1NOZ0MMPCTSPG@nvidia.com>
-Cc: "Eliot Courtney" <ecourtney@nvidia.com>, <gregkh@linuxfoundation.org>,
- <rafael@kernel.org>, <acourbot@nvidia.com>, <aliceryhl@google.com>,
- <david.m.ertman@intel.com>, <ira.weiny@intel.com>, <leon@kernel.org>,
- <viresh.kumar@linaro.org>, <m.wilczynski@samsung.com>,
- <ukleinek@kernel.org>, <bhelgaas@google.com>, <kwilczynski@kernel.org>,
- <abdiel.janulgue@gmail.com>, <robin.murphy@arm.com>,
- <markus.probst@posteo.de>, <ojeda@kernel.org>, <boqun@kernel.org>,
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="najsP0gI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779259099;
+	bh=5/0w95zT8qqc5wrj4w7eoqfoe/TewRnWkweqFYLCcvU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=najsP0gIbKnp9RTVVKkSEUmm0+NaIs7t7Va0y1UgYoLC/+/Ukj/MN2cnMT7DXz0d5
+	 4vN0GdbUza8rXpkdH7CKb93SoK2a6wAiIKtguyywDBWpEit3IsBdjEZzjoOrBiGDST
+	 3ZX5FBS/Ls5pl6IRN9HoXq5GMmOmOq7TxBLRQdDrzV5JrNfnYEJqKAPgywVfXyDBQq
+	 Y90Tg3hR9eOms5ILHB2YtKGCTLfGITliI2ffF1vERRNXIj78aoVkNSwfIaXDH5WIlv
+	 YgAevaWQdqM/IY/v+5QfRPzwesoAJa5MF+F/Afsvn0iLdmoIWN8y7kHz8WnJr0dnd3
+	 WaH/avzLxzX5g==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A2F0717E0698;
+	Wed, 20 May 2026 08:38:18 +0200 (CEST)
+Date: Wed, 20 May 2026 08:38:13 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Deborah Brouwer" <deborah.brouwer@collabora.com>,
+ <aliceryhl@google.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <daniel.almeida@collabora.com>, <acourbot@nvidia.com>,
+ <apopple@nvidia.com>, <ecourtney@nvidia.com>, <lyude@redhat.com>,
+ <ojeda@kernel.org>, <boqun@kernel.org>, <gary@garyguo.net>,
  <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
- <tmgross@umich.edu>, <igor.korotin@linux.dev>,
- <daniel.almeida@collabora.com>, <pcolberg@redhat.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <tmgross@umich.edu>, <driver-core@lists.linux.dev>,
  <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "dri-devel"
- <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v3 10/27] rust: pci: make Driver trait
- lifetime-parameterized
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260517000149.3226762-1-dakr@kernel.org>
- <20260517000149.3226762-11-dakr@kernel.org>
- <DIMDU2XL6PKO.RUXA0XPFT94R@nvidia.com>
- <DIML7T3R6BXP.2WSFVG2VY63LP@kernel.org>
- <DIMMO6Q6WKOY.1DKWK8IBAP0W9@garyguo.net>
- <DIMNPI2H382T.2U2OH39B7C2B4@kernel.org>
-In-Reply-To: <DIMNPI2H382T.2U2OH39B7C2B4@kernel.org>
-X-ClientProxiedBy: DS1PR05CA0005.namprd05.prod.outlook.com
- (2603:10b6:8:457::8) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH 0/6] rust: drm: Higher-Ranked Lifetime private data
+Message-ID: <20260520083813.7addec83@fedora>
+In-Reply-To: <DIMWGLNJ922I.3PCET9O1J83TS@kernel.org>
+References: <20260506221027.858481-1-dakr@kernel.org>
+	<DICCEKZ3HU84.34ES3SW3D1FNI@kernel.org>
+	<agYbppHWXk_hW99M@um790>
+	<DIIMVPTLV3O5.3Q3DHU66WQZUA@kernel.org>
+	<20260519205947.3c9d99b3@fedora>
+	<DIMWGLNJ922I.3PCET9O1J83TS@kernel.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|IA1PR12MB7517:EE_
-X-MS-Office365-Filtering-Correlation-Id: d38eec8c-b864-48c7-2c99-08deb63712b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|10070799003|22082099003|56012099003|4143699003|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	Vc1Ip6DymfcPF7N2t0YKW62T936J33kH1yAVH8Q69v1jwIAOzYWVlxz7/n8ZKo6tUKrkRqhYlvihF85rWWolbWfs3og7Ov4UpgLFVb9LvaNJDEnED25eTw5uF+uG9I4QqgnTKMlbutJsNV4i3+SGHIC0cbWfeZ9qTcGa3qW2IAPPJvC6mQkNyxZHk2v1LY+L2bXBvoTdkiOy26iTZdi94uNQUzIWm8XTfcJV7Ao6eV19Z23PFzWEFly1ai9ntg/MDt4DbBz77duye/yrlRIQe0MR400EtuUb0NvsMj3iytC36hmYwFkRmYPPf2cjMJutZBtuKRPvl277gQd/3RCdhmSvJS+nhsgwNlaFCXs14hUw0khvJ9V9ooBYXK0K9KTdEnz24ZrwYV1zXpK3wmOEfAmJ16eq7fc+d2VOC5S6sql/Gc/TcM9fnoq2DlIirslIdF7RB/e4XeEZG/1ennVjoCrTxFqbd3aSeuCjJKPu6vmsyzh8sdqUb2WYhV+aYnwEqg5GzTICGscdY01chb+nOmbTbzqREKjDrffltaTRWi4+7rEaY7c74ZFbLXrwJqVfDiPNfOacFJVrS7dgr6D5Co6DjHlViRAfKmeEAORawTpgJ3pwryq5H4t0GVjiVTysu7JFGaAaatSmY/oq5lQKya4OguC4A5AfsOH50Agto++Zyesse718F9Q+PW8pO4B+
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2353.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(10070799003)(22082099003)(56012099003)(4143699003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dlcvTVBlRFAvd3BGNk1rdVkyZTJCVFMxRThVaXg5SVFqZWtPSlVWRTVVQ3Er?=
- =?utf-8?B?NG1zcUR5Yk1oRzl3dHVRV3ZUQjJWZ2Z5bmZVVzRnR3ZIb2R0eEpxbG1pQkJ1?=
- =?utf-8?B?d2t4L1dOMmFrOWttTXo5L0JsK21ua1Q1dVJITzRzcWxLeWFPVHc4aUF0NGtl?=
- =?utf-8?B?WHNrR0NnU3dsVDgyYy9zOGhuLzVyQ2NIN1ZuQTU5ckkrdjJWbmNGeFU4RXZN?=
- =?utf-8?B?MVpOZFpMbjc4QXRYNU15YkJuWk9DSlF5eXVrck9sZkxXaFo1ZTNSSFlPbUJx?=
- =?utf-8?B?VndYdDRaVTkzOVY3ZXRITTEzbG5aelpwZ1BSWDljdWxzV3NjeWFUMUJVb2ts?=
- =?utf-8?B?MU8vYWtsMHZGL1dTblA2WDBDMjZyaFp0dmtWQ3RYR25aVGFYcnFHcUorSVl1?=
- =?utf-8?B?QlQ4cDdIa0RGcmxtQll6anU3WU5oaGFzVExwRGlFS2crS011UzZsYit2N0pr?=
- =?utf-8?B?d1I4WnpwWVhFeUZjUGN4M0ZzaWRUYktYdmgrcUdka0NjRTNvWHUzYmJjN2hx?=
- =?utf-8?B?UUFneGdHb1YzdDVpNTcyeEkwdFJIdFRTY2xQbTlCWWRBMVdNQythMlVUdlNY?=
- =?utf-8?B?OEtnOFNrUEtGU1dTVFFhOUZHM3h0cXg1YW0reTBUQU9rampZSnZvQWxkV3dM?=
- =?utf-8?B?QkNzQWJrbW51bVczUDB1cDhLbDhVbk9uMHYvS3dVMERQN1ovM3kwTThabDhW?=
- =?utf-8?B?UnNaam5scXdGeGZkWk5aUXVObW05d09WQXUrZVNPYzF4SHNoa1luVjlsSkZW?=
- =?utf-8?B?Z3BxK0RMSEc3WGwva3daakxWQkdwN0xRcURDNzh6d2dDOXFXNXZlaTh4eG5E?=
- =?utf-8?B?L3pJZTVJSncxMmo4QjZ0c1N1RmhuN0pieFZJcXpwLzAxNTZYZk9Mb2M2TDQ5?=
- =?utf-8?B?VFlKZGpXdW1NYk1oTmo4VkJ3aEZpclNNVlJZUDBrQVVoMHJMaVlBd0QvQldh?=
- =?utf-8?B?SjhFbVFqZVNvYldVYnNZWUtwU1FuSTE0R0dnRVgvSE5vTEZ6VkV0eUc0NmpW?=
- =?utf-8?B?K1YwT0xqcitIWDU0M1Nxd2VmK3l3UU81aDhRaHhyL0sxMW82Y1RveWVReTBS?=
- =?utf-8?B?bFIzbnptUm9yaFd2MEtQSUNoamN0dzYxbDR5L3FYeXhOWXFnNGthNjZvdmZG?=
- =?utf-8?B?MjlmNDNQTzB2TUxQbndNQWRXT3JpTTMwamE0WkNDSU4wdGtDdlN4VjA4dXVl?=
- =?utf-8?B?ZU5vaEZ5T1ZVR2N2aUZHc2ZjSmNKc2g1dUdTNVlsVUxTbkJDUDNnQjJiOE5V?=
- =?utf-8?B?Qml6S1p4RnlNVG0yVkhwQmpEZVlwZ1loR0NJVFNDc00rUEl5Nnl1ZGxDRERD?=
- =?utf-8?B?bWlaZUtLc3VLYk5sLzNSNm5OTlNJTG9waS8xRkRPNmdPamZocEJIanJMQS82?=
- =?utf-8?B?V01yYThMMFJBRzM5NXZ2Wmk0YStWbHdJd3dnR1JMaDE4aFZQUlV3aHo3MEJk?=
- =?utf-8?B?Q2JUbSsxLzZGQXhTSU1pOVBqKzF6dVZwdFZlQ0FNQkNlRFc2NWx3VGdrSUtl?=
- =?utf-8?B?MDlXY2JwZHhlc2tFbXRyazNiQ0VMNEhWUWd4Q2sybXZpalhBbHZKd3FWNm5S?=
- =?utf-8?B?Z2lUK2RtSDduNkNLYWR5bEhOQmFxNUticXIydEZhT0xoT1ZQMVFCcDEzTUtl?=
- =?utf-8?B?QXUzdUIrZi9hN2czdytRMjltVVlrQit3REhHMW45ajIxNUwwTWpVYnBuSndU?=
- =?utf-8?B?RUNVQUh1MlJQaFRCdVRmVXhmd29QQjVUWjRPZjlKMFVPTm4zc2VZc0JNSGlT?=
- =?utf-8?B?QndWaWRMYnlLeWZtK24vUkVLT0gydjloSXVPTEtGOVF1SEM3YUdkRmRYaGhh?=
- =?utf-8?B?MVE3VjRuSGJOdEt6TFRmWTBGK3NMYXZNbzhLV242VGdmeGxXVmxERmRHT0RP?=
- =?utf-8?B?NTI3R0hoNy91cEJzTlZhVUF6VVdiMHZjTEN3UmFGTXVJZUlNNTVKMmRQZnJl?=
- =?utf-8?B?bmFRcmNRUG5qSFZwWExXSXN4dStGc0ovcm9aYWFRYnlsMkdxZjdsdVhwTXBC?=
- =?utf-8?B?L2lnczNETFo1RlBUVHgvVjlMMGRJRjVmSmFkM3NSb3B1NStUVEIreUZhUGty?=
- =?utf-8?B?K3pzcjYzcmQ1UTAyWWdObUY1RW8vWjE5Vm10QUUzR3JJajhZYnNJd0ZTazNN?=
- =?utf-8?B?VEJHOVBkL0lheXA3bktRNlExeDZ0SVVDTWVSV0JGdFJ2MGpFYzlUTjJpNllu?=
- =?utf-8?B?VXRWVWFsekpNanpUaFZ3bHRKWm5VeWR3MllmcVE1YUR0K0FuTlZxL2FKcWdB?=
- =?utf-8?B?bXRSbkxDTlNpVEJkbHNISHJzVlVrNFYrcnI2N0s2RExad0habkUybVVTUXFW?=
- =?utf-8?B?TTh2NHd0NnhIOGRvR2I4UHMrZ1duWndaT0ZMaVBzd1dyd0tQbFBIVkZqSFpp?=
- =?utf-8?Q?TX3XT8ibzhlgVmm+MRyivKWyMCN7fGLngW0DwcLjw7aLP?=
-X-MS-Exchange-AntiSpam-MessageData-1: ILWrC3vj9ror5A==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d38eec8c-b864-48c7-2c99-08deb63712b2
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 06:14:38.7861
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TfaSh4p0wzl76JnPkl40WBYRV145lp+clBID797QrOI8NFZcEU1LWXgg34bBUIXx7u7sn7e8dMnjJacT0Og8BA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7517
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue May 19, 2026 at 9:36 PM JST, Danilo Krummrich wrote:
-> On Tue May 19, 2026 at 1:48 PM CEST, Gary Guo wrote:
->> the callback should have `Pin<&Self::Data<'bound>>` instead (the outer
->> lifetime should be callback-scoped)`. Did you forget to make the change?
->
-> Yes, I thought I had that staged already, but forgot about it; good catch=
-,
-> thanks!
+On Tue, 19 May 2026 21:28:17 +0200
+"Danilo Krummrich" <dakr@kernel.org> wrote:
 
-I think this resolves my concern and it's nicer for drivers to use than
-requiring covariance on their `Data` types. Thanks!
+> On Tue May 19, 2026 at 8:59 PM CEST, Boris Brezillon wrote:
+> > On Thu, 14 May 2026 21:07:11 +0200
+> > "Danilo Krummrich" <dakr@kernel.org> wrote:
+> >  
+> >> On Thu May 14, 2026 at 8:59 PM CEST, Deborah Brouwer wrote:  
+> >> > let unreg_dev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, data)?;    
+> >> 
+> >> You shouldn't need this anymore as the drm::Registration itself has private data
+> >> now that is bound to the lifetime of the underlying bus device, which should be
+> >> the correct lifetime for juggling the GPU page tables.  
+> >
+> > The problem we have is that, to initialize some of the sub-components
+> > of the driver, we need to be able to allocate GEM objects before the DRM
+> > device is exposed (registered), and because the data we want to attach
+> > to the final registration contains these sub-components, we need to
+> > defer the data assignment to the registration step (which was allowed
+> > by [1], but apparently this was dropped from the latest version of
+> > the series for some reason).  
+> 
+> I'm perfectly aware, what I'm saying above is that you probably want to store
+> those GEM objects (that you can create with the previously allocated
+> drm::Device) in the drm::Registration data. This fulfills this requirement *and*
+> ties the lifetime of those GEM objects to the lifetime of the underlying bus
+> device being bound to the driver, which is exactly what you want for GEM objects
+> that contain the device page tables.
+
+Yeah, I don't think the problem Deborah was mentioning was about not
+being able to allocate GEMs early on, or making sure those GEMs don't
+outlive the bus-device. Oh, and BTW, we don't use GEMs for the page
+tables themselves, those still go through regular page allocation and
+are entirely handled by the io-pgtable-arm.c logic. We need early GEM
+allocation to populate FW sections, and to map those to the VM attached
+to the FW we need GPUVM too (because the FW also lives behind the GPU
+MMU and has its own page table that's populated by the driver).
+
+What I think Deborah was pointing out is the chicken-and-egg issue,
+where the registration data is only fully populated after all
+sub-components of the drivers have been initialized, and one of these
+sub-components (the FW) needs to allocate GEMs and map them to its VM.
+So, GEM allocation and GPUVM are required are required early on, and
+both want a drm::Device of some sort (Unregistered or Registered). So
+the question is, are you happy with having [1] applied before/after
+your patchset to address this chicken-and-egg issue I mentioned, or are
+you proposing something else (Option<Subcomponent> so that we start
+with all sub-components set to None and progressively populate those,
+which I remember Daniel was strongly opposed to)?
+
+[1]https://lore.kernel.org/dri-devel/20260320233645.950190-4-lyude@redhat.com/  
