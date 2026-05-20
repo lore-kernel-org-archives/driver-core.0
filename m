@@ -1,70 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B2B3EEAE5;
-	Wed, 20 May 2026 14:45:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21733CCFB0;
+	Wed, 20 May 2026 18:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779288336; cv=none; b=gcnNUjqTEROk0O0AkLIJd3io/30K6HAhua1Xk++zcpkgG7WH9tTq04IsRedFKjLIlwDLEh94oNmEiJHW8dhfkzENmAiPm5aDff86R1aufdMbSEALOFROo1bQ5MGi5LVK0ICB956UDJ/kA6+y/myTc2bq3/TDjwHWensGPIVQ4t4=
+	t=1779301176; cv=none; b=mAvobrI66fwsMW04AwrBiGxOpVNgmPFw8YqoB/q+9ADaSqI6/y7wr/iOmzyS2v4GkCzZjjtuX326q4YueM39mdYdfG40GJq/BM8FPc/hyoMFxmcUFw+FmpBzirZwJvBNikv9rhCHj5YS8mogPt1V5GnLmaVIMPYymKhDN/s4NSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779288336; c=relaxed/simple;
-	bh=q928mIHuOSyZiUMnWyKbrWbp69BGUQ1T5Od8+pmy5vA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=iT21CZDsgQGX5vjHgyUVdXh56Tz2GQm48ReEqO2mDFSQaK3izAn+CkwnUWvVNtAgnYDCRb4uI0jIP/cAq4Va1hXFPvoW1yI0bHMczVX+OzDgEQYjPc8dXri/2RoY9xlxSj31SCE47Zyc91z0GDULdB3btOExAdaUvxGIywlFKc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2wvwg9v; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779301176; c=relaxed/simple;
+	bh=VuHUWHwB7gVrowq/vm9phUdpZZgq+NKCqtXaFehR50s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=RDs6CqHsZBshbhzJ/mTj3fcNhhItFdf/92vRMPdlEakkTI0oF7zCH4AaWXjYzEVd0xifqoI0O+iau4mbOVSxm/VrLShfnfxptz+OiOVZJzf2B8a0d4M3jE4fuh+Pp02Gb5xW2+cpwBA9pbyAKCYbWQ1xQaI2BHHvfSZF2X0z63M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eOhauweZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2wvwg9v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D535D1F000E9;
-	Wed, 20 May 2026 14:45:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eOhauweZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C9451F00893;
+	Wed, 20 May 2026 18:19:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779288333;
-	bh=w5Z74C3/Voz228AenWJUhW2uSRjmcsxtTqWJ135EKPk=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=a2wvwg9vggHc4vwJ4oi+ZTqwrv0Dw69AEUpEuliImHK0SExiO1Uax/tbtNJpXBGwZ
-	 b+56LPmqeqxoNbfOnOJg50cxEOoWwkSJYwe4Wz8l7ueRfZRYRT4tUMjYrz/jpKeIcy
-	 n4CMgwopqdSli7rV9OxV3HUDQEYnVyAe880sMsglCu4WqijZznqQV7toqg7nMRwgav
-	 iPsbdXjiVvj38ZayIpEI6Zh2yFC8rtC4LhZO6ji/KpHjxviqLuggO+PsTHMSARjZJL
-	 7rDZ0zvM1BZM1uJYeUL+a5cW6NPjSzt3M2T90oAOCvIxJjfCSWjV5iqYe38Nrxu/1P
-	 GNwaOD0CIZSPQ==
+	s=k20260515; t=1779301175;
+	bh=tg093BcpkpUpDBMTayGuZbAedTRk6TygM1DRnS3fC0A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=eOhauweZaGNc1BQBb4gBsTghxexO9sLUNZiSxpP0Dqrg5zFXrOkGVCCZfkg9eexrg
+	 +Q1vKlpJhM06erL+glYDCVE1/yHKbAUTXzfV+wk2VVqtZQ2q0KUK61PtvkcvchrX8u
+	 /zWgiPe+r4J+FL4KQn0SDwStr2qYS1WwmmhVpJ+oA7B4Yag5SHzH/1Ggtn4Ik2JchZ
+	 vgfUkd6wwZIQnG5km0iYu5xUQLNogfoe2AxeNs1twbY/GHn37LwT3GDcs8V5k+C873
+	 9XIxC60iMo1JwwNJ8RelDVtx2hV632PrCvf7SOqDyjSOJ8TXKQfBpsKWSjzQS2mU/U
+	 /tE2VbFfKZbVQ==
+Date: Wed, 20 May 2026 08:19:34 -1000
+Message-ID: <3fb84b4c71fce994cfe1e06a5fe3970f@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	NeilBrown <neil@brown.name>
+Subject: Re: [PATCH] sysfs: clamp show() return value in sysfs_kf_read()
+In-Reply-To: <2026052000-drove-unicycle-d61b@gregkh>
+References: <2026052000-drove-unicycle-d61b@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 20 May 2026 16:45:30 +0200
-Message-Id: <DINL2MQVAJUK.38K7BGL323D5U@kernel.org>
-Subject: Re: [PATCH] sysfs: don't remove existing directory on update
- failure
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Rafael
- J. Wysocki" <rafael@kernel.org>, "Rajat Jain" <rajatja@google.com>,
- "stable" <stable@kernel.org>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <2026052003-uniquely-hastily-c093@gregkh>
-In-Reply-To: <2026052003-uniquely-hastily-c093@gregkh>
 
-On Wed May 20, 2026 at 3:05 PM CEST, Greg Kroah-Hartman wrote:
-> When sysfs_update_group() is called for a named group and create_files()
-> fails (e.g. -ENOMEM), internal_create_group() calls kernfs_remove(kn) on
-> the group directory.  In the update path, kn was obtained via
-> kernfs_find_and_get() and refers to a directory that already existed
-> before this call.  Removing it silently destroys a sysfs group that the
-> caller did not create.
->
-> Only remove the directory if we created it ourselves.  On update failure
-> the directory remains as it is left empty by remove_files() inside
-> create_files(), but can be repopulated by a retry.
->
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Rajat Jain <rajatja@google.com>
-> Fixes: c855cf2759d2 ("sysfs: Fix internal_create_group() for named group =
-updates")
-> Cc: stable <stable@kernel.org>
-> Assisted-by: gkh_clanker_t1000
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hello,
 
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+Two nits:
+
+- Buffer is atomic_write_len ?: PAGE_SIZE, so probably better to clamp
+  to that than hardcode PAGE_SIZE.
+
+- pr_warn() instead of bare printk()?
+
+Thanks.
+
+-- 
+tejun
