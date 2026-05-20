@@ -1,122 +1,152 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5DD3D525F;
-	Wed, 20 May 2026 09:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA9E36CDEF;
+	Wed, 20 May 2026 10:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779270122; cv=none; b=Fm8Sujq5yPBBO70wx0LG/9ZLRyziQCy8rUwwsKknphsALtnV4iBC2Ach6/93jhlJGj2HEvVClqlW5RH8BkxL+hScG4O/KK1xvKGtOZpmR/KlbQYc+8CxUt/VMO0R/EKPqZai4W65N6aXL/hDU9SjyZ+PAjfna5Uk1NbjLeLGuV0=
+	t=1779274547; cv=none; b=Ra6pQa+DjSxeJJW+kFadOgmiTCc77GzGp+0dQ7i1+1A3NJYWyCjaWW+xN6arMS84VHLfdnnfcYDXCnk74YJuZWNlfMbZHRslBh4OvZcp+9NJewPz7kHh1wXAN8dKtD7csXXFL27qxflmEmzphwSO5mP8RdPSjjb9A5gfDP4VMgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779270122; c=relaxed/simple;
-	bh=PNkrzmGBLmsK4+moTXk9hO6Q9VekSgGwVt/iwFGPMTg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=iMl5GVYfVLCxv9STyzwNkXD7v7RAaMCllZPM+E8yDdzq0fWqMkWGXOsGvYZdggg1JdWd18NlxktYJRgE6FD84ZlxkcaWmxNtwO6c0tgJv1cgP/mycLb5dbAiRczEzwy0kaQKX2CsjTmArsv22O1vwGkMvD8UnkUEJ20yoMgriwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=GXbYkWcY; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1779274547; c=relaxed/simple;
+	bh=8kWHvbVSjYuRIxqdC7pb5h4UzyYzb1EKgvvTriNbiuY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=J7mIbUT56TBIY/jImDa1sg8nxRIedyabjIHOKPR0QHEqDCDe6oCi/WD78DgKJeFQqRurVKeloImLsAVtbQUIi34kCCXGxxU2Qs1aLtGCC5fc6MiHvO7/wvXJcUpXNfPyxjLV/wSM1OpHa/ZHc+8hItOld8Sy3LZzG5CnsOIAgBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JixfUDNQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="GXbYkWcY"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 64K9fmdZ7012899, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1779270108; bh=Z8IrZGgYitLHMLLS1HXSi7SkcWX36UenWXqwZz6hcWE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=GXbYkWcYeXJ7ybLfg4tn/4YjOLW9X3JKmIpJgB1jtf1V0Z91kD81k2NnMqwcRf7tE
-	 O9nAKnCk0qDwP73gokdeAcBLRKEVqwtF/qNp5XHpZvD+3t467o6oQHwraiNmdmPeeb
-	 olPCOycZKi8hfwNJwgMd/pC3RdiBo8dXq0zGhQczhTmfKpRadlX2+ue11hL/821wiO
-	 wjyoOArVF+arOw9Hsc7wlWUlUqD3IYttpptaIWoor1uvxYSXGFNqCFH/r1G8QF/6EE
-	 CnV9fP9Qv6ZBu5w8GktuPg0IlbCDahIxzKWTQWqpYId82th6pbH5ZRpMrxHkSYtBPU
-	 VCg0NTeB/5yLQ==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 64K9fmdZ7012899
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 May 2026 17:41:48 +0800
-Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 20 May 2026 17:41:48 +0800
-Received: from RTKEXHMBS04.realtek.com.tw ([::1]) by
- RTKEXHMBS04.realtek.com.tw ([fe80::552f:8b32:656c:c395%6]) with mapi id
- 15.02.2562.017; Wed, 20 May 2026 17:41:48 +0800
-From: Johnson Tsai <wenjie.tsai@realtek.com>
-To: Greg KH <gregkh@linuxfoundation.org>,
-        Johannes Berg
-	<johannes@sipsolutions.net>
-CC: Ping-Ke Shih <pkshih@realtek.com>,
-        "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>,
-        "driver-core@lists.linux.dev"
-	<driver-core@lists.linux.dev>,
-        "sabae@valvesoftware.com"
-	<sabae@valvesoftware.com>,
-        Charles Lohr <charlesl@valvesoftware.com>
-Subject: RE: [RFC rtw-next 1/2] wifi: rtw89: usb: add hw_info sysfs attribute
-Thread-Topic: [RFC rtw-next 1/2] wifi: rtw89: usb: add hw_info sysfs attribute
-Thread-Index: AQHc52CHOsKUzQ+SEUSORaNAsdGbNbYUb+IAgABMgwCAAAMoAIAB5JEQ
-Date: Wed, 20 May 2026 09:41:46 +0000
-Message-ID: <b8640de28c5e4a94a3c2bbc3a101c1fa@realtek.com>
-References: <20260519072415.25746-1-pkshih@realtek.com>
- <efb61959e14e4f57b78fbd49a563398e@realtek.com>
- <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
- <2026051957-refract-barge-b21e@gregkh>
-In-Reply-To: <2026051957-refract-barge-b21e@gregkh>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JixfUDNQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F031F00893;
+	Wed, 20 May 2026 10:55:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779274546;
+	bh=BH/ZeiiMJHVcYtkkFaqQ7tq3WQRwma5rKgra7kq7jcU=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=JixfUDNQCOhWwN3XTzbdXz/kX13AdJ5UXDldA0Fa0SH7EdeDdcfroHhX5hZCCvvpM
+	 y9x+O1csq6Qq0MLKrrH/gmod2bd17A4cQfrvmqlkojbZidDWrzq0omFNVvqQ1ADOGt
+	 vrsxAALMcLsnoznq2c2KEmzbHwt5Cti7ZCjXeaRapPA/7UluRx2GOPKBVg7jB9c55d
+	 7Al4/qu+Sx887Z7JJ28NQ1UfV5zOlsS3QFidsvf0d5ZMa517BQAB28rDYSV8idgLeA
+	 O0uKgB2mXo/4Nl8n2BJfEg/WOvgqlVUNi0n7tAyHW4N49Ekfjd7w3DSVUdN4HrXUWx
+	 m7N2WT5e8g3jQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 May 2026 12:55:40 +0200
+Message-Id: <DING6NMJ97JA.5HC3ONKUPMW5@kernel.org>
+Cc: "Deborah Brouwer" <deborah.brouwer@collabora.com>,
+ <aliceryhl@google.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <daniel.almeida@collabora.com>, <acourbot@nvidia.com>,
+ <apopple@nvidia.com>, <ecourtney@nvidia.com>, <lyude@redhat.com>,
+ <ojeda@kernel.org>, <boqun@kernel.org>, <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <tmgross@umich.edu>, <driver-core@lists.linux.dev>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+To: "Boris Brezillon" <boris.brezillon@collabora.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 0/6] rust: drm: Higher-Ranked Lifetime private data
+References: <20260506221027.858481-1-dakr@kernel.org>
+ <DICCEKZ3HU84.34ES3SW3D1FNI@kernel.org> <agYbppHWXk_hW99M@um790>
+ <DIIMVPTLV3O5.3Q3DHU66WQZUA@kernel.org> <20260519205947.3c9d99b3@fedora>
+ <DIMWGLNJ922I.3PCET9O1J83TS@kernel.org> <20260520083813.7addec83@fedora>
+In-Reply-To: <20260520083813.7addec83@fedora>
 
+On Wed May 20, 2026 at 8:38 AM CEST, Boris Brezillon wrote:
+> So, GEM allocation and GPUVM are required are required early on, and
+> both want a drm::Device of some sort (Unregistered or Registered). So
+> the question is, are you happy with having [1] applied before/after
+> your patchset to address this chicken-and-egg issue I mentioned,
 
+Yes, this is exactly what I had in mind for all of my replies, but I think =
+I
+only implied my key point rather than making it explicit, so let me do that=
+ now.
 
-On Tuesday, May 19, 2026 20:23, Greg KH <gregkh@linuxfoundation.org> wrote:
-> On Tue, May 19, 2026 at 02:11:32PM +0200, Johannes Berg wrote:
-> > Hi,
-> >
-> > > > Example usage from user-space:
-> > > >   $ cat /sys/bus/usb/devices/2-3.1.2:1.0/hw_info
-> > > >   SN: 36 42 00 01 23
-> > > >   UUID: aa ec 2b 7c 0a 55 47 27 8d e0 b3 0f eb cc bb aa
-> >
-> > Sysfs has a "one value per file" rule (soft rule according to the
-> > docs, but harder in practice, I believe), so seems if anything that
-> > should be two files. Maybe a UUID should also be formatted as such
-> > with %pU or similar.
->=20
-> That should be 2 separate sysfs files please.
->=20
-> And yes, use %pU.
+What I'm saying is that we now have all DRM ioctls behind the SRCU guard, w=
+hich
+means that the drm::Registration data is always available from DRM ioctls.
 
-The v2 patch will use separate `sn` and `uuid` attributes, with `uuid`
-formatted via `%pU`. We also removed the spaces in `sn` to provide a clean
-string.
+Now, with this precondition, the real question is whether there are any
+resources left that should be bound to the lifetime of the DRM device itsel=
+f,
+which I don't think is the case.
 
-Example usage from user-space:
-  $ cat /sys/bus/usb/devices/2-3.1.2:1.0/sn
-  3642000123
-  $ cat /sys/bus/usb/devices/2-3.1.2:1.0/uuid
-  aaec2b7c-0a55-4727-8de0-b30febccbbaa
+After device unbind nothing is able to call back into the driver anymore, s=
+o
+there is no reason to keep the corresponding data alive within the driver's
+private data.
 
->=20
-> And be careful about exposing serial numbers to userspace, some systems
-> don't like normal users to read them so be sure to get the permissions co=
-rrect.
-> We had to add some USB code for ALLOW_SERIAL_NUMBER to make it so that
-> systems can handle this if they want to.
->=20
-> And shouldn't this just be the USB serial number to start with?  Why is t=
-here a
-> different string here?  We already have a sysfs file for this value.
+There may be resources that are kept alive through a separate reference cou=
+nt
+while userspace still has open file descriptors, but they are separate refe=
+rence
+counts and should be independent from the driver's private data.
 
-Regarding the serial number and permission design, these are requirements=20
-from Valve, so we have CC'd them here to provide the background.
+IWO, the fact that we guard the ioctls makes the whole class of problems go=
+ away
+that we inherit from having to keep the driver's private data alive until a=
+fter
+remvoe() -- the DRM device private data becomes obsolete and we should prob=
+ably
+evene remove it.
 
-Hi Elliot and Charles, could you please help explain the requirements and u=
-se case here?
+Instead, we should use the drm::Registration private data for everything.
 
+With this, your chicken-and-egg issue is already solved; the DRM device is
+available, you can populate all the resources you need (GEM, GPUVM, etc.) a=
+nd
+then pass it into drm::Registration::new().
 
+In terms of making any of the resources you store in the drm::Registration =
+data
+available in the bus device private data, it becomes the same pattern as fo=
+r
+everything else, i.e. you need shared ownership.
 
+So, let's say you need IoMem<'bound> in both the drm::Registration data and=
+ in
+the bus device private data, then you currently need Arc<IoMem<'bound>> in =
+both
+of them, which is fine, but I think we can do better.
+
+Eventually, once we have landed the series I currently have in flight and o=
+nce
+Gary finished his self-referencial support in pin-init, I think we can even
+avoid the reference count. Here is an example.
+
+	struct TyrPlatformDriverData<'bound> {
+	    _device: ARef<TyrDrmDevice>,
+	    _reg: drm::Registration<'bound, TyrDrmData<'_>>,
+	    iomem: IoMem<'bound>,
+	}
+
+	struct TyrDrmData<'bound> {
+	    iomem: &'bound IoMem<'bound>,
+	}
+
+	fn probe() -> ... {
+	    try_pin_init!(TyrPlatformDriverData {
+	        _device: ...,
+		iomem <- ...,
+		_reg <- drm::Registration::new(..., TyrDrmData { iomem: &iomem }),
+	    })
+	}
+
+I don't know how the pin-init self-referencial stuff will exactly turn out,=
+ but
+this is pretty much what I hope we can evolve this into.
+
+(And sorry again, now that I spelled this all out, having that left implici=
+t in
+my first reply was obviously unreasonable. :)
+
+> or are you proposing something else (Option<Subcomponent> so that we star=
+t
+> with all sub-components set to None and progressively populate those, whi=
+ch I
+> remember Daniel was strongly opposed to)?
+
+No, I am strongly opposed to do that (as well).
