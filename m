@@ -1,109 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7D23AFCE2;
-	Wed, 20 May 2026 11:36:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BF923EA8A;
+	Wed, 20 May 2026 13:05:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276962; cv=none; b=RpN0J2vYKfDZ5Wn3fcZzCD5TcbdxviWW0o977RjKQ69rqeiz0CJE+FgKFRVvpgQYa5kZN2st+IJrkGrqBt9DWHFcSfnorvnkzgFpjMxuU7+yy+rgc9E571n2OX6ReK2F3aZaK+g0YO6kgWDNjbFyDyy/pfaqOOGZpu7v1fSUJ+Y=
+	t=1779282304; cv=none; b=Vgfw0LsF9KF/FAX4q+yUY2/8+YJmmjWR09F8G3hnreI48MVDHPl9Mcp4VJV1cBo82WoE+DAPxj2vCQhAK2hTyMBm2BztAQ6wL4tHKWdN97XA+B+Xm3wcoUZOHSwk96pINfFuWm4x0GTdE2jheV05w/YueNsOxdlwc18ibkGl45g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276962; c=relaxed/simple;
-	bh=K1eb/e1DfVvZ9UO1JlGkbHieEXM3RZ16p7urCX1Yrlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eUPY520EAx88ijdSuFLZ8HksiH9Ba4B7LZVSOckAt5R/0jn2vTQ/BQ7t1yuR2GGK3LN9TEd8iTpfLLQu65B5tcofC1RbTFDORCmANWtTDxTh4HDO0/k+atTwHmuZupfMuNipyo8AYKsxUvBk3wAYhrRDsRv0DU0KIAAKzZYT4GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1prUAur8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779282304; c=relaxed/simple;
+	bh=QcTRMkgf6GDPVr/lq7Z7HjgtguFN5rPPFtI2RzMTOmM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EuUvrG5zX3eeUAK6vsq67K1sfLFvgd9zFeDpHd+/ltgTn2h+g8WBO2w7LbT8uiEk7sFTMmgxnNgmKjd8k+qjH0beHc9ExcIIu2dvrdercuQ+OfqZ3GPXaz5mbefnOnAX+pM4Mdc2QeSOYe4AlphGWDdLWJQv5+FNgAJQdXZrwbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=htQP+2ee; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1prUAur8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E359B1F000E9;
-	Wed, 20 May 2026 11:36:00 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="htQP+2ee"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B487D1F00893;
+	Wed, 20 May 2026 13:05:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779276961;
-	bh=b1X9CMLRZ5OKrCex1XYZEBrE0xBYcTu4fMJjEZNvnmA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1prUAur8F82bCjfyUnGJ/+POWwxsjyQqLSzUbUqe1lRscxkCzy4gmB3kqKgpk0x+R
-	 DI7tx6/Vv2yiGTtxeFMT3eh4ShhY6+oFbRD8MaeL6h8pODshmqIoo4Y6BFckfVEG7X
-	 3Lu1s1uscYoZSXr+mgBuNneyTtjX6mOPWYSwHb9E=
-Date: Wed, 20 May 2026 13:36:04 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Johnson Tsai <wenjie.tsai@realtek.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
-	"sabae@valvesoftware.com" <sabae@valvesoftware.com>,
-	Charles Lohr <charlesl@valvesoftware.com>
-Subject: Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add hw_info sysfs attribute
-Message-ID: <2026052025-daringly-prolonged-5b2a@gregkh>
-References: <20260519072415.25746-1-pkshih@realtek.com>
- <efb61959e14e4f57b78fbd49a563398e@realtek.com>
- <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
- <2026051957-refract-barge-b21e@gregkh>
- <b8640de28c5e4a94a3c2bbc3a101c1fa@realtek.com>
+	s=korg; t=1779282303;
+	bh=kmSaevCXUbHkWIumj2Pus32oK4gxGKikB1RCiT1h21M=;
+	h=From:To:Cc:Subject:Date;
+	b=htQP+2eer2VrviyVAbQ6VQiK6O5PYQnrnP4LATTp6ZSXxmW6fZWfY4kCRyK86tirw
+	 5XYuaDtsg+PsKeUxtMfBgv3GeVaAcY0crY934tEx/lslVxaYscK25QxzcjWYilt9r7
+	 VI1N/HZxG7H8Zz+xOk9/CVlBI8XIltoN++K+DawU=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: driver-core@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Rajat Jain <rajatja@google.com>,
+	stable <stable@kernel.org>
+Subject: [PATCH] sysfs: don't remove existing directory on update failure
+Date: Wed, 20 May 2026 15:05:04 +0200
+Message-ID: <2026052003-uniquely-hastily-c093@gregkh>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8640de28c5e4a94a3c2bbc3a101c1fa@realtek.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1421; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=QcTRMkgf6GDPVr/lq7Z7HjgtguFN5rPPFtI2RzMTOmM=; b=owGbwMvMwCRo6H6F97bub03G02pJDFm8G+uzIhcUMCmtKrxf2q4RrPA7TfWH3zSdC+/d2xd47 Q31nbu6I5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZyU5Fhvr8ST3gym96b2VHN SZOfP3qnf9tyG8OCnveem1RDbB7/3i9cUVf2zFVQ+50pAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 20, 2026 at 09:41:46AM +0000, Johnson Tsai wrote:
-> 
-> 
-> On Tuesday, May 19, 2026 20:23, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > On Tue, May 19, 2026 at 02:11:32PM +0200, Johannes Berg wrote:
-> > > Hi,
-> > >
-> > > > > Example usage from user-space:
-> > > > >   $ cat /sys/bus/usb/devices/2-3.1.2:1.0/hw_info
-> > > > >   SN: 36 42 00 01 23
-> > > > >   UUID: aa ec 2b 7c 0a 55 47 27 8d e0 b3 0f eb cc bb aa
-> > >
-> > > Sysfs has a "one value per file" rule (soft rule according to the
-> > > docs, but harder in practice, I believe), so seems if anything that
-> > > should be two files. Maybe a UUID should also be formatted as such
-> > > with %pU or similar.
-> > 
-> > That should be 2 separate sysfs files please.
-> > 
-> > And yes, use %pU.
-> 
-> The v2 patch will use separate `sn` and `uuid` attributes, with `uuid`
-> formatted via `%pU`. We also removed the spaces in `sn` to provide a clean
-> string.
-> 
-> Example usage from user-space:
->   $ cat /sys/bus/usb/devices/2-3.1.2:1.0/sn
->   3642000123
->   $ cat /sys/bus/usb/devices/2-3.1.2:1.0/uuid
->   aaec2b7c-0a55-4727-8de0-b30febccbbaa
+When sysfs_update_group() is called for a named group and create_files()
+fails (e.g. -ENOMEM), internal_create_group() calls kernfs_remove(kn) on
+the group directory.  In the update path, kn was obtained via
+kernfs_find_and_get() and refers to a directory that already existed
+before this call.  Removing it silently destroys a sysfs group that the
+caller did not create.
 
-Wait, no, you are putting attributes in the USB interface device, which
-is NOT the device your driver is creating.  Don't do that, it makes for
-massive confusion.
+Only remove the directory if we created it ourselves.  On update failure
+the directory remains as it is left empty by remove_files() inside
+create_files(), but can be repopulated by a retry.
 
-> > And be careful about exposing serial numbers to userspace, some systems
-> > don't like normal users to read them so be sure to get the permissions correct.
-> > We had to add some USB code for ALLOW_SERIAL_NUMBER to make it so that
-> > systems can handle this if they want to.
-> > 
-> > And shouldn't this just be the USB serial number to start with?  Why is there a
-> > different string here?  We already have a sysfs file for this value.
-> 
-> Regarding the serial number and permission design, these are requirements 
-> from Valve, so we have CC'd them here to provide the background.
-> 
-> Hi Elliot and Charles, could you please help explain the requirements and use case here?
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Rajat Jain <rajatja@google.com>
+Fixes: c855cf2759d2 ("sysfs: Fix internal_create_group() for named group updates")
+Cc: stable <stable@kernel.org>
+Assisted-by: gkh_clanker_t1000
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ fs/sysfs/group.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The USB serial number is already exported in sysfs, why export it again
-under a different filename?  That's ripe for total confusion :(
+diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+index 182e54e575ee..4e1e4f18a166 100644
+--- a/fs/sysfs/group.c
++++ b/fs/sysfs/group.c
+@@ -188,7 +188,7 @@ static int internal_create_group(struct kobject *kobj, int update,
+ 	kernfs_get(kn);
+ 	error = create_files(kn, kobj, uid, gid, grp, update);
+ 	if (error) {
+-		if (grp->name)
++		if (grp->name && !update)
+ 			kernfs_remove(kn);
+ 	}
+ 	kernfs_put(kn);
+-- 
+2.54.0
 
-Also, where does this random UUID come from?  That's not part of the USB
-spec, is it?  Why is it not just a USB string attribute like the spec
-says to use for stuff like this?
-
-thanks,
-
-greg k-h
