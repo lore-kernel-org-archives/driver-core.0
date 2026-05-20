@@ -1,84 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABBC2C0260;
-	Wed, 20 May 2026 13:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F133E2759;
+	Wed, 20 May 2026 13:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779282419; cv=none; b=iQ1Su3xFf0rmykXwOSjdWtKIkSgJxGa6qusA9nu3R/TcFzBiCD5DLLa9uUAVEIiS/ZliZ0lAtKjzA/xbF28VvmOaZKBH69o/EyiJmuefmeIBHkuTu8JOIF/6rk+wZP5QAXMc+4tPodfPlkvIEYEVJj03RRuzaEoJq9K8LF0rmHM=
+	t=1779282751; cv=none; b=GAyQkni9VSqsxkifKvB+iysyy07Q6cBjGXOhOvQBpkcVYdYNHnXmjcQZwPjIGfRC8gSEG0hF6qFzh+H0ToBN+ULWjDlPfRgOnS75RmOxj54Hw+qAo0rbsLfh9jGm/AVbKNJ/sWsix1504ZuUMFvw9x+bhp7WE8uDPEOmkhFen1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779282419; c=relaxed/simple;
-	bh=WRNc7oQn1TrgksJhDz3CxkMcMc37fzxKopTC/1hm8Zc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WLyyN3zU2G4zjEjUmD5UZ9bx/dQLI9gRUFPZDSVlqq7wQ61LZvfDJHqW0d43JKcfTFzErgp3LEpkAy9xe3sEkbQOf0LGqrwJQqXfdWGt4F5D5aVuM/Zhiy2ygbjDFGavAE9Vqv4AgiidwghCFWiejHjvBzrQsHxXtod9VJ1yobs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=msV6O89v; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779282751; c=relaxed/simple;
+	bh=hPqKnT51uKXRp9pD1596/dw304pNoX8v0odEUgxhDrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bYOqLcRAAW7usiSVYTGEBQhNAbqTK41RTmK03wd+F4w9cof7vUy7fOZexsGrDxYFVKLPOh6yJrgYtrBYGaCELfAbBFp77hCNF0lWTNdeC1KgarJW3TxSMzE0KD1ifrkz1LftiP/ez3kSw4qHY6OmjBj+WXyrFMChF/R9nx3kir0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YDYmW9Kj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="msV6O89v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D31DA1F000E9;
-	Wed, 20 May 2026 13:06:57 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YDYmW9Kj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F59F1F000E9;
+	Wed, 20 May 2026 13:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779282418;
-	bh=y6eqfYRUOgholZb4Irxz1LsGTIOHtLdXUa6rWSNqYFs=;
-	h=From:To:Cc:Subject:Date;
-	b=msV6O89vLmmd0VW81fFBeh3mYy1S2Nol1se4mn5hqVp/aOoscTm0IrmNe9pXC8CEc
-	 9fnFBZM9Kw5XejYmT4VwKPvl7E5I+tGSwTzWqpi0Uj6UDD0VBLd4D5hUE7QVJSSLvp
-	 Q3BkmqDng9WeFu80jD3kQWuzaNCv6Eby81KH+KKM=
+	s=korg; t=1779282745;
+	bh=pZ+WctWvor/yPkCTrLq56BadNQ894/Y2YdwmNdo4P0s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YDYmW9KjpJVc8WePayC7l+mWSYt+pl+0BIMPAG5gcnM79urWv2WcUhZnTmqRiHPsn
+	 1FG5mtsCccO8UYF1Y9Zs7biwPMHLZgbe2+jozlBn8E5zr4AYMYVPTemLRdKtq7yZQ/
+	 E3H9aV6UH0pgaDr0Rl7EUUy9skchCwuIEx9epbjY=
+Date: Wed, 20 May 2026 15:12:28 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: driver-core@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Tejun Heo <tj@kernel.org>
-Subject: [PATCH] sysfs: clamp show() return value in sysfs_kf_read()
-Date: Wed, 20 May 2026 15:07:01 +0200
-Message-ID: <2026052000-drove-unicycle-d61b@gregkh>
-X-Mailer: git-send-email 2.54.0
+Cc: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rajat Jain <rajatja@google.com>,
+	stable <stable@kernel.org>
+Subject: Re: [PATCH] sysfs: don't remove existing directory on update failure
+Message-ID: <2026052018-caption-abdomen-b541@gregkh>
+References: <2026052002-overexert-control-f130@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1352; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=WRNc7oQn1TrgksJhDz3CxkMcMc37fzxKopTC/1hm8Zc=; b=owGbwMvMwCRo6H6F97bub03G02pJDFm8G7+suJJirzk7kOmblZ9/4o6MPJ1XXwS/JnaLve2qn FWSwJbaEcvCIMjEICumyPJlG8/R/RWHFL0MbU/DzGFlAhnCwMUpABOx/cowv961L+nL0ZKVc4qZ P2Z/fKy8Z+qdLQwLdsw+fYajnb9r6rQUn3pPtQ0FP6t2AQA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026052002-overexert-control-f130@gregkh>
 
-sysfs_kf_seq_show() defends against buggy show() callbacks that return
-larger than PAGE_SIZE by clamping the value and printing a warning.
-sysfs_kf_read(), the prealloc variant, has no such defense.
+On Wed, May 20, 2026 at 03:06:03PM +0200, Greg Kroah-Hartman wrote:
+> When sysfs_update_group() is called for a named group and create_files()
+> fails (e.g. -ENOMEM), internal_create_group() calls kernfs_remove(kn) on
+> the group directory.  In the update path, kn was obtained via
+> kernfs_find_and_get() and refers to a directory that already existed
+> before this call.  Removing it silently destroys a sysfs group that the
+> caller did not create.
+> 
+> Only remove the directory if we created it ourselves.  On update failure
+> the directory remains as it is left empty by remove_files() inside
+> create_files(), but can be repopulated by a retry.
+> 
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Rajat Jain <rajatja@google.com>
+> Fixes: c855cf2759d2 ("sysfs: Fix internal_create_group() for named group updates")
+> Cc: stable <stable@kernel.org>
+> Assisted-by: gkh_clanker_t1000
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  fs/sysfs/group.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/sysfs/group.c b/fs/sysfs/group.c
+> index 182e54e575ee..4e1e4f18a166 100644
+> --- a/fs/sysfs/group.c
+> +++ b/fs/sysfs/group.c
+> @@ -188,7 +188,7 @@ static int internal_create_group(struct kobject *kobj, int update,
+>  	kernfs_get(kn);
+>  	error = create_files(kn, kobj, uid, gid, grp, update);
+>  	if (error) {
+> -		if (grp->name)
+> +		if (grp->name && !update)
+>  			kernfs_remove(kn);
+>  	}
+>  	kernfs_put(kn);
+> -- 
+> 2.54.0
+> 
 
-The only current in-tree user of __ATTR_PREALLOC is drivers/md/md.c,
-whose show() callbacks are well-behaved, so this is hardening against
-future drivers doing foolish things and out-of-tree code doing even more
-foolish things.
-
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: NeilBrown <neil@brown.name>
-Cc: Tejun Heo <tj@kernel.org>
-Fixes: 2b75869bba67 ("sysfs/kernfs: allow attributes to request write buffer be pre-allocated.")
-Assisted-by: gregkh_clanker_t1000
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- fs/sysfs/file.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
-index 5709cede1d75..25b44fe171a3 100644
---- a/fs/sysfs/file.c
-+++ b/fs/sysfs/file.c
-@@ -120,6 +120,10 @@ static ssize_t sysfs_kf_read(struct kernfs_open_file *of, char *buf,
- 	len = ops->show(kobj, of->kn->priv, buf);
- 	if (len < 0)
- 		return len;
-+	if (len >= (ssize_t)PAGE_SIZE) {
-+		printk("fill_read_buffer: %pS returned bad count\n", ops->show);
-+		len = PAGE_SIZE - 1;
-+	}
- 	if (pos) {
- 		if (len <= pos)
- 			return 0;
--- 
-2.54.0
-
+Ugh, sent this twice, sorry for the noise, only one matters :)
