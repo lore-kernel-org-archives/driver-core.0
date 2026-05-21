@@ -1,49 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339FB3D5C20;
-	Thu, 21 May 2026 13:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3664C32E696;
+	Thu, 21 May 2026 14:48:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779369107; cv=none; b=VaTHgpFnF0sodPAHT3JVCUniGswb0X5zMvDqAygazOg8SY/php61MZAowC4EGDNDnb9UFltMkwl+7yvoXOC8wvRT9kYt8BjLAOFttZ1CqQhVhoMh6df14yMDWdwLYrDTIcIogCdxscqO8fdTQUJkI83zFsboKI/sMsQupQ+Y7Xw=
+	t=1779374936; cv=none; b=otSSrL/NIFWVDCreUdJtUtTnBqVaWBxEiF0Z8STerA+RergAX5EN5ZiozUrvlDup4rQEdNyx0KQCv/pd5i7oUIbZmq80qmh/W910m+9klvZxVb8nfQWECwpJyZ0d2qYAGO1x2uoagsGb3rETtjpFTurnFuox8D1gvLNAGNTC2MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779369107; c=relaxed/simple;
-	bh=veqHZLaXevlCrxIWhlnKaOFfJyE9olg3M6SYhFU6ruo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JqX5h84dD7Fd94RBLoSmOwnbG2OOfitFvAzZTPtasvuWOBiwjhwu18dfH+tPFfoNfQvgVS8bBDQn+j6DW1BMoMW//sK3TVQCS+rrlVHyvx8p7ro6N7Rax5nyFg0nxfJ0/wBTXRXWoKw2sEwblmW+G6MwRAp3xSUmWyEKPA+HpWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HvUk5Zck; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779374936; c=relaxed/simple;
+	bh=pHvmfcrhrurAq2ILFaCX2/i9A2dkXAZG6nS8cECg8ZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=PC/pzUT2usQrsz5VU6Cp6KYMSWOYJlCG8RcGsu5sodIxxq+Czg8x/SLwY/1VkJ/QnWomHga66daqRY0w9zt4TB1wo7Ah9E0vhGsl1pODGzPdT5KlOLGEng+DTiYCX4gKi6lwheYBDQqSdJyqfHag/L5tMFSP7oK0kpxZzfVO7mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ghnmj9gn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HvUk5Zck"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46EDF1F000E9;
-	Thu, 21 May 2026 13:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779369105;
-	bh=dnbf+LT8LWdGG7wV3+ryTl9QR+eoJdzGQhPAQ9SkONw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HvUk5Zckks3w40ACBN5cIh7oikzrUgM5fMz+NFmHI+irXxXD2YQdpkEINo6312Af1
-	 Aqf6vnFsRH0dvxX64fwoOU5AWcOvwMYcAEo1zWga8Ctq0GuYwV7nT8FFiHRyexsFCn
-	 Pc0nP8IEWjRryrhWwQZMfxPgq2sj+BjDxN52g4ok=
-Date: Thu, 21 May 2026 15:11:48 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Johnson Tsai <wenjie.tsai@realtek.com>
-Cc: Elliot Saba <sabae@valvesoftware.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
-	Charles Lohr <charlesl@valvesoftware.com>
-Subject: Re: [External Mail] Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add
- hw_info sysfs attribute
-Message-ID: <2026052142-backfire-afar-9587@gregkh>
-References: <20260519072415.25746-1-pkshih@realtek.com>
- <efb61959e14e4f57b78fbd49a563398e@realtek.com>
- <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
- <2026051957-refract-barge-b21e@gregkh>
- <b8640de28c5e4a94a3c2bbc3a101c1fa@realtek.com>
- <2026052025-daringly-prolonged-5b2a@gregkh>
- <9ce7404ea7bc480786b5ed0bb2182157@valvesoftware.com>
- <2026052152-pureness-blinker-9e5c@gregkh>
- <fe2a612385f8439a820272f442314d37@realtek.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ghnmj9gn"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CB3D31F000E9;
+	Thu, 21 May 2026 14:48:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779374935;
+	bh=VsFq90skGZw/EGTa/WEfY0J40QXH4oeLLeAltN7Tq/g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=Ghnmj9gnZEIRKYnPRT0EjkI+FemdXvo2nPl/XNKwYq0KjoyIAzi4emBvTvyKexayF
+	 ADaHyEJ/x3LglFHgloWlmKitUSEQKYQXSYAV+SbAXyhMU7t0niQmDrNAFPpTppVZTV
+	 AeG2/S8NC/NySbUDgxuSdCQDmrPrIp9+aHHWXBG66PLQIJxrWorabNaMNy83wpKYpk
+	 2/7aJ3tsE2qxQuNvYc/lwRsuFJ0T4GstKbWrJOqNcxRe9svAy7HhP7YmuhWMKg3poI
+	 2B7g/K3eypfdErXdPNordwsWs2nAymOC2cASd8LU5Cv8D9fKnGtWky6D+YdNAHZLo/
+	 XC0Dgpzg8wBcQ==
+Date: Thu, 21 May 2026 09:48:53 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Ramesh Errabolu <ramesh@linux.ibm.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-s390@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Farhan Ali <alifm@linux.ibm.com>, Leon Romanovsky <leon@kernel.org>,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v4] PCI: hotplug: Add 'uevent' sysfs attribute to trigger
+ slot events
+Message-ID: <20260521144853.GA163149@bhelgaas>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -52,100 +53,129 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fe2a612385f8439a820272f442314d37@realtek.com>
+In-Reply-To: <20260520221320.99788-1-ramesh@linux.ibm.com>
 
-On Thu, May 21, 2026 at 01:06:09PM +0000, Johnson Tsai wrote:
+[+cc Leon, driver-core]
+
+(Ramesh, when you post new versions of a series, please cc anybody who
+responded to earlier versions.  Also, v2, v3, and v4 are identical, so
+there's no need to post them as new "versions"; you can just ping the
+original thread or label them as "RESEND")
+
+On Wed, May 20, 2026 at 05:13:20PM -0500, Ramesh Errabolu wrote:
+> Add a write-only 'uevent' sysfs attribute for synthesizing
+> uevents for a PCI slot. This extends the existing uevent
+> support which emits a KOBJ_ADD uevent in pci_hp_add() with
+> the ability to replay such uevents for cold plugged devices.
+> As such events are only emitted by hotplug capable PCI slots
+> so is the support for synthesizing them.
 > 
-> On Thursday, May 21, 2026 18:58, Greg KH wrote:
-> > On Wed, May 20, 2026 at 07:32:13PM +0000, Elliot Saba wrote:
-> > > Hello Greg, Johannes, thank you for your time and feedback on this
-> > patchset.
-> > >
-> > > The purpose of this information is to provide access to two pieces of
-> > information, a serial number (also printed on the outside of the device, used
-> > for product tracking, RMAs, etc...) and a GUID (random entropy that is
-> > intentionally difficult to guess).
-> > > We use the GUID to establish a direct connection between the USB network
-> > adapter and another device.
-> > >
-> > > To directly answer your USB questions, unfortunately the ASIC used in this
-> > product does not support customization of the USB serial number; all devices
-> > have the same USB serial number.  Indeed, I believe there is no mutable state
-> > on the device at all except for the e-fuses that are written at the factory to
-> > write these two values.  Given those constraints, we're trying to find the best
-> > way to raise this up to userspace, and we're grateful for your feedback.
-> > 
-> > Then where exactly does that "serial number" come from in the device so that
-> > it can be read by the kernel, if not in the USB device itself?
+> The change was validated by manually triggering 'add' uevent
+> for a specific hotplug PCI slot:
 > 
-> The "serial number" we're talking about right now is not exposed through the standard 
-> USB descriptors. It is obtained via a vendor-specific H2C (Host-to-Chip) 
-> command, which reads EFUSE data into the rtw89 driver. 
-> Both SN and UUID are stored as specific fields within that data block.
-
-Ick, ok, gotta love custom USB commands :(
-
-> > > This USB device is expected to operate on both Windows and Linux hosts,
-> > on the Windows side we have a custom driver that allows our host application
-> > (Steam) to directly query these fuses and setup the network connection
-> > appropriately.  We're attempting to upstream this capability as much as
-> > possible so that users running a vanilla kernel can take advantage of these
-> > features as much as possible.
-> > 
-> > Great, why can't this driver also query the fuses?
+>     $ echo "add $(uuidgen)" | sudo tee   \
+>                 /sys/bus/pci/slots/<slot-id>/uevent
 > 
-> Yes, the driver can query the fuses directly, similar to the Windows driver 
-> implementation.
-> In this RFC v1, the H2C implementation is intentionally omitted to keep the discussion 
-> focused on the sysfs interface design and gather early feedback from the 
-> community.
-
-Great, put these on the network device that you create as they are not a
-generic USB attribute, and properly document them in Documentation/ABI/
-
+> Signed-off-by: Ramesh Errabolu <ramesh@linux.ibm.com>
+> Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+>  drivers/pci/hotplug/pci_hotplug_core.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 > 
-> > 
-> > > With regards to permissions, we'd really like to make this serial number
-> > readable by non-root users so that the pairing functionality can work out-of-
-> > the-box without needing special udev/tmpfiles.d rules to adjust permissions
-> > to allow Steam to read this information, but we are simultaneously
-> > sympathetic to the desire to limit trackable/identifying information by default.
-> > Of course we can adjust permissions however needed for our own Linux
-> > distribution, but in our effort to support the rest of the Linux ecosystem as
-> > best we can, we'd like to do our best to find a solution that would work
-> > everywhere.  We're open to comparing against any existing precedent for
-> > devices that necessarily require identifying information to perform their basic
-> > function, if you know of any.
-> > 
-> > My objection is the placement of random sysfs files in the USB device
-> > directory, for something that is not a USB device-specific thing, but rather a
-> > driver-specific thing.  If this is a driver/device bound specific thing, then put it
-> > in the device that the driver creates and owns.  NOT in the device that the USB
-> > core creates and owns.
-> > 
+> diff --git a/drivers/pci/hotplug/pci_hotplug_core.c b/drivers/pci/hotplug/pci_hotplug_core.c
+> index fadcf98a8a66..c3634b1cc7a8 100644
+> --- a/drivers/pci/hotplug/pci_hotplug_core.c
+> +++ b/drivers/pci/hotplug/pci_hotplug_core.c
+> @@ -173,12 +173,27 @@ static ssize_t presence_read_file(struct pci_slot *pci_slot, char *buf)
+>  
+>  static struct pci_slot_attribute hotplug_slot_attr_presence = {
+>  	.attr = {.name = "adapter", .mode = S_IFREG | S_IRUGO},
+>  	.show = presence_read_file,
+>  };
+>  
+> +static ssize_t uevent_write_file(struct pci_slot *slot,
+> +				 const char *buf, size_t len)
+> +{
+> +	int rc;
+> +
+> +	rc = kobject_synth_uevent(&slot->kobj, buf, len);
+
+I haven't followed the discussion closely, but I'm skeptical because
+this would be the only use of kobject_synth_uevent() outside the
+driver core.  That means a change like this should include a
+description of something unique about this PCI slot situation that is
+different from all other buses.
+
+For driver-core, the preceding discussion is here:
+https://lore.kernel.org/linux-pci/20260225150815.81268-1-ramesh@linux.ibm.com/t/#m57bf51ce1c073b685b391867d4a9932e5f9dccc9
+
+> +	return rc ? rc : len;
+> +}
+> +
+> +static struct pci_slot_attribute hotplug_slot_attr_uevent = {
+> +	.attr = {.name = "uevent", .mode = S_IFREG | 0200},
+> +	.show = NULL,
+
+Unnecessary to set ".show = NULL" since that's the default.
+
+> +	.store = uevent_write_file
+> +};
+> +
+>  static ssize_t test_write_file(struct pci_slot *pci_slot, const char *buf,
+>  			       size_t count)
+>  {
+>  	struct hotplug_slot *slot = pci_slot->hotplug;
+>  	unsigned long ltest;
+>  	u32 test;
+> @@ -251,12 +266,17 @@ static int fs_add_slot(struct hotplug_slot *slot, struct pci_slot *pci_slot)
+>  		if (retval)
+>  			dev_err(&pci_slot->bus->dev,
+>  				"Error creating sysfs link (%d)\n", retval);
+>  		kobject_put(kobj);
+>  	}
+>  
+> +	retval = sysfs_create_file(&pci_slot->kobj,
+> +				   &hotplug_slot_attr_uevent.attr);
+
+Krzysztof, any sysfs race issues here?  I assume this (and the
+existing uses for power, attention, latch, etc) are not candidates for
+static attributes?
+
+> +	if (retval)
+> +		goto exit_uevent;
+> +
+>  	if (has_power_file(slot)) {
+>  		retval = sysfs_create_file(&pci_slot->kobj,
+>  					   &hotplug_slot_attr_power.attr);
+>  		if (retval)
+>  			goto exit_power;
+>  	}
+> @@ -303,19 +323,24 @@ static int fs_add_slot(struct hotplug_slot *slot, struct pci_slot *pci_slot)
+>  		sysfs_remove_file(&pci_slot->kobj,
+>  				  &hotplug_slot_attr_attention.attr);
+>  exit_attention:
+>  	if (has_power_file(slot))
+>  		sysfs_remove_file(&pci_slot->kobj, &hotplug_slot_attr_power.attr);
+>  exit_power:
+> +	sysfs_remove_file(&pci_slot->kobj,
+> +			  &hotplug_slot_attr_uevent.attr);
+> +exit_uevent:
+>  	sysfs_remove_link(&pci_slot->kobj, "module");
+>  exit:
+>  	return retval;
+>  }
+>  
+>  static void fs_remove_slot(struct hotplug_slot *slot, struct pci_slot *pci_slot)
+>  {
+> +	sysfs_remove_file(&pci_slot->kobj, &hotplug_slot_attr_uevent.attr);
+> +
+>  	if (has_power_file(slot))
+>  		sysfs_remove_file(&pci_slot->kobj, &hotplug_slot_attr_power.attr);
+>  
+>  	if (has_attention_file(slot))
+>  		sysfs_remove_file(&pci_slot->kobj,
+>  				  &hotplug_slot_attr_attention.attr);
+> -- 
+> 2.43.0
 > 
-> We completely agree with your concern. Since accessing these values requires 
-> driver-specific commands rather than standard USB requests, they should not live 
-> under the USB device directory.
-
-Great
-
-> In the upcoming v2 patchset, we will move these attributes under the wiphy device 
-> managed by the rtw89 driver. The paths will be something like: 
-> 
->   $ cat /sys/class/ieee80211/phy0/sn
->   3642000123
-
-Spell it out, you have almost unlimited number of characters for a file name :)
-
->   $ cat /sys/class/ieee80211/phy0/uuid
->   aaec2b7c-0a55-4727-8de0-b30febccbbaa
-> 
-> Additionally, these sysfs attributes will be strictly limited to Valve's specific VID/PID 
-> pair and will not be exposed on generic RTL8852CU devices.
-
-Great, please document it as such.
-
-thanks,
-
-greg k-h
