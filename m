@@ -1,81 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B442A37F010;
-	Thu, 21 May 2026 11:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136123D6CA3;
+	Thu, 21 May 2026 13:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779363977; cv=none; b=qLerEFW1ANX73kjUm4K6afK1JQF0FSMhBm92f/Au4y4keUt0nluanvWAy1q27dl0QtRYRwqINOIsoQABsAUb6XpQ7hejadVIbDDCc/cs/k0bpDZs1mcexQe3/vMsFP5ntxhJRyZC97mND6LypNFyznd5/FJy0dwD7u4uz2YAyuI=
+	t=1779368779; cv=none; b=kRfxr2PsenUF7nY8QtSP4NfLuSeIJscly0TYtt0U5rSe4EvUiFIaWMZej6zswiYg8byQTK3GaH2ZfaRMGEU5GkaCEajo7RbfE9EVXrkIYTe3iNYVLLGZh/ehq2Y/XjsW56tG/igweRboO9krW6jT/Ds3JxqlPXiWMRQ1gGPbb3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779363977; c=relaxed/simple;
-	bh=88YWbpA4s562i+uRzCAHGOkjwm+Gi21/0R3m2QgzXcY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aCXOfqukVnDmNmTep/uxUcd6b03DUygUk5rMCCfdEQgIjeZhfkuqDSdpcxTITo/IJy/j9yVdFPqe9rIE/E4u2X4OPpXuF/Nq4NQystmzZz691qBJ/EDAyMc2uLB0Eb68KNjWp0vvx696rNzU7dEVoC5bgNl2OklV9miYkVLGBJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=floP4nZn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779368779; c=relaxed/simple;
+	bh=4CwzAHf/G1dzaf9XIWG7E/awDbWag9aswjlEhBuYBYk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Whn0JxOLUOXZz9Np6DWiBGJOPM+h62qA7aN5vMxLlgpZAbErHBOA0+LebvYxH4sFmYD7BSwycfa2RRwtY1tXPZAWB9myv6z2XKigyUd3XFDozLHOEzqaaqj+dPe38e/rOyF3H50plLMBN3URDck8fB9SrzPD45J2ICvtbt5WKpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=hur8ZQCp; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="floP4nZn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB9FA1F000E9;
-	Thu, 21 May 2026 11:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779363976;
-	bh=zTSi112qJzyCLhgpvHNZdwlnR4ZDk7z5Dtx5aftlRgw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=floP4nZnvbJHFGzoxEMM9najVP9LN6JdEbhYQxd/ATq83g/oBeCw6aKHSKMVSqbYg
-	 4O1g6v8hUn6US8S2xjCRfDaR5e9HWtqLGhlphAwPP6opvK2VSG+9vNm6DGv8mPSi2m
-	 Ul5lB91ZoAIADePqfsGRJnOeaLK7Dm8DULrd+fiw=
-Date: Thu, 21 May 2026 13:46:19 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: syzbot <syzbot@kernel.org>
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>, dakr@kernel.org,
-	driver-core@lists.linux.dev, mcgrof@kernel.org,
-	russ.weight@linux.dev, syzbot@lists.linux.dev
-Subject: Re: [PATCH] firmware_loader: Fix recursive lock in
- device_cache_fw_images()
-Message-ID: <2026052107-recast-opt-946d@gregkh>
-References: <dff1dcc7-59bd-40c7-981e-bd805ae6b3c1@mail.kernel.org>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="hur8ZQCp"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 64LD685g81329069, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1779368768; bh=9HOnHfpwTEhGXwZHsgU++ky2CqzHfnmwlOMWg6Ubs90=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=hur8ZQCpgK3tE8fRC+k4j3Nv94gQ8VNMQw+V00R9lZuNXDt4SYyqI2IOK9GM6Ukwu
+	 wpa8nCRb/2gsJyr1WllzbcKsFe2DwWIWQ3/Af/ErMiVYZEmKo3LhxsHX1qXn2G2SLT
+	 K3vU66Ofi4OFHJWMS9Z6JDvoBvlq+FaTfBAFGrOFZjHzbFRQwQw9EYcuhC3FuxtFka
+	 pn+cvfACmy5cPSJKqpebg6X/EkGoh8CNNkNgPIzstCvoJ6DVlP7GIy5LAyYOdxWGfB
+	 lQkWKn+r+pJloP2B1ekHW2HjzuM8ksqHOJxVb6RFGADFCvtkFw3l4FpFPQEKkSoCwF
+	 CCwMQa2l8jBsA==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 64LD685g81329069
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 21 May 2026 21:06:08 +0800
+Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 21 May 2026 21:06:09 +0800
+Received: from RTKEXHMBS04.realtek.com.tw ([::1]) by
+ RTKEXHMBS04.realtek.com.tw ([fe80::552f:8b32:656c:c395%6]) with mapi id
+ 15.02.2562.017; Thu, 21 May 2026 21:06:09 +0800
+From: Johnson Tsai <wenjie.tsai@realtek.com>
+To: Greg KH <gregkh@linuxfoundation.org>,
+        Elliot Saba
+	<sabae@valvesoftware.com>
+CC: Johannes Berg <johannes@sipsolutions.net>,
+        Ping-Ke Shih
+	<pkshih@realtek.com>,
+        "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>,
+        "driver-core@lists.linux.dev"
+	<driver-core@lists.linux.dev>,
+        Charles Lohr <charlesl@valvesoftware.com>
+Subject: RE: [External Mail] Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add
+ hw_info sysfs attribute
+Thread-Topic: [External Mail] Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add
+ hw_info sysfs attribute
+Thread-Index: AQHc52CHOsKUzQ+SEUSORaNAsdGbNbYUb+IAgABMgwCAAAMoAIAB5JEQ//+gswCAAIUIgIABApcAgACMGtA=
+Date: Thu, 21 May 2026 13:06:09 +0000
+Message-ID: <fe2a612385f8439a820272f442314d37@realtek.com>
+References: <20260519072415.25746-1-pkshih@realtek.com>
+ <efb61959e14e4f57b78fbd49a563398e@realtek.com>
+ <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
+ <2026051957-refract-barge-b21e@gregkh>
+ <b8640de28c5e4a94a3c2bbc3a101c1fa@realtek.com>
+ <2026052025-daringly-prolonged-5b2a@gregkh>
+ <9ce7404ea7bc480786b5ed0bb2182157@valvesoftware.com>
+ <2026052152-pureness-blinker-9e5c@gregkh>
+In-Reply-To: <2026052152-pureness-blinker-9e5c@gregkh>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dff1dcc7-59bd-40c7-981e-bd805ae6b3c1@mail.kernel.org>
 
-On Thu, May 21, 2026 at 11:30:44AM +0000, syzbot wrote:
-> A recursive locking deadlock can occur in the firmware loader's power
-> management notification handler.
-> 
-> During system suspend or hibernation preparation, fw_pm_notify() calls
-> device_cache_fw_images(). This function acquires fw_lock to set the
-> firmware cache state to FW_LOADER_START_CACHE and then iterates over
-> all devices using dpm_for_each_dev() while still holding the lock.
-> 
-> For each device, dev_cache_fw_image() schedules asynchronous work to
-> cache the firmware. If memory allocation for the async work entry fails
-> (e.g., in out-of-memory conditions), async_schedule_node_domain()
-> falls back to executing the work function synchronously in the current
-> thread.
-> 
-> The synchronous execution path (__async_dev_cache_fw_image() ->
-> cache_firmware() -> request_firmware() -> assign_fw()) attempts
-> to acquire fw_lock again. Since the current thread already holds
-> fw_lock, this results in a recursive locking deadlock.
-> 
-> Fix this by releasing fw_lock immediately after updating the cache
-> state and before calling dpm_for_each_dev(). The lock is only needed
-> to protect the state update. Concurrent firmware requests will correctly
-> see the FW_LOADER_START_CACHE state and use the piggyback mechanism,
-> which is independently protected by its own fwc->name_lock.
-> 
-> Fixes: ac39b3ea73aa ("firmware loader: let caching firmware piggyback on loading firmware")
-> Assisted-by: Gemini:gemini-3.1-pro-preview Gemini:gemini-3-flash-preview
-> Reported-by: syzbot+e70e4c6f6eee43357ba7@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=e70e4c6f6eee43357ba7
-> Link: https://syzkaller.appspot.com/ai_job?id=8cbf9f7d-812d-4db3-89fa-0aaef3ce3a2f
-> Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
 
-"syzbot" can not be an author :(
+On Thursday, May 21, 2026 18:58, Greg KH wrote:
+> On Wed, May 20, 2026 at 07:32:13PM +0000, Elliot Saba wrote:
+> > Hello Greg, Johannes, thank you for your time and feedback on this
+> patchset.
+> >
+> > The purpose of this information is to provide access to two pieces of
+> information, a serial number (also printed on the outside of the device, =
+used
+> for product tracking, RMAs, etc...) and a GUID (random entropy that is
+> intentionally difficult to guess).
+> > We use the GUID to establish a direct connection between the USB networ=
+k
+> adapter and another device.
+> >
+> > To directly answer your USB questions, unfortunately the ASIC used in t=
+his
+> product does not support customization of the USB serial number; all devi=
+ces
+> have the same USB serial number.  Indeed, I believe there is no mutable s=
+tate
+> on the device at all except for the e-fuses that are written at the facto=
+ry to
+> write these two values.  Given those constraints, we're trying to find th=
+e best
+> way to raise this up to userspace, and we're grateful for your feedback.
+>=20
+> Then where exactly does that "serial number" come from in the device so t=
+hat
+> it can be read by the kernel, if not in the USB device itself?
 
+The "serial number" we're talking about right now is not exposed through th=
+e standard=20
+USB descriptors. It is obtained via a vendor-specific H2C (Host-to-Chip)=20
+command, which reads EFUSE data into the rtw89 driver.=20
+Both SN and UUID are stored as specific fields within that data block.
+
+>=20
+> > This USB device is expected to operate on both Windows and Linux hosts,
+> on the Windows side we have a custom driver that allows our host applicat=
+ion
+> (Steam) to directly query these fuses and setup the network connection
+> appropriately.  We're attempting to upstream this capability as much as
+> possible so that users running a vanilla kernel can take advantage of the=
+se
+> features as much as possible.
+>=20
+> Great, why can't this driver also query the fuses?
+
+Yes, the driver can query the fuses directly, similar to the Windows driver=
+=20
+implementation.
+In this RFC v1, the H2C implementation is intentionally omitted to keep the=
+ discussion=20
+focused on the sysfs interface design and gather early feedback from the=20
+community.
+
+>=20
+> > With regards to permissions, we'd really like to make this serial numbe=
+r
+> readable by non-root users so that the pairing functionality can work out=
+-of-
+> the-box without needing special udev/tmpfiles.d rules to adjust permissio=
+ns
+> to allow Steam to read this information, but we are simultaneously
+> sympathetic to the desire to limit trackable/identifying information by d=
+efault.
+> Of course we can adjust permissions however needed for our own Linux
+> distribution, but in our effort to support the rest of the Linux ecosyste=
+m as
+> best we can, we'd like to do our best to find a solution that would work
+> everywhere.  We're open to comparing against any existing precedent for
+> devices that necessarily require identifying information to perform their=
+ basic
+> function, if you know of any.
+>=20
+> My objection is the placement of random sysfs files in the USB device
+> directory, for something that is not a USB device-specific thing, but rat=
+her a
+> driver-specific thing.  If this is a driver/device bound specific thing, =
+then put it
+> in the device that the driver creates and owns.  NOT in the device that t=
+he USB
+> core creates and owns.
+>=20
+
+We completely agree with your concern. Since accessing these values require=
+s=20
+driver-specific commands rather than standard USB requests, they should not=
+ live=20
+under the USB device directory.
+
+In the upcoming v2 patchset, we will move these attributes under the wiphy =
+device=20
+managed by the rtw89 driver. The paths will be something like:=20
+
+  $ cat /sys/class/ieee80211/phy0/sn
+  3642000123
+  $ cat /sys/class/ieee80211/phy0/uuid
+  aaec2b7c-0a55-4727-8de0-b30febccbbaa
+
+Additionally, these sysfs attributes will be strictly limited to Valve's sp=
+ecific VID/PID=20
+pair and will not be exposed on generic RTL8852CU devices.
+
+
+Thanks,
+
+Johnson
