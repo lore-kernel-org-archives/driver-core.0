@@ -1,148 +1,283 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8227039A047
-	for <driver-core@lists.linux.dev>; Thu, 21 May 2026 21:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EB131F98E;
+	Thu, 21 May 2026 23:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779399725; cv=none; b=GlV1bFPazllOf08I/+RLHNO6qDrVx9BhhjkOSX4lTQNE8xgCxfTOldj3yER7WkbuCsmRsC/w/0oeWFNviJoM+Hf0+PMyu4AJlNEjSGbMFI/IO6sKBE9/p8HcQRxHXeQT7IoX4JVHQ+TulaBX/qcwrB7ZoK/RitF4mhMyvyTdBMQ=
+	t=1779406762; cv=none; b=aWH010HlL+pdMDLPvRMlbBuKAiq+3KNi3jmViWQwxA7TwMreGEN81+qsaowq5UphTGA7zShStnkgFPEBt1FaHOindiJepAoITpjc1ipweNUhoeqsdxuJ8WSx8ZCQwl6gyh+QXZ82Z6h2AXUQ4aIU8CdSuvaneJHJeSsRnP0ghnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779399725; c=relaxed/simple;
-	bh=D/mGd45lIxOmoA+3CLxznMCipzEdkpoXc+Nyoc+yLW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=buXSGQzCvodyPBq5oLUiOIR19Bq4WahwTifIaKcL7/uJqpv+go9eTtLYrWuhD+WwFjPHExewaLV/oUe4n5HTN68YBfzoE01ryoGLUSPcQXj7OFlVsCQdjV6ejjwlzMtihI67AAZOatjySk/jIJghL3hvUHi4wQagU3rA2hyu5rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XkPhxdj1; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779406762; c=relaxed/simple;
+	bh=UtyavNy3t/fsQvpHev51O6aS6F/3Gu9YO4jx88jb1Pc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cGywBq0enO++VeUp3247U2yCeHY3wtmSNGSkqBG8FZnzxc+Z9vP1Wwue0nfruhQmXOEls1Vga7q8auvu9B7V9bRSEKIGf+MBhYgbnLRg9+pi7Gm5io/vFUlPoq6k0H37iFXKPMH3/BMpu2jIy1aKaF3m32+z0uaiBlXlJKUYgfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uoe2A26T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XkPhxdj1"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-488af9fdaa7so32257275e9.1
-        for <driver-core@lists.linux.dev>; Thu, 21 May 2026 14:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779399723; x=1780004523; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p5Z8Y+t9J8Wa71S6tIY8eYY/uTfey2i9ekOe1cFWFGs=;
-        b=XkPhxdj1wFezLzWz8aeU3cIMlTBkVn0hc1uliz0kTMtwmGuEfNViRBEItfLFLfyGJM
-         cZZiH7o+IXYdJSN/pmpmxHG2SIeeKle7MyhkiobTo7Z/M1iM4IqBM0syleghi0b0p+lE
-         wqrUxo1GiUDIqAwd0WE7U0Z1Gi+OeQ9i/OSrOXa72i9wtRYcJLYJjOscwadfkRuofaVK
-         /jLs2Cqo+9pIMtv0sHYYAKy2HqvSaqLi+l1+DssafG/KtgkSEnN5wOYQjWq5bcBbIQsq
-         KXfvTQUbvQr+Dqt/7ekJix4fitRsRl/oMkUqqBAGjHF66nBPEn9T3Tgj0StqXT/8Ewqf
-         ikrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779399723; x=1780004523;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=p5Z8Y+t9J8Wa71S6tIY8eYY/uTfey2i9ekOe1cFWFGs=;
-        b=cm3GDX2awkaJnwwig/zUEELRF2xUMqrk6VykHGUFZsABNhpemJLAXGhyYJauwnwkVZ
-         uvsRb4VHhJz+Ep9H1XMlDNFP7vYBYpYXFFquYUNc6Cj7x+8WCmWSO287IVDvFfr95vY4
-         685LN4ptwHNqatmgr5q5/N11cdN7Eh9J78R4eiT45Uqft0d10ttv/AThDyvZVaEExWAZ
-         uXhDbivDyt86XUp25+7GAbBy+2QP/egFtdAK+kmARog9KNCZQjkoUU8rVC41C17Qb8y/
-         QkfQy0mk3bMpnsxp2n+rsPxkV7+YFaf/esTnU3OEqt4WamXD45HeNPfGjyJzr4xuvN2c
-         h6iA==
-X-Forwarded-Encrypted: i=1; AFNElJ9bCLVO0waBnAoRYUXqxUiajXZtIfFcgYCjG+AMM7y5JiHhaWzYtCBy6sssqlhSIpVSEIaYHn2zPo+QKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6lvIrB/cW96LSf3ENTQm3A5K8Pcki3pgxqf28tCNuvipdg9wH
-	ld5oNh/5DPGuP10tS/6WkgUpBM0aDLsGYUz1Ut4RiwQvySv3dXdFR2XcqGONRJtR
-X-Gm-Gg: Acq92OGRPLYBPXYqqmruT8ME0bS7zBMEfO92ByzZsci8Fd4rYFP7ZjIOviGjW4MYnBC
-	tpL0Ve1/p38LcE4izydFCMf3oiwaoSAgo1wuxyzA7aMr6mnuly7LF22iJyOzbzSLBryqSN9bb4P
-	vjpJSDZqPYQas9P25jOnowjBRxSVcQJfxMSdRYunPRkqMOpp3qmcAKV5Y5G1m5H9hm7iuicR8Vb
-	nVQiaNEJtiE9rw+btYQSn89Zof0gybg0hq/xAAE5pS6l2FX/ThTohrEl28/OVAJ9/ZoeDCbE/xj
-	yCAc60974IlZa/XfFbcv8v6FtJ3Iyd/iybERcWVL8LbsK4jk4gSAt9bptgK0A/HKlvWkmM+NAio
-	iJIsXSvJYDEzizZacPHJi/JY/6uZTvE2S3h4mcCWyOWvCmFEiU4LlDkr6SS2uO0aoPLib04xC1R
-	7teBH5nVVV4CdzsKIo0XGokl090woCqRH1K/vJRQa6Gw0Ectnicd3Z6iHjtmXfzN9U
-X-Received: by 2002:a05:600c:3547:b0:48f:e230:8cab with SMTP id 5b1f17b1804b1-49042adfb3fmr6064695e9.31.1779399722784;
-        Thu, 21 May 2026 14:42:02 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb496e098sm172859f8f.8.2026.05.21.14.42.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 14:42:02 -0700 (PDT)
-Date: Thu, 21 May 2026 22:42:00 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, "Rafael J.
- Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, NeilBrown
- <neil@brown.name>
-Subject: Re: [PATCH] sysfs: clamp show() return value in sysfs_kf_read()
-Message-ID: <20260521224200.4996ba7e@pumpkin>
-In-Reply-To: <ag8wQfilndx2CtX-@slm.duckdns.org>
-References: <2026052000-drove-unicycle-d61b@gregkh>
-	<3fb84b4c71fce994cfe1e06a5fe3970f@kernel.org>
-	<2026052129-mustard-sepia-5cd6@gregkh>
-	<ag8wQfilndx2CtX-@slm.duckdns.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uoe2A26T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5080D1F000E9;
+	Thu, 21 May 2026 23:39:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779406759;
+	bh=oh6ATn0JwY4+EDxHSfHhWKPTI9yODfpqPfUosl9OAY8=;
+	h=From:To:Cc:Subject:Date;
+	b=Uoe2A26TNx5SV2ZJaH7ZPogYuwJjOK4C5jLrJPlxJ1nirNVBU+2ELtiPUa2FU+ssm
+	 4DcToCl9EApK3h4eyklEy3lOm8M+p0bIhepRDTHV+K/x+ncrzbdlGnlhEYYptJbr2a
+	 bYwEe4aNSknanDN/ZGdZqpf1tjbAIIBUzPhf/AAg8QQfQoymApX2NWmS3sJzqtU79b
+	 FxRAVpjuXJvC047Xk4+nDj9w+BFE1YQITCYTQ3lqMMB8eHVVQOcUzx6/X/JUSGe+An
+	 AlOC9DV6ND2yfBPmeFruSUJzsP7I5oD+wKujuQ4CqnI+F+WQxgVov1kz2bbItetxLM
+	 Q4NDCHWjoB1ew==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	acourbot@nvidia.com,
+	aliceryhl@google.com,
+	david.m.ertman@intel.com,
+	ira.weiny@intel.com,
+	leon@kernel.org,
+	viresh.kumar@linaro.org,
+	m.wilczynski@samsung.com,
+	ukleinek@kernel.org,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org,
+	abdiel.janulgue@gmail.com,
+	robin.murphy@arm.com,
+	markus.probst@posteo.de,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	igor.korotin@linux.dev,
+	daniel.almeida@collabora.com,
+	pcolberg@redhat.com
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-pm@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v4 00/27] rust: device: Higher-Ranked Lifetime Types for device drivers
+Date: Fri, 22 May 2026 01:34:26 +0200
+Message-ID: <20260521233501.1191842-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 21 May 2026 06:18:09 -1000
-Tejun Heo <tj@kernel.org> wrote:
+Currently, Rust device drivers access device resources such as PCI BAR mappings
+and I/O memory regions through Devres<T>.
 
-> Hello,
-> 
-> On Thu, May 21, 2026 at 08:18:32AM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, May 20, 2026 at 08:19:34AM -1000, Tejun Heo wrote:  
-> > > Hello,
-> > > 
-> > > Two nits:
-> > > 
-> > > - Buffer is atomic_write_len ?: PAGE_SIZE, so probably better to clamp
-> > >   to that than hardcode PAGE_SIZE.  
-> > 
-> > Where is that check at?  And sysfs_kf_seq_show() doesn't check it this
-> > way, should that change?  
-> 
-> In kernfs_fop_open(), if ops->prealloc, we allocate of->prealloc_buf to the
-> size of of->atomic_write_len ?: PAGE_SIZE. Maybe we should just update
-> of->atomic_write_len. I think the intention was to allow >PAGE_SIZE atomic
-> content. seq_file now does dynamic buffer resizing, so this may not be
-> necessary. There's no clean interface to preemptly set the minimum buffer
-> size right now but that probably is the better direction. Then, we can just
-> always go through seq_file.
+Devres::access() provides zero-overhead access by taking a &Device<Bound>
+reference as proof that the device is still bound. Since a &Device<Bound> is
+available in almost all contexts by design, Devres is mostly a type-system level
+proof that the resource is valid, but it can also be used from scopes without
+this guarantee through its try_access() accessor.
 
-Except that the buffer size is always PAGE_SIZE in the prealloc paths.
-A larger size is used by the cgroup code - but that is really for writes.
+This works well in general, but has a few limitations:
 
-There seems to have been a lot of rework to all this code around 3.13.
-I can't quite see what it looked like before.
+  - Every access to a device resource goes through Devres::access(), which
+    despite zero cost, adds boilerplate to every access site.
 
-But I think the write code should reject writes longer than
-of->atomic_write_len ?: PAGE_SIZE because all writes are treated as
-having 'offset zero'.
-If op->atomic_write_len is non-zero overlong writes are rejected.
-If op->atomic_write_len is zero then writes are truncated and userspace
-is likely to do a second write for the remainder - which won't DTRT.
-The naming suggests that loop existed in the kernel at some point,
-but I can't find that version.
+  - Destructors do not receive a &Device<Bound>, so they must use try_access(),
+    which can fail. In practice the access succeeds if teardown ordering is
+    correct, but the type system can't express this, forcing drivers to handle a
+    failure path that should never be taken.
 
-The 'prealloc' code was added later and reused 'atomic_write_len' for
-the buffer size. But the only users leave it as default - allowing
-PAGE_SIZE requests which require a kmalloc(PAGE_SIZE + 1) (aka 2 pages)
-because of the trailing '\0' added to writes.
+  - Sharing a resource across components (e.g. passing a BAR to a sub-component)
+    requires Arc<Devres<T>>.
 
-The 'prealloc' code is all about trying to avoid a kmalloc() that might
-fail and cause a deadlock.
-But I suspect the daemon doing the system call wont actually get to that
-kmalloc() if memory to so short it fails to allocate the IO buffer.
-Even if that were a problem an option to make that path 'try harder'
-to kmalloc() the buffer would be better than preallocating pairs of pages
-for each of the six? cgroup 'files'.
-(It could even fall back to a single preallocated buffer for all users
-that deem it important.)
+  - Device references must be stored as ARef<Device> rather than plain &Device
+    borrows.
 
-Reading this code is hard because of the tangled mess between kernfs/file.c
-and sysfs/file.c.
+These limitations stem from the driver's bus device private data being 'static
+-- the driver struct cannot borrow from the device reference it receives in
+probe(), even though it structurally cannot outlive the device binding.
 
--- David
+This series introduces Higher-Ranked Lifetime Types (HRT) for Rust device
+drivers. An HRT is a type that is generic over a lifetime -- it does not have a
+fixed lifetime, but can be instantiated with any lifetime chosen by the caller.
 
-> 
-> Thanks.
-> 
+Bus driver traits use a Generic Associated Type (GAT) type Data<'bound> to
+introduce the lifetime on the private data, rather than parameterizing the
+Driver trait itself. This avoids a driver trait global lifetime and avoids the
+need for ForLt for bus device private data, making the bus implementations much
+simpler. ForLt is only needed for auxiliary registration data, where the
+lifetime is not introduced by a trait callback but must be threaded through
+Registration.
+
+With HRT, driver structs carry a lifetime parameter tied to the device binding
+scope -- the interval of a bus device being bound to a driver. Device resources
+like pci::Bar<'bound> and IoMem<'bound> are handed out with this lifetime, so
+the compiler enforces at build time that they do not escape the binding scope.
+
+Before:
+
+	struct MyDriver {
+	    pdev: ARef<pci::Device>,
+	    bar: Devres<pci::Bar<BAR_SIZE>>,
+	}
+
+	let io = self.bar.access(dev)?;
+	io.read32(OFFSET);
+
+After:
+
+	struct MyDriver<'bound> {
+	    pdev: &'bound pci::Device,
+	    bar: pci::Bar<'bound, BAR_SIZE>,
+	}
+
+	self.bar.read32(OFFSET);
+
+Lifetime-parameterized device resources can be put into a Devres at any point
+via Bar::into_devres() / IoMem::into_devres(), providing the exact same
+semantics as before. This is useful for resources shared across subsystem
+boundaries where revocation is needed.
+
+This also synergizes with the upcoming self-referential initialization support
+in pin-init, which allows one field of the driver struct to borrow another
+during initialization without unsafe code.
+
+The same pattern is applied to auxiliary device registration data as a first
+example beyond bus device private data. Registration<F: ForLt> can hold
+lifetime-parameterized data tied to the parent driver's binding scope. Since the
+auxiliary bus guarantees that the parent remains bound while the auxiliary
+device is registered, the registration data can safely borrow the parent's
+device resources.
+
+More generally, binding resource lifetimes to a registration scope applies to
+every registration that is scoped to a driver binding -- auxiliary devices,
+class devices, IRQ handlers, workqueues.
+
+A follow-up series extends this to class device registrations, starting with
+DRM, so that class device callbacks (IOCTLs, etc.) can safely access device
+resources through the separate registration data bound to the registration's
+lifetime without Devres indirection.
+
+The series contains a few driver patches for reference, indicated by the REF
+suffix.
+
+Thanks to Gary for coming up with the ForLt implementation; thanks to Alice for
+the early discussions around lifetime-parameterized private data that helped
+shape the direction of this work.
+
+Changes in v4:
+  - Use 'bound only for lifetimes that represent the full duration of a device
+    being bound to a driver
+  - Make Core and CoreInternal lifetime-parameterized
+  - Split auxiliary::Registration constructor into unsafe fn new_with_lt
+    (borrowed data) and safe fn new ('static data) to close mem::forget()
+    soundness hole
+  - Use TypeId::of::<F>() instead of TypeId::of::<F::Of<'static>>() in auxiliary
+    registration_data()
+  - Handle Type::Macro in ForLt! covariance and WF checks; proc macros cannot
+    expand macro_rules invocations, so use WithLt trait projection for lifetime
+    substitution
+  - Fix missing Send bound in type Data: Send
+
+Changes in v3:
+  - Rework all bus "make Driver trait lifetime-parameterized" patches to use a
+    GAT (type Data<'bound>); in the context of adding a 'bound lifetime, this
+    avoids a driver trait global lifetime and avoids ForLt for bus device
+    private data making the bus implementations much simpler
+
+Changes in v2:
+  - Add 'a bound to ForLt::Of<'a> and WithLt::Of, making the lifetime bound
+    inherent to the trait; remove all F::Of<'static>: 'static where clauses
+  - Drop "rust: devres: add ForLt support to Devres"; Devres itself stays
+    unchanged -- ForLt-aware access is introduced later through DevresLt in a
+    separate series
+  - Use 'bound instead of 'a; add patches to consistently use 'bound for
+    pre-existing 'a
+
+Danilo Krummrich (24):
+  rust: driver: decouple driver private data from driver type
+  rust: driver core: drop drvdata before devres release
+  rust: pci: implement Sync for Device<Bound>
+  rust: platform: implement Sync for Device<Bound>
+  rust: auxiliary: implement Sync for Device<Bound>
+  rust: usb: implement Sync for Device<Bound>
+  rust: device: implement Sync for Device<Bound>
+  rust: device: make Core and CoreInternal lifetime-parameterized
+  rust: pci: make Driver trait lifetime-parameterized
+  rust: platform: make Driver trait lifetime-parameterized
+  rust: auxiliary: make Driver trait lifetime-parameterized
+  rust: usb: make Driver trait lifetime-parameterized
+  rust: i2c: make Driver trait lifetime-parameterized
+  rust: driver: update module documentation for GAT-based Data type
+  rust: pci: make Bar lifetime-parameterized
+  rust: io: make IoMem and ExclusiveIoMem lifetime-parameterized
+  samples: rust: rust_driver_pci: use HRT lifetime for Bar
+  gpu: nova-core: separate driver type from driver data
+  rust: auxiliary: generalize Registration over ForLt
+  samples: rust: rust_driver_auxiliary: showcase lifetime-bound
+    registration data
+  gpu: nova-core: use lifetime for Bar
+  gpu: nova-core: unregister sysmem flush page from Drop
+  gpu: nova-core: replace ARef<Device> with &'bound Device in
+    SysmemFlush
+  gpu: drm: tyr: use lifetime for IoMem
+
+Gary Guo (3):
+  rust: alloc: remove `'static` bound on `ForeignOwnable`
+  rust: driver: move 'static bounds to constructor
+  rust: types: add `ForLt` trait for higher-ranked lifetime support
+
+ drivers/base/dd.c                     |   2 +-
+ drivers/cpufreq/rcpufreq_dt.rs        |   9 +-
+ drivers/gpu/drm/nova/driver.rs        |   6 +-
+ drivers/gpu/drm/tyr/driver.rs         |  23 ++-
+ drivers/gpu/drm/tyr/gpu.rs            |  62 +++---
+ drivers/gpu/drm/tyr/regs.rs           |  21 +-
+ drivers/gpu/nova-core/driver.rs       |  52 ++---
+ drivers/gpu/nova-core/fb.rs           |  31 ++-
+ drivers/gpu/nova-core/gpu.rs          |  38 ++--
+ drivers/gpu/nova-core/nova_core.rs    |   2 +-
+ drivers/pwm/pwm_th1520.rs             |  13 +-
+ include/linux/device/driver.h         |   4 +-
+ rust/Makefile                         |   1 +
+ rust/kernel/alloc/kbox.rs             |  24 ++-
+ rust/kernel/auxiliary.rs              | 142 +++++++++----
+ rust/kernel/cpufreq.rs                |   9 +-
+ rust/kernel/device.rs                 |  61 ++++--
+ rust/kernel/devres.rs                 |   2 +-
+ rust/kernel/dma.rs                    |   2 +-
+ rust/kernel/driver.rs                 |  41 ++--
+ rust/kernel/i2c.rs                    |  61 +++---
+ rust/kernel/io/mem.rs                 | 121 ++++++------
+ rust/kernel/pci.rs                    |  51 +++--
+ rust/kernel/pci/id.rs                 |   2 +-
+ rust/kernel/pci/io.rs                 |  50 ++---
+ rust/kernel/platform.rs               |  52 ++---
+ rust/kernel/types.rs                  |  12 +-
+ rust/kernel/types/for_lt.rs           | 117 +++++++++++
+ rust/kernel/usb.rs                    |  61 +++---
+ rust/macros/for_lt.rs                 | 274 ++++++++++++++++++++++++++
+ rust/macros/lib.rs                    |  12 ++
+ samples/rust/rust_debugfs.rs          |  11 +-
+ samples/rust/rust_dma.rs              |   6 +-
+ samples/rust/rust_driver_auxiliary.rs |  79 +++++---
+ samples/rust/rust_driver_i2c.rs       |  13 +-
+ samples/rust/rust_driver_pci.rs       |  90 ++++-----
+ samples/rust/rust_driver_platform.rs  |   9 +-
+ samples/rust/rust_driver_usb.rs       |  17 +-
+ samples/rust/rust_i2c_client.rs       |  14 +-
+ samples/rust/rust_soc.rs              |   9 +-
+ 40 files changed, 1095 insertions(+), 511 deletions(-)
+ create mode 100644 rust/kernel/types/for_lt.rs
+ create mode 100644 rust/macros/for_lt.rs
+
+
+base-commit: 454257f6d124a92342dcbb7710c03dd6ef96c731
+-- 
+2.54.0
 
