@@ -1,117 +1,81 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE0B379C45
-	for <driver-core@lists.linux.dev>; Thu, 21 May 2026 10:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BC7385D9E;
+	Thu, 21 May 2026 10:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779357847; cv=none; b=O9rO3vPEznKMJg8FORU8gnr1jrx49vsUOOoStpBugrXGfsoc27jj2NkHmJB7iIIoxhxHnwIIkbvsRjZAqzX1wY7exLgsZvMl8gDt0PejroyBO1HTrsxVRQkTvoHw2QYJGDBFqIUHSWJ+77kBHLJMkJmV8NjL+gxetu+5KKC6BxU=
+	t=1779361062; cv=none; b=gz7u/K/wn+PuBLBaF08DBkoR3D9FgjDFGQtcpir7mqUWDqcpnksH1RFQPHWnbOfEZzeMrgkglziv/AfvZsQhklN8lAa/wtq07CdoKvCvr1Vv5/h4yPJR2FYf0MO8TDBeEwT+5Xqye5x8mxV2Pqvho6AKSMcBWtxzSIreblnHP9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779357847; c=relaxed/simple;
-	bh=EgBZvjh1Qs/Cj4Abb16jBF7Eime7nxC5LtTa/gBSeVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=emYGT/sOQNqdLu4WGy37QRYIgukTCEJUqs2O8ggYB1y5Rqo9KvXKDs8O2k0obJKnR6fgBxvVF2lOhIWnr/sdRld9SPT+IAeWKDHQrkrdlfyA/t25Y6KM3Qme9KZZh8k1QVuwvSqEplZk4Iufjf5wJi87jB4VpGvjSw5yhv8zPes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ma1TeMYP; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779361062; c=relaxed/simple;
+	bh=bPSw3rQUd5ThqwO4nSsvJOhJieCC7zrqPZfbkVxMrNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLNcydKB3o+Vbr6b0Ko/biTB6EXRRmF3FOJxhlC35MIQZmhovWKBDgXQV3FkNr+oSp6pmdMLiJvhn0WU4BzppHS5nhDEa+lTGkR94DUVl/Aq1zb8RdCqDWvhh40Kg6QwO++upvoJiX6QJZGnGiXwJM8wTtA+NPtFv/mrkx88H1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C2PgYbTW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ma1TeMYP"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-44ce78ab5feso5004484f8f.0
-        for <driver-core@lists.linux.dev>; Thu, 21 May 2026 03:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779357844; x=1779962644; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wTKlzlVDcAgwmo+jlp2/BdTkqc6mLAjeBwVPaOtYRRY=;
-        b=Ma1TeMYPOwABWidRbOiGgDmZ/UxoNgdB0gsxuSSbCRw4ZbP6P4GLZWs6Wd0qJq7QCG
-         +Rp7bgEmf2KZIhcW2BbcN6Z7ZfDS3+8O0q1rhHeksY5X51FZ0xHwUbKHnIY/6C/uRsDw
-         oWVmgsyXVQ7loND3v0fgPjG4KALo9NNPQbu/qOlEE6zwb6sBl/JQA4nfspYE03sRJbhs
-         tGDsMXza4lkW70keTX9FlUY36U80E7enQs/fmondndeL/XTphjtjA6mcit/2JiY2PzP8
-         wiJWrigUZwjKCFSFKrsn+fslMnrCR4kuWFqmBxTubLymuDt6MDotmwPTADiF67pfIGJ+
-         RQWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779357844; x=1779962644;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wTKlzlVDcAgwmo+jlp2/BdTkqc6mLAjeBwVPaOtYRRY=;
-        b=EU3m+TpYZ8FY0IupsW15LY/XrizaydU1ZQ11U3TSU7O0OhOTr46zjWHR3G5WGqkfar
-         35QPws1asnrDCg4ca9T4RiWqE2vyjpR3ZBzVE1R6s4xBISYFiCuX7I2Ccm6cEyzyMsUU
-         nd7Zl8TQIosI7ygvArRolHFJ1QGvEscBv88uAzwWNt4IJVH+tRf7bIc+AoSpjBCkO2o7
-         CESKLMlBhZWgwHLgpdNlzTxRlABv8/e3IdMpD/S5cxcT+laSTV6oZS0NaHM5+VFRNcsB
-         Bi1XMlL18VuT0IqcDiW7hX81jdydQJNhsq6iU6Y7YwNowEzP3vF6R1mvWRtNDiS5f7xA
-         C+vQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/gMkFBwsBUwARqGpBroRmKHIQXpgLBEUEeCE331ZsU0QxU3GqpX0O6NgHBUWc6C37pJSXYS6+VKsAGVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMblVF3QmAJHY+GtSzde3RSy+i+iApQlvTtJp4lygtDSEtxXhK
-	X7Wsbu/VthNVK7LYTxbA5S9goBPktauzlDxQ0TETqdjTCt9lQdadPFcL
-X-Gm-Gg: Acq92OG/3J2x55WrM9JmbZbAZCFvePFBUlwBvL8FIAVSn7JS01rzwK4jheUhV6uEUx3
-	xq+E9s15BXu95RFU4EZhJ6CY80wBeGYF7rksjki81OyoFbiUsbgZJ2u/ML025vqHk3xOvGxbq5e
-	Gtt7T7PtfivxEoD4Z8/84Oa77wtYd6WUTA21EGYWXph78Wq75qaX97iCkSWY3ZwUX8xrFQ8dqxP
-	ZIz8F3YEGNQ24h3FBVt+F4YbhB94IeRZ29yvBPtZb/do0X9SQDu4NuM4km3zEgsHwl5PNE57vQo
-	Dr8E+XPblaWbik8NGNsncaHNKVw1Coe/av4M3555T6SRbIIIFBjeLpU/56luhOT7MAVoRuAgRQy
-	3/dJXL/hcYfZu4u8kdq6AFL9OFbkY83JZCnLcBbF2bHs9O//FyKUI0jfUObOsLKeKUmDWhY7/E8
-	MHlKeE9lGq92VklSka5rAzAMWZi6egWxF8k136JPnJ8sqJfpugfKIITxhvZieimjNB
-X-Received: by 2002:a05:6000:22c2:b0:43f:e934:50ac with SMTP id ffacd0b85a97d-45ea35aed48mr3660784f8f.7.1779357844198;
-        Thu, 21 May 2026 03:04:04 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa93630asm1418858f8f.25.2026.05.21.03.04.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 03:04:03 -0700 (PDT)
-Date: Thu, 21 May 2026 11:04:02 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tejun Heo <tj@kernel.org>, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, NeilBrown <neil@brown.name>
-Subject: Re: [PATCH] sysfs: clamp show() return value in sysfs_kf_read()
-Message-ID: <20260521110402.7bc76f4e@pumpkin>
-In-Reply-To: <2026052129-mustard-sepia-5cd6@gregkh>
-References: <2026052000-drove-unicycle-d61b@gregkh>
-	<3fb84b4c71fce994cfe1e06a5fe3970f@kernel.org>
-	<2026052129-mustard-sepia-5cd6@gregkh>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C2PgYbTW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 302BE1F000E9;
+	Thu, 21 May 2026 10:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1779361061;
+	bh=27akLTsRSgP7ogQAxJhqBgzdTNpBKT8E1KbP/a65xnI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=C2PgYbTWBAYgfUiOkuED7Fqh31DAfCDpd2btf+7P6gkBCF5ua/XOJxa6+gCRqm0Qj
+	 HG74RnBW66E/2v2FSaEDftzT//lpnEgx2mCuUxFzBPHyu6eQmcnJO6igsXL85mYtIy
+	 PHdhMtqo8vEvO/XlyOULPB8fn8KcegTek19fWja4=
+Date: Thu, 21 May 2026 12:57:44 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Elliot Saba <sabae@valvesoftware.com>
+Cc: Johnson Tsai <wenjie.tsai@realtek.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Ping-Ke Shih <pkshih@realtek.com>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
+	Charles Lohr <charlesl@valvesoftware.com>
+Subject: Re: [External Mail] Re: [RFC rtw-next 1/2] wifi: rtw89: usb: add
+ hw_info sysfs attribute
+Message-ID: <2026052152-pureness-blinker-9e5c@gregkh>
+References: <20260519072415.25746-1-pkshih@realtek.com>
+ <efb61959e14e4f57b78fbd49a563398e@realtek.com>
+ <83ddb427597663b947c49afd835014f2bc1033f2.camel@sipsolutions.net>
+ <2026051957-refract-barge-b21e@gregkh>
+ <b8640de28c5e4a94a3c2bbc3a101c1fa@realtek.com>
+ <2026052025-daringly-prolonged-5b2a@gregkh>
+ <9ce7404ea7bc480786b5ed0bb2182157@valvesoftware.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9ce7404ea7bc480786b5ed0bb2182157@valvesoftware.com>
 
-On Thu, 21 May 2026 08:18:32 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-
-> On Wed, May 20, 2026 at 08:19:34AM -1000, Tejun Heo wrote:
-> > Hello,
-> > 
-> > Two nits:
-> > 
-> > - Buffer is atomic_write_len ?: PAGE_SIZE, so probably better to clamp
-> >   to that than hardcode PAGE_SIZE.  
+On Wed, May 20, 2026 at 07:32:13PM +0000, Elliot Saba wrote:
+> Hello Greg, Johannes, thank you for your time and feedback on this patchset.
 > 
-> Where is that check at?  And sysfs_kf_seq_show() doesn't check it this
-> way, should that change?
-
-It would be better to always fix the 'show' buffer at PAGE_SIZE (or 4k).
-
-The only place that uses is different value is the cgroup code and I
-think it needs to support longer writes (100 + 6 * NR_CPUS).
-I've not looked at how it handles the matching reads - I presume they exist.
-If the data is binary, or it uses seq_printf() then it can just support
-a longer dynamically allocated buffer.
-
--- David
-
+> The purpose of this information is to provide access to two pieces of information, a serial number (also printed on the outside of the device, used for product tracking, RMAs, etc...) and a GUID (random entropy that is intentionally difficult to guess).
+> We use the GUID to establish a direct connection between the USB network adapter and another device.
 > 
-> > - pr_warn() instead of bare printk()?  
-> 
-> This is copying the message in sysfs_kf_seq_show() that has the same
-> exact format.  I will send a follow-on patch to make both the same.
-> 
-> thanks,
-> 
-> greg k-h
-> 
+> To directly answer your USB questions, unfortunately the ASIC used in this product does not support customization of the USB serial number; all devices have the same USB serial number.  Indeed, I believe there is no mutable state on the device at all except for the e-fuses that are written at the factory to write these two values.  Given those constraints, we're trying to find the best way to raise this up to userspace, and we're grateful for your feedback.
 
+Then where exactly does that "serial number" come from in the device so
+that it can be read by the kernel, if not in the USB device itself?
+
+> This USB device is expected to operate on both Windows and Linux hosts, on the Windows side we have a custom driver that allows our host application (Steam) to directly query these fuses and setup the network connection appropriately.  We're attempting to upstream this capability as much as possible so that users running a vanilla kernel can take advantage of these features as much as possible.
+
+Great, why can't this driver also query the fuses?
+
+> With regards to permissions, we'd really like to make this serial number readable by non-root users so that the pairing functionality can work out-of-the-box without needing special udev/tmpfiles.d rules to adjust permissions to allow Steam to read this information, but we are simultaneously sympathetic to the desire to limit trackable/identifying information by default.  Of course we can adjust permissions however needed for our own Linux distribution, but in our effort to support the rest of the Linux ecosystem as best we can, we'd like to do our best to find a solution that would work everywhere.  We're open to comparing against any existing precedent for devices that necessarily require identifying information to perform their basic function, if you know of any.
+
+My objection is the placement of random sysfs files in the USB device
+directory, for something that is not a USB device-specific thing, but
+rather a driver-specific thing.  If this is a driver/device bound
+specific thing, then put it in the device that the driver creates and
+owns.  NOT in the device that the USB core creates and owns.
+
+thanks,
+
+greg k-h
