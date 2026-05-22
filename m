@@ -1,48 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479822C028F;
-	Fri, 22 May 2026 10:14:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1F93D25D7;
+	Fri, 22 May 2026 10:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779444894; cv=none; b=BIp/ihuxUzBD0ywYR0nmPwIreKSLAUXhlkQmOdah3/dabsKDF8mt3yJJqFnxvI5GI+JvLvjIqHWMHx8+cBrzJT4p89pw9Vv+uKvNw++bv+Ld5r70oS2gKmLzZzQ5aIDmJr2NlrUnPZnDFpytcMUQmQXRVg4v1EQ5emSdHT8t6ks=
+	t=1779445441; cv=none; b=m1CzFTQpp2AXFjy7klrHZ7+jnspK5rteV5L6tasIq4FNLZPdj3VmTQW6flnjXEKM/wuxYdM8ysHbjwE4rJZn/yHf0g1OQUdZvDVuGcECava5FZR6IhUjnc2pmKpfZ24Dy4DV3AS/+Ooyu4Kt+UMkaI2Xu9uYDk5xMLUsA7UNNtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779444894; c=relaxed/simple;
-	bh=D+6rf656m/h7dS7mrJnYJ8NA6/KHGVnvnPJi0IdIYq0=;
+	s=arc-20240116; t=1779445441; c=relaxed/simple;
+	bh=erBG5BvKCe+MIFcZ+3w2qYG7/6BjnB7j4GI7RzhtL5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppXDKvZFbYwZJ1uvZNlhpaCp7j9G4MgAbzYlTbdXH+u21eJzpTmHeIpFuBj9padP/TK1zzKFhMjG+flbV5Rt+qedGI8BBldT0386qsb7DyGxBP29r61QcSumBxW4ABjFR4YwDFuL4Sj5Du3Nrn4zdjYmK9dBN9qmkS83qoLRPb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nXG6ZvjM; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JOl+z28OuRTnnI3ZvlRifb/zfPWYOOo7xS1h5+ihIH9VSZm4xOKbVcXN1vU4kFZcMNDcVfL5lFgdDBPZ5X7CS9YEBYboQPQlhHfcEaweeHAtwrtmVd+mq1Dp4jni+IDRKrNZOJ0zZTliPe72y8WbbH+ABh3+cs1FhQvNDVcQtP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nTmUck+L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nXG6ZvjM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E5601F000E9;
-	Fri, 22 May 2026 10:14:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nTmUck+L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1783E1F000E9;
+	Fri, 22 May 2026 10:23:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779444892;
-	bh=+eWdPqbw9hijCK3kUnucObPuKy2/QFassSDTi9MvW1w=;
+	s=korg; t=1779445439;
+	bh=Xv8ZoUoS/zmnRcAbOAXWRel8m5XtyLI16d4nRsrnI1E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nXG6ZvjMkL4RnuznluSVfMxziUgYDGWEo/8JJIuAyvynQ9L4UP3As0XhSQn9oz5VY
-	 OlTRs9/rmRISvVCOnTxwZK2r3Fm81kDDf0f3wG58me5MIw+eyTDIMyOyO/GHGdO0w7
-	 HYylR9uWY2Vy+gvLx++GoZLYPzz7Vto7Ujxrxfwg=
-Date: Fri, 22 May 2026 12:14:55 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	b=nTmUck+LhIpK9r8rRtBbMEOs+FFOJ/ok5cPw1PQ5XoNwZbkf6MoIRc9Fo9rfvyM2L
+	 WdaC6iS0yQuocDO7rBhfM4i+QTqKZIFfiBk/Qre9+12g9grJ3xGUvEKWYbejVKiyM5
+	 gTNTwJDxSUKK8OWOmNUaRf3yCbyIwpDVaki3A7BU=
+Date: Fri, 22 May 2026 12:24:02 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Danilo Krummrich <dakr@kernel.org>
-Cc: rafael@kernel.org, acourbot@nvidia.com, aliceryhl@google.com,
-	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org,
-	viresh.kumar@linaro.org, m.wilczynski@samsung.com,
-	ukleinek@kernel.org, bhelgaas@google.com, kwilczynski@kernel.org,
-	abdiel.janulgue@gmail.com, robin.murphy@arm.com,
-	markus.probst@posteo.de, ojeda@kernel.org, boqun@kernel.org,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-	a.hindborg@kernel.org, tmgross@umich.edu, igor.korotin@linux.dev,
-	daniel.almeida@collabora.com, pcolberg@redhat.com,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v4 00/27] rust: device: Higher-Ranked Lifetime Types for
- device drivers
-Message-ID: <2026052242-geranium-disfigure-cfaf@gregkh>
-References: <20260521233501.1191842-1-dakr@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>, driver-core@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	brgl@kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] device property: set fwnode->secondary to NULL in
+ fwnode_init()
+Message-ID: <2026052254-rug-mug-24cd@gregkh>
+References: <20260506115701.23035-1-bartosz.golaszewski@oss.qualcomm.com>
+ <DICUSYTHZ339.3DW3CRNZ32K6U@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -51,106 +49,27 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260521233501.1191842-1-dakr@kernel.org>
+In-Reply-To: <DICUSYTHZ339.3DW3CRNZ32K6U@kernel.org>
 
-On Fri, May 22, 2026 at 01:34:26AM +0200, Danilo Krummrich wrote:
-> Currently, Rust device drivers access device resources such as PCI BAR mappings
-> and I/O memory regions through Devres<T>.
+On Fri, May 08, 2026 at 02:03:44AM +0200, Danilo Krummrich wrote:
+> On Wed May 6, 2026 at 1:57 PM CEST, Bartosz Golaszewski wrote:
+> > If a firmware node is allocated on the stack (for instance: temporary
+> > software node whose life-time we control) or on the heap - but using a
+> > non-zeroing allocation function - and initialized using fwnode_init(),
+> > its secondary pointer will contain uninitalized memory which likely will
+> > be neither NULL nor IS_ERR().
 > 
-> Devres::access() provides zero-overhead access by taking a &Device<Bound>
-> reference as proof that the device is still bound. Since a &Device<Bound> is
-> available in almost all contexts by design, Devres is mostly a type-system level
-> proof that the resource is valid, but it can also be used from scopes without
-> this guarantee through its try_access() accessor.
+> I see why secondary is generally more prone to this, but if the justification of
+> this change is to not rely on the caller to zero out the memory, then we might
+> just want to initialize all fields.
 > 
-> This works well in general, but has a few limitations:
+> For instance, if the caller is allowed to not zero-initialize the memory then
+> having flags with a random value isn't correct either; all accessors are atomic
+> bitwise operations that never zero the whole field.
 > 
->   - Every access to a device resource goes through Devres::access(), which
->     despite zero cost, adds boilerplate to every access site.
-> 
->   - Destructors do not receive a &Device<Bound>, so they must use try_access(),
->     which can fail. In practice the access succeeds if teardown ordering is
->     correct, but the type system can't express this, forcing drivers to handle a
->     failure path that should never be taken.
-> 
->   - Sharing a resource across components (e.g. passing a BAR to a sub-component)
->     requires Arc<Devres<T>>.
-> 
->   - Device references must be stored as ARef<Device> rather than plain &Device
->     borrows.
-> 
-> These limitations stem from the driver's bus device private data being 'static
-> -- the driver struct cannot borrow from the device reference it receives in
-> probe(), even though it structurally cannot outlive the device binding.
-> 
-> This series introduces Higher-Ranked Lifetime Types (HRT) for Rust device
-> drivers. An HRT is a type that is generic over a lifetime -- it does not have a
-> fixed lifetime, but can be instantiated with any lifetime chosen by the caller.
-> 
-> Bus driver traits use a Generic Associated Type (GAT) type Data<'bound> to
-> introduce the lifetime on the private data, rather than parameterizing the
-> Driver trait itself. This avoids a driver trait global lifetime and avoids the
-> need for ForLt for bus device private data, making the bus implementations much
-> simpler. ForLt is only needed for auxiliary registration data, where the
-> lifetime is not introduced by a trait callback but must be threaded through
-> Registration.
-> 
-> With HRT, driver structs carry a lifetime parameter tied to the device binding
-> scope -- the interval of a bus device being bound to a driver. Device resources
-> like pci::Bar<'bound> and IoMem<'bound> are handed out with this lifetime, so
-> the compiler enforces at build time that they do not escape the binding scope.
-> 
-> Before:
-> 
-> 	struct MyDriver {
-> 	    pdev: ARef<pci::Device>,
-> 	    bar: Devres<pci::Bar<BAR_SIZE>>,
-> 	}
-> 
-> 	let io = self.bar.access(dev)?;
-> 	io.read32(OFFSET);
-> 
-> After:
-> 
-> 	struct MyDriver<'bound> {
-> 	    pdev: &'bound pci::Device,
-> 	    bar: pci::Bar<'bound, BAR_SIZE>,
-> 	}
-> 
-> 	self.bar.read32(OFFSET);
-> 
-> Lifetime-parameterized device resources can be put into a Devres at any point
-> via Bar::into_devres() / IoMem::into_devres(), providing the exact same
-> semantics as before. This is useful for resources shared across subsystem
-> boundaries where revocation is needed.
-> 
-> This also synergizes with the upcoming self-referential initialization support
-> in pin-init, which allows one field of the driver struct to borrow another
-> during initialization without unsafe code.
-> 
-> The same pattern is applied to auxiliary device registration data as a first
-> example beyond bus device private data. Registration<F: ForLt> can hold
-> lifetime-parameterized data tied to the parent driver's binding scope. Since the
-> auxiliary bus guarantees that the parent remains bound while the auxiliary
-> device is registered, the registration data can safely borrow the parent's
-> device resources.
-> 
-> More generally, binding resource lifetimes to a registration scope applies to
-> every registration that is scoped to a driver binding -- auxiliary devices,
-> class devices, IRQ handlers, workqueues.
-> 
-> A follow-up series extends this to class device registrations, starting with
-> DRM, so that class device callbacks (IOCTLs, etc.) can safely access device
-> resources through the separate registration data bound to the registration's
-> lifetime without Devres indirection.
-> 
-> The series contains a few driver patches for reference, indicated by the REF
-> suffix.
-> 
-> Thanks to Gary for coming up with the ForLt implementation; thanks to Alice for
-> the early discussions around lifetime-parameterized private data that helped
-> shape the direction of this work.
 
-Looks nice!
+Sure, but for now I'll go take this one.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+thanks,
+
+greg k-h
