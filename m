@@ -1,95 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36CC3D45C5
-	for <driver-core@lists.linux.dev>; Fri, 22 May 2026 10:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52B03D4130;
+	Fri, 22 May 2026 11:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779447407; cv=none; b=JVd8QMInHvmgxxBqU2T+qZWdUFBQS/bIpMSV471nFKc3FrN6Iq6TR7TCnm3duxcK3kiwxt1NKHW5ZSJDQvyIrt65LdkuEmNGadFfmm6h/5KNa9ANHJzh9JRBturs6IsSX6eFAJDIY52pJvsxmW3bmhkI2fuu4HWWAcA+WsygRXM=
+	t=1779448277; cv=none; b=rSvo80PaZiQEeC5Vmv2NX+xwrkgv51QOWwlUNRU0kqr0JACd7u7W3YExFIXiSIBaYi+PtDIEe4cb407oh4MygQiCxlCjo69KvyqCp02dtUNzkeyfWGO5kc5lzT+KaqOVBzaP2fDyraNetlp5zQfDZongObWU/KWPtIQOvgnII7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779447407; c=relaxed/simple;
-	bh=IplJtbl/QldYTz6VRXsIkthKDuMKnQtV4ggd55jk5LE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DuIKE3RPIM5UOlBZ55iSJ9YaUwqV8rz8kyf1z6wrue4Ra8pMDp9yZspqzpYvCm6LP2zxj0Qg5cyD8rsb+1akzBZLiDt9ZUDknLNB7LnX8p1Lzf824wVLLarEAJ2uH2yYHBw7ivJjzw3hUe9tSOZmCv9F81Y4ZLIB/fwVofAcOo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7cjX7ay; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779448277; c=relaxed/simple;
+	bh=sJ9O8YTbPakJduu12s82u8FDnlS6fHPrETn1Mha5KM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gCPccLCzsr1fOKp3mlBpi4/BcFI3gn5jWAzPBHoONuEOOMM8Q/69nmGFa7B1ps1FEj6z9UK1ODMCEo5yT8/9wwzzCunkCcqWHs1c52VEac1Y7Aa5Lopah5VtOsAM0U4ezq2apsP+6/d1ZxGrucoT5P0uvmPloetm3jR2s+WEGBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kByxYnLA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7cjX7ay"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827031F00A3F
-	for <driver-core@lists.linux.dev>; Fri, 22 May 2026 10:56:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779447406;
-	bh=IplJtbl/QldYTz6VRXsIkthKDuMKnQtV4ggd55jk5LE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=T7cjX7ay+IjCo/XvaXXaL/4uoUBZOhZifB2I962uL148es7f5VNeXtmJYl74Y8Tnf
-	 LHsrTq+/wUWMGrp7sE0R1xTJ0T5vVVO7FQl0Mj95KgV9vZ7SeWxTez/7ft8uU4t569
-	 4jp1QHxQ493MWIAG1eHnb7uJtghdxHilu/r4nFpLK1saXx5ov+F2eQTj7DVQ5p/XiD
-	 PrIjm6W6DZaENehgd2IEPDIL+/+/PvRR1SbxQWi67rOnjwmeAyS810VcMnFwPBZHzW
-	 Z3SiozJGJZtAwPGkfvgiPXZzuFWtk3+nDXSJ64+G7KuvARAPKKfLBI1+dl5Z/Ldpe4
-	 g0GtK3nxCnMig==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-394095009beso62157781fa.3
-        for <driver-core@lists.linux.dev>; Fri, 22 May 2026 03:56:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ83svlot1UUNKQSSvlfvcInNxiPn82OJqVKutr2PMFAyDwI8Pg0iMP+SEPgETJ4rAgRzEsibhvLTmB/1g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzxda2IRCCm9iHddyk5U1hD4lO0gWMxhchRRpo421eMwY1c/fV0
-	SUjuItOuKesZmbPyqqYYURmLJsfb5P3BbRxqsQG0DPMSTD6xggcttwMevpEQsaoNMk6lnrT0Hnj
-	GSYumJtWbP/m+1+UunGHFh6qrFltvs3T1XAfVM4bWaQ==
-X-Received: by 2002:a05:651c:154e:b0:393:903c:2262 with SMTP id
- 38308e7fff4ca-395d89a4254mr10396261fa.15.1779447405284; Fri, 22 May 2026
- 03:56:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kByxYnLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E27B1F000E9;
+	Fri, 22 May 2026 11:11:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1779448275;
+	bh=66Ly+hs4R/27WKxigMfnhQ6cNsddC+cSlfhgKT3lCpE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kByxYnLAQfNZYcLuV0MwtqkfOmkCcs/8kmlYVz8QfyQuy228VdX5TGZDvZMAhwBUd
+	 D9lHk13DAIGY9RN8eJV7YbmQzhZ1dykxODMEIsO0zauDRqYcyjHAZrR1cKjax4uOQ5
+	 Mdh0Rl7J8WnvKa1YfGdsH2zLNC8TjjSSbb/ZelK4=
+Date: Fri, 22 May 2026 13:11:18 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: rafael@kernel.org, linux@armlinux.org.uk, nipun.gupta@amd.com,
+	nikhil.agarwal@amd.com, kys@microsoft.com, haiyangz@microsoft.com,
+	wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
+	andersson@kernel.org, mathieu.poirier@linaro.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] treewide: Convert buses to use generic
+ driver_override
+Message-ID: <2026052210-surplus-earthling-c205@gregkh>
+References: <20260505133935.3772495-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260506115701.23035-1-bartosz.golaszewski@oss.qualcomm.com>
- <DICUSYTHZ339.3DW3CRNZ32K6U@kernel.org> <2026052254-rug-mug-24cd@gregkh>
- <3888011e-789a-40e9-b222-c5522a6b7037@kernel.org> <1ee68533-144c-42f2-94c8-d6ef7c1dc644@kernel.org>
- <2026052215-motto-cartridge-1370@gregkh>
-In-Reply-To: <2026052215-motto-cartridge-1370@gregkh>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 22 May 2026 12:56:32 +0200
-X-Gmail-Original-Message-ID: <CAMRc=Mf4onnNjRTdHJjC_pvXWfTe-etp-uHioqU_FXFUazomTg@mail.gmail.com>
-X-Gm-Features: AVHnY4K3KnsfdOfeuEzcRWhkfakIzGSm1td1H6CfzALrBO5gFUHUDx-sf6Vm7QA
-Message-ID: <CAMRc=Mf4onnNjRTdHJjC_pvXWfTe-etp-uHioqU_FXFUazomTg@mail.gmail.com>
-Subject: Re: [PATCH] device property: set fwnode->secondary to NULL in fwnode_init()
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Len Brown <lenb@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, driver-core@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505133935.3772495-1-dakr@kernel.org>
 
-On Fri, May 22, 2026 at 12:52=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Fri, May 22, 2026 at 12:43:00PM +0200, Danilo Krummrich wrote:
-> > On 5/22/26 12:40 PM, Danilo Krummrich wrote:
-> > > On 5/22/26 12:24 PM, Greg Kroah-Hartman wrote:
-> > >> Sure, but for now I'll go take this one.
-> > > The follow-up commit 7eba000621ff ("device property: initialize the r=
-emaining
-> > > fields of fwnode_handle in fwnode_init()") is already in driver-core-=
-next.
-> >
-> > s/follow-up/v2/
-> >
-> > https://lore.kernel.org/all/20260511074927.9473-1-bartosz.golaszewski@o=
-ss.qualcomm.com/
-> >
->
-> Ugh, ok, we will have a merge conflict, but at least the bugfix will
-> propagate to stable trees :)
->
-> thanks,
->
-> greg "digging out from a huge email backlog" k-h
+On Tue, May 05, 2026 at 03:37:20PM +0200, Danilo Krummrich wrote:
+> This is the follow-up of the driver_override generalization in [1], converting
+> the remaining 4 busses and removing the now-unused driver_set_override() helper.
+> 
+> All of them are prone to the potential UAF described in [2], caused by accessing
+> the driver_override field from their corresponding match() callback.
+> 
+> In order to address this, the generalized driver_override field in struct device
+> is protected with a spinlock. The driver-core provides accessors, such as
+> device_match_driver_override(), device_has_driver_override() and
+> device_set_driver_override(), which all ensure proper locking internally.
+> 
+> Additionally, the driver-core provides a driver_override flag in struct
+> bus_type, which, once enabled, automatically registers generic sysfs callbacks,
+> allowing userspace to modify the driver_override field.
+> 
+> This series is based on v7.1-rc1 with no additional dependencies, hence those
+> patches can be picked up by subsystems individually.
+> 
+> [1] https://lore.kernel.org/driver-core/20260303115720.48783-1-dakr@kernel.org/
+> [2] https://bugzilla.kernel.org/show_bug.cgi?id=220789
+> [3] https://gitlab.com/driverctl/driverctl/-/blob/0.121/driverctl?ref_type=tags#L99
 
-There's no need for you to queue this one, the v2 Danilo linked
-contains this change and some more hardening on top for consistency.
 
-Bart
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
