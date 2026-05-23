@@ -1,102 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9333215A86D;
-	Sat, 23 May 2026 15:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191CA31985D;
+	Sat, 23 May 2026 16:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779551215; cv=none; b=OtK8HfMXWqHeaysK3ueKmV+Zjq5afoE0j8uBoK9alCAglYm2/uZq4WU6Bf2MGRO+S6fZ5TtbTwP1SgF2WSeTOa7ofxbx0+T1OYWzFdb2vVR8crdNDl2tPYAUadSQSnMtX8D0GAq7Ycy5miM8IQI01XH9RJ7ozo1QGKjFVzG9PPI=
+	t=1779553428; cv=none; b=MmyNyW4cjJ88OBNth+1wo8xB9WGIuh9G6B8ramNEqYwaacCsMnrmftdn6A30Acn7GGpQc8EAh5k3ZGw3esMW+ZczHJ/FAnUuAeZO0ZjF/j4rLqBBNnhMfdKP6i6zLMh94kwcmcdHUOst5E36rJmPoYzfL4RFxt7ynRRXzAIpSFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779551215; c=relaxed/simple;
-	bh=nLBZR1yPNJIwvSHlyra/l/GfIWnzfGqqm1BCrTrJ6/Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=QTppHdsemlgk1lB1/FzmACV3mzvCNqQ1dGvTZXLJ94MYjyJDtMs1ARv76dt+5Hj0Vwptc9nt1RG15OinLK7ILhAUp701B5rrBInYPRssbleHoOGp0JWihCGGIx0HBMudRAj8o/2eNYLGLFpyHEfiWP6qXx6cw1+tihUFf6bSPIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtGo7vjv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779553428; c=relaxed/simple;
+	bh=tSOWgMwDVjShGtERniyIBCXDGv/+7DG2jLhfKNM4OLk=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=NkelCSko10nsnx1dknwf9y9b52vWyVYCjWgATynge7bqRKRKTreJesCce+Z5yB8a5y9tqrJbtxd99WSeWYvoGE0flMB9mwhVweDq4WyEBLx/R5bGrHgSSaGMT/bI2+i2Pu3uXhWSoALRiyvgktFyGIYg24RZD17q+0OITtTWgyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NMbug3SX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtGo7vjv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EF321F000E9;
-	Sat, 23 May 2026 15:46:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NMbug3SX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F31E71F00A3A;
+	Sat, 23 May 2026 16:23:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779551214;
-	bh=o01mZIap77JdV7lnWDWkCgBFoE4EHf5jWItgL7KxWEQ=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=XtGo7vjv/u2jBKRoLHA3oC9OmfZu2mVOGV/5v91LFo3aenQIJ3Cybr0FFjI67nVMk
-	 rsOKWs1mXpXve5q7T/hfXdkKBYgWVqT1s9evRpWtpIRO/d3Zltm68xofkt3Wt1bVLO
-	 7jJavYWoDXZxu8XNR30oIIFFxdR2KkchADzY/WPMvjqNlfN/M2a7heUiyegIGuuEDZ
-	 0xFLspwBB4sdqtVmDAwEwrZr/JcayDEPbyHrjLY5NnXGo9x902lQgoa6YqcXzCVGGt
-	 KRFJt1o421jQFFp3Lh9B9DfEag4cUfKMND6Kt4a3SRvOVNHtRbb3Wha0CnuBfBGbKX
-	 RnfmInEnTQ2zg==
+	s=k20260515; t=1779553427;
+	bh=Ws82LlOxo/G2lT5W33XdEyyC9kFnuVv1WDGI+3JBRU0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=NMbug3SXbdWOn5tk26MB0ZI7sxI6pKY3iSMIq+2OFyxkRwTTkUY6U0kLpMLJKvKDo
+	 ioDiqDE/eShSmGiVQ2b+Ne5UF6YzlfTyhetSnLdIbZk+wyBPE7/llV4BuZ0UxkycO/
+	 POAihVk91S0OQuBRVAdZqqr8/2K4jWVSxgfAe+lVmJIwSLCmbcQ1Rbf6XZ03xAI2Vt
+	 JykzpuCPODBMkn0Oiwy/0xALQIxsVf0H/ZWGPUwAlQFmK5zRvFdwL154oQCx8XsrEW
+	 mR3UV3zZC53Emz9S3LPvHTRBZqiTPt8VsJR8PRMrcxcHj0zxmdu3GG+nw504W517yh
+	 D0SSBwNiyLr+Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939DC3808205;
+	Sat, 23 May 2026 16:23:56 +0000 (UTC)
+Subject: Re: [GIT PULL] Driver core fixes for 7.1-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <DIQ2X70CYYKK.W7Q958FP7DBO@kernel.org>
+References: <DIQ2X70CYYKK.W7Q958FP7DBO@kernel.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <DIQ2X70CYYKK.W7Q958FP7DBO@kernel.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.1-rc5
+X-PR-Tracked-Commit-Id: 215c90ee656114f5e8c32408228d97082f8e0eef
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c8561c73b4a8669bb13c57a5853318cd02655f9b
+Message-Id: <177955343514.1611769.3624788145670672509.pr-tracker-bot@kernel.org>
+Date: Sat, 23 May 2026 16:23:55 +0000
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 23 May 2026 17:46:46 +0200
-Message-Id: <DIQ696JK4WV0.2HOQ57L342S77@kernel.org>
-Subject: Re: [PATCH v4 21/27] rust: types: add `ForLt` trait for
- higher-ranked lifetime support
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-To: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
- <acourbot@nvidia.com>, <aliceryhl@google.com>, <david.m.ertman@intel.com>,
- <ira.weiny@intel.com>, <leon@kernel.org>, <viresh.kumar@linaro.org>,
- <m.wilczynski@samsung.com>, <ukleinek@kernel.org>, <bhelgaas@google.com>,
- <kwilczynski@kernel.org>, <abdiel.janulgue@gmail.com>,
- <robin.murphy@arm.com>, <markus.probst@posteo.de>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <gary@garyguo.net>, <bjorn3_gh@protonmail.com>,
- <lossin@kernel.org>, <a.hindborg@kernel.org>, <tmgross@umich.edu>,
- <igor.korotin@linux.dev>, <daniel.almeida@collabora.com>,
- <pcolberg@redhat.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260521233501.1191842-1-dakr@kernel.org>
- <20260521233501.1191842-22-dakr@kernel.org>
-In-Reply-To: <20260521233501.1191842-22-dakr@kernel.org>
 
-On Fri May 22, 2026 at 1:34 AM CEST, Danilo Krummrich wrote:
-> [ Handle macro_rules! invocations in the ForLt! proc macro's covariance
->   and WF checks.
->
->   Proc macros cannot expand macro_rules! invocations, so the
->   syn::Visit-based has_lifetime() and replace_lifetime() helpers cannot
->   inspect types hidden behind macro calls. This caused the covariance
->   proof to be silently skipped and lifetime substitution to fail for
->   such types.
->
->   Add an explicit Type::Macro arm to Prover::prove to conservatively
->   require a compiler-assisted covariance proof. Detect macro-containing
->   types with has_macro() and use a WithLt trait projection for lifetime
->   substitution instead of AST-level replacement. - Danilo ]
+The pull request you sent on Sat, 23 May 2026 15:10:04 +0200:
 
-I was made aware by Gary that WFness is not actually being checked, which i=
-s why
-the static expansion was needed in the first place.
+> git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.1-rc5
 
-Thus macros will remain unsupported (even covariant macros are rejected), y=
-et we
-can improve the error message by adding the following diff on top of the
-previous v3 patch.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c8561c73b4a8669bb13c57a5853318cd02655f9b
 
-diff --git a/rust/macros/for_lt.rs b/rust/macros/for_lt.rs
-index df2027789713..75d0ce450bf0 100644
---- a/rust/macros/for_lt.rs
-+++ b/rust/macros/for_lt.rs
-@@ -107,6 +107,12 @@ fn visit_lifetime(&mut self, lifetime: &Lifetime) {
-                     self.1 =3D true;
-                 }
-             }
-+
-+            // Macro invocations are opaque; conservatively assume they ma=
-y
-+            // reference the lifetime.
-+            fn visit_macro(&mut self, _: &syn::Macro) {
-+                self.1 =3D true;
-+            }
-         }
+Thank you!
 
-         let mut visitor =3D HasLifetime(lt, false);
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
