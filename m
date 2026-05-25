@@ -1,321 +1,152 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013061.outbound.protection.outlook.com [40.93.201.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C84E3E51FA;
-	Mon, 25 May 2026 08:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779699144; cv=none; b=H4q78IPeeFSXc+qKn0oHH7kSLjRCfi19l7Rzr/S0C8Y/eei32OZ2iojFN4z5wY0mbpY5wzNNKhVcf8bjsGeVqguhdIjoMGIvDRxEySQin+ZvVfGxvqtnJCEOBUb8oUtQInG1sNOZsMw17Ak1GceYOogYENdtiSUgZTcq3cO5aio=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779699144; c=relaxed/simple;
-	bh=bli4eFnjh0ALZ26OVFRMt9oapMyVVPm5Kymwb3sjLuo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XvR0i/xq9Z7Pl94PkTCNs+II6ggDeoyy6kpymZSahgTnvSTKHf1mDKeZsiWImdzbk2m5wYz05NOuxCdEEtdeItJWqJOayi5178xqLFtEtcsTdl36MCpqFiH+2wlUrWxLOs8iisGNQ6AEaiepXpR7PSgfTKQVqwDVJBllDut3XBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=tBFTYXmW; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8824F305664;
+	Mon, 25 May 2026 11:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779706971; cv=fail; b=GiYtSdEC+CLkHFrvnuJZ/7HA3oWVnpu/p2JePMe3TkDPZd9zhXjx2mLt+MC59eElj4boyMUW76fkjJ5aOM/2TO0yNqLY2Tr8dLo+40g3Bbo7igSry6ffwlL4JuGChZ0ymtSJYVMrVkZhNtwrGfxJyp8ZJ+zYjZs4S0MGcfQgBkk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779706971; c=relaxed/simple;
+	bh=5FpnROGl/wonNT+7wE3uMMKj1abHQP2iVM8oBFaptbg=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=hvp1ibcDoDW32Id0MlMd06Kmnyy6MxEzcqkrhhUgnJHUM/K4C4Ls/M5UIZtxIA39OP/SxmUY0XjJAikqbJjWTdLJc5C79S2XSCw4KUVRfFQ7R83RNHZD61nezIIB2SE+Rc+xib2UixGNVsPdWR7rjAwVINuPvDn6pMM+fleElMY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SDlBQuOL; arc=fail smtp.client-ip=40.93.201.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="tBFTYXmW"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 64P8qFQy9936570, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1779699136; bh=+C+q1d5SOhvDfCTPXLc47Knv4xNqF784Fy/WA7I/Vis=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	b=tBFTYXmWBcEckOO8ghG2r7w1s2LhdpnAMzjVefF1Dl+D4HnhvpAQZQkyF0hpwoZsF
-	 DEoJ3XzwdLbbsb8i4vYLp1ifnwad/Cw0wfi8TQvZB4xBu4LPVPlXvmkSywZQ6Fnim+
-	 DNny8gXKZ1a5nCa9HN9ZgWtoLoqlfo0/rSiCz+9GQue0C1if8zY1J0Rvp/MwjL/ZVf
-	 KeftbenDBQZLolB9b81HN8daN9BKL33ZmtbmGpm7+DcFUzSIe9zIH2F58y5Av+GSbL
-	 Hc5cIOzQ4O+0sbB31O3grfUvfRqC5LvIfgXWdFWios0Lk9CRQXbMzjvm+n/tGaYiYE
-	 DysGhx7Qa1TJg==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 64P8qFQy9936570
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 25 May 2026 16:52:16 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 25 May 2026 16:52:15 +0800
-Received: from [127.0.1.1] (172.21.40.75) by RTKEXHMBS03.realtek.com.tw
- (10.21.1.53) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17 via Frontend
- Transport; Mon, 25 May 2026 16:52:15 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: <linux-wireless@vger.kernel.org>
-CC: <driver-core@lists.linux.dev>, <johannes@sipsolutions.net>,
-	<wenjie.tsai@realtek.com>, <mh_chen@realtek.com>,
-	<charlesl@valvesoftware.com>, <sabae@valvesoftware.com>
-Subject: [PATCH v2 rtw-next 2/2] wifi: rtw89: usb: add serial_number and uuid sysfs attributes for 0x28de:0x2432
-Date: Mon, 25 May 2026 16:51:48 +0800
-Message-ID: <20260525085148.35180-3-pkshih@realtek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260525085148.35180-1-pkshih@realtek.com>
-References: <20260525085148.35180-1-pkshih@realtek.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SDlBQuOL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AXoZ1jmktu12gzsqjV3V8BJVazEDKQFhfFBS8Sj2KlffT0qSKZww0yY0Smr/sxGxbcQBI8i40R3moUsY0Jd8DyehOmIF8B5cDGRsFvm0Scfwc+EynQIJfuvGWcZIO6fuk//gqXsbtyrrE+OW9DYXCHkXERh9E1fa/zPvGOdD72jl1EQ8OJcpdnVQOq+9eUTOsWk7Ik+rRJtPbEJgHyG2V+0d4e/1XE9zo8vPIgXfiK01BcVcbDsaS1lf4s91KbCEbxlOveQkDHvl7eE0oWWeZuB3uAk9Ys8QjNH6q5AhCt4DLFMTESRPTED+0d6nD37n4C7hYygkTuHyP1fvLtvjkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5FpnROGl/wonNT+7wE3uMMKj1abHQP2iVM8oBFaptbg=;
+ b=PZk49TUphBqzwFSvWqPfwO8doUiS0RBvDJgWW8IGnSsYlPRhrnjRnxJgjyPDr94hoQQv7o/TL7jxI9+/QKW3bqpPdHkIpQ2eQkm3jlQJVvboVog1JNRkpF/tcBVy4LVEYbARcKaSr3rPS9IBAn/mLAtIsM8jx+ol+hmXYvgaJ6p89THgyo8bo2RCUe8YX1lEwfMKuyQEZNfx7zZ2NveXSwdZ6rwG0dgJn6XubmQGFNsguX/0z3+zwrrpQpiqGg8mc9p8YY8R5ZYH6qcj13nL/pd4VKtsm6NNP1AxHgzjWYvomXqShGLwCB6+8NPZbcY511DaxYekVBQoLy68lMcfCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5FpnROGl/wonNT+7wE3uMMKj1abHQP2iVM8oBFaptbg=;
+ b=SDlBQuOLOj9wJxq+gP1YC1untSDlpTOmfeW7l8va9LCUuQbCdIwmIEQJwOUxpPjX6q0x+/hI0+NglzO6Kj1hMXqfvDUSBAVpfsr1YfpluWnNh6S/qSh2e+v/qrABbxDm8f5hbbU7hOXVXPKQW0Ctl+yHQy3HOa1mtdzK3hJdAzxqgTEGnL4dXy2DXkNH6GVqxsM0VqhHC9ifQyYcmwoTJCZw7ojkE0Zvtf/kxA92+YxOGRIPCaw0EkSBUJcW3Agv7GS3tL4anxoNxLmFngSTz8Gj84pweeCROgBtoAk+tpiU5RrmkiY8EbeDgCu/XkJbSnZO6a2fqLc1rP7gE+WD6w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB8179.namprd12.prod.outlook.com (2603:10b6:510:2b8::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Mon, 25 May
+ 2026 11:02:45 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0048.016; Mon, 25 May 2026
+ 11:02:45 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 25 May 2026 20:02:41 +0900
+Message-Id: <DIRPGQZO0YYN.1HZX96PCQ90MT@nvidia.com>
+Cc: <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+ <aliceryhl@google.com>, <david.m.ertman@intel.com>, <ira.weiny@intel.com>,
+ <leon@kernel.org>, <viresh.kumar@linaro.org>, <m.wilczynski@samsung.com>,
+ <ukleinek@kernel.org>, <bhelgaas@google.com>, <kwilczynski@kernel.org>,
+ <abdiel.janulgue@gmail.com>, <robin.murphy@arm.com>,
+ <markus.probst@posteo.de>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <igor.korotin@linux.dev>,
+ <daniel.almeida@collabora.com>, <pcolberg@redhat.com>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v4 10/27] rust: device: make Core and CoreInternal
+ lifetime-parameterized
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260521233501.1191842-1-dakr@kernel.org>
+ <20260521233501.1191842-11-dakr@kernel.org>
+In-Reply-To: <20260521233501.1191842-11-dakr@kernel.org>
+X-ClientProxiedBy: TYCP286CA0200.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::6) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB8179:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe6a3baf-7f33-43e1-5eae-08deba4d2608
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|10070799003|11063799006|4143699003|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	MvEzrsXj8PvyQFSlomI5h11SeH3fEOSx2EpEOly48GetUvvfK3k5prWru9dfP79BURuobajmKTh0Vhx3ujirvbu+voU6yYYqtGRH9+ytyE2KDM5HaJYenEmSkhk8BOYCTmEi5HEyCbI/UlEY5dgzcR+B3nJhuH8Q39roN9LfKld3QrP3YF9CGfOlTD9+/OFwOvZEpMu0RSS+LOd8ObeZK5Lvstk758qq6iuw3q7Tlyhq8YZm1uRzJpCmk3NrbF59dQT9vaOfJTk+A78yDbSXeT5Ha1o9nwZISArYnwekdhVLurFO+N719g+B4fidaOshPyyO9hELoqVX+jlR/5gju57f6gf68AsBScCZCm0R60ZJtIEh/P+cVI+1C6mYvYc1VS/eMNDhz7ZutikHq0pRGz10k1WJm+WXF3jvPxz6Nai9+O+umOyhUnNex6ox/L9tbQ/aHwcNQ9diM7fMimK04MQwXlce4Z9/X2sBTZV9Jzr5yR6E9KBMQxIsSHDn9aSRwkPY0/6Xed8/gIGyvLLKcvyPz3embqqsw0N5/FTUWU8dDzei+ztg+AXvtlOG9kUfvGhdW978iEkc8D0jymucXZ7MWGTSGzbyVUKldTv+V+gH7NTEjJw4YtzJzxu5SuaTTOaubx+41FZw/rqgI73XDbf+7B9RpFytuED+4gWc/InHwMp7sIyOA5ml4XYXCiYN
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(10070799003)(11063799006)(4143699003)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L05uTXJYM2RDdVRRdGZRTEcyY0RabXlFMC82bnNjM05SdENWTWtiMFlWUFIy?=
+ =?utf-8?B?V2dremkxK3RoSm8wV0d3Q0dRTURKVHZNSWg5UzNlRmRhMlJwWS9OTkFmOVdq?=
+ =?utf-8?B?b3Rpb0VLdm1vTmJkekFDa3A4Zk1DWVY1bWFzZnhlU2JDV0NQcjE1UHU5TjVv?=
+ =?utf-8?B?OTVUQTVQNkh0REZEVjJmY05VSCt6YzNEWWp0TCtUMTEycGVWQ0xIV3NVeS9K?=
+ =?utf-8?B?ZDArMzhteGcxZU9YN252cmR0R0JNNERTT3FuenhiNFZ5TFdFNStPc1o2S0NO?=
+ =?utf-8?B?d1YzZzkyVnRVK0wyTVdxeTdKYVJreVpjQ3VhZWFacDlSaVNXaSsxV2tyelBL?=
+ =?utf-8?B?UThSZEtYbWlpWEdkT2Z5MlJYS3pEOHRYSW5rQWhKMFdsd3kydFpzSXc4UE4x?=
+ =?utf-8?B?Y25hMmVkY0lWY3g5Szg3c0NhNnZDWkpNalp6bzBOUGNtRitYZFlwYnQwK0ly?=
+ =?utf-8?B?RGlDYVUzazl2UkVObDdtNG5ibjJLdWRtVDYyNXNqMnFicTI0cGtwaE1oWW15?=
+ =?utf-8?B?MUo0a2hCNzRiUUM5ZHkvYysyM0FTeldha1RJdC9FRHMyZjR2eHNjZHpVRjhu?=
+ =?utf-8?B?aHNRclZ5NURkL1MxckVEVGpRZHBuN3FVbVlnODZiUDJ2L09aZHVKaFFlcFFG?=
+ =?utf-8?B?Y0hUNEZDaTV2QWJ3KzBhdWM5MERpeUVsckRabWVZTXQvbFVlMy9jbU8zVHox?=
+ =?utf-8?B?cXlwNVJTSkk1QUlOTFRVVkUxYkZLUWhCTFZJWFpKN2p6Z1FFZVVyNnU0eVl2?=
+ =?utf-8?B?MGtJcmU2VkJ6VWY3UmV0UEw4aUpWSU82S0lHMnpnTWIyWlNsbFloeTZ5Nmtz?=
+ =?utf-8?B?Q0VFWVlvZXh5WHlEdmkrTURVTlNyUk16WHFxUTJmLzRTUmlkYjRzTW9ndDdD?=
+ =?utf-8?B?SUIrQzR1MGl1OERtMzFtMER2K1ZQbFZ6aWpKa05FYjE5aERSbFNFRWYrMHM3?=
+ =?utf-8?B?S3l4NzRpRVFGMlhoeGc1MEx1alBrUGpvdHVjWk1pL21rdGVVR1NVTC9Ldk95?=
+ =?utf-8?B?QVFyTmUzZHgzZkZhQlhaRkhHMlBNaVp3Z0JiWTIzblBtbkx6VWpsaFhvRnZ4?=
+ =?utf-8?B?N1lhYTZkenpockRKS29MK1F2UndGWmpLcHFTT1RJUEZXVEpqT2N2WDFTdkJq?=
+ =?utf-8?B?bzBNNHFFdytMUmEyVkZjQjA2OCttMXllcFpyNmlmY3NRYVZ1TGVyTkhqeFc3?=
+ =?utf-8?B?VVBCbUljUG1MWU9BVWJrYTc5dTRXR0NKbW5pcno0RGM1b0c4bHRmOE9TbUVI?=
+ =?utf-8?B?YitoNkRtUVRWODhibFFVZStmMmdSL2plK1dSM2tzaUF2ekVHeTk0YitvbXpj?=
+ =?utf-8?B?YmxOdllJQy9wQXM1djNxSEFtVjlXUjVva2RJYUdHbHJlNk5VRlREdkp1R3Bm?=
+ =?utf-8?B?UEw0OVRkc0Zxc2Jwb09ZWVhPLzRqamZ6QUZtVXVEeGpqWUVRZUhHQUdzeTVI?=
+ =?utf-8?B?c21rVEtRVHdBajdIZ3NOUHBZSUNtTUlyZ3VZWVRPMEJzQWpNblJnQWtqanZD?=
+ =?utf-8?B?RERxQmoxT3g0Qy9KTTMzSEtKNHc3SDFYYWVFaEgxUDg5UTI2YllDUFgrMTkv?=
+ =?utf-8?B?MUxLdk1WQ3NmQ21EUGtMMm5qMnBQYm11bFhhWnp6eVc4K2JlMFBJMGZoZXZy?=
+ =?utf-8?B?NU56OEpVNjZQSUpWd0RXNnNjUE5hVFJQdnc1c3ZZVVFEbTJ3VXMvWHhVcGhR?=
+ =?utf-8?B?SGhqREZiYnZmeVMxa0t5SG1YWUEvNHg1VHlTWTVvcjVRQzUyTEZmK05vblUr?=
+ =?utf-8?B?OTE4bHFCUHB3bk94dHVSUm5vTFUxVXh2bytCWDlSWFp0NjM2U1hlYk5FWG9j?=
+ =?utf-8?B?TU1xZHZhOHFuSUI0YVF6VE5sK1dTWnlzMU9Oa1MwNjVLRlgyK1RkV294TjF5?=
+ =?utf-8?B?U000ZStxc2lsa053ckozbEUyajIwMDB0dTRrUTROQ1hVUGxEK0VWL1ZpOC9N?=
+ =?utf-8?B?amI5QlE2anNENnNCTHdldzY4MzNJZDBpbWYrWjJqL3JaSm5SVG00bzJ4UEhZ?=
+ =?utf-8?B?L09WeCtQRy93TTlwV0kwRGJscHhZOFJjMXNuTFpSWWdROGxYYmVVNEtSLy80?=
+ =?utf-8?B?Ym0xZ3pWS1hNNXRJbTNyU3dCMDRiZFoxNWNjbGtUTEtIL2VWOGh0dnFCTlBk?=
+ =?utf-8?B?TlJCK2dmQTFrTWQ4U2MyMjNkZklpK0NNb3lxTitPMlJocUp1aDk5d3JudG5V?=
+ =?utf-8?B?NktkRHUvRlU1Wlg5bmJKN215WDltNldkS0o3NWg0SkJLKzE5bm5WU3JNRFp2?=
+ =?utf-8?B?Z3VzQVkrREJXVHphZ0t5eXc3aG5Ra04vZWVsWkpBN3k4bFoyRUtLTTB2QzZj?=
+ =?utf-8?B?RmprWVdXWWZSY3VwOW9tRHVqQ3BsNUl4MXRBYXQrNW1Fd1JQT2Y2YjJCYncr?=
+ =?utf-8?Q?Tc9dX/uEaVyOLlclMkrLAHcoefyTVXqEDNFT3LGw0kkLH?=
+X-MS-Exchange-AntiSpam-MessageData-1: EVKfAt9zohLBsw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe6a3baf-7f33-43e1-5eae-08deba4d2608
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 11:02:44.8645
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GqFD5gTsIiVlM1D0epPx4YeYJDZAb4o6/eI/bCgs3BeZH8QgZr/MJ5E57wQ9aH48oqobb+Ysfg5Sib6la6Z+xQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8179
 
-From: Johnson Tsai <wenjie.tsai@realtek.com>
+On Fri May 22, 2026 at 8:34 AM JST, Danilo Krummrich wrote:
+> Device<Core> references in probe callbacks are scoped to the callback,
+> not the full binding duration. Add a lifetime parameter to Core and
+> CoreInternal to accurately represent this in the type system.
+>
+> Suggested-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Expose the device's Serial Number (SN) and UUID from EFUSE via two
-read-only sysfs attributes, `serial_number` and `uuid`, on the ieee80211
-phy device under the `rtw89_usb` attribute group.
-
-This hardware identification information is essential for user-space
-applications to uniquely identify, track, and manage specific Wi-Fi
-adapters. For example, in automated factory provisioning or device
-management systems, user-space tools rely on the EFUSE serial number and
-UUID to bind configurations to specific physical adapters. Currently,
-standard wireless APIs do not expose this low-level hardware
-information, making these sysfs nodes the only viable solution for
-user space to extract this data.
-
-The attributes are gated behind a new RTW89_QUIRK_HW_INFO_SYSFS quirk,
-enabled only for the VID 0x28de / PID 0x2432 device via the
-dev_id_quirks field in rtw89_driver_info.
-
-Example usage from user-space:
-  $ cat /sys/class/ieee80211/phy0/rtw89_usb/serial_number
-  3642000123
-  $ cat /sys/class/ieee80211/phy0/rtw89_usb/uuid
-  aaec2b7c-0a55-4727-8de0-b30febccbbaa
-
-Cc: Elliot Saba <sabae@valvesoftware.com>
-Cc: Charles Lohr <charlesl@valvesoftware.com>
-Signed-off-by: Johnson Tsai <wenjie.tsai@realtek.com>
-Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
----
- .../ABI/testing/sysfs-class-ieee80211-rtw89   | 24 ++++++++
- drivers/net/wireless/realtek/rtw89/core.h     |  6 ++
- drivers/net/wireless/realtek/rtw89/rtw8852c.c | 10 ++++
- drivers/net/wireless/realtek/rtw89/rtw8852c.h |  6 +-
- .../net/wireless/realtek/rtw89/rtw8852cu.c    | 12 +++-
- drivers/net/wireless/realtek/rtw89/usb.c      | 57 +++++++++++++++++++
- 6 files changed, 113 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-
-diff --git a/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89 b/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-new file mode 100644
-index 000000000000..7dfdce08a42f
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-@@ -0,0 +1,24 @@
-+What:		/sys/class/ieee80211/phyX/rtw89_usb/serial_number
-+Date:		May 2026
-+Contact:	Johnson Tsai <wenjie.tsai@realtek.com>, linux-wireless@vger.kernel.org
-+Description:	(Read) Serial number burned into EFUSE of the RTL8852CU-based
-+		USB Wi-Fi adapter.  Only present on devices that set the
-+		RTW89_QUIRK_HW_INFO_SYSFS quirk (currently VID 0x28de /
-+		PID 0x2432).
-+
-+		Format: %10phN (5 raw bytes printed as 10 lowercase hex
-+		digits, no separators).
-+
-+		Example: 3642000123
-+
-+What:		/sys/class/ieee80211/phyX/rtw89_usb/uuid
-+Date:		May 2026
-+Contact:	Johnson Tsai <wenjie.tsai@realtek.com>, linux-wireless@vger.kernel.org
-+Description:	(Read) UUID burned into EFUSE of the RTL8852CU-based USB Wi-Fi
-+		adapter.  Only present on devices that set the
-+		RTW89_QUIRK_HW_INFO_SYSFS quirk (currently VID 0x28de /
-+		PID 0x2432).
-+
-+		Format: %pUb (RFC 4122 UUID in lowercase with hyphens).
-+
-+		Example: aaec2b7c-0a55-4727-8de0-b30febccbbaa
-diff --git a/drivers/net/wireless/realtek/rtw89/core.h b/drivers/net/wireless/realtek/rtw89/core.h
-index e687216da5b6..09f17d958075 100644
---- a/drivers/net/wireless/realtek/rtw89/core.h
-+++ b/drivers/net/wireless/realtek/rtw89/core.h
-@@ -3615,6 +3615,9 @@ struct rtw89_sta_link {
- 	u32 data_tx_cnt_lmt:6;
- };
- 
-+#define RTW89_EFUSE_SN_LEN 5
-+#define RTW89_EFUSE_UUID_LEN 16
-+
- struct rtw89_efuse {
- 	bool valid;
- 	bool power_k_valid;
-@@ -3625,6 +3628,8 @@ struct rtw89_efuse {
- 	u8 adc_td;
- 	u8 bt_setting_2;
- 	u8 bt_setting_3;
-+	u8 sn[RTW89_EFUSE_SN_LEN];
-+	u8 uuid[RTW89_EFUSE_UUID_LEN];
- };
- 
- struct rtw89_phy_rate_pattern {
-@@ -5373,6 +5378,7 @@ enum rtw89_quirks {
- 	RTW89_QUIRK_PCI_BER,
- 	RTW89_QUIRK_THERMAL_PROT_120C,
- 	RTW89_QUIRK_THERMAL_PROT_110C,
-+	RTW89_QUIRK_HW_INFO_SYSFS,
- 
- 	NUM_OF_RTW89_QUIRKS,
- };
-diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852c.c b/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-index 7bb1264bcaef..3861cce42b1b 100644
---- a/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-+++ b/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-@@ -621,6 +621,15 @@ static void rtw8852c_efuse_parsing_gain_offset(struct rtw89_dev *rtwdev,
- 	gain->offset_valid = valid;
- }
- 
-+static void rtw8852c_efuse_copy_sn_uuid_usb(struct rtw89_dev *rtwdev,
-+					    const struct rtw8852c_efuse *map)
-+{
-+	struct rtw89_efuse *efuse = &rtwdev->efuse;
-+
-+	memcpy(efuse->sn, map->u.sn, sizeof(efuse->sn));
-+	memcpy(efuse->uuid, map->u.uuid, sizeof(efuse->uuid));
-+}
-+
- static int rtw8852c_read_efuse(struct rtw89_dev *rtwdev, u8 *log_map,
- 			       enum rtw89_efuse_block block)
- {
-@@ -640,6 +649,7 @@ static int rtw8852c_read_efuse(struct rtw89_dev *rtwdev, u8 *log_map,
- 		break;
- 	case RTW89_HCI_TYPE_USB:
- 		ether_addr_copy(efuse->addr, map->u.mac_addr);
-+		rtw8852c_efuse_copy_sn_uuid_usb(rtwdev, map);
- 		break;
- 	default:
- 		return -ENOTSUPP;
-diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852c.h b/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-index 8585921ac6c4..b1d7c354c18e 100644
---- a/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-+++ b/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-@@ -13,7 +13,11 @@
- struct rtw8852c_u_efuse {
- 	u8 rsvd[0x88];
- 	u8 mac_addr[ETH_ALEN];
--};
-+	u8 rsvd1[8];
-+	u8 sn[RTW89_EFUSE_SN_LEN];
-+	u8 rsvd2[29];
-+	u8 uuid[RTW89_EFUSE_UUID_LEN];
-+} __packed;
- 
- struct rtw8852c_e_efuse {
- 	u8 mac_addr[ETH_ALEN];
-diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852cu.c b/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-index 8f89f9a31455..81ee96b0a048 100644
---- a/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-+++ b/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-@@ -39,6 +39,16 @@ static const struct rtw89_driver_info rtw89_8852cu_info = {
- 	},
- };
- 
-+static const struct rtw89_driver_info rtw89_8852cu_valve_info = {
-+	.chip = &rtw8852c_chip_info,
-+	.variant = NULL,
-+	.quirks = NULL,
-+	.dev_id_quirks = BIT(RTW89_QUIRK_HW_INFO_SYSFS),
-+	.bus = {
-+		.usb = &rtw8852c_usb_info,
-+	},
-+};
-+
- static const struct usb_device_id rtw_8852cu_id_table[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x0411, 0x03a6, 0xff, 0xff, 0xff),
- 	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
-@@ -53,7 +63,7 @@ static const struct usb_device_id rtw_8852cu_id_table[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x0db0, 0x991d, 0xff, 0xff, 0xff),
- 	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x28de, 0x2432, 0xff, 0xff, 0xff),
--	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
-+	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_valve_info },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2c7c, 0x8206, 0xff, 0xff, 0xff),
- 	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x35b2, 0x0502, 0xff, 0xff, 0xff),
-diff --git a/drivers/net/wireless/realtek/rtw89/usb.c b/drivers/net/wireless/realtek/rtw89/usb.c
-index 88d7ec200837..7e23d0a32025 100644
---- a/drivers/net/wireless/realtek/rtw89/usb.c
-+++ b/drivers/net/wireless/realtek/rtw89/usb.c
-@@ -1059,6 +1059,61 @@ static void rtw89_usb_intf_deinit(struct rtw89_dev *rtwdev,
- 	usb_set_intfdata(intf, NULL);
- }
- 
-+static ssize_t serial_number_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	struct wiphy *wiphy = container_of(dev, struct wiphy, dev);
-+	struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-+	struct rtw89_dev *rtwdev = hw->priv;
-+	struct rtw89_efuse *efuse = &rtwdev->efuse;
-+
-+	return sysfs_emit(buf, "%*phN\n",
-+			  (int)sizeof(efuse->sn), efuse->sn);
-+}
-+static DEVICE_ATTR_RO(serial_number);
-+
-+static ssize_t uuid_show(struct device *dev,
-+			 struct device_attribute *attr, char *buf)
-+{
-+	struct wiphy *wiphy = container_of(dev, struct wiphy, dev);
-+	struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-+	struct rtw89_dev *rtwdev = hw->priv;
-+	struct rtw89_efuse *efuse = &rtwdev->efuse;
-+
-+	return sysfs_emit(buf, "%pUb\n", efuse->uuid);
-+}
-+static DEVICE_ATTR_RO(uuid);
-+
-+static struct attribute *rtw89_usb_attrs[] = {
-+	&dev_attr_serial_number.attr,
-+	&dev_attr_uuid.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group rtw89_usb_group = {
-+	.name = "rtw89_usb",
-+	.attrs = rtw89_usb_attrs,
-+};
-+__ATTRIBUTE_GROUPS(rtw89_usb);
-+
-+static void rtw89_usb_sysfs_create(struct rtw89_dev *rtwdev)
-+{
-+	int ret;
-+
-+	if (!test_bit(RTW89_QUIRK_HW_INFO_SYSFS, rtwdev->quirks))
-+		return;
-+
-+	ret = sysfs_create_groups(&rtwdev->hw->wiphy->dev.kobj,
-+				  rtw89_usb_groups);
-+	if (ret)
-+		rtw89_warn(rtwdev, "failed to create sysfs groups: %d\n", ret);
-+}
-+
-+static void rtw89_usb_sysfs_remove(struct rtw89_dev *rtwdev)
-+{
-+	sysfs_remove_groups(&rtwdev->hw->wiphy->dev.kobj, rtw89_usb_groups);
-+}
-+
- int rtw89_usb_probe(struct usb_interface *intf,
- 		    const struct usb_device_id *id)
- {
-@@ -1123,6 +1178,7 @@ int rtw89_usb_probe(struct usb_interface *intf,
- 		goto err_core_deinit;
- 	}
- 
-+	rtw89_usb_sysfs_create(rtwdev);
- 	rtw89_usb_start_rx(rtwdev);
- 
- 	set_bit(RTW89_FLAG_PROBE_DONE, rtwdev->flags);
-@@ -1159,6 +1215,7 @@ void rtw89_usb_disconnect(struct usb_interface *intf)
- 	rtw89_usb_cancel_rx_bufs(rtwusb);
- 	rtw89_usb_cancel_tx_bufs(rtwusb);
- 
-+	rtw89_usb_sysfs_remove(rtwdev);
- 	rtw89_core_unregister(rtwdev);
- 	rtw89_core_deinit(rtwdev);
- 	rtw89_usb_deinit_rx(rtwdev);
--- 
-2.25.1
-
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
