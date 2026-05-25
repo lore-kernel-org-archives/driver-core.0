@@ -1,76 +1,61 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011063.outbound.protection.outlook.com [52.101.65.63])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011037.outbound.protection.outlook.com [52.101.70.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021A23542CF
-	for <driver-core@lists.linux.dev>; Mon, 25 May 2026 06:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.63
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2710236E468;
+	Mon, 25 May 2026 06:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779689224; cv=fail; b=E5/b9OWw/r+pEahzYYC07/NlKhGi3XGGpnbCS0qrJqjwxc7/P9nU+C19gNgzzln79pulD3etZ3mUsGuOm8jKoH8kOTPOU2YdzLU+OazrIfvI79S2KxlGdE1vHxlHChIjY5C/QFXueKfim2A5MAjWmROR78jJsj6n8plIOuyRFeg=
+	t=1779689557; cv=fail; b=GDhTOjJadDICEwLyNJRTUY3vfVEg+tx++c1beNeHnbucE0xDxxlthk09B5NKJKFamEzkgUcLgPVyVYHEq3mfz4FAM5O0MUMCUFcAqmNKP4hhJPqaR8FYXYBN5ED4ff7nbSg2fGRmVz7DZC/xCUIcumsd3sfWXxXPUszd3PIHLao=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779689224; c=relaxed/simple;
-	bh=sYIQCvDml1F5QeZMaD08efhqcRu/hg7MPQibRIK2lMQ=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=f4nkP3PfKuOr7LWTBmQfXW4szlRTau5bz8vdUW7qNZmXrZx9AZPBJrv0GYKoZyqZnDXVBVwbZgroHV0RTV2pLmGkuJGiZgpfKfn1Cbp2CxPHj0hQkAneIpabii/D4+EFASLVfN7H8wusIdWaGGfnIAfkWn2CZG1OxcfBEujmY+U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=AzeHPZaD; arc=fail smtp.client-ip=52.101.65.63
+	s=arc-20240116; t=1779689557; c=relaxed/simple;
+	bh=ShKCoPIqh3bIFc1wwcwYU16rLj7GqrPyWLyfSRMEJNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=on2Fd0eJYbaC50MbQWLr8tW06FIx4W0BLnxib4eIlCk6jAqDRDFkAmxpCuS6Zzxxjpsv5hpTU+NNoJS8qdHTqUVxWcIxEhMosRdSN0qGD8vnUlAhEvmOlf6oKHQIdRXlHJGpli6Ze7zgnCbD0MweOgM2cmENdcMKJIy0OameuOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=IR8JKEuh; arc=fail smtp.client-ip=52.101.70.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="AzeHPZaD"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="IR8JKEuh"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ckkNeKXvg4lR6dLAhIa72SkZQjB29KbyEZYosexDS30/pCggQlIC4gn2kiRmAVp7lK04H7iz7H17dDCYKMqBT8gYMk96t/ChzcuJ+lfGOuvlfJAjM1GKUTtDm7nBrdJTa1uuA8ULCMERH0B8GYiwuI/BpCKpl11MGrZ8LeifxWkvlPO9CD7hT2MvOyALX7M1sySaT3PoyzfVUk1bjryF4H2hNDp2gX/kFA75oSecriv2ECLr2/TgW0v83ggWmlyf+GfsR1QlLFiUinGgTkKoIBq9I4TTLEHqr2trAN8m9Acv56hVJfAsAJrgZFExNs2vmQ1m0sE4E21E2o70f2hT/w==
+ b=nm3X7wz6ZIqIGHMDsZsHOEsaMWy1wVRgIVuCBhTzWShEe0K3peI+b0Qd1DDjzSkJtCtmmxqF6K59eHg5iCdlTm3utGTMR6gbdE7vAt3mCbpFSQDdspNwn0r2JpSJX+U6UTfAsKd3bCj4J0hpwQbF0s4PUgr97BhKWbeqmq/Zcpf69zmLM8sxbadZ/Ki3jLd72DcRKgMQLmMinyFg5NXkILtm9/DEE8N6tZYdjZ+zn0cqJLHTQtcpu3NRm9WMh49TJXGJb8/ar1D1co2lIyVDntNHp+XqU1uSuQ7J6BYi3dGlNA0cNooBGim5OFCcaFlq708YVuFUrrAOYASqaXPXXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RgjrzaokJB1q/AucMmIwnwYV7T5oi1n8ZZR63ABrv3Y=;
- b=PFSIcfjPIzYs/si3h3C/5vtjSw6zOt+NKsgNQJ+Sy7Yku4ikQx+zusmhMLZcc18aGOxH1y/hTH6Nn65/tXt0lPLmb8FnRtmxxvUBRiigkKWwAOloZBJNYBej3wacjul8KK6bTjHK5UF4jaxHUbX9wtXrqbPbuaaHiNHJPIjXnaPTqwdEfLz8Tvnnlwx/1WG57enAM3ED9UTSqHtr1h4pHLZpz8uqHRvrs3kruMovJsPgoDdgPtWr8FI79DLs/hgOLuTv4ro8viEb8APi75YSa2kB1Mvsic+3RhWbbJ1a2mWqsZiKxUqHJ/PsJ4I24DZEGB3D8McTrPO++HZuxnVX5Q==
+ bh=3vYbQkPoqLGpvhlD+4VD3tNJHhEpcf2DCixZ2sufesw=;
+ b=loTJNlGHOMuQBjWjGaKeelgsNHNWqO65hXrIOD69g6c02nhh1dIOWYSplRjNhC3mtO9x/IxT6qn69XgzhgYT7AuH+GlQ2KMjAHuFQFwUVPMODM25z4+0Jj5VKg4rKTvw8pClo55eb+VFhbw7y0ye2JZIUH/KNigyedwmQwmTkmfKkvIpIznXkb0XGxs4molX1wrf//a5VCw/J35yl/76Q2SJCbDqOOtEtIbVF21E7l7yxoz8KuNFQqpbx4f6pavYuNbEDpf1uezXgsEnGVlikhd8TAUZRmGxAziplssXtIzNwoswWn5/iPP5ksDqdbdu+wyIxnZvxXvwzA1JOvhcow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RgjrzaokJB1q/AucMmIwnwYV7T5oi1n8ZZR63ABrv3Y=;
- b=AzeHPZaDfvQXl651SkmDNxFAQV6NJxSZXkqCygPpokoXeZ5fhgvUfnrOiUoWfO/0cr+eoeBXJkhHi1Zia3ryYI0crsKdoOFnJ7TPjREW+nvyCFP4shXwV6NL8K2RwQ4CQ80awmGnYerHo2RGyaxzIH6LRoasSZ2RV1RP+0iCCF6jpJfThuzMUypBN5zpNFRgl62+B0HI8tGUiA5dUC4/puHIUCoYrwdiE6AJdPLfFGDAqnFxYHaCdAFmeKXGIJGNmsN3pS/90Dwt3unGjfqnOR+OR2bVDMEmnt/+piowVG7OTf6/8tXmVblke3pRzF9JljUHHI9+f/r2I6K9vj0XEw==
+ bh=3vYbQkPoqLGpvhlD+4VD3tNJHhEpcf2DCixZ2sufesw=;
+ b=IR8JKEuh25wW8Op2Av2Jhmb9l6dVk9v6k/by8kFM2d/VvVVptO/BK+vuSgPTX6WHQhODD4xArF5htHz7xhPR8QcstccMEQKD7Ma0vovXcDcET8fQw92rJsYlTeIVqyy92jvVbLk+L7JlAemXF9ssDNOO6LVhQ1s5dZH19I6JByrG7T/xavJ2TT0Q6kxlydiiZp5zsV2AzAVS3a8okoLwFXDA/NQMVjdSjbKPYB6dxdFzxG2WMhVGuaXiBSdLecfauOcNjJNipxXAO8x1hyJJekww4sjbGpecJnJZdXcblFQ4mdbpwtAPvb1n6zIVzo1k5DGzArl3nGI+2rct8YUY5w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
- by GV1PR04MB10725.eurprd04.prod.outlook.com (2603:10a6:150:20a::9) with
+ by PA1PR04MB10577.eurprd04.prod.outlook.com (2603:10a6:102:493::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.19; Mon, 25 May
- 2026 06:06:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Mon, 25 May
+ 2026 06:12:33 +0000
 Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
  ([fe80::c67b:71cd:6338:9dce]) by DU2PR04MB8822.eurprd04.prod.outlook.com
  ([fe80::c67b:71cd:6338:9dce%5]) with mapi id 15.20.9891.019; Mon, 25 May 2026
- 06:06:57 +0000
+ 06:12:33 +0000
+Date: Mon, 25 May 2026 14:11:30 +0800
 From: Xu Yang <xu.yang_2@nxp.com>
-Date: Mon, 25 May 2026 14:09:20 +0800
-Subject: [PATCH 2/2] device property: fix infinite loop in
- fwnode_for_each_child_node()
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260525-fixes_fwnode_iteration-v1-2-a12903fb2919@nxp.com>
-References: <20260525-fixes_fwnode_iteration-v1-0-a12903fb2919@nxp.com>
-In-Reply-To: <20260525-fixes_fwnode_iteration-v1-0-a12903fb2919@nxp.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Daniel Scally <djrscally@gmail.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Xu Yang <xu.yang_2@nxp.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779689386; l=3138;
- i=xu.yang_2@nxp.com; s=20250815; h=from:subject:message-id;
- bh=sYIQCvDml1F5QeZMaD08efhqcRu/hg7MPQibRIK2lMQ=;
- b=Mq0a8UXRAaBHh03DHHRVPDJ9E7s50TgCBB/YxAI9ALAsjnykxgKKyX961NHTu66ANTiQQiaMX
- vhXw/vgUHcHCa0D88Ol4+Yybtww4Yb+tiI3aV3ts2Xcj7A2dlGSkXlb
-X-Developer-Key: i=xu.yang_2@nxp.com; a=ed25519;
- pk=5c2HwftfKxFlMJboUe40+xawMtfnp5F8iEiv5CiKS+4=
-X-ClientProxiedBy: SI2PR02CA0012.apcprd02.prod.outlook.com
- (2603:1096:4:194::7) To DU2PR04MB8822.eurprd04.prod.outlook.com
+To: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	saravanak@google.com
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev
+Subject: Re: [PATCH] driver core: avoid repeatedly printing the same 'Fixed
+ dependency' log
+Message-ID: <kghxlavwmf7wdnftfeer6cadtwf5ubb6rz5n2zjvvsqwvachab@khyep7tsllbu>
+References: <20260509111728.4123331-1-xu.yang_2@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260509111728.4123331-1-xu.yang_2@nxp.com>
+X-ClientProxiedBy: SI2P153CA0019.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::10) To DU2PR04MB8822.eurprd04.prod.outlook.com
  (2603:10a6:10:2e1::11)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -79,156 +64,111 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|GV1PR04MB10725:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc4d98dd-4d0a-48b4-ceea-08deba23d410
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8822:EE_|PA1PR04MB10577:EE_
+X-MS-Office365-Filtering-Correlation-Id: ebc311d1-6454-4047-716d-08deba249c0e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|19092799006|376014|7416014|52116014|1800799024|18002099003|56012099003|22082099003|38350700014|3023799007|11063799006;
+	BCL:0;ARA:13230040|366016|19092799006|376014|52116014|1800799024|18002099003|22082099003|56012099003|38350700014|11063799006;
 X-Microsoft-Antispam-Message-Info:
- zO0teIpqmjlMz03L9NYVDmdWiGdpZed1FtgF6K4QbCSWMTJQ2UK1qZ+qr/FwVyIujLjy6scvqPFmHhmmoobnXQt4ow/ibnniiBofJHpJbvhaSRK9G9QJZDJptjF8rDPYTtARYwIrwBbZ54DzaB7t+9WLQrtRTJSAN1s0IwMQ/nCIjdGMeSzcmj9IWiq9aFaCrkIB2acYtnC2LiPdYpyjdpE6EYTobykHLa+kz+/3PqHXbmOfgXKfEYw4OMimkWl1MT8+7hD/R5nBGWkQuv3vmsYmJtd4gHJyvVRtlg3eK9A5Q8VZtVPABbKwJRl5SoTVORcDUcjU0UtOEEYPOwWGuf4howVeIZjosiCleuva7QF64g1xaN2lYiiHklpK57dJ3R1OEfdeGoBXlGRdjSMV0EXBcVSMkqIHTpRPomg4OFc76NkxIFA5YiLRG2GHnaQDSQ7ikIXBctVx/j77/wk166QkxcvycO4pzaNwLjtyAZFm2qG/VjBc0FK4OC8XS3fmW/961FPLhirKvDxru4dMtqPTQC9zZhuVhOjK6Uefzr8UH2L3Vcy9emExFZKEb59Yb30CQJoCRxvswngl4UQQiVgqx+AyWbz//CiYf3XSlYu5z58rAXTyofhlCRIeh10rf/+McFakxWsqnSw2uKfSuSI5wwPaQJz4uNEvWnpqVFPfsmBn1tfNDAHcWFkDz+yaojRP494l/V2jMHD+P/NcbpnIhddSbXY2HHKptwrieyBdS3zHmnCanZ60PEMhoK2w
+	dlcH7KdGqMhLwsqgN2kfeLlDRkqhR7AC8tjwkWdl/z4LXPdKeH/sfz9R41IXyyIG79iTxvYofrsjzVv0bSqWZVqSjfhUI+tgjfReZ7GDFN3IFNbWxmjRDyvFCuJZqB8s4xZRDqDjS+fAmcNi1Hgy+WyKegfp766n+6Q4lCxaF1NcJSwCt7xEisYdML3DrnsSkgOawwtrsHAFUuJGA5bE8fJRVtJ8aQHTcSMh+Bxq6VqNZB1Rn8D3EDl44OKvYi8yCN/vjnLaWeFAhZ195Un7Z6Hr9L8dOIiXKMoPpL9xZswg6mAo052+Nnvnr5QmDpoEtZPxyxPNXGt4KP2x1lqAs0gFKkm79WYks/h6WQbjwYwFl/+y2SItzZNftzH58zl/oUSk5MySnUVyK0dMqp51b0i7RQ3TB6B+vfnzxJYBDwvAJszjD6J+Gz+ZZxzB/oDogHUfknSusXFQz7cZG/hhCF6aZq7U+lxKlNgeKSvNNTZoWrSRFsf2MblotZ6BwyD5278wH7aINZm7kI0FWm7TgL3FK9m2BCosqd26icpLLF2LrTyCbTMXXsnmEqUzHfzFqLFSohixN6sDxjtMtQKMX511tUmX+/3ViH1IHUN2up6fKAiiosoSmdGX9e/uP97TLhn+l1Fx6zMe6ty4m7W5MylpZkau6Vl98BrjHaJLikGAknfK6YGGGDfnA9bfP7QtIRbki89aPtuDDm1jQ3j1QRvkME5KbWFAHiT+57qwATrp/wPXm7Iu/ghFPfAajU4C
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(7416014)(52116014)(1800799024)(18002099003)(56012099003)(22082099003)(38350700014)(3023799007)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(52116014)(1800799024)(18002099003)(22082099003)(56012099003)(38350700014)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?SDRIR0FQdkthWXVDRUZ5RWpoTkdCUUVqc1hTbG1WMHo1OUFranRVRnhWNXRi?=
- =?utf-8?B?RUJNRy9sdlB5NktCanNXUHNoTm4rRWZ6cjgrSTNYSVdyRmRoeWtUMWtkUHNK?=
- =?utf-8?B?bS9Yb3VwcE9aeGcwQmVUUG1sdGw4SjBEdm1HYU5zSkJYVXl1VW5EQ2J4RlhZ?=
- =?utf-8?B?MTRmdnVMMmZZQjF1SnFtZjZtcWQxSHcrcjFHQXNYQXd4NEdicVF4ZmhadWMr?=
- =?utf-8?B?V2ZZUERZWGd5aTBkS29zQ2psaGNZbWhoQlVobnZGRnBMVndIWlFEeGhLM0Nv?=
- =?utf-8?B?NzVQQk94WGZ4b2JpQnlZMGpvNis3ZE1yajZzOFp2VGJTSzlTS2ZCSkRrNUFv?=
- =?utf-8?B?cVk0dVdYMlp1Sy93Umd5WkxJVHArYS9xek1KWlpXdU5sVkppS2xmWnU4TVVs?=
- =?utf-8?B?SU9KQ2NCRWI0VkNuL1JyOGdNdEYzaUtVL2xhUWF5bjNXamROVEkvTjkrVlp0?=
- =?utf-8?B?NWQybnRjeG9yS1pJVGg5eGVFQlZBcE5rV3YvcEg2QnpKcjlmN3U0SWNCZkJr?=
- =?utf-8?B?azgzN3l1MmJibWhLWGVvbVFlUDA3c3B4cTU0T2hkOU04YkgyQjBwNjhTbWpS?=
- =?utf-8?B?TWRVd1Bwc2dhRUZjRE0xSlF3S21OUStJNmJ0SWlycmtkWTJZbFdIRE8xRUJ5?=
- =?utf-8?B?eDBEbjVmN0VMMWo3UWdoaW1DVVZNVVRSeTJSeHN0ZEkwNk82VkpjSWNVejRj?=
- =?utf-8?B?L01DNE1GelYzalltb3pSSnE0enZCdHlDbkZLK0VTKzdZbEFSWk5lY0JncjlN?=
- =?utf-8?B?RlAyWi9pbGxTVk96OUNEZHpiZDVsTmovQzJXL3FlZU1NeTd0em41YU5URjJl?=
- =?utf-8?B?Qm1STTFrKy90aDVWTXphRlVtWHZEdloxQzhHYmswRnEwTGlOdDgrbXZZUXlt?=
- =?utf-8?B?UjZUaDRDTUNYQnJzQis5a3kvajdGQzV4bktMRXhlWC8wUXBHb2xkOG1BaVFP?=
- =?utf-8?B?cjV6Z3ppSE5UWnhmeDdtUEpNY2JmN2IrbmMva3pNbTBUY1NrWER2N2x2VktB?=
- =?utf-8?B?cCtiaGQ3UVBXSFNZOVpFdWk4TWVmc2haY1JTYW9xb29VQnpHc2xqejFuT2tO?=
- =?utf-8?B?K1lETm03Q2xyMzJ1ZHpObXhkZ2F4OTM5MDg0NStOajFsZ0Q0STdNOEVCY2xC?=
- =?utf-8?B?OFJlWGVsa2hHTkFkbFdWQlUyTEVPL1BjTVcxbUN6ak9hY0Z2M2NZazZxQnl6?=
- =?utf-8?B?d1dqWmE1VFNTaFNBOUhFTEluNnZtRHhDQWRVRGtFVTRFcmJhb1BwTFloT0JK?=
- =?utf-8?B?Y051VGlYU09LVTJielFITUJRK0c3RmxQbnl4Q1hiMDh3a25VVm1pd0dlanZq?=
- =?utf-8?B?NjBjSDFDZjg0Z1pLNU8yeXZ2dCsvdlA0UWwrTmwvVS9DNzMwcWNmaUlIV3dy?=
- =?utf-8?B?NlVWQitvamhoQ004d3V1SFV1cUVxeklCcCtWWEtmLzVRZk5ITTg2Zm9oNkpl?=
- =?utf-8?B?V2JYdGE1Y3ZhTjRyQlBBUnNEYXVnL0NiSmo4TVV5dWVqSXZvWmFHVDRHSDhU?=
- =?utf-8?B?VERxZXpFR2UzdkkrVzA3YVlWai90YjZkUGNrWE4wNTIyMDVHQlBqTmt6YjNB?=
- =?utf-8?B?ZUVsUmlhcURkTXdObktvejg5T0pYOTBqcmUrNFlGQ3dSNTc5NWxTbklQRStF?=
- =?utf-8?B?VXUzS3RQUWJSSDhHZ0t3M1U1ZVdQV2FHTEYzZTUrY3dXVHRiYmtueWx5YWZV?=
- =?utf-8?B?SHFnVVh2allVK0k1WnpzemkyRUw2d00vMXBKRXoxS0JrazZ0bXFpYlBVRkZK?=
- =?utf-8?B?a0ljOWdKNGZWU3U1ZlBwUWkrR25YRFBXd2JEclIvZTdPazJRTU9rdDJuM1lF?=
- =?utf-8?B?QzdFS3ZxT0RXL0FvNkZqanovak5RMUpabUZtaTRwUDZCVytJbHlQUnJaL09J?=
- =?utf-8?B?QWorM2U5djluNmVCU0tFZUR0bHlhdXYrcEdBNkpycGwvZUcwTTNrTzEwUmZN?=
- =?utf-8?B?RE5ka245SnlaQlVvd1VWM0ZJRlQ1RUhKSVZKY3QrdGtmVWdxdkZLbEwxaXlE?=
- =?utf-8?B?OUc3NXB5cGo2TWFxVHMwMTVINDEvdmJGdkg1cEo2UHF2ZFlZeGoydnhEUUhn?=
- =?utf-8?B?TU45ZWhLYkZ6dkkyb3R2djFZMStQaUpzcXRZS2pNemdtSnB5aDBOem1jVXBI?=
- =?utf-8?B?WE5weTdoaytKWXg0MndLL3BWR1lacFl3SzJ4ZDg1NFBqemtKWVA1VmUvTFdQ?=
- =?utf-8?B?VEg2NGpUcjNrYnRBb1h5YlljL0VZbDFGaUxuWE1LTk8rNU8wdnV4bGFLWE04?=
- =?utf-8?B?Y21JZmYvWmxNQktZQTFlcDlxcGVuRTd3d2xURlhSYzRVWUlKZzZna2FZNElw?=
- =?utf-8?B?RFNHT1J2cGdFT0o0aTRlS2hXMEJaMytyK1BqTm9ZdlllMytCNWxsUT09?=
+	=?us-ascii?Q?vFMGPQdFwm0gZ5tCLFYwMrnzb3hhuPyIDRCgeFnCSZPA5INyUNV5J/NS3Pzf?=
+ =?us-ascii?Q?VPG7Pjf1FyXyz2LOtQpbY1ou0IpYl03bcLnxJ5HQWnwq2TldVPizwetuuNe+?=
+ =?us-ascii?Q?GlIFSkHUHMvvm8zyiRWOtT/ogPLnMeNEAKRvEMP8Uwx7UIgukCCfmio1YOLA?=
+ =?us-ascii?Q?jdA7nq9vazAb0pvWfZfIdHsTHJtfceb4YYV+8xMqXn3wHw6xZGv5Z70lQAwP?=
+ =?us-ascii?Q?4QZR5rqdnBmGXX0spaCfrbhsLicEnYn3YDcDyDczQY5qjXyE6Pa6ROe+LBa4?=
+ =?us-ascii?Q?oA284XFC44AXiraQPP423dHgb5vB5Kn0iCeD0ySeGC6K6OF25QX0fPUKRMEm?=
+ =?us-ascii?Q?I+wbbgZ6T0KcgJHStpky7PUlI8eUrCjPk+//KfnqgkaQwqCC1qabHW8fCEh5?=
+ =?us-ascii?Q?4oLlRwaBPL/i5JVssqpdUaM4TRw5EHwFZGW+Bs3ux/RYUnVUHqTHQFjMeBMm?=
+ =?us-ascii?Q?bnXfVMlB6eK1EIYJJO55i4XLMvme2RIydk+mrO+1jhk8s0G2w3tAsJd51GCZ?=
+ =?us-ascii?Q?zU/EEErllhaZmtm+jqU5xMmviaMezSV9KjA+qth8FWhGJoM8xHPotHmIXZHT?=
+ =?us-ascii?Q?CcqBzCQub0vDM8HFxvoJMDRY6+oHoOBrC4tyCJOK7iFBQmXh709YTfnYmyNf?=
+ =?us-ascii?Q?22Ce/Ng6je/YBjGX2j0NdNVGp6b1gfY6Vx8GZyedzzqcwJpPlapWMpN5gJZN?=
+ =?us-ascii?Q?J8EB4/nW3S1tV6Pka3M8xV+CjHvZrdfgIENQpR02qrhfqNZ2MU/3CQy3JAOT?=
+ =?us-ascii?Q?UuyllIgfsKHhL0K1EznEL7z5dv2pq8ifKEUzTJ8fT6hdY8XQ+GWZ39/WT7X5?=
+ =?us-ascii?Q?tGTnntnnqoiHiEkplapvmDFwMVpMirPUsO1hWs7cobJSbK4P4HrqUPzROF1F?=
+ =?us-ascii?Q?Uf3zwVy5C728f46CgA6hTwPnk0U0MajY68FJyvCcX+iroiMLBkvTjUBAHMDQ?=
+ =?us-ascii?Q?y9IgUBPoQHepD+8dCKf7UscsDtW2d4C41xIxmE5hnXpbWn8gmR4gVmdVixL+?=
+ =?us-ascii?Q?PSCr8hMHAm6gOOahA2S4is8/Z6vI+D8LFaFxC2iiOwZ8iLkDXwCZ4zlB2H3T?=
+ =?us-ascii?Q?vadeOHXlP/vkKE3xF/u1CKCC3KBATB97thkLA62LeCjMNUlWNHbB7l5A4AuC?=
+ =?us-ascii?Q?/NJme2QB3XhoxSJzJgi0k9XbwvAP2IJBxf1kp36sGLTqMCNeR/Kg50//Owmu?=
+ =?us-ascii?Q?rYWWr+lP6yRoI+VTwSgthAHKCcGiw9aovwE9it5eMy670pzXISzSm8wZ8792?=
+ =?us-ascii?Q?lkML+32F/LrMsaS5oVetmzYauavL3wVkVerjsC+XOMQTTKGvTXpefJw+rvF1?=
+ =?us-ascii?Q?pvtZ3CTS2gV0N9HAXRig1StbxwAKmYhsVI7JBykp0OdrKxoCcHzRe+lMNQFv?=
+ =?us-ascii?Q?JCEHItQ0dZk/4AAK6WfvL4EMUXJJd4q0edcoXm0fhKIpfkDEAlBt9cy0SeKu?=
+ =?us-ascii?Q?/Nw4h1/1kwb+3+blhGMRoTeVpId2D7raXQPcEHa2o5IhFMF+Mp6N8geZk+6+?=
+ =?us-ascii?Q?07D3JwO0zri+UkUmmXmqjkZ1+YVMXnkq2WLNEkt86miDiB4i6KhS6kXn+eGL?=
+ =?us-ascii?Q?FLooAcu+ZTmPP/G0dAPz/Yxxgq/31ehw8O4PsziUEuls6RLmrLa9uQmWbS/s?=
+ =?us-ascii?Q?IGHpKtWVFsfXjkI7pM8RjlPnU4UH5Tk7STLBjtmhUeIN39rdmJ77Oxffi4yh?=
+ =?us-ascii?Q?s9iw0ZMQ3xHl3f9au8AmSmSMPmeGLacGSwQakECeKmJNdemeNqAeEhLdPoJi?=
+ =?us-ascii?Q?VIZB0N7I0Q=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc4d98dd-4d0a-48b4-ceea-08deba23d410
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebc311d1-6454-4047-716d-08deba249c0e
 X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 06:06:57.8802
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 06:12:33.4073
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G8tM3edKmum6KAuAmY8GtbmfYJPyg+SUTSDRfRkQvppf0ZImJhE8S0+EDJStZhUijChd2sWxx03O/8z+sYQUcg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10725
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3fZTOlATsva09kRJOknId4cNuoSqNgCNGYnRbA1F250pdiAs7blDBbBSAIYUdIUFTvcUiDDZx544YGHhlJ4D3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10577
 
-When iterate over children of a fwnode that has a secondary fwnode,
-fwnode_get_next_child_node() can enter an infinite loop if the secondary
-fwnode has more than one child.
+Hi Saravana,
 
-                       Parent        Child
-      (Primary fwnode)   FWa:   {FWa1, FWa2, FWa3}
-    (Secondary fwnode)   FWb:   {FWb1, FWb2}
+On Sat, May 09, 2026 at 07:17:28PM +0800, Xu Yang wrote:
+> The "Fixed dependency cycle(s) with ..." log is printed for each cycle
+> finding process. In particular, the same cycle may be parsed many times
+> during the proxy link setup. For example, if /soc/bus@4c000000/usb@4c100000
+> is a devicetree structure and node usb@4c100000 is in a cycle, then for
+> each device registration (soc, 4c000000.bus and 4c100000.usb),
+> fw_devlink_create_devlink() will find the same cycle and print a log.
+> The repeat logs are redundant and may cause confusion for the user. Move
+> the pr_debug() to __fwnode_link_cycle() and avoid printing the log if it
+> has already been printed.
 
-In this case:
+Could the logging be improved here?
 
- ┌─> fwnode_get_next_child_node(FWa, FWa1)
- │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa1) returns FWa2
- │
- │   ...
- │
- │   fwnode_get_next_child_node(FWa, FWa3)
- │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa3) returns NULL
- │    - fwnode_call_ptr_op(FWb, get_next_child_node, FWa3) returns FWb1
- │
- │   fwnode_get_next_child_node(FWa, FWb1)
- │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWb1) returns FWa1
- └────┘
+Thanks,
+Xu Yang
 
-This cause fwnode_for_each_child_node() to loop indefinitely, reapeatedly
-output {FWa1, FWa2, FWa3, FWb1, FWa1, ...}.
-
-The root cause is that when the current child (FWb1) belongs to the
-secondary fwnode, calling get_next_child_node() on the parimary fwnode
-incorrectly returns the first child (FWa1) again instead of NULL.
-
-Fix this by dynamically checking the parent fwnode of the current child
-before calling get_next_child_node(). This approach follows the pattern
-established in commit b5b41ab6b0c1 ("device property: Check
-fwnode->secondary in fwnode_graph_get_next_endpoint()").
-
-Fixes: 2692c614f8f0 ("device property: Allow secondary lookup in fwnode_get_next_child_node()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
----
- drivers/base/property.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 8e0148a37fff..9dce513f90cc 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -807,18 +807,32 @@ struct fwnode_handle *
- fwnode_get_next_child_node(const struct fwnode_handle *fwnode,
- 			   struct fwnode_handle *child)
- {
--	struct fwnode_handle *next;
-+	struct fwnode_handle *next, *child_parent = NULL;
-+	const struct fwnode_handle *parent;
- 
- 	if (IS_ERR_OR_NULL(fwnode))
- 		return NULL;
-+	/*
-+	 * If this function is in a loop and the previous iteration returned
-+	 * an child from fwnode->secondary, then we need to use the secondary
-+	 * as parent rather than @fwnode.
-+	 */
-+	if (child) {
-+		child_parent = fwnode_get_parent(child);
-+		parent = child_parent;
-+	} else {
-+		parent = fwnode;
-+	}
- 
--	/* Try to find a child in primary fwnode */
--	next = fwnode_call_ptr_op(fwnode, get_next_child_node, child);
-+	next = fwnode_call_ptr_op(parent, get_next_child_node, child);
- 	if (next)
--		return next;
-+		goto put_child_parent;
-+
-+	next = fwnode_call_ptr_op(parent->secondary, get_next_child_node, NULL);
- 
--	/* When no more children in primary, continue with secondary */
--	return fwnode_call_ptr_op(fwnode->secondary, get_next_child_node, child);
-+put_child_parent:
-+	fwnode_handle_put(child_parent);
-+	return next;
- }
- EXPORT_SYMBOL_GPL(fwnode_get_next_child_node);
- 
-
--- 
-2.34.1
-
+> 
+> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> ---
+>  drivers/base/core.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index d49420e066de..af0371d4ed83 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -127,7 +127,13 @@ static void __fwnode_link_cycle(struct fwnode_link *link)
+>  {
+>  	pr_debug("%pfwf: cycle: depends on %pfwf\n",
+>  		 link->consumer, link->supplier);
+> +
+> +	if (link->flags & FWLINK_FLAG_CYCLE)
+> +		return;
+> +
+>  	link->flags |= FWLINK_FLAG_CYCLE;
+> +	pr_info("%pfwf: Fixed dependency cycle(s) with %pfwf\n",
+> +		link->consumer, link->supplier);
+>  }
+>  
+>  /**
+> @@ -2140,8 +2146,6 @@ static int fw_devlink_create_devlink(struct device *con,
+>  	if (__fw_devlink_relax_cycles(link->consumer, sup_handle)) {
+>  		__fwnode_link_cycle(link);
+>  		pr_debug("----- cycle: end -----\n");
+> -		pr_info("%pfwf: Fixed dependency cycle(s) with %pfwf\n",
+> -			link->consumer, sup_handle);
+>  	}
+>  	device_links_write_unlock();
+>  
+> -- 
+> 2.34.1
+> 
