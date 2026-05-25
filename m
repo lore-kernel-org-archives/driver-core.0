@@ -1,284 +1,285 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB28E7E0E8;
-	Mon, 25 May 2026 19:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CE53947AE;
+	Mon, 25 May 2026 20:29:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779737632; cv=none; b=ATnw/XZs0qJt0d8jyw3YA0H6gm7NL9jAkoDvsxXsv+48iN34w2HNP6GOZyoajMmeWYk/qJTp580SriKdt6KWwSaQ29sJwJxNCExWo7Jt9P8dbQ26EpNmp33TjmMHiZ7OI95eZqJkAzV9PY2+x5ksBsTC9PVr2Vxbbzh2HkTaV08=
+	t=1779740972; cv=none; b=Zj77CwfjcfJ26FUq3cPxfmzfHL59o6IihOmZAdeHlC7nj3gECGp7dd/0JSYUx/FPvxKoew58YMAXCdLkV1QWZtbSMLiYgB0UGcjDp2ObGG44gh1z/I/xelHcDsT1EwxBWCxcNvtk0DU8JjVDrb+xGN37yZS+yImFezcuiUZolFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779737632; c=relaxed/simple;
-	bh=AAvquANotoD1NxY6DEOLjliyQnsOiETlzNdjFBC/J3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SF/I50ESqn66eKbNjGTX3WO4xOF4U86BpMIaiVdtkYTM37pzDcJA8p3U0Y2JxnQyhCvVs1KwUnVmmQwAVRMveXigQy326B02KeA7O+0X879Yo6CenY+1c+MAu5ZkwtA+BJOqrp2YLcZoDAAJJVw070Rl5RtfbLltRwkDR7NY9To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=v/XPVRCa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779740972; c=relaxed/simple;
+	bh=5qWN36ryVO875bRpm9upQBvh6AdLmlbQstO7sKOANT4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XKBV2/Ue4j4pqMVV04COl/gMllnbHW1R4kS6qqO4219Fha6dH8gXbeoZMRmgU6XeAsnqutfDUy2f0CXfw6hou7Afk2CMhZJsYNJTAv1mBVKvphz9TinMVonAx3FFVqPNHd+LhLgJFjLFrzDymUXhjgGnMgpgmzfiwl0Hti20yio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eSJY/fX1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="v/XPVRCa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D5A1F000E9;
-	Mon, 25 May 2026 19:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779737630;
-	bh=JokBFlG1NQOC7FSPmvWKWB6Uo8QYRkXQi+S3/O/qhl0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=v/XPVRCa3grLs8eR8VQ9wHEBy5OhsZfADFnMs44e1kAkWkVh/E7vE4sDQDcWj5Avw
-	 FBFCP8CcRcnyOHKvBsKQA5W5Vdpar9G/jOvLw6px4Q2kABlhkNr43KDcetzyrXUYv2
-	 PXGE9Msele4IP8ZJ9htk0PIOeKT/uk5O8RQ29BXE=
-Date: Mon, 25 May 2026 21:32:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ping-Ke Shih <pkshih@realtek.com>
-Cc: linux-wireless@vger.kernel.org, driver-core@lists.linux.dev,
-	johannes@sipsolutions.net, wenjie.tsai@realtek.com,
-	mh_chen@realtek.com, charlesl@valvesoftware.com,
-	sabae@valvesoftware.com
-Subject: Re: [PATCH v2 rtw-next 2/2] wifi: rtw89: usb: add serial_number and
- uuid sysfs attributes for 0x28de:0x2432
-Message-ID: <2026052524-ammonia-zeppelin-9edb@gregkh>
-References: <20260525085148.35180-1-pkshih@realtek.com>
- <20260525085148.35180-3-pkshih@realtek.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eSJY/fX1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F261F000E9;
+	Mon, 25 May 2026 20:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779740970;
+	bh=hbKm+QMbi0bxLA16ZUxC2wBcszGlYqRN0cc16jNNxWw=;
+	h=From:To:Cc:Subject:Date;
+	b=eSJY/fX11QSv/mXbgRvvzhJ0rwCmYj90qowizR2IUdbct3zFV8G3sVmX5Tw9hNXzi
+	 /cTjojCnKZV362Eb445Z+XD3DtrrNylsWbXEqCSzzgAwFv1/Dp6SS/MjzCgldzBzgX
+	 UfHx4Mn+/YAFy1wfwHaU5NElk7EXb47nUsoNz4CE7vpNBcMKDXc9Uxhx8xseduKpzj
+	 0s+dfDNc+1mYd8oXXkxulD6TvD9okbZ8D63hKsRNgBFiy6YOd/J6DuSL055udyTAdi
+	 FuUFogRAdxWIhlVbP8TaUok/23CAvhzJ+6zJsxH6p/ow/AZm+AmFnmcSXUfLHJ69RP
+	 jOnky1gjzeh9A==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	acourbot@nvidia.com,
+	aliceryhl@google.com,
+	david.m.ertman@intel.com,
+	ira.weiny@intel.com,
+	leon@kernel.org,
+	viresh.kumar@linaro.org,
+	m.wilczynski@samsung.com,
+	ukleinek@kernel.org,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org,
+	abdiel.janulgue@gmail.com,
+	robin.murphy@arm.com,
+	markus.probst@posteo.de,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	igor.korotin@linux.dev,
+	daniel.almeida@collabora.com,
+	pcolberg@redhat.com
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-pm@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v5 00/24] rust: device: Higher-Ranked Lifetime Types for device drivers
+Date: Mon, 25 May 2026 22:20:47 +0200
+Message-ID: <20260525202921.124698-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260525085148.35180-3-pkshih@realtek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 25, 2026 at 04:51:48PM +0800, Ping-Ke Shih wrote:
-> From: Johnson Tsai <wenjie.tsai@realtek.com>
-> 
-> Expose the device's Serial Number (SN) and UUID from EFUSE via two
-> read-only sysfs attributes, `serial_number` and `uuid`, on the ieee80211
-> phy device under the `rtw89_usb` attribute group.
-> 
-> This hardware identification information is essential for user-space
-> applications to uniquely identify, track, and manage specific Wi-Fi
-> adapters. For example, in automated factory provisioning or device
-> management systems, user-space tools rely on the EFUSE serial number and
-> UUID to bind configurations to specific physical adapters. Currently,
-> standard wireless APIs do not expose this low-level hardware
-> information, making these sysfs nodes the only viable solution for
-> user space to extract this data.
-> 
-> The attributes are gated behind a new RTW89_QUIRK_HW_INFO_SYSFS quirk,
-> enabled only for the VID 0x28de / PID 0x2432 device via the
-> dev_id_quirks field in rtw89_driver_info.
-> 
-> Example usage from user-space:
->   $ cat /sys/class/ieee80211/phy0/rtw89_usb/serial_number
->   3642000123
->   $ cat /sys/class/ieee80211/phy0/rtw89_usb/uuid
->   aaec2b7c-0a55-4727-8de0-b30febccbbaa
-> 
-> Cc: Elliot Saba <sabae@valvesoftware.com>
-> Cc: Charles Lohr <charlesl@valvesoftware.com>
-> Signed-off-by: Johnson Tsai <wenjie.tsai@realtek.com>
-> Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
-> ---
->  .../ABI/testing/sysfs-class-ieee80211-rtw89   | 24 ++++++++
->  drivers/net/wireless/realtek/rtw89/core.h     |  6 ++
->  drivers/net/wireless/realtek/rtw89/rtw8852c.c | 10 ++++
->  drivers/net/wireless/realtek/rtw89/rtw8852c.h |  6 +-
->  .../net/wireless/realtek/rtw89/rtw8852cu.c    | 12 +++-
->  drivers/net/wireless/realtek/rtw89/usb.c      | 57 +++++++++++++++++++
->  6 files changed, 113 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89 b/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-> new file mode 100644
-> index 000000000000..7dfdce08a42f
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-> @@ -0,0 +1,24 @@
-> +What:		/sys/class/ieee80211/phyX/rtw89_usb/serial_number
-> +Date:		May 2026
-> +Contact:	Johnson Tsai <wenjie.tsai@realtek.com>, linux-wireless@vger.kernel.org
-> +Description:	(Read) Serial number burned into EFUSE of the RTL8852CU-based
-> +		USB Wi-Fi adapter.  Only present on devices that set the
-> +		RTW89_QUIRK_HW_INFO_SYSFS quirk (currently VID 0x28de /
-> +		PID 0x2432).
-> +
-> +		Format: %10phN (5 raw bytes printed as 10 lowercase hex
-> +		digits, no separators).
-> +
-> +		Example: 3642000123
-> +
-> +What:		/sys/class/ieee80211/phyX/rtw89_usb/uuid
-> +Date:		May 2026
-> +Contact:	Johnson Tsai <wenjie.tsai@realtek.com>, linux-wireless@vger.kernel.org
-> +Description:	(Read) UUID burned into EFUSE of the RTL8852CU-based USB Wi-Fi
-> +		adapter.  Only present on devices that set the
-> +		RTW89_QUIRK_HW_INFO_SYSFS quirk (currently VID 0x28de /
-> +		PID 0x2432).
-> +
-> +		Format: %pUb (RFC 4122 UUID in lowercase with hyphens).
-> +
-> +		Example: aaec2b7c-0a55-4727-8de0-b30febccbbaa
-> diff --git a/drivers/net/wireless/realtek/rtw89/core.h b/drivers/net/wireless/realtek/rtw89/core.h
-> index e687216da5b6..09f17d958075 100644
-> --- a/drivers/net/wireless/realtek/rtw89/core.h
-> +++ b/drivers/net/wireless/realtek/rtw89/core.h
-> @@ -3615,6 +3615,9 @@ struct rtw89_sta_link {
->  	u32 data_tx_cnt_lmt:6;
->  };
->  
-> +#define RTW89_EFUSE_SN_LEN 5
-> +#define RTW89_EFUSE_UUID_LEN 16
-> +
->  struct rtw89_efuse {
->  	bool valid;
->  	bool power_k_valid;
-> @@ -3625,6 +3628,8 @@ struct rtw89_efuse {
->  	u8 adc_td;
->  	u8 bt_setting_2;
->  	u8 bt_setting_3;
-> +	u8 sn[RTW89_EFUSE_SN_LEN];
-> +	u8 uuid[RTW89_EFUSE_UUID_LEN];
->  };
->  
->  struct rtw89_phy_rate_pattern {
-> @@ -5373,6 +5378,7 @@ enum rtw89_quirks {
->  	RTW89_QUIRK_PCI_BER,
->  	RTW89_QUIRK_THERMAL_PROT_120C,
->  	RTW89_QUIRK_THERMAL_PROT_110C,
-> +	RTW89_QUIRK_HW_INFO_SYSFS,
->  
->  	NUM_OF_RTW89_QUIRKS,
->  };
-> diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852c.c b/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-> index 7bb1264bcaef..3861cce42b1b 100644
-> --- a/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-> +++ b/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-> @@ -621,6 +621,15 @@ static void rtw8852c_efuse_parsing_gain_offset(struct rtw89_dev *rtwdev,
->  	gain->offset_valid = valid;
->  }
->  
-> +static void rtw8852c_efuse_copy_sn_uuid_usb(struct rtw89_dev *rtwdev,
-> +					    const struct rtw8852c_efuse *map)
-> +{
-> +	struct rtw89_efuse *efuse = &rtwdev->efuse;
-> +
-> +	memcpy(efuse->sn, map->u.sn, sizeof(efuse->sn));
-> +	memcpy(efuse->uuid, map->u.uuid, sizeof(efuse->uuid));
-> +}
-> +
->  static int rtw8852c_read_efuse(struct rtw89_dev *rtwdev, u8 *log_map,
->  			       enum rtw89_efuse_block block)
->  {
-> @@ -640,6 +649,7 @@ static int rtw8852c_read_efuse(struct rtw89_dev *rtwdev, u8 *log_map,
->  		break;
->  	case RTW89_HCI_TYPE_USB:
->  		ether_addr_copy(efuse->addr, map->u.mac_addr);
-> +		rtw8852c_efuse_copy_sn_uuid_usb(rtwdev, map);
->  		break;
->  	default:
->  		return -ENOTSUPP;
-> diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852c.h b/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-> index 8585921ac6c4..b1d7c354c18e 100644
-> --- a/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-> +++ b/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-> @@ -13,7 +13,11 @@
->  struct rtw8852c_u_efuse {
->  	u8 rsvd[0x88];
->  	u8 mac_addr[ETH_ALEN];
-> -};
-> +	u8 rsvd1[8];
-> +	u8 sn[RTW89_EFUSE_SN_LEN];
-> +	u8 rsvd2[29];
-> +	u8 uuid[RTW89_EFUSE_UUID_LEN];
-> +} __packed;
->  
->  struct rtw8852c_e_efuse {
->  	u8 mac_addr[ETH_ALEN];
-> diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852cu.c b/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-> index 8f89f9a31455..81ee96b0a048 100644
-> --- a/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-> +++ b/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-> @@ -39,6 +39,16 @@ static const struct rtw89_driver_info rtw89_8852cu_info = {
->  	},
->  };
->  
-> +static const struct rtw89_driver_info rtw89_8852cu_valve_info = {
-> +	.chip = &rtw8852c_chip_info,
-> +	.variant = NULL,
-> +	.quirks = NULL,
-> +	.dev_id_quirks = BIT(RTW89_QUIRK_HW_INFO_SYSFS),
-> +	.bus = {
-> +		.usb = &rtw8852c_usb_info,
-> +	},
-> +};
-> +
->  static const struct usb_device_id rtw_8852cu_id_table[] = {
->  	{ USB_DEVICE_AND_INTERFACE_INFO(0x0411, 0x03a6, 0xff, 0xff, 0xff),
->  	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
-> @@ -53,7 +63,7 @@ static const struct usb_device_id rtw_8852cu_id_table[] = {
->  	{ USB_DEVICE_AND_INTERFACE_INFO(0x0db0, 0x991d, 0xff, 0xff, 0xff),
->  	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
->  	{ USB_DEVICE_AND_INTERFACE_INFO(0x28de, 0x2432, 0xff, 0xff, 0xff),
-> -	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
-> +	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_valve_info },
->  	{ USB_DEVICE_AND_INTERFACE_INFO(0x2c7c, 0x8206, 0xff, 0xff, 0xff),
->  	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
->  	{ USB_DEVICE_AND_INTERFACE_INFO(0x35b2, 0x0502, 0xff, 0xff, 0xff),
-> diff --git a/drivers/net/wireless/realtek/rtw89/usb.c b/drivers/net/wireless/realtek/rtw89/usb.c
-> index 88d7ec200837..7e23d0a32025 100644
-> --- a/drivers/net/wireless/realtek/rtw89/usb.c
-> +++ b/drivers/net/wireless/realtek/rtw89/usb.c
-> @@ -1059,6 +1059,61 @@ static void rtw89_usb_intf_deinit(struct rtw89_dev *rtwdev,
->  	usb_set_intfdata(intf, NULL);
->  }
->  
-> +static ssize_t serial_number_show(struct device *dev,
-> +				  struct device_attribute *attr, char *buf)
-> +{
-> +	struct wiphy *wiphy = container_of(dev, struct wiphy, dev);
-> +	struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-> +	struct rtw89_dev *rtwdev = hw->priv;
-> +	struct rtw89_efuse *efuse = &rtwdev->efuse;
-> +
-> +	return sysfs_emit(buf, "%*phN\n",
-> +			  (int)sizeof(efuse->sn), efuse->sn);
-> +}
-> +static DEVICE_ATTR_RO(serial_number);
-> +
-> +static ssize_t uuid_show(struct device *dev,
-> +			 struct device_attribute *attr, char *buf)
-> +{
-> +	struct wiphy *wiphy = container_of(dev, struct wiphy, dev);
-> +	struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-> +	struct rtw89_dev *rtwdev = hw->priv;
-> +	struct rtw89_efuse *efuse = &rtwdev->efuse;
-> +
-> +	return sysfs_emit(buf, "%pUb\n", efuse->uuid);
-> +}
-> +static DEVICE_ATTR_RO(uuid);
-> +
-> +static struct attribute *rtw89_usb_attrs[] = {
-> +	&dev_attr_serial_number.attr,
-> +	&dev_attr_uuid.attr,
-> +	NULL,
-> +};
-> +
-> +static const struct attribute_group rtw89_usb_group = {
-> +	.name = "rtw89_usb",
-> +	.attrs = rtw89_usb_attrs,
-> +};
-> +__ATTRIBUTE_GROUPS(rtw89_usb);
-> +
-> +static void rtw89_usb_sysfs_create(struct rtw89_dev *rtwdev)
-> +{
-> +	int ret;
-> +
-> +	if (!test_bit(RTW89_QUIRK_HW_INFO_SYSFS, rtwdev->quirks))
-> +		return;
-> +
-> +	ret = sysfs_create_groups(&rtwdev->hw->wiphy->dev.kobj,
-> +				  rtw89_usb_groups);
+Currently, Rust device drivers access device resources such as PCI BAR mappings
+and I/O memory regions through Devres<T>.
 
-You just raced with userspace and lost, please use the is_visable
-callback instead, and make this the default group attributes.
+Devres::access() provides zero-overhead access by taking a &Device<Bound>
+reference as proof that the device is still bound. Since a &Device<Bound> is
+available in almost all contexts by design, Devres is mostly a type-system level
+proof that the resource is valid, but it can also be used from scopes without
+this guarantee through its try_access() accessor.
 
-thanks,
+This works well in general, but has a few limitations:
 
-greg k-h
+  - Every access to a device resource goes through Devres::access(), which
+    despite zero cost, adds boilerplate to every access site.
+
+  - Destructors do not receive a &Device<Bound>, so they must use try_access(),
+    which can fail. In practice the access succeeds if teardown ordering is
+    correct, but the type system can't express this, forcing drivers to handle a
+    failure path that should never be taken.
+
+  - Sharing a resource across components (e.g. passing a BAR to a sub-component)
+    requires Arc<Devres<T>>.
+
+  - Device references must be stored as ARef<Device> rather than plain &Device
+    borrows.
+
+These limitations stem from the driver's bus device private data being 'static
+-- the driver struct cannot borrow from the device reference it receives in
+probe(), even though it structurally cannot outlive the device binding.
+
+This series introduces Higher-Ranked Lifetime Types (HRT) for Rust device
+drivers. An HRT is a type that is generic over a lifetime -- it does not have a
+fixed lifetime, but can be instantiated with any lifetime chosen by the caller.
+
+Bus driver traits use a Generic Associated Type (GAT) type Data<'bound> to
+introduce the lifetime on the private data, rather than parameterizing the
+Driver trait itself. This avoids a driver trait global lifetime and avoids the
+need for ForLt for bus device private data, making the bus implementations much
+simpler. ForLt is only needed for auxiliary registration data, where the
+lifetime is not introduced by a trait callback but must be threaded through
+Registration.
+
+With HRT, driver structs carry a lifetime parameter tied to the device binding
+scope -- the interval of a bus device being bound to a driver. Device resources
+like pci::Bar<'bound> and IoMem<'bound> are handed out with this lifetime, so
+the compiler enforces at build time that they do not escape the binding scope.
+
+Before:
+
+	struct MyDriver {
+	    pdev: ARef<pci::Device>,
+	    bar: Devres<pci::Bar<BAR_SIZE>>,
+	}
+
+	let io = self.bar.access(dev)?;
+	io.read32(OFFSET);
+
+After:
+
+	struct MyDriver<'bound> {
+	    pdev: &'bound pci::Device,
+	    bar: pci::Bar<'bound, BAR_SIZE>,
+	}
+
+	self.bar.read32(OFFSET);
+
+Lifetime-parameterized device resources can be put into a Devres at any point
+via Bar::into_devres() / IoMem::into_devres(), providing the exact same
+semantics as before. This is useful for resources shared across subsystem
+boundaries where revocation is needed.
+
+This also synergizes with the upcoming self-referential initialization support
+in pin-init, which allows one field of the driver struct to borrow another
+during initialization without unsafe code.
+
+The same pattern is applied to auxiliary device registration data as a first
+example beyond bus device private data. Registration<F: ForLt> can hold
+lifetime-parameterized data tied to the parent driver's binding scope. Since the
+auxiliary bus guarantees that the parent remains bound while the auxiliary
+device is registered, the registration data can safely borrow the parent's
+device resources.
+
+More generally, binding resource lifetimes to a registration scope applies to
+every registration that is scoped to a driver binding -- auxiliary devices,
+class devices, IRQ handlers, workqueues.
+
+A follow-up series extends this to class device registrations, starting with
+DRM, so that class device callbacks (IOCTLs, etc.) can safely access device
+resources through the separate registration data bound to the registration's
+lifetime without Devres indirection.
+
+Thanks to Gary for coming up with the ForLt implementation; thanks to Alice for
+the early discussions around lifetime-parameterized private data that helped
+shape the direction of this work.
+
+Changes in v5:
+  - Fix Bar name parameter to &'static CStr
+  - ForLt: handle macro_rules! invocations in covariance/WF checks by
+    conservatively assuming they may contain lifetimes; fix typos in commit
+    message and doc comments
+  - Update stale SAFETY comments from T::Data to T::Data<'_> in bus
+    driver callbacks
+  - Fix USB commit message: unbind() -> disconnect()
+  - Clarify Bar commit message on why Devres is no longer needed
+  - Drop REF patches (nova-core, tyr); will be revisited and sent separately to
+    be routed through drm-rust
+
+Changes in v4:
+  - Use 'bound only for lifetimes that represent the full duration of a device
+    being bound to a driver
+  - Make Core and CoreInternal lifetime-parameterized
+  - Split auxiliary::Registration constructor into unsafe fn new_with_lt
+    (borrowed data) and safe fn new ('static data) to close mem::forget()
+    soundness hole
+  - Use TypeId::of::<F>() instead of TypeId::of::<F::Of<'static>>() in auxiliary
+    registration_data()
+  - Handle Type::Macro in ForLt! covariance and WF checks; proc macros cannot
+    expand macro_rules invocations, so use WithLt trait projection for lifetime
+    substitution
+  - Fix missing Send bound in type Data: Send
+
+Changes in v3:
+  - Rework all bus "make Driver trait lifetime-parameterized" patches to use a
+    GAT (type Data<'bound>); in the context of adding a 'bound lifetime, this
+    avoids a driver trait global lifetime and avoids ForLt for bus device
+    private data making the bus implementations much simpler
+
+Changes in v2:
+  - Add 'a bound to ForLt::Of<'a> and WithLt::Of, making the lifetime bound
+    inherent to the trait; remove all F::Of<'static>: 'static where clauses
+  - Drop "rust: devres: add ForLt support to Devres"; Devres itself stays
+    unchanged -- ForLt-aware access is introduced later through DevresLt in a
+    separate series
+  - Use 'bound instead of 'a; add patches to consistently use 'bound for
+    pre-existing 'a
+
+Danilo Krummrich (21):
+  rust: pci: use 'static lifetime for PCI BAR resource names
+  rust: driver: decouple driver private data from driver type
+  rust: driver core: drop drvdata before devres release
+  rust: pci: implement Sync for Device<Bound>
+  rust: platform: implement Sync for Device<Bound>
+  rust: auxiliary: implement Sync for Device<Bound>
+  rust: usb: implement Sync for Device<Bound>
+  rust: device: implement Sync for Device<Bound>
+  rust: device: make Core and CoreInternal lifetime-parameterized
+  rust: pci: make Driver trait lifetime-parameterized
+  rust: platform: make Driver trait lifetime-parameterized
+  rust: auxiliary: make Driver trait lifetime-parameterized
+  rust: usb: make Driver trait lifetime-parameterized
+  rust: i2c: make Driver trait lifetime-parameterized
+  rust: driver: update module documentation for GAT-based Data type
+  rust: pci: make Bar lifetime-parameterized
+  rust: io: make IoMem and ExclusiveIoMem lifetime-parameterized
+  samples: rust: rust_driver_pci: use HRT lifetime for Bar
+  gpu: nova-core: separate driver type from driver data
+  rust: auxiliary: generalize Registration over ForLt
+  samples: rust: rust_driver_auxiliary: showcase lifetime-bound
+    registration data
+
+Gary Guo (3):
+  rust: alloc: remove `'static` bound on `ForeignOwnable`
+  rust: driver: move 'static bounds to constructor
+  rust: types: add `ForLt` trait for higher-ranked lifetime support
+
+ drivers/base/dd.c                     |   2 +-
+ drivers/cpufreq/rcpufreq_dt.rs        |   9 +-
+ drivers/gpu/drm/nova/driver.rs        |   6 +-
+ drivers/gpu/drm/tyr/driver.rs         |  13 +-
+ drivers/gpu/nova-core/driver.rs       |  30 ++--
+ drivers/gpu/nova-core/gpu.rs          |   2 +-
+ drivers/gpu/nova-core/nova_core.rs    |   2 +-
+ drivers/pwm/pwm_th1520.rs             |  13 +-
+ include/linux/device/driver.h         |   4 +-
+ rust/Makefile                         |   1 +
+ rust/kernel/alloc/kbox.rs             |  24 ++-
+ rust/kernel/auxiliary.rs              | 142 ++++++++++-----
+ rust/kernel/cpufreq.rs                |   9 +-
+ rust/kernel/device.rs                 |  61 +++++--
+ rust/kernel/devres.rs                 |   2 +-
+ rust/kernel/dma.rs                    |   2 +-
+ rust/kernel/driver.rs                 |  41 +++--
+ rust/kernel/i2c.rs                    |  61 ++++---
+ rust/kernel/io/mem.rs                 | 121 +++++++------
+ rust/kernel/pci.rs                    |  51 +++---
+ rust/kernel/pci/id.rs                 |   2 +-
+ rust/kernel/pci/io.rs                 |  54 +++---
+ rust/kernel/platform.rs               |  52 +++---
+ rust/kernel/types.rs                  |  12 +-
+ rust/kernel/types/for_lt.rs           | 117 ++++++++++++
+ rust/kernel/usb.rs                    |  57 +++---
+ rust/macros/for_lt.rs                 | 248 ++++++++++++++++++++++++++
+ rust/macros/lib.rs                    |  12 ++
+ samples/rust/rust_debugfs.rs          |  11 +-
+ samples/rust/rust_dma.rs              |   6 +-
+ samples/rust/rust_driver_auxiliary.rs |  79 +++++---
+ samples/rust/rust_driver_i2c.rs       |  13 +-
+ samples/rust/rust_driver_pci.rs       |  90 +++++-----
+ samples/rust/rust_driver_platform.rs  |   9 +-
+ samples/rust/rust_driver_usb.rs       |  15 +-
+ samples/rust/rust_i2c_client.rs       |  14 +-
+ samples/rust/rust_soc.rs              |   9 +-
+ 37 files changed, 998 insertions(+), 398 deletions(-)
+ create mode 100644 rust/kernel/types/for_lt.rs
+ create mode 100644 rust/macros/for_lt.rs
+
+
+base-commit: 95ade775c4ab9b9b3d7cfa2d45283e93fbfa4e7a
+-- 
+2.54.0
+
