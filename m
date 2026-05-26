@@ -1,250 +1,126 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9A539732C
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 20:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779826726; cv=pass; b=glzMCOV+ikAjG8qS5QoYggvp63F7tfNC2bVQ1Wf7vKF5fA3VR+SVyUUv3jAEcSpqCrsoq1Eczsb9IHKml+LmDBly7AlnKCQjuA1vNM3Q26kiKOYIH8wGtuSjHXVkL1f7Sgx7Ptp/17Z3zR12Ln5Fz+cB8T2OWX4Ujcy/hq5b5aY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779826726; c=relaxed/simple;
-	bh=2EfW5FJiLUMdxFZx0t3GAXCm7D9MDorB8Rk3fnu3n2U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u9oIVU4KuOZBlLyapAfq9ZVeXbtI99q9usjAivoPJE/V3JCDTv31xuBFXknCRWSlf3/Fa8/pIPdeMEKLEC8mYkqCV6O7U7TOi1QbnJAOKKQOiR9vtmDFYfAGm7OUVaS4YKntL5GxGmjcr7o0f4y+CKRGdSzOJqWMvzKj8IBJqwM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oKhXlqXL; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F4D12B94
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 21:29:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779830962; cv=none; b=S5UfxS8BtxJ5qzS9S1mHeUF2MEH7C3TnMQxE0oqIubWAc8fiwro+W4ueOC2CrZPVBN/A+lI6Calaf7n2S/qEFaozpYBS08vvyyx32z+R0jyYbBzFoG44nP1d3+SodUtlYPvOeBBg/qlVCsfIEAwicXXhhSUnwGkmenx4PIN3API=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779830962; c=relaxed/simple;
+	bh=91N+57rUR1pWbGR8nhj2bpJrpWtcapPBXOCxGh0W5F0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=ExLFowKB1o0fO6ZBL094MiHV3ZvBSHjvvUAjg1sO8OVdN0XK/87zUgFa8P1SYt5Wkl2bg9mdNz8TR14A+yPeFRsICjTOfnvtKszpnSscdvxnoUNNoM+FjUbySHxnohmbHeJFTl0jlvCn9wpEtUvsdfAsHc3gcqe8eeZqP59iM9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G5c8zJjt; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oKhXlqXL"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-671f1a0d0c5so84a12.0
-        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 13:18:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779826724; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cpoHOnyziHJrTsnvOSnAoKpn2O75XG5W275NxMvI3M8+zYEyhVHhIBj1bbrwVPadUl
-         YohnygROAvQ/i2j2ObBc6NDhFN1+y1uBkpw5jLTi5WvT8p5V5ppYyiUZhxTO2EK6GWd9
-         q8VRNVcmnUTl54cVEqOjs8Aw1wSxN+yxs66TlXdrAP4481rtaGQJxhouxucsKDNE8kkR
-         JxhLBfLEoscYCr95PI5Zq4rxjG5y3TqiOVq9ws3+TrUAtF7EZ4rZMs7zxxtjdT/Hf3z9
-         ynOIgHphMAtG1ymJst7uBYSf082N6G1+W6VnjHtuhaquCrINJC59yULFzUB5ZhTnIZBo
-         wmOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aJlM3BAYDrmo3DwancX1ED2w1utQAochXYkQZkRqHXo=;
-        fh=+RPjkBKDmkS+mcRzpa65+1DuQXW5+/64j0CuIASb428=;
-        b=R1HyPJQFL2942CwlV6v+vj+K9rQ0oMD7+Zf4HmigteIC0xkFqwLq0y9mK/FiAHlibi
-         2qPRjMfHQQz4QjxfhlFhC6k03z8sGeljYy5bYJRW7ig2kGvZWrBpOjRKJEe20biZIN4X
-         8qDKCZ8CxKxfBuk8MSUovvFc+kkm17df6BvVtowEPsF6QTbR5E4jQvrOkcL0+ZRwLRAo
-         RyZKJWgXUGYl+yg9oadFLGgAtcGFEWj57a+kGy6Zcoq4X7evUIY06RwBAN5Vs0Wlvrx0
-         pzR+uz084REcb5iTIT0giQ8gQKKBn1hxc46KXTNC7tARBbt4o0NjZX/g01RtCs+COQF9
-         WP5Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779826724; x=1780431524; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aJlM3BAYDrmo3DwancX1ED2w1utQAochXYkQZkRqHXo=;
-        b=oKhXlqXLRjS9AU2W6P3L0WS7BhJGrENCVFlT7aeoiang+tepL57wMeOi/XUNjFdbqq
-         8FE6zBUl/MS//4KVj+bkFEqUStLYE816Kili1m3cnt5llMZ3mf/F9J/QMMNqhsgOXIcl
-         V2j/H7BiUjSG1/URTHcju+uUHYyjE1MTIORtwyz8V3OX6dA4h3jh62pnG4QcT+tA6BAS
-         3sufFd4YdIoI8zievzjU6DlnVmTX4EKhgr82b3gbmZTjApvkMvTKZsQidflOYnkrqj8+
-         UIbyvnivzg+BUjHmhvxsFjpeqKfTuLqUCT/JWz+F2K/aHeqydff305kyanWDiOTRqejj
-         2M9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779826724; x=1780431524;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aJlM3BAYDrmo3DwancX1ED2w1utQAochXYkQZkRqHXo=;
-        b=SJqg02GRicL2KGxBJqf/gZdMPL6m0tjdxaYXKu44tPmQ7NuTmsKvyujZHUjXQvxmx+
-         Kh5ESr69tciXmfmf4EIpdOYEw0vT2HKDFh8rZCmf3HV3kakZy4+yZ722Bs2iFmRvvCno
-         ODY+bp+xOMCh+o+8JjpcSea5ZwKDNupTRY+h6X8QR+ADY8x9fTVoABFlJVYxzCD7ZbQc
-         sVDrhNVIMskZV/TrW5blOjZLDfeFAXfEyZVBDFc9L1CFWI4LEoMfAWlRMMha52K0QoX4
-         Bco6401Jl7O4ra4P8uJc/K6EVnRAYQP/RfuOxUWNGfRQcCreT2nbCB5j4zEIjMwr38Ky
-         5vWw==
-X-Forwarded-Encrypted: i=1; AFNElJ/fsxWkhjuBJvBRuFlpIrZ/w7NFu208QPAHPrikxEPve23HRzhlXNTehW32+aPtvHMhC8O2nMzr2IN+cw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAe8Og6Zf61hTPgZ8UWbV3CHmb88N00oVwKQ4o0HrQ9ZA65AZ8
-	lRK69vhETWLEMObVURkG3nCs9paO7u9wx/YXRICWMs4jOwNlbdA6tdi7VL4a12hy5DqYssho56p
-	WQZ63YHfSHS3NMXXbA/Gxa2D5Lk5KQcqlGfwSqT7Z
-X-Gm-Gg: Acq92OHR+3Itj8fsPT82VGFu2EYgUBqJ1HpHw2PurIUAQ9QW7YjaQp0zO2RnfgdhPpC
-	z35E4bTDrcvF2B81kgH+ww6Oy3h7FFDxf4EXDzpKHWxdkHRgMlKK7z/jYg/2qw10diXr0f9Loia
-	G+yCFcwf40JqWlbIybgiHlwdJVk/C/w9+oI7fgUqkJl1awGyKiujKhvh7YQa4jt9qIHrC2Uvm7D
-	1q40veFaNo4/pfiXsTG+h8/zJN+/U9S0ZG8wKdbWRRPtWfUQS1REc+J9Ulvit1C3dGsmNo+kSzM
-	pN9W86V4Oc1qX5udP0Z1fA942c7G+fWyALa6oGa6WWnnOFE=
-X-Received: by 2002:a05:6402:100e:b0:67c:f3b6:5fef with SMTP id
- 4fb4d7f45d1cf-688fd13675cmr181352a12.6.1779826723187; Tue, 26 May 2026
- 13:18:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G5c8zJjt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779830957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UeKDht6hynwmyvVnnx2NrDn4vXJFoG7xglLiWdTdkKo=;
+	b=G5c8zJjtHnYkCrdIWB990u9PSW4AzTJNTedT78VoLzBk81IawiY0LTwTpWsCfOamQB3VIq
+	W4sm3eW5H87PSgD4fBijljdos3nLaOcitk/zNpPPZZuX9xfVVwrM5ijbOQpye2TUkykyMl
+	aur+hEx82HsLBfBbkviqwuksRHlWaEo=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-380-fu2eY1SLOO-o5GiefNWvRg-1; Tue,
+ 26 May 2026 17:29:12 -0400
+X-MC-Unique: fu2eY1SLOO-o5GiefNWvRg-1
+X-Mimecast-MFC-AGG-ID: fu2eY1SLOO-o5GiefNWvRg_1779830949
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9DBEB19560AE;
+	Tue, 26 May 2026 21:29:08 +0000 (UTC)
+Received: from GoldenWind.lan (unknown [10.22.64.238])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D130A30001BB;
+	Tue, 26 May 2026 21:29:04 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	nouveau@lists.freedesktop.org
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	driver-core@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-kernel@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-media@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v14 0/6] rust: drm: gem: shmem: Add sg_table() function
+Date: Tue, 26 May 2026 17:28:51 -0400
+Message-ID: <20260526212857.1158294-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260526-fileops-unsound-redesign-v2-0-6fc11066b530@kernel.org> <20260526-fileops-unsound-redesign-v2-2-6fc11066b530@kernel.org>
-In-Reply-To: <20260526-fileops-unsound-redesign-v2-2-6fc11066b530@kernel.org>
-From: Matthew Maurer <mmaurer@google.com>
-Date: Tue, 26 May 2026 13:18:31 -0700
-X-Gm-Features: AVHnY4JZHjLPzhwx15C8hQq2kw1MyRAsEHnLXCiNNpE1KCJ7vZ6SPIU_N1J_OZU
-Message-ID: <CAGSQo03Fv_qqGTxugL1eddby4wfiUm9MHevnNxyg1dVXAfCA4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] rust: debugfs: avoid transmuting FileOps
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: LhMm8XdyCqSjR7k0keCOofP_VwyDLOzjsqYV2zdRhJs_1779830949
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Tue, May 26, 2026 at 11:08=E2=80=AFAM Tamir Duberstein <tamird@kernel.or=
-g> wrote:
-> `FileOps` has the default Rust representation, which does not guarantee
-> the same layout for different generic instantiations [1]. Thus the
-> reference created by `adapt()` is not justified.
+(was previously Rust bindings for gem shmem)
 
-This is correct, though I'll note for the sake of anyone concerned
-with an existing kernel that this can only break with
-`-Zrandomize-fields` in the current compiler - the layout engine only
-examines layout data + an optional random seed when that flag is set,
-so swapping out a ZST, no-alignment-requirement field for another ZST,
-no-alignment-requirement field will never result in a mismatch unless
-you are actively randomizing fields.
+Most of this patch series has already been pushed upstream, this is just
+the second half of the patch series that has not been pushed yet + some
+additional changes which were required to implement changes requested by
+the mailing list. This patch series is originally from Asahi, previously
+posted by Daniel Almeida.
 
-> The callback operations do need to access private data through one of
-> the transparent adapter types. Express that relationship directly: make
-> `Adapter<D>` the unsafe proof that operations implemented for an adapter
-> may access stored `D`, and instantiate the corresponding operations
-> tables as `FileOps<D>`. The adapter implementations are justified by
-> their transparent representations [2].
+The previous version of the patch series can be found here:
 
-I think your approach here may need to be adjusted because:
-1. `Adapter` requires additional knowledge at the trait usage site
-(that the invariants of the target are upheld - specifically
-type-inhabitedness).
-2. You now access `FILE_OPS` directly off the type, rather than off a
-value, so you no longer have any proof that types are inhabited that
-you require.
+	https://patchwork.freedesktop.org/series/164580/
 
-You might be able to rework this so that you can track inhabitedness
-properly, but maybe a simpler resolution might work - what if we just
-add `#[repr(C)]` onto `FileOps`? The addition of an unaligned ZST
-field to a `#[repr(C)]` struct should never change its representation.
+Branch with patches applied available here:
 
-> +/// Operations may reconstruct a shared reference to `Self` from a point=
-er to
+	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
 
-I think this is the crux of the problem with this approach. Users of
-the trait can't really know the invariants are upheld as-is. See later
-comments.
+This patch series applies on top of drm-rust-next with the following
+dependencies applied:
 
-> +/// `D`. Implementers must also arrange for any additional invariants of=
- `Self`
-> +/// to hold whenever such an operation is called.
-> +pub(super) unsafe trait Adapter<D> {}
-> +
+	https://lkml.org/lkml/2026/5/26/1960
 
->  ///
->  /// # Invariants
->  ///
-> -/// If an instance for `WritableAdapter<_, W>` is constructed, `W` is in=
-habited.
-> +/// When `WritableAdapter<_, W>` is used for file operations, `W` is inh=
-abited.
+Lyude Paul (6):
+  rust: faux: Allow retrieving a bound Device
+  rust: gem: shmem: Fix Default implementation for ObjectConfig
+  rust: drm: gem: s/device::Device/Device/ for shmem.rs
+  drm/gem/shmem: Introduce __drm_gem_shmem_free_sgt_locked()
+  rust: drm: gem/shmem: Add DmaResvGuard helper
+  rust: drm: gem: Introduce shmem::Object::sg_table()
 
-I don't think this works. `WritableAdapter<Foo, Bar>` can be crated
-for any D and W at compile time, there's nothing stopping it. That
-means that the `FILE_OPS` constant produced must be valid or fail to
-compile. Invariants on types are runtime statements about the object
-level. You cannot check for `W` to be inhabited at compile time, so
-this isn't a valid invariant.
+ drivers/gpu/drm/drm_gem_shmem_helper.c |  32 ++-
+ include/drm/drm_gem_shmem_helper.h     |   1 +
+ rust/kernel/drm/gem/shmem.rs           | 264 +++++++++++++++++++++++--
+ rust/kernel/faux.rs                    |   7 +-
+ 4 files changed, 279 insertions(+), 25 deletions(-)
 
->  #[repr(transparent)]
-> -pub(crate) struct WritableAdapter<D, W> {
-> +pub(super) struct WritableAdapter<D, W> {
->      inner: D,
->      _writer: PhantomData<W>,
->  }
->
-> -// SAFETY: Stripping off the adapter only removes constraints
-> -unsafe impl<D, W> Adapter for WritableAdapter<D, W> {
-> -    type Inner =3D D;
-> -}
-> -
->  impl<D: Writer, W> Writer for WritableAdapter<D, W> {
->      fn write(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
->          self.inner.write(fmt)
-> @@ -58,19 +58,20 @@ impl<D: Deref, W> Reader for WritableAdapter<D, W>
->      W: Fn(&D::Target, &mut UserSliceReader) -> Result + Send + Sync + 's=
-tatic,
->  {
->      fn read_from_slice(&self, reader: &mut UserSliceReader) -> Result {
-> -        // SAFETY: WritableAdapter<_, W> can only be constructed if W is=
- inhabited
 
-I don't think this is valid - you don't know that `read_from_slice` is
-only called after creation through the callback API. If that's what we
-want, then we need to make the trait method `read_from_slice` unsafe
-and tell the caller they need to make sure that's how this was
-constructed, and things will get out of hand. This is what I was
-referring to earlier - we want to use the presence of a
-`WritableAdapter<_, W>` as evidence that `W` is inhabited, but we no
-longer can because of the invariant change.
+base-commit: 2cf1840b0fa7637b6731fd554529f8d57ea34c04
+prerequisite-patch-id: c8ade07eec6e9c9e875800b114137c459d362e4e
+prerequisite-patch-id: dc4f750bc885b867842587b994261f43602bc6a8
+-- 
+2.54.0
 
-> +        // SAFETY: The callback API obtains this implementation only aft=
-er
-> +        // receiving a `&'static W`, so `W` is inhabited.
->          let w: &W =3D unsafe { materialize_zst() };
->          w(self.inner.deref(), reader)
->      }
->  }
->
-> -/// Adapter to implement `Writer` via a callback with the same represent=
-ation as `T`.
-> +/// Adapter to implement `Writer` via a callback with the same represent=
-ation as `D`.
->  ///
->  /// # Invariants
->  ///
-> -/// If an instance for `FormatAdapter<_, F>` is constructed, `F` is inha=
-bited.
-> +/// When `FormatAdapter<_, F>` is used for file operations, `F` is inhab=
-ited.
-
-As above - access to FILE_OPS is not unsafe, so you cannot make the
-caller required to prove something to access it. (And you certainly
-can't do it here - such a declaration would need to be in the trait
-defining the `FILE_OPS` constant at a minimum.)
-
->  #[repr(transparent)]
-> -pub(crate) struct FormatAdapter<D, F> {
-> +pub(super) struct FormatAdapter<D, F> {
->      inner: D,
->      _formatter: PhantomData<F>,
->  }
-> @@ -87,27 +88,22 @@ impl<D, F> Writer for FormatAdapter<D, F>
->      F: Fn(&D, &mut fmt::Formatter<'_>) -> fmt::Result + 'static,
->  {
->      fn write(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
-> -        // SAFETY: FormatAdapter<_, F> can only be constructed if F is i=
-nhabited
-> +        // SAFETY: The callback API obtains this implementation only aft=
-er
-> +        // receiving a `&'static F`, so `F` is inhabited.
->          let f: &F =3D unsafe { materialize_zst() };
->          f(&self.inner, fmt)
->      }
->  }
-
-> +// SAFETY: `FormatAdapter<D, F>` is transparent over `D`. The callback A=
-PI
-> +// receives a `&'static F`, which establishes its inhabitation invariant=
-.
-
-This is the problem - the impl itself can't know that we got a
-`&'static F`. You'd have to demonstrate that at every cast site, and
-the knowledge isn't there anymore because you removed the construction
-invariant.
-
-> +unsafe impl<D, F> Adapter<D> for FormatAdapter<D, F> {}
