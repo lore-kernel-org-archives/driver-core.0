@@ -1,86 +1,98 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFA33C98A4
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 07:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971C03D34BB
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 09:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779780325; cv=none; b=sGeXBHPk6m+Jx1STxQkL+T6Q3L2OvQoMElCR3lT7JN/YiNNBywwG5htQRTtJ70lu2FOJX1Iv8fLB5WhkXqtiYZRM/2z7bSMu8l6YODZ2r4uA8uaPZrN1CtxSHxWnXffsILVDWzMF9UbiiHjBgxz0iSSB6FaoIarP7KPoithgSzY=
+	t=1779786639; cv=none; b=QhQy3gGbCBsJwHZro9MaWmGZcwC8WIkZBc5PRp7OQSNlDBWDglkf2mdHducf+WFyQ3eO4YQV0vM/eLpRd6MM29vcK7M+eI66YgL/OOrjgG8nkNFg+0I7sD05OM7i5JivLC5s26mxogXE0Woy3KnWeAaLR0ZAP+S2LtqVLGG6nUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779780325; c=relaxed/simple;
-	bh=YyJXAFPJnij3NLJHxZg6IQkz8I02isqp8dMhzRPfNyc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Z5YrKrLmx3Gd86qcIXa4epsp6kVJSGswQBzp7bCy1+jwfXocpgsj8CZ7EEV5IYmJ59LF6KRbZ5jbcsSa7mqswqNXsVbHbm7xyk2KAXqozDvCO+QsI2c3xtWlcyyHN1qYwAeAA91lUvP1arsdgxGecnICZnZ6R/0dfVIIKCO3+ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64Q7JwAM036566;
-	Tue, 26 May 2026 16:19:58 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64Q7Jvea036561
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 26 May 2026 16:19:58 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <a3ca7056-b215-4632-b86a-c722d82c35e6@I-love.SAKURA.ne.jp>
-Date: Tue, 26 May 2026 16:19:57 +0900
+	s=arc-20240116; t=1779786639; c=relaxed/simple;
+	bh=CDdXageqFFnS1lt5ITJVCOsjjz8dlepjGjcjcaqiSHo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ouUrmB8ulx2VqzpcsEWx+pbpe7svWvIpPAGv5ZTxI+qUMnx6Ac97nrSWNagtkWyUEi1BShTD2Y9S2YIWpxiEkcb8hpLa3uIirE4aP/eqkFDvrCFQGXmwZ3hZNNBEtFVrR24rfEgSGYNwB7fRMzQjAfqhHzUK1d2tc7a7DqZQg2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ly5quGx2; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ly5quGx2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4F91F0155D
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 09:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779786637;
+	bh=CDdXageqFFnS1lt5ITJVCOsjjz8dlepjGjcjcaqiSHo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ly5quGx2+ckHTMiGFoEyXLa6kpNtlQybVxrA48joySieh7gI6Kt2iwbvjzpv2MKHw
+	 ILQCB8npQo/yjF3LTlfXSR8YLf6/JMGO791rsbn+hKZsit1mxo2IdDqYSaaogvFzUx
+	 vFiRWXoVxuih0ZZTPC6clq0A95lEghtsrfqPnZyBxXJG+dppw39nL04tSqTCu67kpq
+	 ysKrPJTp+Ea2bsychtkA0p/HqGOe8v/cT4h2ewLOtLnAo6zEkJjg/plof7dP6ruVoi
+	 bE6McKMcAq/lCJEsKmtaeTLOLNPoyv7G1PrtxhFgYy85K0JdN3ay1peRWDeOS7kJLI
+	 mL7C4TR7c3xxQ==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3939d2bd739so80365121fa.0
+        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 02:10:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ97A267Po+1I5grVNZlnjFLILrVseQkw/N5WGt+ItU7z3ycJEPv7sOMnFGC/wWdpZV8WH5offabS0utlw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlbTeTtc2IiwC3wB6RSZaozAvOePyW7dCWJHYQthREgJ+yzX6E
+	HnemngUJw8edHhXvK1/DowLNhjKNOrBJ4vlH+EWNIm2CnvFf3Vp95Ln1Fje8ckDUbdVcZNkW/8D
+	hwbS7OLXfibloClxaLxdoPx13D6FowjQ=
+X-Received: by 2002:a2e:9b97:0:b0:38e:a883:6303 with SMTP id
+ 38308e7fff4ca-395d8c1a2ddmr38195081fa.9.1779786635862; Tue, 26 May 2026
+ 02:10:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [kernel?] linux-next test error: WARNING in
- class_for_each_device
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: Zhang Yuwei <zhangyuwei20@huawei.com>, gregkh@linuxfoundation.org
-Cc: syzbot <syzbot+50b5f81fff158669504a@syzkaller.appspotmail.com>,
-        dakr@kernel.org, driver-core@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
-        rafael@kernel.org, sfr@canb.auug.org.au,
-        syzkaller-bugs@googlegroups.com
-References: <6a1535d6.820a0220.e7972.0008.GAE@google.com>
- <8e1f611d-e048-446b-a325-aa81c64f837c@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-In-Reply-To: <8e1f611d-e048-446b-a325-aa81c64f837c@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Anti-Virus-Server: fsav305.rs.sakura.ne.jp
-X-Virus-Status: clean
+References: <20260522-strict-provenance-redux-v1-1-0880b65fc17c@kernel.org> <CANiq72kwRam1yk_w+B2n2osXLEVdofDbisBs+FYoukZ7GYNcog@mail.gmail.com>
+In-Reply-To: <CANiq72kwRam1yk_w+B2n2osXLEVdofDbisBs+FYoukZ7GYNcog@mail.gmail.com>
+From: Tamir Duberstein <tamird@kernel.org>
+Date: Tue, 26 May 2026 11:09:59 +0200
+X-Gmail-Original-Message-ID: <CAJ-ks9=XDsBMuNCX5UQn7OytrDbM8ZnnX0Nci3Zrb37fa_maCg@mail.gmail.com>
+X-Gm-Features: AVHnY4KT-C0ZHAIvDzjLKDNNdT3OK_8WcJCT2ljZF23KYVsYFyqdDO1mFxY4Yss
+Message-ID: <CAJ-ks9=XDsBMuNCX5UQn7OytrDbM8ZnnX0Nci3Zrb37fa_maCg@mail.gmail.com>
+Subject: Re: [PATCH] rust: kernel: use strict provenance APIs
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/05/26 15:08, Tetsuo Handa wrote:
-> On 2026/05/26 14:55, syzbot wrote:
->> Hello,
->>
->> syzbot found the following issue on:
->>
->> HEAD commit:    d387b06f7c15 Add linux-next specific files for 20260525
->> git tree:       linux-next
->> console output: https://syzkaller.appspot.com/x/log.txt?x=15eb7796580000
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=8dd72cf810e753a6
->> dashboard link: https://syzkaller.appspot.com/bug?extid=50b5f81fff158669504a
->> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
->>
->> Downloadable assets:
->> disk image: https://storage.googleapis.com/syzbot-assets/39490dfbc250/disk-d387b06f.raw.xz
->> vmlinux: https://storage.googleapis.com/syzbot-assets/0789ac7ac5fc/vmlinux-d387b06f.xz
->> kernel image: https://storage.googleapis.com/syzbot-assets/4464df9f5ccf/bzImage-d387b06f.xz
->>
->> IMPORTANT: if you fix the issue, please add the following tag to the commit:
->> Reported-by: syzbot+50b5f81fff158669504a@syzkaller.appspotmail.com
->>
->> ------------[ cut here ]------------
->> class_for_each_device called for class 'devlink' before it was registered
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/base?id=1137838865bfc9a7cd5869c1dc5c22aa45ec12c8
-> 
-> Why "driver_deferred_probe_timeout * HZ" => "driver_deferred_probe_timeout" ?
-> 
+On Mon, May 25, 2026 at 9:48=E2=80=AFAM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Fri, May 22, 2026 at 7:19=E2=80=AFPM Tamir Duberstein <tamird@kernel.o=
+rg> wrote:
+> >
+> > Suggested-by: Benno Lossin <benno.lossin@proton.me>
+> > Link: https://lore.kernel.org/all/D8EIXDMRXMJP.36TFCGWZBRS3Y@proton.me/
+>
+> The linked suggestion seems to be about enabling the lints, not using
+> the provenance APIs (which we have been discussing for a long time).
+> Do we want to enable the lints after this? Or what am I missing?
 
-Here is an analysis from Google AI mode regarding this problem: https://share.google/aimode/UO1WnoKPDSbyjY5Qj
+You're right; I carried over the tag from the previous iteration
+thinking it addressed usage when it actually suggested the lints. The
+lints can't be enabled yet because they are not stable (not just in
+our MSRV).
 
-Greg, can you immediately drop commit 1137838865bf ("driver core: Use mod_delayed_work to prevent
-lost deferred probe work") so that syzbot can resume testing linux-next tree as soon as possible?
+> In any case, some of these are not equivalent to the `as` casts, so
+> they are not a mechanical change. Could we have, at least for those,
+> the reason why it is OK to perform the change? (perhaps as separate
+> commits?)
 
+Correct. There are both behavior-preserving exposed-provenance
+spellings and cases that deliberately avoid exposing provenance. I
+will split those as you suggest.
+
+> Thanks for cleaning this up!
+
+Thanks for reviewing!
