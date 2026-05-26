@@ -1,151 +1,165 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010013.outbound.protection.outlook.com [52.101.228.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672B93DA5C7
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 12:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35C23F7A82
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 12:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779798250; cv=fail; b=TZHpBFW095WuHAfSzchpMvwXd1FAaxJoj0YKyU0Juxa/Oem5UanauY2lHWS8d3Xu1A/+UQzNxwvaqJKfR3brMxDobnnJhsET/bWYR64zWplKLF1XLqLxdpkUcqLOC8+E9M9l6OsCk9dffLMXrtEca+GDV8WdINC1g4teuHnw7q8=
+	t=1779799080; cv=pass; b=JncRWCYqrr3Z0dywiXmY3HkBvHnB4VTET7v2URbGzDpGVIjNPuErVOceGvHO5ewW5mQibfgBWOGoG+dsdO8b35hQBFvBKdq7ZjFuUvuq8/tKxn7xnO/u4KcgiM+Nvv5XQMet3MICabTJOWLbCulBHohOmAwpIiM5GMG5MiV63jM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779798250; c=relaxed/simple;
-	bh=IVr33DLc9nHW4gw8mOpiSen0xHZVykehLa1RUUbxMr0=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=mNiGvVx5gnOMI4CYUqdmImhq2u+TwIhT821bipRivprFJ4H5z7FszCxDx5Bdx2vME+fPIrhgIwqF3IJZbCH27cqeZPTmzL1HtT+6J5WIk1o4t1RIUpe3C5gTEpb9+23+HkpyirVEfs+8T0m5ITU6z7DxLOzW1L2D/jhr1K4wS0s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=IdE/IJ83; arc=fail smtp.client-ip=52.101.228.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	s=arc-20240116; t=1779799080; c=relaxed/simple;
+	bh=mLnNy9oW/G+5ymzh/2kNXsDW1h67qK+6LVHU489oQIU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KEfZdFmSeRiEZkjHPMxDmbuGIlwDI+UUoH/EOW4mztF+bWOA9egbk8nEtxHaVrL3czb/9LOh6yKw0uQ+3Om4cAg5zBRuCDz/ejEeCnH2TmwCvNsIgM6ky35cv9dxvziBwOlCtKkj0UIviaaHuGXPLHBgO+nI/9XnA4JkMygVdjk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XJ6wm07f; arc=pass smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="IdE/IJ83"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mrfQ1so6m33yUTF1RyH/y7sVTrwgrTJt6TdnSfdbBbw5h+Tt6yerL2/NtDrztMwJPvsa42WISs+9HF9EJKomy87SlofEEGI5IgWfnaLhL+sKzsT7tgmcuW9HEJlyYTzKBtn4/BvddRSZIy3h+X5uhR+JuVVM7Gc4uPwu2bbEKQ6So8+anXj7N249A0H8FnMHqaIGfCbEp57i1cUnLJM0MQlYP0ZE+RTKT+BZ+dY9ysPz+AmH+4bx63GPmDji8F0vE5hn1nkXREA0ptMbBl2oGUv16mDljGkoyOAVVTAMQSOKlhAhsNTSw7b1ms3auygsmALwT+yevKl8UPVYZ1FeVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IVr33DLc9nHW4gw8mOpiSen0xHZVykehLa1RUUbxMr0=;
- b=lElaR7EtnvK3wsqdNwxBYUFYZu+Hlvq9RLc2kXWBodtYe7Jfealr2j2Q1j5daXR1RzA0PZ2AfYFaQk59ucTKTZKn8cjNW/5aWMwcgI5rW7gU4iaV42upoewgUqyrar4yWlRoE0bWm7/nwEetWwn/R3U5WwmDZouifGhXE02LT6ISxsrWyAt5lvHR7F2uQpE31B/9dBD3reFLEcgAvRxBAy3WjbBNqmR27euFxfyblfV3HksfP+R5czU0m8XgnB1EOTKWLppFXToImEsiGl6z91ZArsvjxjf5NoDGJGH+Uu15ORG6ls/Vwho8Im4zI5CiAJiksnZoSnLFopRMKDclCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IVr33DLc9nHW4gw8mOpiSen0xHZVykehLa1RUUbxMr0=;
- b=IdE/IJ83vgN9R8B6IpHTcMIWpfVG4hdh8dKDs447VG+1EX+tFES+t4WRxOK042W5S71A4VCPX9E3WPSU2Eg/rIkvZ+vvp25os6AWfoF80CIJSsw6xySXDUX7jMD64WW04heVzmhoN/AeHRyDlrHXxrOLrUvrBelerv6GFXz+8kg=
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
- by OS9PR01MB12357.jpnprd01.prod.outlook.com (2603:1096:604:2e0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Tue, 26 May
- 2026 12:24:06 +0000
-Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::2511:10cd:e497:4d97]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
- ([fe80::2511:10cd:e497:4d97%6]) with mapi id 15.21.0048.019; Tue, 26 May 2026
- 12:24:06 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: "dakr@kernel.org" <dakr@kernel.org>
-CC: "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"rafael@kernel.org" <rafael@kernel.org>
-Subject: Re: [PATCH 1/2] driver core: Fix missing jiffies conversion in
- deferred_probe_extend_timeout()
-Thread-Topic: Re: [PATCH 1/2] driver core: Fix missing jiffies conversion in
- deferred_probe_extend_timeout()
-Thread-Index: AdztCclSckx2y1noS/SnuWeCExvKKg==
-Date: Tue, 26 May 2026 12:24:06 +0000
-Message-ID:
- <TYCPR01MB11332227D5CA29721DB763359860B2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|OS9PR01MB12357:EE_
-x-ms-office365-filtering-correlation-id: fb74e729-50e5-4bce-b20a-08debb21ae09
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|56012099003|18002099003|38070700021|11063799006;
-x-microsoft-antispam-message-info:
- Zmkzxs7dat5N1RMUaWxeEA7nR0dSqo2yKoj4GbvYeYk2cXkl2y0mbh4ZuiikwULemO20TlwV9NSEe2mmtZgq8eWg3pHejCar4OhcMurWoWuz1577lVgu+59+A2Zv0nk7lsOaGrIZXFHTObCbC+Pgi0YL6xy1KSUUzA2Qtn3n1DOsUMT9jyVLp6pg+UcaDZv53bGsVusjrb/v2CCNGN28jjEsquYmAQBIQQKwWNt7YnaKATOD9cyozMlUvJFjCODHcqze2SBTjB9qsPuV8iqV4ZgpCgwl3LutE1F2xLeqkehFUxRmmME9pdUsij+DYDcAUmU8vlQWTGpObccncjSNpOvYqjrz/5BzzOFj3u+sIG/SEJGuzBV79Km1OcNxuIfraCGDdrfMKTRw6x7qqId9Tt1P4wmSm3QUM9CIS8hwlR+0R0fB01hloTkMq1wT3/sGI68mNqpfUI5Pdm+6MGp/GMbhGQu/x0O/1Y8fyI9jz5rS57q648whQhfgxjqQhgGLqrLoEj87EaaVU8lvKSdOmM0P8uslfJVB8DN8TRfrLajJ8aaO6SogrstnNpUT5zK+FBmGrjFu8ONKJAhuuVrqF3fVI0XsNFkTHdSg9rJz7b7+8xO57YlJvioA9oz4us6c1IVC4E2T8s+FQw+KBhOH2+0PGvEXnTi7XR+rokoPIlxySxZVCz089uR01uGPsGlV91d6cbo+/4buBlO2ZnHGU6L4Tl412murg+ydI4dmmOlNcJ4szL+DkUt1stgfoGKR
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099003)(18002099003)(38070700021)(11063799006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?wAX2WFQxqPu8CEcZmj5TH7eB58cZf50ioA0D3I3F5Y5aWWFbx8rAVfieN8aO?=
- =?us-ascii?Q?eFAfai3sbbdN0Ndtzm+TWcKK98x88CH848X453iMPQQj2VjNog3d5aGbfLmC?=
- =?us-ascii?Q?GAgq5hoHixHmOP7NyCkRE8hVVJwNpmgD4FU1fooznjPIa5mZXFJI1pKzyuHG?=
- =?us-ascii?Q?FKhXglDg4UXFoTnm/xqMu8yxzNaLu5HhuXU7GFFsi8vG4WKnaaO6M7HfbAo8?=
- =?us-ascii?Q?KAS2LNRS/BLuefw+F0o7Ur/04THmy2GV2fKCVHin2AGOeRTyZwsUnoliMhy7?=
- =?us-ascii?Q?sDZAKexZaWcduFobvmudG4pzOA0D2tAQ6JBDlC59T42gFVOOpcx4cB82aKZ3?=
- =?us-ascii?Q?Uy3nGYa/B8UTVOERBGJNpTWaitMHHFYt96xs0EDrbx01y1p4tL2dCN0/gpkO?=
- =?us-ascii?Q?uGCYfUTs1VTffvfgHT2sdh0Mpkt9j0mmrxLJKnxunXx96Jsl17qA/IyGQL1/?=
- =?us-ascii?Q?+OR5jDHsMyQStQSSQrAQTQ108vqmWuSk93xM/G6kt8RsCXB2q4ffveLX3C2v?=
- =?us-ascii?Q?QYxCidGAGdFc3r4iZAsvyMZezIq0RKIK2UlnTZmsMQrzJXKZ3mIsixCwjQEq?=
- =?us-ascii?Q?Dd1kAcUp7IBpFyGfMJp/acKcBCZpsZvDE06OB4kj0WQu9w+QVPYquqhR1M7L?=
- =?us-ascii?Q?XNY4iqwKTbZnPG/yDdRnILQDERh9sgt++I+8tCvD4gLEQBVE3K6V6+0eGX6r?=
- =?us-ascii?Q?XBp/eIEl6tivSgbU/Rs8PCDDK6+jxJX0Qfx0rL6vUz0c7KYz6uutHAhtcLXL?=
- =?us-ascii?Q?pXYNDHTOTm8x6lo6A3itt2m+mhZXZbgV1x/nxaYRT8+qgofDgDXXp1VCg4MT?=
- =?us-ascii?Q?Ln/uQtabmqNDF8l0kqGgBSfMf7vzVQA6jNw/k63sbxTpvQIaP60u3p+F7j2z?=
- =?us-ascii?Q?mqC9cbNLkwAZxBh5CCEd2EjDZ69mpJjoW+WegpZXl/08lZjAr7I3NQQhi2SI?=
- =?us-ascii?Q?ZHeC897afqDwPFnXo6PRf6J4J6GRgBGNhzzzZX/m8WHbpPZ5pIK8gKI82uGp?=
- =?us-ascii?Q?Ma4xkF8g0oyotBdIyM9HmRhYJPW6Ka8fGbUZStc9J22d6IJb3E+eIx2qRYLc?=
- =?us-ascii?Q?St5PdxQAh3pYgJaDI2KAAD/YYjPopiYl/tofE/gW7wF/FC4S/T10d9oBX5V1?=
- =?us-ascii?Q?zlEi2sn5Eie2GBdToXh5fH2IYRoKH++7nsE/7SVmk4sLLykykqsf9dEakWW8?=
- =?us-ascii?Q?cULgcdQ4PuIPMevxQ+Z1wDL/Jrp8NPlU8kIoU/L5UxnAGH3uJZoM3Po7/U65?=
- =?us-ascii?Q?rF2Z7+37nqrN4sRA9Ot6o9LnzXcp+KvwQkdDT9QA5Xy50FmNedOXS5oP2M+B?=
- =?us-ascii?Q?SOKg2F6EBfpDnrx+lfh6s52g4hzMbX/M35KBKf8WxElD2I5Jb6jJhS84Z/NO?=
- =?us-ascii?Q?oWkTKBImC0+Jo0H45o5+JxpA64Z3H9eZI56Sl7K6AaxpMZM/LE+WkE/yi8Sz?=
- =?us-ascii?Q?xoif6yRpEJlcbMlvDPo1MwE68Zjty8RWCLLzrqUstkDIFmwlHDyUK9Rav4U4?=
- =?us-ascii?Q?WmHdoPNIRF82dveLFkkJkhRa8FSE3t8JIj/RrhTk6UG6BJT1tsZAwGjaLftz?=
- =?us-ascii?Q?8lgdPtv+nwPbQnVHFsiK7zRT2yMhpRUH4D6SoxnKPXej/Ba+ybCGYi1HjlTi?=
- =?us-ascii?Q?L3r65vZPTieKgyx1wbiS6Bo5fe8gKcUf6IC79/2pGQ9jNh3LlwLiPmZ4iAsZ?=
- =?us-ascii?Q?1OeD+WRZYTKTQNAlDg9sanAQRGdPctlLQCtPrYwdckv9swMsV6BIkMlhD2BD?=
- =?us-ascii?Q?mR6bX3Gb6Q=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XJ6wm07f"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2ee34d7e55aso1236956eec.0
+        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 05:37:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779799078; cv=none;
+        d=google.com; s=arc-20240605;
+        b=leHSKtCyBhEnr2Zn6/f+cEEF+I8OzJg2EHqsAOqwgjfBNt1WalZ+Vu8KuP1BTxA2x2
+         5ftbj4AXJJLMj2nBg867qpjD/UK/spbxMOJAuPsHX+aCeyqbXLT4ja/VXZR5hMFoK2T3
+         6ze4vm1gSs/ztcEdkyQPf57bX/Wx/GvmBOH0mJibXqVRRiSdmT64zDVPYylH6BebMcXo
+         UkBlojL/DqlTT61ui/Npbxk++PasPe5WXEkAIrIlzI2Z4H0Vm+lDs1+YnZEKl1l+OokW
+         WbSFhBV7n+hoWfSP4p1MtZaSMnsVPh1bFoFo5ErmftvTfnFlpsqtCy2IFWQ7/LaPNCMg
+         RVzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zLEYxxo1EJ6dECgeEvUHoxB7lK2wiKidNtL5g8UvMak=;
+        fh=fTloXpIQtaBTSgnR9rGNAeOwRnB2AYir+7tV25gM54g=;
+        b=iJIciAFNQkNmCJZ8rrs6RVYQ+T0sKfuAMCsMf+ArsYNjH2lM+yag3kUhUNlP88lUaz
+         Yv0ygpxlP3hFp9Ecl+yPoLdivu/p1uwBXUrnsfrKzxL/m+AEak0MiWW0C9+98K2wzzQE
+         L/lg7695zW5FdNfc4rRmHHdMTG/4xkReMC7xu/scNY4LCIg0HG6iYxPrK7CgQNtQAyt6
+         aAY3QIjdr9X2wkLD6AmzUjIz5+YQTVEAc0GtuXNWNsSL61MC3ZXp8Yw6/9cbgRYkoQY/
+         R4y3oKMZ5/Vd4r77BkBy+jPndi+76955ML0rSHG8H8qf3Bot2+Wxy8nrXUNlG2gi9mWs
+         A9oQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779799078; x=1780403878; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zLEYxxo1EJ6dECgeEvUHoxB7lK2wiKidNtL5g8UvMak=;
+        b=XJ6wm07f37PB0VVLzyoSPqWYY9Tl+uF+IAARZzteEPE/SlRaX/lMuLLSHD86ZDeidV
+         yH33HAccziDdU0JtOylvZCurNTXabUKn/zQJQsBhqQdRed5MciBPdBO2QJq2T4NpeTlq
+         FxIyhM9BBbPcbcNyKBrZ+CjuYaVXWjxxgFzI+0BtSm2UsSveQQ1WqcqjXabj/YISj7em
+         pHBPZdnWIwaG/J2CC4kcUeGvsqAeAgQoyOfsfbuf39vvYuAGDY8gRdcKf+dh4wNy80q3
+         XmXh7ZHGBJ9sn13nCWJWqvd5AHhhYE06oNQscXvCpXkDAzixd9M5LH0vDWts2VBqsN3b
+         uc7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779799078; x=1780403878;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zLEYxxo1EJ6dECgeEvUHoxB7lK2wiKidNtL5g8UvMak=;
+        b=YMikDCMhqNbIwQqbxj4Um89D6Yc72yF8lOZQAKSqPG4v9IJNk0WVBWEsmCOKZwcx9d
+         7KeO9rOMQcLE0KxQV8TS2xo8F28AxsUnZMlxSaWUlvgccTZnj3LM0qLYUFMZelgE35gE
+         p6WFljEBqbshStIbTvzOVXxxEToS48SDg6Pum3h7aFq4zpLRAI0oyhUDIirpfSQjHv8f
+         /jWOe/85mrkIHaM2Oz59cSGhGkHKaIKVBkNPR6D22OUtPp5i10sEpGHLOtl+Hpn20inv
+         f5E4cDKLJaTqdbDxGyecwQ3CxAHtzJ1lFuayF2wj20Faiyig4MuyHnhvdzO3mO/d/QCV
+         Sp/g==
+X-Forwarded-Encrypted: i=1; AFNElJ+pMiKeFddgqDi+L4AkY/1YDjnkZ7ffJW+f0E2+Y+TFu17aO8GwoVxoZLwDBeplu9/zDcfxrM8BZRweBA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmH4aXhVhnVIQPUNv3CIqr4LKUUEEh7eOrZvEpcSQjsnd7FN2j
+	wNc55oBrrObIfJw1uIkmJyUHF2rOzBukQUpLZb14Mso1PvnV5efyiEHZRu9MH0+GTPlJj4zQrqo
+	0MaQZrwn/FXdsL0uI1Af161k8lys5Kp4=
+X-Gm-Gg: Acq92OG1KVVuVQMD8sMEHtI9ALJ2wFb2QuUTHHGRt5QCg3ZK30X+GzMQfjhkCsnj6ck
+	SnWPc/oC6c6vefyYnFJaqPhEV+si4HcDMToNOjRpEMig/L/IQMAmyPTd7Qux48yCuFeWn36+J8l
+	uFJLIPtCdfttfdlsAdZ7J5b31B8r+4K2bae0qDjMNRLHIGfaYfzgO79n+ac5Wgk5yKv+Bap2kq6
+	zBZcpj99tJWtEjS5MR0y4iVLJSXT86SWyIe2pyR8eNy6rqccuN/025jwD+L2+WtLUMP4glxyTWt
+	3MCKG8nwtQe0S2F9KGpHUPjnLVJ4Htc8GcUInUhMerL0HTM4q1a+r7f9hX9PpiPh3gcLkU/7MMs
+	AUoKO+MW/eC3pbfjUItjGfzQ=
+X-Received: by 2002:a05:693c:2c0c:b0:2d4:62f0:b2e1 with SMTP id
+ 5a478bee46e88-30448d4f1d8mr3832711eec.0.1779799077956; Tue, 26 May 2026
+ 05:37:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb74e729-50e5-4bce-b20a-08debb21ae09
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2026 12:24:06.0925
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cCKggVFITNGNwVd5uRT0wG1DEwqayB4/cvTi6X+YqnScg54nqbnbBPUtWywXXRxu/qETl6nEKWa5YHCoPYh6oxxEkbCt4akqfyTrwFCYtEo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB12357
+References: <20260526094329.533943-1-kingeaary@gmail.com> <20260526115825.1480768-1-kingeaary@gmail.com>
+In-Reply-To: <20260526115825.1480768-1-kingeaary@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 26 May 2026 14:37:44 +0200
+X-Gm-Features: AVHnY4IMrQS40rcLTT7RSpFMrbA_h5z_ANArJ0tzJY7YSCk7vcZX8k5C1QuNlOI
+Message-ID: <CANiq72m5MnUJRJTH=Li-GCYEDoHLcPbKKNUQ=hJUKxB=tNLQaw@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: devres: optimize type name allocation and fix truncation
+To: Aary Milind Kinge <kingeaary@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Danilo,
+On Tue, May 26, 2026 at 1:58=E2=80=AFPM Aary Milind Kinge <kingeaary@gmail.=
+com> wrote:
+>
+> The unconditional 128-byte const array allocation for every unique
+> `Devres<T>` caused unnecessary .rodata bloat in production builds,
 
-Thanks for the patch.
+Wasn't the string deduplicated?
 
-> From: Danilo Krummrich <dakr@kernel.org>
-> Subject: [PATCH 1/2] driver core: Fix missing jiffies conversion in defer=
-red_probe_extend_timeout()
+> terminator), the copy routine now appends "..." at the end =E2=80=94 copy=
+ing
 
-> mod_delayed_work() unconditionally queues the work even when it wasn't
-> previously pending, which can fire the timeout prematurely or restart it
-> after it already fired. Add a delayed_work_pending() guard to restore
-> the originally intended semantics.
->=20
-> Premature firing calls fw_devlink_drivers_done() before all built-in
-> drivers have registered, causing fw_devlink to prematurely relax device
-> links for suppliers whose drivers haven't loaded yet.
->=20
-> Fixes: 1137838865bf ("driver core: Use mod_delayed_work to prevent lost d=
-eferred probe work")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Did an LLM assist this patch? If so, please add a tag:
 
-Fix is tested on Renesas RZ/G2L SMARC EVK platform.
+  https://docs.kernel.org/process/generated-content.html
+  https://docs.kernel.org/process/coding-assistants.html
 
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+Moreover, this should be sent to the right maintainers and reviewers,
+e.g. at least to "DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS". Cc'ing
+them here, but also please Cc all the "RUST" entry.
+
+> +        let mut buf =3D [0u8; 128];
+
+Why is there a hardcoded literal? Please use constants where possible,
+deriving the rest of the literals from that.
+
+> +        let mut len =3D 0;
+> +        while len < 128 && static_buf[len] !=3D 0 {
+> +            len +=3D 1;
+> +        }
+> +
+> +        // SAFETY: `static_buf` is promoted to static memory, and we ver=
+ified the null byte.
+
+This should explain why this is all OK, e.g. why it doesn't go out of
+bounds (a local-only reading of the loop above would appear to make it
+so).
+
+Or avoid `unsafe` altogether if possible.
+
+> +    #[cfg(not(CONFIG_DEBUG_DEVRES))]
+> +    const TYPE_NAME_CSTR: &'static crate::str::CStr =3D crate::c_str!(""=
+);
+
+Is the name not used at all under `!CONFIG_DEBUG_DEVRES`?
+
+Either way, could we move the other `const`s inside this one, and
+remove the `cfg` here? i.e. reducing the number of conditional items
+and avoiding to repeat the "signature" of this `const`.
+
+>  // Expected to become stable.
+>  #![feature(arbitrary_self_types)]
+>  #![feature(derive_coerce_pointee)]
+> +#![feature(const_type_name)]
+
+New features need to be justified in the commit message, with a link
+to the tracking issue:
+
+  https://github.com/rust-lang/rust/issues/63084
+
+In particular, please justify why you think it will become stable.
+Usually, we need to double-check with upstream that is the case.
+
+Thanks!
 
 Cheers,
-Biju
+Miguel
