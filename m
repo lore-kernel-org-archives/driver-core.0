@@ -1,95 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA4D202C46;
-	Tue, 26 May 2026 12:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E155214204
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 12:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779799725; cv=none; b=UeFYUv+GEVWmEH7rT46FJnH7usj4gNNDLsUKgNUmcrK4mxYq6KUuzsq/t7Xjq3ud97RQScAS/7BzDGmmr+oHJ4AUDKkssrHUfmGfqPZ52b1mZj9HbsBSmigRCbK0qw9Ev43QDNz1KrMd60WnBiJezX7stwC9rW/86PPtCwg0dFo=
+	t=1779799776; cv=none; b=ZACCu1IRBTee8QMVnBqPVL4POlPpxbySFVIGYyLKzg1gtNI3XGrtyX3HM/OLBo3nzlx3FHOz/b8owdtiKIUAhPUzyPCLlD53yykZXGwq7O7zsL7enFT+NKMuDwOkbu/Yy5sAVKb2IYPXJ/Q6s7k3XWG0EBHEdTuGuyR4wMDhyno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779799725; c=relaxed/simple;
-	bh=UOwpEywvReBxlJSa8WRr6I5xlE3BfWellL6x5zMCw3U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=C17aibnuNn9sIBwL4wHLE5aY0hgP2Z0/PECgi2EB2f9TLawQH1uUAQuBtELCSYsDWxqPYEne0CAXyadjV1w7gPEIB4YEFC5OHA+wXaYpw1sNIhGdAalq1WUjL4iTIw3JdIWsacMvCSwGQygXPF46CGTlBgLKEt4hxh6gMgbqad4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X7ogpmwZ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X7ogpmwZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256831F000E9;
-	Tue, 26 May 2026 12:48:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779799724;
-	bh=10S1dpfFVjq5u8j4580dT/3QIvhP6wAbEOriHQiWZqc=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=X7ogpmwZXKkaTaTkL707Tu5fVBAEfcia+FVfbK/bSH1oVmwW0htQhsWaYAkr88jmV
-	 gJSrpJQ2B9soag1bgKLXme6SeNNvRUuRhHEjSFdJohFvttHGOB2unbveGyl2SDzLQj
-	 F0imoBN1kw9JGNaBCFW+tsKsaT7VrbQ+sIg0QRRcSd4yXT1flCZObIqKsMYQXRWNqq
-	 G3rR3buQj/INq1CthOi8nYnwctm/uY2I8zb7Uehq5RI3PJBatRalb24DoV4fA6xlcs
-	 QCbL8NpJEIIaQ9MOe83Gq+ua3Q3S5hJ73gH1TkOCe/y7E93fBmE1kd4AfeDj0kW+HB
-	 q84rTPd7iiBnw==
+	s=arc-20240116; t=1779799776; c=relaxed/simple;
+	bh=djOPmYWoeNimLqFwXdVlNm05PUTEChqquxAvg9xpcC4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kic/SGRaiBQPHCki42HkKXUQlxTtX014C59/gCSqM1rIud96WAKYPrYDCimz76crQ2u6vjZjSEJZs8riMNGYPqCcPlcNhX0CBLdrpg7wYhhGjjZypvemrDai4lYxelTAUemn3jrimmakVtzaWiHa46aW3YZ42Jb+u/pxsfxqyNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-6314c3818baso8276595137.1
+        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 05:49:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779799774; x=1780404574;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=liGOOEcMtPZ1HdAZqxa+mDSdvuD0EnhVAX4bTJyxGQA=;
+        b=gtlctDE/NU1RPYINeQIe3WdaLtLZk1jOoSxckRko8kF56SZkhm57siH0pfSdaGjOwF
+         EfIz0cglGshAjDVDP5t3IDnbFZlrLRTBbgVCPvURp4ZAa9830CtUz1vTR73DLivUihMN
+         +ohoLiVb7yGA/UPqJWBAlTDzheiL6NjO9l327/DHCVPTC3YG/33q70qxdibyf/+/4J0p
+         jFTfY8LmI372fLV1+y2MB5BwpyhosfMbof+6TZ6JibNoIiyf+WRrKwieSkSuGU6g9HJQ
+         rHZ9xqXPB5IwRN6xxcEjS6NEvv7RDOcQRY45ra+rbI52LjWi2GuKWLsg9Prl+WveWuxo
+         ZtXQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/aPh1TOYvVtSTgnOWoKwBs8BX3RI+YtXXiemheTt29gE5chhVEwhLfRT8ChFPmUMj+QbYnEbV8kyr1tg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9Tsz4igByOvd2W740XDmLOTGD9tHQlZIRn1LDY9gCW+PM76gQ
+	v2VbPN0siY5b5nWE753ethAeddsRlSuywRiSmCs2SJB7jjDfKq77VHsXfo+NgMaI
+X-Gm-Gg: Acq92OG9GxUTEZEGUuLW7J/1M1eqFdKbgTYI2Vc/oEJlmo6Oi9YZBWoJgOAdAOdSDYt
+	1AYxC0O3bgm9eAQ2uVLC0sdnYlMzKWHHPCHd6w4fqwKWgpvegzeawXKscYZg1tHyfykyYWKaS4V
+	B4NLlZua7dsNS7HqUoJzBGFSueaxjuB2dVzJRmA4SVMnOrSK3+0iqaDr+qAe321TJ6PE6HO7za8
+	Z4x6io7KsyD/MPnuIJdbcGTW74T8NkstQT1SSi9mi4r8/PmMYZVppSrjdqwA0zZedhCDw7jyJtF
+	Wpm1auTzcaksDCr5bOz51jTEbmBLSUqZiNZQbuHaVPVe+hVd+R3+GEz1eryDxn0QcS//LgI7xVR
+	IZAVF5Q3J2ftlnoktUh08DXAsjsfjxlVZHGtJLurBau2CAD+bhtpOLeMOvD4IPC54YBZvLqsobR
+	2fu6AQJhHrQ0qmTcQJv8dI2CYkSNIfEM62hGI8pEGvzFOXwKaizAMeRIODPbgI
+X-Received: by 2002:a05:6102:5114:b0:631:4e9a:bab with SMTP id ada2fe7eead31-67c85c33d14mr8820562137.18.1779799774097;
+        Tue, 26 May 2026 05:49:34 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67fc9a0fd00sm13724135137.0.2026.05.26.05.49.32
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2026 05:49:33 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-95f9d6a3a04so7743611241.0
+        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 05:49:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8zs2UDAFmH8zhxPTF+npbTxwuOt7RaEwfCRHSLypccLNk7oHzHf/G8p4KnlrH6J3+9x4mQazMNrqa1sw==@lists.linux.dev
+X-Received: by 2002:a05:6102:4494:b0:631:44b7:b88c with SMTP id
+ ada2fe7eead31-67c8839c3cfmr8282219137.20.1779799772517; Tue, 26 May 2026
+ 05:49:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 26 May 2026 14:48:40 +0200
-Message-Id: <DISMCG7D9WRT.3BLQZMEGSWXDB@kernel.org>
-Cc: "Biju" <biju.das.au@gmail.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Biju Das" <biju.das.jz@bp.renesas.com>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Prabhakar Mahadev Lad"
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- <linux-renesas-soc@vger.kernel.org>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] Revert "driver core: Use mod_delayed_work to prevent
- lost deferred probe work"
-References: <20260526120306.184283-1-biju.das.jz@bp.renesas.com>
- <0e71f527-db39-4ad2-84d9-897464f74316@kernel.org>
- <CAMuHMdUzjj3dE3wQ84XGoP7RAfKxRAChPnbzkAW8NnrPhtoeoA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUzjj3dE3wQ84XGoP7RAfKxRAChPnbzkAW8NnrPhtoeoA@mail.gmail.com>
+MIME-Version: 1.0
+References: <20260525012340.3860581-1-dakr@kernel.org>
+In-Reply-To: <20260525012340.3860581-1-dakr@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 26 May 2026 14:49:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVN6uNr5AvrRB3762eOi3q8xBY7BtJw98cVMtvU=cwmug@mail.gmail.com>
+X-Gm-Features: AVHnY4JPnBQh0tqgf_FPNrpVOJzWMgEPRPlZg2wFhq1kiCMouRvQwES008Afn1I
+Message-ID: <CAMuHMdVN6uNr5AvrRB3762eOi3q8xBY7BtJw98cVMtvU=cwmug@mail.gmail.com>
+Subject: Re: [PATCH 1/2] driver core: Fix missing jiffies conversion in deferred_probe_extend_timeout()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, driver-core@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue May 26, 2026 at 2:46 PM CEST, Geert Uytterhoeven wrote:
-> Hi Danilo,
+Hi Danilo,
+
+On Mon, 25 May 2026 at 03:23, Danilo Krummrich <dakr@kernel.org> wrote:
+> mod_delayed_work() takes jiffies, not seconds. Thus, restore the dropped
+> conversion.
 >
-> On Tue, 26 May 2026 at 14:09, Danilo Krummrich <dakr@kernel.org> wrote:
->> On 5/26/26 2:03 PM, Biju wrote:
->> > From: Biju Das <biju.das.jz@bp.renesas.com>
->> >
->> > Commit 1137838865bf ("driver core: Use mod_delayed_work to prevent los=
-t
->> > deferred probe work") introduced below regression on Renesas SMARC RZ/=
-G2L
->> > EVK:
->> >  class_for_each_device called for class 'devlink' before it was regist=
-ered
->> >  WARNING: drivers/base/class.c:415 at class_for_each_device+0x12c/0x13=
-c, CPU#1: kworker/1:1/26
->> >  class_for_each_device+0x12c/0x13c (P)
->> >  fw_devlink_probing_done+0x58/0xa0
->> >  deferred_probe_timeout_work_func+0x5c/0xb8
->> >  process_one_work+0x150/0x290
->> >  worker_thread+0x18c/0x300
->> >  kthread+0x114/0x120
->> >
->> > Reverting the commit fixes the issue.
->> There's already [1], which should also fix the issue.
+> While at it, fix incorrect indentation.
 >
-> Thanks!
->
-> FTR, that patch is not sufficient to fix the WARNING (on RZ/Five)
-> for me: I need both patches from the series to get rid of the both
-> the warning thousands of "sync_state() pending due to" and
-> hundreds of "deferred probe pending" messages on other Renesas systems.
+> Fixes: 1137838865bf ("driver core: Use mod_delayed_work to prevent lost deferred probe work")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Yes, with linking to [1] I meant both patches.
+Thanks, with both patches from this series applied, I am no longer
+seeing the WARNING Biju reported[1], and thousands of "sync_state()
+pending due to" and hundreds of "deferred probe pending" messages.
 
-Thanks,
-Danilo
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
->> [1]
->> https://lore.kernel.org/driver-core/20260525012340.3860581-1-dakr@kernel=
-.org/t/#u
+[1] https://lore.kernel.org/20260526120306.184283-1-biju.das.jz@bp.renesas.com
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
