@@ -1,125 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6513C5523
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 11:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973C63DB99C
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 12:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779794088; cv=none; b=Ne0FbXcxz0AeEw7qYPQDzyA1V/pv4ENd2BiOh4lbK60O4VXIGKuUbLM0QdjZT/eYcLcBgITUGkF+sPpSPHmm9aIDFzOtg1UX1V9PwCCV9zL9jyEUZ7dQ+N5WDWwhhUTqB8o0z3j0/tHpd4eY4OPT8INBg/d4kyqgmNxzLRIdT7Q=
+	t=1779796826; cv=none; b=Hq3maC7f6GlkGION4bChrSTlCHLo++eAKfzcSKnHhP2bO1LnDoxZXjOOojaOb3xTR1pxEp5fof8vmVgTke0PR1ULXICtSbvp5JRO611s+QUBxOlhLI5p6Q8QyLSr+6ZJFu6pPGn9NnlFPppe6jk0Nhy45hnoXYpgHN+GkiQQt4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779794088; c=relaxed/simple;
-	bh=q9w7+K4dw3tUgZV9s0a7MpYsMEq6WClBHHgbFLPKpEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rBhuYamj7GvuZz0ocHU0zeQXfR3f96khag5VqxZA2wz1pYMwk0JfjsJE9C6KKoz1B6xi2VmbBOr/f6BZ8PPTB7IFQUvVI8XazJORi32d9/YgSsZWmVgDEZ1Ldwxt820flR9KoIRScosOrf20Iahu5D28TTQJfpToX7/a7Ede3VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+35ZIbP; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+35ZIbP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 516CC1F00ACF
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 11:14:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779794087;
-	bh=Jl4A5BploI0aLzf+f1VH2H1uwnUGnoJyUMtMQYNxCVw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=m+35ZIbPw68o69pVdadGClRCk00jjm8HZHM0GRdr31xkz8BxbPJzPxfZElOVwzsVV
-	 pYGanaKB81RFK8R5Fmuu+qIyDmQ6hmsYOffk3g8rHBh4b3RMAggfFqpVrXYFwJQIa+
-	 UgZdDknxScOHgMky8i2s2cpujxI470xfMxcAWkMYVO4RS+ExmrWTRPPXTGvHD15qk0
-	 Fcbw19L6yLJyBM/xSaszI5L+a+tjP11nG0/vYPQpDuW3vgDAxVDplXR9l07J7/GrQo
-	 VHClYlfNVfJ1ExJaywLQ4JIg8YL5Fq64O+bdAhPpkuty5CnOgzUd4xhGkjjjrehsbg
-	 tAGOjlo4vGfTw==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a746f9c092so14548264e87.1
-        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 04:14:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9fWyn+HMvhl64vBKnMFwSkVTAB0ojfmvuQe8GnU+W3coRqGQcKyOkzdLxLSB68DRwRQhQJcBMNZDBBhA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTOSUVnLNndWzKHBrw6v9TOVG+3IxEayeX3X/uKszqf9i3fcWG
-	E7mX/E1XbRxKbmJS4PbEqYzo1UvP1WOJWsJzTSj2edG0lY28r/+Z4noxHki1vKVPI/4uypagy1Q
-	cSmBN46HunW/2l/FOHSBkya8WeoHQ4pU=
-X-Received: by 2002:a05:6512:704:b0:5a7:4912:1a50 with SMTP id
- 2adb3069b0e04-5aa2ba8c2a7mr4167836e87.20.1779794085637; Tue, 26 May 2026
- 04:14:45 -0700 (PDT)
+	s=arc-20240116; t=1779796826; c=relaxed/simple;
+	bh=2UDTdK0W43D7kNgydiYJHP+ygtizoZJBGc4OQTtpRGg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Q1jtBIuES5BvgIKs/9ZnjHdo2lZRCQgsKf3ydVxyLGhzLBWK95s1bglsztYTYCdHE2dD/2moQNg4cvtnl0ywpYgtuHr1i5nNvGWPEfdVcsFyfvS0qxhFG4YbmnqpMY1K5H0IxsngFag6fRBlnCddF6GQZN9uOeZvkrLkhL9p/pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64QBxrd0003769;
+	Tue, 26 May 2026 20:59:53 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64QBxksh003734
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 26 May 2026 20:59:52 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <b312f723-1dff-4507-9889-0687b75b55fe@I-love.SAKURA.ne.jp>
+Date: Tue, 26 May 2026 20:59:45 +0900
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260519055920.13180-1-jszhang@kernel.org>
-In-Reply-To: <20260519055920.13180-1-jszhang@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 26 May 2026 13:14:31 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jOfVmjwpTFw3UKALiGrPQRbD9pBvnuga+TKt4Hm2OuCg@mail.gmail.com>
-X-Gm-Features: AVHnY4I3p3JtLqx6qWtPGsdALHvbUCPKp6zNoy1khUWLvVCRZ3XGvVcV8QjRQtw
-Message-ID: <CAJZ5v0jOfVmjwpTFw3UKALiGrPQRbD9pBvnuga+TKt4Hm2OuCg@mail.gmail.com>
-Subject: Re: [PATCH] PM: Use LIST_HEAD() to initialize on stack list head
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, linux-pm@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [kernel?] linux-next test error: WARNING in
+ class_for_each_device
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: Zhang Yuwei <zhangyuwei20@huawei.com>, gregkh@linuxfoundation.org,
+        Mark Brown <broonie@kernel.org>
+Cc: syzbot <syzbot+50b5f81fff158669504a@syzkaller.appspotmail.com>,
+        dakr@kernel.org, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+        rafael@kernel.org, sfr@canb.auug.org.au,
+        syzkaller-bugs@googlegroups.com
+References: <6a1535d6.820a0220.e7972.0008.GAE@google.com>
+ <8e1f611d-e048-446b-a325-aa81c64f837c@I-love.SAKURA.ne.jp>
+ <a3ca7056-b215-4632-b86a-c722d82c35e6@I-love.SAKURA.ne.jp>
+Content-Language: en-US
+In-Reply-To: <a3ca7056-b215-4632-b86a-c722d82c35e6@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Anti-Virus-Server: fsav404.rs.sakura.ne.jp
+X-Virus-Status: clean
 
-On Tue, May 19, 2026 at 8:18=E2=80=AFAM Jisheng Zhang <jszhang@kernel.org> =
-wrote:
->
-> Use LIST_HEAD to initialize on stack list head. No intentional
-> functional impact.
->
-> Change generated with below coccinelle script:
->
-> @@
-> identifier name;
-> @@
-> - struct list_head name;
-> + LIST_HEAD(name);
-> ... when !=3D name
-> - INIT_LIST_HEAD(&name);
->
-> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+On 2026/05/26 16:19, Tetsuo Handa wrote:
+> On 2026/05/26 15:08, Tetsuo Handa wrote:
+>> On 2026/05/26 14:55, syzbot wrote:
+>>> Hello,
+>>>
+>>> syzbot found the following issue on:
+>>>
+>>> HEAD commit:    d387b06f7c15 Add linux-next specific files for 20260525
+>>> git tree:       linux-next
+>>> console output: https://syzkaller.appspot.com/x/log.txt?x=15eb7796580000
+>>> kernel config:  https://syzkaller.appspot.com/x/.config?x=8dd72cf810e753a6
+>>> dashboard link: https://syzkaller.appspot.com/bug?extid=50b5f81fff158669504a
+>>> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+>>>
+>>> Downloadable assets:
+>>> disk image: https://storage.googleapis.com/syzbot-assets/39490dfbc250/disk-d387b06f.raw.xz
+>>> vmlinux: https://storage.googleapis.com/syzbot-assets/0789ac7ac5fc/vmlinux-d387b06f.xz
+>>> kernel image: https://storage.googleapis.com/syzbot-assets/4464df9f5ccf/bzImage-d387b06f.xz
+>>>
+>>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>>> Reported-by: syzbot+50b5f81fff158669504a@syzkaller.appspotmail.com
+>>>
+>>> ------------[ cut here ]------------
+>>> class_for_each_device called for class 'devlink' before it was registered
+>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/base?id=1137838865bfc9a7cd5869c1dc5c22aa45ec12c8
+>>
+>> Why "driver_deferred_probe_timeout * HZ" => "driver_deferred_probe_timeout" ?
+>>
+> 
+> Here is an analysis from Google AI mode regarding this problem: https://share.google/aimode/UO1WnoKPDSbyjY5Qj
+> 
+> Greg, can you immediately drop commit 1137838865bf ("driver core: Use mod_delayed_work to prevent
+> lost deferred probe work") so that syzbot can resume testing linux-next tree as soon as possible?
+> 
 
-I'd rather see two separate patches for these changes as they affect
-unrelated code.
+Below diff was generated via conversation with AI Mode in Google Search, and
+I agree that this diff should fix the problem. I'm waiting for Greg's response
+on how to proceed. Mark, can you carry below diff as a hotfix for linux-next tree?
 
-Thanks!
+---
+ drivers/base/dd.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-> ---
->  drivers/base/power/clock_ops.c | 4 +---
->  drivers/base/power/main.c      | 3 +--
->  2 files changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/base/power/clock_ops.c b/drivers/base/power/clock_op=
-s.c
-> index 59bb37e8244c..1f708e10e711 100644
-> --- a/drivers/base/power/clock_ops.c
-> +++ b/drivers/base/power/clock_ops.c
-> @@ -422,13 +422,11 @@ void pm_clk_destroy(struct device *dev)
->  {
->         struct pm_subsys_data *psd =3D dev_to_psd(dev);
->         struct pm_clock_entry *ce, *c;
-> -       struct list_head list;
-> +       LIST_HEAD(list);
->
->         if (!psd)
->                 return;
->
-> -       INIT_LIST_HEAD(&list);
-> -
->         pm_clk_list_lock(psd);
->
->         list_for_each_entry_safe_reverse(ce, c, &psd->clock_list, node)
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index e1b550664bab..d0c7b1d4101e 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -1257,11 +1257,10 @@ static void device_complete(struct device *dev, p=
-m_message_t state)
->   */
->  void dpm_complete(pm_message_t state)
->  {
-> -       struct list_head list;
-> +       LIST_HEAD(list);
->
->         trace_suspend_resume(TPS("dpm_complete"), state.event, true);
->
-> -       INIT_LIST_HEAD(&list);
->         mutex_lock(&dpm_list_mtx);
->         while (!list_empty(&dpm_prepared_list)) {
->                 struct device *dev =3D to_device(dpm_prepared_list.prev);
-> --
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 172a02a438a2..265717a19b08 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -298,10 +298,14 @@ int driver_deferred_probe_check_state(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(driver_deferred_probe_check_state);
+ 
++static int deferred_probe_timeout_triggered __data_racy;
+ static void deferred_probe_timeout_work_func(struct work_struct *work)
+ {
+ 	struct device_private *p;
+ 
++	if (cmpxchg(&deferred_probe_timeout_triggered, 0, 1))
++		return;
++
+ 	fw_devlink_drivers_done();
+ 
+ 	driver_deferred_probe_timeout = 0;
+@@ -323,8 +327,9 @@ void deferred_probe_extend_timeout(void)
+ 	 * If the work hasn't been queued yet or if the work expired, don't
+ 	 * start a new one.
+ 	 */
+-	if (mod_delayed_work(system_wq, &deferred_probe_timeout_work,
+-						 driver_deferred_probe_timeout))
++	if (!deferred_probe_timeout_triggered &&
++	    mod_delayed_work(system_wq, &deferred_probe_timeout_work,
++					driver_deferred_probe_timeout * HZ))
+ 		pr_debug("Extended deferred probe timeout by %d secs\n",
+ 					driver_deferred_probe_timeout);
+ }
+@@ -357,10 +362,11 @@ static int deferred_probe_initcall(void)
+ 	driver_deferred_probe_trigger();
+ 	flush_work(&deferred_probe_work);
+ 
+-	if (driver_deferred_probe_timeout > 0) {
++	if (driver_deferred_probe_timeout > 0)
+ 		schedule_delayed_work(&deferred_probe_timeout_work,
+ 			driver_deferred_probe_timeout * HZ);
+-	}
++	else
++		deferred_probe_timeout_triggered = 1;
+ 
+ 	if (!IS_ENABLED(CONFIG_MODULES))
+ 		fw_devlink_probing_done();
+-- 
+2.54.0
+
+
