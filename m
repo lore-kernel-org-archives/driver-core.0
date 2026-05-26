@@ -1,125 +1,118 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735483DA7EE
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 12:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353E03E0C41;
+	Tue, 26 May 2026 12:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779796996; cv=none; b=pd8NFOSzuw0+zBeEIJUBBbalW84gjWaw54VYbHtwbA/VSj3V80XRg7oYo6JkAD2539LWBllsBwb1skgYmOIlM2wcnrCZ4oiFxB5aAJwf8/CmWlfMzfEe/KtgEtXR+KQgAKSGLvZggAk7QXa3o6UXY66U0w2hfyKo/EYeR/J7HdY=
+	t=1779797036; cv=none; b=hjMtgINuTqdhVE87GA3Oools8WFXkuzySGp+wG5AKM1MwOinGCJazFRJxR+7p8gDgKWh+ipCiADMxX0BFVPMmu7r0/JYD9kG0yAoFAGq43yRHrrNo5P9SMJ6cqRYtfrYVSODrhlk8MsBWfhspI4PnAZ8V300FbcZ5zNNQ1U+QJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779796996; c=relaxed/simple;
-	bh=60FLVjS6344cww7v7mVjQdFT8z1gUGwaOUCCd0QViBg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hDr+NoOsBXZIkq1/6u2NQwGxrkE+cR5gp94XkLyEq6xFYkr092VTm9IGuxKmaN9LEWaKQkHZ5g7afpqcq5ZkjwtIUuRwtEQb9HgpvMYbLHufx2g5PEqR015qhKslJCkJ6hYpTG+Xpa9QADqDBhO2WHue4yj+w/5E4PEIcNjlJJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jMNCwxt3; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779797036; c=relaxed/simple;
+	bh=n6ffshSou1HvsBi/aR6iI8hxKyVAfizL701qsGontZU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=r7eK01uzr7nYN4AsDBlWcy3lkYJUQN1unn/x0SwNVh2DLqq8+Jmx4UGIzQOXUgZQWANelr5K/L9IxekA7lKkisQPUfwdv8KxjOucrn54f2Iz4FpdVqOO5BZV3EOWhRpArKvQlJn5186i9kdagisaiTD5deZV2j7VprdE97xXmQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UFevu7mh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jMNCwxt3"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso41099565e9.2
-        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 05:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779796991; x=1780401791; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ey2Ry8WOYcw1uJXmD55b4eg3Hgx3KA8mNUuxhqVi/k=;
-        b=jMNCwxt3m8BPLmzHk10BoGJw989eSOEzPszl4nqaVuNtHp8bsh1p9IC8Y9AKVGN3IE
-         WArVYX+dB9OOIOD9hcXLnwdXuJq/fUz+RS0CAe/IOlUmdraBReHCTdwo9JhqUCJ+KA5n
-         Y1/8y6ALUsVaV/c4Mqe2ek4q0rOeDQ2WhKALU/oLch8CBWiMrfPOkJUX+XDJH2mperd5
-         sy424ZHXx5pISzgpHgNvaR/uXyO+4PowDpk+y+dSGR7MK4ZLS7PN92sWiQaYlt07CVkM
-         GoMVlWXwBITb90tM5cO8lwBiY9ZQ/hd6xYoy2cWFqYB+drZs/gtnJFJGMmObCLcWuXoN
-         WkbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779796991; x=1780401791;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0ey2Ry8WOYcw1uJXmD55b4eg3Hgx3KA8mNUuxhqVi/k=;
-        b=kczzI5eMWOn+TVazc8QfPSFLH4ZmynJmDBuBwwJ77/eVRNdGYs5bbkJpx2IDAGdeRE
-         sUaw+AKrd4A5YvYIE6dytU1ogZ74VKhFlw8i9EGiVrQNB7rLE4HxRvBBCcoL4gb+efXg
-         EPr8XRSIXUrg+tWTcRBHkLeCySn4KpybqIbsissrM18Sb6HxckY9Y92yX/8XBpz6HsP+
-         r4LYyczXYB3MNKQNjQ99pGJxFmcz9Bp2SymTO07H89CwdlMSJvSFQ3nQBaW+r3PTzjrs
-         a5LyHMTI1cVGE9wTLesHn27h1GT69h87JQ4taQnWMDeKJXs05wGgH9ZOej16vi7o0LKs
-         RvTA==
-X-Forwarded-Encrypted: i=1; AFNElJ+RBzk27NCM7sPdzTj2jRqcDC3/JR1VUyaa7ifSHgh4ZTAY5u0mLvQE1puXhGu9gY92Db3+tGy1htShzQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxnyZJOB8Tw9kWCE4iXloIyi6iBBMShGuPmY1FBYtLiUc2GxRiG
-	O/6rcl9FV0V8jF/mpKdrkhTABcNdhyzXMKc/iJv/w1Qm1qMrgJHPVI1rllv6xA==
-X-Gm-Gg: Acq92OGNHMI7sdO/qXwpXOwoPYMhA0EPmva11fK60hpBCl8gM1tCnQ27APeio+Fnubi
-	1Vy4oi1dCku+fW4uCwhj8h3EI4N7AHUdHh0lUokaWcb6TPiOjPD1CWSxXIdI1Hi6Jf69YoiIZTi
-	1gWQg6zm6KQO2KTobZ7wzZs8SG9t5xpr/0A+8hk/bgoMcpGmBVXABKu4eavYO1nZkhd5yMgcr97
-	GgrQCRMKz4ydO3pmV88q5fDE/SQNtILHIn89BoCsDOxQ89A//1MGZ1lQDw5sH4hdv9Hq6BTicJ6
-	1ryAasUHliYd0tEsrUCR3s6inO4GikMm1l7FAT/5QVYLF3UYeLXu7W12NDx7F+GwSZ2EXcxe+oE
-	XNmGGlRft8wHlzfTNdlS8x2o0ngoqkOsEANOzY62t3wmKXE5qqZ8upm6T1T+tzeJye8nX+UJ7no
-	IoRXKAsqwpVjayYYDdoL50kisJBESfM4YjVHwUrbHw7F02G8dR
-X-Received: by 2002:a05:600c:a402:b0:48a:f18:ece4 with SMTP id 5b1f17b1804b1-490426d3f95mr215913035e9.24.1779796989573;
-        Tue, 26 May 2026 05:03:09 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a700:7301:e748:e762:2da6:e1a0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49041787932sm144370845e9.1.2026.05.26.05.03.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 05:03:09 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] Revert "driver core: Use mod_delayed_work to prevent lost deferred probe work"
-Date: Tue, 26 May 2026 13:03:04 +0100
-Message-ID: <20260526120306.184283-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UFevu7mh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F44B1F000E9;
+	Tue, 26 May 2026 12:03:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779797031;
+	bh=bmKFm5NXkG4SYqSAeJY2UPlpmSMQcCOYFPH/9CqtcWk=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=UFevu7mhyAfA+Hq8YvutgMw9m0CkEOxhCQqQBzlDmW4onduivyx287MvoKEM8yCbn
+	 NOO8pXlkhAoJB9x4NpjKru86thGWrGX+E3V6joawAh2I9y4sSp1IMM5otleGY0bqgJ
+	 cabeWM2p9eNawfJEKPjFduwMKpibUutPvh5F/1hwpZEDxgtlGdc7PGOUiuQdTcbCsJ
+	 vAttt5nBSej+iBVNK5BJ0k8P7qWRmjRNfQyZVXkH0f1Qf0c301JbeXbGqLYpIftmkH
+	 NITWWjHnFjqVvd8jmXYZTRGut+bTj2hIc9PEtksuonvSCeU47+OGdcKArZA+Csjaok
+	 AsmSPC0f/tZjQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 26 May 2026 14:03:48 +0200
+Message-Id: <DISLE3AJXACD.33KV8AQF2M2JV@kernel.org>
+Cc: "Zhang Yuwei" <zhangyuwei20@huawei.com>, <gregkh@linuxfoundation.org>,
+ "Mark Brown" <broonie@kernel.org>, "syzbot"
+ <syzbot+50b5f81fff158669504a@syzkaller.appspotmail.com>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-next@vger.kernel.org>, <rafael@kernel.org>, <sfr@canb.auug.org.au>,
+ <syzkaller-bugs@googlegroups.com>
+To: "Tetsuo Handa" <penguin-kernel@I-love.SAKURA.ne.jp>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [syzbot] [kernel?] linux-next test error: WARNING in
+ class_for_each_device
+References: <6a1535d6.820a0220.e7972.0008.GAE@google.com>
+ <8e1f611d-e048-446b-a325-aa81c64f837c@I-love.SAKURA.ne.jp>
+ <a3ca7056-b215-4632-b86a-c722d82c35e6@I-love.SAKURA.ne.jp>
+ <b312f723-1dff-4507-9889-0687b75b55fe@I-love.SAKURA.ne.jp>
+In-Reply-To: <b312f723-1dff-4507-9889-0687b75b55fe@I-love.SAKURA.ne.jp>
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+On Tue May 26, 2026 at 1:59 PM CEST, Tetsuo Handa wrote:
+> On 2026/05/26 16:19, Tetsuo Handa wrote:
+>> On 2026/05/26 15:08, Tetsuo Handa wrote:
+>>> On 2026/05/26 14:55, syzbot wrote:
+>>>> Hello,
+>>>>
+>>>> syzbot found the following issue on:
+>>>>
+>>>> HEAD commit:    d387b06f7c15 Add linux-next specific files for 2026052=
+5
+>>>> git tree:       linux-next
+>>>> console output: https://syzkaller.appspot.com/x/log.txt?x=3D15eb779658=
+0000
+>>>> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D8dd72cf810=
+e753a6
+>>>> dashboard link: https://syzkaller.appspot.com/bug?extid=3D50b5f81fff15=
+8669504a
+>>>> compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43=
+e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+>>>>
+>>>> Downloadable assets:
+>>>> disk image: https://storage.googleapis.com/syzbot-assets/39490dfbc250/=
+disk-d387b06f.raw.xz
+>>>> vmlinux: https://storage.googleapis.com/syzbot-assets/0789ac7ac5fc/vml=
+inux-d387b06f.xz
+>>>> kernel image: https://storage.googleapis.com/syzbot-assets/4464df9f5cc=
+f/bzImage-d387b06f.xz
+>>>>
+>>>> IMPORTANT: if you fix the issue, please add the following tag to the c=
+ommit:
+>>>> Reported-by: syzbot+50b5f81fff158669504a@syzkaller.appspotmail.com
+>>>>
+>>>> ------------[ cut here ]------------
+>>>> class_for_each_device called for class 'devlink' before it was registe=
+red
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/com=
+mit/drivers/base?id=3D1137838865bfc9a7cd5869c1dc5c22aa45ec12c8
+>>>
+>>> Why "driver_deferred_probe_timeout * HZ" =3D> "driver_deferred_probe_ti=
+meout" ?
+>>>
+>>=20
+>> Here is an analysis from Google AI mode regarding this problem: https://=
+share.google/aimode/UO1WnoKPDSbyjY5Qj
+>>=20
+>> Greg, can you immediately drop commit 1137838865bf ("driver core: Use mo=
+d_delayed_work to prevent
+>> lost deferred probe work") so that syzbot can resume testing linux-next =
+tree as soon as possible?
+>>=20
+>
+> Below diff was generated via conversation with AI Mode in Google Search, =
+and
+> I agree that this diff should fix the problem. I'm waiting for Greg's res=
+ponse
+> on how to proceed. Mark, can you carry below diff as a hotfix for linux-n=
+ext tree?
 
-Commit 1137838865bf ("driver core: Use mod_delayed_work to prevent lost
-deferred probe work") introduced below regression on Renesas SMARC RZ/G2L
-EVK:
- class_for_each_device called for class 'devlink' before it was registered
- WARNING: drivers/base/class.c:415 at class_for_each_device+0x12c/0x13c, CPU#1: kworker/1:1/26
- class_for_each_device+0x12c/0x13c (P)
- fw_devlink_probing_done+0x58/0xa0
- deferred_probe_timeout_work_func+0x5c/0xb8
- process_one_work+0x150/0x290
- worker_thread+0x18c/0x300
- kthread+0x114/0x120
+As mentioned in the previous reply, I already posted patches for this in [1=
+];
+will pick them up today.
 
-Reverting the commit fixes the issue.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/base/dd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 172a02a438a2..5799a60fd058 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -323,10 +323,12 @@ void deferred_probe_extend_timeout(void)
- 	 * If the work hasn't been queued yet or if the work expired, don't
- 	 * start a new one.
- 	 */
--	if (mod_delayed_work(system_wq, &deferred_probe_timeout_work,
--						 driver_deferred_probe_timeout))
-+	if (cancel_delayed_work(&deferred_probe_timeout_work)) {
-+		schedule_delayed_work(&deferred_probe_timeout_work,
-+				driver_deferred_probe_timeout * HZ);
- 		pr_debug("Extended deferred probe timeout by %d secs\n",
- 					driver_deferred_probe_timeout);
-+	}
- }
- 
- /**
--- 
-2.43.0
-
+[1] https://lore.kernel.org/driver-core/20260525012340.3860581-1-dakr@kerne=
+l.org/t/#u
