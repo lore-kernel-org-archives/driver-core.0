@@ -1,107 +1,83 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503141EEA3C
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 12:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4C236AF6;
+	Tue, 26 May 2026 14:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779799878; cv=none; b=CNvYQInSd6KYMlc2qkNk7+BobjqicyPe5iti5IZYcr+wTUh5acpRzam3ksYoN+BVp81ywaG8U3rcvmcP4qJzlNRxRjVZ2JODjQ+txPaVsH3aLtrJEe9x4jFsexe63GOTsUEyI9ld5W21Niln8ksWg557kt3b24AMv2JNLnTrvVY=
+	t=1779806381; cv=none; b=u97KOmBBRJWWthHO4cwQYbrG9KpqcnBm9f7ANIABPk6NI5UttKJa3g9nIdXJV7c8me4CJKjckutDMgbkBsBl5zlJOZw6NmZTiWoh6ViMngOxxbC0WJpWrwKI/nx3YjHfAW/pZNTQjrdFbhcvRG0Inn44tYIWSy1BZZoIIDISrJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779799878; c=relaxed/simple;
-	bh=Yf4g2twsxVR4nDUCpRzem4trF+tHXeKNJhanN6p04ss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k9JOyFTzWDlyKwZhLhuBnUSl+wyNwdWJOpXc9Wq8/UIQZaB8fzz+fFI04gkLTlol3RlYoLy/j3nWW5HOAWFPzthSghuqzF3sgIGmAylkQCjxEgFr3YX2PTRbUCrMqteG5NAxNSJfQTNic6tPUioWVfjNwj+KP5BD2E30Z8xDl0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-63a3977145fso3394296137.1
-        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 05:51:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779799876; x=1780404676;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ja+/Knig0DxEm/jtY/9qdkEIUkVb+ehqeheHxGkvQio=;
-        b=IC3Tw6h6nQV0Qnh/oreK/iUAo2uLbKmB+ytHnfBEl/wjJ29m26NZWgnLW4F+dQYn4I
-         xBMfMa+ch73ijmBUTcd4w59fSjbeYUyd032iGUndaGwdbvqafn0NULMPqJvcn6Aez9ZT
-         J24qsKzlPzrT36q5I8jGlEE8pe3J0QN/IlTtlCzqXpi2xMYnGUfmfHpzpUvCiz7WyHgI
-         JnwH7hvOS1t0VzVGtzvq4Iu8LXUzd4QIlJAe8oVek8RA+WF3vB/bdnsFSQKUq+3f37lt
-         vbiI6wWPW7xB9yafb5xlI2rAOc4cLIUxgnKbPLR25fq94UbB3WRg+7t2Pw5V4MPeEr9C
-         Pavw==
-X-Forwarded-Encrypted: i=1; AFNElJ9o8/dP4bNaYFRE2XDWTzQ+Oqissua/Xv0+T8qQUDX7o3KtlAntXpRMyCsBJONIhhOzkDZKn1z1B9IqxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHzKEcQlogBO4IsKdpJkxUBBM5qRVBmuaV4bUnIaEFApW9sNmO
-	8afL4T9Xm8fwVnypag9RcinFOGhyW14ITPc/+EOR+ddsxWgz5vTYRtJBo5SoMm0l
-X-Gm-Gg: Acq92OEhjatLzAOyXXkV0s5RN7ObwDs6467D1kcsuu4CcpK/IMpZuWmcvR2GPyASzZb
-	uBZ7VKhpH5SAoeZGrHS6kMtmkykvEtS41rOSrmVcxI2PogfIhGKRGRRAge6HOREZxa0wjrVYm1E
-	nioJJOo5zwiCHt/CG9yjaWpRtTMAROdFlEARs3tApb5j8neYEARakuDa0JRE0MscwtZEGS9NLQ3
-	vC1sWtg4FJgXox5GUyx/0q0susd71hulqYVoBLvGYUFi1HbKgEQ0cWAJtw99YN9PUhsFVa59smN
-	TpI+V57thomaDpIzFUhFjaADw6GvEpGtoKDbfKOXvDJjLuLufUxPhwZUu6W4U29+nq433lh94M3
-	tT+5fSLmTy47j3mwGUu6vg9WhNAOyOh9THESKIdtJBFHqiGoMSWTmDDIs9vzU/gNf3rRq0cqqKv
-	ziKM2oLnZQCGQrg7t7mre9YbqMJV9642RTBWBwY2issZ1IH4tfDGsgp9tMrBaI
-X-Received: by 2002:a05:6102:5e88:b0:631:8665:3511 with SMTP id ada2fe7eead31-67c82ff7ba4mr8961219137.30.1779799876168;
-        Tue, 26 May 2026 05:51:16 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-67fd8850d17sm13339929137.1.2026.05.26.05.51.14
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2026 05:51:14 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-95fbe2d4d9aso2826051241.1
-        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 05:51:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ80QH0Gcv7vR5BDpZdDJPgAU+fCOMvt3LfyvedfTRUrwpRwe8VaBsmQc8jnoWW3Mebfp47+M+AxwLIn6A==@lists.linux.dev
-X-Received: by 2002:a05:6102:c07:b0:631:8665:350f with SMTP id
- ada2fe7eead31-67c7567f8e3mr8433240137.13.1779799873692; Tue, 26 May 2026
- 05:51:13 -0700 (PDT)
+	s=arc-20240116; t=1779806381; c=relaxed/simple;
+	bh=d1S+PsCKIpg1/cD/dU/mWGcpd/n98yRfyADqjCIv/wE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cpe+1NU3kBsMct00rQLLH+c7FfWtrEoptCvJrQ2IeEgr4WqUO8rL2CFU8a3JY/fveCreJrGs3l5+rB4q1ia7n4xT8Mq2h7QmZC9tXzjxMgSFqaNxgrq2lzJOJbXVMi9Brmq0Y2lE8gPcioydMbII4Mb5sTnaxOoSEpburevDr0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQDj12Ho; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQDj12Ho"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D28901F000E9;
+	Tue, 26 May 2026 14:39:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779806376;
+	bh=wd13JqkW4GNpk4HsdTUvj5eq3ICQ0BjZkVsaOq4K1yE=;
+	h=From:Subject:Date:To:Cc;
+	b=AQDj12Ho6a6Fdjw/qr0Xov+HBAACq3TSPAdubztKJsUojTu4lFU7klxSXcPOl/Aws
+	 aktq4VCsfIFgxORPOtlaJV/mCcHakZ7JoEhOBQdLTgwttOiQEjFCYZ38SpEN2UCJ9P
+	 +bkQDUJnOdAeRrVm0+2PeYDYuk9VENBH7B+fgRWRGtHnnRE7IyVZQZKj32jAvNzYMO
+	 E9MqyXWvnVionnCOFQ5SYNyOmGvsHrhayjFSKefZLVPtwKlGEuSxO9KaBzKf6Rty8f
+	 lpL2YSYvyurlcpyw1if0/BaP/dX+MtH0+pfN+fuGseBZUFEUdRDcMO/RIobLNoPYuF
+	 g+w1MaKIgOGrg==
+From: Tamir Duberstein <tamird@kernel.org>
+Subject: [PATCH 0/2] rust: device: remove ref-to-ref transmute
+Date: Tue, 26 May 2026 10:39:30 -0400
+Message-Id: <20260526-trasnmute_ptr_to_ptr-v1-0-d89bc1dda3b5@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260525012340.3860581-1-dakr@kernel.org> <20260525012340.3860581-2-dakr@kernel.org>
-In-Reply-To: <20260525012340.3860581-2-dakr@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 26 May 2026 14:51:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXnHeW3vYkFBF2O=8wtYsn5+nTwodufnLM1hPyN+LUCtg@mail.gmail.com>
-X-Gm-Features: AVHnY4LIni98s9f8-2WYkaUBBpt3OB2PPf6GrmGfT87QEdocdOtpkgI--ll5a4Y
-Message-ID: <CAMuHMdXnHeW3vYkFBF2O=8wtYsn5+nTwodufnLM1hPyN+LUCtg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] driver core: Guard deferred probe timeout extension
- with delayed_work_pending()
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBCF4avIrBuIIVXsVUqRmI46hUaZGUUQ7
+ 95YV49v8f4dBJlQ4FHswLiS0JQyylsBcQxpQEPvbHDWVfbuKqMcJH0XxXZWbnU6xwSL3rvaNzG
+ WkK8zY0/bP/t8XZal+2DUswXH8QNfE4xHeAAAAA==
+X-Change-ID: 20260526-trasnmute_ptr_to_ptr-a0e442749cc1
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Tamir Duberstein <tamird@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=741; i=tamird@kernel.org;
+ h=from:subject:message-id; bh=d1S+PsCKIpg1/cD/dU/mWGcpd/n98yRfyADqjCIv/wE=;
+ b=owGbwMvMwCV2wYdPVfy60HTG02pJDFmiG5ZxsVSI3dv67cHku+sFW9Xrk5ZuL1EuNbb+t1As2
+ lvn41vvjoksDGJcDJZiiiyJoof2pqfe3iOb+e44zBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
+ aKRjoGPMwMUpAFPtkMjIcNfxdnHyu4lqTRET5kx5tCvz7TMDkd/OKxU42s06N8XO2M3IsCpr5Za
+ dDy9dtj+qd2jdql6PZOPc1dv9t8w8xf7Y91Z8ERMA
+X-Developer-Key: i=tamird@kernel.org; a=openpgp;
+ fpr=5A6714204D41EC844C50273C19D6FF6092365380
 
-Hi Danilo,
+This series came out of discussion with Alice in another series[1]. It
+removes an unnecessary unsafe block and optimizes away an array copy.
 
-On Mon, 25 May 2026 at 03:23, Danilo Krummrich <dakr@kernel.org> wrote:
-> mod_delayed_work() unconditionally queues the work even when it wasn't
-> previously pending, which can fire the timeout prematurely or restart it
-> after it already fired. Add a delayed_work_pending() guard to restore
-> the originally intended semantics.
->
-> Premature firing calls fw_devlink_drivers_done() before all built-in
-> drivers have registered, causing fw_devlink to prematurely relax device
-> links for suppliers whose drivers haven't loaded yet.
->
-> Fixes: 1137838865bf ("driver core: Use mod_delayed_work to prevent lost deferred probe work")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Link: https://lore.kernel.org/all/CAH5fLgibt_BQmOtkfEfo1=48zUeoWBJ-=u5gzw_a3X6Q7=aUSA@mail.gmail.com/ [1]
 
-Thanks, with both patches from this series applied, I am no longer
-seeing the WARNING Biju reported[1], and thousands of "sync_state()
-pending due to" and hundreds of "deferred probe pending" messages.
+Signed-off-by: Tamir Duberstein <tamird@kernel.org>
+---
+Tamir Duberstein (2):
+      rust: device: remove unused ref-to-ref transmute
+      rust: device: remove array copy
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+ rust/kernel/device/property.rs | 46 ++++++++++++++++++------------------------
+ 1 file changed, 20 insertions(+), 26 deletions(-)
+---
+base-commit: fc1ce3afa2e61b4b15e71436ece91b0441a9f4f0
+change-id: 20260526-trasnmute_ptr_to_ptr-a0e442749cc1
 
-[1] https://lore.kernel.org/20260526120306.184283-1-biju.das.jz@bp.renesas.com
+Best regards,
+--  
+Tamir Duberstein <tamird@kernel.org>
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
