@@ -1,134 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C613CC7CD
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 11:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6513C5523
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 11:14:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779793421; cv=none; b=qH8gw8i1TEqs2mXmGUXKsXOAhtz4mgD7VzmtzDbk4t/Y9OU4Cng8FsO78v0POSNC1AlZ7hQuIU4HNqklo7ExEEWzxpIj60l4w/nocbwAJJq21QhDCHJOLjLJvHdRmPwgP8RCsZU4O3F6Izu/jS3wXRBTGz0VS0qtFNtFafqYtRs=
+	t=1779794088; cv=none; b=Ne0FbXcxz0AeEw7qYPQDzyA1V/pv4ENd2BiOh4lbK60O4VXIGKuUbLM0QdjZT/eYcLcBgITUGkF+sPpSPHmm9aIDFzOtg1UX1V9PwCCV9zL9jyEUZ7dQ+N5WDWwhhUTqB8o0z3j0/tHpd4eY4OPT8INBg/d4kyqgmNxzLRIdT7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779793421; c=relaxed/simple;
-	bh=3qQWWSjHm+6tSeRK2ZfNaVQKjvsxAs9kOILID8cxBFg=;
+	s=arc-20240116; t=1779794088; c=relaxed/simple;
+	bh=q9w7+K4dw3tUgZV9s0a7MpYsMEq6WClBHHgbFLPKpEA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NvmewxdFmlUiSO9nse5CY9evEWtyTwdqVPG4liEl5vkvhoSBdkD3YaXPbc46vlOpwVZjKiL5Eni7dUYYDxHAxSk0pBIrOXF7COOmBUG9CcojelAYyWbLD92qCQlX64IkorzVjREewyOs9UOz8VOVD4oNl+jMwzacaRIr1TvCtt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aGb05wmL; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=rBhuYamj7GvuZz0ocHU0zeQXfR3f96khag5VqxZA2wz1pYMwk0JfjsJE9C6KKoz1B6xi2VmbBOr/f6BZ8PPTB7IFQUvVI8XazJORi32d9/YgSsZWmVgDEZ1Ldwxt820flR9KoIRScosOrf20Iahu5D28TTQJfpToX7/a7Ede3VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+35ZIbP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGb05wmL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B64B81F00A3F
-	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 11:03:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+35ZIbP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 516CC1F00ACF
+	for <driver-core@lists.linux.dev>; Tue, 26 May 2026 11:14:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779793419;
-	bh=yorxY6Oyrg096lrnTQEnLkW7wpn3SkcvrJpahV5hpP0=;
+	s=k20260515; t=1779794087;
+	bh=Jl4A5BploI0aLzf+f1VH2H1uwnUGnoJyUMtMQYNxCVw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=aGb05wmLjn1HCel8hxCnpTLEUyZCzVeJqDdsCDzKMeJURUUDeUcUodmwh2G3BQN7U
-	 Ejtr5w+YrIJYWygeTSlhHCo2XDYyHKkpTMevtr7MxvOCClex7BIAiZfML5R9OW/0dZ
-	 utkqMJtp7HJpefMk9leYSTQ8GWx5v8SIhRi98Z4yNTGEvI3wrUkYgOIzUYag/rDwXI
-	 oOB5Q4/pug3Gl6l0IeaHQf89OqlJ/tqXf5kSi/FpLtxzJdSm+Wj8ye15QObwyRHFv9
-	 Q4CoDtvyByEXTgayVgaNF2LnmrYula/WOGais8LMkv/5axku7ZWUTIrSpo/IEdxJtS
-	 7znibM1a0t6tA==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aa2c25c632so5233938e87.1
-        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 04:03:39 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yxzs3Xm8aXY34fqMakJwlIg450AkFiYBASlmwDCMoXoe4Yp/hM2
-	BkxLla7AL/5wNOzcqs4Ng8ccNBSpT9myfAZqlO9BFvyTRL126su+1rl8KFE3my6vKXoX6ImXZZu
-	1Y8ZCReYdfzutGdspQttyVOA9PfEU7y4=
-X-Received: by 2002:ac2:4541:0:b0:5a2:c1b5:f70d with SMTP id
- 2adb3069b0e04-5aa3231bb51mr3357080e87.6.1779793418087; Tue, 26 May 2026
- 04:03:38 -0700 (PDT)
+	b=m+35ZIbPw68o69pVdadGClRCk00jjm8HZHM0GRdr31xkz8BxbPJzPxfZElOVwzsVV
+	 pYGanaKB81RFK8R5Fmuu+qIyDmQ6hmsYOffk3g8rHBh4b3RMAggfFqpVrXYFwJQIa+
+	 UgZdDknxScOHgMky8i2s2cpujxI470xfMxcAWkMYVO4RS+ExmrWTRPPXTGvHD15qk0
+	 Fcbw19L6yLJyBM/xSaszI5L+a+tjP11nG0/vYPQpDuW3vgDAxVDplXR9l07J7/GrQo
+	 VHClYlfNVfJ1ExJaywLQ4JIg8YL5Fq64O+bdAhPpkuty5CnOgzUd4xhGkjjjrehsbg
+	 tAGOjlo4vGfTw==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a746f9c092so14548264e87.1
+        for <driver-core@lists.linux.dev>; Tue, 26 May 2026 04:14:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9fWyn+HMvhl64vBKnMFwSkVTAB0ojfmvuQe8GnU+W3coRqGQcKyOkzdLxLSB68DRwRQhQJcBMNZDBBhA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyTOSUVnLNndWzKHBrw6v9TOVG+3IxEayeX3X/uKszqf9i3fcWG
+	E7mX/E1XbRxKbmJS4PbEqYzo1UvP1WOJWsJzTSj2edG0lY28r/+Z4noxHki1vKVPI/4uypagy1Q
+	cSmBN46HunW/2l/FOHSBkya8WeoHQ4pU=
+X-Received: by 2002:a05:6512:704:b0:5a7:4912:1a50 with SMTP id
+ 2adb3069b0e04-5aa2ba8c2a7mr4167836e87.20.1779794085637; Tue, 26 May 2026
+ 04:14:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260523022314.2657232-1-xujiakai24@mails.ucas.ac.cn>
-In-Reply-To: <20260523022314.2657232-1-xujiakai24@mails.ucas.ac.cn>
+References: <20260519055920.13180-1-jszhang@kernel.org>
+In-Reply-To: <20260519055920.13180-1-jszhang@kernel.org>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 26 May 2026 13:03:26 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gjHPWj26KP4WoznL9VTyDMZqOOzEsNbPtKso16p7-Lfg@mail.gmail.com>
-X-Gm-Features: AVHnY4KfN8N7_d1CekAJsFvTACV8CSDf3lRQwgvYcEcEJ9kZ61V1WOYEzFq5wPw
-Message-ID: <CAJZ5v0gjHPWj26KP4WoznL9VTyDMZqOOzEsNbPtKso16p7-Lfg@mail.gmail.com>
-Subject: Re: [PATCH v3] PM: sleep: Use complete() in device_pm_sleep_init()
- and skip no_pm devices in dpm_wait()
-To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Colin Cross <ccross@android.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Steven Rostedt <rostedt@goodmis.org>
+Date: Tue, 26 May 2026 13:14:31 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jOfVmjwpTFw3UKALiGrPQRbD9pBvnuga+TKt4Hm2OuCg@mail.gmail.com>
+X-Gm-Features: AVHnY4I3p3JtLqx6qWtPGsdALHvbUCPKp6zNoy1khUWLvVCRZ3XGvVcV8QjRQtw
+Message-ID: <CAJZ5v0jOfVmjwpTFw3UKALiGrPQRbD9pBvnuga+TKt4Hm2OuCg@mail.gmail.com>
+Subject: Re: [PATCH] PM: Use LIST_HEAD() to initialize on stack list head
+To: Jisheng Zhang <jszhang@kernel.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 23, 2026 at 4:23=E2=80=AFAM Jiakai Xu <xujiakai24@mails.ucas.ac=
-.cn> wrote:
+On Tue, May 19, 2026 at 8:18=E2=80=AFAM Jisheng Zhang <jszhang@kernel.org> =
+wrote:
 >
-> Replace complete_all() with complete() in device_pm_sleep_init() to allow
-> it to be called in atomic contexts without triggering a false-positive
-> WARNING from lockdep_assert_RT_in_threaded_ctx() when
-> CONFIG_PROVE_RAW_LOCK_NESTING is enabled.
+> Use LIST_HEAD to initialize on stack list head. No intentional
+> functional impact.
 >
-> device_pm_sleep_init() may be called during device initialization while
-> holding a raw_spinlock (e.g., from within device_initialize()), and
-> complete_all() is unsafe in atomic contexts on PREEMPT_RT kernels.
-> complete(), which is safe to call from any context, is sufficient here.
+> Change generated with below coccinelle script:
 >
-> complete_all() sets the completion count to UINT_MAX/2 (permanently
-> signaled), while complete() increments it by 1. Since no threads can be
-> waiting during device initialization, both are functionally equivalent.
-> The completion is always reinitialized via reinit_completion() in
-> dpm_clear_async_state() before each suspend/resume cycle.
+> @@
+> identifier name;
+> @@
+> - struct list_head name;
+> + LIST_HEAD(name);
+> ... when !=3D name
+> - INIT_LIST_HEAD(&name);
 >
-> However, changing to complete() introduces a potential deadlock for
-> devices with no PM support (dev->power.no_pm =3D true). Such devices are
-> never added to the dpm_list and never go through dpm_clear_async_state(),
-> so their completion is never reinitialized. A parent device waiting on a
-> no_pm child across multiple suspend phases would consume the single-use
-> token in the first phase and block forever in the second.
->
-> Fix this by adding an early return in dpm_wait() when dev->power.no_pm is
-> set, since no_pm devices do not participate in system suspend/resume.
->
-> Fixes: 152e1d592071 ("PM: Prevent waiting forever on asynchronous resume =
-after failing suspend")
-> Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+
+I'd rather see two separate patches for these changes as they affect
+unrelated code.
+
+Thanks!
+
 > ---
-> V1 -> V2:
-> - Updated dpm_wait() to skip devices with no PM support,
->   as suggested by Rafael J. Wysocki.
+>  drivers/base/power/clock_ops.c | 4 +---
+>  drivers/base/power/main.c      | 3 +--
+>  2 files changed, 2 insertions(+), 5 deletions(-)
 >
-> V2 -> V3:
-> - Revised commit message to clarify that the lockdep warning originates
->   from device_pm_sleep_init() called in atomic context, not from
->   device_pm_remove().  No code changes relative to v2.
-> ---
->  drivers/base/power/main.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> diff --git a/drivers/base/power/clock_ops.c b/drivers/base/power/clock_op=
+s.c
+> index 59bb37e8244c..1f708e10e711 100644
+> --- a/drivers/base/power/clock_ops.c
+> +++ b/drivers/base/power/clock_ops.c
+> @@ -422,13 +422,11 @@ void pm_clk_destroy(struct device *dev)
+>  {
+>         struct pm_subsys_data *psd =3D dev_to_psd(dev);
+>         struct pm_clock_entry *ce, *c;
+> -       struct list_head list;
+> +       LIST_HEAD(list);
 >
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index e1b550664bab..ed48c292f575 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -115,7 +115,7 @@ void device_pm_sleep_init(struct device *dev)
->         dev->power.is_noirq_suspended =3D false;
->         dev->power.is_late_suspended =3D false;
->         init_completion(&dev->power.completion);
-> -       complete_all(&dev->power.completion);
-> +       complete(&dev->power.completion);
->         dev->power.wakeup =3D NULL;
->         INIT_LIST_HEAD(&dev->power.entry);
->  }
-> @@ -252,6 +252,10 @@ static void dpm_wait(struct device *dev, bool async)
->         if (!dev)
+>         if (!psd)
 >                 return;
 >
-> +       /* Devices with no PM support don't use the completion. */
-> +       if (dev->power.no_pm)
-> +               return;
-> +
->         if (async || (pm_async_enabled && dev->power.async_suspend))
->                 wait_for_completion(&dev->power.completion);
->  }
+> -       INIT_LIST_HEAD(&list);
+> -
+>         pm_clk_list_lock(psd);
+>
+>         list_for_each_entry_safe_reverse(ce, c, &psd->clock_list, node)
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index e1b550664bab..d0c7b1d4101e 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -1257,11 +1257,10 @@ static void device_complete(struct device *dev, p=
+m_message_t state)
+>   */
+>  void dpm_complete(pm_message_t state)
+>  {
+> -       struct list_head list;
+> +       LIST_HEAD(list);
+>
+>         trace_suspend_resume(TPS("dpm_complete"), state.event, true);
+>
+> -       INIT_LIST_HEAD(&list);
+>         mutex_lock(&dpm_list_mtx);
+>         while (!list_empty(&dpm_prepared_list)) {
+>                 struct device *dev =3D to_device(dpm_prepared_list.prev);
 > --
-
-Applied as 7.2 material, thanks!
