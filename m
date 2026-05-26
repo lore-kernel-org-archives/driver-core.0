@@ -1,73 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FD2388363;
-	Mon, 25 May 2026 20:32:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C955810F1;
+	Tue, 26 May 2026 00:04:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779741145; cv=none; b=cNgld8Zjrqv00uy3tbspT9WeUlzO3liyLSo9ihkzcl91sGrKaGRbSOXdu/lPE36zffMeIlh7YKXKlFH9/LUZwqOK19ViPu9Kro542hbCYNlS+arzaSbnQLO/mPHuqyjFmmI4Mj+/XOx/UvSJWssMS5ZD7smiSNdRcj4CQuRFIrE=
+	t=1779753899; cv=none; b=EMuQgd2FfNafOpeYhDdoe9UneWNYfGnnloS8TKl5QF5Bzwn2JIPv5MPUsDk4OD0GRjkgORnd2OjldfehZYZAbAzOxF4vWY0DkF+pwROj1noAfWQW8Yj2fBDYokcyC4rYZfstBxetd/Vh0ZOVOBnv/C0CS1Y35P8ju+w+BjzB47Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779741145; c=relaxed/simple;
-	bh=n9OSdO3AwMmlBW0KtaOxaurI9/V+4mxLjp0ERUUz9nQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AGR6gBjiieySNa93kFsAp/QlF3o23HYyHiqscYzw72pVc28tn5N1W16i84hwNZY8ANwsTAt2aVmqwX2Sfp7T2LFzHInxWdcqzz5BQubJBIv1FuscIWNCqPz3lhvRzy1AuasYhVtjihPRkKoCK/LhkzDRz5rKpGQIPsC3cOTcfck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E5Z15P9j; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779753899; c=relaxed/simple;
+	bh=S/KV23k5E+ZHvvYsv3BgN6hxlVDS53QgQDx3k1VZNDc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u75cielDKiXRufSE/hguzfz5Dw3YcBtBL4THIHpKq5CmNXNOICm30CzTVJY0WL2UWQDAEYholvCfZbZVAnDb447FOuXOAO1nODPEqsoi1QOR4z9bcPppAgOGOIF9ZRzmNivSLp6DNvyhXot/JgRrYy/F4QPSaj1UVq8JjfJYvpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IzgUhAMs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E5Z15P9j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 269F31F000E9;
-	Mon, 25 May 2026 20:32:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IzgUhAMs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D6051F000E9;
+	Tue, 26 May 2026 00:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779741144;
-	bh=+rPmKZf6uaQzYhVqY2DDZC+3sDd3VtNWS1o0vbSmOWw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E5Z15P9jRyUCpIVYHnJfOk9/D8atKgXHRLvLuzY1yly8rDaOEcFJr6aenLpt9wHkp
-	 /w1H2/iDK/CnanATE6FZIVUJjMGIiJaMeujyma+KBb5394RaHkIALs2YfTi5S4eZQZ
-	 IVmrNIqu0IQYPP5bqkgyH5stRJqYoDMAzQb4A9Jkw2dJoegGPX1CSsF+cCMMZ56PG7
-	 QR0c7fRMSXTWyNelz2+V3zbiV6ZLXRloDG7wZ48WsDWNiMGDkVK6VBjERevJDCeaeI
-	 GohDsI7+lvwSPSkn9t8Cud0GrpoCkF8iQUbbZLpfaCFu+vtTFo/qYNVAEJKeNpHz2x
-	 UHOVDH2VZAwEg==
+	s=k20260515; t=1779753898;
+	bh=pgU0amePLd+Vep5Wq8QDJmHdCM+RZhR+ZJLB9OFFZRQ=;
+	h=From:To:Cc:Subject:Date;
+	b=IzgUhAMsqp54bm8XXC2Wt5uoavLjZBQ1QJbuUIQnUJRrDKph9w7T2hXbatxnliRDB
+	 2cI+gHh5hqFRDFFT3w6eBBoXFKE4WPBMTs/CdzhuJ8nyk7hUdlTsOT2KkT7tVCxw5Z
+	 US8/TM8Clq3XrKhqG8wMVVcYBaCfBIVBOTKH+fwv1tnSe4HIk4swWwxDDgVOuGkQ1g
+	 QE2rmHRsQQdp+sHAPwzqhwcXs6lYC+rKffhwHUin03EnJRBC5I99EKaUVQNOm3bSNr
+	 hSZ6ZtoZ06/Je+Fmt9A/7kfy2iOw0f/drNRklArIUGt3/9tguTJfpD1ke38gvLvzDJ
+	 F9snbgvvfW9PA==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
-	acourbot@nvidia.com,
-	aliceryhl@google.com,
-	david.m.ertman@intel.com,
-	ira.weiny@intel.com,
-	leon@kernel.org,
-	viresh.kumar@linaro.org,
-	m.wilczynski@samsung.com,
-	ukleinek@kernel.org,
-	bhelgaas@google.com,
-	kwilczynski@kernel.org,
-	abdiel.janulgue@gmail.com,
-	robin.murphy@arm.com,
-	markus.probst@posteo.de,
+	dakr@kernel.org,
 	ojeda@kernel.org,
 	boqun@kernel.org,
 	gary@garyguo.net,
 	bjorn3_gh@protonmail.com,
 	lossin@kernel.org,
 	a.hindborg@kernel.org,
-	tmgross@umich.edu,
-	igor.korotin@linux.dev,
-	daniel.almeida@collabora.com,
-	pcolberg@redhat.com
+	aliceryhl@google.com,
+	tmgross@umich.edu
 Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-pm@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Eliot Courtney <ecourtney@nvidia.com>
-Subject: [PATCH v5 24/24] samples: rust: rust_driver_auxiliary: showcase lifetime-bound registration data
-Date: Mon, 25 May 2026 22:21:11 +0200
-Message-ID: <20260525202921.124698-25-dakr@kernel.org>
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH] rust: devres: add 'static bound to Devres<T>
+Date: Tue, 26 May 2026 02:04:41 +0200
+Message-ID: <20260526000447.350558-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260525202921.124698-1-dakr@kernel.org>
-References: <20260525202921.124698-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -76,120 +52,55 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make the Data struct lifetime-parameterized, storing a reference to the
-parent pci::Device<Bound>. This demonstrates that registration data can
-hold device resources tied to the parent driver's lifetime.
+Devres::new() registers a callback with the C devres subsystem via
+devres_node_add(). If the Devres is leaked (e.g. via
+core::mem::forget(), which is safe), its Drop impl never runs, and the
+devres release callback will revoke the inner Revocable on device
+unbind, which drops T in place. If T contains non-'static references,
+those may be dangling by that point.
 
-In connect(), retrieve the parent PCI device from the registration data
-rather than casting through adev.parent().
+Add a 'static bound to prevent storing types with borrowed data in
+Devres.
 
-Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Fixes: 76c01ded724b ("rust: add devres abstraction")
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- samples/rust/rust_driver_auxiliary.rs | 58 ++++++++++++++++-----------
- 1 file changed, 35 insertions(+), 23 deletions(-)
+ rust/kernel/devres.rs | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/samples/rust/rust_driver_auxiliary.rs b/samples/rust/rust_driver_auxiliary.rs
-index e3e811a14110..2c1351040e45 100644
---- a/samples/rust/rust_driver_auxiliary.rs
-+++ b/samples/rust/rust_driver_auxiliary.rs
-@@ -51,16 +51,17 @@ fn probe<'bound>(
+diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+index 9e5f93aed20c..2e258d31a45c 100644
+--- a/rust/kernel/devres.rs
++++ b/rust/kernel/devres.rs
+@@ -122,7 +122,7 @@ struct Inner<T> {
+ /// # Ok(())
+ /// # }
+ /// ```
+-pub struct Devres<T: Send> {
++pub struct Devres<T: Send + 'static> {
+     dev: ARef<Device>,
+     inner: Arc<Inner<T>>,
+ }
+@@ -184,7 +184,7 @@ pub(super) unsafe fn devres_node_remove(
      }
  }
  
--struct Data {
-+struct Data<'bound> {
-     index: u32,
-+    parent: &'bound pci::Device<Bound>,
- }
+-impl<T: Send> Devres<T> {
++impl<T: Send + 'static> Devres<T> {
+     /// Creates a new [`Devres`] instance of the given `data`.
+     ///
+     /// The `data` encapsulated within the returned `Devres` instance' `data` will be
+@@ -349,7 +349,7 @@ unsafe impl<T: Send> Send for Devres<T> {}
+ // SAFETY: `Devres` can be shared with any task, if `T: Sync`.
+ unsafe impl<T: Send + Sync> Sync for Devres<T> {}
  
- struct ParentDriver;
- 
- #[allow(clippy::type_complexity)]
- struct ParentData<'bound> {
--    _reg0: auxiliary::Registration<'bound, ForLt!(Data)>,
--    _reg1: auxiliary::Registration<'bound, ForLt!(Data)>,
-+    _reg0: auxiliary::Registration<'bound, ForLt!(Data<'_>)>,
-+    _reg1: auxiliary::Registration<'bound, ForLt!(Data<'_>)>,
- }
- 
- kernel::pci_device_table!(
-@@ -81,33 +82,44 @@ fn probe<'bound>(
-         _info: &'bound Self::IdInfo,
-     ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
-         Ok(ParentData {
--            _reg0: auxiliary::Registration::new(
--                pdev.as_ref(),
--                AUXILIARY_NAME,
--                0,
--                MODULE_NAME,
--                Data { index: 0 },
--            )?,
--            _reg1: auxiliary::Registration::new(
--                pdev.as_ref(),
--                AUXILIARY_NAME,
--                1,
--                MODULE_NAME,
--                Data { index: 1 },
--            )?,
-+            // SAFETY: `ParentData` is the driver's private data, which is dropped when the
-+            // device is unbound; i.e. `mem::forget()` is never called on it.
-+            _reg0: unsafe {
-+                auxiliary::Registration::new_with_lt(
-+                    pdev.as_ref(),
-+                    AUXILIARY_NAME,
-+                    0,
-+                    MODULE_NAME,
-+                    Data {
-+                        index: 0,
-+                        parent: pdev,
-+                    },
-+                )?
-+            },
-+            // SAFETY: See `_reg0` above.
-+            _reg1: unsafe {
-+                auxiliary::Registration::new_with_lt(
-+                    pdev.as_ref(),
-+                    AUXILIARY_NAME,
-+                    1,
-+                    MODULE_NAME,
-+                    Data {
-+                        index: 1,
-+                        parent: pdev,
-+                    },
-+                )?
-+            },
-         })
-     }
- }
- 
- impl ParentDriver {
-     fn connect(adev: &auxiliary::Device<Bound>) -> Result {
--        let dev = adev.parent();
--        let pdev: &pci::Device<Bound> = dev.try_into()?;
--
--        let data = adev.registration_data::<ForLt!(Data)>()?;
-+        let data = adev.registration_data::<ForLt!(Data<'_>)>()?;
-+        let pdev = data.parent;
- 
-         dev_info!(
--            dev,
-+            pdev,
-             "Connect auxiliary {} with parent: VendorID={}, DeviceID={:#x}\n",
-             adev.id(),
-             pdev.vendor_id(),
-@@ -115,7 +127,7 @@ fn connect(adev: &auxiliary::Device<Bound>) -> Result {
-         );
- 
-         dev_info!(
--            dev,
-+            pdev,
-             "Connected to auxiliary device with index {}.\n",
-             data.index
-         );
+-impl<T: Send> Drop for Devres<T> {
++impl<T: Send + 'static> Drop for Devres<T> {
+     fn drop(&mut self) {
+         // SAFETY: When `drop` runs, it is guaranteed that nobody is accessing the revocable data
+         // anymore, hence it is safe not to wait for the grace period to finish.
+
+base-commit: 56785dcb2ef6d3cff82ac33f2e34db94377416a3
 -- 
 2.54.0
 
