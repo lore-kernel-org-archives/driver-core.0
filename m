@@ -1,284 +1,262 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012047.outbound.protection.outlook.com [40.107.200.47])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012028.outbound.protection.outlook.com [52.101.66.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECA5175A9A;
-	Wed, 27 May 2026 01:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7176854739
+	for <driver-core@lists.linux.dev>; Wed, 27 May 2026 06:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.28
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779843797; cv=fail; b=aagA5mT9rRdfhrRdVn5TbXa2eB1pG6XilZ0qXxC4PHO/CZmtHWLiDZDhKTmsX6ER9uQ0pTymPt2ZK511oMQBZnJRIWJ+FISyHxE/BknrVkNa0SSyEKkqFU7t3logHHrptSwvcorF/99cb2GE5gDCgGRvekerMRBw+9A0GB9b12E=
+	t=1779862755; cv=fail; b=TGg+sFWXzp/1afC6IGRKPOfbeDpaQBkgXsagYhjksosLDgnPzQVBvGH7UAy0RnzBeuCRqPgbNbsEc/aGExblx2lwuULhh8K5dM0Nr66nZioBMJx9V1/XlsNDwimmuTop5em3kQ6PyoT2IV6UXej2VuE83vmx3peo4oPu4+20qyw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779843797; c=relaxed/simple;
-	bh=pMibT15WJJJVsoZ3f6DPfGXMjMGLczcG4eT2u6tLsdg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=hllu5bOkSXdoaQhpPAS+a6xIqZXPTuNg1KHgg2lLzeR+13w30fHhExGFGbEd15tmDNE+am147qIb9ast6Pvac5hBmazJ/6edoN5rjfdGiFityHZYDnMhoJNC9rzVQBl79c5jVouI+o7FYGvXu+z8ZyjdbGgmjSiUWE4JbTBR1/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DZbVYGNY; arc=fail smtp.client-ip=40.107.200.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1779862755; c=relaxed/simple;
+	bh=/5O+O447f72vOmzQWXeq1BW8x0krzbAg72giDjoD14A=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=jaPdYec2nN61mMW7O9gGXxDVyKKk8bllOrmY0aGr8Dm1bN1jbqbaROMPofDYEc5JhNKdow9OHap781auDTddEVXFLi4LnEjMqaOL8vwvOcB59X3+0iXVRT54S7wxxwCSNW6WWuPEKf/gg1YX9vbIjBPeapwEF8/saOoVRN+9nGg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ldY7BiXu; arc=fail smtp.client-ip=52.101.66.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DZbVYGNY"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ldY7BiXu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e1ZMjYCGO61MtStugfnncuelWVaAH00bzZh3p0rq0pXxkvf7ALHgVydvZM67nf9mv+6uZCB1wcQI+tn5VDT/XtvPFIXaOYmHTwMMwk6AcgXtWPL5r/zn14cSnWd117lCqoqW7TRp5NED90RWN4UxxxMCiyABu90xDSUTlALddHVPCXpfNd1ywcSOJq/nDXLhIKIYIFcP5R5Qc95i66c9SHMzr9kzalgp13VvMHf+4F+aVj8miWpIHXSB+8gIQs/D8AlDDJ79DVn+LYeA9l2GjrzhRgRQaBduhiWEOgZGbSUu23vBl9i4gg3nqqTahvm0ROBjnzOLxuAFNIlx40JPzw==
+ b=Rg2njahBEydpk7PVs8i1DDRDqxDzAQt3CYliyErjgIHJ70trMaveS54LyH2m09rF+V7FIfFk9AZG19XqQvag5XbNaoGDUy+Z+rv1mEhFOp1iNLn/djmBkPn5xXxFtaB4nWwp5XEyK/EQXg7935nekqICcXGTDrSBRNmhH1a1JE5NMsrI/6faMIG3WaFGzhQNptRIjs+9/bG6FWceoEOEH3txwX3d5lZ31ATSTo9n+iT1lDeyY2dN8rCAqWmCdSckhLLDtW22ZzF42Mdfqb73LfrsjfvtKoVVVQTiMmB5GZLgTnFgHz51Z9Wx3QUTvMMcYi5rhNmwdzrSupMU08wWfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=//mo3MB22hL8wjit5cnvdw4bM9frEzdVrgdBnUKDeuE=;
- b=anWzliGkSTVx99vKXLJfpdp350CBpd7eUYJjO7LAnWbBkSZPtl+9YpVI6ZIRpVI+ysTj8nt39/UIbhc67DbK/1tqxOoxVjAgcwYXJljdqIkdSFO3Am4T2+jwzJ9rQ5LCoE8/AuZ0S2AJRJ8h1jjSUaNhjSbqENhssd+GV5HxvPw7294swHqx1woZLy4cITTlKh0EPiLAhageywvuAPEcAdz1LIuA9GOJ7BQGaHWD/wZpKvwEYujB8N0NwHDkXHNRn+rG2METiv3EX3Vb7xr3fgqy0fkm3L/xHKSg6vtT0ZcYxQj5LfYaae+VfmblNukr4/9i6sdeB8xmov0NagmbjA==
+ bh=5oxCgbGVszTzJxV4VPIbN9t1ETa+Sw7cBm39v5tXpKo=;
+ b=gi8WIoUrUQlzSTa3UkHxxYj7uOcTZBetJs6/EOw6zVT+oeN1Xo4Yf1NKUx659cCnk8E2ALjKpk/2gVG0Zjm184VaXgMmGCGTqlK3e9wJKscKQTcldwLuTtQ0gODubBzm7N8vQq6yTzwS25Rd0Auvzi6w3cE9P3PbFtuYAtp2joQguoAzb0mYZIOI2eFDfYLnfVyL9XAqgBQ+4geNx7b24vi9QVCnmSpgZwvcez/oLKbPMIl/9dtF9jj3KtPSslYHB79ZphzPAESszvKE1z/awfLqAqU9+TzPzsRmAarViUeEICHU91oohB2kJXNVdSHIQm1pux4y/CbeOVz4ABO8Ew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=//mo3MB22hL8wjit5cnvdw4bM9frEzdVrgdBnUKDeuE=;
- b=DZbVYGNYMfkeMG1b6E6L1uxJ/sohpXzfN/Z0bmFpPPAWgwe3sArD8WrmOhEEd3depmDgGPBN95jkL8MMgeGeXjbvlY4V4UpKbN+aDDCOmy96PYklKpTBeJvrfad1FX1E+8o48PCaBMnXf4LfwCoohxOHjiJquHf7aVuv47Bw/iCkzjUJwPzMBpYyf+KX2ScoBFDJ6h2mL0ChiEqPUMyFzAuFXsKw+9ke4cvrRaw5Nk5tu9pYo7QpcNTcEm+br+0NaTp2UCG0n8LXSy12xAeCWQwAaGNdajVy9De8ChVdRuKIx7Z3AR/p4U4X1GrWR1bsn1T7+Tp1CSMsyLDAOxckmA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- DM6PR12MB4450.namprd12.prod.outlook.com (2603:10b6:5:28e::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.18; Wed, 27 May 2026 01:03:09 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::5807:8e24:69b0:f6c0%4]) with mapi id 15.21.0071.011; Wed, 27 May 2026
- 01:03:09 +0000
-Date: Wed, 27 May 2026 11:03:03 +1000
-From: Alistair Popple <apopple@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: aliceryhl@google.com, airlied@gmail.com, simona@ffwll.ch, 
-	daniel.almeida@collabora.com, acourbot@nvidia.com, ecourtney@nvidia.com, 
-	deborah.brouwer@collabora.com, lyude@redhat.com, ojeda@kernel.org, boqun@kernel.org, 
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
-	a.hindborg@kernel.org, tmgross@umich.edu, driver-core@lists.linux.dev, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 2/6] rust: drm: Add UnbindGuard for drm_dev_enter/exit
- critical sections
-Message-ID: <ahZBOXFh7rb7vxzX@nvdebian.thelocal>
-References: <20260506221027.858481-1-dakr@kernel.org>
- <20260506221027.858481-3-dakr@kernel.org>
- <ahU6HgCsXWxHlH3L@nvdebian.thelocal>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahU6HgCsXWxHlH3L@nvdebian.thelocal>
-X-ClientProxiedBy: SYCP282CA0016.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:80::28) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+ bh=5oxCgbGVszTzJxV4VPIbN9t1ETa+Sw7cBm39v5tXpKo=;
+ b=ldY7BiXu51/PrJiNmAv+KNYyyBSJYhml3+QrbmxFFf68g+mST1PSwucE7FEdjPohRPVpKu6WA+2GxaUx7+W4x7OsNL3EX1VQodQgZRWy5kz+J8zAvyMZ+XpPj/IRxz1Phkxog1n69lYrQKvJLnWVviodBSa4Pw2+vCrKAH95c6tkbel7iOCXlXubQxKQuyj0Hz5CjaEdVXVjouqj1glufm88dbDmuqS3hJ50nq1zzSgsASRK7WGEiJpw+CxABrdSzqDPfR4nfPyNs0tQP6LTKhLXKgHsSQxH2Z2iZuHUZhNdvsrqAcwVjA6K3HtQ/4ziCUjvIKzxWgUe5kJ+KRXSlQ==
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com (2603:10a6:10:2e1::11)
+ by PA1PR04MB11507.eurprd04.prod.outlook.com (2603:10a6:102:4e2::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Wed, 27 May
+ 2026 06:19:10 +0000
+Received: from DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::c67b:71cd:6338:9dce]) by DU2PR04MB8822.eurprd04.prod.outlook.com
+ ([fe80::c67b:71cd:6338:9dce%5]) with mapi id 15.20.9891.019; Wed, 27 May 2026
+ 06:19:10 +0000
+From: Xu Yang <xu.yang_2@nxp.com>
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"rafael@kernel.org" <rafael@kernel.org>, "dakr@kernel.org" <dakr@kernel.org>
+CC: "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Jun Li
+	<jun.li@nxp.com>
+Subject: About device_links_purge() warning
+Thread-Topic: About device_links_purge() warning
+Thread-Index: Adztn/JkRurhoGfrTyWbeVQ53s0ihQ==
+Date: Wed, 27 May 2026 06:19:10 +0000
+Message-ID:
+ <DU2PR04MB8822AF9D63FDC335D80DABC08C082@DU2PR04MB8822.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU2PR04MB8822:EE_|PA1PR04MB11507:EE_
+x-ms-office365-filtering-correlation-id: fb7a7f5b-0f49-4caa-cf3d-08debbb7dd77
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|19092799006|38070700021|18002099003|6133799003|5023799004|11063799006|56012099006;
+x-microsoft-antispam-message-info:
+ cLV+5LLVSBqhB8I6jngRSOu4wqBxhYT0IV2eEe7e03ZpCfKMcauKa6nfYvQDLIAC8H9yCjfp9oiwyfu4m7uiBaNHo6JfB53TRl0cfiWzLbJxhy5kyBDdVjXuexYzl4Mbb4gs2eid/m8Q+MYmCcVfjhLioP5mPidjaA9DNpuaNoDXIgCHdCc2TrB5YgJrsuwULeHjKY1tS95jlYEOGMk7G/EgoUYo2laMLdk8c2XyfsGik9ubbo7WTH3Ef35NffGTm4ByFrE5AE6ix0ZUgX10KQfnHVjGBWvxmR633ca6bAAPc4mihIRiqJwowvhQ4T+7wInpeYk2H+TdoALyG9wdCGV1NgdQbG7XTOHAgBYBvS2rnhgWqimRQK1lZYMNfd5pTBEavbAdeSKwGt9fJJQX3UHndqx3a8W7SvYoC6hW8POEDXDRC5utjLDXCRECCLju3XZ3JVPKiIk9NCm78UUBpCtiLeX6pHa072WCIMpwMTGzo0PszNrU8qanEhUHBRcpdEiH2yUi1svnLFmbb9nR0/mAyrBsZADX54LmxVdoJnt0znvMRtlwcClopcj6rQ/KiblQL8rHdPQkshaYmwp9HoAmdmCYGaliaiumVxSbkMJahUWxVFzFAHoGUtreQW0q9RfxTxas5FcGLqAPb2bjmwirfwNBGQL2SjAXmVDDOG07neZC6fd4jSXpJN0w3G97sGj3bBLKbyk9BeFVz/30AkN2FGq2P1kljnhqgIATfy6huBDZYxE/Nqw+JLZj6vSf
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8822.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(19092799006)(38070700021)(18002099003)(6133799003)(5023799004)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?p0KWWrFSFSA1dOwrtSgIye6LnIdQnCNrpRwmbdQw/ipAvqPMwrXqH7a+N6i2?=
+ =?us-ascii?Q?FEyAiXZpYnJFOa/eObg91pVuiT1tUA/2drG5HthJ82xWI2EabwG/2h5QqOhK?=
+ =?us-ascii?Q?LKbvglA/yEiFS4VTxVjLdCrWw3d823JbTv5iIi9rfuCYkoYQ1T6SiTG0iR0+?=
+ =?us-ascii?Q?D+9JRNuMeg9r5F69PyQ6E7c+qR3cSsFiJCqeuEAghGDgfNIHYfUAUb1TYK+a?=
+ =?us-ascii?Q?pb1xf50F8As+FSRJSOTXz4pD66P6tvspjHDQLzqSMrTR8vVib20VEYRXVmpE?=
+ =?us-ascii?Q?rB3bAV+kealHT7k66DZDooKKYOmCr4aMiOagmAZwhyVWzANwAoSwXO5++J2v?=
+ =?us-ascii?Q?fsV+Ng1+8251ZVwKWmE7jRNiVylYCsy6xkuXqjTNqSWNN8VckZMxwOOACYaM?=
+ =?us-ascii?Q?9cD3cF3GDYP93RDK/DFgO1nNW32Oh6Mo3AxL1IxYQjB079JpVPfOva+abRlL?=
+ =?us-ascii?Q?h0m0p9l+SVncqISrTxeoj67oSh1uG0u7aF+3lXHvHW7zey9lLGovr/yAdXh8?=
+ =?us-ascii?Q?tYJkbj1LscbN+MF53hWh36IjHTmeJQb8BGKuz0BEzVgIoTv8OZCBUd1ugNJZ?=
+ =?us-ascii?Q?hwgmYwc3pDQzxn+dvFNzswvzxLJJyWy6ensrIhBkPTLLahAzgeZ58sF7THla?=
+ =?us-ascii?Q?3FnBayD2KV1/5Ic/LMdXsBEUc86cwBziWTAVMM1DJV9DqQM/VJcAfVsrWlkA?=
+ =?us-ascii?Q?Yj2svfAtSg8b5Gt8vyl9T4wxg41C23JlBcQGUWQC3KMddt9XDW8iofDbFkDM?=
+ =?us-ascii?Q?udJwyb5xr9HM/I+95DNleFdPl26quIgdFszESbEgn54IAjP43aGRMyAaAg8c?=
+ =?us-ascii?Q?Yu7EppheSJkNsLk+6i5HMnpwGpMNmxdBf/Q3ABxDISZ1nBkTaQ30F0v0tCwO?=
+ =?us-ascii?Q?k0FtCkvuxxDAsXH/0J0XdTcWe+9h7aMw8iJjUwRIA7BxYl6h4u7ubL/CVDxg?=
+ =?us-ascii?Q?tGsC9zX4HkZjaUAWNh5Pa8TKJ1Nvot7n7qpQfDEAJpsmavSgn1MYvnis48XW?=
+ =?us-ascii?Q?taF/uP/Y8V/cVLrjMI++uiv8nXQ0O0GjRocm3YroD5JJAUfUH95G9QjYppch?=
+ =?us-ascii?Q?om/L+/w0S5QCXxoz25Z834Wtdyr2rYwhA/fTih0LuVr9jPhrj3DhhUozclii?=
+ =?us-ascii?Q?A1bfvFLWy/M6M0asuKU0D7CXnm0mM+tyuFHHe5BGgAPEOMcOnmzCcuMaK5rW?=
+ =?us-ascii?Q?cMDqeeAAAX0ybubdnCHvV6Ff2OSaM0ts8vs63WmgPgmL+f2IU6SdTOUhFdVc?=
+ =?us-ascii?Q?uac9Ot+exR2dy2QjXCi+/BAhktIctmnkscXHu4UW60uTiiHZ+OVMbSRcA6rx?=
+ =?us-ascii?Q?nk/Gu/6Gsrpmhq3EvP7/U14C+ztZc4/IvgMj83DLqnymGHJJAJqAvHBlH4gw?=
+ =?us-ascii?Q?ybv97HjHXnyUhd7xiZaTvrS+dP8rrgcHifJVGlT2i2LzAuaCMSojshPBoXIh?=
+ =?us-ascii?Q?soc0ttueOWpPqWQ7fPgeYH+PJ6ZRN6SolckmY1QUtnAG1VdZL1wLVvok8FCs?=
+ =?us-ascii?Q?RVA6jVpXGHvfnjEGrwsGEOdAqgXhWx10GwrzWFbVxt5zohjIVtBUuz+3xCQ1?=
+ =?us-ascii?Q?Mfy3nsfo4paaUAtfWcQykV7vjiHHhsvCk0fLlBevz21yki1wKLbEt7XdkXJP?=
+ =?us-ascii?Q?G7IAnxInJ19rwYG7drEtws+/nscfhk+haLdSAfg3Sc3Sx6YvUdUwnOdFAVgT?=
+ =?us-ascii?Q?mw6gv4oLEGx2a3GC6DT9LrigOaucxyN7iBkMUU3i/Qo4c+so?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|DM6PR12MB4450:EE_
-X-MS-Office365-Filtering-Correlation-Id: 72f17ca8-c288-4de5-17c7-08debb8bb77e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|22082099003|56012099006|18002099003|4143699003|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	gI9k0xkBZgrF9Y6rlbT2rbHq4dJp+UBsTwXQuzEDt81JfaKot0+Jgfp0eWXvFM7HUl1mGPbkj7D9j/fE1m1qBL+ogZJydIEKmcn8/f6U2gpg6ztPL4KVdJgDwgBRR3GDfZHrgVY7bVvy59oCRywTx+KBnwA70KCziYGo2PSr9AEtAiv53gyPZvhhYELlzmcjHqhvpEHAHou3SskCzUh6fOe+k63suSkb5mVST/ZSlqOez8a2Q/ovKUtXuymQ/qpHiQ/7tbiO/lXUoo66iX697ynjLG2o7zbP9N6+jdkXEzVFK/TF33FjU79IPV5Vmhy3Yaky1V9F3Vhi8dJRRExEeMgTpO8ZDmGFWia+3STW74WBZkF5vsMjuD1C8u3APB8nr0J/DmAIoNh3ZYDRbfZXCM5e2Cp5RDpw6SKwQJ5z1KI5cb2c7z7zh/URNMmI9Od7njCnaSK9ZJvZjjSlLrTJd+WhCCWzqIZprJ634son189HxOWZ56XG5dLBNjmrSzJwweSm9XDevw2vUc+Ufnd+pbtV1hX9R7gtNfJI2PtXjS4ZoCvTRTtlbJwu3nfrXngNAp+Us57ZgGjyUJbR2H/penCEbwL/F/t8GFx+9W0bnNJLTMPiHJdaHy//oAyo9Ue2HBZRrIFO5yxGgz0ApUyf4Mu1deKRmrYtPTx+HmXMUxWBasRJAxO3CfjmLscqEN7T
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(22082099003)(56012099006)(18002099003)(4143699003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?G2XlLdVYs2WuGZob1j5otA82vP8R5GdTy/OAdv+CT6YV6WueAtQfmuwaMpGv?=
- =?us-ascii?Q?bkDvT8z0ihVgJ9cXt1b9B0+iTo/QL0GU8ze6n3gmOeJI+JrAWxh8qMEGhs2F?=
- =?us-ascii?Q?TCOKCtjLJF8UdjJHOPEzaCUa22mwrrbtBbgm0qHzRu+LlMHjpSgRD8G1gO50?=
- =?us-ascii?Q?25Pd8UK+XPyqnEw5XwiEnUQ02hmq+LJ4xS6sBw/tQYFAft44UN/FYjE7s4ix?=
- =?us-ascii?Q?H4AFzK1WxSRmZ+ib0yz1cFkwJ0tpFAfRYaA+uMyCv/nw7MDhNOP7QywRRy3I?=
- =?us-ascii?Q?mC4on7wXGpPDmDrfE0VU2JTsJyd/iKTo6tBuWwGLFeiyKJsi0Obey8uQSyhZ?=
- =?us-ascii?Q?BYpSSQRJoCzFU4oN0fyAJ/SMe+LcwGMAET+oOrhHIxj//6MavqG5D01oy+NV?=
- =?us-ascii?Q?ym45BsNhq9nL/iM9fXG1tvlDfZuYCfabGRpFEHxz2NYjjPheHXEjIy3C1ncO?=
- =?us-ascii?Q?jSyJiPQ9D1wyT9do3+/VfsfpCmk2Oj2xhNZjeF8ZsDN/i1a5/Hw7Rk1nf8Bk?=
- =?us-ascii?Q?VBrYf0pf9iMHYnltfLaR1+yMHi1Ts3BB3mEdhqZ3XoQlXqTiCCFdojHB/DPa?=
- =?us-ascii?Q?12/RXFs7sUkFl9o+6olUK9VFfxO3WFf0U4e01TgkFpUrEVU5eNqycdfnj3gH?=
- =?us-ascii?Q?p0Yx0phKD3X0yyHd5QVyFaDg/2nO4rjAeS/GOKQDz0VyEpLeKH9LBDiKNVpT?=
- =?us-ascii?Q?h9nzVYK4pcoFG0U7dfXKvFZaRd+KAL1oywTJiWI7MAbYYDO58MjWNPZsBkjD?=
- =?us-ascii?Q?rsX0MTDjhiz4wuh8AU4c5RSryRffkXS5Bie1yIByTkjp1OHul5Y8muM6Y4mR?=
- =?us-ascii?Q?nGhUsg5lT9NSd066l8OArIUMVqzz8VyLvmpXhl5k+99+ZyZEqMkqeuqPWZ71?=
- =?us-ascii?Q?T9u089jflokIans4s++sJbMw4AYDGqMzxA7QsoQ73SAfhDwdGp1XrriOufSK?=
- =?us-ascii?Q?35w8Y29eUzuBCuyvQq5tLnRMf4GPgvSvWjK/VoJuMGoEQe3GOBlrIMTSCTUy?=
- =?us-ascii?Q?nFFb5jjNi0CM6XMMPvMeENc5FchbzXN87RE9ros0sg3UUECIzqQdxb1NvPBw?=
- =?us-ascii?Q?F9yKSCA/daB03MMS9ya+7ujcn+XCmqmoz6E+uCE8Jo9StUaKcvDgudfeLxjV?=
- =?us-ascii?Q?awRqWsD32Oq5HU6ozbkdCUdixNL8sgFCjN1BoKZmY8Jo4xYk+rGlT9ubNoi9?=
- =?us-ascii?Q?ABB7IZ+m4+EUpNEmDniLTk+qbthF3rtVibI7g8gRzKEpCzO+rcOVi3qRp2hc?=
- =?us-ascii?Q?lFrGUY+OXV/YOujhUE2NV63fKLoNZMiOnIwzz3WEVwxoo2BlODmdycK+1GxH?=
- =?us-ascii?Q?bfp5yR9ALAsUwW/qXVNRwyG5Eb6vvchoguFRGdnU7YpnRgmKx+kEcWnSRToU?=
- =?us-ascii?Q?7LCpq9UoIYAFgeDHcywpXC9ROu4ZQlhgGLb7alenlrfKfpMLMXjUXy82Jp+H?=
- =?us-ascii?Q?MTN4k4ix9F9HqTDkcTVvTUFtEhJMh3UcM8BYQUU/MDo+zRRfzH3srDP7Wat8?=
- =?us-ascii?Q?TAqJh1YBRLwYlu2e6hnjANl1mh3yNdSw6RJttfBVMdQ5esOxkqSmLurAfDVx?=
- =?us-ascii?Q?2S2eEJwt9epviHhzv6cQsuspY7vpz93k39oihX2AyMCDFpbH8XcbfLDI3MpY?=
- =?us-ascii?Q?AxyrD6+EgkO50RWBsCcoffTerP7WytkA/peVrqCooPlKk7wV/7ytGoX9wx8o?=
- =?us-ascii?Q?e0mgc+2Os0/MwBzk+Axis512kDhGQ+2tsW50JOcWR8PJsR/CD9JLTwujt8kS?=
- =?us-ascii?Q?UgLY+A/FlQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72f17ca8-c288-4de5-17c7-08debb8bb77e
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 01:03:08.9864
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8822.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb7a7f5b-0f49-4caa-cf3d-08debbb7dd77
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2026 06:19:10.2046
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4DAvNfaxooclIeVyOfCwiihAJrJ/RYkU/I6T3StTDf+QqQKngXJOdALt9fp+X2N5aU25dYiEcwQJtuwnQPQisg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4450
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: u60ocEQlM38BvGOmoy+k+hbFLQBnOUnYXr8rs0N68scXTvhtBbYlmevaO1suqQyt4vgWPVwuJUo+vKYPrHqrXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11507
 
-On 2026-05-26 at 16:17 +1000, Alistair Popple <apopple@nvidia.com> wrote...
-> On 2026-05-07 at 08:06 +1000, Danilo Krummrich <dakr@kernel.org> wrote...
-> > DRM ioctls do not guarantee that the parent bus device is still bound.
-> > However, since DRM device registration is managed through Devres, using
-> > drm_dev_unplug() on unregistration ensures that between drm_dev_enter()
-> > and drm_dev_exit() the parent device must be bound.
-> > 
-> > Add UnbindGuard, a guard object representing a drm_dev_enter/exit SRCU
-> > critical section that dereferences to &Device<Bound> of the parent bus
-> > device. The guard is only available on Device<T, Registered>, ensuring
-> > it cannot be used on unregistered devices.
-> > 
-> > Also add with_unbind_guard() as a convenience helper that executes a
-> > closure with the bound device reference.
-> > 
-> > Switch Registration::drop from drm_dev_unregister() to drm_dev_unplug()
-> > to provide the SRCU barrier that UnbindGuard's safety argument relies on.
-> 
-> I don't (yet) claim to be a Rust-for-Linux expert but reading through this made
-> sense to me and it's been useful for some Nova development so feel free to add:
-> 
-> Reviewed-by: Alistair Popple <apopple@nvidia.com>
-> 
-> for whatever that is worth :-)
+Hi,
 
-Which is definitely not much :) I just realised this has been replaced by a more
-recent version of this series with 24 patches, so will use that instead.
+I meet a kernel warning dump in device_del() -> device_links_purge():
 
- - Alistair
+    list_for_each_entry_safe_reverse(link, ln, &dev->links.consumers, s_nod=
+e) {
+ ->         WARN_ON(link->status !=3D DL_STATE_DORMANT &&
+                    link->status !=3D DL_STATE_NONE);
+            __device_link_del(&link->kref);
+    }
 
-> > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> > ---
-> >  rust/kernel/drm/device.rs | 80 ++++++++++++++++++++++++++++++++++++++-
-> >  rust/kernel/drm/driver.rs | 10 ++++-
-> >  2 files changed, 87 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> > index 492c2f2c7ca4..bb685165032d 100644
-> > --- a/rust/kernel/drm/device.rs
-> > +++ b/rust/kernel/drm/device.rs
-> > @@ -6,7 +6,11 @@
-> >  
-> >  use crate::{
-> >      alloc::allocator::Kmalloc,
-> > -    bindings, device,
-> > +    bindings,
-> > +    device::{
-> > +        self,
-> > +        AsBusDevice as _, //
-> > +    },
-> >      drm::{
-> >          self,
-> >          driver::AllocImpl,
-> > @@ -334,6 +338,80 @@ pub(crate) unsafe fn assume_ctx<NewCtx: DeviceContext>(&self) -> &Device<T, NewC
-> >      }
-> >  }
-> >  
-> > +impl<T: drm::Driver> Device<T, Registered> {
-> > +    /// Guard against the parent bus device being unbound.
-> > +    ///
-> > +    /// Returns an [`UnbindGuard`] if the device has not been unplugged, [`None`] otherwise.
-> > +    ///
-> > +    /// The returned guard dereferences to the parent bus device in the [`device::Bound`] context
-> > +    /// (see [`Driver::ParentDevice`](drm::Driver::ParentDevice)).
-> > +    /// Between `drm_dev_enter()` and `drm_dev_exit()` the parent device is guaranteed to be bound.
-> > +    #[must_use]
-> > +    pub fn unbind_guard(&self) -> Option<UnbindGuard<'_, T>> {
-> > +        let mut idx: i32 = 0;
-> > +        // SAFETY: `self.as_raw()` is a valid pointer to a `struct drm_device` by the type
-> > +        // invariants of `Device<T, Registered>`.
-> > +        if unsafe { bindings::drm_dev_enter(self.as_raw(), &mut idx) } {
-> > +            Some(UnbindGuard { dev: self, idx })
-> > +        } else {
-> > +            None
-> > +        }
-> > +    }
-> > +
-> > +    /// Execute a closure while the parent bus device is guaranteed to be bound.
-> > +    ///
-> > +    /// Acquires the [`UnbindGuard`] and, if the device has not been unplugged, calls `f` with the
-> > +    /// parent bus device. Returns `None` if the device has been unplugged.
-> > +    pub fn with_unbind_guard<R>(
-> > +        &self,
-> > +        f: impl FnOnce(&T::ParentDevice<device::Bound>) -> R,
-> > +    ) -> Option<R> {
-> > +        let guard = self.unbind_guard()?;
-> > +        Some(f(&guard))
-> > +    }
-> > +}
-> > +
-> > +/// A guard preventing the parent bus device from being unbound.
-> > +///
-> > +/// The guard dereferences to [`Driver::ParentDevice<Bound>`](drm::Driver::ParentDevice), providing
-> > +/// access to the parent bus device with the guarantee that it is bound for the entire duration of
-> > +/// the critical section.
-> > +///
-> > +/// Internally this is backed by a `drm_dev_enter()` / `drm_dev_exit()` SRCU critical section.
-> > +///
-> > +/// See [`Device::unbind_guard`] for details on the safety argument.
-> > +///
-> > +/// # Invariants
-> > +///
-> > +/// - `idx` is the SRCU read lock index returned by a successful `drm_dev_enter()` call.
-> > +/// - The parent bus device of `dev` is bound for the lifetime of this guard.
-> > +#[must_use]
-> > +pub struct UnbindGuard<'a, T: drm::Driver> {
-> > +    dev: &'a Device<T, Registered>,
-> > +    idx: i32,
-> > +}
-> > +
-> > +impl<T: drm::Driver> Deref for UnbindGuard<'_, T> {
-> > +    type Target = T::ParentDevice<device::Bound>;
-> > +
-> > +    fn deref(&self) -> &Self::Target {
-> > +        // SAFETY:
-> > +        // - The parent `struct device` is embedded in a `T::ParentDevice`, as guaranteed by
-> > +        //   `UnregisteredDevice::new` taking a `&T::ParentDevice<device::Bound>`.
-> > +        // - By the type invariants of `UnbindGuard`, the parent device is bound for the lifetime
-> > +        //   of this guard.
-> > +        unsafe { T::ParentDevice::from_device(self.dev.as_ref().as_bound()) }
-> > +    }
-> > +}
-> > +
-> > +impl<T: drm::Driver> Drop for UnbindGuard<'_, T> {
-> > +    fn drop(&mut self) {
-> > +        // SAFETY: `self.idx` was returned by a successful `drm_dev_enter()` call, as guaranteed
-> > +        // by the type invariants of `UnbindGuard`.
-> > +        unsafe { bindings::drm_dev_exit(self.idx) };
-> > +    }
-> > +}
-> > +
-> >  impl<T: drm::Driver, C: DeviceContext> Deref for Device<T, C> {
-> >      type Target = T::Data;
-> >  
-> > diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> > index 9d06f8c5b2da..751a68bb27e1 100644
-> > --- a/rust/kernel/drm/driver.rs
-> > +++ b/rust/kernel/drm/driver.rs
-> > @@ -187,8 +187,14 @@ unsafe impl<T: Driver> Send for Registration<T> {}
-> >  
-> >  impl<T: Driver> Drop for Registration<T> {
-> >      fn drop(&mut self) {
-> > +        // Use `drm_dev_unplug` rather than `drm_dev_unregister` to ensure that existing
-> > +        // `drm_dev_enter()` critical sections complete before unregistration proceeds. This
-> > +        // is required for the safety of `UnbindGuard`, which relies on the SRCU barrier in
-> > +        // `drm_dev_unplug()` to guarantee that the parent device is still bound within the
-> > +        // critical section.
-> > +        //
-> >          // SAFETY: Safe by the invariant of `ARef<drm::Device<T>>`. The existence of this
-> > -        // `Registration` also guarantees the this `drm::Device` is actually registered.
-> > -        unsafe { bindings::drm_dev_unregister(self.0.as_raw()) };
-> > +        // `Registration` also guarantees that this `drm::Device` is actually registered.
-> > +        unsafe { bindings::drm_dev_unplug(self.0.as_raw()) };
-> >      }
-> >  }
-> > -- 
-> > 2.54.0
-> > 
+[  128.196320] ------------[ cut here ]------------
+[  128.200932] WARNING: drivers/base/core.c:1641 at device_del+0x2b0/0x398,=
+ CPU#0: insmod/704
+[  128.209188] Modules linked in: tcpci(+) dwc3_imx8mp(+) overlay snd_soc_f=
+sl_asoc_card phy_fsl_imx8mq_usb snd_soc_imx_audmux mxc_jpeg_encdec tcpm v4l=
+2_jpeg snd_soc_imx_card typec snd_soc_fsl_micfil snd_soc_wm8962 snd_soc_fsl=
+_sai imx_pcm_dma flexcan can_dev snd_soc_fsl_utils pwm_fan fuse
+[  128.234387] CPU: 0 UID: 0 PID: 704 Comm: insmod Not tainted 7.1.0-rc1-00=
+016-g9186b1f497a9-dirty #505 PREEMPT
+[  128.244281] Hardware name: NXP i.MX95 19X19 board (DT)
+[  128.249403] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=
+=3D--)
+[  128.256351] pc : device_del+0x2b0/0x398
+[  128.260184] lr : device_del+0x1cc/0x398
+[  128.264014] sp : ffff800082983720
+[  128.267314] x29: ffff800082983750 x28: ffffbbdae88f80e0 x27: 00000000000=
+00000
+[  128.274438] x26: 0000000000000000 x25: ffff800082983cb0 x24: ffff000080a=
+58810
+[  128.281562] x23: 0000000000400100 x22: ffff00008bb65cc8 x21: ffff00008bb=
+65cc0
+[  128.288686] x20: ffffbbdae8ec4c40 x19: ffff00008bb65c10 x18: 00000000000=
+00000
+[  128.295810] x17: 3034303066316334 x16: 3a6d726f6674616c x15: 005708e68a0=
+88db3
+[  128.302934] x14: 00000000000001e2 x13: 0000000000000000 x12: 00000000000=
+00022
+[  128.310058] x11: 00000000000000c0 x10: 0000000000000b20 x9 : 00000000000=
+0003c
+[  128.317182] x8 : ffff800082983630 x7 : ffff000080001700 x6 : fffffdffc22=
+bd380
+[  128.324306] x5 : ffffbbdae6caef6c x4 : ffff00008ae7c000 x3 : ffff00008af=
+4e1c0
+[  128.331430] x2 : ffff00008bb65cb8 x1 : 0000000000000003 x0 : ffff0000933=
+30400
+[  128.338557] Call trace:
+[  128.340993]  device_del+0x2b0/0x398 (P)
+[  128.344823]  platform_device_del+0x2c/0xa0
+[  128.348913]  platform_device_unregister+0x14/0x3c
+[  128.353611]  of_platform_device_destroy+0xf0/0x100
+[  128.358392]  device_for_each_child_reverse+0x70/0xc8
+[  128.363352]  of_platform_depopulate+0x34/0x80
+[  128.367703]  dwc3_imx8mp_probe+0x24c/0x3dc [dwc3_imx8mp]
+[  128.373004]  platform_probe+0x5c/0xa4
+[  128.376664]  really_probe+0x15c/0x384
+[  128.380319]  __driver_probe_device+0x1a0/0x1c0
+[  128.384759]  driver_probe_device+0x3c/0x11c
+[  128.388936]  __driver_attach+0x74/0x1a0
+[  128.392767]  bus_for_each_dev+0x7c/0xdc
+[  128.396597]  driver_attach+0x24/0x30
+[  128.400168]  bus_add_driver+0x138/0x2ac
+[  128.403996]  driver_register+0x68/0x130
+[  128.407829]  __platform_driver_register+0x20/0x2c
+[  128.412527]  dwc3_imx8mp_driver_init+0x20/0x1000 [dwc3_imx8mp]
+[  128.418348]  do_one_initcall+0x60/0x1d4
+[  128.422181]  do_init_module+0x54/0x244
+[  128.425923]  load_module+0x16c4/0x1dc0
+[  128.429669]  init_module_from_file+0xd8/0xf0
+[  128.433933]  __arm64_sys_finit_module+0x1b8/0x334
+[  128.438631]  invoke_syscall.constprop.0+0x40/0x108
+[  128.443414]  el0_svc_common.constprop.0+0x38/0xd8
+[  128.448112]  do_el0_svc+0x1c/0x28
+[  128.451423]  el0_svc+0x38/0x140
+[  128.454558]  el0t_64_sync_handler+0xa0/0xe4
+[  128.458735]  el0t_64_sync+0x198/0x19c
+[  128.462395] ---[ end trace 0000000000000000 ]---
+
+Simply speaking, this happens when a supplier device is removed while a
+consumer device is probing, particularly when their modules are loaded
+at the same time.
+
+The case as below:
+
+usb@4c010010 {
+    compatible =3D "fsl,imx95-dwc3", "fsl,imx8mp-dwc3";
+
+    usb@4c100000 {
+        compatible =3D "snps,dwc3";
+       =20
+        port {
+            usb3_data_hs: endpoint {
+                remote-endpoint =3D <&typec_con_hs>; <---+ (supplier)
+            };                                         |
+        };                                             |
+    };                                                 |
+};                                                     |
+                                                       |
+tcpc@50 {                                              |
+    compatible =3D "nxp,ptn5110", "tcpci";               |
+                                                       |
+    connector {                                        |
+        compatible =3D "usb-c-connector";                |
+                                                       |
+        port {                                         |
+            typec_con_hs: endpoint {                   |
+                remote-endpoint =3D <&usb3_data_hs>; ----+ (consumer)
+            };
+        };
+    };
+};
+
+Node usb@4c010010 will be populated as device 4c010010.usb.
+Node usb@4c100000 will be populated as device 4c100000.usb.
+Node tcpc@50 will be populated as device 6-0050.
+
+Issue Description:
+
+1. The system adds devices 4c010010.usb and 6-0050 when it parses the OF tr=
+ee.
+2. When the imx8mp-dwc3 module is loaded, device 4c010010.usb gets probed,
+   then dwc3_imx8mp_probe() populates a child device 4c100000.usb.
+3. When 4c100000.usb is added, it creates a device link:
+   [  126.021683] i2c 6-0050: Linked as a sync state only consumer to 4c100=
+000.usb
+4. During the probing of device 4c010010.usb, tcpci module is loaded, devic=
+e
+   6-0050 gets probed, and device_links_check_suppliers() sets the above de=
+vice
+   linke status as DL_STATE_CONSUMER_PROBE.
+5. Probing device 4c010010.usb encounters an error, then dwc3_imx8mp_probe(=
+)
+   depopulates the child device 4c100000.usb in the cleanup path. However,
+   tcpci_probe() hasn't finished yet. The warning occurs.
+
+The system doesn't prevent device 6-0050 from being probed because 6-0050
+is a sync only consumer of 4c100000.usb.
+
+Any ideas on how to avoid the warning?
+
+Thanks,
+Xu Yang
