@@ -1,162 +1,143 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022075.outbound.protection.outlook.com [52.101.96.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f201.google.com (mail-lj1-f201.google.com [209.85.208.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06F9400E17;
-	Wed, 27 May 2026 11:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779883145; cv=fail; b=UA7cbKGRIz6HbQaulpCIzJ55V74FCehgq0azWJB7cDHzhEwCBRnf032I4JsnlquU98wm9nVBpKIlEY1NvNa53LVu1NKPxA3PnEKxvd74vL4jCeuqGYw637iGc3D4etws/9IbNTmZzFVMDoxd3WMx1BIen4sAH8ktWIPUqqJaIvQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779883145; c=relaxed/simple;
-	bh=77XWhYqZCR856Ui319RzPEIk6gO7v33Bp446FjbaKs0=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=NuVKRV1kSt0kBX9KR/SSqmoHvHkR5YC0OGDA6k+N+3Be1W8HEyXyWA4dxxX04CJTFBTQ7/gGCTojncFLfihNOXY1GuD5GLrTMTN39mJ1NPFs+fWfWoBI1GYKxnjhIhudYaKU0Nku+Z+7hhbV9aPfITU8oiaZ3qrDeBQxg8yc2dY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=LaqViX3w; arc=fail smtp.client-ip=52.101.96.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18E331A567
+	for <driver-core@lists.linux.dev>; Wed, 27 May 2026 12:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779884188; cv=none; b=M7TcpZx9zJevgChOUcHn5iQZI9UWy0tVLEefHvPXsmNcG6Kc29231FCr6xFSufP7Vw0CjISAyIVx4Z20Sv+uNeSfUQdAnZ9vWkZ6pspOZBxfB15TTk7FGkWIUU83R7YmFe5/lqLQuktnUoHH6bepu3EVrw9l7mNA61+6mk57i24=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779884188; c=relaxed/simple;
+	bh=hH4FUXAWRkoqD7RFxNxzVkWtnxsFjO12a4XWB+RyyEc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jIXY+EIWTPLm4KMI3RMc5iFhK8twDlSJArRKy1GX7YUFaSPDYYsr41Ed7hwCxxJJuWf0JLKgz7DYeFt5bA4s1FuUr2pllAr8XXO2Cbk4UD4b5z3H5YTNoIFtJV/LJj6+r3BCkvlPoQmeyK9Bkdk6PJJQ6h4WAQN5819kpntOE5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cfwxLBvq; arc=none smtp.client-ip=209.85.208.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="LaqViX3w"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e83HYpFfIMPVkPeKCbpMMoFlOO6zZzfIWxrNkwFtgH3aZ7xuOx8WilirFYOnC8olWyJPzvfX6mFJj1ES6zZYxpFEXY+6zqa35RHiK01+wu7jW0UUi2OyyKHPuc3baGkwpBtZP6eSlB0kX+rp46hnhq/mwRYcp5uvALtX1W1ztlA3R037eFv7ZkP77txnztU3xcikBwgwwgowcwM+p01JkmJyu287bzzjcwmQ3BEVKtk75u+OHCSICe+PuliJI5fFtkeJN2pmW7XxnqmW+wvDDnVUMOuIFTMM8dMyIIgyLm5R8kF2cKJXLkoVQZGxmiGplRw34m4UuAmvQ6Mj2JZP2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2fsrDmowFUMYXILZotlarITJd8qSx0wAIwhDA3Z6Yfg=;
- b=NHUc3Xjd92midutasbhtwXZkKpi2knaPvcQVy+MiI4i1Elm0LGwTsMbXOiGR1UKwh5RDP+eSbcW6EShQUGvN4YDbTmYo3pWYR7VGBEDb/s2y/oGa9z6Zb2tjGsSx/k0hlnhdDbU/fWW5m5kn/ZOlZ330pWk7xkhLjrxtqsQYYpyU9lYzWRyPOYbPCZiZa+M1OktJHAIWH9AG5PmqkC401XNi1DnQgbXoKWtthIZ0ET0yy8EfZAxsDW7sWeqK8SiNpUjZ4lW33et2xnUAPAbqUEzk6LhNVoruDqZMi5PfNJxpN01O1jOQyM0IIGuZWV5wJAGmU/sMyDpVDlpzmRKrgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2fsrDmowFUMYXILZotlarITJd8qSx0wAIwhDA3Z6Yfg=;
- b=LaqViX3wx5xT8i9Bcvvhv0GWy6lIiRC+vLago5U6cRmXgrPO9+B8nznpC9x2mTe99DVRr2ZwXuXJm6G37d+HsUDkuRjMIzIftfbHeoQerWOTuMUeuY+MgwCROuHY2+3clulC82Dj/aeVfXHfl0wLJB28NQ99BwwH5IrHY6m/NbA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO6P265MB6208.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2b3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Wed, 27 May
- 2026 11:58:58 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.011; Wed, 27 May 2026
- 11:58:58 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 27 May 2026 12:58:57 +0100
-Message-Id: <DITFWXKH2IMU.21KBH5CCYGRK3@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <stable@vger.kernel.org>, "Sashiko" <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v5 01/24] rust: pci: use 'static lifetime for PCI BAR
- resource names
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <gregkh@linuxfoundation.org>,
- <rafael@kernel.org>, <acourbot@nvidia.com>, <aliceryhl@google.com>,
- <david.m.ertman@intel.com>, <ira.weiny@intel.com>, <leon@kernel.org>,
- <viresh.kumar@linaro.org>, <m.wilczynski@samsung.com>,
- <ukleinek@kernel.org>, <bhelgaas@google.com>, <kwilczynski@kernel.org>,
- <abdiel.janulgue@gmail.com>, <robin.murphy@arm.com>,
- <markus.probst@posteo.de>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>, <igor.korotin@linux.dev>,
- <daniel.almeida@collabora.com>, <pcolberg@redhat.com>
-X-Mailer: aerc 0.21.0
-References: <20260525202921.124698-1-dakr@kernel.org>
- <20260525202921.124698-2-dakr@kernel.org>
-In-Reply-To: <20260525202921.124698-2-dakr@kernel.org>
-X-ClientProxiedBy: LO4P123CA0135.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:193::14) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cfwxLBvq"
+Received: by mail-lj1-f201.google.com with SMTP id 38308e7fff4ca-38e9589b7c7so5184261fa.0
+        for <driver-core@lists.linux.dev>; Wed, 27 May 2026 05:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779884185; x=1780488985; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3GySeGqKvH9w0k+SKK+eNFV995XnhG9D+usTEWb/rPg=;
+        b=cfwxLBvqwbco384Wd4LFbDYYjN1biGESgiC9QmtzqIEagRuW6TocVvQZW70zIAZLk8
+         Y3M+Fqethbcg4higZm1uCdN7OilOKVUwXWJPNhXXys+nE8y+0P8QnJZ3AqrTmLncn4cc
+         5P0D9jUMo7HClEeIhqWHUV0iup1AEzEsS1YvWJoM5ox45h1rnL3kFjaVJr8ky+cTp3r0
+         TV8lyDicWa58/Qw0ldDvDJk2KyczRz36FSjoGVwR8j9lHvAmdnxcgCBCweRe5RzOd4Tx
+         CnsH8jF9G9A+eJxqnnbV1fmFdUhcBgAOC7VkvrfUITzV/Nb/2Zvb1W5hkwYGcEcJsZ+9
+         kLHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779884185; x=1780488985;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3GySeGqKvH9w0k+SKK+eNFV995XnhG9D+usTEWb/rPg=;
+        b=E2KQMeJlTG0VJwJ/LMA+dCR4qfRXCu15Ce1UOcjqDWY1ZezmwviomXy/NoPfNm4xK6
+         XS+3Egj/gMdBjFj2NkiNhgVOYOPt49pwhM1BVyqQsgz499qrQNTLZE04tjnkU3LZdp71
+         hRAz6Cz3z787nUPfWMdF5Uk0Ic+Z91QoZI479mxD9AqIP0C/QsHJgnr62d4ZddHIbHRZ
+         WoRaLKQZzvASa6OGUGNmB02TNGEc+Lde7y2b6N4gGn1WztTbUprKo3b+4fxc5pHoLO36
+         2/Bp9XpApcy9S4ZCH825n9bqvOKIzwIX9krvFz0aOtEBRBwZh7atLv7BOYDnazoRas6x
+         yU3w==
+X-Forwarded-Encrypted: i=1; AFNElJ+SM4m5W1MhvS0ewjA6Ag7lIwDsOOpQ2zYPvqdAojiM16e+274vV9Krh3nAEnofHlNv7eprkfK0U/pfMA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy23cmyvsBdkeBjExxcb7FxVDi6Nq9untOjKe9m5VavVoxX47jY
+	gleJQhKF1qcCW1lA/UsNKb15sra2tFbw34esE4naEyyD60ghJAvx7WO73UwHZsl1p85Psa0Q/GM
+	3HN4wQwqZewubz7oRbg==
+X-Received: from ljey13.prod.google.com ([2002:a2e:bb8d:0:b0:393:7fb2:6b5a])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:651c:907:b0:396:c3c:d27e with SMTP id 38308e7fff4ca-3960c3cd3femr45362351fa.12.1779884184566;
+ Wed, 27 May 2026 05:16:24 -0700 (PDT)
+Date: Wed, 27 May 2026 12:16:23 +0000
+In-Reply-To: <20260526212857.1158294-6-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6208:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb09d8bc-1d39-417f-3913-08debbe755eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|10070799003|366016|1800799024|921020|4143699003|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Pz0AQaJt1shm0AGz6ikf6HheeS0g11czbcAIGEinVXo80lbn63bH46dn+YdwOAd9bk2IG3VcnMOEIeK1LogvAzyeWFOTAQmtgtBbvjSoAllMysjqwYVhrNFm/mfwT+JojLQPMP+pZWLftqtalJlEJB71NQS0hWZGgux+XFv5AQtE0kvHqDmOWE4bOQ30z672y0KZ68iaGhO0uAe5vnxpzUkWsJoQYShbGyiQcLxyok4FuaN//fn87iaEKaFu/dxxPe/WFALifal9qAg4zC8DKDBfBWPO7V98DO7DFiZ7aUJdbsimdzvxkv9FN8crD4cXu96l2OdhlBZP58qEoMB3ic6cVeXGYzB4JXiMHSQivwUWsUY9VoRt8QCUXeO+/u90hQzS0zPLAeQIyBiH+cv+TaFs2ijGntse+GWIkMbQDggqjBXPNVoExAXO9KA+9pLEw//EFyUIQCzzmqSfBWUU/EdQBV/GM/Oa6/jjtRo3RqMFaqDQrX9+FLTENtvrmKjHwovhJbboH9b6veDmkr+9MWVEC3RUUgTV8WaxqIP3xBzOrDmB87gpGi3xyn5XJB/P4vCzz0VyxZiUty6OMbd2Mzbh5+PjgAiwCMoFNUQbyWM7I7eVb/LMeXA3/tw6QQ37RH0UGAPW9rtm1kF3fhpE4H0jx3HoKBJ1PJvJhDR9U5prZnL9s+QJlpuTXUuzuSTZ
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024)(921020)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VXNPczFqV0xkZEJCUkVqaVM0NXpPZVNFazE1SlJuNTBLdmJxYUhGMkxHMENJ?=
- =?utf-8?B?Q2pzSWdhSGlSYmpLaFJmVFpwUmd6d1lZbXluUEJpbFpKTnJTczZ6ZDlCbzY3?=
- =?utf-8?B?YTk0N29ObVhvVG9SMHEzaWlRMGMrc01sZy9DVnlUNVo3VHYwKzlQS29ZcmQw?=
- =?utf-8?B?UWVueHV5SlFEVlFmM2VkMjFSalIxK3d4eS9LZ0Q1eG0ycnRNemVJQnR1QTJU?=
- =?utf-8?B?MlI1SnZ2TG9RcmhuTjdGL0Y5ZlhrSUYrOVFsMjFvK2t4U3hmaHovQ3kyYldi?=
- =?utf-8?B?SU9WZHRWdUxmTkIyM25JOE5PS1MvUE1jeGppWGFFSkkwTU5wYVNaS3ZkM1dr?=
- =?utf-8?B?aGlZS0dvdUpOV0V0SjkveWF6STNCUjVPQkRhR052QzMzZ0Z3aFk2cVgrWU10?=
- =?utf-8?B?RGdsM3pyZitHWXowbDFTNkJxSDNyaHk3a2VjcGxhYjZoVTQyS2VWeGh6T0tK?=
- =?utf-8?B?UjQ5SXo2cENrTndvSEJwYmtvWlJLVVFzd21NNHhrNTB1Uzhwdkt4LzFQVDRh?=
- =?utf-8?B?ejh6YXlTQk02VW1zS1hiYXRTRm5SRE5sY2xhcVJBOWdHc0E2TkxYOS9rbWIx?=
- =?utf-8?B?RmdrdGJIQUE0Qm9BNkI1dEJuV0NFRU5kS0hXVzkyK1Vkd3ErbTVweGcyRmVH?=
- =?utf-8?B?Wm9nZFo4Q1kzWlhVcHI2M1k1QWcvTnc3ZDJZNHRhaU42SXFoeHAydFc4YXU5?=
- =?utf-8?B?UW5yVGt0QWMvZXJncDg4N0tPU3hQYmVxL01oRXJNWHFGaW1udUxicGg0WTRl?=
- =?utf-8?B?bG5IQlJWMWVycHZhMkFBaHhoRHFuNXAwWFZHN3VLK0dWeWFuRndtbU11d041?=
- =?utf-8?B?bHMxc3NLcTZVVFRGcVVXeDhhNWJDVTBTRFdPQkNwclpiYmwvbHlaUEdHQitv?=
- =?utf-8?B?WU9CbkxpZTZWV3FuT2xmNURHd3c3MGQ5aklRMlpCNml5d0VLYnhkcFU2bHRF?=
- =?utf-8?B?U3JVK0VhdUI2YnRVem1QbDZnOHU4MlZyZmV1TVA1VWtDcDBiK3VwRGJqTkYr?=
- =?utf-8?B?ZzRvMWgrM0hkRWVWTnUvK1krcGRpZlFVTDV1ZWNsUHM1OXpBOWowYXhtUnRI?=
- =?utf-8?B?blYxam9CNE15eHpFWDNZZ2paQzk5U01neWNDakh0bWlxcWpRWDN4UTJEYWdI?=
- =?utf-8?B?WkRWWHFKZFVXRndkUVhna2NpbnlJQ3ROQzdrcmdNeUgxaEJOdUNZUXd5WHo2?=
- =?utf-8?B?SDh6eENnUktLL1o0MmlPS1llQWdOcnIvcGc5SExjNlhMa24wQWozRWo4a2Nr?=
- =?utf-8?B?aXc0eS94NHZ5ekxzTDJaUklBQWxiUlRTYWhudUQxRWFjZnAyRUVkM0hCK2xu?=
- =?utf-8?B?amZ3OWJteHFMTFhaUmhGQ3QxdXNFVUNRei9pS0hRWTZnMFF0ZWRsZXE1THhh?=
- =?utf-8?B?ckV0alBhWDR4Z3YrbFBWNnlpaExmY3Jya2xMRU82azY4ZyttRlJQTUtrMlNE?=
- =?utf-8?B?NDVqeVJyUzAzSXJLN09KWkFLVCtocGNiTWh5YTVqbDVYNCtSMFNnYjZUVkx4?=
- =?utf-8?B?amlFQTN1eGNKN2hQZmpsMXhPcTVZM1h3VXJCVXlOeWRlUld0TFBKVHFaWmxL?=
- =?utf-8?B?WldmQmhoYzlvM1l0OVFxa3BiK2Z5UUdXaUJCaC9hMHNxU3p1SXVuRG1YTmpG?=
- =?utf-8?B?d21IT0RuRW4wemVCVnNocGM4MlAyTU1Tc2U3TlJkS29TaXBoRUpDNTR1RDAy?=
- =?utf-8?B?T0IxQTZGckw4VlpuWTZTdUczTmZ5TUNjRm1pVnltdUZHN0t2OEZhcHhmSzdo?=
- =?utf-8?B?cHFENUl3Qk9NVEI5L2NPR0JPSzlBaFdYQnRtZ2ZqdGNqVitOYUllaE5XR0Jq?=
- =?utf-8?B?REtoaERiNmVieDBNNWRmNzZmRGdZMWdTRFFOZ3kzanJVSGNoUmNDT1NOV092?=
- =?utf-8?B?cUorOGFXdTRjR2lqa1ltNEhQODRDWnE2K2dSU0gxQThob0p4MUc4Yk1odzNi?=
- =?utf-8?B?VjV4RDMrRUVUTUFOL0txd2R0R0RlQmZrM3E1ek1jRjhRZU13TkJjMzJIV3o2?=
- =?utf-8?B?VGF3aHFNakZMZUFVOHVkSVVJYU1WenhKMk03TlRlK1pCU296UC9TRHlvaWpQ?=
- =?utf-8?B?c3hqaURsdW81dnVXTHQ0M0E4bzZCNDJFODRMVWVsSmdOUEFYMElzT3pJRkdq?=
- =?utf-8?B?KzU1amEvcm5lRTl0WDdVUkZZeWUwVTVISUJwT2tKRXVUOUhJQkh4ajlMa2RD?=
- =?utf-8?B?YU1tSzdSS0Z2eHM4M3JDTml4SU5MUUdtWU9BZVJKT2xEZTRmOW9BT0FzWVl2?=
- =?utf-8?B?M2lualFEUTA4aTNxelp0OEFRUmlMZDZONnkxQ1ZqSzlXSlZKRUFhSlNlbENq?=
- =?utf-8?B?WHRkdWw1TUkvNUV0a0NTcVlDUEtyelBqV0lTK2YzeGpUbXZ1eTNvQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb09d8bc-1d39-417f-3913-08debbe755eb
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 11:58:58.7345
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pf8LVUicx9ejqyiPJVEal4sbqKw0JCDR2yQkU4ouCmqeJwrFl2cA4TkAaPz6ylEbP5PD+uR425/krDni6s0EFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6208
+Mime-Version: 1.0
+References: <20260526212857.1158294-1-lyude@redhat.com> <20260526212857.1158294-6-lyude@redhat.com>
+Message-ID: <ahbglxo5yePyjE81@google.com>
+Subject: Re: [PATCH v14 5/6] rust: drm: gem/shmem: Add DmaResvGuard helper
+From: Alice Ryhl <aliceryhl@google.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+	nouveau@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>, 
+	Gary Guo <gary@garyguo.net>, 
+	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, driver-core@lists.linux.dev, 
+	Miguel Ojeda <ojeda@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>, 
+	linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>, 
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="utf-8"
 
-On Mon May 25, 2026 at 9:20 PM BST, Danilo Krummrich wrote:
-> pci_request_region() stores the name pointer directly in struct
-> resource; use &'static CStr to ensure the pointer remains valid even if
-> the Bar is leaked.
->=20
-> Cc: stable@vger.kernel.org
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/all/20260522004943.CDA7C1F000E9@smtp.kern=
-el.org/
-> Fixes: 3c2e31d717ac ("rust: pci: move I/O infrastructure to separate file=
-")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On Tue, May 26, 2026 at 05:28:56PM -0400, Lyude Paul wrote:
+> Just a temporary holdover to make locking/unlocking the dma_resv lock much
+> easier.
+> 
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Co-authored-by: Alexandre Courbot <acourbot@nvidia.com>
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+Missing SoB for Alexandre.
 
 > ---
->  rust/kernel/pci/io.rs | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rust/kernel/drm/gem/shmem.rs | 31 ++++++++++++++++++++++++++++++-
+>  1 file changed, 30 insertions(+), 1 deletion(-)
+> 
+> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+> index 116ed0a13eac2..1b24cb1129a8b 100644
+> --- a/rust/kernel/drm/gem/shmem.rs
+> +++ b/rust/kernel/drm/gem/shmem.rs
+> @@ -27,7 +27,10 @@
+>          Deref,
+>          DerefMut, //
+>      },
+> -    ptr::NonNull,
+> +    ptr::{
+> +        self,
+> +        NonNull, //
+> +    },
+>  };
+>  use gem::{
+>      BaseObjectPrivate,
+> @@ -233,3 +236,29 @@ impl<T: DriverObject> driver::AllocImpl for Object<T> {
+>          dumb_map_offset: None,
+>      };
+>  }
+> +
+> +/// Private helper-type for holding the `dma_resv` object for a GEM shmem object.
+> +///
+> +/// When this is dropped, the `dma_resv` lock is dropped as well.
+> +///
+> +// TODO: This should be replace with a WwMutex equivalent once we have such bindings in the kernel.
+> +struct DmaResvGuard<'a, T: DriverObject>(&'a Object<T>);
 
+Is this missing a NotThreadSafe, or is it safe to unlock on a different
+thread than where it was locked?
+
+> +impl<'a, T: DriverObject> DmaResvGuard<'a, T> {
+> +    #[inline(always)]
+> +    #[expect(unused)]
+> +    fn new(obj: &'a Object<T>) -> Self {
+> +        // SAFETY: This lock is initialized throughout the lifetime of `object`.
+> +        unsafe { bindings::dma_resv_lock(obj.raw_dma_resv(), ptr::null_mut()) };
+> +
+> +        Self(obj)
+> +    }
+> +}
+> +
+> +impl<'a, T: DriverObject> Drop for DmaResvGuard<'a, T> {
+> +    #[inline(always)]
+> +    fn drop(&mut self) {
+> +        // SAFETY: We are releasing the lock grabbed during the creation of this object.
+> +        unsafe { bindings::dma_resv_unlock(self.0.raw_dma_resv()) };
+> +    }
+> +}
+> -- 
+> 2.54.0
+> 
