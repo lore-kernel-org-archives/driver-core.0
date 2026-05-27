@@ -1,74 +1,82 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021076.outbound.protection.outlook.com [52.101.95.76])
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022102.outbound.protection.outlook.com [52.101.101.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF2E3E6392
-	for <driver-core@lists.linux.dev>; Wed, 27 May 2026 11:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C734B3955DF
+	for <driver-core@lists.linux.dev>; Wed, 27 May 2026 11:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.102
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779880386; cv=fail; b=q8Z49iCarWzHg8awmYClKkNJtwonNu9kkpBV2QYPX7NMIqlzqCDVemFD+s14wAtFcGrd4tdG04fvd1hjFVrYUk320rBGNgMl2Hms+6PkDOqSm/g/ikHo+nMY5rrfyps2VNHoP4DjtpPXBnCkWr3N2w2CPWNfCGyyYcTANUtALR8=
+	t=1779880763; cv=fail; b=UFehvupnnQC+BIjQc7bPfTZbnlChG+mRpNYkOmbH8f6GgvRR1OZgje89GNHwD0f5sYe+hQtTtVT7V2dr63TQXDl9wwmVY6X0Dxpv8tHYdyHX7c84BYACsrwd9efdsObI6CS4tiEvxONASkX4NviiD73qWujQGn59A6cED1Q40q4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779880386; c=relaxed/simple;
-	bh=cbRWyNymDskkU6PGcYvZDD3mNPc01hhrOvcO/gNt7M8=;
+	s=arc-20240116; t=1779880763; c=relaxed/simple;
+	bh=jtbtELzhE/IIApyPitgMcbhB+bA/a7NE6+IamZzWlms=;
 	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=PkJ36tXU0Wu91kVqGTb9UhSn7bhalkZK/INJvQv36SVGwaNeDXVLELHXd0lak4HtAhhOsiK0Ra2oiacIhyZM2k3wPDeZYiOej/juma3RNTSW5QDMnLYKFwqY0My0hBgVYj1Nfw4mvkYhd85CAl7xqwQlXige92HbduOiwe2/06E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=PeobERpM; arc=fail smtp.client-ip=52.101.95.76
+	 In-Reply-To:MIME-Version; b=OwG7hC58us214/Xt9DrWgvzxQw7DdOojZsqQSdXpBH1Y7Rt/VOybFu809ueQazeL2kU5MjmvagmUxvM3H2JA+wRPZ3+OF11mWgtxwoQXGAkkaZTwvVFADvSKkrQllL0hDxUjB5M1CmvUkl72bE1vuvq7jI/vNazAdYQn843uWlE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=WW47116H; arc=fail smtp.client-ip=52.101.101.102
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="PeobERpM"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="WW47116H"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oM30cBVDDUFGhjPMKvaRDIPRpcv8QflGl6sS+BRGlpKII9LeDSneWkRjr331rzs/JJrtdPH1T1B4HoYmjRt24939nEqCA1WLv9KYszjqalU0OpF2qSDiiahxxaLtDmAd4JdOQELipQyWhYoqKFX+CoK1qeBi9BJw+WVHED/2quufKON6DSV4kiB3yA1EtgQafacdZ7hbNIxKiGrDGRadFyT+GapuOV30EKkCtSFvjk9gW32GVNXUe4dATp/bDHAHmhKj/qnMDvWzum+k1CuVYITXi/Ador5rBh8bWr5VHFn36nUaBiwEL5wCKcbt9X0+W6H0QjjotzOe9ery+jWQRw==
+ b=P9yETGMeK/2HYdq5IUwnSN2U5v7h/PBYKNLp+mfuHYz7e96Iuwi/sm5oGhWjYNbmyWE4shAPBQQE0vAEzKxPCph356Ncy1sQnB3wxKKq1r43zBqK9oVjopX9GNfH3g7Q4kWkYL6xWo3q/KBeahcvAi2R8kWspQ9KAHJibN7Sm1+E6bbtHQL6v8ZLuRnn5kmHZMrZO4Dc/cPtbHLxH/5eBEonG0fCZATEW0g8jPQsVUX0CrCooLDBNU1JpLN9lhrzVE+tjkbpQw8LSFbhEiU9ivJ3mCSIVOvzMgf05oleqsTUzLT62n/yE80SizsAiXbrCTz3c4frcAnPT9J8x/LTXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0EI73U1rue17S46cSWLuaI/j9gCTjHUgvPArA/Jc0lA=;
- b=kbcfTfqv8CS9mZLPgKCtng3mEDSKcvanfsgdLM5mK79PQ/S3wwqio96RIX8o2jfIq5nMpgKG6P4RA5ZR3HUBZ3n7Vt1WFGYlbQXrSJTrdwVHmuBR27VQYCfRN2eML9kNnib8iat3CaFO0VBi8hSKd4Rm/UNCZIfypm+M7bs4dM4kSmb6LeXHZEctQIOTNZoEPDHX8GCr20XK4GYZrn6h6UmfVO8VNjxXnaHyZZdZLUnB1F/AT2HOqbu60xQQ+JFZUkODIa4dp6piQ3gjH6hPhntmEdIlFcnK9sqXOANGu0C2QiWP5ITaGtkTjarWy+G9fWe/+ksdgl7RgQ5tEYGXBA==
+ bh=HuAvmxttfNbUbxrEA+sFPoBBYGkXb1bvXgxonVYcHoU=;
+ b=OSvkAo4DTZ9xBjqjA8UJaQVLVbHwrZHZoOFhuB7+W49+ulL5aXcqetd8zsMHkjq6ZjwooScBLncD2S1WSYsgmFSfHHx9CBcLyQ1mTd72zqRrpBCGgqZ5kB7dv/6QOpjNC/ACllk0b3KX5FX/Meeh5z5dVwatNN6ORN4iPeOBCZG1YnBoQz5OfW/bBgdpKWtJzZRAoUuqjoTrl2B2S8iwcQZMBsBgeH/CzDI1xu8TJfOyBvutLMv2ho5dGElVMNxtmLH/bSPzr6ZXFBqUPg/bIRbzMkazpa4cRpIMkrbVF95mFWGZP4hiuorcHdxsT8rh+QXFwnx/HgbH3ulv7KT97w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0EI73U1rue17S46cSWLuaI/j9gCTjHUgvPArA/Jc0lA=;
- b=PeobERpMz0agxfCmcQa0I29Xx/+1NEIYXiJ2h2WEYoKS0aOFMe7qh5cHtDMDMD8m+e1FhCydD4KcbPX97yFti7AFuGZrxxqOQ2iPGZXtrNOCZJMHy9fCVs2IRycp8MgAX3pacFRDIbZUy29sfGpKhgkEVbveuWPoo8nCJnJOSWs=
+ bh=HuAvmxttfNbUbxrEA+sFPoBBYGkXb1bvXgxonVYcHoU=;
+ b=WW47116HMo6vfrBHA6GRU88LBd9d8xxVfInpiGX8Ziw8fhZ20OhbMXXZ+SddjQfFow44muETSrxqZdpkDgANTFPYc+NLp9pzqXeBC+GCTOdxm9fzkhlg+Ie9K7uN/1IF9cv+8wyUo643lFNH7+On0YghnmTZDJsCzsFPpU/wjQY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB3108.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:8c::14) with
+ by LOYP265MB1888.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:e5::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Wed, 27 May
- 2026 11:13:02 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Wed, 27 May
+ 2026 11:19:18 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.011; Wed, 27 May 2026
- 11:13:02 +0000
+ 11:19:18 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 27 May 2026 12:13:01 +0100
-Message-Id: <DITEXRBFOZLD.V7Z5AFF3JXBO@garyguo.net>
-Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <devicetree@vger.kernel.org>,
- <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH] rust: kernel: use strict provenance APIs
+Date: Wed, 27 May 2026 12:19:17 +0100
+Message-Id: <DITF2JWDL2QL.14JCFDRTJRE83@garyguo.net>
+Cc: "Rahul Bukte" <rahul.bukte@sony.com>, <linux-kernel@vger.kernel.org>,
+ <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, "Daniel Palmer" <daniel.palmer@sony.com>, "Tim
+ Bird" <tim.bird@sony.com>, <linux-modules@vger.kernel.org>,
+ <linux-tegra@vger.kernel.org>, "Sumit Gupta" <sumitg@nvidia.com>
+Subject: Re: [PATCH v5 1/4] soc/tegra: cbb: Move driver registration from
+ pure_initcall to core_initcall
 From: "Gary Guo" <gary@garyguo.net>
-To: "Tamir Duberstein" <tamird@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Vlastimil Babka"
- <vbabka@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Uladzislau
- Rezki" <urezki@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Greg
+To: "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Suzuki K Poulose"
+ <suzuki.poulose@arm.com>, "James Clark" <james.clark@linaro.org>,
+ "Alexander Shishkin" <alexander.shishkin@linux.intel.com>, "Greg
  Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Rob
- Herring" <robh@kernel.org>, "Saravana Kannan" <saravanak@kernel.org>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+ <rafael@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>, "Luis Chamberlain"
+ <mcgrof@kernel.org>, "Petr Pavlu" <petr.pavlu@suse.com>, "Daniel Gomez"
+ <da.gomez@kernel.org>, "Sami Tolvanen" <samitolvanen@google.com>, "Aaron
+ Tomlin" <atomlin@atomlin.com>, "Mike Leach" <mike.leach@arm.com>, "Leo Yan"
+ <leo.yan@arm.com>, "Thierry Reding" <thierry.reding@kernel.org>, "Jonathan
+ Hunter" <jonathanh@nvidia.com>
 X-Mailer: aerc 0.21.0
-References: <20260522-strict-provenance-redux-v1-1-0880b65fc17c@kernel.org>
-In-Reply-To: <20260522-strict-provenance-redux-v1-1-0880b65fc17c@kernel.org>
-X-ClientProxiedBy: LO4P123CA0559.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:33b::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+References: <20260518-acpi_mod_name-v5-0-705ccc430885@sony.com>
+ <20260518-acpi_mod_name-v5-1-705ccc430885@sony.com>
+In-Reply-To: <20260518-acpi_mod_name-v5-1-705ccc430885@sony.com>
+X-ClientProxiedBy: LO4P265CA0305.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:391::9) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -77,101 +85,105 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB3108:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15781d64-550a-4a94-a2b3-08debbe0eaed
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOYP265MB1888:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac80ea20-cbb4-4f08-829c-08debbe1caf5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|10070799003|1800799024|22082099003|18002099003|921020|56012099006|6133799003;
+	BCL:0;ARA:13230040|366016|7416014|376014|10070799003|1800799024|4143699003|22082099003|18002099003|921020|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	Ak/nmbDMbzxwTmsog/3Jce/X/MD4GUuQpv5bM1RkzQqiSkyafuwO0TBk9yQxRiU6KF+euzSp//5aHxyyZziblqLk10VZTckFRy5G6WedU3MiYErF4s7nzS+proLLF1Tp//g19d3ZWN/kQj8GQolk8I4mB71MiiOKpwxUWqVVLHD6WRHKa6sPgZpNQmr5u/gFovr5s92qC5rgwBo5dU/75sXgtpV70ksbh02gbQUpvuyLS7L2xiCHJNQRaAQQHP8A+VQdVeWR/vzp0BrJaSLgTZFtDUbFuRwtCGwXJhUfy/mOIEnQ3suSUseggz0a4bOidS8qQ3WEDuM/LxcoMgSK2sl/hyIrWA9gfQs8F+o36tt9T7XtTXtdaClp9YYnUcov8HAHZ3kcRTW9G1NPP5Nry/+vPyWMoRsSfC3DthQ+yD9Y9QtYSdY5YXpRMDsJrS+YiM2/mK94yK/ZXY1ivMz+QKhmnFAmUIlvVd1pZ5Dpnxn7bU56NVnJ7UVAecDd69LPbxCzOeh2I3X7GBat+bmfpxzfyMPOcT8U7dj5TLme8MV+9cnVFiKdNZKudQ1sHoqG5oRi6K/y6ciK6+E/L/8gGXUWuJhryq0XzrMA1Rg5/vbeh4KyM6KIHtf4iF3MzFnI1ixIyGSX7pXA6xY0/T9cZec4l7zH8dPXPLbY0xDiFU+T2xhBky4XbB/BSTUuL8H2
+	8S/N00Hc9Ms+w2CN9OTHJEtJyqcpw3f6oOQ7zul0i7/Fu3hI08jyARavJv03UlLIEmJKl+07AQI1kEYTYxcm9UyNW9ZAMEe/Au6jRKdxJ4n6YGe3q0W005QLdCxtPcOR3GRtYPVOREbQv9vZjf0dzpy0IsEApo6xEMvtE4J7Crwnfc6LhmYhlqSL6r6ZCNHoIUSrR16JuSo/KnpH8UJ/Rt6LQDBaWdtev9do1/hyyvFwnxlcL/EhckvbS1bNpTmxshbXkL9SOtnW//gD0iXIrMGbIcrFumrdugmzD4UaPE/hy3rWW9HEvqqc7GOIOeextUilrdNARNVvPxBcvJaZ3Gh7V26wrhMbT6Jk2u90Xc9rxQJkwcNbtFagrROxESMUvV8s9JQQNRKh+UhNj7WET6SKCkIc/5y0pJeI9R/yixiu6jEJSlaUnqHijfORWiVDy9CW9YvnU0Zk8gbx1ZNziX3icBUZbUwuKVhEl4roEqBT3tlSNP173H7vcmFratJ+4AgXAtsB4mcjBpNaGJc7ZIk3T8QUGGRp6IPmc41Z2qXvR/IcaaMhaAbArAUSYCXNTa7xkwOmojeFeHm/WKGKkuxWxbDBbZsYyX6BcyIsAfS4z54W2n48tjj01XHJi0JMAre47snX1U6Y97SHArWsNNNXW33Uh7BAgj1XfLmYj9RfPwMP3ZIkdrF5jqFzzIzNw0VCnSNQhwIbeUG44QF67JHNyZiEcD+/m/6aAjMR/Ag=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(10070799003)(1800799024)(22082099003)(18002099003)(921020)(56012099006)(6133799003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(10070799003)(1800799024)(4143699003)(22082099003)(18002099003)(921020)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UXQ4VXRka3FRbTFpaitub3BaQUNFTjUwWUxXeDczOWo0aEdUTGtTWnRrNlRJ?=
- =?utf-8?B?RFo5RGNMLzYzQllkaXlOczNiRU45bG1iZ2ZhSG9ZTVpMTlBXWXBvaWlNQzBh?=
- =?utf-8?B?b3ZoeXlzdXcvalNkSVQxUFQrUStnT2xnU2FFNnNWQld5aVY4TGdpdDM1Lzg1?=
- =?utf-8?B?aVNIMUtpRmFvWTBtR0VEaVQrRWZYQ285Umg3Q0daamtiMkVxYzJKeEgwQTd4?=
- =?utf-8?B?K0kzdGFoZUFLbVdNWDk3eTdjMmQ4U3JWOUduelVaUEoraDRVbUhBNHNQekZC?=
- =?utf-8?B?b0hVVFU1UWcyY2htbGY5S0JRMTRYRTh6T1lSMEZyMU4zenhZUEFSTFJ3S1BN?=
- =?utf-8?B?LzZiZmJRZjJ3L2dwcEM5aEFTOGIxMmZSMmhDbzNNUlJVWnVCZTVSaU0vU254?=
- =?utf-8?B?ejJRRU9zaVBDczJ0RnhQbFdKQ2lGenhXeDd6K2pVc3dESHZJZGhuRFN2ajFv?=
- =?utf-8?B?WkpIUFRETnI5bjJ6dis1OWs5RXdYTGpNQWQwTFRpNGFURWc3cWpsNXFLKzl5?=
- =?utf-8?B?eTAvR2RiVmw4dndwNWtBSEY3eTNqNjIwVm5XRFpxVytZd1dmaHdYaTJlYXla?=
- =?utf-8?B?Qm9pQTFMcWJ0VXA0TkhZYUhlajdzNmE0ZE1BUjZON2hPbXphaWZuQ0R2SlpZ?=
- =?utf-8?B?ak9tWk5vS0NvcDJrWWJ4T1JsbExJdlJHeWJVSjJGdkxnTW1NckR5cGZIdnpn?=
- =?utf-8?B?OTRYTWgxVGtuL2xBdkRDTmxVM1FJb1I2Q0FQVEhkQmowRWkzRlpURjV2UlJn?=
- =?utf-8?B?T1BKWHB1S0tRZUd1K0JkV2RBYnUreEJldXlPRmF6VFdBeXYxYTR5amNrbFFL?=
- =?utf-8?B?VWNWVU1MY3JEYlNDQ2JsU2VSUmVuZHZMcWpUOTJSeVE1bE1uSkk0Y3lLWUtK?=
- =?utf-8?B?NTRBV09pRnl1aFptWHo0eFRXNW9VczA3YTZNWjV6UXp0SmVBMlFwV0R3VCtE?=
- =?utf-8?B?cjI2Vk9mcjhhQlRYM3QwRXdpejlkN2N1TmdjZjlBWmk1OTBNUVpRN1NOWHg1?=
- =?utf-8?B?RGNpM0RUamFYbmQ0MlNOZ0l4cEtET25WQVJMTWE4V3crNmg5WGJkNlRKaFpK?=
- =?utf-8?B?eGFacmRiQm03Ty91TE1pMTVBWmg4ZnhiYXhObU5jR0J3MmhjSi9SdjRmNlov?=
- =?utf-8?B?RmlCbEQwZjkvYm1nWXBvcXV0M2R3S01kT0xTRllDZlV1SlluRlByMW13cXNH?=
- =?utf-8?B?Y3UzMzRVRmNmMkhUYXJnbVp5TVFWcFdSRDNVekpCWXR0K0lBeTBhNDFtQ2NG?=
- =?utf-8?B?bDRuVzRCeERsV0hLOTMvSCt1YTZ0L1ZXdEpYeUdOZ3dHSER1THhzUHp5THhY?=
- =?utf-8?B?c3prSFVDdm1OcmFxbG9COE1Xa1htdG1ONE1FQWRGQkhEcGdxLzgxTWtwRTFa?=
- =?utf-8?B?M3FMNG5LSUNTVC9neHdXUUdhMjBhSGZaeUoxY21pVlRCaXF0UDlZOW9rOGcr?=
- =?utf-8?B?RGFPaExjcnQxaGUrL3UyOXVHVTRTSGs4YVN5cVpzMkZXNFpjQkJpcTNCTWs0?=
- =?utf-8?B?ZE0yZlhMZEw2Wlc5WUY4OFdKTEpVdStleHFVMVdnVjU4M1k1aGdRTkdFNzBL?=
- =?utf-8?B?emhLYXJyNW9EUC9DZWNTdHJNNHJ4VmRGK1Q2bmZyazZuOE5mWGhGbThpOXBI?=
- =?utf-8?B?b0lWbU53Znc4U2F6M3F3MDBRS0hLS0J4dzM5c3U4R0dLNzJsZmcvcXg1QUJ0?=
- =?utf-8?B?UGhIRFF1ek4vZ2lGUXdBMmNpSVMwRzFiZVlKcVoraGZmeE1WYmIxZjFkN2lk?=
- =?utf-8?B?VUd0QTFZazMrK2wya21SRmxGNzl4TU85dVJIblpqV2tNNGU3ZlhFekdUeEpm?=
- =?utf-8?B?V21XQmJtZ0pKWUZXdGlXdDkrdFJJeWdsN3p0aWxLRVZXYU5UclJsVUMvVU9u?=
- =?utf-8?B?alRvWWVYVUY1NmZmU05Cd3RJaUd5YUxQbUt6WEw2Y3AzanVQSlJ3L1RCd3hW?=
- =?utf-8?B?b3FQdkZmUzlkWEJQYmVRaGwvS0p6M204NFBzQ24zUG01VytGSlFWeVBVMFQx?=
- =?utf-8?B?eGx1dWNEcDdGejMvaEExOXRtaHhEdjFCd1RzN3FmdG9Ga0t3SkhvcmVXUGJS?=
- =?utf-8?B?MUxJQ0c1T1RWNG85VVlDaUhwUnZGOVNrcnZNRjR5aDl1QlNmVm8rQ3VmcWxJ?=
- =?utf-8?B?WldFSm9zY1JsUkp1dXpoVTAvMDNBbExUM2tBWVBpTTM5R3RobGdsYVZvVC9P?=
- =?utf-8?B?Zy9aZ0pEdXcxNnVEd3RxYkV4cE1Vcm5yYkMzUGVvc2ZkdzMyZ04xYkZ3VkIr?=
- =?utf-8?B?K2lBZmlDVmhqVVNOaEJ5RTdIWko0UFdnVG1wdkpJNjZMZmIxVmRvL0YyTXlF?=
- =?utf-8?B?OGRScmczNWIrRG9IbjJnYnhVZzk3UytvRWFRK3p1SDdnT0FyUlJ5Zz09?=
+	=?utf-8?B?T0cyUm5ydy82OXMyTk41Qk1jSU5xcktra1plTndKQUpBZmZMOUdmNFdiRk1y?=
+ =?utf-8?B?NWVCMEYvK1lUbUgxWllYVCs0cEU2T3lnL1VIOVBwM3I5TXV6NXl6azBqa0J0?=
+ =?utf-8?B?Q29RZkJ6VmtQWUxCMGx5L1hwR0J3YVZtc0ErWjh5QTZaRitOV3JDZDJIRzIv?=
+ =?utf-8?B?bFBCQm1zT0xUblY1OWxXeWxGRmhjRDFpNzBtYldFcHhpVFZCdjhmNHZwNi91?=
+ =?utf-8?B?dVYvWTJZNVFJVGN1d0NIN09uaHZPR1l2di9VVGNLVlN3ZGxlOTlBd1d0S0pn?=
+ =?utf-8?B?ZlI0Q1BZRzQ2UVZNc1NHa0NDaG5kUTdQckt6QklBcHJqMmpZYTR6bExUTmg5?=
+ =?utf-8?B?NWMvcXl1SEJJY09BSHdFcWpaVmFJK1JlZ29mRGFFVlpLMlBaN25Ib1JlMzFl?=
+ =?utf-8?B?VFhwRnBVWDFvUmZ1MDBUQnMrMVZUZzl3M0ZUUFp4dktjVUd3YWVxUHVOaVh4?=
+ =?utf-8?B?eWpQME9QYTF2Q2pHYS9qWHBNWDFRSUdiZ04yWjc0ajBrUG1CNThTMytZaUlv?=
+ =?utf-8?B?NnN0OEJwNjBvK0ptbU9DcTJtTmNBRitVdkQ2bUlLU2N4VVRFMHdybkZaTjUz?=
+ =?utf-8?B?Y2syVEpVNGY5d1hSaFg4UThOMGphczdYWnZFVUhvc3ViVXJlbERYdk9GVXFB?=
+ =?utf-8?B?R2NyWVBuOUZyVFRWY2VUU0dQaUhPczYvQ0VlUWVIVzRIc3REejZUOXI0ME0r?=
+ =?utf-8?B?eUhPMnRkay9wZ1NwSVlFOUZZcW1jalRZRTIya1R4VG9USjhnNFMrOEZOMEgv?=
+ =?utf-8?B?dGZmTzQrYVFVblBzUmo4RkQvRy9OVWNtS1FFRytVN1ZIQklib1JDUGFFYzdm?=
+ =?utf-8?B?Q3RUWGxFa2dRTTFJY1QvWHNrV1VQRGlGaGlERGxOV0hybU1BNEExam5Ia0JK?=
+ =?utf-8?B?dzkvYmpybnNFWTkwYnBKc2VWY25QdGxlcGtRc0w2OXA4dkhFbUluYmY4UTl2?=
+ =?utf-8?B?RVZmV25SS201cUR2YlRubUpiVEJoQk5pVjJJWTZSMTQ4OVhsQTVrMUpEaGRs?=
+ =?utf-8?B?T0w1ZjY1czlMVkJqQlRWTDhUaklvZFJxaTNheG1XVnVPdmluY3JpajdUMjFv?=
+ =?utf-8?B?K1RjSi94elk1dklsUHBuWTF3SlBvODJFbXppVTdWQ2lGeVJJaXRvWjRtZTV3?=
+ =?utf-8?B?NXFaYXdTaWtrQlcrVTlxQlV2RTVuNEZzUmpKVmF0eDZjeHY1cDRVc2hUV0U2?=
+ =?utf-8?B?VG5nNW5TTS91Znp5aWx1NnJtcWF6eFViNHJqOUVublBvUUdqYlMyd2xRYkNk?=
+ =?utf-8?B?NWEvdkUyNnh0aDR3d01kUTJLR0FpakJmUW5HaEcyUDdmamNwTlQ2Slg2TVE2?=
+ =?utf-8?B?a0ptWUxHQ05VVEVkcm44Qm44enNUaFlXa3dsZysxRURyMjBHM3hKSXFmYmh6?=
+ =?utf-8?B?aWJGeWp4M2xIRFVvdXI3SVJMQW5CQWtBdHQ3TkxxME84cEdCWjNrVVRRczRT?=
+ =?utf-8?B?cjN4dW1mWkxXTmdmRng3THJlbS9yZVNCcmJZRVRUS2s2OWdKQlRBeFRSTFdL?=
+ =?utf-8?B?VW11YWxmSXluWjFialhLNk1DV0k1bzZSYVdUTEN1T2VGL2Z4TUkvWUJHODI1?=
+ =?utf-8?B?M0NYMkdyWkFoWkZacXp0cmMyT2ZBWDVkTnJCc3J6QVJia0lTa1lKVFNHQVRo?=
+ =?utf-8?B?dis2eGNQL0pZVVNVL05udlJMUXY4ZldhYUJTL25zNlpMMkVtMWtJdGEwYVdy?=
+ =?utf-8?B?Ti9qcEp2L0JrU0F5dVRycXlnSzg1TzlGL2tqZ0lyRE01Y3lMZnBPTUFmbGFm?=
+ =?utf-8?B?RjZ6UGNUTlRqTVIrbTNVOTNGSHVDWWxtd3hNWFZqVUNqbkh4YTIwRHFGdEZS?=
+ =?utf-8?B?b0txbEhKSlc3NUExdStoTzhBVEVCc3hVWlY4VzdvTDVzcTdoSXVNZXJKdWxY?=
+ =?utf-8?B?L2x1Z0F3aFc4eFJwc3hvRkxrL0dIZjMyVXhwc1dyOFYrQi9CRVRrSnJnYzk2?=
+ =?utf-8?B?VVVGdWF0aCtrZmN0SFAxWjRIdlh1S3ViWldnVzNURnJGWEFKeWtRYnAzYUNk?=
+ =?utf-8?B?TjhPQmY3TU5RQVpOVW9hL1ZkUUVDZ3BEcWlQSWlJV0FVTTRmZHk2OEtlV3ZJ?=
+ =?utf-8?B?NU5PdklaODZRTDRUcllQUGU2Qkp3TzdZWTg3b1dsRFpybzRnbm90UVVZNFVY?=
+ =?utf-8?B?RGJEdmFSQzVVQy9acHBiTEp2bmc1bkpEMWlZVzVTNG54d2d1bFpvNnFaY3ZF?=
+ =?utf-8?B?b28rdUNFRXR2MWFvVlo1OVlSN0M1c0tRU1VSN0lLZHo0QXRSTzVsVVFmREhY?=
+ =?utf-8?B?Rm1ZT2RIUmtIMzBBcUNjL0lqUHY3UjlUOXpwM0Y1KzA1YzJub25rS0tXYksz?=
+ =?utf-8?B?Y2cwWWhVZGxxN3J3Y01YUHNoRjM4VEF4ZkZrM04rcVN0ZVJJZnpaUT09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15781d64-550a-4a94-a2b3-08debbe0eaed
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac80ea20-cbb4-4f08-829c-08debbe1caf5
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 11:13:02.2522
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 11:19:18.1537
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SDOJ1ULCDTC427vboxEv9Hp9r4frKDCSOTNvOHwkj3IhxIG2R0qwnpon72ob0+lP3QggsthJq6RC9B1khCH6vw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB3108
+X-MS-Exchange-CrossTenant-UserPrincipalName: MIVVDuHTYzocblhcWGETki4XT2P8pTk5yT4T5f5HwecGQl9FcoV4WPB2b6MJ0yER36OI3yCXT5hpGCiEu4rfKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB1888
 
-On Fri May 22, 2026 at 6:19 PM BST, Tamir Duberstein wrote:
-> Replace existing pointer-to-integer and integer-to-pointer conversions
-> with calls to the strict provenance APIs.
+On Mon May 18, 2026 at 11:19 AM BST, Shashank Balaji wrote:
+> Commit "driver core: platform: set mod_name in driver registration" will =
+set
+> struct device_driver's mod_name member for platform driver registration. =
+For a
+> driver to be registered with its mod_name set, module_kset needs to be
+> initialized, which currently happens in a subsys_initcall in param_sysfs_=
+init().
+> The tegra cbb drivers register themselves before module_kset init, in a
+> pure_initcall. This works currently because lookup_or_create_module_kobje=
+ct(),
+> which dereferences module_kset via kset_find_obj(), is not called if mod_=
+name
+> is not set, which is the case now.
 >=20
-> The strict provenance APIs were stabilized in Rust 1.84.0 [1]. Since
-> commit f32fb9c58a5b ("rust: bump Rust minimum supported version to
-> 1.85.0 (Debian Trixie)"), the minimum supported Rust version is 1.85.0,
-> so no polyfills are needed.
+> So in preparation for the commit "driver core: platform: set mod_name in =
+driver registration",
+> move tegra cbb driver registration to core_initcall level, and commit
+> "kernel: param: initialize module_kset in a pure_initcall" will move modu=
+le_kset
+> init to pure_initcall level, ensuring module_kset init happens before teg=
+ra cbb
+> driver registration.
 >=20
-> Link: https://blog.rust-lang.org/2025/01/09/Rust-1.84.0.html#strict-prove=
-nance-apis [1]
-> Suggested-by: Benno Lossin <benno.lossin@proton.me>
-> Link: https://lore.kernel.org/all/D8EIXDMRXMJP.36TFCGWZBRS3Y@proton.me/
-> Signed-off-by: Tamir Duberstein <tamird@kernel.org>
+> Suggested-by: Gary Guo <gary@garyguo.net>
+> Acked-by: Sumit Gupta <sumitg@nvidia.com>
+> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+
+Reviewed-by: Gary Guo <gary@garyguo.net>
+
 > ---
->  rust/kernel/alloc.rs           |  2 +-
->  rust/kernel/alloc/allocator.rs |  2 +-
->  rust/kernel/devres.rs          |  4 ++--
->  rust/kernel/error.rs           |  2 +-
->  rust/kernel/io.rs              | 10 ++++++----
->  rust/kernel/io/mem.rs          |  4 ++--
->  rust/kernel/of.rs              |  2 +-
->  rust/kernel/pci/io.rs          |  4 ++--
->  rust/kernel/str.rs             | 16 ++++++----------
->  rust/kernel/uaccess.rs         |  2 +-
+> Patch 4 depends on this patch
+> ---
+>  drivers/soc/tegra/cbb/tegra194-cbb.c | 2 +-
+>  drivers/soc/tegra/cbb/tegra234-cbb.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-This touches many subsystems, so you'd need to break this up.
-
-I'm also refactoring in my I/O projection series which I've already
-converted most stuff that I touched to strict provenance:
-https://lore.kernel.org/rust-for-linux/20260421-io_projection-v2-0-4c251c69=
-2ef4@garyguo.net/
-
-Best,
-Gary
