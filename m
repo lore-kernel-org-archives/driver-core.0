@@ -1,145 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29013DEAD0;
-	Thu, 28 May 2026 11:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E7D3EF664
+	for <driver-core@lists.linux.dev>; Thu, 28 May 2026 12:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779967297; cv=none; b=tNM8EMnYDWLBEyqVG66FzOw/fVui7xPZC+NdYjnUHHaeP0CwGgKfNTrt1oBs3zn5yE0SZPVe0gPdQoLAV3ZVDq5v5FcbcEWBXRO3Ar/G69hXcuHeWPGei9+eQfDeUVQ0FUdMfsQzWh1cQBaXFSAc1+ljaBKgfUT7YIg5GzS7rfU=
+	t=1779971763; cv=none; b=rYmnBXoNxxiIyG2xQw00LW/CDl8Wnms0TdpfPRuOidmazBb4yy6iwpgHRu6vb5NnxvVgxbRSydSL+NvjLSvftibFL+LD5uBZ3O/N9G4wn2lkvhRs9QOf8JENMXoF0Rw797nDx88EdxRZK863OPoz5zPzTGj9cmOlqCt1gv70OSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779967297; c=relaxed/simple;
-	bh=f/lIC4TgmEzyiBDPh2iBCW6oUeY6y5+TmWqzleJFfvY=;
+	s=arc-20240116; t=1779971763; c=relaxed/simple;
+	bh=6PcUgLeU2vyE9WWEOwaSUEMT559kJzVxpY6y7tUqVE8=;
 	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=bTpRNi9xWi6NAZ9hg0k+E60lA2+4Htrx5oLqKfFJkL0Twj/PB0sg+4xXfYuOEmoHbkcJkie44RshfQQQIQQ0BMlOWdsmbVFcS/WcdIDrcqJ7gdHOwwEKjiK50eD40H/1qf53cbw0kYcCsHBKqRF2xK7IM7S8De1GClnT2ZFE7D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jeHZ2xbi; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version:Content-Type; b=T6lzGwRqkZHV4FJIIr4WYocEBNIowMlvxfXUwEr/J03b3lttFA53GHqXy0jsepTs80X2h2e4+hT7rFWQnuWLU+Eepnt5HFTtzd7oVppq86xWCGc7/Ci70d/duQXO6vIT/SZ+3Jq4jW2/tUrdMZSAOOuQ2+7FzZQpuvg2iZSkn2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSMifrxf; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jeHZ2xbi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSMifrxf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779967295; x=1811503295;
+  t=1779971762; x=1811507762;
   h=from:date:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=f/lIC4TgmEzyiBDPh2iBCW6oUeY6y5+TmWqzleJFfvY=;
-  b=jeHZ2xbiomaOLz47kKWLHRSM9eIvB9p3NX5f8g+8V0feOz2isSAX1hUT
-   mj3hm4e//XA6fijnmncmbneB+zOfQ8ZIHVAvoRwbwECXbhtvLSuDSZQUb
-   3eZT12VVtcus/+kD6uL/+NHh71q5qIAyL8z2x6SBjZIFJiWvAgx9K08AB
-   lu2xtLjtbI0taaT5x363UpAC7MY3I9cb7QMgPntterB4eI63tG0SUegvs
-   rKXLaxFe3U6tsHynAYEiOcnpdNF3IG9K/Q+OLnad5Wit3tC32pdu62kqI
-   TiiEhCDC+NWm9Dal8dfXfsrgCurPBBZLm1/rzQvZc/ShjI0Tx1q5nrf38
-   Q==;
-X-CSE-ConnectionGUID: /ZY4sZxxQYeWGiT/dwGFbw==
-X-CSE-MsgGUID: wgWv0s1aTlK+wqNIy1ZUAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="103480364"
+  bh=6PcUgLeU2vyE9WWEOwaSUEMT559kJzVxpY6y7tUqVE8=;
+  b=GSMifrxf5sDB4UugckslrpRakc8VTVVcAxShD47SWSXw3Zo8tIJNX9+L
+   3gN+ANVMaonwfY1jW8aPDa+Wu5kO1NTIsdernRkubQ2RkkHpiJTVOFszp
+   bggKNX9J3kXVeNNpI8kscIB7eC0TYlJWzj30t6ysMakQs6aaQ89oMp3Pi
+   +yR0Sn19YwCOMzbuQkjPj1p//GSG6gveri+nBgPuRXsTbdVk5SszYXKNQ
+   xMGm0xxWetUwAkTF/ym3OSvi0Hq+BsitMhq4LAXDbN8BQ9BYueqinbhLJ
+   460w1SvepX/KjMjrFjWQOWvBv9CIvsKYDhyB0sikZ/1cxo8FCPjEIvEN5
+   g==;
+X-CSE-ConnectionGUID: TgD+aYBgQUCDRleol/JkbA==
+X-CSE-MsgGUID: Fa0BifMCQoaWVAhUClAhbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="91921328"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="103480364"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 04:21:35 -0700
-X-CSE-ConnectionGUID: NhorkxbETOO3yaxAYXvTkQ==
-X-CSE-MsgGUID: vXFsgfpXQNSWfwq2pTGuRg==
+   d="scan'208";a="91921328"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 05:36:01 -0700
+X-CSE-ConnectionGUID: ESqugtG1Qty10h/t2FynUQ==
+X-CSE-MsgGUID: TIZRvGXhQMuXgvfVixJRUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="238337774"
+   d="scan'208";a="246821246"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.187])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 04:21:15 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 05:35:54 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 28 May 2026 14:21:11 +0300 (EEST)
+Date: Thu, 28 May 2026 15:35:50 +0300 (EEST)
 To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-cc: Lee Jones <lee@kernel.org>, 
-    Mark Brown <broonie@opensource.wolfsonmicro.com>, 
-    Thierry Reding <thierry.reding@avionic-design.de>, 
-    Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-    Andrew Lunn <andrew+netdev@lunn.ch>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Srinivas Kandagatla <srini@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-    Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-    Saravana Kannan <saravanak@kernel.org>, 
-    Madhavan Srinivasan <maddy@linux.ibm.com>, 
-    Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-    "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-    Andi Shyti <andi.shyti@kernel.org>, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-    Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
-    Florian Fainelli <florian.fainelli@broadcom.com>, 
-    Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-    Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-    Sascha Hauer <s.hauer@pengutronix.de>, 
-    Pengutronix Kernel Team <kernel@pengutronix.de>, 
-    Fabio Estevam <festevam@gmail.com>, 
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+    "Rafael J. Wysocki" <rafael@kernel.org>, 
+    Danilo Krummrich <dakr@kernel.org>, 
+    Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+    Brendan Higgins <brendan.higgins@linux.dev>, 
+    David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+    Andy Shevchenko <andy@kernel.org>, 
+    Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
     Matthew Brost <matthew.brost@intel.com>, 
     =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
     Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-    Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
-    Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-    Philipp Zabel <p.zabel@pengutronix.de>, 
-    Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
-    Krzysztof Kozlowski <krzk@kernel.org>, 
-    Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, Netdev <netdev@vger.kernel.org>, 
-    linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-    driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-    linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
-    iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-    linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-    dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-    linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 19/23] platform/surface: gpe: use
- platform_device_set_fwnode()
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-19-88c324a1b8d2@oss.qualcomm.com>
-Message-ID: <bfdbc026-b3f9-971b-aaf0-0485434b8411@linux.intel.com>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com> <20260521-pdev-fwnode-ref-v1-19-88c324a1b8d2@oss.qualcomm.com>
+    Simona Vetter <simona@ffwll.ch>, brgl@kernel.org, 
+    driver-core@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
+    linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+    platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+    dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 2/6] platform/surface: gpe: use
+ platform_device_register_full()
+In-Reply-To: <20260513-swnode-remove-on-dev-unreg-v6-2-f9c58939df27@oss.qualcomm.com>
+Message-ID: <9a0d0e01-adf8-e111-49a0-580239265dbf@linux.intel.com>
+References: <20260513-swnode-remove-on-dev-unreg-v6-0-f9c58939df27@oss.qualcomm.com> <20260513-swnode-remove-on-dev-unreg-v6-2-f9c58939df27@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-947565217-1779967271=:1291"
+Content-Type: multipart/mixed; boundary="8323328-1514807276-1779971750=:1291"
 
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-947565217-1779967271=:1291
+--8323328-1514807276-1779971750=:1291
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Thu, 21 May 2026, Bartosz Golaszewski wrote:
+On Wed, 13 May 2026, Bartosz Golaszewski wrote:
 
-> Ahead of reworking the reference counting logic for platform devices,
-> encapsulate the assignment of the firmware node for dynamically allocated
-> platform devices with the provided helper.
+> Creating a software node for a given set of properties and adding it to
+> a platform device can be achieved with a single call to
+> platform_device_register_full(). There's nothing in this driver that
+> suggests using the more fine-grained interfaces was intentional so
+> switch to using the high-level helper.
 >=20
 > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
->  drivers/platform/surface/surface_gpe.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/platform/surface/surface_gpe.c | 36 +++++++++++-----------------=
+------
+>  1 file changed, 11 insertions(+), 25 deletions(-)
 >=20
 > diff --git a/drivers/platform/surface/surface_gpe.c b/drivers/platform/su=
 rface/surface_gpe.c
-> index b359413903b13c4f8e8b284ef7ae6f6db3f47d72..40896a8544b0a4da4261ea881=
-b1eaed62d93b32b 100644
+> index b359413903b13c4f8e8b284ef7ae6f6db3f47d72..b8bb47b0d91f036ee5073d215=
+34f8f26a4d5ed15 100644
 > --- a/drivers/platform/surface/surface_gpe.c
 > +++ b/drivers/platform/surface/surface_gpe.c
-> @@ -317,7 +317,7 @@ static int __init surface_gpe_init(void)
->  =09=09goto err_alloc;
+> @@ -290,9 +290,9 @@ static struct platform_device *surface_gpe_device;
+> =20
+>  static int __init surface_gpe_init(void)
+>  {
+> +=09struct platform_device_info pdevinfo;
+>  =09const struct dmi_system_id *match;
+>  =09struct platform_device *pdev;
+> -=09struct fwnode_handle *fwnode;
+>  =09int status;
+> =20
+>  =09match =3D dmi_first_match(dmi_lid_device_table);
+> @@ -305,34 +305,20 @@ static int __init surface_gpe_init(void)
+>  =09if (status)
+>  =09=09return status;
+> =20
+> -=09fwnode =3D fwnode_create_software_node(match->driver_data, NULL);
+> -=09if (IS_ERR(fwnode)) {
+> -=09=09status =3D PTR_ERR(fwnode);
+> -=09=09goto err_node;
+> -=09}
+> -
+> -=09pdev =3D platform_device_alloc("surface_gpe", PLATFORM_DEVID_NONE);
+> -=09if (!pdev) {
+> -=09=09status =3D -ENOMEM;
+> -=09=09goto err_alloc;
+> +=09pdevinfo =3D (struct platform_device_info){
+> +=09=09.name =3D "surface_gpe",
+> +=09=09.id =3D PLATFORM_DEVID_NONE,
+> +=09=09.properties =3D match->driver_data,
+> +=09};
+> +
+> +=09pdev =3D platform_device_register_full(&pdevinfo);
+> +=09if (IS_ERR(pdev)) {
+> +=09=09platform_driver_unregister(&surface_gpe_driver);
+> +=09=09return PTR_ERR(pdev);
 >  =09}
 > =20
 > -=09pdev->dev.fwnode =3D fwnode;
-> +=09platform_device_set_fwnode(pdev, fwnode);
-> =20
->  =09status =3D platform_device_add(pdev);
->  =09if (status)
->=20
->=20
+> -
+> -=09status =3D platform_device_add(pdev);
+> -=09if (status)
+> -=09=09goto err_add;
+> -
+>  =09surface_gpe_device =3D pdev;
+>  =09return 0;
+> -
+> -err_add:
+> -=09platform_device_put(pdev);
+> -err_alloc:
+> -=09fwnode_remove_software_node(fwnode);
+> -err_node:
+> -=09platform_driver_unregister(&surface_gpe_driver);
+> -=09return status;
+>  }
+>  module_init(surface_gpe_init);
 
 Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
 
 --=20
  i.
 
---8323328-947565217-1779967271=:1291--
+--8323328-1514807276-1779971750=:1291--
