@@ -1,81 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6B92C21E8;
-	Fri, 29 May 2026 12:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3473ED3BF;
+	Fri, 29 May 2026 14:42:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780059348; cv=none; b=eYuLjFCUiRkTpW9vHJAtjKJH3Orpaf487dqPJFQ1aW3i/ZqN8V87dKqQ5R6FQ++ckPJwvXi0umdBNRRl2xaOdxtrpQNJcsm0Nw5hWTU0lkpvUFxRzv63AmJ5qdA0ErXBoecFzJlSMc8Gx7EPKyKRD7DIj0kHkI1vRKGoGiz7YIg=
+	t=1780065750; cv=none; b=b/ek0AgrDxICXOHcdhogyTzxweF7HUV0whS47Fxqid3A6bzx5WZe6OzUX8Oe127FXIcMqcsSS+aMFYqCb0hh0UfOzoeZvzpXQeVSJrSlJ56nOrxxou9jNlP79r+AylWEcevbBSTN/9AZJDMBJnN9HyTkzGwdqW1fhFIdEHIIxwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780059348; c=relaxed/simple;
-	bh=rf9ietTEoUdNUWP+4Xs/on4TPwZiiiKAB2KYgWpPhmg=;
+	s=arc-20240116; t=1780065750; c=relaxed/simple;
+	bh=5HCAyPI2WCL0E6LnXOxpJZqiE4sHLCdQqD+Hl3ovWPc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=I1kTxr6A2QhFCoXObyPg9oLOdWIYUQlAPs6e8Neo7Rg4OpNdfxcFbZAlB/GatxFAeJlPcOF8wC1ffzy9yQNj/Vtv7C06fMqkJ1qHz9zCwJpX/rrmiKUKbD3whm0IUXYuSU57OdJkErnZjt17CAt9CaL9v6ymsAT+HDoEZpVifQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKme3PJu; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=h3yCkXALv5UeZmab3zK5hC/YoYs9v+NrmABnSYh2kgizkagjFXYNMlMa7krq7mi6y8uVz/CjYxnsc7tXvm5UQrhRUBC8GEYhanIPLSGxtQ1mxnghBv7DqTRNa9F7lB6avxsSKAJM7CMJ9QnnUfmYGtcJeuN3BB9+MjCqn4ykLLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RpJM0t3E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKme3PJu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF6271F00893;
-	Fri, 29 May 2026 12:55:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RpJM0t3E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C66641F00893;
+	Fri, 29 May 2026 14:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780059346;
-	bh=+6AiMcZa3bd0LPjamkN4r9S9jW+Apu//pCbttaoWdDI=;
+	s=k20260515; t=1780065748;
+	bh=wDF5Dt7nHxSPcBsfybxty4MyfN/hxQald2hXVcS3yHE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=HKme3PJuW/g8Xe3fa9pH4ndcExyYxHcd2cNlg9NECKqK4v1asLZhvhZEXzEeGPFwC
-	 krMU26G83m8iPSglCfYKCqgciw6JWvcuzjQUTI3wFtoI62nF0UChddzGFraXimF9pJ
-	 1k54Uu9U94IdLdsnRGH4hwmLSLP/pSSK0uKpJsDzqk30FcWpIwESOtKLiumR4V+6As
-	 unm055hDnQ1A4hKk4u4dzRoTU87SIvLvelBGdBip7ZDoIZon4MXvQ/IpRhuSbyjuUY
-	 udebOV+LpQuBbeFt6sWaU5lZ0itKuFGMHeMAFQa8OxgbyKZLGpVxsvBB1IjU2d1o4J
-	 48Eb2LMB+rd1A==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: Lee Jones <lee@kernel.org>, 
- Mark Brown <broonie@opensource.wolfsonmicro.com>, 
- Thierry Reding <thierry.reding@avionic-design.de>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@kernel.org>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Matthew Brost <matthew.brost@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
- Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
- iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
- linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH 00/23] driver core: count references of the
- platform device's fwnode, not OF node
-Message-Id: <178005933352.9337.17178239685242465219.b4-ty@kernel.org>
-Date: Fri, 29 May 2026 13:55:33 +0100
+	b=RpJM0t3EAvrDDQxwXCJbDsnbWa3O+ffJ8RyDxOv0ZoCplb2i9Ji7S6O3+/0Cb48tg
+	 HPlX2V4USFW7hR/5VXRzVk8VYmTbROPQb/wbO8kSvtHcRDJNBFW0oEbpI8SfA77WDa
+	 u8PW9FGrY4JSnRlm5aL2k6ccsaVarv6GhN9L7gMRFXd18BUzRL0VLp3EXdTyQri8y3
+	 qXg8LmtiDTqr/frVCJCAi/UEpFQmLIUpgCgIIZ+MB/LsNnQQFDnIz8zT1x43k8xkPV
+	 tYbeR2Zml3Ftfh3LSTHiJsq1daUSJRr7j6MXOiOi00lTmnJZWpr2QAS5dB3njBaFse
+	 YPJAxhZuTML+Q==
+From: Mark Brown <broonie@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, phucduc.bui@gmail.com
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260528053204.46783-1-phucduc.bui@gmail.com>
+References: <20260528053204.46783-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH] regmap: reject volatile update_bits() in cache-only
+ mode
+Message-Id: <177997780971.8579.10018213319147837982.b4-ty@b4>
+Date: Thu, 28 May 2026 15:16:49 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -84,29 +45,47 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5HCAyPI2WCL0E6LnXOxpJZqiE4sHLCdQqD+Hl3ovWPc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqGaXSSbpTalv+P1xeljHV9h3YdLj2NADaTNCBD
+ v7vxZdbe3mJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahml0gAKCRAk1otyXVSH
+ 0D2vB/43Cv8inUAGUO5N59+8ygVIi4JwpPXYPFDZZZd2ixkcQqtS+x7u/vYyVd9hGCHSXrhphaZ
+ TgZcgRbUsF+FV0B4ibFXqwhCgNWWMiVWf4lVGK0dIIMsNPKrHlFCRxmVmKYMwBdLX5x5D1E9jz2
+ sIOiyHBN+/cdccI0VCI2wpKTyxpYf67F78CAj457HKET7ju9IMPdEuxddaxNDFiCxHNlYH8BO2u
+ fP+4+2V4A/AAlakK+moRAxeW5ow5CNqDVBsWauis21PgjPko6nF1XwG3AAK0JRVHGV6qwAByel5
+ Nz1JFAP7J4Vs7bzY67cGda4k4wxbNu65YHBq5uUExDNUbRMc
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 28 May 2026 12:32:04 +0700, phucduc.bui@gmail.com wrote:
+> regmap: reject volatile update_bits() in cache-only mode
 
-On Thu, 21 May 2026 10:36:23 +0200, Bartosz Golaszewski wrote:
-> I'd like to first apologize for the long, treewide series and an
-> extensive Cc list but I think it's important to show the big picture and
-> the end result of this rework.
-> 
-> Platform device core provides helper interfaces for dealing with
-> dynamically created platform devices. Most users should use
-> platform_device_register_full() which encapsulates most of the
-> operations but some modules will want to use the split approach of
-> calling platform_device_alloc() + platform_device_add() separately for
-> various reasons.
-> 
-> [...]
+Applied to
 
-Applied, thanks!
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.1
 
-[03/23] slimbus: qcom-ngd-ctrl: fix OF node refcount
-        commit: 0208edaf0b32cae5b922729c4ef52dcd865e2e19
+Thanks!
 
-Best regards,
--- 
-Srinivas Kandagatla <srini@kernel.org>
+[1/1] regmap: reject volatile update_bits() in cache-only mode
+      https://git.kernel.org/broonie/regmap/c/006c66d1d52f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
