@@ -1,69 +1,146 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021118.outbound.protection.outlook.com [52.101.100.118])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010035.outbound.protection.outlook.com [52.101.56.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0883C1B4F09
-	for <driver-core@lists.linux.dev>; Thu, 28 May 2026 13:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E82632B111;
+	Thu, 28 May 2026 18:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.35
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779974984; cv=fail; b=NeEYv/d7lOBxm7dx7Ncq0W3+NCJLVI6MaYn/ll7eiSw4RDnBtXU/6vClOKwJ/T1YKumcOPkmDS5qw7E56B/NLierUy9FB1NX41mHgoHtkTix9vsOFpgO5AijSYloTxT0ZTgqO253OQxknFseqnkZ7SIqSTY6na5Mvej5PvnDRFA=
+	t=1779993401; cv=fail; b=mWmJ229/G1l/OYtxXSHBgsOI6bGVztM+n1ALNdStpORRCIBBiVsPuOEs29B5Ig8ZGXzrsWcxRxGAM8TW4shs34b3/wx1mO/pXF8CD4wTy5FiZxWgMUIUDXiyDyW20aczWL7ti5Z2jHImV1WDAXVNbSTPsqwhgfCS0MnKDuktav4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779974984; c=relaxed/simple;
-	bh=zjNz7prslsG5cg44H8dOgFsPz4XrSL8IyGU06rnNqZU=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=l/Ke7gWFl/vIf9QcyL5pQtUhoAvwBhWSQ6ns1hYtNM896ZCai1o9LFrwvOUwqhlOerIiA1sJrnoMfCp7MwwGB/HJHJtbzbOxlUYL/xAilpYKfsj3udA+S9IDD5EDCqkY0xdTI3syBKK8v2udy3+8Rgq45VQ9NYRimQCe4B26DGs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=zV0UYsB0; arc=fail smtp.client-ip=52.101.100.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1779993401; c=relaxed/simple;
+	bh=kqlqK19rITWjanXFkHDrssZv0f7J9mf9zo7UMBGik2w=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=K+AhyBHyaBjLewmSqQpnYSiYLCBuR9Sqvvg51xlqA8W02It0rIrHSgXe2uqjVp84yHQCHbGS6eb0vfYtesomFo3U/Faw3/uAiHBQYzzZqX3J2Tgqiw4vXx/baGTrDpS2QzN5/MM27KvcJPmRPZU9b3zyuB6kvNs5DtYF1m+uQOg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=h922R/VY; arc=fail smtp.client-ip=52.101.56.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="zV0UYsB0"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="h922R/VY"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OX1RsCbaS/mgy7U8z6BBN0hkpY6zVVWJsVBqAeb8ebFPa7XqpZPWxJ6F4dASMLvtXoWGsObUS9+a6B/bhJnmq+OQ7S0220+mCfc/Uo10RI6qmZ+SNcfNZoSAUVsuV/3FGTn4O/ma5VvHiifGZ0CMHGbsEDOImWw9Fkj05KtM+OyPglDGbAKu8+kjfh0jPFFnO/vC7st4f9e+lQDN8nV1/Wrk0lESNaaulIiAc6HqU9ZE0PFVhpw1agmM50r4codKBVbXgh2tO5WZK6+6nGonQpTGXZZtBQhngsWlKpO8cbHfzYTZf0MUPvYLrUuyUuVWxLp1xZ8SKsCFy2mg0dbHqw==
+ b=W4rc1G8PRNEF63wnNNLGvJE16l8KgrKiwAeEz3bPzrqxfSAQrxkGURK0u6ar9hg6HAPQqDQTXnFE4ACzSIonGYHazhC4B4DleEbmCQWDo82KPtQvfwlPUntMvSVI7t/Ca7Eq2oKUFiVvldfUyOlWhR9rqe86HmpErjt1zqIssEn77WBGbNVigeikAnlwMqTCNOGGZZZens/OTGIyTTi34FMpw2DMQjzAKS5csTIVFf7WS3AKaup8xA4FnpMhnNvu0lrj/KO5SZ32v351BGZaiZ2nXEoyXY/c4C4NMGzz3Buzs/P7Mt+h32hT/1ISNZzwIP9knOt33hexviFKXlbQxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QVg0E1uJW0LJCVstCS687WFf0RD4fmEGPgO7E8OT2kg=;
- b=pzTaKB29/8QJIJGA9mLpW1bczci4KjOell16fJP40c+W/WZSbiL2gfSIBtJGKT2uhK1G1I4rTjSFJroZv4/SkkVdwiwBQxXtYeMXKK7n9Zg0B5W+b18PLWJsYQ/jELneSoaOAjDhFflQV7n1dI/iWhxoi05MBdk9Nmp40cD/NDSwM8Mo4Wmx4047Wsx+i2STNFDDdHKKVVfrfKXgzTs14CQutyzj1O6HghmevxSN80g/73pd/5dUmSugZgdQXOOooYlrnQfqmUiD7jU5nt7m651TkomxO58HtGJxeKGR7o4Paw2spWeEWkOoX62eOpyLUYXijpcJvBXRZQI9d78/2w==
+ bh=Pm3RxOlUziMIipQdyQHT2pcKu2ESuFD9ZeBKDhFFqu8=;
+ b=m5RB8GrzCcx8H0fKPhUE613qwJk7kZSuxiAsh5leLQQoD7xBr4GHWcXAPlHT3dCBvTk7TdKoWIhp7SJAlEvs2r3q7zGvq29smyj/i3mCzx+pKwCcKOfkpkLhTOPAt2QboMXBYbdzTJlvpy1d2agc8ABH47tX3ebWXbofEaTc9pmo6OArI8YzHHeHd+0+IthDzJBW1d7CL1XLRtLp9eB8TgKLJOGurUU/hJ/Wc3gmp1viPBDaUbzNr/bqrdglTeesxFxWE9xKYSgG2jK6MNOHM5ExSh9EkrGUM2Rj5hJgyBSWvy3Fa2ZJv47ixO0ToU/JqHWJOU1X3ZkKmj6KKSC7ZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QVg0E1uJW0LJCVstCS687WFf0RD4fmEGPgO7E8OT2kg=;
- b=zV0UYsB0gqu2Q5Qpnzwi8p6NIy3sGOtn1iuoWpKZKYTC/DsKWoaSwQyxaAgtgV6xIrGpt/ijpP96kBVoY3EVD5HohagKvdoBzDgX/7r9YbOg+VR6ZU+plw2OMwqjJ8V/j27i6WiOPIyrcKZbdmfz2l/SJyK0kyEvRcXc/W4ZBSo=
+ bh=Pm3RxOlUziMIipQdyQHT2pcKu2ESuFD9ZeBKDhFFqu8=;
+ b=h922R/VYYBrfQii2qD3ohQUoRXHoYuXC/tMwX4kGaSDBTjuwG6p4kQvU1DmzY4DgEh3wBrYoN1iZNtv+0s+8PFbTjMFhiOnYzxsOR7xnHGfqeCPyb/dI+boOmgU749k2WpC0577xYdTBC0Ojvsc7JHElGTx4XeTL4xjmgovFttijlMr4LvErTumd+o4Iamz0fp8JmAzE+/5qDjqBqynvu6jAGjr8fofKbqhW8dfrboM7/WRDpIZqx5iSjmc2SWVIbCNORItLYhnTi8Ih4jMirKSSk15e60dKQrbb0GJO/5Q+KPnhxDANU4V9xIrF8V8krSq6fM3QxRJ6pVXQrCIeDQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO9P265MB7917.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3b6::12) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by SA3PR12MB9228.namprd12.prod.outlook.com (2603:10b6:806:39c::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Thu, 28 May
- 2026 13:29:38 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 13:29:38 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 28 May 2026 14:29:37 +0100
-Message-Id: <DIUCGW63J6ZU.2BL1N832XXYUY@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] rust: device: remove unused ref-to-ref transmute
-From: "Gary Guo" <gary@garyguo.net>
-To: "Tamir Duberstein" <tamird@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>
-X-Mailer: aerc 0.21.0
-References: <20260526-trasnmute_ptr_to_ptr-v1-0-d89bc1dda3b5@kernel.org>
- <20260526-trasnmute_ptr_to_ptr-v1-1-d89bc1dda3b5@kernel.org>
-In-Reply-To: <20260526-trasnmute_ptr_to_ptr-v1-1-d89bc1dda3b5@kernel.org>
-X-ClientProxiedBy: LO6P123CA0018.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:313::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+ 2026 18:36:30 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0071.011; Thu, 28 May 2026
+ 18:36:29 +0000
+From: Yury Norov <ynorov@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Yury Norov <ynorov@nvidia.com>
+Cc: Russell King <linux@armlinux.org.uk>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Will Deacon <will@kernel.org>,
+	Jiucheng Xu <jiucheng.xu@amlogic.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Jing Zhang <renyu.zj@linux.alibaba.com>,
+	Xu Yang <xu.yang_2@nxp.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	Gowthami Thiagarajan <gthiagarajan@marvell.com>,
+	Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
+	Khuong Dinh <khuong@os.amperecomputing.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Aboorva Devarajan <aboorvad@linux.ibm.com>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+	Besar Wicaksono <bwicaksono@nvidia.com>,
+	Ma Ke <make24@iscas.ac.cn>,
+	Chengwen Feng <fengchengwen@huawei.com>,
+	linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-perf-users@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-fpga@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-cxl@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH 00/16] lib/cpumask: get rid of cpumap_print_to_pagebuf()
+Date: Thu, 28 May 2026 14:36:07 -0400
+Message-ID: <20260528183625.870813-1-ynorov@nvidia.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0077.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::22) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -71,182 +148,149 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO9P265MB7917:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2229bbc1-a9fa-4a64-6d21-08debcbd2a80
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|SA3PR12MB9228:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19749e33-0ed2-4e6e-5dfa-08debce80877
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|7416014|921020|22082099003|18002099003|6133799003|56012099006|4143699003;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|10070799003|366016|18002099003|11063799006|6133799003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	wzbi/kWeAWlZRmGdRhxm04NNVo60LGgfmtIyeZvGo9Bx1BWLsIftRzMqa6IRM55+ClANaJSJLM7XIDyU54afjl+P6gnidPSAG5dJBBfdaNK1FHTkT5fi5byEFEvZfIP/IRkRHQd4Gw5nwHWOPi2600IjkunycP6xEAedFiRf+WSDF5X2RHJjRVVngWh/Np07oLoetcqMqxSJbgGXm2d13MhdjT1PupSpU7NQgyhSbkS8Cu4NgKDQVxcwnyacW3dWcdAWarb60iHmWcNFMyU/5o63mp9REWONKZ4J14iNeVruhWjNuzbUfQHQt3eeXIdHKOMP+s1+amXd/X46FPKvmQNlnRPVApqr0o0DX5Iw8HvyNPaW22/aI5+iPSY4eLro5Ao8ibixRjfIxbgtMSHfwnWKWLmiyznNJpO/N0l5kgt0kG13VDEXHvNdrxXIp1sPlNOBDJSLC3ONI+nuijq1EX5GPiHpwHw/Mym67UcX+lFGoV4vvOXQGovUwgliToy0fOOud3UISy5t3BKfQA/4cdJkynJ2Y2BoKyOw+tqAOIuh1ZXMVv7Ka38jAqX8mWbK/dX1o/REPCXzXBBl1+Pfr0VhNrjBY9iMfdHb/vEymaVwl341+glMzHuq+5L9YFwzNe98ANSCsFI9jJMLbPgBcD2A3X6vwjtJ324Hfs6RVuBFizlZ81CnW90uBORJgx2UhLjlVHlZ2GolrA8TZNlO9/Zergf7muqRGNXSYP04QU4=
+	vUVY3uUYl2ZVcZRHFt1uUn0nw6d4ieHKXH/HFZHDcNyi+nyEY3JWsme1sfsPs/mo4L5wojaKHKkLm6i9jZd37fgEOchKCZjvVTPXs7H4+XchbPQ7IjHXVLLf0it0Dxzb0uqYwO8oTBxiF6QtifK3qfeyZ5YDTkl6r7LuwIM1ep19fQaUygG+jixUgouokBSdvnZwBCxDZIYRfNtyxosgZxBQxgsdpG92HvzZEA6lYYqB/x8Z+ShgH8f4SE5ozE9tU+ZJlUx+Dw9UvbpXvam6rt7WjJ1x7x2WldP2ijm6fSAmvPAPEBJGcOKGL5ns9f3ofAK2wHejW7hmd9KctxBbrK8nNeo+7f2Zfz+O+/4IX3eEKowaGO6kpkGOFiXvvuvRpOVs1aB7qfUef0Z0CaI74+hVxrZAM8h2mHXiXNUeTgI8fMoWNuU0u2hpNw43P4bC2JBur76cI3EfaSaIsoKxjPIlvmo2mv8qyWV8gMbPATH5ghs2c6E9TNFX4dxEyPu7D01eqevnJAb3J9Kocs6tM1J9jgRYMzJzxyY6ke9ae/6ta/NHHppfwZVQEnc3HVn/45w7/HQjBG2TIKOIkLo/RtN5Dya+P9VWaukhmKFkcHs1S7JBjhEGhLCTaCKOBVeTd0uRIQUS8pkpMaRKgbuT6FYYognFaBxGhIt0Yef9qn5BiUSBcYy2G6HWIuswNBdf
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(921020)(22082099003)(18002099003)(6133799003)(56012099006)(4143699003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(18002099003)(11063799006)(6133799003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OUlSaEtaM1FNWnE2Z08yUFZJRkhOdVd6TERhamlZYjBzTnprRkxRVlVETm03?=
- =?utf-8?B?Znh6alNVOXQxYXg2ZkhyTXlGT2xGZGhNSUUzUTUrcCtXOFg2RzZ5Z3ZMZ20x?=
- =?utf-8?B?blRBMjdXdUxHb0NTajRoeEpwQjZYZ1FiTnhYTVhzazNhSkU4L1haUmk0VThB?=
- =?utf-8?B?MERMei9ILzhhTGJYZjNDemJiTUVaVURVbm4zR0Q5NU1XRHRJM21xbVJoZndT?=
- =?utf-8?B?WkNncEwyaVZiem5GVURFd3JId1M5SU9MN0l3V2gwRmtqWGtCV0Z2bkJ2MExY?=
- =?utf-8?B?dmk1a2J1NDMyb3djUCtOZE9Qd3d3endIZ2MzdEVNV2tJNG5WVnNLcm9DZzJh?=
- =?utf-8?B?TUdlQmVpRVRpbXVWY25CTGcyTDZLU0pxemUrYWVzNXlsc3hZOU9oQWV2c21K?=
- =?utf-8?B?TXgvazRYSDQrNjZZNWFXSTBqL3dWbEM5a3FKK0tLZnluRElFWk9qMzZRQlhu?=
- =?utf-8?B?NEVJd2VNVnkycWk2cEF5UklEbDV3ZUNpOHdubTJybjNmWDFBeTFFSzdVUHlH?=
- =?utf-8?B?VFJCcjZtNW9mczlnd3NTT1BFYjhsOWc4cnFIK1N0MDRRUUsyMkdtdis2VytF?=
- =?utf-8?B?MUc0ZEhoK213WlRnSzV2Unp2M013ZUY1M0t6cWprWDJMUm1RU3lTL0lOVGVE?=
- =?utf-8?B?Qi9SYm1SelUwUnk1cTVQT3hUTXU0UUd0dXQ1U2NRLzBJRFRrOTZ4NDRyZVp0?=
- =?utf-8?B?TWloTzU0c1lubTM4anh3VWZwd2JKYmw2cFNVK3NlM0gwWnJkeFJxUXd0Mkdn?=
- =?utf-8?B?VTUxS3ZlWmtmZVpHbmxMQ055WXhZQno2aW5vTVJMSHNpdzZEOExrNWNpL0Rp?=
- =?utf-8?B?NEIweStzN21IZzhsajJ0UjVnUCs0aDJqNldCWVdNenZXZ3UxQmJPVDBvOVBq?=
- =?utf-8?B?RG1GQnhnbDd6T0J0MytOT1laS01DZ2Zrcy9DWmEvdTJJZFBvNEM1TXpNcEo4?=
- =?utf-8?B?c1R1MDNsUjJnU1RQd0NMTnZxN1dFOGQyaUlUU2RsMUJFYys1ZkNQT0xFZHEr?=
- =?utf-8?B?eDJ3eHBJbUEwbXVPcUlNdFJNSmZZdmpzVUd5cGNqMG5raC9ieUN4Z3ZOMFl4?=
- =?utf-8?B?VFp1OU1uQmVjZUcyZG5YSnpLcktyZ3lnclRtNlF4eC8wN1Z6bkZZVVV4WDc5?=
- =?utf-8?B?ejlMRFdkaGlSaEV5UWJnNmFYdko5VjBXWEVoTHBzQWY2d1ZGNkdiUkRGdG55?=
- =?utf-8?B?a1ZudHBkZnU3SzVaV1QzVXdZWDdDL3FtREpWQ0FQemlJbVF4c1NBSWR6YVV6?=
- =?utf-8?B?dmtUcG1CZDF2YlpGb2dUcnlTTndNdnUyR2VwR2dKcFpMbDg3RzN1MlliQXhj?=
- =?utf-8?B?TDhqRDlYbkovc0hTL1pQVnl3S3JxVWN2OEtQd1YxekxmUjVSeW1IUUF2eFNR?=
- =?utf-8?B?aGQ2SVpZMVprY1FPb09JbTV3dE1JMHpnOHppanNXeWtSR0kyYmI5TGtIRjNZ?=
- =?utf-8?B?dEd3MXJNY1YyejU5bWk3eUdNLzcyM1JrSTMxSW4zcHFjUlpxWjMzZTc4N0VP?=
- =?utf-8?B?ZDRVWVZjR0lvNUR2SUNpejRSTFFyU1ZDdXJNWnk4NURsM3hQY2FSd3Erc25j?=
- =?utf-8?B?Tk5iMjBWOUZKQ1hoTmFGYXJwdE5RWnZRRlV0UjlvL0ljS0VkY2dPVUJtMEFT?=
- =?utf-8?B?and6SzdNeHRYb1dRTlRISUVteURWeWExS21IQjVpbklnT05qbjgxYkJZRzdh?=
- =?utf-8?B?eTJmbDhZRGQ2MUFlc2dwYTlPSS94L2hrT0NZOVliWWFJVEhEVnRTTUJqSFR1?=
- =?utf-8?B?cXZyQ1RUTHcvUHROZzVwZHk3eXJNOVJTRlZzNEwxK1IyM0JVT0lwMktmNVpU?=
- =?utf-8?B?eFR5NzFHbTN6a1AyR1FFQlFZemZ6a0s4a041R3Q0VS9BeDV4dmlvL3ZOWm9w?=
- =?utf-8?B?YU1FNk01Y3grNjhrMGFCcTNXNE9OcGhFRWNOcW9XSW5xRW5zVStCZmROeERB?=
- =?utf-8?B?OGpWdjBLZWtFMGhTZnNieXFNbmdzMHgweWJqY1BjV1k0VGFzOURjZUIyakM2?=
- =?utf-8?B?bC8wOGwwNThXTDZ2YTVDZmIwV3NIM1lXbGVJTlFZNkNJTkYrek93ZmNORktz?=
- =?utf-8?B?Z2V4eXJqVGQ4eVVieDhLYVp2SmtnYXNUQ0F6OE55SE1Fb0xjbDk2VDVyL2pF?=
- =?utf-8?B?a0FvNG1Ed0kwRXFGVEdldnQzWllsUWF2M2cxeVdZL1J4WFNCL2xpNDFzYVE2?=
- =?utf-8?B?TkJiOTBXSlpEOVNDaFI4M0xLNnpjNzdnNWtZL2NEbDluY3hRcW96UURJNWlo?=
- =?utf-8?B?SklOV2ZRY3VFQVZYd3ZxSy94TG4rMUJWcitCdWNRczlnNVJ3VUpSa1VPckNS?=
- =?utf-8?B?VlNiZklxY1VWY2ZuQ1YxcmVYYzE2Q0hVem5XbDA4eGNEMmY5RnB3UT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2229bbc1-a9fa-4a64-6d21-08debcbd2a80
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+	=?us-ascii?Q?+HRz9lewdEfK9kpquRoYwbH1o6nEJdTpOVIrWceCHDdXJw+rIVJYAtbW9fpm?=
+ =?us-ascii?Q?pep5r+3N/cL1LNM7IsQeX1u/4M9ga28u25o4PZp9drsrxv0EFABK3/uv9LjJ?=
+ =?us-ascii?Q?PDinK5HONprFSfiQeEv0OhA3N3aKjTkeSEhK+F0zdbaDeZtDKS+PFAcHwcXy?=
+ =?us-ascii?Q?07fd6FV5IsDS4f65wzKl6LTi/kbLhTHmQC64sIyfnuRP0uMGlhcYPua+QKX+?=
+ =?us-ascii?Q?SW1ys5X6fHpRIUqVqwCySqR7l2jFNNaNNgI2n3KRiUwBTxPUYs7p4l677Xx8?=
+ =?us-ascii?Q?rZhRoXNmv1vJpMlD3WhpsC3KeG6UTtM8O2xqYXAvYTJ48r68QUD9d7OwnF9G?=
+ =?us-ascii?Q?WlcDoI96GtAsXHd8HGfYTx/yuze4W/AUOsevJx+BH14UDB0RL57tDWuqO1UE?=
+ =?us-ascii?Q?DNzu0Qelq5XVTaLK82e0DDy5+Cclzo+H4ZPzAPO2kfyk79Qdc/ZJET7MlPs0?=
+ =?us-ascii?Q?1qGuzPUfTGfccUFzSm0mCV54GtHvyV23vXJf8uOjgMCmYpwPEQBFxLZbxRd9?=
+ =?us-ascii?Q?+T9zKCoAgKGZjz8WP5LUBNtSfizXXN4BmzeTidi6m5YwEE8NBmZhBgJ92EXD?=
+ =?us-ascii?Q?GXQE2apDmHJzh5UqoNjFrFymljw7bLiBZVicHdXeFMzpWt8aRje1CFDhumL6?=
+ =?us-ascii?Q?QuNWzgjP1dr4V6a9gS+t5V9Z6YSdOtgQ8+pd9PEzduurpzK5vRGhRqrxK05i?=
+ =?us-ascii?Q?r9Hnx9blmNX9iSf+XMvy09yM9/M0zB3RpxNjjUWSgnVgP+lka9e8nbW65Wj8?=
+ =?us-ascii?Q?WTyBRssTzReZWiHvlt1YYpwv3a4WsVF145fOPIqSR13Zh6ooJRrA5sEdCTbA?=
+ =?us-ascii?Q?8xREizGwWocXScjgjSyKoF7nQNtY3qB997G+7NAc76J5puv8TVnIYKIEh+z2?=
+ =?us-ascii?Q?zQL2cvAxSDlThv10Lo6/UHsQV7SxKzdi3GNzixhjbWQQmV9tPAymRMPin2vB?=
+ =?us-ascii?Q?YVYh2cp6SPuiltlksxK0+pCE9+ZevFKuvsiijEvhxTnc8r874YXIiHTlByhJ?=
+ =?us-ascii?Q?qvB430xktTYisRP17Y36mUlta7o5ghDghBnn4v/piKxiW2PhpYuDqBSEpKXC?=
+ =?us-ascii?Q?Nl1VyviwA1C+e2s81rpsnkjslzRWYZRyUAK+z75+Wx5dqnLYxM8bVQFvSJ8z?=
+ =?us-ascii?Q?iVQtYQH/Kd0JyKSEki0dvMW3LP6aK6OCWzLZFHXQfYZ4MrPxS9oK0gj7w8Vr?=
+ =?us-ascii?Q?Ty3Kugvk3qDzf07xgP0MVoW/fUHPpBU0QDk9spsmJX5ZfbMBQol6G7BeGslH?=
+ =?us-ascii?Q?IfggJMss6ucFIRDnaRTPVpKPe+05bTDAnxy0mm2ZGhO054tZ7kK/5IfaRlec?=
+ =?us-ascii?Q?Js0Umh0Ogbsf2a8Grcxz1jdQsKAYREmWHPqonMnEuAIUF+jBVi5V/BnehoFM?=
+ =?us-ascii?Q?jOd2Yw1XPhl2YLMRw+BqANd9ZrGUwLPKpc32TFbROVWlGPYbm9b5pIM2bFR5?=
+ =?us-ascii?Q?8AQMmf/RMhTjuDq5co1uWiEBeNGTT4N2dn6VObhphUm/ardD+9wVCWCGHwo1?=
+ =?us-ascii?Q?TPtBtot8XTZkFTat8T9ps7FGHPtfs8BkRxgYXZKi7VpPdENosbSIFlA0oJEn?=
+ =?us-ascii?Q?RbB0K8vl1tKSfNCxRx0m4z9EnISN1bLVAmwYiA+VlHtQvW3HLxkEXuRmTfDP?=
+ =?us-ascii?Q?ATzAYV0Gay2/xzLeX2WROMBt3VBw05qqINQjZsgti55xlz2voB3YYCK+vfxY?=
+ =?us-ascii?Q?Ce6JvZj1cstRum7uN9hfUOdwBQbe3FxT1O3dxCGMyr8eNRcwrPp8LjX9mQ10?=
+ =?us-ascii?Q?njuLgRKiJWhPPZA59OfRzUBXiqbQZA4MCoHY/0GRQo66nRi+Ic4k?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19749e33-0ed2-4e6e-5dfa-08debce80877
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 13:29:38.1916
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 18:36:29.7574
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /XggW7IixZ0yH5ZwDnGrnRqLvgVHGLwWS3xxSfaYXk1hOWI40ryHKelCSxevd6L8Df1hvRn4blITZrEX56/MJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P265MB7917
+X-MS-Exchange-CrossTenant-UserPrincipalName: Tc2GFQcS1qEMQ+1rOuwfNOGwp/zyCZQCEGjU4f399Zyt8Q/60ZuB32VMy2PiEPOG/h/szipm3VhUxO9zg2CODw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9228
 
-On Tue May 26, 2026 at 3:39 PM BST, Tamir Duberstein wrote:
-> The Ok return value of `read_array_from_fwnode_property` requires a
-> reference-to-reference transmute to construct but is never read, thus
-> remove it.
->
-> Signed-off-by: Tamir Duberstein <tamird@kernel.org>
-> ---
->  rust/kernel/device/property.rs | 42 +++++++++++++++++-------------------=
-------
->  1 file changed, 17 insertions(+), 25 deletions(-)
->
-> diff --git a/rust/kernel/device/property.rs b/rust/kernel/device/property=
-.rs
-> index 5aead835fbbc..87be2784f7a7 100644
-> --- a/rust/kernel/device/property.rs
-> +++ b/rust/kernel/device/property.rs
-> @@ -136,18 +136,15 @@ pub fn property_read_array_vec<'fwnode, 'name, T: P=
-ropertyInt>(
->          let mut val: KVec<T> =3D KVec::with_capacity(len, GFP_KERNEL)?;
-> =20
->          let res =3D T::read_array_from_fwnode_property(self, name, val.s=
-pare_capacity_mut());
-> -        let res =3D match res {
-> -            Ok(_) =3D> {
-> -                // SAFETY:
-> -                // - `len` is equal to `val.capacity - val.len`, because
-> -                //   `val.capacity` is `len` and `val.len` is zero.
-> -                // - All elements within the interval [`0`, `len`) were =
-initialized
-> -                //   by `read_array_from_fwnode_property`.
-> -                unsafe { val.inc_len(len) }
-> -                Ok(val)
-> -            }
-> -            Err(e) =3D> Err(e),
-> -        };
-> +        let res =3D res.map(|()| {
-> +            // SAFETY:
-> +            // - `len` is equal to `val.capacity - val.len`, because
-> +            //   `val.capacity` is `len` and `val.len` is zero.
-> +            // - All elements within the interval [`0`, `len`) were init=
-ialized
-> +            //   by `read_array_from_fwnode_property`.
-> +            unsafe { val.inc_len(len) }
-> +            val
-> +        });
->          Ok(PropertyGuard {
->              inner: res,
->              fwnode: self,
-> @@ -474,12 +471,12 @@ fn read_from_fwnode_property(fwnode: &FwNode, name:=
- &CStr) -> Result<Self> {
->  /// It must be public, because it appears in the signatures of other pub=
-lic
->  /// functions, but its methods shouldn't be used outside the kernel crat=
-e.
->  pub trait PropertyInt: Copy + Sealed {
-> -    /// Reads a property array.
-> -    fn read_array_from_fwnode_property<'a>(
-> +    /// Reads a property array into `out`.
-> +    fn read_array_from_fwnode_property(
->          fwnode: &FwNode,
->          name: &CStr,
-> -        out: &'a mut [MaybeUninit<Self>],
-> -    ) -> Result<&'a mut [Self]>;
-> +        out: &mut [MaybeUninit<Self>],
-> +    ) -> Result;
+cpumap_print_to_pagebuf() is the equivalent for the "&*pb[l]" notation
+in printk-like functions. In some cases, it makes people to create
+temporary buffers for the printed cpumasks, where it can be avoided.
 
-I think the old signature is quite reasonable. You provide storage and the
-buffer is filled and that the return value is the proof of initialization.
+Get rid of it in a favor of more standard printing API.
 
-If you're concerned with `transmute` it should just be replaced with
-`assume_init_mut()`.
+Each patch, except for the last one, is independent and may be moved with
+the corresponding subsystem. Or I can take it in bitmap-for-next, at
+maintainers' discretion.
 
-Best,
-Gary
+On top of bitmap-for-next.
 
-> =20
->      /// Reads the length of a property array.
->      fn read_array_len_from_fwnode_property(fwnode: &FwNode, name: &CStr)=
- -> Result<usize>;
-> @@ -495,11 +492,11 @@ impl Sealed for $int {}
->          impl<const N: usize> Sealed for [$int; N] {}
-> =20
->          impl PropertyInt for $int {
-> -            fn read_array_from_fwnode_property<'a>(
-> +            fn read_array_from_fwnode_property(
->                  fwnode: &FwNode,
->                  name: &CStr,
-> -                out: &'a mut [MaybeUninit<Self>],
-> -            ) -> Result<&'a mut [Self]> {
-> +                out: &mut [MaybeUninit<Self>],
-> +            ) -> Result {
->                  // SAFETY:
->                  // - `fwnode`, `name` and `out` are all valid by their t=
-ype
->                  //   invariants.
-> @@ -515,12 +512,7 @@ fn read_array_from_fwnode_property<'a>(
->                          out.len(),
->                      )
->                  };
-> -                to_result(ret)?;
-> -                // SAFETY: Transmuting from `&'a mut [MaybeUninit<Self>]=
-` to
-> -                // `&'a mut [Self]` is sound, because the previous call =
-to a
-> -                // `fwnode_property_read_*_array` function (which didn't=
- fail)
-> -                // fully initialized the slice.
-> -                Ok(unsafe { core::mem::transmute::<&mut [MaybeUninit<Sel=
-f>], &mut [Self]>(out) })
-> +                to_result(ret)
->              }
-> =20
->              fn read_array_len_from_fwnode_property(fwnode: &FwNode, name=
-: &CStr) -> Result<usize> {
+(Apologize for the bulky CC list. Feel free to review only relevant
+patches.)
 
+Yury Norov (16):
+  psci: simplify hotplug_tests()
+  arm: Use sysfs_emit() for cpumask show callbacks
+  powerpc: Use sysfs_emit() for cpumask show callbacks
+  x86/events: Use sysfs_emit() for cpumask show callbacks
+  ACPI: pad: Use sysfs_emit() for idlecpus show
+  cpu: Use sysfs_emit() for cpumask show callback
+  devfreq: Use sysfs_emit() for cpumask show callbacks
+  fpga: dfl-fme-perf: Use sysfs_emit() for cpumask show
+  hwtracing: hisi_ptt: Use sysfs_emit() for cpumask show
+  RDMA/hfi1: Use sysfs_emit() for cpumask show helper
+  nvdimm: Use sysfs_emit() for cpumask show callback
+  PCI/sysfs: Use sysfs_emit() for cpumask show callbacks
+  perf: Use sysfs_emit() for cpumask show callbacks
+  powercap: intel_rapl: Use sysfs_emit() for cpumask show
+  thermal: intel: Use sysfs_emit() for powerclamp cpumask
+  lib/bitmap-str: get rid of cpumap_print_to_pagebuf()
 
+ arch/arm/mach-imx/mmdc.c                    |  2 +-
+ arch/arm/mm/cache-l2x0-pmu.c                |  2 +-
+ arch/powerpc/kernel/cacheinfo.c             |  3 ++-
+ arch/powerpc/perf/hv-24x7.c                 |  2 +-
+ arch/powerpc/perf/hv-gpci.c                 |  2 +-
+ arch/powerpc/perf/imc-pmu.c                 |  2 +-
+ arch/x86/events/amd/iommu.c                 |  2 +-
+ arch/x86/events/amd/power.c                 |  2 +-
+ arch/x86/events/amd/uncore.c                |  2 +-
+ arch/x86/events/intel/core.c                |  2 +-
+ arch/x86/events/intel/uncore.c              |  2 +-
+ drivers/acpi/acpi_pad.c                     |  4 ++--
+ drivers/base/cpu.c                          |  2 +-
+ drivers/devfreq/event/rockchip-dfi.c        |  2 +-
+ drivers/devfreq/hisi_uncore_freq.c          |  2 +-
+ drivers/firmware/psci/psci_checker.c        | 14 ++------------
+ drivers/fpga/dfl-fme-perf.c                 |  2 +-
+ drivers/hwtracing/ptt/hisi_ptt.c            |  2 +-
+ drivers/infiniband/hw/hfi1/sdma.c           |  3 ++-
+ drivers/nvdimm/nd_perf.c                    |  2 +-
+ drivers/pci/pci-sysfs.c                     |  7 ++++---
+ drivers/perf/alibaba_uncore_drw_pmu.c       |  2 +-
+ drivers/perf/amlogic/meson_ddr_pmu_core.c   |  2 +-
+ drivers/perf/arm-cci.c                      |  2 +-
+ drivers/perf/arm-ccn.c                      |  2 +-
+ drivers/perf/arm-cmn.c                      |  2 +-
+ drivers/perf/arm-ni.c                       |  2 +-
+ drivers/perf/arm_cspmu/arm_cspmu.c          |  2 +-
+ drivers/perf/arm_dmc620_pmu.c               |  4 ++--
+ drivers/perf/arm_dsu_pmu.c                  |  2 +-
+ drivers/perf/arm_pmu.c                      |  2 +-
+ drivers/perf/arm_smmuv3_pmu.c               |  2 +-
+ drivers/perf/arm_spe_pmu.c                  |  2 +-
+ drivers/perf/cxl_pmu.c                      |  2 +-
+ drivers/perf/dwc_pcie_pmu.c                 |  2 +-
+ drivers/perf/fsl_imx8_ddr_perf.c            |  2 +-
+ drivers/perf/fsl_imx9_ddr_perf.c            |  2 +-
+ drivers/perf/fujitsu_uncore_pmu.c           |  2 +-
+ drivers/perf/hisilicon/hisi_pcie_pmu.c      |  2 +-
+ drivers/perf/hisilicon/hisi_uncore_pmu.c    |  2 +-
+ drivers/perf/marvell_cn10k_ddr_pmu.c        |  2 +-
+ drivers/perf/marvell_cn10k_tad_pmu.c        |  2 +-
+ drivers/perf/marvell_pem_pmu.c              |  2 +-
+ drivers/perf/nvidia_t410_c2c_pmu.c          |  2 +-
+ drivers/perf/nvidia_t410_cmem_latency_pmu.c |  2 +-
+ drivers/perf/qcom_l2_pmu.c                  |  2 +-
+ drivers/perf/qcom_l3_pmu.c                  |  2 +-
+ drivers/perf/starfive_starlink_pmu.c        |  2 +-
+ drivers/perf/thunderx2_pmu.c                |  2 +-
+ drivers/perf/xgene_pmu.c                    |  2 +-
+ drivers/powercap/intel_rapl_common.c        |  2 +-
+ drivers/thermal/intel/intel_powerclamp.c    |  2 +-
+ include/linux/cpumask.h                     | 19 -------------------
+ kernel/events/core.c                        |  2 +-
+ lib/bitmap-str.c                            |  9 ++++-----
+ 55 files changed, 65 insertions(+), 92 deletions(-)
+
+-- 
+2.51.0
