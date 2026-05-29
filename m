@@ -1,316 +1,553 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A1233ADBF;
-	Fri, 29 May 2026 07:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEA863C379C;
+	Fri, 29 May 2026 11:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780041067; cv=none; b=nSPUbEfs6XjQ0EoNWIRutIX0vhvXwTGnqKkE1ptrRZ9nM0Rk9+L5L+1ua08xXq/zCfhpRReJ6rw9jo1wYL/0SmdBwngLEEppVKMaxaa+ksAWMutuDEi62XVXEtiHEtGdMI390wdrdWCQNxbldq8vLweQug9HyqjoIAaJ045wuE8=
+	t=1780052737; cv=none; b=DB2F3nyB7H/ZdkobE8GjhaCvsc9XYygn4AH3+Tc8P99TwNwYy3tFo6eQXejDtl+mMy4UXy103P52D6SJECNEVmL/hgop96ttsYZ/IDD1L6YOZUu4JpRYlJ3CDB8zs5qY/ZzdQs5OzLhLksN6ha3ZqlFH1vouVMssFL89eZyoTKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780041067; c=relaxed/simple;
-	bh=HpM0byGT3x8yrjw9BfQvceqkiws23ktUi0BRJBKCDp0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EX97W/sRnwvSU7F2XK4HeS7qqkjZR5YVK/tJrEMmzZTzjltkFHD5sBrSx8fWax270/dz4T4pBf+VQagod6oRcptTHvGv2KZJCni3fVsFPQSfpldCf0k62cBDyoJw3Kl4GT1s0t45FWjsf+dO6tofQDBEMQCrq9het3tmk/qLdW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=AdViOqe7; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1780052737; c=relaxed/simple;
+	bh=d3TvFloVjXp7jxtda0yZHPpM1vpYD1QTXYtlqXtjvGU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cS8zW/8N/KBK53KNqCuElOBOfZWnzqybUYj/LvYpP8ZETlhRQLMA/fgEDoCvO/F/c6fPa74FfRFiUHV/aNfG/HTUojoSkpcP0GgCn3kn2NdjphX4S6WCZbw+wPXUhqjec31rehRinM7xDcQ0//I4MvOZqa6lWIRR1/7Ws5UsgSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DAsJR0Dw; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="AdViOqe7"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 64T7p4ixD3998941, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1780041064; bh=AYcWJ3Zk9IS0OuDL8K02VMN0z1RZh9OxdRduNw7+NXE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	b=AdViOqe7HzEWfm+igLiE/z5Zrmr+0kMjLX4GpOK8pbLOrOfP/mkUr+ED0GbVOSXxA
-	 GUu+6vo7zOL4V4q71fibn9PX1FLKeRPNrcVtXcGj8b0bUUdt2tSXh3kTSN68usMKKt
-	 w9XfAVCaLhFiOn5pL9VQLCBa9QrOeSy5BI8AYsncfbL6VrmpDg0MwxpnuOndl0Xx3P
-	 Xps2nCfnKrOgoJoWFyhFMFOQIhZaGP3KyWrP5KRnviha6141Dd9rmgsbkGnJphlvop
-	 tygR6xMtaZTKN4B9MrW4c0z2eMsV5kbTbQ2oVpeGJb/xQuLnlzVR7FWAQYW7ybknio
-	 4EpBlbVrmkjhg==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 64T7p4ixD3998941
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 29 May 2026 15:51:04 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 29 May 2026 15:51:04 +0800
-Received: from [127.0.1.1] (172.21.40.75) by RTKEXHMBS05.realtek.com.tw
- (10.21.1.55) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17 via Frontend
- Transport; Fri, 29 May 2026 15:51:04 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: <linux-wireless@vger.kernel.org>
-CC: <driver-core@lists.linux.dev>, <johannes@sipsolutions.net>,
-	<mh_chen@realtek.com>, <wenjie.tsai@realtek.com>,
-	<charlesl@valvesoftware.com>, <sabae@valvesoftware.com>
-Subject: [PATCH v3 rtw-next 2/2] wifi: rtw89: usb: add serial_number and uuid sysfs attributes for 0x28de:0x2432
-Date: Fri, 29 May 2026 15:50:32 +0800
-Message-ID: <20260529075032.16807-3-pkshih@realtek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260529075032.16807-1-pkshih@realtek.com>
-References: <20260529075032.16807-1-pkshih@realtek.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DAsJR0Dw"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0C4E22103;
+	Fri, 29 May 2026 04:05:28 -0700 (PDT)
+Received: from [10.57.37.50] (unknown [10.57.37.50])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0CFF63F905;
+	Fri, 29 May 2026 04:05:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1780052733; bh=d3TvFloVjXp7jxtda0yZHPpM1vpYD1QTXYtlqXtjvGU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DAsJR0DwEuqwrcbbAhQKfEWRfrKoVIciblB1nygN1dpzf9G6PnfvRYPm32njy+OP1
+	 +a4/D5U4oWBimNcRm+3LXT04e1uGl1FV74M8e3WB+jGsZ/rAkFQC+ccIpiHHWZECuv
+	 eOISYfG5dhloA3ifmavJkgdFGKk8EOTtAHiafsYs=
+Message-ID: <7e980b99-1e4e-408b-8ebd-4d28116e7ad5@arm.com>
+Date: Fri, 29 May 2026 12:05:08 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/16] perf: Use sysfs_emit() for cpumask show callbacks
+To: Yury Norov <ynorov@nvidia.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Russell King <linux@armlinux.org.uk>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, Thomas Gleixner <tglx@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Len Brown <lenb@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham
+ <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Heiko Stuebner <heiko@sntech.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+ Moritz Fischer <mdf@kernel.org>, Yicong Yang <yangyicong@hisilicon.com>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Dan Williams <djbw@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Shuai Xue <xueshuai@linux.alibaba.com>,
+ Will Deacon <will@kernel.org>, Jiucheng Xu <jiucheng.xu@amlogic.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jing Zhang <renyu.zj@linux.alibaba.com>, Xu Yang <xu.yang_2@nxp.com>,
+ Linu Cherian <lcherian@marvell.com>,
+ Gowthami Thiagarajan <gthiagarajan@marvell.com>,
+ Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
+ Khuong Dinh <khuong@os.amperecomputing.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Yury Norov <yury.norov@gmail.com>,
+ Kees Cook <kees@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Aboorva Devarajan <aboorvad@linux.ibm.com>,
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+ Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+ Besar Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>,
+ Chengwen Feng <fengchengwen@huawei.com>,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-perf-users@vger.kernel.org, linux-acpi@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-fpga@vger.kernel.org,
+ linux-rdma@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20260528183625.870813-1-ynorov@nvidia.com>
+ <20260528183625.870813-14-ynorov@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260528183625.870813-14-ynorov@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Johnson Tsai <wenjie.tsai@realtek.com>
+On 2026-05-28 7:36 pm, Yury Norov wrote:
+> These callbacks are sysfs show paths.
+> 
+> Use sysfs_emit() and cpumask_pr_args() to emit the masks.
+> 
+> This prepares for removing cpumap_print_to_pagebuf().
 
-Expose the device's Serial Number (SN) and UUID from EFUSE via two
-read-only sysfs attributes, `serial_number` and `uuid`, on the ieee80211
-phy device under the `rtw89_usb` attribute group.
+TBH, looking at this diff I think it only shows the value of having a 
+helper to abstract the boilerplate...
 
-This hardware identification information is essential for user-space
-applications to uniquely identify, track, and manage specific Wi-Fi
-adapters. For example, in automated factory provisioning or device
-management systems, user-space tools rely on the EFUSE serial number and
-UUID to bind configurations to specific physical adapters. Currently,
-standard wireless APIs do not expose this low-level hardware
-information, making these sysfs nodes the only viable solution for
-user space to extract this data.
+I'm not sure I agree with the argument of removing something entirely 
+just because it may occasionally be misused, but could we at least have 
+something like:
 
-The attributes are gated behind a new RTW89_QUIRK_HW_INFO_SYSFS quirk,
-enabled only for the VID 0x28de / PID 0x2432 device via the
-dev_id_quirks field in rtw89_driver_info.
+#define sysfs_emit_cpumask(buf, mask) \
+	sysfs_emit((buf), "%*pbl\n", cpumask_pr_args(mask))
 
-Example usage from user-space:
-  $ cat /sys/class/ieee80211/phy0/rtw89_usb/serial_number
-  3642000123
-  $ cat /sys/class/ieee80211/phy0/rtw89_usb/uuid
-  aaec2b7c-0a55-4727-8de0-b30febccbbaa
+to save the mess in all the many places where the current 
+cpumap_print_to_pagebuf() usage _is_ entirely appropriate?
 
-Cc: Elliot Saba <sabae@valvesoftware.com>
-Cc: Charles Lohr <charlesl@valvesoftware.com>
-Signed-off-by: Johnson Tsai <wenjie.tsai@realtek.com>
-Signed-off-by: Ping-Ke Shih <pkshih@realtek.com>
----
-v3:
- - use  dev default group (dev->group) instead
-v2: 
- - add sysfs entries in /sys/class/ieee80211/phy0/rtw89_usb/
- - add ABI Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-v1: RFC
----
- .../ABI/testing/sysfs-class-ieee80211-rtw89   | 24 +++++++++
- drivers/net/wireless/realtek/rtw89/core.h     |  6 +++
- drivers/net/wireless/realtek/rtw89/rtw8852c.c | 10 ++++
- drivers/net/wireless/realtek/rtw89/rtw8852c.h |  6 ++-
- .../net/wireless/realtek/rtw89/rtw8852cu.c    | 12 ++++-
- drivers/net/wireless/realtek/rtw89/usb.c      | 52 +++++++++++++++++++
- 6 files changed, 108 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
+Thansk,
+Robin.
 
-diff --git a/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89 b/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-new file mode 100644
-index 000000000000..7dfdce08a42f
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
-@@ -0,0 +1,24 @@
-+What:		/sys/class/ieee80211/phyX/rtw89_usb/serial_number
-+Date:		May 2026
-+Contact:	Johnson Tsai <wenjie.tsai@realtek.com>, linux-wireless@vger.kernel.org
-+Description:	(Read) Serial number burned into EFUSE of the RTL8852CU-based
-+		USB Wi-Fi adapter.  Only present on devices that set the
-+		RTW89_QUIRK_HW_INFO_SYSFS quirk (currently VID 0x28de /
-+		PID 0x2432).
-+
-+		Format: %10phN (5 raw bytes printed as 10 lowercase hex
-+		digits, no separators).
-+
-+		Example: 3642000123
-+
-+What:		/sys/class/ieee80211/phyX/rtw89_usb/uuid
-+Date:		May 2026
-+Contact:	Johnson Tsai <wenjie.tsai@realtek.com>, linux-wireless@vger.kernel.org
-+Description:	(Read) UUID burned into EFUSE of the RTL8852CU-based USB Wi-Fi
-+		adapter.  Only present on devices that set the
-+		RTW89_QUIRK_HW_INFO_SYSFS quirk (currently VID 0x28de /
-+		PID 0x2432).
-+
-+		Format: %pUb (RFC 4122 UUID in lowercase with hyphens).
-+
-+		Example: aaec2b7c-0a55-4727-8de0-b30febccbbaa
-diff --git a/drivers/net/wireless/realtek/rtw89/core.h b/drivers/net/wireless/realtek/rtw89/core.h
-index 4c638c2bdc4f..5547888d7e67 100644
---- a/drivers/net/wireless/realtek/rtw89/core.h
-+++ b/drivers/net/wireless/realtek/rtw89/core.h
-@@ -3618,6 +3618,9 @@ struct rtw89_sta_link {
- 	u32 data_tx_cnt_lmt:6;
- };
- 
-+#define RTW89_EFUSE_SN_LEN 5
-+#define RTW89_EFUSE_UUID_LEN 16
-+
- struct rtw89_efuse {
- 	bool valid;
- 	bool power_k_valid;
-@@ -3628,6 +3631,8 @@ struct rtw89_efuse {
- 	u8 adc_td;
- 	u8 bt_setting_2;
- 	u8 bt_setting_3;
-+	u8 sn[RTW89_EFUSE_SN_LEN];
-+	u8 uuid[RTW89_EFUSE_UUID_LEN];
- };
- 
- struct rtw89_phy_rate_pattern {
-@@ -5376,6 +5381,7 @@ enum rtw89_quirks {
- 	RTW89_QUIRK_PCI_BER,
- 	RTW89_QUIRK_THERMAL_PROT_120C,
- 	RTW89_QUIRK_THERMAL_PROT_110C,
-+	RTW89_QUIRK_HW_INFO_SYSFS,
- 
- 	NUM_OF_RTW89_QUIRKS,
- };
-diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852c.c b/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-index 7bb1264bcaef..3861cce42b1b 100644
---- a/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-+++ b/drivers/net/wireless/realtek/rtw89/rtw8852c.c
-@@ -621,6 +621,15 @@ static void rtw8852c_efuse_parsing_gain_offset(struct rtw89_dev *rtwdev,
- 	gain->offset_valid = valid;
- }
- 
-+static void rtw8852c_efuse_copy_sn_uuid_usb(struct rtw89_dev *rtwdev,
-+					    const struct rtw8852c_efuse *map)
-+{
-+	struct rtw89_efuse *efuse = &rtwdev->efuse;
-+
-+	memcpy(efuse->sn, map->u.sn, sizeof(efuse->sn));
-+	memcpy(efuse->uuid, map->u.uuid, sizeof(efuse->uuid));
-+}
-+
- static int rtw8852c_read_efuse(struct rtw89_dev *rtwdev, u8 *log_map,
- 			       enum rtw89_efuse_block block)
- {
-@@ -640,6 +649,7 @@ static int rtw8852c_read_efuse(struct rtw89_dev *rtwdev, u8 *log_map,
- 		break;
- 	case RTW89_HCI_TYPE_USB:
- 		ether_addr_copy(efuse->addr, map->u.mac_addr);
-+		rtw8852c_efuse_copy_sn_uuid_usb(rtwdev, map);
- 		break;
- 	default:
- 		return -ENOTSUPP;
-diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852c.h b/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-index 8585921ac6c4..b1d7c354c18e 100644
---- a/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-+++ b/drivers/net/wireless/realtek/rtw89/rtw8852c.h
-@@ -13,7 +13,11 @@
- struct rtw8852c_u_efuse {
- 	u8 rsvd[0x88];
- 	u8 mac_addr[ETH_ALEN];
--};
-+	u8 rsvd1[8];
-+	u8 sn[RTW89_EFUSE_SN_LEN];
-+	u8 rsvd2[29];
-+	u8 uuid[RTW89_EFUSE_UUID_LEN];
-+} __packed;
- 
- struct rtw8852c_e_efuse {
- 	u8 mac_addr[ETH_ALEN];
-diff --git a/drivers/net/wireless/realtek/rtw89/rtw8852cu.c b/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-index 8f89f9a31455..81ee96b0a048 100644
---- a/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-+++ b/drivers/net/wireless/realtek/rtw89/rtw8852cu.c
-@@ -39,6 +39,16 @@ static const struct rtw89_driver_info rtw89_8852cu_info = {
- 	},
- };
- 
-+static const struct rtw89_driver_info rtw89_8852cu_valve_info = {
-+	.chip = &rtw8852c_chip_info,
-+	.variant = NULL,
-+	.quirks = NULL,
-+	.dev_id_quirks = BIT(RTW89_QUIRK_HW_INFO_SYSFS),
-+	.bus = {
-+		.usb = &rtw8852c_usb_info,
-+	},
-+};
-+
- static const struct usb_device_id rtw_8852cu_id_table[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x0411, 0x03a6, 0xff, 0xff, 0xff),
- 	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
-@@ -53,7 +63,7 @@ static const struct usb_device_id rtw_8852cu_id_table[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x0db0, 0x991d, 0xff, 0xff, 0xff),
- 	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x28de, 0x2432, 0xff, 0xff, 0xff),
--	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
-+	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_valve_info },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2c7c, 0x8206, 0xff, 0xff, 0xff),
- 	  .driver_info = (kernel_ulong_t)&rtw89_8852cu_info },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x35b2, 0x0502, 0xff, 0xff, 0xff),
-diff --git a/drivers/net/wireless/realtek/rtw89/usb.c b/drivers/net/wireless/realtek/rtw89/usb.c
-index 67ebf2d9bb7d..aafa8b9e93df 100644
---- a/drivers/net/wireless/realtek/rtw89/usb.c
-+++ b/drivers/net/wireless/realtek/rtw89/usb.c
-@@ -1150,6 +1150,56 @@ static int rtw89_usb_switch_mode(struct rtw89_dev *rtwdev)
- 	return rtw89_usb_switch_mode_be(rtwdev);
- }
- 
-+static ssize_t serial_number_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	struct wiphy *wiphy = container_of(dev, struct wiphy, dev);
-+	struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-+	struct rtw89_dev *rtwdev = hw->priv;
-+	struct rtw89_efuse *efuse = &rtwdev->efuse;
-+
-+	return sysfs_emit(buf, "%*phN\n",
-+			  (int)sizeof(efuse->sn), efuse->sn);
-+}
-+static DEVICE_ATTR_RO(serial_number);
-+
-+static ssize_t uuid_show(struct device *dev,
-+			 struct device_attribute *attr, char *buf)
-+{
-+	struct wiphy *wiphy = container_of(dev, struct wiphy, dev);
-+	struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-+	struct rtw89_dev *rtwdev = hw->priv;
-+	struct rtw89_efuse *efuse = &rtwdev->efuse;
-+
-+	return sysfs_emit(buf, "%pUb\n", efuse->uuid);
-+}
-+static DEVICE_ATTR_RO(uuid);
-+
-+static struct attribute *rtw89_usb_attrs[] = {
-+	&dev_attr_serial_number.attr,
-+	&dev_attr_uuid.attr,
-+	NULL,
-+};
-+
-+static bool rtw89_usb_group_visible(struct kobject *kobj)
-+{
-+	struct device *dev = kobj_to_dev(kobj);
-+	struct wiphy *wiphy = container_of(dev, struct wiphy, dev);
-+	struct ieee80211_hw *hw = wiphy_to_ieee80211_hw(wiphy);
-+	struct rtw89_dev *rtwdev = hw->priv;
-+
-+	return test_bit(RTW89_QUIRK_HW_INFO_SYSFS, rtwdev->quirks);
-+}
-+
-+DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(rtw89_usb);
-+
-+static const struct attribute_group rtw89_usb_group = {
-+	.name		= "rtw89_usb",
-+	.attrs		= rtw89_usb_attrs,
-+	.is_visible	= SYSFS_GROUP_VISIBLE(rtw89_usb),
-+};
-+__ATTRIBUTE_GROUPS(rtw89_usb);
-+
- int rtw89_usb_probe(struct usb_interface *intf,
- 		    const struct usb_device_id *id)
- {
-@@ -1171,6 +1221,8 @@ int rtw89_usb_probe(struct usb_interface *intf,
- 	rtwusb->rtwdev = rtwdev;
- 	rtwusb->info = info->bus.usb;
- 
-+	rtwdev->hw->wiphy->dev.groups = rtw89_usb_groups;
-+
- 	rtwdev->hci.ops = &rtw89_usb_ops;
- 	rtwdev->hci.type = RTW89_HCI_TYPE_USB;
- 	rtwdev->hci.tx_rpt_enabled = true;
--- 
-2.25.1
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> ---
+>   drivers/perf/alibaba_uncore_drw_pmu.c       | 2 +-
+>   drivers/perf/amlogic/meson_ddr_pmu_core.c   | 2 +-
+>   drivers/perf/arm-cci.c                      | 2 +-
+>   drivers/perf/arm-ccn.c                      | 2 +-
+>   drivers/perf/arm-cmn.c                      | 2 +-
+>   drivers/perf/arm-ni.c                       | 2 +-
+>   drivers/perf/arm_cspmu/arm_cspmu.c          | 2 +-
+>   drivers/perf/arm_dmc620_pmu.c               | 4 ++--
+>   drivers/perf/arm_dsu_pmu.c                  | 2 +-
+>   drivers/perf/arm_pmu.c                      | 2 +-
+>   drivers/perf/arm_smmuv3_pmu.c               | 2 +-
+>   drivers/perf/arm_spe_pmu.c                  | 2 +-
+>   drivers/perf/cxl_pmu.c                      | 2 +-
+>   drivers/perf/dwc_pcie_pmu.c                 | 2 +-
+>   drivers/perf/fsl_imx8_ddr_perf.c            | 2 +-
+>   drivers/perf/fsl_imx9_ddr_perf.c            | 2 +-
+>   drivers/perf/fujitsu_uncore_pmu.c           | 2 +-
+>   drivers/perf/hisilicon/hisi_pcie_pmu.c      | 2 +-
+>   drivers/perf/hisilicon/hisi_uncore_pmu.c    | 2 +-
+>   drivers/perf/marvell_cn10k_ddr_pmu.c        | 2 +-
+>   drivers/perf/marvell_cn10k_tad_pmu.c        | 2 +-
+>   drivers/perf/marvell_pem_pmu.c              | 2 +-
+>   drivers/perf/nvidia_t410_c2c_pmu.c          | 2 +-
+>   drivers/perf/nvidia_t410_cmem_latency_pmu.c | 2 +-
+>   drivers/perf/qcom_l2_pmu.c                  | 2 +-
+>   drivers/perf/qcom_l3_pmu.c                  | 2 +-
+>   drivers/perf/starfive_starlink_pmu.c        | 2 +-
+>   drivers/perf/thunderx2_pmu.c                | 2 +-
+>   drivers/perf/xgene_pmu.c                    | 2 +-
+>   kernel/events/core.c                        | 2 +-
+>   30 files changed, 31 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/perf/alibaba_uncore_drw_pmu.c b/drivers/perf/alibaba_uncore_drw_pmu.c
+> index ac49d3b2dad6..74786a5dd6a2 100644
+> --- a/drivers/perf/alibaba_uncore_drw_pmu.c
+> +++ b/drivers/perf/alibaba_uncore_drw_pmu.c
+> @@ -221,7 +221,7 @@ static ssize_t ali_drw_pmu_cpumask_show(struct device *dev,
+>   {
+>   	struct ali_drw_pmu *drw_pmu = to_ali_drw_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(drw_pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(drw_pmu->cpu)));
+>   }
+>   
+>   static struct device_attribute ali_drw_pmu_cpumask_attr =
+> diff --git a/drivers/perf/amlogic/meson_ddr_pmu_core.c b/drivers/perf/amlogic/meson_ddr_pmu_core.c
+> index c1e755c356a3..f614aa3434a5 100644
+> --- a/drivers/perf/amlogic/meson_ddr_pmu_core.c
+> +++ b/drivers/perf/amlogic/meson_ddr_pmu_core.c
+> @@ -191,7 +191,7 @@ static ssize_t meson_ddr_perf_cpumask_show(struct device *dev,
+>   {
+>   	struct ddr_pmu *pmu = dev_get_drvdata(dev);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
+>   }
+>   
+>   static struct device_attribute meson_ddr_perf_cpumask_attr =
+> diff --git a/drivers/perf/arm-cci.c b/drivers/perf/arm-cci.c
+> index 1cc3214d6b6d..f0ef0a679e74 100644
+> --- a/drivers/perf/arm-cci.c
+> +++ b/drivers/perf/arm-cci.c
+> @@ -1351,7 +1351,7 @@ static ssize_t pmu_cpumask_attr_show(struct device *dev,
+>   	struct pmu *pmu = dev_get_drvdata(dev);
+>   	struct cci_pmu *cci_pmu = to_cci_pmu(pmu);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(cci_pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(cci_pmu->cpu)));
+>   }
+>   
+>   static struct device_attribute pmu_cpumask_attr =
+> diff --git a/drivers/perf/arm-ccn.c b/drivers/perf/arm-ccn.c
+> index 8af3563fdf60..d5dcb4280434 100644
+> --- a/drivers/perf/arm-ccn.c
+> +++ b/drivers/perf/arm-ccn.c
+> @@ -538,7 +538,7 @@ static ssize_t arm_ccn_pmu_cpumask_show(struct device *dev,
+>   {
+>   	struct arm_ccn *ccn = pmu_to_arm_ccn(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(ccn->dt.cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(ccn->dt.cpu)));
+>   }
+>   
+>   static struct device_attribute arm_ccn_pmu_cpumask_attr =
+> diff --git a/drivers/perf/arm-cmn.c b/drivers/perf/arm-cmn.c
+> index f5305c8fdca4..2187ba763b72 100644
+> --- a/drivers/perf/arm-cmn.c
+> +++ b/drivers/perf/arm-cmn.c
+> @@ -1326,7 +1326,7 @@ static ssize_t arm_cmn_cpumask_show(struct device *dev,
+>   {
+>   	struct arm_cmn *cmn = to_cmn(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(cmn->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(cmn->cpu)));
+>   }
+>   
+>   static struct device_attribute arm_cmn_cpumask_attr =
+> diff --git a/drivers/perf/arm-ni.c b/drivers/perf/arm-ni.c
+> index 66858c65215d..03a1c6bf9223 100644
+> --- a/drivers/perf/arm-ni.c
+> +++ b/drivers/perf/arm-ni.c
+> @@ -239,7 +239,7 @@ static ssize_t arm_ni_cpumask_show(struct device *dev,
+>   {
+>   	struct arm_ni *ni = cd_to_ni(pmu_to_cd(dev_get_drvdata(dev)));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(ni->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(ni->cpu)));
+>   }
+>   
+>   static struct device_attribute arm_ni_cpumask_attr =
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
+> index 80fb314d5135..e6292021f653 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
+> @@ -305,7 +305,7 @@ static ssize_t arm_cspmu_cpumask_show(struct device *dev,
+>   	default:
+>   		return 0;
+>   	}
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
+>   }
+>   
+>   static struct attribute *arm_cspmu_cpumask_attrs[] = {
+> diff --git a/drivers/perf/arm_dmc620_pmu.c b/drivers/perf/arm_dmc620_pmu.c
+> index 4f6b196160f8..467147a05eec 100644
+> --- a/drivers/perf/arm_dmc620_pmu.c
+> +++ b/drivers/perf/arm_dmc620_pmu.c
+> @@ -237,8 +237,8 @@ static ssize_t dmc620_pmu_cpumask_show(struct device *dev,
+>   {
+>   	struct dmc620_pmu *dmc620_pmu = to_dmc620_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf,
+> -				       cpumask_of(dmc620_pmu->irq->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n",
+> +			  cpumask_pr_args(cpumask_of(dmc620_pmu->irq->cpu)));
+>   }
+>   
+>   static struct device_attribute dmc620_pmu_cpumask_attr =
+> diff --git a/drivers/perf/arm_dsu_pmu.c b/drivers/perf/arm_dsu_pmu.c
+> index 32b0dd7c693b..bcbd19e075a5 100644
+> --- a/drivers/perf/arm_dsu_pmu.c
+> +++ b/drivers/perf/arm_dsu_pmu.c
+> @@ -157,7 +157,7 @@ static ssize_t dsu_pmu_cpumask_show(struct device *dev,
+>   	default:
+>   		return 0;
+>   	}
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
+>   }
+>   
+>   static struct attribute *dsu_pmu_format_attrs[] = {
+> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
+> index 939bcbd433aa..51ab6cc52ca0 100644
+> --- a/drivers/perf/arm_pmu.c
+> +++ b/drivers/perf/arm_pmu.c
+> @@ -570,7 +570,7 @@ static ssize_t cpus_show(struct device *dev,
+>   			 struct device_attribute *attr, char *buf)
+>   {
+>   	struct arm_pmu *armpmu = to_arm_pmu(dev_get_drvdata(dev));
+> -	return cpumap_print_to_pagebuf(true, buf, &armpmu->supported_cpus);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&armpmu->supported_cpus));
+>   }
+>   
+>   static DEVICE_ATTR_RO(cpus);
+> diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
+> index 621f02a7f43b..8ce34e6bb82b 100644
+> --- a/drivers/perf/arm_smmuv3_pmu.c
+> +++ b/drivers/perf/arm_smmuv3_pmu.c
+> @@ -537,7 +537,7 @@ static ssize_t smmu_pmu_cpumask_show(struct device *dev,
+>   {
+>   	struct smmu_pmu *smmu_pmu = to_smmu_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(smmu_pmu->on_cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(smmu_pmu->on_cpu)));
+>   }
+>   
+>   static struct device_attribute smmu_pmu_cpumask_attr =
+> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
+> index dbd0da111639..9f786fd48cdd 100644
+> --- a/drivers/perf/arm_spe_pmu.c
+> +++ b/drivers/perf/arm_spe_pmu.c
+> @@ -343,7 +343,7 @@ static ssize_t cpumask_show(struct device *dev,
+>   {
+>   	struct arm_spe_pmu *spe_pmu = dev_get_drvdata(dev);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, &spe_pmu->supported_cpus);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&spe_pmu->supported_cpus));
+>   }
+>   static DEVICE_ATTR_RO(cpumask);
+>   
+> diff --git a/drivers/perf/cxl_pmu.c b/drivers/perf/cxl_pmu.c
+> index 68a54d97d2a8..0735eb33f5f3 100644
+> --- a/drivers/perf/cxl_pmu.c
+> +++ b/drivers/perf/cxl_pmu.c
+> @@ -493,7 +493,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
+>   {
+>   	struct cxl_pmu_info *info = dev_get_drvdata(dev);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(info->on_cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(info->on_cpu)));
+>   }
+>   static DEVICE_ATTR_RO(cpumask);
+>   
+> diff --git a/drivers/perf/dwc_pcie_pmu.c b/drivers/perf/dwc_pcie_pmu.c
+> index 5385401fa9cf..291e776d6f6a 100644
+> --- a/drivers/perf/dwc_pcie_pmu.c
+> +++ b/drivers/perf/dwc_pcie_pmu.c
+> @@ -117,7 +117,7 @@ static ssize_t cpumask_show(struct device *dev,
+>   {
+>   	struct dwc_pcie_pmu *pcie_pmu = to_dwc_pcie_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pcie_pmu->on_cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pcie_pmu->on_cpu)));
+>   }
+>   static DEVICE_ATTR_RO(cpumask);
+>   
+> diff --git a/drivers/perf/fsl_imx8_ddr_perf.c b/drivers/perf/fsl_imx8_ddr_perf.c
+> index bcdf5575d71c..3760ebe02674 100644
+> --- a/drivers/perf/fsl_imx8_ddr_perf.c
+> +++ b/drivers/perf/fsl_imx8_ddr_perf.c
+> @@ -237,7 +237,7 @@ static ssize_t ddr_perf_cpumask_show(struct device *dev,
+>   {
+>   	struct ddr_pmu *pmu = dev_get_drvdata(dev);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
+>   }
+>   
+>   static struct device_attribute ddr_perf_cpumask_attr =
+> diff --git a/drivers/perf/fsl_imx9_ddr_perf.c b/drivers/perf/fsl_imx9_ddr_perf.c
+> index 7050b48c0467..6fee5eb5087a 100644
+> --- a/drivers/perf/fsl_imx9_ddr_perf.c
+> +++ b/drivers/perf/fsl_imx9_ddr_perf.c
+> @@ -159,7 +159,7 @@ static ssize_t ddr_perf_cpumask_show(struct device *dev,
+>   {
+>   	struct ddr_pmu *pmu = dev_get_drvdata(dev);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
+>   }
+>   
+>   static struct device_attribute ddr_perf_cpumask_attr =
+> diff --git a/drivers/perf/fujitsu_uncore_pmu.c b/drivers/perf/fujitsu_uncore_pmu.c
+> index c3c6f56474ad..a07877632d53 100644
+> --- a/drivers/perf/fujitsu_uncore_pmu.c
+> +++ b/drivers/perf/fujitsu_uncore_pmu.c
+> @@ -374,7 +374,7 @@ static ssize_t cpumask_show(struct device *dev,
+>   {
+>   	struct uncore_pmu *uncorepmu = to_uncore_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(uncorepmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(uncorepmu->cpu)));
+>   }
+>   static DEVICE_ATTR_RO(cpumask);
+>   
+> diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> index c5394d007b61..0f55d871c67e 100644
+> --- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> +++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
+> @@ -121,7 +121,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr, c
+>   {
+>   	struct hisi_pcie_pmu *pcie_pmu = to_pcie_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pcie_pmu->on_cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pcie_pmu->on_cpu)));
+>   }
+>   static DEVICE_ATTR_RO(cpumask);
+>   
+> diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.c b/drivers/perf/hisilicon/hisi_uncore_pmu.c
+> index de71dcf11653..0ff2fdf4b3e2 100644
+> --- a/drivers/perf/hisilicon/hisi_uncore_pmu.c
+> +++ b/drivers/perf/hisilicon/hisi_uncore_pmu.c
+> @@ -56,7 +56,7 @@ static ssize_t hisi_associated_cpus_sysfs_show(struct device *dev,
+>   {
+>   	struct hisi_pmu *hisi_pmu = to_hisi_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, &hisi_pmu->associated_cpus);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&hisi_pmu->associated_cpus));
+>   }
+>   static DEVICE_ATTR(associated_cpus, 0444, hisi_associated_cpus_sysfs_show, NULL);
+>   
+> diff --git a/drivers/perf/marvell_cn10k_ddr_pmu.c b/drivers/perf/marvell_cn10k_ddr_pmu.c
+> index 72ac17efd846..8681e8715cb3 100644
+> --- a/drivers/perf/marvell_cn10k_ddr_pmu.c
+> +++ b/drivers/perf/marvell_cn10k_ddr_pmu.c
+> @@ -364,7 +364,7 @@ static ssize_t cn10k_ddr_perf_cpumask_show(struct device *dev,
+>   {
+>   	struct cn10k_ddr_pmu *pmu = dev_get_drvdata(dev);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
+>   }
+>   
+>   static struct device_attribute cn10k_ddr_perf_cpumask_attr =
+> diff --git a/drivers/perf/marvell_cn10k_tad_pmu.c b/drivers/perf/marvell_cn10k_tad_pmu.c
+> index 51ccb0befa05..54909d0031b7 100644
+> --- a/drivers/perf/marvell_cn10k_tad_pmu.c
+> +++ b/drivers/perf/marvell_cn10k_tad_pmu.c
+> @@ -258,7 +258,7 @@ static ssize_t tad_pmu_cpumask_show(struct device *dev,
+>   {
+>   	struct tad_pmu *tad_pmu = to_tad_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(tad_pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(tad_pmu->cpu)));
+>   }
+>   
+>   static DEVICE_ATTR(cpumask, 0444, tad_pmu_cpumask_show, NULL);
+> diff --git a/drivers/perf/marvell_pem_pmu.c b/drivers/perf/marvell_pem_pmu.c
+> index 29fbcd1848e4..cf1d8cdb1318 100644
+> --- a/drivers/perf/marvell_pem_pmu.c
+> +++ b/drivers/perf/marvell_pem_pmu.c
+> @@ -164,7 +164,7 @@ static ssize_t pem_perf_cpumask_show(struct device *dev,
+>   {
+>   	struct pem_pmu *pmu = dev_get_drvdata(dev);
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
+>   }
+>   
+>   static struct device_attribute pem_perf_cpumask_attr =
+> diff --git a/drivers/perf/nvidia_t410_c2c_pmu.c b/drivers/perf/nvidia_t410_c2c_pmu.c
+> index 411987153ff3..bff875f4f625 100644
+> --- a/drivers/perf/nvidia_t410_c2c_pmu.c
+> +++ b/drivers/perf/nvidia_t410_c2c_pmu.c
+> @@ -658,7 +658,7 @@ static ssize_t nv_c2c_pmu_cpumask_show(struct device *dev,
+>   	default:
+>   		return 0;
+>   	}
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
+>   }
+>   
+>   #define NV_C2C_PMU_CPUMASK_ATTR(_name, _config)			\
+> diff --git a/drivers/perf/nvidia_t410_cmem_latency_pmu.c b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
+> index acb8f5571522..6c8e41598ec1 100644
+> --- a/drivers/perf/nvidia_t410_cmem_latency_pmu.c
+> +++ b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
+> @@ -501,7 +501,7 @@ static ssize_t cmem_lat_pmu_cpumask_show(struct device *dev,
+>   	default:
+>   		return 0;
+>   	}
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
+>   }
+>   
+>   #define NV_PMU_CPUMASK_ATTR(_name, _config)			\
+> diff --git a/drivers/perf/qcom_l2_pmu.c b/drivers/perf/qcom_l2_pmu.c
+> index ea8c85729937..c0c522b10b72 100644
+> --- a/drivers/perf/qcom_l2_pmu.c
+> +++ b/drivers/perf/qcom_l2_pmu.c
+> @@ -638,7 +638,7 @@ static ssize_t l2_cache_pmu_cpumask_show(struct device *dev,
+>   {
+>   	struct l2cache_pmu *l2cache_pmu = to_l2cache_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, &l2cache_pmu->cpumask);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&l2cache_pmu->cpumask));
+>   }
+>   
+>   static struct device_attribute l2_cache_pmu_cpumask_attr =
+> diff --git a/drivers/perf/qcom_l3_pmu.c b/drivers/perf/qcom_l3_pmu.c
+> index 66e6cabd6fff..c8d259dd1f80 100644
+> --- a/drivers/perf/qcom_l3_pmu.c
+> +++ b/drivers/perf/qcom_l3_pmu.c
+> @@ -663,7 +663,7 @@ static ssize_t cpumask_show(struct device *dev,
+>   {
+>   	struct l3cache_pmu *l3pmu = to_l3cache_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, &l3pmu->cpumask);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&l3pmu->cpumask));
+>   }
+>   
+>   static DEVICE_ATTR_RO(cpumask);
+> diff --git a/drivers/perf/starfive_starlink_pmu.c b/drivers/perf/starfive_starlink_pmu.c
+> index 964897c2baa9..222a0a34e211 100644
+> --- a/drivers/perf/starfive_starlink_pmu.c
+> +++ b/drivers/perf/starfive_starlink_pmu.c
+> @@ -131,7 +131,7 @@ cpumask_show(struct device *dev, struct device_attribute *attr, char *buf)
+>   {
+>   	struct starlink_pmu *starlink_pmu = to_starlink_pmu(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, &starlink_pmu->cpumask);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&starlink_pmu->cpumask));
+>   }
+>   
+>   static DEVICE_ATTR_RO(cpumask);
+> diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
+> index 6ed4707bd6bb..a69c02d2d874 100644
+> --- a/drivers/perf/thunderx2_pmu.c
+> +++ b/drivers/perf/thunderx2_pmu.c
+> @@ -254,7 +254,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
+>   	struct tx2_uncore_pmu *tx2_pmu;
+>   
+>   	tx2_pmu = pmu_to_tx2_pmu(dev_get_drvdata(dev));
+> -	return cpumap_print_to_pagebuf(true, buf, cpumask_of(tx2_pmu->cpu));
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(tx2_pmu->cpu)));
+>   }
+>   static DEVICE_ATTR_RO(cpumask);
+>   
+> diff --git a/drivers/perf/xgene_pmu.c b/drivers/perf/xgene_pmu.c
+> index 33b5497bdc06..e9e4871db08d 100644
+> --- a/drivers/perf/xgene_pmu.c
+> +++ b/drivers/perf/xgene_pmu.c
+> @@ -595,7 +595,7 @@ static ssize_t cpumask_show(struct device *dev,
+>   {
+>   	struct xgene_pmu_dev *pmu_dev = to_pmu_dev(dev_get_drvdata(dev));
+>   
+> -	return cpumap_print_to_pagebuf(true, buf, &pmu_dev->parent->cpu);
+> +	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&pmu_dev->parent->cpu));
+>   }
+>   
+>   static DEVICE_ATTR_RO(cpumask);
+> diff --git a/kernel/events/core.c b/kernel/events/core.c
+> index 7935d5663944..61689d348abd 100644
+> --- a/kernel/events/core.c
+> +++ b/kernel/events/core.c
+> @@ -12657,7 +12657,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
+>   	struct cpumask *mask = perf_scope_cpumask(pmu->scope);
+>   
+>   	if (mask)
+> -		return cpumap_print_to_pagebuf(true, buf, mask);
+> +		return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(mask));
+>   	return 0;
+>   }
+>   
 
