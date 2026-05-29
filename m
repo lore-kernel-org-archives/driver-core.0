@@ -1,90 +1,124 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87136367B63
-	for <driver-core@lists.linux.dev>; Fri, 29 May 2026 16:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DF247887B
+	for <driver-core@lists.linux.dev>; Fri, 29 May 2026 18:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780073008; cv=none; b=mAa6NPYsuhziyQaoYB8S+wJLURm0y9l9Nz9c1Pl39UfNeMtrFWrP/hzyMfRSDhXXmy37CitIkezAOMtbRwCwcVgTVv9LSOBwtUiyLKlyOFgsZ7Pi90a18BTrHMzXu+/DDf7N4couf2u03SgkLGug5nrxPMfKhRHAn+LqtNty/Eg=
+	t=1780079843; cv=none; b=NXJoZ0ys9z7RAbGSIjEHJylbNspG0EbFC6HAwsuU05Cc9pgiRp+cpkwm4+CtssYSn+KeeQyr8d1twomEDfWBJLQO8HqqeNNPUx6BnGgsZ5wZgdaQNIqHul/5ASQY5h00jEY+WO0mKFqhL8xzJgqaGIbR2DEUnwchox5+8HyXUs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780073008; c=relaxed/simple;
-	bh=UpJEjdW7e+Vs5I6IEAp6beaEYGVO5R99giEVIWQd2gY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eRlY7GOjMWUbibs/QZyq2Gc0iIYVGqiQgv1jrL5PWRsZ2+CkHU6rzucsSxjQs2+veh5WKx2skVPkmRYcM3CFxspdgSZpo+46rKwuJ97YCEEr+65/T61OkoL6vgM0q6IodNKBDY+4f0wXz9XNI2+9tTMkHzsSDD35XjC4LUHlE00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=E3CQEeuy; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1780079843; c=relaxed/simple;
+	bh=rEQoSq9IEEKZKygG/YbRuz243qjYKgg0W4HBMQTatF4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=OcuHb/nDKQTZxsPrIt7HSR6Nbi4aB1U3qLhn2J+xyJ26lI9KafYiEkSFd/Sw8oUkTx80hlz4Y2cGEGEuNqKMl9bWHsIdUaR4lucsfaUWnP2t9ivYkVCNefd+zNMubw2n2Hmq96095rDArjxkrs8Ofs8YYA9QRs8N1nNhdPZMhBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N6Xcwwpe; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="E3CQEeuy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1780073004;
-	bh=UpJEjdW7e+Vs5I6IEAp6beaEYGVO5R99giEVIWQd2gY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=E3CQEeuy0Crlg1Q9n7HoNOoEGrRZJOWmimqd5NCExqVC4pKLolKb1FE8g8nzDXFlF
-	 1ybanALk9xUG4TP5A5RfylDrWCq+1PPYVNnbcgevY0qHY8itGXRjzGYTpfpsFCdJWq
-	 8kwo0GOmx1kaUADEaADzr3oropPFWXb2nJ6jpY3w=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Fri, 29 May 2026 18:43:23 +0200
-Subject: [PATCH 2/4] samples/kobject: Switch to the new __KOBJ_ATTR() macro
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N6Xcwwpe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780079839;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ibOzZZ9MbBgPCsyeHLx7hx/XOPF768dDk7bOGh7vXek=;
+	b=N6XcwwpenfNJiKlgG+PmaYtfX3pAVR8+GUQR5WFUHaVI1hcJTkZySwICtn9kBdklnTqD6Q
+	jeE2w27HLMpewvNmqujvlsmMx/vaGrcPseUxf+dtWX6ZD7BX4pt2F6H2zlcjbhG/sJXi5d
+	9Hd5lHkDDkRkj4QJt8w6yFqAPipK/og=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-641-N3PmdtkkNv6foI_0vejyiA-1; Fri,
+ 29 May 2026 14:37:13 -0400
+X-MC-Unique: N3PmdtkkNv6foI_0vejyiA-1
+X-Mimecast-MFC-AGG-ID: N3PmdtkkNv6foI_0vejyiA_1780079830
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 81E7019560AE;
+	Fri, 29 May 2026 18:37:09 +0000 (UTC)
+Received: from GoldenWind.redhat.com (unknown [10.22.89.101])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9C43B1688;
+	Fri, 29 May 2026 18:37:05 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	nouveau@lists.freedesktop.org
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	driver-core@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-kernel@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-media@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v15 0/6] Rust bindings for gem shmem
+Date: Fri, 29 May 2026 14:33:58 -0400
+Message-ID: <20260529183702.677677-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: sbpc8qDUA4Hs0B-1zYdzi8jyWAmMc5JExjcshoxm_WQ_1780079830
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260529-sysfs-const-attr-kobj-attr-prep-v1-2-7e667ba3bb85@weissschuh.net>
-References: <20260529-sysfs-const-attr-kobj-attr-prep-v1-0-7e667ba3bb85@weissschuh.net>
-In-Reply-To: <20260529-sysfs-const-attr-kobj-attr-prep-v1-0-7e667ba3bb85@weissschuh.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780073003; l=1249;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=UpJEjdW7e+Vs5I6IEAp6beaEYGVO5R99giEVIWQd2gY=;
- b=vfuOIkVY3LhMODM5axtu6fVPWg8XwSiWlMaL0LcbMkBvOz6TNl++J4nVdq3M4WIvCOJhbX6W8
- +/g96PQ0S74AZle3uV/Bu181Aqqd1hZnF8M6eqLOl7chyRkrzcZzpAU
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-To demonstrate and test the upcoming 'const struct kobj_attribute'
-handling, convert the sample to the new macro.
+Most of this patch series has already been pushed upstream, this is just
+the second half of the patch series that has not been pushed yet + some
+additional changes which were required to implement changes requested by
+the mailing list. This patch series is originally from Asahi, previously
+posted by Daniel Almeida.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- samples/kobject/kobject-example.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The previous version of the patch series can be found here:
 
-diff --git a/samples/kobject/kobject-example.c b/samples/kobject/kobject-example.c
-index 36d87ca0bee2..7404f310dc45 100644
---- a/samples/kobject/kobject-example.c
-+++ b/samples/kobject/kobject-example.c
-@@ -45,7 +45,7 @@ static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *attr,
- 
- /* Sysfs attributes cannot be world-writable. */
- static struct kobj_attribute foo_attribute =
--	__ATTR(foo, 0664, foo_show, foo_store);
-+	__KOBJ_ATTR(foo, 0664, foo_show, foo_store);
- 
- /*
-  * More complex function where we determine which variable is being accessed by
-@@ -80,9 +80,9 @@ static ssize_t b_store(struct kobject *kobj, struct kobj_attribute *attr,
- }
- 
- static struct kobj_attribute baz_attribute =
--	__ATTR(baz, 0664, b_show, b_store);
-+	__KOBJ_ATTR(baz, 0664, b_show, b_store);
- static struct kobj_attribute bar_attribute =
--	__ATTR(bar, 0664, b_show, b_store);
-+	__KOBJ_ATTR(bar, 0664, b_show, b_store);
- 
- 
- /*
+	https://patchwork.freedesktop.org/series/164580/
 
+Branch with patches applied available here:
+
+	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
+
+This patch series applies on top of drm-rust-next with the following
+dependencies applied:
+
+	https://lore.kernel.org/rust-for-linux/20260529173137.303717-1-lyude@redhat.com/T/#t
+
+Lyude Paul (6):
+  rust: gem: shmem: Fix Default implementation for ObjectConfig
+  rust: drm: gem/shmem: Add DmaResvGuard helper
+  rust: drm: gem: Add vmap functions to shmem bindings
+  rust: faux: Allow retrieving a bound Device
+  drm/gem/shmem: Introduce __drm_gem_shmem_free_sgt_locked()
+  rust: drm: gem: Introduce shmem::Object::sg_table()
+
+ drivers/gpu/drm/drm_gem_shmem_helper.c |  32 +-
+ include/drm/drm_gem_shmem_helper.h     |   1 +
+ rust/kernel/drm/gem/shmem.rs           | 497 ++++++++++++++++++++++++-
+ rust/kernel/faux.rs                    |   7 +-
+ 4 files changed, 512 insertions(+), 25 deletions(-)
+
+
+base-commit: 0e42ec83d46ab8877d38d37493328ed7d1a24de8
+prerequisite-patch-id: c8ade07eec6e9c9e875800b114137c459d362e4e
+prerequisite-patch-id: c38da06dbc4cfd2589bf2e7e9f0ebaa4da521ddf
 -- 
 2.54.0
 
