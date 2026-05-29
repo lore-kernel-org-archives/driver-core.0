@@ -1,125 +1,118 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDC9347500
-	for <driver-core@lists.linux.dev>; Fri, 29 May 2026 01:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA572E739B;
+	Fri, 29 May 2026 07:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780016451; cv=none; b=HZogMEGsedsU4VE0oAESDIsnpKOxx4JEcgk3X8WseFbkARijBB9o7tGURIOATShRoJD3cLZoxCJd/xPgPWqcU+0HsZiWSQMtd63kM8AEFrb8y9rElik7/0qJ+6E1GS7whF2FKmN0aZL5XFIE9kbMKMgS4FEQ9oW4NTRUgP9rZZA=
+	t=1780041059; cv=none; b=cl+CxV1AGK+RbKBBkIcU7zVB906ucSiAP5Nc7VvjTaQWuWR90XGUQeF3q6KXGlk8qYko66bVZCvofo0kPFrd+ChQzVDxt63/+LqCo++AZpCaLKs9Lt5IJS6yTNXDhDNVHH54CuroqSY0YxOuwfd8IRAqWnQtxq7pYChbeTcYc38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780016451; c=relaxed/simple;
-	bh=PBRO3etB7lPkL1yRU0UjynsOCXgaIULKhqql2Fq7OQM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l1viF08zWmBvj+l4hh7IAPjM3XucCuA8M46bx9LQwRRXwYvTOjIXsNdhXRQYkfSMKZ1oocUa0J07KGHAt0KYUwJhxomeaoR7OnDsah+xivl8TzI6Uiz3VCNLqUiEdtJdyLfV4Do5eBpqfy/cDkiZxQyL+vHtrK+O4hRjjA4kPdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aerX7Q0Z; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780041059; c=relaxed/simple;
+	bh=EstwLubWSjWqk+HFRl2jJt9s59sJINAC34RY6DA31CU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uZPFPba5E0IrEczPMXyMeGo84tpnbTnH3s6gXHyeaQQMf6xdjC01I+PDxQXK1osR88nd/eU+5KQgDsPCnqLNbvCQ48U/uquWvHgMXEf14W9PkSgmogHc32rDxbrxXrD8ZfgmdO7Ov0nEFJJxzSnMaM6J5uJF7X1/BKE50lcXPOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=W3Jc7t+9; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aerX7Q0Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780016448;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PBRO3etB7lPkL1yRU0UjynsOCXgaIULKhqql2Fq7OQM=;
-	b=aerX7Q0Z6EhKhSONFPCH/ycf+Rz0TcDo1+MtR7mokHJWvcvbLbwkD6vkYZbuFMKY1mD2X3
-	UqB+/z2ujaA60sQisfrI6XzilFaUjXd0mFQ9IM+U6b/vgs8k7mSyf0eWgIv0W0Ad9DIm7N
-	K+HoRChwHF17jYDQ2ws/qPrvOuGMk9o=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-373-vF-Dfw3_ODWQV0eCtinpiQ-1; Thu, 28 May 2026 21:00:47 -0400
-X-MC-Unique: vF-Dfw3_ODWQV0eCtinpiQ-1
-X-Mimecast-MFC-AGG-ID: vF-Dfw3_ODWQV0eCtinpiQ_1780016447
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50fbc70cfbdso135566961cf.2
-        for <driver-core@lists.linux.dev>; Thu, 28 May 2026 18:00:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780016447; x=1780621247;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PBRO3etB7lPkL1yRU0UjynsOCXgaIULKhqql2Fq7OQM=;
-        b=HHtvRe/ZypLRd3lEk6ZR2kPGO4JOWvrD46BfHCj8Xozs96mXBMwV9Ms98thkvNXhp9
-         iZpJ8V2B6j1LjIFiMBHaFNo35MmvZAi/TShy7fynV/IQBkvACkf6gNZeO2GAXr8EpQit
-         k8VUmwU6KvVCniqZJnCeMI6Z8bnRqUek+L2N+r0dto0++UTVUmvLH8YqcFB+mgnM3ZSe
-         4rUq+xOx8rUSfnKEyXZiXP2eRT2uzRg3e1YomEb8SP8evWPG9vCjEONIIcG5L4ZDHIUi
-         pcpNLOBNJ7I2Mj3B6P6e6HW9cK4dGRcOmUn6VDxhbn5dyrfICuYceqyVwkwyb8ClxxkU
-         k1Cw==
-X-Gm-Message-State: AOJu0YyTu1KDgy6LUF6vRBy37f5sfaxlAaseP9o/voqtY8XtGVvfAYUu
-	/gZwbZf7uH1UyhvJ1Ht+SXJPU5S245Hi5skn62s6Gi1Ya8KKgSBm2BqrxwtHATwR6VysJZVS6e2
-	G5KXhk3X2hL0VH+C0BFUVtioW/fwvm7MGtu58nqH7C+PNzPbF/ssr1sT2sDeku8f8
-X-Gm-Gg: Acq92OGHNZ9XgjxEVHyikmW7FE+0liPDeEP6HqxcCZqWi0BVGTBd5+k4afVkVTo2oHD
-	qs+VxpM3poMjVZjLTYzgBnPqshs7czt4NIhtVJPMVjkFm6jA91D1rApXO16RPQwQ8Jod29TIp2g
-	SmdVrR5ILrfECfIdPe4qdJUgusmiYPELb/vFGBX1C0vBICEyUHjMSEpPD/F9VjqUUd+UeznEgTo
-	k6iRNlA1Awkv3BfANHTRwbD+95VgoY2vykWqetA8SpaJCk5DTrsF+5uDdwvw5HHqBGJaZOYkIvp
-	bVgS3PQL/uhe5tWbMyr5IOi5Ig8LQtD/FLfUOdxLu05eqy9jLtZY83/ULRbDFPD89/hEMw2SZeF
-	Z+8lue3/t6lpGlJFertb2aAJZIaqF
-X-Received: by 2002:a05:622a:1b2a:b0:516:dc50:a01a with SMTP id d75a77b69052e-5172dc1e44dmr12442961cf.5.1780016446491;
-        Thu, 28 May 2026 18:00:46 -0700 (PDT)
-X-Received: by 2002:a05:622a:1b2a:b0:516:dc50:a01a with SMTP id d75a77b69052e-5172dc1e44dmr12441761cf.5.1780016445788;
-        Thu, 28 May 2026 18:00:45 -0700 (PDT)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5172e9a5034sm5068741cf.6.2026.05.28.18.00.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 18:00:45 -0700 (PDT)
-Message-ID: <066ef2f147aa7b568d31983b8ba4427c3eeeaea4.camel@redhat.com>
-Subject: Re: [PATCH 3/6] rust: drm: Add RegistrationData to drm::Driver
-From: lyude@redhat.com
-To: Danilo Krummrich <dakr@kernel.org>, aliceryhl@google.com,
- airlied@gmail.com, 	simona@ffwll.ch, daniel.almeida@collabora.com,
- acourbot@nvidia.com, 	apopple@nvidia.com, ecourtney@nvidia.com,
- deborah.brouwer@collabora.com, 	ojeda@kernel.org, boqun@kernel.org,
- gary@garyguo.net, bjorn3_gh@protonmail.com, 	lossin@kernel.org,
- a.hindborg@kernel.org, tmgross@umich.edu
-Cc: driver-core@lists.linux.dev, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Date: Thu, 28 May 2026 21:00:44 -0400
-In-Reply-To: <c393d06629007dc9fe76224d7b8a594b10c07edf.camel@redhat.com>
-References: <20260506221027.858481-1-dakr@kernel.org>
-			 <20260506221027.858481-4-dakr@kernel.org>
-		 <b1865396f13f67b600f3548caa8ff907cfee9403.camel@redhat.com>
-	 <c393d06629007dc9fe76224d7b8a594b10c07edf.camel@redhat.com>
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43)
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="W3Jc7t+9"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 64T7or6P33998901, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1780041053; bh=KrD3qKN3vikxdqi7Nwg3lGTTPh/7aWU68TmFXg8PaPY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=W3Jc7t+9XeO4bJpKG79iDgLHYec5DLoMqKFW0EN6H325UHISfZJbGgcpJ2aFUFWKc
+	 r0UxfxGfsrsPNX/+WBKhrPeW/5gm/FFLlnxuexEyOFaa1245q9dCpfgwjugTYB5kYT
+	 a3Fl2luXeOnrIL10G2Uvpi/SloKmeW+TV3C2pvhpcCPDEaslUVgjxPTw+oc5UNCm5F
+	 m7caWs+lD0sPdRjX3s2zMsIGUJeWnDm14oszQdLiRTS7NW8A/qzonV7o9BwelYdcNy
+	 PMuwRPeLNWirtR59wzoRQvQtNa8HM1a7cSlORByH2/ECRt2+YxXcRNy8JctC78am8E
+	 prDxuUKrmNK1w==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 64T7or6P33998901
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 29 May 2026 15:50:53 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 29 May 2026 15:50:53 +0800
+Received: from [127.0.1.1] (172.21.40.75) by RTKEXHMBS03.realtek.com.tw
+ (10.21.1.53) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17 via Frontend
+ Transport; Fri, 29 May 2026 15:50:53 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: <linux-wireless@vger.kernel.org>
+CC: <driver-core@lists.linux.dev>, <johannes@sipsolutions.net>,
+	<mh_chen@realtek.com>, <wenjie.tsai@realtek.com>,
+	<charlesl@valvesoftware.com>, <sabae@valvesoftware.com>
+Subject: [PATCH v3 rtw-next 0/2] wifi: rtw89: usb: read serial_number and uuid via sysfs
+Date: Fri, 29 May 2026 15:50:30 +0800
+Message-ID: <20260529075032.16807-1-pkshih@realtek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: h_Mq5ZR8yz5fuO6YsxkthA200tDRVRiVGejtDe9rFE8_1780016447
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Thu, 2026-05-28 at 20:15 -0400, lyude@redhat.com wrote:
-> FWIW: now that I've noticed this, that might simplify things w/r/t
-> what
-> KMS needs here from DeviceContext and allow me to go from modeling
-> DeviceContext around 3 stages (Uninit, Initialized, Registered), to
-> just 2 stages (Initialized, Registered). The purpose of having a
-> separate Uninit and Initialized had been to workaround not having
-> access to `drm::Driver::Data` when a driver performs an atomic commit
-> before userspace registration, which would be a big ergonomic issue
-> for
-> implementing a lot of atomic KMS callbacks.
->=20
-> But if that's not an issue with this patch series, then it probably
-> makes more sense for me to respin that DeviceContext patch series to
-> reflect that since that simplifies things a lot for the KMS side. For
-> your patch series, it just means you have to replace "Uninit" with
-> "Initialized" in the next version.
->=20
-> I will send out a respin with this tomorrow after working on
-> respinning
-> the gem shmem patch series, since that shouldn't take me very long at
-> all.
+As what we learned from RFC v1 and v2, add sysfs entries via dev default
+group (dev->groups)
+ - /sys/class/ieee80211/phy0/rtw89_usb/serial_number
+ - /sys/class/ieee80211/phy0/rtw89_usb/uuid
 
-Actually - after working on it a little bit more, I think having the 3
-states (Uninit, Initialized, Registered) is still going to make sense
-for KMS. So, I probably actually don't need to respin/change the
-DeviceContext series from how it is right now after all! Sorry for the
-noise :)
+These entries only present if specific USB device is in use. We add a
+quirk as a flag for this.
+
+Above info is fully documented in
+Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
+
+v3:
+ - create sysfs by dev default group (dev->groups) instead of
+   sysfs_create_groups() to avoid racing with user space
+
+v2:
+ - add specific sysfs entries in /sys/class/ieee80211/phy0/rtw89_usb/
+   * serial_number and uuid
+ - add Documentation/ABI/testing/sysfs-class-ieee80211-rtw89 to
+   describe ABI
+ - add sysfs entries by quirk according to specific device ID
+ - include patch 1/2 which does quirk infrastructure by device ID
+ - https://lore.kernel.org/linux-wireless/20260525085148.35180-1-pkshih@realtek.com/
+
+v1 (RFC):
+ - https://lore.kernel.org/linux-wireless/20260519072415.25746-1-pkshih@realtek.com/
+
+Johnson Tsai (2):
+  wifi: rtw89: add dev_id_quirks to driver_info for per-device quirk
+    control
+  wifi: rtw89: usb: add serial_number and uuid sysfs attributes for
+    0x28de:0x2432
+
+ .../ABI/testing/sysfs-class-ieee80211-rtw89   | 24 ++++++++
+ drivers/net/wireless/realtek/rtw89/core.c     |  9 ++-
+ drivers/net/wireless/realtek/rtw89/core.h     | 10 +++-
+ drivers/net/wireless/realtek/rtw89/pci.c      |  3 +-
+ .../net/wireless/realtek/rtw89/rtw8851be.c    |  1 +
+ .../net/wireless/realtek/rtw89/rtw8851bu.c    |  1 +
+ .../net/wireless/realtek/rtw89/rtw8852ae.c    |  1 +
+ .../net/wireless/realtek/rtw89/rtw8852au.c    |  1 +
+ .../net/wireless/realtek/rtw89/rtw8852be.c    |  1 +
+ .../net/wireless/realtek/rtw89/rtw8852bte.c   |  1 +
+ .../net/wireless/realtek/rtw89/rtw8852bu.c    |  1 +
+ drivers/net/wireless/realtek/rtw89/rtw8852c.c | 10 ++++
+ drivers/net/wireless/realtek/rtw89/rtw8852c.h |  6 +-
+ .../net/wireless/realtek/rtw89/rtw8852ce.c    |  1 +
+ .../net/wireless/realtek/rtw89/rtw8852cu.c    | 13 ++++-
+ .../net/wireless/realtek/rtw89/rtw8922ae.c    |  2 +
+ .../net/wireless/realtek/rtw89/rtw8922au.c    |  1 +
+ .../net/wireless/realtek/rtw89/rtw8922de.c    |  2 +
+ drivers/net/wireless/realtek/rtw89/usb.c      | 55 ++++++++++++++++++-
+ 19 files changed, 133 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-ieee80211-rtw89
+
+
+base-commit: 8368970b62404ce2ce70d04c1cfff62700d7d8d5
+-- 
+2.25.1
 
