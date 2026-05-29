@@ -1,106 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FD53BA24F;
-	Fri, 29 May 2026 15:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870913557F3
+	for <driver-core@lists.linux.dev>; Fri, 29 May 2026 16:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780067348; cv=none; b=k4SzdUbt/mOxM1qkuuZ1wVtMx6JCZHNHesniaN/ytmTJB38y0jipbkSLxe6CW+RdazySjQeJpQcT/E+KhQeneKrvSKWgjjKa9TtkfSZSzHm+cMS3H3S8RNhLe9udRU+M0cJn1kkXLqn18xUf+FKbofMWTORo64mKaBC1XhokZvo=
+	t=1780073007; cv=none; b=ETz9R1K0vzJPkz1awTbXn120DJhKqGC+F1HN1SBicY5bS7NZ0t69asP7l2n9WbhRNnyLfmMIeFOl14CNZgIFIpf8JYAjU+DsV9YzWsICdlNsQklQTa0fRE6kdqOUUViL8IVAomiNeBcXsXQ7zjsAj1gt1IkSl516tqItavZUDLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780067348; c=relaxed/simple;
-	bh=yoRDc3CW4KL7N6WXuaihwF/b7WcCWr04XcKKb6kcs48=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=IuQtD6xdVXuecgOkShi501g8fkqNqcd2dKReX/v4faHRQD0HiIQg7dhrdVCTi9w6ypQSvw/YXCtC2BTieHk3AYqLb70wUXtrj7qC5yhQ0pxxRGTYtrDY7SwcWjYx8C4+Twq/6aJNjnNYPdtv19JHgSp687L7/faiMji7GZrx10Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IxorH6rJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780073007; c=relaxed/simple;
+	bh=0jdoVvsiy+3iO+1EH4Z841U/PFxRlh9TASBGeYW6VOo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uW/jNLmnvbO59KsJnBMnGCteFl322cjO8SBWCuoH8AjFn3fOJvpMP9Vu2RM2+yZYhCSav9Nwdblny9yRZnZ0/KBtRJE8gNrFL0IM1IjFwjuftE+kJKJCKVZlGeqlilJduY9uqJKf5D8uisYUT4RMmmnwli+yy/t64cDnPH0ndWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=XKoods/i; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IxorH6rJ"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4F3DB1F00893;
-	Fri, 29 May 2026 15:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780067346;
-	bh=do7qptOmJTrK8aQUXA6m9d7yz85d6OF2eFi/f8phMEw=;
-	h=From:To:Cc:Subject:Date;
-	b=IxorH6rJe6ocE+kmuxttnHtQKcnYmV9OesKV2+Qzih9s+ufqtZuDhynm6XeUtNu4z
-	 StXOD857LcSgbdgH/RKdNsYI3srkuA1q1TwlMUBLC7nUM98TgMYEtBU3CEVBQ9LD0q
-	 2ruvm0ecA3mM3Xn/r/BoOD8l8mwO42BFju80N6RjkwOLvowL6e9ji03aP9gasf/YTB
-	 OMxdH+Yy/OYdy/0nEAhXNpoKkenXX2NjsXxKsTmF4fQuQBKVaYTLqTqQNyJ90UkPi6
-	 m7BjiPNCpfvQGgr6OkEcgjZFto6b5zTJ7+qKBxWAJZx+MVcQMZQ9xBYBggcVEGIzQl
-	 y+hEn/RHiO/2A==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, "Danilo Krummrich" <dakr@kernel.org>, <driver-core@lists.linux.dev>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Luis Chamberlain" <mcgrof@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Russ Weight" <russ.weight@linux.dev>
-Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
-Subject: [PATCH v2] firmware_loader: Fix recursive lock in device_cache_fw_images()
-Message-ID: <48b092a5-f49d-48a4-95f4-f65bebfc6bc3@mail.kernel.org>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="XKoods/i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1780073004;
+	bh=0jdoVvsiy+3iO+1EH4Z841U/PFxRlh9TASBGeYW6VOo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=XKoods/iwGtFcfujq+xDUCWEe2Bo4JgOAyA+0Obvo2Cn5cIr2UiLQV1h/VVN2OEy9
+	 jSrBiLIKbZUseJeaU+bFHh8OG7jf7/qHRQN5j1imiK9BJ5ZsH/3NXNSSmksFv1NaRd
+	 YAtJn3shtBiy7rWDZCi97jg4SB5vgGaneudaM/Uc=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH 0/4] kobject: Allow the constification of kobject
+ attributes
+Date: Fri, 29 May 2026 18:43:21 +0200
+Message-Id: <20260529-sysfs-const-attr-kobj-attr-prep-v1-0-7e667ba3bb85@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Date: Fri, 29 May 2026 15:09:06 +0000 (UTC)
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y2NwQ6CMBBEf4Xs2U2gphr8FeOhlK0uJi3uFqIh/
+ LtVuM2bvMwsoCRMCpdqAaGZlVMs0Bwq8A8X74TcFwZTm1NtjUX9aFD0KWpGl7PgM3XDlkahEVt
+ n+7Npm2MggrJSysDv/8P1trFO3UA+/2Z3Q+g1leu8a+v6BXPF/nmYAAAA
+X-Change-ID: 20260525-sysfs-const-attr-kobj-attr-prep-9a5d72913fee
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780073003; l=1040;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=0jdoVvsiy+3iO+1EH4Z841U/PFxRlh9TASBGeYW6VOo=;
+ b=Zgm0rduZZqsHM7iYObQpKevq+CAcRIfFcwS4Wv6PKySDp0RHc3iz3BE6aqCdBS7Mkq3BczsUK
+ 5kY5m+xgt4yD5uj/heP5GkvHw61Mg5DB0l1Y94cw3qW5oSetiOlzCPs
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-From: Dmitry Vyukov <dvyukov@google.com>
+Allow kobject attribute to reside in read-only memory.
+Both const and non-const attributes are handled by the utility macros
+and attributes can be migrated one-by-one.
 
-A recursive locking deadlock can occur in the firmware loader's power
-management notification handler.
+This is the last preparation step to enable the constification of all
+attributes throughout the tree.
 
-During system suspend or hibernation preparation, fw_pm_notify() calls
-device_cache_fw_images(). This function acquires fw_lock to set the
-firmware cache state to FW_LOADER_START_CACHE and then iterates over all
-devices using dpm_for_each_dev() while still holding the lock.
-
-For each device, dev_cache_fw_image() schedules asynchronous work to cache
-the firmware. If memory allocation for the async work entry fails (e.g., in
-out-of-memory conditions), async_schedule_node_domain() falls back to
-executing the work function synchronously in the current thread.
-
-The synchronous execution path (__async_dev_cache_fw_image() ->
-cache_firmware() -> request_firmware() -> assign_fw()) attempts to acquire
-fw_lock again. Since the current thread already holds fw_lock, this results
-in a recursive locking deadlock.
-
-Fix this by releasing fw_lock immediately after updating the cache state
-and before calling dpm_for_each_dev(). The lock is only needed to protect
-the state update. Concurrent firmware requests will correctly see the
-FW_LOADER_START_CACHE state and use the piggyback mechanism, which is
-independently protected by its own fwc->name_lock.
-
-Fixes: ac39b3ea73aa ("firmware loader: let caching firmware piggyback on loading firmware")
-Assisted-by: Gemini:gemini-3.1-pro-preview Gemini:gemini-3-flash-preview syzbot
-Reported-by: syzbot+e70e4c6f6eee43357ba7@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=e70e4c6f6eee43357ba7
-Link: https://syzkaller.appspot.com/ai_job?id=8b4af9fd-24af-423f-8acb-1159fd34c1a5
-Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
-
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-v2:
-- Resend to fix the From: line as requested by reviewer.
+Thomas Weißschuh (4):
+      kobject: Provide macros to initialize 'struct kobj_attribute'
+      samples/kobject: Switch to the new __KOBJ_ATTR() macro
+      kobject: Allow the constification of kobject attributes
+      samples/kobject: Constify kobject attributes
 
-v1:
-https://lore.kernel.org/all/dff1dcc7-59bd-40c7-981e-bd805ae6b3c1@mail.kernel.org/T/
+ include/linux/kobject.h           | 75 ++++++++++++++++++++++++++++++++++++---
+ lib/kobject.c                     |  8 +++--
+ samples/kobject/kobject-example.c | 24 ++++++-------
+ 3 files changed, 89 insertions(+), 18 deletions(-)
 ---
-diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
-index a11b30dda..c96312ac2 100644
---- a/drivers/base/firmware_loader/main.c
-+++ b/drivers/base/firmware_loader/main.c
-@@ -1503,9 +1503,10 @@ static void device_cache_fw_images(void)
- 
- 	mutex_lock(&fw_lock);
- 	fwc->state = FW_LOADER_START_CACHE;
--	dpm_for_each_dev(NULL, dev_cache_fw_image);
- 	mutex_unlock(&fw_lock);
- 
-+	dpm_for_each_dev(NULL, dev_cache_fw_image);
-+
- 	/* wait for completion of caching firmware for all devices */
- 	async_synchronize_full_domain(&fw_cache_domain);
- 
+base-commit: 56785dcb2ef6d3cff82ac33f2e34db94377416a3
+change-id: 20260525-sysfs-const-attr-kobj-attr-prep-9a5d72913fee
 
+Best regards,
+--  
+Thomas Weißschuh <linux@weissschuh.net>
 
-base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
--- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-You can comment on the patch as usual, syzbot will try to address
-the comments and send a new version of the patch if necessary.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
