@@ -1,151 +1,77 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7F83242BA
-	for <driver-core@lists.linux.dev>; Sat, 30 May 2026 19:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652F11A5B9D;
+	Sat, 30 May 2026 19:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780169129; cv=none; b=OOhSr8Lrf06bwCWYCOCVziR7l7qL1sKt2S3+knArT4VKEmx6oXsU5dd1oFGaNFIrSjQILKzTDNT8zqqJUDhJwaDpqVT/GgbXBRda5cx3RARpkdY5Kbmw6G50U/pZfTlma75wFWCMoN+MKRl6tOeeCT18vICU7o94LXYiujkWpjc=
+	t=1780170367; cv=none; b=lEVuz2jcHddI9ApozuXxA+xoFa44XgfNDNWOTUzJNgv3+mvWCDKe5u481OpzCFa8r773Ghwk/a23Ko6K4TVEwxuPd6hHWZkqpfreAEJVj9Q658uGZUxR+F6ov6joPs+hCGi0DhxWb63awgO7aE7U+0M+z76DRfuE4O/threN9/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780169129; c=relaxed/simple;
-	bh=P+qqzzRwhI8B2ZhOfr+PVqRWtfVtS9KesBahL8YX4uk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h3TOvwdXbU3W5SdnhvP9NQzxouI6wKlknCyyBctQ2h5/HRA/sGRCZMsL4bDKWCIGVbLz//x5KBvA5wFETN+wZS90eCIX+g6Ek4Nhi5t1BUFPLL2Rt3QyjbPIQDca+V1G82TdvulmP4Q3qcHB6QaHauRppx25hS3VpNV1as293LY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=owSIzHJK; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1780170367; c=relaxed/simple;
+	bh=srBCy/zdErG7s9yoPUyWO9/eyzhiARnTTF7Wgqa2KHI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=QWNt4FPMd4gxjhZndFZabc9AiPZK9jiuUbQzG2MmqQbscC5h/7FTsRxPb6nMl1G2g59ITy1D3wXB0cv1VhyMOjzP0R+WKD+sPPsKTbg2fACaMzV3S/tf4ZHiJexRUIuyN5j8566vjITw26mUgWkcjgjt16qNKndFfu6HwCxLkoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBN/B1+Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="owSIzHJK"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 8C60C240103
-	for <driver-core@lists.linux.dev>; Sat, 30 May 2026 21:25:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1780169126; bh=SqEDsvTehTsmlHRK3kcALX6aeWf55kfJ4Kqinm0z8bs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=owSIzHJKnIo6oScOVQz74wV2YgLlsIK4jd/jXMVPSaRIDA7rD1+uwmN0SubnnF9Vv
-	 Rl9sf7pq266ulUShFQuI61xaCdBr22q2metnscFY0Hrb7h/9JSBnSOMpZKpB0sJL8A
-	 opmxjrGSx27mEjv9w9H/ZsJKMm3rvsxWexaLqxFMOzrhUS+B01vgATJMJPx7d7cWMp
-	 mUtc1NCKfKEreoWx+45WmxcRo0PyjH9MALWu29rzT1XZwySy5ub4OHoBBba0EIhnGQ
-	 LBG7cSR4hf2AAT2i19i7RD4MJ5Ku6B4S2TXruwqdqh2hFewAG4qneLmfE+O4s3CtKV
-	 ndkxLK8Mr/z1g==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4gSVYc2Lt4z6twS;
-	Sat, 30 May 2026 21:25:24 +0200 (CEST)
-From: Markus Probst <markus.probst@posteo.de>
-Date: Sat, 30 May 2026 19:25:25 +0000
-Subject: [PATCH v10 5/5] MAINTAINERS: serdev: Add self for serdev
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBN/B1+Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B2451F00893;
+	Sat, 30 May 2026 19:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780170366;
+	bh=srBCy/zdErG7s9yoPUyWO9/eyzhiARnTTF7Wgqa2KHI=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To;
+	b=dBN/B1+QhwvG/s7vUQWrXB2MAfJ/CfV1cQ91HSJBXyEKyMfZqpO/BTKiUViC6kRyI
+	 XKpms9IW1BTjFjnQBN52Ukx0tIEXJJsCXzhL0lemL7OlqwLkNZ/qNIvnafAYO38w5y
+	 XGjMdcEZv9v3W73qpFMZvPv9SaM7lLWg9r16XLFN1rt9kFHE/tX11qdTdHXVaWCy6Y
+	 fnpbm4E1GJKZhfFgasaTTq+095fuf8JY+XtL81WdSi63BZ5LZgmNtDHdf8FDm2pNTd
+	 Ei8pc4QkW3n4xY10yTC5TyJVoAJQdk6NBb6zzrZVrmoGJq34E2XQLR9kb0Cn+cFU4y
+	 9Krwv9FftSh4A==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260530-rust_serdev-v10-5-65d1d5db876c@posteo.de>
-References: <20260530-rust_serdev-v10-0-65d1d5db876c@posteo.de>
-In-Reply-To: <20260530-rust_serdev-v10-0-65d1d5db876c@posteo.de>
-To: Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Kari Argillander <kari.argillander@gmail.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Boqun Feng <boqun@kernel.org>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=838;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=P+qqzzRwhI8B2ZhOfr+PVqRWtfVtS9KesBahL8YX4uk=;
- b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqGzmczOcVeRxR9VEJ4K+lErvgwmakc5mHb4JOS
- x/BBhK3EtWJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCahs5nBsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9LbUg//Wq1mMxwl2+4mLTvvkSnrGq0n1EF4ybc
- WUKYBteC8IG8gGBs3rGMJKRjYL7iaH3US+J1UKzGdzLnjesFHUoRp1rbPk7BX/JYU75EVLoetFL
- AtbGsg9Sca5mGFFut8X4e1ohVe5qBNUf7IqvtYocwrySeTkO2l29koyyhaO0NeFvDU2kscC9u6Y
- eya4dfnO6M3Eox+EZBqc+/q8F5vTq8TxsH6K0eQo28UZaudn4OXv9YW+2uhGgRBmLBFqemPeBGX
- TQQAkzvReH5+D27WlKJ1nHsuYLM9ni3B2wO6FWQT1jotxTQ3KGrvr4LVykxMJJC2xNl3ZZDfY29
- 64OOIPWmeece/YFy/LZYU4wJo8kqnM4vBljf6XHTG/a1l7H+JT2nlJu74J9pL3o6NzQBa+MBPOd
- QXjDr2tNVszljhuHY/KcCaVhKAZjLrTI9jbTFsRpMAf+z5CUGO35lCtUkOaJbAhCRqZ4yaUfoXB
- uMYWIycck3lY7quhiC/frP4cmIcEwJO1cG7EijZs2Y2YajVfbPm9qVxxCZdcuxXLnw4xGLK5OW+
- Hiee2aTJ/64fzB7P7mvrV1IHwqB3uFbw2odNOhhyA/XlWmj+KjeIQN/wYqISrMhITZWUT4kXaO4
- MPGVCmf2ER8n3Iig6FJ0umktHaVFTmTp1l7mX+AYbFqq0WSFMVoo=
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 30 May 2026 21:45:59 +0200
+Message-Id: <DIW9Q5GVC0H2.2BEOWKL02AMWA@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v8 3/5] rust: add basic serial device bus abstractions
+Cc: "Markus Probst via B4 Relay"
+ <devnull+markus.probst.posteo.de@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Jiri
+ Slaby" <jirislaby@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Kari Argillander"
+ <kari.argillander@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Viresh Kumar" <viresh.kumar@linaro.org>, "Boqun Feng" <boqun@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ <linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
+To: "Markus Probst" <markus.probst@posteo.de>
+References: <20260530-rust_serdev-v8-0-2a95f1da22a7@posteo.de>
+ <20260530-rust_serdev-v8-3-2a95f1da22a7@posteo.de>
+ <DIW1B4FUIXO7.28GSUA0CEA4EV@kernel.org>
+ <4638946fc49a38797b716ea173c93327eb751479.camel@posteo.de>
+ <ad98dfb1d8469022519d37364e8a068bed3b5687.camel@posteo.de>
+ <888dc39c52bb6ddac1a1eed7876c4573bdbef002.camel@posteo.de>
+ <DIW2JUUL6A6J.96VI4IQN6HYU@kernel.org>
+ <55eae11ea68f129508d0f7e30ac457ba919812b2.camel@posteo.de>
+ <DIW34DX6BSUS.ANXBOP9687B0@kernel.org>
+ <25dc9a4bbde0b542abf608be1b3305f1421a4502.camel@posteo.de>
+ <DIW587AGXYCS.39MR1B4TVSO9@kernel.org>
+ <01e20401845ce5eab5731698ca8a0f8f44ed3eb9.camel@posteo.de>
+In-Reply-To: <01e20401845ce5eab5731698ca8a0f8f44ed3eb9.camel@posteo.de>
 
-Rob mentioned he needs to find someone else to maintain serdev.
+On Sat May 30, 2026 at 8:55 PM CEST, Markus Probst wrote:
+> pin-init doesn't have enum support yet, so at least in my driver devres i=
+s
+> still required for now.
 
-Link: https://lore.kernel.org/rust-for-linux/20260430195858.GA1650658-robh@kernel.org/
-Link: https://lore.kernel.org/rust-for-linux/da85ceb81f51079d4a8248a1ffde6a27d2ef24ad.camel@posteo.de/
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fa3f20f0cc4f..58db6aedf45a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24270,7 +24270,7 @@ F:	drivers/iio/chemical/sps30_i2c.c
- F:	drivers/iio/chemical/sps30_serial.c
- 
- SERIAL DEVICE BUS
--M:	Rob Herring <robh@kernel.org>
-+M:	Markus Probst <markus.probst@posteo.de>
- L:	linux-serial@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/serial/serial.yaml
-
--- 
-2.53.0
-
+Hm...how is this related to having a registration type that takes a lifetim=
+e
+rather than a registration type being wrapped in Devres?
