@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E0D21B191;
-	Sat, 30 May 2026 13:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646AA2E62C4;
+	Sat, 30 May 2026 13:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780147555; cv=none; b=ImsSA5t8nH3JvIWAO+crkXGnjjny3ab3NfvV06uaKlknPS9GOqqFBuSsUKdlgBrils9OzwV4l1aGoGZq+ybctf4QcvkARlcm4IO6XFbxvoElEGf41ZlHUAWCb+0MVcULpc3uaOiqYCnGXo96r/huL6nSVCdrP4+1aZX7GBy3764=
+	t=1780147664; cv=none; b=VgXDCN4UKanwpLbbzP+8Tbq1OzZmSSxq92QgQjBREm2PdVUsYjvkE1mZCWH/1u/m+X1GuANoW4kc6VzUpMThaZRczpfdODgo6axxowI4e92+JY0IaRtfKOnRtX0s88+htt3pB+KFUOoM3pt/ESiusy/QlDwFZb0fkJTCDR/fO7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780147555; c=relaxed/simple;
+	s=arc-20240116; t=1780147664; c=relaxed/simple;
 	bh=U4clEkfrzwejubHh9l5dQ3xubuuE5brbB/R3EWIWReE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q0PswolGmYyqUhN5j/euD+Pxu+AXLPSuynbKltalGyMt8fMBB/RyZ2Cuy7rxx9qE1w8LoBqkqP6N2PbmxCYljtYQt6D/ZjIjwOWA3uL7GalfonyUVjHs5+Ff51gSF1y3yuaMj+S0PcWTl6M/Fm46G/HJtlRkHgkBSriO5CuAKDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=brRvK3RY; arc=none smtp.client-ip=100.103.45.18
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C/RYx4wfuMrEbNanEe0NR1fcn830y4Id8+3pFIiKLmCIp7B83oIGclj7b018yu2XqkQZcpY+zbL7uhL06Tl8Zb0sbAMzx1HjYQ2MrBMeWbnssOjHEa+I+Vz+FcoyScczK2ccacsWF/840UWKZZnx1hYK1cBLHiWzM6yY+OlxaTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYJryaJp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="brRvK3RY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9C011F00893;
-	Sat, 30 May 2026 13:25:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYJryaJp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E80CC1F00893;
+	Sat, 30 May 2026 13:27:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780147553;
+	s=k20260515; t=1780147663;
 	bh=ZwVqjgcjh5tGVzfBWAfstn5m1kwmVYqQz7/wdSdDkSo=;
 	h=From:To:Cc:Subject:Date;
-	b=brRvK3RYxGQWszJf+L048vhzLgPO2nd7onK0sJHDStor0e5FyWI4pTDeiiSF862WO
-	 OdRkMmhS+DrwKQ2QcAmT74oMj91t+uGcvEWuq11UYBmrW89k4ZyGL1CYohEV8nSCsV
-	 /yyiPqbrIHlhHDvS0LcNOknWgRIX74iLbbQnr4hX2sy44XGfvfPVw+zTN34vRaw+V2
-	 uNoJavtYepkkvu0EasT9ZXwuiWCuyZr8Wbwwdu0bc6zvw0mahIfr+0hy4t1gqnbWnO
-	 4pU9AtHHKZ9vwICWWCVdX0dNpn2Hs5EZNzyr6mrHr5h1NZTwBXTH8Tjl5SLF/fB37p
-	 B9RuerPyMw4JQ==
+	b=fYJryaJp5hli1a1HYiKG++o9zXXSQh7KdUZFyh+3nIEnfAXMP5Un5MjBas7TIgxGs
+	 RclYqiTH48xf+lpiXXG+F8yKmkfqAch5Xn7XrznAkPh7t8WlRB9UQRgh3VOZDhQPcw
+	 F2nZYa0lQun4sJbOJ66R+4L2wAjiNIxX2jw+/y1w/IBkeTvcCaUVUFdkCfkib/NV1O
+	 KrYWtfuiSEyi4wX7XjTbEmU/55C4niYU+W2ZEhBNKG49lIBbskZuHFPk/D6SVJGbps
+	 qnIXucqfD5XijQcBnUlpnI6ckbe3Eh6WCqvV3SyXf0sTKkcfuriIgqp21Gyx+5Oj5s
+	 8uYIqZncXmwsQ==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -43,8 +43,8 @@ Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org
 Subject: [PATCH 1/2] rust: device: add BoundInternal device context and InternalBoundContext trait
-Date: Sat, 30 May 2026 15:21:05 +0200
-Message-ID: <20260530132237.3291194-1-dakr@kernel.org>
+Date: Sat, 30 May 2026 15:27:31 +0200
+Message-ID: <20260530132736.3298549-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
