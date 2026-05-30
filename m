@@ -1,143 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB9E156661
-	for <driver-core@lists.linux.dev>; Sat, 30 May 2026 11:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D34E21ABC9;
+	Sat, 30 May 2026 11:55:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780139895; cv=none; b=X33IlgtNFp8zApfBQSoD8JYtL8M7kuWLSdydtO8qEo48T6UuO0YuY31HKO9fvWDui97hlpX22hHrfXaRomB4blq49ZR04oN7YkDzjvUPjDe/2OfKxHEQWuipuLJYYbjr6gLP/Az6qzYrFgTAgUaCC6EXQUl0q8nFOcU0K3KyC14=
+	t=1780142106; cv=none; b=iGs84eRFDjAaKNJ89ETy7R6Cl8NC6upD7z6baH3wmRZEcsxuZ2MmaALy/KZzdDimXTKiB56EgXkLBWZR6cVLzFafrDZuFUrXpBMb6a5VqQTu48VoUcS22FUPUShbFDQvrRv6rz27JZrwsDPT5kff24hakAumGrWzjbAQdcnUBfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780139895; c=relaxed/simple;
-	bh=Q5TGsZROcJWmcOyKL/oQkN4v2uUEm+1teb/WHG5cXV0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tYuKE+pfEAlNijdlOdKUt6Gz6rzHM03KOLl4iXuCctoHofUNPQZs+RkeHK5EiYyijxurSsf7Mpozd9ARJBUkNGockT9V9muaSu4U2L3l44pSAoIc7Sq5YZPKKIX+6Nt9maT24+hGydUVbqeoz0VVjmX1GRYAoMrWqSzbQsPIBkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTMxvyAw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780142106; c=relaxed/simple;
+	bh=jm8hdmAkEvJcbwS7hgydGF1qmrnzoDP4FHKn0i/2TXc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=CWuwJ3pR9W5qlaHOuDK3IY1vG2yjXud4fhgjDvNxASktxQFwakrQQHS2Zm05EOnRxwc9ZqkiB1HNWFutpfqBAYXXOn+fE4qk0DL3LQoLbvQYNgRWqL1L5aFstyUKpB4jXMv3FvLR7M0twbJUn0ve7IF7tnhSPs/ZdPVcf1gJh1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCqCaQI3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTMxvyAw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52F971F0089C
-	for <driver-core@lists.linux.dev>; Sat, 30 May 2026 11:18:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCqCaQI3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97D1A1F00893;
+	Sat, 30 May 2026 11:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780139892;
-	bh=Ccev3Fye2FqNyre2qH0MG6jq+rX5lkqnISSRC9L/mlw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=jTMxvyAws6XPomXsdV2+XLNenZMOFMhXP/620za909+z9AUqYegljfuUBHvqyHxbk
-	 BGAOZ1f/0EaSHRkCf2NnCu+Vke3ARGaq+/Sq0/uZeS5SrJNER+Y1ijEe5vMBabuoNF
-	 +9PLZbMIivVMU1cE7aGSuKGnh86bPGEEh2GtL+nbaa4PAe3CjYTo1uh9GBEoJ/hdWJ
-	 aYw0nVbb8LGqD/cO4tgM6BCwycZWAmq3h3skCtb9h7sTmAUaiiutIox4Crc81WBJWO
-	 iHcxud3yH4FY1GNVEjqfXOgtHdn/Z7feUPWt3p+WDICc1xWeSlYGTWJAfzVzjEQBiE
-	 4g3EEqJfQpxeA==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3965bc493caso8854901fa.2
-        for <driver-core@lists.linux.dev>; Sat, 30 May 2026 04:18:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ95MawDbcKZIx7UuD3VAobsV8fmLW4J5d1tHyh43a+WAxBtH3NtY2ZYNdTh4PUfW7VhfXTkbyE7iy4cEw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx861hQyFvZknbD+cslWzPEuosGhIejyE4Pr1PBC5eC3BFe+FZr
-	RBBzoqsirFrAgzGeaYpeq4aqF6E/JzwPf/E6DsCgGwaRFQK6Yu9P3Y7fH0mTmak8Cy3BeJ+jYeo
-	xJUSSJ6BpeD2R/K34x+yAM7qxoXSOOwg=
-X-Received: by 2002:a2e:3c02:0:b0:395:5afc:fc5d with SMTP id
- 38308e7fff4ca-39664fcb9f4mr7242891fa.29.1780139890940; Sat, 30 May 2026
- 04:18:10 -0700 (PDT)
+	s=k20260515; t=1780142105;
+	bh=jm8hdmAkEvJcbwS7hgydGF1qmrnzoDP4FHKn0i/2TXc=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=XCqCaQI3wTaiEpjHV+goSY6qoZCDZ8DaWIgGBul+wGjAgZWvz1L2AvWDURbUbLHXL
+	 bOrBQqdGXVTtfC/wxJjKkhtbb9ecGvyvFErDQRz0kxTggLdFYwwi1WOLmu3ED+3cHd
+	 pu9PoeZwr/zJ8Ntt4tyEuaVJPISqI6sPubXdr1vPp0N8QYwCdpQ1Zv/IPpKuttT3U0
+	 1pU7LdDg9ePcx09dnPQFzY39KIPQ6ywI1Dk1grBW6IEv6DXLZ+WKdnEfqBi7SsN6os
+	 P/1rNqCr62Fm1MdM5XT+rvEnUtKHMSkYV5FFl6BbURT0ht23Eb592jDlQ+w+HS9pYE
+	 eWHTdoMkOr4Fg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260526-trasnmute_ptr_to_ptr-v1-0-d89bc1dda3b5@kernel.org>
- <20260526-trasnmute_ptr_to_ptr-v1-1-d89bc1dda3b5@kernel.org> <DIUCGW63J6ZU.2BL1N832XXYUY@garyguo.net>
-In-Reply-To: <DIUCGW63J6ZU.2BL1N832XXYUY@garyguo.net>
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Sat, 30 May 2026 13:17:33 +0200
-X-Gmail-Original-Message-ID: <CAJ-ks9njMdNW0vbGBh1TP6m+3N+QPPKvVtd8V_nvtDvSNfxkTg@mail.gmail.com>
-X-Gm-Features: AVHnY4J5E7mfIRetjnOAh-5c3GgIPl8lpKYMq26egh96R9twCS2VYkb2WJgD6ds
-Message-ID: <CAJ-ks9njMdNW0vbGBh1TP6m+3N+QPPKvVtd8V_nvtDvSNfxkTg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] rust: device: remove unused ref-to-ref transmute
-To: Gary Guo <gary@garyguo.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 30 May 2026 13:54:58 +0200
+Message-Id: <DIVZPIJYZ244.26RVUD86YHX1N@kernel.org>
+Subject: Re: [PATCH v8 1/5] rust: devres: return reference in
+ `devres::register`
+Cc: <markus.probst@posteo.de>, "Rob Herring" <robh@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Jiri Slaby"
+ <jirislaby@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Kari Argillander"
+ <kari.argillander@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Viresh Kumar" <viresh.kumar@linaro.org>, "Boqun Feng" <boqun@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ <linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
+To: "Markus Probst via B4 Relay"
+ <devnull+markus.probst.posteo.de@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260530-rust_serdev-v8-0-2a95f1da22a7@posteo.de>
+ <20260530-rust_serdev-v8-1-2a95f1da22a7@posteo.de>
+In-Reply-To: <20260530-rust_serdev-v8-1-2a95f1da22a7@posteo.de>
 
-On Sat, May 30, 2026 at 7:07=E2=80=AFAM Gary Guo <gary@garyguo.net> wrote:
+On Sat May 30, 2026 at 3:13 AM CEST, Markus Probst via B4 Relay wrote:
+> From: Markus Probst <markus.probst@posteo.de>
 >
-> On Tue May 26, 2026 at 3:39 PM BST, Tamir Duberstein wrote:
-> > The Ok return value of `read_array_from_fwnode_property` requires a
-> > reference-to-reference transmute to construct but is never read, thus
-> > remove it.
-> >
-> > Signed-off-by: Tamir Duberstein <tamird@kernel.org>
-> > ---
-> >  rust/kernel/device/property.rs | 42 +++++++++++++++++-----------------=
---------
-> >  1 file changed, 17 insertions(+), 25 deletions(-)
-> >
-> > diff --git a/rust/kernel/device/property.rs b/rust/kernel/device/proper=
-ty.rs
-> > index 5aead835fbbc..87be2784f7a7 100644
-> > --- a/rust/kernel/device/property.rs
-> > +++ b/rust/kernel/device/property.rs
-> > @@ -136,18 +136,15 @@ pub fn property_read_array_vec<'fwnode, 'name, T:=
- PropertyInt>(
-> >          let mut val: KVec<T> =3D KVec::with_capacity(len, GFP_KERNEL)?=
-;
-> >
-> >          let res =3D T::read_array_from_fwnode_property(self, name, val=
-.spare_capacity_mut());
-> > -        let res =3D match res {
-> > -            Ok(_) =3D> {
-> > -                // SAFETY:
-> > -                // - `len` is equal to `val.capacity - val.len`, becau=
-se
-> > -                //   `val.capacity` is `len` and `val.len` is zero.
-> > -                // - All elements within the interval [`0`, `len`) wer=
-e initialized
-> > -                //   by `read_array_from_fwnode_property`.
-> > -                unsafe { val.inc_len(len) }
-> > -                Ok(val)
-> > -            }
-> > -            Err(e) =3D> Err(e),
-> > -        };
-> > +        let res =3D res.map(|()| {
-> > +            // SAFETY:
-> > +            // - `len` is equal to `val.capacity - val.len`, because
-> > +            //   `val.capacity` is `len` and `val.len` is zero.
-> > +            // - All elements within the interval [`0`, `len`) were in=
-itialized
-> > +            //   by `read_array_from_fwnode_property`.
-> > +            unsafe { val.inc_len(len) }
-> > +            val
-> > +        });
-> >          Ok(PropertyGuard {
-> >              inner: res,
-> >              fwnode: self,
-> > @@ -474,12 +471,12 @@ fn read_from_fwnode_property(fwnode: &FwNode, nam=
-e: &CStr) -> Result<Self> {
-> >  /// It must be public, because it appears in the signatures of other p=
-ublic
-> >  /// functions, but its methods shouldn't be used outside the kernel cr=
-ate.
-> >  pub trait PropertyInt: Copy + Sealed {
-> > -    /// Reads a property array.
-> > -    fn read_array_from_fwnode_property<'a>(
-> > +    /// Reads a property array into `out`.
-> > +    fn read_array_from_fwnode_property(
-> >          fwnode: &FwNode,
-> >          name: &CStr,
-> > -        out: &'a mut [MaybeUninit<Self>],
-> > -    ) -> Result<&'a mut [Self]>;
-> > +        out: &mut [MaybeUninit<Self>],
-> > +    ) -> Result;
+> Return the reference to the initialized data in the `devres::register`
+> function.
 >
-> I think the old signature is quite reasonable. You provide storage and th=
-e
-> buffer is filled and that the return value is the proof of initialization=
-.
+> This is needed in a following commit (rust: add basic serial device bus
+> abstractions).
 >
-> If you're concerned with `transmute` it should just be replaced with
-> `assume_init_mut()`.
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Markus Probst <markus.probst@posteo.de>
 
-The signature is reasonable, but it is dead code. This is a private
-function; I see no benefit in keeping dead code around. If it is
-needed in the future, it can be easily restored.
+For driver-core and DRM,
+
+Acked-by: Danilo Krummrich <dakr@kernel.org>
+
+This is useful in the context of the HRT work in general, should this serie=
+s not
+make it this cycle, please let me know, then I'm going to pick this through=
+ the
+driver-core tree.
