@@ -1,101 +1,168 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01909233954
-	for <driver-core@lists.linux.dev>; Fri, 29 May 2026 23:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780096615; cv=pass; b=Sn6Am71eiygadpxNwegIQ6ZVyyU5rg1c8JwAMMk5u+3ssfRsxEmVY76n4RgB9Rd6dbzCnpbseabBw48AgmBn7rbgxCeWDbX/hhPISHa9Y+zCIbO2EEkbgJY1Mm7bV5mbnEjpv7GH1iS2tEvh13QHJCz8Ma7yydbPZy8MQolnlfY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780096615; c=relaxed/simple;
-	bh=5PPmBl8iZv83rKS6DWMFHdd3U0I2/OieYkLHDpNGe5U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I9y3BF4ZP5rTDON9Mgk3GTkEM9AwLhQw0XIfTYpp767tczjoyQy6Ob9K44pTFt1MyBfRCNF+Uti2xi+92X1nnF3JKC86XUGh/+rV4KJAHlyxR7tiKmWLFbtTWAhsF3FYKn+IHvjDwjeVa0Arbesw2xEnu844jG5+YVE2g2NdVAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xw31VZEr; arc=pass smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED062D0603;
+	Sat, 30 May 2026 01:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780103634; cv=none; b=B1WCFILS60WurQ1nGUZYbm727Q7FRkyoC7QSWshlCZHJ4/vyYIEFKmf3XgwhZ4JTKgoHP8RqWw06jZ8DgqvHlQSemza6fWW/plIyjaE8m2OfAaiz8pTP9MGuS/vvzmL/ZJQrw9db99XxS53QcV+qEhV3QyACaW/TS8qNHjHh8rU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780103634; c=relaxed/simple;
+	bh=RgWLROqVUmbJHm4UXu0rSXVgRGuzObKlOShCAHydctM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=NZUwYuy+Gtq+1Vlz+M3P49qyIL75dynY6djwmf7hsHNLHuZRULNVhRo3C4fYH90dbi1AAvnK9DV3M2VNh5AmKI6LtCnXspiLW92LIVi40V9iY+V40N20OO0dUQUuSDxMDGmUVKW1SofR/SUabD2gEM9sWqpjQJ5TfV9ZoUieqco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFAMHzMz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xw31VZEr"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-841f722ac93so709849b3a.3
-        for <driver-core@lists.linux.dev>; Fri, 29 May 2026 16:16:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780096613; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eIji18WUfPpIwktrq9w1vMRSrynPmnFAE1OtXVXrtWdP0X9R5Ru+9mKS6dv0mGnigS
-         aoxBsNzW180vXaQF/OxEHWoTaWTpYkqCK+HiPMA4p1V0RItOPLg3sgrjN69wJaeJm2kJ
-         9Yfr/DQiLs+SC6Tc5/Bb+20EZ8YJakXRjYcbSgCcM30hS5cVumt7HsOg1clvGYTpAGzR
-         da5AUB83NKkRasLkGP18D1J6e4hSXSAyjArzfDZ19QYrQbMLeWnv4Kebek+o3qZubIWh
-         7rj5VZZ+7fEmgD6919zNiD8RcBDEv3RWtkHxM9KfT2fU57g5dIWKR9CxDXtmN1lGwkkn
-         CBNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5PPmBl8iZv83rKS6DWMFHdd3U0I2/OieYkLHDpNGe5U=;
-        fh=tQayiRoje0rnAzjTS8uqq4Nm+tioh9GVsnMp858WF3o=;
-        b=HjU3OFInOM4bxSybx9iy8B5D+8Rfhhtezg+qRXJmBPkwf2JQ7y07WtPAV01PPrKbkr
-         nKZzvsWZDLXZh84855KFFL0zJVQxeTB04amG0B2DXfAuwrn6Adfrp6Mv53FtelYByS34
-         HXMY9Enya1HfX2dxzhGW2x5JCHZASjLsxbplBSFwY+j2Yj0KnrLR4dMC5aT6eCkojrkC
-         +u8KEvI0b36l9PUM8BqvHKapm4Xf5+lY4bgJW8F3wZPhgU7DzE1L5IJs8dm94i6tmjFb
-         jy25Xh70uQSGz/M7O8noIQhblCxczxk+SZLa9GgB0xxNQvAAuDro9OzVF4XtKb6+85bv
-         DK1Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780096613; x=1780701413; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5PPmBl8iZv83rKS6DWMFHdd3U0I2/OieYkLHDpNGe5U=;
-        b=Xw31VZErAHLsD9XQhZ70fU2WXTQjyD61upGaaUz8TK+x8HW2Z1NWhSoS9QjPRA6pWB
-         5aQwonpyFWI2hRr0lX+Wm9xX+Q8cYVRVLdo2YuSWVbkN2l97KXxhTMcyh20n1sPhUIEs
-         GLfrRNljTTnm+D2M5okwNEWb0e/AUXWZ3OD4WGxT3qaVhDfRoHrjNkxETfpc4XQeRby+
-         76tftHIXM008FICIkPVsy+QDOWQ5IF8MwgeI9YJG8AoxLazUaufEKVhsTEd9ttdZ+2S9
-         7hNDcH2FkEMwDGVIAYSABAXiRnhi+IJG3qc5LCAtI4NShhxfut2V7YYikZns/TGO8Zzg
-         uKjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780096613; x=1780701413;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5PPmBl8iZv83rKS6DWMFHdd3U0I2/OieYkLHDpNGe5U=;
-        b=i/lLgBBHA99rV2XChg/QOsktrlHV5fqOoYytCiaTvqkHxmYI8NgXVvgfhxkrCC0Dhg
-         GsUdXSy4xyyy+KrIr7pLU/qJQzYzZWe6GnjiqzJfMLQi+hgMDdA/HBzkktB9CMSAGkgv
-         4dP/bw+U81z2DJTY3v9PhvaMjb1Ww1fJhAyqGmZEIrnLHZKxkqoqQYA+ojB1gVgzXTL3
-         /pLYr1e9krO2xs0AbjS21P3RnZ+M1a4miMR/+NXgoqzQn16GAYdknPXVbdpAJuUjlGKL
-         rfx/SODQP9y33WFpKWQ3BR4iOZa5vJJqVeDFTJBF9WeNi2F8zHdgZY8iptAzFYt9k/rY
-         AaXQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9V++F0l/d/2O4diDKx3PuBoaZInd1xIhSuC1wyO+ukche/EjJ8GN7hMsJVcKYWPnSS9QCiaDDQYDoPTg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZSF3KcviETueB4pkqQxO9rtzRvdAwI0ztYhhfeERYgFW6nJoa
-	peUsORz5H/sIKEEfPAEnFGJ6hNDeAjksgKV0PBFoXPqO8acPfgw9sX1iiJhpBhxmswBHH5MyZtp
-	rHLz61lmij+AfRNOeNk43C2IljUMvxoQSCrFy
-X-Gm-Gg: Acq92OHtnIJTUxpDViGhuMmtYOSulFfvO0qTLRqCIweZ+UbPxIeRpXs1mGuNgtlFTG/
-	AU0sJnBTpeYuS4gmlx+zLzFa4ouwWBAKZ7BEoSUQ/tN8K7NSqbeJv+cZcx8/0T8KUChv5grjky+
-	1wxP39DAXeC4xJ/BIRIeSdbGzYXDra/4hGbVC+FiDmrLoHQxXxw03r6eMrHxfRWrVnnio5VS8gN
-	YsPj7UDv5Fuhxxc0fhxWZLhCzOxqxSpYdhISNKwD0rfY/NznDeQPUjkunaNTn0zew8YZ/ivy6cd
-	tkcQcriP+Hz1GoTcmGYgnaagwhbB0tVVE/44fgtB1QEDTy7n+M7JVS+2NTfpuWvIApNddtweDPR
-	4mIV9SQ==
-X-Received: by 2002:a05:6a00:4b53:b0:83c:5e:f647 with SMTP id
- d2e1a72fcca58-842255cf600mr1474728b3a.29.1780096613112; Fri, 29 May 2026
- 16:16:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFAMHzMz"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 960A1C2BCB3;
+	Sat, 30 May 2026 01:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1780103633;
+	bh=RgWLROqVUmbJHm4UXu0rSXVgRGuzObKlOShCAHydctM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=QFAMHzMzZvMWzzzRlqnQlJLBMimsxWzPzBYet+pBWbM9NJmpU/TLX1uuk7mx3qLtb
+	 C8MP3Qv2PoZNSZ4/0gog8109IgZnfRwdjdXGI5XiEaop4BHTMrTIekhw4m5pg/7WBu
+	 zWAHfpLdMUT5CAMdBjjMaFWq+CaFY48Y3WetXZILxoJCKiSyT7NQZkXxSrc5fSywvM
+	 Cft79HmgLoAdP3C6BzxA0EQ60CwtjNQxe4PqmtGio3eyn9mTlPsVq1yCBNB1QHzcwB
+	 GD54RiFgQLm4MCgs9IHWMc3m7Cq+uHLQ1SqyvzxvJpvmujEMAgWpUaU4cN/To3BBcD
+	 Wnx7g77x+i8XA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EAFECD6E43;
+	Sat, 30 May 2026 01:13:53 +0000 (UTC)
+From: Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>
+Date: Sat, 30 May 2026 03:13:49 +0200
+Subject: [PATCH v8 1/5] rust: devres: return reference in
+ `devres::register`
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260528053204.46783-1-phucduc.bui@gmail.com> <177997780971.8579.10018213319147837982.b4-ty@b4>
-In-Reply-To: <177997780971.8579.10018213319147837982.b4-ty@b4>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Sat, 30 May 2026 06:16:41 +0700
-X-Gm-Features: AVHnY4IY6tgEP3VCG4K8oj655J6EPIbOAjcJXkc4Xqtl62sL3VGjOhq5RTnW8xU
-Message-ID: <CAABR9nEDhMRD8gpQALO54H3PcWMXyQp6_VqP4z8=deY_NFc=kQ@mail.gmail.com>
-Subject: Re: [PATCH] regmap: reject volatile update_bits() in cache-only mode
-To: Mark Brown <broonie@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260530-rust_serdev-v8-1-2a95f1da22a7@posteo.de>
+References: <20260530-rust_serdev-v8-0-2a95f1da22a7@posteo.de>
+In-Reply-To: <20260530-rust_serdev-v8-0-2a95f1da22a7@posteo.de>
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Kari Argillander <kari.argillander@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boqun Feng <boqun@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2621;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=040JEx0DJs+3yI1YzAd4eTxo71xnuIqutPJWJv523rI=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqGjnPYjXoxu4XSUVvUyFrUA22UYYXUt1sBEHJy
+ boxVAJjcqWJAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaho5zxsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9I2Yw//XSEvApDXiC0aI/+tyQQXaC2WtluKDYJ
+ q4pL6a7XX4I7V/C+yXIbvDd5fiPpzcHx8uBpkpbV5/7NA/vwAFU2El46OuNEOW9vM20K+XgKkOg
+ XTBRmGFuI4wZKjridroUTHVMOaKGh2EPcLtnN8TPPBZ+PemcFluAH5r0fj6PyZHVRYiJcbfW+U0
+ YTFyvzsL2oySHl43EElJUh7NdxPGhfBW+hPhDy8Gi8Car43qYTmbKTOf9t0mJhrAYuuVjNOenfP
+ 8gsSgDfcV8VQbaU7qbElj5mgCZ7eGGpkLIlwvK5k7q/kptLtlJNq5zVWNxPTLoHM3uZcKkNOVwi
+ XssxOIHr62UU1Y4Pf0obE36CJYCFbMEkogte6SY2YOmIJjn7OKv9+qCGY233bgxbn5Jsrwnd0mr
+ RuNzx53K60TXoMApp8NhOiCxc7JjeA7XI0bWU3Y21u5Ys2X8KCKtiVoN73WYwnyuyGsqhKr/q6O
+ 3DzN1n4ykSc53TzCYh/euLX7+1up/XS4UNaJ+JkNlMM1TgJ3RNYNXNbnpsmuhGLN3d1hcUzjl2a
+ 3OCeliEpqf6n6fCViEYxTvSE6qKmYY5nM5rU8XDxwnCs3CyGKuLQ0Ps2ne09H3wmXHhatXdkWMu
+ pVD/Mg2jgx86QoJrcwLhv8KI1iEHPuv5YNPRySqtmZEdCNR8C2Bc=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+X-Endpoint-Received: by B4 Relay for markus.probst@posteo.de/default with
+ auth_id=680
+X-Original-From: Markus Probst <markus.probst@posteo.de>
+Reply-To: markus.probst@posteo.de
 
-Hi all,
+From: Markus Probst <markus.probst@posteo.de>
 
-Thanks for the review and for applying the patch.
+Return the reference to the initialized data in the `devres::register`
+function.
 
-Best regards,
-Phuc
+This is needed in a following commit (rust: add basic serial device bus
+abstractions).
+
+Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+ rust/kernel/cpufreq.rs    |  3 ++-
+ rust/kernel/devres.rs     | 15 +++++++++++++--
+ rust/kernel/drm/driver.rs |  3 ++-
+ 3 files changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/rust/kernel/cpufreq.rs b/rust/kernel/cpufreq.rs
+index d94c6cdbc45a..bbbd4f54218a 100644
+--- a/rust/kernel/cpufreq.rs
++++ b/rust/kernel/cpufreq.rs
+@@ -1053,7 +1053,8 @@ pub fn new_foreign_owned(dev: &Device<Bound>) -> Result
+     where
+         T: 'static,
+     {
+-        devres::register(dev, Self::new()?, GFP_KERNEL)
++        devres::register(dev, Self::new()?, GFP_KERNEL)?;
++        Ok(())
+     }
+ }
+ 
+diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+index 82cbd8b969fb..e3e954478caa 100644
+--- a/rust/kernel/devres.rs
++++ b/rust/kernel/devres.rs
+@@ -419,15 +419,26 @@ fn register_foreign<P>(dev: &Device<Bound>, data: P) -> Result
+ /// }
+ ///
+ /// fn from_bound_context(dev: &Device<Bound>) -> Result {
+-///     devres::register(dev, Registration::new(), GFP_KERNEL)
++///     devres::register(dev, Registration::new(), GFP_KERNEL)?;
++///     Ok(())
+ /// }
+ /// ```
+-pub fn register<T, E>(dev: &Device<Bound>, data: impl PinInit<T, E>, flags: Flags) -> Result
++pub fn register<'a, T, E>(
++    dev: &'a Device<Bound>,
++    data: impl PinInit<T, E>,
++    flags: Flags,
++) -> Result<&'a T>
+ where
+     T: Send + 'static,
+     Error: From<E>,
+ {
+     let data = KBox::pin_init(data, flags)?;
+ 
++    let data_ptr = &raw const *data;
++
+     register_foreign(dev, data)
++        // SAFETY: `dev` is valid for the lifetime of 'a. As long as there is a reference to
++        // `Device<Bound>`, it is guaranteed that the device is not unbound and data has not been
++        // dropped. Thus `data_ptr` is also valid for the lifetime of 'a.
++        .map(|()| unsafe { &*data_ptr })
+ }
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index 5233bdebc9fc..1edfd7bacddb 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -147,7 +147,8 @@ pub fn new_foreign_owned(
+ 
+         let reg = Registration::<T>::new(drm, flags)?;
+ 
+-        devres::register(dev, reg, GFP_KERNEL)
++        devres::register(dev, reg, GFP_KERNEL)?;
++        Ok(())
+     }
+ 
+     /// Returns a reference to the `Device` instance for this registration.
+
+-- 
+2.53.0
+
+
