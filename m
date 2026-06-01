@@ -1,209 +1,413 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D214CA6B
-	for <driver-core@lists.linux.dev>; Mon,  1 Jun 2026 00:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6DD27A107
+	for <driver-core@lists.linux.dev>; Mon,  1 Jun 2026 03:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780272830; cv=none; b=mBgcEi54Kw881NJeV+U7jM6f5OqfpVMpQXjG2f2Yw0+2wjDicLQNlJdkrO/5uANjB9tkM/JAzQW9Tc56nKqJQR4n2Aa5dakgKgv7vJBoBnX/5EmNb/J3KGFXx4Kc6CsM2nA7NI1iPmxALYGCAJjuQ/SGNP35QsaBd3lqvIdPHmQ=
+	t=1780285069; cv=none; b=XXTLfAyMxtPD5nVabd4gSDWk4qvuLAYvD6VdcvvjY+WZrvwF11ehJXZAgBx4LTWuxBZVQ5M8SaAWuAKcdWJNEVlndLO5OEHtim8g8nra0dMKSnoL431k/XDF6bLd0rAAfzOSfPneOptOuvgdcNVyY/ptbUQtKHuQJRcAtKxpWDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780272830; c=relaxed/simple;
-	bh=58DM2kFGXRR5SmndG7V65q0M9IaBZ64o8CgjV+M6VW4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=k+TbR9Fx2ejjLIovIehznp8gxM6IEaLRGHX5c1c1vVtdonzd5lgbv0Ku8X0ro62Vd95ygfqjl6cSEpP+yRLd5mF5XL7kHOMrDTE439guJ816Orq/GL9ORRS3EeQpERziW3RuCpV1JOHwPOTXaX5PaRsXgch4SttBQRhEH9q5aW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=rGX3uobs; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1780285069; c=relaxed/simple;
+	bh=73AB8+jHnZfSkvML33QHKeofofxU7hQeM/SK1HUl6k4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IokOP4QnjCjt6UHz+q72mGRGQhU9xtMtoMEQXqUzHyIaSlnlTWfUoN/sETfulPBNpwi77bs3498NzZPX+zcG0F+nsIGcU9lXPnDgn9LHtJttiWGST59AG8Bls0Gf3y7hK+YuIxQXFLdC/eLr1KqbreQyLCLGP+mStLF1y/2tkWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DEcPCzdp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BUfPuaUN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="rGX3uobs"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id A707D240104
-	for <driver-core@lists.linux.dev>; Mon,  1 Jun 2026 02:13:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1780272826; bh=58DM2kFGXRR5SmndG7V65q0M9IaBZ64o8CgjV+M6VW4=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=rGX3uobsJNPgjuOz2UMw14IrjFLfcBVZ5BqPQqTYw7daSKrrOx4cNGsZfO/Ip7yjq
-	 VbNtvt4wXslom4Rw9FmdGt6xvXOhqAFtnxZk4YcPvoHBRGhm/r3d6V1MhyWtc+rGlO
-	 oDOblvKAlza/5J2vLNJxQ6CeV6XhPHuvH7jGG5PwqBWzO9ZixEb4zVC3RDiKJcxz9b
-	 j0+P1m2patrY2OtMmwLWo7YDMSXlrc3J/BtYRaI1fzBnNeqq3wZVIS/QbDyXFRHMp9
-	 L7X2wAiIWGQV1nz4a99ORAF347NJCsF05d6BDdEyLU5N/3yc0doy3vtGMqk1LQtn8J
-	 273iMW/a4l+SA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4gTDvq6Y2sz6trs;
-	Mon,  1 Jun 2026 02:13:43 +0200 (CEST)
-Message-ID: <fda7602dc453231580be8fd7f8b56c7984b1efd1.camel@posteo.de>
-Subject: Re: [PATCH v11 1/3] rust: add basic serial device bus abstractions
-From: Markus Probst <markus.probst@posteo.de>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>,
-  Rob Herring <robh@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jiri Slaby	 <jirislaby@kernel.org>, Miguel
- Ojeda <ojeda@kernel.org>, Gary Guo	 <gary@garyguo.net>,
- =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
- Lossin <lossin@kernel.org>, Andreas Hindborg	 <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>, Kari
- Argillander <kari.argillander@gmail.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng
- <boqun@kernel.org>,  David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, linux-serial@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org
-Date: Mon, 01 Jun 2026 00:13:45 +0000
-In-Reply-To: <DIX7W3C7F1UZ.3P1LHOQSD5VMR@kernel.org>
-References: <20260531-rust_serdev-v11-0-dee8e0d830f1@posteo.de>
-	 <20260531-rust_serdev-v11-1-dee8e0d830f1@posteo.de>
-	 <DIWEXUCNLURG.136XXDBHSBNVR@kernel.org>
-	 <12fa6237168ecf6dc65ebf46118beeb5c51f3d1c.camel@posteo.de>
-	 <DIX6YVWRDL67.3TXDMTAMASCVZ@kernel.org>
-	 <7c30276759aaba8127275e602cb78783ec33bbe9.camel@posteo.de>
-	 <DIX7W3C7F1UZ.3P1LHOQSD5VMR@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-bug7M99IW+HdQKCtqoS/"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DEcPCzdp";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BUfPuaUN"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64VKbP6q2021383
+	for <driver-core@lists.linux.dev>; Mon, 1 Jun 2026 03:37:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	lkUsz3VXuUB0spQixXVrnGwdk9ySth3PoHezhWUC3lg=; b=DEcPCzdp8LbS7bMX
+	k5H4zJPznVxeQSO5setvVpyJGAkhbV3HaRWMCRrY9yBY3U7Fpjftj/avdy6OTXbb
+	aHz3Js4VCFIAJEGNLDhv5ObHAFPBSvvDKmsALZYNmEZJz/9NhiCO6dM0C+tudmbK
+	RJuNy1nldHNKr3lgspRt4baVIOIOCR1bMLZdf+3WQyGUiL6LsiEXwF7UUnkJYjIL
+	/2Mk8J/TAnwUJj14VdsQuC+phgHX0F9D0pA3RLmmICo6NnwvtqeNefwWHBsDPzF/
+	Cp3rIfHBptJgGGPlAuBz/wugR/YTE3ikUTLNYbOlQx4dwGLn4THrCd/hjZS34z+s
+	L1+vXQ==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4efqfxwgx6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Mon, 01 Jun 2026 03:37:46 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-841ef4bf8cfso2649837b3a.0
+        for <driver-core@lists.linux.dev>; Sun, 31 May 2026 20:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780285065; x=1780889865; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lkUsz3VXuUB0spQixXVrnGwdk9ySth3PoHezhWUC3lg=;
+        b=BUfPuaUNFN5r26xsFyzyBMMttewjZXELz3H06NNqQV9na0cAJcrGM02QVBStkg3Yy/
+         7pL1yrxzfSc6JQgqDhVL/ktTRHXxk49mtfROjFVEbce7ir/A3DFaao8HJ6BkNxSEC9vj
+         am1Bto5bE2AmpeXacoGILKHyBdR/OkwxQWm3aECTvI894WJG/1kR2pQbeIRTvN5v8BgQ
+         2sX6Mp2SklPrpDxxCZNYxeDQZgK30R6MFT5cAAcGRkD+OPmYuNdQA+J9i82VnUHZMYNT
+         MRecJK4azfX9uuHvd/sXBfmNQ310AUVdNyqH45uT1NNBUWEUZRaI/+LtunSvmIeCqXJk
+         NqmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780285065; x=1780889865;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lkUsz3VXuUB0spQixXVrnGwdk9ySth3PoHezhWUC3lg=;
+        b=NtPRJKeoReBieCGbzSCMPpZ4hgMCgKCUUvvegssSfNykm8YLKicfFTj1s59U/1g7Z8
+         a1dHLH/fip/XA/rsGvm7CPz1SjH7i6LWUk/KzzGp1469kBdwLKm26C93SIrRvG+RD/CE
+         9L+yTxLnfI7IVDRLrmYLci73+DffF1yDC/8epLmyefWgLv0kADtU6SqBX7+BqA2hOkIo
+         B6F2mYdnHiaKFYBhWrQ/lm2UUWvdmR8joi2M+jpeqkSjUD0lMpurQ1D8hc0eL8N8WtG0
+         yrTpUR5Pt2moRKx1/GJH6rM0bTHUqYX+XHSeWjLpd0W8FCsNQFlT/iab2yraiRmxKZZr
+         uOqw==
+X-Forwarded-Encrypted: i=1; AFNElJ+r+8hOXoc7dXMzn4IO0wdDpW0tJuEREuai6NjBaIpDssa6z6jNR/w42VkbA5wnBG5MAi2ru01H/LhvLg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUB0iYZdW4U7TzSMkL7MUVOQD3kCv8Veq2j1TXLahAjiMg1Dbm
+	srl/wzHJJt7OzVm/yaacSs+BNjcuxhF7XOQxUAxz6RZg2PCWuJj3F7bsh3UaMEEJGIGLutbZTZp
+	m6n3scvjUG5nvwmR/FVp3vjWz1qCD0i1/yAnwjwU4SrX6TQKD+UcIiGE5dYwAzIzh/w==
+X-Gm-Gg: Acq92OE0tV+7Kkd/yYq7XDFKamDoH3h21190tBFCFTPdmKmrxozkk3zSMFVq86fwFjO
+	EtH2kuFIcsQ4RUngrTyxjyq/8nPoji1QWpTd91dnsFA/6bi5BkYfr8X02Ba5+u1VtwKQIgV3ddp
+	TqsoowPHGkFxqnhN7rwI9tQqhDTXzZA59dkx1SM5OxJG0XOG+JnBtK/t5DALRKg1ZnIyXVnC+dK
+	RWVo8TSRFDppF5Ic++NpfnBOacqwt/JXrIHmdwvHA6/Cwzlx3Zp9kpgKnariqfhOIC6Q4yvSaue
+	GCCmdDLCdthpyGEwzxd6P7nxM72nXNRtJytVWTnTnantp+rkgMuBAzlixinI/akFURW7rsVUSxU
+	8IV7tAMIXJtDSftCgEqlB1/01AGl9m0pKz2WG7YNFUa52XcWctTJJSmDOBl/+cm92
+X-Received: by 2002:a05:6a00:a24d:b0:842:5711:9a2f with SMTP id d2e1a72fcca58-8425711a141mr1439965b3a.36.1780285065354;
+        Sun, 31 May 2026 20:37:45 -0700 (PDT)
+X-Received: by 2002:a05:6a00:a24d:b0:842:5711:9a2f with SMTP id d2e1a72fcca58-8425711a141mr1439930b3a.36.1780285064787;
+        Sun, 31 May 2026 20:37:44 -0700 (PDT)
+Received: from [10.218.35.45] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84214b6797esm9862518b3a.26.2026.05.31.20.37.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 May 2026 20:37:44 -0700 (PDT)
+Message-ID: <7cc5e4f1-7899-4517-81f6-d0f18ea4e2ae@oss.qualcomm.com>
+Date: Mon, 1 Jun 2026 09:07:32 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 2/2] PCI: Add support for PCIe WAKE# interrupt
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-gpio@vger.kernel.org, quic_vbadigan@quicinc.com,
+        sherry.sun@nxp.com, driver-core@lists.linux.dev,
+        devicetree@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
+References: <20260511-wakeirq_support-v10-0-c10af9c9eb8c@oss.qualcomm.com>
+ <20260511-wakeirq_support-v10-2-c10af9c9eb8c@oss.qualcomm.com>
+ <p7la2n65vkfd4bnvygm533rgglx2og5grltolgizbahptbaf3o@42zkaymebhzz>
+Content-Language: en-US
+From: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+In-Reply-To: <p7la2n65vkfd4bnvygm533rgglx2og5grltolgizbahptbaf3o@42zkaymebhzz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: AbfoAbG7omUUhGTtY54hhzrG4Anq5fBO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDAzMyBTYWx0ZWRfX6NCoTWhLA9mK
+ GgFrHuFhZkav8OUquiTLMfhSfhFxHzvgvnshpqWQtIbvwNZKDLYQZ79CFO/S632hDUgR/q9qpG5
+ nUjQ9V8JC4pYDFr7EM5IIaWVxIsZLVZrjkXS8LPsX/IMIiIjEJwzaEcrgzCm+4q1hcUgrt/5fSf
+ P5MpfCpOMr45i6d2tO/+RYt8wh4XIT7x+Vbw6WN2OgzreiGns1pFglnZzHyjRWjxADE5s+JjXQO
+ kERetWRLB5EhlIk9LxII3+a4PIxgZwYq3hoizqCetVLPDXNSj/+T+JyijQsisi8KxY8d9uzeqlB
+ wtEa3Jbmyx8+Kf3Ceo9Q9ToCF4SYiCzbskMJoUgwb3lcjHCY17zPqp1y00zGQw7lJFzgOQM5Frr
+ kpveE8wNgzOutic/WSySX+QfE0+OCr2f+qsvEu4jlxDHvZ2RYJlDIOtnh9VfaUAciBdW2PlyuxQ
+ RQC0pybJUN5CoynWvIA==
+X-Proofpoint-GUID: AbfoAbG7omUUhGTtY54hhzrG4Anq5fBO
+X-Authority-Analysis: v=2.4 cv=Zq/d7d7G c=1 sm=1 tr=0 ts=6a1cfe8a cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=NEAV23lmAAAA:8 a=KKAkSRfTAAAA:8
+ a=slkGKw8Z9QmxrnLXOEIA:9 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_01,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
+ bulkscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606010033
 
 
---=-bug7M99IW+HdQKCtqoS/
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-06-01 at 00:32 +0200, Danilo Krummrich wrote:
-> On Mon Jun 1, 2026 at 12:00 AM CEST, Markus Probst wrote:
-> > On Sun, 2026-05-31 at 23:49 +0200, Danilo Krummrich wrote:
-> > > On Sun May 31, 2026 at 9:42 PM CEST, Markus Probst wrote:
-> > > > I just noticed, is it even possible to use SRCU here? Currently the=
- mutex not
-> > > > only ensures that no drvdata access happens after drvdata drop, but=
- also that
-> > > > the receive_buf waits for the probe to complete, as the drvdata has=
-n't been
-> > > > initialized yet.
-> > >=20
-> > > Yeah, if you drop the completion, you need the mutex.
-> > Is the performance impact on an mutex or on srcu + completion higher?
->=20
-> Weighing in the completion, the mutex probably wins as it will always be
-> uncontested under normal operation.
->=20
-> > >=20
-> > > (In case it wasn't discussed in previous versions already, there is a=
-lso the
-> > > option to just attach separate private data to the receive callback, =
-which would
-> > > avoid this synchonization problem in the first place.
-> > >=20
-> > > You could have serdev::Device<Core>::open(), which takes its own priv=
-ate data
-> > > and a corresponding close(), this way you'd allow drivers to control =
-whether
-> > > they want the serial line "open" or not. You just need to make sure i=
-t is closed
-> > > eventually.)
-> > This would add complexity with types, as we need to ensure that write,
-> > set_baudrate, set_parity etc. does not run when closed.
->=20
-> Right, but looking at a few serdev drivers, there seem to be a few cases =
-where
-> drivers need to close and re-open.
-That is something we could consider once there is a user.
+On 5/13/2026 8:30 PM, Manivannan Sadhasivam wrote:
+> On Mon, May 11, 2026 at 12:55:38PM +0530, Krishna Chaitanya Chundru wrote:
+>> According to the PCI Express specification (PCIe r7.0, Section 5.3.3.2),
+>> two link wakeup mechanisms are defined: Beacon and WAKE#. Beacon is a
+>> hardware-only mechanism and is invisible to software (PCIe r7.0,
+>> Section 4.2.7.8.1). This change adds support for the WAKE# mechanism
+>> in the PCI core.
+>>
+>> According to the PCIe specification, multiple WAKE# signals can exist in
+>> a system or each component in the hierarchy could share a single WAKE#
+>> signal. In configurations involving a PCIe switch, each downstream port
+>> (DSP) of the switch may be connected to a separate WAKE# line, allowing
+>> each endpoint to signal WAKE# independently. From figure 5.4 in sec
+>> 5.3.3.2, WAKE# can also be terminated at the switch itself. Such topologies
+>> are typically not described in Device Tree, therefore it is out of scope
+>> for this series.
+>>
+>> To support this, the WAKE# should be described in the device tree node of
+>> the endpoint/bridge. If all endpoints share a single WAKE# line, then each
+>> endpoint node shall describe the same WAKE# signal or a single WAKE# in
+>> the Root Port node.
+>>
+>> In pci_device_add(), PCI framework will search for the WAKE# in device
+>> node. Once found, register for the wake IRQ through
+>> dev_pm_set_dedicated_wake_irq() associates a wakeup IRQ with a device
+>> and requests it, but the PM core keeps the IRQ disabled by default. The
+>> IRQ is enabled by the PM core, only when the device is permitted to wake
+>> the system, i.e. during system suspend and after runtime suspend, and
+>> only when device wakeup is enabled.
+>>
+>> If the same WAKE# GPIO is described in multiple device tree nodes, only the
+>> first device that successfully registers the wake IRQ will succeed, while
+>> subsequent registrations may fail. This limitation does not affect
+>> functional correctness, since WAKE# is only used to bring the link to D0,
+>> and endpoint-specific wakeup handling is resolved later through
+>> PME detection (PME_EN is set in suspend path by PCI core by default).
+>>
+>> When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume() to
+>> bring the device back to an active power state, such as transitioning from
+>> D3cold to D0. Once the device is active and the link is usable, the
+>> endpoint may generate a PME, which is then handled by the PCI core through
+>> PME polling or the PCIe PME service driver to complete the wakeup of the
+>> endpoint.
+>>
+>> WAKE# is added in dts schema and merged based on below links.
+>>
+>> Link: https://lore.kernel.org/all/20250515090517.3506772-1-krishna.chundru@oss.qualcomm.com/
+>> Link: https://github.com/devicetree-org/dt-schema/pull/170
+>> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Hi Bjorn,
 
-I am certain it would make it more complex, not less.
->=20
-> > > That said, I don't know what turns out to be the better approach. And=
- maybe it
-> > > simply isn't something this initial series has to tackle? I think you=
-r driver
-> > > does not implement the receive callback?
-> > The initial driver with only leds: no.
-> >=20
-> > That changes once the driver also takes care of hwmon (ADC sensor and
-> > fan failure) and input (power button and possibly other buttons).
->=20
-> Maybe drop it from this initial series then and revisit with the first us=
-er?
-I would prefer it with this series.
+can you please check this series once.
 
-Except for probe and remove there should be no overhead if receive_buf
-is not implemented.
+- Krishna Chaitanya.
+>> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+>
+> - Mani
+>
+>> ---
+>>  drivers/pci/of.c       | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  drivers/pci/pci.c      | 11 ++++++++
+>>  drivers/pci/pci.h      |  2 ++
+>>  drivers/pci/probe.c    |  2 ++
+>>  drivers/pci/remove.c   |  1 +
+>>  include/linux/of_pci.h |  6 +++++
+>>  include/linux/pci.h    |  2 ++
+>>  7 files changed, 96 insertions(+)
+>>
+>> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+>> index 6da569fd3b8f..ed3ad5b9a253 100644
+>> --- a/drivers/pci/of.c
+>> +++ b/drivers/pci/of.c
+>> @@ -7,6 +7,7 @@
+>>  #define pr_fmt(fmt)	"PCI: OF: " fmt
+>>  
+>>  #include <linux/cleanup.h>
+>> +#include <linux/gpio/consumer.h>
+>>  #include <linux/irqdomain.h>
+>>  #include <linux/kernel.h>
+>>  #include <linux/pci.h>
+>> @@ -15,6 +16,7 @@
+>>  #include <linux/of_address.h>
+>>  #include <linux/of_pci.h>
+>>  #include <linux/platform_device.h>
+>> +#include <linux/pm_wakeirq.h>
+>>  #include "pci.h"
+>>  
+>>  #ifdef CONFIG_PCI
+>> @@ -586,6 +588,76 @@ int of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin)
+>>  	return irq_create_of_mapping(&oirq);
+>>  }
+>>  EXPORT_SYMBOL_GPL(of_irq_parse_and_map_pci);
+>> +
+>> +static void pci_configure_wake_irq(struct pci_dev *pdev, struct gpio_desc *wake)
+>> +{
+>> +	int ret, wake_irq;
+>> +
+>> +	wake_irq = gpiod_to_irq(wake);
+>> +	if (wake_irq < 0) {
+>> +		pci_err(pdev, "Failed to get wake irq: %d\n", wake_irq);
+>> +		return;
+>> +	}
+>> +
+>> +	/*
+>> +	 * dev_pm_set_dedicated_wake_irq() associates a wakeup IRQ with the
+>> +	 * device and requests it, but the PM core keeps it disabled by default.
+>> +	 * The IRQ is enabled only when the device is allowed to wake the system
+>> +	 * (during system suspend and after runtime suspend), and only if device
+>> +	 * wakeup is enabled.
+>> +	 *
+>> +	 * When the wake IRQ fires, the wakeirq handler invokes pm_runtime_resume()
+>> +	 * to bring the device back to an active power state (e.g. from D3cold to D0).
+>> +	 * Once the device is active and the link is usable, the endpoint may signal
+>> +	 * a PME, which is then handled by the PCI core (either via PME polling or the
+>> +	 * PCIe PME service driver) to wakeup particular endpoint.
+>> +	 */
+>> +	ret = dev_pm_set_dedicated_wake_irq(&pdev->dev, wake_irq);
+>> +	if (ret < 0) {
+>> +		pci_err(pdev, "Failed to set WAKE# IRQ: %d\n", ret);
+>> +		return;
+>> +	}
+>> +
+>> +	ret = irq_set_irq_type(wake_irq, IRQ_TYPE_LEVEL_LOW);
+>> +	if (ret < 0) {
+>> +		dev_pm_clear_wake_irq(&pdev->dev);
+>> +		pci_err(pdev, "Failed to set irq_type: %d\n", ret);
+>> +	}
+>> +}
+>> +
+>> +void pci_configure_of_wake_gpio(struct pci_dev *dev)
+>> +{
+>> +	struct device_node *dn = pci_device_to_OF_node(dev);
+>> +	struct gpio_desc *gpio;
+>> +
+>> +	if (!dn)
+>> +		return;
+>> +	/*
+>> +	 * fwnode_gpiod_get() may fail with -EBUSY (e.g. shared WAKE#), but the
+>> +	 * actual WAKE# trigger from the device would still work and the host
+>> +	 * controller driver will enable power to the topology.
+>> +	 *
+>> +	 * -EPROBE_DEFER cannot be propagated here since pci_device_add() has no
+>> +	 *  retry mechanism.
+>> +	 */
+>> +	gpio = fwnode_gpiod_get(of_fwnode_handle(dn), "wake", GPIOD_IN, NULL);
+>> +	if (!IS_ERR(gpio)) {
+>> +		dev->wake = gpio;
+>> +		pci_configure_wake_irq(dev, gpio);
+>> +	}
+>> +}
+>> +
+>> +void pci_remove_of_wake_gpio(struct pci_dev *dev)
+>> +{
+>> +	struct device_node *dn = pci_device_to_OF_node(dev);
+>> +
+>> +	if (!dn)
+>> +		return;
+>> +
+>> +	dev_pm_clear_wake_irq(&dev->dev);
+>> +	gpiod_put(dev->wake);
+>> +	dev->wake = NULL;
+>> +}
+>>  #endif	/* CONFIG_OF_IRQ */
+>>  
+>>  static int pci_parse_request_of_pci_ranges(struct device *dev,
+>> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+>> index 8f7cfcc00090..5bffed535dc2 100644
+>> --- a/drivers/pci/pci.c
+>> +++ b/drivers/pci/pci.c
+>> @@ -17,6 +17,7 @@
+>>  #include <linux/lockdep.h>
+>>  #include <linux/msi.h>
+>>  #include <linux/of.h>
+>> +#include <linux/of_pci.h>
+>>  #include <linux/pci.h>
+>>  #include <linux/pm.h>
+>>  #include <linux/slab.h>
+>> @@ -1123,6 +1124,16 @@ static inline bool platform_pci_bridge_d3(struct pci_dev *dev)
+>>  	return acpi_pci_bridge_d3(dev);
+>>  }
+>>  
+>> +void platform_pci_configure_wake(struct pci_dev *dev)
+>> +{
+>> +	pci_configure_of_wake_gpio(dev);
+>> +}
+>> +
+>> +void platform_pci_remove_wake(struct pci_dev *dev)
+>> +{
+>> +	pci_remove_of_wake_gpio(dev);
+>> +}
+>> +
+>>  /**
+>>   * pci_update_current_state - Read power state of given device and cache it
+>>   * @dev: PCI device to handle.
+>> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+>> index 4a14f88e543a..85539c238743 100644
+>> --- a/drivers/pci/pci.h
+>> +++ b/drivers/pci/pci.h
+>> @@ -284,6 +284,8 @@ void pci_msix_init(struct pci_dev *dev);
+>>  bool pci_bridge_d3_possible(struct pci_dev *dev);
+>>  void pci_bridge_d3_update(struct pci_dev *dev);
+>>  int pci_bridge_wait_for_secondary_bus(struct pci_dev *dev, char *reset_type);
+>> +void platform_pci_configure_wake(struct pci_dev *dev);
+>> +void platform_pci_remove_wake(struct pci_dev *dev);
+>>  
+>>  static inline bool pci_bus_rrs_vendor_id(u32 l)
+>>  {
+>> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+>> index b63cd0c310bc..143b0bd35b3c 100644
+>> --- a/drivers/pci/probe.c
+>> +++ b/drivers/pci/probe.c
+>> @@ -2775,6 +2775,8 @@ void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
+>>  	/* Establish pdev->tsm for newly added (e.g. new SR-IOV VFs) */
+>>  	pci_tsm_init(dev);
+>>  
+>> +	platform_pci_configure_wake(dev);
+>> +
+>>  	pci_npem_create(dev);
+>>  
+>>  	pci_doe_sysfs_init(dev);
+>> diff --git a/drivers/pci/remove.c b/drivers/pci/remove.c
+>> index e9d519993853..d781b41e57c4 100644
+>> --- a/drivers/pci/remove.c
+>> +++ b/drivers/pci/remove.c
+>> @@ -35,6 +35,7 @@ static void pci_destroy_dev(struct pci_dev *dev)
+>>  	if (pci_dev_test_and_set_removed(dev))
+>>  		return;
+>>  
+>> +	platform_pci_remove_wake(dev);
+>>  	pci_doe_sysfs_teardown(dev);
+>>  	pci_npem_remove(dev);
+>>  
+>> diff --git a/include/linux/of_pci.h b/include/linux/of_pci.h
+>> index 29658c0ee71f..649fe8eafcfa 100644
+>> --- a/include/linux/of_pci.h
+>> +++ b/include/linux/of_pci.h
+>> @@ -30,12 +30,18 @@ static inline void of_pci_check_probe_only(void) { }
+>>  
+>>  #if IS_ENABLED(CONFIG_OF_IRQ)
+>>  int of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin);
+>> +void pci_configure_of_wake_gpio(struct pci_dev *dev);
+>> +void pci_remove_of_wake_gpio(struct pci_dev *dev);
+>>  #else
+>>  static inline int
+>>  of_irq_parse_and_map_pci(const struct pci_dev *dev, u8 slot, u8 pin)
+>>  {
+>>  	return 0;
+>>  }
+>> +
+>> +static inline void pci_configure_of_wake_gpio(struct pci_dev *dev) { }
+>> +
+>> +static inline void pci_remove_of_wake_gpio(struct pci_dev *dev) { }
+>>  #endif
+>>  
+>>  #endif
+>> diff --git a/include/linux/pci.h b/include/linux/pci.h
+>> index 2c4454583c11..4289b60dcc83 100644
+>> --- a/include/linux/pci.h
+>> +++ b/include/linux/pci.h
+>> @@ -588,6 +588,8 @@ struct pci_dev {
+>>  	/* These methods index pci_reset_fn_methods[] */
+>>  	u8 reset_methods[PCI_NUM_RESET_METHODS]; /* In priority order */
+>>  
+>> +	struct gpio_desc *wake; /* Holds WAKE# gpio */
+>> +
+>>  #ifdef CONFIG_PCIE_TPH
+>>  	u16		tph_cap;	/* TPH capability offset */
+>>  	u8		tph_mode;	/* TPH mode */
+>>
+>> -- 
+>> 2.34.1
+>>
 
-As it will be needed eventually and it is basic serdev functionality, I
-don't see a reason to not include it now.
-
-Thanks
-- Markus Probst
-
-
---=-bug7M99IW+HdQKCtqoS/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmoczq8bFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSZ+0P/2ylwrHvfHKKiTVBl/XF
-UL+HU/pmQkc3qwxSFyW3P7DLtY10V0r8kzPH2o35AC24avXePqjgo8hW2A5zAGqO
-u2gh9IV2XNBUKsF1CpV6bGaw/xCd3iUdmS8R8sIJfoNQJFj/EjDpL0SecHKz0iVd
-ARYzYY+xPCHLPGz8dxtGLgHq1pU4kIafkJ0K2+TYmSDVA9PRPlqhKgxDsWtFWVMb
-MnK6e+4HAqJaVNpITF7YmojKKIObqCmv8RnQWon6MaSQp1QK7F9b7Szyz1jN6435
-iXMUcatC+McjLHNTvnRJgn0G50CNFX+/ETmnGHH6VVt/Mf4M+55B6HV9ziq72RD0
-jnczWTHHTZwDgNjPgqQgRjeOOWHuKu4T9QKpJclOlcg6F3dmP7SYNTKX6iYYk1QQ
-1cjwkUShY8HfcdcyWBf2ME3+D2fj73z/f59y/gFgIfKcMZGNuUHdbMTgGpUm9tcj
-GDgupxz7qS+CKzEBHzySTp9gKg6xzvA4gTcvzjoAk+3RrLhtFL/kFa8jvB5pvwlh
-CO1GwHsgiR6pPzqj4pAFI/JDF2/gcIMeOERTNAuAz1In8LpLCRzJuMFkmXXJ/XRy
-NYZyHMUT0PzUmfA1869YY2zN+FIRV0ykMAp0aKV4HhWm5qQpb3HYmGRMOhOJriVI
-sTK0zERHauHUMCm8i58Nnlf1
-=TScp
------END PGP SIGNATURE-----
-
---=-bug7M99IW+HdQKCtqoS/--
