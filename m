@@ -1,129 +1,182 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CE63E2747
-	for <driver-core@lists.linux.dev>; Mon,  1 Jun 2026 17:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B013EDE5E
+	for <driver-core@lists.linux.dev>; Mon,  1 Jun 2026 18:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780336641; cv=none; b=dSyXV3n8BOmApuTzObPuidWEsHhmhaNMgM+roic4kp80Cl/1e6ORH09+wO7owf2semuDtqNJ+WqObwxROOZONiP1hjgS0kSKczUL0zxNbG46y+kSVBHcUEU4lqOnY8dm9Efwey+Uy9N1IbAoCkESr/8UcGmEyE/O5jLh5fc3oS8=
+	t=1780339199; cv=none; b=tSq/HtAvXzT2cPAcxUhyXJwO2xxDDZxXzerfaFLu8+WI6dBh1bhxQ5osJ9wLTgU+wBiOPJH+Wxnye6rAYCWP8Q6wKE/VtUzAdtiDwa9JL6ORfQ4SIgd5B0l+gkUfyVzCV/1cQmeoaZyrmadoJekWUWOVm28UgM7rNJ0PuFpXlBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780336641; c=relaxed/simple;
-	bh=a8NNwl3gj28TdelJ2QDDl+HZA18Xikw2b26A8/RV0gM=;
+	s=arc-20240116; t=1780339199; c=relaxed/simple;
+	bh=snnOueHzpddTMr0EOzT/SQMImZLV+bNVpqocozMConY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ch8YMw2wgBmepPMhfWCOXjTqRodCH9c1YPSlxDI1STwBUb0KRQTF680jR76hr79AxiWhE8DiJdeeSdaQLkTcfQIrMjrJ39nYFvbhqxgfFmwfmI3N3HYwfrcf7YiKxAgTaoFlH6iPXxG2M0KHparCssuq7H7tGD3AShZmOYDV1b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YBEcWjLV; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=byciqz2rDeo5NO3x7lxeXla5iQhCrbm8Gk3Tqv9uuOiPx5Io1sbSC9jDmTts0N/Zi7OeDD4wHb7BC4npsafrgms3kfF+YhU9aRPgE2ZPdKEIALb2U4rtxWb1jHgnYxC2LhXEEg43hu4rznY+kiOTw0yLgWMwnvqT3f9MF91itk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EG1taH52; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YBEcWjLV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF861F00A04
-	for <driver-core@lists.linux.dev>; Mon,  1 Jun 2026 17:57:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EG1taH52"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58EAC1F0089C
+	for <driver-core@lists.linux.dev>; Mon,  1 Jun 2026 18:39:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780336639;
-	bh=Fs6zIa+oKHWvRltzPvd2mFdEu12rLJwaXHbNCVd0THk=;
+	s=k20260515; t=1780339195;
+	bh=+LmQVnmfAqr309eQQOPVN3BHemABDS73n6a5IHIbBM8=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=YBEcWjLVnMFNyhTH2clkn3SS4OxRe1EiT16jl+iPdqtWZ6g6WzL01QnGkF+WWRam7
-	 w/ZcqoOJqRowf8oOS8Q6viCgpRJsyJiBa+d4C5wmKbJH7tJiJhiDb93cwLqYUlDKml
-	 mHXcxS57F1wvpuoDi3TBhJTiWc6lIXFRC6DLn8uGUOMYBw6GaJOyoK2kyMIyoxNc7p
-	 m4+++rUeb0vl0IzyXPwELbWx2Wf/A7WH/4TyR/wup0oelEBZRQeugazaRmmGov4zso
-	 HRlSs7aOsYQJ+0QyGGCrz2ZQ3fQKmzgNOCSA6CE/MEXudplG9ukTFIS7NytFwxsJHx
-	 +0+P15plzbwXw==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa68dbb38aso1329567e87.2
-        for <driver-core@lists.linux.dev>; Mon, 01 Jun 2026 10:57:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8sKvgPugQDJPhcquSkM5XzxdreZWKGjITqrmc/lQu5cG7Vla3NQBSEHbT+YGTvEEOt+eS/QTQdrDvecQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YybQm+dxgrLFa8feA+Wugs9BzYl1OgRePTIrZ4cb0m9fBD+tK7x
-	EO433kryh6MAlHCPeiLHJYsK/Pp6g9u7+TKyw94JnCXsLSKFdvGJBKPeh2oWO4t10fgt9e1qp2J
-	VlPFEq40NDS6dw7q6T6BzbbxXmIOnq5I=
-X-Received: by 2002:a05:6512:8007:20b0:5aa:6395:f9c5 with SMTP id
- 2adb3069b0e04-5aa73ee8720mr300250e87.27.1780336637107; Mon, 01 Jun 2026
- 10:57:17 -0700 (PDT)
+	b=EG1taH52XEILSUuPBEv3wY1T3HW01F/Zs+5no/1HQKlXKfvVZBSNCUwuZqgJ4Iaes
+	 IWKZUMmDYbqmLN9/Vcis3RMuBFUTIrG3uXrZdwLTSTsS754ukvBomFdjxpENFdY50L
+	 gdUVR/ut9s2IJkJ7Ou5hkEi/tqfloHI/b25HLD/mpA73DsM55gHhEOUvUR4PSCsIz2
+	 iDmNxhDMMBYnOMYnavySGiaPJCUO4lsnStTjOPU+2FPRSL6HL/NgIghJcpcCZq6oNF
+	 R4o/xsBL3y+FqE3D/KPVAEAQVpB0ScvTRIrjqEp8a9KY8G7V+IH/+4ez/HJ8+jKwth
+	 mSKlxtTBQ3zfA==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39669bcaadfso19818611fa.0
+        for <driver-core@lists.linux.dev>; Mon, 01 Jun 2026 11:39:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+KxA5q+/aPe87ORjbGpF7DhRNimmGwnQzSRNpaCB+8V4KkW8qc7eD1maw2F6GzDpA+yBph5aJjJKhcdw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZZezkqgyOLajA1NdW2DydWwGIFIFuIvh8VERANe2NWo9lIHNR
+	UhXbYTDpjxLiETN1q8PXrFwrtMy2X+E4Mi294YNyWhWOJrgN9V3EJlaRuTWKNFI6sTJk/pr0evk
+	KRCOgp1H6DV7AzzZav3mPGGSFSRw/HQM=
+X-Received: by 2002:a05:6512:40cd:10b0:5aa:65b1:93ad with SMTP id
+ 2adb3069b0e04-5aa73ef21b5mr312223e87.35.1780339193786; Mon, 01 Jun 2026
+ 11:39:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260528183625.870813-1-ynorov@nvidia.com> <20260528183625.870813-15-ynorov@nvidia.com>
-In-Reply-To: <20260528183625.870813-15-ynorov@nvidia.com>
+References: <20260528103215.505795-1-tzungbi@kernel.org>
+In-Reply-To: <20260528103215.505795-1-tzungbi@kernel.org>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 1 Jun 2026 19:57:04 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0g4G9aJ1fjQxXmk1YHXh+xBojpFz207j_jz7HiLH1Lz1Q@mail.gmail.com>
-X-Gm-Features: AVHnY4INVXbw7SKAZHG4Jnm8fXAHVwo_FKl3cnkJN8dTeVudl-a8v97e8VxcFA4
-Message-ID: <CAJZ5v0g4G9aJ1fjQxXmk1YHXh+xBojpFz207j_jz7HiLH1Lz1Q@mail.gmail.com>
-Subject: Re: [PATCH 14/16] powercap: intel_rapl: Use sysfs_emit() for cpumask show
-To: Yury Norov <ynorov@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Russell King <linux@armlinux.org.uk>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+Date: Mon, 1 Jun 2026 20:39:42 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gc7AtOjWd+cg6tFgzPBovu=wmYmavjaRRjTdNNd8q-0g@mail.gmail.com>
+X-Gm-Features: AVHnY4L0Ij-nQuMTLjzET6J7p6BaLuxrhCJAKBSFWN5kexmIcrQoC6VSYabDmjY
+Message-ID: <CAJZ5v0gc7AtOjWd+cg6tFgzPBovu=wmYmavjaRRjTdNNd8q-0g@mail.gmail.com>
+Subject: Re: [PATCH] PM: sleep: Allow disabling DPM watchdog by default
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>, 
-	Moritz Fischer <mdf@kernel.org>, Yicong Yang <yangyicong@hisilicon.com>, 
-	Jonathan Cameron <jic23@kernel.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Dan Williams <djbw@kernel.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Shuai Xue <xueshuai@linux.alibaba.com>, Will Deacon <will@kernel.org>, 
-	Jiucheng Xu <jiucheng.xu@amlogic.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Jing Zhang <renyu.zj@linux.alibaba.com>, Xu Yang <xu.yang_2@nxp.com>, 
-	Linu Cherian <lcherian@marvell.com>, Gowthami Thiagarajan <gthiagarajan@marvell.com>, 
-	Ji Sheng Teoh <jisheng.teoh@starfivetech.com>, Khuong Dinh <khuong@os.amperecomputing.com>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Yury Norov <yury.norov@gmail.com>, Kees Cook <kees@kernel.org>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	Aboorva Devarajan <aboorvad@linux.ibm.com>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
-	Ilkka Koskinen <ilkka@os.amperecomputing.com>, Besar Wicaksono <bwicaksono@nvidia.com>, 
-	Ma Ke <make24@iscas.ac.cn>, Chengwen Feng <fengchengwen@huawei.com>, 
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-perf-users@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-fpga@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, nvdimm@lists.linux.dev, linux-pci@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-cxl@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
+	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
+	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 28, 2026 at 8:37=E2=80=AFPM Yury Norov <ynorov@nvidia.com> wrot=
-e:
+On Thu, May 28, 2026 at 12:32=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
 >
-> cpumask_show() is a sysfs show callback. Use sysfs_emit() and
-> cpumask_pr_args() to emit the mask.
+> Introduce the CONFIG_DPM_WATCHDOG_DEFAULT_ENABLED Kconfig option to
+> allow the device suspend/resume watchdog (DPM watchdog) to be disabled
+> by default at compile time.
 >
-> This prepares for removing cpumap_print_to_pagebuf().
+> Additionally, introduce the "dpm_watchdog_enabled" boot parameter to
+> enable or disable the watchdog at boot time.
 >
-> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> This provides flexibility for systems that want the watchdog code
+> compiled in but inactive by default, allowing it to be enabled only when
+> needed.
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > ---
->  drivers/powercap/intel_rapl_common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../admin-guide/kernel-parameters.txt         |  8 ++++++++
+>  drivers/base/power/main.c                     | 20 +++++++++++++++++++
+>  kernel/power/Kconfig                          |  9 +++++++++
+>  3 files changed, 37 insertions(+)
 >
-> diff --git a/drivers/powercap/intel_rapl_common.c b/drivers/powercap/inte=
-l_rapl_common.c
-> index a8dd02dff0a0..b38d4a7799a8 100644
-> --- a/drivers/powercap/intel_rapl_common.c
-> +++ b/drivers/powercap/intel_rapl_common.c
-> @@ -1441,7 +1441,7 @@ static ssize_t cpumask_show(struct device *dev,
->         }
->         cpus_read_unlock();
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 85936e48cf9a..3a919e660137 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1344,6 +1344,14 @@ Kernel parameters
+>                         it becomes active and is searched during signatur=
+e
+>                         verification.
 >
-> -       ret =3D cpumap_print_to_pagebuf(true, buf, cpu_mask);
-> +       ret =3D sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpu_mask));
+> +       dpm_watchdog_enabled=3D
+> +                       [KNL] Enable or disable the device suspend/resume
+> +                       watchdog (DPM watchdog).
+> +                       Format: {"0" | "1"}
+> +                       0: disable
+> +                       1: enable
+> +                       Default value is set by CONFIG_DPM_WATCHDOG_DEFAU=
+LT_ENABLED.
+> +
+>         driver_async_probe=3D  [KNL]
+>                         List of driver names to be probed asynchronously.=
+ *
+>                         matches with all driver names. If * is specified,=
+ the
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index e1b550664bab..4f92905f3edf 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -527,6 +527,20 @@ module_param(dpm_watchdog_all_cpu_backtrace, bool, 0=
+644);
+>  MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
+>                  "Backtrace all CPUs on DPM watchdog timeout");
 >
->         free_cpumask_var(cpu_mask);
->
-> --
+> +#ifdef CONFIG_DPM_WATCHDOG_DEFAULT_ENABLED
+> +static unsigned int __read_mostly dpm_watchdog_enabled =3D 1;
+> +#else
+> +static unsigned int __read_mostly dpm_watchdog_enabled;
+> +#endif
+> +
+> +static int __init dpm_watchdog_setup(char *str)
+> +{
+> +       if (kstrtouint(str, 0, &dpm_watchdog_enabled) =3D=3D 0)
+> +               return 1;
+> +       return 0;
+> +}
+> +__setup("dpm_watchdog_enabled=3D", dpm_watchdog_setup);
 
-Applied (with adjusted subject and changelog) as 7.2 material, thanks!
+You might as well use a module parameter to allow this to be set or
+clear at run time.  Is there a particular reason why you only want it
+to be enabled or disabled via the kernel command line?
+
+> +
+>  /**
+>   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
+>   * @t: The timer that PM watchdog depends on.
+> @@ -570,6 +584,9 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd,=
+ struct device *dev)
+>  {
+>         struct timer_list *timer =3D &wd->timer;
+>
+> +       if (!dpm_watchdog_enabled)
+> +               return;
+> +
+>         wd->dev =3D dev;
+>         wd->tsk =3D current;
+>         wd->fatal =3D CONFIG_DPM_WATCHDOG_TIMEOUT =3D=3D CONFIG_DPM_WATCH=
+DOG_WARNING_TIMEOUT;
+> @@ -588,6 +605,9 @@ static void dpm_watchdog_clear(struct dpm_watchdog *w=
+d)
+>  {
+>         struct timer_list *timer =3D &wd->timer;
+>
+> +       if (!dpm_watchdog_enabled)
+> +               return;
+> +
+>         timer_delete_sync(timer);
+>         timer_destroy_on_stack(timer);
+>  }
+> diff --git a/kernel/power/Kconfig b/kernel/power/Kconfig
+> index 05337f437cca..d4cecdb8575e 100644
+> --- a/kernel/power/Kconfig
+> +++ b/kernel/power/Kconfig
+> @@ -267,6 +267,15 @@ config DPM_WATCHDOG
+>           captured in pstore device for inspection in subsequent
+>           boot session.
+>
+> +config DPM_WATCHDOG_DEFAULT_ENABLED
+> +       bool "Enable DPM watchdog by default"
+> +       depends on DPM_WATCHDOG
+> +       default y
+> +       help
+> +         If you say Y here, the DPM watchdog will be enabled by default.
+> +         If you say N, it will be compiled in but disabled, requiring a
+> +         boot parameter to activate.
+> +
+>  config DPM_WATCHDOG_TIMEOUT
+>         int "Watchdog timeout to panic in seconds"
+>         range 1 120
+> --
+> 2.54.0.929.g9b7fa37559-goog
+>
