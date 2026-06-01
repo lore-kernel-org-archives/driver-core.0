@@ -1,113 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6C32E7394;
-	Sun, 31 May 2026 22:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54855EEBB;
+	Mon,  1 Jun 2026 00:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780266750; cv=none; b=aYzkDDjEjGUhO2sea/s1GDUJil2p/NqpH26vN00fucEhNmqBGfIdK2kUEF70jAfTLuJgrLr7ilJP99OP0qi7FSCc03jM3Y54HWBf6lfj6i4zkBmLK3f0k9v9khMoWK/RncZDP8Eui37QpfR6Y50Gj1Ss3UMCIZBySElK6BVUmOw=
+	t=1780272476; cv=none; b=lHIZrWcN5LSDYFcmtwln/euyXT6Eoz7WY8IgxkDMQm8e9VDiofHEgky27sBKXdhMYeqpXy/5OrQCnvLfqK9O5Dm1lHI80I2+S2IB0TISY2eEj8urJYVNevdc+QMLN7dK6poMVtX91kSmQGNOrzQcmCmvr7zaNSCLwyzEaM2bwok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780266750; c=relaxed/simple;
-	bh=vcFp1FnzgowI5CEPeGbvY1FEl1Xtv8jOy2nKEQc96Uc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=tINxuPB5eJg8763duZ7Rkg8OESk+ezzzq+qXn917SfpbBdQ5VRS0xLX5LMb5Eh7ANwKBE1JOaD8UUvz5hsg5oCvOXve0aFMSVFFFRIcgj6+tvlaMorTZmJl9mEqt5eopdLF+eiPeJhpynDSmZycYZ4EmnFRyVPseJVWTdFZCw7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQb4UERY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780272476; c=relaxed/simple;
+	bh=YR2NbJMIIz9ABTXExh7IMYnpn76Xt/QGbURG3Atx7KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HLuxJvY1hmxA5Z9Gk/3ZDlj8/rd4fy7NWJ2/Zu65jgXGZSVmKbJ+aPv5dykglFsCVsnpUUcyujLWEppbbJ/oVH7WDmLf/Qwx7MXBKfsKN5tPP++sdFuu57QDUBtQmDEV+wsHbaCZoUgyAP/QcBCLaFrFnFWsYFZHkLuhPcKyjkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Odmyxu5S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQb4UERY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 963B11F00893;
-	Sun, 31 May 2026 22:32:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Odmyxu5S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8657C1F00893;
+	Mon,  1 Jun 2026 00:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780266749;
-	bh=vcFp1FnzgowI5CEPeGbvY1FEl1Xtv8jOy2nKEQc96Uc=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=dQb4UERY3czUPIcYQ84ViYrenYD96gobp7DYYDwXzLDED0BnWJmX2wvl8EU4bKuUG
-	 4KuOTUZ0frtZ8gYQsYuKpS2v9+5xlB/KOKaqx0SLzKV5n2MVOn5Fo7fBTslN9aakHM
-	 3nPJQytyMlCyIe7Sxi0QRrRf7w5Cyoc+KMc5ngExYFssoPfFm0nbSMjdO7TaNEJxla
-	 vuHdMLuOv3Zc3/zPNm58yEESI7kM/vy3Fqrt4Pf0/psbAPkJNrZWISDRiP5dZuMKKR
-	 d8qhFuDGXO897OadRa/TjK9kJbBLSc55WF2CTCpn8o3qR66I8REiLBwtw7/2+NTk2U
-	 5VsW2Fx9+ck6A==
+	s=k20260515; t=1780272475;
+	bh=zbE3AhoewCNMJevfzweFic4aS/GpdB9LV6AJyQVXvCQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Odmyxu5S/Ug7HWNIyy+uuH2Q6va157Q3X07wOddcuUX4UbXTAg59AbQDDLhXDyHzA
+	 qLAndnCoLF2S7zRmhNRaOvCy6jUddvG3rVsNhp4PO/zS6RuQr+NJBvBcaBQ0JyQ0sy
+	 ZK7uAZaO5VU+/YKW70PF8a1UiCI/Y2TyxePuMVsMZoL/3jYBbPC1cTF8vkpuLZ4pqb
+	 c+l7JOaVaSXeer7Pna9+n3IBOxPK4lsQk795xJsOEMclb356eA3mbkuSTOsBwAy0Fu
+	 5tgiZ6opwwsvldSaDk8rNs20AnZWYW6i9/zSQR8wjHiF0oZ/JvMzDRbJzZqmqqi8cE
+	 JpvD/D9+COspw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	linux@armlinux.org.uk,
+	nipun.gupta@amd.com,
+	nikhil.agarwal@amd.com,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	longli@microsoft.com,
+	andersson@kernel.org,
+	mathieu.poirier@linaro.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] treewide: Convert buses to use generic driver_override
+Date: Mon,  1 Jun 2026 02:07:47 +0200
+Message-ID: <20260601000747.554103-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260505133935.3772495-1-dakr@kernel.org>
+References: <20260505133935.3772495-1-dakr@kernel.org>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 01 Jun 2026 00:32:23 +0200
-Message-Id: <DIX7W3C7F1UZ.3P1LHOQSD5VMR@kernel.org>
-Subject: Re: [PATCH v11 1/3] rust: add basic serial device bus abstractions
-Cc: "Markus Probst via B4 Relay"
- <devnull+markus.probst.posteo.de@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Jiri
- Slaby" <jirislaby@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Kari Argillander"
- <kari.argillander@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Viresh Kumar" <viresh.kumar@linaro.org>, "Boqun Feng" <boqun@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- <linux-serial@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
-To: "Markus Probst" <markus.probst@posteo.de>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260531-rust_serdev-v11-0-dee8e0d830f1@posteo.de>
- <20260531-rust_serdev-v11-1-dee8e0d830f1@posteo.de>
- <DIWEXUCNLURG.136XXDBHSBNVR@kernel.org>
- <12fa6237168ecf6dc65ebf46118beeb5c51f3d1c.camel@posteo.de>
- <DIX6YVWRDL67.3TXDMTAMASCVZ@kernel.org>
- <7c30276759aaba8127275e602cb78783ec33bbe9.camel@posteo.de>
-In-Reply-To: <7c30276759aaba8127275e602cb78783ec33bbe9.camel@posteo.de>
+Content-Transfer-Encoding: 8bit
 
-On Mon Jun 1, 2026 at 12:00 AM CEST, Markus Probst wrote:
-> On Sun, 2026-05-31 at 23:49 +0200, Danilo Krummrich wrote:
->> On Sun May 31, 2026 at 9:42 PM CEST, Markus Probst wrote:
->> > I just noticed, is it even possible to use SRCU here? Currently the mu=
-tex not
->> > only ensures that no drvdata access happens after drvdata drop, but al=
-so that
->> > the receive_buf waits for the probe to complete, as the drvdata hasn't=
- been
->> > initialized yet.
->>=20
->> Yeah, if you drop the completion, you need the mutex.
-> Is the performance impact on an mutex or on srcu + completion higher?
+On Tue,  5 May 2026 15:37:20 +0200, Danilo Krummrich wrote:
+> [PATCH v2 0/5] treewide: Convert buses to use generic driver_override
 
-Weighing in the completion, the mutex probably wins as it will always be
-uncontested under normal operation.
+Applied, thanks!
 
->>=20
->> (In case it wasn't discussed in previous versions already, there is also=
- the
->> option to just attach separate private data to the receive callback, whi=
-ch would
->> avoid this synchonization problem in the first place.
->>=20
->> You could have serdev::Device<Core>::open(), which takes its own private=
- data
->> and a corresponding close(), this way you'd allow drivers to control whe=
-ther
->> they want the serial line "open" or not. You just need to make sure it i=
-s closed
->> eventually.)
-> This would add complexity with types, as we need to ensure that write,
-> set_baudrate, set_parity etc. does not run when closed.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-Right, but looking at a few serdev drivers, there seem to be a few cases wh=
-ere
-drivers need to close and re-open.
+[1/5] amba: use generic driver_override infrastructure
+      commit: 1947229f5f2a
+[2/5] cdx: use generic driver_override infrastructure
+      commit: d541aa1897f6
+[3/5] Drivers: hv: vmbus: use generic driver_override infrastructure
+      commit: 331d8900121a
+[4/5] rpmsg: use generic driver_override infrastructure
+      commit: 55ced13c4292
+[5/5] driver core: remove driver_set_override()
+      commit: 46def663dd34
 
->> That said, I don't know what turns out to be the better approach. And ma=
-ybe it
->> simply isn't something this initial series has to tackle? I think your d=
-river
->> does not implement the receive callback?
-> The initial driver with only leds: no.
->
-> That changes once the driver also takes care of hwmon (ADC sensor and
-> fan failure) and input (power button and possibly other buttons).
+The patches will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-Maybe drop it from this initial series then and revisit with the first user=
-?
+The patches are in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
