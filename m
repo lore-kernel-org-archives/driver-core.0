@@ -1,120 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A176629BD9A;
-	Tue,  2 Jun 2026 02:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAE7374198;
+	Tue,  2 Jun 2026 03:56:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780366140; cv=none; b=RkaHGgzrWC6mAYxxsaHcAQIzuljoYEa0gseDXA1kawbIz1XBhuqLqlKxAXDtV3IAy/ypwzo9fGafzmrH5bdu9cgRKIzB1ZE2ES9GGXrqqeB3QF81DH5nPowlCJamTyyeIc3EPzQE+/4i5HSG1ijZPwTBhORiYoFjlubC/whfV1Q=
+	t=1780372602; cv=none; b=J7wW7E1m68RbmFG1LhMGs6hSBq8nkXIl4xeKdZ6H+M6FJOTLzI/daI/S5nGgHakceDVZd2qMI3jGQw/lBGaGPAiRGWswfHHQp2bqAjPGLBJQPWrfTzudfYdQfI24ClgteJgsto+zW28mKo3xZZbaPMl7j02TO0xOgL4YRvhi5S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780366140; c=relaxed/simple;
-	bh=4BHZ55I8M0TXApvgSlwo8lyoRxkRAi6JT5lTq6rvfgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sYk0XiDFrXPItX0M6AN4gUn8eMbL9EF79maJt6PF90YuoyBqnfXSoyvDf5xhSMaZWM8JDxoBts0T2KB7K6EYJc5nNfTOd1SPV2NVQlCIrR2P8AtA5S5PYrvgHlgEY3vxAeozG5R/13Chslt8eLwPuJIw5Zn6k2Z0Y1wY8vD1/II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IX8uy/GT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780372602; c=relaxed/simple;
+	bh=WyjqYCfvpf0jmio2T0eYOCk5mvppWnCbouGj3/chLho=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ARxHEGlgF3nMiGRM3qcb/nObvBgXijJz0NECY7LOGzeEnh5umL3FOESAVwKWAFzusPcuScuQv3LbgGikGbbPNRjKum5Bgc7aSve2hj9chOe4nua/jbda8GEyn/HFbtkQsexcsiD5QSMMqHLGT3b94HtYWxcSNk2YgmLBuOr13YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M+a5Webs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IX8uy/GT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EE3D1F00893;
-	Tue,  2 Jun 2026 02:08:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M+a5Webs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB381F00893;
+	Tue,  2 Jun 2026 03:56:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780366139;
-	bh=+t0RYdIJ0r5/9fVdph4K07Ttv4KwZnct+mLmE7GxiC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IX8uy/GTnMQZfAsvfMSS0CXCI/UCCofijMSMW/t3449FxNaXQHu1lJAOtLRwrf+xB
-	 Wm9ThH+5EAm1ThOxktJmpm9+t7u0x7XU0PJHKBN+a0ySWyuC+ttkbePvcArfBi30Yc
-	 qEClD+isYN9frA7DCjFVks1IPZUJDY3gLfoBhK6FuHgp+sPqm64LSYdBE+XJom6A7B
-	 mqNC3i42f8EqNuVTrUWH4cNFi8vEuyt4ycE6cyZmrUxRxR7sWtj564qbkQ+RlOBeFX
-	 iESr27DEOYC+1TWTUODyJVcRacYoLQjDHxz0Fd1LEhaMdRoaLmS8dsQPSMGj2uGmwE
-	 SXZn60Nj/cS2A==
-Date: Tue, 2 Jun 2026 02:08:55 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
-	tfiga@chromium.org
-Subject: Re: [PATCH] PM: sleep: Allow disabling DPM watchdog by default
-Message-ID: <ah47N8Ng9zfcASmk@google.com>
-References: <20260528103215.505795-1-tzungbi@kernel.org>
- <CAJZ5v0gc7AtOjWd+cg6tFgzPBovu=wmYmavjaRRjTdNNd8q-0g@mail.gmail.com>
+	s=k20260515; t=1780372597;
+	bh=RjL0XQL194oefPwzgyeRy5zX8P9jxibQ+BU3bBn0aVw=;
+	h=From:Date:Subject:To:Cc;
+	b=M+a5Websx8N6+tgLgjIOSZBAIHll6vFeyLPkywVEi/RYbIkT93Z9QiRTw8FzMiZQG
+	 Yboo3EnbxenetcoF8ARCSbZiSE9HgeMGmK3jlGdTas0WOJwT1MsCB3v91l9wjn9ha7
+	 wQRUqT3XufdcN5gXeQ+hMLi4zxSLm/P6s2NiMaF1uD4acqmX6rakRZnrIRv7/yIlKg
+	 GDgk/LtCoTUiCg2LqPVtFBkb+fvVL/ZG72sEQWAMWbpI1ydo3UYqSBrA5q3KgNz15P
+	 cN3Z/GR/mwhyyaIdn4zcFOqtfKyYJqFNwJW+HcKBJ/gmfVaZcNKbSlnZI5l+gGX+8R
+	 SS1BSGf+xOrdA==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Mon, 01 Jun 2026 20:56:31 -0700
+Subject: [PATCH] driver core: Use system_percpu_wq instead of system_wq
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0gc7AtOjWd+cg6tFgzPBovu=wmYmavjaRRjTdNNd8q-0g@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260601-driver-core-fix-system_wq-warning-v1-1-f9001a70ee25@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNWwrCQAyF4a2UPBuYDnVAtyIibSatEZxq0otSu
+ nen9fGDw38WMFZhg3OxgPIkJn3KKA8F0L1OHaPEbPDOBxdciVFlYkXqlbGVD9rXBn7e5jfOtSZ
+ JHTo6xqZqqxMFD7nzUs7D/eNy/dvG5sE0bGFY1x/AvkuchQAAAA==
+X-Change-ID: 20260601-driver-core-fix-system_wq-warning-0c5db4f49c62
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: Zhang Yuwei <zhangyuwei20@huawei.com>, 
+ Marco Crivellari <marco.crivellari@suse.com>, Tejun Heo <tj@kernel.org>, 
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1702; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=WyjqYCfvpf0jmio2T0eYOCk5mvppWnCbouGj3/chLho=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFlyIcWflacGiFaVbNiu+7NbITR6vmVdnbrLQ84fxVcWL
+ PtasZSvo5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAExkRzfD/8jG9hAZrpCHRjJ/
+ onfNyPJqvumTvyde9w3jn41NcswdrxgZziy8Zy1fWvxnlsHsNtELU09yS+37uExavcDjnpEG/77
+ 3TAA=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Mon, Jun 01, 2026 at 08:39:42PM +0200, Rafael J. Wysocki wrote:
-> On Thu, May 28, 2026 at 12:32 PM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
-> > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> > index e1b550664bab..4f92905f3edf 100644
-> > --- a/drivers/base/power/main.c
-> > +++ b/drivers/base/power/main.c
-> > @@ -527,6 +527,20 @@ module_param(dpm_watchdog_all_cpu_backtrace, bool, 0644);
-> >  MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
-> >                  "Backtrace all CPUs on DPM watchdog timeout");
-> >
-> > +#ifdef CONFIG_DPM_WATCHDOG_DEFAULT_ENABLED
-> > +static unsigned int __read_mostly dpm_watchdog_enabled = 1;
-> > +#else
-> > +static unsigned int __read_mostly dpm_watchdog_enabled;
-> > +#endif
-> > +
-> > +static int __init dpm_watchdog_setup(char *str)
-> > +{
-> > +       if (kstrtouint(str, 0, &dpm_watchdog_enabled) == 0)
-> > +               return 1;
-> > +       return 0;
-> > +}
-> > +__setup("dpm_watchdog_enabled=", dpm_watchdog_setup);
-> 
-> You might as well use a module parameter to allow this to be set or
-> clear at run time.  Is there a particular reason why you only want it
-> to be enabled or disabled via the kernel command line?
+Commit 1137838865bf ("driver core: Use mod_delayed_work to prevent lost
+deferred probe work") added a use of system_wq, which is deprecated in
+favor of system_percpu_wq added by commit 128ea9f6ccfb ("workqueue: Add
+system_percpu_wq and system_dfl_wq"). An upcoming warning in the
+workqueue tree flags this with:
 
-Thanks for the suggestion.  Mainly because in our use cases, we only need
-to set it once at boot time.
+  workqueue: work func deferred_probe_timeout_work_func enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
 
-Also, I was wondering if we need to consider potential races if the flag
-can be set at runtime.  E.g.:
-1) The flag is set.
-2) dpm_watchdog_set() is called and the timer is started.
-3) The flag is then unset.
-4) The subsequent dpm_watchdog_clear() isn't stop the timer.
+Switch to system_percpu_wq to clear up the warning.
 
-Given this, would you still suggest providing the module parameter for
-completeness?
+Fixes: 1137838865bf ("driver core: Use mod_delayed_work to prevent lost deferred probe work")
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+This should go via the driver-core tree since the Fixes commit is only
+in that tree currently. The warning is only visible in -next when the
+driver-core tree and workqueue tree are merged together.
+---
+ drivers/base/dd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> > +
-> >  /**
-> >   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
-> >   * @t: The timer that PM watchdog depends on.
-> > @@ -570,6 +584,9 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd, struct device *dev)
-> >  {
-> >         struct timer_list *timer = &wd->timer;
-> >
-> > +       if (!dpm_watchdog_enabled)
-> > +               return;
-> > +
-> >         wd->dev = dev;
-> >         wd->tsk = current;
-> >         wd->fatal = CONFIG_DPM_WATCHDOG_TIMEOUT == CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
-> > @@ -588,6 +605,9 @@ static void dpm_watchdog_clear(struct dpm_watchdog *wd)
-> >  {
-> >         struct timer_list *timer = &wd->timer;
-> >
-> > +       if (!dpm_watchdog_enabled)
-> > +               return;
-> > +
-> >         timer_delete_sync(timer);
-> >         timer_destroy_on_stack(timer);
-> >  }
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index a8ca2092905e..60c005223844 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -324,7 +324,7 @@ void deferred_probe_extend_timeout(void)
+ 	 * start a new one.
+ 	 */
+ 	if (delayed_work_pending(&deferred_probe_timeout_work) &&
+-	    mod_delayed_work(system_wq, &deferred_probe_timeout_work,
++	    mod_delayed_work(system_percpu_wq, &deferred_probe_timeout_work,
+ 			     secs_to_jiffies(driver_deferred_probe_timeout)))
+ 		pr_debug("Extended deferred probe timeout by %d secs\n",
+ 					driver_deferred_probe_timeout);
+
+---
+base-commit: 46def663dd34da36464ba059f7cfeacf29d98e5e
+change-id: 20260601-driver-core-fix-system_wq-warning-0c5db4f49c62
+
+Best regards,
+--  
+Cheers,
+Nathan
+
