@@ -1,121 +1,174 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D9170808
-	for <driver-core@lists.linux.dev>; Tue,  2 Jun 2026 08:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A2A3C2BAA
+	for <driver-core@lists.linux.dev>; Tue,  2 Jun 2026 08:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780388749; cv=none; b=pyk0qVrt95QMIcf+FfbZdgJ5f+PcFmo01w84cybbBagmtBwGANhVbACq1IFePqWpo4maMgSzxwTmW5SrsAuXDdMwf8+6XBFz3M1SoMJOhV6u5sNyOWspxo4tl1OKOFkmDPAgLcuHv19DBHgfI+dUP128pGNsDcR6s75EMjxXUho=
+	t=1780389454; cv=none; b=UfIspEvxu6EGoUt+swigyJfINS1y0ps7z4QMZTu5Y7uYpLlzntlPeEUG0PtBtoPRw1RLonB13AaKot1hNPUbSZtIXkBHc74EMl56nB6t+DYPu6uOWn33qWJ7bbTPu/MaJ9jyf0S6uV9/53OjeTouaMm97LGwg3p7J29xoOthYEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780388749; c=relaxed/simple;
-	bh=ZQkpBhdyPFX8K1AgwsbSqD6e4PBbKm/F+6uEvcBzPyk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=h56o6bwTzT4Pmt0j6LzRPycjt7XwKfyj4MiHi1MkudwJO2EfwfJEbCN8w1f717YdgbXNn9RfEomJkWXzcRL/9FwvQDhSwomSu4WZHe0ozm4kvIuCfCuQ/yVakS8gSsspNpFwtfLgBhguDLPI6V2D7/GAV1t2FCY9p7rkNbYxgRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wUKQZ-0001Gf-0T; Tue, 02 Jun 2026 10:24:47 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wUKQT-000iZa-13;
-	Tue, 02 Jun 2026 10:24:41 +0200
-Received: from pza by lupine with local (Exim 4.98.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1wUKQT-000000003ba-0TqR;
-	Tue, 02 Jun 2026 10:24:41 +0200
-Message-ID: <6af284545729f03a60d06479339862a2f08c6b7e.camel@pengutronix.de>
-Subject: Re: [PATCH 22/23] reset: rzg2l: use
- platform_device_set_of_node_from_dev()
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones	
- <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, Thierry
- Reding <thierry.reding@avionic-design.de>, Sebastian Hesselbarth	
- <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Srinivas Kandagatla <srini@kernel.org>, Greg
- Kroah-Hartman	 <gregkh@linuxfoundation.org>, Vinod Koul <vkoul@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Rob Herring <robh@kernel.org>,  Saravana Kannan
- <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman	 <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andi Shyti
- <andi.shyti@kernel.org>, Andy Shevchenko	
- <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will
- Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger
- <opendmb@gmail.com>,  Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list	
- <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team	 <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Matthew Brost	 <matthew.brost@intel.com>, Thomas
- =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>,  Paul
- Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, Maximilian Luz
- <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,  Krzysztof
- Kozlowski	 <krzk@kernel.org>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
- iommu@lists.linux.dev, 	linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Date: Tue, 02 Jun 2026 10:24:41 +0200
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-22-88c324a1b8d2@oss.qualcomm.com>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
-	 <20260521-pdev-fwnode-ref-v1-22-88c324a1b8d2@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	s=arc-20240116; t=1780389454; c=relaxed/simple;
+	bh=poHSp7k/wRwcxK6tvRyRthUfYkyEmfrgLwiq0NjfV98=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uurOigBKJffXp76Zzl4owQA2RzWh9j6w/8FSYF1iQEP9RgzpiGov1xJWnS1uu+oOq6Bh4958zH9kRRW5oTKDSuxXn5TNkKZ8J/Pp8EfBd1lFBDLUr+l/mypcYsoH5ZlM1R+vUgA0qOZpJirM53cnTomNkznFN9PiTW9qq4j4X6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eX6LUk4t; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eX6LUk4t"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-915671abd29so159856685a.0
+        for <driver-core@lists.linux.dev>; Tue, 02 Jun 2026 01:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1780389452; x=1780994252; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N2pO+fzMv1bHxu8FRKBOMPKrC8LbuYvxk/rUchVdGVI=;
+        b=eX6LUk4tRp+HkTG/ZAUUAoVv8tiSRLjm1dgt8vfqGR8SIU3DnQanMhtYoS2+lWvytn
+         7EOJwoFQBnbQn4Ddy7AmatAn7pBvbnjlcI2vpfQ3L8VZGkvVmoNClVHJEi7figKnj1wq
+         e6HocQT0Kk+Ue88sxE61J60Bc298kfZk9samY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780389452; x=1780994252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=N2pO+fzMv1bHxu8FRKBOMPKrC8LbuYvxk/rUchVdGVI=;
+        b=V3XIRrLO9aKasmKYdrMD5yCQHK873vB3a6ynIU38hPmaP8yT7I8JfQoV0/rN7mK86X
+         neFuOZsVrDSI7WmsUAFWQnn/DKpxpSVzmL9j6CO2a1etSsWyZAQbuC921GqoGcfREjgj
+         +XJU3fhDn5yt6nFAubsOpZqyGHeQWI607dseqd5Wbf7JFJFDJtslT/5piKpHGYjMWrl7
+         GJsmk3X+wNeEG3kLv6IDr3B3uHsvPuzoJ5Cba0+5wvIZ8LWnGjdLFflG/8hJZO0n9hSb
+         KGxufmcGyPAkaG/SmVS/4rRL6v3rAKH/B6p0jTl3LBhfAM38NdPjvoWPx3uXma7UEr5F
+         Z12A==
+X-Forwarded-Encrypted: i=1; AFNElJ+eqP2ZtNY+M/HSvyjxMoLrM72j+odz2C5nlxH4XuY3pGGv8PxkQX/VySgy26dcQBl+uu7Vw/NNUJNOJQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaqO1piBOS7Z73t3ulMewheXsmXXJ3kBUQPgnJ6UoMUbAR1VS5
+	UdlU11lu6/CM2HGeN1+0z74o/CUicUHIsk5Ih4LeNNAQUroUsywCsVXx7VQ9llOYWyJFJLTZZN1
+	Ax7ov8w==
+X-Gm-Gg: Acq92OFgFqwU8iUTIe4evaDcXaypZonqiQjdpk2SMC4FnkvNBeWxSCMBm8PlPebg+kT
+	mpO+lGZG6x3NCihy7EzKdubhwe4mUXLBel8H+oDahCP/EGDNRqxE8+yf4sAjW75qZxhgAONvLFT
+	F/m3iiF1eVEMLELCvY8qYDs1EKpnFtpcwyNk620JhShcWw32yufIcJZdQCfNhnxEet5GuieadsU
+	OMbr74Ywme1xlj0thSTuvfpO6k6rvFljsgdklq/f8caJOvpf/Hs//uWyi3cS6JjuECYI2CTXQw1
+	ODb4FNDMdLhJTFHfZSfxdQLQLJSFFzn50hyJXXc5l1ziA6vm0XUCMmxXA4qfhkuKgyCo46nB3D8
+	026rMWHfOWLWY456tumNCH6XTAUBBw+L6jF7HhkngjyIFxtUoPnCKq7Q00EsmariBZ2pRGIZ++S
+	XX/o+m2FN9v78XkEYck4/WWoFhttdFkh9uHlJE+XWZROeTcOE15BIocp22yMLAlKcZVhLEZ/ZU
+X-Received: by 2002:a05:620a:8804:b0:914:c226:ecb5 with SMTP id af79cd13be357-9153d936c33mr2300764185a.2.1780389452469;
+        Tue, 02 Jun 2026 01:37:32 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com. [209.85.160.182])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-91532473bb9sm1222538985a.11.2026.06.02.01.37.31
+        for <driver-core@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 01:37:31 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-50e61648f10so2491cf.1
+        for <driver-core@lists.linux.dev>; Tue, 02 Jun 2026 01:37:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9oSAyVbhhNhNHEYVydKZBGm0ZDgFIp+/CpNnHTHBcjTVK2qEwd47ZuimcgrGin5y7pFFVMQzQpd3pjyw==@lists.linux.dev
+X-Received: by 2002:ac8:7209:0:b0:516:4f62:85e7 with SMTP id
+ d75a77b69052e-517670f60e6mr7875761cf.18.1780389450588; Tue, 02 Jun 2026
+ 01:37:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: driver-core@lists.linux.dev
+References: <20260528103215.505795-1-tzungbi@kernel.org> <CAJZ5v0gc7AtOjWd+cg6tFgzPBovu=wmYmavjaRRjTdNNd8q-0g@mail.gmail.com>
+ <ah47N8Ng9zfcASmk@google.com>
+In-Reply-To: <ah47N8Ng9zfcASmk@google.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 2 Jun 2026 17:37:13 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Drvq0iPAb2Ly=K7WLOmbRAcLY4TzZxHmhzarK4cvx1xA@mail.gmail.com>
+X-Gm-Features: AVHnY4IK1BCekzEUvFQ7W25XhRgP5hRYDeCrICdpzLPF12YauXFtWy2YZIHikXM
+Message-ID: <CAAFQd5Drvq0iPAb2Ly=K7WLOmbRAcLY4TzZxHmhzarK4cvx1xA@mail.gmail.com>
+Subject: Re: [PATCH] PM: sleep: Allow disabling DPM watchdog by default
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
+	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Do, 2026-05-21 at 10:36 +0200, Bartosz Golaszewski wrote:
-> Ahead of reworking the reference counting logic for platform devices,
-> encapsulate the assignment of the OF node from another device for
-> dynamically allocated platform devices with the provided helper.
->=20
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/reset/reset-rzg2l-usbphy-ctrl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/reset/reset-rzg2l-usbphy-ctrl.c b/drivers/reset/rese=
-t-rzg2l-usbphy-ctrl.c
-> index fd75d9601a3bfde7b7e3f6db287ec8c5c45a20ab..f003b360629c90bb37ed0ade7=
-a675b5b0f28fa7e 100644
-> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> @@ -249,7 +249,7 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_de=
-vice *pdev)
->  	vdev->dev.parent =3D dev;
->  	priv->vdev =3D vdev;
-> =20
-> -	device_set_of_node_from_dev(&vdev->dev, dev);
-> +	platform_device_set_of_node_from_dev(vdev, dev);
->  	error =3D platform_device_add(vdev);
->  	if (error)
->  		goto err_device_put;
+On Tue, Jun 2, 2026 at 11:09=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Mon, Jun 01, 2026 at 08:39:42PM +0200, Rafael J. Wysocki wrote:
+> > On Thu, May 28, 2026 at 12:32=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.=
+org> wrote:
+> > > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> > > index e1b550664bab..4f92905f3edf 100644
+> > > --- a/drivers/base/power/main.c
+> > > +++ b/drivers/base/power/main.c
+> > > @@ -527,6 +527,20 @@ module_param(dpm_watchdog_all_cpu_backtrace, boo=
+l, 0644);
+> > >  MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
+> > >                  "Backtrace all CPUs on DPM watchdog timeout");
+> > >
+> > > +#ifdef CONFIG_DPM_WATCHDOG_DEFAULT_ENABLED
+> > > +static unsigned int __read_mostly dpm_watchdog_enabled =3D 1;
+> > > +#else
+> > > +static unsigned int __read_mostly dpm_watchdog_enabled;
+> > > +#endif
+> > > +
+> > > +static int __init dpm_watchdog_setup(char *str)
+> > > +{
+> > > +       if (kstrtouint(str, 0, &dpm_watchdog_enabled) =3D=3D 0)
+> > > +               return 1;
+> > > +       return 0;
+> > > +}
+> > > +__setup("dpm_watchdog_enabled=3D", dpm_watchdog_setup);
+> >
+> > You might as well use a module parameter to allow this to be set or
+> > clear at run time.  Is there a particular reason why you only want it
+> > to be enabled or disabled via the kernel command line?
+>
+> Thanks for the suggestion.  Mainly because in our use cases, we only need
+> to set it once at boot time.
+>
+> Also, I was wondering if we need to consider potential races if the flag
+> can be set at runtime.  E.g.:
+> 1) The flag is set.
+> 2) dpm_watchdog_set() is called and the timer is started.
+> 3) The flag is then unset.
+> 4) The subsequent dpm_watchdog_clear() isn't stop the timer.
+>
+> Given this, would you still suggest providing the module parameter for
+> completeness?
 
-Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+Would that lead to anything bad, though? If I'm remembering correctly,
+would that mean that any already ongoing PM operations would still be
+subject to the timer, but not any new ones.
 
-regards
-Philipp
+My suggestion would also be to actually make the timeout and warning
+timeout configurable at runtime.
+
+Best,
+Tomasz
+
+>
+> >
+> > > +
+> > >  /**
+> > >   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
+> > >   * @t: The timer that PM watchdog depends on.
+> > > @@ -570,6 +584,9 @@ static void dpm_watchdog_set(struct dpm_watchdog =
+*wd, struct device *dev)
+> > >  {
+> > >         struct timer_list *timer =3D &wd->timer;
+> > >
+> > > +       if (!dpm_watchdog_enabled)
+> > > +               return;
+> > > +
+> > >         wd->dev =3D dev;
+> > >         wd->tsk =3D current;
+> > >         wd->fatal =3D CONFIG_DPM_WATCHDOG_TIMEOUT =3D=3D CONFIG_DPM_W=
+ATCHDOG_WARNING_TIMEOUT;
+> > > @@ -588,6 +605,9 @@ static void dpm_watchdog_clear(struct dpm_watchdo=
+g *wd)
+> > >  {
+> > >         struct timer_list *timer =3D &wd->timer;
+> > >
+> > > +       if (!dpm_watchdog_enabled)
+> > > +               return;
+> > > +
+> > >         timer_delete_sync(timer);
+> > >         timer_destroy_on_stack(timer);
+> > >  }
