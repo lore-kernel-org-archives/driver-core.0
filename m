@@ -1,366 +1,232 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021105.outbound.protection.outlook.com [52.101.100.105])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C9E45107A;
-	Wed,  3 Jun 2026 12:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.105
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780488358; cv=fail; b=c/Vikh+gDPPWOgmMjIkipvFWZelr+IEbwY77XINmWT6QJo0D0Mj1saCsMbbVoAEG9lCG0ROXxhgsL6DPjWJfS7AXnJ79EJ6Yp6IfjCB5Hh6q4FNCWMi527F09sUmRX4SULo7+Gvd8RB94jo9CigkjEvPvf0E4VhLgYshGnQCEX8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780488358; c=relaxed/simple;
-	bh=uzihlwfRwPj7VuZa2N2cZWg3WKhVH10Wa4z8oNxCu7U=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=UsigCaxMkWAMPpr25PBGRqnKtn6mxbU+2GccaTWSj4CBNrnE0SGPw0laf33HrqxsPy3KmSFjRXoHqCZo2wDzaAffnK7snAWkrvVmnklem3/5XB0SjGTbb08BIxgfmlZg9Zb4bZlPS7qPysq3hTLQnmxrHVAb7lR1mEC0r05i2tE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=HxNvRGkE; arc=fail smtp.client-ip=52.101.100.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718673B585D;
+	Wed,  3 Jun 2026 15:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780502205; cv=none; b=lj0Ou37LxycZaRLRk8BQqhLLf5dOpYOvYSkVNPPo5ZZvb3lXrBghE2MFeoGwbZ4qBy0iAmH6OfNWKcabwiDHKBKXIZw+EFeihgGOx/QHm7lg6hSOK9hpblqt5Wfyggu/Eoy0dnAlIxhYUgNOURdbXmJlEfLW45u/x6kywgUFYy0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780502205; c=relaxed/simple;
+	bh=2qaNy0YsgyCw+GORLA2AGxdNjYQI9FkJh3YJE/z36VI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FrTT/jZdFXid3t7C8yLsF8gkZ3ARg6E9lYDXHMF2aJkJXYqeLFhqkPZ5aPVzjieOhhaGTUURW3GNNN3KnsIRC7gLmUc9mqEn/WGvsACz0rufl25mmii2b8/Ps+pMuFH1sPE7GO+fSL7HM+AC5q/NPNC16MSz9jNGmvgQyfDQMV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rRJpa4Ug; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="HxNvRGkE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NNQhPhPw69ghJqTeMflM+LpLRGpoJ7LW0+aAPBsmeL1+gHbsORKUUgtUlJC9B22zYiyyf7DAxlKIvgmXN8VTYUm+NH0sAZyKcP6R1VH4SCqq4sNuIQ7GNyXSGWpKY7oLC68d8bkVyjfmoY6hdS/D927IkNywxAfOfljwIDCm0W6Lb74zkU9ArIh8qxAuhZmAeVB2CvmLxMaNjVyGNF3lVInzn1wVLx0YwSAiHvTcuFPmWkkQxQIb5NVX2XzNDkUGdyfBq37fWZICfyVWuKNRveLgnYXjMeavVpBgK5lv9AA4L8aWkimk157QYrW5wVNVQZOKSubpjp3sohuY4tWvYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/WuB2yhn5r5KUd+0rQRstQKEruwydO6FmBKt1a0gjcY=;
- b=sSCOCiNzNtMglMil07miHzezKsTnHjMw7gLDxMWu6MKsV21YIJbJ5Apq3oAMMph26dUxrjE0Ajt1CZNz0kxUpV8dJ1NUOUbUjRjbA4xM4yl0+XBzl9Owl+nMyhQredObbXw6qQs5M0fukzuvC7gve8rd7zOatGPbMEWsZgEeBnD9aca0nnNWmKprlY1kiy39rJyTUnqMZlzi3XGvO000yAXzV+cjQnFD2PX7SX0MBP7F73/CLaMKjBI4RqRqdU4+L/oYv/v2cX/poDfUUbufSRQLMPA52wd8NyoadPFTwqOLGz2dax2e3/ssBSJVJ+KVd/vdPS25KylKyKf9ocJK+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/WuB2yhn5r5KUd+0rQRstQKEruwydO6FmBKt1a0gjcY=;
- b=HxNvRGkEEZi+636pTqO6SBWORy/p93isxwrCNUvSPVeGYTgPo+yiWeaXoVMZ2CWijT9uF6Nf8GLOBdU1xOnkqXA/bDIdfyOnQKbICEpUXBa2sgwXmCcSX7gDZBbw7mc7CztCoQL4JMAhe/hKHV4GK+RGNFJgUgGcANvIfL32CZU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO2P265MB5205.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:254::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 12:05:53 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 12:05:45 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 03 Jun 2026 13:05:45 +0100
-Message-Id: <DIZEFXX93XUI.38M3E0EM9VN89@garyguo.net>
-Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pwm@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2 3/7] rust: auxiliary: add registration_data_with()
- for ForLt types
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <gregkh@linuxfoundation.org>,
- <rafael@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
- <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
- <acourbot@nvidia.com>, <ecourtney@nvidia.com>, <m.wilczynski@samsung.com>,
- <david.m.ertman@intel.com>, <ira.weiny@intel.com>, <leon@kernel.org>,
- <daniel.almeida@collabora.com>, <bhelgaas@google.com>,
- <kwilczynski@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260603011020.2073650-1-dakr@kernel.org>
- <20260603011020.2073650-4-dakr@kernel.org>
-In-Reply-To: <20260603011020.2073650-4-dakr@kernel.org>
-X-ClientProxiedBy: LO4P123CA0622.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:294::7) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rRJpa4Ug"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 08CC2C2BCB9;
+	Wed,  3 Jun 2026 15:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1780502205;
+	bh=2qaNy0YsgyCw+GORLA2AGxdNjYQI9FkJh3YJE/z36VI=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=rRJpa4Ug6fepUhqQ+Un1CxVfaWi2F80kkJmby4PTY+2PGiMSvpS2rdXH8yyaUgj5i
+	 y4ysp2I/xI3HIFdT+Nm/tiQmPnbnu/nn8ifB1BH47xIkpk9+z/pKok3cqI0LWnw5My
+	 pj9Y3ZTVy2qtriZexhohkkrp+Q7AfaVijY1Puyfpsq6/6s/YpateWciwfmFos5uZfv
+	 tzeG9AGfZXO60yA8lz36IU9411B8u071CT+WG5XXyF1f4y2x1oqhZfUAENTTZhBA0o
+	 YngGrVmYYq2lIsWDIHhAoShRqXu5dgJZ8DQTZdWq7uutw+IvWKg+LXLEIt/pwz3Lh6
+	 rGa1IdSf1kdrA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0736CD6E60;
+	Wed,  3 Jun 2026 15:56:44 +0000 (UTC)
+From: Markus Probst via B4 Relay <devnull+markus.probst.posteo.de@kernel.org>
+Subject: [PATCH v12 0/3] rust: add basic serial device bus abstractions
+Date: Wed, 03 Jun 2026 17:56:38 +0200
+Message-Id: <20260603-rust_serdev-v12-0-3400ffb88b12@posteo.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB5205:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3eaeeeda-d24a-4572-73c7-08dec168716d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|376014|7416014|1800799024|366016|921020|6133799003|56012099006|4143699003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	pN2NTQse2jcc84JRBr0QSRsgTvL7y/g7vZEkRkZRxWtQV9JmLKj8yeb3pCVCgtMheBTL4p7lvprAkQ4YjgEh0UrxUYjagmtvl9XbDUlaHm8OB7FQNeIfrpX6SrhSX/JYutwGu+ubAjP4nxSGucEvg9C2iNBcgBTVasUUvXDdW9HqPsRT1Wx/gu0Av/ok6KrhgY2RU5zaitN8ovpEfUjp15VPwRCXZcyvZtTtYbC81lRKsf61GFv0iAjtqPzvpLUaafjxFSr6UCFzh95rzezPc6u1m9DowU7YKgEGauBHXJlpXuN/LvTlevVucwbkRInkrgcazTs85kSS8r0rUbHRMg5APYxEIj1YPcWj+8IF2YTnoUTNKwCI9KawdihAhuP9g/oa7sla8vZw/iJRscbvGICp4vQ/kFn0T+dmdmB1EGpjsqUlza1cT91jLphxMcjDAuMQl5nUpl0+BvFIHTYptb7T0PdaXw811R0FV2Xsa8sNcK+AquRn3buHDWsp8OHSS+BO5Za2rZ7Mbh7KEBbrYm0HZ/aYLZPoZ1tCAPFLY3Td59reCJ0+6Pexesjcr6dHQu/s5bOnGpoHsnHrBvNEQ4meNzEEllNs+s+X34sYG62Cm6VJn1vFMeVUeFWh1wJRYvwxZjtV4ZTrn9pTUgDOT23KvEQjj2tr3O+rrlYDHYiAja+D46CjzoGoLVT7U34/03pIe4Clhk6hqn4SgK7+z2dUX5XOzaoKOVL20Xgf61w=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(1800799024)(366016)(921020)(6133799003)(56012099006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MmJkVHZNQXpZMXpUaUNCZnRqdUtsV3daeElQellTVHhybVB1d29HUHdzOWV2?=
- =?utf-8?B?Ulo5UzJqY1pKQ20zZk03TGV5Y2N5Q1JDTWVyb3dCNGVGaVlrNXZBSFFpdXRO?=
- =?utf-8?B?eUN5alRRMzBqbTZBQWw4ZThnNlh2T294WVNsemlWbWhZcEJ6MW9tczFtTWd6?=
- =?utf-8?B?YWdvSmtFdEhra0R1ZUtXOVhCUnBoZjMvWGp4eVQ5V1NGMEM4aEJpWlJHNThN?=
- =?utf-8?B?aE5sZld1VVFBbndJYmJFUUdDTGV6NFdWcDJZOEZnVkNvK1o5d1ZsSWtMNUNK?=
- =?utf-8?B?d2dVNkpwakgzWE1uRFBwbXd3SS9nMWd1d3R1bDQ0YUZub0w5MzhORnNlMFlz?=
- =?utf-8?B?UVNjUTBnYVVkamNZL005bVBEWURBQ29Kb3pRNm5CTXBsUzJYOHM3NDZ0Y2Zt?=
- =?utf-8?B?dUcxZHpVZSsrOTZFOHRwOGl3STkzV291a0Iwb093VWlZQzR4ZC83MmZSWVBV?=
- =?utf-8?B?WHY4OEVSNkVhQ0tsOUl0YUlyQ0MzUitiY3kwV3FnMDhENTk1Y09GSnFQUytU?=
- =?utf-8?B?QWNaMVg2VjFJL3VqZXVRZmNnM0RvSEZIU3U2ZXhZa2dySWJFSWRLSUJjempU?=
- =?utf-8?B?U0EyTVlkcVFtaEFmVFNYdmJaQ1RBRS9xdndiOGxiU2VPUkU1bnBSOU13KzJk?=
- =?utf-8?B?NGxhOGFwWGxLczBIOGRpbnpjbUVRbENNcElHeURWcVNidzU4VytyeWxsL2Y0?=
- =?utf-8?B?SXE2OGZmVmhxL1p5NG1iUWZzbW9PTFRIdFhIS0xtbndDd0FER00xb3BaRjAy?=
- =?utf-8?B?N3BYWS9odkdnYzg1ZDhtd2l5Z0dIb2ppL0JSZm5HcUlYK3BseXZKNi9Dbnpj?=
- =?utf-8?B?dW9QWlpjWTNuVEdCUlAxYUxYYTNvbE5WTDhKVlAzUmpKRm43bzdCUzF4dVJr?=
- =?utf-8?B?UjgvWjE2ZmxTYWhKWHhvcjBudE1xUTBHQ2dQcWlndytmZnVwL1g5bCtKL09w?=
- =?utf-8?B?ZnI5K2F2eEdTTnBkdGtzVE8vR3lBaVFJMDZKb01FOElpcUFGcUl0QkJ0Nkh4?=
- =?utf-8?B?cHBiak1MMThENFZGL3NRWlMzVFJCQXpER1dBT3JJRmc4VTRWUDZyWkErM3V1?=
- =?utf-8?B?TDhmaTk4d1FvT29OdXE3cU5pTEQwYzhpNXZqcENkL2lLdU9nN3FiMGxqZHBv?=
- =?utf-8?B?aW5yb0E2KzF0SmlKSlNvTlRjTmJzWnhiZHo2UCtRckZ1ME8yS3E3RU1FUGdI?=
- =?utf-8?B?SVJ1MUJsZldPOFJmSWplcGpteXZNSTN6eldMc1pia0dObmJBRm8ybWh5ekhx?=
- =?utf-8?B?V05yNHR4K0hzUUxUdW05aUxCeVdMVUhoeEk5VnpzQXVieUNROVJiOG5PUEt1?=
- =?utf-8?B?YTlNblVKV0JNb2hGVS9OeS90QnhoUUdrWVVlTVRpbVh1bWFKbXBBOUViNSsx?=
- =?utf-8?B?ejk0ZXVneEJpMXFwY0pjU1QrZXoyUjVWTUREZzZIdi9WSGdDZnM0R2NvZEV4?=
- =?utf-8?B?L3ZJQ0NNOTh3RGIvOS9mWkdyMDZLWHlVL2xlbXNQVWRmdmJYVWkxQ1JMb0l1?=
- =?utf-8?B?TU5vY2FVMTFGV09NZHZ6eG13VS9uYWhqQS9qLzZ3L3F1MmxyMzh2TzBMTkVm?=
- =?utf-8?B?VU8zWGRyQWc2UllDOXJsaVZwM2xaWEVIWjd3ZEo4Wkgzb0hnZ0ZpVVA0SDI0?=
- =?utf-8?B?dUpCMmc5alBBRklTUHg2WWtlb1Zvb1dLNWNPbFpkZE55dGVHYWZCQmc5VVR6?=
- =?utf-8?B?SVc5MFA5Z1REbDI4cmZjdFZkSE5YbHZORnRKSCtSYUdNdFUzTGp2M296bXB6?=
- =?utf-8?B?TGZuSmVYcjEzclY5Rkg1Yjg0RUhJdmZCRkpBdTJxTjdNbndSMHE0aG5vcGhL?=
- =?utf-8?B?Tml6OUNtU0pxRFNaZ3VCUDhZaWx5WmR3TEEzNTFma1REWHRUSnNaNzN1Tkhm?=
- =?utf-8?B?V0szS1ZudEl1ZlpzU3Q5VzJIb0VyS3FLUW93U1VtYXQrYTBKc1V2ZnVlY1Vp?=
- =?utf-8?B?akRIbmp5TmxBaVY5b3FPVUcyUzVYVzg2NVhNc1UyRC9aTjN1b0Z6QW9BdHBh?=
- =?utf-8?B?VjY3L2dvNlZUaXJkYWY0dVlERmt2YXBiWmE4cWdiNHY1em5YK0JlK1hWb2Mz?=
- =?utf-8?B?UXhJM1ZFMis2T0tWbFdlL1NXbUdSYkRERm1Kc3JaZHBacFhmVEJ2aWlDdWtB?=
- =?utf-8?B?aHNReG0yN1hBUXkyMU1VTERFT2dQb1ZhT0RFNFZyUHRJRUVQY3BTcjNSdG42?=
- =?utf-8?B?QzF1L0ZvUmE5WGs3eTdpdHkya3FPdXJRU1dHV1hGTUtKQk0zSXFTbVRvMWVS?=
- =?utf-8?B?QkdmRVMwZzlPWU0zKzlpNy85cWhIMTA2NDR2RTB1NnJZL3pEMFREQVF0Nldu?=
- =?utf-8?B?VVFJbjJSdDEzUkFMTkhFazJFQ1RpNEhHeXJESHZ0M1htbm4za3Zmdz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3eaeeeda-d24a-4572-73c7-08dec168716d
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 12:05:45.7763
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2BUSqTPA+g1p5js3eG72zFEZboAlnGUu3ddtpS5/4b+OcwitD7MnMjhaQcaiSM66GwSM0Hj3XoQ7i3/78i0QfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB5205
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALZOIGoC/43S207kMAwG4FcZ9XpbxU6cw1zxHqsVShMXKnam0
+ JYKhHh33BkQPazQXlWO9P2Km/+tGLhveSiOh7ei56kd2u4sA+CvQ5Hu4/mOyzbLQYEKCRBc2T8
+ P462ozFPJTMYDB+UpFSIee27al0vc7z8y37fD2PWvl/QJ5tPPHFSrnAlKVbIx1pCzziLcPHbDy
+ F2VuZhzJvyyVmll1xZnG2rUtcEaibZWLyzotdViU4g6Ngimcc3Wmm9rANbWiPWGOFiVrEW3tbS
+ w231JLDn2dVQEodFba5d2/c8nKxacdsFnYog765Y2rK0Tq7IPyQWoKfmt9d+W9ObOXizGQA3ki
+ Bh3+4YfbBDb+JqalGoT0u7OoH7AIHcuLWXIlGvvbNppWOrNM8HcrczsWRbXqll16/1a2p6fnqX
+ 647W5xYmHIV6afzxcQ+WVCI1SlQ4yBFtCmeNDf/PA/Zn/Vl1/N9d/75DkGxAqQGOD/1+mFWh02
+ lYagycT/u3qOHCZutOpHY+HyVWyeLKy0/sHVbvHstYDAAA=
+X-Change-ID: 20251217-rust_serdev-ee5481e9085c
+To: Rob Herring <robh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Kari Argillander <kari.argillander@gmail.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Boqun Feng <boqun@kernel.org>
+Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Markus Probst <markus.probst@posteo.de>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6344;
+ i=markus.probst@posteo.de; h=from:subject:message-id;
+ bh=2qaNy0YsgyCw+GORLA2AGxdNjYQI9FkJh3YJE/z36VI=;
+ b=owEBiQJ2/ZANAwAIATR2H/jnrUPSAcsmYgBqIE660Yf11phFRcOxmvBf8zeyNmmsct7vd4NyD
+ 2SiDly2GO6JAk8EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCaiBOuhsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9JxGhAAvBCvBmUB5UJPcildKweYaf10lV+K0Cb
+ K691Fk8w+UHrfxgefMTVSlu5MiDK9DwfKk29kkzMaYEAwfDRfXCO9BuFU1YuwlvPbnCp7xD8INn
+ aun5eSqb7Ur6SXr6yn7OtTgr0KpZF5SkcTP37rHsKl0FAHGGP6a9wpf5oeoVxKQ/Wl4fECCo2cb
+ XOf5jknN494FqtONYcyOZRv81Ehr4HM0kPolTbwWkLaFkcVylWaHXBWI3B5ZluSdDhOI4DAN1tV
+ yh5jzmbHJTeZjHu1SFsN7v4aXYEYpxEsyqUixycdg+IEnRWKBiXvKXVvrN/J9iQO+8FmU82soKX
+ iAJbXkSuNNYtopcv1byzDDssM4OevzsMZKVuFuohlkItj7RCbYVeDnnsGnYUb4eYzpXusS6Rb86
+ Wc5wnKhirQjMifiJfUAqhrOdi44iHZxfKjxs/MN8bfjpspTWOpUSK26Y+pwBjmRUEx0c+4H+kAV
+ EFXnlhObjwNCKbHL1slDe9jv+Ch0EmiIpEo7fg3Rjuzzxe4bkqOUAIBMr+GVDj/aGneJCLcDFb9
+ IauKeYfgieUHpPVlMuasU5lVIe2N5clUFkHjyEwwmhHgW96P+kWfw75p62+B7g8PMEs7BdPDsfd
+ q1GArbKZEqhdmSnZRhiZAh68JZ1E1DRxnsMEY2KB7r+Ro6VJEkiE=
+X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
+ fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
+X-Endpoint-Received: by B4 Relay for markus.probst@posteo.de/default with
+ auth_id=680
+X-Original-From: Markus Probst <markus.probst@posteo.de>
+Reply-To: markus.probst@posteo.de
 
-On Wed Jun 3, 2026 at 2:10 AM BST, Danilo Krummrich wrote:
-> Add registration_data_with() taking a for<'a> closure that receives
-> Pin<&'a F::Of<'a>>, which works with any ForLt type. Taking a for<'a>
-> closure rather than returning a direct reference prevents callers from
-> choosing a concrete lifetime for the data, which is required for
-> soundness with non-covariant ForLt types.
->
-> Extract the common null-check, TypeId-check and KBox-borrow logic into a
-> private registration_data_pinned() helper shared by both
-> registration_data_with() and the existing registration_data().
->
-> Relax Registration's bound from CovariantForLt to ForLt so that
-> non-covariant types can be registered.
->
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  rust/kernel/auxiliary.rs | 89 ++++++++++++++++++++++++++++++----------
->  1 file changed, 68 insertions(+), 21 deletions(-)
->
-> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
-> index 40a0af74a8e5..81549a3e347e 100644
-> --- a/rust/kernel/auxiliary.rs
-> +++ b/rust/kernel/auxiliary.rs
-> @@ -21,6 +21,7 @@
->      prelude::*,
->      types::{
->          CovariantForLt,
-> +        ForLt,
->          ForeignOwnable,
->          Opaque, //
->      },
-> @@ -270,18 +271,15 @@ pub fn parent(&self) -> &device::Device<device::Bou=
-nd> {
->          unsafe { parent.as_bound() }
->      }
-> =20
-> -    /// Returns a pinned reference to the registration data set by the r=
-egistering (parent) driver.
-> +    /// Returns the stored registration data as a pinned `'static` refer=
-ence.
->      ///
-> -    /// `F` is the [`CovariantForLt`](trait@CovariantForLt) encoding of =
-the data type. The returned
-> -    /// reference has its lifetime shortened from `'static` to `&self`'s=
- borrow lifetime via
-> -    /// [`CovariantForLt::cast_ref`].
-> +    /// Performs null and [`TypeId`] checks, then borrows the stored [`K=
-Box`].
->      ///
-> -    /// Returns [`EINVAL`] if `F` does not match the type used by the pa=
-rent driver when calling
-> -    /// [`Registration::new()`].
-> +    /// # Safety
->      ///
-> -    /// Returns [`ENOENT`] if no registration data has been set, e.g. wh=
-en the device was
-> -    /// registered by a C driver.
-> -    pub fn registration_data<F: CovariantForLt + 'static>(&self) -> Resu=
-lt<Pin<&F::Of<'_>>> {
-> +    /// The returned `'static` lifetime was transmuted from the device's=
- bound lifetime during
-> +    /// registration. Callers must shorten it before exposing it.
-> +    unsafe fn registration_data_pinned<F: ForLt + 'static>(&self) -> Res=
-ult<Pin<&F::Of<'static>>> {
->          // SAFETY: By the type invariant, `self.as_raw()` is a valid `st=
-ruct auxiliary_device`.
->          let ptr =3D unsafe { (*self.as_raw()).registration_data_rust };
->          if ptr.is_null() {
-> @@ -306,10 +304,58 @@ pub fn registration_data<F: CovariantForLt + 'stati=
-c>(&self) -> Result<Pin<&F::O
->          let wrapper =3D unsafe { Pin::<KBox<RegistrationData<F::Of<'stat=
-ic>>>>::borrow(ptr) };
-> =20
->          // SAFETY: `data` is a structurally pinned field of `Registratio=
-nData`.
-> -        let pinned: Pin<&F::Of<'_>> =3D unsafe { wrapper.map_unchecked(|=
-w| &w.data) };
-> +        Ok(unsafe { wrapper.map_unchecked(|w| &w.data) })
-> +    }
-> +
-> +    /// Access the registration data set by the registering (parent) dri=
-ver through a closure.
-> +    ///
-> +    /// `F` is the [`ForLt`](trait@ForLt) encoding of the data type. The=
- closure receives a pinned
-> +    /// reference to the registration data.
-> +    ///
-> +    /// For covariant types that implement [`trait@CovariantForLt`], pre=
-fer
-> +    /// [`registration_data`](Self::registration_data) which returns a d=
-irect reference.
-> +    ///
-> +    /// Returns [`EINVAL`] if `F` does not match the type used by the pa=
-rent driver when calling
-> +    /// [`Registration::new()`].
-> +    ///
-> +    /// Returns [`ENOENT`] if no registration data has been set, e.g. wh=
-en the device was
-> +    /// registered by a C driver.
-> +    pub fn registration_data_with<F: ForLt + 'static, R>(
-> +        &self,
-> +        f: impl for<'a> FnOnce(Pin<&'a F::Of<'a>>) -> R,
-> +    ) -> Result<R> {
-> +        // SAFETY: The HRTB closure prevents the caller from smuggling i=
-n references with a
-> +        // concrete short lifetime, making the round-trip from `'static`=
- sound regardless of
-> +        // variance.
-> +        let pinned =3D unsafe { self.registration_data_pinned::<F>()? };
-> +
-> +        // SAFETY: See above; the closure's HRTB makes the round-trip so=
-und.
-> +        let short =3D unsafe { F::cast_ref_unchecked(pinned.get_ref()) }=
-;
+This patch series adds the serdev device bus rust abstraction into the
+kernel.
 
-This shouldn't be necessary, you can just directly call `f`.
+This abstraction will be used by a driver,
+which targets the MCU devices in Synology devices.
 
-Best,
-Gary
+Kari Argillander also messaged me, stating that he wants to write a
+watchdog driver with this abstraction (needing initial device data).
 
-> +
-> +        // SAFETY: The data was pinned before the lifetime was shortened=
-; pinning is
-> +        // orthogonal to lifetimes.
-> +        Ok(f(unsafe { Pin::new_unchecked(short) }))
-> +    }
-> =20
-> -        // SAFETY: The data was pinned when stored; `cast_ref` only shor=
-tens
-> -        // the lifetime, so the pinning guarantee is preserved.
-> +    /// Returns a pinned reference to the registration data set by the r=
-egistering (parent) driver.
-> +    ///
-> +    /// This method is only available when `F` implements [`trait@Covari=
-antForLt`], which guarantees
-> +    /// safe lifetime shortening via [`CovariantForLt::cast_ref`].
-> +    ///
-> +    /// For non-covariant types, use the closure-based [`Self::registrat=
-ion_data_with`].
-> +    ///
-> +    /// Returns [`EINVAL`] if `F` does not match the type used by the pa=
-rent driver when calling
-> +    /// [`Registration::new()`].
-> +    ///
-> +    /// Returns [`ENOENT`] if no registration data has been set, e.g. wh=
-en the device was
-> +    /// registered by a C driver.
-> +    pub fn registration_data<F: CovariantForLt + 'static>(&self) -> Resu=
-lt<Pin<&F::Of<'_>>> {
-> +        // SAFETY: CovariantForLt guarantees covariance, so cast_ref saf=
-ely shortens the
-> +        // `'static` lifetime.
-> +        let pinned =3D unsafe { self.registration_data_pinned::<F>()? };
-> +
-> +        // SAFETY: The data was pinned before the lifetime was shortened=
-; pinning is orthogonal
-> +        // to lifetimes.
->          Ok(unsafe { Pin::new_unchecked(F::cast_ref(pinned.get_ref())) })
->      }
->  }
-> @@ -399,22 +445,23 @@ struct RegistrationData<T> {
->  /// This type represents the registration of a [`struct auxiliary_device=
-`]. When its parent device
->  /// is unbound, the corresponding auxiliary device will be unregistered =
-from the system.
->  ///
-> -/// The type parameter `F` is a [`CovariantForLt`](trait@CovariantForLt)=
- encoding of the
-> -/// registration data type. For non-lifetime-parameterized types, use
-> -/// [`CovariantForLt!(T)`](macro@CovariantForLt).
-> -/// The data can be accessed by the auxiliary driver through [`Device::r=
-egistration_data()`].
-> +/// The type parameter `F` is a [`ForLt`](trait@ForLt) encoding of the r=
-egistration
-> +/// data type. For non-lifetime-parameterized types, use [`ForLt!(T)`](m=
-acro@ForLt).
-> +///
-> +/// The data can be accessed by the auxiliary driver through [`Device::r=
-egistration_data()`] and
-> +/// [`Device::registration_data_with()`].
->  ///
->  /// # Invariants
->  ///
->  /// `self.adev` always holds a valid pointer to an initialized and regis=
-tered
->  /// [`struct auxiliary_device`] whose `registration_data_rust` field poi=
-nts to a
->  /// valid `Pin<KBox<RegistrationData<F::Of<'static>>>>`.
-> -pub struct Registration<'a, F: CovariantForLt + 'static> {
-> +pub struct Registration<'a, F: ForLt + 'static> {
->      adev: NonNull<bindings::auxiliary_device>,
->      _phantom: PhantomData<F::Of<'a>>,
->  }
-> =20
-> -impl<'a, F: CovariantForLt> Registration<'a, F>
-> +impl<'a, F: ForLt> Registration<'a, F>
->  where
->      for<'b> F::Of<'b>: Send + Sync,
->  {
-> @@ -526,7 +573,7 @@ pub fn new<E>(
->      }
->  }
-> =20
-> -impl<F: CovariantForLt> Drop for Registration<'_, F> {
-> +impl<F: ForLt> Drop for Registration<'_, F> {
->      fn drop(&mut self) {
->          // SAFETY: By the type invariant of `Self`, `self.adev.as_ptr()`=
- is a valid registered
->          // `struct auxiliary_device`.
-> @@ -548,7 +595,7 @@ fn drop(&mut self) {
->  }
-> =20
->  // SAFETY: A `Registration` of a `struct auxiliary_device` can be releas=
-ed from any thread.
-> -unsafe impl<F: CovariantForLt> Send for Registration<'_, F> where for<'a=
-> F::Of<'a>: Send {}
-> +unsafe impl<F: ForLt> Send for Registration<'_, F> where for<'a> F::Of<'=
-a>: Send {}
-> =20
->  // SAFETY: `Registration` does not expose any methods or fields that nee=
-d synchronization.
-> -unsafe impl<F: CovariantForLt> Sync for Registration<'_, F> where for<'a=
-> F::Of<'a>: Send {}
-> +unsafe impl<F: ForLt> Sync for Registration<'_, F> where for<'a> F::Of<'=
-a>: Send {}
+This series depends on [1] and [2].
+
+[1]
+https://lore.kernel.org/rust-for-linux/20260525202921.124698-1-dakr@kernel.org/
+[2] https://lore.kernel.org/rust-for-linux/20260530132736.3298549-1-dakr@kernel.org/
+
+Signed-off-by: Markus Probst <markus.probst@posteo.de>
+---
+Changes in v12:
+- fix CoreInternal instead of BoundInternal
+- Link to v11: https://patch.msgid.link/20260531-rust_serdev-v11-0-dee8e0d830f1@posteo.de
+
+Changes in v11:
+- redo changes from v9 with the following fixes:
+  - fix memory leak on probe failure
+  - fix possible access of dropped drvdata from receive_buf
+- Link to v10: https://patch.msgid.link/20260530-rust_serdev-v10-0-65d1d5db876c@posteo.de
+
+Changes in v10:
+- revert everything from v9, except BoundInternal
+- use mutex to ensure receive_buf won't be called on a dropped drvdata.
+- Link to v9: https://patch.msgid.link/20260530-rust_serdev-v9-0-f8b5fccb49c3@posteo.de
+
+Changes in v9:
+- make use of BoundInternal
+- use PrivateData wrapper and drop rust_private_data field
+- use non-devm version of serdev_device_open
+- Link to v8: https://patch.msgid.link/20260530-rust_serdev-v8-0-2a95f1da22a7@posteo.de
+
+Changes in v8:
+- adapted to driver-lifetime v5 patch series
+- add MAINTAINERS file patch
+- Link to v7: https://patch.msgid.link/20260429-rust_serdev-v7-0-0d89c791b5c8@posteo.de
+
+Changes in v7:
+- adapted to driver-lifetime patch series
+- Link to v6: https://patch.msgid.link/20260427-rust_serdev-v6-0-173798d5e1a3@posteo.de
+
+Changes in v6:
+- rebased onto v7.1-rc1
+- Link to v5: https://patch.msgid.link/20260420-rust_serdev-v5-0-57e8ba0519f3@posteo.de
+
+Changes in v5:
+- fix typo in documentation
+- Link to v4: https://lore.kernel.org/r/20260411-rust_serdev-v4-0-845e960c6627@posteo.de
+
+Changes in v4:
+- fixed not selecting rust serdev abstraction in sample
+- Link to v3: https://lore.kernel.org/r/20260313-rust_serdev-v3-0-c9a3af214f7f@posteo.de
+
+Changes in v3:
+- fix vertical import style
+- add Kconfig entry for the rust abstraction
+- fix documentation in include/linux/serdev.h
+- rename private_data to rust_private_data
+- fix `complete_all` <-> `wait_for_completion` typo
+- move drvdata_borrow call after the completion
+- Link to v2: https://lore.kernel.org/r/20260306-rust_serdev-v2-0-e9b23b42b255@posteo.de
+
+Changes in v2:
+- fix documentation in `serdev::Driver::write` and
+  `serdev::Driver::write_all`
+- remove use of `dev_info` in probe from the sample
+- remove `properties_parse` from the sample
+- add optional `baudrate` property to the sample
+- remove 1. patch
+- remove `TryFrom<&device::Device<Ctx>> for &serdev::Device<Ctx>`
+  implementation
+- fix import style
+- add patch to return reference in `devres::register` to fix safety
+  issue
+- add patch to add private data to serdev_device, to fix
+  `Device.drvdata()` from failing
+- simplify abstraction by removing ability to receive the initial
+  transmission. It may be added later in a separate patch series if
+  needed.
+- Link to v1: https://lore.kernel.org/r/20251220-rust_serdev-v1-0-e44645767621@posteo.de
+
+---
+Markus Probst (3):
+      rust: add basic serial device bus abstractions
+      samples: rust: add Rust serial device bus sample device driver
+      MAINTAINERS: serdev: Add self for serdev
+
+ MAINTAINERS                        |   5 +-
+ drivers/tty/serdev/Kconfig         |   7 +
+ rust/bindings/bindings_helper.h    |   1 +
+ rust/helpers/helpers.c             |   1 +
+ rust/helpers/serdev.c              |  22 ++
+ rust/kernel/lib.rs                 |   2 +
+ rust/kernel/serdev.rs              | 590 +++++++++++++++++++++++++++++++++++++
+ samples/rust/Kconfig               |  11 +
+ samples/rust/Makefile              |   1 +
+ samples/rust/rust_driver_serdev.rs |  91 ++++++
+ 10 files changed, 730 insertions(+), 1 deletion(-)
+---
+base-commit: 3bc831df9ee16fceee851872315161377ca1417d
+change-id: 20251217-rust_serdev-ee5481e9085c
+prerequisite-message-id: 20260505152400.3905096-1-dakr@kernel.org
+prerequisite-patch-id: d2aebf69b153c039bbed1d0ed26906708fd22534
+prerequisite-patch-id: 84b28da2f5de20fc1785095c647b2ffc35d969a5
+prerequisite-patch-id: 67318671a5eed5fb4ad23a450f1cf0e442bf8ca2
+prerequisite-message-id: 20260525202921.124698-1-dakr@kernel.org
+prerequisite-patch-id: b84db329d4372a175cb8d49e4e88c3eecf7eb228
+prerequisite-patch-id: 2c30303f409cc8288cc87e241920219f5ddd8390
+prerequisite-patch-id: 4e4f0ad370d763ad00b0f75b91fa216f2cc95953
+prerequisite-patch-id: 5bcd6b37f3498feebda275dfef78136eba34004e
+prerequisite-patch-id: 872b0982f3e5e7d1698d9df3b325e4cd27b27789
+prerequisite-patch-id: 3a3c7749e017d9335f58497404d1350e96caf471
+prerequisite-patch-id: 3526c9154f581497a11465b936d83ef61a875454
+prerequisite-patch-id: 65d8c757b52475c2acc7d22ddc92cd3f0152b55d
+prerequisite-patch-id: 4bd31f1414d5248dc080884caadf5f21684a8427
+prerequisite-patch-id: 7beadbb0da3e589ed86d12f512d1c83427dd82b4
+prerequisite-patch-id: 12cd0f67ffd27347f90c065db491945908206b7f
+prerequisite-patch-id: 4642e31f66331f6c3b579377111ea733dbb3a11c
+prerequisite-patch-id: 52d67b40b4396c741e2222d6a5bc7927abcb77aa
+prerequisite-patch-id: 74ca82ff26cf9c7a993757c87db8be62006e820f
+prerequisite-patch-id: 466fb9fa7febbffd8ef51b311c7d9893c11fc0f0
+prerequisite-patch-id: e515cd98b06e26721cbbe6a4fbacd251d0073b63
+prerequisite-patch-id: 8dc8e75d9f6499a554ef7e474bbacdbf3660a9f2
+prerequisite-patch-id: 5fdb9f71dca2f44dd293760a60db125b770f1f55
+prerequisite-patch-id: c766a24c2d5064f5ec09daada0b8e8fba862d3aa
+prerequisite-patch-id: b768f6456d35fa7a80c015e34bbdba6082dbd593
+prerequisite-patch-id: 6a8b17234f12f7084e6e2ce843a7031b0a891ce4
+prerequisite-patch-id: 98b2deb9e60c1f28f90c5ee34fd608aaa9fd9420
+prerequisite-patch-id: 774b29be66e641ee50cedb4704cf49d8b9fabf50
+prerequisite-patch-id: cf95dc936cfc4b3a7a363435a51a48d9009645b3
+prerequisite-message-id: 20260530132736.3298549-1-dakr@kernel.org
+prerequisite-patch-id: 310c6bee038ca3909a8e5e58ec12b74f7189b869
+prerequisite-patch-id: 92812c3d42b29504838e6dc66c307ff5c035bb5e
 
 
