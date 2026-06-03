@@ -1,183 +1,303 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011070.outbound.protection.outlook.com [40.107.130.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97D930C164
-	for <driver-core@lists.linux.dev>; Wed,  3 Jun 2026 03:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA0438887B
+	for <driver-core@lists.linux.dev>; Wed,  3 Jun 2026 06:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780456824; cv=fail; b=CFg5NkK+qxpW6FoSplMRxG4MTyRxvXjbacMhpiXk4It+o9AUGOBS9sPsmksf5stVdjGJZUGHqGEKQUPUQrynH+Ffdax+1xMoQcWlRKnQ/bKbDoIt/eM9GzZIFugjGxMXbOQt/uqBdFZ+wM/OcfiHRPe5wKvV9n5lxUkZ661h1sw=
+	t=1780469090; cv=pass; b=okHM3ZLilPzwh2MyyilPOY9DrHJbN9nJxJobfKv7Js541eBFMKJB16GSMAqnvG3uj4MwrKMZpxHNhHap8pCts5dmYYpVoSZuGCKsFxBCyt9jRHfTwUP3j+qgigmhxIWNgmQysCYbp0sZfH8DkSFHeTka7dzhW2jqANYoAc7FJCU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780456824; c=relaxed/simple;
-	bh=iOMmKwGMg78d3IsTMgmU8Dx8sUOLqtKKQtk1QWQodWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bl1BPwg1FxITxCw2qmUTgbGvN9GUzyU5uhJa1+IvZ9g144PtJQ3yc6iDxGJNFmoIfhMeW73Nb47MBjUT5dVLVSdSMTs5LmWty7ZMSOtcbaZmJp/UNPVpLmABsliqWWiW80LmD8rFJlR7ua9Nd40QmuOsAqPQ+cjj9d2fk+dx6cU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=DCbOrn+Z; arc=fail smtp.client-ip=40.107.130.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1780469090; c=relaxed/simple;
+	bh=56G+6KSF26fnjlqQuQaSxXvZtnVr1hBfZPPvTYbNb3A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AIuT/rcnP62SCQxp1msWrBsskcdyVUVqhuvMKOx7zRCLl4HPIPlUEJhFgf4pPp1E5pNH/p8qO4A0ay169/RFDeu32LI7LDUkXASxleCyWFmFPy8DedQNnTMTE8vC3wmsZnhFGJlebaTRjxj22h8TtAhwmgIoO6MDK4/sV3PIHMg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b=GTAkC2kp; arc=pass smtp.client-ip=209.85.161.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="DCbOrn+Z"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n3X5orr1hO/DRjzUVJMyIhCAQddPjwkyRy+693TEBYBepM224eJFKplnyOA0vXMPUdrwINf8G/0BFU+j3ifYGArKpXTrePBwiKL5ezNYyBKoccKN7fCSZjoyZ7dsILETTDdUEwZSIvfByUbyTDmag9c2oEakgMAiT4o25+K6o2UUIfsKt7T9mocNntDkJv9kZpcc0cvBSwGNigOR4CvEnScMXYGqPAF08cxjhvNiBCZdxecTT3RPLaN8iX8nLRuUz3jiT2cM83EZuU9mRPKIVKHlMkKADU+51sEMMrHSdLBm1BP7QxGOOga701ByY3bBX8Hcx7g8Z2cCdA2WqaQ/+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C3+wNMs4WTw7lwLNwzn4gkVQa5VFZbZv6kK7IJkScTc=;
- b=lqDDxYWGP/+qngP1VeeJV2ttTUxMhjs3x3ZS3WiVtnnkEjN56gMb7E/j/P/P8X1q6aPDY+whFrlyoRH6my/b/gA0qu3rjijdpRGwkjUrUYrdPWwnYypUnZEq6i0sPl1oWFZIKRDzdeRdYh2lP/Akr2wyYp9radVRJEdhIlpLh3gSQfwrOFGG1+EFraoFHCilftJeSNpzN0ub0UCBgfkBGl51sSAHGJBUVkZVI/mCmY80913ZlrPxoEpKkP/mvNZSt8NQaM1+DlU7mPzGFEevKiZJ+SKSvt75R2LTMROOC3bFAij6obFamY/RR8a15AoqbZatTT/eN5/k71ypS3F9mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C3+wNMs4WTw7lwLNwzn4gkVQa5VFZbZv6kK7IJkScTc=;
- b=DCbOrn+Z1pKdLM6YniAUSdM9FvkzrRkYThKge2odXNa15/pG0rFAH6KuPDaCtiKZRgEd432y2zIy4BZumijBwX78574xuKaWKcMgOC17A4bc9WH2vlKsbn1hHKejnemoBRI4QOpZnMEu3GFsZPqg+ALZhNZnVe8To8Wze1PYFbA7yg8/t6Zqr0lp8x4D4qGBqxydR3gWFf0RyPBxuCGzhjNqWxiVb61IkMqa0tHY1iMED7k0QMcNvLYZpPHc03moCl6aKWmDbAI+8yD2eMgszSCEel+wT2thx94ET5g3uUJL7tOnyx0h+DeAX31g3nn3BvuLy0cHUR+PLk+HuysEAA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by AS8PR04MB9064.eurprd04.prod.outlook.com (2603:10a6:20b:447::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 03:20:19 +0000
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0071.015; Wed, 3 Jun 2026
- 03:20:19 +0000
-Date: Wed, 3 Jun 2026 11:19:16 +0800
-From: Xu Yang <xu.yang_2@oss.nxp.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Xu Yang <xu.yang_2@nxp.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] device property: fix infinite loop in
- fwnode_for_each_child_node()
-Message-ID: <cycl4uyuoxx4cyhkq3dv4jvzorpjqasfo6fuatfglvloztwuol@ppu7ywx2nvbs>
-References: <20260525-fixes_fwnode_iteration-v1-0-a12903fb2919@nxp.com>
- <20260525-fixes_fwnode_iteration-v1-2-a12903fb2919@nxp.com>
- <ah91lJp-PNkyB11n@ashevche-desk.local>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ah91lJp-PNkyB11n@ashevche-desk.local>
-X-ClientProxiedBy: SI2P153CA0003.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:140::20) To PAXPR04MB9422.eurprd04.prod.outlook.com
- (2603:10a6:102:2b4::21)
+	dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b="GTAkC2kp"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-69e4483cfe9so138674eaf.0
+        for <driver-core@lists.linux.dev>; Tue, 02 Jun 2026 23:44:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780469087; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lCaKiWubFZpdM8EP2IdmB3RhuGjwgcLffqADLdppt6frR3UPbhZ5TVv2meTTXZ6sHa
+         COXkUlKn/jewyxSM26lC6jpScXRlYw9qhKDHCpjEnuFig6T6AefP4R3GxjArrQxkLBxh
+         FzbG/0L3RR+QjTRGOkTgk84rzHMgsHc+3o8h7QO0nXvrklvyqv9RIpUKQPUT8WSH3IbN
+         zxQ61eb6cExYFhztBywdcQiVwJ86U+gi1geKC5IW9sFXDRsgSeYCDG/H4C09MUs1PLuZ
+         SWb15rMUzAH01O3nSs3Q5BEfHUs2ZQ9CPvvwttWpJVt0pRK3A1ajn/eLeqZkHJFasGV+
+         f1pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vguV3vMU4h/2CSVTFHkBd4daU9WvVPcYCYkqg5eye6Q=;
+        fh=6gHk2/qjYvGH+li879NcAeFcvWvA6SmR2NRQBZvXZgo=;
+        b=kAe63RMalI8VYLOggvzM9aU/SKhHpdi/9tvXeUwgoPldCk+sSm7vrqot2XZxZRj7kf
+         /pzrho+DCvekrMybsvEiGSGCsPoVjXGReB0QiiyOzfuIzALjaeS6Z1KvtZaCcu1QApVT
+         eXJqUCZZNeKilntwzy+rZaY/UyMfqMKJXpq87wH+ibf1tP8Hcsnn3M9Bci2vGp9WaxJI
+         hPsygBJF/LmQgzbJHzxXkpQUzlUYHRngJ9N7Gil9+R7bizrnjgFblTncoBOpOoQZdgoU
+         YV9jnN87336Q+rQIGATEt6ltHhplUN4oFWpN76AkA0TIj4nqrxBrvlIjSbU/OnndFEi5
+         ZTtA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20251104.gappssmtp.com; s=20251104; t=1780469087; x=1781073887; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vguV3vMU4h/2CSVTFHkBd4daU9WvVPcYCYkqg5eye6Q=;
+        b=GTAkC2kp5Pf2Rlsyfee4x0GvWRGtaaYb/ON1APEHZ+Z9osbCotzuYYpPfo7tDqtiMe
+         FOizPG1M41NM60B3pDl3Fa3qZP7/5KBow2jF4xBLiV2oMsuDkNEmgyRJfH4cCbmo5rWr
+         JRCkZ3E6PE6Xammb+Pem4xQ8Llw6jB+KB11iJKmL5amKAxNApQlL9Rdzw4R+rCkZIK5N
+         Dw+TVk00cyiaO3fjChdp5KV6kEqBWLBbUOwLhKimA2PEDV5p7qnvyFY5NZO9X1m4q2cF
+         jCfT9095q4iI23ZbtRqISxiW2mM7fCVvc0hTq8/kQMDAW2mnlm+TVCo8mNHj7LYXg4Bg
+         74Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780469087; x=1781073887;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vguV3vMU4h/2CSVTFHkBd4daU9WvVPcYCYkqg5eye6Q=;
+        b=Uvfr+ABO4synknPQDMNnQ8HISQEb44je7MBh86mLUBzFepJg+aQ2dHexIy7z35/z+s
+         OYQRgz+NyNb2TFzXG/byU2TVfZppWORGOudyC7M/EIMTwptIuqu4H/00LjMmsPp+wYUl
+         uRZsZzn3IoyQN6fthAMiWUeBGRC3H1kPEjhBNzjlTDjJ/0+QpPb3WSaouis44kBj9JAq
+         NsKL6bDLgc8OlPxIs5OTChH0rSU7rzdpzP3IRCqS3i9IMLeK3nqMovp4MNJg+N64bXjr
+         nKr6liD4BvOwCBDrfunPe/SUhpGdgkPj8eEhDZC9WW6UCleztCyv7qKZ9gu9DN3X3XCd
+         c7Fw==
+X-Forwarded-Encrypted: i=1; AFNElJ/1f6rJiaKMassx9WJC5qFCMQU1QpLnLk629fPfqNMstgK+nBw2mm/jBAe7PVqSb5x+3AXI+KJRjWv/Fg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/I/AH+ncmC8zM1csypRugCtoFc76D16ELIvMD6xckHhZWh6ft
+	Vd+aSdlEF+EqNk0eFet/1IhbJQKA1Y2iuSbmSBDCTKiqS1d6T7nM7lMgB64rsBPVBebf+w8uU7v
+	SpDlnQom945E/suLFrht7ExfwJWz2yc6cdPcfd5LsMA==
+X-Gm-Gg: Acq92OFfX4NUvOlLlGdxSFkG0J1Lua+lPsjsU8/5+VhfysQhxNP8QKz7VyrO3F3/XEB
+	weWXpbi5MDZX2sTTMSMN+1zCM3ZQOnIL5sSpDN/jKOgf9Z7bfOzGSxfDaFFl19m+ddN/pGYWigB
+	h4VXORxP9mb4sJ9fAxM6J8MIiKFPzqLpHFqZtYV/gzBMGSY833SPgCV8Ho5X3yaTfhdGoN1m7Hy
+	ozIRVvnIQR8tJ3QiVSA6v8dKC1+JrOcYgJrXi2d1u3Hg5f0j6zVUlcH0oejRoJXgoWc97ymVmVq
+	qLmhYpjpjXmzH81VTTUa9Czgd67TPhnS4ZgMdPBBDHllre8eT9QE76BL06eDB0PJr6ljIEZHGNa
+	GyfEMO/CvgBB0mnuPTc4IYL4XCKwkSXFIX2A0qw==
+X-Received: by 2002:a05:6820:f014:b0:694:8fe0:152e with SMTP id
+ 006d021491bc7-69e48cf5960mr936756eaf.31.1780469087406; Tue, 02 Jun 2026
+ 23:44:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|AS8PR04MB9064:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bc54be5-947c-460b-833d-08dec11f0a25
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|376014|7416014|19092799006|1800799024|366016|56012099006|11063799006|4143699003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
- jg+H3wSQQ7X0y89i/fiYDM3oX/MH7WY3g4wCIrrb6b6V6L65FG8i7DDTTEYtVYZoMh+ItDcPqrlh3jvDaXC/kcsv4pGZ/50p0CEqJC4TQGj1NAmE3dcK2+2CMQJIu3g9edrtex3zja9JXkawUoNeW32RjFvTyXrdmjQaXKAWvIh/W1OV39vo4+b5nVEo+EJmKt/ZY8cJvt7OORIoJ3onAvE8c19Ac3+GOqE037EeuHYP4aEdtNRUvp5M3gpUvjZva4ufYBg2IvblQo9x7DPC4pnse5fSNwShLEIFBzWzFcTCP+hTrWg7JuVl0UDPAhACMMLkAe32gJ5WKTgtotyTH0i7EbjTEZIAVvYU81irtIV0d5PcH6d0AubY61xvMxoGE1ubpFT9m4vyzdmURm0rapE8sZ+bfHq/bMpR+UPmaQHp5IeQEiJBaylRGsEW97kBKuIJnxSSiTvVy8BGHUmNwNxPserzPkzYLADiKijnUOOpQkN6l5fNTE1eZH/1A7b4EPwkuSiWjYhXfmhpWYs+6yzUQdxvcpm0qgcKhrpDAeA9lzmUnWVRBPl//LsVmmNEN7YIQY4M7I0I2H+mXQ66l4/yFcLVl7gM8lFvuYNHj/OfoB7hB9x5vLnLgJWr+0/ACFBs5KHZuDffwVZ+2KC+cOCt2mHeOSGbYEw+9xse2JO8TMdnP28Pjd7Q6jtgALTj
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?VG95WnlQUXMvazZDdUFnTWtWcUlnVzdDNm1BdDZoME9kK1IwaTV4eXNOS2RE?=
- =?utf-8?B?bCtSNXphNCtMRklEVWZZQ3FjRkkwcEU4c05CanpiMlhlekNUdTRZMHdYQ1hP?=
- =?utf-8?B?Z0Z4a0J1S2JuZ3FnaklmT0Y4a2xNbk5xSHNGdFlxbmJQVnorRXJwQ1pnTnJ3?=
- =?utf-8?B?Kzk5ZGlKRFBoSFZYekdjV2lTWVpmZ2pmM3FKYmJBbldNZG5WbE9jOUExdTBy?=
- =?utf-8?B?UHFwd2I0WWE4ZWM4MnBjUHBwajFzSlQ3bmdEaSt2Znl3elVCaVV4WXFiOURh?=
- =?utf-8?B?Yk54VEVyYmJyYTRPR1F1V1RUczd0RGtUaWlRRVNIblZnTnIyMThNWVdwOWxy?=
- =?utf-8?B?SU82dFlzbGJWQ094cFBlOUNnbjY4OFZlL0M0N1pGVTNvb211NDRTTkUwMjEy?=
- =?utf-8?B?R1JweHlLQytIUGRoanFyaTc4RUNMSWRMdkJoU1ZuaU16MEhjOUhMTTE3ZTFW?=
- =?utf-8?B?NDZnYllJTUl6dTI2TytCa2tpNStOcG1rM0pPU2xiRXJGeEVnNFFQelQ0b1Qz?=
- =?utf-8?B?S25teU5hQSs1TkFqTEUycGFLMGZFek9MUkg5S2VPNG9YV21iUmFmUlFMVENY?=
- =?utf-8?B?OVlsSTRPenBDVytWdG5YTW9FRFpOWG85VmZwVzMvYW1mV2hZWCtyYVRnd2Yv?=
- =?utf-8?B?RnRpc2M4b1crNXptRXBseWFQdmE3dHpkdUUwcFNiMVZFZ3RZYmFaK29DcEVZ?=
- =?utf-8?B?aUt0UFBmNWt3VG5sb01maVBZbHJrSy9WaDRPZUdyMHZxbmh1RkV3eG5uelFt?=
- =?utf-8?B?OW5Bc1NFd2hibkZTY1dOT1VwYnV5cmhhQjZ5SHZBOFdTYUw3cWpXTG5aOXFW?=
- =?utf-8?B?bUNna2tZR3hIK0VNSER3bys4KzB2UU5RSWlJL0lDM1Z1Q3djRnhiYktoclpo?=
- =?utf-8?B?djE3QXRFTkZtRnB0V0FHVi9HMWpQMzNHUkRNSjVvV2lzNFpaUGU0eUFrMnE5?=
- =?utf-8?B?NFFlYTNzOHRHaGdnN0RSMkN3OFJ2UlhxbDlnTlpqRXRBRTc5NVFReVZ1SFBr?=
- =?utf-8?B?a3NJOGlHTGo0bUM5QU9mWjYrMTNVMHZzZGdNeDRpbWJZc0Y3S05QS2lLa0Zh?=
- =?utf-8?B?cGtmQkFtZ25nei95UUZnNzVKdVc2ZVRSWnMzbmg3ZlhwWWIzRXk4bjc3WlhM?=
- =?utf-8?B?b2JoanJmbVB5bHJoVTFmdnZ2WjZwalZ1azRiNnY0TFVtVmRPUmhKMmJ4b3E4?=
- =?utf-8?B?VFdSUEtVNXJPL1VGRFo3bjEyOCsrZ0hIN3psVTIrajNzaVNOYkxLTFNieEx1?=
- =?utf-8?B?MnhmMHJyazhmVnc4WHFuampnRzRDQWxxdmFaOFpuTlNjYkIrQnBOb1ZtSndO?=
- =?utf-8?B?Wm91LzRGQ3pGTEFQU3FoVHQ2WVg0SmZWSEhXUnBwcjVMczA3STViazhkNmUr?=
- =?utf-8?B?dkxVOFNkd3FEWVppVTV2WW95VlUwMklFSXJwNm9QalpOWW9yakVQTkx3Q0xy?=
- =?utf-8?B?M3h6ZTRNcGppVUF0UUZrSU9WOWVySXd3ZThMQjVJeUFSWmFuWlg4K3ZzUjZF?=
- =?utf-8?B?QlM4YWVvbTllN25QQVkvN0lOREpWQXR6ZTE2am1PSDc3UWw1MC8zeWlrWFFS?=
- =?utf-8?B?QXR4NG9nNnZxaGw4T2prWUVRKzBUZlAwNCtiWnhDWWphdFBZQ0tVTklvbStP?=
- =?utf-8?B?L1R1OG5Bc3gvbklGa21tZ1Y0bVZvaEhMYU1BejBGa0F4YklubVlzaUcwR1Vl?=
- =?utf-8?B?ajdhaXlkZXNhVm9McEtTbVZ2RllRNzRGbXIra242RC9EVnNwbm1GYXQwRzJO?=
- =?utf-8?B?ZGVOa2VuWHBJSjdac1FjMFNWR0VUbzJTNURwaUlwZ25hTkFmYUx3bDZMb3Q4?=
- =?utf-8?B?TEFWc0RSSkVLYURsUFpKVXh5QnFkNENEbEhqREJWNXF1L3pEZ2ZjVnVHMCs5?=
- =?utf-8?B?QysyR0NndEZjdXR1TzVMYnBpRlFuWHFxend1eEZEclFOT3FQSk1QR3dYV29l?=
- =?utf-8?B?RXJXYmxONGNEVmNFdGhiUzhQN1YxaFprYWZ4eUlKZzJtaEM4d3VSQTZFbk5R?=
- =?utf-8?B?MGtXWTh1Q0d2Vk9yWDhLZ0c5ZU1xeXRUR1VZc25ONEZERHc4ZEY2R3gvdm1K?=
- =?utf-8?B?WjBRZFpVZjlYNEtOeXJCdlErcnF3dE1OR2RoM3dqcXUzNWNWdEQrMkM1dmlG?=
- =?utf-8?B?eE9SKzlzME5sbnBhcHBWNjRnZkNRRUVhbnZYOU5acGF4Y1pBKzVDMmtRdVh3?=
- =?utf-8?B?ZjdHRkVyV2x4RDJid1dMQTN4a2pCOERjeWdFb2RWMHhscHNPckhSd09jcGhZ?=
- =?utf-8?B?eU1vTitTb1g1SHpZUWdYTzZ4TjRSamtQWS9QeE5LRDZncnNrUFR0Z3MyZUgw?=
- =?utf-8?B?L1g4TXc3ZjhWMFY1SHhDRGFJL3E0LzI3b2djTG5iZWpNcWttN1VmK3dkUWNn?=
- =?utf-8?Q?ZpSOPN1k5wxbBpqqNyqsMENirwXBfl9bhuGRx?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bc54be5-947c-460b-833d-08dec11f0a25
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 03:20:19.2720
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gtkkYQGSAI3AtHpu2T0bEAg0d3/FN6WP601BF8w93yyUyNKAPqzneHrWhVvhOs/stHcU986yvMdX7tAWBULqPQYyowPtOWGtSbVluc4IcqGguLFVe2qDZFzVrDD8+4fb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9064
+References: <20260526145240.1627200-1-anup.patel@oss.qualcomm.com> <89e1334f-e7c2-4992-ba39-0d23f5605275@arm.com>
+In-Reply-To: <89e1334f-e7c2-4992-ba39-0d23f5605275@arm.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 3 Jun 2026 12:14:36 +0530
+X-Gm-Features: AVHnY4JmV0zm-0tTvkp_o34WcjHkNEMQ2AMhT0fQwQmHlV9bWdR1bNfsmtDJXa0
+Message-ID: <CAAhSdy0dOeCrH2YEkEyrNQU2nyO-41AT3m4-BaYJuQ3GbocqmQ@mail.gmail.com>
+Subject: Re: [PATCH] driver core: platform: Setup device MSI domain just
+ before driver probe
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Anup Patel <anup.patel@oss.qualcomm.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <pjw@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>, Thomas Gleixner <tglx@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Tomasz Jeznach <tomasz.jeznach@linux.dev>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Saket Dumbre <saket.dumbre@intel.com>, Rahul Pathak <rahul@summations.net>, 
+	Atish Patra <atish.patra@linux.dev>, Andrew Jones <andrew.jones@oss.qualcomm.com>, 
+	linux-acpi@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	driver-core@lists.linux.dev, iommu@lists.linux.dev, 
+	acpica-devel@lists.linux.dev, Sunil V L <sunilvl@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 03, 2026 at 03:30:12AM +0300, Andy Shevchenko wrote:
-> On Mon, May 25, 2026 at 02:09:20PM +0800, Xu Yang wrote:
-> > When iterate over children of a fwnode that has a secondary fwnode,
-> > fwnode_get_next_child_node() can enter an infinite loop if the secondary
-> > fwnode has more than one child.
-> > 
-> >                        Parent        Child
-> >       (Primary fwnode)   FWa:   {FWa1, FWa2, FWa3}
-> >     (Secondary fwnode)   FWb:   {FWb1, FWb2}
-> > 
-> > In this case:
-> > 
-> >  ┌─> fwnode_get_next_child_node(FWa, FWa1)
-> >  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa1) returns FWa2
-> >  │
-> >  │   ...
-> >  │
-> >  │   fwnode_get_next_child_node(FWa, FWa3)
-> >  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa3) returns NULL
-> >  │    - fwnode_call_ptr_op(FWb, get_next_child_node, FWa3) returns FWb1
-> >  │
-> >  │   fwnode_get_next_child_node(FWa, FWb1)
-> >  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWb1) returns FWa1
-> >  └────┘
-> > 
-> > This cause fwnode_for_each_child_node() to loop indefinitely, reapeatedly
-> > output {FWa1, FWa2, FWa3, FWb1, FWa1, ...}.
-> > 
-> > The root cause is that when the current child (FWb1) belongs to the
-> > secondary fwnode, calling get_next_child_node() on the parimary fwnode
-> > incorrectly returns the first child (FWa1) again instead of NULL.
-> > 
-> > Fix this by dynamically checking the parent fwnode of the current child
-> > before calling get_next_child_node(). This approach follows the pattern
-> > established in commit b5b41ab6b0c1 ("device property: Check
-> > fwnode->secondary in fwnode_graph_get_next_endpoint()").
-> 
-> ...
-> 
-> Can we utilise __free() instead?
+On Tue, May 26, 2026 at 8:53=E2=80=AFPM Robin Murphy <robin.murphy@arm.com>=
+ wrote:
+>
+> On 26/05/2026 3:52 pm, Anup Patel wrote:
+> > On RISC-V, the MSI controller (aka RISC-V IMSIC) is probed as a regular
+> > platform device and MSI client drivers are always probed after the MSI
+> > controller driver using fw_devlink. Unfortunately, this is not sufficie=
+nt
+> > to ensure device MSI domain is set for MSI client devices before driver
+> > probe because OF framework sets device MSI domain at the time of platfo=
+rm
+> > device creation whereas ACPI framework expects arch specific code to se=
+t
+> > the device MSI domain at the time of platform device creation.
+> >
+> > Currently, to work-around the problem of missing device MSI domain,
+> > various RISC-V MSI client drivers explicitly set device MSI domain
+> > in the driver probe function using below code pattern:
+> >
+> >       /*
+> >        * The device MSI domain for platform devices on RISC-V architect=
+ure
+> >        * is only available after the MSI controller driver is probed so=
+,
+> >        * explicitly configure here.
+> >        */
+> >       if (!dev_get_msi_domain(dev)) {
+> >               /*
+> >                * The device MSI domain for OF devices is only set at th=
+e
+> >                * time of populating/creating OF device. If the device M=
+SI
+> >                * domain is discovered later after the OF device is crea=
+ted
+> >                * then we need to set it explicitly before using any pla=
+tform
+> >                * MSI functions.
+> >                */
+> >               if (is_of_node(fwnode)) {
+> >                       of_msi_configure(dev, dev_of_node(dev));
+> >               } else if (is_acpi_device_node(fwnode)) {
+> >                       struct irq_domain *msi_domain;
+> >                       msi_domain =3D irq_find_matching_fwnode(imsic_acp=
+i_get_fwnode(dev),
+> >                                                             DOMAIN_BUS_=
+PLATFORM_MSI);
+> >                       dev_set_msi_domain(dev, msi_domain);
+> >               }
+> >
+> >               if (!dev_get_msi_domain(dev))
+> >                       return -EPROBE_DEFER;
+> >       }
+> >
+> > Instead of the above approach, extend the platform_dma_configure() to s=
+et
+> > device MSI domain for both OF and ACPI based platform devices before dr=
+iver
+> > probe and remove the duplicate code pattern from RISC-V MSI client driv=
+ers.
+> >
+> > Co-developed-by: Sunil V L <sunilvl@oss.qualcomm.com>
+> > Signed-off-by: Sunil V L <sunilvl@oss.qualcomm.com>
+> > Signed-off-by: Anup Patel <anup.patel@oss.qualcomm.com>
+> > ---
+> >   drivers/acpi/riscv/irq.c                | 13 +++++++++++
+> >   drivers/acpi/scan.c                     | 10 +++++++++
+> >   drivers/base/platform.c                 |  4 ++++
+> >   drivers/iommu/riscv/iommu-platform.c    |  9 --------
+> >   drivers/irqchip/irq-riscv-aplic-msi.c   | 27 -----------------------
+> >   drivers/irqchip/irq-riscv-rpmi-sysmsi.c | 29 ------------------------=
+-
+> >   drivers/mailbox/riscv-sbi-mpxy-mbox.c   | 29 ------------------------=
+-
+> >   include/acpi/acpi_bus.h                 |  1 +
+> >   include/linux/acpi.h                    | 10 +++++++++
+> >   9 files changed, 38 insertions(+), 94 deletions(-)
+> >
+> > diff --git a/drivers/acpi/riscv/irq.c b/drivers/acpi/riscv/irq.c
+> > index 9b88d0993e88..17fa5dcdd2c0 100644
+> > --- a/drivers/acpi/riscv/irq.c
+> > +++ b/drivers/acpi/riscv/irq.c
+> > @@ -5,8 +5,11 @@
+> >    */
+> >
+> >   #include <linux/acpi.h>
+> > +#include <linux/device.h>
+> >   #include <linux/sort.h>
+> >   #include <linux/irq.h>
+> > +#include <linux/irqdomain.h>
+> > +#include <linux/irqchip/riscv-imsic.h>
+> >
+> >   #include "init.h"
+> >
+> > @@ -397,6 +400,16 @@ static u32 riscv_acpi_add_irq_dep(acpi_handle hand=
+le)
+> >       return count;
+> >   }
+> >
+> > +void acpi_arch_msi_configure(struct device *dev)
+> > +{
+> > +     struct irq_domain *msi_domain;
+> > +
+> > +     msi_domain =3D irq_find_matching_fwnode(imsic_acpi_get_fwnode(dev=
+),
+> > +                                           DOMAIN_BUS_PLATFORM_MSI);
+> > +     if (msi_domain)
+> > +             dev_set_msi_domain(dev, msi_domain);
+> > +}
+> > +
+> >   u32 arch_acpi_add_auto_dep(acpi_handle handle)
+> >   {
+> >       if (acpi_has_method(handle, "_PRT"))
+> > diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> > index 530547cda8b2..e50e5d246a54 100644
+> > --- a/drivers/acpi/scan.c
+> > +++ b/drivers/acpi/scan.c
+> > @@ -1648,6 +1648,16 @@ static int acpi_iommu_configure_id(struct device=
+ *dev, const u32 *id_in)
+> >
+> >   #endif /* !CONFIG_IOMMU_API */
+> >
+> > +/**
+> > + * acpi_msi_configure - Set-up MSI domain for the device.
+> > + * @dev: The pointer to the device
+> > + */
+> > +void acpi_msi_configure(struct device *dev)
+> > +{
+> > +     acpi_arch_msi_configure(dev);
+> > +}
+> > +EXPORT_SYMBOL_GPL(acpi_msi_configure);
+> > +
+> >   /**
+> >    * acpi_dma_configure_id - Set-up DMA configuration for the device.
+> >    * @dev: The pointer to the device
+> > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> > index a19dd22deef2..225e33080bc6 100644
+> > --- a/drivers/base/platform.c
+> > +++ b/drivers/base/platform.c
+> > @@ -1470,8 +1470,12 @@ static int platform_dma_configure(struct device =
+*dev)
+> >       int ret =3D 0;
+> >
+> >       if (is_of_node(fwnode)) {
+> > +             if (!dev_get_msi_domain(dev))
+> > +                     of_msi_configure(dev, dev->of_node);
+> >               ret =3D of_dma_configure(dev, to_of_node(fwnode), true);
+> >       } else if (is_acpi_device_node(fwnode)) {
+> > +             if (!dev_get_msi_domain(dev))
+> > +                     acpi_msi_configure(dev);
+>
+> But surely this needs to handle the deferral case that's being removed
+> from some of the users below?
 
-Sure. Will add it in v2.
+The deferral cases removed by this patch are redundant because:
+1) For device tree, the fw_devlink support in Linux DD core takes
+case of probe ordering and individual driver don't need to explicitly
+do EPROBE_DEFER
+2) For ACPI, the _DEP objects helps us ensure probe ordering.
 
-Thanks,
-Xu Yang
+In other words, the issue of probe ordering or deferral is already
+handled for both device tree and ACPI.
+
+The only problem which remains is msi_domain pointer not set
+in struct device before the driver is probed. This happens because
+MSI controller driver is a regular platform driver hence MSI domain
+pointer is not set when platform devices are created.
+
+>
+> Also I'm not really convinced about bundling it into dma_configure,
+> since it's mroe about IRQs than DMA. I wonder if overall it wouldn't be
+
+Using platform_dma_configure() to update the MSI domain
+in struct device is appropriate because:
+1) MSIs are device initiated writes just like DMA writes
+    initiated by the device.
+2) The iommu_device_use_default_domain() called by
+   platform_dma_configure() will override MSI domain
+   in struct device for architectures (such as x86 and
+   RISC-V) where IOMMU driver implements a IRQ
+   remap MSI domain for MSI capable devices.
+
+> better with a flow closer to regular request_irq(), with
+> msi_create_device_irq_domain() growing the ability to distingush between
+> "there is no domain" and "there is no domain now, but could be if we try
+> again later", such that drivers can handle deferral at the point where
+> they request MSI vectors?
+
+Like mentioned above, the problem is not about probe deferral
+(aka returning EPROBE_DEFER) from request_irq() or
+msi_create_device_irq_domain() rather about updating the
+MSI domain pointer in struct device before driver probe.
+
+Regards,
+Anup
