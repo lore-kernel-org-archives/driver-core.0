@@ -1,121 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B9B1E3DDE
-	for <driver-core@lists.linux.dev>; Wed,  3 Jun 2026 00:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDCA2D7DD4;
+	Wed,  3 Jun 2026 01:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780446619; cv=none; b=bRjzJJ3HMijVwfGuN2Lm5MevK+Irt5I9Ck9WbibZ2UKRhAAXh8ykzpaNRFTe1nsSfyw2E7415r6QFe7gFj2iXTCb7lQhzHlvvLAgOXZsZxzkGIxfeyywpKkq9OW0iUZ90VTN3M+3HbN5TxI7JiH9JYX5SbHVtk1K+PLCHMLDFSw=
+	t=1780449028; cv=none; b=OZzMKszVszP/tQ0Kt6wYfW43J2j9B3ooVNidfWhSJ+aWl9uNeS3PvngyfCCJ6k/xIz/hreo+vpfaICdStWA9Y8q/gjX/jaauT2+Fd3aq9OpSS3l3viLyPM2wtvjo3P5Mzq3U/BUK196kSWbgtZESRY2n80ain/8+TAdgcdZ3hwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780446619; c=relaxed/simple;
-	bh=FKgMLgLLd/0PNaMUChniI9zKgfQfR++e80a+w+L4SWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QXsCEUHHl4YkxyJdLPUwa0of0ncdXO1UO9Q8K+W/SAV4wOrRUvYP2BLnuSXytb+QpKE4ajyiHuKR///ay++U23+sHycZ3pjXHTfvjtVYabwvVdsAdiQ8TbfUhfV7QhNNbo69EqNs11+CVEJthYLnzoCWi4KVvSQxJCSWDejbZDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=epq4LTTw; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1780449028; c=relaxed/simple;
+	bh=VFJzEinoo/4V280HpZpXwl1kty1kGVWTjct7kNh18nc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dFzz0KIMviltWif40vAvQolCTbDzS13z2K4UiYboTygdcXcjni2VhpzAF/BgROQZw0OMqAx8OZ91/8hnmEJCMo4b9H834kUP+W9JJsGQN4VUIaMYJsqi9xXEm8uf4rKP7ipsfahXmvcmq/DwFyPQnEVOTI7qgpyFa+oC27O11uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bK40Chfx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="epq4LTTw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780446618; x=1811982618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FKgMLgLLd/0PNaMUChniI9zKgfQfR++e80a+w+L4SWM=;
-  b=epq4LTTweTuo3BevPyG8VKAUYvDibqUgaXPAWnlVP4rnnp2b3EHOvdCg
-   TkFQUXkRiAmTTyKt1MGWI1Erl3xpy+vLu5pHCzZjc0dzbL8DDgg/I4I+a
-   rQdyr01N276ytYSmZPdncf1C8OTBbFUGt6aFnJt/zBS7V0z3k6AldeurX
-   nAOb8c+9w5pQN5D287WdhKZ0iO+Xwahy9co16MhelnWGId9wt8sHPsfsR
-   jaz1j67X5bOwKsEoGDPIZDXBv7b/z/qaiDer6WJyHu47iyf4g/eGGIeUG
-   ktv2IsElCZOvnSbhMxRBnA3pkoawu334e7few8DJ3ZuLou/dJcwRhBYsZ
-   A==;
-X-CSE-ConnectionGUID: X/+OqBvmTvarBwCjwKi24A==
-X-CSE-MsgGUID: VcuwnAg4SMCTzak8fVkYqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92729260"
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="92729260"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 17:30:18 -0700
-X-CSE-ConnectionGUID: dEKq9ur5QUKz4G06Y8DxSg==
-X-CSE-MsgGUID: Nr5vR1cCRRm7lKJ8dFJEpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="248370724"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.116])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 17:30:15 -0700
-Date: Wed, 3 Jun 2026 03:30:12 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Xu Yang <xu.yang_2@nxp.com>
-Cc: Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] device property: fix infinite loop in
- fwnode_for_each_child_node()
-Message-ID: <ah91lJp-PNkyB11n@ashevche-desk.local>
-References: <20260525-fixes_fwnode_iteration-v1-0-a12903fb2919@nxp.com>
- <20260525-fixes_fwnode_iteration-v1-2-a12903fb2919@nxp.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bK40Chfx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78B2A1F00893;
+	Wed,  3 Jun 2026 01:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780449027;
+	bh=vg4OT7qVOOfiZWFV5Vcsuizp9IDFD8+pqun6oZHSTcM=;
+	h=From:To:Cc:Subject:Date;
+	b=bK40Chfx+OYTbVFoho2VApu/zYarNWFjOtFjO7yjtr8tQILFmaHSzBTcATrsQ5lOt
+	 BzzDNGMelyIeLbDps5lE25YcnmL4lOYemVseUghlhimjykx9sBLUxO/LVIuSL5TfNs
+	 /WQnxYsAq1fscjQsNbEJcqZ0vTlc7b0aNghVgTWJLDxqJEOaw9TQDel7YZUsuO3J/U
+	 xsIDlEF8LylAtjBaClr+Snzq5QWNI8rrwO3FZocJauVvMtXjo/U1dOYTfN61eJf06J
+	 id3S68G+VgFIL2GjMBROGyqe855oW7lPLcRhPVROkwQt06aDl4mcPl/Df8zgTSm7Ry
+	 MwU62cK2I0z0Q==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	acourbot@nvidia.com,
+	ecourtney@nvidia.com,
+	m.wilczynski@samsung.com,
+	david.m.ertman@intel.com,
+	ira.weiny@intel.com,
+	leon@kernel.org,
+	daniel.almeida@collabora.com,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-pwm@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v2 0/7] ForLt/CovariantForLt split, auxiliary closure API and DevresLt
+Date: Wed,  3 Jun 2026 03:10:11 +0200
+Message-ID: <20260603011020.2073650-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260525-fixes_fwnode_iteration-v1-2-a12903fb2919@nxp.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, May 25, 2026 at 02:09:20PM +0800, Xu Yang wrote:
-> When iterate over children of a fwnode that has a secondary fwnode,
-> fwnode_get_next_child_node() can enter an infinite loop if the secondary
-> fwnode has more than one child.
-> 
->                        Parent        Child
->       (Primary fwnode)   FWa:   {FWa1, FWa2, FWa3}
->     (Secondary fwnode)   FWb:   {FWb1, FWb2}
-> 
-> In this case:
-> 
->  ┌─> fwnode_get_next_child_node(FWa, FWa1)
->  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa1) returns FWa2
->  │
->  │   ...
->  │
->  │   fwnode_get_next_child_node(FWa, FWa3)
->  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa3) returns NULL
->  │    - fwnode_call_ptr_op(FWb, get_next_child_node, FWa3) returns FWb1
->  │
->  │   fwnode_get_next_child_node(FWa, FWb1)
->  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWb1) returns FWa1
->  └────┘
-> 
-> This cause fwnode_for_each_child_node() to loop indefinitely, reapeatedly
-> output {FWa1, FWa2, FWa3, FWb1, FWa1, ...}.
-> 
-> The root cause is that when the current child (FWb1) belongs to the
-> secondary fwnode, calling get_next_child_node() on the parimary fwnode
-> incorrectly returns the first child (FWa1) again instead of NULL.
-> 
-> Fix this by dynamically checking the parent fwnode of the current child
-> before calling get_next_child_node(). This approach follows the pattern
-> established in commit b5b41ab6b0c1 ("device property: Check
-> fwnode->secondary in fwnode_graph_get_next_endpoint()").
+The ForLt trait currently guarantees covariance, which allows safe
+lifetime shortening via cast_ref(). However, some types (e.g. those
+containing Mutex<&'bound T>) are invariant over their lifetime parameter
+and cannot safely use cast_ref().
 
-...
+This series splits ForLt into two traits:
 
-Can we utilise __free() instead?
+  - ForLt: base trait providing unsafe cast_ref_unchecked() for all
+    lifetime-parameterized types.
 
+  - CovariantForLt: unsafe subtrait that guarantees covariance,
+    providing a safe cast_ref() method.
+
+For invariant types, a closure-based API (registration_data_with()) is
+added to the auxiliary subsystem. The closure's HRTB prevents the caller
+from choosing a concrete lifetime, which would be unsound for invariant
+types.
+
+On top of that, this series adds DevresLt<F: ForLt>, a thin wrapper
+around Devres<F::Of<'static>> that shortens the stored 'static lifetime
+back to the caller's borrow scope. DevresLt provides both closure-based
+access (access_with/try_access_with for ForLt types) and direct
+reference access (access/try_access for CovariantForLt types).
+
+Also implement ForLt and CovariantForLt for Bar, IoMem and
+ExclusiveIoMem, and update their into_devres() methods to return
+DevresLt. Provide convenience type aliases DevresBar, DevresIoMem and
+DevresExclusiveIoMem.
+
+Changes in v2:
+- Fold the ForLt -> CovariantForLt rename and the new ForLt base trait
+  into this series
+- Add closure-based registration_data_with() for auxiliary ForLt types
+- Add auxiliary sample demonstrating ForLt with an invariant Mutex type
+- DevresLt: add closure-based access_with()/try_access_with() for ForLt
+  types alongside direct access()/try_access() for CovariantForLt types
+- Make DevresLt::new() unsafe; callers must guarantee the data outlives
+  the device binding
+- Implement both ForLt and CovariantForLt (previously just ForLt) for
+  Bar, IoMem, ExclusiveIoMem
+- Various safety comment and documentation improvements
+
+Danilo Krummrich (7):
+  rust: types: rename ForLt to CovariantForLt
+  rust: types: introduce ForLt base trait for CovariantForLt
+  rust: auxiliary: add registration_data_with() for ForLt types
+  rust: auxiliary: sample: demonstrate ForLt with invariant Mutex type
+  rust: devres: add DevresLt for ForLt-aware device resource access
+  rust: pci: return DevresLt from Bar::into_devres()
+  rust: io: mem: return DevresLt from
+    IoMem/ExclusiveIoMem::into_devres()
+
+ drivers/gpu/nova-core/driver.rs       |   4 +-
+ drivers/pwm/pwm_th1520.rs             |   5 +-
+ rust/kernel/auxiliary.rs              |  74 +++++++++++++---
+ rust/kernel/devres.rs                 | 110 +++++++++++++++++++++++
+ rust/kernel/io/mem.rs                 |  65 +++++++++-----
+ rust/kernel/pci.rs                    |   1 +
+ rust/kernel/pci/io.rs                 |  37 +++++---
+ rust/kernel/types.rs                  |   1 +
+ rust/kernel/types/for_lt.rs           | 122 ++++++++++++++++++++------
+ rust/macros/for_lt.rs                 |  52 ++++++++---
+ rust/macros/lib.rs                    |  18 +++-
+ samples/rust/rust_driver_auxiliary.rs |  96 ++++++++++++++------
+ 12 files changed, 472 insertions(+), 113 deletions(-)
+
+
+base-commit: 0023a1e8d01a9d400257d30c851bd16a29568809
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
