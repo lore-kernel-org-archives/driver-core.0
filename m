@@ -1,129 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4D7344D9B;
-	Tue,  2 Jun 2026 21:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B9B1E3DDE
+	for <driver-core@lists.linux.dev>; Wed,  3 Jun 2026 00:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780437190; cv=none; b=QM5DZ5mjOJ9FPi50MCAhbeMHVawp7ZHrVDt7B4jy+VwShO78eG0DJDQNgiC9CwAuaBu96KTdGW67vAiWQQYyfOi7+TTAXu/rfGmtQvNypKjFlGB+SzQmW4bBt+01+6gE5GjX4P7RFZ9yU09TMqDXv/x/UuAmx2R7JDZ7NCcKdW8=
+	t=1780446619; cv=none; b=bRjzJJ3HMijVwfGuN2Lm5MevK+Irt5I9Ck9WbibZ2UKRhAAXh8ykzpaNRFTe1nsSfyw2E7415r6QFe7gFj2iXTCb7lQhzHlvvLAgOXZsZxzkGIxfeyywpKkq9OW0iUZ90VTN3M+3HbN5TxI7JiH9JYX5SbHVtk1K+PLCHMLDFSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780437190; c=relaxed/simple;
-	bh=U2Ci0y5zstQSqkf04hmNdjkbNsyqDpkboO1KnVKRMOs=;
+	s=arc-20240116; t=1780446619; c=relaxed/simple;
+	bh=FKgMLgLLd/0PNaMUChniI9zKgfQfR++e80a+w+L4SWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nISWfTEniBNSeBbD+lVkpc8BXuJW2TDuaacxIDmY25WGNiGxjctYr/O3JdZFERCHjx2TG/ChyZvXqlpjWhh+DH44/Ll7xfcCFAjCO3wBuHQMJwwf084YNjbaVerOL3qTQ/WMihWv9ZQK8W/KAt61t6nHz/vOP/UyNhz2e1oxrsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GJ5oML5+; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=QXsCEUHHl4YkxyJdLPUwa0of0ncdXO1UO9Q8K+W/SAV4wOrRUvYP2BLnuSXytb+QpKE4ajyiHuKR///ay++U23+sHycZ3pjXHTfvjtVYabwvVdsAdiQ8TbfUhfV7QhNNbo69EqNs11+CVEJthYLnzoCWi4KVvSQxJCSWDejbZDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=epq4LTTw; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJ5oML5+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="epq4LTTw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780437190; x=1811973190;
+  t=1780446618; x=1811982618;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U2Ci0y5zstQSqkf04hmNdjkbNsyqDpkboO1KnVKRMOs=;
-  b=GJ5oML5+Ctf884JcW1blm6+nWVqkMp6/FtaDmKyQ/ybFUyx0PKyeAtEE
-   ywaouyI5kVYEalzUFtMG8RsIFr+sdr2pbaJdQXKCNIYvMjqIwq+tOGPJM
-   7zSGvPCj5rlvtQIq+4wLFIlC77g2aDXxSs1KJKHZx5kOmMiBnLsnGXcft
-   4dXmPtDCR8aQtkb/5vbRellpC+6SL09v3fGXwrx6JUulu+leVpF5ikJjn
-   2IlgQN+HVDH/n3Iz+mVyzMVeRopsnZwciC8hkOecW/6iMnBl1JiFU2dWz
-   Ba0gfsl4gMkUfnYkVclcALbrIVfucMFAW/EcEwGxUMjFVWnKqbPsebAcG
-   g==;
-X-CSE-ConnectionGUID: UVJZWy3HSYiDmqWhG3/4gw==
-X-CSE-MsgGUID: jEaT53SYSQmvu/svPActrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="81139241"
-X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="81139241"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:53:09 -0700
-X-CSE-ConnectionGUID: YYc13f2oRhu39dVGUvMdoA==
-X-CSE-MsgGUID: IznHTBKXQ4W8nlCW1v1K1g==
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=FKgMLgLLd/0PNaMUChniI9zKgfQfR++e80a+w+L4SWM=;
+  b=epq4LTTweTuo3BevPyG8VKAUYvDibqUgaXPAWnlVP4rnnp2b3EHOvdCg
+   TkFQUXkRiAmTTyKt1MGWI1Erl3xpy+vLu5pHCzZjc0dzbL8DDgg/I4I+a
+   rQdyr01N276ytYSmZPdncf1C8OTBbFUGt6aFnJt/zBS7V0z3k6AldeurX
+   nAOb8c+9w5pQN5D287WdhKZ0iO+Xwahy9co16MhelnWGId9wt8sHPsfsR
+   jaz1j67X5bOwKsEoGDPIZDXBv7b/z/qaiDer6WJyHu47iyf4g/eGGIeUG
+   ktv2IsElCZOvnSbhMxRBnA3pkoawu334e7few8DJ3ZuLou/dJcwRhBYsZ
+   A==;
+X-CSE-ConnectionGUID: X/+OqBvmTvarBwCjwKi24A==
+X-CSE-MsgGUID: VcuwnAg4SMCTzak8fVkYqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92729260"
+X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
+   d="scan'208";a="92729260"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 17:30:18 -0700
+X-CSE-ConnectionGUID: dEKq9ur5QUKz4G06Y8DxSg==
+X-CSE-MsgGUID: Nr5vR1cCRRm7lKJ8dFJEpw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
+   d="scan'208";a="248370724"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.116])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:52:54 -0700
-Date: Wed, 3 Jun 2026 00:52:52 +0300
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 17:30:15 -0700
+Date: Wed, 3 Jun 2026 03:30:12 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
+To: Xu Yang <xu.yang_2@nxp.com>
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Peter Chen <peter.chen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 22/23] reset: rzg2l: use
- platform_device_set_of_node_from_dev()
-Message-ID: <ah9QtExF2rUUTMNo@ashevche-desk.local>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-22-88c324a1b8d2@oss.qualcomm.com>
- <6af284545729f03a60d06479339862a2f08c6b7e.camel@pengutronix.de>
+	Danilo Krummrich <dakr@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 2/2] device property: fix infinite loop in
+ fwnode_for_each_child_node()
+Message-ID: <ah91lJp-PNkyB11n@ashevche-desk.local>
+References: <20260525-fixes_fwnode_iteration-v1-0-a12903fb2919@nxp.com>
+ <20260525-fixes_fwnode_iteration-v1-2-a12903fb2919@nxp.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6af284545729f03a60d06479339862a2f08c6b7e.camel@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260525-fixes_fwnode_iteration-v1-2-a12903fb2919@nxp.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jun 02, 2026 at 10:24:41AM +0200, Philipp Zabel wrote:
-> On Do, 2026-05-21 at 10:36 +0200, Bartosz Golaszewski wrote:
-> > Ahead of reworking the reference counting logic for platform devices,
-> > encapsulate the assignment of the OF node from another device for
-> > dynamically allocated platform devices with the provided helper.
+On Mon, May 25, 2026 at 02:09:20PM +0800, Xu Yang wrote:
+> When iterate over children of a fwnode that has a secondary fwnode,
+> fwnode_get_next_child_node() can enter an infinite loop if the secondary
+> fwnode has more than one child.
+> 
+>                        Parent        Child
+>       (Primary fwnode)   FWa:   {FWa1, FWa2, FWa3}
+>     (Secondary fwnode)   FWb:   {FWb1, FWb2}
+> 
+> In this case:
+> 
+>  ┌─> fwnode_get_next_child_node(FWa, FWa1)
+>  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa1) returns FWa2
+>  │
+>  │   ...
+>  │
+>  │   fwnode_get_next_child_node(FWa, FWa3)
+>  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa3) returns NULL
+>  │    - fwnode_call_ptr_op(FWb, get_next_child_node, FWa3) returns FWb1
+>  │
+>  │   fwnode_get_next_child_node(FWa, FWb1)
+>  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWb1) returns FWa1
+>  └────┘
+> 
+> This cause fwnode_for_each_child_node() to loop indefinitely, reapeatedly
+> output {FWa1, FWa2, FWa3, FWb1, FWa1, ...}.
+> 
+> The root cause is that when the current child (FWb1) belongs to the
+> secondary fwnode, calling get_next_child_node() on the parimary fwnode
+> incorrectly returns the first child (FWa1) again instead of NULL.
+> 
+> Fix this by dynamically checking the parent fwnode of the current child
+> before calling get_next_child_node(). This approach follows the pattern
+> established in commit b5b41ab6b0c1 ("device property: Check
+> fwnode->secondary in fwnode_graph_get_next_endpoint()").
 
 ...
 
-> > -	device_set_of_node_from_dev(&vdev->dev, dev);
-> > +	platform_device_set_of_node_from_dev(vdev, dev);
-
-Same Q here, why it uses inherited call? Cargo cult?
-
-'reused' flag is solely pin control (provider!) thingy as far as I remember.
+Can we utilise __free() instead?
 
 -- 
 With Best Regards,
