@@ -1,205 +1,513 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020074.outbound.protection.outlook.com [52.101.195.74])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684AB20FA81;
-	Wed,  3 Jun 2026 22:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A663B27E2;
+	Wed,  3 Jun 2026 23:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780526198; cv=fail; b=M8OwKX1sVnWuXbmT0a2tCrbuVmSW2o/FYpDdQVbz5x7pLVv3U7XXTKgRLTyqBoXg05rrmcD5qn7u2FtSrRk64mzs+zVvCXPV+zDUpCNdq6Ixj1Wio/WfjbxcQiAf8ab0gAtIarGCAL6vSZQWF2kaYtkBgJT+NgQjRf7RXFUiSIk=
+	t=1780529381; cv=pass; b=ckSh1SIJqyXkyLfG/6zqmjIwL2eBrhKI2mjxIpxTsHI4CetwTPZi/f0CznSYS5etlA4qFiDS3w1rUjKadPPV18iyv7jivpzdGFjlol27bqzQMCoRY9urDfbNhkBRpTOMNffeSGgnrihIaFCke2TsB682XFiAvuhTFq+nSyJASqE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780526198; c=relaxed/simple;
-	bh=f+hlLFp6FTGX1TQMm6Ipp9738r6xaE5HVIvKBtw7bIg=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=KjhiAOl15AL1OgU2bqM8poAnt/AWJbahHwJFivtJ53vQQr0AHFZ05JyHGRAC6HN/inwtPc5lqgkmoFvYM0hJgoiRr2RlqFKM980W74dk4fBch8AvUwpqFBeYdPqAPlFyLB9JoJfZSWssBApXtyD8CH8IwWIB8PsIVFqYj87qIys=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=XiiTiML6; arc=fail smtp.client-ip=52.101.195.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1780529381; c=relaxed/simple;
+	bh=D9UI6Rysij9TNvpXw8GevEifbq/1dqYAt0EgNLg3hz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ht5hH13aMHX9zUr1QgIK293yeMRKhl8x4fDEgQBRuDDlVC2nz+AonlMETSjQgZdga10ByS55xTHz0viHk/p/vEmbTT6Qacmaxr/D3fjZjQt3H+/k7qwuoO3xgISqcq4SIN9IppR1AFcv5nRUhmwbFKCSZHVVnFp0kCiq1UWXQLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b=Cn/DteXE; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="XiiTiML6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lTLrjdzNoA/YYwXhV7C1MR3C7R2GWTjjTkiqCGfJjdLNkhX6MsgZNKhFzuhF2Mf04YdSGanzP20paDs0LZRUrtYm/HRuns6SRr1T+MAd5QxrofWrLUNGke6uF2bXmNAegpGGAq9anmqL6kVGNutHignb9E89QRaU9lJtjdsnzlGcduG6+TuxxbbG+YKpE3tLXq7+73xPsAS7meCvdeHI+E+WZvcs2NRnWNrgW4ILQ7xDPZ22h63nKaLl9C62r+KaPCjBwGFzVrfqpOOElegmTvLI7/5lysRfZ9us3x4yMz4eSSgL+dHlS7C3mWZMPROzJiBq0GfOuzMkdNtoEeT6ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GMIIYJZ7ygbkJh8MrZcNUlfZfmB5tMQii1DbnJe7FDg=;
- b=Z0/gprJaQfsMIP4nesPHRY3ZAVpdf31ZUFLx9Lf5XmdWBd3JBGKqG7DxrwRZbU8NKpWIfHGoaSKjOtCsp1k3DAQwPlGIhxMT7VfP3Ppvdt5GOa88fnZaYzFGozu8jXol7/fUK1ZrM+o2A7kA59DA+U93+7bo4leGgysevMJg7Dp0wZvV8mZuJOAezRuAjBVb6e5abFjZ4dS1HqAgXVpBW2zks8NTQ8LuzJZXNEB1Szeyg4hgN1BPbY9AB2iee8+JaB9/i1kzfrlq7E3YJfYiVYm1WJOl0ADH9FFSIPd3QlOf3ZCw+TLGJ5uHX9QCMdsv5HpEHxZ4IvH4Dp6S2GnrLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GMIIYJZ7ygbkJh8MrZcNUlfZfmB5tMQii1DbnJe7FDg=;
- b=XiiTiML6JlijSmr/yD1yDpi3GfU6s+87n0drFRUDdhc+ZcePwS9iQ52Zdd8FTUs//9zSL16i3gne42DRIG7V4pwGxC3ixZjpeJbUjzINdZSiXELG/zfugPC6+6aUAhfB1qBZHpcR0rJI5FsRmjnqfsS2qWu+xaz8tr4I3zXhd1A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LOBP265MB9268.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:47e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 22:36:33 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0092.007; Wed, 3 Jun 2026
- 22:36:33 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 03 Jun 2026 23:36:32 +0100
-Message-Id: <DIZRUWI8M0S1.209UW3SKZ53L1@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
-Cc: <aliceryhl@google.com>, <daniel.almeida@collabora.com>,
- <acourbot@nvidia.com>, <ecourtney@nvidia.com>, <ojeda@kernel.org>,
- <boqun@kernel.org>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>,
- <deborah.brouwer@collabora.com>, <boris.brezillon@collabora.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="Cn/DteXE"
+ARC-Seal: i=1; a=rsa-sha256; t=1780529370; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=klD0oSjMZ7bpaVD9SayonvDK4+LXq0eYJt/157VBA/x6aa1cIbLi3NldDtZF2h36jyfAk3QbsEwKTdDHmPsN4nzCclfzH0vlQp1mAl8Ts0+doZBNUtR0/vyaoLTAubXiYPfDEdoIoRdJ0KwlY0ZY1KMWlcnhTROPWkbNNXmKHtk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1780529370; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=7hGjdJB21J965Tloxk+FqpvMVaXeHADzpVTvKXzoRaY=; 
+	b=G5TnPM0KNe2smnSHnzg21Z5TFMUlTphQz9F39194e7Y98SQ5gnyPtq0wWNyTAigDQEJbFNfAzP3Szl2EsA86IVavvW8+LYClElYUKlrb/msODnZQEV6CcUrPmzwOsDxUoGfMTd3WhcSTlh46yYTbP443p7rHVNOj3P8d7J1sDJ4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+	dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780529370;
+	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=7hGjdJB21J965Tloxk+FqpvMVaXeHADzpVTvKXzoRaY=;
+	b=Cn/DteXEjXsIke2JLqXU34WpEv9JgtOsckSHICikprT7jdBo/5bo36CfDt8ye05N
+	UFaWTsNVS++JKA/H6ULOEW3ReLpX4gzYAmi5IdeFBiSX6bOa/4feVhAdyX7xEhir9Dv
+	GsGRrDc/gIfjsCNzWE/AdaJ7f1o1jhg3GamGMrqs=
+Received: by mx.zohomail.com with SMTPS id 1780529368684554.2263972165351;
+	Wed, 3 Jun 2026 16:29:28 -0700 (PDT)
+Date: Wed, 3 Jun 2026 16:29:27 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: aliceryhl@google.com, daniel.almeida@collabora.com, acourbot@nvidia.com,
+	ecourtney@nvidia.com, ojeda@kernel.org, boqun@kernel.org,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+	a.hindborg@kernel.org, tmgross@umich.edu,
+	boris.brezillon@collabora.com, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 3/7] rust: drm: Add RegistrationData to drm::Driver
-X-Mailer: aerc 0.21.0
+Message-ID: <aiC41_huOYhvacQD@um790>
 References: <20260603011711.2077361-1-dakr@kernel.org>
  <20260603011711.2077361-4-dakr@kernel.org>
- <DIZE54GCJ9MS.DW75EP5OM604@garyguo.net>
- <DIZRLM5N81KS.DIRUHYO435XR@kernel.org>
-In-Reply-To: <DIZRLM5N81KS.DIRUHYO435XR@kernel.org>
-X-ClientProxiedBy: LO4P265CA0063.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2af::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOBP265MB9268:EE_
-X-MS-Office365-Filtering-Correlation-Id: d56a9782-96e8-4b7c-ba01-08dec1c0908c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|7416014|376014|1800799024|366016|56012099006|4143699003|5023799004|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	sDP7t+qwAlFUbdVYJv/e3rFnHBpGSdKkD/YTq7SxZw5NHizG+rddJTjAhuvW6aG7Y3UhjheL0E/NAW0m6nhQ79ynkdQcAx2aPJCUF99w5EqQ/l/MY3Zo/KVbrOBpESl2BqxeCQZUwpp4NqLQTaWoPVa+dbiO9Z83upd2mp1DkCAI0zfENd1I7S59TevsTqPtjN5dyAORklXyh1xsNWTW9NioGoDPC02qcDDqmTRzwdSz/Z1NRLZxeHw79ELfYkIDQriAyWAt/mNJJ5fDXhr9+6xKATC3DAsrwOMGbiGH4SfRlYJkyRYDGorjP67UlkFTgprPV69Jq9fg+bhRfqDW3JCpR5px7vIgAIQbG9Mh+KnFmWjtnzLTItgY8Zw/z6F4vB3oBfLcp0Xvt3ATMedW1elzXaHdFIttMVL9uFZqLsek2BMHJVmHhxrW8IvhYBknXX/SwktP4tM2UXbXJg3zvJf39mpBUJqZP/yqQnPra2jQSymEz2sAb1nRALS1kTlPoZcHkuZuk04a2G4YrB3VVRgwu/zb9jHmXjcKGMKvEXSEI7V8A1GDx0fhbijVIUhhMNK9r9ApEQ7EuT7BrH56Ee739Eg//DAakUHQjCA3bDI2o+L3relg+sfG5lVpQWI+dN0AEfrEMleYoldkkiQJQHs+04jMxrrCa9bpP7dTKsekiuSh2ZlnHInWs6VhwhQU
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(1800799024)(366016)(56012099006)(4143699003)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ryt2MkdhSUUrTTA3blFXck0vc0p1cGFGRXV6MmxUSzFPaDdxZHZlWDEwOFJH?=
- =?utf-8?B?cUUxbFE0SkU2UkpPUXh2WW9DSjR3NCtpdjUyVndDdHNaUlY4T0QrcFdmeHdo?=
- =?utf-8?B?bVZ6d1dtU2htSWh0N3RTWWYvZkNxRXdKb1RncU5PeUVWbjM3UmJXdmxxUXRv?=
- =?utf-8?B?WWVnaU1aNHpqc3VFaGpsek9CWGIyS1pGQno0UG1GUVVXYVRWSGRHZ1UycnNR?=
- =?utf-8?B?Zm0rU1hHS3VRTU1Hdm5IMEZxVVF0ZktpL1I4a2RmOVhkOTVnYmhmYWFpQURJ?=
- =?utf-8?B?cWZYblFDWVI4cVRiUlQ1WkZ5a283Wjd4UzFUc2RQMDFlMTFWZGtLNnVmamJK?=
- =?utf-8?B?MVJaYVRac1pzbUFrcDFvMXY4Y0xPN1NORVB1N3ZsMWZKWThjVm5PSVpSSnp4?=
- =?utf-8?B?YlFncjZOVENydXBjdGphVnNvUmZGU2c2dFcwbHhOL25wV09yR0I0Um1DMmVo?=
- =?utf-8?B?U1pBQnh0bW9XM28xb2VLeTlVUHBoWVJGejBQR0h6NXJ4T1c2TkdHRVRCVE1w?=
- =?utf-8?B?ZUtZR0dKYmZESHRkN0FEVC9ZVGZ1eW1yaDRyVlU4am9PMFloNzU1aDYyT2tS?=
- =?utf-8?B?ejYxQkVzL29yd3FYRlpuZUFSSktWQUhidHdlU1dkK3U3c2IwWWR0TzkvcUFu?=
- =?utf-8?B?V1NCMnZNZTRaZW01L1I2SGhraHdLTEJPODRDUzNiZUhsbDV5TE5hZ25BTk0w?=
- =?utf-8?B?NnRtalgxaDQ3WmF0OTIra2tsSi9kR0ZIZWZEQk9oTTR6VHdqWjZ0SktFdlhV?=
- =?utf-8?B?TU5BTjNlRkxVY3NsSFJVcEJrSU4zeGRhWmJzUFY4VDlYVVZleTdkeTdPQTlM?=
- =?utf-8?B?NFMrZ2hyUFo1MXlySGNjRHhyZDNDNGljdmpjS1RoVW8wdTlJVUZBTHluWkhB?=
- =?utf-8?B?NGRhSFFmNGtFalhQV3RYSUJhOEZ5d3pHM0k4RXNUcHFqL3hBYzd6V2pPTE5s?=
- =?utf-8?B?aXpNY3lnUWw2Z3pWdnFuVzY0Mjg5UDNDNTVUOE5QeFVhb0NLeG1SWUxnMndM?=
- =?utf-8?B?bEMzcU1uMXRabVNrZWF6UXhmSGZMeFNMbTZaRDVtR2UwQWpQQUNTUUNqeHRq?=
- =?utf-8?B?aWhzbjBFcDRFTHhTejVRK2ducC9uVGpNNUdicWFQNDVTeGJEdDlISnpDYWZz?=
- =?utf-8?B?Z3IvbEZXb2t1cWZjUEcyMTFvOUw4SW5wVzhCRHRHbGRuaVFYaVI2d25UNTF4?=
- =?utf-8?B?cWVtdE82cWdTQ2JIL2hoeXpranJ2ZU94TkIyR09SQ0hFbGpDT1hDcWdZSGxl?=
- =?utf-8?B?NFM2cThQQVpQQS9xbnAyTk5rM0ROZjJscXJ4SHhIamRiL3p2R3d4Y1JMS3ZI?=
- =?utf-8?B?MTdmWWJnS21zaWI4a0J1Z1NlOXF3KzlvVkdnaDF5TW9WMGtYZWpPMUdvVk1U?=
- =?utf-8?B?U2k1RUJpM01pby9OWm1mZTE3SFpxZUVnV1RzK21hYUV5LzZqUm1HZTVoejRP?=
- =?utf-8?B?OSttMGdnWEFBZnZaaFJxOW5LZ3RaT2l5RGFEOG4vcWVKSCtPRG9QQ2tSbWJQ?=
- =?utf-8?B?NWZob3l2RmswUEJtamRzOHZrenZtMzdOUkx3ZkZnT011VksxK2ZDd2gxRHJn?=
- =?utf-8?B?MXR1QjNGU1hkUEZIeHczREw0QXNHMURQdW0vemJHTUNhTklzQlpic0JSUVlM?=
- =?utf-8?B?aUpmdFBYeVROM0RaY0tOdUkxZFVPZHl4Zkd3SFFCSEl3UFZQQUhZUWRQUTRP?=
- =?utf-8?B?WjdseU5ZQ3ozemNlc29PNVdXYkJDbURvT1hhSDlkV20vSENiUE8xeU1TdGZO?=
- =?utf-8?B?K3cwM0lSN1pabkw0a0k3ZmhoR0RwZ3pIbEJHbjVIQytUMEk3TDM0NzQzTlFv?=
- =?utf-8?B?OXFGWXNFNm1LUGRESjNXNXRZdVF3QVdEUkVtZ3k2ZzNETjUwS0tDWFJXWUdm?=
- =?utf-8?B?TUZxSzY1bERKd0V5eXZUUXVtQjNDTXRrZXZUOGJhaW10QmhFcWRSL05iOURT?=
- =?utf-8?B?WlJKc01MeWQ1ZXowUmxxZlEyZXF4Tk9zRDQyNFJWbk9rWjliQ1U2SkxtUHJn?=
- =?utf-8?B?TThHc3JaUkpHeENIL2VGdjlIcTFNQ09PeWhPMS9RZHJ2azlReksyV2hFVzUx?=
- =?utf-8?B?eWdEc3U2aDZScklEcEpmQ1NSb0kzbUQvOStXR1ZiOEZPTVRQaU5FV3orSkw2?=
- =?utf-8?B?VFVHR2FZSldVV1ZaaVcxMjBXUW1PYVZqSUJOZDFubmQvYVJiazBLdnRTRHBR?=
- =?utf-8?B?U0JwNHdYV21GbDNjTkExdStVOEtXVC94aUtYdUNVQVhWQ3orcG1oanRwdTls?=
- =?utf-8?B?cUtPSTNmUzNtV1paeEYyb0NlMzFmTS9PVTlaTE8zWEpxUk9DV2dTWDdKdWFY?=
- =?utf-8?B?R3ExWE9vWjNBbUU2VitOR25tZzQwbk5oaVlXZEZnME9ocHJZZjdXMnBZVzBl?=
- =?utf-8?Q?u/falRsNyIw8qfmdbO/duxzByrKxyqiyd8NQy?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: d56a9782-96e8-4b7c-ba01-08dec1c0908c
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 22:36:33.7012
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4zU/YXUf4uVrN2MIIN07dJIqX0B8QLyO11MNOjzvi4GbKch/Id/f178iWPWs5b6Jx1ptbl+FqruFKEUs8r3AdQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOBP265MB9268
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603011711.2077361-4-dakr@kernel.org>
 
-On Wed Jun 3, 2026 at 11:24 PM BST, Danilo Krummrich wrote:
-> On Wed Jun 3, 2026 at 1:51 PM CEST, Gary Guo wrote:
->>> +    /// Safe variant of [`Registration::new_with_lt()`] for registrati=
-on data that does not contain
->>> +    /// borrowed references.
->>> +    pub fn new<E>(
->>
->> This is currently unsound, as leaking the unbind guard also gives out
->> `&Device<Bound>` in addition to the registration data.
->
-> For this to be unsound someone would need to be able to move the
-> drm::Registration into a context where its Drop runs independently of the=
- driver
-> unbind, because otherwise leaking the UnbindGuard would also block driver=
- unbind
-> forever and the now unconstraint &Device<Bound> remains valid.
->
-> So, I assume you refer to the case where someone calls forget() on the
-> drm::Registration that was created without the promise not to do so, i.e.=
- new().
+On Wed, Jun 03, 2026 at 03:15:45AM +0200, Danilo Krummrich wrote:
+> Add a RegistrationData associated type to drm::Driver. This is a ForLt
+> type whose lifetime is tied to the parent bus device binding scope.
+> 
+> Registration<'a, T> takes ownership of the data via Pin<KBox<_>>,
+> storing it with its real lifetime. The pointer is written to drm::Device
+> before drm_dev_register() to ensure it is already in place when ioctls
+> arrive.
+> 
+> UnbindGuard::registration_data_with() provides access with the lifetime
+> shortened from 'static via ForLt::cast_ref_unchecked. Since
+> Registration::drop() calls drm_dev_unplug(), which performs an SRCU
+> barrier waiting for all drm_dev_enter() critical sections to complete,
+> the data is guaranteed to remain valid for the duration of any
+> UnbindGuard.
+> 
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  drivers/gpu/drm/nova/driver.rs |  16 +++--
+>  drivers/gpu/drm/tyr/driver.rs  |  16 +++--
+>  rust/kernel/drm/device.rs      |  49 +++++++++++++
+>  rust/kernel/drm/driver.rs      | 123 ++++++++++++++++++++++++---------
+>  rust/kernel/drm/mod.rs         |   1 +
+>  5 files changed, 162 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nova/driver.rs b/drivers/gpu/drm/nova/driver.rs
+> index c5b0313006bd..4267e6e6dbb4 100644
+> --- a/drivers/gpu/drm/nova/driver.rs
+> +++ b/drivers/gpu/drm/nova/driver.rs
+> @@ -12,7 +12,8 @@
+>          ioctl, //
+>      },
+>      prelude::*,
+> -    sync::aref::ARef, //
+> +    sync::aref::ARef,
+> +    types::ForLt, //
+>  };
+>  
+>  use crate::file::File;
+> @@ -20,9 +21,10 @@
+>  
+>  pub(crate) struct NovaDriver;
+>  
+> -pub(crate) struct Nova {
+> +pub(crate) struct Nova<'bound> {
+>      #[expect(unused)]
+>      drm: ARef<drm::Device<NovaDriver>>,
+> +    _reg: drm::Registration<'bound, NovaDriver>,
+>  }
+>  
+>  /// Convienence type alias for the DRM device type for this driver
+> @@ -56,7 +58,7 @@ pub(crate) struct NovaData {
+>  
+>  impl auxiliary::Driver for NovaDriver {
+>      type IdInfo = ();
+> -    type Data<'bound> = Nova;
+> +    type Data<'bound> = Nova<'bound>;
+>      const ID_TABLE: auxiliary::IdTable<Self::IdInfo> = &AUX_TABLE;
+>  
+>      fn probe<'bound>(
+> @@ -66,15 +68,19 @@ fn probe<'bound>(
+>          let data = try_pin_init!(NovaData { adev: adev.into() });
+>  
+>          let drm = drm::UnregisteredDevice::<Self>::new(adev, data)?;
+> -        let drm = drm::Registration::new_foreign_owned(drm, adev.as_ref(), 0)?;
+> +        let reg = drm::Registration::new(adev.as_ref(), drm, (), 0)?;
+>  
+> -        Ok(Nova { drm: drm.into() })
+> +        Ok(Nova {
+> +            drm: reg.device().into(),
+> +            _reg: reg,
+> +        })
+>      }
+>  }
+>  
+>  #[vtable]
+>  impl drm::Driver for NovaDriver {
+>      type Data = NovaData;
+> +    type RegistrationData = ForLt!(());
+>      type File = File;
+>      type Object<Ctx: drm::DeviceContext> = gem::Object<NovaObject, Ctx>;
+>      type ParentDevice<Ctx: DeviceContext> = auxiliary::Device<Ctx>;
+> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+> index 338c25ccc151..819f64a7573d 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -31,7 +31,8 @@
+>          aref::ARef,
+>          Mutex, //
+>      },
+> -    time, //
+> +    time,
+> +    types::ForLt, //
+>  };
+>  
+>  use crate::{
+> @@ -52,8 +53,9 @@
+>  pub(crate) struct TyrPlatformDriver;
+>  
+>  #[pin_data(PinnedDrop)]
+> -pub(crate) struct TyrPlatformDriverData {
+> +pub(crate) struct TyrPlatformDriverData<'bound> {
+>      _device: ARef<TyrDrmDevice>,
+> +    _reg: drm::Registration<'bound, TyrDrmDriver>,
+>  }
+>  
+>  #[pin_data]
+> @@ -98,7 +100,7 @@ fn issue_soft_reset(dev: &Device, iomem: &IoMem<'_>) -> Result {
+>  
+>  impl platform::Driver for TyrPlatformDriver {
+>      type IdInfo = ();
+> -    type Data<'bound> = TyrPlatformDriverData;
+> +    type Data<'bound> = TyrPlatformDriverData<'bound>;
+>      const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
+>  
+>      fn probe<'bound>(
+> @@ -150,10 +152,11 @@ fn probe<'bound>(
+>          });
+>  
+>          let tdev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, data)?;
+> -        let tdev = drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), 0)?;
+> +        let reg = drm::Registration::new(pdev.as_ref(), tdev, (), 0)?;
 
-Right, I was indeed thinking about this.
+Hi Danilo, could we use separate data arguments in UnregisteredDevice
+vs in the Registration? Basically we want to use the UnregisteredDevice
+to initialize and boot the firmware which we then store as registration
+data.
 
->
->> I think we should just remove the not pass `&Device<Bound>` to ioctl cal=
-lbacks.
->> Giving back registration data is sufficient; if a device driver needs
->> `&Device<Bound>` it can just store a reference in its registration data;=
- more
->> commonly I suspect it will just store whatever device resource is needed=
- and
->> doesn't need `&Device<Bound>` (with the introduction of lifetime, we hav=
-e much
->> fewer cases that we actually need `&Device<Bound>` and cannot be replace=
-d with a
->> direct reference to the device resource).
->>
->> Not passing this bound device allows us to make this safe, and also remo=
-ve the
->> need of patch 1 and patch 5.
->
-> I follow your reasoning, but not passing T::ParentDevice<Bound> in the io=
-ctl
-> makes Registration::new() rather pointless on its own; given that it take=
-s
-> T: 'static you can't store &'a T::ParentDevice<Bound> in the first place.
+Could you have a look at this patch, it applies on top of this series:
+https://lore.kernel.org/rust-for-linux/20260603-use_tyr_reg_data-v1-1-97f64e951cf6@collabora.com/
 
-I suppose you could create a DRM device without it backed by any real hardw=
-are
-resoruces :)
+Deborah
 
-Joke aside, I think my actual point is that with the current approach, and =
-the
-fact that `UnbindGuard` serializes with drop of `drm::Registration`,
-`&Device<Bound>` is not really inherent to the design anymore. This can fol=
-low
-the same pattern as other registration data and there's no need to bring
-`&Device<Bound>` into the mix.
-
-You might be right the `new` might not be very useful without storing devic=
-e
-resources; in that case I think you could just remove `new` and have the
-`new_with_lt` be the only API.
-
-Best,
-Gary
+>  
+>          let driver = TyrPlatformDriverData {
+> -            _device: tdev.into(),
+> +            _device: reg.device().into(),
+> +            _reg: reg,
+>          };
+>  
+>          // We need this to be dev_info!() because dev_dbg!() does not work at
+> @@ -164,7 +167,7 @@ fn probe<'bound>(
+>  }
+>  
+>  #[pinned_drop]
+> -impl PinnedDrop for TyrPlatformDriverData {
+> +impl PinnedDrop for TyrPlatformDriverData<'_> {
+>      fn drop(self: Pin<&mut Self>) {}
+>  }
+>  
+> @@ -181,6 +184,7 @@ fn drop(self: Pin<&mut Self>) {}
+>  #[vtable]
+>  impl drm::Driver for TyrDrmDriver {
+>      type Data = TyrDrmDeviceData;
+> +    type RegistrationData = ForLt!(());
+>      type File = TyrDrmFileData;
+>      type Object<R: drm::DeviceContext> = drm::gem::shmem::Object<BoData, R>;
+>      type ParentDevice<Ctx: DeviceContext> = platform::Device<Ctx>;
+> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+> index 828618ae19af..9e5e069b5135 100644
+> --- a/rust/kernel/drm/device.rs
+> +++ b/rust/kernel/drm/device.rs
+> @@ -23,6 +23,7 @@
+>          AlwaysRefCounted, //
+>      },
+>      types::{
+> +        ForLt,
+>          NotThreadSafe,
+>          Opaque, //
+>      },
+> @@ -35,6 +36,7 @@
+>  };
+>  use core::{
+>      alloc::Layout,
+> +    cell::UnsafeCell,
+>      marker::PhantomData,
+>      mem,
+>      ops::Deref,
+> @@ -259,6 +261,9 @@ pub fn new(
+>          // SAFETY: `drm_dev` is still private to this function.
+>          unsafe { (*drm_dev).driver = const { &Self::VTABLE } };
+>  
+> +        // SAFETY: `raw_drm` is valid; no concurrent access before registration.
+> +        unsafe { (*raw_drm.as_ptr()).registration_data = UnsafeCell::new(NonNull::dangling()) };
+> +
+>          // SAFETY: The reference count is one, and now we take ownership of that reference as a
+>          // `drm::Device`.
+>          // INVARIANT: We just created the device above, but have yet to call `drm_dev_register`.
+> @@ -290,6 +295,7 @@ pub fn new(
+>  pub struct Device<T: drm::Driver, C: DeviceContext = Registered> {
+>      dev: Opaque<bindings::drm_device>,
+>      data: T::Data,
+> +    pub(super) registration_data: UnsafeCell<NonNull<<T::RegistrationData as ForLt>::Of<'static>>>,
+>      _ctx: PhantomData<C>,
+>  }
+>  
+> @@ -298,6 +304,27 @@ pub(crate) fn as_raw(&self) -> *mut bindings::drm_device {
+>          self.dev.get()
+>      }
+>  
+> +    /// Returns a reference to the registration data with lifetime shortened from `'static`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// The caller must ensure that:
+> +    ///
+> +    /// - The parent bus device is bound (e.g. by holding an active `drm_dev_enter()` critical
+> +    ///   section via [`UnbindGuard`]).
+> +    /// - The returned reference is not exposed to code that can choose a concrete lifetime for
+> +    ///   it, as that would be unsound for types that are invariant over their lifetime parameter
+> +    ///   (e.g. it must be passed through an HRTB-bounded closure).
+> +    unsafe fn registration_data_unchecked(&self) -> &<T::RegistrationData as ForLt>::Of<'_> {
+> +        // SAFETY: Caller guarantees the parent bus device is bound, hence
+> +        // the pointer is valid.
+> +        let static_ref = unsafe { (*self.registration_data.get()).as_ref() };
+> +
+> +        // SAFETY: Caller guarantees the reference is only used behind an HRTB, making the
+> +        // round-trip from `'static` sound regardless of variance.
+> +        unsafe { T::RegistrationData::cast_ref_unchecked(static_ref) }
+> +    }
+> +
+>      /// # Safety
+>      ///
+>      /// `ptr` must be a valid pointer to a `struct device` embedded in `Self`.
+> @@ -412,6 +439,28 @@ pub struct UnbindGuard<'a, T: drm::Driver> {
+>      idx: i32,
+>  }
+>  
+> +impl<T: drm::Driver> UnbindGuard<'_, T> {
+> +    /// Access the parent device and registration data through a closure, with both lifetimes
+> +    /// tied to the closure scope.
+> +    ///
+> +    /// The data is owned by [`Registration`](drm::Registration) and is guaranteed to remain valid
+> +    /// for the duration of this guard, since [`Registration`](drm::Registration)'s `drop` calls
+> +    /// `drm_dev_unplug()` which waits for all `drm_dev_enter()` critical sections to complete.
+> +    pub fn registration_data_with<R, F>(&self, f: F) -> R
+> +    where
+> +        F: for<'a> FnOnce(
+> +            &'a T::ParentDevice<device::Bound>,
+> +            &'a <T::RegistrationData as ForLt>::Of<'a>,
+> +        ) -> R,
+> +    {
+> +        // SAFETY: We hold an active `drm_dev_enter()` critical section, so the parent bus
+> +        // device is guaranteed to be bound. The closure's HRTB `for<'a>` prevents the caller
+> +        // from smuggling in references with a concrete short lifetime, satisfying the lifetime
+> +        // requirement of `registration_data_unchecked`.
+> +        f(&**self, unsafe { self.dev.registration_data_unchecked() })
+> +    }
+> +}
+> +
+>  impl<T: drm::Driver> Deref for UnbindGuard<'_, T> {
+>      type Target = T::ParentDevice<device::Bound>;
+>  
+> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+> index f68a17d8939d..6aa1cb99cc7f 100644
+> --- a/rust/kernel/drm/driver.rs
+> +++ b/rust/kernel/drm/driver.rs
+> @@ -7,11 +7,11 @@
+>  use crate::{
+>      bindings,
+>      device,
+> -    devres,
+>      drm,
+>      error::to_result,
+>      prelude::*,
+> -    sync::aref::ARef, //
+> +    sync::aref::ARef,
+> +    types::ForLt, //
+>  };
+>  use core::{
+>      mem,
+> @@ -110,6 +110,16 @@ pub trait Driver {
+>      /// Context data associated with the DRM driver
+>      type Data: Sync + Send;
+>  
+> +    /// Data owned by the [`Registration`] and accessible through [`drm::device::UnbindGuard`].
+> +    ///
+> +    /// This is a [`ForLt`](trait@ForLt) type whose lifetime is tied to the parent bus
+> +    /// device binding scope.
+> +    /// The data is only accessible while the parent bus device is bound (i.e. within a
+> +    /// `drm_dev_enter/exit` critical section), and references handed out by
+> +    /// [`UnbindGuard::registration_data_with()`](drm::device::UnbindGuard::registration_data_with)
+> +    /// ties the lifetime to the closure scope.
+> +    type RegistrationData: ForLt;
+> +
+>      /// The type used to manage memory for this driver.
+>      type Object<Ctx: drm::DeviceContext>: AllocImpl;
+>  
+> @@ -139,12 +149,57 @@ pub trait Driver {
+>  /// The registration type of a `drm::Device`.
+>  ///
+>  /// Once the `Registration` structure is dropped, the device is unregistered.
+> -pub struct Registration<T: Driver>(ARef<drm::Device<T>>);
+> +pub struct Registration<'a, T: Driver> {
+> +    drm: ARef<drm::Device<T>>,
+> +    _reg_data: Pin<KBox<<T::RegistrationData as ForLt>::Of<'a>>>,
+> +}
+> +
+> +impl<'a, T: Driver> Registration<'a, T>
+> +where
+> +    for<'b> <T::RegistrationData as ForLt>::Of<'b>: Send,
+> +{
+> +    /// Register a new [`UnregisteredDevice`](drm::UnregisteredDevice) with userspace.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// The caller must not `mem::forget()` the returned [`Registration`] or otherwise prevent its
+> +    /// [`Drop`] implementation from running, since the registration data may contain borrowed
+> +    /// references that become invalid after `'a` ends.
+> +    ///
+> +    /// If the registration data is `'static`, use the safe [`Registration::new()`] instead.
+> +    pub unsafe fn new_with_lt<E>(
+> +        dev: &'a device::Device<device::Bound>,
+> +        drm: drm::UnregisteredDevice<T>,
+> +        reg_data: impl PinInit<<T::RegistrationData as ForLt>::Of<'a>, E>,
+> +        flags: usize,
+> +    ) -> Result<Self>
+> +    where
+> +        Error: From<E>,
+> +    {
+> +        if drm.as_ref().as_raw() != dev.as_raw() {
+> +            return Err(EINVAL);
+> +        }
+>  
+> -impl<T: Driver> Registration<T> {
+> -    fn new(drm: drm::UnregisteredDevice<T>, flags: usize) -> Result<Self> {
+> -        // SAFETY: `drm.as_raw()` is valid by the invariants of `drm::Device`.
+> -        to_result(unsafe { bindings::drm_dev_register(drm.as_raw(), flags) })?;
+> +        let reg_data: Pin<KBox<<T::RegistrationData as ForLt>::Of<'a>>> =
+> +            KBox::pin_init(reg_data, GFP_KERNEL)?;
+> +
+> +        // Store the registration data pointer in the device before registration, so that it is
+> +        // visible once ioctls can be called.
+> +        //
+> +        // SAFETY: Lifetimes do not affect layout, so the pointer cast is sound.
+> +        let ptr: NonNull<<T::RegistrationData as ForLt>::Of<'static>> =
+> +            unsafe { mem::transmute(NonNull::from(Pin::get_ref(reg_data.as_ref()))) };
+> +
+> +        // SAFETY: No concurrent access; the device is not yet registered.
+> +        unsafe { *drm.registration_data.get() = ptr };
+> +
+> +        // SAFETY: `drm` is a valid, initialized but not yet registered DRM device.
+> +        let ret = unsafe { bindings::drm_dev_register(drm.as_raw(), flags) };
+> +        if let Err(e) = to_result(ret) {
+> +            // SAFETY: No concurrent access; registration failed.
+> +            unsafe { *drm.registration_data.get() = NonNull::dangling() };
+> +            return Err(e);
+> +        }
+>  
+>          // SAFETY: We just called `drm_dev_register` above
+>          let new = NonNull::from(unsafe { drm.assume_ctx() });
+> @@ -156,48 +211,49 @@ fn new(drm: drm::UnregisteredDevice<T>, flags: usize) -> Result<Self> {
+>          // one reference to the device - which we take ownership over here.
+>          let new = unsafe { ARef::from_raw(new) };
+>  
+> -        Ok(Self(new))
+> +        Ok(Self {
+> +            drm: new,
+> +            _reg_data: reg_data,
+> +        })
+>      }
+>  
+> -    /// Registers a new [`UnregisteredDevice`](drm::UnregisteredDevice) with userspace.
+> -    ///
+> -    /// Ownership of the [`Registration`] object is passed to [`devres::register`].
+> -    pub fn new_foreign_owned<'a>(
+> -        drm: drm::UnregisteredDevice<T>,
+> +    /// Safe variant of [`Registration::new_with_lt()`] for registration data that does not contain
+> +    /// borrowed references.
+> +    pub fn new<E>(
+>          dev: &'a device::Device<device::Bound>,
+> +        drm: drm::UnregisteredDevice<T>,
+> +        reg_data: impl PinInit<<T::RegistrationData as ForLt>::Of<'a>, E>,
+>          flags: usize,
+> -    ) -> Result<&'a drm::Device<T>>
+> +    ) -> Result<Self>
+>      where
+> -        T: 'static,
+> +        <T::RegistrationData as ForLt>::Of<'a>: 'static,
+> +        Error: From<E>,
+>      {
+> -        if drm.as_ref().as_raw() != dev.as_raw() {
+> -            return Err(EINVAL);
+> -        }
+> -
+> -        let reg = Registration::<T>::new(drm, flags)?;
+> -        let drm = NonNull::from(reg.device());
+> -
+> -        devres::register(dev, reg, GFP_KERNEL)?;
+> -
+> -        // SAFETY: Since `reg` was passed to devres::register(), the device now owns the lifetime
+> -        // of the DRM registration - ensuring that this references lives for at least as long as 'a.
+> -        Ok(unsafe { drm.as_ref() })
+> +        // SAFETY: `Of<'a>: 'static` guarantees the data contains no borrowed references,
+> +        // so forgetting the `Registration` cannot cause use-after-free.
+> +        unsafe { Self::new_with_lt(dev, drm, reg_data, flags) }
+>      }
+>  
+>      /// Returns a reference to the `Device` instance for this registration.
+>      pub fn device(&self) -> &drm::Device<T> {
+> -        &self.0
+> +        &self.drm
+>      }
+>  }
+>  
+>  // SAFETY: `Registration` doesn't offer any methods or access to fields when shared between
+>  // threads, hence it's safe to share it.
+> -unsafe impl<T: Driver> Sync for Registration<T> {}
+> +unsafe impl<T: Driver> Sync for Registration<'_, T> where
+> +    for<'a> <T::RegistrationData as ForLt>::Of<'a>: Send
+> +{
+> +}
+>  
+>  // SAFETY: Registration with and unregistration from the DRM subsystem can happen from any thread.
+> -unsafe impl<T: Driver> Send for Registration<T> {}
+> +unsafe impl<T: Driver> Send for Registration<'_, T> where
+> +    for<'a> <T::RegistrationData as ForLt>::Of<'a>: Send
+> +{
+> +}
+>  
+> -impl<T: Driver> Drop for Registration<T> {
+> +impl<T: Driver> Drop for Registration<'_, T> {
+>      fn drop(&mut self) {
+>          // Use `drm_dev_unplug` rather than `drm_dev_unregister` to ensure that existing
+>          // `drm_dev_enter()` critical sections complete before unregistration proceeds. This
+> @@ -207,6 +263,9 @@ fn drop(&mut self) {
+>          //
+>          // SAFETY: Safe by the invariant of `ARef<drm::Device<T>>`. The existence of this
+>          // `Registration` also guarantees that this `drm::Device` is actually registered.
+> -        unsafe { bindings::drm_dev_unplug(self.0.as_raw()) };
+> +        unsafe { bindings::drm_dev_unplug(self.drm.as_raw()) };
+> +        // After drm_dev_unplug(), the SRCU barrier guarantees that all UnbindGuard critical
+> +        // sections have completed, so no one holds a reference to reg_data anymore.
+> +        // reg_data is dropped here automatically.
+>      }
+>  }
+> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+> index a66e7166f66b..59870bb09de2 100644
+> --- a/rust/kernel/drm/mod.rs
+> +++ b/rust/kernel/drm/mod.rs
+> @@ -12,6 +12,7 @@
+>  pub use self::device::Device;
+>  pub use self::device::DeviceContext;
+>  pub use self::device::Registered;
+> +pub use self::device::UnbindGuard;
+>  pub use self::device::Uninit;
+>  pub use self::device::UnregisteredDevice;
+>  pub use self::driver::Driver;
+> -- 
+> 2.54.0
+> 
