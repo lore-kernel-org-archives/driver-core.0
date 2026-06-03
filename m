@@ -1,68 +1,70 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022098.outbound.protection.outlook.com [52.101.101.98])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021100.outbound.protection.outlook.com [52.101.100.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589122376FD;
-	Wed,  3 Jun 2026 11:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B480A47279F;
+	Wed,  3 Jun 2026 11:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.100
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780487504; cv=fail; b=nFkT61IAgUUbnnbtdf16lN/O0yvA6hxmVq/b6G142PZkNhChT6pO4dv6er0CjzitBOn465jdMKt1TNluAhlaCW+oxCG4TM1DorL6TITYWTbjA+MseB7l2E9aWek4X2uooQ3HJ5JJPCuSSTXRYSy1N8Z2rRFTC3p8rOlYVJ4icSk=
+	t=1780487960; cv=fail; b=X5Te1hCEP425LFsSgylnFZ6d+DALM0G8emZvzHvrDWWCBZH8QAazZ6ihCIEnjkksPq3K+IlMOmY6y8oUlWp4DsTrbJiNZ6UsAsPXBSmUNcDyOmqX8ffydekIN0rn2ijTYRThUsHB380Pnn8EsKNpoYh/zvaxa6KA2aV17GM6DSI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780487504; c=relaxed/simple;
-	bh=WKeNssXwhmNCI9K0V00EQtteB/TkGZMBauKrNTTHcjc=;
+	s=arc-20240116; t=1780487960; c=relaxed/simple;
+	bh=9qsT6JxDc+a8BVzL6aVEKRNLGH21HbVIexHg895+GeM=;
 	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=sGZiBZORz2gW4127mQk8M0GtfFd0DdDxlEbF4X9uRs0b3NZ7zz4bYbm0h7OSSKMhXH1FASd6e7wDMsmpGgQm8eYeSUhpm/mj8j1/Y4V8jvB/ZusxPioux3vwzCQsSXgguRv51zl48wTOgK+DAKUCng2yDeqlEzyMMH768/ugPYM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=okj+j4eM; arc=fail smtp.client-ip=52.101.101.98
+	 In-Reply-To:MIME-Version; b=hmU5LJ7aa74K8PzRXDFHYRGMtcULPbKdUHtuG9Fmpnp3ihqdSsbgL3q2llW40xRAdDh2n5APDPldoYKEPubeGTM7ixS0AQHuKx+CphjaLGZy7RFYoSgrSOEGkdR2wlLY5sDWtqgHSoJNlZ4IYRYJp4qu2vccp2O+td9qqaTwizI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=tYybUmeo; arc=fail smtp.client-ip=52.101.100.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="okj+j4eM"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="tYybUmeo"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wwwIFGeOGzfuOZKHkVy5qBWXxeBLsT9S7Ny9aS5RxggoI9CGk9LwsNAOxrarEc+yDzrfUvgDnfI6/bUHucMd3dVwBraiiP/RvuPTLM4+DNsKledXLOC/NCiMnxWCE1ofgylJ6MLZHwMMHT56QRhv5NFBlqX6r6OR/x1a3EaYu13PAderxwJn3FFGxsbYVFlOHZZ3OWQwvaQubf5Yh0UAl89AG/gsYqdb8BlU68rOgugSc+yjua8HLo5Vw9XVTzFbJRGBHfFU2iJ0XCxtvUTIfw8xLYy/AOSfQXnWO4zIirNXr5pdccVwUXWG29/Q1p1pZPiqxIozm9nkCAsBXu+jaA==
+ b=UTlornADj/B4sZ4O8VXwaVhNSzGhmuwJh4OeTALMNL9Ft3ZUufVUU8kgQQMneHiJASpByzChk25mdH3BEn29xTc2O4paaTlKWllZQJ48mmJxLcgR+l6uKme440iYBoOS0EyS4/dY+LbeI2H6uPiwUM7ZjWdDG7h7jFwNKAGjCG2m1W1iQFJ/wtoyq/xYwvZSg7pZS5f6dApcjrRz4FH66z18FgXEiLUBOKGxJc0tVu8yVOc+vBsFe2zOvmiaOg1h9qoHKlsC6KmAgQp5dPStfeJloJEdWQcsAMLZN5mCXOLL9dYSuarCPkeTunWD1CDcR53uyncAJsIXvrcUDZZ+wA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dZHCBzR2Fsg7W3Iwmi0mO9srUONCWib1DDUX4XXplyI=;
- b=Cy4hnlaok9v6M9Y10cTPqFnGlcoNnY3+emv+Z46x2Od8uUSrmsl9G0mz9YpBePszksjw9VpLRNUJOYq1fNKp1nfhhLztMfVwnGHsE2UY4dGFOq6d5dpWPJOgcqH4W5Ewa7sN072W8vig2SgoTDIpFL6Wyf2qWI8Jh6qj4KMGQjwylAfal1kRgoo3uabN3rZ1bKtOXsHH5PxDmSObNy927DkpgOjuzKmbkTcd2ZG+0B3gsqY7i+RctlU10VbLVdsZtCO0iycjgBj2ZgSDfhqrdOF5nBapn5YRPrkWFHuE87ClyE/YxxqRtEWU8FcREOJE/8yzLWQlrQU0NC3uP14Y/w==
+ bh=RXyS9w8lBT6t5YDLirSKdxBYSkdaflIZh4/tW0mcOdQ=;
+ b=BBKqM7Y2TgsFBB1oBcCZMkqA7gz7r6GPDz+Z02zRCRMVbzMzcgZTiXsUXIjIuDvgKE54ZreXW7B24K9uSTlrLPOf3lvc5buQ3zqmlJvqeNVh8NMGzefowUkMak0pey/JnFa9qdyt4DRcbuQVlaZ4dgfqwiIpukxwWlvFDvqyvTj1ETwmWnosz1hzGhCYFva5XNa5f2x9THzqZpGYd/3fYCTJ3ZlCXmm8mKsMhdCdkIA0V6g3cEA0k32n+/srwYxDfc+4iTrrqo0GqnbTdFs7eKR9d0MwD5dakpoKehMnYMp16Lq0r6OmVV59eZqYDrOZ46HJiHHXxOYNbXv+jLdu5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dZHCBzR2Fsg7W3Iwmi0mO9srUONCWib1DDUX4XXplyI=;
- b=okj+j4eMKaXjqqvOPUrnx/yr9qkU6QNwBHLzwq3Ll3+/+0cawg5dapAxONGUfjJjk5MmrkkTUK1tZxdV9FOwL8mv3EP06HiYYMeY6r92KeeO79twxzyymmadhvU1IfeF4vcGHk/ozK94uFjzPwyhyPp8WvxIpHHMb/uyC3kvTx8=
+ bh=RXyS9w8lBT6t5YDLirSKdxBYSkdaflIZh4/tW0mcOdQ=;
+ b=tYybUmeo7YzdR6rxRBZrfaMiQUbF2ZMNozu3s1A48UpAQNIVRPMTwhBNShSL/NX/m+vgVYcERiAyP4h7T2prXWoCwCzIoqO9fU5Hl1tu8jW5B7z8ULfL83r4XeUHGmceYvMaITjfpLPrVnYNFLosTBldkCvMY6jWY+UZvBNwMOE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB8832.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:27c::24) with
+ by LO8P265MB7703.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3aa::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 11:51:38 +0000
+ 11:59:13 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 11:51:38 +0000
+ 11:59:13 +0000
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 03 Jun 2026 12:51:37 +0100
-Message-Id: <DIZE54GCJ9MS.DW75EP5OM604@garyguo.net>
+Date: Wed, 03 Jun 2026 12:59:13 +0100
+Message-Id: <DIZEAXX05BMZ.Z6FPWIH8XP92@garyguo.net>
 Cc: <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
  <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2 3/7] rust: drm: Add RegistrationData to drm::Driver
+ <linux-pwm@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v2 1/7] rust: types: rename ForLt to CovariantForLt
 From: "Gary Guo" <gary@garyguo.net>
-To: "Danilo Krummrich" <dakr@kernel.org>, <aliceryhl@google.com>,
- <daniel.almeida@collabora.com>, <acourbot@nvidia.com>,
- <ecourtney@nvidia.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
+To: "Danilo Krummrich" <dakr@kernel.org>, <gregkh@linuxfoundation.org>,
+ <rafael@kernel.org>, <ojeda@kernel.org>, <boqun@kernel.org>,
  <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
- <a.hindborg@kernel.org>, <tmgross@umich.edu>,
- <deborah.brouwer@collabora.com>, <boris.brezillon@collabora.com>
+ <a.hindborg@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
+ <acourbot@nvidia.com>, <ecourtney@nvidia.com>, <m.wilczynski@samsung.com>,
+ <david.m.ertman@intel.com>, <ira.weiny@intel.com>, <leon@kernel.org>,
+ <daniel.almeida@collabora.com>, <bhelgaas@google.com>,
+ <kwilczynski@kernel.org>
 X-Mailer: aerc 0.21.0
-References: <20260603011711.2077361-1-dakr@kernel.org>
- <20260603011711.2077361-4-dakr@kernel.org>
-In-Reply-To: <20260603011711.2077361-4-dakr@kernel.org>
-X-ClientProxiedBy: LO4P265CA0128.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c6::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+References: <20260603011020.2073650-1-dakr@kernel.org>
+ <20260603011020.2073650-2-dakr@kernel.org>
+In-Reply-To: <20260603011020.2073650-2-dakr@kernel.org>
+X-ClientProxiedBy: LO4P123CA0106.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:191::21) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -71,604 +73,369 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB8832:EE_
-X-MS-Office365-Filtering-Correlation-Id: 304450a7-71e8-44ce-d440-08dec1667813
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO8P265MB7703:EE_
+X-MS-Office365-Filtering-Correlation-Id: b76667f5-0de6-4c0a-5611-08dec16787d9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|10070799003|921020|6133799003|56012099006|4143699003|22082099003|18002099003;
+	BCL:0;ARA:13230040|10070799003|7416014|376014|366016|1800799024|921020|6133799003|22082099003|4143699003|5023799004|18002099003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	jzEgs25qjBkfq3iNLtOzOx53QBYJRyPluGN4ISNkTls45pW08Pm47c0OUqXU7cfx9ATjTctc+TWwxwK/74RWbbxFjgD9ugp8LULG9Lb19VLeSfCRW2021atRIVS0sODrKHU9hMMY42NTaqnLfmfAI3LAH4TgGc3IyTGScpnOxuk6sWVYeaiGr1OqXAoiawEZ4J9OtK/zaB70ByiNIYH+hz5ebjEYv+x0b3sRSgj9PpZD3J+j1KQ7tAwuMYRlNBKVypKg2zEuz80oMD++Vf4uA7J/pFh4jQxTeMLbB5uMF0uTxJrnZ77YpUpjBgp0jjRvniZgSZfyzqL7SfOYNgtHkngaWUT5SUPi38ugtm2py/3eo0duRJ1qJ7HA4eYWUyaqDjEaGuJ1FH+BzFBr2DtqWrZgUdauSxVRVaaCQfDlZC6hEhZnhzkQEzAkhFqI+xGF2LCywLY0Ike/8seBflM768QLsl2gXNwStF1f6YDw4puLSQW0ogH9nOGFVK/+ac2zt8QLHYhTq6vLWueS81DFSrsyeu2ddzRrSFpKxZh/RJFvi+0muRUoh4Vy2PjQgl4Y4hpgIXWOyuIbHTFAhiucxWD+ZwEF0oV4iT4jqEhHP6z8Zumnh9Y76QOrWpjhtXI81TDWYmChgzap44qevRLs4At1NiTI0hZdBy9ru3ke/ummDaOIeByiVeFr0GnxT+fLWhin0ke720h+h3DDloF1E5yb9WwUT8J2tWhgWFilc0w=
+	OV+OElU/+mxYNEbAwvf8Ihao12vNf3hLDU33OkUmTK5CkE3Qbexgp5LztTf4IusqJ4FQr9kGmLbKXQpT2a0yRpPYAO4EeBABvpJhvGHelS5z1A3kW85FfEc8wM4d5kwdeqaSmbMWR1ejTNeRyOZzgCldtLCa/Tg6xtAMTQpA0m/gVI+pNVpO7cpH8o3/4EmV1NaBLUHSzeEkyrSGS+Kjg7tn+6KNgfTc+BCXHHFmwuffkoNvsimd8Dm6TDR/+HgeYVbJLkpEG43laAvdv9GwDmmlXP2uxlclrYb/y7s11AwypM3ZI0eS1jruXfzGynn/ddj+0Jczz77rLhrxOZxX9D1ru0JjyU6xAjZwkOIn2PmQti31u/KZUGamfql0JzFT/Eb936qx06mn55A1Km+tr5gtPRdI3ESVs9ewSSnYpPGs6Zjw5xpqJKFMR6mRzuWQ+LBJ5rx9bRCVEQVeegadFQF0aDFei2sL5ohEQWUuyJcUQ1X6RmHowQsrnOLlYTv7VUFW+RABNeB+QkpZSW5JHAo6RvhiciDrVc29v/fCjcL9X/tzOtDmPXQZhuN4Pg1vQuDksUmcDp+AN8cL4MiVrfv2XUsjwiznSTm5S5oIMaTrxllTm/H3qzBDrkiI+3cF050v9dj++XO3hvtYJwoWeHos139a+/bpnHqUsB7Ao+mVlUPydRTUIvc6EKNHJ+6Y03E6H86xEdeT72ljley5yDVoTJCWUUdrbvuJ3kLCi44=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003)(921020)(6133799003)(56012099006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(366016)(1800799024)(921020)(6133799003)(22082099003)(4143699003)(5023799004)(18002099003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UFhBQksyb0Znb3FxTTQvcmxLUCtycnpPeXYxMmlCZ3Vlb1ZvdmxmeXBhTHFt?=
- =?utf-8?B?VW4vN210TXVmNjlWc1AvQkJXV1c1NHk4Tlk1U2ttLzBrenhoM0xXMXVhNGo4?=
- =?utf-8?B?R0QySHJKTUFJQy9KVjU4eWpoWm1GVGVxRlVic1ZLM2FsUEExM0wwa3N3TVNT?=
- =?utf-8?B?S3dnODRFZVR1Y2kzN3NweXBvNmlhQWltZVRxaWhWWFBSKzFJeEluVnMrWDBX?=
- =?utf-8?B?RVp5WXpFZ2h1YWZ2dVNxNzl4ZXZiUFp2Q3lvS2pqMkl5ME9hYlNuaENpVWpr?=
- =?utf-8?B?N25Ld0RQQm8wazFDTVN3TVJUdTRQbHZIeitLSjFMeE1rZmFhY29pWHFuRmRG?=
- =?utf-8?B?Y0pZZHRYQXlKVG5NU2NEWlE1Q051eUoraVpFZC8vcTNmY1lBYjM0YzU2KzdS?=
- =?utf-8?B?UlRjUkRQYUFoKzFRR0xYcGVobGRkbGRKMkpsNS9GNGVVNVJWdDZNYjc2OVpE?=
- =?utf-8?B?Yy9BcStrWWVWVm5CZHN0SnZOeGp0WlRGM0FRaElENmI4TEthcWxPTEZwamZZ?=
- =?utf-8?B?SG9oc252VC91QTlEMXM5S1hHbHZPMWFxS2ZYRHIwMFk4N29lVyszUG43S3ph?=
- =?utf-8?B?MjI0TVl6a1NjcFByd3AwWFlBaDNhN2VnMFpHRU5UV1hZNEQreGRmZnVNeEEr?=
- =?utf-8?B?VzY4WFRuc1BwYkcxQTBVWjNBNUVLdHJTR3hRSzlnYXNPbXdSNnNPYUNSWDNq?=
- =?utf-8?B?ekxEdXJVbmhpUFRGZXNxditIdjVvRjV6WFIyelUxRlUrNFpDb2RkL3Q2Y1lK?=
- =?utf-8?B?UmdIZFEwZlVXaEZJVUZ5TXNkRTQrdXdPZDM3ZGZzQUN4U2VWZjJxQXFXWXRD?=
- =?utf-8?B?OEgvL1VEMFp4ZFRlbzBKOUFwUkNkamV4Q0xUQkZwVk5zTWFBeXZKSHp5d3FB?=
- =?utf-8?B?U0llNTQ1WFp6K1ZlK21EbTY1WGxoeVRxZStkNVdEZ25jdDJOY3dlMUNodWZt?=
- =?utf-8?B?ZmxvbUVvRjc3a29uMUtVREZOMDhNUXdrOENxYTdHN1QxTzQ5aU02cEM3RUhl?=
- =?utf-8?B?WW85RWJXRVRwc0VEMkE1S2xnV3VvUlNyS05jZlhVMm5tRDhmOVQycXgxbFlK?=
- =?utf-8?B?eWZzZmtKV1oyZTI3cG5HWXdOcnlpSmlqNHBxcEpyMkxMSFFoVU1HVHZkZUJr?=
- =?utf-8?B?VW9VZEdsVXVERVpyNzFiS0JHd08yWkI2Z0VIVkRBei9iQWhxWXA3clE4Zkph?=
- =?utf-8?B?VXFROG8vNHpTWnNLaWFLclR6cnkyaU5XWHhsdS9yVXFucyswS3k4VG52VnF2?=
- =?utf-8?B?U3h5L2dWenM0Rzc5YmJZS2k4eXVHWWczdDNoc3llbHJQNkU0dStEYTBTVjl0?=
- =?utf-8?B?SXBXTXJ5VmJGVnkrV0drbG1qR0ZtK3BXWVpWTEhvZ3dKWVl3VnB3cWd1eHls?=
- =?utf-8?B?UWxzMWN4aXc0MitiYU5hWkFwNDZHQncyUlFybHhESmVZSDd6Wjd2NVNxeFZs?=
- =?utf-8?B?aERpU3gxNW9pcGIwQ1NiV0dCSStkcUQ0c01MajdvaEhTUmJTL0hRV0h0amRE?=
- =?utf-8?B?azgxellRMmRNUzN3SXBDdlRERGQ5U2VPV2d0ZGorNmF0ZEZESWtLYkQ4bEFB?=
- =?utf-8?B?c2hwS3FQZGI5Y1Fub3NPN25hMU1KMitpaHFobFhGdEZjTFczeFlScVJBQkhk?=
- =?utf-8?B?K3hIcllSMG8zWHAxeDZ2K2liMGk5Rm1vVWxNMERTeHc0M2E5cGRHaVk5b3g4?=
- =?utf-8?B?cEd1QmxpdnpKMytwZkV0VjRqQ2I4Kzl5NWRCSXJSdUJqMGhzU2JkUENyRUNL?=
- =?utf-8?B?RUVoODVBc3BpYmo0YVpMc2ZTZC9LY2taeWtLYnpkRkl4QTdnQjhnd2lEOFNq?=
- =?utf-8?B?MTlwMWlocDZ1WGtleks3Sjc3TkNMbzBOOC9ua0VNQjFmTmpaR0Y4NmJzMDhT?=
- =?utf-8?B?UmVDYi94Qy9uSXZndjVRR04wM3lEc3FvVkk1dTk3NFBsQkRWckZYZUVJbmV2?=
- =?utf-8?B?WTUrZUJ0RVl6c1FnQVlIUkZTMWU0MmtyaTFOYnBJS09jTTY4OTVTdlBxZkNM?=
- =?utf-8?B?S0xWUkZzQ0FLdVIyQ01QWWlTZkEvNTg4czJKeXY2SHM0Wmk2Rml2R09ja1l1?=
- =?utf-8?B?L3RhaDhOVUovNVNydW04cnRsMkliSzhza2hXYWk1Zm5rU29OR01YQmRYck9S?=
- =?utf-8?B?ekJrUVMvWEkwWkdUZXdQQXFuSURkdHVKRm95WXhneFlRTkorZWoyZ2tMcFVp?=
- =?utf-8?B?Y2Z6VTFjU1kwOFBkWFBSdVk2aGFFd1BCei9kNnZ3TlA4M2Jxbll2WkpMdmo5?=
- =?utf-8?B?YU8zZkVMWURyeU1obGFUYzFHSnMrdDBQQXZGaDJvUERIY2tRMnYxQTFmSFhB?=
- =?utf-8?B?bzA2UVZvclY3UHM2UUxHMnFsOXFmSWpheWxNZUlaUWczbG9wZDBndz09?=
+	=?utf-8?B?YVJSb1BlMmRoN1F0L2M4dmx0SVBXYXp2dUJ1RE0zR0tackxZb3lWeXlTVzBn?=
+ =?utf-8?B?d1UrdittdFBDVnEwWGg3U2xiQUVxSlBJdzBkdFBnRjRsaXRtMlNWVXdEVEZW?=
+ =?utf-8?B?Wjd4MnBxYS9KcWNYeExsMmxPbDJlWjZxb3dScFdTQTFOLzYzNFdxdGtzZmF2?=
+ =?utf-8?B?N1Z4emUyTlhzaCtPMHdieTFUK09saTNpZUgwRlhKenZqdzhvOEtMVVlua0xz?=
+ =?utf-8?B?RlZiTW1qdURuWWJkMVkrRUgyR1BmaloyUUFrRDNzMGllZmhVb1UrRnFVWHZ4?=
+ =?utf-8?B?ZjViVCtlYVlId2kvcE50TXlVQTIzUS8vVTViTFhnNEtacWNxd3Q1dURpZDg2?=
+ =?utf-8?B?amZ6SE9kbUI0cHRJQmFOQlZ4MmNRSGVIUGFSU3lUeGFLcHJpbFF6cnl2SVNW?=
+ =?utf-8?B?bkNoNmZXYmh4RW5NV2o2ZmV5SGVEWjY0dW5jYlpkMVdZdUhBTmZBM3V0ZFpV?=
+ =?utf-8?B?ME9vbmtOem0wditUa2lLWFFtZ1Y0d1htNVVyQjJndzA5VGxHM2hESVpJOWpB?=
+ =?utf-8?B?ZnFyTUUwT0pGSE1NWStDaXpNdXc1K0cxNXM4VjBOMVVEeFhSMWUvV1QzRXlM?=
+ =?utf-8?B?bDFaNC8rdzhzNnlSaHNQT1JzbmVOUUlkaWJ6UjVtOGNhZkszbUxKQ2tBazJq?=
+ =?utf-8?B?VXNlVGZGYWs0bjhBTFVRQmtBM0NhRklnd2Q0YUxIdmx1RFA4d0REUW4xbGl6?=
+ =?utf-8?B?ZkVsSlVKNDRwYkVRTnQzU3NEcDhrRXlDL2pZUERYakVSZS9iOVVHQkd6UkI2?=
+ =?utf-8?B?dFZ2OFZvMHRHZkhrMWg0VEttZzJIcUJNR0UwdWxxbnl5OXkxbFVQeXNzdXlk?=
+ =?utf-8?B?WWVSb0FIK0QwS2IyaGhNdWxndzR1TmZzSG1ZS1ErMHkxQmVrTmFnd2tDN3hm?=
+ =?utf-8?B?ZGVoRWhTaEhUYlR4aHc1alQvMjRMU3VYTHBHLzJ6blFxWGVsTFMxZ2ZVb2tC?=
+ =?utf-8?B?VUhONVVXM2RmdDFQOXRvcG1NaXJpendzZVFKRmJGS2RLYWhsT2ZkT0V5WEZR?=
+ =?utf-8?B?Tzg4QjlxNXZ5NGI3SGVzWjd1OW5hWTV1eTdSTjJtR051d2xTUTZGVG9UMHRK?=
+ =?utf-8?B?bFJWR2hXeTltREU4UllBejZlcFVRWUZQQUFDNzVNQlJhNHlsSitoRlVtR3N6?=
+ =?utf-8?B?M0pDS2N1TWp6WFQzMWxMaXBnYW1GUXE0QWdLQlVHbkF1VEZsZzBUNXV1RlBi?=
+ =?utf-8?B?WVdKbUZEK0JnNHNLV2tTclJwTWczbXQza2dOMGlxTE16a2NSemozSFEwVjkv?=
+ =?utf-8?B?RHU0UUw2OFM1NVhGZEhSbWk2a3F2S1RHbjdxZStrQkhkOFNqdnVUcnREUHU4?=
+ =?utf-8?B?bnhYTmU5T1dCZXc5WkxVWGFRSVIxWllaMGEyYndJbXl0VGk2Mzk3RENPemc3?=
+ =?utf-8?B?bTVqc0ltaDIyL1NhVHdjcmNqNWxiNGdwTmFzK1FCcDVKb0NkVHA3NjhXakRV?=
+ =?utf-8?B?Sm9taUJ2STAxY2h5OUY2ZzlmVmg2TGlOZzdSN1pYVFhaNWpBRFFzNlNtUERW?=
+ =?utf-8?B?eVRVaFp3QndXNy8yNm83a05Fajl6dytjcTM4N1dUV0Z0SVMzMTBwOXpqaGRo?=
+ =?utf-8?B?WmpkcVhML1BDTnZ4U2dkZ3BkcFdqbnl1UW9ZK2dGSG1FeFUxUXJYbSsxeDhK?=
+ =?utf-8?B?Q3preUR5SkVHd2Z5cm9PbVkxUzBSK3lFSE9nVVJLOWFYZVhKaVN3clJySGYw?=
+ =?utf-8?B?MUdDaEs0U052RE5uNmNSL25Qcm9sVEhINmRZL0loVkhPTnpyS1J3alg4VFJM?=
+ =?utf-8?B?ckMvOUYxM2FXRGRFN0xzenY0VVFUSWl0ZlZkUHFVM2NZYmZXZExEdU9pb3FL?=
+ =?utf-8?B?Z0tBVWhGdTV4VWlsOERuY0lVRUxqQ2UvSVFoOFpiSmRYMExFblQ0aTY1SDN2?=
+ =?utf-8?B?dkFTSnVHaFp0RkNwMGFGYU5kSloxYitCdk5GemRDN0RrRS83eGM0NEhQY2lF?=
+ =?utf-8?B?SGUrQnJwN0hSUUhIRENGaWwydmxFSnVMQk1QemVtZ2ZRVnBIU3hvZGVVL3RE?=
+ =?utf-8?B?cExFSmRPeUxuK2RhTWxOTnpSenhreDFuOEt4MWZCcTB1bW9SSDBUbk1IUXBC?=
+ =?utf-8?B?SjBoRUdYTklKb2hxeFpsMWR3a1J2QzBaTnVoZjRQaTFyOUJES2N5RjVNQWhk?=
+ =?utf-8?B?YTNDa3ZJTVRsRDF3NXlMMlg2dU9ENnNiSm1DU0s0akJtM21WdTAwTklqSjdI?=
+ =?utf-8?B?QXY5bnA1RVRHQVFML0szb1FKaGtZblJxZXEvWFZXekRWanQxY1NNWFFHdUww?=
+ =?utf-8?B?STVmMXVJM05ycXB3enNjcWdJWm0zNFNiejZQWFFVdHZycXpFZU01cEtiU3B0?=
+ =?utf-8?B?NnlvTmJETVhZY1N4K3hEdnB2RTAwQ3pGMHBCd0o4UUovWnEydnl3QT09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 304450a7-71e8-44ce-d440-08dec1667813
+X-MS-Exchange-CrossTenant-Network-Message-Id: b76667f5-0de6-4c0a-5611-08dec16787d9
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 11:51:37.9537
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 11:59:13.8940
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0NKHPqLclMi4EyW15fWIV8mI+1/lnhI9ElEOYlNi4GI3uC/MCUozflEcQ97AbsZnU/j0zwQkqEkAJ2af1iPjgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB8832
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8FmksgNjab6tPMvcReJQEp2b+mkKXmi7g0w/dcCiwOpJWWu83TkmB1mXsU0OkrPJZHMdlJxOVIA77M44uagzfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P265MB7703
 
-On Wed Jun 3, 2026 at 2:15 AM BST, Danilo Krummrich wrote:
-> Add a RegistrationData associated type to drm::Driver. This is a ForLt
-> type whose lifetime is tied to the parent bus device binding scope.
+On Wed Jun 3, 2026 at 2:10 AM BST, Danilo Krummrich wrote:
+> Rename ForLt to CovariantForLt to prepare for the introduction of a new
+> ForLt base trait that does not require covariance.
 >
-> Registration<'a, T> takes ownership of the data via Pin<KBox<_>>,
-> storing it with its real lifetime. The pointer is written to drm::Device
-> before drm_dev_register() to ensure it is already in place when ioctls
-> arrive.
+> The existing ForLt trait requires covariance, which enables the safe
+> cast_ref() method. This rename preserves the same semantics under a more
+> precise name, making room for a weaker ForLt trait in a subsequent
+> commit.
 >
-> UnbindGuard::registration_data_with() provides access with the lifetime
-> shortened from 'static via ForLt::cast_ref_unchecked. Since
-> Registration::drop() calls drm_dev_unplug(), which performs an SRCU
-> barrier waiting for all drm_dev_enter() critical sections to complete,
-> the data is guaranteed to remain valid for the duration of any
-> UnbindGuard.
+> No functional change.
 >
 > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 > ---
->  drivers/gpu/drm/nova/driver.rs |  16 +++--
->  drivers/gpu/drm/tyr/driver.rs  |  16 +++--
->  rust/kernel/drm/device.rs      |  49 +++++++++++++
->  rust/kernel/drm/driver.rs      | 123 ++++++++++++++++++++++++---------
->  rust/kernel/drm/mod.rs         |   1 +
->  5 files changed, 162 insertions(+), 43 deletions(-)
+>  drivers/gpu/nova-core/driver.rs       |  4 +-
+>  rust/kernel/auxiliary.rs              | 23 +++++-----
+>  rust/kernel/types.rs                  |  2 +-
+>  rust/kernel/types/for_lt.rs           | 61 ++++++++++++++-------------
+>  rust/macros/for_lt.rs                 |  4 +-
+>  rust/macros/lib.rs                    | 11 +++--
+>  samples/rust/rust_driver_auxiliary.rs |  8 ++--
+>  7 files changed, 57 insertions(+), 56 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/nova/driver.rs b/drivers/gpu/drm/nova/driver=
-.rs
-> index c5b0313006bd..4267e6e6dbb4 100644
-> --- a/drivers/gpu/drm/nova/driver.rs
-> +++ b/drivers/gpu/drm/nova/driver.rs
-> @@ -12,7 +12,8 @@
->          ioctl, //
->      },
->      prelude::*,
-> -    sync::aref::ARef, //
-> +    sync::aref::ARef,
-> +    types::ForLt, //
->  };
+> diff --git a/rust/kernel/types/for_lt.rs b/rust/kernel/types/for_lt.rs
+> index d44323c28e8d..ef510ab6c092 100644
+> --- a/rust/kernel/types/for_lt.rs
+> +++ b/rust/kernel/types/for_lt.rs
+> @@ -1,8 +1,8 @@
+>  // SPDX-License-Identifier: Apache-2.0 OR MIT
 > =20
->  use crate::file::File;
-> @@ -20,9 +21,10 @@
+> -//! Provide implementation and test of the `ForLt` trait and macro.
+> +//! Provide implementation and test of the `CovariantForLt` trait and ma=
+cro.
+>  //!
+> -//! This module is hidden and user should just use `ForLt!` directly.
+> +//! This module is hidden and user should just use `CovariantForLt!` dir=
+ectly.
 > =20
->  pub(crate) struct NovaDriver;
+>  use core::marker::PhantomData;
 > =20
-> -pub(crate) struct Nova {
-> +pub(crate) struct Nova<'bound> {
->      #[expect(unused)]
->      drm: ARef<drm::Device<NovaDriver>>,
-> +    _reg: drm::Registration<'bound, NovaDriver>,
->  }
-> =20
->  /// Convienence type alias for the DRM device type for this driver
-> @@ -56,7 +58,7 @@ pub(crate) struct NovaData {
-> =20
->  impl auxiliary::Driver for NovaDriver {
->      type IdInfo =3D ();
-> -    type Data<'bound> =3D Nova;
-> +    type Data<'bound> =3D Nova<'bound>;
->      const ID_TABLE: auxiliary::IdTable<Self::IdInfo> =3D &AUX_TABLE;
-> =20
->      fn probe<'bound>(
-> @@ -66,15 +68,19 @@ fn probe<'bound>(
->          let data =3D try_pin_init!(NovaData { adev: adev.into() });
-> =20
->          let drm =3D drm::UnregisteredDevice::<Self>::new(adev, data)?;
-> -        let drm =3D drm::Registration::new_foreign_owned(drm, adev.as_re=
-f(), 0)?;
-> +        let reg =3D drm::Registration::new(adev.as_ref(), drm, (), 0)?;
-> =20
-> -        Ok(Nova { drm: drm.into() })
-> +        Ok(Nova {
-> +            drm: reg.device().into(),
-> +            _reg: reg,
-> +        })
->      }
->  }
-> =20
->  #[vtable]
->  impl drm::Driver for NovaDriver {
->      type Data =3D NovaData;
-> +    type RegistrationData =3D ForLt!(());
->      type File =3D File;
->      type Object<Ctx: drm::DeviceContext> =3D gem::Object<NovaObject, Ctx=
->;
->      type ParentDevice<Ctx: DeviceContext> =3D auxiliary::Device<Ctx>;
-> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.r=
-s
-> index 338c25ccc151..819f64a7573d 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -31,7 +31,8 @@
->          aref::ARef,
->          Mutex, //
->      },
-> -    time, //
-> +    time,
-> +    types::ForLt, //
->  };
-> =20
->  use crate::{
-> @@ -52,8 +53,9 @@
->  pub(crate) struct TyrPlatformDriver;
-> =20
->  #[pin_data(PinnedDrop)]
-> -pub(crate) struct TyrPlatformDriverData {
-> +pub(crate) struct TyrPlatformDriverData<'bound> {
->      _device: ARef<TyrDrmDevice>,
-> +    _reg: drm::Registration<'bound, TyrDrmDriver>,
->  }
-> =20
->  #[pin_data]
-> @@ -98,7 +100,7 @@ fn issue_soft_reset(dev: &Device, iomem: &IoMem<'_>) -=
-> Result {
-> =20
->  impl platform::Driver for TyrPlatformDriver {
->      type IdInfo =3D ();
-> -    type Data<'bound> =3D TyrPlatformDriverData;
-> +    type Data<'bound> =3D TyrPlatformDriverData<'bound>;
->      const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> =3D Some(&OF_TA=
-BLE);
-> =20
->      fn probe<'bound>(
-> @@ -150,10 +152,11 @@ fn probe<'bound>(
->          });
-> =20
->          let tdev =3D drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, =
-data)?;
-> -        let tdev =3D drm::driver::Registration::new_foreign_owned(tdev, =
-pdev.as_ref(), 0)?;
-> +        let reg =3D drm::Registration::new(pdev.as_ref(), tdev, (), 0)?;
-> =20
->          let driver =3D TyrPlatformDriverData {
-> -            _device: tdev.into(),
-> +            _device: reg.device().into(),
-> +            _reg: reg,
->          };
-> =20
->          // We need this to be dev_info!() because dev_dbg!() does not wo=
-rk at
-> @@ -164,7 +167,7 @@ fn probe<'bound>(
->  }
-> =20
->  #[pinned_drop]
-> -impl PinnedDrop for TyrPlatformDriverData {
-> +impl PinnedDrop for TyrPlatformDriverData<'_> {
->      fn drop(self: Pin<&mut Self>) {}
->  }
-> =20
-> @@ -181,6 +184,7 @@ fn drop(self: Pin<&mut Self>) {}
->  #[vtable]
->  impl drm::Driver for TyrDrmDriver {
->      type Data =3D TyrDrmDeviceData;
-> +    type RegistrationData =3D ForLt!(());
->      type File =3D TyrDrmFileData;
->      type Object<R: drm::DeviceContext> =3D drm::gem::shmem::Object<BoDat=
-a, R>;
->      type ParentDevice<Ctx: DeviceContext> =3D platform::Device<Ctx>;
-> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> index 828618ae19af..9e5e069b5135 100644
-> --- a/rust/kernel/drm/device.rs
-> +++ b/rust/kernel/drm/device.rs
-> @@ -23,6 +23,7 @@
->          AlwaysRefCounted, //
->      },
->      types::{
-> +        ForLt,
->          NotThreadSafe,
->          Opaque, //
->      },
-> @@ -35,6 +36,7 @@
->  };
->  use core::{
->      alloc::Layout,
-> +    cell::UnsafeCell,
->      marker::PhantomData,
->      mem,
->      ops::Deref,
-> @@ -259,6 +261,9 @@ pub fn new(
->          // SAFETY: `drm_dev` is still private to this function.
->          unsafe { (*drm_dev).driver =3D const { &Self::VTABLE } };
-> =20
-> +        // SAFETY: `raw_drm` is valid; no concurrent access before regis=
-tration.
-> +        unsafe { (*raw_drm.as_ptr()).registration_data =3D UnsafeCell::n=
-ew(NonNull::dangling()) };
-> +
->          // SAFETY: The reference count is one, and now we take ownership=
- of that reference as a
->          // `drm::Device`.
->          // INVARIANT: We just created the device above, but have yet to =
-call `drm_dev_register`.
-> @@ -290,6 +295,7 @@ pub fn new(
->  pub struct Device<T: drm::Driver, C: DeviceContext =3D Registered> {
->      dev: Opaque<bindings::drm_device>,
->      data: T::Data,
-> +    pub(super) registration_data: UnsafeCell<NonNull<<T::RegistrationDat=
-a as ForLt>::Of<'static>>>,
->      _ctx: PhantomData<C>,
->  }
-> =20
-> @@ -298,6 +304,27 @@ pub(crate) fn as_raw(&self) -> *mut bindings::drm_de=
-vice {
->          self.dev.get()
->      }
-> =20
-> +    /// Returns a reference to the registration data with lifetime short=
-ened from `'static`.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// The caller must ensure that:
-> +    ///
-> +    /// - The parent bus device is bound (e.g. by holding an active `drm=
-_dev_enter()` critical
-> +    ///   section via [`UnbindGuard`]).
-> +    /// - The returned reference is not exposed to code that can choose =
-a concrete lifetime for
-> +    ///   it, as that would be unsound for types that are invariant over=
- their lifetime parameter
-> +    ///   (e.g. it must be passed through an HRTB-bounded closure).
-> +    unsafe fn registration_data_unchecked(&self) -> &<T::RegistrationDat=
-a as ForLt>::Of<'_> {
-> +        // SAFETY: Caller guarantees the parent bus device is bound, hen=
-ce
-> +        // the pointer is valid.
-> +        let static_ref =3D unsafe { (*self.registration_data.get()).as_r=
-ef() };
-> +
-> +        // SAFETY: Caller guarantees the reference is only used behind a=
-n HRTB, making the
-> +        // round-trip from `'static` sound regardless of variance.
-> +        unsafe { T::RegistrationData::cast_ref_unchecked(static_ref) }
-> +    }
-> +
->      /// # Safety
->      ///
->      /// `ptr` must be a valid pointer to a `struct device` embedded in `=
-Self`.
-> @@ -412,6 +439,28 @@ pub struct UnbindGuard<'a, T: drm::Driver> {
->      idx: i32,
->  }
-> =20
-> +impl<T: drm::Driver> UnbindGuard<'_, T> {
-> +    /// Access the parent device and registration data through a closure=
-, with both lifetimes
-> +    /// tied to the closure scope.
-> +    ///
-> +    /// The data is owned by [`Registration`](drm::Registration) and is =
-guaranteed to remain valid
-> +    /// for the duration of this guard, since [`Registration`](drm::Regi=
-stration)'s `drop` calls
-> +    /// `drm_dev_unplug()` which waits for all `drm_dev_enter()` critica=
-l sections to complete.
-> +    pub fn registration_data_with<R, F>(&self, f: F) -> R
-> +    where
-> +        F: for<'a> FnOnce(
-> +            &'a T::ParentDevice<device::Bound>,
-> +            &'a <T::RegistrationData as ForLt>::Of<'a>,
-> +        ) -> R,
-> +    {
-> +        // SAFETY: We hold an active `drm_dev_enter()` critical section,=
- so the parent bus
-> +        // device is guaranteed to be bound. The closure's HRTB `for<'a>=
-` prevents the caller
-> +        // from smuggling in references with a concrete short lifetime, =
-satisfying the lifetime
-> +        // requirement of `registration_data_unchecked`.
-> +        f(&**self, unsafe { self.dev.registration_data_unchecked() })
-> +    }
-> +}
-> +
->  impl<T: drm::Driver> Deref for UnbindGuard<'_, T> {
->      type Target =3D T::ParentDevice<device::Bound>;
-> =20
-> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> index f68a17d8939d..6aa1cb99cc7f 100644
-> --- a/rust/kernel/drm/driver.rs
-> +++ b/rust/kernel/drm/driver.rs
-> @@ -7,11 +7,11 @@
->  use crate::{
->      bindings,
->      device,
-> -    devres,
->      drm,
->      error::to_result,
->      prelude::*,
-> -    sync::aref::ARef, //
-> +    sync::aref::ARef,
-> +    types::ForLt, //
->  };
->  use core::{
->      mem,
-> @@ -110,6 +110,16 @@ pub trait Driver {
->      /// Context data associated with the DRM driver
->      type Data: Sync + Send;
-> =20
-> +    /// Data owned by the [`Registration`] and accessible through [`drm:=
-:device::UnbindGuard`].
-> +    ///
-> +    /// This is a [`ForLt`](trait@ForLt) type whose lifetime is tied to =
-the parent bus
-> +    /// device binding scope.
-> +    /// The data is only accessible while the parent bus device is bound=
- (i.e. within a
-> +    /// `drm_dev_enter/exit` critical section), and references handed ou=
-t by
-> +    /// [`UnbindGuard::registration_data_with()`](drm::device::UnbindGua=
-rd::registration_data_with)
-> +    /// ties the lifetime to the closure scope.
-> +    type RegistrationData: ForLt;
-> +
->      /// The type used to manage memory for this driver.
->      type Object<Ctx: drm::DeviceContext>: AllocImpl;
-> =20
-> @@ -139,12 +149,57 @@ pub trait Driver {
->  /// The registration type of a `drm::Device`.
+> @@ -15,38 +15,39 @@
 >  ///
->  /// Once the `Registration` structure is dropped, the device is unregist=
-ered.
-> -pub struct Registration<T: Driver>(ARef<drm::Device<T>>);
-> +pub struct Registration<'a, T: Driver> {
-> +    drm: ARef<drm::Device<T>>,
-> +    _reg_data: Pin<KBox<<T::RegistrationData as ForLt>::Of<'a>>>,
-> +}
-> +
-> +impl<'a, T: Driver> Registration<'a, T>
-> +where
-> +    for<'b> <T::RegistrationData as ForLt>::Of<'b>: Send,
-> +{
-> +    /// Register a new [`UnregisteredDevice`](drm::UnregisteredDevice) w=
-ith userspace.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// The caller must not `mem::forget()` the returned [`Registration`=
-] or otherwise prevent its
-> +    /// [`Drop`] implementation from running, since the registration dat=
-a may contain borrowed
-> +    /// references that become invalid after `'a` ends.
-> +    ///
-> +    /// If the registration data is `'static`, use the safe [`Registrati=
-on::new()`] instead.
-> +    pub unsafe fn new_with_lt<E>(
-> +        dev: &'a device::Device<device::Bound>,
-> +        drm: drm::UnregisteredDevice<T>,
-> +        reg_data: impl PinInit<<T::RegistrationData as ForLt>::Of<'a>, E=
->,
-> +        flags: usize,
-> +    ) -> Result<Self>
-> +    where
-> +        Error: From<E>,
-> +    {
-> +        if drm.as_ref().as_raw() !=3D dev.as_raw() {
-> +            return Err(EINVAL);
-> +        }
+>  /// # Macro
+>  ///
+> -/// It is not recommended to implement this trait directly. `ForLt!` mac=
+ro is provided to obtain a
+> -/// type that implements this trait.
+> +/// It is not recommended to implement this trait directly. `CovariantFo=
+rLt!` macro is provided to
+> +/// obtain a type that implements this trait.
+>  ///
+>  /// The full syntax is
+>  ///
+>  /// ```
+> -/// # use kernel::types::ForLt;
+> -/// # fn expect_lt<F: ForLt>() {}
+> +/// # use kernel::types::CovariantForLt;
+> +/// # fn expect_lt<F: CovariantForLt>() {}
+>  /// # struct TypeThatUse<'a>(&'a ());
+>  /// # expect_lt::<
+> -/// ForLt!(for<'a> TypeThatUse<'a>)
+> +/// CovariantForLt!(for<'a> TypeThatUse<'a>)
+>  /// # >();
+>  /// ```
+>  ///
+> -/// which gives a type so that `<ForLt!(for<'a> TypeThatUse<'a>) as ForL=
+t>::Of<'b>`
+> +/// which gives a type so that
+> +/// `<CovariantForLt!(for<'a> TypeThatUse<'a>) as CovariantForLt>::Of<'b=
+>`
+>  /// is `TypeThatUse<'b>`.
+>  ///
+>  /// You may also use a short-hand syntax which works similar to lifetime=
+ elision.
+>  /// The macro also accepts types that do not involve a lifetime at all.
+>  ///
+>  /// ```
+> -/// # use kernel::types::ForLt;
+> -/// # fn expect_lt<F: ForLt>() {}
+> +/// # use kernel::types::CovariantForLt;
+> +/// # fn expect_lt<F: CovariantForLt>() {}
+>  /// # struct TypeThatUse<'a>(&'a ());
+>  /// # expect_lt::<
+> -/// ForLt!(TypeThatUse<'_>) // Equivalent to `ForLt!(for<'a> TypeThatUse=
+<'a>)`.
+> +/// CovariantForLt!(TypeThatUse<'_>) // Equivalent to `CovariantForLt!(f=
+or<'a> TypeThatUse<'a>)`.
+>  /// # >();
+>  /// # expect_lt::<
+> -/// ForLt!(&u32) // Equivalent to `ForLt!(for<'a> &'a u32)`.
+> +/// CovariantForLt!(&u32) // Equivalent to `CovariantForLt!(for<'a> &'a =
+u32)`.
+>  /// # >();
+>  /// # expect_lt::<
+> -/// ForLt!(u32) // Equivalent to `ForLt!(for<'a> u32)`.
+> +/// CovariantForLt!(u32) // Equivalent to `CovariantForLt!(for<'a> u32)`=
+.
+>  /// # >();
+>  /// ```
+>  ///
+> @@ -55,10 +56,10 @@
+>  /// it.
+>  ///
+>  /// ```ignore,compile_fail
+> -/// # use kernel::types::ForLt;
+> -/// # fn expect_lt<F: ForLt>() {}
+> +/// # use kernel::types::CovariantForLt;
+> +/// # fn expect_lt<F: CovariantForLt>() {}
+>  /// # expect_lt::<
+> -/// ForLt!(fn(&u32)) // Contravariant, will fail compilation.
+> +/// CovariantForLt!(fn(&u32)) // Contravariant, will fail compilation.
+>  /// # >();
+>  /// ```
+>  ///
+> @@ -67,23 +68,23 @@
+>  /// the generic parameter but is in a separate item.
+>  ///
+>  /// ```
+> -/// # use kernel::types::ForLt;
+> -/// fn expect_lt<F: ForLt>() {}
+> +/// # use kernel::types::CovariantForLt;
+> +/// fn expect_lt<F: CovariantForLt>() {}
+>  /// # #[allow(clippy::unnecessary_safety_comment, reason =3D "false posi=
+tive")]
+>  /// fn generic_fn<T: 'static>() {
+>  ///     // Syntactically proven by the macro
+> -///     expect_lt::<ForLt!(&T)>();
+> +///     expect_lt::<CovariantForLt!(&T)>();
+>  ///     // Syntactically proven by the macro
+> -///     expect_lt::<ForLt!(&KBox<T>)>();
+> +///     expect_lt::<CovariantForLt!(&KBox<T>)>();
+>  ///     // Cannot be syntactically proven, need to check covariance of `=
+KBox`
+> -///     // expect_lt::<ForLt!(&KBox<&T>)>();
+> +///     // expect_lt::<CovariantForLt!(&KBox<&T>)>();
+>  /// }
+>  /// ```
+>  ///
+>  /// # Safety
+>  ///
+>  /// `Self::Of<'a>` must be covariant over the lifetime `'a`.
+> -pub unsafe trait ForLt {
+> +pub unsafe trait CovariantForLt {
+>      /// The type parameterized by the lifetime.
+>      type Of<'a>: 'a;
 > =20
-> -impl<T: Driver> Registration<T> {
-> -    fn new(drm: drm::UnregisteredDevice<T>, flags: usize) -> Result<Self=
-> {
-> -        // SAFETY: `drm.as_raw()` is valid by the invariants of `drm::De=
-vice`.
-> -        to_result(unsafe { bindings::drm_dev_register(drm.as_raw(), flag=
-s) })?;
-> +        let reg_data: Pin<KBox<<T::RegistrationData as ForLt>::Of<'a>>> =
-=3D
-> +            KBox::pin_init(reg_data, GFP_KERNEL)?;
-> +
-> +        // Store the registration data pointer in the device before regi=
-stration, so that it is
-> +        // visible once ioctls can be called.
-> +        //
-> +        // SAFETY: Lifetimes do not affect layout, so the pointer cast i=
-s sound.
-> +        let ptr: NonNull<<T::RegistrationData as ForLt>::Of<'static>> =
-=3D
-> +            unsafe { mem::transmute(NonNull::from(Pin::get_ref(reg_data.=
-as_ref()))) };
-> +
-> +        // SAFETY: No concurrent access; the device is not yet registere=
-d.
-> +        unsafe { *drm.registration_data.get() =3D ptr };
-> +
-> +        // SAFETY: `drm` is a valid, initialized but not yet registered =
-DRM device.
-> +        let ret =3D unsafe { bindings::drm_dev_register(drm.as_raw(), fl=
-ags) };
-> +        if let Err(e) =3D to_result(ret) {
-> +            // SAFETY: No concurrent access; registration failed.
-> +            unsafe { *drm.registration_data.get() =3D NonNull::dangling(=
-) };
-> +            return Err(e);
-> +        }
-> =20
->          // SAFETY: We just called `drm_dev_register` above
->          let new =3D NonNull::from(unsafe { drm.assume_ctx() });
-> @@ -156,48 +211,49 @@ fn new(drm: drm::UnregisteredDevice<T>, flags: usiz=
-e) -> Result<Self> {
->          // one reference to the device - which we take ownership over he=
-re.
->          let new =3D unsafe { ARef::from_raw(new) };
-> =20
-> -        Ok(Self(new))
-> +        Ok(Self {
-> +            drm: new,
-> +            _reg_data: reg_data,
-> +        })
+> @@ -94,11 +95,11 @@ fn cast_ref<'r, 'short: 'r, 'long: 'short>(long: &'r =
+Self::Of<'long>) -> &'r Sel
+>          unsafe { core::mem::transmute(long) }
 >      }
+>  }
+> -pub use macros::ForLt;
+> +pub use macros::CovariantForLt;
 > =20
-> -    /// Registers a new [`UnregisteredDevice`](drm::UnregisteredDevice) =
-with userspace.
-> -    ///
-> -    /// Ownership of the [`Registration`] object is passed to [`devres::=
-register`].
-> -    pub fn new_foreign_owned<'a>(
-> -        drm: drm::UnregisteredDevice<T>,
-> +    /// Safe variant of [`Registration::new_with_lt()`] for registration=
- data that does not contain
-> +    /// borrowed references.
-> +    pub fn new<E>(
+> -/// This is intended to be an "unsafe-to-refer-to" type.
+> +/// Helper type for the `CovariantForLt!` macro.
+>  ///
+> -/// Must only be used by the `ForLt!` macro.
+> +/// Must only be used by the `CovariantForLt!` macro.
+>  ///
+>  /// `T` is the magic `dyn for<'a> WithLt<'a, TypeThatUse<'a>>` generated=
+ by macro.
+>  ///
+> @@ -107,16 +108,16 @@ fn cast_ref<'r, 'short: 'r, 'long: 'short>(long: &'=
+r Self::Of<'long>) -> &'r Sel
+>  /// `N` is to provide the macro a place to emit arbitrary items, in case=
+ it needs to prove
+>  /// additional properties.
+>  #[doc(hidden)]
+> -pub struct UnsafeForLtImpl<T: ?Sized, WF, const N: usize>(PhantomData<(W=
+F, T)>);
+> +pub struct CovariantForLtImpl<T: ?Sized, WF, const N: usize>(PhantomData=
+<(WF, T)>);
 
-This is currently unsound, as leaking the unbind guard also gives out
-`&Device<Bound>` in addition to the registration data.
+I think I prefer this name to be stayed the same (so it has the "Unsafe" in=
+ it
+and is not too long).
 
-I think we should just remove the not pass `&Device<Bound>` to ioctl callba=
-cks.
-Giving back registration data is sufficient; if a device driver needs
-`&Device<Bound>` it can just store a reference in its registration data; mo=
-re
-commonly I suspect it will just store whatever device resource is needed an=
-d
-doesn't need `&Device<Bound>` (with the introduction of lifetime, we have m=
-uch
-fewer cases that we actually need `&Device<Bound>` and cannot be replaced w=
-ith a
-direct reference to the device resource).
+You can actually use this same helper type for both `ForLt!` and
+`CovariantForLt!` later in patch 2, by using different `N` based on whether
+covariance check has been conducted. So
 
-Not passing this bound device allows us to make this safe, and also remove =
-the
-need of patch 1 and patch 5. Actually, your patch 7 is a good demonstration=
- of
-the pattern that I described :)
+impl<T: ?Sized + for<'a> WithLt<'a>, WF, const N: usize> ForLt for UnsafeFo=
+rLtImpl<T, WF, N> {
+    type Of<'a> =3D <T as WithLt<'a>>::Of;
+}
+
+impl<T: ?Sized + for<'a> WithLt<'a>, WF> CovariantForLt for UnsafeForLtImpl=
+<T, WF, 1> {}
 
 Best,
 Gary
 
->          dev: &'a device::Device<device::Bound>,
-> +        drm: drm::UnregisteredDevice<T>,
-> +        reg_data: impl PinInit<<T::RegistrationData as ForLt>::Of<'a>, E=
->,
->          flags: usize,
-> -    ) -> Result<&'a drm::Device<T>>
-> +    ) -> Result<Self>
->      where
-> -        T: 'static,
-> +        <T::RegistrationData as ForLt>::Of<'a>: 'static,
-> +        Error: From<E>,
->      {
-> -        if drm.as_ref().as_raw() !=3D dev.as_raw() {
-> -            return Err(EINVAL);
-> -        }
-> -
-> -        let reg =3D Registration::<T>::new(drm, flags)?;
-> -        let drm =3D NonNull::from(reg.device());
-> -
-> -        devres::register(dev, reg, GFP_KERNEL)?;
-> -
-> -        // SAFETY: Since `reg` was passed to devres::register(), the dev=
-ice now owns the lifetime
-> -        // of the DRM registration - ensuring that this references lives=
- for at least as long as 'a.
-> -        Ok(unsafe { drm.as_ref() })
-> +        // SAFETY: `Of<'a>: 'static` guarantees the data contains no bor=
-rowed references,
-> +        // so forgetting the `Registration` cannot cause use-after-free.
-> +        unsafe { Self::new_with_lt(dev, drm, reg_data, flags) }
->      }
 > =20
->      /// Returns a reference to the `Device` instance for this registrati=
-on.
->      pub fn device(&self) -> &drm::Device<T> {
-> -        &self.0
-> +        &self.drm
+> -// This is a helper trait for implementation `ForLt` to be able to use H=
+RTB.
+> +// This is a helper trait for implementation `CovariantForLt` to be able=
+ to use HRTB.
+>  #[doc(hidden)]
+>  pub trait WithLt<'a> {
+>      type Of: 'a;
+>  }
+> =20
+> -// SAFETY: In `ForLt!` macro, a covariance proof is generated when namin=
+g `UnsafeForLtImpl`
+> -// and it will fail to evaluate if the type is not covariant.
+> -unsafe impl<T: ?Sized + for<'a> WithLt<'a>, WF> ForLt for UnsafeForLtImp=
+l<T, WF, 0> {
+> +// SAFETY: In `CovariantForLt!` macro, a covariance proof is generated w=
+hen naming
+> +// `CovariantForLtImpl` and it will fail to evaluate if the type is not =
+covariant.
+> +unsafe impl<T: ?Sized + for<'a> WithLt<'a>, WF> CovariantForLt for Covar=
+iantForLtImpl<T, WF, 0> {
+>      type Of<'a> =3D <T as WithLt<'a>>::Of;
+>  }
+> diff --git a/rust/macros/for_lt.rs b/rust/macros/for_lt.rs
+> index 364d4113cd10..3cb094d00548 100644
+> --- a/rust/macros/for_lt.rs
+> +++ b/rust/macros/for_lt.rs
+> @@ -176,7 +176,7 @@ fn prove(&mut self, ty: &'a Type) {
 >      }
 >  }
 > =20
->  // SAFETY: `Registration` doesn't offer any methods or access to fields =
-when shared between
->  // threads, hence it's safe to share it.
-> -unsafe impl<T: Driver> Sync for Registration<T> {}
-> +unsafe impl<T: Driver> Sync for Registration<'_, T> where
-> +    for<'a> <T::RegistrationData as ForLt>::Of<'a>: Send
-> +{
-> +}
+> -pub(crate) fn for_lt(input: HigherRankedType) -> TokenStream {
+> +pub(crate) fn covariant_for_lt(input: HigherRankedType) -> TokenStream {
+>      let (ty, lifetime) =3D match input {
+>          HigherRankedType::Explicit { lifetime, ty, .. } =3D> (ty, lifeti=
+me),
+>          HigherRankedType::Implicit { ty } =3D> {
+> @@ -235,7 +235,7 @@ fn #cov_proof_name<'__short, '__long: '__short>(
+>      );
 > =20
->  // SAFETY: Registration with and unregistration from the DRM subsystem c=
-an happen from any thread.
-> -unsafe impl<T: Driver> Send for Registration<T> {}
-> +unsafe impl<T: Driver> Send for Registration<'_, T> where
-> +    for<'a> <T::RegistrationData as ForLt>::Of<'a>: Send
-> +{
-> +}
-> =20
-> -impl<T: Driver> Drop for Registration<T> {
-> +impl<T: Driver> Drop for Registration<'_, T> {
->      fn drop(&mut self) {
->          // Use `drm_dev_unplug` rather than `drm_dev_unregister` to ensu=
-re that existing
->          // `drm_dev_enter()` critical sections complete before unregistr=
-ation proceeds. This
-> @@ -207,6 +263,9 @@ fn drop(&mut self) {
->          //
->          // SAFETY: Safe by the invariant of `ARef<drm::Device<T>>`. The =
-existence of this
->          // `Registration` also guarantees that this `drm::Device` is act=
-ually registered.
-> -        unsafe { bindings::drm_dev_unplug(self.0.as_raw()) };
-> +        unsafe { bindings::drm_dev_unplug(self.drm.as_raw()) };
-> +        // After drm_dev_unplug(), the SRCU barrier guarantees that all =
-UnbindGuard critical
-> +        // sections have completed, so no one holds a reference to reg_d=
-ata anymore.
-> +        // reg_data is dropped here automatically.
->      }
+>      quote!(
+> -        ::kernel::types::for_lt::UnsafeForLtImpl::<
+> +        ::kernel::types::for_lt::CovariantForLtImpl::<
+>              dyn for<#lifetime> ::kernel::types::for_lt::WithLt<#lifetime=
+, Of =3D #ty>,
+>              #ty_static,
+>              {
+> diff --git a/rust/macros/lib.rs b/rust/macros/lib.rs
+> index 4a48fabbc268..2167cb270928 100644
+> --- a/rust/macros/lib.rs
+> +++ b/rust/macros/lib.rs
+> @@ -491,14 +491,13 @@ pub fn kunit_tests(attr: TokenStream, input: TokenS=
+tream) -> TokenStream {
+>          .into()
 >  }
-> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> index a66e7166f66b..59870bb09de2 100644
-> --- a/rust/kernel/drm/mod.rs
-> +++ b/rust/kernel/drm/mod.rs
-> @@ -12,6 +12,7 @@
->  pub use self::device::Device;
->  pub use self::device::DeviceContext;
->  pub use self::device::Registered;
-> +pub use self::device::UnbindGuard;
->  pub use self::device::Uninit;
->  pub use self::device::UnregisteredDevice;
->  pub use self::driver::Driver;
+> =20
+> -/// Obtain a type that implements [`ForLt`] for the given higher-ranked =
+type.
+> +/// Obtain a type that implements [`CovariantForLt`] for the given highe=
+r-ranked type.
+>  ///
+> -/// Please refer to the documentation of the [`ForLt`] trait.
+> +/// Please refer to the documentation of the [`CovariantForLt`] trait.
+>  ///
+> -/// [`ForLt`]: trait.ForLt.html
+> +/// [`CovariantForLt`]: trait.CovariantForLt.html
+>  #[proc_macro]
+> -// The macro shares the name with the trait.
+>  #[allow(non_snake_case)]
+> -pub fn ForLt(input: TokenStream) -> TokenStream {
+> -    for_lt::for_lt(parse_macro_input!(input)).into()
+> +pub fn CovariantForLt(input: TokenStream) -> TokenStream {
+> +    for_lt::covariant_for_lt(parse_macro_input!(input)).into()
+>  }
+> diff --git a/samples/rust/rust_driver_auxiliary.rs b/samples/rust/rust_dr=
+iver_auxiliary.rs
+> index 2c1351040e45..92ee6a6d348e 100644
+> --- a/samples/rust/rust_driver_auxiliary.rs
+> +++ b/samples/rust/rust_driver_auxiliary.rs
+> @@ -13,7 +13,7 @@
+>      driver,
+>      pci,
+>      prelude::*,
+> -    types::ForLt,
+> +    types::CovariantForLt,
+>      InPlaceModule, //
+>  };
+> =20
+> @@ -60,8 +60,8 @@ struct Data<'bound> {
+> =20
+>  #[allow(clippy::type_complexity)]
+>  struct ParentData<'bound> {
+> -    _reg0: auxiliary::Registration<'bound, ForLt!(Data<'_>)>,
+> -    _reg1: auxiliary::Registration<'bound, ForLt!(Data<'_>)>,
+> +    _reg0: auxiliary::Registration<'bound, CovariantForLt!(Data<'_>)>,
+> +    _reg1: auxiliary::Registration<'bound, CovariantForLt!(Data<'_>)>,
+>  }
+> =20
+>  kernel::pci_device_table!(
+> @@ -115,7 +115,7 @@ fn probe<'bound>(
+> =20
+>  impl ParentDriver {
+>      fn connect(adev: &auxiliary::Device<Bound>) -> Result {
+> -        let data =3D adev.registration_data::<ForLt!(Data<'_>)>()?;
+> +        let data =3D adev.registration_data::<CovariantForLt!(Data<'_>)>=
+()?;
+>          let pdev =3D data.parent;
+> =20
+>          dev_info!(
 
 
