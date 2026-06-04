@@ -1,195 +1,130 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013059.outbound.protection.outlook.com [52.101.72.59])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB3B3CD8A1
-	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 11:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114D3409632
+	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 11:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780571190; cv=fail; b=M+c7E4rIv09YXOytklNSIWXBY4clUCypFynE6unsUcBLEGFq9mpxwFieO9cMEUuMduPWB5ldKoeY8YgV3duD9MMXM5uvtJOLCBq1BbvNwLPEF2TmNY5zGiE/0+GtvWdzim1iD2Z+J4ycNMsThjY9H2qhva6HgZ6roFRe/mG1Krw=
+	t=1780571435; cv=pass; b=El90zMoy0X5PpcxsTYeti2r4Xti6Daiq40KMGs2K+rvrA9PdnB/MmYeSPYO4qPA1kdjow3UcooCqkTaTHLkh34eXREiXJk5k0nU2G5JEpLHhs245Q7JWGAaMkxiUm699vTZxmjEuqijMonR57yieb+K6T/yR/8w1y24R/r/IZlA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780571190; c=relaxed/simple;
-	bh=STJf7+wUvcB5Nsk0zhqV5hmxx8zLqIsu9tV7q9XGTRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bjejrjW1fg23CCA1K3QszYPl4rj1SZ1iKxbe+BeiUZA7xaxVgklEc6mB4WTpbDpGIL8wbhfV0j/PIrWZGgGzt/pSJ0M4SwKXLV4o7lYDeL/3VaxLr5TAVsaaspEV40JYGE+3RMpvXBsaK1tBAsq6H9HE7w2dQWAOlXGYOAfNl50=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=bcUgNkqE; arc=fail smtp.client-ip=52.101.72.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1780571435; c=relaxed/simple;
+	bh=eSci7xLpxgYHSBUqhNqtJbViKyYVOJoOaMBk8J7sasA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=apSqJC74jqdlX/S99yjvN3mwUwHHYqm08HQGNfVlTQAR8gxVH+4C2ldzE8s2d2dkHwn2MTAPSd1ElyoZkzA5biWCcq71JPE/MinUDPaq8nSqInby7iZJ1iNI1geCOJhtd3siuq2SmosZakCIXhURKlB53tAaL2BIp83wHl/y8r0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vnh7j8UP; arc=pass smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="bcUgNkqE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AcgrVCz02pi0sE34MwrLJApPZ6BqqHxb3yR5s9U68GtZocU+eH7LwdfZV3EE9KxHpq+giy6kp0bFcQ2eofrFGf+u2WI3BTGU6wjyCuwevNx/mrRal6hoC7Q7vcxAfxhyi4qYz5B8iPpNOQ9yZELXIzVCNlivVNsV035UQ5VHCc8BNWXW8++4PkRaOpdRDUjRWdiYPKeyaHTjgb70nosGBanNRfRKRI7roZXw9sS+/vnU7ssj7DAkkr8WUpFVznnCenSbDOTBZod+71YdQAzih37eEuCOnqk7sKSP7xuq8nSZFOEI6ylWDDfvmVTX9o8imEtqoetlmzQTEZqVUmUtfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4ukrUdqrrihFq0H0i5bCcoFAXIDTTrh25kD5dL5cEx0=;
- b=aN81o7jBsSUoCZeSEJYqrt51F54gjToJVobxYqTw6KI9yKxwik6Q/vUodV23/lhXEJFNe2BQ3e26hs30EpUSulr86YqF+nj2fnu9FWmrOf/L0ic47gigZsw0kllEFf9dV58yYLnnT/aJC6CbvWX2TxYMpjlf7dVmpuG+9GEwsrF+ByoQGu+cCHYZMKKboLOiD/uA3SGg/SUg2fnTfthKzyaJfdNAq2nmYyJyQKA7Zbi9tfQYymIGkMSyVDJeeagrE9lKw/GTvyI51dLS/U9A0yizBSzoev0pLG7zhXLTUeme/jGSFrU4Aio3U4qwg3u1flQCJe4ShvjnKqi8FQu2Xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4ukrUdqrrihFq0H0i5bCcoFAXIDTTrh25kD5dL5cEx0=;
- b=bcUgNkqEmzH7YMaxHU3b2hInUCRD1TLXUD290Y555jq9ORqmWGM+OmrCfEnw52Oe8TFvGAuDya8zfqhhFkngqI5C+w114NPiMpb1vEF6CZbDVtOZ0SweTMnlQqkkSbOb6XCz2Uy9MPDipuf4myhAvf82Pbi3ygirOs6wUswfEYx009Kdd1c0uAuUsDsHchGYg0OQoA9V8K5YxutBoYH/1FvaDJv9rcQM8brAxklpzxuhzMXtCeE6BAkmpnkTqKiOUzMAZ9UfbfLGwxusMzHM5qCv2be2YS/7sF13JLRj9SMZ95UkSd3cDW3cLYbc0XJu4fg8c9+3CvLLsgjETG9BKg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
- by DB9PR04MB9724.eurprd04.prod.outlook.com (2603:10a6:10:4c2::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Thu, 4 Jun 2026
- 11:06:25 +0000
-Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
- ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0092.006; Thu, 4 Jun 2026
- 11:06:25 +0000
-Date: Thu, 4 Jun 2026 19:05:23 +0800
-From: Xu Yang <xu.yang_2@oss.nxp.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Xu Yang <xu.yang_2@nxp.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] device property: fix infinite loop in
- fwnode_for_each_child_node()
-Message-ID: <x5liep46c3yzqh3wfsfa2euku6j6yka32clpiwf2zkqdm6czds@b2rll3k67yhd>
-References: <20260603-fixes_fwnode_iteration-v2-0-0ae381f8b7b9@nxp.com>
- <20260603-fixes_fwnode_iteration-v2-2-0ae381f8b7b9@nxp.com>
- <ah_5NgZPc2U0_FPO@ashevche-desk.local>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ah_5NgZPc2U0_FPO@ashevche-desk.local>
-X-ClientProxiedBy: FR4P281CA0069.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::9) To PAXPR04MB9422.eurprd04.prod.outlook.com
- (2603:10a6:102:2b4::21)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vnh7j8UP"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso7056495e9.3
+        for <driver-core@lists.linux.dev>; Thu, 04 Jun 2026 04:10:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780571432; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NLF+ki6C5f0R3w/QtOzSJgAn4VX42FwzYZmG+hDDLT/wINFcgClvma4mkDPBdJ1BHq
+         s4ftoAn6e/yN1AzAQeZYegFs92i0tZvtmQgpyVjaINqp4F3DGUYzxBgPfJ/m94vNlJOJ
+         il4LhEvWUqy5P5ycII2GFkl3tMavCXmnwHXCQYefXpmFQdTt8hHi4QD1AzTSxYSwbW/I
+         I8PFqEIIIMHrNbcMxaza+TpoICLztXi9DTIQIf8lAZQvqImL/modM8+yjIkk9kupigtY
+         KdUzkJQM2h7MGc48HC7Ly3nLhZEhO2zYzHQcr43pJOmnwzGblg/oZJrkHCLNRtz8wdTC
+         ySBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eSci7xLpxgYHSBUqhNqtJbViKyYVOJoOaMBk8J7sasA=;
+        fh=3tFqAKZCZRERGLn7Q/5zgUgQ29gk5cIEevrkqBFCLpo=;
+        b=d8xYi50109UhKK7cJaJtqASvWSrcQ1jvdpFpJ1Tm6DSTzQ4bUll+CaJ0TczBE8NxHA
+         Kpci89SN1suVjkyG/Kn8uisqjb/mxEJRsDWB2E5UbIsfQvBZeEH6MzfqqMR5dws6ooof
+         Jru8/US9EWzu41xlDcp92RBbkl9jjAZsICa3bYuHGK1MN/MQXW9as2NYUGlyvG71jir6
+         HsLgiF4f95jDDO6FsO8hr4C5JzaVShI8/hsWnPNA1ML/14+BD3zQtAt6offZwOynADoL
+         2miTRgBlVWLqfkzlkd/0BP30LCqiz6OvIRfXqWj6mUPxi1uz/6pBbjzVeNtnXblCNbHs
+         ipPw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780571432; x=1781176232; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eSci7xLpxgYHSBUqhNqtJbViKyYVOJoOaMBk8J7sasA=;
+        b=vnh7j8UPGeGFbbktq/h9ySPsOVBE6NrW5Bm6OwDOaAaPT9M4hMozewBXXFedjlnJ0J
+         BjReBva4JCru232t8Jn1C7cjMdbVSu8mtCnvxrF6xgcnsFP36UTSjntHvo0FOe5Ywtz+
+         nD8TG8y9Lxm60FlBFfa9t/FMOCWPQ0aOzbre6WqSvDwnY7Thfj5ITCDWUX2nCvWm+oQ1
+         bOheq0Y5DznCAmC4IvwX2B/6aQHyLIQMHhkdQCvc6U1Y5sC9vprQIQKkVkcEru71DyQN
+         kXrnVN9gbfUA/1GczMIeWlEmVKnEfbZ+tElBJIdnI2JEIrM6Xb5TkniDLk5taCxRuy4U
+         iXyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780571432; x=1781176232;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eSci7xLpxgYHSBUqhNqtJbViKyYVOJoOaMBk8J7sasA=;
+        b=kJxookXSw0+qsgapq0CqV+xWFaMw8gBO/FolF3wFFVg06hqBaqP8eVGARVa7Ap1iVE
+         HGwnjIpo1/Fx12bmBsx4G+UJLQtddEmtRpC8fq7xiGiihswNim/989EKPTN6H0dhPHUf
+         CfkaIPh7WGdzl9/15uNFJHKVD/cBNN38QsYTnL0XA9j+zXo/z+cFYjYU28owpMjiatgT
+         5BCuYxQ36uye1eXSlROV0h8OHvrwpHpPGdkV4khdkhvE57wro8g187htgW8ILZnkuoOY
+         ltEzRpF25n5Q/4W8JCqTiqIG/wVgVq2IFMl1qopSQ5L03MZfjuNCFPdnj7LzpAQLRi03
+         uKtQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+uHpfxrpz67Pcy9HTtDkCGvcdAax75hmVmzZZyf/9NRhg2wkw9WDkfJFNNBO14znfOWpmd8KElPsZOtg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6ICz7l2lKVcmUGQzWaFTa8vYNEiOC15B+WRRj0sTGxoQ1t9ek
+	UjzZWAJ32OcwMa7/wAcJzJSKDptmNqdx7ak2sy2zDDjP0Fd14X7FhlGqjXQCHlxCGm7NFrXue6k
+	jAlV9mZAFYgvJilkqPOY4ksXUaq681s9RIwngmXHE
+X-Gm-Gg: Acq92OHU/dxMTk+cLtBbh6/U3apj04nHqPGnIT1+TyzoPIYE20zmfQdfNa+YvgetEpR
+	5yBoLzjkXaLGPbbdMbOeiGAvxNqtNs7Tr1iUmhKiQqsyDrbPRxw8ljbftxvUVtwJAI9nUiAYI43
+	68ydW9dPGDo1C17PSWAspdtYbW0A1QQoJbo1hCHQncG9G+ywFF7jUQLlatXoN+gkGqh2P5arzov
+	La5Ihe52KEPGFQ1my3wAZZJ+OHRbbwbeJimgJM5p+wGoJAQXrTv0oh9Vcg/o5JubTnQiAIL1Dqz
+	j5PcqjaEI03Rkru/Y69HmdeTHHdG+Znl+k3KqiLwHKcUPfsW/Xmqm4mcJ1dn3Fc5sB/MsOh2XQu
+	5qPY=
+X-Received: by 2002:a05:600c:4fc6:b0:488:9bf8:7f17 with SMTP id
+ 5b1f17b1804b1-490b5e95f44mr117890035e9.14.1780571431900; Thu, 04 Jun 2026
+ 04:10:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|DB9PR04MB9724:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ece4ef4-0846-4138-db26-08dec22951b6
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|366016|1800799024|7416014|376014|22082099003|18002099003|56012099006|3023799007|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
- UbYk7YhBVnrCQJxXbjhZ37RwFWA95CaJaTKcLNJsK8F364INXeuTZX42B77NJRG4fL0Q+MYlmSx1kehg0BM/Wte+27RV5KZFTbxNX3iJL5R0e2N/c9Qv+4O+sNwZ9+j/A8KCXuG2Ga7Iqg4MHE6HiNed5reanc5kt6KKtQS7kCKCzaiIeQ8uzEIDbhj9ELASPk3TaECkx3uY+f7fsU2akNc2P21iH1aRfnxvpcapyN/zIJXbW8fJA3nSuMR41H0E7VmvStgKcCg5X/ORvO9+B1F4KalOtFm1kY4flcKU7Wwqms83cu6QBvpeuRsjfEY9MVxBUp9gnK09juctDVzBqbkW1o4y66MeP6IUtxraVSsRwcpTkO1kC9I7Z+W8Okn2KtoRiZsF0OKH9ZC/0DAK+b17OhjSUFQinRZRMpPmtib7p1myKm0itgTqrKqs0ye73eAe3ckUwHGqrwUWz78SiarF4xiBTMgd+qTPQTt+taPslibhgrEyWRBGsWTnEKt03saS3Nfw7fTtD/unI/8PWwbnHc8UMLcMGOBi5lfSofwFgfr3ZaKb+VUm95lNPabRf/BLTIUapcoL6yuJyAK9DMqOXntCJyfvWRhP+99JPXiNbE3Wl2uKwKruj7KmyOASD4r311psfULNdC7NRVJeugsrtw9gwQsC4v0wcJqeiJYFZE+7JnGopyltbFeGovCv
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(1800799024)(7416014)(376014)(22082099003)(18002099003)(56012099006)(3023799007)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?RFVKd0IwU3pVT3BQK0NEc1BIazVET1hXZThBV05VR0o5YWorV1F3WDR5cUIr?=
- =?utf-8?B?Rmk1MGJKbEJpK2t4U1dJMjN3cVk4dG9YRnNXdHRUNGVPbkZCVVJXYUN2YVg0?=
- =?utf-8?B?Q0JIWUpvY3pISWlJb01HZkVWdU1WSlNZWFRWNUp2RmtWZjNrRzZ3eUUxcFJh?=
- =?utf-8?B?b0pmVGFaQW1QMkd1bnNvMlRudmpSVDkyRFJNb0d6ckpPK0F1MFl5cTRwN0Z5?=
- =?utf-8?B?N0hJbHk2Qk1xeUZKL0p6YkpXN3pMcUN5S0o5T3ZlbXJ4MHhpQUJISkc3Q0di?=
- =?utf-8?B?RzRFczBvdERDemdseG10am8rMHdPTFFPVFlGTjh4diszQkFaY2EwdXg1V3Jy?=
- =?utf-8?B?eGNDOW4vVDhyVHpPZ1FzeCt5SHkySStWakNhWHRTWEltN3liaXFoSW93K0ZF?=
- =?utf-8?B?bzM5WFU2ZTRzUjlhTHB5aDlIMHl4WEdrd2lwVklTVy8rWnRNd1dvTEpVYitr?=
- =?utf-8?B?aVhnQURpZG9GSm5PSy8wNlZKTTBWSE1TMEk1VFdTOTkwT0I2QlpyMFVxVzQ1?=
- =?utf-8?B?d243dzEzZ3pubmhtZExrTEYxdHRKaS9STFB6NDdsYUhxcVRiN1hIaEs5ajVk?=
- =?utf-8?B?ekY2TUx3c3hyaEh0YU9sRDRQekNqY0xyU1RBOGhmWkFiWjg1dTJXTFptSk9m?=
- =?utf-8?B?Y3RTSjhxTzlpRHRIeUdaU25KZXRJa0w3SGxWbGJBM1NSU2FRcll5M0hLNzI5?=
- =?utf-8?B?cUIyQkdQWXZGMmtIMEh4b05JS2xha3F1OUZpOGxCZW1GNnlXZEsxSFlSN2Er?=
- =?utf-8?B?MndkbmtSWG5haVo1bzJSSk9KaTkyakxCaFpuNVpWVDBYSFlxcUtIQ1Q0Z1hU?=
- =?utf-8?B?YnFFYzlaOW80VDMrN2Zxd0RaQ0dnekdzWTczbmtGOEQ3R1JJM0NHQk55THVD?=
- =?utf-8?B?RGg5QThUTElMT2NzdjV3bVh4Sk1uazBRTWF3cHlzR3RtckZrU3AvK0dpbXpy?=
- =?utf-8?B?aTJId242M0dvUGR0dUF1UktQWUE5MFpocUsyaG5nL0pRVXRIQWdObkJhenRm?=
- =?utf-8?B?UWVXTmxJckZDZ0NCR1Y2M1diMlloMnF3K045Ly9FblRQT0xDblJzZjN4STVT?=
- =?utf-8?B?Z3BTOUIxM1ZSR1h5YXBQK3NsYnJ1VUNmREd2UXFBZm1oTkY0TTJYSWZJMUE0?=
- =?utf-8?B?b1dGeXBPOFdiU3lYY2loZW5GQkt6MFVEWUsydWx0dXZMU0E2MVdrTHFVclhy?=
- =?utf-8?B?NWpXZDY2RVNyeWdqTTc3SFFlc2VhbUlsdFdKUnd1ZjlkTVJIRjN2M0orQ2Nx?=
- =?utf-8?B?M0ZYS3ZHcm51OHdveGFDaHNqaFpMNGhpOGh2TWNrWjNqY2VZcy9Gc3FIU08x?=
- =?utf-8?B?Y2txTnhCN21QVnBDbHNHNWt5TGx4aXNvOTU3MVlMdFdZME9JbDZvbnYxMVRK?=
- =?utf-8?B?TlpRRFAxWlNCd04vWVVvMU9aaE5SSjZvejRORmFlU1dKU0ZiUVJTWldpaG1v?=
- =?utf-8?B?MjZXL1BwekdqYUNjTUtpU3ZaYm5hU3cvajVpL3c0ZGVWVXZ2am1qSEUyRjhp?=
- =?utf-8?B?Wk8zSkpVcFNEbWR2YlREYldrTXhjbGFSdUl2eDJsK0VXWFVSQ2czK2FHSnpJ?=
- =?utf-8?B?c0l0eGp5ckt3ODMvYVBmNEVYSWVHOTYyQVBHYjhJMzZXMjlRZDFwS2QyTXcr?=
- =?utf-8?B?OGoyYUdSQkx2bm5yYzdFS1RjRDBSbkU1cCswdmUxb3I4S29mbjc0eEp1V1dV?=
- =?utf-8?B?R3FCV2ZvOVpIbnJ6RHlxUzZuQnp2czlGWFI5ZzBRK1Q3MXcrOE5HOG1OZWI5?=
- =?utf-8?B?Tk5lQzNPZmFIRnowbEVQL1lsOXlJMGxINHdPNDdWNXgzQlI3Rlg3dEdpRkds?=
- =?utf-8?B?djBaRC94eDhHeHZKT3dFTTlyRkN3MjIxSUxwb1d3UTJpSlJnVklmSWJ5Y1ZY?=
- =?utf-8?B?L0EvQjJSTW5OSWpiZURWcXBGNFlkL2pGbkNjVldWQzZYaDdmRFhFZCtsZ3U5?=
- =?utf-8?B?djBSYzNydDNFdmF6V1ZnR1I3aEhJaDBSbWwvM3dCSDVlQitqQlJYQ3k4RUht?=
- =?utf-8?B?aWd0UGdUMWJUcStsVmhSaGNBYVQwY2hwaCtFenNxZnE2NHRBeFF2ektqOG8r?=
- =?utf-8?B?dFIwajBNcENqbG9kOEhlQzZvYjN2SkpaNFo2MDB6Y1NNL1dxZXBmRnNUT0dR?=
- =?utf-8?B?Tk8vblc4K0tveUxFUlFVWFpVSFlzNmhjYkhYSHBkZlo0alB4dlhDQ254U2JZ?=
- =?utf-8?B?VkRaaXNhYjVpTHN5R3k4Q0l6R0JPMWNDclI1dFVCNkQ2cWhyZzh2a0QwUTU0?=
- =?utf-8?B?aHlxbTdzM0NBeStlMnJPNnVPdUNNd2dRUWhtM2RSeDZQU2hLZElSdXN5VTNz?=
- =?utf-8?B?dGxRSlR5Rjd3anRUaEVITklPc3huUXA5QmVNMnl6Yytlc2hLazZrZHlOU0Z3?=
- =?utf-8?Q?CIhfbxEpnQpWD1bcyuQcLiobm27/F3VaFlLRS?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ece4ef4-0846-4138-db26-08dec22951b6
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 11:06:25.4964
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n7HnBnV37XDciRCF8rBIS5BA4ALvZhpzAeW1Z8X35s3Wzdk5cAHFsynvnU7AX7DId4ak7TXWyctmkscpXd0JSQufBEf2VZui32qhqtIzFTe2FzC7/66zt81RlqVxTLgE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9724
+References: <20260602-projection-syntax-rework-v2-0-6989470f5440@garyguo.net>
+In-Reply-To: <20260602-projection-syntax-rework-v2-0-6989470f5440@garyguo.net>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Thu, 4 Jun 2026 13:10:20 +0200
+X-Gm-Features: AVHnY4KT0fbb0zrOV-n0xIWvnd6M6oIkQFpOjNPef2gzJpQvDH0c138r3Ikq7Iw
+Message-ID: <CAH5fLgh8L0gshrfaHWxdAqQMtXY5XEm=TT2cx6C8W519Pj3+Jw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] Rework index projection syntax
+To: Gary Guo <gary@garyguo.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Alexandre Courbot <acourbot@nvidia.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 03, 2026 at 12:51:50PM +0300, Andy Shevchenko wrote:
-> On Wed, Jun 03, 2026 at 04:44:32PM +0800, Xu Yang wrote:
-> 
-> > When iterate over children of a fwnode that has a secondary fwnode,
-> > fwnode_get_next_child_node() can enter an infinite loop if the secondary
-> > fwnode has more than one child.
-> > 
-> >                        Parent        Child
-> >       (Primary fwnode)   FWa:   {FWa1, FWa2, FWa3}
-> >     (Secondary fwnode)   FWb:   {FWb1, FWb2}
-> > 
-> > In this case:
-> > 
-> >  ┌─> fwnode_get_next_child_node(FWa, FWa1)
-> >  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa1) returns FWa2
-> >  │
-> >  │   ...
-> >  │
-> >  │   fwnode_get_next_child_node(FWa, FWa3)
-> >  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWa3) returns NULL
-> >  │    - fwnode_call_ptr_op(FWb, get_next_child_node, FWa3) returns FWb1
-> >  │
-> >  │   fwnode_get_next_child_node(FWa, FWb1)
-> >  │    - fwnode_call_ptr_op(FWa, get_next_child_node, FWb1) returns FWa1
-> >  └────┘
-> > 
-> > This cause fwnode_for_each_child_node() to loop indefinitely, reapeatedly
-> > output {FWa1, FWa2, FWa3, FWb1, FWa1, ...}.
-> > 
-> > The root cause is that when the current child (FWb1) belongs to the
-> > secondary fwnode, calling get_next_child_node() on the parimary fwnode
-> > incorrectly returns the first child (FWa1) again instead of NULL.
-> > 
-> > Fix this by dynamically checking the parent fwnode of the current child
-> > before calling get_next_child_node(). This approach follows the pattern
-> > established in commit b5b41ab6b0c1 ("device property: Check
-> > fwnode->secondary in fwnode_graph_get_next_endpoint()").
-> 
-> ...
-> 
-> TBH, this code becomes twisted and complicated. Can we add some test cases to
-> show the problem? Also we need to add other possible combinations (somewhat
-> about ~5-6) of the different types of fwnode in a relationship.
+On Tue, Jun 2, 2026 at 4:18=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+>
+> This series reworks the index projection syntax in the pointer
+> projection infrastructure to use the keyworded syntax to be more explicit=
+.
+>
+> Doing this allows adding a new panicking variant of index projection,
+> just like the normal index operator. This is useful for cases where
+> compiler cannot prove (or cannot reliably prove) access is inbounds.
+>
+> The new syntax looks like this:
+> - `[try: index]`: Fallible indexing (replaces `[index]?`).
+> - `[build: index]`: Build-time checked indexing (replaces `[index]`).
+> - `[panic: index]`: Runtime panicking indexing (newly added).
+>
+> DMA sample driver and nova core is updated.
+>
+> Danilo, we previously discussed merging this series with I/O projection f=
+or
+> patch logistics. However, I'll need more time for next version of I/O
+> projection (implementing view types that have original container type
+> erased) which won't make it this cycle. This new version for projection
+> syntax rework is minor changes only comparde to v1, so I think it's worth
+> sending out so it can still land this cycle and get out of the way.
 
-I agree that adding test cases would be helpful. But It's not straightforward to
-get swnode refcount as swnode is an internal structure. Any suggestions on this?
-
-Thanks,
-Xu Yang
-
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
