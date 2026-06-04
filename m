@@ -1,127 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053D443DA4E;
-	Thu,  4 Jun 2026 13:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE6647DD5A
+	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 13:38:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780579527; cv=none; b=np1MutBbkNrm3ZqvOQgciwsnn83MxEBj5fcAyu21O+cIt0gZz76AJgqdZX18IV+1t16yHjrlLTLKiA1SFttzN8wGu6mLNfHZNGA+voDhPzE/tODwxL53ZEDL28dQIxqR/HGiInRUkExB24YsFHWielbu/57taGdtWEKFZcf+2v0=
+	t=1780580334; cv=none; b=ctRGLOxOtcqsJJmMhsFuzWMvvmAvAqKJh7YijAsy7BUfmTN2iSBBiB3Dvbl4hM4U7D1Q340APQJ7OtQxSJ0YWIputsY3o9wcZsseA6f4dXaiEpW1wg6qW81EGtC5bz2Ux2O8iaFIBI9VimmKBovlgYThaeVoPVGuwL9ImilPGvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780579527; c=relaxed/simple;
-	bh=HKeFVD8lwilJ61/9ZkSoF6Z6KRBZUndwbAzNV/sw3IY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=US7dR/2tS0Tc6qYeaodobriuZxESxCbl497Wh5JVqxTN88YZbGmp/w+PiWHgxKNRax+3sBdhbz0PG4ImZe0YoKWrzWLPvmAAh0T5CRjNgcjysGHCjIIq4vomVMVbTmznP1Aa2byZo0YEery5m71lGSy+ijTSntMesFE9StVxPoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBHe1fmA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780580334; c=relaxed/simple;
+	bh=WOej8V0jS2hif/IqaJuxyEnOwqeHlse8TzLN/1GKs/w=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FSgTeNkbll6CII+lTTi0vxLChcqG3xDlFU39YIZ5jDIMhVacwp/1osL2Vq0Vm/xZRllMSlHeJ3CaisJ9KD0STzkUNdnbv513A3Thx7s0fBcPM4SDzRE6SaSjtAnCvHqujxVZekheV4kh0rUI1vdL6rObsXcwsQ/o0tqpu9gpYbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5ErR04z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBHe1fmA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D971F00898;
-	Thu,  4 Jun 2026 13:25:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5ErR04z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8361F0089B
+	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 13:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780579525;
-	bh=qlQij+VDTTP3ZvbjE5k4vvhLH/DNgI7reApsvnTxVoc=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=IBHe1fmAC8iMdLdxYgxl0M78EObVs/QYGXWdc/WCHfEPWbw1ChvNh/EyOWM/D0n2k
-	 7iNFkgMAD0XIJIn62sEB+Add4oUz5TAmRdRlN+67wLd+kvtGWPATKCg09p9H52gU5R
-	 OajUnykzwUUb9D3lq3r4nkPfoD4Hg93s6mxCBVkJikFg5IpwK3SNa8d4MlrF64idXF
-	 jpuw35iKLfMvyEwWnwhAFwW/9nLubnmwzLoADPwofPCbAUj37hqnEuj70SlHQ1BrEh
-	 nPQ3mlcFDmpzShJ10qBkP30hZJdUdHL9TGGUkiKV4B5Ao+Cn21G0kNJlcHBpT5Mgdo
-	 k9sotwcAGqjcw==
+	s=k20260515; t=1780580333;
+	bh=WOej8V0jS2hif/IqaJuxyEnOwqeHlse8TzLN/1GKs/w=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=C5ErR04zPbJcnzhF1uVpb6SpyO0uGcNB1QKenutCnM0FsXMcne4LWJF63unZZ4dQ1
+	 /Ol8FyQ4XS57fRII3ZZiQRjcpWCjORPtxXYXsceHTAiinRubrGf09Kw7kc+BEBNKoA
+	 k08vdn45OYQHms1brdV0jMJfD5rMbnAXaVr4HApl+CpA5CVv8m39W/SfmHb9vLH9Gi
+	 hT1V/vAYC64+l4+qUVvDetMYEieQPCcaSQ6XCVtK+DC65UvzrGMPoIw5f4CLI7GolH
+	 iEMdK40b3T3YUwxEuQlK59WjaFgBVjuBid3ASAeRs67jaBSSWFIO0959oSf1rt6PsB
+	 XQb9y5NrVORmA==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39666ac91a2so19001781fa.1
+        for <driver-core@lists.linux.dev>; Thu, 04 Jun 2026 06:38:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+l0klOr1q7UExOFcARgO52HsBCxYEU2r9BiRNAicSBGHcW6B4YGA3lJoihWqGbqiJBbLTfSnPt73RBTw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwBoogPNsWquA2VqgLQix3q4SMuFLdvKSCxnzJc64V+q2NpTKUO
+	vTZKjZMw+VTI0DGzXHBSMW9gcgXfGqm6vs3Gf5ii7C54RB7ZTyGWCCrGlPRqoaUMNHeSiYnGSDs
+	wY5pFaCKtBahZf6VkjWhCpeLICD853qmQao+RwlPdkw==
+X-Received: by 2002:a05:651c:b2a:b0:38e:94c6:b706 with SMTP id
+ 38308e7fff4ca-396bb98b98amr9711651fa.7.1780580332277; Thu, 04 Jun 2026
+ 06:38:52 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 4 Jun 2026 06:38:50 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 4 Jun 2026 06:38:50 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <6j2yk2x23mmtr2xbwkp3ind76qyy3mu7y23psseqqvbjlqepld@n4nsvswt2euz>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 04 Jun 2026 15:25:19 +0200
-Message-Id: <DJ0AREWNNJPT.9XEZC98B76II@kernel.org>
-To: "Lyude Paul" <lyude@redhat.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v17 4/6] rust: faux: Allow retrieving a bound Device
-Cc: <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, <driver-core@lists.linux.dev>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Simona Vetter" <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>, "Rafael J
- . Wysocki" <rafael@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Maxime Ripard" <mripard@kernel.org>, "David Airlie" <airlied@gmail.com>,
- "Benno Lossin" <lossin@kernel.org>, <linaro-mm-sig@lists.linaro.org>,
- "Mukesh Kumar Chaurasiya" <mkchauras@gmail.com>, "Asahi Lina"
- <lina+kernel@asahilina.net>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-References: <20260603195210.693856-1-lyude@redhat.com>
- <20260603195210.693856-5-lyude@redhat.com>
-In-Reply-To: <20260603195210.693856-5-lyude@redhat.com>
+MIME-Version: 1.0
+References: <20260603-fixes_fwnode_iteration-v2-0-0ae381f8b7b9@nxp.com>
+ <ah_3KmASlE44X4Xw@ashevche-desk.local> <6j2yk2x23mmtr2xbwkp3ind76qyy3mu7y23psseqqvbjlqepld@n4nsvswt2euz>
+Date: Thu, 4 Jun 2026 06:38:50 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Mfd6CQO8SLLzP+ggmSYzSwvsxuNUz4rwmT1JskXc_ZAYg@mail.gmail.com>
+X-Gm-Features: AVHnY4Jx-zlwECM-UOEsi3xTgeeIQ7EP0o-ZpK4NuYcXo8WYQV9kBKSsNaho8kM
+Message-ID: <CAMRc=Mfd6CQO8SLLzP+ggmSYzSwvsxuNUz4rwmT1JskXc_ZAYg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] device property: fix child iteration issues with
+ secondary fwnodes
+To: Xu Yang <xu.yang_2@oss.nxp.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Xu Yang <xu.yang_2@nxp.com>, stable@vger.kernel.org, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed Jun 3, 2026 at 9:42 PM CEST, Lyude Paul wrote:
-> When writing up some rust code that used faux devices for unit testing, I
-> noticed that we never actually added the Bound device context to
-> faux::Registration's AsRef<device::Device> implementation. This being sai=
-d:
-> the Registration object itself is proof that a driver is bound to the
-> device - so this should be safe.
-
-Yes, it should be, but the reasons are non-trivial and should be part of th=
-e
-safety comment below.
-
-  - faux_match() always returns 1, and probe runs synchronously
-    (PROBE_FORCE_SYNCHRONOUS)
-
-  - suppress_bind_attrs =3D true on faux_driver prevents userspace-triggere=
-d
-    unbind via sysfs
-
-  - mem::forget(Registration) is not a problem; if the Registration is leak=
-ed,
-    the faux device stays bound forever
-
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-
-I can pick this through the driver-core tree already, as it seems this it n=
-ot
-needed by this series. Feel free to resend as individual patch for thus pur=
-pose.
-
-> ---
->  rust/kernel/faux.rs | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+On Thu, 4 Jun 2026 12:58:41 +0200, Xu Yang <xu.yang_2@oss.nxp.com> said:
+> On Wed, Jun 03, 2026 at 12:43:06PM +0300, Andy Shevchenko wrote:
+>> On Wed, Jun 03, 2026 at 04:44:30PM +0800, Xu Yang wrote:
+>> > This series fixes two issues in the fwnode child iteration logic when
+>> > a secondary fwnode is present.
+>> >
+>> > The first patch addresses a refcount imbalance in
+>> > software_node_get_next_child(). When a software node is used as a
+>> > secondary fwnode, the iteration code may incorrectly decrement the
+>> > refcount of child nodes that do not belong to the software node
+>> > hierarchy. This results in refcount underflow and possible use-after-free.
+>> >
+>> > The second patch fixes an infinite loop in
+>> > fwnode_for_each_child_node(), caused by improper handling of iteration
+>> > state across primary and secondary fwnodes. When iterating over children
+>> > from both primary and secondary fwnodes, the code may incorrectly
+>> > resume iteration from the primary fwnode even when the current child
+>> > belongs to the secondary, leading to repeated traversal and a loop.
+>> >
+>> > Both issues are triggered when mixing different fwnode types through the
+>> > secondary mechanism, and stem from incorrect assumptions about ownership
+>> > and traversal context of child nodes.
+>>
+>> Please, Cc Bart who is heavily working on software nodes these days.
 >
-> diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
-> index 43b4974f48cd2..e0856b2964a2c 100644
-> --- a/rust/kernel/faux.rs
-> +++ b/rust/kernel/faux.rs
-> @@ -25,7 +25,8 @@
->  ///
->  /// # Invariants
->  ///
-> -/// `self.0` always holds a valid pointer to an initialized and register=
-ed [`struct faux_device`].
-> +/// - `self.0` always holds a valid pointer to an initialized and regist=
-ered [`struct faux_device`].
-> +/// - This object is proof that the object described by this `Registrati=
-on` is bound to a device.
->  ///
->  /// [`struct faux_device`]: srctree/include/linux/device/faux.h
->  pub struct Registration(NonNull<bindings::faux_device>);
-> @@ -59,8 +60,8 @@ fn as_raw(&self) -> *mut bindings::faux_device {
->      }
->  }
-> =20
-> -impl AsRef<device::Device> for Registration {
-> -    fn as_ref(&self) -> &device::Device {
-> +impl AsRef<device::Device<device::Bound>> for Registration {
-> +    fn as_ref(&self) -> &device::Device<device::Bound> {
->          // SAFETY: The underlying `device` in `faux_device` is guarantee=
-d by the C API to be
->          // a valid initialized `device`.
->          unsafe { device::Device::from_raw(addr_of_mut!((*self.as_raw()).=
-dev)) }
-> --=20
-> 2.54.0
 
+Should I propose myself as reviewer? We can't demand people to Cc random
+addresses otherwise.
+
+Bart
