@@ -1,89 +1,108 @@
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9982F8E80
-	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 11:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A9041B343
+	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 12:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780574295; cv=none; b=PvA6mzHMLZHpBqDFZE76tTCRNWCagOD/OyLGqm+Q59fikYpgBQrB2+NDk62pTxEosfs8pniNC5FF2Oe2mvXjBVW1LZiTyrqC2M4MZYjWIeZh7DvVh0SI5Q7jwOksYDnR9KJ1RtYKrQO2qWulnhlaj2Z10HvPd5S3QsQEuNMX5B4=
+	t=1780576352; cv=none; b=Agbo/cH8mWSNLOyEiADfD+Fj33k3eYbbvBNDfWwxNHAVfVvJfYA5o9QCVZ7K6z/hV+U3o6IZcXVvuuVVyHgyOJaGp+SO8Ucl+X2bnHz0krpSJo/3cWUFKqzbwbX4NN7ZadVEaSCf6yJ3k/lDmLMI9DhZnuNOl5ToX/UNOSerXno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780574295; c=relaxed/simple;
-	bh=UVIqVMclZDr4qxCyNWMZ/qWloEXWIhQNsmxjFg/How8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=fqGqjxy4xenY7lcb3eJmISm4YATsvWUhiAvLJyL8RrRxmpiKq5jVVxVpgMp69jA2NVPhnGKW+eCAuVzz81btRQX4TYtXb6b6NDBA9Ok0uPBOMTkPAfJIFUxMWGoYvd0TXyrAI8DvOoc2dNx4tvTh13ZgXmGXUDaSa+YtvSDJi6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mJsZRgzn; arc=none smtp.client-ip=209.85.208.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1780576352; c=relaxed/simple;
+	bh=LnrtZB0iEg1z1vGOmrpOOK3Cssie/DMPDNqDCPjTdS8=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YGXfIju3R1Xjss/E1LawLvJqBFJOmHQn38Be/3kGQ37G51w4PASYDifZqxynGAfkY/YAKuyg60QZBealzOwrSBJ6KbhvXUa3+J7HyPRUxbW7lrZKQM260X6uxrUJEIfcLsry4TmZplhcmqQcBG+wfPLfT6nGQ4jUxsy9Z6vwtmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cqf3MXV4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mJsZRgzn"
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-68d2339febdso930527a12.1
-        for <driver-core@lists.linux.dev>; Thu, 04 Jun 2026 04:58:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780574291; x=1781179091; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tsDBf51o8QHp6SAQ5/8ziLKktk7y3LjUQBohqdmyxqM=;
-        b=mJsZRgznkazDxCFnxyoDyaWdIq3F4E9vYOwPf5zJvY+54zf1JNS1L5k/i3htMeIdSf
-         FRW2yHmIegxBkeZ9LG7Lgq/cGDStTS6FzqCHPSOSuE24yrNSjNgWaHld5UqZnLzt7NgX
-         wKb3/y+uJU6SUgTqZgmneXsSw8IPGhcT0jr68HBDK8L71t6IqkVRbWwbPQ6sF1y/PGNr
-         3K6AyH02B5o7fP1wqJp9h1q1q/EhsFi8W3q1gmsEH66Bk8jfr1wHjMymivIvldjDdIqI
-         Zxb5Hb88RlBY7n6sMidQPpEwLEe11iiBGInMBtIJqjsf0Da36QQEioRejUoEIWqp2SL2
-         C5/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780574291; x=1781179091;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tsDBf51o8QHp6SAQ5/8ziLKktk7y3LjUQBohqdmyxqM=;
-        b=VqIKlBwk7yxP4AhNUT73nTUNlhSsXRiIFp+wnG++UJVZxG5Ed3QGRYmTtNx/ASXfnd
-         gaZUhWylyJAAxxZMJbQhdrHCOJkAJGQuW4w6F+q2mVuxZO1HAZkIaF+jGLhTOShRt902
-         J8uqW66citDqI2ShSSSYftlwRr9Faed2zuluZ6z7ukg/K1Ht70xx6xv+khRdiBzpXdiq
-         KYno+4767NQarMYizJymHWtkVucDf1Ix3F0jNfMsRx1VvGAMRvR7GuXmGlSVH6emNp57
-         O29cVgwdANe2iL5FSD8AvACvmWJDzBf5Tk5+c2d6lPlW8REKp7rTqIX7aRPW47ERhiwq
-         ytAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+lkZYw2qZ5gLYrG6wYJimOqumGk4FIqBGW9q7ZJodNx9AdzOzxcVtpf4SIHqNgjLCWV1AH+DJlJqBpDQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1iCzWcLASgX+ruB24b36wqe37f1wpTUshBp3WP205Kf4ai9d9
-	XLju0qQAG2cl/pGuwwJzTHkDrKa8pHjSmxtjX/uFDNjRiO/0gg574Ch+If1iuyRGfjH8NHrZ1J5
-	lT2Nmar0ag+URfR9NLg==
-X-Received: from edrm6.prod.google.com ([2002:aa7:d346:0:b0:68b:163d:99f3])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:27cf:b0:688:1d5:44c5 with SMTP id 4fb4d7f45d1cf-68e6f79352amr4016032a12.2.1780574290900;
- Thu, 04 Jun 2026 04:58:10 -0700 (PDT)
-Date: Thu, 4 Jun 2026 11:58:09 +0000
-In-Reply-To: <20260603195210.693856-6-lyude@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cqf3MXV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8B631F0089D
+	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 12:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780576350;
+	bh=LnrtZB0iEg1z1vGOmrpOOK3Cssie/DMPDNqDCPjTdS8=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Cqf3MXV4TD52LTrKp0CEYIe9g985jGUSnNRQCoaqoWqlQrEUsixL6taFahNCfDLy3
+	 +Z6as+OOsL9nqoix/FyXeZFm2nSqFAgKe0UdZ200LCLfCzZOsL9e5aeERkfHQuCGQt
+	 lbsQ7bKitUjPcn+bHj0GDLNxKoY1a2sN6xy3To0Q9KFC5vgDE0UO/KlEqKmvCmGo2q
+	 tQFH3C8Z7JCY1CQ0ki8z08Rb6/Be/+yEVtXg1G5zNpIwheU8ILhcBZYHgFoWppCuwE
+	 gB2HgfLQ286akIY4m3Bo3GCPaJEmZyP191eGzCBLL04xi+/lRCrQ3eZvv7giv/r8Wv
+	 S0m1gGv5CNe1w==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-39677c80386so6893331fa.3
+        for <driver-core@lists.linux.dev>; Thu, 04 Jun 2026 05:32:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9aO/f4Ak53EsY1g3ftZu+ZEqpF/sCKFd6DvQtC89kXebWUkAH3qsO+Yxqyi9tvRH6TBOrTafLUI+Crsw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzqu9oeEdZvogk8ub2Je8fU9eEKVWAEMgxSQFM6CkTZEnSW8ez1
+	g2YEyGKDg/fnSrBUxALqoAvWkRIxMkUzBh8C3qEUcC2BF5ZyRB7AL2AobqJbbEnLbiuI9m4Ub/Z
+	0F8MQnmOkWRe8xAAnp+EfKCXnNRHkoa26OypwWZccaQ==
+X-Received: by 2002:a2e:bc24:0:b0:396:9cbb:673e with SMTP id
+ 38308e7fff4ca-396af48a101mr25033101fa.24.1780576348691; Thu, 04 Jun 2026
+ 05:32:28 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 4 Jun 2026 05:32:27 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 4 Jun 2026 05:32:27 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <ah9OIVyrHEhcMHzN@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260603195210.693856-1-lyude@redhat.com> <20260603195210.693856-6-lyude@redhat.com>
-Message-ID: <aiFoUauWYLz-Oyrx@google.com>
-Subject: Re: [PATCH v17 5/6] rust: sync: Add SetOnce::reset()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	nouveau@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>, 
-	Gary Guo <gary@garyguo.net>, 
-	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, driver-core@lists.linux.dev, 
-	Miguel Ojeda <ojeda@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Maxime Ripard <mripard@kernel.org>, Benno Lossin <lossin@kernel.org>, 
-	linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>, 
-	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-7-88c324a1b8d2@oss.qualcomm.com> <ah9OIVyrHEhcMHzN@ashevche-desk.local>
+Date: Thu, 4 Jun 2026 05:32:27 -0700
+X-Gmail-Original-Message-ID: <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
+X-Gm-Features: AVHnY4LlXi8ln45MTUjJfpd_YWjp19dT0a-H21-M7Hc7IKBiGWRxgS3l-OaDEEQ
+Message-ID: <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
+Subject: Re: [PATCH 07/23] driver core: platform: provide platform_device_set_fwnode()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
+	Thierry Reding <thierry.reding@avionic-design.de>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 03, 2026 at 03:42:34PM -0400, Lyude Paul wrote:
-> This function simply drops the contents of the SetOnce, given a mutable
-> reference - since that proves we have exclusive access to the SetOnce.
-> Additionally, update the invariants for SetOnce to make it clear as to why
-> this is safe.
-> 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+On Tue, 2 Jun 2026 23:41:53 +0200, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> said:
+> On Thu, May 21, 2026 at 10:36:30AM +0200, Bartosz Golaszewski wrote:
+>> Provide a helper function encapsulating the logic of assigning firmware
+>> nodes to platform devices created with platform_device_alloc(). Make the
+>> kerneldoc state that this is the proper interface for assigning firmware
+>> nodes to dynamically allocated platform devices. This will allow us to
+>> switch to counting the references of the device's firmware nodes in the
+>> future, not only the OF nodes.
+>
+> But why different for of_node and fwnode to begin with?!
+>
 
-This isn't needed, you can just do:
+I'm not following. What are you suggesting?
 
-unsafe { (*this).sgt_res = SetOnce::new() };
-
+Bartosz
