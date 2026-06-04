@@ -1,53 +1,49 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0243B19B9
-	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 03:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3253F1664;
+	Thu,  4 Jun 2026 09:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780545502; cv=none; b=fy9nzQ1qLOnv7oZ8EBqG7Ujy+3RjqBB77Q0x13/UYXrLdUyktrzGvZzcwCV0+WvQ7dInIvWYnuhruKF0tdf3Qd7dUs8YqjEgDdJqhTWGgYR3c3sh4w4uAt8iTiXz1+GGSFPTSNPh0ELfCcrBXX3oCEQ0d/hbTWJObPKBLHNAFVE=
+	t=1780564118; cv=none; b=Dwg2PZgpKgjnj4GS+A6FaqTW8PQQboly+PmSdto+Ama2NiyQ4tBBvetb+lIgJuRxMjNIJfjc7MW1yNVLQxfetg9br07DCMLH63et4uc7wG+GowUV/L0mRDUUhUkah1mE1saqRVq7kZeGLqGHPHCTlSP6hBERl68mIPk6t869UnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780545502; c=relaxed/simple;
-	bh=aZLwY/9EDQ02XdFP+3inxUVP43n/84nghC9Ko7Zn+tA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=K1bouSkK5BPKISr/5a9RUhLOtb4BQFFkupz+oWgSPa7ecjoTluJvAtvxOJJSW9CX8qPKWPZ10zo+/TKyvQ2uPzoAxqyfq184Ej47Ymu4IAmh1HPdqMk4rOROWeWgEx32b8VDActw/OHz4rDDb72TuFmQb/5F4BaBICKadWYOEl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=L0ePJB2Z; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1780564118; c=relaxed/simple;
+	bh=gR/tI7V1xtGpHTVg4yxmUFL8pTB/bPH3uiuf6LSiPWw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I4WtBECZ2r0gckUcjqc6DiRNESm4WMqtSKW6h1RvWkXe4oiJsKy9RY6fHn1vxMZtRVVEdlBc0BwSLiblceCxBABrONoWtoZI857VFFQ/Nq6Hen2fXlkvmlbVZUI31WnMBPfBBfEPikFtztIWTlNfJ057gWiGTVoSpQBFHx0QfWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bSrJple5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="L0ePJB2Z"
-Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4103cca57;
-	Thu, 4 Jun 2026 11:52:56 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org
-Cc: dakr@kernel.org,
-	driver-core@lists.linux.dev,
-	linux@armlinux.org.uk,
-	andersson@kernel.org,
-	mathieu.poirier@linaro.org,
-	kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	nipun.gupta@amd.com,
-	nikhil.agarwal@amd.com,
-	linux-remoteproc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bSrJple5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1EF51F00893;
+	Thu,  4 Jun 2026 09:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780564117;
+	bh=dkAMsc4FtFAFIxdfhhEA2HI+PsCBrhGiEI43ClSKD38=;
+	h=From:To:Cc:Subject:Date;
+	b=bSrJple5UEHRiYRMgaEedWY3bUB8hEriDHRSfO0TWUuj/MeLm8tifhnYuFYvVfXut
+	 PF1NKEWRxW17QKnrYl1nVTHV4FgpZ17ny/t2afpK8J+LD4xfWI0TMLuBTY7N7OojtX
+	 mHzms+UmaNkt9d9vnHLEJVQ6dpzFrzKYSbEu/kuP76NCYU000onpO1Q+OYnN/vJmvW
+	 gp8mJpq/4pnq0Ci6S9cxDXEhjmCe5JUINcW+i9gMD2PuYUYSKDWKCIAAl6NI6QGXMH
+	 XTkZR4D2KUPhTTWbhLuy1kOsM/Ul1jJkNoNPEBMg3e4DOuWA7j+9seVAloQHXm3qqb
+	 Q7BUykLiZ00zQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	tzungbi@kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	runyu.xiao@seu.edu.cn,
-	stable@vger.kernel.org
-Subject: [PATCH v2 4/4] cdx: use generic driver_override infrastructure
-Date: Thu,  4 Jun 2026 11:52:39 +0800
-Message-Id: <20260604035239.1711889-5-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
-References: <20260602160829.560904-1-runyu.xiao@seu.edu.cn>
- <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	tfiga@chromium.org,
+	senozhatsky@chromium.org
+Subject: [PATCH v2 0/3] PM: dpm_watchdog: Improve DPM watchdog configurability
+Date: Thu,  4 Jun 2026 09:07:48 +0000
+Message-ID: <20260604090756.2884671-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -55,150 +51,43 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e90c3458003a1kunm0f81216d28d1b
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZTEsdVkoYGh8eHkMaQ0NPSVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=L0ePJB2Zgla5W6w8PmnPsi0MIHdQdH/3TgkcwGvhOJdJw8MD7UEzgg0Vyn3r8/0Rf97EMJrK8ONmOTIxiNTNsqcguPSKNzBsF/cbNK1YOc41xQsIelpXuxocnGbCywF7j3u4MNjSb1/THblDMq/4qp4AMtXXF6skWSjr6g9aQkQ=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=0XPOIhxg2F68hBRjE6rRRrqxSXoozAE1hg6WZ/Tun+U=;
-	h=date:mime-version:subject:message-id:from;
 
-CDX devices still keep driver_override in bus-private storage.
+This series improves the configurability of the DPM watchdog.
 
-The sysfs write side updates that string through driver_set_override(),
-which replaces the pointer and frees the old value. However,
-driver_match_device() can call cdx_bus_match() from __driver_attach()
-without holding the device lock, and cdx_bus_match() still dereferences
-that private pointer directly.
+Currently, the DPM watchdog timeouts are fixed at compile time, and the
+watchdog is always enabled if compiled in.  Also, the module parameters
+defined in drivers/base/power/main.c use the generic and non-descriptive
+"main" prefix.
 
-That means the CDX match path can race with a concurrent
-driver_override update and compare against freed memory.
+This series addresses these limitations.
 
-Switch CDX to the driver-core driver_override infrastructure. This
-removes the private driver_override storage, lets the core provide the
-sysfs attribute, and uses device_match_driver_override() for the locked
-read in cdx_bus_match().
+Patch 1 renames the module parameter prefix for drivers/base/power/main.c
+from "main" to "power".
 
-Preserve the existing CDX override_only semantics: entries marked
-override_only still require a matching driver_override, but ordinary ID
-matches continue to work unchanged.
+Patch 2 introduces the CONFIG_DPM_WATCHDOG_DEFAULT_ENABLED to allow the DPM
+watchdog to be disabled by default at compile time.  It also exposes the
+"power.dpm_watchdog_enabled" module parameter to allow enabling/disabling
+the watchdog at boot time and runtime.
 
-Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/
-Fixes: 48a6c7bced2a ("cdx: add device attributes")
-Cc: stable@vger.kernel.org
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Patch 3 introduces sysctl knobs under /proc/sys/kernel/ to allow
+configuring the DPM watchdog timeouts at runtime.
+
 ---
-drivers/cdx/cdx.c           | 40 +++++--------------------------------
-include/linux/cdx/cdx_bus.h |  1 -
- 2 files changed, 5 insertions(+), 36 deletions(-)
+v2:
+- Form a new series.
 
-diff --git a/drivers/cdx/cdx.c b/drivers/cdx/cdx.c
-index 9196dc50a48d..d3d230247262 100644
---- a/drivers/cdx/cdx.c
-+++ b/drivers/cdx/cdx.c
-@@ -156,8 +156,6 @@ static int cdx_unregister_device(struct device *dev,
- 	} else {
- 		cdx_destroy_res_attr(cdx_dev, MAX_CDX_DEV_RESOURCES);
- 		debugfs_remove_recursive(cdx_dev->debugfs_dir);
--		kfree(cdx_dev->driver_override);
--		cdx_dev->driver_override = NULL;
- 	}
- 
- 	/*
-@@ -268,6 +266,7 @@ static int cdx_bus_match(struct device *dev, const struct device_driver *drv)
- 	const struct cdx_driver *cdx_drv = to_cdx_driver(drv);
- 	const struct cdx_device_id *found_id = NULL;
- 	const struct cdx_device_id *ids;
-+	int ret;
- 
- 	if (cdx_dev->is_bus)
- 		return false;
-@@ -275,7 +274,8 @@ static int cdx_bus_match(struct device *dev, const struct device_driver *drv)
- 	ids = cdx_drv->match_id_table;
- 
- 	/* When driver_override is set, only bind to the matching driver */
--	if (cdx_dev->driver_override && strcmp(cdx_dev->driver_override, drv->name))
-+	ret = device_match_driver_override(dev, drv);
-+	if (ret == 0)
- 		return false;
- 
- 	found_id = cdx_match_id(ids, cdx_dev);
-@@ -289,7 +289,7 @@ static int cdx_bus_match(struct device *dev, const struct device_driver *drv)
- 		 */
- 		if (!found_id->override_only)
- 			return true;
--		if (cdx_dev->driver_override)
-+		if (ret > 0)
- 			return true;
- 
- 		ids = found_id + 1;
-@@ -453,36 +453,6 @@ static ssize_t modalias_show(struct device *dev, struct device_attribute *attr,
- }
- static DEVICE_ATTR_RO(modalias);
- 
--static ssize_t driver_override_store(struct device *dev,
--				     struct device_attribute *attr,
--				     const char *buf, size_t count)
--{
--	struct cdx_device *cdx_dev = to_cdx_device(dev);
--	int ret;
--
--	if (WARN_ON(dev->bus != &cdx_bus_type))
--		return -EINVAL;
--
--	ret = driver_set_override(dev, &cdx_dev->driver_override, buf, count);
--	if (ret)
--		return ret;
--
--	return count;
--}
--
--static ssize_t driver_override_show(struct device *dev,
--				    struct device_attribute *attr, char *buf)
--{
--	struct cdx_device *cdx_dev = to_cdx_device(dev);
--	ssize_t len;
--
--	device_lock(dev);
--	len = sysfs_emit(buf, "%s\n", cdx_dev->driver_override);
--	device_unlock(dev);
--	return len;
--}
--static DEVICE_ATTR_RW(driver_override);
--
- static ssize_t enable_store(struct device *dev, struct device_attribute *attr,
- 			    const char *buf, size_t count)
- {
-@@ -552,7 +522,6 @@ static struct attribute *cdx_dev_attrs[] = {
- 	&dev_attr_class.attr,
- 	&dev_attr_revision.attr,
- 	&dev_attr_modalias.attr,
--	&dev_attr_driver_override.attr,
- 	NULL,
- };
- 
-@@ -646,6 +615,7 @@ ATTRIBUTE_GROUPS(cdx_bus);
- 
- const struct bus_type cdx_bus_type = {
- 	.name		= "cdx",
-+	.driver_override = true,
- 	.match		= cdx_bus_match,
- 	.probe		= cdx_probe,
- 	.remove		= cdx_remove,
-diff --git a/include/linux/cdx/cdx_bus.h b/include/linux/cdx/cdx_bus.h
-index b1ba97f6c9ad..f1a107b232da 100644
---- a/include/linux/cdx/cdx_bus.h
-+++ b/include/linux/cdx/cdx_bus.h
-@@ -165,7 +165,6 @@ struct cdx_device {
- 	bool enabled;
- 	u32 msi_dev_id;
- 	u32 num_msi;
--	const char *driver_override;
- 	struct mutex irqchip_lock;
- 	bool msi_write_pending;
- };
+v1: Doesn't exist.
+
+Tzung-Bi Shih (3):
+  PM: core: Rename module parameters prefix to "power"
+  PM: dpm_watchdog: Allow disabling DPM watchdog by default
+  PM: dpm_watchdog: Add sysctl interface for DPM watchdog timeouts
+
+ .../admin-guide/kernel-parameters.txt         |  8 ++
+ drivers/base/power/main.c                     | 75 ++++++++++++++++++-
+ kernel/power/Kconfig                          |  9 +++
+ 3 files changed, 88 insertions(+), 4 deletions(-)
+
 -- 
-2.34.1
+2.54.0.1032.g2f8565e1d1-goog
+
