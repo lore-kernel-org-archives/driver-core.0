@@ -1,24 +1,24 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777F63A7D74
-	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 03:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0243B19B9
+	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 03:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780545493; cv=none; b=cIf1bIzCjPt6FrEMgThbo+l5JFPLX7UCY2RbRDaaBvDYfGGg5vkcgEBZAYmFJRsev31iav6PRmf94tKQOL+eMCk0XsH1n/GjmuSIBc2pdl6Fy389r2kZnWeIP6tIIan/TcRp4k+LjzHI5rht9ONS6uxTSmf03VlLJs9f58yTGLM=
+	t=1780545502; cv=none; b=fy9nzQ1qLOnv7oZ8EBqG7Ujy+3RjqBB77Q0x13/UYXrLdUyktrzGvZzcwCV0+WvQ7dInIvWYnuhruKF0tdf3Qd7dUs8YqjEgDdJqhTWGgYR3c3sh4w4uAt8iTiXz1+GGSFPTSNPh0ELfCcrBXX3oCEQ0d/hbTWJObPKBLHNAFVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780545493; c=relaxed/simple;
-	bh=m2r3NnCy/KZ84xotuXv71W3230SYAAJzBbEbXOOXLXA=;
+	s=arc-20240116; t=1780545502; c=relaxed/simple;
+	bh=aZLwY/9EDQ02XdFP+3inxUVP43n/84nghC9Ko7Zn+tA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XXkdGPXQMSxoFmoQUFLdbyG920oFGkGBVhTFK/EG94K2+z+Zkt53aT7kN4W0qDvOdZ4UBDSokYaVRnsgQ1bU7tQcSCDOQYE++fu7qUSykhkMuRDMJ3vpRm+beak4yYdqBjDqctCVhvq/Z80H92MFUwoSxtvM97PPlx7l7FtCAUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=LSLVJ0ra; arc=none smtp.client-ip=45.254.49.198
+	 MIME-Version; b=K1bouSkK5BPKISr/5a9RUhLOtb4BQFFkupz+oWgSPa7ecjoTluJvAtvxOJJSW9CX8qPKWPZ10zo+/TKyvQ2uPzoAxqyfq184Ej47Ymu4IAmh1HPdqMk4rOROWeWgEx32b8VDActw/OHz4rDDb72TuFmQb/5F4BaBICKadWYOEl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=L0ePJB2Z; arc=none smtp.client-ip=45.254.49.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="LSLVJ0ra"
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="L0ePJB2Z"
 Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4103cca56;
-	Thu, 4 Jun 2026 11:52:53 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4103cca57;
+	Thu, 4 Jun 2026 11:52:56 +0800 (GMT+08:00)
 From: Runyu Xiao <runyu.xiao@seu.edu.cn>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org
@@ -41,9 +41,9 @@ Cc: dakr@kernel.org,
 	jianhao.xu@seu.edu.cn,
 	runyu.xiao@seu.edu.cn,
 	stable@vger.kernel.org
-Subject: [PATCH v2 3/4] vmbus: use generic driver_override infrastructure
-Date: Thu,  4 Jun 2026 11:52:38 +0800
-Message-Id: <20260604035239.1711889-4-runyu.xiao@seu.edu.cn>
+Subject: [PATCH v2 4/4] cdx: use generic driver_override infrastructure
+Date: Thu,  4 Jun 2026 11:52:39 +0800
+Message-Id: <20260604035239.1711889-5-runyu.xiao@seu.edu.cn>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
 References: <20260602160829.560904-1-runyu.xiao@seu.edu.cn>
@@ -55,61 +55,101 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e90c337db03a1kunm0f81216d28d16
+X-HM-Tid: 0a9e90c3458003a1kunm0f81216d28d1b
 X-HM-MType: 10
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ0xJVk5NH05JSk0YH08ZH1YeHw
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZTEsdVkoYGh8eHkMaQ0NPSVYeHw
 	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
 	9ITFVKS0tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=LSLVJ0raer3sjupnvQRNaKHY/z4PoUoLkIehpjSWd0fRNN+6OkVsCv3khotgx6wZa7J6GZKBfvF17jJhZess5RurpNSUWU2llTJFBo1D6kTW7Bl7XBRg6y2cvxNGw4FUPkq5jzCwNJXGHpIVkOIs0/CzHHIWetOpMUQODPuZ5rE=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=1saAZ4M5FGw32ryywngoGqoPoT+AUfoWbT4m71a/aNs=;
+	b=L0ePJB2Zgla5W6w8PmnPsi0MIHdQdH/3TgkcwGvhOJdJw8MD7UEzgg0Vyn3r8/0Rf97EMJrK8ONmOTIxiNTNsqcguPSKNzBsF/cbNK1YOc41xQsIelpXuxocnGbCywF7j3u4MNjSb1/THblDMq/4qp4AMtXXF6skWSjr6g9aQkQ=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=0XPOIhxg2F68hBRjE6rRRrqxSXoozAE1hg6WZ/Tun+U=;
 	h=date:mime-version:subject:message-id:from;
 
-VMBUS devices still keep driver_override in bus-private storage.
+CDX devices still keep driver_override in bus-private storage.
 
 The sysfs write side updates that string through driver_set_override(),
 which replaces the pointer and frees the old value. However,
-driver_match_device() can call into hv_vmbus_get_id() from
-__driver_attach() without holding the device lock, and hv_vmbus_get_id()
-still dereferences that private pointer directly.
+driver_match_device() can call cdx_bus_match() from __driver_attach()
+without holding the device lock, and cdx_bus_match() still dereferences
+that private pointer directly.
 
-That means a bind/reprobe path can race with a concurrent
-driver_override update and make the match logic inspect freed memory.
+That means the CDX match path can race with a concurrent
+driver_override update and compare against freed memory.
 
-Switch vmbus to the driver-core driver_override infrastructure. This
-removes the private driver_override storage and uses
-device_match_driver_override() for the locked read in the match path.
+Switch CDX to the driver-core driver_override infrastructure. This
+removes the private driver_override storage, lets the core provide the
+sysfs attribute, and uses device_match_driver_override() for the locked
+read in cdx_bus_match().
 
-Keep the existing vmbus semantics intact: if driver_override matches but
-no dynamic or static device ID matches, continue to return the dummy
-vmbus_device_null ID so override-only binding still works as before.
+Preserve the existing CDX override_only semantics: entries marked
+override_only still require a matching driver_override, but ordinary ID
+matches continue to work unchanged.
 
 Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/
-Fixes: d765edbb301c ("vmbus: add driver_override support")
+Fixes: 48a6c7bced2a ("cdx: add device attributes")
 Cc: stable@vger.kernel.org
 Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
 ---
-drivers/hv/vmbus_drv.c | 36 +++++-------------------------------
-include/linux/hyperv.h |  6 ------
- 2 files changed, 5 insertions(+), 37 deletions(-)
+drivers/cdx/cdx.c           | 40 +++++--------------------------------
+include/linux/cdx/cdx_bus.h |  1 -
+ 2 files changed, 5 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index d28ff45d4cfd..a81e2b097636 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -538,34 +538,6 @@ static ssize_t device_show(struct device *dev,
+diff --git a/drivers/cdx/cdx.c b/drivers/cdx/cdx.c
+index 9196dc50a48d..d3d230247262 100644
+--- a/drivers/cdx/cdx.c
++++ b/drivers/cdx/cdx.c
+@@ -156,8 +156,6 @@ static int cdx_unregister_device(struct device *dev,
+ 	} else {
+ 		cdx_destroy_res_attr(cdx_dev, MAX_CDX_DEV_RESOURCES);
+ 		debugfs_remove_recursive(cdx_dev->debugfs_dir);
+-		kfree(cdx_dev->driver_override);
+-		cdx_dev->driver_override = NULL;
+ 	}
+ 
+ 	/*
+@@ -268,6 +266,7 @@ static int cdx_bus_match(struct device *dev, const struct device_driver *drv)
+ 	const struct cdx_driver *cdx_drv = to_cdx_driver(drv);
+ 	const struct cdx_device_id *found_id = NULL;
+ 	const struct cdx_device_id *ids;
++	int ret;
+ 
+ 	if (cdx_dev->is_bus)
+ 		return false;
+@@ -275,7 +274,8 @@ static int cdx_bus_match(struct device *dev, const struct device_driver *drv)
+ 	ids = cdx_drv->match_id_table;
+ 
+ 	/* When driver_override is set, only bind to the matching driver */
+-	if (cdx_dev->driver_override && strcmp(cdx_dev->driver_override, drv->name))
++	ret = device_match_driver_override(dev, drv);
++	if (ret == 0)
+ 		return false;
+ 
+ 	found_id = cdx_match_id(ids, cdx_dev);
+@@ -289,7 +289,7 @@ static int cdx_bus_match(struct device *dev, const struct device_driver *drv)
+ 		 */
+ 		if (!found_id->override_only)
+ 			return true;
+-		if (cdx_dev->driver_override)
++		if (ret > 0)
+ 			return true;
+ 
+ 		ids = found_id + 1;
+@@ -453,36 +453,6 @@ static ssize_t modalias_show(struct device *dev, struct device_attribute *attr,
  }
- static DEVICE_ATTR_RO(device);
+ static DEVICE_ATTR_RO(modalias);
  
 -static ssize_t driver_override_store(struct device *dev,
 -				     struct device_attribute *attr,
 -				     const char *buf, size_t count)
 -{
--	struct hv_device *hv_dev = device_to_hv_device(dev);
+-	struct cdx_device *cdx_dev = to_cdx_device(dev);
 -	int ret;
 -
--	ret = driver_set_override(dev, &hv_dev->driver_override, buf, count);
+-	if (WARN_ON(dev->bus != &cdx_bus_type))
+-		return -EINVAL;
+-
+-	ret = driver_set_override(dev, &cdx_dev->driver_override, buf, count);
 -	if (ret)
 -		return ret;
 -
@@ -119,74 +159,46 @@ index d28ff45d4cfd..a81e2b097636 100644
 -static ssize_t driver_override_show(struct device *dev,
 -				    struct device_attribute *attr, char *buf)
 -{
--	struct hv_device *hv_dev = device_to_hv_device(dev);
+-	struct cdx_device *cdx_dev = to_cdx_device(dev);
 -	ssize_t len;
 -
 -	device_lock(dev);
--	len = sysfs_emit(buf, "%s\n", hv_dev->driver_override);
+-	len = sysfs_emit(buf, "%s\n", cdx_dev->driver_override);
 -	device_unlock(dev);
--
 -	return len;
 -}
 -static DEVICE_ATTR_RW(driver_override);
 -
- /* Set up per device attributes in /sys/bus/vmbus/devices/<bus device> */
- static struct attribute *vmbus_dev_attrs[] = {
- 	&dev_attr_id.attr,
-@@ -596,7 +568,6 @@ static struct attribute *vmbus_dev_attrs[] = {
- 	&dev_attr_channel_vp_mapping.attr,
- 	&dev_attr_vendor.attr,
- 	&dev_attr_device.attr,
+ static ssize_t enable_store(struct device *dev, struct device_attribute *attr,
+ 			    const char *buf, size_t count)
+ {
+@@ -552,7 +522,6 @@ static struct attribute *cdx_dev_attrs[] = {
+ 	&dev_attr_class.attr,
+ 	&dev_attr_revision.attr,
+ 	&dev_attr_modalias.attr,
 -	&dev_attr_driver_override.attr,
  	NULL,
  };
  
-@@ -708,9 +679,11 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
- {
- 	const guid_t *guid = &dev->dev_type;
- 	const struct hv_vmbus_device_id *id;
-+	int ret;
+@@ -646,6 +615,7 @@ ATTRIBUTE_GROUPS(cdx_bus);
  
- 	/* When driver_override is set, only bind to the matching driver */
--	if (dev->driver_override && strcmp(dev->driver_override, drv->name))
-+	ret = device_match_driver_override(&dev->device, &drv->driver);
-+	if (ret == 0)
- 		return NULL;
- 
- 	/* Look at the dynamic ids first, before the static ones */
-@@ -719,7 +692,7 @@ static const struct hv_vmbus_device_id *hv_vmbus_get_id(const struct hv_driver *
- 		id = hv_vmbus_dev_match(drv->id_table, guid);
- 
- 	/* driver_override will always match, send a dummy id */
--	if (!id && dev->driver_override)
-+	if (!id && ret > 0)
- 		id = &vmbus_device_null;
- 
- 	return id;
-@@ -1021,6 +994,7 @@ static const struct dev_pm_ops vmbus_pm = {
- /* The one and only one */
- static const struct bus_type  hv_bus = {
- 	.name =		"vmbus",
+ const struct bus_type cdx_bus_type = {
+ 	.name		= "cdx",
 +	.driver_override = true,
- 	.match =		vmbus_match,
- 	.shutdown =		vmbus_shutdown,
- 	.remove =		vmbus_remove,
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 964f1be8150c..f9ede569602d 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1272,12 +1272,6 @@ struct hv_device {
- 	u16 device_id;
- 
- 	struct device device;
--	/*
--	 * Driver name to force a match.  Do not set directly, because core
--	 * frees it.  Use driver_set_override() to set or clear it.
--	 */
+ 	.match		= cdx_bus_match,
+ 	.probe		= cdx_probe,
+ 	.remove		= cdx_remove,
+diff --git a/include/linux/cdx/cdx_bus.h b/include/linux/cdx/cdx_bus.h
+index b1ba97f6c9ad..f1a107b232da 100644
+--- a/include/linux/cdx/cdx_bus.h
++++ b/include/linux/cdx/cdx_bus.h
+@@ -165,7 +165,6 @@ struct cdx_device {
+ 	bool enabled;
+ 	u32 msi_dev_id;
+ 	u32 num_msi;
 -	const char *driver_override;
--
- 	struct vmbus_channel *channel;
- 	struct kset	     *channels_kset;
- 	struct device_dma_parameters dma_parms;
+ 	struct mutex irqchip_lock;
+ 	bool msi_write_pending;
+ };
 -- 
 2.34.1
