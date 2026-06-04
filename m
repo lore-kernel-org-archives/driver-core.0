@@ -1,24 +1,24 @@
-Received: from mail-m254119.xmail.netease.com (mail-m254119.xmail.netease.com [103.129.254.119])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F582290DBB
-	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 03:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.129.254.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D015372617
+	for <driver-core@lists.linux.dev>; Thu,  4 Jun 2026 03:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780545182; cv=none; b=DSgKr37qdf4v20VKK2e2b57G7O/RBNFhtJSpLdDBv9eIxR1RFyRC1vJ+5W56wmZk651KRHjdCxmx4KJOi/Z0XV0q4YN+jibwZ10srMCGomZz68mc/Sn6AYZ6QHwHEiTUm+XYmcc8qDpaglpCubbiXAAKylq/sRXv12dvRMV7uzk=
+	t=1780545482; cv=none; b=aZGYxfzcxwdWQQyAghhWKcFmMka9OZda6KvlAuAkDjfgqnLUBMvIjQz2SU6n0gOpiCvqkmknRqyB65iyosxk+Q8Y1SUkyeTNs1XQ7o+1F7ZNrJa0RU+0eYl2hS7SWFX/QTfepv9axaWmIZ6ZP86RsMb7TdgfZOrGIhG/h2pdTaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780545182; c=relaxed/simple;
-	bh=SMAFTtvZKj1tGxbRkVNkrcfNuKUXUgt/xlwD1tg2SEo=;
+	s=arc-20240116; t=1780545482; c=relaxed/simple;
+	bh=pqJORI/BeSEPC9kKrGebEYTG7dT32Me3VXUFobNTPAA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=R2vpc9lXc/rPUVukqzdxF12MHM5QbJQa68NheKOkOKQ2aJofcqd381QkTiNncin9NwanfQMUpizzf82LWMsBKlu98j3lqTyDexaW0qq1CYrEjW/PS+9uGt1HH1fARFKDw66To57XFoxuxPSB5/56mJhCH4vtWA0GwhdZ4lWFnCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Z+ZpfeIl; arc=none smtp.client-ip=103.129.254.119
+	 MIME-Version; b=jG9WZeKA/YZu2noKFX4Oheg1wqUQCJ+gAFF8kyCkENaSxC68dIGqkTxT6IMIkO7RL8XjsHVcCfcZ5RhSFnw/36H/9q5GcDGvkgbm3VNeeiIlJGXmoVuhoF96EYvUCR4sMY3MwviV58W3/GPVBo79jtmZcc+P7pPx9qoOaeE2y84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=QBd/WNzH; arc=none smtp.client-ip=101.71.155.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Z+ZpfeIl"
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="QBd/WNzH"
 Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4103cca53;
-	Thu, 4 Jun 2026 11:52:50 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4103cca4d;
+	Thu, 4 Jun 2026 11:52:45 +0800 (GMT+08:00)
 From: Runyu Xiao <runyu.xiao@seu.edu.cn>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org
@@ -39,15 +39,13 @@ Cc: dakr@kernel.org,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	jianhao.xu@seu.edu.cn,
-	runyu.xiao@seu.edu.cn,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/4] rpmsg: core: use generic driver_override infrastructure
-Date: Thu,  4 Jun 2026 11:52:37 +0800
-Message-Id: <20260604035239.1711889-3-runyu.xiao@seu.edu.cn>
+	runyu.xiao@seu.edu.cn
+Subject: [PATCH v2 0/4] Convert remaining buses to generic driver_override handling
+Date: Thu,  4 Jun 2026 11:52:35 +0800
+Message-Id: <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
+In-Reply-To: <20260602160829.560904-1-runyu.xiao@seu.edu.cn>
 References: <20260602160829.560904-1-runyu.xiao@seu.edu.cn>
- <20260604035239.1711889-1-runyu.xiao@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -55,190 +53,90 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e90c32b3b03a1kunm0f81216d28d0c
+X-HM-Tid: 0a9e90c3184503a1kunm0f81216d28cfb
 X-HM-MType: 10
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCQ01KVk5CSBhIGEwZTktMSlYeHw
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaH0ofVkkdQk8YSx1KSE5MS1YeHw
 	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
 	9ITFVKS0tVSkJLS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=Z+ZpfeIlcsyakIp+2dJdmyLiafu+Q1ewvgfSJUPRMq1+iFblMZVbCm2i+mrbvCaWqy5XqZJY3RnWSI4Mb2tDiE/1iHtdla+5Lxr8GEAO+YCShf0DEbXws4w8FrzBlYSjYrbRrsK2uariKlpARqKL0qqAPE6XxKIFH7QlFE6qsh0=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=4m5lAv5Y2vm0X6WsxxKQwzOypiG0pQhWs1EBrVLkQNM=;
+	b=QBd/WNzH8LJIFfCWteEZ7O5gOK2zi6HbPOPqyAciNXBwGzWyX+BGVc5xSmUYvSbAJ+q9IQW0HUM+SLHOsEsnAjTZx2pDwf8SFt4czz/ENWStIwWQHSNHAbMQ7q4H2AU20MEGpcRmnBeBVHwzWvyyUqLSZGxqkEo8Z/qL8cuiypE=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=0i30K4Aag2IQ6XA3c4b24FojM+2f3MFxUzei21oNgo8=;
 	h=date:mime-version:subject:message-id:from;
 
-RPMSG still keeps driver_override in bus-private storage.
+This series converts four remaining buses from bus-private
+driver_override handling to the generic driver-core infrastructure:
 
-That private pointer can be updated from the sysfs driver_override
-attribute, and also from rpmsg_register_device_override(). Both paths
-replace the pointer and can free the old value.
+  - AMBA
+  - RPMSG
+  - VMBUS
+  - CDX
 
-However, driver_match_device() can call rpmsg_dev_match() from
-__driver_attach() without holding the device lock, and rpmsg_dev_match()
-still dereferences that private pointer directly.
+These buses still keep private driver_override storage and read it
+directly from their match paths. However, bus match() callbacks can be
+reached from __driver_attach() without the device lock held, so those
+raw reads can race with updates that replace and free the override
+string.
 
-This leaves the match path racing with concurrent driver_override
-updates, with the usual risk of comparing against freed memory.
+The driver core already provides generic driver_override storage and
+matching helpers with the required internal locking. Other buses have
+already been converted to that model. This series switches the
+remaining users above to the same infrastructure by:
 
-Switch rpmsg to the driver-core driver_override infrastructure. This
-removes the private storage, uses device_match_driver_override() for the
-locked read in rpmsg_dev_match(), and converts
-rpmsg_register_device_override() to device_set_driver_override() so the
-in-kernel override path uses the same core-managed storage. With that
-storage now owned by struct device, drop the remaining rpmsg transport
-release-path frees of rpdev->driver_override as well.
+  - removing bus-private driver_override storage
+  - dropping bus-local driver_override sysfs handling
+  - enabling struct bus_type.driver_override
+  - using device_match_driver_override() in match paths
 
-Link: https://lore.kernel.org/driver-core/DGRGTIRHA62X.3RY09D9SOK77P@kernel.org/
-Fixes: 39e47767ec9b ("rpmsg: Add driver_override device attribute for rpmsg_device")
-Cc: stable@vger.kernel.org
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
-drivers/rpmsg/qcom_glink_native.c |  2 --
-drivers/rpmsg/rpmsg_core.c        | 41 ++++++--------------------------------
-drivers/rpmsg/virtio_rpmsg_bus.c  |  1 -
-include/linux/rpmsg.h             |  4 ----
- 4 files changed, 6 insertions(+), 42 deletions(-)
+Bus-specific behavior is preserved where needed:
 
-diff --git a/drivers/rpmsg/rpmsg_core.c b/drivers/rpmsg/rpmsg_core.c
-index e7f7831d37f8..11d3007db5cd 100644
---- a/drivers/rpmsg/rpmsg_core.c
-+++ b/drivers/rpmsg/rpmsg_core.c
-@@ -358,33 +358,6 @@ rpmsg_show_attr(src, src, "0x%x\n");
- rpmsg_show_attr(dst, dst, "0x%x\n");
- rpmsg_show_attr(announce, announce ? "true" : "false", "%s\n");
- 
--static ssize_t driver_override_store(struct device *dev,
--				     struct device_attribute *attr,
--				     const char *buf, size_t count)
--{
--	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
--	int ret;
--
--	ret = driver_set_override(dev, &rpdev->driver_override, buf, count);
--	if (ret)
--		return ret;
--
--	return count;
--}
--
--static ssize_t driver_override_show(struct device *dev,
--				    struct device_attribute *attr, char *buf)
--{
--	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
--	ssize_t len;
--
--	device_lock(dev);
--	len = sysfs_emit(buf, "%s\n", rpdev->driver_override);
--	device_unlock(dev);
--	return len;
--}
--static DEVICE_ATTR_RW(driver_override);
--
- static ssize_t modalias_show(struct device *dev,
- 			     struct device_attribute *attr, char *buf)
- {
-@@ -405,7 +378,6 @@ static struct attribute *rpmsg_dev_attrs[] = {
- 	&dev_attr_dst.attr,
- 	&dev_attr_src.attr,
- 	&dev_attr_announce.attr,
--	&dev_attr_driver_override.attr,
- 	NULL,
- };
- ATTRIBUTE_GROUPS(rpmsg_dev);
-@@ -424,9 +396,11 @@ static int rpmsg_dev_match(struct device *dev, const struct device_driver *drv)
- 	const struct rpmsg_driver *rpdrv = to_rpmsg_driver(drv);
- 	const struct rpmsg_device_id *ids = rpdrv->id_table;
- 	unsigned int i;
-+	int ret;
- 
--	if (rpdev->driver_override)
--		return !strcmp(rpdev->driver_override, drv->name);
-+	ret = device_match_driver_override(dev, drv);
-+	if (ret >= 0)
-+		return ret;
- 
- 	if (ids)
- 		for (i = 0; ids[i].name[0]; i++)
-@@ -533,6 +507,7 @@ static void rpmsg_dev_remove(struct device *dev)
- 
- static const struct bus_type rpmsg_bus = {
- 	.name		= "rpmsg",
-+	.driver_override = true,
- 	.match		= rpmsg_dev_match,
- 	.dev_groups	= rpmsg_dev_groups,
- 	.uevent		= rpmsg_uevent,
-@@ -560,9 +535,7 @@ int rpmsg_register_device_override(struct rpmsg_device *rpdev,
- 
- 	device_initialize(dev);
- 	if (driver_override) {
--		ret = driver_set_override(dev, &rpdev->driver_override,
--					  driver_override,
--					  strlen(driver_override));
-+		ret = device_set_driver_override(dev, driver_override);
- 		if (ret) {
- 			dev_err(dev, "device_set_override failed: %d\n", ret);
- 			put_device(dev);
-@@ -573,8 +546,6 @@ int rpmsg_register_device_override(struct rpmsg_device *rpdev,
- 	ret = device_add(dev);
- 	if (ret) {
- 		dev_err(dev, "device_add failed: %d\n", ret);
--		kfree(rpdev->driver_override);
--		rpdev->driver_override = NULL;
- 		put_device(dev);
- 	}
- 
-diff --git a/drivers/rpmsg/qcom_glink_native.c b/drivers/rpmsg/qcom_glink_native.c
-index 401a4ece0c97..d9d4468e4cbd 100644
---- a/drivers/rpmsg/qcom_glink_native.c
-+++ b/drivers/rpmsg/qcom_glink_native.c
-@@ -1626,7 +1626,6 @@ static void qcom_glink_rpdev_release(struct device *dev)
- {
- 	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
- 
--	kfree(rpdev->driver_override);
- 	kfree(rpdev);
- }
- 
-@@ -1862,7 +1861,6 @@ static void qcom_glink_device_release(struct device *dev)
- 
- 	/* Release qcom_glink_alloc_channel() reference */
- 	kref_put(&channel->refcount, qcom_glink_channel_release);
--	kfree(rpdev->driver_override);
- 	kfree(rpdev);
- }
- 
-diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
-index 5ae15111fb4f..1b8bb05924af 100644
---- a/drivers/rpmsg/virtio_rpmsg_bus.c
-+++ b/drivers/rpmsg/virtio_rpmsg_bus.c
-@@ -374,7 +374,6 @@ static void virtio_rpmsg_release_device(struct device *dev)
- 	struct rpmsg_device *rpdev = to_rpmsg_device(dev);
- 	struct virtio_rpmsg_channel *vch = to_virtio_rpmsg_channel(rpdev);
- 
--	kfree(rpdev->driver_override);
- 	kfree(vch);
- }
- 
-diff --git a/include/linux/rpmsg.h b/include/linux/rpmsg.h
-index 83266ce14642..2e40eb54155e 100644
---- a/include/linux/rpmsg.h
-+++ b/include/linux/rpmsg.h
-@@ -41,9 +41,6 @@ struct rpmsg_channel_info {
-  * rpmsg_device - device that belong to the rpmsg bus
-  * @dev: the device struct
-  * @id: device id (used to match between rpmsg drivers and devices)
-- * @driver_override: driver name to force a match; do not set directly,
-- *                   because core frees it; use driver_set_override() to
-- *                   set or clear it.
-  * @src: local address
-  * @dst: destination address
-  * @ept: the rpmsg endpoint of this channel
-@@ -53,7 +50,6 @@ struct rpmsg_channel_info {
- struct rpmsg_device {
- 	struct device dev;
- 	struct rpmsg_device_id id;
--	const char *driver_override;
- 	u32 src;
- 	u32 dst;
- 	struct rpmsg_endpoint *ept;
+  - VMBUS keeps its dummy-id fallback for override-based binding
+  - CDX keeps its override_only matching semantics
+  - RPMSG converts its in-kernel override registration path to
+    device_set_driver_override() and drops the old transport-local
+    frees of bus-private override storage
+
+Before preparing this v2 series, I rechecked the affected source paths
+against v7.1-rc6. I also reran the existing report-specific no-device
+KCSAN stand-ins on a local v7.1-rc6 guest for all four buses. Those
+reruns again produced target-stack reports for the corresponding
+driver_override update/match paths.
+
+That runtime validation is still stand-in based rather than direct
+hardware execution, but it reuses the real driver_set_override() helper
+from the running v7.1-rc6 guest kernel and preserves the relevant
+patch-local reader/writer contracts and caller chains.
+
+Since v1:
+  - reworked the series around the generic driver_override
+    infrastructure instead of trying to serialize bus match() with
+    device_lock(dev)
+  - split the changes by bus
+  - preserved VMBUS dummy-id fallback behavior explicitly
+  - preserved CDX override_only matching semantics explicitly
+  - converted the RPMSG in-kernel override registration path to the
+    core helper
+  - reran the four report-specific no-device KCSAN stand-ins on a
+    local v7.1-rc6 guest and refreshed the validation basis
+  - refreshed the commit messages accordingly
+
+Runyu Xiao (4):
+  amba: use generic driver_override infrastructure
+  rpmsg: core: use generic driver_override infrastructure
+  vmbus: use generic driver_override infrastructure
+  cdx: use generic driver_override infrastructure
+
+ drivers/amba/bus.c               | 35 +++++--------------------------
+ drivers/cdx/cdx.c                | 40 +++++-------------------------------
+ drivers/hv/vmbus_drv.c           | 36 +++++---------------------------
+ drivers/rpmsg/qcom_glink_native.c |  2 --
+ drivers/rpmsg/rpmsg_core.c       | 41 ++++++-------------------------------
+ drivers/rpmsg/virtio_rpmsg_bus.c |  1 -
+ include/linux/amba/bus.h         |  5 -----
+ include/linux/cdx/cdx_bus.h      |  1 -
+ include/linux/hyperv.h           |  6 ------
+ include/linux/rpmsg.h            |  4 ----
+ 10 files changed, 21 insertions(+), 150 deletions(-)
+
 -- 
 2.34.1
