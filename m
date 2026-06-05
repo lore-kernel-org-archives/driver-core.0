@@ -1,97 +1,131 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583A5413225
-	for <driver-core@lists.linux.dev>; Fri,  5 Jun 2026 06:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F9340DFDE;
+	Fri,  5 Jun 2026 06:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780641954; cv=none; b=AOw2YZk3/Ywwrn6RJgoJzzOJUZ6wI7dgBrSu8v6ZMR1+m/8EwvwqrJOg8Leg9ecY2eHmux7lYp+RwvYo/HYLDM7yNqDa6GBGVMz2wkqmiW/ND9AsNTxWCr6k3A+FkyU2X5vDsCRawYEXjeKInRz0Gqvwh3Dbq04Hro7OiVTPEx4=
+	t=1780642672; cv=none; b=tRRPcPNQqJbXjJQj742ntQ0ToGjCbxAsnHhLGiUlyHgJo2f94a/iWgeAtN7wuwjmNcDvvBknMLBl4LYc/3K6iXIOcyxFBCck3V6+IkS5ZjqTCQrdce6KV0wTH8BPNwSY9nrTHnlGwz2vAaKycvwjuQQMr2FHvNb4fH/jmNbm+JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780641954; c=relaxed/simple;
-	bh=YJpo32jO83UGLMU8gDwSrkla4iGpcMmeia16+cxd3fo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PebHRuZPHNl/BHy7h2seOdOxWbHtH16wO37TF1ivC3tazilc3mMW+gT16GSxQLtlqLzXAsHmxB//OYGRseupgQ0kL5WGY1R15jdoACySouH26v30us5U2z/QMab03zOximya+xyuh9cy0H//zBFtRw/uhXf+onvYPFn7uuSRyNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=B77iAmzD; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1780642672; c=relaxed/simple;
+	bh=p/UIC6/yL1nmfLnIqBKoS62nOG01SSOlPDa3wZmpjWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WDBepeXvHv6xJhWJIRB1GiKaB85ln0xUD8PMUdEihJeaOtin93c6VoHbjRLsg4EogEf8ePL+j0W+Hd/TgsTzFU9p+lD8NCUepUt/Sa5/ucVvC6Wv4TW6Nl86G1O42JH4XSYusd/S2613pfhGM/fckHBEBm0xDeaM/VWnE1B4LJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZ60LSkV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="B77iAmzD"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A49F04E40776;
-	Fri,  5 Jun 2026 06:45:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6E3895FED1;
-	Fri,  5 Jun 2026 06:45:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DE2A7106A1EBD;
-	Fri,  5 Jun 2026 08:45:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1780641948; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=TKj5g8/lTeOWFoQK37ljdSXM22TotCuzq0IiX82cl6o=;
-	b=B77iAmzDGqP2LQRUinIChZycZ8eIsD5vXpR2K4QMSECuNKKn/tYKa5XLIVUmHtCJUGpL1m
-	C3x6DT6ILwh26Xvgaf4NiFJVFeODu3PQ8qKFz/FjJO0Q4to0kghX+wt/mV/vSGnqo+8X/Z
-	ZTSAtTjvJBzg16ALrljjbx+55oCpz3ghYjheOTJnvU0gUDuBvjuEixKGkt6/eVKLO4d/03
-	vvEATcHB7THSWpvM+OEDPw2JLyYAgb4iWPRfzv81vCcsOjHJjBd+MzpdvawMUDyAMwQ+Zb
-	izt1c7Twaq/RqZ55NrX3E/iEA46DH0Exj9Or0bUiPB3T77XoM29XZhRt+PQ/ow==
-Date: Fri, 5 Jun 2026 08:45:43 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana
- Kannan <saravanak@kernel.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>, Matti
- Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>,
- Horatiu Vultur <horatiu.vultur@microchip.com>, Daniel Machon
- <daniel.machon@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v7 0/2] lan966x pci device: Add support for SFPs,
- simple-bus part
-Message-ID: <20260605084543.4701ea28@bootlin.com>
-In-Reply-To: <20260511155902.34534-1-herve.codina@bootlin.com>
-References: <20260511155902.34534-1-herve.codina@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZ60LSkV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F9111F00893;
+	Fri,  5 Jun 2026 06:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780642671;
+	bh=BJCqjGZjxCRgfxUH2j/CppVrqM78Z0uQcR61FLvFq08=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hZ60LSkVDV8X+4SLpgVyE09RWCnA2kxYN3wc50iNP0KU1YmCADiZqHDz5UD/xC3PL
+	 zmmx5OU2VeEkVn4dssnmg1iC2vCjT1FTHe5IUPRgCs1R4dOVaKgCVXeK00grRbf0Jb
+	 JlnsJZkD8TFQNRFgShMoIRkVPUQbPRhdXmqdd/np2n2e8RQKRIrnIw4u0L2j7V/4YH
+	 RdPWfwWrgxiwoHLP2d+wWS7ttIUiMqDS8EPPtT9w4/rY7Eu8DPXo+0qdCAru7e6ihV
+	 U119rcBv1FSw+NPtZb1v92zS2tdDraiE2NeoTcuJUK/eE4EbMvWaY1c0OTVTtYkgcc
+	 vXTlMfvMqdYXQ==
+Date: Fri, 5 Jun 2026 14:57:39 +0800
+From: "Peter Chen (CIX)" <peter.chen@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 20/23] usb: chipidea: use
+ platform_device_set_of_node_from_dev()
+Message-ID: <aiJzY52n2rQ84ppZ@nchen-desktop>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-20-88c324a1b8d2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260521-pdev-fwnode-ref-v1-20-88c324a1b8d2@oss.qualcomm.com>
 
-Hi all,
+On 26-05-21 10:36:43, Bartosz Golaszewski wrote:
+> Ahead of reworking the reference counting logic for platform devices,
+> encapsulate the assignment of the OF node from another device for
+> dynamically allocated platform devices with the provided helper.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-On Mon, 11 May 2026 17:58:58 +0200
-Herve Codina <herve.codina@bootlin.com> wrote:
+Acked-by: Peter Chen <peter.chen@kernel.org>
 
-> Hi,
+Peter
+> ---
+>  drivers/usb/chipidea/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Previously, I sent a big picture series adding support for SFP ports
-> available on the LAN966x PCI device [0].
+> diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
+> index 7cfabb04a4fb80c6db56ccb430d290dbac61b716..5dd415f42fe0dd026e8a1cc162357e42ba8ceaec 100644
+> --- a/drivers/usb/chipidea/core.c
+> +++ b/drivers/usb/chipidea/core.c
+> @@ -888,7 +888,7 @@ struct platform_device *ci_hdrc_add_device(struct device *dev,
+>  	}
+>  
+>  	pdev->dev.parent = dev;
+> -	device_set_of_node_from_dev(&pdev->dev, dev);
+> +	platform_device_set_of_node_from_dev(pdev, dev);
+>  
+>  	ret = platform_device_add_resources(pdev, res, nres);
+>  	if (ret)
 > 
-> In this series patches touch several parts and sub-system in the kernel.
-> Reviews have be done and it makes sense to split the series and send
-> parts separately.
-> 
-> This current series is the extraction of patches related to the
-> simple-bus driver. It has to be seen as a continuation of the big
-> picture series but related to this specific simple-bus part.
-> 
-> Patches 1 and 2 makes the simple-bus driver compatible with fw_devlink
-> expectation consisting in creating its child devices at probe.
-> 
-> [0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+> -- 
+> 2.47.3
 > 
 
-I haven't receive any comment on the series.
-
-Is there anything I can do to move forward on this simple-bus driver?
+-- 
 
 Best regards,
-Hervé
-
+Peter
