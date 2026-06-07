@@ -1,113 +1,228 @@
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010059.outbound.protection.outlook.com [52.101.46.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3543B18A;
-	Sat,  6 Jun 2026 20:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780778810; cv=none; b=ANK0w1RgBsyr2RFb+PDNH/y2mzR+ycL389xHTUFmjg0CtlCkweqyYDRAAUmJCb9/Y5AG7bk9boboD4v7hsvbqxbrhUVQFD0ElycI9a0pbB3Np3WDT6Sqeawn7FpX9T7MH5QcDnE9u25CRFmH1sXD/B7jZRohxJxWBNhgUtF5TVg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780778810; c=relaxed/simple;
-	bh=/OcoZiJiWCr4pvTzofGANdRUxEA1k0LfbIXSeQvtSqo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dMex1GMfQQma2jpnR3gN4kiyHxE9P8DiR+o/en7gFpCNggJ9NpaQaMbDGK8p13TwucbxXE+E7O6aHfBVbfgY/NU+m/c0ccPdKEGQ13NOjLMakoFMtIYPZWf4PjOpr8StUTG/xiIRYXjshgkZm5z7iSUatfAcpQALVSVVCP+9yJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=B2VldlYr; arc=none smtp.client-ip=185.226.149.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0B017B50A
+	for <driver-core@lists.linux.dev>; Sun,  7 Jun 2026 02:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780798085; cv=fail; b=X/UdvG5nBKDH+wg+v5uFRVdh+xyk4UbL9Ms/knvaHjENUoVIbPY9aAPwM1R8/KBsfUi9xLMMjgWtSp/6447aLQF7tPBtH2A876Fcbw4BVH69PBG14WL9siI9KNPDsvYYHgWczfs6QqtMKTZtEofSfDy6RfgW8G5zKP2uUbaejqY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780798085; c=relaxed/simple;
+	bh=zpp5mluARQmT4JeWIAiExUmOgKZQSAgVOMC4brH2tgc=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=sDaIwnLTcELWkHWaUmKEFn/5XGSmBsdTKFP94H/FUql0iXpYf+PNydui1gf4Imz3UMWDfv0GVuHDZynUZvJ8UeWuDrc0OnNy1HMfKSUAhMUklVL6DJMlXXby87pZLH2YVG9z/Z0o+nNiw10ZXxkPs+sWVWvrcz4/mMyPzvNJoLA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=E8edBwXz; arc=fail smtp.client-ip=52.101.46.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="B2VldlYr"
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1wVxbV-007NJX-O0; Sat, 06 Jun 2026 22:26:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-	 s=selector1; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-	Subject:Cc:To:From; bh=OMfZOaaOtzLptKPrhdF2twX7AMe5ZC+9HNX6YGyz4D0=; b=B2Vldl
-	Yrgonnw6FkliXLXtjQTlHzymlzTMNVwdqlB2zPnVj4Tdf8NrN2MTs/ZzqeWGBCk/XXKBEYVPqeNfL
-	Fi5P4k62lJ8ULW/Nanm5eyR5I/+z/RhWxqM7FBuDLww6wrx1iPcYQzecfhmLJ7rNRr9133gEJW2HD
-	o2Geth95QJTUIZbjOp0HNy4T/FUA9ZsEv2tv/JnXl4VJ6IJNuSM/akPswR+abVtMnXzE4a2msvawY
-	BACiReOUosvxY0u3xhHFVjH9Adl4ifpmn/Xi6frxY7sCOYEdWWHHEparA1gRlhyH+t36Wk4oCK6HZ
-	KGPKfpVODK1kp2gqKUJin1jxcmzg==;
-Received: from [10.9.9.72] (helo=submission01.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1wVxbV-0000sY-Bn; Sat, 06 Jun 2026 22:26:49 +0200
-Received: by submission01.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.95)
-	id 1wVxbT-006V18-9S;
-	Sat, 06 Jun 2026 22:26:47 +0200
-From: david.laight.linux@gmail.com
-To: Kees Cook <kees@kernel.org>,
-	linux-hardening@vger.kernel.org,
-	Arnd Bergmann <arnd@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH next] driver core: Replace strcpy() with memcpy()
-Date: Sat,  6 Jun 2026 21:25:55 +0100
-Message-Id: <20260606202633.5018-1-david.laight.linux@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="E8edBwXz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jN2C1gLxWaUAvueW5BsjFVE0+ViUWfesGnWr9lx6n7xoysZG0B8uK0NLHxVeASMzuQ9oYUssdmT5LUn7NS9BAdmnjKdnexBAIlqPCnMszrkqsHADcisUAcIWKMWtamURcXOHlaVMje7wS5BmyEYJHfEuCHbdrUoZCbxI+HQ8WceMKnpePQwK5CGebst2zpsPROgGWpCl2VxeeA4rTZC5sodcAsEp+IbeqcqbLnbyygKh6RXKHTbksHCUJ0R1em6mKhlYP+fiVS1Z/It7O6aJmZSbddEGBVQ0yM6tTNhaSxCfs3wcDT0iCoQK/mG7zCO6QggUj8xbhVsZkjhtVsZWjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Cgia69ft9TVk0pwbC09ySYu2gYb0KEnOYVnNofwaJYQ=;
+ b=M6iZovi603Sz2HvpuIJ7BY5AlA118VTOsRUjjvm5gxuirQTT7JdQeneXmQ069Fu/VT6NMprvYm+jk1sGJD36rTviHt+VVfPLNJ5+NwMohQ1JOYBUXm/0cw0Mw1vO2iKnlGYLnjRKJG/sW225G7LHOgh2CEXlnrRcUZRt9wV39Vw5UQxBcaT6d2g7hkDkU/+NcsNDhytvBRyK0C4jkR+Y1MVGXiihaA+Vua5k/tOxKdQkYo4wdiovYN/ViblOiMcD6/Ioo+FB6sepfE671cnbKJ8Ij0E4icp4OJ3z1T3Bw6q/8VIc1brwMM+HbTQjsGPDaX3bM06fhKYOVbb8JQq2Ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cgia69ft9TVk0pwbC09ySYu2gYb0KEnOYVnNofwaJYQ=;
+ b=E8edBwXzMXrcANhVv6bVeHpgPHW8bFihcPJuG6yjzfsubyZfEiphRUnjgTYiQd42G/JP2GpfQ5nJhG1gASoVbLfaAg2+AO3/FPBMqvFGX6xWujFOULNXUTWMb9V9eYPLhAamYhPlz0SPqCYrREj5LPHh37MQhKWy8lP1dOEo/0PAtk+z1A3VIzM6+3FbXoHJlTUBJdgMnN1iyOLAaHjFSwtAcAVHopPNwjAwNKvMCJEazmQez7t0492BFBphLwqTgVqIGXAK648RCnXrwU/zPgFgKUui/LYYN2pJcgTS6swOFaQB6ISD8Ytv0gV8TtuI3y9tP+lbh3aZG/wYNvjVDQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CH3PR12MB8533.namprd12.prod.outlook.com (2603:10b6:610:159::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.11; Sun, 7 Jun 2026
+ 02:07:57 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0092.010; Sun, 7 Jun 2026
+ 02:07:57 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 07 Jun 2026 11:07:53 +0900
+Message-Id: <DJ2G8D0N6EK7.2PDDSC28O8K4P@nvidia.com>
+To: "Lyude Paul" <lyude@redhat.com>, "Miguel Ojeda" <ojeda@kernel.org>
+Cc: <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ <driver-core@lists.linux.dev>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Simona Vetter" <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>, "Rafael J
+ . Wysocki" <rafael@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Maxime Ripard" <mripard@kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Benno Lossin" <lossin@kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Mukesh Kumar Chaurasiya"
+ <mkchauras@gmail.com>, "Asahi Lina" <lina+kernel@asahilina.net>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v18 0/4] Rust bindings for gem shmem
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+References: <20260604192740.659240-1-lyude@redhat.com>
+In-Reply-To: <20260604192740.659240-1-lyude@redhat.com>
+X-ClientProxiedBy: OSTPR01CA0003.jpnprd01.prod.outlook.com
+ (2603:1096:604:220::13) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB8533:EE_
+X-MS-Office365-Filtering-Correlation-Id: fce2cb8d-f22c-4699-b16a-08dec439979f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|11063799006|56012099006|6133799003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	6aqiNRSld8iewhgbPwg4iRgxt/D/AH7/429zXC2ouBXOK8sdeGyAIQzMifO8oqP7JODDH50AYqb7Yv67zpQqOWFM2mitaOKbmR/zj1vnF1U1cOOqkvEGC0jwW70/2Fg8XyybcfoTsLsVVmgkr8HqMd/LYEQQ2Efm1VFBdRCEOoQoARsS5vCmlsO+aGS6+92cal8y/UidQspYGLvq2ZltiKvjE+dMS0N8ZMs5MfcE+7vryE0gQ4Mub7mIZDfam8qz+k3G4RHEtZOURVecIcl5gH8USlXvDdzZwkDIJtIaloeATO0zkb6sjIg9zR3rYZ1A5fYhz9fAT+wzaYQdVHyVDzJ7B5Qkl+5gU7/thHa3wMlGVy8eEtMS2tbYhJfHy4NSnzN/i882d2EfYPZIYhrLr83jZ+DX6WreOq4fjK8AHHfmD3XKpF1LMfcY9Dnk7OIKZfmeLXPgh9HhGnUB3ifHPOIRa/+XW5V6RMQDV8dZ8v9W2UPDZJ1WH1J3GVj6zNk0pcqcr904a1zpB3ELzGOnmrcqD1WVNHudfRsfFa2ilAneraAgV7QBn9kEG1XZQDgjQDLqD4toeOswvqonov19Qm1B5N+iKnFHO4Syl7BxQxVH0SAUTrOQhwbj8oN1IRDSMX3f21z6Wn6ChSyuUVPI7Ud9LaP++s3T7iEqbYDESgKQj27eL/kqX4E1vk3M/E1K
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(11063799006)(56012099006)(6133799003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OFFLdUFsTkkwRFg2VUJ1dHRoWXVicnJJQUFUSmNJMHpQQTJaV1hMT0NpT2dB?=
+ =?utf-8?B?cVdJWG9Lemx0TUg1WFBsaldZTytRNGNxSEFHWUdmN09hU3M1U3ZYbC9sMFJL?=
+ =?utf-8?B?U1NHdEJGam01dzFwOGNnUlRCT0dDN1F1ZkVtSHNLZ0lMR3hMWCtiUU1BaENT?=
+ =?utf-8?B?NmlaRjlON2lJMmJSQXQ1aXBZZHVsOTJyVDhKekNiTUtiT1Z6aDhzMjNKbW9h?=
+ =?utf-8?B?dkg2R0hOeDMxTHVsZ3ExcGlEdWI4SXN4ZnQvc2djOCt3MmdxUXRqSjhlVkFt?=
+ =?utf-8?B?VFlhdzhlZHh0bFk1MzJSZTlXNmkvQ2VGQzFyVktiNlRxM0x2N1RlYjVFTkxi?=
+ =?utf-8?B?ZHR0UE1wOHZXWEpJR2pUWk1ocFJtYWJkTTNsN0VyYmJacWJLUG52WTF3eHJC?=
+ =?utf-8?B?S1FHS2NCWEsvSGVZc0kzdmtxT1VBTGZjb2ZLcGxQQVYyMlhtdjFsMzNsaUZ0?=
+ =?utf-8?B?S0lkRGRUendvcmY3SUhqZHVPY0JGQVp1WFc1U0h4cVloRVRGNkdyVDlpT1B3?=
+ =?utf-8?B?Q0hvQW1tSEYxS2MzNzNPZWkzaGJOd1kxTEw1ZnVkVlNpalhSY3BadWNhVUti?=
+ =?utf-8?B?UlZZWm40Zk9MNVpDMTZsQ2lhemdVRk1oaE1sS3dEOVNnNnBvYXVRV2ptbWtW?=
+ =?utf-8?B?dDViK1lnVmppcWlIVlJmc1VQZXBIRjQxWmhuMlhXZFRLcW1qcFBmREVkWklY?=
+ =?utf-8?B?K09kVFFQY011MGk4N3RBTkJSS21qV2VjNS9tbjNzM2hXeUdUVUcwelRWcHh0?=
+ =?utf-8?B?d3N0QzJ4Vmk0WndUVGlsZEZQZVE0cG9sUStiQ0Qyb2drNHlrM3Q2Wko3NGg1?=
+ =?utf-8?B?anBjWncxeFlqb21VMnk2QkM1WTd3dmFUdSs5NEI5NlVFTUVQdGJzYVBzQmZx?=
+ =?utf-8?B?VGtYNDBMc3FQS0paZlJuYTZQQlB0dXdHdG1TUWJHdjJvQ05pSnZxUjhpYTFq?=
+ =?utf-8?B?dEZjTThjRkJxRUxUT3BVVWIvRGhqTmg3VzdkSlF6SDhyZGgvM1dBNm5RVmo1?=
+ =?utf-8?B?Y3pNbzhPUm9LMmZseTFyUEVuazRSanhQb0xZQ0xQeGJvZmRzNXdFUDZTUWI4?=
+ =?utf-8?B?Vm5CYVJOT2xwd1hLVm54K0hDbUxJbkNBM0k2QkErZFJPQldLeEtwd1JmVWVK?=
+ =?utf-8?B?Ukp0NHJFQ2g3QXNuSTZaelN3WXFhc3V3ajlBMG9Yalo4M2ZSd3k0QW1IVDk4?=
+ =?utf-8?B?empCTFVCdHRwQW9yZWNjMUZmVVNMWWlpZU4rMWN1ZVRsbUh4K2NDR25mV2hy?=
+ =?utf-8?B?aUtySStCdFhJV01uN1c5dUk1dm9kZjNBcytpbkNpNDJXSWxBSW50UGxCdTJn?=
+ =?utf-8?B?cVg3VXowYmlMWTE1OVd0UWh5bHYySTRvblE4T01kTnBUcGdLV2QrbjNIYU41?=
+ =?utf-8?B?dmtYRjRaMFMyTnl0Q3l6M3dCNVd2OUlOUDRjaHlOcEVPdmM5MHE2QzBOd1NZ?=
+ =?utf-8?B?cWwxTUY2aW4vaWNaZU50MnJSbFpmU3VYVDNKQU13eTV6YmJ2cWZCa2RpVUIx?=
+ =?utf-8?B?SVBDNGR1Y0pwaU1ld0RGeWhWdVNrRHpjMjZXRE9HMTlOYjVZYjNlb09UWmlh?=
+ =?utf-8?B?Mm04MHlaeFpodTRiaTdXUGRVYm96dC95VWtJNkVTZEw2UFFjNWRIaWNXZXVq?=
+ =?utf-8?B?WHV4MkIxVUUvRUlQSE9aeGZtWUMrQ3NxVjQvUURFZlpHb1ZLbVAyOUZ5czhH?=
+ =?utf-8?B?RkJvQ01VdFFkWHJkamFOSnFDQm1lczdvbVNVZUtEZ0VnczJockZxdkRyVXVQ?=
+ =?utf-8?B?ZTNKZ3BGTTlJRVo2YzZFZDVwdUk1dmRzd1ZMZm14OVAzZU4vekJIcG92ay9E?=
+ =?utf-8?B?UitkZUpKY2tmYUMzZFR2Szc5eFJGV3lZTzVUdG5uNXpyMDhUdllGQ04xcmVs?=
+ =?utf-8?B?SitIY1p3dWtDbndlMjM0K2NzSjhhS0VIeEpBM3R3b2lGL3loSVNDeHE2WnhK?=
+ =?utf-8?B?b1RPVHVSdFpLbC9mc1MrcWxsNUZTeTdaemVXT0FGOUVDSEVDMm11RmYyQzNl?=
+ =?utf-8?B?QjhLQ1piOG1tTVFzaS8zZTlrMWx3bVZjODF6OXpUZHdJY3dERjNaLzBkdUFo?=
+ =?utf-8?B?MHdQK3lZeHAvRXlxZ1NYOTZaQ1d3MkpOVmJWVEFhWGNua3hya3gyemFtRXU4?=
+ =?utf-8?B?VUxjOS9HRkwybWVGNmpPRzNucnEvNGpZdXBUU09KcktaYmErd001cCtNcDdz?=
+ =?utf-8?B?MFM3OWZMcnVrZ3pxazFaL21lakNUVEN1eGZmb0xOV0JDS002U3hBRm5XZHBO?=
+ =?utf-8?B?Yy9kRVZrbURuQzIyVG13V0lMQllUcVlta3VKMmZLMWJDdEQzWWxPMno1WVJV?=
+ =?utf-8?B?T2lHOXIvRTlFTkYzeFdjYnBRdnRmTlZJWFhhVkl6Sm0vQXYxTm10aUV0ZUdu?=
+ =?utf-8?Q?26XN1+lXeG1SIPYK1cmul35+f0DKE+oagNKnPtyh1WbLh?=
+X-MS-Exchange-AntiSpam-MessageData-1: EcLDATRyfpF9pg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fce2cb8d-f22c-4699-b16a-08dec439979f
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2026 02:07:57.1786
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oBiL9rYz4bv7xOEC7Hy4pY9AiuXtn937OSLLuimBno6En/xZPcrhkKqjB7bOg78FejFSeaRGoktBT+hZJqRUyg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8533
 
-From: David Laight <david.laight.linux@gmail.com>
+On Fri Jun 5, 2026 at 4:24 AM JST, Lyude Paul wrote:
+> Most of this patch series has already been pushed upstream, this is just
+> the second half of the patch series that has not been pushed yet + some
+> additional changes which were required to implement changes requested by
+> the mailing list. This patch series is originally from Asahi, previously
+> posted by Daniel Almeida.
+>
+> The previous version of the patch series can be found here:
+>
+> 	https://patchwork.freedesktop.org/series/164580/
+>
+> Branch with patches applied available here:
+>
+> 	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
+>
+> This patch series applies on top of drm-rust-next
+>
+> Patch-series wide changes since V15:
+> * Fix some major rebasing errors I somehow didn't notice :(
+> * Drop the dependency on LazyInit, use the trick that Alice suggested
+>   instead.
+> * Fix dependency ordering so that Tyr can get the vmap stuff first
+>   without the other bits.
+> Patch-series wide changes since V16:
+> * Fix ordering one more time (SetOnce::reset() doesn't need to come
+>   before adding vmap functions)
+> * Rebase against the latest DeviceContext changes from me that got
+>   pushed.
+>
 
-The length of the string is calculated in order to allocate the correct
-sized memory block, use the same length to copy in the string.
+Not a problem of this series, but when trying to build it I initially
+got these warnings/errors:
 
-Signed-off-by: David Laight <david.laight.linux@gmail.com>
----
-This is one of a group of patches that remove potentially unbounded
-strcpy() calls.
+CLIPPY L rust/kernel.o
+warning: gendwarfksyms: symbol_print_versions: no information for symbol _R=
+NvMs1_NtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninitINtB5_11MaybeUninitINtNtCsbu=
+TvttuFvbr_6kernel6devres6DevresINtNtNtNtB18_3drm3gem5shmem10SGTableMapNtNtB=
+1K_5tests11KunitObjectNtNtB1O_6device6UninitEEE16assume_init_dropB18_
+...
+.vmlinux.export.c:8577:500: warning: null character ignored [-Wnull-charact=
+er]
+ 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
+0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
+      |      ^
+.vmlinux.export.c:8577:501: warning: null character ignored [-Wnull-charact=
+er]
+ 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
+0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
+      |      ^
+.vmlinux.export.c:8577:502: warning: null character ignored [-Wnull-charact=
+er]
+ 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
+0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
+      |      ^
+.vmlinux.export.c:8577:503: warning: null character ignored [-Wnull-charact=
+er]
+ 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
+0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
+      |      ^
+...
+.vmlinux.export.c:24529:2: error: embedding a #include directive within mac=
+ro arguments is not supported
+ 24529 | #include <linux/module.h>
+       |  ^
+.vmlinux.export.c:8577:1: note: expansion of macro 'KSYMTAB_FUNC' requested=
+ here
+ 8577 | KSYMTAB_FUNC(_RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9Uniq=
+ueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitIN...
+      | ^
+.vmlinux.export.c:8577:1: error: unterminated function-like macro invocatio=
+n
+ 8577 | KSYMTAB_FUNC(_RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9Uniq=
+ueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitIN...
+      | ^
+../include/linux/export-internal.h:62:9: note: macro 'KSYMTAB_FUNC' defined=
+ here
+   62 | #define KSYMTAB_FUNC(name, ns)  __KSYMTAB(name, KSYM_FUNC(name), ns=
+)
+      |         ^
 
-They are mostly replaced by strscpy() or, when strlen() has just been
-called, with memcpy() (usually including the '\0').
+This is fixed by [1]. Maybe we should merge that one patch separately
+and before the rest? I seem to be seeing these long symbol problems more
+often recently.
 
-Calls with copy string literals into arrays are left unchanged.
-They are safe and easily detected as such.
-
-The changes were made by getting the compiler to detect the calls and
-then fixing the code by hand.
-
-Note that all the changes are only compile tested.
-
-Some Makefiles were changed to allow files to contain strcpy().
-As well as 'difficult to fix' files, this included 'show' functions
-as they really need to use sysfs_emit() or seq_printf().
-
-All the patches are being sent individually to avoid very long cc lists.
-Apologies for the terse commit messages and likely unexpected tags.
-(There are about 100 patches in total.)
-
- drivers/base/platform.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 75b4698d0e58..63fdfffe1a8c 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -617,10 +617,11 @@ static void platform_device_release(struct device *dev)
- struct platform_device *platform_device_alloc(const char *name, int id)
- {
- 	struct platform_object *pa;
-+	size_t len = strlen(name);
- 
--	pa = kzalloc(sizeof(*pa) + strlen(name) + 1, GFP_KERNEL);
-+	pa = kzalloc(sizeof(*pa) + len + 1, GFP_KERNEL);
- 	if (pa) {
--		strcpy(pa->name, name);
-+		memcpy(pa->name, name, len);
- 		pa->pdev.name = pa->name;
- 		pa->pdev.id = id;
- 		device_initialize(&pa->pdev.dev);
--- 
-2.39.5
-
+[1] https://lore.kernel.org/all/20260605-nova-exports-v4-1-e948c287407c@nvi=
+dia.com/
