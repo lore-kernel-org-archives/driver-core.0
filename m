@@ -1,85 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8043378833;
-	Mon,  8 Jun 2026 12:26:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B283C4573
+	for <driver-core@lists.linux.dev>; Mon,  8 Jun 2026 14:11:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780921619; cv=none; b=o7yjWvDe2RrHYMVqaQdkZ/0c1/PQXlIGrii1qMTmkXKWPQQpxWZgsWnzLIch5F9nvZqmYOtFmD67WpxVzoPNNQLYJkb3BKu758yopauVFPoosNDWjdzSj0TNn0emVmgoU00xCnPNDDc/9tvsDtQhFWxD2JteucOVUtkD7OJYJZ0=
+	t=1780927912; cv=none; b=qpMYggUh1M5YlcqN9IT92iSpF0BGpsjloGb3pZWH2ilOxD8LMkkLQekbF8HOvGmo2Upm/608iahtHsaY4kDwUorjqI32TDfkzaf1oHXnPzRApfVgArsd/R9Ph0LBwhYUx9AMS9PR7TF61jJXAIubdPK1G4po9qmgBW4XicOiZVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780921619; c=relaxed/simple;
-	bh=2Ie67ptNkmui2tO8GQcK+SeQ0S2VuMXcmKX1tNifmoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTPDVnwpOuDFfv2nA42S4wvfTWnoXN7iRf+fCNRl1Vh0mVl6OcIHdKxhK39qED5yVW9met+lTvk9ZUluRBEJmeIu8oVJEuwwsJwWsbrpuf6BLSimscj2GSffnZriVy6pcBYvJADhjELJEUiGTewJYQ5dXFpsYc8hDXwOvWmgdy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NAKNCu3o; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780927912; c=relaxed/simple;
+	bh=CgoHGUDLPWgn+w8sKYQPTmKoljGnnw2Naxq3gvG9oK8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JHO+meqh2rylMAYgGsG6jyR5IO3+CnqTUP1rND9fVg8BnllQ2G4/0HAlYLBBSdlUQbdVVJLSR7Kln/+IEmFMDODJb4/fjLxjL73+G5MO247TXOXxoxfU3jw3UvGYob/rhqWIgUbFCyUBob2TX9VQWDiUzkgp32W/mpOmhYfBlc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=idvgfbyt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NAKNCu3o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB7DE1F00893;
-	Mon,  8 Jun 2026 12:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1780921618;
-	bh=zGiAVbaQ3Q9FaFqxQTB/hNL2mfhDYc5aS0FFWxnPr1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NAKNCu3ofNXw71XGt6Rt8F2NDxVbcdJ+tXsRo3TBF0sDDMRaNqw0qWX4EzNz8K4XR
-	 C87m0yu6qtcklgQAchu/WNdZnHJk9TYQQ4bOWoB7/3294XyzJBMLREyVRybshQ7G2p
-	 vJVfA+MsQY7e3MWYzka2sC6a8e0Gj0VcA/SHgKEo=
-Date: Mon, 8 Jun 2026 14:25:57 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ruoyu Wang <ruoyuw560@gmail.com>
-Cc: Tejun Heo <tj@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernfs: use nofail allocation for global locks
-Message-ID: <2026060819-harvest-sterility-ad7f@gregkh>
-References: <20260608063655.69-1-ruoyuw560@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="idvgfbyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45DE31F00899
+	for <driver-core@lists.linux.dev>; Mon,  8 Jun 2026 14:11:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780927911;
+	bh=JJg33xOrhHhg0FKRc1bmj97OCk07VsVoZvBiUc/nFrY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=idvgfbytAWy7xIsx+hoXiOjp9Mhpoj26UdZTvi9tfK3gA+EsRTQKsR546CqnQy1gp
+	 Q5qjhALFdDMtDTHXuocEpK5kzMbHeD+7FwuX45Cp/i5wXGQgS6BvJPBedjx8Yg9jZ3
+	 g6Oj8hMEInT77R/zfMHiZrt3xmh1801vY9QntUm7Y2BmEfV+0rKRsEea38VZ1u8qul
+	 aXGJrkjNo18CiUQcfXUpl5hjlsCokJjC5lMcXcILInSL4ITuR6x4IgR/fxgRzndIlA
+	 bUaOOewmeaAxahQdHjYCLp648TVHApwu6KpYGG7KFDrn2n8EKO83d3U8R5WnEwXerc
+	 YL98ZSdXDYMSw==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aa68cf03bfso4520277e87.0
+        for <driver-core@lists.linux.dev>; Mon, 08 Jun 2026 07:11:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9WFqzVQRGOoll/HDAYoZuV/L/3h10Di5rtO+hv6UbsL876tQXVJHzBE3v7C6dLsH/neqeuXFTz7AvP6g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4nEFlFjYFaLKh9nifCByE0vDyj2uGIed4zA/0zLqOKzPMDINE
+	LWHwkUI/nde5dizJzZbWTQ7V91ogrxHODNdGHgEI4xX7p07YRugP4XdF2bGOiXJTkbOC/G5BAiY
+	2+qCct3oJsNWmq9CTyc1HmbuYclIlgV4=
+X-Received: by 2002:a05:6512:15a4:b0:5aa:66a5:66cd with SMTP id
+ 2adb3069b0e04-5aa87b78a82mr4819117e87.18.1780927909661; Mon, 08 Jun 2026
+ 07:11:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260608063655.69-1-ruoyuw560@gmail.com>
+References: <20260608021526.1023248-1-tzungbi@kernel.org> <20260608021526.1023248-2-tzungbi@kernel.org>
+In-Reply-To: <20260608021526.1023248-2-tzungbi@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 8 Jun 2026 16:11:30 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jy75R24NztKJ0w4NMyRB7G+DcsC+gaQ0xZOQMfTfA5Ww@mail.gmail.com>
+X-Gm-Features: AVVi8CdDK_AeEhEGHLtxn8R29DNmlv34N5PLRg_07cIEGG4wsjElUzUaXN-ru2s
+Message-ID: <CAJZ5v0jy75R24NztKJ0w4NMyRB7G+DcsC+gaQ0xZOQMfTfA5Ww@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] PM: core: Rename module parameters prefix to "power"
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
+	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
+	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 08, 2026 at 02:36:55PM +0800, Ruoyu Wang wrote:
-> kernfs_lock_init() allocates the global kernfs lock storage during init
-> and then calls kernfs_mutex_init(), which initializes mutexes through the
-> allocated pointer. A WARN_ON() does not stop execution, so allocation
-> failure would still dereference NULL.
-
-Yes, but as this never has failed, perhaps it's not a real issue?  :)
-
-> The lock storage is required for kernfs to operate. Use a nofail
-> GFP_KERNEL allocation so the init path does not continue without the
-> required object.
-
-Have you ever triggered this code path?  If so, how?
-
-> 
-> Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
+On Mon, Jun 8, 2026 at 4:16=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> w=
+rote:
+>
+> Currently, the module parameters defined in drivers/base/power/main.c
+> use the default prefix "main" (derived from the filename).  The prefix
+> "main" is too generic and non-descriptive for power management
+> parameters.
+>
+> Redefine MODULE_PARAM_PREFIX to "power." at the beginning of the file
+> to group the module parameters under the "power" namespace instead.
+> This makes the parameters more descriptive.
+>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
 > ---
->  fs/kernfs/mount.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/kernfs/mount.c b/fs/kernfs/mount.c
-> index 6e3217b6e4811..6cf8e71e5bd08 100644
-> --- a/fs/kernfs/mount.c
-> +++ b/fs/kernfs/mount.c
-> @@ -451,8 +451,8 @@ static void __init kernfs_mutex_init(void)
->  
->  static void __init kernfs_lock_init(void)
->  {
-> -	kernfs_locks = kmalloc_obj(struct kernfs_global_locks);
-> -	WARN_ON(!kernfs_locks);
+> v3:
+> - No changes.
+>
+> v2: https://lore.kernel.org/all/20260604090756.2884671-2-tzungbi@kernel.o=
+rg
+> - New to the series.
+>
+> v1: Doesn't exist.
+>
+>  drivers/base/power/main.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index ed48c292f575..cd864f3a2799 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -40,6 +40,9 @@
+>  #include "../base.h"
+>  #include "power.h"
+>
+> +#undef MODULE_PARAM_PREFIX
+> +#define MODULE_PARAM_PREFIX "power."
 
-As this is at boot time, if this fails, and triggers and oops, the
-system has much worse problems.  I do not think that:
+"power" may be confused with the power supply support, so I'd rather
+use "pm" or even "pm_sleep" (in which case the "dpm_" prefix could be
+dropped from the new module param name in the next patch).
 
-> +	kernfs_locks = kmalloc_obj(struct kernfs_global_locks,
-> +				   GFP_KERNEL | __GFP_NOFAIL);
-
-Will help out any, do you?
-
-thanks,
-
-greg k-h
+> +
+>  typedef int (*pm_callback_t)(struct device *);
+>
+>  /*
+> --
