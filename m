@@ -1,75 +1,69 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012036.outbound.protection.outlook.com [40.107.209.36])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012028.outbound.protection.outlook.com [40.107.200.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E0D30B51E
-	for <driver-core@lists.linux.dev>; Mon,  8 Jun 2026 07:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589EB39A05D
+	for <driver-core@lists.linux.dev>; Mon,  8 Jun 2026 08:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.28
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780905482; cv=fail; b=ZQ5nadcTA/rNQsciRDyuOArz0WE7ErbJJ1h5aitP/L1PMwKR7QJvNjP5767i3f9vsHymWSMmnQQYjFpJrX7A+HebSIjZc1HtgUh4E3j59H3nPtHKMjXUoJ01Ua5xVpyicCh9G559hiwihZ6Qt45XblXUlu1gkDwSCzqDJcomhkI=
+	t=1780906502; cv=fail; b=b7t1HZupGpQ1vc4ljvpa4xJ98Y9OjMKJm/IZ5jmoBRZqjpB6BD6PrTRMzqnZH4B8tHnM6EVN0s46wmG5xT6vxYZ711HZJjxjRZ68DYetYW1oSF2vjItfZWS83rw76hwFhugNRZ0OBrZr2g74ovryIAMAaSpYNdruccylFb82KnU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780905482; c=relaxed/simple;
-	bh=MDUo5xL18LPXT/y1RHyUHMv3XW8XKdWkGz3WmODzAEk=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=gO97fv5hNALvUosk3Vhh41gLIMJq+eY27iWS703l0+bFaI2ZriALuptBV97l/OehaTlLhG/ee4VLiKlY5MmyjzXTGMu1UFJ+jDAFQuhCgwVEe2w9i8qcgXZiViGCCzqcsKU3WtlwD8eigA7UcDVPYPfyZfAdVxjdVxe4qrovkww=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=i1BiVh3H; arc=fail smtp.client-ip=40.107.209.36
+	s=arc-20240116; t=1780906502; c=relaxed/simple;
+	bh=S9uf8fJRo5wPNsS6U52J/s1nYmlrUTlSQZ6MQC6RTPs=;
+	h=From:Date:Subject:Content-Type:Message-Id:To:Cc:MIME-Version; b=IZukVtibEyza4+fDxC8H8iL/BLGStve7agTjLgstvQjO0OYqhnH15OtxNbiTnrlHKEa+z3g98/KsQEwbgI767q3w9mSDIodK/VqrayEyeZgQiR/LJCzBeYP/xwY+T0e69/orhEX/Jj6mNhs+qx6eu27jlSz/JOr3OvStqQ3EOus=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YMh96/+P; arc=fail smtp.client-ip=40.107.200.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="i1BiVh3H"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YMh96/+P"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wmudnHHlkapnfB+eT+5PAlDbOtkOC4rc5TqEO69318gI5MzepufPISi25IQD+uBPnrOWw92/WYW2OYXdL2wuvn7wgT32+Tp+bi8etnmowYQFOTCxL0rMzLRTCY8Eu6w1UQjl5w6HPjvWqNHrKM4OB89yMds3ySDUrd54r7lwSgWJRogYAZnZ2Gv1CYMU5jhIRr0ahh/kThxl3/IH7YfqmHLQm7TG4xL/YBMAY0dgBB7vl7SdboYbpJSEvPj52H3bgA9+uUtSrn38JVhHs5mDkIfStsMgea3O0cjBjLLVoKI/X7EVhjjIKPM+9oe907nbtPxrVvzfeHPTva1u1sOX4g==
+ b=MP56QGO0Z4QivYayLWwS1N9myjwPUqs8kQrt2A+1TpLFkMHpY2we/8DB3bDqdi7S46frtQVabDJL9Bkp26I0uLbf5f4Wd+YpdttumPMLI1itdZVyR374tdrKw9+PByFVzXrJqbMP5tFYeivjDiLFpVhvOg3uFnqkENV8CS0kD4hNrn62SVdqu5RyKeLQxgqud9QeWw8UhfMIyV6YdD9UA+pl5sEoR5xXjdxlP2Fi0n0pFfAiDjkz1EIJrnfnLPwUsXp64zlz7afaEbiHgh9Lj6IKNgLMOL/OSt+PJwEt5qbi11cWLlEqmhaTlQgojJwG04Zp4qFxJ087YPX1kBEZNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bM54h9ZaS2NOw4LfC73Vm8YxAN62HCpdfCMH/9SFRV8=;
- b=ITcRiOOcVL/3zIYsxnhsy8b3BXxHUiVVROj5Koj6xivSp+bVlL/SpVcTXeip0zBxoYQaBBf1/XgehPrybkTj11HdHbuNAfwyRpN5bP8TM9YFa9Gtc4XO2Gth85YYEhN899zm3KPddooMWX40uegAwszkCiSaXRQPy83tVIx1SBIHroVnnE/oe/KR1g1ZPxSnqLC6tEWsfVOflHiBOGdv7lpGQl1B0+AWrUxlbDU9XC8WseNU8+hg2Du9lDUaT1CTYPeGnMgN5A5fVcGPpcrs2k+xpY5g0NVEZEnGf5ta5ehhmaqoBUEsW+GOcvjt2KzLLmXyibBPb5KTclKRS8cCvA==
+ bh=WWCuZaSB3wNLYR0+1ZUIQUaGm0CaaxpdYegBeSLR/ng=;
+ b=bRUftaNIUGeQEeEEgp9UuaaSJ5GvUj1+ThGBfKLivlglKm4vyzhYhxsabJ51Mme/SSC/TYThI+gneanZANX4PCzfPwIo9tKo7jx+2U/G0K3P+O/yq9twWm0ltQJx1uvkxUNwz54uovBHDa+WQGhBp0ggdXKgvnk/L8T7n6I8a0WoGPl4PEAEDiQh85Lm3R0haLXa05DMs/pxmaE9V4sOa84zSx52HSiNZ6b9bthJM8Eu58B1zqHQZNqfmVeN66zjKJRQ27h6g2AaYjAg+th25zuLN28Vp8+3l8yxqa3eJ3ECkP1ww0PXBrpG0o48CXu3mWQn1TY4hvV+VA1LNbibqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bM54h9ZaS2NOw4LfC73Vm8YxAN62HCpdfCMH/9SFRV8=;
- b=i1BiVh3H5PJfdeWKktLgmF6qB/3EKLycO6j24ad7ZsRGu8HqTmGOan9+fsDB1ahI3CQ217isC4yUfHgWvgdGEiifmmw9LqkCjTddkd9mh8Ysfc1ENgrxH6iJbPdDFVs4kdL3iTyLQwmAFOoPZ8v/Sc9Qt7O9/ZV3toQExiGlkKHN0il+RmxvWuekdP7tcF4yXpgkioeUycAMr+GorVmuQTCZVGVf3DxffpIiqhEUhBeiqcK5nazIXUpoRbhi+DQ4kETYVsq//ur/wWEP0VahJsiJeKOg0kwvvp+uzrA2f84zZvLwgawGaRRxSgDAPjKikfnup4YnqQgTwopdhyX7bQ==
+ bh=WWCuZaSB3wNLYR0+1ZUIQUaGm0CaaxpdYegBeSLR/ng=;
+ b=YMh96/+PymuoLb6qV25SKC9wN4//9L/EkxZxOjhLZHWQAu3zVLQIZHLZKC2DVtF9P44BZWHA0/bVoTFDYTr8t/duzYxlDc3QD9iVHEct1RHZE8YN4GmA1owiBE8Wkl5IPmWKn31hh2MOlF8HzUKMFkD3OwMDlEBqYZ1713BxntrCAOJfFJ6XpK/d8tzBFUme1NtPdDWeDiEMXE8giB01cXBwwydub8kT99uUkFk9NuAZjxUPBhf4BJO+qxkVbxC58LKXNF2O7w2rfu1rNT+I1CNHvAbrByn5rY6qu+v0XR1IpQ+vGv+9mw9eEZUWPJXPcaezgpnai3qqZeCpHT3Zig==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DS7PR12MB5766.namprd12.prod.outlook.com (2603:10b6:8:75::12) with
+ by LV8PR12MB9451.namprd12.prod.outlook.com (2603:10b6:408:206::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.11; Mon, 8 Jun 2026
- 07:57:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Mon, 8 Jun 2026
+ 08:14:57 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
- 07:57:53 +0000
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Jun 2026 16:57:47 +0900
-Message-Id: <DJ3IAT8FZQJ8.2QCZB2C5IEMCV@nvidia.com>
-Cc: <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <driver-core@lists.linux.dev>, "Miguel Ojeda" <ojeda@kernel.org>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Simona Vetter" <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
- <linux-media@vger.kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Maxime Ripard"
- <mripard@kernel.org>, "David Airlie" <airlied@gmail.com>, "Benno Lossin"
- <lossin@kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Mukesh Kumar Chaurasiya" <mkchauras@gmail.com>, "Asahi
- Lina" <lina+kernel@asahilina.net>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v18 4/4] rust: drm: gem: Introduce
- shmem::Object::sg_table()
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Lyude Paul" <lyude@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-References: <20260604192740.659240-1-lyude@redhat.com>
- <20260604192740.659240-5-lyude@redhat.com>
-In-Reply-To: <20260604192740.659240-5-lyude@redhat.com>
-X-ClientProxiedBy: TYCP301CA0077.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::19) To CH2PR12MB3990.namprd12.prod.outlook.com
+ 08:14:57 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Date: Mon, 08 Jun 2026 17:14:44 +0900
+Subject: [PATCH] rust: io: require proper alignment in the safety contracts
+ of `IoCapable`
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260608-iocapable-align-v1-1-4d4b5ad2b1f4@nvidia.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqAIBBA0avErBPMRUlXiRajjTUhFloRRHfPa
+ vkW/1+QKDIlaIsLIh2ceAkZVVmAnTCMJHjIBiVVLWvZCF4srmg8CfQ8BuFQG1ehbZTUkKs1kuP
+ zO3b977Sbmez2buC+H0fBT+hzAAAA
+X-Change-ID: 20260607-iocapable-align-fa8bf1ac7208
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>
+Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: OS7PR01CA0145.jpnprd01.prod.outlook.com
+ (2603:1096:604:25c::19) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -78,208 +72,116 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS7PR12MB5766:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae2e70ce-eda8-4c45-0f56-08dec533a391
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV8PR12MB9451:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24fd71da-f4d0-4584-c492-08dec53606d8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|376014|7416014|366016|18002099003|22082099003|6133799003|56012099006|5023799004|4143699003|11063799006;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|10070799003|6133799003|18002099003|921020|56012099006|11063799006|5023799004;
 X-Microsoft-Antispam-Message-Info:
-	qxI8NkOms9iPaWl5w75fXKyciCUHiqwtryzWVRlg8PPhl2icllQMAKIY+XZXcNtsr4/iyorBDWeDS/nv31DbgS3mMf1twbyVl9nYoqJ1dhePOfNj5kLOd3viRN79q4OrwfitkDfv/TECWOmJLFTWvyNjSjkzOm3Hdy360e1SqMYf2Mv0LIOnZbxenUpBNHTeP5I5sSHXUZJmiZVdqiRgVfkZ3OeJki31JWeIK+AkzqvKXSAUJx8rkWwamfd4gVPpAs0a00O20+Gn8CJ4wtwH9YSJekchpvkr8+oSfw6l3Rzo/c2/TzBSxD5HzIFSv93NH2MRTVVQhRsc/TCotLk5PBwjzoqt7u9KvGSjzFb11VRsvxPf+YruFiAePsOvUc4dEgXxoWKvhZAdqTLiYEPZs0uQjtPlz8GNCfAMS/1UWSiUgTbekf6UofktIytxcuWkTTYzhrYeVNlZLEJFlm28zrzCCPgT+j+H7aHuUlpGL3paviArJz19xFXZJW1kr67dZ9GS83QKyiP77KTXiLj84hxgFrEJ2XfqOyxoJzf2yh7hFMdhn1A6CoSDn7kf+Ps4KEZE+dA7z6SJ5pL4xO8gzztP9UtPKZBke0M05OklyiD34Lwm7AZEUpGlPONwtSWgNO32s2FwbvFo3bLoQAbKubmhiTb0HbbvW61ILIeLcFv+yXnUpBC1WNjOHk+NAV0Y
+	EeAnAHembMIbvJBzzkmevVgEGnqjMJXot+Gdl3+9JD9c37fiX5bzSR3aLQDQGW6FBsfE20sDkGC5Y38bxzqJwXeyPM9KzE+uJ8bN/WI0bYhausutGi8KY2P1XULHCZ5sQAPq+o/7/WoE64M/YSR9MJzqsUFIpaQbkQJLnSvW2orc6utO8/F9QtjuIFUvXdSCvn/BmyjCCcfQ+xQ3dykc1vL/FEH06lPbCWpRk2W5O2deeP/sYbXz8PRG6gVvLhhLJYb4NVCB9pL9Y8SqR0jfPxrt/DKdDrVG4Sz6DQ8OcBqUIW9qghNvi78AZglVZbj7mzdMjWGpoFv9YCVE+v9gL3E5HWXoPesaF7z5GRfVHo4tXb1QI8ITR3pYxfjn1xWmFXM2lZnDY6RKpRWJ4pdTKLsS/X1+ERWZAbipnKs1Ot28PHuFXhght/gYEbo7wVVwXvm3m2SpIA01QMBGiz36/TPq8NMLlSVGfppvDcggNgl9qcveK5ihZmwbAq1ITlcY58tIQFDNQ0zbEfETCoF5pHeV/jKp09VlpJ77Ma4kl6RRwUYzYjiaJNbVxrsRGr7jo8HjITU3Tcsxi4kvXJG2yZr3IK003O1AbEBF0fQKk7CslgoUvxL17Q7lDG9akx395jlYdvvVvguApqp5r2vqVSXln73f0lTV499a76spPHL5Bhfnd7f1mXnZMhkE3OtLLASHdBnW/POLEiJ44Vkzzauikk95XCndAp5uwmazJ94=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(376014)(7416014)(366016)(18002099003)(22082099003)(6133799003)(56012099006)(5023799004)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003)(6133799003)(18002099003)(921020)(56012099006)(11063799006)(5023799004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WS8wTTNrRHlvaVA2WHJuelZFU3Zrd1d2dDRKd2lhRWRsaUlhSVdrMkZEU05D?=
- =?utf-8?B?bFJzVXdHejRqVTFmZTZOMmFUb0hHYXR5KzRwTzdQYis2cDBIZVUxSXZRTC9H?=
- =?utf-8?B?b0hlZEpXQk5FMU5rNmhWOUF3OENoMTZWMXFwbDNwNzFqOTFtM2N3WmRRN0g4?=
- =?utf-8?B?NkZFNjJQaXRjVjZuQ09GUnNqSkppSXZzRWh1R1YxWWdBV0M3M1g4SHdOS0Mr?=
- =?utf-8?B?bWs0RG5WVnNBTlRXVHN2azZPL3EyTlJnbW5QbEdva2I0NFZPS3hsN1lCK0ti?=
- =?utf-8?B?SUhzR3NpQU56MVFQSTZFK1pTN0Q5c1pWRE95azNWazYrK1VKOTdtVVh5MmJZ?=
- =?utf-8?B?S2Q3T084dzlPalg1SmF1bU5FQkQ1K0RHYkJnUWVNK2J3bXpEQ04wL2hSalBk?=
- =?utf-8?B?d2l3Q09QTm4yK2JlL0RDNDMycVNENC9Wek1qRXduQkxyaVFXTzlDL0FRNnNu?=
- =?utf-8?B?WC8wMGFjMGFDVndaN1dncnVwWUdGbTFFb0MzS1Rvdy9NWnpXWGRLQjFPWTE5?=
- =?utf-8?B?bWUxWm8yNXM4OGtrM3BPRXU0Z00rZFlqRjFFc1NkUnNTZHNNckRPWEZZcUNF?=
- =?utf-8?B?TjR6WUtYSTA5aW9iU2F3Wk9ySDlwZE5RQ2l5SGdLM2lUWnhMcDE0NUhJOWY4?=
- =?utf-8?B?ZFp2d0pwbWh4MjBOZ2pIRUVKRXRGRE1iRlRxbU1xVWRiSVh5MFVYNW1SNWt6?=
- =?utf-8?B?Y2FQRnZ1QmljVGJ5dnpURUdxMU5CU0g1QWpvUCt5MU42bEM2dWhpc01Wcldt?=
- =?utf-8?B?eXF3eWZ4MitaZ2dYUm85TllOQ2VENlZ4ZUxMVGdPMjY0NWhmdEpiRkhvTEJL?=
- =?utf-8?B?VU55TkpVQ2dsdlJ4U0dISUJEM3U3TDBYdE1BSXd5SE93enRXejBpSTgraXdp?=
- =?utf-8?B?ZVhaOWFqVFRDZFNmcUE0OUdRY2JVYnk3NXA3SDJXZUtVQXVyMDIzUm1iUzFt?=
- =?utf-8?B?QVI1b2cycms5OHBKZ3dGc2Y5QnFuNCtlSnNyZWkwWEVoTWdDT2lOTmIrdmVy?=
- =?utf-8?B?OXVrbXZUZWhPM3JPaUZVL0FpUExUQzR0TWxUcldJTlYzRzVTREJ6NDJuRmRN?=
- =?utf-8?B?RkZSOTBzSGRwR2JKRXppaG5DYXNldkhmQ0owYXp3dWV3NDJ4dVB3UmhBUmwx?=
- =?utf-8?B?Vk9SQ1lZMEk1dlg4RDhhcHhtZSs5OFdPaFhsUzNDd2EyS1JjbTEraytKSWlr?=
- =?utf-8?B?cEZvV1BIbkVxM0dUUDE1cHdadiswVDFLUzJSV1FHbzh5Q3pNTFdmWitUTmZI?=
- =?utf-8?B?OVdmd2tzS3JPWmNyZ2lhbmpmVGlreUpycUJvMTBEOGFkcWZEQzJpQ1JobU0y?=
- =?utf-8?B?Vnk5eVIzalUvamNuZ2RUcjFneldRMXFtai95NHdrbE05Z2d1Q2dTdzZ5UEpE?=
- =?utf-8?B?NFlTTmEydlBRMzJDTStxT1l0NVlJdTVLRys5YWh5dkpydE0zV3JvK3ZsRW9I?=
- =?utf-8?B?a3oya2xRVVVMdjF3ZFF2VC82QTkyWEtFMm4yZVBEejBDd3lOUkd6N21IRVUv?=
- =?utf-8?B?bUJCTVY3bnV1eTBIMjFyL3ZpRFYxVnR0NUZXbU02bGoxMGNRaHBJcjVVQWF4?=
- =?utf-8?B?bXVSWWdXOVN1OGd0TUlxNUxFMjhtSkl2UVlhYzRHcXNPS0hJdmlpNnNQRDVv?=
- =?utf-8?B?cEIvc0hXTi80RTdhNk4xNDgyL3d0WDVTdWROL21RNnp1QTdnZUM0TjNtVGNx?=
- =?utf-8?B?TnYwd0tXc2hid0RnSHRmcEVnbXdvR1VDakpTbDQxZ002REM2NnhoV04wMFhW?=
- =?utf-8?B?ajN4V2M1bHZ3YVZtd0NJYVVkcFpQOTJ6TDZSYVlWOS9COFY5OE01SkRnVGpq?=
- =?utf-8?B?VFNCRDROdkxWZnhOdlN3b3pHT3F1azZCc3ZXMVk0eXpHMTY0WEFvNWFvQlJx?=
- =?utf-8?B?a1RkNWpjRmVDQnRVU2g1cmQzUjBMVUhPWmJQRGNOVS8ydXV0enhvU3JaU2po?=
- =?utf-8?B?d2JyZXdIR1AvcnNuaituYUkzMnQzdlR0Z00xTmJqUTFzT2ZjdGttN0xndG0r?=
- =?utf-8?B?SG9rSnc1U1pweTNIaVJXcmUvWllpQm9yKzRYUGlBeEdaNm5IVFIxcUFhMlc2?=
- =?utf-8?B?QjVLR09QOUllcHJ4UWNtWE5KQmZscnE3QldDQmRFRlZvY2NnVm5NVGFGb0hk?=
- =?utf-8?B?S3Yrc3BtZVlWUDlxS25GN3Uvd0dDUFErMHg2N2Z6YmZtaTNHTmttaDdSVHo5?=
- =?utf-8?B?NjFEL1RsWnNzb1FlKytvUU5HZ3lLdldobkpwYUNNTlRqdkdsNFNBSHNsSlI3?=
- =?utf-8?B?Z2VPa0pDamFYejNGN0ZJRWNSYXZYbmROR0JOM1FndHlEMlFybmdyY05kVFhw?=
- =?utf-8?B?VEZFWFFRR3VQTHJidmV3QWxjby9seldIeTFsNEprdnlGSGJaWGNIZi9wMXZY?=
- =?utf-8?Q?3wb9DRSruVo6mplmSw1ZQK50JPJUE3bU+Ix+LiZwDGRPq?=
-X-MS-Exchange-AntiSpam-MessageData-1: zOqX+wCRgBNfww==
+	=?utf-8?B?ZDQzblljZ0JjaWJzeVdWc01YSEdYTFM3NlFlRmlWNHc2WTJHMmo1N3RLYkU4?=
+ =?utf-8?B?OElzcUFRUWFrYjlTMTZINVdQWWIvbG1vUHBVd2hDdm4wZVJMT2hrdDFTTXVk?=
+ =?utf-8?B?bEV2L0p6MnI0VksySGFqZVVyMlRrTXc1OStPTWthUTZ2OWpqbVV3dDdhK0to?=
+ =?utf-8?B?ejRuMHFIMlhpbk9mTjdsV0xLc0Y2cldyVGFRSHZVNlh3UHBjVDJnbWhpQWR4?=
+ =?utf-8?B?eXJvVTlQYU1MaDJYZVlTVS83aGxWblRXaTFKdm9HRm5EYmRaRldmMlowOTQ3?=
+ =?utf-8?B?ZG1GRFVEMTJsdHNDWExDeStIY1A5dWJUeThaejE4UTk5NG04NjE3MkEzOStv?=
+ =?utf-8?B?aTBwT3JWbXI2amk2NFNyOFlWeDZ1Y2UxVTBOU2xHc1VnMXIvcTVJSFNNTHhr?=
+ =?utf-8?B?am1KR1NZb3RiNTVMdG4zZlY2VHIxK2w0Y042RnUxTVZST05aS21LdzVhakN1?=
+ =?utf-8?B?dWZWUzlkZU5na2k0S3dmbTRtUGpjLzMxWXFHWDY0ek5zV2RwNE1KNmczVTdu?=
+ =?utf-8?B?R0Y4WWZETmloRFpqT2FaZ3VqL09xVDdCanQ4K0ZJUEVUUjdDSXQzZVBVUDhI?=
+ =?utf-8?B?c1hDU2I3a2JveVlGRmJqRXdaTDN5UzJReVlMb0FCd2dVZG1OVjZNNS9iMjRE?=
+ =?utf-8?B?c2YvaDdaZGVLVDY4VUlIaVI5L1J3VFNsZmdGMkx2cGtxb3ZVNmtRYjVVT0wx?=
+ =?utf-8?B?N0xrUnczSGZuakc0Y00raW9qdWVRcUgzcjFQeTY2YW9JdzAwNDhPcm9tYUg4?=
+ =?utf-8?B?UjNGdFEwU1g3RHlGL2NtbkE4RXZBaHRlbnBwU3psQ2VvVkpLT1lyRERKMUVC?=
+ =?utf-8?B?V1IwNlBaVGgvT2RGRmt1bU0rQTZkZ2lqRFBRYUNNbEc5MFdyWXJWVENpTFBI?=
+ =?utf-8?B?RDM5TFZROGx3RVU3NzNxWEk1bUlPbytsM3V2MEVmMHViQ3ZIK0cvSUZrZEw5?=
+ =?utf-8?B?WWNWVmFucUhRSFBqTnVBakdmOUFySU1QVXcyTzEvdThzZWVxUmdCZXJGK3hW?=
+ =?utf-8?B?dEhJMTU2N3d3bGF3bFQveDdaK3pERjVvcXlGcWZTYXJKRy9PTjBlRjUycXMr?=
+ =?utf-8?B?SmZDeWl2LzVWRm1SdkpnYTZXMFhIWlFjVlBOdEpKc2E4WWVBeFVEa0lCekcy?=
+ =?utf-8?B?bGlPVzBWSFZsalNXMnFuV1p2UEJtYTJic3NlaXFuczQ1bTBkQjVOd1NuSGlQ?=
+ =?utf-8?B?bFN0UEdjZFBibEg5QnJwUTN4UWtEdHZOVEdPTnZOemxpKzRmOGVRVUFxNDA3?=
+ =?utf-8?B?QkgyK0hsVVBndk9LVkRXNFJPUm93Rng2TGMzcCt6RDJEUW5WdFdFSXJNUTI0?=
+ =?utf-8?B?d0pBaUJvUlVOQXlKcVlIeUdKMFVKeEJDNGJsOTQ3SWVNWFR1bUo1NHAxaFZX?=
+ =?utf-8?B?VG51S1Z6RWlBYm9KTU84Q25DdVUzNDJWRGVpdlI3TEN5ZlVFaTlBVHoyOUZK?=
+ =?utf-8?B?OGV2M0NsM0VpY2lpcFByTWdtZGlvYS9wUVM5a1B6bnY4Wms3K3o0RHZzdFVS?=
+ =?utf-8?B?R3l2aDlaZmZrVGlzWk5hcGFOUml2Z0piTkJyREpneGJ2UnJFbjZGTDlYaTJR?=
+ =?utf-8?B?SzJOK1R4UTlZdmRVdlVFQkxPcUpKemR6VEV3elpSRU52TzMxdWxTbzhkWEc1?=
+ =?utf-8?B?TzlJTUhGRCtnVm1tSUIwamxEdlhKT1B4aTAxeEZGZlBUUGd5RldXTDE0UDU2?=
+ =?utf-8?B?TnkrL3BlUGp6S2psWFpadWladWduWkhUU1ZocWVEd0dVTVVMTzdRakNDUU5D?=
+ =?utf-8?B?QzNEM0UxS0tRdVRVbWxVdjVFQzVQdVdiYkI2bkpRYlVoYk1mbkF6MlNNVnVD?=
+ =?utf-8?B?Y3Y3aWYvOERQejJ0ditrOVpHdUE5ak9qTXZxemxwZDNNUXZvRWhFUGFnWmkw?=
+ =?utf-8?B?SHBML1FDNW9GcEFUcExLMS82UVRzUVBFbm5kMmtzRWFFK1A1Ymo4eGs1STdj?=
+ =?utf-8?B?TDYxd3F2UGZmZGRxekFHVHRBckJPUjVQZW5jK3E1eXIydWlQVjcxTVJIVzNC?=
+ =?utf-8?B?dXJDL2lrWkN1NG5aNGljN1Jvc3hFUjNiYllaNVhkQkNuK2FwOEVOLzJDQng2?=
+ =?utf-8?B?bUlWS2MwWVZ2bWJ6QzFkVWtYcUV5Y2Jpb0tTUXNvdUFTSEJaWlZ2ZWdTYzVi?=
+ =?utf-8?B?ZEhmQ2hBbCtkT0twRHU3TElDZUk1dDl5M3pScTUvY3R5eUErUlJWN1VNOTl2?=
+ =?utf-8?B?NkExcXgvWWVaL2tveU5ocUwxRHBaaXArNmZNSFNjWnZVT0JvQzdreDlRUS8y?=
+ =?utf-8?B?SEpUWHNQa1lZdmRwYWZFWG1JT2cxaXRSZjhjV0Z2Z2hLMTFFRU1DYVhQbEdw?=
+ =?utf-8?B?OHN3V0VFNDFPNm9VWHNhbFBLZDhuTXJLNGp5S0NtbUd3SkpuSlJmQXl4UWxz?=
+ =?utf-8?Q?ms9VYhGLvlCCGNb/voSdCG9do9RZSeG9VE7mIgzhf5Gu5?=
+X-MS-Exchange-AntiSpam-MessageData-1: mh6FSyXnAXM3hQ==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae2e70ce-eda8-4c45-0f56-08dec533a391
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24fd71da-f4d0-4584-c492-08dec53606d8
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 07:57:53.7062
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 08:14:57.1138
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b+/p+Unkl+G2JcrN8leiZjlulgT0UIBIzFXpJdFCpMKM8TThpu3lP/B3oK9rHoR5HAhx0dMpeCHiCOxkcoB8CQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5766
+X-MS-Exchange-CrossTenant-UserPrincipalName: dJ0/4yrF5GitYoDHRruoutcMTpGce/aDUAZxht/jWMoHiaxtdcXYieByXq/jHe+t7vZIaGthAzF/CK3aTYJySQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9451
 
-On Fri Jun 5, 2026 at 4:24 AM JST, Lyude Paul wrote:
-> In order to do this, we need to be careful to ensure that any interface w=
-e
-> expose for scatterlists ensures that any mappings created from one are
-> destroyed on driver-unbind. To do this, we introduce a Devres resource in=
-to
-> shmem::Object that we use in order to ensure that we release any SGTable
-> mappings on driver-unbind.
->
-> There's some other slightly unfortunate caveats of this:
->
-> * Drivers don't have explicit control at the moment over when unmapping
->   happens (which is exactly the same as the C side atm, so it might not b=
-e
->   a problem).
-> * We can't just return `SGTableMap` to the user through an Arc to attempt
->   to fix the last caveat - because that implies the gem object would need
->   to hold a reference count to the scatterlist mapping, which just leaves
->   us with the same problem.
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+The addresses passed to `io_read` and `io_write` must be properly
+aligned, but the safety contract only mentions a valid range as a
+requirement.
 
-I really like how simplified `sg_table` has become!
+Add alignment to the requirements. The existing call sites already
+obtain the address through `io_addr()` or `io_addr_assert(),` which
+both check alignment, so no code changes are needed to them.
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+I noticed this when reviewing the GEM SHMEM series; it is probably better to
+explicitly mention this requirement.
+---
+ rust/kernel/io.rs | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-With the customary final nits below.
+diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+index fcc7678fd9e3..854932d1cb72 100644
+--- a/rust/kernel/io.rs
++++ b/rust/kernel/io.rs
+@@ -166,14 +166,16 @@ pub trait IoCapable<T> {
+     ///
+     /// # Safety
+     ///
+-    /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - `address` must be properly aligned for `T`.
+     unsafe fn io_read(&self, address: usize) -> T;
+ 
+     /// Performs an I/O write of `value` at `address`.
+     ///
+     /// # Safety
+     ///
+-    /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
++    /// - `address` must be properly aligned for `T`.
+     unsafe fn io_write(&self, value: T, address: usize);
+ }
+ 
 
-<...>
-> +
-> +    /// Creates (if necessary) and returns an immutable reference to a s=
-catter-gather table of DMA
-> +    /// pages for this object.
-> +    ///
-> +    /// This will pin the object in memory. It is expected that `dev` sh=
-ould be a pointer to the
-> +    /// same [`device::Device`] which `self` belongs to, otherwise this =
-function will return
-> +    /// `Err(EINVAL)`.
-> +    pub fn sg_table<'a>(
-> +        &'a self,
-> +        dev: &'a device::Device<Bound>,
-> +    ) -> Result<&'a scatterlist::SGTable> {
-> +        if dev.as_raw() !=3D self.dev().as_ref().as_raw() {
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        let sgt_res =3D 'out: {
-> +            // Fast path: sgt_res is already initialized
-> +            if let Some(sgt_res) =3D self.sgt_res.as_ref() {
-> +                break 'out sgt_res;
-> +            }
-> +
-> +            // Slow path: Grab the lock and see if we need to initialize=
- sgt_res.
-> +            let _guard =3D self.sgt_lock.lock();
-> +
-> +            // If someone initialized it while we were waiting, we can e=
-xit early.
-> +            if let Some(sgt_res) =3D self.sgt_res.as_ref() {
-> +                break 'out sgt_res;
-> +            }
-> +
-> +            // If not, finish initializing and return.
-> +            self.sgt_res
-> +                .populate(Devres::new(dev, SGTableMap::new(self))?);
+---
+base-commit: 46def663dd34da36464ba059f7cfeacf29d98e5e
+change-id: 20260607-iocapable-align-fa8bf1ac7208
 
-Maybe add a comment explaining that `populate` cannot return `false`, as
-its invocation it protected by the mutex? This helps understanding that
-the following unsafe block is ok.
+Best regards,
+--  
+Alexandre Courbot <acourbot@nvidia.com>
 
-> +
-> +            // SAFETY: We just populated sgt_res above.
-> +            unsafe { self.sgt_res.as_ref().unwrap_unchecked() }
-> +        };
-> +
-> +        Ok(sgt_res.access(dev)?)
-> +    }
->  }
-> =20
->  impl<T: DriverObject, C: DeviceContext> Deref for Object<T, C> {
-> @@ -474,6 +545,63 @@ impl<D, R, C, const SIZE: usize> IoKnownSize for VMa=
-p<D, R, C, SIZE>
->  #[cfg(CONFIG_64BIT)]
->  impl_vmap_io_capable!(VMap, u64);
-> =20
-> +/// A reference to a GEM object that is known to have a mapped [`SGTable=
-`].
-> +///
-> +/// This is used by the Rust bindings with [`Devres`] in order to ensure=
- that mappings for SGTables
-> +/// on GEM shmem objects are revoked on driver-unbind.
-> +///
-> +/// # Invariants
-> +///
-> +/// - `self.obj` always points to a valid GEM object.
-> +/// - This object is proof that `self.obj.owner.sgt` has an initialized =
-and valid
-> +///   [`scatterlist::SGTable`].
-
-The SGTable is not in `owner.sgt` anymore.
-
-> +pub struct SGTableMap<T: DriverObject, C: DeviceContext> {
-> +    obj: NonNull<Object<T, C>>,
-> +}
-> +
-> +impl<T: DriverObject, C: DeviceContext> Deref for SGTableMap<T, C> {
-> +    type Target =3D scatterlist::SGTable;
-> +
-> +    fn deref(&self) -> &Self::Target {
-> +        // SAFETY:
-> +        // - The NonNull is guaranteed to be valid via our type invarian=
-ts.
-> +        // - The sgt field is guaranteed to be initialized and valid via=
- our type invariants.
-> +        unsafe { scatterlist::SGTable::from_raw((*self.obj.as_ref().as_r=
-aw_shmem()).sgt) }
-> +    }
-> +}
-> +
-> +impl<T: DriverObject, C: DeviceContext> Drop for SGTableMap<T, C> {
-> +    fn drop(&mut self) {
-> +        // SAFETY: `obj` is always valid via our type invariants
-> +        let obj =3D unsafe { self.obj.as_ref() };
-> +        let _lock =3D DmaResvGuard::new(obj);
-> +
-> +        // SAFETY: We acquired the lock needed for calling this function=
- above
-> +        unsafe { bindings::__drm_gem_shmem_free_sgt_locked(obj.as_raw_sh=
-mem()) };
-> +    }
-> +}
-> +
-> +impl<T: DriverObject, C: DeviceContext> SGTableMap<T, C> {
-> +    fn new(obj: &Object<T, C>) -> impl Init<Self, Error> {
-> +        // INVARIANT:
-> +        // - We call drm_gem_shmem_get_pages_sgt_locked below and check =
-whether or not it
-
-s/drm_gem_shmem_get_pages_sgt_locked/drm_gem_shmem_get_pages_sgt.
