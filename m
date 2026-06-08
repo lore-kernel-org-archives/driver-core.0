@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16893E1211
-	for <driver-core@lists.linux.dev>; Mon,  8 Jun 2026 18:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB69B3E16A0
+	for <driver-core@lists.linux.dev>; Mon,  8 Jun 2026 18:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780943482; cv=none; b=NFnGV6wLDsaWD+ZymGJ/OVgW63FLBlpxrtclocBU7P0BhJbQN/wzWj8fkdaGgaalR01FOelSMFTdvc+1IZwoGD3P4F3CqTS/mI882KaQR9lqgTLdMpTyVD46ih3P/yJf55P+3+O7JvYI/8XXPm11uhih4MmnAx/vpoAvr4sdjaY=
+	t=1780943486; cv=none; b=nj5sPEn9WlMFkA0Jl5NKxd8r+XdziSSMlZmpgidvZWIj9/TT95ctc0lbaCRz29R+5j2masVB4KKxYvybnZX6Ydn/AbO+dNoHowxsT0ygvfrYB66VNCArhcLdwHP3WrEN1IkORyUaVh/IVb1guvDx6lMec7G/6U+q16aFA15Dj+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780943482; c=relaxed/simple;
-	bh=8IRyv7LCSRO8a+LMUWXdARmSzx637HJkV6N13gEEkU0=;
+	s=arc-20240116; t=1780943486; c=relaxed/simple;
+	bh=Aj4PBe2fkWjoL26YUEqoqN9BiMSi2LM2cuwB8IxJ5x8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=mU8HScaxzTr42RyUjEVN/JpGwAXiI5wQA1a9IvgsKfADhYE4QPujRMQHGddJbk6G++FjaIq/VJQ2kgNeDOH7d+Cc5TOV8et2bzU/w7r5u0VfzFZcXRRh+lEPNep2fx8gR3yDb4s0o1JevjIRogCR3sBc809h6IZ9YnWJr5YOD3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F6A0FZVC; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:content-type; b=ftWMx85KHP9QdjEB99O8wsq3AWFRPAtH20T8OVTCKQfJGVU/ZFs79OwkHz2GK1icGIWMNso6/mfkwBbz/q4rP4sX5Oq/mN8zzjJ4enQZTrG2UG8gLDRzwh2IAwG2RELptjYHHP+w5/Vz6JQEHIu6ZQtFQia2rif5YcIP7bgnFJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZUfT0Dqh; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F6A0FZVC"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZUfT0Dqh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780943479;
+	s=mimecast20190719; t=1780943483;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VvkqqMaR/p4iNrcFd0EO2fuLaTlmARCcel/DKCsLETI=;
-	b=F6A0FZVCiLlDJXz2bRWpKo0XcSYIFfGUPgBZ4U+krxiK7P4EkrIyzbl8e1OpbplXrrMry1
-	ObncDh5VBUpdDlTq3Qq0m+JLzXCw/fZKcmyZaUREw1Dejd7cQypM+RVeMQwuPyxhNRMdgo
-	1rCF7XEaFvPZqJ9srHlP8FJprd4wjQA=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=l0Q78Z8ifFWrqkScVlzVzhmSJQFRs/JAyzSzJkKaHgI=;
+	b=ZUfT0DqhAKcPy0Ve/VX8vfliwkw/STjHGQZPWXKynsQ1tVMaPpdpl3/WCTj/zsbEWHPy+6
+	qrYkzRVINz+anVSMOK/RjXbed50L9qSi+BkrXuh0AHWd5movmESY2QOLCsNxJW/hUpBSZk
+	CNG6PcVf6gJYgf3xzlFh/tfymzewO5E=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-398-btYvUMdhNxmvG4gFfxuJCg-1; Mon,
- 08 Jun 2026 14:31:12 -0400
-X-MC-Unique: btYvUMdhNxmvG4gFfxuJCg-1
-X-Mimecast-MFC-AGG-ID: btYvUMdhNxmvG4gFfxuJCg_1780943469
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-629-GkctutQXPFOOEZJN1ozAgQ-1; Mon,
+ 08 Jun 2026 14:31:20 -0400
+X-MC-Unique: GkctutQXPFOOEZJN1ozAgQ-1
+X-Mimecast-MFC-AGG-ID: GkctutQXPFOOEZJN1ozAgQ_1780943477
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A77BD18307E5;
-	Mon,  8 Jun 2026 18:31:08 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C110F197702D;
+	Mon,  8 Jun 2026 18:31:16 +0000 (UTC)
 Received: from GoldenWind.redhat.com (unknown [10.22.89.147])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 23F951800594;
-	Mon,  8 Jun 2026 18:31:04 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 30682180059F;
+	Mon,  8 Jun 2026 18:31:13 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Lyude Paul <lyude@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v19 1/4] rust: drm: gem: shmem: Add DmaResvGuard helper
-Date: Mon,  8 Jun 2026 14:29:01 -0400
-Message-ID: <20260608183057.2001376-2-lyude@redhat.com>
+Subject: [PATCH v19 3/4] rust: faux: Allow retrieving a bound Device
+Date: Mon,  8 Jun 2026 14:29:03 -0400
+Message-ID: <20260608183057.2001376-4-lyude@redhat.com>
 In-Reply-To: <20260608183057.2001376-1-lyude@redhat.com>
 References: <20260608183057.2001376-1-lyude@redhat.com>
 Precedence: bulk
@@ -81,88 +81,61 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Mimecast-MFC-PROC-ID: chdsKQitilVuC0s1JSaQ6XsWyzm4LnuntIc6CMLumME_1780943469
+X-Mimecast-MFC-PROC-ID: X6OEvANrsHTRJvxaWzeDcHRqpeM2mkkkmzqpf5Cu2co_1780943477
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Just a temporary holdover to make locking/unlocking the dma_resv lock much
-easier.
+When writing up some rust code that used faux devices for unit testing, I
+noticed that we never actually added the Bound device context to
+faux::Registration's AsRef<device::Device> implementation. This being said:
+the Registration object itself is proof that a driver is bound to the
+device - so this should be safe.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
-Co-authored-by: Alexandre Courbot <acourbot@nvidia.com>
-Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 
 ---
-V17:
-* Fix format of commit message title
-V19:
-* Add NotThreadSafe to DmaResvGuard
+V18:
+- Add notes from Danilo to safety comment.
 
- rust/kernel/drm/gem/shmem.rs | 39 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+ rust/kernel/faux.rs | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-index 084b798ce795b..da1acc223bad4 100644
---- a/rust/kernel/drm/gem/shmem.rs
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -22,7 +22,10 @@
-     error::to_result,
-     prelude::*,
-     sync::aref::ARef,
--    types::Opaque, //
-+    types::{
-+        NotThreadSafe,
-+        Opaque, //
-+    },
- };
- use core::{
-     marker::PhantomData,
-@@ -30,7 +33,10 @@
-         Deref,
-         DerefMut, //
-     },
--    ptr::NonNull, //
-+    ptr::{
-+        self,
-+        NonNull, //
-+    },
- };
- use gem::{
-     BaseObjectPrivate,
-@@ -244,3 +250,32 @@ impl<T: DriverObject, C: DeviceContext> driver::AllocImpl for Object<T, C> {
-         dumb_map_offset: None,
-     };
+diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
+index 43b4974f48cd2..20ab638885354 100644
+--- a/rust/kernel/faux.rs
++++ b/rust/kernel/faux.rs
+@@ -25,7 +25,8 @@
+ ///
+ /// # Invariants
+ ///
+-/// `self.0` always holds a valid pointer to an initialized and registered [`struct faux_device`].
++/// - `self.0` always holds a valid pointer to an initialized and registered [`struct faux_device`].
++/// - This object is proof that the object described by this `Registration` is bound to a device.
+ ///
+ /// [`struct faux_device`]: srctree/include/linux/device/faux.h
+ pub struct Registration(NonNull<bindings::faux_device>);
+@@ -59,10 +60,15 @@ fn as_raw(&self) -> *mut bindings::faux_device {
+     }
  }
-+
-+/// Private helper-type for holding the `dma_resv` object for a GEM shmem object.
-+///
-+/// When this is dropped, the `dma_resv` lock is dropped as well.
-+///
-+// TODO: This should be replace with a WwMutex equivalent once we have such bindings in the kernel.
-+struct DmaResvGuard<'a, T: DriverObject, C: DeviceContext = Registered>(
-+    &'a Object<T, C>,
-+    NotThreadSafe,
-+);
-+
-+impl<'a, T: DriverObject, C: DeviceContext> DmaResvGuard<'a, T, C> {
-+    #[inline(always)]
-+    #[expect(unused)]
-+    fn new(obj: &'a Object<T, C>) -> Self {
-+        // SAFETY: This lock is initialized throughout the lifetime of `object`.
-+        unsafe { bindings::dma_resv_lock(obj.raw_dma_resv(), ptr::null_mut()) };
-+
-+        Self(obj, NotThreadSafe)
-+    }
-+}
-+
-+impl<'a, T: DriverObject, C: DeviceContext> Drop for DmaResvGuard<'a, T, C> {
-+    #[inline(always)]
-+    fn drop(&mut self) {
-+        // SAFETY: We are releasing the lock grabbed during the creation of this object.
-+        unsafe { bindings::dma_resv_unlock(self.0.raw_dma_resv()) };
-+    }
-+}
+ 
+-impl AsRef<device::Device> for Registration {
+-    fn as_ref(&self) -> &device::Device {
+-        // SAFETY: The underlying `device` in `faux_device` is guaranteed by the C API to be
+-        // a valid initialized `device`.
++impl AsRef<device::Device<device::Bound>> for Registration {
++    fn as_ref(&self) -> &device::Device<device::Bound> {
++        // SAFETY:
++        // - The underlying `device` in `faux_device` is guaranteed by the C API to be a valid
++        //   initialized `device`.
++        // - faux_match() always returns 1, and probe runs synchronously (PROBE_FORCE_SYNCHRONOUS).
++        // - suppress_bind_attrs = true on faux_driver prevents userspace-triggered unbind via sysfs
++        // - mem::forget(Registration) is not a problem; if the Registration is leaked, the faux
++        //   device stays bound forever.
+         unsafe { device::Device::from_raw(addr_of_mut!((*self.as_raw()).dev)) }
+     }
+ }
 -- 
 2.54.0
 
