@@ -1,136 +1,97 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6F815746F
-	for <driver-core@lists.linux.dev>; Sun,  7 Jun 2026 14:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780843840; cv=pass; b=gMvHa6ibl7GtsgMqsht4izl+RKw+Z8DW0ynBF6GMqmbIDnWq52hPY0FWPe7qPZoj9SZSfZxHvQoxrOSETCNwbMpYXuw72vZNAG0beLD7yuz0kadgtfdurONTHvh34iE0hVn+tFNS5fEhJ0Y7QRbckiLP/9EwACbryLJ3fzRlrpM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780843840; c=relaxed/simple;
-	bh=KeOkw3p+smUt9mDbUXijVkwoFTCqBK/LvWOrl4P+Zo4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AqFhH43Y9SY3bg0sOlsP3NCjLDX6Ok0RN4TH5KukC4Z6bMO1/8I19P9Ix63iusgO7xm1DIzVt+zy+KiRjHF1LgLO4G7Eb+vG/fqSx4mPMJYOsNksTNEfkNsdo3ASLEAeo+tPQvnTIm5lnaARy4Vo4fYax+rI9duV4fKJ1XSGMSs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eyItgILJ; arc=pass smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC434CB5B;
+	Mon,  8 Jun 2026 02:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780884962; cv=none; b=ZXlQkEPJQiW1s6NRTnspqCz0vMiXLVcgza2zdrhzua35IslgHTVq70QJKgsNq5memPe1/yCs3wLxQF4cCBD8wKF0d2jfrw27VyD8/27DjsYxL8zfqud4vlL0gYLWYF/VTYrmhxZUgml0+KiwlXdKD8r5RCgKqqfpF25zm8gAIcM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780884962; c=relaxed/simple;
+	bh=as1cn8I3sAvGEeC+Ccs5oMsBbu5PT+oFi1OPh3uD+8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CjIKQQy1kRK4rT2ZvNUuY2Y93LcSf3dtvKzQwNPVkGWpxmUkWY9rZ/CzIHTG4Kz0i58+pCtd11k67AYeounZ9zRfqst/e7zyzRMXKF3/cJi9OiFA2Z15P1QJOMA+nozj5STTIIh+NvaLFCtiObZTCGVs8MCtcVFH9a1tGpZg5AQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCWDI/bY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eyItgILJ"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-304eb0fc233so280045eec.3
-        for <driver-core@lists.linux.dev>; Sun, 07 Jun 2026 07:50:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780843839; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kZCifkr48joy74SCS/EgdL5IMYxXougCmR64Rh5WWVx0IJAAwy3fdclKuqTlsJ2oVc
-         XSDLlQ0VrKN33g5EjpyvLP0Jg/JYUW7079GAOM92d6eqr84azpezOg9URr3nBF3zXCiz
-         hO++21bv7I3VovblUGiiUJppTCxps5DKVXvfi0fJmwSwKJNEC5k04KCfArNwFKYnCz/n
-         +UYzHS4GS51s6SnfwlMvTQfLOvjdqUJirEVM5OaoSa4Z5uVmGyw0vdSVRNMnxdXbIu5b
-         hyuuck1jusg9Vi6sIXi3a0C6a7XfirKA7FIZXcgIb33QPBOcQxBhaWypYUjOKF/xG8WG
-         Fajg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KeOkw3p+smUt9mDbUXijVkwoFTCqBK/LvWOrl4P+Zo4=;
-        fh=NkVx7WtUj/CIlkqA6XhRQV/FUfqOlXT7c4NB9yAmiAw=;
-        b=UyBeoeLlcLYasIArU5gpJp4aF30RURPW6JYzUtO/twM4nKXIOernoHpCuwcs/OXEH4
-         hKIzb18reBbPCO+Bx0qu5b+xq1g6q1WVAFfsnpcDSGXSv4OagnZ8DrWktO97gKcFDVi1
-         gQGADEfN1o259CPo6FQAaZGhwDYjUtjXahk80qy1/IsH/p3Rm9mrFpGly1otrqtokAhT
-         U3ioxEMozb8xAGlMVMHwu5i1mSYWPSYDwe+K71gKkK0UlPJev21uKcxgVyCPNboJKLaD
-         48fdF3YZXh8T+YjgpI1XzNdigSKDg7EDoHdMyG1CT/5VUGWX9lbWOrpppXU1SaPuQYI8
-         6Wfg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780843839; x=1781448639; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KeOkw3p+smUt9mDbUXijVkwoFTCqBK/LvWOrl4P+Zo4=;
-        b=eyItgILJcfquoI/v2oVV9BeQ6MdA9PwYzzCD9aR4oieTT4YLWKOUHP6vekUII4CXcB
-         wyunenzLLl9oNvX6Xl4enu0Nrsp2h2+ZI7yaK9VBI2kKrstNbAP9nBkotV2VxBIUSaQO
-         yUimMckwuuXGxYWOSuF8TPYVQwDDe3/de57T9Fgp9QttL8kg52oWPZOeBEGwixwFyNIk
-         u2Ph9TerATJezvjw3c4of6PkV68AGFkdD3+Otlq/OvQEbZyz+pRmHKZGJ7hw732CwuDy
-         VS4OyCQcF62VEwdUk5JvSf+NnQqXhmb5IN9Z4OQEE24lXCkK5EXmSDpJHZY2FPr7d4yz
-         lQOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780843839; x=1781448639;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KeOkw3p+smUt9mDbUXijVkwoFTCqBK/LvWOrl4P+Zo4=;
-        b=atcNTcwkxhdIn3Tcz6JzZ/yAz4wJVVQxPMpMG0M32d19PW/1djxVU/+quKYS6Jex7P
-         S7XSlJtvJ5Wr7UjGJA2QfOnU530eMhmvhscFxWRIErodiU2wBT5L/z8+oHncFpymuzHh
-         WsZAmzr943s3OAjQqGJ+vxbrDY2L3w9Idu949402NIDHhsY0NBXOasuUMMz35BQUu0Kh
-         okFHwGVdXR7/MI4me67eFeszreKVpUjdhInIEO74wC0YL2JA78rGbGjectaaUfsAYpqz
-         AyLuhNe4elxdNIDwDEFRTLc1KB9bGcRwhDuTDGu/7HzvYS306dgw22vjew44/jqKDiW8
-         vPRg==
-X-Forwarded-Encrypted: i=1; AFNElJ/9JEYv2LmbX9rbShbWfFb7BB+e+iHdLBywJ5zMvkfYzopZZN3KkCUR1kpyOkH8UuPIsYo6sYSz7H1u3g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxlYudA5MRbjP73+c8PtUd4u1V4lVncW2h4NBGgThkcy902XlJ9
-	byVP1IJAHTgbSMEKGfsACgERraMoFjdN/+A1Srl7FOnX/3t3FsbAlX9fBfMdD5jq5rUINcfHJAP
-	c4IBkxhOVXLmIb6nIzuIZlmbXqKb4CxM=
-X-Gm-Gg: Acq92OHuyBBeb4Jxk2NgJM0r25OLwRBj5oANO84MtWzG5ZTXukrjawq2A0dF4V5o6Hn
-	iwtNivLpwghaQB1rBJzU6ZdJ0ql7p42aH7P7uBFfOcIs8ppnnuoJoFlgWu7jlymOAA8M/8SaoNg
-	JGIu5hCYcSFn6YV6zBbbscn06SAfCzSZD2YkpCskP3RxphLdmJv4nR+Wp0sCWBL9qJtgBhFWUpQ
-	JSuZ30MRwDkt2gOpsLhSfv7Yhft86HckvbLW1/f2zYaRysTxpIGeh5D7LEFF87IkW38u1+iWJ0z
-	qzQpoFbekLxECVa+6Ph2aRFpm6YfLEfEYY1btVNGXd+b5F56xw5VhRInkcbFd39TVIB8VDuP2dh
-	ZF4UTcIRo60Qg2jFT1gZx8avI3SR1ea9QLg==
-X-Received: by 2002:a05:7300:5723:b0:2ea:5057:a320 with SMTP id
- 5a478bee46e88-3077af4a612mr3072058eec.2.1780843838713; Sun, 07 Jun 2026
- 07:50:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCWDI/bY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C45651F00893;
+	Mon,  8 Jun 2026 02:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780884961;
+	bh=TdKMJPGr34VAMb6PbEzE4fJdx7m/8TjEUcQyEL/oeJ4=;
+	h=From:To:Cc:Subject:Date;
+	b=dCWDI/bYKJ2I0hjp/fmSUDPN+b7dbVqLQPrUhzqB0zZPywlc2OEDhhOnaQNILWtZQ
+	 QUbIKD+17fSqtYLz71FgGb0FmSRj4GF2i2IyreQrx6xj4FDgNBz490SAGlezkXllMu
+	 WtMXx+i3U8mNq8LAeqAAwUntCIxt+nKSk86HRbY69aHZNMJQG+o14rChKdi96y0ugL
+	 re257J5SAB6dfU4m89MIHhmywCg2LvYwNaDvGKHKRgWEjKHAzUTJi0EmfzZi4P1BaO
+	 BhnxFIs5k/mQ/BSjO5eWgaAhnvsvc30LZvB6Z/MfDZ+zWRNg7tT1oMEO5JVN+JsYpF
+	 sI2/j6cXC41cQ==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	tzungbi@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	tfiga@chromium.org,
+	senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v3 0/3] PM: dpm_watchdog: Improve DPM watchdog configurability
+Date: Mon,  8 Jun 2026 02:15:23 +0000
+Message-ID: <20260608021526.1023248-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.54.0.1099.g489fc7bff1-goog
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260604192740.659240-1-lyude@redhat.com> <DJ2G8D0N6EK7.2PDDSC28O8K4P@nvidia.com>
- <DJ2T75A5H6Y2.ISIBOQVMAO4I@garyguo.net>
-In-Reply-To: <DJ2T75A5H6Y2.ISIBOQVMAO4I@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 7 Jun 2026 16:50:26 +0200
-X-Gm-Features: AVVi8CeFi5djIGvrvuLFIe0ggcr2ckGO7PwhkagBDt7mLNkIJPuv5Gv_nWehfL0
-Message-ID: <CANiq72=qKckJXFJU6TDKf1yh3a2wBS4SQE9fiGKpVOYWYtL8QA@mail.gmail.com>
-Subject: Re: [PATCH v18 0/4] Rust bindings for gem shmem
-To: Gary Guo <gary@garyguo.net>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Lyude Paul <lyude@redhat.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	driver-core@lists.linux.dev, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>, 
-	linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>, 
-	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 7, 2026 at 2:17=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> IMO we really shouldn't use Clippy to generate code. We spent too much ef=
-fort in
-> fixing codegen issues that are only present when driven by clippy.
->
-> We should just run a check phase with clippy to get the lints only, and t=
-hen use
-> rustc to generate actual code.
+This series improves the configurability of the DPM watchdog.
 
-Yeah, given the trouble it is giving, I think that will probably be a
-better approach medium term. I don't love it, because the original
-idea was to avoid such an extra phase, but it is definitely better vs.
-random source code changes...
+Currently, the DPM watchdog timeouts are fixed at compile time, and the
+watchdog is always enabled if compiled in.  Also, the module parameters
+defined in drivers/base/power/main.c use the generic and non-descriptive
+"main" prefix.
 
-We could also increase the symbol size-related variables
-(`KSYM_NAME_LEN`, `SZ` in `modpost`...) only for Clippy builds to a
-ludicrous value. The extra phase approach would avoid surprises more
-generally though, so I like it in that sense, and has the implicit
-advantage of avoiding someone using a Clippy kernel in production by
-mistake.
+This series addresses these limitations.
 
-Ok, I can take a look at that. For now, I will pick the other patch.
+Patch 1 renames the module parameter prefix for drivers/base/power/main.c
+from "main" to "power".
 
-Cheers,
-Miguel
+Patch 2 introduces the CONFIG_DPM_WATCHDOG_DEFAULT_ENABLED to allow the DPM
+watchdog to be disabled by default at compile time.  It also exposes the
+"power.dpm_watchdog_enabled" module parameter to allow enabling/disabling
+the watchdog at boot time and runtime.
+
+Patch 3 introduces sysctl knobs under /proc/sys/kernel/ to allow
+configuring the DPM watchdog timeouts at runtime.
+
+---
+v3:
+- Address review comments on patch 2.
+
+v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.org
+- Form a new series.
+
+v1: Doesn't exist.
+
+Tzung-Bi Shih (3):
+  PM: core: Rename module parameters prefix to "power"
+  PM: dpm_watchdog: Allow disabling DPM watchdog by default
+  PM: dpm_watchdog: Add sysctl interface for DPM watchdog timeouts
+
+ .../admin-guide/kernel-parameters.txt         |  8 ++
+ drivers/base/power/main.c                     | 75 ++++++++++++++++++-
+ kernel/power/Kconfig                          | 10 +++
+ 3 files changed, 89 insertions(+), 4 deletions(-)
+
+-- 
+2.54.0.1099.g489fc7bff1-goog
+
