@@ -1,147 +1,216 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D306B4BCAC2
-	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 17:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781025579; cv=pass; b=IlUHbxQAhB30lqAUaIvuAs6imjgSfc2CXBn4R5dn6ccvKRiszZkxB7jIUwRRpnWxkE3zZ7GpXLXKjSavdIYR04CVrmGOZ3IpGvqlQ9EYbXpLLo2yZ8LFkGrfauLpv5xA24/dUfnqFVEMUYoEnbU1O52BAhwKf3tcKRZ2kDQl+Ys=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781025579; c=relaxed/simple;
-	bh=i9E6g7FrTHJuH/KM/L2YDGTx0q9lRs2Xj+Q3YKzpptI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OAS+cydgH1XVFpz05MR/mCM8OsNcFZnXxKHdZYLKpu/lAuB0FqwHsnWjitROiPh4RFOuii1xh8dwxqSkTtEXS6nDZKMw4/KUjP9hummJpWkhV4VHc2nqP6U03w88hPVOYn3lvv7kLz4uP6erzRr8F20WAhqfZ02HXwlZZx1/690=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6r+nG2X; arc=pass smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31400403147
+	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 17:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781026124; cv=none; b=F4AQNqp1fMjCzOs5inVmt6ox6oIbrb3MmCcRI4MkhgF0KyAeZTEbRiGUs/J0/ahefnW2/kkBdEf5uOEN5715AawKHc3wj83pepmj6nva0ePKsrzWh5guGYTIjQ8ynRBM5nsTjkOH7b3aneBc9Y4wSGSyR03MbdzZmt8UJ2yBXf0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781026124; c=relaxed/simple;
+	bh=yXrIZoZTgc7TZlMyCfpbe5d2gymUoXsSJqc1OPlY+zQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TT3gPkyPBcKjpSr3dW82B/AR4PnQFMyA4V7/e5grxSSAkCj8Q4BH7DBtv2VQNeND0OuTYaeGpNJb/Mc6t3Qpc6qNRchxFtNruan0gAK8L6L1t+qzXXjFfWluavFFgwljOxWJSaNqXXj0rdwK2TSC+IYr5USB+2XEYKE8wI47pHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C+mqgeXp; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6r+nG2X"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-304dc707c7eso543571eec.1
-        for <driver-core@lists.linux.dev>; Tue, 09 Jun 2026 10:19:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781025578; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JGlpr/3Ul5xIg+Mt6AHFjQ412MfCK8Iy2nlQ+QXaTKy2RF7OV6Aenv71wYsRahS5sg
-         AghHY7fwmg2ixGCDRBZSRh8LqbeSp+JDs2ch51VYkGleEvkRc2qrrvTIbxyDeXGmdD/G
-         FI9kbxLHnlON2+rv/q3C/ld6a9Y7yg3MqAzRo0fu++SfWI3SFaStg+ABKRGrtuZu0AQq
-         brK9/lnoYvWp7apWSJgBDtMhw2R1k6xzJRa6N6835zF1pHTaGlJmH+h8MNjxu6VL4vuO
-         Dt44QCx3rNdD4cO+ejSokIwLQTMrWcuE7LKqmSP0gO+CrtOVcNO6gUlHKOsr2QHx6bVx
-         7SgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Qdj1ZDhkK9hVS2s2BU4ZL0QegPmYjb1pgGPh1FYEFmw=;
-        fh=0AvWUneEcZtmhuKNKvHGtVDK4Ufoq38zJIiWQ2aUHr4=;
-        b=S9LaH2zrk5GgwOWOZoW6gNpi12IuvjM6kTPrTkagrXGFl3ElMbG7t/7bIjUxQuSDS0
-         OU4KJ5SMzLRdiVh5AMixtrlsQtGRJPSrll4a4nhTd6Dg8IQx+Ku74sonDhRjP9+yE2MU
-         dXn9g4W9ignNk+IZdwz6UgxF8aadpJwUZJtZ0yVL8kAW3+auKIXZOivlzN4/U7Q/POwH
-         qsNQIkJactkwITwm3uO2ni79/thfkNB4HiJufqulT6avvUrcRUaDssm4UJUYkIeKrUxU
-         UYPbw/c8Vw3x8gtw5lGTtWCDLo/xCDB2+8WogQIdsFOpqumUBltOztj5Rfg/NUO9bTLu
-         9gdQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781025578; x=1781630378; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qdj1ZDhkK9hVS2s2BU4ZL0QegPmYjb1pgGPh1FYEFmw=;
-        b=Y6r+nG2XaeV6xrq7YPi6Ti+D55LZCCn+YEqjBPmcmOWDkqMZKsmqP9vyzyfKuuWdaD
-         XAPbmWxV3Y89+BEt3bpNt2LRwr/hxEqiBOk1BvIA22JIVjFscnupS1HWcMO9l2XupfzA
-         wMNrpOMPKGHmaUaTJwOEbKsEnpOVn76WVbYQPzk3/BYVAezS/cuSBzEetfkLLhRXWjac
-         BqSTiZumoRF6CkpL3YtEy5m5sd3SkOJdQYTeNqEheOYTIEGyeSIsRsHdss0/a9Xxnt6A
-         N4FHkf97VsNt9s6jcNFH3EbAJ8I28pJC1JiAdEzKQN2soABwhVtx31emzhEV4EMpmIUf
-         ercw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781025578; x=1781630378;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Qdj1ZDhkK9hVS2s2BU4ZL0QegPmYjb1pgGPh1FYEFmw=;
-        b=OyAZgCDxngNp6cSd9QzfPONKUAt1UpIZfVIp9j1NQP3AoWXsngkgFUdPMxrdQXq5Gy
-         pTQJqi+yv9FGRMNTD42yAdVrQAC5RSHw9TXHiwUlEQDE7KBlwtmjJ/ReTJfNJNNZF8NN
-         C5vG0jh+9F9QHOlsYzarwYedsSe3h+2ArvS3LRDHayOcDZpbDAAAa4IJC8aTF4o9hjXB
-         iAcWy5gAtSijwomzYQoIzgCFu38JL4qDov+E44DjK9nmAiMlly9ik71f8IRCC1h2ic0u
-         TQuwdEY5GQ3wmvTMc3ARk3Gutd+te5a6k05uyU+iw9Uv2b7Z4nTKY+JBT9GocQcO7fZp
-         jl4A==
-X-Forwarded-Encrypted: i=1; AFNElJ+hV4j6710VrZH1SQtTByh52evZQgkGutoNaCzpuhKzYSRlcu7OsISJA7Jp8mYvUps+5IH45fSzp0mHQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywyi+pc9hSMQHy6s9/hd5m/4cQBnaP3DG3Pj/AxKmCnItnNZCkx
-	7xkUUnG22heiOuMVtK1Q+l9fFDqXyiphI5SRhnE8R4kkjGwmmeJpo5YcE+s4Hfu493hnhP5Ab0J
-	T833TFcrTLYUP+Lc/yA21ihJ0+tbiuNs=
-X-Gm-Gg: Acq92OGY6gTD25m93YTvlsocCxuXksMITcJzRPJ5YgOkmuDXU0kn7QSerjQgPuFLhQS
-	1KSbwFiOgRRFbnIJdD7UyZCnQa37KzzTFTUZvejAIknjJZvtWi2LHKP/4b0Ni5wLdMDjlLuPYcd
-	IpwwQu6TnEoZYYAdupnALncQ3zGSWR/uHxxbIaeKC/AaojKIRXFYhN0m9BLJ1SyOuP0mBvqcntv
-	mw9BKHe25l87epjFJgVB0hm98PzJ2g3Fwo+nptHKs9sjY9BXJFrzGorMYTuYQHoqXL8dNKn+FCQ
-	0UGFl89olu3SxYbF9VDJOBeVPXjWfINr1WrQyYRe1uijvnWsXKoLbHBXj4eFsDjV+IweLjrRJx1
-	lerneo+/ubybrpgu6/mVKo5YE6FBQyVK+LQ==
-X-Received: by 2002:a05:7301:169a:b0:2ff:b29b:87b with SMTP id
- 5a478bee46e88-3077b5fe235mr6554986eec.5.1781025577871; Tue, 09 Jun 2026
- 10:19:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C+mqgeXp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781026120;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lgku0msEV96RCrGT/KIp6NsMANiwS+rjoIorKjF9HvY=;
+	b=C+mqgeXpm1WTA8RbyxKFjumtthMBWRDKx0E/PYE2fZaQcgJCsVgNsBqV+WcN2pte8vXgrr
+	xbqkGEr2MNtG58kT0kEuom+lFltatIXJvzlUxkv64l2YT1LmV9B/Lax8nOF78ZHzmBu4kk
+	jU+NYlOyHjdCROsUk+Yl3HDneCjn2So=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-569-so6cIjY1NDai8mANBw9Ofg-1; Tue,
+ 09 Jun 2026 13:28:33 -0400
+X-MC-Unique: so6cIjY1NDai8mANBw9Ofg-1
+X-Mimecast-MFC-AGG-ID: so6cIjY1NDai8mANBw9Ofg_1781026112
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25CC5180ACFA;
+	Tue,  9 Jun 2026 17:28:32 +0000 (UTC)
+Received: from [10.22.65.187] (unknown [10.22.65.187])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C3F6536919;
+	Tue,  9 Jun 2026 17:28:30 +0000 (UTC)
+Message-ID: <a5d1a421-ca18-4c8a-9d8f-7432ef96cb9d@redhat.com>
+Date: Tue, 9 Jun 2026 13:28:29 -0400
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260609142637.373347-1-gary@kernel.org>
-In-Reply-To: <20260609142637.373347-1-gary@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 9 Jun 2026 19:19:25 +0200
-X-Gm-Features: AVVi8CeFkVbj9E3PXx3Az4UAa3Y8O7iOpi-vamCvayZRaQa0QwlC9T9yRU6Twpc
-Message-ID: <CANiq72miJLmc2EadxUa+yVZ5T72QuTES4Gz=YVUsNivYvR=wDQ@mail.gmail.com>
-Subject: Re: [PATCH v4] rust: make `build_assert` module the home of related macros
-To: Gary Guo <gary@garyguo.net>
-Cc: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>, Yury Norov <yury.norov@gmail.com>, 
-	Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Tamir Duberstein <tamird@kernel.org>, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] PCI: Call local_pci_probe() directly if current CPU is
+ in the right node
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Tejun Heo <tj@kernel.org>, driver-core@lists.linux.dev
+References: <20260608195111.GA46568@bhelgaas>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260608195111.GA46568@bhelgaas>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: y7KYbb7xutZ5aLye4f1W5zl211d0fPADnH-kZHeOq3A_1781026112
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 9, 2026 at 4:27=E2=80=AFPM Gary Guo <gary@kernel.org> wrote:
+
+On 6/8/26 3:51 PM, Bjorn Helgaas wrote:
+> [+cc Thomas, Frederic, Danilo, Tejun, driver-core]
 >
-> This is the remaining unapplied patch from
-> https://lore.kernel.org/rust-for-linux/20260319121653.2975748-1-gary@kern=
-el.org/.
+> On Sun, Jun 07, 2026 at 06:11:03PM -0400, Waiman Long wrote:
+>> local_pci_probe() and hence pci_call_probe() can be called
+>> recursively.
+> Can we say something about the scenario that results in a recursive
+> call?  Based on the stack trace and the comment below, I guess two of
+> the scenarios are:
+>
+>    - vmd_probe() creates a new hierarchy below the VMD endpoint and
+>      enumerates it.  The pci_bus_add_device() in vmd_enable_domain()
+>      calls .probe() for devices below VMD.
+>
+>    - A PF .probe() calls pci_enable_sriov(), which enables VFs, and the
+>      pci_bus_add_device() in pci_iov_add_virtfn() calls .probe() for
+>      new VFs.
+>
+> Possible commit log text:
+>
+>    local_pci_probe() and hence pci_call_probe() can be called
+>    recursively, e.g., when vmd_probe() calls .probe() for devices in
+>    the new hierarchy below VMD or a PF .probe() enables VFs and calls
+>    .probe() for them.
+Thank for the suggestion. Will incorporate that in the next version.
+>> If the recursive calls are done indirectly via workqueue
+>> kworker, a lockdep recursive warning can be produced.
+> For non-workqueue experts like me, can we mention the reason why the
+> warning only affects the workqueue indirect case?
+>
+> And maybe include a line or two of the actual lockdep warning to help
+> search engines find this?  The stacktrace is good info, but not
+> specific to the warning.
 
-Thanks for rebasing! I had it as "Waiting for apply" in the
-spreadsheet, but this saved me a bit of work.
+Will do that in the next version.
 
-Quick question below about the prelude...
+BTW, the lockdep warning is actually a false positive. I will send an 
+alternative fix in the next version.
 
-> +#[doc(no_inline)]
-> +pub use crate::build_assert::{
-> +    build_assert,
-> +    build_error,
-> +    const_assert,
-> +    static_assert, //
-> +};
+>> Below is the
+>> stack trace of the lockdep warning on a 4-socket x86-64 Skylake server.
+>>
+>>    <TASK>
+>>      :
+>>    start_flush_work+0x40b/0x9b0
+>>    __flush_work+0xbd/0x1a0
+>>    pci_call_probe+0x510/0x700
+>>    pci_device_probe+0x17c/0x270
+>>    call_driver_probe+0x68/0x1f0
+>>    really_probe+0x197/0x7b0
+>>    __driver_probe_device+0x32d/0x460
+>>    driver_probe_device+0x49/0x120
+>>    __device_attach_driver+0x162/0x290
+>>    bus_for_each_drv+0x109/0x190
+>>    __device_attach+0x1a2/0x3f0
+>>    device_initial_probe+0x7d/0xa0
+>>    pci_bus_add_device+0x93/0xe0
+>>    pci_bus_add_devices+0x83/0x190
+>>    vmd_enable_domain+0x11fb/0x1b80
+>>    vmd_probe+0x34c/0x4b0
+>>    local_pci_probe+0xdf/0x190
+>>    local_pci_probe_callback+0x35/0x80
+>>    process_one_work+0x919/0x1af0
+>>    worker_thread+0x5a6/0xd10
+>>      :
+>>    </TASK>
+>>
+>> The use of work function originally comes from commit 873392ca514f
+>> ("PCI: work_on_cpu: use in drivers/pci/pci-driver.c") to execute the
+>> device probing and allocate memory on the right node where the device
+>> bus is attached to.
+>>
+>> In the case of nested device probing within a work function, the current
+>> CPU is likely to be in the right node already. So there is no point in
+>> scheduling another work function in the same or a neigboring CPU and wait
+>> for its completion. It will be more efficient to call local_pci_probe()
+>> directly when the current CPU is indeed in the right node. That will
+>> also avoid the lockdep warning due to nested calls to schedule and
+>> flush a work function.
+> Out of scope for this patch, but none of the CPU/node selection is
+> PCI-specific, and neither is the housekeeping cpuset and RCU stuff.
+Yes, they are not specific to PCI, but is more related to the proper use 
+of the housekeeping cpumasks.
+>
+> I think this would be improved if we could move the NUMA affinity and
+> async probe scheduling up to the driver core.  There was a little
+> discussion of that here:
+>
+>    https://lore.kernel.org/linux-pci/20251231165503.GA159243@bhelgaas/
 
-Did you split this for some reason? I moved the file to a single group
-per crate when I moved the file to the new formatting style, so I was
-wondering if we could keep it non-split. I mean, it may be nicer for
-macros since it allows us to group them, but I hope we don't end up
-with many `use`s again if we go down that road again...
+Thank for the background info. Will incorporate that in the next 
+version. As for moving the NUMA affinity and the async probe scheduling 
+up to the driver core. I will leave that to other engineers who have 
+more experience in those area.
 
-Or perhaps you did it for the attribute, i.e. it may behave
-differently, but I doubt that is the case? i.e. if `no_inline` somehow
-behaves differently this way.
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   drivers/pci/pci-driver.c | 24 +++++++++++++++++++-----
+>>   1 file changed, 19 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+>> index e3f59001785a..542b22537852 100644
+>> --- a/drivers/pci/pci-driver.c
+>> +++ b/drivers/pci/pci-driver.c
+>> @@ -375,6 +375,8 @@ static int pci_call_probe(struct pci_driver *drv, struct pci_dev *dev,
+>>   {
+>>   	int error, node, cpu;
+>>   	struct drv_dev_and_id ddi = { drv, dev, id };
+>> +	bool node_invalid, cpu_in_node = false;
+>> +	const struct cpumask *node_cpus;
+>>   
+>>   	/*
+>>   	 * Execute driver initialization on node where the device is
+>> @@ -383,14 +385,27 @@ static int pci_call_probe(struct pci_driver *drv, struct pci_dev *dev,
+>>   	 */
+>>   	node = dev_to_node(&dev->dev);
+>>   	dev->is_probed = 1;
+>> +	node_invalid = node < 0 || node >= MAX_NUMNODES || !node_online(node);
+>> +	node_cpus = node_invalid ? cpu_online_mask : cpumask_of_node(node);
+>> +
+>> +	/*
+>> +	 * If the current task is a wq kworker activated by queue_work_on()
+>> +	 * below, the kworker is affined to a designated CPU and won't be
+>> +	 * switched to another one. So the current CPU can be checked to see
+>> +	 * if it is in the right node.
+>> +	 */
+>> +	if (current->flags & PF_WQ_WORKER) {
+>> +		cpu_in_node = cpumask_test_cpu(get_cpu(), node_cpus);
+>> +		put_cpu();
+>> +	}
+>>   
+>>   	cpu_hotplug_disable();
+>>   	/*
+>>   	 * Prevent nesting work_on_cpu() for the case where a Virtual Function
+>> -	 * device is probed from work_on_cpu() of the Physical device.
+>> +	 * device is probed from work_on_cpu() of the Physical device or when
+>> +	 * the current CPU is in the desired node.
+> Since we're updating this comment, let's change "Physical device" to
+> "Physical Function" at the same time to match the spec terminology.
 
-> rust/kernel/sync/atomic/predefine.rs
-
-In this one you used the prelude, but in the others not -- which is
-fine, we should be using the prelude more (though perhaps it is a
-separate change), but I wonder if there was a reason.
-
-Thanks!
+Sure. Will make the change.
 
 Cheers,
-Miguel
+Longman
+
