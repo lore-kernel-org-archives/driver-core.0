@@ -1,134 +1,147 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512853264C7;
-	Tue,  9 Jun 2026 16:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781022288; cv=none; b=NXUL6eRSgR/vO4+MDqflEEYUAfC6M2Xx6DCsaecOZB5VaIApzgvqkNPL8FCL4jQ5JW94Hv2q5NjlGIJ+YWleaxE0bmRFMVG4xQXjMAMxdj8TuCHZswOSA5+C6QvszkYTMYsAVsMROdHRa73a+f2UK4C3UZ6AqBqInX8R/zxZFYE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781022288; c=relaxed/simple;
-	bh=l/BojZwBs1Ah1zEY+0JKqQ0eRkQ1alH4ho21Vg7Zv1s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QZEif6CAG7xLRWY1l97rMVoBe+ay+3NVBMIFOvOlqB4I/TS1hzY51mPFflogl6GNNmGTV7jEI0ZGiTQseM7XxTwk0I0kSUcEM5ksS4JBpGU/opU8DVd3JpUM54yskYckQ1kvvEyPd1Bz761RDGAP0f6XI20d6AYLIOKYCwJprUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=WAya3lNL; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D306B4BCAC2
+	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 17:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781025579; cv=pass; b=IlUHbxQAhB30lqAUaIvuAs6imjgSfc2CXBn4R5dn6ccvKRiszZkxB7jIUwRRpnWxkE3zZ7GpXLXKjSavdIYR04CVrmGOZ3IpGvqlQ9EYbXpLLo2yZ8LFkGrfauLpv5xA24/dUfnqFVEMUYoEnbU1O52BAhwKf3tcKRZ2kDQl+Ys=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781025579; c=relaxed/simple;
+	bh=i9E6g7FrTHJuH/KM/L2YDGTx0q9lRs2Xj+Q3YKzpptI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OAS+cydgH1XVFpz05MR/mCM8OsNcFZnXxKHdZYLKpu/lAuB0FqwHsnWjitROiPh4RFOuii1xh8dwxqSkTtEXS6nDZKMw4/KUjP9hummJpWkhV4VHc2nqP6U03w88hPVOYn3lvv7kLz4uP6erzRr8F20WAhqfZ02HXwlZZx1/690=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6r+nG2X; arc=pass smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="WAya3lNL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
-	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
-	bh=hNNSQZ1LdbCoH33k8zpz0grx4gfssTDmezB1C1lNWCU=; b=WAya3lNLG4tdoc9v9jwuQ6hUzB
-	cRbhDhhLPjk06EkIzoVqN/y4HZ8xEtbRkFMnPYekbRF2F2IQ3gTSPauqXDbyoCtawWh224Nd+C+Mm
-	xOG018n43bdUbastQbytyZ6bdYtvRkpHCX0/+UtjUc2uHOtIaTCZ+j1M/D9Xor6SczCVvTUThmhkw
-	zpiDRGh+MJ5kNq91dDuGb9J3Q6I3NXOz+XcZ5nBxDOAE+UCXxJg6S2YYiT7NpVI74m8td0JJBo2hl
-	DbSNeCdOk9jdb8+bZZ3nCUJZLTJ97KZ4fpqy6stHjvBNikTaZ4TaDwyO6Go0BpSTGGQpaV6yX90p7
-	+FkGDfuw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wWzFn-008Wxk-2m;
-	Tue, 09 Jun 2026 16:24:40 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Tue, 09 Jun 2026 09:23:53 -0700
-Subject: [PATCH] cacheinfo: don't propagate DT/ACPI error when arch
- supplies info (arm64)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6r+nG2X"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-304dc707c7eso543571eec.1
+        for <driver-core@lists.linux.dev>; Tue, 09 Jun 2026 10:19:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781025578; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JGlpr/3Ul5xIg+Mt6AHFjQ412MfCK8Iy2nlQ+QXaTKy2RF7OV6Aenv71wYsRahS5sg
+         AghHY7fwmg2ixGCDRBZSRh8LqbeSp+JDs2ch51VYkGleEvkRc2qrrvTIbxyDeXGmdD/G
+         FI9kbxLHnlON2+rv/q3C/ld6a9Y7yg3MqAzRo0fu++SfWI3SFaStg+ABKRGrtuZu0AQq
+         brK9/lnoYvWp7apWSJgBDtMhw2R1k6xzJRa6N6835zF1pHTaGlJmH+h8MNjxu6VL4vuO
+         Dt44QCx3rNdD4cO+ejSokIwLQTMrWcuE7LKqmSP0gO+CrtOVcNO6gUlHKOsr2QHx6bVx
+         7SgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Qdj1ZDhkK9hVS2s2BU4ZL0QegPmYjb1pgGPh1FYEFmw=;
+        fh=0AvWUneEcZtmhuKNKvHGtVDK4Ufoq38zJIiWQ2aUHr4=;
+        b=S9LaH2zrk5GgwOWOZoW6gNpi12IuvjM6kTPrTkagrXGFl3ElMbG7t/7bIjUxQuSDS0
+         OU4KJ5SMzLRdiVh5AMixtrlsQtGRJPSrll4a4nhTd6Dg8IQx+Ku74sonDhRjP9+yE2MU
+         dXn9g4W9ignNk+IZdwz6UgxF8aadpJwUZJtZ0yVL8kAW3+auKIXZOivlzN4/U7Q/POwH
+         qsNQIkJactkwITwm3uO2ni79/thfkNB4HiJufqulT6avvUrcRUaDssm4UJUYkIeKrUxU
+         UYPbw/c8Vw3x8gtw5lGTtWCDLo/xCDB2+8WogQIdsFOpqumUBltOztj5Rfg/NUO9bTLu
+         9gdQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781025578; x=1781630378; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qdj1ZDhkK9hVS2s2BU4ZL0QegPmYjb1pgGPh1FYEFmw=;
+        b=Y6r+nG2XaeV6xrq7YPi6Ti+D55LZCCn+YEqjBPmcmOWDkqMZKsmqP9vyzyfKuuWdaD
+         XAPbmWxV3Y89+BEt3bpNt2LRwr/hxEqiBOk1BvIA22JIVjFscnupS1HWcMO9l2XupfzA
+         wMNrpOMPKGHmaUaTJwOEbKsEnpOVn76WVbYQPzk3/BYVAezS/cuSBzEetfkLLhRXWjac
+         BqSTiZumoRF6CkpL3YtEy5m5sd3SkOJdQYTeNqEheOYTIEGyeSIsRsHdss0/a9Xxnt6A
+         N4FHkf97VsNt9s6jcNFH3EbAJ8I28pJC1JiAdEzKQN2soABwhVtx31emzhEV4EMpmIUf
+         ercw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781025578; x=1781630378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Qdj1ZDhkK9hVS2s2BU4ZL0QegPmYjb1pgGPh1FYEFmw=;
+        b=OyAZgCDxngNp6cSd9QzfPONKUAt1UpIZfVIp9j1NQP3AoWXsngkgFUdPMxrdQXq5Gy
+         pTQJqi+yv9FGRMNTD42yAdVrQAC5RSHw9TXHiwUlEQDE7KBlwtmjJ/ReTJfNJNNZF8NN
+         C5vG0jh+9F9QHOlsYzarwYedsSe3h+2ArvS3LRDHayOcDZpbDAAAa4IJC8aTF4o9hjXB
+         iAcWy5gAtSijwomzYQoIzgCFu38JL4qDov+E44DjK9nmAiMlly9ik71f8IRCC1h2ic0u
+         TQuwdEY5GQ3wmvTMc3ARk3Gutd+te5a6k05uyU+iw9Uv2b7Z4nTKY+JBT9GocQcO7fZp
+         jl4A==
+X-Forwarded-Encrypted: i=1; AFNElJ+hV4j6710VrZH1SQtTByh52evZQgkGutoNaCzpuhKzYSRlcu7OsISJA7Jp8mYvUps+5IH45fSzp0mHQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywyi+pc9hSMQHy6s9/hd5m/4cQBnaP3DG3Pj/AxKmCnItnNZCkx
+	7xkUUnG22heiOuMVtK1Q+l9fFDqXyiphI5SRhnE8R4kkjGwmmeJpo5YcE+s4Hfu493hnhP5Ab0J
+	T833TFcrTLYUP+Lc/yA21ihJ0+tbiuNs=
+X-Gm-Gg: Acq92OGY6gTD25m93YTvlsocCxuXksMITcJzRPJ5YgOkmuDXU0kn7QSerjQgPuFLhQS
+	1KSbwFiOgRRFbnIJdD7UyZCnQa37KzzTFTUZvejAIknjJZvtWi2LHKP/4b0Ni5wLdMDjlLuPYcd
+	IpwwQu6TnEoZYYAdupnALncQ3zGSWR/uHxxbIaeKC/AaojKIRXFYhN0m9BLJ1SyOuP0mBvqcntv
+	mw9BKHe25l87epjFJgVB0hm98PzJ2g3Fwo+nptHKs9sjY9BXJFrzGorMYTuYQHoqXL8dNKn+FCQ
+	0UGFl89olu3SxYbF9VDJOBeVPXjWfINr1WrQyYRe1uijvnWsXKoLbHBXj4eFsDjV+IweLjrRJx1
+	lerneo+/ubybrpgu6/mVKo5YE6FBQyVK+LQ==
+X-Received: by 2002:a05:7301:169a:b0:2ff:b29b:87b with SMTP id
+ 5a478bee46e88-3077b5fe235mr6554986eec.5.1781025577871; Tue, 09 Jun 2026
+ 10:19:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-cacheinfo-v1-1-35864c9a8f0c@debian.org>
-X-B4-Tracking: v=1; b=H4sIABg+KGoC/x3MQQqAIBAF0KsMf61gLqy8SrQwHWs2FgoRSHcPe
- gd4HY2rcIOnjsq3NDkLPA2KEI9QdtaS4AnWWGecmXUM8WAp+dSbDVOyYxjmyFCEq3KW57+W9X0
- /xh4JYlsAAAA=
-X-Change-ID: 20260609-cacheinfo-b2a8d27a19ce
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Sudeep Holla <sudeep.holla@kernel.org>, 
- Pierre Gondois <pierre.gondois@arm.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel-team@meta.com, Breno Leitao <leitao@debian.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2117; i=leitao@debian.org;
- h=from:subject:message-id; bh=l/BojZwBs1Ah1zEY+0JKqQ0eRkQ1alH4ho21Vg7Zv1s=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqKD5E2lKKuKW4k7q+usjAcuBuHmcocWNx+Uv41
- 2+IMpYaIbWJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaig+RAAKCRA1o5Of/Hh3
- bedcD/9XSmjdp9476exMfFOVww4OYu7SCYCKrRXvrK5bdVqRvGvj/vuBFCnSpT4FSIvQuOcBaDb
- 1xNfOJaOK6g5BcbIMwAlVtX3s8A/nlp4oGGU/jEulLvja1G0YUWQvyFnHs2XdyzFqp9zcC2J2eT
- PwjqsJypLDXldY3DrvQTxT1i2eXzQnCUDqI+n2AjesRsACubdtDb8b4zOEtZSQiNiEMXt/8hhgU
- 5DrzOo32Mpoi0LTdhMP3i7iir/AA38K+XgWBBCiCQ92UBuiw08M+12I8noOZvD7u2DUTo3LBHnG
- cNlNIOlQtiERFFHbbMQCOy92bDuL4WN2IX1WM5YbxMIbDCd59kiORllYOlK+bxYMPTmzgL8oDvk
- whcwiuc23orYZ9W3lQ99ynkwdn9An1ekMmfLii19wdzAA/9ns4Fl6h5U1HAn11qagQQsnJDWVMh
- wEDANNhMxGcAMSZtEUkgpbcFsOLTHG/nPcnuSSaEzhGqqIJhq6JLcAsscRqHoOotOD5mAY2AhHT
- z44KtsogwfSH43+l0VcrhPg0DQrzkchQzp++yd/TSDtTXUkA8FfmUGaVHdERsPBbR+0dTjh2CmU
- x4o2BWzy4efFOexa+XbtbwKKSMgKT/zD//0Qo3FXQ2BRhC7unNw296nVcctvnr9flHzNeLYtBEm
- b4TwlQZAZBzI5hg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+References: <20260609142637.373347-1-gary@kernel.org>
+In-Reply-To: <20260609142637.373347-1-gary@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 9 Jun 2026 19:19:25 +0200
+X-Gm-Features: AVVi8CeFkVbj9E3PXx3Az4UAa3Y8O7iOpi-vamCvayZRaQa0QwlC9T9yRU6Twpc
+Message-ID: <CANiq72miJLmc2EadxUa+yVZ5T72QuTES4Gz=YVUsNivYvR=wDQ@mail.gmail.com>
+Subject: Re: [PATCH v4] rust: make `build_assert` module the home of related macros
+To: Gary Guo <gary@garyguo.net>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	FUJITA Tomonori <fujita.tomonori@gmail.com>, Yury Norov <yury.norov@gmail.com>, 
+	Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ingo Molnar <mingo@redhat.com>, 
+	Waiman Long <longman@redhat.com>, Tamir Duberstein <tamird@kernel.org>, nova-gpu@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
+	netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-cache_setup_properties() sets use_arch_info = true when DT/ACPI
-provide no cache nodes and the arch can derive the topology from
-CPU registers (e.g. arm64 reading CLIDR_EL1), but still returns the
-original -ENOENT. cache_shared_cpu_map_setup() bails on that error
-before the new flag can take effect, so the first CPU brought online
-always trips a misleading warning:
+On Tue, Jun 9, 2026 at 4:27=E2=80=AFPM Gary Guo <gary@kernel.org> wrote:
+>
+> This is the remaining unapplied patch from
+> https://lore.kernel.org/rust-for-linux/20260319121653.2975748-1-gary@kern=
+el.org/.
 
-  cacheinfo: Unable to detect cache hierarchy for CPU 0
+Thanks for rebasing! I had it as "Waiting for apply" in the
+spreadsheet, but this saved me a bit of work.
 
-Subsequent CPUs skip cache_setup_properties() entirely because
-use_arch_info is now true, which is why only CPU0 hits it. This is
-reproducible on arm64 with the QEMU 'virt' machine, whose default DT
-has no cache nodes.
+Quick question below about the prelude...
 
-Clear ret after setting use_arch_info so the caller proceeds and
-populates the shared cpu map via the arch-supplied leaves.
+> +#[doc(no_inline)]
+> +pub use crate::build_assert::{
+> +    build_assert,
+> +    build_error,
+> +    const_assert,
+> +    static_assert, //
+> +};
 
-Fixes: ef9f643a9f8b ("cacheinfo: Add use_arch[|_cache]_info field/function")
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
-Cc; hruben@meta.com
----
- drivers/base/cacheinfo.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Did you split this for some reason? I moved the file to a single group
+per crate when I moved the file to the new formatting style, so I was
+wondering if we could keep it non-split. I mean, it may be nicer for
+macros since it allows us to group them, but I hope we don't end up
+with many `use`s again if we go down that road again...
 
-diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
-index 70701d3bc81c..4e11d36f127e 100644
---- a/drivers/base/cacheinfo.c
-+++ b/drivers/base/cacheinfo.c
-@@ -401,9 +401,18 @@ static int cache_setup_properties(unsigned int cpu)
- 	else if (!acpi_disabled)
- 		ret = cache_setup_acpi(cpu);
- 
--	// Assume there is no cache information available in DT/ACPI from now.
--	if (ret && use_arch_cache_info())
-+	/*
-+	 * If DT/ACPI lacks cache nodes but the arch can derive the topology
-+	 * from CPU registers (e.g. arm64 reading CLIDR_EL1), fall back to
-+	 * that path instead of propagating the error.  Otherwise the very
-+	 * first CPU processed trips a misleading "Unable to detect cache
-+	 * hierarchy" warning, because use_arch_info is only set after the
-+	 * first failure.
-+	 */
-+	if (ret && use_arch_cache_info()) {
- 		use_arch_info = true;
-+		ret = 0;
-+	}
- 
- 	return ret;
- }
+Or perhaps you did it for the attribute, i.e. it may behave
+differently, but I doubt that is the case? i.e. if `no_inline` somehow
+behaves differently this way.
 
----
-base-commit: a87737435cfa134f9cdcc696ba3080759d04cf72
-change-id: 20260609-cacheinfo-b2a8d27a19ce
+> rust/kernel/sync/atomic/predefine.rs
 
-Best regards,
--- 
-Breno Leitao <leitao@debian.org>
+In this one you used the prelude, but in the others not -- which is
+fine, we should be using the prelude more (though perhaps it is a
+separate change), but I wonder if there was a reason.
 
+Thanks!
+
+Cheers,
+Miguel
