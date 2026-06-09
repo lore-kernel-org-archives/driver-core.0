@@ -1,473 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DC734040F;
-	Tue,  9 Jun 2026 14:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97C7352021
+	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 15:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781015232; cv=none; b=eCa2K/B9wCHqbU05t0qruyFv+3aEvE90ne6WCHbxxENZtPC6i8b6TVKdKsdc4Ued+ymgg/2t7RnZQ0bobJpb2uz3ZrVPJg5VqUJOlNdGiM0WFOkORX5SbfyBIWrpBT+TBvoWPpw75BX/VTRk/uxFz3q8w7PyM7Nbj/9f0l+FreA=
+	t=1781018583; cv=none; b=UJJCBRPZnf43+utzaNp7uja+ZxmPFl5blrIXxUVVqcxLPdGB/TK53Rjhq0XOD+nZr/0zwUSJoFEUmQ8oe9l0H1SOWzrKGU8RrN2C3jr6lZvqjHmc8dKsWIIQ9V7IzhQDI1bxCDpkNl0a9eLRhb8S7s8Poq18GvDlF8g9a2zl/Ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781015232; c=relaxed/simple;
-	bh=iygAOfvA2foW8/+jP6Ee21bgu2uYdvqpa6z2Rjyy9uk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWyQnNeFQ3UTnhTAzZvbj6ppLSL/rqsvEAarPZe+dquxt52/W9Ta7OxrU+uSgrF9o21HP5VDjo1kZ9Fb/jruXRL5QGgsSp0JGdQvfoOr8fMSb2oi62zANSJ6sAcsPpJwHz54Qzzdwy0fBVZ/VdFDv8oGLeWK+q1QqsxNsAlNp90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nwDszgGM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781018583; c=relaxed/simple;
+	bh=kuIHPRKQTH2/4GUOzUX9fYHsOqljjnSwteHizxDZwoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=skeIfvsJNlkr4UJptuU0lpJJqD+sTbpzs70XMp4XxItTWhFq0ddeEVmvaQyKsR+u/AludKAQObWe/2hjpVMUJSbWb5l1Z84fReK2HfQz9W2o7P1XOvGoy72xTZriNT054/Nddl+h/ZzZou0rWYqAKSTfHNWEnaCwlykDF7bbYrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvJ6VqpA; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nwDszgGM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72C0D1F00893;
-	Tue,  9 Jun 2026 14:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781015229;
-	bh=7b6cZO88qxYhwPQRHX9JdG5EbRfREDm6sv5DAhrto3Y=;
-	h=From:To:Cc:Subject:Date:Reply-To;
-	b=nwDszgGMS4Q5Gx6dDnrYmmxG3JFRwCznR8eeTRISzUFizK3fvgodofWAu0j6qV7Vm
-	 x8jzUygPHi0X7dKckNz5MK6s/lYGVbDQhxCVCq/CV6YZzLrPMaloIQFmQ9JFuDUE5t
-	 bsKGaAtZc/eXQskQawfXOzP2QBNT3/JHr9JepY5csJaBJqqS9brT6suCfR/tDAY0dl
-	 3cy1egpS8C+a924GwJU7wfUap2OVoYsh+qWf3VZMyjzZUZq62sEE4olr+tg2BSk3eU
-	 n3m/ldEIak5tl9p0RlIcfwcAmJu0eCLrYxhxYEWpbrCZaUgMHWORyNWIt7SezgpP9w
-	 fnMRyl333y4xg==
-From: Gary Guo <gary@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Waiman Long <longman@redhat.com>,
-	Tamir Duberstein <tamird@kernel.org>
-Cc: nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: [PATCH v4] rust: make `build_assert` module the home of related macros
-Date: Tue,  9 Jun 2026 15:26:33 +0100
-Message-ID: <20260609142637.373347-1-gary@kernel.org>
-X-Mailer: git-send-email 2.54.0
-Reply-To: Gary Guo <gary@garyguo.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvJ6VqpA"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b4e1ade7so61484425e9.0
+        for <driver-core@lists.linux.dev>; Tue, 09 Jun 2026 08:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781018580; x=1781623380; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y9e8wekR8dwGp203+UO+bawrLa7V5VSovtR0ieIMnb0=;
+        b=UvJ6VqpAtQNkLcGpnPMplZOk4TnWGNImpOqEwtAMd4yc09LXgPSJHhRl5DKu3A2I7l
+         kO8SqFj8/kn/ygtx+z6TaS2EyVKK6E1phMPKEtwR+sJ6cgh1q35lbxZ3TVLqBS7dDoFN
+         KqcBfOZkmwL6/QbWa44HiAmcpc6qxJTRjBontEX0gt6gZC/497PC55GULHh+3eGFwzps
+         XgIs+IViVazrPZD0Nk02o09wxqmjhpdnNt6V4mIHj5MunuiqBgWWRJHj6unmabC2Sa+M
+         4LYxnFb/KX+NdG1WrJJMb2jhJmyso0jwmvp47jLCPPTlBSAY2vkJ9H5jcVZGYtNWoc4b
+         G6bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781018580; x=1781623380;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Y9e8wekR8dwGp203+UO+bawrLa7V5VSovtR0ieIMnb0=;
+        b=i2zwGJD2TkUWL/M94nMYr/OSCZub8vl9UJFicATGKX2DL7tKB/0AQ25KdbDD56qS4u
+         2d2dc0bffkztMVAYxR8aPc4+3lDlo5/2p0yBCzI8R8Sm5AKlW/Uw0kZox22sIxPAmpXs
+         Exu92ntD0qlAvWZwwXR8Md+7ANj980I5ICbIjraKFHaqLjvM5YGACbGBggLM2ahx8y9X
+         GdFw080slKB20UkrXIPHGArTkNm5KwgPBdlDhZGzmW7E6vRrUFmhnhEkIw+culZWykR7
+         62vZpNcRltNu7cqHtZl3H7e0tUjgRetKnOGH28OTBfeqllhCaaN6E8KCY0tHLa+7wjzd
+         RHpQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+P/VWV9G2wN33HCWNMky/4CkHF8NxyZjFevhNb3ulzBeP8Q4nddq/OdmAUMaS5xGrYiq/iTpjrVSbRjQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzc/fM3Q8zpMe4EgkTlt6CTVwU8s1YBV+zd4wmDhSGdidd/mWZ8
+	ZWJgY2Jkzhnkp3pSIRsYcdtpX2NfyXggI5Ea54n8Ls3bgQP+pVN/d4bExtI77zPE
+X-Gm-Gg: Acq92OFyGlKi/y6hF2U77q/f4QQAlqIxqqEWu5jv8DEjUWtX5hv7QEf82tJqMJmppqd
+	zznDxR+IcLl2xPPxYUa9HtqMqfKN098UykWgp7DC62zx8xEWPtyb7pJikS1Qa4mon2vtdhsXFLg
+	gXbEMMZ7WVUnXYjPWPcbFAIbuRvNVOt/wiyi3O1GhaZEJqcmQJaHqJ0UxnBZgx32K3nXzcwLX3g
+	iuFbxxSexWPNQ0VpeYRfaPb0tVj7Ensv6qGOr3rWSH+dIaJCcgsha6zoNoPu23knUVFtql15q83
+	edcsYVKYmSYVV1RRsHQkg7LYNc9BpM4gVQszELWjgg5rproS6TwjLY68cdjuzf33lCBfxgZ0H4X
+	FsRLNoKd5jNkr0VDCm5eI67Jk412CgysULzENM1hJULfJZVC69WFjTgo/SdR3ZWGKDqRy+2MBQn
+	g4SWEe32foYwjLZ8AOXFGxXDuOfGjWo8ySNFOFcjRAv8ZhQyYyCnbXibA5taxvDP8yWXf/Xqs=
+X-Received: by 2002:a05:600c:3e87:b0:490:bcf6:469f with SMTP id 5b1f17b1804b1-490c251d8e4mr357536025e9.0.1781018580077;
+        Tue, 09 Jun 2026 08:23:00 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3e5a00sm484287205e9.15.2026.06.09.08.22.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 08:22:59 -0700 (PDT)
+Date: Tue, 9 Jun 2026 16:22:58 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Kees Cook" <kees@kernel.org>, <linux-hardening@vger.kernel.org>, "Arnd
+ Bergmann" <arnd@kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH next] driver core: Replace strcpy() with memcpy()
+Message-ID: <20260609162258.5228eda2@pumpkin>
+In-Reply-To: <DJ4KTIFM6YN7.3E07VW7CCJ19U@kernel.org>
+References: <20260606202633.5018-1-david.laight.linux@gmail.com>
+	<DJ4KTIFM6YN7.3E07VW7CCJ19U@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Gary Guo <gary@garyguo.net>
+On Tue, 09 Jun 2026 16:08:55 +0200
+"Danilo Krummrich" <dakr@kernel.org> wrote:
 
-Given the macro scoping rules, all macros are rendered twice, in the
-module and in the top-level of kernel crate.
+> On Sat Jun 6, 2026 at 10:25 PM CEST, david.laight.linux wrote:
+> > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> > index 75b4698d0e58..63fdfffe1a8c 100644
+> > --- a/drivers/base/platform.c
+> > +++ b/drivers/base/platform.c
+> > @@ -617,10 +617,11 @@ static void platform_device_release(struct device *dev)
+> >  struct platform_device *platform_device_alloc(const char *name, int id)
+> >  {
+> >  	struct platform_object *pa;
+> > +	size_t len = strlen(name);  
+> 
+> This could be strlen(name) + 1 right away, which would also avoid the memcpy()
+> to implicitly rely on kzalloc() zeroing the memory, where strcpy() was
+> self-contained before.
 
-Add `#[doc(no_inline)]` to the prelude so it just shows up as re-export.
-Add `#[doc(hidden)]` to the macro definition and `#[doc(inline)]` to the
-re-export inside `build_assert` module so the top-level items are hidden.
+I tried not to do that 'optimisation'.
+Here the kzalloc() is almost certainly needed for other reasons.
+There is also the issue that, in principle (but probably not in practise),
+the input string might change between the strlen() and the copy.
+So it is probably best practise to not rely on the '\0' still being
+there when the copy is done.
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Acked-by: Alexandre Courbot <acourbot@nvidia.com>
-Acked-by: FUJITA Tomonori <fujita.tomonori@gmail.com>
-Acked-by: Boqun Feng <boqun@kernel.org>
-Signed-off-by: Gary Guo <gary@garyguo.net>
----
-This is the remaining unapplied patch from
-https://lore.kernel.org/rust-for-linux/20260319121653.2975748-1-gary@kernel.org/.
+> 
+> >  
+> > -	pa = kzalloc(sizeof(*pa) + strlen(name) + 1, GFP_KERNEL);
+> > +	pa = kzalloc(sizeof(*pa) + len + 1, GFP_KERNEL);
+> >  	if (pa) {
+> > -		strcpy(pa->name, name);
+> > +		memcpy(pa->name, name, len);  
+> 
+> But in general, what's the improvement? strlen() still operates on a potentially
+> unbounded string?
+> 
+> It removes the redundant strlen() calculation that is implied by the current
+> code, though this may be eliminated by CSE optimization.
 
-Changes:
-- Rebased so it applies cleanly. (both on linux-next and rust-next)
-- Picked up tags
-- Updated commit message to reflect that my other patch "rust: doc: disable
-  doc inlining for all prelude items" already reduce number of rendering
-  times from 3 to 2.
----
- drivers/gpu/nova-core/bitfield.rs    |  4 ++--
- drivers/gpu/nova-core/num.rs         |  2 +-
- rust/kernel/build_assert.rs          | 19 ++++++++++++-------
- rust/kernel/io/register.rs           | 19 ++++++++++++-------
- rust/kernel/io/resource.rs           |  2 +-
- rust/kernel/ioctl.rs                 |  2 +-
- rust/kernel/net/phy/reg.rs           |  8 +++++---
- rust/kernel/num/bounded.rs           |  2 +-
- rust/kernel/prelude.rs               | 12 ++++++++----
- rust/kernel/sync/atomic/internal.rs  |  9 ++++++---
- rust/kernel/sync/atomic/predefine.rs |  2 +-
- rust/kernel/sync/locked_by.rs        |  2 +-
- rust/kernel/sync/refcount.rs         |  8 +++++---
- rust/kernel/xarray.rs                | 10 ++++++++--
- 14 files changed, 64 insertions(+), 37 deletions(-)
+CSE won't eliminate it.
+It probably wouldn't eliminate a second strlen(name) either.
 
-diff --git a/drivers/gpu/nova-core/bitfield.rs b/drivers/gpu/nova-core/bitfield.rs
-index 02efdcf78d89..660c3911402d 100644
---- a/drivers/gpu/nova-core/bitfield.rs
-+++ b/drivers/gpu/nova-core/bitfield.rs
-@@ -170,7 +170,7 @@ impl $name {
-     (@check_field_bounds $hi:tt:$lo:tt $field:ident as bool) => {
-         #[allow(clippy::eq_op)]
-         const _: () = {
--            ::kernel::build_assert!(
-+            ::kernel::build_assert::build_assert!(
-                 $hi == $lo,
-                 concat!("boolean field `", stringify!($field), "` covers more than one bit")
-             );
-@@ -181,7 +181,7 @@ impl $name {
-     (@check_field_bounds $hi:tt:$lo:tt $field:ident as $type:tt) => {
-         #[allow(clippy::eq_op)]
-         const _: () = {
--            ::kernel::build_assert!(
-+            ::kernel::build_assert::build_assert!(
-                 $hi >= $lo,
-                 concat!("field `", stringify!($field), "`'s MSB is smaller than its LSB")
-             );
-diff --git a/drivers/gpu/nova-core/num.rs b/drivers/gpu/nova-core/num.rs
-index 6c824b8d7b97..6eb174d136ab 100644
---- a/drivers/gpu/nova-core/num.rs
-+++ b/drivers/gpu/nova-core/num.rs
-@@ -49,7 +49,7 @@ macro_rules! impl_safe_as {
-             #[allow(unused)]
-             #[inline(always)]
-             pub(crate) const fn [<$from _as_ $into>](value: $from) -> $into {
--                kernel::static_assert!(size_of::<$into>() >= size_of::<$from>());
-+                ::kernel::build_assert::static_assert!(size_of::<$into>() >= size_of::<$from>());
- 
-                 value as $into
-             }
-diff --git a/rust/kernel/build_assert.rs b/rust/kernel/build_assert.rs
-index 2ea2154ec30c..c3acb9b68a65 100644
---- a/rust/kernel/build_assert.rs
-+++ b/rust/kernel/build_assert.rs
-@@ -61,15 +61,16 @@
- //! undefined symbols and linker errors, it is not developer friendly to debug, so it is recommended
- //! to avoid it and prefer other two assertions where possible.
- 
-+#[doc(inline)]
- pub use crate::{
--    build_assert,
-+    build_assert_macro as build_assert,
-     build_error,
-     const_assert,
-     static_assert, //
- };
- 
- #[doc(hidden)]
--pub use build_error::build_error;
-+pub use build_error::build_error as build_error_fn;
- 
- /// Static assert (i.e. compile-time assert).
- ///
-@@ -105,6 +106,7 @@
- /// static_assert!(f(40) == 42, "f(x) must add 2 to the given input.");
- /// ```
- #[macro_export]
-+#[doc(hidden)]
- macro_rules! static_assert {
-     ($condition:expr $(,$arg:literal)?) => {
-         const _: () = ::core::assert!($condition $(,$arg)?);
-@@ -133,6 +135,7 @@ macro_rules! static_assert {
- /// }
- /// ```
- #[macro_export]
-+#[doc(hidden)]
- macro_rules! const_assert {
-     ($condition:expr $(,$arg:literal)?) => {
-         const { ::core::assert!($condition $(,$arg)?) };
-@@ -157,12 +160,13 @@ macro_rules! const_assert {
- /// // foo(usize::MAX); // Fails to compile.
- /// ```
- #[macro_export]
-+#[doc(hidden)]
- macro_rules! build_error {
-     () => {{
--        $crate::build_assert::build_error("")
-+        $crate::build_assert::build_error_fn("")
-     }};
-     ($msg:expr) => {{
--        $crate::build_assert::build_error($msg)
-+        $crate::build_assert::build_error_fn($msg)
-     }};
- }
- 
-@@ -200,15 +204,16 @@ macro_rules! build_error {
- /// const _: () = const_bar(2);
- /// ```
- #[macro_export]
--macro_rules! build_assert {
-+#[doc(hidden)]
-+macro_rules! build_assert_macro {
-     ($cond:expr $(,)?) => {{
-         if !$cond {
--            $crate::build_assert::build_error(concat!("assertion failed: ", stringify!($cond)));
-+            $crate::build_assert::build_error_fn(concat!("assertion failed: ", stringify!($cond)));
-         }
-     }};
-     ($cond:expr, $msg:expr) => {{
-         if !$cond {
--            $crate::build_assert::build_error($msg);
-+            $crate::build_assert::build_error_fn($msg);
-         }
-     }};
- }
-diff --git a/rust/kernel/io/register.rs b/rust/kernel/io/register.rs
-index 388647f28292..f924c7c7c1db 100644
---- a/rust/kernel/io/register.rs
-+++ b/rust/kernel/io/register.rs
-@@ -108,9 +108,10 @@
- 
- use core::marker::PhantomData;
- 
--use crate::io::IoLoc;
--
--use kernel::build_assert;
-+use crate::{
-+    build_assert::build_assert,
-+    io::IoLoc, //
-+};
- 
- /// Trait implemented by all registers.
- pub trait Register: Sized {
-@@ -872,7 +873,7 @@ macro_rules! register {
-         @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty)
-             [ $size:expr, stride = $stride:expr ] @ $offset:literal { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
-+        $crate::build_assert::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(@io_base $name($storage) @ $offset);
-@@ -895,7 +896,9 @@ macro_rules! register {
-         @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty) => $alias:ident [ $idx:expr ]
-             { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!($idx < <$alias as $crate::io::register::RegisterArray>::SIZE);
-+        $crate::build_assert::static_assert!(
-+            $idx < <$alias as $crate::io::register::RegisterArray>::SIZE
-+        );
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(
-@@ -912,7 +915,7 @@ macro_rules! register {
-             [ $size:expr, stride = $stride:expr ]
-             @ $base:ident + $offset:literal { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
-+        $crate::build_assert::static_assert!(::core::mem::size_of::<$storage>() <= $stride);
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(@io_base $name($storage) @ $offset);
-@@ -938,7 +941,9 @@ macro_rules! register {
-         @reg $(#[$attr:meta])* $vis:vis $name:ident ($storage:ty)
-             => $base:ident + $alias:ident [ $idx:expr ] { $($fields:tt)* }
-     ) => {
--        ::kernel::static_assert!($idx < <$alias as $crate::io::register::RegisterArray>::SIZE);
-+        $crate::build_assert::static_assert!(
-+            $idx < <$alias as $crate::io::register::RegisterArray>::SIZE
-+        );
- 
-         $crate::register!(@bitfield $(#[$attr])* $vis struct $name($storage) { $($fields)* });
-         $crate::register!(
-diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-index b7ac9faf141d..17b0c174cfc5 100644
---- a/rust/kernel/io/resource.rs
-+++ b/rust/kernel/io/resource.rs
-@@ -229,7 +229,7 @@ impl Flags {
-     // Always inline to optimize out error path of `build_assert`.
-     #[inline(always)]
-     const fn new(value: u32) -> Self {
--        crate::build_assert!(value as u64 <= c_ulong::MAX as u64);
-+        build_assert!(value as u64 <= c_ulong::MAX as u64);
-         Flags(value as c_ulong)
-     }
- }
-diff --git a/rust/kernel/ioctl.rs b/rust/kernel/ioctl.rs
-index 2fc7662339e5..5bb5b48cf949 100644
---- a/rust/kernel/ioctl.rs
-+++ b/rust/kernel/ioctl.rs
-@@ -6,7 +6,7 @@
- 
- #![expect(non_snake_case)]
- 
--use crate::build_assert;
-+use crate::build_assert::build_assert;
- 
- /// Build an ioctl number, analogous to the C macro of the same name.
- #[inline(always)]
-diff --git a/rust/kernel/net/phy/reg.rs b/rust/kernel/net/phy/reg.rs
-index a7db0064cb7d..80e22c264ea8 100644
---- a/rust/kernel/net/phy/reg.rs
-+++ b/rust/kernel/net/phy/reg.rs
-@@ -9,9 +9,11 @@
- //! defined in IEEE 802.3.
- 
- use super::Device;
--use crate::build_assert;
--use crate::error::*;
--use crate::uapi;
-+use crate::{
-+    build_assert::build_assert,
-+    error::*,
-+    uapi, //
-+};
- 
- mod private {
-     /// Marker that a trait cannot be implemented outside of this crate
-diff --git a/rust/kernel/num/bounded.rs b/rust/kernel/num/bounded.rs
-index f9f90d6ec482..dafe77782d79 100644
---- a/rust/kernel/num/bounded.rs
-+++ b/rust/kernel/num/bounded.rs
-@@ -364,7 +364,7 @@ pub fn try_new(value: T) -> Option<Self> {
-     // Always inline to optimize out error path of `build_assert`.
-     #[inline(always)]
-     pub fn from_expr(expr: T) -> Self {
--        crate::build_assert!(
-+        crate::build_assert::build_assert!(
-             fits_within(expr, N),
-             "Requested value larger than maximal representable value."
-         );
-diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
-index ca260cc3937a..f6e852638ade 100644
---- a/rust/kernel/prelude.rs
-+++ b/rust/kernel/prelude.rs
-@@ -79,9 +79,6 @@
-         VVec,
-         Vec, //
-     },
--    build_assert,
--    build_error,
--    const_assert,
-     current,
-     dev_alert,
-     dev_crit,
-@@ -105,7 +102,6 @@
-     pr_info,
-     pr_notice,
-     pr_warn,
--    static_assert,
-     str::CStrExt as _,
-     try_init,
-     try_pin_init,
-@@ -113,6 +109,14 @@
-     ThisModule, //
- };
- 
-+#[doc(no_inline)]
-+pub use crate::build_assert::{
-+    build_assert,
-+    build_error,
-+    const_assert,
-+    static_assert, //
-+};
-+
- // `super::std_vendor` is hidden, which makes the macro inline for some reason.
- #[doc(no_inline)]
- pub use super::dbg;
-diff --git a/rust/kernel/sync/atomic/internal.rs b/rust/kernel/sync/atomic/internal.rs
-index ad810c2172ec..9c8a7a203abd 100644
---- a/rust/kernel/sync/atomic/internal.rs
-+++ b/rust/kernel/sync/atomic/internal.rs
-@@ -4,8 +4,11 @@
- //!
- //! Provides 1:1 mapping to the C atomic operations.
- 
--use crate::bindings;
--use crate::macros::paste;
-+use crate::{
-+    bindings,
-+    build_assert::static_assert,
-+    macros::paste, //
-+};
- use core::cell::UnsafeCell;
- use ffi::c_void;
- 
-@@ -46,7 +49,7 @@ pub trait AtomicImpl: Sized + Copy + private::Sealed {
- // In the future when a CONFIG_ARCH_SUPPORTS_ATOMIC_RMW=n architecture plans to support Rust, the
- // load/store helpers that guarantee atomicity against RmW operations (usually via a lock) need to
- // be added.
--crate::static_assert!(
-+static_assert!(
-     cfg!(CONFIG_ARCH_SUPPORTS_ATOMIC_RMW),
-     "The current implementation of atomic i8/i16/ptr relies on the architecure being \
-     ARCH_SUPPORTS_ATOMIC_RMW"
-diff --git a/rust/kernel/sync/atomic/predefine.rs b/rust/kernel/sync/atomic/predefine.rs
-index 7468153429e1..adc5fa126487 100644
---- a/rust/kernel/sync/atomic/predefine.rs
-+++ b/rust/kernel/sync/atomic/predefine.rs
-@@ -2,7 +2,7 @@
- 
- //! Pre-defined atomic types
- 
--use crate::static_assert;
-+use crate::prelude::*;
- use core::mem::{align_of, size_of};
- use ffi::c_void;
- 
-diff --git a/rust/kernel/sync/locked_by.rs b/rust/kernel/sync/locked_by.rs
-index 61f100a45b35..fb4a1430b3b4 100644
---- a/rust/kernel/sync/locked_by.rs
-+++ b/rust/kernel/sync/locked_by.rs
-@@ -3,7 +3,7 @@
- //! A wrapper for data protected by a lock that does not wrap it.
- 
- use super::{lock::Backend, lock::Lock};
--use crate::build_assert;
-+use crate::build_assert::build_assert;
- use core::{cell::UnsafeCell, mem::size_of, ptr};
- 
- /// Allows access to some data to be serialised by a lock that does not wrap it.
-diff --git a/rust/kernel/sync/refcount.rs b/rust/kernel/sync/refcount.rs
-index 6c7ae8b05a0b..23a5d201f343 100644
---- a/rust/kernel/sync/refcount.rs
-+++ b/rust/kernel/sync/refcount.rs
-@@ -4,9 +4,11 @@
- //!
- //! C header: [`include/linux/refcount.h`](srctree/include/linux/refcount.h)
- 
--use crate::build_assert;
--use crate::sync::atomic::Atomic;
--use crate::types::Opaque;
-+use crate::{
-+    build_assert::build_assert,
-+    sync::atomic::Atomic,
-+    types::Opaque, //
-+};
- 
- /// Atomic reference counter.
- ///
-diff --git a/rust/kernel/xarray.rs b/rust/kernel/xarray.rs
-index 46e5f43223fe..987c9c0c2198 100644
---- a/rust/kernel/xarray.rs
-+++ b/rust/kernel/xarray.rs
-@@ -5,10 +5,16 @@
- //! C header: [`include/linux/xarray.h`](srctree/include/linux/xarray.h)
- 
- use crate::{
--    alloc, bindings, build_assert,
-+    alloc,
-+    bindings,
-+    build_assert::build_assert,
-     error::{Error, Result},
-     ffi::c_void,
--    types::{ForeignOwnable, NotThreadSafe, Opaque},
-+    types::{
-+        ForeignOwnable,
-+        NotThreadSafe,
-+        Opaque, //
-+    }, //
- };
- use core::{iter, marker::PhantomData, pin::Pin, ptr::NonNull};
- use pin_init::{pin_data, pin_init, pinned_drop, PinInit};
+I'm not trying to remove strlen(), just strcpy().
 
-base-commit: 98cc68794c003bc76fc9da2e8a075e947eee5921
--- 
-2.54.0
+But not just changing them all the strscpy().
 
+	David
