@@ -1,91 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73153CF1E9
-	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 06:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE918194AE6;
+	Tue,  9 Jun 2026 09:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780985086; cv=none; b=Ojdz7wXgdCW8+o1HeFfjARFiU3vfB6EoGZj5bR4ipl1ifor6j+3qIGOn+J/qLzwA/wg/0SfHCBx05gbJiFnD6OZ2MyRWU/KF2EeUipMvVWWJPk1g7oT4BJj78a6sAWI8CZgrVXUMgE1WWmbqsmnOIvPAWRW64eBiWYcbjWIjCWg=
+	t=1780995730; cv=none; b=CYJ7LoeNKcYZxT54YG/CXHYihmofHzZsL3zjUOtAZvVP9HTttwuoS5YgSM1YdLfIKEm5xe/TQU9IGteMsLU1q9qig6um5z0wwCSEYgiDWzGeAAMRhI2XhNEOrU3HhQVRAZ8KoQ7/x92sEhtmOxPu5UrqrwazjJ+il1PM4VTD0WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780985086; c=relaxed/simple;
-	bh=731ExrIFuYhYyY+T6Moi5PvW6EPSmsOR52dcNI589PY=;
+	s=arc-20240116; t=1780995730; c=relaxed/simple;
+	bh=X3kZXLgoD4loR4hnj6Wp7oHH03sW8coNdu2AD6gnsos=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DvSxagDU4sLqm9tZ4tIUFsQsKS/uWcq0QLOrhGZwAN96RZzK8VyD7mzsol03czQZHwDsCl+rAC40uLsFhF3ac/tYezPuPJPd2FkjBLu9lCNVdQ3HIZ4IrXGFvXJVr8lrC1Ghlp0qOZqyC4OyO6IhsewBV2xEWeFWKtLMi4iYAF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpipNPyb; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HMbGROZ4CK+MpNkBPv5s6TBvfOTi2bJkreAOfr/L3ncZFSNy9gTnm9CniC4nBn89MzJ8yQmpEST2pNGVPiYy5PSHMw1nmYNL261zwp7NVsV733oQv7Z8fjxsz2cA6/QRHZ6lawovwH2bk5tymFSq72tAaCrRUHERJ6gwYNGYyds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W82I8wBU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpipNPyb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780985086; x=1812521086;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=731ExrIFuYhYyY+T6Moi5PvW6EPSmsOR52dcNI589PY=;
-  b=YpipNPybovfzpuhF+htlfmxONPKX1rZAjo4yhUvnwPeUNmz49v6MRKAT
-   vtSRq/iZ2aogEYb0taTF68R5wpr4vc78x74gLyqyQAeOL7qxfXiR5GXvx
-   2G76omx+hda8U98XH+T6iMOsZJo2MGJFmKF8FBdWOKUZru1iUU5R/+IDS
-   Kp2/szXcf2NPyJO10dJqLIIcikCbWP2ER+XLgEErbW6vn/OvYcyeuC+K8
-   62IzqRScxZf9Sb7joUIFmDE41JQIoCUq/iqGng8l263lYH7XkspuwWa1I
-   GmH0l/cKGeNhHT5ActA35pWsMxCxpCnnzAOHJcOn4GZg02NChg3FElI0E
-   w==;
-X-CSE-ConnectionGUID: vvGvpbFgTMKYDLJ/ch6kWA==
-X-CSE-MsgGUID: ZWAXQw5lSt2Y+gsU8a+E+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="81713990"
-X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
-   d="scan'208";a="81713990"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 23:04:46 -0700
-X-CSE-ConnectionGUID: caMgAKDMQt+tzUDfqvaHlA==
-X-CSE-MsgGUID: Y5uwqR98Ta6DRpf+0IDxZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
-   d="scan'208";a="241587140"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.39])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 23:04:42 -0700
-Date: Tue, 9 Jun 2026 09:04:40 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W82I8wBU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB431F00893;
+	Tue,  9 Jun 2026 09:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780995729;
+	bh=WWSmiCs23IJGI57Vs2GNr1UcM+JoQenB5W5KVqFSLKc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=W82I8wBU6gWYB5R991WEtHqMaAfW+LFNWdS8l8tEheYLu4CVNM9JEP7htjvZC+80M
+	 B12yPMW/uhwP6yVvtWD5OJp5CxS6cE0WkZBYZaic1kO5cIAKOlw2gYhxtYL+3HaV3h
+	 3GhbYPJ9HoAqYsPxFSJ48yWXfdQFHycX9vkgTj5AxRPo68dYkjZWBRJ6CEzIHXUI27
+	 AzHAbqnyFgXPsSkniSHtNe//p9sYgCgSEa1+MvM1LHMqCsx7dNaWk2XSiqkefVQj8J
+	 Q41OZTKjqvL8BHtOzt2rI4cgSYcpOfQmm3kCGaTnEV3nH7CfkHP+X0TbfAaHfJtudW
+	 act8fdFCNhhRQ==
+Date: Tue, 9 Jun 2026 09:02:05 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] software node: allow passing reference args to
- PROPERTY_ENTRY_REF()
-Message-ID: <aies-OJokLx4IAHf@ashevche-desk.local>
-References: <aiTo4dvKu8pyimHA@google.com>
+	Danilo Krummrich <dakr@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+	tfiga@chromium.org, senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 3/3] PM: dpm_watchdog: Add sysctl interface for DPM
+ watchdog timeouts
+Message-ID: <aifWjW93SOQiv_Eh@google.com>
+References: <20260608021526.1023248-1-tzungbi@kernel.org>
+ <20260608021526.1023248-4-tzungbi@kernel.org>
+ <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aiTo4dvKu8pyimHA@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com>
 
-On Sat, Jun 06, 2026 at 08:51:29PM -0700, Dmitry Torokhov wrote:
-> When dynamically creating software nodes and properties for subsequent
-> use with software_node_register() current implementation of
-> PROPERTY_ENTRY_REF() is not suitable because it creates a temporary
-> instance of struct software_node_ref_args on stack which will later
-> disappear, and software_node_register() only does shallow copy of
-> properties.
+On Mon, Jun 08, 2026 at 04:22:35PM +0200, Rafael J. Wysocki wrote:
+> On Mon, Jun 8, 2026 at 4:16 AM Tzung-Bi Shih <tzungbi@kernel.org> wrote:
+> >
+> > Introduce sysctl knobs to allow configuring DPM watchdog timeouts at
+> > runtime.
+> >
+> > Currently, these timeouts are fixed at compile time via
+> > CONFIG_DPM_WATCHDOG_TIMEOUT and CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT.
+> > This limits flexibility if the timeouts need to be adjusted for
+> > different testing scenarios or hardware behaviors without rebuilding
+> > the kernel.
+> >
+> > Add the following sysctl files under /proc/sys/kernel/:
+> > - dpm_watchdog_timeout_secs: The total timeout before panic. The
+> >   maximum value is capped at CONFIG_DPM_WATCHDOG_TIMEOUT to prevent
+> >   unreasonably large timeouts.
+> > - dpm_watchdog_warning_timeout_secs: The warning timeout. The maximum
+> >   value is capped at the current dpm_watchdog_timeout_secs.
+> > Both sysctls have a minimum value of 1.
+> >
+> > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > ---
+> > v3:
+> > - No changes.
+> >
+> > v2: https://lore.kernel.org/all/20260604090756.2884671-4-tzungbi@kernel.org
+> > - New to the series.
+> >
+> > v1: Doesn't exist.
+> >
+> >  drivers/base/power/main.c | 61 ++++++++++++++++++++++++++++++++++++---
+> >  1 file changed, 57 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> > index 7822c29b7c8d..c1a4b30fafb2 100644
+> > --- a/drivers/base/power/main.c
+> > +++ b/drivers/base/power/main.c
+> > @@ -28,6 +28,7 @@
+> >  #include <linux/interrupt.h>
+> >  #include <linux/sched.h>
+> >  #include <linux/sched/debug.h>
+> > +#include <linux/sysctl.h>
+> >  #include <linux/async.h>
+> >  #include <linux/suspend.h>
+> >  #include <trace/events/power.h>
+> > @@ -539,6 +540,58 @@ static bool __read_mostly dpm_watchdog_enabled =
+> >  module_param(dpm_watchdog_enabled, bool, 0644);
+> >  MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
+> >
+> > +static unsigned int __read_mostly dpm_watchdog_timeout = CONFIG_DPM_WATCHDOG_TIMEOUT;
+> > +static unsigned int __read_mostly dpm_watchdog_warning_timeout =
+> > +                                               CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +static const unsigned int dpm_watchdog_timeout_max = CONFIG_DPM_WATCHDOG_TIMEOUT;
+> > +
+> > +static int proc_dodpm_watchdog_timeout_secs(const struct ctl_table *table,
+> > +                                           int write, void *buffer,
+> > +                                           size_t *lenp, loff_t *ppos)
+> > +{
+> > +       struct ctl_table ctl = *table;
+> > +       unsigned int val = dpm_watchdog_timeout;
+> > +       int ret;
+> > +
+> > +       ctl.data = &val;
+> > +       ret = proc_douintvec_minmax(&ctl, write, buffer, lenp, ppos);
+> > +       if (ret || !write)
+> > +               return ret;
+> > +
+> > +       if (val < dpm_watchdog_warning_timeout)
+> > +               dpm_watchdog_warning_timeout = val;
+> > +       dpm_watchdog_timeout = val;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static const struct ctl_table dpm_watchdog_sysctls[] = {
+> > +       {
+> > +               .procname       = "dpm_watchdog_timeout_secs",
+> > +               .maxlen         = sizeof(unsigned int),
+> > +               .mode           = 0644,
+> > +               .proc_handler   = proc_dodpm_watchdog_timeout_secs,
+> > +               .extra1         = SYSCTL_ONE,
+> > +               .extra2         = (void *)&dpm_watchdog_timeout_max,
+> > +       },
+> > +       {
+> > +               .procname       = "dpm_watchdog_warning_timeout_secs",
+> > +               .data           = &dpm_watchdog_warning_timeout,
+> > +               .maxlen         = sizeof(unsigned int),
+> > +               .mode           = 0644,
+> > +               .proc_handler   = proc_douintvec_minmax,
+> > +               .extra1         = SYSCTL_ONE,
+> > +               .extra2         = (void *)&dpm_watchdog_timeout,
+> > +       },
+> > +};
+> > +
+> > +static int __init dpm_watchdog_sysctl_init(void)
+> > +{
+> > +       register_sysctl_init("kernel", dpm_watchdog_sysctls);
+> > +       return 0;
+> > +}
+> > +subsys_initcall(dpm_watchdog_sysctl_init);
+> > +
+> >  /**
+> >   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
+> >   * @t: The timer that PM watchdog depends on.
+> > @@ -564,9 +617,9 @@ static void dpm_watchdog_handler(struct timer_list *t)
+> >                         dev_driver_string(wd->dev), dev_name(wd->dev));
+> >         }
+> >
+> > -       time_left = CONFIG_DPM_WATCHDOG_TIMEOUT - CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +       time_left = dpm_watchdog_timeout - dpm_watchdog_warning_timeout;
+> >         dev_warn(wd->dev, "**** DPM device timeout after %u seconds; %u seconds until panic ****\n",
+> > -                CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT, time_left);
+> > +                dpm_watchdog_warning_timeout, time_left);
+> >         show_stack(wd->tsk, NULL, KERN_WARNING);
+> >
+> >         wd->fatal = true;
+> > @@ -587,11 +640,11 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd, struct device *dev)
+> >
+> >         wd->dev = dev;
+> >         wd->tsk = current;
+> > -       wd->fatal = CONFIG_DPM_WATCHDOG_TIMEOUT == CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +       wd->fatal = dpm_watchdog_timeout == dpm_watchdog_warning_timeout;
+> >
+> >         timer_setup_on_stack(timer, dpm_watchdog_handler, 0);
+> >         /* use same timeout value for both suspend and resume */
+> > -       timer->expires = jiffies + HZ * CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
+> > +       timer->expires = jiffies + HZ * dpm_watchdog_warning_timeout;
+> >         add_timer(timer);
+> >  }
+> >
+> > --
 > 
-> Fix this by allowing to pass address of reference arguments structure
-> directly into PROPERTY_ENTRY_REF(), so that caller can manage lifetime
-> of the object properly.
+> I think that this can be applied without the other two patches in the
+> series, so please let me know if you want me to apply it separately.
 
-Now it looks nice and good, thanks!
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Ack.  The patch does have adjacent hunks with the preceding patch, which
+might cause minor contextual conflicts if applied independently.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Would you want me to reorder the series in the next version to make this
+the first patch?  In case the rest two patches may still take some time
+to review.
