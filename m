@@ -1,119 +1,233 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EB13D34B3
-	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 10:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781002005; cv=pass; b=YUZzZ5mGEuC6uGZnKXf8Zie/ZTtBjgQg9AGFKJ7h4bgh6euujQltnyYqF4qgvpWcUF74FW0os0kwpPSO7ty4WWeprHFRT4IAPmP/WN/+6kT1YJsyy5H48MUu5x5JNIpcucLhfGpnLLTneoKz9SaSWhL2mQI/y1CKcvCO0lJ86jc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781002005; c=relaxed/simple;
-	bh=cu2Kue8JGdzYQh52hcHKldi3QvOVFh2giqHCrt+XPLU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFAF3FD139
+	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 11:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781003301; cv=none; b=gbKz8+7h72wBaXnLjI3VFtRkbviFpgJxdHkL1wXEYJho4QdTjWkhpoHmNMhU0ynkGlC3GFjrKLZb4h+x2DnLkiD8wxmZiz3cBwOSbo2p6pZl/1nWDCpz9ZBlmsjhajaJ16OkWwLhzJqmYwpsi9Gq7lTUSoY03eCFoZMXQnSaIYM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781003301; c=relaxed/simple;
+	bh=WnpEEbeV6Xf8HOrAvMNaDaoMIMuMt0nxS5cI/2qJSD4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pVICeL/RNlnGV6r1YM+0K9ThoUIRZhjkEr2pgnmX8siCEWgxZPMlfMdHg4L8JFjqXGmfuhP/2nh01n5UXjuQnKHuv9PD/uANRjavUEgrymkZ9KqIYTFrsB4UF58AwFGzUKnYW7uhKPC2h155PBNJmBOXlkpjb0xrlAJ82vrpE84=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBY5Oagm; arc=pass smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=RJ9YimPd6TtAx73PvO4+OeKoEu2VlCFfHi8dWq2H81If7J4RewoOzi9cia2PmbIfXKgLXj0MyjK3j3i5MHSGzhOrLwcn0DA8emiJI5CZTlLOe4o4MzAmxw4HUEII+sZpkx/p8TNcUPevVXUxTQZtH43Cfa78VcritRhsNXVu3qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WMlt9VeW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBY5Oagm"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-304dc707bfbso293854eec.2
-        for <driver-core@lists.linux.dev>; Tue, 09 Jun 2026 03:46:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781002002; cv=none;
-        d=google.com; s=arc-20240605;
-        b=A/MTZMRjg5l3VvN8UVp78JvFsTsHTWodgTtwD4F6B7Juuaz1N//NEKlHbADew5aCfg
-         C/ggMuIY/VZzmnrpw9FAkv7KoH2IYUSBC+Grrirr3bwp0t+niIAJOB6dW0pIZn6CCk2g
-         XJ/QRoqYmZovgQz0i0zW6dd3S6K+9fQ7aNiV85CCK6sfuARoSkd8stQS4+tMftH5dbmt
-         dVo8qJWDEPLQMJqWnNYM5urLqS+OVsHGUF+ibXMYqS4RQeSWpD0QRaGht9IEn5+piLaM
-         FhYTeGGBJDO0U2Tw57a/DA2MiUM9OAZjGIbt4hEBNkiAvYVX20wnCrK9viKIgVr1kx7d
-         vqog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cu2Kue8JGdzYQh52hcHKldi3QvOVFh2giqHCrt+XPLU=;
-        fh=REuhWBOg2N3DcV723rgtoJhEr0ZSULiBKOBUAwe/mrU=;
-        b=LnXgvmLiySKNWg4UBemLiOlNs8i+obhtPe/1cAfBhr1Zg3zFpvFGVm8tEH/u/wIm6z
-         d50toxnvcpGuM5ln/tdZLCIbEvZtf6WPlIwiBmlU36eXeWkB08w90nehzpf1PpOcVVYP
-         co3A/ruSMdsZGdtvGzivUr3ZCYVsKeaDlxpmYF9Zgq9HfJ2JUkhpfA99tsWAjQglzPpx
-         dIHbEEIc8zztfBFzdhLba0B/safM4we+xJelkmNesYiTbL6Xxiivyq8kCB7WnIcl7Owv
-         YJ0YB/2JSrPpSEcg5QFHPNRdeMxuh/2WRiKGR2zUlbl5jYLXye7efr+PCIGbRI8krvHi
-         dTaw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781002002; x=1781606802; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cu2Kue8JGdzYQh52hcHKldi3QvOVFh2giqHCrt+XPLU=;
-        b=YBY5Oagmlr7ZCwzZl9Iukfq1FGkTyNaZuAlijtxkbNO9IC4ADvFU8iNoY3c2Ua/WKn
-         2eDIi8R6TygcMETjkAHd5RboNFqAtOlFf4MLQwx+2THl8Ls61JED5JK4zuC9ni1bvHzU
-         WzfBK/ukhmoiQ5FB3721T5DxZRtn+gT/vYn2eRWN0b0GLGENz3viPl860xrXPBa8B5Wo
-         Ambz2/IR05ekle0G/VGvhhXBzqJn7aNMbtSY8+3+YYe+OkwSHurrTj2X1kFkbZwjejuk
-         6j/lN3ewdIwjXmsi72XAwsdid0xDAM0VUV6xx9vqQqy56Goxqjr/3ONXXkEpdxwgRL7N
-         5Icg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781002002; x=1781606802;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cu2Kue8JGdzYQh52hcHKldi3QvOVFh2giqHCrt+XPLU=;
-        b=pWg3d9i80cf/k9gfgBs36IOeBsMiajvWn9jAeiQwkwdCvCFzSswqNVjkypKPGcx5TM
-         39NrKZDtdLc6+l6y90MIKb1Xd1hIzKmu9XIOap13kl2soQvkUcoN+o2PYhnGK5tOuzn6
-         y2NDDmTR3VqtKzSGPdfmxpSUef0VQGKablw+HQhToaikzGlhf4dY5noJQ1Q9wRoHqgMm
-         4MQ40OylVqI/beul+BIOYInKqI+6QJP8AoVvXObnJMyC+drW4CBz/8AKz1OW/ccL800/
-         c+jEwdctgoxrcmrzgWy/kWqxdyDH3vjuk170L9jJdGmkzZIFmqjTwF3ddEfhmt2sb4T9
-         ZdlQ==
-X-Forwarded-Encrypted: i=1; AFNElJ88NBbb88lybGKt/0r/n3CuPdKEryZ9ZXGVfIYKhYodG3amqRTHZTZZMNvCv/jBOxSLnFq0fKb6JGy5ow==@lists.linux.dev
-X-Gm-Message-State: AOJu0YztTClVTuFnrX6JI/DszywsIhQETv1um9aEEErKWwlhMC/KufYP
-	/GU6DBkgeGhfeMgJSagbTJnC0X0kWr/LfULvzZSpeWu+caLY1YC/I/tpBtclH/3IF5DywBeeZ0f
-	skv+235dkAazfTPaRcHui1QvYuUt4s+A=
-X-Gm-Gg: Acq92OGxNyQzHs3TpBKwYEfryP4lvOJ0WXVgPRvR9HTwaRr8vtzywhthXx9pjwxxuJ/
-	NFSPY5wmSyCBFAIDW7lmWyccW1OhHUMCi8N/DAqCUQvnGRiewDnrRFE/U4esMepyJY3ngxU99xs
-	zHqagGw1cp+u9tl/S3BFiPIGzeGkDgPdit1oHhVLW5ZA5sxGlOurpm5LInf3SwNm8lu7yW8OyYA
-	ZC5lTLfhwg2YTwkUty9gRs1MFarZ0Fk9jTSVysWr1mXiroNWV72w6ho5mcE/qxYi/m13oWFWRmC
-	qlBs30/54qDuUh5ypktiuQQouFmH803DhY4xRa0mZoww7xoE8Lv6r7C+Lu4EjzneqEi0BZOkh0y
-	VJVykmt97RQ8pvK0oKr/2+w1pOeV7n3hfbA==
-X-Received: by 2002:a05:693c:25c1:b0:304:d700:1e90 with SMTP id
- 5a478bee46e88-307d5fed73fmr773935eec.3.1781002002406; Tue, 09 Jun 2026
- 03:46:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WMlt9VeW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B8711F0089C
+	for <driver-core@lists.linux.dev>; Tue,  9 Jun 2026 11:08:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781003299;
+	bh=uAcx1TLJhxHxE1DspdQDFqFbxQb8Zirx9f+KX82czck=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WMlt9VeWVQHy3iBMNR1/23qeLuPvROgoJSbvw9dujLcNO71APQQmufKz/kVTemajv
+	 ImESC5mCRGD3Iah2N49TstG5nSvRVCIeSWcFP4IwUAR8+emql84ksfO21OwCUwxBn8
+	 lAJ8d1DpssI6nzObdD/ouH8/WviYLpRt3/g9oFzO+Hzqrhb66sNpXSP8MJ0AsBY2Z9
+	 vGrRGwfwcVY6wAwTm7b58KuLdunpfVtNHazDmUHIdQOr6T0h83qJkQ9XH8l44OoiRX
+	 NJDhnsGGSKJSwxieRfSA/TMrdG1rFEiEjijs6gCWg/aqlpBa06aWibIIYQLVFQNl30
+	 SaBXgU/UJzKAQ==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3967620ceabso50853031fa.0
+        for <driver-core@lists.linux.dev>; Tue, 09 Jun 2026 04:08:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+TrOqAWucRggeIHKHrWXisq6RBSV6+mXMkGEE9Pw4KeV1jPGAzpLGAwqooQklr5derl8o4RM6LQ2ZeQQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGS7Phw2xl+O48cLWPX8BcwAyGlZI8ViSlmuL3LAnLc3+1/1m9
+	YQGbeypiZx3dGZEXWyN2zTaAMCjfUrgc+a4bMypAlhy6bk5DXG0VKbgik5UxCi+MEML7UNatreE
+	VcLHq3J/LubIm1MntWyaTScSoBDy/5ME=
+X-Received: by 2002:a05:6512:3ca8:b0:5aa:64b4:13dc with SMTP id
+ 2adb3069b0e04-5aa87b3ff0fmr6452458e87.5.1781003297675; Tue, 09 Jun 2026
+ 04:08:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260606-bitfield-v5-0-b92188820914@nvidia.com> <aibq0WVkvey9C4_W@yury>
-In-Reply-To: <aibq0WVkvey9C4_W@yury>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 9 Jun 2026 12:46:30 +0200
-X-Gm-Features: AVVi8CcWK268E6b32_9RGqxCdLYA5s3NWf2-go00cNlkmk7E_5xxbpCtVF0SRiA
-Message-ID: <CANiq72k_Ge=AgwqNTi8w3CoSX4s6TTbJMe9X0x6MCYXep2oKCw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] rust: add `bitfield!` macro
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, John Hubbard <jhubbard@nvidia.com>, 
-	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
-	Eliot Courtney <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, nova-gpu@lists.linux.dev, 
-	driver-core@lists.linux.dev, Joel Fernandes <joelagnelf@nvidia.com>
+References: <20260608021526.1023248-1-tzungbi@kernel.org> <20260608021526.1023248-4-tzungbi@kernel.org>
+ <CAJZ5v0j=Uey90jN-TiUkx+FEPKtNUWhDGrfhxke65Em_ycbc+w@mail.gmail.com> <aifWjW93SOQiv_Eh@google.com>
+In-Reply-To: <aifWjW93SOQiv_Eh@google.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 9 Jun 2026 13:08:06 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jHutbyvPRfzLYLkxiP=iAejGyC6n-czzOcLScKwGWx1A@mail.gmail.com>
+X-Gm-Features: AVVi8Ce605rLSlVkeJ9Nh1ILn9h0ylh1zgMK9ZdLiNODLKV3i_tgNr8o99GPckQ
+Message-ID: <CAJZ5v0jHutbyvPRfzLYLkxiP=iAejGyC6n-czzOcLScKwGWx1A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] PM: dpm_watchdog: Add sysctl interface for DPM
+ watchdog timeouts
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>, 
+	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev, tfiga@chromium.org, 
+	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 8, 2026 at 6:16=E2=80=AFPM Yury Norov <yury.norov@gmail.com> wr=
-ote:
+On Tue, Jun 9, 2026 at 11:02=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
 >
-> Thanks for the work!
+> On Mon, Jun 08, 2026 at 04:22:35PM +0200, Rafael J. Wysocki wrote:
+> > On Mon, Jun 8, 2026 at 4:16=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.or=
+g> wrote:
+> > >
+> > > Introduce sysctl knobs to allow configuring DPM watchdog timeouts at
+> > > runtime.
+> > >
+> > > Currently, these timeouts are fixed at compile time via
+> > > CONFIG_DPM_WATCHDOG_TIMEOUT and CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT.
+> > > This limits flexibility if the timeouts need to be adjusted for
+> > > different testing scenarios or hardware behaviors without rebuilding
+> > > the kernel.
+> > >
+> > > Add the following sysctl files under /proc/sys/kernel/:
+> > > - dpm_watchdog_timeout_secs: The total timeout before panic. The
+> > >   maximum value is capped at CONFIG_DPM_WATCHDOG_TIMEOUT to prevent
+> > >   unreasonably large timeouts.
+> > > - dpm_watchdog_warning_timeout_secs: The warning timeout. The maximum
+> > >   value is capped at the current dpm_watchdog_timeout_secs.
+> > > Both sysctls have a minimum value of 1.
+> > >
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > > ---
+> > > v3:
+> > > - No changes.
+> > >
+> > > v2: https://lore.kernel.org/all/20260604090756.2884671-4-tzungbi@kern=
+el.org
+> > > - New to the series.
+> > >
+> > > v1: Doesn't exist.
+> > >
+> > >  drivers/base/power/main.c | 61 ++++++++++++++++++++++++++++++++++++-=
+--
+> > >  1 file changed, 57 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> > > index 7822c29b7c8d..c1a4b30fafb2 100644
+> > > --- a/drivers/base/power/main.c
+> > > +++ b/drivers/base/power/main.c
+> > > @@ -28,6 +28,7 @@
+> > >  #include <linux/interrupt.h>
+> > >  #include <linux/sched.h>
+> > >  #include <linux/sched/debug.h>
+> > > +#include <linux/sysctl.h>
+> > >  #include <linux/async.h>
+> > >  #include <linux/suspend.h>
+> > >  #include <trace/events/power.h>
+> > > @@ -539,6 +540,58 @@ static bool __read_mostly dpm_watchdog_enabled =
+=3D
+> > >  module_param(dpm_watchdog_enabled, bool, 0644);
+> > >  MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
+> > >
+> > > +static unsigned int __read_mostly dpm_watchdog_timeout =3D CONFIG_DP=
+M_WATCHDOG_TIMEOUT;
+> > > +static unsigned int __read_mostly dpm_watchdog_warning_timeout =3D
+> > > +                                               CONFIG_DPM_WATCHDOG_W=
+ARNING_TIMEOUT;
+> > > +static const unsigned int dpm_watchdog_timeout_max =3D CONFIG_DPM_WA=
+TCHDOG_TIMEOUT;
+> > > +
+> > > +static int proc_dodpm_watchdog_timeout_secs(const struct ctl_table *=
+table,
+> > > +                                           int write, void *buffer,
+> > > +                                           size_t *lenp, loff_t *ppo=
+s)
+> > > +{
+> > > +       struct ctl_table ctl =3D *table;
+> > > +       unsigned int val =3D dpm_watchdog_timeout;
+> > > +       int ret;
+> > > +
+> > > +       ctl.data =3D &val;
+> > > +       ret =3D proc_douintvec_minmax(&ctl, write, buffer, lenp, ppos=
+);
+> > > +       if (ret || !write)
+> > > +               return ret;
+> > > +
+> > > +       if (val < dpm_watchdog_warning_timeout)
+> > > +               dpm_watchdog_warning_timeout =3D val;
+> > > +       dpm_watchdog_timeout =3D val;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static const struct ctl_table dpm_watchdog_sysctls[] =3D {
+> > > +       {
+> > > +               .procname       =3D "dpm_watchdog_timeout_secs",
+> > > +               .maxlen         =3D sizeof(unsigned int),
+> > > +               .mode           =3D 0644,
+> > > +               .proc_handler   =3D proc_dodpm_watchdog_timeout_secs,
+> > > +               .extra1         =3D SYSCTL_ONE,
+> > > +               .extra2         =3D (void *)&dpm_watchdog_timeout_max=
+,
+> > > +       },
+> > > +       {
+> > > +               .procname       =3D "dpm_watchdog_warning_timeout_sec=
+s",
+> > > +               .data           =3D &dpm_watchdog_warning_timeout,
+> > > +               .maxlen         =3D sizeof(unsigned int),
+> > > +               .mode           =3D 0644,
+> > > +               .proc_handler   =3D proc_douintvec_minmax,
+> > > +               .extra1         =3D SYSCTL_ONE,
+> > > +               .extra2         =3D (void *)&dpm_watchdog_timeout,
+> > > +       },
+> > > +};
+> > > +
+> > > +static int __init dpm_watchdog_sysctl_init(void)
+> > > +{
+> > > +       register_sysctl_init("kernel", dpm_watchdog_sysctls);
+> > > +       return 0;
+> > > +}
+> > > +subsys_initcall(dpm_watchdog_sysctl_init);
+> > > +
+> > >  /**
+> > >   * dpm_watchdog_handler - Driver suspend / resume watchdog handler.
+> > >   * @t: The timer that PM watchdog depends on.
+> > > @@ -564,9 +617,9 @@ static void dpm_watchdog_handler(struct timer_lis=
+t *t)
+> > >                         dev_driver_string(wd->dev), dev_name(wd->dev)=
+);
+> > >         }
+> > >
+> > > -       time_left =3D CONFIG_DPM_WATCHDOG_TIMEOUT - CONFIG_DPM_WATCHD=
+OG_WARNING_TIMEOUT;
+> > > +       time_left =3D dpm_watchdog_timeout - dpm_watchdog_warning_tim=
+eout;
+> > >         dev_warn(wd->dev, "**** DPM device timeout after %u seconds; =
+%u seconds until panic ****\n",
+> > > -                CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT, time_left);
+> > > +                dpm_watchdog_warning_timeout, time_left);
+> > >         show_stack(wd->tsk, NULL, KERN_WARNING);
+> > >
+> > >         wd->fatal =3D true;
+> > > @@ -587,11 +640,11 @@ static void dpm_watchdog_set(struct dpm_watchdo=
+g *wd, struct device *dev)
+> > >
+> > >         wd->dev =3D dev;
+> > >         wd->tsk =3D current;
+> > > -       wd->fatal =3D CONFIG_DPM_WATCHDOG_TIMEOUT =3D=3D CONFIG_DPM_W=
+ATCHDOG_WARNING_TIMEOUT;
+> > > +       wd->fatal =3D dpm_watchdog_timeout =3D=3D dpm_watchdog_warnin=
+g_timeout;
+> > >
+> > >         timer_setup_on_stack(timer, dpm_watchdog_handler, 0);
+> > >         /* use same timeout value for both suspend and resume */
+> > > -       timer->expires =3D jiffies + HZ * CONFIG_DPM_WATCHDOG_WARNING=
+_TIMEOUT;
+> > > +       timer->expires =3D jiffies + HZ * dpm_watchdog_warning_timeou=
+t;
+> > >         add_timer(timer);
+> > >  }
+> > >
+> > > --
+> >
+> > I think that this can be applied without the other two patches in the
+> > series, so please let me know if you want me to apply it separately.
 >
-> Reviewed-by: Yury Norov <ynorov@nvidia.com>
+> Ack.  The patch does have adjacent hunks with the preceding patch, which
+> might cause minor contextual conflicts if applied independently.
 
-Given you are the `R:` and it was just a day in next, I decided to
-rebase to add the tag.
+That's not a problem.
 
-Thanks for taking a look!
+> Would you want me to reorder the series in the next version to make this
+> the first patch?  In case the rest two patches may still take some time
+> to review.
 
-Cheers,
-Miguel
+I'll pick it up as is, so it can make it into 7.2.
