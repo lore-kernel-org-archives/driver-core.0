@@ -1,100 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C72331EBD
-	for <driver-core@lists.linux.dev>; Wed, 10 Jun 2026 14:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D722FE066
+	for <driver-core@lists.linux.dev>; Wed, 10 Jun 2026 16:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781102175; cv=none; b=MS/LuL/FpsX/ARPw690NHc+S+t+HHqMlhr5kdb2h4rxb++ciEbR+kmR7rIKsLhBrUFKPSVjTUql70Q1M4Awd8jqPDRaapm7DIs4eJoxB9hNqfjv/28rrIIoaPjxUSu+TRnZUCrtmRii289asFd1wFVy/RT+HXdP9DgJ7TtFFx6g=
+	t=1781108692; cv=none; b=KrGM+WaEMhnzJRnHXXUQMrtSmOa7JhN4ZvT0e11AuEpNYaBlt+Y9Ty+Bk9kfQ0VKvmO/sFu3qAw9u1dt9aZ/PcvBThYYQfnSrAcouf8I6SeA9935tDA/BsC1mYzmY46dyi6WGRjdFg/1oxPeVA2iGVjz6gfgdv4uX9N9V8xkWYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781102175; c=relaxed/simple;
-	bh=rjVo3E6bL/gwM4u8huqi79QwAf/xG2SrVmrblO9TUZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tx90XV80UiXaqLT9VMOappkZDCB+34fs7dnZG+soe9auYsCvHokKQUAXVF5hBiyUgBPugYfCynBZi76qpFR58FCGc1YUVHjNohYzrevmE9chU3uPUktSighk5Ex82vYxb1ghDhxj8Q6c0CQI4XL6PkEPL66WnFdT/NYkCUXcvRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQNTaBiD; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1781108692; c=relaxed/simple;
+	bh=zYx08x2eZiw8ZZqqoTKT0emY7CYhmD+1FzA1TC1CyHg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=e7dCAKuMXiSIqq7jrLynnQ6lrKrm/+UDOEJINZV2+h0TBsGic3ja92TyaNkD4q2bII+CzIeE+yoMIlOTFyN0Tt9xO7jkDfYhMu5YbAzCWNaeyGFf65XKRQ3IaeZE4uT7gxS/iFAY9mNVJXSv0gDwNkoViAwPH0NBQFTWAxMl7nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JNOm5Lth; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQNTaBiD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781102173; x=1812638173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rjVo3E6bL/gwM4u8huqi79QwAf/xG2SrVmrblO9TUZc=;
-  b=MQNTaBiDVFlHCSFz/jT+LpiqrIjKYComXutJ5kMZ5qpiini/pYmLsRe9
-   mle6cz1cSAuR5EsH3YmFzIv0m7RB5bpUEOOzNdbbz9pYSOLqEsasM1i/b
-   D4VWJ0lXTrB333RewCeL32wZVh4iQnEbsVWIJ9NZJEOHA+0MXmVkjklRF
-   UjRjnTRgplcWycNAws5ePCxJMYfTeaub/qA0HHQZ7OBnLqC9s1jCuDvZe
-   o23rMFhjvZDai8GTa5b1DTfOZy9FlU7b5+GQcN5YNuslgaT/oBzU98u+e
-   U6Ja4h1FylhgM719aK3NXRD1g53hW8ZsHuFTXNXXdqgWRO+ywmAKkNrrH
-   Q==;
-X-CSE-ConnectionGUID: bSJIkSY4TWmCGgO4JnYOkw==
-X-CSE-MsgGUID: c1PmEKacQ52xHmnmWQnJaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="84466565"
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="84466565"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 07:36:13 -0700
-X-CSE-ConnectionGUID: qQiWu5zvQd6n+fOOpRJieA==
-X-CSE-MsgGUID: slS4EcOxQy+lPzGNsfCINg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="250113779"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.38])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 07:36:08 -0700
-Date: Wed, 10 Jun 2026 17:36:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>
-Subject: Re: [PATCH v2 11/16] power: sequencing: pcie-m2: Add usb and sdio
- targets for E-key connector
-Message-ID: <ail2VcubjT7HNGUC@ashevche-desk.local>
-References: <20260610084053.2059858-1-wenst@chromium.org>
- <20260610084053.2059858-12-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JNOm5Lth"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781108690;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=aJZSLKFmwdVxL+9TcEJu6Qfawm5t/bukKEPwYVEKRRQ=;
+	b=JNOm5LthbsRh+Ppjll3Xu1UcSYo6X4bxZPXA9pGZ8EGfI5v/NR2td9GJcKmd/sHFvBSu8R
+	A61ga8bXXfNp6VLKiqQZGorYSChliqVBaMFVZyP/ZrMHIaZbv/MXsqeqYFPQZZOd/mrmau
+	qudO5C4+q/lGn6jzLTGv8tZGbfe2InI=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-586-g2kUAiG7PSW8nIaPg6uKmg-1; Wed,
+ 10 Jun 2026 12:24:45 -0400
+X-MC-Unique: g2kUAiG7PSW8nIaPg6uKmg-1
+X-Mimecast-MFC-AGG-ID: g2kUAiG7PSW8nIaPg6uKmg_1781108682
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2C937195FE08;
+	Wed, 10 Jun 2026 16:24:41 +0000 (UTC)
+Received: from GoldenWind.redhat.com (unknown [10.22.89.69])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5696F3008DC3;
+	Wed, 10 Jun 2026 16:24:37 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	nouveau@lists.freedesktop.org
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	driver-core@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-kernel@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-media@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v20 0/4] Rust bindings for gem shmem
+Date: Wed, 10 Jun 2026 12:21:27 -0400
+Message-ID: <20260610162433.923550-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610084053.2059858-12-wenst@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: OxNByNdJgisjbAHnevZQxLW7_arM0Ies5ZiGSI-a8v0_1781108682
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Wed, Jun 10, 2026 at 04:40:45PM +0800, Chen-Yu Tsai wrote:
-> The M.2 E-key connector allows either PCIe or SDIO for WiFi and USB or
-> UART for BT. Currently the driver only supports PCIe and UART.
-> 
-> Add power sequencing targets for SDIO and USB. To avoid adding a
-> complicated dependency tree, rename the existing power sequencing units
-> "pcie" and "uart" to "wifi" and "bt". The existing target names are left
-> untouched. The new "sdio" and "usb" targets just point to the renamed
-> "wifi" and "bt" units.
+Most of this patch series has already been pushed upstream, this is just
+the second half of the patch series that has not been pushed yet + some
+additional changes which were required to implement changes requested by
+the mailing list. This patch series is originally from Asahi, previously
+posted by Daniel Almeida.
 
-Why can we do that? No breakage? Only internal names? No ABI affected?
-Please, clarify all this in the commit message.
+The previous version of the patch series can be found here:
 
+	https://patchwork.freedesktop.org/series/164580/
+
+Branch with patches applied available here:
+
+	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
+
+This patch series applies on top of drm-rust-next
+
+Patch-series wide changes since V15:
+* Fix some major rebasing errors I somehow didn't notice :(
+* Drop the dependency on LazyInit, use the trick that Alice suggested
+  instead.
+* Fix dependency ordering so that Tyr can get the vmap stuff first
+  without the other bits.
+Patch-series wide changes since V16:
+* Fix ordering one more time (SetOnce::reset() doesn't need to come
+  before adding vmap functions)
+* Rebase against the latest DeviceContext changes from me that got
+  pushed.
+Patch-series wide changes since V20:
+* Lots of Sashiko fixes, excluding the comments that I couldn't prove
+  weren't just bogus.
+
+Lyude Paul (4):
+  rust: drm: gem: shmem: Add DmaResvGuard helper
+  rust: drm: gem: shmem: Add vmap functions
+  rust: faux: Allow retrieving a bound Device
+  rust: drm: gem: Introduce shmem::Object::sg_table()
+
+ rust/kernel/drm/gem/shmem.rs | 546 ++++++++++++++++++++++++++++++++++-
+ rust/kernel/faux.rs          |  16 +-
+ 2 files changed, 546 insertions(+), 16 deletions(-)
+
+
+base-commit: 848bf57e98e1678ce7a49eb4e0bf0502da95dc07
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
