@@ -1,106 +1,65 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3035331EA9
-	for <driver-core@lists.linux.dev>; Wed, 10 Jun 2026 01:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA6338AC6E;
+	Wed, 10 Jun 2026 07:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781055942; cv=none; b=XGXIY8m1YRhV1suOLxWw9iSASGIPBWISSz7mELolvw2ihbTiy8NeUz+iNK8x1BWASVQLzY7lwiG0a7VvD5Vc8gSlJRuvKbEOYv/wt1RYnB9QXCApcrdKqZzsS3j5oqvPCLKV0KkWWjlRh6pAu8qiujGPKcxWeYBQwbiivjCfWac=
+	t=1781076599; cv=none; b=i2hxOBbw0G8ox5OfdG006iljEqahX5FMtqoSTCQN/2TWREDZQqi4Q4F/idx8+BefxAZUPKY92Y49v4yVVT/cEBxl7VDkDCSeO7yn5W4TS0aNH03l6p2ELbEyF/r5k4qX2MM39V2MSUbi8aLB/ASEm1IRzzuOw51ylpheRF16ZG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781055942; c=relaxed/simple;
-	bh=4lm3filvyu7qL3c3XAtVgVtfMqNVCD7xcUCj3uoAlw0=;
+	s=arc-20240116; t=1781076599; c=relaxed/simple;
+	bh=AiSFfMoIY2TE+nHxtwX/bpt7ovICgLMC4JbA8Q1cu8w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qMiXctg2eWGuxL12BPK02G3F76vCofAH+CKpZ7UsVbkt9B8mzkCcdz9EAf75EVla1YVN5uO/xZfaTYtYr7FVQEzzEuw7ber4/GMvtkUD0nGOXX6zscn7XHZv/Kr85oCTe+VsT8jurFyPbTbkvhAfakIx3+5NBOzpMFQB7gBHHKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Tr9s8kfO; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 MIME-Version; b=U5YpD6dE2QNCEBkdV0CHRcOcgGNnH7fPOMzdj5oEo+HvkyAId53qA5BBEvAtYLest2RVjvq76m9Hc8VCEzm3AntJRsdK5jaQeyCuOa4tCFmTFfB9X+r7JT+8QLl5Vmf4pzMWn6xy6aUEqGm9ASfbqEEXPGElETsUyBufM+J6iQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZfgQ9Ljx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Tr9s8kfO"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5177b1a7441so87143221cf.3
-        for <driver-core@lists.linux.dev>; Tue, 09 Jun 2026 18:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1781055933; x=1781660733; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HsslT2SHe3Ngpr6+flW/+aA6XcPRV1aWnG37ChpGzVM=;
-        b=Tr9s8kfORkvtfiXBHL4/a27gWqQaPaBzb7zzoGluWYJLGHf80RhubkIKGiPKH8potD
-         hTZbl2kLYtCfmo5PCSHpszK7z+M3mPcy0qA9MoBY5k6QePyoRbcMe6XMwZwbCFLqZjMe
-         hEKuuTM3jtd8Pi47A6dvKGI2O6Thu6BbVt83vFapSD+nCgp2EkY5iCC5h6RsXJUBpJkX
-         ZrCaeMZpCEfJeZDki526ROga3wrFs0NYs1KTIqzb6LVSNRKf29leCZxy85Khf5Ocw7PB
-         8tNmbxddC7B9/9UOJhlFvsnuYJzK/VknN0a4uof+DRVM5XKpDrdzbBmlVwTfpsJyudD2
-         h93w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781055933; x=1781660733;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HsslT2SHe3Ngpr6+flW/+aA6XcPRV1aWnG37ChpGzVM=;
-        b=pmfASARGgos2mm/XTF4pAsGl2hxPm2Pu+Hr/vyb19QbTgEh8VYXBtPYcos5VKiQYj9
-         /kutVcU6jjImSZ23+OTbU1UT/5iTp1uBim2zxEREcnAkhaitAxQ23GKBR3eRX1kGrd8o
-         JPjIL9bRt231gddCiwoHMFvLBySIQX49rO3IYAzqvNEATEIDKGyWFL+5rOmOlvjc6WKT
-         Z8LuZFSggMl3RLTJI/xAiT9EBGLrC5MhASg+oE8K2yZ/AXs8AecpG4bFMCXzpxqMMcWL
-         3KAl2a1uLcM+Ep0oseTlkz0fxn9iIzPD2vMbfgeKAmsJ5efomDDq34INJ0ztnf2wo0Qc
-         QlbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8qhF5y3bdiqpGoKw1pGzeVjFFRx7fpFGReJ07znvjWlxL1MZOHdEpgWdEPFaLpuk8oJ9V0ELx5XmCNjA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMHcA4yN8x8yaxyn4QS1aEIrZ9sTwtqOsFcV3v+1P3zuN5r3T+
-	SUCzqOeMbo1HDtfJYbqkSrOnCN2K5E64N6lQvDYn70Vlx20FTNfDiu8BwDtbq1J13/g=
-X-Gm-Gg: Acq92OEjjwIA2KG8Pp6p1zUkN9inm/qLlMfbScXzy1RBpzRgaDG9112KRriKj81M4cR
-	Bd+0KTYekEnEs1XIpe6KdzFEPOv2YoPdbpT8xs4QraAj7tDxRVNQmRSqVgZSQBQ5aIy/fXqUxQA
-	JdM26B/x4dIFa5vkfh+ZanI1L/NzNtDzM8TCOpEOqL4eAR49dVDpmhFiyzdBqqhbnKAzvdP3/QH
-	yhG9gbsc9BjpLq3M7Jmvnivb+FwfoxxZC5tkOw0dLkTUjX3Jwx3W8SxlSyRwLFPmj4/T5AfCjFC
-	Tx/o9D8qzlPyxqUShntRLZ3iYNpkOIu4wsHxS9RxvkolYI40ll6g9FegtclP9BIHvgUgHa33qp3
-	xxCT2I1KX+TH+R4aX37ndbMqXL6i/ZtVvMK4F2QaCcZtH7fSDQeTxEvpMpCJ1bnHpRl6ny195dk
-	S/1RBt/Sfk23UZeVNNfje77K/x7Nv187P8coCCyIXrhHrNpYOWJnaE+S6qLimQ+x6nbJ4DVIjbY
-	9Wi2ZPC861yPNzAS8/1cw8=
-X-Received: by 2002:ac8:59cd:0:b0:517:b68a:8d84 with SMTP id d75a77b69052e-517c22529e3mr130851341cf.56.1781055932831;
-        Tue, 09 Jun 2026 18:45:32 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775c07e91sm205923261cf.4.2026.06.09.18.45.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 18:45:31 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-mm@kvack.org
-Cc: x86@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	kernel-team@meta.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	dave.hansen@linux.intel.com,
-	luto@kernel.org,
-	peterz@infradead.org,
-	tglx@kernel.org,
-	mingo@redhat.com,
-	bp@alien8.de,
-	hpa@zytor.com,
-	rafael@kernel.org,
-	lenb@kernel.org,
-	gregkh@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZfgQ9Ljx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C2E31F00893;
+	Wed, 10 Jun 2026 07:29:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781076598;
+	bh=AiSFfMoIY2TE+nHxtwX/bpt7ovICgLMC4JbA8Q1cu8w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ZfgQ9LjxioHkZ8YmzINDziO5XNY3bRg4375unc2i/iSTsSx/Jf6jtcxsX1oVw34A2
+	 Maf7TTGdgfGi+Txkn/Iv9h8Thn4iKD0Hxas9qKpQwjYc73/VkVbjnajBP6xGu58eMH
+	 7cgtoE8Fks9ZbYWqYxMw9J8XZYy+BZpTny4HvF2HHyG8rB5J4n3P5vm9tw26sPRIME
+	 h7uWafB37kG+MmaIz0+uALe77dnFgyQJey/7f7J6v3FU/boWoLfLPqxfqT65JM6b8P
+	 ffLt+NgkW0QM7H1eQZQHDi4d15RamybNOry6SIKA4jD4d75nf7qbPwJg7ZOkVZ9cEZ
+	 FROfc4w+6TjWw==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: gary@garyguo.net
+Cc: a.hindborg@kernel.org,
+	acourbot@nvidia.com,
+	airlied@gmail.com,
+	aliceryhl@google.com,
+	bjorn3_gh@protonmail.com,
+	boqun@kernel.org,
 	dakr@kernel.org,
-	akpm@linux-foundation.org,
-	rppt@kernel.org,
-	rdunlap@infradead.org,
-	feng.tang@linux.alibaba.com,
-	dapeng1.mi@linux.intel.com,
-	elver@google.com,
-	kuba@kernel.org,
-	ebiggers@kernel.org,
-	lirongqing@baidu.com,
-	paulmck@kernel.org,
-	gourry@gourry.net,
-	dave.jiang@intel.com,
-	jic23@kernel.org,
-	xueshuai@linux.alibaba.com,
-	kai.huang@intel.com
-Subject: [RFC PATCH 3/3] acpi/numa: add CONFIG_ACPI_NUMA_ADD_CFMWS_NODES
-Date: Tue,  9 Jun 2026 21:45:17 -0400
-Message-ID: <20260610014517.253609-4-gourry@gourry.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260610014517.253609-1-gourry@gourry.net>
-References: <20260610014517.253609-1-gourry@gourry.net>
+	daniel.almeida@collabora.com,
+	dri-devel@lists.freedesktop.org,
+	driver-core@lists.linux.dev,
+	fujita.tomonori@gmail.com,
+	linux-kernel@vger.kernel.org,
+	longman@redhat.com,
+	lossin@kernel.org,
+	mark.rutland@arm.com,
+	miguel.ojeda.sandonis@gmail.com,
+	mingo@redhat.com,
+	netdev@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	ojeda@kernel.org,
+	peterz@infradead.org,
+	rust-for-linux@vger.kernel.org,
+	simona@ffwll.ch,
+	tamird@kernel.org,
+	tmgross@umich.edu,
+	will@kernel.org,
+	yury.norov@gmail.com
+Subject: Re: [PATCH v4] rust: make `build_assert` module the home of related macros
+Date: Wed, 10 Jun 2026 09:29:47 +0200
+Message-ID: <20260610072947.338278-1-ojeda@kernel.org>
+In-Reply-To: <DJ4Q5J5OILOX.1KCPFIVUFN2VV@garyguo.net>
+References: <DJ4Q5J5OILOX.1KCPFIVUFN2VV@garyguo.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -109,107 +68,25 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-CXL is intended to be a programmable topology, and a single CXL Fixed
-Memory Window (CFMWS) may back memory that a driver wants to split across
-multiple NUMA nodes for tiering or isolation.
+On Tue, 09 Jun 2026 19:19:42 +0100 Gary Guo <gary@garyguo.net> wrote:
+>
+> I think I just kept it as is when rebasing. It's file to have them grouped in
+> the crate to.
 
-Those nodes must exist at __init time to be usable later.
+Thanks for confirming!
 
-Add CONFIG_ACPI_NUMA_ADD_CFMWS_NODES, the number of additional standby
-NUMA nodes to reserve per CEDT CFMWS entry.
+> This one is using size_of, align_of, c_void which are all in prelude. However it
+> looks like I forgot to actually remove these imports in the last version, and I
+> didn't change it during rebase.
 
-acpi_parse_cfmws() records the per-window count, which is folded into
-the standby request on successful acpi_numa_init().
+Ah, I see, makes sense.
 
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- drivers/acpi/numa/Kconfig | 20 ++++++++++++++++++++
- drivers/acpi/numa/srat.c  | 13 +++++++++++--
- 2 files changed, 31 insertions(+), 2 deletions(-)
+> Are you okay with fixing during applying, or do you want me to send a new version?
 
-diff --git a/drivers/acpi/numa/Kconfig b/drivers/acpi/numa/Kconfig
-index ecf27bf45e5b..65d7eb9a4022 100644
---- a/drivers/acpi/numa/Kconfig
-+++ b/drivers/acpi/numa/Kconfig
-@@ -14,6 +14,26 @@ config ACPI_HMAT
- 	 performance attributes through the node's sysfs device if
- 	 provided.
- 
-+config ACPI_NUMA_ADD_CFMWS_NODES
-+	int "Additional standby NUMA nodes per CEDT CFMWS entry"
-+	depends on ACPI_NUMA
-+	range 0 4
-+	default 0
-+	help
-+	  Number of additional standby NUMA nodes to reserve per CEDT
-+	  CXL Fixed Memory Window Structure (CFMWS) entry.
-+
-+	  By default ACPI reserves 1 NUMA node per unique PXM entry in
-+	  the SRAT, or 1 node for a CFMWS without SRAT mappings.
-+
-+	  Setting this > 0 reserves additional standby nodes per CFMWS
-+	  that drivers can claim at runtime via
-+	  numa_request_exclusive_node(). This is useful for CXL drivers
-+	  that want to place memory on distinct NUMA nodes within the
-+	  same CXL Fixed Memory Window.
-+
-+	  Set to 0 (default) to disable.
-+
- config ACPI_NUMA_STANDBY_NODES
- 	int "Additional standby NUMA nodes for runtime claiming"
- 	depends on ACPI_NUMA
-diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
-index d7b0e4ece610..6c54d5f0cf0a 100644
---- a/drivers/acpi/numa/srat.c
-+++ b/drivers/acpi/numa/srat.c
-@@ -354,6 +354,7 @@ static int __init acpi_parse_slit(struct acpi_table_header *table)
- }
- 
- static int parsed_numa_memblks __initdata;
-+static int cfmws_standby_count __initdata;
- 
- static int __init
- acpi_parse_memory_affinity(union acpi_subtable_headers *header,
-@@ -454,7 +455,7 @@ static int __init acpi_parse_cfmws(union acpi_subtable_headers *header,
- 	 * window.
- 	 */
- 	if (!numa_fill_memblks(start, end))
--		return 0;
-+		goto standby_nodes;
- 
- 	/* No SRAT description. Create a new node. */
- 	node = acpi_map_pxm_to_node(*fake_pxm);
-@@ -473,6 +474,11 @@ static int __init acpi_parse_cfmws(union acpi_subtable_headers *header,
- 
- 	/* Set the next available fake_pxm value */
- 	(*fake_pxm)++;
-+
-+standby_nodes:
-+	/* Request any standby nodes (created after numa_emulation runs) */
-+	cfmws_standby_count += CONFIG_ACPI_NUMA_ADD_CFMWS_NODES;
-+
- 	return 0;
- }
- 
-@@ -607,6 +613,8 @@ int __init acpi_numa_init(void)
- 	if (acpi_disabled)
- 		return -EINVAL;
- 
-+	cfmws_standby_count = 0;
-+
- 	/*
- 	 * Should not limit number with cpu num that is from NR_CPUS or nr_cpus=
- 	 * SRAT cpu entries could have different order with that in MADT.
-@@ -666,7 +674,8 @@ int __init acpi_numa_init(void)
- 		return -ENOENT;
- 
- 	/* Request any standby nodes (created after numa emulation) */
--	numa_request_standby_count(CONFIG_ACPI_NUMA_STANDBY_NODES);
-+	numa_request_standby_count(CONFIG_ACPI_NUMA_STANDBY_NODES +
-+				   cfmws_standby_count);
- 	return 0;
- }
- 
--- 
-2.54.0
+I did it on my side. I also tweaked a couple more bits: they were already
+`no_inline`, and I noted that they sadly do not appear in the prelude anymore,
+but the change looks fine and that may be more of a `rustdoc`-side issue or
+design choice.
 
+Cheers,
+Miguel
