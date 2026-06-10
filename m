@@ -1,118 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61F81E260C;
-	Tue,  9 Jun 2026 22:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF2820ED;
+	Wed, 10 Jun 2026 00:04:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781045355; cv=none; b=Ninyi/IEaR7I8MJMyR7ZvP1WODUmoDW//ZH5RhOWsr4CaLKmJ2G0p/0mJzoC+kAOT8QWB3bOds/Drgp+swcKGBuGYbBhhXSy5/quOZlDxkshy9KpQZqSbZjyysP8rDqlEtbKbdPDsm0vsDqSOfmPD6hZq7/FYg/N6eSD6BG0kQw=
+	t=1781049853; cv=none; b=Ho7E8YMtusvxFtybNuTTB7AO+4+5J4shHx2RU43sywCnOafrXbvmAy0fMXpMcHKfD9FfWSUQ5L/i55FYYxgueNKTMqhrmW5GriFYr8ReSlWoZ+4w3J9WTs+EzpqO+UwQy0MLqbvWvVdfTPwZK+suNhWnbSGwsIntxtNmN6l6mAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781045355; c=relaxed/simple;
-	bh=ojXzxsaCG78mcw2mJT229q38WBPOtM9Oe8aaTMvfv4Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=P4DvQnDL+58WaraEow4q4+JjVg4alPhmtGgyLYvqGPD7HKS3FEclC+q8DNb6oCJ63pJlmk/v87/ylnakYZk1OrZgxlx4iOFV74Y0cDonwtCpIVGGeuNtLtNx9FPZ2rKFQOxwleC2yV7oEIcnv7SSac5vNflKb5Tr71rjOAWMvvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Is4/S0AR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781049853; c=relaxed/simple;
+	bh=Wwz5X/3mDm7kG1Oo0CAaz6uE1PYYKebyNGyUUin0zDg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EIhD4VePDPJtQ6zwxc1IDMs3OjvwXo5aKw0JoGLjk4/yubW0YkncyJeoX941zJre5qsO2dtiMBxhjNUQfwER0f1DFp1BVN+m/+JulOXjpkZnJ8BqY6yPGQIMHNfJOc1LT1YRbbTUprFP70jQbZEpgidiIPAq20JX24YIZDA+JMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=odZ3HEj4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Is4/S0AR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F07D1F00893;
-	Tue,  9 Jun 2026 22:49:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="odZ3HEj4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC1A1F00893;
+	Wed, 10 Jun 2026 00:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781045354;
-	bh=DJM2TyoOZmu2GPCwNTCKg139MBSlphMJcq7NebEk6w0=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=Is4/S0ARKSAxgiP9YoHJqd6S+6crV7CHsEhibu1biFeOTpsQse6Gy1qx3gNCdCHXm
-	 0goGlszamCs7myxYUrS/w/p3C7hW1suVUkG3WU7VMWHx4W+aDsix1ODy36pIzZezbF
-	 4BB7EAEC1XxMSP+1IghOnugPtyMEHiz3YIbBQxR1qX9w5caulL86mWJLncAbO3jOYx
-	 3DUn283r938gsl4XSfCIbd36Ct9C2810HRJPT6XgcH2iYOMbmJ9dALSD8Hw2jDcSBo
-	 0jNsXzcYNPteDpxaSZpk+1rfC8sMKNP7dOUpOeYniiqHcUDsMoGYAlkbh+1V0spKd5
-	 chOHLKdr491gA==
+	s=k20260515; t=1781049852;
+	bh=JapD7e/lelCSMad1a/uaO5pOjNP+cPPuPuzzcbfAtVQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=odZ3HEj4OBhrgJ6tAZSUB5MuFxiLBeT4LUgW6l6hUFRZQPz+y0ag031J2SWUFKiyG
+	 AVQktp4lnHh4xS8N4fKiDTKyv+qWlK0jhpAeclyKPPnUecmRlum+1w7kMoIpdx82J5
+	 VouDyHnf2gSI4sAH9aMnXXfz0YYLy2+fziqGvYk+ynDQ1+CCZK1vQMg1iXsqek34jg
+	 4NcnTwzX50D0lpGKCsMzbZQTG9nP0nYOuzsHEx6GjePYpJKgtr0kV2h5vzJXQvWxtn
+	 RLIGrozo17sZFt3avHe1nFsOTwl16lGMbVnKmt1mDzHJj09TpsQWTY8A8KyExOMs7g
+	 P7Am/kg5+hWcw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] software node: allow passing reference args to PROPERTY_ENTRY_REF()
+Date: Wed, 10 Jun 2026 02:04:07 +0200
+Message-ID: <20260610000407.1915419-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <aiTo4dvKu8pyimHA@google.com>
+References: <aiTo4dvKu8pyimHA@google.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 10 Jun 2026 00:49:10 +0200
-Message-Id: <DJ4VVUTU8GK2.22DI9BDCKGEUW@kernel.org>
-To: "David Laight" <david.laight.linux@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH next] driver core: Replace strcpy() with memcpy()
-Cc: "Kees Cook" <kees@kernel.org>, <linux-hardening@vger.kernel.org>, "Arnd
- Bergmann" <arnd@kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20260606202633.5018-1-david.laight.linux@gmail.com>
- <DJ4KTIFM6YN7.3E07VW7CCJ19U@kernel.org> <20260609162258.5228eda2@pumpkin>
-In-Reply-To: <20260609162258.5228eda2@pumpkin>
+Content-Transfer-Encoding: 8bit
 
-On Tue Jun 9, 2026 at 5:22 PM CEST, David Laight wrote:
-> On Tue, 09 Jun 2026 16:08:55 +0200
-> "Danilo Krummrich" <dakr@kernel.org> wrote:
->
->> On Sat Jun 6, 2026 at 10:25 PM CEST, david.laight.linux wrote:
->> > diff --git a/drivers/base/platform.c b/drivers/base/platform.c
->> > index 75b4698d0e58..63fdfffe1a8c 100644
->> > --- a/drivers/base/platform.c
->> > +++ b/drivers/base/platform.c
->> > @@ -617,10 +617,11 @@ static void platform_device_release(struct devic=
-e *dev)
->> >  struct platform_device *platform_device_alloc(const char *name, int i=
-d)
->> >  {
->> >  	struct platform_object *pa;
->> > +	size_t len =3D strlen(name); =20
->>=20
->> This could be strlen(name) + 1 right away, which would also avoid the me=
-mcpy()
->> to implicitly rely on kzalloc() zeroing the memory, where strcpy() was
->> self-contained before.
->
-> I tried not to do that 'optimisation'.
-> Here the kzalloc() is almost certainly needed for other reasons.
+On Sat, 6 Jun 2026 20:51:29 -0700, Dmitry Torokhov wrote:
+> [PATCH] software node: allow passing reference args to PROPERTY_ENTRY_REF()
 
-This is true, it is needed for other reasons anyway. My point is that curre=
-ntly
-it is self-contained and it doesn't matter if the preconditions ever change=
-, so
-I'd rather we have strlen(name) + 1 right away.
+Applied, thanks!
 
-> There is also the issue that, in principle (but probably not in practise)=
-,
-> the input string might change between the strlen() and the copy.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-This is not a concern for this function, but let's assume it was, then your
-proposed patch wouldn't prevent anything bad either.
+[1/1] software node: allow passing reference args to PROPERTY_ENTRY_REF()
+      commit: fe221742e388
 
-For instance, if the string would change to be shorter than what strlen()
-measured, the memcpy() becomes invalid either way.
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
 
-Also, in that case the strcpy() would be more robust and vice versa with a
-longer one. But again, this is not a realistic scenario anyway.
-
-> So it is probably best practise to not rely on the '\0' still being
-> there when the copy is done.
->
->>=20
->> > =20
->> > -	pa =3D kzalloc(sizeof(*pa) + strlen(name) + 1, GFP_KERNEL);
->> > +	pa =3D kzalloc(sizeof(*pa) + len + 1, GFP_KERNEL);
->> >  	if (pa) {
->> > -		strcpy(pa->name, name);
->> > +		memcpy(pa->name, name, len); =20
->>=20
->> But in general, what's the improvement? strlen() still operates on a pot=
-entially
->> unbounded string?
->>=20
->> It removes the redundant strlen() calculation that is implied by the cur=
-rent
->> code, though this may be eliminated by CSE optimization.
->
-> CSE won't eliminate it.
-
-Ok, but in the context of platform_device_alloc() not a huge benefit either=
-.
-
-Is there any other reason for this change? Am I missing something?
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
