@@ -1,127 +1,125 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E493EAC9B
-	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 14:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6611C32ED5C
+	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 15:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781186646; cv=none; b=LF5nbVhrjyA8ufek7b3IBTCgzrv5Bg0Cb5D1gmqlCjVYrY1Xf192tl1Ir5cNsSUGpBCYOyLLStW5Z3dNwwUGyzVVSLA6BvEYNHZYtFJsqImt/xP7tycoSdgSwIS6rIiq+dhaLZlW4e4tf/XXpvMWtX/aA0XHp7mHdtWZ05TWb2g=
+	t=1781192945; cv=none; b=e8GWWi++dVddA7I1YqDtwYTSp9JslS0dLKju8ODyhnLQli/7KKYxeup1NPb7W50Df2TOD0trqD4V81nSPshtvTMhD324OwesLEIn9nx4hq1VvIHL6de7kK05hJAvB3caoh6kb5sb4e0DLRYwV3dGg294naKmm11hP6U0pK9h2gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781186646; c=relaxed/simple;
-	bh=t6vDzwAQf6m71cw7ZAaMH7giGD8b6mi1NLg41KRjFFs=;
+	s=arc-20240116; t=1781192945; c=relaxed/simple;
+	bh=eEPYqYwCfV36F7DpKmyY/mBn0JlkcYgtEybyysUnTek=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tnq9ej2HazVszYeojYmQ2U32TTPc+qIRPXQfhmJcU9/WN62MudH7KXypT87AIuNgJNqndzxooExYL7nwBIbnMWfOv+CYolSHasOii/fSfSa9DwlpRAEJLKLa2Cf6WdeG07qbwuB883TqDG9rvObRSWdOSG+cxkzMq3gHdCckCM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=J2VKGEKx; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yc0S3n5zoBwjPjrn7Y6FqDg2KKSnQ8hUJmDs4jHexwQMDrJcvlNpfyXd4h0zmxoDkNrABKGggCUE+po9YC1BLEgA1Rwk71zDiolE4fBxBVehbY0KBviSovSUHbIp2bq4hbwsTvxUBeEOH2/Ql1VUuBI6sjEYu1yala6VKIQWYRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KerxuCzC; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="J2VKGEKx"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8cce22e029cso13572076d6.0
-        for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 07:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1781186644; x=1781791444; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ENvnRZyJjnEps3yiVgsX7HBb3e0UX6vr9hqD2coNcvo=;
-        b=J2VKGEKxsHenQ2Yo0JltTFJiH8bznUT8RyxBGR1o3l7fifUhtQMrZOU8PRi5waip21
-         sPqy1lyFCnp3cFO5RDxGfioC6T6acs4kDPX4QATI6Upuic8I7N1hKPm6Z+4Pvng3vLXs
-         /hrW1LSy61Zf6sQKgeT4vJFLUzVRwKm4Dr9HVgEUxYDYsWbCSvQfIa1YtYsHLO+WDH7f
-         1jHhgNu7Q+R/HwDroihXKHcAE+AxUExhvux/ClLbh/bP5fOqdn0icbIbEQB/jhGzYh5x
-         FHlq7W3TV9ZESOE+taU5mFogBuquRo5kscYUf6hfNamoXgNzrd7BGFOH4rQiPBTirGwi
-         wQAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781186644; x=1781791444;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ENvnRZyJjnEps3yiVgsX7HBb3e0UX6vr9hqD2coNcvo=;
-        b=S7VseOyxFX6U6cCyB0W9dm5I92RfDqxVcUCvpQLqQQelJ6ins8UREZnyN1x76vDBrV
-         vcxsBESQ77LCleIb4t4NhrAWfQvUmpy4faK9PBHSpHwhA9qKsALCv0ygiK2Ab4NnPO7x
-         aQbHH4jI/+rV8dQRL4p1/0u0fT5WFCpoBLua+TW5sMQ60QlK2wAHZBivrAhmow1ICAkC
-         GvJ2nb4vp3pb3Qjy/Qc4Yh4ye6Ff3+Eaaf0H0M0TEvRH09ohrMaQir0p8FbyKzogVvt5
-         coIA/NAmXYz7rOlBoHrw47yHzWgNV/lWb9W3dBNehlb0WfAhaAe2Ou+kbGoWC85Ux2K4
-         lcGQ==
-X-Forwarded-Encrypted: i=1; AFNElJ83SW2GdEvd+09sAKJpTti8Abzd+VGGc3jeI5VO/l4MJc+5dcEPov/SpXicAjWii5Qi/Eg3FmpxYV32UA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2Y+SI3T9LBqDU02wNpAACO8da6LbmmFr64iDDXYi8g4S8y909
-	shb/H6ppxbb3t1rFoqpn5AYInqAbfYxJ+j6QzYKFeCjTejD/vZyC2o0GcgpSroF5nBg=
-X-Gm-Gg: Acq92OHR64VJfYpm5kEatSF5Va7rc6CWhLzd35iUmSUFw8hFvIN5iJ+eDavzg60PXJw
-	kThuopWtU1Ci4TjDJFpcsJ58e7lF8g3YXDbyGvEfwPyyV6EZYdlJmJ/QVXFN+HVDqJCNfc2f/He
-	SaxYmrvVhl4H7FThOY8ZL0kwWeAr8hViTNbRgABOqZZMKdWikrOimMgyDSsWyAV6IShVcfvR0hz
-	QOvyg/z+lSyi94IDUroHFxXm7B40mVaqZBf9TPpphAhbS7MOlxXrQ6q4EuiT6u5sGxrrQKkkV7/
-	hGFEleLZ9SJQ2lSG9Q+fabC+5wtbxw1WhUjD13F00YvnW7HY6QNORAYneCA11ONdgZS84GNYE0v
-	wfrdUyjFXXUUNPFbGV2HPCXHOuOe0TsWs1jTEVpNuNKvyOCV85cZHkt8LRW6lcAe4S7VD4OtAx5
-	PKXE2RLFqdyHKnAGEZMW0E4hAxlfNgE+x4hOBZJt3uen1BMJ4YQlm0Blzf5TLWBNUfJa4LP7aHZ
-	D8ApW38z72qSskwjQ==
-X-Received: by 2002:a05:620a:2728:b0:915:9fde:9da3 with SMTP id af79cd13be357-9160ade2a98mr334272485a.27.1781186644129;
-        Thu, 11 Jun 2026 07:04:04 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9160aca4293sm196905585a.14.2026.06.11.07.04.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 07:04:03 -0700 (PDT)
-Date: Thu, 11 Jun 2026 10:04:01 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-mm@kvack.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, kernel-team@meta.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, dave.hansen@linux.intel.com,
-	luto@kernel.org, peterz@infradead.org, tglx@kernel.org,
-	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, rafael@kernel.org,
-	lenb@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org,
-	akpm@linux-foundation.org, rdunlap@infradead.org,
-	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
-	elver@google.com, kuba@kernel.org, ebiggers@kernel.org,
-	lirongqing@baidu.com, paulmck@kernel.org, dave.jiang@intel.com,
-	jic23@kernel.org, xueshuai@linux.alibaba.com, kai.huang@intel.com
-Subject: Re: [RFC PATCH 1/3] mm/numa: add exclusive node pool and
- numa=standby boot parameter
-Message-ID: <airAUSrNjbSEwuti@gourry-fedora-PF4VCD3F>
-References: <20260610014517.253609-1-gourry@gourry.net>
- <20260610014517.253609-2-gourry@gourry.net>
- <aip5IWmxg9CWg8hQ@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KerxuCzC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781192945; x=1812728945;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=eEPYqYwCfV36F7DpKmyY/mBn0JlkcYgtEybyysUnTek=;
+  b=KerxuCzCSCGOULJrphchYQHaCY5UAt0HQBcM4Ji8iAxMpptujUtIOTsL
+   YFxYbGvdD9fo5vtD4UHNeg1OWRZCT8gaE7WiZjF7HnIbuK8olivXR7JE3
+   ewYKF265iQ6Rb5cJHHZZfGPPIUxyY6Jzpkn84NmwEisXOJAFoZw3seXBA
+   TJIJxdeh6HXoCm9N+tiqLlhhugXRh31tCZRPT9DL6BpER6xiBE90O92qi
+   p8erfoFkGYYe6RSM5KqM6JtZxknt01kiZ+ssnJwEu2ymCPFLQxnRz7YFX
+   Q4x+VaZRvh5qxuWOCcZRJCyV/YgUnVFTpTNizLppGysQ3EoVebuFw36AJ
+   Q==;
+X-CSE-ConnectionGUID: pM9EQdomR9yxG2uvEe/ipw==
+X-CSE-MsgGUID: AiwFp7CQT6KjV5RIJd5tdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82200635"
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="82200635"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 08:49:04 -0700
+X-CSE-ConnectionGUID: vgWRVW9xQsScdhid1DOZgw==
+X-CSE-MsgGUID: Z/YOgAYiTEymviQBo+GIyw==
+X-ExtLoop1: 1
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2026 08:48:59 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id E591098; Thu, 11 Jun 2026 17:48:57 +0200 (CEST)
+Date: Thu, 11 Jun 2026 18:48:56 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v2 05/16] usb: hub: Associate port@ fwnode with USB port
+ device
+Message-ID: <airY6IMz2KFz_z9j@kuha>
+References: <20260610084053.2059858-1-wenst@chromium.org>
+ <20260610084053.2059858-6-wenst@chromium.org>
+ <ailxrP-_9_NL8qnN@ashevche-desk.local>
+ <CAMRc=MdiwQM6yk8FXcc+RisVP2iqWKWzVsn2-Yy6dyJXt-1X=Q@mail.gmail.com>
+ <aipz2zMFcdnZYTxS@ashevche-desk.local>
+ <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aip5IWmxg9CWg8hQ@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
 
-On Thu, Jun 11, 2026 at 12:00:17PM +0300, Mike Rapoport wrote:
-> > 1) Can we do dynamic addition of nodes?
-> > 
-> >    Not Trivially
-> > 
-> >    Some services utilize num_possible_nodes() as a static value to
-> >    calculate the amount of resources to use at runtime (bpf, md/raid5).
-> > 
-> >    Example: futex_init uses num_possible_nodes() as part of its
-> >             hashsize calculation during __init.
-> 
-> AFAIU, we don't add the additional nodes for generic hotplug memory but
-> rather for exclusive use of by drivers/applications that are aware of these
-> nodes.
+On Thu, Jun 11, 2026 at 11:35:13AM +0200, Bartosz Golaszewski wrote:
+> On Thu, Jun 11, 2026 at 10:37 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Thu, Jun 11, 2026 at 04:20:58AM -0400, Bartosz Golaszewski wrote:
+> > > On Wed, 10 Jun 2026 16:16:12 +0200, Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> said:
+> > > > On Wed, Jun 10, 2026 at 04:40:39PM +0800, Chen-Yu Tsai wrote:
+> > > >> When a USB hub port is connected to a connector in a firmware node
+> > > >> graph, the port itself has a node in the graph.
+> > > >>
+> > > >> Associate the port's firmware node with the USB port's device,
+> > > >> usb_port::dev. This is used in later changes for the M.2 slot power
+> > > >> sequencing provider to match against the requesting port.
+> > > >
+> > > > Okay, would this affect ACPI-based systems? if so, how?
+> > > > Can you elaborate on that, please?
+> > >
+> > > Is it possible that there's an ACPI device node associated with the port like
+> > > on some DT systems? I don't think so and there should be no impact IMO but I
+> > > also don't know enough about ACPI.
 
-The intent is to use for "non-generic" hotplug (see the whole private
-node series [1]), which would eventually still use the hotplug mechanism
-just not for generic memory.
+There are device nodes for the USB ports in ACPI, and I think they get
+always assigned in drivers/usb/core/usb-acpi.c.
 
-[1] https://lore.kernel.org/linux-mm/20260222084842.1824063-1-gourry@gourry.net/
+> > The API is agnostic. There is a possibility to have software nodes associated
+> > with the port. I think the best is to be sure that ACPI-aware people who are
+> > experts in USB will check this (Heikki?).
 
-> Wouldn't adding them to possible nodes actually skew the calculation of the
-> resources by the services utilizing num_possible_nodes()?
-> 
-> With the futex_init() example, won't be hashsize scaled down two much
-> because we've added these special nodes to the possible mask?
->
+I can't say what's the impact from this patch - I'm not an expert with
+this side of USB. Is there a danger that we end up overwriting the
+ACPI node for the port, or something else?
 
-The result is the same as BIOS reserving nodes with PXM entries that
-don't get used.  The CXL ACPI Tables do this for CXL Fixed Memory
-Windows that may never be hotplugged.
+> Even if there is a software node - it shouldn't really matter. It will
+> just be assigned to the port device.
 
-So really i think you're pointing out that futex_init() here probably
-shouldn't be using num_possible_nodes?
+thanks,
 
-~Gregory
+-- 
+heikki
