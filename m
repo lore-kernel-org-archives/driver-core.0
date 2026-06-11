@@ -1,113 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEEF21CC58
-	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 08:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781167076; cv=none; b=NDvC0mJ05xZ2sI+F0W6vvCbRczb9hKJhfPtPuFFOcDY+z7SMQdFbU71hwvL8yF5T599S2VtKkYq2KZWsk/ltp0ttgN+moOzjD7jR//hGb9XCtZL1PtM5gjifTIrdhuKUCrQaxVi9drz3R1VmFFQ5YsF1ksiWD4dYlsThZtdSYz0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781167076; c=relaxed/simple;
-	bh=Ai4mXzWajtLKC33BxFXRCMf6dWYQxHfjWVW663QbhRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGvoZHXC1uZOLtbBR7/Gmt7oqzoL1MVvvetl4bq8GffZ8fDGG79qAxd2eY+F7QE9xJRwFTo/onmT5Wva7AxhpTUJ37MQa0e8hO8hOuywWasUCncM+JWqai1cFiw/vgIxJIGe/e7BCSZC8HhRRkIO3z9/iVZ3aQBQyqvhRTOa8bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9Z07Kot; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C444D368276
+	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 08:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781167888; cv=pass; b=Wo2fyzs3a1szI8LPBfHy4x+yx5h3A94c5SsZ/auQecoyDZqUU9LgtGxJaTvcqyHvXd5mu8btr74TUEOFtjeskSDS1lzSqVzkGTGXAua36i04E4A+bb5bCC4hk7qbQDfsuFcR7PEjSykJT4p74xW1uSRDCNIObXJNHVk1kHEex8U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781167888; c=relaxed/simple;
+	bh=Gu6SXLCI0/eC/AnJZSyIbfVO8bAqJ5On3y51xTlO4vw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GK5txF6KukvJRqB1UK0rpr2k5nly3VOgFBfYB4iXOekkKEc6FNRd4M1xtTTwnRsQEgbV0qhXvfHvyjHw21AVwZZnvbp997O5wHuYOvakThKqC/VILkxC4U+kGulQqGiYAklzz5qFdbh9MeATlzz7F+hUw4iWz7b6Ve60zr/qUNE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dNGUXRBa; arc=pass smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9Z07Kot"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781167075; x=1812703075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ai4mXzWajtLKC33BxFXRCMf6dWYQxHfjWVW663QbhRU=;
-  b=S9Z07KothLAUTAqSlSnfPoAICzGqie+6q8AdqoHkKEITBiagZZkmYIUz
-   BNp2Y2z+qyOleHB9RIbYGPgYCJY67RNCpbFWn7T6e86/A3cvB3D+byGDA
-   GgL+lJXHw/qYyOC6wqszIZ0ZiKhE/9BPFsLYX3TsvSXZg9fB9EE3JHT32
-   3mh5ruOPL+TucF4jI80WVA92usBk/A3DKJVkNSDAlzA5Hk0qDh2AgxGd3
-   CQf1lR36Orvy5+gLludeY6ZkRC5bxLB2dGBsbn5iC7zwnzLueOy03HVIa
-   pdDEH7U5gxBjEca78G69JyMSeEtSjjrTwKPhBbD49m/hXooPQNsYmaw5p
-   g==;
-X-CSE-ConnectionGUID: tA0mJl4nQzKUBbbyqTT9tg==
-X-CSE-MsgGUID: T0rU93ZRTYGtA/EbRKTznA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93363395"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="93363395"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 01:37:54 -0700
-X-CSE-ConnectionGUID: DG4C+DU7RLqPDacCZUSHiA==
-X-CSE-MsgGUID: dJFo0kyiSgO0ryNVI1csHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="241987912"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 01:37:49 -0700
-Date: Thu, 11 Jun 2026 11:37:47 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Chen-Yu Tsai <wenst@chromium.org>
-Subject: Re: [PATCH v2 05/16] usb: hub: Associate port@ fwnode with USB port
- device
-Message-ID: <aipz2zMFcdnZYTxS@ashevche-desk.local>
-References: <20260610084053.2059858-1-wenst@chromium.org>
- <20260610084053.2059858-6-wenst@chromium.org>
- <ailxrP-_9_NL8qnN@ashevche-desk.local>
- <CAMRc=MdiwQM6yk8FXcc+RisVP2iqWKWzVsn2-Yy6dyJXt-1X=Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dNGUXRBa"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-3042a99f0ceso942887eec.0
+        for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 01:51:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781167886; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Np+72D+y3Aaz7o84+CMtsyI02Bx0caRuqZlFVLchTHOSSpNmTQfOpZ6MUNZ7XJqF2j
+         GqK1zL+sz+8Kt0zqMnCXWqiMh8rW/I03Dc5LzuFWECgRIv+Tnr1r9RLjrEY70yWXTHPv
+         Xm2bcneQ1xfwJYjh6+t1ebcsVtJHF0oww5OTtHBuNa4Bo27NmKPs66MkUCEJCyxr3pL4
+         yYDS7Kt3iScFJLV3uHiEBpuRWFch0auEaIrrIl0UY2MMrRvhoywsCXF17IzQK0uHHu2/
+         VDq3+CgiYtKRBnkSbe0q3wkk8Zq50VmMd93MgGhaQmvjnbBmg0vMh5qggCV/ostizzYA
+         MQRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Gu6SXLCI0/eC/AnJZSyIbfVO8bAqJ5On3y51xTlO4vw=;
+        fh=GRbhrgWPkOR/6BAR5U1czk9WhNrhYHjaC5JnFE79SdI=;
+        b=PvFEoMoLA7j6H8pKX464p5TETL4sCbsR+S5mOi9qppC5iTlBkgDAZ3gvYR1PCsUgHH
+         cHE3VHD5z24T9Ua/KvJOq8+u3Oajvy7NXYwmAHHxShvzc+pzsr/qRDjRpTeAeXvbqoD1
+         /cm9gdhg5m8FCvcaPWNKuLG+xYU3scdOZRtKPrEYGghJTAphNojpoENV+c46C7wkZn7X
+         AMt4mmDhg8xot3jz++sztZlhX+tJwkevAkcq77zjmuIPcNqlzAG8JOir6dnv8jr/JYmz
+         8X0Cv40QTuL/gTH3XhS84YftvtQOWu1MvJCB4rOeL8gUnys+BlToTht45cbKQoUpOkE+
+         H2pA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781167886; x=1781772686; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gu6SXLCI0/eC/AnJZSyIbfVO8bAqJ5On3y51xTlO4vw=;
+        b=dNGUXRBa2JKnG560ek3nvpW80oC5phn950kRFp+e/v4jTbiGXWTHDtFhMro+xgmNm+
+         bB8joeXtWmliEnZw50PwS+tW4lUHcLQx/UkJvqPekq/CLGY8wByfxx8cgl7czgUHlZUk
+         drMkPG6m5eCpfMiUhsPbC3FRtNDwarPRkuc76n0Ht0AEKA3cKbzCzYLOzlMStW+7BG8I
+         +xFRTd4dDy34VySBj24QWuBJsRtcYD0mSG5QAHKWK2YElk6bzfTs8tCRgP/Niq3MZZz6
+         eiGI7MgrUyhbk1HvqsVQb8dT3R+2tIv6epx6l1+sT6K/e3GuwbI+s7t2+xYwSC0EVWv4
+         dP8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781167886; x=1781772686;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Gu6SXLCI0/eC/AnJZSyIbfVO8bAqJ5On3y51xTlO4vw=;
+        b=aQcA4O5FORL7QtDrk2a7Iw+uOIv6tDIk95FBxcI3YE1vT6FhxgH74f0d97NtRMaN9n
+         LGOJhe87xEiW8Gu7SMFcgkuN7Wv576c0sdMyPjcN8qDWOaq+z23wRkjwhvqqKAPax7kz
+         mQsQGyt7qpVo8pVQj+VQwKMKSAWwunxsS/xqD0g22uIBXcWo0OYvEWgDpM+CLaYWXyE1
+         iAyVx2vmjrC9UsaLg54SZxcKVG1VDDRaKSWioA6+nfdIIRXsDVvpe6r01DxRVwY090sK
+         uF1WxsdclhtMgXakfKzMU235W5gRBKrl+Yxlkt22e9ycW1bLFNnwB8LUruHlvlzplZRW
+         vnGw==
+X-Forwarded-Encrypted: i=1; AFNElJ/amNGWtDxw2KwsED/F3gi1eJmh3YS8/qy8QKx+Vx5x+GoQ+36sX52IqhNW2v2ra4GIRYUOcy2Zol8x/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjAbuqDu3hx/AvkQe9iSLHBQFecLIpfASPIHqo9sVBBozFD7cs
+	nXOg0rH7tztuKpSq7eaPn7p9n7QZnmH8EAWgbMoxKqb7y8xQg6mQMg1283b4GCEhs8Rmv2ySXYR
+	RIxf3LRNNKhvuLk207QVhmu2a5aJEUTs=
+X-Gm-Gg: Acq92OFElHbj3/ITaQpNcaN67u0fbIxuXlBWvH8q6v+kjvEJHUThTE+KzHhFLb3DTDB
+	gO3LOWLZFRppRq1hlXtrsvNYM7PdyobKOiMKqsos/U++TR+GgAMPbnR1RjWJmNRLcbtK8xn2Hkt
+	+rgBVB/Zt6ckDiNmNk3PGsZKCvwWyLVUJFe7ymOyEesd5onfvoA0ShzMw4OVa4G6OYdK1V13PZ8
+	0rMQ2Hl39wPa9wT0mHkbLXzeaAWYl/S81qwPwhSpKMkYZQrVk4DBTBUi8IjI7RsMIXfcanbU8HJ
+	qSh9+hAKgC5keYhOVjlQozhqXQ+A5IOdwnxwA/yncPAU+VNIHTvgWJ+6HOBsgz7hHfTuW5R+NR3
+	smsb05MhTiziHvwJ3gZuKqCBCrclfNzu32Q==
+X-Received: by 2002:a05:7300:8184:b0:2da:b05a:5a7d with SMTP id
+ 5a478bee46e88-3080410050emr652555eec.0.1781167885763; Thu, 11 Jun 2026
+ 01:51:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdiwQM6yk8FXcc+RisVP2iqWKWzVsn2-Yy6dyJXt-1X=Q@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <DJ4Q5J5OILOX.1KCPFIVUFN2VV@garyguo.net> <20260610072947.338278-1-ojeda@kernel.org>
+ <DJ5A6AM2FDGQ.19T1Y9N1T6JST@garyguo.net>
+In-Reply-To: <DJ5A6AM2FDGQ.19T1Y9N1T6JST@garyguo.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 11 Jun 2026 10:51:12 +0200
+X-Gm-Features: AVVi8CeZqdEWXPdGh8thUTK4-wo6B8DARvooPGXEOY6tr17NX-f1ZHtJHf1zMrU
+Message-ID: <CANiq72khOCLC5kG5vWhDeXpHv6n7Yo9Nv=PewNS0D73AxUDB4Q@mail.gmail.com>
+Subject: Re: [PATCH v4] rust: make `build_assert` module the home of related macros
+To: Gary Guo <gary@garyguo.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, a.hindborg@kernel.org, acourbot@nvidia.com, 
+	airlied@gmail.com, aliceryhl@google.com, bjorn3_gh@protonmail.com, 
+	boqun@kernel.org, dakr@kernel.org, daniel.almeida@collabora.com, 
+	dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
+	fujita.tomonori@gmail.com, linux-kernel@vger.kernel.org, longman@redhat.com, 
+	lossin@kernel.org, mark.rutland@arm.com, mingo@redhat.com, 
+	netdev@vger.kernel.org, nova-gpu@lists.linux.dev, peterz@infradead.org, 
+	rust-for-linux@vger.kernel.org, simona@ffwll.ch, tamird@kernel.org, 
+	tmgross@umich.edu, will@kernel.org, yury.norov@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 11, 2026 at 04:20:58AM -0400, Bartosz Golaszewski wrote:
-> On Wed, 10 Jun 2026 16:16:12 +0200, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> said:
-> > On Wed, Jun 10, 2026 at 04:40:39PM +0800, Chen-Yu Tsai wrote:
-> >> When a USB hub port is connected to a connector in a firmware node
-> >> graph, the port itself has a node in the graph.
-> >>
-> >> Associate the port's firmware node with the USB port's device,
-> >> usb_port::dev. This is used in later changes for the M.2 slot power
-> >> sequencing provider to match against the requesting port.
-> >
-> > Okay, would this affect ACPI-based systems? if so, how?
-> > Can you elaborate on that, please?
-> 
-> Is it possible that there's an ACPI device node associated with the port like
-> on some DT systems? I don't think so and there should be no impact IMO but I
-> also don't know enough about ACPI.
+On Wed, Jun 10, 2026 at 2:28=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+>
+> I think if the re-export is of form "use crate::build_assert::*" then it =
+will
+> still be the same semantics but would be appearing now?
 
-The API is agnostic. There is a possibility to have software nodes associated
-with the port. I think the best is to be sure that ACPI-aware people who are
-experts in USB will check this (Heikki?).
+If you mean a glob import (within or outside the existing `use` --
+same behavior), then that makes the glob import appear in the list at
+least, which is an improvement because at least people have a link to
+the module (i.e. but not the individual ones).
 
-Also note Sashiko complain on reference count leakage.
+Or do you mean something else?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Good first issue?
 
-
+Cheers,
+Miguel
