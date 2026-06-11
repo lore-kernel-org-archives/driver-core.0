@@ -1,168 +1,113 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021139.outbound.protection.outlook.com [52.101.100.139])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16973D47A1;
-	Thu, 11 Jun 2026 10:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.139
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781174041; cv=fail; b=gld11dNgaRe20v2bgtz2uyXVA6DPsQOxNX6OoCPajFqKO82M1ELWg0qIpQ+7vwWyLHXM8fH62wFD8qt0by9IthYsU+5plvBZNRPHiHu1V1MBisX+HMFgCP+pM9/aEtSSf7DDH0zvTQaonAjJ3CGl2zz5ZxpVzLA2TkdTHds1XQw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781174041; c=relaxed/simple;
-	bh=kq3k/c9XDKTj0cHQt7IDDBS2NLvXvRkU9t2WNqI/wEA=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=F5+H+2QCzPn0+Bq/YICU6OTaB3FHXSKRBEhxYcyMbF4Pka8XYajBGLvShZnNpam1HXS6HXcEkvYbDR85zDPltRk0ImVKD6gaX1WFnks2lAsBVDIfKCqscrVXc426UN1tEM2XjEikWgVFhFuIKHyWA5rxc8jWK9dQMiNQKnopA88=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=CM1xYBqM; arc=fail smtp.client-ip=52.101.100.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9C23DA7D0;
+	Thu, 11 Jun 2026 11:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781175953; cv=none; b=hukS5ZkjUp5PbN8jsGoKrCs3xRVT6pHYxryXhD0H29lZyRCWpnSVOcemdAke9nzyEJ7a7w4ZaCm+aws+/KqqoB2T6UCPc9HUz8bR96lUChpGO6WtAgkLwXstp56F1aodToz4xULwmnwD+a+3Np1sZw3ztLQzYcOwftxawmoMmkk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781175953; c=relaxed/simple;
+	bh=bDWefIedIxuHaxIeLnGzSzCCLnLYYiEcsU9JpeSLM14=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqneKjvbR+D6oRyJxkpYKXQWGzAAZiWBD++eOqsaWg/5dHuD6obUJjlqHy+jYZNIjKnQUJSz0qV+G951TvO36urUfuH9jWu9bnbUA5cUKaBa1+gDTgpVZ5OxIf+jU4eA+P1sGkS6ywt+o03KKIbYqBPfy4BcT5Cxp2BgxZ+rtVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=a4wA0amM; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="CM1xYBqM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wtRIX5+qNMCN9gakVpyC1PXq+WrTyU0XR65DMCvuJoJsMZNZkn0x38t/UFLfz+s7DaBS6rpN6usb6PJUYECxlDc8z7XKHAKSHJE831WlWRUum4+8/I6UgwXKmCctY1XlGpX28dizHTKoS16PhCI/ZTma3mdiBgpjZvKONBOclIZFez0IgMEILhj+db0GqGMqzWLytGkZU9XH5vCIrvqjs8nfB5a9tsGrlp+MFKarpKtVzk6KPVYn6vPdX8gCr5Xko7lNZh8AY+lNM91ML3p4Fk3BDaJUuZMB1+qu+8CKAC4tgGCzbCVLvSFFw+Zjs3VXJDLdE26erLfJOjlYn5v7Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kq3k/c9XDKTj0cHQt7IDDBS2NLvXvRkU9t2WNqI/wEA=;
- b=w8ZzUEEo8IsDnJe82lxZWXANvd0UyTUqjiDWJGuznnKvhbTWEzd21rJ6bBNW3gQCVJS+opzGu1ZRaIdnkDH6XJfr+BnS/hJzrL/uVhrDlMHn+0PmtTREdNnJ4Bp8uG79jBqEV2BGxEuf9mpLP8ZVKYGIOXxErCwOiyVbkZ3/Yj5DDbD0GBspdbsKQw+6lQgvAiho3A/3vMX+NmvNC0l5S7Axb/sxqvRvDNwOvtzxYUcHSyub2mVhek2U7Ik1xviwbVcHTOzxWBYXrvemhXLgikCa4D1iLc9ULauRZG/7A97TwI2i4rkX38kaGjurzkXU3cxVUPdAypMonChCFhv4Ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kq3k/c9XDKTj0cHQt7IDDBS2NLvXvRkU9t2WNqI/wEA=;
- b=CM1xYBqM09G8cjYkVsC3uUDfilLXMRPlPy/qwhnYsQ+DJR5wUU0j2DwTp4GYLZ3gSwFVIlCGZaUCcKHkQev2vb8BfF3C0FnaqTaorzS1t7M4NXPZk+RAqXJpcjYMUg+R2S8qFdV4r2b3pi5pWLLypdqLuK/9wfGFnXSFv5KVXL0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:27c::13)
- by LO0P265MB6503.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2ce::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Thu, 11 Jun
- 2026 10:33:55 +0000
-Received: from CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
- ([fe80::6c9e:93c8:10db:e995]) by CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
- ([fe80::6c9e:93c8:10db:e995%6]) with mapi id 15.21.0113.011; Thu, 11 Jun 2026
- 10:33:55 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Jun 2026 11:33:54 +0100
-Message-Id: <DJ65HZ2867HB.2ZK56NEAURVJO@garyguo.net>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, <a.hindborg@kernel.org>,
- <acourbot@nvidia.com>, <airlied@gmail.com>, <aliceryhl@google.com>,
- <bjorn3_gh@protonmail.com>, <boqun@kernel.org>, <dakr@kernel.org>,
- <daniel.almeida@collabora.com>, <dri-devel@lists.freedesktop.org>,
- <driver-core@lists.linux.dev>, <fujita.tomonori@gmail.com>,
- <linux-kernel@vger.kernel.org>, <longman@redhat.com>, <lossin@kernel.org>,
- <mark.rutland@arm.com>, <mingo@redhat.com>, <netdev@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <peterz@infradead.org>,
- <rust-for-linux@vger.kernel.org>, <simona@ffwll.ch>, <tamird@kernel.org>,
- <tmgross@umich.edu>, <will@kernel.org>, <yury.norov@gmail.com>
-Subject: Re: [PATCH v4] rust: make `build_assert` module the home of related
- macros
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Gary Guo"
- <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <DJ4Q5J5OILOX.1KCPFIVUFN2VV@garyguo.net>
- <20260610072947.338278-1-ojeda@kernel.org>
- <DJ5A6AM2FDGQ.19T1Y9N1T6JST@garyguo.net>
- <CANiq72khOCLC5kG5vWhDeXpHv6n7Yo9Nv=PewNS0D73AxUDB4Q@mail.gmail.com>
-In-Reply-To: <CANiq72khOCLC5kG5vWhDeXpHv6n7Yo9Nv=PewNS0D73AxUDB4Q@mail.gmail.com>
-X-ClientProxiedBy: LO4P265CA0014.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ad::8) To CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:27c::13)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="a4wA0amM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=g4jmeeohNafaxl9wPTGacPsV5XMVCMDW6SmjV7TbWbo=; b=a4wA0amMXnzg5RMDx1g4Z8jyEY
+	/syC8Utg21+HwBSU8gy2m7QtX2lldoFl7mZ80jt0tL2vhyDGlB5oPTSgTPXyZPKPQEu2DFnYoqP8g
+	HjDXlEAbuGI3aB4v71Pch5bP28KP1PanhRWtqqB0WIk6b5GNAV2VPD4GvqteNKTE6viJCNar1kIB0
+	837XxDP9MWDVvxb07WAsVRMkBrFomKNbg/a7ot16+DMDnoYvA79NQRgRgYiYPIwqkQz9aIVru6kLz
+	Y2ocpvzGh1VHw7CZV5PEJzSEsHpj/Bc64Cy1ZBj+XyGexkx+CiCV8vEKxIS9xKgachuTNPFqFaHA+
+	o2JQI21w==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wXdEG-009um9-26;
+	Thu, 11 Jun 2026 11:05:44 +0000
+Date: Thu, 11 Jun 2026 04:05:39 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Pierre Gondois <pierre.gondois@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH] cacheinfo: don't propagate DT/ACPI error when arch
+ supplies info (arm64)
+Message-ID: <aiqWXqoBdPED7N6y@gmail.com>
+References: <20260609-cacheinfo-v1-1-35864c9a8f0c@debian.org>
+ <437997dc-7ad1-43dd-9626-6cad37c5258d@arm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CW1P265MB8877:EE_|LO0P265MB6503:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4af645a-0fbc-4ae8-7230-08dec7a4f004
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|23010399003|376014|10070799003|1800799024|4143699003|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	e9cvsxNdrA6KhkN/jrRXMW6AyI2nq3B5ZKGetc1hRu2a9zlqxU7uuClzVBXuswr9uoc9FQu4ZM8PVbhVo3C1PMTThbVsRj4jbVLeFZNoet8xfdzFqUJOtzRZFNjgB/k+RjDRLiavzRH9W5dMk3zJE+7TDSF+N7FtoMd8AXBoRZz4MNDBzg47oiuk8L8nJGS8AXoX/RarvPDWWi8uKHAdt7iYHKY2hfzIB+WVQyCl64iBhs64sOM73M/4yRTezKzUYS1deXDo5f0RPgpm2dJM7me5tc0Fhk8QBkwI3a0bhXIVmHJFCu3lDBdqNcTANIrXlyybwDzWwIn4H88QA0yks9ZXD7wW3AhGannS0YW/6AL7XfuNF3WZHAsW43LKGJaBvb9QBmrWmZM9njlG7DPuh/PQ3jOaTuH2Yf6uSZys9jle1uAuiRciHhBQji7DhMc1WYVHb/jAkOJCHAA+JV9eeZH8PQVP+3jT1gCuiyteBpALZ6se8lKYRKjdkPu3pQW31UouC2dG0ALqOAFYYDq5Uee6jI6fkeYBh2SL+giI0PxqEkPKxj07zTiwU2cXTY3a7QvZ+cNmtpmdcWmzwmnJlIZmRNIdJDP8+sdkXSpAs0LEQimSYYOsqYVQmh7GkCtCQ775Xl0YJx5lnsGZw01JQrnhpiSOcZvUHd13zUy8JCb97iubNyGM68sJ0lZT8Oep
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(23010399003)(376014)(10070799003)(1800799024)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MWw5bm9xbU1xZjhUbWpjRHlsZ2t1WG8yNzNURmJjcnMyaUJnT2VFdjZhaGFV?=
- =?utf-8?B?N2NsTFk0cXBGbFRyZVQxa0c1dTRQbXI2Z3JjVzA3Z25WbkFhV0hwaWwyWW84?=
- =?utf-8?B?am55OVQ2Z0owU3ExaDlMWEc0UmNOWWdCeGxnN3VqQ3V2YnlHaFkvdVdMRWJt?=
- =?utf-8?B?TkNHRGNjaVlnRTFTeUVhd2RWVjF2ZEZJeEVrMVNNS1V2aVRWZWFGMFFTWGJx?=
- =?utf-8?B?d0ZXRXI0Slp2ekxHSlliTW1XdDRJTkRKS09VTk9EWTFIV0tOSmlPYlIxTDNk?=
- =?utf-8?B?YnUxUlpZeDhBdk9nVTJvZFFWVmxHRjRJRnNhN1V4Z0FBUFJsbVFJSWhyYmhP?=
- =?utf-8?B?OUh6ZTFSV2FMOHFxN09kN3I5TVdwazFHblJPYzF2TzVlRzdmYWlMYkFlUEFZ?=
- =?utf-8?B?WmQxYjlvSVk2ckRSOE5aV2FxRjF2S2JxNUtadXREajdDMzBkVTNMdk5Jc1or?=
- =?utf-8?B?cHc3RXphL21Ta01mYldDSnl1emIzV2E2TVU4Qm5hZUJEcVluakxNc3YyWEEx?=
- =?utf-8?B?bnZEUVVqM1JyNnBpRGEwVm5WNFBMRkpmSThvT3pzZDNvZFExK0xXTVExOHcz?=
- =?utf-8?B?cWxiZFFPRFBFOUZKTFNSYVZONGRlODQweXlSV2xuRDk1QkFyaThXeW42K01t?=
- =?utf-8?B?UWNNT1EreFAzNWFTU284bUV5UTRGSzI2a0FQc0p0N2xaUEpPaFIzYmQxM2dF?=
- =?utf-8?B?SzZvN1N0WWh5QUIrWEgrV2ZTMnlKTEw5UlZkK1BSd3ROMGdRcFJFdXZOMjI3?=
- =?utf-8?B?dFBUaUJxMW9KRGNwVHV6UkEyRm9GM0R5VDNBNENUYmdQdGxpenJzaGtpT0hD?=
- =?utf-8?B?TWNiTXdneHB2ajZ1L0ppemFTQWVCTVlmemk2ZDE3QVJwVjZ5aTNLN0gvVlBP?=
- =?utf-8?B?U0lRakxrWkRJNmxaWUtUQ2J0eCt1VXE3cEE5OGZoNDRQV1kzYkI3R3c0ZFp5?=
- =?utf-8?B?aTlEWWxHd0J1ZkpCTjA4SGowV3UwU3dwK2tlVWdROGVuUTVOVEFnUEk5b3Ji?=
- =?utf-8?B?THVGZzM4UjNsc3BjTkU0cVU3V1YwSWptanh1QzF1UmFkMEFOMm9veUVHNkdM?=
- =?utf-8?B?dkpBK1U2Sk9DSFhYN3NpTXAyZmlmYk1QZ283OTBBZ0M1SnJVbzBBWmExRFY3?=
- =?utf-8?B?MzQxWGJkbStYRmNtMjVUT1lxaVI3OGhNT0djdGpsbmpGSDNGTHgyaFdZb2pl?=
- =?utf-8?B?NTNEWFhkak93Tm82WnJ5cmltZmhKM0UzMWFaaGlHdmVSYWxXQ2xDZFpobmZi?=
- =?utf-8?B?M05SRXRTNU4zY2ZiR3djWnU0MDRMalhPelNoUHdaMlJSTEdWMjVyUVFvamdr?=
- =?utf-8?B?Q0g5c3ZYOXJUcE1vY2gwZktteGg4THY4cG5EcW52VjZiYmxqWS8vS1RMM1JS?=
- =?utf-8?B?NDhuZGVMVnVKVnI0LzFGc3RJTndYbjlMUUR6QTBOdTJBNXR1UHVTTDZtZGh5?=
- =?utf-8?B?WGl0U2VMeVliVGZrWS9uNkwzaTB5K1pQcDJ6WUg0MC9lOFQ5MUtaa2Z3YWhM?=
- =?utf-8?B?YVQrc09RelFDYnRHU25jZUNKREdZTGQrd1R2VTIrb25BdWhEMlg0V1hCeTFa?=
- =?utf-8?B?aWNPS3plY0krWnRjT01kL1EwTHpkRDdiRFJIdkM4RjEzNlVTbTRXaW96V0xJ?=
- =?utf-8?B?TFBsZUVMRVpHKzY4QTVKWnMyM1FpREdYSlhTS2wveHdKbnk3djlaWmZpQzVy?=
- =?utf-8?B?QmdhM3BiODhCYVhseHQ2TWdiZGs4L1dTaWV1Y01WZG5pMWlaanc3Y0svMVEy?=
- =?utf-8?B?VHQzYzRsdDg4aVhIQXpSaDNLZlQ3U1BTcXluUE5kR1VrajdSZ0VoODdFNlRO?=
- =?utf-8?B?YnArN2RFT1Z4a0FIcXFhTDEzUzAza05NUmZQSDkwZUZzandEb29kcjAzZXMw?=
- =?utf-8?B?T09rYW0ySkl6dFJLeHRLbGlONVVVckhnWmdxV3E5RHpjK3lIek9WNUFPWEhJ?=
- =?utf-8?B?MzR5VzRJc0RrdFhweHV2SXVMSXNiMmR2TWRwTGNvc2dMTzVJS1dOVTA2cmUx?=
- =?utf-8?B?YU54ejdyNnFhY1V1YURFaTRjN3JLL0JEbnB2TDhCTmViZ2E5SmpVZXlBUHlL?=
- =?utf-8?B?b0ZLbWpJdGxla2lVQkIzckJuZTBzK2srUVFhVlpDQ0lzKzJUUUlDWmhsb2xM?=
- =?utf-8?B?Wmo3SktuOUpKcUtLUkFwVGE1MW1ZdWl0NitZMk51ZVRUQzB4eTJSRmVLazlp?=
- =?utf-8?B?K2wxekZkYzdrQzBPRVd0MFZlVVYzdmtIaDNWdzhmZWg5VU5UK09ZY1V0QmdX?=
- =?utf-8?B?anl2WnVwOThpMTFyWGhFZld0VlBTbktWbTZ2MmM0Wjg2eVpPTnFvTXN3N3pt?=
- =?utf-8?B?NkNqL1RrV0ZPeCtNVlQ4UGQwTUgyN1YzazdsMDRYZDQ1THQ1UVZiZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4af645a-0fbc-4ae8-7230-08dec7a4f004
-X-MS-Exchange-CrossTenant-AuthSource: CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 10:33:55.0165
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DS34uYmEkIg7IHgEQqXwyUCmDjoYuj1SNtkoHYeTGzLRv32nMjXkOn6FZV+lstmD/YMxMTPlsePgm6i6NGpa+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6503
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <437997dc-7ad1-43dd-9626-6cad37c5258d@arm.com>
+X-Debian-User: leitao
 
-On Thu Jun 11, 2026 at 9:51 AM BST, Miguel Ojeda wrote:
-> On Wed, Jun 10, 2026 at 2:28=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote=
-:
->>
->> I think if the re-export is of form "use crate::build_assert::*" then it=
- will
->> still be the same semantics but would be appearing now?
->
-> If you mean a glob import (within or outside the existing `use` --
-> same behavior), then that makes the glob import appear in the list at
-> least, which is an improvement because at least people have a link to
-> the module (i.e. but not the individual ones).
+Hello Pierre,
 
-Yes, I meant this. All items of `build_assert!` are in the prelude so this =
-is no
-change of behaviour anyway.
+On Thu, Jun 11, 2026 at 12:30:24PM +0200, Pierre Gondois wrote:
+> On 6/9/26 18:23, Breno Leitao wrote:
+> > cache_setup_properties() sets use_arch_info = true when DT/ACPI
+> > provide no cache nodes and the arch can derive the topology from
+> > CPU registers (e.g. arm64 reading CLIDR_EL1), but still returns the
+> > original -ENOENT. cache_shared_cpu_map_setup() bails on that error
+> > before the new flag can take effect, so the first CPU brought online
+> > always trips a misleading warning:
+> > 
+> >    cacheinfo: Unable to detect cache hierarchy for CPU 0
+> > 
+> > Subsequent CPUs skip cache_setup_properties() entirely because
+> > use_arch_info is now true, which is why only CPU0 hits it. This is
+> > reproducible on arm64 with the QEMU 'virt' machine, whose default DT
+> > has no cache nodes.
+> > 
+> > Clear ret after setting use_arch_info so the caller proceeds and
+> > populates the shared cpu map via the arch-supplied leaves.
+> > 
+> > Fixes: ef9f643a9f8b ("cacheinfo: Add use_arch[|_cache]_info field/function")
+> > Signed-off-by: Breno Leitao <leitao@debian.org>
+> > ---
+> > Cc; hruben@meta.com
+> > ---
+> >   drivers/base/cacheinfo.c | 13 +++++++++++--
+> >   1 file changed, 11 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
+> > index 70701d3bc81c..4e11d36f127e 100644
+> > --- a/drivers/base/cacheinfo.c
+> > +++ b/drivers/base/cacheinfo.c
+> > @@ -401,9 +401,18 @@ static int cache_setup_properties(unsigned int cpu)
+> >   	else if (!acpi_disabled)
+> >   		ret = cache_setup_acpi(cpu);
+> > -	// Assume there is no cache information available in DT/ACPI from now.
+> > -	if (ret && use_arch_cache_info())
+> > +	/*
+> > +	 * If DT/ACPI lacks cache nodes but the arch can derive the topology
+> > +	 * from CPU registers (e.g. arm64 reading CLIDR_EL1), fall back to
+> > +	 * that path instead of propagating the error.  Otherwise the very
+> > +	 * first CPU processed trips a misleading "Unable to detect cache
+> > +	 * hierarchy" warning, because use_arch_info is only set after the
+> > +	 * first failure.
+> > +	 */
+> 
+> NIT: Maybe the comment is a bit long/verbose,
+> but maybe also not worth a v2
+> 
+> Reviewed-by: Pierre Gondois <pierre.gondois@arm.com>
 
->
-> Or do you mean something else?
->
-> Good first issue?
+Thanks for the review, let me shirnk the comment above and send a v2. It
+will be painless.
 
-Agreed.
-
-Best,
-Gary
+--breno
