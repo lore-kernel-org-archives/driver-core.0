@@ -1,112 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39173BCD3E
-	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 09:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF48C3C417E
+	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 10:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781170530; cv=none; b=F2rsUDTruhhV/2y+qXOPrsqcXyH7ohD2dpOCy4rO+e3Uy3/BFC+W1BldHDLdevXoiVQ5kKg+WAxRKIG0QaB7zeTtjcsL0LGekfbmJedomcaMnCH1t0T7d8TiQJ9L5s++VE1yrtJhm0tDvxDCVWBPkzQlOdGqc7WVzJuxAmWQK1E=
+	t=1781173761; cv=none; b=ErsNNC1d7CkQhNUgTFk2rkJx0qIjyNjrtjvJXL7KyH01BJtPco94GWG9AtrbYkz5Djfy4ThqdrJMFPUmh6qodmZk7QzDkh7Urb4thRsI0aJ1ZXCidFT7VLeHNrF/MGDmgL1fTt8UxbDnLMlAx8sxBrFOZfC0AZ48CWQmLcEncpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781170530; c=relaxed/simple;
-	bh=Ov574hmILB3pdxYdVww1k57wi7RZAzJuxmEZc5khEpc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FzOEHwTeqgzM9F8XtzKzWxPe8oa0MTZwsN8S/bnAsAyp6H7oXNWgiGks43yOSG9cnUPPuR8bx9jP+2CeU0JG7qCswlnimYLMFjyiyp0+nn5m+Ov18MW5B/kmWl43Xj1kflDTpnEVjiEtN31bGLaxPeLUzTEdirWIhqRDYfcEGoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1/pVACi; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1/pVACi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F8821F008A4
-	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 09:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781170528;
-	bh=Ov574hmILB3pdxYdVww1k57wi7RZAzJuxmEZc5khEpc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=A1/pVACiTZRAyvqSvqEomemy4em1jq1mn10xf+YddyDmO+LQsyXzcnpO+6OdkAUdi
-	 yt34E2hgTuHynVkbQ+G7v+YhIYRTHl0CedAwB54FM/vhiIG2jKUJde3lnJAjtuutTM
-	 nbOC+ZA9BDBl9yKwb6CLfM/2miWpqts62qkiO5uoMkBFw5qMVp+gNi9r4ypV7ZdXXy
-	 utPeojc90hX3TyUAtfygwQFWHYpvCz7deOF+NgKmVqcR3EJtoPqp+B54tJBAAkZYgF
-	 poIqSVcChK12wjfXWVIP8xYLTHrHTRdakNyGwz6XbRWEH9G1GPXNksQKqmu5S1kjSx
-	 kOI/cBXt1aO1g==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3965eab14cfso59318211fa.0
-        for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 02:35:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8Ft7mVAb/ZY1w/dqD9VrRyACEHA3VcFhGH4QoIdxR/WxiLHUWVStlYEGunRI0q1tTfoOTQsfZUaXUHsA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwZMJSIU8SG/Gc78PFxYTp7ezmGx+sg9WMXIQQzAmrW0nfUoiw
-	NCenb28JVeUxWE6YhpoPm+T31vaGZpcG0Cc57RyOZaWQQ9WIm7G5nJc1sybOm0fXXOrCcUTlob6
-	T3PLmgp9WzLxby2funus/YTAVVkfdzhpdMcITYuJGOw==
-X-Received: by 2002:a05:651c:248:b0:395:6085:a15f with SMTP id
- 38308e7fff4ca-3991a037f82mr5814191fa.9.1781170527256; Thu, 11 Jun 2026
- 02:35:27 -0700 (PDT)
+	s=arc-20240116; t=1781173761; c=relaxed/simple;
+	bh=QEwbvu7mUl02rdZ2YotbMNLfRzLGoT0E99J+cPvPYOE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a0wPt6DezABbVKW8F7pdm/rbkt80RuaoJY/wWPzoeaoO6lp6IKcLwaLrlG08pHinW6suUlR/EZ/4zkof/U25kEwv6RVBxrPfUY8Rvhny8wyFJSW7HAYGIWr+Sxb+elIOtQvNQOBrkumLrtJwoLL/P/gfU3ve+EU+hOMJ9Db/Ljc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de; spf=pass smtp.mailfrom=free.fr; arc=none smtp.client-ip=212.27.42.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+Received: from albans-vm.. (unknown [213.61.137.106])
+	(Authenticated sender: albeu@free.fr)
+	by smtp6-g21.free.fr (Postfix) with ESMTPSA id A285B78035E;
+	Thu, 11 Jun 2026 12:29:02 +0200 (CEST)
+From: Alban Bedel <alban.bedel@lht.dlh.de>
+To: devicetree@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alban Bedel <alban.bedel@lht.dlh.de>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH] of: property: Fix of_fwnode_get_reference_args() with negative index
+Date: Thu, 11 Jun 2026 12:28:06 +0200
+Message-Id: <20260611102806.2643869-1-alban.bedel@lht.dlh.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-6-wenst@chromium.org>
- <ailxrP-_9_NL8qnN@ashevche-desk.local> <CAMRc=MdiwQM6yk8FXcc+RisVP2iqWKWzVsn2-Yy6dyJXt-1X=Q@mail.gmail.com>
- <aipz2zMFcdnZYTxS@ashevche-desk.local>
-In-Reply-To: <aipz2zMFcdnZYTxS@ashevche-desk.local>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 11 Jun 2026 11:35:13 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
-X-Gm-Features: AVVi8CfSg10E0UvFAW373K-Jcv4BNuLaPDP9X_vJcmiaG1CmuHb8KO5g7-SqyaM
-Message-ID: <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
-Subject: Re: [PATCH v2 05/16] usb: hub: Associate port@ fwnode with USB port device
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 11, 2026 at 10:37=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Jun 11, 2026 at 04:20:58AM -0400, Bartosz Golaszewski wrote:
-> > On Wed, 10 Jun 2026 16:16:12 +0200, Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> said:
-> > > On Wed, Jun 10, 2026 at 04:40:39PM +0800, Chen-Yu Tsai wrote:
-> > >> When a USB hub port is connected to a connector in a firmware node
-> > >> graph, the port itself has a node in the graph.
-> > >>
-> > >> Associate the port's firmware node with the USB port's device,
-> > >> usb_port::dev. This is used in later changes for the M.2 slot power
-> > >> sequencing provider to match against the requesting port.
-> > >
-> > > Okay, would this affect ACPI-based systems? if so, how?
-> > > Can you elaborate on that, please?
-> >
-> > Is it possible that there's an ACPI device node associated with the por=
-t like
-> > on some DT systems? I don't think so and there should be no impact IMO =
-but I
-> > also don't know enough about ACPI.
->
-> The API is agnostic. There is a possibility to have software nodes associ=
-ated
-> with the port. I think the best is to be sure that ACPI-aware people who =
-are
-> experts in USB will check this (Heikki?).
->
+fwnode_property_get_reference_args() should return -ENOENT when an out
+of bound index is passed. An issue arised with the OF backend because
+the OF API use signed indexes while the fwnode API use unsigned ones.
+When an index value greater the INT_MAX was passed to the OF backend
+it got casted to a negative value and it returned -EINVAL instead of
+-ENOENT. This patch add a check to of_fwnode_get_reference_args() to
+catch negative index before they are passed to the OF API and return
+-ENOENT right away.
 
-Even if there is a software node - it shouldn't really matter. It will
-just be assigned to the port device.
+This issue appeared when the following pattern was used in the LED
+subsystem:
 
-Bart
+    index = fwnode_property_match_string(fwnode, "led-names", name)
+    led_node = fwnode_find_reference(fwnode, "leds", index);
 
-> Also note Sashiko complain on reference count leakage.
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+Unlike the same pattern with the OF API, this pattern implicitly cast
+the signed return value of fwnode_property_match_string() to an
+unsigned index leading to the above issue with the OF backend. It can
+be argued that the return value of fwnode_property_match_string()
+should be checked separately, but I think there is value in supporting
+such simple and straight to the point patterns.
+
+Link: https://lore.kernel.org/linux-leds/aimVRwJPhlGxsIUj@tom-desktop/T/#mc43cbf7e0599991b56dd0d9680714d28d145fbc8
+Cc: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Signed-off-by: Alban Bedel <alban.bedel@lht.dlh.de>
+---
+ drivers/of/property.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index 136946f8b746f..eace2d1847b99 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1157,6 +1157,13 @@ of_fwnode_get_reference_args(const struct fwnode_handle *fwnode,
+ 	unsigned int i;
+ 	int ret;
+ 
++	/* This function should return -ENOENT for out of bound indexes,
++	 * but the OF API uses signed indexes and consider negative indexes
++	 * as invalid. Catch them here to correctly implement the fwnode API.
++	 */
++	if ((int)index < 0)
++		return -ENOENT;
++
+ 	if (nargs_prop)
+ 		ret = of_parse_phandle_with_args(to_of_node(fwnode), prop,
+ 						 nargs_prop, index, &of_args);
+-- 
+2.39.5
+
