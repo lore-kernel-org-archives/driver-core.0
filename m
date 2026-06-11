@@ -1,64 +1,64 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E163CC310
-	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 11:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD173CC310
+	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 11:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781176046; cv=none; b=HtsvmmmmG8id+8ZwXb3MZ0f4m5b1DipnUCHXz8waHN4HauUnMUa4a7AZrPPf4RrMQlqiZBVP60a/VT0pCv48AwTxyakXhZU7vq7bOHc6I4RMB+5RUqKvR4h53gR/WAiNgBiXpK6VvP5MK9QwBAJj1r0MFVBH0DKQ3SSWzrUyi5w=
+	t=1781176208; cv=none; b=C0iimo5wLHaKjSgSAgZtpQYqXovgp0R4/WM+BOb20tvA3mKTpycovnoB4F4KjrtexZg8plUV0yji+jTKbb1xfL7PE399XE+MJeYcPJNJHtQw1cufCDUaKC8daFH3ZmxAgnz4HsbCX5QRYwNCEoIxX7fIJrpN8dY3oB3W496YTyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781176046; c=relaxed/simple;
-	bh=La5eLg+856u6yb2356E19wq4qWMjXt4WDF8YAZskR9g=;
+	s=arc-20240116; t=1781176208; c=relaxed/simple;
+	bh=TEOPeQRDcTO8ZT8oB50G4bbjCXtdEl0gblwbnGjfT1A=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=B5qIw/b9eanYDYonyCnHabPv5UVSOAGag52FwRLE+7dkwRaVrohRy8zqbPev4YiT4XAR5L5wFXLVQPVZkr6Nm/giprXeAALmvPSVINFbMP89QZ9dQTck0k3kJEjY6xVGGCtZlpdO4b2vF7KT4Vz1t7Zfx4b7FsugtD/2uOGUY6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DVd3KiWP; arc=none smtp.client-ip=209.85.218.73
+	 To:Cc:Content-Type; b=ufT89dMBKEoCLhwopkHQsf0I8A8VsyxoFFWNKC6KGUG031sbxZNeAJKg8qeUnW5muu09tENtPryb9s/uAdHai15KzLErhpA4G+ycb6AGV7S9W1C5LnfJTa1yql/wHVc3Vml0dBBpmmrRxhI50b9ePRRBdC3KSVWKlEp7C7nHCr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WzqB4THU; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DVd3KiWP"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-bf5ea9d13f9so521557066b.0
-        for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 04:07:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WzqB4THU"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-490b7959b9fso77747985e9.2
+        for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 04:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781176043; x=1781780843; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1781176206; x=1781781006; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SLWe+2FcDOwhw41u/Q69O94pEc+gWeJDYXa+4qvlFG8=;
-        b=DVd3KiWPmY9j8C5nh35Ky+pWEQmLykFGLaz9vIiH9kmvnYDLwa6Tzs9ooxDgIAkM3T
-         HEbQOBkACatf9s3W3YO/XQ49DORgeZs36M6pqsneqQHHzHpKAa7Sw1plcuLJ6lt1LzRo
-         a0Fjhj5kepqm2MibcVw/VSX0wYCVaRtO755wpuYdUi5G5eAsTJIT81G76MgAsSUACEeX
-         pAfvuPYSRZ1OSVUJuzQv9cPPvKbGxbJYQbqO2IYAHhGLDKNiO/6MSkr3T6tlSg1NKh+X
-         ZK94lT05aixfh74X6739zS9VWGR0nwOe8Z3hzpV24NtDYed+t8PtB18c7H6zeZ3147Dr
-         sMbA==
+        bh=YpGjHsDNrecPmydKZbz+npt4P/d2PQgzeW5pneBmX4A=;
+        b=WzqB4THU/v8Pk+DdgQ93sy60nJxXl5ZxZXJofFaJuoI6oVODoKaIw7hOwvNjrymyj/
+         xvBvKes6wBhtwy8dK5c/qDxwqnX3b38n/xRsZ4y908FOyiQmL/gJbxd6O73ZS83T2qBp
+         8kBGrmF84ko87FHaviEGcaRh4h8k0TgiLu/2saZBG+Hcvh9k4TVd7Ry6ggFeDy46fK1R
+         ywB+vLxzPJrGQU2mq3HTe/unfxqFuW6wGyy1nB2UlDdWjuNW51xojybumkY//PmurHNE
+         nDw83g5Xu1KHGV2XfKjknX6oxPb0OlSpZ2Wk+F8c4heb4EzQ5QxiUvIGNiFAfCdN3lqB
+         RXtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781176043; x=1781780843;
+        d=1e100.net; s=20251104; t=1781176206; x=1781781006;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SLWe+2FcDOwhw41u/Q69O94pEc+gWeJDYXa+4qvlFG8=;
-        b=g6PXzHik8W9c1fd73GC01BQ9+g+9ZF4O5ulkRIk5zjwTwfdnudufRcKGlgrjeLGjAj
-         Y6WVTeX9Oh/ue9fsTYVZsfc7bcC6tDWjd5IiNajK49W0OtI8F3fBIYcjDrdT3qoNEpx5
-         Vcp2L992Zu/JykCReAxESYYfxzeoetJ304z2p6hJyhcFPQfz/2xbXHa/On3Qsf+4KnxR
-         TSt2DoNnENVdMxRrl3NHCR/qCCDw2oNI9IlBfmG2rtgxVgcIGdWrsC9DRXVrdF8lbR7M
-         CZzrS4N8b1hdHfmCY+/TU5rbULHXdsuoV9b7TcdtYQ/T24rDtH2vX1N3tjzknmOaC9C7
-         ruuw==
-X-Forwarded-Encrypted: i=1; AFNElJ9PcQXB70V8/ld9IfMWz+zwupKhjO7xutospXfrw8Q6/lfVPIW0OGpcNv9Y6jyDzr7iFetaDsZwbr6IGw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyiw64+vsomdpaEoXijd2TrQ0E3J/YFj2G/+F6dGhiJOIR6iREu
-	kqEDO1Gi/WxC75IaNAR/9lmyZdbWqBRkhAbAUM23pNJKE/Y6t+mz2HccQtBlaTNChmNIR1aiVbn
-	Pr8fvdM9Pd2O79fE3Lg==
-X-Received: from ejad6.prod.google.com ([2002:a17:906:406:b0:bf1:4fcd:aef0])
+        bh=YpGjHsDNrecPmydKZbz+npt4P/d2PQgzeW5pneBmX4A=;
+        b=rt6DMeBL0nxdbQIasf3cFFR1s7l2ZZRSwZIe2pfO3kJbWUmTXDNKdJckAFjKsuA7H0
+         k69AkX4cfdR2IF5FFp7dFJbHJHMyNUzgvH3fW35yOCok50GvtMOYlfYXahlQkPbLhwO/
+         6eTjVimhKOg8JWIulqSchcFIeCcv0SVs1YIu0aTNlj0LQ2P3BY4KOQqdwN3ISaUiTZhi
+         09PwP5UzsQTIs7LlfXeHDyrAZTktNfxEWRD2UOPIF3Q2sEdo94x9JwydbIeX6aRFA7bJ
+         1NAMf495ntiaEP5I2TfIJeyUg9hOKD8EfFZ6u0mBg2AWEwkd/U0N/JxCQou6AzvyJXwf
+         WV/Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/QKLMgrtlNeCi4svKfiKeE3kxw8vwYFYX9TkvpKN5MHev97ihtJw0XdN+WavMYvwIwFalKNghzfmNsLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtQvKFcd+B0pNgIw1S47ePSWrgjc5MfrUcfMJt3S+DQiYjCwJ9
+	Qjwq12Cmk9CpEq8NslXbQ/bxpTsCLP5c4VWLuAiGB6fu2PIPgE9n5h9IHeYQRvov3Ab1m8YJJ7t
+	8mPQykaFshJHL0apOcA==
+X-Received: from wmqe21.prod.google.com ([2002:a05:600c:4e55:b0:490:b058:c623])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:72cc:b0:bdb:4cf3:7035 with SMTP id a640c23a62f3a-bfc85745bd1mr113064466b.4.1781176042458;
- Thu, 11 Jun 2026 04:07:22 -0700 (PDT)
-Date: Thu, 11 Jun 2026 11:07:21 +0000
-In-Reply-To: <20260610162433.923550-2-lyude@redhat.com>
+ 2002:a7b:ca59:0:b0:490:9782:3eb8 with SMTP id 5b1f17b1804b1-490e561ee97mr20621955e9.25.1781176205567;
+ Thu, 11 Jun 2026 04:10:05 -0700 (PDT)
+Date: Thu, 11 Jun 2026 11:10:04 +0000
+In-Reply-To: <20260610162433.923550-3-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260610162433.923550-1-lyude@redhat.com> <20260610162433.923550-2-lyude@redhat.com>
-Message-ID: <aiqW6WcagiyiOAKZ@google.com>
-Subject: Re: [PATCH v20 1/4] rust: drm: gem: shmem: Add DmaResvGuard helper
+References: <20260610162433.923550-1-lyude@redhat.com> <20260610162433.923550-3-lyude@redhat.com>
+Message-ID: <aiqXjAPQCQ7POxWS@google.com>
+Subject: Re: [PATCH v20 2/4] rust: drm: gem: shmem: Add vmap functions
 From: Alice Ryhl <aliceryhl@google.com>
 To: Lyude Paul <lyude@redhat.com>
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
@@ -76,12 +76,12 @@ Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="utf-8"
 
-On Wed, Jun 10, 2026 at 12:21:28PM -0400, Lyude Paul wrote:
-> Just a temporary holdover to make locking/unlocking the dma_resv lock much
-> easier.
+On Wed, Jun 10, 2026 at 12:21:29PM -0400, Lyude Paul wrote:
+> One of the more obvious use cases for gem shmem objects is the ability to
+> create mappings into their contents. So, let's hook this up in our rust
+> bindings.
 > 
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Co-authored-by: Alexandre Courbot <acourbot@nvidia.com>
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
