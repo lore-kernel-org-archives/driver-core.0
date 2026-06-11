@@ -1,50 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7F0481244
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB91C481FD1
 	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 20:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781210149; cv=none; b=gpbp0VEJ1+5HXh5hZKjpUsORv3SSBH1qUznvSLNbth2VTL8g+WU82TfwZDCPs2zgZXTsymZmtZ/knB0ynxrip8btZT9nch0cYmeHW98vRGftL6++QGi1gk39rYZd8F1o1xU90YbvMHtA1ZBviETbJi+rYOSlCplcrrMRrWlDkUA=
+	t=1781210149; cv=none; b=l3qGs54vAg7wB4fm9daI3KyObEInqISiT+t/VAfGCvfso/ywe7C+7Wraa8AOZhUDmrRBJxNj5Bi3LjdRKXAJkUbfz2K9oIP0OZcTJBs0CoVjd8UEvLFRJjcPN6w72SRM/sZHWcBr5a2SjOdbvJc1Z2x1X3t336RM+QouEGdXYyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781210149; c=relaxed/simple;
-	bh=C6OIarG6iVN7dquSssvxi6i1DiHTixrw0oqyWp2Vp78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W7IAx3A8PRwUXACV1r6/z1/jSKy6aOiHhMeAu1k1RAEdwty8hHTnpsvLBy8TfjNdesVTtOf7MQMNAg4oVO8efB58+NtnnS5i59A9TuNf+Mv6Msxz/VZyR7FeCV6QcN0tMZkvOBS5SB+1sUcaR63fWoQnKaZQho2JaQ4QQPbWLwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RicIyYic; arc=none smtp.client-ip=192.198.163.15
+	bh=EqZwF17Sdan8X/NGW+s0UYDvQFPbLI99grcrCTraU/I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jPG0wEKJE8ctAl/4WRDL/Hm25ywWd0DuxH63rLw0uhT8/8tnNloMmgoF8xb+y6Xg8MvPV2dZkpVPJmESN+HHG+xlcurCHz1sIu7X11KSl/0H6JHsB2kPWdFeeXgp8Y7Z6Xns8OTtk0okEcNjf+ApKQW5amaCVsHeMPHWCF51EPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YY8Z5keB; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RicIyYic"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YY8Z5keB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1781210147; x=1812746147;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=C6OIarG6iVN7dquSssvxi6i1DiHTixrw0oqyWp2Vp78=;
-  b=RicIyYic5c2WI8Z2B1nbbt7gI1V2ovGIJxYR0gyrABUrBhZUMrsomhCI
-   M8eed4DDYBcUXd2Jm+zejjoJ4Z+YlYqpeFHXOkZUrOTfZ6CCgWHLzucPQ
-   tB4TUudZ0j6vXeONHvpwu8IfnEYoGZWMF02vEuO1jLbTaxaCtbzxw073w
-   uQ5uqK7pS475brU3ThWOhirsQHEkG1PdeLyqhhE7bfQh4RXHBsXf+gJI8
-   kB9AgI7Urj66Xh8AOw7d9E65hcta7adk9e37rCiA/vdzGyEli1Y0qUFle
-   7RtfuVhTz7qicvt+RtSRs26rqueFdHSUU6XkUoPssHyYoNoygTiDgRMzE
-   Q==;
-X-CSE-ConnectionGUID: XQsd2hNOT42DAm9eOoEY9A==
-X-CSE-MsgGUID: iFDL/+XSTky538gIUYautg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82144678"
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EqZwF17Sdan8X/NGW+s0UYDvQFPbLI99grcrCTraU/I=;
+  b=YY8Z5keBSbZPcqN4hOXIfAXJWgG2aFiybJQapwprHDvfji5BtkK5zPpP
+   +dV1g2LufkWC7MeXVatW93nAav2q32ReFGvtWEK5IpJFfhSOdVlaPrPTh
+   O18rmJoVzM74ha+/3MfgJWJPy3egH0i4FvYub2ir81U8WrQnnI81gci8y
+   x34SRsgDjUADoJYKv4cjfQyMpYvBAqQM6PuVzvlVyOO/JamR5wPXUepSP
+   3Pwk+3wmD/KKPB6A8IDUXxKLWWtDBTMwIyFwmZ1fgXwUHVCOBKDMIcgxa
+   XlvOuSvcih3pOxwsYpYB/EWjjNgLHLZXBYIhYhlCelnpkz6ewF98wnj0d
+   A==;
+X-CSE-ConnectionGUID: 8igl6QY0QQC51yqnMjwrew==
+X-CSE-MsgGUID: Ee4Jt/b7SrGuZEK7jaeVfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="99456608"
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="82144678"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 13:35:46 -0700
-X-CSE-ConnectionGUID: qe70sS8pS7i83GpM7lqeUg==
-X-CSE-MsgGUID: L9qEze+IRBmawzmdWggMRQ==
+   d="scan'208";a="99456608"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 13:35:46 -0700
+X-CSE-ConnectionGUID: i3pwIn2BSu+75IGjLOKj5g==
+X-CSE-MsgGUID: YoyHNc8XQQ+GXB7essk3ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="270272997"
+   d="scan'208";a="270631220"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jun 2026 13:35:44 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 11 Jun 2026 13:35:43 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id CCDB699; Thu, 11 Jun 2026 22:35:42 +0200 (CEST)
+	id C48B195; Thu, 11 Jun 2026 22:35:42 +0200 (CEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Xu Yang <xu.yang_2@nxp.com>,
@@ -57,103 +56,65 @@ Cc: Daniel Scally <djrscally@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v4 2/3] device property: Refactor to use RAII approach
-Date: Thu, 11 Jun 2026 22:31:07 +0200
-Message-ID: <20260611203537.1786399-3-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v4 0/3] device property: fix child iteration issues with secondary fwnodes
+Date: Thu, 11 Jun 2026 22:31:05 +0200
+Message-ID: <20260611203537.1786399-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260611203537.1786399-1-andriy.shevchenko@linux.intel.com>
-References: <20260611203537.1786399-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In a couple of functions code can be made cleaner with help of
-__free() macro. Refactor these to use RAII approach.
+This series fixes two issues in the fwnode child iteration logic when
+a secondary fwnode is present.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/base/property.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+The first issue is  a refcount imbalance in software_node_get_next_child().
+When a software node is used as a secondary fwnode, the iteration code may
+incorrectly decrement the refcount of child nodes that do not belong to the
+software node hierarchy. This results in refcount underflow and possible
+use-after-free.
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index f7b30d9c8716..808e8a90c125 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -7,10 +7,10 @@
-  *          Mika Westerberg <mika.westerberg@linux.intel.com>
-  */
- 
-+#include <linux/cleanup.h>
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/export.h>
--#include <linux/kconfig.h>
- #include <linux/of.h>
- #include <linux/property.h>
- #include <linux/phy.h>
-@@ -517,7 +517,6 @@ EXPORT_SYMBOL_GPL(fwnode_property_read_string);
- int fwnode_property_match_string(const struct fwnode_handle *fwnode,
- 	const char *propname, const char *string)
- {
--	const char **values;
- 	int nval, ret;
- 
- 	nval = fwnode_property_string_array_count(fwnode, propname);
-@@ -527,20 +526,18 @@ int fwnode_property_match_string(const struct fwnode_handle *fwnode,
- 	if (nval == 0)
- 		return -ENODATA;
- 
--	values = kcalloc(nval, sizeof(*values), GFP_KERNEL);
-+	const char **values __free(kfree) = kcalloc(nval, sizeof(*values), GFP_KERNEL);
- 	if (!values)
- 		return -ENOMEM;
- 
- 	ret = fwnode_property_read_string_array(fwnode, propname, values, nval);
- 	if (ret < 0)
--		goto out_free;
-+		return ret;
- 
- 	ret = match_string(values, nval, string);
- 	if (ret < 0)
--		ret = -ENODATA;
-+		return -ENODATA;
- 
--out_free:
--	kfree(values);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(fwnode_property_match_string);
-@@ -1128,8 +1125,9 @@ struct fwnode_handle *
- fwnode_graph_get_next_endpoint(const struct fwnode_handle *fwnode,
- 			       struct fwnode_handle *prev)
- {
--	struct fwnode_handle *ep, *port_parent = NULL;
- 	const struct fwnode_handle *parent;
-+	struct fwnode_handle *port_parent __free(fwnode_handle) = NULL;
-+	struct fwnode_handle *ep;
- 
- 	/*
- 	 * If this function is in a loop and the previous iteration returned
-@@ -1147,13 +1145,9 @@ fwnode_graph_get_next_endpoint(const struct fwnode_handle *fwnode,
- 
- 	ep = fwnode_call_ptr_op(parent, graph_get_next_endpoint, prev);
- 	if (ep)
--		goto out_put_port_parent;
-+		return ep;
- 
--	ep = fwnode_graph_get_next_endpoint(parent->secondary, NULL);
--
--out_put_port_parent:
--	fwnode_handle_put(port_parent);
--	return ep;
-+	return fwnode_graph_get_next_endpoint(parent->secondary, NULL);
- }
- EXPORT_SYMBOL_GPL(fwnode_graph_get_next_endpoint);
- 
+The second issue is an infinite loop in fwnode_for_each_child_node(), caused
+by improper handling of iteration state across primary and secondary fwnodes.
+When iterating over children from both primary and secondary fwnodes, the code
+may incorrectly resume iteration from the primary fwnode even when the current
+child belongs to the secondary, leading to repeated traversal and a loop.
+
+Both issues are triggered when mixing different fwnode types through the
+secondary mechanism, and stem from incorrect assumptions about ownership
+and traversal context of child nodes.
+
+Changes in v4:
+- amended the fix and test case (Andy)
+- added patch 2 to align other implementations with RAII approach (Andy)
+- tested on Intel Galileo board for which the initial code was developed (Andy)
+- Link to v3: https://patch.msgid.link/20260605-fixes_fwnode_iteration-v3-0-44c18472e1d1@nxp.com
+
+Changes in v3:
+- remove software node patch
+- add a kunit test case suggested by Andy Shevchenko
+- Link to v2: https://patch.msgid.link/20260603-fixes_fwnode_iteration-v2-0-0ae381f8b7b9@nxp.com
+
+Changes in v2:
+- use __free() to cleanup parent fwnode
+- Link to v1: https://lore.kernel.org/r/20260525-fixes_fwnode_iteration-v1-0-a12903fb2919@nxp.com
+
+Andy Shevchenko (1):
+  device property: Refactor to use RAII approach
+
+Xu Yang (2):
+  device property: fix infinite loop in fwnode_for_each_child_node()
+  device property: add test cases for fwnode_for_each_child_node()
+
+ drivers/base/property.c                 |  41 ++++---
+ drivers/base/test/Kconfig               |   1 +
+ drivers/base/test/property-entry-test.c | 136 ++++++++++++++++++++++++
+ 3 files changed, 161 insertions(+), 17 deletions(-)
+
 -- 
 2.50.1
 
