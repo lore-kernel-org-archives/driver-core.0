@@ -1,113 +1,87 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9C23DA7D0;
-	Thu, 11 Jun 2026 11:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E163CC310
+	for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 11:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781175953; cv=none; b=hukS5ZkjUp5PbN8jsGoKrCs3xRVT6pHYxryXhD0H29lZyRCWpnSVOcemdAke9nzyEJ7a7w4ZaCm+aws+/KqqoB2T6UCPc9HUz8bR96lUChpGO6WtAgkLwXstp56F1aodToz4xULwmnwD+a+3Np1sZw3ztLQzYcOwftxawmoMmkk=
+	t=1781176046; cv=none; b=HtsvmmmmG8id+8ZwXb3MZ0f4m5b1DipnUCHXz8waHN4HauUnMUa4a7AZrPPf4RrMQlqiZBVP60a/VT0pCv48AwTxyakXhZU7vq7bOHc6I4RMB+5RUqKvR4h53gR/WAiNgBiXpK6VvP5MK9QwBAJj1r0MFVBH0DKQ3SSWzrUyi5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781175953; c=relaxed/simple;
-	bh=bDWefIedIxuHaxIeLnGzSzCCLnLYYiEcsU9JpeSLM14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nqneKjvbR+D6oRyJxkpYKXQWGzAAZiWBD++eOqsaWg/5dHuD6obUJjlqHy+jYZNIjKnQUJSz0qV+G951TvO36urUfuH9jWu9bnbUA5cUKaBa1+gDTgpVZ5OxIf+jU4eA+P1sGkS6ywt+o03KKIbYqBPfy4BcT5Cxp2BgxZ+rtVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=a4wA0amM; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1781176046; c=relaxed/simple;
+	bh=La5eLg+856u6yb2356E19wq4qWMjXt4WDF8YAZskR9g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=B5qIw/b9eanYDYonyCnHabPv5UVSOAGag52FwRLE+7dkwRaVrohRy8zqbPev4YiT4XAR5L5wFXLVQPVZkr6Nm/giprXeAALmvPSVINFbMP89QZ9dQTck0k3kJEjY6xVGGCtZlpdO4b2vF7KT4Vz1t7Zfx4b7FsugtD/2uOGUY6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DVd3KiWP; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="a4wA0amM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=g4jmeeohNafaxl9wPTGacPsV5XMVCMDW6SmjV7TbWbo=; b=a4wA0amMXnzg5RMDx1g4Z8jyEY
-	/syC8Utg21+HwBSU8gy2m7QtX2lldoFl7mZ80jt0tL2vhyDGlB5oPTSgTPXyZPKPQEu2DFnYoqP8g
-	HjDXlEAbuGI3aB4v71Pch5bP28KP1PanhRWtqqB0WIk6b5GNAV2VPD4GvqteNKTE6viJCNar1kIB0
-	837XxDP9MWDVvxb07WAsVRMkBrFomKNbg/a7ot16+DMDnoYvA79NQRgRgYiYPIwqkQz9aIVru6kLz
-	Y2ocpvzGh1VHw7CZV5PEJzSEsHpj/Bc64Cy1ZBj+XyGexkx+CiCV8vEKxIS9xKgachuTNPFqFaHA+
-	o2JQI21w==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wXdEG-009um9-26;
-	Thu, 11 Jun 2026 11:05:44 +0000
-Date: Thu, 11 Jun 2026 04:05:39 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Pierre Gondois <pierre.gondois@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH] cacheinfo: don't propagate DT/ACPI error when arch
- supplies info (arm64)
-Message-ID: <aiqWXqoBdPED7N6y@gmail.com>
-References: <20260609-cacheinfo-v1-1-35864c9a8f0c@debian.org>
- <437997dc-7ad1-43dd-9626-6cad37c5258d@arm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DVd3KiWP"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-bf5ea9d13f9so521557066b.0
+        for <driver-core@lists.linux.dev>; Thu, 11 Jun 2026 04:07:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781176043; x=1781780843; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SLWe+2FcDOwhw41u/Q69O94pEc+gWeJDYXa+4qvlFG8=;
+        b=DVd3KiWPmY9j8C5nh35Ky+pWEQmLykFGLaz9vIiH9kmvnYDLwa6Tzs9ooxDgIAkM3T
+         HEbQOBkACatf9s3W3YO/XQ49DORgeZs36M6pqsneqQHHzHpKAa7Sw1plcuLJ6lt1LzRo
+         a0Fjhj5kepqm2MibcVw/VSX0wYCVaRtO755wpuYdUi5G5eAsTJIT81G76MgAsSUACEeX
+         pAfvuPYSRZ1OSVUJuzQv9cPPvKbGxbJYQbqO2IYAHhGLDKNiO/6MSkr3T6tlSg1NKh+X
+         ZK94lT05aixfh74X6739zS9VWGR0nwOe8Z3hzpV24NtDYed+t8PtB18c7H6zeZ3147Dr
+         sMbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781176043; x=1781780843;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SLWe+2FcDOwhw41u/Q69O94pEc+gWeJDYXa+4qvlFG8=;
+        b=g6PXzHik8W9c1fd73GC01BQ9+g+9ZF4O5ulkRIk5zjwTwfdnudufRcKGlgrjeLGjAj
+         Y6WVTeX9Oh/ue9fsTYVZsfc7bcC6tDWjd5IiNajK49W0OtI8F3fBIYcjDrdT3qoNEpx5
+         Vcp2L992Zu/JykCReAxESYYfxzeoetJ304z2p6hJyhcFPQfz/2xbXHa/On3Qsf+4KnxR
+         TSt2DoNnENVdMxRrl3NHCR/qCCDw2oNI9IlBfmG2rtgxVgcIGdWrsC9DRXVrdF8lbR7M
+         CZzrS4N8b1hdHfmCY+/TU5rbULHXdsuoV9b7TcdtYQ/T24rDtH2vX1N3tjzknmOaC9C7
+         ruuw==
+X-Forwarded-Encrypted: i=1; AFNElJ9PcQXB70V8/ld9IfMWz+zwupKhjO7xutospXfrw8Q6/lfVPIW0OGpcNv9Y6jyDzr7iFetaDsZwbr6IGw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyiw64+vsomdpaEoXijd2TrQ0E3J/YFj2G/+F6dGhiJOIR6iREu
+	kqEDO1Gi/WxC75IaNAR/9lmyZdbWqBRkhAbAUM23pNJKE/Y6t+mz2HccQtBlaTNChmNIR1aiVbn
+	Pr8fvdM9Pd2O79fE3Lg==
+X-Received: from ejad6.prod.google.com ([2002:a17:906:406:b0:bf1:4fcd:aef0])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:72cc:b0:bdb:4cf3:7035 with SMTP id a640c23a62f3a-bfc85745bd1mr113064466b.4.1781176042458;
+ Thu, 11 Jun 2026 04:07:22 -0700 (PDT)
+Date: Thu, 11 Jun 2026 11:07:21 +0000
+In-Reply-To: <20260610162433.923550-2-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <437997dc-7ad1-43dd-9626-6cad37c5258d@arm.com>
-X-Debian-User: leitao
+Mime-Version: 1.0
+References: <20260610162433.923550-1-lyude@redhat.com> <20260610162433.923550-2-lyude@redhat.com>
+Message-ID: <aiqW6WcagiyiOAKZ@google.com>
+Subject: Re: [PATCH v20 1/4] rust: drm: gem: shmem: Add DmaResvGuard helper
+From: Alice Ryhl <aliceryhl@google.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+	nouveau@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>, 
+	Gary Guo <gary@garyguo.net>, 
+	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, driver-core@lists.linux.dev, 
+	Miguel Ojeda <ojeda@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>, 
+	linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>, 
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="utf-8"
 
-Hello Pierre,
-
-On Thu, Jun 11, 2026 at 12:30:24PM +0200, Pierre Gondois wrote:
-> On 6/9/26 18:23, Breno Leitao wrote:
-> > cache_setup_properties() sets use_arch_info = true when DT/ACPI
-> > provide no cache nodes and the arch can derive the topology from
-> > CPU registers (e.g. arm64 reading CLIDR_EL1), but still returns the
-> > original -ENOENT. cache_shared_cpu_map_setup() bails on that error
-> > before the new flag can take effect, so the first CPU brought online
-> > always trips a misleading warning:
-> > 
-> >    cacheinfo: Unable to detect cache hierarchy for CPU 0
-> > 
-> > Subsequent CPUs skip cache_setup_properties() entirely because
-> > use_arch_info is now true, which is why only CPU0 hits it. This is
-> > reproducible on arm64 with the QEMU 'virt' machine, whose default DT
-> > has no cache nodes.
-> > 
-> > Clear ret after setting use_arch_info so the caller proceeds and
-> > populates the shared cpu map via the arch-supplied leaves.
-> > 
-> > Fixes: ef9f643a9f8b ("cacheinfo: Add use_arch[|_cache]_info field/function")
-> > Signed-off-by: Breno Leitao <leitao@debian.org>
-> > ---
-> > Cc; hruben@meta.com
-> > ---
-> >   drivers/base/cacheinfo.c | 13 +++++++++++--
-> >   1 file changed, 11 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/base/cacheinfo.c b/drivers/base/cacheinfo.c
-> > index 70701d3bc81c..4e11d36f127e 100644
-> > --- a/drivers/base/cacheinfo.c
-> > +++ b/drivers/base/cacheinfo.c
-> > @@ -401,9 +401,18 @@ static int cache_setup_properties(unsigned int cpu)
-> >   	else if (!acpi_disabled)
-> >   		ret = cache_setup_acpi(cpu);
-> > -	// Assume there is no cache information available in DT/ACPI from now.
-> > -	if (ret && use_arch_cache_info())
-> > +	/*
-> > +	 * If DT/ACPI lacks cache nodes but the arch can derive the topology
-> > +	 * from CPU registers (e.g. arm64 reading CLIDR_EL1), fall back to
-> > +	 * that path instead of propagating the error.  Otherwise the very
-> > +	 * first CPU processed trips a misleading "Unable to detect cache
-> > +	 * hierarchy" warning, because use_arch_info is only set after the
-> > +	 * first failure.
-> > +	 */
+On Wed, Jun 10, 2026 at 12:21:28PM -0400, Lyude Paul wrote:
+> Just a temporary holdover to make locking/unlocking the dma_resv lock much
+> easier.
 > 
-> NIT: Maybe the comment is a bit long/verbose,
-> but maybe also not worth a v2
-> 
-> Reviewed-by: Pierre Gondois <pierre.gondois@arm.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Co-authored-by: Alexandre Courbot <acourbot@nvidia.com>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 
-Thanks for the review, let me shirnk the comment above and send a v2. It
-will be painless.
-
---breno
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
