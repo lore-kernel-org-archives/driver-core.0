@@ -1,177 +1,170 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB38C37BE6B
-	for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 08:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781254540; cv=pass; b=hVVtL4TwvvkePGAfvMyMj/MyAuaiyBUu8Ns0QFaLfj7GFgpl/vWXWKa0TbHZiIbTJv8vS3Yj01TAIwNo5+Ac11nSvR2ZG+JlAJxquftaPXY4C3Vl2pPrLQk1NZ092FEoMqb0cKRO7/wPMYLemaCQBoHUAaHouj4GNulpYcfTjLc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781254540; c=relaxed/simple;
-	bh=qoVKWlTC8A5exFZISdXU/mz0LuRqilEY4d0H6+v5zeA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JPpGfHcHTveX3vNIBm2w7dImtzNDRgco5qqMT7qJ+nNnhXCVbyFnsOzUtEai2U27y4qstjEyQXFAQWkYnHRoGy3/DFS+V54lE0f8Wp9rIqK78PsIMugf7E0v3gsLqdOQce0JERxI4Bb73D32LzX9bpMU3ZBIAZ28rTKDiaH4azM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RBSMRpct; arc=pass smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1009371CE2
+	for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 08:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781254601; cv=none; b=gBo04DiAc6x0Tju3f6dxz6ITpPolALcrTLDqjtu1WO2KCL0uH6hIypfA2I8uAuwJJTX8eF75qmLfB3zXqaBLEVJHnsVAZXmMGG8ZCL3rdbs2VSlhkfxS+Bpm1VrSdVWP5Z4lxtav/qVdtuXv9XQWKYPQYXeF2zFl4dkmf77G5AY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781254601; c=relaxed/simple;
+	bh=izApThMnkGomAbHMNy7dSnB84greHvo9TN/4/HGY7jg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JA5lZYWTkfB9a6OHO3wPCzfiV8wUMN05iDXxbk1mIFIA2Gl4F3U8n7IBhf7UXHFG2kY+I5mUYYuMV6p9V1B176Q0CvxMjKfjYJCxhGibNMptN/LvT8qM3Uvu+iHxw3p/oE+gQRXNRZlXMZzrdJFzKUOhHLPNfg1VRqqCNZ3XaGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=J07PUjIQ; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RBSMRpct"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7e2fd65f968so7333607b3.3
-        for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 01:55:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781254538; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YpgiRyMqPsMWuGKwkT4T/ciTyiCymGRBg8jgTbFwBUkuHrsPnuuKWpBTmEyPoLnHWc
-         HdshSsCmD7749KRbXZ+O8ZYXd4n/7BF4qIVH8dTSnf5bn50f7Gm2A4OO5FzKbd1JYbI3
-         iKLVOtsflFmqTkHj0UjjtPLJTaq4jj0tpmrqjHQ0t/+sqb+qizlnMXpXQcyQBklpxjJd
-         7kwCM/t1foPcHr29qFvxi+L4BOEnIvA7loJnRExX8kCcTGTkuOHLs3eTs3f+9VantxQa
-         tyXSRXlO7B6KW344dPQCNs14AsJ50kiRPEEnqTq9REDtn/emOO4GP8hlsf2PQAzO6Jgp
-         YOUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eJghUbDUHZkDrqU4zXDzfGhgJ/zqGoOZUi3OGZ2y5Rs=;
-        fh=sqkW2ijw6Cxla/WRYnL8N9nieV0kb9aKKGJUcjBJnOM=;
-        b=hKazbKc0bo1d+wCLixAYAma0b7f0JcQnfJ+fBg6WfWAXcGKH5IJeyJGwT2X/C1cgNF
-         O393A9++oxwTdgArY6j/KSW7Z1FFsYoMPunScvxdP8Ea/j9wRytz5bD1iVWRAEbHClax
-         cBYc8ue1SjUUQYb5+oOisj3IojH1+L3YWy+0YMxX69rdpDJIAb2MqPYlFRvi3Hk78rNQ
-         8bBxdQeIaZNR8Lp3TKHim6fHtBFHx/6d3SDSiEmGPIRIWQ134LZhreF4h5wlMmc5u8FQ
-         V57ZaUjyiGOZaqxiJj/OugrMWAiOnuU5ljuh9ngif9PbqqWML/rufijLOb3LssvLybTi
-         QqTw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="J07PUjIQ"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490be03d47bso6799195e9.0
+        for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 01:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1781254538; x=1781859338; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=suse.com; s=google; t=1781254598; x=1781859398; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eJghUbDUHZkDrqU4zXDzfGhgJ/zqGoOZUi3OGZ2y5Rs=;
-        b=RBSMRpctyusS4Etrc7Pumh2eDSAezqTAhDNblhmfi1TbocYxRb0NQ4dGDQSXWn628c
-         FEALdEBUeFDUXhvLghPRTNzDfG3geeyK6RAPxqXuZmN9jvrrC7imLev2VjI2QYhKhGTI
-         F+Bq6hrKizrZNZV3MPSGTFyb75HZZWZ97CMuo=
+        bh=njU7SwokzXLnAOAvKiJOLoJhBijRof4SaZzq2UEzjN0=;
+        b=J07PUjIQcfKM6tHavAGYO67VO9ONUycPuAIGvH1SVAEDF1ZLBkRzUTxGMkT9GqXHF/
+         nYe0tQXVPeA3ipqDeH1UgsByDoUWaTZSriZgApHxxqmi4zvl0w1gruR/gsy3dxwCzt0C
+         fR7ecECBIFSvfMM+TKznoFASuHlKrHTbElqn9WzxZSDMpdAdbuXy2CJSY3WmoR9mdH/w
+         IFSLWClk3ioVGdMgNDJdJBOEaQh4KNsY/Dz6Cw3IVW/zMCpyKb6obu1qvapsHFmgYexy
+         GtvCk8YF1OmTrWBbDgPm8W9LEZQ4Ep6tPicK53pzE8bHj91b/8NXLe2ZpNfTqux4v4KO
+         riqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781254538; x=1781859338;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1781254598; x=1781859398;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=eJghUbDUHZkDrqU4zXDzfGhgJ/zqGoOZUi3OGZ2y5Rs=;
-        b=PMeFiyl3Usww9YcahXI/Hs8QIcbHCNckvDsoRFpB/2hE/jkZH67gQ9P4kQiEvyrAAH
-         xYDPL0OTRq3Z/IbwLxI+l9V+8Vk4/qryONGJgvP43uUZwF8VE10d7Ps04PH6DHoygr/L
-         QRJrJ8uCOEFH6ORjv03+BL1oVTCnYSuOPaSGZkpZyuE2/BBYqrWXgpPK7A6oDbj8Y85w
-         KQp9K1/kkzoKonyKjotk5xCLanMP5otXIZG0h4nMPToSnBs/f0pY9XKOmxq+MgMSuEEf
-         Bp6+Rm6H2XiB5Hl5uCsOsedrdtwwXULVempBFhb4NpyC+kdcIRWWZC320wzqXe2Tauj5
-         iJYw==
-X-Forwarded-Encrypted: i=1; AFNElJ/R5u90pgMUXWHtI+iLJP0gNcZr9POa+GGpvbZqYjd6a30l11wh5thpGnoxiRF+KEaCyl2ZaCGlvXHIlw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxCp2odOck2ubR+HBnjoydOIK8yWK0OUK1tu2/ALDRHSI8pjwT9
-	rt6cUf2Ah4QiVMI8WIWkdoa6jShTCjsgErM6XQ2nhr+MF2zHiZ/vQgGLddP5rNBhRiJV4McEeD2
-	GeJNkk4wS3i+jYzaVsE5I7Dbvr9zu/mQbpf9NrXN0
-X-Gm-Gg: Acq92OHLEK5okPttpwykyq8zCeJRMXUTuHvtSVI5Fr8WlymKwRs3hluw1z5fKsXLSCQ
-	wO6TEQvHZustDu5FRdaX5P5OrMNy2I8AQDsVmDb+aAiJq6/U1LnJG96o6LGyhpS4VX6x+k3h2ms
-	ZvCIIv6ACtfqC7+egs+DxZvytBiibi4lfgj3UQ59nn/LPxK8syttAo8sf8IsMQYxKy3Fu0xW0d8
-	qe/+iObptHHYTie6HjacerHxmbmdwu+c7TDBb2gdlfRbRdFW0Ki0xoVHXtMwUAW3aTyBOXz9Avx
-	ML1GGyXH
-X-Received: by 2002:a05:690c:e3ea:b0:7f5:87d3:c38c with SMTP id
- 00721157ae682-7f7b7c3b073mr16472667b3.21.1781254537877; Fri, 12 Jun 2026
- 01:55:37 -0700 (PDT)
+        bh=njU7SwokzXLnAOAvKiJOLoJhBijRof4SaZzq2UEzjN0=;
+        b=MChVcF0dqiCFKrXxEdjSZEiaPpjrq6g1mXzRLuIOd80ABLblAndrRjm4NFhJB0FN6Y
+         jgTBhYsKGU3BZpLh9TBDpm/siQN10kinX7fLMpxFAOhBZjQZUo+CD0TNKCWFHLf9fYqz
+         w19rgU8VuXqqmAcMm/BmUcn5ycXbEUP22HR6V6L58T8KHsDSEKFAOsXMDwapfJ88MW7Z
+         Lg6HDDTkhiphBXouH5wHmk7pHSyf8cAQzvgdS1zV7IWpxxYlS9han25eOq4b6tFd6XV8
+         QoamJBJz21/UpM2vgWi7z0tRYPVE6DRfZkbDkZ8wR1+Lj0k34RFyyG/NSa2s9OGfaqzt
+         a9kA==
+X-Forwarded-Encrypted: i=1; AFNElJ8X5yZOVFdk/HPW3y/OOPsqjaukT0IalFWU1ysZX4AXprV3UOmDhWlpUsfb9sCtLem5DrR23cT1yZCCYA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhdXrypYY7jbnVIW50VDH8WWDtDvXv2ia2xUEktfvmuFEKAESy
+	Iu39VheaptpGCiPN03JxADoP1iXx1EHXYCW7C2OmwY0u2GUghirtkwK4a765rkfx2Ms=
+X-Gm-Gg: Acq92OG9563miLeyXJrp5sNCUt/yiZdtqeM2izcHkw4fCDMZ0MKY+IHSYFbIETKkNji
+	eXHhBCh9goKY7ZVyJZK12K9r914fWq0o5S43hyxL+SuR8NsNqUqaQ3TQpIVqbMMgWbMwQ9C7/RA
+	gLhM+reuqHWc/Zfwh0vYHOSELVhHL9+5R9j3PEd0gVFjZazcsCdnI5KCjCDyzPR25M/piK0YpbM
+	38UqaQFo6U/Ll4OgHtJctdKpOsb8dmtsqnhRWE7vTc9oZ0cZZM4+zaiEbqEc9IC9BqSiIEmMrPl
+	fQp70qv36tphbxSLa9jzFdYo8sLK+VR4snS2pcf8bYK42d1rwc+0SsWfJOKTWxK5HktHOQ3n/+r
+	v0DXHkDK37ZJZCjfREDyBEdMK6aNcMMK7q0Y3xJIeMfkMSBOG6ZtGNcZ8UNiSlo3l3DTuqy8hYE
+	DVQYuJXA11oKrmwg==
+X-Received: by 2002:a05:600d:8653:20b0:490:c032:ae92 with SMTP id 5b1f17b1804b1-490ec50ffc3mr15206145e9.33.1781254598006;
+        Fri, 12 Jun 2026 01:56:38 -0700 (PDT)
+Received: from linux-l9pv.suse ([124.11.22.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e48c3dcsm2583094eec.1.2026.06.12.01.56.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Jun 2026 01:56:37 -0700 (PDT)
+Date: Fri, 12 Jun 2026 16:56:31 +0800
+From: joeyli <jlee@suse.com>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: Chun-Yi Lee <joeyli.kernel@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Matthew Garrett <matthewgarrett@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, jlee@suse.com
+Subject: Re: [PATCH] debugfs: Fix lockdown check for mmap_prepare
+Message-ID: <20260612085631.GJ11413@linux-l9pv.suse>
+References: <20260612055455.16894-1-jlee@suse.com>
+ <aiusZLu4x-9UCrDH@lucifer>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-8-wenst@chromium.org>
- <CAMRc=Mc3DqGb2MsvM4tjcqFuRraAO+EftO1UrtNFvR5dMRXmVA@mail.gmail.com>
-In-Reply-To: <CAMRc=Mc3DqGb2MsvM4tjcqFuRraAO+EftO1UrtNFvR5dMRXmVA@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 12 Jun 2026 17:55:26 +0900
-X-Gm-Features: AVVi8CcqxBgWwqPnctKiq9OR5bHp6we8pjEGtqp_ZFOZvY5Ttt7Fwncjoqrnmf4
-Message-ID: <CAGXv+5HQa9BH5wyVwKNxjXLEZDnE0sbeQjgNxwmAG+OF8bbz=w@mail.gmail.com>
-Subject: Re: [PATCH v2 07/16] usb: hub: Power on connected M.2 E-key connectors
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aiusZLu4x-9UCrDH@lucifer>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 
-On Thu, Jun 11, 2026 at 6:11=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
-g> wrote:
+Hi Lorenzo, 
+
+Thanks for your review!
+
+On Fri, Jun 12, 2026 at 08:28:29AM +0100, Lorenzo Stoakes wrote:
+> -cc wrong email
+> 
+> (Please make sure to use my correct email address - ljs@kernel.org -
+>  I usually do not see emails sent to the incorrect one)
+> 
+> +From: Chun-Yi Lee <jlee@suse.com>
+> 
+> (You're sending from a different email address so you need to explicitly
+> add a From: xxx tag to match the S-o-b at the top of the message)
 >
-> On Wed, 10 Jun 2026 10:40:41 +0200, Chen-Yu Tsai <wenst@chromium.org> sai=
-d:
-> > The new M.2 E-key connector can have a USB connection. For the USB devi=
-ce
-> > on this connector to work, its power must be enabled and the W_DISABLE2=
-#
-> > signal deasserted. The connector driver handles this and provides a
-> > toggle over the power sequencing API.
+
+I will use your kernel.org email address and put From: tag.
+ 
+> 
+> On Fri, Jun 12, 2026 at 01:54:55PM +0800, Chun-Yi Lee wrote:
+> > Commit 651fdda8406d ("relay: update relay to use mmap_prepare")
+> > changed the `mmap` file operation to `mmap_prepare` for relayfs, but
+> > the lockdown check in debugfs was not updated accordingly.
 > >
-> > This feature currently only supports a directly connected (no mux in
-> > between) M.2 E-key connector. Existing USB connector types are not
-> > covered. The USB A connector was recently added to the onboard devices
-> > driver. USB B connectors have historically been managed by the USB
-> > gadget or dual-role device controller drivers. USB C connectors are
-> > handled by TCPM drivers.
+> > This prevents debugfs from being locked down when the kernel is in
+> > integrity mode if a file uses `mmap_prepare` but not `mmap`.
 > >
-> > The power sequencing API does not know whether a power sequence provide=
-r
-> > is not needed or not available yet, so we only request it for connector=
-s
-> > that we know need it, which at this time is just the E-key connector.
+> > Update the lockdown check to look for `mmap_prepare` instead of `mmap`
+> > to fix this.
 > >
-> > On the USB side, the port firmware node (if present) is tied to the
-> > usb_port device. This device is used to acquire the power sequencing
-> > descriptor. This allows the provider to tell the different ports on one
-> > hub apart.
-> >
-> > This feature is not implemented in the onboard USB devices driver. The
-> > power sequencing API expects the consumer device to make the request,
-> > but there is no device node to instantiate a platform device to tie
-> > the driver to. The connector is not a child node of the USB host or
-> > hub, and the graph connection is from a USB port to the connector.
-> > And the connector itself already has a driver.
-> >
-> > Power sequencing is not directly enabled in the connector driver as
-> > that would completely decouple the timing of it from the USB subsystem.
-> > It would not be possible for the USB subsystem to toggle the power
-> > for a power cycle or to disable the port.
-> >
-> > This change depends on another change to make the power sequencing
-> > framework bool instead of tristate. The USB core and hub driver are
-> > bool, so if the power sequencing framework is built as a module, the
-> > kernel will fail to link.
-> >
+> > Fixes: 651fdda8406d ("relay: update relay to use mmap_prepare")
+> 
+> You need to explicitly add:
+> 
+> Cc: stable@vger.kernel.org
+> 
+> As we will want this backported.
 >
-> That bit needs to go away I suppose?
 
-Yeah, instead we need
+I will add cc. to stable mailing list.
+ 
+> > Signed-off-by: Chun-Yi Lee <jlee@suse.com>
+> 
+> I think the idea is correct, but needs tweaking to cover _both_ mmap and
+> mmap_prepare, until the mmap_prepare conversion is complete, see below.
+> 
+> > Cc: David Howells <dhowells@redhat.com>
+> > Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> > cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: Rafael J. Wysocki <rafael@kernel.org>
+> > Cc: Matthew Garrett <matthewgarrett@google.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Danilo Krummrich <dakr@kernel.org>
+> > Cc: driver-core@lists.linux.dev
+> > Cc: linux-kernel@vger.kernel.org
+> > ---
+> >  fs/debugfs/file.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+> > index edd6aafbfbaa..d5e187895dd8 100644
+> > --- a/fs/debugfs/file.c
+> > +++ b/fs/debugfs/file.c
+> > @@ -273,7 +273,7 @@ static int debugfs_locked_down(struct inode *inode,
+> >  	    (!real_fops ||
+> >  	     (!real_fops->unlocked_ioctl &&
+> >  	      !real_fops->compat_ioctl &&
+> > -	      !real_fops->mmap)))
+> > +	      !real_fops->mmap_prepare)))
+> 
+> This is not only applicable to relayfs.
+> 
+> So while we both have mmap and mmap_prepare, this should be:
+> 
+> -	      !real_fops->mmap)))
+> +	      !real_fops->mmap &&
+> +	      !real_fops->mmap_prepare)))
+>
 
-    config USB
-        depends on POWER_SEQUENCING && !POWER_SEQUENCING
+Yes, thanks a lot! I will send v2 patch.
 
-But I ran into a dozen or so drivers that have "select USB", mostly
-input devices:
-
-    config TOUCHSCREEN_USB_COMPOSITE
-        tristate "USB Touchscreen Driver"
-        depends on USB_ARCH_HAS_HCD
-        select USB
-
-Kconfig complains about unmet dependencies.
-
-> I see Andy has some suggestions but in general I like this approach much =
-better
-> than adding the pwrseq_get_index() function. Thanks!
-
-Thanks!
-
-ChenYu
+Joey Lee 
