@@ -1,126 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D4B40D56A;
-	Fri, 12 Jun 2026 07:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781249313; cv=none; b=RoGlfY30oJs5v8NqbnKfI6BfYL5SCZnHm+F0NLFzH38fEllySV/GzfzWBPoV+4x2cPSEStwaXlIyIA9divVTk0Xaqt4lU9A/ZpsmmtxCWSU3xStcJlMTgkvorhSXnl0/y0mdTahW3OwMz0gFiDTrNRSm8vBDCF+O7/pb1qhSXHU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781249313; c=relaxed/simple;
-	bh=o7qZP2vx3M95oaBDb6M9Wzw2EisUcZVGZbc96o0BNCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/jWs6rRMUQzmYIhNLjACtYjjaU99rJlzpkKKmcJ6rtM8uaee4OTfqGcubQMLkUSIdXcCa40xu6vnHQgUctLoWI2XCF68GiJwCgbfnUF4hNSFu0ueEOy/glwgVNRTd36T/C6mbcCrsmNPkUot6ZMKRWjB8/91H7Hh23BS6HspPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kzw6qBbT; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699243E3D85
+	for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 07:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781250690; cv=pass; b=BjqsID7/ds/YeWUKfA5BCWqEN8NIVEdk+5Qqi2RSLM7kkgQMz1rSN0IuhfELvZbGKCM/DvBIIKuDO/k8LcYZ9p88xnpwRALRMfsNbysOyarpgee6DcwKJ/X3I6ms2rEh4mB3WlxEE1nAaG0cxiuFo8L+cjWBdpJpBPlTAI5UGEI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781250690; c=relaxed/simple;
+	bh=AAW7Bc+70pQhpUTfJT214lM/e5AbzwxyHZSFmCFPS7E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mz0VKZzQYtNq1EiP6kDlkoDVxvCZufiyoBjgnfB+Ii57FwYZOmDPKD5w1GsgdXKuWAkMMGTXATkloyofEJkutMiw3ZU7hPGjHoSP5LaJxAQpoyf7TrGZIQQDPPcteTvz8Rv0L227KAW9BfVkBCimwz3ui/5N+8GTxohkt28yVwo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Enjqm6Dq; arc=pass smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kzw6qBbT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D85E1F000E9;
-	Fri, 12 Jun 2026 07:28:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781249312;
-	bh=b7oDK4EJiTHE2+y6zx/6xRp73OFGick2UKNL1I7BedM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kzw6qBbT5+HezJfNCzkEfG0fwxJU5tIfF35fx+vput7hhrDI4Sg4IlAZDvIOssHF/
-	 jmT9DE8TXNasABWnBrXnZL7YXzezdWbbp3hqbX78wHkYwlODLA/cOAfcfwF1MO+k+6
-	 L74lMywdFTJosyeRpEYHSNbVHeWrlCS6fKGDNYCiYrlmsdz3akPw1JscLg8zpPhYJB
-	 1KwKN0YdTinRl4TQIAA1rVkZ89Wm9+/4q9Ll4lAPwXHQt6rcYmlPsMs53heHwqPgR5
-	 omh6ihywLhJ+nvA010lssTz3EsgrZOSYwomrBAHsPgaJZLB1ygut6gjwBaQKbhyFLf
-	 FW+5xPuIrUTIw==
-Date: Fri, 12 Jun 2026 08:28:29 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Chun-Yi Lee <joeyli.kernel@gmail.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Chun-Yi Lee <jlee@suse.com>, 
-	David Howells <dhowells@redhat.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Matthew Garrett <matthewgarrett@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] debugfs: Fix lockdown check for mmap_prepare
-Message-ID: <aiusZLu4x-9UCrDH@lucifer>
-References: <20260612055455.16894-1-jlee@suse.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Enjqm6Dq"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7dc6fbf3e86so8162747b3.3
+        for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 00:51:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781250684; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MvhogQ38fYP78PUboVKzgx0sJb3R+1/G0lEX5hRE5K74EBBqz20D6qfrAPaXatLkg8
+         bGyUeLbC1ypdbkzCGywxL7jLHGvRSdw13Gl+j70sE8th7k28X99+IWFoborni6tnzQW8
+         AYMLkdtGxCdddV2tWCUTDErG2JsrYHleQ9c1Qr7kT+9m2myKpxo9DnSBIMJ57yfX/vIa
+         um8CI6Z+AhbqnjEpUk+EfS0aHr6D55JydHNvIg9RyDD7FW5SfF98mX3bnyCxYI5F7bKJ
+         3nn5fH3Axf9f1CN9rDG9YmVqwniurV1wlBLMrKgGbj0EKwDu55uLcp+Y+WFyJbwREQPj
+         HjqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SR0MIdclzqLJ5NMQX/zWd9Yh3H6pzRPWDeVIlwB7J0g=;
+        fh=itmyx2HDcYf+OlShqpSh0C12ocFenBvtK752kpqUbFU=;
+        b=f31S6j68M45uP+nZNBp54kTeENc6duD8b7j4svMBgTwC50r2qC9ezP8kTHwbqvmgvm
+         yjj5Ltep0W7XaHh/Ll7l08E1ChHcfgsde/leGX3uYSJIJdPIXrH2jOLTug8nONCN8ftc
+         L9bGNLP3drkN8kHSyZBB8fVtMr+GvBtw3wKOyxGCDPdDXVWYWpxA2/1iDaSF/oAhCW7T
+         C0bt/NMhFbllHpLdpU4JbE89bzQc8RnxycLA8X5G7VYpJ3v/qy4Mh/WT+Fpvb0SRXqGM
+         ARIuEDIcTnkg8V6Lt+n7eYVPSj/JXpsNgANIJt5lxQKZnZZn+xALmRoZqzaighDdebrt
+         oejA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1781250684; x=1781855484; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SR0MIdclzqLJ5NMQX/zWd9Yh3H6pzRPWDeVIlwB7J0g=;
+        b=Enjqm6Dq2Boh0KKZveRcCic5k0NWQF2pnyyjCHKHTX2SRaoE/g0z2nhD1O/2bWWVTO
+         6R05K05KxqfG7tKSpABtzm88GcqFNVDuP8NCIFWq7I/33CWWtsRMPD+BTClmLv2rqwkt
+         3644AEKT7Lzs5VbhkduBTq3lFhuFyhhq9TM18=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781250684; x=1781855484;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SR0MIdclzqLJ5NMQX/zWd9Yh3H6pzRPWDeVIlwB7J0g=;
+        b=rAdirTAeknuE/0hYu3VbfjKH9M+bSSpWDeZUjvIy7bpoW1AFb4Vo3CxT1t3K8NUeX3
+         FgobSiN4TuwdYc09paM1GB/hj6coOK0DoDCkUJulPCFVfyWf7/BmosHBx93OJOFSLF9n
+         gwf7f3qJZ1z8AlGi4MXqw7WPIPHRARDxAk0do23sxas10zs9mHmXoBUmP0YnEDcCsja6
+         jTLlk1Cls44bOgZCz1d/z78BeXVUczyKLRvrneJP1ajCuLSR1uM4KY+Hnwj8jjEZCb0J
+         qT0/tCUthDQ1S8fjtZVnnRaLXzdivpa1riuOeHrSqmfM1SU/yhTss79hT85XmIJ41Zry
+         WWaw==
+X-Forwarded-Encrypted: i=1; AFNElJ8DJbCeh/5qyV/ESkIXmyWOyn1YUFXuxNGkGjN7xpAIr/22kR5cmSemxVy1ilxSKBKUNU4jtCfHdAMcIg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBdMlfewCroXzNza3JPr2zzAuXMV6R2C+IU+PUENOCpVdFDZ+i
+	Jl7PStO3zIwREmMfsRsjvVkFAIhrymz009vPevywZQql9BgaIL5uXtw+BdV5P0Jgk/l51VCM6Zm
+	cxWj4dCsrFWe5w4gm4fgQlEO3h3FkwuJ85ZNUGssv
+X-Gm-Gg: Acq92OGA7Wb83djSoi0fwbqPFyQto48I/jMq4T7e7KN+eCk/JgwOh/ijnJJmkAtvWdt
+	7FlmKBpuxqFIt4aPkkaZeULBBGM6hNTLH2iQEJvQ7m7UKVGCPuIxwCAsAm/aDLSZEoFCYOYRzNQ
+	hKIvV54aizxcGnOEtn+y8FmBOmEhc3gY7s9+8nWXknUDqyvDZnzXssrPYJ05ysGAKc/e6ifn+FL
+	VxS1afwrgA4gRDhR1h7/cnc3O75PlR51mFF2APVK89tEojOwrz5LihXbhGv0+5NqjVNXu+Yd3VC
+	1aiZOTOv
+X-Received: by 2002:a05:690c:ec7:b0:7bd:73f3:7a70 with SMTP id
+ 00721157ae682-7f7b8523999mr14898787b3.32.1781250684397; Fri, 12 Jun 2026
+ 00:51:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260612055455.16894-1-jlee@suse.com>
+References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-5-wenst@chromium.org>
+ <ailytpKQcvYTUH7j@ashevche-desk.local>
+In-Reply-To: <ailytpKQcvYTUH7j@ashevche-desk.local>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 12 Jun 2026 16:51:13 +0900
+X-Gm-Features: AVVi8CeA8ndBvqsmj_bBdEg4mr2h2E0R3_zPJJzKBFEx0mTdugBDzHIodwmMGm4
+Message-ID: <CAGXv+5FrD7abUvw5JgZECcGBvtOOpezDtmUrCRmVAbDx0ApxhA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/16] usb: hub: Return actual error from
+ hub_configure() in hub_probe()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--cc wrong email
-
-(Please make sure to use my correct email address - ljs@kernel.org -
- I usually do not see emails sent to the incorrect one)
-
-+From: Chun-Yi Lee <jlee@suse.com>
-
-(You're sending from a different email address so you need to explicitly
-add a From: xxx tag to match the S-o-b at the top of the message)
-
-
-On Fri, Jun 12, 2026 at 01:54:55PM +0800, Chun-Yi Lee wrote:
-> Commit 651fdda8406d ("relay: update relay to use mmap_prepare")
-> changed the `mmap` file operation to `mmap_prepare` for relayfs, but
-> the lockdown check in debugfs was not updated accordingly.
+On Wed, Jun 10, 2026 at 11:20=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> This prevents debugfs from being locked down when the kernel is in
-> integrity mode if a file uses `mmap_prepare` but not `mmap`.
+> On Wed, Jun 10, 2026 at 04:40:38PM +0800, Chen-Yu Tsai wrote:
+> > The addition of power sequencing descriptor handling in the USB hub cod=
+e
+> > requires dealing with deferred probing from pwrseq_get(). The power
+> > sequencing provider may not yet be available when the USB hub probes.
+> >
+> > Return the actual error code from hub_configure() when it fails, so tha=
+t
+> > the driver core can notice the deferred probe request.
 >
-> Update the lockdown check to look for `mmap_prepare` instead of `mmap`
-> to fix this.
+> Makes sense to me.
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 >
-> Fixes: 651fdda8406d ("relay: update relay to use mmap_prepare")
-
-You need to explicitly add:
-
-Cc: stable@vger.kernel.org
-
-As we will want this backported.
-
-> Signed-off-by: Chun-Yi Lee <jlee@suse.com>
-
-I think the idea is correct, but needs tweaking to cover _both_ mmap and
-mmap_prepare, until the mmap_prepare conversion is complete, see below.
-
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-> cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Rafael J. Wysocki <rafael@kernel.org>
-> Cc: Matthew Garrett <matthewgarrett@google.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: driver-core@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> ---
->  fs/debugfs/file.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> One nit-pick, though.
 >
-> diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-> index edd6aafbfbaa..d5e187895dd8 100644
-> --- a/fs/debugfs/file.c
-> +++ b/fs/debugfs/file.c
-> @@ -273,7 +273,7 @@ static int debugfs_locked_down(struct inode *inode,
->  	    (!real_fops ||
->  	     (!real_fops->unlocked_ioctl &&
->  	      !real_fops->compat_ioctl &&
-> -	      !real_fops->mmap)))
-> +	      !real_fops->mmap_prepare)))
-
-This is not only applicable to relayfs.
-
-So while we both have mmap and mmap_prepare, this should be:
-
--	      !real_fops->mmap)))
-+	      !real_fops->mmap &&
-+	      !real_fops->mmap_prepare)))
-
-
->  		return 0;
+> ...
 >
->  	if (security_locked_down(LOCKDOWN_DEBUGFS))
+> > -     if (hub_configure(hub, &desc->endpoint[0].desc) >=3D 0) {
+> > +     ret =3D hub_configure(hub, &desc->endpoint[0].desc);
+> > +     if (ret >=3D 0) {
+> >               onboard_dev_create_pdevs(hdev, &hub->onboard_devs);
+> >
+> >               return 0;
+> >       }
+> >
+> >       hub_disconnect(intf);
+> > -     return -ENODEV;
+> > +     return ret;
+>
+> Can we convert to regular pattern, id est checking for errors first?
+
+Sure. Will do it together in the next version.
+
+
+ChenYu
+
+>         ret =3D hub_configure(hub, &desc->endpoint[0].desc);
+>         if (ret < 0) {
+>                 hub_disconnect(intf);
+>                 return ret;
+>         }
+>
+>         onboard_dev_create_pdevs(hdev, &hub->onboard_devs);
+>
+>         return 0;
+>
 > --
-> 2.43.0
+> With Best Regards,
+> Andy Shevchenko
 >
-
-Thanks, Lorenzo
+>
