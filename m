@@ -1,129 +1,205 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AB537E2E1
-	for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 09:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781255869; cv=pass; b=WhIe3JwYVWdvJrKd/EMF5704ipavsxTGI5c5oqVNIbLrIn8lDyPOAykjIlJaTHsiQbs2kI5g1shZ2GrJEcXIcnJBW/Khnsom/+OZwKGk+MyRVFE1y2khIkwtBFUZZfpaeVQTsbrBwh49z30sz5GVehgRYSgjpEhI0FN9aCKFjhc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781255869; c=relaxed/simple;
-	bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b0OXPM4lVlpcq/COA20diY5L6gK2ACqqY4W1L+55NnVVPpX5NOprhYbv0/m/njAB9X7tHzmWHYscIVGU+YIWXspxyASXnpEjcqGBuvKasJt3e0x59CMT6FcdfEjlDW6NIt9MPfTCDx/rew3X+l8lkM3X9OtBboZEAtgtRtkmw5s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hFFh+uSo; arc=pass smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DD5367296;
+	Fri, 12 Jun 2026 10:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781260571; cv=none; b=VDHXC3iLt/3cLR/eMQVcSjv3bBHPAWQkhF/io4F9sqzRkS0d/YyWjvv3xUK+ngq6rH3zJAuUJA54vHJIoMakGEPJtP8r6Cq8+1za3uqgOtbNZd9tm6B2UOZzEI2cfyzPlGxL06xplggwnL3cP54r4bXWgnyxr8yXzux2g1nRc/I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781260571; c=relaxed/simple;
+	bh=91FxiJV0N6BmdAmvTdC5cs67r+8PYu041zNku9q03f4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k5+RXBPLHsIJAnn9v2lPn3hMtoOoXSYXqV8wTapp8dzyCf4usqKuCz3XObg51ka1dczSCXpVUYkaHP+hOX4m2NZ8ARYoc+9IRnpeEPpBwoTFsKPbzpF5hta5jkT3TbaSQqpgZeWVlsO0apypysDJG2jQCZQVFxQc1CyjjmUKTYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CC1V4yX/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hFFh+uSo"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7f69b71f7b2so7685417b3.1
-        for <driver-core@lists.linux.dev>; Fri, 12 Jun 2026 02:17:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781255867; cv=none;
-        d=google.com; s=arc-20240605;
-        b=c5QPUwecWdjK2f/J9pcizyrCeDoKjt9GbznZgk4cnPsn8VO79IfD1fu77wn237RSVD
-         Kv2ahxHIUJBiemnQKBvqOWCLU4lgCLG/D2D+uqwryyz9KV3TO89umhoFnJ7lSZXHcZ2j
-         Cj/28whPo4du6XO/oLabAhdXUKWzdIvPpoK97+csfRgxcPMTgIIwc3hp7szUrwHbaBgI
-         O61nNp1uKLOmg6YBR4TPzvlDBMYGbAsMDsGAWhjNzknVGdvgpfIXMpkVz+dteOkk1qHZ
-         s956wxEcqalpgfD6gd+EoIeY7L9bFMbBCbxmdzMXV/4z8Fsd0WkbRC0+umYXHBN2QlLc
-         Dn0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
-        fh=lbgA0NUCJkUk0L+HW99KfbpvBfi3g3VY+SioO/4hBms=;
-        b=aLTFacZzb+EbM07Ui83qgbRlQail68r6waaExL91H5kO4/tXFfqMp3m+hHIzkqLq9R
-         y/uDbcniKx5rWeUyGZfFkd8aNYrDmijf1MMnlOrHU+SsBl1zoDpxre7QBCxm0iA97kYe
-         vF8LK07fcpTV4RTEsQPIo76y28UaLdzxDdhBxbv2LQ65ttkAJayKOzb6gqAN59Ot1n5I
-         Gi8Gur+YizIpE9y4gFrRuR1wK8XhUtAT4g0+P1KLs/7yQDwaj+S8HZzBdzmkMEYMkcSU
-         OvEMCnwDnn0y1obf2pkt8guuG+2RWRHJh3lV/ONqnO2mVscFTOTD5DcsTB7UnWALPba8
-         okLQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1781255867; x=1781860667; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
-        b=hFFh+uSor2++wBXt7yDEEdYM8zpZ6N2nRMaWs27anBW/mkMRecgDILkDMm+eBFL8Uv
-         wh8eFY5gqZ+Xl57swwZMUQKBVwCELB6OqdGZkL87Pnr7Ww/TiSvNr5hfkuiRPkke+Qkr
-         0ag1DqMd6Wgl4bHF1J+LLe6NJ3xPj3IOo5d2A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781255867; x=1781860667;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
-        b=NDxcTyS1bgfY5FRhRuoBjzRT8rQz0fMktrYv54iNVdAnL8bkfzjKiZrJGXqWBKTyET
-         0HzF3zyOJ2U2NtvUqcYJ0e0GaKlqzxEtjYruhP8HiEoYtD15O7PmLWmRFOTXOOL3aTiP
-         vfLYpWteswwEuVIPbMDgNKmZeCwt4sNSgugh3Zyk/+yZmCK4mnHLzt1kbcKZytUqEMq1
-         uIf2bV9GvgPd7OmZvHZb1S+dc8eXL7/IGRRgdEqNbclRh0T90u7gJrPCaS2qeistKEns
-         ip0+55QyjWq9oEPza0hR11+20cmZsMASAGK6gFXi1t8pRQGIzzdZxIaNkMt4udBkoICC
-         4Blw==
-X-Forwarded-Encrypted: i=1; AFNElJ8zp0kZkWUE9pzrNO6LXlsw2BXbHtEYtpVFndwGxPpla9nFic3XH4ZkAeh4i+8a9cPP6cYUT3fTk/Witw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0yQRBpvknrEC6q7XIgrFDPAxNCF5M6UUbV95EQ0n8yPueRIcd
-	Xtj/DkWSorjZCYKykK8HzKoz2F0aUb9PMuMLiTWvSIkLeBVNR+tCi7LhfREGQ9OWK805KMbMpRR
-	5jDoKxlEbtLyNSudNrmE2nttNkDS4l9oqUJ/j7+Y+
-X-Gm-Gg: Acq92OF6EFFLSl0nylYTixrdMBYN5SLTjudL4F9oGVKmlXETlEfbD1J+KGm8eRS5Z+j
-	iC7StYRrNsxfKVuyBGP0KMY5wVlOzEUpagwQLoX8+RSGHxS001Ezmj/dfHQpQXualeC7SjZItZj
-	eLRwS+EVaai2g+mW9RJ35DzMxQFhP0g/1qOmsRmfr3dbThe4HafJlpXq16K642I8H88dmSvSy+U
-	OBlJQa+FAAlPYgpNys8IswmzjH5/ygSBLKTkgR4ct60WrBVI011ucH+rHHc2EGZPYo0XVaTfbXI
-	AdJ4kiQo
-X-Received: by 2002:a05:690c:3a0:b0:7cf:af41:50b0 with SMTP id
- 00721157ae682-7f7b8d248damr20618557b3.36.1781255867482; Fri, 12 Jun 2026
- 02:17:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CC1V4yX/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04F6E1F000E9;
+	Fri, 12 Jun 2026 10:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781260569;
+	bh=O+SMa7id15Wth7GsodU20nw/Xw2vDDaUwg6RH/UuNDY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=CC1V4yX/m7C0c2G9l1EVCxLTDxtaeL/CQu6ZrHz3tdfM/fEnAw4AMO+Zihb/o+AO0
+	 ogQ0l4mvt0YCNo6GJLidH0brquaBFublaY6/Ye7i37aLuswQRGh74skt3pej27hh1Q
+	 tP+0YwF8vABMNODWjTOkzSb6VLhi/9XtJfpL0I6sOllhgcEdU+Ds7yY3qYZiB1Pxf3
+	 7P5wWz18glxwwRkc5QOxpLvhgPdmF33DWGaAsjBCafLJv5QaBJrnhHcVNIe9PPYnTp
+	 EWQqp1+c8gweY0jBgMgnQiRGLzBTkklhHlVHIdr6NUQHeUzDpu/TiqSrYdYzFiTvh4
+	 r9CnfvBFTaiOw==
+Date: Fri, 12 Jun 2026 11:35:59 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno Sa <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, Leon
+ Romanovsky <leonro@nvidia.com>, linux-rdma@vger.kernel.org, Jean Delvare
+ <jdelvare@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>, Brian Norris
+ <briannorris@chromium.org>, Julius Werner <jwerner@chromium.org>,
+ chrome-platform@lists.linux.dev, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org (open list), linux-iio@vger.kernel.org, Randy
+ Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] Documentation: ABI: fix brackets and bracelets
+Message-ID: <20260612113559.1675cb66@jic23-huawei>
+In-Reply-To: <20260612074916.169195-3-manuelebner@mailbox.org>
+References: <20260612074916.169195-3-manuelebner@mailbox.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-12-wenst@chromium.org>
- <ail2VcubjT7HNGUC@ashevche-desk.local>
-In-Reply-To: <ail2VcubjT7HNGUC@ashevche-desk.local>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 12 Jun 2026 18:17:35 +0900
-X-Gm-Features: AVVi8CeDuG6qw5zFxFcHgtnnMaKWsSajO4ZT4D-k-SPwtRIr1WJR_hE6bMB1VZI
-Message-ID: <CAGXv+5GNfWFinO1E=5X46xnBsQpY-_i45mq60eeQu=U3Z0MtDA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/16] power: sequencing: pcie-m2: Add usb and sdio
- targets for E-key connector
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 10, 2026 at 11:36=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Jun 10, 2026 at 04:40:45PM +0800, Chen-Yu Tsai wrote:
-> > The M.2 E-key connector allows either PCIe or SDIO for WiFi and USB or
-> > UART for BT. Currently the driver only supports PCIe and UART.
-> >
-> > Add power sequencing targets for SDIO and USB. To avoid adding a
-> > complicated dependency tree, rename the existing power sequencing units
-> > "pcie" and "uart" to "wifi" and "bt". The existing target names are lef=
-t
-> > untouched. The new "sdio" and "usb" targets just point to the renamed
-> > "wifi" and "bt" units.
->
-> Why can we do that? No breakage? Only internal names? No ABI affected?
-> Please, clarify all this in the commit message.
+On Fri, 12 Jun 2026 09:49:18 +0200
+Manuel Ebner <manuelebner@mailbox.org> wrote:
 
-Will do.
+> Fix missing and needless brackets and bracelets.
+> Fix minor grammar issues.
+> 
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+I guess I was unclear in my v1 review. This needs to be split up by subsystem
+to which a patch applies.  Each change will probably take a different route to
+upstream as other changes in these files that may clash will generally be routed
+via the appropriate subsystem.
 
-In short, the target names (which are not modified) are used by the
-consumer, while the unit names are internal only.
+The two IIO files can be one patch, but others should all be one
+patch per file touched.
 
+Thanks,
 
-ChenYu
+Jonathan
+
+> ---
+> [v1] -> [v2]
+> change from removing single bracket to adding missing bracket
+> add recipients
+>  Thanks Jonathan for researching the e-mail addresses.
+> use proper english punctuation in changelog
+> "is 64 bit counter" -> "is a 64-bit counter"
+> 
+> ---
+>  Documentation/ABI/stable/sysfs-class-infiniband      |  8 ++++----
+>  Documentation/ABI/testing/sysfs-bus-iio              | 10 +++++-----
+>  Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192   |  2 +-
+>  Documentation/ABI/testing/sysfs-firmware-dmi-entries |  2 +-
+>  Documentation/ABI/testing/sysfs-firmware-gsmi        |  2 +-
+>  Documentation/ABI/testing/sysfs-uevent               |  2 +-
+>  6 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/ABI/stable/sysfs-class-infiniband b/Documentation/ABI/stable/sysfs-class-infiniband
+> index 694f23a03a28..7ba116103429 100644
+> --- a/Documentation/ABI/stable/sysfs-class-infiniband
+> +++ b/Documentation/ABI/stable/sysfs-class-infiniband
+> @@ -148,17 +148,17 @@ Description:
+>  		**Data info**:
+>  
+>  		port_xmit_data: (RO) Total number of data octets, divided by 4
+> -		(lanes), transmitted on all VLs. This is 64 bit counter
+> +		(lanes), transmitted on all VLs. This is a 64-bit counter
+>  
+>  		port_rcv_data: (RO) Total number of data octets, divided by 4
+> -		(lanes), received on all VLs. This is 64 bit counter.
+> +		(lanes), received on all VLs. This is a 64-bit counter.
+>  
+>  		port_xmit_packets: (RO) Total number of packets transmitted on
+>  		all VLs from this port. This may include packets with errors.
+> -		This is 64 bit counter.
+> +		This is a 64-bit counter.
+>  
+>  		port_rcv_packets: (RO) Total number of packets (this may include
+> -		packets containing Errors. This is 64 bit counter.
+> +		packets containing Errors). This is a 64-bit counter.
+>  
+>  		link_downed: (RO) Total number of times the Port Training state
+>  		machine has failed the link error recovery process and downed
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+> index d8d6d85235b0..4ea5598e7cd2 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio
+> @@ -917,7 +917,7 @@ Description:
+>  
+>  		Note the driver will assume the last p events requested are
+>  		to be enabled where p is how many it supports (which may vary
+> -		depending on the exact set requested. So if you want to be
+> +		depending on the exact set requested). So if you want to be
+>  		sure you have set what you think you have, check the contents of
+>  		these attributes after everything is configured. Drivers may
+>  		have to buffer any parameters so that they are consistent when
+> @@ -973,7 +973,7 @@ Description:
+>  
+>  		Note the driver will assume the last p events requested are
+>  		to be enabled where p is however many it supports (which may
+> -		vary depending on the exact set requested. So if you want to be
+> +		vary depending on the exact set requested). So if you want to be
+>  		sure you have set what you think you have, check the contents of
+>  		these attributes after everything is configured. Drivers may
+>  		have to buffer any parameters so that they are consistent when
+> @@ -1528,9 +1528,9 @@ Description:
+>  		the unused bits, so to get a clean value the bits value must be
+>  		used to mask the buffer output value appropriately. The storagebits
+>  		value also specifies the data alignment. So s48/64>>2 will be a
+> -		signed 48 bit integer stored in a 64 bit location aligned to a 64
+> -		bit boundary. To obtain the clean value, shift right 2 and apply a
+> -		mask to zero the top 16 bits of the result.
+> +		signed 48-bit integer stored in a 64-bit location aligned to a
+> +		64-bit boundary. To obtain the clean value, shift right 2 and apply
+> +		a mask to zero the top 16 bits of the result.
+>  		For other storage combinations this attribute will be extended
+>  		appropriately.
+>  
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192 b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
+> index 28be1cabf112..d44eb5f8728b 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad7192
+> @@ -16,7 +16,7 @@ Description:
+>  		In bridge applications, such as strain gauges and load cells,
+>  		the bridge itself consumes the majority of the current in the
+>  		system. To minimize the current consumption of the system,
+> -		the bridge can be disconnected (when it is not being used
+> +		the bridge can be disconnected (when it is not being used)
+>  		using the bridge_switch_en attribute.
+>  
+>  What:		/sys/bus/iio/devices/iio:deviceX/in_voltage2-voltage2_shorted_raw
+> diff --git a/Documentation/ABI/testing/sysfs-firmware-dmi-entries b/Documentation/ABI/testing/sysfs-firmware-dmi-entries
+> index b6c23807b804..ed7d9d06a9ff 100644
+> --- a/Documentation/ABI/testing/sysfs-firmware-dmi-entries
+> +++ b/Documentation/ABI/testing/sysfs-firmware-dmi-entries
+> @@ -93,7 +93,7 @@ Description:
+>  		  /sys/firmware/dmi/entries/15-0/system_event_log
+>  
+>  		and has the following attributes (documented in the
+> -		SMBIOS / DMI specification under "System Event Log (Type 15)":
+> +		SMBIOS / DMI specification under "System Event Log (Type 15)"):
+>  
+>  		- area_length
+>  		- header_start_offset
+> diff --git a/Documentation/ABI/testing/sysfs-firmware-gsmi b/Documentation/ABI/testing/sysfs-firmware-gsmi
+> index 7a558354c1ee..3b3c3ae6f458 100644
+> --- a/Documentation/ABI/testing/sysfs-firmware-gsmi
+> +++ b/Documentation/ABI/testing/sysfs-firmware-gsmi
+> @@ -19,7 +19,7 @@ Description:
+>  		/sys/firmware/gsmi/vars:
+>  
+>  			This directory has the same layout (and
+> -			underlying implementation as /sys/firmware/efi/vars.
+> +			underlying implementation) as /sys/firmware/efi/vars.
+>  			See `Documentation/ABI/*/sysfs-firmware-efi-vars`
+>  			for more information on how to interact with
+>  			this structure.
+> diff --git a/Documentation/ABI/testing/sysfs-uevent b/Documentation/ABI/testing/sysfs-uevent
+> index 0b6227706b35..c15e18c47a0e 100644
+> --- a/Documentation/ABI/testing/sysfs-uevent
+> +++ b/Documentation/ABI/testing/sysfs-uevent
+> @@ -8,7 +8,7 @@ Description:
+>  
+>                  Recognized extended format is::
+>  
+> -			ACTION [UUID [KEY=VALUE ...]
+> +			ACTION [UUID [KEY=VALUE ...]]
+>  
+>                  The ACTION is compulsory - it is the name of the uevent
+>                  action (``add``, ``change``, ``remove``). There is no change
+
