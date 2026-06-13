@@ -1,143 +1,154 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F0F257845
-	for <driver-core@lists.linux.dev>; Sat, 13 Jun 2026 10:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781345146; cv=pass; b=bJYuX79weqF7efYcRp1K3cEIO/eY3NW4lXEQkM9nqVV6iJHVDXanebj6gw+27Mp0Nri3Fm/j8V4vsAxoHOkM/8wO/T1gOUgaKs1oR7gCBtALrOyJ612IV4Rpc3vW2H+3bYYm9bt08QgFR/ydPQZ1ploUhfYrMElQR+AgYiF0mHc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781345146; c=relaxed/simple;
-	bh=a9H86iIlJln7zNImJOs7H3Twwdm5fUP3s4vZPkvhH/U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sHJjf3J1+hnfBOzV0YwacxmdmGB4X1Zmya8zQpatvEg9RByw0RIEcx3rH2DSxUtsuJT8FwD4XKrCecgX7WNH+Gk+kZmgZ2P95vuz32r9d8OuwEM151X80W2kSLpS80Ta8lF6lnhfrl0zR5iMPlqhiBGa8q/Lf0+hNCM7KYogx6w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U2WP5XCx; arc=pass smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F6036BCDA
+	for <driver-core@lists.linux.dev>; Sat, 13 Jun 2026 13:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781355649; cv=none; b=lHMBlidlA4ji7vD4szKmTbd7JZVVOBkRSokN7JHwf1I+J4b4QGAOrZgRobEVtSdU+ozk7j6tDm1fOaoDGalwVYbISRBmPH8F1qi/unhVoLWA7uqil5b/7y0Lne60nsEdvI/1SehQawQmFmZjTDH35A7VSuDMpcNJL9hCiuVMJd4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781355649; c=relaxed/simple;
+	bh=uxJGwCAsMcpFZ/9RNw7yRRDOB6tqapy/6259X4loI4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nCiSn2qVhajTFZLlbDGppIekhG8N5IR1VjFKASQu4xVSbh1cFCqV92zbyxTsmdWAJIFnKanJdpEcnAugkvkNjV4/6S2RfHm7DCZ4VUgAkFy8sdwlEXqX6buiG882sb4fQV4gCnmueUCS1V6xJLlp+z50Xv5TBpQ2rDyAFegYdPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EkgKn3ah; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U2WP5XCx"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-304e86ecebfso116939eec.0
-        for <driver-core@lists.linux.dev>; Sat, 13 Jun 2026 03:05:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781345144; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MV9DwdjkChhCM21oNL8PF9rZA/4xkwmohNubVmV1R7DvdtkDKEKHawSTWu4QoHSpSx
-         uYd1nFJ4seWz1u05n9KEngD0Fy5xqXbSSYR7McWuhB23bHF2FK5fK+aLSyN0qzv3xGj3
-         Dum2k2ogEx3+G+VggTqjK/LCzVyzlF7pGWSQNptwx/mwba2KxIkg0ok/3GJLDqH5m4gj
-         4BtMvnBUQzqjhRMu4vHjXYjMvpJqB+J25cCsMo1xuF86glbC2xdQ3osefDHqGp9txw4N
-         XBTfX+I+LbOoyIDmUDjn1ygzANADLjC4oYWuxlUPj1W/NeeWa8Rvhqzb0v+09QBf0Fj8
-         iI8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CBjNOSpJlw+yD+1WI2YpvIUWPKEOoXhGnrq65FYW9Fw=;
-        fh=RBYfxgfIHatN5KY2uL/rKgNpfnRP/qulUF5zIrDcXSQ=;
-        b=NAmPGwDomDh1UmkOd23J79tEtf2LHEZ6GAe2Gq8Kk2jBvei0XttBscxx2fFpW0zQzy
-         rzwkM3UgnTxoeSrebmLP00v45iA1zcuJwsMLCBSv4UXUyrSJgYQWRuN+NzqW5azfugaM
-         sq+bP5cioAELcJTspIBNa5ukfstiGasywILyQGybJFjMeomeVdwtbeay4b7lSD5U22na
-         8JkDcWmRQNwuGbjyyu3ZqePBGSVg1OfCZssQDkwgcHsyUhHiX53dtCT+JUlzcAk4vFm7
-         Ac/9fhijeNy3bPqs7yFjSNGcAlJ8MY5dh+sTV+cCPRoJBBQTEejiBPX+YijZesU1fjKA
-         1ZiA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781345144; x=1781949944; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CBjNOSpJlw+yD+1WI2YpvIUWPKEOoXhGnrq65FYW9Fw=;
-        b=U2WP5XCxt7YroHfOQRAV6+lR+XIcerwVpLI/hNgPF82huHD3tn3bL/lX4J/5f+QHqd
-         Qyx6RREUfG9dC9sUsGtmzXiTIMyOHwQFQ1MACO/BGCGOBNAMF6mOXAMb1I9xB7bYZJgg
-         wbd3gRb+fHpMeDQWCjuezPNmL4kGgyuVHgCkQezSt43mww9ZDyOErv4EewtnWiRtRmme
-         JgLrT4lvtR25ENf5nQB8hGkIvEHPsHalFPyXoYJNajT4+Jpm7t9aZLEmo/wHvuq2fEv7
-         9BNUFgaOHBGjI8WAnk6hhjk+slmNGO5LAGsfC+km2uLsqRehkZLl4VLQLTpr2ja7+k0E
-         WJDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781345144; x=1781949944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CBjNOSpJlw+yD+1WI2YpvIUWPKEOoXhGnrq65FYW9Fw=;
-        b=diUrNZlihc8gJ/bEhiEJ3UyIw+8LyOpKRlgHObn9fJv1kvZPWnKOQCuWCwdlqBR47u
-         3H/AXnuxTJT/DodAZOHYPGcPWbUBVRNtoXPNXFYkb/sWep2oVG8fqbL3lHZzL6a6vGRM
-         qD1eSKARUWVhhrlLWD5eaY5QqYbq0898NR7d66HZDkAYAmluaMQV5m1NS1/aVUCKh1GU
-         v47ynTg5O7MiyA9O6aOJHUzAAhP8EL1IPl/bDUdiHw+/kkn4GA1pvsoCaiLcskdod+rj
-         7fHk2qD1aioKS0thhDb+S8Zjjqrp7UwEf2akcCN5P50p0gt/v0IZnQ4AnLzLBQs24by4
-         a8/w==
-X-Forwarded-Encrypted: i=1; AFNElJ+dKI6HzbSZIxPCx0UYc7xSfUHG3wGvOG5bFimLc6T5chF3e3+2m5MSWAvP6i4J55iAtn5cjY5raeDI6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/q5BKtMlKYRHAxOnxcHsWFMeHzoJrMB5BLNOTL/bcGaP/FRBD
-	v6Ld8/AkfQ005/491N/FEIxRxWZhXtMiMxkVV0jLio3PMPGp541PfxrEYY9pACW/XAP+trlsrUd
-	7SanRx6KiMJOVH/r3zCPX8vrgUVI7Odg=
-X-Gm-Gg: Acq92OHF2AOEh7RMZ9yX6h0nHH7EhOttAdsvG1wTWzc6s8yjgn1c/ex155/GlGMrfZG
-	mUava2ba0/yYzNBu3KSqHfYbRr3aJK4i/zK9Mzlx0sMPm2uu3quXs7gK767Fwc9n9isM4MOYUSv
-	pOcYsV3ElSp3wvJZPBPyaN3WhpvSsmtzNOmD0ncYLQ6mol+8JzAUlQ9ngBZbngFkiT+5/9qN72q
-	pyHBiOTp65yGsyk5O6VE2P1lap7nTszwadU+63c1toSozy0Mfg9oh11/2jjBWfiugTknnKLdbqD
-	/apGh4xkeQ1xFeKTKYYPtfxYpbRYarpoWY8l/Sqp7ZboKNPPuwKhiawFGXD1QCSW4T/7aflGaNw
-	a5yqPjaAxP3hgAGc451PLMcw=
-X-Received: by 2002:a05:7300:641a:b0:304:e327:aef8 with SMTP id
- 5a478bee46e88-3081ff62e8fmr1477519eec.2.1781345143929; Sat, 13 Jun 2026
- 03:05:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EkgKn3ah"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781355648; x=1812891648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=uxJGwCAsMcpFZ/9RNw7yRRDOB6tqapy/6259X4loI4s=;
+  b=EkgKn3ahvmXVwlWZmoiW2J5B7+NTAQCdYTFA7t+ZUDHY0mndSWljcTnq
+   KvkLgftzSW+CYW0oVXps9ZlKZ5k5mS5S7LNyvbzCqUDoGWBuxDzqWU25H
+   9pHo/iIDahBRUvxhEXm7y9HQpvyiZ75MESakU/ZkXWWcJxQHSGIPTkGT8
+   GfFx28PV94hIfM7CAxvb5ITHyzHXZWCnuFbG2EhLdKvy7X8E+N5FFQVvv
+   BbMeKDh+pgKtgwTCHilQ+kdC/m/5EP75iHnmS4vm0gQIS6FiT9BbK5+JP
+   u0rVNftah8NsS1If//s2yGwo8nLNnUgoG3qTjb4F6n/mP8fzxsSPMYGGc
+   w==;
+X-CSE-ConnectionGUID: KUjMRuUZQRqiGnKhIrEpwQ==
+X-CSE-MsgGUID: dkEp6h7KTye5XF+U6lYH7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="82014782"
+X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
+   d="scan'208";a="82014782"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 06:00:48 -0700
+X-CSE-ConnectionGUID: 9YFHfovRT2GI8xWhDYQGUA==
+X-CSE-MsgGUID: xEQJQI/xSEusBaz11tHecg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,202,1774335600"; 
+   d="scan'208";a="246931274"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.184])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 06:00:43 -0700
+Date: Sat, 13 Jun 2026 16:00:40 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v2 02/16] device property: Add
+ fwnode_graph_get_next_port_endpoint()
+Message-ID: <ai1UeO-BZQEEheml@ashevche-desk.local>
+References: <20260610084053.2059858-1-wenst@chromium.org>
+ <20260610084053.2059858-3-wenst@chromium.org>
+ <ailv8HpnrCH3Zb8C@ashevche-desk.local>
+ <CAGXv+5EHHWfiWgqPpf-RMKoSQLc2cd9OA4Z36SNoL5C53kVh2g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260611-io_projection-v4-0-1f7224b02dcb@garyguo.net> <20260611-io_projection-v4-1-1f7224b02dcb@garyguo.net>
-In-Reply-To: <20260611-io_projection-v4-1-1f7224b02dcb@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 13 Jun 2026 12:05:30 +0200
-X-Gm-Features: AVVi8Ce5ZWN0tgHXx4wgAxeDGhIDTq9KOdKjeJ9s14OzuckvDKwA8hSyjUXURv0
-Message-ID: <CANiq72mLqrcdZEAGM1wJ6OE7yUxzDT4dRsYjO91kPzoB5h6mfw@mail.gmail.com>
-Subject: Re: [PATCH v4 01/20] rust: io: add dynamically-sized `Region` type
-To: Gary Guo <gary@garyguo.net>
-Cc: Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGXv+5EHHWfiWgqPpf-RMKoSQLc2cd9OA4Z36SNoL5C53kVh2g@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jun 11, 2026 at 6:28=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> +    /// Create a raw mutable pointer from given base address and size.
-> +    ///
-> +    /// The alignment of `base` is checked, and `size` is checked agains=
-t the minimum size specified
-> +    /// via const generics.
-> +    #[inline]
-> +    pub fn ptr_try_from_raw_parts_mut(base: *mut u8, size: usize) -> Res=
-ult<*mut Self> {
-> +        if size < SIZE || base.align_offset(4) !=3D 0 || !size.is_multip=
-le_of(4) {
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        Ok(Self::ptr_from_raw_parts_mut(base, size))
-> +    }
+On Fri, Jun 12, 2026 at 04:20:18PM +0900, Chen-Yu Tsai wrote:
+> On Wed, Jun 10, 2026 at 11:08 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Wed, Jun 10, 2026 at 04:40:36PM +0800, Chen-Yu Tsai wrote:
 
-Hmm... I wonder if, at least for the `try_` one, we should have `//
-INVARIANT:` on top of the `Ok`, since we at least checked that part.
+...
 
-> +// Stable since Rust 1.87.0.
-> +#![feature(unsigned_is_multiple_of)]
+> > > +struct fwnode_handle *fwnode_graph_get_next_port_endpoint(const struct fwnode_handle *port,
+> > > +                                                       struct fwnode_handle *prev)
+> > > +{
+> > > +     struct fwnode_handle *ep;
+> >
+> > Unused?
+> >
+> > > +     while (1) {
+> >
+> > This is usually harder to read and follow. It's like "pay much attention on
+> > the code", but here no rocket science, no code to really pay attention to.
+> >
+> > > +             prev = fwnode_get_next_child_node(port, prev);
+> > > +             if (!prev)
+> > > +                     break;
+> > > +
+> > > +             if (WARN(!fwnode_name_eq(prev, "endpoint"),
+> > > +                      "non endpoint node is used (%pfw)", prev))
+> > > +                     continue;
+> > > +
+> > > +             break;
+> > > +     }
+> > > +
+> > > +     return prev;
+> > > +}
+> >
+> > So, this can be rewritten as
+> >
+> >         ep = prev;
+> >         do {
+> >                 ep = fwnode_get_next_child_node(port, ep);
+> >                 if (fwnode_name_eq(ep, "endpoint"))
+> >                         break;
+> >
+> >                 WARN_ON(ep, ...);
+> >         } while (ep);
+> >
+> >         return ep;
+> >
+> > But also big question why? to WARN*(). There is no use in the entire
+> > property.c.
+> 
+> Will drop. This function was lifted from drivers/of/property.c then
+> adapted to the fwnode APIs, so it still has the structure of its
+> origin. With the WARN() gone, rewriting it as do {} while() becomes:
+> 
+> do {
+>         prev = fwnode_get_next_child_node(port, prev);
+>         if (prev && fwnode_name_eq(prev, "endpoint"))
 
-It indeed appears available without changes since Rust 1.82.0 <=3D MSRV.
+'prev &&' is not needed.
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>                 break;
+> } while (prev);
+> 
+> return prev;
 
-I think Danilo asked for the Acked-by back in the first version but
-you dropped it since the patch changed, so here it is again :)
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks!
 
-Cheers,
-Miguel
