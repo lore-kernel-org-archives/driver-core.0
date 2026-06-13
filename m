@@ -1,125 +1,111 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.st.icloud.com (p-east2-cluster3-host1-snip4-1.eps.apple.com [57.103.77.212])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E3533AD88
-	for <driver-core@lists.linux.dev>; Sat, 13 Jun 2026 08:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781339662; cv=pass; b=giXCMZyP+60IpqJcDdACcgQBS17RETfgsdEKA6wX0V+i/dd1BIFeIjjrtfbknlW8MPXwcAA9MrGTYDjHQFSXwkxqCHYnTDJ5Gx43efRhgcsoLXXpH2S9HDwBCPDl0zPWaTGxTd432aXwIkDSPOgl2c84c1bUcvTFVtWLxSG28m4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781339662; c=relaxed/simple;
-	bh=mdkmbCRR16qygUgXiWj3N8vn0Fbus0tyv8Tld/tFXHY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FacjsqWHEKZRe4NoudumfhsrYQQh7nTh7OqL3zbruABQja+pi/a8wTpAxKWnrXq3v4oE7NgkvZUUiENoPMPjL3MBuSZHads/m2J+VLCcQDE6qdQcmgi/3XJ1ZCKaIYicyaRCaVL+w+GQaVCoAaxtnGGqTFXl8uJqKdEFH1aueJE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U914Wjsa; arc=pass smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302B03ACA5E
+	for <driver-core@lists.linux.dev>; Sat, 13 Jun 2026 09:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.77.212
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781343966; cv=none; b=LWj64xa727EnNM4CIHUYKVSr4xaLZqAlrDfIiHgO2JavmSOdnkBRezq8IY9Yl8bW2lJQ+pSAfAVBMIUfaOxBe0vTKCv8kGrFVfaNqNdzW/sRaStWEgoRpGh8o0n7HRutOksAKY81hmwDxdVbEnDaPmOrEB06Oq/f0Y0UlNDDHtY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781343966; c=relaxed/simple;
+	bh=22vXQpGvky3ahpUUcPhuHCluJZbkbpVSN1/Gc4gPzgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jzwl69w0V3xUWnqQposiyWzrv/W5TGOxCQkB+At2jS36Sg3bbn6lNv2vEP0j3FFwNTany2QHpWLa8svsEvaYZP0z6CXBna2Fgkxxo5mYIwKgT8bO6qjL9aB1X8u442HvWa4OiLcgQeV3wam8uxyC6tFq3mYlDqBIKCJojDnGCmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net; spf=pass smtp.mailfrom=y-koj.net; dkim=fail (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b=KobOkf/k reason="key not found in DNS"; arc=none smtp.client-ip=57.103.77.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=y-koj.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U914Wjsa"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-304d3d3d8f8so222139eec.2
-        for <driver-core@lists.linux.dev>; Sat, 13 Jun 2026 01:34:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781339660; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BCTGtwqLiG91L2ytbQyme4RSZsIfmSf7Fipmp14BdUHerf8S7HbMlplZ5a8Ba17aoW
-         4ArOkD0EwyalLVb1NtGgCo0zqfflv51OnNS2fSK2dXsAsJ5KLEJya/dDzdtTsQpaTWRY
-         OLjq4mIqtn6PtuUmAVYOGa8KaqScQ60HEkekoJBAJM9eN53B+4bhhG1s2SnFH2PIr5Is
-         wKJSSSjGv0N32vK+lFHzi/WF0FwPKKndc/hsEbfRyknwFx7ehLMXqcvElOZ0bHCS7Ylc
-         F+ymUCizFSesaQUW2cgePClE2NX61etijGmWDpTpwtXxtCIcN71I9hf5S0I5sjyo7aFp
-         NJrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mdkmbCRR16qygUgXiWj3N8vn0Fbus0tyv8Tld/tFXHY=;
-        fh=pHsDYO0DJDQP9xVjWBZJ+Wjp75FeoEiEBsNLkMnkLpY=;
-        b=hvPwnrrCt6iDqe+ozXre5yTXtGK4Me+gqKyEIP+AhE7gUI+Hc6c7Pj2/oxPsutEGDR
-         TyCYM0/pJkFvpOYQBTVa7SpGLICGscRVoVFTyel9rt4wEG6KLmnLnIwlwdCyja1P5xcS
-         HYlnqTi644u1VFbRElxUgLXL5GsJ0WwapFPtKOSAOy04XHlxDGVjQ4hXF0mX1wn4hVTN
-         fVGjXeR2hdCugfohbePucY1fmsBciTsY/+h+DvuUtPIERVP8r1o6lzjfsjWq3lSL+S3s
-         8cXIZkvk6CHY//BAALLdUjqhTilMCasbnZ7CMffGLGzGsYi139WqExQwWf/LrN48ab1+
-         q5Nw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781339660; x=1781944460; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mdkmbCRR16qygUgXiWj3N8vn0Fbus0tyv8Tld/tFXHY=;
-        b=U914WjsaOJpj0gGn9sjs4JS/4NdEvemtLcSQp2Ce6OOFiC+BntjAl5g/mno71Vf4bO
-         VZ2++F+Y+ZEdgq6GhPvDHyIh9ZHJsOxF+/nd6RGFGLG7BuWVSugFvLwWWBYIOzPL6yMR
-         fxq/M0sjDR3VLwlIosQcttApsSW69PfT/TeoRLrNKUxT6sNd/Hc3baTcSjKzt1cS6oE9
-         3kJMeQDkVXLhk43mj0daif2FH8Z69R9K5Or9UwEz9rswFZn5mTxGWq3dEu4KKimppLgk
-         2qz6iHQPoVLYtptqBmPBAZqeuXYhzrWITXqxcOiN+KjaOvotBGbp16ajMO7ktiKh8j/o
-         t6QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781339660; x=1781944460;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mdkmbCRR16qygUgXiWj3N8vn0Fbus0tyv8Tld/tFXHY=;
-        b=qVdkzjpk38dgMHx+qIXQpanqulkK4xNrEgicefI7hxpFsic9ZO1coc3Xmgjtj8HrZE
-         cY5l1niGFamaXdB+9i1boPN7o8ZWX2wiqtlTAsMl/ZRMGPQ2U3p4YGmUhETpQ8vLw2xo
-         ri+kIaaOI6i+T24KRUZd6rrNFY4xh0rEFY2trW/zleiI+gcbbmpNBZQKyzZrN1LpOd5n
-         Eh1XOGQUVnIaVlOFtFBBhalJXJ/7kGUCOUkeXM06tpYCpUprPrBNFJ3RiPlEVW8Mtt/c
-         tm5kCd9ohu8um+IKvtXJ4Sx7/v2gheJHXNLTuQGr0iyNuIIcbTWmP2tGEqIhLU7F/JK/
-         NCWQ==
-X-Forwarded-Encrypted: i=1; AFNElJ91dSmHInmZoC5qhTbIWIjKKaM2nDK04INatpYUm9WUKMfoiC+U8SwmZHvcLfo3vBW+bpeJqv0Rs6/KHw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0veiyKmOtthd7V2hXNpvZZWgw8oCh7/TOkVflOSKwk/KSewu5
-	8DvOuSI+L4CD9M2JDvm9c7LaE26WIS8co7fuRVRUHRUKWLeePj6/kfPloEXH7vfc9Fu2wDmKPd/
-	TauxdZ6oaVcg/kCbtdAbm6IDlwqf/8dY=
-X-Gm-Gg: Acq92OGd60KMhPW76BgwVJrF41r0L7LJaqpVbXlpX+xK1Fw2r4orxikSzNidG0DyghK
-	UkkCvJrBw7kOg4Jv4oFcufSicLojY74aCsn/4YWP0cs2gXCRMCrxQUJheAVYRKKT67Ybr7BGDRd
-	hMYecxZ3cvmmgxNH3bXMy42JzJtLQim86Oenwzoa5saHSM56Sb9A/AAnCScQfP8FIGeP/t0itlA
-	2PEpyvYcL4HWw7dR3WhsAthoMP66AHQcIQ3+XaiwJk7+8tZ8fMBbE6T2m2l8om/XenQzQ+UJLYl
-	UmKlTS9l1x7udniRclwcBCDERj6hESV4RiIPfjT6mPMma+XKs02on8WtHNuQLaw+BSf0Xu7TY5R
-	QO70RmsEi1vn24R8rDwEKApM=
-X-Received: by 2002:a05:7300:641a:b0:304:1d92:42ab with SMTP id
- 5a478bee46e88-3081ff5f11fmr1542136eec.2.1781339660064; Sat, 13 Jun 2026
- 01:34:20 -0700 (PDT)
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b="KobOkf/k"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-11 (Postfix) with ESMTPS id 4E5F61800178;
+	Sat, 13 Jun 2026 09:45:59 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMHWwJACUgATUQeDx5WFlZNRAJCTQhJA0MBXBxHCVYCXAdLVxQEAVgtTkZZH1NWXQhDS1QUBAEeBlgBHB5cDBMfVFYHUFEdXwIKBEcEWxdGA1NFQQQXEVABWB5WXloXXk1HH0BNYkkBWhlbHEAXSm5NUw8PCRQTXAcZBVcEGRVaCQpXUxkJFQMMQxFRQFogZ11OOnIUXAtYGVgbHAkUE1wHGQVXBAdYRxRHDg8TTAtHAlo0Vh9UGVoD
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=y-koj.net; s=sig1; t=1781343962; x=1783935962; bh=sdT7hW3WHAcVd56B43lLuG/P2r48ORNPXsPw/SMrHb8=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=KobOkf/kjJuDNM/4Ic+R7J5sK4olr2SrhbLOec/tB7pCujcS12JVLOb8qps+GKE5zPQ3m+6umrEU5q0BiLMB4hZ+QkweERRtIJb0tm3bpsUiasDWEHMMl7PWsl5hFPEii4znIS0WVarUJ5mHpD/keSdzGrdhwbn8kHUoM9UVjIdpZKy7IGihgOLmHsCPLE4Thb07didXWpCw69Pv6sP5Ewvc5bqZnvFghD8zsBu4l41Fyg2Y5irf840XX4WYzGLKprP1/J3P1smNzjTJnz6emZTpmdHgtOzG33paKRal4pBkCJdggm0MQCX+09WboeImm1hxQSrHFuialx4LN7Pl7w==
+mail-alias-created-date: 1719758601013
+Received: from desktop.y-koj.net (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-11 (Postfix) with ESMTPSA id 10FE31800388;
+	Sat, 13 Jun 2026 09:45:56 +0000 (UTC)
+Date: Sat, 13 Jun 2026 18:45:53 +0900
+From: Yohei Kojima <yk@y-koj.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] debugfs: warn if file creation failed due to
+ uninitialized debugfs
+Message-ID: <ai0m0atzc0cXT0yQ@desktop.y-koj.net>
+References: <6d1dc775f7d5e754d734907514534054f682bac5.1781171918.git.yk@y-koj.net>
+ <2026061240-cheddar-recolor-63d6@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260610162433.923550-1-lyude@redhat.com> <20260610162433.923550-4-lyude@redhat.com>
- <DJ7AXOH0W92V.1L1869KO4C1H9@garyguo.net> <DJ7CJCZRHT1R.3LZDILZ7HTXQ3@kernel.org>
-In-Reply-To: <DJ7CJCZRHT1R.3LZDILZ7HTXQ3@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 13 Jun 2026 10:34:06 +0200
-X-Gm-Features: AVVi8Cc-0p_Glp23G0kVyr_DFh7-Z-_yXR6xtOVae_M3Gc4DHlyl43G8aBfq8YI
-Message-ID: <CANiq72mffbi2BV9epfZtN1qmjM28B6qUp-5tNGj=VBTimL-nYA@mail.gmail.com>
-Subject: Re: [PATCH v20 3/4] rust: faux: Allow retrieving a bound Device
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Gary Guo <gary@garyguo.net>, Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	driver-core@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>, 
-	linaro-mm-sig@lists.linaro.org, Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, 
-	Asahi Lina <lina+kernel@asahilina.net>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026061240-cheddar-recolor-63d6@gregkh>
+X-Proofpoint-GUID: QjiwyemNFsHYdY1P6l4UCevTidTfO4Hf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEzMDA5OCBTYWx0ZWRfXwdr5u675fBnK
+ pSBACa3NPqG5oPGLda+k6l55JCWmj129IiRd9DYUr82FM93OGFYDHArX4+52jy0Ok9WGVFv+K+h
+ OjRB0vNq/qzHsXtLyHYNEKXq8Uvps+v2wyrHM216Lf1BGIHIp6d3mSYA91TUARpZkiJVQbDHVJu
+ 2RVtLifzpEewMy2Jbdt/2jafnAKoH+IPYGAYDovW9CIEQzehxbq1a6tEZSMn/eJ3LCs6G5hBrih
+ JT2zUr2QsI9+azkQuM30g4khm1Ny2FBo6eE7LY+g4n6Vy/qF0azl97EtIwztl2gdkqiQYJsmiaq
+ qjaCJlHnyPScRNFirv6
+X-Proofpoint-ORIG-GUID: QjiwyemNFsHYdY1P6l4UCevTidTfO4Hf
 
-On Fri, Jun 12, 2026 at 10:17=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
- wrote:
->
-> As far as I'm concerned there's no need to do that for things that are no=
-t
-> rendered anyway. But also feel free to do it anyway of course.
+Hi Greg,
 
-It is not a huge deal if there are gaps here or there, but we use
-Markdown in comments too for consistency.
+Thank you for the response.
 
-What we don't do is intra-doc links there -- it would have been nice
-if `rustdoc` could use those in comments for the source view, but it
-doesn't, and while I talked with upstream about it, it isn't likely it
-will happen soon if at all...
+On Fri, Jun 12, 2026 at 10:14:34AM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Jun 11, 2026 at 10:50:16PM +0900, Yohei Kojima wrote:
+> > Improve debugfs_start_creating() to warn if it was used before debugfs
+> > initialization. It silently returned ERR_PTR(-ENOENT) before, but it is
+> > hard to find the cause of failure especially if it was called by
+> > debugfs_create_dir(), because the document of the function says:
+> > 
+> > > NOTE: it's expected that most callers should _ignore_ the errors returned
+> > > by this function. Other debugfs functions handle the fact that the "dentry"
+> > > passed to them could be an error and they don't crash in that case.
+> > > Drivers should generally work fine even if debugfs fails to init anyway.
+> > 
+> > Signed-off-by: Yohei Kojima <yk@y-koj.net>
+> > ---
+> >  fs/debugfs/inode.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
+> > index 4598142355b9..e054e62919ec 100644
+> > --- a/fs/debugfs/inode.c
+> > +++ b/fs/debugfs/inode.c
+> > @@ -368,8 +368,11 @@ static struct dentry *debugfs_start_creating(const char *name,
+> >  	if (!debugfs_enabled)
+> >  		return ERR_PTR(-EPERM);
+> >  
+> > -	if (!debugfs_initialized())
+> > +	if (!debugfs_initialized()) {
+> > +		pr_err("Unable to create file '%s', debugfs is not initialized yet\n",
+> > +		       name);
+> >  		return ERR_PTR(-ENOENT);
+> > +	}
+> 
+> While I understand your frustration when adding new code to the kernel
+> that would trigger this, does it actually fail on a normal boot today?
 
-Cheers,
-Miguel
+No. As far as I tested, no existing code faied there.
+
+> If not, is this really needed?
+
+At least I want. Also, debugfs_start_creating() already warns if the
+caller is trying to create a dentry with the same name of an existing
+dentry, which also doesn't happen on a normal boot. The warning for
+uninitialized debugfs helps developers avoid pitfalls in the same way.
+
+Thanks,
+Yohei
+
+> 
+> thanks,
+> 
+> greg k-h
