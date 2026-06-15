@@ -1,113 +1,218 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020110.outbound.protection.outlook.com [52.101.195.110])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD433F8246
-	for <driver-core@lists.linux.dev>; Mon, 15 Jun 2026 14:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781535257; cv=none; b=qoA67KUoFhfAqN14z7vQ8GQqRh9oUZE/kGyrGzh0N43LlffyFb1VVrnj6a8kN3ryvPY2/3W7GczNZtruf+zYi/Qf7jjfz72QhpezYlO+XjRQjSnpNwt0lQUtZONdDsyBv46c8z4l8mogwRuELfuvCBPgOeb2B4j2rDN/AEKxhLU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781535257; c=relaxed/simple;
-	bh=KYBcS7h0pNuUxhCatDx8FkyldB1WhenoX3VwO+hlFKw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ewMz7RfxS4g+vHVOigna2Mnt+L2SdpuqPW5uT5Xl7s/binidWv74D9se7bRX+AmAVa0dnLlWQV58vd1u1Xj2WyqvlAPJ1WIz4ujx7fheMQh6kHD7UmtatMmFIQzmrxgREbkCR3gFKYje37uT5RqY5Ky4KX7jtPBk2sd+qKPxvP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fni1lnsr; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A6C400E1A;
+	Mon, 15 Jun 2026 15:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.110
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781536394; cv=fail; b=MF8WKIUpjoTelQcYddo9rYSWB9ZEmDN14UOy3aTyneJt/zxYxk/Xj9KLIT2Bc6rgbbiQy7aqBc1japtLiMhx6G5KpVET9mXqT5rxq/LTDOPbzZGbxpRRbcPtC+x9/TomIVsufCSNW0cGDg4eAOhNFG37GZ8rbtRblqLBNz0diZ0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781536394; c=relaxed/simple;
+	bh=uzT7AJ1t75MbKZmH4Z7HiMjWbwki/Tv1UCe9li1FrT4=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=Uev5926FlFq7nVgmOLeJouTvFlT6luo9fwkwR8HW8iW6egM60dtzAC5az7BTiuYEOCgDzIv1PMGQAMbpGXF4ChANEFtwc3dRSpjf5TDzGSdnoZZm0OmunD8z1VVbkuy9QIvNDDXBD8PBzCPgElWiYA/N3gVfAPTCKuJe3cG96DI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=P4wKzmYP; arc=fail smtp.client-ip=52.101.195.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fni1lnsr"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490be03d47bso36556835e9.0
-        for <driver-core@lists.linux.dev>; Mon, 15 Jun 2026 07:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1781535254; x=1782140054; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EmZs6H9aAPAvXyfQHo8A/76oZU6GrjxGn5dT6papBg4=;
-        b=fni1lnsr3vgAfBImg+e5mUBelRxJGE7zp4UbakpAECRDsjO0uz1g7thsuADpQRSvml
-         yqC9EEdTYIV4k7nMZ8I6pEI8KBEoXRKsxORcuQBPK7B1nMRSBpdG+RKEpba89DfK40yE
-         SJl1MNwfWwVU3jkjbRkzmkSHXCqVSXyCtu8Y3d/OBY4sFLyjetrwb9sxoKtrz1kYUn1/
-         OyY74ASH66AfhlqAE84xpCevyq+7qclgeijNKGqlqxGTvT+KexpSXH+ZhWKPAsm8l8g4
-         7gojqR/IhQRh97kRlxXNjofZiNd/h70cFKERGAUanPaMaCWMuJF9oTsAH9g+ApDvha65
-         ovhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781535254; x=1782140054;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EmZs6H9aAPAvXyfQHo8A/76oZU6GrjxGn5dT6papBg4=;
-        b=DoLbZ1+1891B+Oz+UQA+HIhbZ8SoZnf6wJxkFh0pD96bJnIeKTUjzTR9+fZ4llhNpq
-         263cFR6uF9iSZX2q9BNcHsRjTCFrtKASeUyEo6bgbvFpNo4w3qE7kPpKyA4UNz+9/gag
-         YAicvbYJN+I54lfAvbzioGJgN1qSXU2OF0wSglECa0LiOeAPckd7hnS50AlDke7i0Cbi
-         cdnj/LCZDjj5v5Kb+56b1IGpIC+BigJtl4u1l0n6OgjPwahJif2uR38jaQz12DmU+24O
-         Ds4KaskxzV28MVwlsja5rAtXbNoEeqxw9h4XE+pKHqmwDZUuqsdojdmDnl0dx4G4ZIP1
-         ws5g==
-X-Forwarded-Encrypted: i=1; AFNElJ8t/PhF1xjlWSD5C+aauESpkKue7Ao+W97wsiOhHuAmk9CdHrc5ThMWNIz097yEjnppyFoNtYD49Bmf5w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2VHfTrIpgH+PXqC1+h6m+la8r0l1DbXURpVhaKuggBUgSbko4
-	JRW275hX7GReCKf/y89njrtG1oEMFHWrXeYNLTLSAT88vZPwu1yx1ejVwjZNqnnAwrg=
-X-Gm-Gg: Acq92OG8Aj1Rz7xGM5/IrXGMRtS34+shgTYJ8Obl6zHR5eRDp82QRYtt+qB7knrHi4R
-	mee3IW+VijdaS8Cr+oJVBNiNpBY7gVuuogK8ElpWL6pETQKJ9VOjHqtEdCYGrlk67eEPXmBrM3c
-	z81BMkY/SbkBGAvZXfaanGy236IaQW3uB42wkHkI6EXS8vJi/SbvwTFjVMSePafxBfnY63SByMX
-	Vm7dUblgxc3xyvgsbe7WImc391n4b5z7uG5bUyCA7n2EQwGJ7Vboj2d1qzYD6bLV0sDHDjzuwBo
-	wf03s2C82mZTc1qSwkd1+RAwQJZUboEh0yMnY6pSsp20pE0wht+rLctpbU1Z3Hu+SmVK1K88jgz
-	SvNFH5UBXNtLj7aeW0aCLZguvopgV04XjCskfhJPfltwMtR5YodoAObMQDNDJIYcs3NFPyj0cN+
-	SZKDzMMEBr9Ia65w==
-X-Received: by 2002:a05:600c:3512:b0:490:bb45:79da with SMTP id 5b1f17b1804b1-490ec4d650amr196478285e9.13.1781535254039;
-        Mon, 15 Jun 2026 07:54:14 -0700 (PDT)
-Received: from linux-l9pv.suse ([124.11.22.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0849sm16670216eec.7.2026.06.15.07.54.10
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jun 2026 07:54:12 -0700 (PDT)
-Date: Mon, 15 Jun 2026 22:54:06 +0800
-From: joeyli <jlee@suse.com>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Chun-Yi Lee <joeyli.kernel@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] debugfs: Fix lockdown check for mmap_prepare
-Message-ID: <20260615145406.GQ11413@linux-l9pv.suse>
-References: <20260615104750.1000-1-jlee@suse.com>
- <ai_fWlr61AzrNrDz@lucifer>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="P4wKzmYP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Dl2ikhImH82hJFh5Rd+oe/1d51WL3cpjyaw0YeUGMNP4W++BXi7n2dXzBnUqmO8/BgyzO6jtLD9pRbcOjHXoBGDNkjHTebSIrzicUnw8jhy0MG9IX4jGEAuiV0ZoUHrEtUpQzYibb2m+F/FyDf5jCf533ycceteifBtO5dm4+EPw2sppE9ECoIlV2ZCyquNkQurmwL61zvR7iV2cAL5yBVIGe5cNUiO6oA4xSlRpENNzaPXQacewjajDMa0yo2rHt2QIv8+CgH5r6hpFYVNVfOcJoL1LUlW14Dh52uGjw7/kV/KKOaB9klUTN2MX2NhA5+ycxfRCp5bp8+ExcSIhDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jPgmbFGRGc+BgS+/4BR6ROcDXAkmehDIC/qNvCJJS6I=;
+ b=w3/monCXno3NsASTH9k4ii0f7NNuypEMEgNGlysJVaI+xN0wHvcUo00EUUpvspH3ahokcDru378miGpkYfXtwfZY1Yj5TSEOh0gwuxWU2KlLbpCLQPOWwllmBQeulIjDINgdy32C0mh9WdlpC1tt+tflUL/OOJL9m5pf/Ve5NgxKGRZNg3lF6g4y+X6GvhtVqNbDhRB/4RGocX01FSxULPYvJY2Fhq/+I3Q3fK+Xcdb+lYvh5sSa4UmBEigsG/O2NUELKIHcZeRrqTyzt8qE7m1VwFmro+Fvqz26tXLi3/zESVN1Fq5D37CgczvEa6B/0EXRjjAgt/H9CHa9PL2B3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jPgmbFGRGc+BgS+/4BR6ROcDXAkmehDIC/qNvCJJS6I=;
+ b=P4wKzmYPohQ7jnB/20Sa4AfuGFkswcodrIHuRK/3Q9/ebBYm5AdxlCsJ2mhIWfrOqAkVevNEC5uuA87QJvXVTQtufYSzt8Ven1HDFDBCdiq500udMMapB1EpwOLc2v4UseANmcOuK1jgfeHVpEkhEA/+LnYFwZxEZFEXRYzTv7c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWXP265MB2487.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:9b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
+ 2026 15:13:09 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
+ 15:13:09 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 15 Jun 2026 16:13:08 +0100
+Message-Id: <DJ9PXYB91UDG.3BV4EJJ10RIC4@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Abdiel
+ Janulgue" <abdiel.janulgue@gmail.com>, "Robin Murphy"
+ <robin.murphy@arm.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Danilo Krummrich" <dakr@kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v4 07/20] rust: io: implement `Mmio` as view type
+From: "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260611-io_projection-v4-0-1f7224b02dcb@garyguo.net>
+ <20260611-io_projection-v4-7-1f7224b02dcb@garyguo.net>
+ <DJ9PI9NEJ92T.3D0E90RPSCXA2@nvidia.com>
+In-Reply-To: <DJ9PI9NEJ92T.3D0E90RPSCXA2@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0385.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18f::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ai_fWlr61AzrNrDz@lucifer>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB2487:EE_
+X-MS-Office365-Filtering-Correlation-Id: efd169a5-b8b8-4fd8-c406-08decaf09bcc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|10070799003|366016|7416014|376014|23010399003|22082099003|18002099003|4143699003|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	Up6QCLYUOv+PE9ogj+XSBPxzndc6AUTtMPVpe0m4C54yon1jSc+ogWLm80nDTIy4fS1FBSKCgIzOX/929bqqn6PlPQWBylkZKtHV6mYkxV0fVBR6+sFN58WOQ6PDkoPd5zwvXBJoeYq+BrFsEiDhQYYUaVLS5tn5m8trmJ77funGjz77a3Up5IpQJKZtS58MBcMKbWD1PADnEG8VWa0+BSB/AvTsfLeVsBkvHM1zEJMaBWynLmPIIYzCz36VZSWcm1iphwXxb3YM7PU0WsQynQWMTitmLDECYNpPGnwEI5e8V1Y3Nkat+4krz+AXNVFXk7FeAaGxR/jAilmkFzWgUuLTISVWQy5hAHt3bnxrkcbfJaq518BzYurrKqGMiXOrqGE2+PZlWfprj94uyDZJli4w7Dw8zfUne1zsS49C+Khyg0A1/7BvJzibDyaKBV6+1oTJuLVaDcMTlhoN4l71XgCygUO6KQ+TD+AqUGTJNBh/aiXXzrRUpqmNZW1lMHGtOoz27FwQyjBURzXAG4wAbJXBCnFgH6e0jmZ5vKT3GkGtrXtzRw65Xc8u4hBZqtfkzrjVHUYFZXnLnXkF0KhcwDxHTX013Ypp1OdcICNJqM/C+iJOGh/IgO+ujicAxU4ZdGfr3g/HjjLPvOXLGhfDOVSzBiTDfrY8yLATB9c3UgcHCAxCQ4rVkia478AAEVTw
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(7416014)(376014)(23010399003)(22082099003)(18002099003)(4143699003)(56012099006)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VzNwVlRoK0Q0VEg2b0gwdVI0eFcxaktzcmxvK2tnVFBpek9mSXFHSjFTa1pT?=
+ =?utf-8?B?dDFXUnM2Ukc0NTR5WXVhQkVoZUhKdGhPV2VHRDkvN2wrR2VCZEl0a0JvUnJ6?=
+ =?utf-8?B?WDZHcEpzR1I4TlBTSTFEeFNHaElkQ3p3a2ZMZ1FLUVpGU09PL3haNW9BMGVG?=
+ =?utf-8?B?ckhvbUtwaHZvQzA1SWFZNkdTdGE3Z2VQMEdFSE53dFZDTE9vNmZaM2dmU1My?=
+ =?utf-8?B?aEp4K0hGWnhjYWhhQ3d2UkF1cy9ZMVFwQnNZTXFBekVra2ptOUVsem0vWUhL?=
+ =?utf-8?B?aEoybzBlNW15R3FVNjNiS2p6dENlcTJVeEllVUo0YllIMkpWYlFIQUxKQnlH?=
+ =?utf-8?B?UTRWRUcvZkV1Z2l4NmdUQUF5MzBjYllzL1VRd29vUnBlMmtoUFgyN1UyQlJS?=
+ =?utf-8?B?RXlTOHVzb3hpMmFXYVpOOStVWWR0MDdrSmk2WUxtR0J3Wml2SkE3b1BtTWFM?=
+ =?utf-8?B?L0NNT21mRHIyMWYwMENyRFh2TjRCbDR5YXc4d3R1b2JTVDdpVE4zdEJ5NVIv?=
+ =?utf-8?B?MUtseUlpcUorc0tjTmM3Q0VZV0Rxd01UZXl2NlNvL0hodDJuRDQ0QXN5OFZt?=
+ =?utf-8?B?Qm1SY3lWdUp4bThSaFNlelJGeTJQZ0tRdVkyZHJ5WFNhUFprc0EzemJwMmJ1?=
+ =?utf-8?B?c1VkVUR2ZmI0OTE2T3ltYzRnL1NmRk82TmN2THlRQjBQNWJCanljMWp2WE83?=
+ =?utf-8?B?YWhnOFBFWkxrekQ4RFJmV3ZkSDlhMk5wMnpIWmlZQ2hzNmtYcmFuL1VZeDRo?=
+ =?utf-8?B?NXduamZlRDJpL0RiQ1NLNXFrc05nWlRyaS9hZXpGem1JcGFYOWltWlZRWGlT?=
+ =?utf-8?B?SEx0bjFEY0V2ZXVwR25WV3NUZjVlWHhjZS9PWkgzd3Yra3B1NE9vVHozREdy?=
+ =?utf-8?B?dXIxMDZQY3BIS010SUtPVVlQUXFPWEt6RkNZb0YzZU03bUNPNlRWbkcyaWxr?=
+ =?utf-8?B?bjZnNjl5VHhLeXhWY2NWaU9IdnlHOVdVOTRvODkvNkFWTVl4RllqSlRseGN1?=
+ =?utf-8?B?WnBmajh0VlVVU0t3K2ZkdzZjTXFsMXhYc0lhS2tVMWdBLzFaNVJ0UEpLVHlS?=
+ =?utf-8?B?aG1UMk15V0lMVEhBZWI4M1dHT21iSlNydGZjZldmZVZJdjNZRVIrU3lMMVg2?=
+ =?utf-8?B?Mlg4TnpHbXFhZ01YV2NlT1Q2SEhFWVdZbDZUbFVjUkdubWRLa2xSZWFHNGsw?=
+ =?utf-8?B?eW02OVlmQ3dJek1tMFNwSlk1cXc4M0ZVZjFhT2cwNWh1aXdKVVVZWXN3bmNz?=
+ =?utf-8?B?WHliSnV2WHE3TlpyRkF4UERLSjBucW8rcWVWQWduRXNxeFFQbEhWMi9lQUVE?=
+ =?utf-8?B?U3FjNi9HME1SVWZNTEU1dzluV0ZqWk83WHNJL1hrZy85Q1duR2FxU0ZwN1NV?=
+ =?utf-8?B?QlFXalFmbWdRUWRxYi9UWHZ5NE5aY0V6djNqRXNvNWtXMU1DaENtb0t3MFY2?=
+ =?utf-8?B?d2gyRllFdlV4a1Q1SUU4TnYwUDE3RDRyQldlMjBZQ0d0T1VIWUVXbGwxR2dl?=
+ =?utf-8?B?eWVRblEzZHRhVUdRY3EzUUc2WnBYbHF1ZFQzeWphMVlWYjBrVTVUdlFBUzdN?=
+ =?utf-8?B?VUoxNS9hdUc1NUZnYmdUV3NoRWlsNWtkd0RNM3JSbzFBNHgycDFNRzJyQllk?=
+ =?utf-8?B?WUVCM0RWRXZZancxNEJxdjdLdFRYL1RlVjNPbUZYWURRdmRhVHE5MGxVSUc2?=
+ =?utf-8?B?bGkzYkJiK01BdlRncTNma2Ywc2pRd0dZUWpIanpZeUVZREt1UDJSVGJyRFJ5?=
+ =?utf-8?B?OVVWRmFpYnRVanluNE1SV2t5cmEzOU80U3NXdnMwelBKK0ladVR1eElCQ1Fm?=
+ =?utf-8?B?TWlTUUxLSGpVQU94QnFmUHE4RXZNd1BEbnljSzRrYVgvc3k2NnJFQVlicjlr?=
+ =?utf-8?B?VmZVYzVTUlhoZUc1UXFNOXo0Z1ZxVjFncENKcW5ieWNIQ2Y4RW1JejRBRFJP?=
+ =?utf-8?B?WlN0NldSVnpFYXFuY25VRXJYd3EzdmpLSjl3RDFLTWlSQjIzYitJZ1lrTy93?=
+ =?utf-8?B?LzNtTFl5WUVHK2pSeWNncWxJR1JWQ2JiS0ZHbGl1V3JhaHRpODZqWGYrTDF3?=
+ =?utf-8?B?Z2tneXpxTXo3OU1oNFIwc2tsNk9RQ294UzdtTTY3ejFNVE5wS0FnMzY3aGdP?=
+ =?utf-8?B?aWRHNW1Zb2ZWcE8yT0RRM2RWalJVNThvTE9kWXllRjZ3eVRnLzNXK3BFckYx?=
+ =?utf-8?B?cVNLRGxTUTkwcjN1ZE8zWjA4amprS1daNW9Nd0tTRXd5eC9vU1RJU3FRbVUv?=
+ =?utf-8?B?akhRYjVUd1JOZDRhd2tuWklOUzYwcERLdFVodFNvckpTYjJsQlhHVXRocnpr?=
+ =?utf-8?B?VjRnc2JSOWZzTFJoNWJjWklXS0QvbUxtWEpIT0JnZmhsQ3lwdjFFdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: efd169a5-b8b8-4fd8-c406-08decaf09bcc
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 15:13:08.8885
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S37yepC3RpGCnwIy2+jJWzVwlUf88JLar7jx5pkQ4t9kMyoPSq3TE3ylCNY4kUeI1Ae8XHZ81P+Vd+fTsuHXaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2487
 
-On Mon, Jun 15, 2026 at 12:18:29PM +0100, Lorenzo Stoakes wrote:
-> On Mon, Jun 15, 2026 at 06:47:50PM +0800, Chun-Yi Lee wrote:
-> > From: Chun-Yi Lee <jlee@suse.com>
-> >
-> > Commit 651fdda8406d ("relay: update relay to use mmap_prepare")
-> > changed the `mmap` file operation to `mmap_prepare` for relayfs, but
-> > the lockdown check in debugfs was not updated accordingly.
-> >
-> > This prevents debugfs from being locked down when the kernel is in
-> > integrity mode if a file uses `mmap_prepare` but not `mmap`.
-> >
-> > Since the conversion to `mmap_prepare` across the kernel is not yet
-> > complete, update the lockdown check to look for both `mmap` and
-> > `mmap_prepare` to ensure comprehensive coverage.
-> >
-> > Fixes: 651fdda8406d ("relay: update relay to use mmap_prepare")
-> > Signed-off-by: Chun-Yi Lee <jlee@suse.com>
-> 
-> LGTM so:
-> 
-> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+On Mon Jun 15, 2026 at 3:52 PM BST, Alexandre Courbot wrote:
+> On Fri Jun 12, 2026 at 1:28 AM JST, Gary Guo wrote:
+> <...>
+>> +/// A view of memory-mapped I/O region.
+>> +///
+>> +/// # Invariant
+>> +///
+>> +/// `ptr` points to a valid and aligned memory-mapped I/O region for th=
+e duration lifetime `'a`.
+>> +pub struct Mmio<'a, T: ?Sized> {
+>> +    ptr: *mut T,
+>> +    phantom: PhantomData<&'a ()>,
+>> +}
+>> +
+>> +impl<T: ?Sized> Copy for Mmio<'_, T> {}
+>> +impl<T: ?Sized> Clone for Mmio<'_, T> {
+>> +    #[inline]
+>> +    fn clone(&self) -> Self {
+>> +        *self
+>> +    }
+>> +}
+>> +
+>> +impl<'a, T: ?Sized> Mmio<'a, T> {
+>> +    /// Create a `Mmio`, providing the accessors to the MMIO mapping.
+>> +    ///
+>> +    /// # Safety
+>> +    ///
+>> +    /// `raw` represents an valid and aligned memory-mapped I/O region =
+while `'a` is alive.
 >
+> typo: "a valid".
+>
+> <...>
+>> -/// [`MmioOwned`] wrapper using relaxed accessors.
+>> +/// [`Mmio`] but using relaxed accessors.
+>>  ///
+>>  /// This type provides an implementation of [`Io`] that uses relaxed I/=
+O MMIO operands instead of
+>>  /// the regular ones.
+>>  ///
+>> -/// See [`MmioOwned::relaxed`] for a usage example.
+>> -#[repr(transparent)]
+>> -pub struct RelaxedMmio<const SIZE: usize =3D 0>(MmioOwned<SIZE>);
+>> +/// See [`Mmio::relaxed`] for a usage example.
+>> +///
+>> +/// # Invariant
+>> +///
+>> +/// `ptr` points to a valid and aligned memory-mapped I/O region for th=
+e duration lifetime `'a`.
+>> +pub struct RelaxedMmio<'a, T: ?Sized> {
+>> +    ptr: *mut T,
+>> +    phantom: PhantomData<&'a ()>,
+>> +}
+>
+> Is there a reason for not just declaring `RelaxedMmio` as
+>
+>     #[repr(transparent)]
+>     pub struct RelaxedMmio<'a, T: ?Sized>(Mmio<'a, T>);
+>
+> similarly to what the original code did with `MmioOwned`?
+>
+> I tried locally and could build. This avoids declaring `Mmio` and
+> `RelaxedMmio` as basically identical types, and lets us remove the
+> explicit `Send` and `Sync` implementations. IIUC you can also reduce or
+> even remove the invariant section as it is enforced by `Mmio`.
 
-Thanks for Lorenzo's review!
+This is what I did originally, but this would cause duplication for
+RelaxedMmioBackend, as now you have to do
 
-Joey Lee
+     unsafe { bindings::$read_fn(view.0.ptr.cast_const().cast()) }
+
+and the `.0` causes the macro not being shared with MmioBackend.
+
+Best,
+Gary
