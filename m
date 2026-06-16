@@ -1,134 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1F02E7374;
-	Tue, 16 Jun 2026 08:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BFE40E8D7
+	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 08:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781596929; cv=none; b=E4QdVwqtIowvL0A+J6W+AHL5YNT5Y3KZHgjpQHWkG3OE/fDbkMUr0yLYAu9Kv133Gc+vCptGayQfDWTGQplW1kacnjqSwGKAgF1J0QHQKt8yOrYZylGTPYGZiKpLlNeTgtIh3QeR+WKSGH2j4bkGtFwrdRw0Izm9OU+UFAdTyRg=
+	t=1781598350; cv=none; b=MSoY/S9RJcgs57M7B2VsYoo4lpzomtdTavC9rhvi5ubAEh9/RCx9wciMEUvEmBkTyoo94ktf4saX6SthVAMTItTpbuX+govwqw06wwjAUKl4oE8MpDFz/Hpfr6+I4ZDlYDyV6rWZCTn48CBpaq/txD+CB7bYHXhbzM5Y/kX6c3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781596929; c=relaxed/simple;
-	bh=2hprFDhuFZzyagpO1XXJLuYtZVfZ1p82Mf8obLvYWTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=khKgkuQUxwhFjWTjx0Pnk9HnrN4YEYuW+SvihCksjaNYFz6wCHPMzv7RbDcTZz/lsBGThcjyjSVMYZET5Dzg9Bs2k8NOa8u8xr/O0oV8OCx+NthoQUcnBaIuHAcbvQuhkjPgxNP9W/4NS6eMjgf/GDYiQXlrjuBtUG22ULdi0UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IwXuumrS; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IwXuumrS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781596928; x=1813132928;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2hprFDhuFZzyagpO1XXJLuYtZVfZ1p82Mf8obLvYWTw=;
-  b=IwXuumrS6+eSVU/0tVxa+HkzJV/vNCDFkbA5hpFS7Cjpc16EZqCuENc6
-   ew3mWqXIWpGbOjdJV/PlCl2J3PoWBO7Flm7baXFQQfVUI/V5gQLllHRa0
-   HwKZ5OFrWrdNbOcsnsM3oXV+U7mMiCjnmsK2BUBtORjXMWn1zNLItOu2T
-   oaV4cVL6fiO/xSGiWOkSm7GvgIVVO1q0+LbgJZceqZT25UbV10A4+IwSI
-   NYXG0SXJ7OBKUZDL4WF4N9fIC8xVNTCaGbpUjfmcCvIb2Al3E7eLyW8pU
-   NYXsNjVgjJv41kKq+3esHMPFORycDTYbd0+adP/8skdilUpZiMzEt3Tsg
-   g==;
-X-CSE-ConnectionGUID: 4X3ma8OjTa2V61E00maXfA==
-X-CSE-MsgGUID: 8heRjCUjTGyw5CNuC0D1Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82550885"
-X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="82550885"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 01:01:56 -0700
-X-CSE-ConnectionGUID: 7zZaPk4/S+6rYw01pC5BWg==
-X-CSE-MsgGUID: cd+jSqhqQFmyLsBIOvDNBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="243536319"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Jun 2026 01:01:51 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wZOk0-00000000Ssg-09T9;
-	Tue, 16 Jun 2026 08:01:48 +0000
-Date: Tue, 16 Jun 2026 16:01:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luigi Rizzo <lrizzo@google.com>, rizzo.unipi@gmail.com,
-	m.szyprowski@samsung.com, robin.murphy@arm.com, willemb@google.com,
-	kuniyu@google.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, rafael@kernel.org,
-	akpm@linux-foundation.org, david@kernel.org, netdev@vger.kernel.org,
-	linux-mm@kvack.org, iommu@lists.linux.dev,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
-Message-ID: <202606161519.z7SY98jp-lkp@intel.com>
-References: <20260615234220.3946885-1-lrizzo@google.com>
+	s=arc-20240116; t=1781598350; c=relaxed/simple;
+	bh=vEwi2Wrj8XJBTeyO3CapK9F0vQ8rJkGyI4JGeflwS64=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Phbrw0bWzWvUAqTZLz2vunrbzjkkdC7Bz0J4yGdAQkDswmTKbYiUifLHO13bglUiiK8xSY7WdmJjqrYq1dGUoXpTN1Yucn6pvunZfWMGBOyFeXIqVoRNKwUIwUdrnSrVV43yRGh52rErmtoHwQ3vjvfwevwneB6nie+U9n4zYwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: f6a674d0695c11f1aa26b74ffac11d73-20260616
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:db5936ca-1c1c-4e61-9233-ab53c1972109,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:809ba65cbf8ab6484b8b880a5de9b438,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|136|850|865|898,TC:nil,Content:0|15|
+	50,EDM:2,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,
+	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f6a674d0695c11f1aa26b74ffac11d73-20260616
+X-User: lijun01@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijun01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 160812048; Tue, 16 Jun 2026 16:25:42 +0800
+From: Li Jun <lijun01@kylinos.cn>
+To: lijun01@kylinos.cn,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	driver-core@lists.linux.dev
+Subject: [PATCH] driver core: Add error handling in virtual_device_parent()
+Date: Tue, 16 Jun 2026 16:25:28 +0800
+Message-Id: <20260616082528.1220652-1-lijun01@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615234220.3946885-1-lrizzo@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Luigi,
+The virtual_device_parent() function calls kobject_create_and_add()
+without checking its return value. If memory allocation fails,
+kobject_create_and_add() returns NULL, which would be propagated
+to the caller without any error indication.in get_device_parent
+call virtual_device_parent, if return NULL for parent_kobj,
+'k->parent == parent_kobj'in list_for_each_entry, will always false.
 
-kernel test robot noticed the following build warnings:
+Add proper error handling to return -ENOMEM when
+kobject_create_and_add() fails, so callers can detect and handle
+the error appropriately.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v7.1 next-20260615]
-[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Li Jun <lijun01@kylinos.cn>
+---
+ drivers/base/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/swiotlb-avoid-double-copy-with-swiotlb-on-tx-socket/20260616-074655
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260615234220.3946885-1-lrizzo%40google.com
-patch subject: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260616/202606161519.z7SY98jp-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161519.z7SY98jp-lkp@intel.com/reproduce)
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4d026682944f..50c3131b7106 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3249,9 +3249,10 @@ struct kobject *virtual_device_parent(void)
+ {
+ 	static struct kobject *virtual_dir = NULL;
+ 
+-	if (!virtual_dir)
+-		virtual_dir = kobject_create_and_add("virtual",
++	virtual_dir = kobject_create_and_add("virtual",
+ 						     &devices_kset->kobj);
++	if (!virtual_dir)
++		return -ENOMEM;
+ 
+ 	return virtual_dir;
+ }
+-- 
+2.25.1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606161519.z7SY98jp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> mm/page_alloc.c:721:17: warning: unused variable 'folio' [-Wunused-variable]
-     721 |                 struct folio *folio = (struct folio *)page;
-         |                               ^~~~~
-   1 warning generated.
---
->> Warning: kernel/dma/swiotlb.c:95 cannot understand function prototype: 'atomic_t global_device_serial = ATOMIC_INIT(0);'
->> Warning: kernel/dma/swiotlb.c:2087 function parameter 'where_debug_only' not described in 'swiotlb_free_pages'
->> Warning: kernel/dma/swiotlb.c:2087 function parameter 'where_debug_only' not described in 'swiotlb_free_pages'
-
-
-vim +/folio +721 mm/page_alloc.c
-
-   717	
-   718	void swiotlb_destroy_compound_page(struct page *page, unsigned int order)
-   719	{
-   720		if (order > 0) {
- > 721			struct folio *folio = (struct folio *)page;
-   722	
-   723			__ClearPageHead(page);
-   724			page[1].flags.f &= ~PAGE_FLAGS_SECOND;
-   725	#ifdef NR_PAGES_IN_LARGE_FOLIO
-   726			folio->_nr_pages = 0;
-   727	#endif
-   728			for (int i = 1; i < (1 << order); i++) {
-   729				page[i].mapping = NULL;
-   730				clear_compound_head(&page[i]);
-   731			}
-   732		}
-   733	}
-   734	#endif /* CONFIG_SWIOTLB */
-   735	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
