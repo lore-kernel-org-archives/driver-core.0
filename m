@@ -1,128 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933294266B5
-	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 09:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485CC3EEAE3
+	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 09:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781603509; cv=none; b=pDk0kEluaY396GFo/XDmkDUkJGaV2/ZP++1aQqZA9QFQP97IfBRwIRLFGA7z3aGQVat50hvNvND2QEDzrcfcls8UULU9V1xQ1phEp01FuiRzrqyBHzgLD2a4Ctv5+TeOOu3o5dwvcAfpW71HtQkohMypycVXKjHG2EHDrEuW8WY=
+	t=1781603759; cv=none; b=Q1Tc/z7KKMNFNDxC/sGlr+GjIZljPmIGfGzBeSCITGQx3k4Z0b/4ldEC7btF0PqZGcfCQYqspW6uwsEDvvgaJEblzkyIAqJVs2eRpLrFrmYhixKaobWaLHgAuVAVAb3NqxNngmDjiutL0cUJs6ftXEB8WWD4GRQwNvXD4epHeok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781603509; c=relaxed/simple;
-	bh=rKN6Dquf9JjEmoiOojbev5G9ca2XqPvpxKtiKVWHsuA=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mXxAA77qE3bMH96EpMUcwRL8EuKwoznx3m3UfiXubM85jFVZ+0dTyKeeGsTGJsQZl9LdWuwxqKXzvhUkFsQbXCQwRn4F73C+uadQ8wLaIesY3VwrG6Si8P3vpvEpIvMsdbQb6sKuf60fE7F7dMAu39lVMvTsyyc2Mka3t1ungcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F88UFqux; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F88UFqux"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9001F00ADE
-	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 09:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781603507;
-	bh=rKN6Dquf9JjEmoiOojbev5G9ca2XqPvpxKtiKVWHsuA=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=F88UFquxP6GLTDnZndksxQH93yb7LMcZiAKfOmWMrZWnPbMsihpEeRj3B3ypIx14N
-	 epvt/Fduq7ggo+VV9WejL+g7Sr8uUgpEwhUghrJOHV2dDu2cJpMGZAwcafnTN6Kwbp
-	 a15VxT0oN1UFkqIjBTBPuz+ANyeGrSPc9cwc/Ba8wgMItVhAx1/RhWdSYi9MNN5EZL
-	 /pngyeY6RoI0nwh7Z3R16ElAujbM26xlreosWrdgb2Uz0O09Yj8qqnp6vFlSetlLKF
-	 BXjILI+uuZq84yMv33tltQiFi5KpHo5Cw4g55Nz/0ylLV1OUjYGEAN3Ht6BNupLR3T
-	 h4rEOtybtCu8w==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3965eab14cfso34245051fa.0
-        for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 02:51:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+ra9zMQLZy2K8K0Xxz5s6yuSc/2lv/Y5a+I8MGfCoWWXHHyIdVJ852RhykR89uNTzxIr4iimCTo/7jsg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YymfaJd9cgFjI8CXm0tB1hTTqQzczPxy9PrHEjFTxQe+36qcEww
-	ndE3Fi6a9AUcWwglL0t/GvsS15ZkJmUXfrjVqAeKVFfy7EOOma6gRtENFcwvlWblBaq5aUIoSa9
-	uqE2FVCB4gpsIiess1v1HABBDb2OnxdLsWeV23ruWEg==
-X-Received: by 2002:ac2:5597:0:b0:5aa:6aac:3f7f with SMTP id
- 2adb3069b0e04-5ad4277bed7mr670959e87.22.1781603505619; Tue, 16 Jun 2026
- 02:51:45 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 16 Jun 2026 05:51:44 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 16 Jun 2026 05:51:43 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <ajEcDq0S067wMFaK@black.igk.intel.com>
+	s=arc-20240116; t=1781603759; c=relaxed/simple;
+	bh=NqLgUWE6jIPmIymuAVK58ZLpiRo2e9IbrQwJw+3ZZ3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pwA1vBGUy/jiI3ZmKZfgi0q0Y+/eCYUQ0rjnOZjmr0FaCMlRmAxQbwTwwwV9VEBn9hecT46bsoX8UI0K+zOVCHyqSbXG4aTqC4/yIp7V3bAba4oCF6fPK5EqMwoQ7Wv0MrEvDppKTEJQW4SOODczm2t5c13vuXxj1A+EUnM8gpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 8e030b7a696911f1aa26b74ffac11d73-20260616
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:bf33c852-8639-498d-a740-44dccedc436e,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:4b058257f1648ffb8c7d8a48cb03042a,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|136|865|898,TC:nil,Conte
+	nt:0|15|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL
+	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 8e030b7a696911f1aa26b74ffac11d73-20260616
+X-User: lijun01@kylinos.cn
+Received: from [172.30.70.202] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijun01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 364456039; Tue, 16 Jun 2026 17:55:50 +0800
+Message-ID: <125b0cba-e674-4bbf-9a97-faa7c5c08c60@kylinos.cn>
+Date: Tue, 16 Jun 2026 17:55:46 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-7-88c324a1b8d2@oss.qualcomm.com>
- <ah9OIVyrHEhcMHzN@ashevche-desk.local> <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
- <ajEcDq0S067wMFaK@black.igk.intel.com>
-Date: Tue, 16 Jun 2026 05:51:43 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MfY3k4a9KdPE-4pmMUEH4KADYaO8ZY+Md9sMzgFr0-s9A@mail.gmail.com>
-X-Gm-Features: AVVi8Ccfi9fNZx5anc5Hh9w27iqbKs4Mv-ef0kQk9lnbNaF9SR74KH4RoJVGW8U
-Message-ID: <CAMRc=MfY3k4a9KdPE-4pmMUEH4KADYaO8ZY+Md9sMzgFr0-s9A@mail.gmail.com>
-Subject: Re: [PATCH 07/23] driver core: platform: provide platform_device_set_fwnode()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
-	Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, driver-core@lists.linux.dev, 
-	devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-pm@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] driver core: Add error handling in
+ virtual_device_parent()
+To: Greg KH <gregkh@linuxfoundation.org>, lijun01@kylinos.cn
+Cc: rafael@kernel.org, dakr@kernel.org, driver-core@lists.linux.dev
+References: <20260616082528.1220652-1-lijun01@kylinos.cn>
+ <2026061658-grandpa-repulsion-f752@gregkh>
+Content-Language: en-US
+From: lijun <lijun01@kylinos.cn>
+In-Reply-To: <2026061658-grandpa-repulsion-f752@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Jun 2026 11:49:02 +0200, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Thu, Jun 04, 2026 at 05:32:27AM -0700, Bartosz Golaszewski wrote:
->> On Tue, 2 Jun 2026 23:41:53 +0200, Andy Shevchenko
->> <andriy.shevchenko@linux.intel.com> said:
->> > On Thu, May 21, 2026 at 10:36:30AM +0200, Bartosz Golaszewski wrote:
->> >> Provide a helper function encapsulating the logic of assigning firmware
->> >> nodes to platform devices created with platform_device_alloc(). Make the
->> >> kerneldoc state that this is the proper interface for assigning firmware
->> >> nodes to dynamically allocated platform devices. This will allow us to
->> >> switch to counting the references of the device's firmware nodes in the
->> >> future, not only the OF nodes.
->> >
->> > But why different for of_node and fwnode to begin with?!
+When i read the code，i think this is not rigorous enough.
+
+2026/6/16 17:37, Greg KH :
+> On Tue, Jun 16, 2026 at 04:25:28PM +0800, Li Jun wrote:
+>> The virtual_device_parent() function calls kobject_create_and_add()
+>> without checking its return value. If memory allocation fails,
+>> kobject_create_and_add() returns NULL, which would be propagated
+>> to the caller without any error indication.in get_device_parent
+>> call virtual_device_parent, if return NULL for parent_kobj,
+>> 'k->parent == parent_kobj'in list_for_each_entry, will always false.
 >>
->> I'm not following. What are you suggesting?
+>> Add proper error handling to return -ENOMEM when
+>> kobject_create_and_add() fails, so callers can detect and handle
+>> the error appropriately.
+>>
+>> Signed-off-by: Li Jun <lijun01@kylinos.cn>
+>> ---
+>>   drivers/base/core.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/base/core.c b/drivers/base/core.c
+>> index 4d026682944f..50c3131b7106 100644
+>> --- a/drivers/base/core.c
+>> +++ b/drivers/base/core.c
+>> @@ -3249,9 +3249,10 @@ struct kobject *virtual_device_parent(void)
+>>   {
+>>   	static struct kobject *virtual_dir = NULL;
+>>   
+>> -	if (!virtual_dir)
+>> -		virtual_dir = kobject_create_and_add("virtual",
+>> +	virtual_dir = kobject_create_and_add("virtual",
+>>   						     &devices_kset->kobj);
+>> +	if (!virtual_dir)
+>> +		return -ENOMEM;
+> Are you sure this is correct?  I think you just broke the callers of
+> this function, how did you test this?
 >
-> After re-reading of this thread, I think I'm suggesting the same what you have
-> in plans to do in the future as you put it as "This will allow us to switch to
-> counting the references of the device's firmware nodes in the future, not only
-> the OF nodes."
+> How was this "found"?
 >
-> // Offtopic
-> I haven't heard from you for more than a month on this:
-> https://lore.kernel.org/r/af18zdP5HF3_P9Vo@black.igk.intel.com
-> Anything should I do? Please, answer to that thread.
+> thanks,
 >
-
-Eek, sorry, must have flown under the radar.
-
-I'll pull it now, I will do a second PR for this merge window anyway.
-
-Bart
+> greg k-h
