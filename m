@@ -1,110 +1,91 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F18E383C65
-	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 11:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274EB43CEC4
+	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 11:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781610274; cv=none; b=A55gZKzV504nCBd99/srIdrhp6GJiEuxYVE/qJy72LpAEaPElcdRoJVgjd20f/LeooRt0QR0PLOr/f/icXwLt8nlK5/Qzk131ffrfhYVOqqroTYKQlZatogEnhh69nVAldLzBWPblnefQGPMmo8kx81RRgEwzfeqvSOFictyBWM=
+	t=1781610632; cv=none; b=pTgBOLUsp8tPdYZopW1p/uWHWGoTel4CH4vVzlzJEWBEYr+wt+Muglp7iMPEwlyjyw/l/HE5b1TEEC2Rpp+V1YOpEqeEJIvjajaPJpsPHxsoDfjECHtihLa3fu5Js51ESU4lHxtVdUt0q1SFRfrT39FivfizkeGWwKWkS6dYe3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781610274; c=relaxed/simple;
-	bh=aQAERmJfPCm5nxIOgdlfK4MBzHNE5MLOfzqcJBP0AZ8=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=LbWVc+4Fo5iV3eID6wA4YvPeq5Xsu3lyrzIiBFKhXwbHIM5Js0m+yNbekSjKjLNMRnjkGGoB7+D4W7Paqi3NTeQX56tBcG8SeubhoC/G8+wfCkZQmNhO2aMGnRYm/AZ9S657LI8/mkOrDAT581sZLCHdK7uWfo6IlqhaJXNIRKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=jeb+c6GX; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1781610632; c=relaxed/simple;
+	bh=TObrEHhKuPNM42P0oLKIGdOx5sA4x16gAm9/x6UBmOw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gSzP4vtn0LXY670dlhaGW7+oUc3zc88JU76ANViT6N+F84amiw/cs4fboveMP8L/V2eW6CdEZibc4s8Rl1bxv2HkfYgv4KgDo+9dBZxkqbnyUZmwJ9/HihVqLm8uuZrJezIi2WEB1Au/ZFCGutf86Q3u1rWmE7SqjMFvUCy0Rmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wF0OmHg/; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="jeb+c6GX"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so30975765e9.1
-        for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 04:44:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wF0OmHg/"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-bfe735f3bc5so381906566b.1
+        for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 04:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781610271; x=1782215071; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PveeYdI2S8spK0O7FtsUe3Gj1929XE8sM0pQ+0MZALU=;
-        b=jeb+c6GX9FaguD8qSUWvS792Oo4SimbHmKJt12M571CSCY8BktCPhcsW3poIk9gCSE
-         06G/mZi+vU6uGhr7e3XiyjOWzR8H4ppw802+/NZjIf3h1+uQON3rXT0uMz+HL1qSaWIZ
-         EQgx2VZqeOJVdqthnQfwpotFq+CKn/r+Uwnzi6Ad5LcfqVQwNnSWi28vb00ZO9sjMY3F
-         UfDTpRym3NLvUnAUjYCoR7X9N35E/PAfk8mQrpdqqtV+acAFzle9iUkPQAiMhC5SaMNS
-         T/RJssaYcD1QtzM6CKgVUky+eSz1FSS7SpYXkM29A4ZT8Be25i2SgeXJ/rto+78faZmk
-         qAFw==
+        d=google.com; s=20251104; t=1781610630; x=1782215430; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hcH8wbzZOm8yn4lLoAkAwb8V6hZltU+bJ+2UV9XpA9s=;
+        b=wF0OmHg/JS4trFoh7ui7m0OjJCHk4qnhlyHOrseH1GPnJ5UKj/q2ZPBsGhh2bPPhnF
+         wZF9s/08cJvCF5NrZe1XIiQaA3HE36j5Ih64vqBrEFnoF8VkBjgrGeurnrw7Q4WIsQQi
+         vZBFayswbhJCy+Ochd9WBa0gcC5/ZxIbdrg+sVUi1zKF0pbrZ4UZV2WIbxJGEoYiYWJO
+         3niLHhqwH2kIOCBlEwdo1PUn95q6dR1GhhhSBtLgVZ9Mkfcas8lsHxhAzjRFueoeQfC4
+         GCwNSrYCRDPfxIhWJ0NpxslT5zChuR2+ex4Ydv9sBXBEs7Gbca89QN0z43suKYQ1U3+G
+         KfoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781610271; x=1782215071;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PveeYdI2S8spK0O7FtsUe3Gj1929XE8sM0pQ+0MZALU=;
-        b=nxR5jZuzFOHRmgKtlbn4ELL1I3wtCBoUAbiR5cJEvcxx9n/kpf3OKE7MbrTMwAgdK4
-         AkUT0ODPq+UrJd94h1eHkrWzdnpk9QDJCOldiUL3XWMrUnxCIajWzSXKtKIz36NwQ3ae
-         POM2fq4vHrPXe4iEk7eFi3h2qIT63/5EDxyglH/djdRucctGSvVpB9/McQrqiqxrHOjQ
-         uyrpNDt2WN074i4qWsfz8/ROR02M5gsizn0MrAdotgBT/5bTwmO6JqrmJ5nsUWQ378pe
-         LDjWCG2EYUYf544kUNKdBgTy0NjjFNJ9OkzTYlT5cx+6H6dW4Ovp6PW02w8SAc/uPwvy
-         lL2Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9WmLM8qOAo6vscL9CTzsk/uPgxDnaITQvat8dC1U/bObRkgVIMMlotJmaAoSTLPjyc9v2tbIOehWUdtw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdeEM0qWvXlRO4STQC4mtpx499B79oD0XKoce7UdvsIWmAmOtS
-	/83Bh9iFmP1aZ1D0bzdKQC5R7oZs8cm89Gk1E+caeHjVkz2IHxybavZrNp3fcphzdVo=
-X-Gm-Gg: Acq92OFIW2e9scjQtY012EBKFzsY84JaWp3S9Wj7IWONjMc/dwO58SqDnVmmR5sNvdz
-	VFy8A7fR14f+qkdhkJvxr7Xl8sdqQX2OAjWkUt0AkU4sa/s5RPmJRL4JgSEcEn/pyekSHzHCguz
-	phG+hee4CnwXLmBhkjeh3z+tc35N8ix6PFo4wx7fgkjtVLZqG0YuHTZkm5tjuDHNH/hNasAzRVD
-	Dooj9tKhEnidb8wNJ8QgUGZgTGbsoAJBQ6JeV7tjtaQ0+36YTJw6CZTQWRVL5xf2d44n0fFFXbM
-	XNg2/yumFAWnfatqy25jq64HdBLqsGWaZEWV7tmRWnV92E22+2ygDYxFWnT8od9rJ0hzuysY3rr
-	AUlznTYtBD8mwD8sJmVznqgsMebjHG5mosbv0rqRXppKJxTyPMYJmmKUjKSVxLnQuAH1kzXoEwk
-	FjRxYFwjE/tyrefW2PMbxCI/oH5lrtQsdqxhEqYDuu7BHvkdEA
-X-Received: by 2002:a05:600c:4fc2:b0:490:5cb3:e94a with SMTP id 5b1f17b1804b1-492200851cdmr203396395e9.2.1781610270949;
-        Tue, 16 Jun 2026 04:44:30 -0700 (PDT)
-Received: from localhost (mob-176-247-49-54.net.vodafone.it. [176.247.49.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0c10sm44070018f8f.21.2026.06.16.04.44.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 04:44:30 -0700 (PDT)
-From: Francesco Lavra <flavra@baylibre.com>
-To: Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH] regcache: Do not overwrite error code when finalizing cache after error
-Date: Tue, 16 Jun 2026 13:44:29 +0200
-Message-Id: <20260616114429.1852456-1-flavra@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20251104; t=1781610630; x=1782215430;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hcH8wbzZOm8yn4lLoAkAwb8V6hZltU+bJ+2UV9XpA9s=;
+        b=bebjbxqz9u/y0/hjbvl6FOil1luhaKqUnuytZ0mGgk1gt6dCNo1oK1VcNHn2hDY8iu
+         QgN8uXIeOlJAhoMq1373Qn80Tx01Q7sShN0zMMX8vKZeMH1boifdBwG3rVg6DoKmdiV9
+         Kwt6evJHvJgTTBt+EHCDw6U/e6DjeFOxm7Yn7vjQyVl4pZ6FBgs378bkR0xZS//vM2ZL
+         6rJ27c5Gm1OKb08xx3F0lTtT3c8klsZi0Klz4dEn4E7mdzEqjewJLiW7/Ujct9Cy6cPY
+         1cFBpcF5U9vgGFP+NpUnqJV1MtydsFrw0PHWQivxBKLANzvomwNuKKxhexmMrhiRXiHu
+         DRsg==
+X-Forwarded-Encrypted: i=1; AFNElJ/1Nmvy5jq0P5BksWsKNu/Ikgcv8piQ/VMmzE3uCwWswOGxXg0NCZ3qmZtmiTUYPbwaN/e9XTXRaHjoJQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUvEunlGF3LYmmdKzf+JBIMfQGQQdn2gmM0vSv7PkMU657WllD
+	3HhxiEY6SjOlVutkhinAesqacejFxMuMRtUfupRoHaNjII/6RojsORgRdcgzCCwwx5T0WYZfdY8
+	m+HjMLB9aEaTkVD4j3Q==
+X-Received: from ejfp18.prod.google.com ([2002:a17:906:e92:b0:beb:c99:aa2])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:1dd6:b0:bed:9a7:5ed1 with SMTP id a640c23a62f3a-c043a477df5mr130254166b.5.1781610629337;
+ Tue, 16 Jun 2026 04:50:29 -0700 (PDT)
+Date: Tue, 16 Jun 2026 11:50:27 +0000
+In-Reply-To: <20260604-unique-ref-v17-1-7b4c3d2930b9@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1171; i=flavra@baylibre.com; h=from:subject; bh=aQAERmJfPCm5nxIOgdlfK4MBzHNE5MLOfzqcJBP0AZ8=; b=owEB7QES/pANAwAKAe3xO3POlDZfAcsmYgBqMTaoDL/q8qsVYiJUR0Tm4XZsgXBFpOQbfXOdu lMbKGi2DpWJAbMEAAEKAB0WIQSGV4VPlTvcox7DFObt8TtzzpQ2XwUCajE2qAAKCRDt8TtzzpQ2 X99FC/9ELJGz4JvqSBCCijiYlefO7sOebTCyBuCrnprgrQjTOXihE8QI0cMdX6MTs6bDTNAxSgz J9jDBdsb6QkZs+k75dVAFtHaDN/xux/upKXLYmZ8kNsEX0Jot5jg9qQ/01+fkGHIvM+VrI8VNgJ mS4KQqJ6w/dDdtBAXtit5mS/jABZmRuzuFGK1RJC1/zhYGFwzjcF2XW6gUSVdXWRk2+SbqkJmNu Ps27hC6kLlfDa2XtZor2uKSa0RkK2tGbM0Ue1QQfL/JeMDX4xPDkUl+VKIqKGbtNVwhqfPZvva2 fZSOksw8zLGj+w6nMftUF87tL8b7QzxEDeWdNpw3jiZwfRU/PTu767HN2Zh/dSlNyTcqN2ckcLN p1C5YehtMXxS4p7U7yqUks3WDOoTUPwYlSR+sJdI4CyUHMVkCkllrhC/xY41UjGYIrADlS0ny5V zkD3t0b66qEgDnm24YJeLF0FHqjke9uANP3PZPJB7Vbiphu9q5wtEN0VHO7KNEsNcTMD0=
-X-Developer-Key: i=flavra@baylibre.com; a=openpgp; fpr=8657854F953BDCA31EC314E6EDF13B73CE94365F
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org> <20260604-unique-ref-v17-1-7b4c3d2930b9@kernel.org>
+Message-ID: <ajE4g7JsM6bnpEOu@google.com>
+Subject: Re: [PATCH v17 01/10] rust: alloc: add `KBox::into_non_null`
+From: Alice Ryhl <aliceryhl@google.com>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, 
+	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Serge Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Viresh Kumar <vireshk@kernel.org>, 
+	Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	"Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=" <kwilczynski@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Igor Korotin <igor.korotin@linux.dev>, 
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org, 
+	linux-pci@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
-During regcache initialization, if an error occurs in the
-cache_ops->populate callback, and if cache operations include an exit
-callback, the error code from populate() is overwritten with the return
-value from exit(). This hides the error condition from the caller of
-regcache_init(), and can cause NULL pointer dereferences when the regcache
-is later accessed.
+On Thu, Jun 04, 2026 at 10:11:13PM +0200, Andreas Hindborg wrote:
+> Add a method to consume a `Box<T, A>` and return a `NonNull<T>`. This
+> is a convenience wrapper around `Self::into_raw` for callers that need
+> a `NonNull` pointer rather than a raw pointer.
+> 
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-Fixes: 94a3a95f0315 ("regcache: Add ->populate() callback to separate from ->init()")
-Signed-off-by: Francesco Lavra <flavra@baylibre.com>
----
- drivers/base/regmap/regcache.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
-index 27616b05111c..aa8f2efed779 100644
---- a/drivers/base/regmap/regcache.c
-+++ b/drivers/base/regmap/regcache.c
-@@ -245,7 +245,7 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
- 	if (map->cache_ops->exit) {
- 		dev_dbg(map->dev, "Destroying %s cache\n", map->cache_ops->name);
- 		map->lock(map->lock_arg);
--		ret = map->cache_ops->exit(map);
-+		map->cache_ops->exit(map);
- 		map->unlock(map->lock_arg);
- 	}
- err_free_reg_defaults:
--- 
-2.39.5
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
