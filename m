@@ -1,184 +1,129 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022123.outbound.protection.outlook.com [52.101.101.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F1142EEBB;
-	Tue, 16 Jun 2026 10:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781607486; cv=fail; b=HeR0czpduuwmN0ADos+9bcZ7qElI9sOeIkxuoISBiieczP17Ms/sdl6AzTCWSgmjBaR7I3NBcmU6Lh7vQaLpZns/fZBoEvU/JTF3kT2yRpMsYBFHhoUF/QJA4MimBrQycZD6D0JwJh6VcdU+MjrXgPmLpxEF/NvFURf6NWz0jJQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781607486; c=relaxed/simple;
-	bh=p9MrJ3t4bRaA+SlqtqT3YswSbsFeQwLrKSBLMhOnqG8=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=saHUF64AMwzCl2lgdrGGfNC8+lHaj2zskUOsySYCJ49wcDV8bCAx0sOmWCTFNOpoO0alZhqDRN7Vow0IP/3w9C8SCaCkOuvJEscm6m89SosJY1KyCUscFiuIpXzuWDed6G8Jcvv/FPyOg5KQSml+NNvtkk1NVWxlQzzv9P4DVl8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=v57qrVKb; arc=fail smtp.client-ip=52.101.101.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196E73624D4
+	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 11:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781608025; cv=none; b=r31odvZSkVvTNzThBJE/InSL0XcKVrG3FfLfflcJyWv3+IajuFFRFZUJ4DOF7lqz5+fP9ZV16Oxvv8ux2y3Nn0RJ0hME++AvgHyv0AGdRzwqGi+Z/NNqtNUC6sx0SR1nlOgrA1adGQfS+WW5uMEICnBqxd1e/YaKSMvtNYN83Og=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781608025; c=relaxed/simple;
+	bh=8L7LN5GWKaXLjw308PhIswoJMOtulW5cOuUEITh9aLI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hhg8IhD/8r8O+Riwq+rfryG21Ls7Mhu6ztj7nP2aTl0NQr5n7V5eqEPBfXpsHsXkX1UeHw0VA0HFTd/iHHqXOiajx/Uz5Nh+0NVITbK5QlSOJTWwlB9hwBpV4ibfnNwNsPj2qDDegqboSPn2saCUQc1+h68uCb77MC4VP+w8ag0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UgZJqOkw; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="v57qrVKb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JiJNiuof4RXuxT8RNkz+PMRQA/dRx05UWI6ecUS8xbIVbTSDbcob+R3DeRctv92jIrLXeQHH+tuYWcDcmgk66vE+D6TunW2xxL3o02yUwBvbXiVzxqUMHpFCrz+2Gdvp5Zpd+v8EIJKiriwaCAMNg3X8b1dqCWhl5Z2DZA6XFv9W4S6MGQNAnzBMx+76aJJV7knf8PJV6PKW/HYREZYzCghF9fEAL9/f3hAVRSBsTEFRFAVE6LFJGiTLP7bsjlvaufOBjvgmwPGa7c5y1Y3giBOmkLzAsxaxBQ9GRzlmCcU5l7H6XlysklEFnDAG4ilri56qqxSaeNS/NFhK/2XXeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BPxNcRCRy1ENK0qvaj1MwXJnWGu3sTaVald5bD0VQPE=;
- b=j8IbmrIB4LuoGl9y6i9Sbo1c0/78d3eNDWkMnD9/V8cHb9mEN1M4y8TyNbu8zHl6UNMy/Ky0eMcRsR8RJccLxraGWGsWVqsG6pqmeHFGfzt8w8YnuWX0E4lbnpQIUkgFurWJhJk/i3eceWMk/R7865hce/yuIjb3oKmllI4SC/d5ydPUnViuAgNXiFNu8GP0hZlaHbJQZMI5wxuSP+XNauSJGbNhjLpEv1u+5L2m5pYYnXsPNfkyYTreDiEMkf/P6GV2bWqX8QZHoK+SkhQM2BvW+H9hgPp9WICXeshfGIlH/aPH4GBe8p3lPKaVTmVjp6+WeeVuMzWk3B/zHh0xiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BPxNcRCRy1ENK0qvaj1MwXJnWGu3sTaVald5bD0VQPE=;
- b=v57qrVKbGA1pJv3gCS2I7nZqb20pVYgKDJmkP9z5MyEcM2FibVYNhykMRbwWsADyBL5OrLjoTTwGfxURBExhuoK7TIT7EFVM7MY2fjSgPENupv0Tk2lpIgENdNKkJG+B/igD3f/FNCjvSOr9dQJSI2j+BU3wr5aNJ/60adwotqw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO2P265MB5517.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:25c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 10:58:01 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 10:58:01 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 16 Jun 2026 11:58:00 +0100
-Message-Id: <DJAF55KT7M1O.2HRG877RZ650G@garyguo.net>
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Abdiel
- Janulgue" <abdiel.janulgue@gmail.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Danilo Krummrich" <dakr@kernel.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 08/20] rust: pci: io: make `ConfigSpace` a view
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260611-io_projection-v4-0-1f7224b02dcb@garyguo.net>
- <20260611-io_projection-v4-8-1f7224b02dcb@garyguo.net>
- <DJA9JOVL3WF2.DF0M3HNG1OGF@nvidia.com>
-In-Reply-To: <DJA9JOVL3WF2.DF0M3HNG1OGF@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0288.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:195::23) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UgZJqOkw"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso44295e9.0
+        for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 04:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781608022; x=1782212822; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eJ3fUZ+/EYmTkDXUK4ZNvux/ajtwZf6cg0AECRGmMnI=;
+        b=UgZJqOkwQ08PqFEVWOGA1MujonBsvT2h4/pSMOfeiDjzia9s3CHUzC4eNuhbUrtBxK
+         +uzsXdLPBkeijaAXPM4qXkLqEJGb9jJj+ySsNEkSgcMEmUzYrmT6IBPW958aQCkXKrdl
+         r+lJJ/kXOyzrNMvMVSVWYvfW4j/LTIpXLW/c8Ug5svAWOTnOptSIbp+hSO1KNkadE7wp
+         UgayipX8GRSt4vZVb0TL+EtO4hEZnUgv+ZsiE8+1+c7Vo2up06b+nh/13Utove0k5S5w
+         TwbkRq3hQ24Sra89kZw7+dOwmSLYJ3MdIOU1UPKyGFSEeIWh0BmKrPwbu8L/TLeZtuSY
+         B8Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781608022; x=1782212822;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eJ3fUZ+/EYmTkDXUK4ZNvux/ajtwZf6cg0AECRGmMnI=;
+        b=QL8H5K7UjcRkr7UBTXiR59jjh0Fgv7TAeYoKQRuLMrSXWsa2mAp37w0uyCcN4KaLwQ
+         iw0cg3zpIjTVGLoCZch80z2h2wpv5xWeVRLDZ7AA4xcK4eFYAS4Wm32zKfxMlgDJOjST
+         Y7qo21NbmRM7D9dFg65eW0SSFGnibaW1HWM+ZSci+liocjglVLkP602aiBPCly/YtkdD
+         euo56NrTWHp21G5uiqOI/aGNFOTlWlsOfV7f8cTu+U+4Zsag+Y38jZbUWT5sGr+Q6Y9T
+         8PP3N3FES6Bs85yk7ENbYCz+5A6S2z5Z60QipQspB40ZCR8knCz57ApEmntPpQiw0tW/
+         2Mow==
+X-Forwarded-Encrypted: i=1; AFNElJ/2TCUzcfsIqW9dTDyg94t/lUjbJ6Y4uEeIIvXwf0xOJeRTjzTvkXjv5Q1tV4HOykvSLlDyr/RELO+vTA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMXsqQjMc7SIGDob0DWIicmkD7BFsE91xs3A35vjYGNh5nxaai
+	XT6b09CF4JI7oE/+BCpNDs6AOKzCMcxU8M1mzI30lbkWUeI8lVLXC2XL93RoYORa/Q==
+X-Gm-Gg: Acq92OFZ1KKH5q+i84i58TwM4gPhQ4cODRNpk9vEg5OydvP8RONGFTCdKSofL96Fr5p
+	UEeOTHkq1HZENf7gXOaqHJsDf33zs0XV138jlT/5l94UT8B05hUa6wFCH0dNymDxz3le8XZ6vUX
+	WipiF18S+AXIg8SnlTddW7y1zoSlWgHVrDZe+ZQewJbmgB5IGusecnqoGkYl7IVAlfXo0/gMimA
+	vTo1K5bu54Z4NN0uxsNDAVgUM8FLzuW20o/jDnYpjrA5MU43XClmKH9WoUWTsqkP772Mge8HbSI
+	kHfvKw3NAFnve5/woacqs0dKBYmjCV4Df3QVFxEnE/ckkzsfuhplNYwa8PFkpYDB1gLMcCUQ3l1
+	5aA7Mobn2S/y1qaPkrvXNzMeT+m1eChyrsrt6lHnsYRBIeHrQLhumEDagRkHPgjkmcvwdKugn/5
+	NJ9awkFQmFl9btxPMUTR65BSNSpEOLQjQvSok1K+6J3BwnysZUPK8haGIUpiKG1Q==
+X-Received: by 2002:a05:600c:c059:10b0:48a:5aa3:ac1e with SMTP id 5b1f17b1804b1-4923088e313mr879485e9.3.1781608022038;
+        Tue, 16 Jun 2026 04:07:02 -0700 (PDT)
+Received: from google.com (140.240.76.34.bc.googleusercontent.com. [34.76.240.140])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26393asm46289637f8f.5.2026.06.16.04.07.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 04:07:01 -0700 (PDT)
+Date: Tue, 16 Jun 2026 11:06:57 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Luigi Rizzo <lrizzo@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, rizzo.unipi@gmail.com,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, willemb@google.com,
+	kuniyu@google.com, davem@davemloft.net, edumazet@google.com,
+	pabeni@redhat.com, gregkh@linuxfoundation.org, rafael@kernel.org,
+	akpm@linux-foundation.org, david@kernel.org, netdev@vger.kernel.org,
+	linux-mm@kvack.org, iommu@lists.linux.dev,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] swiotlb: avoid double copy with swiotlb on tx socket
+Message-ID: <ajEuUZMgS_NRmDcp@google.com>
+References: <20260615234220.3946885-1-lrizzo@google.com>
+ <20260615172535.080cf94f@kernel.org>
+ <CAMOZA0KAHKsvA9yRcdrjG13S+=rJhw-Cvnw2WdLjGGY0azG0kw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB5517:EE_
-X-MS-Office365-Filtering-Correlation-Id: beaeeeb4-8e39-4d1b-3059-08decb962202
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|23010399003|10070799003|1800799024|56012099006|4143699003|6133799003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	1lbUeTZYHVyo6uj1vVwEeYlRj/QK03kP4D+WnmGMHhyYTwhZHNmP9boLRq/yv5wsjXXx5XXiNiP7RJJ5Qu53OiVyvAucWiPPk7raIe4hCUQfGDgyNz6638wCRcg8vVGJkoYmpmLVZD55E7B0+W7rx8q4UcEHTWlfs8koIEtiiulCc3EfGbdn4fssI24NxzyAsgs0DJbiqUj2ji3YMpYxMxz6xUMVE6E+Lp3VCRN0KF5EvQzRy3qChOVtYIU4TkyM1HtubeGy4fQ8BT30X4ZqOLEIA6DKBrtwKvqDZOyBSOhfimLEFqXretS1i9Iz5AUt9TdW7oE8nzBv/bN4KQzK7H4BOzP9auJrzhC2lsA3Ni20O/ennFeL2GlxVfUILbvGjI56SaJqlDHcZxRgxhOQWESrx1jINewU4iWQd9pNit20PzEyDSV2IU/44cZmMBxMxpV8oKbzxSksxaieg+9B3Pks08IuJMurs5SvjN7IQPzstTisNDC2Pys/xQ0S5QnlXyJ6cCt7WqWSpJJnuGORvwCaU2FojlOzGdZ4SsJ7wt29KA9hBQMxv6h11HVLajTlmBVHlbQ3G0F37FZ3AxeYGQETE91Kdu6JkEelHzcC4BCKn9Zu+3ntnAzIkLLN8DGzUW6e7p3n0+JDHIYZXPGX9tXJ0y9CjZr8OLp0ke0zgncteYYphvsy+6dFDiFs8x8Z
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(23010399003)(10070799003)(1800799024)(56012099006)(4143699003)(6133799003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UkVtSGh5UVFVMHdoVFhBelZGMEhLdzR0ckdveHY4MGdSaEVpbkZnN2h2cDAw?=
- =?utf-8?B?Q053d3RXOUJJNWFUTWg4dzcrY3JTK2w2dmpJalhqL0QxV3l2YVhUeTFlVy9F?=
- =?utf-8?B?UzEwallyQWxaOW9qMXExYWlGVXlJRWJnQWdaUS9mNDZMbnV4ellPU21zVUdX?=
- =?utf-8?B?TGFqS0dab1hlV3V6NFpTQll2RjJOMTAyYTUyZnZWalNWZGgyaDBKK0NiVVJE?=
- =?utf-8?B?MVQ1c2krY081YVV6dXdLbmhRbytDQTM0Z3A3Y0FCMlRteithL2U5eWV4OURO?=
- =?utf-8?B?Q3ZzMGM4UVhPK3ZucXdhbktUa3Y5Nm1WTTVLcE02bmRZNmRVQmxQR3QzY2lr?=
- =?utf-8?B?aC9nemhKTCswdGt3RERwNy9FR1dsZlpUaUtRWVNMUTljZEg1TFRkQ3Z4SEls?=
- =?utf-8?B?NmUwRm4wd01Mdm9KWHVNZUpnTmpZQTQzV3h3L0t6M2ZKZmZSa204WE5DNE53?=
- =?utf-8?B?Yit1TVFINDhEaEdlc1dtU2dvdlB0d3FNTWhVazVFM09VcDdQSW9pcXQyTEZy?=
- =?utf-8?B?WFB4ZmZTcDBLVzJvNzdNbk9yQzZ4dGVra3JETGd4Mm1DK0ZJR1NBc29jNkx2?=
- =?utf-8?B?ejRreXlreUdUTm1zQzRHMGlnZ1lQVGxaQ1U5Y1FLZlM3NXE4OXJjSDhnK3pE?=
- =?utf-8?B?WUx3djdDUnB4S2g1UWNWUkJ1eHlaeVNadlFCUm5EL3gzVnQvQTkrc2RSOHBL?=
- =?utf-8?B?ZVRLYVdoODM4RTdpa2JIWk5WSXhNeEJDRndvSHlwd3BrK2RzK0J2by9aL1p4?=
- =?utf-8?B?Q1IrWUNBWGoyRmNUakF1dDFDY1JFUkVZTjBjZXMvM25hM1dkOVhlT2NHeVRi?=
- =?utf-8?B?dGJWbU1pc2RDUEJmNVlFSjU0WlFqY1Q5SDJDQS9hRXJvT01NczQ5aWRST0VT?=
- =?utf-8?B?N3NmUTBkb1ZjdnljNFdjeGdvWVhaMlFBVlZiaW1NMkllcDJML0ZEZjZQdkY5?=
- =?utf-8?B?R2pVeC9tKzkxdXFUOUNIZmN2dHFWRWY3UnNrQlVaMVNRTG1MbnFCcUwyMGc5?=
- =?utf-8?B?Wk1Bc1BjUlJ2Q0p2a3NyT0xCSHc5VUpFcWxBUEwzM0tMUDh5THh6S3VaRDdh?=
- =?utf-8?B?dHpockJBVTBvSUFuaWlGWDNrMEY3UC9JQ1dZeWFWSE1PNlU1MTFyczNtSk5l?=
- =?utf-8?B?NXZXcU9QZlQxK1Q4SjlHNGFtZHVVNWFXS3VWQ1JKa29QS25LQnBBUm9zZStk?=
- =?utf-8?B?YlJnWmNYK0N0bGl4b2p4cit5M0dlemxpOFFPVFFWekw2RFJyNGZhcy9RTlJs?=
- =?utf-8?B?d1VBVjNPQ080eGlUWnB5QnAvak9VcGpZNERMRnVmMXY1c1FvZjIycUtNU2F1?=
- =?utf-8?B?eWR3TXNDVUlPREVob0dlTXAvdU8xNzJ6K21nYzZUbFVob1JpL21YVWVrT3lV?=
- =?utf-8?B?UDE5a2ViNENlWHZpclhZektzYVdSWGRZaStEcGk5cEtDelFNeGxMQ3ZEQVlD?=
- =?utf-8?B?NUZGaER2L3VKN0R0Qyt3czRVUmZqbUYzOHh3aHdkOWllNzBsRWdIaFhKc0tV?=
- =?utf-8?B?L0VlbDRmRUxXTkNodk9lWG42dTJsMTBFOXNpYVZIQm41Rjh4aXdQclNzUmJq?=
- =?utf-8?B?TDVtNjBRSk1JN1pZdThaaWVueGpKbGJjSkpBTVFLZThVV1pvT1l2RkZnWEtj?=
- =?utf-8?B?NXprek1RVXNjUEIwendES2JoQXh0U2dQSEJCdVpKQzZCZlRNeFQxQjR3L29I?=
- =?utf-8?B?OVhWTHFBejQ4YmhpaW1XWTAvZ1NwbHAyQzErckdLWjdvWEJ0Uk5RNUJXZlJ5?=
- =?utf-8?B?T0VWSndjQWVaYmFNeWhMSDVVMDBkaGFFeVBaSTRDZTE0RjVab090U09LSHow?=
- =?utf-8?B?MHFCOTgySFFwM2lPZnRGVVdCM3JrNXluQmFUN2ZhaXBqTFZ5MDBEUGQrU1lJ?=
- =?utf-8?B?OUc2OUQ3VXFzNEd1L1FaSS9JVVA0aUpEVDNOalNWM3FnbkJmT1lBVlVFR3Q1?=
- =?utf-8?B?aG1aYjI0bWNsR3pPcHlQR2xTbnNqWXhlc25nRkFNdUtiTWNuNStFQ3owWkdn?=
- =?utf-8?B?UjhHMGxreHdEWHo3YnRQbDh5U1AyVnBDVDVIcDlqTWl0TnlQSkM5WU0yRm1U?=
- =?utf-8?B?di9lSlg3cVAyUkRRN081OGltWUh5aHVOSHhqcXZMRFpmdWNFM1Q5ODZXVGJy?=
- =?utf-8?B?UWdXQlZsdlpUdVlXZllTRmh6N2lFWlVkUlZNdzdUM0Z3TlpuelFhUXl0WEN6?=
- =?utf-8?B?bHdSZ1hVU2ZtbEhxZmQ5L3lKdldOYk9zVldMYlNZa1l1bVdnbEUwTHQ0S1Jv?=
- =?utf-8?B?V1FkU3BGV3lKYTlqOE9Qb3FSODVRVGI3ZEtodm9Sc1Z3YjljY1g5M1lhUitr?=
- =?utf-8?B?WGRSdWZzSkV2TjFSZ0NvdzJaY3MzcTRZNnZkZnlxaWZlZUswT1d0dz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: beaeeeb4-8e39-4d1b-3059-08decb962202
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 10:58:01.0061
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X8bLYGaVjJ11dlco5oAxk26fiY3RQFm0loN87Tar/21RBxqD2Z+psU5clbWx8XPhpHLxuDT60Lu5YM3rMOABCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB5517
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMOZA0KAHKsvA9yRcdrjG13S+=rJhw-Cvnw2WdLjGGY0azG0kw@mail.gmail.com>
 
-On Tue Jun 16, 2026 at 7:34 AM BST, Alexandre Courbot wrote:
-> On Fri Jun 12, 2026 at 1:28 AM JST, Gary Guo wrote:
->> -/// The PCI configuration space of a device.
->> +/// A view of PCI configuration space of a device.
->>  ///
->>  /// Provides typed read and write accessors for configuration registers
->>  /// using the standard `pci_read_config_*` and `pci_write_config_*` hel=
-pers.
->>  ///
->> -/// The generic parameter `S` indicates the maximum size of the configu=
-ration space.
->> -/// Use [`Normal`] for 256-byte legacy configuration space or [`Extende=
-d`] for
->> -/// 4096-byte PCIe extended configuration space (default).
->> -pub struct ConfigSpace<'a, S: ?Sized + ConfigSpaceKind =3D Extended> {
->> +/// The generic parameter `T` is the type of the view. The full configu=
-ration space is also a
->> +/// special type of view; in such cases, `T` can be [`Normal`] for 256-=
-byte legacy configuration
->> +/// space or [`Extended`] for 4096-byte PCIe extended configuration spa=
-ce (default).
->> +///
->> +/// # Invariants
->> +///
->> +/// `ptr` is aligned and range `ptr..ptr + KnownSize::size(ptr)` is wit=
-hin
->> +/// `0..pdev.cfg_size().into_raw()`.
->> +pub struct ConfigSpace<'a, T: ?Sized =3D Extended> {
->>      pub(crate) pdev: &'a Device<device::Bound>,
->> -    _marker: PhantomData<S>,
->> +    ptr: *mut T,
->
-> `ptr` is used as a pseudo-pointer here, can its documentation be more
-> explicit about that?
+On Tue, Jun 16, 2026 at 02:33:52AM +0200, Luigi Rizzo wrote:
+> On Tue, Jun 16, 2026 at 2:25 AM Jakub Kicinski <kuba@kernel.org> wrote:
+> >
+> > On Mon, 15 Jun 2026 23:42:20 +0000 Luigi Rizzo wrote:
+> > > The use of swiotlb causes an extra data copy on I/O.  For tx sockets,
+> > > especially with greedy senders, this has a high chance of happening in
+> > > the softirq handler for tx network interrupts, creating a significant
+> > > performance bottleneck.
+> >
+> > What's the use case? I associate swiotlb with debug / testing mostly,
+> > so it'd be useful for people like me to explain why you care.
+> 
+> Ah sorry, I forgot to mention.
+> swiotlb is used in guest kernels for confidential computing VMs.
+> Ordinary memory pages are encrypted and the host or devices
+> have no way to decrypt them, so the kernel must use
+> unencrypted bounce buffers to exchange data with I/O devices.
 
-The invariant section is already hinting this by saying the pointer is betw=
-een 0
-to cfg_size?
+I started looking into the same problem recently, to reduce the
+bouncing in protected KVM (pKVM) confidential guests.
+My first attempt was to update dma_direct_map_phys() to skip
+bouncing and do inline memory decryption (for pKVM that is a hypercall
+which updates the stage-2 page tables), however, that was really slow
+compared to the memcpy in bouncing even for massive pages.
+My conclusion was similar that we need to solve this at construction
+by making this memory allocated from a pre-decrypted pool (which
+does not have to be part of the SWIOTLB)
+My initial idea was to teach some of the kernel subsystems (SKB,
+BLK, SLAB) about "CoCo allocators" that allocate decrypted memory,
+as this is not a net specific problem.
 
-Best,
-Gary
+I am still looking into this, I was planning to bring this up in the
+upcoming LPC.
+I will give this patch a try. However, I believe that we need a more
+generalised concept for CoCo pre-decrypted allocators in the kernel.
+
+Thanks,
+Mostafa
+
+> 
+> cheers
+> luigi
+> 
