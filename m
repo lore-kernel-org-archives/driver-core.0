@@ -1,150 +1,266 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068D7283FE5
-	for <driver-core@lists.linux.dev>; Tue, 16 Jun 2026 15:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF4144D686;
+	Tue, 16 Jun 2026 15:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781623399; cv=none; b=SHIWdq4uuVFUCCeBMEr4vehviih1Y9tJhlFzaOh+eHC/G0RiAJ1MYYgZKZGpnZyhlZyTGDc+3+xC1/xAdkZVKAnXmJKgUh+p6XAVIpibOXlO81OzIRe4Wc/svWSloKy9jL3ojuSRUYKYG2/xNjwvNCVCgstrfoVkMbSqRTWMe/I=
+	t=1781624489; cv=none; b=J++tiYW1dmgKz0I9Z/AcQU9ncafZYu4i92CtBeojV9sQ/pcoD2DQNa/qfM1oqShUgH0nnZ1iqmRyrNaFffuX3BueJwjgq4zPkXY48be27xJw2Gd/DxLW61Uu9dT1aHuMAIqzArSUTB7Xz1SMhkJs9rpoCMTciDUQSspXHwy62rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781623399; c=relaxed/simple;
-	bh=csykStPKL2vxh5U9zFjBn7rXw/Awp9+Rlx3O/TPqDCw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=m2L0XP1q6W0OZ3txxusV6e9wCMWoddf5xHQ9KbNOSqaZTscg3+shTc/1h3b5jkAVlejg43bGcXmyclrfjAxCM2DhUfGFEgif+ZPaCNQknNlmRwIcWZYW/Q7vGn5TTKVqNNNFM0TeW3aMukYEtDxqxZuNWOtdlghJGO3knb5GuGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XVuFsdIg; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1781624489; c=relaxed/simple;
+	bh=ci+UPfHl9w2sbjgJBM6U0uH9tN6siWTlTRuJj7ZSB6Q=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=BQ9aS0wa8zy16iLSMKAEkkVQ4dV8e3zTIwGkRwn2RgLonCN28jI8+7v1YM//nwW9zhM8ie5XPY4gjrLPO2UeSMFhrlj2vMABkC/nLVVYky43WfjG0zrJ8QPmugO0MkFRI/q4v0VjcWY9898gvfJR+PZ5xFUlsBB0+56SnxYHa4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=OD/XtXIi; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XVuFsdIg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781623397;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qMS+SWEyDEjE+jxgzivY9c5ZtMduep7fGow2UpH8XlU=;
-	b=XVuFsdIgkuenbKr3t3zd9vbk68525TVAbOQXN1/Zf+l1qYcHhkVl7pA27x8ZnGIv3xlFWa
-	B7lDOyGmI2G9acRzQwgNSDTyJp9rSuAYKRyutHiJYdK9CihAQhisZEooH8d646W+yogWE3
-	Y9im+2k/a+PQmPS+eosg4vhdBUq7A3Y=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-108-4km-Gb8fOv-X_BbJWgTaGQ-1; Tue,
- 16 Jun 2026 11:23:14 -0400
-X-MC-Unique: 4km-Gb8fOv-X_BbJWgTaGQ-1
-X-Mimecast-MFC-AGG-ID: 4km-Gb8fOv-X_BbJWgTaGQ_1781623391
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 910FC19560B9;
-	Tue, 16 Jun 2026 15:23:11 +0000 (UTC)
-Received: from fedora-work.redhat.com (unknown [10.22.80.179])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B7A08180034F;
-	Tue, 16 Jun 2026 15:23:06 +0000 (UTC)
-From: David Jeffery <djeffery@redhat.com>
-To: driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	Tarun Sahu <tarunsahu@google.com>,
-	Pasha Tatashin <tatashin@google.com>,
-	=?UTF-8?q?Micha=C5=82=20C=C5=82api=C5=84ski?= <mclapinski@google.com>,
-	Jordan Richards <jordanrichards@google.com>,
-	Ewan Milne <emilne@redhat.com>,
-	John Meneghini <jmeneghi@redhat.com>,
-	"Lombardi, Maurizio" <mlombard@redhat.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>,
-	Laurence Oberman <loberman@redhat.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	John Garry <john.g.garry@oracle.com>,
-	kexec@lists.infradead.org,
-	David Jeffery <djeffery@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH 5/5] scsi: Enable async shutdown support
-Date: Tue, 16 Jun 2026 11:22:19 -0400
-Message-ID: <20260616152219.6268-6-djeffery@redhat.com>
-In-Reply-To: <20260616152219.6268-1-djeffery@redhat.com>
-References: <20260616152219.6268-1-djeffery@redhat.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="OD/XtXIi"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65GEIFfG1652767;
+	Tue, 16 Jun 2026 15:41:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=VqTSkW
+	MDhPtujS8jrLfubZSY4AjyzSzuRprOifqz6bY=; b=OD/XtXIi0C8uIHoiqmUtMO
+	5iDwekcKeFRpccAdZpfcb6gkJLaXqV2WZHicUPt83QjlYM2mPL4VnjrW8JCnIlBh
+	Zr/j0ro9Ggqs3kSv+Qm0QMp0z7P6FFMV19S/vPghTawZUU7rAPIrMH0UqIBE4lBW
+	h6eZKAhkyfEZ9O2lVHzOS/ou2IeUiUmNTdj/ri+7LIy0LeI+wo3JZHxW5EHFwpkE
+	WlKJMu+Q2/+mM9QzYA3TuKpIBPufuy0jyRCk+w+UEGxjY9ASghNlsVL5oT7A/7GJ
+	QpeZsyx+w/j8nnP+2T+OiNk+zHTqqxv+rv6lW586+/LG8FZUWAtnUoSQLgSfFEvg
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4es1u0p367-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Jun 2026 15:41:22 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65GFYbZh021961;
+	Tue, 16 Jun 2026 15:41:22 GMT
+Received: from smtprelay06.dal12v.mail.ibm.com ([172.16.1.8])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4eshhq492p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Jun 2026 15:41:22 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65GFfLIH14222042
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 Jun 2026 15:41:21 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2BC4F5803F;
+	Tue, 16 Jun 2026 15:41:21 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5121B58060;
+	Tue, 16 Jun 2026 15:41:18 +0000 (GMT)
+Received: from [9.224.91.56] (unknown [9.224.91.56])
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 16 Jun 2026 15:41:18 +0000 (GMT)
+Message-ID: <ec9d383ff4881945a6b242a37e4024cacc406261.camel@linux.ibm.com>
+Subject: Re: [PATCH v4] PCI: hotplug: Add 'uevent' sysfs attribute to
+ trigger slot events
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Bjorn Helgaas <helgaas@kernel.org>,
+        Ramesh Errabolu
+ <ramesh@linux.ibm.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Lukas
+ Wunner	 <lukas@wunner.de>,
+        Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?=
+ <kw@linux.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Matthew
+ Rosato <mjrosato@linux.ibm.com>,
+        Gerd Bayer <gbayer@linux.ibm.com>, Heiko
+ Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander
+ Gordeev <agordeev@linux.ibm.com>,
+        Farhan Ali <alifm@linux.ibm.com>, Leon
+ Romanovsky <leon@kernel.org>,
+        driver-core@lists.linux.dev
+In-Reply-To: <20260521144853.GA163149@bhelgaas>
+References: <20260521144853.GA163149@bhelgaas>
+Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 16 Jun 2026 17:40:16 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: PrUzSQgFPS_O_kW_ti3o5_pte5t851OfXFWmwMxxvsg_1781623391
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: 0bs4HoeCo7b3Q4cWp070UfjONMV3zP0x
+X-Authority-Analysis: v=2.4 cv=XdK5Co55 c=1 sm=1 tr=0 ts=6a316ea3 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VwQbUJbxAAAA:8
+ a=VnNF1IyMAAAA:8 a=8bvjBKMlFFBRua3M5rcA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDE1NyBTYWx0ZWRfXzJMTSqPvmT3l
+ 5qEbGnRY3AFfcrbIchHfE2YSNj7zMbtZjpd6sPzCOPtRdThHWYsRQ3jigb/N97fWKuXYikCCFnA
+ KulnugO89jrxX1bZ0OZ0owIwCqwn6jl4qy7qrANos+QYfi+pCykV4wGIL/+PcUdaS9uHMyW9CIK
+ dYS2lqZiJPdHPDJQvpYOuHM27Dsp51MLAUkKjrt7wC5nHYqE2kdL3csLSEh2jUCfctITyZtgVxN
+ /93ahSWFlnXAXVjN7uDQNLj83fi0qOtNcjM7ZyYwi/1tyzd7DXlHiOOxurtrfk8NHp7/t8ym67v
+ TQ3V1P/P5dJ+KHP6R8BWL2nGsvQhGq8M+2chVudg/pKTNrzPvOV0PysHnZCn7FxIwd8cFamYtX7
+ eCgTbwJHIFgWPh/Js/pSUqwsBqqaip+198BNxxMS6KQjr4x+GEdbdByDbFl7Jh4ejTF0jZY4aBL
+ IvR4GPIKQLh7LEBN3VQ==
+X-Proofpoint-ORIG-GUID: ssdctJVrL45gDjVG8uRjJP6sQsBeU9GK
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDE1NyBTYWx0ZWRfXxJvr+k4o8m/K
+ mePr1e0HK79uGiXtM839OF2Cd0MJL6AvdVVRjI6dRu2nHBgRMq1XyzSxr4Rg6TktSz9Zq4LMtoh
+ vZAlmWteSiD/oAYuPY+o0keKWqUrDr8=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-16_04,2026-06-15_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1011 bulkscore=0 malwarescore=0
+ spamscore=0 phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606160157
 
-Like scsi's async suspend support, allow scsi devices to be shut down
-asynchronously to reduce system shutdown time.
+On Thu, 2026-05-21 at 09:48 -0500, Bjorn Helgaas wrote:
+> [+cc Leon, driver-core]
+>=20
+> (Ramesh, when you post new versions of a series, please cc anybody who
+> responded to earlier versions.  Also, v2, v3, and v4 are identical, so
+> there's no need to post them as new "versions"; you can just ping the
+> original thread or label them as "RESEND")
+>=20
+> On Wed, May 20, 2026 at 05:13:20PM -0500, Ramesh Errabolu wrote:
+> > Add a write-only 'uevent' sysfs attribute for synthesizing
+> > uevents for a PCI slot. This extends the existing uevent
+> > support which emits a KOBJ_ADD uevent in pci_hp_add() with
+> > the ability to replay such uevents for cold plugged devices.
+> > As such events are only emitted by hotplug capable PCI slots
+> > so is the support for synthesizing them.
+> >=20
+> > The change was validated by manually triggering 'add' uevent
+> > for a specific hotplug PCI slot:
+> >=20
+> >     $ echo "add $(uuidgen)" | sudo tee   \
+> >                 /sys/bus/pci/slots/<slot-id>/uevent
+> >=20
+> > Signed-off-by: Ramesh Errabolu <ramesh@linux.ibm.com>
+> > Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> > Tested-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> > ---
+> >  drivers/pci/hotplug/pci_hotplug_core.c | 25 +++++++++++++++++++++++++
+> >  1 file changed, 25 insertions(+)
+> >=20
+> > diff --git a/drivers/pci/hotplug/pci_hotplug_core.c b/drivers/pci/hotpl=
+ug/pci_hotplug_core.c
+> > index fadcf98a8a66..c3634b1cc7a8 100644
+> > --- a/drivers/pci/hotplug/pci_hotplug_core.c
+> > +++ b/drivers/pci/hotplug/pci_hotplug_core.c
+> > @@ -173,12 +173,27 @@ static ssize_t presence_read_file(struct pci_slot=
+ *pci_slot, char *buf)
+> > =20
+> >  static struct pci_slot_attribute hotplug_slot_attr_presence =3D {
+> >  	.attr =3D {.name =3D "adapter", .mode =3D S_IFREG | S_IRUGO},
+> >  	.show =3D presence_read_file,
+> >  };
+> > =20
+> > +static ssize_t uevent_write_file(struct pci_slot *slot,
+> > +				 const char *buf, size_t len)
+> > +{
+> > +	int rc;
+> > +
+> > +	rc =3D kobject_synth_uevent(&slot->kobj, buf, len);
+>=20
+> I haven't followed the discussion closely, but I'm skeptical because
+> this would be the only use of kobject_synth_uevent() outside the
+> driver core.  That means a change like this should include a
+> description of something unique about this PCI slot situation that is
+> different from all other buses.
+>=20
+> For driver-core, the preceding discussion is here:
+> https://lore.kernel.org/linux-pci/20260225150815.81268-1-ramesh@linux.ibm=
+.com/t/#m57bf51ce1c073b685b391867d4a9932e5f9dccc9
 
-Signed-off-by: David Jeffery <djeffery@redhat.com>
-Signed-off-by: Stuart Hayes <stuart.w.hayes@gmail.com>
-Tested-by: Laurence Oberman <loberman@redhat.com>
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: John Garry <john.g.garry@oracle.com>
----
- drivers/scsi/hosts.c      | 2 ++
- drivers/scsi/scsi_sysfs.c | 3 +++
- 2 files changed, 5 insertions(+)
+Sorry for the late reply. In the previous discussion we decided to move
+this here because this is the same file where the existing add uevent,
+which we're trying to synthesize for cold plug, is handled in
+pci_hp_add().=C2=A0So from our point of view this is really a missing part
+to that existing uevent support that is causing real issues for us. In
+particular we need to be able to create udev rules that react on
+plugging of an s390 hotplug slot. On s390 a hotplug slot being plugged
+is how the (machine) hypervisor makes a PCI function available to the
+system where the function may first appear as powered off to multiple
+Linux instances and only gets actually attached once one instances
+powers it on. For example such a rule would be used to automatically
+power on the function in cases where we know that we're the only
+instance that will see it. Of course we'd like to have the same rule
+handle hotplug (works already) and cold plug during boot (needs
+synthesized uevents).
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index e047747d4ecf..bf691acc7a67 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -273,6 +273,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	pm_runtime_set_active(&shost->shost_gendev);
- 	pm_runtime_enable(&shost->shost_gendev);
- 	device_enable_async_suspend(&shost->shost_gendev);
-+	dev_set_async_shutdown(&shost->shost_gendev);
- 
- 	error = device_add(&shost->shost_gendev);
- 	if (error)
-@@ -282,6 +283,7 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 	get_device(shost->shost_gendev.parent);
- 
- 	device_enable_async_suspend(&shost->shost_dev);
-+	dev_set_async_shutdown(&shost->shost_dev);
- 
- 	get_device(&shost->shost_gendev);
- 	error = device_add(&shost->shost_dev);
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index dfc3559e7e04..8fd317aef37b 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1386,6 +1386,7 @@ static int scsi_target_add(struct scsi_target *starget)
- 	pm_runtime_set_active(&starget->dev);
- 	pm_runtime_enable(&starget->dev);
- 	device_enable_async_suspend(&starget->dev);
-+	dev_set_async_shutdown(&starget->dev);
- 
- 	return 0;
- }
-@@ -1412,6 +1413,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	transport_configure_device(&starget->dev);
- 
- 	device_enable_async_suspend(&sdev->sdev_gendev);
-+	dev_set_async_shutdown(&sdev->sdev_gendev);
- 	scsi_autopm_get_target(starget);
- 	pm_runtime_set_active(&sdev->sdev_gendev);
- 	if (!sdev->rpm_autosuspend)
-@@ -1431,6 +1433,7 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
- 	}
- 
- 	device_enable_async_suspend(&sdev->sdev_dev);
-+	dev_set_async_shutdown(&sdev->sdev_dev);
- 	error = device_add(&sdev->sdev_dev);
- 	if (error) {
- 		sdev_printk(KERN_INFO, sdev,
--- 
-2.54.0
+As for what's special, I think it is that as far as I understand the
+PCI hotplug slot "drivers" don't seem to be well integrated with the
+driver model. For example neither our s390_pci_hpc nor the acpiphp
+hotplug driver seem to actually have an associated struct device_driver
+nor do these hotplug slots appear on a bus which I guess would allow
+using the bus's uevent.=C2=A0Fixing that does seem like a much bigger effor=
+t
+though.
 
+There is also the call to kobject_synth_uevent() in
+kernel/module/main.c which looks at least somewhat similar. But yeah I
+do see your point that basically all other drivers and devices get
+their uevent syfs file from the driver core.
+
+Thanks,
+Niklas
