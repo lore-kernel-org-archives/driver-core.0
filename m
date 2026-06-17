@@ -1,93 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E95343CECC;
-	Wed, 17 Jun 2026 13:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C7E4963D1
+	for <driver-core@lists.linux.dev>; Wed, 17 Jun 2026 16:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781703538; cv=none; b=fE6CsEkCMIym8VMaGfZYFPHRrNbWHTwUfuIqc4KlTi8vfPoLTQxHP8vWUOtbSI4X8AKdUkvt+7EwCUiBzm5NayceQ6el1OZP+MB7SpK6KF8NB+yst9oUrp4ZzCyxfM6THfIb0CE7cpGsGNAc/JKjmChp/WKUnTYdZYuuZFdLqyc=
+	t=1781714376; cv=none; b=Zar7SpWG7YSYcxkz5487lrI43BunSqSPjXIDBhOXd9vs+3wRdhLB2wAuc1QUVwpPzh+9A6EQiPCrd0h4cLVSKlAPDpcoKGjLO5T6F+OFmjTmIrEkXG7f17JCxgC70ncMgfCi7GeuN4kp86TLKaqJMjCUkMkHDze88/ZkNbvYj7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781703538; c=relaxed/simple;
-	bh=3VUlfp7+JEDqIuH82KM3YcEa/UyPk3oJdz8DOLrZQUs=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OutrDzIzJbPcvwI+PVOQGmBg9Ap3HVNZdu/rQBtelVki7XgLE3oupUIpBKb7UaGGogOga/tmTseeO2Ye9HoI374wP9aACSuB8vW7nDC6QjwAjJItTEkSaVu5hCDV+jGX7UivSs/nL+5SiJUNn3uHLBHM8U+P6gi8NIbiZq7QDeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KaQ9Trvq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781714376; c=relaxed/simple;
+	bh=VhSsrAM9gTdNY4d4xymVwlRhSHetErvRZVEsiHQznxk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nUVm0XLETs2vnvjP6arDZrQOPtPfxQUgOQWGb5KyP6ozcfkfmHBDzkKBmmeq7MEg15KRavNpn96I7fkw1t1PzSwjr9lObKHrBBhiohWFssqbDWpnuknfGfIs1Q9u7aWkHmAaBUGjLweV+8diK2pXspwYoacpW3tjVyTtfJU1iI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3gYX3D6; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KaQ9Trvq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 241951F000E9;
-	Wed, 17 Jun 2026 13:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781703535;
-	bh=E+IXh4nPHeq6VqEsICFDx6LLOS9eBFJuN0vcqdOIkIg=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=KaQ9Trvq25tyX+eSA95XYGwasik8Gll/WGSUyc6fkFOw7gsOCAzDlQ98n6pfpBj2V
-	 xOJjIoTiGOgO1791Kglo/Lz1XswhqT2RoBHUEpH0O8tllIys1Z9u20dg1ehcyiIolT
-	 caa1BE6rBTj2SCsa1m7GcROsBoXwkNmO9ywRsFHZN4z9sF9faR9CmWmc7bOf0BIQrk
-	 CBmXl6huvkdzSoV0PEwjHAcv/BiaGSFv2bVlj3J5jbnHNDouL6tc445UOBdUDJ7pff
-	 o5vdcZ1LHpZqabLcaXw0UCU3mThlLPY1FbMTGFR0+19nqNYsOGhHhTchFl8aflmtjB
-	 pxnADtFtlYpuw==
-From: Mark Brown <broonie@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- Francesco Lavra <flavra@baylibre.com>
-In-Reply-To: <20260616114429.1852456-1-flavra@baylibre.com>
-References: <20260616114429.1852456-1-flavra@baylibre.com>
-Subject: Re: [PATCH] regcache: Do not overwrite error code when finalizing
- cache after error
-Message-Id: <178161574172.103575.18346225443015450487.b4-ty@b4>
-Date: Tue, 16 Jun 2026 14:15:41 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3gYX3D6"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-36b9033d230so769899a91.1
+        for <driver-core@lists.linux.dev>; Wed, 17 Jun 2026 09:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781714373; x=1782319173; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RzwjJirdKF9aL8pyYUOcGplzpLd9E6wSMPKnUXgb9XE=;
+        b=O3gYX3D6kdQzNJGNWgiBAO74hTXFy6QhPZClybXD5Cb1ir47kdsjWm9TrEH4yz5oCO
+         xUvQD+CffTA2X60oJ4Ul5JWoA6WOIaUw26kUd0Hra7T22SEoq+CMBZTEejS7jstJbbhX
+         RRghahGzJoUXlOsYCVvgTHiHl41+A2rdte5wDkuBz4bmc4Y12U/Ez5DumbeTiWFDTMS9
+         BT5to+k/gSmwcmOCdRkYDKPGVjBYTq/E9UxlsUKWIBry83tDliFwEZjeCrwWUYvhdJ/s
+         m/FhcL8kPT/TTH3FRJSItDuT2pohtbZlNIjRSfEL3creEEVUikbEglk+HWwBsj/g5mTn
+         lQGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781714373; x=1782319173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RzwjJirdKF9aL8pyYUOcGplzpLd9E6wSMPKnUXgb9XE=;
+        b=hMFCeuYmPuVVXWht1VUAO3/QCiqGajicSjLOtsfZjTl0qGkcAoD2r6inok1RWWoQ3N
+         m6DoYQLxayeEFTua1whxZR6oXLc5nYAHjRE2hr+mCeMf3C+SIHJfyt9CWOH5RIvUWA9Z
+         qhdEtpkAvvco7gD4fGXbfn9eva6vrQKP9tPM09LniK2rMVafJZOax+Rc6NN5zOBMeRvk
+         dXDuXDpB1+nu5Pp2n4e4If/+RiQt+V92H/R5wY8fHQDB6JCYXZpSoXgJVreLnQdwAauG
+         lIE9QVDRndnsLpeV/2tKiioBBsOx6b/r/DuERz2edjOgXDRy5iFMpdl9PBic/8NkpJPu
+         mNyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8c1TibgyibLX3qaUlDQkahv55yNRtvVnffaUxibBgA/5Srjc23pfj46IFyI/8vQauohS2srt6vNXrx7w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywap6zt2FYs6UtvSLuvUMCjsCieKp8kBLHEotYyqCCryweseJRh
+	61OdYWZ3VVGXhI0KleCLN3wn45jY9NChZD6LQNgncylD/Tq3YegyY88j
+X-Gm-Gg: AfdE7cnd6NLlLWIYat5BKaScejlyUD4P/cssTY5mD8PpK4oXFyKsj8Rjyri4mfQExqk
+	/OcuzK4piPDykBAQiDcdwIuO1QvktOBw/eQb35Z79B7HfHPuRJAHYms+5T+WEODoweyuobcjFfo
+	LYaTIEdZB+8pY5CowNFoyx05vKXhkQNhCkn1noe/TCF91dTQ8t7VMkvpw6zuBDnJM11JT1VGfVM
+	e29M/a7EjH40EtL2OuTSh0N5avMr56RL2jAaZW8bKahPNTlbMmjGGFf/rigk06K8S6xH7tUIq5/
+	H/Tw0SdMqU+E0k/O6pkJxhMcA1wWl7IccXtFI9nDrNMpKE26EETjXNwJhXhxWzaZ5mm83ywStUj
+	BraNgBnNuituwB3S5//QGJyGJIKu/FyuHsCLxTz2fuBDzcW1uSytDUG3LTglVAH6OZgUijJDqdu
+	1Tvk2LIQayHN7Clpmnkw==
+X-Received: by 2002:a17:90b:2dd2:b0:36b:a162:a1be with SMTP id 98e67ed59e1d1-37cdbcf285bmr183369a91.4.1781714373182;
+        Wed, 17 Jun 2026 09:39:33 -0700 (PDT)
+Received: from ubuntu.. ([110.9.142.4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37cccdf0923sm734949a91.1.2026.06.17.09.39.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 09:39:32 -0700 (PDT)
+From: Sang-Heon Jeon <ekffu200098@gmail.com>
+To: rppt@kernel.org,
+	akpm@linux-foundation.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: linux-mm@kvack.org,
+	Sang-Heon Jeon <ekffu200098@gmail.com>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arch_numa: remove redundant nodemask clears in numa_init()
+Date: Thu, 18 Jun 2026 01:39:19 +0900
+Message-ID: <20260617163919.2544899-1-ekffu200098@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1165; i=broonie@kernel.org;
- h=from:subject:message-id; bh=3VUlfp7+JEDqIuH82KM3YcEa/UyPk3oJdz8DOLrZQUs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqMqNtOaL3LAYvzuBWEwM4eajQFWwsxWn0SdrVj
- 3wAq6IbZXWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCajKjbQAKCRAk1otyXVSH
- 0MY0CACBeXANa3GdCmSZso6eyeH1RRasdOcyIN2J5VBhHzTXhI0IrHZtFfyRziDCEe5AI5tcuMO
- MHdDpP6DNE7DvUKmvaUdEuxZxx0KhrHOHBDRC8I0Fcie2k4Q0by0/HD+hrk4io7Vy1CTJJ6Yu7D
- p0YEELV3ALJs5F9WZcfLXG0Ia5T7Pi0RZY3fycSBzBxMC9KnIUXbfY0yZCjuDoDi8RNgdL8E/49
- 93mQpm97yFL2tZkVUE7LWKnj/WStITbaPbA9QhsRQypXQfdX+j9LFTnz6PrSNIYjZxtjThdqgvE
- jhwQtYkul0u3uMa6Ho9IsPoXfbNwA8buF7VGjYskK4GZGydn
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Jun 2026 13:44:29 +0200, Francesco Lavra wrote:
-> regcache: Do not overwrite error code when finalizing cache after error
+numa_init() clears numa_nodes_parsed, node_possible_map and
+node_online_map, then calls numa_memblks_init(), which clears the same
+nodemasks. Nothing uses them in between.
 
-Applied to
+These clears have been redundant since commit 767507654c22 ("arch_numa:
+switch over to numa_memblks") made numa_init() use numa_memblks_init().
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-7.2
+No functional change.
 
-Thanks!
+Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
+---
+ drivers/base/arch_numa.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-[1/1] regcache: Do not overwrite error code when finalizing cache after error
-      https://git.kernel.org/broonie/regmap/c/9108f7fa493b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
+index c99f2ab105e5..442ea239bba7 100644
+--- a/drivers/base/arch_numa.c
++++ b/drivers/base/arch_numa.c
+@@ -231,10 +231,6 @@ static int __init numa_init(int (*init_func)(void))
+ {
+ 	int ret;
+ 
+-	nodes_clear(numa_nodes_parsed);
+-	nodes_clear(node_possible_map);
+-	nodes_clear(node_online_map);
+-
+ 	ret = numa_memblks_init(init_func, /* memblock_force_top_down */ false);
+ 	if (ret < 0)
+ 		goto out_free_distance;
+-- 
+2.43.0
 
