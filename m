@@ -1,88 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from forward103b.mail.yandex.net (forward103b.mail.yandex.net [178.154.239.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CE43B9943
-	for <driver-core@lists.linux.dev>; Wed, 17 Jun 2026 07:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22317318B96
+	for <driver-core@lists.linux.dev>; Wed, 17 Jun 2026 07:41:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781679615; cv=none; b=YRYiwSjHU7T9ofE02J+wm7xxM84Mx1Gy2F9R9W+7OU3cJCzI4fs/SA0XikZx3UKCEXFAuqzO0h+Sj2ICnwG27cIqYTkBGW86L8RkuQg/qGoiYG2oKSxtOunWL/iFln5SXfQA2CVdO14ZuRxJOMvZ5sx3wu8W+DhwEa/6llEZZeg=
+	t=1781682121; cv=none; b=IUAKoByfM1Ly2F/fHskR2OaezNM37Fh2mrO8D2GS/yqs0QHlDUJ+b65HZobXVCEm849U4WryXA/ex3mSpRzZV1W2KAjJC7NqxYXOfbKihpqhKrUQQFQ75FZMYSVNxpfoHfkz7SNOHHg7rYNd3oFmRPuuzbB0aw1G/pzdtosX21o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781679615; c=relaxed/simple;
-	bh=5n88lRi9lGp1R0/HUuiGKWl4tg0RHEv+4QdhuFAHPqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YPOpKfw/w+7VreaN25g2ByLDPcG3ejhhFPAtv/J/aO/yvuJo3Mxvu9aT4qk3WQLhJ1j1/KqNrK6/Qt2O2orAJqZK5N1jNZoE8K5dnRp749x+aS9HHhOwCxqiylUbbn11Zkavm+zGBK10HZ4/LH3iYs+Dju2q+MCgr/szOxxiaRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bul23XOg; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1781682121; c=relaxed/simple;
+	bh=7rHsNzIcmek3tWOOIrKLPQETr93/GCm0Fz+/PRUUFvg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r8AqpGJk5icT/++H3DEiEvPLj7eVsNHeYQO7wECziPl+rfQswCYAvspr80CJAVey0xJYHOdu1StVKpCceaOvsPmDQ7jpg3NG4wA+iY1KEZMXttz2U8gVKD5sZD3Y8p90csXgrGTDs6WomUTBNDESXlo+GjocxF5bt6LIylyLPfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=LPBNeVMq; arc=none smtp.client-ip=178.154.239.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bul23XOg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781679605; x=1813215605;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5n88lRi9lGp1R0/HUuiGKWl4tg0RHEv+4QdhuFAHPqs=;
-  b=bul23XOgnLoiZcc/GN8DGa/SdWPIXpNGB8n/NiFT6yTGDt/SJFRbxZP2
-   wi7agsORXm630hTKFfbc3ydepikQxb+gxOpTiOPN525z8Vd5yRRIJeMjD
-   w66nWt9RENkmmSpEOVyPqjwE2xlH6UaC+xa5wH10bmLZA9c8Q7vd+ZEmK
-   kvRse7y7iG0e2H91ALShLkWNSBcA83WtLeBDOVSfZOcfDbHWi+REJStOO
-   LXxrMJzQR070/AGO7zo7L33qLfwZirDgVrnM49KogNwdXeJKQMCnwn0F6
-   8RLc73flXY8jK2iq5o5aw82gtCs6+OsvCBq7xeDajyjz9M3QZWBYkEo2j
-   A==;
-X-CSE-ConnectionGUID: JX2f48lHRAaI58YqC+DQ4w==
-X-CSE-MsgGUID: LVhoGmP9QxG6aJM4pOBUsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82343526"
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="82343526"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 00:00:05 -0700
-X-CSE-ConnectionGUID: 3xFokCI2QMmL3bdSXEBHwA==
-X-CSE-MsgGUID: VKfT9KQjQ9uOlvFXS6WWpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="278185775"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.69])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 00:00:02 -0700
-Date: Wed, 17 Jun 2026 10:00:00 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Francesco Lavra <flavra@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	stable@kernel.org
-Subject: Re: [PATCH v2] regcache: Do not overwrite error code when finalizing
- cache after error
-Message-ID: <ajJF8LfMKQVCRTMo@ashevche-desk.local>
-References: <20260617062228.2151685-1-flavra@baylibre.com>
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="LPBNeVMq"
+Received: from mail-nwsmtp-smtp-production-main-67.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-67.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:221f:0:640:b03f:0])
+	by forward103b.mail.yandex.net (Yandex) with ESMTPS id CCD80C0085;
+	Wed, 17 Jun 2026 10:41:49 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-67.sas.yp-c.yandex.net (smtp) with ESMTPSA id mfLfCDfe7W20-twPwWzvo;
+	Wed, 17 Jun 2026 10:41:49 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1781682109; bh=zi77wOFztnj5ZirdgIA7h8ognzCCr4iKXZPI62eMxs8=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=LPBNeVMql9XroG/vOR6jBP8MGcOUK0Zau3g3PBa6mrS9M2493gTqTl+hUJMlfW0dU
+	 WWJYbewMVkbmZmCPi/6rjjV5JpQvz52+olh/PmrRdNQUGCJwADzvpaQJtqSu3f7SSs
+	 UJHB3D/h42dtFxnGOlChSO9meFvkZqY41XpF3UCo=
+Authentication-Results: mail-nwsmtp-smtp-production-main-67.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Tejun Heo <tj@kernel.org>
+Cc: driver-core@lists.linux.dev,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: [PATCH] kernfs: simplify kernfs_name_hash()
+Date: Wed, 17 Jun 2026 10:39:41 +0300
+Message-ID: <20260617073941.472337-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617062228.2151685-1-flavra@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 17, 2026 at 08:22:28AM +0200, Francesco Lavra wrote:
-> During regcache initialization, if an error occurs in the
-> cache_ops->populate callback, and if cache operations include an exit
-> callback, the error code from populate() is overwritten with the return
-> value from exit(). This hides the error condition from the caller of
-> regcache_init(), and can cause NULL pointer dereferences when the regcache
-> is later accessed.
+In 'kernfs_name_hash()', 'name' is NUL-terminated so it may be
+directly scanned up to end without an extra call to 'strlen()'.
 
-Too quick to send.
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-as per v1.
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+ fs/kernfs/dir.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 97d9d227b66d..82bbaeb326aa 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -330,8 +330,8 @@ static unsigned int kernfs_name_hash(const char *name,
+ 				     const struct ns_common *ns)
+ {
+ 	unsigned long hash = init_name_hash(kernfs_ns_id(ns));
+-	unsigned int len = strlen(name);
+-	while (len--)
++
++	while (*name)
+ 		hash = partial_name_hash(*name++, hash);
+ 	hash = end_name_hash(hash);
+ 	hash &= 0x7fffffffU;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
