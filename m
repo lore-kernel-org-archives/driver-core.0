@@ -1,110 +1,144 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CBB308F32
-	for <driver-core@lists.linux.dev>; Thu, 18 Jun 2026 22:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC397082D;
+	Thu, 18 Jun 2026 23:08:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781821691; cv=none; b=YV6BNIRpQk0voQjPHsVJJmhTcJ58zPP3VYFQ5Lqt5rq77Y6k17tu26FQLBXQy7oOyfUTeSu+Vjldb9uQztVVozi569vlAvolVDO4kYOLfCHT1r2pA1/Ri0bfOQPQfmijSQZi4uXK1SBz5ikA1d8ZmM1P6FTah2vwbJ/H4IOAKP0=
+	t=1781824132; cv=none; b=eASKTF9KqiFw80m/FZQPr4yrDKjLsCbr2jHr/+jUuV1IjaAAs1aVmdvGVSRjkBxNl0ZnhIbUXDj2fGzQHjqo2TC7Mhvuldo2/31BcvamGNr79f5HvdT1ELXRO3Sgd53TVCwtGq0Pf6fWlvybptmNKWc0Vm8YUPNpCdjUJyeXxuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781821691; c=relaxed/simple;
-	bh=wGzd5TcRk20wb5u1ZAIHSG+b4mG714ryqsYnba3vn9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f4+RrWC5eIgslk9XMGpmw8oLQLET4E07RIUqshGUYEWdbXcZ5k90NMCHO6v5jSeVkKuj4N5dFGra5ynFUiXoEmpTujLSZsKseBPIUWmaa2z7PIZI9/Y8gRGxizR0b0Dm4+MbQBt9KP68LzJdZNAYRg4nZK+PixlYSK3S8qOs4Dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PIke4GGd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781824132; c=relaxed/simple;
+	bh=nHU7F6R/ddTEuHFMZbqtUNAEkj7f+Wsp9Rinn6XBGDU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0OkG52Cmbpl4/5faIQuCwl8tHdzPaFNvsi3dPWpMD6e8VSvv5yjoXFnj75iKhhPda7orq6DZlAPsaTBbFgQENjDRIGT7uHjP62f4xbqIzTUIB6dXl6tU++FasWHwf+oZm37ZCZ1l5Kwd2e3cf55hHexPEMrUNtjEnxy3dJ/5iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GgDkpvVe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PIke4GGd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B2A01F000E9;
-	Thu, 18 Jun 2026 22:28:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GgDkpvVe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA6201F000E9;
+	Thu, 18 Jun 2026 23:08:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781821690;
-	bh=53AONM242mK+6eb3FuThZWnsXmEvOSNBBigW80iMu1Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PIke4GGd+vJM3QV97hW+iVmdNjegdiFhHM1kh2W8XVShb64kwPJD7LdCaR2azJghX
-	 4IYlD5adS5/SFm7iSxEQhGPq5eLMaBLPZDESB5uAEx5W8SGLn95IennGS2rkEAOZ0o
-	 6BcSp4aAc7FvyGbedQTvycVAyG8RTZlbNKo9UoSuQ//zYmA1qGt7GKD77oGyofido1
-	 3vXlhcm2XTuR1gEbRlaNeiPWvGSe/DX0uC17FwHnHx5wPEzNJ960fS4cEtPZl6iBxx
-	 FMEtAb/qhElsEie3r+Tbqit/FZuzpgGhqaOXRbhcXEZWmLhO0XHWyHayl4f1BKpQqb
-	 Zn04f3jbZM9Og==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id EBE71F40075;
-	Thu, 18 Jun 2026 18:28:08 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 18 Jun 2026 18:28:08 -0400
-X-ME-Sender: <xms:-HA0alMVO2ldmq07U0rZ4Llf_gJarqCLUweAuSoIR1XNrmFVwmNnJA>
-    <xme:-HA0av5cy4m8MBZzVSI8dUbRs3xc-GtoZ1_5AhIZAWwvHC-wGSflQQLP4oH7-ooYh
-    6tNiXqEJM--dV96oPpiN1cMHJKcAV-v-E6KUvvg7U0_Art8p8NP7w>
-X-ME-Received: <xmr:-HA0arfV8HSMF3220P0w5A4lepc7fivJaGXx-6gpe-UI1-aaILW6Dc_VCO7AzojIdAgRwHg0dleUt_-cvWmAtPL4z0YK02zK>
-X-ME-Proxy-Cause: dmFkZTEZ7/IK0sqZbZR3pK5+aXiLEMDUV96gs+oTsA8c00umM1+K3xBt04nHrkbXL0ldPx
-    nmrnulV+VeTf9TnMtPsIVB9Z6LP47XSUDmExpqOSR9izUKc9ULlFnsMYLgT/A3Hb8FMVfc
-    79F4cHGW6WYdXEiErqD9MI8jz2Co6JU1iudGtCEj2bT97Isas9c/FsEFdtzturDfT0wtvX
-    Do1AmwPqgbOxTGqzQQD1ctMOK44ANI/narg/48O4jJJ1Cxsv8Z0ksxJytcghdIxk6yKdIE
-    5N9i9W9HTK8JPWQ02H9Nt/KGp3qBDQSHO9TdxoTnqu/ViJ+axglEmTdckoKzQOFbot4mt9
-    OE9Xa78ewL0gbiofDyVGVLdP4kuDPpUmil94xbyfTuMY/OxzEj5qevrniMf/bM/q3QpvlB
-    bhtBRmKuUF20txFmTtxHMx9aCU1Up4zrvibi0RKU9ohAYL4j9byEdMgj/ry2IdSKe2FMmv
-    eEiW3zfWrW3WqkJAa2mRMTDDUej8Oia28bL+AL1zdLR0e83G5Awtl40H7nt11xP7kM9tBe
-    cNCxdUTF5oYPDGz3FFpOyuyiSfBn8m+JWX+zDDgSofudRBXOL7B3qIg5UiswC2Irp13mDv
-    sm+8jshHhq2bB3rNJvuBiHYSWs6r8aZlEGBTySRpS5qXVfEhFFkRp71/RSjw
-X-ME-Proxy: <xmx:-HA0aoLGJPb0aOrxwxLHTT8WrR0Q57gtpYwZ7fPAhgim7xpez9-tLA>
-    <xmx:-HA0apmjyEX0_DAAAjL1v2eTwI9GeC4Ph8g8C-MRupWetFo_6kolCg>
-    <xmx:-HA0akFWK510mY49y5oS_fVAmf6MSgh3MZCPjN7co53Kc4nPuFqPbg>
-    <xmx:-HA0aicUPdcLwcMas27Y9TQHkCtX2UbrLZCLl-bun5o0mVA0SX92Tw>
-    <xmx:-HA0ahF24me-4MB6YYGXoVugz4JONuokgg6gyVCRb6C0bIeuvxXMbPgy>
-Feedback-ID: i8dbe485b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Jun 2026 18:28:08 -0400 (EDT)
-Date: Thu, 18 Jun 2026 15:28:07 -0700
-From: Boqun Feng <boqun@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: lossin@kernel.org, gary@garyguo.net, ojeda@kernel.org,
-	bjorn3_gh@protonmail.com, a.hindborg@kernel.org,
-	aliceryhl@google.com, tmgross@umich.edu,
-	daniel.almeida@collabora.com, tamird@kernel.org,
-	acourbot@nvidia.com, work@onurozkan.dev, lyude@redhat.com,
-	deborah.brouwer@collabora.com, rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev, stable@vger.kernel.org,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH 2/2] rust: revocable: fix race between concurrent revokers
-Message-ID: <ajRw93vKgkPwXcCN@MacBook-0RXW5>
-References: <20260618193951.601239-1-dakr@kernel.org>
- <20260618193951.601239-3-dakr@kernel.org>
- <ajRknQIsXaHtDzzJ@MacBook-0RXW5>
- <DJCIZMUFKMTK.BO46M40UO3XY@kernel.org>
+	s=k20260515; t=1781824130;
+	bh=IFzNgkG2m6LHm/n3B0bxBt/0Kp+5tRid/Y2vmPN6Huk=;
+	h=From:To:Cc:Subject:Date;
+	b=GgDkpvVe1RBzO2seIT4BcWsJJ3VDTGBlmFmkv0wvl6gwpAn2VaUfbrlZtmcP93hUr
+	 +D65Ip+5tDKdLWvhcgGjLur4Qik4YKohvkWYwE4WfKUbkCMRou+Vgo0WvJUPKPRF4m
+	 +/xjr1h/D95QngnGCr4mMHGik1F8r5zgQHM52KO7ci5EImMc3owtOEM4HeIJ1eoXKg
+	 IRDQApzfVIcV8mq3rN807YRvXcdY77oLVDkX2LlUBtPz4AgakAH1xQkhwhKY4CQv/6
+	 f8qH0vlqlt01zFCFAACJRuo/gG21gAimMGOZSC346L/c/s8FCm8QcaiuhqsWMleXq9
+	 ZeXUZYjMBYubw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	acourbot@nvidia.com,
+	ecourtney@nvidia.com,
+	m.wilczynski@samsung.com,
+	david.m.ertman@intel.com,
+	ira.weiny@intel.com,
+	leon@kernel.org,
+	daniel.almeida@collabora.com,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-pwm@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v3 0/7] ForLt/CovariantForLt split, auxiliary closure API and DevresLt
+Date: Fri, 19 Jun 2026 01:08:26 +0200
+Message-ID: <20260618230834.812007-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DJCIZMUFKMTK.BO46M40UO3XY@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 19, 2026 at 12:24:12AM +0200, Danilo Krummrich wrote:
-> On Thu Jun 18, 2026 at 11:35 PM CEST, Boqun Feng wrote:
-> > This issue happens particularly when we want to save the extra refcount
-> > (and indirect reference), and I think this is the issue that `Foo`
-> > should handle instead of `Revocable`. So maybe we should move the fix
-> > into `Devres` layer? Thoughts?
-> >
-> > (I'm still hoping there could be some lightweight usage of Revocable
-> > other than Devres, hence the ask.)
-> 
-> I agree that a "lightweight" usage of Revocable is reasonable, and we can still
-> have that; nothing prevents that (see below).
-> 
-> We could also turn it around and have revoke_wait() and make no wait the
-> default, but I think it is a bit of a footgun.
-> 
-> Another alternative would be a new type over Revocable, which may be a bit
-> cleaner. (Although in that case I can also just move it into Devres for now, as
-> it is the sole user of Revocable anyway.)
-> 
-> >> If needed, a revoke_no_wait() variant that does not wait for concurrent
-> >> revocations to complete can be added in the future.
+The ForLt trait currently guarantees covariance, which allows safe
+lifetime shortening via cast_ref(). However, some types (e.g. those
+containing Mutex<&'bound T>) are invariant over their lifetime parameter
+and cannot safely use cast_ref().
 
-I'm worried about the space cost of this fix on Revocable as well. So a
-new type or moving it into Devres feels better to me.
+This series splits ForLt into two traits:
 
-Regards,
-Boqun
+  - ForLt: base trait for all lifetime-parameterized types, providing
+    only the Of<'a> GAT.
+
+  - CovariantForLt: unsafe subtrait that guarantees covariance,
+    providing a safe cast_ref() method.
+
+For invariant types, a closure-based API (registration_data_with()) is
+added to the auxiliary subsystem. The closure's HRTB prevents the caller
+from choosing a concrete lifetime, which would be unsound for invariant
+types.
+
+On top of that, this series adds DevresLt<F: ForLt>, a thin wrapper
+around Devres<F::Of<'static>> that shortens the stored 'static lifetime
+back to the caller's borrow scope. DevresLt provides both closure-based
+access (access_with/try_access_with for ForLt types) and direct
+reference access (access/try_access for CovariantForLt types).
+
+Also implement ForLt and CovariantForLt for Bar, IoMem and
+ExclusiveIoMem, and update their into_devres() methods to return
+DevresLt. Provide convenience type aliases DevresBar, DevresIoMem and
+DevresExclusiveIoMem.
+
+Changes in v3:
+- Keep UnsafeForLtImpl as the shared helper for both ForLt! and
+  CovariantForLt!, distinguished by const generic N
+- Remove cast_ref_unchecked() from ForLt; lifetime shortening is
+  handled by borrowing with the target lifetime directly or by
+  decoupling the HRTB from the outer reference lifetime
+
+Changes in v2:
+- Fold the ForLt -> CovariantForLt rename and the new ForLt base trait
+  into this series
+- Add closure-based registration_data_with() for auxiliary ForLt types
+- Add auxiliary sample demonstrating ForLt with an invariant Mutex type
+- DevresLt: add closure-based access_with()/try_access_with() for ForLt
+  types alongside direct access()/try_access() for CovariantForLt types
+- Make DevresLt::new() unsafe; callers must guarantee the data outlives
+  the device binding
+- Implement both ForLt and CovariantForLt (previously just ForLt) for
+  Bar, IoMem, ExclusiveIoMem
+- Various safety comment and documentation improvements
+
+Danilo Krummrich (7):
+  rust: types: rename ForLt to CovariantForLt
+  rust: types: introduce ForLt base trait for CovariantForLt
+  rust: auxiliary: add registration_data_with() for ForLt types
+  rust: auxiliary: sample: demonstrate ForLt with invariant Mutex type
+  rust: devres: add DevresLt for ForLt-aware device resource access
+  rust: pci: return DevresLt from Bar::into_devres()
+  rust: io: mem: return DevresLt from
+    IoMem/ExclusiveIoMem::into_devres()
+
+ drivers/gpu/nova-core/driver.rs       |   4 +-
+ drivers/pwm/pwm_th1520.rs             |   5 +-
+ rust/kernel/auxiliary.rs              |  76 +++++++++++++++-----
+ rust/kernel/devres.rs                 | 100 ++++++++++++++++++++++++++
+ rust/kernel/io/mem.rs                 |  65 +++++++++++------
+ rust/kernel/pci.rs                    |   1 +
+ rust/kernel/pci/io.rs                 |  37 +++++++---
+ rust/kernel/types.rs                  |   1 +
+ rust/kernel/types/for_lt.rs           |  95 +++++++++++++++++-------
+ rust/macros/for_lt.rs                 |  53 +++++++++++---
+ rust/macros/lib.rs                    |  18 ++++-
+ samples/rust/rust_driver_auxiliary.rs |  96 ++++++++++++++++++-------
+ 12 files changed, 432 insertions(+), 119 deletions(-)
+
+
+base-commit: 83f1454877cc292b88baf13c829c16ce6937d120
+-- 
+2.54.0
+
