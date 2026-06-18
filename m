@@ -1,57 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB6E28D8DA;
-	Thu, 18 Jun 2026 19:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16A4346FA1
+	for <driver-core@lists.linux.dev>; Thu, 18 Jun 2026 19:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781811609; cv=none; b=ujRDc+JqMCGJ7rmYeRDvT9eR2NmU/9JGj0RA316ptCO9A2fRT7tps9pycfhOS/PoVu3TqkDMUeFxl5xBCLEyzoSuD4TstB5iYmV+fFzAhyNcGA9L6sGbHLlrTLgCK9YiKjzw8LFag3Fho3q5df38Nj5SarqdMbEGeGIIIfV+CFE=
+	t=1781811647; cv=none; b=r52/9T4fx2PVZ4sNZ8wmmWUxfph1yd7XXF0BiGsNTw/Eq2qaQLa1uhcYse7+uu/9egodvLEHcSXXbhFX+CRA8lI5UI2d7MoEvrXVAd88ptoEn56j4m+Bu//8GTREQVvgeTRehAl5Sk+qVgSZYZsE4ItLiUedhd91r4+8BfeYGA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781811609; c=relaxed/simple;
-	bh=FmoXqA5LOBKUgctaZXzL4RumfuwPXIN4XJyzEfsWuho=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZXFr7CYnGKSoWDX636ksaoOUhTXFnJl6kpjsVq44dRiyV2hNQvbXLTyKd07YN3muW/YjDqpq+ueTb+WhMTvdURI1OsOadve4wxA9y1CklLZ7JhputLyMK8tQ31zX8/CgECKYe48u00VTOU2yzCzoX1v95KD41HL5owvT+nr/dlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efiGhOff; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781811647; c=relaxed/simple;
+	bh=Tx4M/Sup4c2TbP20JbtyaZvWcj0EZn+G0lx9l36yXds=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KL2KDFVzeYV3CaV2HEqp6Zzw5uHVFKt1+xZbNj5ar75Sb75764ghrfijw/cEaG9ulnLlfFyT+E2V+Nb3O4yFH6cG8T40JEhfGt77ZICpRs+95mCNm29f1xLDPgwDPNxVZlnCsUYdi+LKv5An9S8NA+7Lufg2k46T6X/rDS1T8/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAt2ot2B; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efiGhOff"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 989E31F000E9;
-	Thu, 18 Jun 2026 19:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781811608;
-	bh=UzLTD0LraVmy0o5iyS49odOxFiNfs8wnUQiTnlIyr2Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=efiGhOffLuRTIPipF3vRAqw+0L7VjFMvHCC/dgo/x50DMT+LBxOYfoZUkTSTednjt
-	 xy/QGJJPGxEaOl6VZl215vd3kP31J60TqDW5/qF/fvCQ54Dh5AEiEyFEv0k46eOxRK
-	 8C8jwt+gDTmG+Q8rTU4WWu91zNsJmx1n15ErvbJ+lmNXxE56UNBp24VwPdKih8fLIa
-	 zuvVIOj1ZBl2BwfymaPOcnCJwKPzdtT0eiEmHW/SHQNJgoouZkifZ3QsZqQFKEgKhg
-	 tUChKhOCOT3bZ3DfIAuO5OVxAW0X5GiLNcT8AiFWu/lpaglL6+jHtWpDhYWTU/gOMV
-	 +0k5Gw9IJRmxA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: lossin@kernel.org,
-	gary@garyguo.net,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	bjorn3_gh@protonmail.com,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	daniel.almeida@collabora.com,
-	tamird@kernel.org,
-	acourbot@nvidia.com,
-	work@onurozkan.dev,
-	lyude@redhat.com,
-	deborah.brouwer@collabora.com
-Cc: rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	Danilo Krummrich <dakr@kernel.org>,
-	stable@vger.kernel.org,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH 2/2] rust: revocable: fix race between concurrent revokers
-Date: Thu, 18 Jun 2026 21:32:59 +0200
-Message-ID: <20260618193951.601239-3-dakr@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260618193951.601239-1-dakr@kernel.org>
-References: <20260618193951.601239-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAt2ot2B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781811645; x=1813347645;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Tx4M/Sup4c2TbP20JbtyaZvWcj0EZn+G0lx9l36yXds=;
+  b=LAt2ot2B2oyumzpP/gKpKD/EizS3ar1VkFzJKQSbrsLbMQpu2DGTBARw
+   5TMkoonmA55UBLSJ4bj8fUGOlYpk+nKIHfLIhh/WEZ3rdlTZteFoXL0Gc
+   060nZwNLnRwH0bCxCxD5kSIclC4THXFJQ1OnnsP9KJK+OBZk1HO0yntxy
+   2zYsqQoCBeG/ErHYAggv2bQ8GslfXzzuz6mpFFL9T6wyVnCA7ob1be3em
+   SdpIDk280QNIJ8zYjh0QkwtsWN+fiQum52UuJ68dlGJEmiXwjJvv7vPsQ
+   QC8H29a9Ccr0HQV/OMwNUdQPa6k6OOEkiPhBaASHGqE5YUk0AiJ6ibgzf
+   w==;
+X-CSE-ConnectionGUID: ZDW3xYogRXKZFDprgksm+Q==
+X-CSE-MsgGUID: M22ypE7+RPeAhorCUpyd8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="81647675"
+X-IronPort-AV: E=Sophos;i="6.24,212,1774335600"; 
+   d="scan'208";a="81647675"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 12:40:45 -0700
+X-CSE-ConnectionGUID: ADPYss47QyGrxuSSc0yhkg==
+X-CSE-MsgGUID: yBL5stVZTfO/B8at09Xi3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,212,1774335600"; 
+   d="scan'208";a="252764940"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2026 12:40:44 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 028D995; Thu, 18 Jun 2026 21:40:41 +0200 (CEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sander Vanheule <sander@svanheule.net>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v1 1/1] regcache: Make ->exit() callback return void
+Date: Thu, 18 Jun 2026 21:39:50 +0200
+Message-ID: <20260618194036.3275202-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -60,107 +65,128 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a potential race condition when two paths try to revoke a
-Revocable concurrently.
+We do not check an error code from ->exit() callback, nor we ever
+return one (it's always 0, meaning success). Make ->exit() callback
+return void.
 
-It can happen with e.g. Devres, where the driver core's
-devres_release_all() calls Revocable::revoke() via the devres callback,
-while Devres::drop() calls revoke_nosync() on another CPU.
-
-The revoker that does not claim the is_available swap returns
-immediately, but the revoker that did may still be executing
-drop_in_place() on the inner data. This can cause a use-after-free when
-the other revoker's caller proceeds to drop adjacent resources that
-drop_in_place() still references (e.g., Devres<DmaMappedSgt> racing with
-SGTable freeing the backing sg_table and pages).
-
-Fix this by adding a Completion to Revocable. The revoker that claims
-the swap signals the Completion after drop_in_place() finishes, and any
-concurrent revoker waits for it before returning. This ensures the
-wrapped object is fully torn down before either path continues.
-
-If needed, a revoke_no_wait() variant that does not wait for concurrent
-revocations to complete can be added in the future.
-
-Cc: stable@vger.kernel.org
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/dri-devel/20260612202841.2577C1F000E9@smtp.kernel.org/
-Suggested-by: Gary Guo <gary@garyguo.net>
-Fixes: 05aa6fb1c21d ("rust: scatterlist: Add abstraction for sg_table")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- rust/kernel/revocable.rs | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/revocable.rs b/rust/kernel/revocable.rs
-index 0f4ae673256d..6d9d6ecccba1 100644
---- a/rust/kernel/revocable.rs
-+++ b/rust/kernel/revocable.rs
-@@ -7,7 +7,15 @@
- 
- use pin_init::Wrapper;
- 
--use crate::{bindings, prelude::*, sync::rcu, types::Opaque};
-+use crate::{
-+    bindings,
-+    prelude::*,
-+    sync::{
-+        rcu,
-+        Completion, //
-+    },
-+    types::Opaque,
-+};
- use core::{
-     marker::PhantomData,
-     ops::Deref,
-@@ -67,6 +75,8 @@
- pub struct Revocable<T> {
-     is_available: AtomicBool,
-     #[pin]
-+    revocation: Completion,
-+    #[pin]
-     data: Opaque<T>,
+This depends on recently accepted fix that dropped the returned value checks
+for ->exit() callback.
+
+ drivers/base/regmap/internal.h        | 2 +-
+ drivers/base/regmap/regcache-flat.c   | 4 +---
+ drivers/base/regmap/regcache-maple.c  | 6 ++----
+ drivers/base/regmap/regcache-rbtree.c | 8 +++-----
+ 4 files changed, 7 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/base/regmap/internal.h b/drivers/base/regmap/internal.h
+index 55273a6178f8..a6e4689000af 100644
+--- a/drivers/base/regmap/internal.h
++++ b/drivers/base/regmap/internal.h
+@@ -189,7 +189,7 @@ struct regcache_ops {
+ 	const char *name;
+ 	enum regcache_type type;
+ 	int (*init)(struct regmap *map);
+-	int (*exit)(struct regmap *map);
++	void (*exit)(struct regmap *map);
+ 	int (*populate)(struct regmap *map);
+ #ifdef CONFIG_DEBUG_FS
+ 	void (*debugfs_init)(struct regmap *map);
+diff --git a/drivers/base/regmap/regcache-flat.c b/drivers/base/regmap/regcache-flat.c
+index 025e6749bb24..be8497fd240c 100644
+--- a/drivers/base/regmap/regcache-flat.c
++++ b/drivers/base/regmap/regcache-flat.c
+@@ -53,7 +53,7 @@ static int regcache_flat_init(struct regmap *map)
+ 	return -ENOMEM;
  }
  
-@@ -85,6 +95,7 @@ impl<T> Revocable<T> {
-     pub fn new<E>(data: impl PinInit<T, E>) -> impl PinInit<Self, E> {
-         try_pin_init!(Self {
-             is_available: AtomicBool::new(true),
-+            revocation <- Completion::new().map_err(|e| match e {}),
-             data <- Opaque::pin_init(data),
-         }? E)
-     }
-@@ -168,6 +179,10 @@ unsafe fn revoke_internal<const SYNC: bool>(&self) -> bool {
-             // SAFETY: We know `self.data` is valid because only one CPU can succeed the
-             // `compare_exchange` above that takes `is_available` from `true` to `false`.
-             unsafe { drop_in_place(self.data.get()) };
-+
-+            self.revocation.complete_all();
-+        } else {
-+            self.revocation.wait_for_completion();
-         }
+-static int regcache_flat_exit(struct regmap *map)
++static void regcache_flat_exit(struct regmap *map)
+ {
+ 	struct regcache_flat_data *cache = map->cache;
  
-         revoke
-@@ -179,7 +194,8 @@ unsafe fn revoke_internal<const SYNC: bool>(&self) -> bool {
-     /// expecting that there are no concurrent users of the object.
-     ///
-     /// Returns `true` if `&self` has been revoked with this call, `false` if it was revoked
--    /// already.
-+    /// already. In the latter case, this function waits for the concurrent revocation to complete
-+    /// before returning.
-     ///
-     /// # Safety
-     ///
-@@ -200,7 +216,8 @@ pub unsafe fn revoke_nosync(&self) -> bool {
-     /// function waits for the concurrent access to complete before dropping the wrapped object.
-     ///
-     /// Returns `true` if `&self` has been revoked with this call, `false` if it was revoked
--    /// already.
-+    /// already. In the latter case, this function waits for the concurrent revocation to complete
-+    /// before returning, ensuring the wrapped object has been fully dropped.
-     pub fn revoke(&self) -> bool {
-         // SAFETY: By passing `true` we ask `revoke_internal` to wait for the grace period to
-         // finish.
+@@ -62,8 +62,6 @@ static int regcache_flat_exit(struct regmap *map)
+ 
+ 	kfree(cache);
+ 	map->cache = NULL;
+-
+-	return 0;
+ }
+ 
+ static int regcache_flat_populate(struct regmap *map)
+diff --git a/drivers/base/regmap/regcache-maple.c b/drivers/base/regmap/regcache-maple.c
+index 49ba7282e4b8..9d2f3a23ffb2 100644
+--- a/drivers/base/regmap/regcache-maple.c
++++ b/drivers/base/regmap/regcache-maple.c
+@@ -307,7 +307,7 @@ static int regcache_maple_init(struct regmap *map)
+ 	return 0;
+ }
+ 
+-static int regcache_maple_exit(struct regmap *map)
++static void regcache_maple_exit(struct regmap *map)
+ {
+ 	struct maple_tree *mt = map->cache;
+ 	MA_STATE(mas, mt, 0, UINT_MAX);
+@@ -315,7 +315,7 @@ static int regcache_maple_exit(struct regmap *map)
+ 
+ 	/* if we've already been called then just return */
+ 	if (!mt)
+-		return 0;
++		return;
+ 
+ 	mas_lock(&mas);
+ 	mas_for_each(&mas, entry, UINT_MAX)
+@@ -325,8 +325,6 @@ static int regcache_maple_exit(struct regmap *map)
+ 
+ 	kfree(mt);
+ 	map->cache = NULL;
+-
+-	return 0;
+ }
+ 
+ static int regcache_maple_insert_block(struct regmap *map, int first,
+diff --git a/drivers/base/regmap/regcache-rbtree.c b/drivers/base/regmap/regcache-rbtree.c
+index a69e8b4c359b..520d5f8ba3cd 100644
+--- a/drivers/base/regmap/regcache-rbtree.c
++++ b/drivers/base/regmap/regcache-rbtree.c
+@@ -16,7 +16,7 @@
+ 
+ static int regcache_rbtree_write(struct regmap *map, unsigned int reg,
+ 				 unsigned int value);
+-static int regcache_rbtree_exit(struct regmap *map);
++static void regcache_rbtree_exit(struct regmap *map);
+ 
+ struct regcache_rbtree_node {
+ 	/* block of adjacent registers */
+@@ -196,7 +196,7 @@ static int regcache_rbtree_init(struct regmap *map)
+ 	return 0;
+ }
+ 
+-static int regcache_rbtree_exit(struct regmap *map)
++static void regcache_rbtree_exit(struct regmap *map)
+ {
+ 	struct rb_node *next;
+ 	struct regcache_rbtree_ctx *rbtree_ctx;
+@@ -205,7 +205,7 @@ static int regcache_rbtree_exit(struct regmap *map)
+ 	/* if we've already been called then just return */
+ 	rbtree_ctx = map->cache;
+ 	if (!rbtree_ctx)
+-		return 0;
++		return;
+ 
+ 	/* free up the rbtree */
+ 	next = rb_first(&rbtree_ctx->root);
+@@ -221,8 +221,6 @@ static int regcache_rbtree_exit(struct regmap *map)
+ 	/* release the resources */
+ 	kfree(map->cache);
+ 	map->cache = NULL;
+-
+-	return 0;
+ }
+ 
+ static int regcache_rbtree_populate(struct regmap *map)
 -- 
-2.54.0
+2.50.1
 
