@@ -1,218 +1,95 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021141.outbound.protection.outlook.com [52.101.100.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5200C2F260C;
-	Thu, 18 Jun 2026 17:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781802305; cv=fail; b=Cdqv3ahwo+vD5xTKU5Aerevn2+d9W7x/SuStF1RsdXzKqzp9p9WmbAoR5BFLXZEBfhsAgmswPG2o8ThdHuhb4izRf5j3W6NJe3+ZTqCezID/MYkJNB5dgiCEYrjEF5cBzF69UpCQHHwG5a95KzQqjkdmsap99OJdF8htIGPbXwM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781802305; c=relaxed/simple;
-	bh=A0ywXdGf02/pqWfOcql1b083Co7opyezNY57GOUfVeM=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=JiU+LGWF+TPIUbCoGE2yTt9Y48ir78KXaomy4ZzbpBO8z6cDZlUNxrmX88hu4Ygl2BlQ6Ai2479b6PvkGsDc5QNuKNjye0KoFXTJNOKZgGUVj7D2SoV4KT4mr+3pxyqnjx0H04dqJwAKAQ7a3kk5oJ5asJMWUpbNullXrZltDCQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=b0xRUOtK; arc=fail smtp.client-ip=52.101.100.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1B92EAB6F;
+	Thu, 18 Jun 2026 17:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781802569; cv=none; b=afvYzxaaww2iLNY1VJ4uuGQZdWM8xGVXhtrpcnQDLYmUZmbSwWEpVqqJqPrklF5UsZ2RVA2pdNICwfi1qOYmzfCpzoEv5Y/jlm1eOXQbMydrwYRyuQDmH6UFBYDZiZbZZv3pMB8zCUh7CgEyXxBKSjgI6bJ+oCUbNnaUA6tFCUw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781802569; c=relaxed/simple;
+	bh=Mkcm3E19KdUw8Ckx8jkzltzVQVP0q2tXGX/CgN2NxmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bqWQPbjE+YKFlRUqMAqJXZ+GULeLl7b7caJ5Qw2E8JaFHaS7KNvG9xq8IRPHmJrtNtGA9+AreZ3eiWZ5fNcKKGOpVAGh72V0IdkMbnmLLEyjf7Z5RKEoUI/HMK+/ZDDJX+CkJNUCXEw8I9WY8iafb8SRUxhciO3VTVDFz9ZUklI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrLIjvo/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="b0xRUOtK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mZAaaFMYU3nIlOZpNHmvOsSK8NNKLTQfLg2NjV1xVJybAxfl8xbF558q4sy0JqWI8vLVGQqVfiWCNlJNVav181E16BIJEoalIo7nRvdWtX8vHVP9otwohNlItssoFVoS7dDIdUtDYqf4I3RtDbKAblZmVBmNSbRVFjJqceKo5w8bhcztahcaSZ3vzmstrIa6exeXcSp6KjxsjSjK1VQRM44zeTGBDVQIuWwLO3V8RjI9ziwnDuGZHGANnhtxN1SwG+b0xTMimgvTLjvJQtdcmmX1jcxsjrGRVcwi9YmyJxZHeSKExU+n1auxF7HKwV8D/Hxs0BT6Bv6JlkqSZEr8Cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U1sc6qMCXeEMau8ZRnfo41X1a57ZKivnNqCpzABICd8=;
- b=Nl+x5eL7wg0FspeOIYlUa+jOQBE76AoZgpWFwt7EbODWaUBtKImOZ4Y6dAQ9/54kkopUtq2CNCtAKFHFLTNgxOk+kehfE9KLxhCh6BUJ0XBEp0E/tari1Fn3GAKD5Ks7H4zzQeb0/cAINhfDwhEkTIF445hDd7KIYwjt0aCA0m7RXzRD8l27QJEe6dLHVfJOSwcQFYPmfKD/gMT6Kpsawso4MYyJZ2yZqwGY/Ptyxysdo0HgZxzTkWkJCBY5Npt3842+mbp0hZuTdhX/zcYt/KmWGkBy4ELqJWQZHaMTVGwi/LxkZ59CkD+r93A94x0mOBrXL8Dd7XH6bIJxrfh/4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U1sc6qMCXeEMau8ZRnfo41X1a57ZKivnNqCpzABICd8=;
- b=b0xRUOtKp6JBHFSir6fXCcRkcB20Zr8bI5bvVeFUQGjkkFkgK31Woz6aHb+9JsMi4qHCrBw51PGRgiiqpIFppUAtZ0b4YlsNWOvERRT+iM9wNNh6Wa3Yg/njXofT5WAO4PKtzqKDXKU5ns7vnef+Sihu5EymwkHRGKxz7SDqISM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO4P265MB6966.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:34d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Thu, 18 Jun
- 2026 17:04:49 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0139.009; Thu, 18 Jun 2026
- 17:04:49 +0000
-From: Gary Guo <gary@garyguo.net>
-Date: Thu, 18 Jun 2026 18:03:47 +0100
-Subject: [PATCH 10/10] RFC: rust: driver: support map-like syntax for ID
- table
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260618-id_info-v1-10-96af1e559ef9@garyguo.net>
-References: <20260618-id_info-v1-0-96af1e559ef9@garyguo.net>
-In-Reply-To: <20260618-id_info-v1-0-96af1e559ef9@garyguo.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Robin Murphy <robin.murphy@arm.com>, Dave Ertman <david.m.ertman@intel.com>, 
- Ira Weiny <iweiny@kernel.org>, Leon Romanovsky <leon@kernel.org>, 
- Len Brown <lenb@kernel.org>, Igor Korotin <igor.korotin@linux.dev>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Michal Wilczynski <m.wilczynski@samsung.com>, 
- Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, 
- Fu Wei <wefu@redhat.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-pwm@vger.kernel.org, 
- Gary Guo <gary@garyguo.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781802282; l=1753;
- i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=A0ywXdGf02/pqWfOcql1b083Co7opyezNY57GOUfVeM=;
- b=xj5GhBjIYVuoC0phxbQlVjreyyGtDNgJPrJPqTGL7Nr7TwKpc+9p1wDMt1NR9cDa/pM/lNlFG
- U8loSS9DoPdCo1m33rcwrc5RnyZnPCDLdP/IrcK3/TS2N/Ql+97hqaK
-X-Developer-Key: i=gary@garyguo.net; a=ed25519;
- pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
-X-ClientProxiedBy: LO4P123CA0548.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:319::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrLIjvo/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97861F00A3A;
+	Thu, 18 Jun 2026 17:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781802568;
+	bh=/2+acCb1uwg9tnAVHqermep9Dl1x6MIb4wqyepU6UEk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YrLIjvo/G0a9ZJMwjxwi9JTRv9SPvuQg7++aoodKmsgqO5YCl/T2ekDxJyg6G2PTY
+	 sUpPSieuHLXogpGCMslw995NXoWQQeD18w74OdCmpnpvD4XKp/szwxP51voe244lC1
+	 3ts9XYsumo0ETpHIS2O3KTDLqH3+7o2J4re2q7o74+9GFBwkw9NufVJZ9YVyAyQc6R
+	 djXu3YZoWiAfb9OQfaC+WcOW5i+PeKiAJ9VbO6Zv/PyrK5I9nd58f0OVfGHlpcrcbo
+	 qpjS4MrzTciYDdQyuIX103FOHqfNDAOzsTNvzjQ2l447s2iVTfusRhVXCSn/Fq2DjG
+	 jjdbw8FWjBnFw==
+Date: Thu, 18 Jun 2026 12:09:27 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Alban Bedel <alban.bedel@lht.dlh.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Danilo Krummrich <dakr@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Zijun Hu <zijun.hu@oss.qualcomm.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] of: property: Fix of_fwnode_get_reference_args()
+ with negative index
+Message-ID: <178180256587.1928929.9142555115423601522.robh@kernel.org>
+References: <20260618152035.1600436-1-alban.bedel@lht.dlh.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6966:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbbbe4c8-d618-4554-48e1-08decd5bb4fe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|23010399003|1800799024|376014|366016|7416014|921020|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Ehw/ZqUdUcvXQOIPbOVZQ6VmDsrYbcb2TEhcdYlFr5g38vpuDBKF6TViT0WiWqDKAw4Y82pA05ZgZsQa4xcmSDLjYBRyKd7J9a5XkY5Q22kGJ6Rx8VcmGZm9BjEbrnAzCUkBTie8ozhlrENCrS8rLLmx1mRylYQPl3nP8aVUTwf9MTIrRu8yuehdOgbghzXVQvIyq5bM2XZS3olQdbWSH14U9NUwHXNgtZFsZk7KY4wLon+fX4hvjEkT7gXGdTJiYgUCA9x7nhVuczItzxZZO1gW+IBAvIRDjifDtlBWA9wMDGj5OCdx1a6YPnAJMBqqjW6LGHJn/UM6IODeCODfiBOCLfEXQWPGXLRbqFf5eoIVkjwAWZzDBzZd8aKOCUW/G6KksXNP8mmF3DVleVmmxHdbUPouk8wlbXtxdiF9nBEjbBQaU3sSwnABYp0/onEP9y5CAWJ53tCtg87XVYlX1ba3+m/B5XeDOlc4C15bZMD0GZ20iaAGVwPbHbm9Bje4KS9/V6Q2MiKVJhwtPlZcTkrndmbFVk+adie9eEiDPaWx3WCBA3PD/SBAafsChNDxsj4RnkZCM+Mqa+deTxoUFmivM47BCtBFmPFiTDZgqJihUvdbaGSea46HgvKa/2NXdZ172+WNrCmJwVNr/t2DpR0qsp1ROU43GE94xdMUI7M7jlFf+J4lNmFPE/WOaM4Et55eCP3GWTEwxyi6Hm9WMzSBEmKKbzxilKa3PvQQW5g=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(1800799024)(376014)(366016)(7416014)(921020)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eUtaSWcwSG0vZThhL2hVS3RNaTh0eEJEY2ZXODd4WlJ4MlZlUkRTaXRjNVZ4?=
- =?utf-8?B?NE5DaUpqd2hmWENKOVM3bXpIRmh3aDE3Skx4U25Lc3dGWnVLb2xJcEhaZURX?=
- =?utf-8?B?bllwOHJIQ0NrTXdiRENEUmlmR3hIYVAyQzdIQkE3OStEK01RN1ZDV3lIdG5h?=
- =?utf-8?B?QkdRYkdKcWZVOHRrVndJdFJMRFY4ekYrMzJ1dWQ0ek00cVVSbkR0VWF0QWNO?=
- =?utf-8?B?eEQ1bVpFMmRJdy9jMWNPTEZVVzc2WGNwa2J6Y2Z2WXFFRFpjV08vMmI0a3FN?=
- =?utf-8?B?MXdoRXZrZlp4Ri8zWTkxZy9PYTlxZUVaYUtoUmNCVW1PMjF3YmdYd0RaMzQz?=
- =?utf-8?B?cXJOUHpKS3NmTSs2SEdZNldNQzRQNXYrMEQyb25ibE13SjRvSkFkWUtleW1P?=
- =?utf-8?B?VEltVDNwcldyNnF6MDBwOGp3SjRZclV5SWJvci9zVFRRWUVvMzZFdGVuc2h4?=
- =?utf-8?B?TVJDTi9XMlhjOUgrZ2p1TkY5R3BNMTlId2dTZXNWZW1qZktlZXhLcGZKTVpL?=
- =?utf-8?B?R2Uza0FqZnVhYXdVUjlHaVhEZHdQR0xvaGNYUnlNZEtRL2s0M01GNExJQ3Z3?=
- =?utf-8?B?c1ZjR29lbEVhNnRFWEVGMVZEMklJb1lOM2hhb253YWdsVDdXeGZ0U3JtWFMv?=
- =?utf-8?B?Y3grb0M4ZFhZQkYrNDVIM090UHQ1YXcrUlNLRk9CNmtNdDloVGV4dHFGMko0?=
- =?utf-8?B?YWRIeTdwN25lZndlUFdUeTc4OVVVaGMyM0xZZ1hraG80ZklUcUQ1d3ZTc1dp?=
- =?utf-8?B?YzNIUmRNa3E4UFUwTVQ5YW4rK2ViZExXQ21kLzNMaHRkQ24rdldzbktBbU5n?=
- =?utf-8?B?Ry8zL3lMK1pRQ1lUZWZZdEpOTk5ISnNMcHN0dW1CRUZ6cHpXb1BBeUF4NG1U?=
- =?utf-8?B?R01TNHRWVmpERU4xNUZTZ1RPRFVJKzh6MTBHWFlHd3A4TktQcUN5TWlPdmUx?=
- =?utf-8?B?eVE0MjlVVjBKcEp3WC90dE1lWE41WnZaRXpjSk1waWhnL05kdldGOTlZeXNj?=
- =?utf-8?B?bXNqTUtpaXV4ekx5d3JUT3hPN1dVdGdsQko1RjZteWh3V1dpTXIrUU5nVERW?=
- =?utf-8?B?SzZ2YnFFUmFvdDhuUzNKeU04QmdMMjdtMm1aVEFrU0drNmxpTWpYQVN0ZElj?=
- =?utf-8?B?VVlrMGZreVlKV3VPTjZYdHJmUDdPV2s1bGtRaWRPaDNMeVNoMlNyVXRHTDZ5?=
- =?utf-8?B?aHoxYUhkeVZBa1pDSlFReExpQjlJd0ZQQUlqZlFYeHErUDEzY3lsa1psZGs4?=
- =?utf-8?B?UVRFTDFsN1hseXg2OWRWRC9naFVJMUx6cURMMGpKd2hjNVF6Lzk5RlQ1cDZa?=
- =?utf-8?B?Q2pHUFlNejkzb0FGRlpBbTRKSHNjajNVUlhSSmxYL2ViYURONDdNQks4UU5W?=
- =?utf-8?B?UjhDT1IvYmF6TXRUZThsSFYwT1VEL2R4TXplMHE3OVIrREdVOTlTdHdNRkRG?=
- =?utf-8?B?Y2tZZHBlZGlYUy9SaU92c1BocCs4UnpLbmh1TTM4ZlNadmVwbTlsK3RWK0VO?=
- =?utf-8?B?c3hvZnQ2MXJ6dXcxd2lFVm41aTFMTFppdXY5NElWc0lORlpOMzdTMi9hZUs2?=
- =?utf-8?B?Y3R5emh4QS9JZ3ZDUU00SUhNaWIxbVY2eU1mcDZ1cllGdWdGak1Ga2pYTnFI?=
- =?utf-8?B?b29GRUVUSXc0MHRnT0psdUI2cEZwOXAyWS9tSUtVek1xODQ1RHRKRzdxaDQ5?=
- =?utf-8?B?RVdBNENRZTRLaWszV2txdkFYS3BpRUN0WXNQSjNpUWtCQ1lhV0Q5Z3ZZRTM2?=
- =?utf-8?B?dXFmOWNnMGVweUowWDFybUViYzhhN1lISWlCN0d3SkFHcU9pTVJiQW8xNzBh?=
- =?utf-8?B?YUFCT1hhOTZsL1hLQkNkZ3E0S0dxdi9Fbmw2S0ZGME1HSHZZYmdQSVVvZ0Jy?=
- =?utf-8?B?QUx3Q0d1MDhNdzhabDFWazU0VEdVNDlseXNIdTRDenY1emhvbWxydVdnVll2?=
- =?utf-8?B?YkJpeGdyYTFEaUpMTlowQVBodEp4Z3pnUEJNcHNvcVlDSzBCVmRUdDJObUtY?=
- =?utf-8?B?UkhUeEN2NmlvYUdXN3QzUm9YLzVCdUw2MHBTM0QxRENPM3hBbyswWEsvcEdr?=
- =?utf-8?B?Z0ZicFBmc01raUVOUUJGRjhYa1psVi9XSFJCK09Ldy9NOEdQY2diZStsalRI?=
- =?utf-8?B?eDJodFI0YTFkNzFieERtMThKbzJqZ1dkRlhIL3FydDI2SkRYdGFaNUxnUERL?=
- =?utf-8?B?RWdZdmFlS2M5VnJSQVU5VHQ1Skw0R0NSYXdPTSttMWppaXpyMFZSamRUdUQ1?=
- =?utf-8?B?Szc4OForYlJSSFJUeHpRbU5GWWdCV05uZXhVTFRXcEovTU5GR0lQZFdkdklV?=
- =?utf-8?B?eU5EVDhKdHFvdlNrRTA1YU5aWnJuNWtrNnRpVDRHZmIrdEdaT1V0Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbbbe4c8-d618-4554-48e1-08decd5bb4fe
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 17:04:49.6298
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NjgpGG3fjnJ60VsWSKnltPjHnIGmV0RvNRmDQGgC10DJPu5bf9dRSZkoM/Zag6to58RbNFglJvWq13riTiVcaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6966
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260618152035.1600436-1-alban.bedel@lht.dlh.de>
 
-The device ID table and its associated info is really just a map. Add a
-syntax to `module_device_table` macro that reflects that.
 
-Signed-off-by: Gary Guo <gary@garyguo.net>
----
- rust/kernel/device_id.rs        | 11 +++++++++++
- samples/rust/rust_driver_pci.rs |  7 +++----
- 2 files changed, 14 insertions(+), 4 deletions(-)
+On Thu, 18 Jun 2026 17:20:34 +0200, Alban Bedel wrote:
+> fwnode_property_get_reference_args() should return -ENOENT when an out
+> of bound index is passed. An issue arised with the OF backend because
+> the OF API use signed indexes while the fwnode API use unsigned ones.
+> When an index value greater the INT_MAX was passed to the OF backend
+> it got casted to a negative value and it returned -EINVAL instead of
+> -ENOENT. This patch add a check to of_fwnode_get_reference_args() to
+> catch negative index before they are passed to the OF API and return
+> -ENOENT right away.
+> 
+> This issue appeared when the following pattern was used in the LED
+> subsystem:
+> 
+>     index = fwnode_property_match_string(fwnode, "led-names", name)
+>     led_node = fwnode_find_reference(fwnode, "leds", index);
+> 
+> Unlike the same pattern with the OF API, this pattern implicitly cast
+> the signed return value of fwnode_property_match_string() to an
+> unsigned index leading to the above issue with the OF backend. It can
+> be argued that the return value of fwnode_property_match_string()
+> should be checked separately, but I think there is value in supporting
+> such simple and straight to the point patterns.
+> 
+> Link: https://lore.kernel.org/linux-leds/aimVRwJPhlGxsIUj@tom-desktop/T/#mc43cbf7e0599991b56dd0d9680714d28d145fbc8
+> Cc: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: Alban Bedel <alban.bedel@lht.dlh.de>
+> ---
+> v2: Fixed comment block to follow linux coding style.
+> ---
+>  drivers/of/property.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
-diff --git a/rust/kernel/device_id.rs b/rust/kernel/device_id.rs
-index 26618bcda276..7c61cdcc9427 100644
---- a/rust/kernel/device_id.rs
-+++ b/rust/kernel/device_id.rs
-@@ -183,6 +183,17 @@ macro_rules! module_device_table {
-         $table_type: literal, $device_id_ty: ty,
-         $table_name: ident, $id_info_type: ty,
-         [$(($id: expr, $info:expr $(,)?)),* $(,)?]
-+    ) => {
-+        $crate::module_device_table!(
-+            $table_type, $device_id_ty, $table_name, $id_info_type,
-+            {$($id=>$info,)*}
-+        );
-+    };
-+
-+    (
-+        $table_type: literal, $device_id_ty: ty,
-+        $table_name: ident, $id_info_type: ty,
-+        {$($id: expr => $info:expr),* $(,)?}
-     ) => {
-         #[export_name =
-             concat!("__mod_device_table__", line!(),
-diff --git a/samples/rust/rust_driver_pci.rs b/samples/rust/rust_driver_pci.rs
-index 2282191e6292..652819dff082 100644
---- a/samples/rust/rust_driver_pci.rs
-+++ b/samples/rust/rust_driver_pci.rs
-@@ -75,10 +75,9 @@ struct SampleDriverData<'bound> {
- kernel::pci_device_table!(
-     PCI_TABLE,
-     <SampleDriver as pci::Driver>::IdInfo,
--    [(
--        pci::DeviceId::from_id(pci::Vendor::REDHAT, 0x5),
--        TestIndex::NO_EVENTFD
--    )]
-+    {
-+        pci::DeviceId::from_id(pci::Vendor::REDHAT, 0x5) => TestIndex::NO_EVENTFD,
-+    }
- );
- 
- impl SampleDriverData<'_> {
-
--- 
-2.54.0
+Applied, thanks!
 
