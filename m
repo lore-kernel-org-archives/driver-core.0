@@ -1,180 +1,187 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011047.outbound.protection.outlook.com [52.101.62.47])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B6936E498
-	for <driver-core@lists.linux.dev>; Fri, 19 Jun 2026 10:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781865544; cv=fail; b=ZaTexU22lHZ8KaNoZcfqXIWa01n7BkTq+hTMsgYUctrq5Dwx+JkG85iCjUTACH/9Zvbi4+un59EkhIYoJ4FI2XSpMHI9M1O/G1byWG9+bLfVm1/B9fRPqCItsTpThGH/HiyWyqw75so38Ofuu8z9gBCSU9qormcBAGzeH96oSGA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781865544; c=relaxed/simple;
-	bh=i8x+5h8sACwQwRMbc6aGIwJjlFgPBVjVM3pSWePKfio=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=fDkdh2xDc3mHw6VVeFRPxUehrg00cYMRIRGafgcY5kcD4YwzZZTYIYcBzz0bAwBIqmkGPpHy2WlKtN/qUdaSfDFojNkFbaC31H75l9JS+Y4EMpf3nt6FSJOfIvjfI1j+ayWZuBMUZHqTe7AW7lRr3ap99R//h7G2janoinlPcYk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0T5qQI2z; arc=fail smtp.client-ip=52.101.62.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F6B326928
+	for <driver-core@lists.linux.dev>; Fri, 19 Jun 2026 11:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781867533; cv=none; b=ciyZAOA+yxlzV+IjhEgFqU6zpgTYsVU5rYumY5891HhmKhkZtkbsAMWShu0ZZLedBhN99SvVREGEZqtiAHfpcFwmVe/VaJMu13dT1j6tfD21o7/k8BvOb3BnRb7CiFk1CN8AL+8/w4Jukzk0vWxp7m+k6udMsRV72qY4pgjqz1Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781867533; c=relaxed/simple;
+	bh=xgM5RG8vot/uI8KCaaVJnKAbmu5siE6K6avY7Xb0Rb0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YA8eFn6VqYevOUMbW1RjVziFdZo/LJfhCnjwrIteQoDebHv/IdTyR5YZiqWP+Y6ap68Xsty3P4n/oA8l5jmPsLWA4K6jdLC79MwAjMsuHNCTbgqhucv9ljDDcEgZxMabhrdL7sbkLM4/OfKgPt2Z+SuEaypYgCcJg5fNrNSpdww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=llfxBMjf; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0T5qQI2z"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=czYXy8kd75IooKG+nBZC3RkAw7Hfnnv050g1CoTxyQ1bN4t0Y++9aZGh9IMqHGS4/4h6RfBDrPHeE5mtMmbp0cprUUCl3+lcyakbGtrsDLlSM0VLDAi3Sg0Q9sNw/1KG4a85qxu1OeBafik8ULD6lN09XJROAhS2bnvfncZy3j9p45pWcqmW2tFM1DICgwe5CzENQIG2a+/qY7hFmzH/N1TuASxj/YlR6fArz4PPA/gWfUqNXzFa/njOeu3LLGcuYzghSd71+cqSLuzXX1geMZRgsuPDqWOoK6q+fonZM2O/tuu8h14ZVe94x7NrwYjkoIbXfgDhQHLmYd3Iv9Ktdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HUbf0pFxQyBXR81tHl8xNKe1rr/LLfE9Idzo2+AoHI8=;
- b=DiBWYu8HJkWa9WSgSH1NRwNL2nb89syEW6I+8/8r/gR3JRQotoum7taFoAXqa6z/1oHCPhmLIeWAeGCzFAxRIIiYl59iCn5kYZCpOoRxkSj8YLNKZMTOoaI9mVNYuEiXhbqtz5WLxAjXnqO4j+bfYLzVSddEd4lWbqpcVmA3OZqumpLaxr04xPS3VUNRFKBdhkkFhhvJ2Clb4nMkX5tM9FdDF0GeX0fTwfEbgFSPa8X7n91Z0Xon26nLsF/Zm6dI4jvB8PUHahFv4CRru+VqBKQd9kljBE27h00pfJW0ts18XB4VWmcBjTn0BxO5P2uEnpH2FJwrwECzZEbzXi+IaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HUbf0pFxQyBXR81tHl8xNKe1rr/LLfE9Idzo2+AoHI8=;
- b=0T5qQI2zeeP1kPMwqIdh1H+SW6h0BUwjGkeHRgoC3WZYZNVytFGDRlmyr0BXyk9WaIRrBsRp9YnfRYKCS3Go7TuDVkxRIJLxbreDEr0p2ciNenUKAK22Avrdt7Cz1FKKeqNbdTjyKSqHoMwS6+XqiXacv088ZeIfQdMoQ3xOrtA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH1PPFC908D89D1.namprd12.prod.outlook.com (2603:10b6:61f:fc00::623) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
- 2026 10:38:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0113.015; Fri, 19 Jun 2026
- 10:38:59 +0000
-Message-ID: <9503e60a-5e8a-40f3-b5cf-1d8d0f71c9a5@amd.com>
-Date: Fri, 19 Jun 2026 12:38:54 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] base: Remove unused DMA_FENCE_TRACE Kconfig symbol
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: driver-core@lists.linux.dev, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-References: <16fb40ded203d1e2b72f4eeecad3fd0c0d23ad6f.1781863296.git.geert@linux-m68k.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <16fb40ded203d1e2b72f4eeecad3fd0c0d23ad6f.1781863296.git.geert@linux-m68k.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0391.namprd13.prod.outlook.com
- (2603:10b6:208:2c2::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="llfxBMjf"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65J7mQEO1674614;
+	Fri, 19 Jun 2026 11:12:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=0dSnYX
+	SW4fTSZmyefELvFggBGqLXgAIi+oiPzdTjNjU=; b=llfxBMjf0XICEEDUyPe3cL
+	Am757hrniAMZexLHRc77JKDaihmtpI+hRi7J8tuWGVzpKx/RFDT1AxyoWv4v3XRV
+	iKTdgE8VmXf6gfbwaIdsDWLYdJQRI2J2l9gb42j/YwIMxiS7yYCv5Ta42W4u13Ox
+	B3KAKHczV5OGy2JrxTuIKnuks5OMU74grxyXOKjX7g9y1nn6h1YwH5exibDfDnwP
+	wjx0jmuAu8yH3bXDHTGMReok5DohLdA6cSIrTBxrVKPmt7AXslh7HuejnoahdvoN
+	KuuglZ5LBUdsrL2kL87zoUR3pvP/K0r4WD5tSsoXxs4VuD76LLmGBvFHaUuvk42g
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4eueqw5741-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jun 2026 11:12:06 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 65JB4be5024284;
+	Fri, 19 Jun 2026 11:12:05 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4ev1728h8x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jun 2026 11:12:05 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 65JBC3e931261066
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 19 Jun 2026 11:12:03 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 71AF02004B;
+	Fri, 19 Jun 2026 11:12:03 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1EC1120040;
+	Fri, 19 Jun 2026 11:11:59 +0000 (GMT)
+Received: from [9.124.219.178] (unknown [9.124.219.178])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 19 Jun 2026 11:11:58 +0000 (GMT)
+Message-ID: <30561ae5-1e6a-4cc2-99e2-436c88b2f11d@linux.ibm.com>
+Date: Fri, 19 Jun 2026 16:41:57 +0530
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH1PPFC908D89D1:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ddc65a3-9eab-411e-8dc5-08decdeef8f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|7416014|366016|376014|6133799003|18002099003|22082099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	U8OKUU6BSX6roYjwBhWXfBORMlOt5O105zr/C+z4Odw3LZhkVNiV5EMUaD5Lq2rU3jEH9fJWfLtXFYDM9Fir3QppSg9FkPViQqAm3yQZgsqwNfmPQBx2gdA21UInAvk9rBeoG1dIDFTnKPzSRv0uwchFj0t+lqEPA9vQ/tvPmK0Pqum+n7IEmo1R1dp2Ac3GSBbeqCWqgijW+KuPTT44rca+ihBJqfpJtItIzbk8oUSqGav/rnlr1To2xKjwfst+TQlq9maCj3KisO6/VyHlMSM0r8J831Z3+dhvL9KFcvmNzCrWqDlabk54dd1kOhUelg/YMQt89P+r0BCXLWaONtF1swzSzmcwzJO4j7yCdh2Vwc2E8dEr/znbznZOB49KXE59TfOpSp49j+61hZoBez3FdJiIEAB5dD+hmQccxDQZJ5vbR4i5EyKbsX29mQhgcRaAZ89UzB/zJWOJsXYOesGuHV1jngz88IGfFn5Iqyp9DJlpsImZkJB3l6WiLUVImW4cWoEfLFOzBRf2YHTAEkTYELyU3/09aELVvejo3/dbl5uBdETWc9iVFW0T2Ybv6zjbHn7fwtKM4nvguwwh7iym4iVmFvra8aAsu0QipW9lFOs5bgajn7p3kX0pOrfFqoc4wOMpFl3eWFo8keSs/gT6JKEwky7l9Plk7jfBw0g=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(366016)(376014)(6133799003)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NVpLYVUxTjRNalErRWp4Nmh5OWJTTjZvWFkyMVRrSHJPU045MkhIZGt4UTgr?=
- =?utf-8?B?cnVhZzc3V3BiL2RBK25RbUc4QndRT0ExM2hmYS9Pa3c5R0NPZ2V0ZzVGMFdn?=
- =?utf-8?B?NjUvR3NWaHVXYk9QdXpKOFNpYkZkWlkrVUJxUllkOEtOWG9ITDV6RVpNZTRL?=
- =?utf-8?B?M241c2tWNE9MeWhMQXg0ZWNITE9rUjVBVjZzR3czam1jcjY0dUEyemZkRjk2?=
- =?utf-8?B?L2lSUFFCTVA0MU02OEg0YkFmanc2U1QrbFdpeHJDRjRiVzRiTEZ5MkpVTHdH?=
- =?utf-8?B?U0Izc2xqdE4vTzhXcmJpTzVHWkRBTmVTS2k1OXZyTmdzT1JBV2JhWWg4S3hF?=
- =?utf-8?B?V05XMEpBOWFRaGp6WGZYeFA3YU1tODRnQ2taRFcxTjFoa1p3YU13NkUxZUZW?=
- =?utf-8?B?dkxBOXdGNDJYb1YzWnc2Nm9sSGxKc2s3OVo4OE1JbENTOEVORjlUckUveGQz?=
- =?utf-8?B?eUlTd1dxa2djZllWY092dHdEOUFZVnRXbkJyN3VpdGpDTVB1cUpiV0t3NHA1?=
- =?utf-8?B?bktHaDg2TDhoQm5WRUIyTlFzL2JlRytLNjFlMGgzMlZCNWJGOUNERzZQYTBz?=
- =?utf-8?B?V2F0Ry9GQ2VtcHQvZ0xCYUpueTdmWXIwU3hReFpWVkZ1MEp1akZidXNnbG43?=
- =?utf-8?B?dXpqRmZuWWxlZjRFNi9keDhTbU5KQ2hjMitaZXpYUzR4ajZhU21nNTI5a0xq?=
- =?utf-8?B?dmhiTExHWWdmL1E3U092NWNhS0h4Y0dCMi9PQU5aUW5HOXpxNUJtR2xsdU0v?=
- =?utf-8?B?N0Fab1JMa3ZiNmpNU1BkZE9NaWpGZElBZkRMYzJvNXhES3hyTGxCU3A0dTF2?=
- =?utf-8?B?a0tkZ1lrMHlVclhaTmExTzIrVVB3TlJLODU0M0xTaWlKL2Q2YlRjbkdHVlor?=
- =?utf-8?B?dmhMOWk3b09rTGxYTTRJLzY0VURBa2JiWnBwRVV3S3laUUlEc3NTMy9vazVT?=
- =?utf-8?B?NTUyckRQSXowNFVKZ3podThmNlQxcCtwUzl4dlZLRUlGN1FmVUVZTGVNR3RX?=
- =?utf-8?B?eW1oL1pyTFZ3VW11aW51VElla2JYVjl1UHZrSmdsbytFbHJWdTFnblB2bW5u?=
- =?utf-8?B?ZVhxcVkxM3l0Y1BPTGprVWxlRlFRekk5bVFscjMxaHJWN0FZS1ZQZ04zVkpk?=
- =?utf-8?B?bGlvbmR2Z1dJczk2Ty9WaWJBKyt0Y0NpMTUrUDBQT0hJV3dHQVcwYTh6aUF4?=
- =?utf-8?B?WkFhenk1RDl4V3A2VERKWGZ3SldTVC9wRkVyUWJxeEpza1c1UWowcjFpVnVK?=
- =?utf-8?B?Nit1SUN5elpXT2NWMmgzb3VuTFVBbHY4Sml3eDR2RVp5WlhlOE9UY25IQ0xE?=
- =?utf-8?B?UmxXZldXbWl6RVFaL0t5cFVIWXhRbUV3QlAwUWZmbUhic3l1Y1FlSjdwOTNw?=
- =?utf-8?B?aCthWGFNdnVRMnVJZnI2cExxTkpCY2VOVllNVG1ITE1XRTZ0VFlldmUzemdm?=
- =?utf-8?B?WUdDVVYvRHpyOUt3dmtORCtKZ21wd0IvRUVPM20yMXZWcTZlSFdPdHJ3aTJx?=
- =?utf-8?B?ZHY0REJENUs1SWt2QUNtT29YdCtVR3JWUTBpY1Z5b1ZZVGJWRDJwSUNURWVW?=
- =?utf-8?B?czZoVVRCalAzRmNIanRSLytKMXhpcHd5cEpLblU4QUtaZHkyWXUrbkI5c0FP?=
- =?utf-8?B?eHM1czFYMDZFNWVIZ0dlVTZWNU8xTEVGc3FPOE9NZ3l2L1hPNkxMS2JnQ3RR?=
- =?utf-8?B?clZQR1haSDB2c29BK2M4TE5TcDczR0QwQ0lKTFNpM1UxMktta1pIUlZOblJO?=
- =?utf-8?B?TU5OWFlMUjdXeXRXMGZOc0NmdWFoVkd1R0xiQmJseDhoNDB5aGoyUVM2eDYy?=
- =?utf-8?B?c0txWDZSRitMQjVEZlJMbndBKzNCQ0xERFUrVlRYUXBXY0VMQVcrY1N5UHNt?=
- =?utf-8?B?L09rejdyZ1NKVDJNSTJ2a3NQZnNqa0wxMHZaNHJyRGd1T3pPaCtNZms5OTZD?=
- =?utf-8?B?ZlNmNkNuS1JLckNOa0xSdkdJcVRYekNzcTZyVk1JYUlIcVp4ZHJWeHMxTllV?=
- =?utf-8?B?THlDZHlDYWNiTW1uSUFaV3Z0SW1XcUtwWWFjb1JHcmMwNFIxbnJYWUV2QzlW?=
- =?utf-8?B?RDU1M3lEZE9zUlhpeUp3ZmpZeDVxN2szeXRaN2V5bnczSzloV0g4TUxrelRi?=
- =?utf-8?B?cFl5c1FBTFJUNlloTXZhcHRYbDlJUHRwNGx2WGFETFhNZWl6Ty9QeEhRdVBw?=
- =?utf-8?B?MDlBZ1RVdDRadTJiRkZxWk9QdXlWNGNmaHZ0clZVNThsTmlzVm55UzN3b01w?=
- =?utf-8?B?S081djRCOEl1c3A3OVh3WXlDdUxkUllyRVVRK3hzOERGZDdab1czZ1Rkc2Ry?=
- =?utf-8?Q?79pW2RR/PO0x6deUEB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ddc65a3-9eab-411e-8dc5-08decdeef8f5
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2026 10:38:59.7512
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 48p2G3ia638o34E+NfJ+8IP+NfsHoiNcxVvSsZ3+hawhVT/m+S9XcBaWr8ILc89P
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFC908D89D1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] debugfs: Fix lockdown check for mmap_prepare
+Content-Language: en-GB
+To: Chun-Yi Lee <joeyli.kernel@gmail.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: Chun-Yi Lee <jlee@suse.com>, David Howells <dhowells@redhat.com>,
+        Lorenzo Stoakes <ljs@kernel.org>,
+        Andy Shevchenko
+ <andy.shevchenko@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260615104750.1000-1-jlee@suse.com>
+From: Disha Goel <disgoel@linux.ibm.com>
+In-Reply-To: <20260615104750.1000-1-jlee@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE5MDEwMCBTYWx0ZWRfX2Ltpt4T61Rw7
+ 5+fFZ9BUEnNSoC3fWjiVWa2AECZ4hFnBEs4f6g+5WKgM7/VFnHlgFY3Jos6J8esDws6Qw5eMqLr
+ MZ6uKWRbZ7ma3SW/32qdbq2rGMlIdoM=
+X-Proofpoint-GUID: C64KMeHamkSssRkxLlB7VHdcLQgDKbDB
+X-Authority-Analysis: v=2.4 cv=bMgm5v+Z c=1 sm=1 tr=0 ts=6a352406 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=iox4zFpeAAAA:8
+ a=20KFwNOVAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=9Rt4o3Z7AAAA:8
+ a=ag1SF4gXAAAA:8 a=VnNF1IyMAAAA:8 a=3kR2PXdCzuXVfo5DH_oA:9 a=QEXdDO2ut3YA:10
+ a=WzC6qhA0u3u7Ye7llzcV:22 a=jE01AiZSAJ7eki2zvjzZ:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-ORIG-GUID: FtCyyGXeGTb0hE4YmkpKhNq5SCHztS6I
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE5MDEwMCBTYWx0ZWRfX626r8NBrSrWZ
+ awtwFxooPbmiz0pOj17ssaK50MzaW47nnvqos9uGDRVwehLgKQ5mD78yJWKIuV97YQR6uf7veog
+ V38nXxWalSN+ZQ6c/Oia8UWwY4Dd8BK6eEvLYdRf4eI4TMKSWGV/0KKOlXVQRAE9bsCGlA5jy6X
+ bnVTcU20VVWC1oDbUyCnsEeh00f1iphA8ZcCGRqbnFBUZFhKMI3doQuN2JuiBrA4001HMJzTbeL
+ bxWgSkOFvdFC2/S+T63eqdk0I56hfManWQKs8/S0M1inB+FbJbWuSz7g943h7zVwwQ1kZrvy1Ay
+ LZTOw3YBW+6TdH1yWViI73jGdTFGOk1nToVXvAASg89AjI3j9puKTkDpp+zKzbjwCtcBllGYV7i
+ 7i9nWhCrp8iTGRj1zvtaZAeDI+De3/HrXSmJXYwjjPEHj8UZN8DHdjXdf1bOyOZKLzadqRDFDjK
+ 7MCaWCWzoL3HyNwWcTQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-19_02,2026-06-18_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0 spamscore=0
+ bulkscore=0 priorityscore=1501 phishscore=0 clxscore=1011 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606190100
 
-On 6/19/26 12:03, Geert Uytterhoeven wrote:
-> Commit d72277b6c37db66b ("dma-buf: nuke DMA_FENCE_TRACE macros v2") in
-> v5.16 removed all users of DMA_FENCE_TRACE on the premise that the
-> Kconfig symbol did not exist.  Apparently one failed to notice the
-> symbol did exist since almost five years before: it was renamed from
-> FENCE_TRACE to DMA_FENCE_TRACE in commit f54d1867005c3323 ("dma-buf:
-> Rename struct fence to dma_fence") in v4.10.
+On 15/06/26 4:17 pm, Chun-Yi Lee wrote:
+> From: Chun-Yi Lee <jlee@suse.com>
 > 
-> Time passed by, so remove the Kconfig symbol, as no one seems to have
-> missed the functionality.
-
-Yeah that functionality should be fully covered by trace points.
-
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-Do you have commit right to drm-misc-next to push this?
-
-Thanks,
-Christian.
-
+> Commit 651fdda8406d ("relay: update relay to use mmap_prepare")
+> changed the `mmap` file operation to `mmap_prepare` for relayfs, but
+> the lockdown check in debugfs was not updated accordingly.
+> 
+> This prevents debugfs from being locked down when the kernel is in
+> integrity mode if a file uses `mmap_prepare` but not `mmap`.
+> 
+> Since the conversion to `mmap_prepare` across the kernel is not yet
+> complete, update the lockdown check to look for both `mmap` and
+> `mmap_prepare` to ensure comprehensive coverage.
+> 
+> Fixes: 651fdda8406d ("relay: update relay to use mmap_prepare")
+> Signed-off-by: Chun-Yi Lee <jlee@suse.com>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Lorenzo Stoakes <ljs@kernel.org>
+> Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Rafael J. Wysocki <rafael@kernel.org>
+> Cc: Matthew Garrett <mjg59@srcf.ucam.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: driver-core@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> Cc: stable@vger.kernel.org
 > ---
->  drivers/base/Kconfig | 9 ---------
->  1 file changed, 9 deletions(-)
+
+Hi,
+
+I tested this patch on ppc64le with lockdown enabled. It correctly fixes 
+the security issue where debugfs files using mmap_prepare were not being 
+restricted.
+
+Test: blktrace/001 from blktests (uses relayfs via debugfs)
+- Before patch: blktrace bypassed lockdown and accessed debugfs
+- After patch: blktrace properly blocked from accessing debugfs
+
+Environment:
+Kernel: 7.1.0-rc7
+Lockdown: integrity mode
+
+Feel free to add:
+Tested-by: Disha Goel <disgoel@linux.ibm.com>
+
+> v2:
+> - Add explicit From tag to match Signed-off-by.
+> - Fix Lorenzo's email address.
+> - Add Cc stable for backporting.
+> - Check both mmap and mmap_prepare as suggested by Lorenzo.
 > 
-> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
-> index f7d385cbd3ba4b2b..43f20ca95a2a6ba9 100644
-> --- a/drivers/base/Kconfig
-> +++ b/drivers/base/Kconfig
-> @@ -222,15 +222,6 @@ config DMA_SHARED_BUFFER
->  	  APIs extension; the file's descriptor can then be passed on to other
->  	  driver.
->  
-> -config DMA_FENCE_TRACE
-> -	bool "Enable verbose DMA_FENCE_TRACE messages"
-> -	depends on DMA_SHARED_BUFFER
-> -	help
-> -	  Enable the DMA_FENCE_TRACE printks. This will add extra
-> -	  spam to the console log, but will make it easier to diagnose
-> -	  lockup related problems for dma-buffers shared across multiple
-> -	  devices.
-> -
->  config GENERIC_ARCH_TOPOLOGY
->  	bool
->  	help
+>   fs/debugfs/file.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+> index edd6aafbfbaa..08de6652a4f3 100644
+> --- a/fs/debugfs/file.c
+> +++ b/fs/debugfs/file.c
+> @@ -273,7 +273,8 @@ static int debugfs_locked_down(struct inode *inode,
+>   	    (!real_fops ||
+>   	     (!real_fops->unlocked_ioctl &&
+>   	      !real_fops->compat_ioctl &&
+> -	      !real_fops->mmap)))
+> +	      !real_fops->mmap &&
+> +	      !real_fops->mmap_prepare)))
+>   		return 0;
+>   
+>   	if (security_locked_down(LOCKDOWN_DEBUGFS))
+
+-- 
+Regards,
+Disha
 
