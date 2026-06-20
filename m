@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C50740D56C;
-	Sat, 20 Jun 2026 00:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B281BD9D0;
+	Sat, 20 Jun 2026 00:59:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781917146; cv=none; b=azgkteEyt7P6D8ikI1pqhRwUSTMVr5KyLJbnKqjKcYk15dWG/tVDA53WqCD1vOW+OTMWdy1TpLZeIjhMBbLWwaQUdR//A5Sv9eDK34p1b4sIdsYPOVULZYHHufv3FtMl+/RuL/i9KFJ+9iFE6DYZZN36ybE0ttk36K884H6U7gY=
+	t=1781917151; cv=none; b=FeeNe4yRIz5deH8onQM7YtLcZZ4s6HuQIog8pnCCij+fFeL+gYIX2khtzWyagjWkXZyB5jgvQxd907l0ZYqAMoRBFoYuvdzSDmTaece1TyG6ksy2UTaumDfWazhGRMt/RNX97nRm8ovUZOVFPlhSVQtrgbhVq/bon6vDRpV/UW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781917146; c=relaxed/simple;
-	bh=n/94bjamQ7AdFq37kGp+XaFfFeLnL7Fxx7HFgD+xEAA=;
+	s=arc-20240116; t=1781917151; c=relaxed/simple;
+	bh=Zx6jQHge8sqUz9AvdLf24aB2gIXQUv1KWUra0QuDmFM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iJAx85t7BzpmpW23XCfDTUeMqepDa6uX8T+PsRTRgY1Qi2fWzwKfK9XVbZwyElG976JzNspJ6VALWhL2ZtDlJISvU7n7A2GK/l5XQKkXtq1q/CAU88y+rBOKibRKAZQWGUVSSaOfkvC9zV1gwz98NAmmLsQ+FLz6wkXyMbtx3bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5gJPz86; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=ecDqKqdlCbTTD95FTqUdWcEDBOwSKtk+yPamiyQuajMTl60HE/65/GgFdfNrXAupubOYtiGIctvJ2+jKuqHFeJhwCZcSeHeWb7DftIzXNB872vqA41FwZ2whDbbjzM3FvrJrdecKoaD7rYIDa8SQxzeslphADOpyLMZrT1Wf8eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P/8z3Py1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5gJPz86"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C0841F00A3E;
-	Sat, 20 Jun 2026 00:59:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P/8z3Py1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA77B1F000E9;
+	Sat, 20 Jun 2026 00:59:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781917145;
-	bh=GvArzPiiFpuJH4q8oE7vnSXDOt8ldZxSOI+Ixa1gwNM=;
+	s=k20260515; t=1781917149;
+	bh=z2qcvpM3ZQNunW5DthaZVELDb7hwNEN84QegVeTGrEg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=h5gJPz86xljvPWp0baxzj8tzf/DCzoqfWHRitCuV9j0Q22iu/Iu9/rt4w5ziEdkhE
-	 +iJkbWGg77ZR/KlPz3z2NP8wlR/umtc+Ds721eFMaWMF5R6bqwotTMRVfb+RZsNS8y
-	 5tvVl1m6WCT0UEjkLZ4hhkrcZmGspG+ulf3xyCg/jm+78457a0bcS97z/ia5+CKpk7
-	 K0kqDVUaMDid75JTMwu7nMAv0GMUX+BI/741oQsFULNeSfxzdgi4YxpZGL09sNTRGk
-	 uOyw33XNILgVzjTkLylOMmEW2EvSgMLByEQjZciYCKp6smEv+kxm8N5qE+/4VfQbUS
-	 n+CSnFJvsxvWA==
+	b=P/8z3Py1O8qlsh+ZUEr67T9FjrGQPMxOfYY7juf9llMc8+kp4L7PQyO/TdQeJJHfq
+	 60uMcu0uiHJJCZ+iKb0G2zHtfvBXcJzdSYDVemvd+wv/vTtdNo/pXyOrmpXJypUadi
+	 wMGId9xZhddopcthmSzjHsfKNHatUATQl+wWOgl/Pk0gnjvOjdWsPxBbrBBxFYmTSY
+	 4HO5QhkkMJiwFPlNRDvBvwHEHMCRDBjZ5dAkVzZJdSrTlq71jZeIhuj2M+mZiM6JcG
+	 O5qBEqeJNBOJPIRzfsBnne1YUvm04U3c3WKIaubRzg/DVz733PKtixDrt3efZGQI+d
+	 JXzDJidUW8yjw==
 From: Danilo Krummrich <dakr@kernel.org>
 To: dakr@kernel.org,
 	aliceryhl@google.com,
@@ -47,9 +47,9 @@ Cc: driver-core@lists.linux.dev,
 	nova-gpu@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v3 01/13] rust: drm: rename Uninit DeviceContext to Normal
-Date: Sat, 20 Jun 2026 02:51:13 +0200
-Message-ID: <20260620005431.1562115-2-dakr@kernel.org>
+Subject: [PATCH v3 02/13] rust: drm: Add Driver::ParentDevice associated type
+Date: Sat, 20 Jun 2026 02:51:14 +0200
+Message-ID: <20260620005431.1562115-3-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260620005431.1562115-1-dakr@kernel.org>
 References: <20260620005431.1562115-1-dakr@kernel.org>
@@ -59,197 +59,127 @@ List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Rename the Uninit DeviceContext to Normal to better reflect its purpose
-as the general-purpose, reference-counted device context. The Uninit
-name was a leftover from when DRM device private data initialization was
-planned to split across UnregisteredDevice::new() and
-Registration::new(); with the introduction of RegistrationData, this
-distinction is no longer needed.
+Add a ParentDevice associated type to the Driver trait, allowing each
+DRM driver to declare its parent bus device type (e.g.
+auxiliary::Device, platform::Device).
 
-This also simplifies the DeviceContext documentation, trimming the
-multi-stage initialization description that no longer applies.
-Subsequent patches will refine the semantics of the Registered context
-accordingly.
-
-No functional change.
+Change UnregisteredDevice::new() to take &T::ParentDevice<Bound>,
+ensuring at the type level that the DRM device's parent matches the
+declared bus device type.
 
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/drm/device.rs | 92 ++++++++++++---------------------------
- rust/kernel/drm/mod.rs    |  2 +-
- 2 files changed, 28 insertions(+), 66 deletions(-)
+ drivers/gpu/drm/nova/driver.rs | 8 ++++++--
+ drivers/gpu/drm/tyr/driver.rs  | 6 ++++--
+ rust/kernel/drm/device.rs      | 7 +++++--
+ rust/kernel/drm/driver.rs      | 3 +++
+ 4 files changed, 18 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/nova/driver.rs b/drivers/gpu/drm/nova/driver.rs
+index 48933d86ddda..c5b0313006bd 100644
+--- a/drivers/gpu/drm/nova/driver.rs
++++ b/drivers/gpu/drm/nova/driver.rs
+@@ -2,7 +2,10 @@
+ 
+ use kernel::{
+     auxiliary,
+-    device::Core,
++    device::{
++        Core,
++        DeviceContext, //
++    },
+     drm::{
+         self,
+         gem,
+@@ -62,7 +65,7 @@ fn probe<'bound>(
+     ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
+         let data = try_pin_init!(NovaData { adev: adev.into() });
+ 
+-        let drm = drm::UnregisteredDevice::<Self>::new(adev.as_ref(), data)?;
++        let drm = drm::UnregisteredDevice::<Self>::new(adev, data)?;
+         let drm = drm::Registration::new_foreign_owned(drm, adev.as_ref(), 0)?;
+ 
+         Ok(Nova { drm: drm.into() })
+@@ -74,6 +77,7 @@ impl drm::Driver for NovaDriver {
+     type Data = NovaData;
+     type File = File;
+     type Object<Ctx: drm::DeviceContext> = gem::Object<NovaObject, Ctx>;
++    type ParentDevice<Ctx: DeviceContext> = auxiliary::Device<Ctx>;
+ 
+     const INFO: drm::DriverInfo = INFO;
+ 
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index d063bc664cc1..338c25ccc151 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -7,7 +7,8 @@
+     },
+     device::{
+         Core,
+-        Device, //
++        Device,
++        DeviceContext, //
+     },
+     dma::{
+         Device as DmaDevice,
+@@ -148,7 +149,7 @@ fn probe<'bound>(
+                 gpu_info,
+         });
+ 
+-        let tdev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev.as_ref(), data)?;
++        let tdev = drm::UnregisteredDevice::<TyrDrmDriver>::new(pdev, data)?;
+         let tdev = drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), 0)?;
+ 
+         let driver = TyrPlatformDriverData {
+@@ -182,6 +183,7 @@ impl drm::Driver for TyrDrmDriver {
+     type Data = TyrDrmDeviceData;
+     type File = TyrDrmFileData;
+     type Object<R: drm::DeviceContext> = drm::gem::shmem::Object<BoData, R>;
++    type ParentDevice<Ctx: DeviceContext> = platform::Device<Ctx>;
+ 
+     const INFO: drm::DriverInfo = INFO;
+     const FEAT_RENDER: bool = true;
 diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index 477cf771fb10..5e91474e6dbb 100644
+index 5e91474e6dbb..23eb4c0a65ef 100644
 --- a/rust/kernel/drm/device.rs
 +++ b/rust/kernel/drm/device.rs
-@@ -74,36 +74,22 @@ macro_rules! drm_legacy_fields {
- 
- /// A trait implemented by all possible contexts a [`Device`] can be used in.
- ///
--/// Setting up a new [`Device`] is a multi-stage process. Each step of the process that a user
--/// interacts with in Rust has a respective [`DeviceContext`] typestate. For example,
--/// `Device<T, Registered>` would be a [`Device`] that reached the [`Registered`] [`DeviceContext`].
-+/// A [`Device`] can be in one of two contexts:
- ///
--/// Each stage of this process is described below:
--///
--/// ```text
--///        1                     2                         3
--/// +--------------+   +------------------+   +-----------------------+
--/// |Device created| → |Device initialized| → |Registered w/ userspace|
--/// +--------------+   +------------------+   +-----------------------+
--///    (Uninit)                                      (Registered)
--/// ```
--///
--/// 1. The [`Device`] is in the [`Uninit`] context and is not guaranteed to be initialized or
--///    registered with userspace. Only a limited subset of DRM core functionality is available.
--/// 2. The [`Device`] is guaranteed to be fully initialized, but is not guaranteed to be registered
--///    with userspace. All DRM core functionality which doesn't interact with userspace is
--///    available. We currently don't have a context for representing this.
--/// 3. The [`Device`] is guaranteed to be fully initialized, and is guaranteed to have been
--///    registered with userspace at some point - thus putting it in the [`Registered`] context.
--///
--/// An important caveat of [`DeviceContext`] which must be kept in mind: when used as a typestate
--/// for a reference type, it can only guarantee that a [`Device`] reached a particular stage in the
--/// initialization process _at the time the reference was taken_. No guarantee is made in regards to
--/// what stage of the process the [`Device`] is currently in. This means for instance that a
--/// `&Device<T, Uninit>` may actually be registered with userspace, it just wasn't known to be
--/// registered at the time the reference was taken.
-+/// - [`Normal`]: The general-purpose, reference-counted context. A [`Device`] in this context may
-+///   or may not be registered with userspace.
-+/// - [`Registered`]: The device has been registered with userspace at some point.
- pub trait DeviceContext: Sealed + Send + Sync {}
- 
-+/// The general-purpose, reference-counted [`DeviceContext`].
-+///
-+/// A [`Device`] in this context may or may not be registered with userspace. This context is used
-+/// for reference-counted device handles and during device setup via [`UnregisteredDevice`].
-+pub struct Normal;
-+
-+impl Sealed for Normal {}
-+impl DeviceContext for Normal {}
-+
- /// The [`DeviceContext`] of a [`Device`] that was registered with userspace at some point.
- ///
- /// This represents a [`Device`] which is guaranteed to have been registered with userspace at
-@@ -121,20 +107,6 @@ pub trait DeviceContext: Sealed + Send + Sync {}
- impl Sealed for Registered {}
- impl DeviceContext for Registered {}
- 
--/// The [`DeviceContext`] of a [`Device`] that may be unregistered and partly uninitialized.
--///
--/// A [`Device`] in this context is only guaranteed to be partly initialized, and may or may not
--/// be registered with userspace. Thus operations which depend on the [`Device`] being fully
--/// initialized, or which depend on the [`Device`] being registered with userspace are not
--/// available through this [`DeviceContext`].
--///
--/// A [`Device`] in this context can be used to create a
--/// [`Registration`](drm::driver::Registration).
--pub struct Uninit;
--
--impl Sealed for Uninit {}
--impl DeviceContext for Uninit {}
--
- /// A [`Device`] which is known at compile-time to be unregistered with userspace.
- ///
- /// This type allows performing operations which are only safe to do before userspace registration,
-@@ -147,10 +119,10 @@ impl DeviceContext for Uninit {}
- ///
- /// The device in `self.0` is guaranteed to be a newly created [`Device`] that has not yet been
- /// registered with userspace until this type is dropped.
--pub struct UnregisteredDevice<T: drm::Driver>(ARef<Device<T, Uninit>>, NotThreadSafe);
-+pub struct UnregisteredDevice<T: drm::Driver>(ARef<Device<T, Normal>>, NotThreadSafe);
- 
- impl<T: drm::Driver> Deref for UnregisteredDevice<T> {
--    type Target = Device<T, Uninit>;
-+    type Target = Device<T, Normal>;
- 
-     fn deref(&self) -> &Self::Target {
-         &self.0
-@@ -178,15 +150,13 @@ const fn compute_features() -> u32 {
-         master_drop: None,
-         debugfs_init: None,
- 
--        // Ignore the Uninit DeviceContext below. It is only provided because it is required by the
--        // compiler, and it is not actually used by these functions.
--        gem_create_object: T::Object::<Uninit>::ALLOC_OPS.gem_create_object,
--        prime_handle_to_fd: T::Object::<Uninit>::ALLOC_OPS.prime_handle_to_fd,
--        prime_fd_to_handle: T::Object::<Uninit>::ALLOC_OPS.prime_fd_to_handle,
--        gem_prime_import: T::Object::<Uninit>::ALLOC_OPS.gem_prime_import,
--        gem_prime_import_sg_table: T::Object::<Uninit>::ALLOC_OPS.gem_prime_import_sg_table,
--        dumb_create: T::Object::<Uninit>::ALLOC_OPS.dumb_create,
--        dumb_map_offset: T::Object::<Uninit>::ALLOC_OPS.dumb_map_offset,
-+        gem_create_object: T::Object::<Normal>::ALLOC_OPS.gem_create_object,
-+        prime_handle_to_fd: T::Object::<Normal>::ALLOC_OPS.prime_handle_to_fd,
-+        prime_fd_to_handle: T::Object::<Normal>::ALLOC_OPS.prime_fd_to_handle,
-+        gem_prime_import: T::Object::<Normal>::ALLOC_OPS.gem_prime_import,
-+        gem_prime_import_sg_table: T::Object::<Normal>::ALLOC_OPS.gem_prime_import_sg_table,
-+        dumb_create: T::Object::<Normal>::ALLOC_OPS.dumb_create,
-+        dumb_map_offset: T::Object::<Normal>::ALLOC_OPS.dumb_map_offset,
- 
-         show_fdinfo: None,
-         fbdev_probe: None,
-@@ -211,7 +181,7 @@ const fn compute_features() -> u32 {
-     pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<Self> {
+@@ -178,7 +178,10 @@ const fn compute_features() -> u32 {
+     /// Create a new `UnregisteredDevice` for a `drm::Driver`.
+     ///
+     /// This can be used to create a [`Registration`](kernel::drm::Registration).
+-    pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<Self> {
++    pub fn new(
++        dev: &T::ParentDevice<device::Bound>,
++        data: impl PinInit<T::Data, Error>,
++    ) -> Result<Self> {
          // `__drm_dev_alloc` uses `kmalloc()` to allocate memory, hence ensure a `kmalloc()`
          // compatible `Layout`.
--        let layout = Kmalloc::aligned_layout(Layout::new::<Device<T, Uninit>>());
-+        let layout = Kmalloc::aligned_layout(Layout::new::<Device<T, Normal>>());
- 
-         // Use a temporary vtable without a `release` callback until `data` is initialized, so
-         // init failure can release the DRM device without dropping uninitialized fields.
-@@ -223,12 +193,12 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<S
-         // SAFETY:
-         // - `alloc_vtable` reference remains valid until no longer used,
+         let layout = Kmalloc::aligned_layout(Layout::new::<Device<T, Normal>>());
+@@ -195,7 +198,7 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<S
          // - `dev` is valid by its type invarants,
--        let raw_drm: *mut Device<T, Uninit> = unsafe {
-+        let raw_drm: *mut Device<T, Normal> = unsafe {
+         let raw_drm: *mut Device<T, Normal> = unsafe {
              bindings::__drm_dev_alloc(
-                 dev.as_raw(),
+-                dev.as_raw(),
++                dev.as_ref().as_raw(),
                  &alloc_vtable,
                  layout.size(),
--                mem::offset_of!(Device<T, Uninit>, dev),
-+                mem::offset_of!(Device<T, Normal>, dev),
-             )
-         }
-         .cast();
-@@ -264,16 +234,8 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<S
+                 mem::offset_of!(Device<T, Normal>, dev),
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index 25f7e233884d..802e7fc13e30 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -116,6 +116,9 @@ pub trait Driver {
+     /// The type used to represent a DRM File (client)
+     type File: drm::file::DriverFile;
  
- /// A typed DRM device with a specific [`drm::Driver`] implementation and [`DeviceContext`].
- ///
--/// Since DRM devices can be used before being fully initialized and registered with userspace, `C`
--/// represents the furthest [`DeviceContext`] we can guarantee that this [`Device`] has reached.
--///
--/// Keep in mind: this means that an unregistered device can still have the registration state
--/// [`Registered`] as long as it was registered with userspace once in the past, and that the
--/// behavior of such a device is still well-defined. Additionally, a device with the registration
--/// state [`Uninit`] simply does not have a guaranteed registration state at compile time, and could
--/// be either registered or unregistered. Since there is no way to guarantee a long-lived reference
--/// to an unregistered device would remain unregistered, we do not provide a [`DeviceContext`] for
--/// this.
-+/// A device in the [`Registered`] context is guaranteed to have been registered with userspace
-+/// at some point. The [`Normal`] context is the general-purpose, reference-counted context.
- ///
- /// # Invariants
- ///
-diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-index a66e7166f66b..e5bfaf130342 100644
---- a/rust/kernel/drm/mod.rs
-+++ b/rust/kernel/drm/mod.rs
-@@ -11,8 +11,8 @@
++    /// The bus device type of the parent device that the DRM device is associated with.
++    type ParentDevice<Ctx: device::DeviceContext>: device::AsBusDevice<Ctx>;
++
+     /// Driver metadata
+     const INFO: DriverInfo;
  
- pub use self::device::Device;
- pub use self::device::DeviceContext;
-+pub use self::device::Normal;
- pub use self::device::Registered;
--pub use self::device::Uninit;
- pub use self::device::UnregisteredDevice;
- pub use self::driver::Driver;
- pub use self::driver::DriverInfo;
 -- 
 2.54.0
 
