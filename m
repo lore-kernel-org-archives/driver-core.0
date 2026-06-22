@@ -1,73 +1,79 @@
-Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F1D2772D
-	for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 08:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1773039EF2E;
+	Mon, 22 Jun 2026 09:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782118168; cv=none; b=nW379bpmg/3D3z/inM+n6EvnQb+gQScNxE3SvE1qNH3yfF01lmVFcZmfZi03tWrvN9Ib6/MgMWZJuJKXkTmfWmDbLwUTJfzUIj5Q5KramaF5Qbx01/590sRnkzlDflI7IaMFmQz1e0XPbm7/uGMPah8CLGfWd4CHTyPA8Rhev78=
+	t=1782121544; cv=none; b=ZvspWtOyfnFDPgXUfFGO2aciCgsB5sRV7AzgFYuwuWnNPEQ7HewZ9KbSyMsMnD5Ai2HE5OI7rdqjUh8EnAVw1301WFrGKjzOqVJZZgU5sN36EFk9HootHmSLD6HdpepZbx+gAj/EHkXZojHGdVMS1Gcb6zWrJtVF0D4bdwT/XaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782118168; c=relaxed/simple;
-	bh=KyxDJAoRFnaLQrYcq/HUf1sgrpDNp/VADW0wgtLXFo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fjeROmszhO56iwii0G69Xvl3SZaw8OZeYqN/ZrLwNoTvNJjL5LyjrJzAixmCbaP0vfZAriZy6Cyf/9vjIMfNObahGMAotJk55ZWES5YGs7XuibiLT0QgtzfPaG5L16uWHGkYZLL9djBwe9ep2XE0DNObU/g7z/aN9mzwNG/eSDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de; spf=fail smtp.mailfrom=lht.dlh.de; arc=none smtp.client-ip=212.27.42.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=lht.dlh.de
-Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
-	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 31B92428464
-	for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 10:41:50 +0200 (CEST)
-Received: from OMT-CWNXR4TFW5-LHT (unknown [IPv6:2001:9e8:633a:1900:359f:c35a:9518:62db])
-	(Authenticated sender: albeu@free.fr)
-	by smtp1-g21.free.fr (Postfix) with ESMTPSA id 76D9EB0059B;
-	Mon, 22 Jun 2026 10:41:28 +0200 (CEST)
-Date: Mon, 22 Jun 2026 10:41:08 +0200
-From: Alban Bedel <alban.bedel@lht.dlh.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: driver-core@lists.linux.dev, devicetree@vger.kernel.org, Daniel Scally
- <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, Saravana
- Kannan <saravanak@kernel.org>, Zijun Hu <zijun.hu@oss.qualcomm.com>,
- linux-kernel@vger.kernel.org, Alban Bedel <alban.bedel@lht.dlh.de>
-Subject: Re: [PATCH v2 2/2] software node: Fix
- software_node_get_reference_args() with index -1
-Message-ID: <20260622104108.715d8295@OMT-CWNXR4TFW5-LHT>
-In-Reply-To: <ajQ6j5roSZ16Yb-M@black.igk.intel.com>
-References: <20260618152035.1600436-1-alban.bedel@lht.dlh.de>
-	<20260618152035.1600436-2-alban.bedel@lht.dlh.de>
-	<ajQ6j5roSZ16Yb-M@black.igk.intel.com>
-Organization: Lufthansa Technik AG
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-apple-darwin25.4.0)
+	s=arc-20240116; t=1782121544; c=relaxed/simple;
+	bh=camQzgX11b9RtBketnhIwhWiN/pUYT4PY/SigoZT4oE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bJTieW0XPv6WbusiuzLd/MzWc5sHS7YsNFIOEiaTZdEAHkLnGPVQ2isBYom9pEzI90J5YjJ7jDxLO21MSua+09eHTbIrJFyJaf+bvEO6C8A21KamR25ZQPcKvMGunPgTBpmgbQvGerzpZCs3rEiBhkPNHCqwwUandS1JuUXccF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H7Z5h8QV; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H7Z5h8QV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB72F1F000E9;
+	Mon, 22 Jun 2026 09:45:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782121541;
+	bh=camQzgX11b9RtBketnhIwhWiN/pUYT4PY/SigoZT4oE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=H7Z5h8QV+Sgm23uxmGgab/3yuerJJ1o84Q5vIkNHMPGKE124NDuRJcJQbp9uqpnvf
+	 4heRmTjxC+6YaMZxQnMPNnz6z6n25qWsk6+B73HtLKm5PERaHOzZHnVabMRED5DAS5
+	 10gh5H1eiG2pqQh6dAyzxKa5LwBXYYVqUOvpRo5jiI/A7e0UCyLCRuLUOqzv0VXcxG
+	 PWqsUdkNzMZ1YFudTQqXkqsyEPR9GKa8Rks7oRyGSNGQJFW1fyJI+aYYG9Y+zv0gXI
+	 YTA9qyBvazvUO5Eghahxj39TkvpGrXeX45cP6kGuiUr39wt6bRzLfncfFk7GdVes8E
+	 ATuJiK+e2T7+Q==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Alvin Sun <alvin.sun@linux.dev>, Miguel Ojeda <ojeda@kernel.org>, Boqun
+ Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6r?=
+ =?utf-8?Q?n?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu
+ <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen
+ <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Daniel Almeida <daniel.almeida@collabora.com>, Arnd
+ Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, Breno
+ Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>
+Cc: rust-for-linux@vger.kernel.org, linux-modules@vger.kernel.org,
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ nova-gpu@lists.linux.dev, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
+Subject: Re: [PATCH v3 5/6] rust: miscdevice: set fops.owner from driver
+ module pointer
+In-Reply-To: <20260622-fix-fops-owner-v3-5-49d45cb37032@linux.dev>
+References: <20260622-fix-fops-owner-v3-0-49d45cb37032@linux.dev>
+ <20260622-fix-fops-owner-v3-5-49d45cb37032@linux.dev>
+Date: Mon, 22 Jun 2026 11:38:33 +0200
+Message-ID: <87mrwmewyu.fsf@t14s.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Thu, 18 Jun 2026 20:35:59 +0200
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+Alvin Sun <alvin.sun@linux.dev> writes:
 
-> On Thu, Jun 18, 2026 at 05:20:35PM +0200, Alban Bedel wrote:
-> > The bounds check for the index passed to
-> > software_node_get_reference_args() was failing when passed UINT_MAX,
-> > this in turn would lead to an out of bound access in the property
-> > array. Fix the bound check to also cover the UINT_MAX case.  
-> 
-> ...
-> 
-> > -	if ((index + 1) * sizeof(*ref) > prop->length)
-> > +	if (index >= prop->length / sizeof(*ref))  
-> 
-> It trades multiplication for division (which might be not always
-> power-of-two).
+> Set the miscdevice fops owner field from the driver module pointer
+> via the `this_module::<T::OwnerModule>()` helper, instead of
+> defaulting to null.
+>
+> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
 
-This code is not really performance relevant and using a non trivial
-expression lead to the currently buggy code. I find that easy to
-understand and obviously correct code is better suited here.
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
 
-What alternative would you suggest?
 
-Alban
+Best regards,
+Andreas Hindborg
+
+
+
