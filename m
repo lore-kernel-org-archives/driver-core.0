@@ -1,97 +1,73 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2FC1F12E0
-	for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 02:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+Received: from smtpfb2-g21.free.fr (smtpfb2-g21.free.fr [212.27.42.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F1D2772D
+	for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 08:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.27.42.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782096946; cv=none; b=a3YK6YMrgDVccGts2hFLNgtAiJ2Xtvj8ln/1afSduQwpBn0i7zBbdF//XSUir7an6kqCpBWJSwxXfLTcsM0hXjW3B4l5zVg+6+YhXyoemQ5AjCbVj4xPmgjlhLHAVhPkX3ofiGe+o3BSM4k7kAT710yESe5ytqxfJxIgtk8ytis=
+	t=1782118168; cv=none; b=nW379bpmg/3D3z/inM+n6EvnQb+gQScNxE3SvE1qNH3yfF01lmVFcZmfZi03tWrvN9Ib6/MgMWZJuJKXkTmfWmDbLwUTJfzUIj5Q5KramaF5Qbx01/590sRnkzlDflI7IaMFmQz1e0XPbm7/uGMPah8CLGfWd4CHTyPA8Rhev78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782096946; c=relaxed/simple;
-	bh=xPT6DAdg86ekeubsFUyJE8zxGgUJMoz3jyqa9JhEVkU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p92XNquwg7EcXV7ow3OXIxuQhnktqcLqU/bIS+McFcqbc9W00hZcHK+ZMi+LPq2Y80ogGs5yuxJ4uqJVFyTR/y842qIxa+E8N8ynS64l+c+BL4ZyolQoIgYy/lCTY8lGSvC7kxpiOAiSva1byrWaMTOKR8TYhfsaTHNGSOddtVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Tto3Rx1j; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Tto3Rx1j"
-Message-ID: <02e9be5f-8dfa-4a4f-8a70-627ed1124b91@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782096942;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xPT6DAdg86ekeubsFUyJE8zxGgUJMoz3jyqa9JhEVkU=;
-	b=Tto3Rx1jAaHFtdkhawr4dGV2oKUQ+FH3oxDMEtfUe30AqTgIxxAqLJzSwSTl3FHaQCi9kl
-	8DSHCQJxWmTNAgouSdXaK156DzQRkSoeITF8p9plSxjrB2oLwl/FA9EjLfTd3z4zp8l83i
-	Ss3MyZcgf5r8XpkmwL+rT4BP/ncSct4=
-Date: Mon, 22 Jun 2026 10:52:44 +0800
+	s=arc-20240116; t=1782118168; c=relaxed/simple;
+	bh=KyxDJAoRFnaLQrYcq/HUf1sgrpDNp/VADW0wgtLXFo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fjeROmszhO56iwii0G69Xvl3SZaw8OZeYqN/ZrLwNoTvNJjL5LyjrJzAixmCbaP0vfZAriZy6Cyf/9vjIMfNObahGMAotJk55ZWES5YGs7XuibiLT0QgtzfPaG5L16uWHGkYZLL9djBwe9ep2XE0DNObU/g7z/aN9mzwNG/eSDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de; spf=fail smtp.mailfrom=lht.dlh.de; arc=none smtp.client-ip=212.27.42.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=lht.dlh.de
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=lht.dlh.de
+Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
+	by smtpfb2-g21.free.fr (Postfix) with ESMTP id 31B92428464
+	for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 10:41:50 +0200 (CEST)
+Received: from OMT-CWNXR4TFW5-LHT (unknown [IPv6:2001:9e8:633a:1900:359f:c35a:9518:62db])
+	(Authenticated sender: albeu@free.fr)
+	by smtp1-g21.free.fr (Postfix) with ESMTPSA id 76D9EB0059B;
+	Mon, 22 Jun 2026 10:41:28 +0200 (CEST)
+Date: Mon, 22 Jun 2026 10:41:08 +0200
+From: Alban Bedel <alban.bedel@lht.dlh.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: driver-core@lists.linux.dev, devicetree@vger.kernel.org, Daniel Scally
+ <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, Saravana
+ Kannan <saravanak@kernel.org>, Zijun Hu <zijun.hu@oss.qualcomm.com>,
+ linux-kernel@vger.kernel.org, Alban Bedel <alban.bedel@lht.dlh.de>
+Subject: Re: [PATCH v2 2/2] software node: Fix
+ software_node_get_reference_args() with index -1
+Message-ID: <20260622104108.715d8295@OMT-CWNXR4TFW5-LHT>
+In-Reply-To: <ajQ6j5roSZ16Yb-M@black.igk.intel.com>
+References: <20260618152035.1600436-1-alban.bedel@lht.dlh.de>
+	<20260618152035.1600436-2-alban.bedel@lht.dlh.de>
+	<ajQ6j5roSZ16Yb-M@black.igk.intel.com>
+Organization: Lufthansa Technik AG
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; aarch64-apple-darwin25.4.0)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 3/7] rust: doctest: add LocalModule fallback for
- #[vtable] ThisModule
-To: Andreas Hindborg <a.hindborg@kernel.org>, Gary Guo <gary@garyguo.net>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann
- <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
- Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>
-Cc: rust-for-linux@vger.kernel.org, linux-modules@vger.kernel.org,
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
- nova-gpu@lists.linux.dev, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-block@vger.kernel.org
-References: <20260521-fix-fops-owner-v2-0-fd99079c5a04@linux.dev>
- <20260521-fix-fops-owner-v2-3-fd99079c5a04@linux.dev>
- <87fr2kf3m2.fsf@t14s.mail-host-address-is-not-set>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alvin Sun <alvin.sun@linux.dev>
-In-Reply-To: <87fr2kf3m2.fsf@t14s.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 18 Jun 2026 20:35:59 +0200
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-On 6/18/26 20:13, Andreas Hindborg wrote:
-> Alvin Sun <alvin.sun@linux.dev> writes:
->
->> Add a `LocalModule` struct with a null-pointer `ModuleMetadata` impl
->> in the doctest harness, so that `crate::LocalModule` (auto-inserted
->> by `#[vtable]`) resolves correctly when there is no `module!` macro.
->>
->> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
->
-> Does this need to be ordered before the vtable auto insert in the patch series?
+> On Thu, Jun 18, 2026 at 05:20:35PM +0200, Alban Bedel wrote:
+> > The bounds check for the index passed to
+> > software_node_get_reference_args() was failing when passed UINT_MAX,
+> > this in turn would lead to an out of bound access in the property
+> > array. Fix the bound check to also cover the UINT_MAX case.  
+> 
+> ...
+> 
+> > -	if ((index + 1) * sizeof(*ref) > prop->length)
+> > +	if (index >= prop->length / sizeof(*ref))  
+> 
+> It trades multiplication for division (which might be not always
+> power-of-two).
 
-Yes, you're right — this patch would be better placed before the vtable
-auto-insert patch to avoid a temporary state where the doctest harness
-doesn't provide the LocalModule fallback that #[vtable] expects.
+This code is not really performance relevant and using a non trivial
+expression lead to the currently buggy code. I find that easy to
+understand and obviously correct code is better suited here.
 
-Thanks for the suggestions from you and Gary. v3 has been sent to the
-list:
+What alternative would you suggest?
 
-https://lore.kernel.org/rust-for-linux/20260622-fix-fops-owner-v3-0-49d45cb37032@linux.dev
-
-Best regards,
-Alvin Sun
-
->
-> Best regards,
-> Andreas Hindborg
->
->
+Alban
