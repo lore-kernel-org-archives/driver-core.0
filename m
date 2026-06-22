@@ -1,209 +1,133 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011066.outbound.protection.outlook.com [52.101.70.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACA41A9FB7;
-	Mon, 22 Jun 2026 14:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782138659; cv=fail; b=t1LrkjGou3WJphoeEqRsCnoCVuZd2P1Phn0WbVIGbq5tc7VM+dQ4GlviptpO9avk70pBk88FoTc/+gIp2IcdZ6F9PV2R8UuE/iUNE/5oZOccmy9zFT/IyCI7/OBGk5MkvhuieCfy+1V+PMerOkf0YuIUKNNApJEGGVibJdALq/4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782138659; c=relaxed/simple;
-	bh=cQiLbDupU1TdIYtI++A3ieVL0SireJjWL4zGEbKDfHI=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=hb4CNcIwYC6dUpPPXUYv8v0/d5mVJKzzgJ0NqlWBwCIlE+AWFnwQ8YZb2GMUK/H/9xJ5/INlr8mkW3FaEFCWo20oIhjbmfME7i/LWk8E8E+5YTHNkXZTwsvbvrHA6drpOmy4GtUR5YeL5iIWmYxkH5IC/U93HnxkYfLzF8Sb0uM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=GVs3HBCV; arc=fail smtp.client-ip=52.101.70.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78CD6341057
+	for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 17:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782150213; cv=none; b=tjl251MvciHl08ALWVRm6DCyV/QyTgzsmv19GQrjizZtzhCTzrg64b8Yy71EfijlPfiVSXfGvavtsMrTtsX2Sn+fgGoAyWVQPB4zkmNODurmgMQ23NC2brhHSGtKejml5JdON27CQQqU+c4BcYlrzD6APvI4ftjFvHz6QZGs950=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782150213; c=relaxed/simple;
+	bh=37n0r5kMauruI+X87up//ZNJGThpP+mu8r7gnCJwuZs=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qvKRGz+EcoVhNfrpEMI4V/C9ECAbF+iLuTZ8kc4YQ/VMA4CtmPLm839akWHwwb77WqcPBek7p775FSt1Zn/UnpAHCCA8HOKpya8T5eQu4KABmCBrTBQyUDDWT+iswgHtel+yAJHKPg6RaMH8NbWiWLWMqX8roQMeJ7scwwLVjl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bWs9bj1f; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="GVs3HBCV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T3lbptzlH85/XJxoY4ZwBwkCzsVolg8KX49OF2FBLLEgcpC6h83QZVW1DGKUubK8tPG5cTGZRb4TPFHWdoKtadp70m91FZdQQxDYbwiohAJeoTDlhUhZbsX0OJUVjQxnwtNFZLQWF7mDovHyfURtzCeTiBl1rxy7L3Wu4BZMi5lsVVwh4SOh+Ri/5wC3CLf8aTmtvF+dOdCpSt7qaDuopuhF1QHSLtejGB/x1j+Goxl3QVgLYpZjmrNTeN5L1LWwdIqqnNr9x8f+lYKjJpJOGBE7s36A9YmOHtk7UMz2NPH1NE4NLmn9MqbkG2UlPh+34xlvEvpCNdCunNjA4UCLnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XNOSn7PtCv2NxWPzhnkH+bkeTKkNe4agPjoTfo2xHYg=;
- b=hAmiaALeG+GpFACiEw23UFGKCbzr+5rPXx8ql3UjKNAI00hXRHI+7Nfv2Fo9UW5/ts4wgKu4edIsV7aWI4Dt4gjfswKqFVflHOLXSh0wEXyaXMmGHKC5AnJofZn6zNSuZVLqEGKx+b5yt4+JtWj25G6YEUzUTdJEH01s8vI6huJGEYHE8k38sM3udcRC7NF4QNFee4SsjKS3gcDp96OcE7vqYBHZaWaNn8r/PZ4+szMp4ZQtMScPS1FKgfQzHI8Y7ZJaTdLqZKjWXxqC1leuL2PFEq9Ky/FWXMTITl0UaJelP6t/G3bO6PI2vyRZt+x9Yb/ohSZZ3x9HUZQj+8YIkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XNOSn7PtCv2NxWPzhnkH+bkeTKkNe4agPjoTfo2xHYg=;
- b=GVs3HBCVL9PbaI8qpipuvvdwOkSAZ9iCxcuAkfs1DPvply27QpuhNp0ASa5+E9bFxkA2UVGje5Am8+BVRezsYcw0OHWwYXTH4RI3+wFVkmVTH7hApfsAmxXoL4idGftZLQMmFSgAU8jaDRgHh3StHuhE5riD/H5r4cyH25r5bME/2lQ3rB59Gg8OQvoq8KWHggehbMS41CnflOkvPSGZieFlAXWAQa4KpsuFBXWI0Qcn7n6c/rjUQwCBHo/ctP3UHA9pS8lczv8S7wUvp2RC0wjlNSAM5K6S4iPfL6KcMwP1yN/Tc4jn4pquwaoJb7poNTxu0wZtHNzty4CQGB/UhQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by PAXPR04MB8389.eurprd04.prod.outlook.com (2603:10a6:102:1bf::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 14:30:54 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
- 14:30:54 +0000
-From: Frank.Li@oss.nxp.com
-Date: Mon, 22 Jun 2026 10:30:14 -0400
-Subject: [PATCH 4/4] media: qcom: camss: use
- fwnode_graph_for_each_endpoint_scoped() to simpifly code
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260622-fw_scoped-v1-4-a37d0aac0a68@nxp.com>
-References: <20260622-fw_scoped-v1-0-a37d0aac0a68@nxp.com>
-In-Reply-To: <20260622-fw_scoped-v1-0-a37d0aac0a68@nxp.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Daniel Scally <djrscally@gmail.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Dafna Hirschfeld <dafna@fastmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: driver-core@lists.linux.dev, linux-acpi@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev, 
- Guoniu Zhou <guoniu.zhou@nxp.com>, Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782138630; l=1377;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=vS1Saviq156Hsarb8tnP0Q9S86W1eT38WwRH5+2bsg8=;
- b=6mAYCQDt0zdl9Qc486/DwTyJkzaqTlAflxZ2FBE5MULGWwogzrOIUuh7Y9zGbSbs+jzPibDnC
- YUGbJ+SiBG4BiDdAMd6Z+fkxzhN8Yg/hbFa6AjpT75uq/onOc1+H4T5
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: SN7PR04CA0151.namprd04.prod.outlook.com
- (2603:10b6:806:125::6) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bWs9bj1f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9FA1F01558
+	for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 17:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782150212;
+	bh=ZOvkxM7SoiYga4F3HI0NRlsezjpo0hLIkN4UO4HHxjU=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=bWs9bj1fag5KYrEtQKDWajU/F6qyj+Xj0XywCLK/icvKgyu3zXE8BtiE5VCmzBOIO
+	 skOV0vdmfh5mCkma6G1yrE/H1sWckCiKx0kV384oGGNyzktYrin//aZ1A2T9J+RvZq
+	 tLhd4ueV9nefHqs6/L55gODvylLnx+BGn1DaSxnxjd+YO5r+feGhhbbldQDXQzrV7q
+	 InN3bE5Wk7q70Sq7/fRrBO5JcoyyAgKcaZfkUgqIJcm8KxCXn9dPVJbUuFpObZuXcl
+	 40yRt2QoBA60YiGyyZSznJ1lh57IMuMv+WKUqWeRQZyld2GfoWo6fs7ZFdt1rcNYd6
+	 YnYd6Pb1v9FZg==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3996c9eeebeso41601151fa.1
+        for <driver-core@lists.linux.dev>; Mon, 22 Jun 2026 10:43:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8RZCy7QA/P0sZrYYdvotGHpU5/CgKpFgbXTYggyxvOsgp4ITJiXXsbH/n/f88YBaYtxuQxcjdvMo1rKA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/yshvDMyYawGq2PahssDiXAiQ2WRAPvf8iADSXjC6TVS5Jx1B
+	k60lTaSToPuF+mGB4lmeng9ApxlQnZqR9rnlY3V0h//5Mu71NolOeH8WG++Xk8xr/xOd6avlcEc
+	B4/3JvftH2cC2p6Z02k9JZ82kyDu/DuSCb6LOy8PavQ==
+X-Received: by 2002:a05:651c:88b:b0:394:635:70b1 with SMTP id
+ 38308e7fff4ca-3998bc52fbemr41304291fa.3.1782150210743; Mon, 22 Jun 2026
+ 10:43:30 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 22 Jun 2026 13:43:29 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 22 Jun 2026 13:43:28 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260521-pdev-fwnode-ref-v1-5-88c324a1b8d2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PAXPR04MB8389:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42d8dffc-09ea-4645-be06-08ded06addcc
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|23010399003|1800799024|376014|7416014|366016|19092799006|921020|18002099003|22082099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
- /YxZFh2vvhRqi7pbMx4+Ofo99juM7BPqHSbJBAo5qAqHO3/G421A9gieBOkK0fnaF8RAx+eLZQezf88Dz9OrNwRxZodcYZb32Vxjd64zd5bJMMWU0a6IRWkcy2sae5dyNeIfdg1heK3ll3jWIWdxAMXjPW8iej6F/dB6viZj4zJJfsOlBMbJ49aP9GoC4clKdCqQzSSok34KrOCoMOEDfElFiFnHI3esb3UkkAv5WhrQwVmXx9f7m1ZUKSPoxwCb7N9r1Vvl6cMjwirnBN5Op111il+R9HlRiK2iHQoyy4JkSLaIo4d9+gYv8CQN/tqk2YvRiRrLlTe4K31/ebq+1NSNsxVY8e/D6oHjapIhfriEPRvSJHpk0hnssnQrUHaaXaLH9ktT/atvHTxMnJ33o8afCetmDBzEKQe4g4LqV0IMtimhEO+tKPuX4iffjeuxsVhDXma3xjUr4VjCZwwUUBCS+WY3EG0VIO/Fhh15meaDIn0fV7OdriW9YIf35x52r1sNBEzBufIcTXXJZoC3PgqYsxszjOQoaxtfvoeEPZmyrb8YaKpDW3moO0rsldLKFTyxRjrLPBL4lEKBvYuPqT5S6dY7t/E+YNNb24k45dBMA9Bbj6n2xMQvwqfyOsodhrVswhz6v507wn9+h+mJBCJ1D7Ael4XH4nkA9RDbcayhxkcoiy56leqNOMKfv10zrNKhp0SAdxSJ3dSlf6zEow==
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(7416014)(366016)(19092799006)(921020)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?MHBUKzBLMUhaWEk4K294eWsrUXVJS29saFF4b2NIdThOZ3NiUjJsamFaTEpU?=
- =?utf-8?B?U3VDZWFad1pacEpTZDRaR29JRUoyTjdNRkpUaTdzckYvZXJZY0V3SXh2YjBF?=
- =?utf-8?B?Vy9xTmh5R0xKbUxvajYvYktydk5qUXI0YmdEZDZ4dEQ5RXBoQkhBNWhLVmxs?=
- =?utf-8?B?UFB0Wjl1TjNsRi92SXFHMEZUbHcycHJKZ3JyUkQrSTBseUhOU2FRRkcvejlQ?=
- =?utf-8?B?Z1hYK2FoZFJDTlN1bWdoYzJGemlDdW14SEpoMGFuVG9ZMFFJRVJYUkpTbFYz?=
- =?utf-8?B?Y0IwZXYzNWpnSkFna2x4dVJNdU00M1lvZC9ueVpFOXN0aVN5SGpNSURyU1ZQ?=
- =?utf-8?B?VWdTV3lxTkM5dFAxaUxQMFM3RVB4LzRhRnJjTjdsTzJTclY1OFUyYXorVEJy?=
- =?utf-8?B?bGRIVVB1SjdUZU5uaU1ya1ZqampoaGI1d2UvWHNyRTNaQ1pnSkV4YnF5NVlu?=
- =?utf-8?B?OFY5Rlp1ZzlEemxjb0RlZ215VUZSVTZUVW9UVHNYWEkyU2ZlWDVneDliTUlm?=
- =?utf-8?B?WGw5NWF5clh4TDBONVFVMFZpbHNWRkl2dkdweHl0S0VtTEtpc1lHREIvcXVZ?=
- =?utf-8?B?VWY4UzFYTjYwNytlVmRTbThhNkh6TFRHdXlOREFaWGh4NlBGVlM5QVlsUkRR?=
- =?utf-8?B?REpLaUpjSmZCYzhHcjEzUjdpamlCNU5xY3loalFEMGUwcXFKNU9SUmRCdjIz?=
- =?utf-8?B?U0pRV3paSmYxZnZMVy85N1pmWGs1MFNPUVJlZmhNNHhUT2JnYXhNb0M1NjhT?=
- =?utf-8?B?RTZqWEpvUlhCa2tlc0RscG50YmczcVJ0emh2cStUbm5paC9aS1I2MlM5Qm5N?=
- =?utf-8?B?Y3NBeWJIbEdZYXNNVFI0MjdxVW5qeERwandLdEJBVHBWYmdTRlVONkVrenB5?=
- =?utf-8?B?b2hHSDZFUFBkaXBkUnB3dWdwdnd6QWZGWHV3c3hCRy9WOVlFcHJ4c0NjeS9W?=
- =?utf-8?B?K252Z2dQMm5uWkwzWnI5NUdUT0VEaU11UThXbDlzR0F6ZDBNem5uUWRkOUM1?=
- =?utf-8?B?T1oyZ3VxNEQ4K0RZVjk2Mk1qanhsdzAyc00wTVJRUi8yUURLU1ZiS1hRdWxM?=
- =?utf-8?B?U0pPbDZGZE4zUytvdU5wUVc4Z1ZiUDE3dTdvL3RiL2hhM0VTakFKOVFaQjZY?=
- =?utf-8?B?N0NhMWNkaWFPQ25WV2gvSHpKenNMdTNNUTQzUkxFdWIzNmFZY0tHOXJrc1VN?=
- =?utf-8?B?eGQ0aElnTUR6bDRPTCtyS0x6VUFnVkQ3bGhvMlpkVXBpV3BsTm1oV054eGE0?=
- =?utf-8?B?VXYxQ3hlUlNuYUpRQXdEWGNGYkFjQk0yYVhnMnpMSlFUbDFQL1lVL0ljdVRs?=
- =?utf-8?B?azJmcUk5MTFoTXRnUXBOMFdqTXZPQ09JOG1oSnkwWEEyVHQ5akw2L1F6UHZP?=
- =?utf-8?B?WEFQZkw1RjFIOXRNUDBXMWlwUUpTS1RYSUx5NW1sQmhGNFRuSXRWaVFZUlYy?=
- =?utf-8?B?RDV1eXdoWU1lWDVRcmdCNTFtVmVYcVM0aytZMjNnUGtjN0RWMkYwWW80eDNp?=
- =?utf-8?B?ZGZLT29vOGxUTlZxeE83Nnh6N3cvQ1YzVFZtNXhvdHo4Z2pnN0hVTHhETjhw?=
- =?utf-8?B?Ni84RVBkL2xwK1lKVVpwTGhaWVF6cEJzVytrNXN1QjV2Y2VRUWJ3ZlhKWXhU?=
- =?utf-8?B?cHFKUW9MZkFwNnMrZGZMRVh1ejVHdjQyVmsyczFLTDdmdXpOY1ExM1M1L0ZN?=
- =?utf-8?B?MWVFSzR1cnBRNU9SYUtxQng3V1YvaGRQazhBOFI4c3VjejVLNHpOSFZkQzhG?=
- =?utf-8?B?UlVDaUUrZ1hIUzNYNTQ0ZlRxbDFPWXJCRk1zV1JxL2lBZUdxQnlFTTVOTHB2?=
- =?utf-8?B?eHdGNWRKMktiNmYwbzNqcXFYeGk5R0dzcTVjM0Q5Wm5nU2ZjcGlCZFV6TTB2?=
- =?utf-8?B?cHBNZXpTcUFuODd3WG5NS3VLbndob3VHcFZFcXdnOWtlK0Zhbnl4V2dSVEh2?=
- =?utf-8?B?Mm82ZER5alRSaEl0NzBGSDBiZEFBanY4SEZBR1RsSVd0NUdvZmpPZ1I0clhU?=
- =?utf-8?B?djBIZ2RZL00yZG9DNHU5bndEUVY3R3pwWjc1eVY1eVZaOXRzSE1sbm1QYXgv?=
- =?utf-8?B?QmJKcUxBcjl2VnhhZ2RTTy9NdEV5YU1NeWw3QURHRUMxNGwvMnRqTzVqd01U?=
- =?utf-8?B?MjhvR0RnMmlDQWFJSjAvd2hrR20zNEF6bUlzZE40UDZZTklrSXFIVTl2QWtK?=
- =?utf-8?B?dnVBZ1N3SVltaldnNkJhV3JwTTU4eFJjRE54SUc0NjJWcmVsRDJKUmlwZDRz?=
- =?utf-8?B?dnFzREtwTFJPNDk1YWFaM0FQdmg0K2tWSUNJRDY3Z2U2bWxaN2NNZjIvZVkz?=
- =?utf-8?B?Z2tQUFk5VUd0UFdDbHEvS0xLWXNlK2FsWHN1TFVKV05VSnNJbW4ycXlVait4?=
- =?utf-8?Q?oPAx0lav/WdulruQ8YKERN3ByE9oZk3pV4KPa?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42d8dffc-09ea-4645-be06-08ded06addcc
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 14:30:54.1809
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /+HYV3GapAu7aE2W/qNzXXOfDwZA6WhKP8iKffp1NEN/qkSE13+lYDsUVRYGyvZ6gRH01V3My7jioVAEx8JYnszW+NS31uA6diMUPaRM67iKNXhMq5qfBv+NCIDcoK/B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8389
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com> <20260521-pdev-fwnode-ref-v1-5-88c324a1b8d2@oss.qualcomm.com>
+Date: Mon, 22 Jun 2026 13:43:28 -0400
+X-Gmail-Original-Message-ID: <CAMRc=MfSsLt8+CAh++8qo_=F=q5XRu6G3WGB=B2TZj8dTZydfg@mail.gmail.com>
+X-Gm-Features: AVVi8CfRnQqz6Nh2M0v3z0C67LQjbAf_AXtOmIr-lp4acya5s7VimMoD1ExGxmc
+Message-ID: <CAMRc=MfSsLt8+CAh++8qo_=F=q5XRu6G3WGB=B2TZj8dTZydfg@mail.gmail.com>
+Subject: Re: [PATCH 05/23] powerpc/powermac: fix OF node refcount
+To: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, stable@vger.kernel.org, 
+	Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
+	Thierry Reding <thierry.reding@avionic-design.de>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Frank Li <Frank.Li@nxp.com>
+On Thu, 21 May 2026 10:36:28 +0200, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> said:
+> Platform devices created with platform_device_alloc() call
+> platform_device_release() when the last reference to the device's
+> kobject is dropped. This function calls of_node_put() unconditionally.
+> This works fine for devices created with platform_device_register_full()
+> but users of the split approach (platform_device_alloc() +
+> platform_device_add()) must bump the reference of the of_node they
+> assign manually. Add the missing call to of_node_get().
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 81e5d8646ff6 ("i2c/powermac: Register i2c devices from device-tree")
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  arch/powerpc/platforms/powermac/low_i2c.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/powerpc/platforms/powermac/low_i2c.c b/arch/powerpc/platforms/powermac/low_i2c.c
+> index da72a30ab8657e6dc7e6f3437af612155783d8f9..973f58771d9636605ed5d3e91b45008543b584d3 100644
+> --- a/arch/powerpc/platforms/powermac/low_i2c.c
+> +++ b/arch/powerpc/platforms/powermac/low_i2c.c
+> @@ -1471,7 +1471,7 @@ static int __init pmac_i2c_create_platform_devices(void)
+>  		if (bus->platform_dev == NULL)
+>  			return -ENOMEM;
+>  		bus->platform_dev->dev.platform_data = bus;
+> -		bus->platform_dev->dev.of_node = bus->busnode;
+> +		bus->platform_dev->dev.of_node = of_node_get(bus->busnode);
+>  		platform_device_add(bus->platform_dev);
+>  	}
+>
+>
+> --
+> 2.47.3
+>
+>
 
-Use fwnode_graph_for_each_endpoint_scoped() to simpifly code.
+Madhavan, can you please pick this up and send it upstream as a fix please?
+Not having to carry it with the rest of the series will make things easier
+for the next release.
 
-No functional changes.
-
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
- drivers/media/platform/qcom/camss/camss.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 2123f6388e3d7..23f3cc30a15a5 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -4793,30 +4793,23 @@ static int camss_parse_endpoint_node(struct device *dev,
- static int camss_parse_ports(struct camss *camss)
- {
- 	struct device *dev = camss->dev;
--	struct fwnode_handle *fwnode = dev_fwnode(dev), *ep;
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
- 	int ret;
- 
--	fwnode_graph_for_each_endpoint(fwnode, ep) {
-+	fwnode_graph_for_each_endpoint_scoped(fwnode, ep) {
- 		struct camss_async_subdev *csd;
- 
- 		csd = v4l2_async_nf_add_fwnode_remote(&camss->notifier, ep,
- 						      typeof(*csd));
--		if (IS_ERR(csd)) {
--			ret = PTR_ERR(csd);
--			goto err_cleanup;
--		}
-+		if (IS_ERR(csd))
-+			return PTR_ERR(csd);
- 
- 		ret = camss_parse_endpoint_node(dev, ep, csd);
- 		if (ret < 0)
--			goto err_cleanup;
-+			return ret;
- 	}
- 
- 	return 0;
--
--err_cleanup:
--	fwnode_handle_put(ep);
--
--	return ret;
- }
- 
- /*
-
--- 
-2.43.0
-
+Thanks,
+Bartosz
