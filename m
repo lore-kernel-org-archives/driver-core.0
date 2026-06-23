@@ -1,125 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AC73C4574;
-	Tue, 23 Jun 2026 06:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E78370AD2;
+	Tue, 23 Jun 2026 10:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782196210; cv=none; b=C7d7vbJEPt9ctmxrOu8Q25MJNWXKVNMxpc3dVRCFWwvHW1gChNLhM29JxOcbyovbXtCTbtPntpGfqQr0HBfbNcmVCo36E9gaIzbk5cNLv+NyrTUifknwV2cEj+dEPkSUyiQ+XirMYX3f5tyb0mh9EzCQu7X1Tjqc0aCwU31yMqM=
+	t=1782209374; cv=none; b=M7xbCxOVUCVaUyQAS+qzJ1D+8NG/XyjKfi0tb2vCo8VULbg5SzMIhC+Kljdcgj11WD4WrQeAYQes8Ok1qUkP8d5SQfWqFAB64mYhc0Hufa7oVFjwfcUiacvi4DI+sczaA/gX3+4xAhr3ROt/OALuhsntsq6SL8ztPp3w8jSJ8hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782196210; c=relaxed/simple;
-	bh=MUwIWDeyTGINk8eYw/EGHpKhVS1I+NdvU8holZVt0xA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Kzm68zNURm59gDMijgazd1akU7alfsq43tUN2PtwLOtPYgksyLEMSqAO9vJW5szO5jvyIyx4e+1peWSRNFKoh0xI/zo+tuTO+H0dCmmJMEn+cYpbkniRkpZBqeLKgxcThAofo9816Z9nvtoNpfQBMtUne5FEusuKvXn3K5FapaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PAv1VDXO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1782209374; c=relaxed/simple;
+	bh=xv4r6u0rAfI0XXJ7Y3S0NT2YfyY0CONMP/ImwPkH8bw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DVqfOd6/BqPfN9O+bx1ZpsQ0Mo1K69jcGLSz0ya7B01171CFoVpk5yJ52VrMNjhSddHOoDiNtpVzMgQk7+aS3DjNyfGGNKS8UFn7bHcszI9WG5eWpbJzksNQw3qhXl1xjXFDCjGJn7POSW9ixEDzHFFJSoKYoGXPtj2GMg2eY38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACQ/9jaw; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PAv1VDXO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F3761C2BCF4;
-	Tue, 23 Jun 2026 06:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1782196210; bh=MUwIWDeyTGINk8eYw/EGHpKhVS1I+NdvU8holZVt0xA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=PAv1VDXOr8Qlr+kw2XWmVLWj7Ohn8obhw/SMc51GYgwovjV4wXwochWzR/xEPZvTz
-	 Hb7JOuny4CVUFshzLaFWQ7uozBN4TJ7K7xQFX2OQliz5tknQMoMsznG/NsFSod5+Z3
-	 Jox6mFJmaw5Ld9Eqkt3/yiHYHUA9VCKgoMRNbQh4=
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4F43CDB47D;
-	Tue, 23 Jun 2026 06:30:09 +0000 (UTC)
-From: Alvin Sun <alvin.sun@linux.dev>
-Date: Tue, 23 Jun 2026 14:29:52 +0800
-Subject: [PATCH v4 9/9] rust: macros: remove `THIS_MODULE` static from
- `module!`
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACQ/9jaw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782209373; x=1813745373;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xv4r6u0rAfI0XXJ7Y3S0NT2YfyY0CONMP/ImwPkH8bw=;
+  b=ACQ/9jawOjWURs13CVArhCaf+fZsjgKauc+ECalDJ6CEphx1ejVIisJZ
+   ZSoclYjWd1GKrO7gMH4vpNeMIloNUvxNpJR/t5f2vCEK8vUQdk39f8W2P
+   B3I0lu47qXw0PHnjE9AsaJveUhT6IU9hpwXQcQaP3NMzwZ3zbmsug649A
+   wtcCdLXfxbuspAN5XjxWd0jrDnmknF/5F89PES4+1RTz+YN/kcO+HFz1D
+   AZNvfoAlli1U4MK7MzLCquDurQPPTiHd+tLWLyaNxXuvKErh8E/fNUvcE
+   F+g2UmBupDH3XNIoepmdBht4bT59CY8pwzQcuk7d0BmtYGC1rHFZrwIjz
+   g==;
+X-CSE-ConnectionGUID: dYycBZ+6REiHl9klEenqYw==
+X-CSE-MsgGUID: gfaXFYmySmepSMv9V5+Wuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="100376403"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="100376403"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:09:33 -0700
+X-CSE-ConnectionGUID: fO295pNvSEiHBZM9FO5beA==
+X-CSE-MsgGUID: +viiu0Y0Q+aDKjP2Rb+XuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="251411103"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.7])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:09:26 -0700
+Date: Tue, 23 Jun 2026 13:09:24 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Frank.Li@oss.nxp.com
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	driver-core@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	imx@lists.linux.dev, Guoniu Zhou <guoniu.zhou@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH 1/4] device property: Introduce
+ fwnode_graph_for_each_endpoint_scoped()
+Message-ID: <ajpbVCGGKchNa2rd@ashevche-desk.local>
+References: <20260622-fw_scoped-v1-0-a37d0aac0a68@nxp.com>
+ <20260622-fw_scoped-v1-1-a37d0aac0a68@nxp.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260623-fix-fops-owner-v4-9-0daf5f077d5c@linux.dev>
-References: <20260623-fix-fops-owner-v4-0-0daf5f077d5c@linux.dev>
-In-Reply-To: <20260623-fix-fops-owner-v4-0-0daf5f077d5c@linux.dev>
-To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
- Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Igor Korotin <igor.korotin@linux.dev>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
- Carlos Llamas <cmllamas@google.com>
-Cc: rust-for-linux@vger.kernel.org, linux-modules@vger.kernel.org, 
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- nova-gpu@lists.linux.dev, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, linux-block@vger.kernel.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-pci@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782196206; l=1634;
- i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
- bh=MUwIWDeyTGINk8eYw/EGHpKhVS1I+NdvU8holZVt0xA=;
- b=3Wu3lIDcbXp8WsWvNgwJtUDQdTKQMZngklAC5s7CH/cFu9Cyeb9s51Rij3zkvfLA0qhWG9IcI
- ouIq1J6XJzTANQBX3W3FalWDRrlJ9IrTCoWrCUXWjUsEHt4I+HcHlQ/
-X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
- pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
-X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
- auth_id=684
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622-fw_scoped-v1-1-a37d0aac0a68@nxp.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-All users have been migrated to `ModuleMetadata::THIS_MODULE` const or
-`this_module::<LocalModule>()` helper. The `static THIS_MODULE`
-generated by the `module!` macro is no longer referenced anywhere,
-so remove it to avoid having two sources of the same `ThisModule`
-pointer.
+On Mon, Jun 22, 2026 at 10:30:11AM -0400, Frank.Li@oss.nxp.com wrote:
+> From: Frank Li <Frank.Li@nxp.com>
+> 
+> Similar to recently propose for_each_child_of_node_scoped() this new
+> version of the loop macro instantiates a new local struct fwnode_handle *
+> that uses the __free(fwnode_handle) auto cleanup handling so that if a
+> reference to a node is held on early exit from the loop the reference will
+> be released. If the loop runs to completion, the child pointer will be NULL
+> and no action will be taken.
+> 
+> The reason this is useful is that it removes the need for
+> fwnode_handle_put() on early loop exits.  If there is a need to retain the
 
-Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
----
- rust/macros/module.rs | 16 ----------------
- 1 file changed, 16 deletions(-)
+Just be consistent with 1-space versus 2-spaces gaps in the same text.
 
-diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-index aa9a618d5d19e..23b6a1b456b80 100644
---- a/rust/macros/module.rs
-+++ b/rust/macros/module.rs
-@@ -497,22 +497,6 @@ pub(crate) fn module(info: ModuleInfo) -> Result<TokenStream> {
-         /// Used by the printing macros, e.g. [`info!`].
-         const __LOG_PREFIX: &[u8] = #name_cstr.to_bytes_with_nul();
- 
--        // SAFETY: `__this_module` is constructed by the kernel at load time and will not be
--        // freed until the module is unloaded.
--        #[cfg(MODULE)]
--        static THIS_MODULE: ::kernel::ThisModule = unsafe {
--            extern "C" {
--                static __this_module: ::kernel::types::Opaque<::kernel::bindings::module>;
--            };
--
--            ::kernel::ThisModule::from_ptr(__this_module.get())
--        };
--
--        #[cfg(not(MODULE))]
--        static THIS_MODULE: ::kernel::ThisModule = unsafe {
--            ::kernel::ThisModule::from_ptr(::core::ptr::null_mut())
--        };
--
-         /// The `LocalModule` type is the type of the module created by `module!`,
-         /// `module_pci_driver!`, `module_platform_driver!`, etc.
-         type LocalModule = #type_;
+> reference, then return_ptr(child) or no_free_ptr(child) may be used to
+> safely disable the auto cleanup.
+
+No objections from me.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+See one nit-pick below.
+
+But you will need driver core maintainers to Ack this.
+
+...
+
+> +#define fwnode_graph_for_each_endpoint_scoped(fwnode, child)			\
+> +	for (struct fwnode_handle *child __free(fwnode_handle) =		\
+> +			fwnode_graph_get_next_endpoint(fwnode, NULL);		\
+
+You should follow the existing style, the 'f' in fwnode should be under 'u' in
+struct.
+
+> +	     child; child = fwnode_graph_get_next_endpoint(fwnode, child))
 
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
 
 
