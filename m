@@ -1,37 +1,40 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29D4393DC0
-	for <driver-core@lists.linux.dev>; Tue, 23 Jun 2026 20:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2752334752F
+	for <driver-core@lists.linux.dev>; Tue, 23 Jun 2026 20:16:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782245531; cv=none; b=KZuOVlRD41OAKqqIoxNMMVsOtKbC0mcZsqWoD04TxcfpF9gSMxTMnAhVCaKYuCCuoqZhBnK7MsjN106iBARW7wM/OvWENisguuuOyZjPmXxco5ch28aE7ad9W1t5nRRDO8N0n0fF6aHe/jF5LGLY7kLyGT375lo/B02DD9YwKrM=
+	t=1782245797; cv=none; b=SIOc1I6Hv+6UDXh0QMgpVdv2MC5MGplXQapHevoEtBpdJdB0sYzhLWSSJ1Q3NHX45O8Qf9T2yblxz6jRi5FValIdwNQ9ax/Rzwl3xp9qPCOhHMuMSup2cP20Q037MQJVenlNolliwYndyfY8H5FDRv8kxETpcTv34NqA3lXMs6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782245531; c=relaxed/simple;
-	bh=0aYE8V2ddvHAtdN10ig/fQ5kc92xxxdTh7YuD8roANI=;
+	s=arc-20240116; t=1782245797; c=relaxed/simple;
+	bh=FubUEgMsyaWAuCAka3ubhlrWabpeQJjBvAqgM0CJa6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SpeFxq54lEqjcR6gcCmI9hjgbDTVPiIUxyKkwEQILCx2qeVGglHPyF22D8rTEYmYjK3e50ah8zg0bHUIknl92sIrjyphhEdbKBXsERkVLBBY1cdXgwIv+z/PeQivYGQynMTh7tCNLMM+9lVoF0o6pF7nBNZt+uzozMrPFFlbF4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=bqG7eLnX; arc=none smtp.client-ip=159.69.126.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=BPgwoUMT4j1k24PexDe/g5vcs7+YHCvVRjlkVqY3v72iKSnovDOUW/Vq8w589ikY+ufffRGevVMhh6W/pQP2Hrcy843wUZvf6J6bX2AsexElQQygheUdZVH/TYCt0Y1Tg9dFS6n4i4cKM7/mnsr/yQ3XqfZK5nqcQfCfcpICCS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=BWX1rlGw; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="bqG7eLnX"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="BWX1rlGw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1782245526;
-	bh=0aYE8V2ddvHAtdN10ig/fQ5kc92xxxdTh7YuD8roANI=;
+	s=mail; t=1782245431;
+	bh=FubUEgMsyaWAuCAka3ubhlrWabpeQJjBvAqgM0CJa6E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bqG7eLnXI4+zc89af7lM062lTb+E492oK/otZGyQFJzl9fgzAXUQxfQLHmto4g7T2
-	 IIDGgocDhwyl4EOD8jVnN9+oaNxE9dJHR8H2tEBFHCG5jAUxFpEVeKmQ/3tcrtkDfb
-	 KYgaWuXc646aLkQC+n/s02lvbIJmkv8mjfzRD+Ds=
-Date: Tue, 23 Jun 2026 22:12:06 +0200
+	b=BWX1rlGwgc4iHigUNvpCZ8fZEtgjUtYnxjhtuimrXxzJ609vY8EXRXiIcVxnWPrfO
+	 YE0r0ktK5uOQ9YaB1XoqbphSs7MxtZk0Iptw2cjMD6WsMPF/PUhKIYsqrAtlY7DdPK
+	 auScnAPB4Mmai4YtGaUywW0XZuW8hfNkzGbHX4Pc=
+Date: Tue, 23 Jun 2026 22:10:30 +0200
 From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 To: Randy Dunlap <rdunlap@infradead.org>
 Cc: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: add missing kernel-doc for union members
-Message-ID: <f37b38b3-8c50-4fdb-b99d-ccd7d518857f@t-8ch.de>
-References: <20260623190023.407781-1-rdunlap@infradead.org>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: xforms: support
+ __SYSFS_FUNCTION_ALTERNATIVE()
+Message-ID: <c38eeede-b5cd-4671-84d7-c0b2d58021a4@t-8ch.de>
+References: <20260623190006.406571-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -41,26 +44,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260623190023.407781-1-rdunlap@infradead.org>
+In-Reply-To: <20260623190006.406571-1-rdunlap@infradead.org>
 
-On 2026-06-23 12:00:22-0700, Randy Dunlap wrote:
-> The use of __SYSFS_FUNCTION_ALTERNATIVE() adds an anonymous union (or
-> struct if CONFIG_CFI=y).*
+On 2026-06-23 12:00:04-0700, Randy Dunlap wrote:
+> Add support for __SYSFS_FUNCTION_ALTERNATIVE() to create a union of its
+> members (as though CONFIG_CFI is unset).
 > 
-> Describe the additional struct/union members to avoid docs build
-> warnings.
+> Fixes these docs build warnings:
 > 
-> Warning: include/linux/device.h:117 struct member 'show_const' not described in 'device_attribute'
-> Warning: include/linux/device.h:117 struct member 'store_const' not described in 'device_attribute'
-> 
-> *: kernel-doc ignores CONFIG_ symbols in source files; it is using the
-> first definition of __SYSFS_FUNCTION_ALTERNATIVE(), which is struct
-> instead of union.
+> WARNING: include/linux/device.h:117 Invalid param: __SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*show)(struct device *dev, struct device_attribute *attr, char *buf)
+> WARNING: include/linux/device.h:117 struct member '__SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*show' not described in 'device_attribute'
+> WARNING: include/linux/device.h:117 Invalid param: __SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*store)(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
+> WARNING: include/linux/device.h:117 struct member '__SYSFS_FUNCTION_ALTERNATIVE( ssize_t (*store' not described in 'device_attribute'
 > 
 > Fixes: 434506b86a6c ("driver core: Allow the constification of device attributes")
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks!
+Thanks for the fix. I would have expected 0day to catch this :-(
 
 Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
 
@@ -70,25 +70,22 @@ Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
 > Cc: Danilo Krummrich <dakr@kernel.org>
 > Cc: driver-core@lists.linux.dev
 > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 > Cc: stable@vger.kernel.org
 > 
->  include/linux/device.h |    2 ++
->  1 file changed, 2 insertions(+)
+>  tools/lib/python/kdoc/xforms_lists.py |    1 +
+>  1 file changed, 1 insertion(+)
 > 
-> --- linux-next-20260619.orig/include/linux/device.h
-> +++ linux-next-20260619/include/linux/device.h
-> @@ -99,7 +99,9 @@ struct device_type {
->   * struct device_attribute - Interface for exporting device attributes.
->   * @attr: sysfs attribute definition.
->   * @show: Show handler.
-> + * @show_const: Show handler (read-only).
-
-Not a big fan of the wording, but I won't bikeshed.
-
-The subject could also be a bit more specific.
-
->   * @store: Store handler.
-> + * @store_const: Store handler (read-only).
->   */
->  struct device_attribute {
->  	struct attribute	attr;
+> --- linux-next-20260619.orig/tools/lib/python/kdoc/xforms_lists.py
+> +++ linux-next-20260619/tools/lib/python/kdoc/xforms_lists.py
+> @@ -49,6 +49,7 @@ class CTransforms:
+>          (CMatch("DEFINE_DMA_UNMAP_ADDR"), r"dma_addr_t \1"),
+>          (CMatch("DEFINE_DMA_UNMAP_LEN"), r"__u32 \1"),
+>          (CMatch("VIRTIO_DECLARE_FEATURES"), r"union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }"),
+> +        (CMatch("__SYSFS_FUNCTION_ALTERNATIVE"), r"union { \1+ }"),
+>          (CMatch("__attribute__"), ""),
+>  
+>          #
