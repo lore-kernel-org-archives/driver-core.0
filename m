@@ -1,82 +1,74 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42EF34040A
-	for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 17:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68D13016F5
+	for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 17:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782322025; cv=none; b=e2aAmfVXte9/kRRfpbZox8JikRmx9QX3QCcnuoa3+BlKU12iO6cSK//haG9M+gtppadJmsLSb1VtQV0u4LOyK239fpQL1GB60VJ5EmqzIXNAkC6XO8XQNLjg+WSjMIhrJ/IV7cRWA5o4jOIg+DJmV7XwPKgDOTVGn2rjr9G1skA=
+	t=1782323537; cv=none; b=j63j2/BIOXJRg4tEONZwGnPEf/dDiZ8moj+MLX0tFV9KL51BSA+HGFltiePDVQkdL4jnCL4NMBW/L75tWADQ4oxheMdMoYwcz7/+5bBq3fMk0flnD56WLdyweTHE0Bpw5j7XHYzDUnHr6eBU+ihjzN4Uz14XSXklwAK0RrvE6ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782322025; c=relaxed/simple;
-	bh=qZJcxGigDUOPGbBTLkuze4EzK6jpwi+WxK0gp/RJ8Q8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=a2FRWjwN6VBGY4GvxlvHAOcdNSIu/gWrzgv/Oj/uw5LBF7JQhbyC1aHtbfq8APTf5//1PU4KhnizskyTBqYBIJ7DRax07zCQdsnYuO6ByXXE/4VjyU9/qdhSjLKmgjkWePU80g/4e3bDopZ+3rKPtAV5jIorlPr9MaHB/JS80xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=m2EWMnRT; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="m2EWMnRT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=jRYcjXWetLM2iI5Bj0lMnHKhPtsWHztUHyuM98LC3DE=;
-  b=m2EWMnRTnELbmoMM4Rz+jamrC7VJ3dPeYiLJLxz+9cxe5ioJoZ7o5VAS
-   LK3kMfAY7Z23hRAswKOw/hzBuL6YMg714oyOWlCJBS82ieLge0GHPrezV
-   Cb/qs686Sojmr7CHq8dRIMUpdXwq2uVwaPsojzKa6CxNJ7JzIdGHL9U93
-   U=;
-X-CSE-ConnectionGUID: wfoyA//uRqOVzVv3S49qRg==
-X-CSE-MsgGUID: 4KNeUs82SdOyxJQf12Zqdg==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.24,222,1774306800"; 
-   d="scan'208";a="283248040"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 19:25:51 +0200
-Date: Wed, 24 Jun 2026 19:25:51 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Joe Perches <joe@perches.com>
-cc: Greg KH <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-    Kees Cook <kees@kernel.org>, driver-core@lists.linux.dev, 
-    Nicolas Palix <nicolas.palix@imag.fr>, cocci@inria.fr
+	s=arc-20240116; t=1782323537; c=relaxed/simple;
+	bh=/lP50G/7lToeuzIIeXjWycQzPYAUEW9OU7QZ6Po6bmY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aZfZysKeBpoFboJs59IMe776iDtkrBhiz/5wP5gIjme+pP5LEw5+2rod25RoF+30/ByUuhj0hwC7zkQ7jJnK6KiPzJi6oEb1UZ8Pe9cKyYhUXaGfnDvgXoti2RvOwpFx7ojvG0r2Djz3rBt+NqwF/7ouXmQsRud2pqBrgBqEqbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id 59CB98DD74;
+	Wed, 24 Jun 2026 17:52:15 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id 16BA32002F;
+	Wed, 24 Jun 2026 17:52:12 +0000 (UTC)
+Message-ID: <a1f52c93e39c5bb66ab6cbb4ae778513ea6b3c9c.camel@perches.com>
 Subject: Re: [PATCH] coccinelle: Add devm_kmalloc_objs conversion script
-In-Reply-To: <50755b746bb30bea3989db9c1f262d5257e8ee1e.camel@perches.com>
-Message-ID: <dc6cfcc-4ec4-8b87-19c3-974818448b8c@inria.fr>
-References: <eed0c57a2c897e34d411229c3de41c5402791894.1781575297.git.joe@perches.com> <50755b746bb30bea3989db9c1f262d5257e8ee1e.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Kees
+ Cook <kees@kernel.org>, driver-core@lists.linux.dev, Nicolas Palix
+ <nicolas.palix@imag.fr>, 	cocci@inria.fr
+Date: Wed, 24 Jun 2026 10:52:12 -0700
+In-Reply-To: <dc6cfcc-4ec4-8b87-19c3-974818448b8c@inria.fr>
+References: 
+	<eed0c57a2c897e34d411229c3de41c5402791894.1781575297.git.joe@perches.com>
+		 <50755b746bb30bea3989db9c1f262d5257e8ee1e.camel@perches.com>
+	 <dc6cfcc-4ec4-8b87-19c3-974818448b8c@inria.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 16BA32002F
+X-Stat-Signature: n7aqfjrp57rsuqppezkyz87tggre9nyz
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+TAHcngrvTA1oeAB1bRg0ISyqcUTeffx4=
+X-HE-Tag: 1782323532-769865
+X-HE-Meta: U2FsdGVkX18VaSv3AagFJuYcb4tt/d+jcmeWDJy+uZaDYsQocT/f5nm2fNbPEknhh/tVwBd9k2WYGJ4aTdPOT1bmTmXb651QSXW6rjcgSpdMTeAXCyhkm1YMPLzXk3BzJXTTRc9vgfyr2kar+ZVBXghHzQKRMUjk9DF/cR0mPaRqgA+MLDW2HrbRr48lWcOKAPhS90rfD6N/scNKlRpxaUUWDw4/frw/3EByjZGsSfkOXY8l1keAMfWZMFGgZNQYOsurWnRLLdWTcfDplhIhVM2qEFB+uZVKWWpsu8it31/sLjz+NSgxeVSF0cYqtfsn
 
+On Wed, 2026-06-24 at 19:25 +0200, Julia Lawall wrote:
+> On Wed, 24 Jun 2026, Joe Perches wrote:
+> > On Mon, 2026-06-15 at 19:10 -0700, Joe Perches wrote:
+> > > Like commit bdc5071d7f7b ("coccinelle: Add kmalloc_objs conversion sc=
+ript")
+> > > with commit 1c7bbaeed110 ("coccinelle: kmalloc_obj: Remove default GF=
+P_KERNEL arg")
+> > >=20
+> > > Finds and converts sized devm_kmalloc-family of allocations into the =
+typed
+> > > devm_kmalloc_obj-family of allocations.
+> >=20
+> > Its been a bit.
+> > Any comments or negatives about using or running this script?
+> >=20
+> > This script would change more than 8000 instances in more than
+> > 5000 files in Linus' current master.
+>=20
+> I was going to try it this evening.  Are you concerned that it is too
+> much?
 
-
-On Wed, 24 Jun 2026, Joe Perches wrote:
-
-> On Mon, 2026-06-15 at 19:10 -0700, Joe Perches wrote:
-> > Like commit bdc5071d7f7b ("coccinelle: Add kmalloc_objs conversion script")
-> > with commit 1c7bbaeed110 ("coccinelle: kmalloc_obj: Remove default GFP_KERNEL arg")
-> >
-> > Finds and converts sized devm_kmalloc-family of allocations into the typed
-> > devm_kmalloc_obj-family of allocations.
->
-> Its been a bit.
-> Any comments or negatives about using or running this script?
->
-> This script would change more than 8000 instances in more than
-> 5000 files in Linus' current master.
-
-I was going to try it this evening.  Are you concerned that it is too
-much?
-
-julia
-
->
-> $ spatch -D patch --very-quiet --cocci-file ./scripts/coccinelle/api/devm_kmalloc_objs.cocci \
->     --include-headers-for-types --all-includes --include-headers --keep-comments \
->     -I ./arch/x86/include -I ./arch/x86/include/generated -I ./include \
->     -I ./arch/x86/include/uapi -I ./arch/x86/include/generated/uapi -I ./include/uapi \
->     -I ./include/generated/uapi --include ./include/linux/compiler-version.h \
->     --include ./include/linux/kconfig.h .
->
+Not really.
+There were no comments and it might have been overlooked.
