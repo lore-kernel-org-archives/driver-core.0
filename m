@@ -1,64 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AF5353EC0;
-	Wed, 24 Jun 2026 19:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA9A36215A;
+	Wed, 24 Jun 2026 19:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782328589; cv=none; b=M86YYailUi6O2IYmMEF4nCtY3Z9JypsedvqkG+ZhtSB9rsnOoL+pSmHpgn+g1MCPzg/ZB21Q9B7VQ7bD4PFTdnIBz+ohXS4Ajwwh6ET363Shg7CLHmR94vqmtOHmsGoIom6KgXWTL4BOA9OvIsGmvrm+8u0eZXDjb3z4WnQHn6o=
+	t=1782328637; cv=none; b=PSqWRi78G1eLprTAgFyi8mlmBoO+YtagnIVgcO9+vvXN5GvHarmzdfRcAmXUr7omR5gsuOlB9SOzoqEnTVKK6PBYXFJPa3R67JvJbs+YRsP7H+Y9P/uAc2BXUzbfTYOuVF1sAtZSIfQurXjopt3Sm1yBow/KkVEP43fu2eJgyhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782328589; c=relaxed/simple;
-	bh=KrEIkLxcPGYN34vBeTlzsqHNKqQFfNJZucq2NDeLFds=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uYvgb6VKokOoOZ6yyHynixK+Zr90FhORSyBAMOJ/L/xkSwbNIpBCiFqzHFdXo014r67Z4tXBlxXcM6WI7K2yOdVr1Oelmz8fS+JTyMlFDz0hfZPD69o3y+XN3e6auHQH/eQQnocQX12p0fHmJ0EjHy10CpNKMgSkKnhXZ36UkSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XnOgRR5K; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782328637; c=relaxed/simple;
+	bh=W+NUk2llCaCs56ZgNCLMgYkpcn4ETSuJ2aIowCznhpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kvwQb0shP+351TE4rhiNEwix47X+/r3lnmaygUPfmicZ80vFp/nSEP+Bayeqpkda6pjuhh5YTKQdnttt0LX2NIXl7ij4hdX4mA/epaXUBF7OISN4L6aOjjmt+bqCaPMaHULBpLuTf89xDzLV9XgrxVKHKSagsVMFPzvaM6a1rbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LXERi1N0; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XnOgRR5K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9EEF1F00A3A;
-	Wed, 24 Jun 2026 19:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782328587;
-	bh=KrEIkLxcPGYN34vBeTlzsqHNKqQFfNJZucq2NDeLFds=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=XnOgRR5KS/l4WG/j1n3WoPLzoAlQNFABguQn7ZtgvJG6R/Lk+Pb5+MmbghczBYMQa
-	 8cHtbFvfrX5WYSg1jz9tE2kwrJ2AqvMqVWJPvy+db6JmaB6vvJo07jbY9sDcoXbYNp
-	 O7OR24FEQHPSBIGrqlv3crUToit8sFF2NfToUqUMU4TP2PU0zH8yp5vZoTYkY35QcD
-	 VCwKoUa+xOI1bGGwIGwqheuD2tb3egqLNaoweVgQf4aUeDHy7Fsff3WGaoNewhDe4O
-	 0FlfN6+MWzs8cJRqtO4bYBJJy7pGKqvIOKZgeNCvRev/dSJgJReB7ZXgNZTM19S6aI
-	 1Qay1fRI6EA1w==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Onur =?utf-8?Q?=C3=96zkan?= <work@onurozkan.dev>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice
- Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo
- Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, Paul Moore
- <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Daniel
- Almeida <daniel.almeida@collabora.com>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
- Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Igor Korotin
- <igor.korotin@linux.dev>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- driver-core@lists.linux.dev
-Subject: Re: [PATCH v17 08/10] rust: aref: update formatting of use statements
-In-Reply-To: <20260623175531.85421-1-work@onurozkan.dev>
-References: <20260604-unique-ref-v17-0-7b4c3d2930b9@kernel.org>
- <20260604-unique-ref-v17-8-7b4c3d2930b9@kernel.org>
- <20260623175531.85421-1-work@onurozkan.dev>
-Date: Wed, 24 Jun 2026 21:16:09 +0200
-Message-ID: <87fr2biwau.fsf@t14s.mail-host-address-is-not-set>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LXERi1N0"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85E47FC7;
+	Wed, 24 Jun 2026 21:16:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782328594;
+	bh=W+NUk2llCaCs56ZgNCLMgYkpcn4ETSuJ2aIowCznhpU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LXERi1N0Du4BVG2CSumtpg3Mo5sQj9/zNmVNSw35udWQOhje5cD7PImBHo3YMh6IY
+	 eXJA/ds2kxcGS2c2HKnAzWnBP99d2WPbU4g+fVf09wFEMJbMOtjAN6LiJ5gdZ9Z5mN
+	 I+zSOo0fgU79Teg6Z17Oeuw+Jq0sOq5k0f+JPrto=
+Date: Wed, 24 Jun 2026 22:17:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank.Li@oss.nxp.com
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	driver-core@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	imx@lists.linux.dev, Guoniu Zhou <guoniu.zhou@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>, Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Subject: Re: [PATCH v2 4/4] media: qcom: camss: use
+ fwnode_graph_for_each_endpoint_scoped() to simplify code
+Message-ID: <20260624191712.GF851255@killaraus.ideasonboard.com>
+References: <20260624-fw_scoped-v2-0-0a8db472af4a@nxp.com>
+ <20260624-fw_scoped-v2-4-0a8db472af4a@nxp.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -66,23 +60,73 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20260624-fw_scoped-v2-4-0a8db472af4a@nxp.com>
 
-Onur =C3=96zkan <work@onurozkan.dev> writes:
+On Wed, Jun 24, 2026 at 01:00:12PM -0400, Frank.Li@oss.nxp.com wrote:
+> From: Frank Li <Frank.Li@nxp.com>
+> 
+> Use fwnode_graph_for_each_endpoint_scoped() to simplify code.
+> 
+> No functional changes.
+> 
+> Reviewed-by: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-> On Thu, 04 Jun 2026 22:11:20 +0200
-> Andreas Hindborg <a.hindborg@kernel.org> wrote:
->
->> Update formatting if use statements in preparation for next commit.
->
-> I guess you meant "formatting use statements"? Also, why not doing this in
-> the next commit directly?
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Because it is an unrelated change.
+> ---
+> change in v2
+> - fix typo simplify
+> - collect andy, gouniou and loic's review tags
+> ---
+>  drivers/media/platform/qcom/camss/camss.c | 17 +++++------------
+>  1 file changed, 5 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 2123f6388e3d7..23f3cc30a15a5 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -4793,30 +4793,23 @@ static int camss_parse_endpoint_node(struct device *dev,
+>  static int camss_parse_ports(struct camss *camss)
+>  {
+>  	struct device *dev = camss->dev;
+> -	struct fwnode_handle *fwnode = dev_fwnode(dev), *ep;
+> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+>  	int ret;
+>  
+> -	fwnode_graph_for_each_endpoint(fwnode, ep) {
+> +	fwnode_graph_for_each_endpoint_scoped(fwnode, ep) {
+>  		struct camss_async_subdev *csd;
+>  
+>  		csd = v4l2_async_nf_add_fwnode_remote(&camss->notifier, ep,
+>  						      typeof(*csd));
+> -		if (IS_ERR(csd)) {
+> -			ret = PTR_ERR(csd);
+> -			goto err_cleanup;
+> -		}
+> +		if (IS_ERR(csd))
+> +			return PTR_ERR(csd);
+>  
+>  		ret = camss_parse_endpoint_node(dev, ep, csd);
+>  		if (ret < 0)
+> -			goto err_cleanup;
+> +			return ret;
+>  	}
+>  
+>  	return 0;
+> -
+> -err_cleanup:
+> -	fwnode_handle_put(ep);
+> -
+> -	return ret;
+>  }
+>  
+>  /*
 
+-- 
+Regards,
 
-Best regards,
-Andreas Hindborg
-
-
-
+Laurent Pinchart
