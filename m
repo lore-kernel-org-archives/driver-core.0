@@ -1,64 +1,64 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713F53D9DD3
-	for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 14:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9A23DA5AA
+	for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 14:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782313088; cv=none; b=m10oVHgUp3ilKeuNmao3obcIB8mgZkqk2mHNpkssqm5d67/9zG9IptzA9IXvZE9lqcOdZo4qPXWREQ1hSi/m6ISJz4U3iifRkfy8802907w93T0zYSkjpCi45xn3gkS/Dl5fGKFZG/tzcyr4b2w2XBgaYSXivummu2PcsHgLp3A=
+	t=1782313090; cv=none; b=hm2kjCK9rRdlOtbQzPQqMfEfytu+wp3+oXSf7IB2VDtJ1SnWfazaJ0xB6O/C0oInabQS/2UvaqgwFGgiUu+vg5mzKA6eapN9WOXIwobGIGTKibmxv35ZHe9G23sCjwRpOW30touTHmjeNRfP08QoukQ5u386xkpi1nJlKFMEqI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782313088; c=relaxed/simple;
-	bh=1SN6XJVoKoHKUZTH//sJI/EbzT5E03VpQ6l9/BnrPjY=;
+	s=arc-20240116; t=1782313090; c=relaxed/simple;
+	bh=3ZopxSgkjTaHaZyxnFhx+t/MonuY/eSmen2libYGU58=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ozwicL+t3rXl3DTEaskfpK8qcrst7lZQ3wQGNEhvf8SJ2BzKDmUoPZgvRamwQ9Oy3K6uAcMYjaQZIdp+fBqqcQiK1TIjP7poRjE0kkLaJdfB5nRVWqoOMmSOgTf4T8+YTIRrNcEKLZFIfbe+iyQvafLJe312dpdZYxqy0zyydkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=sSPbxh9w; arc=none smtp.client-ip=209.85.160.172
+	 MIME-Version; b=XFchAtqaSbQMb3wGYkaMYx7HV/0Txjk9QzCcJ8X4/VkIDcPf2p8IydxWArBUFZ84QVtJZwRuo3fgtLu42FZQmpzzrT70EyEys1NtKVzVfhGXMr1zJbJ+OTsLX+bvoqTlkgtw+Nd/lFQ2H27l8KqUsi2WRmlXLy+V1jyOfoqqIHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XNL9ToLn; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="sSPbxh9w"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5177945a279so8445961cf.0
-        for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 07:58:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XNL9ToLn"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-519ff1c8b8bso10862531cf.3
+        for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 07:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782313085; x=1782917885; darn=lists.linux.dev;
+        d=gourry.net; s=google; t=1782313088; x=1782917888; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+LbNsCaF8AqQRerBXt6jCH2X6FSKJPEhWXxoYu5Er/s=;
-        b=sSPbxh9wLJPutPiw+JgygJXfnTyrzMrp1dj0UmgumjtfTzauwSDvgAQfJgYfLxdLGz
-         yrZetJ5JSWG1bF364Mwi6JQXBwM3awrRs0WbVUFuRGuhNXeT0on7nqrHN2CZ+jWD2sjA
-         WiZyY9DKU4tjECFWWkzM132rpmmVhO2qVcPLmaSiwznpfdoj1MgminjbFEeJWDCiltvX
-         2n2HQUnrZCDvK27rEbJ9uIPq8ZY/VjLKaGXi58YRfZTkwCNtA/4lOhP2S7YzIPQGDUHl
-         bmDR+vDzFYlLtCAumYnBAJimo/Vi4XPw6i2Yw9RtxeEggwuyzYcCYWF946Szmbl1Pgsk
-         scNA==
+        bh=fnCbxW9XzGA16mXvyVagPlrUc6bIGxDm63u9PSaRfE8=;
+        b=XNL9ToLnkW5Sin+AjXVQ9AP8nTPixuI56OazU6RXIO/vrOrFcH1GN2e3hRBMk7Hn8/
+         6AIkyWsBkpMYt6hfSIKkCo9ePqzFnIS3llSQXv0wz1uc2aWzSWybPsqXrKyfdBfeB1j6
+         UN45KXZ5CL8FcERSMgqKMQrNfO0FzWlf5TMXpR5wi877D6tBGrABoehmohqlo1l1sTpk
+         XBB6FOSQJcAm3/L2/EkQqVS/Airz3FVyL/wRFocJWBYjS3mOtAfVdjQnWkS/aK8lQSRD
+         FESrECjQGKMVYUULmMMrCjVLMDuEwPXyzlEglj2ua8BCjd3kriq7lcte/ezDMN4MOt9y
+         5OKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782313085; x=1782917885;
+        d=1e100.net; s=20251104; t=1782313088; x=1782917888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+LbNsCaF8AqQRerBXt6jCH2X6FSKJPEhWXxoYu5Er/s=;
-        b=FXhj/zZgHQ3Hay1UcHqeoHhR97Hfij4V6SxtzSouw+6gmA4I16/WcL6+IilsfQWbU7
-         Ib5qQ1diWFcZ4epwBEnI4RPo+a3fz/Y7IBD487sK1A2ju2C8qbO8TjtP9ac5VlhBPvoU
-         lM+E2juDPJn9on39plaLqS+5mZkGR93WdH9lW/arX+MywxKWQL0awojh8xVwnia01fMe
-         LV3+MApwZbFvQ8jfYUnSseYXlmfRj+oQX7V+Ax5RONQ9izdp3AMSEz5l/WfrLIettiGL
-         l/0OyOCvIhCMXtaYp5JRRpoIjNdv6Vcg1nNoUOGnPBAEWs9/NH7UB1S2Gckq+CcACAUs
-         u5jw==
-X-Forwarded-Encrypted: i=1; AFNElJ8GQ+02rnIQqWI7Qkc9wnhGMDEoBrIWZWvbugE9MtVbgDMBGMzYFC2Sas+dpbVALOtLAJNi8bfcnUrETg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNtyCv9qOCuEwqb9WDJr+nzd99xB3uN/m1aj+L7/ONZuaYRHoB
-	UDBodEmXTbflatoh6S+qqvVIVILzqhVIfQJFjqfie58mntNP4p4aKK701OtTM07QNo8=
-X-Gm-Gg: AfdE7ckKqnfmLfO+hWLwFqXQB9vVXWLnVbhiLp4nDRH+OuDRVe82yR/yKBhXX6nvtqw
-	SF5wgTj3ptxgvZF7ziuVyXwIyig0eAU3CvzYDbB7nccovO81vvenc7aro917/2I3ct9U9rwBXDV
-	G4/FGmMw6q695UuBmLei+P9d7HBaFCsvtDryWmAH+24ekEKUlP9cYCMdashTr6MzYsI/s8wojt8
-	Kgg6aD0QDqIsoo7YEveRCLfMJGzJPcL6MpIeyz3BoNQa6K5WP+pHrprFOzGjL8NrI/E5dKkvRNq
-	L0MIL6CDI9IQWp7dB31bGvr2srtBi16ih5NG86ixX9uegqGAAJuAay7sGoZVro0BLwQAIXR2ten
-	w7+4oR4Zs0JgW6Y3XOz4fDuZRd6knwhBs3QwbliK/0e9RtPwO1jzSWiEZX9KXtEv+4v6UGFhEpy
-	3tNMskgwWa0QGkkskxXU9+a6S/2I96xPBh20DiugILYs6Ib1QdwC93d/40Wvc4+hfLAQBWgwv1r
-	A==
-X-Received: by 2002:a05:622a:2297:b0:50e:6182:b4c with SMTP id d75a77b69052e-51a61e49d5emr54674141cf.25.1782313085460;
-        Wed, 24 Jun 2026 07:58:05 -0700 (PDT)
+        bh=fnCbxW9XzGA16mXvyVagPlrUc6bIGxDm63u9PSaRfE8=;
+        b=S258kfB/mb2MxnXQn2nd59aoB+mG2wJFHFTsIoC9ntoxxVSH4EzQ8kwNy/2hzgsn53
+         oyXmOjgysvYctqmZQ3H9NmGhMaL8438SF2qfVMsjAZUbAShfpH+19ybt68rkC6EvS1DY
+         bVDlGfdwz9tWxjmaIDT37BOQ0Q8mRda2UyffAV0eqixO6Hxz/rEnmNa8+beB4GGMUa17
+         ggry+YvJ/QRW52f9f4kIggaxQkxxLwLEztGW+1uCpsczE9QInzHpR95Bl7GNTvDgDg44
+         MSntAPMeFcgLaBKbOHGuxST0B9DaZDXV5UNEKTVOP1KAdGvDBvUGubUlhfDk00M5vrPA
+         CNGw==
+X-Forwarded-Encrypted: i=1; AFNElJ9oV7UpgtkXrwbqYu265utYOsSb272GKEkOmDxt8oR2WwFiYgSR3yL9mmPCb4sSW6aFoySx3kp7nXPvLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/cszD501F6qbrTxI/ozqMWq2of+Fb+uDPAEXKy4wxMXiLKIVK
+	fpRiPyqXjVxVzOnkcpG+KAedTKnnw7GdXPNd46urMV+fMSt1YUvlsO6NOzF1qjvLcNE=
+X-Gm-Gg: AfdE7cnVPMC2S120XQBh6xT1gcMi79gn4ps156z8uUCmUiPHRxWYwj1FGX5G0D47YQe
+	nF/N8NErt7hfqyO0XqVyvu+R97uB8wbP0BcnH4JaVEDXn4TfOZwtz7CyZp3Xn9bEMbAohIgeEZb
+	FsDJEw5HXHgD+2LQr6IHqRdfiVZun1pzVA0HAS98RZEeIo2T6D5SNZ6Mr+xayeLauQSh8rkcaYS
+	vXHgddygWvKYuBh62jxTkPimZmvEpg1XqlX2d1KYcuvlkV/l8w4U7EOvdSN8Kp082bE+qZjxm3K
+	wfx67m+dJ98UfoYc+VOrdnPLgLpj17oVfO098lj600zq/kvfJeeV8tWWAcJOFSMf8YQHiJTXeV3
+	xoslLQq+F6WPcZILer5MspjKA4xk3Lm2I8oPvn0zmmw4z+OmOOTbVeBc6BibAdqxbdZi+8LW12Q
+	jbKQ9v+p45alw8ynsC5/7VN5kXAXEPhor/KYmg7ITZWq3xGAtgMWBTFhKInC6xXU12vsrLdbP3o
+	Q==
+X-Received: by 2002:a05:622a:248:b0:517:760d:48ea with SMTP id d75a77b69052e-51a61b2a185mr56005681cf.18.1782313087785;
+        Wed, 24 Jun 2026 07:58:07 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a51ae8ee7sm49502301cf.24.2026.06.24.07.58.04
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a51ae8ee7sm49502301cf.24.2026.06.24.07.58.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 07:58:04 -0700 (PDT)
+        Wed, 24 Jun 2026 07:58:07 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org,
 	nvdimm@lists.linux.dev
@@ -88,9 +88,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Smita.KoralahalliChannabasappa@amd.com,
 	ira.weiny@intel.com,
 	apopple@nvidia.com
-Subject: [PATCH v5 5/9] mm/memory_hotplug: offline_and_remove_memory_ranges()
-Date: Wed, 24 Jun 2026 10:57:40 -0400
-Message-ID: <20260624145744.3532049-6-gourry@gourry.net>
+Subject: [PATCH v5 6/9] dax: plumb hotplug online_type through dax
+Date: Wed, 24 Jun 2026 10:57:41 -0400
+Message-ID: <20260624145744.3532049-7-gourry@gourry.net>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260624145744.3532049-1-gourry@gourry.net>
 References: <20260624145744.3532049-1-gourry@gourry.net>
@@ -102,197 +102,195 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-offline_and_remove_memory() handles a single contiguous range.
+There is no way for drivers leveraging dax_kmem to plumb through a
+preferred auto-online policy - the system default policy is forced.
 
-Callers that manage a device composed of several ranges (dax/kmem)
-currently have to call it in a loop, which gives up atomicity.
+Add 'enum mmop' field to DAX device creation path to allow drivers
+to specify an auto-online policy when using the kmem driver.
 
-In addition to pushing rollback logic into the driver, the lack
-of atomicity creates a race condition between system daemons trying
-to manage the same resource:
+Capturing the system default would otherwise break the ABI, because
+the system default can change - but we would be statically assigning
+the value at device creation time.
 
-   - Manager 1:  Offlines memory blocks.    Removes device.
-                                        ^^^^
-   - Manager 2:  Detects offline memory blocks, re-onlines them.
+To resolve this we add DAX_ONLINE_DEFAULT, which defaults devices to
+the current behavior, while providing a clean way to override it.
 
-Add offline_and_remove_memory_ranges(), which takes an array of ranges
-and processes them as one operation under a single lock_device_hotplug():
+No behavioural change for existing callers (still the system default).
 
-  - Phase 1 offlines every block of every range.
-  - Phase 2 removes the ranges only if all ranges are offline.
-  - If any offline fails, the whole operation is reverted.
-
-This gives callers all-or-nothing semantics for the offline step, so a
-failed or interrupted unplug leaves the device in a consistent state.
-
-This also resolves the battling managers race - the second manager's
-operation simply fails when the block is destroyed / cannot be onlined.
-
-offline_and_remove_memory() becomes a thin wrapper that passes its single
-range to the new helper, so the offline/rollback logic lives in one place.
-
-Suggested-by: David Hildenbrand (Arm) <david@kernel.org>
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- include/linux/memory_hotplug.h |  7 +++
- mm/memory_hotplug.c            | 94 ++++++++++++++++++++++++----------
- 2 files changed, 74 insertions(+), 27 deletions(-)
+ drivers/dax/bus.c         |  3 +++
+ drivers/dax/bus.h         |  9 +++++++++
+ drivers/dax/cxl.c         |  1 +
+ drivers/dax/dax-private.h |  4 ++++
+ drivers/dax/hmem/hmem.c   |  1 +
+ drivers/dax/kmem.c        | 11 +++++++++--
+ drivers/dax/pmem.c        |  1 +
+ 7 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index d3edeb80aadb..7f1da7c428dc 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -267,6 +267,7 @@ extern int offline_pages(unsigned long start_pfn, unsigned long nr_pages,
- extern int remove_memory(u64 start, u64 size);
- extern void __remove_memory(u64 start, u64 size);
- extern int offline_and_remove_memory(u64 start, u64 size);
-+int offline_and_remove_memory_ranges(const struct range *ranges, int nr_ranges);
+diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+index 492573b47f66..4a03b323b003 100644
+--- a/drivers/dax/bus.c
++++ b/drivers/dax/bus.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Copyright(c) 2017-2018 Intel Corporation. All rights reserved. */
+ #include <linux/memremap.h>
++#include <linux/memory_hotplug.h>
+ #include <linux/device.h>
+ #include <linux/mutex.h>
+ #include <linux/list.h>
+@@ -394,6 +395,7 @@ static ssize_t create_store(struct device *dev, struct device_attribute *attr,
+ 			.size = 0,
+ 			.id = -1,
+ 			.memmap_on_memory = false,
++			.online_type = DAX_ONLINE_DEFAULT,
+ 		};
+ 		struct dev_dax *dev_dax = __devm_create_dev_dax(&data);
  
- #else
- static inline void try_offline_node(int nid) {}
-@@ -283,6 +284,12 @@ static inline int remove_memory(u64 start, u64 size)
- }
+@@ -1527,6 +1529,7 @@ static struct dev_dax *__devm_create_dev_dax(struct dev_dax_data *data)
+ 	ida_init(&dev_dax->ida);
  
- static inline void __remove_memory(u64 start, u64 size) {}
-+
-+static inline int offline_and_remove_memory_ranges(const struct range *ranges,
-+						   int nr_ranges)
-+{
-+	return -EBUSY;
-+}
- #endif /* CONFIG_MEMORY_HOTREMOVE */
+ 	dev_dax->memmap_on_memory = data->memmap_on_memory;
++	dev_dax->online_type = data->online_type;
  
- #ifdef CONFIG_MEMORY_HOTPLUG
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index a66346def504..7d56e0c6ede0 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -2429,58 +2429,98 @@ static int try_reonline_memory_block(struct memory_block *mem, void *arg)
-  */
- int offline_and_remove_memory(u64 start, u64 size)
- {
--	const unsigned long mb_count = size / memory_block_size_bytes();
-+	struct range range = { .start = start, .end = start + size - 1 };
-+
-+	return offline_and_remove_memory_ranges(&range, 1);
-+}
-+EXPORT_SYMBOL_GPL(offline_and_remove_memory);
-+
-+/**
-+ * offline_and_remove_memory_ranges - offline and remove multiple memory ranges
-+ * @ranges: array of physical address ranges to offline and remove
-+ * @nr_ranges: number of entries in @ranges
-+ *
-+ * Offline and remove several memory ranges as one operation, serialized
-+ * against other hotplug operations by a single lock_device_hotplug().
-+ *
-+ * This offlines all ranges before removing any of them.  If offlining any
-+ * range fails, the entire process is reverted and nothing is removed.
-+ * This provides a fully atomic semantic for unplugging an entire device.
-+ *
-+ * Each range must be memory-block aligned in start and size.
-+ *
-+ * Return: 0 on success, negative errno otherwise.  On failure no range has
-+ * been removed.
+ 	inode = dax_inode(dax_dev);
+ 	dev->devt = inode->i_rdev;
+diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
+index 5909171a4428..f3c9dae5de6b 100644
+--- a/drivers/dax/bus.h
++++ b/drivers/dax/bus.h
+@@ -3,6 +3,7 @@
+ #ifndef __DAX_BUS_H__
+ #define __DAX_BUS_H__
+ #include <linux/device.h>
++#include <linux/memory_hotplug.h>
+ #include <linux/platform_device.h>
+ #include <linux/range.h>
+ #include <linux/workqueue.h>
+@@ -16,6 +17,13 @@ struct dax_region;
+ #define IORESOURCE_DAX_STATIC BIT(0)
+ #define IORESOURCE_DAX_KMEM BIT(1)
+ 
++/*
++ * online_type sentinel: the device was created without an explicit online
++ * policy, so the system default is resolved when the kmem driver binds,
++ * (not at device-creation time, which would freeze a stale policy).
 + */
-+int offline_and_remove_memory_ranges(const struct range *ranges, int nr_ranges)
-+{
-+	unsigned long mb_total = 0;
- 	uint8_t *online_types, *tmp;
--	int rc;
-+	int i, rc = 0;
- 
--	if (!IS_ALIGNED(start, memory_block_size_bytes()) ||
--	    !IS_ALIGNED(size, memory_block_size_bytes()) || !size)
-+	if (!ranges || nr_ranges <= 0)
- 		return -EINVAL;
- 
-+	for (i = 0; i < nr_ranges; i++) {
-+		u64 start = ranges[i].start;
-+		u64 size = range_len(&ranges[i]);
++#define DAX_ONLINE_DEFAULT	(-1)
 +
-+		if (!IS_ALIGNED(start, memory_block_size_bytes()) ||
-+		    !IS_ALIGNED(size, memory_block_size_bytes()) || !size)
-+			return -EINVAL;
-+		mb_total += size / memory_block_size_bytes();
-+	}
+ struct dax_region *alloc_dax_region(struct device *parent, int region_id,
+ 		struct range *range, int target_node, unsigned int align,
+ 		unsigned long flags);
+@@ -26,6 +34,7 @@ struct dev_dax_data {
+ 	resource_size_t size;
+ 	int id;
+ 	bool memmap_on_memory;
++	enum mmop online_type;
+ };
+ 
+ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data);
+diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
+index 3ab39b77843d..1a7ec6212213 100644
+--- a/drivers/dax/cxl.c
++++ b/drivers/dax/cxl.c
+@@ -27,6 +27,7 @@ static int cxl_dax_region_probe(struct device *dev)
+ 		.id = -1,
+ 		.size = range_len(&cxlr_dax->hpa_range),
+ 		.memmap_on_memory = true,
++		.online_type = DAX_ONLINE_DEFAULT,
+ 	};
+ 
+ 	return PTR_ERR_OR_ZERO(devm_create_dev_dax(&data));
+diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+index 81e4af49e39c..ccd77965fe3e 100644
+--- a/drivers/dax/dax-private.h
++++ b/drivers/dax/dax-private.h
+@@ -8,6 +8,7 @@
+ #include <linux/device.h>
+ #include <linux/cdev.h>
+ #include <linux/idr.h>
++#include <linux/memory_hotplug.h>
+ 
+ /* private routines between core files */
+ struct dax_device;
+@@ -79,6 +80,8 @@ struct dev_dax_range {
+  * @dev: device core
+  * @pgmap: pgmap for memmap setup / lifetime (driver owned)
+  * @memmap_on_memory: allow kmem to put the memmap in the memory
++ * @online_type: MMOP_* online type for memory hotplug, or DAX_ONLINE_DEFAULT
++ *		 to resolve the system default policy when kmem binds
+  * @nr_range: size of @ranges
+  * @ranges: range tuples of memory used
+  */
+@@ -95,6 +98,7 @@ struct dev_dax {
+ 	struct device dev;
+ 	struct dev_pagemap *pgmap;
+ 	bool memmap_on_memory;
++	enum mmop online_type;
+ 	int nr_range;
+ 	struct dev_dax_range *ranges;
+ };
+diff --git a/drivers/dax/hmem/hmem.c b/drivers/dax/hmem/hmem.c
+index af21f66bf872..2de3bc925172 100644
+--- a/drivers/dax/hmem/hmem.c
++++ b/drivers/dax/hmem/hmem.c
+@@ -37,6 +37,7 @@ static int dax_hmem_probe(struct platform_device *pdev)
+ 		.id = -1,
+ 		.size = region_idle ? 0 : range_len(&mri->range),
+ 		.memmap_on_memory = false,
++		.online_type = DAX_ONLINE_DEFAULT,
+ 	};
+ 
+ 	return PTR_ERR_OR_ZERO(devm_create_dev_dax(&data));
+diff --git a/drivers/dax/kmem.c b/drivers/dax/kmem.c
+index 592171ec10f4..0a184c0878dd 100644
+--- a/drivers/dax/kmem.c
++++ b/drivers/dax/kmem.c
+@@ -72,6 +72,7 @@ static int dev_dax_kmem_probe(struct dev_dax *dev_dax)
+ 	int i, rc, mapped = 0;
+ 	mhp_t mhp_flags;
+ 	int numa_node;
++	int online_type;
+ 	int adist = MEMTIER_DEFAULT_DAX_ADISTANCE;
+ 
+ 	/*
+@@ -132,6 +133,11 @@ static int dev_dax_kmem_probe(struct dev_dax *dev_dax)
+ 		goto err_reg_mgid;
+ 	data->mgid = rc;
+ 
++	/* Resolve system default at bind time in case it changed */
++	online_type = dev_dax->online_type;
++	if (online_type == DAX_ONLINE_DEFAULT)
++		online_type = mhp_get_default_online_type();
 +
- 	/*
--	 * We'll remember the old online type of each memory block, so we can
--	 * try to revert whatever we did when offlining one memory block fails
--	 * after offlining some others succeeded.
-+	 * Remember the old online type of every memory block across all ranges,
-+	 * so we can revert if offlining a later block fails.  All entries start
-+	 * as MMOP_OFFLINE so blocks we never touched are skipped on rollback.
- 	 */
--	online_types = kmalloc_array(mb_count, sizeof(*online_types),
-+	online_types = kmalloc_array(mb_total, sizeof(*online_types),
- 				     GFP_KERNEL);
- 	if (!online_types)
- 		return -ENOMEM;
--	/*
--	 * Initialize all states to MMOP_OFFLINE, so when we abort processing in
--	 * try_offline_memory_block(), we'll skip all unprocessed blocks in
--	 * try_reonline_memory_block().
--	 */
--	memset(online_types, MMOP_OFFLINE, mb_count);
-+	memset(online_types, MMOP_OFFLINE, mb_total);
+ 	for (i = 0; i < dev_dax->nr_range; i++) {
+ 		struct resource *res;
+ 		struct range range;
+@@ -172,8 +178,9 @@ static int dev_dax_kmem_probe(struct dev_dax *dev_dax)
+ 		 * Ensure that future kexec'd kernels will not treat
+ 		 * this as RAM automatically.
+ 		 */
+-		rc = add_memory_driver_managed(data->mgid, range.start,
+-				range_len(&range), kmem_name, mhp_flags);
++		rc = __add_memory_driver_managed(data->mgid, range.start,
++				range_len(&range), kmem_name, mhp_flags,
++				online_type);
  
- 	lock_device_hotplug();
+ 		if (rc) {
+ 			dev_warn(dev, "mapping%d: %#llx-%#llx memory add failed\n",
+diff --git a/drivers/dax/pmem.c b/drivers/dax/pmem.c
+index bee93066a849..e7adace69195 100644
+--- a/drivers/dax/pmem.c
++++ b/drivers/dax/pmem.c
+@@ -63,6 +63,7 @@ static struct dev_dax *__dax_pmem_probe(struct device *dev)
+ 		.pgmap = &pgmap,
+ 		.size = range_len(&range),
+ 		.memmap_on_memory = false,
++		.online_type = DAX_ONLINE_DEFAULT,
+ 	};
  
-+	/* Phase 1: offline every block in every range. */
- 	tmp = online_types;
--	rc = walk_memory_blocks(start, size, &tmp, try_offline_memory_block);
-+	for (i = 0; i < nr_ranges; i++) {
-+		rc = walk_memory_blocks(ranges[i].start, range_len(&ranges[i]),
-+					&tmp, try_offline_memory_block);
-+		if (rc)
-+			break;
-+	}
- 
- 	/*
--	 * In case we succeeded to offline all memory, remove it.
--	 * This cannot fail as it cannot get onlined in the meantime.
-+	 * Phase 2: Remove each range. This essentially cannot fail as we hold
-+	 * the hotplug lock . WARN if that assumption is ever broken.
- 	 */
- 	if (!rc) {
--		rc = try_remove_memory(start, size);
--		if (rc)
--			pr_err("%s: Failed to remove memory: %d", __func__, rc);
-+		for (i = 0; i < nr_ranges; i++) {
-+			rc = try_remove_memory(ranges[i].start,
-+					       range_len(&ranges[i]));
-+			if (WARN_ON_ONCE(rc)) {
-+				pr_err("%s: Failed to remove memory: %d",
-+				       __func__, rc);
-+				break;
-+			}
-+		}
- 	}
- 
--	/*
--	 * Rollback what we did. While memory onlining might theoretically fail
--	 * (nacked by a notifier), it barely ever happens.
--	 */
-+	/* On fail: roll back. Blocks that were already offline are skipped */
- 	if (rc) {
- 		tmp = online_types;
--		walk_memory_blocks(start, size, &tmp,
--				   try_reonline_memory_block);
-+		for (i = 0; i < nr_ranges; i++)
-+			walk_memory_blocks(ranges[i].start,
-+					   range_len(&ranges[i]), &tmp,
-+					   try_reonline_memory_block);
- 	}
- 	unlock_device_hotplug();
- 
- 	kfree(online_types);
- 	return rc;
- }
--EXPORT_SYMBOL_GPL(offline_and_remove_memory);
-+EXPORT_SYMBOL_GPL(offline_and_remove_memory_ranges);
- #endif /* CONFIG_MEMORY_HOTREMOVE */
+ 	return devm_create_dev_dax(&data);
 -- 
 2.54.0
 
