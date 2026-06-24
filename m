@@ -1,194 +1,131 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6E53AFD10
-	for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 13:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782307406; cv=none; b=ThlH3xxT1MFPFqnNgrQRC0JSk6daxNDg8JMYHiIROXOxd81BobZxqkqtGS0SuS9lASGwWY8lwhj/V4PX16aOLeO8KMIySzHMJIkqqNgCOtirGUnFFmS4gYHyM+SByTecJx0UMPGgaFz54Yxh8W8lmRyHpOzlEhx6MxjyUd0T7Ak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782307406; c=relaxed/simple;
-	bh=nOGI1wI+vpa0w8/Vtce1TwCsycM2v5+pG5SNHLWaxXs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gmgDQbfKDA92AkAlrdMsQxfWi2i05zJvfnZQfJiJIwtOla8ZUfOJEr6U1yUJnSVg2Am+fG1Ql2izEOzYvvnFTtW012BIzWVLTGJW3gIa8j01peAAILNItFakYFpx1ixnECeWXOgKJRRC2WnMp8ovFxTlm5kiVK4Y/hMmvgwidsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DPBPpFdE; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0A53BB10C
+	for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 14:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782309790; cv=pass; b=fP8XdGw/08GNsRBNXip4pjBoc0+AbRTyAyud88Abn4JPOTs+D861X7AQuERtacSES3zE6f0BpfOBzqq7x7d6onXtiksRmCJpUA++pK2qYphGw4RDHa9KnjqOasK6ntdpvMepxa7RB6xcWPLCWg3y4s7EP4B4qjZNxFoyte3TCH8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782309790; c=relaxed/simple;
+	bh=ksijtf2IRLNHsT3AVS8XAMToSq3zWqz1VXfdch2/aYo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DNEskCTdSN6BFzS6D9m7ehguj8CcMRMMWYP+yMwpQl9r+UIbWppMyRnOC/lRJW8DyIMu1GjrhElOyll1eOv0u3xWbOSk27Lu6e8cPQucsJKRt8KXHFryMpZkiMPtioXuoRWVatgb+PP7Q+6XrL69Vz/+ENZbdZAzb8wgMw4m0DQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAXQoHab; arc=pass smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DPBPpFdE"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c0840dc2859so115916266b.1
-        for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 06:23:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAXQoHab"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30bca8ef052so95369eec.1
+        for <driver-core@lists.linux.dev>; Wed, 24 Jun 2026 07:03:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782309788; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GHYgq7xz+kO8v1xRzEzoBHtLfHclQ18H8ZoAIjaLCxkNdzc85yc48DTvLe2wulxo5S
+         5bAMLIcj4BNgSDB5KKhpAhA+Pj6S3dUZUDIu21raZ2sAOUhvZwb2h8+Xmaq+zYiWvm0P
+         EWdpcGc6Wwg+YPflD3F82FKs2kT/Uca0bCVDOYASLFkQtXgS0NEGEYkIq+LHwtkg/TPH
+         gVU5tyHulqln1YHCBJlXSHHOWdCIohrYl3tF4/rzHRD/wOQ1TokdsAgmf8eyj0SWBukU
+         XD67+VdW5N2A4JUSuuUBbzHrVklIXlcUGPAT4R25hz77bIpYTqvXH90ySVa7NBHE7BKs
+         4LMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ksijtf2IRLNHsT3AVS8XAMToSq3zWqz1VXfdch2/aYo=;
+        fh=k5a4OpCROLKR9xAm3xiKT5x2SRlES9yTGNxcfSAQu3o=;
+        b=fo6KV2fx0tVBhV1KFwRJbPiDM7F/Ip5TScAzBk1EU6fRHOrPD0Q0fggpYppdspg+iH
+         Y1cC7AfGrXTa2/gcWmmWM63F9zvYIM0iyWjP4XAoS3GaWoqhJYPecKGyrogEX7h0tgAX
+         TTW9WJrOwo4IKeHUV+lMzM+9rWeNGHZJTA1zA2lT56OlYhoO1QGFfu+tC2wFLm4q3KiC
+         Qw6ni+W6TajjzGJ5R6DcsPkyG0cxc8s6cNqGr6v8fhic0pzf+aiOtdtLYUNW78S2sE5H
+         VnlRJ4MTW+o7i+RzUmgKRO8wQykFx0difMNt2lJM92olMe/3oHkCP6XyL4zJmL42n+Of
+         9TlQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1782307401; x=1782912201; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pcv3i8MxYGcE66nrV/kv3D5y9IOE8aUQHBcOTbfUFU4=;
-        b=DPBPpFdE+qSJHURbH7KJV2EQpyqZrkYXBQwC29x04PkQ3rlyv9Il08ONauOwfzjdRN
-         oqSBHtUDuQa3abE2QXqqkXsbVXSc9UeNEuoUJZ4jjO9o8Wn24aFE/CQRZEPRZAMQtGIB
-         L0zitsv+6DGeuJm1DW7y5RGR1uGTIp6RFaNFJUa3UugWK7YT+mnRoSVoW1tiKBzDiG43
-         l14pB7GbPjNs9B83j8F9SpwGPOMmxTgwhfY260cWMUYImqEf18kJv6+QzD12WsgEM6hd
-         EibPZuvLts9lXmS4AQp0ZMAKGPrvn00dLpzv9/jPnC3iBwcdFDcMaj1PRKyhPdvcE/5s
-         B8mw==
+        d=gmail.com; s=20251104; t=1782309788; x=1782914588; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ksijtf2IRLNHsT3AVS8XAMToSq3zWqz1VXfdch2/aYo=;
+        b=hAXQoHabp2gNK2S3fmUGePB34xpQmc8OWTrKiOiSRoGI7kLOoDrGWbcASvxM1Qewo4
+         6B8KC2QjeIvuciLwbxffkpgmuKZJwLT35L3Fqq5SYpSgdYhBairDx9afO6gQOsfavi7o
+         DbBgfn33qIsSwz0F5n0f4JRGzpuMFDOWMqYeVSbIIyERtoYt4xc25kTrGCNPUDjJT0bS
+         OQm6Y8wTchVmxpr4HcRrEY9kOqK8efT34epsF86bEIi7k6CiUH2kV5elx1uyH8xDz4Wt
+         iDXQZOiEz91jABLHcJkv25uWe3A/C76TuoJ7jDbJG6JG7U7zaQuBV21JgVip2AgZ8ni3
+         bvbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782307401; x=1782912201;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pcv3i8MxYGcE66nrV/kv3D5y9IOE8aUQHBcOTbfUFU4=;
-        b=FzvfXBQ6ZwXeKxX9CkerF6WykWHbVABXXQln++NB5HS8dZvzKdroOgGwKdObU5P/89
-         kDyea+b7/yTN89AvoHQv6SPBDsNaaFgMpQ5672eyJDyBh85+7/P/X1X+o06NpP0rg5Gd
-         RR7mAnkF53aQoVf+vfKiSaciep3A+qlLIVU50tpDH9+OUXbApDoTDmicQE3DW4KzsR7W
-         aGJOULR8o+dBH1GDF0EyaCqVuu4Ou6TtwZnmDuNj8JPcpU/dwgaDcn16sf1YvLX/XgnF
-         NKFbcRzExyoNn2QwK3XqX0aF48mpYe96plrCerr3BRxVewsSBVZ41qFa9iMhnuVowfTb
-         SViw==
-X-Forwarded-Encrypted: i=1; AFNElJ+592M7A1t+ytpuOHl2GdahOMzqqkFEbUtKUzH/ECJOSWYvR5xQr8rePifDU3oY8bSmcfBeue1U01POiw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmYZjHUzSR9FCYGbRKEvSN121g/0+6gEy2r12TNUEZKuDzpZlm
-	u2wGQ5led10FjD3aP35hK/ajW4lr9lqIvI+7zq3pkW9FcgG29pq9BSzE5MdaMzp0/PE=
-X-Gm-Gg: AfdE7clt7NEkyWyaVhyTygZYUZTLiVd3Fo0f/Iz6Zc51P8maDV5UZrn770rQ3OUURoI
-	b7YzSG+/ox7TRUZXXslcQXWkfXCpnNDBEdEqm2ERN3yCAVOV/6IzCARkO4yjxUv03zCj43qabxC
-	AlVV8yZeGCwYzGHppbEuxTBQu42rtz0rBpRtnJXYcTNE8Lw4hkvOiRpMJa7ZAJuv4Tr/Rzdhmhs
-	jbD3DVwn5ckn3eGmnBvLUB5Sy8KacGv3XK4B/m86FW1YWqdmbVZhkUPdNyt3dMmibknT9YtLtpu
-	nUy99OOK0AbET0i+pLAiDKDWTSACBpcRR7EEThRC7JXAk42nYVhBENMgUpM3J2tolrhdxcq8+7J
-	q8K1eT616qWkpG341pnIATV/4HZ0r3MwWJnY3r3A6Hbh2F34bAaOwPOK5u2UmyTlRrvoyxQ6w7b
-	4P9aBAMRLL0FVgZJgW24LhUFYo/4xn9/l65dB/SJd/Jv1IETjRLrtmnvJ8U2yGxZXkFVeX3FTp7
-	l8wd7WAok63KcaQeY3loptzY53XqR63maIoMEpBxjCaXvkXpp3+mNhaV6s=
-X-Received: by 2002:a17:907:a807:b0:c10:d41c:e540 with SMTP id a640c23a62f3a-c119e179685mr185363566b.11.1782307400601;
-        Wed, 24 Jun 2026 06:23:20 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c5e99e1aasm644551166b.25.2026.06.24.06.23.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2026 06:23:20 -0700 (PDT)
-Message-ID: <8ea21b29-9baf-4926-a16f-7d21c5a1a1b8@suse.com>
-Date: Wed, 24 Jun 2026 15:23:18 +0200
+        d=1e100.net; s=20251104; t=1782309788; x=1782914588;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ksijtf2IRLNHsT3AVS8XAMToSq3zWqz1VXfdch2/aYo=;
+        b=piv1QB8f0AZICR4TfkUKLRGBCJYP1Vwxi4TZVwNlVXdCodhN+liJ08JFFvxO46rgbe
+         7BjfQbWX12o3RitUzdKUP74AnYq7GNggMpcus0h6Z+Wp09HchJWDE8D43INeW+Z0QiVP
+         o7UJckoPyrgda/YHqf4uXUVz9sITUWpIOo5mh9B/QUE9kv1fA0Cmsj842Y7a7eCgmd0/
+         ppHdEmTWxpkU6+JU9NdSEmvaXNtXTF9Og+mUskRRYTrf2qIduKAUqq8I+XVoz2zByVY/
+         laUaCK4wVnYPUqvcIoppt/XkM9zmoWeAC3nUzV38dX6++Ug9Xtr/XmhftTNca0Strnu3
+         FTIA==
+X-Forwarded-Encrypted: i=1; AHgh+RqBYcMW3rB+yOSkxpTtPBg0Wz3w6V1inh5gyWB/TtlSLvpL3EVDLP4fs5kLmnO3LAZZM98MmwVVm2yL/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuGgrtU5CGw0dZvgC6w1HFY1QNlAA6mkdOY7F70VYwr/cfWGGk
+	622avtptOfRl0MnwkY6Bw5P3YzVoPbBbQoysPW7tuqTQbKqV0Qc++zEwPWIT3j3wZ8qKOMiLyLl
+	ULnhnropMYyUcBMrahxtRnbuT2vtXLpY=
+X-Gm-Gg: AfdE7clR3nELUKD2XzLdk0FM9aAP/T91MJPMTS6VcPQI8u+Cwd0kz++EYtunS1GHWtd
+	9Z5ewFo9H9IwGYcEmWijfhmy0bWkc77Qz0i3OAeGbsh1+sL+6nTmpilaaD/vuBIL8jdqJON1bgU
+	79jAUv9PfuJJMD9z01cuHOWqZSUznXDw/Mk9L/gAKeBObGYypnAaVXjxc2kQxbFqERCfHGPJ7Z7
+	3LfGPl7c1H+TwdXXwjFElBDWEbOIQ/aEwtmvYsutbq3zaiZUXloVOpEsrrJehtkafHDDCfzf3pg
+	S88lSHOCWcp6/mIUjUwsJMrvLjo1RSR2zA1E8R9Lw7AVAJ2CYTZx2VNYEBZGfK4YVNXy6+17/dY
+	znKbBfKZbyZPv
+X-Received: by 2002:a05:7301:658a:b0:30b:c8bb:588f with SMTP id
+ 5a478bee46e88-30c5240f7damr3538472eec.5.1782309787929; Wed, 24 Jun 2026
+ 07:03:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/9] Fix missing fops.owner in Rust DRM/misc
- abstractions
-To: Alvin Sun <alvin.sun@linux.dev>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann
- <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
- Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>,
- Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Igor Korotin <igor.korotin@linux.dev>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org,
- linux-modules@vger.kernel.org, driver-core@lists.linux.dev,
- dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-pci@vger.kernel.org
-References: <20260624-fix-fops-owner-v5-0-aa1cba242f05@linux.dev>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260624-fix-fops-owner-v5-0-aa1cba242f05@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260624-fix-fops-owner-v5-0-aa1cba242f05@linux.dev> <8ea21b29-9baf-4926-a16f-7d21c5a1a1b8@suse.com>
+In-Reply-To: <8ea21b29-9baf-4926-a16f-7d21c5a1a1b8@suse.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 24 Jun 2026 16:02:53 +0200
+X-Gm-Features: AVVi8CdZJD474qdF4GDgFLlfJ_vD8WsFaomaTI3YSRH6pluhcoRUR51gh_iz4VE
+Message-ID: <CANiq72m_LakPxHt99+3eBn2rXokr3vZbdJf=Wk-Yi8_ufQ2mvA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/9] Fix missing fops.owner in Rust DRM/misc abstractions
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Alvin Sun <alvin.sun@linux.dev>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Rae Moar <raemoar63@gmail.com>, Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>, 
+	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+	Igor Korotin <igor.korotin@linux.dev>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+	Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org, 
+	linux-modules@vger.kernel.org, driver-core@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/24/26 2:57 PM, Alvin Sun wrote:
-> During tyr debugfs development, a kernel NULL pointer dereference was
-> encountered after `rmmod tyr` while gnome-shell still held /dev/card1 open:
-> 
-> ```
->   [158827.868132] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
->   [158827.868918] Mem abort info:
->   [158827.869177]   ESR = 0x0000000086000004
->   [158827.869519]   EC = 0x21: IABT (current EL), IL = 32 bits
->   [158827.870000]   SET = 0, FnV = 0
->   [158827.870281]   EA = 0, S1PTW = 0
->   [158827.870571]   FSC = 0x04: level 0 translation fault
->   [158827.871043] user pgtable: 4k pages, 48-bit VAs, pgdp=0000000108dec000
->   [158827.871623] [0000000000000000] pgd=0000000000000000, p4d=0000000000000000
->   [158827.872242] Internal error: Oops: 0000000086000004 [#1]  SMP
->   [158827.872246] Modules linked in: tyr sunrpc snd_soc_simple_card rk805_pwrkey snd_soc_simple_card_utils rtw88_8822bu display_connector rtw88_usb rtw88_8822b snd_soc_rockchip_i2s_tdm snd_soc_hdmi_codec
->   rtw88_core]
->   [158827.872337] CPU: 4 UID: 1000 PID: 11276 Comm: gnome-s:disk$0 Tainted: G                 N  7.1.0-rc1+ #331 PREEMPT
->   [158827.880534] Tainted: [N]=TEST
->   [158827.880535] Hardware name: FriendlyElec NanoPi R6C/NanoPi R6C, BIOS v1.1 04/09/2025
->   [158827.880538] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->   [158827.880542] pc : 0x0
->   [158827.880547] lr : _RNvNtCs257m05FHVbX_3tyr2vm8pt_unmap+0x8c/0x12c [tyr]
->   [158827.880578] sp : ffff800083c236b0
->   [158827.880579] x29: ffff800083c236d0 x28: ffff00013f8a0000 x27: 0000000000000000
->   [158827.880585] x26: 000000000000007c x25: ffff000108e6ed80 x24: 0000000000401000
->   [158827.880590] x23: 0000000000000000 x22: 0000000040000000 x21: 0000000000001000
->   [158827.880595] x20: ffff00010f778138 x19: 0000000000400000 x18: 00000000ffffffff
->   [158827.880600] x17: 000000040044ffff x16: 045000f2b5503510 x15: 0720072007200720
->   [158827.880606] x14: 0720072007200720 x13: 0000000000401000 x12: 0000000000400000
->   [158827.880611] x11: ffff800083c239d0 x10: ffff000141e4fd88 x9 : 0000000000000000
->   [158827.880615] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000400000
->   [158827.880620] x5 : ffff00013f8a0000 x4 : 0000000000000000 x3 : 0000000000000001
->   [158827.880625] x2 : 0000000000001000 x1 : 0000000000400000 x0 : ffff00010f778138
->   [158827.880630] Call trace:
->   [158827.880632]  0x0 (P)
->   [158827.880635]  _RNvXs6_NtCs257m05FHVbX_3tyr2vmNtB5_9GpuVmDataNtNtNtCsgmSOfgXi5CZ_6kernel3drm5gpuvm11DriverGpuVm13sm_step_unmap+0x3c/0x120 [tyr]
->   [158827.891166]  _RNvMs4_NtNtNtCsgmSOfgXi5CZ_6kernel3drm5gpuvm6sm_opsINtB7_5GpuVmNtNtCs257m05FHVbX_3tyr2vm9GpuVmDataE13sm_step_unmapB13_+0x18/0x34 [tyr]
->   [158827.891187]  op_unmap_cb+0x78/0xb0
->   [158827.891196]  __drm_gpuvm_sm_unmap+0x18c/0x1b4
->   [158827.891204]  drm_gpuvm_sm_unmap+0x38/0x4c
->   [158827.891209]  _RNvMs5_NtCs257m05FHVbX_3tyr2vmNtB5_2Vm7exec_op+0x1cc/0x254 [tyr]
->   [158827.894085]  _RNvMs5_NtCs257m05FHVbX_3tyr2vmNtB5_2Vm11unmap_range+0x124/0x188 [tyr]
->   [158827.894105]  _RINvNtCs5hGKnPbRUFW_4core3ptr13drop_in_placeNtNtCs257m05FHVbX_3tyr3gem8KernelBoEBK_+0x44/0xd8 [tyr]
->   [158827.894125]  _RINvNtCs5hGKnPbRUFW_4core3ptr13drop_in_placeINtNtNtCsgmSOfgXi5CZ_6kernel5alloc4kvec3VecNtNtCs257m05FHVbX_3tyr2fw7SectionNtNtBL_9allocator7KmallocEEB1r_+0x3c/0x100 [tyr]
->   [158827.894147]  _RINvNtCs5hGKnPbRUFW_4core3ptr13drop_in_placeINtNtNtCsgmSOfgXi5CZ_6kernel4sync3arc3ArcNtNtCs257m05FHVbX_3tyr2fw8FirmwareEEB1p_+0x94/0x190 [tyr]
->   [158827.894167]  _RNvMs4_NtNtCsgmSOfgXi5CZ_6kernel3drm6deviceINtB5_6DeviceNtNtCs257m05FHVbX_3tyr6driver12TyrDrmDriverE7releaseBW_+0x30/0x98 [tyr]
->   [158827.899550]  drm_dev_put.part.0+0x88/0xc0
->   [158827.899557]  drm_minor_release+0x18/0x28
->   [158827.899562]  drm_release+0x144/0x170
->   [158827.899567]  __fput+0xe4/0x30c
->   [158827.899573]  ____fput+0x14/0x20
->   [158827.899579]  task_work_run+0x7c/0xe8
->   [158827.899586]  do_exit+0x2a8/0xac4
->   [158827.899590]  do_group_exit+0x34/0x90
->   [158827.899594]  get_signal+0xaac/0xabc
->   [158827.899599]  arch_do_signal_or_restart+0x90/0x3e8
->   [158827.899606]  exit_to_user_mode_loop+0x140/0x1d0
->   [158827.899613]  el0_svc+0x2f4/0x2f8
->   [158827.899620]  el0t_64_sync_handler+0xa0/0xe4
->   [158827.899627]  el0t_64_sync+0x198/0x19c
->   [158827.899632] ---[ end trace 0000000000000000 ]---
-> ```
-> 
-> The root cause: `fops.owner` was `NULL` in Rust DRM drivers, so the kernel
-> never blocked module unloading while file descriptors were open. This leads to
-> use-after-free when drm_release (or other fops) is called on freed module code.
-> 
-> The series moves `THIS_MODULE` into the `ModuleMetadata` as a const, threads it
-> through `#[vtable]` to set `fops.owner` in DRM/miscdevice, and updates configfs
-> and rnull to use `this_module::<LocalModule>()`.
+On Wed, Jun 24, 2026 at 3:23=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
+ote:
+>
+> I would only suggest adding the new file rust/kernel/module.rs in
+> patch #1 under the MODULE SUPPORT support entry in the MAINTAINERS file,
+> similarly to the other module-related Rust code, so that the module
+> maintainers are emailed when changes to this file are proposed. I think
+> you can change the existing 'F: rust/kernel/module_param.rs' to
+> 'F: rust/kernel/module*.rs'.
 
-I cannot comment that much on all the details of the Rust
-implementation, but the series looks reasonable to me from the modules
-perspective. I'm glad this issue will be finally addressed.
+That would be great, yes -- thanks!
 
-I would only suggest adding the new file rust/kernel/module.rs in
-patch #1 under the MODULE SUPPORT support entry in the MAINTAINERS file,
-similarly to the other module-related Rust code, so that the module
-maintainers are emailed when changes to this file are proposed. I think
-you can change the existing 'F: rust/kernel/module_param.rs' to
-'F: rust/kernel/module*.rs'.
-
--- 
-Thanks,
-Petr
+Cheers,
+Miguel
