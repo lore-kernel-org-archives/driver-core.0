@@ -1,210 +1,154 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E95A3C0A14
-	for <driver-core@lists.linux.dev>; Thu, 25 Jun 2026 06:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F671F63D9;
+	Thu, 25 Jun 2026 06:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782368260; cv=none; b=aV1YhIWzeBHDrf2RMVrEKo4Da6Nhk49N9/Mylek+Ld2FYyMOIdCgPqGcSn4DPDEBfl/T3m82cvoxb9S6/azm6sCnn/5I2/LsKMqlW7Y9nOpUodFHerVHbuW1L+imCuWnYVa+gZn4PgDkb12PLUdVNdVSdH0Nkiwu6ZuiiNb5Lok=
+	t=1782369083; cv=none; b=mnmskOjizAk3ficUSFmvXgVhfbO3huNXny3Y16q4QRLOVxprBM+QzRPKTqrnd7UClOvW7EDxv8KTq6XthGH8Z89Xj1PV8HEiIub1SCE+RBcRbUfy/vYewX7COKtWiiAt8I9qNY/75MVeDaj+tsgsDMfy3gngJjWayhkXogLfvAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782368260; c=relaxed/simple;
-	bh=MjrRvZfIQlTaSIsENJMumq0U/x+Pmcq/letq6s5ydTE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QPo0YhqBbqw6qu8nvNT4Xgr+MBb3GY1y3XBjhrMG3fYzDC7rGZgF3He3U2qgkbidZ1QdExDuH3Fc3oBugoDHjGj/Kz0Bif/l65t63waCbTIS3gIwE3Dw7RO95mnbsJ031Hpw2xrd+dXy0sbVvq52zPj7szpzT80B91iZpRRpJMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qbcZ4cUo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YkCJXl0Q; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n5GkZTym; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SxiLqY4c; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782369083; c=relaxed/simple;
+	bh=fwGnL97xmgeZIlcEfXqmDIbjqKBgP8CglQlDHEXM+X8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EW2C/O2KBlzxe48a0fFUgZSUU0dnoR7xCWVEIRa9NfdKLddsTquBXVca4QpWwbSCPeBSfZiIRqjHkBPEQqQ8Joe/VW48ewkbIQLgbFR+/ZNqmnjZuYA8V4sk5A1BEGn2W6/VIltNP1x28F4HnnEqliPbtkQPStkTwjO4xyrxVPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCBw0qeI; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qbcZ4cUo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YkCJXl0Q";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n5GkZTym";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SxiLqY4c"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3017271833;
-	Thu, 25 Jun 2026 06:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782368257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lsDZDuDxKlvNW8EPVPGqWeW6c2wLvDVP/aYJ1SGOw1s=;
-	b=qbcZ4cUoNNNrBS8sol12QF8a20XBCri1pgE/tbEdP9ig/UFZv6rgUEzcBD7fEqjllibg/M
-	2DamV6U48sRwmzWWHVtfG5yBHYzRzIrN4YjYuL+/AZ/KZYMdJnh7KqsYUnsiNmlqVqw+sd
-	xs8bhKwszOVTMgmzHEbqt9qbD0w9zis=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782368257;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lsDZDuDxKlvNW8EPVPGqWeW6c2wLvDVP/aYJ1SGOw1s=;
-	b=YkCJXl0QMcZ5eO9Wh0jGxv+7rTwJYQzwe9ARpYn0YEXCxC4d23jhg0GVTLww7bCO2z3BAO
-	DxQ5Hxdo5cGHW9DA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782368256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lsDZDuDxKlvNW8EPVPGqWeW6c2wLvDVP/aYJ1SGOw1s=;
-	b=n5GkZTymO0+yOwrypTZxvOLlmvqBerJvEj15XaIGob78rgtYBHPQ1psIEuTOvqOsRNcc3t
-	ohqU2GpqweS7euy88WjypV8xCKCpPj4fJ5M7hInIC9kC9l8FefQfnH7SkHxPDLO4KU+es9
-	tjCrQN6zsPu1BSEV2Uf6LN3Wm+Fmorc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782368256;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lsDZDuDxKlvNW8EPVPGqWeW6c2wLvDVP/aYJ1SGOw1s=;
-	b=SxiLqY4czk0sQSzuZDu3RT6Wr3/E4Up9OPuVaJflrlwJbTYsGooecfrd8fqUtk8oos1KTM
-	3Fc5qxS9lcGZmaAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B2A4779A8;
-	Thu, 25 Jun 2026 06:17:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uH2uEP/HPGp0PQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 25 Jun 2026 06:17:35 +0000
-Message-ID: <8e42587a-d614-4259-ae6b-5bca1479b425@suse.de>
-Date: Thu, 25 Jun 2026 08:17:34 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCBw0qeI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782369082; x=1813905082;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fwGnL97xmgeZIlcEfXqmDIbjqKBgP8CglQlDHEXM+X8=;
+  b=jCBw0qeIx4c4gKAy0zAG5bICAQ+IxZvowUtKXtJuwQDT48D9zsiL4fPr
+   CDXBeueOyIJUTulDU70w1IYU5uYBNdzmVAYiv/H58ucNwLa/UZ1k1QlXY
+   ouBkY/yUmc58XMmfy6Fdpb9Q0949sJq7tudbVNpWk1T2xsUs+vmFZrETq
+   g+cXoeYnDV8r/7knwATN6gNasvieea5QR6omJKNoHpbaMO9E6rWqIDcyh
+   fQNvDQotgfMzq9uVUQn4NqwElfE5c5AaZg4V8vvGPq2sy2l045Ue4DXFi
+   a4uRKsmFTMdoHiIhMDNQQpypg8EU9VpFTEE2TTySEzh0w2f0+O+Iu3NLU
+   g==;
+X-CSE-ConnectionGUID: y/QbhQnqSyWjkxyWUihOgA==
+X-CSE-MsgGUID: 1/earP3ZTJ2S2oq8aYcgTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="87046034"
+X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
+   d="scan'208";a="87046034"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 23:31:21 -0700
+X-CSE-ConnectionGUID: slld4H3rR16nX4qt4wrK0A==
+X-CSE-MsgGUID: LScKLZpATE+psYxu0HB+Cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,223,1774335600"; 
+   d="scan'208";a="252343530"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.93])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 23:31:16 -0700
+Date: Thu, 25 Jun 2026 09:31:14 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	driver-core@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	imx@lists.linux.dev, Guoniu Zhou <guoniu.zhou@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>, Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Subject: Re: [PATCH v2 0/4] media: add and use
+ fwnode_graph_for_each_endpoint_scoped()
+Message-ID: <ajzLMiKrlXf2hFRd@ashevche-desk.local>
+References: <20260624-fw_scoped-v2-0-0a8db472af4a@nxp.com>
+ <20260624191935.GG851255@killaraus.ideasonboard.com>
+ <ajwxcn2LXS8InAjZ@SMW015318>
+ <20260624200237.GJ851255@killaraus.ideasonboard.com>
+ <ajxCOE3avXXLlrfT@SMW015318>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 8/9] dax/kmem: add sysfs interface for atomic
- whole-device hotplug
-To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org,
- nvdimm@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
- driver-core@lists.linux.dev, linux-kselftest@vger.kernel.org,
- kernel-team@meta.com, david@kernel.org, osalvador@suse.de,
- gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
- djbw@kernel.org, vishal.l.verma@intel.com, dave.jiang@intel.com,
- akpm@linux-foundation.org, ljs@kernel.org, liam@infradead.org,
- vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- shuah@kernel.org, alison.schofield@intel.com,
- Smita.KoralahalliChannabasappa@amd.com, ira.weiny@intel.com,
- apopple@nvidia.com
-References: <20260624145744.3532049-1-gourry@gourry.net>
- <20260624145744.3532049-9-gourry@gourry.net>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260624145744.3532049-9-gourry@gourry.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL7dfuuh4jrqtijtc3c3mfetss)];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gourry.net:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ajxCOE3avXXLlrfT@SMW015318>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 6/24/26 4:57 PM, Gregory Price wrote:
-> There is no atomic mechanism to offline and remove an entire
-> multi-block DAX kmem device.  This is presently done in two steps:
->      1. offline all
->      2. remove all).
+On Wed, Jun 24, 2026 at 03:46:48PM -0500, Frank Li wrote:
+> On Wed, Jun 24, 2026 at 11:02:37PM +0300, Laurent Pinchart wrote:
+> > On Wed, Jun 24, 2026 at 02:35:14PM -0500, Frank Li wrote:
+> > > On Wed, Jun 24, 2026 at 10:19:35PM +0300, Laurent Pinchart wrote:
+> > > > On Wed, Jun 24, 2026 at 01:00:08PM -0400, Frank.Li@oss.nxp.com wrote:
+> > > > > Add new helper macro fwnode_graph_for_each_endpoint_scoped() and use it
+> > > > > simplify media code.
+> > > > >
+> > > > > Typical example should qualcomm's driver (camss.c), the v4l2_mc.c and
+> > > > > rkisp1-dev.c only silience improvement.
+> > > > >
+> > > > > Anyways, *_for_each_*_scoped() already use widely and make code clean.
+> > > > >
+> > > > > Build test only.
+> > > > >
+> > > > > Sakari Ailus:
+> > > > > 	when I try to improve the patch
+> > > > > "Add common helper library for 1-to-1 subdev registration", I found need
+> > > > > camss.c pattern, so I create this small improvement firstly.
+> > > >
+> > > > Those are nice cleanups, thank you.
+> > > >
+> > > > After applying this series, the only left users of the
+> > > > fwnode_graph_for_each_endpoint() macro are in drivers/base/property.c.
+> > >
+> > > I already checked previously, two place use it.
+> > >
+> > > fwnode_graph_get_endpoint_count(), it will go though all endpoints, last
+> > > ep is NULL, which totally equial to scoped() version.
+> > >
+> > > another one fwnode_graph_get_endpoint_by_id(), which return ep, expect
+> > > caller to call put().
+> > >
+> > > if use scoped() version, need use no_free_ptr() at return, which make think
+> > > a little bit complex.
+> >
+> > It would introduce a tiny bit of extra complexity there, but the
+> > advantage (in my opinion) is that we'll be able to remove the less safe
+> > fwnode_graph_for_each_endpoint() macro.
+> >
+> > Now one may argue that the risk of
+> > fwnode_graph_for_each_endpoint_scoped() is returning the iterator
+> > without using no_free_ptr(). I wonder if that would be easier to catch
+> > in static analysis tools than the current pattern that leaks a reference
+> > when exiting the loop early.
 > 
-> This creates a race condition where another entity operates directly
-> on the memory blocks and can cause hot-unplug to fail / unbind to
-> deadlock.
-> 
-> Add a new 'state' sysfs attribute that enables an atomic whole-device
-> hotplug operation across its entire memory region.
-> 
-> daxX.Y/state mirrors the per-block memoryX/state ABI:
->    - [offline, online, online_kernel, online_movable]
->    - "unplugged" - is added specifically for dax0.0/state
-> 
-> The valid writable states include:
->    - "unplugged":      memory blocks are not present
->    - "online":         memory is online, zone chosen by the kernel
->    - "online_kernel":  memory is online in ZONE_NORMAL
->    - "online_movable": memory is online in ZONE_MOVABLE
-> 
-> Valid transitions:
->    - unplugged                -> online[_kernel|_movable]
->    - online[_kernel|_movable] -> unplugged
->    - offline                  -> unplugged
-> 
-> A device can only be onlined from "unplugged", so it must be returned
-> there before being onlined into a different state.
-> 
-> For backwards compatibility the memory blocks are always created at
-> probe - existing tools expect them to be present after kmem binds.
-> 
-> "offline" is therefore a reportable state but is not writable: it only
-> arises from the legacy auto_online_blocks=offline policy.  Onlining
-> such a device through this attribute requires unplugging it first in
-> an effort to get drivers creating DAX devices to set a default.
-> 
-> Unplug is atomic across the whole device: dax_kmem_do_hotremove()
-> collects every added range and offlines/removes them in one operation.
-> Either the operation succeeds or is entirely rolled back.
-> 
-> Unbind Note:
->    We used to call remove_memory() during unbind, which would fire a
->    BUG() if any of the memory blocks were online at that time.  We lift
->    this into a WARN in the cleanup routine and don't attempt hotremove
->    if ->state is not DAX_KMEM_UNPLUGGED or MMOP_OFFLINE.
-> 
->    An offline dax device memory is removed on unbind as before.
-> 
->    If online at unbind, the resources are leaked (as before), but now
->    we prevent deadlock if a memory region is impossible to hotremove.
-> 
-> Suggested-by: Hannes Reinecke <hare@suse.de>
-> Suggested-by: David Hildenbrand <david@kernel.org>
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-> ---
->   Documentation/ABI/testing/sysfs-bus-dax |  26 +++
->   drivers/base/memory.c                   |   9 +
->   drivers/dax/kmem.c                      | 224 ++++++++++++++++++++----
->   include/linux/memory_hotplug.h          |   1 +
->   4 files changed, 224 insertions(+), 36 deletions(-)
-> 
-That looks good, but question remains:
+> It's not big deal, if everyone prefer drop fwnode_graph_for_each_endpoint(),
+> I can do it.
 
-Why do we need to treat the 'unbind' call as a given thing?
-If we know that we cannot handle online memory during unbind,
-can't we just disallow unbind in that case?
-I don't think it's too much to ask from an admin to offline
-the memory first, _especially_ as now we have a simple knob
-to do that ...
+I slightly tend to the safest option (see below), but as a compromise I can
+suggest to inline the fwnode_graph_for_each_endpoint() into that single user
+that doesn't need a put. However, this may uglify the code and rise a question
+of the consistency. So, consider that suggestion with grain of salt and apply
+only if we have wider agreement with it.
 
-Cheers,
+> > > It'd better leave these as it.
 
-Hannes
+TL;DR:
+This is the safest option, of course. And as mentioned above I slightly
+prefer this way. Another argument is that in some cases we might want to
+have it in the future and since we have an existing user, let it live.
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+With Best Regards,
+Andy Shevchenko
+
+
