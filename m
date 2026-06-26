@@ -1,219 +1,184 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022085.outbound.protection.outlook.com [52.101.96.85])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD6F34F259
-	for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 21:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782510958; cv=fail; b=ok+G1kbqfamMFSLLmyRoszcButIxoEjd6hCI9YuaFMFTfQFBSl7ZV1EsRWhZs/LN4RroGpmmrW8X135/g5YvLwfCdMm+y6NVKwCXeYptK2opFsHWeIButhgnX1khHph20r5+PUQ4KDMpvn6hlSXm9sR+x8Cy3xoK9QL9bymBYXo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782510958; c=relaxed/simple;
-	bh=2SXWEdURF2VFnA4vlpwOnicC6oBry5PP8ZtDhYJVH6Q=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=Tk6TmYBtFRyvHYnwa9J3Dk2i8ehpVObgZb30ZT9FiNRaik3lEGt6YgkZcFUxL0ZEThvHwzID5QUTVKGcgDxGAOz293kpyXwdH/a6hZvEZme7AhsNgbW/1vI7u4bEqQ5lQVbUlcQJK/R70SUkTIe3RU3U3C9JMVfY8FO9OAhmSEI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=aYlonsAg; arc=fail smtp.client-ip=52.101.96.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3552DB7B7
+	for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 23:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782517821; cv=none; b=jG8wixB2x4e5fD9lbwcYSDVF9QCona8at1Sm4FkVToBCuAN7rxPWC9nneoegD7f1usZIO0HnJWq1sXoZieB9BPeJyVcCml0E/TxjYOCzIDJLAFA7KlxSFomwoPJyhxzjsMH0bb5c2SMQ/QQkKAUWvSZUGz8HGbUd4DmC93XzCxE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782517821; c=relaxed/simple;
+	bh=tw7O3G18WM+tsEMcajV83sOUmXqD1KkathtWb/FhU0s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XsjnOO+xU0kGUiirJtsaX5Mntq/k8PGtygAFu0VUPKXvdaJ7arpC0/MjgNKVeQiEJmoTkSLmpnYrOAKH7XKlrMUOjAeTZ73Qng5G3io/mxqFV7Az8jaWX4v6rocg6SgAUVX6rUt+xfUxAmRs3E7PXjIc7+9ELGM+ceeMLabdxyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=k0BD1A6p; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eOa40SYT; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="aYlonsAg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XMkbbwr3f3ERAwMsQ0azE9E5ItWxdOM3F2zl95OTrZTpyStLYq4MNTvfAksLBpoHEJL/JB4MrJDelC5o0UpqqT0rJ/Rw/1+Yy7T3238Lz5sDp+CXQqplu51pQvJ2evHxXPlEyzQAauFyu3uuq+wXw5wCDKxoa7qTzaQSrloHHJi3y9XsI4Lt3AgpNAyykIxtb8xqqxP+GN+SgGlGA8kzZ7vQTtyHQ+SUcnm8v1B/WgSdFwYZ9RaSQU+9plVXrLHtoYk64IJwSiZf79GCzWw4kIDXwsBkW80wnevvgFed/sBTe3AUJoLIy2cwrmj70m9e8UGLXEge1noOqQ+8S2DzZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QbyNqs4sPyUNZnM4lTcLmt05lUocSt9sS+NgsDYDlD8=;
- b=hpa/JR7kIV3UR5yS2mNnzdAlHcVauIflNn3KP6ZidXLeZzFPk9etgnWfyuDHdEocCraGofDC3ag1MTDahhkHZ7cXjRlXQpINMgMhBiTU98YW+RhKHzELzSybzSG2iONjMYFrXUF7GT0GTV7ZKYJMiA9qiiZNSMSOkHAtjJ/3yGpgQxyWB9EVVN0pxNzAsrs6zwWZPqFkXjeRR6b/d8sXwVkVoGUc5VlXjOhuAIYDZdCPYrYeQx/zhR0E8u46hKJZYTwqGMB/4boQaY9cAtj9tqDGBsZ2BuWQmxHW0Dc30DPg4rjtZFPLpPsN53C0xcRIMJpVvprAGidf1wjQO+2C0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QbyNqs4sPyUNZnM4lTcLmt05lUocSt9sS+NgsDYDlD8=;
- b=aYlonsAgE2sCtxZQnH+dS62F/weo8MeW0oNR7Vn25ODlLqt1gT9dy7Y6a5tOtOxYf6NeSckMIxE+pctMU0xPfH2rIJLb3m9F31OXyayMckgIOTcaGqNlVa8AJ2KBpNsk/SkHFqC4+jQibRfiwmnKps4lGruT4yGMEQqHXj85Hm4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO9P265MB7859.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3b6::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.18; Fri, 26 Jun
- 2026 21:55:53 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.016; Fri, 26 Jun 2026
- 21:55:53 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Jun 2026 22:55:52 +0100
-Message-Id: <DJJBEB155M4S.E8LMGC56TRNP@garyguo.net>
-Cc: <linux-pci@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Sashiko" <sashiko-bot@kernel.org>
-Subject: Re: [PATCH 3/3] pci: fix UAF when probe runs concurrent to dyn ID
- removal
-From: "Gary Guo" <gary@garyguo.net>
-To: "Gary Guo" <gary@garyguo.net>, "Bjorn Helgaas" <bhelgaas@google.com>,
- "Zhenzhong Duan" <zhenzhong.duan@gmail.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Danilo Krummrich" <dakr@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260626-pci_id_fix-v1-0-a35c803f1b95@garyguo.net>
- <20260626-pci_id_fix-v1-3-a35c803f1b95@garyguo.net>
-In-Reply-To: <20260626-pci_id_fix-v1-3-a35c803f1b95@garyguo.net>
-X-ClientProxiedBy: LO4P123CA0244.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a7::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="k0BD1A6p";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eOa40SYT"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QMx0sr2205430
+	for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 23:50:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	6WrQjAuTZPs9JdyiNNHUaPM2KCW5bh7c6nhy2HX82+o=; b=k0BD1A6pneDG660A
+	MuQ8jHjeCDCmqYUboDEQtY73XNqlUKMEwfgh1AYDFOZrdZ5XhccmPLnCVIah/YzQ
+	vPH3Txxakq3StxhF86rC3HTy9rEFDuXLx1BsAIp8xldC3vbNocIWsjuoxJApV2a2
+	r3ynWntN8Qbn/7b50ihWz7a6Qp/pAreqYQgCkKjl4Bxk3VvYUXIj0p3jaawBd8qk
+	7GvuGnnkIJSwyY6zYBkiHM2PQPbeL7UbGUIrcqnJStU/HHanHffO7voASH19Sy7R
+	AdVwtULgUJmb9/ltcEa66qZTRNSJR3Q5eqRP8N14uqYmo1cKivs/1GXqX5CLGXko
+	MfBYpg==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f1vm2hd3d-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 23:50:19 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-37e06c76b59so443675a91.0
+        for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 16:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1782517819; x=1783122619; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6WrQjAuTZPs9JdyiNNHUaPM2KCW5bh7c6nhy2HX82+o=;
+        b=eOa40SYTKGeCA3yjZKKH2N66RUKFPwBRWPG1TT+9orYHeUTtds8gOsfcsABpBm3sTk
+         t/kzUJYDWJdOZWY1l29Af9KvbAcmFv0b74bMMG7Nvm1wKtHdFhGW0SwyhKZrxUvDgMcj
+         foyqXNCE9CgLef+65HxWfUr3T6GAHgm8xBtIxJYpvvCCyqhho8yzIpZ2iKKadziB0Cz/
+         6mek6e9PZBEIBE/QDuSHUSkDVlDJd2To2TMNDDg+juj38d07Ghp6Aa137y0XTFq1SB8p
+         OAbfEVefu53Gpy/g8Vhm79+OqlgsFD37pXIE9CB8sP1rXnbWdM8/UAM8WqLTtLrFEMx5
+         b8Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782517819; x=1783122619;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6WrQjAuTZPs9JdyiNNHUaPM2KCW5bh7c6nhy2HX82+o=;
+        b=nN4wn/7pelwpY2yafFJzGhJ8PPMKJ8fvVQyz3Pcqbwsv51HS4fHWMaqaC/SRHEpcSO
+         mhJLABQ3wVk0ZcdLM6XOHlsb345G1ISsh0R0XPBdIXxWfvkmNV9wi5geGgoFjB682mTm
+         08PXmkhIR85ou5C+jyr/JxsYpANS3SOY6JV0sn5AnBxqF8DDGSxFw/esNpDRPWNaJpS5
+         Fdx1+SZcLyib03yDjPzeepnpUVWWLmC2W/mCO3dy/aY6wRyub9uJkIEH3cfTmiCG6uBs
+         rARfFI7R/QKuwpHR+r1zsYM35kGUJ7FOj8lPHAeL1lGNs7oJm28QLw8b/SDVSSvQOU6Y
+         /KqA==
+X-Forwarded-Encrypted: i=1; AHgh+RrmbeCdqO+F35SYWP+feb2r57yX1vjJPiYCg982G5oroQPURSx8Ph3yqlVfJMMlu2IQ6GZme1L0mxRX9g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyr/Bf+yNi92SFBlyhiLkJ/MvFW6xABcuvp34tkBdPmSNNyg/qF
+	OpeRXVcLJbpj8nnizGlw/X0erJYPqsFmSqE/JVgvobzleJAp5S9CVOTp++sBQyKbUttFw8S6pMs
+	nnLmIrBnw+uhth5ZH9+n+1ijWcwXgM/PtMGkNVDRBOTj6N+/p8KPuUys86t/4K1PmPA==
+X-Gm-Gg: AfdE7cnbNSmRKq5T97A5O97Na3kF7Y5+vtSYFJwDKB8mU5mSgWU66j2BAkOBkkdmh5j
+	osWSrnKBq9KatYRWUJxaj3dEWR1zCpX+nEHJgcD4IA0/5mSmaPEq+zXcU5xBQvu2Rl39mtLXPgU
+	fAlDuDCb+yin/IhPlVcz7gK21cpZhPSulpGciXMwzoXB/XpwQHiVHu1/JC9+Er7Q+gUbk2ikNn2
+	+8hW6xEG0XQ0p6SnQmhkK4cOsiuKpVITnDYm9mCTWtVi0H/OOWwMxkaSM4UmFtV4vRlpw+LJKAz
+	sze5W04ZAZ9HU8M8mVGVDMbgTZdzvQjzBXqT3UmInsCOr5CR+9h0MPM3Kh6ocHD9aU4uYWWoCJQ
+	OuFFlDZ2cP43RLdkVu6wMokAvjQEt2R0+VIM=
+X-Received: by 2002:a17:90b:53c3:b0:36b:9231:9718 with SMTP id 98e67ed59e1d1-37dfa2c9951mr4623238a91.6.1782517819228;
+        Fri, 26 Jun 2026 16:50:19 -0700 (PDT)
+X-Received: by 2002:a17:90b:53c3:b0:36b:9231:9718 with SMTP id 98e67ed59e1d1-37dfa2c9951mr4623217a91.6.1782517818575;
+        Fri, 26 Jun 2026 16:50:18 -0700 (PDT)
+Received: from [10.231.195.100] ([114.94.8.21])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c92b96eccf8sm4246469a12.3.2026.06.26.16.50.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jun 2026 16:50:18 -0700 (PDT)
+Message-ID: <85b2bac4-9882-4f35-81e4-1718a52aacc9@oss.qualcomm.com>
+Date: Sat, 27 Jun 2026 07:50:12 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO9P265MB7859:EE_
-X-MS-Office365-Filtering-Correlation-Id: 36b428aa-70ea-4cd5-bfe3-08ded3cdb173
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|10070799003|18002099003|4143699003|22082099003|6133799003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	gkfli5YG0ctaYltPoO8ku1zZ4Bwb/ObnNkPCRix0xWoihJB3EdIVmsG3ksBhvryNGeIsgEDasQ7H9bZMc6xHl6BPcqGNrlsC/97GtLfEYTs4JCbNXMcAGoaVebad6VGVeTvkWQ9xWuR9Ym2RnXFGBY5vxfQBexlGq0QXDR9AKXMnOyHFUp+ug0H7KyPnz8IvHWacu5E4GNAz6Jpmbg1gRmKxbiM83SkFGm4aqVNEY3rYc87mG/Z3ELSdXlFLO6d0U/aXdS7QXBVSCoO7pP95zGSuh4h88qxAb+DwHCFSDqrpk7tP3tASKjW0M5PzU0XXbVSJr7YRgrLF5c7NlFfDPIRIp74GFkR/NN9DD04O/YMWX3+QLVC+Px0VGOqkYJ+WArjYL0TiVEnY09ta33Zx7nmEAwf5tuhsCgN+VYpgW+OdqRilmndUzNPVl7lr1x3cQ/LFm88gxgiNx+FVyTfRFJuonjuofssPZHOqLO0shMoVxMVqmLd1G48inAJHJIeQGUvVB3WoLX9z3LhOOVa6sL05fzdG+c3DEb/xaMgf+QPzhU6v2fblGNMnR3//xct3G9S2lEm+udo4XA1bzYiIoDRQiBPAeP/MWWqtdFDv+lE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(10070799003)(18002099003)(4143699003)(22082099003)(6133799003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VXhUUHBjZEFLRkplV01oNy80eVBsU2Y1VFFUWnFCNTV4dGJYU0N6N1k1aFl1?=
- =?utf-8?B?Z3A5ZG9La3NKcnR2bmQ0Y0lONVBFSHVrT3dpdjN0RGpCM2hFTzdBMm1HWTJC?=
- =?utf-8?B?Y2pPdldxU3VaR3lxYzM1eWp5NG5rMjI0QzZrWStDNkRrTUxEREpSamIrUVlP?=
- =?utf-8?B?ZVl2RmJSSmVZS0ZleXNkK255ejdsaDFFQXR0OTlnNHI2UHlvM2QrRFM3T1Y1?=
- =?utf-8?B?UU1CL2RaV0xRcyt4NExUV3JZOVBJclpLSDFSbUlva2JZb0pYZzhkSW4yaXpw?=
- =?utf-8?B?czVOREk3TDdnSUZWTzJWRWxuZkM5Z2VxUTRWeWVYZW9udTJNQXREeVJ1cDd5?=
- =?utf-8?B?WHl2bkg0V3NnNTZBTXlKQWlsbTdzSjdvOXVOZEtOVER2QWdTdjl4Q1A0MWRW?=
- =?utf-8?B?cU5JeHI3V2dNczhTbklxbE1HRzYzZTdsMzFuUmxhUG5leEgxVU8xQmgyUW1N?=
- =?utf-8?B?WjQrQjNsZnVXSnZhZnBseFVJaEU1aUlQTG9YQ1ZZK05rMy9qMkRHMTRKMm1D?=
- =?utf-8?B?L3Rqc083TlJUeWo4d0hPWGwrTFdTR21DQ1dEaFhhUXV5SnlTQldEMnpIbktH?=
- =?utf-8?B?VUkzdlArNElETHZpRElIQml4aS90WmJWY3F5UHozdC9nWlI0S05IVUdjYkFW?=
- =?utf-8?B?VGRzaDIybHFJTFc0QWp3V3lTbEJ2QzZRZDJaMXY3WWxZMUo2eVBPK0hNMUhQ?=
- =?utf-8?B?QWxvQWN5ZFlTUnV6bkUvbTR3b00zbmZvbCtZKzNWSzI0cWFrZ21hZ0Fkd3U2?=
- =?utf-8?B?NHU4NDlMVi9pZENUUTNUVnhoaEtIWjN5RTNLMk5STEtieE9hK0RXaUttVnMz?=
- =?utf-8?B?S1hhTXBHTk5wVDRjYTRCREZXZ05xYnRCc29VMXE0eno1WUh4WXBQMHhaSHg2?=
- =?utf-8?B?OUFNb09uNWhLbFIwQzhVUGNhaXJVdnI3c21tMHRoMU55ZFpmbW90cnc1emVn?=
- =?utf-8?B?dWI2YW5VK2ZpczRITTd5dTdoVi8yUWg3aW1WenFDdkRlajl0YVpvOTFzVith?=
- =?utf-8?B?V0tpMmNPTG94ZVZkZ01USjVFVTQvWmh3cDh2S09OQm42VVlVMzVvNkhMZ3Vt?=
- =?utf-8?B?M3BIaEFHblZFMS91ZzJYa0JmbjhsNnpYNGhjUGp1Ry9tWTN4ZzduYzAycFZU?=
- =?utf-8?B?M0hKSCtQWkNuS0RhaXEyQnVBZFduRmVxTnp2bFR4YlhpQk5JdnZWUlBNY20y?=
- =?utf-8?B?QU9hODNtZFB0QkZXUnlqL3p0Szg4cHJ0RC9waGtXMWVBM1IrK0dKUnZxaDQw?=
- =?utf-8?B?cy8vRklYSlNCRlhBVFkxUUEvSGFwdW00bmtzTWlucHI0WUtBZ2lwTmFYNVBD?=
- =?utf-8?B?b0pDUFRTK08zZm1MNDY5dzJNK1lFNFJoNnhXTHNTd1FkeEtZaWRpZklGd0U5?=
- =?utf-8?B?Q3VRS0xLOXlkQS9XS3FvTmhUSVY0NG5kSWZLdUxCL21DWHM2RmE2UUI4VGtn?=
- =?utf-8?B?SWlPajZlOU0wdkFPcll5V3RGd2Vxb0ZrZ1dIWCs0bjNpN0szV3lJaEoyY2Rh?=
- =?utf-8?B?SXNiWVp5T252aVEyeFpnOWJBd1h4UDR6YUZya3NZV1VZek5DMmhPVEZaMU9z?=
- =?utf-8?B?enpGZE5nSm1GUktYcVoyK3RWVWhQVWRyLzBZVmc1VmhCMjc4MTA0MzR2a0xH?=
- =?utf-8?B?UzJycUtmcHJuZjNiMjNsRUdsd21JcmdXaTJ3VXBKdU9vYlhiOHk0L2R1MGRX?=
- =?utf-8?B?TjhITHcxZ1pOWDI2ajFlSjVpS2RMZEN4RzNJSUxGelgxTHprUmxUOTRyMEZi?=
- =?utf-8?B?R244YXEydXUxbm9BZXZZcUFPenZ1NEYyaHZ6MHJCUDAxYUZRVThnYjRLS2ZJ?=
- =?utf-8?B?bkpLL3E3QkJhbGlmWFNGZEt5YWYvY2lBQ0FWaXhNY05rQTNScWJPNVNYUGRG?=
- =?utf-8?B?YWpKOG5zSVpiTUgwckQrbytYZ1JkRU5oOWdUTUtvRVQwcHZqckJEcHRDdkta?=
- =?utf-8?B?KzY4cjhKUHFXQWlvY2dETFF5V1FNdHBaakNTQmlHR2lTNWRSd0NwQjdSanoy?=
- =?utf-8?B?b3pzV2RmeEpzLzJmT20yZXBUVzhZOXo2emQ5UXBqalNGUFlyTGJuMjlyV0NJ?=
- =?utf-8?B?Q0x0S09CYTdEUkVycE9RNmFYZGpOVmx5NU4vTW1MYk9pUEd6UGN6OEFqQk96?=
- =?utf-8?B?RXdkQ1NKVm9DTkxEUUtWNWczeDBHUG94K09GQjNRNVRsc0RobWh0ZXFrc0li?=
- =?utf-8?B?c1huRWF1a2QxVW51WVVCbVpOSUxaTFhWSkRKSmNGSUJLQnRRWFdtSWkyTlVz?=
- =?utf-8?B?NGhkVTNKdWRCc1A1Szg5K2hjN05NN0hvTTBDRnM3cXVZRmVwWGk2UEhFZ09o?=
- =?utf-8?B?eDl4MnNpZUZPQmR6dkw1MUpOQytSRXduQ01MeFZFcW9JRlp6Z1JxZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36b428aa-70ea-4cd5-bfe3-08ded3cdb173
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 21:55:53.3305
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/oVRgU5xyDrj3+/LWchNW4rPpRKyRHptHN2VGFjtkRBs7TINJPIsoTOrW7sZB9bpalMY7wHkl/dJPtOaG+Hzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P265MB7859
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] software node: Fix
+ software_node_get_reference_args() with index -1
+To: Alban Bedel <alban.bedel@lht.dlh.de>, driver-core@lists.linux.dev,
+        devicetree@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, linux-kernel@vger.kernel.org,
+        Sashiko <sashiko-bot@kernel.org>
+References: <20260618152035.1600436-1-alban.bedel@lht.dlh.de>
+ <20260618152035.1600436-2-alban.bedel@lht.dlh.de>
+Content-Language: en-US
+From: Zijun Hu <zijun.hu@oss.qualcomm.com>
+In-Reply-To: <20260618152035.1600436-2-alban.bedel@lht.dlh.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDE5OSBTYWx0ZWRfX3Dlfb52jcQY8
+ jrEa8wHY6htiF2i9amK2QXEI49t6uBY2Zd2WrR6/r6LT2/dqfuUXFX2zvC28ee3QBH1QqN6kRqg
+ gyAZPg5BphgCMmKTgHYP/CLDMS4LXYToa0AuX2miwO+GuxFvA2q+zLInuE4PbkiDeQWY7Gn93EU
+ klwV/+L2+TiCSk8WHYw3vsVBvwbzWezzRHhJCKes58kuidbq1l9TKhiKmCL9z/X5colO24wZ6we
+ 1x7M7cqUFnD8QklcJV9xZjEQS070K5fxKdM2MYEgyk7Qeln6v6gzkuqirZ5rnrMq7lqPhJimcel
+ PXJV2VbHXQIHNJc2Zw+WF1K9dFizF05164QxGUeEDuRdeNGlkEPDkQpAlv8nMNojDzlpWMOkHr1
+ XpSDxEpnnfCiqQLyngQ8RYm+KJC3O4ijtwNMmE4GroRjNEMHSLmokpjeHNSQ+wvSzR/acSV1va5
+ /NfoFlAC/oqB37Jku7Q==
+X-Proofpoint-GUID: hQlMprZcizYI4N6ivdur2eTS1Wr2v8RI
+X-Authority-Analysis: v=2.4 cv=UIvt2ify c=1 sm=1 tr=0 ts=6a3f103b cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=VwQbUJbxAAAA:8 a=eDjjQEo3sodWcWNWpWEA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-ORIG-GUID: hQlMprZcizYI4N6ivdur2eTS1Wr2v8RI
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDE5OSBTYWx0ZWRfX2FTX2wxJmk04
+ UsPzViAw/GOA7netz24dDwqMHb4rqBT9gS18sdcLk72aqlYQxZCyWkhiXRFr/uKcF6Y4ewwubU1
+ 0hIlogJ2I/BgMgZuNdM54qNF02do1cE=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-26_06,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 spamscore=0
+ phishscore=0 bulkscore=0 suspectscore=0 clxscore=1011 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606260199
 
-On Fri Jun 26, 2026 at 8:49 PM BST, Gary Guo wrote:
-> Dynamic IDs are only guaranteed to be valid when dynids.lock is held,
-> as remove_id_store can free the node. Thus, make a copy in
-> pci_match_device.
->
+On 6/18/2026 11:20 PM, Alban Bedel wrote:
+> The bounds check for the index passed to
+> software_node_get_reference_args() was failing when passed UINT_MAX,
+> this in turn would lead to an out of bound access in the property
+> array. Fix the bound check to also cover the UINT_MAX case.
+> 
+> Fixes: 31e4e12e0e960 ("software node: Correct a OOB check in software_node_get_reference_args()")
+
+i think the fix tag may not be right.
+
+for original express before the fix tag: if (index * sizeof(*ref) > prop->length)
+
+for UINT_MAX, multiplication overflow?
+
 > Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Link: https://lore.kernel.org/all/20260619170503.518F61F00A3A@smtp.kernel=
-.org/
-> Fixes: 0994375e9614 ("PCI: add remove_id sysfs entry")
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+> Closes: https://lore.kernel.org/linux-devicetree/20260611103904.7CB131F00893@smtp.kernel.org/
+> Signed-off-by: Alban Bedel <alban.bedel@lht.dlh.de>
+> --
+> v2: No changes. Only submit this patch along with the patch that
+>     triggered the Sashiko report, to hopefully avoid another useless
+>     report.
+> ---
+>  drivers/base/swnode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> index 869228a65cb36..2bc76f01eb77d 100644
+> --- a/drivers/base/swnode.c
+> +++ b/drivers/base/swnode.c
+> @@ -537,7 +537,7 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
+>  	if (prop->is_inline)
+>  		return -EINVAL;
+>  
+> -	if ((index + 1) * sizeof(*ref) > prop->length)
+> +	if (index >= prop->length / sizeof(*ref))
+>  		return -ENOENT;
+>  
 
-Sashiko reports driver UAF issue with this:
-https://sashiko.dev/#/patchset/20260626-pci_id_fix-v1-0-a35c803f1b95%40gary=
-guo.net?part=3D3
+who will use UINT_MAX ?
 
-All of these cases are already existing UAF issues, albeit now it is much e=
-asier
-to trigger because this patch converts them to heap UAF for dynamic ID only=
- to
-stack UAF for all IDs.
+This function is a interface function.  the best fix should check
+input parameter @index and return -EINVAL if it is not expected?
 
-One obvious fix is to instead keep a copy of the ID in pci_dev. However, in
-practice I think it doesn't make much sense for drivers to keep pci_device_=
-id
-pointers at all; everything except driver_data can just be retrieved from
-pci_dev.
 
-So I think it's better to fix drivers that stores these IDs. I used this
-coccinelle script to find cases:
 
----
-@store@
-identifier fn;
-identifier id;
-expression E;
-parameter list[n] ps;
-@@
-  fn(ps, const struct pci_device_id *id, ...)
-  {
-    ...
-*   E =3D id
-    ...
-  }
-
-@store_cast@
-identifier fn;
-identifier id;
-expression E;
-type T;
-parameter list[n] ps;
-@@
-  fn(ps, const struct pci_device_id *id, ...)
-  {
-    ...
-*   E =3D (T)id
-    ...
-  }
-
-@struct_const@
-identifier s, fld;
-@@
-  struct s {
-    ...
-*   const struct pci_device_id *fld;
-    ...
-  };
-
-@struct_mut@
-identifier s, fld;
-@@
-  struct s {
-    ...
-*   struct pci_device_id *fld;
-    ...
-  };
----
-
-And it looks like there're only 4 drivers that need fixing:
-- mlxsw
-- ipack/tpci200
-- nsp32
-- ata
-
-Best,
-Gary
