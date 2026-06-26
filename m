@@ -1,226 +1,323 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021099.outbound.protection.outlook.com [52.101.95.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D22B3B8111;
-	Fri, 26 Jun 2026 18:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782499040; cv=none; b=h20FWLXUyY89qqNIxPa5cAWDfxmLjh9rsVlJ2M+o1rvkcOa75zTe+yxO3iqLcGRhkrOBDKnDAvW6KUn9zDA0yoMDDTcxzWcevL5XUwo+x4MkJI/6DKMgPeu/p4LdMRCkwYDp3C4UQ8NXzfIwTBZtCv2ncheOeitgNeTzBeTJf/g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782499040; c=relaxed/simple;
-	bh=3vq6P1Iw4sXv6SGnFg+bbfLw4+Lb6O7oa2Gy0xr+WUo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=skztqXmdepYju6xIzqTW+g75B1Lz6AjIDfZ8H86bKiVY3sc8Yi71Z5OoyR7IXEovBgqFdKJ2dRGN+PXmfeSyeEQ7adRi5TvwQjVIFm51P8v5B2TI5vO7kOrOsbUPM63ARgtcMTpuzer3i9VhLBus0aNGbYsqgVuj5Gbv+bVWZnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pjv0/M6B; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69404315F
+	for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 19:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.99
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782503412; cv=fail; b=dgUd9pdjrzgbncPFJiG6/xCESR5VwIaQk+6yJDgsNqb+FV4ly8n6IeQL7MDA9oAQ9ijlYiNzt69zIrLT7KM79DIkdSx4EKbUEZ3k496FXpAeSfNxOf5LyDY6pMKkts8KDh8oZy4Zw1f0uDOkx9y11aWXSvRk2vtMFcfufKyW2q8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782503412; c=relaxed/simple;
+	bh=90kB/GM7b0DQ+jjnST87ZDE++fh7lXWSk1GT7mZARH4=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=lK7Sc40+XkbNscIGSPncWZksYOdc42O+xe3/+/GIlgDJ3vk0DQ5gLOOZ7whxZHRLNzkLeKLPCb2RXuu5cccxpjeNMGPro62OI34tHoInuSqmfTXMp9B7ZAWXLGvXqj70wjjn+6FwyPyEaHwlWzjdcEt8vSM+NqS8t3KJohrVArA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Rm8TIYWU; arc=fail smtp.client-ip=52.101.95.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pjv0/M6B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12DAE1F000E9;
-	Fri, 26 Jun 2026 18:37:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782499038;
-	bh=6+T5BgRhhhJbLfHU3dWuWHcFHzu9JMvhs9bH+sGOzcE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Pjv0/M6BH1x/qeOi+9+m9NhNlLI7UO8quiwwWdGBBrUTndUHXbs1IByZ61m65CDig
-	 4oo2Klw+IJUWAVXBrCwg+/FLlcQEwjW1ZRiLAbjSZmytMME/6ymQwP3meiUQyUkmt/
-	 8Z8i0iz6QzWeZwppzrlA5dKKxJYZ0TNpYJ1prNC4ZnpwBI1prw42WPRpdPf0pq5ZBi
-	 2c/R46UcwDIFu0Jff0150P//Sfwkk2CE2MwABxsFw+b4oUWycczdR0zVD7jmSKaCX2
-	 8cNSHv/PrmAtgfZodt20iSd5Zs+15a6abPVR6EVtOsvqdgXyLnKPHLdC0M6hiUnxU8
-	 HdrrE5vy4Wufw==
-From: Danilo Krummrich <dakr@kernel.org>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	dakr@kernel.org,
-	ojeda@kernel.org,
-	boqun@kernel.org,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	acourbot@nvidia.com,
-	ecourtney@nvidia.com,
-	m.wilczynski@samsung.com,
-	david.m.ertman@intel.com,
-	ira.weiny@intel.com,
-	leon@kernel.org,
-	daniel.almeida@collabora.com,
-	bhelgaas@google.com,
-	kwilczynski@kernel.org
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-pwm@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: [PATCH v4 7/7] rust: io: mem: return DevresLt from IoMem/ExclusiveIoMem::into_devres()
-Date: Fri, 26 Jun 2026 20:36:14 +0200
-Message-ID: <20260626183630.2585057-8-dakr@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260626183630.2585057-1-dakr@kernel.org>
-References: <20260626183630.2585057-1-dakr@kernel.org>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Rm8TIYWU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OAimiH4eF52RKpXvfPAeCR7TDhOGjh0ks+JmDFLxkRsJmUHInOyg3E7H0rRmbAlYC0fhlOrAHtVlaF4YH7Zuvhye1ZFH4dgATHrrW8r1Ee1rZ9ATazEJkAzFSvRRJzE+/V1p1kZ2Wrxy55tnrvrw1iSGHofQ7e081JfEm0IO0WWJLiAJwRWoSmUh8NHPDtHWuqQ3zCMI/fKQdM5zNLgHZ1KpFngZN7uowVGLfCIh587Cvm2M2Pnm5RlhIWIXnu4MinlO5M6Qir+Asn7SBegtVWYFBOnRyof/4tXeGHRblRsNpcc6wraIwd6o9pbEHXANGaQjFUBOpJmjmekGGQo4SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6dr/WAuQwPRX8T9jjsivyRvTYjnw1PmzcgDbpCOa/t0=;
+ b=Wrazrwo3L6cEARuBoihn5Hu9jVzHflKG/8i3v5KjqWxFxhP6Wx0MbUtuVgmSRMSbgdBTm+wFd8D+pWdZpWjotO57jcT2wEOHQ+a0LkEyrDutajRsFtRvVIGJUZQUpEZnLhW9Tsr1ia4LbzjuhV/T+D/IFjZPtJf8jQ8Y0tkzhZnA3b18P5i1iruht58ArH6ec7NVPTPylHR3gKdKeG1I03TsA0y/jFzMXBPlawuZFSFExhDHC6EmFlFcclRZLPVFlIke/Irwr+YyJXu8rSwBOLrNWRT7NujJ7bLPKzrh8wAQRnb+pu64Z/LC5a6Bb8rKjU43wtqGzbgJQTo391jLhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6dr/WAuQwPRX8T9jjsivyRvTYjnw1PmzcgDbpCOa/t0=;
+ b=Rm8TIYWUwYbJLw2+DVQOnZUU+3O2waKkommRao2dqY+S8OWX7lz3QSi3YuthPQH5IBgUVKPhNrLxfeKXslu1rDEnyJYh7B/1msvXF1f7A0W1qOxV2fmbJS6JdheDIrkK90JshPvg3+YQN3ZJfKjEXSgeAReuSW9LDjXltTsoTjc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB2905.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:181::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Fri, 26 Jun
+ 2026 19:50:07 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.016; Fri, 26 Jun 2026
+ 19:50:07 +0000
+From: Gary Guo <gary@garyguo.net>
+Date: Fri, 26 Jun 2026 20:49:39 +0100
+Subject: [PATCH 2/3] pci: fix dyn_id add TOCTOU
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260626-pci_id_fix-v1-2-a35c803f1b95@garyguo.net>
+References: <20260626-pci_id_fix-v1-0-a35c803f1b95@garyguo.net>
+In-Reply-To: <20260626-pci_id_fix-v1-0-a35c803f1b95@garyguo.net>
+To: Bjorn Helgaas <bhelgaas@google.com>, 
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Gary Guo <gary@garyguo.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782503406; l=5374;
+ i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
+ bh=90kB/GM7b0DQ+jjnST87ZDE++fh7lXWSk1GT7mZARH4=;
+ b=WrmyWxwZLO12vGke/Bq7CW3sRBkgDdYrjvZqtpm1JhO947cPA092lUfmhKtpKhLh8zAP0+GEF
+ nS7CcilK5xsBhjWsaXiYtk72QuN3u/TuJ8BwjMh4pHJFuu8GU1Q2sxD
+X-Developer-Key: i=gary@garyguo.net; a=ed25519;
+ pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
+X-ClientProxiedBy: LO4P265CA0261.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:37c::14) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB2905:EE_
+X-MS-Office365-Filtering-Correlation-Id: de77f910-3d45-4bd7-ec94-08ded3bc1fd4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|376014|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	9PYLJ53xqD3DQ5vD/Iago8czXiPq3aY3C/Z7fBwwDGtFoe3iMtxbKcmSlWbX6DcAV9B47ZWMbugWAS7PzDfEOISJCnuMuiuIyGBzB8uKWBcuGIGAGWvawzX15aqLcGJ5BrZT0vs1nmM88lfJjPUOs+dE4FX+c6G7ielz505IRQEm2GdP2OWB3QV2mziugtm4VV0lmxWpbJNM0DtfbmSQNOKW7oEhYPY0L5WAbnf9aq6s+roBhS2dr5svz0ofltIRLfWwualylm5xJic2qDTXKp0qG/uOINfYURApwhG4WOpXdwdlvTXWMww3mUKE8EZRs0A42t7aWJPOGyFA2s+oBlq5U9uIZOCEKCLf+EA1uVmJ2WC7So0iDgzfUQ/3X9ZBiZRfQPRDWFuPi5taMtI5upTj8CuRPZK1fo3h8giOQyFnSuhlEwQHXqFcCOee3q92+CTfLsQXbS3C+/t8PasaBdkcksB/Ah7IR+qasajPAjCNyji1YzCp9PWSk+q/nEet5wF3EqK2sUv4UIcVpJ1V6WQoz7OjlTP27jY4QvI96HTshZd+gd//dMyL6RUoHqIp57ggsjAta4ZzmLgvjtK3hhnTUu5xUViUlQh/0e6hrm3BVTp56kG9IyEfHzwf16jL6MFSkq2hcR4MA+IWzuuTTESs1xwyf3TI+3xap2O8Os4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(376014)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bGVzWk54Nmg5ZTFDN3JUYU9ONkwwS2FyWHBZTU5SeTlHdjREWGFQS3cvK0tY?=
+ =?utf-8?B?U0JmOXlnL1IyNFNHYzBOTHBaeGlhcGd6UitqSE9hdE5RbWc2WVpwU1UwTlFu?=
+ =?utf-8?B?QkZ0QmxvajltdVNDVlVYZ1JGK0piWk5ITHQrM1diR0JuR2lINGdGZlB3TE1y?=
+ =?utf-8?B?ODNtUHRkU0toNkRTdURZTSt5cjk3YitZUkFIMGhkSFNuREgwQW54MXZ3ZCsw?=
+ =?utf-8?B?eENSdy92R2NtVEJNMzczVTE1SlgvT2d2VXAwL2FLWm54b3VBeExBeTdDTFBj?=
+ =?utf-8?B?WVM1azhHS284T3AwVkQ0VHFFYkpEVXlyZm41cGhMQzlSNzg5VEEySWl1bHJt?=
+ =?utf-8?B?Z0FlOGdYRldxdFEvbmtTNE5WMnltYlpnOGxQSGtmV0lFMGJpWVZGZ1NPeEx4?=
+ =?utf-8?B?cW5jcmIxYWpYNjBUYU1VejRoR1lTY3JLUDNkNVdDK2x2UTZXN0o2TUs3bSsx?=
+ =?utf-8?B?cHF0RlQ2SDJuRVlmL0xKUnpNS3JIa29BM0tONzcxandSdEJtR08xWEMxZW9J?=
+ =?utf-8?B?YWM2TzhXRnBYWWluVUhzN3g3MnJ1VHJNdkpzTysyRU5UdUprVm5NODE5anA1?=
+ =?utf-8?B?OVZYNUlpd3drQ3l0QWNPYUxHNHd6ZFlTNzBiN3d6eEs4Rks0bVNZVS91MGJ1?=
+ =?utf-8?B?eGR4bnZXNFlBSzQxdFJ3cWpFOEFrWDBLRlg2STZVTUZyekdrczVjRjluNEtN?=
+ =?utf-8?B?K0JBNm1zRm1lY0t1RHRXUEM2ZlJyd1BqcHllWHhKYjl3MlBEUHFUWnRUQUFs?=
+ =?utf-8?B?UEZkRzVLa0tmQk1KM3FTWm1xOWNxbVBHWjRlUkJxeGNHNlJZMTJuSVBTT0Jv?=
+ =?utf-8?B?WHMxV1QxSGgzRzNQQm5CVXNtWkdlcFpwTzBTQ3NTVzBwdGd4ZDNwZXcvR0RV?=
+ =?utf-8?B?N1NONE1sdkZoM3RHdGpQQzdCWFgyTExvL01zQi9VajhWQXpBMFpmLzNDYnA1?=
+ =?utf-8?B?V1FrM2tZYzQxUDRVcWdBZnRrclAzK2xTNDhvdE5UZzNoUGQzRnVKV2szMGwx?=
+ =?utf-8?B?U0o4WG5abzJFSXFKU1VycDNnVElQeFUxeU96SFk5RG8rRXFiM3R2dHFENWRk?=
+ =?utf-8?B?ZmdSRFhHWUZVZE1uRmZFY09qVEtTMkhaQUpzeHA2SDdUZm9sZnVvQUlGUlVv?=
+ =?utf-8?B?OHdXbklYczRTNnNIM1FBNkdRNnBLdlF6c0c2TUgrWWtOWlJmZjZ3TXZCbDFI?=
+ =?utf-8?B?Q3RycWRkR1RqLys2bmwxY090U0Y0RjhZTEdkdVdnMWlQaTVocmV0UXRJNWt6?=
+ =?utf-8?B?clVhaG5XTnlnMVRBTGxhSFdVamVDbDF6UWE2LzBTZlFUZ2ducERDdzdqU1Bx?=
+ =?utf-8?B?eWU0TTFaUEpMM2ErcCtEOVVVOGNHSWVkR0grTTBkaUxvM1l0eDluV0hEaVhW?=
+ =?utf-8?B?MjIzU3VjVDgrK0pTL1ZLNStLMUQ1eklUbEFHQmdkbDd6RDdEMFpuNFczQW5S?=
+ =?utf-8?B?bkZyNW1WalExQWZLSGxtVjZzbmgvdHZOMVpvUnJHSFY1K1BIRFQrbUtlRnRX?=
+ =?utf-8?B?b2tjNUhrSnd6d1g0bkp1VzlCREcwQzlJTnNjMnZIRnc1aXlkblBER3NiTW9v?=
+ =?utf-8?B?Mm1OY3hCZ1dQU21oOThyYjZnVDFlZC9KQVlPaTQ3NHk4eHhZc05Zb2hoWk56?=
+ =?utf-8?B?ZTloM3lHT21PbFpsc3h4MnF5Mk93M0YzMUloTWhRbDU2Qk56NHMrUVlEalgz?=
+ =?utf-8?B?N2tMdEY1aFpOaEtPSTNKTHJ3YUMydzRrTVgzODJjQ3J6WXBKNTVuTmFUbnVw?=
+ =?utf-8?B?VTVJMGlod21KdDBVU0FjV1laMnA3SnJ5M0thU05sd3dlUVgrcUl0SURDSXJF?=
+ =?utf-8?B?Szh4SHFRUG8vSEUxOXBNT1BvVFlENkEraURoZ3cveHlDMUo1ZUUyNjhnMWEy?=
+ =?utf-8?B?WW53Zmo3MzMwczJKM1FzVmoxY0ZNWVQwMW1rOWdUMnVVUDV2ajhzNWk2Yk5v?=
+ =?utf-8?B?TFRscjVHRUR4WmdNbEMwTThiMG51T0JkRjNFYTlTOHRmSjJWQmVaRDcwSksr?=
+ =?utf-8?B?ZHluVTZsZ0dvODkzc0pnZGZsMU1ka2xCOGluNVdETU1UNGlhOHdpMk4yeUlQ?=
+ =?utf-8?B?bXVRT0ZKRTBzaGxJNlZock96OWpvVlM4S2RkeWEycXpDdnYzbXRXTGhJS2dq?=
+ =?utf-8?B?WE4rMDQ0WWlHQjNxUU5Mam4vdDF6K0cvekU5TE1ObURrN1A2NXE4MGt6bVI5?=
+ =?utf-8?B?UUxrTk95NWFsQnJROXdHRk4vTU1SVnVHa1R1am9PR2s0Q1FMSlRMcFRCUTBh?=
+ =?utf-8?B?MjUxZnU2ZjJEUGNYR2dnODZPL3Z2L0wrZUsvU2pycnNZQ2R2NGJHVzhTeVRI?=
+ =?utf-8?B?RkRyM2lqcTcvYXh1RTBiUzFTVmN3bUMxRklnZVI4cm9QWW9wanZlQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: de77f910-3d45-4bd7-ec94-08ded3bc1fd4
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 19:50:07.5213
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bPONsot45upzQKBD56f+4VTAsHI6UBquavvnTkZx618Xqc8cT+8ldDV+6Rlng26fSokHYu8LMekOkDUxQmII+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB2905
 
-Implement ForLt and CovariantForLt for IoMem<'static, SIZE> and
-ExclusiveIoMem<'static, SIZE> so that DevresLt can shorten the stored
-'static lifetime back to the caller's borrow lifetime.
+Currently there is a TOCTOU issue in new_id_store as the dyn ID insertion
+in pci_add_dynid and the pci_match_device are in separate critical
+sections.
 
-CovariantForLt is sound because both types only hold &'a Device<Bound>,
-which is covariant over 'a.
+Fix this by moving the existing ID check to inside pci_add_dynid and only
+check against the static ID table outside the critical section.
 
-Since DevresLt::new() handles the lifetime transmutation internally,
-into_devres() no longer needs an explicit transmute to 'static.
-
-Add DevresIoMem<SIZE> and DevresExclusiveIoMem<SIZE> type aliases.
-
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Fixes: 3853f9123c18 ("PCI: Avoid duplicate IDs in driver dynamic IDs list")
+Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- drivers/pwm/pwm_th1520.rs |  5 ++-
- rust/kernel/io/mem.rs     | 65 +++++++++++++++++++++++++++------------
- 2 files changed, 47 insertions(+), 23 deletions(-)
+ drivers/pci/pci-driver.c | 112 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 62 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/pwm/pwm_th1520.rs b/drivers/pwm/pwm_th1520.rs
-index 3e3fa51ccef9..7102c60fd14b 100644
---- a/drivers/pwm/pwm_th1520.rs
-+++ b/drivers/pwm/pwm_th1520.rs
-@@ -24,9 +24,8 @@
- use kernel::{
-     clk::Clk,
-     device::{Bound, Core, Device},
--    devres,
-     io::{
--        mem::IoMem,
-+        mem::DevresIoMem,
-         Io, //
-     },
-     of, platform,
-@@ -86,7 +85,7 @@ struct Th1520WfHw {
- #[pin_data(PinnedDrop)]
- struct Th1520PwmDriverData {
-     #[pin]
--    iomem: devres::Devres<IoMem<'static, TH1520_PWM_REG_SIZE>>,
-+    iomem: DevresIoMem<TH1520_PWM_REG_SIZE>,
-     clk: Clk,
- }
- 
-diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
-index fc2a3e24f8d5..4691a01a3cf7 100644
---- a/rust/kernel/io/mem.rs
-+++ b/rust/kernel/io/mem.rs
-@@ -9,7 +9,7 @@
-         Bound,
-         Device, //
-     },
--    devres::Devres,
-+    devres::DevresLt,
-     io::{
-         self,
-         resource::{
-@@ -20,6 +20,10 @@
-         MmioRaw, //
-     },
-     prelude::*,
-+    types::{
-+        CovariantForLt,
-+        ForLt, //
-+    },
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 0507cb801310..464ee52346fa 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -29,6 +29,48 @@ struct pci_dynid {
+ 	struct pci_device_id id;
  };
  
- /// An IO request for a specific device and resource.
-@@ -172,6 +176,19 @@ pub struct ExclusiveIoMem<'a, const SIZE: usize> {
-     _region: Region,
- }
- 
-+impl<const SIZE: usize> ForLt for ExclusiveIoMem<'static, SIZE> {
-+    type Of<'a> = ExclusiveIoMem<'a, SIZE>;
++/**
++ * do_pci_add_dynid - add a new PCI device ID to this driver and re-probe devices
++ * @drv: target pci driver
++ * @id: ID to be added
++ * @check_dup: whether to check if matching ID is already present
++ *
++ * Adds a new dynamic pci device ID to this driver and causes the
++ * driver to probe for all devices again.  @drv must have been
++ * registered prior to calling this function.
++ *
++ * CONTEXT:
++ * Does GFP_KERNEL allocation.
++ *
++ * RETURNS:
++ * 0 on success, -errno on failure.
++ */
++static int do_pci_add_dynid(struct pci_driver *drv, const struct pci_device_id *id, bool check_dup)
++{
++	struct pci_dynid *dynid, *existing_dynid;
++
++	dynid = kzalloc_obj(*dynid);
++	if (!dynid)
++		return -ENOMEM;
++
++	dynid->id = *id;
++
++	{
++		guard(spinlock)(&drv->dynids.lock);
++		if (check_dup) {
++			list_for_each_entry(existing_dynid, &drv->dynids.list, node) {
++				if (pci_match_one_id(&existing_dynid->id, id)) {
++					kfree(dynid);
++					return -EEXIST;
++				}
++			}
++		}
++		list_add_tail(&dynid->node, &drv->dynids.list);
++	}
++
++	return driver_attach(&drv->driver);
 +}
 +
-+// SAFETY: `ExclusiveIoMem<'a, SIZE>` is covariant over `'a`; it holds an `IoMem<'a, SIZE>`,
-+// which holds `&'a Device<Bound>`, which is covariant.
-+unsafe impl<const SIZE: usize> CovariantForLt for ExclusiveIoMem<'static, SIZE> {}
-+
-+/// A device-managed exclusive I/O memory region.
-+///
-+/// See [`ExclusiveIoMem::into_devres`].
-+pub type DevresExclusiveIoMem<const SIZE: usize> = DevresLt<ExclusiveIoMem<'static, SIZE>>;
-+
- impl<'a, const SIZE: usize> ExclusiveIoMem<'a, SIZE> {
-     /// Creates a new `ExclusiveIoMem` instance.
-     fn ioremap(dev: &'a Device<Bound>, resource: &Resource) -> Result<Self> {
-@@ -198,15 +215,13 @@ fn ioremap(dev: &'a Device<Bound>, resource: &Resource) -> Result<Self> {
+ /**
+  * pci_add_dynid - add a new PCI device ID to this driver and re-probe devices
+  * @drv: target pci driver
+@@ -56,25 +98,17 @@ int pci_add_dynid(struct pci_driver *drv,
+ 		  unsigned int class, unsigned int class_mask,
+ 		  unsigned long driver_data)
+ {
+-	struct pci_dynid *dynid;
+-
+-	dynid = kzalloc_obj(*dynid);
+-	if (!dynid)
+-		return -ENOMEM;
+-
+-	dynid->id.vendor = vendor;
+-	dynid->id.device = device;
+-	dynid->id.subvendor = subvendor;
+-	dynid->id.subdevice = subdevice;
+-	dynid->id.class = class;
+-	dynid->id.class_mask = class_mask;
+-	dynid->id.driver_data = driver_data;
+-
+-	spin_lock(&drv->dynids.lock);
+-	list_add_tail(&dynid->node, &drv->dynids.list);
+-	spin_unlock(&drv->dynids.lock);
++	struct pci_device_id id = {
++		.vendor = vendor,
++		.device = device,
++		.subvendor = subvendor,
++		.subdevice = subdevice,
++		.class = class,
++		.class_mask = class_mask,
++		.driver_data = driver_data,
++	};
  
-     /// Consume the `ExclusiveIoMem` and register it as a device-managed resource.
-     ///
--    /// The returned `Devres<ExclusiveIoMem<'static, SIZE>>` can outlive the original lifetime
--    /// `'a`. Access to the I/O memory is revoked when the device is unbound.
--    pub fn into_devres(self) -> Result<Devres<ExclusiveIoMem<'static, SIZE>>> {
--        // SAFETY: Casting to `'static` is sound because `Devres` guarantees the
--        // `ExclusiveIoMem` does not actually outlive the device -- access is revoked and the
--        // resource is released when the device is unbound.
--        let iomem: ExclusiveIoMem<'static, SIZE> = unsafe { core::mem::transmute(self) };
--        let dev = iomem.iomem.dev;
--        Devres::new(dev, iomem)
-+    /// The returned [`DevresExclusiveIoMem`] can outlive the original borrow and be stored in
-+    /// driver data. Access to the I/O memory is revoked automatically when the device is unbound.
-+    pub fn into_devres(self) -> Result<DevresExclusiveIoMem<SIZE>> {
-+        let dev = self.iomem.dev;
-+        // SAFETY: `ExclusiveIoMem` only holds a device reference and an I/O mapping, both of
-+        // which remain valid for the device's full bound scope, not just for `'a`.
-+        unsafe { DevresLt::new(dev, self) }
-     }
+-	return driver_attach(&drv->driver);
++	return do_pci_add_dynid(drv, &id, false);
+ }
+ EXPORT_SYMBOL_GPL(pci_add_dynid);
+ 
+@@ -197,11 +231,6 @@ static const struct pci_device_id *pci_match_device(struct pci_driver *drv,
+ 	return NULL;
  }
  
-@@ -232,6 +247,19 @@ pub struct IoMem<'a, const SIZE: usize = 0> {
-     io: MmioRaw<SIZE>,
- }
+-static void _pci_free_device(struct device *dev)
+-{
+-	kfree(to_pci_dev(dev));
+-}
+-
+ /**
+  * new_id_store - sysfs frontend to pci_add_dynid()
+  * @driver: target device driver
+@@ -215,38 +244,22 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
+ {
+ 	struct pci_driver *pdrv = to_pci_driver(driver);
+ 	const struct pci_device_id *ids = pdrv->id_table;
+-	u32 vendor, device, subvendor = PCI_ANY_ID,
+-		subdevice = PCI_ANY_ID, class = 0, class_mask = 0;
+-	unsigned long driver_data = 0;
++	struct pci_device_id id = {
++		.subvendor = PCI_ANY_ID,
++		.subdevice = PCI_ANY_ID
++	};
+ 	int fields;
+ 	int retval = 0;
  
-+impl<const SIZE: usize> ForLt for IoMem<'static, SIZE> {
-+    type Of<'a> = IoMem<'a, SIZE>;
-+}
-+
-+// SAFETY: `IoMem<'a, SIZE>` is covariant over `'a`; it holds `&'a Device<Bound>`,
-+// which is covariant.
-+unsafe impl<const SIZE: usize> CovariantForLt for IoMem<'static, SIZE> {}
-+
-+/// A device-managed I/O memory region.
-+///
-+/// See [`IoMem::into_devres`].
-+pub type DevresIoMem<const SIZE: usize> = DevresLt<IoMem<'static, SIZE>>;
-+
- impl<'a, const SIZE: usize> IoMem<'a, SIZE> {
-     fn ioremap(dev: &'a Device<Bound>, resource: &Resource) -> Result<Self> {
-         // Note: Some ioremap() implementations use types that depend on the CPU
-@@ -271,16 +299,13 @@ fn ioremap(dev: &'a Device<Bound>, resource: &Resource) -> Result<Self> {
+ 	fields = sscanf(buf, "%x %x %x %x %x %x %lx",
+-			&vendor, &device, &subvendor, &subdevice,
+-			&class, &class_mask, &driver_data);
++			&id.vendor, &id.device, &id.subvendor, &id.subdevice,
++			&id.class, &id.class_mask, &id.driver_data);
+ 	if (fields < 2)
+ 		return -EINVAL;
  
-     /// Consume the `IoMem` and register it as a device-managed resource.
-     ///
--    /// The returned `Devres<IoMem<'static, SIZE>>` can outlive the original
--    /// lifetime `'a`. Access to the I/O memory is revoked when the device
--    /// is unbound.
--    pub fn into_devres(self) -> Result<Devres<IoMem<'static, SIZE>>> {
--        // SAFETY: Casting to `'static` is sound because `Devres` guarantees the `IoMem` does not
--        // actually outlive the device -- access is revoked and the resource is released when the
--        // device is unbound.
--        let iomem: IoMem<'static, SIZE> = unsafe { core::mem::transmute(self) };
--        let dev = iomem.dev;
--        Devres::new(dev, iomem)
-+    /// The returned [`DevresIoMem`] can outlive the original borrow and be stored in driver data.
-+    /// Access to the I/O memory is revoked automatically when the device is unbound.
-+    pub fn into_devres(self) -> Result<DevresIoMem<SIZE>> {
-+        let dev = self.dev;
-+        // SAFETY: `IoMem` only holds a device reference and an I/O mapping, both of which
-+        // remain valid for the device's full bound scope, not just for `'a`.
-+        unsafe { DevresLt::new(dev, self) }
-     }
- }
+ 	if (fields != 7) {
+-		struct pci_dev *pdev = kzalloc_obj(*pdev);
+-		if (!pdev)
+-			return -ENOMEM;
+-
+-		pdev->vendor = vendor;
+-		pdev->device = device;
+-		pdev->subsystem_vendor = subvendor;
+-		pdev->subsystem_device = subdevice;
+-		pdev->class = class;
+-		pdev->dev.release = _pci_free_device;
+-
+-		device_initialize(&pdev->dev);
+-		if (pci_match_device(pdrv, pdev))
+-			retval = -EEXIST;
+-
+-		put_device(&pdev->dev);
+-
+-		if (retval)
+-			return retval;
++		if (do_pci_match_id(pdrv->id_table, &id))
++			return -EEXIST;
+ 	}
  
+ 	/* Only accept driver_data values that match an existing id_table
+@@ -254,7 +267,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
+ 	if (ids) {
+ 		retval = -EINVAL;
+ 		while (ids->vendor || ids->subvendor || ids->class_mask) {
+-			if (driver_data == ids->driver_data) {
++			if (id.driver_data == ids->driver_data) {
+ 				retval = 0;
+ 				break;
+ 			}
+@@ -264,8 +277,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
+ 			return retval;
+ 	}
+ 
+-	retval = pci_add_dynid(pdrv, vendor, device, subvendor, subdevice,
+-			       class, class_mask, driver_data);
++	retval = do_pci_add_dynid(pdrv, &id, fields != 7);
+ 	if (retval)
+ 		return retval;
+ 	return count;
+
 -- 
 2.54.0
 
