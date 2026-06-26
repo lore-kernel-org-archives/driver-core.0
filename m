@@ -1,54 +1,53 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022133.outbound.protection.outlook.com [52.101.96.133])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020128.outbound.protection.outlook.com [52.101.195.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4073F9F25;
-	Fri, 26 Jun 2026 14:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258E530B50F;
+	Fri, 26 Jun 2026 14:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.128
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782485133; cv=fail; b=dfjsDqL7reOuxnCE8joRPfJkZHZVOldmNcEtSfZhW+jues1pZYqjxiuNpnzZs1WhM3GSc5c5Z3mWDU6iaoym1GJThH3IXoyEcCFT+YWo1jsKFcN9oKl3PT9oeSISFkF5IPGL+dA3GIUbpe7WriICkEbNxPpRKGqTrg4qCyXm5EQ=
+	t=1782485134; cv=fail; b=iNSv6jc1WfdO2tDWsNiWOOPcN/czI49hfADm7LV3IKyqOXZzJ1FtWdcLP4wLgspKbBooPfWy6YgYPFj/HHn4C1dKJX+ToNYdR5RhBDyvliYhM4/c7EJwBvW5/a9tPzM0WBHYCCeusRs1kI1SQaHx+p5TVTniHgO4gc5cOT/RVFE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782485133; c=relaxed/simple;
-	bh=szxwJDnA7rTSEfocggCKebMj0aqWh3b0eoiakCjY6p8=;
+	s=arc-20240116; t=1782485134; c=relaxed/simple;
+	bh=D5Fw9TwoCkMt+yP7LwaepCYX57d5WDs5LMk//8MDd6Q=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=GFz4qv1xYwxtcr7nLBay6VW9/pLpptYpWaAIZFkFE77RNOVH+9HRuRHEQOXZHkprJya9QKU+xQnX3vnJKJGnlTaBrTeRRE2IUaCo02jpebfDjG423PP8XQrZMmhIOsPXaLOORm5FuD9O4TEU3Gqh8cXc5ga+ZEwF+tLxv1juY2U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=oYnRv3+C; arc=fail smtp.client-ip=52.101.96.133
+	 To:Cc:MIME-Version; b=JjJg5bFM4P4KwWAlKOSFNjAd9/ONuyO598SM3UqWSr8IWA4gMN8++4+JKwttYga2y52Abi0CcuBjWUrO5/Sf8VmzRaFcHQnZ2XVjFCTJ1X1ENfG04x1l4gkgp1kUTokMGVJpOtFDtR8fkJpIrtrQgL/An7BO+6x0DyZV8MyRl+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=OQVPOwe8; arc=fail smtp.client-ip=52.101.195.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="oYnRv3+C"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="OQVPOwe8"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XBAumCZIM/aneMn57yx5yL/7WBzmr3oZXB0AsKBu4y+PCNyljOslW1AdMOUqW339Iqgb0qFWf8/O9mFXNqw0mBD0EcrU1YFkvOiC9ZPdqv/0+ECBlPwHHGSTeuTrVABN+yDP3ZVXSas6RNFK6zdYDEVxY/4unFbYszAd/e3h6iRLYHPQ2G8QqB1IFdA4ZM1VMd/QZXrRD9aUZORnkt6hqpWvk9Ft8rvLIGNxZW98NUWrRAnkd2FuGvTKORTQ22ToCnc0FoFS1ja5dYfDxu4jMI8Y5KofBF9ZQdGETWXmwftrSToHS8+o2yNSX5K18hMywijIUQiGi2+tP+2g41xOiw==
+ b=dRbwAkjpQSPcOWGbh1FuLyS21ENf/wcYwTKTOsTlLVLhmM7mXVKhZWki59cEl0tC6PN6d5E/+tHH3lSGR1k2UCJiQyQAd+LWiTekjHNrFls9zSo5EefsCF9FhQn+bg1PoPYk44gqTtU88Tx0nebCI4dxnbHHPi20wxZjjuyHt8b9yAALAx+5NsMqDn3BLFTLSHjeTYIQzXFUp37pqT1nsIX9sFiK2HmxavI7HoyKpqjLUc3IdSspe2Xptd29HqgXs5EXI1JDOiiIX/LpBXEXe6Td8G9As+XEzjfwEJ6rKltce26ghhDKbQf4lTqCz4OkVG42N0GI8dDGTNWElFC05w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nI/K6E5mJz+mqRbUC/6lTTT3GMPn2WcTdx3VFlB9BdM=;
- b=dbMIM15EHEaDqVfgkuxhHwwYlSUnPHaoB+jgsnpKS2464C8YtSnsFvdaMLiD0J2QCdLR9RAyNK7MmTGxlhJ1uep3M9wE5WBsi+zCatbfyazRHt+cjqPGTBm7RRh2QP32tr47oeu5jSR2GcY3rG7rjh/iUwqyf4fvZ14Xn1zCWxmppqZylojsSEKi62/MjdwMCRKDVX08OLvvKZcK06unMN/RCMYLSp15ouHwGzBap+myad75TrxvSRsRKLHm5d6wYJKoM/4V5pkgWcKg6FMfA/a4709pR/LgqyI0gJYEDJg4D5ZQnh5RSjqwCgVMNMRGdWkRVUW0cCwSUoMURII99g==
+ bh=zWZ2G8D3CqR3gCX2nvEyaibZKhARAqjf05cTWG4mI34=;
+ b=hwEoEtbZMx4zKi/5RMe/zheSQfeWnbuzhWl/HP0UZzS1+QvIHqMEKN+z5Ov59KxKiRmXs7xnVHCoalDPlZUC8YWTNc2VcaMp+5z0sdVwKt1hAz64xTNE2tZYz/3pDruwyA4xX/xlyFHs8WutAdcVkwE2IM1RGAZItpQ4rueTDWJA8ya8NoRBS9xm870KWeXXwOQDhCuwrE/Ob4jKhJq7gdIBplkYPvioj3eKC/cGdNdJjqE6smdy522z3cWI50j7g2QlXjUBbCrXIhoNLWzlEwSmVEpy1Iu+9o8a8AcmqWr/zxXFqYcJhKwgClht4qAFhLBixk/AY4cKcpNVX9nIBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nI/K6E5mJz+mqRbUC/6lTTT3GMPn2WcTdx3VFlB9BdM=;
- b=oYnRv3+CG5f6TM9Q0Yz22yy3CXQCqBl/dKN8juCBnQdJK3rwVBuUncwZwqykG8hmOmElup/CPnql2Rviy3pLd9TSXl+pbiksODOj+fz4SR88pEt3+cxqsMuHuZ64pNU+Jl/i82NFiw88Hr7jHpKcZ1k3ZbzyZTI3Iz+vKuFpVi8=
+ bh=zWZ2G8D3CqR3gCX2nvEyaibZKhARAqjf05cTWG4mI34=;
+ b=OQVPOwe8k90b/ztPXVITnwR427H5d/U2FOKAXKpL64zpkf7yP32R4a6QSWE8FCQGmTR/AXC72d6yYueTv6EQYHUgXHR7Y5GWAOVrEIdmYZAG6Q3V1hpSNdtsevszQv7CxUY+jJef/8Hml5gpkJjSVds4mhsnJU+UAEAQzQFugEM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO6P265MB7248.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:341::11) with
+ by CWXP265MB2694.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:ab::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
- 2026 14:45:18 +0000
+ 2026 14:45:22 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.016; Fri, 26 Jun 2026
- 14:45:18 +0000
+ 14:45:22 +0000
 From: Gary Guo <gary@garyguo.net>
-Date: Fri, 26 Jun 2026 15:45:06 +0100
-Subject: [PATCH v5 02/20] rust: io: add missing safety requirement in
- `IoCapable` methods
+Date: Fri, 26 Jun 2026 15:45:14 +0100
+Subject: [PATCH v5 10/20] pwm: th1520: remove unnecessary `deref`
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-io_projection-v5-2-d0961471ae50@garyguo.net>
+Message-Id: <20260626-io_projection-v5-10-d0961471ae50@garyguo.net>
 References: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
 In-Reply-To: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
 To: Alice Ryhl <aliceryhl@google.com>, 
@@ -73,11 +72,11 @@ Cc: Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
  linux-pci@vger.kernel.org, nova-gpu@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782485116; l=3734;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782485116; l=1738;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=szxwJDnA7rTSEfocggCKebMj0aqWh3b0eoiakCjY6p8=;
- b=sas9nNtzzp9KUl5DIVPa7ENDFuITr1zhTvOAHFxcdl2ly/LAUu/tCIPvMPWyVM3r5MfdLyk5B
- qDpWr+OHQkLDRC146oa4WQGjApi7I8oOTav0VFP64Sc3j8Bq3E9061y
+ bh=D5Fw9TwoCkMt+yP7LwaepCYX57d5WDs5LMk//8MDd6Q=;
+ b=OZR0gDstQx63ZgYMmRIl2MgPef+vr4ltwbPmgXrJ0HDn10dRMo0DU9oe8vSM26lsNHXG3CSdl
+ 9JnLbe3t8p4AQtPvaT9qZW3EjY5+IgQguUDSC8/FdzOSh7a/4q0TBoJ
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO6P265CA0010.GBRP265.PROD.OUTLOOK.COM
@@ -90,152 +89,111 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB7248:EE_
-X-MS-Office365-Filtering-Correlation-Id: 519eb827-4f32-4f3a-282f-08ded3918a86
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB2694:EE_
+X-MS-Office365-Filtering-Correlation-Id: b45f40bc-9600-4413-7981-08ded3918ceb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|10070799003|23010399003|366016|7416014|18002099003|22082099003|921020|5023799004|56012099006|6133799003;
+	BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|10070799003|921020|18002099003|22082099003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	ra9eQ56xbTa+3uttFT+Ja5sSJpPJrTu3xHxAO3WuhRBpui4EDOLKB/J8PVm0B6mqld2hvGipK9BTGtgStUqYwH5XVRuCKz3w3QHa+2MjJwXDetv7hbvWLp7srzigc4NxI1mudnEkYicr7l66T1DIaUNE8vcp6RYkI3XalqBp397bIL/DSKeJdTdNb/kyWbhhfa/mEaijZ79AaGe83ASFxrZy3lcqwX+mK3HuRaXlH9xzxfE3+oLH/f7sSuBYKlbSb3R/w/AaKxgErxpes1MhqnfmHn3kw0ALk79AFfEG9ZSgrK0KodXGob+9Maf4jFcyvAXOgvdYvR48/Vagvg936VLyq/STQw0X1bfwbR3rHTRd7QUJ+fwfp/VtCzHm0iSyDmj/SEKAKpnUF9gyApehBbv+v2WuIUpp7Ti6HCpzdJxPEq0JeKbKjoYmdwa/xje51/MVYHagVNkepwgss54/q0jTZanw1k8vqUWTMEYTOZC3ZCy6i7oHuAYPbVjHZfyWD/rSqW2OosOtyJoDsYDg9VsHS/EkdhmjxU91nTIa4/Iab8qGVowVKeiV4Bk42n2ndrTzlXT36Gmdh54ObOGSOHdeBYEB045hj3UTfLLKw8t+06xgRbsBO3/Mj3BWWNYFEtUjmbDMR3FoIJ6VcPqcx5n+Pb3Oak25Ud1oK9DWMwVePI9dxafDT0ZrCUk1/X4eCF98CSE8MSKmJRXGxvn5Gg==
+	oaBZzrPYl5xJYqE0M7xrREl0eUM+iAzGdeVKQowJQxIND4cusXsBuTBM5pugkuRaKw0fxZ5iiE/dP9FitAfWPXVsEPV4rFzBtYnfBlS7i+RWptTP5wPxqBDbxncOKa/Q9Prv6x/4p7z2mw3h9agVCUMX76bxDeyyECAEpLsKltebroGbmLanKaQuRXxsqU4YhkevCtphsP1G2iQqzfdSTb9WNSVNNvQUL2nq4CUT9mTrW9ZPBUWmYp3ehixzHAGZuRKcCCo3XQiKMshZVQ/MzumwZcPfmf2T9m+GAXue3/EBGpV1FPdD4SPRiWkP3thh/dn+qQzznGQc2Re7RSAf2C57JrSUmEW2gOuiXxzV9kn151QZowvwPtJeeAEt/dWk/3rzonyRwVCasJ8+2UqTdqdXWWOXNAE5rLDi5DqkNixNjku1sbRGUjfHJoaPW/oizCnqA2Zk2+9qSItvDk+sMlMrXXGEnwEyuvPRrucV7pglnBy7AKza+X4DYi6w6HqQjthYA5fuGZzH+b1rEHL5Iz1CiVHN4rYzLEvBkdjeVhyurlYnxLwCC3FPDrRhtbqzkmwnzFSvuva8ATqgJEtUPoD7cPZ+P6lJnEi4PRcjFVM4kvT07JGSL+5YVoUEHQRi+Idk0qbZyzUPQV2IuS5DSA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(23010399003)(366016)(7416014)(18002099003)(22082099003)(921020)(5023799004)(56012099006)(6133799003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(10070799003)(921020)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L3owUW1BeEs0amI3S01DenErWUdRRkVQaVRvQWtGRi9NeUREMW9DQmRqakFD?=
- =?utf-8?B?cTFnd3lTS0FLNXdweVJXUE1Id2JvWFNmWFNUbm9Sd0NCR3kzQ2NoTXhpZ1Bl?=
- =?utf-8?B?eHoxRkZWZTlwM0VvanRpK0o0L3hGVHBzRW5NbFlHQ2RDZzhhZlFnMmlVYUlq?=
- =?utf-8?B?V29zSko1czVHaSt4RlRwWHBsVnpnTk8yWkZ0V0lvK3RZL0x5U0llbEJhZVFB?=
- =?utf-8?B?eE9YdUdiWHhheWhIRFdZY1FkRnF3UmNmZXlQVDhhUDRlRDFHY3kwTm9RWi9S?=
- =?utf-8?B?UE5BREpTR3Y3bHl0eHBqV09pV25qa1F4a2h3R2JYUnlOWStaQlhST2JYM2lr?=
- =?utf-8?B?bU5DZHllSCtYUnpNYm1zdVFzOW1iR3oxOVNya1M1aDdXZVVLaGhlQW5mK0pn?=
- =?utf-8?B?VEx0Nk01S1pPMExZSUdVOUJ6T2hRNW93bHdQbmt3dkRRMktlY0FxdUF0VU9L?=
- =?utf-8?B?dy9CdGJ0TWlodWRNZnNHNVAzVHVYNWZ6c29aTWJxRTl5VnZNUWZibTZuWmtL?=
- =?utf-8?B?bXh5RXlYWkZpTGUxd2pkdjNxWHJ1VFJEOXY5SGdURGlvL3dlVDhvYlRHa0xT?=
- =?utf-8?B?bkdSQlRuY25qMEY4cHVIMHhZenUrSTVBSi9nM3R1NnN0WFQ0NVBoK1VKeUM1?=
- =?utf-8?B?VlRhakdwSU1yeDQ0L3lCaGRiN0xRaDBEbWRtQWljSDFOQnNCZW1zR3F3ajRj?=
- =?utf-8?B?YmhPRU5DNVM5WWJqU1RmblhIdWNPZ1d3Qm9EQ1diNGJkOWhKRVNUYTQ5QXFD?=
- =?utf-8?B?MFcrbHNiajFpL1VzQ2dWQ0dDYUdDNFJJSGhzOWxKeWs0dFhGaVRNb0pDVUx1?=
- =?utf-8?B?cGFkLzlJb2VIMWZvVUQ2bVR5YlZ5S21QWWJQSHNwY04zVEIvdU5aSC9sSnVj?=
- =?utf-8?B?cXlDaEt5Y3FXTXJZYnRUcjk2Vlp6VC9yM3kyVG9UTFJZOVZGYXVNVktQaVFO?=
- =?utf-8?B?QlcwUFRENzdkYjJORnRaODI2TXRkVlFONVlTYnlpK0xvRm1YeUpVeTdsaXdn?=
- =?utf-8?B?VzdEWGxQUk9TUG1MV2N1RVVJOFFPZGROS2FacGNDNm9ucGxBKytSY0V1RkIw?=
- =?utf-8?B?M3ZVN1dhWCtKU0YrS0EyZmt4RkdBMm5GNVVET3RIemNGS1dKQlE4UDRrWnVi?=
- =?utf-8?B?cU9iUE1MSVRmK3doNjJ5WHdnZ3UxRkZNYVM3T0FUdzF6bEVjN0UycGVPdFYw?=
- =?utf-8?B?YlRuVVFmRzJMY1A4dGlPc21pZ3dua3BoeG45QWVzZmovcGhPZW9qeHpKakN5?=
- =?utf-8?B?dUZHOHJ3TVgvSXZBUWExenVNelVQMmhzNUFnbGRyRENBNisrRTNSK0dQdjZw?=
- =?utf-8?B?dE9WSDIrUUlkOXBEZE10WTZuR3RoQWN5YkQwSkZPMXFnc05Sd0hhZ0Z2Tmgr?=
- =?utf-8?B?Y3Z3Zjd1WW55eWk3cTNobHlHdWpDbFAvZ2RRemkyUitzc0k1dnY1U0IwaVlG?=
- =?utf-8?B?TlQxTzNraEZtZFZCeWZyV0dkTzI4TE1QMWVBOGZ4TXM2eTNNdml5ay8ydHhZ?=
- =?utf-8?B?dWdvcnlEZDFPUzdQV3RiUjlsQ0NnaDhldWtQQXBRZy9iU3BNVFdBSXZLTXdO?=
- =?utf-8?B?TERTMytlN2Zra04vaGU1ZVM4U0c5UVNsMHJad3RMbnlMTzNCMG8vMUN3N0pj?=
- =?utf-8?B?Q1NTTHkxNkV6a2VuenNSTUVZV2dBNzNWekJRZ2JiMTVFNEs0YVZLYkZiUkRI?=
- =?utf-8?B?YmJEVUcyL3Rzbkx4SU9RMHBxMkt2MXBKWTRERllqcHBGOExKdTlTaWVxM1h4?=
- =?utf-8?B?SzFiNG9ZUmhDVEd0SDhlTTQrMjZkZkpHZDM5dEJrU01IT09DU1J6eEtZSXJ0?=
- =?utf-8?B?cjFVd2ZSdmFka09vaHVVZCtCb0RFaEM1ME4ybnMvQ01PQjE4cWYzaGh2UjJJ?=
- =?utf-8?B?ekVzNEpISW1YanM3aTBIOE5LUzVNVWMzQ0svQWhUa2RJeFFhaU5JWGlFRHRr?=
- =?utf-8?B?VzV5ZTJpSzJmbkVmNldIdllQdVBTMTVjMGt3VWtxd29kaVZrUjhoSzZMWmJv?=
- =?utf-8?B?Sks0RStmU1RWeThkK1ZlajJ4c0VLQ0JndEhzOHM2K2o4SFFUdTlmNExmV2VU?=
- =?utf-8?B?VHNleDIrM01NNXdPdXVFNWhrNUkrdUlKcjdlMFVoY1M2eFB5RkxnV1Q4SFd5?=
- =?utf-8?B?WDBxZlNoZWdjSlRINm1LYkc1N3ZNaE5SbXJSZUNVQk5MemRTL05WRmRiN2dV?=
- =?utf-8?B?QmRTVFFueUJlRUk0MUUyL3FPYTljTnlNbmNLSWRMaXdJYmc0UTYwa00yTHZr?=
- =?utf-8?B?cU5URmtidk41WE5uNXlHQzZhWW9JcnBMQXNCL2NzVlkvYzRJMW55VXVVK2xK?=
- =?utf-8?B?TFFnN3BPMktoS0ZuaU91azRrK2FXMXJLeW0yRmk1NUY0ckYxL2RQZz09?=
+	=?utf-8?B?NUV0Q0tzL1pDQldBd2R1U0NweUxaQnhOdXhGdXEwYkg3YVFFa2lub3FYSTgy?=
+ =?utf-8?B?b3ZWT2p4ZVRoLzJ0Z2NGczZhaG1NSm9DVzd1VHJxY2JHSTdUNUVyOUwrL1Nq?=
+ =?utf-8?B?amUvUERmUlhJNFptOHpsN29uU1lVcWE4MHJzQkRHTDhPdHFCbmo0Tkt2ZVo5?=
+ =?utf-8?B?aGhjL01pRHVTeVp5SktmaVREOGVTSndUTUx4eDIwMGY4R2RrZWNXU25SYng5?=
+ =?utf-8?B?Y3IrNFIrTEY1cm11UWVBYzUzZTE4T2xsT0JZM1JDaE9QM1N5UzZEVUQ0V0Fi?=
+ =?utf-8?B?emFTWjN1akpEOGhaMHBXRkU1dnRVVjE3QkVCcG5CUDNnYXJhQmErZEJsSHBD?=
+ =?utf-8?B?MGJ2bmFVSHhhaE1GTXozWWtHYTBKWmkvYkRTUTRmWUl2YStRV09TTUgzZjVY?=
+ =?utf-8?B?OFA1VEMvaFF0Nk9udWhNS3pIZ0VrcGVJZEVZdDlFVUdPYXZrYkdueGRQOWhD?=
+ =?utf-8?B?bG5RVkkzQ0c2bjdwczVzcXZwcE85akdBSlZLS2dBUUM0eUx4TktvaTBRYjl5?=
+ =?utf-8?B?dWd5Ky9MM2NZWVhPNzJIcUVtTkFOVStqZXhKKzdxeGhDZEMxaVE1RXBYdzlZ?=
+ =?utf-8?B?c2dXR1pWK25kcDJpcUpYM0xMNDFTZjg1WDN5QjZ1MXdtZzVRbFI3dWU0a3o1?=
+ =?utf-8?B?Y0pWZGpxek84K2VwRnljNUprb0hsdWd5S3VtcUU0STkvNTJ4eXU3NXo5a3pT?=
+ =?utf-8?B?S0l6cGZhYzgvZS9jM0c2RExYVzJrd2FxUDhLVUhTS0djYXdqRkNmRFN6dlBj?=
+ =?utf-8?B?cFdmTm5KQTdaUlY3bWFTRjhnTHM3dDNqdGJlSzJUWkJlcXJnZGtrUEZOcUtz?=
+ =?utf-8?B?RzZPbVFxSDMvL0NTcTAvS053MU9wQWp1M2tramFUSHNqZGRtb0hMT3h0U3lE?=
+ =?utf-8?B?SjVScDhqQ1RWMmhLTEVPcU55cVZTd1dpTXJCQ2cvWG9Ia3dWM3VTVUJyZkVy?=
+ =?utf-8?B?UzZaYTZNdW5YZ0RlcGp0QzR6Y1MyekI2MEZETzVCZG5uSmtUT3h0ZEIybGpm?=
+ =?utf-8?B?VmtrYXFibWJnSWduOVl0OTdLK3Jib20wODhWdzdoNnFlRnpTY0xYendWcEQr?=
+ =?utf-8?B?d1lkVGxBdGRrdmg1QXJEcXBsK2o2c2JzbjFjbjRRN1BSU2x2Qm9pcEhlcGEr?=
+ =?utf-8?B?WUNqSXdHWXk5RW1GanltN2M4UDFJN1JWWlBVQ2F5a0IvcG9DNlN6SFZBWmlD?=
+ =?utf-8?B?ekdCd0NIeFdWa0ZCSUZ1dzFybSt3RHdvNi9LTytzQjE5QWN4SG1PMGV3V2tW?=
+ =?utf-8?B?WE16SVpCL0FIQzRHS1hab0JjYUxqVWtadDVLeTBrV0RoMmx5YSs1MTNUb0JM?=
+ =?utf-8?B?QTlHY3NYN3RVaG1CY041QitYdkNHN0dZalk4WmVHKzY2eFhkcXFIT0VPaTE2?=
+ =?utf-8?B?ZnhIam44eW9hT2ZiMDdZZkNJYTZ2UUhsY0hCYU5qdXNCWVhXMG5HdE9oMUk4?=
+ =?utf-8?B?QVVwTVkzdXRxanoyYWw4bVhybTVubEJPZ2JPc0dRSkwyN2hFT04rRzRvTzA2?=
+ =?utf-8?B?ZXZMRVFHYVpqRTEvZHBacDU3bnZQUDh4UzFycVM2VGE2REFsYWNYS3VmNmJ0?=
+ =?utf-8?B?Z28xYmRqYW5JN3VNZXVyMm44S3FmUnYwVXRDNGwwQnluNjVDYjE0N1VaWWY0?=
+ =?utf-8?B?THRoQ3k2T2JJNUZuTHBCdFpRRHhrZ2hwd3F4OXVkeEl2MG1pRzhxcnBJb3pl?=
+ =?utf-8?B?eWJiTGpIZkE5ZUJIVVBkbktsd200dG41cXlSTlZuNVowbXk2UFFaZHpwVHFn?=
+ =?utf-8?B?VmdsQWJVcVZFcy9rSVA5TFNFSTQ0cFYxa01vbFdzUHpLVmdFdTUxOWhnYXY2?=
+ =?utf-8?B?QTYyQklXTnR1UysvSWN1TTZLN1A3dGRvMmV5SFhENjZkdEdCLytDWjlDY3RB?=
+ =?utf-8?B?eTN3RDU5ZEtMd3dKUjdLbGQzazJFNHNxYjM2Qk5ZT0N5S1MzOVh1d29odUJu?=
+ =?utf-8?B?YlgvcnZwRE5ObEIyNzFuSVpRYmd4TnVqcnNSMzRSOVR6ZlhUeFdIcS9JT1R2?=
+ =?utf-8?B?MnZIUy94TEtOQlRlVm5lUEVIdUFMUGk3WkhTeW8xcmNWUFlleEZHZG0va05l?=
+ =?utf-8?B?Mm5HREViR1diMktwUG9pT3Z5QmNuU1NZa0RmcndoK0hiSkE4ODVNemYwZTBD?=
+ =?utf-8?B?NVBpUm5uWFd3QXVFNnk4SVlET0RQN0kzU2kybkxzdU5qMTdFcVNyODNzckNT?=
+ =?utf-8?B?VmJOakRKdUw5ZWJUR0RDSjY0Z0hDSHdBQ09Uem5FeWxEak41c1pWZU04aWxz?=
+ =?utf-8?B?eHI5UmI0dTRaamMyRFZvdklxam5ZN1YyNlltS292MjVKYWlXSjZvV0lwR1Zq?=
+ =?utf-8?B?SHdEakJraDd5b2FtTlgydG9RakQ0UEpaVkg1TlJPaEZzZ3hnQjhPdz09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 519eb827-4f32-4f3a-282f-08ded3918a86
+X-MS-Exchange-CrossTenant-Network-Message-Id: b45f40bc-9600-4413-7981-08ded3918ceb
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 14:45:18.1699
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 14:45:22.1863
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TXT21qoXbNPPGBLUEBZ8sVuxG4dck4NEp3FtJrV4LwpIyjCRj60saXbgfrth8kt1IHTo5bLtfiwUi0DqBIDBmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB7248
+X-MS-Exchange-CrossTenant-UserPrincipalName: nIzWVRW2kp8Ef4WvnwN7vi+179PPQtPy8qwzOCNZFsE4vDEZHOU0ZYdI42LEB0JINPDiiTygUUgoHtc12qkvBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2694
 
-The current safety comment on `io_read`/`io_write` does not cover the topic
-about alignment. Add it so it can be relied on by implementor of
-`IoCapable`.
+`Deref` is automatic and should normally not be used directly.
+Also, `IoMem` is going to be implementing `Io` directly, so it will no
+longer to be implementing `Deref`.
 
-Expand the check performed by `Io` by taking `self.addr()` into
-consideration when checking if `offset` is aligned. For the compile-time
-`io_addr_assert` check, check using the known minimum alignment of
-`Io::Target` and the accessed type.
-
-While at it, fix the alignment check to use `align_of` instead of
-`size_of`. The values match for all primitives (including u64, given that
-we do not provide u64 accessor on 32-bit platforms), but are not
-necessarily true for custom types.
-
+Reported-by: Andreas Hindborg <a.hindborg@kernel.org>
+Link: https://rust-for-linux.zulipchat.com/#narrow/channel/291565-Help/topic/.E2.9C.94.20Projection.20in.20dma.20bus.20address.20space/near/606672061
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- rust/kernel/io.rs | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ drivers/pwm/pwm_th1520.rs | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index d1c5f0121994..d821ee48ed31 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -195,13 +195,14 @@ pub fn maxsize(&self) -> usize {
- #[repr(transparent)]
- pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
+diff --git a/drivers/pwm/pwm_th1520.rs b/drivers/pwm/pwm_th1520.rs
+index 3e3fa51ccef9..022338d17218 100644
+--- a/drivers/pwm/pwm_th1520.rs
++++ b/drivers/pwm/pwm_th1520.rs
+@@ -20,7 +20,6 @@
+ //!   this method is not used in this driver.
+ //!
  
--/// Checks whether an access of type `U` at the given `offset`
-+/// Checks whether an access of type `U` at the given `base` and the given `offset`
- /// is valid within this region.
-+///
-+/// The `base` is used for alignment checking only. This can be set to 0 to skip the check.
- #[inline]
--const fn offset_valid<U>(offset: usize, size: usize) -> bool {
--    let type_size = core::mem::size_of::<U>();
--    if let Some(end) = offset.checked_add(type_size) {
--        end <= size && offset % type_size == 0
-+const fn offset_valid<U>(base: usize, offset: usize, size: usize) -> bool {
-+    if let Some(end) = offset.checked_add(size_of::<U>()) {
-+        end <= size && (base.wrapping_add(offset) % align_of::<U>() == 0)
-     } else {
-         false
-     }
-@@ -220,14 +221,16 @@ pub trait IoCapable<T> {
-     ///
-     /// # Safety
-     ///
--    /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
-+    /// - The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
-+    /// - `address` must be aligned.
-     unsafe fn io_read(&self, address: usize) -> T;
+-use core::ops::Deref;
+ use kernel::{
+     clk::Clk,
+     device::{Bound, Core, Device},
+@@ -213,8 +212,7 @@ fn read_waveform(
+     ) -> Result<Self::WfHw> {
+         let data = chip.drvdata();
+         let hwpwm = pwm.hwpwm();
+-        let iomem_accessor = data.iomem.access(parent_dev)?;
+-        let iomap = iomem_accessor.deref();
++        let iomap = data.iomem.access(parent_dev)?;
  
-     /// Performs an I/O write of `value` at `address`.
-     ///
-     /// # Safety
-     ///
--    /// The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
-+    /// - The range `[address..address + size_of::<T>()]` must be within the bounds of `Self`.
-+    /// - `address` must be aligned.
-     unsafe fn io_write(&self, value: T, address: usize);
- }
- 
-@@ -309,7 +312,11 @@ pub trait Io {
-     // Always inline to optimize out error path of `build_assert`.
-     #[inline(always)]
-     fn io_addr_assert<U>(&self, offset: usize) -> usize {
--        build_assert!(offset_valid::<U>(offset, Self::Target::MIN_SIZE));
-+        // We cannot check alignment with `offset_valid` using `self.addr()`. So set 0 for it and
-+        // ensure alignment by checking that the alignment of `U` is smaller or equal to the
-+        // alignment of `Self::Target`.
-+        const_assert!(Alignment::of::<U>().as_usize() <= Self::Target::MIN_ALIGN.as_usize());
-+        build_assert!(offset_valid::<U>(0, offset, Self::Target::MIN_SIZE));
- 
-         self.addr() + offset
-     }
-@@ -318,7 +325,7 @@ fn io_addr_assert<U>(&self, offset: usize) -> usize {
-     /// performing runtime bound checks.
-     #[inline]
-     fn io_addr<U>(&self, offset: usize) -> Result<usize> {
--        if !offset_valid::<U>(offset, self.maxsize()) {
-+        if !offset_valid::<U>(self.addr(), offset, self.maxsize()) {
-             return Err(EINVAL);
-         }
+         let ctrl = iomap.try_read32(th1520_pwm_ctrl(hwpwm))?;
+         let period_cycles = iomap.try_read32(th1520_pwm_per(hwpwm))?;
+@@ -248,8 +246,7 @@ fn write_waveform(
+     ) -> Result {
+         let data = chip.drvdata();
+         let hwpwm = pwm.hwpwm();
+-        let iomem_accessor = data.iomem.access(parent_dev)?;
+-        let iomap = iomem_accessor.deref();
++        let iomap = data.iomem.access(parent_dev)?;
+         let duty_cycles = iomap.try_read32(th1520_pwm_fp(hwpwm))?;
+         let was_enabled = duty_cycles != 0;
  
 
 -- 
