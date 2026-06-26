@@ -1,112 +1,152 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2ED381AF
-	for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 18:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0790C3B38B0;
+	Fri, 26 Jun 2026 18:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782498680; cv=none; b=CFuj1vNQhYd1GzcLxBT0CQtHG+xowQV1JQMrDSJ7IY9zg27Se/R/oiDoOHl+cF825351d7siun+z8GMeTzusyLXh2RhY6TqN6cJj7W1dxMhK8f3v7n6PCu3ZTqPDLE7yma1CLyD1urqQZB4qw2aiZxeRaiX44RHDGVAkktsXr00=
+	t=1782499001; cv=none; b=M5Sq96H8qiIMTaopQdcMZUzA5yZUkFwdnBGas5EXy8kvf3KZpoIdJoDfmEwdsfwgVjtc4MGSozL35s5Bk7U4t1An5KIK+yRSmDcJRZCMJtk/ze/c1mbCq8lZUjmMHT28nvcX2pd+1mOPrnIUPyBeq3LO4986tHAfuh5MdLzgE/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782498680; c=relaxed/simple;
-	bh=eicChBWA6csvl0tpth84CHLD34v3QTKt9eCjMD6sZH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=meNEtuVjzo9U7YycsXa7+12UGBWleLW6K+SKmxyk+BMD+QSrUG6CNR47y4xS1QsnEd3qa214MxX0QcFU7pL5ENy7dkYPBcfhf/Dik+jySeC0DpH8SAKlzAG4fKdg+Qhwk7lUeRgtZ+EddWWxhBNV2Xrb3oW5Mf1vEF6s+x+hjck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=E3w8ZcgC; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1782499001; c=relaxed/simple;
+	bh=fargNlghZ/3htKgOlr4ecSSwYBEh7zEpFbePuaB9ivk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DAQkv4yrSaIXJyozjCalII0POWyvan/4DEYbIZuJyqekJOlZeOtr8TS7Ntf0UflR5quGUtgClySlzcQD+3uu3xT/Z3DvVl33eK9Uiu1IBzC/EPcXHxsCfRCBIN4yVKZTmtpY5qn9qo3EyyekHFC+g5iU6sSIbrzkHocOHiBa/4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aw4Gu7aO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="E3w8ZcgC"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-845c908143eso795427b3a.0
-        for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 11:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1782498678; x=1783103478; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LdlqEAkSsX1mWLPPHhw2dxLIgWsK0t8JlA6NYh+SJ0Y=;
-        b=E3w8ZcgC/HbOwlqwhDpF/JfAhhPc60qxiSL8q859WOBmUSH/ObF7FYk85SNj2zeZuM
-         l8O4XLQZfVlzG9q6Mu5jLpqAI0LfHW1BJUZ6nGLAYnUrvGeaKIWGZwYPvwQP/pTVTkeL
-         l1mJUfqoSaHSBqIwulWx6YY/c9yd5xhPSHte4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782498678; x=1783103478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LdlqEAkSsX1mWLPPHhw2dxLIgWsK0t8JlA6NYh+SJ0Y=;
-        b=lHyvK6vAu25IIPIEm2o2gkr2JLrYZl5FJLnF22rYlpkduKgIskx7OC88BFtRpjtVIe
-         onTiBteYIMv7XLW0jp9vtbFSuXMxLAMY6lMqp1/KwTDlpzMQjeC/6MamHkQSJERv5kmo
-         6zo5gVf0+CtR4vtjnVJ9AkMRJSpgBoC52EWM/CzahjRDpQeFZI8qHYjq8UN7QkhebI6h
-         JyicutZJC/B3ZXrF8fjvzwyYkS4pNUrlwUj/7uoy2P/aZm/5dZoScpcnwlt8IxFWz0Lh
-         9NGlly2pYK+7SsREBjvjDGfjbw6dBNaymK6FVNtlpGMxwMAjB0K6ZdQARe0Szy6XCVDb
-         dYnQ==
-X-Forwarded-Encrypted: i=1; AHgh+Robart/56838bahYr++y4rdgW0XX8G1oK42HeLRM1YGY6Rgon6jxyn7uynKDn+gheJPaCwpKKs7T49pCg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0mUb8Qndnlqd9EPd3jw3I4eUttKmoyf8gx/mPdkVtKU+7bGlL
-	9CcqQT04jF+dfkSaDFBTSgiHdoH9kgA1KOICpfTV6vAAqSQYyhFsYH5cU0yL9wIz5r/8DwDD4kl
-	A63YsTm4=
-X-Gm-Gg: AfdE7clG9eL2AmBa1vM7VmtMSJooiHqa+8A2DOfp9MtNE/GKNHFSwXmmRnxazel1VM8
-	sKzuwW3fi0B/PgbI2vGbMoQZoX/xwAHblBK8BZO4rFeOEkqsQFW7Yrf2foP50FZtgyiecwrPaZl
-	E4bZQAl4qah8CU5vvqdxyenia1YyiWQYMEu98e9SX9qcUBONUrYdSMQFK8kpCsQppsk3pW4DZB9
-	gyepHvyH4yQ/0ee41CgK6KvK7UDia+nEVNHYNqfw66T8akHMTz9CV0+8CjALOE7dZo5nKPYw1f+
-	Pl+lY78bbtSxUmK32U3hmZP0piBiY3vRI9VOqfQYuX2l9Ww6C+o+wuJRLs4NBaRQMrwrnTl1cfO
-	f2xuj7xv20V9JeTEvTUwPRq8+JGFtzSklEhW+QO4SZJdI08xRO0LivBkp2V/LjXpg1YvO9ncLSl
-	iPA5qL3xkD2J3EJ9qYoBNGbnxFCUNVRuc89SEIIwTXzheMjdBcgfxnrKMjRZXAyyYoElkycAEFx
-	crT
-X-Received: by 2002:a05:6a00:2d88:b0:842:5da3:9b8c with SMTP id d2e1a72fcca58-845b3af923amr7671942b3a.36.1782498677784;
-        Fri, 26 Jun 2026 11:31:17 -0700 (PDT)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com. [209.85.210.173])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a4121fdbsm7105266b3a.51.2026.06.26.11.31.16
-        for <driver-core@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2026 11:31:16 -0700 (PDT)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8454160043aso1093815b3a.3
-        for <driver-core@lists.linux.dev>; Fri, 26 Jun 2026 11:31:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrxzzwC/bqGf1l8b1WKPmgMXMusIe/bLHv5PZzMlJ9CnQnnN2YX+IXsYl+jk319z8cEWl81XWM7yQTG1w==@lists.linux.dev
-X-Received: by 2002:a05:6a00:94ee:b0:827:2a07:231d with SMTP id
- d2e1a72fcca58-845b3a40812mr9020025b3a.17.1782498676342; Fri, 26 Jun 2026
- 11:31:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aw4Gu7aO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E20321F000E9;
+	Fri, 26 Jun 2026 18:36:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782498999;
+	bh=4ohhSdR4uLkHiWRbMexAantHFBpBzZI6WmGjwL2KC3o=;
+	h=From:To:Cc:Subject:Date;
+	b=Aw4Gu7aOmaqbgsNADbHax24oeNXpOSXZx5SXpUdMyrGGeFHsWamP319IlTBhIGhJM
+	 cQOPs1aZriEKiCWZK+GufH1B9zF0XZDJXqg66mNdeWTpNtHQupGiP+98JQjBldBlWy
+	 LO7JMcjFU6VB1M3uyQvm0GzYFkYt8oqx3fDAjnIJG5N2JaIWy+JMH7Lq+RWsvUx+cR
+	 BfhqTJjLqL6FQd82v/zWPLZuEJQ+j2AU6/IwX2j8Aff3thBoLOWrm4pCDW5er7/1Ao
+	 pZFB69zwhfoVWmDtQZDhZUWGoriTiNJKzPAFB+AdHcDDjJruFkOuX/1XpAofcE+mhz
+	 t8M93MWjffiVg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	acourbot@nvidia.com,
+	ecourtney@nvidia.com,
+	m.wilczynski@samsung.com,
+	david.m.ertman@intel.com,
+	ira.weiny@intel.com,
+	leon@kernel.org,
+	daniel.almeida@collabora.com,
+	bhelgaas@google.com,
+	kwilczynski@kernel.org
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-pwm@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v4 0/7] ForLt/CovariantForLt split, auxiliary closure API and DevresLt
+Date: Fri, 26 Jun 2026 20:36:07 +0200
+Message-ID: <20260626183630.2585057-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1782490566.git.u.kleine-koenig@baylibre.com> <976ec5b0529016d63ca3cadf8792f7b2324ab58b.1782490566.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <976ec5b0529016d63ca3cadf8792f7b2324ab58b.1782490566.git.u.kleine-koenig@baylibre.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 26 Jun 2026 11:30:34 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whM6kwmSXnD-9pcSNLzvZLFyzXzdm08NuEr-ZH8WxQKPQ@mail.gmail.com>
-X-Gm-Features: AVVi8CdXCuSrrbD1r0dswuj6qG8ieBDIb0UXrbzauKRFI089d0fQjdB1FuzaizI
-Message-ID: <CAHk-=whM6kwmSXnD-9pcSNLzvZLFyzXzdm08NuEr-ZH8WxQKPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/17] driver: core: Include headers for acpi_device_id
- and of_device_id for struct device_driver
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Ok, looking at these patches, I realize that I hate the pathname.
+The ForLt trait currently guarantees covariance, which allows safe
+lifetime shortening via cast_ref(). However, some types (e.g. those
+containing Mutex<&'bound T>) are invariant over their lifetime parameter
+and cannot safely use cast_ref().
 
-On Fri, 26 Jun 2026 at 11:01, Uwe Kleine-K=C3=B6nig (The Capable Hub)
-<u.kleine-koenig@baylibre.com> wrote:
->
-> +#include <linux/mod_device_id/acpi.h>
-> +#include <linux/mod_device_id/of.h>
+This series splits ForLt into two traits:
 
-Honestly, that "mod_" part of the path name makes no sense to me.
+  - ForLt: base trait for all lifetime-parameterized types, providing
+    only the Of<'a> GAT.
 
-Yes, it came from the old header name "mod_devicetable.h", and yes, it
-comes from the fact that the device ID structures are also used for
-module loading rules. So there's a historical reason for the "mod",
-but I don't think it's a particularly good reason, and not a reason to
-keep it.
+  - CovariantForLt: unsafe subtrait that guarantees covariance,
+    providing a safe cast_ref() method.
 
-None of the structures are called that - they are just called
-"xyz_device_id", and while module loading may be *one* of the uses for
-it, it certainly isn't the only one - or even the main one. Arguably a
-much bigger reason for those device ids tend to be all the bus
-matching code (ie acpi_match_device() and friends).
+For invariant types, a closure-based API (registration_data_with()) is
+added to the auxiliary subsystem. The closure's HRTB prevents the caller
+from choosing a concrete lifetime, which would be unsound for invariant
+types.
 
-So let's just get rid of the "mod" part from the name, ok?
+On top of that, this series adds DevresLt<F: ForLt>, a thin wrapper
+around Devres<F::Of<'static>> that shortens the stored 'static lifetime
+back to the caller's borrow scope. DevresLt provides both closure-based
+access (access_with/try_access_with for ForLt types) and direct
+reference access (access/try_access for CovariantForLt types).
 
-              Linus
+Also implement ForLt and CovariantForLt for Bar, IoMem and
+ExclusiveIoMem, and update their into_devres() methods to return
+DevresLt. Provide convenience type aliases DevresBar, DevresIoMem and
+DevresExclusiveIoMem.
+
+Changes in v4:
+- ForLt! macro: run the Prover and emit ProveWf structs for
+  well-formedness checks
+- DevresLt: change Send bound from F::Of<'static>: Send to the
+  correct for<'a> F::Of<'a>: Send
+- Add #[inline] to forwarding functions in registration_data_with,
+  registration_data, and all DevresLt accessors
+
+Changes in v3:
+- Keep UnsafeForLtImpl as the shared helper for both ForLt! and
+  CovariantForLt!, distinguished by const generic N
+- Remove cast_ref_unchecked() from ForLt; lifetime shortening is
+  handled by borrowing with the target lifetime directly or by
+  decoupling the HRTB from the outer reference lifetime
+
+Changes in v2:
+- Fold the ForLt -> CovariantForLt rename and the new ForLt base trait
+  into this series
+- Add closure-based registration_data_with() for auxiliary ForLt types
+- Add auxiliary sample demonstrating ForLt with an invariant Mutex type
+- DevresLt: add closure-based access_with()/try_access_with() for ForLt
+  types alongside direct access()/try_access() for CovariantForLt types
+- Make DevresLt::new() unsafe; callers must guarantee the data outlives
+  the device binding
+- Implement both ForLt and CovariantForLt (previously just ForLt) for
+  Bar, IoMem, ExclusiveIoMem
+- Various safety comment and documentation improvements
+
+Danilo Krummrich (7):
+  rust: types: rename ForLt to CovariantForLt
+  rust: types: introduce ForLt base trait for CovariantForLt
+  rust: auxiliary: add registration_data_with() for ForLt types
+  rust: auxiliary: sample: demonstrate ForLt with invariant Mutex type
+  rust: devres: add DevresLt for ForLt-aware device resource access
+  rust: pci: return DevresLt from Bar::into_devres()
+  rust: io: mem: return DevresLt from
+    IoMem/ExclusiveIoMem::into_devres()
+
+ drivers/gpu/nova-core/driver.rs       |   4 +-
+ drivers/pwm/pwm_th1520.rs             |   5 +-
+ rust/kernel/auxiliary.rs              |  78 ++++++++++++++-----
+ rust/kernel/devres.rs                 | 106 ++++++++++++++++++++++++++
+ rust/kernel/io/mem.rs                 |  65 +++++++++++-----
+ rust/kernel/pci.rs                    |   1 +
+ rust/kernel/pci/io.rs                 |  37 ++++++---
+ rust/kernel/types.rs                  |   1 +
+ rust/kernel/types/for_lt.rs           |  95 ++++++++++++++++-------
+ rust/macros/for_lt.rs                 |  72 +++++++++++------
+ rust/macros/lib.rs                    |  18 ++++-
+ samples/rust/rust_driver_auxiliary.rs |  96 ++++++++++++++++-------
+ 12 files changed, 447 insertions(+), 131 deletions(-)
+
+
+base-commit: 51cb1aa1250c36269474b8b6ca6b6319e170f5a5
+-- 
+2.54.0
+
