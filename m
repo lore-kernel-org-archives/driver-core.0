@@ -1,88 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE683161BA;
-	Sat, 27 Jun 2026 16:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EED93112BD
+	for <driver-core@lists.linux.dev>; Sat, 27 Jun 2026 17:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782576465; cv=none; b=SPNlPXe9V5FNqbuWDc0OVJbZ3tVfVun5Kcqfg542eaQexdDvNJW/BB+3kWOk28nv1YmlUyZmU3npxu1NzJD+jiQdGjK44/RyR/UVBjkoy4vdioRoS4bREauJiu4p86FaeQgOy7HNrhW7+M0zj5U1zz4FMHdFr9GBoF3sivP2fqM=
+	t=1782582571; cv=none; b=ourxOe5lNrNNF5ACUO0rKAAsRVQCkD1WFtn/tFzmAZCZ0LkvxquMgU9PBxrFmSiALG+Z4aZzBH1WBMVX6RcQSmL1K2sJhFtJZqFsLpivIVBeQDx5n3zK7nhte6cxKN5si+JqEYiQJiLaE6bqlx+y2vUMxOXWTrpg+F8TOWXqEp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782576465; c=relaxed/simple;
-	bh=kbXE+e2kShUdFQUZEtzV5kb5kIHvO0+olg3vo8dAYAI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=QVIWMeaa2RUosxF2ZKkdx5Qbzu4wuJjA+f3NDKn1y0aqXogXgBvq2l1Shxt6lGEzla+KUv6ZpKEwK6t7BmXWcar0u0In155TyXTsu6x/6fCxfjF/EJy+/AT05+iz7W2sxrKVf7F1Rxiv0Gz7onQCEPjdcD1tJa12M9U780ta9SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qw2Y59Rm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782582571; c=relaxed/simple;
+	bh=YA+1i/UnBYMi612cEFEOy+3MzER+Xfj7iA6l8jGXb4M=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uqBWml+sZkZLyg3tgy3QWUrv+O87pvRvuZ80rDtczf5Wgo6yto2O9I/3FkFj/I+vhxgFODDK2NfOTzrlCZA2Jf6Ma0Q2cxq0emG7r4fRbVPkP/4UBoQKuhzsPUWPYpC5apcJmHKqjk27WwGuY+hwyQUVSRZrQ70/uoTpSELuNvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GTCL3n8B; arc=none smtp.client-ip=209.85.217.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qw2Y59Rm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24B671F000E9;
-	Sat, 27 Jun 2026 16:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782576463;
-	bh=Eai9illNnwIVHHx82Y8oRRChAijNkCdc6Gtuf6pgPNA=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=Qw2Y59RmKIirc9QicmPqL66sTrj2a2pRKQ4q1v06L1xA9E/C/n8ujusPhFM+JyAMq
-	 Sc7C+LA2hGDEhdfXPP6JFmdPW/lxQo9uwCywxV3gUUCsoaqp/p8gFp8rSRqgPX9Rot
-	 aq3TQmnmHDhFsytBp0U3bmY62h9aCkV7OgVPCbZZlU8BaFdjaz9P3zEBUeuvx5tPmD
-	 4Tx2RvxcWeTQ2au9N+Wnor838KKBkB0xRChuAMilaNqmNIuEwn8ueK3uR1GU+mDUy3
-	 YyRV47jAv1zDKiToKjdTIwjPqIKhSumFkr9k6T4RB7BOfeDsDOS70P4Gje9HvpGVAd
-	 5T1h6xlOziCJQ==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GTCL3n8B"
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-734478b19f7so1484057137.0
+        for <driver-core@lists.linux.dev>; Sat, 27 Jun 2026 10:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782582569; x=1783187369; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+uflCN5dEoFADXWjqBtV9JZXNhAeBkbLG/4dD0z7b4I=;
+        b=GTCL3n8BI5SgH0Vi2fqukut7FUDCw8IIqWMJlw17lHppfN63UhZCOKdp2yX+2GT+lr
+         k4wgk/C7mNZQ41G8a+5oKzQF21CdOkuSrlCLw4qCkhuyvTqME2NkyNs/ZUrqsGXEhInG
+         KpsmUA7AiVKBEC/MgqmqBbKUBKaeQ/uRZdqA0JMdQ1Rcjo4iADympJ8btajCPdyJe2eM
+         XtKxNXwusVSwOvZtYNJA/MDSHZHUwIwfCIpKHPKlq2CbXqMC67KRpg63PEFgo9v3dyG0
+         /pJDumKenO9KpAQhU6gZq/ZTT2TN9M1mV3tYe5wTshGzIUHsJV4kEzd8wyMV4NpTaFpN
+         Umlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782582569; x=1783187369;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+uflCN5dEoFADXWjqBtV9JZXNhAeBkbLG/4dD0z7b4I=;
+        b=hmAmQhXU5b1ImyUQIKZmZBz6LqafvPu7y+qDwSTTLHYt6wAeBrBlrecDuPeedVLCI+
+         c9epiHJfDommpZxz503wPCy03c2PavWfn+KdV0PhiDdw2RrDUUq/uSlTTrr++nWEB4ym
+         SdwahDqt8Wtdo+Uo3A67H770iFHXS8GK33lfLczEzOgIK7wAWKuIIgt1N+RVIlf4ou5e
+         xKYwSemF9CZ8bJ0S34QoUHpojer2jeV2m3NaYYkSkdT279vjaKk4/YqnooF02P1nCM3A
+         YM6d5XuUlEqnM/7Ofx02DoOJMacfy7fFW3oRHcz9o2l+vtAsCWtmuZaXzHGobAHw30PT
+         WSWw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1hPmS6A4yVgVrPDcaSPyb32gNG6V/a3SVjy4hB+cMebO4HZc1g0epSDdq5+fbYJtIgr2w2M3oNAzyrg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmW2h1MkszvC20q+n/Rz1F2Zk6MyG7uQDicFOpp+BqLEWqQd8h
+	4i5XVip9aF+x0yf2e+DX+rlRUt7RrCbQDm/SUbtzCLg31pmZ1vE3zi8q
+X-Gm-Gg: AfdE7cmqQHdxg3ZNO1Z2Okkb1vDI6JJAf8JzrFDD9Bl6GmJI6K2b+Xl36AneX5WOLAc
+	uK16P6scohe8uOs4K9ehox0Db/ni8xYFkd/xCRq6URuOWuPgE67OWjU3tyTzhfnedEN3bhZEGuh
+	tZt8GlgY3/agxisr3rcB67HNou6CGWxQOIZs5l1Sld0hIIbm8mwkacZUz+2Cx49IgzPIX4plDXo
+	OHonRLaTykpcMq6HjG5lNqK6b02Lgc8mhPrZ6v6dr5D6VijFfh8sDFPVuF5WHZXX105Vta76DM0
+	zXv3r3sWUWsSrGcFR7ALb2MadU5MYbPuRnYGWPsM1/9azUGZLGKso+4sb+apR0+eBhV8ueoYqPT
+	W+ZhwGzI7SoYAgLAmGVpZUC/Q1oSTpYcgMXwkNWVvR4tGmFsLq0W/Oml5E35y71eolC70qa6wGh
+	XHutnwJTU7i8d5WF8pY0gzzfBoMm9KHHumybfG5duQc+Bc
+X-Received: by 2002:a05:6102:440f:b0:730:db02:1d08 with SMTP id ada2fe7eead31-73434452fd5mr5471882137.10.1782582569056;
+        Sat, 27 Jun 2026 10:49:29 -0700 (PDT)
+Received: from localhost (d-24-145-72-22.fl.cpe.atlanticbb.net. [24.145.72.22])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-96916e5b10dsm2811280241.4.2026.06.27.10.49.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jun 2026 10:49:28 -0700 (PDT)
+From: Yury Norov <yury.norov@gmail.com>
+X-Google-Original-From: Yury Norov <ynorov@nvidia.com>
+Date: Sat, 27 Jun 2026 13:49:27 -0400
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Robin Murphy <robin.murphy@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Russell King <linux@armlinux.org.uk>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	Yicong Yang <yangyicong@hisilicon.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Dan Williams <djbw@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Shuai Xue <xueshuai@linux.alibaba.com>,
+	Will Deacon <will@kernel.org>,
+	Jiucheng Xu <jiucheng.xu@amlogic.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Jing Zhang <renyu.zj@linux.alibaba.com>,
+	Xu Yang <xu.yang_2@nxp.com>, Linu Cherian <lcherian@marvell.com>,
+	Gowthami Thiagarajan <gthiagarajan@marvell.com>,
+	Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
+	Khuong Dinh <khuong@os.amperecomputing.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Yury Norov <yury.norov@gmail.com>, Kees Cook <kees@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Aboorva Devarajan <aboorvad@linux.ibm.com>,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+	Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+	Besar Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>,
+	Chengwen Feng <fengchengwen@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-perf-users@vger.kernel.org, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-fpga@vger.kernel.org,
+	linux-rdma@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 13/16] perf: Use sysfs_emit() for cpumask show callbacks
+Message-ID: <akANJ-AT7nHpRMq-@yury>
+References: <20260528183625.870813-1-ynorov@nvidia.com>
+ <20260528183625.870813-14-ynorov@nvidia.com>
+ <7e980b99-1e4e-408b-8ebd-4d28116e7ad5@arm.com>
+ <20260529130619.12f24264@pumpkin>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 27 Jun 2026 18:07:32 +0200
-Message-Id: <DJJYM56GLGXX.2L6RY669ZOJSC@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Mark Brown" <broonie@kernel.org>, "Nathan
- Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, "Raag Jadav"
- <raag.jadav@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>, "Dave
- Hansen" <dave.hansen@linux.intel.com>, "Rob Herring" <robh@kernel.org>,
- "Saravana Kannan" <saravanak@kernel.org>, "Bjorn Helgaas"
- <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, "Len Brown"
- <lenb@kernel.org>, "Andi Shyti" <andi.shyti@kernel.org>,
- <linux-kernel@vger.kernel.org>, "Yemike Abhilash Chandra"
- <y-abhilashchandra@ti.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- <linux-media@vger.kernel.org>, "Nicolas Frattaroli"
- <nicolas.frattaroli@collabora.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Heiko
- Stuebner" <heiko@sntech.de>, <linux-rockchip@lists.infradead.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <driver-core@lists.linux.dev>, "Jonathan Cameron" <jic23@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Bartosz Golaszewski"
- <bartosz.golaszewski@oss.qualcomm.com>, "Pei Xiao" <xiaopei01@kylinos.cn>,
- "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Ben Horgan"
- <ben.horgan@arm.com>, "Johan Hovold" <johan@kernel.org>,
- <linux-usb@vger.kernel.org>, "Nikita Kravets" <teackot@gmail.com>, "Hans de
- Goede" <hansg@kernel.org>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, <platform-driver-x86@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-i2c@vger.kernel.org>, "Daniel Scally"
- <dan.scally@ideasonboard.com>, "Sakari Ailus"
- <sakari.ailus@linux.intel.com>, "Minas Harutyunyan" <hminas@synopsys.com>,
- "Tianrui Zhao" <zhaotianrui@loongson.cn>, "Bibo Mao" <maobibo@loongson.cn>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- <kvm@vger.kernel.org>, <loongarch@lists.linux.dev>
-To: =?utf-8?b?VXdlIEtsZWluZS1Lw7ZuaWcgKFRoZSBDYXBhYmxlIEh1Yik=?=
- <u.kleine-koenig@baylibre.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 00/17] mod_devicetable.h: Split into per subsystem
- headers
-References: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260529130619.12f24264@pumpkin>
 
-On Fri Jun 26, 2026 at 8:00 PM CEST, Uwe Kleine-K=C3=B6nig (The Capable Hub=
-) wrote:
-> Uwe Kleine-K=C3=B6nig (The Capable Hub) (17):
->   mod_devicetable.h: Split into per subsystem headers
->   driver: core: Include headers for acpi_device_id and of_device_id for s=
-truct device_driver
->   driver core: platform: Include header for struct platform_device_id
+On Fri, May 29, 2026 at 01:06:19PM +0100, David Laight wrote:
+> On Fri, 29 May 2026 12:05:08 +0100
+> Robin Murphy <robin.murphy@arm.com> wrote:
+> 
+> > On 2026-05-28 7:36 pm, Yury Norov wrote:
+> > > These callbacks are sysfs show paths.
+> > > 
+> > > Use sysfs_emit() and cpumask_pr_args() to emit the masks.
+> > > 
+> > > This prepares for removing cpumap_print_to_pagebuf().  
+> > 
+> > TBH, looking at this diff I think it only shows the value of having a 
+> > helper to abstract the boilerplate...
+> > 
+> > I'm not sure I agree with the argument of removing something entirely 
+> > just because it may occasionally be misused, but could we at least have 
+> > something like:
+> > 
+> > #define sysfs_emit_cpumask(buf, mask) \
+> > 	sysfs_emit((buf), "%*pbl\n", cpumask_pr_args(mask))
+> >
+> > to save the mess in all the many places where the current 
+> > cpumap_print_to_pagebuf() usage _is_ entirely appropriate?
 
-With the suggested rename,
+This way you have to add 2 wrappers:
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+ #define sysfs_emit_cpulist(buf, mask) \
+ 	sysfs_emit((buf), "%*pbl\n", cpumask_pr_args(mask))
+
+ and
+
+ #define sysfs_emit_cpumask(buf, mask) \
+ 	sysfs_emit((buf), "%*pb\n", cpumask_pr_args(mask))
+
+There are people who complain even about DIV_ROUND_UP(), how hard it is
+to keep all that helpers in memory, and all that things.
+
+https://lore.kernel.org/all/20260304124805.GB2277644@noisy.programming.kicks-ass.net/
+
+Disagree about DIV_ROUND_UP() (because yeah, I'm bad in math), but
+this sysfs_emit_cpumask() is a complete syntax redundancy.
+
+Once we have it, people will do this type of things:
+
+        tmp = kmalloc(PAGE_SIZE);
+        sysfs_emit_cpumask(tmp, mask);
+        sysfs_emit(buf, "my prefix: %s\n", tmp);
+        kfree(tmp);
+
+Patch #1 in this series is one example. My series that removes
+bitmap_print_to_pagebuf() will give you more:
+
+https://lore.kernel.org/all/20260303200842.124996-2-ynorov@nvidia.com/
+
+It doesn't mean that *you* will misuse the API. It means that *I* will
+have to inspect the codebase for that type of bugs periodically.
+
+So, the overall state is simple: we've got well-established
+printf()-like functions that people know and understand, and we also
+have exotic APIs here and there with a non-standard interface and a
+clear potential to misuse. In this case, they have historical roots,
+but now we don't need them.
+
+> That has the advantage of letting you change how it is done (again)
+> without having to find all the callers.
+
+You mean things like silencing the prints or adding a prefix?
+
+If you believe that perf subsystem would benefit from it - that's
+OK. Just please keep it local. The kernel globally doesn't need to
+'change how it is done' beyond the lib/vsprintf.  The kernel really
+needs people to use something that the other people are familiar with.
+
+Thanks,
+Yury
