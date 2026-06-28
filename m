@@ -1,75 +1,55 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2A83A48C2
-	for <driver-core@lists.linux.dev>; Sun, 28 Jun 2026 13:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6A435B632;
+	Sun, 28 Jun 2026 14:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782655149; cv=none; b=IdzMqJrOr7WjXCa/r3f+n7GHdna+lRRVrX5oE9yhAu4U35gsd57ZmhkZXaFGuWQt3LY+JFrwq2v9cLsWCaUfDF3E/KM6Lp+jGAWr8+z8zBZKXsXWqRLJ2MBYk6lVGl2Hrj09FzRhvY5MnDEmf1SeQCBxXggKPxQ3u++14//KrIo=
+	t=1782658453; cv=none; b=mzkcmcMCzZY58iiQmwqWhNnMPcnWcLuf5XTkJ58AwbqjjRmnD74msBE23z5KpMd70qF61NoyaEuk55KCAEWtfruOk/yFYO2/LtBWsxlprcbte7DuIwKQFVFaoUJzMClaP8hvT2IIDqJE5ySHW6WRddjKhRxtIXd8HIZ1Bxg6jZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782655149; c=relaxed/simple;
-	bh=KfOdwpZ6UcjnNT71lq6ZanFOh8QYLHlj2ySCLZxk5n0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=plxfC/aH/8CpfncZnV+ylVXa+6hyKGIyAh4iviDs1cXbGWMR7lUhb00uH33f4LgBy59HySRPbCGmOUfteeN3heW9rnEn3hcEscnFT/kz+BCHZ3faursGpLzijAJf9C9ZMYo0kEFI5NmfFeysoOfnUyfkpFcHMRC5hvpHxfJyewE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C7UdArIQ; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782658453; c=relaxed/simple;
+	bh=9Pw3RQDbfdmP6ODjdE2M3W7+Wh6mgZfp4CQPCOn2hJo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AbQmuHRrkId28ik/vSVhiaaspfZQqmTYKchcw5vGd3OcX68qpG4f3ybFHC77EAzopHrUf/LacwYLQv5PYiiHF2NMU/WzEa6dA46n+fuTa1aQWaByDXcQVowhJyDyu3qJhUwoPrGOBwzJzhVqXAdnwA9+VJTS5yeMgff7i2La0v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BUv3LHPQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C7UdArIQ"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-84780c95e2eso87720b3a.3
-        for <driver-core@lists.linux.dev>; Sun, 28 Jun 2026 06:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782655148; x=1783259948; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3AT8kLsvyzfUdZljtqGgd86QBG9Fqk9hCYtkfnv4Fb0=;
-        b=C7UdArIQFwTYoHuuIini0VS1DKcNUCb8S6bzHgViJPeRqDlm/xrnZBveGXcbwkQO3c
-         LghU9K5iGrEs94vpykrJ3EINv8XDmR93Z5bPvEOibR8h4nw6IIvtvCQVUQIVc4399mVR
-         1OmDLri0yNF4hVuKwC6LOds5DXl53NdF6QEeC6IFwPUasIygNiF4gqAj8FIOwCMHK1J4
-         bW0YrEI6u2fSE/eMnCdgtlUIEg587WOT0pP3YP7uX3IEDkgS011/usU81WzHA3tSymeV
-         RJJuF+doEOArb9OuZUfuktRutMbJwwM69YkSWS1ct1TEUMl+Yq6S7VsSE2APCSmtYu1G
-         uLTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782655148; x=1783259948;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3AT8kLsvyzfUdZljtqGgd86QBG9Fqk9hCYtkfnv4Fb0=;
-        b=lHuatQkGYvp6b7fuP35ChVAwDaqBCWXPQspa/SxfL8cP9qec3DXQMEOX7odgw3Pwbs
-         CWWpHcIcVvGs7HN1mnbR0Fy4qa6+sXnGFahA6Hq2yYl2bajSB+zWA5GYiBLzxjo6O5W3
-         KP0cEIIm10foGDftHnVq22Fg1qFo8YROqHMVQ3H/ArfV5VrlS6ahPUgIKqx9MvApx3vj
-         fOhIYvqcTIYGWfFpELOs5BDhk/xdJeB1GkDxJEK6kSQpzrRAtfDeVuMNtTIJr+UekOWG
-         VuhINdRF/RfgXITJTlDTFMrvQg9UsZiAwa0/F8txS3s81Jdm9V5ORrFDBYFRNrgYHCft
-         QjHQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+RL7isw58O601cLkAm/kXJA/4gNvZqwiKoXcyvsQxGf0cyoAhU2hP/TA2Z0zA1fODS0FJyXUJvaRvc6A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0IpjQLz72rmuocaFgO/JOCd573h3zHfyzp8T60l81yHq/vIuv
-	mrwlIGdbTE4byaGDHTA9S9lBD36dmqq1/2eN36RVhCaE31gloLETFEqH
-X-Gm-Gg: AfdE7cneEzC3y2vQD4nEK8MkuIBPxU2MIny/lDuwSLNFtfhq6xwYUibB6kUnav8GZ3s
-	iw2gB8D5ZuL0+/QkyuONHhPooCurObeL8R5HCfEafX8Or7Rs4w3KPPfdk21QTYOaUuUNAN7nYQk
-	tKgzzZxjcFBzz3oMw1RwF/P4F8wt6RhECuQRxJ2XfwPB65e0m9rECl3THmQIylGzydNPqX38HhG
-	p1hfbEPE7ileInDgEBp9C8Zp60as88oR6W2t6seBTgx1JiKvd+Vz9I0k/IwPk6hUACOmGmZQSV0
-	F6QvTTcysfwZIUbWijwmmZ42bR36W0cja2WC7QbfPxoaoPX8DHKVeY4rg1vZMDXM3SHDKsGf6aR
-	7ImXqEz4CvOZ9z48YD/xzvJv2Cf+dqc8aPv3MX/nJ0S3PxWHrSMkPhySsijcp15MiRNAAl8qlFn
-	E0u46OurytlemtmDXQww==
-X-Received: by 2002:a05:6a00:994:b0:847:7010:f3e4 with SMTP id d2e1a72fcca58-8477010f774mr1544520b3a.25.1782655147718;
-        Sun, 28 Jun 2026 06:59:07 -0700 (PDT)
-Received: from ubuntu.. ([110.9.142.4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a40d23d7sm10041108b3a.30.2026.06.28.06.59.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 06:59:07 -0700 (PDT)
-From: Sang-Heon Jeon <ekffu200098@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Sang-Heon Jeon <ekffu200098@gmail.com>,
-	driver-core@lists.linux.dev
-Subject: [PATCH 8/9] arch_numa: remove redundant node_possible_map assignment
-Date: Sun, 28 Jun 2026 22:58:22 +0900
-Message-ID: <20260628135828.1393120-9-ekffu200098@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260628135828.1393120-1-ekffu200098@gmail.com>
-References: <20260628135828.1393120-1-ekffu200098@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BUv3LHPQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0091F000E9;
+	Sun, 28 Jun 2026 14:54:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782658452;
+	bh=h0jpkAZNtsHGk3Wd8Y63SEq9/8SiZCMBQdR1ISNQCPs=;
+	h=From:To:Cc:Subject:Date;
+	b=BUv3LHPQjYAqdPFoBdrHya8vQsu22YPxE7YvShCVnkZSs/STb1N+UHgeDKV2JETjX
+	 nH/X2BBJbdG7VAj4/pz9r4CJHDABkH1bkJ/IMSMrm/jYwhUBtWLRA6Tn5xoLENMK3G
+	 hDeNSqISUKMG9B4+LMMAK1nu4LdaNcwLi3lYVpZ6UVb/dFTRQpj/bNmBIefDoQEAMk
+	 YxsLBUn+wM2UILeVcSJQg9WWaOphunP47BXSioLdGhrdfwF88hNDYp+L2U79bwzLWE
+	 mvNMg5dkbFoFNxLEn+wY4iLyeuWJES0bHVtiSrDz2Oh616FVlbFS3j+x3nH2ESKQw+
+	 PjaZ4s2E/1g7g==
+From: Danilo Krummrich <dakr@kernel.org>
+To: dakr@kernel.org,
+	aliceryhl@google.com,
+	daniel.almeida@collabora.com,
+	acourbot@nvidia.com,
+	ecourtney@nvidia.com,
+	ojeda@kernel.org,
+	boqun@kernel.org,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	tmgross@umich.edu,
+	deborah.brouwer@collabora.com,
+	boris.brezillon@collabora.com,
+	lyude@redhat.com
+Cc: driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v5 00/19] rust: drm: Higher-Ranked Lifetime private data
+Date: Sun, 28 Jun 2026 16:53:20 +0200
+Message-ID: <20260628145406.2107056-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -78,31 +58,132 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-numa_register_meminfo() sets node_possible_map to numa_nodes_parsed. The
-later assignment in numa_register_nodes() is therefore redundant, so remove
-it.
+DRM ioctls run in process context without any guarantee that the parent
+bus device is still bound. This series solves the problem by introducing
+RegistrationGuard -- a guard representing a drm_dev_enter/exit SRCU
+critical section that proves the parent bus device is bound for the
+lifetime of the guard.
 
-No functional change.
+As initial plumbing for this, the DRM DeviceContext typestates are
+reworked: Uninit is renamed to Normal, defaults are adjusted,
+AlwaysRefCounted is restricted to Normal, and a Deref chain from
+Device<T, Registered> to Device<T, Normal> is established. This gives
+Device<T, Registered> the semantic that the device is currently
+registered and the parent bus device is bound, which makes the
+RegistrationGuard and ioctl dispatch much cleaner. An Ioctl context
+restricts registration_guard() to ioctl dispatch, where the DRM core
+guarantees prior registration.
 
-Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
----
- drivers/base/arch_numa.c | 3 ---
- 1 file changed, 3 deletions(-)
+On top of that, add RegistrationData as a GAT (Generic Associated Type)
+on drm::Driver, allowing drivers to store data whose lifetime is tied to
+the parent bus device binding scope. The data is allocated in
+Registration::new(), lifetime-erased to 'static for storage, and made
+accessible through Device<T, Registered>::registration_data_with(). The
+closure's HRTB ties the lifetime to the closure scope; internally the
+'static pointer is cast back to the closure-scoped lifetime. The
+reference is valid for the duration of the drm_dev_enter/exit critical
+section held by RegistrationGuard.
 
-diff --git a/drivers/base/arch_numa.c b/drivers/base/arch_numa.c
-index 19bc806313c4..d4e426aa51c5 100644
---- a/drivers/base/arch_numa.c
-+++ b/drivers/base/arch_numa.c
-@@ -221,9 +221,6 @@ static int __init numa_register_nodes(void)
- 		node_set_online(nid);
- 	}
- 
--	/* Setup online nodes to actual nodes*/
--	node_possible_map = numa_nodes_parsed;
--
- 	return 0;
- }
- 
+Also update the ioctl dispatch macro to wrap every handler in a
+RegistrationGuard, returning ENODEV if the device has been unplugged,
+and pass the registration data to handlers.
+
+A branch with all patches can be found in [1].
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=drm-lifetime
+
+Changes in v5:
+- Replace __call_ioctl() helper with a simple for<'a> fn(...) coercion
+- Rebase onto latest drm-rust-next, which requires a faux::Device type with
+  AsBusDevice impl and motivates the removal of the DeviceContext generic from
+  shmem::Object entirely
+- Replace ForLt with a GAT type RegistrationData<'a>
+- Fix drm_dev_register() error path race on the C side
+- Add a few missing #[inline] annotations
+
+Changes in v4:
+- Fix pre-existing unbounded lifetimes in ioctl handler arguments.
+- Fix registration_guard() being callable on unregistered devices by
+  introducing an Ioctl device context typestate; registration_guard() is
+  now only available on Device<T, Ioctl>, which is exclusively
+  constructed in ioctl dispatch context where the DRM core guarantees
+  prior registration.
+- Fix type inference allowing handlers to obtain Device<Registered>
+  before RegistrationGuard is acquired.
+- Make RegistrationGuard !Send via NotThreadSafe to prevent potential
+  lockdep splats from cross-thread SRCU unlock.
+- Store &Device<T, Registered> directly in RegistrationGuard instead of
+  calling assume_ctx() in Deref.
+
+Changes in v3:
+- Rename UnbindGuard to RegistrationGuard
+- RegistrationGuard no longer dereferences to &Device<Bound>; it
+  dereferences to &drm::Device<T, Registered> instead
+- Drop Registration::new() and rename Registration::new_with_lt() to
+  Registration::new()
+- Rework DeviceContext typestates: rename Uninit to Normal, restrict
+  AlwaysRefCounted to Normal, establish Deref chain from Registered
+  to Normal
+- Add AsRef<ParentDevice<Bound>> on Device<T, Registered> for parent
+  device access
+- Move registration_data_with() from RegistrationGuard to
+  drm::Device<T, Registered>
+- Ioctl handlers no longer receive &Device<Bound>, only registration
+  data and drm::Device<T, Registered>
+- Use Device<Registered>::as_ref() to access parent device in nova-drm
+
+Changes in v2:
+- Replace unsafe direct registration data access in ioctl dispatch with
+  safe UnbindGuard::registration_data_with() closure
+- Eliminate unbind_guard() free function; use type-inference anchor to
+  enable direct dev.unbind_guard() method call in the ioctl macro
+- UnbindGuard::registration_data_with() provides both parent device and
+  registration data to the closure
+- Add nova-drm conversion patch demonstrating lifetime-aware registration
+  data with &'bound auxiliary::Device<Bound>
+- Various safety comment and documentation improvements
+
+Danilo Krummrich (19):
+  rust: drm: ioctl: fix unbounded lifetimes in ioctl handler arguments
+  rust: drm: rename Uninit DeviceContext to Normal
+  rust: faux: add Device type with AsBusDevice support
+  rust: drm: Add Driver::ParentDevice associated type
+  rust: drm: change default DeviceContext to Normal
+  rust: drm: restrict AlwaysRefCounted to Normal Device context
+  rust: drm: restrict AlwaysRefCounted to Normal GEM Object context
+  rust: drm/gem: remove DeviceContext from shmem::Object
+  rust: drm: split Deref for Device context typestates
+  rust: drm: pin ioctl Device reference to Normal context
+  rust: drm: add Ioctl device context typestate
+  rust: drm: Add RegistrationGuard for drm_dev_enter/exit critical
+    sections
+  rust: drm: Wrap ioctl dispatch in RegistrationGuard
+  rust: drm: return ParentDevice from Device AsRef
+  rust: drm: add AsRef<ParentDevice<Bound>> for Device<Registered>
+  drm: fix race between partial drm_dev_register() failure and ioctl
+  rust: drm: Add RegistrationData to drm::Driver
+  rust: drm: Pass registration data to ioctl handlers
+  drm: nova: Use drm::Device<Registered> to access the parent bus device
+
+ drivers/gpu/drm/drm_drv.c        |  34 +++-
+ drivers/gpu/drm/nova/driver.rs   |  38 ++--
+ drivers/gpu/drm/nova/file.rs     |  22 ++-
+ drivers/gpu/drm/nova/gem.rs      |  18 +-
+ drivers/gpu/drm/tyr/driver.rs    |  25 ++-
+ drivers/gpu/drm/tyr/file.rs      |   8 +-
+ drivers/gpu/drm/tyr/gem.rs       |  11 +-
+ rust/kernel/drm/device.rs        | 293 +++++++++++++++++++++++--------
+ rust/kernel/drm/driver.rs        | 111 +++++++-----
+ rust/kernel/drm/gem/mod.rs       |  98 +++++------
+ rust/kernel/drm/gem/shmem.rs     | 257 +++++++++++++--------------
+ rust/kernel/drm/ioctl.rs         |  56 +++++-
+ rust/kernel/drm/mod.rs           |   4 +-
+ rust/kernel/faux.rs              |  69 ++++++--
+ samples/rust/rust_driver_faux.rs |   3 +-
+ 15 files changed, 660 insertions(+), 387 deletions(-)
+
+
+base-commit: fa8cc4e3067f958ea2057f37a8a6f9c6b10a9c03
 -- 
-2.43.0
+2.54.0
 
