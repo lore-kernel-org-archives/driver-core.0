@@ -1,18 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396DD1531E8;
-	Sun, 28 Jun 2026 17:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E185426ED3A;
+	Sun, 28 Jun 2026 20:03:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782668715; cv=none; b=VzYSYZwlp4FGLj/LXIjH9qZG72ynUDAbFD7lR/swKQwW83EjKU+JjkFaNVEJHuSvHBnd7Ks7ygSIfUyAVW2XWEa2t9aYw5K/2G5J7mpWEJXCIc3nmCCYrEhioTzwA5iq1NzVptNNYXBZiyEtwdcymlWqhoRvw0zqeJ6RapyYRwk=
+	t=1782677024; cv=none; b=KLz4SzecHHE83/XWq2EFSlz1XcUwmg8VBdvi8CnUbg2rMgBrwIYTmWMK/grwHFgNsuT4dCQkJk5tU74FLsLilzVBTaBztNfC6J1IXnvf1FXwYMp/Nfwro1oLWhrCRI07ZKu6LEKg1qyUYewiPUsCuZKZS5Fq8hAipcvbt+MBe7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782668715; c=relaxed/simple;
-	bh=k+F/+3LgpveYbZ7cPWi4gj6oKSTw1m+Vdzon0wGmV/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U9tGbsgiegMq6f+pIHkVIeFGyFuc1WQyka/eCCIUfcFe8jaj7CFpoWplRFieTW39GWoBaoIwNYo4AcVwsGOdfJSrTin820QkhC3OM1ANyz9DiMc7MZr3idaWuo8DirMu0nSx1Ie9wdCyEZErcdkQBxqn13oXzDDsw6kkS8AKMeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFDA41F000E9;
-	Sun, 28 Jun 2026 17:45:09 +0000 (UTC)
+	s=arc-20240116; t=1782677024; c=relaxed/simple;
+	bh=2cHFFPC0mGiShryppd4erFEhd715CSn0cr9WuI8tDwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oHLztqzeL11E3asXK2yhDLTIjcJL1hwP7r9U5cDfWG62O60bLKxPYBEzQS8crofewsEoxIdc6km6RBO5X+Vb8S5w3LWZBVXQrWFd1+uCiURIUqulrNzS3pyaupr3d8tgZ0do5hWBNUicjs1CLGwOomiG6xRvDuquBB568l68dM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZUefJOWn; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZUefJOWn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C45F21F000E9;
+	Sun, 28 Jun 2026 20:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782677023;
+	bh=frHiRHw3H3PdxqJsD/24F7Lnivb422p6BVK/wWW5Mbk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ZUefJOWnvAoMOrDkIhK5EMO40alzCC8qdERZwVUADNk5MnC/x8PlBBRt4Vs6GUx0A
+	 WO5VuPnH7/WjWdXQf9CG9/q3tOLJNg5wBk9ilqEGhIf+LzjZXc5B2KlV8VE37YxdhS
+	 uvNDNPPwimy0fknr3DrvSLIvKmh/3BTLmOXE9erjRrXODfbDvUwDYjwb8xHlQobK9u
+	 5D9CqKxPWiVNZtL2BRr5aaFS2FMhenx6+6w+ujJs/zNS10+J6ByHjeVLxiI7A+LcHw
+	 /BnhqRN5ZIOyMCq+6atdHqEnMYWVDyJpr24YNHBUjDYb89l5kn3aZQIWa3aUbVDDhX
+	 bqEdAfiR9T13A==
 From: Danilo Krummrich <dakr@kernel.org>
 To: gregkh@linuxfoundation.org,
 	rafael@kernel.org,
@@ -32,12 +45,13 @@ To: gregkh@linuxfoundation.org,
 Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
-	stable@vger.kernel.org,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH] rust: devres: fix race between concurrent revokers
-Date: Sun, 28 Jun 2026 19:44:38 +0200
-Message-ID: <20260628174451.2275679-1-dakr@kernel.org>
+	stable@vger.kernel.org
+Subject: [PATCH] rust: devres: ensure revocation is complete before device finishes unbinding
+Date: Sun, 28 Jun 2026 22:02:53 +0200
+Message-ID: <20260628200304.2365598-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260628174451.2275679-1-dakr@kernel.org>
+References: <20260628174451.2275679-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -46,100 +60,58 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a potential race condition when two paths try to revoke a
-Devres concurrently.
+Now that the revocation Completion is in place, also address the
+symmetric case. When Devres::drop() wins the is_available swap and the
+devres callback loses, the callback returns to devres_release_all()
+without waiting. This means device unbinding can complete while
+Devres::drop() is still executing drop_in_place() on another CPU, which
+is a problem if T's destructor accesses device state.
 
-The driver core's devres_release_all() calls Revocable::revoke() via the
-release callback, while Devres::drop() calls revoke_nosync() on another
-CPU.
+Make the synchronization bidirectional. Whichever side performs
+drop_in_place() signals the Completion, and the other side waits.
 
-The revoker that does not claim the is_available swap returns
-immediately, but the revoker that did may still be executing
-drop_in_place() on the inner data. This can cause a use-after-free when
-the other revoker's caller proceeds to drop adjacent resources that
-drop_in_place() still references (e.g., Devres<DmaMappedSgt> racing with
-SGTable freeing the backing sg_table and pages).
-
-Fix this by adding a Completion. The release callback signals the
-Completion after revoke() finishes, and Devres::drop() waits for it when
-it loses the is_available swap. This ensures the wrapped object is fully
-torn down before Devres::drop() returns.
+This does not reintroduce the nested Devres deadlock fixed by commit
+ba268514ea14 ("rust: devres: fix race condition due to nesting"),
+because that deadlock was caused by drop waiting for the release
+callback to return (the old 'devm' Completion). Here, both sides only
+wait for drop_in_place() to finish, which completes within the current
+call chain. The Arc<Inner<T>> keeps the Inner allocation alive
+independently.
 
 Cc: stable@vger.kernel.org
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/dri-devel/20260612202841.2577C1F000E9@smtp.kernel.org/
-Fixes: 05aa6fb1c21d ("rust: scatterlist: Add abstraction for sg_table")
+Fixes: ba268514ea14 ("rust: devres: fix race condition due to nesting")
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/devres.rs | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ rust/kernel/devres.rs | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
-index 11ce500e9b76..11d862f1e6de 100644
+index 11d862f1e6de..f112c7e8bc3b 100644
 --- a/rust/kernel/devres.rs
 +++ b/rust/kernel/devres.rs
-@@ -21,7 +21,8 @@
-     sync::{
-         aref::ARef,
-         rcu,
--        Arc, //
-+        Arc,
-+        Completion, //
-     },
-     types::{
-         ForeignOwnable,
-@@ -37,6 +38,8 @@ struct Inner<T> {
-     node: Opaque<bindings::devres_node>,
-     #[pin]
-     data: Revocable<T>,
-+    #[pin]
-+    revocation: Completion,
- }
+@@ -264,6 +264,11 @@ fn data(&self) -> &Revocable<T> {
  
- /// This abstraction is meant to be used by subsystems to containerize [`Device`] bound resources to
-@@ -53,6 +56,10 @@ struct Inner<T> {
- /// After the [`Devres`] has been unbound it is not possible to access the encapsulated resource
- /// anymore.
- ///
-+/// When a [`Devres`] is dropped, it is guaranteed that `T` has been fully dropped by the time
-+/// [`Devres::drop`] returns, even if a concurrent revocation through the release callback is in
-+/// progress.
-+///
- /// [`Devres`] users should make sure to simply free the corresponding backing resource in `T`'s
- /// [`Drop`] implementation.
- ///
-@@ -217,6 +224,7 @@ pub fn new<E>(dev: &Device<Bound>, data: impl PinInit<T, E>) -> Result<Self>
-                     };
-                 }),
-                 data <- Revocable::new(data),
-+                revocation <- Completion::new(),
-             }),
-             GFP_KERNEL,
-         )?;
-@@ -254,7 +262,9 @@ fn data(&self) -> &Revocable<T> {
-         // SAFETY: `inner` is a valid `Inner<T>` pointer.
-         let inner = unsafe { &*inner };
- 
--        inner.data.revoke();
-+        if inner.data.revoke() {
-+            inner.revocation.complete_all();
-+        }
-     }
- 
-     #[allow(clippy::missing_safety_doc)]
-@@ -361,6 +371,10 @@ fn drop(&mut self) {
-                 // this additional reference count.
-                 drop(unsafe { Arc::from_raw(Arc::as_ptr(&self.inner)) });
-             }
+         if inner.data.revoke() {
+             inner.revocation.complete_all();
 +        } else {
-+            // The release callback is concurrently revoking; wait for it to finish
-+            // `drop_in_place()` of the wrapped object before returning.
-+            self.inner.revocation.wait_for_completion();
++            // Devres::drop() is concurrently revoking; wait for it to finish `drop_in_place()`
++            // before returning to `devres_release_all()`, ensuring `T` is fully torn down before
++            // the device finishes unbinding.
++            inner.revocation.wait_for_completion();
          }
      }
- }
+ 
+@@ -364,6 +369,8 @@ fn drop(&mut self) {
+         // SAFETY: When `drop` runs, it is guaranteed that nobody is accessing the revocable data
+         // anymore, hence it is safe not to wait for the grace period to finish.
+         if unsafe { self.data().revoke_nosync() } {
++            self.inner.revocation.complete_all();
++
+             // We revoked `self.data` before devres did, hence try to remove it.
+             if self.remove_node() {
+                 // SAFETY: In `Self::new` we have taken an additional reference count of `self.data`
 
-base-commit: 0716f9b9338a86dd27796e00ed0fd560c653323a
+base-commit: 6cb8c4e26a3684c9df382a350f06bfbe2a197e5e
 -- 
 2.54.0
 
