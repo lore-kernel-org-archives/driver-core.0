@@ -1,51 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5A11DC985;
-	Sun, 28 Jun 2026 23:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955F33559F8;
+	Sun, 28 Jun 2026 23:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782688143; cv=none; b=UOVyrD7fLWBdB76oXjDGfHn4Arl6axlfMi4f7KDnnQMPw/AyeOyiOJH1SGIcAaC87K69+n3Ynsfk7qA8YEai2aG8NcILuAHU6G99AccGc1B2J0tDDNa4Fwh8og+w1io64Ju8l31d+BVuvxWkzFR0/iS7wNZ5uolMZoM3Ud7OU/E=
+	t=1782688309; cv=none; b=GUtDVXEnzOXbAxcprYlRHtQ0dCM5VHdmPQhVzzgX7KTH0cG8rZ5aM5zFRJCCi160/hrf3S0WKaagOmFj1pvLuOlHNQuzEJsx4ZnOXVLLElnvYQpZCYs7T0Wg20w/fTn2ChX0atuNbEV22ce2ISH1hfrztoeqwRwxukm7+j7eVXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782688143; c=relaxed/simple;
-	bh=vpucwcrz0yIGGuQhtNz1MkSTqCKSrrRzNcxGO3GUZNo=;
+	s=arc-20240116; t=1782688309; c=relaxed/simple;
+	bh=DmXf5Ci1HOPuDy+PYQEDTrmHcR97sSbEYbhT982Ri0w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aC4LgVmH6dExSya7spOAtbEMlknEBVDsq1LCz9uy+s2W/IdyXzHaLPyRQ2IZAeVApZLiNWK+vMvSZxL9YFH350lK1JUVgExjcRBwuOEMA+VEzZIsQJDVdHjiFc6PhvmC7JZl4PZ0GjUc4rvCQ23l7NG+VBr7nong6KiqMTGsKAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PHqGHSQJ; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=B/5PVblPkaV+98Wn4fYdbCLoxm72OQ2whxNLxiFH/nhvbdHTS3SzI70KLvDUZH8GRzjpKqVWIZZ2fq/sBna/Z8NxrxyYdtci0/Fr9Y6g5SxozFZDxO5/tKP2DaboZDChed+CckWezd1xrRDlAokr6olBOHFFKqtYjGIiZL+5OUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nT3Ct5Ql; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PHqGHSQJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DF61F000E9;
-	Sun, 28 Jun 2026 23:08:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nT3Ct5Ql"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1BD51F000E9;
+	Sun, 28 Jun 2026 23:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782688142;
-	bh=6HB9ne7se5fKQqWKCBXbtR4ksGRhmshThDdr3tHubv8=;
+	s=k20260515; t=1782688308;
+	bh=MP8mqO81IIjdZm6OwCnBYs/OoGEgMcq3mDVbFYcfDPw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PHqGHSQJUOicbB9Y8qgSNQEcnFjEJKhhpQHRU1OSf4mEYgTCK84lYOpouCNoGLiTl
-	 U9LhlZRlKby1JP9U3wX6w6BZt9TphvEXql6SkwiQkfuAu0NmTX/GMJCSxoe/JBJJtQ
-	 gQDao7wRAEX8aF9jtmiNadOSC22b9bhDrn4IpcxgBrKSnWoSdRhkJVC67cfc2XbWv1
-	 i119bKVoPTC4JlIg8/+6H24kno1559p3zTC8ROmTvY8rEPIGPzrsjJYmBrF80aLF6G
-	 i4ZXK5Is19EAhSfBiau5kJB5PknmXdAZBuik1RflEcVEIV5LoCxQtlXiQLqD9JkzX4
-	 +Bz+Ne05j1u6w==
+	b=nT3Ct5Ql45PKq1a/KmqS4W+GUZh8Bit6PZHtnMqbxp+lLdkL7uu/zz2YalA8jhiC6
+	 +vMqvDKs8GVgrOLS0FijduQ5ipc52tOMwHA5slJjpckeBTV6mJDnQ4NBuOpHN6ZlTn
+	 czm5hAnjSNDdUIG1SpMgv5W2sfpSO35bnjeFcWqUlOO5cIEnTqHMmOzFK8ADn8zL+Z
+	 22rH6giG4dsAFzN6RZkikDTqCqOYugKKrY7IbJwli09ODXnCuIThmUa+jCSv5U9fSA
+	 ApFs7MdzwIjEc/afSyWXW6by22FiYiIbEa3EFkXLXF9teucfNRugwFzkDT6eboWmCB
+	 1C+5O3uvo+pPA==
 From: Danilo Krummrich <dakr@kernel.org>
-To: Chun-Yi Lee <joeyli.kernel@gmail.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
-	Chun-Yi Lee <jlee@suse.com>,
-	David Howells <dhowells@redhat.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev,
+To: Zenghui Yu <zenghui.yu@linux.dev>
+Cc: driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] debugfs: Fix lockdown check for mmap_prepare
-Date: Mon, 29 Jun 2026 01:08:56 +0200
-Message-ID: <20260628230856.2700057-1-dakr@kernel.org>
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	rdunlap@infradead.org
+Subject: Re: [PATCH] driver core: fix path of /sys/module in comment
+Date: Mon, 29 Jun 2026 01:11:44 +0200
+Message-ID: <20260628231144.2702439-1-dakr@kernel.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260615104750.1000-1-jlee@suse.com>
-References: <20260615104750.1000-1-jlee@suse.com>
+In-Reply-To: <20260621075239.11330-1-zenghui.yu@linux.dev>
+References: <20260621075239.11330-1-zenghui.yu@linux.dev>
 X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
@@ -56,16 +50,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 15 Jun 2026 18:47:50 +0800, Chun-Yi Lee wrote:
-> [PATCH v2] debugfs: Fix lockdown check for mmap_prepare
+On Sun, 21 Jun 2026 15:52:39 +0800, Zenghui Yu wrote:
+> [PATCH] driver core: fix path of /sys/module in comment
 
 Applied, thanks!
 
   Branch: driver-core-testing
   Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
-[1/1] debugfs: Fix lockdown check for mmap_prepare
-      commit: f81808de3733
+[1/1] driver core: fix path of /sys/module in comment
+      commit: e7e09a8546a9
 
 The patch will appear in the next linux-next integration (typically within 24
 hours on weekdays).
