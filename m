@@ -1,165 +1,110 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out-03.smtp.spacemail.com (out-03.smtp.spacemail.com [63.250.43.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B965233F8B2
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 01:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09DD245012;
+	Mon, 29 Jun 2026 03:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.250.43.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782696244; cv=none; b=i4HxZcZiA59nwNrjLVtCWhu3xSq0jfzk7Nrfs/S9YrGrC/EU6UFeNeaa0THlHKL8PY6K15Wla8ohL39sqEiXAUiSSYzoaiTcJkvH+4TDsEpXm0RywkK/z8f44ejuxp3mMyfQei6ZtfTQ9vNW0rcSqtvxGYnJPV+zjlbd+k7ogDw=
+	t=1782704321; cv=none; b=cylPynW5tHme0KO2HVge6VGuD2OL1Pu0TWem+QLPQj9JpnsdGcpFlBC+dVa9mzNwYZSbnprHOTQ3XZwdEyVDb7nTcq5FI7/nne5wf8u5mcX9aVBjk7kFRsthrGCtlvxX5UHuD9PbaHLCSFGAHPVvfvyvTg29KcJdYIrloxCIkxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782696244; c=relaxed/simple;
-	bh=duso3N9cRCBmR6eoNPBbJ50Wxreg9YrNsz9B0cwAr7M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Aqbz0fUa1ShFxu488Wz0p9S4nKB7IdTG9V7yms5gIYb/jrbj7rfORh7mUu+2UBJtl5iI0SGXhL/DTj5ldmS8Kux21X5cY5bPllXlHd0SW9INBQqm6zaAMTcnQ05Wkx9ioZssO9cNXtsu+XUBM01d2kIBXzr6wWjQrfFwaMKDjOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=EzH+WLho; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1782704321; c=relaxed/simple;
+	bh=IFp8KIfJQFaD5SxJ03pX/G7sKzcitokGMS85gqHLheo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=MiCIoMmXeJaToVDEmRbdo1mqXeR7u5giVrQJ8XoUOK2GqnVOYL0CzHDG+0Dbi7528fTcuAMHD5G0hVHDCK86M/DAEAnUd6uSpIdcQdgeKDWu6Cd58zPpXiHT3gdZ9aiQlAD9roasC+uJJ/I9BrXT8wkGccALREKmOcI0ZNdje3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gurudas.dev; spf=pass smtp.mailfrom=gurudas.dev; dkim=pass (2048-bit key) header.d=gurudas.dev header.i=@gurudas.dev header.b=EhhFE7XY; arc=none smtp.client-ip=63.250.43.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gurudas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gurudas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="EzH+WLho"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 23CBF240027
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 03:14:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
-	t=1782695691; bh=mI3bO/vDwGQUXhJEcf7M5J9zd8wRvREydDgGb4y7qy0=;
-	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
-	 MIME-Version:OpenPGP:From;
-	b=EzH+WLhoZ75mTBe9S2P+1U4pyYKawyByn8g4pNFU+qSciSoDNtMYiRsdfuywnTLvS
-	 WOB2JQQZfFkQOUxCeTBbmUeHMUPKOmeSuXuiBPW7n2ecAxfZreWUW0/1wYt9BNNkof
-	 VJgDdTdkqIMXXL2iTTf74DDflHKeAqcUcNNkOYEuw8Z82trWDC6GzCbRNl39bxfk5b
-	 w8Iup+FDZruSzsylL3pKkQGHPMSJ9iX5B2mzlg+GeR54bDPDPIG569ARnPwV4RqBzH
-	 hWy1Pf3Iltf+2x0kdwyTMhG8ct4Bkw1IC9zEPdGZcOMQGinihSr8Pf1eX7zRNYedvq
-	 KIQnLvqWbdR1A==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4gpSxP10vkz6tvq;
-	Mon, 29 Jun 2026 03:14:48 +0200 (CEST)
-Message-ID: <5ba4f96f57c1e096bd2d4e6c10e02b4d824f0634.camel@posteo.de>
-Subject: Re: [PATCH 1/2] rust: device: add BoundInternal device context and
- InternalBoundContext trait
-From: Markus Probst <markus.probst@posteo.de>
-To: Danilo Krummrich <dakr@kernel.org>, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
-	aliceryhl@google.com, tmgross@umich.edu, beata.michalska@arm.com
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Date: Mon, 29 Jun 2026 01:14:50 +0000
-In-Reply-To: <20260530132736.3298549-1-dakr@kernel.org>
-References: <20260530132736.3298549-1-dakr@kernel.org>
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
- keydata=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
- jfGillcaQOqFZ3WwVqyzG1BUfTow==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-1/RZWNM0jMaVFlFyCHre"
+	dkim=pass (2048-bit key) header.d=gurudas.dev header.i=@gurudas.dev header.b="EhhFE7XY"
+Received: from [192.168.1.96] (107-194-158-19.lightspeed.sntcca.sbcglobal.net [107.194.158.19])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.spacemail.com (Postfix) with ESMTPSA id 4gpX7H6gmwz8sbG;
+	Mon, 29 Jun 2026 03:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gurudas.dev;
+	s=spacemail; t=1782704318;
+	bh=YIeQik7zWpB4jmw4IE+FSK27BQvQ/I/lwKnJtdpPOVk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=EhhFE7XYbRvohudmbaj4Tj/bf7TsPPwJS6wC8hq61i/uzpkfCPn9O/Sj+E6vte5mI
+	 zbnJ9PqzqqaLumWY6B+onwSBNV/N76KtKvpbx7stlcS3fDZ9oMExVWMz38iTcsSWwO
+	 w+0ygrtBSeD6V211j4eHZhNCHmNJbZX06k/SLUnRt01sFiEAWtvcBgfdXLpH8y+NxD
+	 PuODykExHbQ4D7tovt0GiZQVTfBrDuTvGtLEJhO67v9mO5L9Dk9Ot7WdHsyhsU3HGO
+	 Yu1WQEDXN2d6In0WW0QXUi7DPbd9JKlwh78KcnLoxIh/ivkPjwTJJI78IQh07n+xfJ
+	 U7tOax9rEkydw==
+From: Guru Das Srinagesh <linux@gurudas.dev>
+Date: Sun, 28 Jun 2026 20:38:19 -0700
+Subject: [PATCH 5/7] net: phy: ax88796b: use vertical import style
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260628-b4-rust-vertical-imports-v1-5-98bc71d4810b@gurudas.dev>
+References: <20260628-b4-rust-vertical-imports-v1-0-98bc71d4810b@gurudas.dev>
+In-Reply-To: <20260628-b4-rust-vertical-imports-v1-0-98bc71d4810b@gurudas.dev>
+To: Miguel Ojeda <ojeda@kernel.org>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Cc: Danilo Krummrich <dakr@kernel.org>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, 
+ Fu Wei <wefu@redhat.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Jens Axboe <axboe@kernel.dk>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ driver-core@lists.linux.dev, linux-riscv@lists.infradead.org, 
+ linux-pwm@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-block@vger.kernel.org, netdev@vger.kernel.org, 
+ nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ Guru Das Srinagesh <linux@gurudas.dev>
+X-Mailer: b4 0.15.2
+X-Envelope-From: linux@gurudas.dev
 
+Convert `use` imports to vertical layout for better readability and
+maintainability.
 
---=-1/RZWNM0jMaVFlFyCHre
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Guru Das Srinagesh <linux@gurudas.dev>
+---
+ drivers/net/phy/ax88796b_rust.rs | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-On Sat, 2026-05-30 at 15:27 +0200, Danilo Krummrich wrote:
-> Add a new BoundInternal device context type for cases where bus
-> abstractions need access to internal device infrastructure, where
-> CoreInternal would not be justified.
->=20
-> Introduce the InternalBoundContext marker trait, implemented by both
-> CoreInternal and BoundInternal, to allow methods that require internal
-> bus abstraction access to a bound device to be generic over both
-> contexts.
->=20
-> The deref hierarchy now has two branches:
->   - CoreInternal<'a> =3D> Core<'a> =3D> Bound =3D> Normal
->   - BoundInternal =3D> Bound =3D> Normal
->=20
-> Update impl_device_context_deref! and impl_device_context_into_aref!
-> macros to emit the BoundInternal =3D> Bound deref and the corresponding
-> ARef conversion.
->=20
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
-> This is needed by both the serdev bus code [1] and the runtime PM series =
-[2].
->=20
-> [1] https://lore.kernel.org/driver-core/DIW1B4FUIXO7.28GSUA0CEA4EV@kernel=
-.org/
-> [2] https://lore.kernel.org/driver-core/DIKIJ81CV55B.3TA7PV8N4BN0E@kernel=
-.org/
-> ---
->  rust/kernel/device.rs | 43 +++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 41 insertions(+), 2 deletions(-)
+diff --git a/drivers/net/phy/ax88796b_rust.rs b/drivers/net/phy/ax88796b_rust.rs
+index 2d24628a4e58..5a21fe09bd62 100644
+--- a/drivers/net/phy/ax88796b_rust.rs
++++ b/drivers/net/phy/ax88796b_rust.rs
+@@ -5,7 +5,12 @@
+ //!
+ //! C version of this driver: [`drivers/net/phy/ax88796b.c`](./ax88796b.c)
+ use kernel::{
+-    net::phy::{self, reg::C22, DeviceId, Driver},
++    net::phy::{
++        self,
++        reg::C22,
++        DeviceId,
++        Driver, //
++    },
+     prelude::*,
+     uapi,
+ };
 
-Reviewed-By: Markus Probst <markus.probst@posteo.de>
+-- 
+2.54.0
 
-Thanks
-- Markus Probst
-
---=-1/RZWNM0jMaVFlFyCHre
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmpBxwgbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSmkgP/RQYwIHPV14g7+Zx8lIV
-kkT3KaOl4g80ntmQz9JJR4Al14yRNQIicfDntH/MSTKn6LnDlZjwLE8SWjqwH68e
-Vqo1SmIln3mGlq4Fl2x685hhC/ZHUtbTWG/Y5E7IGzCi3QYrg1Z5ENToUKOLg1no
-YXr0m9GAHha0sl00b4IYg5bqsFbEddVnGfPUx3Z3J3VLUY3SBknbCjJPbAPtpKdi
-rb4C76+Pdy2gRvSbzI7LoZzo2E+2xw7t5EAeUTR7Whdoby8Bfdh7T/1YGGMowqRa
-ABE0s1QZTCItkGgKtd6k8CDIPaSwWDiHPbUspe6JY/MR+pb904tSjIRei5mAAxHv
-Jc5GsK5WFg/94y00FRn5PjbIaCiIgtH0aqUxGkvn+ucwWgxF7dxuZBnjbclkZLFA
-OMt0FaXuJH9r6YJNFDflZgCFnFcPhQAt2Otdl5DxzHYsKEumGpB94NYbcXxVRFIP
-sH5ChH2jqEMXtLSjU58hgPEM0zCOtBji4cISbvwq8QqONtnhvwkO8mb8XLyq0/Kp
-JbE+j+JAgBBxmfhWCYcHRcI8B1xyAqhxkrBL2kvMYy3atQmVcWATElKoii2wn8cm
-vwyCYBalkwG7By9rwJrUqNNA4HgagdJIdIrkivRgpb/PuyEqOPlC6NkeXqHNcj4d
-w95KKrmFWE72Xh1xXMZ/NlNT
-=6iIU
------END PGP SIGNATURE-----
-
---=-1/RZWNM0jMaVFlFyCHre--
