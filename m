@@ -1,186 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E7243C061
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 15:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BFB42EEC0
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 16:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782748704; cv=none; b=Q2KWWPKCUEvA28wBCKuQNRpORNeWDGPjvoxBUGpZx4k0wgXjzQU7KJevf3K66CTpn2Rm/EzQ/RvR/bXrnyDEE1OyQEz8GF3A28yKjHRZKZPvSZfVj6i8YT0zCVupqvobh1PWrERPUDtowKs5YVRhlKqz04Qo+6vaG6MGFa3kW90=
+	t=1782749723; cv=none; b=XG3fdw5+kKSpwX6VQBIHxtaNn5UpKMD8NZ8PaWS+AygdmYTgb9Qk+O7qL7H25F1Emg71/gpzixOxN1gZbCzmSuN3Y1/EmP+S2eVouEoj5GJgrsgbn29GX2MtZ9BWNCHbJXwyA1GTAdwW8BQOHQ8frj+qiUktdJRaLltKg2C0ews=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782748704; c=relaxed/simple;
-	bh=6KGEFAPBIUveS9Bm7GjYL9PASDK/Ym91e/0ppgM5eJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ik9Fdhn6n9xOAYTlpM/K+mfq9kkWJdizKc1fLNRfjXtTv7HCxADnD0FtPi4lj7T3U0CmyhF6ORT1fDseuj/HA0cmd9QFG5LpGscR9z6xCHO+vnQv77iZ+u6AjEpVYQqJmhmCs7Y053lvsdvEVhOjSFDu8gnNui1/qXsMwhd2VCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=goTAYLvT; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1782749723; c=relaxed/simple;
+	bh=w6ZVnKbd/yP5ciQEeAt3KGcP1DU9DnB81w3BTQgoGHU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N7N6eKHpa+vbm8P80HGXasMoMwNuzHPMeWybMtTiHErso+tEWzkU6B/r0A1/Gx0grwkuTTnHeZRLJwl9O/3Ia/+yCXCAUPzM3LDyX79s3q5GCmrZpeIGCxCwxeWkv+CxlY32kGGohZ2VLxY54GeuT/EEod/trP/cPfjDDk/RkO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJoazlts; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="goTAYLvT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782748703; x=1814284703;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6KGEFAPBIUveS9Bm7GjYL9PASDK/Ym91e/0ppgM5eJg=;
-  b=goTAYLvTTnNWsxH9ZXjtMEEqgZ6gsFHcye4zWNh1G/rBwjOY9ngvHT/V
-   BHjs2Kja5Pi87XReTPkvf8JgzQlnnBYzUa9aGeJXkS0adtDDNwuQ3Glm0
-   brrbCAnCrootX4E6KX7oL2/vz1RPFzyGgEgePimTB1UZDhXqITSwNvNc2
-   B/HM+a/Fz1gK9QUBbzS3x40Zh8oJpgnp6TjufJAtD66OAAkeUbfgOI3HJ
-   f1bSFAQLbBusdleD0uv2RChW4AEqTqW6LXlhijD9OU60TcIhfMTOXP1L0
-   lnntOb9RM8tX1bLdEbBGJzPpg9Qnzmnislk0kqjQv2OLapjUAn93yeQKd
-   w==;
-X-CSE-ConnectionGUID: 1w5IYm8oRjCb93XEyGiFuw==
-X-CSE-MsgGUID: 8FxAIhPeQzympMcMb698+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83318645"
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="83318645"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:58:22 -0700
-X-CSE-ConnectionGUID: fpjnY+FrQxa8CCgxZbqjyw==
-X-CSE-MsgGUID: P0HZsrF6QIWQTHFaQDuBBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="248020780"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:58:18 -0700
-Date: Mon, 29 Jun 2026 18:58:16 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 5/5] gpio: kunit: add test cases verifying swnode devlink
- support
-Message-ID: <akKWGNpGmHjWYdfX@ashevche-desk.local>
-References: <20260629-swnode-fw-devlink-v1-0-b90058b41839@oss.qualcomm.com>
- <20260629-swnode-fw-devlink-v1-5-b90058b41839@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJoazlts"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F22291F000E9
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 16:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782749721;
+	bh=2echV2TuUCorDUo3P+lP4EOwfZ6UxnA7Vrhb9+2po14=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=TJoazltsXCrMCTgucF9n2rj55ynbhFXimvamVNgnZhCjgNyjgNqGE+fB84F2BOlK1
+	 Lhep4YdXesYdd4f+yP36ezAZZrT5O1TXql4Eq7vImX0an2xO5P3S37240UffBz51JH
+	 F3OhdkIPez8rlNHeQchlruofSmheg8cfSA7hNy5fv1OwhBJmiJSLX8P2+qE0X45xRL
+	 okDyyj6H7k7wo4fFTcbK9a7Sh+rJsQe9YgiHuH0jnIwIhNoP2+bk4RCNC0CnkEPhhr
+	 lyayZgs64iOAznZH9uHM9q2Wokb0AxK7AQaTYq/Mwb3dFzVDr66xXJ8cp17sX3KN9q
+	 710v1sBBZcBEQ==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6984169c126so4413272a12.1
+        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 09:15:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8tQEbPQhePkZvnMpuCSxF83ULFlpioHyO0FLuz6/DiGES8wJfcqWxU5VcaVlzkRFhCkPHLJ9+XRHZ6Xg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYaThRiiKX/zIgvnPVg40VhZ9pT/0+1WyTNFwFjEnfwsM6/jGY
+	pJcx41RVyCNkZ8ERGD4MzoExVRSuAzH4M0eTBakkS0gZbbjHU4gZSb71cK+UTx0yGhbtoO0xrNt
+	p5Cws6BZryTSRqa100OkMxv0pZ2Ulog==
+X-Received: by 2002:a17:907:1c91:b0:c12:58ac:9869 with SMTP id
+ a640c23a62f3a-c1258aca1b9mr349323966b.9.1782749719747; Mon, 29 Jun 2026
+ 09:15:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629-swnode-fw-devlink-v1-5-b90058b41839@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260603-rust_serdev-v12-0-3400ffb88b12@posteo.de> <20260603-rust_serdev-v12-3-3400ffb88b12@posteo.de>
+In-Reply-To: <20260603-rust_serdev-v12-3-3400ffb88b12@posteo.de>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 29 Jun 2026 11:15:08 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJEqUbA8t_01E+QBbsfdV6JWKGJPhEQMD7YKPKYk3vYuA@mail.gmail.com>
+X-Gm-Features: AVVi8CfhB--Db5QbuVKNGlVOJyT9ymFkRQjZNe17XqY3kKJM0r_8jlarJXXYsZQ
+Message-ID: <CAL_JsqJEqUbA8t_01E+QBbsfdV6JWKGJPhEQMD7YKPKYk3vYuA@mail.gmail.com>
+Subject: Re: [PATCH v12 3/3] MAINTAINERS: serdev: Add self for serdev
+To: markus.probst@posteo.de
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Kari Argillander <kari.argillander@gmail.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Boqun Feng <boqun@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
+	driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 29, 2026 at 12:52:10PM +0200, Bartosz Golaszewski wrote:
-> The software node fw_devlink support already has its own kunit suite, but
-> that verifies the fwnode links in isolation. Add GPIO tests that prove
-> the ordering works in a real-life use-case: a GPIO consumer that
-> references its provider via a software node.
-> 
-> The first suite registers the provider's software node, adds the consumer
-> device first and checks that fw_devlink defers its probe until the
-> provider has been added and bound. The second covers the fallback:
-> with the provider's software node not yet registered no supplier link is
-> created, so the consumer probes, devm_gpiod_get() returns -EPROBE_DEFER
-> and the consumer only binds once the provider shows up.
-> 
-> While at it: the existing gpio_unbind_with_consumers() test keeps the
-> consumer bound while the provider goes away and then operates the orphaned
-> descriptor. With software nodes now being covered by fw_devlink that would
-> instead force-unbind the consumer along with the provider, so opt it out
-> by setting FWNODE_FLAG_LINKS_ADDED.
+On Wed, Jun 3, 2026 at 10:56=E2=80=AFAM Markus Probst via B4 Relay
+<devnull+markus.probst.posteo.de@kernel.org> wrote:
+>
+> From: Markus Probst <markus.probst@posteo.de>
+>
+> Rob mentioned he needs to find someone else to maintain serdev.
+>
+> Link: https://lore.kernel.org/rust-for-linux/20260430195858.GA1650658-rob=
+h@kernel.org/
+> Link: https://lore.kernel.org/rust-for-linux/da85ceb81f51079d4a8248a1ffde=
+6a27d2ef24ad.camel@posteo.de/
+> Signed-off-by: Markus Probst <markus.probst@posteo.de>
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-...
-
-+ cleanup.h // guard()()
-+ err.h // IS_ERR()
-
->  #include <linux/platform_device.h>
->  #include <linux/property.h>
-
-+ types.h // bool
-
-> +#include <kunit/fwnode.h>
->  #include <kunit/platform_device.h>
->  #include <kunit/test.h>
-
-...
-
-> +	properties[1] = (struct property_entry){ };
-
-Just zero the whole array at the definition time.
-
-...
-
-> +	pdevinfo = (struct platform_device_info){
-
-It's better to have a space after ).
-
-> +		.name = GPIO_PROBE_ORDER_TEST_CONSUMER,
-> +		.id = PLATFORM_DEVID_NONE,
-> +		.data = &gpio_probe_order_pdata_template,
-> +		.size_data = sizeof(gpio_probe_order_pdata_template),
-> +		.properties = properties,
-> +	};
-
-...
-
-> +	pdevinfo = (struct platform_device_info){
-
-Ditto.
-
-> +		.name = GPIO_TEST_PROVIDER,
-> +		.id = PLATFORM_DEVID_NONE,
-> +		.swnode = &gpio_test_provider_swnode,
-> +	};
-
-...
-
-> +struct gpio_probe_defer_pdata {
-> +	int probe_count;
-
-Why is this signed?
-
-> +	int gpio_err;
-> +};
-
-...
-
-> +static int gpio_probe_defer_consumer_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct gpio_probe_defer_pdata *pdata = dev_get_platdata(dev);
-> +	struct gpio_desc *desc;
-
-> +	pdata->probe_count++;
-
-Even in case of error?
-
-> +	desc = devm_gpiod_get(dev, "foo", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(desc)) {
-> +		pdata->gpio_err = PTR_ERR(desc);
-> +		return pdata->gpio_err;
-> +	}
-> +
-> +	pdata->gpio_err = 0;
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static void gpio_swnode_probe_defer_on_unregistered(struct kunit *test)
-
-As per above.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
