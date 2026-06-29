@@ -1,97 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDF12D29CF
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 13:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDB9277C81
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 13:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782740648; cv=none; b=mSGnJ8st6irn0D0w8vSlsYc8hCVN1MO481yqwfwR7cNjBqff7gq9ZoEweFKFczmPF2YT6cF71QsE2NmrfmKWcpYvWSdV2AJVqsnmtCEBLy56BwF/1J6ARkhLg0US+Fn8H9+dxHbYs2IlzbyLdrg9Nje03W8tmuZkK7ZDDtrmd2E=
+	t=1782740675; cv=none; b=Fi0SFQyuuyk1ijtpDpBVHRVmb5wBRTvnItXCqvn/0BUh6rx0qCGuXLku/vUhm1KAUA7zo538ZYPBk8am38eUMCe3SP0DoPFJTPz81xo7chGKkhnCbmU10bSOWtmiiRtia0uCtK+yIWxqZztwv2k8j2zlTDvq6yLguWCaC5i0uRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782740648; c=relaxed/simple;
-	bh=lTRQqR0tGbEfg1BPrKui7+qUm0mZcpape8mfz4q+bHw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IGzPR9CYpd4yv3BLvd0RjdsgeprstfAbTylO5yLTA0h0CMJiQxhfc5hgaii/AVwnHxUGDwY/9VNJF5Em7RJssOTg6vMhwD3CwGNUJRQVty+3FUHQOR3QGvGqijV1967/iqZfSILkEcPGfmoqWpNrAItQSWphYR8W49NJSvTSdeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HQjJj0ln; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782740675; c=relaxed/simple;
+	bh=2PcU0CU6jROtev2cX4JA1crRGrmou+RXG2XjGE271yg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YApl1UkJrjpo0JSU7gSvPs4KPoBjwelLgdS9IQDiyzhBMT/TIoFrzL9Hy3IsYNLiwMnhoLcrfrmnGr2vndlCDZvQfafwbiEyI+EF/SHPWyeRjjaNzoWpUfg2kY5LEpDkQjnUMaVjY9oR35ZnMdKEn7nknYIkfPEfPZEtaGyB5oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HM2ZNCbr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VXe75xAZ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HQjJj0ln"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EBEF1F00A3A
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 13:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782740647;
-	bh=6cIC4d+PiSHZ3SbRFj4q9JGuNSFiDAnWXSl+oM+UdhQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=HQjJj0lnFBQH3Ig5eWLDE02Rd7WXqyjHpULSzYI4gZkVMzLux8qW0BUTZWeSxm20t
-	 EVmc8hyEl6Vq9t+NSOayShd34UUVxkRQxbithQ1oouCdiWsBiJusgJJtYHBXslnab3
-	 kIU/+KYkThsXLqPE2MOYkLuRe02R9YJp3CQ8C7ItSlCnX+30Be9jDRuEKmoOmyHGrd
-	 NT+1lAgpGNsT9NT5oCLBrtCaMYm7XkZwmfsAek91JnPRwouiUKfdhPS2AXqAAxXHI6
-	 DtnglTCoSAjLR+8RfKevnEIYQeImOm19ZpADL1k95ZKq5Xfdb2gjIFc/HaHHxdio3+
-	 Q7VYC0oo54fQw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aeb3c48da5so1631281e87.1
-        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 06:44:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Roy2SNoJJiQtkDMIxbFCKdKchhBckIWXIog8oDGzMAoLvd+WMW8Jlnqm3NWXeb3fm42IPTEowdzIsMqYQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw64a3I8l0jjpXTTgcFOivTDy+MaFe+dFZLKvefIne2Jq4UEzgi
-	xlJeNde3hu+k9tFOu/xIypyXineBrPGgOf3/5G023o9XDLZ7RfEgeIJVPmWpHprjOBXPJocTHGG
-	ABP1FsjY2k1xgifpgkeQwuh/yN7yHYu0=
-X-Received: by 2002:a05:6512:252b:b0:5ae:a9eb:c5c6 with SMTP id
- 2adb3069b0e04-5aea9ebc69emr2060838e87.64.1782740645552; Mon, 29 Jun 2026
- 06:44:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HM2ZNCbr";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VXe75xAZ"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65TATD7E2578972
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 13:44:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	j32JpAQmHkv5QJI1PXFq4rNAG/oPOASevxwvwkrLR7k=; b=HM2ZNCbrizP+V6rT
+	K92ykNusiLrfm8jMZUdZ4JM11auoxkQGBvIu1SEo2sLNp/psnkuby4kpOwahUkTm
+	eGOqcehMPCAygafv+mTQb+d25B9YGdodgBQum/e/H3yaXFCGZbGXkWwaohL+TSbZ
+	sN0dj+OIWWvWmHuZrw6ort7x6nBNUlTwqnNZEcLOOifwM4MCjF4A1R+25WqMFX8Z
+	EnqwXL5mSXXLpyrjUO6DRxuF07QexoG8PXkYZYnxCb3fKIp6RTcM7V0MeNCbSvZ4
+	XC2jfH18ABjIKjRmpSaL4cdRh1FEoyTdWzUcKqDiir3OscXsP7Sqeq6E24ah1j5c
+	wlTJSw==
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3kp7hkun-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 13:44:33 +0000 (GMT)
+Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-96927edf751so95098241.2
+        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 06:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1782740672; x=1783345472; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=j32JpAQmHkv5QJI1PXFq4rNAG/oPOASevxwvwkrLR7k=;
+        b=VXe75xAZJqEnhQC8I+kw/WsTt5ga2hxmQpQuexfdwt5rugMyb/+qeYPzS+HHu1E8kf
+         UozU8LZvcDKcZm0FGMTrJY+Dxf2lQ5IVHwT+UJig1jlXVKiBrOA9j9ZturwgG8wWTQL4
+         kvbGeuVTD6mbKJySw7r/F58cIWV5gKRPvT/uDl/CNmlDdTY4jMeChpmrBhZF69ZuKG5M
+         3QgF49TFKyj+tKs8nIxGn7my3DTMnoa+WEjVOLb42MHbApG9zcAn9eD8A8ljFQEGv33J
+         fxZd9TZS9Qo5bB7Ro/okSnBEez4kZXpniIvimOJzNCU5oeqig2+oMgky2Pen3qHBI1/M
+         qfkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782740672; x=1783345472;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=j32JpAQmHkv5QJI1PXFq4rNAG/oPOASevxwvwkrLR7k=;
+        b=Ij1IUQjTUErlurzqraUjVNOYacL9Mt5VbaHKkWFtRHqlX/dk86+TrXwn/H03kGHGEe
+         lm+xQc2Dyc0QAd56W8izJdCwWnENS7sfeMDiFyjo9nvH7d5bqI57btLAdX7+hPxwafqK
+         my/i9hA+YR9GboTtXar8Eom8ei+Tes3UyDxOJfzWcY6WcqcMVHz+T4kwObWSL1ryI1Qr
+         2wmICjTPFGge6793BGQXu5s/rsHlMdUPdmaPy00xkl7HqTJavtcb4OCFy973HqKOPR1E
+         WQFweYJJXykv/IDU9sb+KoWik4b3CLCeEHDpcylvqIHLVxJQvWf1YywqEX+d0u9tLzlc
+         QGsQ==
+X-Gm-Message-State: AOJu0YyvHJB18x2CH3Usk9Dyhv+SMMpmStpPCQBkR33BXjQN9amO98su
+	62hm84wh6FYKdWQ1QT6xcnJx/zCwsIMUzm/l/n1UiYRUNLFj0NMZqGCB28icIyARbmFkL+ClqZ7
+	B90UknArOmWN62WiJ/DEycFHlm9D0/Hy25e8hcT30Fjx4SPJJfcBVOxg73EZiKkfVNQ==
+X-Gm-Gg: AfdE7cnAycOX+bPjRXOrGt06bdsW6iBfMM9YhU3BTjdxogFU7/R9nodNrh9Fp6rtODR
+	rUhWvbWrQvH352Z8E6Q+MRvJRooplMRV10JFbD3jnPAGqbU5IkQd6oAJ3ZZLaqpETX7qs/ZQdJi
+	FQeLntoTQkhAZdOevzVBcyS5tbJn3WPsiIf4fJfCrO6ffn5mSKUWRM/RolysRdtzieDYQE8hoCS
+	A5a61Trtz8VIcrW9+dNDx9bI9nA26BGRmbzzo7XlJhsmkOcl163wUYiiAo2S+gSUGf1UJLtEeIc
+	hwXz4rysOFsRo/mm3BN3KRp2EGEvCrN3vC3l3uLRrg6p9Y38siG1dybZVjjUWD7lKzZMHL0hlAN
+	gTyIx10cSVEhj6RgWoFg5LmNwt4UzKQjcLhw=
+X-Received: by 2002:a05:6102:a4a:b0:738:b13a:c810 with SMTP id ada2fe7eead31-738b13af99bmr600898137.2.1782740672393;
+        Mon, 29 Jun 2026 06:44:32 -0700 (PDT)
+X-Received: by 2002:a05:6102:a4a:b0:738:b13a:c810 with SMTP id ada2fe7eead31-738b13af99bmr600879137.2.1782740671989;
+        Mon, 29 Jun 2026 06:44:31 -0700 (PDT)
+Received: from [192.168.120.170] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-697f4bc8016sm7047887a12.25.2026.06.29.06.44.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2026 06:44:30 -0700 (PDT)
+Message-ID: <f280150f-f829-4425-a856-9ca9f7aca233@oss.qualcomm.com>
+Date: Mon, 29 Jun 2026 15:44:26 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1782682124.git.ukleinek@kernel.org> <eefb7f30ca1e60b4be38e5a6968dac7641684d34.1782682124.git.ukleinek@kernel.org>
-In-Reply-To: <eefb7f30ca1e60b4be38e5a6968dac7641684d34.1782682124.git.ukleinek@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 29 Jun 2026 15:43:47 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0g+cMc9KS5UGQ5Mi8yNC9XRkc3QT8tYhu=gV1g86LPBQA@mail.gmail.com>
-X-Gm-Features: AVVi8Ccs34F4MePwD38LrJV6NL0uvmkFV5d7o8vSirc-srCPogrS5mue6FS6jLI
-Message-ID: <CAJZ5v0g+cMc9KS5UGQ5Mi8yNC9XRkc3QT8tYhu=gV1g86LPBQA@mail.gmail.com>
-Subject: Re: [PATCH v3 03/16] driver: core: Include headers for acpi_device_id
- and of_device_id for struct device_driver
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] clk: implement sync_state support
+To: Brian Masney <bmasney@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+ <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Xuyang Dong <dongxuyang@eswincomputing.com>,
+        Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
+        Hans de Goede <johannes.goede@oss.qualcomm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20260626-clk-sync-state-v1-0-4156d8196dc8@redhat.com>
+ <20260626-clk-sync-state-v1-4-4156d8196dc8@redhat.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260626-clk-sync-state-v1-4-4156d8196dc8@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDExNCBTYWx0ZWRfXwlYM/1KMDfXF
+ D+ohjOQNku0tIDrwtLJVN6NS7km3blTI0b09OMsJxWTNe+ag+xI3N14yQ771X5g9GwZaFguYU6a
+ 4voUVq3uzBeksDJhlEQyU3Gvl3ha7vs=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDExNCBTYWx0ZWRfX38gczUn7zKq+
+ JcH+vU3z1f1SVRO6TPDSUIdruFOM3CwpjV4m9QRtGDACoiGDD4HAQSAiqh9W6g3phFk0BcBrYA8
+ f5gBdhhLCUbmicTd9m1km8yYYaFiSGz40JOtr6VEEAOdy85FzSxL2jf3+OW296WuZwwDs8NtSdh
+ YozXP1hQdFlIrr/0Y0M9HqZDd6GavRgU0iv1HiuzZNzK1r1RHXLNBqmgCB3uqa77Uu/jxFxb4nx
+ XZP7io4gm9BbCNxxbSsiZnPSHdpF4e0ivKQcnkCwUliToW/ovjDuO+dMMJd8YKqG4yOipv/aEPW
+ jz55RSabr+lw7dpB/U63uuy7Z8CyFOyS7lXjdbGnYLrBZSW5Xd23Ct7H0r5gKuLqAPIGJPNP9PD
+ hIYykV8YkrJYf5ks9JUYzHzNN7gY32Vlmvz4/xsOA4xXc0CxcroOqEr4wtsWgN8NMGkffmGXmLv
+ qZCPCKHLd5nWsISxGRg==
+X-Proofpoint-ORIG-GUID: Jj_xG1C6gcEJLjo5eAVXe4wl1O5b0zMk
+X-Authority-Analysis: v=2.4 cv=MZJcfZ/f c=1 sm=1 tr=0 ts=6a4276c1 cx=c_pps
+ a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=xfjl8YcHD3-SeSKZoCwA:9 a=QEXdDO2ut3YA:10 a=1WsBpfsz9X-RYQiigVTh:22
+X-Proofpoint-GUID: Jj_xG1C6gcEJLjo5eAVXe4wl1O5b0zMk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-29_03,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606290114
 
-On Sun, Jun 28, 2026 at 11:59=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capable=
- Hub)
-<u.kleine-koenig@baylibre.com> wrote:
->
-> struct device_driver contains pointers of type struct of_device_id* and
-> struct acpi_device_id* but doesn't ensure these are defined. To make the
-> header self-contained add the (very lightweight) includes that contain
-> the respective definitions.
->
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
+On 6/26/26 6:32 PM, Brian Masney wrote:
+> The existing support for disabling unused clks runs in the late initcall
+> stage, and it has been known for a long time that this is broken since
+> it runs too early in the boot up process. It doesn't work for kernel
+> modules, and it also doesn't work if all of the consumers haven't fully
+> probed yet. Folks have long recommended to boot certain platforms with
+> clk_ignore_unused to work around issues with disabling unused clks.
 
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+[...]
 
-> ---
->  include/linux/device/driver.h | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/include/linux/device/driver.h b/include/linux/device/driver.=
-h
-> index 38048e74d10a..768a1334c0a1 100644
-> --- a/include/linux/device/driver.h
-> +++ b/include/linux/device/driver.h
-> @@ -19,6 +19,8 @@
->  #include <linux/pm.h>
->  #include <linux/device/bus.h>
->  #include <linux/module.h>
-> +#include <linux/device-id/acpi.h>
-> +#include <linux/device-id/of.h>
->
->  /**
->   * enum probe_type - device driver probe type to try
-> --
-> 2.47.3
->
->
+>     [    0.366737] clk: Disabling unused clocks not associated with a device
+>     [    0.367232] PM: genpd: Disabling unused power domains
+>     [    7.791413] qcom-qmp-pcie-phy 1c24000.phy: clk: Disabling unused clocks
+>     [    7.799702] qcom_aoss_qmp c300000.power-management: clk: Disabling unused clocks
+>     [    8.548820] qcom-qmp-pcie-phy 1c14000.phy: clk: Disabling unused clocks
+>     [    9.121849] qcom-qmp-usb-phy 88f1000.phy: clk: Disabling unused clocks
+>     [    9.121985] qcom-qmp-usb-phy 88ef000.phy: clk: Disabling unused clocks
+>     [    9.122691] qcom-edp-phy aec5a00.phy: clk: Disabling unused clocks
+
+Many of these drivers only register fixed "virtual" clocks that
+don't lead to any registers being altered and only exist to convey
+what the clocks look like on the hw level.. but I don't think we
+have great infra to skip that..
+
+>     [    9.122760] disp_cc-sc8280xp af00000.clock-controller: clk: Disabling unused clocks
+>     [    9.142121] qcom-qmp-combo-phy 88eb000.phy: clk: Disabling unused clocks
+>     [    9.169149] qcom-qmp-combo-phy 8903000.phy: clk: Disabling unused clocks
+>     [   16.057997] qcom-cpufreq-hw 18591000.cpufreq: clk: Disabling unused clocks
+>     [   16.058149] clk-rpmh 18200000.rsc:clock-controller: clk: Disabling unused clocks
+>     [   16.334879] qcom-qmp-pcie-phy 1c06000.phy: clk: Disabling unused clocks
+>     [   16.706113] camcc-sc8280xp ad00000.clock-controller: clk: Disabling unused clocks
+>     [   21.565731] q6prm-lpass-clock 3000000.remoteproc:glink-edge:gpr:service@2:clock-controller: clk: Disabling unused clocks
+>     [   21.597069] va_macro 3370000.codec: clk: Disabling unused clocks
+>     [   21.605039] rx_macro 3200000.rxmacro: clk: Disabling unused clocks
+>     [   21.630313] wsa_macro 3240000.codec: clk: Disabling unused clocks
+>     [   21.635069] tx_macro 3220000.txmacro: clk: Disabling unused clocks
+
+This is a bit noisy, but then it's necessary for debugging the
+related hangs. Maybe if it turns out to be a huge issue, we can
+hide it behind a _dbg() in the future.
+
+I was hoping/expecting that sync_state would completely replace the
+late initcall (which would also simplify this diff), but I'm surprised
+to learn that there's a whole bunch of clk_register(dev=NULL)
+calls in the kernel (are most of them doing it for no good reason
+by chance?)
+
+Konrad
