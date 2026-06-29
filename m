@@ -1,69 +1,69 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506DE416D11
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 15:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2587382F31
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 15:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747083; cv=none; b=mDKswgaXOSlphH7d0zG8jd9Q3cM8B13qMRRZbJCNzgfi8i/0XFdEBFiZEIEqNNzWAAcH9jQxhwtmzDIKbAkKmofb8sceCCWdHe7pCm7yv175aqkEKBx/8kxSIjN673Qy7W155q+4mSm5hMqFMIMXQiGq/QtLDChXfn6uwCDZHkY=
+	t=1782747258; cv=none; b=AeX0LUJpLm87epvC1qCwFnQYCAHUKPZdUl+eciqMgAy8D/eNrxDP6fKO5LgDBWT8KFzgxQWCiZwS4OxIfRLQpIrKrlAy5ZV7163ZWD9EAVZycMhLtSH/lhUfacdSPg7t6SGwHcwTfw51UEi+WAErxiRSaud93cyZmCGQR6FswfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747083; c=relaxed/simple;
-	bh=TelLuQFVj84dg15intj6l6XA0Pbbdt2xzy2TuA9iVP0=;
+	s=arc-20240116; t=1782747258; c=relaxed/simple;
+	bh=Sy6JGeil4deLnMSvof8VqxcsucaS49cWaMJykRuqdh0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=Q2CEYSbzzi+v4Kci2GjNMq4dME66u81leYo7EDxQAghgNSyMKcrV7aCx1FDKpxWJcyuQLK0cS4cCptyaPLSNab/47YAp5dadXMf7285iKgEI0inv/bl4rld1ASWyT+uNWpl5hkN4Gx4sCiodGPQX6LSExyNImhzf4LEv1JLHZGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gY4MbajB; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=dp8b7FbHXOI6IT5jYTG6ZOrkG4j9Q8jxXFUg+UG3YlCz3eyxZ6GtCfCL7KhlZY5GbQjIaxL4783C/1O+era6md43uXfMxzWmIgI6KdctcdXi0WsxvIZ0hovmSkvQo1Zb0fOvm3bJB/d273gc0bUNJBKVlU5m7schzOPh3V1q9XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JAYXxvfN; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gY4MbajB"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JAYXxvfN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782747079;
+	s=mimecast20190719; t=1782747255;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DOCP00x0YVfBobkqwjRQEWaP9evLVGD2m07PpA2VUgw=;
-	b=gY4MbajBgHoeSL+yJ56ST37WLcwiW4st37dCYU8K8pOXU4HCM40oGC9tW8+JMbnt+9npFG
-	uvzhB1yXFBW79d5jwhzWycSnyrsjxZclgOIspa+TTqkgVCLIDg6Sw01jazN3H2yOpC7uX2
-	ds3x52jbXhWOLE8CpphfGcNWzZmPG2o=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=jyH6F/rzycE55igieO5QcOyc46xwfU6NRg+LIEtIXp0=;
+	b=JAYXxvfNjhyV/xUDTAWQdmOyWOgaM63xzWzXXmGFLm7hlqLcR8LUgMTATdh7OX82Vofrro
+	jL1v/Y/wAeQgrGukOQ891bjP197B3IOQEkBXni9v8u/apEt4pk09iT+qI9xKwSuCYApLyP
+	pqg8WxJTmL/N18KA4isJzGnxX6n6H44=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-377-wv_ecvU1NLmgSGwoCyhg3w-1; Mon, 29 Jun 2026 11:31:17 -0400
-X-MC-Unique: wv_ecvU1NLmgSGwoCyhg3w-1
-X-Mimecast-MFC-AGG-ID: wv_ecvU1NLmgSGwoCyhg3w_1782747077
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51bf38c83e1so26056731cf.1
-        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 08:31:17 -0700 (PDT)
+ us-mta-186-ho3CleQ6OgqXUReYYHt_zA-1; Mon, 29 Jun 2026 11:34:14 -0400
+X-MC-Unique: ho3CleQ6OgqXUReYYHt_zA-1
+X-Mimecast-MFC-AGG-ID: ho3CleQ6OgqXUReYYHt_zA_1782747254
+Received: by mail-ua1-f70.google.com with SMTP id a1e0cc1a2514c-9674fae89e9so1043486241.3
+        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 08:34:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782747077; x=1783351877;
+        d=1e100.net; s=20251104; t=1782747254; x=1783352054;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DOCP00x0YVfBobkqwjRQEWaP9evLVGD2m07PpA2VUgw=;
-        b=CxBtUKGGkTT/2MU2l9kPYDGaTWt9TbjMc9kNHcZwXuej5NhIqzT3QwMyi9RB0EVUo+
-         LL9xFgIdndtkxfGVlLUphZ7+jFXeRLMHibw3NTi2d+Aml4+vYvhzVVyjVic1xt9baVub
-         VrH/KYutjF2Zq9xYTrdbxd+bU4yEJV79NqMCzg1fJ+HteZxPI6Z1B6CTpGdDm3Ul664S
-         IA3Pk8cGeBywKwgPXqP20YDaKBSWA+vEmdqKQ8D0CeXn4+9NfmgbNMK2bUjd170O1DgP
-         I5AW9rgxCmTCVw6r63R5K6ayfdK7BtDO8oisLjoe0ajOTJm8B6yZCpLkGAOSi/SDfJZa
-         qlYA==
-X-Forwarded-Encrypted: i=1; AFNElJ+PpAtY2+aRDQmPlA8eJJf7fFcvbNrjuiecH9xCgg97y0Q6Yd4XdaEvIU1x8/fcUWykbPnKbo8f1S0X6w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/l2J+UgUh90MwKbTeYCL1FC/v5gtuYzlGNp/R4ZAV58+KpZ3w
-	ArQVBoMLbINfUjxccGkRh6pX0w5CGUzDFjjmmsGDELBMw3VKM8E3IUg9X73HlSrgJ1RRB686dY1
-	EBdFQ2EsvRUByY4mPCjMH8biBBWXZFp0uDZny07S6KQ2fnNMU1D3f/aCnTdONeA3T
-X-Gm-Gg: AfdE7cnBQpjVmxlPqk3NSGgkYeH3J7yarBO56n4Rfk0Tpx72++oVGi9/Eba5PgiQEHc
-	wQWsyw6JmLpvBb9PVltgwlBnHi5rob/B1wVBnk9K5E52+KAh8mIEp4QxU2bECcasxLkRn77FQqr
-	Se8COb0SE36gzgw4+5IyW1irku/4mFn5nb7QGMC0FY6Qe+rstpmE2heUVYwY/3B6uw1PVZToEZN
-	TqdCe4/Ef3zO38J4ceRLIRGgEgXciPkcJjSKXbowoKNFODPD+5ucQLhCjxprznpj0KfVxeQXAsA
-	2VdXVSTM5SKLDkYmfUz0JnfzRIjSyduDwHmy1gfaBlERskDzxqTPibrDiAwAGiHbbrqfg6VBpVQ
-	ViXB7j6I1kG9/ZgXcj4L8YpiVDVHiXp2pjbQu7t9k7RPCrg==
-X-Received: by 2002:a05:622a:8d05:b0:51b:f635:9aa9 with SMTP id d75a77b69052e-51bf6359ebamr61940751cf.35.1782747077198;
-        Mon, 29 Jun 2026 08:31:17 -0700 (PDT)
-X-Received: by 2002:a05:622a:8d05:b0:51b:f635:9aa9 with SMTP id d75a77b69052e-51bf6359ebamr61940241cf.35.1782747076630;
-        Mon, 29 Jun 2026 08:31:16 -0700 (PDT)
+        bh=jyH6F/rzycE55igieO5QcOyc46xwfU6NRg+LIEtIXp0=;
+        b=ESJwMrnLCuwqCcLLVsXmC5ybRSFEj/um31zESf3gXnvAEKGvi5ywcEK6PiFq77V3P2
+         KKd8l/T8xgCAovRwHdEv1aIoQFK6EpZB/h2iOEl8WrivKTsClgob4hhYijrwPUipS3e7
+         wwCye0EKO06LV4kZlXXQtu/Aa8fh06KWMVguupqUay4VoPNZMa73ey7yBvnG86EKsfz9
+         9w/6vjgzl82tusr1DJb1tASbsmZ60HvNuWMdNilQy+ZvIsMU1479EziMm2l27iz/Yebh
+         5B2xOEcoHNVcMqwojbEacNqG50TZZ/NvOxEziPCNr2mJKHre/1xURzpXBtK4Lobiy5ul
+         VAqA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr8AUsnUawEZ77LXR3R+PcVJWz8l6HxZQkGL2hwIdTBWrjMP2QJd2Ok60p+LltiOdpm8IUvL2G24zoPGQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YygjCpRUGIqlyQjzqt6nFYDKbrF9dw5K+7j6GXAYnbK8nUXLFWY
+	bfSNtSF0PJDzDxx7cYkehihcci5QCL5oUhM23zbPQieLQlv0ebl8A/2DIrwZcoobN6KpfacEc7J
+	10jJGajaSTQEdYfH9blbnBfYCn34hu8iLtC2Dv0YahaDhLZzUSpXevnP70s8BgHKG
+X-Gm-Gg: AfdE7cm4l1clLtgTYsVDUc9SemIeL2ksC3DOcBf274qm6gbi6T2MS7GVBjNI6JkT/eU
+	X3fFVX42XFf7EYaD9irBmBwb+QTCCfziM03ksFl5PkGbSvTn1tglpzn/ZzBi0NbSejAa5sAqdMr
+	RCqS+M++ScVWPQ+KcuPVKuGP4Hd8oESU3FfCyIR6VUyr8NAr9/g36HmkOmgKzbaCbwsTxxVzyJd
+	QGCCSiC+QUf0hBURKN0v/KFzFyjQSLUFWi2QKZYQV4S5KdTU9uENvAkjfamWijosw9Vr5o68W8v
+	6X89zbGGvxnzjouTNa66KGtZQtA5c/8J5p/N/X7JsVdBgJ0E9UbDdPNrrKQ/4RLiOyjhgq7NYnz
+	ywX15ECrf1vU3/XbNGf1xsgTOTNfQiAGc7orKKLtLslP7bQ==
+X-Received: by 2002:a05:6102:4187:b0:738:9bf0:f80c with SMTP id ada2fe7eead31-73a366f5f9bmr155599137.9.1782747253714;
+        Mon, 29 Jun 2026 08:34:13 -0700 (PDT)
+X-Received: by 2002:a05:6102:4187:b0:738:9bf0:f80c with SMTP id ada2fe7eead31-73a366f5f9bmr155536137.9.1782747253174;
+        Mon, 29 Jun 2026 08:34:13 -0700 (PDT)
 Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51bf0697775sm45079741cf.26.2026.06.29.08.31.14
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f1a3580949sm1005826d6.21.2026.06.29.08.34.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 08:31:15 -0700 (PDT)
-Date: Mon, 29 Jun 2026 11:31:14 -0400
+        Mon, 29 Jun 2026 08:34:12 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:34:10 -0400
 From: Brian Masney <bmasney@redhat.com>
 To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -82,67 +82,47 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Abel Vesa <abelvesa@kernel.org>, driver-core@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 1/4] driver: core: introduce dev_add_sync_state()
-Message-ID: <akKPwt8PN_UtawAg@redhat.com>
+Subject: Re: [PATCH 0/4] clk: implement sync_state support
+Message-ID: <akKQciC87HxiwZPj@redhat.com>
 References: <20260626-clk-sync-state-v1-0-4156d8196dc8@redhat.com>
- <20260626-clk-sync-state-v1-1-4156d8196dc8@redhat.com>
- <fea9665f-d134-4b11-a936-e1f265858ce1@oss.qualcomm.com>
+ <bfacf381-8112-4c12-b87c-46cab7d7f284@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <fea9665f-d134-4b11-a936-e1f265858ce1@oss.qualcomm.com>
+In-Reply-To: <bfacf381-8112-4c12-b87c-46cab7d7f284@oss.qualcomm.com>
 User-Agent: Mutt/2.3.2 (2026-04-26)
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: f8q65c7h8H7UF2SjkcoFL_fz1SNtfEBItKuW5fCpqfU_1782747077
+X-Mimecast-MFC-PROC-ID: LRjMtnV9PpWi4QSymK7FzNF78X-ermNtPwrIzImu1s4_1782747254
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Jun 29, 2026 at 12:11:18PM +0200, Konrad Dybcio wrote:
+On Mon, Jun 29, 2026 at 12:06:19PM +0200, Konrad Dybcio wrote:
 > On 6/26/26 6:32 PM, Brian Masney wrote:
-> > We have cases where a device node represents a provider for multiple
-> > types of resources, like clocks, power-domains, resets, etc. We
-> > currently have dev_set_drv_sync_state() where a framework or driver
-> > can set the sync_state callback for a device node, however it currently
-> > only supports a single sync_state callback.
+> > The existing support for disabling unused clks runs in the late initcall
+> > stage, and it has been known for a long time that this is broken since
+> > it runs too early in the boot up process. It doesn't work for kernel
+> > modules, and it also doesn't work if all of the consumers haven't fully
+> > probed yet. Folks have long recommended to boot certain platforms with
+> > clk_ignore_unused to work around issues with disabling unused clks.
 > > 
-> > The pmdomain subsystem currently sets up a sync_state callback in the
-> > core framework, and the clk subsystem will setup it's own separate
-> > sync_state callback in the core framework. These can collide with each
-> > other on some types of devices that have multiple types of resources.
-> > Additionally, some clk drivers already have their own separate
-> > sync_state callback already defined.
+> > This series fixes this by adding support for sync_state to the clk
+> > subsystem.
 > > 
-> > Let's introduce support for allowing drivers and frameworks to add their
-> > own sync_state callback via a new function dev_add_sync_state() so that
-> > multiple sync_state callbacks can coexist.
-> > 
-> > Link: https://lore.kernel.org/linux-clk/CAPx+jO9JiV16ePLk59hTQzEMnA96Va6Ns4jqJbwyZ6oTT0AjXA@mail.gmail.com/
-> > Signed-off-by: Brian Masney <bmasney@redhat.com>
-> > Assisted-by: Claude:claude-opus-4-6
-> > ---
+> > Changes in v3:
 > 
-> [...]
-> 
-> > +int dev_add_sync_state(struct device *dev,
-> > +			   void (*fn)(struct device *dev))
-> > +{
-> > +	struct sync_state_entry *entry;
-> > +
-> > +	if (!dev || !dev->driver)
-> > +		return 0;
-> > +
-> > +	list_for_each_entry(entry, &dev->sync_state_list, node)
-> > +		if (entry->fn == fn)
-> > +			return 0;
-> 
-> Do we expect this to be a valid call, i.e. should we WARN_ON here?
+> The version tag is missing from the subjects of the patches you sent
+> By the trailers, it seems like you used b4.. did you play with
+> prep --force-revision by chance?
 
-That's a good point about adding a WARN_ON() here. I kept this logic
-from when I converted from dev_set_drv_sync_state().
+Oops, yea that was my bad. I mistakenly got too aggressive with rebasing
+my branch, and I dropped the commit that had the cover letter / b4
+metadata the previous day. I didn't know the old SHA, so I had to
+start over with a new b4 managed branch, and cherry pick my patches on
+top. I forgot to run b4 prep --force-revision to force it to v3.
 
 Brian
 
