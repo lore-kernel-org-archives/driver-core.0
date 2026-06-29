@@ -1,201 +1,179 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7103CA487
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 21:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782769043; cv=none; b=lf3DoMmW8koJ4B4deXtdbpSi/Xuyb+Rty+fx1I3CQn4dBweOyY8QbLZVyIeig9x04Hny4TrK6lETF3tb/+diRukYmIxhegehlvvydz9m2eHRNlEsu1C74R49WqBBNqnt8TkVMWp+oK81AfEqF0//JURJvXEK1seCsWdlXKcTc6E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782769043; c=relaxed/simple;
-	bh=7uutpCNWAahXhInXrsjarJ8XhuURUcRvN4QenNk1700=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OnTF6wkKPU4oMO3jkpc3oJlFJOSd2FaX3G4gD+GZHDyS+SQbs6Gq0SOgcyx2Gtezh2vFBQ5FByPpi4eOz/CWd9u6vdQJ8SyWr9PAidxpZ3tQenGxkCttsNpPkx/BRWso4OFJ/70R1hZg523IaCZlXEM5cPTGTTysmxVbpvTiWao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KHEptHPR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FC63CB8EF
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 21:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.56.87.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782769909; cv=pass; b=S2Wau+dRdscFgWmVaauBuvifbG06VUQ5vt1pXmjFJMd3yV/uJyx4OVqi5tlxWI1NnAXHKGBHqI6WQDWS+o2V0zL6bn09mK7aVfJoF6P5m0uth+lDLjj5ovbOsxq83ilLDztW3E+HpJHd3+qTYRDPW1scD7+GXx1E/tLYphvy2ls=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782769909; c=relaxed/simple;
+	bh=qtnaHBPGPDOJwFsboPE+NQ3zOJ3KprdbQXKhemfaVVg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=T1QYl/99L4v/pnL5HhsQHcMnkMgeQD3duR+wKTTWZ/GGegSCoKJKqcLlkedVcnQRKtGbu3JdmCGWrTLeM1gYc3OKzbrj3y2fiEALD/kglbwpdu+YMaUifZZ0OV3/wGVcwrVd2y6sUUupDVEag9jSfMwGFFdJzRRjbWf1MZB4XNc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it; spf=pass smtp.mailfrom=valla.it; dkim=pass (1024-bit key) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b=cjCLenoa; dkim=pass (1024-bit key) header.d=valla.it header.i=@valla.it header.b=AkUH6VO7; arc=pass smtp.client-ip=185.56.87.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KHEptHPR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782769040;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7uutpCNWAahXhInXrsjarJ8XhuURUcRvN4QenNk1700=;
-	b=KHEptHPRpsb9PR05tkWP5h8Qci5vjJg2VRfxnxKz6fYv2eTDgjhfYxXbaiXjZp7TFdlTYF
-	lLrwpZ0iWRYUbTMN1oQ+6OFY7J34NHmcNlEEz+t67PJ5PQDAHjHoFDNa3uLblK08evBClP
-	Eko+DPHFemeRAfc8yzi8MNUslEY6204=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-435-p6h_WN1VOq2baj2VOcBhyw-1; Mon, 29 Jun 2026 17:37:19 -0400
-X-MC-Unique: p6h_WN1VOq2baj2VOcBhyw-1
-X-Mimecast-MFC-AGG-ID: p6h_WN1VOq2baj2VOcBhyw_1782769039
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51bf321d786so19874621cf.1
-        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 14:37:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782769039; x=1783373839;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4h5QDGQfeC12aIw9GPepcb1Zj6xE1bUvcgth2ziWe1A=;
-        b=hcbMflSOS0TBIg32hQT+/vTYZ8yqo/X/kkh0WDo3ztu78wyn+ypmEQDGhSNVQwny7Y
-         TabmsbXxNe4myzjAy+yy1JRQ7LQjRXGSJB9OFa5Socriv6LIRBpnad3klplgdgtf2Yrw
-         WWV1UBmdBM5LbYtkPStzS9eqcMu6lrUfZ5zmhBxjFK+3G6S5KThFEGvbbIoa6jombrtl
-         PqQUMWTM4kk13bLoulVeS4QqAHI9KRt41XhA1t7JjvvMF1kqNfyD6rUhzgi10JxpC9uf
-         gsUyo7PObRhpsMudNBRSNtTUFagPlIgpwa+Kxql2pHiaAc2mY1FHj3knuzpjn8UGw1qp
-         XhRw==
-X-Gm-Message-State: AOJu0YyVf8s7nHrJbi7uLBiuP8aUs0b/u7z5BPWKdo8ZGhsdkfZz14ML
-	OeKxs6k3LHb+zpaB9AXJ3FV8p2vQsJ7jrKD1ec++qMBz+jrQM0IkwEY5usm6HBuHctQ6Wv9Lwwp
-	HpDuFavLWqN/SgI/fVFupDxtshFdwkVcnE/GeQReEhlF9P4HA0BT1WpcKwbozLqkN
-X-Gm-Gg: AfdE7ckAz7wfj81upXt427x+Yll8ad3eZlIiLSIy/SWnQOXuaNZPLA21rMidFR1gIHl
-	KmlanBaiIfylriNZKwen2wIEGGAgMoAnm31kaaaM8OC6ivThnxahpMJF1LHJouaXyF460OFOHXM
-	piYnBce9sfvI3ctTNcO77z/FxuugC16j+jxPzC5Ux3w25MER4olQS7F+ZGEtpT35xwYyzc/oTRG
-	HA1lUfIj5VYctZK+W1cDl0yIBvtsxRi9NYNrCYB8lA/THlQFKBDm5roQvrcpjPqRbniFmmxu7N7
-	u4o/vHOG7ATvDstFKe5R+pXe/e57RjP6vLupJo8v5NPb1d7rA9aHIFjRoVR8v3RiitWLCV1dPBn
-	VSLpgfX8=
-X-Received: by 2002:ac8:5811:0:b0:51c:1d9:e95c with SMTP id d75a77b69052e-51c10716e14mr16825961cf.5.1782769038945;
-        Mon, 29 Jun 2026 14:37:18 -0700 (PDT)
-X-Received: by 2002:ac8:5811:0:b0:51c:1d9:e95c with SMTP id d75a77b69052e-51c10716e14mr16825551cf.5.1782769038320;
-        Mon, 29 Jun 2026 14:37:18 -0700 (PDT)
-Received: from [192.168.8.4] ([100.0.180.93])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f1a69c25absm7952766d6.27.2026.06.29.14.37.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 14:37:17 -0700 (PDT)
-Message-ID: <88003b81e8dc83f675ab94280409a1202a0c2959.camel@redhat.com>
-Subject: Re: [PATCH v5 16/19] drm: fix race between partial
- drm_dev_register() failure and ioctl
-From: lyude@redhat.com
-To: Danilo Krummrich <dakr@kernel.org>, aliceryhl@google.com, 
-	daniel.almeida@collabora.com, acourbot@nvidia.com, ecourtney@nvidia.com, 
-	ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net,
- bjorn3_gh@protonmail.com, 	lossin@kernel.org, a.hindborg@kernel.org,
- tmgross@umich.edu, 	deborah.brouwer@collabora.com,
- boris.brezillon@collabora.com
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, stable@vger.kernel.org,
- sashiko-bot@kernel.org
-Date: Mon, 29 Jun 2026 17:37:17 -0400
-In-Reply-To: <20260628145406.2107056-17-dakr@kernel.org>
-References: <20260628145406.2107056-1-dakr@kernel.org>
-	 <20260628145406.2107056-17-dakr@kernel.org>
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43)
+	dkim=pass (1024-bit key) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.b="cjCLenoa";
+	dkim=pass (1024-bit key) header.d=valla.it header.i=@valla.it header.b="AkUH6VO7"
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-n44s.prod.antispam.mailspamprotection.com; s=arckey; t=1782769907;
+	 b=US7CC9jcPaMpUOIUry4y8s7eiJN6NEAgumC41P1cIiFWvp7B9+SUJpgWe4ylOA2hPVX5i08JoQ
+	  RUtFL6UKy5pb43g/jjQXei6uDpxlOOm4jmgwCNS6K1g1/19z9eBGfv1mLwH1R3EyK2GzJgVdEL
+	  EGJtu7h0sN5mk9+F+jMTqrRLnu6k/Ys/k+KH7XwqthY5IQh8QpSg22BaTuStSRhIJwXmIMikg9
+	  PBW+q+3tHD0nP9D0dtf2jXMnYoojEHWfVCGydZ2/nB0YLG/R2ZB0/U4rxuwwrNBCeItd8yTIiF
+	  vNPEkifsgxZEOq6PsjJnnCmblMp0ErhJ2j086Wk92mBtIw==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-n44s.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-n44s.prod.antispam.mailspamprotection.com; s=arckey; t=1782769907;
+	bh=qtnaHBPGPDOJwFsboPE+NQ3zOJ3KprdbQXKhemfaVVg=;
+	h=Cc:To:Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	  Subject:Date:From:DKIM-Signature:DKIM-Signature;
+	b=hja4PwOg5Vy32QUP34Y1V4fyESZOX1oeUMPZgs2BJLMAeUFeZhWLVMSg/s8S3D4MbHh54iX1Ar
+	  9mWWd34JD7l0BM6CAMWq7sn6tJmOa3Y4xInMuSpJjc0i6hQhG4eqbnAbjCj4Qez1hQq+jjuQEO
+	  gTstVRJo0c6+yGS57/Wi1wBsH2GCB9cN913eObcdjiioJF5IMbWkyO/EoejftDMUK27dveNAO8
+	  zxwyLx9s0oxrM3xe4SI8Cr7M7dsjhjEzWxMYayeqJBWa3HCdbNqAv67xfrWRw0MAiOBsD9LyGK
+	  9GDwTg9ZoZPMVz7fU+TXmSsVeyUHyiVHKxJWk1RSR+ZYsQ==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
+	:Date:From:Reply-To:List-Unsubscribe;
+	bh=s6djsBb/23trtHIWrDZW4lrcPuWsGtUEMlycMJEVwEk=; b=cjCLenoaCWGGZky/V7/INjr7QX
+	xtpcr/UOu+4X6+dxmQ/+7E7i91Ar2eyJ6G9E/5TjAKMCcVOv59yiM26fDimHBTUP9MDyQWeW/cTp6
+	LQq2MQSdynNxzpDcgEItcsjaCFMlmOHJqo/mJgbFHlpxsJqIln8epruhVCWo+vybMZpI=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
+	by instance-europe-west4-n44s.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.4)
+	(envelope-from <francesco@valla.it>)
+	id 1weJtC-00000006z1e-0BN8
+	for driver-core@lists.linux.dev;
+	Mon, 29 Jun 2026 21:51:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
+	list-subscribe:list-post:list-owner:list-archive;
+	bh=s6djsBb/23trtHIWrDZW4lrcPuWsGtUEMlycMJEVwEk=; b=AkUH6VO78JDod/x2Mmy2JLNr9O
+	SvvtlWLeQGgbyzyUhsbX1gtOKOAUQLqiQQsBhlw1M6bqH2U10tdHE5O+G2a3qx+j8KER2B6a4/fZA
+	LhnlmDuYOjsa9LdIiW5IFQP3SbRyjMlUts3db/NECXFrMRemBp5+oge1MvS2zgT5LfpQ=;
+Received: from [87.14.44.248] (port=60818 helo=[192.168.178.43])
+	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.3)
+	(envelope-from <francesco@valla.it>)
+	id 1weJst-000000004eB-3wAr;
+	Mon, 29 Jun 2026 21:51:19 +0000
+From: Francesco Valla <francesco@valla.it>
+Date: Mon, 29 Jun 2026 23:51:18 +0200
+Subject: [PATCH] driver core: add driver name to probe debug print
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: AM1WOpzrweBi8ZlBNae16yQ-VEylEViMSfQxebRtAH4_1782769039
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260629-probe_driver-v1-1-fc58117581b5@valla.it>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDMyML3YKi/KTU+JSizLLUIl3jNEOTVEsTU3PjNDMloJaCotS0zAqwcdG
+ xEH5xaVJWanIJyAyl2loAQ+D3mnAAAAA=
+X-Change-ID: 20260628-probe_driver-3f14e94573f6
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: Tim Bird <tim.bird@sony.com>, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-embedded@vger.kernel.org, 
+ Francesco Valla <francesco@valla.it>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2348; i=francesco@valla.it;
+ h=from:subject:message-id; bh=qtnaHBPGPDOJwFsboPE+NQ3zOJ3KprdbQXKhemfaVVg=;
+ b=owGbwMvMwCX2aH1OUIzHTgbG02pJDFlOL64bxr7seZ/X9OyNj1KGwQcRizkdL2a4f2bULku9V
+ /XYJp2no5SFQYyLQVZMkSVk3Y17e+aaf0vbwPgIZg4rE8gQBi5OAZhI4GWG/47eFm9Zg7pXGF8/
+ fKM61r9ke6Ta7HMHlQ74uKXfapk69R8jw5voGFXB2A9pTlMnm1lP5Mw7rSX5bav41Nxyfd5bYpd
+ 38wAA
+X-Developer-Key: i=francesco@valla.it; a=openpgp;
+ fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: 3dca610ddb2beea9f539dda747ca4ed5
+X-AntiAbuse: ID - 3dca610ddb2beea9f539dda747ca4ed5
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1weJtC-00000006z1e-0BN8-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-n44s.prod.antispam.mailspamprotection.com;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+The initcall_debug command line option is a useful tool while debugging
+and optimizing the initialization of a new system, mainly because it
+allows to see probe failures and deferrals without recompiling the
+kernel (e.g., with CONFIG_DEBUG_DRIVER). However, matching a device
+with the driver it is being probed with can become difficult, since
+some devices use names that are not explicit, at least at a first sight
+(e.g.: '1-0:1.0' or '1-0060').
 
-On Sun, 2026-06-28 at 16:53 +0200, Danilo Krummrich wrote:
-> If drm_dev_register() fails after registering a minor (e.g. render
-> minor
-> registered, primary minor fails), userspace could have opened the
-> first
-> minor and entered a drm_dev_enter() critical section. Since the
-> unplugged flag was never set, the ioctl proceeds while the error path
-> tears down device resources.
->=20
-> Fix this by introducing drm_dev_synchronize_unplug(), which sets the
-> unplugged flag and waits for the SRCU barrier, ensuring all in-flight
-> drm_dev_enter() critical sections complete before cleanup proceeds;
-> call
-> it on the error path of drm_dev_register().
->=20
-> Fixes: bee330f3d672 ("drm: Use srcu to protect drm_device.unplugged")
-> Cc: stable@vger.kernel.org
-> Reported-by: sashiko-bot@kernel.org
-> Closes:
-> https://lore.kernel.org/all/20260620190648.2E9F61F000E9@smtp.kernel.org/
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
-> =C2=A0drivers/gpu/drm/drm_drv.c | 34 +++++++++++++++++++++++++---------
-> =C2=A01 file changed, 25 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 675675480da4..e890052061f3 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -473,6 +473,22 @@ void drm_dev_exit(int idx)
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL(drm_dev_exit);
-> =C2=A0
-> +/*
-> + * Mark the device as unplugged and wait for any in-flight
-> drm_dev_enter()
-> + * critical sections to complete.
-> + */
-> +static void drm_dev_synchronize_unplug(struct drm_device *dev)
-> +{
-> +=09/*
-> +=09 * After synchronizing any critical read section is
-> guaranteed to see
-> +=09 * the new value of ->unplugged, and any critical section
-> which might
-> +=09 * still have seen the old value of ->unplugged is
-> guaranteed to have
-> +=09 * finished.
-> +=09 */
-> +=09dev->unplugged =3D true;
-> +=09synchronize_srcu(&drm_unplug_srcu);
-> +}
-> +
-> =C2=A0/**
-> =C2=A0 * drm_dev_unplug - unplug a DRM device
-> =C2=A0 * @dev: DRM device
-> @@ -485,15 +501,7 @@ EXPORT_SYMBOL(drm_dev_exit);
-> =C2=A0 */
-> =C2=A0void drm_dev_unplug(struct drm_device *dev)
-> =C2=A0{
-> -=09/*
-> -=09 * After synchronizing any critical read section is
-> guaranteed to see
-> -=09 * the new value of ->unplugged, and any critical section
-> which might
-> -=09 * still have seen the old value of ->unplugged is
-> guaranteed to have
-> -=09 * finished.
-> -=09 */
-> -=09dev->unplugged =3D true;
-> -=09synchronize_srcu(&drm_unplug_srcu);
-> -
-> +=09drm_dev_synchronize_unplug(dev);
-> =C2=A0=09drm_dev_unregister(dev);
-> =C2=A0
-> =C2=A0=09/* Clear all CPU mappings pointing to this device */
-> @@ -1091,6 +1099,7 @@ int drm_dev_register(struct drm_device *dev,
-> unsigned long flags)
-> =C2=A0=09=09goto err_minors;
-> =C2=A0
-> =C2=A0=09dev->registered =3D true;
-> +=09dev->unplugged =3D false;
-> =C2=A0
-> =C2=A0=09if (driver->load) {
-> =C2=A0=09=09ret =3D driver->load(dev, flags);
-> @@ -1118,6 +1127,13 @@ int drm_dev_register(struct drm_device *dev,
-> unsigned long flags)
-> =C2=A0=09if (dev->driver->unload)
-> =C2=A0=09=09dev->driver->unload(dev);
-> =C2=A0err_minors:
-> +=09/*
-> +=09 * If a minor was registered before the failure, userspace
-> could have
-> +=09 * opened it and entered a drm_dev_enter() critical section.
-> Ensure all
-> +=09 * such sections complete before we clean up.
-> +=09 */
-> +=09drm_dev_synchronize_unplug(dev);
-> +
-> =C2=A0=09remove_compat_control_link(dev);
-> =C2=A0=09drm_minor_unregister(dev, DRM_MINOR_ACCEL);
-> =C2=A0=09drm_minor_unregister(dev, DRM_MINOR_PRIMARY);
+Add an additional debug print to inform the user which driver is being
+used for a device, allowing for a quick match. The print is inserted in
+the same really_probe_debug() wrapper that is already used to report
+the result of the probe, and is thus not affecting executions not using
+the initcall_debug option.
+
+Suggested-by: Tim Bird <tim.bird@sony.com>
+Signed-off-by: Francesco Valla <francesco@valla.it>
+---
+Hello,
+
+this very small patch comes from a discussion started at the end of
+2024 after a Boot Time SIG meeting [1]; I decided to reduce the patch
+proposed there by Tim to the bare minimum, as this should already be
+enough information for a developer to work with.
+
+I was unsure on whether to add information to the existing print or
+introduce a new one; while IMO technically worse, I opted for this
+second solution, since the existing print *might* be viewed as
+userspace-facing ABI. I'll be happy to do otherwise if there is
+consensus.
+
+Thank you!
+
+Regards,
+Francesco
+
+[1] https://lore.kernel.org/linux-embedded/MW5PR13MB563277AF5972FD2B56026CF9FD3C2@MW5PR13MB5632.namprd13.prod.outlook.com/
+---
+ drivers/base/dd.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 60c005223844..3c0930020050 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -782,6 +782,9 @@ static int really_probe_debug(struct device *dev, const struct device_driver *dr
+ 	ktime_t calltime, rettime;
+ 	int ret;
+ 
++	/* Don't change this to pr_debug() - see comment below. */
++	printk(KERN_DEBUG "probing %s with driver %s\n", dev_name(dev), drv->name);
++
+ 	calltime = ktime_get();
+ 	ret = really_probe(dev, drv);
+ 	rettime = ktime_get();
+
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260628-probe_driver-3f14e94573f6
+
+Best regards,
+--  
+Francesco Valla <francesco@valla.it>
 
