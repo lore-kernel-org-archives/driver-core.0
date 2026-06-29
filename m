@@ -1,265 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12DA3451B3;
-	Sun, 28 Jun 2026 23:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBF217745
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 01:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782689856; cv=none; b=DJA1YjlIYDEq9ptu+Go8dF4FG1JrrT1j75rGEr8sSR/bMq5fx9FCRwX4MUNP+PJfV+hYOMUZhX6SV4Pez9SJyo9qwevqA3GmXhAZ2IO6aWEGJkkwuKMp4tbA+uzh38V56Q5OW0pELY+/phTO9hHUVd0gfvJ2AF9etwUMTgTKojg=
+	t=1782695800; cv=none; b=dtwhWqUQCzE7SC0lQ1YOjvbSy4j5Udum/tyLhvklAbY+uHvkS7e6rOgDB0uaPyKMmwEzNFtVm9bstmwKFDNrd3l08CMVh8ITtKf+NECrDhHs2psFzli7Ek8X3XtzZWq6dkLREtUSlT8sQXp1MxnyHLHzAifd3y2XHDduTT8mWY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782689856; c=relaxed/simple;
-	bh=oFEFVBD5fcKXppEp1kF7LsfMNyXXyuvUCfJ3219R1aw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=BYF5rxwVmogJDStG2SbI4Mwutt2NkI8L4gjV00kVmED+rECOZcJ/CvEq4vrGD9tDrpLMtR2YN7Ji88N3lpZmHCW57VMlJMDjlX+Um7ILmn2Z2I5CWM11Cev1B3l9lAy/dylsNPWH9MGGTXCXbyQBEFhcLBC+/BmXF7GWRft1ts4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oO3ino49; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782695800; c=relaxed/simple;
+	bh=1fzR3s944IhHUDa6cwqoZfiTKG5U56ZO2Qxutp8yGqw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AZzRHwoc22nGD3JKICgpE6KPZmyu99+BVohmqmsM/sxyVzVop+ICN6RS7fAwINVsS700/mn6RKdbeZNusLlrTZCj6br7yVOMnb3G6U52xau7tOiwdJ3C1rdoUIcz+DtyEkpSWMlWEW7hrrii8DellHUOWamT11RpzG8GsIzs+Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=RjZJFi2Y; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oO3ino49"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDF541F000E9;
-	Sun, 28 Jun 2026 23:37:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782689854;
-	bh=AsaiapX2vikYIk/w5nfyMPF/cTpFXSz56W7bWM4Pb2M=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=oO3ino49R89n61CsRkBCR9diZ+DKsLiRHMwwMxaYp9HQ173yN75E/utZi7wXI1Zcf
-	 Q6bczIwGlyrmxzGJocFWVRoqN7oB17NuaydphaHrEIz+kQ7h97Ju7w3e7jpckDEfhg
-	 ktpRG4kICCVC3V0sbHoXH++Dsog9uBdzBqkuzrpAn4Kw913UmAZWd1hwwv83tc0kkz
-	 MMTDHUh2jCW9uHlzUzyksf2bAuvZzWfSMSRf58AaaRzD2dtc+qVIPxhR7qgq01N7rJ
-	 k96hLOo3hvvJ7p9+lkeC5/B1aO/8vwUEvJRI3Km6w9HQuDe4J8rk5+GF0h6OtoJNEE
-	 s5fOAwSZbkgOw==
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="RjZJFi2Y"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 337B3240028
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 03:16:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de; s=2017;
+	t=1782695796; bh=+fKljr5WfBuYwiJruO0g5dFKAbjQn05a/S12Fgwc/rk=;
+	h=Message-ID:Subject:From:To:Cc:Date:Autocrypt:Content-Type:
+	 MIME-Version:OpenPGP:From;
+	b=RjZJFi2YaS5ZX/bBBkX3mdxpU5b70M8xEmYptP1T7DpCGI3RinicSV4C6J5gZYVL+
+	 NLmg1jR780PY2s4B++6qQfJWlATt5oX4oORPqo1cfj6YkiIT0Mbj9S6csINndllhZu
+	 ITMjNYMSAOK2MwNxDZKEHBq8RrFUL6sn+PiIJ0nzTJe1TTN6VMaKNDy2M0kHD42dSO
+	 eQct5UNmQen0aSl5fQdZHGeqYH6adIRZ1hL5e8rh402Bs0oN0SsuPxSvryBoQVB7Sz
+	 snmjYvUxCVy/FcbAOEyhlBCvqkmh3JyZaIjkfEE9JaIk5r6LzzTSrTT58QVIAik02g
+	 KIhMfY+rr3lmQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4gpSzQ4Mvgz6txY;
+	Mon, 29 Jun 2026 03:16:34 +0200 (CEST)
+Message-ID: <ce46b3d679b8b3421bb947d48900c0e735a6e910.camel@posteo.de>
+Subject: Re: [PATCH 2/2] rust: device: move drvdata_borrow() to
+ InternalBoundContext
+From: Markus Probst <markus.probst@posteo.de>
+To: Danilo Krummrich <dakr@kernel.org>, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, ojeda@kernel.org, boqun@kernel.org, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org, 
+	aliceryhl@google.com, tmgross@umich.edu, beata.michalska@arm.com
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Date: Mon, 29 Jun 2026 01:16:35 +0000
+In-Reply-To: <20260530132736.3298549-2-dakr@kernel.org>
+References: <20260530132736.3298549-1-dakr@kernel.org>
+	 <20260530132736.3298549-2-dakr@kernel.org>
+Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
+ keydata=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
+ jfGillcaQOqFZ3WwVqyzG1BUfTow==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-lp+vbWZX6aabbL47S8y9"
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+
+
+--=-lp+vbWZX6aabbL47S8y9
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Jun 2026 01:37:27 +0200
-Message-Id: <DJL2T5XDC53F.3C2QC5L1V2H6@kernel.org>
-Subject: Re: [PATCH v5 00/20] rust: I/O type generalization and projection
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
- "Robin Murphy" <robin.murphy@arm.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Michal Wilczynski" <m.wilczynski@samsung.com>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pwm@vger.kernel.org>, "Laura Nao" <laura.nao@collabora.com>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
-In-Reply-To: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
 
-On Fri Jun 26, 2026 at 4:45 PM CEST, Gary Guo wrote:
-> This series presents a major rework of I/O types, as a summary:
+On Sat, 2026-05-30 at 15:27 +0200, Danilo Krummrich wrote:
+> Move drvdata_borrow() from impl Device<CoreInternal<'a>> to
+> impl<Ctx: InternalBoundContext> Device<Ctx>, making it available from
+> both CoreInternal and BoundInternal contexts.
+>=20
+> Fold drvdata_unchecked() (previously on Device<Bound>) directly into
+> drvdata_borrow(), since it was only called from there and the generic
+> context cannot resolve methods through the deref chain.
+>=20
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  rust/kernel/device.rs | 18 ++----------------
+>  1 file changed, 2 insertions(+), 16 deletions(-)
+>=20
 
-There are two minor rustdoc warnings:
+Reviewed-By: Markus Probst <markus.probst@posteo.de>
 
-	warning: unresolved link to `include/linux/iosys-map.h`
-	    --> rust/kernel/io.rs:1456:7
-	     |
-	1456 | /// [`include/linux/iosys-map.h`] in C.
-	     |       ^^^^^^^^^^^^^^^^^^^^^^^^^ no item named `include/linux/iosys-=
-map.h` in scope
-	     |
-	     =3D help: to escape `[` and `]` characters, add '\' before them like =
-`\[` or `\]`
-	     =3D note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
-=09
-	warning: unresolved link to `View`
-	    --> rust/kernel/io.rs:1620:74
-	     |
-	1620 | /// In addition to projecting from [`Io`], you may also project fro=
-m a [`View`] of an [`Io`].
-	     |                                                                    =
-      ^^^^ no item named `View` in scope
-	     |
-	     =3D help: to escape `[` and `]` characters, add '\' before them like =
-`\[` or `\]`
-=09
-	warning: 2 warnings emitted
+Thanks
+- Markus Probst
 
-> Gary Guo (19):
->       rust: io: add dynamically-sized `Region` type
->       rust: io: add missing safety requirement in `IoCapable` methods
->       rust: io: restrict untyped IO access and `register!` to `Region`
->       rust: io: implement `Io` on reference types instead
->       rust: io: generalize `MmioRaw` to pointer to arbitrary type
->       rust: io: rename `Mmio` to `MmioOwned`
->       rust: io: implement `Mmio` as view type
->       rust: pci: io: make `ConfigSpace` a view
->       rust: io: use view types instead of addresses for `Io`
->       pwm: th1520: remove unnecessary `deref`
->       rust: io: remove `MmioOwned`
->       rust: io: move `Io` methods to extension trait
->       rust: io: add projection macro and methods
->       rust: io: implement a view type for `Coherent`
->       rust: io: add `read_val` and `write_val` functions on `Io`
->       gpu: nova-core: use I/O projection for cleaner encapsulation
->       rust: dma: drop `dma_read!` and `dma_write!` API
->       rust: io: add copying methods
->       rust: io: implement `IoSysMap`
->
-> Laura Nao (1):
->       rust: io: add I/O backend for system memory with volatile access
+--=-lp+vbWZX6aabbL47S8y9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-For sharing with the drm-rust tree:
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-index 3ee19ef6264e..6868b5d80ab7 100644
---- a/rust/kernel/drm/gem/shmem.rs
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -29,9 +29,10 @@
-         to_result, //
-     },
-     io::{
--        Io,
--        IoCapable,
--        IoKnownSize, //
-+        IoBase,
-+        Region,
-+        SysMem,
-+        SysMemBackend, //
-     },
-     prelude::*,
-     scatterlist,
-@@ -467,6 +468,28 @@ pub fn owner(&self) -> &Object<D, C> {
-     }
- }
+iQJPBAABCAA5FiEEgnQYxPSsWOdyMMRzNHYf+OetQ9IFAmpBx3IbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJEDR2H/jnrUPSdWUP/RzqA+lSy9QQS3YUjG06
+lE3vfJBwkegv1sTxnWzkBOpDtDFCowhzaZAF4xmwRy3a7a28Vm/qnP22bzkmEj6x
+a5Cgqi6CVjqIupNynHI6nT3HmnwTMSXPObxW/nDi/z6pGDze8C7vcHhumuLS17pC
+Ef3yvNVxfxtoyxmSUDUFwHR8Vom3LynTyFoKiklTEj6yRaGkUtqbd7d2SbCgQCSh
+jujciJhnAascEKDen3ZjWmIN1cStiha/uuxHlXgWiVge4tJ3nYJ8vjhfzR5aX8tt
+nuL8RdCrkxve9hmJviDNezWqc4r5fZKHV6/cR1jQVmJbKb09POunwHmaH6mLCsKc
+LJECFhlLZh4e7WjlX/b/rFQsq2thUbFeGCwjsqZF1IgzSoeEY/UEwVWFZz0biqbZ
+rR7BIb5BDrpaI7KhHMc/HfIXFIEe7ShyUR3aX77H0mBlN1HUnwUVziQHOiegJCb8
+e+PhvICM4ej5fUHst03dnU9NVpcTWryK+6aflWmUL8JG0OR/we6IEoeZUxi1MDwX
+FX7sf5sPvadIlSRELZvwRL7r1XJ/XZSW47JfYRqLJ8as/sJEmeyMGBdCTAMAR+WO
+p6tjjaqVM30oy7mEMWYMBIxEDxy8UW346qKNDRbSmRrnzB26+ML4K9yEaFCQr6m8
+QH5FZSTZMSkiq/EGQOKGE0bv
+=nD23
+-----END PGP SIGNATURE-----
 
-+impl<'a, D, R, C, const SIZE: usize> IoBase<'a> for &'a VMap<D, R, C, SIZE=
->
-+where
-+    D: DriverObject,
-+    C: DeviceContext,
-+    R: Deref<Target =3D Object<D, C>>,
-+{
-+    type Backend =3D SysMemBackend;
-+    type Target =3D Region<SIZE>;
-+
-+    #[inline]
-+    fn as_view(self) -> SysMem<'a, Region<SIZE>> {
-+        let ptr =3D Region::ptr_from_raw_parts_mut(self.addr.cast(), self.=
-owner.size());
-+
-+        // SAFETY: Per type invariants of `VMap`:
-+        // - `addr .. addr + owner.size()` is a valid kernel accessible me=
-mory region.
-+        // - `addr` is page-aligned, which satisfies `Region`'s 4-byte ali=
-gnment requirement.
-+        // - The memory remains valid until this `VMap` is dropped; since =
-`self` is `&'a VMap`,
-+        //   the borrow prevents the `VMap` from being dropped for the lif=
-etime `'a`.
-+        unsafe { SysMem::new(ptr) }
-+    }
-+}
-+
- impl<D, R, C, const SIZE: usize> Drop for VMap<D, R, C, SIZE>
- where
-     D: DriverObject,
-@@ -508,69 +531,6 @@ unsafe impl<D, R, C, const SIZE: usize> Sync for VMap<=
-D, R, C, SIZE>
- {
- }
-
--impl<D, R, C, const SIZE: usize> Io for VMap<D, R, C, SIZE>
--where
--    D: DriverObject,
--    C: DeviceContext,
--    R: Deref<Target =3D Object<D, C>>,
--{
--    #[inline]
--    fn addr(&self) -> usize {
--        self.addr as usize
--    }
--
--    #[inline]
--    fn maxsize(&self) -> usize {
--        self.owner.size()
--    }
--}
--
--impl<D, R, C, const SIZE: usize> IoKnownSize for VMap<D, R, C, SIZE>
--where
--    D: DriverObject,
--    C: DeviceContext,
--    R: Deref<Target =3D Object<D, C>>,
--{
--    const MIN_SIZE: usize =3D SIZE;
--}
--
--macro_rules! impl_vmap_io_capable {
--    ($ty:ty) =3D> {
--        impl<D, R, C, const SIZE: usize> IoCapable<$ty> for VMap<D, R, C, =
-SIZE>
--        where
--            D: DriverObject,
--            C: DeviceContext,
--            R: Deref<Target =3D Object<D, C>>,
--        {
--            #[inline]
--            unsafe fn io_read(&self, address: usize) -> $ty {
--                let ptr =3D address as *mut $ty;
--
--                // SAFETY: The safety contract of `io_read` guarantees tha=
-t address is a valid
--                // address within the bounds of `Self` of at least the siz=
-e of $ty, and is properly
--                // aligned.
--                unsafe { ptr::read_volatile(ptr) }
--            }
--
--            #[inline]
--            unsafe fn io_write(&self, value: $ty, address: usize) {
--                let ptr =3D address as *mut $ty;
--
--                // SAFETY: The safety contract of `io_write` guarantees th=
-at address is a valid
--                // address within the bounds of `Self` of at least the siz=
-e of $ty, and is properly
--                // aligned.
--                unsafe { ptr::write_volatile(ptr, value) }
--            }
--        }
--    };
--}
--
--impl_vmap_io_capable!(u8);
--impl_vmap_io_capable!(u16);
--impl_vmap_io_capable!(u32);
--#[cfg(CONFIG_64BIT)]
--impl_vmap_io_capable!(u64);
--
- /// A reference to a GEM object that is known to have a mapped [`SGTable`]=
-.
- ///
- /// This is used by the Rust bindings with [`Devres`] in order to ensure t=
-hat mappings for SGTables
-@@ -638,6 +598,7 @@ mod tests {
-             UnregisteredDevice, //
-         },
-         faux,
-+        io::Io,
-         page::PAGE_SIZE, //
-     };
-
-@@ -714,7 +675,7 @@ fn compile_time_vmap_sizes() -> Result {
-         assert!(ptr::eq(vmap.owner(), obj.deref()));
-
-         // Verify the max size matches the actual object size
--        assert_eq!(vmap.maxsize(), PAGE_SIZE);
-+        assert_eq!(vmap.size(), PAGE_SIZE);
-
-         // Make sure creating a vmap that's too large fails
-         assert!(obj.vmap::<{ PAGE_SIZE + 200 }>().is_err());
+--=-lp+vbWZX6aabbL47S8y9--
