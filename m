@@ -1,221 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD212379980
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 15:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6343D4F4
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 15:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782747753; cv=none; b=nh/s3GkIs3g0x7i/NyS+Eoyc9aPMNYE09vxIbF1UXQnlvZFmDcEXrm/S1gXqYk05rDyptnHjiwdtZFF8xZXEJWtQ/dPFhonDwW12dBRBJY6pAXcIj3AN6dyFvpoKoC1t18EndLiiDiOTvC4LZWkLqg++X+N8bPmUlGUMzhwGWCI=
+	t=1782748102; cv=none; b=DqXXofE2f7K+ewFZekQ6dOtwiCkkRaKQUvWlIu6jz/6rMyEfGLh+cex+q1gXX3oGtzx3XyQWU5G/86rg21klKqk/iwHVmgjMxIJOAGA3IiBP06WuyWEy7Pf/jmGNCBes4NyKUvymx9y2+JdUfksZnKnFMwgyenCjuM1AuQdVwkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782747753; c=relaxed/simple;
-	bh=ysWvzBMEdR3mUroLwDVNAsSve67+hNkhz+NHSicxT08=;
+	s=arc-20240116; t=1782748102; c=relaxed/simple;
+	bh=xEj2dKDGeASR+fSR2Rl0OKNkvS5xk75qjuIZf3NSAJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bN9R7hy2HnTqLEzCmu+/knO+CQyHZFzB4IMsMWIY0fikaHvBAbK0XoN0G6vZ7nYB2qahdP7s1W8q0Ct9G/Xibj31BzTW780n6uxjbO3TKnIPpeY4L9+FOAYrs3NX4ar5gH+UNPivWYOjlcbgKbIweELvQbNhq4tXLGod2nPSvT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LKLXyRqH; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type:Content-Disposition; b=E283hzIPI17VQdxC1pNZ+BfCdQJ7KQE+af3UKeTdva0LwQxhflTH5pB8CCAaWKTQftUZd6n0GB4l1KQnlu1vcYDQdIbfuYeEtN/br7/TiMV7z1oNYYjGCJN1DdhMO85N2HWnusuEoMidfT68EwlnEEmxPLRUDQFb8524i48a1lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WiCoE1eY; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LKLXyRqH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782747752; x=1814283752;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ysWvzBMEdR3mUroLwDVNAsSve67+hNkhz+NHSicxT08=;
-  b=LKLXyRqHqZgbmdSWNgvAmyChc7YWH1zy7KPlACa58mifMhBiMhmEfVnd
-   MYLTKis6HNxVCtGuMAXM3JjVd4Q1ZrznodjmzNqaflhZWAUr5YZ1Mbm+C
-   1CZKAcrpt6emsaxoZAe79X+9urDmEkmrltlz5Xhb1Jv5QjcjkeXNO3GyR
-   VQ+wBicQQk0N5DJCC9Wtmwc3eZDldiR1hrR/ar+zlEI+COSnvLTGAtSke
-   0TYolkLtWRMWV+JDr5fVfiyLH3paMvtOxmGiubDKi2pIwtWHk4WSszKYV
-   zUEWaPkyRAQvE2hx0OSfCBxE5XG6DxsbSgLlqw1I06M+WGyWBnzSFFcTc
-   Q==;
-X-CSE-ConnectionGUID: MfwndQkwRgCcJ2+q4tAgAA==
-X-CSE-MsgGUID: hC7Z7LG5TtaIs3+/1SfzsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="85988839"
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="85988839"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:42:31 -0700
-X-CSE-ConnectionGUID: bh/olGCDTnWxrxhKDnJA9A==
-X-CSE-MsgGUID: Nm0odYGcTBy5w+oQuhtAug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="252140130"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:42:26 -0700
-Date: Mon, 29 Jun 2026 18:42:24 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WiCoE1eY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782748098;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5qsO792Ztaa0qn5nI0kJBMOa5Ndy7BivqDU0OQn0EDk=;
+	b=WiCoE1eY+yFPoOy0R43vseCayOrwtxmVubD//9VknXIbppzE6LoCbTpNgCY3B+x07okV1j
+	QdGdofyC2fbumE9wZaG5cSciiRpM2VhXKbHb3+QcTo3P6k5uMJOb5ILibXqarqI9i9FTIu
+	hZsEgsg0izzF11PolEen1fzexbdNnJ0=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-689-_QZB4aAFOKeeLt_L3__szw-1; Mon, 29 Jun 2026 11:48:17 -0400
+X-MC-Unique: _QZB4aAFOKeeLt_L3__szw-1
+X-Mimecast-MFC-AGG-ID: _QZB4aAFOKeeLt_L3__szw_1782748097
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-92da6f3cc81so451002285a.2
+        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 08:48:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782748097; x=1783352897;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5qsO792Ztaa0qn5nI0kJBMOa5Ndy7BivqDU0OQn0EDk=;
+        b=fOyQYHVo01EcSbp1isVPDj3sqA+Nmq4pB/4dDZd3TCyVcpVazrbkRHQ3Um+vBv59Gs
+         zELVjN0WV05EPmX0shNjUxfObg0+T8WFbyZ461+kTGg5betTM4z1kqCaH/GWW/7isp40
+         kGZUE0ctg3rNifqwKmJZeKLOatxXgj2ocOE23FmihAYlXvbnzxzKuzdwrMFSJCw3PoVK
+         aOJSoWsFXwodpsLq+DDTbTL93BfGNXV1qU1oE+BB1YrVYm/fK/6doTUfq1rjZ//WZxRd
+         kcbLPSEiXi//qJfavHMWCD6iw9xLusDCQBhCMOG7elwDqfUqvFL3iSZcSOgS09i3CpfT
+         Ht2g==
+X-Forwarded-Encrypted: i=1; AFNElJ/p1TKU8xSldygR81+Pbv53GY4ow2D3EVxkjxtyKhOcVyRr677Ze3NosezxU4rbrYsAN1dUNpslhbRWiw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKM3sg3Soc3KXmhweltYebN0umXx9wezgwheiyx9HU3iim6U9k
+	i5tU9/cTC+pgQ3gUQ2h9EzzMmOixh4vKw+mwbfuQph0quwzsblojIQk9E8lqknRFLU1Dcb8gnim
+	RoYMYrJOBFuQbJHDCBSP5LQbXPkQqZFVsMmEEybTFXMBvCbqnmc4qFXyO4udUWNN2
+X-Gm-Gg: AfdE7cn1IgTCGJkBh/LucWG41vtWCVc0tPpCoIyItU102/M0ZW9HM7XKvokAlO2tQou
+	u1yo6dNoGtIjI/0nlhyLry5v5vM9SermsfkhbIqazhJYAs6hXUTtzrjGGLYgtFhqA1+U4j8dg4Y
+	2nCxiv7oUP9QrZMfgIuTzRx5UBAX3xjgtIckQEjRPfW71S2gueOq88EMUTBL/I4Yaq2EenciHtd
+	cTNpq7nr6m8SLCw3vEq2z0GVn7W5e458anZq/ULxI2RQ+g6J9fManHoZNdvqAnotW/l1ZDm4Lzx
+	kvTWW+bIRjb/edYwmVrDa5ml0jXZFqHwYitIpiId3CI4pNpu/4vQie1wzQXMTbsNvJAo8x8NGb0
+	SsLl0gZ1AykUwh4Mhv55J+AZopSRlqg0dIgbl0u0Spaoipw==
+X-Received: by 2002:a05:620a:4690:b0:92b:6805:9193 with SMTP id af79cd13be357-92e627e2931mr13877585a.59.1782748096879;
+        Mon, 29 Jun 2026 08:48:16 -0700 (PDT)
+X-Received: by 2002:a05:620a:4690:b0:92b:6805:9193 with SMTP id af79cd13be357-92e627e2931mr13870385a.59.1782748096281;
+        Mon, 29 Jun 2026 08:48:16 -0700 (PDT)
+Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f1a69c283fsm947266d6.26.2026.06.29.08.48.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 08:48:15 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:48:14 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 2/5] software node: add fw_devlink support
-Message-ID: <akKSYKH2vyXMVcox@ashevche-desk.local>
-References: <20260629-swnode-fw-devlink-v1-0-b90058b41839@oss.qualcomm.com>
- <20260629-swnode-fw-devlink-v1-2-b90058b41839@oss.qualcomm.com>
+	Danilo Krummrich <dakr@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Xuyang Dong <dongxuyang@eswincomputing.com>,
+	Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 4/4] clk: implement sync_state support
+Message-ID: <akKTviIP_rt4eRSk@redhat.com>
+References: <20260626-clk-sync-state-v1-0-4156d8196dc8@redhat.com>
+ <20260626-clk-sync-state-v1-4-4156d8196dc8@redhat.com>
+ <f280150f-f829-4425-a856-9ca9f7aca233@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <f280150f-f829-4425-a856-9ca9f7aca233@oss.qualcomm.com>
+User-Agent: Mutt/2.3.2 (2026-04-26)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yLFo-aQThp_EV0tULmOjECqYWk2SenaUm2oaYfWpTS8_1782748097
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260629-swnode-fw-devlink-v1-2-b90058b41839@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-+Cc: Herve, to just ask the situation with one series that adds nice helper.
-
-On Mon, Jun 29, 2026 at 12:52:07PM +0200, Bartosz Golaszewski wrote:
-> Software nodes can be used to describe supplier-consumer relationships
-> between devices they represent using reference property entries. Unlike
-> for OF-nodes, driver core cannot yet use these references to create a
-> probe order that avoids needless probe deferrals on missing providers.
+On Mon, Jun 29, 2026 at 03:44:26PM +0200, Konrad Dybcio wrote:
+> On 6/26/26 6:32 PM, Brian Masney wrote:
+> > The existing support for disabling unused clks runs in the late initcall
+> > stage, and it has been known for a long time that this is broken since
+> > it runs too early in the boot up process. It doesn't work for kernel
+> > modules, and it also doesn't work if all of the consumers haven't fully
+> > probed yet. Folks have long recommended to boot certain platforms with
+> > clk_ignore_unused to work around issues with disabling unused clks.
 > 
-> Implement software_node_add_links() modelled on of_fwnode_add_links().
-> For every DEV_PROP_REF property we resolve each referenced supplier and
-> create an fwnode link from the node to it. The driver core later promotes
-> these to device links and defers the consumer until the suppliers are
-> ready.
+> [...]
 > 
-> There's no allowlist like the one DT needs - devicetree phandles appear
-> in plenty of non-supplier contexts, but a software node only carries a
-> reference property when its author explicitly points at another node, so
-> we treat every reference as an intentional supplier dependency and link
-> all of them. Graph "remote-endpoint" references are skipped for now: they
-> go 2-ways between endpoint nodes and would create graph cycles without
-> the port-parent lifting DT does via get_con_dev(). References to
-> suppliers that aren't registered yet and self-references are ignored.
+> >     [    0.366737] clk: Disabling unused clocks not associated with a device
+> >     [    0.367232] PM: genpd: Disabling unused power domains
+> >     [    7.791413] qcom-qmp-pcie-phy 1c24000.phy: clk: Disabling unused clocks
+> >     [    7.799702] qcom_aoss_qmp c300000.power-management: clk: Disabling unused clocks
+> >     [    8.548820] qcom-qmp-pcie-phy 1c14000.phy: clk: Disabling unused clocks
+> >     [    9.121849] qcom-qmp-usb-phy 88f1000.phy: clk: Disabling unused clocks
+> >     [    9.121985] qcom-qmp-usb-phy 88ef000.phy: clk: Disabling unused clocks
+> >     [    9.122691] qcom-edp-phy aec5a00.phy: clk: Disabling unused clocks
 > 
-> fw_devlink resolves the supplier device through fwnode->dev but the core
-> only records the owning device on the primary fwnode. When the software
-> node is a device's secondary fwnode, mirror the device pointer onto it in
-> software_node_notify() so the consumer can actually find the supplier
-> instead of deferring forever.
+> Many of these drivers only register fixed "virtual" clocks that
+> don't lead to any registers being altered and only exist to convey
+> what the clocks look like on the hw level.. but I don't think we
+> have great infra to skip that..
 > 
-> While at it: purge the fwnode links in software_node_release() now that
-> software nodes can own them.
+> >     [    9.122760] disp_cc-sc8280xp af00000.clock-controller: clk: Disabling unused clocks
+> >     [    9.142121] qcom-qmp-combo-phy 88eb000.phy: clk: Disabling unused clocks
+> >     [    9.169149] qcom-qmp-combo-phy 8903000.phy: clk: Disabling unused clocks
+> >     [   16.057997] qcom-cpufreq-hw 18591000.cpufreq: clk: Disabling unused clocks
+> >     [   16.058149] clk-rpmh 18200000.rsc:clock-controller: clk: Disabling unused clocks
+> >     [   16.334879] qcom-qmp-pcie-phy 1c06000.phy: clk: Disabling unused clocks
+> >     [   16.706113] camcc-sc8280xp ad00000.clock-controller: clk: Disabling unused clocks
+> >     [   21.565731] q6prm-lpass-clock 3000000.remoteproc:glink-edge:gpr:service@2:clock-controller: clk: Disabling unused clocks
+> >     [   21.597069] va_macro 3370000.codec: clk: Disabling unused clocks
+> >     [   21.605039] rx_macro 3200000.rxmacro: clk: Disabling unused clocks
+> >     [   21.630313] wsa_macro 3240000.codec: clk: Disabling unused clocks
+> >     [   21.635069] tx_macro 3220000.txmacro: clk: Disabling unused clocks
+> 
+> This is a bit noisy, but then it's necessary for debugging the
+> related hangs. Maybe if it turns out to be a huge issue, we can
+> hide it behind a _dbg() in the future.
 
-...
+Agreed. Personally I think we have this go in with dev_info() initially,
+then after it's been there for one release, move it to dev_dbg().
 
-> +static int software_node_add_links(struct fwnode_handle *fwnode)
-> +{
-> +	const struct software_node_ref_args *ref, *ref_array;
-> +	struct swnode *swnode = to_swnode(fwnode);
-> +	const struct property_entry *prop;
-> +	struct fwnode_handle *refnode;
-> +	unsigned int count, i;
+> I was hoping/expecting that sync_state would completely replace the
+> late initcall (which would also simplify this diff), but I'm surprised
+> to learn that there's a whole bunch of clk_register(dev=NULL)
+> calls in the kernel (are most of them doing it for no good reason
+> by chance?)
 
-'i' is local to the loop.
+Yes, correct there are a ton of clk drivers that use
+clk_register(dev=NULL) to register clks from __init early in the boot.
+My understanding of one use case is that this is needed to setup arch
+timers that have a dependency on a clock.
 
-> +	if (!swnode || !swnode->node->properties)
-> +		return 0;
-> +
-> +	/*
-> +	 * Unlike Device Tree, where phandles appear in many non-supplier
-> +	 * contexts and a curated allowlist is required, a software node only
-> +	 * carries a DEV_PROP_REF property when the author explicitly describes
-> +	 * a reference to another node. Every such reference is therefore an
-> +	 * intentional supplier dependency, so we create fwnode links for all
-> +	 * of them.
-> +	 */
-> +	for (prop = swnode->node->properties; prop->name; prop++) {
-> +		if (prop->type != DEV_PROP_REF || prop->is_inline)
-> +			continue;
-> +
-> +		/*
-> +		 * TODO: Graph "remote-endpoint" references go both ways
-> +		 * between endpoint child nodes and would create endpoint
-> +		 * cycles. Let's leave it out for now until we have potential
-> +		 * users.
-> +		 */
-> +		if (!strcmp(prop->name, "remote-endpoint"))
-> +			continue;
-> +
-> +		ref_array = prop->pointer;
-> +		count = prop->length / sizeof(*ref_array);
+My understanding is that lots of drivers that register clks in __init
+don't need to do it from there.
 
-Seems we are going to have more of a such, perhaps make a helper for counting
-(which will do that division beneath).
-
-> +		for (i = 0; i < count; i++) {
-
-		for (unsigned int i = 0; i < count; i++) {
-
-> +
-
-Redundant blank line?
-
-> +			if (ref->swnode)
-> +				refnode = software_node_fwnode(ref->swnode);
-> +			else if (ref->fwnode)
-> +				refnode = ref->fwnode;
-> +			else
-> +				continue;
-> +
-> +			/* Supplier not registered yet, or self-reference. */
-> +			if (!refnode || refnode == &swnode->fwnode)
-> +				continue;
-> +
-> +			fwnode_link_add(&swnode->fwnode, refnode, 0);
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-
-...
-
-> +	/*
-> +	 * When the software node is the device's secondary firmware node, the
-> +	 * core only records the owning device on the primary fwnode (see
-> +	 * device_add()). fw_devlink resolves a supplier device through
-> +	 * fwnode->dev, so without this a consumer referencing the software
-> +	 * node could never find the supplier device and would defer forever.
-> +	 * Make fwnode.dev point to its owner in that case.
-
-The below seems more balanced in terms of line lengths.
-
-	 * When the software node is the device's secondary firmware node,
-	 * the core only records the owning device on the primary fwnode
-	 * (see device_add()). fw_devlink resolves a supplier device through
-	 * fwnode->dev, so without this a consumer referencing the software
-	 * node could never find the supplier device and would defer forever.
-	 * Make fwnode.dev point to its owner in that case.
-
-> +	 */
-> +	if (dev_fwnode(dev) != &swnode->fwnode && !swnode->fwnode.dev)
-> +		swnode->fwnode.dev = dev;
-
-Doesn't Herve's patch(es) add some helpers for this?
-https://lore.kernel.org/lkml/20260511155930.34604-2-herve.codina@bootlin.com/
-
-Ah, still not applied :-( Perhaps it can be applied as just part that brings
-fw_devlink_set_device()?
-
-> +	/*
-> +	 * Drop the device pointer mirrored onto a secondary software node in
-> +	 * software_node_notify(). For a primary software node the core owns
-> +	 * fwnode->dev and clears it in device_del().
-> +	 */
-> +	if (dev_fwnode(dev) != &swnode->fwnode && swnode->fwnode.dev == dev)
-> +		swnode->fwnode.dev = NULL;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Brian
 
