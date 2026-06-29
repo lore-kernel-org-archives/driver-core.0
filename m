@@ -1,164 +1,296 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6343D4F4
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 15:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6EC367B6C
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 15:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782748102; cv=none; b=DqXXofE2f7K+ewFZekQ6dOtwiCkkRaKQUvWlIu6jz/6rMyEfGLh+cex+q1gXX3oGtzx3XyQWU5G/86rg21klKqk/iwHVmgjMxIJOAGA3IiBP06WuyWEy7Pf/jmGNCBes4NyKUvymx9y2+JdUfksZnKnFMwgyenCjuM1AuQdVwkU=
+	t=1782748154; cv=none; b=RTm6o9wokvPeE3rDQDYXQEKeoh9CX7fYiRl72CKBOEcWEXtzF/l57zxAtzGMhz3zkozt4wpwULPM79IO71goTGAcV4km8Utybt4iJ7wizCkKpPFM+SPQsxZS/KxmCqwmb1eKK4FGnjk1PKGY6+g69MWen0psV8BpZJwriYnlNe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782748102; c=relaxed/simple;
-	bh=xEj2dKDGeASR+fSR2Rl0OKNkvS5xk75qjuIZf3NSAJ0=;
+	s=arc-20240116; t=1782748154; c=relaxed/simple;
+	bh=Ag/eJAqyGGN2jk5s2m6mqJmP8X5lDT8ty8B5rzYFAzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=E283hzIPI17VQdxC1pNZ+BfCdQJ7KQE+af3UKeTdva0LwQxhflTH5pB8CCAaWKTQftUZd6n0GB4l1KQnlu1vcYDQdIbfuYeEtN/br7/TiMV7z1oNYYjGCJN1DdhMO85N2HWnusuEoMidfT68EwlnEEmxPLRUDQFb8524i48a1lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WiCoE1eY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=p44q5eyIcsqR8aZRAHZmvm5q9lJXnSf+pYhKp8Tp6FrpxxrWrshLpijFW1WK9p8gtabP3Xyb1DskWgmk0jH/8+I/V1/h5MoQ+ORrS+Ja6Dr1nIsftIMazvUuWpGfnFGFryS2UqPYrG5SoPlm/A+CbqWeDs8cZI/9dO1s8N1oGp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d7uv2OAu; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WiCoE1eY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782748098;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5qsO792Ztaa0qn5nI0kJBMOa5Ndy7BivqDU0OQn0EDk=;
-	b=WiCoE1eY+yFPoOy0R43vseCayOrwtxmVubD//9VknXIbppzE6LoCbTpNgCY3B+x07okV1j
-	QdGdofyC2fbumE9wZaG5cSciiRpM2VhXKbHb3+QcTo3P6k5uMJOb5ILibXqarqI9i9FTIu
-	hZsEgsg0izzF11PolEen1fzexbdNnJ0=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-689-_QZB4aAFOKeeLt_L3__szw-1; Mon, 29 Jun 2026 11:48:17 -0400
-X-MC-Unique: _QZB4aAFOKeeLt_L3__szw-1
-X-Mimecast-MFC-AGG-ID: _QZB4aAFOKeeLt_L3__szw_1782748097
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-92da6f3cc81so451002285a.2
-        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 08:48:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782748097; x=1783352897;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5qsO792Ztaa0qn5nI0kJBMOa5Ndy7BivqDU0OQn0EDk=;
-        b=fOyQYHVo01EcSbp1isVPDj3sqA+Nmq4pB/4dDZd3TCyVcpVazrbkRHQ3Um+vBv59Gs
-         zELVjN0WV05EPmX0shNjUxfObg0+T8WFbyZ461+kTGg5betTM4z1kqCaH/GWW/7isp40
-         kGZUE0ctg3rNifqwKmJZeKLOatxXgj2ocOE23FmihAYlXvbnzxzKuzdwrMFSJCw3PoVK
-         aOJSoWsFXwodpsLq+DDTbTL93BfGNXV1qU1oE+BB1YrVYm/fK/6doTUfq1rjZ//WZxRd
-         kcbLPSEiXi//qJfavHMWCD6iw9xLusDCQBhCMOG7elwDqfUqvFL3iSZcSOgS09i3CpfT
-         Ht2g==
-X-Forwarded-Encrypted: i=1; AFNElJ/p1TKU8xSldygR81+Pbv53GY4ow2D3EVxkjxtyKhOcVyRr677Ze3NosezxU4rbrYsAN1dUNpslhbRWiw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwKM3sg3Soc3KXmhweltYebN0umXx9wezgwheiyx9HU3iim6U9k
-	i5tU9/cTC+pgQ3gUQ2h9EzzMmOixh4vKw+mwbfuQph0quwzsblojIQk9E8lqknRFLU1Dcb8gnim
-	RoYMYrJOBFuQbJHDCBSP5LQbXPkQqZFVsMmEEybTFXMBvCbqnmc4qFXyO4udUWNN2
-X-Gm-Gg: AfdE7cn1IgTCGJkBh/LucWG41vtWCVc0tPpCoIyItU102/M0ZW9HM7XKvokAlO2tQou
-	u1yo6dNoGtIjI/0nlhyLry5v5vM9SermsfkhbIqazhJYAs6hXUTtzrjGGLYgtFhqA1+U4j8dg4Y
-	2nCxiv7oUP9QrZMfgIuTzRx5UBAX3xjgtIckQEjRPfW71S2gueOq88EMUTBL/I4Yaq2EenciHtd
-	cTNpq7nr6m8SLCw3vEq2z0GVn7W5e458anZq/ULxI2RQ+g6J9fManHoZNdvqAnotW/l1ZDm4Lzx
-	kvTWW+bIRjb/edYwmVrDa5ml0jXZFqHwYitIpiId3CI4pNpu/4vQie1wzQXMTbsNvJAo8x8NGb0
-	SsLl0gZ1AykUwh4Mhv55J+AZopSRlqg0dIgbl0u0Spaoipw==
-X-Received: by 2002:a05:620a:4690:b0:92b:6805:9193 with SMTP id af79cd13be357-92e627e2931mr13877585a.59.1782748096879;
-        Mon, 29 Jun 2026 08:48:16 -0700 (PDT)
-X-Received: by 2002:a05:620a:4690:b0:92b:6805:9193 with SMTP id af79cd13be357-92e627e2931mr13870385a.59.1782748096281;
-        Mon, 29 Jun 2026 08:48:16 -0700 (PDT)
-Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f1a69c283fsm947266d6.26.2026.06.29.08.48.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 08:48:15 -0700 (PDT)
-Date: Mon, 29 Jun 2026 11:48:14 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d7uv2OAu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782748154; x=1814284154;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ag/eJAqyGGN2jk5s2m6mqJmP8X5lDT8ty8B5rzYFAzk=;
+  b=d7uv2OAu/LeiGU5p0gqNl3IXGjEOrvbE0mSjNSnLkKzK1eqTc72oERxB
+   kn4idgf+MqIsKi4QEsFc7LoKhq5vX08HcrP2SDUUgtIMk2AxHkM1w3cne
+   oQ4P1R5BqbKfJwmHcFtUZqX1ED7pIwWC5VXMgDcMPkDiD6UH+R2fMjYKF
+   Uea5M0Fe08Nc3YnBvICEeYcFzu+zkxMEPEYVuiGV02B6dKWerNs0HeC08
+   v+loXKxuH8tiKWfWZIbiUgsFa6xuFN70fWNNEtnJ12nw2o6rh6uU+aeRZ
+   7QpY5YSqfwjLCMej7eNlcYDvHVeOUrkOeeWVdbpOxmo9Eg1t1Rn/guvCK
+   w==;
+X-CSE-ConnectionGUID: NCWKp6SOSIm483vwlSdF3g==
+X-CSE-MsgGUID: Rnw19jDmQ1GJWuFAZ2sI+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="94934704"
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="94934704"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:49:13 -0700
+X-CSE-ConnectionGUID: O3ZfXutsRSmdIJ7hbEEtqg==
+X-CSE-MsgGUID: wti4M/4/SgWgrQDz+5m2yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="249364328"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:49:09 -0700
+Date: Mon, 29 Jun 2026 18:49:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Xuyang Dong <dongxuyang@eswincomputing.com>,
-	Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 4/4] clk: implement sync_state support
-Message-ID: <akKTviIP_rt4eRSk@redhat.com>
-References: <20260626-clk-sync-state-v1-0-4156d8196dc8@redhat.com>
- <20260626-clk-sync-state-v1-4-4156d8196dc8@redhat.com>
- <f280150f-f829-4425-a856-9ca9f7aca233@oss.qualcomm.com>
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 3/5] software node: add kunit tests for fw_devlink support
+Message-ID: <akKT8q5TjkMkZkmB@ashevche-desk.local>
+References: <20260629-swnode-fw-devlink-v1-0-b90058b41839@oss.qualcomm.com>
+ <20260629-swnode-fw-devlink-v1-3-b90058b41839@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <f280150f-f829-4425-a856-9ca9f7aca233@oss.qualcomm.com>
-User-Agent: Mutt/2.3.2 (2026-04-26)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: yLFo-aQThp_EV0tULmOjECqYWk2SenaUm2oaYfWpTS8_1782748097
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260629-swnode-fw-devlink-v1-3-b90058b41839@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jun 29, 2026 at 03:44:26PM +0200, Konrad Dybcio wrote:
-> On 6/26/26 6:32 PM, Brian Masney wrote:
-> > The existing support for disabling unused clks runs in the late initcall
-> > stage, and it has been known for a long time that this is broken since
-> > it runs too early in the boot up process. It doesn't work for kernel
-> > modules, and it also doesn't work if all of the consumers haven't fully
-> > probed yet. Folks have long recommended to boot certain platforms with
-> > clk_ignore_unused to work around issues with disabling unused clks.
+On Mon, Jun 29, 2026 at 12:52:08PM +0200, Bartosz Golaszewski wrote:
+> Add a kunit test suite for fw_devlink support for software nodes.
 > 
-> [...]
-> 
-> >     [    0.366737] clk: Disabling unused clocks not associated with a device
-> >     [    0.367232] PM: genpd: Disabling unused power domains
-> >     [    7.791413] qcom-qmp-pcie-phy 1c24000.phy: clk: Disabling unused clocks
-> >     [    7.799702] qcom_aoss_qmp c300000.power-management: clk: Disabling unused clocks
-> >     [    8.548820] qcom-qmp-pcie-phy 1c14000.phy: clk: Disabling unused clocks
-> >     [    9.121849] qcom-qmp-usb-phy 88f1000.phy: clk: Disabling unused clocks
-> >     [    9.121985] qcom-qmp-usb-phy 88ef000.phy: clk: Disabling unused clocks
-> >     [    9.122691] qcom-edp-phy aec5a00.phy: clk: Disabling unused clocks
-> 
-> Many of these drivers only register fixed "virtual" clocks that
-> don't lead to any registers being altered and only exist to convey
-> what the clocks look like on the hw level.. but I don't think we
-> have great infra to skip that..
-> 
-> >     [    9.122760] disp_cc-sc8280xp af00000.clock-controller: clk: Disabling unused clocks
-> >     [    9.142121] qcom-qmp-combo-phy 88eb000.phy: clk: Disabling unused clocks
-> >     [    9.169149] qcom-qmp-combo-phy 8903000.phy: clk: Disabling unused clocks
-> >     [   16.057997] qcom-cpufreq-hw 18591000.cpufreq: clk: Disabling unused clocks
-> >     [   16.058149] clk-rpmh 18200000.rsc:clock-controller: clk: Disabling unused clocks
-> >     [   16.334879] qcom-qmp-pcie-phy 1c06000.phy: clk: Disabling unused clocks
-> >     [   16.706113] camcc-sc8280xp ad00000.clock-controller: clk: Disabling unused clocks
-> >     [   21.565731] q6prm-lpass-clock 3000000.remoteproc:glink-edge:gpr:service@2:clock-controller: clk: Disabling unused clocks
-> >     [   21.597069] va_macro 3370000.codec: clk: Disabling unused clocks
-> >     [   21.605039] rx_macro 3200000.rxmacro: clk: Disabling unused clocks
-> >     [   21.630313] wsa_macro 3240000.codec: clk: Disabling unused clocks
-> >     [   21.635069] tx_macro 3220000.txmacro: clk: Disabling unused clocks
-> 
-> This is a bit noisy, but then it's necessary for debugging the
-> related hangs. Maybe if it turns out to be a huge issue, we can
-> hide it behind a _dbg() in the future.
+> Most cases call add_links() directly and inspect the resulting fwnode
+> supplier/consumer lists: a single reference, multiple references, a
+> reference to an unregistered node, a "remote-endpoint" reference and a
+> reference array. The last case is end-to-end - it registers real consumer
+> and supplier platform devices together with their drivers, adds the
+> consumer first and checks that fw_devlink defers its probe until the
+> supplier has been bound.
 
-Agreed. Personally I think we have this go in with dev_info() initially,
-then after it's been there for one release, move it to dev_dbg().
+...
 
-> I was hoping/expecting that sync_state would completely replace the
-> late initcall (which would also simplify this diff), but I'm surprised
-> to learn that there's a whole bunch of clk_register(dev=NULL)
-> calls in the kernel (are most of them doing it for no good reason
-> by chance?)
+> ---
+>  drivers/base/test/Kconfig               |   5 +
+>  drivers/base/test/Makefile              |   3 +
+>  drivers/base/test/swnode-devlink-test.c | 336 ++++++++++++++++++++++++++++++++
 
-Yes, correct there are a ton of clk drivers that use
-clk_register(dev=NULL) to register clks from __init early in the boot.
-My understanding of one use case is that this is needed to setup arch
-timers that have a dependency on a clock.
++ MAINTAINERS.
 
-My understanding is that lots of drivers that register clks in __init
-don't need to do it from there.
+...
 
-Brian
+
+>  CFLAGS_property-entry-test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+> +
+> +obj-$(CONFIG_DRIVER_SWNODE_KUNIT_TEST) += swnode-devlink-test.o
+> +CFLAGS_swnode-devlink-test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+
+Is it the case for this?
+
+...
+
+> +#include <linux/device.h>
+> +#include <linux/fwnode.h>
+
++ list.h
+
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/types.h>
+> +#include <linux/wait.h>
+
+...
+
+> +static int swnode_count_suppliers(struct fwnode_handle *fwnode)
+> +{
+> +	struct fwnode_link *link;
+> +	int ret = 0;
+
+Why signed? Also it's not 'ret' semantically it's 'count'.
+
+> +	/*
+> +	 * The suppliers and consumers lists should typically only be accessed
+> +	 * with the fwnode_link_lock taken but it's private to the driver core.
+> +	 *
+> +	 * These are tests and at this point nobody should be modifying them so
+> +	 * let's just access the list.
+> +	 */
+> +	list_for_each_entry(link, &fwnode->suppliers, c_hook)
+> +		ret++;
+> +
+> +	return ret;
+> +}
+
+...
+
+> +/* A single reference creates exactly one supplier link, on both list ends. */
+> +static void swnode_devlink_test_single_ref(struct kunit *test)
+> +{
+> +	static const struct software_node supp_swnode = {
+> +		.name = "swnode-devlink-test-supplier"
+
+Keep trailing comma.
+
+> +	};
+
+> +
+
+Redundant blank line.
+
+> +	struct fwnode_handle *cons_fwnode, *supp_fwnode;
+> +	int ret;
+> +
+> +	const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_REF("supplier", &supp_swnode),
+> +		{ }
+> +	};
+> +
+> +	supp_fwnode = kunit_software_node_register(test, &supp_swnode);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, supp_fwnode);
+> +
+> +	cons_fwnode = kunit_fwnode_create_software_node(test, props, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cons_fwnode);
+> +
+> +	ret = fwnode_call_int_op(cons_fwnode, add_links);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	KUNIT_EXPECT_EQ(test, swnode_count_suppliers(cons_fwnode), 1);
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(cons_fwnode, supp_fwnode));
+> +}
+
+...
+
+> +/* Multiple distinct references create multiple supplier links. */
+> +static void swnode_devlink_test_multiple_refs(struct kunit *test)
+> +{
+> +	static const struct software_node supp1_swnode = {
+> +		.name = "swnode-devlink-test-supplier-1"
+
+Keep comma.
+
+> +	};
+> +	static const struct software_node supp2_swnode = {
+> +		.name = "swnode-devlink-test-supplier-2"
+
+Ditto.
+
+> +	};
+> +	static const struct software_node *supp_nodes[] = {
+> +		&supp1_swnode, &supp2_swnode, NULL
+
+Here it's fine.
+
+> +	};
+
+> +
+
+Redundant blank line.
+
+> +	const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_REF("foo", &supp1_swnode),
+> +		PROPERTY_ENTRY_REF("bar", &supp2_swnode),
+> +		{ }
+> +	};
+> +
+> +	struct fwnode_handle *fwnode;
+> +	int ret;
+> +
+> +	ret = kunit_software_node_register_node_group(test, supp_nodes);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	fwnode = kunit_fwnode_create_software_node(test, props, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
+> +
+> +	ret = fwnode_call_int_op(fwnode, add_links);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	KUNIT_EXPECT_EQ(test, swnode_count_suppliers(fwnode), 2);
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(fwnode, software_node_fwnode(&supp1_swnode)));
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(fwnode, software_node_fwnode(&supp2_swnode)));
+> +}
+
+...
+
+> +static void swnode_devlink_test_unregistered_ref(struct kunit *test)
+
+Same comments as per above.
+
+...
+
+> +static void swnode_devlink_test_remote_endpoint_excluded(struct kunit *test)
+
+Ditto.
+
+...
+
+> +static void swnode_devlink_test_ref_array(struct kunit *test)
+
+Ditto.
+
+...
+
+> +#define SWNODE_DEVLINK_TEST_TIMEOUT_MS	2000
+
+(2 * MSEC_PER_SEC) ?
+(will require time.h).
+
+...
+
+> +static int swnode_test_record_probe(struct platform_device *pdev)
+> +{
+> +	struct swnode_test_probe_order *order = platform_get_drvdata(pdev);
+> +
+> +	if (order && order->count < ARRAY_SIZE(order->probed)) {
+
++ array_size.h
+
+> +		order->probed[order->count++] = dev_name(&pdev->dev);
+> +		wake_up_interruptible(&order->wq);
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static void swnode_devlink_test_probe_order(struct kunit *test)
+
+As per above comments.
+
+...
+
+> +static struct kunit_suite swnode_test_suite = {
+> +	.name = "software-node-links",
+> +	.test_cases = swnode_test_cases,
+> +};
+
+> +
+
+Redundant blank line.
+
+> +kunit_test_suite(swnode_test_suite);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
