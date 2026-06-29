@@ -1,86 +1,32 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from outbound.qs.icloud.com (qs-2005k-snip4-7.eps.apple.com [57.103.86.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4382D400DFA
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 12:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B643FFACC
+	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 12:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.86.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782736174; cv=none; b=PgOjur4CTYehLxlnClaQDTcsg3aDGaZX2sCupJd2lVmE+mge9+w71434Flh2AY3vtNRAZfD8PZP1aBIFxUs99DY0GR31Bz3q4BmrOBzOpS5Nt59bIWRkqfLVAXwYcfJKzgRtKwsAMjiREKINmHd+9ALwt+d0nfl5/97sl1nLMK4=
+	t=1782736422; cv=none; b=OUfwmqXPWJ6VrR6mRQq1VGszfhOw25c0nU5Nsu+JGZEza7YlVXRR30EQkt7G/NtbLmpKT7DN1A8XJM7KUOhZaNp4DsI4JTffzszWhUwFvpapgnQ4TFqKtRmKY8K2O36zg9an86ABOO9w1pGaq7EkwRRjg0cocls69FLj4xvDhds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782736174; c=relaxed/simple;
-	bh=3wkaVyo8f9C10ckpDW8FQOs7mVt1PctZ4+KQwkKXBec=;
+	s=arc-20240116; t=1782736422; c=relaxed/simple;
+	bh=8YLXhUbIWRx0tS3HCOlad3wN8nbngvo7OVFQ/aCeobA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FvsZM1CVqM+icyZLKXwpdKZM9vdcvNaiHYyclWJBTxfY4OfahbPYLXZ2xAFrrEacskeopFA/X1sKOj8DliEnuAnFBCV1Lqpq+9N4VzQXoT/dmHoC1weo+Tx/ZKM1sxYdC5av9/oPJlE9a4gFSU0KRbZQl5UNQ6F17WVvsPFpCJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UAQbONyO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZTw6M2K+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=d0gOi4jAkwNWC7y3Oz7aw6qJbn+T0BYt4DiOi4yA51XngGoLuxW+hLjT+oQDQ+GJc2Mhc9kLPX9t7C9zj9yWpz7Tvh9MDQt0GP77khvdOhRtS2JeLP0sL28MGqn7YUB7oCilQzjYFxkMT+Ct28l1O4Yp/Nzxk52M4+4K0gvTSEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=SUDiY1Bz; arc=none smtp.client-ip=57.103.86.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UAQbONyO";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZTw6M2K+"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65TASvWA2603468
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 12:29:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	g8QjTG+MobzU76SuZmdM098g+XPk+Q3XuBlOoWFGPaA=; b=UAQbONyOcBavg6Vv
-	mnuHEm9D2HiR8cx0XlQWUEjb0sFuSGBvK1jTyCylrAezm/9/Cd32+aLQ0l1Eoe7b
-	IP3s8NqUlmI4ZE9IjZjqzu+LAe+q4Z9fzzB0XyYJ1huwhw39cs9XLaFA6WbP4yuK
-	55OvsWBWq0c8eztsDcQQsip8ZFFkFIKfuWPZzWfpIwJ7AnXk7c4VYy51p4IKHjQI
-	H4QVZIMgmIOAZ3hW2hGmMguehm15WcgE8VnoXJASNAtdBwWprlErpiYZgVSOGm4/
-	s6xLfmk1luW6ZvIdzQ501TEk1988Hz+1+ASQTDrcmTLh62PMj5q4oHEHxBrQwuB6
-	CBqJfA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3nq88s5w-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 12:29:32 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92a9777b04dso92997885a.2
-        for <driver-core@lists.linux.dev>; Mon, 29 Jun 2026 05:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782736171; x=1783340971; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g8QjTG+MobzU76SuZmdM098g+XPk+Q3XuBlOoWFGPaA=;
-        b=ZTw6M2K+4EWtqizSLVdnBlXAQ72P67f82yhZ8HokSmctsLIst7xZBgWvBXVG28aqY9
-         l0rQL8BzHTc3+qSs+WnjrLEar3nCIwNn0vWqHDEFoqxtIp/l0FgTw/Htkn9dgAauhiUR
-         0cHRPhoJlMYORRl3E8O4T9HRjCkKfg9SQKvq2vKrV3F6d40+6Cs67/INdEJuqjcMFyXk
-         DauWYt8QYIMMWBL6epRi+sV7xWqEu3jVTpCd5s9xTxr9ilZ7roGwPjjZLR+cVnDQT2e/
-         7BR7Vzl2fODZoq3ETI73+aLZ9UA+usVrWxmqNTA0++5dv83gGhTho0j6Cw5gBvYp4SRo
-         ENpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782736171; x=1783340971;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=g8QjTG+MobzU76SuZmdM098g+XPk+Q3XuBlOoWFGPaA=;
-        b=AqcGNygfJR1U/yPo6HIq0iNk3L/p9NA1KYilPjEwcQJZBApcyYlmf9kc7wBbcYldD8
-         wJi626HPJkEnwDaCNOrZQeKC+p7EoBR/ZsPSYpwPhLJ/y5o/pHvEPD4BhHgbUM7zO3fQ
-         XOQ8Ce5mTXQtFbqmceGfdtR4jDUXypN8vFLWNYtOcKXvvegMkvcxuklJsw2bJje8oaO5
-         TULirAqyFWa5tk6uZHIbXBUfwMw75BUfUv9YKuPklLykuW6P2JvrfTi22dkeXXI8hcyB
-         NMSKfz61ixPlfa/rcK7LkaRC8hzS57y6I2ZAdwCJV9a3bG8lAyYUEzAsIp/ihmHo8+cm
-         /2Sw==
-X-Gm-Message-State: AOJu0YyEuC6tk0U9rLuz/9dBt1gn+Ml6MdnpyeunZKceszVloUAKZuXG
-	Qp4fExhoU8uuvyvS1c48Q+GHh8GVdTZctJ31R5xXKO2PbUbOhvW+PA0pm8Ot4mdCZYOD0jm9XVW
-	Tvg+QwJeh5DJGRBbF33OpZb5KKaJfwq0fpViu6/eUFmA6H952m+RZRYT+VJ9DJHD14Q==
-X-Gm-Gg: AfdE7cna3lnuNEnVzPzRb+C1yhcY0Pg09z/kE2lY0Jo8DQJoovJIIaSyUDOF69eXjjo
-	SyuAg1Hbp1kO5qHAHWORZpdB+oFAXmpw+LcuhpZdI8RT4NvxNrgiJU9HzRtO88apiyEKmLvrFx6
-	PUTWTcbccXqKjQL/Yjnj73JwGnTQiPYsManuo8PbLp0CthRsLImVhKRZZYTh7sFHnuo5ENv12hj
-	hsGNLUkw5UnugxNqGuKDyZdW5oDy82PxWDz05N3M6pYfLDxlL+WF1uNQUIhgh6xKx1lp40CKt+h
-	hyjNlRYI2TIc3or/Ldz72pnDjT/otKlABUEUD4kLAjqoxgQ2brXQdV4W223x9HbkZYlhS8/mdqO
-	tTLP0yNWh60vI3bcMp83dO5ltCogvMKwFMyw=
-X-Received: by 2002:a05:622a:244:b0:51b:fe41:4764 with SMTP id d75a77b69052e-51bfe414b9bmr23414931cf.7.1782736171512;
-        Mon, 29 Jun 2026 05:29:31 -0700 (PDT)
-X-Received: by 2002:a05:622a:244:b0:51b:fe41:4764 with SMTP id d75a77b69052e-51bfe414b9bmr23413151cf.7.1782736168361;
-        Mon, 29 Jun 2026 05:29:28 -0700 (PDT)
-Received: from [192.168.120.170] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b0a53a815sm8454541fa.21.2026.06.29.05.29.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 05:29:27 -0700 (PDT)
-Message-ID: <ba7ca0e1-2e66-4355-a8f6-fcd65010b08c@oss.qualcomm.com>
-Date: Mon, 29 Jun 2026 14:29:24 +0200
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="SUDiY1Bz"
+Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-2d-10-percent-2 (Postfix) with ESMTPS id CDED93000A32;
+	Mon, 29 Jun 2026 12:33:35 +0000 (UTC)
+X-ICL-RepId: 019f135e-ebd7-756b-bea4-1ef1525772bd
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhAAEMGUgdeCVYAVBcOVk1DEVkYWTRaBXkRUAFYHlZeWhdeTVEPDxlaFFwYU0VRH1RYQQ4KWgdQUR1fAgoERwRbF0YDU0VDAxcRUAFYHlZeWhdeTUcfQE1iSQFaGVscQBdKbk1TDw8ZWhRcGFNFUR9UWF4EU1YOEl0aBVRVXgJdXB4KVRpfBRYMVQpfVFofRAEdBF5RDwAUWE8BLV4IXh9MHB0OWAYMUE0BQwgKAlEcVg1X
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1782736420; x=1785328420; bh=T5WuAUMg5pxT+GcaKkat0zADndF0s7gZB8ckXQWQGo8=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=SUDiY1BzFJFP9G7QISkDRz7YR1voUUoKXVKATHbI2BqTCCPDF2zZCPK9s5QR5ksem9fmg6BnV0SFT6zt5DHHxwiiLfPJ7AjGFFbwTwmfB8tWX9345jOAJMg0GjMAOzPcqlwFKvAoYmty9fCk8WVlHv5X9iD2idVxsBqoLQb1NV+PiLGpdGnCbnI3xXbPdIDIcXSTC0GtYLU3jjgurbauGpcJ4yUHbk/xti7hA/gcYECiLELNjWfape5K/NHFQHctOiKA3W5mRQaqOmgPyWObJGE/uTF/OG/olnMbUVVfwIBCcaDPp/muBJktIGYKQRJKCoeir2j3iNJFHm2+l4syVw==
+Received: from [192.168.1.26] (unknown [17.57.155.37])
+	by p00-icloudmta-asmtp-us-east-2d-10-percent-2 (Postfix) with ESMTPSA id 847B93000093;
+	Mon, 29 Jun 2026 12:33:29 +0000 (UTC)
+Message-ID: <bdb69b50-ef98-47f5-92c1-48e73fd2da72@icloud.com>
+Date: Mon, 29 Jun 2026 20:33:24 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -88,75 +34,49 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] pmdomain: core: migrate to dev_add_sync_state()
-To: Brian Masney <bmasney@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
- <sboyd@kernel.org>, Russell King <linux@armlinux.org.uk>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Xuyang Dong <dongxuyang@eswincomputing.com>,
-        Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
-        Hans de Goede <johannes.goede@oss.qualcomm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>,
-        Abel Vesa <abelvesa@kernel.org>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20260626-clk-sync-state-v1-0-4156d8196dc8@redhat.com>
- <20260626-clk-sync-state-v1-2-4156d8196dc8@redhat.com>
+Subject: Re: [PATCH v2 2/2] software node: Fix
+ software_node_get_reference_args() with index -1
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Zijun Hu <zijun.hu@oss.qualcomm.com>
+Cc: Alban Bedel <alban.bedel@lht.dlh.de>, driver-core@lists.linux.dev,
+ devicetree@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+ linux-kernel@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+References: <20260618152035.1600436-1-alban.bedel@lht.dlh.de>
+ <20260618152035.1600436-2-alban.bedel@lht.dlh.de>
+ <85b2bac4-9882-4f35-81e4-1718a52aacc9@oss.qualcomm.com>
+ <akIfHJd2gpLC1u5o@ashevche-desk.local>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260626-clk-sync-state-v1-2-4156d8196dc8@redhat.com>
+From: Zijun Hu <zijun_hu@icloud.com>
+In-Reply-To: <akIfHJd2gpLC1u5o@ashevche-desk.local>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: mkVkFumcWxaC4n99q851p08oyZMJtFB7
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDEwMyBTYWx0ZWRfXyMsXkC3bxFo9
- PQ2kOyw1BHSSB4Sd2z8QauRhgnKZNNWermkaYcCqTTYPPqcGIBP2IqH1htJtGqSP8ntWrVGtV9v
- 5vRwW/pG/SjCw8psRBrEpfiZHCMaJTY=
-X-Proofpoint-ORIG-GUID: mkVkFumcWxaC4n99q851p08oyZMJtFB7
-X-Authority-Analysis: v=2.4 cv=PqSjqQM3 c=1 sm=1 tr=0 ts=6a42652c cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8 a=fDt9MinM2cAR7eUiMvAA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDEwMyBTYWx0ZWRfXyAxY5122L168
- RBYeEtnA0uSi2+M0h+P5+2gmeXUsdK0a0f+un+hkVmLt3GTh80ueGfOx1j6xA0ANdFNFHkOiiy5
- /6PWe3Pb6bduviK5EKkmEszOmGCukmS1ckoQmoktgHoOT7GvuQoGZLPyUYgwWFavPnHfVl83hyu
- DLG5UpKRjvA9Oq/kxXzayB8/vWCAmqQybEnMLf8hfL1tQnkm23jqQpWRbjZUgdtPcRo+Nmz/YyA
- vU/bZ8IocqyC4odatf7nx9ndVfiUahqMph90TgiyOssK0tUx1S47D4SKlotaFxNsPvBbhd2Kf3U
- 9SdP0ztqfnGAvZAya/Fgu4kQXrbECA78K40PJ3EpI5uAuqLWiqXDI1cUpinUHWgIEwhoOVajwvk
- f6PE1QCvLTeZjLYHAt14lmQTw5THfSKwVLRj5F3e/pT8VPVGBbxKuOPRKMfzIoeTSu9NEPiLaLm
- EYR0B72VTFyOU39YVdA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-29_03,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 adultscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606290103
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDEwNCBTYWx0ZWRfXzaIdZ+8vDicx
+ lzzVH3t2hqsW4V/H5PnuPN8Y5w4KAM6xUjLTnKyESsRH7RqEYLR5IZelSgo3iueFDXm1ck1MyC4
+ QYGKpvuRgTgPisw7etlMptX+5ey5I8RYIIx+8W5/vBPb3n+xwYVeHLGxsCa0kT2inA15vBSzKU5
+ KFxsVpqkAYqJfDtAObLIgyPJvSrc3e5x/LdjOseDKSZFBugJmTLLSITjoMNcXjIeRdCU0R+T+5L
+ H+6D3JIxtaJlfvpVHMI4VQ0WfRihnIfOdYKCInHpZJG+LvQ3fiLDZySIL9Rke/o0eAt25Xbd7wy
+ G4Nyiuwk6/AE1DwiA2O
+X-Proofpoint-GUID: 8bQz5ySa9e7w2bF775xeibc55Cs4AGcF
+X-Proofpoint-ORIG-GUID: 8bQz5ySa9e7w2bF775xeibc55Cs4AGcF
 
-On 6/26/26 6:32 PM, Brian Masney wrote:
-> We have cases where a device node represents a provider for multiple
-> types of resources, like clocks, power-domains, resets, etc. Having just
-> a single sync_state on the device is not sufficient since other
-> frameworks will want to add their own sync_state callback.
-> 
-> Migrate the pmdomain core code from dev_set_drv_sync_state() to
-> dev_add_sync_state() so that this works nicely with other frameworks
-> that want to add their own sync_state callback.
-> 
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> Assisted-by: Claude:claude-opus-4-6
-> ---
+On 6/29/26 15:30, Andy Shevchenko wrote:
+>> who will use UINT_MAX ?
+>>
+>> This function is a interface function.  the best fix should check
+>> input parameter @index and return -EINVAL if it is not expected?
+> And how do you know which index is allowed without doing that division?
+> Basically this patch does what you asked for: check input parameter for
+> the allowed range (which is dynamic, depending on the property length and
+> size of the reference structure.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Introduce a common macro to limit the max reference handle count and put it
+in include/linux/fwnode.h with the following macro.
+#define NR_FWNODE_REFERENCE_ARGS        16
 
-Konrad
+OR introduce a macro for software node only.
+
