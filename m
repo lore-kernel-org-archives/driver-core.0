@@ -1,124 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282A47E792;
-	Tue, 30 Jun 2026 20:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D0B21D3F5;
+	Tue, 30 Jun 2026 21:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782852085; cv=none; b=g21IQEm13EdI44yO9HQZBcSSmVMDOBTH1NYbkCPlwf4OrsNk7DI7qvW3rl5tOcw5zAz5kMiFF6BNG+oM0RIxuCXNlJcdMAD0mHZOMbVZ9Cs5OxDsnZUh9ck079qAEfL2ICjXyMTAcQ25uZe7Iz3SJ6d4g2Z7tymCFkgr2Nbp2Hg=
+	t=1782853769; cv=none; b=dgp6p1s4pl0G2nYL1R5zLOabqMotfloZHveEB3eLM1gG9TBVA/IFnf3QBscgagKHq6/3j/CucUanks/p0xlotSEB/hpva011J7msxqSw+r7DVygcKYYdDnmFeYBJt01nwtnjBCL5ilsXjbvu4Sjtf4FmaXq4M+2Zmewua+hELwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782852085; c=relaxed/simple;
-	bh=Z9yfRYNmIwv+atHhc4TifIPYETVUiFBgfexfenc4tIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbvUwFDPDTxWLfBfkkIsGRBEHPastnfDPCPOXPaiexm6JYyrgjLFR8Fx3sW/y+r1JSXhjHWZZZn4WfHxZmwXkMKuoKt58J1L1XlmIQJD9EvvxF9zi+BKfIUnD1RiTv1dV0twRfa6pAhPJjHqK/PxoXV5yi8FWX5pmEJ758mqZ3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ikoSK0Oz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782853769; c=relaxed/simple;
+	bh=Z8xN0Pgyzzrcaag0U4yXM2m9m+Vq39HOp9COonaGTUA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=ri1uXLc7lqyCcpAJbrnedW1eXOm9uuMfnKwkwso2VBmhtl5kPwa+wFf7ADy852M85/l+7KjnGUC8KqBh6NDyccOGbYzYwBmOzF9lpvWLvgJpFFxhhV/rFhnb9wecmi04STh5UrTz8yLL2bsZGhpF7hnljl4XespXSRsYBCwPSo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=az4n/La1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ikoSK0Oz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E95F1F000E9;
-	Tue, 30 Jun 2026 20:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782852083;
-	bh=H7ATUd9cqlkhdahtwVkw4nMYeN1a4Ty93BXOFzaf7ug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ikoSK0OzjLXNbd4YwkFkWzIHmqaYEN+FAnxC/unO27JOILKej3+1eUGzw4WYPAd5b
-	 rOhX/jUrn7zlQ2Np4wyms453C/u8D2Z+sBDGqgxa+vnbKTgvVQBOsNik+bvjO1UrgN
-	 V8kcfXt02dJVbTbBVqpLGa082RCrezB12J76EOy8=
-Date: Tue, 30 Jun 2026 22:40:09 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Francesco Valla <francesco@valla.it>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Tim Bird <tim.bird@sony.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-embedded@vger.kernel.org
-Subject: Re: [PATCH] driver core: add driver name to probe debug print
-Message-ID: <2026063044-resonate-subtitle-d005@gregkh>
-References: <20260629-probe_driver-v1-1-fc58117581b5@valla.it>
- <2026063043-slouchy-outgoing-a958@gregkh>
- <akPnMERmg-QO6kjC@bywater>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="az4n/La1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13DF91F000E9;
+	Tue, 30 Jun 2026 21:09:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782853768;
+	bh=fdPR9l+Tg1O9caxvFEzXmCFAAok284e1i6Pl08baN0c=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=az4n/La1sS17TmTqXgO3EJRHTutMitAeADN+RjneX2y13sudprQkx0cV6aZkNLWEx
+	 15rXWMRyaDSf5UuCXNrdUfSeWBA91WF3l7P0sYJyEXUTKo4Nd21rGs8H215UuYuEw7
+	 Lg8HsDv10Mz5nJ3JSPR/8W+3LvgevjMhVOGQ5ZGcLVueqJXogCCbwrLxUtW6mFTwY0
+	 E5iFtaRVmJNPNUBL87PTDYt9Vgzc6qQu44hcto8RywK70UO/qUOizQDCHc3r7WfkIo
+	 SnVK+R2ojJX3ovBX8lKLptKEAb70Xj3evZTO6gcACEmbrzvlC7hDahvNYeBMuyEprI
+	 EFgGZZZR87E1Q==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akPnMERmg-QO6kjC@bywater>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 23:09:24 +0200
+Message-Id: <DJMOWWJLKVZU.1N9RUO41QFAE@kernel.org>
+Subject: Re: [PATCH v2 1/7] rust: firmware: add request_into_buf()
+Cc: <driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>, "Luis Chamberlain"
+ <mcgrof@kernel.org>, "Russ Weight" <russ.weight@linux.dev>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Gary Guo" <gary@garyguo.net>
+To: "Timur Tabi" <ttabi@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260630194749.1209490-1-ttabi@nvidia.com>
+ <20260630194749.1209490-2-ttabi@nvidia.com>
+In-Reply-To: <20260630194749.1209490-2-ttabi@nvidia.com>
 
-On Tue, Jun 30, 2026 at 06:00:17PM +0200, Francesco Valla wrote:
-> Hello Greg,
-> 
-> thank you for the quick feedback.
-> 
-> On Tue, Jun 30, 2026 at 12:21:39PM +0200, Greg Kroah-Hartman wrote:
-> > On Mon, Jun 29, 2026 at 11:51:18PM +0200, Francesco Valla wrote:
-> > > The initcall_debug command line option is a useful tool while debugging
-> > > and optimizing the initialization of a new system, mainly because it
-> > > allows to see probe failures and deferrals without recompiling the
-> > > kernel (e.g., with CONFIG_DEBUG_DRIVER). However, matching a device
-> > > with the driver it is being probed with can become difficult, since
-> > > some devices use names that are not explicit, at least at a first sight
-> > > (e.g.: '1-0:1.0' or '1-0060').
-> > > 
-> > > Add an additional debug print to inform the user which driver is being
-> > > used for a device, allowing for a quick match. The print is inserted in
-> > > the same really_probe_debug() wrapper that is already used to report
-> > > the result of the probe, and is thus not affecting executions not using
-> > > the initcall_debug option.
-> > > 
-> > > Suggested-by: Tim Bird <tim.bird@sony.com>
-> > > Signed-off-by: Francesco Valla <francesco@valla.it>
-> > > ---
-> > > Hello,
-> > > 
-> > > this very small patch comes from a discussion started at the end of
-> > > 2024 after a Boot Time SIG meeting [1]; I decided to reduce the patch
-> > > proposed there by Tim to the bare minimum, as this should already be
-> > > enough information for a developer to work with.
-> > > 
-> > > I was unsure on whether to add information to the existing print or
-> > > introduce a new one; while IMO technically worse, I opted for this
-> > > second solution, since the existing print *might* be viewed as
-> > > userspace-facing ABI. I'll be happy to do otherwise if there is
-> > > consensus.
-> > > 
-> > > Thank you!
-> > > 
-> > > Regards,
-> > > Francesco
-> > > 
-> > > [1] https://lore.kernel.org/linux-embedded/MW5PR13MB563277AF5972FD2B56026CF9FD3C2@MW5PR13MB5632.namprd13.prod.outlook.com/
-> > > ---
-> > >  drivers/base/dd.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> > > index 60c005223844..3c0930020050 100644
-> > > --- a/drivers/base/dd.c
-> > > +++ b/drivers/base/dd.c
-> > > @@ -782,6 +782,9 @@ static int really_probe_debug(struct device *dev, const struct device_driver *dr
-> > >  	ktime_t calltime, rettime;
-> > >  	int ret;
-> > >  
-> > > +	/* Don't change this to pr_debug() - see comment below. */
-> > > +	printk(KERN_DEBUG "probing %s with driver %s\n", dev_name(dev), drv->name);
-> > 
-> > So you now get 2 lines per driver probe attempt?
-> > 
-> > What exactly is this going to help out with?  You aleady get the probe
-> > result line, how is doing 2 going to change anything except explode your
-> > kernel log?  Why not just modify the one existing line instead?
-> > 
-> 
-> I was being overzealous with the "don't break the userspace ABI" rule
-> and included the existing print into this kind of ABI. Given your
-> response, though, this might not be the case. I'll wait a couple of days
-> to see if anyone has something to add and then send a V2 that adds the
-> driver name to the existent print (solution that I technically prefer).
+On Tue Jun 30, 2026 at 9:47 PM CEST, Timur Tabi wrote:
+> +/// Load firmware directly into the caller-provided `buf`.
+> +///
+> +/// On success the firmware image has been copied into `buf`; the caller=
+ accesses the data
+> +/// through `buf` itself.
+> +/// See also `bindings::request_firmware_into_buf`.
+> +///
+> +/// This is intentionally a stand-alone function rather than a `Firmware=
+` constructor. For
+> +/// the `into_buf` path, the firmware data lives in the caller's `buf`, =
+not in a
+> +/// kernel-owned buffer, so returning a `Firmware` would expose `Firmwar=
+e::data()` as a
+> +/// second handle aliasing `buf` (and `release_firmware()` does not free=
+ `buf` anyway).
+> +pub fn request_into_buf(name: &CStr, dev: &Device, buf: &mut [u8]) -> Re=
+sult {
+> +    let mut fw: *mut bindings::firmware =3D core::ptr::null_mut();
+> +    let pfw: *mut *mut bindings::firmware =3D &mut fw;
+> +    let pfw: *mut *const bindings::firmware =3D pfw.cast();
+> +
+> +    // SAFETY: `pfw` is a valid pointer to a NULL initialized `bindings:=
+:firmware` pointer.
+> +    // `name` and `dev` are valid as by their type invariants. `buf` is =
+a valid writable
+> +    // buffer of `buf.len()` bytes.
+> +    let ret =3D unsafe {
+> +        bindings::request_firmware_into_buf(
+> +            pfw,
+> +            name.as_char_ptr(),
+> +            dev.as_raw(),
+> +            buf.as_mut_ptr().cast(),
 
-printk() messages are NOT a userspace ABI so all should be fine.
-Especially for debugging messages :)
+Sashiko's concern about buf being an empty slice, despite being nonsensical=
+,
+seems valid. The allocated_size field in struct fw_priv, if set to zero, is
+interpreted as "the driver did not provide a buffer" and hence the firmware
+loader assumes that it has to treat the data pointer as a self-allocated bu=
+ffer.
+In the case of passing an empty slice, this would be a dangling pointer.
 
-thanks,
+> +            buf.len(),
+> +        )
+> +    };
+> +    if ret !=3D 0 {
+> +        return Err(Error::from_errno(ret));
+> +    }
+> +
+> +    // The firmware bytes are now in `buf`, which the caller owns, so we=
+ don't need
+> +    // the kernel to hang on to it any more.
+> +    // SAFETY: `fw` is a valid pointer returned by `request_firmware_int=
+o_buf`.
+> +    unsafe { bindings::release_firmware(fw) };
+> +
+> +    Ok(())
+> +}
+> +
+>  // SAFETY: `Firmware` only holds a pointer to a C `struct firmware`, whi=
+ch is safe to be used from
+>  // any thread.
+>  unsafe impl Send for Firmware {}
+> --=20
+> 2.54.0
 
-greg k-h
