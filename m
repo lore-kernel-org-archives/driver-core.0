@@ -1,91 +1,63 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A83F0A97
-	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 10:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A188740B6EE;
+	Tue, 30 Jun 2026 10:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782816499; cv=none; b=GwsXRJeMTW/fir7hqzvSeBhZA7MROBo7VSECkaqYdIfiWvUmm9v0koZCA3DawdO8VGIz+lwauiC7VnLmFQsLybn+nSTopGvzbG7oH0nxSg8M94zcLe0Bv0JSLCQ4lK/y/7jehvxefMt9CHKmtc9QSsG3h/eHgDVtvYyIF4otsns=
+	t=1782817035; cv=none; b=DXDaDIKRDUzwNx9wnx18pnAs6owE8u33GQVIg0sHtmEEy0DuN0On13sNfi87Y/ubJoL2mzH8lpxnBRPJWKHAbqi7dwpw5wXJIKIB16pjCWtwNQvyfkevE3ETkB/uHE1aSgKkfcZglu0mcEPzqkK0aj5jAX8ByN+g2QaWw4uS1ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782816499; c=relaxed/simple;
-	bh=HpicAEKNGBTQQuuqPcVX4l62LWLvxMUNi/rLemPWnPk=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uttm4owLa47XiwFWIsnbl4bBM5f2zUcrTsakw5zR3mZ7mpbpSLUeBZ5Qi47f+p5jQEOmBM3WuSK1wxNuqvBNHGfTF89kfzjzpjEFi94nEmTnTuPOda9V8bfNoHPdVq8wJWDWCWVHIY+h93VzyyhYLEpZikClCCjR+rxLBEFagAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=G6pTMmFV; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1782817035; c=relaxed/simple;
+	bh=Mk7cmaCuKjTXSYx5cjGd7SS2lcqLvl0RO42fZJne3Ds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gvh0SOJMAhlNECKQHp9bEQvFtANUwkBJaHrgZgoeOEybaoSdvtIoAPtOcTARgHV6ueZfx/CVF5WkwBwL5Uk90f88CJnDlE3e5CaVLF05pSMNnamtnsrlluObY2t2T3+zp9zv3kwWdTadwCvcKIkz7fKCQZNZWsWe4kuY6R36niY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wc0vz2aI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="G6pTMmFV"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gqKcN2JX1z9tQ4;
-	Tue, 30 Jun 2026 12:48:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782816484;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nQvE6DYnslM8XeDM2Rx/FYXyam680Ubl7oXX2OkNMtU=;
-	b=G6pTMmFV/qp/P6mebOml7IVxWL4rtn7SiQ9VU7CMCfQhANWd4lcoNlYOdgxHrALTn+SSQS
-	hyQEZ7jiKwjSU6qmIwZBvLJDbHVvU/DfPppXJXLp3x+iziPFNBZRZ97x6ywGhlMbmEyUEc
-	Ka/tWvebaogXYea/ytWSJoObnHfwqjNQRdy52JvOp0Vhnv4G/iti3TzP8BaFzbagmC2RIG
-	8WqdsOko2PvZl6dfFFZAfMKcq60NT1rFk53gSzpNpI2k6dZnbKHz4xvYRJ3+o7vEEL6Cpv
-	cxDuTH2xKZP7Ik73DTnnVPQH8h3z3AgCTzlUm72wmhhkt36M8nGuyTKIbCu79w==
-Message-ID: <b791c2ae4a541f3794dc8c4a170db0082f513ab7.camel@mailbox.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wc0vz2aI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6FD21F00A3A;
+	Tue, 30 Jun 2026 10:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1782817034;
+	bh=RmQIAmajKm4ep4KgfJpTO0+qVN95gq9bESwuUI9LIo0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=wc0vz2aIWjzyHKAZNmC1uXg4Qlx5hb5p/PLsgsar9qxwnDPACskJroOmxCsKwDyfB
+	 X5r80yAzMGAK7/jb68n7I8KlnldCXCKXB5p0TeyFDgA3twTmiUyjCPmlY2WqkTD1NQ
+	 UAeSO4/m3+ciw4DGj/JEtAAAzvco6Kg+KtIEpyjw=
+Date: Tue, 30 Jun 2026 12:57:10 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] docs: ABI: sysfs-uevent: add missing bracket
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
-	 <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Tue, 30 Jun 2026 12:48:01 +0200
-In-Reply-To: <20260612145331.189632-2-manuelebner@mailbox.org>
+Message-ID: <2026063017-refold-entering-a5e5@gregkh>
 References: <20260612145331.189632-2-manuelebner@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <b791c2ae4a541f3794dc8c4a170db0082f513ab7.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MBO-RS-ID: 7d4b6eb48903ab8100c
-X-MBO-RS-META: ktckcz77m9xrxuokdnmasteqb3zkqskc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b791c2ae4a541f3794dc8c4a170db0082f513ab7.camel@mailbox.org>
 
-Hello,=C2=A0
-is this patch still on it's way?
-Resent for context.
+On Tue, Jun 30, 2026 at 12:48:01PM +0200, Manuel Ebner wrote:
+> Hello, 
+> is this patch still on it's way?
+> Resent for context.
 
-Sorry for the noise.
- Manuel
+Please do not top-post.
 
-On Fri, 2026-06-12 at 16:53 +0200, Manuel Ebner wrote:
-> Add ']' to complete the command.
->=20
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> ---
-> =C2=A0Documentation/ABI/testing/sysfs-uevent | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/ABI/testing/sysfs-uevent b/Documentation/ABI/t=
-esting/sysfs-
-> uevent
-> index 0b6227706b35..c15e18c47a0e 100644
-> --- a/Documentation/ABI/testing/sysfs-uevent
-> +++ b/Documentation/ABI/testing/sysfs-uevent
-> @@ -8,7 +8,7 @@ Description:
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 Recognized extended format is::
-> =C2=A0
-> -			ACTION [UUID [KEY=3DVALUE ...]
-> +			ACTION [UUID [KEY=3DVALUE ...]]
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 The ACTION is compulsory - it is the name of the u=
-event
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 action (``add``, ``change``, ``remove``). There is=
- no change
+This was sent during the merge window, please give us a chance to dig
+out from the hundreds/thousands of patches sent during it to get to
+stuff like documentation updates.  It will be a few weeks.
+
+in the meantime, please help review other patches on the lists to help
+reduce our load.
+
+thanks,
+
+greg k-h
