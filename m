@@ -1,117 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D0B21D3F5;
-	Tue, 30 Jun 2026 21:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D39B2E9729
+	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 21:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782853769; cv=none; b=dgp6p1s4pl0G2nYL1R5zLOabqMotfloZHveEB3eLM1gG9TBVA/IFnf3QBscgagKHq6/3j/CucUanks/p0xlotSEB/hpva011J7msxqSw+r7DVygcKYYdDnmFeYBJt01nwtnjBCL5ilsXjbvu4Sjtf4FmaXq4M+2Zmewua+hELwg=
+	t=1782854330; cv=none; b=uorLgMn+pXcTtAJIONSb285p/IFnfHbr9+aX7WHY5vr7rSwvRIKI6A9arHvsDcSVzBZA3AyUtQDHYfvUfN86ICeIg2rCx+JUMVRVjpELgDT4bTxa5o55yLO3cN/8fvQQQhMoyOwpt0WEk09XDkXafz1Q/Z6Y+jeEe88+17XGLq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782853769; c=relaxed/simple;
-	bh=Z8xN0Pgyzzrcaag0U4yXM2m9m+Vq39HOp9COonaGTUA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=ri1uXLc7lqyCcpAJbrnedW1eXOm9uuMfnKwkwso2VBmhtl5kPwa+wFf7ADy852M85/l+7KjnGUC8KqBh6NDyccOGbYzYwBmOzF9lpvWLvgJpFFxhhV/rFhnb9wecmi04STh5UrTz8yLL2bsZGhpF7hnljl4XespXSRsYBCwPSo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=az4n/La1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782854330; c=relaxed/simple;
+	bh=ZxDj2bIyTYA2VqEzR9BlPCz00cVKtf/fVVQwM0leMSQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qIjHl1aWySHsTKEjjLrFR1hG7SUcfgFp7ZeXtoTMaomEXW+ChtEzizrc7PdNBUH4EjL1AxyWiMhLdGq0P0UkTK5KVsgzq7EnHGU5bOcWl+I30UZXJkXc3uf1K9nuTXwvjnNHAw6ti/3lM035ZW/gMGmlHqOTogyFHN9I0izPV88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=RoHcimzs; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="az4n/La1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13DF91F000E9;
-	Tue, 30 Jun 2026 21:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782853768;
-	bh=fdPR9l+Tg1O9caxvFEzXmCFAAok284e1i6Pl08baN0c=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=az4n/La1sS17TmTqXgO3EJRHTutMitAeADN+RjneX2y13sudprQkx0cV6aZkNLWEx
-	 15rXWMRyaDSf5UuCXNrdUfSeWBA91WF3l7P0sYJyEXUTKo4Nd21rGs8H215UuYuEw7
-	 Lg8HsDv10Mz5nJ3JSPR/8W+3LvgevjMhVOGQ5ZGcLVueqJXogCCbwrLxUtW6mFTwY0
-	 E5iFtaRVmJNPNUBL87PTDYt9Vgzc6qQu44hcto8RywK70UO/qUOizQDCHc3r7WfkIo
-	 SnVK+R2ojJX3ovBX8lKLptKEAb70Xj3evZTO6gcACEmbrzvlC7hDahvNYeBMuyEprI
-	 EFgGZZZR87E1Q==
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="RoHcimzs"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-92c7a0a7059so331974585a.0
+        for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 14:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1782854328; x=1783459128; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=15soTVn10pZL1HzcUE7vkWAPLmAyPlWsN9L93RXfdBQ=;
+        b=RoHcimzssnQ2zJm7ykmY/xdleLl68KmyS7e9dnjV8oxabDBBDlkUeVMEEslxWrcCAR
+         0NwNbInR6FHC8h7UxwwEbzI5ybrb7mZjdsFgTf16EFVj6smzpVR5uJWe/kyr8H/QqWNc
+         Pa61MCsg4M5eQh7w2KbJ77zP17G8Hjz83U+vpsO6yvzXMrep7aYmrQVGNkPiZz0M4GxO
+         JJVU6lB5QJj1uKI3a5f0+/vl7SUqNBbq/wFpb0hdQ3n2jmRvHH+x89KgcGkOv34bGsFz
+         37FhL9q7HBujfKYXq2A8R2eVo/ebKRpgcoY4w5lykpCQHsL0nZpkA54BA1fqwbxvL+3/
+         VPrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782854328; x=1783459128;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=15soTVn10pZL1HzcUE7vkWAPLmAyPlWsN9L93RXfdBQ=;
+        b=f0DKP8AXGDnei3N1OlU8PIuUOQWqGPob++n4CFZlbBIleT/8TUaXKPtEAz6ZDhC9e7
+         TucyEAwDZPDFgp0Yb69mdbmF767QxaC81dwm4OtnuRyFjFrPgMvbEialTlvDoFk7qudJ
+         0QF39mkpxi44e68+S1Kjz1hHcyeQIcyqUOgA6unzXF2ri7nihN2R1PLIkRrBRowrBYgP
+         2DWK39MkhvUjGt+A8KvMl+qNEsxoSVsIwb+itt9lKd3g/Sme4p+NYTYfLa9qmwE2rOYG
+         5iAG3OsTBsjIV/PkK0cILSTSWWn3+S6FUMfgdR4rgPTYHQ6woFMQzonVV62RAF0BAezW
+         wrtw==
+X-Forwarded-Encrypted: i=1; AFNElJ88/kEJP89+HtSkzoozPjkuRsBOeol5DcldUx89ye/UFwVVmYVudCGbcbFwTyqiuoEP5Q3sRINhBlXQAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YywBc9rzqcc0LXc2nea5/Vq8JWbRyFlgGpF3G+Ur7JWhUXy5OL6
+	mDxqoZ3qQHPTKsEyXsBmNBHAw/K/e43ynsCle5wbW62edvYQcOWVF+HcE96RAUrdrLk=
+X-Gm-Gg: AfdE7cnbBMbZu5gzAV6yUcDBI5KYjwDVilgM/2j7ev9Oz5qE+JbcCHR7G37X210qMmi
+	9GDEd6VxqSnsn2HrG0iv/M5+oROwLT9L61ObW7+C0zLii7nSDvp/JgKHw2urJOSCtWbvYHaCxQG
+	9UDmVrVcKq5KE+MsTZCtyO6s7DG1drGak1/7yuKoARcaZuEwJyo0pa/R4Ot50lXOvYx1rkASA/O
+	+7Xj/b68mefuvj6YDZ1Xl4tv0iYV6oTaiRvvLUZmvjdNd4lkhaDPWoulxvX0u0WDNWHfDoXDo9R
+	OjVu5m7NJ0WZf/cSDCz1SlGbkAXJsOMw/RreaaR2PDjgrfyuy0BBY/7T0TV7zdRedXr32HU8dpJ
+	7W6O9UX4TaXI56oeqT4G6RcX1G1sXc5hkzbjwuorBY+phf7gKGH/ftc7VkVf+/cCCmMZ1NA6Rm/
+	Wn59YWxTie8EZb18V8v6Gc8Zjlj84+T0C3Sd0k/t+njLYZAwE0WYWBhqRgeJC2MdOyS7Pxe0T5U
+	A==
+X-Received: by 2002:a05:620a:29d5:b0:92b:67e6:8ac0 with SMTP id af79cd13be357-92e6284f33dmr789795885a.74.1782854328078;
+        Tue, 30 Jun 2026 14:18:48 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e62366303sm335924285a.40.2026.06.30.14.18.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 14:18:47 -0700 (PDT)
+From: Gregory Price <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com,
+	david@kernel.org,
+	osalvador@suse.de,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	dakr@kernel.org,
+	djbw@kernel.org,
+	vishal.l.verma@intel.com,
+	dave.jiang@intel.com,
+	alison.schofield@intel.com,
+	akpm@linux-foundation.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	shuah@kernel.org,
+	gourry@gourry.net,
+	iweiny@kernel.org,
+	Smita.KoralahalliChannabasappa@amd.com,
+	apopple@nvidia.com
+Subject: [PATCH v6 00/10] dax/kmem: atomic whole-device hotplug via sysfs
+Date: Tue, 30 Jun 2026 17:18:32 -0400
+Message-ID: <20260630211842.2252800-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Jun 2026 23:09:24 +0200
-Message-Id: <DJMOWWJLKVZU.1N9RUO41QFAE@kernel.org>
-Subject: Re: [PATCH v2 1/7] rust: firmware: add request_into_buf()
-Cc: <driver-core@lists.linux.dev>, <nova-gpu@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>, "Luis Chamberlain"
- <mcgrof@kernel.org>, "Russ Weight" <russ.weight@linux.dev>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Gary Guo" <gary@garyguo.net>
-To: "Timur Tabi" <ttabi@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260630194749.1209490-1-ttabi@nvidia.com>
- <20260630194749.1209490-2-ttabi@nvidia.com>
-In-Reply-To: <20260630194749.1209490-2-ttabi@nvidia.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Jun 30, 2026 at 9:47 PM CEST, Timur Tabi wrote:
-> +/// Load firmware directly into the caller-provided `buf`.
-> +///
-> +/// On success the firmware image has been copied into `buf`; the caller=
- accesses the data
-> +/// through `buf` itself.
-> +/// See also `bindings::request_firmware_into_buf`.
-> +///
-> +/// This is intentionally a stand-alone function rather than a `Firmware=
-` constructor. For
-> +/// the `into_buf` path, the firmware data lives in the caller's `buf`, =
-not in a
-> +/// kernel-owned buffer, so returning a `Firmware` would expose `Firmwar=
-e::data()` as a
-> +/// second handle aliasing `buf` (and `release_firmware()` does not free=
- `buf` anyway).
-> +pub fn request_into_buf(name: &CStr, dev: &Device, buf: &mut [u8]) -> Re=
-sult {
-> +    let mut fw: *mut bindings::firmware =3D core::ptr::null_mut();
-> +    let pfw: *mut *mut bindings::firmware =3D &mut fw;
-> +    let pfw: *mut *const bindings::firmware =3D pfw.cast();
-> +
-> +    // SAFETY: `pfw` is a valid pointer to a NULL initialized `bindings:=
-:firmware` pointer.
-> +    // `name` and `dev` are valid as by their type invariants. `buf` is =
-a valid writable
-> +    // buffer of `buf.len()` bytes.
-> +    let ret =3D unsafe {
-> +        bindings::request_firmware_into_buf(
-> +            pfw,
-> +            name.as_char_ptr(),
-> +            dev.as_raw(),
-> +            buf.as_mut_ptr().cast(),
+The dax kmem driver onlines memory during probe using the system
+default policy, with no atomic control for the state of an entire
+region at runtime - only by toggling individual memory blocks.
 
-Sashiko's concern about buf being an empty slice, despite being nonsensical=
-,
-seems valid. The allocated_size field in struct fw_priv, if set to zero, is
-interpreted as "the driver did not provide a buffer" and hence the firmware
-loader assumes that it has to treat the data pointer as a self-allocated bu=
-ffer.
-In the case of passing an empty slice, this would be a dangling pointer.
+Offlining and removing a whole region therefore races with other
+userland controllers that interfere between the offline and remove
+steps. This was discussed in the LPC2025 device memory sessions.
 
-> +            buf.len(),
-> +        )
-> +    };
-> +    if ret !=3D 0 {
-> +        return Err(Error::from_errno(ret));
-> +    }
-> +
-> +    // The firmware bytes are now in `buf`, which the caller owns, so we=
- don't need
-> +    // the kernel to hang on to it any more.
-> +    // SAFETY: `fw` is a valid pointer returned by `request_firmware_int=
-o_buf`.
-> +    unsafe { bindings::release_firmware(fw) };
-> +
-> +    Ok(())
-> +}
-> +
->  // SAFETY: `Firmware` only holds a pointer to a C `struct firmware`, whi=
-ch is safe to be used from
->  // any thread.
->  unsafe impl Send for Firmware {}
-> --=20
-> 2.54.0
+This series adds a sysfs "state" attribute for atomic whole-device
+hotplug control, plus the mm and dax plumbing to support it.
+
+Transitions are atomic across every range of the device. The state
+names mirror the per-block memoryX/state ABI with one modification:
+
+  - "unplugged":      memory blocks are not present
+  - "online":         online as system RAM, zone chosen by the kernel
+  - "online_kernel":  online in ZONE_NORMAL
+  - "online_movable": online in ZONE_MOVABLE
+
+"offline" (blocks present but offline) is reportable for backward
+compatibility but is not writable because it entices the race condition
+we are trying to solve (offlining all the memory blocks in one atomic
+and unplugging them in another atomic).
+
+mm preparation:
+  1. mm/memory: add memory_block_aligned_range() helper.
+  2. mm/memory_hotplug: add mhp_online_type_to_str() and export the
+     online-type string helpers.
+  3. mm/memory_hotplug: pass online_type to online_memory_block().
+  4. mm/memory_hotplug: export mhp_get_default_online_type().
+  5. mm/memory_hotplug: add __add_memory_driver_managed() so a driver can
+     select the online policy.  The override is restricted to in-tree
+     modules via EXPORT_SYMBOL_FOR_MODULES().
+  6. mm/memory_hotplug: add offline_and_remove_memory_ranges() for atomic,
+     all-or-nothing offline+remove of several ranges under a single
+     lock_device_hotplug().
+
+dax/kmem feature:
+  7. Plumb online_type through the dax device creation path.
+  8. Extract hotplug/hotremove into helper functions.
+  9. Add the "state" sysfs attribute.
+  10. selftests/dax: regression test for the attribute.
+
+DAX Kmem probe still creates the memory blocks by default, even when
+the default policy is "offline" to preserve backwards compatibility.
+
+Unplug (atomic offline+remove of the whole device) is the new
+capability provided by the attribute.
+
+I downgraded a BUG() to a WARN() when unbind is called while the device
+is not unplugged.  The old per-block toggling pattern is still used by
+userland tools and disconnects the 'state' attribute from the real region
+state; until per-block control is deprecated or restricted in some way,
+WARN() flags that tools should move to the new atomic pattern.
+
+Changes since v5:
+  - mm/memory_hotplug helper into own patch (david)
+  - offline_and_remove_memory_ranges - nits (david)
+  - offline_and_remove_memory_ranges - warn and continue (david)
+  - memory_block_aligned_range(): end-address underflow (sashiko)
+  - dax: store the online_type sentinel as int (sashiko)
+  - dax/kmem: skip ranges that failed reservation on hotplug (sashiko)
+  - dax/kmem: on unbind fallback to legacy if still online (sashiko)
+  - selftests/dax: avoid cascading skips, clobbered state (sashiko)
+
+Gregory Price (10):
+  mm/memory: add memory_block_aligned_range() helper
+  mm/memory_hotplug: add mhp_online_type_to_str() and export string
+    helpers
+  mm/memory_hotplug: pass online_type to online_memory_block() via arg
+  mm/memory_hotplug: export mhp_get_default_online_type
+  mm/memory_hotplug: add __add_memory_driver_managed() with online_type
+    arg
+  mm/memory_hotplug: add offline_and_remove_memory_ranges()
+  dax: plumb hotplug online_type through dax
+  dax/kmem: extract hotplug/hotremove helper functions
+  dax/kmem: add sysfs interface for atomic whole-device hotplug
+  selftests/dax: add dax/kmem hotplug sysfs regression test
+
+ Documentation/ABI/testing/sysfs-bus-dax       |  26 +
+ drivers/base/memory.c                         |   9 +
+ drivers/dax/bus.c                             |   3 +
+ drivers/dax/bus.h                             |   9 +
+ drivers/dax/cxl.c                             |   1 +
+ drivers/dax/dax-private.h                     |   4 +
+ drivers/dax/hmem/hmem.c                       |   1 +
+ drivers/dax/kmem.c                            | 516 ++++++++++++++----
+ drivers/dax/pmem.c                            |   1 +
+ include/linux/memory.h                        |  27 +
+ include/linux/memory_hotplug.h                |  14 +
+ mm/memory_hotplug.c                           | 161 ++++--
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/dax/Makefile          |   6 +
+ tools/testing/selftests/dax/config            |   4 +
+ .../testing/selftests/dax/dax-kmem-hotplug.sh | 190 +++++++
+ tools/testing/selftests/dax/settings          |   1 +
+ 17 files changed, 836 insertions(+), 138 deletions(-)
+ create mode 100644 tools/testing/selftests/dax/Makefile
+ create mode 100644 tools/testing/selftests/dax/config
+ create mode 100755 tools/testing/selftests/dax/dax-kmem-hotplug.sh
+ create mode 100644 tools/testing/selftests/dax/settings
+
+-- 
+2.53.0-Meta
 
