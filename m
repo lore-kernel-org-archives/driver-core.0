@@ -1,113 +1,172 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021074.outbound.protection.outlook.com [52.101.100.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51793CB8FB;
-	Tue, 30 Jun 2026 11:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782819506; cv=none; b=CaZzwSMjxqcsoAEoNmL6Z51netE0VoO/AByCjRoAPmJ0MjBft6xgkZq6uOMEsjIIZO/xaioDlwpo3MrvOxTtDVaLUl23AT7En9p0vXd4pLVKQ8rV0VcMlnrRmr7t7Sg3rmfS49Xb29EM2+/pAt61J7aWDAKd2QTjiBrJn6+z5TA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782819506; c=relaxed/simple;
-	bh=oTCNM/AOyFpPb5rIncF1bOxUq0WXQpL6pQN30H0AnWg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Gf3lqbRp7V4zRu3RZYdMQlEvMVqvKSohj6aC98JW5DC4uvf5CLeql+JNEuU96clnctIDD05iBVCT2WHz0aKvmoGIGqzFI1Lf5c0AJsdBCgpnsgj2n0fZLY8iNLUiY/vvh9774FC0CWpFu7UpFTpgxTl+d4/w2ZYsQGj+7reSstI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=YCB6Twpa; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522DB407CC8
+	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 11:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782819510; cv=fail; b=n+hPbaB7EykgO7xgk2vV87zNGP5cSvmqRjByBDJoHnNyWnPfWX+MIyWxLWeV35lGE82hsgv1KGAD5NLSCn3pSzVUOMgax+iL12DkZ9gagVuWFcBrP666z/Szu3Y4838ISzSDoNIG/j6H+b4irOxbxo7AWTRBlhQIgJHZW6eqYg8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782819510; c=relaxed/simple;
+	bh=6VL0VVmOeZzowV7X7dFZbBuLT0Se4X1PtPvD1Okb8To=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=GT4lDbAPZbgD6QQIGScEGUqYW6rvRrOiHj5e77cE1VQHUHbVcVVORJXP5xJ4rtaoli9kTqLDIxE0i/paU2EWiaYGbnKDqrrTV1xwD+Mbc06DGrANI+byW5h/g10NWAZhZsCY9y4EYnqApymVVE2G127DQzSnhRNb7a2BD94o7Xk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vIZo3ilX; arc=fail smtp.client-ip=52.101.100.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="YCB6Twpa"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gqLkP18PWz9ttL;
-	Tue, 30 Jun 2026 13:38:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782819501;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xShlwrKyTIF4qAdBox24ShRYzAy+zv7+bJMeZEybzao=;
-	b=YCB6TwpaO927QjEdXrlIiJBt3S2TMj/lUoTQyC5iej5UxCRKDn/XljRoPJbwW7XxlugG6N
-	xBgQ8xLD8khNkgkWh+g0ulj34prUa724A/+poOtOInojCqpSRpE4vb6OBmRtDmIJAxSA4f
-	q+iHkCtSckNXJ49ELVp3wKYekx4Hu3LHe2ZUyT3N5n18Mwi4lpbcu585fLX8dl6Sm1920r
-	w0LYy0isS0hDcqp6fFRitgGmFoMYdelUtHSbx9Tm6NOH0N4ee+iItLHiYZcykaDEt9MsqF
-	xFH0uK67m+VTeUGiD6g7C/77X5TkshLws6H+4ToFw4GPgFvrVvyldWMMbrXUAQ==
-Message-ID: <263f58b418a27a2339fc2478f93234e0208b0ad9.camel@mailbox.org>
-Subject: Re: [PATCH v2 02/19] driver core: platform: provide
- platform_device_set_of_node()
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones	
- <lee@kernel.org>, Thierry Reding <thierry.reding@avionic-design.de>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller"	 <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Srinivas Kandagatla	 <srini@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Vinod Koul	 <vkoul@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich	
- <dakr@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan	
- <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)"	 <chleroy@kernel.org>, Andi Shyti
- <andi.shyti@kernel.org>, Andy Shevchenko	
- <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will
- Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger
- <opendmb@gmail.com>,  Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list	
- <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team	 <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Matthew Brost	 <matthew.brost@intel.com>, Thomas
- =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>,  Paul
- Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, Philipp Zabel
- <p.zabel@pengutronix.de>,  Maximilian Luz <luzmaximilian@gmail.com>, Hans
- de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
- <ilpo.jarvinen@linux.intel.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
- iommu@lists.linux.dev, 	linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Date: Tue, 30 Jun 2026 13:37:54 +0200
-In-Reply-To: <20260629-pdev-fwnode-ref-v2-2-8abe2513f96e@oss.qualcomm.com>
-References: <20260629-pdev-fwnode-ref-v2-0-8abe2513f96e@oss.qualcomm.com>
-	 <20260629-pdev-fwnode-ref-v2-2-8abe2513f96e@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vIZo3ilX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YJV9DdNpiMApb7a0gmpPx3wSALWxs5d+9MZsHEiZU2EglK9NekKMZKSddDheDH2pbGerBkYB3ofhYNSPCZeQ3yAua5ejnvdhi56dCBgsQIyG6WGsrSODW2cbVopznYB5voSJddhJ2zp4LsUwR7NyckvFmSh4Oy7TPcrfNB0GF1XEQN8Dm+6Ck3JBk7LJG/fFumqIdFJbd3mroFTo1ybQgLBccCOVl6zPA7qLWmpAjddR/U94OGmac9atV2Q6jNmv4cOuIDWAoLpHBBpAEwdgHAcRiYiXopcyuPPQUgCqGbzUfSgBgAKY1gqbd1GLWMwEYvZwum/OaVpO3k6KE1g+6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ubp7hAVO9gonQ67CwQjxwl1DeQV5IyqXzUbsB3P4ByM=;
+ b=ioVek9KBbvv/E+VEGZZ6OoIMeIs/Z2AChv1gA4TzEhsexUDp0cVcr57zVhsiQ6r2FVjYlrEDQYu9v+u/XCUsyqnZvhX8s394rj6GHtrgE/iMwAAhOtZ47Yv2LsVOK5k0MQ5QXFGFmbbZtbG/ZTpjA6Bp058ocCwizu9oekcxDkQnpgOTxvT5aM6W7K+QGXhW45+Mv2fdmN11S/Fd4RyuZIZWUZRjFHzGpp031F2ePv71rp2/gigwvOUsHXtgd9RymXAHuYZ9hePaGfr0GQtus4vETqXATHSkKk/nYwyhjMGC7qTnrWbUUgw10hkqPA7DWfVsvRDz5jCX5v48Ns0T0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ubp7hAVO9gonQ67CwQjxwl1DeQV5IyqXzUbsB3P4ByM=;
+ b=vIZo3ilX7zYcwXYdn81hvI+fkC5EbebncjJx1soyTf8f43IqEJNyOaKOmnQ/roKXtAhgYfK3rI+cUubpX5+tM8xUgMNN6VPzDF7Ibw5CPIElNlIk10DxCTYmt0OW3yk7PsKLuIFjMg4eYWlwGLP9vfBG627HK6k9DVkXIKAh0zw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWLP265MB7243.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1f6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
+ 2026 11:38:25 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
+ 11:38:25 +0000
+From: Gary Guo <gary@garyguo.net>
+Date: Tue, 30 Jun 2026 12:38:19 +0100
+Subject: [PATCH 2/4] usb: usbtmc: don't keep usb_device_id
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260630-usb_dyn_id_uaf-v1-2-160a02be5ac2@garyguo.net>
+References: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
+In-Reply-To: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ =?utf-8?q?Toke_H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>, 
+ Johan Hovold <johan@kernel.org>
+Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
+ Gary Guo <gary@garyguo.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782819504; l=989;
+ i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
+ bh=6VL0VVmOeZzowV7X7dFZbBuLT0Se4X1PtPvD1Okb8To=;
+ b=kp4vJvDUtlcNPd7Q8loC1t6pISV5ppqrfhixf7Q3c3TQRpgx4qTk21cojgzbtkqjsnJoDdka7
+ SKmRaa1hiNuDIV8QcgBzkE98weM5hmkXvYuIk8I1m16EVZ421uLiakb
+X-Developer-Key: i=gary@garyguo.net; a=ed25519;
+ pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
+X-ClientProxiedBy: LO4P265CA0037.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ac::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MBO-RS-ID: e997ada4adfcbcacfc2
-X-MBO-RS-META: xtee85ryzhfy8x8szdsj4cwckgtw999y
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB7243:EE_
+X-MS-Office365-Filtering-Correlation-Id: 718dfe3e-f858-4833-cec5-08ded69c1887
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|23010399003|56012099006|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	19U0PJJFVe1hhir+qtTV79fWS68cumuwuEnOPuuc4oHDdui/Yn3ZOTT4VgoWw2sOysmQwffmypRh0dhD/Lq4A6FESHU95xZzGT9x54VUg86nMPj5M4ELTkronKjyuBYH2TEDiyF6160GSHB68JQ3M97z9Qrq5X4a6R8SkGlkloXCkM68HMOKRFFVO2ZSTez0NckyyAIkaUwB6lrfi4jRWVoIBu4xAwoy6a0AYpm549jVuCKECuKQaz6S/dDOyJ90obdEuq6eU2nQcYu2ZxAiG5IKi/X7nLQAWIXuCIvR2JqRfS2dxSjkWvfc5+a/s9S0LkYE8aGgx3HdfqrmXFTIfC086hcFIkDDAqCa7opi+NL3dchoCpMf3ZP4pZKi2eVibgfxElisw7NuDswiWwtba/OfeMXAxtfbBSGlyRf756bQzoJUKAJzsnxSns/KH0NCrLo3+xdpBmqgzm+Dbl8zvx3Zu9794YCY3jQP4qy1/e9H50kpubWfm+3M7vL5rAYRFxeIGFaRX8Uy9LOFngvbTtU/nW4a6Dh3GYNf+4Jr25OvRaX5C9rpqtRvOnH1PBc6wDRqpcQRPbO+8i0IHKow4PDBqMPAAsUGSRRuU8vwGmmV+XBstLuKX0bzdj4wwVwlZZB8sem4QVAxHTyveyG/RO4GKaufZFXluTJHSWJneKw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(23010399003)(56012099006)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OHdKekRhUVRaZ2k3dDl0OXNOZFNXMUZ5em5MRDYzb0sxZ2NxVGtlbGRYc0ZP?=
+ =?utf-8?B?ejdnSzNzckNVK290MXlmamdrbDRwMUZIc0NuRlBYNGlUdW55MHZGbnNZWlNw?=
+ =?utf-8?B?SVFRRTh4Z0RYd01pL3hLeVA3SGpNRjJRclN6UjNJRGgwWkwyUkpjcjQwQnRC?=
+ =?utf-8?B?RC9HSGZMUytJaDFvRDhCZ2c4L2NjS0Q4T0JkTExSOEtEaXpPR0hDdXRBc0Vo?=
+ =?utf-8?B?QnV3N054QnVYSHBVM1VZN0hhNllqUTl6OVVaOEU2MHFVcDFwa1dVMFUrRkE4?=
+ =?utf-8?B?NHdaaS9rK2JuUzVQUDA1V3pMazI5Z3hnZ2l6UlM0RUJSdXIwVkZhWllSYTNW?=
+ =?utf-8?B?Vk04S2xmWFRtcUdWUVFyQjlVak1sNmFPZUdPMlAzYSt6MDF4cThkTjFqUytn?=
+ =?utf-8?B?NVlnaW5Nb1NhY2hINFFQOTB6QmxmdFZMZmxtZ0xBWjZCMk9SSHpXa1R0dElE?=
+ =?utf-8?B?NnE4Q0J1dE5PR3FlZ0U4Z2NTaW9GanpKVVpDeE0yQmFpamhnSERhL1ZzVVg1?=
+ =?utf-8?B?Zkl2eUkyNytsVWJjMlJiY1MyRGluc0xCd2tPSEhKd0piZy8xNGZ4ZlVGUmlD?=
+ =?utf-8?B?U0VTMjFYbFJCWlpLL2xPRGxGYUxtejBoMHgvRWRrMUJLQnFqMWN0SUlKK0JE?=
+ =?utf-8?B?N0NKakVGaXdmdlRhVEtnTjNiL01iQk9FMUFqbGhLRjByTGRCVVVmR0NRTGdD?=
+ =?utf-8?B?S2VpdWhxNERaOVNMbWpZUzkyN294WkZvakJHSmVYaDNrdEhncW9oMFVzZ1Na?=
+ =?utf-8?B?aTJRMEd5MkpNVHJLZktCTVZCMDdyNk41RVlSRTFhMXQ2TEthK21Dc0crOVBj?=
+ =?utf-8?B?bmZISTBJdnhpN1h3UUlRcGJhUUpEazhjdkVoWGlGSDVmcnUvbnVxYklmb0JY?=
+ =?utf-8?B?d044bUJVaUxySVN2WE56RkdpSjlqNVMyRE1zbzZvTVhsSnpzeDM1d241WmI0?=
+ =?utf-8?B?T1lEY3JwYnl0R2hzS1B0WXdYd2dGamowUVVkeVdRL1J3NE5HQTNkd1d6U05y?=
+ =?utf-8?B?V0d6UStsc3VkZ0ljNXF3RHRJd0FCMGQ1RlovREJydXhDZjcvUk9BRDR6TzdP?=
+ =?utf-8?B?cE4wMnNNdUZDa2xYa3o3VncyNkx4cVVFT3R2a28wdmg4akdrQ3AzMjdZV2FL?=
+ =?utf-8?B?elJoZHZRUy80a1FuRkEyaTQzLzFmb3ZFaTYySWM3a0tiajN0KzNoalJZcjFE?=
+ =?utf-8?B?a25iS0xhdkRNUmhEa1F4TFNURElPeklaWU9RdWN0dGxaQmRTZDM3bCs5YmJD?=
+ =?utf-8?B?VDhISElTZ09LYm5uYWlZdDdjbjBxYVEvOGZVOHFqK2lOMVUyamsycitkR25P?=
+ =?utf-8?B?SWlWc1BtTWdxVXNDNmtKSVRITTBPOUQ0UHR6TlJFMTlPRWE4dFlZSEFEcTJB?=
+ =?utf-8?B?L3hZU0JGaVBJM0VtcUZYTmYxLzVFd05mOUN2NFE5cjVURHlxN0pjK00zdC9q?=
+ =?utf-8?B?YVhKR2V6cVMzSWJscWRKNWgxRzUyeWhFTVRPWERqaitNKzBWVjFzMDc2NnE5?=
+ =?utf-8?B?RkQycWlYemZURW4wZmtrVXJzYUcvbjBXbUpvM0pSM3FibkFSN3Z5T095OVgr?=
+ =?utf-8?B?aGFjZ3NRVWxhNUlaUDBtdTByNWU3dEdOMTFSSDluQUoyNmJUd1gwaFd4aW1h?=
+ =?utf-8?B?dk05R05JZEJNN21MZjh5aXRiZ1BQbFhVNmRORUhkUzd2eXJhbXY2cUlqaGNl?=
+ =?utf-8?B?RWdHNm53dnRyRHd0NndEcnNZbHdONzZzdXN5V1IwNFMzakNuVWRVOXg4WnNm?=
+ =?utf-8?B?bXNPU0NBZ3ZkRGZjMlFJMUlEMzhvQkdRNEhpZ0lnNHF1dXNrM1c3czJ5djZI?=
+ =?utf-8?B?bkp0ZUxoVnZyRTJlbjBsam5IbGpKc1l6bENFZEk3YytEajVGSmVNVlBxOFFz?=
+ =?utf-8?B?TmFXUHpVYjcxd01tUlBMN2o5WVc4MmdJd3hESDErOVREaHBBQSs1M3JoZk5C?=
+ =?utf-8?B?WmtsUHlqNlZxeEsrZS9oQ1Bodi9mL3V4QitUb3JGdmozOHJkNzR3a2dUd25F?=
+ =?utf-8?B?Q01HUVllUkxERllFanBQdG51eWZ0Rzg3bDhtSEhhRlE0c0twVVdscndFUGJI?=
+ =?utf-8?B?UXpySjltejd5TDlSSTU0Sm4vaUJ3WDlXQlZ1MktLUWUxRkhvSDNYRG5qVVBQ?=
+ =?utf-8?B?a3A4QnRTQVhZZ3JpSUwvTE1WbGtPeWtydmVkUVgrMUpHY1RYMjV0aDNhWFpt?=
+ =?utf-8?B?Unh2UmNUeUtNMUF1MXVYSmtpUkxPSTJ5NGI2aVBWQ0VDdzZhdUd0ZytPVFU0?=
+ =?utf-8?B?U2srN1Y4dU9LWGsydElUZ1JOR3FONmI2T3M3QkZEenFFYVdka1phcU80VXZt?=
+ =?utf-8?B?cDlML0VaRFp6S3lKbm9rWnVENlZHMStpNnpGLzh0SGdOVlRPd1NGQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 718dfe3e-f858-4833-cec5-08ded69c1887
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:38:24.8702
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uDizIoDjWNd29U2BltNGBBTkmebaaQ89Kvy3XJofQm5aHrVTS8dp5/rrEPCw2Q+j6u/7xRH/1e/S1waclwtaeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7243
 
-On Mon, 2026-06-29 at 11:12 +0200, Bartosz Golaszewski wrote:
-> [...]
-> =C2=A0
-> +/**
-> + * platform_device_set_of_node - assign an OF node to device
-> + * @pdev: platform device to add the node for
-> + * @np: new device node
-> + *
-> + * Assign an OF node to this platform device. Internally keep track of t=
-he
-> + * reference count. Devices created with platform_device_alloc() must us=
-e this
-> + * function instead of assigning the node manually.
+usb_device_id is not guaranteed to live longer than probe due to presence
+of dynamic ID. This stored ID is unused so remove it.
 
-Doesn't it make sense to add a remark to the kernel doc of platform_device_=
-alloc()?
+Signed-off-by: Gary Guo <gary@garyguo.net>
+---
+ drivers/usb/class/usbtmc.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Thanks
- Manuel
+diff --git a/drivers/usb/class/usbtmc.c b/drivers/usb/class/usbtmc.c
+index af9ae55dae14..51cd9320a736 100644
+--- a/drivers/usb/class/usbtmc.c
++++ b/drivers/usb/class/usbtmc.c
+@@ -71,7 +71,6 @@ struct usbtmc_dev_capabilities {
+  * allocated for each USBTMC device in the driver's probe function.
+  */
+ struct usbtmc_device_data {
+-	const struct usb_device_id *id;
+ 	struct usb_device *usb_dev;
+ 	struct usb_interface *intf;
+ 	struct list_head file_list;
+@@ -2394,7 +2393,6 @@ static int usbtmc_probe(struct usb_interface *intf,
+ 		return -ENOMEM;
+ 
+ 	data->intf = intf;
+-	data->id = id;
+ 	data->usb_dev = usb_get_dev(interface_to_usbdev(intf));
+ 	usb_set_intfdata(intf, data);
+ 	kref_init(&data->kref);
 
->  [...]
+-- 
+2.54.0
+
