@@ -1,91 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5782C224B04;
-	Tue, 30 Jun 2026 21:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B2A3242BE
+	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 22:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782856549; cv=none; b=k1RVh0q59DP4nGsY7qMQL4gDNTtqct6wzASbZtmGj5n53JFBC3yZGLLhOTz0e6HUkm1p3vM27iW6L1BxSPU8Ct2wX5M06hinhYHtpHtPCf/7otSSCnQu/9oKUkkpNN3R7XgU381+v7W5yet3A+ERR3z6pPskcatse+jxHdA/Kg8=
+	t=1782857684; cv=none; b=XLQU2obhcZO+o7O5L4ojN6ZRJB5EwDoGJaCrrH1mvkPyobYhR28nw0asCauJMD7sI28XXLgJobVSLtwYFqOoFhLtOHmg6ayy0or/jz+oJpzU9EMWLk2+BBmUl8hBim26+bnrIKmolpwvr+m7w3j8SVv+4+WJX26Xhb3APQDUVWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782856549; c=relaxed/simple;
-	bh=AzgWfUadsxXXl91k1YepQX3sOGSydX+rniN6XnLDOWk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=b2oakdQdUltpWLWyABplN5YILrb+HuEZbP5KDE3tF1A+EW/eOp9lRHr4U5pu8GSZEYbMPbVL0K2W66CG5uWxeJxsgHgWvryFNcMFNPMLW8g6U4AgPXPtdMqGaS8gN269czppm0VTplk7azcOl9gVhW/TROEvieAG+jkkPkEsjRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCg0wK7L; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782857684; c=relaxed/simple;
+	bh=OHho8xisLBkXPsux52lTSAnNEXH9FZ3N849yTj8opFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWfAiGlVTl+rFWGV5/9GwufYV/mSB0Ag5v6Bd98qV9a5ZKSmE9YE4wPegMfFzfh3g1kVTTpUt6HMTkuePLgbEOXvjCtrE2ws9GCo+3Ijqo3tQIzZWnuyH5kcutbWv1WcmOVfqmV+7zdsDS5wnoVCtoil2YLseIhmIkEcUIoAJk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=LXd5yLrm; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCg0wK7L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313291F000E9;
-	Tue, 30 Jun 2026 21:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782856547;
-	bh=srQ9IMbSxBsXUogcwFbDc7WcbubgWp0stEVi0zSwC6E=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=dCg0wK7L3bAkrxJoAbg45PoI34akiDZgSlNyyLIAamfVjDexyiIkIfvKLOe94+e3h
-	 fYu1HtabqCs0J2HACQlB6vjzzMebaz+UPBSdWNfQ8fnzZlXcnqTCzsqly4aX6yNOGj
-	 W17JJH8WW8KES68nl8XgWsN7nEuzreDQm11jUX0h/4hW6VrG95FrP52muTNxX3YRwP
-	 mGttoi80U+NS9u07u+uup/j3Gn3/keNvW5kO89L0DeBkqxW8bSBoqew2mvdhntxVeV
-	 uP/dY+tk138kjMIyqJRLDYu4+0jNMOTerwGREgg3YmQQrr/DY0nli4SRh60DZGMGWM
-	 tlpozJ+B+IB9Q==
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="LXd5yLrm"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92e4fd65b2bso910585a.0
+        for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 15:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1782857681; x=1783462481; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zvvq7XwN+0vU39EaqWqw5+H08MVeyEUcwD3F1pdYD7Y=;
+        b=LXd5yLrmqWS/QgFsTPqZ6xaUiuThvJ4K+S5LICjIe/VGYZxh4kHo6vL+3Yrrwps08b
+         d9cl5d6x2BjlScbRQgQMfFDAZLTPTF8M6u+17N3ovYuzhHDe+q03NZGaeRRPALMrhfNB
+         xIsex+SOUAWYJ8Yje3yzM0VnBsFvQuSIuGLoIHfMy1YC+cVGEuRQR1AyNgSFuqNnzY5f
+         GZm3EG5L53r/rTum5+fn9om7xjVbCWVmuQtkvgmelkENEuL/2+yxg5PK9mR7Rqgfl7Ny
+         m1OtyG2QOiDeeJnfWqXCy5xM6dOOp0xvLO/7e0ew+L2G0d2orLcodNbnp6nsbZvISyyc
+         rSZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782857681; x=1783462481;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zvvq7XwN+0vU39EaqWqw5+H08MVeyEUcwD3F1pdYD7Y=;
+        b=mQF5L7KbgcQdh860cm8IVngHAtySeIA685XRw63aIkd5lI5P7ZImNWC3dMJIYw72Oe
+         /kh3yGGGVPvrrv2uGphrl4UCmMFMsUj+Ci5Yt2R3MPQt50hJ1yzbdl4TKiEuBwxFRidr
+         eNf8cphbLYXmGdOA0FqBXZHMHj4DyqkZXZ6OxWjeE3R/Gs0UEFR5hZyNpDtcpg0lpbK3
+         AjDFJ1HaCI7Cc8IyTKmr4aU7W67Y2/NKqj60H8WlmSgpG0lrlStbRkoe3nUiaZCMLQF2
+         DUrpvv6QbMJUuBcduGqn4DU9dhj39ih4y/o64rl9QIsHxA8IwkTXf8mPgej0FuONc140
+         +iDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/S/I1XCWEJBHRLEnqvboH5dFDTfOqZzhO78cdiKqrYRgYHa6yxNOc4djOTaB+s+Fphp9Z6oH7h3sZ4Vg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWUxTc7WGRAExknVHU0pYihP8MwtgYVPCVpjkyX0kBY+eHnNHP
+	Vvc70uWTqhWMEl9dY1Ta1RpVL5Y3U+5pmUQntWZss/Mit6JU5vBqU5vanJxeHHnPZDI=
+X-Gm-Gg: AfdE7clsFD+uM2GStEDkA6itpLu0n8ToZabDDj3hpxtD2q07gc8yGWIAIEtvBBV148e
+	wpy3BVoksf2PTvxqabPmVZKu06fI5sjKqjYeSmPp8Zyr3DAOs5sC8YyyOq7SDQmNs/kate/8ohS
+	4mXCVLF/bL0LA9qVSPwDoBVhnxp4C5qQHKSzDkd7HSGLwlKO9XLnhVZIr2R4+2zdpqxei5GKYDn
+	FuH+F3fHi0RAOdxvW/53FpwTZFgAjgKTA3/TJumXKv0ZEICUvPa0lARd5OmZml8n3WW6lwx/75d
+	6eKmBxuqw+ONC/z/UooagJ0nfcKxsjjCjv6V9z/VuFBZ+mebqCpHEEsH6j50etIUOBBOVJPGX18
+	5bJMmiUFw/+cKrmC2oKF9nzLq0ciTjYLid54rn4AOywXW7ME+OHCOxqeIvd1LN2uks18iHsxdSe
+	oh4T9BrqoJqO1o4Iivq5VfRUcXJg5BMey7b8y3SKvHekkg/tV/g8pV8ULuCNHJOBv4OkPN64c5s
+	6zdi0Y=
+X-Received: by 2002:a05:620a:6cc6:b0:915:b852:4361 with SMTP id af79cd13be357-92e624e3088mr975087285a.20.1782857681333;
+        Tue, 30 Jun 2026 15:14:41 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e6213b953sm346810685a.2.2026.06.30.15.14.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 15:14:40 -0700 (PDT)
+Date: Tue, 30 Jun 2026 18:14:30 -0400
+From: Gregory Price <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
+	david@kernel.org, osalvador@suse.de, gregkh@linuxfoundation.org,
+	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org,
+	vishal.l.verma@intel.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, akpm@linux-foundation.org,
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+	shuah@kernel.org, iweiny@kernel.org,
+	Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH v6 09/10] dax/kmem: add sysfs interface for atomic
+ whole-device hotplug
+Message-ID: <akQ_xlJtXNgnGUdf@gourry-fedora-PF4VCD3F>
+References: <20260630211842.2252800-1-gourry@gourry.net>
+ <20260630211842.2252800-10-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Jun 2026 23:55:44 +0200
-Message-Id: <DJMPWDSKN8C3.1Z3RQ8WGH563R@kernel.org>
-Subject: Re: [PATCH 4/4] usb: fix UAF when probe runs concurrent to dyn ID
- removal
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, =?utf-8?q?Toke_H=C3=B8iland-J=C3=B8rgensen?=
- <toke@toke.dk>, "Johan Hovold" <johan@kernel.org>,
- <linux-wireless@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-usb@vger.kernel.org>, <driver-core@lists.linux.dev>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
- <20260630-usb_dyn_id_uaf-v1-4-160a02be5ac2@garyguo.net>
-In-Reply-To: <20260630-usb_dyn_id_uaf-v1-4-160a02be5ac2@garyguo.net>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="Ha7M+e+kLoFbO4pS"
+Content-Disposition: inline
+In-Reply-To: <20260630211842.2252800-10-gourry@gourry.net>
 
-On Tue Jun 30, 2026 at 1:38 PM CEST, Gary Guo wrote:
-> @@ -320,7 +321,8 @@ static int usb_probe_interface(struct device *dev)
->  	struct usb_driver *driver =3D to_usb_driver(dev->driver);
->  	struct usb_interface *intf =3D to_usb_interface(dev);
->  	struct usb_device *udev =3D interface_to_usbdev(intf);
-> -	const struct usb_device_id *id;
-> +	struct usb_device_id id;
-> +	const struct usb_device_id *matched_id;
->  	int error =3D -ENODEV;
->  	int lpm_disable_error =3D -ENODEV;
-> =20
-> @@ -340,11 +342,12 @@ static int usb_probe_interface(struct device *dev)
->  		return error;
->  	}
-> =20
-> -	id =3D usb_match_dynamic_id(intf, driver);
-> -	if (!id)
-> -		id =3D usb_match_id(intf, driver->id_table);
-> -	if (!id)
-> -		return error;
-> +	if (!usb_match_dynamic_id(intf, driver, &id)) {
-> +		matched_id =3D usb_match_id(intf, driver->id_table);
-> +		if (!matched_id)
-> +			return error;
-> +		id =3D *matched_id;
-> +	}
 
-I think this could just be:
+--Ha7M+e+kLoFbO4pS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-	struct usb_device_id id_copy;
+On Tue, Jun 30, 2026 at 05:18:41PM -0400, Gregory Price wrote:
+> There is no atomic mechanism to offline and remove an entire
+> multi-block DAX kmem device.  This is presently done in two steps:
 
-	if (usb_match_dynamic_id(intf, driver, &id_copy)) {
-		id =3D &id_copy;
-	} else {
-		id =3D usb_match_id(intf, driver->id_table);
-		if (!id)
-			return error;
-	}
+... snip snip snip ...
 
-Avoids the unnecessary copy and also results in a smaller diff.
+Sashiko pointed out a false-positive, but adding a fixup patch
+here that adds additional consistency.
+
+On total failure - release all resources.  This makes the sysfs
+interface consistent with the probe failure path.
+
+Just attaching a fixup here, since technically it's not a bug,
+could fold in separately
+
+~Gregory
+
+--Ha7M+e+kLoFbO4pS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment;
+	filename=0001-fixup-dax-kmem-add-sysfs-interface-for-atomic-whole-.patch
+
+From e341860c83fd5d5e8549d8adbf71a484c8990c5f Mon Sep 17 00:00:00 2001
+From: Gregory Price <gourry@gourry.net>
+Date: Tue, 30 Jun 2026 14:49:06 -0700
+Subject: [PATCH] fixup! dax/kmem: add sysfs interface for atomic whole-device
+ hotplug
+
+---
+ drivers/dax/kmem.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dax/kmem.c b/drivers/dax/kmem.c
+index 19effe0da3dc..f597d8a99c1f 100644
+--- a/drivers/dax/kmem.c
++++ b/drivers/dax/kmem.c
+@@ -380,8 +380,11 @@ static ssize_t state_store(struct device *dev, struct device_attribute *attr,
+ 		return rc;
+ 
+ 	rc = dax_kmem_do_hotplug(dev_dax, data, online_type);
+-	if (rc < 0)
++	if (rc < 0) {
++		/* Total failure, drop the reservations we took. */
++		dax_kmem_cleanup_resources(dev_dax, data);
+ 		return rc;
++	}
+ 
+ 	data->state = online_type;
+ 	return len;
+-- 
+2.53.0-Meta
+
+
+--Ha7M+e+kLoFbO4pS--
