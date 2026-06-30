@@ -1,57 +1,56 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022119.outbound.protection.outlook.com [52.101.96.119])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020121.outbound.protection.outlook.com [52.101.195.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192843FB7F6
-	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 11:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B97F407CDB
+	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 11:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.121
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782817778; cv=fail; b=Fj24J3SmmDByq5+jaACMmd6l6eo6d4ba9cAT72KkXSkgzzuSB5gfH3iSDEg5pJgJQaYHulMpUosvvfLVP87C/M2mjqD2RZqvvLboz9uB51pxh+3JPASV9wie77pzdj/R4VW0R7or9AGjB6NnsPUueKolVYUmpsGlhb8xDoOLHno=
+	t=1782817779; cv=fail; b=jztNpHp1njoZ98m9+NN5ZcCoIbxjR6+wQV3QKUszbEs0U4WMoPd4kic67/f+ha/pn5J19WyqBTLwVdJ09a3t0g1dwGY8hVqxrRIlmeHADs5hKp1Ey7T3/dsgc+wOHtRE0aFO0+PleWUi87qd8HXd11viQGvr2VHUFuGyJJHUMD8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782817778; c=relaxed/simple;
-	bh=zT8CR1hu18sGi5f9+9wkDL8BzV1/sK8mE83mrlSqGJw=;
-	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=OYSg8ZNCKtrKUW/l13r5eh1Ks58gXL+JkuskHe211AhVcFeBszmqkTSi1upYPLxdZzP1sfaBpjkeQStPcwi1kwVDWt80hkjDVdT4jgfFmGeTKOhYC9guAqhYBBBdb/lxkniSzodoL2+ClhHp6/1ALoSCHY4omZtlLbzZ+TYCXuc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=nimkejgQ; arc=fail smtp.client-ip=52.101.96.119
+	s=arc-20240116; t=1782817779; c=relaxed/simple;
+	bh=89KkapWbv88nicOLg38FIN7IRrD3WropbzSX4CaDkUk=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=vC3HdCVNk+cAaNRY3H2LJS4xC4x4u/cpNVJ/gorpionLV1zNjlVoTvCB13iL1HHv+QhxHEsO3MXwhxgxI4bt/y9CIC/snisirTiZyhg0XITkkyPtvlu83MA/ubUDtfiBlqRJnJDh09JWfyxtUlGaLX9fLXqGkMrCh4v2tFb35Cc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Ty3eJKdY; arc=fail smtp.client-ip=52.101.195.121
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="nimkejgQ"
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Ty3eJKdY"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GlcQPn17G/qv+q/8HvuhuqtdV7HTODLng26BgtSZh3GhLQOWvBgSIW6WrgG4bXScqE9nBL13lADhLwtgiEhVCTIsCnQrZW2WP1DIuq8ojdIvILHdmcTscKEpX1TAQwuw5iS+vYyhlfENfs4VuNP/GwpH4nXcKGrC4dvayF1tMv29lb4VC/5iJXELIc/KrR347+Hebht+Y4SqtqniuYXyDn3p+I0iZdob3rzoWChjhkG8Mr1ttWzh4boUAZbjo0aqJ8pHBFhFoXvDgj6QSa3DBBiJv2wZHKVq4snjLNSUjlLLCs3bBUoN9gmtKVtwynkx+8+bO82Tp61hAjvNG2yYSg==
+ b=SNS0CifYU1zgGllSFhY7Eq4DgUHZQwOzrkX8j7FOjU1GQVNnpDSLoMgLC6iftrBc4+2hx/Ye9NMtJQNjzw+//SefBTo717Wk9Yf1YbOgCP37PR6RIsSGhwvS/E+lwBPlcrVvi/fzyQMe8lFLXZNOmKM2vlBQKHwMZkSVp0n/v8TxdS2WEsERwIxHrGZ4tYe1c48JvqMMB8dFSY3Vrn7wj9XqXeg4nQF9iVyeBJbu1k9lsviIPWC6OV21SHluQB5k9Naatcdpdr1BuyjJyq9a4ZEGiN8XMVWu7hojoWJpCUXSLCZ7g2tQ9URaGEkMAjHcD9a/8/KhwwCegNYWZMxKvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BSYPIBBvbhQ1YIoGfEmexoBK4XfmyCD7yKFk9G1YL/8=;
- b=usrfv99BODLXCDJCsl1CeM7xSZZ59SDSdWoxZ6NshKAWLxTjl7oq696vE5PHrvpORB6VXKSji9a7MpH2YUPeRWiwimglrjPPXTB4rptsFRTnPVw+xTGCYVwE5QlkXJ38WzliajHVCXiGz8lIhN2QFRmLq3C1XPi3xCjJI5FmhE7/a1z3fvyWBiF0851mAc7rVJ0DvlJZXWjhzULBP8mBxoE2qpItkoqWJfgQX4a9tP2GnvOzklx+45nJ7vdTjYwV7BypWcQgfoEoG0/PubLVjFE71Jq3p8GQvQJ8kMhwP84A5rLYbptaKlTqjYgq/8j82j5y+HvNHYSSfqgkiJEY4w==
+ bh=5IM1U+UrEg6Aig4u/4mKyaYSNuTMt+peDccM5jCsKkc=;
+ b=r9FwYEBF2h/x+I6noQofOdzpZEc8J7W3VhpDoVSMvngNljHaKQX+WgBj9jfoKfim8ngyIaOh3HmquV1e5Tq6rYQ264oULNgvW5qVbBPOoLDlUBZXbGlF7e2w1e/HrOniqaHPlsk8vF0l7Qln3fXm5HMeDUJngL6pUxpnLkSAZ+jmXnyvufSjckY+iFibfZWSmIeEYIpsy+N/HWBq2/M/MKlZGMHyu430W6tW32a1gwRd9z4SLIpkz6lGxZ/KvpfF3EBbEghoxjIjqCCx7RHKFtW+WU3ehMo+/vPjd2SFfsfOHyFiaj3GyQfTc78s+PSWJhjzkPRxwxXOAZ/pIv7VRw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BSYPIBBvbhQ1YIoGfEmexoBK4XfmyCD7yKFk9G1YL/8=;
- b=nimkejgQcsjYf30lBlOP0HjFQq7XgfX6JvbamuLdkavsplRiVbxzuDTCue+Ce+UAQaRf+yZ9XnMew9kCUypPYePk4CU1+o/0wHu4JoZ+d7nnSpCzGebWR9EQNdlMHbRThq+/3RPs2GbxmIto8uPKLUY5KONldEEl7b0l3exR26A=
+ bh=5IM1U+UrEg6Aig4u/4mKyaYSNuTMt+peDccM5jCsKkc=;
+ b=Ty3eJKdY9hJV7NThXu2/W4oV7g0uGpUHUGNgk9orFDaiXAN7E6By9PXFT35la1s7opHppzUSu4blPJCwIid3gTlGFl2NWULUbqEDklmkfAh6YbZ0u5bm1dvFAGyYQ+q20mqK8ZhOUWw/AHBgeFmdQc/9ajx9uDo7RrvPfeXbJ7k=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB7689.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:219::13) with
+ by CWLP265MB6625.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1dc::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 30 Jun
- 2026 11:09:23 +0000
+ 2026 11:09:29 +0000
 Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
  ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
- 11:09:23 +0000
+ 11:09:29 +0000
 From: Gary Guo <gary@garyguo.net>
-Subject: [PATCH v2 0/7] pci: fix UAF and TOCTOU related to dynamic ID
-Date: Tue, 30 Jun 2026 12:09:00 +0100
-Message-Id: <20260630-pci_id_fix-v2-0-b834a98c0af2@garyguo.net>
+Date: Tue, 30 Jun 2026 12:09:07 +0100
+Subject: [PATCH v2 7/7] pci: fix UAF when probe runs concurrent to dyn ID
+ removal
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMyjQ2oC/22NQQ6DIBREr2L+ujSAFW1XvUdjDOJXfxdiAE2N4
- e5Fu+3yTWbe7ODREXp4ZDs4XMmTnRLISwZm1NOAjLrEILlUXEnFZkMNdU1PH1blqNFwXqryBmk
- wO0zxKXvVP/ZL+0YTDsPRGMkH67bzbRVH7694FYwznRem4nkv2nvxHLTbhsVeJwxQxxi/YX7bW
- bgAAAA=
-X-Change-ID: 20260626-pci_id_fix-83eaec007674
+Message-Id: <20260630-pci_id_fix-v2-7-b834a98c0af2@garyguo.net>
+References: <20260630-pci_id_fix-v2-0-b834a98c0af2@garyguo.net>
+In-Reply-To: <20260630-pci_id_fix-v2-0-b834a98c0af2@garyguo.net>
 To: Bjorn Helgaas <bhelgaas@google.com>, 
  Zhenzhong Duan <zhenzhong.duan@gmail.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -70,14 +69,14 @@ To: Bjorn Helgaas <bhelgaas@google.com>,
 Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev, 
  linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, 
  linux-scsi@vger.kernel.org, industrypack-devel@lists.sourceforge.net, 
- netdev@vger.kernel.org, Gary Guo <gary@garyguo.net>, 
- Sashiko <sashiko-bot@kernel.org>
+ netdev@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>, 
+ Gary Guo <gary@garyguo.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782817763; l=2995;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782817763; l=4607;
  i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=zT8CR1hu18sGi5f9+9wkDL8BzV1/sK8mE83mrlSqGJw=;
- b=dAL3MZAHGdq/f1A/Dc23e+hpW7HjiDscNeb1WUmBG8M0zwhxEmtW2JcB1Sxda8l9dM4iS5kFZ
- gXJhrcBh+apDxEs35LdGkfVA7RpAZjzwYT5L+LNlkyJoV121PGaoRjF
+ bh=89KkapWbv88nicOLg38FIN7IRrD3WropbzSX4CaDkUk=;
+ b=yoTLvxj4cxLVVJfvlIBmUw5UaXV5K8JirIC3GO86umk3IEqgJsEX20JTLcMAA5AdptQdf5jDt
+ vL1e16/pVZYDr/xCIJEWG8iPZF3pus0vY+yCw+6zsqt9Gsk4FAMYByg
 X-Developer-Key: i=gary@garyguo.net; a=ed25519;
  pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
 X-ClientProxiedBy: LO4P123CA0142.GBRP123.PROD.OUTLOOK.COM
@@ -90,157 +89,209 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB7689:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad4e9196-c1f9-41a8-161a-08ded6980aa2
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB6625:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb378601-2042-436d-7893-08ded6980c66
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|7416014|23010399003|18002099003|5023799004|56012099006|6133799003|921020|3023799007;
+	BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|7416014|23010399003|18002099003|22082099003|56012099006|921020|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	7SMa+fTXpfOFdZ6s7LkS7UxByOX0tObGy59wMJZvQTmdqGlp27HNMD+U0dS+7uqjYhUHqVfXOPfHL+PGotEAAWvhLnxsupcRhJpo8Ka27y7bfLLmYO0CPplRJQ5FA/nYpL8Vy3HbYxEa+PQX0iEZEcz/u9Ad5unoTuJLnPaDbDhlKTCgQcQk3T2Wmp6fnv6u9++23M98Z/fJdFP9XZbE09fE7jFxfROJPQ0xsl9U1XEPXn+XZsXLZmvLolOjwJb2rEcSYZhRG23HAzd+QOk70MjsEZtyRKSLl95xA2rbD+tryBTaFIvER3Tfk+YEF7jPiHnxrpghY/jRgAcxPrRKaNvGm9eu0C0LHAYEP8cItvNhiIPP6M6dOQWTtLoXS/6UAKt2+MT8koo4qRlgPZw32pmgssGqa9+zVN+KMmOmmj2m5+BqFmIjVvCDZTdugKsEmOykboJPWZhqkQk4tXCIYw9WpdtonSAB4hDPlfxyTy6J25nSSX+jh0Xv6jgS3t7epWpM8nQwUzaOWJzBErPmrl7w+sIinUwlMBTEG/IljHxANhG8w6HgY3wIeXFAO1RupQXfnS7mboTUrC7iYlsVp7oU8DxDx+C2rpfXoi/9HZ7TW75cZ2WWuLQgdPAGSMJ6Moe+J1iNn5B2tsmWlnFSPjk0+20qmxHRRcoBWV4aYuQ=
+	KGHJKViJojSJgLXKzGtNjzxkEbEe4ED0NEEXyULG54mOkrQWR9JXXEeSd4Mt16WnhuCQSfKQFk7YhBPISx/yOI33ABBw3VMf6KJalGBeri9z4z6ka1iLydR92BvQBq0TuJcCoIFHcG5J7A1Otw6GtwWYQDII+qLOpBu8oXqhbDy5qfoR1dlT3iPnLhuIDtKqfowwd2vKUxR8KETe6BwBH8/6nicKM7MDaixuY6xuapTMHxxqxC+JlZlLAKJbAwJP5w7vMlEEeXH/AvpB9LhldvXrTJZYXvtE09kg7Deikp62Mb2QK6eMV8XDpAwXcijP34QglcFsyHeu1lipvWb5sXo0f60LjHIGBWeAbCUuIv+Y+PrGChbtYrdZariwWVWHgYwRR3KuK4fr75jFhMCYqaGv60u4iVMs6MtSALvzZOFD3yNlMuU3yC+64jrZbdxMAx8zRbEvF8iv/gXK63lySojCvvWTC0Y0xyXzE6ODVrF6UylRhmzoWR1QEoyZK4+MfaBiBa6fuNal8hT2+nTqn99DEnYkWiSbllJB/boYXDNXjPwBHPdACBP5f2dS0Bbs+sfuXgarrivuJfsi+vIcI/nhS31QOmhRdAtBa0/MhHGBQ69i60R/UIJ19J0XO8DC+579yRp/ke0dIOGx9ulccgKHyJ0/4tfTVu/EKYp4US6m/lMVugqopHY0g59gN8DjbzicH8d53baN5kuVhgi/ig==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(7416014)(23010399003)(18002099003)(5023799004)(56012099006)(6133799003)(921020)(3023799007);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(7416014)(23010399003)(18002099003)(22082099003)(56012099006)(921020)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UXd0WWFPcWJHSEQzU3FMY29BaDM5a1g3SGFVTUVPSzhPQjY5VzA4Ti9BVXpx?=
- =?utf-8?B?RFE1VmdISlR1Nkd6MXVyVHJFdFZmOHpuSE1Ba2RJd25rd0RwSHVqRmRjUHNz?=
- =?utf-8?B?Wmt6RjZUTTZqYk9CVkdUZU5JYXdZNGVVL2ZiTit3b3BBYXp0Zi83YWx5MUht?=
- =?utf-8?B?d1NXM1FqazBrY1Y2Ull5UVIwQ05rMlpvT2hBWUROc1FoZDQyNHU2NUJmU2Vx?=
- =?utf-8?B?S1h1WU8remd6ZFh2VVN2cFNhdUZzNzZiN1U5MnQxV083NnY4S3FqRHc3LzBx?=
- =?utf-8?B?N2lFc25ubDlORVZJWUJmNlMyeXk3NzlTSFdUUUorSEo5RG0razdNQjFENlVS?=
- =?utf-8?B?dUxmdndIZjA0UmZFWllPd3c5dVVLOG5UdE5ZZGZTaEptUklUbTRxeHBxYmRZ?=
- =?utf-8?B?MUp6aHhCcjV4M2grcmpaYVd1bnVSTzQzSUt4Uzg3Y1plTmVSVnJjS21RNWhm?=
- =?utf-8?B?Zmh2cmhKNnBaekJNKzNoT2lLb3gvTkIwVzhLYlRlNmI1SFBDWFBlQ2ZacCtl?=
- =?utf-8?B?eFp5OHBaQ1hHT0h6NGFwb1VnK3VydzRSalBaRGpHMGl0WFJMK1I5THE0bGM1?=
- =?utf-8?B?NzZ6K2FaaG9RRUN5RWtKY0g4cHA1ekJCcjYzSnhGQVEzM2pzYm5NdG5SVkw1?=
- =?utf-8?B?L2lZZFVWWFN0TloxZW5rRmY1V0M1aG0xbldZK2s5eTRZMG9sdTVVNmx6cE9r?=
- =?utf-8?B?Vks2RGJlSjJRTGhJMEhkZ3hPUXJxMDJCc2Y1eUZsbk1vbDlEUERKRXd0WUdI?=
- =?utf-8?B?MjBFQ3NoMjlYTlpBUGNkdkg3YURhODdvTU5VR24yYzBLeklCMTF3T0RjaFJa?=
- =?utf-8?B?YmVEekhlWkFHOHpIbjNrL2xWNURoaUhNRVczZkRMZGsvSUhCaWs2eXQ4eDJO?=
- =?utf-8?B?aWdjUjFuTXRFc1AyVzkwNWlsUmxRSFlwSEtOQlNidEkwcjdtUE54RU9uOXV4?=
- =?utf-8?B?TGpndXlMa1RPd2tuSE9wSGJySkowM3NvekJSeXkzK3ZXY3RuZjI0aGM5Tnpr?=
- =?utf-8?B?VlBKMUZoVjRNYUgzd0hFVEpCOUhrQk56L1VpOFZzbTBNdWhJbEpzVFpqSU51?=
- =?utf-8?B?RnUyeUsrTzR0TWhqR24vUXIxWkx6b2RNVHJyc2xFVVhQbWJ0bVhOUXBtSWQ4?=
- =?utf-8?B?djBEcDVGRXZFMzRrdFFmdmlEMk9LbkJVRExqMTdtcjZEOXRKS0RRcjJkbHpk?=
- =?utf-8?B?ODZ3MmQzWVJTUTdwUVBDNTZ2R3U1bFRuQjVnU1BBYndadGZhMGlvcDIzQUFu?=
- =?utf-8?B?ekZ3QnBFSDlMZzRBNmpoV3d0NU1vVXBudEV5UDZWc3RZenREYlNNd3RwWTVm?=
- =?utf-8?B?VVhQUU4zbDFVSUplQ1JnZk5ad05vUG4xTjFDTjVNVS9admorYmF2Q0xNUHhn?=
- =?utf-8?B?SHAxUWhUTFRYTm9Hc1V3M1pQQWJtc0pLWGZXSEltMTlGRFI5MFlNQW1OSDB0?=
- =?utf-8?B?WEd2VHNjd2k5T0V3cDBMTEt0dGg5cWxWM2Q5VTN3UVNoSk5mR1cvWUJHRlN4?=
- =?utf-8?B?NWliOXN0TTZDcjZQUGhRZzAyVWw5WWZFVklWT3FVeFdJUXNvbS9vVzdJVjRW?=
- =?utf-8?B?Q3VrRDZZMFlKMkp3dEhldkdMd0RYRERCSEN2TG02WXNLZXBjRjl3cXY5MzJB?=
- =?utf-8?B?NlFqRHl1b01UdEYvZmlmZmRRaEx4OU41L2VYYjBhOXJVeVlRTk5xam82YmRl?=
- =?utf-8?B?NGxMZHBTMjJyQXNvQUVJaGhOSG5DZ0hiOXA3ZFpQN01iTS9Wa0RhcWdPZFFa?=
- =?utf-8?B?dEwrZm1Sa1pLSkM4RVpsVGRqZEllU0RXSDlJdnFzYW5GcUpBRFFjVElZVFZZ?=
- =?utf-8?B?eVN5ajVscGxlbUE1a1BoSWRGSDRZWENGMkl3R29QZFFTMm1MMDlFZm5ua1Zt?=
- =?utf-8?B?RFhnTjJRTytJYkVNMHpTR0tzdHFONFdneVlWZ3dXWjVSclFrbGp1MHVCTG1P?=
- =?utf-8?B?YlpHcDhMOWFCWmxEV3k5ZUNnZVRwYk1KY1RUSUd6Rkhmejg4RWF2OHpQSTZX?=
- =?utf-8?B?bEwwSFg0NUF0WEtVQk9VSTVCUURYblZqcmJJUnVYY05pMWx0TkxtR2RMZEg0?=
- =?utf-8?B?a2FDTlVYcVppT2k2WUgzd2l6eGp5d3dZeUU4cU9WQmJSRzdFay9JcDJSeTNh?=
- =?utf-8?B?YlBSekNsb2xTcW1laUlWRDYxRy9MQ3FwbE52Q1lUUUIxYzZBTnRZTjhRMUpG?=
- =?utf-8?B?N0FJUkhZTG9Mc1ZDSmUrc3lpNG5sM2ZsRVB1Zmc3ZUVrMHRqaUdyVGtudFNt?=
- =?utf-8?B?UzVod1N2OVpiQ05zQmJNZkQ3MXk5TmRFa1ZScWVsaFdkWXRSUDJlY3NNRUxv?=
- =?utf-8?B?RERiU1IxcDRsZWI4ekYzYkhkNE1wbFduVldCWDE3ZXBkVlhTNEpCZz09?=
+	=?utf-8?B?c3FuSCtUc2c3bWVFSHVzM3hkZjRKOVFiUjdnaVgxNHdnenU4THExd3ZJQTNo?=
+ =?utf-8?B?VEZiK2xEUFVKM2d1Y1BZcDlHWE14VFNUR1NxQWhETno3ZHJHeW5XbGFWeXJO?=
+ =?utf-8?B?R29DNUVKZVNYNVRISkVUUGg5WTNoL2xmblU1R2tocnZFOWdZMGxYQmZnbXVI?=
+ =?utf-8?B?UCsxTlM3WW45cmdwcnNWK1VuYjd6VEdyMko4UE9wdFNSY2hwL2IrUzRZVnl4?=
+ =?utf-8?B?TlRLK0pJVWRKd2lUME1hV0xKUWdpM0k1THM0ZXA2aDVWQlZoQml2R1FITTFQ?=
+ =?utf-8?B?N1BxVDJ5WnR2cldFajYxOUJ0QVY5aDc2Q0o0YmhieVk2VDdUS25hMFlzODli?=
+ =?utf-8?B?ZnZrWGI3NFVjampUWlk2dzFkcjg1d0o5SzNXMlgxL3hPWWZQMHc4Kzg5TVpJ?=
+ =?utf-8?B?SE0zSmlPQ3gycFpIdERvWlRLWkRMbmNJNEYzVm1BK0NoL3JlMDV0b1d1cHY4?=
+ =?utf-8?B?V0tkQ1Q0VGg1bkFBcjRQVitYa2hVbG1URFlVVE9TM2ZIbHVCdTZZb2t5cjdi?=
+ =?utf-8?B?V2xVOS9XWmprcXJTZXNGbHdNcDNISWRNRUFHWTdWdS9weEhXaHRqc0plb3g1?=
+ =?utf-8?B?RlhXMjUrdGdPRnZ6Um5GRksyNGVyL1NpK1JqVFVrYWtOVnA0Q1Z0cXFoYkNN?=
+ =?utf-8?B?YjdkV0EzcWlua0s1T1F5RFNISDVVNFF5QmhsTlNBN05Md0JQRHZ1bEs1YzFv?=
+ =?utf-8?B?SkJTZDJNR2F4U3ZKUDludjFEV3ExSytTR0loNGRQOEM3N3VsSnYwRUhQVEY3?=
+ =?utf-8?B?QzJqa1B1bFVSaC9weEswR1dmUzJwZDdad3NFMDJUMHMrQ0k0dWRQTU9uTVVo?=
+ =?utf-8?B?blhobVFGNkVleDhIQUhvcEVjYzBaZlBWT1IwN25oQjFLQWI4NWpmK2tQemtX?=
+ =?utf-8?B?ZjJnLy9lNUUvTzhnV1NvNExONTVmdHZWSmxpNFdoRzJKdFNma1JXYVVrQldO?=
+ =?utf-8?B?T0syR0VxdGdwR3hucE9RZVNCa1NxNTB4aU1sZWh4MzB4Y2tMOWVZZjltaldZ?=
+ =?utf-8?B?aWpFTGVaRk9rVWlGMC8wZTFtQmp5anFURmY2dnM4cVpiOWwvelJRbGVwWnN6?=
+ =?utf-8?B?ZjdGWUZMRlRySThJUm9aMmNvL3Zwa2JObExrU1N1WkExSitCNmZFM1FCcWQ4?=
+ =?utf-8?B?NHVVMXAxY1V3VWUwNjc2T0hLMWV4R0NqbkpVaUhNbWRCYmZGK1VmNFRBUUt1?=
+ =?utf-8?B?V05XcmNlR09BNTc1bGo5RkpCS21neXlnR2VPc1lSamdpMno0NEkxZkNkUTBW?=
+ =?utf-8?B?dDdUU1I5Qk9uRUIzMWZLWFdLeFlnUmxCcG9Cb2tHRFZHdHY5VlJRa1ZZNUNI?=
+ =?utf-8?B?RzhVVGVFTVN3bEVpT3NXenhVb3ZWYUdIUE5kL3ZNU25rUFdPWUdEb1dFRHZo?=
+ =?utf-8?B?bkpxWHFoSXZBUXBsb3d1WGFLZmswRVk5dHVjYU55QisxQ0s0azlIVDZuM1E2?=
+ =?utf-8?B?YTBXdGthbTJabUdKTk0xV2JkWmpEY2JmZlU4am10S1dDeDFqeTZTVDNUUFJq?=
+ =?utf-8?B?WVdVNEFXaEVQcUt6dFRVbFFXRGY5RnVYV012VEJta1Y3NGkrbjhUdzh3emd3?=
+ =?utf-8?B?S0p1cTFOSXQwZmNEUTcrMUF3NE1ZU3c4UnNuVWR2b0pOdEFxd0UyeFZLU0N6?=
+ =?utf-8?B?S2ErU3hPT0hUYm5OOVlzRmNOUmhkUnVPQit2MUhEMUx2UEhTMVFvNjRiQ3RF?=
+ =?utf-8?B?c0hFN29ac3RRQ0NqbFB3azU0R1prZGtsbnFpc0M3bW9Lc1ZCcXlXdzJVOWlz?=
+ =?utf-8?B?MDhVREVXaHlMYy9NdHkvbElORnlka2gycnRuNy83R05PdmVDTjFWNkFwaG1H?=
+ =?utf-8?B?ZTAwbTd2eFlZRHZXbnVqa1VmOCtvVTN4aGRFZmpaVUhPKzgrVnBOVGdoZVpI?=
+ =?utf-8?B?MjVLY3ZjckNxNStKR2ViRDZnT3V6Q3orenR1MXBnTnlHRlZBWVlFeXN0SzM3?=
+ =?utf-8?B?M1htWmhUOHg5SFZDS2F4WFlJL0d2MGdGRmoyNGp2LzJ1bHVUV2E0ajRCb2ox?=
+ =?utf-8?B?SXgvUmVmc0wwOUF5VGpsUThwYXAvY01zbWtPN2VDdUZaK2g4UC8rNDJYUWJr?=
+ =?utf-8?B?bkhiR243VHZqUzl6eU9YMmszQm1aQ3gwdzRjU2s4ZGI1VWx2aG1vUFROTU5N?=
+ =?utf-8?B?SG1Qc05uMFZJWVJxUy9UL2FXOW00Y3hPbUo1WXc1TWwwMDFCVm1vdzk0cE15?=
+ =?utf-8?B?NFpyVjdrOCtwcVVvWlBRTVJ0WnhUbUpDR2M0NllpNWNycXY3Tm1GVDlCb1I2?=
+ =?utf-8?B?cDNDZVpkSjQ5Z0lzOHVRdDRnRVdvR01lM2VKSXZCSlM0Y09vUDJRYXJHOTl3?=
+ =?utf-8?B?ZDZZVTdSL1FIRm1ScWRBVytsdS84d0l3cEFwT0NUZUtUTHhvQ0RRQT09?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad4e9196-c1f9-41a8-161a-08ded6980aa2
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb378601-2042-436d-7893-08ded6980c66
 X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:09:23.5629
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:09:26.5273
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DP3ZlZgnMbqi0CrRn+o1NeTgleT429F+nzcVvt4E+D4tGEIO2cYyvtvUMyCqFDtmxzZbEEA4EpfbcCrFDHsEmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7689
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9KKyAwTs0OpeEpioSErv1+V5nE5b8JwBMERASSAll1R+sD4wbn69aE+FnaiGDrdrxVxo3+Gu66d+/DnGt1DZDQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6625
 
-While working on improving the Rust abstractions [1], Sashiko reported that
-an existing UAF issue related to dynamic ID, which I find to be genuine.
-When taking a look at the code I also find a TOCTOU issue where the
-existence check of dynamic ID happens in a separate critical section as the
-actual insertion. This series fix both issues.
+Dynamic IDs are only guaranteed to be valid when dynids.lock is held,
+as remove_id_store can free the node. Thus, make a copy in
+pci_match_device. Also, clarify that the id parameter is only valid during
+probe.
 
-There are two exported functions "pci_match_id" and "pci_add_dynid" which I
-have to tweak to implement this cleanly; I created separate "do_xxx"
-functions to keep the existing APIs because they all have multiple users.
-
-There're a few existing users which stores their pci_device_id argument in
-probe callback. This is a bad pattern because nothing except driver_data
-inside pci_device_id is what they want. Actual ID information can be
-retrieved from pci_dev instead. I've used the following coccinelle script
-to find the cases where the argument is stored and converted them to stop
-storing pci_device_id.
-
-@store@
-identifier fn;
-identifier id;
-expression E;
-parameter list[n] ps;
-@@
-  fn(ps, struct pci_device_id *id, ...)
-  {
-    ...
-*   E = id
-    ...
-  }
-
-@cast@
-identifier fn;
-identifier id;
-parameter list[n] ps;
-@@
-  fn(ps, struct pci_device_id *id, ...)
-  {
-    ...
-*   (void *)id
-    ...
-  }
-
-@in_struct@
-identifier s, fld;
-@@
-  struct s {
-    ...
-*   struct pci_device_id *fld;
-    ...
-  };
-
-Link: https://lore.kernel.org/all/20260618-id_info-v1-0-96af1e559ef9@garyguo.net/ [1]
-Link: https://lore.kernel.org/all/20260619170503.518F61F00A3A@smtp.kernel.org/ [2]
-
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Link: https://lore.kernel.org/all/20260619170503.518F61F00A3A@smtp.kernel.org/
+Fixes: 0994375e9614 ("PCI: add remove_id sysfs entry")
+Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
-Changes in v2:
-- Fix users which store pci_device_id.
-- Clarify in probe documentation about the lifetime of pci_device_id
-  parameter.
-- Dynamic ID conflict check now ignores override_only. (Sashiko)
-- Link to v1: https://patch.msgid.link/20260626-pci_id_fix-v1-0-a35c803f1b95@garyguo.net
+ drivers/pci/pci-driver.c | 58 ++++++++++++++++++++++++------------------------
+ include/linux/pci.h      |  1 +
+ 2 files changed, 30 insertions(+), 29 deletions(-)
 
----
-Gary Guo (7):
-      ata: don't keep pci_device_id
-      nsp32: don't keep pci_device_id
-      ipack: tpci200: don't keep pci_device_id
-      mlxsw: don't keep pci_device_id
-      pci: make pci_match_one_device match on ID instead of device
-      pci: fix dyn_id add TOCTOU
-      pci: fix UAF when probe runs concurrent to dyn ID removal
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index df1be7ea2bde..fad028b9dc53 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -179,14 +179,16 @@ static const struct pci_device_id pci_device_id_any = {
+  * pci_match_device - See if a device matches a driver's list of IDs
+  * @drv: the PCI driver to match against
+  * @dev: the PCI device structure to match against
++ * @id: Matched pci_device_id
+  *
+  * Used by a driver to check whether a PCI device is in its list of
+  * supported devices or in the dynids list, which may have been augmented
+- * via the sysfs "new_id" file.  Returns the matching pci_device_id
+- * structure or %NULL if there is no match.
++ * via the sysfs "new_id" file.  Returns true if there is a match, the matched
++ * ID is stored in @id.
+  */
+-static const struct pci_device_id *pci_match_device(struct pci_driver *drv,
+-						    struct pci_dev *dev)
++static bool pci_match_device(struct pci_driver *drv,
++			     struct pci_dev *dev,
++			     struct pci_device_id *id)
+ {
+ 	struct pci_dynid *dynid;
+ 	const struct pci_device_id *found_id = NULL;
+@@ -196,30 +198,33 @@ static const struct pci_device_id *pci_match_device(struct pci_driver *drv,
+ 	/* When driver_override is set, only bind to the matching driver */
+ 	ret = device_match_driver_override(&dev->dev, &drv->driver);
+ 	if (ret == 0)
+-		return NULL;
++		return false;
+ 
+ 	dev_id = pci_id_from_device(dev);
+ 	/* Look at the dynamic ids first, before the static ones */
+-	spin_lock(&drv->dynids.lock);
+-	list_for_each_entry(dynid, &drv->dynids.list, node) {
+-		if (pci_match_one_id(&dynid->id, &dev_id)) {
+-			found_id = &dynid->id;
+-			break;
++	{
++		guard(spinlock)(&drv->dynids.lock);
++		list_for_each_entry(dynid, &drv->dynids.list, node) {
++			if (pci_match_one_id(&dynid->id, &dev_id)) {
++				*id = dynid->id;
++				return true;
++			}
+ 		}
+ 	}
+-	spin_unlock(&drv->dynids.lock);
+-
+-	if (found_id)
+-		return found_id;
+ 
+ 	found_id = do_pci_match_id(drv->id_table, &dev_id, ret > 0);
+-	if (found_id)
+-		return found_id;
++	if (found_id) {
++		*id = *found_id;
++		return true;
++	}
+ 
+ 	/* driver_override will always match, send a dummy id */
+-	if (ret > 0)
+-		return &pci_device_id_any;
+-	return NULL;
++	if (ret > 0) {
++		*id = pci_device_id_any;
++		return true;
++	}
++
++	return false;
+ }
+ 
+ /**
+@@ -465,15 +470,14 @@ void pci_probe_flush_workqueue(void)
+  */
+ static int __pci_device_probe(struct pci_driver *drv, struct pci_dev *pci_dev)
+ {
+-	const struct pci_device_id *id;
++	struct pci_device_id id;
+ 	int error = 0;
+ 
+ 	if (drv->probe) {
+ 		error = -ENODEV;
+ 
+-		id = pci_match_device(drv, pci_dev);
+-		if (id)
+-			error = pci_call_probe(drv, pci_dev, id);
++		if (pci_match_device(drv, pci_dev, &id))
++			error = pci_call_probe(drv, pci_dev, &id);
+ 	}
+ 	return error;
+ }
+@@ -1558,17 +1562,13 @@ static int pci_bus_match(struct device *dev, const struct device_driver *drv)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+ 	struct pci_driver *pci_drv;
+-	const struct pci_device_id *found_id;
++	struct pci_device_id id;
+ 
+ 	if (pci_dev_binding_disallowed(pci_dev))
+ 		return 0;
+ 
+ 	pci_drv = (struct pci_driver *)to_pci_driver(drv);
+-	found_id = pci_match_device(pci_drv, pci_dev);
+-	if (found_id)
+-		return 1;
+-
+-	return 0;
++	return pci_match_device(pci_drv, pci_dev, &id);
+ }
+ 
+ /**
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index ebb5b9d76360..f128d8c0cbb6 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -979,6 +979,7 @@ struct module;
+  *		function returns zero when the driver chooses to
+  *		take "ownership" of the device or an error code
+  *		(negative number) otherwise.
++ *		The pci_device_id parameter is only valid during probe.
+  *		The probe function always gets called from process
+  *		context, so it can sleep.
+  * @remove:	The remove() function gets called whenever a device
 
- drivers/ata/ata_generic.c                 |   6 +-
- drivers/ipack/carriers/tpci200.c          |   1 -
- drivers/ipack/carriers/tpci200.h          |   1 -
- drivers/net/ethernet/mellanox/mlxsw/pci.c |  11 +-
- drivers/pci/pci-driver.c                  | 219 ++++++++++++++++--------------
- drivers/pci/pci.h                         |  36 +++--
- drivers/pci/search.c                      |   6 +-
- drivers/scsi/nsp32.c                      |   8 +-
- drivers/scsi/nsp32.h                      |   8 +-
- include/linux/pci.h                       |   1 +
- 10 files changed, 166 insertions(+), 131 deletions(-)
----
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260626-pci_id_fix-83eaec007674
-
-Best regards,
---  
-Gary Guo <gary@garyguo.net>
+-- 
+2.54.0
 
