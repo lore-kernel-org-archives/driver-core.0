@@ -1,145 +1,91 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53733F4116
-	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 10:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A83F0A97
+	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 10:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782815402; cv=none; b=VoKPrSqk/Tfufv/7pzXFb6XBlAbIqDcAJjJSKAJ5muAWbZM9kV7+bvQKaJmWISyE0Uk4URkg50FJMvaxzmreUuRZd82RUIfAesTTO5KgMaWCwLmx+3V7Ej1K+kca8VL/348+0ArouTe8dC23a6Djhw0K2EZ077M4D+tyCjpyNvo=
+	t=1782816499; cv=none; b=GwsXRJeMTW/fir7hqzvSeBhZA7MROBo7VSECkaqYdIfiWvUmm9v0koZCA3DawdO8VGIz+lwauiC7VnLmFQsLybn+nSTopGvzbG7oH0nxSg8M94zcLe0Bv0JSLCQ4lK/y/7jehvxefMt9CHKmtc9QSsG3h/eHgDVtvYyIF4otsns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782815402; c=relaxed/simple;
-	bh=+7+4O5fexn2P7o7P9QxEX5lg+4piQeI+90SQQp56hLM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QAOU5mCmNKWb/8V+LXX3HAFZGj3bh3uR1Qiyl7WpSLuODGiVbMtdGT8YjveynQAdLZH3BYfFCss2W8cu+jtH+18R8ts01Uz0/ZdZNmjKDGRbnzYl9BM7lE30HDmU89wcF4X2SlyAgDQ9H4Hvlt8GFM7xYl4HO7WtQgoRbF1G2wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=asQfwexg; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1782816499; c=relaxed/simple;
+	bh=HpicAEKNGBTQQuuqPcVX4l62LWLvxMUNi/rLemPWnPk=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uttm4owLa47XiwFWIsnbl4bBM5f2zUcrTsakw5zR3mZ7mpbpSLUeBZ5Qi47f+p5jQEOmBM3WuSK1wxNuqvBNHGfTF89kfzjzpjEFi94nEmTnTuPOda9V8bfNoHPdVq8wJWDWCWVHIY+h93VzyyhYLEpZikClCCjR+rxLBEFagAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=G6pTMmFV; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="asQfwexg"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 841281A0D5C;
-	Tue, 30 Jun 2026 10:29:59 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4DADC6025A;
-	Tue, 30 Jun 2026 10:29:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 26334106F1D9C;
-	Tue, 30 Jun 2026 12:29:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782815397; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ea/m19/1/A2BviwgniEPZ+okOOHte+59EBY28mb5F+I=;
-	b=asQfwexgwCbRCz0qq0VFUBqHnxQUnvDfv1O6eQE8Kcp0x9EV1vVr+PHBXCDLItOUdxnQxc
-	/HadkvEpUjiiRhBtpLbs6c9LOMNm21gqVCla/wpIq7CJYWhl4V4qSe1m/Uj+i8oBCDXmMD
-	B8s1P+4G0xVB8GrivpOXvYo1WAM/boqlZ+YepvlTYc3mZ1abtna4X3/V9Nv0YqOaLqdoOf
-	Z8Y12TawfMbO9PsWNxdmyHRARp7opaEJeZwtfG13vPCVJ3UIO3BvJ40k7R8YmuiS7RQ6C7
-	WSgSEtZGbXRV7OTQ40qCCpNv/JmnhSBLkC8ehbLzNrhFZVJ4dWofj+U8QeOFug==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>,
-	Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>,
-	Lizhi Hou <lizhi.hou@amd.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v8 8/8] PCI: of: Remove fwnode_dev_initialized() call for a PCI root bridge node
-Date: Tue, 30 Jun 2026 12:28:02 +0200
-Message-ID: <20260630102804.413563-9-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260630102804.413563-1-herve.codina@bootlin.com>
-References: <20260630102804.413563-1-herve.codina@bootlin.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="G6pTMmFV"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gqKcN2JX1z9tQ4;
+	Tue, 30 Jun 2026 12:48:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782816484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nQvE6DYnslM8XeDM2Rx/FYXyam680Ubl7oXX2OkNMtU=;
+	b=G6pTMmFV/qp/P6mebOml7IVxWL4rtn7SiQ9VU7CMCfQhANWd4lcoNlYOdgxHrALTn+SSQS
+	hyQEZ7jiKwjSU6qmIwZBvLJDbHVvU/DfPppXJXLp3x+iziPFNBZRZ97x6ywGhlMbmEyUEc
+	Ka/tWvebaogXYea/ytWSJoObnHfwqjNQRdy52JvOp0Vhnv4G/iti3TzP8BaFzbagmC2RIG
+	8WqdsOko2PvZl6dfFFZAfMKcq60NT1rFk53gSzpNpI2k6dZnbKHz4xvYRJ3+o7vEEL6Cpv
+	cxDuTH2xKZP7Ik73DTnnVPQH8h3z3AgCTzlUm72wmhhkt36M8nGuyTKIbCu79w==
+Message-ID: <b791c2ae4a541f3794dc8c4a170db0082f513ab7.camel@mailbox.org>
+Subject: Re: [PATCH] docs: ABI: sysfs-uevent: add missing bracket
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+	 <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Tue, 30 Jun 2026 12:48:01 +0200
+In-Reply-To: <20260612145331.189632-2-manuelebner@mailbox.org>
+References: <20260612145331.189632-2-manuelebner@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-MBO-RS-ID: 7d4b6eb48903ab8100c
+X-MBO-RS-META: ktckcz77m9xrxuokdnmasteqb3zkqskc
 
-During the instantiation of devices described by a device-tree overlay
-applied on a PCI device, devlink displays the following kind of debug
-messages instead of creating the expected links:
-   'Not linking xxxx - might never become dev'
+Hello,=C2=A0
+is this patch still on it's way?
+Resent for context.
 
-Without those expected links, the device removal order cannot be
-correct.
+Sorry for the noise.
+ Manuel
 
-Those debug traces are printed by fw_devlink_create_devlink(). In our
-use case, they are all printed because the supplier of the link has at
-least one of its ancestor with its fwnode flag FWNODE_FLAG_INITIALIZED
-set.
-
-The culprit ancestor is the PCI root bridge.
-
-The fwnode related to the PCI root bridge is created dynamically by the
-of_pci_make_host_bridge_node() function. During this creation
-fwnode_dev_initialized() is called which set the FWNODE_FLAG_INITIALIZED
-flag.
-
-Calling fwnode_dev_initialized() tells devlink that the device related
-to this node is handled out of the driver core. This is not correct in
-our case. Indeed the device related to this firmware node is handled
-using driver core mechanisms and is fully compliant devlink
-expectations.
-
-Simply remove the fwnode_dev_initialized() call. With that done, the
-devlink debug messages are no more displayed and links that were missing
-are correctly created.
-
-Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
-Cc: stable@vger.kernel.org
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
----
- drivers/pci/of.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index eda14cefca5e..3e12f70fe538 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -811,7 +811,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	 */
- 	of_node_set_flag(np, OF_POPULATED);
- 	fw_devlink_set_device(&np->fwnode, &bridge->dev);
--	fwnode_dev_initialized(&np->fwnode, true);
- 
- 	ret = of_changeset_apply(cset);
- 	if (ret)
--- 
-2.54.0
-
+On Fri, 2026-06-12 at 16:53 +0200, Manuel Ebner wrote:
+> Add ']' to complete the command.
+>=20
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> ---
+> =C2=A0Documentation/ABI/testing/sysfs-uevent | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/ABI/testing/sysfs-uevent b/Documentation/ABI/t=
+esting/sysfs-
+> uevent
+> index 0b6227706b35..c15e18c47a0e 100644
+> --- a/Documentation/ABI/testing/sysfs-uevent
+> +++ b/Documentation/ABI/testing/sysfs-uevent
+> @@ -8,7 +8,7 @@ Description:
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 Recognized extended format is::
+> =C2=A0
+> -			ACTION [UUID [KEY=3DVALUE ...]
+> +			ACTION [UUID [KEY=3DVALUE ...]]
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 The ACTION is compulsory - it is the name of the u=
+event
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 action (``add``, ``change``, ``remove``). There is=
+ no change
