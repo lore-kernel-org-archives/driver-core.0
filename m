@@ -1,102 +1,84 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AABB40F8E3
-	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 13:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5164836494F;
+	Tue, 30 Jun 2026 13:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782825994; cv=none; b=ibg3Nag64ZWxuo2JyI99KjlQghsawty+bGcFE0v07Mrr2tBbxRG6rEH2rZUgIT+4Uk1eoWJrGw3kFmh6a/4hWgxLMyUSVxDFstYBKEDHqFGae2uGZxOIdzV3bVvA+sYnh+0kisutDSknmq1JzE2gfAZGgD2tJkoy21H+Qq8XHD8=
+	t=1782826755; cv=none; b=Y7j8bR+v7BeIqd/0rf8ucGANmr+fi8UwppWdwcnf6+VUl8UmAu5Ibfl14RH7NSGCGhy2SiNAumP3I76APx06LCgKCTTb1P4wbzJ0YRz3+aqB2W8i0Jwf2AbRfSi1x4rIiSJWPGN4DvxDiZks3zJnYUKMYfNVh49ic2E0GHjZW+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782825994; c=relaxed/simple;
-	bh=P+H2VKdt3H4VFRm7+/1xSBzaUNejyy46NlpKb6DPm48=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=N+crWOSNw3b8L10R31zEioZ6/Dfklvm0zYrRGbKo6Ad1xEyYdkqPPa6vUvNcvqWi4HDmAvyEh+Yp6Dj+FSqMT/UKP4by9nyO2CJhih+pXCU19duQcuKpZ6tVZ0I7KHres8VtSWlLtz7MaXyaHwYWpzgoqSw9URPqgl8Ld0hQY4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uuIjcSYW; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1782826755; c=relaxed/simple;
+	bh=V22YxPDmdPZguxRKjI1nMOsakh5MecXZIShdVgxeZW8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=KtHKzRSvJ/8uUMPM6onMaLUsA3qJvozkn+oIAypKdLonz/5mexDHOsKxM/njkoa3UlO9CY4aUeXLVruE6Qr4glJaKti/OlTrt7aC0V1VwtFbS73GqObNruTGdMhEHcx9CW9H5yxUFYOTyDFFx6RojugxbMSb3bzblmrJOJ3vO6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XzRSf7rB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uuIjcSYW"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gqP721h9Nz9v56;
-	Tue, 30 Jun 2026 15:26:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782825982;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P+H2VKdt3H4VFRm7+/1xSBzaUNejyy46NlpKb6DPm48=;
-	b=uuIjcSYW0OS/og0ZRHzWORPstnCuC7dh2pewdBgWL42S9kyeRlh0Op/On4/oLzbSoAVlrn
-	TJ3+AbZ6YV1a/t8SmxR6UXRIknfx4Sqxw+NsELOcvx44X1SqFqITuN6ClrGEWgt1vMPkrA
-	mKKEkNbobwGT19v1lhEd4o38MKWhU/xgAfATbEwnoinFUwNu4ut/2vjsVnor0Quvx0s3fc
-	rumAY17BouQXnd/X+tSxhDXgAoH9ZIm2uW60PBVj/TjzdpIbrhLOK3VMahhgv4cGZH0anv
-	+R/e78FeqLysvIQalWSXGyRrIBfI7MvZJVDRwN1dhwtTVe2/PxCw4/PcVcjkew==
-Message-ID: <6d1b5937df1fe002c47b226640f57fda2c0ee862.camel@mailbox.org>
-Subject: Re: [PATCH 0/4] usb: fix UAF related to dynamic ID
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  "Rafael J. Wysocki"	 <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Toke
- =?ISO-8859-1?Q?H=F8iland-J=F8rgensen?=	 <toke@toke.dk>, Johan Hovold
- <johan@kernel.org>
-Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev
-Date: Tue, 30 Jun 2026 15:26:16 +0200
-In-Reply-To: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
-References: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzRSf7rB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A62C1F00A3E;
+	Tue, 30 Jun 2026 13:39:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782826754;
+	bh=V22YxPDmdPZguxRKjI1nMOsakh5MecXZIShdVgxeZW8=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=XzRSf7rBEBgQp5gYewjvhBlUxppNvvDbqjusuQv8RZdPSBV/ZY+imewmCMlfC998D
+	 o/9oUZE3CEZuBgoR2RzGHv2CM6nejbSRCbM6dYVdHQetCXJDhdZlulnZ7iEANGAWPa
+	 4vs9pFbhxrXuesNPj8BRLV5HbuxrM0zXyhwfBpyyaSSLS7EJvfvS9Y3psyBpQhtpu5
+	 EOIjmqFmwTOBZQiBGq/RmaA328cv9XlIRDoHZvv9hTxXptw9NoDj5VQR2QVj+7OzHu
+	 w21cb2eYI186SgelRdFVgPpqy7b85R+/UvHJHtS5h9ZZJ6hooUy3qNNKcmUB7kngpA
+	 3CEwM5hFwpA7g==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MBO-RS-META: wura8epi8m1s77gcizumoj8tskoa3y49
-X-MBO-RS-ID: ee80a4195932e5f6a8e
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 15:39:10 +0200
+Message-Id: <DJMFC6N91KK9.6Y2UKU1Q0TWA@kernel.org>
+Subject: Re: [PATCH 0/4] usb: fix UAF related to dynamic ID
+Cc: "Gary Guo" <gary@garyguo.net>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ =?utf-8?q?Toke_H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>, "Johan Hovold"
+ <johan@kernel.org>, <linux-wireless@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Manuel Ebner" <manuelebner@mailbox.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
+ <6d1b5937df1fe002c47b226640f57fda2c0ee862.camel@mailbox.org>
+In-Reply-To: <6d1b5937df1fe002c47b226640f57fda2c0ee862.camel@mailbox.org>
 
-On Tue, 2026-06-30 at 12:38 +0100, Gary Guo wrote:
-> [...]
->=20
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+Hi Manuel,
 
-For all four patches:
-LGTM.
+On Tue Jun 30, 2026 at 3:26 PM CEST, Manuel Ebner wrote:
+> On Tue, 2026-06-30 at 12:38 +0100, Gary Guo wrote:
+>> [...]
+>>=20
+>> Signed-off-by: Gary Guo <gary@garyguo.net>
+>
+> For all four patches:
+> LGTM.
+>
+> I guess I'm not in a position to Acked-by or Reviewed-by.
 
-I guess I'm not in a position to Acked-by or Reviewed-by.
+I don't know your background and I don't want to make any assumptions, so p=
+lease
+don't interpret anything in my attempt to clarify a bit.
 
- Manuel
+As documented in [1] "any interested reviewer (who has done the work and is=
+ a
+person with known identity) can offer a Reviewed-by tag for a patch".
 
+An offer from anyone who has done this work is much appreciated.
 
-> ---
-> Gary Guo (4):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wifi: ath9k_htc: don't keep usb_device_id
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb: usbtmc: don't keep usb_device_id
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb: serial: spcp8x5: don't keep usb_devic=
-e_id
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb: fix UAF when probe runs concurrent to=
- dyn ID removal
->=20
-> =C2=A0drivers/net/wireless/ath/ath9k/hif_usb.c | 12 ++++++------
-> =C2=A0drivers/net/wireless/ath/ath9k/hif_usb.h |=C2=A0 2 +-
-> =C2=A0drivers/usb/class/usbtmc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 --
-> =C2=A0drivers/usb/core/driver.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 33 ++++++++++++++++-----=
------------
-> =C2=A0drivers/usb/serial/spcp8x5.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++---
-> =C2=A0include/linux/usb.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 3 ++-
-> =C2=A06 files changed, 29 insertions(+), 29 deletions(-)
-> ---
-> base-commit: 7de6ae9e12207ec146f2f3f1e58d1a99317e88bc
-> change-id: 20260629-usb_dyn_id_uaf-9d5f415387d4
->=20
-> Best regards,
-> --=C2=A0=20
-> Gary Guo <gary@garyguo.net>
+Acked-by is usually used by stakeholders of the code (most commonly maintai=
+ners)
+to indicate acceptance, e.g. for patch routing purposes. There are more det=
+ails
+in [2].
+
+[1] https://docs.kernel.org/process/submitting-patches.html#reviewer-s-stat=
+ement-of-oversight
+[2] https://docs.kernel.org/process/submitting-patches.html#when-to-use-ack=
+ed-by-cc-and-co-developed-by
