@@ -1,85 +1,45 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C370639C632
-	for <driver-core@lists.linux.dev>; Wed,  1 Jul 2026 06:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5DA386C24;
+	Wed,  1 Jul 2026 07:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782887040; cv=none; b=TC13YvjwPr4HGSmyfflRezzu8MX9F9T9KueNW+9OGwD91HOZ7VEEfQNfvFO1+9SkWouuYrK6dHzmtF8+zosKauNh4NJyTAil28rDLAASrOeWsArOa01mOj/X/HN5m0+KC+FJXCapAYpBX0MADmcEfEhxzs3KsfZsoB21O8nNq4o=
+	t=1782890441; cv=none; b=Rn0Kdo8gbzYtDzgKBPro/+SblQyTgfOhVaVjtrit2nKIQoKMkDrNo+LZKyR2Ec4KxluRiCD7p0/smHW/FhmCPoq6nzPYIwHyLyiN/ZRIeI5HyAo9Y0qcskzQfnqwnDFY+lxeTBFbUYjybl6PRXH0WACJ2XANNDcHq5TzeUFpwik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782887040; c=relaxed/simple;
-	bh=hP4nlPGIrqeNY9wpwr+srgGK8bvJUTL6djQnXyZwy5c=;
+	s=arc-20240116; t=1782890441; c=relaxed/simple;
+	bh=bOcwdlvrB8Ehn5Csie4Yehgl0UKcGfcP3sIJAIKz/OA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HOwaof1xwNA6IOEoc8JcIfHOTOULdUpd1dzKNSmMzxP5UgrMp57gddu6hhv+ilHT5Fglzn5dtM6iyJ1wnLcDd+QxPbseEEKGN2Yyi4tNIIVEs6jSKCm1N75fuFZE56C3jR1lk2uo27OQQyQZWwJRIyRsXhykXdc45mU83dPArgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Xy8kEGHj; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQJuAje71riPVuR9RhAwEZF7hqsg4bulP5sapq9c5Q4lLOGVDkG4IJDx11cuAswvYYor4BXSXBGoOsQa1L7RdVboQEBGH5dOa/2s0t4b2gZriSo38NugK4NdNzc7PPKqse7V2r5d5mMIoBy1rFyk97kOdXClaYzFXU7GBgF8wMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dKMCi26D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Xy8kEGHj"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8ee88fce572so4190346d6.1
-        for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 23:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782887038; x=1783491838; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5xWJ7lGSS4cy1ExwRI73Ip42ktEi6AnmleUk+CzcRsY=;
-        b=Xy8kEGHjcMQarQz/Ebqn9z5Dcz+OzRRd/bum7H4PK39WBfljLn7O0Jr9aZA+gkVzHO
-         BWBkPl8zFAhJzFeJRNKq7w0VkoSDf6BNLW8iyNE6MiolgnLgXxb+2K2ik+9aABqLx98A
-         ZSa79sncwYYiBes+VrIzcQL6Svmqf8ZGCuW/yVptfNLTiW/usH1YKnEHrLbMI0v6RbeC
-         UB2Z2IauA4mF+/rHAYSsd0jQlDmWZIpygDJ4gDtTMT+pe4gcHsXoSAOvzQxva5TjNkO2
-         xf47l0Ji//mpGVfe3PJmFt/1CtEORb0ITe+DUzv3HOG2S/DAsehd2PexTub6pE28XpO0
-         Hk6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782887038; x=1783491838;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5xWJ7lGSS4cy1ExwRI73Ip42ktEi6AnmleUk+CzcRsY=;
-        b=IqQ+x2GPAvOTLtQJ3YVGBine/TmCRjqWwCwdRcsWM+ocZert4sJo+jTfiSiprrkAlb
-         zMzlVnlLlKDqqlLyAMXmjetJk95Kf4dhKvs55Kk9tGU1RV+aXWZl8hWEWILu/dDPnAHM
-         cS5tu1v6l8u6lsCEBDFuPaOMfnOLbkwRUe2E//nqE7T4qkOhQlTFpwwvPa2CWHa4adZK
-         OAXPW0QUCEGxkzdgsoofUR+z94/EgBYuD3tu4Os88v+uv61GmGpnqnzS7nNjkx/ognPH
-         J2ltIZIyiYgkeodqIsUgBciRwnUyesnR4lsrcNO0UZvu5VgnXVNWz2kr1y9Kgg/w60zq
-         PSoA==
-X-Forwarded-Encrypted: i=1; AHgh+RrK/igc1XQjTnGKM/tDILSoJxmhI3dtyfnc4u7qKltZvfy7FUQYrjnPh36q090zI6CxnxBoLozDKv1ylw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1Ap5jf0P28TklFrT8m3IQ2fej0EO3SDBlL/MBBYKdx7o8mt2k
-	rogMEcth3iNVJEMGYGf04j3By1nQ1F5zpyzgiDGQWvy6ZF/DJTiZpZdKexu/4ZSj2dA=
-X-Gm-Gg: AfdE7clZpw3ibtt+zwJmwx/hi2R/8riiyyxSc5Uj9efTNs1gefqEPM9ur8t2cLQ0vsd
-	IIXIHeNhtu8Lojg++5cHHZBsDKPprkz7/519wXlk6fUIPrOQDMuvZ0aqEmxGMQI23wF/bLYq5II
-	lbb33XW001/RXUsU59Fd1SfhRifLVAiNhQoitqEgwRSPGvY3dz/jY/qBtalSG16otts01qo1YUj
-	0YMdl+VpmPQoZLItfx5SAk2S/R7TyDeL+CAaueN0x71z2USE0CUPtBWNTDujGwcEaiwUpBC0DaE
-	YBDA0rRiGRgi8HJt1jKaRjrtAdzpyIITQBY5HXKPlRHVgB9Fpds6ijXRoW0DS51n6FNuGvdtTQU
-	LuCX3WUflE5xXQhRksFxj2Txc5c7gS1vIaCUYS7aT4oe9d5+n2qdWd3KatHXxysnF9X1ZIuuCU2
-	Wv+DUZ0WOsvuATXFiY1W/DXXRL+z6J2IFxLSscEUaQEa5RHZXC6YUZKQYnmcqTTcp0+5qC
-X-Received: by 2002:a05:6214:2dca:b0:8e4:d2ba:d677 with SMTP id 6a1803df08f44-8f3c7e708demr3649096d6.29.1782887037749;
-        Tue, 30 Jun 2026 23:23:57 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f361ba3efdsm12323456d6.39.2026.06.30.23.23.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 23:23:57 -0700 (PDT)
-Date: Wed, 1 Jul 2026 02:23:52 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-mm@kvack.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com, david@kernel.org, osalvador@suse.de,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	djbw@kernel.org, vishal.l.verma@intel.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, akpm@linux-foundation.org,
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	shuah@kernel.org, iweiny@kernel.org,
-	Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
-Subject: Re: [PATCH v6 09/10] dax/kmem: add sysfs interface for atomic
- whole-device hotplug
-Message-ID: <akSyeHnfcDmxnCSz@gourry-fedora-PF4VCD3F>
-References: <20260630211842.2252800-1-gourry@gourry.net>
- <20260630211842.2252800-10-gourry@gourry.net>
- <akQ_xlJtXNgnGUdf@gourry-fedora-PF4VCD3F>
- <abde41f0-7d40-42ba-a232-cc0538cd0e4b@suse.de>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dKMCi26D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D1151F000E9;
+	Wed,  1 Jul 2026 07:20:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1782890439;
+	bh=aDsZvo1S7Yg7bB8Qh4hUT2oygbCaSH+pPQ6xt1kwzg0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dKMCi26DaBx3zYW/1o17Cj5agyQuEXODWD0xV2Q8BDJW+F+1roSo18SP95XCOygGH
+	 IjcEAwvxpP1BNLRGyiFhCKvL2VSHDQ1znana+XHzyxzKarp9uQzFSn2uT9xV5V/Pqz
+	 gd8Op5Qt8aMtEHVN/dhXZ3ZEpdMWEVPrn3iXuWwQ=
+Date: Wed, 1 Jul 2026 09:19:25 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
+	tfiga@chromium.org, senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5 1/2] PM: sleep: Rename module parameters prefix to
+ "pm_sleep"
+Message-ID: <2026070110-unrented-crummiest-d6af@gregkh>
+References: <20260701045640.3130090-1-tzungbi@kernel.org>
+ <20260701045640.3130090-2-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -88,34 +48,15 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <abde41f0-7d40-42ba-a232-cc0538cd0e4b@suse.de>
+In-Reply-To: <20260701045640.3130090-2-tzungbi@kernel.org>
 
-On Wed, Jul 01, 2026 at 08:13:28AM +0200, Hannes Reinecke wrote:
-> On 7/1/26 12:14 AM, Gregory Price wrote:
-> > On Tue, Jun 30, 2026 at 05:18:41PM -0400, Gregory Price wrote:
-> > > There is no atomic mechanism to offline and remove an entire
-> > > multi-block DAX kmem device.  This is presently done in two steps:
-> > 
-> > ... snip snip snip ...
-> > 
-> > Sashiko pointed out a false-positive, but adding a fixup patch
-> > here that adds additional consistency.
-> > 
-> > On total failure - release all resources.  This makes the sysfs
-> > interface consistent with the probe failure path.
-> > 
+On Wed, Jul 01, 2026 at 04:56:39AM +0000, Tzung-Bi Shih wrote:
+> Currently, the module parameters defined in drivers/base/power/main.c
+> use the default prefix "main" (derived from the filename).  The prefix
+> is too generic and non-descriptive.
 > 
-> Speaking of which ...
-> With this patch we now have _two_ interfaces to do the same thing.
-> And both will be generating uevents.
-> Which is far from ideal (one could easily envision _conflicting_
-> udev rules, one set doing an 'online' on the old interface,
-> and another set doing an 'offline' on the new interface...)
-> Is there a way to not sending uevents for the old interface
-> or to make it configurable?
+> Redefine MODULE_PARAM_PREFIX to "pm_sleep." to group the module
+> parameters under the namespace instead.  This makes the parameters more
+> descriptive.
 
-We do not allow "offline" in the new interface.
-
-That fixes the entire issue - the blocks are gone, nothing to poke.
-
-~Gregory
+You just changed the user/kernel api, right?  That will break things...
