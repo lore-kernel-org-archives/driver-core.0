@@ -1,87 +1,54 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08CB48097D;
-	Wed,  1 Jul 2026 15:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0F834678C
+	for <driver-core@lists.linux.dev>; Wed,  1 Jul 2026 15:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782918389; cv=none; b=KGMvYsvFuaCNY2JMsDKTR1HeQGJBh08R/rwKUcnePmSdYzoy5vHbe6/UrBWKM3kLRkoFIgAuoB8eDSGln+o+tyd6DOpT+G19mMgGlcn5klRo35f927Hg4W5wYBwN1LRB9BbrUnfETkdsjc8O9LFTCGSnK07RfNrb8mDnY82xs/Q=
+	t=1782918492; cv=none; b=Sl88RUV+KMdo4w1GYHZOfg9GvgM3+vPvt15LGINSE9l4xEPzTLzFb4PNJkl0g0vMRN5MrYUKDSfLWaDcA0mHbXhHwka7knHM9Zk+/z2/ZABwyx7SMkMoTyjXQgSi/4Fa0yA3rtkLbzHqjoVaMToA97Wnm+kCMsyJkflFBTBfzR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782918389; c=relaxed/simple;
-	bh=7iK4BGNHJy0tB94tmLVRjvi1Oe1FniGBRLtTBxRpX9I=;
+	s=arc-20240116; t=1782918492; c=relaxed/simple;
+	bh=n4frkwAq+5P0uEWR5WFhkRIJO8quwC2aYaGdGlPpXc4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oDl+hdKun8WIAGtLjBZjPYFBKLStZDEUmKv7juqlaNIGFjFCouDcqYQAUcErAM/+JdBpxnfOQXAj4fLHtWl8ghqIkFkMux1TNSeDn5/G8xzCexKSlNLFfKmhHc53EDjgtou6Cn2P2jFP6ybQt/X/+3WzTWZkBMWGsjOWL+4s2Hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pcd0PeJh; arc=none smtp.client-ip=80.241.56.161
+	 Content-Type:MIME-Version; b=k4IVo4kFConwtAovmw8Ztr139Cjd+IAnh+VzrqSQjqiCvI0/Ai/R/remOZSp6q4xUjvBXGtd894hb/3bKxq1+utTwb6crougwu+yJWSN20IgNnCBMqEju95jpfVeRkQla+RSO550NflpLPpjCntP2BE8Q4GCzPv7CDPIsjFhYlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cC7q0JXt; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pcd0PeJh"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cC7q0JXt"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gr3Hr4RPhz9ts8;
-	Wed,  1 Jul 2026 17:06:16 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gr3D31GkKz9tW1;
+	Wed,  1 Jul 2026 17:02:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782918376;
+	t=1782918179;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7iK4BGNHJy0tB94tmLVRjvi1Oe1FniGBRLtTBxRpX9I=;
-	b=pcd0PeJh7Iv8r/KVTFH5oFdA/lvvSyvuvKi3if55cztI2n/XSqmRdnZKteH85HKKVV85yU
-	j9HVmz2EWbdR6s0CcET0z1vhIRn4hJ25bjWnCJwEuRpc0w/NW+iGM63mTUN/npapcFcSR/
-	fvTXXtkA/gTpkwn7ezESk2MSMTKfcqmvoICSsIiJierSEvXB9xwtVzbElgLSVNcJv+Ritx
-	B8K9i27AJIekT+XY6QmKpjCphMf9LuJwlimFmayP7Cy6geBGJUxhP+KSpU8c/IrGtSWTsI
-	iKUJjdFVYMmR+verObzbMA+hWZMieIpK2Ln1S3xxLh3nAIF0DvnMe971s5Fifw==
-Message-ID: <f6ce9878f3528dd026e6ca8ff56ac773a264e476.camel@mailbox.org>
-Subject: Re: [PATCH v2 02/19] driver core: platform: provide
- platform_device_set_of_node()
+	bh=n4frkwAq+5P0uEWR5WFhkRIJO8quwC2aYaGdGlPpXc4=;
+	b=cC7q0JXtE5Ws3+O6rYpVzPKZCUV4c1RcQRnb4az+fNoLb0rQukpjG3MD/Jk0vdggz5k3Vb
+	cMKzO0883aTNQK9U4ssInwYAs9PqdXe+Y3Acw8DG42eOSpUFIPi/o6wO7dnzdEHFaS+U2w
+	P4YH1odc1YsKS7MBOSTPEbmi9fPsXykJMfK2L3/bY+jJWsNFy03uajHpJnMStIO6R8yRR/
+	mek0QjA6vfGoxh35F/w2Wk6tYp7RIcpcPI3QikJHnFtyAO6HPTDaYhpHsAMfUudLhjBehs
+	46CZSWRuBBks0cnxVFsGh1HQOUrE9JR28xpNnVk/eLbpsO4TuGS2308tYXy9Yg==
+Message-ID: <c3ae1ee8f393d20843818e8a19b163179a98edf1.camel@mailbox.org>
+Subject: Re: [PATCH 0/4] usb: fix UAF related to dynamic ID
 From: Manuel Ebner <manuelebner@mailbox.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
- iommu@lists.linux.dev, 	linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, Bartosz
- Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones
- <lee@kernel.org>, Thierry Reding	 <thierry.reding@avionic-design.de>,
- Sebastian Hesselbarth	 <sebastian.hesselbarth@gmail.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>,  "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Srinivas Kandagatla <srini@kernel.org>, Greg
- Kroah-Hartman	 <gregkh@linuxfoundation.org>, Vinod Koul <vkoul@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Rob Herring <robh@kernel.org>,  Saravana Kannan
- <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman	 <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andi Shyti
- <andi.shyti@kernel.org>, Andy Shevchenko	
- <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will
- Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger
- <opendmb@gmail.com>,  Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list	
- <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team	 <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Matthew Brost	 <matthew.brost@intel.com>, Thomas
- =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>,  Paul
- Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, Philipp Zabel
- <p.zabel@pengutronix.de>,  Maximilian Luz <luzmaximilian@gmail.com>, Hans
- de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
- <ilpo.jarvinen@linux.intel.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Date: Wed, 01 Jul 2026 17:05:49 +0200
-In-Reply-To: <CAMRc=MdQURjypSn+QjSDJfEiOMC8bbEZmZLgjpt=EquAM1Q1pw@mail.gmail.com>
-References: <20260629-pdev-fwnode-ref-v2-0-8abe2513f96e@oss.qualcomm.com>
-		 <20260629-pdev-fwnode-ref-v2-2-8abe2513f96e@oss.qualcomm.com>
-	 <263f58b418a27a2339fc2478f93234e0208b0ad9.camel@mailbox.org>
-	 <CAMRc=MdQURjypSn+QjSDJfEiOMC8bbEZmZLgjpt=EquAM1Q1pw@mail.gmail.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  "Rafael J. Wysocki"	 <rafael@kernel.org>,
+ Toke =?ISO-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,  Johan Hovold
+ <johan@kernel.org>, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-usb@vger.kernel.org,
+ driver-core@lists.linux.dev
+Date: Wed, 01 Jul 2026 17:02:53 +0200
+In-Reply-To: <DJMFC6N91KK9.6Y2UKU1Q0TWA@kernel.org>
+References: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
+	 <6d1b5937df1fe002c47b226640f57fda2c0ee862.camel@mailbox.org>
+	 <DJMFC6N91KK9.6Y2UKU1Q0TWA@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -90,40 +57,48 @@ List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MBO-RS-META: 37tty84b1zxogwptawjudbroswqcnaqn
-X-MBO-RS-ID: 303d5cb0e0c41c6b372
+X-MBO-RS-ID: 48eaa12b366e30c57f6
+X-MBO-RS-META: ny4ah5oycj1oe3aq9ec38njwd9or5amg
 
-On Tue, 2026-06-30 at 09:22 -0400, Bartosz Golaszewski wrote:
-> On Tue, 30 Jun 2026 13:37:54 +0200, Manuel Ebner <manuelebner@mailbox.org=
-> said:
-> > On Mon, 2026-06-29 at 11:12 +0200, Bartosz Golaszewski wrote:
+On Tue, 2026-06-30 at 15:39 +0200, Danilo Krummrich wrote:
+> Hi Manuel,
+>=20
+> On Tue Jun 30, 2026 at 3:26 PM CEST, Manuel Ebner wrote:
+> > On Tue, 2026-06-30 at 12:38 +0100, Gary Guo wrote:
 > > > [...]
 > > >=20
-> > > +/**
-> > > + * platform_device_set_of_node - assign an OF node to device
-> > > + * @pdev: platform device to add the node for
-> > > + * @np: new device node
-> > > + *
-> > > + * Assign an OF node to this platform device. Internally keep track =
-of the
-> > > + * reference count. Devices created with platform_device_alloc() mus=
-t use this
-> > > + * function instead of assigning the node manually.
+> > > Signed-off-by: Gary Guo <gary@garyguo.net>
 > >=20
-> > Doesn't it make sense to add a remark to the kernel doc of platform_dev=
-ice_alloc()?
+> > For all four patches:
+> > LGTM.
 > >=20
-> > Thanks
-> > =C2=A0Manuel
-> >=20
-> > > =C2=A0[...]
-> >=20
+> > I guess I'm not in a position to Acked-by or Reviewed-by.
 >=20
-> Sure, will do in the next iteration.
-
-then you can add
+> I don't know your background and I don't want to make any assumptions, so=
+ please
+> don't interpret anything in my attempt to clarify a bit.
+>=20
+> As documented in [1] "any interested reviewer (who has done the work and =
+is a
+> person with known identity) can offer a Reviewed-by tag for a patch".
+>=20
+> An offer from anyone who has done this work is much appreciated.
+>=20
+Then you can add my
 Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
+to all 4 patches.
 
  Manuel
+
+> Acked-by is usually used by stakeholders of the code (most commonly maint=
+ainers)
+> to indicate acceptance, e.g. for patch routing purposes. There are more d=
+etails
+> in [2].
 >=20
-> Bart
+> [1]
+> https://docs.kernel.org/process/submitting-patches.html#reviewer-s-statem=
+ent-of-oversight
+> [2]
+> https://docs.kernel.org/process/submitting-patches.html#when-to-use-acked=
+-by-cc-and-co-developed-by
