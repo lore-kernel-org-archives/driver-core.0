@@ -1,173 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A2524A044;
-	Wed,  1 Jul 2026 07:22:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7ACD38656D;
+	Wed,  1 Jul 2026 08:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782890522; cv=none; b=U2Bo2lEBvVxOg2SIWrPma8hyvztCdF+mcUUhNCxyr0ZEx0K8R9CYDw+8YEP8ixskT85VWN1aMDVHOjOE8rjY98/4im/TnezVxDPmBqEOjZgb4OqQhecrA2MUdho+Umw54NR6cnALMCVgXKTHkJvndBuD63Sle+NuT6sLSwo12Z4=
+	t=1782894642; cv=none; b=m06hJCRStOsodYfkIcM2I+ClbFhlM3EzPkJALnHzVrB7ZyiDMNECkggc77rWFM7tA15p3i7NxEMtNTl1WYzK3gdpemBQKuW/e6Kl9W9ciXOMU6iBGlnKvtVyIML3wJxjoOSVtGG4v5F5/4a4S1LTwp3Ex/juRpU6XahB362tvAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782890522; c=relaxed/simple;
-	bh=+cNwgm11FznPrncjQRNZcHw5dsaOhgUFxV8zbLtVkY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hLtKxJzwh/5y/o0r0V5V0hF0ZpPN9x0V7yItT+z7dvw4hTQ1B1Ur+4BCeFupLEIUC++HP8onBD997NLX5+QYsbRiS+JJlR5kcZ4Uc/smBKxCFFKRpBaQwAzMk/SZoFfbQrdm1Y/4EDZpTVqnPe+IYS05Osmg0Q58+cQp9Y5iM1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QIhu5f0X; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782894642; c=relaxed/simple;
+	bh=fWH1wSgX08TW4O7VsaDF0cxPKrZ5+BCRV5QxNbilXUk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MwgTaP91nWfsRIRyxxrCbbEX2Rq+8+DDQUXBh/aJatoYipFqB+qraiL9XzsbG9qndJepRwu60IwzSrNdseGFD0J7lZButG/OLumg3K78qPj0tFLIG2VW5CUSr66sUa7ECovm+wdphOVwzqxQZeoj9oglWamV2ULB741fms2HAY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nsi0F+Yg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QIhu5f0X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E9A1F000E9;
-	Wed,  1 Jul 2026 07:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782890520;
-	bh=+A5FeoHPvMoKxGWtjK7lix2wN/9D+Nj3U2MTWDi/HOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QIhu5f0X+BOzRXsbTVauTcUMwj8lIGdIpZJT046yZOCPh4Br4zLHiDTFDL505Ha75
-	 JbKsU/X/J+D5+4BZLkP/OiSWwn8M3XR4fwaevGmhKPfew/3aY+kkqdC03XF6j7WJs6
-	 hts77ZtUzVOChSfpm1ywlSMEIXF2FfVVnLsnPEec=
-Date: Wed, 1 Jul 2026 09:20:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev,
-	tfiga@chromium.org, senozhatsky@chromium.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v5 2/2] PM: dpm_watchdog: Allow disabling DPM watchdog by
- default
-Message-ID: <2026070140-rally-prowling-4d66@gregkh>
-References: <20260701045640.3130090-1-tzungbi@kernel.org>
- <20260701045640.3130090-3-tzungbi@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nsi0F+Yg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B7D1F000E9;
+	Wed,  1 Jul 2026 08:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782894641;
+	bh=EitmsFYTKYnE/CMQXtoyKcbW9g8e44qIXAGKtiQio+M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Nsi0F+Ygx4oP2aOkquf50Ol5J/VKGlycgqaighAmg0TKSVZ3PKlnCmJ3MBwTCK0Ee
+	 ittaRsMuJbzHBRg9UCOcFaAvAwD/Gc11ZfEl5JM5wpMQz54Nb74/Bmo7RJKX8G9rkb
+	 +ULTndpI7UoV7aKeOWd8GamVyOwzLNgQFACq7gH4rd2AUpOCoZXYyI7uV84iywtoCK
+	 JXAFtNwd9RZ0sezEXaMXBopxgfiGPI1exZOp6hLMBfQqO3PPtLqIQGNABMlHg28Vqo
+	 cuQ9X3V7kFC1+jyIi6qyLoa/chLQdbTKZeWvFZo9cg9nTn4HBctwKqX1beZyEs6tDU
+	 F0DjNs/kuDEjw==
+Message-ID: <cfeb9b58-be6d-417f-8040-5e7e66158a64@kernel.org>
+Date: Wed, 1 Jul 2026 10:30:33 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701045640.3130090-3-tzungbi@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 02/10] mm/memory_hotplug: add mhp_online_type_to_str()
+ and export string helpers
+To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
+Cc: nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, kernel-team@meta.com, osalvador@suse.de,
+ gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+ djbw@kernel.org, vishal.l.verma@intel.com, dave.jiang@intel.com,
+ alison.schofield@intel.com, akpm@linux-foundation.org, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, shuah@kernel.org, iweiny@kernel.org,
+ Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
+References: <20260630211842.2252800-1-gourry@gourry.net>
+ <20260630211842.2252800-3-gourry@gourry.net>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260630211842.2252800-3-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 01, 2026 at 04:56:40AM +0000, Tzung-Bi Shih wrote:
-> Introduce the "dpm_watchdog_enabled" module parameter to allow the DPM
-> watchdog to be enabled or disabled at boot time and runtime.
-
-As I say all the time, this isn't the 1990's, please don't add new
-module parameters as they are a pain to manage and maintain over time
-(as you found out with my rejection of patch 1/2 here...)
-
-> Additionally, introduce the CONFIG_DPM_WATCHDOG_ENABLED Kconfig option
-> to set default value of the module parameter at compile time.
+On 6/30/26 23:18, Gregory Price wrote:
+> Add mhp_online_type_to_str() as the inverse of mhp_online_type_from_str(),
+> and export both so a driver can render and parse the memory online type
+> through its own sysfs interface.
 > 
-> This provides flexibility for systems that want the watchdog code
-> compiled in but inactive by default, allowing it to be enabled only when
-> needed.
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> Signed-off-by: Gregory Price <gourry@gourry.net>
 > ---
-> v5: No changes.
-> 
-> v4: https://lore.kernel.org/all/20260611021219.2093476-2-tzungbi@kernel.org
-> - Rewrite the commit message to indicate the module parameter is the
->   main change in the patch.
-> - DPM_WATCHDOG_DEFAULT_ENABLED -> DPM_WATCHDOG_ENABLED.
-> 
-> v3: https://lore.kernel.org/all/20260608021526.1023248-3-tzungbi@kernel.org
-> - Add "PM" tag (was missing).
-> - Update the format and specify dependencies in kernel-parameters.txt.
-> - Update the help message in Kconfig to reflect that dpm_watchdog_enabled
->   can be set at runtime as well.
-> 
-> v2: https://lore.kernel.org/all/20260604090756.2884671-3-tzungbi@kernel.org
-> - Use module parameter and bool for dpm_watchdog_enabled.
-> - Use IS_ENABLED().
-> 
-> v1: https://lore.kernel.org/all/20260528103215.505795-1-tzungbi@kernel.org
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
->  drivers/base/power/main.c                       | 11 +++++++++++
->  kernel/power/Kconfig                            | 10 ++++++++++
->  3 files changed, 28 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8f22..46c20e1b5f05 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -47,6 +47,7 @@
->  	PCI	PCI bus support is enabled.
->  	PCIE	PCI Express support is enabled.
->  	PCMCIA	The PCMCIA subsystem is enabled.
-> +	PM	Power Management support is enabled.
->  	PNP	Plug & Play support is enabled.
->  	PPC	PowerPC architecture is enabled.
->  	PPT	Parallel port support is enabled.
-> @@ -5354,6 +5355,12 @@ Kernel parameters
->  	pm_debug_messages	[SUSPEND,KNL]
->  			Enable suspend/resume debug messages during boot up.
->  
-> +	pm_sleep.dpm_watchdog_enabled=
-> +			[PM] Enable or disable the DPM watchdog.  Requires
-> +			CONFIG_PM_SLEEP and CONFIG_DPM_WATCHDOG enabled.
-> +			Format: <bool>
-> +			Default value is set by CONFIG_DPM_WATCHDOG_ENABLED.
-> +
->  	pnp.debug=1	[PNP]
->  			Enable PNP debug messages (depends on the
->  			CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index c6a3300cfb7a..f58945758868 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -535,6 +535,11 @@ module_param(dpm_watchdog_all_cpu_backtrace, bool, 0644);
->  MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
->  		 "Backtrace all CPUs on DPM watchdog timeout");
->  
-> +static bool __read_mostly dpm_watchdog_enabled =
-> +				IS_ENABLED(CONFIG_DPM_WATCHDOG_ENABLED);
-> +module_param(dpm_watchdog_enabled, bool, 0644);
-> +MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
-> +
->  static unsigned int __read_mostly dpm_watchdog_timeout = CONFIG_DPM_WATCHDOG_TIMEOUT;
->  static unsigned int __read_mostly dpm_watchdog_warning_timeout =
->  						CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
-> @@ -630,6 +635,9 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd, struct device *dev)
->  {
->  	struct timer_list *timer = &wd->timer;
->  
-> +	if (!dpm_watchdog_enabled)
-> +		return;
-> +
->  	wd->dev = dev;
->  	wd->tsk = current;
->  	wd->fatal = dpm_watchdog_timeout == dpm_watchdog_warning_timeout;
-> @@ -648,6 +656,9 @@ static void dpm_watchdog_clear(struct dpm_watchdog *wd)
->  {
->  	struct timer_list *timer = &wd->timer;
->  
-> +	if (!dpm_watchdog_enabled)
-> +		return;
-> +
->  	timer_delete_sync(timer);
->  	timer_destroy_on_stack(timer);
->  }
-> diff --git a/kernel/power/Kconfig b/kernel/power/Kconfig
-> index 530c897311d4..508ceabc4d2e 100644
-> --- a/kernel/power/Kconfig
-> +++ b/kernel/power/Kconfig
-> @@ -268,6 +268,16 @@ config DPM_WATCHDOG
->  	  captured in pstore device for inspection in subsequent
->  	  boot session.
->  
-> +config DPM_WATCHDOG_ENABLED
-> +	bool "Enable DPM watchdog by default"
-> +	depends on DPM_WATCHDOG
-> +	default y
 
-Only do this if you can not boot without the option enabled, which I do
-not think is the case here.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-thanks,
+-- 
+Cheers,
 
-greg k-h
+David
