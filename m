@@ -1,149 +1,101 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B2A3242BE
-	for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 22:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70274284690;
+	Wed,  1 Jul 2026 04:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782857684; cv=none; b=XLQU2obhcZO+o7O5L4ojN6ZRJB5EwDoGJaCrrH1mvkPyobYhR28nw0asCauJMD7sI28XXLgJobVSLtwYFqOoFhLtOHmg6ayy0or/jz+oJpzU9EMWLk2+BBmUl8hBim26+bnrIKmolpwvr+m7w3j8SVv+4+WJX26Xhb3APQDUVWs=
+	t=1782881828; cv=none; b=oxLBI2rYe6iiU3gXyXAErUYAmGG4bSW9GJyPE18X1ZpphpXkP6c6tqYsvgF6flviTVjyxq6b3nK7/X0DY56UWyTOgRVBlE7WZISVCFQlgRe6KaCMWFQY4GrUTe5nPzJNM5zvASaQPO02Qc7jaAsSA3BVBhL9IWQfeUPBMql4DL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782857684; c=relaxed/simple;
-	bh=OHho8xisLBkXPsux52lTSAnNEXH9FZ3N849yTj8opFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hWfAiGlVTl+rFWGV5/9GwufYV/mSB0Ag5v6Bd98qV9a5ZKSmE9YE4wPegMfFzfh3g1kVTTpUt6HMTkuePLgbEOXvjCtrE2ws9GCo+3Ijqo3tQIzZWnuyH5kcutbWv1WcmOVfqmV+7zdsDS5wnoVCtoil2YLseIhmIkEcUIoAJk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=LXd5yLrm; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1782881828; c=relaxed/simple;
+	bh=Rtk9Tnj/g3wAI3I78XKWY+cPNKDlT7OxHadE2D4/g+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X4O1PSEbM5/DC0/smKOm21KFrXIJMXVmupoTStzDbI5QCeURgYRNXB6aMDXVykRN3MpcOz/rUfQ+T8EviY0WipMlAitWcZroO3RKSKgAt/XGuY1CEZvGTqShaSxVi4gbe3L5G+WabGbo3nW8UxmUHv5i+iH/eSPemeysereJnvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h8jjgptM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="LXd5yLrm"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92e4fd65b2bso910585a.0
-        for <driver-core@lists.linux.dev>; Tue, 30 Jun 2026 15:14:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1782857681; x=1783462481; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zvvq7XwN+0vU39EaqWqw5+H08MVeyEUcwD3F1pdYD7Y=;
-        b=LXd5yLrmqWS/QgFsTPqZ6xaUiuThvJ4K+S5LICjIe/VGYZxh4kHo6vL+3Yrrwps08b
-         d9cl5d6x2BjlScbRQgQMfFDAZLTPTF8M6u+17N3ovYuzhHDe+q03NZGaeRRPALMrhfNB
-         xIsex+SOUAWYJ8Yje3yzM0VnBsFvQuSIuGLoIHfMy1YC+cVGEuRQR1AyNgSFuqNnzY5f
-         GZm3EG5L53r/rTum5+fn9om7xjVbCWVmuQtkvgmelkENEuL/2+yxg5PK9mR7Rqgfl7Ny
-         m1OtyG2QOiDeeJnfWqXCy5xM6dOOp0xvLO/7e0ew+L2G0d2orLcodNbnp6nsbZvISyyc
-         rSZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782857681; x=1783462481;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zvvq7XwN+0vU39EaqWqw5+H08MVeyEUcwD3F1pdYD7Y=;
-        b=mQF5L7KbgcQdh860cm8IVngHAtySeIA685XRw63aIkd5lI5P7ZImNWC3dMJIYw72Oe
-         /kh3yGGGVPvrrv2uGphrl4UCmMFMsUj+Ci5Yt2R3MPQt50hJ1yzbdl4TKiEuBwxFRidr
-         eNf8cphbLYXmGdOA0FqBXZHMHj4DyqkZXZ6OxWjeE3R/Gs0UEFR5hZyNpDtcpg0lpbK3
-         AjDFJ1HaCI7Cc8IyTKmr4aU7W67Y2/NKqj60H8WlmSgpG0lrlStbRkoe3nUiaZCMLQF2
-         DUrpvv6QbMJUuBcduGqn4DU9dhj39ih4y/o64rl9QIsHxA8IwkTXf8mPgej0FuONc140
-         +iDQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/S/I1XCWEJBHRLEnqvboH5dFDTfOqZzhO78cdiKqrYRgYHa6yxNOc4djOTaB+s+Fphp9Z6oH7h3sZ4Vg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWUxTc7WGRAExknVHU0pYihP8MwtgYVPCVpjkyX0kBY+eHnNHP
-	Vvc70uWTqhWMEl9dY1Ta1RpVL5Y3U+5pmUQntWZss/Mit6JU5vBqU5vanJxeHHnPZDI=
-X-Gm-Gg: AfdE7clsFD+uM2GStEDkA6itpLu0n8ToZabDDj3hpxtD2q07gc8yGWIAIEtvBBV148e
-	wpy3BVoksf2PTvxqabPmVZKu06fI5sjKqjYeSmPp8Zyr3DAOs5sC8YyyOq7SDQmNs/kate/8ohS
-	4mXCVLF/bL0LA9qVSPwDoBVhnxp4C5qQHKSzDkd7HSGLwlKO9XLnhVZIr2R4+2zdpqxei5GKYDn
-	FuH+F3fHi0RAOdxvW/53FpwTZFgAjgKTA3/TJumXKv0ZEICUvPa0lARd5OmZml8n3WW6lwx/75d
-	6eKmBxuqw+ONC/z/UooagJ0nfcKxsjjCjv6V9z/VuFBZ+mebqCpHEEsH6j50etIUOBBOVJPGX18
-	5bJMmiUFw/+cKrmC2oKF9nzLq0ciTjYLid54rn4AOywXW7ME+OHCOxqeIvd1LN2uks18iHsxdSe
-	oh4T9BrqoJqO1o4Iivq5VfRUcXJg5BMey7b8y3SKvHekkg/tV/g8pV8ULuCNHJOBv4OkPN64c5s
-	6zdi0Y=
-X-Received: by 2002:a05:620a:6cc6:b0:915:b852:4361 with SMTP id af79cd13be357-92e624e3088mr975087285a.20.1782857681333;
-        Tue, 30 Jun 2026 15:14:41 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e6213b953sm346810685a.2.2026.06.30.15.14.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 15:14:40 -0700 (PDT)
-Date: Tue, 30 Jun 2026 18:14:30 -0400
-From: Gregory Price <gourry@gourry.net>
-To: linux-mm@kvack.org
-Cc: nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
-	david@kernel.org, osalvador@suse.de, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, djbw@kernel.org,
-	vishal.l.verma@intel.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, akpm@linux-foundation.org,
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	shuah@kernel.org, iweiny@kernel.org,
-	Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v6 09/10] dax/kmem: add sysfs interface for atomic
- whole-device hotplug
-Message-ID: <akQ_xlJtXNgnGUdf@gourry-fedora-PF4VCD3F>
-References: <20260630211842.2252800-1-gourry@gourry.net>
- <20260630211842.2252800-10-gourry@gourry.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h8jjgptM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B83271F000E9;
+	Wed,  1 Jul 2026 04:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782881827;
+	bh=ImGApKJTmjARaCfqcHR9yRZArsELHyHzbxeM32ff4AU=;
+	h=From:To:Cc:Subject:Date;
+	b=h8jjgptMqSMTDsj00UU86fkOGabHDlHTgqRV6NkV3dy0tNBJ79S1JgO1jhtRI1VB3
+	 W6dq1N0hj2DSxo0fUuWIMYSVr46cRXUlm31iNppff3L/c+klJXobGWSwvF496ErQdc
+	 5PFMJnSxs5badD/8m2p1d8maV42etxBaAX3sIqjY4r8KpWnAFZdtknl6xnbnaW+/29
+	 5LZW+dBLniqq+3V2H2ey6iM9X18UhDUiuIm6/woOX3Wf/GQjDcudPZjiuIzc3yyH3+
+	 A4n9FKbuNtxL93iNwome1Ai+ywpi9O9jtxFmADZeT7Ouz+blIEAWlpRO16108ac6h2
+	 s5XccVTjfr2Dg==
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	tzungbi@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	tfiga@chromium.org,
+	senozhatsky@chromium.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v5 0/2] PM: dpm_watchdog: Improve DPM watchdog configurability
+Date: Wed,  1 Jul 2026 04:56:38 +0000
+Message-ID: <20260701045640.3130090-1-tzungbi@kernel.org>
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Ha7M+e+kLoFbO4pS"
-Content-Disposition: inline
-In-Reply-To: <20260630211842.2252800-10-gourry@gourry.net>
+Content-Transfer-Encoding: 8bit
 
+This series improves the configurability of the DPM watchdog.
 
---Ha7M+e+kLoFbO4pS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Currently, the DPM watchdog timeouts are fixed at compile time, and the
+watchdog is always enabled if compiled in.  Also, the module parameters
+defined in drivers/base/power/main.c use the generic and non-descriptive
+"main" prefix.
 
-On Tue, Jun 30, 2026 at 05:18:41PM -0400, Gregory Price wrote:
-> There is no atomic mechanism to offline and remove an entire
-> multi-block DAX kmem device.  This is presently done in two steps:
+This series addresses these limitations.
 
-... snip snip snip ...
+Patch 1 renames the module parameter prefix for drivers/base/power/main.c
+from "main" to "pm_sleep".
 
-Sashiko pointed out a false-positive, but adding a fixup patch
-here that adds additional consistency.
-
-On total failure - release all resources.  This makes the sysfs
-interface consistent with the probe failure path.
-
-Just attaching a fixup here, since technically it's not a bug,
-could fold in separately
-
-~Gregory
-
---Ha7M+e+kLoFbO4pS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment;
-	filename=0001-fixup-dax-kmem-add-sysfs-interface-for-atomic-whole-.patch
-
-From e341860c83fd5d5e8549d8adbf71a484c8990c5f Mon Sep 17 00:00:00 2001
-From: Gregory Price <gourry@gourry.net>
-Date: Tue, 30 Jun 2026 14:49:06 -0700
-Subject: [PATCH] fixup! dax/kmem: add sysfs interface for atomic whole-device
- hotplug
+Patch 2 introduces the "dpm_watchdog_enabled" module parameter to allow
+enabling/disabling the watchdog at boot time and runtime.  It also adds
+CONFIG_DPM_WATCHDOG_ENABLED to set default value of the module parameter
+at compile time.
 
 ---
- drivers/dax/kmem.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+v5:
+- Rebase to v7.2-rc1.
+- Fix Signed-off-by lines.
 
-diff --git a/drivers/dax/kmem.c b/drivers/dax/kmem.c
-index 19effe0da3dc..f597d8a99c1f 100644
---- a/drivers/dax/kmem.c
-+++ b/drivers/dax/kmem.c
-@@ -380,8 +380,11 @@ static ssize_t state_store(struct device *dev, struct device_attribute *attr,
- 		return rc;
- 
- 	rc = dax_kmem_do_hotplug(dev_dax, data, online_type);
--	if (rc < 0)
-+	if (rc < 0) {
-+		/* Total failure, drop the reservations we took. */
-+		dax_kmem_cleanup_resources(dev_dax, data);
- 		return rc;
-+	}
- 
- 	data->state = online_type;
- 	return len;
+v4: https://lore.kernel.org/all/20260611021219.2093476-1-tzungbi@kernel.org
+- Address review comments.
+- Patch 3 in v3 has applied separately.
+
+v3: https://lore.kernel.org/all/20260608021526.1023248-1-tzungbi@kernel.org
+- Address review comments on patch 2.
+
+v2: https://lore.kernel.org/all/20260604090756.2884671-1-tzungbi@kernel.org
+- Form a new series.
+
+v1: Doesn't exist.
+
+Tzung-Bi Shih (2):
+  PM: sleep: Rename module parameters prefix to "pm_sleep"
+  PM: dpm_watchdog: Allow disabling DPM watchdog by default
+
+ Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
+ drivers/base/power/main.c                       | 14 ++++++++++++++
+ kernel/power/Kconfig                            | 10 ++++++++++
+ 3 files changed, 31 insertions(+)
+
 -- 
-2.53.0-Meta
+2.55.0.rc0.799.gd6f94ed593-goog
 
-
---Ha7M+e+kLoFbO4pS--
