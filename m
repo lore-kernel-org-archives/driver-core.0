@@ -1,179 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A3D376481;
-	Wed,  1 Jul 2026 04:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119DD376481
+	for <driver-core@lists.linux.dev>; Wed,  1 Jul 2026 06:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782881834; cv=none; b=INocxBIAt54PI5O3AnvDFHfXZFbHtZI86RVu/RGiH2tqpRdUbR8i4jqzsP6dh5FTDKFJ5f0HLKmSo0T3GQH+i9D8ix3IrQlU5VhuZXsPcqtNrjsgHGRzFhXXY2Jw90XlQxavCkhVZn0jhal39xJy5CKnf5gb8cE3rlpLLXkEfZ4=
+	t=1782886412; cv=none; b=Xj8vFJYc1hOGckzp3m6V6bLOAsHNyT6g/ncfKSYyspB2lzPqrpu7THuHxDX2JRv6pN7upy4U+WmZ99f9zp6YMPEtfFalpNFu6dnU0osr7RJedTALypj2MOaNuqREkcMNOA1hKzChbGnMBG6TUTK88HXg+uM56KI4gurn9bTJJzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782881834; c=relaxed/simple;
-	bh=tEdhKc3H4ZIAU37o25wSUihgzUDDzNPYhfNShDLQzKI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TOeuNWawoZzP3ao5G6RDnQVzJ1oiZYLaqXddHAxos56v0IG8i9qK0otheDiXNqLBMWu+UCnvhRRC6vTGlIc6ORVWurd3Kk0pPUupwslBTFZlNsSGdvqTNRCTgrEGruIPDETd4hiFkYuKAo0LvDvVN0AD7cSsbaoCFfx6fEbfM5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zemxb2SY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782886412; c=relaxed/simple;
+	bh=5IugnX6ei1qX95xqi+Dab5Sz2YMHXwt1aK+XcCyrIao=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aRMWh3OpAYCDaQsKVA3GuZirqidCSWnDy7O77vHKv+e9okv2TaKA+0nkLq9R5/nsbSHZ7S7TS2EXR/YEO1L1yRMjcDM7bTCxqRC2U6ERMK1zEFsKgSfEu19FdXBoBIDmp9EB95pv9Ne3BxVAxqeA3dpxFF77ESYcfpI1sDv0abA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nVkPquKq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IgLbW7hT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nVkPquKq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IgLbW7hT; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zemxb2SY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D7A1F000E9;
-	Wed,  1 Jul 2026 04:57:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782881832;
-	bh=Gqmk9W9i6m6yGhLl1Skxl8wszy7mbwAIpGJfvaAfQ60=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Zemxb2SYxQbVnizwzR8YM0Acoor2qoZ23XpItNSUHI8PmRiQs8TtBUmcsMMWDln4/
-	 lp+MtI1N//0eMx8ZmP1qU4DcsJ4ya0ocgNbQzW7tAMFYJurxU94f55rMMoIp/1PJAy
-	 0tKyeQemcicEhov09Ln6BF+gPzNpKa1kJ2BD79ZiE+XUoNBZ8fH83I9LuJHuMODcW/
-	 Me4wGvQIimskibE9mCH4/mm3i7MRk+NZkPps3ueN640RIpjkuEa0ZltNe41JVDu59h
-	 bJ/HtA8py/pf3tH8DnyCbuWk540B/ZivR7sMNedQAjlKlxddU1RuBUlQD/yQ4vIUd6
-	 oiowss+bQPsYQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	tzungbi@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	tfiga@chromium.org,
-	senozhatsky@chromium.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v5 2/2] PM: dpm_watchdog: Allow disabling DPM watchdog by default
-Date: Wed,  1 Jul 2026 04:56:40 +0000
-Message-ID: <20260701045640.3130090-3-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
-In-Reply-To: <20260701045640.3130090-1-tzungbi@kernel.org>
-References: <20260701045640.3130090-1-tzungbi@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nVkPquKq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IgLbW7hT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nVkPquKq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IgLbW7hT"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 386CC75FA2;
+	Wed,  1 Jul 2026 06:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782886409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KYQUm/ch17JGjQTwSu+BBLhvek6prevgXa6ce8KlIcw=;
+	b=nVkPquKqfnuglwRA64kO/65FlsWtnZVcUr3tQjW84mZEt5kIK1Id+IAvCnd8COFWAMIdCN
+	A+LLI/gXRqAumQ6m6nZvELRBDLiulChfZexd6Z8RaTTDRKPx8SMbetsUAzw04D6Lu6YrUo
+	3Tt20D3L669qjQts1PWJhNHngCyL2zI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782886409;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KYQUm/ch17JGjQTwSu+BBLhvek6prevgXa6ce8KlIcw=;
+	b=IgLbW7hT3Aoo3CqPjJU1FBDZYQCfBqX2sBw4KqeELLYrzoJwo6zrbQBzA6udP+eNK09Hw4
+	2Irk1zJbX7sxlFAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782886409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KYQUm/ch17JGjQTwSu+BBLhvek6prevgXa6ce8KlIcw=;
+	b=nVkPquKqfnuglwRA64kO/65FlsWtnZVcUr3tQjW84mZEt5kIK1Id+IAvCnd8COFWAMIdCN
+	A+LLI/gXRqAumQ6m6nZvELRBDLiulChfZexd6Z8RaTTDRKPx8SMbetsUAzw04D6Lu6YrUo
+	3Tt20D3L669qjQts1PWJhNHngCyL2zI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782886409;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KYQUm/ch17JGjQTwSu+BBLhvek6prevgXa6ce8KlIcw=;
+	b=IgLbW7hT3Aoo3CqPjJU1FBDZYQCfBqX2sBw4KqeELLYrzoJwo6zrbQBzA6udP+eNK09Hw4
+	2Irk1zJbX7sxlFAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88874779AA;
+	Wed,  1 Jul 2026 06:13:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9virHwiwRGoNTQAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 01 Jul 2026 06:13:28 +0000
+Message-ID: <abde41f0-7d40-42ba-a232-cc0538cd0e4b@suse.de>
+Date: Wed, 1 Jul 2026 08:13:28 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 09/10] dax/kmem: add sysfs interface for atomic
+ whole-device hotplug
+To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
+Cc: nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, kernel-team@meta.com, david@kernel.org,
+ osalvador@suse.de, gregkh@linuxfoundation.org, rafael@kernel.org,
+ dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com,
+ dave.jiang@intel.com, alison.schofield@intel.com, akpm@linux-foundation.org,
+ ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, shuah@kernel.org, iweiny@kernel.org,
+ Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
+References: <20260630211842.2252800-1-gourry@gourry.net>
+ <20260630211842.2252800-10-gourry@gourry.net>
+ <akQ_xlJtXNgnGUdf@gourry-fedora-PF4VCD3F>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <akQ_xlJtXNgnGUdf@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL7dfuuh4jrqtijtc3c3mfetss)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
+X-Spam-Level: 
 
-Introduce the "dpm_watchdog_enabled" module parameter to allow the DPM
-watchdog to be enabled or disabled at boot time and runtime.
+On 7/1/26 12:14 AM, Gregory Price wrote:
+> On Tue, Jun 30, 2026 at 05:18:41PM -0400, Gregory Price wrote:
+>> There is no atomic mechanism to offline and remove an entire
+>> multi-block DAX kmem device.  This is presently done in two steps:
+> 
+> ... snip snip snip ...
+> 
+> Sashiko pointed out a false-positive, but adding a fixup patch
+> here that adds additional consistency.
+> 
+> On total failure - release all resources.  This makes the sysfs
+> interface consistent with the probe failure path.
+> 
 
-Additionally, introduce the CONFIG_DPM_WATCHDOG_ENABLED Kconfig option
-to set default value of the module parameter at compile time.
+Speaking of which ...
+With this patch we now have _two_ interfaces to do the same thing.
+And both will be generating uevents.
+Which is far from ideal (one could easily envision _conflicting_
+udev rules, one set doing an 'online' on the old interface,
+and another set doing an 'offline' on the new interface...)
+Is there a way to not sending uevents for the old interface
+or to make it configurable?
+The old interface had the nasty side effect of generating
+_tons_ of uevents during booting, and on larger machines we
+even had seen udev acting as a fork-bomb during booting,
+taking down the entire machine (we had to restrict udev
+to 512 threads max to avoid that from happening).
+So if we could disable uevents for the old interface
+things would be _so_ much easier ...
 
-This provides flexibility for systems that want the watchdog code
-compiled in but inactive by default, allowing it to be enabled only when
-needed.
+Cheers,
 
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-v5: No changes.
-
-v4: https://lore.kernel.org/all/20260611021219.2093476-2-tzungbi@kernel.org
-- Rewrite the commit message to indicate the module parameter is the
-  main change in the patch.
-- DPM_WATCHDOG_DEFAULT_ENABLED -> DPM_WATCHDOG_ENABLED.
-
-v3: https://lore.kernel.org/all/20260608021526.1023248-3-tzungbi@kernel.org
-- Add "PM" tag (was missing).
-- Update the format and specify dependencies in kernel-parameters.txt.
-- Update the help message in Kconfig to reflect that dpm_watchdog_enabled
-  can be set at runtime as well.
-
-v2: https://lore.kernel.org/all/20260604090756.2884671-3-tzungbi@kernel.org
-- Use module parameter and bool for dpm_watchdog_enabled.
-- Use IS_ENABLED().
-
-v1: https://lore.kernel.org/all/20260528103215.505795-1-tzungbi@kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |  7 +++++++
- drivers/base/power/main.c                       | 11 +++++++++++
- kernel/power/Kconfig                            | 10 ++++++++++
- 3 files changed, 28 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b5493a7f8f22..46c20e1b5f05 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -47,6 +47,7 @@
- 	PCI	PCI bus support is enabled.
- 	PCIE	PCI Express support is enabled.
- 	PCMCIA	The PCMCIA subsystem is enabled.
-+	PM	Power Management support is enabled.
- 	PNP	Plug & Play support is enabled.
- 	PPC	PowerPC architecture is enabled.
- 	PPT	Parallel port support is enabled.
-@@ -5354,6 +5355,12 @@ Kernel parameters
- 	pm_debug_messages	[SUSPEND,KNL]
- 			Enable suspend/resume debug messages during boot up.
- 
-+	pm_sleep.dpm_watchdog_enabled=
-+			[PM] Enable or disable the DPM watchdog.  Requires
-+			CONFIG_PM_SLEEP and CONFIG_DPM_WATCHDOG enabled.
-+			Format: <bool>
-+			Default value is set by CONFIG_DPM_WATCHDOG_ENABLED.
-+
- 	pnp.debug=1	[PNP]
- 			Enable PNP debug messages (depends on the
- 			CONFIG_PNP_DEBUG_MESSAGES option).  Change at run-time
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index c6a3300cfb7a..f58945758868 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -535,6 +535,11 @@ module_param(dpm_watchdog_all_cpu_backtrace, bool, 0644);
- MODULE_PARM_DESC(dpm_watchdog_all_cpu_backtrace,
- 		 "Backtrace all CPUs on DPM watchdog timeout");
- 
-+static bool __read_mostly dpm_watchdog_enabled =
-+				IS_ENABLED(CONFIG_DPM_WATCHDOG_ENABLED);
-+module_param(dpm_watchdog_enabled, bool, 0644);
-+MODULE_PARM_DESC(dpm_watchdog_enabled, "Enable DPM watchdog");
-+
- static unsigned int __read_mostly dpm_watchdog_timeout = CONFIG_DPM_WATCHDOG_TIMEOUT;
- static unsigned int __read_mostly dpm_watchdog_warning_timeout =
- 						CONFIG_DPM_WATCHDOG_WARNING_TIMEOUT;
-@@ -630,6 +635,9 @@ static void dpm_watchdog_set(struct dpm_watchdog *wd, struct device *dev)
- {
- 	struct timer_list *timer = &wd->timer;
- 
-+	if (!dpm_watchdog_enabled)
-+		return;
-+
- 	wd->dev = dev;
- 	wd->tsk = current;
- 	wd->fatal = dpm_watchdog_timeout == dpm_watchdog_warning_timeout;
-@@ -648,6 +656,9 @@ static void dpm_watchdog_clear(struct dpm_watchdog *wd)
- {
- 	struct timer_list *timer = &wd->timer;
- 
-+	if (!dpm_watchdog_enabled)
-+		return;
-+
- 	timer_delete_sync(timer);
- 	timer_destroy_on_stack(timer);
- }
-diff --git a/kernel/power/Kconfig b/kernel/power/Kconfig
-index 530c897311d4..508ceabc4d2e 100644
---- a/kernel/power/Kconfig
-+++ b/kernel/power/Kconfig
-@@ -268,6 +268,16 @@ config DPM_WATCHDOG
- 	  captured in pstore device for inspection in subsequent
- 	  boot session.
- 
-+config DPM_WATCHDOG_ENABLED
-+	bool "Enable DPM watchdog by default"
-+	depends on DPM_WATCHDOG
-+	default y
-+	help
-+	  If you say Y here, the DPM watchdog will be enabled by default.
-+	  If you say N, it will be compiled in but disabled.  It can be
-+	  enabled at boot time via the "pm_sleep.dpm_watchdog_enabled"
-+	  kernel parameter or at runtime via sysfs.
-+
- config DPM_WATCHDOG_TIMEOUT
- 	int "Watchdog timeout to panic in seconds"
- 	range 1 120
+Hannes
 -- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
