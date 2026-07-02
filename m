@@ -1,86 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348CC3C4557
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 11:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAB3412281
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 11:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991927; cv=none; b=tdjzaVmo/MYSPq4aSB9TdXvo5sTP+vyCDccDG67Yj33szXnNTY3naao+AZ7SMc0HSLH5DbeGACEulcwtJer10nEAszzx3VbBe2O9KQvyEYtHegUd5QaVn6vdrREa4+GguET0WZeEuMVi1Yd2I3sUTyvBOJzWimuZbUFSPFo/Ldg=
+	t=1782992262; cv=none; b=oPseQzsWoiuyjEr6V7VdIimE1fIFdk+FnBglvXByXB/qRBVykwlsrmvZLdW/ou7qsuDDoSPQOp6APWefdOAoRbRquJOibRWzou1HyrzyyOvl/jCQwgVN4gfdPi0feNZNz/vKF4B8K/wi4s82FkbXAKGafNri7WdH0OycAyC+lU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991927; c=relaxed/simple;
-	bh=TxQCtqjtAk2iQqQD7O6uKHlwflcfM75/SGEiXcjbbI0=;
+	s=arc-20240116; t=1782992262; c=relaxed/simple;
+	bh=WY9oIWlzoimYhCJKvEg6rl1OwI2uR608QGIY7aWSJ4Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bVPcwBt/r7gK0cEPJnUhInzcX31y4FZsLqHaV0v7d83J9Fegi0q9WHOjiwt1tKc+jmdL2l8WwC6tlzyAm2XNLDBhD2LOkm4RNqPyiV4RL8xFmCD7i2ztxiCsvSsshI2PGGKP5ug4MtKMVgXiwTmfSFtIV+5cm5glD1dazXgWyjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XK7OGERi; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=fOSkK3SYtM/ooeoplPMuj+xx3yKr4IhxVb7GkCFbR9cMp2mqhiLqAYlZoMo/qjI/812BoxLh/0K3/obgC1jPDBdjWn3kWhHIm0eo400alykltYMDeBtB6/RVyzL67wYPBbGtub+Jom6SuFQqkYv/uEQFsKYWF8gHTndSc/OyMaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k1hTFGiq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XK7OGERi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDB301F00ADE
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 11:32:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k1hTFGiq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFF01F00AC4
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 11:37:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782991926;
-	bh=TxQCtqjtAk2iQqQD7O6uKHlwflcfM75/SGEiXcjbbI0=;
+	s=k20260515; t=1782992260;
+	bh=u7EXb1weowWTs8qmsPE7dm/b7A2l7/Sm1XmjS9B1n6E=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=XK7OGERimY8Si2lzUMfC24qPILOq/C3SL311RAUgRDRTBmU6okSx47uecKQxtNuje
-	 n6spvS7PU3qBxPRtZKvhqOO9mA8nyiBmE8FBvl6ccllYHrBbf69Vxu5SZJtgX1otRk
-	 tVlzTho2n5sGhajdoECoMbZPqcfLPPake/DJ8T6k9NL0Q97aZwwM4cnxcyJUHhONPc
-	 aYlnjdB3SiBgXIXYsXLcgDsPPCRUSTxKIwpkn4TDjC37W6OfWwctOsFpxEbCXNoQyO
-	 T7F8E+TC13DeO25iX5nCKaQGkhEYvEpx7HDem2EsISdUi+VUWRrCWOG3fX5Ghjtiww
-	 MaEOSWRknozkQ==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39af6402933so16245701fa.2
-        for <driver-core@lists.linux.dev>; Thu, 02 Jul 2026 04:32:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpyxiuYkZpOPER76gxJQlgduGfNu1Y4QVateCGd0EwKnk5Z0cJUs6Fa/EomOhMQ5h+fPF4El3XHZXzpFw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyC979gc2QDTgPMTt+Dgoy6rDltmsvD4aIjXbIkwiBdo/ZrF+Zm
-	jkDPga16LFSwUoamUFDPvh+Ox9PlKKaTwdbpKHajNrkip2uqj+Ff7ByW0M77j/ROduwnE6xFfIK
-	gTVnsjqiWiLgnIkAdb8CKD050OApcGso=
-X-Received: by 2002:a05:6512:2511:b0:5ae:ba92:f43b with SMTP id
- 2adb3069b0e04-5aec80689d2mr1445491e87.52.1782991924360; Thu, 02 Jul 2026
- 04:32:04 -0700 (PDT)
+	b=k1hTFGiqG4YbriyM+fxdbw/kxpiX1A9Ce6x0tm3iVPCwNBp/H0+fU8x3YanZ6Vhby
+	 E1YhFE6tiD1btRWy2QbaFAcw518+hV2Bd4CyYIsN7GuxiIMOCB2XcVJU0bESObzMFt
+	 o+felxhputbqHdVsvPNVciqRlj/PYkWgX90RCtmUIaf+Iat7oYCtuYumydunQXB1Ep
+	 lABxQNacpI/7pbKffPc86Otp72PU0F+CZbOhgYrLHvSMxpv29AQ34QrZabpUQxIvry
+	 vCXnf8Q3PaPS3apqso/xx1yRCADpxy9JtpFJ07YgXZ+RZMdXbHsbiAZFWZZ1YDpnLG
+	 BYV4OBYRjIKpQ==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aec6360133so1162377e87.1
+        for <driver-core@lists.linux.dev>; Thu, 02 Jul 2026 04:37:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rp2TIpS2eWqvhptsh/UpZxS55M1M7PIPg+mDqmNWAVPwyPHlQsiqq0fRpbikAUnXnckvJ9292behvP9qA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1uEsbht7oOIXtLBb/auKhbdPy3GQi8fYGqeUxic7Qh1GO4gvb
+	4IsxgpU2RhnQNuerrlvHRozVZpFQhtdgKb7jzWYEhxsH+rluhCIH6vpTLMLbhBwhDzuUY6MyEP5
+	WmgMBtgFp+VIDpt3dV7cpTbnU8lMOXts=
+X-Received: by 2002:a05:6512:1383:b0:5ae:b25b:8a43 with SMTP id
+ 2adb3069b0e04-5aec67ab096mr1418021e87.23.1782992258496; Thu, 02 Jul 2026
+ 04:37:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6027395.DvuYhMxLoT@rafael.j.wysocki> <akYsRl024Ll80oye@ashevche-desk.local>
-In-Reply-To: <akYsRl024Ll80oye@ashevche-desk.local>
+References: <20260702-fix_sticky_-einval_after_pm_runtime_api_failure-v1-0-6ddc317011c0@oss.qualcomm.com>
+ <20260702-fix_sticky_-einval_after_pm_runtime_api_failure-v1-1-6ddc317011c0@oss.qualcomm.com>
+In-Reply-To: <20260702-fix_sticky_-einval_after_pm_runtime_api_failure-v1-1-6ddc317011c0@oss.qualcomm.com>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 2 Jul 2026 13:31:50 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hszyrY+GLz0Q1HcNgMua056xuw8Uxf_O63OmyObPtkXw@mail.gmail.com>
-X-Gm-Features: AVVi8CcB1CehQxSaZBKpjLXdEZ66xS6KSnQB6qAqVEVmAqLCZyXITmn8Rg4ltiQ
-Message-ID: <CAJZ5v0hszyrY+GLz0Q1HcNgMua056xuw8Uxf_O63OmyObPtkXw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] ACPI: bus: Remove struct acpi_driver from the kernel
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, driver-core@lists.linux.dev
+Date: Thu, 2 Jul 2026 13:37:24 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0g6iRNUAKtDNKWa-_pshmnSCdStenNBJ91Xt=PSrhx=aQ@mail.gmail.com>
+X-Gm-Features: AVVi8Cdnq5UobXyHGkMuzdH234LirYD10dZQzOXqVoakHaXA7PLVm3FHzd9rkH4
+Message-ID: <CAJZ5v0g6iRNUAKtDNKWa-_pshmnSCdStenNBJ91Xt=PSrhx=aQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] PM: runtime: Clear runtime_error on supplier after
+ failed get_sync
+To: Praveen Talari <praveen.talari@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>, 
+	Stephen Boyd <swboyd@chromium.org>, Girish Mahadevan <girishm@codeaurora.org>, 
+	Alok Chauhan <alokc@codeaurora.org>, bjorn.andersson@oss.qualcomm.com, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
+	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 2, 2026 at 11:15=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Thu, Jul 2, 2026 at 8:08=E2=80=AFAM Praveen Talari
+<praveen.talari@oss.qualcomm.com> wrote:
 >
-> On Wed, Jul 01, 2026 at 09:15:27PM +0200, Rafael J. Wysocki (Intel) wrote=
-:
-> > Hi All,
-> >
-> > After converting all of the drivers using the struct acpi_driver interf=
-ace to
-> > proper platform drivers, that interface can be dropped now, which is do=
-ne in
-> > this series (patch [1/2]).
+> When pm_runtime_get_sync() fails for a supplier device in
+> rpm_get_suppliers(), the supplier's power.runtime_error field is left
+> set. This causes any subsequent rpm_resume() call on that supplier to
+> immediately return -EINVAL at the top of the function without
+> attempting an actual resume, making the failure permanent until
+> runtime PM is explicitly re-enabled.
 >
-> What a nice result!
+> Fix this by calling pm_runtime_set_suspended() on the supplier after
+> pm_runtime_put_noidle() in the error path. This clears runtime_error
+> and resets the runtime PM status to RPM_SUSPENDED, allowing the next
+> consumer resume attempt to retry the supplier resume normally.
 >
-> > Additionally, the no_pm flag is set for all struct acpi_device object s=
-ince
-> > they are not going to be directly involved in any kind of power managem=
-ent
-> > now (that is, they will not have PM-aware drivers and they will not be
-> > included in PM domains).
+> Change-Id: Id5067d09caca464f663fc95fe745d037e9c56664
+> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
+> ---
+>  drivers/base/power/runtime.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> I am in favour of this cleanup!
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index 335288e8b5b3..9811d024d140 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -309,6 +309,7 @@ static int rpm_get_suppliers(struct device *dev)
+>                 /* Ignore suppliers with disabled runtime PM. */
+>                 if (retval < 0 && retval !=3D -EACCES) {
+>                         pm_runtime_put_noidle(link->supplier);
+> +                       pm_runtime_set_suspended(link->supplier);
+>                         return retval;
+>                 }
+>                 refcount_inc(&link->rpm_active);
+>
+> --
 
-Thank you!
+I don't think that this is the way to go here.
+
+Can you please say some more about the specific scenario in which this
+happens and explain why it is OK to effectively discard runtime PM
+errors occurring when suppliers are handled?
