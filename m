@@ -1,96 +1,100 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679C7384CFF
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 10:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652DF35F165;
+	Thu,  2 Jul 2026 10:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782988437; cv=none; b=GoFml81k8DrBdQxMm5enlV+C/GOSRUledzHj3pyTWXy63ftmopUY9KpVcx5QL80r2MPEUWjSXNZRbKQwEdQ9DpKIyXRa3txsqgrJ1N14/fS55ECOB/q6Z4ZV91DDzNrpophXoRmtbXbP3RL1d8xsBsYQj9t4BmLSzmCe6d9Uj9Y=
+	t=1782988767; cv=none; b=bCW3n5Iz3Y99Ifs4kMyr8QWo6F4MDCCgSXROBK1wTt1icXEd2Mj2bc5EOAsfRhEP80ggwFnLWJRszpUA8RUqsP32d6jB0DnalbzhfcvjZ0ZChRK9Q6z4jSmHHYvZVBYC+N5rcRQEbFvMnn/l2jPDo7zjOaabCq6hGkECiJpgrtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782988437; c=relaxed/simple;
-	bh=NHYOxC/q6w/85rLuoJ0b+7CKB6hCkyDyHdrXzKZNzeQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ES/qUFcJ4FoOCkIOMkNNXO7z0LlIer7yJPO+3C81ejYd3OI0CuvhOVmW/VGwymcHK1E9pqjFX4uM9CrTq/Mq85x0wUHRelgIan493xUbiEBwIp8tpAzaQKr3ul9OiQwj/y7+Z0dXwH8IHdAuU4V0dehn74JwynzRGzrZEdOmztI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=thUL3nO1; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1782988767; c=relaxed/simple;
+	bh=M3zCXTiKd0xTuXuc/XyUnoJt84FG38wsL6zfIQOJbSI=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=H31IQYqibjc+jyzHZ0H+aLl9MHnUXK2TS8XILhPmKFiY/YSp3bnFLOyYVW47pzGxSnXLWSu5eFKQ7BGNMcgHnCYoGSL/ps4naXjo/PSAIEAewUWLxPQSRjgYyQ/qIHq19YUH9CMVQhPw72+hNtEfLpvXQ86nwbVfRJQjUpo55bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNF+9+zi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="thUL3nO1"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-698ac7678f1so711653a12.3
-        for <driver-core@lists.linux.dev>; Thu, 02 Jul 2026 03:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782988434; x=1783593234; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EVZFMgSKrwLqQxBvI+EZbsGquxAKWLQHl8rLAdlBvVo=;
-        b=thUL3nO1c+c11islQaGd4X1Krv3nJEbnGs6sm9iNTMjwR29cHlR3sm26SnzBtVOX/n
-         dFSFUXUhqhCIem3DSnht4bFmjxMCr5BUO1/mPq3VU6OAhvSKkqLMq/QhpoAHcku1v+LB
-         jL4TMn77CAyzdif94qf5TfdUK5NS9eUZn+6sRGfiOOOcrX31e6M76RDVTmqQ1GUWc006
-         E+xv4qTcsuwz1Pn3bZI7Znk0dQGPunSQbS7reUcYM/VllpcmA8YcgapMv/HL7QTDUEJm
-         XnXiHbe5B4p8LMHme9LPsCd9ieik6OPbBjVjOy92B5BzXRfG/ZDrMnA7YCSmkQuMvXH/
-         c/Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782988434; x=1783593234;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EVZFMgSKrwLqQxBvI+EZbsGquxAKWLQHl8rLAdlBvVo=;
-        b=FWskkauAnP2HkvqfPF/70HTVJjCI4iYwlXKyPZIBaSVga17AK6uH9k9/vjSHD+V+5f
-         kzFF2TZCpg/UZZMGVhRuYCKvFH7cJIrHIM99KN7NOLrq4aWmU+vTcqwxP8Sd3OYVz8j4
-         5qoVQKu2hdE+bM0WLf157Tgin5j72Cv9SeN9encvZKvp7w0uAsX0jRNJcY4SY6OVo7fw
-         iIfS5Q9GWsF/ayCnr6hmT6dw09U2JvOa5NL+D++DyUAgz/8XfxLlkUOoLxYJ/93YIDd0
-         U9JcS7jywJA9RAExw2EkzdEaR2xDbiNTSb66a90mwZTXe7BrwuipUeuWnMDswexfg57G
-         +cEw==
-X-Forwarded-Encrypted: i=1; AHgh+Roy+ej9pLSvafWNz3ZnBei4sayFQxz+I7s+aXUGN1eII5BjsQLmWpRQoGOj3TgVudmFUW47whBmjPRgMA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxstpFC3r3lHp0IpWuVOiVBlffTr7sJaHVPXrBYmz+0/b5q5LK5
-	PzpgpF8l4c2ylFddn6X6JjUMA/ujkc+7MieX/QSRBfR+jc/2hE3qbZPSgCvGsU171aZVSxkooAN
-	7meSCu96ESjqHiXoHvA==
-X-Received: from edvm11.prod.google.com ([2002:a05:6402:50b:b0:697:8356:d9d4])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:3510:b0:698:5610:76de with SMTP id 4fb4d7f45d1cf-6989f2de56fmr2576538a12.4.1782988433394;
- Thu, 02 Jul 2026 03:33:53 -0700 (PDT)
-Date: Thu, 2 Jul 2026 10:33:52 +0000
-In-Reply-To: <20260628200304.2365598-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNF+9+zi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9430D1F000E9;
+	Thu,  2 Jul 2026 10:39:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782988766;
+	bh=qB0O4+vj8xCBDUmgP9F3sg9bDprAJ1KugUxJjWFYxW8=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=ZNF+9+ziJrQ/6Oo+8v3bgxvCQyRZ8P1F5iaOuNZ/uKew2EQ+sAZngVvWED4ce4fwF
+	 Fe/abxroPGxbacye/03crZyJam9aGojqEZLXIIvXnjY0JJJEK26BBnj62LJbSolewG
+	 bIujxYUL3dG+0T0ZRQ4PQFyp0s8mnMJSX/4KtdJ+CaplU3ABVFxEX5mA3Xq04xKWRf
+	 EidbKv9svobjGJn03LvNx5x19jaiLuT+NUxvuN7zuZQ63krup2Jog8lpagtxX/d8dg
+	 yhEfKlSXj/9LUMD7BjcE/glgXumuJIe0V/Zr9f9VtScxxmNwpwYgEiJY6YzdWZLaH7
+	 iOwN/tvumnjdQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260628174451.2275679-1-dakr@kernel.org> <20260628200304.2365598-1-dakr@kernel.org>
-Message-ID: <akY-kHO1o3WgUSoW@google.com>
-Subject: Re: [PATCH] rust: devres: ensure revocation is complete before device
- finishes unbinding
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, ojeda@kernel.org, 
-	boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	a.hindborg@kernel.org, tmgross@umich.edu, daniel.almeida@collabora.com, 
-	tamird@kernel.org, acourbot@nvidia.com, work@onurozkan.dev, lyude@redhat.com, 
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, stable@vger.kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 0/9] treewide, numa_memblks: remove redundant work
+ during NUMA init
+From: Mike Rapoport <rppt@kernel.org>
+To: Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Mike Rapoport <rppt@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+ devicetree@vger.kernel.org, driver-core@lists.linux.dev, 
+ "H. Peter Anvin" <hpa@zytor.com>, Len Brown <lenb@kernel.org>, 
+ linux-acpi@vger.kernel.org, linux-mm@kvack.org, loongarch@lists.linux.dev, 
+ WANG Xuerui <kernel@xen0n.name>, x86@kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260628135828.1393120-1-ekffu200098@gmail.com>
+References: <20260628135828.1393120-1-ekffu200098@gmail.com>
+Date: Thu, 02 Jul 2026 13:39:17 +0300
+Message-Id: <178298875725.1436291.12024708198343441997.b4-review@b4>
+X-Mailer: b4 0.16-dev
 
-On Sun, Jun 28, 2026 at 10:02:53PM +0200, Danilo Krummrich wrote:
-> Now that the revocation Completion is in place, also address the
-> symmetric case. When Devres::drop() wins the is_available swap and the
-> devres callback loses, the callback returns to devres_release_all()
-> without waiting. This means device unbinding can complete while
-> Devres::drop() is still executing drop_in_place() on another CPU, which
-> is a problem if T's destructor accesses device state.
-> 
-> Make the synchronization bidirectional. Whichever side performs
-> drop_in_place() signals the Completion, and the other side waits.
-> 
-> This does not reintroduce the nested Devres deadlock fixed by commit
-> ba268514ea14 ("rust: devres: fix race condition due to nesting"),
-> because that deadlock was caused by drop waiting for the release
-> callback to return (the old 'devm' Completion). Here, both sides only
-> wait for drop_in_place() to finish, which completes within the current
-> call chain. The Arc<Inner<T>> keeps the Inner allocation alive
-> independently.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: ba268514ea14 ("rust: devres: fix race condition due to nesting")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Hi,
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Every existing numa_add_memblk() caller passes a valid node id and
+> separately marks that node in numa_nodes_parsed with node_set(). In
+> addition, numa_nodemask_from_meminfo() recomputes the same "nodes that own
+> memory" set from numa_meminfo, which numa_nodes_parsed already contains.
+> 
+> This redundancy implicitly depends on the callers' node_set(). So, before
+> removing the redundancy, make numa_add_memblk() set the node in
+> numa_nodes_parsed explicitly. Then remove the per-caller node_set() and
+> numa_nodemask_from_meminfo().
+> 
+> Also, since the generic numa_register_meminfo() already sets
+> node_possible_map to numa_nodes_parsed, remove the duplicate assignment in
+> arch_numa's numa_register_nodes().
+> 
+> Patch 1 adds the node_set() to numa_add_memblk() itself, so every memblk's
+> node is set in numa_nodes_parsed on add.
+> 
+> Patches 2-6 depend on patch 1 and remove the redundant per-caller node_set()
+> from all callers.
+> 
+> Patch 7 removes both numa_nodemask_from_meminfo() call sites and the unused
+> function itself.
+> 
+> Patch 8 removes the duplicate node_possible_map assignment in arch_numa.
+> 
+> Patch 9 is a minor cleanup, using the existing numa_add_reserved_memblk()
+> wrapper in numa_cleanup_meminfo().
+> 
+> No functional change.
+
+Looks good to me.
+
+Can you please address the small comment for patch 1?
+
+-- 
+Sincerely yours,
+Mike.
+
