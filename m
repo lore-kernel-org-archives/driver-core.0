@@ -1,633 +1,256 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010011.outbound.protection.outlook.com [52.101.46.11])
+Received: from mx08-001d1705.pphosted.com (mx08-001d1705.pphosted.com [185.183.30.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB24381E95;
-	Thu,  2 Jul 2026 15:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6668C33FE15
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 15:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.183.30.70
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783007307; cv=fail; b=hERx719Fr0f5ciBwIFu784zRkwB3Jgmo3G2B3cRoANTTHde6QW6N7BTrJnaIFKmT7lnhg2g1F7IAe6Jf14mXqa5CyGOp6VhACruby3q/OwFMsThH91IaRNke0PYSmebMTJY226PAAANon6429MMmSCoT7lmxeoQ9q/aHVa3WeXk=
+	t=1783007612; cv=fail; b=YLC+9sL/vpe8N0xkYhq9zbIoVkCx14/YyKVAIFTYlFXFMuzH1PpJmcbp7d8THAYlzVBViN4PSexez9qmbdD435lbqGg129MrJT9Bsu61Bt5UTZzk8D+GeG+3GUxqL9Pi09zpTOhOHDiw4QXNQ1qSFTT1d/GRyTqlUoJaS04ckpY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783007307; c=relaxed/simple;
-	bh=QVH0yqqnzEZjeWrIXhsNDAc3n5P+TOwabrSTY1bZ5H0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OL0Fvas7GBpz69sHzvEnOX8AAP98Of5o4hApdGFZ4395thPpL96+57yKe9IKBShE+uBtRLKcvmDJFmPWn5gbputDFVKgewkDcAS0mf6WZuaDxMAplkAMQvEeSP3DrrXnOa8qgfb0JJAL7tdQ8/muaNZcLRAHVMeJkqXy6Tqq01A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QdFO5NMI; arc=fail smtp.client-ip=52.101.46.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1783007612; c=relaxed/simple;
+	bh=GxD8i769tC20SJ3p4KhvLY8d795WG4Q31aJ3NN4KeE4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=lbAnGc2MjL9Xqps6ElKf9guCZ05jARd1GFNuEVRZzFqmd9LupM+wGI0yzsI+Oj+2ZL9TcOerCz/zuUUjsMC7Lh2TZDJbaNra0yt28OP7iSoAe4b5z2e6AjrDLNXHuEE3lqPcJHTNth6FA9EduEQ10TK9Rehx732JuerhzyJjPss=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=Ih++ZcYM; arc=fail smtp.client-ip=185.183.30.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QdFO5NMI"
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="Ih++ZcYM"
+Received: from pps.filterd (m0209320.ppops.net [127.0.0.1])
+	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 662E20303855424;
+	Thu, 2 Jul 2026 15:53:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=p1; bh=GxD8i76
+	9tC20SJ3p4KhvLY8d795WG4Q31aJ3NN4KeE4=; b=Ih++ZcYMRo71pNHP6IwJpHz
+	oLXaJI4I0E5oKFD8+u9QnOa9bm4eUK5edYn6x0QO7JIXqjTwkXwZmXDr5KWaY5mF
+	g2VdabMfud1Y+qxtG8YV5B8W9P/7w8n9XRjt6B2KOvXOpYW5DB3jPOV2ds1duXUt
+	Q8w3CL3T/0YcbihiCyYdKziSL6dEJ3H1Ae0P+FjxQ7JV8/HwWBz/hsHkjk+gfTj9
+	uzBPoqSeCoUwCcRSBLxhZXM6WhAy4aCodaJslmdjO/a6wYsRXS5OHQWJ4MaHCCmq
+	MRt5u4CLitwWqbgZf4SQbHrHIt995CUP5Kj7YOXzfsn58d/U4VKcZ+w2bVqWcRQ=
+	=
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012024.outbound.protection.outlook.com [40.107.209.24])
+	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4f26t2er4a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 02 Jul 2026 15:53:11 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lt/6nQt+OsvWqnfNJgVt7aUCVnw5puet6fPkrX5XFCLw9cZXJoPEMBnFCteEAJqD2xy5S1MJnSuGm2bd1OUCgiR17gUPZYcvzMaTbE6kID5f3v5X9+eQYEvw8lL9YjRIfb4JU4THxBMfuQIK806Z0cMne9eADN4jH17A0e417B6d6AdsVY1N1LBDAS+HlcB+SprFeyWRvJNy+Tl0Q+x0sUEIj6HUBlvzfErrVuGz1AkPCpgMKJi7ZxyvkISco4I97MUDpJlFqKzqaPnwEDu2aFreKm3lr372rbevAxEhWqoaFgQWvUfx/q1SwaF5TVjUbQS5Dryq6LrC5rCwoaImQw==
+ b=w6ZwkKK2bPN8sSty+UWW2H9Hm2/AOig/nLsANHG0oWO0WEPdMS43R1VNXUhoSInoM/xEnfKVYpVieZ48U88NS5WPlsw72C3R/hXSmZ0kjImkXXCo8Vquc8aBPsKDCZb5NCnB/TOILHRa8Sy1UPwNWyKmU+5jo23ge7UagU7LAp3QMI2pr8+NeRP8Uv6dCSiaFmgPQilyFpGeaqjT3rwmRvGCRzKhkr+9CbqmjV61i9dS/ZqlHSyahAWB7g3ENc+ckgUszMhOxYL7sLChfhVANJPM3q808Bn1aQ1SnUQnCu+r3dX0C6JdjttudFgdEsZrj9nkwjPWIFxpI0qSLl1U2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=679EHulF+k8nvRoVrcQmzNjW69RLCjrR1DjqzhGCTEQ=;
- b=mMYJT4fib2S5zFHFNn/wZM49kp1RInC4phvENCyet31JdtvtupY10LTRrKRBx5LLMsE+3knKp28G+aTUen8D/T+29kFvRIt4s5DLizoZqOuBt4sIyeQxoEY4YO6EwNTlikGe1hiBeN3K04iMsbu7PUkb+2UxxRYpmkxMg8s54z0UUS9HBmvj99jYbjpBr4yEAFk6alkI0a47z6ayziN7ZLFHv7pkcljxPHaDUWlWjym4sdUayPq50NcSXL+Fuwj19lsxwzzYEf+1iCgL3dDkM6dOplkHTx8dsWHd4HMG9mPanJe1ZpG63SH+0V9JSc5CpNvDNeJaxVst/Gt5PX5J0g==
+ bh=GxD8i769tC20SJ3p4KhvLY8d795WG4Q31aJ3NN4KeE4=;
+ b=Ffo+4AOJlMmqr41AnJypJ0BsIoZ2gOXAI0yz/fkv6kaeFlVJMNQJSIzuTKdLY8ATL0QXcVPMESVXiTzW/3oRdDj0+8eFv9Xf002+6PnpPb45BCm6DwQFlgePAl+yHm662zZphikZhqTWMfHeUQkfdegQUNwLbFoukZyRIesXhJ9vOZ0vnShnR0fackMZVTN+HpnSp6c5HEGtFFq/TPJRDdwIpZfl/4ooIDhJi/K8rdwaH5uh5iIg2mz/qYOpER8hwDvM7CwO+MnwhUWZI4VFNJcVKsjmcTLOMOIq6NQDMSHQozqmJdrZ/WrZLgrDlDbQibukUSegGy2fPZHxCSgqAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=679EHulF+k8nvRoVrcQmzNjW69RLCjrR1DjqzhGCTEQ=;
- b=QdFO5NMI8RaZKNRqZ0rGolPp2CfVFVwjALxGFApIZ8qBy3dMKFTCkL1TwH4ZLO5r0m/ei7xGwGtX6B+3VfZB4CTeLsmlHOoI4L0Gn181WHM+ESIWGNa365dBF93t98Tcd6iLN4jDFzV9sgT3Bk4DVfspxY8ekI9EwH4u8rtq2g+0umWJrdEIDtKwFAbTM6So0vGurpjIKbziI3VNgFFvc8RM+z34hxOdxRA+BpWoVyn6cqQKpLKd4f5Hla/nRawLdLM5Gsih4xc3sCY0LZBWdRElQ5s0KUS7V5MphVJ7aRYEXUOKfFF1WuAS0HR3CBTPELd2yM36CXvFFiTF2t1YOQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by SA1PR12MB9471.namprd12.prod.outlook.com (2603:10b6:806:458::12) with
+ smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
+ dkim=pass header.d=sony.com; arc=none
+Received: from MW5PR13MB5632.namprd13.prod.outlook.com (2603:10b6:303:197::16)
+ by BL3PR13MB5179.namprd13.prod.outlook.com (2603:10b6:208:342::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
- 2026 15:48:09 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%5]) with mapi id 15.21.0181.009; Thu, 2 Jul 2026
- 15:48:08 +0000
-From: Yury Norov <ynorov@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Yury Norov <ynorov@nvidia.com>
-Cc: "Russell King" <linux@armlinux.org.uk>,
-	"Frank Li" <Frank.Li@nxp.com>,
-	"Sascha Hauer" <s.hauer@pengutronix.de>,
-	"Pengutronix Kernel Team" <kernel@pengutronix.de>,
-	"Fabio Estevam" <festevam@gmail.com>,
-	"Madhavan Srinivasan" <maddy@linux.ibm.com>,
-	"Michael Ellerman" <mpe@ellerman.id.au>,
-	"Nicholas Piggin" <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	"Peter Zijlstra" <peterz@infradead.org>,
-	"Ingo Molnar" <mingo@redhat.com>,
-	"Arnaldo Carvalho de Melo" <acme@kernel.org>,
-	"Namhyung Kim" <namhyung@kernel.org>,
-	"Mark Rutland" <mark.rutland@arm.com>,
-	"Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
-	"Jiri Olsa" <jolsa@kernel.org>,
-	"Ian Rogers" <irogers@google.com>,
-	"Adrian Hunter" <adrian.hunter@intel.com>,
-	"James Clark" <james.clark@linaro.org>,
-	"Thomas Gleixner" <tglx@kernel.org>,
-	"Borislav Petkov" <bp@alien8.de>,
-	"Dave Hansen" <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-	"Danilo Krummrich" <dakr@kernel.org>,
-	"Chanwoo Choi" <cw00.choi@samsung.com>,
-	"MyungJoo Ham" <myungjoo.ham@samsung.com>,
-	"Kyungmin Park" <kyungmin.park@samsung.com>,
-	"Heiko Stuebner" <heiko@sntech.de>,
-	"Xu Yilun" <yilun.xu@intel.com>,
-	"Tom Rix" <trix@redhat.com>,
-	"Moritz Fischer" <mdf@kernel.org>,
-	"Yicong Yang" <yangyicong@hisilicon.com>,
-	"Jonathan Cameron" <jic23@kernel.org>,
-	"Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>,
-	"Jason Gunthorpe" <jgg@ziepe.ca>,
-	"Leon Romanovsky" <leon@kernel.org>,
-	"Bjorn Helgaas" <bhelgaas@google.com>,
-	"Shuai Xue" <xueshuai@linux.alibaba.com>,
-	"Will Deacon" <will@kernel.org>,
-	"Jiucheng Xu" <jiucheng.xu@amlogic.com>,
-	"Neil Armstrong" <neil.armstrong@linaro.org>,
-	"Kevin Hilman" <khilman@baylibre.com>,
-	"Jerome Brunet" <jbrunet@baylibre.com>,
-	"Martin Blumenstingl" <martin.blumenstingl@googlemail.com>,
-	"Robin Murphy" <robin.murphy@arm.com>,
-	"Jing Zhang" <renyu.zj@linux.alibaba.com>,
-	"Xu Yang" <xu.yang_2@nxp.com>,
-	"Linu Cherian" <lcherian@marvell.com>,
-	"Gowthami Thiagarajan" <gthiagarajan@marvell.com>,
-	"Ji Sheng Teoh" <jisheng.teoh@starfivetech.com>,
-	"Khuong Dinh" <khuong@os.amperecomputing.com>,
-	"Yury Norov" <yury.norov@gmail.com>,
-	"Kees Cook" <kees@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	"Aboorva Devarajan" <aboorvad@linux.ibm.com>,
-	"Ilkka Koskinen" <ilkka@os.amperecomputing.com>,
-	"Besar Wicaksono" <bwicaksono@nvidia.com>,
-	"Ma Ke" <make24@iscas.ac.cn>,
-	"Chengwen Feng" <fengchengwen@huawei.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Yushan Wang <wangyushan12@huawei.com>,
-	linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-perf-users@vger.kernel.org,
-	x86@kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-fpga@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-cxl@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 10/11] perf: Use sysfs_emit() for cpumask show callbacks
-Date: Thu,  2 Jul 2026 11:47:23 -0400
-Message-ID: <20260702154725.185376-11-ynorov@nvidia.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260702154725.185376-1-ynorov@nvidia.com>
-References: <20260702154725.185376-1-ynorov@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY1P220CA0040.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:59e::16) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Thu, 2 Jul
+ 2026 15:53:00 +0000
+Received: from MW5PR13MB5632.namprd13.prod.outlook.com
+ ([fe80::29e9:b355:cabf:66f1]) by MW5PR13MB5632.namprd13.prod.outlook.com
+ ([fe80::29e9:b355:cabf:66f1%3]) with mapi id 15.21.0181.008; Thu, 2 Jul 2026
+ 15:53:00 +0000
+From: "Bird, Tim" <Tim.Bird@sony.com>
+To: Francesco Valla <francesco@valla.it>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich
+	<dakr@kernel.org>,
+        "driver-core@lists.linux.dev"
+	<driver-core@lists.linux.dev>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "linux-embedded@vger.kernel.org"
+	<linux-embedded@vger.kernel.org>
+Subject: RE: [PATCH] driver core: add driver name to probe debug print
+Thread-Topic: [PATCH] driver core: add driver name to probe debug print
+Thread-Index: AQHdCBF5U71VTWyHfEyFL4CL8lSXA7ZW5FaAgABenYCAAFPMwA==
+Date: Thu, 2 Jul 2026 15:53:00 +0000
+Message-ID:
+ <MW5PR13MB5632B0DF64A45C53CD98CC03FDF52@MW5PR13MB5632.namprd13.prod.outlook.com>
+References: <20260629-probe_driver-v1-1-fc58117581b5@valla.it>
+ <2026063043-slouchy-outgoing-a958@gregkh> <akPnMERmg-QO6kjC@bywater>
+In-Reply-To: <akPnMERmg-QO6kjC@bywater>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW5PR13MB5632:EE_|BL3PR13MB5179:EE_
+x-ms-office365-filtering-correlation-id: 1d0ba4b3-a7c8-4b28-5f47-08ded851fe38
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|10070799003|23010399003|366016|38070700021|18002099003|22082099003|11063799006|4143699003|56012099006|6133799003;
+x-microsoft-antispam-message-info:
+ sNQwBqJuftyo9dpTcJdtITXPhkV7t7XbOZykWKHIdPw+Is9qY3Xc7L9P72IUeQRPH0kLFokHJj6wAKTpN+SYSI2bGzcvIfoUCl9i1fcrQjnnmKpPwgXt2UeuU10AE+Ni47kAkLe8BIsCA+9dastzZKt8yTt213Q25cF+h2DfhEmrfuyLa/SVL3jXtitoU2zArudiUVqtZUHy9JGlPsm6QdKDzbihuxfXMNHwUo7GyWMQJv8leZJxctfG9InWnVyc1Qpn6NpA3n/EQBms21XwSzrGkvN1oSGvByfbt9k6MfNT5lUDqXnaazCRxvFbUntFpaelviSSB57rsGRPxOsAMtN29Vcgh2Sq9ilC6t7cVN+lN78/g3atw0VssKMZjij3+dzMqMWfG4NlbBrsyoR5hlt1CSwmgwMHoJ2XnLNRQEB7f46dyAuqqArF1JLgLrd4cYIioWT8haoH9pqQsQf4UuJwL11t8vFRkrXVpJ95QY8FoKw9jACwpqXVIJnRHn5hs/BH1rw8iuwKQJ8Dz0bqPQAE/uVYnzvOZV9C5FVwwlOPeY/Z63S9ubPQ8JDdxuPfarCXBv2WV7ysxt82GWTedmxbOqGT0/qRVgNNS2+veHz1YpNvYwvVaiS2Yxo5Gh2DjXgRe1xGoFMr/+JnnIe8tH3eHr+3IcPbzkNbuZjI/6sx8EmibOnsa2AjQ9g2yS0mFyNShIGGekjgVIalt/qsDeSL/HJecPmlsiRv7oWNuFA=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW5PR13MB5632.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(23010399003)(366016)(38070700021)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?OTBIWjN0REFTR0tsMjlFR0h5V3JVOFNrR3VxRkJYQzhPeDlyZ3JBQTl1NnE1?=
+ =?utf-8?B?Z21tOHVLcTFpaCsrdUtSeFl2am5xTUFSR1RPMXFnZnRtUDZDdnQ3dUZTMXNZ?=
+ =?utf-8?B?T1kxdzJkRFBxNXQ2bUNJdUd6Z1p3R2FiUGpjeDJwM08yOTFWamtSQ2dkb0xE?=
+ =?utf-8?B?dWI5VGRhTUdmYkcva0VvSTBOVGNqcHlZNHZEYWEwcVBMSFNsUTZlaVBod2lO?=
+ =?utf-8?B?L254OUVjNVdrRFBoRmJ2b0dIMzdoUExrREVudmVDdWtEb05jZktKK0VOV05M?=
+ =?utf-8?B?MDc4M2I5eHhSVmRvRFFscUxmVXNIRnd4UmpXVU5WQlN2NEhyN2NHM29OZW9Q?=
+ =?utf-8?B?ZytwZjdNcjBSWUhNRDZrOCs5dGZKMTRKaTNScm53NlJOV00vMEs2bmVRZDVL?=
+ =?utf-8?B?TVZrQ3p2V3F0YmVjSVdnc29ZS3ZyeGtmTklsbzhNVGVFTHZVQkhqN2xNakZa?=
+ =?utf-8?B?dXZERjMvOHRvanVKdjJFcWM3VmJsbEVRZXp3VStjOWoxWlRLcit0N3JTL2FK?=
+ =?utf-8?B?b3JoVkNKN2JzSVVaMEZ4bUJ1WThPYm5xbmg2TWdGNHNCUzlzMWFneEx2d053?=
+ =?utf-8?B?ejhwRmM4azZaVUNmYklrcGpvSmdoUXl0ZWFYR21USWU3a3lVT3M2YzZEdE1E?=
+ =?utf-8?B?ZnlvM2QzYXRRNHVVU0txTXNjZUl3ZjFSUlRWZGZIRUZLMWtnTjVpMitwV0Fq?=
+ =?utf-8?B?TmlHT0NoK0JvajN5OS9mTE1xTWNxTCs2cVo1UlNUM01qVkI3WUQ2eHQ1L1l0?=
+ =?utf-8?B?NHp2dDl1RTZiUGEyNnYxS1ROQ2hveXdrcytBVEc1MDhGY0hTTXFLck4vUmRU?=
+ =?utf-8?B?QTZsdWppMk5OZ05vL0VGZ2ZkaHNnREZSNVdJaGxHZVRiNzBpZmdCV3NQbVpH?=
+ =?utf-8?B?eStnUlFYTXRDTy9FamcxK0FGSTZHY2p3N3BRZVpxZUJKMTFzYzZlaE82VVAv?=
+ =?utf-8?B?S3hNbXpHTDF3c3E3VCtDR2ZvQVNlQjNmR083QmQxcXlsaVNSOFhsaWF4VkNV?=
+ =?utf-8?B?anVZaXVFbnpZNTJPMmtva3V0RkR5MnptdVJYZXkvTlFrbitqem1LbUx4b2hk?=
+ =?utf-8?B?MmpuOU9ocmpPOGxldXhPeFZVZkdmbk81WmNJV1VlY0xsc1lwUzM5NzNnb2dz?=
+ =?utf-8?B?NFNKRDFZbTZ1T2dVMTVMMzBiOWtwYy84RmM5SjNLcGRLalZlV2ZmTXFBVHkr?=
+ =?utf-8?B?blhjTlVub1ZuV3RlMWY3UzZzU2MxVXNrQ2NiUGdaUFdHRFRmWkJJNGNVaEZT?=
+ =?utf-8?B?NHRBTE5EYVNkNEZMc0puVFd2TlRPR3BuSDNDcnJRYlV3dmN3WjlHWVhFZ3pm?=
+ =?utf-8?B?a0QyWENmbnNhZklzZzFUTEpWQy9KNmRrS2ZGOFBkQUVYMi9HaXBrTTlLYnNj?=
+ =?utf-8?B?VGFnUWM3Z0xlckVZbVduZXJZMTY1OGtXZ0ErNFlIa2NoMi9qdFJKMUlzSVk1?=
+ =?utf-8?B?ZHZ3bjRuT1JqYmZuY2ZVbTRXVVBYZEs1UGVRUFRyS1lManpPUzFWYmFmMkNr?=
+ =?utf-8?B?YjBUSmo2ZVJiZDZlQVMyL2J4UGtrTTNFYTRYakpGOGlYT0M3R2pqVFFNT2lN?=
+ =?utf-8?B?dkt6a2IzVzkyMDVUMFVMVnY0WU5zZTBZb1RMRU5zd0grZ0YwS01LNTloT2pB?=
+ =?utf-8?B?TlMyeGVTU3ZmMUkwNWVZWDlHTXZPYTk4UkJZc0E3dGNjR0lOc2FPNThvWTJR?=
+ =?utf-8?B?N2N1U2p5L0d0VWhvMjk4cnpKME5CQkR5N0ZmQm5TR2liWk56Mk4vdkwrTmgv?=
+ =?utf-8?B?YWlzR0NHcVlRUng1WnVuUTZtN3dUNHFBYkprUWU0R0JnVmNyWkFSVFRXRjNw?=
+ =?utf-8?B?enBmUTZBTEZYMVMwSWFJV1Y3ZzZJS1NhRzdRdHFPVElwc3VwaHBPV2NFc2RH?=
+ =?utf-8?B?NlJHaWRWVk5xWkxjdnVpYVpCSnVrVDJFOGplMWdxcTduSjdNTnRlRWswWXpX?=
+ =?utf-8?B?L3lCM2QwWVM3anBMbFFKUFRFRDd4bmdIenU3cFdzSW9zYVJvNXh2UnRSVlJG?=
+ =?utf-8?B?bDJUQzkrQ09kdE14SUw4SkF1N2pDZHF3akVlZEdMWUk2bGdnRU5oZnlMYlAv?=
+ =?utf-8?B?eFB0am9JV0hzQkFtTkhxNEFiSlZneWF0cXRlbGl1ZzlKL0hTaG04cEthbU4z?=
+ =?utf-8?B?SnpoR0REdGV6aWRqL2UxcGFoSU00eURjbnowRkV3RE94Nm1TT1A2MFljQktq?=
+ =?utf-8?B?TnJOcStDbnQ3Tkc1cHp6eTFtWFVLZUl4TGo1dmxZay9EdHFVZmpvbTIrS2Fj?=
+ =?utf-8?B?a1hTNGFsSldKbytYN2w0RzFJZGVNcDVJQ1ZvL2dlU0lia0ZzYVpYVEttcTFJ?=
+ =?utf-8?B?VkpMOGNiNmUvUnArY1FlcUJFRDRsdVNtNFhBNVhiN1ZYbVhKeU15TUJNREJZ?=
+ =?utf-8?Q?S6Q7NUdNJbZ1ATZDJy5RZYomdGvfqQf4cWHqB?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|SA1PR12MB9471:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b00bce1-73b5-4498-6e79-08ded8515069
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|22082099003|18002099003|11063799006|56012099006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	Obl09vUKNoqURlxaM5oEfnhwQQwLdXw/PHFNdNnMD2DQ+cHCprft2zBX0XVoT+EMLSgN7Y3eLNfxujVMe5yQKfa0K5S7+lh7LJaWjX/cscnJoUsPmn2hZU+rLcjAlgXoDOHiiwBQEe92ELRYtPiLG49kd4veI3PQB1HbcvT2x7s13DcBM56pdOx0DFjQY1HmCSdqcy148gEVw3ouaZbAsRAVlUyfphfL+DZXpcHI9HuBLHLKdJy3MAYDbtUjXD8kT/PB5LdB2VO2EpptI1NbXfQ2LEgpRNR4teJL/YaELl/f5nsVNn3+6npHRHfBoNqM1A2YRUAfN0anelFzEr9AHkGB6e8dzEgVdBrmWj/P196U3b6tIEvLw2pTBtQpWowYsmBbnOhjI9pXzyzJdC7QU/jqoWwRBHv2JaS+4FUAh4sGYTOgLs/W6y9aFPh6clN7rDnaMX/IsZVC1+fUMw8HYT47yePnozwF1AIhcN8y6IE3mDRungtObrcrgnStKBOz8/u+mqE74GJUHQJDDvXDWVv7MTSTX+CzNwZOZ5u1XdN865NTuI3rJet4ofMXiZZDChNLJ6/e8X9WD6D0XO4l1liz1qp4eMGHlvbFZrp3mg4opLxn8VAW/SsR4fqYXVA6Mpfhc0ncijmVPlaW8nW898TE+l48jXPbVrozBpIwEfE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(22082099003)(18002099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JCOTA1KIk9JrLOGTJ6PBMRmap6RwZRXTxewffdWsZ58yfwQtlEiYFbpUcNRx?=
- =?us-ascii?Q?4cD6+bI6uyZoKjUm9u0MPsNEDC+bxdHH7/d+LrqZE0bwTjCM9q6pOaEkepf4?=
- =?us-ascii?Q?rn3LIOHA0UbfY0y5SkZ+J0bk6ecdziavCnyu2y2RpvHgGyRHAx2MdDY1L3aq?=
- =?us-ascii?Q?8r1KYY6sLOFu/ba1va8JNL9OuHsmPQ5/qPe6WxiozeFwGUVO9HcMmklSAr6b?=
- =?us-ascii?Q?7lxLHMAQLENeAsFERpXLDmXmJ6R6om7hDOYZ8c1JDnSeuVudgsYL0PU/ifph?=
- =?us-ascii?Q?SnoPmtHOuTfdrUL83t50N8RDxNPKPMW65XnbPa2OOrX/MOP7T7VIRq9HyPpx?=
- =?us-ascii?Q?J87NbIdETTw7TCuLvlOPo7TVtKI26xVVc3vAVQdAus5UgzK487jjbSGo3Lzt?=
- =?us-ascii?Q?hHkEZKs/KK+D0F0S4mgJVL6kA1JuuJeTOupp5eLEX3iKk+uyDKqUKUG4ds/A?=
- =?us-ascii?Q?hanrHLMHm3f09DG15VsaKgbM89Yhhhu1HQcOBdUM8oebVNc9iNiI7obUi5ee?=
- =?us-ascii?Q?4XrxF4atdQd8yTFpoolxeb+klpAqcZODF7tKpZY7WX1uksezw9B5zPkNtPwN?=
- =?us-ascii?Q?Y2OcwQ32wDV21lRszSbH0XE8GXX3P0qtSFth1UzgE2ppcvvFhngvzM/4cIkf?=
- =?us-ascii?Q?PVoS5rslmuKYNEoSfoeaQ7+4JeJab5qybkXU0PJ0bT+k98K/pkEKYhmTKLcx?=
- =?us-ascii?Q?bTxz5V/OeoRXnBRi2cCi7TDjGVX36hxwSWmJDmWudRwaTgNIu34BMOkEMhar?=
- =?us-ascii?Q?5OwKp0BNVL9trguZQMskQQJeC48NG2vPqN53jiJvRgDPxUgaZ4uFp5PAn53z?=
- =?us-ascii?Q?rcI4ow936qXwZwFzA3frMmXNzUpTZsx5QQUCH5fuAI6BWPSVBi0sc7S+NYis?=
- =?us-ascii?Q?WX4SV1nJ91EhEODG0/HgEy0jliS00FlriHEe8MPvEcJ04UmZmcxAvK3hkLug?=
- =?us-ascii?Q?+sdBw1JsR7pmj8EIsocY1DxQcIahtxN2s9IXKDItPRw+989mSfhMTTfovQoP?=
- =?us-ascii?Q?RDmMM/bVKXUFEqGE230Xb2a1qAoeDoaBlbI5NEGhW+fXwN5VRQuJ0b5hoO/0?=
- =?us-ascii?Q?PeSzukqz20qwZozYXo4d7ESaxD2fE+pM+Jl5fGI/T/bdD8OTTkTAZnyujFpv?=
- =?us-ascii?Q?tDSEu+cwzltd2K6qAFTlDsWifa85IwmWev/cQIo32Jf1huT4g6/EVXkJ0PIt?=
- =?us-ascii?Q?aTCtWpZA7TM0zfcIR9b15BsciBWNxwmiJaXvUX9b+6Kc8jaIRPAoiq4wyr1n?=
- =?us-ascii?Q?gg0tKPr7AN/2raP75ohE8OuFIXnE5v0afc1R/NNKPo2mKmZEhZTPrqnPrrsu?=
- =?us-ascii?Q?kRH00OqibQklnc4OkQcHOfT56ZUNlvEn92Wb0E418v9BJre1lJB5OdwP7s9t?=
- =?us-ascii?Q?CwnQKKi7lKDzqnJdpPIp+vcHGj+4Oen5AK2eP53ehOABI4X5zRSxbSlfbb76?=
- =?us-ascii?Q?BWWTRjyLznTuIIhHIzCAUYJN0qwvubposRLy73wHYD8kzWP252ZoOlibEx7C?=
- =?us-ascii?Q?6saN349WW9+GAu6DpCn6TISgoeHepJ+J99KcaEv5/wE95nhNkl2bi6pjW6fp?=
- =?us-ascii?Q?eQCR6F7hZ5zeOMUoM9ZQ2SHu9L7+kj7JdYslomy9Bv2nIYErh9LdWr7Gn4XQ?=
- =?us-ascii?Q?H9r6JXOfvLxIGrFPxaTDZJPFvmA6dhVejcjS/0xZEHvywD3yEGNLLcagyOT3?=
- =?us-ascii?Q?Z3+ozexDRS9pAbOgmGNdgEdOnz8xMWVztQ857I3nO//YnsigXLiFAIaJUfYY?=
- =?us-ascii?Q?VfdRkYaJlg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b00bce1-73b5-4498-6e79-08ded8515069
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-Exchange-RoutingPolicyChecked:
+	gDg3+yjz3aUqYsq1bG1FyIaopH6pc3sh1p51NOulhWZsdEpzt3t5yphMcW8OdP0MjTT3F60o/afL0j1YoeT5c0asLnLtuXSZjoAwHej2W4tq7ntUa+w3Bb1WkJwZkJuFCwgMMrvPcI+2viA6wzvcdoN2W4FhTiYUI9IVwimP4hpEeMNg6OKjruzxpCZKE6Tg+5qYv0LWqNnTDsxfFFpOlZI2OgU3pUMcS7o9wiPlopIPzWqYkXFpsVpMV448GyeKX9u9B7gFSaXGOvBCQNythQFYbX9WXcHv8tK3+3mfkZRqdhe23wuDQHmka6bJC7uwXsSII+CBnKF/GMjdljPfbw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	l1wrTjwoUWhJhfVkMhJ+ifOeN1WseTNVMPg82we2WW9ohxVVAdV2DLHsfboIEvxAkOZwnfACTkhK7EtnUj4+ypNoDV/bkybLI9zuNqp6Ia9OjmVvNqfiT66LSF4UuJ2whPuwUFWGvej/ODXPmEFN94J6y1tb229IDDUt0z28Ph3Xh/duVSSfc7xqTBtASTKV0AAFePavHMkwwzV4kS2ev1JlDDQyecWAxW9VSGhPZtw35+BymFSPtOUV9KzKFWdfHUPyhyZR0mjgy1YR69/V/5dNh3tXg/a+twChMD+Q16lzKYzQ9wJvbmAADevXTRK4DROoombRqNoJQ5bKfj4mh5lmvd8G8HIu1oXgu5/djF+ZGdxH32yQAOBdoV0sF9CXyZqo5HSz/YH13oDA/7EC5LxqqQHeofG4AjuccWClrnKKwrj4q14yB4Cuh9k72ghbdn/FUzYgSH8HtA4WZN3P1aeBIsbsKfFjPneZ+VBFtMnN2n7QZeAtc5JxbL9YI6Hk2Ott8wutbAw43Ud0PnMqp9UQ5YBDPQ6kWlTGkiEk2pQNVRAI0g4igdNblvuTo1aO+tZKZsgvLx8WmwT9cPTUy4eIbXJh4jomcQIPV2JcCaBzxdxBwl6BbqaAcbRSYbrO
+X-OriginatorOrg: sony.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 15:48:08.8493
+X-MS-Exchange-CrossTenant-AuthSource: MW5PR13MB5632.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d0ba4b3-a7c8-4b28-5f47-08ded851fe38
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2026 15:53:00.1686
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Yy91a29ypib72Fo+ddy3XWF/GbqS7Jf9tyUI5e80rzzrTzCf2biJniD5Bpf7UMoP/QWTn2BrSiaamTCOes/REA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9471
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vTGg26DFBukWrvgr5ZAJlERcJlCP0YUYAwZbDsfbkiiUQ7WIND9uJ71OyubcoYdZ4kJ96C6icJTlIoP0N2ir0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR13MB5179
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDE2NiBTYWx0ZWRfX21U6YyFqhIrj
+ aO8MsgMZGgQmq0DlSwgfLTDIA4YuJLJ/1gAuaWmePzCegNLWKtt2s1Rsb4wqEnvkQJ5iRrVxeXf
+ 2lYgjr/kxi3xrrOlfHr8xKdDn5noDxC9JLXgvqQ5Y3juspdVCl6P
+X-Proofpoint-ORIG-GUID: vsxeFw0nkKKvBRCHi2qxSv1hh_R3ewwT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDE2NiBTYWx0ZWRfX0ewbHEB4Huoi
+ VgOsEDHmLx4/K6qZXGR6Qs3HD7+OBSfOAGynDoIfcQRLshgrnkIROpYfiA2zp86MsnhLpeuFHFR
+ AguQ7loteiLgce7ri8Rm8qjhM/ajYtubsay1shOI+QnP3RKZ+G96okaFMxaEu20uyF8yDbzfh8P
+ JcAfhgHaRNdZWKXnilPh56IGuP/sOQvjZwhQP5wLYmss058jS3MeCiX3ND7Fno0fkp8b4gsXOdh
+ fXUVjoGHcKcbafDfsgazzzERgezjnk+OMHrJTopPZgtcvT4Zi5Ji8Vnio3DEk80ADkyA5OFwmy3
+ Wv23ArSPI/9dt1iHThVXwkfQwDYi+cI6U+Z07mhO90HB/oD0aJLg3ou3Wj9u4v5Rp7tf9xTlJvN
+ PZczM2rZzKo2LjFv+0NzU4wLUmKHWyPCYtfXTFMfS5si6xhfuBHP2/Uqh9jSO1CO8gumkB2D3C0
+ h2GP5f8+NLeye3WYaHw==
+X-Proofpoint-GUID: vsxeFw0nkKKvBRCHi2qxSv1hh_R3ewwT
+X-Authority-Analysis: v=2.4 cv=d4vFDxjE c=1 sm=1 tr=0 ts=6a468967 cx=c_pps
+ a=IDmSThB3jRGgE2uwFnJQpQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=RAioF0-LDSMA:10 a=xR56lInIT_wA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=KAb5x4SsHD3PzxGk7EmX:22 a=bd-SKr3HlWZVCYFCRTQK:22 a=VwQbUJbxAAAA:8
+ a=z6gsHLkEAAAA:8 a=UqCG9HQmAAAA:8 a=wVouvuCEmgyJ4w1h6-QA:9 a=QEXdDO2ut3YA:10
+X-Sony-Outbound-GUID: vsxeFw0nkKKvBRCHi2qxSv1hh_R3ewwT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-02_02,2026-06-26_01,2025-10-01_01
 
-These callbacks are sysfs show paths. Use sysfs_emit() and
-cpumask_pr_args() to emit the masks.
-
-This prepares for removing cpumap_print_to_pagebuf().
-
-Link: https://lore.kernel.org/all/akANJ-AT7nHpRMq-@yury/
-Signed-off-by: Yury Norov <ynorov@nvidia.com>
----
- drivers/perf/alibaba_uncore_drw_pmu.c       | 2 +-
- drivers/perf/amlogic/meson_ddr_pmu_core.c   | 2 +-
- drivers/perf/arm-cci.c                      | 2 +-
- drivers/perf/arm-ccn.c                      | 2 +-
- drivers/perf/arm-cmn.c                      | 2 +-
- drivers/perf/arm-ni.c                       | 2 +-
- drivers/perf/arm_cspmu/arm_cspmu.c          | 2 +-
- drivers/perf/arm_dmc620_pmu.c               | 4 ++--
- drivers/perf/arm_dsu_pmu.c                  | 2 +-
- drivers/perf/arm_pmu.c                      | 2 +-
- drivers/perf/arm_smmuv3_pmu.c               | 2 +-
- drivers/perf/arm_spe_pmu.c                  | 2 +-
- drivers/perf/cxl_pmu.c                      | 2 +-
- drivers/perf/dwc_pcie_pmu.c                 | 2 +-
- drivers/perf/fsl_imx8_ddr_perf.c            | 2 +-
- drivers/perf/fsl_imx9_ddr_perf.c            | 2 +-
- drivers/perf/fujitsu_uncore_pmu.c           | 2 +-
- drivers/perf/hisilicon/hisi_pcie_pmu.c      | 2 +-
- drivers/perf/hisilicon/hisi_uncore_pmu.c    | 2 +-
- drivers/perf/marvell_cn10k_ddr_pmu.c        | 2 +-
- drivers/perf/marvell_cn10k_tad_pmu.c        | 2 +-
- drivers/perf/marvell_pem_pmu.c              | 2 +-
- drivers/perf/nvidia_t410_c2c_pmu.c          | 2 +-
- drivers/perf/nvidia_t410_cmem_latency_pmu.c | 2 +-
- drivers/perf/qcom_l2_pmu.c                  | 2 +-
- drivers/perf/qcom_l3_pmu.c                  | 2 +-
- drivers/perf/starfive_starlink_pmu.c        | 2 +-
- drivers/perf/thunderx2_pmu.c                | 2 +-
- drivers/perf/xgene_pmu.c                    | 2 +-
- kernel/events/core.c                        | 2 +-
- 30 files changed, 31 insertions(+), 31 deletions(-)
-
-diff --git a/drivers/perf/alibaba_uncore_drw_pmu.c b/drivers/perf/alibaba_uncore_drw_pmu.c
-index ac49d3b2dad6..74786a5dd6a2 100644
---- a/drivers/perf/alibaba_uncore_drw_pmu.c
-+++ b/drivers/perf/alibaba_uncore_drw_pmu.c
-@@ -221,7 +221,7 @@ static ssize_t ali_drw_pmu_cpumask_show(struct device *dev,
- {
- 	struct ali_drw_pmu *drw_pmu = to_ali_drw_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(drw_pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(drw_pmu->cpu)));
- }
- 
- static struct device_attribute ali_drw_pmu_cpumask_attr =
-diff --git a/drivers/perf/amlogic/meson_ddr_pmu_core.c b/drivers/perf/amlogic/meson_ddr_pmu_core.c
-index c1e755c356a3..f614aa3434a5 100644
---- a/drivers/perf/amlogic/meson_ddr_pmu_core.c
-+++ b/drivers/perf/amlogic/meson_ddr_pmu_core.c
-@@ -191,7 +191,7 @@ static ssize_t meson_ddr_perf_cpumask_show(struct device *dev,
- {
- 	struct ddr_pmu *pmu = dev_get_drvdata(dev);
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
- }
- 
- static struct device_attribute meson_ddr_perf_cpumask_attr =
-diff --git a/drivers/perf/arm-cci.c b/drivers/perf/arm-cci.c
-index 1cc3214d6b6d..f0ef0a679e74 100644
---- a/drivers/perf/arm-cci.c
-+++ b/drivers/perf/arm-cci.c
-@@ -1351,7 +1351,7 @@ static ssize_t pmu_cpumask_attr_show(struct device *dev,
- 	struct pmu *pmu = dev_get_drvdata(dev);
- 	struct cci_pmu *cci_pmu = to_cci_pmu(pmu);
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(cci_pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(cci_pmu->cpu)));
- }
- 
- static struct device_attribute pmu_cpumask_attr =
-diff --git a/drivers/perf/arm-ccn.c b/drivers/perf/arm-ccn.c
-index 8af3563fdf60..d5dcb4280434 100644
---- a/drivers/perf/arm-ccn.c
-+++ b/drivers/perf/arm-ccn.c
-@@ -538,7 +538,7 @@ static ssize_t arm_ccn_pmu_cpumask_show(struct device *dev,
- {
- 	struct arm_ccn *ccn = pmu_to_arm_ccn(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(ccn->dt.cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(ccn->dt.cpu)));
- }
- 
- static struct device_attribute arm_ccn_pmu_cpumask_attr =
-diff --git a/drivers/perf/arm-cmn.c b/drivers/perf/arm-cmn.c
-index 6e5cc4086a9e..ff8bbf07c94e 100644
---- a/drivers/perf/arm-cmn.c
-+++ b/drivers/perf/arm-cmn.c
-@@ -1327,7 +1327,7 @@ static ssize_t arm_cmn_cpumask_show(struct device *dev,
- {
- 	struct arm_cmn *cmn = to_cmn(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(cmn->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(cmn->cpu)));
- }
- 
- static struct device_attribute arm_cmn_cpumask_attr =
-diff --git a/drivers/perf/arm-ni.c b/drivers/perf/arm-ni.c
-index 66858c65215d..03a1c6bf9223 100644
---- a/drivers/perf/arm-ni.c
-+++ b/drivers/perf/arm-ni.c
-@@ -239,7 +239,7 @@ static ssize_t arm_ni_cpumask_show(struct device *dev,
- {
- 	struct arm_ni *ni = cd_to_ni(pmu_to_cd(dev_get_drvdata(dev)));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(ni->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(ni->cpu)));
- }
- 
- static struct device_attribute arm_ni_cpumask_attr =
-diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
-index 80fb314d5135..e6292021f653 100644
---- a/drivers/perf/arm_cspmu/arm_cspmu.c
-+++ b/drivers/perf/arm_cspmu/arm_cspmu.c
-@@ -305,7 +305,7 @@ static ssize_t arm_cspmu_cpumask_show(struct device *dev,
- 	default:
- 		return 0;
- 	}
--	return cpumap_print_to_pagebuf(true, buf, cpumask);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
- }
- 
- static struct attribute *arm_cspmu_cpumask_attrs[] = {
-diff --git a/drivers/perf/arm_dmc620_pmu.c b/drivers/perf/arm_dmc620_pmu.c
-index 4f6b196160f8..467147a05eec 100644
---- a/drivers/perf/arm_dmc620_pmu.c
-+++ b/drivers/perf/arm_dmc620_pmu.c
-@@ -237,8 +237,8 @@ static ssize_t dmc620_pmu_cpumask_show(struct device *dev,
- {
- 	struct dmc620_pmu *dmc620_pmu = to_dmc620_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf,
--				       cpumask_of(dmc620_pmu->irq->cpu));
-+	return sysfs_emit(buf, "%*pbl\n",
-+			  cpumask_pr_args(cpumask_of(dmc620_pmu->irq->cpu)));
- }
- 
- static struct device_attribute dmc620_pmu_cpumask_attr =
-diff --git a/drivers/perf/arm_dsu_pmu.c b/drivers/perf/arm_dsu_pmu.c
-index 32b0dd7c693b..bcbd19e075a5 100644
---- a/drivers/perf/arm_dsu_pmu.c
-+++ b/drivers/perf/arm_dsu_pmu.c
-@@ -157,7 +157,7 @@ static ssize_t dsu_pmu_cpumask_show(struct device *dev,
- 	default:
- 		return 0;
- 	}
--	return cpumap_print_to_pagebuf(true, buf, cpumask);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
- }
- 
- static struct attribute *dsu_pmu_format_attrs[] = {
-diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-index 939bcbd433aa..51ab6cc52ca0 100644
---- a/drivers/perf/arm_pmu.c
-+++ b/drivers/perf/arm_pmu.c
-@@ -570,7 +570,7 @@ static ssize_t cpus_show(struct device *dev,
- 			 struct device_attribute *attr, char *buf)
- {
- 	struct arm_pmu *armpmu = to_arm_pmu(dev_get_drvdata(dev));
--	return cpumap_print_to_pagebuf(true, buf, &armpmu->supported_cpus);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&armpmu->supported_cpus));
- }
- 
- static DEVICE_ATTR_RO(cpus);
-diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
-index 621f02a7f43b..8ce34e6bb82b 100644
---- a/drivers/perf/arm_smmuv3_pmu.c
-+++ b/drivers/perf/arm_smmuv3_pmu.c
-@@ -537,7 +537,7 @@ static ssize_t smmu_pmu_cpumask_show(struct device *dev,
- {
- 	struct smmu_pmu *smmu_pmu = to_smmu_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(smmu_pmu->on_cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(smmu_pmu->on_cpu)));
- }
- 
- static struct device_attribute smmu_pmu_cpumask_attr =
-diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-index dbd0da111639..9f786fd48cdd 100644
---- a/drivers/perf/arm_spe_pmu.c
-+++ b/drivers/perf/arm_spe_pmu.c
-@@ -343,7 +343,7 @@ static ssize_t cpumask_show(struct device *dev,
- {
- 	struct arm_spe_pmu *spe_pmu = dev_get_drvdata(dev);
- 
--	return cpumap_print_to_pagebuf(true, buf, &spe_pmu->supported_cpus);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&spe_pmu->supported_cpus));
- }
- static DEVICE_ATTR_RO(cpumask);
- 
-diff --git a/drivers/perf/cxl_pmu.c b/drivers/perf/cxl_pmu.c
-index 68a54d97d2a8..0735eb33f5f3 100644
---- a/drivers/perf/cxl_pmu.c
-+++ b/drivers/perf/cxl_pmu.c
-@@ -493,7 +493,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct cxl_pmu_info *info = dev_get_drvdata(dev);
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(info->on_cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(info->on_cpu)));
- }
- static DEVICE_ATTR_RO(cpumask);
- 
-diff --git a/drivers/perf/dwc_pcie_pmu.c b/drivers/perf/dwc_pcie_pmu.c
-index 5385401fa9cf..291e776d6f6a 100644
---- a/drivers/perf/dwc_pcie_pmu.c
-+++ b/drivers/perf/dwc_pcie_pmu.c
-@@ -117,7 +117,7 @@ static ssize_t cpumask_show(struct device *dev,
- {
- 	struct dwc_pcie_pmu *pcie_pmu = to_dwc_pcie_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pcie_pmu->on_cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pcie_pmu->on_cpu)));
- }
- static DEVICE_ATTR_RO(cpumask);
- 
-diff --git a/drivers/perf/fsl_imx8_ddr_perf.c b/drivers/perf/fsl_imx8_ddr_perf.c
-index bcdf5575d71c..3760ebe02674 100644
---- a/drivers/perf/fsl_imx8_ddr_perf.c
-+++ b/drivers/perf/fsl_imx8_ddr_perf.c
-@@ -237,7 +237,7 @@ static ssize_t ddr_perf_cpumask_show(struct device *dev,
- {
- 	struct ddr_pmu *pmu = dev_get_drvdata(dev);
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
- }
- 
- static struct device_attribute ddr_perf_cpumask_attr =
-diff --git a/drivers/perf/fsl_imx9_ddr_perf.c b/drivers/perf/fsl_imx9_ddr_perf.c
-index 7050b48c0467..6fee5eb5087a 100644
---- a/drivers/perf/fsl_imx9_ddr_perf.c
-+++ b/drivers/perf/fsl_imx9_ddr_perf.c
-@@ -159,7 +159,7 @@ static ssize_t ddr_perf_cpumask_show(struct device *dev,
- {
- 	struct ddr_pmu *pmu = dev_get_drvdata(dev);
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
- }
- 
- static struct device_attribute ddr_perf_cpumask_attr =
-diff --git a/drivers/perf/fujitsu_uncore_pmu.c b/drivers/perf/fujitsu_uncore_pmu.c
-index c3c6f56474ad..a07877632d53 100644
---- a/drivers/perf/fujitsu_uncore_pmu.c
-+++ b/drivers/perf/fujitsu_uncore_pmu.c
-@@ -374,7 +374,7 @@ static ssize_t cpumask_show(struct device *dev,
- {
- 	struct uncore_pmu *uncorepmu = to_uncore_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(uncorepmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(uncorepmu->cpu)));
- }
- static DEVICE_ATTR_RO(cpumask);
- 
-diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-index c5394d007b61..0f55d871c67e 100644
---- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
-+++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-@@ -121,7 +121,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr, c
- {
- 	struct hisi_pcie_pmu *pcie_pmu = to_pcie_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pcie_pmu->on_cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pcie_pmu->on_cpu)));
- }
- static DEVICE_ATTR_RO(cpumask);
- 
-diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.c b/drivers/perf/hisilicon/hisi_uncore_pmu.c
-index de71dcf11653..0ff2fdf4b3e2 100644
---- a/drivers/perf/hisilicon/hisi_uncore_pmu.c
-+++ b/drivers/perf/hisilicon/hisi_uncore_pmu.c
-@@ -56,7 +56,7 @@ static ssize_t hisi_associated_cpus_sysfs_show(struct device *dev,
- {
- 	struct hisi_pmu *hisi_pmu = to_hisi_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, &hisi_pmu->associated_cpus);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&hisi_pmu->associated_cpus));
- }
- static DEVICE_ATTR(associated_cpus, 0444, hisi_associated_cpus_sysfs_show, NULL);
- 
-diff --git a/drivers/perf/marvell_cn10k_ddr_pmu.c b/drivers/perf/marvell_cn10k_ddr_pmu.c
-index 72ac17efd846..8681e8715cb3 100644
---- a/drivers/perf/marvell_cn10k_ddr_pmu.c
-+++ b/drivers/perf/marvell_cn10k_ddr_pmu.c
-@@ -364,7 +364,7 @@ static ssize_t cn10k_ddr_perf_cpumask_show(struct device *dev,
- {
- 	struct cn10k_ddr_pmu *pmu = dev_get_drvdata(dev);
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
- }
- 
- static struct device_attribute cn10k_ddr_perf_cpumask_attr =
-diff --git a/drivers/perf/marvell_cn10k_tad_pmu.c b/drivers/perf/marvell_cn10k_tad_pmu.c
-index 51ccb0befa05..54909d0031b7 100644
---- a/drivers/perf/marvell_cn10k_tad_pmu.c
-+++ b/drivers/perf/marvell_cn10k_tad_pmu.c
-@@ -258,7 +258,7 @@ static ssize_t tad_pmu_cpumask_show(struct device *dev,
- {
- 	struct tad_pmu *tad_pmu = to_tad_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(tad_pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(tad_pmu->cpu)));
- }
- 
- static DEVICE_ATTR(cpumask, 0444, tad_pmu_cpumask_show, NULL);
-diff --git a/drivers/perf/marvell_pem_pmu.c b/drivers/perf/marvell_pem_pmu.c
-index 29fbcd1848e4..cf1d8cdb1318 100644
---- a/drivers/perf/marvell_pem_pmu.c
-+++ b/drivers/perf/marvell_pem_pmu.c
-@@ -164,7 +164,7 @@ static ssize_t pem_perf_cpumask_show(struct device *dev,
- {
- 	struct pem_pmu *pmu = dev_get_drvdata(dev);
- 
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(pmu->cpu)));
- }
- 
- static struct device_attribute pem_perf_cpumask_attr =
-diff --git a/drivers/perf/nvidia_t410_c2c_pmu.c b/drivers/perf/nvidia_t410_c2c_pmu.c
-index 411987153ff3..bff875f4f625 100644
---- a/drivers/perf/nvidia_t410_c2c_pmu.c
-+++ b/drivers/perf/nvidia_t410_c2c_pmu.c
-@@ -658,7 +658,7 @@ static ssize_t nv_c2c_pmu_cpumask_show(struct device *dev,
- 	default:
- 		return 0;
- 	}
--	return cpumap_print_to_pagebuf(true, buf, cpumask);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
- }
- 
- #define NV_C2C_PMU_CPUMASK_ATTR(_name, _config)			\
-diff --git a/drivers/perf/nvidia_t410_cmem_latency_pmu.c b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-index acb8f5571522..6c8e41598ec1 100644
---- a/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-+++ b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-@@ -501,7 +501,7 @@ static ssize_t cmem_lat_pmu_cpumask_show(struct device *dev,
- 	default:
- 		return 0;
- 	}
--	return cpumap_print_to_pagebuf(true, buf, cpumask);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask));
- }
- 
- #define NV_PMU_CPUMASK_ATTR(_name, _config)			\
-diff --git a/drivers/perf/qcom_l2_pmu.c b/drivers/perf/qcom_l2_pmu.c
-index ea8c85729937..c0c522b10b72 100644
---- a/drivers/perf/qcom_l2_pmu.c
-+++ b/drivers/perf/qcom_l2_pmu.c
-@@ -638,7 +638,7 @@ static ssize_t l2_cache_pmu_cpumask_show(struct device *dev,
- {
- 	struct l2cache_pmu *l2cache_pmu = to_l2cache_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, &l2cache_pmu->cpumask);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&l2cache_pmu->cpumask));
- }
- 
- static struct device_attribute l2_cache_pmu_cpumask_attr =
-diff --git a/drivers/perf/qcom_l3_pmu.c b/drivers/perf/qcom_l3_pmu.c
-index 66e6cabd6fff..c8d259dd1f80 100644
---- a/drivers/perf/qcom_l3_pmu.c
-+++ b/drivers/perf/qcom_l3_pmu.c
-@@ -663,7 +663,7 @@ static ssize_t cpumask_show(struct device *dev,
- {
- 	struct l3cache_pmu *l3pmu = to_l3cache_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, &l3pmu->cpumask);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&l3pmu->cpumask));
- }
- 
- static DEVICE_ATTR_RO(cpumask);
-diff --git a/drivers/perf/starfive_starlink_pmu.c b/drivers/perf/starfive_starlink_pmu.c
-index 964897c2baa9..222a0a34e211 100644
---- a/drivers/perf/starfive_starlink_pmu.c
-+++ b/drivers/perf/starfive_starlink_pmu.c
-@@ -131,7 +131,7 @@ cpumask_show(struct device *dev, struct device_attribute *attr, char *buf)
- {
- 	struct starlink_pmu *starlink_pmu = to_starlink_pmu(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, &starlink_pmu->cpumask);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&starlink_pmu->cpumask));
- }
- 
- static DEVICE_ATTR_RO(cpumask);
-diff --git a/drivers/perf/thunderx2_pmu.c b/drivers/perf/thunderx2_pmu.c
-index 6ed4707bd6bb..a69c02d2d874 100644
---- a/drivers/perf/thunderx2_pmu.c
-+++ b/drivers/perf/thunderx2_pmu.c
-@@ -254,7 +254,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
- 	struct tx2_uncore_pmu *tx2_pmu;
- 
- 	tx2_pmu = pmu_to_tx2_pmu(dev_get_drvdata(dev));
--	return cpumap_print_to_pagebuf(true, buf, cpumask_of(tx2_pmu->cpu));
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(cpumask_of(tx2_pmu->cpu)));
- }
- static DEVICE_ATTR_RO(cpumask);
- 
-diff --git a/drivers/perf/xgene_pmu.c b/drivers/perf/xgene_pmu.c
-index 33b5497bdc06..e9e4871db08d 100644
---- a/drivers/perf/xgene_pmu.c
-+++ b/drivers/perf/xgene_pmu.c
-@@ -595,7 +595,7 @@ static ssize_t cpumask_show(struct device *dev,
- {
- 	struct xgene_pmu_dev *pmu_dev = to_pmu_dev(dev_get_drvdata(dev));
- 
--	return cpumap_print_to_pagebuf(true, buf, &pmu_dev->parent->cpu);
-+	return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(&pmu_dev->parent->cpu));
- }
- 
- static DEVICE_ATTR_RO(cpumask);
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 954c36e28101..d2539cdb9212 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -12694,7 +12694,7 @@ static ssize_t cpumask_show(struct device *dev, struct device_attribute *attr,
- 	struct cpumask *mask = perf_scope_cpumask(pmu->scope);
- 
- 	if (mask)
--		return cpumap_print_to_pagebuf(true, buf, mask);
-+		return sysfs_emit(buf, "%*pbl\n", cpumask_pr_args(mask));
- 	return 0;
- }
- 
--- 
-2.53.0
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBGcmFuY2VzY28gVmFsbGEgPGZy
+YW5jZXNjb0B2YWxsYS5pdD4NCj4gSGVsbG8gR3JlZywNCj4gDQo+IHRoYW5rIHlvdSBmb3IgdGhl
+IHF1aWNrIGZlZWRiYWNrLg0KPiANCj4gT24gVHVlLCBKdW4gMzAsIDIwMjYgYXQgMTI6MjE6MzlQ
+TSArMDIwMCwgR3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOg0KPiA+IE9uIE1vbiwgSnVuIDI5LCAy
+MDI2IGF0IDExOjUxOjE4UE0gKzAyMDAsIEZyYW5jZXNjbyBWYWxsYSB3cm90ZToNCj4gPiA+IFRo
+ZSBpbml0Y2FsbF9kZWJ1ZyBjb21tYW5kIGxpbmUgb3B0aW9uIGlzIGEgdXNlZnVsIHRvb2wgd2hp
+bGUgZGVidWdnaW5nDQo+ID4gPiBhbmQgb3B0aW1pemluZyB0aGUgaW5pdGlhbGl6YXRpb24gb2Yg
+YSBuZXcgc3lzdGVtLCBtYWlubHkgYmVjYXVzZSBpdA0KPiA+ID4gYWxsb3dzIHRvIHNlZSBwcm9i
+ZSBmYWlsdXJlcyBhbmQgZGVmZXJyYWxzIHdpdGhvdXQgcmVjb21waWxpbmcgdGhlDQo+ID4gPiBr
+ZXJuZWwgKGUuZy4sIHdpdGggQ09ORklHX0RFQlVHX0RSSVZFUikuIEhvd2V2ZXIsIG1hdGNoaW5n
+IGEgZGV2aWNlDQo+ID4gPiB3aXRoIHRoZSBkcml2ZXIgaXQgaXMgYmVpbmcgcHJvYmVkIHdpdGgg
+Y2FuIGJlY29tZSBkaWZmaWN1bHQsIHNpbmNlDQo+ID4gPiBzb21lIGRldmljZXMgdXNlIG5hbWVz
+IHRoYXQgYXJlIG5vdCBleHBsaWNpdCwgYXQgbGVhc3QgYXQgYSBmaXJzdCBzaWdodA0KPiA+ID4g
+KGUuZy46ICcxLTA6MS4wJyBvciAnMS0wMDYwJykuDQo+ID4gPg0KPiA+ID4gQWRkIGFuIGFkZGl0
+aW9uYWwgZGVidWcgcHJpbnQgdG8gaW5mb3JtIHRoZSB1c2VyIHdoaWNoIGRyaXZlciBpcyBiZWlu
+Zw0KPiA+ID4gdXNlZCBmb3IgYSBkZXZpY2UsIGFsbG93aW5nIGZvciBhIHF1aWNrIG1hdGNoLiBU
+aGUgcHJpbnQgaXMgaW5zZXJ0ZWQgaW4NCj4gPiA+IHRoZSBzYW1lIHJlYWxseV9wcm9iZV9kZWJ1
+ZygpIHdyYXBwZXIgdGhhdCBpcyBhbHJlYWR5IHVzZWQgdG8gcmVwb3J0DQo+ID4gPiB0aGUgcmVz
+dWx0IG9mIHRoZSBwcm9iZSwgYW5kIGlzIHRodXMgbm90IGFmZmVjdGluZyBleGVjdXRpb25zIG5v
+dCB1c2luZw0KPiA+ID4gdGhlIGluaXRjYWxsX2RlYnVnIG9wdGlvbi4NCj4gPiA+DQo+ID4gPiBT
+dWdnZXN0ZWQtYnk6IFRpbSBCaXJkIDx0aW0uYmlyZEBzb255LmNvbT4NCj4gPiA+IFNpZ25lZC1v
+ZmYtYnk6IEZyYW5jZXNjbyBWYWxsYSA8ZnJhbmNlc2NvQHZhbGxhLml0Pg0KPiA+ID4gLS0tDQo+
+ID4gPiBIZWxsbywNCj4gPiA+DQo+ID4gPiB0aGlzIHZlcnkgc21hbGwgcGF0Y2ggY29tZXMgZnJv
+bSBhIGRpc2N1c3Npb24gc3RhcnRlZCBhdCB0aGUgZW5kIG9mDQo+ID4gPiAyMDI0IGFmdGVyIGEg
+Qm9vdCBUaW1lIFNJRyBtZWV0aW5nIFsxXTsgSSBkZWNpZGVkIHRvIHJlZHVjZSB0aGUgcGF0Y2gN
+Cj4gPiA+IHByb3Bvc2VkIHRoZXJlIGJ5IFRpbSB0byB0aGUgYmFyZSBtaW5pbXVtLCBhcyB0aGlz
+IHNob3VsZCBhbHJlYWR5IGJlDQo+ID4gPiBlbm91Z2ggaW5mb3JtYXRpb24gZm9yIGEgZGV2ZWxv
+cGVyIHRvIHdvcmsgd2l0aC4NCj4gPiA+DQo+ID4gPiBJIHdhcyB1bnN1cmUgb24gd2hldGhlciB0
+byBhZGQgaW5mb3JtYXRpb24gdG8gdGhlIGV4aXN0aW5nIHByaW50IG9yDQo+ID4gPiBpbnRyb2R1
+Y2UgYSBuZXcgb25lOyB3aGlsZSBJTU8gdGVjaG5pY2FsbHkgd29yc2UsIEkgb3B0ZWQgZm9yIHRo
+aXMNCj4gPiA+IHNlY29uZCBzb2x1dGlvbiwgc2luY2UgdGhlIGV4aXN0aW5nIHByaW50ICptaWdo
+dCogYmUgdmlld2VkIGFzDQo+ID4gPiB1c2Vyc3BhY2UtZmFjaW5nIEFCSS4gSSdsbCBiZSBoYXBw
+eSB0byBkbyBvdGhlcndpc2UgaWYgdGhlcmUgaXMNCj4gPiA+IGNvbnNlbnN1cy4NCj4gPiA+DQo+
+ID4gPiBUaGFuayB5b3UhDQo+ID4gPg0KPiA+ID4gUmVnYXJkcywNCj4gPiA+IEZyYW5jZXNjbw0K
+PiA+ID4NCj4gPiA+IFsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC0NCj4gZW1iZWRk
+ZWQvTVc1UFIxM01CNTYzMjc3QUY1OTcyRkQyQjU2MDI2Q0Y5RkQzQzJATVc1UFIxM01CNTYzMi5u
+YW1wcmQxMy5wcm9kLm91dGxvb2suY29tLw0KPiA+ID4gLS0tDQo+ID4gPiAgZHJpdmVycy9iYXNl
+L2RkLmMgfCAzICsrKw0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykNCj4g
+PiA+DQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9iYXNlL2RkLmMgYi9kcml2ZXJzL2Jhc2Uv
+ZGQuYw0KPiA+ID4gaW5kZXggNjBjMDA1MjIzODQ0Li4zYzA5MzAwMjAwNTAgMTAwNjQ0DQo+ID4g
+PiAtLS0gYS9kcml2ZXJzL2Jhc2UvZGQuYw0KPiA+ID4gKysrIGIvZHJpdmVycy9iYXNlL2RkLmMN
+Cj4gPiA+IEBAIC03ODIsNiArNzgyLDkgQEAgc3RhdGljIGludCByZWFsbHlfcHJvYmVfZGVidWco
+c3RydWN0IGRldmljZSAqZGV2LCBjb25zdCBzdHJ1Y3QgZGV2aWNlX2RyaXZlciAqZHINCj4gPiA+
+ICAJa3RpbWVfdCBjYWxsdGltZSwgcmV0dGltZTsNCj4gPiA+ICAJaW50IHJldDsNCj4gPiA+DQo+
+ID4gPiArCS8qIERvbid0IGNoYW5nZSB0aGlzIHRvIHByX2RlYnVnKCkgLSBzZWUgY29tbWVudCBi
+ZWxvdy4gKi8NCj4gPiA+ICsJcHJpbnRrKEtFUk5fREVCVUcgInByb2JpbmcgJXMgd2l0aCBkcml2
+ZXIgJXNcbiIsIGRldl9uYW1lKGRldiksIGRydi0+bmFtZSk7DQo+ID4NCj4gPiBTbyB5b3Ugbm93
+IGdldCAyIGxpbmVzIHBlciBkcml2ZXIgcHJvYmUgYXR0ZW1wdD8NCj4gPg0KPiA+IFdoYXQgZXhh
+Y3RseSBpcyB0aGlzIGdvaW5nIHRvIGhlbHAgb3V0IHdpdGg/ICBZb3UgYWxlYWR5IGdldCB0aGUg
+cHJvYmUNCj4gPiByZXN1bHQgbGluZSwgaG93IGlzIGRvaW5nIDIgZ29pbmcgdG8gY2hhbmdlIGFu
+eXRoaW5nIGV4Y2VwdCBleHBsb2RlIHlvdXINCj4gPiBrZXJuZWwgbG9nPyAgV2h5IG5vdCBqdXN0
+IG1vZGlmeSB0aGUgb25lIGV4aXN0aW5nIGxpbmUgaW5zdGVhZD8NCj4gPg0KPiANCj4gSSB3YXMg
+YmVpbmcgb3ZlcnplYWxvdXMgd2l0aCB0aGUgImRvbid0IGJyZWFrIHRoZSB1c2Vyc3BhY2UgQUJJ
+IiBydWxlDQo+IGFuZCBpbmNsdWRlZCB0aGUgZXhpc3RpbmcgcHJpbnQgaW50byB0aGlzIGtpbmQg
+b2YgQUJJLiBHaXZlbiB5b3VyDQo+IHJlc3BvbnNlLCB0aG91Z2gsIHRoaXMgbWlnaHQgbm90IGJl
+IHRoZSBjYXNlLiBJJ2xsIHdhaXQgYSBjb3VwbGUgb2YgZGF5cw0KPiB0byBzZWUgaWYgYW55b25l
+IGhhcyBzb21ldGhpbmcgdG8gYWRkIGFuZCB0aGVuIHNlbmQgYSBWMiB0aGF0IGFkZHMgdGhlDQo+
+IGRyaXZlciBuYW1lIHRvIHRoZSBleGlzdGVudCBwcmludCAoc29sdXRpb24gdGhhdCBJIHRlY2hu
+aWNhbGx5IHByZWZlcikuDQoNCkkgZXhhbWluZWQgc2NyaXB0cy9ib290Z3JhcGgucGwsIGJvb3Rj
+aGFydCwgdG9vbHMvcG93ZXIvcG0tZ3JhcGgvYm9vdGdyYXBoLnB5DQpzeXN0ZW1kLWFuYWx5emUg
+YW5kIHNvbWUgb3RoZXJzIHRoYXQgcGFyc2UgZG1lc2cgbGluZXMgcHJvZHVjZWQgYnkgdGhlIGlu
+aXRjYWxsX2RlYnVnDQpvcHRpb24gKGluY2x1ZGluZyBteSBvd24gdG9vbHMpLg0KDQpUaGUgb25s
+eSB0b29sIEkgZm91bmQgdGhhdCBwYXJzZXMgdGhlIHByb2JlIGRlYnVnIGxpbmVzIGlzIGFuYWx5
+emUtaW5pdGNhbGwtZGVidWcucHkNCiAtIHdoaWNoIGlzIHlvdXIgcHJvZ3JhbSwgYW5kIHdlIGRp
+c2N1c3NlZCB0aGF0IHlvdSBwbGFubmVkIHRvIG1vZGlmeSB0aGF0IHRvb2wgdG8gDQphY2NlcHQg
+Ym90aCBvbGQgYW5kIG5ldyBzdHJpbmcgZm9ybWF0cyBmb3IgdGhpcyBsaW5lLg0KDQpUaGlzIGlz
+IGFsbCB0byBzYXkgdGhhdCBJJ20gbm90IGF3YXJlIG9mIGFueXRoaW5nIHRoYXQgd2lsbCBicmVh
+ayBpZiB5b3UgY2hhbmdlIHRoZQ0KZm9ybWF0IG9mIHRoZSBleGlzdGluZyBwcm9iZSBkZWJ1ZyBs
+aW5lLiAgU28gbXkgdm90ZSB3b3VsZCBiZSB0byBhZGQgdGhlIGRyaXZlcg0KbmFtZSB0byB0aGUg
+ZXhpc3RpbmcgcHJpbnRrIGxpbmUuICBPZiBjb3Vyc2UsIGl0IHdvdWxkIGJlIGdyZWF0IGlmIHlv
+dSBjYW4gZG8gc28gY29uc2VydmF0aXZlbHkNCih0aGF0IGlzLCBrZWVwaW5nIG1vc3Qgb2YgdGhl
+IHN0cmluZyBlbGVtZW50cyBpbnRhY3QgYW5kIGluIHRoZSBzYW1lIG9yZGVyLCBzbyB0aGF0IGV4
+aXN0aW5nIHBhcnNlcnMNCnRoYXQgd2UgbWlnaHQgbm90IGJlIGF3YXJlIG9mIGRvbid0IGJyZWFr
+KS4NCg0KSSdsbCBiZSBnbGFkIHRvIHNlZSB0aGlzIGV4dHJhIGRhdGEgYXZhaWxhYmxlLg0KIC0t
+IFRpbQ0KDQo=
