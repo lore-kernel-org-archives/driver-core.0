@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B1B492192
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 13:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A72492199
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 13:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782997771; cv=none; b=EILx250HBiCoo5unU67SJ/pJFZdVcPbLYHzZw+1QQvf5527et1NZawTFsRj+s9MemVtrtVo7aZJ9WRflrVZQBUxfyWsf9QjrNDOtKf/3GBGiTTOoA5IoBaFD5l115iySXfJJWYToiYI5uAie2h38W+uqUoEEb5IrL7PBBis1/K0=
+	t=1782997771; cv=none; b=NOXDYVxu4qt7N3wQtCJ6RKRgVsYLZQgBhhQKmHWBmRDD6Cq/b+tv7yFPvylE5QRJGHv0q7fiku1jzhHlF3OIeGmrDUWPi6dN7NfDCBJR940Ipjrb/ZYA4ABnkI/biYT9MquMF0fFJPvX4DnGSwDPtt4ciTSAVfsmTH68WnNGnMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782997771; c=relaxed/simple;
-	bh=oJ3JNZ6A9LzwBVXjgXi9c2MgF8fs34PDN5DnG7Go2v8=;
+	bh=M7rclrRdFprUFT3CMVU58irngl0mj+ZduTFpMAmONNU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lsIXtO5sWNBeKTzJ+lrk5VbYYnGf2YeeWLQFBw16N5/lqQF08u79SzRm2vBGVAcPPf1Ed9CfYt+LHRD2NKLMmCuALxFSjWdDCkXiiZj3bsKQF3yXIxIa0QV7+Xjk2J1Yr1wWG/jQdYJ3jm68dU91piV3xnIB/iewEW80xNpsCQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=APyCq4PA; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=E9lA6mQnzJol0G+a+tcWH4/HcdRaM9flj+6ocBeYRTKSxSx4PadLoEZE1KuNMjultjTWC0/o7THOdTzt51Ryk3EuRePSCPFZckk5w9MSTtquRyiOzuzVzt2N7jkHD0cib0RDv10vcwIin91F8Iwvr911LbsBzOYXu8/Eslw8mug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mu0RZYp/; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APyCq4PA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mu0RZYp/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782997767; x=1814533767;
+  t=1782997770; x=1814533770;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=oJ3JNZ6A9LzwBVXjgXi9c2MgF8fs34PDN5DnG7Go2v8=;
-  b=APyCq4PAm6KAaZWaOlqg9C/CSIz+2Xuh0aDPAEK51mufSvUkka2gxqMT
-   KV9puk/JWdxqK8shujhWTXBSoc/9TfQ6s3JIddqxQfBXn01SDNnhDL9eS
-   XVlw0dfHByikMgMZZm4REpO88lDcMmdMUGoBt+PkGeUs+sKPdfiC5vzxp
-   KPa9XO2zyYaq419Qv5gbPblWHy1rP5ZXEywsiFuNB19kqPwlGlPW2yFWB
-   F5ua3Gcz15xI1Z62waXIqcozjlP/X5yY3o0sQwqZ+qQIQQfHK9QfnaSas
-   rwXwzSddsIuPtwsd8PgwpqvnCRZAEZbkZiY+lmgma3FVdjf0Cl4uWUA1G
-   w==;
-X-CSE-ConnectionGUID: wqn4OaYXQ9aoHYMgTstYMA==
-X-CSE-MsgGUID: 08lsHnP2RmGVEAzW/zOsQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="101175347"
+  bh=M7rclrRdFprUFT3CMVU58irngl0mj+ZduTFpMAmONNU=;
+  b=Mu0RZYp/84i/nQpADNxQHGgJZkS2hFZeMi9ObGkoYW2zYiDudDROlEpW
+   Rz8rQs7r15X1qGef+hBtQayynD2pVdszc4A2rmVyl0QDcdozTP9yh4lLQ
+   ZjgVpFq28fppemf8jcvehqxLzQ5J3F1y8fkRjjpT+EZyPYyttSgHytRY+
+   AzDEAiCK1i85IGyU86bax/TCg6PPPJzMWxjd7OLzpuRS6ydQBDkwi0wR4
+   6EsAFWTjmYSW2huYymchicFfh51XxSr6wI0dVAuFCrcpaWDbMqtjoC5z0
+   tuw2k3opbUoQr+Q7Hj/jVugC+r0rGl2od8w0UvhXeqdUtD5OyFwd/wAd6
+   Q==;
+X-CSE-ConnectionGUID: kQy3sMmZRX6sUkCNf0xkJA==
+X-CSE-MsgGUID: CEe1wBVuRVOc19ALT2/gAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="95256362"
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="101175347"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 06:09:26 -0700
-X-CSE-ConnectionGUID: UKnJkF/IQYSstkrVlRsdQA==
-X-CSE-MsgGUID: LWfIdWDyT0O2tfsN5+IqlQ==
+   d="scan'208";a="95256362"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 06:09:26 -0700
+X-CSE-ConnectionGUID: kOE+QZ9WQm2Chck3i01Zhg==
+X-CSE-MsgGUID: xrKp9MFEQkKrMpaUZVHIuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="248412273"
+   d="scan'208";a="251140489"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Jul 2026 06:09:22 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Jul 2026 06:09:22 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 896AA9D; Thu, 02 Jul 2026 15:09:21 +0200 (CEST)
+	id 7B66898; Thu, 02 Jul 2026 15:09:21 +0200 (CEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Mark Brown <broonie@kernel.org>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
@@ -60,9 +60,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Michael Walle <mwalle@kernel.org>,
 	Yu-Chun Lin <eleanor.lin@realtek.com>,
 	William Breathitt Gray <wbg@kernel.org>
-Subject: [PATCH v1 4/4] gpio: regmap: Order kernel-doc descriptions with the actual appearance
-Date: Thu,  2 Jul 2026 14:42:57 +0200
-Message-ID: <20260702130903.1790633-5-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/4] regmap-irq: Provide IRQ resource request and release callbacks
+Date: Thu,  2 Jul 2026 14:42:54 +0200
+Message-ID: <20260702130903.1790633-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
 References: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
@@ -74,54 +74,69 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Order kernel-doc descriptions with the actual appearance.
+The users which rely on regmap IRQ to create the IRQ chip may also
+want to have an additional tracking of the IRQ requests and releases.
+Provide a callback for them.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- include/linux/gpio/regmap.h | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/base/regmap/regmap-irq.c | 22 ++++++++++++++++++++++
+ include/linux/regmap.h           |  2 ++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/include/linux/gpio/regmap.h b/include/linux/gpio/regmap.h
-index e939709fde8d..a3ba8242c353 100644
---- a/include/linux/gpio/regmap.h
-+++ b/include/linux/gpio/regmap.h
-@@ -34,10 +34,6 @@ struct regmap;
-  * @ngpio_per_reg:	(Optional) Number of GPIOs per register
-  * @irq_domain:		(Optional) IRQ domain if the controller is
-  *			interrupt-capable
-- * @reg_mask_xlate:     (Optional) Translates base address and GPIO
-- *			offset to a register/bitmask pair. If not
-- *			given the default gpio_regmap_simple_xlate()
-- *			is used.
-  * @fixed_direction_mask:
-  *			(Optional) Bitmap representing the GPIO lines that
-  *			make use of the @fixed_direction_output list to
-@@ -48,16 +44,20 @@ struct regmap;
-  *			(Optional) Bitmap representing the fixed direction of
-  *			the GPIO lines. Useful when there are GPIO lines with a
-  *			fixed direction mixed together in the same register.
-- * @drvdata:		(Optional) Pointer to driver specific data which is
-- *			not used by gpio-remap but is provided "as is" to the
-- *			driver callback(s).
-- * @init_valid_mask:	(Optional) Routine to initialize @valid_mask, to be used
-- *			if not all GPIOs are valid.
-  * @regmap_irq_chip:	(Optional) Pointer on an regmap_irq_chip structure. If
-  *			set, a regmap-irq device will be created and the IRQ
-  *			domain will be set accordingly.
-  * @regmap_irq_line:	(Optional) The IRQ the device uses to signal interrupts.
-  * @regmap_irq_flags:	(Optional) The IRQF_ flags to use for the interrupt.
-+ * @reg_mask_xlate:     (Optional) Translates base address and GPIO
-+ *			offset to a register/bitmask pair. If not
-+ *			given the default gpio_regmap_simple_xlate()
-+ *			is used.
-+ * @init_valid_mask:	(Optional) Routine to initialize @valid_mask, to be used
-+ *			if not all GPIOs are valid.
-+ * @drvdata:		(Optional) Pointer to driver specific data which is
-+ *			not used by gpio-remap but is provided "as is" to the
-+ *			driver callback(s).
-  *
-  * The ->reg_mask_xlate translates a given base address and GPIO offset to
-  * register and mask pair. The base address is one of the given register
+diff --git a/drivers/base/regmap/regmap-irq.c b/drivers/base/regmap/regmap-irq.c
+index 07234d415b51..99b55b1053ee 100644
+--- a/drivers/base/regmap/regmap-irq.c
++++ b/drivers/base/regmap/regmap-irq.c
+@@ -296,6 +296,26 @@ static int regmap_irq_set_wake(struct irq_data *data, unsigned int on)
+ 	return 0;
+ }
+ 
++static int regmap_irq_reqres(struct irq_data *data)
++{
++	struct regmap_irq_chip_data *d = irq_data_get_irq_chip_data(data);
++	irq_hw_number_t hwirq = irqd_to_hwirq(data);
++
++	if (d->chip->irq_reqres)
++		return d->chip->irq_reqres(d->chip->irq_drv_data, hwirq);
++
++	return 0;
++}
++
++static void regmap_irq_relres(struct irq_data *data)
++{
++	struct regmap_irq_chip_data *d = irq_data_get_irq_chip_data(data);
++	irq_hw_number_t hwirq = irqd_to_hwirq(data);
++
++	if (d->chip->irq_relres)
++		d->chip->irq_relres(d->chip->irq_drv_data, hwirq);
++}
++
+ static const struct irq_chip regmap_irq_chip = {
+ 	.irq_bus_lock		= regmap_irq_lock,
+ 	.irq_bus_sync_unlock	= regmap_irq_sync_unlock,
+@@ -303,6 +323,8 @@ static const struct irq_chip regmap_irq_chip = {
+ 	.irq_enable		= regmap_irq_enable,
+ 	.irq_set_type		= regmap_irq_set_type,
+ 	.irq_set_wake		= regmap_irq_set_wake,
++	.irq_request_resources  = regmap_irq_reqres,
++	.irq_release_resources  = regmap_irq_relres,
+ };
+ 
+ static inline int read_sub_irq_data(struct regmap_irq_chip_data *data,
+diff --git a/include/linux/regmap.h b/include/linux/regmap.h
+index df44cb30f53b..370baa19db87 100644
+--- a/include/linux/regmap.h
++++ b/include/linux/regmap.h
+@@ -1770,6 +1770,8 @@ struct regmap_irq_chip {
+ 			       void *irq_drv_data);
+ 	unsigned int (*get_irq_reg)(struct regmap_irq_chip_data *data,
+ 				    unsigned int base, int index);
++	int (*irq_reqres)(void *irq_drv_data, irq_hw_number_t hwirq);
++	void (*irq_relres)(void *irq_drv_data, irq_hw_number_t hwirq);
+ 	void *irq_drv_data;
+ };
+ 
 -- 
 2.50.1
 
