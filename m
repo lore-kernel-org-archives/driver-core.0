@@ -1,52 +1,53 @@
-Received: from pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.77.92])
+Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA4D31D74B
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 17:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.77.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4324363C53
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 17:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783014043; cv=none; b=VgQzPS4r6uA90Megr7AehhG4ogL4PIbDH3x6H/77oucatwX5bd7ooV0cylKJlNw3Mio2oA2KvZ8jGT0to/BuAPUZMwMqf0suVBhbbRV2guozJm13QwtxHDc8QMjy8lgwL+f7rVNRi6JWO+DrueaAbKoiLfxyMdkZqRKH/0ESN78=
+	t=1783014046; cv=none; b=jCNL6NJfXJbTzhiiA/d+Reeuoz4Q4vdRMY2ldabCmwHRu07gI00A6bAI5EROWIabsYMWWCMNQ+30LNcZDWupoiXLFOSQJsnh7oA2yuCmZO/sYqHn5a5w8fMu4QrbV60t9SfMyqUK8uRZwr07AWmtuKi098u7K3osl1RzETopFjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783014043; c=relaxed/simple;
-	bh=2129ktdX9u/6uUo+wgRYGxGkBdJ56WassV+0Cj63nSg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PN719BwnPKYweEWkToWRX1Xcsk5zJYsyxLKQJ6FohKr/5Ovqhwg8qfq7+80vJ66Oo1Dq6H5pn4jwHOOONvPgI39FuJRS+QnHrEWrxJVqurEZd3CH2WlzvH7TZR6iQVkeKh/Yk2xGYl77QL5IvIovaOysIKqpvoW8uLNwaqfHCDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=UFWljW/1; arc=none smtp.client-ip=44.246.77.92
+	s=arc-20240116; t=1783014046; c=relaxed/simple;
+	bh=IkR81VStSxttbd2Tt2RNwSsi3ItqHJwB8HKXsgNr8AY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CMjpqRt4B4r/nNWL7pbnYEQoHrVLIpiVeyg17LED5RnvR8ro+vvvSveNvmGU+Jg/dBRLNG+n4MZ4DezHK9pk+3/LbBU0KbqIpJWWZWymvLOQqzHzVcBcCMlBONvzpyo8aIL2q2K+Fg90oLRwa9kut6YebyG41CujQob4Tg2TCOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=bPTd9Geu; arc=none smtp.client-ip=44.246.68.102
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="UFWljW/1"
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="bPTd9Geu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1783014041; x=1814550041;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yNPCtJS7zBtCAE2YXriwx7XKMhltueALVW8fi9ZgLvM=;
-  b=UFWljW/1dFLvbgte/M4nOGI2xTbIICVBlE/F43JVWx452VwutjD5OIpm
-   6xdrNdt00dqoxWB0QiA3uMCioDo5zGjTV0/+XlSn98vGQ8K2qfwdDkXtc
-   ulS997BK5cXzriWXA/gdAmPs/KPhAZCxiQZ+SHMIuiaFlzQqjfinnBUzY
-   ntwQKdPXrdTejRsGnzATWHwHQbCCXIeTTj+mlb7Otu/48kMsvUfhbTOCC
-   mLZKEkcr+hY3zOV/Wx978g7edJj+OwZu9iw8ce0vVtA6eXP4fQ5NwMiC+
-   dWZ4SFFxOFj01YTKLRRgekb0H/gFaNWK+fQRavJW8lZ/XaeG7ZWrGAf48
-   Q==;
-X-CSE-ConnectionGUID: 5xN7P1ipT8CvnCH2x09Y/g==
-X-CSE-MsgGUID: 8SypBo+mSRWloV+lLv0m5w==
+  t=1783014044; x=1814550044;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=AiJ+fIwy08lW7l+07g4Wos8y5mKqbMsd4Teu1JWjgVE=;
+  b=bPTd9Geueu9RxOfsX4pGTeUMU5eMjQ+ouSGu/RyZLcJzILgIirfVKTTK
+   K/6QhiX89IW3mJTa1sHELxeXqPVWc6lLJMlkyp+EJABRfmmb5LZIsfkw0
+   Fk6WfLlCG42BsvQ/FCzRAwucljYbgieYC9IIJCtzg9uvKPvdcPhsOSjK+
+   s0ExjeZ2IEFEaaYmo1CC6RA064+WVUyjMBNh07BaJz94bPyuW1cAT+wOx
+   EzdHORhqxNnmvaYAvwllkY4F5ylLr5QQ/PElnDwuYjTjfGao/S5jcLtcz
+   6MD3Od6lJ1F+BFIzJX7ITqQ/7QNVrQVb2CbKt1z3Vhrz8wLc6UnX1UUtY
+   A==;
+X-CSE-ConnectionGUID: y8bq6zIvS6CTijaNZj9tSA==
+X-CSE-MsgGUID: Fpv+CJ64T1GbwMXtot/bbQ==
 X-IronPort-AV: E=Sophos;i="6.25,144,1779148800"; 
-   d="scan'208";a="22939040"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-004.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 17:40:38 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:31268]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.46.225:2525] with esmtp (Farcaster)
- id 85f956fc-c1bb-4e7b-b2de-53fd06591ab4; Thu, 2 Jul 2026 17:40:38 +0000 (UTC)
-X-Farcaster-Flow-ID: 85f956fc-c1bb-4e7b-b2de-53fd06591ab4
+   d="scan'208";a="22963126"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 17:40:41 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:7235]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.1.125:2525] with esmtp (Farcaster)
+ id 142e4248-2dc0-4fae-beb4-1b19cf2b1670; Thu, 2 Jul 2026 17:40:40 +0000 (UTC)
+X-Farcaster-Flow-ID: 142e4248-2dc0-4fae-beb4-1b19cf2b1670
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Thu, 2 Jul 2026 17:40:38 +0000
+ Thu, 2 Jul 2026 17:40:40 +0000
 Received: from dev-dsk-sakacpav-1a-480d1124.eu-west-1.amazon.com
  (172.19.96.155) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43; Thu, 2 Jul 2026
- 17:40:35 +0000
+ 17:40:37 +0000
 From: Pavol Sakac <sakacpav@amazon.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
 	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Tejun Heo
@@ -57,10 +58,12 @@ CC: <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>, "David
  Matlack" <dmatlack@google.com>, Samiullah Khawaja <skhawaja@google.com>,
 	Alexander Graf <graf@amazon.com>, <linux-mm@kvack.org>,
 	<kexec@lists.infradead.org>, <nh-open-source@amazon.com>
-Subject: [RFC PATCH 00/14] driver core: defer per-VF sysfs creation for fast SR-IOV bring-up
-Date: Thu, 2 Jul 2026 19:40:19 +0200
-Message-ID: <20260702174033.32116-1-sakacpav@amazon.de>
+Subject: [RFC PATCH 01/14] kernfs: add populate callbacks and KERNFS_LAZY flag for lazy dir population
+Date: Thu, 2 Jul 2026 19:40:20 +0200
+Message-ID: <20260702174033.32116-2-sakacpav@amazon.de>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260702174033.32116-1-sakacpav@amazon.de>
+References: <20260702174033.32116-1-sakacpav@amazon.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -72,178 +75,222 @@ X-ClientProxiedBy: EX19D035UWB002.ant.amazon.com (10.13.138.97) To
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Virtualization hardware keeps increasing in CPU-core and VF density.
-Kernel is trending towards preserving VFs using LUO across a kexec
-which will put SR-IOV in live-update hotpath. VFs must be re-added to
-the sysfs tree, along with its supporting devices (e.g. vfio,
-iommu_groups). On production hardware a single VF can consume ~80 kernfs
-nodes. With thousands of VFs on modern hardware, hundreds of thousands
-of kernfs nodes need to be created, which can add 100ms+ to the boot
-time and to guest downtime.
+Add populate() and populate_all() callbacks to struct
+kernfs_syscall_ops:
 
-Proposed here is a PoC of deferred materialization of sysfs files until
-first access to avoid cost of kernfs node creation in hot path. In the
-reproducer below using a synthetic VF to isolate the sysfs overhead,
-the per-device sysfs-creation time is reduced by ~74%. It exploits the
-expected access pattern of hypervisors, where only a subset of device
-files need to be accessed to attach a VF to a VM on the hot path.
+  - populate() runs on a KERNFS_LAZY parent from
+    kernfs_iop_lookup() before kernfs_rwsem is taken; the locked
+    lookup then proceeds and its result is authoritative. The
+    subsystem may materialize the named child during the call.
 
-To allow lazy init scheme, a minimal set of files and directories is
-built per device: a device directory resolves directly to the device's
-kobject and is used to materialize attributes at access time. The
-access is trapped in kernfs at the dir-read or path-walk stage and
-depending on the trigger, either the full directory or a single file is
-materialized.
+  - populate_all() runs from kernfs_fop_readdir() before
+    kernfs_rwsem is taken. The subsystem may materialize all
+    deferred children.
 
-The changes are two logically distinct parts:
+Both are invoked with the parent's active reference held by the
+kernfs lookup path, so parent->priv stays live across the
+(sleeping) callback. The callback must not drop this pin.
 
-  1. Refactor of hardcoded device_add / iommu_group sysfs attribute
-     creation to a table-driven form to allow walkability of all
-     attributes and single point of definition for attributes
-     regardless of lazy opt-in to avoid duplicate definitions and
-     associated maintainability issues with it.
-  2. Lazy-init infra to front-run access to device files at lookup/
-     readdir time to trigger materialization. Opt-in per device: PCI VFs
-     and VFIO devices opt in via device_set_sysfs_lazy(); iommu_group
-     opts in at the kobject level.
+Add KERNFS_LAZY (0x8000) to enum kernfs_node_flag; non-lazy
+directories skip the indirect call entirely.
 
-As a PoC, the code does not yet follow this logical structure in the
-commit sequence and likely does not yet cover all corner cases.
+Add kernfs_set_lazy() to mark a directory lazy between linking
+into the parent tree and kernfs_activate(). It returns -EINVAL
+for namespaced and non-directory nodes: populate dispatch does
+not propagate the namespace tag, so a namespaced lazy node would
+silently fail tagged lookups. The error code lets callers detect
+contract violations without polluting dmesg with a stack trace
+and lets KUnit cover the rejection paths via return-value
+assertions rather than triggering WARN_ON_ONCE.
 
-Synthetic reproducer measurements
----------------------------------
-  devices   per-dev time   total time       kernfs nodes (base -> lazy)
-  -------   ------------   --------------   ----------------------------
-     500    31.8->8.3 us    15.9-> 4.1 ms     36,417 ->  3,922  (72.8->7.8/dev)
-    1000    33.2->8.7 us    33.2-> 8.7 ms     73,427 ->  8,432  (73.4->8.4/dev)
-    2500    32.8->9.1 us    82.0->22.7 ms    184,421 -> 21,925  (73.8->8.8/dev)
-    5000    33.0->8.7 us   165.1->43.5 ms    369,401 -> 44,406  (73.9->8.9/dev)
+Add matching populate/populate_all fields to struct kobj_type.
+These are sysfs-only; non-sysfs kernfs roots do not invoke them.
 
-The reproducer is synthetic: an in-kernel module registers N unbound
-platform devices (60 attributes / 4 groups, ~74 kernfs nodes each; no
-config space, BARs, or probe) in one timed burst that models SR-IOV
-enablement. It runs as a two-kernel A/B from one vanilla 7.1-rc2 tree
-(eager baseline vs patched, plus a patched/opt-in-OFF arm), 20 runs per
-point. Measures only sysfs-creation slice.
+No behavior change: no subsystem sets these callbacks yet.
 
-Deferral removes ~74% of the sysfs-creation time and ~88% of the kernfs
-nodes. At 5000 devices that is 121.6 ms removed (165.1 -> 43.5 ms) and
-~325,000 fewer kernfs nodes (369,401 -> 44,406). The table-driven rework
-adds a +7..+11% eager-path time overhead to non-opted devices.
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rafael J. Wysocki <rafael@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-api@vger.kernel.org
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: driver-core@lists.linux.dev
+Assisted-by: Claude:claude-opus-4.7
+Signed-off-by: Pavol Sakac <sakacpav@amazon.de>
+---
+ fs/kernfs/dir.c         | 43 +++++++++++++++++++++++++++++++++++++++--
+ include/linux/kernfs.h  | 28 +++++++++++++++++++++++++++
+ include/linux/kobject.h | 10 ++++++++++
+ 3 files changed, 79 insertions(+), 2 deletions(-)
 
-Available as a docker image that orchestrates builds in qemu guest and
-prints results as a table (x86_64 Linux host with /dev/kvm assumed):
-
-   docker run --device /dev/kvm ghcr.io/pavsa/linux-lazy-sysfs-vf-bench:7.1-rc2
-
-Assumptions / Trade-offs
-------------------------
-The saving depends on the access pattern of hypervisors, and on no
-component walking the whole device tree on the hot path to avoid full
-materialization. Both are expected to hold on optimized hypervisors.
-
-An actual production hypervisor was observed in local testing to
-materialize an additional 5-10% of total nodes on average on the hot
-path.
-
-Overhead: +7..+11% eager-path time overhead applies to every non-opted
-device going through device_add() as all struct devices traverse the
-walker and can't be gated under a config option.
-The lazy opt-in infra can be gated under config option to have zero
-impact if disabled.
-
-Final words
------------
-This is an RFC to first get feedback on the decisions taken at driver
-core + kernfs level before engaging maintainers of other subsystems
-if we want to pursue this further or pivot to something else.
-
-The code is at a proof-of-concept quality written with AI assistance
-with some known limitations with main target to gather potential
-savings and initiate conversation.
-
-Feedback appreciated for:
-- table-driven attribute refactor targeting common device add path /
-  suggestions for more efficient/less invasive approach
-- mechanism of interception in kernfs, materialization, locking scheme
-- fit into context of LUO - complementary or is there some other
-  mechanism already considered to mitigate the sysfs impact
-
-Pavol Sakac (14):
-  kernfs: add populate callbacks and KERNFS_LAZY flag for lazy dir
-    population
-  sysfs: add existence-check helpers for lazy populate races
-  sysfs: introduce sysfs_kf_syscall_ops dispatching to kobj_type
-  driver core: add struct sysfs_lazy_state and device_set_sysfs_lazy()
-  driver core: add struct device_sysfs_entry and walker
-  driver core: wire device_ktype populate to walker
-  driver core: migrate device sysfs to device_sysfs_entry table
-  PCI/sysfs: migrate to device_sysfs_entry, defer physfn symlink
-  iommu: lazy-populate iommu_group reserved_regions/type attrs
-  PCI/IOV: opt SR-IOV VFs into sysfs_lazy
-  vfio: opt vfio-dev and VFIO group devices into sysfs_lazy
-  driver core: test: add KUnit tests for device_sysfs_apply
-  Documentation: add lazy sysfs initialisation and device_sysfs_entry
-    docs
-  selftests: sysfs-lazy: add tests for lazy sysfs initialization
-
- Documentation/ABI/testing/sysfs-lazy          |   77 +
- Documentation/driver-api/index.rst            |    1 +
- Documentation/driver-api/sysfs-lazy.rst       |  146 ++
- MAINTAINERS                                   |    4 +
- drivers/base/bus.c                            |   41 +-
- drivers/base/core.c                           | 1047 +++++++++--
- drivers/base/test/.kunitconfig                |    7 +
- drivers/base/test/Kconfig                     |   13 +
- drivers/base/test/Makefile                    |    2 +
- drivers/base/test/device_sysfs_apply_test.c   | 1601 +++++++++++++++++
- drivers/iommu/iommu.c                         |  132 +-
- drivers/pci/iov.c                             |   24 +-
- drivers/pci/pci-sysfs.c                       |  158 +-
- drivers/pci/pci.h                             |    5 +
- drivers/pci/probe.c                           |    4 +-
- drivers/vfio/group.c                          |    5 +
- drivers/vfio/vfio_main.c                      |    5 +
- fs/kernfs/dir.c                               |   43 +-
- fs/sysfs/dir.c                                |   43 +
- fs/sysfs/file.c                               |   39 +
- fs/sysfs/group.c                              |   70 +
- fs/sysfs/mount.c                              |   60 +-
- fs/sysfs/sysfs.h                              |    7 +-
- include/linux/device.h                        |   90 +-
- include/linux/kernfs.h                        |   28 +
- include/linux/kobject.h                       |   15 +
- include/linux/sysfs.h                         |   39 +
- tools/testing/selftests/Makefile              |    1 +
- tools/testing/selftests/sysfs-lazy/.gitignore |    3 +
- tools/testing/selftests/sysfs-lazy/Makefile   |   24 +
- tools/testing/selftests/sysfs-lazy/README.rst |   52 +
- tools/testing/selftests/sysfs-lazy/config     |    6 +
- .../selftests/sysfs-lazy/iommu_groups.c       |  162 ++
- .../selftests/sysfs-lazy/kmsg_cursor.h        |  167 ++
- .../selftests/sysfs-lazy/pci_resource.c       |  284 +++
- tools/testing/selftests/sysfs-lazy/settings   |    1 +
- .../testing/selftests/sysfs-lazy/sysfs-lazy.c |  777 ++++++++
- .../selftests/sysfs-lazy/test_mod/Makefile    |   28 +
- .../sysfs-lazy/test_mod/sysfs_lazy_test_mod.c |  319 ++++
- 39 files changed, 5341 insertions(+), 189 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-lazy
- create mode 100644 Documentation/driver-api/sysfs-lazy.rst
- create mode 100644 drivers/base/test/device_sysfs_apply_test.c
- create mode 100644 tools/testing/selftests/sysfs-lazy/.gitignore
- create mode 100644 tools/testing/selftests/sysfs-lazy/Makefile
- create mode 100644 tools/testing/selftests/sysfs-lazy/README.rst
- create mode 100644 tools/testing/selftests/sysfs-lazy/config
- create mode 100644 tools/testing/selftests/sysfs-lazy/iommu_groups.c
- create mode 100644 tools/testing/selftests/sysfs-lazy/kmsg_cursor.h
- create mode 100644 tools/testing/selftests/sysfs-lazy/pci_resource.c
- create mode 100644 tools/testing/selftests/sysfs-lazy/settings
- create mode 100644 tools/testing/selftests/sysfs-lazy/sysfs-lazy.c
- create mode 100644 tools/testing/selftests/sysfs-lazy/test_mod/Makefile
- create mode 100644 tools/testing/selftests/sysfs-lazy/test_mod/sysfs_lazy_test_mod.c
-
-
-base-commit: ec89572766744e844df24c27d31c97b4c00f4e07
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 4f9ade82b08ab..9c5ec8b82d940 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -975,6 +975,20 @@ struct kernfs_node *kernfs_find_and_get_ns(struct kernfs_node *parent,
+ }
+ EXPORT_SYMBOL_GPL(kernfs_find_and_get_ns);
+ 
++int kernfs_set_lazy(struct kernfs_node *kn)
++{
++	struct kernfs_root *root = kernfs_root(kn);
++
++	if (kn->ns || (kn->flags & KERNFS_NS) ||
++	    kernfs_type(kn) != KERNFS_DIR)
++		return -EINVAL;
++
++	down_write(&root->kernfs_rwsem);
++	kn->flags |= KERNFS_LAZY;
++	up_write(&root->kernfs_rwsem);
++	return 0;
++}
++
+ /**
+  * kernfs_walk_and_get_ns - find and get kernfs_node with the given path
+  * @parent: kernfs_node to search under
+@@ -1255,6 +1269,19 @@ static struct dentry *kernfs_iop_lookup(struct inode *dir,
+ 	struct kernfs_root *root;
+ 	struct inode *inode = NULL;
+ 	const struct ns_common *ns = NULL;
++	struct kernfs_syscall_ops *scops = kernfs_root(parent)->syscall_ops;
++	int populate_ret = 0;
++
++	/* Dispatch populate before taking kernfs_rwsem; kernfs_get_active()
++	 * pins @parent so @parent->priv stays live across the sleepable call.
++	 */
++	if (scops && scops->populate && (READ_ONCE(parent->flags) & KERNFS_LAZY)) {
++		if (kernfs_get_active(parent)) {
++			populate_ret = scops->populate(parent,
++						       dentry->d_name.name);
++			kernfs_put_active(parent);
++		}
++	}
+ 
+ 	root = kernfs_root(parent);
+ 	down_read(&root->kernfs_rwsem);
+@@ -1285,6 +1312,10 @@ static struct dentry *kernfs_iop_lookup(struct inode *dir,
+ 		kernfs_set_rev(parent, dentry);
+ 	up_read(&root->kernfs_rwsem);
+ 
++	/* Transient populate error: do not cache a negative dentry. */
++	if (!kn && populate_ret && populate_ret != -ENOENT)
++		return ERR_PTR(populate_ret);
++
+ 	/* instantiate and hash (possibly negative) dentry */
+ 	return d_splice_alias(inode, dentry);
+ }
+@@ -1973,13 +2004,21 @@ static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
+ 	struct dentry *dentry = file->f_path.dentry;
+ 	struct kernfs_node *parent = kernfs_dentry_node(dentry);
+ 	struct kernfs_node *pos = file->private_data;
+-	struct kernfs_root *root;
++	struct kernfs_root *root = kernfs_root(parent);
++	struct kernfs_syscall_ops *scops = root->syscall_ops;
+ 	const struct ns_common *ns = NULL;
+ 
+ 	if (!dir_emit_dots(file, ctx))
+ 		return 0;
+ 
+-	root = kernfs_root(parent);
++	/* Same pinning invariant as kernfs_iop_lookup. */
++	if (scops && scops->populate_all && (READ_ONCE(parent->flags) & KERNFS_LAZY)) {
++		if (kernfs_get_active(parent)) {
++			scops->populate_all(parent);
++			kernfs_put_active(parent);
++		}
++	}
++
+ 	down_read(&root->kernfs_rwsem);
+ 
+ 	if (kernfs_ns_enabled(parent))
+diff --git a/include/linux/kernfs.h b/include/linux/kernfs.h
+index e21b2f7f4159f..cd529fd843831 100644
+--- a/include/linux/kernfs.h
++++ b/include/linux/kernfs.h
+@@ -113,6 +113,7 @@ enum kernfs_node_flag {
+ 	KERNFS_EMPTY_DIR	= 0x1000,
+ 	KERNFS_HAS_RELEASE	= 0x2000,
+ 	KERNFS_REMOVING		= 0x4000,
++	KERNFS_LAZY		= 0x8000,  /* subsystem defers child creation */
+ };
+ 
+ /* @flags for kernfs_create_root() */
+@@ -239,6 +240,7 @@ struct kernfs_node {
+  * kernfs_node parameter.
+  */
+ struct kernfs_syscall_ops {
++	/* Syscall-reactive callbacks */
+ 	int (*show_options)(struct seq_file *sf, struct kernfs_root *root);
+ 
+ 	int (*mkdir)(struct kernfs_node *parent, const char *name,
+@@ -248,6 +250,12 @@ struct kernfs_syscall_ops {
+ 		      const char *new_name);
+ 	int (*show_path)(struct seq_file *sf, struct kernfs_node *kn,
+ 			 struct kernfs_root *root);
++
++	/* Lazy dispatch for KERNFS_LAZY directories; @parent is pinned
++	 * via kernfs_get_active() across the call. Both may sleep.
++	 */
++	int (*populate)(struct kernfs_node *parent, const char *name);
++	void (*populate_all)(struct kernfs_node *parent);
+ };
+ 
+ struct kernfs_node *kernfs_root_to_node(struct kernfs_root *root);
+@@ -398,6 +406,24 @@ static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
+ 	return kn->flags & KERNFS_NS;
+ }
+ 
++/**
++ * kernfs_set_lazy - mark a kernfs directory for lazy population
++ * @kn: directory kernfs_node (must not be namespaced)
++ *
++ * Sets KERNFS_LAZY under kernfs_rwsem to serialize with other
++ * kn->flags writers.  The flag is set once and never cleared.
++ *
++ * Populate dispatch does not propagate the namespace tag, so a
++ * namespaced lazy node would silently fail tagged lookups.  The
++ * function therefore rejects namespaced and non-directory nodes.
++ *
++ * Return:
++ * * %0           - on success.
++ * * %-EINVAL     - @kn is namespaced (@kn->ns non-NULL or KERNFS_NS
++ *                  flag set) or is not a directory.
++ */
++int kernfs_set_lazy(struct kernfs_node *kn);
++
+ int kernfs_name(struct kernfs_node *kn, char *buf, size_t buflen);
+ int kernfs_path_from_node(struct kernfs_node *kn_to, struct kernfs_node *kn_from,
+ 			  char *buf, size_t buflen);
+@@ -481,6 +507,8 @@ static inline void kernfs_enable_ns(struct kernfs_node *kn) { }
+ static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
+ { return false; }
+ 
++static inline int kernfs_set_lazy(struct kernfs_node *kn) { return 0; }
++
+ static inline int kernfs_name(struct kernfs_node *kn, char *buf, size_t buflen)
+ { return -ENOSYS; }
+ 
+diff --git a/include/linux/kobject.h b/include/linux/kobject.h
+index bcb5d4e320015..cec6de1720076 100644
+--- a/include/linux/kobject.h
++++ b/include/linux/kobject.h
+@@ -120,6 +120,16 @@ struct kobj_type {
+ 	const struct kobj_ns_type_operations *(*child_ns_type)(const struct kobject *kobj);
+ 	const struct ns_common *(*namespace)(const struct kobject *kobj);
+ 	void (*get_ownership)(const struct kobject *kobj, kuid_t *uid, kgid_t *gid);
++
++	/*
++	 * Lazy sysfs population. Invoked from kernfs lookup / readdir
++	 * paths only when the directory is flagged KERNFS_LAZY. May
++	 * sleep; @kobj is pinned across the call. populate() returns
++	 * 0 / -ENOENT / -errno (kernfs propagates non-ENOENT errors
++	 * to userspace). populate_all() is best-effort.
++	 */
++	int (*populate)(struct kobject *kobj, const char *name);
++	void (*populate_all)(struct kobject *kobj);
+ };
+ 
+ struct kobj_uevent_env {
 -- 
 2.47.3
 
