@@ -1,87 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835303D994
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 06:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAAA374E7A
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 06:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782972531; cv=none; b=sa+lRp8Ausn8cgt420cETNgk5o2f6LI1yNJtAUiLrB8iukL/ec38k4PwNx7ZNza04t3RNuoeUZjrB8MNNaNIfnCJ8uWANtgDVWBRzS0+s2WSnYPT1Uuov2ICwcBzuw7SxIGxrv7Sy7LO3ofQnkG5X/NB4VxZoab33Bde/Db6PWk=
+	t=1782972538; cv=none; b=uXwvHyJZ3TXLPq0g2KDCSz8R24uO5mh0CvBKEuukRJvr+Sug1SBsAF0G6EGyMjts5+k/u6xV5YXqTagDNLkc7wZTqgqq+zrUN95nXOmbwVurpL8bIWU5pDKyr0Wpf9YUidnVumayZhywDnQG4hzVpVb10a8e6SlENJScpwx0+j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782972531; c=relaxed/simple;
-	bh=YWgBvXVXF70bptWYE1RikhsP4a8CbIlb6SjMxl7HeAo=;
+	s=arc-20240116; t=1782972538; c=relaxed/simple;
+	bh=3gW8zaHZTaZH07dB3PSD2tlZ2KSpbkUIrqHW/ZG2DTo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TiS2RL1qK3MC649Ln90xrjH0dDGCJzWVln8Zs8wDrQhEjRgh6NfQn5NJxBU8EIc315Kj/kj/5uqDOEle6dHtsrGvdVNDPt8MzDL8mWtfy5NPTCk7bw2qggzpy9q7gTDk3uRY5rF3uqa+8xldbHIACRzjOQUKm8KBe3Ptbgb7Ums=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EEtvmRRa; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Uy0XV7SP; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=nRXc2ZSFpCbAk4dT/BB0URBQ823hlwZniUZNDj+e3kpkxqei81Hf+mQXzul/ecG8RRGzg16XBANFbIFuniBaT47BRemvqoBPqZtvtTyDPXJGFOFuOBiJiX/w0vDshzqTwUYM2SgWcj95OPjL0zmKkRmLfOeG3T/+dIL8SI0cTw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CSSO77wm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DDVyqn/h; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EEtvmRRa";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Uy0XV7SP"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6621KSP22957685
-	for <driver-core@lists.linux.dev>; Thu, 2 Jul 2026 06:08:49 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CSSO77wm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DDVyqn/h"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6621KtZA3069378
+	for <driver-core@lists.linux.dev>; Thu, 2 Jul 2026 06:08:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hcgaK1dgPNDQoQ2Qef50ug40L7J06HDgu6Mo/n3XcK8=; b=EEtvmRRaK0kWVQL8
-	wv5z/u9NO1LzFb/wLEM3JLGhMOEdhy3ZSO+hHhbgT1xuI0RmU/GS+SM/E96TH45t
-	03P4MQfL6mLH7CqqQeH6zSNIBq0LPBaJptKwkPi/pCAFAGeHiCxeOktnA1Lp4JVE
-	4bC7P0mLIk0hKzUBZ8AxTWY3OPrpqHJ68NlUusEqmG2xura1QwKUx1Ua3+2Y5I+r
-	0PHgP1MNJbOYcGSb7A7xsBZ6l/uubrf/RysfE7Z28o57X3OCd8NDvw3rXwbFI53P
-	cgF4V4/vYQaJM+h1eTMOCSi5m00oET5h8clQvshlfV14kkxZo47sBsXcBNQI9dc8
-	Y37N8A==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f5630aqs1-1
+	h39sTfM/7b6zwQc9sQowY5+iDwhDzkCtqaJCY9Xe/i4=; b=CSSO77wms8g/Thlh
+	QWnP23UVl5YNzU1dblemyAMvjjOaN2OOJjWkEUszw5mgo6v5spXgHnzo0NRBG1St
+	vnUvqIm/czvbiWVc1RTDEDk08kHF5TjFON1EprJFbAS1xowuPzOMsms0RoqZ/WVy
+	SbcNzfGsb7euAWWUdHlwQ7A7l+V+QGgjQ0Xbrr7xoj6lcJcIoZPecWZyGgeHeWlZ
+	JGB1cu17q/v/XuANtgtNW96jHpP/GrTGDJadh7x1GQpIS+Zqfwx7ydPr+hLSMibT
+	d2WqRH22Lzc/nhPNEQ411xsLZJPKEeTTbwCkmYXOLq9WgMaleYhtwKqYJf1SD9Zv
+	CK628Q==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f510am3qu-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Thu, 02 Jul 2026 06:08:49 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2ca0331d0b1so27108825ad.3
-        for <driver-core@lists.linux.dev>; Wed, 01 Jul 2026 23:08:49 -0700 (PDT)
+	for <driver-core@lists.linux.dev>; Thu, 02 Jul 2026 06:08:56 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2c987913b08so19135365ad.2
+        for <driver-core@lists.linux.dev>; Wed, 01 Jul 2026 23:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782972529; x=1783577329; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1782972536; x=1783577336; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hcgaK1dgPNDQoQ2Qef50ug40L7J06HDgu6Mo/n3XcK8=;
-        b=Uy0XV7SPh119h6jTKiuJ6BLg9IjnkCHg4gGe1W58+cZODD9ncb7IOLgmj0t7+eaFTH
-         +000d+clVQnlX/pqfXcsV/Lov+VVaeTTbMfq/3o6Klqgyt5uaa8FK0JyyYF/1LWRbW4g
-         M5tC11AbFOtRHe4qJExUl4+1kcndVgZGiZwulxj7MyPMJcsUfnBsLU5TQZ73T22aovWf
-         cBKmkS4Bo/4aS00hYD/jeOHlnlTv0khIfC0gfbiYOecNjeOCSdw3t77IZkmVd9t4/CaY
-         +L3V1+QtM5GLy2aGpTgdsJyl5ZwnaY2XNBOE/mfmuZvJYEiCd2pVKeDel20l2ZNeRmPT
-         ylcw==
+        bh=h39sTfM/7b6zwQc9sQowY5+iDwhDzkCtqaJCY9Xe/i4=;
+        b=DDVyqn/hike0kNYn9DPPv2+Jnqp0R+PN7eu/96Q4pD2YX6t6hpiOtuC5EgL0oGBLP1
+         au++MaNf650c6Rwm5ccMPYPEXl6dQhn/M+pxwVgNh7hs4mSyPA8ztWPVS7ut/+qlsCdf
+         r6g/bYLOzmq3Pr7zc0sw/8T64CImY1Wwj1XDBe22JgzM9f/JTsysAURGJW6peeGi3SJH
+         t0NxgDD9vyTIqdS7+EAo86/5El+RVnoYLxwSOJy59JnEvt0bORC3ClKjRcYnqlOefrMv
+         Vji1IF9i9d/keWohkJQE9rwR1FsaZvF/6Rl7urOYFAdLeLd3muglmPNORfR/gYzexd48
+         AMJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782972529; x=1783577329;
+        d=1e100.net; s=20251104; t=1782972536; x=1783577336;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hcgaK1dgPNDQoQ2Qef50ug40L7J06HDgu6Mo/n3XcK8=;
-        b=AMkXWqiv4+YoAZ77oLlB2IZwV6WRpUNJPsFOUB4Swi0em/bC8e9IRVGKb8sTYmhG9i
-         07ASoAfwlp4WoxLfSFlkh8l9nIeOCSEqmVBaoPXoIpNrpygivFz33IqUy+RVUBd5BgJM
-         GLFR6+yVJ6n2twxg6NfTxc0Yy1FWBSKHwhNiXcMH9ROPuWzEA0aEWVBgr6R+hRMcDdgy
-         DhTUn09t/uRkWG3xFEdwHudZ7NL9OZic71422eJ4ep2WXHpwBp8+MIoO8/RcyIE/kTpO
-         CUY7NzhbKQXQ0Nnt9hhwOGrafRYVq+p2t9MLv+QdJ+ns3LcLD0gaLRd8AdHYXENr1dO+
-         HBnA==
-X-Forwarded-Encrypted: i=1; AHgh+RrxLhxYdQbQ739ZU7xby7JWRMcJCRs1opf0iFRJQmXCL6W8XQsrfMNxGjSQ3+zswK2v0LGPjU+j0E2ewg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWum3iKzCZPlMZEEFP4HHMwUD++xfqXq6kGPPv+JNEC2OXLEwO
-	UNyCDdiWG1agIN0KlTkf0rlkQYhEW4NbVS36u1ZS7L2erNc4sz2VIdPyxzAgkNFbMjkaInpZJxz
-	wNYz1IAZtA5tayD6pCb03fPWB5BNokCDhCqHGeYkkmU4D7MmQHl1SoEYpQ0GP8NecFw==
-X-Gm-Gg: AfdE7cnl1x6FpaqXvpUnuJF463l+Aju9QaI/6GaK14r3Gl87YWpX4teEidTl8LX8upx
-	R8XAjHUArrodwNrBxOYc24Pgym33Nd+gEFAdjXQpK9PqKfStEgUFNQki/xyHdL2nKRauMCIM3Tf
-	bNOtLqqPAZAKSsDREbWPJoKuUY41vWekCPX3zNA+wipKGSAJhaKhjTUhhMHbz8pX6wTGaxl9hU0
-	SqMJZFZd4VUYH0mRp4Cr9bMCI7cXf50pKF/XD2sWar0ZTuLw///7aMdzsdpeojjBYcf0xFbTm/f
-	b6R0rAl7BKkWbD7KvzaCgreSq5EJI18bUHMZOo5/ORT2gFwUEHRehiAN6EKDUv/jsl7tZ97i/d3
-	GqSxw6iSLDC46TBwDntsq98Guc4qgevIwt23X0wrmfMla
-X-Received: by 2002:a17:903:291:b0:2c1:f262:4962 with SMTP id d9443c01a7336-2ca7e6da0c0mr47280005ad.20.1782972529042;
-        Wed, 01 Jul 2026 23:08:49 -0700 (PDT)
-X-Received: by 2002:a17:903:291:b0:2c1:f262:4962 with SMTP id d9443c01a7336-2ca7e6da0c0mr47279405ad.20.1782972528367;
-        Wed, 01 Jul 2026 23:08:48 -0700 (PDT)
+        bh=h39sTfM/7b6zwQc9sQowY5+iDwhDzkCtqaJCY9Xe/i4=;
+        b=l1WPoOSefXOWHVEFytrPjCdAgozxtv9DuAwGqJYtOEwqUKUX3SndtAukYkAbcOtz3g
+         vNXbRbGLoxyDttJyr3BwB46EOWxJq4MeDPeot/hAZw+CAOoSvSaE5VaNAGD2uwiQUS5n
+         AgsM03q3Is8OL7sotLRcmfhYODhWDLaFKpU3Q2g6piuApSI3P7GZQ7ui8pM/aeHNcWkW
+         1ZqgpprSdMxfJBpCRrYlzMD1ucXkPdPfxHvfeTxK9ix42/r/AK3DSNXi0iRVPJL9k2hT
+         HTClC2DHsHg4jFzhoke4RWG8WDbSPqk8gE8MXsdHMdceA62npsQDJN7XSTNAS7YN1wnf
+         kfLg==
+X-Forwarded-Encrypted: i=1; AHgh+Rojib86DfW1L0lSjthVagLMfAY7I+zyQoPYUs/OqlusCrnnRg3LwsLR6QRI1wUsQb0Pyd2r5OxL+Al/Mg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2perwTUTDxdvrVzEZzIYUqmKLcxSNSdaAVfanoRN3KSDVrgUF
+	J/JIZCVfuliTgXhiAzMaQBKQDBXcMRUyBQE9doeBn0upxTSjG7CUKt+kGoO7rObfeN+/GgrxDrX
+	kNNGHYXugzH+LXmvnybhmWP/vs5dKYoM8aOwbswCoYCexi2zZvgsTfLmApNharHGsbA==
+X-Gm-Gg: AfdE7cmQi5TGBvssM4h8jJa7SNRJtgM1NGYHqOdR4SvnSMsbZMSMxPN+cxzPJ2iw2mm
+	ViAbjd2BUv+OCbVRb0TL8a9edZswPrieTR8u8jRRjqqrWIWrUCKHNUrZPb2OmW+o7hTStZz193q
+	JxLrvSdgVm2+cxttJ5p8hCgg16W7lVyd8lkwkvQ0HrnCI9o1MGDehiQ81gaDkPH4VyjRnfP8tt/
+	40VdK/e2aRvTeBeNXCibDC7knXc/TINMJ9L49sS3CN9j1h/vNDJdh+MJCqWllPSJuCp++tWxLuO
+	VkQwvtERAljGLWAfSCy5NuBjP9d4ZTqZVJSK1rep9PMZHfANl1+eB2HiK1sxtxM7QZm7QF0F5bU
+	JzVNSHvqx5JZOKtmZ0z1Ep2cf16lbs6Pc79thJpqu1JMR
+X-Received: by 2002:a17:902:cf0a:b0:2c9:b480:f5d0 with SMTP id d9443c01a7336-2ca7e919a7fmr47080315ad.39.1782972535645;
+        Wed, 01 Jul 2026 23:08:55 -0700 (PDT)
+X-Received: by 2002:a17:902:cf0a:b0:2c9:b480:f5d0 with SMTP id d9443c01a7336-2ca7e919a7fmr47079835ad.39.1782972535001;
+        Wed, 01 Jul 2026 23:08:55 -0700 (PDT)
 Received: from hu-ptalari-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9aa00970sm8176325ad.71.2026.07.01.23.08.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9aa00970sm8176325ad.71.2026.07.01.23.08.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 23:08:48 -0700 (PDT)
+        Wed, 01 Jul 2026 23:08:54 -0700 (PDT)
 From: Praveen Talari <praveen.talari@oss.qualcomm.com>
-Date: Thu, 02 Jul 2026 11:38:20 +0530
-Subject: [PATCH 1/4] PM: runtime: Clear runtime_error on supplier after
- failed get_sync
+Date: Thu, 02 Jul 2026 11:38:21 +0530
+Subject: [PATCH 2/4] spi: core: fix sticky -EINVAL after
+ pm_runtime_get_sync() failure
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260702-fix_sticky_-einval_after_pm_runtime_api_failure-v1-1-6ddc317011c0@oss.qualcomm.com>
+Message-Id: <20260702-fix_sticky_-einval_after_pm_runtime_api_failure-v1-2-6ddc317011c0@oss.qualcomm.com>
 References: <20260702-fix_sticky_-einval_after_pm_runtime_api_failure-v1-0-6ddc317011c0@oss.qualcomm.com>
 In-Reply-To: <20260702-fix_sticky_-einval_after_pm_runtime_api_failure-v1-0-6ddc317011c0@oss.qualcomm.com>
 To: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>,
@@ -111,71 +111,97 @@ Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
         driver-core@lists.linux.dev,
         Praveen Talari <praveen.talari@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782972515; l=1363;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782972515; l=2420;
  i=praveen.talari@oss.qualcomm.com; s=20251114; h=from:subject:message-id;
- bh=YWgBvXVXF70bptWYE1RikhsP4a8CbIlb6SjMxl7HeAo=;
- b=eGIuy08vrYVbcIxdGvnJdWobvqVc5GrVZ7OD/RcJlS0vqo02DvksM+Tt0rOqqgYWAVVDl+SBe
- dL8ayeM0rAiBuWv4QyRzFiGt3oWGRwtwUlR27Bje4QrlZB4ffTgSOr6
+ bh=3gW8zaHZTaZH07dB3PSD2tlZ2KSpbkUIrqHW/ZG2DTo=;
+ b=29q6KRWQU8V4i4fHxADGTApIS279oVcDa3pNLRh5g5n1yTQmxQyfbqUR7NucTYjcZ8NTVr/Wp
+ J3HsIQgJDIfANgr4Q9vXDiaSNg2+I7qAPx/Gz4pOL/3+cx5wLvxkVUM
 X-Developer-Key: i=praveen.talari@oss.qualcomm.com; a=ed25519;
  pk=NGK/88fjyHXgfhIKwag7+uIytOmyOypvZ/hDFaYPEss=
-X-Authority-Analysis: v=2.4 cv=JdiMa0KV c=1 sm=1 tr=0 ts=6a460071 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+X-Proofpoint-GUID: ip7YJXriD8ADG6XD6r0zNwSvyNKKBRjJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDA2MCBTYWx0ZWRfX12L3/boG+nUt
+ KtpYcI3qi90RIoWson8ZiEUw4k32CJlkdfCXowoDo47lWPW9gwb+sEfoi4gCobBfgv0N4k0hgmt
+ fdaGBGRXfoR1aPfRAyzTvVnUD2ppFcwiFIDuss8w8l0vA15t9p3oFFuJ7UYNKVGvFzTeMznBG/x
+ 5mbC+RbNRRSKXOmb8ItdlpwlLJQOjrvKOWONwHJXNSle8fnSvOIJV1ugEUOgrKr91XbYDkZfos3
+ +LhDZ2oZjEN1h2IxFSi/H72HH+Jp/Kd+cz/pKNcx4QjUCTQf3uAyVnjwkSoVQunBCr1mmckp8Lt
+ V1Qz7toVXb4q89XoYIvOdYto0E+fQVD4ZGc2t+esyVjdBo7HWLh9H4XgF+nmXCxCyTG/y8l3NHe
+ 0Wip/fpUXH0+hWu83oPOvv0B9IoRbHBaY/LOGhsJRe/YDNxbsx+BXG8C0h58CdiX3TZG0DQI55f
+ HTRlDVCZ/KYuUyeu5Yg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDA2MCBTYWx0ZWRfX9PYkt0Np+Sjw
+ hv3nBu5vomNDG+hYRwXXfDvOufRQYmKx+A1ABlcT4zxif3pEcVqwo4xafctXM3EA+x7FdjclfEz
+ iJLwyDzlMNcg+MjuSab+SUTWwZRzYV0=
+X-Authority-Analysis: v=2.4 cv=JpXBas4C c=1 sm=1 tr=0 ts=6a460078 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
  a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=TbMguNdjUikXwpDzob0A:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDA2MCBTYWx0ZWRfX+kmy4e8C9VG5
- tvwXzNscEfAXgMxpHyGAzQtYdRr+EwqqQk1Ijx4+Pij42oDd7A8b4WcilzkY9qEbvELiVZq5EH5
- idIkjUrN+Pf2fJOfsmbW/U8ieBwUFQg=
-X-Proofpoint-ORIG-GUID: rC4Zm284mTr8A-0cEngxH99wZVsbE6r-
-X-Proofpoint-GUID: rC4Zm284mTr8A-0cEngxH99wZVsbE6r-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDA2MCBTYWx0ZWRfXyG2nCk3Gy1+C
- 8oJnV4cid0lsck/3RntFaLqE/QDskfhI0UwFbbQcNK58e0Sbq+2Xp/fgJRGAo9Nuc9AN+MhJ5Gb
- XhdoStdbrE2AwCaVq/1xkrxtIAVGNxyjtxYM7wlvCGxC7XdKtmWN5hrkf48ALcFeqb7+sDS/Nkx
- PEPjdORp9IJwri99LPM63JeEBpY92HUqGOv+ewOZroldv4JX554DhrKikQ+nXvM7GSmk4idfLU1
- yUxQEMbxNuIlHwy6rzkYnwxGspt+bhtNOmDUwtAm0go8PPXGy9LY3t+dp3D75H+CgNujECPjgGn
- fS0Q6sYO5SXASX3qY8z568cw2Wud6ou9Aa+s+Lq8IS0kIU3r3Ium8oiqlmII6Y8pMGIhQfiS+PZ
- 2Iyvybx0KSXkY5rXTcrYHu8enYejTH53yfCLv/+OOdmIDDGOgSqLm6xS/VUPDAVqklTfj1k86aT
- q6buvU407P/e7SqfHhw==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=EUspDBNiAAAA:8 a=02vcd1kolNyrAxwz3cgA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-ORIG-GUID: ip7YJXriD8ADG6XD6r0zNwSvyNKKBRjJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-02_01,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- adultscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1011
+ spamscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020060
 
-When pm_runtime_get_sync() fails for a supplier device in
-rpm_get_suppliers(), the supplier's power.runtime_error field is left
-set. This causes any subsequent rpm_resume() call on that supplier to
-immediately return -EINVAL at the top of the function without
-attempting an actual resume, making the failure permanent until
-runtime PM is explicitly re-enabled.
+When pm_runtime_get_sync() fails, the RPM core leaves
+power.runtime_error set to a non-zero value. Every subsequent call
+to pm_runtime_get_sync() returns -EINVAL immediately without
+attempting the resume, making the controller permanently unusable
+until rebound.
 
-Fix this by calling pm_runtime_set_suspended() on the supplier after
-pm_runtime_put_noidle() in the error path. This clears runtime_error
-and resets the runtime PM status to RPM_SUSPENDED, allowing the next
-consumer resume attempt to retry the supplier resume normally.
+Add pm_runtime_set_suspended() after the pm_runtime_put_noidle()
+call in each get_sync() failure path. pm_runtime_set_suspended()
+clears power.runtime_error and returns the device to the suspended
+state, allowing the next transfer to retry the resume.
 
-Change-Id: Id5067d09caca464f663fc95fe745d037e9c56664
+Symptoms observed:
+spi_master spi2: Failed to power device: -110
+spi_master spi2: noqueue transfer failed
+geni_spi 988000.spi: Runtime PM usage count underflow!
+spi_master spi2: Failed to power device: -22
+spi_master spi2: noqueue transfer failed
+
+The -110 is the initial resume timeout; the -22 (EINVAL) on every
+subsequent transfer is the sticky runtime_error; the underflow is
+from pm_runtime_put() called against an already-balanced count after
+the unchecked get_sync failure in the driver.
+
 Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
 ---
- drivers/base/power/runtime.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/spi/spi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 335288e8b5b3..9811d024d140 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -309,6 +309,7 @@ static int rpm_get_suppliers(struct device *dev)
- 		/* Ignore suppliers with disabled runtime PM. */
- 		if (retval < 0 && retval != -EACCES) {
- 			pm_runtime_put_noidle(link->supplier);
-+			pm_runtime_set_suspended(link->supplier);
- 			return retval;
- 		}
- 		refcount_inc(&link->rpm_active);
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index f897789a44d1..8d5c8d7c5a1a 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -1746,6 +1746,7 @@ static int __spi_pump_transfer_message(struct spi_controller *ctlr,
+ 		ret = pm_runtime_get_sync(ctlr->dev.parent);
+ 		if (ret < 0) {
+ 			pm_runtime_put_noidle(ctlr->dev.parent);
++			pm_runtime_set_suspended(ctlr->dev.parent);
+ 			dev_err(&ctlr->dev, "Failed to power device: %d\n",
+ 				ret);
+ 
+@@ -4016,6 +4017,7 @@ static int spi_set_cs_timing(struct spi_device *spi)
+ 			status = pm_runtime_get_sync(parent);
+ 			if (status < 0) {
+ 				pm_runtime_put_noidle(parent);
++				pm_runtime_set_suspended(parent);
+ 				dev_err(&spi->controller->dev, "Failed to power device: %d\n",
+ 					status);
+ 				return status;
+@@ -4121,6 +4123,7 @@ static int __spi_setup(struct spi_device *spi, bool initial_setup)
+ 	if (spi->controller->auto_runtime_pm && spi->controller->set_cs) {
+ 		status = pm_runtime_resume_and_get(spi->controller->dev.parent);
+ 		if (status < 0) {
++			pm_runtime_set_suspended(spi->controller->dev.parent);
+ 			mutex_unlock(&spi->controller->io_mutex);
+ 			dev_err(&spi->controller->dev, "Failed to power device: %d\n",
+ 				status);
 
 -- 
 2.34.1
