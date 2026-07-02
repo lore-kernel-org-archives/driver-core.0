@@ -1,53 +1,53 @@
-Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21373396560
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5803955EF
 	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 17:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783014051; cv=none; b=jxNIJ+1qvYR2avjsO3Gk5r3SnANVQwIR2ySqJCqsHwX9PwIaTS1B5H5jpcTdtN8LPhpGn0Gc//92ojdg2wPb9sM2N6Aihu47bIQvP4moXRwasoXCFMsSAQjfZUt1K4a+ysdj/Zlvf/Va9yWrj9EUZ2R9WU1hI5d86R3CKNrEMiQ=
+	t=1783014052; cv=none; b=p/H6XVUe9l+5aEgehNqotj3twHwzVdc6Mmd6FWEvaQV7ZQw07JZg/sbdivKlbKtBjILFEdzc+Mrw34T3LxcM0LUGcKE09roR6+ns4/xR8X/vaKNPI58jnpVHPDGuN0Hp60Q2SGMVt3+manAIhV+8BkC6XEXRK4jlmsRqH7XQUoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783014051; c=relaxed/simple;
-	bh=HZfA/JU9cPT1U/HxWxnmRaZZuLOcHqAHP2VniMxal6c=;
+	s=arc-20240116; t=1783014052; c=relaxed/simple;
+	bh=740NJ+Av4M3vxAeqgD1VJBcMjZZeAQgfQQIOXVjUE7c=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZSq7DRUc88uqo1M5cF2OlImsbBIDx3ao/uEHETS8xKX1k1a5FLKuFjOpF/FjBwt/TecTHPopA9OMV0zcO+FPLDS8GG41G1qGsvtB6AfNaAvo0afrgWOv0NFUxi+XBGVhVZo7k04zbUjeI82Sn4rsJ96pLUNkKKwM7lj+kWZgTDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=qrdK/fl0; arc=none smtp.client-ip=35.162.73.231
+	 MIME-Version:Content-Type; b=TQJR/CeQF6xHzDVkVXP8RtDkIhgIgrHYMl0dM82ZvttkJkL2aqjypcVttL4u+Albf5R9XK62zSItd263dwVSBfNOlHKkrvZs1jIKsMGiytCcuN5BbqS4GWMxSk+tfoPa0IoXA8SynvvzI4549+cxhf+LbS4zg72msrLKcIdubCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=rJ6HYeFA; arc=none smtp.client-ip=52.26.1.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="qrdK/fl0"
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="rJ6HYeFA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
   t=1783014049; x=1814550049;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5y+H67ThXEbUdB02JQVhsVtUDnX/kL/u90pAnPi/57A=;
-  b=qrdK/fl0ArqbXZ52WjUwEqHQwRz0zAbanaoYD2PMgDBGgaYLnQE8zsk/
-   74Ym++3jqLJJysmZL4jV91oKU+ZObrDbwJgZjSeqmBo1KgZf77pujJmNV
-   wEVb6BbvayruQ6g5EA3cNv1HyUuFETysa15aCljbkKT9VeBkVUKmaTiPv
-   scRCIcdQNaIrZje3pCUCk4kquPzsRtmlrjONyN03Loh7rbALPudNoQSKM
-   CxD17LQAyEIjvfEDf5fvu8RaSoYA/T7xKbxeAtxcAOBaTuJkZV/aeCkOa
-   cXHb+o9A88U8cqaJP8NTpt4XdIny6GSLR9q+rQq8z7/Ci3EMEE15yyjr2
+  bh=wjDO069O5wPccgEOGkGQ3cuNvHu36V72pupN1KvsqHs=;
+  b=rJ6HYeFAQxPAxKfLjMAyaPeIMXrouBc6H65O5s+ukqBqUlFazBDHvPZD
+   VdoCthhOF2buiu837nkXyF3YdHmsLNbX2QPwRQ/q5qh2X52HNy0KEXWdi
+   t2sc24uXHW4ccCDxgQVbsC/UTSlcZ707YwoSLPfjMHJgmPhS0FIShGWsP
+   45zV8hU64DdF0tOMghCaK2ftnBhk3QyZtN/nHAY/HXb0180eUw6R3Mo7v
+   oKShKLLBMBiA4pwJb/LDllz83H2gr/abFbOvgaATPl1VItEHk7+H5YCyo
+   dCaxd0+uy97TfiQjkgooznInhGTzZ6cgr7znkhv4Hh5xqRrpxDQAepdiW
    Q==;
-X-CSE-ConnectionGUID: Z3ST562ISvGKPYlXp7BD5Q==
-X-CSE-MsgGUID: i8mNv5wBRKGRhF0eq3+5hA==
+X-CSE-ConnectionGUID: d8W885b8TJ649lrO3hVDrA==
+X-CSE-MsgGUID: EDaTCzZzRXKJzEObOGELrw==
 X-IronPort-AV: E=Sophos;i="6.25,144,1779148800"; 
-   d="scan'208";a="22738367"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 17:40:46 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.105:21839]
+   d="scan'208";a="22966156"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 17:40:48 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:31911]
  by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.17.129:2525] with esmtp (Farcaster)
- id af6c0e5f-4b77-4570-942d-449df8c7a53e; Thu, 2 Jul 2026 17:40:45 +0000 (UTC)
-X-Farcaster-Flow-ID: af6c0e5f-4b77-4570-942d-449df8c7a53e
+ id d2830d2f-e214-4b0f-b893-92eb1aebbcd0; Thu, 2 Jul 2026 17:40:48 +0000 (UTC)
+X-Farcaster-Flow-ID: d2830d2f-e214-4b0f-b893-92eb1aebbcd0
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Thu, 2 Jul 2026 17:40:45 +0000
+ Thu, 2 Jul 2026 17:40:48 +0000
 Received: from dev-dsk-sakacpav-1a-480d1124.eu-west-1.amazon.com
  (172.19.96.155) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43; Thu, 2 Jul 2026
- 17:40:43 +0000
+ 17:40:45 +0000
 From: Pavol Sakac <sakacpav@amazon.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
 	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Tejun Heo
@@ -58,9 +58,9 @@ CC: <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>, "David
  Matlack" <dmatlack@google.com>, Samiullah Khawaja <skhawaja@google.com>,
 	Alexander Graf <graf@amazon.com>, <linux-mm@kvack.org>,
 	<kexec@lists.infradead.org>, <nh-open-source@amazon.com>
-Subject: [RFC PATCH 03/14] sysfs: introduce sysfs_kf_syscall_ops dispatching to kobj_type
-Date: Thu, 2 Jul 2026 19:40:22 +0200
-Message-ID: <20260702174033.32116-4-sakacpav@amazon.de>
+Subject: [RFC PATCH 04/14] driver core: add struct sysfs_lazy_state and device_set_sysfs_lazy()
+Date: Thu, 2 Jul 2026 19:40:23 +0200
+Message-ID: <20260702174033.32116-5-sakacpav@amazon.de>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260702174033.32116-1-sakacpav@amazon.de>
 References: <20260702174033.32116-1-sakacpav@amazon.de>
@@ -75,119 +75,197 @@ X-ClientProxiedBy: EX19D035UWB002.ant.amazon.com (10.13.138.97) To
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Wire the sysfs side of the lazy populate chain.  sysfs_init()
-previously passed NULL as syscall_ops to kernfs_create_root();
-install sysfs_kf_syscall_ops with populate and populate_all
-that dispatch to the owning kobject's kobj_type.
+Add the per-device lazy-sysfs bookkeeping struct and accessors that
+subsystems use to opt their devices into lazy population:
 
-The kernfs lookup path pins the parent's active reference, so
-parent->priv is safe to read; sysfs_populate() additionally
-pins the dereferenced kobject with kobject_get_unless_zero()
-across the sleeping ktype->populate call.  sysfs_populate_all()
-does the same for ktype->populate_all on readdir.
+  - struct sysfs_lazy_state { mutex lock; bool populated;
+    bool power_added; } in include/linux/device.h.
+  - dev->sysfs_lazy pointer field on struct device. Non-NULL is the
+    opt-in signal device_add() consults to mark the kobj's kernfs
+    directory KERNFS_LAZY.
+  - Public accessors device_is_sysfs_lazy(), device_sysfs_populated(),
+    device_sysfs_set_populated().
+    device_sysfs_populated() uses smp_load_acquire() to pair with
+    device_sysfs_set_populated()'s smp_store_release(); this lets
+    the lockless fast-path in device_ktype_populate_all() (added in
+    the next commit) skip the mutex while still observing all
+    kernfs_create_*() side-effects performed by populate_all under
+    @lock. The canonical write is under @lock.
+  - device_set_sysfs_lazy() allocates the bookkeeping; idempotent and
+    must be called BEFORE device_add(). Freed by device_release().
 
-Both callbacks refuse dispatch in namespaced directories: the
-initial consumers (PCI, VFIO) are namespace-agnostic, and tag
-propagation is out of scope.  Transient errors propagate without
-negative-dentry caching so the next lookup retries populate.
+device_add() consults dev->sysfs_lazy after kobject_add(); if set,
+kernfs_set_lazy(dev->kobj.sd) gates kernfs lookups and readdirs to
+device_ktype.populate / populate_all.  No driver-core attribute
+content is yet routed through the walker - that lands in the next
+commit.  No existing caller opts in here; the plumbing is in place
+for subsystems that follow in this series.
 
-No behavior change: no kobj_type sets populate/populate_all yet.
+The "blob whose pointer doubles as the opt-in signal" pattern
+mirrors dev_iommu_get() in drivers/iommu/iommu.c.
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Rafael J. Wysocki <rafael@kernel.org>
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-api@vger.kernel.org
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: driver-core@lists.linux.dev
 Cc: Tejun Heo <tj@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: driver-core@lists.linux.dev
+Cc: linux-api@vger.kernel.org
 Assisted-by: Claude:claude-opus-4.7
 Signed-off-by: Pavol Sakac <sakacpav@amazon.de>
 ---
- fs/sysfs/mount.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 59 insertions(+), 1 deletion(-)
+ drivers/base/core.c    | 74 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/device.h | 28 ++++++++++++++++
+ 2 files changed, 102 insertions(+)
 
-diff --git a/fs/sysfs/mount.c b/fs/sysfs/mount.c
-index b199e8ff79b1f..9e0a37b60d6e7 100644
---- a/fs/sysfs/mount.c
-+++ b/fs/sysfs/mount.c
-@@ -10,6 +10,7 @@
-  */
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index bd2ddf2aab505..6d0d917d4b1ff 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2555,6 +2555,10 @@ static void device_release(struct kobject *kobj)
+ 	 */
+ 	devres_release_all(dev);
  
- #include <linux/fs.h>
-+#include <linux/kobject.h>
- #include <linux/magic.h>
- #include <linux/mount.h>
- #include <linux/init.h>
-@@ -96,11 +97,68 @@ static struct file_system_type sysfs_fs_type = {
- 	.fs_flags		= FS_USERNS_MOUNT,
- };
++	if (dev->sysfs_lazy)
++		mutex_destroy(&dev->sysfs_lazy->lock);
++	kfree(dev->sysfs_lazy);
++
+ 	kfree(dev->dma_range_map);
+ 	kfree(dev->driver_override.name);
+ 
+@@ -2588,6 +2592,67 @@ static void device_get_ownership(const struct kobject *kobj, kuid_t *uid, kgid_t
+ 		dev->class->get_ownership(dev, uid, gid);
+ }
  
 +/*
-+ * sysfs_populate - dispatch a lookup miss to the owning kobj_type.
++ * True once populate_all has completed; lockless.  False for non-lazy.
 + *
-+ * kernfs pins @parent across the call; we pin @kobj while the
-+ * (sleepable) ktype->populate callback runs.
++ * Memory-ordering: pairs with device_sysfs_set_populated()'s
++ * smp_store_release().  smp_load_acquire ensures any kernfs_create_*()
++ * side-effects performed by populate_all under sysfs_lazy.lock become
++ * visible to readers that observe @populated == true.  The kernfs
++ * lookup path also takes kernfs_rwsem(read) which provides an
++ * independent memory-barrier; the explicit acquire here is belt-and-
++ * braces for callers that may bypass kernfs (e.g. internal sysfs_*
++ * helpers and the KUnit suite).
 + */
-+static int sysfs_populate(struct kernfs_node *parent, const char *name)
++bool device_sysfs_populated(const struct device *dev)
 +{
-+	struct kobject *kobj;
-+	const struct kobj_type *ktype;
-+	int ret;
-+
-+	if (kernfs_ns_enabled(parent))
-+		return -ENOENT;
-+
-+	kobj = parent->priv;
-+	ktype = kobj ? kobj->ktype : NULL;
-+	if (!ktype || !ktype->populate)
-+		return -ENOENT;
-+
-+	if (!kobject_get_unless_zero(kobj))
-+		return -ENOENT;
-+
-+	ret = ktype->populate(kobj, name);
-+
-+	kobject_put(kobj);
-+	return ret;
++	return dev->sysfs_lazy &&
++	       smp_load_acquire(&dev->sysfs_lazy->populated);
 +}
 +
-+/* sysfs_populate_all - readdir-time variant; best-effort, retry-safe. */
-+static void sysfs_populate_all(struct kernfs_node *parent)
++/*
++ * Latch @dev as fully populated. Caller holds @dev->sysfs_lazy->lock.
++ *
++ * Memory-ordering: smp_store_release() publishes all kernfs_create_*()
++ * side-effects performed under sysfs_lazy.lock to lockless readers
++ * via device_sysfs_populated()'s smp_load_acquire().
++ */
++void device_sysfs_set_populated(struct device *dev)
 +{
-+	struct kobject *kobj;
-+	const struct kobj_type *ktype;
-+
-+	if (kernfs_ns_enabled(parent))
-+		return;
-+
-+	kobj = parent->priv;
-+	ktype = kobj ? kobj->ktype : NULL;
-+	if (!ktype || !ktype->populate_all)
-+		return;
-+
-+	if (!kobject_get_unless_zero(kobj))
-+		return;
-+
-+	ktype->populate_all(kobj);
-+
-+	kobject_put(kobj);
++	smp_store_release(&dev->sysfs_lazy->populated, true);
 +}
 +
-+static struct kernfs_syscall_ops sysfs_kf_syscall_ops = {
-+	.populate	= sysfs_populate,
-+	.populate_all	= sysfs_populate_all,
++/**
++ * device_set_sysfs_lazy - opt @dev into lazy sysfs (call before device_add())
++ * @dev: device to opt in
++ *
++ * Allocates @dev->sysfs_lazy.  Idempotent: a second call on a
++ * device that already opted in is a no-op.  Must be called before
++ * device_add().  After device_add() returns, eager attribute creation
++ * is skipped and walker dispatch lazily materializes attributes on
++ * first sysfs lookup or readdir.
++ *
++ * Return:
++ * * %0       - on success (or if already opted in).
++ * * %-ENOMEM - allocation failure.
++ */
++int device_set_sysfs_lazy(struct device *dev)
++{
++	struct sysfs_lazy_state *lazy;
++
++	if (dev->sysfs_lazy)
++		return 0;
++
++	lazy = kzalloc_obj(*lazy);
++	if (!lazy)
++		return -ENOMEM;
++
++	mutex_init(&lazy->lock);
++	dev->sysfs_lazy = lazy;
++	return 0;
++}
++EXPORT_SYMBOL_GPL(device_set_sysfs_lazy);
++
+ static const struct kobj_type device_ktype = {
+ 	.release	= device_release,
+ 	.sysfs_ops	= &dev_sysfs_ops,
+@@ -3642,6 +3707,15 @@ int device_add(struct device *dev)
+ 	error = device_add_class_symlinks(dev);
+ 	if (error)
+ 		goto SymlinkError;
++	/*
++	 * device_set_sysfs_lazy() only allocates ->sysfs_lazy_state for
++	 * non-namespaced devices, and device_is_sysfs_lazy() guards opt-in
++	 * here, so kernfs_set_lazy() should always succeed.  WARN_ON catches
++	 * a regression in those preconditions.
++	 */
++	if (device_is_sysfs_lazy(dev))
++		WARN_ON(kernfs_set_lazy(dev->kobj.sd));
++
+ 	error = device_add_attrs(dev);
+ 	if (error)
+ 		goto AttrsError;
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 9c8fde6a3d866..39e08e8c950c6 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -45,6 +45,18 @@ struct fwnode_handle;
+ struct iommu_group;
+ struct dev_pin_info;
+ struct dev_iommu;
++/**
++ * struct sysfs_lazy_state - per-device lazy sysfs population state
++ * @lock: serialises populate callbacks (held across device_sysfs_apply())
++ * @populated: full-populate latch
++ * @power_added: dpm_sysfs_add() latch
++ */
++struct sysfs_lazy_state {
++	struct mutex	lock;
++	bool		populated;
++	bool		power_added;
 +};
 +
- int __init sysfs_init(void)
- {
- 	int err;
+ struct msi_device_data;
  
--	sysfs_root = kernfs_create_root(NULL, KERNFS_ROOT_EXTRA_OPEN_PERM_CHECK,
-+	sysfs_root = kernfs_create_root(&sysfs_kf_syscall_ops,
-+					KERNFS_ROOT_EXTRA_OPEN_PERM_CHECK,
- 					NULL);
- 	if (IS_ERR(sysfs_root))
- 		return PTR_ERR(sysfs_root);
+ /**
+@@ -739,9 +751,25 @@ struct device {
+ 	bool			dma_iommu:1;
+ #endif
+ 
++	/* Lazy-sysfs opt-in (NULL = eager). Set via device_set_sysfs_lazy(). */
++	struct sysfs_lazy_state	*sysfs_lazy;
++
+ 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+ };
+ 
++/**
++ * device_is_sysfs_lazy - true if @dev opted into lazy sysfs
++ * @dev: device to query
++ */
++static inline bool device_is_sysfs_lazy(const struct device *dev)
++{
++	return !!dev->sysfs_lazy;
++}
++
++bool device_sysfs_populated(const struct device *dev);
++void device_sysfs_set_populated(struct device *dev);
++int device_set_sysfs_lazy(struct device *dev);
++
+ #define __create_dev_flag_accessors(accessor_name, flag_name) \
+ static inline bool dev_##accessor_name(const struct device *dev) \
+ { \
 -- 
 2.47.3
 
