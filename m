@@ -1,53 +1,53 @@
-Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
+Received: from pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.42.203.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218893955F8
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 17:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A3837A828
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 17:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.42.203.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783014687; cv=none; b=btFu2wCyW4TMDuWzHrqLbhxZMnoTYIQIXu/ZlIiGl4wxPmrqUEZ2lc0N/l9YJOFJ27tyeejDTxnWHEXUv+1LMeN6LvN7RdL2bOps/MZAJH8PyJkU1YZ0PAgDENhO5abUGrvABplWJp70v7pl88fBVCXj/tXAXn130ylby1wyz+s=
+	t=1783014753; cv=none; b=a/GeXNjXvBDByPF5b7eYzsGixNCOnp5hAWcohFofFXARdjqmDLAQRhbtic33tIYp6py1mXf/+blBm4uqzf8ARkLacDUdMOfSdorpBp4SWVCHIW0ThG6LTFNig/wbzNlmJX9dm11b76SnHIrLNuGgC+HU+jGjhQ7sH7tjvBM2Ck0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783014687; c=relaxed/simple;
-	bh=TQRalbFiaXL+XMjY8nBMgpOXARQN4BMJq5H3g0hEEEE=;
+	s=arc-20240116; t=1783014753; c=relaxed/simple;
+	bh=xyjC4vedLLNU1Pa84LSLDqM1b59MgKiEooKic+nVlQk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OUHvyIn35MyBFXYCCcNagaZJrNrDxP7Lwxx78nn9LYk6FkRZkblxLEJExsn3tCgaWUgw1bJbk1f0nV7Lnbrl40nyP+6VhKePrOa5GfUy39avDVvO1gNExQNJd2Q6exUsyjm3nv0wDQ/im1Zr/992pzVTBPE3xISmuQyd/a09WII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=O7WiLT+S; arc=none smtp.client-ip=44.246.68.102
+	 MIME-Version:Content-Type; b=PBvzM5X/AaAhVHyVQNmcvgZXSLRGxRpn+MFDHDMhkzQJ89jlXn4/wYZQH+RI7DuEPKqg/EU8zp/X4TGTkv564kuCr4QKG1JeR+lrqvSaQQsqSHJRtMK5LuH0Q7eFmwd0bAR5/5wLjYnk2cNYDuwkXIWsiEFHCBxk77u3o4ZdCgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=bCfUleKs; arc=none smtp.client-ip=52.42.203.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="O7WiLT+S"
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="bCfUleKs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1783014681; x=1814550681;
+  t=1783014749; x=1814550749;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=uQXwRfNx0b+cTHhdSx5J83FGDt8YDjF1iSoBNLo1Qfw=;
-  b=O7WiLT+S8UJRA5pWSSIy66VhkDqcC2luT2GTLAWgWuyIJkJRlEoUGAcN
-   3nUCtNFCc19hwrqiv3GAolJyzGX9AscPuuq/dlMKnQpilouRLX4LJ9L5d
-   lSF9frml4+BfMAVhe4CrXED9RByTDpmDDKKcjn3s6Dvvh9ykfNY3r98VJ
-   Yal42gWjjQ3pnRCwN9/BouhP6W2n76KH7BuD2XvUedGTUA46+IiKekC7I
-   liZKOlw8MpaZC/b1kOw1n8s/v52tuolP3hhjmy54NayFrOaGQ+dHmQ65+
-   m+YTJOU/Xq0KEAggRRb7yYOpS0Yt4wb3kPuAAkbCvHLiP5sIsAMC/Xs3I
-   A==;
-X-CSE-ConnectionGUID: dyk/pfW6R6C9ZTRGbm3/QQ==
-X-CSE-MsgGUID: fnYdymBqRpG9CyA4KMDJnA==
+  bh=GxIxQ6sd0HIaZszAs69MPmohJ488piDlmBi7gszGRjI=;
+  b=bCfUleKst/qR+ztDwFGHhwPtiuqSbMoQ1IlPSvbZFL814xIvQ75YDSfF
+   YxNPxMFfLP0ajkTG4QSSWr4tmFiD+NBPnATjTNhksIFuILLyljLc0x3RB
+   3PnOpdy2F17w+qKdcsoFuTpMyDNWN929fiGSCoMN0icAQrb3raupKEojX
+   TyrVXvcD7hR5cpwe+3xoQJsvMhN6nzZPYapgzT85oG/G3GHG6Xm8sepDH
+   2msgv7I7BsPBwvqrMmb9+Wsx7JF91VJPp7fqx2eiqe9ifTV09KQyUKF0B
+   DAF7y7tXCmlyNUsgn4hBcGApZJY+NrWC5B0bJaU9Upxabj+XQlsc0VVrL
+   g==;
+X-CSE-ConnectionGUID: W+AccSSBTBqbltx0ldfFzQ==
+X-CSE-MsgGUID: tAwu0UhLQKq7hh3drA1Elg==
 X-IronPort-AV: E=Sophos;i="6.25,144,1779148800"; 
-   d="scan'208";a="22963744"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 17:51:19 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:8808]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.1.125:2525] with esmtp (Farcaster)
- id d489353c-48c5-44c8-b75e-960692b706e6; Thu, 2 Jul 2026 17:51:19 +0000 (UTC)
-X-Farcaster-Flow-ID: d489353c-48c5-44c8-b75e-960692b706e6
+   d="scan'208";a="22965701"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-008.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 17:52:26 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:4969]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.20.237:2525] with esmtp (Farcaster)
+ id 953db913-8e31-472a-a3fd-058bd9bf5b03; Thu, 2 Jul 2026 17:52:26 +0000 (UTC)
+X-Farcaster-Flow-ID: 953db913-8e31-472a-a3fd-058bd9bf5b03
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Thu, 2 Jul 2026 17:51:19 +0000
+ Thu, 2 Jul 2026 17:52:26 +0000
 Received: from dev-dsk-sakacpav-1a-480d1124.eu-west-1.amazon.com
  (172.19.96.155) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43; Thu, 2 Jul 2026
- 17:51:16 +0000
+ 17:52:23 +0000
 From: Pavol Sakac <sakacpav@amazon.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
 	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Tejun Heo
@@ -58,624 +58,1113 @@ CC: <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>, "David
  Matlack" <dmatlack@google.com>, Samiullah Khawaja <skhawaja@google.com>,
 	Alexander Graf <graf@amazon.com>, <linux-mm@kvack.org>,
 	<kexec@lists.infradead.org>, <nh-open-source@amazon.com>
-Subject: [RFC PATCH 05/14] driver core: add struct device_sysfs_entry and walker
-Date: Thu, 2 Jul 2026 19:51:05 +0200
-Message-ID: <20260702175114.24659-1-sakacpav@amazon.de>
+Subject: [RFC PATCH 07/14] driver core: migrate device sysfs to device_sysfs_entry table
+Date: Thu, 2 Jul 2026 19:51:07 +0200
+Message-ID: <20260702175114.24659-3-sakacpav@amazon.de>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260702174033.32116-1-sakacpav@amazon.de>
+In-Reply-To: <20260702175114.24659-1-sakacpav@amazon.de>
 References: <20260702174033.32116-1-sakacpav@amazon.de>
+ <20260702175114.24659-1-sakacpav@amazon.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ClientProxiedBy: EX19D033UWC004.ant.amazon.com (10.13.139.225) To
+X-ClientProxiedBy: EX19D040UWA004.ant.amazon.com (10.13.139.93) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Introduce the primitive for declaring per-device sysfs content as
-table rows and a single walker that dispatches across eager,
-lazy-populate, and teardown paths.
+Migrate driver-core-owned per-device sysfs to the declarative table
+introduced earlier in this series.  Every standalone file, synthetic
+symlink, and attribute_group source visible at the top of /sys/<dev>/
+becomes one row in driver_core_sysfs_entries[].  Row order matches
+the eager device_add() readdir(3) order (ABI).  The walker runs
+ADD_ALL forward in device_add() and REMOVE_ALL reverse in
+device_del().
 
-struct device_sysfs_entry { name, applies_to, create, remove }
+power/ stays eager.  dpm_sysfs_add() runs unconditionally from
+device_add(), for lazy devices too.  In-kernel callers
+(wakeup_sysfs_add(), dev_pm_qos_*()) sysfs_merge_group() into an
+existing power/ directory at driver bind, before any userspace
+access, so deferring power/ would break those merges.  device_add()
+sets ->power_added on lazy devices; the power/ table row then no-ops
+in create_power() (the latch is already set) and remove_power() is
+its reverse-order teardown pair, calling dpm_sysfs_remove() only
+when power/ was actually added.  Eager devices (->sysfs_lazy == NULL)
+also get power/ at device_add() time, and create_power() returns
+early for them.
 
-  - name == NULL: wildcard row (create() does internal name
-    dispatch; used for attribute_group-source rows).
-  - applies_to: NULL or a pure, cheap, non-sleeping predicate.
-  - create: implements ADD_ONE (name != NULL) and ADD_ALL
-    (name == NULL) semantics; absorbs -EEXIST from concurrent
-    racers to 0.
-  - remove: reverse-order teardown.
+device_del REMOVE_ALL.  device_del() and the SysEntryError unwind
+path drop the imperative dpm_sysfs_remove() call and reverse the
+table via REMOVE_ALL.  As a consequence the power/ subtree is now
+torn down LAST (it is declared FIRST in the table and the walker
+runs in reverse on REMOVE_ALL); the device is already dead
+(dev->p->dead under device_lock) before the walker runs, so no
+caller can observe a partially-torn-down state.
 
-device_sysfs_apply(dev, entries, action, name) dispatches
-DEV_SYSFS_ADD_ONE / DEV_SYSFS_ADD_ALL / DEV_SYSFS_REMOVE_ALL across
-the table. -ENOENT from a wildcard row's create() is treated as
-"not my name" and the walker continues; any other error propagates
-to the caller on ADD_ONE and is absorbed on ADD_ALL (best-effort).
-REMOVE_ALL reverses the table and never aborts. The full contract
-is documented in Documentation/driver-api/sysfs-lazy.rst (added
-later in this series).
-
-Shape follows cftype + cgroup_addrm_files (kernel/cgroup/cgroup.c)
-as the in-tree precedent for table-driven attribute creation.
-struct kobj_type grows a trailing .entries pointer; ktypes opt in
-by setting it and wiring their populate / populate_all callbacks
-to the walker. The field is at end of struct for source-
-compatibility with positional initialisers of out-of-tree ktypes.
-
-sysfs_add_file_mode_ns() and sysfs_add_bin_file_mode_ns() are
-exported (kerneldoc added) so the walker can absorb -EEXIST from
-concurrent create racers without going through sysfs_warn_dup().
-
-Two static helpers - create_attr_in_groups() and
-create_all_in_groups() - are added for use by attribute-group
-source rows that the migration commit later wires up; they search
-@groups by @name and walk every visible attribute respectively.
+bus_add_device / bus_remove_device.  The bus's dev_groups and the
+dev->kobj/subsystem symlink are now materialised by walker rows
+(create_bus_groups, create_bus_subsystem_link).
+bus_add_device() and bus_remove_device() keep only the bus-
+directory back-link (sp->devices_kset->kobj/<devname>) which
+targets a kobject other than dev->kobj and therefore cannot be a
+per-device row.
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Rafael J. Wysocki <rafael@kernel.org>
 Cc: Tejun Heo <tj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Danilo Krummrich <dakr@kernel.org>
 Cc: linux-kernel@vger.kernel.org
-Cc: linux-api@vger.kernel.org
 Cc: driver-core@lists.linux.dev
+Cc: linux-api@vger.kernel.org
 Assisted-by: Claude:claude-opus-4.7
 Signed-off-by: Pavol Sakac <sakacpav@amazon.de>
 ---
- drivers/base/core.c     | 319 ++++++++++++++++++++++++++++++++++++++++
- fs/sysfs/file.c         |  41 +++++-
- fs/sysfs/sysfs.h        |   6 -
- include/linux/device.h  |  56 +++++++
- include/linux/kobject.h |   5 +
- include/linux/sysfs.h   |  24 +++
- 6 files changed, 443 insertions(+), 8 deletions(-)
+ drivers/base/bus.c     |  41 ++-
+ drivers/base/core.c    | 708 +++++++++++++++++++++++++++++++----------
+ fs/sysfs/sysfs.h       |   1 +
+ include/linux/device.h |  50 +--
+ 4 files changed, 578 insertions(+), 222 deletions(-)
 
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 8b6722ff8590d..4ca1bd0cf4904 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -563,34 +563,35 @@ int bus_add_device(struct device *dev)
+ 
+ 	pr_debug("bus: '%s': add device %s\n", sp->bus->name, dev_name(dev));
+ 
+-	error = device_add_groups(dev, sp->bus->dev_groups);
++	error = sysfs_create_link(&sp->devices_kset->kobj, &dev->kobj, dev_name(dev));
+ 	if (error)
+ 		goto out_put;
+ 
+ 	if (dev->bus->driver_override) {
+ 		error = device_add_group(dev, &driver_override_dev_group);
+ 		if (error)
+-			goto out_groups;
++			goto out_kset;
+ 	}
+ 
+-	error = sysfs_create_link(&sp->devices_kset->kobj, &dev->kobj, dev_name(dev));
+-	if (error)
+-		goto out_override;
+-
+-	error = sysfs_create_link(&dev->kobj, &sp->subsys.kobj, "subsystem");
+-	if (error)
+-		goto out_subsys;
++	/*
++	 * The bus's dev_groups and the dev->kobj/subsystem symlink
++	 * are created by the driver-core walker through the
++	 * bus-groups wildcard row and the bus-bound "subsystem" row
++	 * of driver_core_sysfs_entries[] (see create_bus_groups()
++	 * and create_bus_subsystem_link() in drivers/base/core.c);
++	 * teardown runs through the REMOVE_ALL walker call in
++	 * device_del(). Only the bus-directory back-link
++	 * (sp->devices_kset->kobj -> dev->kobj, named after the
++	 * device) stays here - it targets a kobject other than
++	 * dev->kobj and therefore does not belong on the per-device
++	 * walker.
++	 */
+ 
+ 	klist_add_tail(&dev->p->knode_bus, &sp->klist_devices);
+ 	return 0;
+ 
+-out_subsys:
++out_kset:
+ 	sysfs_remove_link(&sp->devices_kset->kobj, dev_name(dev));
+-out_override:
+-	if (dev->bus->driver_override)
+-		device_remove_group(dev, &driver_override_dev_group);
+-out_groups:
+-	device_remove_groups(dev, sp->bus->dev_groups);
+ out_put:
+ 	subsys_put(sp);
+ 	return error;
+@@ -644,11 +645,17 @@ void bus_remove_device(struct device *dev)
+ 			sif->remove_dev(dev, sif);
+ 	mutex_unlock(&sp->mutex);
+ 
+-	sysfs_remove_link(&dev->kobj, "subsystem");
++	/*
++	 * dev->kobj/subsystem and the bus's dev_groups are torn
++	 * down by the driver-core REMOVE_ALL walker call in
++	 * device_del() (reverse order over
++	 * driver_core_sysfs_entries[]); only the bus-directory
++	 * back-link sp->devices_kset->kobj/<devname> is removed
++	 * here because it targets a kobject other than dev->kobj.
++	 */
+ 	sysfs_remove_link(&sp->devices_kset->kobj, dev_name(dev));
+ 	if (dev->bus->driver_override)
+ 		device_remove_group(dev, &driver_override_dev_group);
+-	device_remove_groups(dev, dev->bus->dev_groups);
+ 	if (klist_node_attached(&dev->p->knode_bus))
+ 		klist_del(&dev->p->knode_bus);
+ 
 diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 6d0d917d4b1ff..aeb4985eb8838 100644
+index 975b6e0c4dabd..15a2dcf922d4b 100644
 --- a/drivers/base/core.c
 +++ b/drivers/base/core.c
-@@ -2574,6 +2574,325 @@ static void device_release(struct kobject *kobj)
+@@ -2556,12 +2556,15 @@ static void device_release(struct kobject *kobj)
+ 	 */
+ 	devres_release_all(dev);
+ 
++	kfree(dev->dma_range_map);
++	kfree(dev->physical_location);
++	kfree(dev->driver_override.name);
++
++	/* Free per-device lazy state; kfree(NULL) handles never-opted-in. */
+ 	if (dev->sysfs_lazy)
+ 		mutex_destroy(&dev->sysfs_lazy->lock);
+ 	kfree(dev->sysfs_lazy);
+-
+-	kfree(dev->dma_range_map);
+-	kfree(dev->driver_override.name);
++	dev->sysfs_lazy = NULL;
+ 
+ 	if (dev->release)
+ 		dev->release(dev);
+@@ -2575,40 +2578,6 @@ static void device_release(struct kobject *kobj)
  	kfree(p);
  }
  
-+/*
-+ * device_sysfs_apply() - declarative per-device sysfs dispatch
-+ *
-+ * Single walker over a sentinel-terminated struct device_sysfs_entry
-+ * table. Intended to be invoked on every dispatch path (device_add
-+ * eager, lazy populate_one, lazy populate_all, device_del teardown)
-+ * so adding a new per-device file is one row, not four open-coded
-+ * branches. Shape follows cftype + cgroup_addrm_files
-+ * (kernel/cgroup/cgroup.c) and pci_sysfs_entries[]
-+ * (drivers/pci/pci-sysfs.c).
-+ *
-+ * ADD_ONE:  first row whose applies_to passes and whose name matches
-+ *	     (or a wildcard row whose create() does not return
-+ *	     -ENOENT) terminates the walk. -ENOENT from a wildcard
-+ *	     row's create() signals "not my name"; the walker
-+ *	     continues. Realize callbacks MUST check existence (via
-+ *	     sysfs_*_exists()) before calling sysfs_create_*() and
-+ *	     return 0 if the entry already exists. Reaching
-+ *	     __kernfs_create_*() for a name that another lazy path
-+ *	     just created is forbidden under lock
-+ *	     serialization. If sysfs_warn_dup() ever fires from a
-+ *	     lazy path, it indicates a lock invariant
-+ *	     violation or a non-lazy path creating lazy attrs (bug).
-+ * ADD_ALL:  every applicable row's create() fires with name = NULL;
-+ *	     per-row errors are best-effort - the walker discards
-+ *	     return values and rows log via their own diagnostics.
-+ * REMOVE_ALL: reverse row order; remove() fires for every row whose
-+ *	     applies_to passes. Teardown never aborts.
-+ *
-+ * The full walker contract (error-absorption matrix, interaction
-+ * with negative-dentry caching, lifecycle caveats) is documented in
-+ * Documentation/driver-api/sysfs-lazy.rst, added later in this
-+ * series.
-+ */
-+/*
-+ * Create one named attr inside @grp; honours grp->is_visible.
-+ * Returns 0 on success/hidden/already-present, -ENOENT on no-match.
-+ */
-+static int create_attr_in_group(struct device *dev,
-+				 const struct attribute_group *grp,
-+				 const char *name)
-+{
-+	struct attribute **a;
-+	const struct bin_attribute *const *ba;
-+	kuid_t uid;
-+	kgid_t gid;
-+	umode_t mode;
-+	int i;
-+
-+	if (device_is_sysfs_lazy(dev))
-+		lockdep_assert_held(&dev->sysfs_lazy->lock);
-+
-+	kobject_get_ownership(&dev->kobj, &uid, &gid);
-+
-+	if (grp->name) {
-+		if (!strcmp(grp->name, name)) {
-+			if (sysfs_group_exists(&dev->kobj, grp))
-+				return 0;
-+			return sysfs_create_group(&dev->kobj, grp);
-+		}
+-/*
+- * device_sysfs_apply() - declarative per-device sysfs dispatch
+- *
+- * Single walker over a sentinel-terminated struct device_sysfs_entry
+- * table. Intended to be invoked on every dispatch path (device_add
+- * eager, lazy populate_one, lazy populate_all, device_del teardown)
+- * so adding a new per-device file is one row, not four open-coded
+- * branches. Shape follows cftype + cgroup_addrm_files
+- * (kernel/cgroup/cgroup.c) and pci_sysfs_entries[]
+- * (drivers/pci/pci-sysfs.c).
+- *
+- * ADD_ONE:  first row whose applies_to passes and whose name matches
+- *	     (or a wildcard row whose create() does not return
+- *	     -ENOENT) terminates the walk. -ENOENT from a wildcard
+- *	     row's create() signals "not my name"; the walker
+- *	     continues. Realize callbacks MUST check existence (via
+- *	     sysfs_*_exists()) before calling sysfs_create_*() and
+- *	     return 0 if the entry already exists. Reaching
+- *	     __kernfs_create_*() for a name that another lazy path
+- *	     just created is forbidden under lock
+- *	     serialization. If sysfs_warn_dup() ever fires from a
+- *	     lazy path, it indicates a lock invariant
+- *	     violation or a non-lazy path creating lazy attrs (bug).
+- * ADD_ALL:  every applicable row's create() fires with name = NULL;
+- *	     per-row errors are best-effort - the walker discards
+- *	     return values and rows log via their own diagnostics.
+- * REMOVE_ALL: reverse row order; remove() fires for every row whose
+- *	     applies_to passes. Teardown never aborts.
+- *
+- * The full walker contract (error-absorption matrix, interaction
+- * with negative-dentry caching, lifecycle caveats) is documented in
+- * Documentation/driver-api/sysfs-lazy.rst, added later in this
+- * series.
+- */
+ /*
+  * Create one named attr inside @grp; honours grp->is_visible.
+  * Returns 0 on success/hidden/already-present, -ENOENT on no-match.
+@@ -2990,12 +2959,32 @@ static int device_ktype_populate_one(struct kobject *kobj, const char *name)
+ 	const struct kobj_type *ktype = dev->kobj.ktype;
+ 	int ret;
+ 
+-	/* Device is being torn down; do not populate. */
+-	if (dev->p->dead)
++	/* KERNFS_LAZY implies dev->sysfs_lazy was allocated by device_set_sysfs_lazy(). */
++	if (WARN_ON_ONCE(!dev->sysfs_lazy))
 +		return -ENOENT;
++
++	/* Fast path: directory fully walked, kernfs has authoritative state. */
++	if (device_sysfs_populated(dev))
+ 		return -ENOENT;
+ 
++	mutex_lock(&dev->sysfs_lazy->lock);
++	/* Re-check under the lock against a concurrent populate_all. */
++	if (device_sysfs_populated(dev)) {
++		ret = -ENOENT;
++		goto out;
 +	}
-+
-+	if (grp->attrs) {
-+		for (i = 0, a = grp->attrs; *a; i++, a++) {
-+			if (strcmp((*a)->name, name))
-+				continue;
-+
-+			mode = (*a)->mode;
-+			if (grp->is_visible || grp->is_visible_const) {
-+				if (grp->is_visible)
-+					mode = grp->is_visible(&dev->kobj, *a, i);
-+				else
-+					mode = grp->is_visible_const(&dev->kobj, *a, i);
-+				mode &= ~SYSFS_GROUP_INVISIBLE;
-+				if (!mode)
-+					return 0;	/* hidden */
-+			}
-+			mode &= SYSFS_PREALLOC | 0664;
-+
-+			if (sysfs_kn_exists(&dev->kobj, (*a)->name))
-+				return 0;
-+
-+			return sysfs_add_file_mode_ns(dev->kobj.sd, *a,
-+						      mode, uid, gid, NULL);
-+		}
++	/*
++	 * FIXME: dev->p->dead is device_lock-protected and a bitfield (so not
++	 * READ_ONCE()-able); this lockless re-check is a benign KCSAN data race.
++	 */
++	if (dev->p->dead) {
++		ret = -ENOENT;
++		goto out;
 +	}
-+	if (grp->bin_attrs) {
-+		for (i = 0, ba = grp->bin_attrs; *ba; i++, ba++) {
-+			if (strcmp((*ba)->attr.name, name))
-+				continue;
-+			mode = (*ba)->attr.mode;
-+			if (grp->is_bin_visible) {
-+				mode = grp->is_bin_visible(&dev->kobj, *ba, i);
-+				mode &= ~SYSFS_GROUP_INVISIBLE;
-+				if (!mode)
-+					return 0;
-+			}
-+			mode &= SYSFS_PREALLOC | 0664;
+ 	ret = device_sysfs_apply(dev, ktype ? ktype->entries : NULL,
+ 				DEV_SYSFS_ADD_ONE, name);
++out:
++	mutex_unlock(&dev->sysfs_lazy->lock);
+ 	return ret;
+ }
+ 
+@@ -3004,14 +2993,33 @@ static void device_ktype_populate_all(struct kobject *kobj)
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	const struct kobj_type *ktype = dev->kobj.ktype;
+ 
+-	/* Device is being torn down; do not populate. */
+-	if (dev->p->dead)
++	/* See device_ktype_populate_one() for the invariant. */
++	if (WARN_ON_ONCE(!dev->sysfs_lazy))
++		return;
 +
-+			if (sysfs_kn_exists(&dev->kobj, (*ba)->attr.name))
-+				return 0;
++	/* Fast path: directory already fully populated. */
++	if (device_sysfs_populated(dev))
+ 		return;
+ 
++	mutex_lock(&dev->sysfs_lazy->lock);
++	/* Re-check under the lock. */
++	if (device_sysfs_populated(dev))
++		goto out;
++	/* FIXME: same racy dead read; see device_ktype_populate_one(). */
++	if (dev->p->dead)
++		goto out;
 +
-+			return sysfs_add_bin_file_mode_ns(dev->kobj.sd,
-+							  *ba, mode,
-+							  (*ba)->size,
-+							  uid, gid, NULL);
-+		}
-+	}
-+	return -ENOENT;
-+}
+ 	device_sysfs_apply(dev, ktype ? ktype->entries : NULL,
+ 			  DEV_SYSFS_ADD_ALL, NULL);
 +
-+/*
-+ * Per-group incremental creation. Tolerates partial state from
-+ * concurrent populate_one. Best-effort: absorbs per-attr failures.
-+ */
-+static int create_group_incremental(struct device *dev,
-+				     const struct attribute_group *grp)
-+{
-+	struct attribute **a;
-+	const struct bin_attribute *const *ba;
-+	int ret;
 +
-+	if (device_is_sysfs_lazy(dev))
-+		lockdep_assert_held(&dev->sysfs_lazy->lock);
++	device_sysfs_set_populated(dev);
++out:
++	mutex_unlock(&dev->sysfs_lazy->lock);
+ }
+ 
++static const struct device_sysfs_entry driver_core_sysfs_entries[];
 +
-+	if (grp->name) {
-+		struct kernfs_node *subdir;
-+		kuid_t uid;
-+		kgid_t gid;
-+		umode_t mode;
-+		int i;
-+
-+		subdir = kernfs_find_and_get(dev->kobj.sd, grp->name);
-+		if (!subdir)
-+			return sysfs_create_group(&dev->kobj, grp);
-+
-+		kobject_get_ownership(&dev->kobj, &uid, &gid);
-+
-+		if (grp->attrs) {
-+			for (i = 0, a = grp->attrs; *a; i++, a++) {
-+				struct kernfs_node *kn;
-+
-+				mode = (*a)->mode;
-+				if (grp->is_visible || grp->is_visible_const) {
-+					if (grp->is_visible)
-+						mode = grp->is_visible(&dev->kobj,
-+								       *a, i);
-+					else
-+						mode = grp->is_visible_const(&dev->kobj,
-+									     *a, i);
-+					mode &= ~SYSFS_GROUP_INVISIBLE;
-+					if (!mode)
-+						continue;
-+				}
-+				mode &= SYSFS_PREALLOC | 0664;
-+
-+				/* Existence check inside named @subdir (not a kobject). */
-+				kn = kernfs_find_and_get(subdir, (*a)->name);
-+				if (kn) {
-+					kernfs_put(kn);
-+					continue;
-+				}
-+
-+				ret = sysfs_add_file_mode_ns(subdir, *a,
-+							     mode, uid,
-+							     gid, NULL);
-+				if (ret)
-+					dev_dbg(dev,
-+						"lazy %s/%s: %d\n",
-+						grp->name, (*a)->name, ret);
-+			}
-+		}
-+		if (grp->bin_attrs) {
-+			for (i = 0, ba = grp->bin_attrs; *ba; i++, ba++) {
-+				struct kernfs_node *kn;
-+
-+				mode = (*ba)->attr.mode;
-+				if (grp->is_bin_visible) {
-+					mode = grp->is_bin_visible(&dev->kobj,
-+								   *ba, i);
-+					mode &= ~SYSFS_GROUP_INVISIBLE;
-+					if (!mode)
-+						continue;
-+				}
-+				mode &= SYSFS_PREALLOC | 0664;
-+
-+				kn = kernfs_find_and_get(subdir, (*ba)->attr.name);
-+				if (kn) {
-+					kernfs_put(kn);
-+					continue;
-+				}
-+
-+				ret = sysfs_add_bin_file_mode_ns(subdir,
-+								 *ba,
-+								 mode,
-+								 (*ba)->size,
-+								 uid,
-+								 gid,
-+								 NULL);
-+				if (ret)
-+					dev_dbg(dev,
-+						"lazy %s/%s: %d\n",
-+						grp->name,
-+						(*ba)->attr.name, ret);
-+			}
-+		}
-+
-+		kernfs_put(subdir);
-+		return 0;
-+	}
-+
-+	if (grp->attrs) {
-+		for (a = grp->attrs; *a; a++)
-+			(void)create_attr_in_group(dev, grp, (*a)->name);
-+	}
-+	if (grp->bin_attrs) {
-+		for (ba = grp->bin_attrs; *ba; ba++)
-+			(void)create_attr_in_group(dev, grp,
-+						    (*ba)->attr.name);
-+	}
-+	return 0;
-+}
-+
-+/* Search @groups for @name. -ENOENT = not in this source. */
-+static int __maybe_unused create_attr_in_groups(struct device *dev,
-+				  const struct attribute_group *const *groups,
-+				  const char *name)
+ static const struct kobj_type device_ktype = {
+ 	.release	= device_release,
+ 	.sysfs_ops	= &dev_sysfs_ops,
+@@ -3019,6 +3027,7 @@ static const struct kobj_type device_ktype = {
+ 	.get_ownership	= device_get_ownership,
+ 	.populate	= device_ktype_populate_one,
+ 	.populate_all	= device_ktype_populate_all,
++	.entries	= driver_core_sysfs_entries,
+ };
+ 
+ 
+@@ -3271,6 +3280,25 @@ void device_remove_groups(struct device *dev,
+ }
+ EXPORT_SYMBOL_GPL(device_remove_groups);
+ 
++/* Like device_remove_groups() but skips uncreated named subdirs (lazy). */
++static void device_remove_groups_if_present(struct device *dev,
++				      const struct attribute_group *const *groups)
 +{
 +	const struct attribute_group *const *g;
-+	int ret;
 +
 +	if (!groups)
-+		return -ENOENT;
++		return;
++
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
 +
 +	for (g = groups; *g; g++) {
-+		ret = create_attr_in_group(dev, *g, name);
-+		if (ret != -ENOENT)
-+			return ret;
-+	}
-+	return -ENOENT;
-+}
-+
-+/* Walk @groups creating every visible attribute. Best-effort. */
-+static int __maybe_unused create_all_in_groups(struct device *dev,
-+				 const struct attribute_group *const *groups)
-+{
-+	const struct attribute_group *const *g;
-+
-+	if (!groups)
-+		return 0;
-+
-+	for (g = groups; *g; g++)
-+		(void)create_group_incremental(dev, *g);
-+	return 0;
-+}
-+
-+static const struct device_sysfs_entry *
-+device_sysfs_entries_end(const struct device_sysfs_entry *entries)
-+{
-+	const struct device_sysfs_entry *e = entries;
-+
-+	while (e->create)
-+		e++;
-+	return e;
-+}
-+
-+static __maybe_unused int
-+device_sysfs_apply(struct device *dev,
-+		  const struct device_sysfs_entry *entries,
-+		  enum dev_sysfs_action action, const char *name)
-+{
-+	const struct device_sysfs_entry *e;
-+
-+	if (!entries)
-+		return action == DEV_SYSFS_ADD_ONE ? -ENOENT : 0;
-+
-+	if (action == DEV_SYSFS_REMOVE_ALL) {
-+		for (e = device_sysfs_entries_end(entries) - 1;
-+		     e >= entries; e--) {
-+			if (e->applies_to && !e->applies_to(dev))
-+				continue;
-+			if (e->remove)
-+				e->remove(dev);
-+		}
-+		return 0;
-+	}
-+
-+	for (e = entries; e->create; e++) {
-+		int ret;
-+
-+		if (e->applies_to && !e->applies_to(dev))
++		if ((*g)->name && !sysfs_group_exists(&dev->kobj, *g))
 +			continue;
-+		if (action == DEV_SYSFS_ADD_ONE && e->name &&
-+		    strcmp(e->name, name))
-+			continue;
-+
-+		ret = e->create(dev, action == DEV_SYSFS_ADD_ONE
-+					      ? name : NULL);
-+		if (action == DEV_SYSFS_ADD_ONE) {
-+			/*
-+			 * A named row is the authoritative handler for its
-+			 * name: return its result even on -ENOENT. A wildcard
-+			 * row (e->name == NULL) may decline with -ENOENT, so
-+			 * keep scanning for another handler in that case.
-+			 */
-+			if (e->name || ret != -ENOENT)
-+				return ret;
-+		}
-+		/*
-+		 * FIXME: ADD_ALL is best-effort and never returns the first create() failure to
-+		 * the caller, so device_ktype_populate_all() latches populated=true after a
-+		 * transient failure - the missing attribute is negative-cached forever (a later
-+		 * lookup returns -ENOENT and never retries), contradicting the sysfs-lazy ABI.
-+		 */
++		sysfs_remove_group(&dev->kobj, *g);
 +	}
-+	return action == DEV_SYSFS_ADD_ONE ? -ENOENT : 0;
 +}
 +
- static const struct ns_common *device_namespace(const struct kobject *kobj)
+ union device_attr_group_devres {
+ 	const struct attribute_group *group;
+ 	const struct attribute_group **groups;
+@@ -3317,101 +3345,447 @@ int devm_device_add_group(struct device *dev, const struct attribute_group *grp)
+ }
+ EXPORT_SYMBOL_GPL(devm_device_add_group);
+ 
+-static int device_add_attrs(struct device *dev)
++static ssize_t dev_show(struct device *dev, struct device_attribute *attr,
++			char *buf)
  {
- 	const struct device *dev = kobj_to_dev(kobj);
-diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
-index 5f3144e52ab72..8d0b8c2c2ee4d 100644
---- a/fs/sysfs/file.c
-+++ b/fs/sysfs/file.c
-@@ -270,6 +270,25 @@ static const struct kernfs_ops sysfs_bin_kfops_mmap = {
- 	.llseek		= sysfs_kf_bin_llseek,
- };
+-	const struct class *class = dev->class;
+-	const struct device_type *type = dev->type;
+-	int error;
++	return print_dev_t(buf, dev->devt);
++}
++static DEVICE_ATTR_RO(dev);
  
-+/**
-+ * sysfs_add_file_mode_ns - create a sysfs attribute file under @parent
-+ * @parent: kernfs node for the parent directory (typically @kobj->sd)
-+ * @attr:   attribute descriptor; @attr->name is the file name
-+ * @mode:   file mode (low bits) optionally OR'd with %SYSFS_PREALLOC
-+ * @uid: file owner UID
-+ * @gid: file owner GID
-+ * @ns:  namespace tag (may be %NULL)
-+ *
-+ * Picks a kernfs_ops dispatch row from (prealloc?, has show, has store)
-+ * routing read()/write() through @parent->priv->ktype->sysfs_ops.
-+ *
-+ * Return: 0 on success, or -errno. -EEXIST means the name already
-+ * exists and is treated as a caller error (it triggers sysfs_warn_dup()).
-+ * The lazy populate path must not reach this: it checks sysfs_kn_exists()/
-+ * sysfs_group_exists() under the populate lock before creating, so a
-+ * concurrent ADD_ONE/ADD_ALL race resolves to a no-op rather than a
-+ * duplicate create.
-+ */
- int sysfs_add_file_mode_ns(struct kernfs_node *parent,
- 		const struct attribute *attr, umode_t mode, kuid_t uid,
- 		kgid_t gid, const struct ns_common *ns)
-@@ -320,6 +339,26 @@ int sysfs_add_file_mode_ns(struct kernfs_node *parent,
- 	return 0;
+-	if (class) {
+-		error = device_add_groups(dev, class->dev_groups);
+-		if (error)
+-			return error;
+-	}
++/* Per-device sysfs catalogue (creation order; reversed on teardown). */
++#define N_DRIVER_CORE_SYSFS_ENTRIES	14
+ 
+-	if (type) {
+-		error = device_add_groups(dev, type->groups);
+-		if (error)
+-			goto err_remove_class_groups;
+-	}
++/* applies_to() predicates: cheap, non-sleeping, lock-free. */
++static bool dev_supports_offline_enabled(struct device *dev)
++{
++	return device_supports_offline(dev) && !dev->offline_disabled;
++}
+ 
+-	error = device_add_groups(dev, dev->groups);
+-	if (error)
+-		goto err_remove_type_groups;
++static bool dev_has_fwnode_devlink(struct device *dev)
++{
++	return fw_devlink_flags && !fw_devlink_is_permissive() &&
++	       dev->fwnode;
++}
+ 
+-	if (device_supports_offline(dev) && !dev->offline_disabled) {
+-		error = device_create_file(dev, &dev_attr_online);
+-		if (error)
+-			goto err_remove_dev_groups;
+-	}
++static bool dev_removable_valid(struct device *dev)
++{
++	return dev_removable_is_valid(dev);
++}
+ 
+-	if (fw_devlink_flags && !fw_devlink_is_permissive() && dev->fwnode) {
+-		error = device_create_file(dev, &dev_attr_waiting_for_supplier);
+-		if (error)
+-			goto err_remove_dev_online;
+-	}
++static bool dev_has_physical_location(struct device *dev)
++{
++	return !!dev->physical_location;
++}
+ 
+-	if (dev_removable_is_valid(dev)) {
+-		error = device_create_file(dev, &dev_attr_removable);
+-		if (error)
+-			goto err_remove_dev_waiting_for_supplier;
+-	}
++static bool dev_has_devt_major(struct device *dev)
++{
++	return MAJOR(dev->devt) != 0;
++}
+ 
+-	if (dev_add_physical_location(dev)) {
+-		error = device_add_group(dev,
+-			&dev_attr_physical_location_group);
+-		if (error)
+-			goto err_remove_dev_removable;
+-	}
++static bool dev_has_class(struct device *dev)
++{
++	return !!dev->class;
++}
+ 
+-	return 0;
++static bool dev_has_bus_no_class(struct device *dev)
++{
++	return !dev->class && dev->bus;
++}
+ 
+- err_remove_dev_removable:
+-	device_remove_file(dev, &dev_attr_removable);
+- err_remove_dev_waiting_for_supplier:
+-	device_remove_file(dev, &dev_attr_waiting_for_supplier);
+- err_remove_dev_online:
++static bool dev_is_class_child(struct device *dev)
++{
++	return dev->class && dev->parent && device_is_not_partition(dev);
++}
++
++static bool dev_has_class_dev_groups(struct device *dev)
++{
++	return dev->class && dev->class->dev_groups;
++}
++
++static bool dev_has_type_groups(struct device *dev)
++{
++	return dev->type && dev->type->groups;
++}
++
++static bool dev_has_own_groups(struct device *dev)
++{
++	return !!dev->groups;
++}
++
++static bool dev_has_bus_dev_groups(struct device *dev)
++{
++	return dev->bus && dev->bus->dev_groups;
++}
++
++static bool dev_needs_pm(struct device *dev)
++{
++	return !device_pm_not_required(dev);
++}
++
++/* Per-row create()/remove() callbacks. */
++static int create_power(struct device *dev, const char *name)
++{
++	int ret;
++
++	/* dpm_sysfs_add() already ran from device_add() on the eager path. */
++	if (!device_is_sysfs_lazy(dev))
++		return 0;
++
++	lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (dev->sysfs_lazy->power_added)
++		return 0;
++
++	/*
++	 * FIXME: unreachable today - device_add() adds power/ eagerly and latches
++	 * power_added for lazy devices too, so the power_added check above wins.
++	 */
++	ret = dpm_sysfs_add(dev);
++	if (!ret)
++		dev->sysfs_lazy->power_added = true;
++	return ret;
++}
++
++static void remove_power(struct device *dev)
++{
++	/* Skip dpm_sysfs_remove() on lazy devices that never materialised power/. */
++	if (device_is_sysfs_lazy(dev) && !dev->sysfs_lazy->power_added)
++		return;
++	dpm_sysfs_remove(dev);
++}
++
++static int create_class_subsystem_link(struct device *dev, const char *name)
++{
++	struct subsys_private *sp;
++	int ret;
++
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (sysfs_kn_exists(&dev->kobj, "subsystem"))
++		return 0;
++
++	sp = class_to_subsys(dev->class);
++	if (!sp)
++		return 0;
++
++	ret = sysfs_create_link(&dev->kobj, &sp->subsys.kobj, "subsystem");
++	subsys_put(sp);
++	return ret;
++}
++
++static void remove_class_subsystem_link(struct device *dev)
++{
++	sysfs_remove_link(&dev->kobj, "subsystem");
++}
++
++static int create_bus_subsystem_link(struct device *dev, const char *name)
++{
++	struct subsys_private *sp;
++	int ret;
++
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (sysfs_kn_exists(&dev->kobj, "subsystem"))
++		return 0;
++
++	sp = bus_to_subsys(dev->bus);
++	if (!sp)
++		return 0;
++
++	ret = sysfs_create_link(&dev->kobj, &sp->subsys.kobj, "subsystem");
++	subsys_put(sp);
++	return ret;
++}
++
++static void remove_bus_subsystem_link(struct device *dev)
++{
++	sysfs_remove_link(&dev->kobj, "subsystem");
++}
++
++static int create_device_backlink(struct device *dev, const char *name)
++{
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (sysfs_kn_exists(&dev->kobj, "device"))
++		return 0;
++
++	return sysfs_create_link(&dev->kobj, &dev->parent->kobj, "device");
++}
++
++static void remove_device_backlink(struct device *dev)
++{
++	sysfs_remove_link(&dev->kobj, "device");
++}
++
++static int create_uevent(struct device *dev, const char *name)
++{
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (sysfs_kn_exists(&dev->kobj, dev_attr_uevent.attr.name))
++		return 0;
++
++	return sysfs_create_file_ns(&dev->kobj, &dev_attr_uevent.attr, NULL);
++}
++
++static void remove_uevent(struct device *dev)
++{
++	device_remove_file(dev, &dev_attr_uevent);
++}
++
++static int create_online(struct device *dev, const char *name)
++{
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (sysfs_kn_exists(&dev->kobj, dev_attr_online.attr.name))
++		return 0;
++
++	return sysfs_create_file_ns(&dev->kobj, &dev_attr_online.attr, NULL);
++}
++
++static void remove_online(struct device *dev)
++{
+ 	device_remove_file(dev, &dev_attr_online);
+- err_remove_dev_groups:
+-	device_remove_groups(dev, dev->groups);
+- err_remove_type_groups:
+-	if (type)
+-		device_remove_groups(dev, type->groups);
+- err_remove_class_groups:
+-	if (class)
+-		device_remove_groups(dev, class->dev_groups);
++}
+ 
+-	return error;
++static int create_waiting_for_supplier(struct device *dev, const char *name)
++{
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (sysfs_kn_exists(&dev->kobj, dev_attr_waiting_for_supplier.attr.name))
++		return 0;
++
++	return sysfs_create_file_ns(&dev->kobj,
++				    &dev_attr_waiting_for_supplier.attr,
++				    NULL);
  }
  
-+/**
-+ * sysfs_add_bin_file_mode_ns - create a sysfs binary-attribute file
-+ * @parent: kernfs node for the parent directory
-+ * @battr:  binary attribute descriptor
-+ * @mode:   file mode (low bits)
-+ * @size:   in-core size of the binary attribute (passed to __kernfs_create_file())
-+ * @uid: file owner UID
-+ * @gid: file owner GID
-+ * @ns:  namespace tag (may be %NULL)
-+ *
-+ * Picks a kernfs_ops dispatch row from a 5-row matrix on @battr's
-+ * callbacks (mmap > rw > read > write > empty).
-+ *
-+ * Return: 0 on success, or -errno. -EEXIST means the name already
-+ * exists and is treated as a caller error (it triggers sysfs_warn_dup()).
-+ * The lazy populate path must not reach this: it checks sysfs_kn_exists()/
-+ * sysfs_group_exists() under the populate lock before creating, so a
-+ * concurrent ADD_ONE/ADD_ALL race resolves to a no-op rather than a
-+ * duplicate create.
-+ */
- int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
- 		const struct bin_attribute *battr, umode_t mode, size_t size,
- 		kuid_t uid, kgid_t gid, const struct ns_common *ns)
-@@ -816,5 +855,3 @@ ssize_t sysfs_bin_attr_simple_read(struct file *file, struct kobject *kobj,
- 	return count;
+-static void device_remove_attrs(struct device *dev)
++static void remove_waiting_for_supplier(struct device *dev)
+ {
+-	const struct class *class = dev->class;
+-	const struct device_type *type = dev->type;
++	device_remove_file(dev, &dev_attr_waiting_for_supplier);
++}
+ 
+-	if (dev->physical_location) {
+-		device_remove_group(dev, &dev_attr_physical_location_group);
+-		kfree(dev->physical_location);
+-	}
++static int create_removable(struct device *dev, const char *name)
++{
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
+ 
++	if (sysfs_kn_exists(&dev->kobj, dev_attr_removable.attr.name))
++		return 0;
++
++	return sysfs_create_file_ns(&dev->kobj, &dev_attr_removable.attr, NULL);
++}
++
++static void remove_removable(struct device *dev)
++{
+ 	device_remove_file(dev, &dev_attr_removable);
+-	device_remove_file(dev, &dev_attr_waiting_for_supplier);
+-	device_remove_file(dev, &dev_attr_online);
+-	device_remove_groups(dev, dev->groups);
++}
+ 
+-	if (type)
+-		device_remove_groups(dev, type->groups);
++static int create_physical_location(struct device *dev, const char *name)
++{
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	/* NULL on non-ACPI nodes; safe under kobj reference. */
++	if (!dev->physical_location)
++		return -ENOENT;
+ 
+-	if (class)
+-		device_remove_groups(dev, class->dev_groups);
++	if (sysfs_group_exists(&dev->kobj, &dev_attr_physical_location_group))
++		return 0;
++
++	return sysfs_create_group(&dev->kobj, &dev_attr_physical_location_group);
  }
- EXPORT_SYMBOL_GPL(sysfs_bin_attr_simple_read);
+ 
+-static ssize_t dev_show(struct device *dev, struct device_attribute *attr,
+-			char *buf)
++static void remove_physical_location(struct device *dev)
+ {
+-	return print_dev_t(buf, dev->devt);
++	/* dev->physical_location is freed in device_release(), not here. */
++	device_remove_group(dev, &dev_attr_physical_location_group);
++}
++
++static int create_dev_attr(struct device *dev, const char *name)
++{
++	if (device_is_sysfs_lazy(dev))
++		lockdep_assert_held(&dev->sysfs_lazy->lock);
++
++	if (sysfs_kn_exists(&dev->kobj, dev_attr_dev.attr.name))
++		return 0;
++
++	return sysfs_create_file_ns(&dev->kobj, &dev_attr_dev.attr, NULL);
++}
++
++static void remove_dev_attr(struct device *dev)
++{
++	device_remove_file(dev, &dev_attr_dev);
++}
++
++/* Wildcard rows for the four attribute_group sources. */
++static int create_class_groups(struct device *dev, const char *name)
++{
++	if (!dev->class)
++		return -ENOENT;
++	return name ? create_attr_in_groups(dev, dev->class->dev_groups, name)
++		    : create_all_in_groups(dev, dev->class->dev_groups);
++}
++
++static void remove_class_groups(struct device *dev)
++{
++	if (!dev->class)
++		return;
++	if (device_is_sysfs_lazy(dev))
++		device_remove_groups_if_present(dev, dev->class->dev_groups);
++	else
++		device_remove_groups(dev, dev->class->dev_groups);
++}
++
++static int create_type_groups(struct device *dev, const char *name)
++{
++	if (!dev->type)
++		return -ENOENT;
++	return name ? create_attr_in_groups(dev, dev->type->groups, name)
++		    : create_all_in_groups(dev, dev->type->groups);
++}
++
++static void remove_type_groups(struct device *dev)
++{
++	if (!dev->type)
++		return;
++	if (device_is_sysfs_lazy(dev))
++		device_remove_groups_if_present(dev, dev->type->groups);
++	else
++		device_remove_groups(dev, dev->type->groups);
++}
++
++static int create_dev_own_groups(struct device *dev, const char *name)
++{
++	return name ? create_attr_in_groups(dev, dev->groups, name)
++		    : create_all_in_groups(dev, dev->groups);
++}
++
++static void remove_dev_own_groups(struct device *dev)
++{
++	if (device_is_sysfs_lazy(dev))
++		device_remove_groups_if_present(dev, dev->groups);
++	else
++		device_remove_groups(dev, dev->groups);
++}
++
++static int create_bus_groups(struct device *dev, const char *name)
++{
++	if (!dev->bus)
++		return -ENOENT;
++	return name ? create_attr_in_groups(dev, dev->bus->dev_groups, name)
++		    : create_all_in_groups(dev, dev->bus->dev_groups);
+ }
+-static DEVICE_ATTR_RO(dev);
++
++static void remove_bus_groups(struct device *dev)
++{
++	if (!dev->bus)
++		return;
++	if (device_is_sysfs_lazy(dev))
++		device_remove_groups_if_present(dev, dev->bus->dev_groups);
++	else
++		device_remove_groups(dev, dev->bus->dev_groups);
++}
++
++static const struct device_sysfs_entry driver_core_sysfs_entries[] = {
++	/*
++	 * Rows are in eager device_add() creation order: ADD_ALL creates
++	 * forward, REMOVE_ALL tears down in reverse, matching the eager
++	 * path. The lazy tree exposes the same set of names and file
++	 * contents as an eager device; readdir(3) order is kernfs name-hash
++	 * order (kernfs_sd_compare), not table order, and is not ABI.
++	 */
++	{
++		/* Created early on the eager path - keep at table top. */
++		.name		= "power",
++		.applies_to	= dev_needs_pm,
++		.create	= create_power,
++		.remove		= remove_power,
++	},
++	{
++		.name		= "uevent",
++		.create	= create_uevent,
++		.remove		= remove_uevent,
++	},
++	/* Class-side rows. */
++	{
++		.name		= "subsystem",
++		.applies_to	= dev_has_class,
++		.create	= create_class_subsystem_link,
++		.remove		= remove_class_subsystem_link,
++	},
++	{
++		.name		= "device",
++		.applies_to	= dev_is_class_child,
++		.create	= create_device_backlink,
++		.remove		= remove_device_backlink,
++	},
++	{
++		.applies_to	= dev_has_class_dev_groups,
++		.create	= create_class_groups,
++		.remove		= remove_class_groups,
++	},
++	/* Groups + standalones in eager device_attrs_create() order. */
++	{
++		.applies_to	= dev_has_type_groups,
++		.create	= create_type_groups,
++		.remove		= remove_type_groups,
++	},
++	{
++		.applies_to	= dev_has_own_groups,
++		.create	= create_dev_own_groups,
++		.remove		= remove_dev_own_groups,
++	},
++	{
++		.name		= "online",
++		.applies_to	= dev_supports_offline_enabled,
++		.create	= create_online,
++		.remove		= remove_online,
++	},
++	{
++		.name		= "waiting_for_supplier",
++		.applies_to	= dev_has_fwnode_devlink,
++		.create	= create_waiting_for_supplier,
++		.remove		= remove_waiting_for_supplier,
++	},
++	{
++		.name		= "removable",
++		.applies_to	= dev_removable_valid,
++		.create	= create_removable,
++		.remove		= remove_removable,
++	},
++	{
++		.name		= "physical_location",
++		.applies_to	= dev_has_physical_location,
++		.create	= create_physical_location,
++		.remove		= remove_physical_location,
++	},
++	/* Bus-side rows. */
++	{
++		.name		= "subsystem",
++		.applies_to	= dev_has_bus_no_class,
++		.create	= create_bus_subsystem_link,
++		.remove		= remove_bus_subsystem_link,
++	},
++	{
++		.applies_to	= dev_has_bus_dev_groups,
++		.create	= create_bus_groups,
++		.remove		= remove_bus_groups,
++	},
++	/* Late rows. */
++	{
++		.name		= "dev",
++		.applies_to	= dev_has_devt_major,
++		.create	= create_dev_attr,
++		.remove		= remove_dev_attr,
++	},
++	{ }	/* sentinel */
++};
+ 
+ /* /sys/devices/ */
+ struct kset *devices_kset;
+@@ -3861,30 +4235,17 @@ static int device_add_class_symlinks(struct device *dev)
+ 	if (!sp)
+ 		return 0;
+ 
+-	error = sysfs_create_link(&dev->kobj, &sp->subsys.kobj, "subsystem");
+-	if (error)
+-		goto out_devnode;
 -
+-	if (dev->parent && device_is_not_partition(dev)) {
+-		error = sysfs_create_link(&dev->kobj, &dev->parent->kobj,
+-					  "device");
+-		if (error)
+-			goto out_subsys;
+-	}
+ 
+ 	/* link in the class directory pointing to the device */
+ 	error = sysfs_create_link(&sp->subsys.kobj, &dev->kobj, dev_name(dev));
+ 	if (error)
+-		goto out_device;
+-	goto exit;
++		goto out_devnode;
++
++	subsys_put(sp);
++	return 0;
+ 
+-out_device:
+-	sysfs_remove_link(&dev->kobj, "device");
+-out_subsys:
+-	sysfs_remove_link(&dev->kobj, "subsystem");
+ out_devnode:
+ 	sysfs_remove_link(&dev->kobj, "of_node");
+-exit:
+ 	subsys_put(sp);
+ 	return error;
+ }
+@@ -3899,9 +4260,6 @@ static void device_remove_class_symlinks(struct device *dev)
+ 	if (!sp)
+ 		return;
+ 
+-	if (dev->parent && device_is_not_partition(dev))
+-		sysfs_remove_link(&dev->kobj, "device");
+-	sysfs_remove_link(&dev->kobj, "subsystem");
+ 	sysfs_delete_link(&sp->subsys.kobj, &dev->kobj, dev_name(dev));
+ 	subsys_put(sp);
+ }
+@@ -4061,38 +4419,44 @@ int device_add(struct device *dev)
+ 	/* notify platform of device entry */
+ 	device_platform_notify(dev);
+ 
+-	error = device_create_file(dev, &dev_attr_uevent);
+-	if (error)
+-		goto attrError;
 -
+ 	error = device_add_class_symlinks(dev);
+ 	if (error)
+ 		goto SymlinkError;
+-	/*
+-	 * device_set_sysfs_lazy() only allocates ->sysfs_lazy_state for
+-	 * non-namespaced devices, and device_is_sysfs_lazy() guards opt-in
+-	 * here, so kernfs_set_lazy() should always succeed.  WARN_ON catches
+-	 * a regression in those preconditions.
+-	 */
+-	if (device_is_sysfs_lazy(dev))
+-		WARN_ON(kernfs_set_lazy(dev->kobj.sd));
+-
+-	error = device_add_attrs(dev);
+-	if (error)
+-		goto AttrsError;
+ 	error = bus_add_device(dev);
+ 	if (error)
+ 		goto BusError;
++	/*
++	 * Create power/ eagerly even for lazy devices: in-kernel callers
++	 * (wakeup_sysfs_add(), dev_pm_qos_*()) sysfs_merge_group() into an
++	 * existing power/ dir at driver-bind, before any userspace access.
++	 * Mark it added so the lazy create/remove path treats it as done.
++	 */
+ 	error = dpm_sysfs_add(dev);
+ 	if (error)
+ 		goto DPMError;
++	if (device_is_sysfs_lazy(dev))
++		dev->sysfs_lazy->power_added = true;
+ 	device_pm_add(dev);
+ 
+-	if (MAJOR(dev->devt)) {
+-		error = device_create_file(dev, &dev_attr_dev);
+-		if (error)
+-			goto DevAttrError;
++	(void)dev_add_physical_location(dev);
+ 
++	/*
++	 * Subsystems that opt a device into lazy sysfs are responsible for
++	 * ensuring the device's kobj.sd is a non-namespaced directory: the
++	 * device_set_sysfs_lazy() contract states the call must precede
++	 * device_add(), and device_is_sysfs_lazy() gates opt-in here.
++	 * kernfs_set_lazy() should therefore always succeed; WARN_ON catches
++	 * a contract violation by an opted-in subsystem.
++	 */
++	if (device_is_sysfs_lazy(dev))
++		WARN_ON(kernfs_set_lazy(dev->kobj.sd));
++
++	/* FIXME: eager ADD_ALL return is dropped; a failed create won't fail device_add(). */
++	if (!device_is_sysfs_lazy(dev))
++		device_sysfs_apply(dev, driver_core_sysfs_entries,
++				  DEV_SYSFS_ADD_ALL, NULL);
++
++	if (MAJOR(dev->devt)) {
+ 		error = device_create_sys_dev_entry(dev);
+ 		if (error)
+ 			goto SysEntryError;
+@@ -4169,21 +4533,23 @@ int device_add(struct device *dev)
+ 	put_device(dev);
+ 	return error;
+  SysEntryError:
+-	if (MAJOR(dev->devt))
+-		device_remove_file(dev, &dev_attr_dev);
+- DevAttrError:
++	device_lock(dev);
++	kill_device(dev);
++	device_unlock(dev);
++	/* REMOVE_ALL: the remove_power() row is the sole power-group teardown. */
++	if (device_is_sysfs_lazy(dev))
++		mutex_lock(&dev->sysfs_lazy->lock);
++	device_sysfs_apply(dev, driver_core_sysfs_entries,
++			  DEV_SYSFS_REMOVE_ALL, NULL);
++	if (device_is_sysfs_lazy(dev))
++		mutex_unlock(&dev->sysfs_lazy->lock);
+ 	device_pm_remove(dev);
+-	dpm_sysfs_remove(dev);
+  DPMError:
+ 	device_set_driver(dev, NULL);
+ 	bus_remove_device(dev);
+  BusError:
+-	device_remove_attrs(dev);
+- AttrsError:
+ 	device_remove_class_symlinks(dev);
+  SymlinkError:
+-	device_remove_file(dev, &dev_attr_uevent);
+- attrError:
+ 	device_platform_notify_remove(dev);
+ 	kobject_uevent(&dev->kobj, KOBJ_REMOVE);
+ 	glue_dir = get_glue_dir(dev);
+@@ -4296,19 +4662,25 @@ void device_del(struct device *dev)
+ 	if (dev->fwnode && dev->fwnode->dev == dev)
+ 		dev->fwnode->dev = NULL;
+ 
+-	/* Notify clients of device removal.  This call must come
+-	 * before dpm_sysfs_remove().
+-	 */
++	/* Must come before REMOVE_ALL tears down power/. */
+ 	noio_flag = memalloc_noio_save();
+ 	bus_notify(dev, BUS_NOTIFY_DEL_DEVICE);
+ 
+-	dpm_sysfs_remove(dev);
++	/* Serialize against lazy populate callbacks. dev->p->dead is
++	 * already set so any populate taking this lock after us bails.
++	 */
++	if (device_is_sysfs_lazy(dev))
++		mutex_lock(&dev->sysfs_lazy->lock);
++	device_sysfs_apply(dev, driver_core_sysfs_entries,
++			  DEV_SYSFS_REMOVE_ALL, NULL);
++	if (device_is_sysfs_lazy(dev))
++		mutex_unlock(&dev->sysfs_lazy->lock);
++
+ 	if (parent)
+ 		klist_del(&dev->p->knode_parent);
+ 	if (MAJOR(dev->devt)) {
+ 		devtmpfs_delete_node(dev);
+ 		device_remove_sys_dev_entry(dev);
+-		device_remove_file(dev, &dev_attr_dev);
+ 	}
+ 
+ 	sp = class_to_subsys(dev->class);
+@@ -4325,8 +4697,6 @@ void device_del(struct device *dev)
+ 		mutex_unlock(&sp->mutex);
+ 		subsys_put(sp);
+ 	}
+-	device_remove_file(dev, &dev_attr_uevent);
+-	device_remove_attrs(dev);
+ 	bus_remove_device(dev);
+ 	device_pm_remove(dev);
+ 	driver_deferred_probe_del(dev);
+@@ -4578,6 +4948,10 @@ EXPORT_SYMBOL_GPL(device_find_child);
+ 
+ int __init devices_init(void)
+ {
++	/* Compile-time row-count check (rows + sentinel). */
++	BUILD_BUG_ON(ARRAY_SIZE(driver_core_sysfs_entries) !=
++		     N_DRIVER_CORE_SYSFS_ENTRIES + 1);
++
+ 	devices_kset = kset_create_and_add("devices", &device_uevent_ops, NULL);
+ 	if (!devices_kset)
+ 		return -ENOMEM;
 diff --git a/fs/sysfs/sysfs.h b/fs/sysfs/sysfs.h
-index f4583dcafcd1e..94b8aca20bffc 100644
+index 94b8aca20bffc..e2ce9e6c12d84 100644
 --- a/fs/sysfs/sysfs.h
 +++ b/fs/sysfs/sysfs.h
-@@ -27,12 +27,6 @@ void sysfs_warn_dup(struct kernfs_node *parent, const char *name);
- /*
+@@ -28,6 +28,7 @@ void sysfs_warn_dup(struct kernfs_node *parent, const char *name);
   * file.c
   */
--int sysfs_add_file_mode_ns(struct kernfs_node *parent,
--		const struct attribute *attr, umode_t amode, kuid_t uid,
--		kgid_t gid, const struct ns_common *ns);
--int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
--		const struct bin_attribute *battr, umode_t mode, size_t size,
--		kuid_t uid, kgid_t gid, const struct ns_common *ns);
  
++
  /*
   * symlink.c
+  */
 diff --git a/include/linux/device.h b/include/linux/device.h
-index 39e08e8c950c6..e5485bfbc6c84 100644
+index e5485bfbc6c84..c0a2ee429280c 100644
 --- a/include/linux/device.h
 +++ b/include/linux/device.h
-@@ -88,6 +88,62 @@ int subsys_system_register(const struct bus_type *subsys,
- int subsys_virtual_register(const struct bus_type *subsys,
+@@ -89,16 +89,10 @@ int subsys_virtual_register(const struct bus_type *subsys,
  			    const struct attribute_group **groups);
  
-+/**
-+ * enum dev_sysfs_action - verb selector for device_sysfs_apply()
-+ * @DEV_SYSFS_ADD_ONE: realize a single named entry (lazy populate_one
-+ *		       miss path); walker stops at the first row whose
-+ *		       @applies_to passes and whose create() returns
-+ *		       anything other than -ENOENT.
-+ * @DEV_SYSFS_ADD_ALL: realize every applicable entry (eager device_add
-+ *		       or lazy populate_all); best-effort, per-row errors
-+ *		       do not abort the walk.
-+ * @DEV_SYSFS_REMOVE_ALL: tear down every applicable entry in reverse
-+ *		       row order (device_del teardown).
-+ */
-+enum dev_sysfs_action {
-+	DEV_SYSFS_ADD_ONE,
-+	DEV_SYSFS_ADD_ALL,
-+	DEV_SYSFS_REMOVE_ALL,
-+};
-+
-+/**
-+ * struct device_sysfs_entry - declarative per-device sysfs content row
-+ * @name:	Attribute or symlink name at the top level of the device's
-+ *		sysfs directory, or %NULL for a wildcard row whose
-+ *		create() performs internal name dispatch (typically a
-+ *		group-source row iterating an attribute_group array).
-+ * @applies_to: Optional predicate gating row eligibility for this
-+ *		device. Must be cheap, non-sleeping, side-effect-free, and
-+ *		monotonic for a given device state. MUST NOT acquire any
-+ *		lock the walker's caller may already hold (notably
-+ *		device_lock()). %NULL means unconditional.
-+ * @create:	Required. Creates the row's sysfs content. For a named
-+ *		row (@name != NULL) the @name argument equals @e->name on
-+ *		ADD_ONE and %NULL on ADD_ALL. For a wildcard row the @name
-+ *		argument is the ADD_ONE target (or %NULL on ADD_ALL) and
-+ *		the row's create() matches internally, returning -ENOENT
-+ *		to signal "not my name" so the walker continues. Must
-+ *		convert -EEXIST from concurrent racers to 0.
-+ * @remove:	Optional reverse-of-realize teardown. Called on
-+ *		REMOVE_ALL in reverse row order. MUST NOT fail the walk.
-+ *
-+ * Rows are declared in file-static, sentinel-terminated tables whose
-+ * base pointer is published to the walker via struct kobj_type.entries
-+ * (device ktype shares a single driver_core table and dispatches to
-+ * dev->type->entries as well). The row shape mirrors cftype +
-+ * cgroup_addrm_files (kernel/cgroup/cgroup.c) and the
-+ * pci_sysfs_entries[] at drivers/pci/pci-sysfs.c (added later in
-+ * the series); see Documentation/driver-api/sysfs-lazy.rst (also
-+ * added later in the series) for the full walker contract and
-+ * error-handling matrix.
-+ */
-+struct device_sysfs_entry {
-+	const char *name;
-+	bool (*applies_to)(struct device *dev);
-+	int  (*create)(struct device *dev, const char *name);
-+	void (*remove)(struct device *dev);
-+};
-+
- /*
-  * The type of device, "struct device" is embedded in. A class
-  * or bus can contain devices of different types
-diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-index cec6de1720076..c724d86e1a049 100644
---- a/include/linux/kobject.h
-+++ b/include/linux/kobject.h
-@@ -61,6 +61,8 @@ enum kobject_action {
- 	KOBJ_UNBIND,
+ /**
+- * enum dev_sysfs_action - verb selector for device_sysfs_apply()
+- * @DEV_SYSFS_ADD_ONE: realize a single named entry (lazy populate_one
+- *		       miss path); walker stops at the first row whose
+- *		       @applies_to passes and whose create() returns
+- *		       anything other than -ENOENT.
+- * @DEV_SYSFS_ADD_ALL: realize every applicable entry (eager device_add
+- *		       or lazy populate_all); best-effort, per-row errors
+- *		       do not abort the walk.
+- * @DEV_SYSFS_REMOVE_ALL: tear down every applicable entry in reverse
+- *		       row order (device_del teardown).
++ * enum dev_sysfs_action - operation requested by device_sysfs_apply()
++ * @DEV_SYSFS_ADD_ONE: create a single named entry
++ * @DEV_SYSFS_ADD_ALL: create every applicable entry
++ * @DEV_SYSFS_REMOVE_ALL: tear down every previously-created entry
+  */
+ enum dev_sysfs_action {
+ 	DEV_SYSFS_ADD_ONE,
+@@ -107,35 +101,15 @@ enum dev_sysfs_action {
  };
  
-+struct device_sysfs_entry;
-+
- struct kobject {
- 	const char		*name;
- 	struct list_head	entry;
-@@ -130,6 +132,9 @@ struct kobj_type {
- 	 */
- 	int (*populate)(struct kobject *kobj, const char *name);
- 	void (*populate_all)(struct kobject *kobj);
-+
-+	/* Optional table of per-attribute entries (see device_sysfs_apply()). */
-+	const struct device_sysfs_entry *entries;
- };
- 
- struct kobj_uevent_env {
-diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-index de211563f3dec..aac2f773d5378 100644
---- a/include/linux/sysfs.h
-+++ b/include/linux/sysfs.h
-@@ -415,6 +415,12 @@ int __must_check sysfs_create_files(struct kobject *kobj,
- 				   const struct attribute * const *attr);
- int __must_check sysfs_chmod_file(struct kobject *kobj,
- 				  const struct attribute *attr, umode_t mode);
-+int __must_check sysfs_add_file_mode_ns(struct kernfs_node *parent,
-+		const struct attribute *attr, umode_t amode, kuid_t uid,
-+		kgid_t gid, const struct ns_common *ns);
-+int __must_check sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
-+		const struct bin_attribute *battr, umode_t mode, size_t size,
-+		kuid_t uid, kgid_t gid, const struct ns_common *ns);
- struct kernfs_node *sysfs_break_active_protection(struct kobject *kobj,
- 						  const struct attribute *attr);
- void sysfs_unbreak_active_protection(struct kernfs_node *kn);
-@@ -558,6 +564,24 @@ static inline int sysfs_chmod_file(struct kobject *kobj,
- 	return 0;
- }
- 
-+static inline int sysfs_add_file_mode_ns(struct kernfs_node *parent,
-+					 const struct attribute *attr,
-+					 umode_t amode, kuid_t uid,
-+					 kgid_t gid,
-+					 const struct ns_common *ns)
-+{
-+	return 0;
-+}
-+
-+static inline int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
-+					     const struct bin_attribute *battr,
-+					     umode_t mode, size_t size,
-+					     kuid_t uid, kgid_t gid,
-+					     const struct ns_common *ns)
-+{
-+	return 0;
-+}
-+
- static inline struct kernfs_node *
- sysfs_break_active_protection(struct kobject *kobj,
- 			      const struct attribute *attr)
+ /**
+- * struct device_sysfs_entry - declarative per-device sysfs content row
+- * @name:	Attribute or symlink name at the top level of the device's
+- *		sysfs directory, or %NULL for a wildcard row whose
+- *		create() performs internal name dispatch (typically a
+- *		group-source row iterating an attribute_group array).
+- * @applies_to: Optional predicate gating row eligibility for this
+- *		device. Must be cheap, non-sleeping, side-effect-free, and
+- *		monotonic for a given device state. MUST NOT acquire any
+- *		lock the walker's caller may already hold (notably
+- *		device_lock()). %NULL means unconditional.
+- * @create:	Required. Creates the row's sysfs content. For a named
+- *		row (@name != NULL) the @name argument equals @e->name on
+- *		ADD_ONE and %NULL on ADD_ALL. For a wildcard row the @name
+- *		argument is the ADD_ONE target (or %NULL on ADD_ALL) and
+- *		the row's create() matches internally, returning -ENOENT
+- *		to signal "not my name" so the walker continues. Must
+- *		convert -EEXIST from concurrent racers to 0.
+- * @remove:	Optional reverse-of-realize teardown. Called on
+- *		REMOVE_ALL in reverse row order. MUST NOT fail the walk.
++ * struct device_sysfs_entry - per-device sysfs entry
++ * @name:	entry name; %NULL for a wildcard row
++ * @applies_to:	optional predicate gating row eligibility
++ * @create:	creates the row's sysfs content
++ * @remove:	optional teardown
+  *
+- * Rows are declared in file-static, sentinel-terminated tables whose
+- * base pointer is published to the walker via struct kobj_type.entries
+- * (device ktype shares a single driver_core table and dispatches to
+- * dev->type->entries as well). The row shape mirrors cftype +
+- * cgroup_addrm_files (kernel/cgroup/cgroup.c) and the
+- * pci_sysfs_entries[] at drivers/pci/pci-sysfs.c (added later in
+- * the series); see Documentation/driver-api/sysfs-lazy.rst (also
+- * added later in the series) for the full walker contract and
+- * error-handling matrix.
++ * Rows are declared in file-static, sentinel-terminated tables and
++ * walked by device_sysfs_apply().  See
++ * Documentation/driver-api/sysfs-lazy.rst for the walker contract.
+  */
+ struct device_sysfs_entry {
+ 	const char *name;
 -- 
 2.47.3
 
