@@ -1,95 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584B6399365
-	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 09:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EB6366DD3
+	for <driver-core@lists.linux.dev>; Thu,  2 Jul 2026 10:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782983757; cv=none; b=a5fwPDu+S7FbgwbT9G8H8UHE68IFJVU3Q/ZYI9+gYBwFdbQXFICwgB64PXO7BYG+s9RJznwG3mIbhl5FMP9KlrVaHN2Ev40Y1HPlRGjXEI16YR+mH1eawrTzM7fPJGHTAPIaKICEP9N+YdmFGcvNn3f2CpNdakQgsxsqTRraDYw=
+	t=1782988426; cv=none; b=PpgDZRfUTfAe0Z7DNhHZ0r9x2UW3no0jg1FcGRDOewM8TaxubvVuhnk4nJEOMr66e/wqP0gy11xz/Ir8imTnQbwOBuZRMJWckU5ZUB8sGiFcSzax6r7Aj1JYVYIw7m0ToDB+H/qnoF0DsCZmnwMuPvBXy3xTK3mcjJ2WATu/bLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782983757; c=relaxed/simple;
-	bh=MnM5Is1Jb3E8Tt3TumhPu3e7wva41E/sp/tlrTvBIUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CdECRRmqn0Rrg6WCcvYT00jo0xW0ffNziGjTwevJu3IvHI+gmWlPAeAVNAB5ceIfBezMpkfwQUCfFGelkyUAkzHZkLgCIkLXYiK47zXSSE8jN75QFLhM0Zvoy6wN6yUSTnNLMVKo2vnPso58/ZXjlc06U53VxzB5Jco7Q3hZ/5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eT0p3qPv; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1782988426; c=relaxed/simple;
+	bh=dU/JhXcw9C+3bxVyhCk433RwAWlu/+DSj3wRiplg67w=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=sYlIe18u/sPxBafkbKsFGubZ7+rZo6TbP2/w/blcM6Mv3wX9FOK/RMNePZpoArOZ8JNHAke8BXPG5/TZHX2Yhn5UsJcS/IZTyXrFlnrIvXZwu1cGikq99LGhWo41KTdxFYGriP//SNZl1JqB0lEXFHA8lwcX+ueOeqTPePa50Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rrzV2ZkV; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eT0p3qPv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782983755; x=1814519755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MnM5Is1Jb3E8Tt3TumhPu3e7wva41E/sp/tlrTvBIUs=;
-  b=eT0p3qPv4n4/hLZCYGARurq/mPHZWFSWt9xA73dUHRe+EbGXFMI5Jj3m
-   QklwK1A5MA23H8TwowZ3GZNsafJpWNqVZ6ulbxfS3LLKZP4/p7Bp4VDw6
-   djWAvXriU94aFGTpjKHsJ/m6NwUqmQF4VmsoFBS33TOOuQ84LDHY+QCyq
-   bR632mkDln3N4/vEXPliBxRttd3FwlWh1aKoJd6wbskDRlgZ2v5/Q48OA
-   NpHQdz//jIQX210IwIDuM0703IDmNXn0WdYa5oMxBX5aaOA43zgdYezR+
-   DTGrXy2I4D6AyZm+Q2klLpaKXtsu2iy6gw1w/frlfi4NvqjYVszeSJFSc
-   A==;
-X-CSE-ConnectionGUID: U77rlUbNSiOvzjJOeWWd5Q==
-X-CSE-MsgGUID: waEymsqDSLe9dyS9THlEnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="83863160"
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="83863160"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:15:54 -0700
-X-CSE-ConnectionGUID: qsRMGnTPTImeK28S5z2IdA==
-X-CSE-MsgGUID: RGgk0Xd2SMeV8wOFW+2zjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="257149632"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.213])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 02:15:52 -0700
-Date: Thu, 2 Jul 2026 12:15:50 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Linux ACPI <linux-acpi@vger.kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v1 0/2] ACPI: bus: Remove struct acpi_driver from the
- kernel
-Message-ID: <akYsRl024Ll80oye@ashevche-desk.local>
-References: <6027395.DvuYhMxLoT@rafael.j.wysocki>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rrzV2ZkV"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-c126f9928f6so171565066b.0
+        for <driver-core@lists.linux.dev>; Thu, 02 Jul 2026 03:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782988424; x=1783593224; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lSBXWVP6cFuS41+bLzi/68MzajKJS5Rgon/65yIMPQ4=;
+        b=rrzV2ZkVSjcyj+FaRfg7eK8VDOYqYC2DzymSuDXuAxsBeyQY4w13dd9lfoYyjMYtUk
+         AvuBl8CbRDVU8d64QIILC6fUNGqR14UeIG0/zjPtDNCepjD5mBni5pCY6ur67yfVoqK+
+         wghI84fpv7GrYwzC/1h5UlybIGdKUv+XVZ95fdS8QupSdfXwk12Xqj2INVfeXptuwo9z
+         /7BSwHPLykIk/U4BggHtsCoaXipxy/r3HXMssfbAG9lRAjVNzlqsLpObygeLczrwigRH
+         aMGEcFbgEo5GeDZ6vKtE7p+KN3RFM3SNKB/pG/72o+Ros7uRUJxS+sOHCJ504uq7cZhH
+         zWFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782988424; x=1783593224;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lSBXWVP6cFuS41+bLzi/68MzajKJS5Rgon/65yIMPQ4=;
+        b=PJbAEqPUiH2yW8ZfP04mrAYD7oafVkMqsE6KjWqGb4qi+QGtaVqlRZdFMj8QQZex0e
+         GLblyCz8ugV8WIBppvYhktdTXe8qq8y1lRfsmFd5DvR1gWOnw7rs+At8ixXH8JLkvM8S
+         TOspQijgvH1EdWEjJm4zhDydVglYkZGbuUe/vVfCJ7aSbPvbsBF0fmRR9+GVH0KZ8ohW
+         0hPUTqEGcMtcS29OP5t9jFuYw1oqbibkJuGhtPT/etfCvipBj5/wi6coOw8cgMTtGR8p
+         qzt3XA3IrRYDzRIhxdLPX1JFr9IgJ1IMuLEhvbdntDaQkGwiHiBfs3IMQqShIbvCo3Cd
+         yKBw==
+X-Forwarded-Encrypted: i=1; AHgh+RpPBenPqnofiJf39XbYuqLiQkUhV0eGTh1HYcCbI3HSedYCXbgo7a658M2ok7dUk4W3zdrBpGGLv7pW9A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvQL7RMvcHXPt2s/0wuvjrMU4tHS2dWaQ99zKlDbTsQGyWbQFy
+	BZmU/YYQijpE0CiZph7n5s3LKQP4bQg8YKJSEd58af/4412M25Y1Yha9c6BMPUDGL1eCLirCN/U
+	z8CrQtlluURiNQB6ZiQ==
+X-Received: from ejsc14.prod.google.com ([2002:a17:906:694e:b0:c12:4bb6:ec57])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:3f85:b0:c12:add7:b97b with SMTP id a640c23a62f3a-c12add7bc23mr240698066b.29.1782988423378;
+ Thu, 02 Jul 2026 03:33:43 -0700 (PDT)
+Date: Thu, 2 Jul 2026 10:33:42 +0000
+In-Reply-To: <20260628174451.2275679-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6027395.DvuYhMxLoT@rafael.j.wysocki>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+References: <20260628174451.2275679-1-dakr@kernel.org>
+Message-ID: <akY-hn0upJuaeS8i@google.com>
+Subject: Re: [PATCH] rust: devres: fix race between concurrent revokers
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, ojeda@kernel.org, 
+	boqun@kernel.org, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+	a.hindborg@kernel.org, tmgross@umich.edu, daniel.almeida@collabora.com, 
+	tamird@kernel.org, acourbot@nvidia.com, work@onurozkan.dev, lyude@redhat.com, 
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, stable@vger.kernel.org, 
+	Sashiko <sashiko-bot@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Jul 01, 2026 at 09:15:27PM +0200, Rafael J. Wysocki (Intel) wrote:
-> Hi All,
+On Sun, Jun 28, 2026 at 07:44:38PM +0200, Danilo Krummrich wrote:
+> There is a potential race condition when two paths try to revoke a
+> Devres concurrently.
 > 
-> After converting all of the drivers using the struct acpi_driver interface to
-> proper platform drivers, that interface can be dropped now, which is done in
-> this series (patch [1/2]).
+> The driver core's devres_release_all() calls Revocable::revoke() via the
+> release callback, while Devres::drop() calls revoke_nosync() on another
+> CPU.
+> 
+> The revoker that does not claim the is_available swap returns
+> immediately, but the revoker that did may still be executing
+> drop_in_place() on the inner data. This can cause a use-after-free when
+> the other revoker's caller proceeds to drop adjacent resources that
+> drop_in_place() still references (e.g., Devres<DmaMappedSgt> racing with
+> SGTable freeing the backing sg_table and pages).
+> 
+> Fix this by adding a Completion. The release callback signals the
+> Completion after revoke() finishes, and Devres::drop() waits for it when
+> it loses the is_available swap. This ensures the wrapped object is fully
+> torn down before Devres::drop() returns.
+> 
+> Cc: stable@vger.kernel.org
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/dri-devel/20260612202841.2577C1F000E9@smtp.kernel.org/
+> Fixes: 05aa6fb1c21d ("rust: scatterlist: Add abstraction for sg_table")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-What a nice result!
-
-> Additionally, the no_pm flag is set for all struct acpi_device object since
-> they are not going to be directly involved in any kind of power management
-> now (that is, they will not have PM-aware drivers and they will not be
-> included in PM domains).
-
-I am in favour of this cleanup!
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
