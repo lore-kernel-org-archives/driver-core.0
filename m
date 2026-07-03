@@ -1,103 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010028.outbound.protection.outlook.com [52.101.56.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E94343D8A
-	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 11:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783078170; cv=none; b=orp00ttVD7hMyoYZuFqRxrFjrBHyHHmzf7hXB+PqoPvej+bWR5euOCqCOgygEQkcgJHV9gPNP9XNUYoALt3M0A7b27vQXylvoRKEoaut70jq5W1kJUl6Ea/USnzizYHGt/PlWRixssBhqgqy68/rxFYSGvp7CzINW04sZZix5tc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783078170; c=relaxed/simple;
-	bh=ZPWKhACqHwRDTfkRF83NbNt989qOfNioimYHeftlKxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMj1uC0JgpPYVJJsCIFyZxcm2R7EROewY8lSw4NAtwEMM7vlkmV9XNpnIbJDnevtBmVXiO4jAbKB5YmsyvIJPIPWnz97G5ESCgj7yHq0aK+67FcRL58qYKs707r372yNGWGCsalTO24e7EPrDX2G4f9CCV3X/fPwjDSb/F7tQBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eu9xRG2F; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533713B440F;
+	Fri,  3 Jul 2026 11:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783078671; cv=fail; b=Mzc3YJiZDPQj9h1K3om2CwnMKrIrb+81gV4WGz18WUcTR0+HhocNR+cbWmpDuVG4sdJjQjAncD3MXcybEUVEKwla77oI/M3KUsJQ9HZp06EijR9h4pMCSgthITW1chT3ZjfZdKEiw/vHaqZey/qh0wHGXZ3hxIGm6QZXzkkCzxw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783078671; c=relaxed/simple;
+	bh=rnc/sru4zFTg28C0RzDQsgWED+27oFUakh3KVrL+zgA=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=rx1lOI8ZUjzjd7M4F6N1DwOEknd0FjEOlFOeHd0Y83UCFt2K25gebpNHE5LBozgVvYQnKrGY//C8uMHCY8jr5FquPB9QKuMAvhP0c8uelKDHnZ6gCSTp0LspSG+kl8RC5w76yE1q+lf1Kx/slhxbZtpnSJi3KV2OwIHILDs38v4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rXJgqJZx; arc=fail smtp.client-ip=52.101.56.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eu9xRG2F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783078168; x=1814614168;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZPWKhACqHwRDTfkRF83NbNt989qOfNioimYHeftlKxU=;
-  b=Eu9xRG2FpBEnkAEixxSuqr7e5d4xWo/RncJOIBleYMkgl2KafxzCP1yA
-   O1ioDb8cZlU8fEhm10KxIAwKfdRsSjc7xvAhCD+Yu2Mb/KRazVThjUUoP
-   /5Oa63+G6BNIaYuTtAZieaiwBwOk27dpHX2hUXAGqtkGoldLu9oXAHeRY
-   4PrYwQWy8qdsIx59ymoQt/GCBEqS6qHkHQnErBx8KnJP2ox3IE5YOsBpl
-   5zE/NbQnfI6eosbyySyCVbBNn8zTYR+xGk2vHvbPKbdNlp2IbT4OvbXt/
-   RAKx+YNns5h/BVJ8gL707Osm8v7ztB7G3IgaM7yVCDpIATIzZgKW9LVfW
-   A==;
-X-CSE-ConnectionGUID: 77Z3UJRRSn2l/dfou5Q7NQ==
-X-CSE-MsgGUID: Z1ccOOaWQJevbK0LVLqCDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="83866759"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="83866759"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 04:29:24 -0700
-X-CSE-ConnectionGUID: VQKoxUxRQlmHSt/2y2g4uQ==
-X-CSE-MsgGUID: ANWYQ0K6QqakoGeIx8zbCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="276302079"
-Received: from carterle-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.80])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 04:29:21 -0700
-Date: Fri, 3 Jul 2026 14:29:19 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Michael Walle <mwalle@kernel.org>,
-	Yu-Chun Lin <eleanor.lin@realtek.com>,
-	William Breathitt Gray <wbg@kernel.org>
-Subject: Re: [PATCH v1 2/4] gpio: regmap: Provide default IRQ resource
- request and release callbacks
-Message-ID: <akedD7YWp6anS_T4@ashevche-desk.local>
-References: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
- <20260702130903.1790633-3-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rXJgqJZx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gl+euFfa+0gbyDQXBGh+3Fuuay3LtltxKIFkBl6kCzO9wIIhzka2RhGogahdvZOfrVqNKFUKhOuKKF5wD6bkscORsYz2ALsx3GdehAZ8IZGA4z8+6+0eTKmJx6M6rxyXwsjwKcZCSHOR7lDqqEq5H86bHIEDwMqIAKYLGG2ac5oFBLzchbPmhB/IBzxiiUZlxwYuw42oGhjnszc/NiThAxbrpQcxupy6+OEJXRX0XPuQOkvYlsAlZ2ItRoc75x8imPQ14eUPcGUIrVy7/8VSNuEuveUy/D4f5/awzyDzjW2cxPjpbvuXwPuSU8hUJj7SG84f5cNttCkAyITSza7Pqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tAQF4F2b5VsFSYa7DIV7vmyWh5Rug0I7p74nDic7vFE=;
+ b=yWQU+e44OQainn2JSBbFkwi46NHbs7SAl5XG7zzTZQ8CHiY9PDT+J8Y/JLlzjJiIyzpQR32+ysixGLu1Ah7KgvAMRV+t92gL7ZoC74xvE/g8fkR+eZB9SO/xvAguKCERxDT/nb+gdNSJv12nw633gDqsu0btTNJNdqoY8h+r9DYPhCvusM0O7ZZQocCnXApt+yso6M+sAA+Hp2khq1eaAnGGeXngJYxB6LtjLGXgtn/9s06Vw1O+H8ICNpEBYlszoHlVyNgaZP6530wF0GQ05NeBRZXzguDZemoF/s6SKtezvDYTolNe1J2lj3vfQgGXZ72HLV++Hrq4osGszU2Mdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tAQF4F2b5VsFSYa7DIV7vmyWh5Rug0I7p74nDic7vFE=;
+ b=rXJgqJZx6/nwGRqVFzgAsJfjs93QZu7No4xsFzlfNRbPdyuV07Yxg3vbb5Y0rP7mTIQL4Ds4aOooVPfMTQmCWJZ2OkIqm8AG7h0MQfBayqIWxV2ftX78RQNsze27FWCZWFCe/CRQyRSZc0m0pxpU+aMwpmrMTiveZbzJXfJB93PHXefMeLvhcSkK8Ix9TbAOebQIked4Zx58j9Y/uKl4Pi4wGvcfMKQfFJrJ3avLFTKSJQLiwI1KmBSAiPPieZDCWeXp/d3Dhq2Ye+Jy7hRJ+bnq3N28FaiADFA/WraYPfbj3HBgvqYr7/0C0aCdf/yQEn0MnnWQy7L112mupYTQng==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CY3PR12MB9556.namprd12.prod.outlook.com (2603:10b6:930:10a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
+ 2026 11:37:45 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0181.008; Fri, 3 Jul 2026
+ 11:37:45 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 Jul 2026 20:37:41 +0900
+Message-Id: <DJOWMSPZW5D1.3DV2KKPXYXNYS@nvidia.com>
+Subject: Re: [PATCH v5 14/20] rust: io: add I/O backend for system memory
+ with volatile access
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Michal Wilczynski"
+ <m.wilczynski@samsung.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pwm@vger.kernel.org>, "Laura Nao" <laura.nao@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+References: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
+ <20260626-io_projection-v5-14-d0961471ae50@garyguo.net>
+In-Reply-To: <20260626-io_projection-v5-14-d0961471ae50@garyguo.net>
+X-ClientProxiedBy: TYCP301CA0064.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7d::16) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702130903.1790633-3-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY3PR12MB9556:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f2ee731-5324-4988-5711-08ded8f7800b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|7416014|10070799003|366016|1800799024|6133799003|56012099006|11063799006|4143699003|5023799004|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	BKwwO4hDUnJ0k+SWrfAWF8F81Uxjsw7suMxvJVNBfrml1YNf8Y18DUL3ivjYHW6pC21Lpzas+gaTg4+Y+jIif3e73J+mi7iYfvClspo++Sav670xjVPRVlQ3RT+Yax3tEcHRQEB90CaJ9TM6np+dRyoUx7I6Y6EBO3tdrXMPiKoGAvfpdjJoZEqBbh19gUpSKlbreHhl1WpwRBPOUUO3nAOWrt39GFP5iVwlvs9XAHAuenNK8hNUM3XoX4Yh6EVKsLNvwGfD/CAHZ0CyqZ/mcByrla4Z/WMpKL1OpsZbO+0iJRdGyGOcaN5Gy5N4bgimt+q7hM38DymluqXitbdIm6Mhwqxfm2pkEbNkckivma8+KUybxQYy0txIRhWgQN+HAxUUZosrocPJ8n/1wl++9KMPmhBV+jAB3WB6+3xpY97W2uiURCvsI67cTzVlX2siNrgxReVUEp7YD14Z1G0we2G4QwYl+GOjv8zXvtJ6dihsQesjqf2Nh9SX/ToZSfQqOecRi5jwbPE/Jp7Osdg3y+gwXio9YtEjVGeE5b6deWM4HSj786rbsVOXhNN4zg/c0n9eeF2g6FhYPFAMU2TYoIJUwrXcwONh2NapU7hzU6jOdHlGNfA8dFO/oXtSVNBQ9zBYo+o5J1UTy2girMv2tmLHwch2R8KXP11uuNEstB0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(10070799003)(366016)(1800799024)(6133799003)(56012099006)(11063799006)(4143699003)(5023799004)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bllScVRFcDgzc2x6TFU1OWhhb1hwa1NXWTNuYkduREdMdVUrWUFsR0EwSjU5?=
+ =?utf-8?B?ZEh3SnltVDROZzlzenVQVG1vOEU0d2ZRTG4yclhOcWxER3AwWFpCbyttL1hm?=
+ =?utf-8?B?NXVrM3FaOVBZRDJJUmp1RDJacnJUTGJkUkNGejFKZ2VOYXRoQ1JtWFlvR2Vt?=
+ =?utf-8?B?RVdMTzh2OHFsbFE1QTFUQWlZTVlya3BzK3JOaUhFWDdCdmJaTG54eXBIeHhi?=
+ =?utf-8?B?YW4wWDJDSXI3ZmV3SDBta2VlMkJnQzdXL2l6M0svRlEwNU92TTRqbThIZjZK?=
+ =?utf-8?B?WFlJelMydGhXRWxmSzVBSUpybVZKQS9SeE45N3dsVmk2WnRiS3QybnlpM3A0?=
+ =?utf-8?B?ZXlQWm94VE9uaE5wWEs1REtQMWFqOXlWMDlnUGx5MzdtdHJBbE5aTEtBUFQ2?=
+ =?utf-8?B?K3U1T2dEVEp4dFVEU3VsbFl6SjY0UG9NdW40bVFrbXJCa3ZHdVlnNWkyaC9x?=
+ =?utf-8?B?YXluMFF1Yy8zeStJM1dPZzdjTExOYWxHVGYvWnRKYklncnZqWWV4UFkrNTlV?=
+ =?utf-8?B?aGkzT0R4dHIvc1Z1SEF5TmpFUXl3cHRGK3ZrQjJYeEUrdjFaa25EQXJGSkkz?=
+ =?utf-8?B?R1ozNW9mb2dZVVJHa3pJRXI1SWlhZEcxM01KajRuMHVnVXA1UUtwYzNqK1R6?=
+ =?utf-8?B?NkxiNFR2NU9ZOHF6WFR6R1hxa3ByTzQ4TnF4c0NJZEdkVml5MGR5TmdWVXM2?=
+ =?utf-8?B?dmJsM3BUWHpmSXNHM1M1QXBZbzFqZUlWeEZYY041S0Ntd2VKTWFScHczR3pu?=
+ =?utf-8?B?bkZOVjdBUjU1VlY3d0Y5c0ptRSsybnZkanJIS2dCQXA0Wnp3VVp0S0V0MTRT?=
+ =?utf-8?B?cG9rM0Y0ZHRuN3plR3RRcUtITlNIYlFWaXA4RDMrL0ZBZkZmcGdlZ29vZzRG?=
+ =?utf-8?B?QnlHQ3p5bkRCQit5V2pTelZHQUlGbkxqeXNTNDY4L0JKK21Zd3lMNDFLbTQ0?=
+ =?utf-8?B?RFJaU2J3bzR2ZVl0akpKb3k0Qll3eXlDTjkxelp0WXBQVVdVTGtvNm1oSHZD?=
+ =?utf-8?B?MHczMjVoUlVJMzY2QWZkbTNOeG9VWHN4c0t0Q05TR3dqSVBwRkFEMVcrK1hN?=
+ =?utf-8?B?Snl0anpUUEFGWllEbGM4eE83NUJ5c3h6K0d5dGNIT3lHUXJVVUtWSzlpRG1L?=
+ =?utf-8?B?TFBZL1NhUXlKZUlTcFNmY3ZoempsUFhBUmhXakZFTUdmdHBlL0ZUY2hVcGlj?=
+ =?utf-8?B?S01QNUd2a29mbUx1aEMvaHVmN2ZIVUt0UmF2OFZCTHBzdUVsVEQ5aTVCL0ZU?=
+ =?utf-8?B?Mk1jL2VVRS96a1hUa1drK3FmTTRiTE5nYWlZV0pxSmFWdHcxZWMzNmNOM3NP?=
+ =?utf-8?B?aWk3aUFoNGR5K1JxWGsvME04MGRoUk5hbk5yWlRBcmpEZGlkQzB5Zk5GUUI3?=
+ =?utf-8?B?RlZYcEV2RWVXTW82ZC84bVZ1aEFIOW1tNnNEMVRNVHJnckUxVjZBY3cvSXk3?=
+ =?utf-8?B?UXE5NVFSaVkySFdSYllLY1AwMnVBZFZkakpqb1B3amZRYTkzS3UrRjZsRXNw?=
+ =?utf-8?B?VkhZY1ZMTWcrV1JyNldaWk1qOUdIQU5FTHJuM3RYVkw4V04yMDhpUjhLVTVK?=
+ =?utf-8?B?Z3dQWkRENm5iZzgxWE11ZjFtdm9VM0VsWWVZMlVCOEhTNVJsNE84bWZ1ek9u?=
+ =?utf-8?B?WTFlWXNVM3pmUC9PaS9QVjYyM0xGRko0VmpGcVVtZWpaeU9WYmtoZFlwSlBh?=
+ =?utf-8?B?b1VXMTVIUEZxVlgvc1dkUHdLTUZZaVNxVUhnVUJOMFVJdnpxMFF4UXZCQlkz?=
+ =?utf-8?B?Rlh6dlRWd2VkWXFpTlE0ZWRkamwvaDJnTTl5MXZBQjNvQXBvcGRhbjdCU3pv?=
+ =?utf-8?B?RnNqRlkwcmZUOXNSQTVlU3dVMThWTDk2RTVrc1AvVGdnZ3J0VzRMZk5uWWZ0?=
+ =?utf-8?B?eW1MbTlDUThHMk5mc1FTbjg3TmJEK0ZKTU5xdkk2ZFlkZysxR2s1M3JjTmJq?=
+ =?utf-8?B?WEVrUDVvc3lWWkZuZGtpVUNQSHNJenV2MVRXMWN6VXd0YjBzdU1wYlRuN3Vq?=
+ =?utf-8?B?Z1dqRlo5dkpHUWpobjFkQ0hlUExVL08zSmZPc3NxZEUvUW9NMkdRb09qb3lQ?=
+ =?utf-8?B?RFoyTUkyME1KUU41RlVnSEtDaUQyWEFtSi9NekFkR3FuV1U0VXcwa0pFMmRu?=
+ =?utf-8?B?K3NWUi9DRmtlb3VMUXNVVFpGQkF0eTM2dFl1LzI2aUhWcVRncXZGaUpDVnZV?=
+ =?utf-8?B?T21Sa0h6UjJsNDdPUnVqRU1OTm5jRGZBMDdGTG5vQzFmSyt0T3lQZDFZdEtX?=
+ =?utf-8?B?a04wc2lLTHVvL21KM2k3TW1SVjFOZkhmS3pNNno5amR1UTdXajRtdEtSSEto?=
+ =?utf-8?B?dHJlaU9TMmtZdnhURFEyWHhycnRBZi9hUVVMdWhNNHNBbzQzbzl6YitOS2Jy?=
+ =?utf-8?Q?T/PFllzIs9wu1OHUIE3sMsWd17LMb98sTfgwG9wvXoXlG?=
+X-MS-Exchange-AntiSpam-MessageData-1: jh43dAGuh3VfcQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f2ee731-5324-4988-5711-08ded8f7800b
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 11:37:45.2550
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DL6X0m12LOTVquUWqL7vv5emuHBdDgRDrFHZvbdPtz/JRD3r8RmS6mWc/xt3tdqOp8xJ19hWXhYlebjti/+NfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9556
 
-On Thu, Jul 02, 2026 at 02:42:55PM +0200, Andy Shevchenko wrote:
-> When GPIO regmap based driver supplies its own IRQ domain, it might
-> still want to keep track of the IRQ requests and releases, in particular
-> to prevent a GPIO, which is used and locked as IRQ, to be requested
-> via standard ways. Provide default callbacks for such cases and keep
-> struct gpio_chip private to GPIO regmap implementation.
+On Fri Jun 26, 2026 at 11:45 PM JST, Gary Guo wrote:
+> From: Laura Nao <laura.nao@collabora.com>
+>
+> Add `SysMem`, an `Io` trait implementation for kernel virtual address
+> ranges. It uses volatile accessors to provide safe access to shared
+> memory that may be concurrently accessed by external hardware. Implement
+> `IoCapable` for `u8`, `u16`, `u32`, and `u64` (for 64-bit system).
+>
+> This can be used for instead of `Coherent` for cases where a different
 
-...
+typo: "can be used instead of".
 
-> +static int gpio_regmap_irq_reqres(void *irq_drv_data, irq_hw_number_t hwirq)
-> +{
-> +	return gpio_regmap_reqres_irq(irq_drv_data, hwirq);
+> layer takes care of mapping the system memory to the device (e.g. dma-buf
+> or GPUVM).
+>
+> Signed-off-by: Laura Nao <laura.nao@collabora.com>
+> [ Rebased and adapted on top of I/O rework. - Gary ]
+> Co-developed-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+>  rust/kernel/io.rs | 122 ++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 122 insertions(+)
+>
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index 96962498af77..5c06785facea 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -1034,6 +1034,128 @@ pub fn relaxed(self) -> RelaxedMmio<'a, T> {
+>  #[cfg(CONFIG_64BIT)]
+>  impl_mmio_io_capable!(RelaxedMmioBackend, u64, readq_relaxed, writeq_rel=
+axed);
+> =20
+> +/// I/O Backend for system memory.
+> +pub struct SysMemBackend;
+> +
+> +impl IoBackend for SysMemBackend {
+> +    type View<'a, T: ?Sized + KnownSize> =3D SysMem<'a, T>;
+> +
+> +    #[inline]
+> +    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> *mu=
+t T {
+> +        view.ptr
+> +    }
+> +
+> +    #[inline]
+> +    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + KnownS=
+ize>(
+> +        _view: Self::View<'a, T>,
+> +        ptr: *mut U,
+> +    ) -> Self::View<'a, U> {
+> +        // INVARIANT: Per safety requirement, `ptr` is projection from `=
+view`, so it is also a valid
+> +        // kernel accessible memory region.
+> +        SysMem {
+> +            ptr,
+> +            phantom: PhantomData,
+> +        }
+> +    }
 > +}
 > +
-> +static void gpio_regmap_irq_relres(void *irq_drv_data, irq_hw_number_t hwirq)
-> +{
-> +	gpio_regmap_relres_irq(irq_drv_data, hwirq);
+> +/// Implements [`IoCapable`] on `SysMemBackend` for `$ty` using `read_vo=
+latile` and
+> +/// `write_volatile`.
+> +macro_rules! impl_sysmem_io_capable {
+> +    ($ty:ty) =3D> {
+> +        impl IoCapable<$ty> for SysMemBackend {
+> +            #[inline]
+> +            fn io_read(view: SysMem<'_, $ty>) -> $ty {
+> +                // SAFETY:
+> +                // - Per type invariant, `ptr` is valid and aligned.
+> +                // - Using read_volatile() here so that race with hardwa=
+re is well-defined.
+> +                // - Using read_volatile() here is not sound if it races=
+ with other CPU per Rust
+> +                //   rules, but this is allowed per LKMM.
+> +                // - The macro is only used on primitives so all bit pat=
+terns are valid.
+> +                unsafe { view.ptr.read_volatile() }
+> +            }
+> +
+> +            #[inline]
+> +            fn io_write(view: SysMem<'_, $ty>, value: $ty) {
+> +                // SAFETY:
+> +                // - Per type invariant, `ptr` is valid and aligned.
+> +                // - Using write_volatile() here so that race with hardw=
+are is well-defined.
+> +                // - Using write_volatile() here is not sound if it race=
+s with other CPU per Rust
+> +                //   rules, but this is allowed per LKMM.
+> +                unsafe { view.ptr.write_volatile(value) }
+> +            }
+> +        }
+> +    };
 > +}
+> +
+> +impl_sysmem_io_capable!(u8);
+> +impl_sysmem_io_capable!(u16);
+> +impl_sysmem_io_capable!(u32);
+> +#[cfg(CONFIG_64BIT)]
+> +impl_sysmem_io_capable!(u64);
+> +
+> +/// System memory region.
 
-These two functions has to be part of the patch 3. I forgot to update this when
-split a PoC to a series.
+Maybe "A view of a system memory region" for consistency with the other
+view types.
 
+Follow-up idea: `SysMem` and `IoSysMap` could maybe be moved into their
+own module to de-clutter `io.rs` a bit.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> +///
+> +/// Provides `Io` trait implementation for kernel virtual address ranges=
+,
+> +/// using volatile read/write to safely access shared memory that may be
+> +/// concurrently accessed by external hardware.
+> +///
+> +/// # Invariants
+> +///
+> +/// `self.ptr.addr() .. self.ptr.addr() + KnownSize::size(self.ptr)` is =
+valid and aligned kernel
+> +/// accessible memory region for the lifetime `'a`.
+> +pub struct SysMem<'a, T: ?Sized> {
+> +    ptr: *mut T,
+> +    phantom: PhantomData<&'a ()>,
+> +}
+> +
+> +impl<T: ?Sized> Copy for SysMem<'_, T> {}
+> +impl<T: ?Sized> Clone for SysMem<'_, T> {
+> +    #[inline]
+> +    fn clone(&self) -> Self {
+> +        *self
+> +    }
+> +}
+> +
+> +// SAFETY: `SysMem<'_, T>` is conceptually `&T` but in I/O memory.
 
+IIUC `SysMem` is not I/O memory. :)
 
+> +unsafe impl<T: ?Sized + Sync> Send for SysMem<'_, T> {}
+> +
+> +// SAFETY: `SysMem<'_, T>` is conceptually `&T` but in I/O memory.
+
+Same here.
+
+With these considered,
+
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
