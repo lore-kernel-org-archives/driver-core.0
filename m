@@ -1,102 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012026.outbound.protection.outlook.com [40.107.209.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0FA34041E
-	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 13:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783083727; cv=none; b=ftnQusgL13IrwXVFj3IDaWbvVnIXyslu7Kt7yyNSoh9eEgkvcW2mNm9jeVNYndhMAHdKzQwCcK+6hSHtNXC2wLwsmrAJg32P6fV4aXOf25j3NnnjJglq//KxezDXJrsJ2AyVIjOO9B+uObt5AukrR82Lk8KjYwqHtUdjVL7Cht0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783083727; c=relaxed/simple;
-	bh=go3A92f+qVfLN0BBANEqxhTi+7+zvO5fvzs2fUIzcw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K2njvLVRIUObpF5kWKodLd+aP4qfEANloCKF63X1TRP5dychLRwi9hKPdqrpISOIj/o378sb4KGH2U3wRAkB5IXMyFenf+h4D+26/o0yp0wF5cqNwXMEX3lLdDRkVnu10GVSW0xjbM8Pq044vYtUMHI2x3ZoAy/VSAD73UJ41uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NuzrB/0g; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAD83D34B9;
+	Fri,  3 Jul 2026 13:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783084187; cv=fail; b=q2SHVVeMYJTi9o6xkDc3B8bHHS3BzjT9b+hCtiJXnRsWxVGhgOIJP0ZC16PJ89niTbFFvd+KXBRC9nXIltb0Wtsow5vn9/JsXg6RcTV7YSBU5zqikuWu/lKSAtZuNdbVif4cJgWKAnARnd7TSMvmX5PD012peo1u8Ro3PYfSur4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783084187; c=relaxed/simple;
+	bh=84I65HPOg4j5Xpbp7xxzJcA7HbjYThmuEyHUzKxSzkk=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=jdr6CuBlOdwhLQ8XW1kRmb556B3MWrBn8/qJPALt0/dstCjYKJHKY26RR+Fqy9cRE6T5ilDw6wzBiKjT29h8i39SRrNSn/uF6X/jH7gCdNflH5F4qI+wkue9He7Vw9OknX39lGN2hN/B0DWJHfOhWs0cZDZVjJWLiLMP8rhoqKU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ZpF343+w; arc=fail smtp.client-ip=40.107.209.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NuzrB/0g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783083726; x=1814619726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=go3A92f+qVfLN0BBANEqxhTi+7+zvO5fvzs2fUIzcw4=;
-  b=NuzrB/0gQgSBjssMI1Y5o8NIJwrzbE9E4Ise0k3V+h37YH8vGbm+bvNu
-   /ngCGHyXXH86Bbis97tt1Hfs3vdb+naI32hRp6CeSqPNK5UHwUo9XIIiO
-   euEN2H5hbkQVZAr092yi+bTMiegC5fxgVMxWA+QkZHEZouBmej3Cz78z2
-   cZ3Vx12L2XmkabMSJdTjLZvneSl1JLUTLEzKSK3nXjefZ+tHi0RyTDuTS
-   r5voX6G2maILsMdjI69WgdRbc7hbhrOjF0YWuXss+LY5VkA8W3IFYwq1Y
-   W4CpTqffgEwg1YmHud1gjciF+QEM99lBMNjtfTikaG7hlVhWwYn2GEPRJ
-   A==;
-X-CSE-ConnectionGUID: VRHLApeKTWOMK9eBbv6hZQ==
-X-CSE-MsgGUID: 3qDao7FlS8u29YNd5TrEsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="86386251"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="86386251"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 06:02:05 -0700
-X-CSE-ConnectionGUID: pugGM/gaQTaY9txxcMNEVA==
-X-CSE-MsgGUID: mOxugsDkT6C+FxXoN/1dQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="250458340"
-Received: from carterle-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.80])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 06:02:00 -0700
-Date: Fri, 3 Jul 2026 16:01:58 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v3 05/13] usb: hub: Associate port@ fwnode with USB port
- device
-Message-ID: <akeyxn390mVmYo83@ashevche-desk.local>
-References: <20260703110317.1283411-1-wenst@chromium.org>
- <20260703110317.1283411-6-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZpF343+w"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KZzU390RWBlMsyEwj1Y1zkz3xmV1kJGaYaiYU3pDtLgvzSGcTKOdJ3y5QjkX7nbvRIWG0yVJqyrbiT1E1Fwo9B4wF8TwoQ9puabfg4pXQd5Q7GZ20BZDUkWfv1I9MZKz0hucYpdT2ymh4Y0Po0UzZgHc9eHzJWuRbmSyF05gkdP0G6cQWPCyOlgrKGx2W8horJlApq3rTLsuAmcebNrzq4jXoUoS34Gn8mJJ3OrK5qH3bUaelD8Fgo29fav4cVH6lELPVYHaH3mYdeIyXbiFyrYGQaLurvprpOUvKpkuAOG6C6HixP4s+II9fgJqbETC9/bG+slzFNBI/yPgpv7QLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WUdoVXhR1KCLlcPlse4qWTrVXJxj9PJc2TMpXIBHIDE=;
+ b=i18P8alZaMUdgR9vFepUvSB9RT3jBQZqkeQgMm6jKIimbBGcG/wwsFiRvmWriin53oX/cFY4tHyb2aR0L/g+coc9v7kNy58Ek4JFNGSA/6QHczIeFcnFnCQl24CDOmKmws72H6/5ZP5oyWvjLJai04y4Wlx3rAX4NFDgc3K5QoIB+IUfEwstVcwjQUqLXjRInGiUsCuvJpmc05+zjou/yRj0hiHzxkZThOpahF0aeM40g4H/HTrUTahV9AixAzkgzzjvHBtYZCHdRZWEKkF1MH9bZ5B3DSC/zlN/MMxk0+je6WLy6xqRTJczPxmflZwk6FosNU9h32vHrWzw9YckMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WUdoVXhR1KCLlcPlse4qWTrVXJxj9PJc2TMpXIBHIDE=;
+ b=ZpF343+wqQFQJNCCNzIBFW3o7ysLX2sVeMKnzxqEtsyHgTHk3lDW6fbpa3Biuum1/HrfbxyDGqJfVQKIf1V2wddjHm3iO9fdyHeKS4vaA0RMAiQMnU/kaJRFquyY/vbtLfiHk4Z1iYKHcV5Xtxw5DcJPKIrfDgn73rBYbSeZpBpi6rOI+b5m1SkPyqREKHv42KeWFcnEhFECgfkyB+PijNz3hslYYu6KKyXLlxlsgsBmH22zCQfMeSXGsV0kfx41Fq96QSreV+yM/ojoKfNEGIYlAwFdHUysyxQ7/O/P4sSdOiZtOYNJKxpsYTftYMfGQ6VcUmzjq9w7zjbzaBseig==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SJ0PR12MB6903.namprd12.prod.outlook.com (2603:10b6:a03:485::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
+ 2026 13:09:39 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0181.008; Fri, 3 Jul 2026
+ 13:09:38 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 Jul 2026 22:09:35 +0900
+Message-Id: <DJOYL5QPEM76.1N99BVDVHB8VS@nvidia.com>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Michal Wilczynski"
+ <m.wilczynski@samsung.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH v5 02/20] rust: io: add missing safety requirement in
+ `IoCapable` methods
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+References: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
+ <20260626-io_projection-v5-2-d0961471ae50@garyguo.net>
+ <DJOLKP1V1IDU.1GWHOHBG9CS7@nvidia.com>
+ <DJOXUW6ODKCI.1GLNDU00TDJWU@garyguo.net>
+In-Reply-To: <DJOXUW6ODKCI.1GLNDU00TDJWU@garyguo.net>
+X-ClientProxiedBy: TY4P301CA0038.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:2be::7) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260703110317.1283411-6-wenst@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ0PR12MB6903:EE_
+X-MS-Office365-Filtering-Correlation-Id: c85ed451-a422-408c-87e8-08ded904566a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|23010399003|376014|7416014|1800799024|366016|22082099003|18002099003|56012099006|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	7sQk1l8o87Iw9xf2jUgXqBUuGd+xoISIMZhl0vIaVm1umHgkRKUHjynPXZccmOjffu297jsHv3FKeVep8HQsO2X58+qCi9QLEr1pYVL6oFU6kQLIzKCPe04obC99yDridq4Oh4Vns5baq4fPVFYtkfsdK7eTW68L0b9aFuxIZr2koPGlIYfdopwyTBArXfrTJNpF2lvnFvZpVTZqWpKCUgh+tGKt5x+LPdiQWkMc6LMj09Sspz0vFAmH9x0nSdCfIIZuxK2oiZBbTgHnlVxRNGcHXvk+c/isiMFACCBeSejP+5cVHfDtvGZWohNCfmIsLLYuDsci9qQOd4utXPWKhCQM+S9RqL6J05bC8EYdLUhJRsmpqtAqquGvfa6rw+U2ZJ6JoPfiCs/PEqRLHqLfDo8/AjkJQQa2QavS9Rbe7/E8ZoNAXrOahLrSjfdl1PqnJ/a7HEHJoF/LMaW6XOlj5asuI6dvG6tY9oBS0MS6RabfRBA2AizLVVrhak6kBWbkLk16kocTeXbQmK+uggJHlx2Sk0FFYsdn7qF/dr9ENpvlM/owDGUDzf3z99NIWbJpJ9xF/ty2zb8C9pFfWDlmurKuim3Fcy45FEjhzItNlsYHZcuY2CvBbYFYSEAWDGu9/RXBmXxGkEkNI6FghYgYRJs4mJ2ZliB/wI1il77vS8M=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(376014)(7416014)(1800799024)(366016)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YjN5eWhSM2RQb0NGSFNTNWhKRGY3Rk8zcmdKTXRRaE9GWTVUZWNuNnowUnJp?=
+ =?utf-8?B?SXJtT0pMWVVxRGpNRCt1ZU9nWHJuS2x1SmJHS1FGS3VLZldYTTE1eXVRTTVU?=
+ =?utf-8?B?cEYvRjJTQm9kT2duS3dia05WWWhpQkx0cjZPRDBldWIvMmhpYjBmWHMzYTJP?=
+ =?utf-8?B?OGRqRmF0anRZTWlZS1h5QzhHQ0RDZlVFNThiV3NtMllLNWlkMURaLzN5RWp6?=
+ =?utf-8?B?ODltOWZSam4vZDkyVUtyRGtJQ1hob1k2cFRZKzR3Nm5hU3EyY0NTdXA1Tys1?=
+ =?utf-8?B?dVVTT2xYanZOcE1QcGEyYS90cFdqZkU5QzFzT0VGc0toRDVTRUFVaENrcjgy?=
+ =?utf-8?B?S2Zza24vanJJT2o4eHEzL1B1SGM1a2g5Zmw0NENXaDJnekRGSXlXeWJVLzNX?=
+ =?utf-8?B?ZHJ4MFNKamtmU2I1a3F2bnN4c0pmMVUxSHRVSTRlQ2dOSlVQTUI1ZUt2b1pm?=
+ =?utf-8?B?dUVIWlVaNXUvMHFNZ1FDNEw5SVdsNFhxdVNxTUhNYklnNGpWcVBzeXFKaFpT?=
+ =?utf-8?B?c2hRWEZuRnd6UW9tS3BXMzB1V04rUDJvVDRtMS9wbG5Zci9kWnJSVG1xejNv?=
+ =?utf-8?B?dEVSam5VRFdINXVyVm0wemE2WmczbjRyTEhnWTR6QkNKMzVpTmhPSGczV3I5?=
+ =?utf-8?B?ZGpIYUFNdzl3SG5TSGhxZlRlMmt1dWhEOGhjVlhaRi9ZWC9FbVpmcCs5Zkl3?=
+ =?utf-8?B?bzBvZ3NxUE5vbGVCZWlmQmN5cXFoMjJjSlZxZHFjKzV4a3VuaFlWblZ4ZmV4?=
+ =?utf-8?B?bjVmNTByQzEvSzhsNzJJcU1rV1hrUTYvVW1ucEk4QWVFRW92cEF4QlorbVQz?=
+ =?utf-8?B?LzVuSWZiYTlSRUVHUDJqMTJLd1g2MjV2Tkt4dm5LNlcyVDRkTytkSTdoNUJN?=
+ =?utf-8?B?cUhRVWo0d292S1F2USttNjArNHFhUnZPNWxxMVFMWFBnbGNlR2x1bnd0QjJ0?=
+ =?utf-8?B?aEFBSjl2cXVhNXNsMEIzZGZRYkViTWx4d3JrS1RKQTRoYmpZZHNuMnFHL1hq?=
+ =?utf-8?B?TnFyQWY4aTB1WlNSOWxPVFZTazg0V05MVEZPYmQyK3BxV1hrWGV2SlBrUWg0?=
+ =?utf-8?B?dWdpZndyQitXZytSVUdHT3VxQU83a1ZYa1N4MzViRWsveGJoRndrZHpweUdC?=
+ =?utf-8?B?Z1ZFT1o2azBPT1h0SHBzblFqTU5hWHV5eGlMVFh5TGFBbVJHNTk1b3FYdTM2?=
+ =?utf-8?B?VU1WZUFGZHY0d3JwVlZDblJ4M3JsSGljR1pxenJPVVdNL3Z1cUpZUGJTZkJa?=
+ =?utf-8?B?OVhVNGRHelBFRmNmZmg4OTZrRW1ZNlZlSHNxMkV4S3lWUlcyMG9neXdOc1hQ?=
+ =?utf-8?B?YkQ1TUorUWpxakgrOGdqRFV1cEJpWTYrYmh4aUdjdXlNVzljRi9UcHo5WGFW?=
+ =?utf-8?B?cmovSWV2N0VCM3ozeElvbEJEbk4wVlpVc2tWa1liMkFPWXYyQ1dybUdBbXo2?=
+ =?utf-8?B?cURYbkZ6ZUozVFFkeDZuTmhrR1F6T0pMdjROMldtQTVhZ3k5T1RFamRjckI3?=
+ =?utf-8?B?Z0Rxd09qZWF1eEFyRjlzWlIra2hrOUpIYUZJSkU0MkQ1b2I4OVppSVZ5aXNj?=
+ =?utf-8?B?V0t1UVhwckRxaTRMTTh1aDBYbUFKSjEvU1Frc01rYk9RdkR3OTRVQ0dGRWpY?=
+ =?utf-8?B?TUJnNDR1cGNvNUF4b3VjT0NOVFFOa2V1K3VWZnMzNWtRTmtJTC9HeW1ONjZi?=
+ =?utf-8?B?WWhDMnlJSVpISnVNYjN4YXZ2ZEFURnVKVjRDbitHQXZ6blUzTDg4aW13YVRW?=
+ =?utf-8?B?ZjRRTXNqMTFZZGN5ZWtvZVVrL29JdXR6dFhneWxBTlF4MU9LWmRES0E5cmZZ?=
+ =?utf-8?B?WUo0YnQyZEdJODVaaEtpbjBNd2swQ1F0VlVCSVAxQ3RRTk1GRWE3endiNFNi?=
+ =?utf-8?B?R25GZk55aE9hNWY4NmxRZTBSa0txTS8rNmFJUmpMOUN5U1NncGxvUXFSSTFJ?=
+ =?utf-8?B?ekR6N044ZWYxR2w5dmoyNndnT1VUMWJSNVhxK3dZTTlsaitCMXBpWXBNTE1s?=
+ =?utf-8?B?czEza0NYU3k5VHNraE9ORi9NMklxcXVvQmZLWnNPdFlxUE1vaERibXRHS0xs?=
+ =?utf-8?B?a1h5dVRBeG9rUUgzWGQxOTFwQ0RheElTajhSdzM2ZG1DQmZEaTcrdkZxRWlx?=
+ =?utf-8?B?MWV5RzBsdHN5WWVnWWZ2Sit0WHJFN3FlUXlINzdPVkZaazRmVWNqeGlhbnRK?=
+ =?utf-8?B?YmN0QW1lL0orcnNQSXJOVFN5RDdCUE8vY3FqQk5Nb3AwOURMUHJvZnVUekhC?=
+ =?utf-8?B?QlIrOVIydU96d09WQzNrOFFyeHEvV2RrNHd0cW9mNmQ5cW9Ra3lkenJlS0hr?=
+ =?utf-8?B?NU5yM3AwbGtLbHV2WTJVblhvRVFTQ1RNelFBb21CcWFkd1VWUE1ucjdEMGpI?=
+ =?utf-8?Q?ezalp+unb3jUCILG0gZjWz1PNLnISwE/31W0TFjds8NB2?=
+X-MS-Exchange-AntiSpam-MessageData-1: pZg2sTayVpDHUQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c85ed451-a422-408c-87e8-08ded904566a
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 13:09:38.8807
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jm5aVe8BPH7tNuyUB05hESYfIYQ8g01FcLec14718i04NTqMzLG3hIceEP2yQHerOD/o+amp0oAQvr/pV4ALpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6903
 
-On Fri, Jul 03, 2026 at 07:03:06PM +0800, Chen-Yu Tsai wrote:
-> When a USB hub port is connected to a connector in a firmware node
-> graph, the port itself has a node in the graph.
-> 
-> Associate the port's firmware node with the USB port's device,
-> usb_port::dev. This is used in later changes for the M.2 slot power
-> sequencing provider to match against the requesting port.
-> 
-> To avoid potential conflicts with ACPI firmware nodes and then causing
-> power management issues, only assign the firmware node if the hub's
-> firmware node is not an ACPI firmware node.
+On Fri Jul 3, 2026 at 9:35 PM JST, Gary Guo wrote:
+> On Fri Jul 3, 2026 at 3:57 AM BST, Alexandre Courbot wrote:
+>> On Fri Jun 26, 2026 at 11:45 PM JST, Gary Guo wrote:
+>> <...>
+>>> @@ -309,7 +312,11 @@ pub trait Io {
+>>>      // Always inline to optimize out error path of `build_assert`.
+>>>      #[inline(always)]
+>>>      fn io_addr_assert<U>(&self, offset: usize) -> usize {
+>>> -        build_assert!(offset_valid::<U>(offset, Self::Target::MIN_SIZE=
+));
+>>> +        // We cannot check alignment with `offset_valid` using `self.a=
+ddr()`. So set 0 for it and
+>>> +        // ensure alignment by checking that the alignment of `U` is s=
+maller or equal to the
+>>> +        // alignment of `Self::Target`.
+>>> +        const_assert!(Alignment::of::<U>().as_usize() <=3D Self::Targe=
+t::MIN_ALIGN.as_usize());
+>>
+>> With `Region::MIN_ALIGN` being `4`, my understanding is that this will
+>> make `read64` and other infallible 64-bit accessors unusable on untyped
+>> I/O regions?
+>
+> That's correct.
 
-Now I'm more confident that it does not mess up with ACPI case.
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Isn't that a limitation we may want to eventually address? The fallible
+accessors are still usable, but it seems arbitrary that the non-fallible
+ones stop at 32 bits...
