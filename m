@@ -1,109 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07E23264D8;
-	Fri,  3 Jul 2026 19:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE133233E8
+	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 20:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783106368; cv=none; b=XSOFI7AS+RxhJet0AuNkdK1iH9iKTWiDWOgaGivK+WtNtNGdeG1k2b6AvHh5fJA6XrUUKl4RyFD1aK0ADV7e/MoSGtkSxWsV16Pwur3HA3iKATHzUP3/Wyu71dxt2Kp5KsI4SqVhTOUdCAQAlVL9O570tz/Na5tW9+GZzl5Tsks=
+	t=1783110220; cv=none; b=pDo9OHB0A/4u/uU27C4cbDJ5XeZZLHmbVLdqAyf1ve6PNZe3ThQX6WhJi4hfPzqtvJMDKy3dBuobpRzEwjgOowVNUBbR54ftx2aULIIQ8wZIrtQwgeDdtW2MGuliNzv4MrYgTgqiF6WAuKrlSS1ypKHxTDEgDznmnarS3eFwaZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783106368; c=relaxed/simple;
-	bh=HSAC5/nMEP6Slb2rGTY7bKLJQONDl0RVvDxg7fUQw9I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ss0M6+HM8xzy1NKOcLTSqUwesNY+VQk4XZumxw1eUhNXx+6ZKWEWEWfgUJex3pVLV6SfMBZzvC6XMreSIaxjjP+QtOrrotF4UU2sVwhWMNOvErMHfPkmWbjLYrQx4Hv6GIAiUT0+9VQ2Phn9OT1xjak0Mi31EegUBxL1Z1jCrLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYpzH0Hw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783110220; c=relaxed/simple;
+	bh=+lLKo+hfgft3HZbL+R5Lk/WjvfQOY0bJEByCh077yok=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ceyB5/wjbiyBOV6Elar9qKCGr8J73uIOJtRvEDRoCNFpPTUgGZgDIMKcExy3FSAAs5lIaYEKWWuvqZppIhcshD/lOgSfk1Zw14BiKTXucrB3kfl6mTDKufG187bcg3PdcG3Bx3aR0gvJu+H9M6QBGFXfrbBiRjO6yT/PiUU/Oko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzCKe9wM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYpzH0Hw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCAB1F000E9;
-	Fri,  3 Jul 2026 19:19:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzCKe9wM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910B61F00AC4
+	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 20:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783106367;
-	bh=ue0U9IrP0YVIunQgyG+C4mydhPBdKQxV7dUp1GXpXC4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=EYpzH0Hwy3xKW2L4khD/GWIAXQCijjEXl3bld3eLUqypKgWsdZWq8dG1rC6azEmg5
-	 OJxxhCa2B+u0pWZjGjzaE+HghbBNTAakzHn2ZRVI6uvREB11rX6BhRVwNhAD8Rlhzq
-	 qVSI3o16MQ5TuLZSazBpzMVQYw2GvfFag86yj36qnFZWJqxw4cMNbakZeOkkYM61+t
-	 V0c8dSMxEDJ3KVHRji5yxZI6kUoxRrmb5Zvpnfy1hJyAbW7c3Otk1cK7s/h8Gj7o2s
-	 n8IWPJGE/KNVfnuhazgUnuxkSeigXPrfjjyWjlf0aqNmNTuoTa4RCAOAgGWb10SVZB
-	 34YkJdFzTfIjQ==
-From: Mark Brown <broonie@kernel.org>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
- Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-gpio@vger.kernel.org, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Linus Walleij <linusw@kernel.org>, Michael Walle <mwalle@kernel.org>, 
- Yu-Chun Lin <eleanor.lin@realtek.com>, 
- William Breathitt Gray <wbg@kernel.org>
-In-Reply-To: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
-References: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: (subset) [PATCH v1 0/4] gpio: regmap: Keep tracking IRQ
- requests and releases
-Message-Id: <178309254924.53103.7161454484858197335.b4-ty@b4>
-Date: Fri, 03 Jul 2026 16:29:09 +0100
+	s=k20260515; t=1783110219;
+	bh=K9OaFBi3ks/K/oOukwD8pGfn1NuBqlXea9Mvvp0CecQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=LzCKe9wMFPr2YK93DsxQEtjnjbXVH2n3e47AlAzL0CNV+nRlNmowroDN8fl35u3Jj
+	 T+PcMQwfyTWEo1iKWe7yPPvL25426DKGG6na+V8LAo2dIG7oN0WHOWlqyVBla08wLa
+	 OgLAqBScnnAnli6S1p3oBcpmSC7g411NyogeTZ+iW0N8a9ggo44sGmdhZJSXotSxPL
+	 aaQtjVvUAWtcfIQbHxA9NYQiMCFwD7RWkvh2G4AmPXkUS2fwDFL2oQg79tyr34srmH
+	 yZU425yUkLREuLRgJiChAKK6w6ZoUj/rm6/K3gAJb3wFEgdWtFotuOxc5BgNzjRarx
+	 +2u0AfchX/V1g==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aea9d606f0so943691e87.3
+        for <driver-core@lists.linux.dev>; Fri, 03 Jul 2026 13:23:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rp2qKZJl1X1UYSnYWoDIx/duVf6TRy8dI4cSjF8iLrtMH9lFac4VxXsviS/XSTvv+n5mauGAnNoIBia3Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtvPvEdzVtjWiJzU6J7Z5Z3WylFTcmArMCiYX7mXIBH8py/9Se
+	iS8+w9bknomgNS3x5ODscSk2IPqph/3DCQtY0LrXxVtHbzU+H0ExckDD/1Ejui7m9WnTVmPlTU6
+	j4Gj+4XDpu3r0Q4QGcAssbNRvp/3dmoc=
+X-Received: by 2002:ac2:4e16:0:b0:5ae:bdaa:df02 with SMTP id
+ 2adb3069b0e04-5aed50b4946mr65751e87.45.1783110217735; Fri, 03 Jul 2026
+ 13:23:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1876; i=broonie@kernel.org;
- h=from:subject:message-id; bh=HSAC5/nMEP6Slb2rGTY7bKLJQONDl0RVvDxg7fUQw9I=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqSAs7qXI94Z/V987rVKP/qZMHi46jTawLkKaDP
- fcTnm3FbfWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakgLOwAKCRAk1otyXVSH
- 0HF+B/9UFKne3oT0zWPrYdtn4E8+T3UU+5fMmwpcFifEnrnjFzfjNFvhmI64ht70VXzWveavhmW
- c2rvGrL256FgCAgUabOEy4zKuGv6B6WpEDePB6/13rIXjactZtj5LPWU+UpGWjcVUaF/rzi8/hH
- IGc7xge8hyGC7hsHlh2u4PnhPDuCZrkVVxZQjqUDm4hSJrXrP5My9T13K/VIyy9p7YjCDD0livr
- CRfACGWzh6pORezB3G1WW5IWm/B5O5wuBvTbVKbkKbmFHHEGSb6BTVpgn9BcxWKVUz9/dGJNN+z
- /CqVBUFIqOFNIReUD9ufWEnWt3vLch+9hKI2D+vIPBlRU15g
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20260703-fix_sticky_-einval_after_pm_runtime_api_failure-v2-0-578b78a0cf46@oss.qualcomm.com>
+ <20260703-fix_sticky_-einval_after_pm_runtime_api_failure-v2-1-578b78a0cf46@oss.qualcomm.com>
+In-Reply-To: <20260703-fix_sticky_-einval_after_pm_runtime_api_failure-v2-1-578b78a0cf46@oss.qualcomm.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 3 Jul 2026 22:23:24 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0haSHfupyfnVGX_v4K0wYrjn-83NiDPPfC22x=zwi8igg@mail.gmail.com>
+X-Gm-Features: AVVi8CefGUyrFFdZwPYGZlC3wvidhE3xdDNTkOOUOg1Ptb_xKwPZ7PIeqlLivR8
+Message-ID: <CAJZ5v0haSHfupyfnVGX_v4K0wYrjn-83NiDPPfC22x=zwi8igg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] PM: runtime: Only set runtime_error on suspend
+ callback failures
+To: Praveen Talari <praveen.talari@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>, 
+	Stephen Boyd <swboyd@chromium.org>, Girish Mahadevan <girishm@codeaurora.org>, 
+	Alok Chauhan <alokc@codeaurora.org>, bjorn.andersson@oss.qualcomm.com, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
+	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 02 Jul 2026 14:42:53 +0200, Andy Shevchenko wrote:
-> gpio: regmap: Keep tracking IRQ requests and releases
-> 
-> During the review of the v3 [1] of the series that adds a driver for
-> Realtek DHC RTD1625 SoC GPIO the gap in the GPIO regmap implementation
-> has been discovered, id est the IRQ chip that is created by regmap IRQ
-> doesn't have IRQ request and release callbacks and hence in terms of
-> GPIO does not track if any line is locked as IRQ. This might lead to
-> undesired and most likely faulty behaviour. This series is to fill that
-> gap. Currently it only fixes the only user of the automatic IRQ chip
-> creation facility provided by GPIO regmap, but also provides the exported
-> callbacks for others to be possible to call them from customised versions
-> of the callbacks in the respective drivers.
-> 
-> [...]
+On Fri, Jul 3, 2026 at 5:05=E2=80=AFPM Praveen Talari
+<praveen.talari@oss.qualcomm.com> wrote:
+>
+> When a runtime resume callback returns an error, rpm_callback() sets
+> power.runtime_error on the device.  This causes all subsequent calls to
+> rpm_resume() to return -EINVAL immediately at the top of the function
+> without invoking the callback again, making the failure permanent until
+> runtime PM is explicitly re-initialized.
+>
+> Unlike suspend failures, resume failures should be retryable.  If a
+> device's resume callback fails transiently, there is no reason to
+> permanently block future resume attempts on that device and all of its
+> consumers.
+>
+> Fix this by conditioning the power.runtime_error assignment in
+> rpm_callback() on the device being in the RPM_SUSPENDING state.  At the
+> point rpm_callback() runs, __update_runtime_status() has already set the
+> device status to either RPM_SUSPENDING or RPM_RESUMING, so the two paths
+> are reliably distinguishable.  Suspend callback failures continue to set
+> power.runtime_error as before.  Resume callback failures return the error
+> to the caller but leave power.runtime_error clear, allowing the next
+> resume attempt to invoke the callback normally.
+>
+> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
+> ---
+>  drivers/base/power/runtime.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index 335288e8b5b3..70d933bcd295 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -469,7 +469,13 @@ static int rpm_callback(int (*cb)(struct device *), =
+struct device *dev)
+>         if (retval =3D=3D -EACCES)
+>                 retval =3D -EAGAIN;
+>
+> -       if (retval !=3D -EAGAIN && retval !=3D -EBUSY)
+> +       /*
+> +        * Only stick the error on suspend failures.  Resume failures are=
+ not
+> +        * treated as permanent so that the next resume attempt will run =
+the
+> +        * callback again rather than short-circuiting on runtime_error.
+> +        */
+> +       if (retval !=3D -EAGAIN && retval !=3D -EBUSY &&
+> +           dev->power.runtime_status =3D=3D RPM_SUSPENDING)
+>                 dev->power.runtime_error =3D retval;
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git regmap-irq-reqrel
-
-Thanks!
-
-[1/4] regmap-irq: Provide IRQ resource request and release callbacks
-      https://git.kernel.org/broonie/regmap/c/9bb4c0b37d54
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Why don't you move this check to rpm_suspend()?
