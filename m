@@ -1,112 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602D2341AC7
-	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 08:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5926F3ADB98;
+	Fri,  3 Jul 2026 09:43:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783067686; cv=none; b=ulmFB/41ir1KHodBdrn8byptOvzLY8pMZQXUwqFQXUxJB5aUawAfSehpYIhD6jY1QYFgw6/LR5wg8qnBd51ZMC8TAvyoWwHSatjJL5If8Ia2VikxiJ7iJJENoFgCO2dvayLgbP27zj0SMV3GtcUbULhie3PlQnmlSiFhQvvE+zU=
+	t=1783071801; cv=none; b=eoeMWn+EeW/LeVbr84iMDKjEgo2/++2ZQL64LSn4VAior3/FxqXXR+9IwN2VyEoyzPkEZMolPrCHukhDcqbjPyDkHQYbfGdlHiM98NjxG7DpaplWmBqngWOSSgBjI88+8AZkHo7igf8SDK8CTHTLU1wCNyR4xJ44sNzZK5jASt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783067686; c=relaxed/simple;
-	bh=7UrfT2JsQHudxkWYp9RoYzKbZ+8m910as+OlKIblj+A=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aIZePMxi7p0jbu8RIYL6USFTAiw4pDuIcQKAXc3PDT+dxErTjFsIjORKCgjcXDSY9bqMutjYGSEc7DvmNcEN7992OiqdvSHZ6PuQa2P25N67wU1gqvcHqRdblhKgRBgTR4mL9eumqI1nAw2OcX1vNYLqN1HnOqJTme5t13UzmyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g7tv8UyY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783071801; c=relaxed/simple;
+	bh=VReNymzo98m7Fji3HDXDZ67V0GqnFqJYQX18Kxdj35k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V0PgD/aZj5P6ASoAc8UrC/CbG739aYxX1Xl3h2ZixDadnIYtx0MlUjoTfi3tjO3czw9SCaZPa9uad4DknTOdpP33iG4N0EfL+ERPW8XRYh+MbfPv45sW+XYMTOl5cW2Hnd3qtbif+nflmjJOdPDly+mdYFsRnha95y4xGDwXobM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C9D7+C5Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g7tv8UyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 351C81F01559
-	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 08:34:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C9D7+C5Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A4711F00A3A;
+	Fri,  3 Jul 2026 09:43:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783067685;
-	bh=7UrfT2JsQHudxkWYp9RoYzKbZ+8m910as+OlKIblj+A=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=g7tv8UyYT3EsT7J1CcpuLsu1W2UqbXKl/QpExGJ+ZgWpj8oySBozalTcBCYH4AaUJ
-	 gdu1AgXhY1rZw22B4HrSR9qykSIILXvWdMX+gYukIbjRf1VEoWk7NDAlUcrkWycoSM
-	 aLCEnQ1Cr+Q3Uo0zV/eHtPxgruTRCWbZxzuASkH9qlfyP0YJOM7XmifDo35aptYf9K
-	 SpxYTrvYlA2ZqvNHVDVU76tI1AjzH4mgzjwn0YGhZ6wb3IpAegBXy8eC+mEuuKKE6F
-	 Dh91hTGX1wkGstj77CB8jsw2jNV6ZkWKs18hiq1opz3PGNLkz8DHmSklMWEFlD7xRX
-	 ACayFJTU2vWSQ==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39b38d3c929so2740661fa.3
-        for <driver-core@lists.linux.dev>; Fri, 03 Jul 2026 01:34:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqB8s80IG6SRB/o/n+fDbhZvr+FK64eHVyL8n4jbsEH6hKMo/5vLwXBnxpCw86Epme7rLo8IAfY79uQ8w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxeEJDN12eST3kSnyjXqx/34wvDsMRE1Q0tOAwX5vQZrLzjL2+D
-	2C/8QmJbmtCX7TguXE8NLdl44P1JiyZzWFNHnjCv3xDUJ79qaJwt1jqe/T9gu9bdqmBE7oguxA9
-	dWSYlfmAL7P0SuYn8RabPZjcl83emf42xqCUSpcHvIQ==
-X-Received: by 2002:a2e:ae0a:0:20b0:39b:88:4c0b with SMTP id
- 38308e7fff4ca-39b33fab85dmr15702771fa.9.1783067683886; Fri, 03 Jul 2026
- 01:34:43 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 3 Jul 2026 03:34:42 -0500
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 3 Jul 2026 03:34:41 -0500
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <dfe56aa625c54f95ab4baf2fff2776ae@realtek.com>
+	s=k20260515; t=1783071799;
+	bh=Jl/LNX0F9c5ZLakltcdxkRYciVZAqidRH+eUQNM3t2s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=C9D7+C5Q0gdfl7m1VND10s22intgyJT3XKAN5kYdO7kL73GTDOwJ07LLmRW7PTGo3
+	 VuIc3B4pB5Kd2Pe6zqvT0nQAqhufTgiAVt9dBuPgW2b8CXfuZs+fJUaDatfPjdc6Ae
+	 dhi7jYRLUfGyXSynFyKiHDGNlizp20A4aXwQxQxkGSnkhdlYsg1b0rR0H0MkxI4zVC
+	 QLgbV48qSBbz5kIJHncusJ4IM0y3FvhkUdfE5N3MlYePRfsQzuz3mAal5FYXOOgNmV
+	 z4ioTcAU9v94PJpLh6iiCxTaLsx8mHaLD63VXpWGExklA3P+ItS+u1hI2W7AaMQ9CJ
+	 zwMP7vo3Bn1Bg==
+From: Mike Rapoport <rppt@kernel.org>
+To: akpm@linux-foundation.org,
+	Andy Lutomirski <luto@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: Mike Rapoport <rppt@kernel.org>,
+	linux-mm@kvack.org,
+	devicetree@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Len Brown <lenb@kernel.org>,
+	linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	WANG Xuerui <kernel@xen0n.name>,
+	x86@kernel.org
+Subject: Re: [PATCH v2 0/9] treewide, numa_memblks: remove redundant work during NUMA init
+Date: Fri,  3 Jul 2026 12:43:09 +0300
+Message-ID: <178306815065.2173096.9480193260074524906.b4-ty@b4>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260703041329.2797584-1-ekffu200098@gmail.com>
+References: <20260703041329.2797584-1-ekffu200098@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com> <dfe56aa625c54f95ab4baf2fff2776ae@realtek.com>
-Date: Fri, 3 Jul 2026 03:34:41 -0500
-X-Gmail-Original-Message-ID: <CAMRc=McgA_K-A6LVycafgwjRuDHMs6E0aUyfFSH9t3h1TZ6ETA@mail.gmail.com>
-X-Gm-Features: AVVi8CfOIjlCOD6LavYR9Nxf737trPNgUOcqgAvonGfFjVHItz5sMVKfVzOACL0
-Message-ID: <CAMRc=McgA_K-A6LVycafgwjRuDHMs6E0aUyfFSH9t3h1TZ6ETA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] gpio: regmap: Keep tracking IRQ requests and releases
-To: =?UTF-8?B?WXUtQ2h1biBMaW4gW+ael+elkOWQm10=?= <eleanor.lin@realtek.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, Michael Walle <mwalle@kernel.org>, 
-	William Breathitt Gray <wbg@kernel.org>, =?UTF-8?B?Q1lfSHVhbmdb6buD6Ymm5pmPXQ==?= <cy.huang@realtek.com>, 
-	=?UTF-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= <stanley_chang@realtek.com>, 
-	=?UTF-8?B?SmFtZXMgVGFpIFvmiLTlv5fls7Bd?= <james.tai@realtek.com>, 
-	=?UTF-8?B?VFlfQ2hhbmdb5by15a2Q6YC4XQ==?= <tychang@realtek.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 3 Jul 2026 10:17:04 +0200, "Yu-Chun Lin [=E6=9E=97=E7=A5=90=E5=90=
-=9B]"
-<eleanor.lin@realtek.com> said:
-> Hi Andy,
->
-> Thanks for your patches!
->
->> During the review of the v3 [1] of the series that adds a driver for Rea=
-ltek DHC
->> RTD1625 SoC GPIO the gap in the GPIO regmap implementation has been
->> discovered, id est the IRQ chip that is created by regmap IRQ doesn't ha=
-ve IRQ
->> request and release callbacks and hence in terms of GPIO does not track =
-if any
->> line is locked as IRQ. This might lead to undesired and most likely faul=
-ty
->> behaviour. This series is to fill that gap. Currently it only fixes the =
-only user of
->> the automatic IRQ chip creation facility provided by GPIO regmap, but al=
-so
->> provides the exported callbacks for others to be possible to call them f=
-rom
->> customised versions of the callbacks in the respective drivers.
->>
->> Most of the affected drivers if I am not mistaken are the Industrial PC1=
-04 ones,
->> hence I Cc'ed William to look at this and perhaps even test.
->>
->> Yu-Chun, can you give a try with your v3 based on this series? I believe=
- we can
->> use regmap approach after all.
->>
->
-> I tested them on the rtd1625 SoC board and it looks good. If no one else
-> has any issues with Andy's patch series, I'll send out v6, which will be
-> based on my v3 and this series.
->
+On Fri,  3 Jul 2026 13:13:20 +0900, Sang-Heon Jeon wrote:
+> Every existing numa_add_memblk() caller passes a valid node id and
+> separately marks that node in numa_nodes_parsed with node_set(). In
+> addition, numa_nodemask_from_meminfo() recomputes the same "nodes that own
+> memory" set from numa_meminfo, which numa_nodes_parsed already contains.
+> 
+> This redundancy implicitly depends on the callers' node_set(). So, before
+> removing the redundancy, make numa_add_memblk() set the node in
+> numa_nodes_parsed explicitly. Then remove the per-caller node_set() and
+> numa_nodemask_from_meminfo().
+> 
+> [...]
 
-Please just fold Andy's patches into your series for easier review.
+Applied to numa_memblks-redundant-work branch of memblock.git tree, thanks!
 
-Thanks,
-Bartosz
+[1/9] mm: numa_memblks: set numa_nodes_parsed in numa_add_memblk()
+      commit: abdbd8329281f40afd381346410d6d43604af82c
+[2/9] ACPI: NUMA: remove redundant numa_nodes_parsed node_set()
+      commit: 7cbdade40fb8f440c13ccd7a02d104bf32285187
+[3/9] of/numa: remove redundant numa_nodes_parsed node_set()
+      commit: 3b1e5d902dfa832e4b175cb1f5a000236d45ceb5
+[4/9] x86/numa: remove redundant numa_nodes_parsed node_set()
+      commit: 63fa742bae02f0d2ffe95ff540a51837815abc5c
+[5/9] arch_numa: remove redundant numa_nodes_parsed node_set()
+      commit: 8b9cecbdc78c5a6cfaaf3b00ce7ebe05cf5417e7
+[6/9] LoongArch: remove redundant numa_nodes_parsed node_set()
+      commit: 3aeac07c5b1c3399487f4b38182f8cfbc3dbbd53
+[7/9] mm: numa_memblks: remove redundant numa_nodemask_from_meminfo()
+      commit: a9bafc1832d2db97813069823821ed333b8ecda6
+[8/9] arch_numa: remove redundant node_possible_map assignment
+      commit: f5a77a50a14dffb659ee8f550c824f8280e37fce
+[9/9] mm: numa_memblks: use numa_add_reserved_memblk() in numa_cleanup_meminfo()
+      commit: e55424c84afd48aa2f0f761ae0c006128ef541cf
+
+tree: https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock
+branch: numa_memblks-redundant-work
+
+--
+Sincerely yours,
+Mike.
+
