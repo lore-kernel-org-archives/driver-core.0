@@ -1,64 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2EC1A6834;
-	Fri,  3 Jul 2026 16:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07E23264D8;
+	Fri,  3 Jul 2026 19:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783097950; cv=none; b=mUoi4e5GNOYZ9+sLp5XFWgjz2wQ3q9kQxR12TZ51yMBI01oEW/r2KwVu5W/V/3eBbLJynMXp18m3jWE8JZwezqYY3JTX1gjVy3XOzJmWJX4vqZghvF8H7flzEtVeKeqbAifFunWItV560Ytoo/ZuQdCPeRg3sPJwr3y1XHtRexA=
+	t=1783106368; cv=none; b=XSOFI7AS+RxhJet0AuNkdK1iH9iKTWiDWOgaGivK+WtNtNGdeG1k2b6AvHh5fJA6XrUUKl4RyFD1aK0ADV7e/MoSGtkSxWsV16Pwur3HA3iKATHzUP3/Wyu71dxt2Kp5KsI4SqVhTOUdCAQAlVL9O570tz/Na5tW9+GZzl5Tsks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783097950; c=relaxed/simple;
-	bh=1jK+JH69iNk2I1nlShKL/ZmpYaP0MH8MyHq6Mton2ws=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=ayn7IadOBA+3WDeNuzw6gh+8P3MLjYGLHIHTYxm5u8tXhx9B8opPjpaI/CMNsv61ynlzgppSfIB0TZQ9UIXuH6g8lz4yMW1mcI0IRtXRVa8UDVVOvijDqW/QPWKa4WyetbClmQoPK89SyTcz+ca1ymKUioeDDf/MX3yMoebDIVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FcrBxovI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783106368; c=relaxed/simple;
+	bh=HSAC5/nMEP6Slb2rGTY7bKLJQONDl0RVvDxg7fUQw9I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Ss0M6+HM8xzy1NKOcLTSqUwesNY+VQk4XZumxw1eUhNXx+6ZKWEWEWfgUJex3pVLV6SfMBZzvC6XMreSIaxjjP+QtOrrotF4UU2sVwhWMNOvErMHfPkmWbjLYrQx4Hv6GIAiUT0+9VQ2Phn9OT1xjak0Mi31EegUBxL1Z1jCrLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYpzH0Hw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FcrBxovI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C6E21F000E9;
-	Fri,  3 Jul 2026 16:59:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYpzH0Hw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCAB1F000E9;
+	Fri,  3 Jul 2026 19:19:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783097949;
-	bh=1jK+JH69iNk2I1nlShKL/ZmpYaP0MH8MyHq6Mton2ws=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=FcrBxovIdV6plvxSiLACeAqWYjSObn68vcWx8VhCTRf4Qe0/cAazyHqGFC+2EjZ9A
-	 Bh5G1PdtL5j0N1+YI/1EZ73Puz26NEDB4A76dINPOix6L0h4iST5NPSzpuuy24EH96
-	 y3mJfPUfjAUXGIrmjdXYQr/QEwMS1AUmVxAtrTX8hW3IM9o36Yj4/FtikJp2S6KhYE
-	 gD0uubPj+XPPkYMUQ01qHCgzcQoP7G0vBueW2fJEERd4tc7NxgurtrYR7zVG/Lbzux
-	 mhNxgi/fzzJWl86lKj2/7ASxeJEiorfEda0OG2p/NAmtfyYZd89o/oYr9mpNjIHbnO
-	 unNWiGERliLyw==
+	s=k20260515; t=1783106367;
+	bh=ue0U9IrP0YVIunQgyG+C4mydhPBdKQxV7dUp1GXpXC4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=EYpzH0Hwy3xKW2L4khD/GWIAXQCijjEXl3bld3eLUqypKgWsdZWq8dG1rC6azEmg5
+	 OJxxhCa2B+u0pWZjGjzaE+HghbBNTAakzHn2ZRVI6uvREB11rX6BhRVwNhAD8Rlhzq
+	 qVSI3o16MQ5TuLZSazBpzMVQYw2GvfFag86yj36qnFZWJqxw4cMNbakZeOkkYM61+t
+	 V0c8dSMxEDJ3KVHRji5yxZI6kUoxRrmb5Zvpnfy1hJyAbW7c3Otk1cK7s/h8Gj7o2s
+	 n8IWPJGE/KNVfnuhazgUnuxkSeigXPrfjjyWjlf0aqNmNTuoTa4RCAOAgGWb10SVZB
+	 34YkJdFzTfIjQ==
+From: Mark Brown <broonie@kernel.org>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org, 
+ driver-core@lists.linux.dev, linux-gpio@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Yu-Chun Lin <eleanor.lin@realtek.com>, 
+ William Breathitt Gray <wbg@kernel.org>
+In-Reply-To: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
+References: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: (subset) [PATCH v1 0/4] gpio: regmap: Keep tracking IRQ
+ requests and releases
+Message-Id: <178309254924.53103.7161454484858197335.b4-ty@b4>
+Date: Fri, 03 Jul 2026 16:29:09 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Jul 2026 18:59:06 +0200
-Message-Id: <DJP3GW0F3BYU.2OY52DAYFCDS@kernel.org>
-Subject: Re: [PATCH v2] driver core: add driver name to probe debug print
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Tim Bird" <tim.bird@sony.com>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-embedded@vger.kernel.org>
-To: "Francesco Valla" <francesco@valla.it>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260703-probe_driver-v2-1-b6060559f33b@valla.it>
-In-Reply-To: <20260703-probe_driver-v2-1-b6060559f33b@valla.it>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1876; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HSAC5/nMEP6Slb2rGTY7bKLJQONDl0RVvDxg7fUQw9I=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqSAs7qXI94Z/V987rVKP/qZMHi46jTawLkKaDP
+ fcTnm3FbfWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakgLOwAKCRAk1otyXVSH
+ 0HF+B/9UFKne3oT0zWPrYdtn4E8+T3UU+5fMmwpcFifEnrnjFzfjNFvhmI64ht70VXzWveavhmW
+ c2rvGrL256FgCAgUabOEy4zKuGv6B6WpEDePB6/13rIXjactZtj5LPWU+UpGWjcVUaF/rzi8/hH
+ IGc7xge8hyGC7hsHlh2u4PnhPDuCZrkVVxZQjqUDm4hSJrXrP5My9T13K/VIyy9p7YjCDD0livr
+ CRfACGWzh6pORezB3G1WW5IWm/B5O5wuBvTbVKbkKbmFHHEGSb6BTVpgn9BcxWKVUz9/dGJNN+z
+ /CqVBUFIqOFNIReUD9ufWEnWt3vLch+9hKI2D+vIPBlRU15g
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri Jul 3, 2026 at 5:10 PM CEST, Francesco Valla wrote:
-> The initcall_debug command line option is a useful tool while debugging
-> and optimizing the initialization of a new system, mainly because it
-> allows to see probe failures and deferrals without recompiling the
-> kernel (e.g., with CONFIG_DEBUG_DRIVER). However, matching a device
-> with the driver it is being probed with can become difficult, since
-> some devices use names that are not explicit, at least at a first sight
-> (e.g.: '1-0:1.0' or '1-0060').
->
-> Add the driver name alongside the device name, to allow for an immediate
-> match between the two.
->
-> Suggested-by: Tim Bird <tim.bird@sony.com>
-> Signed-off-by: Francesco Valla <francesco@valla.it>
+On Thu, 02 Jul 2026 14:42:53 +0200, Andy Shevchenko wrote:
+> gpio: regmap: Keep tracking IRQ requests and releases
+> 
+> During the review of the v3 [1] of the series that adds a driver for
+> Realtek DHC RTD1625 SoC GPIO the gap in the GPIO regmap implementation
+> has been discovered, id est the IRQ chip that is created by regmap IRQ
+> doesn't have IRQ request and release callbacks and hence in terms of
+> GPIO does not track if any line is locked as IRQ. This might lead to
+> undesired and most likely faulty behaviour. This series is to fill that
+> gap. Currently it only fixes the only user of the automatic IRQ chip
+> creation facility provided by GPIO regmap, but also provides the exported
+> callbacks for others to be possible to call them from customised versions
+> of the callbacks in the respective drivers.
+> 
+> [...]
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git regmap-irq-reqrel
+
+Thanks!
+
+[1/4] regmap-irq: Provide IRQ resource request and release callbacks
+      https://git.kernel.org/broonie/regmap/c/9bb4c0b37d54
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
