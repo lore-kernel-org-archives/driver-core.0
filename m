@@ -1,217 +1,416 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020110.outbound.protection.outlook.com [52.101.196.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8CC3B14A3;
-	Fri,  3 Jul 2026 12:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.110
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783082308; cv=fail; b=NJzbXLrurFWMrp/8SSEkFensoOB6COxvMtaNCi4sL9GjjyBFJqyL4dhfV+0sUb5wLv2ARv7UlEVtpcE3FJcw0sgdsVOwS8N5bWX0a4c7xJ7xum8eTCuAxwruOED+8DiHtwnQKBKvWYQLsmHTuDNDgdaqFoxpOjws/Bnxoi7fbVg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783082308; c=relaxed/simple;
-	bh=cPpyrgeHs9ZWfL2k1pOesS2DB7LEzMx1tFa0DXLX28Q=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=lLBg5JLIciZQ8LSU99ZA96pwFWUGRs2EghZwYMvmiT6rJD4ElwKbQ9LATqOILVH7FbOueTroWeH8mRXNqo9vBu3F7b336fXmrL21rnNwZLC8pf1xnuVcHvI+vkMFxbiflQ1l0hEB5PBZljdR6FK0pFarCf/8NkNeagQq8fYXQX4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=ON4mu8hc; arc=fail smtp.client-ip=52.101.196.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CE63D34AB
+	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 12:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783082512; cv=none; b=MowqS3tL89Htn4aMYcquI3MLCOF90JlPGuwEuRiXNqoyKABhDLsa8lOR3oPbEbttTvu9IgbCZ7tU9vARLGb7OH2kLvFQWUDLY+JfY6Nm8/KlJuUiKNBi2/TDbdTg2q2+9W4T4p/NCBRcKT3oQeJrSFaK9nx65wToV1zbg01Zkbk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783082512; c=relaxed/simple;
+	bh=jgi0PHbyXrCnZfltaN6GwVesL6ba33KifpWY6gHtebM=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DYmJacqqIB/GEPYvXlPTMxCxxaDSBQLds62olRRPNFSFTds0S3+A8Ej3q8qEmuj4wrOdc5OaqjXONlJJsK/vWRMoWMCWCysVxD5E/YJvQNra2itBSI/QxuSW+xmdhoSbYkw6muhHsvTBT/2tpECZgRD8TdJLwe03XV8cDo6RwPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFJ3cXjF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="ON4mu8hc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gYVTT2OgH7Yuquiwcrh2FmTb9gELplR+TPqi1asXr0/vkR50kE+S3CoTLb3tEVhJBlQ9uJ2AXQJeHwdXc5SH6nTvD2/v6X0qpIwFfNAR7quFtdzRKtbuCGBTvex/eYAP+gEkjOnnkg4qS+o7G84ZMIFOyCWEm/EFLlQLF8ZhBnMxsUIgVtgV67I3vyAn3BxZgm5t7QGK1k5TSmL+eG1yoi1qxOJ350//rddGnMSH9/YWH2wJhRu9kvLN90g4oKXXlOoH+t01US72nPlmykThFls1LCwhcOWckg1zW4Z/fCVRuxJb+CacbSaf9nO65x0b+AxmLFnTYOAZfx4m7gOYaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FdScHM5ljSn2tPGCXjYYPJgLb7Xc22nSVN6qP15pEhE=;
- b=LeJerEFT66OWnrg/+kMABcZkVp3w42E1ym1ygakPN9WQM4840d+FqtudmmlLSgSwGenV6wA4i9B/ARJg+7whY4s2aggmsPOVnxwfKvTrNYyKZmz3bTPUOLbc5SuGIalg9oAxL3/+U99iQMsEqMyEkY2hQZO0vyXFD4T5auJNXRavJciz1jSj2dfvshm/dVHIMNGArlPb6i/OKDFtx0SqQkrnffcAsLGcZ0hPRpZBtVSgavdJSh+vvb0lnmn5KpwItzZYdey2YcIg3G8Dmd0DJ6BPbfq7Jo+d3T0gOeezrnDvLi6bS4bdtsV2oXLre81sIdSgyhvJRx02Xr19QzVMyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FdScHM5ljSn2tPGCXjYYPJgLb7Xc22nSVN6qP15pEhE=;
- b=ON4mu8hc/N6A4sxwmBeV+eZuBnDDQbHU78EXT9IbmlgATwI25W/cte5y2gkTc/LLJuNd7XLh7fDx4iQojeOye8/MmpYYu5l0r9YQyDSmN42UJl2qkLoTJVIsLQyDhtEJOMsxEEKJv61C6RkYeNz3qgNThsHv09glP9ScDflSukM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO9P265MB7930.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:3a1::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
- 2026 12:38:23 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0181.008; Fri, 3 Jul 2026
- 12:38:22 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 03 Jul 2026 13:38:22 +0100
-Message-Id: <DJOXX9BH27GZ.3TVPSIKR3GUSV@garyguo.net>
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Bjorn Helgaas"
- <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
- "Robin Murphy" <robin.murphy@arm.com>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Michal Wilczynski"
- <m.wilczynski@samsung.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-pwm@vger.kernel.org>
-Subject: Re: [PATCH v5 01/20] rust: io: add dynamically-sized `Region` type
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
- <20260626-io_projection-v5-1-d0961471ae50@garyguo.net>
- <DJOLZ5AP1SDG.3CYRKS9S8KYEV@nvidia.com>
-In-Reply-To: <DJOLZ5AP1SDG.3CYRKS9S8KYEV@nvidia.com>
-X-ClientProxiedBy: LO4P265CA0171.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:312::17) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFJ3cXjF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 177DA1F0155A
+	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 12:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783082510;
+	bh=qXgm5GzWOwTuhle3+8LVl3YercTPiiTjpibd8sA2mJQ=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=RFJ3cXjFrvXj3EAIXGb1V96nTHUQE8BbIIIwW8xmrZ6qnwJ264UUc2YVik6MThDfj
+	 Q0a3/qdZuJXwvLicm4ZwMQWqe5l5B3tfrreOjq1h4247jWgvHH/g5vv3VBrBEQd91r
+	 MKvi1l5asPhjpzVd9wIj8cvpZ2QJbeQ9Zk9vE6oEmvwifSEEhDoF/W6UW6JF/O09e8
+	 knXI/PydTKeMTzvCpgYjsgxIkEVl550mi1lePyZ1zrGiV3ViKbE2O3r6X6Fni6Q/61
+	 dHhV/KfaCrEfoA0g89poUWtyArR2OXLRYRuOZXl+Rb/EH7t62ovbdYO0PEWYMVxRv5
+	 u68JHxbXTxKCw==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeb2b17167so1594412e87.0
+        for <driver-core@lists.linux.dev>; Fri, 03 Jul 2026 05:41:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoOunljEWTZ8WsXMlPtRbfTBgr1n2pQGfhVDClyLaSML4avr64zZPTjuadvHEXf5YPfOKn5rwGBQ/ZnLw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YysmBNC11X4BJrBVF5VltrxVhkFpSCz9OmGqqeXgtZzcyk646si
+	9Ny5QCSex5M+RG+ugAomSXUzshJVCH9qy2PRUN0L5/FDXkW75i0fj/Zi5xtuLUxeP6zTxIzd2ff
+	gdsGBWV/QhU1necTgPTcbEK4FbzkTsuO9oNzvPYYYEQ==
+X-Received: by 2002:a05:6512:61c5:20b0:5ae:aa02:4c24 with SMTP id
+ 2adb3069b0e04-5aecf506c99mr608732e87.24.1783082508622; Fri, 03 Jul 2026
+ 05:41:48 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 3 Jul 2026 07:41:47 -0500
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 3 Jul 2026 07:41:47 -0500
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260703110317.1283411-9-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO9P265MB7930:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01538f4f-93a8-46b1-7f0c-08ded8fff84e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|23010399003|7416014|376014|1800799024|366016|56012099006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	HykSGJk52WEnobOpgaPUzmaHSpTVClisxd8rFCzS/QWJEMwhR9zGZ3BBjv+kvmgZTJ6pTDMuaLFnTQ/IuKtLry6metPu9kRYkpuULLGbKxkqKJA32OBOcMHCtK+7rYOpIjnUDpHnufUS7k8mFcJE+RRkTSPUk+pBBL0t1J2452ExBpuOyMkEodcehvuDFZwJoiN2OqzdlDKkV1jh7wzk0jFpg+9ska/hmQ/fqOztxVcmlgcT64wxm5qkzJ50E3e5DyIBsmezOH3qWrugaG5XRMTgnszWC3oK8hkpdv8C5TfGmlVW30omhyQVZR2Pl2QhhCbgTQyrI5ChMKz/gz1bA80XfQCVP494B5mQbAUdo3yWwoq7HV0+QQ/ruLDNo/5PC4Mcyec9Yt9xOY+1R0WEgcwIEY7xBn2EYDh/BhCxGVsM6Z+2rLmkDyRXkihFucp/Vj0v5eFDYkWxeALC3cD55SdU8k7VtUp1JrPG9o5xXd3CM6uyykO4dRTYOsduupBkTt/tNj860yPJUmybzRQ07elqhpoNx82LL4UEUAuNwk8Qe5pGJStm7Q0xPEYfJCMiyXpcsk/2soUKO+Sddr6y9tgpBYJPkms08czph/QPiTBc+Biav8WzI9qNUD9iKogbsfao5s/BDGJCmnpsQs2kJue/bUwMK51Bn9y9fR64U0s=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(7416014)(376014)(1800799024)(366016)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dUd5YTk2RzlvSXZSaXg2VDlKRGluUXJJbW90cW56cmZ3SjdPQWIrZ2RJdU1F?=
- =?utf-8?B?Rm1GMGJnMHNtS3IrVFBBUTdINjZJK1l3YmZkU3pnQzJSTmtTSzBjNXZmbUM4?=
- =?utf-8?B?Tjk3Y3R0bEtuUEt6Z0NjMFhveThxWlgyM0pEZFN4TE8rSUtqMk5IQjErWVdB?=
- =?utf-8?B?QlcvcHdnNHRuSlNLYlMxdTdBQUlvZklnYXFOR1luMHo1aW51VkpERCsrSzFC?=
- =?utf-8?B?TjdzMXVnSXBMdS9haHd2T0xYcFNpNUQ5dnBZUTlKTWRqME9tVFcxS3cyWkhV?=
- =?utf-8?B?ZFgwZVk2T2FpZmt5SVpXeXY3MDhsa0F6UGhrMDE2eTRsSWgybDRnZ1hvYStE?=
- =?utf-8?B?bXREQkNLQkQ1QUdSYjBBVHZiZloxRHhnZ0Q5MWxPUGlJZDVxa2JNNWpvU2wx?=
- =?utf-8?B?cWI0MTZYQmtFbnpGaXR4dUhXb1NKU0ZkQU5EWXF2OFNZb1FRZ1VCdUE2Sy83?=
- =?utf-8?B?aHB1YUVheER6QXRwMktKL1MwMk9pWmxhV0l5aTBZU05wbDMrdlZ1cEV0WHMy?=
- =?utf-8?B?UXJJSmJZWFdHS21LN1VjdmNOSzQ3QkZDc0UwMEFDS3JveW9NUHZHY2c0MFEx?=
- =?utf-8?B?OElSOHRLWHNTMFN0eFBieVRNNllINCtMMTFxKy95bU12S3N0Zy85MEFkaDBk?=
- =?utf-8?B?ZkVadzFJeHIvVkFUQXJvd0lIZ1VGZ1FkUkYzcnZZdDlNQWNlTmVIcVR0RGcw?=
- =?utf-8?B?MEhaV29zNEYzUGRXdVo4RFMyWTdkQTlVU1VZL0J2dXJGUVFrMjJCbGZsWmZt?=
- =?utf-8?B?MFRJbHM5MXpnMHB4RTFwb1BucWR0dDhtMVdSV0xNaFQ2d2lsUWdMRW03ZDhl?=
- =?utf-8?B?bUZDSURLcGRTaDRndlZtenVEZDVDcGk2SGZpTGxUQjNpNktCVERhQ0lwYWVJ?=
- =?utf-8?B?YUJsWitPM2NQQ2J4RkIrRkxiRS9HNWNRaXJwc3NFb01uUEovT0ZHR0s1RzNm?=
- =?utf-8?B?R3BWUk95SWo4WG50Mk1QdnZ1bklaRG4raVdhNGxub1lrSjEyZjJhdENtM2dN?=
- =?utf-8?B?M0ppMUtTTFlDRG91S0dKZDhrbXQyL1d4Z3lZbXB6T0NTMUlnVld5OUw0azRl?=
- =?utf-8?B?YXU0YVMwMmhGUzdzM2d1SkJoYytTbDhWVlBKU1k5UWdISENqZ1BrVlVJbnY1?=
- =?utf-8?B?akxwRUJaT2ZFZE9EeWRiWVNwNWtXSnI1ODlCSGxJRUo3c2hnWHlnYkhGS1N4?=
- =?utf-8?B?K2MyNENRbG9pYlZUbzZLZXJRbUxLRXB1dnlsTzFLME1PUHdhMksxNjZyWXN3?=
- =?utf-8?B?RitYbEhnT2lhbENXMGF0NjBKUUtPMm8wTjl4cGNrU0FEUzk0N2JMcCtaZmZy?=
- =?utf-8?B?T3hnVXd3SVpTRlgxSEJkV3pkdk5tM01yWkJ4dTlueFpqNGVYTjNvQ2tUUDdy?=
- =?utf-8?B?NEsyQUFlSU03S1FEdlZYQmw0UXpNQVN5ckVNa3NEbFhuN3c1dHYyMU41WHdw?=
- =?utf-8?B?cG14ZlVkdXFsaDVYcG4wN2NkYjM5cE5LalNuTm9SUlN4UUpjcmVzckdQK09v?=
- =?utf-8?B?V3dNc1ZFQUZiYUkzejlHSjlGNlFJYnVaT1Zrc2VWQ3JrQ0ErRHR1RVFGdnpX?=
- =?utf-8?B?UTl6STl4T3c4T283UFVRdWk1RXhHKzNjenV4VmZXVkd6ZkMrYkg2ejNLQ2lj?=
- =?utf-8?B?RzBuazJTTkNGdURXZ05vSjVLQTJIdUt0bGNDVzZkNnBTaEhxK0duNTRTUTJB?=
- =?utf-8?B?RUZzSmlSQ3dEL1lURm1DZVVhVUNkaUUrVU83bFV6SW5CY0NJbG5yWDFRTjl2?=
- =?utf-8?B?T0lzQktSa2ZtUTBSZkRaYnlvdXZnQlJLNTVMY0Z5RElsVFpXNlhxQnlZazRo?=
- =?utf-8?B?Z3BCNTBkRUxSd055RzRsQ1pGLzFuMlBmZThrTUs2U1I5THV1QUQ3Z2RmOFMz?=
- =?utf-8?B?SllSd2xrNVQrT2pxbjhkQzdSRzNiTGI2aXRGcXU4UXNlL2NZa0tLOHBmdUIz?=
- =?utf-8?B?bGhjZGtNa3JIM1RQb2ZiL0ZrZHlPbkJMMXV2amsrU3krN1MxL01KaUVtcjdt?=
- =?utf-8?B?NkZOLzNNbDZab01VUUMwSXNnV1orRU0zdlVnbllPUHRUcS9nOGc0cEc3VGRX?=
- =?utf-8?B?V3hVbXdSZ2dxYVNPNmU5b2hmUElBQVpVVExkcUZjVEtHbTZMSHVCdnUvSmNj?=
- =?utf-8?B?RG1JR3JyRHRZb2tuZWRQWkhacGRCVFhsTkJUeGRQZkM3MlRMQkV1ZjlPcURO?=
- =?utf-8?B?QzBXaC9iQnpvcHJMZ1dXV2dMYzJQbkhaNkoxWFJVME9jTnVtUXd2QVFuUGZP?=
- =?utf-8?B?NnRkR1o1dFR0TG16Y0JSZkk5cWZTSk5UTG5sWlJkMCs4RHhneXNtQ3VNUmRQ?=
- =?utf-8?B?UGl4Q2hFNEZRSkh3alhMYWxKQTlDYnBKZGZMbDVrejd1TUx4enFRZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01538f4f-93a8-46b1-7f0c-08ded8fff84e
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 12:38:22.8804
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mCWDj4keifN5gbX67p/dQFh3vwXlEkjksQBFEp4yRa3r7FBjsvKVxQE57hoouypeD5T9DZInOTeTW8u7lmP1rQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P265MB7930
+References: <20260703110317.1283411-1-wenst@chromium.org> <20260703110317.1283411-9-wenst@chromium.org>
+Date: Fri, 3 Jul 2026 07:41:47 -0500
+X-Gmail-Original-Message-ID: <CAMRc=MdMhr6qAnAtUePbuBbsH=3MzRC+BrL5GssbNTwGjp_ayA@mail.gmail.com>
+X-Gm-Features: AVVi8CfK6VeOpGIFoyyJEmBt9vHcfAKFmiaoE4w_iEM61JImiWHSHBQUYQ0YLEk
+Message-ID: <CAMRc=MdMhr6qAnAtUePbuBbsH=3MzRC+BrL5GssbNTwGjp_ayA@mail.gmail.com>
+Subject: Re: [PATCH v3 08/13] usb: hub: Power on connected M.2 E-key
+ connectors with power sequencing API
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri Jul 3, 2026 at 4:16 AM BST, Alexandre Courbot wrote:
-> On Fri Jun 26, 2026 at 11:45 PM JST, Gary Guo wrote:
-> <...>
->> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
->> index fcc7678fd9e3..d1c5f0121994 100644
->> --- a/rust/kernel/io.rs
->> +++ b/rust/kernel/io.rs
->> @@ -6,7 +6,11 @@
->> =20
->>  use crate::{
->>      bindings,
->> -    prelude::*, //
->> +    prelude::*,
->> +    ptr::{
->> +        Alignment,
->> +        KnownSize, //
->> +    }, //
->>  };
->> =20
->>  pub mod mem;
->> @@ -31,6 +35,57 @@
->>  /// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit arch=
-itectures.
->>  pub type ResourceSize =3D bindings::resource_size_t;
->> =20
->> +/// Untyped I/O region.
->> +///
->> +/// This type can be used when an I/O region without known type informa=
-tion has a compile-time known
->> +/// minimum size (and a runtime known actual size).
->> +///
->> +/// # Invariants
->> +///
->> +/// - Size of the region is at least as large as the `SIZE` generic par=
-ameter.
->> +/// - Size of the region is multiple of 4.
->> +#[repr(C, align(4))]
->> +pub struct Region<const SIZE: usize =3D 0> {
->> +    inner: [u8],
->> +}
->> +
->> +impl<const SIZE: usize> Region<SIZE> {
->> +    /// Create a raw mutable pointer from given base address and size.
->> +    ///
->> +    /// `size` should be at least as large as the minimum size `SIZE`, =
-and `base` and `size` should
->> +    /// be 4-byte aligned to uphold the type invariant.
+On Fri, 3 Jul 2026 13:03:09 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
+> The new M.2 E-key connector can have a USB connection. For the USB device
+> on this connector to work, its power must be enabled and the W_DISABLE2#
+> signal deasserted. The connector driver handles this and provides a
+> toggle over the power sequencing API.
 >
-> The second part of my comment on v4 was not relevant [1], but how about t=
-he
-> "should -> must" proposal?
-
-I think "should" is correct here. Most likely `size` satisfy the requiremen=
-t,
-but it's not UB or even logic error if `size` doesn't meet the requirement.
-
-For example, it's okay to call this to get a raw pointer before performing
-checks. As long as the pointer stays raw, it's not invalid.
-
-Best,
-Gary
-
+> This feature currently only supports a directly connected (no mux in
+> between) M.2 E-key connector. Existing USB connector types are not
+> covered. The USB A connector was recently added to the onboard devices
+> driver. USB B connectors have historically been managed by the USB
+> gadget or dual-role device controller drivers. USB C connectors are
+> handled by TCPM drivers.
 >
-> Regardless:
+> The power sequencing API does not know whether a power sequence provider
+> is not needed or not available yet, so we only request it for connectors
+> that we know need it, which at this time is just the E-key connector.
 >
-> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+> On the USB side, the port firmware node (if present) is tied to the
+> usb_port device. This device is used to acquire the power sequencing
+> descriptor. This allows the provider to tell the different ports on one
+> hub apart.
 >
-> [1] https://lore.kernel.org/all/DJ9JE3I9MCG2.2G88FWQPWRBH3@garyguo.net/
+> This feature is not implemented in the onboard USB devices driver. The
+> power sequencing API expects the consumer device to make the request,
+> but there is no device node to instantiate a platform device to tie
+> the driver to. The connector is not a child node of the USB host or
+> hub, and the graph connection is from a USB port to the connector.
+> And the connector itself already has a driver.
+>
+> Power sequencing is not directly enabled in the connector driver as
+> that would completely decouple the timing of it from the USB subsystem.
+> It would not be possible for the USB subsystem to toggle the power
+> for a power cycle or to disable the port.
+>
+> Also rewrite the existing set_bit() and clear_bit() branches with
+> assign_bit() to make it cleaner.
+>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Changes since v2:
+> - Expanded subject to mention power sequencing API
+> - Dropped commit message bit about power sequencing Kconfig symbol change
+>   to bool
+> - Added optional dependency on POWER_SEQUENCING to USB
+> - Split out pwrseq_power_*() calls into separate helpers
+> - Rewrote set_bit() and clear_bit() branches with assign_bit()
+> - Dropped the pwrseq_power_off() before pwrseq_put(): pwrseq_put() does it
+>   automatically.
+> - Removed pwrseq_power_on() from usb_hub_create_port_device(); it will
+>   get called through usb_hub_set_port_power() in hub_activate().
+> - Added checks for port->pwrseq in hub_is_port_power_switchable()
+>
+> - Use separate pwrseq descriptors for HighSpeed and SuperSpeed ports.
+>   This makes things simpler. On the other hand to power cycle a port
+>   userspace needs to toggle it on both the HS and SS ports together.
+> - Dropped pwrseq state tracking again
+>   The power sequencing consumer API already tracks the state internally;
+>   doing it again in |struct usb_port| is not necessary especially now
+>   that the descriptors aren't shared.
+>
+> It's unclear to me how actual hubs reconcile USB_PORT_FEAT_POWER settings
+> from the HS side and SS side. One hub chip vendor said that VBUS_EN for
+> a port is on if the flag is set on either side; however actually testing
+> on one of their hubs showed that VBUS was cut as soon as the flag is
+> cleared on the HS port. Maybe it could be different if a SS device was
+> connected? That scenario was not tested. Testing on another retail
+> bought hub seemed to work exactly as described though: USB_PORT_FEAT_POWER
+> needed to be clear on both HS and SS ports to turn off VBUS.
+>
+> Under this scheme, I'm not sure how the power cycle in hub_port_connect()
+> would work correctly.
+>
+> - Link to v2:
+>   https://lore.kernel.org/all/20260610084053.2059858-1-wenst@chromium.org/
+>
+> Changes since v1:
+> - Switch to fwnode instead of OF
+> - Tie port@ fwnode to usb_port device
+> - Move remote node compatible checking to separate helper
+> - Use usb_port device to request power sequencing descriptor
+> - Drop "index" parameter from pwrseq_get()
+> - Do not get pwrseq descriptor for SuperSpeed port; share one for one
+>   physical port
+> - Add pwrseq state tracking
+> - Link to v1:
+>   https://lore.kernel.org/all/20260515090149.3169406-1-wenst@chromium.org/
+> ---
+>  drivers/usb/Kconfig     |  1 +
+>  drivers/usb/core/hub.c  | 44 +++++++++++++++++++++++++++++-----
+>  drivers/usb/core/hub.h  | 10 +++++++-
+>  drivers/usb/core/port.c | 52 ++++++++++++++++++++++++++++++++++++++++-
+>  4 files changed, 99 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/usb/Kconfig b/drivers/usb/Kconfig
+> index abf8c6cdea9e..ef1959363fb1 100644
+> --- a/drivers/usb/Kconfig
+> +++ b/drivers/usb/Kconfig
+> @@ -44,6 +44,7 @@ config USB_ARCH_HAS_HCD
+>  config USB
+>  	tristate "Support for Host-side USB"
+>  	depends on USB_ARCH_HAS_HCD
+> +	depends on POWER_SEQUENCING if POWER_SEQUENCING
+>  	select GENERIC_ALLOCATOR
+>  	select USB_COMMON
+>  	select NLS  # for UTF-8 strings
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 8ae97e8c26aa..dfa0f5dd75e8 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/random.h>
+>  #include <linux/pm_qos.h>
+> +#include <linux/pwrseq/consumer.h>
+>  #include <linux/kobject.h>
+>
+>  #include <linux/bitfield.h>
+> @@ -871,6 +872,30 @@ static void hub_tt_work(struct work_struct *work)
+>  	spin_unlock_irqrestore(&hub->tt.lock, flags);
+>  }
+>
+> +static int usb_hub_set_port_pwrseq(struct usb_port *port, bool set)
+> +{
+> +	int ret = 0;
+> +
+> +	if (set)
+> +		ret = pwrseq_power_on(port->pwrseq);
+> +	else
+> +		ret = pwrseq_power_off(port->pwrseq);
+> +
+> +	return ret;
+> +}
+> +
+> +static int usb_hub_restore_port_pwrseq(struct usb_port *port, bool set)
+> +{
+> +	int ret = 0;
+> +
+> +	if (set)
+> +		ret = pwrseq_power_off(port->pwrseq);
+> +	else
+> +		ret = pwrseq_power_on(port->pwrseq);
+> +
+> +	return ret;
+> +}
+> +
+>  /**
+>   * usb_hub_set_port_power - control hub port's power state
+>   * @hdev: USB device belonging to the usb hub
+> @@ -886,20 +911,24 @@ static void hub_tt_work(struct work_struct *work)
+>  int usb_hub_set_port_power(struct usb_device *hdev, struct usb_hub *hub,
+>  			   int port1, bool set)
+>  {
+> +	struct usb_port *pwrseq_port = hub->ports[port1 - 1];
+>  	int ret;
+>
+> +	ret = usb_hub_set_port_pwrseq(pwrseq_port, set);
+> +	if (ret)
+> +		return ret;
+> +
+>  	if (set)
+>  		ret = set_port_feature(hdev, port1, USB_PORT_FEAT_POWER);
+>  	else
+>  		ret = usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_POWER);
+>
+> -	if (ret)
+> +	if (ret) {
+> +		usb_hub_restore_port_pwrseq(pwrseq_port, set);
+>  		return ret;
+> +	}
+>
+> -	if (set)
+> -		set_bit(port1, hub->power_bits);
+> -	else
+> -		clear_bit(port1, hub->power_bits);
+> +	assign_bit(port1, hub->power_bits, set);
+>  	return 0;
+>  }
+>
+> @@ -3249,7 +3278,10 @@ int usb_port_is_power_on(struct usb_port *port, unsigned int portstatus)
+>  			ret = 1;
+>  	}
+>
+> -	return ret;
+> +	if (!port->pwrseq)
+> +		return ret;
+> +
+> +	return ret && pwrseq_power_is_on(port->pwrseq);
 
+So this is only needed to not have to track the state in a separate field?
 
+>  }
+>
+>  static void usb_lock_port(struct usb_port *port_dev)
+> diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
+> index b65d9192379d..99bae6ace4da 100644
+> --- a/drivers/usb/core/hub.h
+> +++ b/drivers/usb/core/hub.h
+> @@ -85,6 +85,7 @@ struct usb_hub {
+>   * @port_owner: port's owner
+>   * @peer: related usb2 and usb3 ports (share the same connector)
+>   * @connector: USB Type-C connector
+> + * @pwrseq: power sequencing descriptor for the port
+>   * @req: default pm qos request for hubs without port power control
+>   * @connect_type: port's connect type
+>   * @state: device state of the usb device attached to the port
+> @@ -104,6 +105,7 @@ struct usb_port {
+>  	struct usb_dev_state *port_owner;
+>  	struct usb_port *peer;
+>  	struct typec_connector *connector;
+> +	struct pwrseq_desc *pwrseq;
+>  	struct dev_pm_qos_request *req;
+>  	enum usb_port_connect_type connect_type;
+>  	enum usb_device_state state;
+> @@ -147,7 +149,13 @@ static inline bool hub_is_port_power_switchable(struct usb_hub *hub)
+>  	if (!hub)
+>  		return false;
+>  	hcs = hub->descriptor->wHubCharacteristics;
+> -	return (le16_to_cpu(hcs) & HUB_CHAR_LPSM) < HUB_CHAR_NO_LPSM;
+> +	if ((le16_to_cpu(hcs) & HUB_CHAR_LPSM) < HUB_CHAR_NO_LPSM)
+> +		return true;
+> +	/* check for controllable external power sequencers */
+> +	for (unsigned int i = 1; i <= hub->hdev->maxchild; i++)
+> +		if (hub->ports[i] && hub->ports[i]->pwrseq)
+> +			return true;
+> +	return false;
+>  }
+>
+>  static inline int hub_is_superspeed(struct usb_device *hdev)
+> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+> index 77dbf51f1760..87b8e4f90be6 100644
+> --- a/drivers/usb/core/port.c
+> +++ b/drivers/usb/core/port.c
+> @@ -8,11 +8,14 @@
+>   */
+>
+>  #include <linux/acpi.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/kstrtox.h>
+>  #include <linux/slab.h>
+>  #include <linux/string_choices.h>
+>  #include <linux/sysfs.h>
+>  #include <linux/pm_qos.h>
+> +#include <linux/property.h>
+> +#include <linux/pwrseq/consumer.h>
+>  #include <linux/component.h>
+>  #include <linux/usb/of.h>
+>
+> @@ -29,6 +32,9 @@ static bool usb_port_allow_power_off(struct usb_device *hdev,
+>  	if (hub_is_port_power_switchable(hub))
+>  		return true;
+>
+> +	if (port_dev->pwrseq)
+> +		return true;
+> +
+>  	if (!IS_ENABLED(CONFIG_ACPI))
+>  		return false;
+>
+> @@ -749,6 +755,39 @@ static const struct component_ops connector_ops = {
+>  	.unbind = connector_unbind,
+>  };
+>
+> +static bool port_pwrseq_is_supported(struct usb_port *port_dev)
+> +{
+> +	struct device *dev = &port_dev->dev;
+> +	struct fwnode_handle *port = dev->fwnode;
+> +	struct fwnode_handle *ep __free(fwnode_handle) =
+> +			fwnode_graph_get_next_port_endpoint(port, NULL);
+> +	if (!ep)
+> +		return false;
+> +
+> +	struct fwnode_handle *remote __free(fwnode_handle) =
+> +			fwnode_graph_get_remote_port_parent(ep);
+> +	if (!remote)
+> +		return false;
+> +
+> +	if (!fwnode_device_is_compatible(remote, "pcie-m2-e-connector")) {
+> +		dev_dbg(dev, "remote endpoint %pfw is not a supported connector", remote);
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +static struct pwrseq_desc *usb_hub_port_pwrseq_get(struct usb_port *port_dev)
+> +{
+> +	if (!IS_ENABLED(CONFIG_POWER_SEQUENCING))
+> +		return NULL;
+> +
+> +	if (!port_pwrseq_is_supported(port_dev))
+> +		return NULL;
+> +
+> +	return pwrseq_get(&port_dev->dev, "usb");
+> +}
+> +
+>  int usb_hub_create_port_device(struct usb_hub *hub, int port1)
+>  {
+>  	struct usb_port *port_dev;
+> @@ -809,10 +848,18 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
+>  		goto err_put_kn;
+>  	}
+>
+> +	port_dev->pwrseq = usb_hub_port_pwrseq_get(port_dev);
+> +	if (IS_ERR(port_dev->pwrseq)) {
+> +		retval = PTR_ERR(port_dev->pwrseq);
+> +		dev_err_probe(&port_dev->dev, retval,
+> +			      "failed to get power sequencing descriptor\n");
+> +		goto err_put_kn;
+> +	}
+> +
+>  	retval = component_add(&port_dev->dev, &connector_ops);
+>  	if (retval) {
+>  		dev_warn(&port_dev->dev, "failed to add component\n");
+> -		goto err_put_kn;
+> +		goto err_put_pwrseq;
+>  	}
+>
+>  	find_and_link_peer(hub, port1);
+> @@ -850,6 +897,8 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
+>  	}
+>  	return 0;
+>
+> +err_put_pwrseq:
+> +	pwrseq_put(port_dev->pwrseq);
+>  err_put_kn:
+>  	sysfs_put(port_dev->state_kn);
+>  err_unregister:
+> @@ -866,6 +915,7 @@ void usb_hub_remove_port_device(struct usb_hub *hub, int port1)
+>  	peer = port_dev->peer;
+>  	if (peer)
+>  		unlink_peers(port_dev, peer);
+> +	pwrseq_put(port_dev->pwrseq);
+>  	component_del(&port_dev->dev, &connector_ops);
+>  	sysfs_put(port_dev->state_kn);
+>  	device_unregister(&port_dev->dev);
+> --
+> 2.55.0.rc0.799.gd6f94ed593-goog
+>
+>
+
+Looks good to me.
+
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
+Bart
