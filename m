@@ -1,416 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021077.outbound.protection.outlook.com [52.101.95.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CE63D34AB
-	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 12:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783082512; cv=none; b=MowqS3tL89Htn4aMYcquI3MLCOF90JlPGuwEuRiXNqoyKABhDLsa8lOR3oPbEbttTvu9IgbCZ7tU9vARLGb7OH2kLvFQWUDLY+JfY6Nm8/KlJuUiKNBi2/TDbdTg2q2+9W4T4p/NCBRcKT3oQeJrSFaK9nx65wToV1zbg01Zkbk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783082512; c=relaxed/simple;
-	bh=jgi0PHbyXrCnZfltaN6GwVesL6ba33KifpWY6gHtebM=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DYmJacqqIB/GEPYvXlPTMxCxxaDSBQLds62olRRPNFSFTds0S3+A8Ej3q8qEmuj4wrOdc5OaqjXONlJJsK/vWRMoWMCWCysVxD5E/YJvQNra2itBSI/QxuSW+xmdhoSbYkw6muhHsvTBT/2tpECZgRD8TdJLwe03XV8cDo6RwPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFJ3cXjF; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430DE2FFF81;
+	Fri,  3 Jul 2026 12:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783082591; cv=fail; b=n1w+yjdD1LN/uSdIpTXyCN6fvKyhvBaIQbZYCGtq6CEZzW6J4nZ4uyAEjOH5LMiODbBeOTRL5/vuQDHfI2rmY2AZnY6s6NFYDJEVdVLSarqE5RgvfCREB5n3iqT86bUp/pXVS14pesvZv1QUahldbUikQkQn3lKoqiUzZF8yoE8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783082591; c=relaxed/simple;
+	bh=WnoAmhd4oKLyOcWvtZ9h0hw23wpqjZEe9WCCEao4LEA=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=j0tOnnonMO/FF4TCf4FtqI01wed2cDGmiAqC2aBrJmCjf1cuosf7byhX+taslJaO8PneG79H4Aneob7p+7Qjtnrir7nRhL8MiVQRvE5P9GmgprBxBxxWXVwfGN53c+hC+8a4pcb0G/K/mMSS6APctoHhO2mVoXJZQdhSiKLnyWc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=L37+edxU; arc=fail smtp.client-ip=52.101.95.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFJ3cXjF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 177DA1F0155A
-	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 12:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783082510;
-	bh=qXgm5GzWOwTuhle3+8LVl3YercTPiiTjpibd8sA2mJQ=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=RFJ3cXjFrvXj3EAIXGb1V96nTHUQE8BbIIIwW8xmrZ6qnwJ264UUc2YVik6MThDfj
-	 Q0a3/qdZuJXwvLicm4ZwMQWqe5l5B3tfrreOjq1h4247jWgvHH/g5vv3VBrBEQd91r
-	 MKvi1l5asPhjpzVd9wIj8cvpZ2QJbeQ9Zk9vE6oEmvwifSEEhDoF/W6UW6JF/O09e8
-	 knXI/PydTKeMTzvCpgYjsgxIkEVl550mi1lePyZ1zrGiV3ViKbE2O3r6X6Fni6Q/61
-	 dHhV/KfaCrEfoA0g89poUWtyArR2OXLRYRuOZXl+Rb/EH7t62ovbdYO0PEWYMVxRv5
-	 u68JHxbXTxKCw==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeb2b17167so1594412e87.0
-        for <driver-core@lists.linux.dev>; Fri, 03 Jul 2026 05:41:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoOunljEWTZ8WsXMlPtRbfTBgr1n2pQGfhVDClyLaSML4avr64zZPTjuadvHEXf5YPfOKn5rwGBQ/ZnLw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YysmBNC11X4BJrBVF5VltrxVhkFpSCz9OmGqqeXgtZzcyk646si
-	9Ny5QCSex5M+RG+ugAomSXUzshJVCH9qy2PRUN0L5/FDXkW75i0fj/Zi5xtuLUxeP6zTxIzd2ff
-	gdsGBWV/QhU1necTgPTcbEK4FbzkTsuO9oNzvPYYYEQ==
-X-Received: by 2002:a05:6512:61c5:20b0:5ae:aa02:4c24 with SMTP id
- 2adb3069b0e04-5aecf506c99mr608732e87.24.1783082508622; Fri, 03 Jul 2026
- 05:41:48 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 3 Jul 2026 07:41:47 -0500
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 3 Jul 2026 07:41:47 -0500
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260703110317.1283411-9-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="L37+edxU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PgIVnjUD1q4xFyAS1uplojUS5pqW0MyM8X2LBzNEHKs1SZFk2qEGPBtoblPJWesGFiGzpJX3McZkIJHs2fB9BQ1uLEx9iC45Fh58cSqB5KdQ4xnL+FxOU9JFJeeSA2UYvWAgvipi9GiIpOzbBBN7I26CUvgjf3LwVncQOCUVOwjzkkRQM2cqMvpMnQuwUVoL6jDLlI/lePDQAubYbmVJ8OmGG6qS9uG1ahXslJxgAVRni8Ai0wrZCJcKVhR+KwWZX/CfuG3kjeIVLQTogJ984LfIlvlo6NuYlW+cYqz2wdk9G3t3lcUwuZ3kYrr8rze5PUWXPE01LIZXYLHWagnLkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lv21P9hgUATnyOEW5+QgamrtjtsOflAw2CmDThsLCeE=;
+ b=Dghu2Ov3KX6ybWcqnf9+CLkjLTSrPV9jEkrOLspoQfq9ka0y9ox7iokpbNjviXGJT77Is0FLpp24/AKJLIbeX73whoxcAabcZQCFEKJoZUfYCDohrCcu41zbb0GC8tviuKkZz5KiK8qmZTQZZRHJNMOg5JuAfZQ2WlZJ454sPik/kqRFfW9ccrL/vOCLmkj/rdWGgLqbJ7ZXIkFJyd7ozOIrlKPKA8XXUlbn59dhXv0r0Lo1WHzLBbHjMqx0Zl42tB8rBVGMZDUUXyhk0frD9wnDYqGy/PBhXRPAemSkRw7cKhv0izyw/vZRMftVIcXsvuZ83uRdmRoovJROpYTKng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lv21P9hgUATnyOEW5+QgamrtjtsOflAw2CmDThsLCeE=;
+ b=L37+edxUppKi75rickavpCrHsP397qlBwmpM/cRMUwWzZLQi0lEQAUjym2OallNq8l8liy6sluBHoZehKiMNMm50vg9DtdluNCMO29vMpsV2AFOUYJvwfj9HXJHTXqoLS4gDpbjZUNTKyHp2mFut81F6YPec9ts56xmaak9MkEs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO2P265MB3038.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:173::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Fri, 3 Jul
+ 2026 12:43:07 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0181.008; Fri, 3 Jul 2026
+ 12:43:06 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 03 Jul 2026 13:43:06 +0100
+Message-Id: <DJOY0VTYTXGV.131A1QNJEAPLU@garyguo.net>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Michal Wilczynski"
+ <m.wilczynski@samsung.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH v5 12/20] rust: io: move `Io` methods to extension trait
+From: "Gary Guo" <gary@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260626-io_projection-v5-0-d0961471ae50@garyguo.net>
+ <20260626-io_projection-v5-12-d0961471ae50@garyguo.net>
+ <DJOPUWC8C7GU.29L05GZVLOLO8@nvidia.com>
+In-Reply-To: <DJOPUWC8C7GU.29L05GZVLOLO8@nvidia.com>
+X-ClientProxiedBy: LO4P123CA0342.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18c::23) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260703110317.1283411-1-wenst@chromium.org> <20260703110317.1283411-9-wenst@chromium.org>
-Date: Fri, 3 Jul 2026 07:41:47 -0500
-X-Gmail-Original-Message-ID: <CAMRc=MdMhr6qAnAtUePbuBbsH=3MzRC+BrL5GssbNTwGjp_ayA@mail.gmail.com>
-X-Gm-Features: AVVi8CfK6VeOpGIFoyyJEmBt9vHcfAKFmiaoE4w_iEM61JImiWHSHBQUYQ0YLEk
-Message-ID: <CAMRc=MdMhr6qAnAtUePbuBbsH=3MzRC+BrL5GssbNTwGjp_ayA@mail.gmail.com>
-Subject: Re: [PATCH v3 08/13] usb: hub: Power on connected M.2 E-key
- connectors with power sequencing API
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB3038:EE_
+X-MS-Office365-Filtering-Correlation-Id: 411b1d00-9edd-46fc-2978-08ded900a1a0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|10070799003|23010399003|366016|4143699003|3023799007|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	aTdtPWx4AUFGHLp3/V8a3CtGWgEtbIL9mFraWVYHaV5kqXpk9hs9bfJXH0MhQde00mXDVn7I/3EbGJEOvYdf3yxcRqfICgwL2w9B2LkkcvmoDI9ZHETkiVTX33S4p+jOmYo0Xtjma048civ01uRjXtPAk0TI4/tJnJSURVfrAubVBjfeqax0VrXZBn4J7/hIPl7s3/NFiyySqOSmh4R98BKi5bjyfjB6Yizl4G+RxvTyTN8G5DEuGwZrvIFdS7k54VxlgTifl4S4xM1UH+FOwiHjGcgNsrIGHA42ja8UN0LPsK048ASFBxe4/abIR0aNSj07cHvGtO7fr1NFqymKL82UHXyKVRw/ykMTZ8tiSg4V4ZiYSFKK/N2UjaohsuqOUwCmfL3+a6/GUKRpFl4uDX5AUkIAPbjYjQR46XYnBX0zdcFqxO2/WodwA+IaLBg5DxJ8BrbQQ3Geb/E/+46RXHZAPLYxN/0SjF8FZ1/rpHgpMsXSKMNaoGovOQoCqzLz2M3HBAqOPhVZyoVBHQfL4MjMkwvahkEN7/pAL8KY6xR252/1NbioCKXhreL6vX+k4s67SLzwgAJu2b+NXCWFYMd8CKCzfGK2y401eg+a5I/1CzK7pJd5Xl225+RRkE1EO3KUBJBOnfsj+mQ1cbRiXc1Oo0xg4YQAkOWTD8kY1f8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(10070799003)(23010399003)(366016)(4143699003)(3023799007)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WUJ2N0xvcVNzbUI3ejB3UjlMN2xUV3dvUHVBWEkwdVpldFFsUkR1bnI5Z1I3?=
+ =?utf-8?B?R3BucjB4MGhTVis2MXRialdUQnhWaUdSRy9ackQ4RGdtQjRBTTcrTEhBUGhP?=
+ =?utf-8?B?QzBhblY1RGI1c2ZJOXJ5Ny9QbTRHbC9PUE9kNm5uMVJBLzJlNE51aVFPZjQz?=
+ =?utf-8?B?K3M3T2dsTkFZVk5vOXl4ZDFrTnZETmRJRUEzT3VuVUVIV3h3dHZseEhXWG5p?=
+ =?utf-8?B?ZE5LTDRjcGNiUXdmbHpzdENFdFIzaThBa3VIQjFWd3dCZUVKL2lUS3puajhz?=
+ =?utf-8?B?Ry9uN1dzcTdFVE9xWm4zTGMvVnh4bFhSR3dTYXpVMnFOT2gzZk1GKzkzblVB?=
+ =?utf-8?B?RVFiZ2krSkwvdE9oKzdhRTBxbmlLaEduYkZVOU1GWGV4N3pjRWQwR3NRSk9Q?=
+ =?utf-8?B?b2VqcGRQMjRJWkNBeFZNQzVneEN5b09JNjJiMnc2d2I0ODlUR1RBcmpHWWJh?=
+ =?utf-8?B?cGlmR2ZuNSsrTkQ3dVFtMWtXSG4vRmxqTUgyb0szWXVtdTc3b0lEOGtJWm12?=
+ =?utf-8?B?ZWk1V0pOS2pwT1Ruck1VRWk4bk5KZXRFUnQ3eThZWFhIUlNmWGlLY2lEdkEz?=
+ =?utf-8?B?U2VSZktLVlBmRXF3TmdoRzluU0o5aEFpOFlrR0JWOGFTR2Nlb1ZXY09LdWcv?=
+ =?utf-8?B?b3g1LzRLZXNSeUhhWE1Tckc2bE9tTFE0ZjNjTzJFMlN2OXFYRXZuS2FiRVEx?=
+ =?utf-8?B?NGpPL3Q5TEUzMm1YTFhDUGhFOWdtNUVCK1JHRlcrTnJhOVV2Nlk0M3RGNWRT?=
+ =?utf-8?B?THYyaXI5NHV1eXdGTkdsRmd2bk51REFHU24zcHRnYnpwbmxGb1FYYndWQkpO?=
+ =?utf-8?B?R3RERmM1N3ZTSWs0QnJoODZmRFhxY2xPNXh5bE4xS0Q0TStwaEFEZTMwWVhL?=
+ =?utf-8?B?Ri8rMlBoa0twVkYrTlUrZEJGZUpPbytGa3ZOZnMwYjVtTkJxelpzUWtwS1F0?=
+ =?utf-8?B?RWVkdnFLZStSZUEzckdvdUxOeU1OSEFpektNVDNKY3lpK0pzRkZ5RGdQNmxZ?=
+ =?utf-8?B?RnFYbmIxaUZ2SGRWL0tKVnRaVFZOWS81bmdWSEVraWxtTWxZWGtiemI1MGdF?=
+ =?utf-8?B?cE9STDV5aVpXN1Q0d3d6STRSbDRva1FiaVMzSXJZcXo4UkIwU2lSZ2x2WGFJ?=
+ =?utf-8?B?YmF5Y1V5UUtCYTRycWt1WWFKS000QkR6SlM1eG5Ec2cwclpuaFp5TXE1bC82?=
+ =?utf-8?B?Z2ljSzFPVFcydjQ2RFRHYVNPZDl0MVpuWElPMWJ5RW5icmdzQzlxVDFQTTBP?=
+ =?utf-8?B?WEVVWGpJNWVacUY0YjF5WlFRYmR0RUM3OVFhRGZubndHU1Rpa0VDejlyYXRO?=
+ =?utf-8?B?QWZoYjVHY1RETmVmZHcwRjNNZUFnaXlWbGY4RnB1aVFJcjRya0taVytBM3pM?=
+ =?utf-8?B?V3B2c3hrZG1jeTlyUlFvMEVDYldvVC9HeU93dzJEa1VKK3djYnAxb2R2T0ow?=
+ =?utf-8?B?VXJScDh0c05WclJDT2c5RExVODVEcVB6YmFwWGpzc204YjhFUzhyVi9DQWdh?=
+ =?utf-8?B?NXREa1lHZi9VSUhmb1IyRzkydWJ3eC81ZHd3R091TXhGM0RFMXJIMFVvSWJ1?=
+ =?utf-8?B?R0hCbnhDY0dWZTcyM2lhMGtySVRXNDBLV29KRU1obVlMbFJqbXR3VytmVE9R?=
+ =?utf-8?B?UFAycWdlSFFSY1lvWVFhdGNNOTBWTEdYdk1YS0NmZjdsamNCd091TE9BbERI?=
+ =?utf-8?B?RENla0tDWEFNckRkcGdoMUw3aElIK2tLTjF3VU1yanZQMW51eHJ4bWo3dFlZ?=
+ =?utf-8?B?QTJLRm16RWZOTGFjck1jcUNqamdKaWhSaDJBZ2FDS3hOZ216UnZkVHVDd2Zn?=
+ =?utf-8?B?ZkdtZHZFb1htSWJkYzNla2M1SGJheHhjWXlDYjR0QllKWkJ5bDkrUWFvR1dV?=
+ =?utf-8?B?L1lOQ1ZIODZvV3oxMUwyZkVVQk83S0hFS3NkSFp2Ym9QN3NNemhxTk94R0Nl?=
+ =?utf-8?B?MVZlVWpOQmtoZWx3YUhEQjhOeDZJdXhjTE5iTTlVYWdSRGZORnd1eHNJRHhG?=
+ =?utf-8?B?NXprUitCZUpjdDhiMCtISzI1ZjE2SmFCM2FLVnNBN205WWdNUjdZUWc4U1Rh?=
+ =?utf-8?B?ZlREZUJRZmJKN1Q3allERUJYdldtaTMwM1o1UEhKUTBCM05tRGVtSUVOcm5h?=
+ =?utf-8?B?U3VoWEd3SVBibGd1TDZ3b0pHVFRhSWlvZUxOOVpxeDd5WEhjTHpodXNLM0JX?=
+ =?utf-8?B?ckJZREFQRVNzNnZoNVJSaUx1Z2ZSU1NLMlJDSWphelVrRWlxOGlYeTg0bGJF?=
+ =?utf-8?B?SUVIcGYxcW1wV2EzWEs3dGdaY3VXTTN2eFZTcGVwTUY1TFpuYmk2bU1DNGp1?=
+ =?utf-8?B?cDVXZC9yb3hUOGt6SDRsYitNdlM4aVNBMkxwMnBvbGpIRGxJWlJNQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 411b1d00-9edd-46fc-2978-08ded900a1a0
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 12:43:06.9096
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cmIajG3+4oKq+8vtgUTNi3qZk04ya1I79E4u2Myn+hIMLI56l4FlgPR26GiCSEbE7RH5XpGuWFa+AsZ8+abOOQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3038
 
-On Fri, 3 Jul 2026 13:03:09 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
-> The new M.2 E-key connector can have a USB connection. For the USB device
-> on this connector to work, its power must be enabled and the W_DISABLE2#
-> signal deasserted. The connector driver handles this and provides a
-> toggle over the power sequencing API.
+On Fri Jul 3, 2026 at 7:19 AM BST, Alexandre Courbot wrote:
+> On Fri Jun 26, 2026 at 11:45 PM JST, Gary Guo wrote:
+>> `Io` trait now has a single required methods with many more provided
 >
-> This feature currently only supports a directly connected (no mux in
-> between) M.2 E-key connector. Existing USB connector types are not
-> covered. The USB A connector was recently added to the onboard devices
-> driver. USB B connectors have historically been managed by the USB
-> gadget or dual-role device controller drivers. USB C connectors are
-> handled by TCPM drivers.
+> nit: s/methods/method
 >
-> The power sequencing API does not know whether a power sequence provider
-> is not needed or not available yet, so we only request it for connectors
-> that we know need it, which at this time is just the E-key connector.
+>> methods. Provided methods may want to rely on their implementations to n=
+ot
+>> be arbitrarily overridden by implementers for correctness or soundness.
+>>
+>> Thus, extract these methods to a new trait and provide a blanket
+>> implementation. This pattern is used extensively in userspace Rust
+>> libraries e.g. `tokio` where `AsyncRead` has minimum methods and
+>> `AsyncReadExt` is what users mostly interact with.
+>>
+>> To avoid changing all user imports, the base trait is renamed to `IoBase=
+`
+>> and the newly added trait takes the existing `Io` name.
+>>
+>> A `size` method is added as an example of methods that users should not
+>> override.
 >
-> On the USB side, the port firmware node (if present) is tied to the
-> usb_port device. This device is used to acquire the power sequencing
-> descriptor. This allows the provider to tell the different ports on one
-> hub apart.
->
-> This feature is not implemented in the onboard USB devices driver. The
-> power sequencing API expects the consumer device to make the request,
-> but there is no device node to instantiate a platform device to tie
-> the driver to. The connector is not a child node of the USB host or
-> hub, and the graph connection is from a USB port to the connector.
-> And the connector itself already has a driver.
->
-> Power sequencing is not directly enabled in the connector driver as
-> that would completely decouple the timing of it from the USB subsystem.
-> It would not be possible for the USB subsystem to toggle the power
-> for a power cycle or to disable the port.
->
-> Also rewrite the existing set_bit() and clear_bit() branches with
-> assign_bit() to make it cleaner.
->
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v2:
-> - Expanded subject to mention power sequencing API
-> - Dropped commit message bit about power sequencing Kconfig symbol change
->   to bool
-> - Added optional dependency on POWER_SEQUENCING to USB
-> - Split out pwrseq_power_*() calls into separate helpers
-> - Rewrote set_bit() and clear_bit() branches with assign_bit()
-> - Dropped the pwrseq_power_off() before pwrseq_put(): pwrseq_put() does it
->   automatically.
-> - Removed pwrseq_power_on() from usb_hub_create_port_device(); it will
->   get called through usb_hub_set_port_power() in hub_activate().
-> - Added checks for port->pwrseq in hub_is_port_power_switchable()
->
-> - Use separate pwrseq descriptors for HighSpeed and SuperSpeed ports.
->   This makes things simpler. On the other hand to power cycle a port
->   userspace needs to toggle it on both the HS and SS ports together.
-> - Dropped pwrseq state tracking again
->   The power sequencing consumer API already tracks the state internally;
->   doing it again in |struct usb_port| is not necessary especially now
->   that the descriptors aren't shared.
->
-> It's unclear to me how actual hubs reconcile USB_PORT_FEAT_POWER settings
-> from the HS side and SS side. One hub chip vendor said that VBUS_EN for
-> a port is on if the flag is set on either side; however actually testing
-> on one of their hubs showed that VBUS was cut as soon as the flag is
-> cleared on the HS port. Maybe it could be different if a SS device was
-> connected? That scenario was not tested. Testing on another retail
-> bought hub seemed to work exactly as described though: USB_PORT_FEAT_POWER
-> needed to be clear on both HS and SS ports to turn off VBUS.
->
-> Under this scheme, I'm not sure how the power cycle in hub_port_connect()
-> would work correctly.
->
-> - Link to v2:
->   https://lore.kernel.org/all/20260610084053.2059858-1-wenst@chromium.org/
->
-> Changes since v1:
-> - Switch to fwnode instead of OF
-> - Tie port@ fwnode to usb_port device
-> - Move remote node compatible checking to separate helper
-> - Use usb_port device to request power sequencing descriptor
-> - Drop "index" parameter from pwrseq_get()
-> - Do not get pwrseq descriptor for SuperSpeed port; share one for one
->   physical port
-> - Add pwrseq state tracking
-> - Link to v1:
->   https://lore.kernel.org/all/20260515090149.3169406-1-wenst@chromium.org/
-> ---
->  drivers/usb/Kconfig     |  1 +
->  drivers/usb/core/hub.c  | 44 +++++++++++++++++++++++++++++-----
->  drivers/usb/core/hub.h  | 10 +++++++-
->  drivers/usb/core/port.c | 52 ++++++++++++++++++++++++++++++++++++++++-
->  4 files changed, 99 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/usb/Kconfig b/drivers/usb/Kconfig
-> index abf8c6cdea9e..ef1959363fb1 100644
-> --- a/drivers/usb/Kconfig
-> +++ b/drivers/usb/Kconfig
-> @@ -44,6 +44,7 @@ config USB_ARCH_HAS_HCD
->  config USB
->  	tristate "Support for Host-side USB"
->  	depends on USB_ARCH_HAS_HCD
-> +	depends on POWER_SEQUENCING if POWER_SEQUENCING
->  	select GENERIC_ALLOCATOR
->  	select USB_COMMON
->  	select NLS  # for UTF-8 strings
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 8ae97e8c26aa..dfa0f5dd75e8 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -32,6 +32,7 @@
->  #include <linux/mutex.h>
->  #include <linux/random.h>
->  #include <linux/pm_qos.h>
-> +#include <linux/pwrseq/consumer.h>
->  #include <linux/kobject.h>
->
->  #include <linux/bitfield.h>
-> @@ -871,6 +872,30 @@ static void hub_tt_work(struct work_struct *work)
->  	spin_unlock_irqrestore(&hub->tt.lock, flags);
->  }
->
-> +static int usb_hub_set_port_pwrseq(struct usb_port *port, bool set)
-> +{
-> +	int ret = 0;
-> +
-> +	if (set)
-> +		ret = pwrseq_power_on(port->pwrseq);
-> +	else
-> +		ret = pwrseq_power_off(port->pwrseq);
-> +
-> +	return ret;
-> +}
-> +
-> +static int usb_hub_restore_port_pwrseq(struct usb_port *port, bool set)
-> +{
-> +	int ret = 0;
-> +
-> +	if (set)
-> +		ret = pwrseq_power_off(port->pwrseq);
-> +	else
-> +		ret = pwrseq_power_on(port->pwrseq);
-> +
-> +	return ret;
-> +}
-> +
->  /**
->   * usb_hub_set_port_power - control hub port's power state
->   * @hdev: USB device belonging to the usb hub
-> @@ -886,20 +911,24 @@ static void hub_tt_work(struct work_struct *work)
->  int usb_hub_set_port_power(struct usb_device *hdev, struct usb_hub *hub,
->  			   int port1, bool set)
->  {
-> +	struct usb_port *pwrseq_port = hub->ports[port1 - 1];
->  	int ret;
->
-> +	ret = usb_hub_set_port_pwrseq(pwrseq_port, set);
-> +	if (ret)
-> +		return ret;
-> +
->  	if (set)
->  		ret = set_port_feature(hdev, port1, USB_PORT_FEAT_POWER);
->  	else
->  		ret = usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_POWER);
->
-> -	if (ret)
-> +	if (ret) {
-> +		usb_hub_restore_port_pwrseq(pwrseq_port, set);
->  		return ret;
-> +	}
->
-> -	if (set)
-> -		set_bit(port1, hub->power_bits);
-> -	else
-> -		clear_bit(port1, hub->power_bits);
-> +	assign_bit(port1, hub->power_bits, set);
->  	return 0;
->  }
->
-> @@ -3249,7 +3278,10 @@ int usb_port_is_power_on(struct usb_port *port, unsigned int portstatus)
->  			ret = 1;
->  	}
->
-> -	return ret;
-> +	if (!port->pwrseq)
-> +		return ret;
-> +
-> +	return ret && pwrseq_power_is_on(port->pwrseq);
+> WDYM by "an example"? There are already all the I/O accessors that we
+> wish not to override; this looks more like a new method is just added.
 
-So this is only needed to not have to track the state in a separate field?
+It wouldn't be incorrect if I/O accessors are overriden, it's just that we =
+don't
+anticipate these being overriden. On the other hand, `size` method can be e=
+asily
+relied upon by other methods (like patch 19 where you mentioned) and it can=
+ lead
+to UB if it's overriden to something completely wrong. The `size` method is
+actually what motivated making this extension trait in the first place.
 
->  }
->
->  static void usb_lock_port(struct usb_port *port_dev)
-> diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
-> index b65d9192379d..99bae6ace4da 100644
-> --- a/drivers/usb/core/hub.h
-> +++ b/drivers/usb/core/hub.h
-> @@ -85,6 +85,7 @@ struct usb_hub {
->   * @port_owner: port's owner
->   * @peer: related usb2 and usb3 ports (share the same connector)
->   * @connector: USB Type-C connector
-> + * @pwrseq: power sequencing descriptor for the port
->   * @req: default pm qos request for hubs without port power control
->   * @connect_type: port's connect type
->   * @state: device state of the usb device attached to the port
-> @@ -104,6 +105,7 @@ struct usb_port {
->  	struct usb_dev_state *port_owner;
->  	struct usb_port *peer;
->  	struct typec_connector *connector;
-> +	struct pwrseq_desc *pwrseq;
->  	struct dev_pm_qos_request *req;
->  	enum usb_port_connect_type connect_type;
->  	enum usb_device_state state;
-> @@ -147,7 +149,13 @@ static inline bool hub_is_port_power_switchable(struct usb_hub *hub)
->  	if (!hub)
->  		return false;
->  	hcs = hub->descriptor->wHubCharacteristics;
-> -	return (le16_to_cpu(hcs) & HUB_CHAR_LPSM) < HUB_CHAR_NO_LPSM;
-> +	if ((le16_to_cpu(hcs) & HUB_CHAR_LPSM) < HUB_CHAR_NO_LPSM)
-> +		return true;
-> +	/* check for controllable external power sequencers */
-> +	for (unsigned int i = 1; i <= hub->hdev->maxchild; i++)
-> +		if (hub->ports[i] && hub->ports[i]->pwrseq)
-> +			return true;
-> +	return false;
->  }
->
->  static inline int hub_is_superspeed(struct usb_device *hdev)
-> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> index 77dbf51f1760..87b8e4f90be6 100644
-> --- a/drivers/usb/core/port.c
-> +++ b/drivers/usb/core/port.c
-> @@ -8,11 +8,14 @@
->   */
->
->  #include <linux/acpi.h>
-> +#include <linux/cleanup.h>
->  #include <linux/kstrtox.h>
->  #include <linux/slab.h>
->  #include <linux/string_choices.h>
->  #include <linux/sysfs.h>
->  #include <linux/pm_qos.h>
-> +#include <linux/property.h>
-> +#include <linux/pwrseq/consumer.h>
->  #include <linux/component.h>
->  #include <linux/usb/of.h>
->
-> @@ -29,6 +32,9 @@ static bool usb_port_allow_power_off(struct usb_device *hdev,
->  	if (hub_is_port_power_switchable(hub))
->  		return true;
->
-> +	if (port_dev->pwrseq)
-> +		return true;
-> +
->  	if (!IS_ENABLED(CONFIG_ACPI))
->  		return false;
->
-> @@ -749,6 +755,39 @@ static const struct component_ops connector_ops = {
->  	.unbind = connector_unbind,
->  };
->
-> +static bool port_pwrseq_is_supported(struct usb_port *port_dev)
-> +{
-> +	struct device *dev = &port_dev->dev;
-> +	struct fwnode_handle *port = dev->fwnode;
-> +	struct fwnode_handle *ep __free(fwnode_handle) =
-> +			fwnode_graph_get_next_port_endpoint(port, NULL);
-> +	if (!ep)
-> +		return false;
-> +
-> +	struct fwnode_handle *remote __free(fwnode_handle) =
-> +			fwnode_graph_get_remote_port_parent(ep);
-> +	if (!remote)
-> +		return false;
-> +
-> +	if (!fwnode_device_is_compatible(remote, "pcie-m2-e-connector")) {
-> +		dev_dbg(dev, "remote endpoint %pfw is not a supported connector", remote);
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
-> +static struct pwrseq_desc *usb_hub_port_pwrseq_get(struct usb_port *port_dev)
-> +{
-> +	if (!IS_ENABLED(CONFIG_POWER_SEQUENCING))
-> +		return NULL;
-> +
-> +	if (!port_pwrseq_is_supported(port_dev))
-> +		return NULL;
-> +
-> +	return pwrseq_get(&port_dev->dev, "usb");
-> +}
-> +
->  int usb_hub_create_port_device(struct usb_hub *hub, int port1)
->  {
->  	struct usb_port *port_dev;
-> @@ -809,10 +848,18 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
->  		goto err_put_kn;
->  	}
->
-> +	port_dev->pwrseq = usb_hub_port_pwrseq_get(port_dev);
-> +	if (IS_ERR(port_dev->pwrseq)) {
-> +		retval = PTR_ERR(port_dev->pwrseq);
-> +		dev_err_probe(&port_dev->dev, retval,
-> +			      "failed to get power sequencing descriptor\n");
-> +		goto err_put_kn;
-> +	}
-> +
->  	retval = component_add(&port_dev->dev, &connector_ops);
->  	if (retval) {
->  		dev_warn(&port_dev->dev, "failed to add component\n");
-> -		goto err_put_kn;
-> +		goto err_put_pwrseq;
->  	}
->
->  	find_and_link_peer(hub, port1);
-> @@ -850,6 +897,8 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
->  	}
->  	return 0;
->
-> +err_put_pwrseq:
-> +	pwrseq_put(port_dev->pwrseq);
->  err_put_kn:
->  	sysfs_put(port_dev->state_kn);
->  err_unregister:
-> @@ -866,6 +915,7 @@ void usb_hub_remove_port_device(struct usb_hub *hub, int port1)
->  	peer = port_dev->peer;
->  	if (peer)
->  		unlink_peers(port_dev, peer);
-> +	pwrseq_put(port_dev->pwrseq);
->  	component_del(&port_dev->dev, &connector_ops);
->  	sysfs_put(port_dev->state_kn);
->  	device_unregister(&port_dev->dev);
-> --
-> 2.55.0.rc0.799.gd6f94ed593-goog
->
->
+Best,
+Gary
 
-Looks good to me.
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+>
+> Besides, it is not used until patch 19, so how about introducing it
+> there?
+>
+> <...>
+>> @@ -326,6 +323,21 @@ pub trait Io<'a>: Copy {
+>> =20
+>>      /// Return a view that covers the full region.
+>>      fn as_view(self) -> <Self::Backend as IoBackend>::View<'a, Self::Ta=
+rget>;
+>> +}
+>> +
+>> +/// Extension trait to provide I/O operation methods to types that impl=
+ement [`IoBase`].
+>> +///
+>> +/// This trait provides:
+>> +/// - Helper methods for offset validation and address calculation
+>> +/// - Fallible (runtime checked) accessors for different data widths
+>> +///
+>> +/// Which I/O methods are available depends on the associated [`IoBacke=
+nd`] implementation.
+>> +pub trait Io<'a>: IoBase<'a> {
+>> +    /// Returns the size of this I/O region.
+>> +    #[inline]
+>> +    fn size(self) -> usize {
+>> +        KnownSize::size(Self::Backend::as_ptr(self.as_view()))
+>
+> nit: the documentation for `as_ptr` says that the pointer "should be
+> used for projection only". Technically we are not projecting here; maybe
+> the documentation should be updated to say the pointer must not be
+> dereferenced instead.
+>
+> In any case,
+>
+> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 
-Bart
+
