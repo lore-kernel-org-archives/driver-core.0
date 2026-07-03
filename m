@@ -1,65 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6FF2D12EE;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82D5318EDA;
+	Fri,  3 Jul 2026 08:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783064275; cv=none; b=YxJAf2Uoj2J2FzV71Au/s7OL5wa/l9PuWmrsEi3/SoED0Vn55IuDKGTjcIxG50l/WLThWdvj8ygKI9fsGAw1O/91Luq1I4aaQM8VdGgkSWHLo1jTqpQ/YBiIFcM1oDRoTZr7K0x5q78NY/M+sOktHteCtRVBrG8x40K15645iYw=
+	t=1783067246; cv=none; b=m6SdwtMmmYiPRWsWZPKjuV0qgawmqy16bVU0Zk+FvxwgM70a79TTe0ZQdoIc3DrWWfiRrmd2ccL6hIx5eBbzrZK0Vng/LVKeqahouuM0TzLPgJsSl7BpqKNkNXPjadwzolPpwM0bGWWwhfyMw3ZLa6G+0fYm+PpmZiAsJVlo8Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783064275; c=relaxed/simple;
-	bh=/zEdjDHHDOZlLYDj/HrAahZZ9YvreIDGoxRLp/b3nmc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=GGt190/paI8ppa/vkzHoMhH7vj2FjlLiaXho3tJL5WVg+G9SXLyGzNhzqYKDWN612x/NqkfDqn6C2ZwYBAI8jS6tntZXySna6YiIwTVs5HetdDAF9U92csY1UroNZY6Uv2F/rjXxmyTey+B1E/TlUjzhDIX3grldEVFXVJsqP4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7fzZHQj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783067246; c=relaxed/simple;
+	bh=tHkSW3aoO+AfImEN3aJtccdWDZbhGz/juQGcD1gsN9E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BsJ88o8PLUDY6ljC1dxgznm3/w0BexHKrQMOQugaCK0TYVN6uQ18sdlrtAwYRwnecbyBOvAj7wOIuCsMUYY4malZ6hZINiJlxPxWDgjF9AsgCA4PtzLEA2Xmr4ZXL6YV8/jOaWw1y637pFdxqO9O64fEJDRgOqRcff+duPbO2g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=por4sV+q; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7fzZHQj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A43E41F000E9;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783064274;
-	bh=BNjc89ZTwEE6sAh5F09SyQEpJODWyJuS+YsA1L114gk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=E7fzZHQjHbuqRbfY5w8N/zq/LIGZMJY1SK41CeUUib7CZ4WxWm5MqtADiZytRVf8k
-	 B6AmxstGKgmn9k/gnWEMrYU/U8prhEH9/KBSrez2/6+NEuF1ehCnCime+EeHT7H/Vc
-	 3uPHNJ7e7l0I0rxnW+Hr072aIgsDpQNOHShnhFE32hDNXp6obtBsRggP9gjJ9qOPxF
-	 gm5mTrJ5kP99/8S/EVRiBrZq6SeYg8SxwOWKk+cApIcZjDHtKLqJQAQJJvgyCJU9Xh
-	 uvtmeyMNf/xe4qOOa2+jWsvz9DD00nDyID+u4LEyyFtC11nrDHmkAIGykMv8cZ9zSV
-	 H59njUBru/Yjw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56D2B39389CB;
-	Fri,  3 Jul 2026 07:37:38 +0000 (UTC)
-Subject: Re: [GIT PULL] Split <linux/mod_devicetable.h> in per subsystem headers
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <akdIS8mW2IubUWQh@monoceros>
-References: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-List-Id: <devicetree.vger.kernel.org>
-X-PR-Tracked-Message-Id: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
-X-PR-Tracked-Commit-Id: 995832b2cebe6969d1b42635db698803ee31294d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d2c9a99135da931377240942d44f3dea104cedb8
-Message-Id: <178306425679.2510133.17664517627067155845.pr-tracker-bot@kernel.org>
-Date: Fri, 03 Jul 2026 07:37:36 +0000
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Raag Jadav <raag.jadav@intel.com>, Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, linux-kernel@vger.kernel.org, Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Dani
- lo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Pei Xiao <xiaopei01@kylinos.cn>, Shashank Balaji <shashank.mahadasyam@sony.com>, Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org, linux-i2c@vger.kernel.org, Daniel Scally <dan.scally@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, kvm@vger.kernel.org, loongarch@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@ker
- nel.org>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="por4sV+q"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6638H5JV02547732, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1783066625; bh=tHkSW3aoO+AfImEN3aJtccdWDZbhGz/juQGcD1gsN9E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=por4sV+qFN/zM91tIEwpwI6axSMcLuqkClnV8z4AtL3dowJA1ra5pkLO7aJWdIiRG
+	 VdgNWVYN8gyXYEp9HLMxFPhY9sOA4TR/Dgm5EjiV5C4YKA3sJGmLJVg4Oy8kLFj7cu
+	 24gXxygT15+A5bRrseNd2Ou1ytQ8Ne59th+Lr9XK2wibZAU6MGfn5JtuM1JnBlnsjs
+	 d/XA8HFWhUYDGTaKnvPQEZTGwYzndnb5BQPSiFlvqSP3u2QMq72ZKwBnijv+KKWhqL
+	 j43CmL9YpGoVE1pBVO1oNazHTN0FtnM0oLugS54gUoOm7isACVidYYsrx1FUx7wDCp
+	 j5G/+s7EXV8Ag==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6638H5JV02547732
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 3 Jul 2026 16:17:05 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 3 Jul 2026 16:17:04 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
+ 15.02.2562.017; Fri, 3 Jul 2026 16:17:04 +0800
+From: =?big5?B?WXUtQ2h1biBMaW4gW6pMr6enZ10=?= <eleanor.lin@realtek.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mark Brown
+	<broonie@kernel.org>, Mathieu Dubois-Briand
+	<mathieu.dubois-briand@bootlin.com>, Bartosz Golaszewski <brgl@kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij
+	<linusw@kernel.org>, Michael Walle <mwalle@kernel.org>, "William Breathitt
+ Gray" <wbg@kernel.org>, =?big5?B?Q1lfSHVhbmdbtsDgsq7LXQ==?=
+	<cy.huang@realtek.com>, =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?=
+	<stanley_chang@realtek.com>, =?big5?B?SmFtZXMgVGFpIFvAuafTrnBd?=
+	<james.tai@realtek.com>, =?big5?B?VFlfQ2hhbmdbsWmkbLZoXQ==?=
+	<tychang@realtek.com>
+Subject: RE: [PATCH v1 0/4] gpio: regmap: Keep tracking IRQ requests and
+ releases
+Thread-Topic: [PATCH v1 0/4] gpio: regmap: Keep tracking IRQ requests and
+ releases
+Thread-Index: AQHdCiQKzeh3cCu86UShMtVfIwgPZ7Zbc8Hw
+Date: Fri, 3 Jul 2026 08:17:04 +0000
+Message-ID: <dfe56aa625c54f95ab4baf2fff2776ae@realtek.com>
+References: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260702130903.1790633-1-andriy.shevchenko@linux.intel.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-The pull request you sent on Fri, 3 Jul 2026 08:04:04 +0200:
-
-> https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d2c9a99135da931377240942d44f3dea104cedb8
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+SGkgQW5keSwNCg0KVGhhbmtzIGZvciB5b3VyIHBhdGNoZXMhDQoNCj4gRHVyaW5nIHRoZSByZXZp
+ZXcgb2YgdGhlIHYzIFsxXSBvZiB0aGUgc2VyaWVzIHRoYXQgYWRkcyBhIGRyaXZlciBmb3IgUmVh
+bHRlayBESEMNCj4gUlREMTYyNSBTb0MgR1BJTyB0aGUgZ2FwIGluIHRoZSBHUElPIHJlZ21hcCBp
+bXBsZW1lbnRhdGlvbiBoYXMgYmVlbg0KPiBkaXNjb3ZlcmVkLCBpZCBlc3QgdGhlIElSUSBjaGlw
+IHRoYXQgaXMgY3JlYXRlZCBieSByZWdtYXAgSVJRIGRvZXNuJ3QgaGF2ZSBJUlENCj4gcmVxdWVz
+dCBhbmQgcmVsZWFzZSBjYWxsYmFja3MgYW5kIGhlbmNlIGluIHRlcm1zIG9mIEdQSU8gZG9lcyBu
+b3QgdHJhY2sgaWYgYW55DQo+IGxpbmUgaXMgbG9ja2VkIGFzIElSUS4gVGhpcyBtaWdodCBsZWFk
+IHRvIHVuZGVzaXJlZCBhbmQgbW9zdCBsaWtlbHkgZmF1bHR5DQo+IGJlaGF2aW91ci4gVGhpcyBz
+ZXJpZXMgaXMgdG8gZmlsbCB0aGF0IGdhcC4gQ3VycmVudGx5IGl0IG9ubHkgZml4ZXMgdGhlIG9u
+bHkgdXNlciBvZg0KPiB0aGUgYXV0b21hdGljIElSUSBjaGlwIGNyZWF0aW9uIGZhY2lsaXR5IHBy
+b3ZpZGVkIGJ5IEdQSU8gcmVnbWFwLCBidXQgYWxzbw0KPiBwcm92aWRlcyB0aGUgZXhwb3J0ZWQg
+Y2FsbGJhY2tzIGZvciBvdGhlcnMgdG8gYmUgcG9zc2libGUgdG8gY2FsbCB0aGVtIGZyb20NCj4g
+Y3VzdG9taXNlZCB2ZXJzaW9ucyBvZiB0aGUgY2FsbGJhY2tzIGluIHRoZSByZXNwZWN0aXZlIGRy
+aXZlcnMuDQo+IA0KPiBNb3N0IG9mIHRoZSBhZmZlY3RlZCBkcml2ZXJzIGlmIEkgYW0gbm90IG1p
+c3Rha2VuIGFyZSB0aGUgSW5kdXN0cmlhbCBQQzEwNCBvbmVzLA0KPiBoZW5jZSBJIENjJ2VkIFdp
+bGxpYW0gdG8gbG9vayBhdCB0aGlzIGFuZCBwZXJoYXBzIGV2ZW4gdGVzdC4NCj4gDQo+IFl1LUNo
+dW4sIGNhbiB5b3UgZ2l2ZSBhIHRyeSB3aXRoIHlvdXIgdjMgYmFzZWQgb24gdGhpcyBzZXJpZXM/
+IEkgYmVsaWV2ZSB3ZSBjYW4NCj4gdXNlIHJlZ21hcCBhcHByb2FjaCBhZnRlciBhbGwuDQo+IA0K
+DQpJIHRlc3RlZCB0aGVtIG9uIHRoZSBydGQxNjI1IFNvQyBib2FyZCBhbmQgaXQgbG9va3MgZ29v
+ZC4gSWYgbm8gb25lIGVsc2UNCmhhcyBhbnkgaXNzdWVzIHdpdGggQW5keSdzIHBhdGNoIHNlcmll
+cywgSSdsbCBzZW5kIG91dCB2Niwgd2hpY2ggd2lsbCBiZQ0KYmFzZWQgb24gbXkgdjMgYW5kIHRo
+aXMgc2VyaWVzLg0KDQpCZXN0IFJlZ2FyZHMsDQpZdS1DaHVuDQoNCj4gVGhlIG1lcmdlIHN0cmF0
+ZWd5IGlzIHRvIGdvIHZpYSBHUElPIHRyZWUgd2l0aCB0aGUgaW1tdXRhYmxlIGJyYW5jaCBvciB0
+YWcNCj4gcHJvdmlkZWQgZm9yIHRoZSBmaXJzdCBwYXRjaCB0aGF0IGNhbiBiZSBkb25lIGJ5IHJl
+Z21hcCB0cmVlIGZvciBvdGhlcnMgdG8NCj4gY29uc3VtZS4gT2YgY291cnNlLCB0aGVyZSBhcmUg
+cG9zc2libGUgb3B0aW9ucywgSSdtIGFsbCBlYXJzIGlmIHlvdSB0aGluayBpdCB3aWxsDQo+IGJl
+IGJldHRlciBpbiBhbnkgb3RoZXIgd2F5Lg0KPiANCj4gTGluazoNCj4gaHR0cHM6Ly9sb3JlLmtl
+cm5lbC5vcmcvYWxsLzIwMjYwNTEyMDMzMzE3LjE2MDI1MzctMS1lbGVhbm9yLmxpbkByZWFsdGVr
+LmNvDQo+IG0vIFsxXQ0KPiANCj4gQW5keSBTaGV2Y2hlbmtvICg0KToNCj4gICByZWdtYXAtaXJx
+OiBQcm92aWRlIElSUSByZXNvdXJjZSByZXF1ZXN0IGFuZCByZWxlYXNlIGNhbGxiYWNrcw0KPiAg
+IGdwaW86IHJlZ21hcDogUHJvdmlkZSBkZWZhdWx0IElSUSByZXNvdXJjZSByZXF1ZXN0IGFuZCBy
+ZWxlYXNlDQo+ICAgICBjYWxsYmFja3MNCj4gICBncGlvOiByZWdtYXA6IEFwcGx5IGRlZmF1bHQg
+cmVzb3VyY2UgY2FsbGJhY2tzIGZvciByZWdtYXAgSVJRIGNoaXANCj4gICBncGlvOiByZWdtYXA6
+IE9yZGVyIGtlcm5lbC1kb2MgZGVzY3JpcHRpb25zIHdpdGggdGhlIGFjdHVhbCBhcHBlYXJhbmNl
+DQo+IA0KPiAgZHJpdmVycy9iYXNlL3JlZ21hcC9yZWdtYXAtaXJxLmMgfCAyMiArKysrKysrKysr
+KysrKysrKysrKysrDQo+ICBkcml2ZXJzL2dwaW8vZ3Bpby1tYXg3MzYwLmMgICAgICB8ICA3ICsr
+KystLS0NCj4gIGRyaXZlcnMvZ3Bpby9ncGlvLXJlZ21hcC5jICAgICAgIHwgMjUgKysrKysrKysr
+KysrKysrKysrKysrKysrKw0KPiAgaW5jbHVkZS9saW51eC9ncGlvL3JlZ21hcC5oICAgICAgfCAy
+MSArKysrKysrKysrKystLS0tLS0tLS0NCj4gIGluY2x1ZGUvbGludXgvcmVnbWFwLmggICAgICAg
+ICAgIHwgIDIgKysNCj4gIDUgZmlsZXMgY2hhbmdlZCwgNjUgaW5zZXJ0aW9ucygrKSwgMTIgZGVs
+ZXRpb25zKC0pDQo+IA0KPiAtLQ0KPiAyLjUwLjENCg0K
