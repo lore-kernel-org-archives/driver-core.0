@@ -1,110 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5926F3ADB98;
-	Fri,  3 Jul 2026 09:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3010E3B635C
+	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 11:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783071801; cv=none; b=eoeMWn+EeW/LeVbr84iMDKjEgo2/++2ZQL64LSn4VAior3/FxqXXR+9IwN2VyEoyzPkEZMolPrCHukhDcqbjPyDkHQYbfGdlHiM98NjxG7DpaplWmBqngWOSSgBjI88+8AZkHo7igf8SDK8CTHTLU1wCNyR4xJ44sNzZK5jASt4=
+	t=1783076621; cv=none; b=YZ/C4XMUZMG03C787WUdgYGHEmbnf7BD2HDoUz9qW7jNue+68FPgoTWJMSyp8WmjUfKzy6kR5KKsM0ZawiMqzQuq6XkK3KZC72o489Bamhw1gL3NfxPODwS23aPNfV8lkOK2Jx+mZ5G8RIQ6YNwUzwvooNs4CeOJ3dI0RebBxBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783071801; c=relaxed/simple;
-	bh=VReNymzo98m7Fji3HDXDZ67V0GqnFqJYQX18Kxdj35k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V0PgD/aZj5P6ASoAc8UrC/CbG739aYxX1Xl3h2ZixDadnIYtx0MlUjoTfi3tjO3czw9SCaZPa9uad4DknTOdpP33iG4N0EfL+ERPW8XRYh+MbfPv45sW+XYMTOl5cW2Hnd3qtbif+nflmjJOdPDly+mdYFsRnha95y4xGDwXobM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C9D7+C5Q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783076621; c=relaxed/simple;
+	bh=ogikdSS5fM83wdUgSIeNaSuxlx1astWtdx5wvQV6XaE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q4NPt3iwzUliQwh7OpDWM18zcX09HPy7wx+YHTIdRHfehdiaee1d08H8lWcdFNBiXSJSAi6rKSFjMLwfisW9dnfu6ws75ruZzzMPH6PAJVzup6gPJJwd3bQj8vYpflo6ZV3v7S9agywUM/q9NOglswum++FMhXLu4KARobrz/8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bKrkUOCY; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C9D7+C5Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A4711F00A3A;
-	Fri,  3 Jul 2026 09:43:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783071799;
-	bh=Jl/LNX0F9c5ZLakltcdxkRYciVZAqidRH+eUQNM3t2s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=C9D7+C5Q0gdfl7m1VND10s22intgyJT3XKAN5kYdO7kL73GTDOwJ07LLmRW7PTGo3
-	 VuIc3B4pB5Kd2Pe6zqvT0nQAqhufTgiAVt9dBuPgW2b8CXfuZs+fJUaDatfPjdc6Ae
-	 dhi7jYRLUfGyXSynFyKiHDGNlizp20A4aXwQxQxkGSnkhdlYsg1b0rR0H0MkxI4zVC
-	 QLgbV48qSBbz5kIJHncusJ4IM0y3FvhkUdfE5N3MlYePRfsQzuz3mAal5FYXOOgNmV
-	 z4ioTcAU9v94PJpLh6iiCxTaLsx8mHaLD63VXpWGExklA3P+ItS+u1hI2W7AaMQ9CJ
-	 zwMP7vo3Bn1Bg==
-From: Mike Rapoport <rppt@kernel.org>
-To: akpm@linux-foundation.org,
-	Andy Lutomirski <luto@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bKrkUOCY"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c82538b6b0so3487155ad.1
+        for <driver-core@lists.linux.dev>; Fri, 03 Jul 2026 04:03:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1783076617; x=1783681417; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sqs/izjUXlQxLzNznfrFoz35GSBVfbHOxBq9DzMVAxY=;
+        b=bKrkUOCYG6PgpdlFu9wgchLcNQzQ7rGH88ullY20GHTjpqDWXpUqq9aELQx2n1ECOr
+         P08ZsiucfqgDWZQOshltM70bWDW8bKX5aSfXGAV78nVfVMb2s1Dbvrbz0O96kpbvwpty
+         BpEnbqgbl3StVFblRAuELpTfubODwSp5NfWS8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783076617; x=1783681417;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sqs/izjUXlQxLzNznfrFoz35GSBVfbHOxBq9DzMVAxY=;
+        b=O8ImdFmyY+lV3zz01ND3YZpfbn79HUrkOjk95Ni/ZcfvMbRFjKSf/rlcD6+asiA+ui
+         lv8LqqM503fQdjsGkva+DDOEv8BDIyjo2QIcVJCtMuYedFU5QCQhRErrkKbiGCi6Tvw9
+         WErndRGQz/nVMwbvvTVXlz3UWHMeWui2Kv/HGvKxYS9yaNZHGS8AsaO7H+q+NCEnw8Aq
+         zLx7L6DdA1p0F/SzFsJiLUrj3v9rHuPh1Ek4dDME9LTEn+RyUzEe+82Ogd/u37vQ171K
+         WyYlSKQD3xqzr2IN+z+ZEZ31Fhjgu/oEVGzm1xhWWKfpaMJxZ5V1cN6u0Azxw+nwqbCh
+         W1eQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7alQl7sPXEzu/sxphml5rqtc54DcA9zes7tnuNoz/j28Fy/hG3QKsDhYVbbcT9aHmiGspaWMJxXGSdA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1APMV8LA8/xeiVt0Gh96508CfMGK9pYyoG5aoXlmPWuepg0lS
+	i+56eWp3w1CTx0Dw4uFvLfGCHiLKlIu/sSaf5C/y+hQoXtERq/4WnduFQohAK/rF6A==
+X-Gm-Gg: AfdE7cmu6e9dwiT4FS0alHAme1d0W366D3TTq9tGJJ6m1a5WXR7KgARuCuFUoEOMpeN
+	LF0EQqCO23EhNgHwVJduFx3aCrzPgthPDTq01H6tYVtI6P0UKOtQisfHoXWhQx+x/cy98pa9JDn
+	bXW5JIzkF9TNOb9xBeqxc9wxKZjqBYGTXli0BQ3myir0hSKjy4deeZIYzMPXjJbrnjmm70/eCw6
+	oAMLKfBXjWMJGhHqbWdQoTFnY9yGRCjqlV9VKxTDVZTou/lKPwfIetoeDP+eOGhO4rzS5mJwBYd
+	caeZWYgwz4xChmPQ0dhZre804v36OdJRAtEo6Yjrrs6Gco/V2IaI24UdJ6DeHoh2M+ejb9UOW8r
+	1Rfo+GSbhkKtgKGjMxDwtJYxwNmQ+CUvje/1JbCGE/Y6dDKHqbQFjqTkQMDddumtLuJhkLBKSva
+	Fdl3aobUYH7Cme9q5VHsYgZfeder35liHujvm9uqF4TnJRwD5WpV3E1i8e0FzbEp6+YeeN5g==
+X-Received: by 2002:a17:902:e54c:b0:2ca:d818:61e5 with SMTP id d9443c01a7336-2cad818638cmr21373785ad.26.1783076617402;
+        Fri, 03 Jul 2026 04:03:37 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:7bc5:6c83:76cd:cbd6])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad6f25e15sm7785315ad.13.2026.07.03.04.03.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 04:03:35 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Bartosz Golaszewski <brgl@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: Mike Rapoport <rppt@kernel.org>,
-	linux-mm@kvack.org,
-	devicetree@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Len Brown <lenb@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	WANG Xuerui <kernel@xen0n.name>,
-	x86@kernel.org
-Subject: Re: [PATCH v2 0/9] treewide, numa_memblks: remove redundant work during NUMA init
-Date: Fri,  3 Jul 2026 12:43:09 +0300
-Message-ID: <178306815065.2173096.9480193260074524906.b4-ty@b4>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260703041329.2797584-1-ekffu200098@gmail.com>
-References: <20260703041329.2797584-1-ekffu200098@gmail.com>
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v3 00/13] arm64: mediatek: Add M.2 E-key slot on Chromebooks
+Date: Fri,  3 Jul 2026 19:03:01 +0800
+Message-ID: <20260703110317.1283411-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri,  3 Jul 2026 13:13:20 +0900, Sang-Heon Jeon wrote:
-> Every existing numa_add_memblk() caller passes a valid node id and
-> separately marks that node in numa_nodes_parsed with node_set(). In
-> addition, numa_nodemask_from_meminfo() recomputes the same "nodes that own
-> memory" set from numa_meminfo, which numa_nodes_parsed already contains.
-> 
-> This redundancy implicitly depends on the callers' node_set(). So, before
-> removing the redundancy, make numa_add_memblk() set the node in
-> numa_nodes_parsed explicitly. Then remove the per-caller node_set() and
-> numa_nodemask_from_meminfo().
-> 
-> [...]
+Hi everyone,
 
-Applied to numa_memblks-redundant-work branch of memblock.git tree, thanks!
+This is v3 of my attempt at integrating the power sequencing API into
+the USB core to support the USB connection on M.2 E-key slots. M.2
+E-key was enabled in v7.1-rc1 with just PCIe and UART supported [1].
 
-[1/9] mm: numa_memblks: set numa_nodes_parsed in numa_add_memblk()
-      commit: abdbd8329281f40afd381346410d6d43604af82c
-[2/9] ACPI: NUMA: remove redundant numa_nodes_parsed node_set()
-      commit: 7cbdade40fb8f440c13ccd7a02d104bf32285187
-[3/9] of/numa: remove redundant numa_nodes_parsed node_set()
-      commit: 3b1e5d902dfa832e4b175cb1f5a000236d45ceb5
-[4/9] x86/numa: remove redundant numa_nodes_parsed node_set()
-      commit: 63fa742bae02f0d2ffe95ff540a51837815abc5c
-[5/9] arch_numa: remove redundant numa_nodes_parsed node_set()
-      commit: 8b9cecbdc78c5a6cfaaf3b00ce7ebe05cf5417e7
-[6/9] LoongArch: remove redundant numa_nodes_parsed node_set()
-      commit: 3aeac07c5b1c3399487f4b38182f8cfbc3dbbd53
-[7/9] mm: numa_memblks: remove redundant numa_nodemask_from_meminfo()
-      commit: a9bafc1832d2db97813069823821ed333b8ecda6
-[8/9] arch_numa: remove redundant node_possible_map assignment
-      commit: f5a77a50a14dffb659ee8f550c824f8280e37fce
-[9/9] mm: numa_memblks: use numa_add_reserved_memblk() in numa_cleanup_meminfo()
-      commit: e55424c84afd48aa2f0f761ae0c006128ef541cf
+Major changes since v2:
+- Removed changes for MT8192 Asurada family: one of the device is
+  shipped with RTL8822CE-VR, which is PCIe + UART and needs more work.
+- Removed changes for USB A ports: VBUS one the type A ports on
+  Chromebooks are not directly controllable from the OS and VBUS is
+  modeled as always on. As such the changes I made don't actually
+  change how the system works.
+- Added new pwrseq_power_is_on() function
+- Make new pwrseq integration effectively OF only by not assigning the
+  port fwnode if the hub's fwnode is an ACPI node
+- Added patch to convert remaining instances of directly setting/clearing
+  USB_PORT_FEAT_POWER to usb_hub_set_port_power()
+- Power sequencing state removed again in favor of state tracking by
+  pwrseq subsystem
+- Power sequencing descriptor again separately requested for HS and SS
+  ports
+- Dropped pwrseq_power_off() call before pwrseq_put(); the latter calls
+  the former implicitly if the power state was left on
+- Squashed DT binding revert and addition into one patch
 
-tree: https://git.kernel.org/pub/scm/linux/kernel/git/rppt/memblock
-branch: numa_memblks-redundant-work
+- Link to v2:
+  https://lore.kernel.org/all/20260610084053.2059858-1-wenst@chromium.org/
 
---
-Sincerely yours,
-Mike.
+
+Major changes since v1:
+- No longer adding the "index" parameter the power sequencing API
+- Switched from OF graph to fwnode graph APIs
+- Tie "port@" node to usb_port device, and use this device as consumer
+  to acquire power sequencing descriptor
+- Power sequencing descriptor now only tied to USB 2.0 port to avoid
+  double reference
+- Power sequencing state tracking added
+- Link to v1
+  https://lore.kernel.org/all/20260515090149.3169406-1-wenst@chromium.org/
+
+The series is based on next-20260702.
+
+
+Patch 1 and 2 add new fwnode graph helpers. These are used by the patch
+5 and 8, respectively.
+
+Patch 3 adds a new pwrseq_power_is_on() for a power sequencer consumer
+to query the current request state. Note that this is not the _actual_
+state.
+
+Patch 4 reworks the USB hub driver to return the actual error code from
+hub_configure() in hub_probe(). This is needed in the next patch to
+correctly return -EPROBE_DEFER returned by pwrseq_get() in patch 9.
+
+Patch 5 makes the USB port device associated with a "port@" fwnode if
+available. This depends on patch 1.
+
+Patch 6 changes usb_port_is_power_on() so that |struct usb_port*| is
+passed in instead of |struct usb_hub*|. This patch does not change any
+functionality.
+
+Patch 8 lets the USB hub driver look for power sequencers for each port.
+Currently this only works for M.2 E-key connections, but it could be
+extended to cover other cases. It should also make port reset via turning
+off the port VBUS work, even when VBUS is not directly controlled by the
+hub. This depends on patch 2 and 3 for the new helpers.
+
+Patch 9 reverts an incorrectly modeled OF graph connection for the
+MediaTek XHCI controller and adds a proper representation.
+
+Patch 10 adds matching pwrseq consumer by "port@" node to the M.2 slot
+driver. This is only used for the USB target, but there is no attempt
+to differentiate the connection type. The driver simply tries matching
+the "port@" node first, then falling back to the port parent or device's
+node.
+
+Patch 11 reworks the power sequencing targets for the E-key connector in
+the pcie-m2 driver to add targets for USB and SDIO. The former is used
+later on in this series.
+
+Patches 12 and 13 enable the M.2 E-key slots (or slot-like integration)
+found on MT8195 and MT8188 MediaTek-based Chromebooks. 
+
+
+This series unfortunately spans multiple trees. The way I see it:
+
+  - Patch 1 and 2 go through the driver core, and an immutable tag is
+    provided to be merged together with the USB patches.
+
+  - Patch 3 gets an ack from Bartosz, and goes through the USB tree.
+
+  - Patch 4 through 9 (all the USB related ones) go through the USB
+    tree, along with the dependencies above.
+
+  - Patch 10 and 11 go through the power sequencing tree.
+
+  - Patch 12 and 13 (device tree only) go through the soc tree via the
+    mediatek tree.
+
+Some of us discussed v1 at Embedded Recipes, and I believe Bartosz, Mani
+and I agree on this approach. The debate is likely going to be on
+whether this should be integrated into the USB core or not. I believe it
+should, so that the power sequencing timing is tied to the USB port
+being brought up. I do have a fallback option of just enabling the USB
+power sequencing target inside the M.2 slot driver if a valid OF graph
+connection is seen. But this is less desired for the reason given above.
+
+Please have a look and share your thoughts.
+
+
+Thanks
+ChenYu
+
+
+[1] https://lore.kernel.org/all/20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com/
+
+Chen-Yu Tsai (13):
+  device property: Add fwnode_graph_get_port_by_id()
+  device property: Add fwnode_graph_get_next_port_endpoint()
+  power: sequencing: Add pwrseq_power_is_on()
+  usb: hub: Return actual error from hub_configure() in hub_probe()
+  usb: hub: Associate port@ fwnode with USB port device
+  usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
+  usb: hub: Use usb_hub_set_port_power() to control port power
+    everywhere
+  usb: hub: Power on connected M.2 E-key connectors with power
+    sequencing API
+  dt-bindings: usb: mediatek,mtk-xhci: Switch to ports for USB
+    connections
+  power: sequencing: pcie-m2: support matching on remote "port" node
+  power: sequencing: pcie-m2: Add usb and sdio targets for E-key
+    connector
+  arm64: dts: mediatek: mt8195-cherry: Add M.2 E-key slot
+  arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
+
+ .../bindings/usb/mediatek,mtk-xhci.yaml       | 17 +++-
+ .../boot/dts/mediatek/mt8188-geralt.dtsi      | 92 ++++++++++++++++++-
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      | 73 ++++++++++++++-
+ drivers/base/property.c                       | 47 ++++++++++
+ drivers/power/sequencing/core.c               | 18 ++++
+ drivers/power/sequencing/pwrseq-pcie-m2.c     | 52 ++++++++---
+ drivers/usb/Kconfig                           |  1 +
+ drivers/usb/core/hub.c                        | 78 +++++++++++-----
+ drivers/usb/core/hub.h                        | 12 ++-
+ drivers/usb/core/port.c                       | 62 ++++++++++++-
+ include/linux/property.h                      |  3 +
+ include/linux/pwrseq/consumer.h               |  1 +
+ 12 files changed, 401 insertions(+), 55 deletions(-)
+
+-- 
+2.55.0.rc0.799.gd6f94ed593-goog
 
