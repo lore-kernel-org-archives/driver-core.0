@@ -1,199 +1,129 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D0B38D;
-	Fri,  3 Jul 2026 00:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783037366; cv=pass; b=gf3FZ95U5DGETI1hcMl+5ZAEOdSKv07bgJvwvpPIwB4r3S4ipgk2QShprwxAY6Kg9QiGNppQ8hp51ws6QjoaUqLi49BTHLvwRBnuauWHz+ZUxKCIMvl0ZCG9+0v9iK/gmudfL325ThQVBDCwK3QbRh5kj3znaga3FFQIp8STRAM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783037366; c=relaxed/simple;
-	bh=9+B4MmT8SD6ErYA7ljhnrlK72zyGONcNT+2o0/mqAI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DZXNwdgU6B9/aGxYl5RVs2kZO1hh2jSvqfId36eB64Hd3nLyZpMd/0/9OBMo6Dy+1TCOjYcDYwb5wVjK9akMpFfMhDBy6iLY3RDzhgRatkqYOcyUrQBHqDldcrT7dE5SOmEEqsVHUl2MwWw0n4f7oAE3z4cO5Tru9ILPExkOxHg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b=XlW4menU; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FE23A1B5
+	for <driver-core@lists.linux.dev>; Fri,  3 Jul 2026 02:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783047134; cv=none; b=sa5JY4WDOaugCLfAOURSmpro4YMw9fkMNAO2kkLNvyLkOvO1RjbdIkfryxkm+EwF6ZuaTMCyH22/8kfVHK3GgBET2HVglv2TrFcmnEsa92GmaJFg/7nug6KJSsmzpUv3blEqY9XU6ARoCFks7DgKajekhxfAWrE4Cpu1ypqNQvc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783047134; c=relaxed/simple;
+	bh=361I3q/utm920FJxcLT+hGFYQkhDxCuZiIOZ5DrgOLc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=rh4B/0GdkaExO+zo18WBsNX52/cuAvkBhV4PbHEGShDvPmtOJjcmDNQwU8JjsylFqCEk4LQhEc4CDK2esy+IADlVx9gVle541hirecIayuXxkJDsbjASf2LbD1rS5Nl8nenUlRVK5lBdiNHquN1kBmIYT0uylax3Az2QQKvlm8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tLRSE7Z4; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="XlW4menU"
-ARC-Seal: i=1; a=rsa-sha256; t=1783037355; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Mr/FbwXnfg+YWqlfi3uJDECfJxRoLnMauBpHUCmEABn/f9+Wv7eDP+sBQenR4DMQIojpVbAH2GFX1U2JayPkp+QuBOJ/M4uPRnXchBSzWwQCzyVcTAG0vXSN1n2d9Yw/3lQBzb7N3hfsjJ7FNWn2Ob3Bh+aWcylPKbhGueTdwMY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783037355; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wVwlz7KY4OjwKxXVf+jclndJnHMIuujVv9yJeczv1/Y=; 
-	b=OvNsPWzlQ/2w30bBYCyp2ETR23Qj7xsaBaMGvmpdFrlCSkbFMoHYtDcqnP5hCzXKHjhXKWyNKXWcyZOTsiZFD4MaBpIrxeoA4QW6GJeXEk4Hsd15if/AhWfLyIXckl9sP8SJuiS4/vVOZTNjOcWN1mPSSNja0EBqyr8eGgjsWoE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
-	dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783037355;
-	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=wVwlz7KY4OjwKxXVf+jclndJnHMIuujVv9yJeczv1/Y=;
-	b=XlW4menUhVcCijMsn/8NtaOrAUR0LeftsuVNWdOcr2ycbEunCaaD7/59037HbLPK
-	L6oiTtwqqivp9igqDZ3n2ZvoYQ15BXRUz20OG+Sne5Gbd45B+ivjRg3ua/gdfkG9vk+
-	4AfD4DsSgov5QJYL5JPycJWJUUD6UNtPoyqy4m6U=
-Received: by mx.zohomail.com with SMTPS id 1783037354883620.9266575194131;
-	Thu, 2 Jul 2026 17:09:14 -0700 (PDT)
-Date: Thu, 2 Jul 2026 17:09:14 -0700
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: aliceryhl@google.com, daniel.almeida@collabora.com, acourbot@nvidia.com,
-	ecourtney@nvidia.com, ojeda@kernel.org, boqun@kernel.org,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-	a.hindborg@kernel.org, tmgross@umich.edu,
-	boris.brezillon@collabora.com, lyude@redhat.com,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v5 00/19] rust: drm: Higher-Ranked Lifetime private data
-Message-ID: <akb9qlNBlslAQSK1@um790>
-References: <20260628145406.2107056-1-dakr@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tLRSE7Z4"
+Message-ID: <a87b3b29-3dcf-425c-b700-da957400daea@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783047129;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zJ7GRKRrkIf+wCa/0Fd1ZjdYyAMxmPw56N9bVZ1l/OQ=;
+	b=tLRSE7Z4g9YxDkLPVBIR4mGurf9Yw3Xy5ko1PDzbh5boamlgWLMtZdmtYGMMCgj/O5poDZ
+	8Hix9sVs3xXyHvr53uTOEig3Pz5SclCxQ4ivNIt6MsXMlqDfUN+qz7UggLEgKLJDl5CXnY
+	JZzmMCkH4Q3m5qX2t7Fajgf1SXNofko=
+Date: Fri, 3 Jul 2026 10:51:49 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260628145406.2107056-1-dakr@kernel.org>
+Subject: Re: [PATCH v3 1/7] rust: firmware: add request_into_buf()
+To: Timur Tabi <ttabi@nvidia.com>, driver-core@lists.linux.dev,
+ nova-gpu@lists.linux.dev, rust-for-linux@vger.kernel.org,
+ Alexandre Courbot <acourbot@nvidia.com>, Danilo Krummrich <dakr@kernel.org>,
+ Eliot Courtney <ecourtney@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ John Hubbard <jhubbard@nvidia.com>, Luis Chamberlain <mcgrof@kernel.org>,
+ Russ Weight <russ.weight@linux.dev>, Miguel Ojeda <ojeda@kernel.org>,
+ Gary Guo <gary@garyguo.net>
+References: <20260702192712.3450652-1-ttabi@nvidia.com>
+ <20260702192712.3450652-2-ttabi@nvidia.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alvin Sun <alvin.sun@linux.dev>
+In-Reply-To: <20260702192712.3450652-2-ttabi@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, Jun 28, 2026 at 04:53:20PM +0200, Danilo Krummrich wrote:
-> DRM ioctls run in process context without any guarantee that the parent
-> bus device is still bound. This series solves the problem by introducing
-> RegistrationGuard -- a guard representing a drm_dev_enter/exit SRCU
-> critical section that proves the parent bus device is bound for the
-> lifetime of the guard.
-> 
-> As initial plumbing for this, the DRM DeviceContext typestates are
-> reworked: Uninit is renamed to Normal, defaults are adjusted,
-> AlwaysRefCounted is restricted to Normal, and a Deref chain from
-> Device<T, Registered> to Device<T, Normal> is established. This gives
-> Device<T, Registered> the semantic that the device is currently
-> registered and the parent bus device is bound, which makes the
-> RegistrationGuard and ioctl dispatch much cleaner. An Ioctl context
-> restricts registration_guard() to ioctl dispatch, where the DRM core
-> guarantees prior registration.
-> 
-> On top of that, add RegistrationData as a GAT (Generic Associated Type)
-> on drm::Driver, allowing drivers to store data whose lifetime is tied to
-> the parent bus device binding scope. The data is allocated in
-> Registration::new(), lifetime-erased to 'static for storage, and made
-> accessible through Device<T, Registered>::registration_data_with(). The
-> closure's HRTB ties the lifetime to the closure scope; internally the
-> 'static pointer is cast back to the closure-scoped lifetime. The
-> reference is valid for the duration of the drm_dev_enter/exit critical
-> section held by RegistrationGuard.
-> 
-> Also update the ioctl dispatch macro to wrap every handler in a
-> RegistrationGuard, returning ENODEV if the device has been unplugged,
-> and pass the registration data to handlers.
-> 
-> A branch with all patches can be found in [1].
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/dakr/linux.git/log/?h=drm-lifetime
 
-Thanks Danilo, I tested this whole series with Tyr today and it is
-working for me without any issues. It's included in latest branch
-https://gitlab.freedesktop.org/panfrost/linux/-/commits/tyr-for-upstream
+On 7/3/26 03:27, Timur Tabi wrote:
+> Add request_into_buf(), a Rust wrapper around the
+> request_firmware_into_buf() function. This variant loads the firmware
+> image directly into a caller-provided buffer rather than a
+> kernel-allocated one.
+>
+> Signed-off-by: Timur Tabi <ttabi@nvidia.com>
+> ---
+>   rust/kernel/firmware.rs | 47 +++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 47 insertions(+)
+>
+> diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+> index 71168d8004e2..4460fb2cd5d8 100644
+> --- a/rust/kernel/firmware.rs
+> +++ b/rust/kernel/firmware.rs
+> @@ -120,6 +120,53 @@ fn drop(&mut self) {
+>       }
+>   }
+>   
+> +/// Load firmware directly into the caller-provided `buf`.
+> +///
+> +/// On success the firmware image has been copied into `buf`; the caller accesses the data
+> +/// through `buf` itself.
+> +///
+> +/// This is intentionally a stand-alone function rather than a `Firmware` constructor. For
+> +/// the `into_buf` path, the firmware data lives in the caller's `buf`, not in a
+> +/// kernel-owned buffer, so returning a `Firmware` would expose `Firmware::data()` as a
+> +/// second handle aliasing `buf` (and `release_firmware()` does not free `buf` anyway).
+> +pub fn request_into_buf(name: &CStr, dev: &Device, buf: &mut [u8]) -> Result {
+> +    // `as_mut_ptr()` on an empty slice returns a non-NULL pointer to
+> +    // memory which the loader does not own. Passing that pointer with `size == 0`
+> +    // makes the loader believe that it is buffer it allocated itself, so when
+> +    // `release_firmware()` is called, it will vfree the pointer and trigger a
+> +    // bug. Reject empty slices to avoid this situation.
+> +    if buf.is_empty() {
+> +        return Err(crate::error::code::EINVAL);
 
-Tested-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+`EINVAL` is already in prelude, you can use it directly.
 
-> 
-> Changes in v5:
-> - Replace __call_ioctl() helper with a simple for<'a> fn(...) coercion
-> - Rebase onto latest drm-rust-next, which requires a faux::Device type with
->   AsBusDevice impl and motivates the removal of the DeviceContext generic from
->   shmem::Object entirely
-> - Replace ForLt with a GAT type RegistrationData<'a>
-> - Fix drm_dev_register() error path race on the C side
-> - Add a few missing #[inline] annotations
-> 
-> Changes in v4:
-> - Fix pre-existing unbounded lifetimes in ioctl handler arguments.
-> - Fix registration_guard() being callable on unregistered devices by
->   introducing an Ioctl device context typestate; registration_guard() is
->   now only available on Device<T, Ioctl>, which is exclusively
->   constructed in ioctl dispatch context where the DRM core guarantees
->   prior registration.
-> - Fix type inference allowing handlers to obtain Device<Registered>
->   before RegistrationGuard is acquired.
-> - Make RegistrationGuard !Send via NotThreadSafe to prevent potential
->   lockdep splats from cross-thread SRCU unlock.
-> - Store &Device<T, Registered> directly in RegistrationGuard instead of
->   calling assume_ctx() in Deref.
-> 
-> Changes in v3:
-> - Rename UnbindGuard to RegistrationGuard
-> - RegistrationGuard no longer dereferences to &Device<Bound>; it
->   dereferences to &drm::Device<T, Registered> instead
-> - Drop Registration::new() and rename Registration::new_with_lt() to
->   Registration::new()
-> - Rework DeviceContext typestates: rename Uninit to Normal, restrict
->   AlwaysRefCounted to Normal, establish Deref chain from Registered
->   to Normal
-> - Add AsRef<ParentDevice<Bound>> on Device<T, Registered> for parent
->   device access
-> - Move registration_data_with() from RegistrationGuard to
->   drm::Device<T, Registered>
-> - Ioctl handlers no longer receive &Device<Bound>, only registration
->   data and drm::Device<T, Registered>
-> - Use Device<Registered>::as_ref() to access parent device in nova-drm
-> 
-> Changes in v2:
-> - Replace unsafe direct registration data access in ioctl dispatch with
->   safe UnbindGuard::registration_data_with() closure
-> - Eliminate unbind_guard() free function; use type-inference anchor to
->   enable direct dev.unbind_guard() method call in the ioctl macro
-> - UnbindGuard::registration_data_with() provides both parent device and
->   registration data to the closure
-> - Add nova-drm conversion patch demonstrating lifetime-aware registration
->   data with &'bound auxiliary::Device<Bound>
-> - Various safety comment and documentation improvements
-> 
-> Danilo Krummrich (19):
->   rust: drm: ioctl: fix unbounded lifetimes in ioctl handler arguments
->   rust: drm: rename Uninit DeviceContext to Normal
->   rust: faux: add Device type with AsBusDevice support
->   rust: drm: Add Driver::ParentDevice associated type
->   rust: drm: change default DeviceContext to Normal
->   rust: drm: restrict AlwaysRefCounted to Normal Device context
->   rust: drm: restrict AlwaysRefCounted to Normal GEM Object context
->   rust: drm/gem: remove DeviceContext from shmem::Object
->   rust: drm: split Deref for Device context typestates
->   rust: drm: pin ioctl Device reference to Normal context
->   rust: drm: add Ioctl device context typestate
->   rust: drm: Add RegistrationGuard for drm_dev_enter/exit critical
->     sections
->   rust: drm: Wrap ioctl dispatch in RegistrationGuard
->   rust: drm: return ParentDevice from Device AsRef
->   rust: drm: add AsRef<ParentDevice<Bound>> for Device<Registered>
->   drm: fix race between partial drm_dev_register() failure and ioctl
->   rust: drm: Add RegistrationData to drm::Driver
->   rust: drm: Pass registration data to ioctl handlers
->   drm: nova: Use drm::Device<Registered> to access the parent bus device
-> 
->  drivers/gpu/drm/drm_drv.c        |  34 +++-
->  drivers/gpu/drm/nova/driver.rs   |  38 ++--
->  drivers/gpu/drm/nova/file.rs     |  22 ++-
->  drivers/gpu/drm/nova/gem.rs      |  18 +-
->  drivers/gpu/drm/tyr/driver.rs    |  25 ++-
->  drivers/gpu/drm/tyr/file.rs      |   8 +-
->  drivers/gpu/drm/tyr/gem.rs       |  11 +-
->  rust/kernel/drm/device.rs        | 293 +++++++++++++++++++++++--------
->  rust/kernel/drm/driver.rs        | 111 +++++++-----
->  rust/kernel/drm/gem/mod.rs       |  98 +++++------
->  rust/kernel/drm/gem/shmem.rs     | 257 +++++++++++++--------------
->  rust/kernel/drm/ioctl.rs         |  56 +++++-
->  rust/kernel/drm/mod.rs           |   4 +-
->  rust/kernel/faux.rs              |  69 ++++++--
->  samples/rust/rust_driver_faux.rs |   3 +-
->  15 files changed, 660 insertions(+), 387 deletions(-)
-> 
-> 
-> base-commit: fa8cc4e3067f958ea2057f37a8a6f9c6b10a9c03
-> -- 
-> 2.54.0
-> 
+> +    }
+> +
+> +    let mut fw: *mut bindings::firmware = core::ptr::null_mut();
+> +    let pfw: *mut *mut bindings::firmware = &mut fw;
+> +    let pfw: *mut *const bindings::firmware = pfw.cast();
+> +
+> +    // SAFETY: `pfw` is a valid pointer to a NULL initialized `bindings::firmware` pointer.
+> +    // `name` and `dev` are valid as by their type invariants. `buf` is a valid writable
+> +    // buffer of `buf.len()` bytes.
+> +    let ret = unsafe {
+> +        bindings::request_firmware_into_buf(
+> +            pfw,
+> +            name.as_char_ptr(),
+> +            dev.as_raw(),
+> +            buf.as_mut_ptr().cast(),
+> +            buf.len(),
+> +        )
+> +    };
+> +    if ret != 0 {
+> +        return Err(Error::from_errno(ret));
+> +    }
+
+`to_result` can be used here to simplify.
+
+> +
+> +    // The firmware bytes are now in `buf`, which the caller owns, so we don't need
+> +    // the kernel to hang on to it any more.
+> +    // SAFETY: `fw` is a valid pointer returned by `request_firmware_into_buf`.
+> +    unsafe { bindings::release_firmware(fw) };
+> +
+> +    Ok(())
+> +}
+> +
+>   // SAFETY: `Firmware` only holds a pointer to a C `struct firmware`, which is safe to be used from
+>   // any thread.
+>   unsafe impl Send for Firmware {}
