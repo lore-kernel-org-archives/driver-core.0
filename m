@@ -1,228 +1,161 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out-12.smtp.spacemail.com (out-12.smtp.spacemail.com [198.54.127.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2000B377561
-	for <driver-core@lists.linux.dev>; Sat,  4 Jul 2026 05:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A7312CDA5;
+	Sun,  5 Jul 2026 00:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783144267; cv=none; b=BKX+RkpCG0+RE7AUqpJaukPnx34Bz55ksxiOkPDfyj9yTfa+XMkWf6TUQ67tRowoT0hu81c6SvFfueM6C/fPilODB0VyTvBGv4rLOboB7U2MuNWUp1AM0aCwmZNoM5ij0cpVEMHt5uEVrdrqaAioRTw/eStgY5PhdXVGQlGhtmw=
+	t=1783211924; cv=none; b=W9v9P8zGqipdZZHmphD5B+wQ1IMV8WN94TrG4PAKQ6YmafoJf3b2XsxNQj5Rj8ER1ZZbb9HnDJGpEqo5LG4ourPaBjLDYzAIMhlIH5Htt0TFGir46Mb6tsO2582wpXsF3gxYC3X9FslJKlpGxbGi0ls+WyUwUYMMsPqaCZamLeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783144267; c=relaxed/simple;
-	bh=hrDTIMmfyR0bS4ItNIUcF/yfI+80W3HJbfHRHlQb56U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CBsPAYhRbS97KhpIaHRAlG2dj1teYmlixMY88oJO92jERJVwZyVJKFud3dvu97Ke+iCBulRHnNRLjYXqgiAlB+BpUR2Gt1XxU/dIXqiSt/tADGxcptlLX3uFtCOE6G9N5lqGBHcBgHn2khp8pVqvFfkT+uKpY1SbBv9/HsLfezQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KVj9nhfp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=e9YiHvWf; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1783211924; c=relaxed/simple;
+	bh=7SA06ppJXAjnwTFQhfShgMBi+M6CQvRcfOhns8TQ+vI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qgFbQNBcoE6Bo5N3St620tbkFsVJjiKzHRZdeoyA/BdnXa378Wqp5OpgN2gIkjkEt0x5hl/tOlLXYYNjKKA45Ujfm0/+yxk2cEDoF8/5mgtvM5f2zRyOziLnPuDJTcgJmJD6kk8cF098t//BI1xHgTyRPBQZDRbQVOcOoE+BWTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gurudas.dev; spf=pass smtp.mailfrom=gurudas.dev; dkim=pass (2048-bit key) header.d=gurudas.dev header.i=@gurudas.dev header.b=NSAOyNTL; arc=none smtp.client-ip=198.54.127.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gurudas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gurudas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KVj9nhfp";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e9YiHvWf"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6644dmaM1841466
-	for <driver-core@lists.linux.dev>; Sat, 4 Jul 2026 05:51:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BPgsw4LHcZkkkqPUiF95WWE89s3NKtA9u8XaxB5FvJU=; b=KVj9nhfpZz/OR4Es
-	g3MYKSHaopMTLEN3vkK/DHyyxVOSsg38ARKuvgG7TNmOo5vIsmbY+Jhx+MKJ4DkW
-	BqEdnyR+OqQ69kNXJU16xVASNIzhaUY0ySMmQ+3iUlO3L9k4qCgoCbIbpIPcUb0m
-	9pWlBlyAllFM5dVdAxTA6oF4EW8j5YzQQh9zg66rL2trn9Jq2FECFe4tSatPshuV
-	2w8FTbeflcETUm60Pw+WigujBcVmfzKptw0tHkCAUzUtGsnUXylRllS/eUKQZ6Z0
-	a46VgWZy7Dgix4jVASXYcPdURiH1uiaDw9mTfPCZ/XHQnEuqqNkF6q3sHd+6+s7X
-	9LCe+Q==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6ubgg3mb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Sat, 04 Jul 2026 05:51:04 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2cacf17c7e0so13931595ad.0
-        for <driver-core@lists.linux.dev>; Fri, 03 Jul 2026 22:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783144264; x=1783749064; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BPgsw4LHcZkkkqPUiF95WWE89s3NKtA9u8XaxB5FvJU=;
-        b=e9YiHvWfaDgdAOYtSzw90kIUO1/d5QGkHUm9owjnkZyeiI4hFy/pBVtZSUrwj6Sjfa
-         pohQ5KIv4b2D7cSWAedqCqBUeHifjT1fRmnY2hlA0lAijwLgQt22H74mNHj0x6vR5Boa
-         Yttt0IcTwvrAPD1fIIlNfVO1pWKdMWqI3VIQ2HmUkCylxaLzdOGQby3ZXEEJB/E8Cask
-         5DHMy9+2FITe5Mm44RK1jqR/n8J4FgplqTpZlv9EenWiQ55an/lwaAjmDKZreD7vxkdL
-         XrJ+ffUXUXn0yPHRMgl4tWnUbnJSncunmgJ2/7CLaoSMnbIAkeMwOCKFt52/8LYhu1EQ
-         ciRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783144264; x=1783749064;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BPgsw4LHcZkkkqPUiF95WWE89s3NKtA9u8XaxB5FvJU=;
-        b=pXuXlFBNIaHUXCqaXpne4YM+nJIKL6Vgc6XZU4OgFBtWHNAbnIAVwQPGN/flXvIKJu
-         ps6Rr0AzM4ETtALYXsQS8jcvYVoV/BZka08C2ttJco815OX4HSWKSCws5t0haqfC0Ago
-         ybGzV+PcscmkN+54cma7NUSfXmu8iu4rbkagdpD/nN3x7IKSyP8djYY0pMl8eDjjATNA
-         m5t2NyIvSbmVMR2H+U4LVuWh8HpLgEdPhzwkXQRgHCsidjTXuMmYlRCPTWhWcye9mSaE
-         aZo/e/+FJrw7LRp6j828a8qXL03pjICyOR4BTYX9WnfMsnXvblaRv3Oy+7xuZJh30mgA
-         l2oA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpq7u0jyotamvfu/JIIIu9aKw9Ie7bF9dAs1j3pQ4tP0ZHmpxaqR/FnRvHPLvbOURW6TrGvh0L6wbbJGA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6TjbuLdTxe+rxx/wkP8Ya/6glYWKqNxa/DO2YqJkVN4DeNaBX
-	4jVVx8+budBFpjVA8WBRQA9iOg4rtkFlKArg/InXFBG98440DH+lFUknTIubDo8fdWfZX15KFKO
-	ZO4gaIhgHATfEkyNm7W/6MfYuRhWaSpbPDFVAQLVVEcy5FBwsFCrMdorsmiDHn2LuVw==
-X-Gm-Gg: AfdE7ckaMbZWYSPq3y49TR+OJBzdca7xM4cmCnp90O4kE4wBBYeWJya/9LSNXS+YmnH
-	5DPSEeTbq922PSZY0UzVbfIZalPCPhcgeoqPQ6oWy2LH4f5buyP0S7zTnHki6HOfBOLr4pBCjVC
-	HXMGmt0I5oY//dqmvgxyNhouqHWhskn+MlKrdpWsqtBgWkaHEEHS89CPwmHTGx1KKFbxSBaw7e5
-	cdBFTP9xLxkI/m2CceLPbri3SE/bYsjnPVhpGshTA4SBLVun9Uo9hxmqVyHHA3o1difqIDkRgfZ
-	6rAU3eKPzAgdqkEGLPpNM7d3RU3Wp2l1rFHn5LljwDGKq1k+1P70KFjFwiZJgWWsqHIH78haU63
-	tRBSib2vtuv9/o8nTA+JeFebUyi4aAWOYcTPwpqcWNuA=
-X-Received: by 2002:a17:90b:510e:b0:37f:133a:3e09 with SMTP id 98e67ed59e1d1-382803b483amr2336972a91.3.1783144263614;
-        Fri, 03 Jul 2026 22:51:03 -0700 (PDT)
-X-Received: by 2002:a17:90b:510e:b0:37f:133a:3e09 with SMTP id 98e67ed59e1d1-382803b483amr2336920a91.3.1783144262906;
-        Fri, 03 Jul 2026 22:51:02 -0700 (PDT)
-Received: from [192.168.0.3] ([49.204.111.196])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f31e7a2a8sm12120126eec.25.2026.07.03.22.50.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2026 22:51:02 -0700 (PDT)
-Message-ID: <ecbaece7-764c-4e0e-b490-55d538f8aa29@oss.qualcomm.com>
-Date: Sat, 4 Jul 2026 11:20:54 +0530
+	dkim=pass (2048-bit key) header.d=gurudas.dev header.i=@gurudas.dev header.b="NSAOyNTL"
+Received: from gurudas.dev (107-194-158-19.lightspeed.sntcca.sbcglobal.net [107.194.158.19])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.spacemail.com (Postfix) with ESMTPSA id 4gt7rn4SRMz2x99;
+	Sun, 05 Jul 2026 00:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gurudas.dev;
+	s=spacemail; t=1783211915;
+	bh=M633SL93BCN0PrL2e/cwx2xlbDs4y1U/AlCmHMhb3AI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NSAOyNTLPtXZ/k1vM23d4mp6kcF0MfY7hjEozE9ESHWUStbSSsqzbmiiD9bT9KmME
+	 xnAufNEJYHbKrfK7MERrVnvmbFeMgkIx6GxHLHSyiCFyy3RCzqYObOgb2IM2gkSkEl
+	 n5ETauFMijv8KmS/jXdluLdYQvgxUilcbOPVqAPT8FXUj6yRzgydyIO9gJ4MdAtdnt
+	 cxQgrF191paqd10Z5zniDfAmO76GJCGEoWxy3mQV3UO+ca0IHbz6G7bc9o/6KLFbTN
+	 eEaQWUGbFQiNK5sG4hbYbqVp7dDxT5pfkoyvnPCLpGPi6eDF8GCzqSTJ/ZeBQ4F+xV
+	 T2FbStM6b4UEQ==
+Date: Sat, 4 Jul 2026 17:38:31 -0700
+From: Guru Das Srinagesh <linux@gurudas.dev>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Miguel Ojeda <ojeda@kernel.org>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Fu Wei <wefu@redhat.com>,
+	Michal Wilczynski <m.wilczynski@samsung.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	driver-core@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-pwm@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-block@vger.kernel.org, netdev@vger.kernel.org,
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/7] rust: Use kernel style vertical imports in various
+ drivers
+Message-ID: <akmnh0AKFfu9-OYn@gurudas.dev>
+Mail-Followup-To: Andrew Lunn <andrew@lunn.ch>,
+	Miguel Ojeda <ojeda@kernel.org>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Fu Wei <wefu@redhat.com>,
+	Michal Wilczynski <m.wilczynski@samsung.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	driver-core@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-pwm@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-block@vger.kernel.org, netdev@vger.kernel.org,
+	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org
+References: <20260628-b4-rust-vertical-imports-v1-0-98bc71d4810b@gurudas.dev>
+ <c89a1bc8-6cc1-4e16-ac95-add389e45a2b@lunn.ch>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] PM: runtime: Only set runtime_error on suspend
- callback failures
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Girish Mahadevan
- <girishm@codeaurora.org>,
-        Alok Chauhan <alokc@codeaurora.org>, bjorn.andersson@oss.qualcomm.com,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Douglas Anderson
- <dianders@chromium.org>, linux-spi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-        aniket.randive@oss.qualcomm.com, chandana.chiluveru@oss.qualcomm.com,
-        jyothi.seerapu@oss.qualcomm.com, linux-pm@vger.kernel.org,
-        driver-core@lists.linux.dev
-References: <20260703-fix_sticky_-einval_after_pm_runtime_api_failure-v2-0-578b78a0cf46@oss.qualcomm.com>
- <20260703-fix_sticky_-einval_after_pm_runtime_api_failure-v2-1-578b78a0cf46@oss.qualcomm.com>
- <CAJZ5v0haSHfupyfnVGX_v4K0wYrjn-83NiDPPfC22x=zwi8igg@mail.gmail.com>
-Content-Language: en-US
-From: Praveen Talari <praveen.talari@oss.qualcomm.com>
-In-Reply-To: <CAJZ5v0haSHfupyfnVGX_v4K0wYrjn-83NiDPPfC22x=zwi8igg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA0MDA1MyBTYWx0ZWRfX3FKX4mksJAag
- F6iW6o3EvEsqHhZwZcmxT4ETnkithot7+PKPFcQKa9ZR/vPF3YlXnoHDje4y0o9eht7o20XNuWb
- sHiYaXkmce7KDfPrOBcBye3UEE/3Z2o=
-X-Proofpoint-ORIG-GUID: vAlYNVH8D-eLWoZ4GD3mDGvt-75WtMx1
-X-Proofpoint-GUID: vAlYNVH8D-eLWoZ4GD3mDGvt-75WtMx1
-X-Authority-Analysis: v=2.4 cv=FJwrAeos c=1 sm=1 tr=0 ts=6a489f48 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=7DW+zsgf7PPjz/i6iZMG3g==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=EUspDBNiAAAA:8 a=cavnWwEOFYD_SYEfP9UA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA0MDA1MyBTYWx0ZWRfX0YkyEBKof9oC
- JKNtV7pukCZvVWWLrwQNpCEMuEZ0XoCxtmQLKvrxfcde6oukcP32iBKRrdi1NlM/D88n0HoXeFU
- npJlnGci2Rr25k+kSzuh841DIIOJG+sd4iWxZ9/mzWw3acd2+8fg1WsyA3rIeBxgRlwz2gHPUHJ
- KXhCpAWG7M2z+IHgEWb1xcdbNUAXlqZqsZUSgxTSgYvkaUy240qdJhDqeM/mwMkPHeGjjmGS1Bh
- tDpdcxgzyPzW8x3eYjOEaPiCuLWeaXsXcyKvM2pbx8Fa07Erewo0CgX7PkE0vv+hv3G4D2xmVsU
- yQVmSJuj3yQFxXo59P8dcc4iIka13WZ4tDEHsdGLRjr2yCuCd3gkbIHnp9vHq4lrLKGdcGIxzfo
- 0Yy+uyru0shVO7zqAfRNr9EuiAMtEGPfjiS8GVq69FfChQ9andhqrEH0Zjud9e0rszfgpbO5kW0
- ZKB8/uwmg5Pq2VQDuKA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-03_04,2026-07-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607040053
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c89a1bc8-6cc1-4e16-ac95-add389e45a2b@lunn.ch>
+X-Envelope-From: linux@gurudas.dev
 
-Hi Rafael,
+On Mon, Jun 29, 2026 at 04:06:36PM +0200, Andrew Lunn wrote:
+> On Sun, Jun 28, 2026 at 08:38:14PM -0700, Guru Das Srinagesh wrote:
+> > Came across a recent commit bc58905eb07 ("samples: rust_misc_device: use
+> > vertical import style") and found a few more locations that could
+> > benefit from this cleanup. No functional changes.
+> > 
+> > Signed-off-by: Guru Das Srinagesh <linux@gurudas.dev>
+> > ---
+> > Guru Das Srinagesh (7):
+> >       samples: rust_dma: use vertical import style
+> >       pwm: th1520: use vertical import style
+> >       cpufreq: rcpufreq_dt: use vertical import style
+> >       block: rnull: use vertical import style
+> >       net: phy: ax88796b: use vertical import style
+> >       net: phy: qt2025: use vertical import style
+> >       drm/nova: use vertical import style
+> 
+> You have multiple subsystems here, so you need to split this patch
+> setup, per subsystem, and submit them separately. Maintainers only
+> accept patchsets for their own subsystems.
+> 
+> For netdev, please take a read of:
+> 
+> https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+> 
+> You need to get the correct tree, and set the Subject: line correctly.
+> 
+>     Andrew
 
-On 04-07-2026 01:53, Rafael J. Wysocki (Intel) wrote:
-> On Fri, Jul 3, 2026 at 5:05 PM Praveen Talari
-> <praveen.talari@oss.qualcomm.com> wrote:
->> When a runtime resume callback returns an error, rpm_callback() sets
->> power.runtime_error on the device.  This causes all subsequent calls to
->> rpm_resume() to return -EINVAL immediately at the top of the function
->> without invoking the callback again, making the failure permanent until
->> runtime PM is explicitly re-initialized.
->>
->> Unlike suspend failures, resume failures should be retryable.  If a
->> device's resume callback fails transiently, there is no reason to
->> permanently block future resume attempts on that device and all of its
->> consumers.
->>
->> Fix this by conditioning the power.runtime_error assignment in
->> rpm_callback() on the device being in the RPM_SUSPENDING state.  At the
->> point rpm_callback() runs, __update_runtime_status() has already set the
->> device status to either RPM_SUSPENDING or RPM_RESUMING, so the two paths
->> are reliably distinguishable.  Suspend callback failures continue to set
->> power.runtime_error as before.  Resume callback failures return the error
->> to the caller but leave power.runtime_error clear, allowing the next
->> resume attempt to invoke the callback normally.
->>
->> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
->> ---
->>   drivers/base/power/runtime.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
->> index 335288e8b5b3..70d933bcd295 100644
->> --- a/drivers/base/power/runtime.c
->> +++ b/drivers/base/power/runtime.c
->> @@ -469,7 +469,13 @@ static int rpm_callback(int (*cb)(struct device *), struct device *dev)
->>          if (retval == -EACCES)
->>                  retval = -EAGAIN;
->>
->> -       if (retval != -EAGAIN && retval != -EBUSY)
->> +       /*
->> +        * Only stick the error on suspend failures.  Resume failures are not
->> +        * treated as permanent so that the next resume attempt will run the
->> +        * callback again rather than short-circuiting on runtime_error.
->> +        */
->> +       if (retval != -EAGAIN && retval != -EBUSY &&
->> +           dev->power.runtime_status == RPM_SUSPENDING)
->>                  dev->power.runtime_error = retval;
-> Why don't you move this check to rpm_suspend()?
-Yes, we can do that.
-I hope the changes below address your concerns. Please let me know if 
-there is anything else that needs to be adjusted.
+Hi Andrew,
 
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 335288e8b5b3..fab38bc98113 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -469,9 +469,6 @@ static int rpm_callback(int (*cb)(struct device *), 
-struct device *dev)
-         if (retval == -EACCES)
-                 retval = -EAGAIN;
+Thanks for the feedback.
 
--       if (retval != -EAGAIN && retval != -EBUSY)
--               dev->power.runtime_error = retval;
--
-         return retval;
-  }
+I was aware of the per-subsystem rule, but reasoned that since these changes are
+purely about Rust import formatting coding style with no functional impact on any
+subsystem, they might go through the rust-for-linux tree with acks from the
+respective subsystem maintainers. The Rust coding style is independent of any
+subsystem-specific guidelines.
 
-@@ -751,6 +748,9 @@ static int rpm_suspend(struct device *dev, int rpmflags)
-         dev->power.deferred_resume = false;
-         wake_up_all(&dev->power.wait_queue);
+Is that reasoning off-base, or is the right path to split these out per subsystem
+regardless?
 
-+       if (retval != -EAGAIN && retval != -EBUSY)
-+               dev->power.runtime_error = retval;
+Miguel, could you please indicate if you have a preference here?
 
-+
-
-
-Thanks,
-
-Praveen Talari
-
-
+Thank you.
