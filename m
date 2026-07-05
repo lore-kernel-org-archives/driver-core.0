@@ -1,89 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DF630D405;
-	Sun,  5 Jul 2026 22:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7940C30D405
+	for <driver-core@lists.linux.dev>; Sun,  5 Jul 2026 22:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783289305; cv=none; b=Xe6VhETc1J0C5ujkJgktsdgolaysIaJ2RvUZoEhOzC7eEUtMa9KSP0UrqdjwsmGH5bT6rJkTjrIT9EkAHxvnkxHEB9b1W7vdZhZEhwzjrRnnk623vir28LU/Ie+3LGJA38wBQ5nOA214avzW7an0ZBkYI53sTDe3oSTJRGaZLZA=
+	t=1783289307; cv=none; b=XWGBZOmWeIyeM0GcwssbbsLkKCeJ8hxWJbmZpxEUseYU+t82qX7zng8uwV/jiqR18Vm0sf5FE+wjyOenZjWavpdvnxfxv/7I6Jaifvh/uB81xRw5WbWJEPmwK+fzi20R2Aru2OCDe+vh+FjK3U1z9mrhLlL1sY2skRsHXLGuaDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783289305; c=relaxed/simple;
-	bh=YoKIYSXqpnkM1bHU+01gM25AbhsAJcx32dbbqIjb1zk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D6l8dUQpeMMmziWajAfI/ZOhIOE4XI3XtiVMX1crb0EiUKe46bqJuCEpNoQiui77D1is5UvPEHUOGIUznHyw+R9mclnGFGGMvBIOwA/5yZIBCaT7tE8/6SUgwooSsTKvV0ruXFvoAtH6eH0N9WsIPTrmGhRckLzzc4/kFN4xXAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HRfgU7/R; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783289307; c=relaxed/simple;
+	bh=d/uvAt7p9ViCpZFjRxotUP56iOL4IJuGpkD0Imx62nw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=k7x19+5kKM1halW+Anokby3Y6I0IG2pY9pOoF0WIp8eMkyO4+oDf+/d0XmNEtSKu/tZGJ0/Ci5PyuMT0pr+ErWL4Tej4ci+tHsNuRWoAvUG2tZAG6D8j/xEwcqq0slVITQKcrZolb6iH7RNIGqcor8jNgOd2GnzWT4IKO2WB5FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ES0myYrG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HRfgU7/R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113FF1F000E9;
-	Sun,  5 Jul 2026 22:08:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ES0myYrG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D0841F00A3E
+	for <driver-core@lists.linux.dev>; Sun,  5 Jul 2026 22:08:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783289303;
-	bh=KfzxR0AleekAcJiyL5teZZE+RnL15mrHLBNUPFKzbIE=;
-	h=From:To:Cc:Subject:Date;
-	b=HRfgU7/RXAcNJWWnx+xx+dngsiDNwCgjv4z5ZkY6e+jdtY58GXPsokQDSo9hiCRPv
-	 9w6PgzntmbF4fr+8YVioZ4QOme5pdBo2bzO1WwNJ6MyjsvdGADbL4MrNIvdPoUQp0I
-	 3Se54DZEDeHR5OlwjvdRYMM5bfSf93V0PG9o0402MsUpL/Kqw2PnPyeqk/53+yOaC1
-	 b334gMwmkkS5CYq+mrCJ7GwaL0vq7WLYgZnnNhJYtaqcp7UL64yTnwKp87rLvOA3re
-	 tcrbJrL2Ui/yXbtkyxpDBoEgjBP9FGEU7j61jfTCb1vz1yCdmrAehb9DczN+LFS++7
-	 Sx5SeKHXC7ycw==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 2D2A2F40068;
-	Sun,  5 Jul 2026 18:08:21 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Sun, 05 Jul 2026 18:08:21 -0400
-X-ME-Sender: <xms:1dVKatb64XCmRJfDWJLJkZt5rk_W_8OrZTBNpbInM_uqFABymltWdA>
-    <xme:1dVKar5o06B56y-r00th8VLxDdKiw_VRgjANrbs65bbHwtH95PSJSVJcAlAbXlgoN
-    BTfQVTIPUPQ1p6HHzlOhJHhmuSSROLBXPd4hbGjGDjKjFo15egVvNU>
-X-ME-Received: <xmr:1dVKamBj6kajwm2wJtTBM0a8GWSKWtlYThtlYcw_7RAXVh0kORww13hOEIj8pMebJ15mpzib9_sKNjV6xAC1rrRanQZLq116B-A>
-X-ME-Proxy-Cause: dmFkZTEvGx/gkOz+BGnjuWiLxd8AvVU1sKyr9tpv0zA3+DcnGEfyUSh6NOjjzDbjf2g4vp
-    4kU/FRppIQqfGSVbKGszXUXLA/uh0+rcfkHFcKSje1sWEvTb+j3XRnjSMnOWW91fiqUmwF
-    WGwt9SrsTok1F729gNQubm2/uK/lgnqQ0wEHTLgfcSRwpcMHUz9kqfRAu9+EKC0tRyJWYY
-    MUg43P+7DbcqLRRmL+dI48AbXLmem8iBrt0Ln9j2hdfoX0uVWyl68flMWvNgMFH27erKeg
-    QbUUsf0/lK8RvrYGmPoxiAnCq9ORlu7xSmtP0Dvl/RKSWzd04s0MEyNtmowUZYRAqAsQF1
-    NdVmmMGzGJSdTrxwITwf6h/aRV3vG0y2+CoQdQ+KSn/qdlRlPJXAvDP781COHklNXeV6ng
-    Q4kbG/zsRWAQoFHWv8f2W0FA3c9+BCjp0bbXSk6TR/GhLCldvwh6YxE1NjURGBRBKTEOka
-    MKxhQupx9nZaTtYbxGJ5kSauYJHtufVqHFfiS85U5QbFcsxMr+0cPNYCmDH6zh0SdbvupU
-    /kd2n73CeS0IISgyn0bAjdzm/+sJJjQduXxTD+irANq6HmaoluaEjZNgEDuQFC4m4iHHSt
-    l1ty0qEDBSQ/WbxYzNFtJwxy3C/iUURsAYa7cIj9LEatf15DFYjvW0WvGbxw
-X-ME-Proxy: <xmx:1dVKapuZRfNvi72UOQvgc6jqPZnOWBcp9hHRrv2ThAUdFTFGDou0MA>
-    <xmx:1dVKajuKNR9WWNjxT8-u85ye3CuGbg1_VYuFEQo84mF0658409ZrRA>
-    <xmx:1dVKalowhDmUqXK4pfCZEZ3KEWiw4o2YnHGuRZxZTsfXxxS_FAn-ag>
-    <xmx:1dVKanNcbMSyY8pYuorbIcFm2GEsQU58o_3d7p1h_iB04Ztn96039Q>
-    <xmx:1dVKarkygm2XfYJenYryXLgEDBZUqGLY-dqN68rRNBRKnLce0_rmb4A8>
+	s=k20260515; t=1783289306;
+	bh=nV1LB2wX4l3Zds4hK/BfunzcqpRfA4Wxf5edcMYDhy8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ES0myYrG5tbc4LuFQZsf16xU7axyc8ULTRhZyxXVS0X3CywvxbRd/71BXijBvPhOz
+	 7JJQzYnkzw2+IDa1+SJERLdqbrrBO+7uWSKW1Rt9MAunBUltFgTRhkjEhraX3ifMVE
+	 UvN8kOamy2ND3v8UMnqERlMNIzSWWjxxKN8sezJBUkSs73vWlj537p8ZmleVhkSAE1
+	 JAGS1VP51qc76AJ/p9pBLc6lzQoalqMR4tn7NxSpetOYk7WuiP3DAWucNNZosqGByc
+	 4fwe4ikus8L3eZ2pg+y3HifFxVXeXxuEey5tOrWTk4jYoWDOX5Cn1/cuafEWkxEn8M
+	 aCzb5nZYrcxeQ==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 6ADB6F40068;
+	Sun,  5 Jul 2026 18:08:25 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Sun, 05 Jul 2026 18:08:25 -0400
+X-ME-Sender: <xms:2dVKalsLajiRr85J2gAGhMNp3FKl9q-oyuYlM9DOn71EtyG_nc-jNw>
+    <xme:2dVKau5N4L45-0w8Ddf-yy_Zovl2B6Tv9Z9oKuWmkuOb7gar6cUokjFtF3T6djzQH
+    yUo2glyl9VSkw8eeDkLwFHHXMQYAFnmiM7urc4st5RN9Wov3x4DKHca>
+X-ME-Received: <xmr:2dVKapf-8885Jgb0fqrFZisV0_o22QbdhMuDBG9QG8lp7Fh-dbP2FuhAV1fvSpJ4Vhe7NKTxT8kSHL8YWG1q-Az8TqRQD0TbAUA>
+X-ME-Proxy-Cause: dmFkZTE1Svb0/5bSwQdApfC+U6dL2gZmcrd9ojXibA3ZPjdRULNU5Hv6XcSZAiVmHlblJI
+    nRX9hSbKdMc1VBBSNrg666lQ6CcxEKZNgRRhzoR+QVqivDAF8Ujpvq/sfwWeq00eff+oCV
+    k+EAKx9dDDvlSNZpJrxsVljQsQMgyQ9RNoP+RhvbatP76z4YPYpVZPU3c+ytqINJzeMlzp
+    xdbtMWSzLFkpQclwYZ9oBIV0jcHeGN1huLPXqxMJHBfSwmwIEPRvAZ+RfJoy6strCE5at3
+    qN7iLS5baLvWjPcKLAEfU4vGEdxDYPZeXWMso1Wj3vXoiv4p/Pm4UGhQ9Jwx+A5NdM7rVq
+    Cxig7IqWh9O4G0g52+BadRCdPmoIRApa4w96TUWjRxU/jkGAetA69oDP9WC/E5oo4vZ9K6
+    Hbs4C2MzkhpJS6Wf89xWXJaAS/Lg/ybsP8nDh+hEi1RAmjKI2AwLnlA6I9RSd9K9T6itU8
+    q848CvjvNsXN2ILQlEldk5HYWD5hOxhgJ0nEf/onrrEh6Q8g+mHNHehlaKYZmChmSiRf7y
+    SrSNHWTNg5gcLTkEOsJr+e0huMJrbvu+ID7cko6iOgKsMKq0aQxL8PVaUzOEOTNFNY0znA
+    pqCyz4q/284ifCur1cruT6b/n5riM9d91V5uT+VxfvlJDSULLvAHgUWZKrZw
+X-ME-Proxy: <xmx:2dVKajz3nt5Z5CrzU1blxZrRS5GE-glNIdZvsYHONOKFSN6xAic8bw>
+    <xmx:2dVKam9lxQJWr1yBxVLoMpGzL5BgEp3NlO5KVRxk7o1Ek76Rt2sfQA>
+    <xmx:2dVKapzr9nuZUedq0321GhlDJDCX1KRetJ0pVdfem3_AoxYGZac04Q>
+    <xmx:2dVKampRvnebDcDI7e-yJhwY5Nu5xxvr4nylHOPcIeIu9iTqPV1nKg>
+    <xmx:2dVKaqpd6Msq52Fd9Sdj8GHzj51sSNSAKXt6GY3eyoH0QnA9CwmxwkUJ>
 Feedback-ID: i67ae4b3e:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 5 Jul 2026 18:08:20 -0400 (EDT)
+ 5 Jul 2026 18:08:24 -0400 (EDT)
 From: Dan Williams <djbw@kernel.org>
 To: linux-coco@lists.linux.dev
 Cc: linux-pci@vger.kernel.org,
 	driver-core@lists.linux.dev,
 	ankita@nvidia.com,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
 	Alistair Francis <alistair.francis@wdc.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Luis Chamberlain <mcgrof@kernel.org>,
 	Lukas Wunner <lukas@wunner.de>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Will Deacon <will@kernel.org>,
-	Xu Yilun <yilun.xu@linux.intel.com>
-Subject: [PATCH 00/15] Device Evidence and Trust for PCI Security Protocol (TDISP)
-Date: Sun,  5 Jul 2026 15:08:04 -0700
-Message-ID: <20260705220819.2472765-1-djbw@kernel.org>
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH 03/15] tools: ynl: Teach ynl_gen_c to validate and dump 'blob' attributes
+Date: Sun,  5 Jul 2026 15:08:07 -0700
+Message-ID: <20260705220819.2472765-4-djbw@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260705220819.2472765-1-djbw@kernel.org>
+References: <20260705220819.2472765-1-djbw@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -92,199 +76,302 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Major changes since: "[PATCH v2 00/19] PCI/TSM: TEE I/O infrastructure" [1]
-- Implement a new netlink schema for dumping large SPDM blobs (Jakub,
-  Lukas)
-- Introduce a device core implementation for evidence gathering given
-  SPDM is applicable to devices outside of PCI (Lukas)
-- Replace the "CC acceptance" mechanism with "Device Trust" (Greg,
-  Jason)
-- Fix TDISP report parsing to use bytes instead of pfns for the start
-  value of an MMIO report (PCI spec clarification)
-- Support the CCA expectation that MMIO reports are BAR aligned (Aneesh)
+Now that blobs are recognized by pyynl and coalesced over successive
+netlink messages, do the same for the generated C. Recall that blobs
+support large objects for protocols like SPDM.
 
-[1]: http://lore.kernel.org/20260303000207.1836586-1-dan.j.williams@intel.com
+With blobs the generator can assume that the length of the blob will be
+conveyed in the response messages before the blob data message(s). Update
+the C generation to:
 
-[ Note, this series is back to a v1 posting given the new theme of
-  "Evidence and Trust". It defers some of the lower level details, like
-  touching arch-level ioremap implementations to consult encrypted_iomem,
-  until the higher order details are settled ].
+* Mark when a given operation may have blobs (objects that need more than
+  one message to fill) with a new ynl_more_cb_t in the dump state.
 
+* Use @more() determine when to continue filling a partially received
+  blob, and check if the end of the message stream is reached without
+  receiving all of its data.
+
+* Pre-allocate the blob and parse successive messages into that shared
+  object.
+
+This proposal is the follow up to a discussion [1] where an alternative
+solution of adding an @offset attribute to make each chunk standalone was
+discarded. That approach commits userspace to inefficient attribute
+reassembly where it needs to retrieve a series of structures with offset
+properties and then reassemble them into the full blob.
+
+Assisted-by: Codex:GPT-5.5
+[codex: helped with typing out the code generation]
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Lukas Wunner <lukas@wunner.de>
+Cc: Donald Hunter <donald.hunter@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Link: http://lore.kernel.org/20260318170014.6650d2bf@kernel.org [1]
+Signed-off-by: Dan Williams <djbw@kernel.org>
 ---
-Summary:
-A threat model wants to arrange for devices to not be operated until
-they present evidence. Add device evidence gathering, device trust
-levels, and hook those up for the PCI/TSM (PCI device security protocol)
-implementation.
----
+ tools/net/ynl/lib/ynl-priv.h     |  4 ++
+ tools/net/ynl/lib/ynl.h          | 14 ++++++
+ tools/net/ynl/lib/ynl.c          | 33 +++++++++++++
+ tools/net/ynl/pyynl/ynl_gen_c.py | 80 +++++++++++++++++++++++++++++---
+ 4 files changed, 124 insertions(+), 7 deletions(-)
 
-Confidential Computing and other use cases specify a threat model where
-devices are potentially adversarial. To date the device core trusts
-devices and their drivers, and only specific buses have local
-"adversary" device mitigations. The task is define a general trust
-concept to up-level existing trust mitigations, and allow for
-incremental tightening of mitigations across bus types and IOMMU
-drivers.
-
-Goals:
-* Create a mechanism for booting with a limited set
-  devices + drivers and permit selectively enabling more devices +
-  drivers at runtime.
-* Up-level bus specific trust mitigations like PCI
-  untrusted to a core concept.
-* Let buses coordinate entry into the TCB via the existing
-  ->dma_configure() callback
-
-The proposal considers existing trust mitigation in various buses.  The
-PCI device "untrusted" flags is an example of limiting but not fully
-blocking operation of a device. The USB interface authorized flag is an
-example of not trusting a device to operate at all. The implementation
-starts with these trust level DEVICE_TRUST_NONE, no operation of the
-device, and DEVICE_TRUST_ADVERSARY, limited operation of the device.
-For example, the PCI "untrusted" flag turns off device translation
-capabilities (ATS) and strictly enforces IOMMU mappings, but otherwise
-allows operation of the device.
-
-The proposal does not currently incorporate other bus specific security
-mechanisms that are independent of individual device operational trust.
-For example, USB device (not interface) authorization and Thunderbolt
-switch authorization are transport gates to other devices.  PCIe Link
-Encryption is also a transport security mechanism that informs a trust
-decision, but it is still possible to distrust a device with Link
-Encryption and conversely distrust a device protected by Link
-Encryption. Those security mechanisms are orthogonal to trust policy for
-driver bind, address space access, and acceleration feature enabling.
-
-The result is device trust is an input to the driver core and IOMMU
-layers. A bus can opt to sync its local bind policy, address space
-access, and acceleration features to the trust level, or treat it as an
-overriding second-stage policy from the bus's first stage mechanism.
-
-The trust levels established at enumeration and enforced at driver
-attach are DEVICE_TRUST_{NONE,ADVERSARY,AUTO,TCB}:
-
-* NONE: no usage of the device unless the trust is explicitly overridden
-  by user policy specified via a driver flag, module flag, or uapi (TBD).
-
-* ADVERSARY: needs acknowledgement from the bus and IOMMU / DMA layers
-  that the device is limited to strict IOMMU translation behavior. Drivers
-  can use this as a signal to limit functionality. This designation
-  implies follow-on IOMMU and bus enabling work for features like
-  arranging for the device to attach to a blocked IOMMU domain when
-  detached from a driver.
-
-* AUTO: typical / historical Linux driver model.
-
-* TCB: a trust level that only exists in Confidential Computing
-  environments. When acked by the IOMMU / DMA layer it enables the device
-  to issue direct-DMA to private/encrypted addresses or otherwise attach to
-  a secure vIOMMU within the TCB.
-
-Overview of changes:
-Patches 1-6: Update netlink to be able to support large blob
-transfers that the SPDM standard requires. SPDM can be associated with
-any device type, so the implementation lands in the device core with
-PCI/TSM as the first consumer.
-
-Patches 7-9: Introduce DEVICE_TRUST_NONE and DEVICE_TRUST_ADVERSARY.
-Support blocking driver bind by default, and allow either build policy
-or module policy to override the the trust level.
-
-Patches 10-12,14-15: Plumb the PCI/TSM support for the PCI device
-security (TDISP) protocol to transition the device through
-UNLOCKED->LOCKED->RUN.
-
-Patch 13: Support access to private memory either by the bus either
-coordinating with a TSM driver, or relying on the bus provider to have
-already arranged access (paravisor case).
-
-This passes basic checkout with the sample TSM driver and a sample
-netlink client for the device evidence facility. Those patches are only
-on the git tree for now [2].
-
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/devsec/tsm.git/log/?h=devsec-phase2
-
-Dan Williams (15):
-  netlink: specs: Introduce multi-message blobs for SPDM
-  tools: ynl: Teach pyynl to handle blobs
-  tools: ynl: Teach ynl_gen_c to validate and dump 'blob' attributes
-  device core: Introduce "device evidence" over netlink
-  device core: Add "device evidence" 'validate' command
-  PCI/TSM: Add device evidence support
-  modules: Document the global async_probe parameter
-  device core: Initial device trust infrastructure
-  PCI, device core: Move "untrusted" concept to DEVICE_TRUST_ADVERSARY
-  PCI/TSM: Add device interface security LOCKED support
-  PCI/TSM: Add device interface security RUN support
-  PCI/TSM: Add device interface security DMA enable/disable
-  PCI, device core: Add private memory access for DEVICE_TRUST_TCB
-  PCI/TSM: Create MMIO descriptors via TDISP Report
-  PCI/TSM: Add relative MMIO offset support?
-
- drivers/base/Kconfig                          |  91 +++
- drivers/pci/Kconfig                           |   2 +
- drivers/base/Makefile                         |   2 +
- drivers/pci/Makefile                          |   2 +-
- drivers/pci/tsm/Makefile                      |   8 +
- Documentation/ABI/stable/sysfs-module         |  17 +
- Documentation/ABI/testing/sysfs-bus-pci       |  47 +-
- Documentation/ABI/testing/sysfs-class-tsm     |  19 +
- Documentation/driver-api/pci/tsm.rst          |  47 ++
- Documentation/netlink/genetlink-legacy.yaml   |   6 +
- Documentation/netlink/genetlink.yaml          |   7 +
- Documentation/netlink/netlink-raw.yaml        |   7 +
- .../netlink/specs/device-evidence.yaml        | 203 ++++++
- drivers/base/base.h                           |  15 +
- drivers/base/device-evidence-netlink.h        |  25 +
- include/linux/device.h                        |   3 +
- include/linux/device/evidence.h               |  88 +++
- include/linux/device/trust.h                  |  56 ++
- include/linux/ioport.h                        |   2 +
- include/linux/module.h                        |   6 +-
- include/linux/pci-tsm.h                       | 104 +++-
- include/linux/pci.h                           |  13 +-
- include/uapi/linux/device-evidence.h          | 111 ++++
- tools/net/ynl/lib/ynl-priv.h                  |   4 +
- tools/net/ynl/lib/ynl.h                       |  14 +
- drivers/base/core.c                           |   7 +
- drivers/base/dd.c                             |   5 +
- drivers/base/device-evidence-netlink.c        |  58 ++
- drivers/base/evidence.c                       | 495 +++++++++++++++
- drivers/base/trust.c                          | 103 ++++
- drivers/iommu/amd/iommu.c                     |   2 +-
- drivers/iommu/dma-iommu.c                     |  13 +-
- drivers/iommu/intel/iommu.c                   |   2 +-
- drivers/iommu/iommu.c                         |   2 +-
- drivers/pci/ats.c                             |   2 +-
- drivers/pci/pci-driver.c                      |  25 +-
- drivers/pci/pci.c                             |   2 +-
- drivers/pci/probe.c                           |  10 +-
- drivers/pci/quirks.c                          |   4 +-
- drivers/pci/{tsm.c => tsm/core.c}             | 579 +++++++++++++++++-
- drivers/pci/tsm/evidence.c                    | 110 ++++
- drivers/virt/coco/tsm-core.c                  |  43 +-
- kernel/module/main.c                          |  13 +
- kernel/resource.c                             |   8 +
- tools/net/ynl/lib/ynl.c                       |  33 +
- MAINTAINERS                                   |   6 +-
- tools/net/ynl/pyynl/lib/nlspec.py             |  12 +
- tools/net/ynl/pyynl/lib/ynl.py                |  62 +-
- tools/net/ynl/pyynl/ynl_gen_c.py              |  80 ++-
- 49 files changed, 2509 insertions(+), 66 deletions(-)
- create mode 100644 drivers/pci/tsm/Makefile
- create mode 100644 Documentation/netlink/specs/device-evidence.yaml
- create mode 100644 drivers/base/device-evidence-netlink.h
- create mode 100644 include/linux/device/evidence.h
- create mode 100644 include/linux/device/trust.h
- create mode 100644 include/uapi/linux/device-evidence.h
- create mode 100644 drivers/base/device-evidence-netlink.c
- create mode 100644 drivers/base/evidence.c
- create mode 100644 drivers/base/trust.c
- rename drivers/pci/{tsm.c => tsm/core.c} (61%)
- create mode 100644 drivers/pci/tsm/evidence.c
-
-
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+diff --git a/tools/net/ynl/lib/ynl-priv.h b/tools/net/ynl/lib/ynl-priv.h
+index ced7dce44efb..dba98cf78204 100644
+--- a/tools/net/ynl/lib/ynl-priv.h
++++ b/tools/net/ynl/lib/ynl-priv.h
+@@ -41,6 +41,9 @@ enum ynl_parse_result {
+ 
+ typedef int (*ynl_parse_cb_t)(const struct nlmsghdr *nlh,
+ 			      struct ynl_parse_arg *yarg);
++typedef bool (*ynl_more_cb_t)(void *data);
++
++struct ynl_blob *ynl_blob_alloc(unsigned int len);
+ 
+ struct ynl_policy_attr {
+ 	enum ynl_policy_type type:8;
+@@ -123,6 +126,7 @@ struct ynl_dump_state {
+ 	struct ynl_dump_list_type *last;
+ 	size_t alloc_sz;
+ 	ynl_parse_cb_t cb;
++	ynl_more_cb_t more;
+ 	__u32 rsp_cmd;
+ };
+ 
+diff --git a/tools/net/ynl/lib/ynl.h b/tools/net/ynl/lib/ynl.h
+index db7c0591a63f..9c50b068ee83 100644
+--- a/tools/net/ynl/lib/ynl.h
++++ b/tools/net/ynl/lib/ynl.h
+@@ -100,6 +100,20 @@ struct ynl_string {
+ 	char str[];
+ };
+ 
++/**
++ * struct ynl_blob - variable-length blob attribute
++ * @len: length of the blob data
++ * @data: value of the blob attribute
++ *
++ * Parsed binary value. This struct is used for variable-length blob values
++ * that may be built from one or more attributes spanning multiple netlink
++ * messages.
++ */
++struct ynl_blob {
++	unsigned int len;
++	unsigned char data[];
++};
++
+ struct ynl_sock *
+ ynl_sock_create(const struct ynl_family *yf, struct ynl_error *e);
+ void ynl_sock_destroy(struct ynl_sock *ys);
+diff --git a/tools/net/ynl/lib/ynl.c b/tools/net/ynl/lib/ynl.c
+index 2bcd781111d7..933ee0ad2c51 100644
+--- a/tools/net/ynl/lib/ynl.c
++++ b/tools/net/ynl/lib/ynl.c
+@@ -1003,6 +1003,27 @@ int ynl_exec(struct ynl_sock *ys, struct nlmsghdr *req_nlh,
+ 	return err;
+ }
+ 
++struct ynl_blob *ynl_blob_alloc(unsigned int len)
++{
++	size_t size = sizeof(struct ynl_blob) + len;
++	struct ynl_blob *blob;
++
++	if (size < len)
++		return NULL;
++	blob = malloc(size);
++	if (blob)
++		blob->len = len;
++	return blob;
++}
++
++/* continue filling a blob attribute? */
++static bool ynl_check_more(struct ynl_dump_state *ds)
++{
++	struct ynl_dump_list_type *prev = ds->last;
++
++	return prev && ds->more && ds->more(&prev->data);
++}
++
+ static int
+ ynl_dump_trampoline(const struct nlmsghdr *nlh, struct ynl_parse_arg *data)
+ {
+@@ -1015,6 +1036,13 @@ ynl_dump_trampoline(const struct nlmsghdr *nlh, struct ynl_parse_arg *data)
+ 	if (ret)
+ 		return ret < 0 ? YNL_PARSE_CB_ERROR : YNL_PARSE_CB_OK;
+ 
++	if (ynl_check_more(ds)) {
++		yarg = ds->yarg;
++		yarg.data = &ds->last->data;
++
++		return ds->cb(nlh, &yarg);
++	}
++
+ 	obj = calloc(1, ds->alloc_sz);
+ 	if (!obj)
+ 		return YNL_PARSE_CB_ERROR;
+@@ -1059,6 +1087,11 @@ int ynl_exec_dump(struct ynl_sock *ys, struct nlmsghdr *req_nlh,
+ 			goto err_close_list;
+ 	} while (err > 0);
+ 
++	if (ynl_check_more(yds)) {
++		yerr(ys, YNL_ERROR_ATTR_MISSING, "Dump ended with an incomplete blob");
++		goto err_close_list;
++	}
++
+ 	yds->first = ynl_dump_end(yds);
+ 	return 0;
+ 
+diff --git a/tools/net/ynl/pyynl/ynl_gen_c.py b/tools/net/ynl/pyynl/ynl_gen_c.py
+index cdc3646f2642..f0387004b7cc 100755
+--- a/tools/net/ynl/pyynl/ynl_gen_c.py
++++ b/tools/net/ynl/pyynl/ynl_gen_c.py
+@@ -727,14 +727,20 @@ class TypeMultiAttr(Type):
+     def is_multi_val(self):
+         return True
+ 
++    def is_blob(self):
++        return bool(self.bloblen)
++
+     def presence_type(self):
+-        return 'count'
++        return 'len' if self.is_blob() else 'count'
+ 
+     def _complex_member_type(self, ri):
+         if 'type' not in self.attr or self.attr['type'] == 'nest':
+             return self.nested_struct_type
+-        if self.attr['type'] == 'binary' and 'struct' in self.attr:
+-            return None  # use arg_member()
++        if self.attr['type'] == 'binary':
++            if 'struct' in self.attr:
++                return None  # use arg_member()
++            if self.is_blob():
++                return 'struct ynl_blob'
+         if self.attr['type'] == 'string':
+             return 'struct ynl_string *'
+         if self.attr['type'] in scalars:
+@@ -747,9 +753,12 @@ class TypeMultiAttr(Type):
+         raise Exception(f"Sub-type {self.attr['type']} not supported yet")
+ 
+     def arg_member(self, ri):
+-        if self.type == 'binary' and 'struct' in self.attr:
+-            return [f'struct {c_lower(self.attr["struct"])} *{self.c_name}',
+-                    f'unsigned int n_{self.c_name}']
++        if self.type == 'binary':
++            if 'struct' in self.attr:
++                return [f'struct {c_lower(self.attr["struct"])} *{self.c_name}',
++                        f'unsigned int n_{self.c_name}']
++            if self.is_blob():
++                return [f'struct ynl_blob *{self.c_name}']
+         return super().arg_member(ri)
+ 
+     def free_needs_iter(self):
+@@ -784,6 +793,24 @@ class TypeMultiAttr(Type):
+         return self.base_type._attr_typol()
+ 
+     def _attr_get(self, ri, var):
++        if self.is_blob():
++            length = self.attr_set[self.bloblen]
++            return [
++                f"if (!{var}->{self.c_name})",
++                f"{var}->{self.c_name} = ynl_blob_alloc({var}->{length.c_name});",
++                f"if (!{var}->{self.c_name})",
++                "return YNL_PARSE_CB_ERROR;",
++                f"if ({var}->_len.{self.c_name} > {var}->{self.c_name}->len || " +
++                f"len > {var}->{self.c_name}->len - {var}->_len.{self.c_name})",
++                f'return ynl_error_parse(yarg, "blob data exceeds length '
++                f'({self.attr_set.name}.{self.name})");',
++                f"memcpy({var}->{self.c_name}->data + {var}->_len.{self.c_name}, " +
++                "ynl_attr_data(attr), len);",
++                f"{var}->_len.{self.c_name} += len;"], \
++                ['if (ynl_attr_validate(yarg, attr))', 'return YNL_PARSE_CB_ERROR;',
++                 'len = ynl_attr_data_len(attr);'], \
++                ['unsigned int len;']
++
+         return f'n_{self.c_name}++;', None, None
+ 
+     def attr_put(self, ri, var):
+@@ -791,6 +818,10 @@ class TypeMultiAttr(Type):
+             put_type = self.type
+             ri.cw.p(f"for (i = 0; i < {var}->_count.{self.c_name}; i++)")
+             ri.cw.p(f"ynl_attr_put_{put_type}(nlh, {self.enum_name}, {var}->{self.c_name}[i]);")
++        elif self.attr['type'] == 'binary' and self.is_blob():
++            ri.cw.p(f"if ({var}->{self.c_name})")
++            ri.cw.p(f"ynl_attr_put(nlh, {self.enum_name}, " +
++                    f"{var}->{self.c_name}->data, {var}->{self.c_name}->len);")
+         elif self.attr['type'] == 'binary' and 'struct' in self.attr:
+             ri.cw.p(f"for (i = 0; i < {var}->_count.{self.c_name}; i++)")
+             ri.cw.p(f"ynl_attr_put(nlh, {self.enum_name}, &{var}->{self.c_name}[i], sizeof(struct {c_lower(self.attr['struct'])}));")
+@@ -805,6 +836,10 @@ class TypeMultiAttr(Type):
+             raise Exception(f"Put of MultiAttr sub-type {self.attr['type']} not supported yet")
+ 
+     def _setter_lines(self, ri, member, presence):
++        if self.is_blob():
++            return [f"{presence} = {self.c_name}->len;",
++                    f"{member} = malloc(sizeof(*{member}) + {presence});",
++                    f"memcpy({member}, {self.c_name}, sizeof(*{member}) + {presence});"]
+         return [f"{member} = {self.c_name};",
+                 f"{presence} = n_{self.c_name};"]
+ 
+@@ -2164,7 +2199,8 @@ def _multi_parse(ri, struct, init_lines, local_vars):
+             else:
+                 raise Exception(f'Not supported sub-type {aspec["sub-type"]}')
+         if 'multi-attr' in aspec:
+-            multi_attrs.add(arg)
++            if not aspec.bloblen:
++                multi_attrs.add(arg)
+         needs_parg |= 'nested-attributes' in aspec
+         needs_parg |= 'sub-message' in aspec
+ 
+@@ -2388,6 +2424,33 @@ def parse_rsp_msg(ri, deref=False):
+         ri.cw.nl()
+ 
+ 
++def _blob_attrs(ri):
++    return [attr for _, attr in ri.struct['reply'].member_list() if attr.bloblen]
++
++
++def print_rsp_more(ri):
++    blob_attrs = _blob_attrs(ri)
++    if not blob_attrs:
++        return
++
++    local_vars = [f'{type_name(ri, "reply", deref=True)} *rsp = data;']
++
++    ri.cw.write_func_prot('static bool',
++                          f'{op_prefix(ri, "reply", deref=True)}_more',
++                          ['void *data'], suffix='')
++    ri.cw.block_start()
++    ri.cw.write_func_lvar(local_vars)
++
++    for attr in blob_attrs:
++        ri.cw.p(f"if (rsp->{attr.c_name} && " +
++                f"rsp->_len.{attr.c_name} < rsp->{attr.c_name}->len)")
++        ri.cw.p('return true;')
++
++    ri.cw.p('return false;')
++    ri.cw.block_end()
++    ri.cw.nl()
++
++
+ def print_req(ri):
+     ret_ok = '0'
+     ret_err = '-1'
+@@ -2482,6 +2545,8 @@ def print_dump(ri):
+     ri.cw.p("yds.yarg.data = NULL;")
+     ri.cw.p(f"yds.alloc_sz = sizeof({type_name(ri, rdir(direction))});")
+     ri.cw.p(f"yds.cb = {op_prefix(ri, 'reply', deref=True)}_parse;")
++    if _blob_attrs(ri):
++        ri.cw.p(f"yds.more = {op_prefix(ri, 'reply', deref=True)}_more;")
+     if ri.op.value is not None:
+         ri.cw.p(f'yds.rsp_cmd = {ri.op.enum_name};')
+     else:
+@@ -3731,6 +3796,7 @@ def main():
+                         parse_rsp_msg(ri, deref=True)
+                     print_req_free(ri)
+                     print_dump_type_free(ri)
++                    print_rsp_more(ri)
+                     print_dump(ri)
+                     cw.nl()
+ 
 -- 
 2.54.0
 
