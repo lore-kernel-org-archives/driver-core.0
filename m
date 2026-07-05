@@ -1,91 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021085.outbound.protection.outlook.com [52.101.100.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B491E98E3;
-	Sun,  5 Jul 2026 09:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783244585; cv=none; b=e2UqFpvBFI2gbf9dbeErSCQjk3WFQF3Mxnh80Ejc7iIXj53/NiSUMcgPXTJ71ZnBKunQPfWwOMJyabb+veu59Kuezj0F3tVXdgTsGOKMhgsxTvPavy7nAyuwAdyuDgTH7KQDGop9niIat3b0oR2WTGx39BXYOsRhgsa5tTT6LkU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783244585; c=relaxed/simple;
-	bh=2t/AyoMpmP6sqJg77ZdBErJTPgeXsgk2qepa+x8qLiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O4l2AcnBzQgYMlvi34d+c/4zeZIDix1a5BmU5Kv5A8XBkRNO5PkyAm9g6ddfERhoit9j1rzt4EZS8c9z0mlsqhGGNR0Y4DlGSdFnr9N3Mx3YkyhHq/ViTymiok5hhJ9HRNEaX+LD/axfGhnBTa34ks7Isatp9gq8EIreVY3c4Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUQtXevh; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEB0371068;
+	Sun,  5 Jul 2026 12:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783253339; cv=fail; b=rFv6D2FwJmaeUuYlMwaxf8yy0DvfiynVGdUXue0PG/es3mX11wUMikVZOmSx1/xmwsprmNT3GW1Y54+1YgrT6ikICTufcnLGUAS5xaCPl7rzsHcMdHnR3w6Zg97ptYHX8wP5W16CeibXCLmdtYCG2Y9X1SyeHBrEz3VSvgpsz24=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783253339; c=relaxed/simple;
+	bh=DY/ZJQ3rqnkCC0e1X/oyZqJVF8kR1+OKPNDi0K/7Hls=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=DgSqFE2EDkTqPdxiHQSbtl2u3yC8QniIT8f2Kml6NVH2KxrvJxml+fMdfUjUNJUkQcZ2ZZzcNDX5NwVZKm3wQGQ2o7zPx9w6R+9DAf2bpDoXFoOihEi7oHVYyiIbeJk8/Bpqh7mr679W2pVkRUmmPLGoD/5YJt6kG5pE+mw3iYk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=iRVGNrnK; arc=fail smtp.client-ip=52.101.100.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUQtXevh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D1EB1F000E9;
-	Sun,  5 Jul 2026 09:43:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783244584;
-	bh=dsyrHL7oxH+rFy0BGzwR2ub9eQ0OD8OJoWa48oeALqQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mUQtXevhy8s3LQcF3BAkcUi3LxRGrAs0KPtq3+NhdepMB7mtyV3kfZN0aQL/IjLxJ
-	 6RAull5oOdcedpdnZwMkRQYjevKR2aeJy7/Zg55AVqPEOrTabTunzMyAtkLhZFO+AJ
-	 yAu+/RK0xRvDqOCzwCk5Hnb+jeKqmRs+jgS05j2UcHKdef38WaZO7ZRC/jU3yU4DNe
-	 BjY3zKFrXn1sM+TYsIjBxdL4lSM8y7Cw9W0Xk4PJmvoO09invbXzxmBPxwKYTBHMW7
-	 PhP0Sp0+k7xr1CWLtGPf4KrXcUasfXYcWeavofl1W6LAghuh6g/w/QrnJNsaQpvOAv
-	 YAX5CnGGpf2OA==
-Date: Sun, 5 Jul 2026 11:43:00 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v3 09/13] dt-bindings: usb: mediatek,mtk-xhci: Switch to
- ports for USB connections
-Message-ID: <20260705-miraculous-mini-gibbon-d6cb6a@quoll>
-References: <20260703110317.1283411-1-wenst@chromium.org>
- <20260703110317.1283411-10-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="iRVGNrnK"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=i7yuJ/XJPfB6H416itnidLvU2Q+SFBYEPsHwzUllF3OUNw6M+GewX8/7QXzRkpX0KQXWtEBeI0dc9x9E+qAj64qyGOf4SAduLbiHyEFPXm692n5BwQgcBUmuE7QFcuRO53LUqHl9vhbQ1T9nGQVhAifdDgvjAaU2Jz/D/zEakDgya2lnzHKuvDaJGUz0wOqqZgKwJoOq0ypfdkSfa8BXHISmKETY0SZ8DRVpOqAS6N68XvGuSYvc+DEUBzpkKDv3a0CMedz2QM/lCWSIh5GKcZSeTa6kIcWSbFTBni0lKzGD1uAG1QfYN+7arxhoZ3uNFjl0YlpyfQ0mub1LcFdM4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6geqeTZ8oVqFzJKnxN6Ou9cSnOXfd1QdLC5R6btzXj0=;
+ b=OfEoDDAsFCWl7+OkmDFrXDqZLI58LRqwqX6MbiyPwI47sYjRgxYzAtPwpmKhOXPTBdf2BoK51C4kzyAz8U6KmpYyaIHFxiIwIZ3E3qMtDBUTL1JbSaNFoBU36HLGO9/MMrKXDm4UcFhorpEie760vgrPp3NcFWbFanBnhHsNTPK0v6JLUYWBlER0TI462JsF0D5VLt4/XyPJfEwgI5pjJrQx5VELQQbPGzRKgoDdB7xyHfQFymUnNoGXC3hyZKVUMMzXZW824jDqpRvpqku58ryc7sfUfUfxFd4jfTTifnCnhy0wda+pYByAy2gOlHWAQyqin2F9u5c1epudpqTL/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6geqeTZ8oVqFzJKnxN6Ou9cSnOXfd1QdLC5R6btzXj0=;
+ b=iRVGNrnKWi7fAz/tPSANgq3+NUdr2BXG7tq8skjuWq8+CH/moPYvnmZjey9Ezpl6qKKybIJsjSd4F2/IfeozZ9k5si7TR8KN0Lq6cKwny+Qp4cK6+kyr2whZyxA9gHaDGMPFzMzSDUM4fDu37gj+sra4II4Yn0PSZ0FGHLBRjIc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWLP265MB7266.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:225::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Sun, 5 Jul
+ 2026 12:08:54 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0181.008; Sun, 5 Jul 2026
+ 12:08:54 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 05 Jul 2026 13:08:53 +0100
+Message-Id: <DJQMJS0C3EDQ.278WBLVP566HU@garyguo.net>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross"
+ <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>, "Alexandre
+ Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Drew Fustini" <fustini@kernel.org>, "Guo Ren"
+ <guoren@kernel.org>, "Fu Wei" <wefu@redhat.com>, "Michal Wilczynski"
+ <m.wilczynski@samsung.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Viresh
+ Kumar" <viresh.kumar@linaro.org>, "Jens Axboe" <axboe@kernel.dk>, "FUJITA
+ Tomonori" <fujita.tomonori@gmail.com>, "Heiner Kallweit"
+ <hkallweit1@gmail.com>, "Russell King" <linux@armlinux.org.uk>, "David S.
+ Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ <driver-core@lists.linux.dev>, <linux-riscv@lists.infradead.org>,
+ <linux-pwm@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-block@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 0/7] rust: Use kernel style vertical imports in various
+ drivers
+From: "Gary Guo" <gary@garyguo.net>
+To: "Guru Das Srinagesh" <linux@gurudas.dev>, "Andrew Lunn" <andrew@lunn.ch>
+X-Mailer: aerc 0.21.0
+References: <20260628-b4-rust-vertical-imports-v1-0-98bc71d4810b@gurudas.dev> <c89a1bc8-6cc1-4e16-ac95-add389e45a2b@lunn.ch> <akmnh0AKFfu9-OYn@gurudas.dev>
+In-Reply-To: <akmnh0AKFfu9-OYn@gurudas.dev>
+X-ClientProxiedBy: LO4P265CA0048.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ac::8) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260703110317.1283411-10-wenst@chromium.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB7266:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5fc16130-6fad-4dd5-d084-08deda8e2efc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|10070799003|7416014|22082099003|18002099003|4143699003|56012099006|5023799004|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	QihblXpvdEklQsRNqW5pdvrh4cjhymtOwvrUSKJkhXQji/x84dL/C8nM0EymlyR52WUCDwTjlyxAMJ8kFjG/5Ie+nnA16WvQbLSxfIZGz0PIOF7pnN6Kyfbt8vYUL64jlg8LFH3ph49deno3tfqTqwiApzuoSYQJZDDXIciAeonmyMnSxY5hJ+k7D9LaGtJodPPnUKd4NtBH5okovKgm3NKsDXCfEEtNEhJTwVC/X5AEi53N/ekfeIl4v1SnWeUh4yoxa3WirdyqimaCjGzSGXT2mAoiaGkSUNNQTcEbkQJLTA6mSLssAhznFWOj9TYemH0UXjw82Fu5rAlg1gMyJgEHGgerhkzuep9RE/rKTo2akbuyuGKH6vw1pVM7pkkNI8uPuSAh34IxLidBA2OOY6GyiOMBREMy03JVFtzzfaXHfmYQsZspqR1UZeAfQ0/uqP4nsi3gEnXi9yhy1sy8JKJTqt4o/XFuFo5RTet4NH3fuKKgr+aY2zbROLQ8u3YwnaNU+kFrFKANka5Nej3/w+vWc9AV2lnRzVKWplWe90kxiqtMVa5b2gRdnfZWEIJEEv3H/8PQg1pyOH1z7G6j7PMxiTcOA94kCz2vHvc1+xlJOxv5UOqG2/mYFbmkWPJJBFF7P2R5AMRKEaDaME0ZD/e/uPPzd8FL8zavBSDguco=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(10070799003)(7416014)(22082099003)(18002099003)(4143699003)(56012099006)(5023799004)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MEtFRy85QkZxdkNDVXp5NFA2blRYQk5TRWJQTW1CTFFrRzZqRHhZTSt1b0ox?=
+ =?utf-8?B?QnNTa3c5R2p5MXlOUURMTzNCZm9adDlzQkkwdTRGRC9aWDk3MEpiUk9GQ1BB?=
+ =?utf-8?B?Z1JmK1lEbTJRanBKVmJBbUFERGpIZlArd3NxYXl5NlZHY3QrdzZZUHoyblll?=
+ =?utf-8?B?aHAxTHhWOWw1OUZpYlZZK2FkOXl2NFVJNGU5ak0wQk9oYnRwVmE2T0J1RkJC?=
+ =?utf-8?B?UjE2aldZSUV4MFZ6MzVReUZMeGo4dGxzZDdFUzdCSnBXU1RBcVlQMXZHTWUy?=
+ =?utf-8?B?dGZPVkRGN3d3S0hHUjJSai9YdmNCbkMwbDR2QlpQcTlCc1V5VFcxVXNCb1F5?=
+ =?utf-8?B?TytPUExhcVVwdldQR1cwQ0h6dnRmRXlyalVydUxVU01vYzQxQXdYR1orU3Rj?=
+ =?utf-8?B?b3BCbEJlNmtMaWI5YlNZRCtYcVY3S0V4WmJhZFRONVpkK012bDBSd3lnNmZj?=
+ =?utf-8?B?aWx5L3kyNExVR0JzVWU3TlBnWVZMdFJPdmpFdGpxYXdMQmZSV3BRWDV4dVlZ?=
+ =?utf-8?B?YUVBQXJZYXNWL1NRckkwN21YbzRVWnEyNUU4bUwwb1RUUjlxd2pQUVJqaWRW?=
+ =?utf-8?B?R24rc01McUM5MGMyM0htTllnaGxnNlhxQ1k5VndOUVJNQXR0aHdyL3c1T1FX?=
+ =?utf-8?B?UUYvTGdrdFBIUGhta2dLTUt3NENOczBla2VWNlVIOGc5S1YwT3RUVDJOT0Rl?=
+ =?utf-8?B?Z0dTcldabEtML05vdEZTNVlvTW4xSzQyeVVnYlNrcnZEM0doRnQwem5FMjlo?=
+ =?utf-8?B?UEVYYXpDR0VTRVNhczRTQTdzYU9LNHBtVGxIWjhycjR1N21Ic0NFVFdvdXMx?=
+ =?utf-8?B?YVJpNnN3TnEwM1VaeVF5enc1Unh3R0tXUHpwcUlSUE00RmhYSzBSTnozejQw?=
+ =?utf-8?B?OHUzZ1FnNjFMQnI0ZzBtNG9HaHFab0tQUE9rSWxnTzU1Z1V1TDRKUjduZllO?=
+ =?utf-8?B?NjhaL2NWckJwUVNWVC9oblVvNE4vZFFiWTNVQndYc01TOEx1Z0h5M2JMQVJF?=
+ =?utf-8?B?bzNTa1p5V1dBVWh4YzgwKzVWRGdTK0w0RjAzalNiYzJmTmdDOWtzSEdFZVZk?=
+ =?utf-8?B?cTd1L0R1ZEJjV01YVjlBOXNjT3NQRXVUR1EyWEQ4SmUzc0xkb1NnL0oxbkhW?=
+ =?utf-8?B?Tk1WdW1DRjM0NjBCNUJRZDNwSFVpMDAxb2pNZE9LdER6d2h2bG50R3FGaElJ?=
+ =?utf-8?B?YzdmUUdIZVc2UVhJWTRKalBkelJkK2dRSUxVd1dmV0JJTFFEeW93OVh0UGFN?=
+ =?utf-8?B?NmxuSitiMTJ4MnVCSnZtRno1ZzZYYnRsZUNtZjBYNW4vVmh6ajNvMFlnTnZl?=
+ =?utf-8?B?aERPZkNpaFdFejUwRUVwSlZGaDhlZGw2SUgvYTlvNmMyZTdYamRqeEc2NmI2?=
+ =?utf-8?B?ZG9vNWM2ZzZYL0RBUUIvanBHSGVjdmxzY3JCc0lYMjFCY2Y0bTBNbkM4ZXpD?=
+ =?utf-8?B?aXlidm9iUUc3Szdid0dTc0Q0aTNzK3NXN08zYVA2dTlIUVRaQkUrNlFPVXRD?=
+ =?utf-8?B?RHBuN2d1OVVxOUtYTGVhY0xGYjNiQjMvNDkySFFMZHRPRjFmWEFiQ3U4djRn?=
+ =?utf-8?B?WHpBSHV1RmRzeXZndnZ6N0REdmZKRzdtc0dNU0ZxYzM4S05yY3o3d1BUd2R1?=
+ =?utf-8?B?bnFQNFFlR2ZPQldhK04zNURrOWYxQno4WVlwRE1ndUMzYjc4M3E4d3c2Mjgw?=
+ =?utf-8?B?Qk4rN24yYnFqQjQ2WnAzdHdURUY3SSttQVZzTFJLbEhscDlBeGN1Y0JNU3ov?=
+ =?utf-8?B?UmozUG9TY29jb0RPN2xZZnIxZjJyWVJmOXZRc29mY3loaHBiai9LWkl6TDRJ?=
+ =?utf-8?B?eS9rYXVpNXNCd2FveUY1aE5wd2lnYkJQTjMwRkd5TDBiYklGY1BsVVBlcFcy?=
+ =?utf-8?B?bWlPKzVQRWl5NDFGYjBiWjZMbkhNRXVnVjErRTBsY2puSzFFLzRNNjFNN1V3?=
+ =?utf-8?B?WGVhRDRoRTEzSUtPamNrNkpIMVBnRnpjaHJud2wzQTYvVDQrTTErc0Y3T2d0?=
+ =?utf-8?B?NktkRVFJUVJ6SXc2cGI3a09sMklYV3kyOUI4d1BiblZmMlRFMXJhd3VGOHdv?=
+ =?utf-8?B?TUlJRVZoMkc1L2s2R1g4OUx4eVhHWEI1NjZSbUg4a1p3bENmZTlrSHJ6N2pi?=
+ =?utf-8?B?OWQ3NXVEUUI1QjZNZkNqVFZLbHd6YnZIWEttdjg5ZkhKcGNkbi9qbGRPWmlk?=
+ =?utf-8?B?VGtYWThlTElVTjBJUWdqcG4yQm9nL1lPRGt3YTFkY2REaGtCRml3cmJqa2pj?=
+ =?utf-8?B?a2RNUkxLV0JxMmszY0c5Q1Q5NmpkYnNOdHNBVC83YlFaYzM3dzRMYmthcWVH?=
+ =?utf-8?B?UjBtUnltUlZEL1Bwc1EvTkZOV3dTRlh3N1lvSDNISlVpaU1jZVZCQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc16130-6fad-4dd5-d084-08deda8e2efc
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2026 12:08:54.2533
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JdwnKBPxCCwEeEGzF05qXAmbhqYKudY/Xb6P52svQLtX7DqZrHVHWxwaofl6FWN6ARCYIhokMbHTLyBvf36efg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7266
 
-On Fri, Jul 03, 2026 at 07:03:10PM +0800, Chen-Yu Tsai wrote:
-> This reverts commit 454a1e3cd36c113341d7b71e8e691c6e47ab4a8a.
-> 
-> MediaTek's XHCI implementation supports both USB 2.0 High Speed (HS)
-> and USB 3.x Super Speed (SS). The block can also be synthesized with
-> either HS-only capability or HS+SS capability. The SSUSB controller
-> handles the device or gadget mode. Saying that SSUSB handles the HS
-> portion is wrong.
-> 
-> For example, on the MT8195, the first two instances support both HS and
-> SS, while the latter two instances support only HS.
-> 
-> Switch to a "ports" sub-node for describing USB connections. Port 1 is
-> Super Speed if the controller is SS-capable, otherwise it is High Speed.
-> Port 2 is High Speed if SS-capable. This port mapping scheme directly
-> matches what the hardware returns in its capability registers.
-> 
-> Fixes: 454a1e3cd36c ("dt-bindings: usb: mediatek,mtk-xhci: Add port for SuperSpeed EP")
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v1:
-> - Squashed DT binding revert and addition together
-> - Dropped reviewed-by from Bartosz
-> ---
->  .../bindings/usb/mediatek,mtk-xhci.yaml         | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+On Sun Jul 5, 2026 at 1:38 AM BST, Guru Das Srinagesh wrote:
+> On Mon, Jun 29, 2026 at 04:06:36PM +0200, Andrew Lunn wrote:
+>> On Sun, Jun 28, 2026 at 08:38:14PM -0700, Guru Das Srinagesh wrote:
+>> > Came across a recent commit bc58905eb07 ("samples: rust_misc_device: u=
+se
+>> > vertical import style") and found a few more locations that could
+>> > benefit from this cleanup. No functional changes.
+>> >=20
+>> > Signed-off-by: Guru Das Srinagesh <linux@gurudas.dev>
+>> > ---
+>> > Guru Das Srinagesh (7):
+>> >       samples: rust_dma: use vertical import style
+>> >       pwm: th1520: use vertical import style
+>> >       cpufreq: rcpufreq_dt: use vertical import style
+>> >       block: rnull: use vertical import style
+>> >       net: phy: ax88796b: use vertical import style
+>> >       net: phy: qt2025: use vertical import style
+>> >       drm/nova: use vertical import style
+>>=20
+>> You have multiple subsystems here, so you need to split this patch
+>> setup, per subsystem, and submit them separately. Maintainers only
+>> accept patchsets for their own subsystems.
+>>=20
+>> For netdev, please take a read of:
+>>=20
+>> https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+>>=20
+>> You need to get the correct tree, and set the Subject: line correctly.
+>>=20
+>>     Andrew
+>
+> Hi Andrew,
+>
+> Thanks for the feedback.
+>
+> I was aware of the per-subsystem rule, but reasoned that since these chan=
+ges are
+> purely about Rust import formatting coding style with no functional impac=
+t on any
+> subsystem, they might go through the rust-for-linux tree with acks from t=
+he
+> respective subsystem maintainers. The Rust coding style is independent of=
+ any
+> subsystem-specific guidelines.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Patches should usually be merged via their usual tree, otherwise you're jus=
+t
+creating unnecessary merge conflicts.
 
-Best regards,
-Krzysztof
+There are obiviously exceptions to this for series that need to touch multi=
+ple
+subsystems and cannot be split, but it is not the case for this sort of sma=
+ll
+cleanups.
 
+Best,
+Gary
+
+>
+> Is that reasoning off-base, or is the right path to split these out per s=
+ubsystem
+> regardless?
