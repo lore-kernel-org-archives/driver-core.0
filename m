@@ -1,81 +1,81 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A15D29AB05
-	for <driver-core@lists.linux.dev>; Sun,  5 Jul 2026 12:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD2137DAA9
+	for <driver-core@lists.linux.dev>; Sun,  5 Jul 2026 12:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783253581; cv=pass; b=MGix4KT8ckP90DaGSaQ7p6oe+8qSYseujZMpOtEtcboDGUodeu3LJQUbLNkSWKdSvkgC0Z/eEUbCPxI06bCgs1zDI6w3W3U2cq8xvSRemFHB7C2Br+EAhndfAUzY/iZQO/hNUeFh25aMq+7j3tzCQ3za3z3MJLMQahjG/QHXzsU=
+	t=1783254158; cv=pass; b=uPuFhJ5FhS+1si84agb0FE44BAICyF+n9plD1rMAwzkV1P5//NLXxoYMscO3yZdcsRHq/JJ7N9OCB5ZgxiY1oNpI3c9CfzIn2S7l+m+LTtBT2JTqYVmbqFmVJYA8WZJou2FJQ2UudWkqkVtFaLbBAY397Qld8f0HofPLpBtCXlk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783253581; c=relaxed/simple;
-	bh=5ISwFpI0UbPRq9FTX8wSAZ5/fVWcYX66lDYusFmfZZE=;
+	s=arc-20240116; t=1783254158; c=relaxed/simple;
+	bh=cVZuwq26LJUbjnXW20W3nbICqbmkh5x02bCyytPFsmg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=pYMPBTFSXqRCbMBEgTt/FbD6Ogb1Oncw26xaZAq/2Y9U5OG0Lebrux8jbAV0FH7ZWV3/fF6GiKgvUz4CfnWStlQEG1gmPVToFrVrehgvvEZ1pSQ3eTLxAJML+frFv603QibhpwhCyTIpwZB0ziqXHQpYo+Y+fi03XA5XHaGxxt4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WnxAPnUB; arc=pass smtp.client-ip=209.85.214.182
+	 To:Content-Type; b=KknYbSY51wZQdYBoz0ypVhYTvphBiecfNn6xLWXeNrk2iauU3Z0kKAKDi4Etjua7lzzWk4kPrc6JM1awmxWpTj85E1nspo/1EoStJe72M/0yJ5pP+9UVF2nqrZ14+Y4QB+grKw7YQE7g13mpUkEccx5TCrlTF4/UmGvvwLzHGhs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VzBNXuFe; arc=pass smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WnxAPnUB"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cc7e132d3eso1407325ad.3
-        for <driver-core@lists.linux.dev>; Sun, 05 Jul 2026 05:13:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783253579; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VzBNXuFe"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-380a02c71e2so761424a91.3
+        for <driver-core@lists.linux.dev>; Sun, 05 Jul 2026 05:22:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783254156; cv=none;
         d=google.com; s=arc-20260327;
-        b=N8Lo4d3h5YSYAYqUPgl5FHOLv2C1w9F5hq1gUy1iWJ5rulxHe7QoNBubIdG5c14AFJ
-         yuBUH9d1zd9bwJmxlADBjCyovy/pAhomPmWWunbxBUeqK1E1MerDxs3PLlubRTNZzX0w
-         NHS2qhzq0S7EUlrXQaVeu9xphwrX5w7EHKrOl1pmTPV5dyqBGDVKCC6CzgMdIwxa/Uh0
-         a4+W1Bwrt/UlFjELHyHVSHLW6a8ZJu1/qwaYZQG/WHEyw4IQbdzoW9GxyhUSJTL08j0s
-         BJgZwbTIr86g2SSF9LwD0yXWti9efGoAyLq49fI7s0VmfC9oX/wZ815PEPMxxj4D4kjc
-         t0qQ==
+        b=MRCEmdWCgpFImDYfmmCPCJiqZSLPKHdT1MxSyxEoBhrn/iB+NZPodb7yhlc2rx3ixb
+         MH9UCDPQrha+nSVuSkjssDJ302nScEaZYRfThg0B48y9mfbi3Oyi7ArSLGdkJqVN98B8
+         +g9wHrLnsuMIeSBEwWn5dhSVpAnNRYPpnO16ExS46DInsE6Nh9427IQfXrPqDexdA0yU
+         X3JHTx46Qhc+U84nbcogPMfwdNkZWDqyFtkb+nP+F+8dftJjrKee9jXG1ooGpOOgxbnn
+         qpsIuwgEmA/T0lymwr9baM8cDJI35DHzOjYAx82II21vlwbzCa0XFvRuYXKBRC8nebhd
+         pPCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=U0wpLikbkQ+TMe9JGtyw25kNkY3ZEdsCI94B3LxA6AA=;
-        fh=SNm1nQRto9v6mfe3T+vS1nstSzdgzh6qaCsXQtbu1Dg=;
-        b=AlRfMaqZXB6+jX7of2o24GouNp/kmWMOpUM8tfd9N+8Ik5pZ3GV6cH4ARgEwL0MEsA
-         9MuVUVX2H5rrO3U/ifU4TEREFIYXS+KNPq4COOYmPDlBvUwQfu9J1e/fa76crq4ukSRs
-         3WRu8RhM9MBkr1GVlc+nQNYfquo0USnOrN1CKwp7gR6zK7fAzYIaTAGXxEofcCQRkMxg
-         KYTkDJGwz8CpC5bOleC6NsHeyh7qI1quQ6E4M6O5eMSPw7FtatfImLenvAoKxVkkyKnZ
-         yMJ3n1PRhBYTScszegemUSdJ4al/1b6eRvl6x+zmPnHICjIFfcoFhWLWiVDaacu304rJ
-         GziQ==;
+        bh=cVZuwq26LJUbjnXW20W3nbICqbmkh5x02bCyytPFsmg=;
+        fh=RvNBZ5LNJdf4oBT2nVP35eMhKWZ6ci+t0WWLAu2zOSI=;
+        b=NLuCzj3hT4tZIc2o5IR9mytNE97xJqukAqytxACk4x2xygWJXPa70RVl5GvnQC+Kxl
+         13vHMs3KxIZyUuU4+JvEJa7GYcs9ERqoq9zzk71K8FCiHY5HR/mGNeL9q1zjdzRWS30K
+         zNEX2c3oyA6q/rq7BLKla7XpQGtfpEHS10HtLIPuhVTyvxBou8I+XmRXgeIABEH2iJgK
+         hgroqydguyE4yEbIhbrRXzjTudYDmQPOZ72oOtIyWqKYQrQdrWhqRIwJ+V2aWVbcbVI5
+         VZ0yt08+g6TJ5puJ6r4gK4ET9cWc/PW62JuVWhdklGCUDZBoghgUgONmV7nH3oSl0NDf
+         OPOQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783253579; x=1783858379; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783254156; x=1783858956; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:to:subject:message-id:date
          :from:in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=U0wpLikbkQ+TMe9JGtyw25kNkY3ZEdsCI94B3LxA6AA=;
-        b=WnxAPnUB8J5mJvEs3bTuzNM9fXEOncLTebda3jQOzY//y136D2cXAYO54HudAFkAci
-         qXYxtMuwNEwD2kWTfCiA4bpiFZeTWgyhvUGlYQJxSutuqkSFSoEjI5v4aqy6e5rJ8G/p
-         LoTAESv2vMxyLDACshFYEc1nkmurq2FIMP1XGNbOzylgCCU00COFKeXOvce0Gr8C4vna
-         7ccr/VifzvbJK0rxSUCHJZqa5qO3Luc12pz8OK5KaWqLpTB1KUuH3XNrI18xNa47yL5y
-         KQD5vmnp09lOWDUgYhL5bCj/5ZHkDiYmwv0LMa+hk0sEUYC3XVCL+Kcqm+zDU8WMBrGe
-         TaJw==
+        bh=cVZuwq26LJUbjnXW20W3nbICqbmkh5x02bCyytPFsmg=;
+        b=VzBNXuFeXCaDWHRctHOq2OVFGDi+cOXgOuXJS9HNZKJhqDh0unQ7tdokFueuyCqram
+         IY1F+bgS9Yy0tLEpcNEMlY5icUmFiw6aUAKgmuOFkGw3jd1ArC0dR5m1n51YHYqr4Ef3
+         OAQpQnOHSY7KJEKJndI7/xEkHTQj9Z9YWmv3JB5TEUsXH3g3Mehqt/OrqHw9PW7Z9e6W
+         AE7oxUHQiok3RaK95C7aiG+QDRXlWj6GEjGsSkq5TlJosUnF2g2W2kQ1rl4tIQ9BfzOy
+         NJOmJ2aQyllsw9DcpRdq+c5j4QqUIol5Q7MDHlps9oZlmpE7Kh4B9mIPgCD7WzZ19Z+3
+         l/oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783253579; x=1783858379;
+        d=1e100.net; s=20251104; t=1783254156; x=1783858956;
         h=content-transfer-encoding:content-type:to:subject:message-id:date
          :from:in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=U0wpLikbkQ+TMe9JGtyw25kNkY3ZEdsCI94B3LxA6AA=;
-        b=XBYyK5+Umqk2Cdg0MEGSsokRRahBtOBlW9UYsIxo1k6K/UOxfKKykyVTcPQMIB6CGE
-         dd8/usK/J33D046fKEcPdvjGfWKdACSC/sZfdxrnTyukaeYQ9FgrpfW6OPrb0RjGnWVB
-         bZMOSS2T4yfSN+/8navy1dojdspSzgITscc58m8rxiQ2BU0Mwg0W+nAUXoG4kfwp3ztA
-         +OQ30YbBf8DHLDQPyRsn+xRljzwZRYX93gXeJolnhKIb0PLI/zo89R7b+vt3Gy0CPBGY
-         LQN9wGebBw7mIHQndtTr2GbLfDw4md1shOs+757QxVisXLW2JRGtRtEyYiRvM3c1RbXb
-         2KOA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp8iZqyKM9strXhgcXZIZURsxyq4M1bR+eFCcTpj8vRktexe61cAtVYoizzOSr75cCtt84wK4mHB3eb8Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9JBFkgXIw2enyYWqz7xht6h2vMOqgRjoOdCbffeTenbX6LDzh
-	jOjlbQDpOCfj/YwjotqViQM0GBJT+4mSoxOiUZ7SjgRimblZ+W8ClGziaXxwSSIWo7H+PwQcRzq
-	ZPa0SxB7LcwzC8oryZKkUZ90QwrEVdTY=
-X-Gm-Gg: AfdE7cmmTrqLMiI2YAw35RWpFN9n8cZKasnrV066A7Rcf1w60niBO5CqtgMRSbdS87X
-	+IUkHdXIrtHdZk/PmatdOvTN+l4Dn4S6z8QoSJ20q7CltZROhzofZwYL4C7kA8/OG3lBQVe6wFq
-	wrvA334LysZ5ksMB1lV2AtT4fEENAwKBCpVwuQW1Ugg1qgFYIaSKigWo2V7QR5Z1mRxEQAHQJPF
-	0+jeztdflRL/1bfDTBuiTG9WO7sKRdS8Qk3MbpXW+SQ1C9gO9SmElG1+jzTCd8jWT3NuBzmUibs
-	LLl/6TAtCjRV/I3utbKDi5O8p5bzWfU7Aaq6b0BQmwshEqe8GXWVUmHUZ8yGl3Pyjwi/fZWyseo
-	NJvpVQINX9d2q
-X-Received: by 2002:a17:90b:268f:b0:381:28e0:6248 with SMTP id
- 98e67ed59e1d1-382802beaa9mr4128789a91.1.1783253579563; Sun, 05 Jul 2026
- 05:12:59 -0700 (PDT)
+        bh=cVZuwq26LJUbjnXW20W3nbICqbmkh5x02bCyytPFsmg=;
+        b=DrMw8zCVcGP4qh3gIWW74nXv+nzTO1Gyxdzg5XEOY2B9qRk1eGKH/0iSNR9LQInesL
+         G4GOEkxMpE/zytNhzcx5h+D7RdnDAJJ90izwlwz0ICb+nzsOuBbA349D65x1+yfyz5Bm
+         LHmfXpAllijZmahd0AjGQRsURfmcGHs1JecdGphWyprckoZMKeAWJWhHNzYkkTtHqGZd
+         yXzfYOdAPYgCFbxHR90F3xtK8uZrWkvh9y4Rp3HGltCrWNtfZrt/PvwdGZunMJ3cM+L2
+         KaLEkaUSMGq+QcOxbRJeiQH8roPyxz8fB6Gyl5SVMWUhuV2sj/4tkdUo6WnGzoj9AHba
+         GmUg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp9TJ8vkhwBhm0/+wIHxNM0htyROXhjkgm835KV6HBbQGk6AiTqcE2wgJczreiX9OU0eP8TGEksd7x1CA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxyXHiLTsaRwZ4c+24p9z+PkTwObq2Pq+hK+H3X/gpEiU/+o77f
+	KYtLCJB8J/e2i+7lSD5snuQe+VAItzap79bKLnpypHQuMFO1LqXVh6Y5danu9KlUVRhiQT4Qvtu
+	8KaNXzjhv0cZ5Ysc4NechFzLz605p4Gs=
+X-Gm-Gg: AfdE7clzHV2N/Ulkyj/mv6IXW7NkSLLKGS8wrH2S6Yopwmc3QCS1hNGzgpdFN6b22ot
+	wFd6PlpRhtmaYFJ9JKRByj1CxbVzO5Deubq39T8Kls3ogyvYBEY/sVOIZPIwnIR8qlFbzsfkzFH
+	M7PyGYfesbU6dwfYXKrn54fPTIk+6uUe//DrN4tHHiQTE2bHuRAGAu4I8BsogzM3A4V4N+lvhDe
+	xsBMvVs0RmapjZOvA1ml2IxBHV99ToBTQg5ahdWr9PGS683q5NEM1mjaxI12TbxJisvvV+YUWg1
+	grFZ6v9JN+QEX4h2VuZYTB8vXvGN6L1Z8AVdN5g1BPFu22EqUwHrEx0YQEE7XtLxHPuudqp0Bas
+	PrWJ6g6vm7yhh
+X-Received: by 2002:a17:90a:a416:b0:383:5a16:bd67 with SMTP id
+ 98e67ed59e1d1-3835a16bddcmr2702118a91.4.1783254156186; Sun, 05 Jul 2026
+ 05:22:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -83,21 +83,18 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260628-b4-rust-vertical-imports-v1-0-98bc71d4810b@gurudas.dev>
- <20260628-b4-rust-vertical-imports-v1-3-98bc71d4810b@gurudas.dev>
- <f0ed588a-6cfb-4079-a2fe-7c14f1b42727@oss.qualcomm.com> <CANiq72=SQK7pd-fj+4MOb=E6=R-DHCcLcuCvN=us2E5o7Rcy2A@mail.gmail.com>
- <akmtA7EbVBdhRAOq@gurudas.dev>
-In-Reply-To: <akmtA7EbVBdhRAOq@gurudas.dev>
+ <c89a1bc8-6cc1-4e16-ac95-add389e45a2b@lunn.ch> <akmnh0AKFfu9-OYn@gurudas.dev>
+In-Reply-To: <akmnh0AKFfu9-OYn@gurudas.dev>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 5 Jul 2026 14:12:47 +0200
-X-Gm-Features: AVVi8Cfl7DMeNQYuJP9tYThrU-TabLAul_khYoWVx5WCyAQG55ujZm7jKpKar4U
-Message-ID: <CANiq72nESZyX95XSKC3zaog=XSQF09bYJmre0mUbtQ42-Ly6tA@mail.gmail.com>
-Subject: Re: [PATCH 3/7] cpufreq: rcpufreq_dt: use vertical import style
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Danilo Krummrich <dakr@kernel.org>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+Date: Sun, 5 Jul 2026 14:22:20 +0200
+X-Gm-Features: AVVi8CdKZk1uQg3RyoO9gWWnGdg1D5rtqZ5BcTTqS2w4TtsLqn1TqMImL9QufHY
+Message-ID: <CANiq72k0zokLC_L2wPJRDb_CyvnJznOSKUgTaiHo87GT6Pwyag@mail.gmail.com>
+Subject: Re: [PATCH 0/7] rust: Use kernel style vertical imports in various drivers
+To: Andrew Lunn <andrew@lunn.ch>, Miguel Ojeda <ojeda@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>, 
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
 	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
@@ -106,43 +103,36 @@ To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
 	Michal Wilczynski <m.wilczynski@samsung.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
 	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
 	Jens Axboe <axboe@kernel.dk>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, driver-core@lists.linux.dev, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, driver-core@lists.linux.dev, 
 	linux-riscv@lists.infradead.org, linux-pwm@vger.kernel.org, 
 	linux-pm@vger.kernel.org, linux-block@vger.kernel.org, netdev@vger.kernel.org, 
 	nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 5, 2026 at 3:02=E2=80=AFAM Guru Das Srinagesh <linux@gurudas.de=
+On Sun, Jul 5, 2026 at 2:38=E2=80=AFAM Guru Das Srinagesh <linux@gurudas.de=
 v> wrote:
 >
-> But unfortunately, since `imports_layout` is an unstable option currently=
- [1], it
-> cannot be used straightaway.
+> Miguel, could you please indicate if you have a preference here?
 
-Yeah, we are trying to get that one stabilized -- upstream `rustfmt`
-is aware and working on it. More context at:
+Gary is right -- it depends.
 
-  https://github.com/rust-lang/rustfmt/issues/6829
-  https://github.com/Rust-for-Linux/linux/issues/398
+Generally speaking, it is best to do changes through each tree;
+especially so if it is the kind of thing that may be prone to
+conflicts.
 
-> However, .rustfmt.toml already has a section of commented-out unstable op=
-tions kept
-> as a reference for when they stabilize. Would it make sense to add `#impo=
-rts_layout =3D
-> "Vertical"` there? If so, I can include it in v2.
+In certain cases, yes, I may take treewide changes, with Acked-by's
+from maintainers (and very exceptionally I have done it without that
+if e.g. it is trivial enough and enough time has passed -- trusting
+that people trust me to do so).
 
-That may be a bit confusing, because we still need to add the `//`
-comments. And if you add them, then `rustfmt` will format properly,
-i.e. you don't need the unstable option.
+It is part of why the Rust tree exists, i.e. as a fallback and also
+for convenience in certain cases.
 
-Put another way: the intended workflow is to add the `//` and then to
-run `make ... rustfmt`.
-
-I hope that clarifies!
+I hope that clarifies.
 
 Cheers,
 Miguel
