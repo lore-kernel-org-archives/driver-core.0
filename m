@@ -1,96 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020132.outbound.protection.outlook.com [52.101.195.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D9E37882A
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 14:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783347049; cv=none; b=oC2Yy83eGtST37AEzCoJNmkuNehhYxWsYfvLIhkItQTMXX3VRRFzk6OM5KsGRi6gcZec8eGuW+RadaHATvn6RYKu2CEu+ZMumRKtb0+DuerRf2OJ7CWoT4512AeH2pRbcTnJeNQq7ba/zZZZYZvxAIauUVMGj4Hjl9/Al+f3cTU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783347049; c=relaxed/simple;
-	bh=aqBHqUvnHvgJQWnufPxhJ0APFMfJweT1QFdea3nbrUo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LA0OSbAcgaU3mkan6S3pXPumn79h11ApIOAtRr6oQrfNzdaaWXi94zFJcfFnMYmrKl5IKXCljV+8wqJY4kCrd9PtQk/X4LJE/gD+W9rdlvSMPjFKb37oh2cbplUfrw6EnT/WGN9Z9cjyReJoxXKoXmqO1X3+6Lh34pzQBZQ//RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWpN37kn; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14351379990
+	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 14:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.132
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783347106; cv=fail; b=qBEOWzF8mTV0inZLF7M0OXih9J4tK3b12+DEUyPZVNpN2ao37mK0sKDDPmnzvgFOEXicPHPMiiCw4wXwXQVwm6pjLuDR/C64K4jBXMCAGhz3T/ubAJuqyONUW6RDKL5RNxSFyGoEoDiycwIqs+YRhNVRROV2cm4JccY4EWXBMjE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783347106; c=relaxed/simple;
+	bh=hgLPWjQaUwagNcLXsPJWrpRlC2DY72pxnf8mOZiCdOs=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=WHC41x2mrg0cGrj/pdqGgMvKNgkd8Bq3yHojOzlUrly19bE1h709cRleLg2k4gUvTF3atKQm/drYqGoXXufzGEmfu8fJ/584VxtbpxGf9w+YaXzeYmOInQ07BmpVl5tS/Ep2YYny7Y2U+caX9toBm/606R7IKPhWObdLtZwJQXA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=mppw4seV; arc=fail smtp.client-ip=52.101.195.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWpN37kn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 437661F00ADE
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 14:10:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783347048;
-	bh=R37pHFtaprCoupA5VOyUWUg06+Rz9GF0zUKsfOzMWy8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=FWpN37knJaXpEutmCBNj5agZeHBF71nOVbfAoyEeCGLDEpQAD9UXYk7DNMjgPzw7g
-	 KNy92GPBBNCPSAW72sEC9epzXiUk9mP8EscnUy02p0EeoiIeGkUk6sPv+o6x9Qiyz7
-	 nGjmDdGy4MYUwAOkSajn8wFayfYi6WgsIHKcKzm92Vcx/0vip8nE7Tl6n9uL9yK3C6
-	 Omp+qfKE6fQ29+i6X7hWmeWpq+M1wrauAZ3UtPF7IZH4Nvvn278Ht6wx6etoRDVqBL
-	 nKnh66hDJ15wVMvu79TN4JmfKV+PRcnC0440jyhFmI8mJXs2roDofu36/1zMUZ+qCK
-	 COJcBH6Qze+rA==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb91c003eso3332706e87.3
-        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 07:10:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpAHomkWHP7VTh9LXQk+vMWJkUaXYR6/hvlqaoULrCsLZUvN2KvIV4l3LHIvyQwXsGexsp1d6r261GZeQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9IjbJmh7O58CS9qkBXxBdxFXvkJJh4biF33AA4E6v3+zyNYFx
-	TfhPHxTjDpUpguUpkEwEXm5w1+K9c2Qh8v+usKn8BI+WsnX0fU79TiuadN/9p7JA2DiWrp5P0HQ
-	DmaMxbOdmezhePTGYsyAH14GatSc9Ovs=
-X-Received: by 2002:a05:6512:66c1:10b0:5aa:6cd6:a7f0 with SMTP id
- 2adb3069b0e04-5b007baa097mr123245e87.44.1783347046402; Mon, 06 Jul 2026
- 07:10:46 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="mppw4seV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T6t+vgK2I2eqx3XOdsV9SXXyAO/vEaDlEK4izwfK+Iukx06WTgDSARRhdl6IvQ4Nir8k7a17MyrbXqYvHJFMhlIiW/5+4M6kAnIvlNcJLa8+Jm+wRRiocx1RrNiepnW/wROg36KlEVxJlosTVUOYphJvOuv4bZNbaKevO7yotu+MKRBqbVwavzO2WfSVU462fNSmPQrqCGB3y0UC98u4E4giT6rd6dlPhKeeUOcvHDscZWDKE9YS498a2wgriKIkrj+nl+fZDuAfc+TvuftDy8zdbV4+zzp9uFVBB36a2mVH1bUHaoEJOHzkfdTlqFaRgbTJHQ2SCZA4AhKpPCe4PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RNmRDXktq4l0Pl0CNybrMyJa+6ejGjiP1Zg8Zfoh4sE=;
+ b=k8M4vYxw4vDRmIlpKhgQtM7b5cerSymJqyVIq12+pgs3ISSQOy58Ku75r6mKYu49IrGeCcrg0aSYE+P39D4o6TNTN1r7xR+Z008QswXFSR4TqQX+h9L7hxcl/XV6GaV4WRt5zL1ciKwDBvHCmujvE3jEVrZUJ9yaU7Ej4jWGZT9Ghlp/zJ/r91tQfjiZD90ubVYshirtJVkslzsSj0D3ipfM/yovIgMPjBO9B6qnGB4KEFdnmkp20RimzYUpz/9/NfdUvHXruWo7tXHgxwJk7ZkOubOJ6pF9pEdwK53Hqae+zfFeLK9yhVQIjNeCiDJRAr2CVJHuoixGafEe7DQSow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RNmRDXktq4l0Pl0CNybrMyJa+6ejGjiP1Zg8Zfoh4sE=;
+ b=mppw4seVpl2C/qz06jZADOk6lj4wSRHoQb4X5z9XKBBYYfEe/zPvLuxaA5cl1PpmlsV5XAzdlH9ENh3W2x/5jomQ90nz/H1dQLANlm2YgR1qLN2ZfxZza3KWgFeMskFR/nCvmkJ66391UMFH2iFIcHLgN0qasqB6+mI6XsCMCiU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB7176.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:334::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.9; Mon, 6 Jul 2026
+ 14:11:37 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0181.008; Mon, 6 Jul 2026
+ 14:11:37 +0000
+From: Gary Guo <gary@garyguo.net>
+Date: Mon, 06 Jul 2026 15:11:13 +0100
+Subject: [PATCH v3 1/9] ata: don't store pci_device_id
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260706-pci_id_fix-v3-1-2d48fc025acc@garyguo.net>
+References: <20260706-pci_id_fix-v3-0-2d48fc025acc@garyguo.net>
+In-Reply-To: <20260706-pci_id_fix-v3-0-2d48fc025acc@garyguo.net>
+To: Bjorn Helgaas <bhelgaas@google.com>, 
+ Zhenzhong Duan <zhenzhong.duan@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ GOTO Masanori <gotom@debian.or.jp>, 
+ YOKOTA Hiroshi <yokota@netlab.is.tsukuba.ac.jp>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>, 
+ Jens Taprogge <jens.taprogge@taprogge.org>, 
+ Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ David Airlie <airlied@redhat.com>
+Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, industrypack-devel@lists.sourceforge.net, 
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Gary Guo <gary@garyguo.net>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783347093; l=1493;
+ i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
+ bh=hgLPWjQaUwagNcLXsPJWrpRlC2DY72pxnf8mOZiCdOs=;
+ b=TXMCAoW7M4zOu+3jdJGFlx6pPlVTiCpgn29UQfZbn6jtMhLxrOSOw2oi3PZGOBB5awdwMp9vG
+ qf8F1zFX1gYD/zZCWbzy7+/jDTn7IpP0RihdiiNJK5C0hRboMWKzcVp
+X-Developer-Key: i=gary@garyguo.net; a=ed25519;
+ pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
+X-ClientProxiedBy: LO4P123CA0509.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:272::13) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
- <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
- <CAJZ5v0i4Zc4HNUdgJ_2=4=wv7vRDTugo71qsWnZxVRRqV+W8mw@mail.gmail.com> <9d271393-c500-46a9-8795-f1371585445c@sirena.org.uk>
-In-Reply-To: <9d271393-c500-46a9-8795-f1371585445c@sirena.org.uk>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 6 Jul 2026 16:10:34 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0g9AxpqUQUQ-vwG2LN3pfT3qXi3_S=So42=VdVtzg-=Dw@mail.gmail.com>
-X-Gm-Features: AVVi8CcJAwLOXEDSeEikIg87rWOwRTBY8I54tEwtPnVuwTxyPfLiA_mSuDbP2Dw
-Message-ID: <CAJZ5v0g9AxpqUQUQ-vwG2LN3pfT3qXi3_S=So42=VdVtzg-=Dw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
- callback failures
-To: Mark Brown <broonie@kernel.org>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Praveen Talari <praveen.talari@oss.qualcomm.com>, 
-	Dilip Kota <dkota@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>, 
-	Girish Mahadevan <girishm@codeaurora.org>, Alok Chauhan <alokc@codeaurora.org>, 
-	bjorn.andersson@oss.qualcomm.com, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
-	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB7176:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1425410e-07b1-4ace-ae6b-08dedb687c5f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|10070799003|366016|23010399003|7416014|1800799024|921020|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	ieiEoOzBxHNbqTAL44lyGzGLbkMf7aI5thpEWX/0Rtm1/1M4+1xFM1ZlP0A6XEWZpQUY2A5lk+GYj7DJDVVLazYirk1GILSkOlI4BbHoBId6kN1eHfSju9L2qVnFPCsoTbvU7vkQs7uZFOoaUtU+3MKCqlmr9BMSbFJukM5qN0bpjkdKEXFOv0M53aXOkvo4+Xp2d/M7wHKGjqFWKu9jPJWsBeNNqoN2kXknIBg97UCMFjnM6ahLbYS2hs8tXVLD1/RD9lN1+baDg2ahvI7dlP7FbSPMBinLA+LVEGWLCa9wuUidu+UK9cx+nSU6TP2odFmrhOoTXeTFfqpv9rdzcgSP22dqoV2COVwYvc3gqYSVLKnU9pfloCbsbh5EhIqR7Aj2TPDFMZMaAV5C0REowTdNjUw7DJ0/kJ7IoEzA71qJfkU0msgBs4QaKU/GOdFSdRpI+dvT6YamWuvptxdtYIbtuQIoUL1CD4Q/Cmt6waHTwvWoQw67w+N3Nvrb9tyJoqIowOsVKu3qbuIP+Fugo1KFf+A5OBPau8YpzYWWUf/ZwYcl2apZZi9OswDzzW6uL8nf2WICjuC9ZPueKl9ClqEASIex3N+tNiRsg45mL//033YbfWOICoNM9SUcu7Lfh0wnMetnG1mjBDeV/KG9xpDMerSDSVOkCtoqZSgNKUiAPifsh0DvXofGED/nflsfiZhRzqwFDTd8x5UB36KDpg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(366016)(23010399003)(7416014)(1800799024)(921020)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bnZSRHRUcElJbVhBSWVuS3IrQUZuS0N6MXgwdXhPUTBWRlUrQWdTNlptOHJU?=
+ =?utf-8?B?Q0d1Y0pETkF4ZmxoSnNTZXUzbEgyTDdrVmY5YWFlZk80Qm9tUVBVaGQwSDhW?=
+ =?utf-8?B?MnhRUHB2ZEVEVUo1MTBLMzhnRFlDbnJKcTFvRmxFTU9RdUlzcUpQT3pEN1R3?=
+ =?utf-8?B?ZlJBYnBBWWNDaVBrZmJIK25pR3ViWFBRR2crRmlCOHlBQjZXei9XZ0NpUzBC?=
+ =?utf-8?B?OVNaMCtGOE5FNnRaYmdKNU4xSWFpMG03TnA1elN0aHIvOGhMazBtdll4aFNR?=
+ =?utf-8?B?WU4vVUxQanRjYUNXZkc4R1hsVXVVZEdIL2pYZ2RYbzIvMVc1NEQwcVdVa3la?=
+ =?utf-8?B?THBqQWdKTk9Ic1ZTcXh0SjhBaGtlUG5DTk4xU0ZYcTZMUDd4QkllNk81aVFZ?=
+ =?utf-8?B?SWRlNE5BYk1uaGlRSTlTcUdjejYyRXgxUzdMRXA0SFZtc3lmdFlrWDJ1MFZB?=
+ =?utf-8?B?c21FRCtnUUlERlRPVXQ1ck4yV2piMXV0c0VETk1rTmtQdmFWZVpsQVVxK1dJ?=
+ =?utf-8?B?YXFVOHZIQ0pZNXM1OFUwVFU3TCt4dG4rWVdCSkJ2TlNwUnloTkkvVERLL2Jw?=
+ =?utf-8?B?bTg3aVc4bm41TFJaKzh5L3gwUmk5UndMYjk3R2lycHBBZWpPWW5mZEkzRm9Q?=
+ =?utf-8?B?akxUMjBoa0pscmN3dGd1QWlDZnc4OXo4NHFXQ2lTZm5oTFd3UmNFMjFpSzRW?=
+ =?utf-8?B?NGVnckl6dklBQUNPeE5ub1dPVnZWL3Y2SEd4TUIyckRzZXdNU2lBdk9aWHoy?=
+ =?utf-8?B?SWFMU0JMVkxnbm40VXZMSy85T29ZZ0V5bmlPblhNRTlIckx4QUZVYm9LYlN4?=
+ =?utf-8?B?M2FadU5jaFljVnFvTEtJYmZrOVJ0bGJRQ0I2SlUzQkJDd0p3U284ajV3VnJQ?=
+ =?utf-8?B?K1JqTC9FalpnVHNLeWl3T0tGbTBSS04vZlR4Q3hzdWNPUnJPSHpTeDN0aGNS?=
+ =?utf-8?B?d2x5a29CMC9WSEluQmpnWlNuZVNRZ01qeDIyNG5TY1l1MUp1akxxOEt2czY1?=
+ =?utf-8?B?NldhdFhGb0pjZVZZd0hXMnVNWFpmeFZCN0QyYUlyaEpCMTkvUnVFRExuT0tY?=
+ =?utf-8?B?RTJnWDNpbCt5UjRSL21hZ254MEhzcmNMWVZaU21iM0g1d0dKZFZPRG5PMENR?=
+ =?utf-8?B?RVlpVW5PcnhRQ3lUeEkwWC9wZ3pZOU5wQnBmaTJmUXVtdk1wcEtHYmh0UHUy?=
+ =?utf-8?B?RDZwNHRlRmVvUm94RmpOblJ4Y1MwWkNXbE1UdEY3VkYzQVBhUWI5ZGJJQXlY?=
+ =?utf-8?B?SnkyRDFhY2xhYVl5UFBpbjlzVnREeWRkcFM1NVBUZ0Rua25CRlQ1c0Y5Wmsv?=
+ =?utf-8?B?c0dURFc1L0JySjBLalhHN3A0NnVGSitLdHdLS25ja2wrRzdTN1picVBTZ3Qy?=
+ =?utf-8?B?Q1lvOTdaTHBsZEwrV0hlK3hCdkJGQ1pqMHBnTmVHeWF1OFNZdTVLeHYwcTdI?=
+ =?utf-8?B?N016TnBVcUQvckJPbGk4NlBlVUR1N25GSEZ5SVZQSlF4NVRvQUV4UkYwUHZq?=
+ =?utf-8?B?eEtVZSs2MlBVZWxIYWF1Z2V5U1U1aWsyT1p1OGxQYkdSK1dxMGZZUitWcEZH?=
+ =?utf-8?B?YzNjS1hhM2pad3VraVBRdzZueThIajZkTUNLSUtEaDVzYzkrc3RWS3F6M2lP?=
+ =?utf-8?B?WW1oc3R2R2l2TDhrS1VrNVVrekNRcFZrdmMyVzBxb09EbkRDWkVUdmRKbVJW?=
+ =?utf-8?B?YTdPZ2h5M1I0Ylo2QkdFb2N1NEhBUm1TRXNCQzUvSXkvSmpjUmx3Sk9HM09W?=
+ =?utf-8?B?djlibTZLQnRvV0ZrNFdDRk9PZWFGbm9xMVdtbUNnME82SjJmU1ZoTWRHL0cx?=
+ =?utf-8?B?bGdYUjQ1R2trRUdHcnR3NXFnTkdoc0hSU3Nma0wzSVpXa0hiS3lGSE45QjNW?=
+ =?utf-8?B?andKZ1dZTHVwZ1hPb1VKVzMwaTY3K2o3b0hOLytyRENRdFZnSkhmZFMvRmZo?=
+ =?utf-8?B?L2pKTlVhNm4rRjJVdW5vQ2NaRmRZdEFmZEtma2x6RXBFRzhYVDNUY04zUUpX?=
+ =?utf-8?B?Tk5YVWp6VEt0K1EyR2xwVDlLZVY4cFQ3TUlydGhFUWJpVTJqL0owK1Z2TVNQ?=
+ =?utf-8?B?RytQQ2hUNHBGc2ZpNmJKQjVYdjR5emRzWWJRMy9kNDhwSkV0aWg4OUhXaDRs?=
+ =?utf-8?B?OXl4RmxhWGJLZzdoR3dkN0hab2dkYUlPY3EweURvWnh0ak5pYTNiZHJlUTFk?=
+ =?utf-8?B?Q3pQN1R0ZFAyd2NGWDBSYzFMcWtDbHdtQzBLRE1LUEZKZUhsZlB3ZHZvMmUz?=
+ =?utf-8?B?Y0lIcFhoMmFLRXVIYnAvMnFlTWxwa21tYzhSQXZPZ2o4amhLeHVPSzg1alNL?=
+ =?utf-8?B?YVBiVVBPSy9hNnlWa09WbllISi82Ni9ENEhDOFB1OEw4NTRaQTQvQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1425410e-07b1-4ace-ae6b-08dedb687c5f
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 14:11:34.4235
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g/mDhsgen0QH085rScHkM1kYVuyRbJuQIsiKDPbHWWhSNojDV8mXCuEvCCr4AKTnn3YZ0Qt34GIRo3tNzextcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB7176
 
-On Mon, Jul 6, 2026 at 3:21=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Mon, Jul 06, 2026 at 01:49:07PM +0200, Rafael J. Wysocki (Intel) wrote=
-:
-> > On Mon, Jul 6, 2026 at 10:53=E2=80=AFAM Praveen Talari
->
-> > >         /*
-> > >          * On transient errors, if the callback routine failed an aut=
-osuspend,
-> > >          * and if the last_busy time has been updated so that there i=
-s a new
-> > >
-> > > --
->
-> > This is fine with me and I think that it's a quite significant change
-> > for runtime PM, so I'd prefer it to go in through my tree.
->
-> > I can take the other patch too if it gets ACKed for me.
->
-> I've got a bunch of other stuff in flight for that driver - I'll need to
-> check but just in case perhaps a tag I could pull in?
+pci_device_id is not guaranteed to live longer than probe due to presence
+of dynamic ID. All information apart from driver_data can be easily
+retrieved from pci_dev, so just store driver_data.
 
-I'm wondering though if the patches in the series really depend on each oth=
-er.
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Gary Guo <gary@garyguo.net>
+---
+ drivers/ata/ata_generic.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-There doesn't appear to be any code dependency between them.
+diff --git a/drivers/ata/ata_generic.c b/drivers/ata/ata_generic.c
+index e70b6c089cf1..18ea740ca582 100644
+--- a/drivers/ata/ata_generic.c
++++ b/drivers/ata/ata_generic.c
+@@ -51,11 +51,11 @@ enum {
+ static int generic_set_mode(struct ata_link *link, struct ata_device **unused)
+ {
+ 	struct ata_port *ap = link->ap;
+-	const struct pci_device_id *id = ap->host->private_data;
++	unsigned long driver_data = (unsigned long)ap->host->private_data;
+ 	int dma_enabled = 0;
+ 	struct ata_device *dev;
+ 
+-	if (id->driver_data & ATA_GEN_FORCE_DMA) {
++	if (driver_data & ATA_GEN_FORCE_DMA) {
+ 		dma_enabled = 0xff;
+ 	} else if (ap->ioaddr.bmdma_addr) {
+ 		/* Bits 5 and 6 indicate if DMA is active on master/slave */
+@@ -206,7 +206,7 @@ static int ata_generic_init_one(struct pci_dev *dev, const struct pci_device_id
+ 			return rc;
+ 		pcim_pin_device(dev);
+ 	}
+-	return ata_pci_bmdma_init_one(dev, ppi, &generic_sht, (void *)id, 0);
++	return ata_pci_bmdma_init_one(dev, ppi, &generic_sht, (void *)id->driver_data, 0);
+ }
+ 
+ static const struct pci_device_id ata_generic[] = {
+
+-- 
+2.54.0
+
