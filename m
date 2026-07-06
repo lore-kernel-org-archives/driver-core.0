@@ -1,105 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E3A374A0C;
-	Mon,  6 Jul 2026 17:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5343890E7;
+	Mon,  6 Jul 2026 20:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783359053; cv=none; b=kZ28VtSy7ZNV7bYG1ofS+AWRzGwbW1yXMn663JpFjVAT0ixTebA2xY1/w0P8MzM57tlMqoMq2LTW8aJiN65RhSiS5MQS73QJeZy02ezqdZ5Rxt/+SAyVicKcLj86n6c9tPrz3OUOqMJXfO/mtijh3JUN6ts7TUdOoLuCf+OCctM=
+	t=1783368174; cv=none; b=IPSIdM7vXWnJr2mO7VmLQrmpQz4I/t7myW4/Hyz/bv7gqIqjiX0HPDYxVJGyZ2ltRAJw4gIyNKCRB4FRAnD4rgUxLMhfpt0VCPyzV6kXlAFwTsPC3F4tVuE850/4gcjOYqRouW31eI2dA+OoVmx27idMajzEaoRvnOsUNqz7NWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783359053; c=relaxed/simple;
-	bh=0ve5TR7M6W6V+YUiCfXYERFO0p7DK0MnKLcyKIvC3qU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JVUkeBozrhSm+1jndajUMVoHn0xlz/0EJ4yr5s5l93ws6c/dERDoQykuOSvVCbuQIMPy/Ja8DA8okwfkh6YgjRRtIQEkv2dYlZn1c6Wt2bUTFNBXKXI8Ryi+BVuUJ8DCziY8K+3ZlZKzJu9XAeap6Cozt0yWyRXmYQjqxAonjxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLUC+NnK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783368174; c=relaxed/simple;
+	bh=MHq/nmlRMljUht55ri9Frt+sy1XuD9GVO+Ev6VnnEYg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qtG9L58UKVN8Y7DASgfxvrnMjRi8YoAOO5wDy8FVJSSA9LFVMW6GhD3Q6oXig06Siwwh2bluYT/IcAEGuFaFpdg2qiTMHJTCm+gBxMibW9ZfpFxA2lZ1JshVTQh0BAsvlyWROnAL3XwEFPReRaZVZ22WFjU+MYNJLGn94qZZGeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=DBY4SHCp; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLUC+NnK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727631F000E9;
-	Mon,  6 Jul 2026 17:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783359052;
-	bh=0ve5TR7M6W6V+YUiCfXYERFO0p7DK0MnKLcyKIvC3qU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iLUC+NnKendS6Qw8Cmp6jBpJINcK2+VRZl8W8VbCrGWGeTxnZl6iEGLixtXq0f+e7
-	 RRzQotYJTG+E+PEOqTGwk6AkzJJgCEHywGzZ+3PrX5ucOOGCG7SVx4FbwwEmghRcN6
-	 co0oXV4tRK64xlELV9h8nN7HurrnvtTyl28qcmJEwyyERpaZO1YOJODGuPXc96iZKA
-	 iKfYo5yYev4E29KH6/d/RLFXp7Qf6dDf1TYSM71X6tsUY8tSXUBG+X4AdAAvfqt6FX
-	 8AWDf1n885wo8ja16APK1JjtRNJaLND30rlF5uTPYCHsEa362oOOmQ+OyckAfS0UUL
-	 0w28d0/hW4hig==
-Date: Mon, 6 Jul 2026 18:30:45 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Praveen Talari <praveen.talari@oss.qualcomm.com>,
-	Dilip Kota <dkota@codeaurora.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Girish Mahadevan <girishm@codeaurora.org>,
-	Alok Chauhan <alokc@codeaurora.org>,
-	bjorn.andersson@oss.qualcomm.com,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-	aniket.randive@oss.qualcomm.com,
-	chandana.chiluveru@oss.qualcomm.com,
-	jyothi.seerapu@oss.qualcomm.com, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
- callback failures
-Message-ID: <f6532e0f-a0b3-490d-8313-d6f5b72e8236@sirena.org.uk>
-References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
- <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
- <CAJZ5v0i4Zc4HNUdgJ_2=4=wv7vRDTugo71qsWnZxVRRqV+W8mw@mail.gmail.com>
- <9d271393-c500-46a9-8795-f1371585445c@sirena.org.uk>
- <CAJZ5v0g9AxpqUQUQ-vwG2LN3pfT3qXi3_S=So42=VdVtzg-=Dw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="DBY4SHCp"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666FISmj4069750;
+	Mon, 6 Jul 2026 20:02:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=wrzP5vuFyJNSSOX8KvtlD+6jjt61nq8ejnSl7QzOz
+	jc=; b=DBY4SHCpyeH0QLecUnKV2jeN4c2fgCjwWTLvBTV6mTNmD0uKQbGqCzHC0
+	p8+zzZaJuJpNuGC64uTVNkCNQQxvQHS9FdHShQH9IZYqbwiqcdY1PLL+3jkozxdj
+	DeziXRtsTXhGCbqiEqSxpaIGjN9GVcRrrPT8Nj8YMR9G2Y5O32VwdPSje6kD9XdV
+	FGdD+YPsZXH9Snq/BFxq4TaVLaOg+MY47P5WVO9GKuOLsDnK4HuBqGNUKDuZs1PF
+	c7XEwUJTsnYky4TytLfFMcoPwWLt5A5dhsSFQb4YaYmtaFL0/bB46SuXGSzYrV2S
+	LKnYOJPv+/JETQozEZBjsMaLkI3zA==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4f6rkdkt8k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jul 2026 20:02:48 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 666Jnc82029307;
+	Mon, 6 Jul 2026 20:02:47 GMT
+Received: from smtprelay03.dal12v.mail.ibm.com ([172.16.1.5])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4f7f6xxqsa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jul 2026 20:02:47 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 666K2kHm66585076
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 6 Jul 2026 20:02:46 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 881DD58056;
+	Mon,  6 Jul 2026 20:02:46 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 367A558052;
+	Mon,  6 Jul 2026 20:02:46 +0000 (GMT)
+Received: from IBM-GVXK264.atx-us.ibm.com (unknown [9.16.47.12])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  6 Jul 2026 20:02:46 +0000 (GMT)
+From: Ramesh Errabolu <ramesh@linux.ibm.com>
+To: linux-pci@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+        driver-core@lists.linux.dev, Bjorn Helgaas <bhelgaas@google.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Gerd Bayer <gbayer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Farhan Ali <alifm@linux.ibm.com>,
+        Ramesh Errabolu <ramesh@linux.ibm.com>
+Subject: [PATCH v5 0/1] PCI: hotplug: Add support for synthesizing slot uevents
+Date: Mon,  6 Jul 2026 15:02:43 -0500
+Message-ID: <20260706200244.91130-1-ramesh@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CrLHFYWN/IguOnfv"
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0g9AxpqUQUQ-vwG2LN3pfT3qXi3_S=So42=VdVtzg-=Dw@mail.gmail.com>
-X-Cookie: Did I do an INCORRECT THING??
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=M7J97Sws c=1 sm=1 tr=0 ts=6a4c09e8 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=RLFbKyCAV2Q4rzo76dmsHbHSXqs=:19 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=qJ4nAKIlUr9fPb390z0A:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDIwMCBTYWx0ZWRfX6gX/1ZYsg0T3
+ pa/6NZXlFB6Vafe3ylz7SFovaiE/Uw3Iru64FkY25roxw4pRIo5gKRG29Nlf2+x8Zc7FE+JqsYC
+ OaSgOxyqnHV7IAFkxXtD39C0eLEn4O4b+Ervn+bLND1c37KZo2Qso1CLDbO1lY6JM+MErGdTENo
+ ZRpvDVpGO+P5LE23kOnSebBUKu/Cz+L3qEKZONokygsRmIyIYxzboNnNSY0GVLxi2Kt6l0mO4kC
+ dYi5JrGKkkrK1E8MGKXz7TxA46BPr0XnidLsOXV4YvKUOA0QYRA15RuiJiRX3JbPDvRx9a4iE0S
+ dRYxa+8fc3KXiSockYtFz/WF0hA8n6gtSbWWRv5ctL75070ztGE+5IjM8StRK12j888Ic1gmKXT
+ HhN4U9rRutxpTs+NRxnxTjwIi+22Ybo54pZboA39MKj93C8IkD3K0iJ+ZxvLIhw3tfm8RC1e8Eq
+ dhu9EOo3Nut5t/sR7AA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDIwMCBTYWx0ZWRfX2UVGmqAgm0LU
+ Hu3xaf1hdsnaMushwPrQnsHHEvfwb2SMyii2TNtfmIz113oubgj7UOhbOSt7in953rSyiEhllwB
+ ddAq/j94hoQP4MN0jVsv75McqeGeQUo=
+X-Proofpoint-GUID: TBNYE1R0DgUpE77kLgt6NmTJnAjnCTi_
+X-Proofpoint-ORIG-GUID: 5mCjjB430MUMqReNAWYjTldbkfgS2g2i
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-06_02,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1011 adultscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060200
 
+Hi all,
 
---CrLHFYWN/IguOnfv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch adds support for synthesizing PCI hotplug slot uevents via a
+sysfs attribute.
 
-On Mon, Jul 06, 2026 at 04:10:34PM +0200, Rafael J. Wysocki (Intel) wrote:
-> On Mon, Jul 6, 2026 at 3:21=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
+The patch has been rebased on top of the current upstream/devel branch
+and includes the feedback received during previous review rounds. The
+Reviewed-by and Tested-by tags from the previous revision have been
+retained.
 
-> > I've got a bunch of other stuff in flight for that driver - I'll need to
-> > check but just in case perhaps a tag I could pull in?
+I'd appreciate feedback on the next steps in the review and merge
+process. Please let me know if any further changes are needed.
 
-> I'm wondering though if the patches in the series really depend on each o=
-ther.
+Thanks,
+Ramesh Errabolu
 
-> There doesn't appear to be any code dependency between them.
+Ramesh Errabolu (1):
+  PCI: hotplug: Add 'uevent' sysfs attribute to trigger slot events
 
-That would also work, a bit annoying for any bisects possibly but so
-long as we land both in the same release we should be good.
+ drivers/pci/hotplug/pci_hotplug_core.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
---CrLHFYWN/IguOnfv
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.43.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpL5kUACgkQJNaLcl1U
-h9CwTQf+LP+GUzoAhJWFTkWhqsyVxS/28om6taZlVclXtEqOfM+Rw5KT9yiQYjTp
-NTewsbIt0uMNJ4KilOxVAHom3SRoY6s9oT52RiwNP2LbS3kW2OO/StUYPNCtnj2B
-HAgYmEGjIbfoH9NSbrMoXw5nFS67UTWwhwkCY30cuO9NWQLIcRi4TRqL0gqXk9Gm
-IeGXzvGMPzOV6ArKixhEwTbNIlIY55PGleiMd6VbWgjgfKa0GQRneSL6fab7rLfm
-evkoVX0fRc59vvW67CiYxPam8oAtI61KfZ0Fjuc8ZM/fU2bWj/2I1gHHhCoR7ihC
-LfVnkEaJxlqy52b6mLztNJMzVPCmHQ==
-=B5g2
------END PGP SIGNATURE-----
-
---CrLHFYWN/IguOnfv--
