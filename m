@@ -1,129 +1,164 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6573F420E66
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 11:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED50A42F718
+	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 12:32:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783338568; cv=none; b=XdDbQ+8KMRCPSEsY/7qaTl9g7XfaS3RlalVzOJkdp2K90c1ui/h7a11YpTBRH5/iHAq27V7rLmMKQZYLGtgZT+ipNoRHhG0m96piczYdSluA9uxmeKO6QUaga8R+6VX/hyOPogttHEtF1GibPCM92yV/lOs2GQPpubyzkusmFRY=
+	t=1783341153; cv=none; b=ulLpIc28fBFOo+55X113I0RP1v7d/zzhrRb+S/AatCf7jQrV9HIlfiJccTvkWRJjnmA57Z6mOws0BGdf+hH+KgzjD7Ob29R3yH1hjHtw7kl08NMMmeGIduWmXN2/VOh1yw9th2R7v8fI/O2RdIpGbWwc5kvcNC6gm/FY46llPB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783338568; c=relaxed/simple;
-	bh=/M2f10nzKIROJwrEVAhtqsy/5vvSl3n/EkrNByf/6uc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PVT5YMhqLn4vnV1DtYiyG6I5s7G/KVsZTX5j3FlqJEsINhjIbxW6S2avBks1PHgaToKyZKCVJsjVqtjy0dE3AktYLx6oUHjrBEj2otBsCsDkAjVTmgFEmWKwLsxAug75VqxPhgkU9/ArUphEr6EMOqC7962JEk9yk06cNslA1S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFMhl8r0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783341153; c=relaxed/simple;
+	bh=9w7tRzk7PU0ug0Dv4zZfspHRHMFIbLhwN04rhG/BBxs=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rB08Ru3RlfhBqeVgfHmaUIJvmYwI4riA0PeufixH2jvn1DmCyhg6nQK9vYC1AXdrbXBwHnUbX4sU0kMWTz0HlxoOqkxBev9tE3xnOP7Nxf17CjUi5PLjTUvy7kyCJQq1M+YeECxO6HR/XW++/WOIDjw0tXNxSx7h4Tx+XPx6OtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j38RakwE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFMhl8r0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C9361F0155A
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 11:49:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j38RakwE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E0D1F00ADE
+	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 12:32:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783338567;
-	bh=nFvsamCbIGEHld0MIsKih6s84BXlOl69b2bdqy4PP5g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=QFMhl8r0FlRsj+czVMxyjdl8EbI/JiiUe+qj1RqF4CmIMfAyHxuynodqHdD3fms0x
-	 dSn9ECTfnfKZ9kPygg3aSQulhSI3eM9XKifzpsoyAwv1dVbCT50qZ5Jdkqi6MF+mC2
-	 EocH4nlC6KlXjpMHFcLi7V9JJH0cRBIk5Pj/yYzqYJ033vJbmAjACD1ghUkel4rbry
-	 biYUpPcthU2Bavp/R1laUR+VXOL1QkluhutHRZRUIF8xcXUhQgzE7ha5d8cGnOd1F5
-	 UigHt+ZcQAvYwYDxjYt5TOvXqm/3sLWsmtV96q7rn1Gqj/TYJh9+ISh9VN2yk47FT1
-	 Ght0SablLxkXg==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb91c003eso3155718e87.3
-        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 04:49:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro0CoEmtDAFlC/W90mMvawk5DqHwCP2e/jgzUZzrdiYXzXqDkF3w4WAmsykV0g0Bm5H68oIXLqjIi5fcw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkHeLaBt5z5rIncyJTso50o2l4N/n08iT5TsaiatAxREk7vPwW
-	w0X2ofLFj5j1JV5/bnu1qkb+OvwIeq6qXd+IT+WUzir+oJhFOvJvGOTe6dLgEEFBRokFyKnSS/o
-	refeKM1VoxI5ITswHWF9JzCg93wQhW4k=
-X-Received: by 2002:a05:6512:6308:b0:5b0:312:21ce with SMTP id
- 2adb3069b0e04-5b007ba9521mr7636e87.45.1783338565552; Mon, 06 Jul 2026
- 04:49:25 -0700 (PDT)
+	s=k20260515; t=1783341151;
+	bh=uIXPhbuLiSA0I+TaS1RlSct61HCtgPulsM6QHEhVD3E=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=j38RakwE9+mhi/OTlzPd83kr8s8qaoxHOA57XWLa8acIv0VRVcM9nY4EFL2ETOGJU
+	 RIujxCtWCmIKXHV6LHpqadlX9iLFIzbw2KeRCgi4WFPElAVnhEkn/U3kM1aLOzHDiL
+	 vMYtNkbjqtAlVv1gwmTdgZXJnQVcy9At2CndrelkVR0ufaFJPse8EEOhn0SC6ut7o+
+	 9FtbhVxgJ+AEnkP8sAcqpq5/skiZZUfXPNcRe8r3CEd6qQAxweGihTQtAXr1Z44QBc
+	 zRkW2fNqWsS3Ue6QJd3tJxt8PV67OUKfhinBuzdGCKgpwLqPfQ/Vvi6bwBOujMiCDV
+	 CNM+uEkeSZsVg==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39af6402933so24238181fa.2
+        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 05:32:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro2ktsAqbBfLvLF+cX+2e7JR3EhaCpjM1aM3ZdZp1mL7201E8wLPZSBbZYfinpn7uqgI3ClaWswW06a/A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwbMlfEd2+pFa88SrF/kNqjQeqyaJx5akv673b1Q/epJbI9zj4k
+	w6L1IRKpRmlS24ls/FtcS0QaXYy8Y0h68s0VrV5aS3CMyGo1UbnCZUW/Wjif7iVmWKKVlbo2jgo
+	l+5FL8hK7xxZT3qXr960PvdBSICShydez4hIyWYA/MQ==
+X-Received: by 2002:a05:651c:549:b0:39b:5a79:ebdf with SMTP id
+ 38308e7fff4ca-39c5ffcf5a0mr1203241fa.20.1783341150370; Mon, 06 Jul 2026
+ 05:32:30 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 6 Jul 2026 08:32:28 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 6 Jul 2026 08:32:28 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <akKWGNpGmHjWYdfX@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
- <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
-In-Reply-To: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 6 Jul 2026 13:49:07 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i4Zc4HNUdgJ_2=4=wv7vRDTugo71qsWnZxVRRqV+W8mw@mail.gmail.com>
-X-Gm-Features: AVVi8CfbkZLNMpcfV5gxPI-oFx5ptv8WU1ggHy_Bol3Yw0b5ctCpCWdBcluNG7Y
-Message-ID: <CAJZ5v0i4Zc4HNUdgJ_2=4=wv7vRDTugo71qsWnZxVRRqV+W8mw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
- callback failures
-To: Praveen Talari <praveen.talari@oss.qualcomm.com>
-Cc: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>, 
-	Stephen Boyd <swboyd@chromium.org>, Girish Mahadevan <girishm@codeaurora.org>, 
-	Alok Chauhan <alokc@codeaurora.org>, bjorn.andersson@oss.qualcomm.com, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
-	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+References: <20260629-swnode-fw-devlink-v1-0-b90058b41839@oss.qualcomm.com>
+ <20260629-swnode-fw-devlink-v1-5-b90058b41839@oss.qualcomm.com> <akKWGNpGmHjWYdfX@ashevche-desk.local>
+Date: Mon, 6 Jul 2026 08:32:28 -0400
+X-Gmail-Original-Message-ID: <CAMRc=Md1K_ZfO7pUANNhCkwEpmF6nX-Wo=AeuiO57hjKLtWDWg@mail.gmail.com>
+X-Gm-Features: AVVi8Ce48DElPbC3oMv4vPDSxH-Ukr5qoWCuUMufjQm0Yxr66KoTNX6potICnGA
+Message-ID: <CAMRc=Md1K_ZfO7pUANNhCkwEpmF6nX-Wo=AeuiO57hjKLtWDWg@mail.gmail.com>
+Subject: Re: [PATCH 5/5] gpio: kunit: add test cases verifying swnode devlink support
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Rae Moar <raemoar63@gmail.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 6, 2026 at 10:53=E2=80=AFAM Praveen Talari
-<praveen.talari@oss.qualcomm.com> wrote:
+On Mon, 29 Jun 2026 17:58:16 +0200, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> said:
+> On Mon, Jun 29, 2026 at 12:52:10PM +0200, Bartosz Golaszewski wrote:
+>> The software node fw_devlink support already has its own kunit suite, but
+>> that verifies the fwnode links in isolation. Add GPIO tests that prove
+>> the ordering works in a real-life use-case: a GPIO consumer that
+>> references its provider via a software node.
+>>
+>> The first suite registers the provider's software node, adds the consumer
+>> device first and checks that fw_devlink defers its probe until the
+>> provider has been added and bound. The second covers the fallback:
+>> with the provider's software node not yet registered no supplier link is
+>> created, so the consumer probes, devm_gpiod_get() returns -EPROBE_DEFER
+>> and the consumer only binds once the provider shows up.
+>>
+>> While at it: the existing gpio_unbind_with_consumers() test keeps the
+>> consumer bound while the provider goes away and then operates the orphaned
+>> descriptor. With software nodes now being covered by fw_devlink that would
+>> instead force-unbind the consumer along with the provider, so opt it out
+>> by setting FWNODE_FLAG_LINKS_ADDED.
 >
-> When a runtime resume callback returns an error, rpm_callback() sets
-> power.runtime_error on the device.  This causes all subsequent calls to
-> rpm_resume() to return -EINVAL immediately at the top of the function
-> without invoking the callback again, making the failure permanent until
-> runtime PM is explicitly re-initialized.
+> ...
 >
-> Unlike suspend failures, resume failures should be retryable.  If a
-> device's resume callback fails, there is no reason to permanently block
-> future resume attempts on that device and all of its consumers.
+> + cleanup.h // guard()()
+> + err.h // IS_ERR()
 >
-> Fix this by moving the power.runtime_error assignment out of the generic
-> rpm_callback() and into rpm_suspend() at its fail label, where suspend
-> callback failures are handled.  Resume callback failures now return the
-> error to the caller but leave power.runtime_error clear, allowing the
-> next resume attempt to invoke the callback normally.
+>>  #include <linux/platform_device.h>
+>>  #include <linux/property.h>
 >
-> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
-> ---
->  drivers/base/power/runtime.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> + types.h // bool
 >
-> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-> index 335288e8b5b3..fab38bc98113 100644
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -469,9 +469,6 @@ static int rpm_callback(int (*cb)(struct device *), s=
-truct device *dev)
->         if (retval =3D=3D -EACCES)
->                 retval =3D -EAGAIN;
+>> +#include <kunit/fwnode.h>
+>>  #include <kunit/platform_device.h>
+>>  #include <kunit/test.h>
 >
-> -       if (retval !=3D -EAGAIN && retval !=3D -EBUSY)
-> -               dev->power.runtime_error =3D retval;
-> -
->         return retval;
->  }
+> ...
 >
-> @@ -751,6 +748,9 @@ static int rpm_suspend(struct device *dev, int rpmfla=
-gs)
->         dev->power.deferred_resume =3D false;
->         wake_up_all(&dev->power.wait_queue);
+>> +	properties[1] = (struct property_entry){ };
 >
-> +       if (retval !=3D -EAGAIN && retval !=3D -EBUSY)
-> +               dev->power.runtime_error =3D retval;
-> +
->         /*
->          * On transient errors, if the callback routine failed an autosus=
-pend,
->          * and if the last_busy time has been updated so that there is a =
-new
+> Just zero the whole array at the definition time.
 >
-> --
+> ...
+>
+>> +	pdevinfo = (struct platform_device_info){
+>
+> It's better to have a space after ).
+>
 
-This is fine with me and I think that it's a quite significant change
-for runtime PM, so I'd prefer it to go in through my tree.
+TBH most compound literals in the kernel seem to not add the space.
 
-I can take the other patch too if it gets ACKed for me.
+>> +		.name = GPIO_PROBE_ORDER_TEST_CONSUMER,
+>> +		.id = PLATFORM_DEVID_NONE,
+>> +		.data = &gpio_probe_order_pdata_template,
+>> +		.size_data = sizeof(gpio_probe_order_pdata_template),
+>> +		.properties = properties,
+>> +	};
+>
+> ...
+>
+>> +	pdevinfo = (struct platform_device_info){
+>
+> Ditto.
+>
+>> +		.name = GPIO_TEST_PROVIDER,
+>> +		.id = PLATFORM_DEVID_NONE,
+>> +		.swnode = &gpio_test_provider_swnode,
+>> +	};
+>
+> ...
+>
+>> +struct gpio_probe_defer_pdata {
+>> +	int probe_count;
+>
+> Why is this signed?
+>
+>> +	int gpio_err;
+>> +};
+>
+> ...
+>
+>> +static int gpio_probe_defer_consumer_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	struct gpio_probe_defer_pdata *pdata = dev_get_platdata(dev);
+>> +	struct gpio_desc *desc;
+>
+>> +	pdata->probe_count++;
+>
+> Even in case of error?
+>
 
-Thanks!
+We're counting how many times we *enter* probe, so yes, I think it's right.
+
+Bart
