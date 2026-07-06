@@ -1,114 +1,129 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6625741DEE2
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 11:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6573F420E66
+	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 11:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783338161; cv=none; b=Xsl3Na2n3JnQ2s9WJRbmvaeXHldAxZAAY6dge0qE1FvHtOHgl/3fdwZHHNOyTvoZJs/l1iyKjjlwIQvfqvkR9MmtgO5hz1lPubJW6sxnKu3Fn0r6OwX11eVsL14CbxWh/cGaxlA4CsEiSKmt/eBLyeY4EfCKFGyFI5JTWC3tjHA=
+	t=1783338568; cv=none; b=XdDbQ+8KMRCPSEsY/7qaTl9g7XfaS3RlalVzOJkdp2K90c1ui/h7a11YpTBRH5/iHAq27V7rLmMKQZYLGtgZT+ipNoRHhG0m96piczYdSluA9uxmeKO6QUaga8R+6VX/hyOPogttHEtF1GibPCM92yV/lOs2GQPpubyzkusmFRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783338161; c=relaxed/simple;
-	bh=/NFvR6wfBtbE/e2zmh3j4EF1HB4MMchD8i3wmLsvD+g=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OtNfhSJ1ryhKWpeT7yo3oQVBBFY8U803kDObBiW1wUmgiQNoMkyHZiF/wjxIO/HI/SolK3rY63rE5JUijvMpoeLI4maS6yFGDRKu8+K7DPR377ObYEQSYySwSFuIv+MW9tRxzRpvfgc2Inye3tvMn2hVwi9ZmMk1W8Yk8QihZ5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=goLXkLzL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783338568; c=relaxed/simple;
+	bh=/M2f10nzKIROJwrEVAhtqsy/5vvSl3n/EkrNByf/6uc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PVT5YMhqLn4vnV1DtYiyG6I5s7G/KVsZTX5j3FlqJEsINhjIbxW6S2avBks1PHgaToKyZKCVJsjVqtjy0dE3AktYLx6oUHjrBEj2otBsCsDkAjVTmgFEmWKwLsxAug75VqxPhgkU9/ArUphEr6EMOqC7962JEk9yk06cNslA1S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFMhl8r0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="goLXkLzL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 138801F0155E
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 11:42:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFMhl8r0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C9361F0155A
+	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 11:49:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783338160;
-	bh=2WHMyn0VUWWYlG5J6larR9VZfgkh4kTyac4Ldi9U/aQ=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=goLXkLzL/8kZfh4ry6XD2G2y91J3vdVG9bTzONAbnd1FSMNEBIeMJx0nMmiTrOVs2
-	 AhMwwf0K4uy6C9Wbbo8LCsfdj6j6RYmFts9ee0VG5leRSF8UKoHc91aLgYuowIsRK5
-	 sCOZrqMaTCtnwcnT/hGcuhYc0S/u6gGIaxAeDj+vzH1oKbtQUUWaCabX90XPaP44qz
-	 ife+SEuDUsML3+vnu7w93KYD7Y7PJr5tnqGvtexQfAjkZN2LpIOzMGRvaajlf7P6u+
-	 AQ1W4ggJYKq2DpAxTXg5K4kar7hGr27pnT/hg/lGf4n3VnkiKXi5IBRlvG/9XzxuNS
-	 5QWYyoc9qx1Uw==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39669bcaadfso33191611fa.0
-        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 04:42:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ropw6gzOhPMP8fusRzfIY5/y/hFhXBeFmPj/S1Kad2FH2nx86GcGewZ0Z6j0zsP4NbA4utYJX/PiHUE1w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkBK9hz3qKoIaxidJRLcQOhDGoEzxrMuLQynufYJoZ3VCZn2GJ
-	615TXPpR8nGKC2EeYi85/lMFOIdYGDDTfR5GmOxq9eW76XriUBVfYYCb8PMJLgJ1dDh7+sAQFN6
-	tYLovqk+YmiqUjqbsc+X4pwwBBNNgozXmRkfrWbab/A==
-X-Received: by 2002:a05:651c:f14:b0:39b:4402:3c82 with SMTP id
- 38308e7fff4ca-39c6004e724mr633711fa.37.1783338158704; Mon, 06 Jul 2026
- 04:42:38 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 6 Jul 2026 07:42:36 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 6 Jul 2026 07:42:36 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <akKT8q5TjkMkZkmB@ashevche-desk.local>
+	s=k20260515; t=1783338567;
+	bh=nFvsamCbIGEHld0MIsKih6s84BXlOl69b2bdqy4PP5g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=QFMhl8r0FlRsj+czVMxyjdl8EbI/JiiUe+qj1RqF4CmIMfAyHxuynodqHdD3fms0x
+	 dSn9ECTfnfKZ9kPygg3aSQulhSI3eM9XKifzpsoyAwv1dVbCT50qZ5Jdkqi6MF+mC2
+	 EocH4nlC6KlXjpMHFcLi7V9JJH0cRBIk5Pj/yYzqYJ033vJbmAjACD1ghUkel4rbry
+	 biYUpPcthU2Bavp/R1laUR+VXOL1QkluhutHRZRUIF8xcXUhQgzE7ha5d8cGnOd1F5
+	 UigHt+ZcQAvYwYDxjYt5TOvXqm/3sLWsmtV96q7rn1Gqj/TYJh9+ISh9VN2yk47FT1
+	 Ght0SablLxkXg==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb91c003eso3155718e87.3
+        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 04:49:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro0CoEmtDAFlC/W90mMvawk5DqHwCP2e/jgzUZzrdiYXzXqDkF3w4WAmsykV0g0Bm5H68oIXLqjIi5fcw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkHeLaBt5z5rIncyJTso50o2l4N/n08iT5TsaiatAxREk7vPwW
+	w0X2ofLFj5j1JV5/bnu1qkb+OvwIeq6qXd+IT+WUzir+oJhFOvJvGOTe6dLgEEFBRokFyKnSS/o
+	refeKM1VoxI5ITswHWF9JzCg93wQhW4k=
+X-Received: by 2002:a05:6512:6308:b0:5b0:312:21ce with SMTP id
+ 2adb3069b0e04-5b007ba9521mr7636e87.45.1783338565552; Mon, 06 Jul 2026
+ 04:49:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260629-swnode-fw-devlink-v1-0-b90058b41839@oss.qualcomm.com>
- <20260629-swnode-fw-devlink-v1-3-b90058b41839@oss.qualcomm.com> <akKT8q5TjkMkZkmB@ashevche-desk.local>
-Date: Mon, 6 Jul 2026 07:42:36 -0400
-X-Gmail-Original-Message-ID: <CAMRc=Me4oJG47C2LOzRvagbEtAWKqbzmQ_R2VG4rt6zd1-QE5Q@mail.gmail.com>
-X-Gm-Features: AVVi8CcgKXfNSlhhfMGRqXXq180I-tblQnpihdsKJ_ip6-61GNWt0Dm5fNgFkuI
-Message-ID: <CAMRc=Me4oJG47C2LOzRvagbEtAWKqbzmQ_R2VG4rt6zd1-QE5Q@mail.gmail.com>
-Subject: Re: [PATCH 3/5] software node: add kunit tests for fw_devlink support
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Rae Moar <raemoar63@gmail.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
+ <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
+In-Reply-To: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Mon, 6 Jul 2026 13:49:07 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0i4Zc4HNUdgJ_2=4=wv7vRDTugo71qsWnZxVRRqV+W8mw@mail.gmail.com>
+X-Gm-Features: AVVi8CfbkZLNMpcfV5gxPI-oFx5ptv8WU1ggHy_Bol3Yw0b5ctCpCWdBcluNG7Y
+Message-ID: <CAJZ5v0i4Zc4HNUdgJ_2=4=wv7vRDTugo71qsWnZxVRRqV+W8mw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
+ callback failures
+To: Praveen Talari <praveen.talari@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>, 
+	Stephen Boyd <swboyd@chromium.org>, Girish Mahadevan <girishm@codeaurora.org>, 
+	Alok Chauhan <alokc@codeaurora.org>, bjorn.andersson@oss.qualcomm.com, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
+	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 29 Jun 2026 17:49:06 +0200, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Mon, Jun 29, 2026 at 12:52:08PM +0200, Bartosz Golaszewski wrote:
->> Add a kunit test suite for fw_devlink support for software nodes.
->>
->> Most cases call add_links() directly and inspect the resulting fwnode
->> supplier/consumer lists: a single reference, multiple references, a
->> reference to an unregistered node, a "remote-endpoint" reference and a
->> reference array. The last case is end-to-end - it registers real consumer
->> and supplier platform devices together with their drivers, adds the
->> consumer first and checks that fw_devlink defers its probe until the
->> supplier has been bound.
+On Mon, Jul 6, 2026 at 10:53=E2=80=AFAM Praveen Talari
+<praveen.talari@oss.qualcomm.com> wrote:
 >
-> ...
+> When a runtime resume callback returns an error, rpm_callback() sets
+> power.runtime_error on the device.  This causes all subsequent calls to
+> rpm_resume() to return -EINVAL immediately at the top of the function
+> without invoking the callback again, making the failure permanent until
+> runtime PM is explicitly re-initialized.
 >
->> ---
->>  drivers/base/test/Kconfig               |   5 +
->>  drivers/base/test/Makefile              |   3 +
->>  drivers/base/test/swnode-devlink-test.c | 336 ++++++++++++++++++++++++++++++++
+> Unlike suspend failures, resume failures should be retryable.  If a
+> device's resume callback fails, there is no reason to permanently block
+> future resume attempts on that device and all of its consumers.
 >
-> + MAINTAINERS.
+> Fix this by moving the power.runtime_error assignment out of the generic
+> rpm_callback() and into rpm_suspend() at its fail label, where suspend
+> callback failures are handled.  Resume callback failures now return the
+> error to the caller but leave power.runtime_error clear, allowing the
+> next resume attempt to invoke the callback normally.
 >
-> ...
+> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
+> ---
+>  drivers/base/power/runtime.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index 335288e8b5b3..fab38bc98113 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -469,9 +469,6 @@ static int rpm_callback(int (*cb)(struct device *), s=
+truct device *dev)
+>         if (retval =3D=3D -EACCES)
+>                 retval =3D -EAGAIN;
 >
->> +/* A single reference creates exactly one supplier link, on both list ends. */
->> +static void swnode_devlink_test_single_ref(struct kunit *test)
->> +{
->> +	static const struct software_node supp_swnode = {
->> +		.name = "swnode-devlink-test-supplier"
+> -       if (retval !=3D -EAGAIN && retval !=3D -EBUSY)
+> -               dev->power.runtime_error =3D retval;
+> -
+>         return retval;
+>  }
 >
-> Keep trailing comma.
+> @@ -751,6 +748,9 @@ static int rpm_suspend(struct device *dev, int rpmfla=
+gs)
+>         dev->power.deferred_resume =3D false;
+>         wake_up_all(&dev->power.wait_queue);
 >
->> +	};
+> +       if (retval !=3D -EAGAIN && retval !=3D -EBUSY)
+> +               dev->power.runtime_error =3D retval;
+> +
+>         /*
+>          * On transient errors, if the callback routine failed an autosus=
+pend,
+>          * and if the last_busy time has been updated so that there is a =
+new
 >
->> +
->
-> Redundant blank line.
->
+> --
 
-I actually leave a blank line between static, const and regular local variable
-blocks for readability.
+This is fine with me and I think that it's a quite significant change
+for runtime PM, so I'd prefer it to go in through my tree.
 
-Bart
+I can take the other patch too if it gets ACKed for me.
+
+Thanks!
