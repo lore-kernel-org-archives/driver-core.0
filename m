@@ -1,156 +1,143 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2911F3F4856
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 16:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4E039B482
+	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 17:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783353660; cv=none; b=j1WBbY86atO8GC5tQ3EdLmCIZSk3DwH/ABrJrWpTjTnS2BIVLWRHM4MhB0MoK6hT/ZWpH/LHHj0+dOIAxY/JRhURpjZGD+bWnI2OXeMnwxnRZcjwbisaj7hRxnCy+PeNQWO/Eb8hML2MJ9Pt2tKh+XL9J6isHetMs3wIL+Ws04I=
+	t=1783358705; cv=none; b=DEn9qxz0TVtLoweKfY6p7/vmXqdopTOksf/wwdjOPQfj37/hk9AgBMCFOvLeaIx/rg/sT8Ac/islT89kPXzUAT9pJxHl3bqH7HZYT9r+qXclymw9LN7zvHmzGdq0ij51EHo/8ilF8qty7PWt51xZ3tGYBhGR0HwBSPl1ZWY3DgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783353660; c=relaxed/simple;
-	bh=CNeXdCq4YUYr/jn29WXp0/HYvFmsD6R6iES7V1e2kXU=;
+	s=arc-20240116; t=1783358705; c=relaxed/simple;
+	bh=2y5ckWPYQJ8G2pY4u8ihalHWvoXMugXkPGDdogkateY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIFfLOBp2AZabJk3TQQVwmI/CG7L1zPiynmwNDeyyiwyAvS8mHxVge7uJFhc/tT8CVs8DK0uwAImVGsUzvh01i5MTRNY7MVEvwgJIa5E132RWR3rxzT4h69TNltw5EfE+7Wj0IlpTAkOspXlm7104gCk8PwSaBneZWu2tpb7C2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbIegzf4; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFPbaP34X1gid8I4Auf/7YoFbiWskWmuqtmG2WYrPmkLoPfriEgMJQXYcGxL8QFVJPLHQYUxA94uCw/dc6hKbeiJ+UguanbiM1pNAWWOlh9CCAOEqhMEU+qMU+F3bPnrKieEe1XZ3I0Tepr5xvisVLU0l6XUC+oW/DecJdzu5KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avs52las; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbIegzf4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avs52las"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783353659; x=1814889659;
+  t=1783358704; x=1814894704;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=CNeXdCq4YUYr/jn29WXp0/HYvFmsD6R6iES7V1e2kXU=;
-  b=bbIegzf4MGsxr9qRTE6ii1PNH7LpAdrOiLg2dNgpBfZ49GOVcXGLsLLz
-   fJVtvR6LW6dQBSsRBsG+IEanPUWIvezt1ntUPlkmRlqrJeQ7agbBbpMla
-   DXga+wuNuw6gA8yPMydm9lTj1+KMNgSbgBZe+7fEqp7+3SbLDAiWtG/VB
-   nMTF6pzkLtA3ySEbznXpjEyHQVsYlZFr2hu1JmxFKtb0RtshvIWhjye07
-   GNHuUzI/9ngxym3DbM9Knf0zQ/k6OLCnrWelxzxRoMOn6lBbB0sO+Tbd+
-   l2N6xtPfg8Yjl1ECV8lZuLiWPRC3iL2+XYEe0KAff209dd1xsPZhxDG4P
-   Q==;
-X-CSE-ConnectionGUID: yGWjdVFkTeex2vuACHBEQw==
-X-CSE-MsgGUID: 2lPaNitNTxy0NP4dq7SzRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="95370640"
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="95370640"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 09:00:57 -0700
-X-CSE-ConnectionGUID: W+MT9vknQx+rEQ4fdWnATQ==
-X-CSE-MsgGUID: kJ90HQUOT+izFt8uG3wJzQ==
+   mime-version:in-reply-to;
+  bh=2y5ckWPYQJ8G2pY4u8ihalHWvoXMugXkPGDdogkateY=;
+  b=avs52lasllYV8MBfFnVNO0epufBg2NxTWDAL5HpNQLyVek09sPeF+fCv
+   VTjShPS2cMpyJo9nt1x4sDq+CEMerrl3+xDheD1ed59vWfS12HJAcSzaf
+   pvCj/5FveLp9qwAGYN4VoX8Ok1V813oT8KoizbJPj7c386bAK2lkwJirW
+   W+J5YbcuqnhlDJ7LUiJurfTJFtSpXvVqZX6vnVL17yby0bBjYU0jT7TTa
+   5HTiqJimCjRs7m7kotk7BfRESednPLCdLOsSfZD2UFdB4Xv6rxG+jeK1E
+   Llcs2oZE7XqSWSIjVsjObmOprtAdMpXtIZKQ5fk2pHkQBXEU6lW/AqXzJ
+   g==;
+X-CSE-ConnectionGUID: m3mRCSF2RzajlJjFKAFTTg==
+X-CSE-MsgGUID: N7uqiWkpR+OHI8Bv0rVS1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="95378606"
+X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
+   d="scan'208";a="95378606"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 10:25:03 -0700
+X-CSE-ConnectionGUID: Lfe9lLBGTUu1ALhIe94NDQ==
+X-CSE-MsgGUID: Ovu7lWmMTmic8Fiot1bOlA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="250408991"
+X-IronPort-AV: E=Sophos;i="6.25,151,1779174000"; 
+   d="scan'208";a="258093602"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.48])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 09:00:52 -0700
-Date: Mon, 6 Jul 2026 19:00:49 +0300
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 10:24:59 -0700
+Date: Mon, 6 Jul 2026 20:24:56 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
 	Daniel Scally <djrscally@gmail.com>,
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v3 06/13] usb: hub: Pass |struct usb_port*| to
- usb_port_is_power_on()
-Message-ID: <akvRMcGnUPxE3sxR@ashevche-desk.local>
-References: <20260703110317.1283411-1-wenst@chromium.org>
- <20260703110317.1283411-7-wenst@chromium.org>
- <ake09vk4fEv1D9QC@ashevche-desk.local>
- <CAGXv+5GNucSXrhL=YxarSJHD2ezzYDK3EovFu-zy012KgZ+ZBg@mail.gmail.com>
- <ake6FNy83LLtCs3b@ashevche-desk.local>
- <CAGXv+5EgpizA3Pc8ScNuChPhvFKWd5F6dxB-wT4-7EwabE-9dQ@mail.gmail.com>
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] software node: add fw_devlink support
+Message-ID: <akvk6Lv2TdtyV_Rb@ashevche-desk.local>
+References: <20260706-swnode-fw-devlink-v2-0-f39b09d50112@oss.qualcomm.com>
+ <20260706-swnode-fw-devlink-v2-2-f39b09d50112@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5EgpizA3Pc8ScNuChPhvFKWd5F6dxB-wT4-7EwabE-9dQ@mail.gmail.com>
+In-Reply-To: <20260706-swnode-fw-devlink-v2-2-f39b09d50112@oss.qualcomm.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jul 06, 2026 at 07:08:07PM +0800, Chen-Yu Tsai wrote:
-> On Fri, Jul 3, 2026 at 9:33 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, Jul 03, 2026 at 09:17:16PM +0800, Chen-Yu Tsai wrote:
-> > > On Fri, Jul 3, 2026 at 9:11 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Fri, Jul 03, 2026 at 07:03:07PM +0800, Chen-Yu Tsai wrote:
+On Mon, Jul 06, 2026 at 02:54:09PM +0200, Bartosz Golaszewski wrote:
+> Software nodes can be used to describe supplier-consumer relationships
+> between devices they represent using reference property entries. Unlike
+> for OF-nodes, driver core cannot yet use these references to create a
+> probe order that avoids needless probe deferrals on missing providers.
+> 
+> Implement software_node_add_links() modelled on of_fwnode_add_links().
+> For every DEV_PROP_REF property we resolve each referenced supplier and
+> create an fwnode link from the node to it. The driver core later promotes
+> these to device links and defers the consumer until the suppliers are
+> ready.
+> 
+> There's no allowlist like the one DT needs - devicetree phandles appear
+> in plenty of non-supplier contexts, but a software node only carries a
+> reference property when its author explicitly points at another node, so
+> we treat every reference as an intentional supplier dependency and link
+> all of them. Graph "remote-endpoint" references are skipped for now: they
+> go 2-ways between endpoint nodes and would create graph cycles without
+> the port-parent lifting DT does via get_con_dev(). References to
+> suppliers that aren't registered yet and self-references are ignored.
+> 
+> fw_devlink resolves the supplier device through fwnode->dev but the core
+> only records the owning device on the primary fwnode. When the software
+> node is a device's secondary fwnode, mirror the device pointer onto it in
+> software_node_notify() so the consumer can actually find the supplier
+> instead of deferring forever.
+> 
+> While at it: purge the fwnode links in software_node_release() now that
+> software nodes can own them.
 
 ...
 
-> > > > At a brief look this will be the only function that takes usb_port
-> > > > instead of usb_hub in the entire hub.h (I don't count container_of()
-> > > > as a function). With that being said I would rather see it to be moved
-> > > > to port.c altogether (yes, it's more invasive change, but looks more
-> > > > consistent).  I would even dare to move struct usb_port (and container_of()
-> > > > accompanied with that) and this function to port.h. This might require
-> > > > a separate patch, though.
-> > >
-> > > I agree with the reasoning, especially given the function name. However
-> > > I wonder if it would cause problems given the linking order. I'll give
-> > > it a try nevertheless and report back.
-> >
-> > Thanks!
-> >
-> > In case it won't fly (but I still think it's better to split), can you at least
-> > group usb_port APIs and struct? Means moving the proto closer to that struct
-> > usb_port followed by container_of().
-> 
-> Looks like it works out fine. port.o is linked in after hub.o, so moving
-> the function from the latter to the former doesn't cause issues. One might
-> even say that it is the correct thing to do.
+> +	/*
+> +	 * When the software node is the device's secondary firmware node,
+> +	 * the core only records the owning device on the primary fwnode
+> +	 * (see device_add()). fw_devlink resolves a supplier device through
+> +	 * fwnode->dev, so without this a consumer referencing the software
+> +	 * node could never find the supplier device and would defer forever.
+> +	 * Make fwnode.dev point to its owner in that case.
+> +	 */
+> +	if (dev_fwnode(dev) != &swnode->fwnode && !swnode->fwnode.dev)
 
-That's what I say! :-)
+Can we use device_match_fwnode() here?
 
-> > > > Perhaps something like: 1) "move struct usb_port and associated APIs to port.h";
-> > > > 2) "...this patch...".
-> 
-> There are still some left in hub.c:
-> 
-> static void usb_lock_port(struct usb_port *port_dev)
-> static void usb_unlock_port(struct usb_port *port_dev)
-> static void port_over_current_notify(struct usb_port *port_dev)
+> +		swnode->fwnode.dev = dev;
+> +
 
-> static void hub_usb3_port_prepare_disable(struct usb_hub *hub,
->                                           struct usb_port *port_dev)
+...
 
-This one takes hub as well.
+> +	/*
+> +	 * Drop the device pointer mirrored onto a secondary software node in
+> +	 * software_node_notify(). For a primary software node the core owns
+> +	 * fwnode->dev and clears it in device_del().
+> +	 */
+> +	if (dev_fwnode(dev) != &swnode->fwnode && swnode->fwnode.dev == dev)
+> +		swnode->fwnode.dev = NULL;
 
-> These are used only in hub.c and moving them probably makes things
-> messier?
+Ditto.
 
-Perhaps better naming to each (kinda moving to usb hub namespace)?
-
-> OOTH, the following bits are in port.c but declared in hub.h:
-> 
-> int usb_hub_create_port_device(struct usb_hub *hub,
->          int port1);
-> void usb_hub_remove_port_device(struct usb_hub *hub,
->          int port1);
-> 
-> Any preferences for these while we're reorganizing the code?
-
-These ones would be good to be in hub.c if there is no circular dependencies or
-alike.
-
+Note, it does check passed fwnode pointer against NULL, but looking at
+the above &swnode->fwnode must never be NULL, so basically device_match_node()
+will be an equivalent replacement.
 
 -- 
 With Best Regards,
