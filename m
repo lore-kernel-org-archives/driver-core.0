@@ -1,164 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED50A42F718
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 12:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC7C42CAE0;
+	Mon,  6 Jul 2026 12:42:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783341153; cv=none; b=ulLpIc28fBFOo+55X113I0RP1v7d/zzhrRb+S/AatCf7jQrV9HIlfiJccTvkWRJjnmA57Z6mOws0BGdf+hH+KgzjD7Ob29R3yH1hjHtw7kl08NMMmeGIduWmXN2/VOh1yw9th2R7v8fI/O2RdIpGbWwc5kvcNC6gm/FY46llPB4=
+	t=1783341750; cv=none; b=Lz+Pcx+cpnTZvZheNyxsrvk2iioJYPkgK/cD8XBVqHYi+xX1IJFAuv6HwYcE7rEFnhn2H6OUx6uodfIhQopIKzRCFnD0k92UA0FHXJy5zLQkG33yioBlLf6Jks48cCuckNMwaDCUXLjpCshpL5CKBLaERzZJKFIk7AugjLjfhWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783341153; c=relaxed/simple;
-	bh=9w7tRzk7PU0ug0Dv4zZfspHRHMFIbLhwN04rhG/BBxs=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rB08Ru3RlfhBqeVgfHmaUIJvmYwI4riA0PeufixH2jvn1DmCyhg6nQK9vYC1AXdrbXBwHnUbX4sU0kMWTz0HlxoOqkxBev9tE3xnOP7Nxf17CjUi5PLjTUvy7kyCJQq1M+YeECxO6HR/XW++/WOIDjw0tXNxSx7h4Tx+XPx6OtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j38RakwE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783341750; c=relaxed/simple;
+	bh=DyRoMc+CznYGHXuPFcoXGT4MsIK/zcH0EdtlfriR3Wo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iPgC3/M+eX8pEGJGcaxh8qgnU/NtTIED3CRm6UvmXsEMDe5nV0AUk5dsdj9WhSA8DnkTeTl8nDBjHn8Yet3Hy9YI3cHmlvVseyF0Ux5zTuFu0ifk3tLbsuy3MLTmP397srfMgxuZLlqZ5zKKPDxBZFYtsKezPGIvc19NI0cvl+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPacFYC+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j38RakwE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2E0D1F00ADE
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 12:32:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPacFYC+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701281F00A3A;
+	Mon,  6 Jul 2026 12:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783341151;
-	bh=uIXPhbuLiSA0I+TaS1RlSct61HCtgPulsM6QHEhVD3E=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=j38RakwE9+mhi/OTlzPd83kr8s8qaoxHOA57XWLa8acIv0VRVcM9nY4EFL2ETOGJU
-	 RIujxCtWCmIKXHV6LHpqadlX9iLFIzbw2KeRCgi4WFPElAVnhEkn/U3kM1aLOzHDiL
-	 vMYtNkbjqtAlVv1gwmTdgZXJnQVcy9At2CndrelkVR0ufaFJPse8EEOhn0SC6ut7o+
-	 9FtbhVxgJ+AEnkP8sAcqpq5/skiZZUfXPNcRe8r3CEd6qQAxweGihTQtAXr1Z44QBc
-	 zRkW2fNqWsS3Ue6QJd3tJxt8PV67OUKfhinBuzdGCKgpwLqPfQ/Vvi6bwBOujMiCDV
-	 CNM+uEkeSZsVg==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39af6402933so24238181fa.2
-        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 05:32:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro2ktsAqbBfLvLF+cX+2e7JR3EhaCpjM1aM3ZdZp1mL7201E8wLPZSBbZYfinpn7uqgI3ClaWswW06a/A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwbMlfEd2+pFa88SrF/kNqjQeqyaJx5akv673b1Q/epJbI9zj4k
-	w6L1IRKpRmlS24ls/FtcS0QaXYy8Y0h68s0VrV5aS3CMyGo1UbnCZUW/Wjif7iVmWKKVlbo2jgo
-	l+5FL8hK7xxZT3qXr960PvdBSICShydez4hIyWYA/MQ==
-X-Received: by 2002:a05:651c:549:b0:39b:5a79:ebdf with SMTP id
- 38308e7fff4ca-39c5ffcf5a0mr1203241fa.20.1783341150370; Mon, 06 Jul 2026
- 05:32:30 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 6 Jul 2026 08:32:28 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 6 Jul 2026 08:32:28 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <akKWGNpGmHjWYdfX@ashevche-desk.local>
+	s=k20260515; t=1783341749;
+	bh=543krN9qmzFTr0e4zZeLiY/vg2bTtCtvLD1B5JDZWZ8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=QPacFYC+42kGj6ZnS7OoBOQLXJFG80TxffBjSRuCYUwMKslnYqHXsuQKixHty9fgE
+	 aodP3k86INCXvDgH7jpVJPIwx5/Bb9oxMMacKhmXb8ifPPN+m6rBPvXhJvDihOxdua
+	 xkKrLrgvENTTdCYMfI1C5+Shtf9oh9NbLONZdBN/f1moDEY8aesC3EvYMWzRcZvKST
+	 9OhdLSbkFy6GXzRoj5sgc8algV4FT69zWGZzHZ/Gplx/SNZSATVlWEHYdpd8EkNHMi
+	 7nfRmGmIRjH57bFmzFmQRmJjO8QbR/MaWO8pNYTXeo3xnx6VJQpwarYMr1kD+CSL+c
+	 JAY8Z56P0IvPg==
+X-Mailer: emacs 30.2 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Dan Williams <djbw@kernel.org>, linux-coco@lists.linux.dev
+Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
+	ankita@nvidia.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Dexuan Cui <decui@microsoft.com>
+Subject: Re: [PATCH 13/15] PCI, device core: Add private memory access for
+ DEVICE_TRUST_TCB
+In-Reply-To: <20260705220819.2472765-14-djbw@kernel.org>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <20260705220819.2472765-14-djbw@kernel.org>
+Date: Mon, 06 Jul 2026 18:12:20 +0530
+Message-ID: <yq5aa4s4i91v.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260629-swnode-fw-devlink-v1-0-b90058b41839@oss.qualcomm.com>
- <20260629-swnode-fw-devlink-v1-5-b90058b41839@oss.qualcomm.com> <akKWGNpGmHjWYdfX@ashevche-desk.local>
-Date: Mon, 6 Jul 2026 08:32:28 -0400
-X-Gmail-Original-Message-ID: <CAMRc=Md1K_ZfO7pUANNhCkwEpmF6nX-Wo=AeuiO57hjKLtWDWg@mail.gmail.com>
-X-Gm-Features: AVVi8Ce48DElPbC3oMv4vPDSxH-Ukr5qoWCuUMufjQm0Yxr66KoTNX6potICnGA
-Message-ID: <CAMRc=Md1K_ZfO7pUANNhCkwEpmF6nX-Wo=AeuiO57hjKLtWDWg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] gpio: kunit: add test cases verifying swnode devlink support
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Rae Moar <raemoar63@gmail.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Mon, 29 Jun 2026 17:58:16 +0200, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Mon, Jun 29, 2026 at 12:52:10PM +0200, Bartosz Golaszewski wrote:
->> The software node fw_devlink support already has its own kunit suite, but
->> that verifies the fwnode links in isolation. Add GPIO tests that prove
->> the ordering works in a real-life use-case: a GPIO consumer that
->> references its provider via a software node.
->>
->> The first suite registers the provider's software node, adds the consumer
->> device first and checks that fw_devlink defers its probe until the
->> provider has been added and bound. The second covers the fallback:
->> with the provider's software node not yet registered no supplier link is
->> created, so the consumer probes, devm_gpiod_get() returns -EPROBE_DEFER
->> and the consumer only binds once the provider shows up.
->>
->> While at it: the existing gpio_unbind_with_consumers() test keeps the
->> consumer bound while the provider goes away and then operates the orphaned
->> descriptor. With software nodes now being covered by fw_devlink that would
->> instead force-unbind the consumer along with the provider, so opt it out
->> by setting FWNODE_FLAG_LINKS_ADDED.
->
-> ...
->
-> + cleanup.h // guard()()
-> + err.h // IS_ERR()
->
->>  #include <linux/platform_device.h>
->>  #include <linux/property.h>
->
-> + types.h // bool
->
->> +#include <kunit/fwnode.h>
->>  #include <kunit/platform_device.h>
->>  #include <kunit/test.h>
->
-> ...
->
->> +	properties[1] = (struct property_entry){ };
->
-> Just zero the whole array at the definition time.
->
-> ...
->
->> +	pdevinfo = (struct platform_device_info){
->
-> It's better to have a space after ).
+Dan Williams <djbw@kernel.org> writes:
+
+> A device that wants to access private memory needs to have its trust
+> elevated to DEVICE_TRUST_TCB. That trust is established either at compile
+> time (unlikely), the bus knows the device is within the TCB to start (some
+> paravisor setups), or the device is dynamically added to the TCB in
+> coordination with a TSM driver (primary TDISP use case) and the trust is
+> elevated by driver match.
 >
 
-TBH most compound literals in the kernel seem to not add the space.
 
->> +		.name = GPIO_PROBE_ORDER_TEST_CONSUMER,
->> +		.id = PLATFORM_DEVID_NONE,
->> +		.data = &gpio_probe_order_pdata_template,
->> +		.size_data = sizeof(gpio_probe_order_pdata_template),
->> +		.properties = properties,
->> +	};
+Do we have the last case, where the device is dynamically added to the
+TCB in coordination with a TSM, implemented in this series? Do we expect
+the CCA driver to set that up?
+
 >
-> ...
+> When a PCI device is associated with a TSM for security services the low
+> level TSM driver in the CC VM has the opportunity validate DMA access.
+> That validation happens at ->dma_configure() time when the device attaches
+> to a driver. The TSM driver is responsible for proving to the platform TSM
+> that the VM is enabling DMA with respect to the most recently generated
+> evidence. If that fails, driver attach fails.
 >
->> +	pdevinfo = (struct platform_device_info){
+> When a PCI device is not associated with a TSM provider for security
+> services, but the device is trusted there are 3 options.
 >
-> Ditto.
+> 1/ Arch requires all DMA enable events to be acked by TSM driver
 >
->> +		.name = GPIO_TEST_PROVIDER,
->> +		.id = PLATFORM_DEVID_NONE,
->> +		.swnode = &gpio_test_provider_swnode,
->> +	};
+> 2/ Arch does not require, but admin policy is responsible for knowing which
+>    devices need TSM coordination to become active within the TCB.
 >
-> ...
+> 3/ Device is approved by a paravisor to operate within the TCB, no TSM
+>    coordination required.
 >
->> +struct gpio_probe_defer_pdata {
->> +	int probe_count;
+> In cases 2 and 3 if the device needed TSM driver coordination, but the TSM
+> driver or association to the device is missing, it triggers hardware
+> errors. Those errors are a configuration error that the kernel does not
+> actively prevent.
 >
-> Why is this signed?
->
->> +	int gpio_err;
->> +};
->
-> ...
->
->> +static int gpio_probe_defer_consumer_probe(struct platform_device *pdev)
->> +{
->> +	struct device *dev = &pdev->dev;
->> +	struct gpio_probe_defer_pdata *pdata = dev_get_platdata(dev);
->> +	struct gpio_desc *desc;
->
->> +	pdata->probe_count++;
->
-> Even in case of error?
+> Architectures still need to fixup force_dma_unencrypted() to call
+> device_tcb_trusted() to tell the DMA layer that TCB access is granted.
 >
 
-We're counting how many times we *enter* probe, so yes, I think it's right.
-
-Bart
+-aneesh
