@@ -1,289 +1,351 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022093.outbound.protection.outlook.com [52.101.96.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1482943846F
-	for <driver-core@lists.linux.dev>; Mon,  6 Jul 2026 12:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783341895; cv=none; b=uYAhht5RPv/+hXiBGVTSQSQplFAURpvVTJUGujgemeUnbX0qmjIfG01hpj4aKFl79LDYOWK804Mni6ucwbcew560ihI0kVAzWef8QppMeh1JL3yOcnNQeejlqc7CMUZtspUn9SIzbb30DKBeM00lsvG4wQL67n1KSZsqI8Wuzuk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783341895; c=relaxed/simple;
-	bh=T44HwwZ1Q0M84+szoUbk3kJ64ZYTCT8dJmP8V7D67KU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JULNj8ftBly/OWNdAprZDWORQnyJVq0UZyns0CgbzuWsHdUjtYwyN5G6j/t5iL+zy+x35/5GrkItL+xf4Gr6R+Su/3poP6n9VxtGFG5QbDkvY4SFCg1iCOl6OxbkC7daM3x4eaD6lJ9OEHCZjDywwGXncF88L2/xHyzusSKLC2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HvCI54HI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aWdReylc; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F81A43785A;
+	Mon,  6 Jul 2026 12:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.93
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783341898; cv=fail; b=M3n3YSX+iDIVoARdsiXEFOVSBPDI5bKGtovGhpvjJPN/7H8DeaW9Ne/KYW9V3nm5WTXQ/Uh4ypI9uQzythvyn2ZVPkDvLp4aCYd4HL/LfRfgLANTueGeis9YguniLZ2TRC2uJ8XQobFzMnIN3xjZKXEgvHqiBCpFslJPRF0KcWc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783341898; c=relaxed/simple;
+	bh=xdkYZI57kfTpmZRHTNinwPgBzRzi0U1DbnfPFnTc5ag=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=pEWYOrG5YF3i+5x790TgcInltMTVXUl1+CvmvFO2Hnob7S6EB3viRymCGIeb7fLupW7W1KHWlwSS3H2OtztaWS8codjL8Seu1SsUz3100xaydyz3u76LBwMiRMZGx8NBL1iY6DFuWKalYnihT7HFsWYA1X+h+iMlkVS1K/FFMpk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=yQiJB66J; arc=fail smtp.client-ip=52.101.96.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HvCI54HI";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aWdReylc"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666Ax7l9245521
-	for <driver-core@lists.linux.dev>; Mon, 6 Jul 2026 12:44:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=7VfOweZR0NvzKfVRW7ae+/
-	NW8JVQadN2E/hr03AdQ1s=; b=HvCI54HI6r2WAiPzYc0IXb/+6AOTqyJ2z1Q1Fs
-	JNVh0m4mSZDL5o21i+i8bvQetkwOJ9innTRe2tVd0jSJc37bGA8wKzVwiVF7Bsus
-	JGoJIYok+3i12s7ZIggCc4wl9NGo4bzR3lL/esbGOCJ8KivTwK6jzC/C+yIq0ptc
-	itK7/HcU5/tl+x6Il+4JZw2JWuEe/WCA7wwlxVYvXsRwFcugg3Ha9ESH9WrPuh1A
-	7d0ghGcy9nZhbdPx14EYgydrDsLFurGwhz8rQmkCylU0mnNOl87XtCbGrOKFBcW3
-	VaMKUx2fmp4AnkeMMXbHq7C2lQVewhebNpZs8Kfu3Jnp69NA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8a98gjj7-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 12:44:51 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-92e68cb7a3eso552979885a.2
-        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 05:44:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783341890; x=1783946690; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=7VfOweZR0NvzKfVRW7ae+/NW8JVQadN2E/hr03AdQ1s=;
-        b=aWdReylcVtkBMx6WYKdGWrQ3wMwgb9jW8lgOwRjqH+S6uFlbnEFpeDAP9NFIH2tNKq
-         68tz1mjAxMF67s3ybSsONUnCutbAzYU68ygn17ZTbVx0k2mnyifMYwd89hJbterZlGKS
-         k0990Vcq+HhhtIoHfAhBCO2CrKEIHlk2Hi7AfhfB/NNrUWVXgaURbYugR56uwhgg3mEl
-         f0Atmx5QqyG9aBeBWIZtBgAeMAbPRyQcdVi0tRGq83XrKImms5Y/KbBGI4FYgUuI8O+Q
-         KpiIcxRlUSTqI9MScAQ4o+HTF9Cp2K3fFJSupZHLXrdFCXZo1s9lmSUh+ahp/MQH2PIo
-         O4aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783341890; x=1783946690;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=7VfOweZR0NvzKfVRW7ae+/NW8JVQadN2E/hr03AdQ1s=;
-        b=r3n8wx48+kSH0r4tGkFDTBqOyT9C5ZuRmMaj/TvcjJ+Ay/v/6dKv75sO5cwMt10jrS
-         gAL8i5dcZGgzsJeq7rt4yT1E+k9uI5rgxHbEQvxh0y/x4Tau2MKemS6vwGF7NAjjY9Nz
-         xgoddG3VIYwu9kjGrHfd8OJFv4BVJWPX/nA1ckEykt78XY8qqdrvVRBSJAho9qPHOCRK
-         KdRLQQ63X0D0thKC9rDJ7CLcngxcOih7FNlCdC5lCVrdPHq4hLHFA0J2XWUcYe9pOBnY
-         K721n+Tkc0VIcmCiVciHE+OBrbDD7jWPFy9IqQ6MrCuAxcO6eEPQb03lWf2jAsfhkcOD
-         I02g==
-X-Forwarded-Encrypted: i=1; AHgh+RpsGLKRo9iejCxkwQtB6FINmVk9huZs613+uGg2XVi9xgBhnjyyRRCmfviz8UJ8GZ/Q5esv0S2Wxw/WMw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7XeNb54z1I/G9P4s/ubzp2MNl1e0oK0jP+o0h0a+COj54PWDD
-	RaYRul1QGina5tQVMU/PTQ4s+2UTvcKuwg9F8i4DzeveuwZeyLcZQwpdRgiO0tKfLMlgI3RZWHu
-	71mlDoiV7xGpJLtPch6V+wD/JwPCkZYZBRGIHpJ8hD7oYTuG6D3FYBzso0VzjY6mjhA==
-X-Gm-Gg: AfdE7ckbYIalcVzk0banQChomyLRKIJcXuKx9iLS+8Bndqs54EvPxE1fpXOR9C2/UkB
-	KI7L+oRFeW1m2RBjqr6lT1a/dcruR93mrhlb5INGv3loLbgzc1+itYk7jlVoKztIFaKbw0G8KWx
-	fBV+qdJ/odUBGFJ1y7rr2B2zZebYKgZ8NY2CifYXf1LXir99CYVf0v63FCUw2WVH1bMvFqVio/E
-	83hOOmqXrdEJxJ+Uqjw8g+YfPegnoIYAJURnPjzn6pheM4QCxOmMgccpfwpW4vAoP9rMLvAucpn
-	42xhPw0nxHjwDrstpMNObdsfR5iPYRSGqqhIijvJ208v+fEyS90aIl7HIMcS1cYaITAgH0JRthe
-	xRjqegbKLGhyJgUy2Ns6vT1aOl1vw3Q30kqOsY3uH
-X-Received: by 2002:a05:620a:2911:b0:92b:81fb:87b7 with SMTP id af79cd13be357-92ebb4a74b1mr50552885a.13.1783341890095;
-        Mon, 06 Jul 2026 05:44:50 -0700 (PDT)
-X-Received: by 2002:a05:620a:2911:b0:92b:81fb:87b7 with SMTP id af79cd13be357-92ebb4a74b1mr50548185a.13.1783341889592;
-        Mon, 06 Jul 2026 05:44:49 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:86f0:c42b:ef4c:d3bb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a55be4sm22126539f8f.31.2026.07.06.05.44.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 05:44:48 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v3 00/20] driver core: count references of the platform
- device's fwnode, not OF node
-Date: Mon, 06 Jul 2026 14:44:12 +0200
-Message-Id: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="yQiJB66J"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q3Ja3EELb62AVIqWTp0ixv3Qur+z/jsnGHS0rVnGP77S30SIFC+yet55Q1nvVKrQLtQLjETPZlF7s01PfWfNuispfxm4BwMxYM+GSKTbTgfJIBbF0OOjXWFXpxYVSypkgP6S5QIdeORh0Ecuqump2dcsDMZMLp1DENJWtfE19GFM+EyPUQtcPJGpWVTCyAsd+IdfH2a4VoC70yH05xgVFu4ddRw2+/3PfbXzWe9sVxiiB7ec76paC/PE+mPSKePCDTrCTp1I6TWKJves5gRwigevLu/DugYwtGZ9kNwm24f3wqnOUR43T6ek4PEN6prvCbd6tGr5q5JVoPLGbOiSKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6HhgTkHOXukVX51TZZSbrL+hVHE8KH8dk14SX1Wc2Ho=;
+ b=OtTgUAAQpTeHSSLYYQrir7M3cyXb1WZwVUQ0rBbtOa3vx7QUtZcgsOcey0Z+9BQna87/YVtiivxNmDo2OODtIreztZWvKhDLdooT/pzOAyrLQ8UkofqOfXIT9RwqBHly447Je0GZ38VjZs0TRXtGhIo6BUSeH6NmKS+XB4f3lPVGQmtTTD7HivFpIoD3Hp02P6XpTfV51nAEDScYA+/tGlDin/+Wua+3NklIuNLzWzCW4LDEw+QNx+DtSmTogXUQxF8KeOj2QyMan0Bfmr9qD/cXRG9DABvCrPaLAOwaoGhl89lphT6z8k1ZbbF7g8GAALQ5+o5a61ry3avEDB7XGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6HhgTkHOXukVX51TZZSbrL+hVHE8KH8dk14SX1Wc2Ho=;
+ b=yQiJB66Jk2Q2mnqzYM8eg9AmhoEfWqybFisTjF24WGWaKk8mp1AXgCBC9nJlbSvTN8HKhFBa0L7ssO3khX7SMb4r5OjKPhhtbL9w+jDLMSehpqzDa1C6tyi5/FbnwuclhfFRNqMNLzIcop5pfBAtAHeAdU9vqEqq2PdILjtEVJw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO7P265MB7617.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:40c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Mon, 6 Jul
+ 2026 12:44:32 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0181.008; Mon, 6 Jul 2026
+ 12:44:32 +0000
+From: Gary Guo <gary@garyguo.net>
+Date: Mon, 06 Jul 2026 13:44:31 +0100
+Subject: [PATCH v6 18/20] rust: dma: drop `dma_read!` and `dma_write!` API
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260706-io_projection-v6-18-72cd5d055d54@garyguo.net>
+References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+In-Reply-To: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+To: Alice Ryhl <aliceryhl@google.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Michal Wilczynski <m.wilczynski@samsung.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, nova-gpu@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783341863; l=8496;
+ i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
+ bh=xdkYZI57kfTpmZRHTNinwPgBzRzi0U1DbnfPFnTc5ag=;
+ b=7gj5TvDga3TDEBL2Z9K4HkuMEEVzeuulr5mTr189vR6jm23Xjf13235zE8JXoisoS6+qKliLz
+ LzFds2mtpeMCbgrPh1B2fSJmnDQc9AvKLIMY57+i7uaNa4EhqFTCVIz
+X-Developer-Key: i=gary@garyguo.net; a=ed25519;
+ pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
+X-ClientProxiedBy: LO4P265CA0177.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:312::20) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAByjS2oC/23NQQ6CMBAF0KuQri1pp1KKK+9hXBQ6SBOh2GrVE
- O5uITEucDPJ/8l/M5GA3mIgh2wiHqMN1g0piF1Gmk4PF6TWpEyAgWQFMDoajLR9Ds4g9dhSo2S
- phKxKjjVJqzGV9rWKp3PKnQ1359/rg8iX9mvxjRU5ZVSpRsBe81oZOLoQ8ttDXxvX93k6ZCEj/
- BgJ1ZaBhdE1QsFFW0n8w8zz/AGy8k9g/AAAAA==
-X-Change-ID: 20260520-pdev-fwnode-ref-d867836971eb
-To: Lee Jones <lee@kernel.org>,
-        Mark Brown <broonie@opensource.wolfsonmicro.com>,
-        Thierry Reding <thierry.reding@avionic-design.de>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-        Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Peter Chen <peter.chen@kernel.org>,
-        Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Hans de Goede <hansg@kernel.org>,
-        =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-        iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
-        linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        mfd@lists.linux.dev,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-        stable@vger.kernel.org, Manuel Ebner <manuelebner@mailbox.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Konrad Dybcio <konradybcio@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4776;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=T44HwwZ1Q0M84+szoUbk3kJ64ZYTCT8dJmP8V7D67KU=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqS6MoJZpVWXquJPA86qFchcYH7k3Onxk1jGth8
- HC7/Ub3emyJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCakujKAAKCRAFnS7L/zaE
- w5C6EACRXYySfkJXFyTq8zPf7US9VFpPW3RE274q/2YBjIesYwUF0YvCKdzVceLWeMMeG2J6zDW
- kKPnEeuZJw5iEdAZ/ZBRMOAmEubsTBD4+/6aCpJUokHzGF4atoDvN4qGLBs0yunKGDADXpORe53
- DKH2ZSJAeyeh6m6ApIS2kFEuxPAFgHOGRfJ49oU8HWhghwyrfZAafNM/pnRLdSVbJtjR4bbqJ6Y
- ADMhQbYObhQcUZPL+Pd0/zZ3eceBO5sR75HXI1CpMPtBmnurs5y8ROaFhD1O9fRw5R31AaggXa1
- T2PfA++SCs59XKUD9MZ+sbvqxbKl+eT1YDimp9jxs7EtpTwGbAhWKJQU1dnLAYH2DqJAyABQ2iD
- Jz+z/UKxaEuZta2/BUh9S+ltz05OQNOaGi4dnWyQZTjJOEOAndluZXURrk55+4Th+jZf/hivpZM
- PH3hYGyTBIsWD+3bwfWzc/ywqJmwpgf/lm6De13odOQ+CgbtKNhqj1YiAYm0ycwrxLOwiYpeFAh
- SafUvNI+inETJ5q/MDf2BgXJTLYnwwem1L9HjWvrd+KcxlyXvcNkU2NqjNIS+az2hgs6TyTwLj2
- 6nrCsPnQJTSJQyRyLK9DlcWtWmfUmUcgkvKbl/Gtc3sMJFlfIjSQa2osUPg0ZgDKsosfSkNp2al
- Q5/taAz6caNJmuQ==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Authority-Analysis: v=2.4 cv=SpigLvO0 c=1 sm=1 tr=0 ts=6a4ba343 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=bC-a23v3AAAA:8
- a=EUspDBNiAAAA:8 a=rL0NY73m5x218zCt0XUA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=FO4_E8m0qiDe52t0p3_H:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEyOSBTYWx0ZWRfX8R/h7nO8D+YV
- bxW90oQ4k3pVtNVWo995Fzx0OyFFRkm68UViBg07pWq+eFopr4Ujx1cItyzqTL4KeVgUNtiyqxs
- m5ihs2uyc+9rzo5QTznPVhYsI3CGUYKD3YNuqGT1kH73PDEJfgPMKCfhz8OGbOak0o5vwO6+7P+
- rKrQ8AnRBZntQnSleSBR2+yfXXPXTSww4dWIJRTR9ebVb0L9uOTnCRSqrs4RLZvt3Og3KMIvjAd
- s2UAx6sQog8WWuc6uwcjvnuSN5HfB0y5v01nUgfbpMYS1kSmSaxBMTI5YYXWjku5x2DsbO+EqEq
- mcEqUYIRJC1sakZrF6/ClRwcfmOIN0k+P6tUEB6dbSCBnIIMfP09ZncXYNV3SmN1+SZ4DousV3W
- kvXB0Sj21IA+RE6AS1/DpPMyW7XPlH5O3Y7RoxY1lANIk3ipVT9p+Moii+sMj8dm8xUFXesVKSQ
- cAbOpZ0qew9HbSyYWYA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEyOSBTYWx0ZWRfX0gqlm+fWZ6O5
- cHYDx11jU9pZjBZqB8TnenDLQwwYbUpWA/HNuSqO1RUMHYpDx6kpzPt393zoWjwaQuJ0Tgy0FIs
- Wm3mqq8uybocNV2ZWhGcFw2rbssb+w8=
-X-Proofpoint-GUID: 6cU6KICWr-HOE3k4_3Eq-exOVUBAnWMz
-X-Proofpoint-ORIG-GUID: 6cU6KICWr-HOE3k4_3Eq-exOVUBAnWMz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 spamscore=0 clxscore=1015 phishscore=0
- bulkscore=0 adultscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060129
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO7P265MB7617:EE_
+X-MS-Office365-Filtering-Correlation-Id: 758d3935-9b4f-4a90-975d-08dedb5c540d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|7416014|10070799003|18002099003|921020|3023799007|5023799004|6133799003|56012099006|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Lk/ZmvYvfYBZUMHA2SDuIOhPpmd9gdZaem+ZZNxG6HQR6GLy7XeEaQUTP05D1ekGqKf9iTSD7jxpc4JDiMy9LgRbfxryAAdLchyYoyxmSUQ2SZXViYD+o2qFWkpYfPrVNTjb9eab+vAh1Sstl13UKn52QlOUZWBntl4xEBP8xmUGSBggX5r3ZOWUxtZlbuY35LAgsWrTwh1hWzIxtQ3B8SVtw8XEYHqSgLXNoq/D/ijWoB5iklTd5AxeNoP2yMNGGi1kJV2YY3m1nOQS+FZhWgYX6FTD5nohTOgcftJoQOsd3KTObWxzXjRzvuqygik2fuxP/wZi9ZZjEBZj00/EciXBpDbkThA7tRqKEM1qoF+v4Fi3frf8rthfD6MoF+c5rJF5cM84d5ZGSrJgFsWUqqZefaBwQ6UNdsHlh4ljDr8YrJz3bmZ1ToSVrVaitfw7w0k+roMB+amIFnpcHSsVALwye9nNtivwKYGcIU/ELqLy9hAx+t9OpRafpdzZm+JbRns1taCAHxOBFnB1/Qw734G9Q58a8+CEtKFG3FjYMU51Hh7nk0sQ8pGq0MgzBNAUChBNcrn9zPBnk5UR4jJ4CgTuDxvBPRSNWdUr6ALhk/CXm+ZQu562iluyF8nBPAHxdsEgN3LIt/M0/si13v9b+zWaqPai14O8yRgTTpfA2jVGLr8TR8mpSa6RAUIGHB1U9qUis7ElsDglatXmXkIeyA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(7416014)(10070799003)(18002099003)(921020)(3023799007)(5023799004)(6133799003)(56012099006)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?S2NKOE1LQ2d6dXpKYmtEaTRUR2dFSVFrU3ZiNGFGenBoMEdLOHJickJoaS9m?=
+ =?utf-8?B?M1NvVVJDQitacnFSdGRveGxEbFExY3k5ZE8vL2pWNzYyODl6UThaTjhobDdN?=
+ =?utf-8?B?eGN3ajl4Q0xzZ0JpYW1SeFJudnlCT3FmRjR6VTBQSFl0bEJIN1JZWFhSTHFo?=
+ =?utf-8?B?OHBlbjFudE5mVjJtOUhFYW1uS0RmSXZYRTlTcVE0WkF4VlBZM1FVdmdDNnJz?=
+ =?utf-8?B?VFFPTGdHT3VtYWN5dzBOQlh6dk54TE1reVJiREdUdi9DZDJyUm9SMU9saFdL?=
+ =?utf-8?B?Z1c0SHlMdmxhZTAySm5kSWRJU201d0xUd3VpZVUvc1dYeHhNYnB6V1RrRGFP?=
+ =?utf-8?B?VTIxbGZHb3Z1VDVhaDRTY0hWSC94QWF4L0ZuMjdBZFZNY1VGQ0MzY0ZEZjRn?=
+ =?utf-8?B?NElyYkc0RXRUTWVZRVE4ejZpbG9qcHZtMUtpb0lxWW9nck9oTTMrTURrNWpV?=
+ =?utf-8?B?R0R3ZVhmR0Jndm5XSVdGcnFXMURnejhmVW5MYnd6ajdHTVRacTBCaHB1Rit6?=
+ =?utf-8?B?SCtWTERISGRrd1ZucHdWNEFMdXphT0lHUGJMaGdZbVVQTG9Wam5JWUlvQUVo?=
+ =?utf-8?B?K0ozNGNGdTFMdXpVWCtOZVoyZkhnOGxCclFiTGxBc0JhZGdQbTBBWk1WTGRV?=
+ =?utf-8?B?eHRPTk43RE1OOVNKTGdsUG45M3o4YmNycGIydEViQy9uUFV0TWNnWmt0MWRq?=
+ =?utf-8?B?dGhGR2lMWHYvdnh3YWVpSHhBdXNDZVkrZEdTQ0Y1RWJ4VHAyb21KUVN5Tk9V?=
+ =?utf-8?B?ZUorZGdIMHNab1p1UDVuVWYzdmtzNmJkVW5rMDEreVhNc0s1NCtCb1JaK25Y?=
+ =?utf-8?B?ZDlkUFdSMXgwMmhUNjJ0Rnc0clo1VmY3UWNrV1lnMXRxZlN4dzFWSDExamh2?=
+ =?utf-8?B?UWd5UFZBRm5UZ2N2NHF6M1lYVEtESjFQSGZROUR1ZjZES3ZPZzFNZm5NcjlX?=
+ =?utf-8?B?ZHJiWjgwb0IzWUtyLzJqZ3lOYVlWbERZaW4rZGthQzdCVWNyNDVjYkZpTk1u?=
+ =?utf-8?B?NEFNc0VWOFlRcGhZL3Jjbk93ZC9PclRnV3JlNnd1QnFkeFVUZEUxZ1VEVVdL?=
+ =?utf-8?B?RUtVZlJIY3kwdXpMaVpRN2hrTFlNVzNzcWlMbVpWWUR3dUxhbG9VK3VmZXln?=
+ =?utf-8?B?VXJ0eUo0allHelNjcmVua0I0SkhpQmErM0JxTzV5SkVZNit0aDIzRkRTRktm?=
+ =?utf-8?B?QXkwWnVLQUkwL3llRXNCTzBPSkRhejdDanNGdkZIeGxSQ2FReFlpdTZoNlN4?=
+ =?utf-8?B?Y1Y0Q3EzbHJUSGNLVWYrRU9PanYra081Sm5HVDhvZmtRWmVGZTRyYjlhMDJz?=
+ =?utf-8?B?cTM2Wk85WE9COEdnUHdGYk8yUFpFR0w2S1lZUmF4WFU5UDgzMWN0SzlSbWhq?=
+ =?utf-8?B?TmFPeU92MnpPNm9yMklCVXJqODVsaWpib0RLVkx5bDdTR3dDR2FoTC9FQ3d2?=
+ =?utf-8?B?VjhDaEdWNXRKc0paVnBFS0V6V3ZwS0Fjd2RWaU90QUp3SEdOL1ZFM0NVdkV2?=
+ =?utf-8?B?SS83Z2pmYm1vSk5ad0NxdHM1Nm91TnFmblM2MmN0V2FkVzArc0dTd1FjNkhD?=
+ =?utf-8?B?MDBVZ2VOcUtDN3htelVFYXN2YzAyTUQ0U2x4RVkzRks1K3pLU0U4a3FkM244?=
+ =?utf-8?B?RnB4N3h3ZW5VY1FhMkp1dHZoVnRXR3ZxRGVxSW83Y2Fuc0lRd0hsNkMrbVhl?=
+ =?utf-8?B?ZnhUbC83dU1EbnE3TkVkTXhHS3FHSE5UaFY3VTFOZENuTEE0MlZTZVBGckZa?=
+ =?utf-8?B?VU8yd1pCdmxQeFptMytQRlNHTCt0Nk9hcXFnYzhmVjFJSnBKRU4xbVF6NUEr?=
+ =?utf-8?B?VXNqbVlUNlhNOTJmSlNwUnRHWk15dXBpVjlRWDFIMkNiZFU3cXZ3bzk3cXhS?=
+ =?utf-8?B?NUwwOS9RVE8veVZUWGkrdndwVjRGQUp2WkFsN2hLWHZsaUNZMnFCaTRTWE4v?=
+ =?utf-8?B?bkxCRzNkcGpTUDJsenhScEpaZzFhMFRxaHVkd2xoRllzQXhPcWZ6SVRyWGQy?=
+ =?utf-8?B?cUFYTlovY2VNaEwvMGNweFRiTVRxY1YxMlRqYmNPU1JWZzg0UjFYbWsxQksr?=
+ =?utf-8?B?UFBheEhwTmRvb1BTVGZFQ1F0ZlJhRmlHZVJYeUNqd3JaUm1wZUE2dU52ZXdD?=
+ =?utf-8?B?L3JBazFxeEM1T0ppSEc5NXRCL1Q4bTFQOW1uNkJ1T2U0eVNqckV4YjgyZUdT?=
+ =?utf-8?B?ZWM4N0lWZWJ0V2dKSm4vTlI0ZUJRd3hKZTVET3B0MHZqNkN3NkxPODVoMlE3?=
+ =?utf-8?B?NzFydVdaWitKQ01tWExUZ0NIQlpiTmhjVFVmMlF0b0dMbUtKS1R0UWRTMjVH?=
+ =?utf-8?B?aFZvcDd1RDMvZ1VsRmlhQ0xlTFd0dnc2S1dDeS80M1IweDFsRlRvdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 758d3935-9b4f-4a90-975d-08dedb5c540d
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 12:44:32.7741
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yGhPU+MnMRm0DgVaNvaBwB021Emt9Rr7GR7KZwK/aN+JbIdBktPGfzuBAFor0pBbc8g1j91kiEhtWvFwQ7mhLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7617
 
-Platform device core provides helper interfaces for dealing with
-dynamically created platform devices. Most users should use
-platform_device_register_full() which encapsulates most of the
-operations but some modules will want to use the split approach of
-calling platform_device_alloc() + platform_device_add() separately for
-various reasons.
+The primitive read/write use case is covered by the `io_read!` and
+`io_write!` macro. The non-primitive use case was finicky; they should
+either be achieved using `CoherentBox` or `as_ref()/as_mut()` to assert the
+lack of concurrent access, or should be using memcpy-like APIs to express
+the non-atomic and tearable nature.
 
-With many platform devices now using dynamic software nodes as their
-primary firmware nodes and with the platform device interface being
-extended to also better cover the use-cases of secondary software nodes,
-I believe it makes sense to switch to counting the references of all
-kinds of firmware nodes.
-
-To that end, I identified all users of platform_device_alloc() that also
-assign dev.of_node or dev.fwnode manually. I noticed five cases where
-the references are not increased as they should (patches 1-5 fix these
-users) and provided three new functions in platform_device.h that now
-become the preferred interfaces for assigning firmware nodes to dynamic
-platform devices (in line with platform_device_add_data(),
-platform_device_add_resources(), etc.). The bulk of the patches in this
-series are small driver conversions to port all users to going through
-the new functions that now encapsulate the refcount logic. With that
-done, the final patch seamlessly switches to counting the references of
-all firmware node types.
-
-This effort is prerequisite of removing platform_device_release_full()
-and unifying the release path for dynamic platform devices using
-unmanaged software nodes.
-
-Merging strategy: The entire series should go through the driver core
-tree, possibly with an immutable branch provided to solve any potential
-conflicts though these are rather unlikely.
-
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
-Changes in v3:
-- Use device_set_node() where applicable
-- Use __free(device_node) in fsl iommu driver
-- Don't use __free() where not really required
-- Add a patch updating the kerneldoc for platform_device_alloc()
-- Collect more tags
-- Link to v2: https://patch.msgid.link/20260629-pdev-fwnode-ref-v2-0-8abe2513f96e@oss.qualcomm.com
+ rust/kernel/dma.rs       | 128 -----------------------------------------------
+ samples/rust/rust_dma.rs |  11 ++--
+ 2 files changed, 8 insertions(+), 131 deletions(-)
 
-Changes in v2:
-- Rebased on top of v7.2-rc1, dropped applied patches, collected tags
-- Link to v1: https://patch.msgid.link/20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 1535bc6eec64..6e7ea3b72f2f 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -661,52 +661,6 @@ pub unsafe fn as_mut(&self) -> &mut T {
+         // SAFETY: per safety requirement.
+         unsafe { &mut *self.as_mut_ptr() }
+     }
+-
+-    /// Reads the value of `field` and ensures that its type is [`FromBytes`].
+-    ///
+-    /// # Safety
+-    ///
+-    /// This must be called from the [`dma_read`] macro which ensures that the `field` pointer is
+-    /// validated beforehand.
+-    ///
+-    /// Public but hidden since it should only be used from [`dma_read`] macro.
+-    #[doc(hidden)]
+-    pub unsafe fn field_read<F: FromBytes>(&self, field: *const F) -> F {
+-        // SAFETY:
+-        // - By the safety requirements field is valid.
+-        // - Using read_volatile() here is not sound as per the usual rules, the usage here is
+-        // a special exception with the following notes in place. When dealing with a potential
+-        // race from a hardware or code outside kernel (e.g. user-space program), we need that
+-        // read on a valid memory is not UB. Currently read_volatile() is used for this, and the
+-        // rationale behind is that it should generate the same code as READ_ONCE() which the
+-        // kernel already relies on to avoid UB on data races. Note that the usage of
+-        // read_volatile() is limited to this particular case, it cannot be used to prevent
+-        // the UB caused by racing between two kernel functions nor do they provide atomicity.
+-        unsafe { field.read_volatile() }
+-    }
+-
+-    /// Writes a value to `field` and ensures that its type is [`AsBytes`].
+-    ///
+-    /// # Safety
+-    ///
+-    /// This must be called from the [`dma_write`] macro which ensures that the `field` pointer is
+-    /// validated beforehand.
+-    ///
+-    /// Public but hidden since it should only be used from [`dma_write`] macro.
+-    #[doc(hidden)]
+-    pub unsafe fn field_write<F: AsBytes>(&self, field: *mut F, val: F) {
+-        // SAFETY:
+-        // - By the safety requirements field is valid.
+-        // - Using write_volatile() here is not sound as per the usual rules, the usage here is
+-        // a special exception with the following notes in place. When dealing with a potential
+-        // race from a hardware or code outside kernel (e.g. user-space program), we need that
+-        // write on a valid memory is not UB. Currently write_volatile() is used for this, and the
+-        // rationale behind is that it should generate the same code as WRITE_ONCE() which the
+-        // kernel already relies on to avoid UB on data races. Note that the usage of
+-        // write_volatile() is limited to this particular case, it cannot be used to prevent
+-        // the UB caused by racing between two kernel functions nor do they provide atomicity.
+-        unsafe { field.write_volatile(val) }
+-    }
+ }
+ 
+ impl<T: AsBytes + FromBytes> Coherent<T> {
+@@ -1266,85 +1220,3 @@ fn as_view(self) -> CoherentView<'a, Self::Target> {
+         }
+     }
+ }
+-
+-/// Reads a field of an item from an allocated region of structs.
+-///
+-/// The syntax is of the form `kernel::dma_read!(dma, proj)` where `dma` is an expression evaluating
+-/// to a [`Coherent`] and `proj` is a [projection specification](kernel::ptr::project!).
+-///
+-/// # Examples
+-///
+-/// ```
+-/// use kernel::device::Device;
+-/// use kernel::dma::{attrs::*, Coherent};
+-///
+-/// struct MyStruct { field: u32, }
+-///
+-/// // SAFETY: All bit patterns are acceptable values for `MyStruct`.
+-/// unsafe impl kernel::transmute::FromBytes for MyStruct{};
+-/// // SAFETY: Instances of `MyStruct` have no uninitialized portions.
+-/// unsafe impl kernel::transmute::AsBytes for MyStruct{};
+-///
+-/// # fn test(alloc: &kernel::dma::Coherent<[MyStruct]>) -> Result {
+-/// let whole = kernel::dma_read!(alloc, [try: 2]);
+-/// let field = kernel::dma_read!(alloc, [panic: 1].field);
+-/// # Ok::<(), Error>(()) }
+-/// ```
+-#[macro_export]
+-macro_rules! dma_read {
+-    ($dma:expr, $($proj:tt)*) => {{
+-        let dma = &$dma;
+-        let ptr = $crate::ptr::project!(
+-            $crate::dma::Coherent::as_ptr(dma), $($proj)*
+-        );
+-        // SAFETY: The pointer created by the projection is within the DMA region.
+-        unsafe { $crate::dma::Coherent::field_read(dma, ptr) }
+-    }};
+-}
+-
+-/// Writes to a field of an item from an allocated region of structs.
+-///
+-/// The syntax is of the form `kernel::dma_write!(dma, proj, val)` where `dma` is an expression
+-/// evaluating to a [`Coherent`], `proj` is a
+-/// [projection specification](kernel::ptr::project!), and `val` is the value to be written to the
+-/// projected location.
+-///
+-/// # Examples
+-///
+-/// ```
+-/// use kernel::device::Device;
+-/// use kernel::dma::{attrs::*, Coherent};
+-///
+-/// struct MyStruct { member: u32, }
+-///
+-/// // SAFETY: All bit patterns are acceptable values for `MyStruct`.
+-/// unsafe impl kernel::transmute::FromBytes for MyStruct{};
+-/// // SAFETY: Instances of `MyStruct` have no uninitialized portions.
+-/// unsafe impl kernel::transmute::AsBytes for MyStruct{};
+-///
+-/// # fn test(alloc: &kernel::dma::Coherent<[MyStruct]>) -> Result {
+-/// kernel::dma_write!(alloc, [try: 2].member, 0xf);
+-/// kernel::dma_write!(alloc, [panic: 1], MyStruct { member: 0xf });
+-/// # Ok::<(), Error>(()) }
+-/// ```
+-#[macro_export]
+-macro_rules! dma_write {
+-    (@parse [$dma:expr] [$($proj:tt)*] [, $val:expr]) => {{
+-        let dma = &$dma;
+-        let ptr = $crate::ptr::project!(
+-            mut $crate::dma::Coherent::as_mut_ptr(dma), $($proj)*
+-        );
+-        let val = $val;
+-        // SAFETY: The pointer created by the projection is within the DMA region.
+-        unsafe { $crate::dma::Coherent::field_write(dma, ptr, val) }
+-    }};
+-    (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) => {
+-        $crate::dma_write!(@parse [$dma] [$($proj)* .$field] [$($rest)*])
+-    };
+-    (@parse [$dma:expr] [$($proj:tt)*] [[$flavor:ident: $index:expr] $($rest:tt)*]) => {
+-        $crate::dma_write!(@parse [$dma] [$($proj)* [$flavor: $index]] [$($rest)*])
+-    };
+-    ($dma:expr, $($rest:tt)*) => {
+-        $crate::dma_write!(@parse [$dma] [] [$($rest)*])
+-    };
+-}
+diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
+index 5046b4628d0e..4af46e99d2dd 100644
+--- a/samples/rust/rust_dma.rs
++++ b/samples/rust/rust_dma.rs
+@@ -12,6 +12,10 @@
+         Device,
+         DmaMask, //
+     },
++    io::{
++        io_project,
++        io_read, //
++    },
+     page, pci,
+     prelude::*,
+     scatterlist::{Owned, SGTable},
+@@ -77,7 +81,8 @@ fn probe<'bound>(
+                 Coherent::zeroed_slice(pdev.as_ref(), TEST_VALUES.len(), GFP_KERNEL)?;
+ 
+             for (i, value) in TEST_VALUES.into_iter().enumerate() {
+-                kernel::dma_write!(ca, [try: i], MyStruct::new(value.0, value.1));
++                // SAFETY: `ca` is not yet shared with device or other threads.
++                unsafe { *io_project!(ca, [panic: i]).as_mut() = MyStruct::new(value.0, value.1) };
+             }
+ 
+             let size = 4 * page::PAGE_SIZE;
+@@ -97,8 +102,8 @@ fn probe<'bound>(
+ impl DmaSampleDriver {
+     fn check_dma(&self) {
+         for (i, value) in TEST_VALUES.into_iter().enumerate() {
+-            let val0 = kernel::dma_read!(self.ca, [panic: i].h);
+-            let val1 = kernel::dma_read!(self.ca, [panic: i].b);
++            let val0 = io_read!(self.ca, [panic: i].h);
++            let val1 = io_read!(self.ca, [panic: i].b);
+ 
+             assert_eq!(val0, value.0);
+             assert_eq!(val1, value.1);
 
----
-Bartosz Golaszewski (20):
-      powerpc/powermac: fix OF node refcount
-      driver core: platform: provide platform_device_set_of_node()
-      driver core: platform: provide platform_device_set_fwnode()
-      driver core: platform: provide platform_device_set_of_node_from_dev()
-      driver core: update kerneldoc for platform_device_alloc()
-      of: platform: use platform_device_set_of_node()
-      powerpc/powermac: use platform_device_set_of_node()
-      i2c: pxa-pci: use platform_device_set_of_node()
-      iommu/fsl: use platform_device_set_of_node()
-      net: bcmgenet: use platform_device_set_of_node()
-      pmdomain: imx: use platform_device_set_of_node()
-      mfd: tps6586: use platform_device_set_of_node()
-      slimbus: qcom-ngd-ctrl: use platform_device_set_of_node()
-      net: mv643xx: use platform_device_set_of_node()
-      drm/xe/i2c: use platform_device_set_fwnode()
-      platform/surface: gpe: use platform_device_set_fwnode()
-      usb: chipidea: use platform_device_set_of_node_from_dev()
-      usb: musb: use platform_device_set_of_node_from_dev()
-      reset: rzg2l: use platform_device_set_of_node_from_dev()
-      driver core: platform: count references to all kinds of firmware nodes
-
- arch/powerpc/platforms/powermac/low_i2c.c    |  2 +-
- drivers/base/platform.c                      | 61 ++++++++++++++++++++++++++--
- drivers/gpu/drm/xe/xe_i2c.c                  |  2 +-
- drivers/i2c/busses/i2c-pxa-pci.c             |  3 +-
- drivers/iommu/fsl_pamu.c                     | 16 +++-----
- drivers/mfd/tps6586x.c                       |  2 +-
- drivers/net/ethernet/broadcom/genet/bcmmii.c |  3 +-
- drivers/net/ethernet/marvell/mv643xx_eth.c   |  2 +-
- drivers/of/platform.c                        |  2 +-
- drivers/platform/surface/surface_gpe.c       |  2 +-
- drivers/pmdomain/imx/gpc.c                   |  3 +-
- drivers/reset/reset-rzg2l-usbphy-ctrl.c      |  2 +-
- drivers/slimbus/qcom-ngd-ctrl.c              |  2 +-
- drivers/usb/chipidea/core.c                  |  2 +-
- drivers/usb/musb/jz4740.c                    |  2 +-
- include/linux/platform_device.h              |  9 ++++
- 16 files changed, 88 insertions(+), 27 deletions(-)
----
-base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
-change-id: 20260520-pdev-fwnode-ref-d867836971eb
-
-Best regards,
 -- 
-Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+2.54.0
 
