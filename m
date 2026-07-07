@@ -1,252 +1,508 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B3240A92C
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 12:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B941B414A22;
+	Tue,  7 Jul 2026 13:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783428206; cv=none; b=N8cNnhOdtzH50/Bsalie8UWHfgKElpuqBgV66dYYyqlOn4Pi2wB4fGMeRHrHpH2rxRq7V9g65n262+N7g4POnf2dyISZfK5on3mznXQwUl6RjYRrG6IX7O5arQU/ayOntRNjlSjx+oxEOjV7Ja8PKlMY/Bbh3b/UoIcCQGdSQkw=
+	t=1783429451; cv=none; b=SXlVdpbIoH4D7T76CF/8xJEoTTrqNlxRlK3va+QDimM3BLRnMQvN3ZiGT4NW0NSnaa3hXD3BnlhCRnInyxPOZ3adTJqGvkiAkOSz1cjuNI1fdlapR6j9Cb6bah74dHw3XleYkYtKS7Vbabao50UwfyNwKkL1s1a8l3gSMHcdsjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783428206; c=relaxed/simple;
-	bh=0syJgOL7UuJijsJI6FAumA8sQyhvCuWjenbq/nczlOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o1otuTI8Jsj9rfHMKNWfp9XLllBM97eNW06wt9cwSfIuBqd396lBZC1gc7KUbYRiIOhSLoSwy4hK0oWtNqxGBIctv6F9LObXIXWyzoGA5Y7ZFPCr98yxiUM+5U2+l5lVyeMt+oxGHoc/5BJ7haZ8u5z1JKo6Z6dr6tXgehgtBbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=WjQBuRKW; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1783429451; c=relaxed/simple;
+	bh=YSsne3yvdvBfDxI0qG1bOORYLdXduAdy0KUZ4MueSIk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nIrIq8k7pXOWSBNSNx6Cxx/4ugJGMZSrK4zylz9jDL9EXc9vIadANjgnf+aXzPzOYIuUfkFAqtx66IxAelwXOFrau8uA8EXDeHrxIx9kLRmKQE4BoGuOt6SLuH5U6lxQmCzyr42yRPeMAVcrmlPeCIzbUaMaJy/BdIL6ivEcovI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=myQGjvKz; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="WjQBuRKW"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51bfbe05683so27332021cf.2
-        for <driver-core@lists.linux.dev>; Tue, 07 Jul 2026 05:43:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1783428203; x=1784033003; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DpR/IZcE7y8vF/86rmuimft6GS353sbM1gJlGWQ97b0=;
-        b=WjQBuRKWi4jpHUvedfSIJoPeOIbQDu8v16lUNiwEaG07hP5Qz+OZ6mmZfilBpY1zY0
-         ukip1Ld+Q9caI9draToqK3MwTe3tFBVa3PvUGMsQrUo+5A5gcSfv3tCoTA4+ydF8YQYo
-         lRmEh3qwzxgdFAa3qMNS2z02YdJ5koW7t4P8uC1UqNbjsXGl+tWzTh+abdLTgwvVtrJa
-         jusHwRbVW1vG/8hXc19fkR3rUdvhzqvNnChOdQz2NQIdoo7GBY3XhmxeHJ1r6SPedCUE
-         CQwavSMqfa5MJtdWnq0EqGDyKj+bIj20/H3I5BLF16Es17iJ/FnbxwWYXdxCc6W1Iozx
-         kflw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783428203; x=1784033003;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DpR/IZcE7y8vF/86rmuimft6GS353sbM1gJlGWQ97b0=;
-        b=eTEQpevez4sPiW8/gfZEFtDk01sCsY+q5a+mSet5MaCezSdZp87eRyrKnpR121PTwB
-         WSiYtds/J9AUvjwB7bhNzZ1jGLjXNLgnRPCzOqxKF/D0tNxFyOgd8/Jw3E6FfQJUH3QN
-         0RuAfqqYiRyy7M/O6FTXqfhygcNrrblGt8TMrYBxUhlY2vm6gXDJ6ga4xwQvFM/Y/DIA
-         7jvrPEK22b9ZHmNc4Oze/cp3ADUuSekXDJ+F8cMuci9P13M8HJkUxxu3gvlj8UhQ20LY
-         q0ALrOllesxw3lEyYp8162EpeoKo3WbiMrCdQnjocj4qmy4IPb/ICRqIESgMZTJjyrta
-         HDBg==
-X-Forwarded-Encrypted: i=1; AHgh+RozoSAvLJeD3vr88tN8hyBC8bTrlEQvnWl4A8gshEKODBQIK9WHaMs9wpoYlQTaulEWVx9au1Wz7PHjSw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRFehz8aJ70uxMlu/1KPgTKiOJB00aoOEdircikrZCKt4NZbKn
-	CsTwh719OCwu7JKebuNyUK0w+wDMYMEJqsOrMmGtd1ieQkB9vHmzaSf3iF0Ks9NhDZA=
-X-Gm-Gg: AfdE7clVnASwLeu1fL6hBDzSaWs7A/AY3LSOG/C1t/qnHYI0/Hfp2oVqzwOtEhNYCWg
-	Hgr62a50AswUD/oUun4fEijbZoDZLzFr7FTE9LGOR6JAtvB7Aye2G/O/TMhqkhBVRELi2PPxkie
-	Y/3a75NobbW3UWKVC4fLQJ6sVUzgpfDKUAx8WSHbGg2ztJwmsd5KT00mRr83lCryPvfYAFHd+zC
-	o+HIcosAqbEmSFAPEuHlBw31lobrTFM3tsZcOb/tptcxu4X5H8puRiHkpVRYlwjChmEjpv9ifuX
-	fIldifIPv9A0eOnC2yqmBI2hCHdg0J6MoZPjWF/VrSmqVUA13/7U72aJUlLKP1gz6EfG4pi3ytS
-	6C7j/iBcNSjpOx1cu9SkstQu8lqKv+kL6Mfn6G53pr37iDu2VPKcTWj+SRaxC
-X-Received: by 2002:ac8:7f05:0:b0:51c:1cbd:5fdc with SMTP id d75a77b69052e-51c747a1052mr51204751cf.10.1783428202942;
-        Tue, 07 Jul 2026 05:43:22 -0700 (PDT)
-Received: from ziepe.ca ([159.2.72.92])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f4718143aasm158188786d6.32.2026.07.07.05.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 05:43:22 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wh58z-00000000vM8-1tLF;
-	Tue, 07 Jul 2026 09:43:21 -0300
-Date: Tue, 7 Jul 2026 09:43:21 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Dan Williams (nvidia)" <djbw@kernel.org>
-Cc: linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
-	driver-core@lists.linux.dev, ankita@nvidia.com,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Alistair Francis <alistair.francis@wdc.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Will Deacon <will@kernel.org>, Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
- Protocol (TDISP)
-Message-ID: <20260707124321.GF118978@ziepe.ca>
-References: <20260705220819.2472765-1-djbw@kernel.org>
- <20260706125140.GB107792@ziepe.ca>
- <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="myQGjvKz"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A13511AC1;
+	Tue,  7 Jul 2026 06:04:04 -0700 (PDT)
+Received: from [10.2.212.23] (e121345-lin.cambridge.arm.com [10.2.212.23])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48EA43FBF5;
+	Tue,  7 Jul 2026 06:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783429449; bh=YSsne3yvdvBfDxI0qG1bOORYLdXduAdy0KUZ4MueSIk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=myQGjvKz++HIOXSBBpTJELGW48BMLscOFJx5BmCZW8padNob+jPs1JTvE4PBQeFHl
+	 JF1bAPHREDOzWbvaJ0BoSC/KvIzUb75cMaat01yRDk6ZlF7LOkGsOJVNjTzCznpXnv
+	 7vq24KcAJeH9WNM1XddCrKtCkdEwONq7Hyzne/mU=
+Message-ID: <396f462b-541b-4c1f-aeec-a65c703603d7@arm.com>
+Date: Tue, 7 Jul 2026 14:04:03 +0100
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/15] PCI, device core: Move "untrusted" concept to
+ DEVICE_TRUST_ADVERSARY
+To: Dan Williams <djbw@kernel.org>, linux-coco@lists.linux.dev
+Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
+ ankita@nvidia.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Bjorn Helgaas <bhelgaas@google.com>, Alexey Kardashevskiy <aik@amd.com>,
+ Xu Yilun <yilun.xu@linux.intel.com>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <20260705220819.2472765-10-djbw@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260705220819.2472765-10-djbw@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 06, 2026 at 01:55:12PM -0700, Dan Williams (nvidia) wrote:
-> Jason Gunthorpe wrote:
-> > On Sun, Jul 05, 2026 at 03:08:04PM -0700, Dan Williams wrote:
-> > > * NONE: no usage of the device unless the trust is explicitly overridden
-> > >   by user policy specified via a driver flag, module flag, or uapi (TBD).
-> > > 
-> > > * ADVERSARY: needs acknowledgement from the bus and IOMMU / DMA layers
-> > >   that the device is limited to strict IOMMU translation behavior. Drivers
-> > >   can use this as a signal to limit functionality. This designation
-> > >   implies follow-on IOMMU and bus enabling work for features like
-> > >   arranging for the device to attach to a blocked IOMMU domain when
-> > >   detached from a driver.
-> > > 
-> > > * AUTO: typical / historical Linux driver model.
-> > > 
-> > > * TCB: a trust level that only exists in Confidential Computing
-> > >   environments. When acked by the IOMMU / DMA layer it enables the device
-> > >   to issue direct-DMA to private/encrypted addresses or otherwise attach to
-> > >   a secure vIOMMU within the TCB.
-> > 
-> > I'm not sure I entirely like this one, certainly it needs to be
-> > possible to have both T=1 and ADVERSARY together.
+On 05/07/2026 11:08 pm, Dan Williams wrote:
+> An "adversary" device is one that the kernel is allowed to operate, but
+> with extra safety / paranoia added. It aims to keep the device bounded in
+> both address space and time (no batched invalidation) for DMA accesses. The
+> concept of adversarial devices already exists in the PCI core. The
+> categorization is applied to externally attached PCI devices by default
+> (like Thunderbolt attached devices). Unlike DEVICE_TRUST_NONE that says "do
+> not allow driver bind", DEVICE_TRUST_ADVERSARY says "allow driver bind as
+> long as the driver and/or IOMMU are taking precautions." Uplevel this trust
+> mechanism from a PCI device "untrusted" boolean flag to the core device
+> trust level.
 > 
-> T=1 and ADVERSARY are independent for link encryption and private MMIO.
-> In other words the device is placed into the TDISP RUN state independent
-> of its trust level. 
-
-That's the right thing
-
-> Downstream accesses to the device must have T=1, and
-> its upstream accesses will have T=1, but with force_dma_unencrypted() ==
-> true.
-
-That should never happen. Once in RUN force_dma_unencrypyted() ==
-false, it has nothing to do with the trust level.
-
-Even if you set ADVERSARY it should still be bouncing partial page
-DMAs into private memory. The point of running something like this is
-to remove the shared memory attack surface - ie the hypervisor SW. The
-attack surface is reduced to the device itself by remaining in shared
-memory.
-
-> > I'd also argue this list is missing "FULL" trust, which is the
-> > historical Linux behavior for a normal device. AUTO should be
-> > selecting between FULL/ADVERSARY based on things like the ACPI/etc as
-> > it does today.
+> The rationale for dev->bus_trust separate from dev->p->trust is to give
+> buses the ability to establish a trust level before device_add(). Then,
+> after device_add(), the dependency on 'struct device_private' mandates that
+> the device-core own and coordinate changes to the device's trust level.
 > 
-> 1/ that is effectively how the UNSET level behaves. If the
-> bus has not set ADVERSARY before device_add() then the default behavior
-> is the AUTO level. Where AUTO means all of the automatic privileges a
-> device can be offered without needing any other coordination.
-
-I think my other remark about two enums is some of the issue, the
-policy can have things like UNSET or AUTO, but once the driver starts
-to probe an in-effect mode should be computed and be concrete. Having
-a driver run with a trust mode of AUTO or UNSET is just confusing.
-
-> 2/ The ambiguity and conflict occurs at ->dma_configure() time when the
-> bus and IOMMU layer want to reject the device's access to some privilege
-> by failing. When FULL is defined as !ADVERSARY then it is difficult to
-> describe the semantics when FULL trust honors rejections to private DMA
-> and when it falls back to shared operation.
-
-Given that the trust level shouldn't impact force_dma_unencrypted(),
-the only thing left is to setup the IOMMU differently, and maybe
-operate a driver in a hardened mode or something like that.
-
-I don't see what the TCB is supposed to be changing here.
-
-That leaves it just as a policy gate to check that T=1, I'm not sure
-if that is worthwhile enough for dedicated UAPI?
-
-> The above more points to a need to have an explicit trust level for
-> adversarial private memory access. The address spaces are distinct
-> assets with different levels of trust.
+> There are implications of the bus expressing less than full trust in a
+> device and a module later expressing higher levels of trust. For PCI, the
+> "adversary" / pci_untrusted() determination is made prior to initial
+> iommu_probe_device(). The default IOMMU domain determination is latched
+> from bus's specified trust value. Later changes to the trust level, for
+> example by "modprobe $module trust=auto" skip that IOMMU probing. The
+> result is that moving a device to DEVICE_TRUST_AUTO may lift translation
+> blocking (PCI_ACS_TB), but not change the default IOMMU domain from
+> IOMMU_DOMAIN_DMA.
 > 
-> UNSET: bus picks initial level, or leaves it to the device_core().
-> NONE:
-> ADVERSARY: Device can be in T=0, or T=1 mode (UNLOCKED, or RUN).
-> AUTO: Could rename this to be FULL or ALL or DEFAULT, I still keep
->       coming back to the "AUTO" name because the privileges are not
->       uniform based on the IOMMU / DMA topology and device capability.
->       Again, the TDISP state is independent. The TSM driver does
->       not get called to gatekeep and verify access in this mode.
-> TCB_ADVERSARY: or PRIVATE_ADVERSARY. Device can access private platform
-> 	       resources iff an enforcing IOMMU is present.
-> TCB: or PRIVATE_FULL, automatically enable all access privileges
->      including private memory access.
-
-Yeah, we can keep adding more modes to make a big cross product, but
-I do wonder if this is going to get too big..
-
-IDK, maybe it should be a bitmap instead of a level?
-
-bit 0 = Force Disable
-bit 1 = Device is adversarial:
-           - Enable strong IOMMU protections
-           - Enable driver protections
-bit 2 = Require T=1
-bit 3 = Require IOMMU
-bit 4 = Require DMA/MMIO security (eg Link IDE)
-
-Where value 0 means the current level of full trust.
-
-It is a little easier to explain what each thing is doing and easier
-to add new things
-
-Then from a sysfs perpsective the policy would have special string
-values like 'use bus default'
-
-> > If the trust level is reduced to just be a command to the kernel how
-> > it should operate the device then it would be up to userspace to
-> > confirm things like T=1 before setting the trust.
+> The default domain can be validated / changed via iommu_group sysfs. The
+> longer term goal is to dynamically adjust iommu domain at the next
+> $bus_dma_configure() event, but that needs more surgery and consideration
+> for multi-device iommu groups.
 > 
-> This discussion gets strained for me when T=1 is used to mean both
-> "device is in TDISP RUN (with link encryption and private MMIO)" and
-> "device is in TDISP RUN + force_dma_unencrypted() == false".
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Alexey Kardashevskiy <aik@amd.com>
+> Cc: Xu Yilun <yilun.xu@linux.intel.com>
+> Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
+> Cc: Dexuan Cui <decui@microsoft.com>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
+> ---
+>   drivers/base/Kconfig         | 13 +++++++++++++
+>   drivers/pci/Kconfig          |  1 +
+>   include/linux/device.h       |  3 +++
+>   include/linux/device/trust.h | 20 +++++++++++++++-----
+>   include/linux/pci.h          | 13 +++++--------
+>   drivers/base/trust.c         | 20 +++++++++++++++++++-
+>   drivers/iommu/amd/iommu.c    |  2 +-
+>   drivers/iommu/dma-iommu.c    | 13 ++++---------
+>   drivers/iommu/intel/iommu.c  |  2 +-
+>   drivers/iommu/iommu.c        |  2 +-
 
-It means both things though, we really must not run with
-force_dma_unencrypted() = true when T=1, that's pointless and harmful.
+For the straightforward drivers/iommu changes:
 
-> Otherwise, full bi-directional T=1 before setting the trust would
-> require an IOMMU to be blocking the device until that final confirmation
-> point. Given that is not always available the proposal is to defer
-> acknowledging the trust level with the TSM until ->dma_configure().
+Acked-by: Robin Murphy <robin.murphy@arm.com>
 
-?? If you have no iommu the instance you set T=1 and do the platform
-step to activate DMA the device has 100% acess to all
-memory. force_dma_unencrypted() does nothing to constrain device
-access, it is all about accommodating an addressing limitation.
+I don't have time to have a strong opinion about the internal 
+implementation details, but I agree a driver-core-level abstraction of 
+hierarchical bus/device trust seems like the right step to take in general.
 
-ARM at least has a dedicated call to enable DMA. It would be nice to
-place that call right before the driver probes so DMA remains off
-until we commit to using the device. Maybe other platforms have the
-same - but I'm not sure it is *essential* as the point of setting RUN
-can reasonably be the acceptance point.
+Cheers,
+Robin.
 
-> NONE: Device core rejects device operation
-> ADVERSARY: reject device operation if an IOMMU to set IOMMU_DOMAIN_DMA
->            not available (not in current patches)
-> AUTO: no rejections, but no private memory access either
-> TCB_ADVERSARY: reject device operation if IOMMU_DOMAIN_DMA not
-> 	       available, or TSM rejects the evidence used to enable
->                private memory access.
-> TCB: reject device operation if TSM rejects chosen evidence
+>   drivers/pci/ats.c            |  2 +-
+>   drivers/pci/pci.c            |  2 +-
+>   drivers/pci/probe.c          | 10 +++++++---
+>   drivers/pci/quirks.c         |  4 ++--
+>   14 files changed, 74 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+> index a08523d348d8..a4233bdf9804 100644
+> --- a/drivers/base/Kconfig
+> +++ b/drivers/base/Kconfig
+> @@ -291,6 +291,14 @@ config DEVICE_TRUST_NONE
+>   	  possible, the device is blocked by an IOMMU from accessing
+>   	  assets.
+>   
+> +config DEVICE_TRUST_ADVERSARY
+> +	bool "Adversary"
+> +	help
+> +	  Device is allowed to bind. Bus, IOMMU, and driver layers may
+> +	  react to this trust level by disabling access validation
+> +	  bypass mechanisms like PCI ATS. When device is unbound from a
+> +	  driver the device is blocked by an IOMMU where possible.
+> +
+>   config DEVICE_TRUST_AUTO
+>   	bool "Auto"
+>   	help
+> @@ -317,6 +325,11 @@ config BUILTIN_DEVICE_TRUST_AUTO
+>   	  a driver and deploy all available mechanisms to allow performant
+>   	  direct memory access This trust level does not grant TCB privileges.
+>   
+> +config BUILTIN_DEVICE_TRUST_ADVERSARY
+> +	bool "Adversary"
+> +	help
+> +	  Deploy mitigations in the IOMMU layer and driver to limit access.
+> +
+>   endchoice
+>   
+>   endmenu
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index ed17b5d2d5ae..185b42cefe20 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -22,6 +22,7 @@ menuconfig PCI
+>   	bool "PCI support"
+>   	depends on HAVE_PCI
+>   	depends on MMU
+> +	select DEVICE_TRUST
+>   	help
+>   	  This option enables support for the PCI local bus, including
+>   	  support for PCI-X and the foundations for PCI Express support.
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 7b2baffdd2f5..3e203d573a58 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -688,6 +688,8 @@ enum struct_device_flags {
+>    * @removable:  Whether the device can be removed from the system. This
+>    *              should be set by the subsystem / bus driver that discovered
+>    *              the device.
+> + * @bus_trust: Device's initial / prior to device_add() trust level.
+> + *
+>    * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
+>    *
+>    * At the lowest level, every device in a Linux system is represented by an
+> @@ -791,6 +793,7 @@ struct device {
+>   	struct device_physical_location *physical_location;
+>   
+>   	enum device_removable	removable;
+> +	enum device_trust	bus_trust;
+>   
+>   	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+>   };
+> diff --git a/include/linux/device/trust.h b/include/linux/device/trust.h
+> index 3377d26dc485..283d3196e5e6 100644
+> --- a/include/linux/device/trust.h
+> +++ b/include/linux/device/trust.h
+> @@ -11,30 +11,40 @@
+>    *
+>    * @DEVICE_TRUST_UNSET: Unregistered device object with no current bus
+>    * @DEVICE_TRUST_NONE: Blocked when idle, cannot bind
+> + * @DEVICE_TRUST_ADVERSARY: Blocked when idle, constrained when active.
+>    * @DEVICE_TRUST_AUTO: All typical privileges granted
+> + *
+> + * Devices flagged as adversarial are the ones that can potentially
+> + * execute DMA attacks and similar. They are typically connected through
+> + * external ports such as Thunderbolt but not limited to that. When an
+> + * IOMMU is enabled they should be getting full mappings to make sure
+> + * they cannot access arbitrary memory.
+>    */
+>   enum device_trust {
+>   	DEVICE_TRUST_UNSET,
+>   	DEVICE_TRUST_NONE,
+> +	DEVICE_TRUST_ADVERSARY,
+>   	DEVICE_TRUST_AUTO,
+>   };
+>   
+> -#define DEVICE_DEFAULT_TRUST                                        \
+> -	(IS_ENABLED(CONFIG_DEVICE_TRUST_NONE) ? DEVICE_TRUST_NONE : \
+> -						DEVICE_TRUST_AUTO)
+> +#define DEVICE_DEFAULT_TRUST \
+> +	(IS_ENABLED(CONFIG_DEVICE_TRUST_NONE)      ? DEVICE_TRUST_NONE      : \
+> +	 IS_ENABLED(CONFIG_DEVICE_TRUST_ADVERSARY) ? DEVICE_TRUST_ADVERSARY : \
+> +	 DEVICE_TRUST_AUTO)
+>   
+>   struct device;
+>   struct device_driver;
+>   
+>   #ifdef CONFIG_DEVICE_TRUST
+> +bool device_untrusted(struct device *dev);
+>   void module_driver_trust(struct module *mod, const char *val);
+> -void module_driver_trust_init(struct module *mod, bool distrust);
+> +void module_driver_trust_init(struct module *mod, bool require_trust);
+>   #else
+>   static inline void module_driver_trust(struct module *mod, const char *val)
+>   {
+>   	pr_warn("module: %s: trust= support disabled\n", mod->name);
+>   }
+> -static inline void module_driver_trust_init(struct module *mod, bool distrust)
+> +static inline void module_driver_trust_init(struct module *mod, bool require_trust)
+>   {
+>   }
+>   #endif
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index ebb5b9d76360..095ea37fc6d0 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -485,14 +485,6 @@ struct pci_dev {
+>   	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
+>   	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
+>   	unsigned int	is_cxl:1;               /* Compute Express Link (CXL) */
+> -	/*
+> -	 * Devices marked being untrusted are the ones that can potentially
+> -	 * execute DMA attacks and similar. They are typically connected
+> -	 * through external ports such as Thunderbolt but not limited to
+> -	 * that. When an IOMMU is enabled they should be getting full
+> -	 * mappings to make sure they cannot access arbitrary memory.
+> -	 */
+> -	unsigned int	untrusted:1;
+>   	/*
+>   	 * Info from the platform, e.g., ACPI or device tree, may mark a
+>   	 * device as "external-facing".  An external-facing device is
+> @@ -812,6 +804,11 @@ static inline bool pcie_is_cxl(struct pci_dev *pci_dev)
+>   	return pci_dev->is_cxl;
+>   }
+>   
+> +static inline bool pci_untrusted(struct pci_dev *pdev)
+> +{
+> +	return device_untrusted(&pdev->dev);
+> +}
+> +
+>   #define for_each_pci_bridge(dev, bus)				\
+>   	list_for_each_entry(dev, &bus->devices, bus_list)	\
+>   		if (!pci_is_bridge(dev)) {} else
+> diff --git a/drivers/base/trust.c b/drivers/base/trust.c
+> index 0fd494e1557d..8efbe5c51250 100644
+> --- a/drivers/base/trust.c
+> +++ b/drivers/base/trust.c
+> @@ -6,15 +6,28 @@
+>   #include <linux/module.h>
+>   #include "base.h"
+>   
+> +/* If the bus did not initialize trust, set a default */
+>   void device_initialize_trust(struct device *dev)
+>   {
+> +	dev->p->trust = dev->bus_trust;
+>   	if (dev->p->trust == DEVICE_TRUST_UNSET)
+>   		dev->p->trust = DEVICE_DEFAULT_TRUST;
+>   }
+>   
+> +/*
+> + * ->bus_trust is evaluated / manipulated prior to device_add() and
+> + *  synced with dev->p->trust post device_add() under device_lock().
+> + */
+> +bool device_untrusted(struct device *dev)
+> +{
+> +	return dev->bus_trust && dev->bus_trust <= DEVICE_TRUST_ADVERSARY;
+> +}
+> +
+>   /* Driver trust policy requires modules, builtin drivers always attach */
+>   static enum device_trust builtin_driver_trust(void)
+>   {
+> +	if (IS_ENABLED(CONFIG_BUILTIN_DEVICE_TRUST_ADVERSARY))
+> +		return DEVICE_TRUST_ADVERSARY;
+>   	return DEVICE_TRUST_AUTO;
+>   }
+>   
+> @@ -30,18 +43,23 @@ static enum device_trust driver_trust(struct module *mod)
+>    * policy on trusting devices it attaches, update the device's trust
+>    * level from that policy. Trust privileges beyond driver bind are
+>    * realized in a bus's ->dma_configure().
+> + *
+> + * Reflect the operational trust level back to the public indicator.
+>    */
+>   bool device_trust_bind(const struct device_driver *drv, struct device *dev)
+>   {
+>   	enum device_trust drv_trust = driver_trust(drv->owner);
+>   
+> -	if (drv_trust != DEVICE_TRUST_UNSET)
+> +	if (drv_trust != DEVICE_TRUST_UNSET) {
+>   		dev->p->trust = drv_trust;
+> +		dev->bus_trust = drv_trust;
+> +	}
+>   	return dev->p->trust > DEVICE_TRUST_NONE;
+>   }
+>   
+>   static const char * const device_trust_names[] = {
+>   	[DEVICE_TRUST_NONE]	 = "none",
+> +	[DEVICE_TRUST_ADVERSARY] = "adversary",
+>   	[DEVICE_TRUST_AUTO]	 = "auto",
+>   };
+>   
+> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+> index 563f9c2672d5..ef663e3efc70 100644
+> --- a/drivers/iommu/amd/iommu.c
+> +++ b/drivers/iommu/amd/iommu.c
+> @@ -3121,7 +3121,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
+>   		return 0;
+>   
+>   	/* Always use DMA domain for untrusted device */
+> -	if (dev_is_pci(dev) && to_pci_dev(dev)->untrusted)
+> +	if (device_untrusted(dev))
+>   		return IOMMU_DOMAIN_DMA;
+>   
+>   	/*
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 9abaec0703ef..957ef77911a9 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -588,16 +588,11 @@ static int iova_reserve_iommu_regions(struct device *dev,
+>   	return ret;
+>   }
+>   
+> -static bool dev_is_untrusted(struct device *dev)
+> -{
+> -	return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
+> -}
+> -
+>   static bool dev_use_swiotlb(struct device *dev, size_t size,
+>   			    enum dma_data_direction dir)
+>   {
+>   	return IS_ENABLED(CONFIG_SWIOTLB) &&
+> -		(dev_is_untrusted(dev) ||
+> +		(device_untrusted(dev) ||
+>   		 dma_kmalloc_needs_bounce(dev, size, dir));
+>   }
+>   
+> @@ -610,7 +605,7 @@ static bool dev_use_sg_swiotlb(struct device *dev, struct scatterlist *sg,
+>   	if (!IS_ENABLED(CONFIG_SWIOTLB))
+>   		return false;
+>   
+> -	if (dev_is_untrusted(dev))
+> +	if (device_untrusted(dev))
+>   		return true;
+>   
+>   	/*
+> @@ -1188,7 +1183,7 @@ static phys_addr_t iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
+>   	 * swiotlb_tbl_map_single() has initialized the bounce buffer proper to
+>   	 * the contents of the original memory buffer.
+>   	 */
+> -	if (phys != (phys_addr_t)DMA_MAPPING_ERROR && dev_is_untrusted(dev)) {
+> +	if (phys != (phys_addr_t)DMA_MAPPING_ERROR && device_untrusted(dev)) {
+>   		size_t start, virt = (size_t)phys_to_virt(phys);
+>   
+>   		/* Pre-padding */
+> @@ -1761,7 +1756,7 @@ size_t iommu_dma_opt_mapping_size(void)
+>   
+>   size_t iommu_dma_max_mapping_size(struct device *dev)
+>   {
+> -	if (dev_is_untrusted(dev))
+> +	if (device_untrusted(dev))
+>   		return swiotlb_max_mapping_size(dev);
+>   
+>   	return SIZE_MAX;
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 849d06dfe1ae..82d9abe87d99 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -3501,7 +3501,7 @@ static bool intel_iommu_is_attach_deferred(struct device *dev)
+>    */
+>   static bool risky_device(struct pci_dev *pdev)
+>   {
+> -	if (pdev->untrusted) {
+> +	if (pci_untrusted(pdev)) {
+>   		pci_info(pdev,
+>   			 "Skipping IOMMU quirk for dev [%04X:%04X] on untrusted PCI link\n",
+>   			 pdev->vendor, pdev->device);
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index e8f13dcebbde..4769d2b548d6 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1901,7 +1901,7 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
+>   		driver_type = iommu_get_def_domain_type(group, gdev->dev,
+>   							driver_type);
+>   
+> -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
+> +		if (device_untrusted(gdev->dev)) {
+>   			/*
+>   			 * No ARM32 using systems will set untrusted, it cannot
+>   			 * work.
+> diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
+> index 96efa00d9743..7296f0ce7530 100644
+> --- a/drivers/pci/ats.c
+> +++ b/drivers/pci/ats.c
+> @@ -43,7 +43,7 @@ bool pci_ats_supported(struct pci_dev *dev)
+>   	if (!dev->ats_cap)
+>   		return false;
+>   
+> -	return (dev->untrusted == 0);
+> +	return !pci_untrusted(dev);
+>   }
+>   EXPORT_SYMBOL_GPL(pci_ats_supported);
+>   
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 77b17b13ee61..ff1ca74f30b1 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -994,7 +994,7 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
+>   	caps->ctrl |= (dev->acs_capabilities & PCI_ACS_UF);
+>   
+>   	/* Enable Translation Blocking for external devices and noats */
+> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
+> +	if (pci_ats_disabled() || dev->external_facing || pci_untrusted(dev))
+>   		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
+>   }
+>   
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index dd0abbc63e18..91a7bbcfdecb 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -6,6 +6,7 @@
+>   #include <linux/array_size.h>
+>   #include <linux/kernel.h>
+>   #include <linux/delay.h>
+> +#include <linux/device/trust.h>
+>   #include <linux/init.h>
+>   #include <linux/pci.h>
+>   #include <linux/msi.h>
+> @@ -1737,20 +1738,23 @@ static void set_pcie_untrusted(struct pci_dev *dev)
+>   {
+>   	struct pci_dev *parent = pci_upstream_bridge(dev);
+>   
+> +	dev->dev.bus_trust = DEVICE_DEFAULT_TRUST;
+>   	if (!parent)
+>   		return;
+>   	/*
+>   	 * If the upstream bridge is untrusted we treat this device as
+>   	 * untrusted as well.
+>   	 */
+> -	if (parent->untrusted) {
+> -		dev->untrusted = true;
+> +	if (pci_untrusted(parent)) {
+> +		dev->dev.bus_trust =
+> +			min(dev->dev.bus_trust, parent->dev.bus_trust);
+>   		return;
+>   	}
+>   
+>   	if (arch_pci_dev_is_removable(dev)) {
+>   		pci_dbg(dev, "marking as untrusted\n");
+> -		dev->untrusted = true;
+> +		dev->dev.bus_trust =
+> +			min(dev->dev.bus_trust, DEVICE_TRUST_ADVERSARY);
+>   	}
+>   }
+>   
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> index b09f27f7846f..73e473856999 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -5370,7 +5370,7 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
+>    * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
+>    *
+>    * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
+> - * if dev->external_facing || dev->untrusted
+> + * if dev->external_facing || pci_untrusted(dev)
+>    */
+>   static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
+>   {
+> @@ -5411,7 +5411,7 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+>   	ctrl |= (cap & PCI_ACS_CR);
+>   	ctrl |= (cap & PCI_ACS_UF);
+>   
+> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
+> +	if (pci_ats_disabled() || dev->external_facing || pci_untrusted(dev))
+>   		ctrl |= (cap & PCI_ACS_TB);
+>   
+>   	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
 
-What does "TSM rejectes chosen evidence" mean? Kernel isn't supposed
-to be evaluating evidence?
-
-Jason
