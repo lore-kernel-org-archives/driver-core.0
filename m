@@ -1,32 +1,31 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15869436BD0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3389D436BE8
 	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 16:56:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783443402; cv=none; b=mAq0An6QD4sJ+Y8eyjxZcrzGwjt6U2W88X2wCkzW2mma4+iDgI60akWEeL+0S+xxtuzhBJN9nHqdsZspQ4ez44+0MCH+NhG4CsKlCXssghk+P3zZOMOa7qxoihWuNlMlw4HgxUtzNf/PKby2InKUAEeATBpn8sykhw3rSKaRrl0=
+	t=1783443402; cv=none; b=N6G+lmKaG9frq1/gR8rlFpMbzHgjNALNBHdwBe2PKz34UiRTvqAMgkVUYJOIS/nz+aSaa8akqrenUWVL54aadw51IhVyOnMFacSoEvPp0GypBvQ47gf98Rc0DhBYWTYcmJtD3IH2zcbmQC2EfMXdmM3IhhJlPDnHeGDZTsqykXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783443402; c=relaxed/simple;
-	bh=B+YL4zMNYtDivsUVoPGFNpknDTH5beSNCo+sUFChvro=;
+	bh=TIRQJWFwLwO93s7CfZ76k9CpXBLxyPhcDcCoJCThzfs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u21B3Z6gs9SExIU1EZiBuCmUzIIPDD4z/Y9UXZktq7rSL/jP0L1u1t/yGUejNBFvtq6/Ytk77N9gxhwLRmaz1NSAYN0ua5qfz/hg1Z5WA9gUKUjqccN5tAAukhWHO+POjdJUcY0kpzeOlc2liJhp05+Wmu4sp1Kv4DQp+5vDrjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=OtqlwDW0; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=YtFmpUiV7EFIjK2869GRzAMKXv/EPDOSQdsWyU2W5PGiFej3ma8bYtve+6mt3RoVkaE+K6gW3TXTH6F9Fhl/hmllJ9stSUKGlkcHzmcr5FBKhUqh/wrzUsp6XS1poFsmHHG5p5/BTbvw+iY0Z0Y5zLvsqSmTD5BOmwTNuuu/iCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=rbXJHV5F; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="OtqlwDW0"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="rbXJHV5F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1783443398;
-	bh=B+YL4zMNYtDivsUVoPGFNpknDTH5beSNCo+sUFChvro=;
+	bh=TIRQJWFwLwO93s7CfZ76k9CpXBLxyPhcDcCoJCThzfs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=OtqlwDW0SNDo9V/9cfquAxRhun2POeA9XFtAOLRcCHmm4H34MzAJCjtUnXqzPNib5
-	 z0r9oJdmTrgjYr+cKZ1lV7SNIM12ML4ttmSpYTvmONwntlzgf84/MPd/INZFc3LRQY
-	 wI4bw81DI3pASOjIGP8wmab00Dr13BDvB0gg4CVM=
+	b=rbXJHV5FIgdidCWP+KV2RFKaCMlW44nCj1bWWhIB16kKiFb3rq97NRgY0citTqQ3h
+	 u2+NJO/eFeFoSRCTRfduFAgqPmwjzHb+KzxDQWWD2PXJmlYzv4v6bN61jnYOdkTmTZ
+	 dZisihJBwZ5aUyVTF7BL/VhFbgQfE4NK7eDFr6AE=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 07 Jul 2026 18:56:32 +0200
-Subject: [PATCH v2 1/4] kobject: Provide macros to initialize 'struct
- kobj_attribute'
+Date: Tue, 07 Jul 2026 18:56:35 +0200
+Subject: [PATCH v2 4/4] samples/kobject: Constify kobject attributes
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -35,7 +34,7 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260707-sysfs-const-attr-kobj-attr-prep-v2-1-35ae1bc0f9ef@weissschuh.net>
+Message-Id: <20260707-sysfs-const-attr-kobj-attr-prep-v2-4-35ae1bc0f9ef@weissschuh.net>
 References: <20260707-sysfs-const-attr-kobj-attr-prep-v2-0-35ae1bc0f9ef@weissschuh.net>
 In-Reply-To: <20260707-sysfs-const-attr-kobj-attr-prep-v2-0-35ae1bc0f9ef@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -44,61 +43,98 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
  driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783443398; l=1648;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783443398; l=3025;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=B+YL4zMNYtDivsUVoPGFNpknDTH5beSNCo+sUFChvro=;
- b=1+wD3VMhIssao+0zFRD/MbpoQLh1smDnKCUezYxy/D5Fl4JAiqKXkEYzCv1e9jw6HEEAVagiM
- mWLJCOiPD2MBNN/GmzYHPp00Au6KIlHGw6RJ0Kv5hlrDlhHfEGa+dQK
+ bh=TIRQJWFwLwO93s7CfZ76k9CpXBLxyPhcDcCoJCThzfs=;
+ b=unHumuUAWmFSfqar6faLIc+Duh9JKvucXRyKORODi7qJXvhYaxx67G0ZT6yqmaw5Vu5ZqOs/x
+ 46w0Zk8EObIAP2MCt/UfpCSuzs5dfFY9ephjGALULtg0pi9cu4oI9wT
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Currently the generic __ATTR*() macros are used to initialize kobject
-attributes. These are not able to handle the upcoming piece-by-piece
-constification of the attribute callback handlers.
-
-Add dedicated macros of kobject attributes. For now these are the same
-as the generic macros, but they will change soon. Users will be
-converted to these macros as part of the constification, but it is
-expected that they will be used generally in the future.
+Demonstrate that 'const struct kobj_attribute' is now supported by the
+kobject core.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- include/linux/kobject.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ samples/kobject/kobject-example.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-index bcb5d4e32001..13bd0e87af7b 100644
---- a/include/linux/kobject.h
-+++ b/include/linux/kobject.h
-@@ -144,6 +144,28 @@ struct kobj_attribute {
- 			 const char *buf, size_t count);
+diff --git a/samples/kobject/kobject-example.c b/samples/kobject/kobject-example.c
+index 7404f310dc45..36f3fbc47fe0 100644
+--- a/samples/kobject/kobject-example.c
++++ b/samples/kobject/kobject-example.c
+@@ -25,13 +25,13 @@ static int bar;
+ /*
+  * The "foo" file where a static variable is read from and written to.
+  */
+-static ssize_t foo_show(struct kobject *kobj, struct kobj_attribute *attr,
++static ssize_t foo_show(struct kobject *kobj, const struct kobj_attribute *attr,
+ 			char *buf)
+ {
+ 	return sysfs_emit(buf, "%d\n", foo);
+ }
+ 
+-static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *attr,
++static ssize_t foo_store(struct kobject *kobj, const struct kobj_attribute *attr,
+ 			 const char *buf, size_t count)
+ {
+ 	int ret;
+@@ -44,14 +44,14 @@ static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *attr,
+ }
+ 
+ /* Sysfs attributes cannot be world-writable. */
+-static struct kobj_attribute foo_attribute =
++static const struct kobj_attribute foo_attribute =
+ 	__KOBJ_ATTR(foo, 0664, foo_show, foo_store);
+ 
+ /*
+  * More complex function where we determine which variable is being accessed by
+  * looking at the attribute for the "baz" and "bar" files.
+  */
+-static ssize_t b_show(struct kobject *kobj, struct kobj_attribute *attr,
++static ssize_t b_show(struct kobject *kobj, const struct kobj_attribute *attr,
+ 		      char *buf)
+ {
+ 	int var;
+@@ -63,7 +63,7 @@ static ssize_t b_show(struct kobject *kobj, struct kobj_attribute *attr,
+ 	return sysfs_emit(buf, "%d\n", var);
+ }
+ 
+-static ssize_t b_store(struct kobject *kobj, struct kobj_attribute *attr,
++static ssize_t b_store(struct kobject *kobj, const struct kobj_attribute *attr,
+ 		       const char *buf, size_t count)
+ {
+ 	int var, ret;
+@@ -79,9 +79,9 @@ static ssize_t b_store(struct kobject *kobj, struct kobj_attribute *attr,
+ 	return count;
+ }
+ 
+-static struct kobj_attribute baz_attribute =
++static const struct kobj_attribute baz_attribute =
+ 	__KOBJ_ATTR(baz, 0664, b_show, b_store);
+-static struct kobj_attribute bar_attribute =
++static const struct kobj_attribute bar_attribute =
+ 	__KOBJ_ATTR(bar, 0664, b_show, b_store);
+ 
+ 
+@@ -89,7 +89,7 @@ static struct kobj_attribute bar_attribute =
+  * Create a group of attributes so that we can create and destroy them all
+  * at once.
+  */
+-static struct attribute *attrs[] = {
++static const struct attribute *const attrs[] = {
+ 	&foo_attribute.attr,
+ 	&baz_attribute.attr,
+ 	&bar_attribute.attr,
+@@ -103,7 +103,7 @@ static struct attribute *attrs[] = {
+  * attribute group.
+  */
+ static const struct attribute_group attr_group = {
+-	.attrs = attrs,
++	.attrs_const = attrs,
  };
  
-+#define __KOBJ_ATTR(_name, _mode, _show, _store) {			\
-+	.attr	= { .name = __stringify(_name),				\
-+		    .mode = VERIFY_OCTAL_PERMISSIONS(_mode) },		\
-+	.show	= _show,						\
-+	.store	= _store,						\
-+}
-+
-+#define __KOBJ_ATTR_RO_MODE(_name, _mode)				\
-+	__KOBJ_ATTR(_name, _mode, _name##_show, NULL)
-+
-+#define __KOBJ_ATTR_RO(_name)						\
-+	__KOBJ_ATTR_RO_MODE(_name, 0444)
-+
-+#define __KOBJ_ATTR_RW_MODE(_name, _mode)				\
-+	__KOBJ_ATTR(_name, _mode, _name##_show, _name##_store)
-+
-+#define __KOBJ_ATTR_WO(_name)						\
-+	__KOBJ_ATTR(_name, 0200, NULL, _name##_store)
-+
-+#define __KOBJ_ATTR_RW(_name)						\
-+	__KOBJ_ATTR(_name, 0644, _name##_show, _name##_store)
-+
- extern const struct sysfs_ops kobj_sysfs_ops;
- 
- struct sock;
+ static struct kobject *example_kobj;
 
 -- 
 2.55.0
