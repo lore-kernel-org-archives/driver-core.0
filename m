@@ -1,131 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694683385AC;
-	Tue,  7 Jul 2026 16:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B523EBF36
+	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 16:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783440360; cv=none; b=ZR+G078yvUu4iRHJcEFK50okh03Gss1Nbo0tAlvj1uUfHhFrfP4f53pzRVFhKI35ZfaWQMOIkGoWqi3S6/vs87Pyo4b4/WK1yLuXuIJFyf5t9gqNsFtRsnvLeEjM1nQpT3LOSuvK+5uXWb3cjNFJzKulJTmThSi4HSD3TTyJLhU=
+	t=1783443401; cv=none; b=B65mCNj/oeRwTnUWYSwUblMLZ8M8cUeGoFhCwEE1qhkBak4nWdHeXjMBusbQza7mbSFpKZP1VO3qM4KiKzRCI17Hd1SC6I74QufC2OyNMEc5qOELDgF5h4owBTL+VLlLUwpXf5hKN+ZtI3oPx6ytBu/J06RB66HuMBUcowgJ0aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783440360; c=relaxed/simple;
-	bh=WGu1H7KZ2YHXBPQTafzG2nNs51jULw2SwYV9eRAWAxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ghv95dlUoUbfEY5YNnjG0dwcVHZJ36Y3IyIM1ecuLLxF0gjT2Td6q+EfL3kPfwjlhzjqi0Z14aYaJSS5hRsLY65VrAkplKKYgZ41b1vVI5w9A3mn9NLPB4q+Sygt2oismqPQBjZdq7dpkWqR7Utsejwy0AlC4oll6t/49oCzB8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdwDxmmO; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1783443401; c=relaxed/simple;
+	bh=A7GPUfDtUHRyfUqE3i10vylF1Oab77ZNpKeGGp+6l60=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Wmr4O9oV4XznmBMyonk48WlR4H+bGd9wX00/OZTFrNdbTa7vUXt7T1pJ39wfHvDF0eanFYg7XKGn+MWF3ui6xIOGFZnj4bOv8vUGWUDwyG/XwsIM+bfZM+eBR5BEU1i/2vD4cZe+R21gClJiWaiMoKsj/EK/s6IPsgGc8PMPwkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=kBlJb38N; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdwDxmmO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783440358; x=1814976358;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WGu1H7KZ2YHXBPQTafzG2nNs51jULw2SwYV9eRAWAxk=;
-  b=kdwDxmmO5JLE/zyHQl+sX0ypyvH2caL2rR/jkFOR0JV93+gVbBVZ/tZN
-   +OwxSxPwNStVCbP+24xqn7P7GWgbQUQlwmldShRGvxZAc7Jhcv3yrL2Ln
-   DBrtOuRr+cTKhbJD3SbuKrUdwb2UJReLqxHdlOqxb8TUmR6JA7N1+BXmO
-   DPQMk6xgl8Jk1SDY8g20QKnuH3/bsHwGnw+07YO0gS8384YN9N3LvYaPk
-   aLkDzcIiTrdLBADcRfgDsFXOoSC6rGCY+qQCe5t/j6fwJ9dV2YULo0C8f
-   efUAeGxYKLYllX1SfQ3fzSsSO/UEGeji9wwooscsRILDWgkBUQ7HUVkRn
-   Q==;
-X-CSE-ConnectionGUID: ceE7CoKLRrabi3P3sNPVlQ==
-X-CSE-MsgGUID: AlcI4xP5QO65LyfZ0Ln4wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="83952068"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="83952068"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 09:05:47 -0700
-X-CSE-ConnectionGUID: tBOk0B/0SG6kjtraoD2mfg==
-X-CSE-MsgGUID: bDNaWP1RQpiCsfz4/eJ9hQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="254117548"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.36])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 09:05:33 -0700
-Date: Tue, 7 Jul 2026 19:05:29 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Peter Chen <peter.chen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: Re: [PATCH v3 05/20] driver core: update kerneldoc for
- platform_device_alloc()
-Message-ID: <ak0jyUbNonSRiP_g@ashevche-desk.local>
-References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
- <20260706-pdev-fwnode-ref-v3-5-1ff028e33779@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="kBlJb38N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1783443398;
+	bh=A7GPUfDtUHRyfUqE3i10vylF1Oab77ZNpKeGGp+6l60=;
+	h=From:Subject:Date:To:Cc:From;
+	b=kBlJb38NLT/v0nyaJGsdyNKr3OYFCIMv2p6f9XnbRqRrEuWR8L5fa7Yj5+jehc2ok
+	 3ffERrmDxjuoXg55eXc/ulZPwNalKMAOfEuaKJay5DMImp0Ea/erIUDxuj5uTIflw9
+	 oLpF4xRTBUiypHiq5X9wrqx4freQmFH00toPKHOM=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Subject: [PATCH v2 0/4] kobject: Allow the constification of kobject
+ attributes
+Date: Tue, 07 Jul 2026 18:56:31 +0200
+Message-Id: <20260707-sysfs-const-attr-kobj-attr-prep-v2-0-35ae1bc0f9ef@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706-pdev-fwnode-ref-v3-5-1ff028e33779@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOQQ6CMBREr0K6tgZKCuLKexgWbfnYYtJif0EJ4
+ e4W0Lh0N28ymZmZIHgDSM7JTDyMBo2zEdghIUoLewNqmsiEpaxIOeMUJ2yRKmcxUBGCp3cnu13
+ 1HnpaCd6UrMryFoDElmi25rUtXOudcZAdqLDWfhIeHkOcDr+YNhicn7ZfY7a63wvV3wtjRlNaQ
+ lGUUuRSnvjlCQYRlR700UIg9bIsbwiu4hH6AAAA
+X-Change-ID: 20260525-sysfs-const-attr-kobj-attr-prep-9a5d72913fee
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783443398; l=1394;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=A7GPUfDtUHRyfUqE3i10vylF1Oab77ZNpKeGGp+6l60=;
+ b=xBByzi+uQwr7us4p0LsHSissan3/h8RDO8bSBa8S7j+7Gl2regHfxJ0tDxEnOWs9fbvCh9cRv
+ ZUT5/olsZHpDiQHqVmjCF3Ok4OXDXVMJQlfax9E++B3P74/cSl0cTq6
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Mon, Jul 06, 2026 at 02:44:17PM +0200, Bartosz Golaszewski wrote:
-> Users of platform_device_alloc() + platform_device_add() must not modify
-> certain fields of the dynamically created platform device object. Update
-> the kernel doc to say which fields are affected and which functions to
-> use.
+Allow kobject attribute to reside in read-only memory.
+Both const and non-const attributes are handled by the utility macros
+and attributes can be migrated one-by-one.
 
-Consider using __private checker attribute for them as well. It will make
-sparse scream.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- Fix the definition of __KOBJ_ATTR_RO_MODE()
+- Rebase on v7.2-rc1
+- Link to v1: https://patch.msgid.link/20260529-sysfs-const-attr-kobj-attr-prep-v1-0-7e667ba3bb85@weissschuh.net
 
-> Suggested-by: Manuel Ebner <manuelebner@mailbox.org>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: driver-core@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
 
--- 
-With Best Regards,
-Andy Shevchenko
+---
+Thomas Weißschuh (4):
+      kobject: Provide macros to initialize 'struct kobj_attribute'
+      samples/kobject: Switch to the new __KOBJ_ATTR() macro
+      kobject: Allow the constification of kobject attributes
+      samples/kobject: Constify kobject attributes
 
+ include/linux/kobject.h           | 75 ++++++++++++++++++++++++++++++++++++---
+ lib/kobject.c                     |  8 +++--
+ samples/kobject/kobject-example.c | 24 ++++++-------
+ 3 files changed, 89 insertions(+), 18 deletions(-)
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260525-sysfs-const-attr-kobj-attr-prep-9a5d72913fee
+
+Best regards,
+--  
+Thomas Weißschuh <linux@weissschuh.net>
 
