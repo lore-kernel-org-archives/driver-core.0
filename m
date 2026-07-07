@@ -1,98 +1,131 @@
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.44])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0373432BCC
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 16:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694683385AC;
+	Tue,  7 Jul 2026 16:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783440259; cv=none; b=YtG/6tDWefTARnR0f4epPSxceImMECWIvkQx3DxDsPylasaQBl8zvJ+66FwqD/GyAUjhGTfzhbp5++fCQUb8MInmeUNVx4W34Eorb1Ge8/BdWQUf9vklYYDrB09G9tvdzRKLNLxVwzEPLvm0j6bQc6KJw3ub9aE2ZOg4cDh1dWo=
+	t=1783440360; cv=none; b=ZR+G078yvUu4iRHJcEFK50okh03Gss1Nbo0tAlvj1uUfHhFrfP4f53pzRVFhKI35ZfaWQMOIkGoWqi3S6/vs87Pyo4b4/WK1yLuXuIJFyf5t9gqNsFtRsnvLeEjM1nQpT3LOSuvK+5uXWb3cjNFJzKulJTmThSi4HSD3TTyJLhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783440259; c=relaxed/simple;
-	bh=kq7csEZMCWIR3Nqk9Uyeu35brC01S0h2QDOs1NskOiE=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=MEwbYvaKglZmBjhbMOajKHvMOCBrr/B4EtAmZJVfMubCK0QeRPkDcxfgolKcZcCyqBa34aA6HRrghsb/uVygZaqfvxZnZlnFDG2g10xWBAx4wUVvTHzjdLCP+JX402unzj0cYD8VHkBOMDGY+bQwG8zh67I/tG8B+31uUOrDXJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Za8JzwSk; arc=none smtp.client-ip=43.163.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1783440360; c=relaxed/simple;
+	bh=WGu1H7KZ2YHXBPQTafzG2nNs51jULw2SwYV9eRAWAxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ghv95dlUoUbfEY5YNnjG0dwcVHZJ36Y3IyIM1ecuLLxF0gjT2Td6q+EfL3kPfwjlhzjqi0Z14aYaJSS5hRsLY65VrAkplKKYgZ41b1vVI5w9A3mn9NLPB4q+Sygt2oismqPQBjZdq7dpkWqR7Utsejwy0AlC4oll6t/49oCzB8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdwDxmmO; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Za8JzwSk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1783440248; bh=3tfmRPDT+1QOaw5GsDCNz0lG/e5HGkeEEkljqobHYdE=;
-	h=From:To:Cc:Subject:Date;
-	b=Za8JzwSkhZvvRzHgbZZ67V6tbLtuq4CSh8fqF084PmSqKgUfRMw4IsNmloymYq3Y1
-	 0ZZsEPdPADI03LUfeHY1x2mBa1aazJSUZinDdJAuzwcsOt5ArEgSBERom2llRBto5T
-	 HSeuvUoFm9ljpGqvKGkXzGW0Iqewv26kAXGifXS0=
-Received: from localhost.localdomain ([202.120.234.146])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id FA02CDA; Wed, 08 Jul 2026 00:03:58 +0800
-X-QQ-mid: xmsmtpt1783440238t89snxpp1
-Message-ID: <tencent_2E90E794C61B02A9A4BB88BD76B02B976307@qq.com>
-X-QQ-XMAILINFO: NMiAo2azIaDA0YKW5VRqne1Ekeprn8Prc1v/R9u/76ie3f5i/YAOXDWXuaHcrr
-	 SsN3iiMw/IDHHkgCBSrltFWgxNZXpXtWOK2IfHWtyyj3iptMctb8jjR/KzAURdNiEaoRwyawIwSE
-	 mGYp55qWDmqpfuLBogAE94lZOlTYmQX5caEkkVk1SryW873xBnpuIun4zwUvgTpoWL8YoXrkFxxO
-	 gMtEx1WSrszoYjwqogjx1rYQHGnafFFhTbn34mjQHJNZaSnoRM56uXfiiowv7BUvB8vtN28Q5j+T
-	 Gec/eeaaJutquq60lnvuvOehxl07dZCuapauXIFehDPaG/tEQC0BtvXEjxggFBp+xYseCLFU8OG1
-	 bKOtAcoblmkNnioCeBOsIfX0Vq8Ppuczza3LXK6rCzeSjtEnGv58MpsKk4DN6o8nrRTJCAtwRFvE
-	 i+TJBBOnQ0Mzn0tGoPS8RdgNYytWcrqzxjhJqKOD0qaTaNz42LAudHEKXAoo41z7ohT8JwN3SoYo
-	 OzZCQIdYNcn+K9b32PK8TkH5v7/xye4Nqtj/+MCFQxFcptuetZY12jzyFDj8tl12i0DRXx3xjXtJ
-	 kgahuXxc4WTeToseh/80MBs+z+YiczbQ/FWyniWVve5J3uJSm8kR0jAdarnbGFwSLWboAcGR3gxZ
-	 yN0UH9pXS/4/HDTxJymHjPPRUVDFp16i13pZCi/sMJAmFQTsN2dH7DUVwVZ4UeJ6N4NkIvujOe3J
-	 5ub0MzVvvJZ+KmY8qtRYTNlbCVJALL8tSsvpV50iTWCv/VGtpA4KezVOqdgrd5GVunaHXiXA/Z+X
-	 NZYEsVUyMUNdPqh60du5PR0xi+n2+9/4qizlSeECHOkgY4Ae93z9rNuNc6344sf8Js/5qcRoQEMd
-	 NiJn4beWtpZQ62lMwSNpX8xqbppLp/tTrhdD5PcQ06k2gJwRWcjme7peYgPUdy0DP3J+kAZf4qFX
-	 zDvxYr0xhSsCdQC7NaSU49JSvFqv3c3SNEiBftKYKu1omkTp9+H1XzlYXaiiSljKpmTtdQWE9hRG
-	 r1b7aSDkpJHdxZ5pwzkzw/zwz1kX6feNXETxQiY+8v7vfT/CvX/1Fe6JrBsOYLixGnQHMlNtiQgf
-	 WPZE20WKhYSnyIiyo=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-From: Yilin Chen <1479826151@qq.com>
-To: rust-for-linux@vger.kernel.org,
-	driver-core@lists.linux.dev
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	linux-kernel@vger.kernel.org,
-	Yilin Chen <1479826151@qq.com>
-Subject: [PATCH] rust: io: fix Mmio::from_raw safety docs
-Date: Tue,  7 Jul 2026 16:03:56 +0000
-X-OQ-MSGID: <20260707160356.2799585-1-1479826151@qq.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdwDxmmO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783440358; x=1814976358;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WGu1H7KZ2YHXBPQTafzG2nNs51jULw2SwYV9eRAWAxk=;
+  b=kdwDxmmO5JLE/zyHQl+sX0ypyvH2caL2rR/jkFOR0JV93+gVbBVZ/tZN
+   +OwxSxPwNStVCbP+24xqn7P7GWgbQUQlwmldShRGvxZAc7Jhcv3yrL2Ln
+   DBrtOuRr+cTKhbJD3SbuKrUdwb2UJReLqxHdlOqxb8TUmR6JA7N1+BXmO
+   DPQMk6xgl8Jk1SDY8g20QKnuH3/bsHwGnw+07YO0gS8384YN9N3LvYaPk
+   aLkDzcIiTrdLBADcRfgDsFXOoSC6rGCY+qQCe5t/j6fwJ9dV2YULo0C8f
+   efUAeGxYKLYllX1SfQ3fzSsSO/UEGeji9wwooscsRILDWgkBUQ7HUVkRn
+   Q==;
+X-CSE-ConnectionGUID: ceE7CoKLRrabi3P3sNPVlQ==
+X-CSE-MsgGUID: AlcI4xP5QO65LyfZ0Ln4wQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="83952068"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="83952068"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 09:05:47 -0700
+X-CSE-ConnectionGUID: tBOk0B/0SG6kjtraoD2mfg==
+X-CSE-MsgGUID: bDNaWP1RQpiCsfz4/eJ9hQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="254117548"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.36])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 09:05:33 -0700
+Date: Tue, 7 Jul 2026 19:05:29 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: Re: [PATCH v3 05/20] driver core: update kerneldoc for
+ platform_device_alloc()
+Message-ID: <ak0jyUbNonSRiP_g@ashevche-desk.local>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+ <20260706-pdev-fwnode-ref-v3-5-1ff028e33779@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706-pdev-fwnode-ref-v3-5-1ff028e33779@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-MmioRaw can be constructed safely. It also explicitly does not guarantee
-that the represented MMIO range exists or is mapped.
+On Mon, Jul 06, 2026 at 02:44:17PM +0200, Bartosz Golaszewski wrote:
+> Users of platform_device_alloc() + platform_device_add() must not modify
+> certain fields of the dynamically created platform device object. Update
+> the kernel doc to say which fields are affected and which functions to
+> use.
 
-The unsafe precondition for Mmio::from_raw() therefore belongs to the
-range described by the MmioRaw argument, not to nonexistent addr and
-maxsize parameters. Document that this range must stay valid for the
-returned reference.
+Consider using __private checker attribute for them as well. It will make
+sparse scream.
 
-Assisted-by: Codex:GPT-5
-Signed-off-by: Yilin Chen <1479826151@qq.com>
----
- rust/kernel/io.rs | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> Suggested-by: Manuel Ebner <manuelebner@mailbox.org>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index fcc7678fd..59b276a04 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -780,8 +780,9 @@ impl<const SIZE: usize> Mmio<SIZE> {
-     ///
-     /// # Safety
-     ///
--    /// Callers must ensure that `addr` is the start of a valid I/O mapped memory region of size
--    /// `maxsize`.
-+    /// Callers must ensure that the MMIO range described by `raw.addr()` and
-+    /// `raw.maxsize()` is a valid I/O mapped memory region for the entire lifetime
-+    /// of the returned reference.
-     pub unsafe fn from_raw(raw: &MmioRaw<SIZE>) -> &Self {
-         // SAFETY: `Mmio` is a transparent wrapper around `MmioRaw`.
-         unsafe { &*core::ptr::from_ref(raw).cast() }
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
