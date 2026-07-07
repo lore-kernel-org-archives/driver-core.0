@@ -1,91 +1,120 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BE5434E40
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 16:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783443403; cv=none; b=nlV4Azq02ajRQC0rJMzDEnfWB0kCzS24lVa9zIT9/b9FdbzaUnaHGVTR6TjwIDfjQNBGtYsDNxmmfyWcRp0oc4DLW85Opnis35Ed0ZtEku+Otx05vEiHU+KYDv2FQ9+QKCvsBbDiDClEMSsoguOipiG9ukSVZYZqf+NzwVSKHfc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783443403; c=relaxed/simple;
-	bh=4bMgjNc8gIHGY90/412lJWaVmD7cPhaK4fkRDTm2OVA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oZhkzQLDBs+/dr5eFX2iyerD77nzJFKXiHa1EpO4SWhhgLiaciDbT8pYiABXd6oGrsjvmezRZQ1LZtTrx+ANsPQPjHNU7QPiZZCSP/E2Ilwgsi+5FdMRwQTeDJUx5VDCS0sMJ6yXTUv1BlexD1dPGHC7nqusPXhA3taS5oMS+VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SLo1pDah; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6147420876;
+	Tue,  7 Jul 2026 17:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783444499; cv=pass; b=tLHNXvIT+CPkDNaY7e8SazboZ5LZaL4VLQSdTV0ppED0W18mPno/R4hKHXvgDWGOlWRJXApIGxcvpwaqrPyb6/4TMX26wESPrwOg71O7//xpvQhFUeoYJwtLLbw39VqbfWDWCNbGnlj1kPmsst/SmW6IVYVbmI0U39/eN5YUyak=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783444499; c=relaxed/simple;
+	bh=Fk3AkZVjgqLR06RoMyFMddArIDiVOz+n2M7Zso8MwdE=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=ClUMtbejWZWPNRj8aQCpmDKpdrRk0c0Ce8w5vCjSvspJvV3rviwIazM2D/HxXmRvKiBOgGsdaGjHN59Ou49zVB/teFp/iQufFmU714a2V9VMd9drhvan8u2TvezhKgQSgkYxecfpOmK10E/pjeaoy3cvF3lJBnj2FX1xHSnb8oQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=ORVn9N7W; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SLo1pDah"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1783443398;
-	bh=4bMgjNc8gIHGY90/412lJWaVmD7cPhaK4fkRDTm2OVA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SLo1pDah6ITh9DMfhkSxB2kB+JiI31Z/44ghrua4YVaHVzw5st9dnKnIiDadMNT+E
-	 lM6hu+2wA0ouSgipRnWRoGQoHhVM1iIBAejguK+ZLHNzSwdgGjZ0gUKPszfXqA1/cd
-	 6nQ/L+K9qlyZJey/EBnpRG2pLsP2XxeM3ckj+p3s=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 07 Jul 2026 18:56:33 +0200
-Subject: [PATCH v2 2/4] samples/kobject: Switch to the new __KOBJ_ATTR()
- macro
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ORVn9N7W"
+ARC-Seal: i=1; a=rsa-sha256; t=1783444482; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=II9cW/m5Vv18fw/Fz0WLyRsiGR6pKU06k+7ZwMGqReK255ZDRP+Jcp5dBlcizDWNyvEanGLJAxhtbX2689uNiQHmw6Wa9j+MeejeWwFXdRa3Ncl0GBynkxxAnywIU1y/SXh88KtqABYgZGvhyTmTfatUwJ3YXgWTJFyTLnnGjLk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783444482; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=fEaD+gRjp8aYJ0as2zjJ9AwHePMS8+98otLPU9UgGEY=; 
+	b=NF3cGoe+89Uz0P9E6l0xjqep6c1vBs5OJJ3jFlQYC94rlcmLovPksrhYRmUI7e/1t+kOWHicCBLvO14LH3btunv4gfXdtllXAcfzHSRxzc6+82CHXvuaV37slE/Y56sDnPSRM9Us1YGpWIGEFGfxdFKZavuEJ5VgKK5GzuUw+ms=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783444482;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=fEaD+gRjp8aYJ0as2zjJ9AwHePMS8+98otLPU9UgGEY=;
+	b=ORVn9N7W+sewhCy0ODkKQiTiYiIu8blGoZgZYks+GXl3DwIhze+UBxhL88yseY7q
+	KZsWnlwNvAalMQUWiqQ/AUv+RVX3Em9Tfc0Exhem3ygzUzXJLA3rbf48HlVJnyoKL0X
+	dhD/xcgwYmXTkDul9KnOmpl+HpUxZDMb/qKpIKTM=
+Received: by mx.zohomail.com with SMTPS id 1783444480458298.4850949227821;
+	Tue, 7 Jul 2026 10:14:40 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260707-sysfs-const-attr-kobj-attr-prep-v2-2-35ae1bc0f9ef@weissschuh.net>
-References: <20260707-sysfs-const-attr-kobj-attr-prep-v2-0-35ae1bc0f9ef@weissschuh.net>
-In-Reply-To: <20260707-sysfs-const-attr-kobj-attr-prep-v2-0-35ae1bc0f9ef@weissschuh.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783443398; l=1249;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=4bMgjNc8gIHGY90/412lJWaVmD7cPhaK4fkRDTm2OVA=;
- b=Zjj1KOuxT8RJ+xistbzRF1W0YkKQtcdn3oSBDavyLdYnscS1IeviCCVXpobSqSDKeaWrifC1b
- nvyLAzw3QNbAItkB+2PH05P5DGDj4wqTdzh6MRSp8pCM9nBdDlFwo3I
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v6 01/20] rust: io: add dynamically-sized `Region` type
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260706-io_projection-v6-1-72cd5d055d54@garyguo.net>
+Date: Tue, 7 Jul 2026 14:14:20 -0300
+Cc: Alice Ryhl <aliceryhl@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Tamir Duberstein <tamird@kernel.org>,
+ =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?utf-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ nova-gpu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org,
+ linux-pwm@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <9AC77170-279D-4C0A-89F7-8D07F418AADF@collabora.com>
+References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+ <20260706-io_projection-v6-1-72cd5d055d54@garyguo.net>
+To: Gary Guo <gary@garyguo.net>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 
-To demonstrate and test the upcoming 'const struct kobj_attribute'
-handling, convert the sample to the new macro.
+Hi Gary,
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- samples/kobject/kobject-example.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+A bit late to the party here, but going through this series one by one :)
 
-diff --git a/samples/kobject/kobject-example.c b/samples/kobject/kobject-example.c
-index 36d87ca0bee2..7404f310dc45 100644
---- a/samples/kobject/kobject-example.c
-+++ b/samples/kobject/kobject-example.c
-@@ -45,7 +45,7 @@ static ssize_t foo_store(struct kobject *kobj, struct kobj_attribute *attr,
- 
- /* Sysfs attributes cannot be world-writable. */
- static struct kobj_attribute foo_attribute =
--	__ATTR(foo, 0664, foo_show, foo_store);
-+	__KOBJ_ATTR(foo, 0664, foo_show, foo_store);
- 
- /*
-  * More complex function where we determine which variable is being accessed by
-@@ -80,9 +80,9 @@ static ssize_t b_store(struct kobject *kobj, struct kobj_attribute *attr,
- }
- 
- static struct kobj_attribute baz_attribute =
--	__ATTR(baz, 0664, b_show, b_store);
-+	__KOBJ_ATTR(baz, 0664, b_show, b_store);
- static struct kobj_attribute bar_attribute =
--	__ATTR(bar, 0664, b_show, b_store);
-+	__KOBJ_ATTR(bar, 0664, b_show, b_store);
- 
- 
- /*
+> On 6 Jul 2026, at 09:44, Gary Guo <gary@garyguo.net> wrote:
+> 
+> Currently many I/O related structs carry a `SIZE` parameter to denote the
+> minimum size of the I/O region, while they also carry a field indicating
+> the actual size. Proliferation of the pattern creates a lot of duplicated
+> code, and makes it hard to create typed views of I/O.
+> 
+> Introduce a `Region` type that carries the `SIZE` parameter. It is a
+> wrapper of `[u8]`, which makes it dynamically sized with a metadata of
+> `usize`. This way, pointers to `Region` naturally carry size information.
+> This type is required to be 4-byte aligned.
 
--- 
-2.55.0
+Why 4, specifically? i.e.: I wonder if this breaks u64 mmio accessors?
+> 
+> Expose the minimum size information via `MIN_SIZE` constant of the
+> `KnownSize` trait. Similarly, expose the minimum alignment information via
+> `KnownSize::MIN_ALIGN`.
+> 
+> With these changes, it is possible to add an associated type to `Io` trait
+> to represent the type of I/O region. For untyped regions, this is the newly
+> added `Region` type. Remove `IoKnownSize` as it is no longer necessary. Use
+> the same mechanism to indicate minimum size of PCI config spaces.
+> 
+> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+
+If MIN_ALIGN = 4 is actually intentional:
+
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 
