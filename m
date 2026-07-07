@@ -1,162 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4B341D4D9;
-	Tue,  7 Jul 2026 13:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783431180; cv=none; b=ovfWfNWywrf3QK8tk55a5noewarC+6ejfnxNuBHiWVZrDIOY3LyB+8lsb5PbkWpKzFy2LVlgDH2sUPZdNe7iMi6/xmJUiWJ5bBd9CloiD3zUp817R53fHVmygMcCc2IFS3/7vkVhu7L0jrh+R/r1uaFmjt1Ms/j8PAW/YD7ZfIU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783431180; c=relaxed/simple;
-	bh=x4JXL5MthhbcVUmt6JpsDYJ13gDvQUv0R5Dbfal+3dY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=ffq/55nWV6w25AKrZu6GPDqsjTqkQaAxa+OCFhIiBAirqlwv3485ou5dBj2bZIC7bCXu4az3phRp3ks3WPzytedYLYqIIcF9+OHGVBhtRuzp+l81SeoUmF3yfY84+n8BSkWDMLE4KvhMfdB1YjO0OndlN353R9/jDAJkQW9pMrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+ZMEndv; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EDD3F23C5
+	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 13:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783431685; cv=pass; b=hJeCBW0PJXsNsfMcluo4zHy6h/cw27rNiR3WWKlLr9t9zOm7PJDwE3uCV/tqj3tsdc4sILf2j6+xP1zty/w7FXzd91BMgiC5y1XlT/Z118ypWoP3Uhm7sEX0X8ano7H3mgeNnWUM4q9PqYBN60Eo3Yr7VSMxwps74TwFogmxhEI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783431685; c=relaxed/simple;
+	bh=FU8IpKv0vuIMwTzRexzVzQSriwxFDJetoGck8Yt6WIQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=QUE+mURAiPpjpdyr3hs35/gKFqypwu02Bbka9qgVYh5apcTUWBKC3eyUZHrniZAidMfTQfYi/FAyEjOAH01mX3szpzs7+l/nuWnGpjglZaOR45FbdsZH4ab7Exy/PcAG8gkYr4kta+Hqc3lnR+tEkZ5MqvLR3mWA0EZAqYmXRHQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=FApBuHV6; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+ZMEndv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5B11F000E9;
-	Tue,  7 Jul 2026 13:32:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783431178;
-	bh=rhfHOQvTa498cQtDMgDpdpPPwFlV7FDZZQ3IECkJHjo=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=m+ZMEndvVUaCFJSjYulugDIcoLta67ck5AssagG9srrTxzPeISwZpbczJvzQFHp+b
-	 wY/cnPnCk3exWVxeKHXl7XecV0Wf4T4zLSV2InsAKanIZI4FFsPM0Y2pGJ+rAyOJKb
-	 I7ucoZFeXYqTXHp2SWuSKjKkA4vM5HnEQ2/IPfsdaxP1qoAijDzHBaLVkl4l6lZLWf
-	 Oo0KsI4mXS7ZXI+S5B2+iz8W3ScVrGVGGq1o4gLCyEL+tt8LsZX8RIMEzlcdU6Q1GM
-	 AhZwk/G18T54Ma/T79bGxHzh1q5o58PVD2FVI208g9Wb7cGolEDfaq4EAQFPM4lenh
-	 ku4sCfD375oIA==
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="FApBuHV6"
+ARC-Seal: i=1; a=rsa-sha256; t=1783431666; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XC+2V+tF57fhHqiEqEMeN4+3ze9SKmVAVP0QP1HgED9o13x5375ZXp35PQSQhIjABHeH2ZtCzrJHMPcCpD9BnMXIFP4xakgv+Xk6GUddF04hXkPYF55Wj7hF5Pl15SUJmOk5sWCgYkHDxqm5n5oVW7QjusdbTdArHyC51t5H4A8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783431666; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=8yJI/88EdX2GRQCqqS4z7ecymFyxnXoCVWINXnFUUII=; 
+	b=LxwLFH2g7Wp9k1kzaqFUA50tK5VRWfwcV2eAq6yQaqjpEN4ENq2SP0rN7uUfP3b8MOLGIU7kP4eN05jgqDn0+SKcb6uARotluMePG4/lVxnWaOD7VmiTvrR0D9N6PLjs43rm5TtC8ceMpIPGBXcDy7+4qonE/VW9Dw+S/2kmzKc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783431666;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=8yJI/88EdX2GRQCqqS4z7ecymFyxnXoCVWINXnFUUII=;
+	b=FApBuHV6X+zptFGteZnC68GJA29gc+JO/hWzT1hi0+QWZ7rFeC9jKrrjg7MZqX+k
+	W3p6nkUw8hYVw6pUMsO8FO3qIUXOjAJS9zPadpLu+F4MC+54ji/m3WsSGNvrq3Pe9WM
+	Ap7kGJmJTl0OtePfxjf0W46HmjfWMcprSRZZwsTw=
+Received: by mx.zohomail.com with SMTPS id 1783431665326190.71904984304115;
+	Tue, 7 Jul 2026 06:41:05 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 07 Jul 2026 15:32:54 +0200
-Message-Id: <DJSDL78562EB.1RQP5C4UX55TL@kernel.org>
-Subject: Re: [PATCH v3 1/7] rust: firmware: add request_into_buf()
-Cc: "Timur Tabi" <ttabi@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>,
- "Eliot Courtney" <ecourtney@nvidia.com>, "nova-gpu@lists.linux.dev"
- <nova-gpu@lists.linux.dev>, "Zhi Wang" <zhiw@nvidia.com>,
- "gary@garyguo.net" <gary@garyguo.net>, "russ.weight@linux.dev"
- <russ.weight@linux.dev>, "mcgrof@kernel.org" <mcgrof@kernel.org>,
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
- "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
- "ojeda@kernel.org" <ojeda@kernel.org>
-To: "Alexandre Courbot" <acourbot@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260702192712.3450652-1-ttabi@nvidia.com>
- <20260702192712.3450652-2-ttabi@nvidia.com>
- <DJR9ZKFB5WQQ.1CGI0N3GS1SFM@nvidia.com>
- <DJRFIANMW0AM.2LAQJ114NJQYH@kernel.org>
- <e1c7a5f2ca6fb05b27f76f8f1af2c11532c75ccc.camel@nvidia.com>
- <DJS2WBOSQ1U7.AQQZA227X9MK@nvidia.com>
-In-Reply-To: <DJS2WBOSQ1U7.AQQZA227X9MK@nvidia.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH] rust: irq: make Registration compatible with
+ lifetime-bound drivers
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260703210936.1128698-1-dakr@kernel.org>
+Date: Tue, 7 Jul 2026 10:40:44 -0300
+Cc: aliceryhl@google.com,
+ ojeda@kernel.org,
+ boqun@kernel.org,
+ gary@garyguo.net,
+ bjorn3_gh@protonmail.com,
+ lossin@kernel.org,
+ a.hindborg@kernel.org,
+ tmgross@umich.edu,
+ tamird@kernel.org,
+ acourbot@nvidia.com,
+ work@onurozkan.dev,
+ bhelgaas@google.com,
+ kwilczynski@kernel.org,
+ gregkh@linuxfoundation.org,
+ rafael@kernel.org,
+ mhi@mailbox.org,
+ driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <49636EC4-885A-47D3-9A42-12493A72DD30@collabora.com>
+References: <20260703210936.1128698-1-dakr@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 
-On Tue Jul 7, 2026 at 7:10 AM CEST, Alexandre Courbot wrote:
-> On Tue Jul 7, 2026 at 11:54 AM JST, Timur Tabi wrote:
->> On Mon, 2026-07-06 at 12:50 +0200, Danilo Krummrich wrote:
->>> On Mon Jul 6, 2026 at 8:30 AM CEST, Alexandre Courbot wrote:
->>> > Sashiko is correct to point out that this doesn't return the number o=
-f
->>> > bytes actually written into `buf`. We might not use that information =
-in
->>> > nova-core, but this is a kernel-wide API.
->>>=20
->>> Returning the size only doesn't carry a lot of value, please see [1].
->>>=20
->>> > Returning a `Result<&[u8]>` would take care of this and cover the
->>> > general use-case nicely.
->>>=20
->>> I'm fine with either this or just Result, as we don't have a user for t=
-he
->>> former.
->>>=20
->>> [1] https://lore.kernel.org/nova-gpu/DJ6JV2QQY0QD.1ZK1PRRBN5BRP@kernel.=
-org/
->>
->> Guys, please come to a consensus.  I had it return a size originally, bu=
-t then Danilo said don't
->> bother, and now Alex says I should return a size.
 
-I said that both are fine for now, just Result or the slice, but only the s=
-ize
-doesn't serve a purpose (see [1] above or the reasoning below).
 
-> Incorrect; I said you should return a slice. :)
->
-> What makes me a bit nervous with this API is that it is not sound
-> against incorrect size information or race conditions (e.g. if the file
-> on disk changes after we determined its size). But that's true of my
-> proposal as well anyway.
+> On 3 Jul 2026, at 18:09, Danilo Krummrich <dakr@kernel.org> wrote:
+> 
+> Adapt the IRQ registration to work with the Higher-Ranked Lifetime Types
+> (HRT) device driver architecture introduced in commit 2c7c65933600
+> ("Merge patch series "rust: device: Higher-Ranked Lifetime Types for
+> device drivers"").
+> 
+> With HRT, driver structs carry a lifetime parameter tied to the device
+> binding scope, allowing device resources such as pci::Bar<'bar> to be
+> held directly rather than through Devres indirection. However, the IRQ
+> abstraction required Handler: Sync + 'static, preventing handlers from
+> embedding lifetime-parameterized resources.
+> 
+> Remove the 'static bound from Handler and ThreadedHandler and replace
+> the Devres<RegistrationInner> indirection with direct request_irq() /
+> free_irq() calls in the constructor and PinnedDrop.  Registration<'a, T>
+> stores the IrqRequest<'a>, which structurally ties it to the device
+> binding scope.
+> 
+> Also remove the &Device<Bound> parameter from the handler callbacks,
+> since handlers that need device access can embed it in their own type.
+> 
+> IRQ handlers can now directly own device resources:
+> 
+> struct IrqHandler<'irq> {
+>    bar: pci::Bar<'irq, BAR_SIZE>,
+> }
+> 
+> impl irq::Handler for IrqHandler<'_> {
+>    fn handle(&self) -> IrqReturn {
+>        let stat = self.bar.read(regs::STAT);
+>        ...
+>    }
+> }
+> 
+> This eliminates the indirection previously required for IRQ handlers to
+> access device resources and aligns with the broader goal of expressing
+> every registration scoped to a driver binding through compile-time
+> lifetime bounds.
+> 
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> 
 
-There's nothing we can do about this, the file could also be corrupted, etc=
-. In
-the end there are only two cases, the hardware can't deal with garbage, the=
-n the
-size-sanity check is not sufficient and we need proper validation (e.g. thr=
-ough
-the returned slice), or the hardware can deal with garbage, then the size-s=
-anity
-check isn't necessary.
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 
-> Another inefficiency is that the buffer must be initialized when passed,
-> only for its content to be immediately overwritten. I'd like to make
-> this function accept a `MaybeUninit`, but that will require more generic
-> code.
-
-This is true, with the current approach we need something like
-
-	let buf =3D VBox::<[u8; SIZE]>::zeroed(GFP_KERNEL)?;
-
-which isn't the end of the world, especially in the firmware loading path, =
-but I
-agree it is a bit unfortunate.
-
-We could indeed get rid of the initialization requirement entirely, but in =
-this
-case just returning a slice isn't sufficient, as it leaves the caller with =
-e.g.
-a VBox<MaybeUninit<[u8; SIZE]>> for storage, which is annoying if you want =
-to
-access the buffer subsequently, e.g. to parse headers, etc.
-
-So, for this to properly work, you'd need to take the container (Vec, Box,
-CoherentBox) by value and return the initialized one on success and the
-uninitialized one wrapped into a custom error type on failure. But this is
-probably a bit overengineered.
-
-A simpler option would be to just use an initializer, such that
-request_into_buf() becomes something like this:
-
-	pub fn request_firmware_init<'a>(
-	    name: &'a CStr,
-	    dev: &'a Device,
-	) -> impl Init<[u8], Error> + 'a {
-	    unsafe {
-	        init_from_closure(move |slot: *mut [u8]| {
-	            // call request_firmware_into_buf()
-	            Ok(())
-	        })
-	    }
-	}
-
-And then allocate the buffer with
-
-	let init =3D request_firmware_init(...);
-	let fw =3D VVec::init_with(len, init, GFP_KERNEL)?;
-
-In any case, the current approach is fine for this series, this can be a
-follow-up if needed.
-
-The only thing that'd be nice to replace would be
-
-	VVec::from_elem(0u8, size, GFP_KERNEL)
-
-with
-
-	VVec::<u8>::zeroed(size, GFP_KERNEL)
-
-analogous to Box::zeroed().
