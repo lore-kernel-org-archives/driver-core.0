@@ -1,90 +1,68 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE7A3F787F
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 13:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE46E34404F;
+	Tue,  7 Jul 2026 14:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783432452; cv=none; b=OymLn/JN1XbnzS6vtNzaDk3CRCiArGAED4lfE2CgPjY/qElx/hofcJLbsIcekv6FCi+niSdaTvrO64GokVr2VtR9brmP09VA2oO98OsUeFHG0a0Xyeca3mhWKqVNNuWmsZun+Mau/8ziyaJGjfl/KB7WxxN9KpF3LPWz9+D5Ats=
+	t=1783433538; cv=none; b=pdxoTcLYIbnz9cRXfJ4sUyTvU2ZBZpSC5Sf/L1GNhBYvUeygeL84i5t8KirqR2AfDZbyRd5/akeLxQ7NydCmQFRy7rcs9k5I3IScxoVuMI6mcROI7zneJO5RLa6zj+b1hLO/qCLs9jcCGVPjbESTa2IHhZJ8/WPjLIOr8P+3kPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783432452; c=relaxed/simple;
-	bh=JgKqENFoGD+r2HcLqI6QzwLYU+u5xX6ykNoGtdPOJIs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FOXLVEx8MgQSqK8THQdHZKC5RP6V2vL31JrtKhpyKU2vux0Wg1a06JOV3zZez5LLYVSZ2YUSwbwPQEFzLFDiyOwCnXYfs11gD6YxRD2+ENrdaHxqnjjJi5IPmJgl6sma6i9RgbAzTpk4096xjALHkPV0hMvW1VSZV+3LrbKHAjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FwbxtRlk; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1783433538; c=relaxed/simple;
+	bh=jxZ+J2bI5Ac4cUZdA4D/jzlc5dbPxutHkJwdTQl7aXY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=mb71owKCrhbIjF+tdNE5vF1WsmuxGtedf19z2A+O7GKpe/f/3IETsBrrK2VjDFHgZeBNIo3sm7Tk9fFW/0sFnUyFYPCZL5CNc8Vt4MIcIDzh6el0dfCUxKXw8yph3rVheIk7eGA3jOvuaeti2mvZ2gWCOoSYXuspyEcWiOYY+2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=czO8W1yp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FwbxtRlk"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-493bdf90adaso33509325e9.2
-        for <driver-core@lists.linux.dev>; Tue, 07 Jul 2026 06:54:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783432450; x=1784037250; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=h3qQIydnrntueQidkz9seiThuCHjKGkJFQ1LDomdEzU=;
-        b=FwbxtRlkpAY10Ea86EYUCCfbsmQfRnxKpXNrGpEnFzJFolne95xSp0JToLN6B2OPRt
-         CcDXobzm0kX+3hGryhumR5EpDryJ+bbdh0aaKUdVMUcIqw93hldCZDigjmabT9k34Yb/
-         knHTDe7Vtqv5SwXnJXkAnsnGo5eH6h8zaHqQSte8wtIntb2gjYgQqunJMA9ZY7ZBk+nI
-         5CtDZey1COCsGSzuxylDZRWHWyXa41UYapUPTKqYFfda2L6xroggBKf7qAaWaXxlvR7r
-         b9Lg4Oe3Pw7f+i2NtXMlNoMSUrGYcayA4ez6rBDrFyNR+qWcC2VlT6ilVQEvxhSXAojI
-         rYHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783432450; x=1784037250;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=h3qQIydnrntueQidkz9seiThuCHjKGkJFQ1LDomdEzU=;
-        b=Qb3Z2tfOtdB/410XtsrDJO6T+VncZVqiN1lI6SGUizJzpXo6IgeYph5hstzHzif+6A
-         LhzscpscS0c2AKGF+K4oJypxvBVS4j4/jAyFoJ6RVTZ3t1VmUcC7vqsn4xuEaT1by558
-         pjZkR6ZIlUYRHM5IyuWYn/TF3f5FstuSfLlvWP0zB6BKdJ8f9Zsy1HPaAArIJwT9kpMY
-         7bLP8jr8NjDxDLrQEaE+9aMHRCIpPOfXFKDkzHfHuIVpWNUfkXfwR1fRhqBCttM8LwhK
-         e0n0YoKdm5f6+Rt/5NL+Y9yShp8l/16iwomdzYL6iasdRPGnT7a/FY0HpmfKwUqNAiW1
-         mA0g==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0j34t/LiqBdOUs3pzgvC0vd3pU1bReqTX3BQsd6OVC0adtoWN3HX2c91jpC/Ui0kaTFNjpRIKSMa9vg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyN+St42PdNFvrDDMD6wcoTalHJBiaqwuVazUCPemYoUrTarkmn
-	JMRYgUUvyqeIy2oQ6XHXUdQT2js1L4fZC6z/cb57kzIFM2nfPL5+1hYW5JHQgRpUjMyRjb996ga
-	elpkoSd3tHxBKzJTrJg==
-X-Received: from wmph7.prod.google.com ([2002:a05:600c:4987:b0:490:b2b0:c4aa])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3491:b0:493:c0ec:9a5f with SMTP id 5b1f17b1804b1-493df08ce7dmr67025965e9.19.1783432449607;
- Tue, 07 Jul 2026 06:54:09 -0700 (PDT)
-Date: Tue, 7 Jul 2026 13:54:08 +0000
-In-Reply-To: <20260703210936.1128698-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="czO8W1yp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32CF21F000E9;
+	Tue,  7 Jul 2026 14:12:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783433533;
+	bh=jxZ+J2bI5Ac4cUZdA4D/jzlc5dbPxutHkJwdTQl7aXY=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=czO8W1ypu9X+Zd7xxu5QLBuCikwoZcc5Lv/pZVVlkxCp7aQDgyd09JvCqR/+m39Gn
+	 3WG0Kf35rFrhCUeJdMLqpvc+qhR0Az7ILmpUmFSUWqTkEA7jXduwQxO2O/qClUoruN
+	 XSMpBnVLWKo4KNm6DRP8U903Ydpit2bifozWAMkYvQo8lboPIwc+qq27FGuBuQeUMr
+	 XTM+CEwQ1Kg+hNl13EFENnMBi9y67NpO8Fo1zBmgFMq31xij7P0Np50dtueheSjx/Z
+	 3+gO5rCtf9Z0B0+QwX7lWN6AmhLSmKQ1aAKOskJtpjieOIO4WXLzeL26fxN+P/oXDW
+	 fjBK/zEr+5ZRA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <20260703210936.1128698-1-dakr@kernel.org>
-Message-ID: <ak0FAGpJtUH7VvHQ@google.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 07 Jul 2026 16:12:07 +0200
+Message-Id: <DJSEF840P5ZP.10CNUQ0UHDLW8@kernel.org>
 Subject: Re: [PATCH] rust: irq: make Registration compatible with
  lifetime-bound drivers
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: daniel.almeida@collabora.com, ojeda@kernel.org, boqun@kernel.org, 
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
-	a.hindborg@kernel.org, tmgross@umich.edu, tamird@kernel.org, 
-	acourbot@nvidia.com, work@onurozkan.dev, bhelgaas@google.com, 
-	kwilczynski@kernel.org, gregkh@linuxfoundation.org, rafael@kernel.org, 
-	mhi@mailbox.org, driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+Cc: <daniel.almeida@collabora.com>, <ojeda@kernel.org>, <boqun@kernel.org>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <lossin@kernel.org>,
+ <a.hindborg@kernel.org>, <tmgross@umich.edu>, <tamird@kernel.org>,
+ <acourbot@nvidia.com>, <work@onurozkan.dev>, <bhelgaas@google.com>,
+ <kwilczynski@kernel.org>, <gregkh@linuxfoundation.org>,
+ <rafael@kernel.org>, <mhi@mailbox.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260703210936.1128698-1-dakr@kernel.org>
+ <ak0FAGpJtUH7VvHQ@google.com>
+In-Reply-To: <ak0FAGpJtUH7VvHQ@google.com>
 
-On Fri, Jul 03, 2026 at 11:09:21PM +0200, Danilo Krummrich wrote:
-> -impl<T: ?Sized + Handler + Send> Handler for Arc<T> {
-> -    fn handle(&self, device: &Device<Bound>) -> IrqReturn {
-> -        T::handle(self, device)
-> -    }
-> -}
-> -
-> -impl<T: ?Sized + Handler, A: Allocator + 'static> Handler for Box<T, A> {
-> -    fn handle(&self, device: &Device<Bound>) -> IrqReturn {
-> -        T::handle(self, device)
-> -    }
+On Tue Jul 7, 2026 at 3:54 PM CEST, Alice Ryhl wrote:
+> Why are the implementations for Arc/Box being removed?
 
-Why are the implementations for Arc/Box being removed?
+The lifetime design enables us to just store references for shared ownershi=
+p,
+rather the needing a reference count, so it seems reasonable to remove thos=
+e
+blanket impls.
 
-Alice
+We could keep them a little longer until pin-init has self-referencial supp=
+ort,
+but on the other hand they don't enable anything and are just for covinienc=
+e, so
+I'd rather drop them.
