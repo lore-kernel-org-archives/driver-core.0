@@ -1,125 +1,72 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EDD3F23C5
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 13:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783431685; cv=pass; b=hJeCBW0PJXsNsfMcluo4zHy6h/cw27rNiR3WWKlLr9t9zOm7PJDwE3uCV/tqj3tsdc4sILf2j6+xP1zty/w7FXzd91BMgiC5y1XlT/Z118ypWoP3Uhm7sEX0X8ano7H3mgeNnWUM4q9PqYBN60Eo3Yr7VSMxwps74TwFogmxhEI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783431685; c=relaxed/simple;
-	bh=FU8IpKv0vuIMwTzRexzVzQSriwxFDJetoGck8Yt6WIQ=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=QUE+mURAiPpjpdyr3hs35/gKFqypwu02Bbka9qgVYh5apcTUWBKC3eyUZHrniZAidMfTQfYi/FAyEjOAH01mX3szpzs7+l/nuWnGpjglZaOR45FbdsZH4ab7Exy/PcAG8gkYr4kta+Hqc3lnR+tEkZ5MqvLR3mWA0EZAqYmXRHQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=FApBuHV6; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F9B3F23C5;
+	Tue,  7 Jul 2026 13:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783431698; cv=none; b=VxEXUuxXPT8bwTIl+Ab1r8i/b83ZUqeB4G3hs79PhT5206029Zku23hcJFAvSgz66XcjOaWbkZ5edBwlBdKoqMwbGqFkRxAEPjfEqTCMwGhgPruqzCJyCR2qnA2/5Cnx7/jZAlfyWV6F1GVdkZiGTn6GzkJ9YLo5ahtBM2HKY4U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783431698; c=relaxed/simple;
+	bh=Q8bZHt7yJ+qnecwmMvVMWaD1rJjvWnisLULY4A4dVgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iBovhx/ZotK9uLegLGk/0sT/HdVNE56/1cFNpvCb4jZHfSoHYpHrB12wuORfyelS+rg37/rdypN0biPy8nQ/IY+83ypDURpxvRfuxeZAkRnyIWlwmI3W8rjj5/K+is0Ib8XenejJ2vE7oQY85lxyCoKFDuGTAB1N/qiW1qfAj5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L6RLv5oa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="FApBuHV6"
-ARC-Seal: i=1; a=rsa-sha256; t=1783431666; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XC+2V+tF57fhHqiEqEMeN4+3ze9SKmVAVP0QP1HgED9o13x5375ZXp35PQSQhIjABHeH2ZtCzrJHMPcCpD9BnMXIFP4xakgv+Xk6GUddF04hXkPYF55Wj7hF5Pl15SUJmOk5sWCgYkHDxqm5n5oVW7QjusdbTdArHyC51t5H4A8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783431666; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=8yJI/88EdX2GRQCqqS4z7ecymFyxnXoCVWINXnFUUII=; 
-	b=LxwLFH2g7Wp9k1kzaqFUA50tK5VRWfwcV2eAq6yQaqjpEN4ENq2SP0rN7uUfP3b8MOLGIU7kP4eN05jgqDn0+SKcb6uARotluMePG4/lVxnWaOD7VmiTvrR0D9N6PLjs43rm5TtC8ceMpIPGBXcDy7+4qonE/VW9Dw+S/2kmzKc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783431666;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=8yJI/88EdX2GRQCqqS4z7ecymFyxnXoCVWINXnFUUII=;
-	b=FApBuHV6X+zptFGteZnC68GJA29gc+JO/hWzT1hi0+QWZ7rFeC9jKrrjg7MZqX+k
-	W3p6nkUw8hYVw6pUMsO8FO3qIUXOjAJS9zPadpLu+F4MC+54ji/m3WsSGNvrq3Pe9WM
-	Ap7kGJmJTl0OtePfxjf0W46HmjfWMcprSRZZwsTw=
-Received: by mx.zohomail.com with SMTPS id 1783431665326190.71904984304115;
-	Tue, 7 Jul 2026 06:41:05 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L6RLv5oa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE74E1F000E9;
+	Tue,  7 Jul 2026 13:41:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783431696;
+	bh=bBAfp/1WTjfXkIXmaMektccP3AUgen/qc3sIQcub5vg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=L6RLv5oae/GlbVM6EYEtzsV9gqOUqvIJWoGIE98a2DdQvknAOzsyPGZddYbOUK52i
+	 rBVz61LGnWjQWhah+Wtqx91WphWRQvAPOQkW/M9APuFZuZRhnv8vLK4WMWYowF1eKs
+	 g0sTD7nNUpPn5jBUh36uh5+UmrYcJvtoNroBp7g8IsY1Z7tUaoGExPcX4yKNiF5RfS
+	 Oxn2i/vEarvAHnn0Nme6i+cqPKmFcHVJADCmNUztm7Cdiq2T8nmj+NK04cLRSGEZdo
+	 6E7IZdnuPRvfVQovGpzi2WuwPwpSSlh3HxkqdwICYdefbhMQ1oofZNUGNcc2mwyaZL
+	 w6as4tFkpYf+Q==
+Message-ID: <25951ecd-53e1-439e-92a2-8de3ff471d8a@kernel.org>
+Date: Tue, 7 Jul 2026 15:41:31 +0200
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH] rust: irq: make Registration compatible with
- lifetime-bound drivers
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260703210936.1128698-1-dakr@kernel.org>
-Date: Tue, 7 Jul 2026 10:40:44 -0300
-Cc: aliceryhl@google.com,
- ojeda@kernel.org,
- boqun@kernel.org,
- gary@garyguo.net,
- bjorn3_gh@protonmail.com,
- lossin@kernel.org,
- a.hindborg@kernel.org,
- tmgross@umich.edu,
- tamird@kernel.org,
- acourbot@nvidia.com,
- work@onurozkan.dev,
- bhelgaas@google.com,
- kwilczynski@kernel.org,
- gregkh@linuxfoundation.org,
- rafael@kernel.org,
- mhi@mailbox.org,
- driver-core@lists.linux.dev,
- rust-for-linux@vger.kernel.org,
- linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/7] usb: fix UAF when probe runs concurrent to dyn ID
+ removal
+To: Gary Guo <gary@garyguo.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ =?UTF-8?Q?Toke_H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
+ Johan Hovold <johan@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Petko Manolov <petkan@nucleusys.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Chas Williams <3chas3@gmail.com>, Alan Stern <stern@rowland.harvard.edu>,
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-wireless@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+ usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
+References: <20260707-usb_dyn_id_uaf-v2-0-632dcf3adfba@garyguo.net>
+ <20260707-usb_dyn_id_uaf-v2-7-632dcf3adfba@garyguo.net>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20260707-usb_dyn_id_uaf-v2-7-632dcf3adfba@garyguo.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <49636EC4-885A-47D3-9A42-12493A72DD30@collabora.com>
-References: <20260703210936.1128698-1-dakr@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
 
-
-
-> On 3 Jul 2026, at 18:09, Danilo Krummrich <dakr@kernel.org> wrote:
+On 7/7/26 2:26 PM, Gary Guo wrote:
+> Dynamic IDs are only guaranteed to be valid when usb_dynids_lock is held,
+> as remove_id_store can free the node. Thus, make a copy in
+> usb_probe_interface. Clarify the documentation that the id parameter is
+> only valid during the probe.
 > 
-> Adapt the IRQ registration to work with the Higher-Ranked Lifetime Types
-> (HRT) device driver architecture introduced in commit 2c7c65933600
-> ("Merge patch series "rust: device: Higher-Ranked Lifetime Types for
-> device drivers"").
+> USB serial has the same pattern, but it does not need fixing as the IDs
+> cannot be removed via sysfs.
 > 
-> With HRT, driver structs carry a lifetime parameter tied to the device
-> binding scope, allowing device resources such as pci::Bar<'bar> to be
-> held directly rather than through Devres indirection. However, the IRQ
-> abstraction required Handler: Sync + 'static, preventing handlers from
-> embedding lifetime-parameterized resources.
-> 
-> Remove the 'static bound from Handler and ThreadedHandler and replace
-> the Devres<RegistrationInner> indirection with direct request_irq() /
-> free_irq() calls in the constructor and PinnedDrop.  Registration<'a, T>
-> stores the IrqRequest<'a>, which structurally ties it to the device
-> binding scope.
-> 
-> Also remove the &Device<Bound> parameter from the handler callbacks,
-> since handlers that need device access can embed it in their own type.
-> 
-> IRQ handlers can now directly own device resources:
-> 
-> struct IrqHandler<'irq> {
->    bar: pci::Bar<'irq, BAR_SIZE>,
-> }
-> 
-> impl irq::Handler for IrqHandler<'_> {
->    fn handle(&self) -> IrqReturn {
->        let stat = self.bar.read(regs::STAT);
->        ...
->    }
-> }
-> 
-> This eliminates the indirection previously required for IRQ handlers to
-> access device resources and aligns with the broader goal of expressing
-> every registration scoped to a driver binding through compile-time
-> lifetime bounds.
-> 
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> 
-
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-
+> Fixes: 0c7a2b72746a ("USB: add remove_id sysfs attr for usb drivers")
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
