@@ -1,192 +1,252 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020093.outbound.protection.outlook.com [52.101.196.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B4141737D
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 12:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.93
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783427229; cv=fail; b=BGwMG9TgUvmPm8kxE63/EIiOY3hSII7ObO2u8KYi3TY4w2zjkNH/SSdz092DjSFpE/N40bTy1Oik+ARKhQDuXsAxtCaxhs46SN8R8bX8hPFFG2mLnJzs6fChz14IwdX7uAxxVvqccdyGf88r2cLe9zJTMT0KqIFnWah50mKQ/SU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783427229; c=relaxed/simple;
-	bh=H5JFKotXcRvBL+j9x2gVWjs5di3esqntHjg/n1H0gL0=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=qNQFCNanV8n4EiCcfqVdZ3KNtqiosls2cyhILWlKHJuBoPGMan5ng5Xc5Jn2sTvfNTMaBKutLJTRIxgP5TcWUmP9P2gInM3t9Nv6Zymha8Fr1UGIqmr47DYItXXLdok+drPwi2IteFWGQXdNLosyt4NpjDvRZ9M09sNVSWejPa8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=z42VeGru; arc=fail smtp.client-ip=52.101.196.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B3240A92C
+	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 12:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783428206; cv=none; b=N8cNnhOdtzH50/Bsalie8UWHfgKElpuqBgV66dYYyqlOn4Pi2wB4fGMeRHrHpH2rxRq7V9g65n262+N7g4POnf2dyISZfK5on3mznXQwUl6RjYRrG6IX7O5arQU/ayOntRNjlSjx+oxEOjV7Ja8PKlMY/Bbh3b/UoIcCQGdSQkw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783428206; c=relaxed/simple;
+	bh=0syJgOL7UuJijsJI6FAumA8sQyhvCuWjenbq/nczlOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o1otuTI8Jsj9rfHMKNWfp9XLllBM97eNW06wt9cwSfIuBqd396lBZC1gc7KUbYRiIOhSLoSwy4hK0oWtNqxGBIctv6F9LObXIXWyzoGA5Y7ZFPCr98yxiUM+5U2+l5lVyeMt+oxGHoc/5BJ7haZ8u5z1JKo6Z6dr6tXgehgtBbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=WjQBuRKW; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="z42VeGru"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TohsxdBIOgpDr8RViM7yp75sRD3r0oExuAuvfUsWrgXaOpLhpruVCPIb6+KDTR5RCQhLDykrEgyNYHCcu6KciypkHPZyRNwUnTUjZRiyMzTR3gN3taWnHyneEquabdFYgDHat2fAV/VdpPxRoWILc7UxmBR3AhoWtT/maHkx7AHIZSqjtqIIdYl8QVAy1qZ4h4FiliGrYoJH/OOy1f1LeRPPOvnKBCn45cck9XEVSiWExMkkBAq7SuD0qU9lJUeOUj0K2aeRgoxaJdCac007wrQfDRjsE+WZvSsyd3Wv3WsXLTRNhNzLydw4g/drdXwCSgZEBx42Br8usHEEhk048Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wKJZ67QQ885SkqS0B0nB7uW1qr5umZrpZ5Tc2Hd5MW8=;
- b=JI5ux/4Lp5FKG0f2uYOOe5mXpoRjWgAt3ImXTdM4/TogmjRamimX4GP3tE6Y6YCpOWptu5kc8XGWrKPu2Xv7ipQRI/ZFnYEpz8egGnqItx6D/fL1+d7e3GITP8AjEHt5G8Y1UZPsZb8NOz+IN946/pyAGhUX9riBMH5yQAbgpvnG9zNMes8FnoCcnHZ59Hkvntj0Cu5LHYXqv6gEooRAEyk5bDgPxra4xcGMk5/mlryxUtHSUNKNgx5gPGqCCefSCazmhW7FgdT709NhlWR8xFusrTZs8egS9jm00fcg3oNFzI3+b2uyB94oM4GYJNMrr2X1KMrmfQa2lmqZ/dJWoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wKJZ67QQ885SkqS0B0nB7uW1qr5umZrpZ5Tc2Hd5MW8=;
- b=z42VeGruNK4lmS1r+HGwadOmX3eK86J2QcZB+5fndA7r51s8JEmXfMA93wZw0UEEFP0SNSkatsbfYI1ah+06QuzKc8sSPNb6wF0SXyqBFKCWGOG09NmQUbjuJj2P+MxZWITAZjqtuN3c65wZ5HPUJf0eRjevG0zlZMFgUfS31hg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWXP265MB2615.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:8b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
- 2026 12:26:57 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0181.008; Tue, 7 Jul 2026
- 12:26:57 +0000
-From: Gary Guo <gary@garyguo.net>
-Date: Tue, 07 Jul 2026 13:26:42 +0100
-Subject: [PATCH v2 3/7] usb: serial: spcp8x5: don't store usb_device_id
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260707-usb_dyn_id_uaf-v2-3-632dcf3adfba@garyguo.net>
-References: <20260707-usb_dyn_id_uaf-v2-0-632dcf3adfba@garyguo.net>
-In-Reply-To: <20260707-usb_dyn_id_uaf-v2-0-632dcf3adfba@garyguo.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- =?utf-8?q?Toke_H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>, 
- Johan Hovold <johan@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Petko Manolov <petkan@nucleusys.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Chas Williams <3chas3@gmail.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-wireless@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
- usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, 
- Gary Guo <gary@garyguo.net>, Manuel Ebner <manuelebner@mailbox.org>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783427215; l=1552;
- i=gary@garyguo.net; s=20221204; h=from:subject:message-id;
- bh=H5JFKotXcRvBL+j9x2gVWjs5di3esqntHjg/n1H0gL0=;
- b=P77tZzMnJYZxzDerSi4XVJcO0FMK+FnQt7iSZRf88ngqZR5Pu+Addl4UxgGA9ZA0cREr+5UFV
- 6W9EZxeAzNsB6mzcy6Uw50sf4JFew+UYZXlx6g0kKxMdqUL18YRSBzi
-X-Developer-Key: i=gary@garyguo.net; a=ed25519;
- pk=vB3uIX95SM4eVrIqo1DWNWKDKD2xzB+yLLLr0yOPYMo=
-X-ClientProxiedBy: LO4P265CA0166.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:312::10) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="WjQBuRKW"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51bfbe05683so27332021cf.2
+        for <driver-core@lists.linux.dev>; Tue, 07 Jul 2026 05:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1783428203; x=1784033003; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DpR/IZcE7y8vF/86rmuimft6GS353sbM1gJlGWQ97b0=;
+        b=WjQBuRKWi4jpHUvedfSIJoPeOIbQDu8v16lUNiwEaG07hP5Qz+OZ6mmZfilBpY1zY0
+         ukip1Ld+Q9caI9draToqK3MwTe3tFBVa3PvUGMsQrUo+5A5gcSfv3tCoTA4+ydF8YQYo
+         lRmEh3qwzxgdFAa3qMNS2z02YdJ5koW7t4P8uC1UqNbjsXGl+tWzTh+abdLTgwvVtrJa
+         jusHwRbVW1vG/8hXc19fkR3rUdvhzqvNnChOdQz2NQIdoo7GBY3XhmxeHJ1r6SPedCUE
+         CQwavSMqfa5MJtdWnq0EqGDyKj+bIj20/H3I5BLF16Es17iJ/FnbxwWYXdxCc6W1Iozx
+         kflw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783428203; x=1784033003;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DpR/IZcE7y8vF/86rmuimft6GS353sbM1gJlGWQ97b0=;
+        b=eTEQpevez4sPiW8/gfZEFtDk01sCsY+q5a+mSet5MaCezSdZp87eRyrKnpR121PTwB
+         WSiYtds/J9AUvjwB7bhNzZ1jGLjXNLgnRPCzOqxKF/D0tNxFyOgd8/Jw3E6FfQJUH3QN
+         0RuAfqqYiRyy7M/O6FTXqfhygcNrrblGt8TMrYBxUhlY2vm6gXDJ6ga4xwQvFM/Y/DIA
+         7jvrPEK22b9ZHmNc4Oze/cp3ADUuSekXDJ+F8cMuci9P13M8HJkUxxu3gvlj8UhQ20LY
+         q0ALrOllesxw3lEyYp8162EpeoKo3WbiMrCdQnjocj4qmy4IPb/ICRqIESgMZTJjyrta
+         HDBg==
+X-Forwarded-Encrypted: i=1; AHgh+RozoSAvLJeD3vr88tN8hyBC8bTrlEQvnWl4A8gshEKODBQIK9WHaMs9wpoYlQTaulEWVx9au1Wz7PHjSw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRFehz8aJ70uxMlu/1KPgTKiOJB00aoOEdircikrZCKt4NZbKn
+	CsTwh719OCwu7JKebuNyUK0w+wDMYMEJqsOrMmGtd1ieQkB9vHmzaSf3iF0Ks9NhDZA=
+X-Gm-Gg: AfdE7clVnASwLeu1fL6hBDzSaWs7A/AY3LSOG/C1t/qnHYI0/Hfp2oVqzwOtEhNYCWg
+	Hgr62a50AswUD/oUun4fEijbZoDZLzFr7FTE9LGOR6JAtvB7Aye2G/O/TMhqkhBVRELi2PPxkie
+	Y/3a75NobbW3UWKVC4fLQJ6sVUzgpfDKUAx8WSHbGg2ztJwmsd5KT00mRr83lCryPvfYAFHd+zC
+	o+HIcosAqbEmSFAPEuHlBw31lobrTFM3tsZcOb/tptcxu4X5H8puRiHkpVRYlwjChmEjpv9ifuX
+	fIldifIPv9A0eOnC2yqmBI2hCHdg0J6MoZPjWF/VrSmqVUA13/7U72aJUlLKP1gz6EfG4pi3ytS
+	6C7j/iBcNSjpOx1cu9SkstQu8lqKv+kL6Mfn6G53pr37iDu2VPKcTWj+SRaxC
+X-Received: by 2002:ac8:7f05:0:b0:51c:1cbd:5fdc with SMTP id d75a77b69052e-51c747a1052mr51204751cf.10.1783428202942;
+        Tue, 07 Jul 2026 05:43:22 -0700 (PDT)
+Received: from ziepe.ca ([159.2.72.92])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f4718143aasm158188786d6.32.2026.07.07.05.43.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 05:43:22 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1wh58z-00000000vM8-1tLF;
+	Tue, 07 Jul 2026 09:43:21 -0300
+Date: Tue, 7 Jul 2026 09:43:21 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Dan Williams (nvidia)" <djbw@kernel.org>
+Cc: linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+	driver-core@lists.linux.dev, ankita@nvidia.com,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Will Deacon <will@kernel.org>, Xu Yilun <yilun.xu@linux.intel.com>
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
+ Protocol (TDISP)
+Message-ID: <20260707124321.GF118978@ziepe.ca>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <20260706125140.GB107792@ziepe.ca>
+ <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB2615:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3803309-9abc-4c79-b58b-08dedc230986
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|7416014|10070799003|366016|1800799024|921020|18002099003|22082099003|56012099006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	iBgRhaO94C7HyKtHQ+28p9hIgLtM11+cgntsD+nQrCDUjBLC7j642xf8q7MObKBWGWRxxjgfR2y4YL21uOa9vkzUUkjABfwJZiD0xfijVJKMm9du+LnjoDPc9QrROaxDddN+YI7dNK8gGrH2Y/QRwihOrQ4JVE12F3GWMpMsHU0Qj3GaPUSYXOCrIOsCSr5XmmqOslNWTBPh0YmyVAzEcFxVRvV3oNULSM2I4qvl1e4/loXpmpslxs1E6iheatMWocZD7FdbvIp8QRKjftZnoJlu2f0gJsNbNfl1z3i7yHpBYnPikkWZYQp/T2T932DWAdmP1AAyVugeVfdLRzR/OFWi1S/Bp/mSuueL35ORBcpEhousbAS9moQrdQDgRuUXQ2n7lyW+fD/TC1q3sFJQze7zdW8PAlkGQhAsYURbugSnxdrzDy3D6Ydxt032pCP+eaQHH7vD62bSvYTmFFhIdTByNl/foO0VbSvhTrEs97xho6lJBMcK2XyZxBqyWxJlaaGEFG3CEsLvpeYfoddu01dmEKcHm7q4OdYnwoFRYa2AdxLaQB/SCwX01JZB4kBFLfl79JT5OjjVvUXMFwhyLHzzh3CLECGUe3VmoQ7PuhWflP09DlLqwMSPsBtmYUIBPzZbvVnHljGlmuVafhYNaVjGdXbJo7qY0SKp4TbPcZCV/21/m0B+4IAbrVMuOHuUImP5H80xHI2NtTkCSz4BBA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(10070799003)(366016)(1800799024)(921020)(18002099003)(22082099003)(56012099006)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d0V1K2JqR2liMEFXTVU5T3ZoRHM2dUlkUDZwSG0wcklsSHhQd1RRQ3prTm1t?=
- =?utf-8?B?QWhTTzUvaG5VZjZFQlo1OVRUemxoWS9mMGRSbktpRUZza3hrMDE4N1hxVHFj?=
- =?utf-8?B?RTl1Z3BIbm9YTERaZTRyN1VhOUFLYk82MGovVmlRdUd0TEQxd0I0YmtBclMx?=
- =?utf-8?B?Tk82aWRndERBdXI0MFg4L3lMU0NOeWdOTkRyNVdqK2pIbXBiZjN5Z3lMYUtE?=
- =?utf-8?B?TFF2d25ueEF0c0wxVmJKN2IzQXRaY1VpR0kyWmtKU3ZUOVZXVDB1bHF5R0Qr?=
- =?utf-8?B?L2NlOTBJNWFWR3FJeFNHQ1IwQlM3dHVxZ1AzQzU5L0FLdjJTNVVVTk1BZ0tv?=
- =?utf-8?B?cFJ5SUdqd01FNjRPdHBwUzJzUGRRUzRLYXU2ZVAwdkpIaEhIYTNWbm9XWiti?=
- =?utf-8?B?dTlsQ3JjMnE2SlVHb0xEdUd0eVF2QzBlUEFPZ3BaWEEzc2NITUtTOFora1NU?=
- =?utf-8?B?WGRuYjZKTG8wSFJWdTU5Nk9uVTVTd3ZSMmFYLzZIVE1ja05vUGJvSEVzRlYw?=
- =?utf-8?B?M2tSNUUzWGdLRzhKYjVaWStEbFdKRVRzVUpRdXE3Y3BHVGtENkhOSVlOb0NK?=
- =?utf-8?B?VEhadmlhbVFFKy83bVNWdVNXWk5MekV0VkdPV3dGMzdCSEFyaGY3aTZLbXhI?=
- =?utf-8?B?WGdtZzN2UlR2MDZQb3VDOE42TVBGTkxITjlxeHpHbDF3c0piOEFhbUdPWXhi?=
- =?utf-8?B?Y2pFMzRPSTNyZXJVRmk2cFVVaTlrUS96YzU4Q3YvU0dJZEtzTG5wSUtCUUhW?=
- =?utf-8?B?NjJNQVA0eERwSlU3RWpsK3JMaEYxZFM1bG02VENhVHJMMHI4K2s0ejN1WWRS?=
- =?utf-8?B?d1p0dmdTR1phV3AzQ0kyTk9idXdtMHY5dzJPTnVjWXdDMmxUZUJJcFRVTWUv?=
- =?utf-8?B?bGlBTTJPM3ZMcUVkUksvZWljbVhwNmlKUUhDcEVWdU1pTzlMVU5LRnV0Rkk4?=
- =?utf-8?B?ZDZMeTNtRXJINFRFcmU1c3FHQXZJTDBHd240RmFmYTdMS0MwRWJESk5zRGhy?=
- =?utf-8?B?MG40MVR5aWtOMER2SEtLdXpVcUh1czNIVUpNZDB1OW4zd2pRaUo1bE5SRXdz?=
- =?utf-8?B?QzFMS29QUW9jWlZjUGFxZnBCdDcxWjlvVGozSW4zMHRkMG1OK3ZBV0lwd3dj?=
- =?utf-8?B?clNlbC9lOXVlcUoxazNzdVZ6cVB1T1hvbXJ2RVFBWmJ1VU8ySUJmOXhha0J5?=
- =?utf-8?B?YjU2dUhXZ2JtTXptR3RtSTVtd25UUTdEbHFvSmhKcmNvNms4ZVA2TDdmT0N3?=
- =?utf-8?B?TmJveGVrbjZQNHdLbS9SV2JlVFBGQVh2SDFwbnB6QjgvNnNxZmt2R0hQR21q?=
- =?utf-8?B?cG83T05aMEh5cTRnbnFmUUV1RG1GelJnbGtRL3YzcWdMTk02ZmhicDhWN0JE?=
- =?utf-8?B?Zm5EV0FCaDRmMy9vbUFWSDNlL0U5R0JpcG1KYXFhZUFPcSttenJST09HVlhZ?=
- =?utf-8?B?NlRndjZNMURYZDdSVmJ2Wm1vYUtOYWl2dWpXRDFTbWljMXJzSkZweWhWVklz?=
- =?utf-8?B?WEw5SkNNUWhIdXRhK0NEb0F1QVNHbVlqSVJvR3BqRnNVVzFLZVZuMkQrb2k2?=
- =?utf-8?B?cmNWNFcrelVSbDk2R1pSVDkvTmcxVG16WVZDVWpYRkxqYktSTmtjWUc4eFZL?=
- =?utf-8?B?VGpScHhaWE1keHVxbWwwREZCVVlRR0NTMlRqMmtXS1JpSzlidS9KUUVJOVJJ?=
- =?utf-8?B?NnZEUGpld3kwSGxMYzg5VndtaXhDTTc0c0VGNHhEZE9QemNrTDJjOVI0ZUVQ?=
- =?utf-8?B?eHNoUUg4WGxTdzNjVlNscEh3cW1rNkN4RHR2aUFnNTRDNFZPVml5SDBTc0gw?=
- =?utf-8?B?OERRbjU1dVhoYzF0aXh3SXJXTS81YnFzY1VSMTJSOVcxL040aFJibWw5Y3lQ?=
- =?utf-8?B?dTVkejFZQ2FVcEwwbmYrOTArYW5KY2NIaGF4MmRjTGVSNVhnY25JeTJuMktZ?=
- =?utf-8?B?R1Q5S1FNMUFrcDhyMUhVRWtQcHQvb2ZnMkxHSTZLeGZRQ1Q4ekxOV2V6bTc3?=
- =?utf-8?B?UWR1MllnQWhYVkZteVZxR0gwUWsydWRHNm9OZ2dmbkZDaDgvRU95SkVlU2ky?=
- =?utf-8?B?cEM4eHNieVBJdFQxZGJrYVdNakZCSGVrZDlIQWdkMStoT0xwdGJuYlg5TmpW?=
- =?utf-8?B?bUJVaytDZnIrMDhxWmt5VTFGaXB3OFJIZjV1R2lROEpNWmtoVnk2TzV3R0RB?=
- =?utf-8?B?ZUlDOWVPa3BpYnZ2REtaK0RRSE1KbXp0a1pwZ2NsSGRUalhHTmxqcUVmd2dU?=
- =?utf-8?B?NFc1RWZDUml1OTRzczZlOEtuT2xsczB5RFBwUDlHZ2V2ZFQrRllwMkIvbmlu?=
- =?utf-8?B?VFBiQzZReGtmVDEzUEY4R01icSt5L2NkOFo1WFBaU0wxbys4QkNvQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3803309-9abc-4c79-b58b-08dedc230986
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 12:26:57.5692
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xR2/SlvL6TxTNo2cvYalnOFnH+ugagL+PaWBtCnVb0+VZ8ritgx+MRPBKbL1t615t9mIXpRl1I4q0BWUVNV2HQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2615
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
 
-USB probe functions should not keep usb_device_id for longer than probe due
-to presence of dynamic ID removal. USB serial does not support ID removal,
-however in this case only driver_data is ever needed, there is no reason
-keeping the usb_device_id in the first place, so convert it as well.
+On Mon, Jul 06, 2026 at 01:55:12PM -0700, Dan Williams (nvidia) wrote:
+> Jason Gunthorpe wrote:
+> > On Sun, Jul 05, 2026 at 03:08:04PM -0700, Dan Williams wrote:
+> > > * NONE: no usage of the device unless the trust is explicitly overridden
+> > >   by user policy specified via a driver flag, module flag, or uapi (TBD).
+> > > 
+> > > * ADVERSARY: needs acknowledgement from the bus and IOMMU / DMA layers
+> > >   that the device is limited to strict IOMMU translation behavior. Drivers
+> > >   can use this as a signal to limit functionality. This designation
+> > >   implies follow-on IOMMU and bus enabling work for features like
+> > >   arranging for the device to attach to a blocked IOMMU domain when
+> > >   detached from a driver.
+> > > 
+> > > * AUTO: typical / historical Linux driver model.
+> > > 
+> > > * TCB: a trust level that only exists in Confidential Computing
+> > >   environments. When acked by the IOMMU / DMA layer it enables the device
+> > >   to issue direct-DMA to private/encrypted addresses or otherwise attach to
+> > >   a secure vIOMMU within the TCB.
+> > 
+> > I'm not sure I entirely like this one, certainly it needs to be
+> > possible to have both T=1 and ADVERSARY together.
+> 
+> T=1 and ADVERSARY are independent for link encryption and private MMIO.
+> In other words the device is placed into the TDISP RUN state independent
+> of its trust level. 
 
-Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Gary Guo <gary@garyguo.net>
----
- drivers/usb/serial/spcp8x5.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+That's the right thing
 
-diff --git a/drivers/usb/serial/spcp8x5.c b/drivers/usb/serial/spcp8x5.c
-index c11d64bf08fb..0e7715a02df4 100644
---- a/drivers/usb/serial/spcp8x5.c
-+++ b/drivers/usb/serial/spcp8x5.c
-@@ -133,14 +133,14 @@ struct spcp8x5_private {
- static int spcp8x5_probe(struct usb_serial *serial,
- 						const struct usb_device_id *id)
- {
--	usb_set_serial_data(serial, (void *)id);
-+	usb_set_serial_data(serial, (void *)id->driver_info);
- 
- 	return 0;
- }
- 
- static int spcp8x5_port_probe(struct usb_serial_port *port)
- {
--	const struct usb_device_id *id = usb_get_serial_data(port->serial);
-+	unsigned int quirks = (unsigned int)(unsigned long)usb_get_serial_data(port->serial);
- 	struct spcp8x5_private *priv;
- 
- 	priv = kzalloc_obj(*priv);
-@@ -148,7 +148,7 @@ static int spcp8x5_port_probe(struct usb_serial_port *port)
- 		return -ENOMEM;
- 
- 	spin_lock_init(&priv->lock);
--	priv->quirks = id->driver_info;
-+	priv->quirks = quirks;
- 
- 	usb_set_serial_port_data(port, priv);
- 
+> Downstream accesses to the device must have T=1, and
+> its upstream accesses will have T=1, but with force_dma_unencrypted() ==
+> true.
 
--- 
-2.54.0
+That should never happen. Once in RUN force_dma_unencrypyted() ==
+false, it has nothing to do with the trust level.
 
+Even if you set ADVERSARY it should still be bouncing partial page
+DMAs into private memory. The point of running something like this is
+to remove the shared memory attack surface - ie the hypervisor SW. The
+attack surface is reduced to the device itself by remaining in shared
+memory.
+
+> > I'd also argue this list is missing "FULL" trust, which is the
+> > historical Linux behavior for a normal device. AUTO should be
+> > selecting between FULL/ADVERSARY based on things like the ACPI/etc as
+> > it does today.
+> 
+> 1/ that is effectively how the UNSET level behaves. If the
+> bus has not set ADVERSARY before device_add() then the default behavior
+> is the AUTO level. Where AUTO means all of the automatic privileges a
+> device can be offered without needing any other coordination.
+
+I think my other remark about two enums is some of the issue, the
+policy can have things like UNSET or AUTO, but once the driver starts
+to probe an in-effect mode should be computed and be concrete. Having
+a driver run with a trust mode of AUTO or UNSET is just confusing.
+
+> 2/ The ambiguity and conflict occurs at ->dma_configure() time when the
+> bus and IOMMU layer want to reject the device's access to some privilege
+> by failing. When FULL is defined as !ADVERSARY then it is difficult to
+> describe the semantics when FULL trust honors rejections to private DMA
+> and when it falls back to shared operation.
+
+Given that the trust level shouldn't impact force_dma_unencrypted(),
+the only thing left is to setup the IOMMU differently, and maybe
+operate a driver in a hardened mode or something like that.
+
+I don't see what the TCB is supposed to be changing here.
+
+That leaves it just as a policy gate to check that T=1, I'm not sure
+if that is worthwhile enough for dedicated UAPI?
+
+> The above more points to a need to have an explicit trust level for
+> adversarial private memory access. The address spaces are distinct
+> assets with different levels of trust.
+> 
+> UNSET: bus picks initial level, or leaves it to the device_core().
+> NONE:
+> ADVERSARY: Device can be in T=0, or T=1 mode (UNLOCKED, or RUN).
+> AUTO: Could rename this to be FULL or ALL or DEFAULT, I still keep
+>       coming back to the "AUTO" name because the privileges are not
+>       uniform based on the IOMMU / DMA topology and device capability.
+>       Again, the TDISP state is independent. The TSM driver does
+>       not get called to gatekeep and verify access in this mode.
+> TCB_ADVERSARY: or PRIVATE_ADVERSARY. Device can access private platform
+> 	       resources iff an enforcing IOMMU is present.
+> TCB: or PRIVATE_FULL, automatically enable all access privileges
+>      including private memory access.
+
+Yeah, we can keep adding more modes to make a big cross product, but
+I do wonder if this is going to get too big..
+
+IDK, maybe it should be a bitmap instead of a level?
+
+bit 0 = Force Disable
+bit 1 = Device is adversarial:
+           - Enable strong IOMMU protections
+           - Enable driver protections
+bit 2 = Require T=1
+bit 3 = Require IOMMU
+bit 4 = Require DMA/MMIO security (eg Link IDE)
+
+Where value 0 means the current level of full trust.
+
+It is a little easier to explain what each thing is doing and easier
+to add new things
+
+Then from a sysfs perpsective the policy would have special string
+values like 'use bus default'
+
+> > If the trust level is reduced to just be a command to the kernel how
+> > it should operate the device then it would be up to userspace to
+> > confirm things like T=1 before setting the trust.
+> 
+> This discussion gets strained for me when T=1 is used to mean both
+> "device is in TDISP RUN (with link encryption and private MMIO)" and
+> "device is in TDISP RUN + force_dma_unencrypted() == false".
+
+It means both things though, we really must not run with
+force_dma_unencrypted() = true when T=1, that's pointless and harmful.
+
+> Otherwise, full bi-directional T=1 before setting the trust would
+> require an IOMMU to be blocking the device until that final confirmation
+> point. Given that is not always available the proposal is to defer
+> acknowledging the trust level with the TSM until ->dma_configure().
+
+?? If you have no iommu the instance you set T=1 and do the platform
+step to activate DMA the device has 100% acess to all
+memory. force_dma_unencrypted() does nothing to constrain device
+access, it is all about accommodating an addressing limitation.
+
+ARM at least has a dedicated call to enable DMA. It would be nice to
+place that call right before the driver probes so DMA remains off
+until we commit to using the device. Maybe other platforms have the
+same - but I'm not sure it is *essential* as the point of setting RUN
+can reasonably be the acceptance point.
+
+> NONE: Device core rejects device operation
+> ADVERSARY: reject device operation if an IOMMU to set IOMMU_DOMAIN_DMA
+>            not available (not in current patches)
+> AUTO: no rejections, but no private memory access either
+> TCB_ADVERSARY: reject device operation if IOMMU_DOMAIN_DMA not
+> 	       available, or TSM rejects the evidence used to enable
+>                private memory access.
+> TCB: reject device operation if TSM rejects chosen evidence
+
+What does "TSM rejectes chosen evidence" mean? Kernel isn't supposed
+to be evaluating evidence?
+
+Jason
