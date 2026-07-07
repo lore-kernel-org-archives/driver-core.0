@@ -1,134 +1,162 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22C329AB1A
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 13:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783429501; cv=pass; b=YNfC/R0r4fGOTtbcx+Qp+pIleYly8qPV+SE7I/vRwDhFgmQZQLtWDmx2dMaMNl3oE9KGqT0cvevBQciB+wGlMJkd03c/84jPCi+kMojg+jIXVGvm9XG2O/bEFfA6rEWs2u2ZbPHOPDACVi744qwsUWKVfB+bSiuCtQ7FMyNM6zs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783429501; c=relaxed/simple;
-	bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TrrGfTVPqJHUz5nT4xCj+Eqxrx9XudmeaZ2mMk2Ut+KSl79D+CD7hK/+D9ZDhdjcexHVzaicNy68W9kAcABGZN7vx7iIQIF9abfW/kxzKsmt+pzOF4asdPY4M+BsQ5nguTcwIAZ2AD2RABQI1kUvV8Zy4904IN1kgFfFlqY0kyk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=romvF1PT; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4B341D4D9;
+	Tue,  7 Jul 2026 13:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783431180; cv=none; b=ovfWfNWywrf3QK8tk55a5noewarC+6ejfnxNuBHiWVZrDIOY3LyB+8lsb5PbkWpKzFy2LVlgDH2sUPZdNe7iMi6/xmJUiWJ5bBd9CloiD3zUp817R53fHVmygMcCc2IFS3/7vkVhu7L0jrh+R/r1uaFmjt1Ms/j8PAW/YD7ZfIU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783431180; c=relaxed/simple;
+	bh=x4JXL5MthhbcVUmt6JpsDYJ13gDvQUv0R5Dbfal+3dY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=ffq/55nWV6w25AKrZu6GPDqsjTqkQaAxa+OCFhIiBAirqlwv3485ou5dBj2bZIC7bCXu4az3phRp3ks3WPzytedYLYqIIcF9+OHGVBhtRuzp+l81SeoUmF3yfY84+n8BSkWDMLE4KvhMfdB1YjO0OndlN353R9/jDAJkQW9pMrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+ZMEndv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="romvF1PT"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493c19bad03so39168665e9.2
-        for <driver-core@lists.linux.dev>; Tue, 07 Jul 2026 06:04:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783429498; cv=none;
-        d=google.com; s=arc-20260327;
-        b=liHG0L/ZAjkmymFlBGKpQlVxBXoiFMH3peRtG0bMD8R12HXB8kz7t6S/h9V1dHwVGq
-         XgX2LO7klkxvtv5PoXn1LetJ9JiwmEERQM6jr3jOAiL9D82J95VBzBBE+WvogyIMnM0i
-         YZTuHtk8mMqffMXcHVt0r3GslvXD+LqiqutwANQ0Z+iaacTbwIBj3mgljlPbRwGR36Qi
-         SFSUIgqDtC/hexZGpLsEYo3iyX1SJM9+qZXknczKFxNRhuaU/Ddh5FJXShm8Jk9FgS0L
-         28keGkUIgzR3pXdahXeFOwgIPl0x/vzcgkCH1XGAjyTo4uoJSCsfaupajlREnYYF3E0O
-         IuaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-        fh=VwFCF5auD5eTOOxcGLYi3ArG9wUFQvp/lsk1m+9vaTI=;
-        b=YMVS95egNFqbdRaIZnSwkrA2gcuHljxIugHoAU4usB3OyKVZ9OTXSJjUoM5BpTFTIt
-         leWQaXdgqzuTDujl02psYZKizQeK5yg7nY9KhcHs4b/THy7U2EenmzUI0zJDxqXqRvCp
-         xKI7/fjmMWhUT8SMTaJMkoulyIeoj3I1qsF2YEcvqsmbJPigJnLdj+Hh3EzM2zC825vp
-         eQ6qeiHQluH573V7wYO+hMf95OFIgf7bsUYSZ3ierIGVQtuVoGOq2RvvAuwztPyyRhoW
-         RWZccnFXU52BDMRqofenRlSPWxU4hITZpPkSJ+Fx9Ae7bnHaGwT7P+By/NHUiJk2OSAZ
-         SR3Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783429498; x=1784034298; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-        b=romvF1PT0QaNc9ckPyn4S+iq8TfHEEblkBJX5p+HrhL42trn7yzX/xKSNqJgqyq0L0
-         CTtIgVAmvyO8094rHKATiLmVoST2o7FuuAwmSn03yJUeKjTW6ciftY5NAfXiRtN4rS3o
-         S4FPrmBiLEGgGSvcb6qz6DNKzQHu//YKTKD4ixFDCTyD/8TBOQXLJqT8e68tzwDSFMYm
-         y0IEjaaSVeQ9JPS/SESZaNYfzkLPdzw0Jf15zePjBHZ8RcFV8ocwKpBKcVH5tYs7w5DN
-         Zrn+8gGk4D24o3dGFTxaSPbIkewbAXapDuN0kfpfRmPtOj7eIRCv/C28AULdfYNgIrVH
-         6WeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783429498; x=1784034298;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Qa3HvUOBiikHOm2hv7akwkWqjggqpxhg4jyWQbcbbM4=;
-        b=Y2QmFl3hZbnNv2v29Dv7K5xqHLm1jcR07rptng4t8S852L+lIPGgzBcDHWmp1B4u+v
-         pWIpPTGjWbrje0copVlFELdZgrpgTOvoVpNlExPj87QgOjD3sHYgD96P/sz7iSmqoWvm
-         PA2J+S1vJQZga70K5qCc6XW8mf9dl0EB1YAHPgIe/gtWER8MRRPxLTwEgGa5d/AebjLR
-         BHQYZ1c+/kixpUhk1iJkdOvdY+9Y0qafcpvfpi5IhM/PFfnSMa4WFqqVJCzDCSLH6d3c
-         LwM6NUp1Ep0wnLs7WLqfIg+ymB62x6APQqas/beGNsJ6/0FqJ1QKXRxv6STImU2l734P
-         NSog==
-X-Forwarded-Encrypted: i=1; AHgh+RpZN824IF0pnqFB6NGLaXDnyg9C3I+gwFiKouvpFkyzXjsSQRjgO2yC46Q72AWKgdydKwhqYc5NIo8auQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQwEECZCQ+YrRW0ln2BvBblB2CRshneDCv+UBtumJyzg0UJaez
-	dqsfYU67h7Jw1u1wV262BsKWpNSQ1WzG5b++OYf6uwwSq3Xa4yLPEtBfugnEFIe6WFh5YXkafCb
-	7vcpGp8uwNUCNHnr4Ot8eDnRPO7qWwqIXF9BUcXdn
-X-Gm-Gg: AfdE7ckIXQjcDdMjqspKkw6pJ6WHaWhKCxueNf5U+BmJzATIN/A4wdRjmNKkp6C1grd
-	Juqm9CzuJYLtOT7MT2U1vw4BPUayaDYyTnDZAfoQliYMytLgU0rWopPFSZcWeIXunDyZ6ndd+0o
-	5nm5qdd3gSlfpvax2+oq26NLUTOVgrZMGEbbVVkT+SYwqtncvBx7TU6KGsPm89evbysy1hjLcdO
-	UX5H3UTL35Gvtm/LslHFV50bXSRO6QbFGnLa67f9u1tO/q8FVtZzYeHwWfzIqPcwpOKyUqd9b/1
-	RYpywVcX7AK5zvWrA8BhoFDcG0I=
-X-Received: by 2002:a05:600c:8b70:b0:493:b6e4:fb2b with SMTP id
- 5b1f17b1804b1-493df06e943mr52096855e9.25.1783429497735; Tue, 07 Jul 2026
- 06:04:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+ZMEndv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5B11F000E9;
+	Tue,  7 Jul 2026 13:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783431178;
+	bh=rhfHOQvTa498cQtDMgDpdpPPwFlV7FDZZQ3IECkJHjo=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=m+ZMEndvVUaCFJSjYulugDIcoLta67ck5AssagG9srrTxzPeISwZpbczJvzQFHp+b
+	 wY/cnPnCk3exWVxeKHXl7XecV0Wf4T4zLSV2InsAKanIZI4FFsPM0Y2pGJ+rAyOJKb
+	 I7ucoZFeXYqTXHp2SWuSKjKkA4vM5HnEQ2/IPfsdaxP1qoAijDzHBaLVkl4l6lZLWf
+	 Oo0KsI4mXS7ZXI+S5B2+iz8W3ScVrGVGGq1o4gLCyEL+tt8LsZX8RIMEzlcdU6Q1GM
+	 AhZwk/G18T54Ma/T79bGxHzh1q5o58PVD2FVI208g9Wb7cGolEDfaq4EAQFPM4lenh
+	 ku4sCfD375oIA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260626-unique-ref-v19-0-2607ca88dfdf@kernel.org> <20260626-unique-ref-v19-3-2607ca88dfdf@kernel.org>
-In-Reply-To: <20260626-unique-ref-v19-3-2607ca88dfdf@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 7 Jul 2026 15:04:45 +0200
-X-Gm-Features: AVVi8Cd8GrEsrkEwxzhRkanTcpbMUA7MU6OpTudOnt7DIfIGqhosSlF_BI7LYTM
-Message-ID: <CAH5fLggMeHUgXj7JGYSJejUrR2PdWymOOb+3E1VmHokzcox4hg@mail.gmail.com>
-Subject: Re: [PATCH v19 3/8] rust: implement `ForeignOwnable` for `Owned`
-To: Andreas Hindborg <a.hindborg@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Uladzislau Rezki <urezki@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Lyude Paul <lyude@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Igor Korotin <igor.korotin@linux.dev>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Michal Wilczynski <m.wilczynski@samsung.com>, 
-	Philipp Stanner <phasta@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 07 Jul 2026 15:32:54 +0200
+Message-Id: <DJSDL78562EB.1RQP5C4UX55TL@kernel.org>
+Subject: Re: [PATCH v3 1/7] rust: firmware: add request_into_buf()
+Cc: "Timur Tabi" <ttabi@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>,
+ "Eliot Courtney" <ecourtney@nvidia.com>, "nova-gpu@lists.linux.dev"
+ <nova-gpu@lists.linux.dev>, "Zhi Wang" <zhiw@nvidia.com>,
+ "gary@garyguo.net" <gary@garyguo.net>, "russ.weight@linux.dev"
+ <russ.weight@linux.dev>, "mcgrof@kernel.org" <mcgrof@kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
+ "ojeda@kernel.org" <ojeda@kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260702192712.3450652-1-ttabi@nvidia.com>
+ <20260702192712.3450652-2-ttabi@nvidia.com>
+ <DJR9ZKFB5WQQ.1CGI0N3GS1SFM@nvidia.com>
+ <DJRFIANMW0AM.2LAQJ114NJQYH@kernel.org>
+ <e1c7a5f2ca6fb05b27f76f8f1af2c11532c75ccc.camel@nvidia.com>
+ <DJS2WBOSQ1U7.AQQZA227X9MK@nvidia.com>
+In-Reply-To: <DJS2WBOSQ1U7.AQQZA227X9MK@nvidia.com>
 
-On Fri, Jun 26, 2026 at 1:55=E2=80=AFPM Andreas Hindborg <a.hindborg@kernel=
-.org> wrote:
->
-> Implement `ForeignOwnable` for `Owned<T>`. This allows use of `Owned<T>` =
+On Tue Jul 7, 2026 at 7:10 AM CEST, Alexandre Courbot wrote:
+> On Tue Jul 7, 2026 at 11:54 AM JST, Timur Tabi wrote:
+>> On Mon, 2026-07-06 at 12:50 +0200, Danilo Krummrich wrote:
+>>> On Mon Jul 6, 2026 at 8:30 AM CEST, Alexandre Courbot wrote:
+>>> > Sashiko is correct to point out that this doesn't return the number o=
+f
+>>> > bytes actually written into `buf`. We might not use that information =
 in
-> places such as the `XArray`.
->
-> Note that `T` does not need to implement `ForeignOwnable` for `Owned<T>` =
-to
-> implement `ForeignOwnable`.
->
-> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Reviewed-by: Gary Guo <gary@garyguo.net>
+>>> > nova-core, but this is a kernel-wide API.
+>>>=20
+>>> Returning the size only doesn't carry a lot of value, please see [1].
+>>>=20
+>>> > Returning a `Result<&[u8]>` would take care of this and cover the
+>>> > general use-case nicely.
+>>>=20
+>>> I'm fine with either this or just Result, as we don't have a user for t=
+he
+>>> former.
+>>>=20
+>>> [1] https://lore.kernel.org/nova-gpu/DJ6JV2QQY0QD.1ZK1PRRBN5BRP@kernel.=
+org/
+>>
+>> Guys, please come to a consensus.  I had it return a size originally, bu=
+t then Danilo said don't
+>> bother, and now Alex says I should return a size.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+I said that both are fine for now, just Result or the slice, but only the s=
+ize
+doesn't serve a purpose (see [1] above or the reasoning below).
+
+> Incorrect; I said you should return a slice. :)
+>
+> What makes me a bit nervous with this API is that it is not sound
+> against incorrect size information or race conditions (e.g. if the file
+> on disk changes after we determined its size). But that's true of my
+> proposal as well anyway.
+
+There's nothing we can do about this, the file could also be corrupted, etc=
+. In
+the end there are only two cases, the hardware can't deal with garbage, the=
+n the
+size-sanity check is not sufficient and we need proper validation (e.g. thr=
+ough
+the returned slice), or the hardware can deal with garbage, then the size-s=
+anity
+check isn't necessary.
+
+> Another inefficiency is that the buffer must be initialized when passed,
+> only for its content to be immediately overwritten. I'd like to make
+> this function accept a `MaybeUninit`, but that will require more generic
+> code.
+
+This is true, with the current approach we need something like
+
+	let buf =3D VBox::<[u8; SIZE]>::zeroed(GFP_KERNEL)?;
+
+which isn't the end of the world, especially in the firmware loading path, =
+but I
+agree it is a bit unfortunate.
+
+We could indeed get rid of the initialization requirement entirely, but in =
+this
+case just returning a slice isn't sufficient, as it leaves the caller with =
+e.g.
+a VBox<MaybeUninit<[u8; SIZE]>> for storage, which is annoying if you want =
+to
+access the buffer subsequently, e.g. to parse headers, etc.
+
+So, for this to properly work, you'd need to take the container (Vec, Box,
+CoherentBox) by value and return the initialized one on success and the
+uninitialized one wrapped into a custom error type on failure. But this is
+probably a bit overengineered.
+
+A simpler option would be to just use an initializer, such that
+request_into_buf() becomes something like this:
+
+	pub fn request_firmware_init<'a>(
+	    name: &'a CStr,
+	    dev: &'a Device,
+	) -> impl Init<[u8], Error> + 'a {
+	    unsafe {
+	        init_from_closure(move |slot: *mut [u8]| {
+	            // call request_firmware_into_buf()
+	            Ok(())
+	        })
+	    }
+	}
+
+And then allocate the buffer with
+
+	let init =3D request_firmware_init(...);
+	let fw =3D VVec::init_with(len, init, GFP_KERNEL)?;
+
+In any case, the current approach is fine for this series, this can be a
+follow-up if needed.
+
+The only thing that'd be nice to replace would be
+
+	VVec::from_elem(0u8, size, GFP_KERNEL)
+
+with
+
+	VVec::<u8>::zeroed(size, GFP_KERNEL)
+
+analogous to Box::zeroed().
