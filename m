@@ -1,156 +1,206 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011060.outbound.protection.outlook.com [52.101.57.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637213793CE;
-	Tue,  7 Jul 2026 02:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.60
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334173191C8
+	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 04:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783393014; cv=fail; b=g02SmdYDDV86+zxkiDqSjuC6NOriGvy/pmtj+bJaT8SM/iRuM/5EFS/VhNg1E+qb5+1J8xvNE/mljsf/5a/WU4lxj7f3FfuKhuVdXeqzXYpH4E6JMHdPnsKNxQYRZ/WTIAI6hIjs6pMou3hm/c4q7WzTCGlrY9sW5oECvBQ4VR0=
+	t=1783398558; cv=pass; b=BJ9QMhqTpkXcrNj+piVFCKKat2WXqM97Xnpig2zXztHd220qM49fgElZNJOil0vJh0bjsoMbY/72fS29c+RpV8aUK0JfHpAFzEDx3MwZvJGIlMZTKPzZsTvevDBKmKfLKPcDc4EA13OHHZu9ST3ZXl4fxPmfVpF0XT8GUJ8Xqao=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783393014; c=relaxed/simple;
-	bh=A7b6BYoUceySgErhQy7yv8kN9pi5dvvVlJl8LULBRdI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FUwHKsY4v2cZrk9LYuygtw9SnZnDAJZAOKVE14zrHmSvAjQwSjgamdhffSBqSBgyEN8DpO2iZLqwYGeFpRm6/XCJkWCqUg+lJHg0hFqD9H895CiPUCXlNbjlp6thn1Imq+WV+PQu7jr7LhMUNL6tW4PXBwLldEyievj8LONqfeY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IGfTfip/; arc=fail smtp.client-ip=52.101.57.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1783398558; c=relaxed/simple;
+	bh=PSqME/IPugtczex5NRAm1XmhU5y/+03GI6oS0AsEg0c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tgkfs2m94W2qpyxhpIVA7lm3N9ifpJgNLm/Q1Kk75tCZewv5sqywbtmuhwZuLNbz9USddX+CMaIs6b2ZFyGwpeKt3fhBprJevt+4K1g5nD92bX/QA5EY4pJ+LaqRlelHwUw+XqwJsky/aZ+p8jL+i0ZjvhOeLRrL0jxhkOqBsX0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=URVoAoHb; arc=pass smtp.client-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IGfTfip/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mHRE/Rx4SEjrHeTCp85BDR9fslrv5RLQv2092aeN5RcCPzg+IEZhlfd0jnit9UeS61SHUep7M5A7/KOMABQF21sXt+lTMHQ1QItIZ0m4wTYmeOsUlNgX7Q/GFDDSq5Ixn2X/2G/mKySDsLvHfusUPheXvbwCMTSvvPJK8ma0N1Dcy1rR2c5hneK3Vw9s3c97HffOqIPwG+E5IGMg3pILyXfiM83ZSCs1KZ5OxULK7pky858AhBnu2yepp3FSPodnbVFRFPV3HzvnCiXpe4nmEX3/82HG70754n9+lFcc8+VoMdsdonfVJziy20PKeWrp9HUumbCyC6J3IJjReWSHDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A7b6BYoUceySgErhQy7yv8kN9pi5dvvVlJl8LULBRdI=;
- b=hBMrJZdUoJEkgamCMdH7TApOSUESj76jr6VibFU4zwkM1F57t5myoBqBT0x07ljmIFmgME8H8mcI/+uk2DeRdY9FAMRoIUqMGf3Hg6CXGw9I3RpNTt6+xzcetXnMrze2P7baL1PBl8++fkclAIagMjWC5qUuORbRUSMdCQ0T9iuO0/h2Lr2sHrZzgsz3xMO1Bj0qDjnLIPtXVylODRth6hPMg8oUGOA17CUbEwWDN+Qv9ACLh9NpTwMmL+ZPTTiCLXeC0/ymfSSZdSJxL/DUARPnQb4p5PREFFPxNFqtCWolCdko2vTI3s58kJFP7r7w8MQQGIt4QDjQqXBNb4eoIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A7b6BYoUceySgErhQy7yv8kN9pi5dvvVlJl8LULBRdI=;
- b=IGfTfip/EeLdKQQhBA3EQs/YeFMHBRMoqMhEQR0xucI96mPhKf6ZOP/3SeNLsF3KQrIC2KaTxEOVvEDgoiSkFn5gY0qBplzEKrjkMIm2wUmoXsQc6nGFJlXKTqJiIcco5elyC7w/sKt/bzn8uPY8+wSJkW9pw09OoV/p6APiSuNpGfg9yGe3I8RrXa/5/JSb0KOVIVcNNJvw2myjLxs4axwrepBg1eTaYm9+/EDEqXNR95yliTDhlg2UMQ1DAttffBtoCmKfz+gXUJYt+xxghV7J8kmCaWoRvQGm8q+qpNzWtcYzn1GxL7USHquGLG1EuRDCXUWjTK3oTuG3WYe5Og==
-Received: from CY8PR12MB8412.namprd12.prod.outlook.com (2603:10b6:930:6f::11)
- by LV0PR12MB999092.namprd12.prod.outlook.com (2603:10b6:408:32e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
- 2026 02:56:50 +0000
-Received: from CY8PR12MB8412.namprd12.prod.outlook.com
- ([fe80::76e6:4d65:7ed1:6970]) by CY8PR12MB8412.namprd12.prod.outlook.com
- ([fe80::76e6:4d65:7ed1:6970%5]) with mapi id 15.21.0181.009; Tue, 7 Jul 2026
- 02:56:50 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-CC: John Hubbard <jhubbard@nvidia.com>, "gary@garyguo.net" <gary@garyguo.net>,
-	Eliot Courtney <ecourtney@nvidia.com>, "nova-gpu@lists.linux.dev"
-	<nova-gpu@lists.linux.dev>, Zhi Wang <zhiw@nvidia.com>, "mcgrof@kernel.org"
-	<mcgrof@kernel.org>, "dakr@kernel.org" <dakr@kernel.org>,
-	"rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
-	"ojeda@kernel.org" <ojeda@kernel.org>, "russ.weight@linux.dev"
-	<russ.weight@linux.dev>
-Subject: Re: [PATCH v3 2/7] gpu: nova-core: add TLV parser for firmware files
-Thread-Topic: [PATCH v3 2/7] gpu: nova-core: add TLV parser for firmware files
-Thread-Index: AQHdCljkmvPX9pvAWkafavGTqyac37Zaof8AgAVrWwCAAVZ2gA==
-Date: Tue, 7 Jul 2026 02:56:50 +0000
-Message-ID: <09d1fd87272e7c7dee79d1e0841f49de76ccd82b.camel@nvidia.com>
-References: <20260702192712.3450652-1-ttabi@nvidia.com>
-	 <20260702192712.3450652-3-ttabi@nvidia.com>
-	 <3e771bfc6b0c89afc7969755e340a5fa863bc7cc.camel@nvidia.com>
-	 <DJR9ZP56YXX9.P8U6V298X5RW@nvidia.com>
-In-Reply-To: <DJR9ZP56YXX9.P8U6V298X5RW@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.56.2-9 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR12MB8412:EE_|LV0PR12MB999092:EE_
-x-ms-office365-filtering-correlation-id: a9d44e3b-2cda-46d8-df1f-08dedbd3645e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|10070799003|23010399003|376014|18002099003|22082099003|38070700021|4143699003|11063799006|56012099006;
-x-microsoft-antispam-message-info:
- fCzhMjw9Bp0WecGzhxIlMv0483y6g61Plo/YREsgCn56Dxdk09BnGgtfc2FVlPFXm+ob5huXaIU0CWkQcfqnPaE2reZixZiOEak0foAYdfV5u5aDgFmWR4OyUH8ryAahMMZfwpDm8bGHaDWfgouWdevbJodH5NS+awAeDvi+QAQX/siP5g0wZcgdjRjghuwjCKNXMVVcxjAh9f30WtzG+1uCO15hHC5T1F+FdBOM0Exv8sFFik3oXVqNnPfd/f1NMEeFY0vacYIWkMuDA/E7A492NcxMgILLsUBj9NhTgr1T6diVLa8Nh7m0eFEi6oXQeRkLv+wrZeoZkIaxC6jOs1efVslJVznPxN6gSN57a427sENjfsuueoLD9wLU0V9AZncPSiDd0n2gAIg3YwCvwooxTcTXFm47okwJfRWRJLLl5n/olHTGekBvTXDE4QHx9y683lFJggDTtGkrwIy7ZFcPeaTrfBGv4NcODIP2AAkJn4UjJKNvwGIflOA7s2e35djlyI/9p/vUNEvo28NRJd125fYA8p45Pw+h4shspI7zyTTfd0A/3C96mnREQQAMCMVw5uSdEN278jC9PzqqVOyXqUGdhKOPJBhZcmICfZhnD4dFbuNoE/cfAt7Guyy5hl8IeatHifD4wvgKfO9FwzQmB7GDydAfrY9tYt/Vrcgaj89Q9U0FU33ZwH/yg85sSsA1zD2aTKBdlEQLgStFTZ9T4LJlYQyw/1ic6/UTU3o=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB8412.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(23010399003)(376014)(18002099003)(22082099003)(38070700021)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?elYzUHFWSXY0YUlERTdwRStqOUZDSzNpVnlkYng1M0JIY2VYZHlQdDJHNlhT?=
- =?utf-8?B?ZWVpamVyNHRCQjNZV3phb3hRdEVzTm9MMUdVeUwrSVNQdzBjTktzREtzcnpu?=
- =?utf-8?B?RURpWFpoQ0x4U2Nsc1B3UEQ3djZ6R0lSMTd5Mzgybi9kSnJud0ZOdnVxeVo4?=
- =?utf-8?B?SjlTQjZYOUVGYmF0L25SSTRPWnJSVHhrL3BObEluOFE0SUhFVVV4ZDlYY2U3?=
- =?utf-8?B?cDZRMWczTmFqRXgvYUtqZEU1anRoNzJmb0FRYmIvUklKaGpuQzZrbVErU3gr?=
- =?utf-8?B?UjZjLzY1OTJvOVo1dmpqY3p5bHZXNVMwUFYvd3R1UDNZSVJ1TktiRmR1R3ZQ?=
- =?utf-8?B?bWUxUk93Y2Z6SmQ3Y3BjeG9GaEZFbnphd3ZOY05kUVlCb3ZoWmQvT0Q0dW5E?=
- =?utf-8?B?OWZ2TTFYaUFSLzJuQzV5U0dlRTBqNlJ3OU0yd0xDS1FVczRLVDU5L09VQk1E?=
- =?utf-8?B?YXIrYVp4THBOT2hwZDQxekJlOEtac3lNaGQrbjVKelBMUm9QNy9JYWZuQWtV?=
- =?utf-8?B?bUdYK3RjTGhIQXBPa1BHZEJnLzVFZ21pUTFNMlV0SUFxNUhwWi8vdmUrUEp2?=
- =?utf-8?B?cXBwaUR4MmlVeFBOU0grUG1MSW9HYWo5Y0dDOFJrbjhCRWxFbDVFdFNjS2hT?=
- =?utf-8?B?SHJBN0xFWDRhdllzV0ovcld1TXFvS3NZRmNKS0lwbGgzQ3M4TkhUejlmRmtE?=
- =?utf-8?B?eVpnaVRJZk10dVNmMER1amJoNjlJc1U5T2RmQkVVajlEaitYZVlza2J4eXJy?=
- =?utf-8?B?OXBQU1ExcU9iSnhoU0hLUlBwZDgwY3NlRDIvQjlwZXpjY01NdTlqQStheTJo?=
- =?utf-8?B?TXlzNEVGZGhiZTlOell5MHlpWXhKaVR0ZnkyajlNbE84cjdaR1llV3oxbldB?=
- =?utf-8?B?TzYyeEFYTHMwU2xxL3g0eWc0dzlNWDFXcTYvaFpkbmpYTEFrVlZST1R2TjFp?=
- =?utf-8?B?ZjdmaDZ2cmM2S0hpZHo1Snp6bDQ1YWN0cFE3NUFkMmIvUWdPcnhVdEYvN3pz?=
- =?utf-8?B?cVVScWpJM3BMQmlZRzdKNU9NL1NWMVJMQnVUd2xGZkE0NDE2OUdYYWtjL3hZ?=
- =?utf-8?B?TUpPRmZMSUNKWnE2RzJjdDlYQnBXMTlkT3g2c2E1MTlQc0hwdllNQnhHRXRT?=
- =?utf-8?B?THlWNkNWaGNrSkpLdGFsMGx5eFpVTHJzbVBiK0w1TXdySWF5L0cweFhmM2Vy?=
- =?utf-8?B?bzloSkxDVkJGU3V0VHR4cWRiQWk4MXZhajlZY1NQaVBabTRQbnVZbWhyd1Zi?=
- =?utf-8?B?M0l3QlBVMFJ3U25FVjBUUXVBZW1PWDVvZHRNbXVpc1BDNU5Wc3RPeXppTmJj?=
- =?utf-8?B?Y1NPTEUwYWpacDNid1hvN3BGdzBiMGloOWQyaFNKVmxUbnRRcThUUUYzYXR1?=
- =?utf-8?B?NDU1QmZESzY0TjQxMFVIR3RPNjd2bTlYV1g3cFdTTm9uNi9GTTFqM2ZsUDNu?=
- =?utf-8?B?OUNMN2FPUjhuaUxQb1JVS082aWpzZzZoekl1VWNRbEt0d1Z5VU83SUdBWEo4?=
- =?utf-8?B?T0lQTEtCY0pnbmp4TjRmR0h2STJVTkMzNGdGWU5Ta3duS1ZuSm1DQVBWRlBK?=
- =?utf-8?B?QWdCVXljcXd0S0YvREYwWUg2ejg5QUthSFM4d0grOGtyZXZxd0gvd3hJRWVQ?=
- =?utf-8?B?S3ZZcENlZy9kbStNRHAwMFhRdTVpa2YvNTVEcW9sNXdjOG53MTYzSFRQWndG?=
- =?utf-8?B?Ly9YSU9zV0hPaC9qdnp2TVQzYW1oTlpmT3BZQWxoNHBoU25LWUVpUkZPdmcv?=
- =?utf-8?B?bDlUdlpCd2orcnI4cmZoSDcvY1pXc1JONU5ndy9qc25nQXFCZEc1SFhUZDhj?=
- =?utf-8?B?UExrSGVIZ2pQQkZFYVhHU2xVOXhxdkExa2hxYktCN3BYcWRXYU5tRTUxaTRL?=
- =?utf-8?B?MUJGTXVXNzhhLzhadzFtelJkTENvLy9TSWM4WmxUNDduTG40Nmt0UjVmTEFx?=
- =?utf-8?B?QW0rZzcyVEJFWWJVTWZRVVFUMUZWZThWdFpoQW5LY01udEpld0ZpNlViYURF?=
- =?utf-8?B?TmsweVhUWksrcXJuWFJrOHpjN2VBWWlESTJLVXJRaHZQY0RFTU1GbkR1bzZY?=
- =?utf-8?B?dUdZRFBFNTJkMjV1WkxXSStucUUrUjAvMmhRWTZ4ZFFGdk14MlpsKy9YZHMx?=
- =?utf-8?B?V3NMUG52M0hpcVltanVNT0lsbGZMZW4zWkhIdzQ1bmpMSkVFUG1LT2ovdEMx?=
- =?utf-8?B?cExNUWpiT3BzQkg4TjRQbFArSWVKODNCNXRmeXkzbFVzMHN2MFpwdHdHdm5P?=
- =?utf-8?B?MjMvamF5UUpPVFFiNXlhcGR1RmE2MzBoUXNRRFFWcTRsR3cyT2JDV3pSSjcr?=
- =?utf-8?B?a3NxZC9MeTNUa3I1bEloZEhwZlBFWkJkUXNxWkMwSmdBZEd5Q3o0RndKRHo3?=
- =?utf-8?Q?24DkHSkKU/iqqSEHRCePEPJpB/kgFdrPyHnkU62AaDWxF?=
-x-ms-exchange-antispam-messagedata-1: 0lqsLtMsQ4kV4A==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E240466153410F43B93603F880F3B16B@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="URVoAoHb"
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-664dd23829eso3376200d50.3
+        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 21:29:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783398556; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RPIvvw3UQ/GTaIBrMKXNX39FGog7iL8a9987ad1Z0aic0OTcOpG9ri2Z8NYChmtPD+
+         chsq6AqbgTG/2p6Dz2mKMnrumvM/Ur/WJH16Ms0xBWQid2cm3Ue4OLKdINEZUodTbq+Y
+         qqqXSVTA+VwOvd9xjBuSCWkedN9S3wg0NT0Xv12zgWSVgSvK9QY/VCnUAoYXlJtELWKh
+         kYeHb+WIHClIEozOWYL4OGg+y0ClWE5e8jlRn9OvJHzrqfZbuuVpqM5+cUsTa0EgWUnS
+         gOx0dx9fr3k5pSPs398pjptlndWZR+i91mtjH3FH/X+/ieLrSUWv4XAwBw77v4Iof97n
+         Wzvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1bHz8pIdj5qCHMVmE3ZgrvqBvuIVwQ8F/DhCqlx20Pk=;
+        fh=60CyCXH9P9MvQ0yRIC0fRlDDMWGUzgU/pKb91URu77M=;
+        b=L2EoRlw2LAvENaTjSekSw72ylMe58V4JLhXN/4nxBpRt0vLPceLjvNu+DliwdKp8ag
+         xA1phyBVSYa/7ARywooUwlRIcy40rrDNFdNPOw1o9qa+zXFeDQKNO85BtcoW/WBp/ZtE
+         05ctE4K58kgJmCr1j3sV8mG040OJGomZRGZdlS222v8ArpJj9gMajpbZpvMZvpVk0uxQ
+         JXyV9PpOc9Ok8HUZaKjnoIIOL587iCStIYSdPxI76A+WJujhWjP+JUegk2anLSig4QAs
+         LajrXfJ41dzLpn/rSfElCBu8iJ4VUpagMD2gsuSgvWQ1M5tXQBgfOfngUGeJDesvUeI1
+         gA/w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1783398556; x=1784003356; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1bHz8pIdj5qCHMVmE3ZgrvqBvuIVwQ8F/DhCqlx20Pk=;
+        b=URVoAoHbHYaSayYM8eb2iabU+SbStm2F3wt8c9qYWzzSqXNppr+voGA4ya8lqbgjVK
+         vbso3/wYtZimi9TURLZNZ+xBolnQHet3Pcas5ts3KmWcbazyd3TkMZ2I7/T7SZLGaJ6L
+         UTT+Y0RVqsAUXe9NRyJx+AyTwsTin9TWcSimg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783398556; x=1784003356;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1bHz8pIdj5qCHMVmE3ZgrvqBvuIVwQ8F/DhCqlx20Pk=;
+        b=ZZODTK4qmtL2Er8TF0QE1tRtx2wvn38VQrAlSgIB8HhGltsunWA3fBg1Pw0PxRE9kJ
+         Jd0V6CBRmZz3uR0qasBCERWK4jXfZZrWxuSCt7DwgbQzFYSGm4rpHeR1bSZ6xx/jwfS9
+         uuFHYtRt09YfVkdwEPfZq59uZUA08XNVK9yeJ+IaP92MpXDx2e9x0ttTsNxG8ZRRFhtB
+         7PrqbE9omukpuW798sl5fvO6y8BzaC++u414WyQevZQDsXfEbWdLq1v1Ha5A2AOyqa4e
+         6q7du2oMVRgQCQ/HEHluzcPhjqQwlwr5TMv1fFsOl6BZGtZlCMJ4mTy6fVdVC2YzKBDp
+         dttw==
+X-Forwarded-Encrypted: i=1; AHgh+RpKM+uoRuSuZO0JI8oIaURjOFmYGAe+MM/Vq7HzsR0UPiQvqJW++wXYyNNnzgAD3Tuilg707LqmiXdkUg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/a/ybsryrWy1Wwlt/2ESGk6b9Xo2pac38GJ8j6eO8gCJ3qAMa
+	B4MEOyi4gq5acJg3s3xjJ9Dr8YY4fyjM5R8EPnzisbAYRfRcSQ/0anBqMPLxm4KnV2nKWj6pGfr
+	Piq8xkqh1uQ/uQknv5mUg79Wiv5/zCO0UACnOhuWT
+X-Gm-Gg: AfdE7cnHZkQqtn/7jo25ZpENQvtQYCSj+r+LVdRGu+hgblzu4l9iIsZCT8ddEC7f0fW
+	zYXjRMwn9JbPKs1XkQekvGZrvpitx6VHPjqdG9McS0y+TDkNo2+73QmXkAtDJWIiCLbMTLnSU/9
+	8K92YVJjG0nT6hI1+7SQa71ges6EdscK8KoTKyTTcXBAEPmhDdel5k4h3bq8l0gCQJT0wMtQ3Ej
+	jAEzML4C5y5100oSG9M8V8k+lD1fhkYMcyG0utkqNBfIx4YBOYLNUAlozC9QAnE23MRVFYWCB13
+	BhEFDPfpPzYiOGgH7HfG+okl9VtbwtMsMsYmiw==
+X-Received: by 2002:a05:690e:4549:10b0:662:b6fc:ab84 with SMTP id
+ 956f58d0204a3-6677fa2ea7bmr2174279d50.17.1783398556262; Mon, 06 Jul 2026
+ 21:29:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB8412.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9d44e3b-2cda-46d8-df1f-08dedbd3645e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2026 02:56:50.1432
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MU4VgAOLEypPNT17gzRNxgEO0dCajVyGYHJ5K0Cb6wkxFBVf2Pg3eBVsnL11bg9m076VszvMYDP5IEzrg+sL9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR12MB999092
+References: <20260703110317.1283411-1-wenst@chromium.org> <20260703110317.1283411-7-wenst@chromium.org>
+ <ake09vk4fEv1D9QC@ashevche-desk.local> <CAGXv+5GNucSXrhL=YxarSJHD2ezzYDK3EovFu-zy012KgZ+ZBg@mail.gmail.com>
+ <ake6FNy83LLtCs3b@ashevche-desk.local> <CAGXv+5EgpizA3Pc8ScNuChPhvFKWd5F6dxB-wT4-7EwabE-9dQ@mail.gmail.com>
+ <akvRMcGnUPxE3sxR@ashevche-desk.local>
+In-Reply-To: <akvRMcGnUPxE3sxR@ashevche-desk.local>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 7 Jul 2026 12:29:05 +0800
+X-Gm-Features: AVVi8CeDQS-P0cN7_fGlNwSI_p7eUQN2BPzLo_iMICLRCJ8sboVGUDAVuWI9R6g
+Message-ID: <CAGXv+5EqsDbzTg9eDMGK3Ph6Pe3_uDoSrjVL4q23cy6jZCk2tw@mail.gmail.com>
+Subject: Re: [PATCH v3 06/13] usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-T24gTW9uLCAyMDI2LTA3LTA2IGF0IDE1OjMxICswOTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90
-ZToNCj4gPiBJIGZvcmdvdCB0byB1cGRhdGUgZ2V0X2J5dGVzKCkgdG8gcmV0dXJuIGFuIGVycm9y
-IGlmIHRoZSB2YWx1ZSBpcyBlbXB0eS7CoCBUaGF0IHNob3VsZA0KPiA+IGFkZHJlc3MgYSBsb3QN
-Cj4gPiBvZiBwb3RlbnRpYWwgaXNzdWVzLCBpbmNsdWRpbmcgdGhlIG9uZXMgdGhhdCBTYXNoaWtv
-IHJhaXNlZC4NCj4gDQo+IFRoZSBzcGVjIHNheXMgdGhhdA0KPiANCj4gwqAgTGVuZ3RocyBvZiB6
-ZXJvIGFyZSBhbGxvd2VkIGFuZCBpbmRpY2F0ZSB0aGF0IHRoZSB0YWcgaXMgYSBib29sZWFuLg0K
-PiANCj4gdGhvdWdoLCBzbyB3ZSBwcm9iYWJseSBkb24ndCB3YW50IHRvIHJldHVybiBhbiBlcnJv
-ciBpbiB0aGF0IGNhc2UuDQoNCkp1c3QgZG9uJ3QgY2FsbCBnZXRfYnl0ZXMoKSBpZiB5b3UgZXhw
-ZWN0IGl0IHRvIGhhdmUgbm8gdmFsdWUuICBJIGNhbiBhZGQgYSBnZXRfYm9vbCgpIG9yDQppc190
-cnVlKCkgZnVuY3Rpb24gdG8gaGFuZGxlIGJvb2xlYW5zLCBidXQgdGhlcmUgYXJlIG5vIHVzZXJz
-Lg0KDQpSZXR1cm5pbmcgZXJyb3Igb24gbGVuZ3RoPT0wIHNpbXBsaWZpZXMgYSBsb3Qgb2YgY29k
-ZSBvbiB0aGUgY2FsbGVyIHNpZGUuDQo=
+On Tue, Jul 7, 2026 at 12:01=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Jul 06, 2026 at 07:08:07PM +0800, Chen-Yu Tsai wrote:
+> > On Fri, Jul 3, 2026 at 9:33=E2=80=AFPM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Fri, Jul 03, 2026 at 09:17:16PM +0800, Chen-Yu Tsai wrote:
+> > > > On Fri, Jul 3, 2026 at 9:11=E2=80=AFPM Andy Shevchenko
+> > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > On Fri, Jul 03, 2026 at 07:03:07PM +0800, Chen-Yu Tsai wrote:
+>
+> ...
+>
+> > > > > At a brief look this will be the only function that takes usb_por=
+t
+> > > > > instead of usb_hub in the entire hub.h (I don't count container_o=
+f()
+> > > > > as a function). With that being said I would rather see it to be =
+moved
+> > > > > to port.c altogether (yes, it's more invasive change, but looks m=
+ore
+> > > > > consistent).  I would even dare to move struct usb_port (and cont=
+ainer_of()
+> > > > > accompanied with that) and this function to port.h. This might re=
+quire
+> > > > > a separate patch, though.
+> > > >
+> > > > I agree with the reasoning, especially given the function name. How=
+ever
+> > > > I wonder if it would cause problems given the linking order. I'll g=
+ive
+> > > > it a try nevertheless and report back.
+> > >
+> > > Thanks!
+> > >
+> > > In case it won't fly (but I still think it's better to split), can yo=
+u at least
+> > > group usb_port APIs and struct? Means moving the proto closer to that=
+ struct
+> > > usb_port followed by container_of().
+> >
+> > Looks like it works out fine. port.o is linked in after hub.o, so movin=
+g
+> > the function from the latter to the former doesn't cause issues. One mi=
+ght
+> > even say that it is the correct thing to do.
+>
+> That's what I say! :-)
+>
+> > > > > Perhaps something like: 1) "move struct usb_port and associated A=
+PIs to port.h";
+> > > > > 2) "...this patch...".
+> >
+> > There are still some left in hub.c:
+> >
+> > static void usb_lock_port(struct usb_port *port_dev)
+> > static void usb_unlock_port(struct usb_port *port_dev)
+
+These are only used internally in hub.c as a wrapper for the port mutex.
+
+> > static void port_over_current_notify(struct usb_port *port_dev)
+
+This is only used by the hub's overcurrent event handler.
+
+> > static void hub_usb3_port_prepare_disable(struct usb_hub *hub,
+> >                                           struct usb_port *port_dev)
+>
+> This one takes hub as well.
+>
+> > These are used only in hub.c and moving them probably makes things
+> > messier?
+>
+> Perhaps better naming to each (kinda moving to usb hub namespace)?
+>
+> > OOTH, the following bits are in port.c but declared in hub.h:
+> >
+> > int usb_hub_create_port_device(struct usb_hub *hub,
+> >          int port1);
+> > void usb_hub_remove_port_device(struct usb_hub *hub,
+> >          int port1);
+> >
+> > Any preferences for these while we're reorganizing the code?
+>
+> These ones would be good to be in hub.c if there is no circular dependenc=
+ies or
+> alike.
+
+Those two, along with all the static functions they call, ends up being
+half of port.c. That doesn't help the size of hub.c, which is already
+over 6000 lines. I think I'll leave this one as is.
+
+Both this part and the remaining bits in hub.c I mentioned above are
+outside the scope of this series. We can discuss whether they really
+need to be moved or renamed.
+
+
+Thanks
+ChenYu
