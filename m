@@ -1,206 +1,180 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012028.outbound.protection.outlook.com [52.101.48.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334173191C8
-	for <driver-core@lists.linux.dev>; Tue,  7 Jul 2026 04:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55432379C37;
+	Tue,  7 Jul 2026 05:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.28
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783398558; cv=pass; b=BJ9QMhqTpkXcrNj+piVFCKKat2WXqM97Xnpig2zXztHd220qM49fgElZNJOil0vJh0bjsoMbY/72fS29c+RpV8aUK0JfHpAFzEDx3MwZvJGIlMZTKPzZsTvevDBKmKfLKPcDc4EA13OHHZu9ST3ZXl4fxPmfVpF0XT8GUJ8Xqao=
+	t=1783401023; cv=fail; b=cLfyNPMGKclSRRDY8V/jE2/BoYyjq4Ijw08JNq50EJ8rzVvwY59c1IsNfodp1rEcP0RcEe4FBeStbb12G0ic/bHh7X77aWEfPsDymmqDzgs6HPXCG8aDs+uFBWrJ9a8RM4ha/sh9ZBVKEsm6c9O+lZ8BlZ0sRkMvAHBlj7pkJAE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783398558; c=relaxed/simple;
-	bh=PSqME/IPugtczex5NRAm1XmhU5y/+03GI6oS0AsEg0c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tgkfs2m94W2qpyxhpIVA7lm3N9ifpJgNLm/Q1Kk75tCZewv5sqywbtmuhwZuLNbz9USddX+CMaIs6b2ZFyGwpeKt3fhBprJevt+4K1g5nD92bX/QA5EY4pJ+LaqRlelHwUw+XqwJsky/aZ+p8jL+i0ZjvhOeLRrL0jxhkOqBsX0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=URVoAoHb; arc=pass smtp.client-ip=74.125.224.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1783401023; c=relaxed/simple;
+	bh=miyEuE0h4ox2X4cClvgUnIUVaOHGrT1xyWNrJi7Xy/Q=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=q+wL6u28R0CKNpI9hEGmG5c3xydQV3TSD35KP/hBfVwuj1zjBioqOsCp5vmm4ZsksobwDKNjp94x27qGvYVFS1y7AQvZvyB5/p3jr/J5snMqL4uRmhyfJhl+yuNtC57sfemNs7G0thDU/FyCmUmOsf+yU068yyVOJzI9BRslyVk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=oucBOtj3; arc=fail smtp.client-ip=52.101.48.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="URVoAoHb"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-664dd23829eso3376200d50.3
-        for <driver-core@lists.linux.dev>; Mon, 06 Jul 2026 21:29:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783398556; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RPIvvw3UQ/GTaIBrMKXNX39FGog7iL8a9987ad1Z0aic0OTcOpG9ri2Z8NYChmtPD+
-         chsq6AqbgTG/2p6Dz2mKMnrumvM/Ur/WJH16Ms0xBWQid2cm3Ue4OLKdINEZUodTbq+Y
-         qqqXSVTA+VwOvd9xjBuSCWkedN9S3wg0NT0Xv12zgWSVgSvK9QY/VCnUAoYXlJtELWKh
-         kYeHb+WIHClIEozOWYL4OGg+y0ClWE5e8jlRn9OvJHzrqfZbuuVpqM5+cUsTa0EgWUnS
-         gOx0dx9fr3k5pSPs398pjptlndWZR+i91mtjH3FH/X+/ieLrSUWv4XAwBw77v4Iof97n
-         Wzvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1bHz8pIdj5qCHMVmE3ZgrvqBvuIVwQ8F/DhCqlx20Pk=;
-        fh=60CyCXH9P9MvQ0yRIC0fRlDDMWGUzgU/pKb91URu77M=;
-        b=L2EoRlw2LAvENaTjSekSw72ylMe58V4JLhXN/4nxBpRt0vLPceLjvNu+DliwdKp8ag
-         xA1phyBVSYa/7ARywooUwlRIcy40rrDNFdNPOw1o9qa+zXFeDQKNO85BtcoW/WBp/ZtE
-         05ctE4K58kgJmCr1j3sV8mG040OJGomZRGZdlS222v8ArpJj9gMajpbZpvMZvpVk0uxQ
-         JXyV9PpOc9Ok8HUZaKjnoIIOL587iCStIYSdPxI76A+WJujhWjP+JUegk2anLSig4QAs
-         LajrXfJ41dzLpn/rSfElCBu8iJ4VUpagMD2gsuSgvWQ1M5tXQBgfOfngUGeJDesvUeI1
-         gA/w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1783398556; x=1784003356; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1bHz8pIdj5qCHMVmE3ZgrvqBvuIVwQ8F/DhCqlx20Pk=;
-        b=URVoAoHbHYaSayYM8eb2iabU+SbStm2F3wt8c9qYWzzSqXNppr+voGA4ya8lqbgjVK
-         vbso3/wYtZimi9TURLZNZ+xBolnQHet3Pcas5ts3KmWcbazyd3TkMZ2I7/T7SZLGaJ6L
-         UTT+Y0RVqsAUXe9NRyJx+AyTwsTin9TWcSimg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783398556; x=1784003356;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1bHz8pIdj5qCHMVmE3ZgrvqBvuIVwQ8F/DhCqlx20Pk=;
-        b=ZZODTK4qmtL2Er8TF0QE1tRtx2wvn38VQrAlSgIB8HhGltsunWA3fBg1Pw0PxRE9kJ
-         Jd0V6CBRmZz3uR0qasBCERWK4jXfZZrWxuSCt7DwgbQzFYSGm4rpHeR1bSZ6xx/jwfS9
-         uuFHYtRt09YfVkdwEPfZq59uZUA08XNVK9yeJ+IaP92MpXDx2e9x0ttTsNxG8ZRRFhtB
-         7PrqbE9omukpuW798sl5fvO6y8BzaC++u414WyQevZQDsXfEbWdLq1v1Ha5A2AOyqa4e
-         6q7du2oMVRgQCQ/HEHluzcPhjqQwlwr5TMv1fFsOl6BZGtZlCMJ4mTy6fVdVC2YzKBDp
-         dttw==
-X-Forwarded-Encrypted: i=1; AHgh+RpKM+uoRuSuZO0JI8oIaURjOFmYGAe+MM/Vq7HzsR0UPiQvqJW++wXYyNNnzgAD3Tuilg707LqmiXdkUg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/a/ybsryrWy1Wwlt/2ESGk6b9Xo2pac38GJ8j6eO8gCJ3qAMa
-	B4MEOyi4gq5acJg3s3xjJ9Dr8YY4fyjM5R8EPnzisbAYRfRcSQ/0anBqMPLxm4KnV2nKWj6pGfr
-	Piq8xkqh1uQ/uQknv5mUg79Wiv5/zCO0UACnOhuWT
-X-Gm-Gg: AfdE7cnHZkQqtn/7jo25ZpENQvtQYCSj+r+LVdRGu+hgblzu4l9iIsZCT8ddEC7f0fW
-	zYXjRMwn9JbPKs1XkQekvGZrvpitx6VHPjqdG9McS0y+TDkNo2+73QmXkAtDJWIiCLbMTLnSU/9
-	8K92YVJjG0nT6hI1+7SQa71ges6EdscK8KoTKyTTcXBAEPmhDdel5k4h3bq8l0gCQJT0wMtQ3Ej
-	jAEzML4C5y5100oSG9M8V8k+lD1fhkYMcyG0utkqNBfIx4YBOYLNUAlozC9QAnE23MRVFYWCB13
-	BhEFDPfpPzYiOGgH7HfG+okl9VtbwtMsMsYmiw==
-X-Received: by 2002:a05:690e:4549:10b0:662:b6fc:ab84 with SMTP id
- 956f58d0204a3-6677fa2ea7bmr2174279d50.17.1783398556262; Mon, 06 Jul 2026
- 21:29:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="oucBOtj3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Au9Uj4Snth2yeFrJaDUCEd53oY1angl0YrdW0xDeTq+D/SScuIIeoHl4jleIks1T2no3afVAiLPaqs30rAFaOdxMep6Su4M8/dohuTXtsB0cQO+7au7luvOJewp7DqMyVp9jcFuV6s3eBwEQW1ebwW96OvhrpHIFc6Bosq4x3uR/KH3nxx/6fispSJxYH6lGJX5tG6zkcdpLTVfTFAfzvAj2A0DYhMr3uWbbpAUqMosMngFmMClbzPLJnn95O8WXa0PocluE9IGrdaOU2TdmHjCtGstxk+sZU70zPengmsUubvXIG/r4s0RG+W+DWH8ibd0yiy5N5rFLOgJaVrm3NA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wpAVh1lGTJYf+iLua2PXEp5h8WJp6QCzoeoaYN5mfkE=;
+ b=oO5XLhYW36Mk6RpuyjQUs1dr7/lZMSp0v3H/D3LxDASinRgac69+Yr9k7So2quwykXl2SZW0OJNfqdAKawmv9zY1fhe62Ya6lzxW/c19YziQDgy1Ji+uaGyPGLg7BGfY1xcVZDDa+76KLXsV4lohqEuhvMX/kZUnX+qcCCYY7i5hwQktmF5GjMg22M0i60Jv4UTTpLiIjWQmSUQgA5IeQ7CsqOq3vNWoCDynMAlqOnEe0EzY/y99GKxro28T33xYnHiX+YIxE65YzNPJmahXnrgNaiPAcN5w9x75XEb+M3FBQ5ENyr++8gtb5npkaSPw9kLLIGALXb4dvmejnJaqAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wpAVh1lGTJYf+iLua2PXEp5h8WJp6QCzoeoaYN5mfkE=;
+ b=oucBOtj3A7u0kG23U6t4WaNH0Wx1rawPiT8I9+XhnZh9+UEjeni4m3LAKVc0oq/Rdtmr0dpYoS95/0r5pp+BEQUzV6bl2jc1CSaK77GiHkXxtybA8fLetOKBYEyeModukKxHuP+FPNEQx8s0mtu8EdUW3TrDO2nfSGlEo1ymnJ6VINVi5uD1/ThU3127kHc4gXzwY3PeyMnckdCMQrMAamXB8u4zQvKGpb5DQmkeCTf/11EQgiaiI681ZmjDftQ6woeBvME3N+R9B3c2Dt85usz9+EsYW0biYTDcCCLoE506H3RfrF+aaqIvl5hczIa/FUX+rYBx2O+B3QUM9dRNqA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SA5PPFF3CB57EDE.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8eb) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
+ 2026 05:10:17 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0181.012; Tue, 7 Jul 2026
+ 05:10:17 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 07 Jul 2026 14:10:14 +0900
+Message-Id: <DJS2WBOSQ1U7.AQQZA227X9MK@nvidia.com>
+Cc: "dakr@kernel.org" <dakr@kernel.org>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ "nova-gpu@lists.linux.dev" <nova-gpu@lists.linux.dev>, "Zhi Wang"
+ <zhiw@nvidia.com>, "gary@garyguo.net" <gary@garyguo.net>,
+ "russ.weight@linux.dev" <russ.weight@linux.dev>, "mcgrof@kernel.org"
+ <mcgrof@kernel.org>, "rust-for-linux@vger.kernel.org"
+ <rust-for-linux@vger.kernel.org>, "driver-core@lists.linux.dev"
+ <driver-core@lists.linux.dev>, "ojeda@kernel.org" <ojeda@kernel.org>
+Subject: Re: [PATCH v3 1/7] rust: firmware: add request_into_buf()
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Timur Tabi" <ttabi@nvidia.com>
+References: <20260702192712.3450652-1-ttabi@nvidia.com>
+ <20260702192712.3450652-2-ttabi@nvidia.com>
+ <DJR9ZKFB5WQQ.1CGI0N3GS1SFM@nvidia.com>
+ <DJRFIANMW0AM.2LAQJ114NJQYH@kernel.org>
+ <e1c7a5f2ca6fb05b27f76f8f1af2c11532c75ccc.camel@nvidia.com>
+In-Reply-To: <e1c7a5f2ca6fb05b27f76f8f1af2c11532c75ccc.camel@nvidia.com>
+X-ClientProxiedBy: TY4PR01CA0013.jpnprd01.prod.outlook.com
+ (2603:1096:405:26e::15) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260703110317.1283411-1-wenst@chromium.org> <20260703110317.1283411-7-wenst@chromium.org>
- <ake09vk4fEv1D9QC@ashevche-desk.local> <CAGXv+5GNucSXrhL=YxarSJHD2ezzYDK3EovFu-zy012KgZ+ZBg@mail.gmail.com>
- <ake6FNy83LLtCs3b@ashevche-desk.local> <CAGXv+5EgpizA3Pc8ScNuChPhvFKWd5F6dxB-wT4-7EwabE-9dQ@mail.gmail.com>
- <akvRMcGnUPxE3sxR@ashevche-desk.local>
-In-Reply-To: <akvRMcGnUPxE3sxR@ashevche-desk.local>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 7 Jul 2026 12:29:05 +0800
-X-Gm-Features: AVVi8CeDQS-P0cN7_fGlNwSI_p7eUQN2BPzLo_iMICLRCJ8sboVGUDAVuWI9R6g
-Message-ID: <CAGXv+5EqsDbzTg9eDMGK3Ph6Pe3_uDoSrjVL4q23cy6jZCk2tw@mail.gmail.com>
-Subject: Re: [PATCH v3 06/13] usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SA5PPFF3CB57EDE:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25b5fe8c-e29c-4cec-2f85-08dedbe608cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|10070799003|376014|22082099003|18002099003|56012099006|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	/zoxRK8/r+FqWJVDCoqG0rLctYqCreK9zVT2WSw6cE/Ho/RBmHL3XHByFOU9dDaze53xRxQ8GRjj0rwWdyLHKf5EHGRykUTRu2MtPYq9OrO0/wpe1LuqGWO0BM8MqrVZ/1y19ArjuM87Ixc00dKQdv/lca7m6vFmsGFurgbrlOyv/00OW9D3Nsy86cKbmk6v26cLGm6sSlYSsWxmMhN1FCNW/Ip4K2ERANVkY8JIi1iaAbsU1khdemNpR+p2STKWpWSE8k7WApU77IVSu1MwmsvYPmTZNo14BJlBvizz15xrSS32ukAO/9XaNrkJmCJW7NxLKzYblyXAqdGK4OBO/22AtQ7Hv0+zvWQOp5MaCj4bl0FRQPRbcBJCqgjprIOghrjBWNprP2uc0SrXVpbhyttzU4dkw/CCImWbAXEjLpjpVemyaTqhu1137lKIlcDsBIJAu9UwWw+kimghR4ciMHtdVWYgPlhFChb5Mw79kwqH0gjq/ZvyQc8zF5Ryxh/1VltnA0ye2Lu3y+aoRQ0K123tMV1Y/5hgXBv2Fys8hwjDDnXHxujUR5LBesyXoYhXQmIoCv0sRYqnjPegDX1GRsPFNkvKPlqD1AXGQHIlR9p0PkwAL6RH4p02tuzC7YyeQB3AKyX6prdv1y5t7D9vvXqqPB85rc6AhE0xI8xEC7I=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(10070799003)(376014)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bkFmVXV0c2tVRlhmZmNXUlc5SWJobGFWbUlKYVRPY3VGTzlrNm4xQnRCeEsx?=
+ =?utf-8?B?SHQwNGYxM3YwVm1pZGNyT1J6a3dwdGZ6L1ZnMGFuNzNLV1YrNUxGdWQxOUtL?=
+ =?utf-8?B?WVl6dm5CR3BSU21KSTFoVUhYUXFIRHJjYzByU3Y3b01qT1JGaFBTVlZRRzl4?=
+ =?utf-8?B?cG1nazBKV2IwbWhnajgyQVBTOXlNZjF3OTM3dUxwb21mYXJCbVFWOE9aa1ZS?=
+ =?utf-8?B?d3FTOEhzTC81UFZDbHdZZmVIRXphakhXa01jeFJNY1VYSHhZWXRtQTlWaXF0?=
+ =?utf-8?B?cGFuVHJIaklkTE5pbUtxMUVHcU5QMFErV1Y0eWwzU05GSWJBVC9YdklUWGU3?=
+ =?utf-8?B?Y2ZPQmNaVlJ0dnNzdGt2S0laTlcydnhjQlY1b0ZmWDc5dit4UDBmUXpOaklR?=
+ =?utf-8?B?MWZRV1h5UHdLNllDZVU4RC9odzJ4TzR3ekpoQnUrZkVjQVc3UDAyRFo2cHhm?=
+ =?utf-8?B?bXp5L05JNGV3SWF5UWNodCtlNHNBSmhmRnRiemsrREFGOUp0UU8rQjZmTnQ2?=
+ =?utf-8?B?TThpdHluS3Z4OG5WMUQzUC9VV1ZBUFR5TVVOOXlUQkVEU2Ruay9yRkluWEk1?=
+ =?utf-8?B?T1JkOXFZcnBQZzBNU0F0UVk4Z2lCNklwWlhSNXNRbWF4dzRwMmFKRnpIcU04?=
+ =?utf-8?B?U2RIME5EQUpLcjljalI3ajBnSXNCRlIrSG5lSWVlTTNsc1lEOStSWUloQTVR?=
+ =?utf-8?B?eTVrVm1mYTNabVVETHVrWlJORXJiWXk2ME84VTlRQTExYVRzaVpDVnAxY0hi?=
+ =?utf-8?B?SEJMWGoxR3N2THBNSDIycjhPbUhveUplcHRYTVhWUm1Fb3IyODlQVTBTdUI4?=
+ =?utf-8?B?RE1LcTU4cEtMYTdUVTNROCtMYmJ4RXV6WWcyOHRKZXp1YTJxVTBNTG43TUha?=
+ =?utf-8?B?cDlqVXBiM25EYm5lQ05mSGdPVHR0bTc1bjVWa2pBVzhXSUtvK0ZZRk93UzFl?=
+ =?utf-8?B?Z1kyTFQ5QXNTckNGMEM2dUlVRFZsS3JscHBsRURmYTZOVlNISjJtVjVnV1Zk?=
+ =?utf-8?B?dEhIQkhGUU5yQ0doc0FGUExuYUdTcEdwaDhlN21Ycmt3cituMkhnTTBkUFBr?=
+ =?utf-8?B?enk4cVVnemNuMVFmNVc2M2VwVTBPQmtENENXSytMZ1kydW9sak9ub1Q4ajlO?=
+ =?utf-8?B?T3R2WkRCdzdEM29uQkhhN3AvbXR1NzJTclBjNldxTGRhZ0FYY3lMWHVhWkgr?=
+ =?utf-8?B?ZDQ1ZmRBUVd1YWJoRlpLWkRoMDNpbVFQL1M5NlRiSTNZVmlVZXFpYk5YOHV6?=
+ =?utf-8?B?bCtuaGRkcTJUbHl0dW95UTBaTmpoL1dzOGlwSzNOalZVV1pGd01BVU5YSXR0?=
+ =?utf-8?B?UkdvcmZqZDFxN3hwcWpiZ1grcFBsMnFiSzJSV21sckMvbmxBOGpIUEdqeHkr?=
+ =?utf-8?B?RWNBLzR3Zi93dUphWnNxVE9PQXV1Nm5kcTA2RWhQQU9nL0krajNxZndSOXRt?=
+ =?utf-8?B?Y2xVMTN3WVlCeWpjT2JHMWM0aG4wVHd0RHhyNDFnTHBHelBLWEJpNkF1NlFM?=
+ =?utf-8?B?Q2V2NG1hNHJZanU5OVMvUk16bC92N0hzQTJtazI2NXVaYTdSVWlvSTFoakZY?=
+ =?utf-8?B?YmhLeHpiYWVxL3NzUFhIUUF3ZUVleWJOWkw1c0dmT2hDdXY2Rjl2K2ZmVFpY?=
+ =?utf-8?B?bkRaRDRSSk0zNkRJRnpOZjVXbUV5dnpCMnRsV3ozVFdNcWo2MlNnd1JBTjVk?=
+ =?utf-8?B?Rmd4M2tQTkRNdW5Vc05FcGRsa0YzNjg3cDZ5dUdRTVlYN3N4STd0TXNIN0k2?=
+ =?utf-8?B?YmJSdWV6bGpvSUxaYmttZ1I2SXVjVjdTZmxzUXB4ZzdGc1lrak5DN1pKb2Zv?=
+ =?utf-8?B?cDI3WmNTaGFabW1XS01rMUttWkRWVWNVdW0zNjhLWnJZRlFQWTlFRTB2dlZh?=
+ =?utf-8?B?WG9tRWJyOUVHazBWaHdaNC94cmhjZnBwYXpkbVRBSUVTcmFZVVZ5VTBZSDU2?=
+ =?utf-8?B?M2tOOGxiYzArV3hlUEU0TU5vcFFLN25Nc2ZIUDhUak5JOFpBcCtpMlBHNkwr?=
+ =?utf-8?B?VTczazdkYmYyUEFaL1g1UHlJVkZVcTU4bXpySFJjZ2hkdTgwZFN4Wjg0bUha?=
+ =?utf-8?B?OURoaWVOTkk4UWIySytaczlSRXM1KzhHSk0yMlY0OTByTW1vdEJXeG9WbWJZ?=
+ =?utf-8?B?Z1VGSnZBN211MUZwRW9FTmVPS2MwdHY3dHBqeitXbVROVmhLTG93cUhobmhG?=
+ =?utf-8?B?L1FXVW4reEFVaGtjbU04MTgycWFlSHkyd3BJemwwckxMMFZ2cWhKT1B5em5E?=
+ =?utf-8?B?UFRuajdRcSt2ejVwSDBkS2Zzb3YybFJjK3l6dmI0YW80d05hME94Nm15QXdj?=
+ =?utf-8?B?Y014cW41TXJRbStUME1UNGdTNUQrK0dkdklCams4dnJzd2w1Z2JRdDFHSm12?=
+ =?utf-8?Q?vR4ZGXb7ite9DghQ1IaMNh0ejHra9djZv2K73Jt02EeeF?=
+X-MS-Exchange-AntiSpam-MessageData-1: 5SvRA8+XWKEGRg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25b5fe8c-e29c-4cec-2f85-08dedbe608cc
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 05:10:17.1424
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IxILeu9VGVib8+RiH3JLNd7mWcSFCvdM7gnlObQibJpaZ5f4eI44H6ZvV+uFdJSUlVxwB8ObVg40FRfDc3phpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFF3CB57EDE
 
-On Tue, Jul 7, 2026 at 12:01=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Tue Jul 7, 2026 at 11:54 AM JST, Timur Tabi wrote:
+> On Mon, 2026-07-06 at 12:50 +0200, Danilo Krummrich wrote:
+>> On Mon Jul 6, 2026 at 8:30 AM CEST, Alexandre Courbot wrote:
+>> > Sashiko is correct to point out that this doesn't return the number of
+>> > bytes actually written into `buf`. We might not use that information i=
+n
+>> > nova-core, but this is a kernel-wide API.
+>>=20
+>> Returning the size only doesn't carry a lot of value, please see [1].
+>>=20
+>> > Returning a `Result<&[u8]>` would take care of this and cover the
+>> > general use-case nicely.
+>>=20
+>> I'm fine with either this or just Result, as we don't have a user for th=
+e
+>> former.
+>>=20
+>> [1] https://lore.kernel.org/nova-gpu/DJ6JV2QQY0QD.1ZK1PRRBN5BRP@kernel.o=
+rg/
 >
-> On Mon, Jul 06, 2026 at 07:08:07PM +0800, Chen-Yu Tsai wrote:
-> > On Fri, Jul 3, 2026 at 9:33=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Fri, Jul 03, 2026 at 09:17:16PM +0800, Chen-Yu Tsai wrote:
-> > > > On Fri, Jul 3, 2026 at 9:11=E2=80=AFPM Andy Shevchenko
-> > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > On Fri, Jul 03, 2026 at 07:03:07PM +0800, Chen-Yu Tsai wrote:
->
-> ...
->
-> > > > > At a brief look this will be the only function that takes usb_por=
-t
-> > > > > instead of usb_hub in the entire hub.h (I don't count container_o=
-f()
-> > > > > as a function). With that being said I would rather see it to be =
-moved
-> > > > > to port.c altogether (yes, it's more invasive change, but looks m=
-ore
-> > > > > consistent).  I would even dare to move struct usb_port (and cont=
-ainer_of()
-> > > > > accompanied with that) and this function to port.h. This might re=
-quire
-> > > > > a separate patch, though.
-> > > >
-> > > > I agree with the reasoning, especially given the function name. How=
-ever
-> > > > I wonder if it would cause problems given the linking order. I'll g=
-ive
-> > > > it a try nevertheless and report back.
-> > >
-> > > Thanks!
-> > >
-> > > In case it won't fly (but I still think it's better to split), can yo=
-u at least
-> > > group usb_port APIs and struct? Means moving the proto closer to that=
- struct
-> > > usb_port followed by container_of().
-> >
-> > Looks like it works out fine. port.o is linked in after hub.o, so movin=
-g
-> > the function from the latter to the former doesn't cause issues. One mi=
-ght
-> > even say that it is the correct thing to do.
->
-> That's what I say! :-)
->
-> > > > > Perhaps something like: 1) "move struct usb_port and associated A=
-PIs to port.h";
-> > > > > 2) "...this patch...".
-> >
-> > There are still some left in hub.c:
-> >
-> > static void usb_lock_port(struct usb_port *port_dev)
-> > static void usb_unlock_port(struct usb_port *port_dev)
+> Guys, please come to a consensus.  I had it return a size originally, but=
+ then Danilo said don't
+> bother, and now Alex says I should return a size.
 
-These are only used internally in hub.c as a wrapper for the port mutex.
+Incorrect; I said you should return a slice. :)
 
-> > static void port_over_current_notify(struct usb_port *port_dev)
+What makes me a bit nervous with this API is that it is not sound
+against incorrect size information or race conditions (e.g. if the file
+on disk changes after we determined its size). But that's true of my
+proposal as well anyway.
 
-This is only used by the hub's overcurrent event handler.
+Another inefficiency is that the buffer must be initialized when passed,
+only for its content to be immediately overwritten. I'd like to make
+this function accept a `MaybeUninit`, but that will require more generic
+code.
 
-> > static void hub_usb3_port_prepare_disable(struct usb_hub *hub,
-> >                                           struct usb_port *port_dev)
->
-> This one takes hub as well.
->
-> > These are used only in hub.c and moving them probably makes things
-> > messier?
->
-> Perhaps better naming to each (kinda moving to usb hub namespace)?
->
-> > OOTH, the following bits are in port.c but declared in hub.h:
-> >
-> > int usb_hub_create_port_device(struct usb_hub *hub,
-> >          int port1);
-> > void usb_hub_remove_port_device(struct usb_hub *hub,
-> >          int port1);
-> >
-> > Any preferences for these while we're reorganizing the code?
->
-> These ones would be good to be in hub.c if there is no circular dependenc=
-ies or
-> alike.
+All that to say, I will likely think some more about it and revisit
+after it lands, but the current version does the job, so:
 
-Those two, along with all the static functions they call, ends up being
-half of port.c. That doesn't help the size of hub.c, which is already
-over 6000 lines. I think I'll leave this one as is.
-
-Both this part and the remaining bits in hub.c I mentioned above are
-outside the scope of this series. We can discuss whether they really
-need to be moved or renamed.
-
-
-Thanks
-ChenYu
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
