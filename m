@@ -1,259 +1,1024 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331C9246770
-	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 14:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783521120; cv=none; b=I3SNY7Xgrshg7DerMs4LUMP3dIFi2r+0ENMivOQwzYcNWEx0hZ1ViGnrtPiFtomPku2dXTFY0KWkMwlXkl92JxnBj6RtqXkATFrJQ8l24V6/JXrmQYsbHfX9WCq3096AI9aF/75pFy4Je40OzGhB7V3+IZK6gC7v3S8I68rAQ9w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783521120; c=relaxed/simple;
-	bh=IgXl7iqMESFBSRUjCOfKfddCVOr8JnN+nz0eoLc7Z84=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YRux3xmf6NfnYGfaS65VD2T5Sy+ykiKzmy3Z/F0gDYslevUf9siIMReArCpy5Pcj+emNXeRFl5PoEkXm1NQoUZNBYtNuoAkANWwUaq16SLaw3Ua1ppyDgVJ93R03LGmS3A2BH24mC8dUcYB5VubOw3SYWcbLvMUSnOaSnJfqF5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=kfJfha1F; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C9F262D0B;
+	Wed,  8 Jul 2026 14:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783521414; cv=pass; b=KIl6p9qHTlU5TvbT4V+LallOyQFqFOpacaUHSemZVapPXcppQy+nYxL56vlinkS1yifbspMw9iA9lAzQDmO+LdfL1Q5j6eS6pCbdxdfqq0DeR2GVXGLT24QB47VVhUGRPiV9tNaH23ibolsDjEYy/QMI8tTL+MO2OgwlFoNzhNE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783521414; c=relaxed/simple;
+	bh=eW/2a8kRRje6g4JnlkzLwoRsxSDg1U7mKgRsIMsKD0Y=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=byLUQqFhpr5lXI/e14hrSEBMH0hokQAbVrRmd2vMEzMj6lZk75kxjCW7vlF5r8LAuGe5Y1f11FU6feeWo1k/4Ffozj7pJd1IB/3EjvCP5hJFTrMBhq0e3Diqwnh5u25P6zTf0nLmHfkFAcrvllTJ5wZXfYcw5L2w+EwV9yRiUpI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=doaOutWo; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="kfJfha1F"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e51d3d83cso37114285a.2
-        for <driver-core@lists.linux.dev>; Wed, 08 Jul 2026 07:31:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1783521118; x=1784125918; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ptMubsbsUzdG+JxP2QsQOH9vzaQruIf+8B8QS1ntb20=;
-        b=kfJfha1F1NRlKLbmTCOed28qnmcZqyQFku9eEFVjDY76tK2KWSuA8SazbrrBzKSwi6
-         0pO1kUK1g81d4CvPEQ+n8aAQaWCjSjq2HbeRqTdpcnSBqYwRLzhUYT3TEcO8Pbsoce+e
-         tNcq+ikIGmdeVuD8ASlsKwQ9KNSMpUH/JDXFwiaeEmcVXFssE21l35UvfWYFRMwvjIjy
-         KF9cEoC+oL9Oa+btWmH8RdPSl2gTt4qHc/q3+DqzSjDyeBjvhQZOWU3g8+6YLp0aKnTl
-         uY7Cjy+HblsNQWZCtcnlG9k1/FLJcH6T2XZNLwU+OU+aDYELTjXcrBOd8pu2uySLsDmr
-         e+vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783521118; x=1784125918;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ptMubsbsUzdG+JxP2QsQOH9vzaQruIf+8B8QS1ntb20=;
-        b=qka582sMduWpTkB90YnmqImR6bUeQf6ui17oj+RGJ4+ohpFHGRrxOf6U8CAypU7bWp
-         VUQvyIS+Af8Z/pdGYTCibwi+G/9S5Prr/aWs2JU6FwBGJoYcuw38qId1L9bkG19C5cIx
-         DUFq0Tq47pFewc+UWgapRMKhpUZRv0I9rZD42wWN9XyybUzSenJa2daH1/3G2j5Qir8R
-         FsdK+LKv/BpUsJ9QlbbixQROZx5PhGerqlUPpZ8YSXVub9ZvW9zwl1G9Y/Z98qneZLQF
-         KUMYe21pxiZpQS3I8sxrdkn7O8SH814TEanB7nedyT4hfV7YLrSkm7833V4Mwg1fn86+
-         fA7Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqilVbL9gAwNZsoG54vGxj1V6MXnjyWuw7mmbVm5Oq6Jg8G8t9hYpMm+NU/m/CPmcWpEspDMrCOBlm6uA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxx3E2FYoK8pTowysNkXo/S3bzzLnMk8+ggYThAb6DfDlVHGHjM
-	pLnrFRP3lFfu8aL2JOatTqqxg6PLdPNQDM6mTkMZxqGrCrLL+fE0MwBRg4qeyQJQ+lk=
-X-Gm-Gg: AfdE7clHZeM4l189TE7zuPab5Mnc/VZlaR3F8QZh8fy0YPLl77kzaznzNaEmQsSCr45
-	Qr0pv6xmE0kKB6mCRHK9uLtHb6tZQnb0/c6M0W3+aQTHfgy7UKQEvWiCUoYWuRSTvMx2+vI5Bm7
-	scZ0kCr5GyuGRy0wXfgbQ4BOFp3nK+u2tgXBB0d+rAtkWNvl1PXII2jqrphbi6Z2XNqtL3G1kIF
-	xTUMvWg6vicpcfK9dgRIBMnSWbNN6yLfUfaHpckQn9PkFlyXz2Y+l64FH1/r7LxwzqDnQ05F18a
-	ry0zg8PJdvVfnaiI7RNWQAZMlNqXzLVzWDbfmjEXy0n54kOifzCLrKRsahBOt9RHLEJB4mEQoso
-	xV29z8GOwcYG9MAYu8051x4RybNisVR6Xb6tmoj8W3l9QM3zfZJP8I54OVPsxl3p8j7L/+Do=
-X-Received: by 2002:a05:622a:15c7:b0:51b:ee04:5a4e with SMTP id d75a77b69052e-51c8b430fdfmr26314881cf.31.1783521115163;
-        Wed, 08 Jul 2026 07:31:55 -0700 (PDT)
-Received: from ziepe.ca ([159.2.72.92])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41d2cde7sm146585651cf.18.2026.07.08.07.31.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 07:31:54 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1whTJZ-00000002wbD-1YEQ;
-	Wed, 08 Jul 2026 11:31:53 -0300
-Date: Wed, 8 Jul 2026 11:31:53 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Dan Williams (nvidia)" <djbw@kernel.org>
-Cc: linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
-	driver-core@lists.linux.dev, ankita@nvidia.com,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Alistair Francis <alistair.francis@wdc.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Will Deacon <will@kernel.org>, Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
- Protocol (TDISP)
-Message-ID: <20260708143153.GH118978@ziepe.ca>
-References: <20260705220819.2472765-1-djbw@kernel.org>
- <20260706125140.GB107792@ziepe.ca>
- <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
- <20260707124321.GF118978@ziepe.ca>
- <6a4d95fcc92c2_2f05d5100f7@djbw-dev.notmuch>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="doaOutWo"
+ARC-Seal: i=1; a=rsa-sha256; t=1783521396; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=kw+dvyVA0iiQAi3zk34UF9k7alqg7UPYlQNHUTnVMZkV1eQf9Qzl+bBxbr+ZTAMxOzbVpZhh8LbEv6mZJ/gM5MlWhil2re9CvMt9QNakzDXaY6r+j+DSBi03rUz8GTPqifwphcjALGE2RLuSZ3JsVQXAd1wDWO1dkmi8UHlfTzA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783521396; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WCji8WOCyIh9bOISUIWwUcfPFBdDSMNl8HAD8QCggWs=; 
+	b=eIPwHDEzR5I15aFCIOnTrlQs6kT1UOaRbelyLoVKLj5c6ahpYay1BkaofHmdQmJuF1SlqwbgO5eNmwFEysgYEz1Rij2ZhyRyWhpeD2oMJkLDewuzQI+n5wl15Tyz+xsTmWwsOlQ8c5PwSkTD6RV+HtjAIYDRRBvRYXEnepSCxpw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783521395;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=WCji8WOCyIh9bOISUIWwUcfPFBdDSMNl8HAD8QCggWs=;
+	b=doaOutWoMEKdWlNED8s1shxTsF/LzNMfyEUy/Rz0sDI21ci8+ooNW2mUATMVB9FR
+	VfyZlhOTToelx7TSS1vGTTsxH21gxdL8qb3PQhGBO5imooq41Ao1x0PlOKbW7G9hg68
+	ObXmwg0kaqYfDNNs/0f9eLYNSZmo5CHxTsQozn5o=
+Received: by mx.zohomail.com with SMTPS id 1783521392580665.2855646143323;
+	Wed, 8 Jul 2026 07:36:32 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a4d95fcc92c2_2f05d5100f7@djbw-dev.notmuch>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v6 09/20] rust: io: use view types instead of addresses
+ for `Io`
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260706-io_projection-v6-9-72cd5d055d54@garyguo.net>
+Date: Wed, 8 Jul 2026 11:36:12 -0300
+Cc: Alice Ryhl <aliceryhl@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Tamir Duberstein <tamird@kernel.org>,
+ =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?utf-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ nova-gpu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org,
+ linux-pwm@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <280FBE45-5653-499B-9BB0-A2C77030A826@collabora.com>
+References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+ <20260706-io_projection-v6-9-72cd5d055d54@garyguo.net>
+To: Gary Guo <gary@garyguo.net>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 
-On Tue, Jul 07, 2026 at 05:12:44PM -0700, Dan Williams (nvidia) wrote:
- 
-> 1/ We previously discussed a use case to operate a device's private MMIO
-> while not allowing access to private memory (software encrypted NVME
-> with private MMIO [1]). Many of the following comments are based on
-> preserving this assumption so you can save some reading if we agree that
-> use case can be abandoned.
 
-force_dma_unencrypted() does not *prevent* device access to private
-memory and provides no security properties on its own. It's only
-purpose is to inform the DMA API what the HW restrictions are for
-doing DMA.
 
-The use case I had in mind relied on the vIOMMU to police access to
-the private memory. I think if you do T=1 and ADVERSARY you must have
-a vIOMMU or it is an illogical configuration.
+> On 6 Jul 2026, at 09:44, Gary Guo <gary@garyguo.net> wrote:
+>=20
+> Currently, `io_read` and `io_write` methods require the exact type of =
+`Io`
+> plus an address. This means that they need to be monomorphized for =
+each
+> different `Io` instance. This also means that multiple I/O =
+implementors for
+> the same I/O kind needs to duplicate implementation (e.g. `Mmio` and
+> `MmioOwned`).
+>=20
+> Create a new `IoBackend` trait and define these operations on it =
+instead.
+> The operations are just going to receive a view type and operate on =
+them.
+> This has the additional advantage that the invariants can be moved =
+from the
+> trait (and guaranteed via `unsafe`) to type invariants on the =
+canonical
+> view types of the backends, so `io_read` and `io_write` can be safe.
+>=20
+> Note that view type is needed; addresses are insufficient in this
 
-So, IMHO there is no use case for a T=1 device to only use shared
-memory, I would abandon that combination.
+nit: missing article: =E2=80=9Ca view type is needed=E2=80=9D or =E2=80=9C=
+view types are needed=E2=80=9D.
 
-> 2/ The confirmation of the trust level and the enabling of DMA are
-> separated in time from setting the trust level and entering the RUN
-> state.
-> 
-> All the archs separate the RUN step from the ENABLE DMA step, and the
-> implementation separates those steps in time.
+> design, as they do not carry sufficient information. For example,
+> `ConfigSpace` needs `&pci::Device` in addition to the address.
+>=20
+> `io_addr_assert` and `io_addr` are renamed to `io_view*` to reflect
+> that they operate on views now, and make them standalone functions so
+> they cannot be used by users to cast types outside io.rs.
+>=20
+> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+> rust/kernel/io.rs     | 382 =
+++++++++++++++++++++++++++------------------------
+> rust/kernel/pci/io.rs |  70 +++++----
+> 2 files changed, 246 insertions(+), 206 deletions(-)
+>=20
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index 8110b49aa430..89039b3defd5 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -243,6 +243,81 @@ const fn offset_valid<U>(base: usize, offset: =
+usize, size: usize) -> bool {
+>     }
+> }
+>=20
+> +/// Returns a view for a given `offset`, performing compile-time =
+bound checks.
+> +// Always inline to optimize out error path of `build_assert`.
 
-Yes, until the device is fully accepted the DMA has to be kept off. If
-you have to measure in the RUN state then we must have a second step
-after measurement completes, however we are measuring in LOCKED right?
+You mean to avoid that cryptic =E2=80=9Crust_build_error=E2=80=9D when =
+the assertion fails?
 
-> echo tsm0 > $pdev/tsm/lock
-> cat $nonce | device-evidence dump $pdev
-> device-evidence validate $pdev $generation
+> +#[inline(always)]
+> +fn io_view_assert<'a, IO: Io<'a>, U>(
+> +    this: IO,
+> +    offset: usize,
+> +) -> <IO::Backend as IoBackend>::View<'a, U> {
+> +    // We cannot check alignment with `offset_valid` using =
+`ptr.addr()`. So set 0 for it and
+> +    // ensure alignment by checking that the alignment of `U` is =
+smaller or equal to the
+> +    // alignment of `IO::Target`.
+> +    const_assert!(Alignment::of::<U>().as_usize() <=3D =
+IO::Target::MIN_ALIGN.as_usize());
+> +    build_assert!(offset_valid::<U>(0, offset, =
+IO::Target::MIN_SIZE));
+> +
+> +    let view =3D this.as_view();
+> +    let ptr =3D IO::Backend::as_ptr(view);
+> +    let projected_ptr =3D ptr.cast::<U>().wrapping_byte_add(offset);
+> +    // SAFETY: `offset_valid` checks for size and alignment and =
+therefore `projected_ptr` is a
+> +    // valid projection.
+> +    unsafe { IO::Backend::project_view(view, projected_ptr) }
+> +}
+> +
+> +/// Returns a view for a given `offset`, performing runtime bound =
+checks.
+> +#[inline]
+> +fn io_view<'a, IO: Io<'a>, U>(
+> +    this: IO,
+> +    offset: usize,
+> +) -> Result<<IO::Backend as IoBackend>::View<'a, U>> {
+> +    let view =3D this.as_view();
+> +    let ptr =3D IO::Backend::as_ptr(view);
+> +
+> +    if !offset_valid::<U>(ptr.addr(), offset, KnownSize::size(ptr)) {
+> +        return Err(EINVAL);
+> +    }
+> +
+> +    let projected_ptr =3D ptr.cast::<U>().wrapping_byte_add(offset);
+> +    // SAFETY: `offset_valid` checks for size and alignment and =
+therefore `projected_ptr` is a
+> +    // valid projection.
+> +    Ok(unsafe { IO::Backend::project_view(view, projected_ptr) })
+> +}
+> +
+> +/// I/O backends.
+> +///
+> +/// This is an abstract representation to be implemented by arbitrary =
+I/O
+> +/// backends (e.g. MMIO, PCI config space, etc.).
+> +///
+> +/// The base trait only defines the projection operations; which I/O =
+methods are available depends
+> +/// on which [`IoCapable<T>`] traits are implemented for the type. =
+For example, for MMIO regions,
+> +/// all widths (u8, u16, u32, and u64 on 64-bit systems) are =
+typically supported. For PCI
+> +/// configuration space, u8, u16, and u32 are supported but u64 is =
+not.
+> +///
+> +/// This trait is separate from the `Io` trait as multiple different =
+I/O types may share the same
+> +/// operation.
+> +pub trait IoBackend {
+> +    /// View type for this I/O backend.
+> +    type View<'a, T: ?Sized + KnownSize>: Io<'a, Backend =3D Self, =
+Target =3D T>;
+> +
+> +    /// Convert a `view` to a raw pointer for projection.
+> +    ///
+> +    /// The returned pointer is private implementation detail of the =
+backend; it is likely not
+> +    /// valid. It should not be dereferenced.
+> +    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> =
+*mut T;
+> +
+> +    /// Project `view` to its subregion indicated by `ptr`.
+> +    ///
+> +    /// If input `view` is valid, returned view must also be valid.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `ptr` must be a projection of `Self::as_ptr(view)`.
+> +    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + =
+KnownSize>(
+> +        view: Self::View<'a, T>,
+> +        ptr: *mut U,
+> +    ) -> Self::View<'a, U>;
+> +}
+> +
+> /// Trait indicating that an I/O backend supports operations of a =
+certain type and providing an
+> /// implementation for these operations.
+> ///
+> @@ -251,22 +326,12 @@ const fn offset_valid<U>(base: usize, offset: =
+usize, size: usize) -> bool {
+> /// For example, a PCI configuration space may implement =
+`IoCapable<u8>`, `IoCapable<u16>`,
+> /// and `IoCapable<u32>`, but not `IoCapable<u64>`, while an MMIO =
+region on a 64-bit
+> /// system might implement all four.
+> -pub trait IoCapable<T> {
+> -    /// Performs an I/O read of type `T` at `address` and returns the =
+result.
+> -    ///
+> -    /// # Safety
+> -    ///
+> -    /// - The range `[address..address + size_of::<T>()]` must be =
+within the bounds of `Self`.
+> -    /// - `address` must be aligned.
+> -    unsafe fn io_read(self, address: usize) -> T;
+> +pub trait IoCapable<T>: IoBackend {
+> +    /// Performs an I/O read of type `T` at `view` and returns the =
+result.
+> +    fn io_read<'a>(view: Self::View<'a, T>) -> T;
+>=20
+> -    /// Performs an I/O write of `value` at `address`.
+> -    ///
+> -    /// # Safety
+> -    ///
+> -    /// - The range `[address..address + size_of::<T>()]` must be =
+within the bounds of `Self`.
+> -    /// - `address` must be aligned.
+> -    unsafe fn io_write(self, value: T, address: usize);
+> +    /// Performs an I/O write of `value` at `view`.
+> +    fn io_write<'a>(view: Self::View<'a, T>, value: T);
+> }
+>=20
+> /// Describes a given I/O location: its offset, width, and type to =
+convert the raw value from and
+> @@ -318,66 +383,30 @@ fn offset(self) -> usize {
+> /// Types implementing this trait (e.g. MMIO BARs or PCI config =
+regions)
+> /// can perform I/O operations on regions of memory.
+> ///
+> -/// This is an abstract representation to be implemented by arbitrary =
+I/O
+> -/// backends (e.g. MMIO, PCI config space, etc.).
+> -///
+> /// The [`Io`] trait provides:
+> -/// - Base address and size information
+> +/// - Method to convert into [`IoBackend::View`].
+> /// - Helper methods for offset validation and address calculation
+> /// - Fallible (runtime checked) accessors for different data widths
+> ///
+> -/// Which I/O methods are available depends on which [`IoCapable<T>`] =
+traits
+> -/// are implemented for the type.
+> +/// Which I/O methods are available depends on the associated =
+[`IoBackend`] implementation.
+> ///
+> /// This should be implemented on cheaply copyable handles, such as =
+references or view types.
+> -///
+> -/// # Examples
+> -///
+> -/// For MMIO regions, all widths (u8, u16, u32, and u64 on 64-bit =
+systems) are typically
+> -/// supported. For PCI configuration space, u8, u16, and u32 are =
+supported but u64 is not.
+> -pub trait Io: Copy {
+> +pub trait Io<'a>: Copy {
+> +    /// Type that defines all I/O operations.
+> +    type Backend: IoBackend;
+> +
+>     /// Type of this I/O region. For untyped regions, [`Region`] can =
+be used.
+>     type Target: ?Sized + KnownSize;
+>=20
+> -    /// Returns the base address of this mapping.
+> -    fn addr(self) -> usize;
+> -
+> -    /// Returns the maximum size of this mapping.
+> -    fn maxsize(self) -> usize;
+> -
+> -    /// Returns the absolute I/O address for a given `offset`,
+> -    /// performing compile-time bound checks.
+> -    // Always inline to optimize out error path of `build_assert`.
+> -    #[inline(always)]
+> -    fn io_addr_assert<U>(self, offset: usize) -> usize {
+> -        // We cannot check alignment with `offset_valid` using =
+`self.addr()`. So set 0 for it and
+> -        // ensure alignment by checking that the alignment of `U` is =
+smaller or equal to the
+> -        // alignment of `Self::Target`.
+> -        const_assert!(Alignment::of::<U>().as_usize() <=3D =
+Self::Target::MIN_ALIGN.as_usize());
+> -        build_assert!(offset_valid::<U>(0, offset, =
+Self::Target::MIN_SIZE));
+> -
+> -        self.addr() + offset
+> -    }
+> -
+> -    /// Returns the absolute I/O address for a given `offset`,
+> -    /// performing runtime bound checks.
+> -    #[inline]
+> -    fn io_addr<U>(self, offset: usize) -> Result<usize> {
+> -        if !offset_valid::<U>(self.addr(), offset, self.maxsize()) {
+> -            return Err(EINVAL);
+> -        }
+> -
+> -        // Probably no need to check, since the safety requirements =
+of `Self::new` guarantee that
+> -        // this can't overflow.
+> -        self.addr().checked_add(offset).ok_or(EINVAL)
+> -    }
+> +    /// Return a view that covers the full region.
+> +    fn as_view(self) -> <Self::Backend as IoBackend>::View<'a, =
+Self::Target>;
+>=20
+>     /// Fallible 8-bit read with runtime bounds check.
+>     #[inline(always)]
+>     fn try_read8(self, offset: usize) -> Result<u8>
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+> -        Self: IoCapable<u8>,
+> +        Self::Backend: IoCapable<u8>,
+>     {
+>         self.try_read(offset)
+>     }
+> @@ -387,7 +416,7 @@ fn try_read8(self, offset: usize) -> Result<u8>
+>     fn try_read16(self, offset: usize) -> Result<u16>
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+> -        Self: IoCapable<u16>,
+> +        Self::Backend: IoCapable<u16>,
+>     {
+>         self.try_read(offset)
+>     }
+> @@ -397,7 +426,7 @@ fn try_read16(self, offset: usize) -> Result<u16>
+>     fn try_read32(self, offset: usize) -> Result<u32>
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+> -        Self: IoCapable<u32>,
+> +        Self::Backend: IoCapable<u32>,
+>     {
+>         self.try_read(offset)
+>     }
+> @@ -407,7 +436,7 @@ fn try_read32(self, offset: usize) -> Result<u32>
+>     fn try_read64(self, offset: usize) -> Result<u64>
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+> -        Self: IoCapable<u64>,
+> +        Self::Backend: IoCapable<u64>,
+>     {
+>         self.try_read(offset)
+>     }
+> @@ -417,7 +446,7 @@ fn try_read64(self, offset: usize) -> Result<u64>
+>     fn try_write8(self, value: u8, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+> -        Self: IoCapable<u8>,
+> +        Self::Backend: IoCapable<u8>,
+>     {
+>         self.try_write(offset, value)
+>     }
+> @@ -427,7 +456,7 @@ fn try_write8(self, value: u8, offset: usize) -> =
+Result
+>     fn try_write16(self, value: u16, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+> -        Self: IoCapable<u16>,
+> +        Self::Backend: IoCapable<u16>,
+>     {
+>         self.try_write(offset, value)
+>     }
+> @@ -437,7 +466,7 @@ fn try_write16(self, value: u16, offset: usize) -> =
+Result
+>     fn try_write32(self, value: u32, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+> -        Self: IoCapable<u32>,
+> +        Self::Backend: IoCapable<u32>,
+>     {
+>         self.try_write(offset, value)
+>     }
+> @@ -447,7 +476,7 @@ fn try_write32(self, value: u32, offset: usize) -> =
+Result
+>     fn try_write64(self, value: u64, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+> -        Self: IoCapable<u64>,
+> +        Self::Backend: IoCapable<u64>,
+>     {
+>         self.try_write(offset, value)
+>     }
+> @@ -457,7 +486,7 @@ fn try_write64(self, value: u64, offset: usize) -> =
+Result
+>     fn read8(self, offset: usize) -> u8
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+> -        Self: IoCapable<u8>,
+> +        Self::Backend: IoCapable<u8>,
+>     {
+>         self.read(offset)
+>     }
+> @@ -467,7 +496,7 @@ fn read8(self, offset: usize) -> u8
+>     fn read16(self, offset: usize) -> u16
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+> -        Self: IoCapable<u16>,
+> +        Self::Backend: IoCapable<u16>,
+>     {
+>         self.read(offset)
+>     }
+> @@ -477,7 +506,7 @@ fn read16(self, offset: usize) -> u16
+>     fn read32(self, offset: usize) -> u32
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+> -        Self: IoCapable<u32>,
+> +        Self::Backend: IoCapable<u32>,
+>     {
+>         self.read(offset)
+>     }
+> @@ -487,7 +516,7 @@ fn read32(self, offset: usize) -> u32
+>     fn read64(self, offset: usize) -> u64
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+> -        Self: IoCapable<u64>,
+> +        Self::Backend: IoCapable<u64>,
+>     {
+>         self.read(offset)
+>     }
+> @@ -497,7 +526,7 @@ fn read64(self, offset: usize) -> u64
+>     fn write8(self, value: u8, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+> -        Self: IoCapable<u8>,
+> +        Self::Backend: IoCapable<u8>,
+>     {
+>         self.write(offset, value)
+>     }
+> @@ -507,7 +536,7 @@ fn write8(self, value: u8, offset: usize)
+>     fn write16(self, value: u16, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+> -        Self: IoCapable<u16>,
+> +        Self::Backend: IoCapable<u16>,
+>     {
+>         self.write(offset, value)
+>     }
+> @@ -517,7 +546,7 @@ fn write16(self, value: u16, offset: usize)
+>     fn write32(self, value: u32, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+> -        Self: IoCapable<u32>,
+> +        Self::Backend: IoCapable<u32>,
+>     {
+>         self.write(offset, value)
+>     }
+> @@ -527,7 +556,7 @@ fn write32(self, value: u32, offset: usize)
+>     fn write64(self, value: u64, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+> -        Self: IoCapable<u64>,
+> +        Self::Backend: IoCapable<u64>,
+>     {
+>         self.write(offset, value)
+>     }
+> @@ -559,12 +588,10 @@ fn write64(self, value: u64, offset: usize)
+>     fn try_read<T, L>(self, location: L) -> Result<T>
+>     where
+>         L: IoLoc<Self::Target, T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>     {
+> -        let address =3D =
+self.io_addr::<L::IoType>(location.offset())?;
+> -
+> -        // SAFETY: `address` has been validated by `io_addr`.
+> -        Ok(unsafe { self.io_read(address) }.into())
+> +        let view =3D io_view::<Self, L::IoType>(self, =
+location.offset())?;
+> +        Ok(Self::Backend::io_read(view).into())
+>     }
+>=20
+>     /// Generic fallible write with runtime bounds check.
+> @@ -594,14 +621,11 @@ fn try_read<T, L>(self, location: L) -> =
+Result<T>
+>     fn try_write<T, L>(self, location: L, value: T) -> Result
+>     where
+>         L: IoLoc<Self::Target, T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>     {
+> -        let address =3D =
+self.io_addr::<L::IoType>(location.offset())?;
+> +        let view =3D io_view::<Self, L::IoType>(self, =
+location.offset())?;
+>         let io_value =3D value.into();
+> -
+> -        // SAFETY: `address` has been validated by `io_addr`.
+> -        unsafe { self.io_write(io_value, address) }
+> -
+> +        Self::Backend::io_write(view, io_value);
+>         Ok(())
+>     }
+>=20
+> @@ -642,7 +666,7 @@ fn try_write_reg<T, L, V>(self, value: V) -> =
+Result
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         V: LocatedRegister<Self::Target, Location =3D L, Value =3D T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>     {
+>         let (location, value) =3D value.into_io_op();
+>=20
+> @@ -675,17 +699,14 @@ fn try_write_reg<T, L, V>(self, value: V) -> =
+Result
+>     fn try_update<T, L, F>(self, location: L, f: F) -> Result
+>     where
+>         L: IoLoc<Self::Target, T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>         F: FnOnce(T) -> T,
+>     {
+> -        let address =3D =
+self.io_addr::<L::IoType>(location.offset())?;
+> +        let view =3D io_view::<Self, L::IoType>(self, =
+location.offset())?;
+>=20
+> -        // SAFETY: `address` has been validated by `io_addr`.
+> -        let value: T =3D unsafe { self.io_read(address) }.into();
+> +        let value: T =3D Self::Backend::io_read(view).into();
+>         let io_value =3D f(value).into();
+> -
+> -        // SAFETY: `address` has been validated by `io_addr`.
+> -        unsafe { self.io_write(io_value, address) }
+> +        Self::Backend::io_write(view, io_value);
+>=20
+>         Ok(())
+>     }
+> @@ -715,12 +736,10 @@ fn try_update<T, L, F>(self, location: L, f: F) =
+-> Result
+>     fn read<T, L>(self, location: L) -> T
+>     where
+>         L: IoLoc<Self::Target, T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>     {
+> -        let address =3D =
+self.io_addr_assert::<L::IoType>(location.offset());
+> -
+> -        // SAFETY: `address` has been validated by `io_addr_assert`.
+> -        unsafe { self.io_read(address) }.into()
+> +        let view =3D io_view_assert::<Self, L::IoType>(self, =
+location.offset());
+> +        Self::Backend::io_read(view).into()
+>     }
+>=20
+>     /// Generic infallible write with compile-time bounds check.
+> @@ -748,13 +767,11 @@ fn read<T, L>(self, location: L) -> T
+>     fn write<T, L>(self, location: L, value: T)
+>     where
+>         L: IoLoc<Self::Target, T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>     {
+> -        let address =3D =
+self.io_addr_assert::<L::IoType>(location.offset());
+> +        let view =3D io_view_assert::<Self, L::IoType>(self, =
+location.offset());
+>         let io_value =3D value.into();
+> -
+> -        // SAFETY: `address` has been validated by `io_addr_assert`.
+> -        unsafe { self.io_write(io_value, address) }
+> +        Self::Backend::io_write(view, io_value);
+>     }
+>=20
+>     /// Generic infallible write of a fully-located register value.
+> @@ -793,7 +810,7 @@ fn write_reg<T, L, V>(self, value: V)
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         V: LocatedRegister<Self::Target, Location =3D L, Value =3D T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>     {
+>         let (location, value) =3D value.into_io_op();
+>=20
+> @@ -826,17 +843,13 @@ fn write_reg<T, L, V>(self, value: V)
+>     fn update<T, L, F>(self, location: L, f: F)
+>     where
+>         L: IoLoc<Self::Target, T>,
+> -        Self: IoCapable<L::IoType>,
+> +        Self::Backend: IoCapable<L::IoType>,
+>         F: FnOnce(T) -> T,
+>     {
+> -        let address =3D =
+self.io_addr_assert::<L::IoType>(location.offset());
+> -
+> -        // SAFETY: `address` has been validated by `io_addr_assert`.
+> -        let value: T =3D unsafe { self.io_read(address) }.into();
+> +        let view =3D io_view_assert::<Self, L::IoType>(self, =
+location.offset());
+> +        let value: T =3D Self::Backend::io_read(view).into();
+>         let io_value =3D f(value).into();
+> -
+> -        // SAFETY: `address` has been validated by `io_addr_assert`.
+> -        unsafe { self.io_write(io_value, address) }
+> +        Self::Backend::io_write(view, io_value);
+>     }
+> }
+>=20
+> @@ -880,78 +893,78 @@ unsafe impl<T: ?Sized + Sync> Send for Mmio<'_, =
+T> {}
+> // SAFETY: `Mmio<'_, T>` is conceptually `&T` but in I/O memory.
+> unsafe impl<T: ?Sized + Sync> Sync for Mmio<'_, T> {}
+>=20
+> -impl<T: ?Sized + KnownSize> Io for Mmio<'_, T> {
+> +impl<'a, T: ?Sized + KnownSize> Io<'a> for Mmio<'a, T> {
+> +    type Backend =3D MmioBackend;
+>     type Target =3D T;
+>=20
+>     #[inline]
+> -    fn addr(self) -> usize {
+> -        self.ptr.addr()
+> +    fn as_view(self) -> Mmio<'a, T> {
+> +        self
+>     }
+> +}
+> +
+> +/// I/O Backend for memory-mapped I/O.
+> +pub struct MmioBackend;
+> +
+> +impl IoBackend for MmioBackend {
+> +    type View<'a, T: ?Sized + KnownSize> =3D Mmio<'a, T>;
+>=20
+>     #[inline]
+> -    fn maxsize(self) -> usize {
+> -        KnownSize::size(self.ptr)
+> +    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> =
+*mut T {
+> +        view.ptr
+> +    }
+> +
+> +    #[inline]
+> +    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + =
+KnownSize>(
+> +        _view: Self::View<'a, T>,
+> +        ptr: *mut U,
+> +    ) -> Self::View<'a, U> {
+> +        // INVARIANT: Per safety requirement, `ptr` is projection =
+from `view`, so it is also a valid
+> +        // memory-mapped I/O region.
+> +        Mmio {
+> +            ptr,
+> +            phantom: PhantomData,
+> +        }
+>     }
+> }
+>=20
+> -/// Implements [`IoCapable`] on `$mmio` for `$ty` using `$read_fn` =
+and `$write_fn`.
+> +/// Implements [`IoCapable`] on `$backend` for `$ty` using `$read_fn` =
+and `$write_fn`.
+> macro_rules! impl_mmio_io_capable {
+> -    ($mmio:ident, $(#[$attr:meta])* $ty:ty, $read_fn:ident, =
+$write_fn:ident) =3D> {
+> -        $(#[$attr])*
+> -        impl<T: ?Sized> IoCapable<$ty> for $mmio<'_, T> {
+> +    ($backend: ident, $ty:ty, $read_fn:ident, $write_fn:ident) =3D> {
+> +        impl IoCapable<$ty> for $backend {
+>             #[inline]
+> -            unsafe fn io_read(self, address: usize) -> $ty {
+> -                // SAFETY: By the trait invariant `address` is a =
+valid address for MMIO operations.
+> -                unsafe { bindings::$read_fn(address as *const c_void) =
+}
+> +            fn io_read(view: <$backend as IoBackend>::View<'_, $ty>) =
+-> $ty {
+> +                // SAFETY: `$backend::as_ptr(view)` is a valid =
+pointer for MMIO operations for both
+> +                // `MmioBackend` and `RelaxedMmioBackend`.
+> +                unsafe { =
+bindings::$read_fn($backend::as_ptr(view).cast_const().cast()) }
+>             }
+>=20
+>             #[inline]
+> -            unsafe fn io_write(self, value: $ty, address: usize) {
+> -                // SAFETY: By the trait invariant `address` is a =
+valid address for MMIO operations.
+> -                unsafe { bindings::$write_fn(value, address as *mut =
+c_void) }
+> +            fn io_write(view: <$backend as IoBackend>::View<'_, $ty>, =
+value: $ty) {
+> +                // SAFETY: `$backend::as_ptr(view)` is a valid =
+pointer for MMIO operations for both
+> +                // `MmioBackend` and `RelaxedMmioBackend`.
+> +                unsafe { bindings::$write_fn(value, =
+$backend::as_ptr(view).cast()) }
+>             }
+>         }
+>     };
+> }
+>=20
+> // MMIO regions support 8, 16, and 32-bit accesses.
+> -impl_mmio_io_capable!(Mmio, u8, readb, writeb);
+> -impl_mmio_io_capable!(Mmio, u16, readw, writew);
+> -impl_mmio_io_capable!(Mmio, u32, readl, writel);
+> +impl_mmio_io_capable!(MmioBackend, u8, readb, writeb);
+> +impl_mmio_io_capable!(MmioBackend, u16, readw, writew);
+> +impl_mmio_io_capable!(MmioBackend, u32, readl, writel);
+> // MMIO regions on 64-bit systems also support 64-bit accesses.
+> #[cfg(CONFIG_64BIT)]
+> -impl_mmio_io_capable!(Mmio, u64, readq, writeq);
+> +impl_mmio_io_capable!(MmioBackend, u64, readq, writeq);
+>=20
+> -impl<'a, const SIZE: usize> Io for &'a MmioOwned<SIZE> {
+> +impl<'a, const SIZE: usize> Io<'a> for &'a MmioOwned<SIZE> {
+> +    type Backend =3D MmioBackend;
+>     type Target =3D Region<SIZE>;
+>=20
+> -    /// Returns the base address of this mapping.
+>     #[inline]
+> -    fn addr(self) -> usize {
+> -        self.0.addr()
+> -    }
+> -
+> -    /// Returns the maximum size of this mapping.
+> -    #[inline]
+> -    fn maxsize(self) -> usize {
+> -        self.0.size()
+> -    }
+> -}
+> -
+> -impl<'a, const SIZE: usize, T> IoCapable<T> for &'a MmioOwned<SIZE>
+> -where
+> -    Mmio<'a, Region<SIZE>>: IoCapable<T>,
+> -{
+> -    #[inline]
+> -    unsafe fn io_read(self, address: usize) -> T {
+> -        // SAFETY: Per safety requirement.
+> -        unsafe { self.as_view().io_read(address) }
+> -    }
+> -
+> -    #[inline]
+> -    unsafe fn io_write(self, value: T, address: usize) {
+> -        // SAFETY: Per safety requirement.
+> -        unsafe { self.as_view().io_write(value, address) }
+> +    fn as_view(self) -> Mmio<'a, Self::Target> {
+> +        // SAFETY: `Mmio` has same invariant as `MmioOwned`
+> +        unsafe { Mmio::from_raw(self.0) }
+>     }
+> }
+>=20
+> @@ -967,13 +980,6 @@ pub unsafe fn from_raw(raw: =
+&MmioRaw<Region<SIZE>>) -> &Self {
+>         // SAFETY: `MmioOwned` is a transparent wrapper around =
+`MmioRaw`.
+>         unsafe { &*core::ptr::from_ref(raw).cast() }
+>     }
+> -
+> -    /// Return a view that covers the full region.
+> -    #[inline]
+> -    pub fn as_view(&self) -> Mmio<'_, Region<SIZE>> {
+> -        // SAFETY: `Mmio` has same invariant as `MmioOwned`.
+> -        unsafe { Mmio::from_raw(self.0) }
+> -    }
+> }
+>=20
+> /// [`Mmio`] but using relaxed accessors.
+> @@ -992,17 +998,34 @@ fn clone(&self) -> Self {
+>     }
+> }
+>=20
+> -impl<T: ?Sized + KnownSize> Io for RelaxedMmio<'_, T> {
+> -    type Target =3D T;
+> +/// I/O Backend for memory-mapped I/O, with relaxed access semantics.
+> +pub struct RelaxedMmioBackend;
+> +
+> +impl IoBackend for RelaxedMmioBackend {
+> +    type View<'a, T: ?Sized + KnownSize> =3D RelaxedMmio<'a, T>;
+>=20
+>     #[inline]
+> -    fn addr(self) -> usize {
+> -        self.0.addr()
+> +    fn as_ptr<'a, T: ?Sized + KnownSize>(view: Self::View<'a, T>) -> =
+*mut T {
+> +        MmioBackend::as_ptr(view.0)
+>     }
+>=20
+>     #[inline]
+> -    fn maxsize(self) -> usize {
+> -        self.0.maxsize()
+> +    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + =
+KnownSize>(
+> +        view: Self::View<'a, T>,
+> +        ptr: *mut U,
+> +    ) -> Self::View<'a, U> {
+> +        // SAFETY: Per safety requirement.
+> +        RelaxedMmio(unsafe { MmioBackend::project_view(view.0, ptr) =
+})
+> +    }
+> +}
+> +
+> +impl<'a, T: ?Sized + KnownSize> Io<'a> for RelaxedMmio<'a, T> {
+> +    type Backend =3D RelaxedMmioBackend;
+> +    type Target =3D T;
+> +
+> +    #[inline]
+> +    fn as_view(self) -> RelaxedMmio<'a, T> {
+> +        self
+>     }
+> }
+>=20
+> @@ -1035,14 +1058,9 @@ pub fn relaxed(self) -> RelaxedMmio<'a, T> {
+> }
+>=20
+> // MMIO regions support 8, 16, and 32-bit accesses.
+> -impl_mmio_io_capable!(RelaxedMmio, u8, readb_relaxed, =
+writeb_relaxed);
+> -impl_mmio_io_capable!(RelaxedMmio, u16, readw_relaxed, =
+writew_relaxed);
+> -impl_mmio_io_capable!(RelaxedMmio, u32, readl_relaxed, =
+writel_relaxed);
+> +impl_mmio_io_capable!(RelaxedMmioBackend, u8, readb_relaxed, =
+writeb_relaxed);
+> +impl_mmio_io_capable!(RelaxedMmioBackend, u16, readw_relaxed, =
+writew_relaxed);
+> +impl_mmio_io_capable!(RelaxedMmioBackend, u32, readl_relaxed, =
+writel_relaxed);
+> // MMIO regions on 64-bit systems also support 64-bit accesses.
+> -impl_mmio_io_capable!(
+> -    RelaxedMmio,
+> -    #[cfg(CONFIG_64BIT)]
+> -    u64,
+> -    readq_relaxed,
+> -    writeq_relaxed
+> -);
+> +#[cfg(CONFIG_64BIT)]
+> +impl_mmio_io_capable!(RelaxedMmioBackend, u64, readq_relaxed, =
+writeq_relaxed);
+> diff --git a/rust/kernel/pci/io.rs b/rust/kernel/pci/io.rs
+> index 89f4bb483a7f..e67c1e3694fb 100644
+> --- a/rust/kernel/pci/io.rs
+> +++ b/rust/kernel/pci/io.rs
+> @@ -9,6 +9,7 @@
+>     devres::Devres,
+>     io::{
+>         Io,
+> +        IoBackend,
+>         IoCapable,
+>         MmioOwned,
+>         MmioRaw,
+> @@ -84,32 +85,57 @@ unsafe impl<T: ?Sized + Sync> Send for =
+ConfigSpace<'_, T> {}
+> // SAFETY: `ConfigSpace<'_, T>` is conceptually `&T` but in I/O =
+memory.
+> unsafe impl<T: ?Sized + Sync> Sync for ConfigSpace<'_, T> {}
+>=20
+> +/// I/O Backend for PCI configuration space.
+> +pub struct ConfigSpaceBackend;
+> +
+> +impl IoBackend for ConfigSpaceBackend {
+> +    type View<'a, T: ?Sized + KnownSize> =3D ConfigSpace<'a, T>;
+> +
+> +    #[inline]
+> +    fn as_ptr<'a, T: ?Sized + KnownSize>(view: ConfigSpace<'a, T>) -> =
+*mut T {
+> +        view.ptr
+> +    }
+> +
+> +    #[inline]
+> +    unsafe fn project_view<'a, T: ?Sized + KnownSize, U: ?Sized + =
+KnownSize>(
+> +        view: Self::View<'a, T>,
+> +        ptr: *mut U,
+> +    ) -> Self::View<'a, U> {
+> +        // INVARIANT: Per safety requirement.
+> +        ConfigSpace {
+> +            pdev: view.pdev,
+> +            ptr,
+> +        }
+> +    }
+> +}
+> +
+> /// Implements [`IoCapable`] on [`ConfigSpace`] for `$ty` using =
+`$read_fn` and `$write_fn`.
+> macro_rules! impl_config_space_io_capable {
+>     ($ty:ty, $read_fn:ident, $write_fn:ident) =3D> {
+> -        impl<'a, T: ?Sized> IoCapable<$ty> for ConfigSpace<'a, T> {
+> -            unsafe fn io_read(self, address: usize) -> $ty {
+> +        impl IoCapable<$ty> for ConfigSpaceBackend {
+> +            fn io_read(view: ConfigSpace<'_, $ty>) -> $ty {
+> +                // CAST: The offset is cast to `i32` because the C =
+functions expect a 32-bit
+> +                // signed offset parameter. PCI configuration space =
+size is at most 4096 bytes,
+> +                // so the value always fits within `i32` without =
+truncation or sign change.
+> +                let addr =3D view.ptr.addr() as i32;
+> +
+>                 let mut val: $ty =3D 0;
+>=20
+>                 // Return value from C function is ignored in =
+infallible accessors.
+> -                let _ret =3D
+> -                    // SAFETY: By the type invariant `self.pdev` is a =
+valid address.
+> -                    // CAST: The offset is cast to `i32` because the =
+C functions expect a 32-bit
+> -                    // signed offset parameter. PCI configuration =
+space size is at most 4096 bytes,
+> -                    // so the value always fits within `i32` without =
+truncation or sign change.
+> -                    unsafe { bindings::$read_fn(self.pdev.as_raw(), =
+address as i32, &mut val) };
+> -
+> +                // SAFETY: By the type invariant `pdev` is a valid =
+address.
+> +                let _ =3D unsafe { =
+bindings::$read_fn(view.pdev.as_raw(), addr, &mut val) };
+>                 val
+>             }
+>=20
+> -            unsafe fn io_write(self, value: $ty, address: usize) {
+> +            fn io_write(view: ConfigSpace<'_, $ty>, value: $ty) {
+> +                // CAST: The offset is cast to `i32` because the C =
+functions expect a 32-bit
+> +                // signed offset parameter. PCI configuration space =
+size is at most 4096 bytes,
+> +                // so the value always fits within `i32` without =
+truncation or sign change.
+> +                let addr =3D view.ptr.addr() as i32;
+> +
+>                 // Return value from C function is ignored in =
+infallible accessors.
+> -                let _ret =3D
+> -                    // SAFETY: By the type invariant `self.pdev` is a =
+valid address.
+> -                    // CAST: The offset is cast to `i32` because the =
+C functions expect a 32-bit
+> -                    // signed offset parameter. PCI configuration =
+space size is at most 4096 bytes,
+> -                    // so the value always fits within `i32` without =
+truncation or sign change.
+> -                    unsafe { bindings::$write_fn(self.pdev.as_raw(), =
+address as i32, value) };
+> +                // SAFETY: By the type invariant `pdev` is a valid =
+address.
+> +                let _ =3D unsafe { =
+bindings::$write_fn(view.pdev.as_raw(), addr, value) };
+>             }
+>         }
+>     };
+> @@ -120,17 +146,13 @@ unsafe fn io_write(self, value: $ty, address: =
+usize) {
+> impl_config_space_io_capable!(u16, pci_read_config_word, =
+pci_write_config_word);
+> impl_config_space_io_capable!(u32, pci_read_config_dword, =
+pci_write_config_dword);
+>=20
+> -impl<'a, T: ?Sized + KnownSize> Io for ConfigSpace<'a, T> {
+> +impl<'a, T: ?Sized + KnownSize> Io<'a> for ConfigSpace<'a, T> {
+> +    type Backend =3D ConfigSpaceBackend;
+>     type Target =3D T;
+>=20
+>     #[inline]
+> -    fn addr(self) -> usize {
+> -        self.ptr.addr()
+> -    }
+> -
+> -    #[inline]
+> -    fn maxsize(self) -> usize {
+> -        KnownSize::size(self.ptr)
+> +    fn as_view(self) -> ConfigSpace<'a, T> {
+> +        self
+>     }
+> }
+>=20
+>=20
+> --=20
+> 2.54.0
+>=20
 
-So the device is in LOCKED here, DMA remains off both because of
-LOCKED and becuase ENABLE DMA has not been done.
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 
-> echo 1 > $pdev/tsm/accept
-
-And now it is RUN. So I don't see the issue with enabling DMA at the
-same time as gonig to RUN? (though defering it to driver probe would
-be a very nice touch as well)
-
-With this API you can't set the devices to RUN and *then* collect the
-evidence, is that restriction OK?
-
-> echo full > $pdev/trust
-> echo $pdev > $driver/bind
-
-Then we can set the trust and bind the driver, knowing that the T=1
-security property is in place.
-
-> The configuration window where $pdev/trust and $pdev/accept can be
-> dynamically changing should not be changing the force_dma_unencrypyted()
-> result if only because that value will mismatch the hardware state until
-> the next ->dma_configure() event.
-
-T=x cannot be changed while a driver is bound, we need to block
-that. Changing it will mess up all DMA and the DMA API won't work
-anymore.
-
-Thus force_dma_unencrypted() can only change when a driver is
-unbound.
-
-If a driver is unbound nothing ever reads force_dma_unencrypted() so
-it is safe to change it, thus we can just synchronize T=1 and
-force_dma_unencrypted() whenever T changes.
-
-The error case has to wait for the driver to unbind if userspace wants
-to go from ERROR->UNLOCKED. IMHO for RAS we are going to need a flow
-to logically go from ERROR->RUN, probably with the 'same device
-acceptance' I suggested earlier. In this case the DMAs will be halted,
-the devices gets back to T=1 and RUN, then the DMAs are turned on
-again. The driver remains in T=1 and force_dma_unencrypted() is always
-false.
-
-> There are also buses and paravisors that may know that private-DMA is
-> enabled for a device by construction. In that case it is also a "trusted
-> to access" signal, and not a "required to access" signal.
-
-In this case they wire force_dma_unencrypted()=false.
- 
-> My answer, given the concerns of drivers dangerously flipping the
-> force_dma_unencrypted() result at runtime was to place it in 'struct
-> device_private' 
-
-Yes, this seems good idea in general
-
-> Otherwise it is confusing when 2 devices are at FULL trust, but
-> one has private memory access and the other does not. One is FULL the
-> other is FULL+.
-
-It is confusing when phrased like this, but this is also why I was
-suggesting below that a pure trust level may not be sufficient as we
-have quite a cross product of scenarios.
-
-If the user wants to operate a device without T=1 and without
-ADVERSARY then that's goofy, but technically the kernel doesn't really
-need to care? It can do it.
-
-IMHO a big question is how much do we want the kernel to nanny
-userspace by having options to double check its work?
-
-Either we trust the user to have checked all the policy conditions
-before writing /sys/trust, or we encode some policy conditions and
-tell the kernel so it can double-check prior to probe.
-
-At least if we omit the double check it can be fairly easy to add in
-later if it really was needed for some time of use reason.
-
-> The question is whether these requirements belong on a central device
-> trust mechanism bitmap or should be pushed out to other ABI.
-
-Yes, for sure, I don't have a good sense what is better.
-
-> For
-> example, if the presence of the secure IOMMU is enumerated
-> after the device is in the LOCKED state then userspace policy can know
-> what it is getting into without needing to tell the kernel. 
-
-Yes, I think for almost all of this we could push it out to userspace
-and have knobs all over. Like IOMMU already has a knob to switch to
-DMA mode, we could add an IOMMU specific trust level to set ADVERSARY
-also if we go in this direction.
-
-But, I also do really like the idea of a central knob that was fairly
-general and simple DISABLE/ADVERSARY/FULL which all sorts of things
-can hang off. Including IOMMU and the drivers themselves that may
-change operation in ADVERSARY mode.
-
-That means they need simple general definitions for what they are, and
-I really like this ADVERSARY naming vs trust as it makes it very clear
-what the device disposition intention is.
-
-> Not essential, but it is useful to have the "operate device" intent,
-> IOMMU default domain configuration, trust level, and private DMA enable
-> all in the same bus operation (->dma_configure). Which is why "accept"
-> was demoted to just set RUN state and leave the rest to be finalized
-> later.
-
-I agree it is nice, and I think this can work fine, the bus code when
-it does the dma configure step can reach out to the TSM and have it
-enable DMA.
-
-We also want the IOMMU to change to a default-disabled state, so we
-also want its hook in dma configure to switch to non-default too.
-
-It makes alot of sense to me that *all* DMA enable knobs will be
-disabled until right before probe starts and then disabled again once
-remove completes. TSM, IOMMU, PCI, etc.
-
-Jason
