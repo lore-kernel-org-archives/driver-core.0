@@ -1,98 +1,543 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F145B431E5D
-	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 11:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783510834; cv=none; b=KXfaYLZUrUawUmdimMKE+CMLvsWsTaeEvnxvUCNgs9X+6gIhd2Bsbx0K67fkLY9zBCCOf9Z6qrOpsYmLeusSCkMCwq5KKDuEMiwK05pP6ENXl7tz5TsvO3ReESV6muQeiM0Ddcooz8H2XN/C6oyYMDymAJRhM4jzREd4d8m0VKM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783510834; c=relaxed/simple;
-	bh=dpLYqUgKFJe2E1L9qfI5UGDCSJeERNm5s4u56p1sYPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SXzUz3EoNhkj3K6vKwdimaF2Gf+vsj8jVAASE3oSCRtD3BI8Pk/ficBHSyhKw1wK8c4tKOIWHMH6bVdWuG+xobdEzG1s2VYFrovyb44hq60NxaxbME9vb81T1Db85XCDZgndBi95uN027jWGDDEVM6QCa3Bm5KNCLGx8mJBlyE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c9ot8YXq; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307E63BFE3C;
+	Wed,  8 Jul 2026 11:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783511941; cv=pass; b=aeAfNKZwlra2zJWdehJZvliIUd9OoOFycJIIAOlhRqwHa0h1gMgoVqxvOhbkjAYffMrfZN0io/8ip+CP7ahhkf9v0Js0JGggNvmvEEnBUF5Ep+6PYDP3cjOnTdBdVnumUBPhNjbQ352vCZAaovOa/FXmG1XF+CJGaShhXX6YIYE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783511941; c=relaxed/simple;
+	bh=pmu0IU49odUB3SnA+99gvm1V/28YuAVo9gSdLtzGCFc=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=u4nSed1+hXfYMt1KNbNzjh+fPXOMp0UkwA8Q9v6O6bOFMNWfFuRhB0DihE1fRGJD/KKiClUrMU4oBcGBwvfYdeprsbFXaqUJURy1i9PWkBJXSIqxi3lkOYgZCSZkvsj/owPz7PakCxrAH0x/BIkbxDbb1J1d0XLR1q2wPdQq1P4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=TjtfzDXG; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c9ot8YXq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783510833; x=1815046833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dpLYqUgKFJe2E1L9qfI5UGDCSJeERNm5s4u56p1sYPk=;
-  b=c9ot8YXqSoa0EqJ98uVkwgnega3UiMZEiIKnzGOTn87/BNNjpCfzHeEi
-   XqqKGe0r9u91Zy/donf4077E0xJp4hQ83K+but47OGNcYkbZjbKKcwEC/
-   kAvD3lsH743p6hUam/a1vm661Mu6RtabDfo7hVCfTBJkKwnuotSYYqtp6
-   nSnN34MnrwUSY5yx53h2/Jgkg9LMJreanwxPQuMDcuG/wLISupE3WAJ3d
-   itD5Wg/94Gplf4uSAuHJze+M067BG/DTTzQafjMLfOrJesgjWg9pPUzxO
-   ft2UYYoo0UpsPqTq8kW2zC9uBkDicUZ7qXuooY3O/6qOn8sXwOjwerbsz
-   Q==;
-X-CSE-ConnectionGUID: 0gBAQVa6TW2J0yaDnXj3gA==
-X-CSE-MsgGUID: fz4Ev1YsRxWsPPmhgZcsWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="101593697"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="101593697"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 04:40:33 -0700
-X-CSE-ConnectionGUID: OsXS0JGsQzOIdQReTdx6aA==
-X-CSE-MsgGUID: wpZWCAdIS16CO26XRFJI0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="258570827"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.100])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 04:40:28 -0700
-Date: Wed, 8 Jul 2026 14:40:26 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] software node: add kunit tests for fw_devlink
- support
-Message-ID: <ak43KoUF1pPo55gY@ashevche-desk.local>
-References: <20260706-swnode-fw-devlink-v2-0-f39b09d50112@oss.qualcomm.com>
- <20260706-swnode-fw-devlink-v2-3-f39b09d50112@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="TjtfzDXG"
+ARC-Seal: i=1; a=rsa-sha256; t=1783511924; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Isr+7iqECTIhjqzfdavdO/aJjDjBPAO+eTyd8DfG3ik/JQZB/NzmHoo9k89YiBRFL4QzpsXly0u4gGKZymw8J2u9b1ovLOc5pzf1HLs1B8QMionsTrbaG9H0SRk5PgW8w+IVX9Cli5eBmOoly5Jb+qhXSwdFD7HyywAXIuGXQWg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783511924; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=DbGKIVPfPPT8Aj7brJgocrtAF1bRFi+RRGEvVzM985w=; 
+	b=WgmcHK8rHcLx3+3tCBkB6GFDEXhg1QgkOXg7uk86iPUHGdHQQ2gSqyTU1wv1tMYiqcx8/0r+09wkBte8neH3b7bfDfQjzIJiIUEqlXrhOnSUOk+/XkTVpk4Wxt0fTN8OqrQ3evpFgytH5bBoDF2NCXnh63Vf/946Ltlac6PGtgA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783511924;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=DbGKIVPfPPT8Aj7brJgocrtAF1bRFi+RRGEvVzM985w=;
+	b=TjtfzDXGkAZ8rnD30aWcRl1VmjIjLSt7ZPnYYt5UXknecAmwEvKz4EReH37EtdYg
+	NK4HduiWxXm9YE2sMeBtPplGuQvDAOxOTRlxg1XcyfnBuwVOFdJMBrCWediYssYyKQ3
+	kNsFnAheXoAvZVALv40DbuboOXx1myicmTuxLUVU=
+Received: by mx.zohomail.com with SMTPS id 1783511922397500.97047209613584;
+	Wed, 8 Jul 2026 04:58:42 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706-swnode-fw-devlink-v2-3-f39b09d50112@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v6 04/20] rust: io: implement `Io` on reference types
+ instead
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260706-io_projection-v6-4-72cd5d055d54@garyguo.net>
+Date: Wed, 8 Jul 2026 08:58:23 -0300
+Cc: Alice Ryhl <aliceryhl@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Tamir Duberstein <tamird@kernel.org>,
+ =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?utf-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ nova-gpu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org,
+ linux-pwm@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <88183651-927C-4A64-A3C9-BC5C4FE6C831@collabora.com>
+References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+ <20260706-io_projection-v6-4-72cd5d055d54@garyguo.net>
+To: Gary Guo <gary@garyguo.net>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 
-On Mon, Jul 06, 2026 at 02:54:10PM +0200, Bartosz Golaszewski wrote:
-> Add a kunit test suite for fw_devlink support for software nodes.
-> 
-> Most cases call add_links() directly and inspect the resulting fwnode
-> supplier/consumer lists: a single reference, multiple references, a
-> reference to an unregistered node, a "remote-endpoint" reference and a
-> reference array. The last case is end-to-end - it registers real consumer
-> and supplier platform devices together with their drivers, adds the
-> consumer first and checks that fw_devlink defers its probe until the
-> supplier has been bound.
-
-Always in favour for the new test cases!
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
 
 
+> On 6 Jul 2026, at 09:44, Gary Guo <gary@garyguo.net> wrote:
+>=20
+> Currently, `Io` is implemented on owned I/O objects (e.g. `Bar`). This =
+is
+> going to change with I/O projections, as then `Io` needs to work both =
+for
+> owned objects and views of them. Views are themselves reference-like
+> (however they obviously cannot be references, because they belong to a
+> different address space).
+>=20
+> To facilitate the change, change `Io` to be implemented on reference =
+types
+> for the owned I/O objects, and make methods take `self` instead of =
+`&self`.
+> When I/O views are implemented, we can then naturally implement `Io` =
+for
+> these objects.
+>=20
+> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+> rust/kernel/io.rs     | 82 =
+++++++++++++++++++++++++++-------------------------
+> rust/kernel/pci/io.rs | 12 ++++----
+> 2 files changed, 48 insertions(+), 46 deletions(-)
+>=20
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index 87141eb07056..9f060dd29182 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -223,7 +223,7 @@ pub trait IoCapable<T> {
+>     ///
+>     /// - The range `[address..address + size_of::<T>()]` must be =
+within the bounds of `Self`.
+>     /// - `address` must be aligned.
+> -    unsafe fn io_read(&self, address: usize) -> T;
+> +    unsafe fn io_read(self, address: usize) -> T;
+>=20
+>     /// Performs an I/O write of `value` at `address`.
+>     ///
+> @@ -231,7 +231,7 @@ pub trait IoCapable<T> {
+>     ///
+>     /// - The range `[address..address + size_of::<T>()]` must be =
+within the bounds of `Self`.
+>     /// - `address` must be aligned.
+> -    unsafe fn io_write(&self, value: T, address: usize);
+> +    unsafe fn io_write(self, value: T, address: usize);
+> }
+>=20
+> /// Describes a given I/O location: its offset, width, and type to =
+convert the raw value from and
+> @@ -294,25 +294,27 @@ fn offset(self) -> usize {
+> /// Which I/O methods are available depends on which [`IoCapable<T>`] =
+traits
+> /// are implemented for the type.
+> ///
+> +/// This should be implemented on cheaply copyable handles, such as =
+references or view types.
+> +///
+> /// # Examples
+> ///
+> /// For MMIO regions, all widths (u8, u16, u32, and u64 on 64-bit =
+systems) are typically
+> /// supported. For PCI configuration space, u8, u16, and u32 are =
+supported but u64 is not.
+> -pub trait Io {
+> +pub trait Io: Copy {
+>     /// Type of this I/O region. For untyped regions, [`Region`] can =
+be used.
+>     type Target: ?Sized + KnownSize;
+>=20
+>     /// Returns the base address of this mapping.
+> -    fn addr(&self) -> usize;
+> +    fn addr(self) -> usize;
+>=20
+>     /// Returns the maximum size of this mapping.
+> -    fn maxsize(&self) -> usize;
+> +    fn maxsize(self) -> usize;
+>=20
+>     /// Returns the absolute I/O address for a given `offset`,
+>     /// performing compile-time bound checks.
+>     // Always inline to optimize out error path of `build_assert`.
+>     #[inline(always)]
+> -    fn io_addr_assert<U>(&self, offset: usize) -> usize {
+> +    fn io_addr_assert<U>(self, offset: usize) -> usize {
+>         // We cannot check alignment with `offset_valid` using =
+`self.addr()`. So set 0 for it and
+>         // ensure alignment by checking that the alignment of `U` is =
+smaller or equal to the
+>         // alignment of `Self::Target`.
+> @@ -325,7 +327,7 @@ fn io_addr_assert<U>(&self, offset: usize) -> =
+usize {
+>     /// Returns the absolute I/O address for a given `offset`,
+>     /// performing runtime bound checks.
+>     #[inline]
+> -    fn io_addr<U>(&self, offset: usize) -> Result<usize> {
+> +    fn io_addr<U>(self, offset: usize) -> Result<usize> {
+>         if !offset_valid::<U>(self.addr(), offset, self.maxsize()) {
+>             return Err(EINVAL);
+>         }
+> @@ -337,7 +339,7 @@ fn io_addr<U>(&self, offset: usize) -> =
+Result<usize> {
+>=20
+>     /// Fallible 8-bit read with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_read8(&self, offset: usize) -> Result<u8>
+> +    fn try_read8(self, offset: usize) -> Result<u8>
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+>         Self: IoCapable<u8>,
+> @@ -347,7 +349,7 @@ fn try_read8(&self, offset: usize) -> Result<u8>
+>=20
+>     /// Fallible 16-bit read with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_read16(&self, offset: usize) -> Result<u16>
+> +    fn try_read16(self, offset: usize) -> Result<u16>
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+>         Self: IoCapable<u16>,
+> @@ -357,7 +359,7 @@ fn try_read16(&self, offset: usize) -> Result<u16>
+>=20
+>     /// Fallible 32-bit read with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_read32(&self, offset: usize) -> Result<u32>
+> +    fn try_read32(self, offset: usize) -> Result<u32>
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+>         Self: IoCapable<u32>,
+> @@ -367,7 +369,7 @@ fn try_read32(&self, offset: usize) -> Result<u32>
+>=20
+>     /// Fallible 64-bit read with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_read64(&self, offset: usize) -> Result<u64>
+> +    fn try_read64(self, offset: usize) -> Result<u64>
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+>         Self: IoCapable<u64>,
+> @@ -377,7 +379,7 @@ fn try_read64(&self, offset: usize) -> Result<u64>
+>=20
+>     /// Fallible 8-bit write with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_write8(&self, value: u8, offset: usize) -> Result
+> +    fn try_write8(self, value: u8, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+>         Self: IoCapable<u8>,
+> @@ -387,7 +389,7 @@ fn try_write8(&self, value: u8, offset: usize) -> =
+Result
+>=20
+>     /// Fallible 16-bit write with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_write16(&self, value: u16, offset: usize) -> Result
+> +    fn try_write16(self, value: u16, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+>         Self: IoCapable<u16>,
+> @@ -397,7 +399,7 @@ fn try_write16(&self, value: u16, offset: usize) =
+-> Result
+>=20
+>     /// Fallible 32-bit write with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_write32(&self, value: u32, offset: usize) -> Result
+> +    fn try_write32(self, value: u32, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+>         Self: IoCapable<u32>,
+> @@ -407,7 +409,7 @@ fn try_write32(&self, value: u32, offset: usize) =
+-> Result
+>=20
+>     /// Fallible 64-bit write with runtime bounds check.
+>     #[inline(always)]
+> -    fn try_write64(&self, value: u64, offset: usize) -> Result
+> +    fn try_write64(self, value: u64, offset: usize) -> Result
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+>         Self: IoCapable<u64>,
+> @@ -417,7 +419,7 @@ fn try_write64(&self, value: u64, offset: usize) =
+-> Result
+>=20
+>     /// Infallible 8-bit read with compile-time bounds check.
+>     #[inline(always)]
+> -    fn read8(&self, offset: usize) -> u8
+> +    fn read8(self, offset: usize) -> u8
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+>         Self: IoCapable<u8>,
+> @@ -427,7 +429,7 @@ fn read8(&self, offset: usize) -> u8
+>=20
+>     /// Infallible 16-bit read with compile-time bounds check.
+>     #[inline(always)]
+> -    fn read16(&self, offset: usize) -> u16
+> +    fn read16(self, offset: usize) -> u16
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+>         Self: IoCapable<u16>,
+> @@ -437,7 +439,7 @@ fn read16(&self, offset: usize) -> u16
+>=20
+>     /// Infallible 32-bit read with compile-time bounds check.
+>     #[inline(always)]
+> -    fn read32(&self, offset: usize) -> u32
+> +    fn read32(self, offset: usize) -> u32
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+>         Self: IoCapable<u32>,
+> @@ -447,7 +449,7 @@ fn read32(&self, offset: usize) -> u32
+>=20
+>     /// Infallible 64-bit read with compile-time bounds check.
+>     #[inline(always)]
+> -    fn read64(&self, offset: usize) -> u64
+> +    fn read64(self, offset: usize) -> u64
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+>         Self: IoCapable<u64>,
+> @@ -457,7 +459,7 @@ fn read64(&self, offset: usize) -> u64
+>=20
+>     /// Infallible 8-bit write with compile-time bounds check.
+>     #[inline(always)]
+> -    fn write8(&self, value: u8, offset: usize)
+> +    fn write8(self, value: u8, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u8, IoType =3D u8>,
+>         Self: IoCapable<u8>,
+> @@ -467,7 +469,7 @@ fn write8(&self, value: u8, offset: usize)
+>=20
+>     /// Infallible 16-bit write with compile-time bounds check.
+>     #[inline(always)]
+> -    fn write16(&self, value: u16, offset: usize)
+> +    fn write16(self, value: u16, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u16, IoType =3D u16>,
+>         Self: IoCapable<u16>,
+> @@ -477,7 +479,7 @@ fn write16(&self, value: u16, offset: usize)
+>=20
+>     /// Infallible 32-bit write with compile-time bounds check.
+>     #[inline(always)]
+> -    fn write32(&self, value: u32, offset: usize)
+> +    fn write32(self, value: u32, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u32, IoType =3D u32>,
+>         Self: IoCapable<u32>,
+> @@ -487,7 +489,7 @@ fn write32(&self, value: u32, offset: usize)
+>=20
+>     /// Infallible 64-bit write with compile-time bounds check.
+>     #[inline(always)]
+> -    fn write64(&self, value: u64, offset: usize)
+> +    fn write64(self, value: u64, offset: usize)
+>     where
+>         usize: IoLoc<Self::Target, u64, IoType =3D u64>,
+>         Self: IoCapable<u64>,
+> @@ -518,7 +520,7 @@ fn write64(&self, value: u64, offset: usize)
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn try_read<T, L>(&self, location: L) -> Result<T>
+> +    fn try_read<T, L>(self, location: L) -> Result<T>
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         Self: IoCapable<L::IoType>,
+> @@ -552,7 +554,7 @@ fn try_read<T, L>(&self, location: L) -> Result<T>
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn try_write<T, L>(&self, location: L, value: T) -> Result
+> +    fn try_write<T, L>(self, location: L, value: T) -> Result
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         Self: IoCapable<L::IoType>,
+> @@ -598,7 +600,7 @@ fn try_write<T, L>(&self, location: L, value: T) =
+-> Result
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn try_write_reg<T, L, V>(&self, value: V) -> Result
+> +    fn try_write_reg<T, L, V>(self, value: V) -> Result
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         V: LocatedRegister<Self::Target, Location =3D L, Value =3D T>,
+> @@ -631,7 +633,7 @@ fn try_write_reg<T, L, V>(&self, value: V) -> =
+Result
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn try_update<T, L, F>(&self, location: L, f: F) -> Result
+> +    fn try_update<T, L, F>(self, location: L, f: F) -> Result
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         Self: IoCapable<L::IoType>,
+> @@ -670,7 +672,7 @@ fn try_update<T, L, F>(&self, location: L, f: F) =
+-> Result
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn read<T, L>(&self, location: L) -> T
+> +    fn read<T, L>(self, location: L) -> T
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         Self: IoCapable<L::IoType>,
+> @@ -702,7 +704,7 @@ fn read<T, L>(&self, location: L) -> T
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn write<T, L>(&self, location: L, value: T)
+> +    fn write<T, L>(self, location: L, value: T)
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         Self: IoCapable<L::IoType>,
+> @@ -745,7 +747,7 @@ fn write<T, L>(&self, location: L, value: T)
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn write_reg<T, L, V>(&self, value: V)
+> +    fn write_reg<T, L, V>(self, value: V)
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         V: LocatedRegister<Self::Target, Location =3D L, Value =3D T>,
+> @@ -778,7 +780,7 @@ fn write_reg<T, L, V>(&self, value: V)
+>     /// }
+>     /// ```
+>     #[inline(always)]
+> -    fn update<T, L, F>(&self, location: L, f: F)
+> +    fn update<T, L, F>(self, location: L, f: F)
+>     where
+>         L: IoLoc<Self::Target, T>,
+>         Self: IoCapable<L::IoType>,
+> @@ -799,13 +801,13 @@ fn update<T, L, F>(&self, location: L, f: F)
+> macro_rules! impl_mmio_io_capable {
+>     ($mmio:ident, $(#[$attr:meta])* $ty:ty, $read_fn:ident, =
+$write_fn:ident) =3D> {
+>         $(#[$attr])*
+> -        impl<const SIZE: usize> IoCapable<$ty> for $mmio<SIZE> {
+> -            unsafe fn io_read(&self, address: usize) -> $ty {
+> +        impl<const SIZE: usize> IoCapable<$ty> for &$mmio<SIZE> {
+> +            unsafe fn io_read(self, address: usize) -> $ty {
+>                 // SAFETY: By the trait invariant `address` is a valid =
+address for MMIO operations.
+>                 unsafe { bindings::$read_fn(address as *const c_void) =
+}
+>             }
+>=20
+> -            unsafe fn io_write(&self, value: $ty, address: usize) {
+> +            unsafe fn io_write(self, value: $ty, address: usize) {
+>                 // SAFETY: By the trait invariant `address` is a valid =
+address for MMIO operations.
+>                 unsafe { bindings::$write_fn(value, address as *mut =
+c_void) }
+>             }
+> @@ -826,18 +828,18 @@ unsafe fn io_write(&self, value: $ty, address: =
+usize) {
+>     writeq
+> );
+>=20
+> -impl<const SIZE: usize> Io for Mmio<SIZE> {
+> +impl<'a, const SIZE: usize> Io for &'a Mmio<SIZE> {
+>     type Target =3D Region<SIZE>;
+>=20
+>     /// Returns the base address of this mapping.
+>     #[inline]
+> -    fn addr(&self) -> usize {
+> +    fn addr(self) -> usize {
+>         self.0.addr()
+>     }
+>=20
+>     /// Returns the maximum size of this mapping.
+>     #[inline]
+> -    fn maxsize(&self) -> usize {
+> +    fn maxsize(self) -> usize {
+>         self.0.maxsize()
+>     }
+> }
+> @@ -864,16 +866,16 @@ pub unsafe fn from_raw(raw: &MmioRaw<SIZE>) -> =
+&Self {
+> #[repr(transparent)]
+> pub struct RelaxedMmio<const SIZE: usize =3D 0>(Mmio<SIZE>);
+>=20
+> -impl<const SIZE: usize> Io for RelaxedMmio<SIZE> {
+> +impl<'a, const SIZE: usize> Io for &'a RelaxedMmio<SIZE> {
+>     type Target =3D Region<SIZE>;
+>=20
+>     #[inline]
+> -    fn addr(&self) -> usize {
+> +    fn addr(self) -> usize {
+>         self.0.addr()
+>     }
+>=20
+>     #[inline]
+> -    fn maxsize(&self) -> usize {
+> +    fn maxsize(self) -> usize {
+>         self.0.maxsize()
+>     }
+> }
+> diff --git a/rust/kernel/pci/io.rs b/rust/kernel/pci/io.rs
+> index b4996aa059d8..505305cd9b86 100644
+> --- a/rust/kernel/pci/io.rs
+> +++ b/rust/kernel/pci/io.rs
+> @@ -79,8 +79,8 @@ pub struct ConfigSpace<'a, S: ?Sized + =
+ConfigSpaceKind =3D Extended> {
+> /// Implements [`IoCapable`] on [`ConfigSpace`] for `$ty` using =
+`$read_fn` and `$write_fn`.
+> macro_rules! impl_config_space_io_capable {
+>     ($ty:ty, $read_fn:ident, $write_fn:ident) =3D> {
+> -        impl<'a, S: ?Sized + ConfigSpaceKind> IoCapable<$ty> for =
+ConfigSpace<'a, S> {
+> -            unsafe fn io_read(&self, address: usize) -> $ty {
+> +        impl<'a, S: ?Sized + ConfigSpaceKind> IoCapable<$ty> for =
+&ConfigSpace<'a, S> {
+> +            unsafe fn io_read(self, address: usize) -> $ty {
+>                 let mut val: $ty =3D 0;
+>=20
+>                 // Return value from C function is ignored in =
+infallible accessors.
+> @@ -94,7 +94,7 @@ unsafe fn io_read(&self, address: usize) -> $ty {
+>                 val
+>             }
+>=20
+> -            unsafe fn io_write(&self, value: $ty, address: usize) {
+> +            unsafe fn io_write(self, value: $ty, address: usize) {
+>                 // Return value from C function is ignored in =
+infallible accessors.
+>                 let _ret =3D
+>                     // SAFETY: By the type invariant `self.pdev` is a =
+valid address.
+> @@ -112,18 +112,18 @@ unsafe fn io_write(&self, value: $ty, address: =
+usize) {
+> impl_config_space_io_capable!(u16, pci_read_config_word, =
+pci_write_config_word);
+> impl_config_space_io_capable!(u32, pci_read_config_dword, =
+pci_write_config_dword);
+>=20
+> -impl<'a, S: ?Sized + ConfigSpaceKind> Io for ConfigSpace<'a, S> {
+> +impl<'a, S: ?Sized + ConfigSpaceKind> Io for &ConfigSpace<'a, S> {
+>     type Target =3D S;
+>=20
+>     /// Returns the base address of the I/O region. It is always 0 for =
+configuration space.
+>     #[inline]
+> -    fn addr(&self) -> usize {
+> +    fn addr(self) -> usize {
+>         0
+>     }
+>=20
+>     /// Returns the maximum size of the configuration space.
+>     #[inline]
+> -    fn maxsize(&self) -> usize {
+> +    fn maxsize(self) -> usize {
+>         self.pdev.cfg_size().into_raw()
+>     }
+> }
+>=20
+> --=20
+> 2.54.0
+>=20
+>=20
+
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
