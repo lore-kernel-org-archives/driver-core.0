@@ -1,195 +1,283 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD9B409266
-	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 15:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783525573; cv=none; b=WQiCq0B2sduQHCQd5pbn9kTVk9qM0/n9IFWpRwmwDo3EimXYtHew6lU5Xrj9Pf34Bf18xEhMV/8J0CaHyPxAIWxFNK0E51gYbWh2MwI+YbfGoIMS488IbjOmjPIVRp9tlC0xSBmnI9W3hrD6POWnmz0eVjV+/wG+jeT/s7jwj4I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783525573; c=relaxed/simple;
-	bh=6o/Os/YHoHLpbGBJ/Oz87lOS4kylKBP062qGBWElKsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JDuBpsqFwGllXoEyjb0OboKEuA6WfoREX6Fk0K4Q4eARul3XoNDm8CGMgJhC0eL3bHcgKWOXId+JcOz1qjnXZP3N7Eg7ORBlNo0FhMBJnHRAD+aP0yI5DAeaUlYiZ6zW5ym/OLqO36Lm9JlkxqMJdjACzJSDnbWWBSMx+builJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BGxHDi56; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BBE3BAD9B;
+	Wed,  8 Jul 2026 17:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783533549; cv=pass; b=Zh+PMVCj3lBo8dYG/99vbNhr8us9ZR2TqZ4ZINaTys2YOzW3uFNS30VAEql/qnMJfSbEnKo7dbHd+fKhXy/Sc1c7EgM/pbRhCuLDKnwynCUSNsEAMmSA6zKXnfcjorcXEbkvAMTyDl2jKXHgMUDypHq9gEEcYCoRQKPqUgHGKlo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783533549; c=relaxed/simple;
+	bh=AgUlkat6v++jVhHY171oF8yEKncS8iy0eZpk/jsPyWQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=OdO/imJB+n5KxDsUkpxCPcA6mlKCSAcwTakmEXzR9XSP9SGyo9uaXCUfWKnuzIuvrASUIpcQnIo41U3lQYy/EhVE0sgRIVBTbqi8vrKElFsxOTVSKr5KvUs5HsH/5i+MNIE8cIppiGV+hBdxEZrSkWrhk5j1+TKIVtV7YHbo4dc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=Jc94RES9; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BGxHDi56"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4720d22c94aso808535f8f.1
-        for <driver-core@lists.linux.dev>; Wed, 08 Jul 2026 08:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783525566; x=1784130366; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DFzX8ayLrWD5LLPflyw5iQn6+h660qomUnmCAVS4si0=;
-        b=BGxHDi56uTJ4WVBwebGp4VVqM161q8XbA8wHR/YzAuXa7l980VUumdHnrR7DUdfNBg
-         3+QGlGbY0qtbNHQgG2IalS+xxjLKMaCVXiP0s+5HN2OD5Zc3pPOCQ9Vu4XPubZUzdtZh
-         zlx+gRIulUMw7EV5I4o3z3btyELbB3hoi+pK+AvLZHSS3wcgfOKQB4FHiFB4Z9g71FOr
-         bkoN2oPevt2hoybmLgif6DV4FK5HFRNZtvyUGvml6z6AwC0bJEjru8wz2OAmnudkcjrz
-         qU3MpE1SB9iCBlyseg0nn6QZx+WASOzFkl5liXihOgWRUOEmYIWmDXeU1v6vvqx+zl7G
-         9Dlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783525566; x=1784130366;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DFzX8ayLrWD5LLPflyw5iQn6+h660qomUnmCAVS4si0=;
-        b=U5J5Ck9s9Hdxu5fgqUVIKyZTARmAZz24unejYMoa7SDRRx7+RSVGC9OmqSn/rVM4/y
-         exuavPDfZ1igpgciJki4I8OQPJNYwA/gN4ZqZkcSTpmBtOV8L118fEuoSJ1aF6PcmHEg
-         le26yEhmveEv8M8pSJvemrCwodJSEg3hFUKMgcIpUSEvcHijaa4ut3DtpOk39VVHlkno
-         iXvlLNz0UOhgENNwcUy7lxqww8IekY/zeqnbvfAVLjUa4AipSeXPxj/CgifscMOR4FxO
-         3f+d7PksI4O2FjCf2RWtF+/ZzwPrYq7bb9jJQKa52/Mv0I62+01aA/22bCozUlaNYLAK
-         IxFw==
-X-Forwarded-Encrypted: i=1; AHgh+RqpW5IVacEs7qt7W/r0dHD4i8CKvLrDq6rMVsLdqAJ+VO8lpYjHp3JC9aZAQ/0h1hfbH9J37+rj529itw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwH/4zwF5Xo09/nOd7L8OTMci5/vMVxdwXptXvLQ40JObTmN+SS
-	gkqifD46wMPwy+wqkyO5PAHzgJ6sTauvq+8dwWr+EDGVkhGStRiZR1Qve1+PFkMBYTE=
-X-Gm-Gg: AfdE7clUpMRR2Hnt61P0Zz/g7JtXZ9KjNiC7/m1OORqwuaLp6XpI7Q4kivt7OAClDkL
-	GDP8LHLk6dms5V9grun6fuuureqh41qRUq2sv9WiiVQX7jlHTii9bvsFg6QUWSR2rrqWHpUTvZI
-	d0aW0HaqglnANMskzHr+d4uLXsNN4v4tY9UNcrS8nDFv9Jam8RUOaFmv3j5GGxwIYZkhIbNo9N/
-	4CF+Q8JOPALKCb2BfgdGpj2iWbyte0rMTkE7aUiu7PV4RA3509IyXXzS2lJSpl4lldR3PI90sAI
-	2d4IyDD0l/vsH/Jwz4c0TTWKmbMTRljBArbPTIdvTzGu3Iqo7HFtPhcu7VNU7275SNnBXlt9zOs
-	UzRTz1lvPgLKhyqMpKphaTBCZbgpX9Oykzfkf+Ei85mN71AVUZ0vnU+ub8iEFBYff7CHUGHRTDj
-	9OCjB4DWFV1uYt52aOKvjAVMv4PO1t+g==
-X-Received: by 2002:a05:6000:26d0:b0:473:673e:3836 with SMTP id ffacd0b85a97d-47df078bb73mr3861713f8f.28.1783525565920;
-        Wed, 08 Jul 2026 08:46:05 -0700 (PDT)
-Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d780csm44806847f8f.11.2026.07.08.08.46.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 08:46:05 -0700 (PDT)
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Michal Januszewski <spock@gentoo.org>,
-	Helge Deller <deller@gmx.de>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: linux-edac@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-acpi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	cgroups@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	bridge@lists.linux.dev,
-	netdev@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH 2/2] module: Bring includes in linux/kmod.h up to date
-Date: Wed,  8 Jul 2026 17:44:30 +0200
-Message-ID: <20260708154510.6794-3-petr.pavlu@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260708154510.6794-1-petr.pavlu@suse.com>
-References: <20260708154510.6794-1-petr.pavlu@suse.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Jc94RES9"
+ARC-Seal: i=1; a=rsa-sha256; t=1783533531; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=TQK+/eWYh4wKZqQ5mETovYgMNQ1ABCn8d5EewDQU407/AZMaueTjb+jp9GCEK4iXNVYNWL9oMrkYBUdzy0msABzx+QFgWWhLYt1/OzTLFtpdi/JkYhW4PTxz8xjNaAEZIDJQN0ePy2GgTJvhmLhzdoLNOGXnyVSvMgAqtB/AJyU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783533531; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=d2f5HzFH5tz9OWlHkS3xHKePdxFund2k2SALT7+iDuY=; 
+	b=IOxlvGZIU/zpU39EZo7uHZ3fzIq8nL4pJUshe3oSuMuh+PQKNK38KpmqR8IYC6F/VDLdMWgeNqdrcPvIR5QGRUmc3CK5JRxbISfxFaIqhrD0q+x5vREdQ3yuHJZK0a8wjIYsFKMjTotNXCufdAWYaGEOE8EBoPj5XMNgYkH5qQc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783533531;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=d2f5HzFH5tz9OWlHkS3xHKePdxFund2k2SALT7+iDuY=;
+	b=Jc94RES9ph213bpRia+uTLhf4a8zqS/jir3Ilrqseh7isW3J29bViRgnzXaezNhZ
+	b4y7z4ySFtPSU0cxm+CGSP8WnjKKD6SrbuJMKKgaMYms5Db8zJLF/UtlfRYWvNRyIBt
+	Ot28BbBcAYB8NaLoC2XKc6lB9t7TKQUcMv6W4pIg=
+Received: by mx.zohomail.com with SMTPS id 1783533529735356.06010086134756;
+	Wed, 8 Jul 2026 10:58:49 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v6 13/20] rust: io: add projection macro and methods
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260706-io_projection-v6-13-72cd5d055d54@garyguo.net>
+Date: Wed, 8 Jul 2026 14:58:29 -0300
+Cc: Alice Ryhl <aliceryhl@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>,
+ Tamir Duberstein <tamird@kernel.org>,
+ =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?utf-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,
+ rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ nova-gpu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org,
+ linux-pwm@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CAF04CB6-4B09-47E1-9F9B-5D55E49A2737@collabora.com>
+References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+ <20260706-io_projection-v6-13-72cd5d055d54@garyguo.net>
+To: Gary Guo <gary@garyguo.net>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 
-Including linux/kmod.h alone results in 1.5 MB of preprocessed output, even
-though it provides only a few functions and macros.
 
-The header currently depends on:
 
-* __printf() -> linux/compiler_attributes.h,
-* ENOSYS -> linux/errno.h,
-* bool -> linux/types.h.
+> On 6 Jul 2026, at 09:44, Gary Guo <gary@garyguo.net> wrote:
+>=20
+> Add an `io_project!()` macro to allow projection from `Io` to a =
+subview of
+> it, using the pointer projection mechanism to perform compile-time =
+checks.
+>=20
+> For cases where type-casting is required, the `try_cast()` function =
+may be
+> used where the size and alignment checks are performed at runtime.
+>=20
+> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+> rust/kernel/io.rs | 128 =
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> 1 file changed, 128 insertions(+)
+>=20
+> diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
+> index ab970e8b2e78..62643b23e904 100644
+> --- a/rust/kernel/io.rs
+> +++ b/rust/kernel/io.rs
+> @@ -49,6 +49,7 @@
+> /// - Size of the region is at least as large as the `SIZE` generic =
+parameter.
+> /// - Size of the region is multiple of 4.
+> #[repr(C, align(4))]
+> +#[derive(FromBytes)]
+> pub struct Region<const SIZE: usize =3D 0> {
+>     inner: [u8],
+> }
+> @@ -90,6 +91,19 @@ fn size(p: *const Self) -> usize {
+>     }
+> }
+>=20
+> +// SAFETY:
+> +// - Values read from I/O are always treated as initialized.
+> +// - Per type invariant the size is multiple of 4 and the type is =
+4-byte aligned, so it is padding
+> +//   free.
+> +//
+> +// This cannot be derived as `derive(IntoBytes)` as the padding free =
+property comes from type
+> +// invariant which the macro does not know.
+> +unsafe impl<const SIZE: usize> IntoBytes for Region<SIZE> {
+> +    #[inline]
+> +    #[allow(unused)] // Rust 1.87+ stops requiring this and will emit =
+unused warnings.
+> +    fn only_derive_is_allowed_to_implement_this_trait() {}
+> +}
+> +
+> /// Raw representation of an MMIO region.
+> ///
+> /// `MmioRaw<T>` is equivalent to `T __iomem *` in C.
+> @@ -339,6 +353,51 @@ fn size(self) -> usize {
+>         KnownSize::size(Self::Backend::as_ptr(self.as_view()))
+>     }
+>=20
+> +    /// Try to convert into a different typed I/O view.
+> +    ///
+> +    /// A runtime check is performed to ensure that the target type =
+is of same or smaller size to
+> +    /// current type, and the current view is properly aligned for =
+the target type. Returns
+> +    /// `Err(EINVAL)` if the runtime check fails.
+> +    ///
+> +    /// # Examples
+> +    ///
+> +    /// ```no_run
+> +    /// use kernel::io::{
+> +    ///     io_project,
+> +    ///     Mmio,
+> +    ///     Io,
+> +    ///     Region,
+> +    /// };
+> +    /// #[derive(FromBytes, IntoBytes)]
+> +    /// #[repr(C)]
+> +    /// struct MyStruct { field: u32, }
+> +    ///
+> +    /// # fn test(mmio: &Mmio<'_, Region>) -> Result {
+> +    /// // let mmio: Mmio<'_, Region>;
+> +    /// let whole: Mmio<'_, MyStruct> =3D mmio.try_cast()?;
+> +    /// # Ok::<(), Error>(()) }
+> +    /// ```
+> +    #[inline]
+> +    fn try_cast<U>(self) -> Result<<Self::Backend as =
+IoBackend>::View<'a, U>>
+> +    where
+> +        Self::Target: FromBytes + IntoBytes,
+> +        U: FromBytes + IntoBytes,
+> +    {
+> +        let view =3D self.as_view();
+> +        let ptr =3D Self::Backend::as_ptr(view);
+> +
+> +        if size_of::<U>() > KnownSize::size(ptr) {
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        if ptr.addr() % align_of::<U>() !=3D 0 {
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        // SAFETY: We have checked bounds and alignment, so this is a =
+valid projection.
+> +        Ok(unsafe { Self::Backend::project_view(view, ptr.cast()) })
+> +    }
+> +
+>     /// Fallible 8-bit read with runtime bounds check.
+>     #[inline(always)]
+>     fn try_read8(self, offset: usize) -> Result<u8>
+> @@ -979,3 +1038,72 @@ pub fn relaxed(self) -> RelaxedMmio<'a, T> {
+> // MMIO regions on 64-bit systems also support 64-bit accesses.
+> #[cfg(CONFIG_64BIT)]
+> impl_mmio_io_capable!(RelaxedMmioBackend, u64, readq_relaxed, =
+writeq_relaxed);
+> +
+> +// This helper turns associated functions to methods so it can be =
+invoked in macro.
+> +// Used by `io_project!()` only.
+> +#[doc(hidden)]
+> +#[derive(Clone, Copy)]
+> +pub struct ProjectHelper<T>(pub T);
+> +
+> +impl<'a, T> ProjectHelper<T>
+> +where
+> +    T: Io<'a, Backend: IoBackend<View<'a, T::Target> =3D T>>,
+> +{
+> +    // These helper methods must not have symbols present in the =
+binary to avoid confusion.
+> +    #[inline(always)]
+> +    pub fn as_ptr(self) -> *mut T::Target {
+> +        T::Backend::as_ptr(self.0)
+> +    }
+> +
+> +    /// # Safety
+> +    ///
+> +    /// Same as `IoBackend::project_view`
+> +    #[inline(always)]
+> +    pub unsafe fn project_view<U: ?Sized + KnownSize>(
+> +        self,
+> +        ptr: *mut U,
+> +    ) -> <T::Backend as IoBackend>::View<'a, U> {
+> +        // SAFETY: Per safety requirement.
+> +        unsafe { T::Backend::project_view::<T::Target, _>(self.0, =
+ptr) }
+> +    }
+> +}
+> +
+> +/// Project an I/O type to a subview of it.
+> +///
+> +/// The syntax is of form `io_project!(io, proj)` where `io` is an =
+expression to a type that
+> +/// implements [`Io`] and `proj` is a [projection =
+specification](kernel::ptr::project!).
+> +///
+> +/// # Examples
+> +///
+> +/// ```
+> +/// use kernel::io::{
+> +///     io_project,
+> +///     Mmio,
+> +/// };
+> +/// #[repr(C)]
+> +/// struct MyStruct { field: u32, }
+> +///
+> +/// # fn test(mmio: Mmio<'_, [MyStruct]>) -> Result {
+> +/// // let mmio: Mmio<[MyStruct]>;
+> +/// let field: Mmio<'_, u32> =3D io_project!(mmio, [try: 1].field);
+> +/// let whole: Mmio<'_, MyStruct> =3D io_project!(mmio, [try: 2]);
+> +/// let nested: Mmio<'_, u32> =3D io_project!(whole, .field);
+> +/// # Ok::<(), Error>(()) }
+> +/// ```
+> +#[macro_export]
+> +#[doc(hidden)]
+> +macro_rules! io_project {
+> +    ($io:expr, $($proj:tt)*) =3D> {{
+> +        #[allow(unused)]
+> +        use $crate::io::IoBase as _;
+> +        let view =3D $crate::io::ProjectHelper($io.as_view());
+> +        let ptr =3D $crate::ptr::project!(
+> +            mut view.as_ptr(), $($proj)*
+> +        );
+> +        #[allow(unused_unsafe)]
+> +        // SAFETY: `ptr` is a projection.
+> +        unsafe { view.project_view(ptr) }
+> +    }};
+> +}
+> +#[doc(inline)]
+> +pub use crate::io_project;
+>=20
+> --=20
+> 2.54.0
+>=20
 
-Include only these files, reducing the preprocessed output to 10 kB.
-
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
----
- include/linux/kmod.h | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
-
-diff --git a/include/linux/kmod.h b/include/linux/kmod.h
-index 9a07c3215389..b9474a62a568 100644
---- a/include/linux/kmod.h
-+++ b/include/linux/kmod.h
-@@ -2,17 +2,9 @@
- #ifndef __LINUX_KMOD_H__
- #define __LINUX_KMOD_H__
- 
--/*
-- *	include/linux/kmod.h
-- */
--
--#include <linux/umh.h>
--#include <linux/gfp.h>
--#include <linux/stddef.h>
-+#include <linux/compiler_attributes.h>
- #include <linux/errno.h>
--#include <linux/compiler.h>
--#include <linux/workqueue.h>
--#include <linux/sysctl.h>
-+#include <linux/types.h>
- 
- #ifdef CONFIG_MODULES
- /* modprobe exit status on success, -ve on error.  Return value
--- 
-2.54.0
-
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
