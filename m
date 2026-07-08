@@ -1,129 +1,199 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CEF3F12C6
-	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 15:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783524332; cv=pass; b=QPaTM5udCMH47yamPrsy1xCon31mVb1zSzC8eNMRNYpmW/398xLqVlr1fHv4g38zhqh8htGO3gxdlqcMHWaCSEe3gzeFsjomybMbq7xTXfnQ9XzZJHaAqmAaxw0qK6UbRkb+ueWE6VfgOVBDcW5a0kiIk+EMPNVwcYKJFFTcIXs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783524332; c=relaxed/simple;
-	bh=vOZfMiEQfO6pItb9Vox/F3+dXN8hmkgAn9QnqBq/R7Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iwzwXFL+ETchwqYujIlrCXykRxNmb/sJ6pvnqFJ8PAlqi/yMjL2BUaF0hNBQP2i7Z6JcED4kMyw4cKZ3BikxXaG1cRgGZse8SwyMbMR77Sx0upAgHD0wGsFmVkWe2SNVkERgYDsIUJpBbQwA1/kMfp/8DeQ2HotvR+3Erl9Dx0I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YLTAFuzd; arc=pass smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B490372EDD
+	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 15:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783525567; cv=none; b=CKUih5vwZpa5pUQlQOEB0nI/I1lTGVOSunw8I29qVD7FQra9NwkGGe2stLK3sYbwmcKgRvdmHZDrpt+/5Qmr/2Y7z6IziP8fga7ax3HwudNzdVyLmmoMv1OasLi+v+8/Nyi5Nfp8M+qz3mS+0ChlAgaoP+0OG69sSTU1Z1E4h/o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783525567; c=relaxed/simple;
+	bh=9vHkvbT9qGw6XnwnbsV8mVwKGJQJ6h+q3CIzqn5nO9A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R/7MOW/1HYmjDdAduTCXjTkQ2muehTJtSkWiaizbP2RGH5gvboM7LDTPXhSF4j6dZsUxXNEj3HUBsePVhW3/UyAwiF+SxbbGtL5Lg94eLv9v3Q4iAdKnJFiSC0d4E+mfjry5neFQU0U0GEFBxlhrSWIGnLrzIv/SbdMTvpycEZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EnB2MZBI; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YLTAFuzd"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c7648bf24so1344441fa.3
-        for <driver-core@lists.linux.dev>; Wed, 08 Jul 2026 08:25:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783524329; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gxpEfC/Vub8hWQGA56Fvp9/cgiogDH3UTAOqzHZUSd+jl6QOUYu4S+svhqjIEK94Gh
-         U+h1itRFfBIWa1Ml4Bhrl422H0fjR8WU/sAoUkqpxc+ycpRG7b5w7QgDAsMppm+MBJkt
-         R0QSvbBNFTSBXny7uy5qAsSv6q4YYVNoijs45qv8dBAdZERrtF2yBwkBK+z/iX/7WcSj
-         +fcEkO6nD9C1WTKo2Qpy907qynssRz3OYIlTKdB0bvVpMGzF4ISzCOVVm0D4n5Rei5Dm
-         4Kn5P0e24qskDpbnlB4Ehn4qP4uWcJ3lOQRs0wEv0X/8C84cW4RnyNY1lEIMBLForUOU
-         i0ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vOZfMiEQfO6pItb9Vox/F3+dXN8hmkgAn9QnqBq/R7Q=;
-        fh=KqDJf5U2CyxkawDz/nIejr+/P6cP+3mDqQGoH/p2l04=;
-        b=FgNSpYZo8I7uQjruatdvx3jlXXctUx/lZDmtrF690OBUWDb9QATH65KJ5TgsUxytSG
-         3PC/7ueEGeIKi4+MTAXrpLfUS2wGLCSNjd+bYCWCpEyxH7XoCWYB6zG4s3TjyihO4w13
-         JLXtbOeBbX6Z0EH4443I8JAGOJ7o1oLer136/flvzpB78Ofuho8CMgbKgAh/3Wqr5sKR
-         2AcRRuWw+swMIiJHusSPW9tK7apcGZbvgcrVa8K6RyTC4XiE9HSrbejIGiu9hqBii91M
-         yN2aTSNs5IOqA4QTeHQPJP/T8ZSixQ6BB3AZp3fVFPhRLnViEqYHF5Msq0OeFmCBzrqG
-         0r6g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EnB2MZBI"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4720d22c94aso808406f8f.1
+        for <driver-core@lists.linux.dev>; Wed, 08 Jul 2026 08:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783524329; x=1784129129; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vOZfMiEQfO6pItb9Vox/F3+dXN8hmkgAn9QnqBq/R7Q=;
-        b=YLTAFuzdEqBzBPuVAaLB6lP34iImFbn3iM0K5ywXRWut2vASFdaP0BQb0IZIQSKUpJ
-         LNa9SI4oCTH2y3BuhiOZU6r2xWtt5B9+DZd7QluC/wzta6EYi25uaWXNWrS8xNCP2DbZ
-         hYTAIZumxx5QBqHdkI7UDB8zsqvrx4xClBlOgp6PZXf4DDjZhH018zHnMVHjc3gdphKz
-         FFlLAPTa4qqAMxH0SQBZ/HuN74FcLIsTB12rbr2PNshs99dZ7LGoQl00gwEBtX2tfAHH
-         2zi5ROvReGDaBCpe8bNaLxDodZKP9kXHo+SsjzjC6oHGDtcD6XkNHOETFsjIL39ZBr1K
-         +zKQ==
+        d=suse.com; s=google; t=1783525562; x=1784130362; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=f/mdlbu7kxNAYQt2PwbA0grJPU5KW1EejarCbBPlRO8=;
+        b=EnB2MZBI1kBkX4RHOruXVgaG+Y1RWWoiFnSoMaswmrdyRNqp7ELd33pCpoSBGR2C5o
+         AjSrVHq7O6nNdv9MsEHE7JDaoqWvJmi6NW+sxgcE35yLDjX38VxJKeRdIi1evrHzTMLB
+         MYCDw5+0c56jeBVhbiP/0II/fG/Aq8VqeZds9U1S7CDJJsvA63cmAxfUR8ctUUY7cYCh
+         ivofj882Ct+QaCwfzGLjw0tf6B2B/LuYzXb4KdvelHXxttoHTA6KR/7fbfOgju4CpgrL
+         NK3zPgYmco2crjytWqwKAH8mLs/EqupOOy8kxdKfgk8nZqkgNwBAOJYKLcG2QtMHLgaa
+         HukA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783524329; x=1784129129;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vOZfMiEQfO6pItb9Vox/F3+dXN8hmkgAn9QnqBq/R7Q=;
-        b=eHn/rkMom2fjepXFgj9DD7B+VRV7vkk3xy6iNZ4RVes85MJ4uK3fhG1MqgyKC7LVJ8
-         H5niWbt5J2YMwdPp44JLPgxre2M4L+svMyZnicRSurZU8oylRLiPVoIDiOosKMo+RtO4
-         gHZJoPoqR4ejeA5nprLdpDNvOQJ3ynJWO6DicjXwiGp7N/kZLAGqdsFO19HWrwVHHCXK
-         OV8N8dAj8lMRP8vRrgR1MATiBw7p38nhx+zuqB1tqUTTPuqeUKKrIrIhW4+SRpz9xqnH
-         M0jRFlHdHQfc3JJsonTI5H00P2z6gacO5VP7VlPi2mZcMfPufzg6eN5tl7AoJFxZq68L
-         B+Jg==
-X-Forwarded-Encrypted: i=1; AHgh+RrBOVNl1mcVvOPHfHFJX/h2pZk0vB1rN9+G7ylLWQaqimf9AHt6nmfiad95uLK+78vxyYnXtlHRE0lB2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwbFoFsTQCzip/ydkRrtykPoa9AhS/WnzTE6J+6nPeDhDbDayul
-	Y/kgBmy84VWJhyAgTp3dG0gNsM14IcVJIlWFe3fCxLWwPsW/b6gsJW0xmeXzzCCgJ2dz1Ao2WHq
-	14ZgVmIfUNwjVQY60M/XAimjzsuDvTHM=
-X-Gm-Gg: AfdE7ck35X2LRVzJE/tNrr5x6bYwBcHslf2rC7JQL8M7VzHL96YJRmDf5haBzGVMatm
-	B/66Twp056PIj0n2ypKxRDlHKG/Q/5As1JrXUPS+l0igpfSZTAggNhwVrIWgvvPbFOaEhq9XmKc
-	p4bkR2kQJirunv178CoaVYKDNsJgowFDZaDc2CIBKXTbLpxMkKIPbi3Yh6er1oPbI4HaQVOlSvz
-	t1OazRDrlsKJ07zxSaS6gbSpmDgdCUbkepWNrTjolRlxaejq5VEx/1fFyfxVJKSYDXZ9wo5LQIu
-	s60HgvdAxIciRsXTYNlZv5VHYs0URxYnPmoTh82NyPSJcfvhnSGUQ0fhCsrgD5G2LnbXuV9VCiM
-	AyqL0lbl4wabp
-X-Received: by 2002:a05:6512:3987:b0:5ae:b9b3:9f96 with SMTP id
- 2adb3069b0e04-5b0115c01f7mr445459e87.6.1783524328462; Wed, 08 Jul 2026
- 08:25:28 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783525562; x=1784130362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=f/mdlbu7kxNAYQt2PwbA0grJPU5KW1EejarCbBPlRO8=;
+        b=mXEGOkFvR4Q5DAsDwB6Oa29owBW8mlgoiOiuGsl/w5kbvIzXWN/Xy8tVMlOuJbJW/c
+         Ou0dMFq5xNx7LZJqYrUg1WhqG15Ji/8w/qhwAgZgFvMeBeV+hE2NElhrPt/SjwUoVgnY
+         CzCbrSm4cqICA4mHaK1uejKpdJlysDpr9ojEvbijZ8hYFYV6fvX5rT9BH5kh9PykDVeq
+         xHWTF8k2bC/lROdDAcOhFAZu68jyDHCEkpk5ikv9otfY9QL0f1wYrdxEuyMB05TWLXyb
+         DMuVxo9ZJyo6mY4lhne1l42wNcAL7oJM2J67gMp0pgn7bbBaKyNTI3SQfNYOMGGzv5bE
+         wUwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqACIEj0148Oblnz/m89LdufGb/ksH2/BJsw0Np4CFGybZy2t20H58lPpgxtTSNjgH0GzihhFS33Ki7dg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeuiRKIfy/Ai0IZGkj7bmKpLiikseevA+Wjug2dZe5cAHdwwSK
+	q+thQElH4UROeIiBuGHM5/04rxWm8RPA2t2Er9Vf0QhiTf39yUPr+tZdoPyVCw+dO3Y=
+X-Gm-Gg: AfdE7cmvuS/aXX6dk3J3LPinQt+C7/QDWRXrLvdZwSPfrMTrRi/kyXpZJNSyy/NFEYX
+	TCDp9Kkjv+26Rg7xmtyI+vBChh6K7EbCPJAANUu8j0h731ncNm67Ud4G8hFCV7mF/7ShPn4arsi
+	yDFg4o+XImHN7e357rY3htZDS9B2evzX7waMZYNgSAYgy4PzvwXIbwbaw2OHXJDcFjawC69BrRx
+	ALfumAj5tZcWJTjttin48nlgJ25sA8ApppC/f5cpuyolxozT9e3ptX/zU2QyZGMPuc5/WGw29UU
+	u3ZrAJYUYJI04CaUu0j8DcxWSAsCwtEnlGQSEQwXIwpTvKBc6oFGRtGelr0iz+Js+s7jcYnpjgi
+	fiHNPEhM7WAqb6qHcdJP6QTmy3iwLw2qdjC6f5aZLuAamBmjBO2PZpTiLq8W80QsdH0UfggSngh
+	iYhNTOAtabiMx4uQqRixaGW+QcWQew8nFIu9qKY3X6
+X-Received: by 2002:a05:6000:4304:b0:46d:55a5:8ec5 with SMTP id ffacd0b85a97d-47df078bbffmr3378920f8f.33.1783525561596;
+        Wed, 08 Jul 2026 08:46:01 -0700 (PDT)
+Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d780csm44806847f8f.11.2026.07.08.08.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 08:46:01 -0700 (PDT)
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: Tony Luck <tony.luck@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Michal Januszewski <spock@gentoo.org>,
+	Helge Deller <deller@gmx.de>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	Mark Fasheh <mark@fasheh.com>,
+	Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Pavel Machek <pavel@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-acpi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	cgroups@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	bridge@lists.linux.dev,
+	netdev@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: [PATCH 0/2] Bring includes in linux/kmod.h up to date
+Date: Wed,  8 Jul 2026 17:44:28 +0200
+Message-ID: <20260708154510.6794-1-petr.pavlu@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
- <20260706-io_projection-v6-9-72cd5d055d54@garyguo.net> <280FBE45-5653-499B-9BB0-A2C77030A826@collabora.com>
-In-Reply-To: <280FBE45-5653-499B-9BB0-A2C77030A826@collabora.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 8 Jul 2026 17:25:11 +0200
-X-Gm-Features: AUfX_my_GxC4KLJmz5i_4DX9QExeJawd6XQyKpw76D3pBDNdQQvLPjQ9qPUqEYs
-Message-ID: <CANiq72nyEK7cMphaawV73bN7VmAKG-UOE4SPDWDpAqoLs8zzKQ@mail.gmail.com>
-Subject: Re: [PATCH v6 09/20] rust: io: use view types instead of addresses
- for `Io`
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Gary Guo <gary@garyguo.net>, Alice Ryhl <aliceryhl@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Michal Wilczynski <m.wilczynski@samsung.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 8, 2026 at 4:37=E2=80=AFPM Daniel Almeida
-<daniel.almeida@collabora.com> wrote:
->
-> You mean to avoid that cryptic =E2=80=9Crust_build_error=E2=80=9D when th=
-e assertion fails?
+The usermode helper declarations were previously provided by linux/kmod.h
+but commit c1f3fa2a4fde ("kmod: split off umh headers into its own file")
+moved them to linux/umh.h in 2017. Add explicit includes of linux/umh.h to
+files that use usermode helpers and remove linux/kmod.h where it is no
+longer needed.
 
-My reading is that it avoids the assertion failure itself -- if the
-compiler decided not to inline, then it would fail to build when it
-should have succeeded.
+Then clean up linux/kmod.h so that it includes only the headers that it
+actually requires, importantly removing the compat linux/umh.h include.
 
-i.e. it is not about improving the error message, but about avoiding
-the error to begin with (not sure which one you meant of the two,
-though).
+Apologies for the wide distribution.
 
-Cheers,
-Miguel
+This cleanup is motivated by trying to reduce the preprocessed size of
+linux/module.h, which includes linux/kmod.h. The linux/module.h header is
+included by every *.mod.c file to provide `struct module` and other related
+definitions, so it should avoid pulling in unnecessary dependencies. Note
+that this series doesn't immediately improve the situation, since most of
+the files included by linux/kmod.h are, for now, also included by
+linux/module.h through other paths.
+
+Petr Pavlu (2):
+  umh, treewide: Explicitly include linux/umh.h where needed
+  module: Bring includes in linux/kmod.h up to date
+
+ arch/x86/kernel/cpu/mce/dev-mcelog.c |  2 +-
+ drivers/block/drbd/drbd_nl.c         |  1 +
+ drivers/greybus/svc_watchdog.c       |  1 +
+ drivers/macintosh/windfarm_core.c    |  1 +
+ drivers/pnp/pnpbios/core.c           |  2 +-
+ drivers/video/fbdev/uvesafb.c        |  1 +
+ fs/coredump.c                        |  2 +-
+ fs/nfs/cache_lib.c                   |  2 +-
+ fs/nfsd/nfs4layouts.c                |  2 +-
+ fs/nfsd/nfs4recover.c                |  1 +
+ fs/ocfs2/stackglue.c                 |  1 +
+ include/linux/kmod.h                 | 12 ++----------
+ kernel/cgroup/cgroup-v1.c            |  1 +
+ kernel/module/kmod.c                 |  1 +
+ kernel/power/process.c               |  2 +-
+ kernel/reboot.c                      |  2 +-
+ kernel/umh.c                         |  2 +-
+ lib/kobject_uevent.c                 |  2 +-
+ net/bridge/br_stp_if.c               |  2 +-
+ security/keys/request_key.c          |  2 +-
+ security/tomoyo/common.h             |  2 +-
+ 21 files changed, 22 insertions(+), 22 deletions(-)
+
+
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+-- 
+2.54.0
+
