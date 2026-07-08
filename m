@@ -1,125 +1,139 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A62401497
-	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 10:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783506874; cv=pass; b=nUCCU2reqWrri7tr17g+KWOEqY51ZHInnxcRauLqeGOVp7vjK0F0pPearcuvatxZ5FLvrsUe29ht4lxZjktTmQLZSzgGmz299D8vAaNrJQR6nxK5Gvp1oAcphFn66bu0G3E3qYgoJ5AZouQqWtkSYGnyYaL6rh6MwQc5kglePyI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783506874; c=relaxed/simple;
-	bh=v1UpS+73rzKmbQDqdjKaD2WlfUfXQNd9Rp1m77QZLw4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rdFIQpIyLoC/7KPSuLFGvyYKKQlQ8N533yOucIYIky/9JFyC3T470+yjx1zUw1sJit0PeqwLfQyjpO4/oAvdSakICfc7k5bczH3ksF2PzV12k92pq7DnQLahJe1iAM7kYaWFWs99Ba35z7NHCkKWfceidm62AUimyXRUVdWqzmE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YOSWIQCg; arc=pass smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005633AC0C1;
+	Wed,  8 Jul 2026 11:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783509136; cv=none; b=jPykNzg+2BHAzKfffm4/r4V0kBaDeYODapjHybpZlQc/EQGBctMxgxXGcxzmW1U5RWKXbNi9nZb/N+q272A+1rf161mh/5l6dBV3ty1I2W6icrSzxM38hML9437kp5xQaugwCRsg8PoPvD2SZhDTzulUBDFlOlk+quSYhm0diQI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783509136; c=relaxed/simple;
+	bh=dXbZA1E6z2cbPpn5lXVwUbC3y8RJZe9PuV/6K4qA1zI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BiF3qR7rJBWbNmlFriBx6WniD58XQNt58kyh0Zl5TMaCh8AK6D9gKK7Jy9JLhDW1doGywyM1Q2jE3uZXVl3dxr7KLHFTiwqROst+wcS4IiNial7Vxvx7N5A16lXhOPP8xDX5PX/K0Igub6V6+d7tbDOcI6EHjY1pLqR7mThKQ/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKaLLLgY; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YOSWIQCg"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc7e132d3eso840625ad.3
-        for <driver-core@lists.linux.dev>; Wed, 08 Jul 2026 03:34:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783506860; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sXRV55qjrN235//9wZ+BNrmLag8WHlBgIN+3dnGgWpx+o5A8X8q3J/5kJiFyhHpl++
-         Wi/xaJhG0kN5Lf4cj2+jL+hKO3G4Lkm9n84RCM1l/M8A/jpK1JbZGvGOs4t0SRaDR9Do
-         Ck7AO7bSXuOxe7g8HPt/nvKGeq0AweCxMGwemsXAgh6z7GPUEvbDF8cHIFWXYydnGiXU
-         YviSDGl84WXWEWu8/GgRs32EIr6Z9bc8UZjjwb5KpW/KzEGI6djxfAL1Tmb44SOiL3K+
-         XtEjyBgAmhhsWYcmogo6Addu6kavjvh6TJUceOoIButOHPLsicysiRGR0CwV+oxBGNcQ
-         9hKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=v1UpS+73rzKmbQDqdjKaD2WlfUfXQNd9Rp1m77QZLw4=;
-        fh=fJ1h+a1hB8oOFB1brF9HoqyjGPFJZUVdzE4/1C6SyvA=;
-        b=OXk53SO10HWOD+RpU5/Ue+v9ueKnh8zGuIitirJ70EudKVpd0t1P+rysk7xmJHrAHH
-         C12obZEZ4jMF0gtrNW4f2cVQUASJ2lLUqh4qZqEBsMrdfoHu2KXi6AWj+bectU4AgLi/
-         DkQTvZnxxV5DPyOOpgS1nBKUpXN5YK/MB08//lM58yDdt+rQZ9Jii5qBNJRJ4Q7oedEM
-         G5sBeY9rw3ViNSRETsy7xmx2rWplh9tvOMGRdKYWdI+uJPObvgp9DW9guqgRkDKZ+T77
-         AlMpAOpszVUg/SrkH3cvV/1ZvLqJtpykfI7Ih5WnpPPF0+YP2qaKpUwKQzcAnurHjDGp
-         C+Hg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783506860; x=1784111660; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v1UpS+73rzKmbQDqdjKaD2WlfUfXQNd9Rp1m77QZLw4=;
-        b=YOSWIQCg6TbGaFlULdSPHglwG1OxMzyrj5vx8go8Pn+guEv+DY89hr2gCiPvafaS0l
-         rjfcQ6JJ+bOpLClQFPbPsQ95OII5RvjiN3mVGZw5d+M7hIe/hhx57325CRI8Q/lmNDjd
-         xeupKVd4+B06aSqRP9s4KfCCAUoiHUPuHQqY8i1FZkHY5Hu3co/Lt7aSgIrRY+23ctsx
-         PCov0I+BcmkQcGgV1JGbjzwg2AOE4iQX/sddD3kYbAPjOEVAdd2yLZ4OAQAz0vFNfam0
-         zlQClnWFayfLqYNsDduky3GueHN0tokU8RNa6/Guz1L/CunzEE0x0a1U9cKN6bqgPuyT
-         yPwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783506860; x=1784111660;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v1UpS+73rzKmbQDqdjKaD2WlfUfXQNd9Rp1m77QZLw4=;
-        b=TPEYlvtJa0y8qqphOL3gQnH2e2xQdcAqK48YMAv9B9rE2ZWpu1FAYRieSjOGBqCeuF
-         MyJ5ifk7HddwwjNwJQLbWRhEms0WCRGldWe2eb67lj7r78olFxhqUKsEB4gGj6GT/CEQ
-         YfYWpMmbkhuCH8GXv2PIOwhxwUTaof1DHaZbEncd5woHioJl+FkmNDPBnnOr1lPgU7Hz
-         0r8yl8XfgW3xc/M+mjqR64FFhFkI26umO7swlggmsXly40sy4v86hodnyGaMLF9cj9cz
-         LoDr4hefCdp7EvTx04M333/sehClKqkr0m2qgJ6G/0yK6yyIhpzCB8gdhUnzwfOGkmVM
-         J+tA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrf6dOmW4rc72BP5rrPe0JK9fq3wstsM/TRj49a4yBFjMjmE/kE6428LFkwKkhBKzrlIztUK/1OvQV0Dg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxcHMGinTLUdeddZF2UKubqeWTp1GAgJy+lVqCE5Rwi2jv19lfF
-	U9badkBEOUiVCLl0ZAa4DtD61j09kdDqqVR4z3m0N41T7ZSzk+EVENIkVa8cfHrLWudIrpSUnSo
-	Fa0FsmkeH0lILFlE3GIGUIWwat5uqop8=
-X-Gm-Gg: AfdE7ckrBFIaq9ukyIyUYK5BqAH5AWwauqI/KFwwqYoOIOd6vqW3tzQ5M0zM7PeOXCQ
-	BUOHgJM4pMOTWbdUfTyt8U+VaMYAmpswuWXcoMvX+x9y6jKzRYaFg1aSwGV5DWNvSuJHGkn8PXx
-	zzisSCx5Hqu+HpheGRquUD+V3Ge3mNVPcF7eYoR01bw6UgNzNqAiw7PpKE5bCDhVUQwSZk+Ka5p
-	DNy5JBFFrrREgi/gQOSWdjmfpEQ5vAbXHenNtoGw4GUlMP3BZjp76BLU6GfkrDnbwU65gcylKyv
-	4s6EgzoUqtxZpP/4fUy8czYLR1/QBC2zz82z6d7rUhfIEeFl0yET80kKw7UNgJ0Z6NmYw83JnW7
-	V7S28Ljc5Lg85
-X-Received: by 2002:a17:90b:57cd:b0:381:2d9a:447b with SMTP id
- 98e67ed59e1d1-389417e436cmr1662657a91.4.1783506859636; Wed, 08 Jul 2026
- 03:34:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKaLLLgY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783509135; x=1815045135;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dXbZA1E6z2cbPpn5lXVwUbC3y8RJZe9PuV/6K4qA1zI=;
+  b=NKaLLLgYSGwRbFEUPZ4WXfWAkQLZfXhRPviQaSCCWKxzP1Hwd/RZVyI5
+   qhXuK+dXM700naBdhd5VjHzf3fB68yRX1rwFVdBb5K4tRooC+h47nZN0b
+   HqlzRyvi3i/kegVxXwlN1Q9bFbd81z5OdScYJJbrEMHBh9n2zirrfivj3
+   BLmv97jfpG4CZUhQ06zO8jXEDpEWV04IHrUTpZ4Y4IibitKa+7JaNke2V
+   eeZ2GZkWMVMW7okGFl4bSqx3udTAk2pzQVKxjuOZ7hAoPkOtFqIPD9PMt
+   rUuZBYfnUwPvVhb5PmwwjRrhP3ahd79YDWKu/qN+x7cMdQsrVi6vnYScE
+   A==;
+X-CSE-ConnectionGUID: t+LfzDDcQdq0C18vyL+efg==
+X-CSE-MsgGUID: dJZFJx+mTge7Lrlfjtm2qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="84025153"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="84025153"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 04:12:14 -0700
+X-CSE-ConnectionGUID: xnTXU7N2RFKFpJyFUzPznA==
+X-CSE-MsgGUID: WXa6o+4tR/u+kKLX2b+3mA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="252523743"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.100])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 04:12:00 -0700
+Date: Wed, 8 Jul 2026 14:11:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev,
+	Manuel Ebner <manuelebner@mailbox.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v3 05/20] driver core: update kerneldoc for
+ platform_device_alloc()
+Message-ID: <ak4wfuYxO2serrQt@ashevche-desk.local>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+ <20260706-pdev-fwnode-ref-v3-5-1ff028e33779@oss.qualcomm.com>
+ <ak0jyUbNonSRiP_g@ashevche-desk.local>
+ <CAMRc=Md7-XMBKpdPuZ4=epfTn6F-PXKJBZNPGuz5xbVy58BHsg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
- <20260706-io_projection-v6-1-72cd5d055d54@garyguo.net> <9AC77170-279D-4C0A-89F7-8D07F418AADF@collabora.com>
- <DJSLVGBW90CT.3W3FHC3J5NPMG@garyguo.net>
-In-Reply-To: <DJSLVGBW90CT.3W3FHC3J5NPMG@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 8 Jul 2026 12:34:06 +0200
-X-Gm-Features: AVVi8CerPf3D12GiMfvLd9xxakdPl4vxt6Mk91TDYQmPEW-zWuPFQaL-PCqilw4
-Message-ID: <CANiq72=8V967CuH92AJBAob6YaygXtCYY1GAr=qGuF8JzQfZ3A@mail.gmail.com>
-Subject: Re: [PATCH v6 01/20] rust: io: add dynamically-sized `Region` type
-To: Gary Guo <gary@garyguo.net>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, 
-	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Michal Wilczynski <m.wilczynski@samsung.com>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, nova-gpu@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMRc=Md7-XMBKpdPuZ4=epfTn6F-PXKJBZNPGuz5xbVy58BHsg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jul 7, 2026 at 10:02=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
->
-> It does, but if the alignment is 8 then it breaks a lot of platform devic=
-es. 4
-> is the most common alignment needed so it is chosen. Different base types=
- can be
-> added subsequently when needs arise.
+On Wed, Jul 08, 2026 at 12:42:58AM -0700, Bartosz Golaszewski wrote:
+> On Tue, 7 Jul 2026 18:05:29 +0200, Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> said:
+> > On Mon, Jul 06, 2026 at 02:44:17PM +0200, Bartosz Golaszewski wrote:
+> >> Users of platform_device_alloc() + platform_device_add() must not modify
+> >> certain fields of the dynamically created platform device object. Update
+> >> the kernel doc to say which fields are affected and which functions to
+> >> use.
+> >
+> > Consider using __private checker attribute for them as well. It will make
+> > sparse scream.
+> 
+> Sure but let's leave it for another series.
 
-Maybe a two-line comment/doc would be worth it?
+Sure, just a side note comment that you know that we have some facilities for
+that type of problems.
 
-Cheers,
-Miguel
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
