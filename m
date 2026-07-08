@@ -1,301 +1,259 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206B0362143
-	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 13:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331C9246770
+	for <driver-core@lists.linux.dev>; Wed,  8 Jul 2026 14:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783518528; cv=none; b=NtWlNVg3YiZk5xxx2p2oH8ttn23PrASv7gCZi+Nt5LtvqsCXxWIMvtcc9wCPHzdwaR/vHe/AZ1QwEQ1mLTLx4tAhdb7fnNVANhPM1aaKssH/IG26r/ZZQBebu6UTbU18pfs0jxgHqEacZg4QWTMii9o2/K1bjJwgD0SrT16WKRo=
+	t=1783521120; cv=none; b=I3SNY7Xgrshg7DerMs4LUMP3dIFi2r+0ENMivOQwzYcNWEx0hZ1ViGnrtPiFtomPku2dXTFY0KWkMwlXkl92JxnBj6RtqXkATFrJQ8l24V6/JXrmQYsbHfX9WCq3096AI9aF/75pFy4Je40OzGhB7V3+IZK6gC7v3S8I68rAQ9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783518528; c=relaxed/simple;
-	bh=/OWJXGJs8SSkmcHPkdwWCPWcLueZZf5qaZwsy+85OT4=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=mBXGtRBP/djLqSUcMSOwAvEmV7hVRBq0ENfw9bEq+XpFBhH+ZNrV05IQMbsHQ3HPUGyfskpqF3j6fI8r0BEEJXZup0cPxH7vYrKu/rydMRFm9231TQ19VEHzRP56asGXOddOAcjYImmUdovCZ9FI/IINDQhQU+f0b53nJAsBOkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWR3mgf+; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783521120; c=relaxed/simple;
+	bh=IgXl7iqMESFBSRUjCOfKfddCVOr8JnN+nz0eoLc7Z84=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YRux3xmf6NfnYGfaS65VD2T5Sy+ykiKzmy3Z/F0gDYslevUf9siIMReArCpy5Pcj+emNXeRFl5PoEkXm1NQoUZNBYtNuoAkANWwUaq16SLaw3Ua1ppyDgVJ93R03LGmS3A2BH24mC8dUcYB5VubOw3SYWcbLvMUSnOaSnJfqF5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=kfJfha1F; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWR3mgf+"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39c61ad6750so5257871fa.2
-        for <driver-core@lists.linux.dev>; Wed, 08 Jul 2026 06:48:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="kfJfha1F"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e51d3d83cso37114285a.2
+        for <driver-core@lists.linux.dev>; Wed, 08 Jul 2026 07:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783518525; x=1784123325; darn=lists.linux.dev;
-        h=content-type:mime-version:user-agent:references:message-id:date
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pMIZknUnUy6XFCDmMjtt4ptvm8FYoUm42a75htqi/WM=;
-        b=dWR3mgf+MEqBPJzGetq268d4uYpoYpy+3mRzPPCvxZo+qDt070IdX6uCH5/V3l8E3l
-         yoOdKfJWWS/CL7nhRim7mpf19qpVC2vXCgoiGbCcpqYLqZ22Y+MEpQ9OsNkNhqeX46Hc
-         hPh9eiBAbc16UGviz6XvUDGNRRov5BwqqFm6DqR9KKWlMaa4wkbjR6dIp6LhktyDuGlP
-         0D9/8w5Q8Y4ITvewHNesQi+WxLiBW+2tw3lAuYFdiqgs76Xi979QGx1V0vKldw5i0A0x
-         abC8SSr8ekgcmpweP345kVduh2y1YgxLATnluwg1oQCwMMGbVgKXXptBLp3aAD8ETYgc
-         PIaA==
+        d=ziepe.ca; s=google; t=1783521118; x=1784125918; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ptMubsbsUzdG+JxP2QsQOH9vzaQruIf+8B8QS1ntb20=;
+        b=kfJfha1F1NRlKLbmTCOed28qnmcZqyQFku9eEFVjDY76tK2KWSuA8SazbrrBzKSwi6
+         0pO1kUK1g81d4CvPEQ+n8aAQaWCjSjq2HbeRqTdpcnSBqYwRLzhUYT3TEcO8Pbsoce+e
+         tNcq+ikIGmdeVuD8ASlsKwQ9KNSMpUH/JDXFwiaeEmcVXFssE21l35UvfWYFRMwvjIjy
+         KF9cEoC+oL9Oa+btWmH8RdPSl2gTt4qHc/q3+DqzSjDyeBjvhQZOWU3g8+6YLp0aKnTl
+         uY7Cjy+HblsNQWZCtcnlG9k1/FLJcH6T2XZNLwU+OU+aDYELTjXcrBOd8pu2uySLsDmr
+         e+vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783518525; x=1784123325;
-        h=content-type:mime-version:user-agent:references:message-id:date
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=pMIZknUnUy6XFCDmMjtt4ptvm8FYoUm42a75htqi/WM=;
-        b=dKZMC7iUQanFOXrCf3Hd9JT4N1P+TgwKOC+TKyndR+U4J1V2sbY+Lmzh52HraHDNni
-         rpdtrBxTRWCGX70yH98qgZX8KsiYggE1Q9ghxNREmNt7TL5r/vCOYJUJqlTmnNV/dgWF
-         FAMcUZXnfjUCXRSCAU5/hjrxExdZ/QLMoPBHfYkYYaccKW/IsWGG6tyakFiaMUfFAe4H
-         IrRAJiOrrejTmRs5VlCU6TjuJjIZUhzqLtXMqa7/SbAa1rHo7x88oQKl3Vb1wubFRtMR
-         s4xgT+GZybgFegf4LLqVOcD8JvJMjksiXsnSfAORd4U0N3HAVMbe3CcG7v6d899kr9Y1
-         MFhw==
-X-Forwarded-Encrypted: i=1; AHgh+RoWFzQWwHJvCdge4BKxpbwvrFuMqncZsDxI8/6QUhgj6SNHZgqljaEv4cIsoLJP5e6mCapLZtld/yuZfw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzU+45CX+cak3FrDu5K3YjNBua/xNOjJkcyyUoysoGlHh0RqGJU
-	sU6nORQj4UWirNaC5y3vW/DAvSV2SdvIZxCXlvxSl/Ba11SHCwSNf8GN
-X-Gm-Gg: AfdE7ckky3w9ObLMgsnjZd2l5Ke9StIeIuv6MA5sz5VtH4w9SPPY26NuWI9m0H7P8CU
-	oa1rl1rTXFBUerz5TsfaiiLVdjIpLOYIVig0iZQiTA6oFlBySOz1DfiOD312rG84BbhlTSDMchj
-	psQUnNG5tbebtIqW8SxCjcbwqojAql/BVXipreYAT8yQHCg15OkxGR1yavty8OQgpy0JtxG8qOQ
-	u1MwRTXvgn/tQh9b0sMezn41I2yMas0Qd52ILFpw2mbssJ6inf0yoZj/pfTTQJvASsWpbc6TTrq
-	ZD5I65fYlrQftevB1K+aGuG7suE3rXb+7rUwZWNx+uqREGcvnssl+TUew46b/sueDEXtv+lRIDj
-	TaYbdejyLZqZJRv4womNPS2yGwV6EFoJGCd1regpxaBe+Z5DKrGMSRg4+bZdVUyIxa2jFBzank6
-	KbcCgCzK8VxEUCW3BAPQJoP9fKypLrAg==
-X-Received: by 2002:a05:6512:6205:b0:5b0:eda:de1b with SMTP id 2adb3069b0e04-5b0114440f8mr751542e87.16.1783518525235;
-        Wed, 08 Jul 2026 06:48:45 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:eccc:7ea2:9458:892d])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b4ad3614fsm31087491fa.12.2026.07.08.06.48.43
+        d=1e100.net; s=20251104; t=1783521118; x=1784125918;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ptMubsbsUzdG+JxP2QsQOH9vzaQruIf+8B8QS1ntb20=;
+        b=qka582sMduWpTkB90YnmqImR6bUeQf6ui17oj+RGJ4+ohpFHGRrxOf6U8CAypU7bWp
+         VUQvyIS+Af8Z/pdGYTCibwi+G/9S5Prr/aWs2JU6FwBGJoYcuw38qId1L9bkG19C5cIx
+         DUFq0Tq47pFewc+UWgapRMKhpUZRv0I9rZD42wWN9XyybUzSenJa2daH1/3G2j5Qir8R
+         FsdK+LKv/BpUsJ9QlbbixQROZx5PhGerqlUPpZ8YSXVub9ZvW9zwl1G9Y/Z98qneZLQF
+         KUMYe21pxiZpQS3I8sxrdkn7O8SH814TEanB7nedyT4hfV7YLrSkm7833V4Mwg1fn86+
+         fA7Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqilVbL9gAwNZsoG54vGxj1V6MXnjyWuw7mmbVm5Oq6Jg8G8t9hYpMm+NU/m/CPmcWpEspDMrCOBlm6uA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxx3E2FYoK8pTowysNkXo/S3bzzLnMk8+ggYThAb6DfDlVHGHjM
+	pLnrFRP3lFfu8aL2JOatTqqxg6PLdPNQDM6mTkMZxqGrCrLL+fE0MwBRg4qeyQJQ+lk=
+X-Gm-Gg: AfdE7clHZeM4l189TE7zuPab5Mnc/VZlaR3F8QZh8fy0YPLl77kzaznzNaEmQsSCr45
+	Qr0pv6xmE0kKB6mCRHK9uLtHb6tZQnb0/c6M0W3+aQTHfgy7UKQEvWiCUoYWuRSTvMx2+vI5Bm7
+	scZ0kCr5GyuGRy0wXfgbQ4BOFp3nK+u2tgXBB0d+rAtkWNvl1PXII2jqrphbi6Z2XNqtL3G1kIF
+	xTUMvWg6vicpcfK9dgRIBMnSWbNN6yLfUfaHpckQn9PkFlyXz2Y+l64FH1/r7LxwzqDnQ05F18a
+	ry0zg8PJdvVfnaiI7RNWQAZMlNqXzLVzWDbfmjEXy0n54kOifzCLrKRsahBOt9RHLEJB4mEQoso
+	xV29z8GOwcYG9MAYu8051x4RybNisVR6Xb6tmoj8W3l9QM3zfZJP8I54OVPsxl3p8j7L/+Do=
+X-Received: by 2002:a05:622a:15c7:b0:51b:ee04:5a4e with SMTP id d75a77b69052e-51c8b430fdfmr26314881cf.31.1783521115163;
+        Wed, 08 Jul 2026 07:31:55 -0700 (PDT)
+Received: from ziepe.ca ([159.2.72.92])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41d2cde7sm146585651cf.18.2026.07.08.07.31.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 06:48:44 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Dan Williams <djbw@kernel.org>
-Cc: linux-coco@lists.linux.dev,  linux-pci@vger.kernel.org,
-  driver-core@lists.linux.dev,  ankita@nvidia.com,  Alistair Francis
- <alistair.francis@wdc.com>,  Lukas Wunner <lukas@wunner.de>,  Jakub
- Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH 02/15] tools: ynl: Teach pyynl to handle blobs
-In-Reply-To: <20260705220819.2472765-3-djbw@kernel.org>
-Date: Wed, 08 Jul 2026 14:48:28 +0100
-Message-ID: <m2ldblbnir.fsf@gmail.com>
+        Wed, 08 Jul 2026 07:31:54 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1whTJZ-00000002wbD-1YEQ;
+	Wed, 08 Jul 2026 11:31:53 -0300
+Date: Wed, 8 Jul 2026 11:31:53 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Dan Williams (nvidia)" <djbw@kernel.org>
+Cc: linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+	driver-core@lists.linux.dev, ankita@nvidia.com,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Bjorn Helgaas <bhelgaas@google.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Saravana Kannan <saravanak@google.com>,
+	Will Deacon <will@kernel.org>, Xu Yilun <yilun.xu@linux.intel.com>
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security
+ Protocol (TDISP)
+Message-ID: <20260708143153.GH118978@ziepe.ca>
 References: <20260705220819.2472765-1-djbw@kernel.org>
-	<20260705220819.2472765-3-djbw@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <20260706125140.GB107792@ziepe.ca>
+ <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
+ <20260707124321.GF118978@ziepe.ca>
+ <6a4d95fcc92c2_2f05d5100f7@djbw-dev.notmuch>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a4d95fcc92c2_2f05d5100f7@djbw-dev.notmuch>
 
-Dan Williams <djbw@kernel.org> writes:
+On Tue, Jul 07, 2026 at 05:12:44PM -0700, Dan Williams (nvidia) wrote:
+ 
+> 1/ We previously discussed a use case to operate a device's private MMIO
+> while not allowing access to private memory (software encrypted NVME
+> with private MMIO [1]). Many of the following comments are based on
+> preserving this assumption so you can save some reading if we agree that
+> use case can be abandoned.
 
-> The generic "device evidence" facility wants to convey large objects
-> (certificate chains, measurements) and support various security commands
-> relative to that evidence (like validate) [1].
->
-> Update pyynl to understand the "bloblen" property indicates:
-> * the associated attribute is a variable length byte array
-> * it is multi-attr where each message with the same attribute represents
->   chunks of the byte array
-> * the byte array's size is conveyed in a scalar attribute named by the
->   "bloblen" property.
-> * the attribute identified by "bloblen" always arrives in a message before
->   the first chunk of the associated blob
->
-> A "multi-attr" without "bloblen" retains the legacy behavior where repeated
-> reception of the same attribute across messages results in a new instance
-> of the object. The new behavior causes repeated reception of an
-> attribute to be treated as filling consecutive bytes of an array.
->
-> Assisted-by: Codex:GPT-5
-> [codex: drafted initial python changes]
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Lukas Wunner <lukas@wunner.de>
-> Cc: Donald Hunter <donald.hunter@gmail.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Link: http://lore.kernel.org/20260318170014.6650d2bf@kernel.org [1]
-> Signed-off-by: Dan Williams <djbw@kernel.org>
-> ---
->  tools/net/ynl/pyynl/lib/nlspec.py | 12 ++++++
->  tools/net/ynl/pyynl/lib/ynl.py    | 62 ++++++++++++++++++++++++++++++-
->  2 files changed, 72 insertions(+), 2 deletions(-)
+force_dma_unencrypted() does not *prevent* device access to private
+memory and provides no security properties on its own. It's only
+purpose is to inform the DMA API what the HW restrictions are for
+doing DMA.
 
-I am mid-review of this but I think it could be simplified. See initial
-thoughts below. Can you show me how to configure a test env so I can try
-it out?
+The use case I had in mind relied on the vIOMMU to police access to
+the private memory. I think if you do T=1 and ADVERSARY you must have
+a vIOMMU or it is an illogical configuration.
 
->
-> diff --git a/tools/net/ynl/pyynl/lib/nlspec.py b/tools/net/ynl/pyynl/lib/nlspec.py
-> index 0469a0e270d0..4764263968ea 100644
-> --- a/tools/net/ynl/pyynl/lib/nlspec.py
-> +++ b/tools/net/ynl/pyynl/lib/nlspec.py
-> @@ -172,6 +172,7 @@ class SpecAttr(SpecElement):
->          selector      string, name of attribute used to select
->                        sub-message type
->  
-> +        bloblen       string, name of attr which reports the blob length
->          is_auto_scalar bool, attr is a variable-size scalar
->      """
->      def __init__(self, family, attr_set, yaml, value):
-> @@ -181,6 +182,7 @@ class SpecAttr(SpecElement):
->          self.value = value
->          self.attr_set = attr_set
->          self.is_multi = yaml.get('multi-attr', False)
-> +        self.bloblen = yaml.get('bloblen')
->          self.struct_name = yaml.get('struct')
->          self.sub_type = yaml.get('sub-type')
->          self.byte_order = yaml.get('byte-order')
-> @@ -191,6 +193,10 @@ class SpecAttr(SpecElement):
->  
->          self.is_auto_scalar = self.type in ("sint", "uint")
->  
-> +        if self.bloblen and not self.is_multi:
-> +            raise SpecException(
-> +                f"Attribute '{attr_set.name}.{self.name}' has bloblen without multi-attr")
-> +
->  
->  class SpecAttrSet(SpecElement):
->      """ Netlink Attribute Set class.
-> @@ -355,6 +361,8 @@ class SpecOperation(SpecElement):
->          attr_set        attribute set name
->          fixed_header    string, optional name of fixed header struct
->  
-> +        dump_blob_attrs set, reply blob attribute names which may span messages
-> +
->          yaml            raw spec as loaded from the spec file
->      """
->      def __init__(self, family, yaml, req_value, rsp_value):
-> @@ -369,6 +377,7 @@ class SpecOperation(SpecElement):
->          self.is_async = 'notify' in yaml or 'event' in yaml
->          self.is_resv = not self.is_async and not self.is_call
->          self.fixed_header = self.yaml.get('fixed-header', family.fixed_header)
-> +        self.dump_blob_attrs = frozenset()
+So, IMHO there is no use case for a T=1 device to only use shared
+memory, I would abandon that combination.
 
-Initialising to None would avoid some other logic.
+> 2/ The confirmation of the trust level and the enabling of DMA are
+> separated in time from setting the trust level and entering the RUN
+> state.
+> 
+> All the archs separate the RUN step from the ENABLE DMA step, and the
+> implementation separates those steps in time.
 
->  
->          # Added by resolve:
->          self.attr_set = None
-> @@ -388,6 +397,9 @@ class SpecOperation(SpecElement):
->              raise SpecException(f"Can't resolve attribute set for op '{self.name}'")
->          if attr_set_name:
->              self.attr_set = self.family.attr_sets[attr_set_name]
-> +            reply_attrs = self.yaml.get('dump', {}).get('reply', {}).get('attributes', ())
-> +            self.dump_blob_attrs = frozenset(
-> +                name for name in reply_attrs if self.attr_set[name].bloblen)
->  
->  
->  class SpecMcastGroup(SpecElement):
-> diff --git a/tools/net/ynl/pyynl/lib/ynl.py b/tools/net/ynl/pyynl/lib/ynl.py
-> index 092d132edec1..f21b68043bd3 100644
-> --- a/tools/net/ynl/pyynl/lib/ynl.py
-> +++ b/tools/net/ynl/pyynl/lib/ynl.py
-> @@ -998,6 +998,47 @@ class YnlFamily(SpecFamily):
->          else:
->              rsp[name] = [decoded]
->  
-> +    def _blob_fill(self, buf, off, chunks, name):
-> +        for chunk in chunks:
-> +            end = off + len(chunk)
-> +            if end > len(buf):
-> +                raise YnlException(f"Blob '{name}' data exceeds reported length")
-> +            buf[off:end] = chunk
-> +            off = end
-> +        return off
-> +
-> +    def _blob_init(self, op, rsp, blob_attrs):
-> +        """
-> +        Start a new blob object. Preallocate each blob payload using the
-> +        length carried ahead of the data and copy in the first chunk(s).
-> +        Return the per-attribute write offsets for any following messages.
-> +        """
-> +        offsets = {}
-> +        for name in blob_attrs:
-> +            if name not in rsp:
-> +                continue
-> +            length = rsp.get(op.attr_set[name].bloblen, 0)
-> +            buf = bytearray(length)
-> +            offsets[name] = self._blob_fill(buf, 0, rsp[name], name)
-> +            rsp[name] = buf
-> +        return offsets
-> +
-> +    def _blob_extend(self, rsp, update, blob_attrs, offsets):
-> +        """
-> +        Continue filling the previous object's blob(s) when the current
-> +        message carries only blob continuation attributes.
-> +        """
-> +        if any(name in rsp and name not in blob_attrs for name in update):
-> +            return False
-> +
-> +        for name, value in update.items():
-> +            if name in blob_attrs and name in rsp:
-> +                offsets[name] = self._blob_fill(rsp[name], offsets.get(name, 0),
-> +                                                value, name)
-> +            else:
-> +                rsp[name] = value
-> +        return True
-> +
->      def _resolve_selector(self, attr_spec, search_attrs):
->          sub_msg = attr_spec.sub_message
->          if sub_msg not in self.sub_msgs:
-> @@ -1356,7 +1397,10 @@ class YnlFamily(SpecFamily):
->          for (method, vals, flags) in ops:
->              op = self.ops[method]
->              msg = self._encode_message(op, vals, flags, req_seq)
-> -            reqs_by_seq[req_seq] = (op, vals, msg, flags)
-> +            blob_attrs = None
-> +            if Netlink.NLM_F_DUMP in flags:
-> +                blob_attrs = op.dump_blob_attrs or None
-> +            reqs_by_seq[req_seq] = (op, vals, msg, flags, blob_attrs)
+Yes, until the device is fully accepted the DMA has to be kept off. If
+you have to measure in the RUN state then we must have a second step
+after measurement completes, however we are measuring in LOCKED right?
 
-I think this hunk can be dropped and instead use op.dump_blob_attrs directly
+> echo tsm0 > $pdev/tsm/lock
+> cat $nonce | device-evidence dump $pdev
+> device-evidence validate $pdev $generation
 
->              payload += msg
->              req_seq += 1
->  
-> @@ -1365,6 +1409,7 @@ class YnlFamily(SpecFamily):
->          done = False
->          rsp = []
->          op_rsp = []
-> +        blob_off = {}
->          while not done:
->              reply, ancdata = self._recvmsg()
->              nsid = self._decode_nsid(ancdata)
-> @@ -1372,13 +1417,14 @@ class YnlFamily(SpecFamily):
->              self._recv_dbg_print(reply, nms)
->              for nl_msg in nms:
->                  if nl_msg.nl_seq in reqs_by_seq:
-> -                    (op, vals, req_msg, req_flags) = reqs_by_seq[nl_msg.nl_seq]
-> +                    (op, vals, req_msg, req_flags, blob_attrs) = reqs_by_seq[nl_msg.nl_seq]
->                      if nl_msg.extack:
->                          nl_msg.annotate_extack(op.attr_set)
->                          self._decode_extack(req_msg, op, nl_msg.extack, vals)
->                  else:
->                      op = None
->                      req_flags = []
-> +                    blob_attrs = None
->  
->                  if nl_msg.error:
->                      raise NlError(nl_msg)
-> @@ -1388,6 +1434,11 @@ class YnlFamily(SpecFamily):
->                          print(nl_msg)
->  
->                      if Netlink.NLM_F_DUMP in req_flags:
-> +                        if blob_attrs:
-> +                            for obj in op_rsp:
-> +                                for name in blob_attrs:
-> +                                    if isinstance(obj.get(name), bytearray):
-> +                                        obj[name] = bytes(obj[name])
->                          rsp.append(op_rsp)
->                      elif not op_rsp:
->                          rsp.append(None)
-> @@ -1414,6 +1465,13 @@ class YnlFamily(SpecFamily):
->                  rsp_msg = self._decode(decoded.raw_attrs, op.attr_set.name)
->                  if op.fixed_header:
->                      rsp_msg.update(self._decode_struct(decoded.raw, op.fixed_header))
-> +
-> +                if blob_attrs:
-> +                    if op_rsp and self._blob_extend(op_rsp[-1], rsp_msg,
-> +                                                    blob_attrs, blob_off):
-> +                        continue
-> +                    blob_off = self._blob_init(op, rsp_msg, blob_attrs)
-> +
+So the device is in LOCKED here, DMA remains off both because of
+LOCKED and becuase ENABLE DMA has not been done.
 
-This approach seems unnecessary for pyynl. Just let multi-attr do its
-thing and then concatenate them at the end.
+> echo 1 > $pdev/tsm/accept
 
->                  op_rsp.append(rsp_msg)
->  
->          return rsp
+And now it is RUN. So I don't see the issue with enabling DMA at the
+same time as gonig to RUN? (though defering it to driver probe would
+be a very nice touch as well)
+
+With this API you can't set the devices to RUN and *then* collect the
+evidence, is that restriction OK?
+
+> echo full > $pdev/trust
+> echo $pdev > $driver/bind
+
+Then we can set the trust and bind the driver, knowing that the T=1
+security property is in place.
+
+> The configuration window where $pdev/trust and $pdev/accept can be
+> dynamically changing should not be changing the force_dma_unencrypyted()
+> result if only because that value will mismatch the hardware state until
+> the next ->dma_configure() event.
+
+T=x cannot be changed while a driver is bound, we need to block
+that. Changing it will mess up all DMA and the DMA API won't work
+anymore.
+
+Thus force_dma_unencrypted() can only change when a driver is
+unbound.
+
+If a driver is unbound nothing ever reads force_dma_unencrypted() so
+it is safe to change it, thus we can just synchronize T=1 and
+force_dma_unencrypted() whenever T changes.
+
+The error case has to wait for the driver to unbind if userspace wants
+to go from ERROR->UNLOCKED. IMHO for RAS we are going to need a flow
+to logically go from ERROR->RUN, probably with the 'same device
+acceptance' I suggested earlier. In this case the DMAs will be halted,
+the devices gets back to T=1 and RUN, then the DMAs are turned on
+again. The driver remains in T=1 and force_dma_unencrypted() is always
+false.
+
+> There are also buses and paravisors that may know that private-DMA is
+> enabled for a device by construction. In that case it is also a "trusted
+> to access" signal, and not a "required to access" signal.
+
+In this case they wire force_dma_unencrypted()=false.
+ 
+> My answer, given the concerns of drivers dangerously flipping the
+> force_dma_unencrypted() result at runtime was to place it in 'struct
+> device_private' 
+
+Yes, this seems good idea in general
+
+> Otherwise it is confusing when 2 devices are at FULL trust, but
+> one has private memory access and the other does not. One is FULL the
+> other is FULL+.
+
+It is confusing when phrased like this, but this is also why I was
+suggesting below that a pure trust level may not be sufficient as we
+have quite a cross product of scenarios.
+
+If the user wants to operate a device without T=1 and without
+ADVERSARY then that's goofy, but technically the kernel doesn't really
+need to care? It can do it.
+
+IMHO a big question is how much do we want the kernel to nanny
+userspace by having options to double check its work?
+
+Either we trust the user to have checked all the policy conditions
+before writing /sys/trust, or we encode some policy conditions and
+tell the kernel so it can double-check prior to probe.
+
+At least if we omit the double check it can be fairly easy to add in
+later if it really was needed for some time of use reason.
+
+> The question is whether these requirements belong on a central device
+> trust mechanism bitmap or should be pushed out to other ABI.
+
+Yes, for sure, I don't have a good sense what is better.
+
+> For
+> example, if the presence of the secure IOMMU is enumerated
+> after the device is in the LOCKED state then userspace policy can know
+> what it is getting into without needing to tell the kernel. 
+
+Yes, I think for almost all of this we could push it out to userspace
+and have knobs all over. Like IOMMU already has a knob to switch to
+DMA mode, we could add an IOMMU specific trust level to set ADVERSARY
+also if we go in this direction.
+
+But, I also do really like the idea of a central knob that was fairly
+general and simple DISABLE/ADVERSARY/FULL which all sorts of things
+can hang off. Including IOMMU and the drivers themselves that may
+change operation in ADVERSARY mode.
+
+That means they need simple general definitions for what they are, and
+I really like this ADVERSARY naming vs trust as it makes it very clear
+what the device disposition intention is.
+
+> Not essential, but it is useful to have the "operate device" intent,
+> IOMMU default domain configuration, trust level, and private DMA enable
+> all in the same bus operation (->dma_configure). Which is why "accept"
+> was demoted to just set RUN state and leave the rest to be finalized
+> later.
+
+I agree it is nice, and I think this can work fine, the bus code when
+it does the dma configure step can reach out to the TSM and have it
+enable DMA.
+
+We also want the IOMMU to change to a default-disabled state, so we
+also want its hook in dma configure to switch to non-default too.
+
+It makes alot of sense to me that *all* DMA enable knobs will be
+disabled until right before probe starts and then disabled again once
+remove completes. TSM, IOMMU, PCI, etc.
+
+Jason
