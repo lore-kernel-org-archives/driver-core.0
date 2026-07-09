@@ -1,134 +1,127 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BE0345CA8
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 15:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B495364943;
+	Thu,  9 Jul 2026 15:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783609625; cv=none; b=GsC/F1ZnlM7G2uxd1EHv3xWYDc6jGQxTazOPI2nhE2shwgVpZTTEAzCtykXOgWEqvehsHZceynqvpfO22+4kmAcfw5EdJKATInBdeqECCdZVURn4bgbpL3njNNsAvIy6UCSYrjgm5lfI67+TQ3YAXaE1gbLxlZh1EUoiRCIAk6M=
+	t=1783610540; cv=none; b=cDRHjUX8X8U1cWAuBq4h3qJoTyH+yGyszcLdpxhg0D1wlqsPlys6wYZfPgZQhgtPYfAirwoSZQzZKsfpiJb8a9Eb3kfYLXsXlX9aCzHgPphJfPdnziEWXiKqR5zbNHE8e/V09fiyzE6yw4M6adCv/FuwHGeKTwK35jtYdl+wrYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783609625; c=relaxed/simple;
-	bh=/grVSRUciXotV+M5DyGJv/gSDKzJoMKn2myJZvg9YgU=;
+	s=arc-20240116; t=1783610540; c=relaxed/simple;
+	bh=Avu3zt/h9UsavX8wNzIe+JndjpBKa41frzVQAb2CyuE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RR2HJSmmvWnPuS2+7pBTGBzbCGls25S86N2WQyPyTeEA3b6Cu0heotlIrGJv/5HpyF3GkG8jAaofGnpxYMMsY/AZoYN5nCcRGhUtR7yRbENSADzHN9b9x5hQv+vlP5WF2tuPEFm1VXJHsOZsX9mTSb1XaD/++Va2qOX66PKCLxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=LoNAug54; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUv+f1nQni07acbtMSMLxJntStm6qVNMGo+Fz+u/tIegZmijE8ACoLGx2ZCD9/d6D7gOa8JNi9HAKe9FBoAp9PO1iO0QNeZt7zTOq0LAbyTFJqoaj4vy4yrVZwGL+NgdkdKTBFhysY0WGRAMuDd2A9sD6j1dZ6Zln5xCOrHq7tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oPwbU1Jw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TAaYbcaP; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="LoNAug54"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51bfe810293so10100371cf.1
-        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 08:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783609622; x=1784214422; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LA4FqejTaFf1jVYUF/eNvlLLZJZ5tRpTNigHNeOPvho=;
-        b=LoNAug54s3EDQ7tQWy68+iiS3XxKg67F/zfPIIuZcT+vINArZIq+jQP97sTDFtejDK
-         rZmgpMBninANbZM9XSFUJvp6c6BMFBazpo1lXUuguh7cKQ6z5KLacDuKyB9CcY5tqVTh
-         uQ9ePu+8OKaulsNmXgVSborKYUtqCUUNj27I5OGmM4jb3IxflNCg4GP0KVQXiE/jRDLe
-         hqRP8UuBkXoW4z8cusGvZaD9Osu0jt4erxE8iQ94vxhcwmYY3fL96d7p7zn5oVN7fELf
-         w/QThz0BalW/xD6iWkBTracO5myIaLZqCdEPH9RyL2ltnTnUBlTJZYhE39DhY+BxJLT7
-         g8Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783609622; x=1784214422;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LA4FqejTaFf1jVYUF/eNvlLLZJZ5tRpTNigHNeOPvho=;
-        b=JLPTQguv64O0J6a7PMZ5Ppid2cf2m1BMNKV0+LeqZzu2ItZjKyQpPSUmjrItP7nvZN
-         Mdnpux8ONJ0va+LNQ/OprmXkoHHDorpmrMpiCMnJ2GpihXUcZjgKJuB754dKdoSLZUIZ
-         wegMabgrGM3WljH42ZPsiJ/OqKpzA1fMj2VigriXnhN5+APuMuG+kiSMrcuTYf6Dyfj3
-         lSUbZ0u0oZKbM/+WWB+fJpgQUU+xQ0UFPxjb5GlUK8OdpiquB/fuRS4Brl4jSnSEd3Ov
-         xMYnaLNyySJ2PgdniDfxJFPexnh995vFOqfBE3PEpqFlr1/xiP7SNo4HSqqfiUdqx3e9
-         Lqyg==
-X-Forwarded-Encrypted: i=1; AHgh+RqcnVVJmI9/cpvDQgmN94Ga6wvxkc29KciiGR9xYbe+CbG5S1HYbMs/9oiYDUxn0p3TH7MKD/lqm8MCFA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcAtL0MoTg4PbvrF+fIHqNf2rk4CGHVrnBcJLMb1eTaBGv1SUa
-	OM95gSh4ac4XTVJN1UIA4y+3Nj32wYRFi8bOCKxPjPz+eEw+gBnPLyYadIZnCB7d1Go=
-X-Gm-Gg: AfdE7cncCzaU5egk+ulfOk3xtII7aQpWpehfD3gnnTzVaFwZX9NfF/R6bNBbNMPRcnw
-	djCY+4Tg67YPTQW/QgSrAbTe8KK3gmZS1ug9P1UmPh1rCHpE6YO7cgUa7BNNSTHPDJFfQIPZYsr
-	wf+mBSWmDyKHDPveMPWAwxaMER8qOWdGa3QC6AcnKT10pyDHmnzpqrowq+aohW0RbmKR3sK80qT
-	evm6A75LV5RpYaNydEgc5ugKoTr9EE73JSHCjbwxMHqwJaUvkBvwWVgq7zYZLguq1QKsCGIPbXb
-	TL4t6EJvOE2gmTJJIgD7pwtRgpMZKrgBNvu06h9Zwi6N7SfrlQROkzH76qbtdtjmCQlbCO8IquD
-	HjfjEkkvuzEQpiPXDoP1Vw5JFo/NeDtxbkvW1TSMCR9X+/3aGUqd1kjBo18WdMEf+QD2yMYqXLu
-	uShM+FegJrP2mV0VJd/Y7Di4DIcAe0TBXVqxcbHbc8mE0a4a4F4XCWahSpc+hubYi+gj+IPyAMm
-	oykbyU=
-X-Received: by 2002:a05:622a:1791:b0:51c:7b12:5fee with SMTP id d75a77b69052e-51c8b40f651mr77711651cf.74.1783609622533;
-        Thu, 09 Jul 2026 08:07:02 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c42038c4bsm160321251cf.31.2026.07.09.08.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 08:07:02 -0700 (PDT)
-Date: Thu, 9 Jul 2026 11:06:57 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Richard Cheng <icheng@nvidia.com>
-Cc: linux-mm@kvack.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com, david@kernel.org, osalvador@suse.de,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	djbw@kernel.org, vishal.l.verma@intel.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, akpm@linux-foundation.org,
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	shuah@kernel.org, iweiny@kernel.org,
-	Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
-Subject: Re: [PATCH v6 06/10] mm/memory_hotplug: add
- offline_and_remove_memory_ranges()
-Message-ID: <ak-5EXwL56O3G_J_@gourry-fedora-PF4VCD3F>
-References: <20260630211842.2252800-1-gourry@gourry.net>
- <20260630211842.2252800-7-gourry@gourry.net>
- <ak9ee95F7pJpCKMo@MWDK4CY14F>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oPwbU1Jw";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TAaYbcaP"
+Date: Thu, 9 Jul 2026 17:22:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1783610535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r9EG/H1uUjNxWze83yzXvpoT9YUdC0MLYvueN66PiCc=;
+	b=oPwbU1JwJE/zxctw8ZZL/E7BuIdbmZkGZm+Re7/zV10hD7jgQBjrUopbI2e3VBU8c27Fqp
+	IDfb39TWHkAOh2MC8fOmqLm2FPc93tG6/+H/5c4zaxTG6NaExOxghldb8Hbr7dC9BIMUhy
+	ak7Z1CuMHpv87hTyC29niIoJ9jWIaajGwkk3CxDikNqWiapWgmZdaPoecubYlm6PM+ApMg
+	KDWkiyyoRRM9SSs3hadlQ+jYmWcYVPmgKMktQvsVuqKw8xXXiS01iiuH6LGUIehwxjMBVC
+	xtTc6jvzZUlVGO+ale2rfoAU1Ndb1wR4F5AhBQ2BbsXAi0NX+0qfg/3rlohVMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1783610535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r9EG/H1uUjNxWze83yzXvpoT9YUdC0MLYvueN66PiCc=;
+	b=TAaYbcaPx8u50NYJjo6oSTRc7xtOoUa1kcgz3/GOr84PotxLzNtd+rYk7Qc8/BjeIHCvQa
+	JeZx6fTZyAreVJAw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
+Message-ID: <20260709152214.rH1O_8SM@linutronix.de>
+References: <20260709143108.UYeCUUcd@linutronix.de>
+ <2026070922-kilowatt-matador-5e1c@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ak9ee95F7pJpCKMo@MWDK4CY14F>
+In-Reply-To: <2026070922-kilowatt-matador-5e1c@gregkh>
 
-On Thu, Jul 09, 2026 at 04:45:51PM +0800, Richard Cheng wrote:
-> On Tue, Jun 30, 2026 at 05:18:38PM +0800, Gregory Price wrote:
-> > +/**
-> > + * offline_and_remove_memory_ranges - offline and remove multiple memory ranges
-> > + * @ranges: array of physical address ranges to offline and remove
-> > + * @nr_ranges: number of entries in @ranges
-> > + *
-> > + * Offline and remove several memory ranges as one operation, serialized
-> > + * against other hotplug operations by a single lock_device_hotplug().
-> > + *
-> > + * This offlines all ranges before removing any of them.  If offlining any
-> > + * range fails, the entire process is reverted and nothing is removed.
-> > + * This provides a fully atomic semantic for unplugging an entire device.
-> > + *
-> > + * Each range must be memory-block aligned in start and size.
-> > + *
-> > + * Return: 0 on success, negative errno otherwise.  On failure no range has
-> > + * been removed.
-> > + */
+On 2026-07-09 16:46:19 [+0200], Greg Kroah-Hartman wrote:
+> On Thu, Jul 09, 2026 at 04:31:08PM +0200, Sebastian Andrzej Siewior wrote:
+> > Hi,
+> > 
+> > The following patch sat in the RT queue for almost 15years now. I can't
+> > find its origin on the list.
+> > All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
+> > and returns 1.
+> > 
+> > Is this something that is still wanted and considered useful?
+> > Is this something that can be expressed better by other means?
+> > 
+> > There was an in person discussion about this and it was suggested to add
+> > /sys/kernel/realtime as a folder and having individual realtime features
+> > as files. I don't remember a single feature that would quality for this
+> > today but who knows. This is all I remember so far.
+> > 
+> > Now. Discussion go!
 > 
-> I think this can return 1, and it shouldn't.
-> device_offline() returns 1 when a block is already offline, and phase 1 passes that value through as-is.
+> At the very least, it's not ok as it's not documented in
+> Documentation/ABI/ :)
+
+:)
+
+> But really, why is this needed?  Userspace shouldn't care, right?
+
+So there is Clark who needed it 15y ago for some udev rules. Maybe he
+elaborate on that.
+
+There is custom "software" that is designed for realtime environment and
+if it is run on a regular kernel then it missed its timing requirements
+and the software goes usually in a fail state and people start debugging
+what has happen. If this happens often enough (booting a non-RT kernel)
+they tend to add a check so that the software complains early enough
+since checking the kernel is usually the last thing that is done.
+
+This could work with the file (or folder) or by parsing uname output. I
+know of at least two individuals that switched to uname because the
+upstream RT does not have that file.
+
+cyclictest (from rt-tests) is using this file but only while collecting
+system information, nothing else.
+	https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/tree/src/lib/rt-utils.c#n528
+
+There is also sosreport
+	https://github.com/sosreport/sos/blob/main/sos/report/plugins/kernelrt.py#L32
+
+using for information collection purpose.
+There is thermald
+	https://github.com/intel/thermal_daemon/blob/master/src/thd_engine.cpp#L1065
+but this looks like just information gathering. That check looks wrong
+since there is a space instead of an underline in the check so this was
+not tested on a RT kernel.
+
+> And checkpatch should complain about the sprintf(), should be
+> sysfs_emit().
+
+Sure.
+
+> thanks,
 > 
-> Easy to hit with patch 0, offline one memory block via memoryN/state, then write
-> "unplugged" to daxX.Y/state. The store returns 1, userspace treats it as a partial write of 1 byte,
-> and retries the write with the rest of the string.
-> 
-> Maybe
-> """
-> if (rc > 0)
->     rc = -EBUSY;
-> """
+> greg k-h
 
-Oh weird, I thought I'd solved this problem at some point.  I must have
-botched a rebase or something.  Good catch.
-
-I'd originaly had some tests that race memoryN/state and dax/state, but
-I dropped them because it caused long testing cycles (mostly because i
-was testing force unplugging).  Maybe I'll re-introduce some of these
-partial tests and just avoid the destructive ones.
-
-~Gregory
+Sebastian
