@@ -1,72 +1,66 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012064.outbound.protection.outlook.com [52.101.53.64])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010012.outbound.protection.outlook.com [52.101.56.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C45938F92D;
-	Thu,  9 Jul 2026 03:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FCA3D3324;
+	Thu,  9 Jul 2026 06:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783569094; cv=fail; b=CBC/3a3tCkbTP6/w3RkDW9JVXVt0V6MGNZlfzVolNR3aMI71XXKZSw+OcAwnMU5sopYfDs/V5Vj/taT4I2sQ5fpZ9IgfAkdHGf0Gj9d1gNrJiDGdKXSuqU3DC7NF1kz+qz86NifUYlCkOlRQOPVsTW/MBFn3AZWewVTUZiBiSnU=
+	t=1783578786; cv=fail; b=CC2eMWxO/j4QP+VcHoKcxL/YUUz6BHTMyEC1Rg5GkS+yS0sh3mdb+PzwmDkUsOlP3oSkOYopAraA7MladSf67Paph/oDerjcxJH01kaUkEjm45qGc8+tBX9QPT9E8Rn4jGJBUyZYmLhTInUEzbnMAcLtFgsijW/1eynbaFswajE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783569094; c=relaxed/simple;
-	bh=A4te7RC2i5cd+ig3pJr57Ehuuzr2yzELgCU6AsXa7+k=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=D2GrDGgBwEOUxAZgxX54ylHtzDkvTlh75O7pPf5JcYSP9Y9Ms4p+80EHtkBfHp9tcTl1Ja4KXgye7RM44ryIxgL5I+ZOI+wDVXPQo++bFvv4+11/zTQDdqwq59T4529yy75Vvma3DMlYR55TeBEnn9s+kACUInVhSl6/SoyVMZc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=N5TdmNqE; arc=fail smtp.client-ip=52.101.53.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1783578786; c=relaxed/simple;
+	bh=CZ/+TU6/cU1+5YlX+vzzqbVYJHBn2+VXzdWh1Buj5Dg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=SC0sIilixoLSheGx97URLZvn8OkipDRiywytGx6QcIdaQJ5ZO157yMfJfpz5lBdc6Nixb3XUH4KHcbP8K3rjTsnZ52X9teXMSigbjj1Diknxyhfhg4aGfnrGCFYjbey6y30iIcYKDiuex2QgNOXnRAL2+XB8f6QG2gagk+1LsN4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=VD/7I588; arc=fail smtp.client-ip=52.101.56.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="N5TdmNqE"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="VD/7I588"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uWzAyduPzWV01yDnPWnm/hh1anW0bQmnQrJ54evd3uFrXUWVl0/ZfekRCRAGefdOED40ZXb8qGSKPAmajzaSdOuV45jkssixe5q0F2P6oSbsUhJc5zI9xuzpc6YUyvLU2oApZp0Kzlq16cByh3zP9+fck6Sot5HufyjGjTuUxiDmTD0P0X+GxjBj0yAPwrxuLMMtCejGbgsR1Lb0StvcNuppwm5YVJV/vpNZPALPZhWbHZNmMuqtEfpcypDMavnK5neaNcZaIqeakRknO2JX44/cJjDE1MhSKq3h/C7jaezIlSScaQJ9UP9fQXIG+O02Zeh7GDoG9Bg0OKYLuyzI3w==
+ b=MTF08TqXnmmexYO/C9ziETB+6xgWCRyYsGrtmXi4HCSZqTobxhHAUtaUgNgdKeRnXU72pxC+Ir7h05btTWxPktvVPWsLnagQAFPOm65JG/hmwVJh7w82S33N/GGzwSlRo6/Lk6v9Wjjv5/jCwuufrM8QXq+D37ib2VgEpDsl01qGMBp+94G1nGfdVpycVg5U93p6eByvlOspCC/nkX3ZDIBRDdgve36k2nBhWKIv9CppRXxn5mAoGwRGV14YiARfUSSork5ye2ZN63CzODPcVYYjz7Frr+Oc3G+bNw2wXMpci7db3v8HIs5dTjEFrlRUdhn4GIqoFCkd38hTQfFXRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8fEPbl9ZxKj/oN5iHcB9l8qR6MOIi31TlTU01GOsyMc=;
- b=bK/fUSHP8EPY7NBKr4PFyFAF+x1yZrWSeA4FDRaioyXGnia9LFwaEnEfJkf/VVC5EdCyTIiK8yxIr1W0ITl/wLqlpmnW12SR2elAzhqR3zyosz8r7ZpxRsBlugMYwtzBCXtoeMAneV7b8qpfpWkgFhGrcwMTsY76E9LTwW/o0W+Jfr7RTchiLGHNb1mEmNokvQg5AMmcl0rRhoggGMdrGtgbrMqSH/V9uZ+7ApNxzdrIeFeRPo0WbCW3IKc0DTJBpY4HHmL1zPoLXYBvKK8K8qAkuNCCwCmlQHYrQlMP3qeWzN9w3dqbJJAEdi5SjMitNxYdoktS4qR2pjP58mPuJQ==
+ bh=0OccKTftxReSFz+KjCzDd0KbQlE9f4bzS7e09R453Ec=;
+ b=XSleXu0F6YCCCy+fAoegSQrgEPQnFqjEhQgLq5SpY2A2NUXCLZQLn3PUX7/8Oq9lH1DtYpJarGAoto0gF+CteQ0BNH48ES1j/NdNwwG31lLySxhYY/rGNOIwvusr5IclvNGp7cqOdrL6lqU7M4mMh1R6q+4wdZLC8VP2ByW9Q1HwFr2XfhDwCpqhkpTupR/0tiRGFeqWU7wYr/pzhat5XGiUIm7GqyuBYwySBh9fa3mBwCvJ1VnL/deit6YpUWVpooOKp89ERCuYjPeYx4MlnQ5Y+NMutajEiIDwpnDqTO/Rby/aTnMpd717GABbcFc0/FH9Pozww+kfIaEcyyTeig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8fEPbl9ZxKj/oN5iHcB9l8qR6MOIi31TlTU01GOsyMc=;
- b=N5TdmNqELKl1Aoabqt6Ro3JyOaZhYeYLedqTUfJA+if7WhOG/Kr5KPEwKD4M7zD4FNxW2YMucy2mWCaDZ0gmz97AqgmkN2a5XEMWjjjcvhQb8smml1HoJX7zU7Pb4/Gxt/YVxPl2P80v0gGai8d5QONYO/5Wm9kw5sJW0DXJObPM8jXhjcjWxsvlS0QioFkyrjfWP9Z3XtzcfkRes01KsGrkySEnSp9kjYCUXmDxxjnEqAHL8ZFmQ57Ideg9zQMXR4cflsBRRmgBXIIUtQ5QbF1WJDmuE8axz2WgwFokaz2ASDoLn1/iWHkUJ6CLY1mKoxMtLjTwoRqvJ1rzVGCwpg==
+ bh=0OccKTftxReSFz+KjCzDd0KbQlE9f4bzS7e09R453Ec=;
+ b=VD/7I588RZCtuwosY8C2QuX42e3tRlzKsCwRXCInt7Y4NHPgLh+Kz3H4hQZ7ivFzJp0GVcp6XyhM+4vXxPQkk9PYZ7UwnKDtuaofbW/lIMSt3R7RUwjHnD+i62/ulITyaxJIvbZu9czn29bCk8Hrv/jcxti1ZKs4ccTEY4qUoO4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by IA0PR12MB8984.namprd12.prod.outlook.com (2603:10b6:208:492::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 9 Jul
- 2026 03:51:29 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
- 03:51:29 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 09 Jul 2026 12:51:25 +0900
-Message-Id: <DJTQH2CGKDMW.1LVUEN7V32OK8@nvidia.com>
-To: "Timur Tabi" <ttabi@nvidia.com>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, "nova-gpu@lists.linux.dev"
- <nova-gpu@lists.linux.dev>, "Zhi Wang" <zhiw@nvidia.com>,
- "gary@garyguo.net" <gary@garyguo.net>, "mcgrof@kernel.org"
- <mcgrof@kernel.org>, "dakr@kernel.org" <dakr@kernel.org>,
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
- "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
- "ojeda@kernel.org" <ojeda@kernel.org>, "russ.weight@linux.dev"
- <russ.weight@linux.dev>
-Subject: Re: [PATCH v3 3/7] gpu: nova-core: transition booter_load to TLV
- images
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-References: <20260702192712.3450652-1-ttabi@nvidia.com>
- <20260702192712.3450652-4-ttabi@nvidia.com>
- <DJR9ZZLA72BK.G14HXKV5E8LP@nvidia.com>
- <a3b7dcc404d857531972ac52623e63620d117cc1.camel@nvidia.com>
-In-Reply-To: <a3b7dcc404d857531972ac52623e63620d117cc1.camel@nvidia.com>
-X-ClientProxiedBy: OSTPR01CA0010.jpnprd01.prod.outlook.com
- (2603:1096:604:220::11) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA1PR12MB999228.namprd12.prod.outlook.com
+ (2603:10b6:806:4db::10) by CH3PR12MB8969.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Thu, 9 Jul
+ 2026 06:32:59 +0000
+Received: from SA1PR12MB999228.namprd12.prod.outlook.com
+ ([fe80::4dba:119e:8e7c:37b3]) by SA1PR12MB999228.namprd12.prod.outlook.com
+ ([fe80::4dba:119e:8e7c:37b3%4]) with mapi id 15.21.0181.009; Thu, 9 Jul 2026
+ 06:32:59 +0000
+Message-ID: <f8b5b966-ea36-4b4a-a9f5-58a20855a6fb@amd.com>
+Date: Thu, 9 Jul 2026 16:32:54 +1000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/15] PCI, device core: Add private memory access for
+ DEVICE_TRUST_TCB
+To: Dan Williams <djbw@kernel.org>, linux-coco@lists.linux.dev
+Cc: linux-pci@vger.kernel.org, driver-core@lists.linux.dev,
+ ankita@nvidia.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Dexuan Cui <decui@microsoft.com>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <20260705220819.2472765-14-djbw@kernel.org>
+Content-Language: en-US
+From: Alexey Kardashevskiy <aik@amd.com>
+In-Reply-To: <20260705220819.2472765-14-djbw@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SY5P300CA0011.AUSP300.PROD.OUTLOOK.COM
+ (2603:10c6:10:1fb::18) To SA1PR12MB999228.namprd12.prod.outlook.com
+ (2603:10b6:806:4db::10)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -74,161 +68,284 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|IA0PR12MB8984:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5b4acd1-9f84-4b42-2770-08dedd6d5b67
+X-MS-TrafficTypeDiagnostic: SA1PR12MB999228:EE_|CH3PR12MB8969:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95f72868-2f90-462a-2fc2-08dedd83eb48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|10070799003|376014|4143699003|22082099003|11063799006|56012099006|3023799007|18002099003;
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|18002099003|22082099003|56012099006|11063799006|4143699003|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	SdJujON+ri70vAHC65TixkcDKrZhe0czjGLjWU40HE+2Bvv9gao/Tz+FT/4j4QPbuBj1dK69vKor2BzJslKPTWnHkW1JSSDMpfMcB7piWH1tnID0B1qMigPvANetP23hFltT9Dd+eHkUiDZ7P1GwhSAPVFI7NawN7Arzwq4qsnCS2hQWS2bgwyQRxzBhX2d1/YQUtH7hvP3Eb0GXHi9pkDVKWsYzwr0onPWB59EaIOPwKbrgITIMlBrevXXajm16GXafwTsMrDm9laOUerkU1SSEUgs9oLXbD+HYJZsJkU9S1Tlr6xDD8Tyd/0Y2N51UFhkf3m/yL4xhi7TDthpMyKZXGM4JeSNPSHiKBUV59peNfPeQ4PseMdgsqiqKnoXRkr2AldxcPHawRcNxt6QZTbCHXs4CEzInrfGRnzmjNIaETb9l9X7Jgwusd0DhOCH5z5BhS+96fLpfdPzrmPH0IeSc36r8k1k990sPfCM6FIi/lFVyYlqVY097cG3ET23Yr/yn9yNT9Bs+V7kFny/U3XugZR2InBZ+KlRuCcwrxFNoxcwSoa/MtuLpfmLycCrn7ugj4QS/w3QupJwDz5fkeTDsbxMRSvqbKyVBpM3E98UhEeuhWTdca6/tBEl6UauzBCWniXF6ZMHhS8PV35tINOwLfKyepIQP1lgYDk5Q4G4=
+	DHxbujAtZ5DF70z75NT65UNIwXsbjMnBNxyUEx8DsZywHVR3T9Ls7rRDTAAHRKiNrh9YkOSBdB/Fx9cBPOdouhVIUjQWdV9FQVBvqfhPaOgzijt7tOd+rLaORek6326+AYm/RlnYHk7G8CJvePQgf3YUOQxieA8qjg1lFrx4iAw2uTIeRSrIPpV9aENdzfOrA4kSMRqeSZ1SXfUJndkEbO5uyvRq2Qd0V7kq0J26P3VxJPOxkGuIzfCtiu8+kYE4n2nBl+eSOOtn9iSa9PyHeJuJ2IJ+HwwII4D9pv8KLnB1TSOeI/e1/uV1glOmnVytBzyHvf6L+TH85/RqTwvEjOH4XqInrYDiGD+QMIprlbAqnLEPeTrNDeST/CFsZaT7XoXPuvuf5sXthdB3TFfa4LjWyEjPg61CHKo/r9ZiKCRw0gLY1L7VYzSq50n6dEt5Sd/qSVzx6AmSqRNp2vCXiBgAeNrklY8iw31w6RnSVEv893P1Jrc4pksPgtI483eMySnRRGh/M6s9i6fFUIfSAJITwA1r3pVQLEZiLpyhrutqj1s9XXPbkkUjSGP/6gN/DZFiawcLKu4v1rgOAuHwn/0Ylnw54zOoxlNnyD6KBx3MUcw68yNu4F+G/+vkYZZdrEf3vJEj7zOK8URLZNCvZMAz1OKeTMILLr0HhNRKgEQ=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(10070799003)(376014)(4143699003)(22082099003)(11063799006)(56012099006)(3023799007)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB999228.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SWNkKzYrSTRoSEJOeGlyVWR2NDZIOEpUZVBBQlB0cFRnSnN3d0V0SWlWdGFj?=
- =?utf-8?B?KzdCNWdzVndzSE9acmhSZjJMTCtlaDdzTWxHKzgvRngzYzc0aGM3NnpDekJI?=
- =?utf-8?B?L1BtRUcwK2c2ci81M3Vxdytla1VIa2JhNnJrOEtPek1CMWZmSDdyMXphQ1Q1?=
- =?utf-8?B?LzlFVTVkV3FXTzhidFpsUEhSSGV6SE9jdzZJdzZPa3Jua3EraEMzWERFUFc1?=
- =?utf-8?B?ZE9ZQ01nRXF4dGZGcHpTY05QcVlrTFgxU2d0cG0rV3J4YnQvNE9mR3FuWUlO?=
- =?utf-8?B?WW5hWFk2OTl5a1EvL1VIalB3N0JpNFkrYmk2Y09tQUkrL1h5T0NYZENDUFhP?=
- =?utf-8?B?YVZVdUpCMEZXa0FEWFNzNDVlSHloZFFFa2NldGMxVGg4UXRncEdwYXk4S2pv?=
- =?utf-8?B?elVGRmhnZ2NSYUdlR2pnZ0ZHQzJWZVB6RUtDU0c0KzZyaWdhRm0rM0hTcCtk?=
- =?utf-8?B?eGhja3B1Q2VaMDRNQVArbWVadWlTRi9WN2dQL3AzUWlZcUU5dUREMHBXUEgz?=
- =?utf-8?B?OWszNzhwbVBRU2wrZXN3SW9nMElXNXdOa0J4TzlzUmtWM2kxY1QxUGJrWjdR?=
- =?utf-8?B?Q2FXcUx6S3gzenUweUFVTVhPRERrdW9uNDQ2a2dYTFlkM25rbVpTQ3plbTJz?=
- =?utf-8?B?VXdFUHpyaC8xcCt5Y1dNUU9wZTNkNzdHSDJFYTlmbStrdUpLSnI2U1JPYlVF?=
- =?utf-8?B?OWZ4Nm4vNmd4dlQ2elJQSkJaV1FtYVVKdE43UE5CUUY1Z0ZJZ1F3SC9pNjZu?=
- =?utf-8?B?c1JMWDZMekl0eFlLR2w0dlU1MTYxdld0R3pvMXpvaTdCSE5CV1hSdE95ZzFX?=
- =?utf-8?B?TWNJSGNTSGZiM3JlWnFTU2E0NGNtdDlsZE96d2ZvQUd1SDhaekRKbG9BWWtJ?=
- =?utf-8?B?anRpS0ZzUU1WWnFKa0NrNE03dUtTSUtQWDZ6MDZQa1RHWlBOQ2JLaHhkMkdQ?=
- =?utf-8?B?WkxLc2J1dmJoTzM5OXM3cEtQS2p0VXFheGhrUnBOUjVJTkRBRnJWY3RFSWlL?=
- =?utf-8?B?d2xnczlOUHFKMC9mQ2pHTVN3UzdzN1QvZWtrVDJjMmhxdENFallFTll5WWpD?=
- =?utf-8?B?cW9CbGU4Z1hQR0M3emxWS093a0x3d05GM0V0UTVwSjNRZnNFRzNLeWVjZjJC?=
- =?utf-8?B?VWlCZXdkUlBIYnVSblc1L3FQc2tMZUJveGFmNXNxT3ZlUzdGckpCZlJDLytM?=
- =?utf-8?B?OG1VcGROdmpKTlhic1JQSENCRGEwUTdZK0pPdzBTb21wNUdJMHZEcWtNMnBZ?=
- =?utf-8?B?Mm53N1RwKzJocG5TbGVLeVViN0F0NmF6OVRPQnFZRWVkT2RUbmpFUVpzbWhU?=
- =?utf-8?B?ZS94UEptT0NaWFE3cStrdjBMZU15c2xWRG05d1NiRzhla2ttbHpKQmFSV1B6?=
- =?utf-8?B?UXBoOFVOaWNnVE96RSt0QnNXYkxvbXNnTUVNQXY0K3BCdUlpNExkZlRqWnFG?=
- =?utf-8?B?WEdpNjZCTkxCSGpOeEt1cGs3d3NuU3lyWXhObDc3Smo3SGhSRHJTZTA3OUJy?=
- =?utf-8?B?b3h4Y2JvZ1U0dmQ3NkhzVEh6Y2lCdEU5TXQrSXpGK1UyRkUxNUYvNDVTamg3?=
- =?utf-8?B?SHJINWhpUkRMWFIzcm93cDZlcEpnZTByM0hwYjZjV1VnMEhqeUVjSWNudUtD?=
- =?utf-8?B?ZkllSlc3VjBNZnVSZ0s3TEFlRWxrck9KM29MT3RKVlpGMis5Qnk2Z1hxa0Jj?=
- =?utf-8?B?VEFaMmtRaTJjYTNDY0JrZjJLaUdJeUZzSVNtY2FZblNlL2ZjN2h0T1lTaVp1?=
- =?utf-8?B?c3ZONUh1Szl6VmpBUGJnbFdiTkUxdDZPTUxTa0xGMkJCOWx6TnNuM0NOVFFs?=
- =?utf-8?B?Rlphc2xxbzBvYTlTM1JYdnMwUitMWWtybjVXRWM5ZW9ianArWTBDRkJvQUdJ?=
- =?utf-8?B?QUpJVXBPMEpWcHdBSUY4dkx5bUluL01IRXZwbEg2Ym85bXVzVldCYjdZK3pk?=
- =?utf-8?B?RTNtZWZXQVpsVFlQdjFNa3V5elVTcVV0ZXZKeW9KOEVHcm93STAzQWVjR0xn?=
- =?utf-8?B?NFE3b2wxWTgvdEhYT3I4VGQ1VUFFM2wxYXoyUGJOYnRLbGNkS1VwMnhVWGRW?=
- =?utf-8?B?VFdDdnppRTBCYTQzeUwwV3huSDVPN3ZyL2w3b284QjFJUG5OOXpweGdVL094?=
- =?utf-8?B?Q3J1SUFYZ0JidUdTUmZDR0Zyb2YyMENoZFJKQWpkVVdWd0d3SlJrNmVEamR6?=
- =?utf-8?B?b043bjJhS3REeFkwZ3VvZVBqMDE5ZVRxckpsQmsrSm1HdzZEcSszUk1MdWZL?=
- =?utf-8?B?aGhVQ3FRRm5IUURFNFFBY1JRODA4QWRNMExhWWJLeVhBN1M4TWpWMWtGdmV1?=
- =?utf-8?B?RktzNkQxMDZ6QUlUWnovSW5PWVVRK1FmK1Q5Q1o1ZkREY2IxZVZmaWtrSVNE?=
- =?utf-8?Q?a4ZH6CFHYFd6BP/zEyI/TeM8FsffBchFoir7t0nbcqWr1?=
-X-MS-Exchange-AntiSpam-MessageData-1: MmdcGIuNnwemCQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5b4acd1-9f84-4b42-2770-08dedd6d5b67
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+	=?utf-8?B?ZkVBK01VZGhUb3lvWkl2dmlrWXd2TndoNldIWVQxYzBwNWw0Um9naFNTR1FI?=
+ =?utf-8?B?ZXUvWUtrb3Q3dnA3NDUvaHhRYlVCaEF3cXAxY053ZnFoRnlQd08yWG12YmIw?=
+ =?utf-8?B?V3dXRUwzNFNCOFVjZFdEUDNObWVRcklXK0JhSEs1QWxtZklzNTlxZFRqTy96?=
+ =?utf-8?B?WDBVbGhYcm54WWpkaGNnU2pBcklPQmVHNEM0bTBSNENkZVgzT0FVMXVWeTJW?=
+ =?utf-8?B?V0g2anNXbndiTmh3UlRMMDY3aVFZa3IrdUxFOHk1UUIydytIbVVQUFZzVTh5?=
+ =?utf-8?B?djA0RTVoaW9DYlp3N3F1bkFzOHVIMGxlOEZPUmp1aXJBSXhOMU1TOUJHaWxh?=
+ =?utf-8?B?dDRQYWRHaWtGUXVJdldRYXp2SVdSY2sya3RMQXA1Z0tMRjJ2RXdRTmxDbUdR?=
+ =?utf-8?B?QkdCdHJQeHVDTWNPWlA1N3FnSUNGcVBqb2tqS0pRQzhLbXlYdnVsNDRuZWF6?=
+ =?utf-8?B?Y21WbnV3dnQvN0ZaNlg5NUJWNHZDVXVSaWYwdWRyRVozN2I5MHM0VmF6R3pW?=
+ =?utf-8?B?eDJ2cVdPV3liMW5hNHlDaTJWZEFESFE1UW0wN3BWTXZFVk8xeVNINGFuUkhl?=
+ =?utf-8?B?c2xKWXM2dmNCczlJSUlmN2ppSmlTU3JjQ2lScDJ3N0lRUC9OTHA3NFZFb2hR?=
+ =?utf-8?B?UTE1bTM1M1dnSGJQbWVEMmx6aThwRjZZbmZUc1I5MGFHQXdRRXdDSzRxMWdM?=
+ =?utf-8?B?VGowa0Iwc3Q4b2lTWUtFMkY5SXN5ZWdPNnd4SXA3cTRtT2hPdkZYeGgrS2Fv?=
+ =?utf-8?B?czFIRjh3V1JWM3NnckJWRUwraTNYRDlZUmd6eUhnL1VVZldMZjJ0V0NrYW1I?=
+ =?utf-8?B?SlIxU3JJck81L3NqRWx3cVREVTU2dHdVcmJEQnpvbVdkZGluRWx1aDZTdTMr?=
+ =?utf-8?B?bjdxcFFqcDV5M1lqRU1rdW9tL0N5ZUJ1MnM4OUFFNlNkejFsL1N1SlVkZ3BB?=
+ =?utf-8?B?ZGY1djJCUmxCZ3NMMWlmamZpV0ZUR1BVQmxzM1prTWp3T2ZtYlVrSnRGdU1a?=
+ =?utf-8?B?eCtBdGFpT0RHR0FsRUl3dWFTWHAwamc2VHNYTU9oMTA3QzBSRGxqMUFoRWhG?=
+ =?utf-8?B?QzQ0RXVVYkVmQ042ZERHZ3haZGdNQmZ4c24yU2xTcjlZY090KzZHN3BTNVJn?=
+ =?utf-8?B?VVB3K2Zrc3c4R3BScXdPZHF1OFZVREpYelIyU3NPVVlzUE5UemMwN3NQNDBI?=
+ =?utf-8?B?MzVxVm9kV2ViTXVrU2NSZ05QbDFEYkJCQlgvY1hmM0l0NjZubml4OTJWTGVn?=
+ =?utf-8?B?eHhPTndmN1ZVU05sZk00RGZkN29YRGMvQmlTZnpnUHB2Y0xwb1FBZjV4b1g1?=
+ =?utf-8?B?R1hVSXRrbGYzMG10MFBodXd5S25IQ1NFbjhzT2c0bENsQklFYWlUUkFiWXVq?=
+ =?utf-8?B?ME40Z1dlbzd0dWhvMDZ3ajJPc2NDak1lOEhydTZ6ZndjcEFkdUsybE9naVVl?=
+ =?utf-8?B?QmRSZ2t0Mzh6NTdGNFYzeFVJdjFLUk1oeWNEdGt3ME9XUnFLeTB2MGVvTDBi?=
+ =?utf-8?B?aVRDaUY0OVFUS0hkS3hSNCswZ3cxcmVIVGFrV1hjVmJSbnltNEw2eUhTN0VU?=
+ =?utf-8?B?RXBueXcwMDg1SVlWZFdBUytYUFJUZ215TjAwR0pRZlorM0ZlYUc3M3o2SEJK?=
+ =?utf-8?B?WVJqMVI0TitFbTZ5ZUppNG42UXg5SmNQeC95TEtRenkrajdKdTY4R2lsMTZH?=
+ =?utf-8?B?bThDNGg1NzVCSHo0REdKYWxhQnlUcC8yc05SMkRrZWlHemEzekx2aTUzdXhr?=
+ =?utf-8?B?eXFMQ2lyZXpRRDZQRHVTTHhwNitUZm1DZmJ1SXYrRzBqcUZXRXJhZ0lRekhD?=
+ =?utf-8?B?T09qZk0vWFpSTlA4R3N3cmE4VldaRmQ4UEVrdVN1ZTJYR1doLzlmbXdNOUR1?=
+ =?utf-8?B?UXRvUitMMnFYYzNlcGJmVVpKM1hWMUdYVWtEemFCb3BBZGJXdG9yU3d2ZTh5?=
+ =?utf-8?B?N0haakhTVDlkZVZTanJRVnVUMHdJUWx6eXNEWjlTSG45K0lEcWpYQXlrVUFY?=
+ =?utf-8?B?YTlnRzNHeGJzSk5uY3RlUDZ5TTI1bURTbmE5ZGhjRFJrMzJLd1UzcGxRQUdw?=
+ =?utf-8?B?M25KUzg4UVJZZElGVWJUT1hhajJOTHRvemxDU21vY2paQzIwOEZkTkpDZWlT?=
+ =?utf-8?B?RlhrSzN6MzJvbnc3YTM2TWV4L29zS0tUMjdwcDRVdmtqYWNtREtUaFRCcFI2?=
+ =?utf-8?B?bEcwQmFrU2pVQ2h2VG4zREQ5WEdPanhYY2t1U1lDMXlQMnM2MDZPc3piaXdT?=
+ =?utf-8?B?c3NTY2hGRUFtcG8yTDg0RWhqWStPWnQreHpIVmwrazkvdWRNZjN3ZkY3Q2tw?=
+ =?utf-8?B?dkpvS2xsWWhlZlNFcUV2TGlsVzY3MnR0MG40ckFBSU0xc2Y2YU9OUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95f72868-2f90-462a-2fc2-08dedd83eb48
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB999228.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 03:51:29.1045
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 06:32:59.3236
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PwB3K88yl2hE3vdkmelVOPSTkbKd7CL4njRjXBJIpmR2NiOUZX4KGSMHnQk8peQbEj8TiAjOHqpWamnjPV4B/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8984
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Pj7f1NdaaNpSSRYF+2gSObR6v9Y/RXIbXahyE5+HelW3KzqQTvihMt1kCW0ZxsyAaptBxuxiy8B0t3rKpyTjg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8969
 
-On Thu Jul 9, 2026 at 5:46 AM JST, Timur Tabi wrote:
-> On Mon, 2026-07-06 at 15:31 +0900, Alexandre Courbot wrote:
->>=20
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let os_data_offset =3D tlv=
-.get_u32(b"DAOF")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let os_data_size =3D tlv.g=
-et_u32(b"DASZ")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let os_code_offset =3D tlv=
-.get_u32(b"CDOF")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let os_code_size =3D tlv.g=
-et_u32(b"CDSZ")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let patch_loc =3D tlv.get_=
-u32(b"PLOC")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fuse_version =3D tlv.g=
-et_u32(b"FUSE")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let engine_id =3D tlv.get_=
-u32(b"ENID")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let ucode_id =3D tlv.get_u=
-32(b"UCID")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let app0_code_offset =3D t=
-lv.get_u32(b"A0CO")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let app0_code_size =3D tlv=
-.get_u32(b"A0CS")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let num_sigs =3D tlv.get_u=
-32(b"NSIG")?;
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let sig_bytes =3D tlv.get_=
-bytes(b"SIGN")?;
->> > +
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Booter is always signed
->>=20
->> The `.rst` file mentions the non-signed case though - we should
->> reconcile the spec and the code one way or the other.
->
-> The .rst does not mention that Booter is signed, only that if the firmwar=
-e is unsigned, then NSIG is
-> 0 and SIGN does not exist.  And since get_bytes() now returns Error if SI=
-GN doesn't exist, we
-> enforce that here.
->
-> But you're right in that it does feel a little off.  That's one of the re=
-asons I had get_nth() in v1
-> -- to streamline getting the nth signature. =20
->
-> What do you think about adding a get_signature(index) method that combine=
-s parsing NSIG and SIGN,
-> automatically calculating sig_size and returning Option<&[u8]> ?
+On 6/7/26 08:08, Dan Williams wrote:
+> A device that wants to access private memory needs to have its trust
+> elevated to DEVICE_TRUST_TCB. That trust is established either at compile
+> time (unlikely), the bus knows the device is within the TCB to start (some
+> paravisor setups), or the device is dynamically added to the TCB in
+> coordination with a TSM driver (primary TDISP use case) and the trust is
+> elevated by driver match.
+> 
+> When a PCI device is associated with a TSM for security services the low
+> level TSM driver in the CC VM has the opportunity validate DMA access.
+> That validation happens at ->dma_configure() time when the device attaches
+> to a driver. The TSM driver is responsible for proving to the platform TSM
+> that the VM is enabling DMA with respect to the most recently generated
+> evidence. If that fails, driver attach fails.
+> 
+> When a PCI device is not associated with a TSM provider for security
+> services, but the device is trusted there are 3 options.
+> 
+> 1/ Arch requires all DMA enable events to be acked by TSM driver
+> 
+> 2/ Arch does not require, but admin policy is responsible for knowing which
+>     devices need TSM coordination to become active within the TCB.
+> 
+> 3/ Device is approved by a paravisor to operate within the TCB, no TSM
+>     coordination required.
+> 
+> In cases 2 and 3 if the device needed TSM driver coordination, but the TSM
+> driver or association to the device is missing, it triggers hardware
+> errors. Those errors are a configuration error that the kernel does not
+> actively prevent.
+> 
+> Architectures still need to fixup force_dma_unencrypted() to call
+> device_tcb_trusted() to tell the DMA layer that TCB access is granted.
+> 
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Dexuan Cui <decui@microsoft.com>
+> Signed-off-by: Dan Williams <djbw@kernel.org>
+> ---
+>   drivers/base/Kconfig         | 19 ++++++++++++++++++-
+>   include/linux/device/trust.h |  4 ++++
+>   drivers/base/trust.c         |  8 ++++++++
+>   drivers/pci/pci-driver.c     | 25 ++++++++++++++++---------
+>   4 files changed, 46 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+> index a4233bdf9804..3597b39ee0e3 100644
+> --- a/drivers/base/Kconfig
+> +++ b/drivers/base/Kconfig
+> @@ -304,7 +304,17 @@ config DEVICE_TRUST_AUTO
+>   	help
+>   	  Typical historical driver model, devices eagerly attempt to attach to
+>   	  a driver and deploy all available mechanisms to allow performant
+> -	  direct memory access.
+> +	  direct memory access. This trust level does not include TCB privileges.
+> +
+> +config DEVICE_TRUST_TCB
+> +	bool "TCB"
+> +	depends on EXPERT
+> +	help
+> +	  Devices are assumed to be within the Trusted Compute Boundary (TCB)
+> +	  with access to private TCB resources by default. This requires buses
+> +	  to have trust awareness and opt devices out of private operation,
+> +	  otherwise TCB integrity may fail the device's access or escalate to
+> +	  terminating the execution context (kill the CC VM).
+>   
+>   endchoice
+>   
+> @@ -330,6 +340,13 @@ config BUILTIN_DEVICE_TRUST_ADVERSARY
+>   	help
+>   	  Deploy mitigations in the IOMMU layer and driver to limit access.
+>   
+> +config BUILTIN_DEVICE_TRUST_TCB
+> +	bool "TCB"
+> +	depends on EXPERT
+> +	help
+> +	  Devices bound by built-in drivers are assumed to be within the
+> +	  Trusted Compute Boundary with access to private/encrypted memory.
+> +
+>   endchoice
+>   
+>   endmenu
+> diff --git a/include/linux/device/trust.h b/include/linux/device/trust.h
+> index 283d3196e5e6..24951f5c56ba 100644
+> --- a/include/linux/device/trust.h
+> +++ b/include/linux/device/trust.h
+> @@ -13,6 +13,7 @@
+>    * @DEVICE_TRUST_NONE: Blocked when idle, cannot bind
+>    * @DEVICE_TRUST_ADVERSARY: Blocked when idle, constrained when active.
+>    * @DEVICE_TRUST_AUTO: All typical privileges granted
+> + * @DEVICE_TRUST_TCB: AUTO privileges + private/encrypted memory access
+>    *
+>    * Devices flagged as adversarial are the ones that can potentially
+>    * execute DMA attacks and similar. They are typically connected through
+> @@ -25,11 +26,13 @@ enum device_trust {
+>   	DEVICE_TRUST_NONE,
+>   	DEVICE_TRUST_ADVERSARY,
+>   	DEVICE_TRUST_AUTO,
+> +	DEVICE_TRUST_TCB,
+>   };
+>   
+>   #define DEVICE_DEFAULT_TRUST \
+>   	(IS_ENABLED(CONFIG_DEVICE_TRUST_NONE)      ? DEVICE_TRUST_NONE      : \
+>   	 IS_ENABLED(CONFIG_DEVICE_TRUST_ADVERSARY) ? DEVICE_TRUST_ADVERSARY : \
+> +	 IS_ENABLED(CONFIG_DEVICE_TRUST_TCB)       ? DEVICE_TRUST_TCB       : \
+>   	 DEVICE_TRUST_AUTO)
+>   
+>   struct device;
+> @@ -37,6 +40,7 @@ struct device_driver;
+>   
+>   #ifdef CONFIG_DEVICE_TRUST
+>   bool device_untrusted(struct device *dev);
+> +bool device_tcb_trusted(struct device *dev);
+>   void module_driver_trust(struct module *mod, const char *val);
+>   void module_driver_trust_init(struct module *mod, bool require_trust);
+>   #else
+> diff --git a/drivers/base/trust.c b/drivers/base/trust.c
+> index 8efbe5c51250..21d374affbba 100644
+> --- a/drivers/base/trust.c
+> +++ b/drivers/base/trust.c
+> @@ -23,11 +23,18 @@ bool device_untrusted(struct device *dev)
+>   	return dev->bus_trust && dev->bus_trust <= DEVICE_TRUST_ADVERSARY;
+>   }
+>   
+> +bool device_tcb_trusted(struct device *dev)
+> +{
+> +	return dev->p->trust >= DEVICE_TRUST_TCB;
+> +}
+> +
+>   /* Driver trust policy requires modules, builtin drivers always attach */
+>   static enum device_trust builtin_driver_trust(void)
+>   {
+>   	if (IS_ENABLED(CONFIG_BUILTIN_DEVICE_TRUST_ADVERSARY))
+>   		return DEVICE_TRUST_ADVERSARY;
+> +	else if (IS_ENABLED(CONFIG_BUILTIN_DEVICE_TRUST_TCB))
+> +		return DEVICE_TRUST_TCB;
 
-That would make sense to me, yes. The current ad-hoc code is rather
-messy and having it in a separate method would definitely help with that.
 
-Do you mean to make it a method of `Tlv` or `BooterFirmware`? The latter
-looks more adequate for the time being, as AFAIK Booter is the only user
-of this signature.
+No plan to override this via the kernel cmdline?
 
->
->>=20
->> > =C2=A0
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // The size of one signatu=
-re
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let sig_size =3D sig_bytes
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .l=
-en()
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .c=
-hecked_div(num_sigs.into_safe_cast())
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .o=
-k_or(EINVAL)?;
->> > +
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Extract the nth signatu=
-re
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let sig_chunk =3D sig_byte=
-s
->> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .c=
-hunks_exact(sig_size)
->>=20
->> As Sashiko pointed out, this will panic if `sig_size =3D=3D 0`, so we ne=
-ed
->> to check that - and whether an unsigned Booter is valid at all.
->
-> sig_size cannot be 0 because of this:
->
->         if !(1..=3D15).contains(&num_sigs) || sig_bytes.len() % num_sigs =
-!=3D 0 {
->
-> Neither sig_bytes.len() nor num_sigs can be 0.
->
-> But IMHO, this just reinforces the idea that I should add get_signature()=
-.
 
-Yes, that would keep all the conditions we need to track local to a much
-smaller code block. Please also check my other reply [1] for further
-potential improvements.
+>   	return DEVICE_TRUST_AUTO;
+>   }
+>   
+> @@ -61,6 +68,7 @@ static const char * const device_trust_names[] = {
+>   	[DEVICE_TRUST_NONE]	 = "none",
+>   	[DEVICE_TRUST_ADVERSARY] = "adversary",
+>   	[DEVICE_TRUST_AUTO]	 = "auto",
+> +	[DEVICE_TRUST_TCB]	 = "tcb",
+>   };
+>   
+>   static enum device_trust device_trust_parse(const char *name)
+> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+> index f36778e62ac1..e6a4bc3ca9b0 100644
+> --- a/drivers/pci/pci-driver.c
+> +++ b/drivers/pci/pci-driver.c
+> @@ -19,6 +19,7 @@
+>   #include <linux/kexec.h>
+>   #include <linux/of_device.h>
+>   #include <linux/acpi.h>
+> +#include <linux/pci-tsm.h>
+>   #include <linux/dma-map-ops.h>
+>   #include <linux/iommu.h>
+>   #include "pci.h"
+> @@ -1668,10 +1669,11 @@ static int pci_bus_num_vf(struct device *dev)
+>   static int pci_dma_configure(struct device *dev)
+>   {
+>   	const struct device_driver *drv = READ_ONCE(dev->driver);
+> -	struct device *bridge;
+> +	struct pci_dev *pdev = to_pci_dev(dev);
+>   	int ret = 0;
+>   
+> -	bridge = pci_get_host_bridge_device(to_pci_dev(dev));
+> +	struct device *bridge __free(put_device) =
+> +		pci_get_host_bridge_device(pdev);
+>   
+>   	if (IS_ENABLED(CONFIG_OF) && bridge->parent &&
+>   	    bridge->parent->of_node) {
+> @@ -1688,16 +1690,21 @@ static int pci_dma_configure(struct device *dev)
+>   	 * the standard ACS capability but still support ACS via those
+>   	 * quirks.
+>   	 */
+> -	pci_enable_acs(to_pci_dev(dev));
+> -
+> -	pci_put_host_bridge_device(bridge);
+> +	pci_enable_acs(pdev);
+>   
+>   	/* @drv may not be valid when we're called from the IOMMU layer */
+> -	if (!ret && drv && !to_pci_driver(drv)->driver_managed_dma) {
+> +	if (ret || !drv)
+> +		return ret;
+> +
+> +	if (device_tcb_trusted(dev))
+> +		ret = pci_tsm_enable_dma(pdev);
 
-[1] https://lore.kernel.org/all/DJTQAZCXYPN7.3Q0B4NH8EA8BO@nvidia.com/
+
+pci_tsm_disable_dma() is missing in pci_dma_cleanup() then. Otherwise works fine. Thanks!
+
+
+> +
+> +	if (!ret && !to_pci_driver(drv)->driver_managed_dma)
+>   		ret = iommu_device_use_default_domain(dev);
+> -		if (ret)
+> -			arch_teardown_dma_ops(dev);
+> -	}
+> +
+> +	/* undo {of,acpi}_dma_configure() */
+> +	if (ret)
+> +		arch_teardown_dma_ops(dev);
+>   
+>   	return ret;
+>   }
+
+-- 
+Alexey
+
