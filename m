@@ -1,130 +1,100 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E076C2FD1B3
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 17:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CD64D9905
+	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 17:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783617325; cv=none; b=sxOfMEUbdIX7eTt2E+m1tH9xvRVOSDYEHtsE2WebF5L+A6pBuLK92qNx+JbGLa1Mo/JPD0gbhNcN/zsOzedRMHDwJraxGmd5hwZU/WzafGVTK/mcKqW2sHJG2q8YDXOCXtZrIopTdyEOHzZ3CaTfYbjbVAQidi4zaMgNXrP3yRc=
+	t=1783618533; cv=none; b=fQc3hssA6dC2zWkEot1dFO/EJ2ThXemN6nHOhQa4KKsohmXaFfyefZdrBfPhbVUtTyfQCl6QbN7SZ8aKqI9rWySF0KMCRLt1ZdvW0QQsQwj74o3XNSThQPuG0kX+tUkeawo24nyru5OZofATSr+q9rMbYh0OA7t3QvRdMS50CC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783617325; c=relaxed/simple;
-	bh=SzROYG8BwD/EB/+MUjQ4u1vhoaHs3/zZwllWfULF+qU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GU6UXce7BIR8O+P2lnuH1ru6I9Hpf/98mhtFPtXBIWOH+8njDKOCMzhmRMIJEgDF7lTRgTgaCnkQH7b2DmQDoVtCE7h8h+cUmwNr2JXGHYlEVCAiWaKLMyltkWWXNscr4zhR0066hr2jYyDVRx0RiIFmuRdggccK9wL0WZ4LtKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Hrn35nOI; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1783618533; c=relaxed/simple;
+	bh=lsP6huJ9ct03Z1zKO/sCXP1Yr6xrLwhLc0mSXcIgtsE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NyxjQyR9FVgt3XqiNGtxLMiLdCdbxRIIvr91CQXsJKK6RssYCVgvRyasKhdSCzGTMtH5U/3FdI1kxs9ZahLJTx11xgrnkdS4G34RZyEcs9qL8U5v81AVvuFV37yTeE5eh0xWK2cmKw/Cz0dLfVy4M2cFOGANJebmC1aUyCoDOXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mIIEumld; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Hrn35nOI"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ea70ca4fc8so706056d6.1
-        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 10:15:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1783617323; x=1784222123; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=46UkRwT/i/djJx+KopbYZyKUrVPhRVpwIJdu7TzJpII=;
-        b=Hrn35nOIfeGnrCiFaOEVOhKWW88rGGJrF+pOlvdk2Jn8bLawYbt0V4oA11mAhzm0Fd
-         A1FRnrQZzMv4pZ5hzkqA4DV6BfUp3fAS8FFFGhamhAJ80tcGi3ZwjMxonFeFc7mPH23L
-         sfusu7v/en3yIdzpgS4MhGEPYrmjpSbkv4LR58iMVyozBtEGcD/HXQAnEB4HcAzTz7HZ
-         ivlCZNTEo00lkV/yb92E+XWzkHRTdDYVRBFw4+H40X04LQrhM9j9FCiiW2BEEPZSmXTE
-         nqCeN4kJScY7Wu9Bqy4GGCDT+h04P+YafXEk2Iz3V4xnlUiWHkH6u+mgtQ9qNe3q+g1c
-         K8vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783617323; x=1784222123;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=46UkRwT/i/djJx+KopbYZyKUrVPhRVpwIJdu7TzJpII=;
-        b=VM7Ql0m6x4T0/+/UlPr68djOqEd0A6vcWA9aAFPCyvIWVSY3tW7GaCDtUHGIFZeQ8k
-         I1VvN58L+7Y9ureny9x5KqFcTwq766KFXVU+1sYCQmK4rOpKKaq/B9Zyiyiynsdy3uBo
-         qSSdXvNo0yt4A7oUvOq3xIdBBFzAuif0Ojugb9bBY22jmN3ccbHlOPPnklMFG+EOJXNh
-         Krwo/VMGEmBC9NoFR6/yyE9LJ7I1F5UOpkeKGrG9WauIyGOC/4hGOt7+Vra3S3jXuQmW
-         OzhgoeDygNgm/N0DD6ao8hDj6l5vZ5hGln9BNnjb5tnsk0cOEt/NWEJYjW2dV27F90ej
-         qyKg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9ScdyExfp90diHRO4s+Z55d/G45zalDO2ztG9CVBEfvxHgVyhcb4j5mwgWYZqlkJb0BPytH5vzY+XCA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+wmfkfGLR4k8JzCa04scnpg04FiY+NhB29vHLVc0NYYpPIWwU
-	Sm5HURoF56GMEHVno8Ek2jCRTnFBW/J3UAuOmuOPwEVstoAZa9XKUQ6/Duf6H4tLz2o=
-X-Gm-Gg: AfdE7cnuEWLyc+BV+yR1J9YX59/yZYqEXIneAWtz3jnMSXzTUxaDbYtGlFg5CE7ttdW
-	O3Yum6wY72r7zKUnYP4rqPmL4aE4JixeBBl+1ukxXhsxypy68nbRfC6/7zlu8h16cTtwWMge7Nd
-	H6jF5ykXdtw8QiH60zFGfazpWaJoEoqaLH9nb+L/9Luq/2Hhs7sNfejWVG0zuUO4GpQ0PqCsX+w
-	N2SyHNCJf+50QWdarEmPXRQ9OOopMq3PZU9dfkhe0yDUZ1Uv4MIyRJbFOWUI2Z5OOroONbNKndn
-	Nj3I7IQiC186UJpsVO+QhJ7CdAkCVe0EmJ3Gd73Y+8u5Wu947oWEkANHTWX6aK1LZLHoWt8iJG2
-	g+8uDEVVBF/eWEXbeYUc5RW05YXzMARpo0951tKZ4R6hNBngHu17j6giiuqc+XI+LK8zZCt3Z02
-	QXgZyXdjaS6jiAyrv1OD1nj8EHGk9I0i/aLA77mAnHQdIRoKa5w46TpbEHBBPjwPRwaaS+
-X-Received: by 2002:a05:6214:6014:b0:8e9:f45f:107b with SMTP id 6a1803df08f44-90242143c3amr1641696d6.34.1783617322803;
-        Thu, 09 Jul 2026 10:15:22 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd7c1d8fcsm22085656d6.25.2026.07.09.10.15.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 10:15:22 -0700 (PDT)
-Date: Thu, 9 Jul 2026 13:15:17 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Richard Cheng <icheng@nvidia.com>
-Cc: linux-mm@kvack.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com, david@kernel.org, osalvador@suse.de,
-	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
-	djbw@kernel.org, vishal.l.verma@intel.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, akpm@linux-foundation.org,
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	shuah@kernel.org, iweiny@kernel.org,
-	Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
-Subject: Re: [PATCH v6 06/10] mm/memory_hotplug: add
- offline_and_remove_memory_ranges()
-Message-ID: <ak_XJWglABmKfSiU@gourry-fedora-PF4VCD3F>
-References: <20260630211842.2252800-1-gourry@gourry.net>
- <20260630211842.2252800-7-gourry@gourry.net>
- <ak9ee95F7pJpCKMo@MWDK4CY14F>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mIIEumld"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B19311F00ACF
+	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 17:35:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783618532;
+	bh=hoLMINlV3QqsEhjkSKeIdqYNPL53JDMS7s0+KJ+FeeU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=mIIEumldZR6U8Vsyv4uN8iTJ9ynjNG5mE+fXNsti76WpUMH0GHVCrajUR2B8tWP18
+	 +YmlR3JZcgl+QesapPEsAJo8jBtRXwQmGlQrZR1Eg0OpTbDGRpbchBJH3jASgL8aeZ
+	 1c7BHlV3rBiKYTzP+YdqSYlG99mXe6jrQHtEjujE6WauG1K3k3Zmsz6/DA/4YGQZs8
+	 QMpVaQfy1KNwnxSy3fYB0pMTbtvsf96GOdZ5QaFzHoYG52HbiF8OWPeYZIDzQLwLgq
+	 wsDt56MqteZPeqUZmEWeqJKLd2CJmLpyXZekYDv8FwHcqr9Ku4GOSEpFkIaz97jChs
+	 9n4FinlkBnh8g==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aebd52488cso58605e87.2
+        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 10:35:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rqe2IrfTW07UyIQJ8VTvzsqmOGzga47allQJiIyihlU+ksbF/5ek0w2VjgETa3fTVmQpq/3mNr2pui2pg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyctK4P+5VpiaNDWveUFWSPg/Z2C1XonkVKSxPs0ZiE8MZOFP8M
+	jI8OgTsVZ43Q5RH/yuy8fowUqlG9++Hn04PRdiYem/27GAI5CV9xUhrKOlAA07XKKnk4WX1+Uup
+	OzRehVE89/jiQLaA0+DJYV4IVrnbhg18=
+X-Received: by 2002:ac2:5984:0:b0:5ae:b9b3:8ba8 with SMTP id
+ 2adb3069b0e04-5b011477c4emr1214774e87.57.1783618530978; Thu, 09 Jul 2026
+ 10:35:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ak9ee95F7pJpCKMo@MWDK4CY14F>
+References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
+ <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
+ <ae915278-2f21-4bd0-8651-d2e02ac04aae@sirena.org.uk>
+In-Reply-To: <ae915278-2f21-4bd0-8651-d2e02ac04aae@sirena.org.uk>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 9 Jul 2026 19:35:18 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0ga8qqYg79+hQVtO8T=FOCj8XLmTz3HpEKoOykV_K-HSQ@mail.gmail.com>
+X-Gm-Features: AUfX_mxSopoNn7_P9sl3mlA1rhOj4sbv78uOl9S8bWEr1uQf2zt3I7w-icfoGgs
+Message-ID: <CAJZ5v0ga8qqYg79+hQVtO8T=FOCj8XLmTz3HpEKoOykV_K-HSQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
+ callback failures
+To: Mark Brown <broonie@kernel.org>
+Cc: Praveen Talari <praveen.talari@oss.qualcomm.com>, Stephen Boyd <swboyd@chromium.org>, 
+	Girish Mahadevan <girishm@codeaurora.org>, Alok Chauhan <alokc@codeaurora.org>, 
+	bjorn.andersson@oss.qualcomm.com, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
+	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
+	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 09, 2026 at 04:45:51PM +0800, Richard Cheng wrote:
-> On Tue, Jun 30, 2026 at 05:18:38PM +0800, Gregory Price wrote:
-> > +/**
-> > + * offline_and_remove_memory_ranges - offline and remove multiple memory ranges
-> > + * @ranges: array of physical address ranges to offline and remove
-> > + * @nr_ranges: number of entries in @ranges
-> > + *
-> > + * Offline and remove several memory ranges as one operation, serialized
-> > + * against other hotplug operations by a single lock_device_hotplug().
-> > + *
-> > + * This offlines all ranges before removing any of them.  If offlining any
-> > + * range fails, the entire process is reverted and nothing is removed.
-> > + * This provides a fully atomic semantic for unplugging an entire device.
-> > + *
-> > + * Each range must be memory-block aligned in start and size.
-> > + *
-> > + * Return: 0 on success, negative errno otherwise.  On failure no range has
-> > + * been removed.
-> > + */
-> 
-> I think this can return 1, and it shouldn't.
-> device_offline() returns 1 when a block is already offline, and phase 1 passes that value through as-is.
-> 
+On Thu, Jul 9, 2026 at 6:35=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
+e:
+>
+> On Mon, Jul 06, 2026 at 02:23:09PM +0530, Praveen Talari wrote:
+> > When a runtime resume callback returns an error, rpm_callback() sets
+> > power.runtime_error on the device.  This causes all subsequent calls to
+> > rpm_resume() to return -EINVAL immediately at the top of the function
+> > without invoking the callback again, making the failure permanent until
+> > runtime PM is explicitly re-initialized.
+> >
+> > Unlike suspend failures, resume failures should be retryable.  If a
+> > device's resume callback fails, there is no reason to permanently block
+> > future resume attempts on that device and all of its consumers.
+>
+> runtime_pm.rst still says
+>
+>   * If the resume callback returns an error code, the PM core regards thi=
+s as a
+>     fatal error and will refuse to run the helper functions described in =
+Section
+>     4 for the device, until its status is directly set to either 'active'=
+, or
+>     'suspended' (by means of special helper functions provided by the PM =
+core
+>     for this purpose).
+>
+> which needs an update now?
 
-I just realized try_offline_memory_block() already clamps the value to 0
+Yeah, it would be good to update this one.
 
-static int try_offline_memory_block(struct memory_block *mem, void *arg)
-{
-...
-    rc = device_offline(&mem->dev);
-...
-    /* Ignore if already offline. */
-    return rc < 0 ? rc : 0;
-}
-
-But this is a bit non-obvious, let me see about making this a little
-bit clearer.
-
-~Gregory
+That can be done in a separate patch though as far as I'm concerned.
