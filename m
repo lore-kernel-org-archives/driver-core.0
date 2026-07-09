@@ -1,117 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332A842669C;
-	Thu,  9 Jul 2026 16:02:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A08F390CB0;
+	Thu,  9 Jul 2026 16:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783612945; cv=none; b=TTX5jU/+KADZooEVCIy1f6cRt/n6furItoshsjlCgrFsILBZIsgoZ5LMifBlfmGIMkXLalQbMqgLSsMbW+kOGsqhepv7XkOJAXAy1rMv6TOY3Z1IAULugcKkAvJUgpdUzYzLrxn4Uf4rIgipBTVvWeCUst9ZumWjjnolEsR0n54=
+	t=1783614940; cv=none; b=rqPtiNhsN6t3q2Yb+2bKAbMAq87vPWGLSXoxFMh3R4hABaKbraM/nvPgbNJzJOtv/08DHBUoqMiFl/+Zu5/FUQMcbXYQsAS7t3dYrAn/Dn4qOUZ9Lqdk9+ANuqKBfZIMtkrEV7JBPr2aQHtxg/CAmtmpFrlOuh0ILvlaj5GcneE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783612945; c=relaxed/simple;
-	bh=yPRjF3TD3+zUJQSXqDWx38rnAPzsS2sPSwNj5z+j6vc=;
+	s=arc-20240116; t=1783614940; c=relaxed/simple;
+	bh=iahyZO8yt7inHDJOZwiAuyni0ivzQOcObgx8Hy+Ip5c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsJI3f0t4vENCj+Qatasq8ZTJnTxr37eQItXkFWDbBeM9seYUgi6vgwEN0KOGtEuEGB2fkZQpQo37wF4L7VJ5dWqiLeca76YQEVzIfqQTSaMCUrQQah5U+H0SCGH/nDOu85Ix22ijFln88anUqTK70cZp/32AIZpZB/C5upmgDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5311F000E9;
-	Thu,  9 Jul 2026 16:02:23 +0000 (UTC)
-Date: Thu, 9 Jul 2026 11:02:22 -0500
-From: Clark Williams <williams@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org,
+	 Content-Type:Content-Disposition:In-Reply-To; b=dODhO8hY4EFrzqeK32arcLRxjIFiKcQB/YGFGw7vrZCrA4DfFfbZfFLDq5Id4RJy/mJZX4xIrgrJyb3PAO0+p+bmMWYCWf2mb0nRiRjntH+5TENU3Gd84vegScS7UHYYL9pdHAH3SHs7wDD5HUP/11glG54tg+adGms/ZTUX/lU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1l6aSUf; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1l6aSUf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66A961F000E9;
+	Thu,  9 Jul 2026 16:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783614938;
+	bh=wp0SjaGsdvnfDHiH8f5lQXW/07dC1qRizb535kWTjkU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=h1l6aSUfvjXwNYq4IRMTWRuIv14MB7aVXWzrpPtOr/TQe9v3Urd3nXoVrbUS95who
+	 /WuL59v9qW9UJDZVkSw6nGQ85IuNdIf1gwbq0zSFsw24y8T/+DFQo/buuaFAjbxhXq
+	 BqbOeACuVkCy8ty5f0edcSQcHQB6IudDy+6jqHrur6qoQX0aaEuXBiXHxn4qJa+Ehe
+	 IJz4qkahnJ7n2MW51x9w6DL42xDZ3Qg5yJZMbrym3O6KSs0ORPU8Ua+qy+P75Zo+Ed
+	 +I/1HohdCAxogibCjafDr1qFGAKMitQWUlA/YFDiysym06YzhMndNlNet/IhF3udnS
+	 lSXyUIiHSjhtQ==
+Date: Thu, 9 Jul 2026 17:35:31 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Praveen Talari <praveen.talari@oss.qualcomm.com>
+Cc: Dilip Kota <dkota@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+	Girish Mahadevan <girishm@codeaurora.org>,
+	Alok Chauhan <alokc@codeaurora.org>,
+	bjorn.andersson@oss.qualcomm.com,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Danilo Krummrich <dakr@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <ak_GDsJS6kVoUM2f@lysander>
-References: <20260709143108.UYeCUUcd@linutronix.de>
- <2026070922-kilowatt-matador-5e1c@gregkh>
- <20260709152214.rH1O_8SM@linutronix.de>
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	aniket.randive@oss.qualcomm.com,
+	chandana.chiluveru@oss.qualcomm.com,
+	jyothi.seerapu@oss.qualcomm.com, linux-pm@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
+ callback failures
+Message-ID: <ae915278-2f21-4bd0-8651-d2e02ac04aae@sirena.org.uk>
+References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
+ <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uYrCtBKQ/dx3Ks3K"
+Content-Disposition: inline
+In-Reply-To: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
+X-Cookie: MS-DOS must die!
+
+
+--uYrCtBKQ/dx3Ks3K
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260709152214.rH1O_8SM@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 09, 2026 at 05:22:14PM +0200, Sebastian Andrzej Siewior wrote:
-> > But really, why is this needed?  Userspace shouldn't care, right?
-> 
-> So there is Clark who needed it 15y ago for some udev rules. Maybe he
-> elaborate on that.
-> 
+On Mon, Jul 06, 2026 at 02:23:09PM +0530, Praveen Talari wrote:
+> When a runtime resume callback returns an error, rpm_callback() sets
+> power.runtime_error on the device.  This causes all subsequent calls to
+> rpm_resume() to return -EINVAL immediately at the top of the function
+> without invoking the callback again, making the failure permanent until
+> runtime PM is explicitly re-initialized.
+>=20
+> Unlike suspend failures, resume failures should be retryable.  If a
+> device's resume callback fails, there is no reason to permanently block
+> future resume attempts on that device and all of its consumers.
 
-Ugh, I've always been embarrassed about that patch. We added it because
-in the dim dark past, something triggered udev many, many times and that
-called a shell script which searched the 'uname -v' output for
-PREEMPT_RT, meaning boot times slowed to a crawl. Instead we added 
-/sys/kernel/realtime and it just became a stat(2) call to see if the
-file existed. Pretty sure that was a RHEL6 kernel (2.6.32-ish) and I
-suspect that the need for it is long gone. 
+runtime_pm.rst still says
 
-I'm hesitant to call for it's removal, because the only other way for
-startup code that want's to know if it's on a realtime kernel is to look
-for PREEMPT_RT in the 'uname -v' output. I know that the financials and
-the telcos tune specifically for RT, pretty sure there are others. 
+  * If the resume callback returns an error code, the PM core regards this =
+as a
+    fatal error and will refuse to run the helper functions described in Se=
+ction
+    4 for the device, until its status is directly set to either 'active', =
+or
+    'suspended' (by means of special helper functions provided by the PM co=
+re
+    for this purpose).
 
-> There is custom "software" that is designed for realtime environment and
-> if it is run on a regular kernel then it missed its timing requirements
-> and the software goes usually in a fail state and people start debugging
-> what has happen. If this happens often enough (booting a non-RT kernel)
-> they tend to add a check so that the software complains early enough
-> since checking the kernel is usually the last thing that is done.
-> 
-> This could work with the file (or folder) or by parsing uname output. I
-> know of at least two individuals that switched to uname because the
-> upstream RT does not have that file.
-> 
+which needs an update now?
 
-Really? We always took the absence of that file to mean Not Realtime.
+--uYrCtBKQ/dx3Ks3K
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> cyclictest (from rt-tests) is using this file but only while collecting
-> system information, nothing else.
-> 	https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/tree/src/lib/rt-utils.c#n528
+-----BEGIN PGP SIGNATURE-----
 
-I'll ask around, but I'm betting RTLA checks for this as well. 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpPzdMACgkQJNaLcl1U
+h9AMFAf+NGU1P4cl8Y33FJqK69wy7JIowKhjqW1nYtD+czOFwyZVz8FuRcjty0Pq
+kJG36hB9PBNlOMjLcEH59jrZiwf+49gVbD//Yb668oaYdJD220ct2l8bMEXwS+qD
+1AAwzpSoy9OBbNGXsoHgEggY7r+NFPbCmCoCueUwuGnz8cLq4MtgRze8UW5jE/5+
+w/gwKqYYenYJH7Y+n4YtoIQ57XLbxORswZJZdtgyzLlck0hLVaDxuiN8b05D2CwT
+SQ/z+zZxYm/K6+SOu940Myk0gEyNNgHsUJSAAWwEV4GQTcYIHCvhS1w+JgoWaOAZ
+OoUNLjahcXA8nfm/5n/27jXCCo7s7A==
+=p7xW
+-----END PGP SIGNATURE-----
 
-> 
-> There is also sosreport
-> 	https://github.com/sosreport/sos/blob/main/sos/report/plugins/kernelrt.py#L32
-> 
-
-Forgot about sosreport.
-
-> using for information collection purpose.
-> There is thermald
-> 	https://github.com/intel/thermal_daemon/blob/master/src/thd_engine.cpp#L1065
-> but this looks like just information gathering. That check looks wrong
-> since there is a space instead of an underline in the check so this was
-> not tested on a RT kernel.
-> 
-> > And checkpatch should complain about the sprintf(), should be
-> > sysfs_emit().
-> 
-> Sure.
-
-I can certainly fix that.
-
-The question I have is, would a folder with RT-specific information be useful? 
-Someone just wanting to know if they're on RT could still check for existance
-if that's all they want to know, but I'm not really coming up with any
-other information that would prove useful for someone tuning for an RT
-workload. 
-
-Is there a "better" way to indicate that the system is running a
-PREEMPT_RT kernel?
-
-Clark
-
--- 
-The United States Coast Guard
-Ruining Natural Selection since 1790
+--uYrCtBKQ/dx3Ks3K--
