@@ -1,97 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19EB329E6A
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA733546E3;
+	Thu,  9 Jul 2026 14:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607475; cv=none; b=B+gHofjOj7hpP0wQgbMxrGSwxuKpwISvwhRTPzO6k+TVKA2ROG7/jMZ4DpPIaqO8hR2G+ZkI1bB6ndyM6Cy6ZrQQU2hjyOqWIINkUdBqZdIsOi3B43qQArLJtyvAI3A2zsUDdlSK6OAfiA4J5IIz9j8EmbOsDwgIdJy4ePfGLEo=
+	t=1783608384; cv=none; b=NafsqEM8YfEeW1vNUvIqkWohDV9m/w5k95oXrcc4D//SXjVIUuYjLKDNF5AZVm4mJk4q2ExhbgIrG+pTPATC8lGsSTCOuva6f9fTyRhzDFqpCJ8V92SSi8fqkSL1oPEdCq89FNcrcYnZKdcjZsSL9xVsNIcx6T5Y2/gRuausNRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607475; c=relaxed/simple;
-	bh=C3Mw8q4Nno0demwxgT9owXxN/qKewUThoyTmm2QW7F8=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YiXT+RPefDUkaYyYXCy6uT7kRfl8Z2VXKOgjuQ8Mwo10CoqUDQj1FO+JANKe9HVOhstEf7NFTiQw+hBczpHLp2AprmF1V7RoRaSVkDCXfbBREGHv343tPQjpJmZhLsrmcqsEVx7rz8kmFNA+WxNKVmQDiRknQlmM+RTDlDGBdvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLOZIDO+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783608384; c=relaxed/simple;
+	bh=eJ+h6/lXpJCk4eI/exWo4sp0JP8DgG9coEpBlM8IjJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r0QAiMZWk7jyI11NWMY6D0GdlrFzUqnSM5sgDRraGLoehct6Zpecthw2+3NLhPNIeWa/iUp1SfDEBFy4nGOCfJt5r5yEqmyZpl6L1lNH6K89S3vdLPGpZghJTknp/wh4NmXOgVz8ZEPvUIH6sIxZ7KAqWmBCZt0Eko0gmMq6Mbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nULFwRNK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLOZIDO+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A96C71F01559
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783607474;
-	bh=C3Mw8q4Nno0demwxgT9owXxN/qKewUThoyTmm2QW7F8=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=iLOZIDO+lyJhwkH2hmjAysd5QarjwYBTfZcs4s5flnO8wkm4BzWLLE6+SqDT375Zt
-	 mhcwPGTRdwFWbcfcFDqrD2SR6x4e328QZ/GdjwL1UQpjIG1MIRvmJ8qjtCQS020ukY
-	 DIKnWCJsybahgCObHZPqid4wiSalS1g2MIbJd5J7HRWhlG81Y1DO7eale792kvHxAX
-	 n9QGRG8VUpEsOlL7/JRTX6seju7rdberuvBc1xzyb4mvLC8jxCeUydDD5+6I1HC+yI
-	 jWyGyAIWRJU2ZYlE9joTS9K5JXltFrnwGmqkMfX1bL/gof401wvHNwu5QE3z6XpDzI
-	 bV2kCg4wjnO6g==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39c7ac9b8c3so17434851fa.0
-        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 07:31:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rq3PLLpo+AeVRIdgmcO3q+GYBbizzEGvnWqyGgMD1EbYuIt3kxXEh5DPuASfu+/1X6C4qEsomritv70vw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVMETbsMs3ZbpiaTA76TTlm1sF+pLSdW0CN5OY0STdazDTc2NH
-	6WV8I6m/lPBXhq/3Ds1LCdmh4cn+BQWb1/ZEZ53tSQ/HruVue7s9Qu6tF0pU0D0OXtLW5Gh+ksK
-	yXm/LUJo/QCW/3T6r5tPnaRbb6/veZp/XEMJZsUDm3A==
-X-Received: by 2002:a2e:a912:0:b0:39c:6ea4:f0a1 with SMTP id
- 38308e7fff4ca-39c799c85e2mr15206641fa.26.1783607473388; Thu, 09 Jul 2026
- 07:31:13 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 9 Jul 2026 07:31:11 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 9 Jul 2026 07:31:10 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260709095726.704448-11-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nULFwRNK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481EF1F000E9;
+	Thu,  9 Jul 2026 14:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783608382;
+	bh=Du6XqMSaeWA87grycj96VaPj3Jaq9JvDXeSGVPV59D0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nULFwRNKnj1v8BcpS82+yTlUBkJDPTvKCqm0/GhKbEB0OsscH96h5kMd5O5ljIGlv
+	 JeTr8YQMu8n+IGm6XjcxIQn+smDH1zecZdyVL4ALGffqkwJOtJRMiOyiCJqlMh3167
+	 pB/ClWZS1chsCSICHY3/o08t21OEtB7x/Qb5N9AI=
+Date: Thu, 9 Jul 2026 16:46:19 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
+Message-ID: <2026070922-kilowatt-matador-5e1c@gregkh>
+References: <20260709143108.UYeCUUcd@linutronix.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260709095726.704448-1-wenst@chromium.org> <20260709095726.704448-11-wenst@chromium.org>
-Date: Thu, 9 Jul 2026 07:31:10 -0700
-X-Gmail-Original-Message-ID: <CAMRc=McZNHswz2E8-0-XKpUwrzw4vNooGrYe893hWe6_Fk72yA@mail.gmail.com>
-X-Gm-Features: AVVi8CeE1ugyeFFTvSY6q0TqTEjoKIk_A1SAmSoXfKQhtfuqHopW23IvHHyz7SA
-Message-ID: <CAMRc=McZNHswz2E8-0-XKpUwrzw4vNooGrYe893hWe6_Fk72yA@mail.gmail.com>
-Subject: Re: [PATCH v4 10/14] dt-bindings: usb: mediatek,mtk-xhci: Switch to
- ports for USB connections
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260709143108.UYeCUUcd@linutronix.de>
 
-On Thu, 9 Jul 2026 11:57:15 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
-> This reverts commit 454a1e3cd36c113341d7b71e8e691c6e47ab4a8a.
->
-> MediaTek's XHCI implementation supports both USB 2.0 High Speed (HS)
-> and USB 3.x Super Speed (SS). The block can also be synthesized with
-> either HS-only capability or HS+SS capability. The SSUSB controller
-> handles the device or gadget mode. Saying that SSUSB handles the HS
-> portion is wrong.
->
-> For example, on the MT8195, the first two instances support both HS and
-> SS, while the latter two instances support only HS.
->
-> Switch to a "ports" sub-node for describing USB connections. Port 1 is
-> Super Speed if the controller is SS-capable, otherwise it is High Speed.
-> Port 2 is High Speed if SS-capable. This port mapping scheme directly
-> matches what the hardware returns in its capability registers.
->
-> Fixes: 454a1e3cd36c ("dt-bindings: usb: mediatek,mtk-xhci: Add port for SuperSpeed EP")
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
+On Thu, Jul 09, 2026 at 04:31:08PM +0200, Sebastian Andrzej Siewior wrote:
+> Hi,
+> 
+> The following patch sat in the RT queue for almost 15years now. I can't
+> find its origin on the list.
+> All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
+> and returns 1.
+> 
+> Is this something that is still wanted and considered useful?
+> Is this something that can be expressed better by other means?
+> 
+> There was an in person discussion about this and it was suggested to add
+> /sys/kernel/realtime as a folder and having individual realtime features
+> as files. I don't remember a single feature that would quality for this
+> today but who knows. This is all I remember so far.
+> 
+> Now. Discussion go!
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+At the very least, it's not ok as it's not documented in
+Documentation/ABI/ :)
+
+But really, why is this needed?  Userspace shouldn't care, right?
+
+And checkpatch should complain about the sprintf(), should be
+sysfs_emit().
+
+thanks,
+
+greg k-h
