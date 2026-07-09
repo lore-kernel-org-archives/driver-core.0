@@ -1,90 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC59E31715B
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2454A3890F1;
+	Thu,  9 Jul 2026 14:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783607442; cv=none; b=p9tuVVqOeSHeWsK2tJFitXijD1lYPOHgPA9NwlwfnxKP92miSq3XvM6c06J2tfr7UNFsrOZj1sG4vDLvqesMjr0nkBCZSeyWtc6ClOeNOG+FyE72lKgeZ2mNNdic2Hwt+9eLqCv8ryaeue+YMBgatOzaH9noPew5rK8qIeW1f4c=
+	t=1783607474; cv=none; b=PHR3JJz6wfZxjbQcwJqmU7D+LEIRlbEqyjZh+Ims+EK+3DOv+G1gyHYitKuiOETCfHqRzZ9YGGhBXSD/D1f1lcg5yC4Q0HkO73mLyGjQaBmAjPjsL0rnnZiWOhTc3utRu8rM3jYCfIQOkkgGfUH/XuGP1PmMlUSdUn9hYaC1N3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783607442; c=relaxed/simple;
-	bh=Uk1paIY8euqKKlETQZ8oULEMJ7HstW0bVetbSs+wtjk=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iprJUblRJIlFqnTqEWxcYxrRawU8A87SMJlo9cH30DTxys69rjPKgN86lW59R43sK/IIBStswk1br9tToj1PS8jBLo6zKXssAZJtbSBlUfj1rkfyl+svAtIz0Q3/nTNH7BdJ6ofkLPnzfkm7YeY2ubEiJchz0nrF43lGaT1frmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RPN0dW6P; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783607474; c=relaxed/simple;
+	bh=tYRSRMOCoDr5c8AaPlCzkJaf9wYXXNmgZB1EM01BYX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C5CRqeT3gezjoYjDL0yxfhnd3Ic2AvBEFraizBiiVOVv1zZQ0YwtxkGcAOnDbLvM8eY3RBhY6z1bWO40kc79jB3M2yhdq/YZESszjG7jmzFDBIx4NyN4/iB2KOokHkKwfjhddzZFZ8jbXmiasJ3TV3ZTA+X8vf5REye4l2U9LLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mW+cA96R; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XNNwECeY; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RPN0dW6P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE3D01F00A3E
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:30:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783607440;
-	bh=Uk1paIY8euqKKlETQZ8oULEMJ7HstW0bVetbSs+wtjk=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=RPN0dW6PuazA0DKoZ2ps2OmJJ3t8w5Z4d769XH0gGOekHGK+UzxclezCPCuebxz0R
-	 bMiCG7stnBWSKK4KUw/HHvytQteBYxb+DQedgiF5NOEq6xYCQGMoMr6OQ6NunZSUj3
-	 gFsFhFyPU5SmiSGn1//yco5O2nFhuWD9OB73iL+0vl7qWkOcly5jCzj2aYNKbxUes4
-	 DFuEg/5c3MgF0iAnb9feN4f+m3Pdd3yHZRP6C+15w4+uew5Vd7hj9VcqvuRYoG55t7
-	 oUXGEPZouC4ZQ26OQFMOeB/ZIRmXJwSRzWJ4QVdO8UrF3KX8I95kFTNqSv4NjKxBrN
-	 y39JW28REyEXg==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5b0117d49dcso1015934e87.3
-        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 07:30:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpiteQEYuMwpbjEcVDVbm2Kv0AWbebOF5lsUWIdh9FdaOv5RApGth/Iocw5FyHCQKuBJTZ2p5k0/109fA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YywwAJTm49pJGvJZx+9l+I5smZgwEU6ZZ77RcicGgIrVc9R3wb1
-	qc7g9FHLTGVPm0JEJxqIUGUBTC1irYDqmhUcAJ7biOHfYR8A+trOvqeFM71uOLMrvUG4zv069PE
-	Rtm+qvKqQxTPxiNU/d1JyUckvvVeywKnPlL1tjc7HOA==
-X-Received: by 2002:a05:6512:1415:b0:5ae:b88c:3ff2 with SMTP id
- 2adb3069b0e04-5b0114afdadmr1759669e87.51.1783607439457; Thu, 09 Jul 2026
- 07:30:39 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 9 Jul 2026 07:30:36 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 9 Jul 2026 07:30:36 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260709095726.704448-7-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mW+cA96R";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XNNwECeY"
+Date: Thu, 9 Jul 2026 16:31:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1783607470;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=TS8BEtvMQvtLnB6vfkWXPH4LOaVjs2BDj91GOA4OgVE=;
+	b=mW+cA96RmxeGTEehWDU8SyxfkrIbx+4kKTfErwftKzdlJPFTPDYaY9Dq/PXN/CaklgWmAI
+	6mxsuxy3x9Ol6Bn8TJQlODW0htTI2WRG+ss+iQ/iTa3+dz0rQBQNZ/qlHvYGraJFAj9Fyq
+	CgCAiXYZ/hzruMIoatV18Juw00JH0G+B/tm/zLTz46J8Dn+bix+q4ahFQdBWT8a09B1jc3
+	7esakF7I7Sn4lPC9iRIWnk5jqJUHmF6H+LNmyYFkYeTCLMGgwQtJECO/hyD/NjeaP7kaYe
+	boEiKaVTSOoCT2qtNmbo9raX03lAOlZb79nlcfFrYHTdR+ukg5+G2zyxMKT0iw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1783607470;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=TS8BEtvMQvtLnB6vfkWXPH4LOaVjs2BDj91GOA4OgVE=;
+	b=XNNwECeYc1MIAYyh6X9dBtiS5yNzABLsSfq9sA4ZLkMC2bGNLOtXKV6+mhEDjymCEGmXzl
+	bTVZNwZpawljt0DA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Clark Williams <williams@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
+Message-ID: <20260709143108.UYeCUUcd@linutronix.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260709095726.704448-1-wenst@chromium.org> <20260709095726.704448-7-wenst@chromium.org>
-Date: Thu, 9 Jul 2026 07:30:36 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mfx1qoHWs08xOqNzmp3+RroPXQF1ps0Q_bu+17DWz0eWw@mail.gmail.com>
-X-Gm-Features: AVVi8CcTCqwQAcyQVn3vmM3d_PiKCDTxzoT6aStAZSp__o8inJgUu4b7eftjDFw
-Message-ID: <CAMRc=Mfx1qoHWs08xOqNzmp3+RroPXQF1ps0Q_bu+17DWz0eWw@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] usb: core: Move struct usb_port and related APIs
- to port.h
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 9 Jul 2026 11:57:11 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
-> |struct usb_port| and its matching container_of() macro should live in
-> its own port.h, matching the split we have for .c files.
->
-> Move them as described. Also move usb_port_is_power_on(), since in the
-> next change its |struct usb_hub *| parameter will be changed to
-> |struct usb_port *|, and becomes a non-static function that only
-> references |struct usb_port|.
->
-> port.h is only included from hub.h, as a subsequent patch will directly
-> use fields from |struct usb_port| in a static inline helper in hub.h.
-> The USB internal headers don't have header guards to help with this.
->
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
+Hi,
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+The following patch sat in the RT queue for almost 15years now. I can't
+find its origin on the list.
+All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
+and returns 1.
+
+Is this something that is still wanted and considered useful?
+Is this something that can be expressed better by other means?
+
+There was an in person discussion about this and it was suggested to add
+/sys/kernel/realtime as a folder and having individual realtime features
+as files. I don't remember a single feature that would quality for this
+today but who knows. This is all I remember so far.
+
+Now. Discussion go!
+
+---------------------8>-------------------------
+
+From: Clark Williams <williams@redhat.com>
+Date: Sat, 30 Jul 2011 21:55:53 -0500
+
+Add a /sys/kernel entry to indicate that the kernel is a
+realtime kernel.
+
+Clark says that he needs this for udev rules, udev needs to evaluate
+if its a PREEMPT_RT kernel a few thousand times and parsing uname
+output is too slow or so.
+
+Are there better solutions? Should it exist and return 0 on !-rt?
+
+Signed-off-by: Clark Williams <williams@redhat.com>
+Signed-off-by: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ kernel/ksysfs.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/kernel/ksysfs.c b/kernel/ksysfs.c
+index f45ade718054a..670a7a57d7b23 100644
+--- a/kernel/ksysfs.c
++++ b/kernel/ksysfs.c
+@@ -133,6 +133,15 @@ KERNEL_ATTR_RO(vmcoreinfo);
+ 
+ #endif /* CONFIG_VMCORE_INFO */
+ 
++#if defined(CONFIG_PREEMPT_RT)
++static ssize_t realtime_show(struct kobject *kobj,
++			     struct kobj_attribute *attr, char *buf)
++{
++	return sprintf(buf, "%d\n", 1);
++}
++KERNEL_ATTR_RO(realtime);
++#endif
++
+ /* whether file capabilities are enabled */
+ static ssize_t fscaps_show(struct kobject *kobj,
+ 				  struct kobj_attribute *attr, char *buf)
+@@ -206,6 +215,9 @@ static struct attribute * kernel_attrs[] = {
+ #ifndef CONFIG_TINY_RCU
+ 	&rcu_expedited_attr.attr,
+ 	&rcu_normal_attr.attr,
++#endif
++#ifdef CONFIG_PREEMPT_RT
++	&realtime_attr.attr,
+ #endif
+ 	NULL
+ };
+-- 
+2.53.0
+
