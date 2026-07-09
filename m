@@ -1,299 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010044.outbound.protection.outlook.com [40.93.198.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926E41459FA;
-	Thu,  9 Jul 2026 02:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783565115; cv=none; b=bKQnai0u1zS/0mz+CVsY7QtLmJkvdDkc7+Yj89vJQc9faZNqGHiv16GTYSzBzG3DGBnE6Q/o1Jbc1GmPDWAqIvEvUEcYPiL80W/A0Fue7LfwNqO01OrUd30UGhQ4+y4VuMs+beBsM4++bNPJX84LvHl/gZ58QQuffoMJ+uaEB0w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783565115; c=relaxed/simple;
-	bh=5yogYnG6Dlco/lFZ71lVJUPfGlx8F1VylFaX7l1IeZQ=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=Hj0aZQq6FIq4vIXDR3No9UJd9wbk2X6lINxwnrdCQr4E6JC3rrYT9besdzg2uqL9CVkZ9Uw/V0d1seL7KQe/UAkM5xrYCQLK2mPsUvkr7ZqgWCZV0ebW82ReP51Z2l8tTi/R9DkhcncqZ9pOio0ZLJBEFWbLOOWBvOFnXcZxgaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmP8QBy6; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D893038F253;
+	Thu,  9 Jul 2026 03:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783568618; cv=fail; b=V0ObrjiZQZVaRRbokG4P8VvxhTTZdCfUXrP49QsDU0xu3mqCrAJoTkO6QT1WENRtkphQqU8DtURHgeHBmZYwHuUb7VDzJNcSsSrSG9o2AOh7J+VwEW/j2OeiPMTIH5EYkceu3phG/xonWSApzIzpKKuWaJEcSShiHTIXwIQgynU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783568618; c=relaxed/simple;
+	bh=xEl7rhN63JAR2vNz9SxqcCwQIAySrOGiCxWqKemh3fc=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=QzGl2XtsYF6ibeJr7pdDFLW77sebZZJstAxbeGFFmwbkjjVdOAqbH/lILfFfZhfrrp/uA3D1DVMh0iljuuyTAJtTN9pXHqldUKjk6gVZEDYikmj+qj/RuM9Rx6LBt7RgVrYlXiKVtzpOTGVn/Sjo8LP+n6vFltRvTbSKTL9yw38=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kTol4Sjn; arc=fail smtp.client-ip=40.93.198.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmP8QBy6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D4691F000E9;
-	Thu,  9 Jul 2026 02:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783565113;
-	bh=wylYEceSROIfSQqRInOTqju8R0pfnz5zMsXN2HHh0qg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=FmP8QBy602GF2ygd7lYBMV6ftlyaj6Pt+Jri1zCZYuDsmkUH3n3P984Pi2/UrQjkM
-	 Ky28aSJihbBha8lCS73mcTPbWuC/GOwm+vsgfvQvkqBCoeHHyG2F0zaC56DrchNmw+
-	 0iXZdLs4h1MJdquewgfUcX9Jb8KLb06ZjOsrjPrjL7fc++s1zfEXUTbY3deGREKERr
-	 j6Ac66cQXdlRgShzxFYPdbWi56xk6hY+Dbffsrhtioe7FQU4ddbUEYiUXMJs9y8aR+
-	 2/neN9cJLpe4zVBjueIkOH0BJzjWj32HKixeahGveV6NtI71WOnU808au2dtMjinji
-	 CBV6sWSS3J84g==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 5B330F40068;
-	Wed,  8 Jul 2026 22:45:11 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 08 Jul 2026 22:45:11 -0400
-X-ME-Sender: <xms:NwtPalJwm70TMKrYaY-bh8D7e0SDhdIfdMqZu9ANTzCAHyHLy_5j9A>
-    <xme:NwtPaorWp8GAp3wK46FGWxFmexyVMQoLvTw9MA8OjPzZD6uQ7e6qnwrLQ-NYrSuFG
-    Ue_AuEGgAbmAgdWtVOXONYC_GNaS5OqAOZ7VYFiDlV_JiS5amfhDE0>
-X-ME-Received: <xmr:NwtPajxrEjy62J6DT43rPW0BpXkFH3Cnyn60w4FHXcL7q8eh-j-JKxEnsy7dV5uUdZi-4tVKeYYsLkodjQCDjU2yEr1_MeJ9vTM>
-X-ME-Proxy-Cause: dmFkZTE1C3L7Zr11pLJKwAhuU92xmmLnv4zXE4T/EqOBslopKhtxVbexgJRKkK4ct0SSB1
-    2lx+D4BJxiAZyDeVAnsgWjvO1RVgcBM4+MSlw1m0kP5JMx9hTxkoPVOrR4Hx8MaKJOn5im
-    2eBpl3TY0TaLHNP7EcUfEX/i1c4Y8W/G8G6vHCtfbWnLa+nTFOaAWJ+bEcLqDY87yO3iZs
-    qrcxTDIP+HLRida1YgAhQSQ+w0iSUQV7fEdDe15IQGW1N+qnAOkGPeqUiGzuTO8x84n/mn
-    nEhSnk0DaWCayCnZdkXZQ3HPKfNll61w1b5MEAzD2MY5oxOLMDLXsa/sP+6/S+Hc5mhfHl
-    +6ZGKzsdOj2Js6qSeB7T7oU6SE6zOBBJpyZ5tEzTLJjYcZXs3rdI56Cc50sP6Xv/yGuGfo
-    DZ8INkEVkoNyL+1WwU/mJ9G/e9W/olV5lXe/kKdcMMQLHBGJ2APiE4X3BFZ/Kzy2TvoE4n
-    b6eGk6aCu6oP2/uO9kwYd0Fk8oiYvJ7xzHZfh9sBoHHHAuQ5mUjCH1e/gBbhzEIDh42yvh
-    ZuJL7v3/OhCwSvDpvTl1nQjqelfwUIgFPS26GDiGsOpeLTHm+hllB/t1uVDcw+VQFWvX/y
-    2toWU8WGbkz0DLuB/VHRAZ5E2TA2oWXkqwDkMjw2K4mk4JrapicQIzNt5yKQ
-X-ME-Proxy: <xmx:NwtPakeaMFP8EMgeCxanSd71Ck3aPijH7-TUQo3UREFMvh4iv2ozPQ>
-    <xmx:NwtPandbb98JOxdn313nLmfR3igg0V7hr1CxjDhP6vETXlO1pIWAkQ>
-    <xmx:NwtPauYubu9kU8u2_1JwBDU3AVYXlGwWSSE8A0PVt9Fr4kn21tnntA>
-    <xmx:NwtPag-Gz4SogRiBIfOX36H7mfI-u6JQ85kRj9YWUbKSNsFBRM-xlA>
-    <xmx:NwtPaiUS7RLWOsc7Gc_JPbUOfy64-Y06glGByCLxqZB9ktsouxsLDXJM>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Jul 2026 22:45:10 -0400 (EDT)
-Date: Wed, 08 Jul 2026 19:45:09 -0700
-From: "Dan Williams (nvidia)" <djbw@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>, 
- "Dan Williams (nvidia)" <djbw@kernel.org>
-Cc: linux-coco@lists.linux.dev, 
- linux-pci@vger.kernel.org, 
- driver-core@lists.linux.dev, 
- ankita@nvidia.com, 
- Aaron Tomlin <atomlin@atomlin.com>, 
- Alexey Kardashevskiy <aik@amd.com>, 
- Alistair Francis <alistair.francis@wdc.com>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Daniel Gomez <da.gomez@kernel.org>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Dexuan Cui <decui@microsoft.com>, 
- Donald Hunter <donald.hunter@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Luis Chamberlain <mcgrof@kernel.org>, 
- Lukas Wunner <lukas@wunner.de>, 
- Petr Pavlu <petr.pavlu@suse.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Sami Tolvanen <samitolvanen@google.com>, 
- Samuel Ortiz <sameo@rivosinc.com>, 
- Saravana Kannan <saravanak@google.com>, 
- Will Deacon <will@kernel.org>, 
- Xu Yilun <yilun.xu@linux.intel.com>
-Message-ID: <6a4f0b35683b4_353c8910011@djbw-dev.notmuch>
-In-Reply-To: <20260708143153.GH118978@ziepe.ca>
-References: <20260705220819.2472765-1-djbw@kernel.org>
- <20260706125140.GB107792@ziepe.ca>
- <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
- <20260707124321.GF118978@ziepe.ca>
- <6a4d95fcc92c2_2f05d5100f7@djbw-dev.notmuch>
- <20260708143153.GH118978@ziepe.ca>
-Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security Protocol
- (TDISP)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kTol4Sjn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QUK4MsD44RU3W0cUOsxpBLEAzaGjVxANEKBD1gUHCffvVL4aSzdZW6bjT0YoOJP7SsikW3Ra/t9s9yhaHiBSa0Airji/7D3CXDfRgCxuAcseh9ghSFZ39mGrwI0d8U4Pdf/dotfSYHxaSuToA1lrtwfWlHXPUkX/CoCRcfglbuQfk1UHmF4IEmjhBhqGoraTpBfxbX9niTtbTh1Hl6uWDTGrHLEYoZMBLsEdSzoXzdXV9kCZ9Yrde03xCThdZKQJbP1wyOJWEWQrlLkxxl7Tf1F5nuJrlpF8QzbbcG2HFPYnD0W6kJuTQJ6yalUFNW2fdoFXmyiIyjPIQnUQuGitiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K99Ah/265f2JFakXmIB6UtG2Xjs4dOLZ1yFTmWRJeqA=;
+ b=xF1+xVbuFvWC8posQsh79vW34fACGzywJZX/uUJb9W6wmuSydOxUgZU5gfAKawEubOHovGRZs1h7o83JKvcVe8gd6SUtJdpJpdsSLuyM957umb5EK3DbFuDIHYz1TgZPOBmt6m2WHDa1M7DWcnPZFAxub4zZBatKYVTavsdkbn3XZqHhftCLaYEUTZFGnfwUF3wD6pqg6uXHfAwb3ec15aGhgCmukYr4C84kt6HuxAuEEcIJ/tZb3DMm25uParXNPXzduywQEwJsk/GA3VTq9pH1RYjx1dRflnPIgKTQ0fwf+fJyFN5tnBZLrfU+EyGWeZeNVnFU/1GSkJbDcUjtWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K99Ah/265f2JFakXmIB6UtG2Xjs4dOLZ1yFTmWRJeqA=;
+ b=kTol4Sjn+3nwa5OF8IpMIeHqF1g2t36rnL8icSKhw0skF/9pFzchk/JnKN4wZhw2y0/J+RTEvAv6RyxWFyowUtKpaZ+O+uJ6YMTUK6bDkqhpHzn5JI/BgbBEZTdBa8B0rAGoWI6RDK0lUQ0Ny+erDyEthdervI2w9pC0gebbNH9xdGuQb9kvQ1NibV0ZPpbOPIGMYRc/9nFQ0hf/7F2jsYx9AMYPkDI9ufq0XcPPSa3i0jLPgN9IuBiUyZGlpm5fg25gKDNkuYyD+tWBMVi4OWC+B4Qb/dZcnUY1Hzgl3lYfKklH2gd6C9uOYE/nQcmALNyMsZBhhmKd15kkzAGRmA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by IA1PR12MB6018.namprd12.prod.outlook.com (2603:10b6:208:3d6::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Thu, 9 Jul
+ 2026 03:43:33 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0181.014; Thu, 9 Jul 2026
+ 03:43:32 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 09 Jul 2026 12:43:28 +0900
+Message-Id: <DJTQAZCXYPN7.3Q0B4NH8EA8BO@nvidia.com>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "gary@garyguo.net"
+ <gary@garyguo.net>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ "nova-gpu@lists.linux.dev" <nova-gpu@lists.linux.dev>, "Zhi Wang"
+ <zhiw@nvidia.com>, "mcgrof@kernel.org" <mcgrof@kernel.org>,
+ "dakr@kernel.org" <dakr@kernel.org>, "rust-for-linux@vger.kernel.org"
+ <rust-for-linux@vger.kernel.org>, "driver-core@lists.linux.dev"
+ <driver-core@lists.linux.dev>, "ojeda@kernel.org" <ojeda@kernel.org>,
+ "russ.weight@linux.dev" <russ.weight@linux.dev>
+Subject: Re: [PATCH v3 2/7] gpu: nova-core: add TLV parser for firmware
+ files
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Timur Tabi" <ttabi@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+References: <20260702192712.3450652-1-ttabi@nvidia.com>
+ <20260702192712.3450652-3-ttabi@nvidia.com>
+ <3e771bfc6b0c89afc7969755e340a5fa863bc7cc.camel@nvidia.com>
+ <DJR9ZP56YXX9.P8U6V298X5RW@nvidia.com>
+ <09d1fd87272e7c7dee79d1e0841f49de76ccd82b.camel@nvidia.com>
+ <DJS2YR1BBMPC.2X5MMLHOM0LL7@nvidia.com>
+ <e913d3a53361cd6b8b076f43d038cfd029cda473.camel@nvidia.com>
+In-Reply-To: <e913d3a53361cd6b8b076f43d038cfd029cda473.camel@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0227.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c7::14) To MN2PR12MB3997.namprd12.prod.outlook.com
+ (2603:10b6:208:161::11)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|IA1PR12MB6018:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c7d4019-66c9-4c3f-ad35-08dedd6c3f3a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|10070799003|376014|1800799024|18002099003|22082099003|56012099006|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	uGhXYGQIm0acCPEO5torfON5JPbG1RdtyKDAjvobTfL7/zZpljPkqtpK95Gb1qB5erbbqouUhEcOBIRosgKDF0EmdsgW/H+yJsfuVAJOKqz4u96eW1h8DejZpzCrmt3+q05yUNWyHzieNy08bVLefRIn2lnVJ3dlK3MULI6lPspCEjbYgRrsdgSf00q7x+2KXbCYHTpk6pD3dqBw5hEhElp+nIMF8kEa4ox6oOGQ1Aj7Sb5zSiQg7T7PHsDao6r4M7V0XvUS1JLT12sMuxJFUZbMvPQBPAhA1ezWNkhUtNI04ZSRCtF+RMlBoa39OEcigUWlLVocf1o9Q0JCTO9KpvHLKdI5CuapZzCZB843W2trHy0VecPmkke9OydVV4l4I5vjnO8mqptQb7GVwa70LfIagAjb4jNDGZegLHKV2VCT5FLOWiPPYK4gmM+xTRJPJj5OH/ad88Hnu6UkDyB+plCzmjXQHzL8EjB6x348XfWhr7MY8mrctdD/cMH1H4NKHW4ePk36MTchnLwL5lOlY13ebdfcVtnhg0Qfgo7JOVjSA5G7tXxfUBBI3GBkjuYVUEDoXGVtT2k1ah7JOHykX2kF4Q+/Ws0MpRbYSjUrfFqmjFJX+n8yg/vfaKUvh7RefiYvXpMyL0NkXaHPYzfyfYbHhtQj/PVxK9uzvoNBbhE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(10070799003)(376014)(1800799024)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aWp1KzA3WXZQZHpnZlV1Q25EeE1LRmZ5N1o0U2JESnVwNzZkODdkZDlDQjRp?=
+ =?utf-8?B?djdmOFFlNXd2OXJDdk0xZUszNUtuUnBpdDVtZDlTWFdjOGZRQ0RDVzZwZDd0?=
+ =?utf-8?B?ZmozamlweUwwd3lUY1hiRFg3SFN5R1hDdllYb3laQmxCbHVjV2xrdWg2bVAw?=
+ =?utf-8?B?NGVKUWNhZ043V0EvTFJPdjdkTFVodGY5cU5sbTN6ZHdidkRPSTJqVUZJWE1S?=
+ =?utf-8?B?aWhDdDVWdGNabW9UdUt4KzBwdCtwU0VhSWQranRpVHduaU15UlJEellQcGFB?=
+ =?utf-8?B?VGlKdTIxUlpTUVk2WVBQMFJyVC9hdlk2K0Znb3RBMkVmSDJpU3hQSnpXTnVX?=
+ =?utf-8?B?R3FUa2Z3Y2JjSWNpQ0NmcXNKY3RlYnlqek40ZnR0SU5BQjNlRGdYNTRoaDRi?=
+ =?utf-8?B?NmZXWlZ1aG1DSm92bHBTN25PZnY5LzdCVFd2ckwvOStoSGxHZnNobEkvaEJU?=
+ =?utf-8?B?Z0Q1V2FEYW1ldEZaeVd4VDZEd01HQUtwZGFPcXZEUkZCKzh5Ny9jam1FSjAz?=
+ =?utf-8?B?cjZrZDJBcWlJZzZ6dHhXaVZhVTcwUnV4MTY1QnBEa0dSVE1Ea0hZQ25PanVQ?=
+ =?utf-8?B?TElNQldLOGw5SDIyZ2hZanNSZHc0d2Z3NE1pWU1PWTl2aUFBNHZFbHRKYkNv?=
+ =?utf-8?B?TTBtVlQwYzIrTXlHU3VkT0wzT1puVDA3WEM5TC9aUTBJalI5QTBrOHF0QUVP?=
+ =?utf-8?B?U3lNcFBSRW5FelZ2bE92RmN4eERhUHQra2FSR0h2d0t5S1BManE5SlA4N29C?=
+ =?utf-8?B?VFY1Z3RWclZZVURIQ2xIaDZtSUpsdUtGcWlybkhYbHVsQS8zb2c1NTRnTmxi?=
+ =?utf-8?B?YjVsT05QbUxNd1pDd3FzMC9RSDNVemNnaW0ybFBsdVMwbHZtaU9KQXJ4MWpv?=
+ =?utf-8?B?Wm9aamwyVFE4U1NuYXJ6cncvaTd2VHZYelNrYzEwQU43WkhqY0hWTm9PYlh2?=
+ =?utf-8?B?a1lBZVJGUzFlYWpKanZ1RDhXdW5WUXE4RHc1YVRnUDdPNFBWUVl5eHVBbU5q?=
+ =?utf-8?B?aUxCZUVsV2pmaWs5WFRRU1lkZEVqQWovWVdFM1VDNWhBUXk2ZnE1OXJkNnlZ?=
+ =?utf-8?B?cFM2V3ZxOHNRNlhOOCtIRVc1YVQzdTl0MlRpRmc0Mnd4Sm9rOXZUMnZYWVNn?=
+ =?utf-8?B?disxMG9EZGRSa3ZZemdaRXFhV0hKN29hRGJLWnNUdnVYODBjR0NsdHZXaWtQ?=
+ =?utf-8?B?ckNyS0FPYlM5Yi9LMjVWcCtVZnE3bGU2WTFQRE9NMVRVdGcwYWhQV0dmRGc3?=
+ =?utf-8?B?MHh3eHA2UjB6MkMzSlp0Y2g2QWlvY2xnOWw3QzFOaHRKQ293TVR1TWJVZi9q?=
+ =?utf-8?B?US9icE9odkhxN1FKdHlMY2tUWXBrQmpaa0pQUHFrWlRJQWMzaXlKaWFYeURR?=
+ =?utf-8?B?enZoTGxBdkVNbDU0aGM1L3RJTFMzbksySkhUOGg5c1RMUGdTRm45N2FyTFlj?=
+ =?utf-8?B?MGVBdmFjWDVrYVBtWjI4NklLV0tiK1grN2tjVmVEZ0R1cWI1Q3BNdFcyUW0w?=
+ =?utf-8?B?VmgybmNFSHVoNk5IYWhqdzZBTCtpN3RyU1RJK3Q1VXpuaHJqKzUwKzlhTk90?=
+ =?utf-8?B?cDNxazdoRDREZjZwU2xvUmJwanhxL0loWk1Ra0xGWFJBNkZTRDlYdFIxQ1Qv?=
+ =?utf-8?B?UldWV1d1bnU3c2ZlU3A1ZU11K25rOHNFZW9tOFprMCthbHFPUU40VUJ6MHhW?=
+ =?utf-8?B?VEdQRXRzQzBpYUw0em96VHFYa2gxc1NDRklqTS9vRmpyY3NmZFlEU2p1bE8y?=
+ =?utf-8?B?dWNvdGtyRktsNjJxYlUyUjNFdGpHMHR5SzNCRkYyNkJ3Z3FrS2dMUTFqckc4?=
+ =?utf-8?B?K1BEOSs5am8rZGFPTHRGK2FyUXJKRkpPMFZNZDBGa3pWelN6Tk1Jckc1enVr?=
+ =?utf-8?B?OVJFQWk2YVNUeVJXZ3dTSEY3UHZjcUcyUGNDODJDQjdhT1FOUWJXb1N0YzBR?=
+ =?utf-8?B?YThNZmhSRXNwbUpUVFpSU2FwNGlhUW9hVC96cE5TTWJLTHN4dUJXZmZvVUo5?=
+ =?utf-8?B?bHBlY3dCVkxuQVE5RDVMU1BncDJhZldyNlVRQmdCRkUrYnJ1V1R5VzFYWkVX?=
+ =?utf-8?B?NGdDV2VwNE4wYWpweTJlNS9VeUhGaU0ybHFzVDRQUFhkaUFJczY0aDVMMFNK?=
+ =?utf-8?B?QjlscnJlSlQvcXh0Wm5DclpBN1IvSWgrZ29UL2k1dFM1cVdxd0JsRkovMnlu?=
+ =?utf-8?B?UjdSTXFyaGtxalEwdmdzanFtbHZTV01JTjBBSUQ4UTNhUGozQXpvWDVrTnlr?=
+ =?utf-8?B?V0JNN3JPN09DR1B3Nms5VEVLckxnS2tmMDkvNkhYSSs4THUrUngvYUpNT2I0?=
+ =?utf-8?B?Vk5aNWRDVmE1TVJ1cHFUZUhENkhkejUrR1BjaTlVSHhoMjY5L0VwYnJyVFB6?=
+ =?utf-8?Q?Ucc8flt+7nyqNWl6AH7pxPOQ5V4+hUvuGpXJLHpIwX7tV?=
+X-MS-Exchange-AntiSpam-MessageData-1: gdmXN4rTX6yceQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c7d4019-66c9-4c3f-ad35-08dedd6c3f3a
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3997.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 03:43:32.7523
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4bHi/ZaPsm9iH04K/zqui8G0IfK0lhCwQhv+3B4UPsQBA/I8g+Swlmxld984zITnucJL8/vzMoSrpwNwSJEmDQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6018
 
-Jason Gunthorpe wrote:
-> On Tue, Jul 07, 2026 at 05:12:44PM -0700, Dan Williams (nvidia) wrote:
->  
-> > 1/ We previously discussed a use case to operate a device's private MMIO
-> > while not allowing access to private memory (software encrypted NVME
-> > with private MMIO [1]). Many of the following comments are based on
-> > preserving this assumption so you can save some reading if we agree that
-> > use case can be abandoned.
-> 
-> force_dma_unencrypted() does not *prevent* device access to private
-> memory and provides no security properties on its own. It's only
-> purpose is to inform the DMA API what the HW restrictions are for
-> doing DMA.
+On Thu Jul 9, 2026 at 7:48 AM JST, Timur Tabi wrote:
+> On Tue, 2026-07-07 at 14:13 +0900, Alexandre Courbot wrote:
+>> > Returning error on length=3D=3D0 simplifies a lot of code on the calle=
+r side.
+>>=20
+>> Can you give an example of such a simplification? I'm fine if there is a
+>> benefit to doing so, but would like to understand what we gain.
+>
+> Well, maybe not "a lot" of code, but in general, it eliminates the need t=
+o test for empty slices
+> every time. =C2=A0If get_bytes() returns success, you know that you actua=
+lly do have some bytes.
+>
+> For example:
+>
+>         let sig_bytes =3D self.get_bytes(b"SIGN")?;
+>
+>         // Ensure that sig_bytes can be divided evenly into chunks.
+>         if sig_bytes.len() % num_sigs !=3D 0 {
+>             return Err(EINVAL);
+>         }
+>
+>         // num_sigs cannot be 0, and sig_bytes cannot be empty, so this c=
+annot panic.
+>         let sig_size =3D sig_bytes.len() / num_sigs;
+>
+> sig_bytes.len() cannot be 0, so we know that sig_size cannot be 0, and th=
+erefore
+>
+>         sig_bytes.chunks_exact(sig_size).nth(index).ok_or(EINVAL)
+>
+> chunks_exact() cannot fail.
 
-Right, to be clear, this mode's security properties come from never
-asking the TSM to enable private DMA while the device is in RUN.
+Basically we want a guarantee that `sig_size` is not zero. I'd prefer if
+we could enforce that using the type system rather than relying on a
+guarantee that `get_bytes` doesn't return an empty slice, because even
+that guarantee alone is not enough - we also need `num_sigs > 0` and
+`sig_bytes.len() % num_sigs =3D=3D 0` for that.
 
-force_dma_unencrypted() has no security properties.
+All these conditions are spread around in the code, so I think it is a
+good opportunity to gather them together, and use `NonZero` to hold the
+guarantee we want.
 
-> The use case I had in mind relied on the vIOMMU to police access to
-> the private memory. I think if you do T=1 and ADVERSARY you must have
-> a vIOMMU or it is an illogical configuration.
+Something like this:
 
-Ok, the software encryption aspect of the suggestion was what threw me.
-So we are saying, "no need, outside of defense in depth or data at rest
-concerns, to include software encryption on top of an NVME device being
-operated adversarially with T=1."
+    let num_sigs =3D usize::from_safe_cast(tlv.get_u32(b"NSIG")?);
 
-> So, IMHO there is no use case for a T=1 device to only use shared
-> memory, I would abandon that combination.
-> 
-> > 2/ The confirmation of the trust level and the enabling of DMA are
-> > separated in time from setting the trust level and entering the RUN
-> > state.
-> > 
-> > All the archs separate the RUN step from the ENABLE DMA step, and the
-> > implementation separates those steps in time.
-> 
-> Yes, until the device is fully accepted the DMA has to be kept off. If
-> you have to measure in the RUN state then we must have a second step
-> after measurement completes, however we are measuring in LOCKED right?
+    // Size of one signature - Booter is always signed
+    let sig_size =3D if (1..=3D15).contains(&num_sigs) && sig_bytes.len() %=
+ num_sigs =3D=3D 0 {
+        NonZero::new(sig_bytes.len() / num_sigs)
+    } else {
+        None
+    }
+    .ok_or_else(|| {
+        dev_err!(dev, "invalid signature count {}\n", num_sigs);
+        EINVAL
+    })?;
 
-Yes, measure while in LOCKED, but nothing strictly prevents taking
-measurements after RUN.
+    ...
 
-> > echo tsm0 > $pdev/tsm/lock
-> > cat $nonce | device-evidence dump $pdev
-> > device-evidence validate $pdev $generation
-> 
-> So the device is in LOCKED here, DMA remains off both because of
-> LOCKED and becuase ENABLE DMA has not been done.
-> 
-> > echo 1 > $pdev/tsm/accept
-> 
-> And now it is RUN. So I don't see the issue with enabling DMA at the
-> same time as gonig to RUN? (though defering it to driver probe would
-> be a very nice touch as well)
+    // PANIC: `sig_size` is `NonZero`, so `chunks_exact` cannot panic.
+    let sig_chunk =3D sig_bytes.chunks_exact(sig_size.get()).nth(index).ok_=
+or(EINVAL)?;
 
-It requires "accept" to consider the trust level. E.g. what does it mean
-to do something like change requirements after accept?
-
-echo full $pdev/trust
-echo 1 > $pdev/tsm/accept
-echo adversary > $pdev/trust
-
-In that scenario this now adversary device may have been allowed to
-operate without an enforcing vIOMMU, and needs to unlock the device to
-correct that.
-
-Delaying enable DMA means the implementation can say, "all trust and
-security privileges are reconciled at device driver bind, and revoked at
-unbind".
-
-> With this API you can't set the devices to RUN and *then* collect the
-> evidence, is that restriction OK?
-
-The Enable DMA step requires evidence in the end. So it is more
-implementation ergonomics driving whether "accept" includes Enable DMA
-or defers to driver bind.
-
-> > echo full > $pdev/trust
-> > echo $pdev > $driver/bind
-> 
-> Then we can set the trust and bind the driver, knowing that the T=1
-> security property is in place.
-
-Or, "accept" success tells you the full T=1 property is required for
-"bind" to succeed.
-
-> > The configuration window where $pdev/trust and $pdev/accept can be
-> > dynamically changing should not be changing the force_dma_unencrypyted()
-> > result if only because that value will mismatch the hardware state until
-> > the next ->dma_configure() event.
-> 
-> T=x cannot be changed while a driver is bound, we need to block
-> that. Changing it will mess up all DMA and the DMA API won't work
-> anymore.
-> 
-> Thus force_dma_unencrypted() can only change when a driver is
-> unbound.
-> 
-> If a driver is unbound nothing ever reads force_dma_unencrypted() so
-> it is safe to change it, thus we can just synchronize T=1 and
-> force_dma_unencrypted() whenever T changes.
-> 
-> The error case has to wait for the driver to unbind if userspace wants
-> to go from ERROR->UNLOCKED. IMHO for RAS we are going to need a flow
-> to logically go from ERROR->RUN, probably with the 'same device
-> acceptance' I suggested earlier. In this case the DMAs will be halted,
-> the devices gets back to T=1 and RUN, then the DMAs are turned on
-> again. The driver remains in T=1 and force_dma_unencrypted() is always
-> false.
-
-Ideally this recovery does not need userspace round trips, but for that
-the kernel needs SPDM transcript parsing. The measurement digest that
-CCA provides is over the full previous transcript. A fresh nonce to
-validate same device leads to the kernel need to validate the signature
-with a cached key and compare the extracted measurement payload from the
-previous transcript.
-
-> > There are also buses and paravisors that may know that private-DMA is
-> > enabled for a device by construction. In that case it is also a "trusted
-> > to access" signal, and not a "required to access" signal.
-> 
-> In this case they wire force_dma_unencrypted()=false.
-
-Yeah, I just need a scheme where modular bus providers do not end up
-compromising the private / unexported method of changing the flag that
-force_dma_unencrypted() consumes.
-
-> > My answer, given the concerns of drivers dangerously flipping the
-> > force_dma_unencrypted() result at runtime was to place it in 'struct
-> > device_private' 
-> 
-> Yes, this seems good idea in general
-> 
-> > Otherwise it is confusing when 2 devices are at FULL trust, but
-> > one has private memory access and the other does not. One is FULL the
-> > other is FULL+.
-> 
-> It is confusing when phrased like this, but this is also why I was
-> suggesting below that a pure trust level may not be sufficient as we
-> have quite a cross product of scenarios.
-> 
-> If the user wants to operate a device without T=1 and without
-> ADVERSARY then that's goofy, but technically the kernel doesn't really
-> need to care? It can do it.
-> 
-> IMHO a big question is how much do we want the kernel to nanny
-> userspace by having options to double check its work?
-> 
-> Either we trust the user to have checked all the policy conditions
-> before writing /sys/trust, or we encode some policy conditions and
-> tell the kernel so it can double-check prior to probe.
-> 
-> At least if we omit the double check it can be fairly easy to add in
-> later if it really was needed for some time of use reason.
-
-As long as IOMMU presence can be enumerated prior to acceptance, T=1
-always includes private DMA, and the T=1 status is tracked independent
-of the trust level then yes, the cross product can be avoided.
-
-> > The question is whether these requirements belong on a central device
-> > trust mechanism bitmap or should be pushed out to other ABI.
-> 
-> Yes, for sure, I don't have a good sense what is better.
-> 
-> > For
-> > example, if the presence of the secure IOMMU is enumerated
-> > after the device is in the LOCKED state then userspace policy can know
-> > what it is getting into without needing to tell the kernel. 
-> 
-> Yes, I think for almost all of this we could push it out to userspace
-> and have knobs all over. Like IOMMU already has a knob to switch to
-> DMA mode, we could add an IOMMU specific trust level to set ADVERSARY
-> also if we go in this direction.
-> 
-> But, I also do really like the idea of a central knob that was fairly
-> general and simple DISABLE/ADVERSARY/FULL which all sorts of things
-> can hang off. Including IOMMU and the drivers themselves that may
-> change operation in ADVERSARY mode.
-
-Yes, even if some of the ancillary requirements move to other ABI the
-central question of DISABLE/ADVERSARY/FULL stays common.
-
-> That means they need simple general definitions for what they are, and
-> I really like this ADVERSARY naming vs trust as it makes it very clear
-> what the device disposition intention is.
-
-I will do the "device_adversarial()" conversion throughout.
-
-'struct device' grows some "request" policy for trust and T=1 that can
-be changed by modules etc. 'struct device_private' grows the operational
-trust level stable under device_lock() and a new flag to reflect T=1.
+This is more sound as the guarantee we need is carried by the type of
+`sig_size`, and with that there is no need to make `get_bytes` return an
+error on empty slices.
