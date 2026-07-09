@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8462335566
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:53:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05BA383C64
+	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:55:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783608785; cv=none; b=my7ln+zdTQY+JGtFaAuzLvBYSfnNce3bz8ftLHtJkJOv43XxsVrNgCbOAf9mhCMCp2Lm84bj51SWupNEhSHQT7WmBJfuyTaoIJ92cMse0g58X3RlCKYj47IzYcnlgUmU8IVgTJa/b6pvUs/o/18AkC/NPVQ9c62ybMyhoZUgYkM=
+	t=1783608910; cv=none; b=F9vk0b2FzA7gNmgbuuKSrOO6dseTud3WelQ2EhubXOgL/jKwMDvh5bOEnjgs8ERQpF1TXaE8YkPM6w+j537EIBx53a8Rp5S84WMvg8Da0zd5ALAutRE10NpB/NT2oMVF/d/tmF8Q4d9WOM1Bg3SKODiYwTMqspjHRKvSc4Gzh/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783608785; c=relaxed/simple;
-	bh=RLFiKybwqiRfaIacMSYfLnz5IphLQABbZGpGEz+/ci8=;
+	s=arc-20240116; t=1783608910; c=relaxed/simple;
+	bh=g+sC/QZblXYDIcB9ooulCSeC1E+X3/Fd4MPLeB2SQsM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AkLOp1VOXeTTIsZ83oFHaDfxFI6fQf3U0OUWnDQd6eJPhqok5AiKlyuMu0r4nwBAQ9nKH6odkiPHPSzMU/PMQnUEWzWUeMk+Vi0SXBi6eyf4Enqy5osxf1g02ztJI47oFn94r0y/3nHIG/4TVEdZKnjQR/oq8OG5ljfThpPYWMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KOCpibnw; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=QxZwAx40dBnboEUb2S83lNrZt1WdwFEHVHEYk+Rg+CSKY5CyYk2szhL2NH7Q0rIBc8A3mbVcD0KnR3uRAt1kRGaxf2MoEK6BzfC6Q/RkkqqseekN7V4jwRx1aSoLczGaqVAUhZp38eS574rU49vLarxevOBuQwKDQ94Yvc+mpYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZ+uRmPk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KOCpibnw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8661F00AC4
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:53:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZ+uRmPk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8774C1F00ADB
+	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:55:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783608783;
-	bh=RLFiKybwqiRfaIacMSYfLnz5IphLQABbZGpGEz+/ci8=;
+	s=k20260515; t=1783608908;
+	bh=+uWDUc/+B8Zcl3RjgjlcAl1XfyqZh6uKOMuQl+0chAo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=KOCpibnwJNr0pX6GIp9E3X+/iOBqx9F1pCZJI6OaagHNDwKy1xMMScFEsrVe4i3r/
-	 TSyXlS4h0PI9poDU1ciINrkFk+vYmY+9c+ub2tBxLg4Bek4TSxqSsrziQYR+4kC4B6
-	 LtU8gcqWbWfXXCpJCDxd3d6tp3i8Xk7Krr6IlMouVrY7PChVV6niqRiy1EBY8ZFB8n
-	 rptzn6Rst3W9YsAV9gyXtwmeeYW090WG8gjTfj1D0deGJtvH6ZO7jGv/GqSCmZpMcV
-	 1+VPa9NxcNHrBo8ICBDQ91ulJhS0PvP04UDtW3HVXW3R6R+dO8pVU4m6oauD/y63LG
-	 YEmkeCEVuUjzg==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb91c003eso2098927e87.3
-        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 07:53:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoqsxsmqPZHbgsZ3Ue4tOOr5T5HRuJzty0jLIOcXOSCTIurZp6upf/RHU5N37jkdiklXRUtOz97fL05+w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywh7kAneGU+4++0uB5iYbSe/1pVTuull+AvoRmhIdXr6XQjkeIf
-	h05jiFmuhMq53HxFsdglA2OJ/T9S4+/bD/XRXMr1XsVPgRXhsJ+U2iihA12y0GRx1Tz3xq0lYhR
-	c0Z6KkAq57e93FzvURgeY4GE44Dq6ZgI=
-X-Received: by 2002:a05:6512:1418:b0:5ae:bce4:b696 with SMTP id
- 2adb3069b0e04-5b011457496mr1654043e87.15.1783608781260; Thu, 09 Jul 2026
- 07:53:01 -0700 (PDT)
+	b=CZ+uRmPkArgS05FkAxTN/g1EJcQSaRs8dsL+F4Uujnmu94htT9jKoNWjcxH0hGaAM
+	 Sf1hkR2KF7IMxP8eTBaARyhpTX70W16qE4lh2fEvaK8Zeev/H+uKwIem1OhX8VkCf3
+	 5y+DH/OYNcOfP4oCjE35LUFb429cJDyNDD3Ft/8DO2gaBcbQoSs5W89AIglHIf6Zow
+	 RSSRot8AKZal/SBb2wkBogHeZxUlMMxWFutMvBimQbrR57brMo1OMEtNpCECFt4yHc
+	 PjHTXkPIi/LmfnRmfM/qFc/FXReMbJtO5tmsp31okTdinZWUPTV+rk8IFNLHLvcqtl
+	 o0y8R+Lfn6VGQ==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aeae771c49so2338720e87.3
+        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 07:55:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro97QozVuRVfhjbZ7Tc2ev+0G0SUcY42qymQV8UgrVS8fDeDlqa5iKzvB5/HaZKmDZ/yUro3WbwTW8uAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL5QZ3++iV0QywAGUcTY3R7XqXpCuYRPigTW5MGiqPlvITWkeM
+	n0IdAR9TZ9eZNtBkvYUJUXENBYv0E0qLPUafUUmz+oCrKndSPzILXo+j8Ucunol0j3VdjLIxeyZ
+	g17wjkpiREyKDdNUIojCeujdNLPNEz0c=
+X-Received: by 2002:ac2:5203:0:b0:5ae:c563:f611 with SMTP id
+ 2adb3069b0e04-5b011463233mr1492320e87.36.1783608906969; Thu, 09 Jul 2026
+ 07:55:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -42,25 +42,22 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
- <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
- <CAJZ5v0i4Zc4HNUdgJ_2=4=wv7vRDTugo71qsWnZxVRRqV+W8mw@mail.gmail.com>
- <9d271393-c500-46a9-8795-f1371585445c@sirena.org.uk> <CAJZ5v0g9AxpqUQUQ-vwG2LN3pfT3qXi3_S=So42=VdVtzg-=Dw@mail.gmail.com>
- <f6532e0f-a0b3-490d-8313-d6f5b72e8236@sirena.org.uk>
-In-Reply-To: <f6532e0f-a0b3-490d-8313-d6f5b72e8236@sirena.org.uk>
+ <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-2-92feb5a7b926@oss.qualcomm.com>
+In-Reply-To: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-2-92feb5a7b926@oss.qualcomm.com>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 9 Jul 2026 16:52:49 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jp6kds4tCPYgSSXUR8gY6RZeduDo4KT_C4SDe1LkO1vg@mail.gmail.com>
-X-Gm-Features: AUfX_mx_i-Ak0IpYfFQhE7YA2IxINgGGdh6jGUVBYlO8uF8CkL_5A8zDw-EN5zc
-Message-ID: <CAJZ5v0jp6kds4tCPYgSSXUR8gY6RZeduDo4KT_C4SDe1LkO1vg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
- callback failures
-To: Mark Brown <broonie@kernel.org>, Praveen Talari <praveen.talari@oss.qualcomm.com>
-Cc: Dilip Kota <dkota@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>, 
-	Girish Mahadevan <girishm@codeaurora.org>, Alok Chauhan <alokc@codeaurora.org>, 
-	bjorn.andersson@oss.qualcomm.com, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
+Date: Thu, 9 Jul 2026 16:54:55 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jAdUDrmqdZOofD_SOybX_riGygebZg28K1+biwCUwdoA@mail.gmail.com>
+X-Gm-Features: AUfX_mxObOw8riju13AyHbeASLKZvtZGFB_mGMk6sFqZ8O5AcMDNT22UDuZo1rM
+Message-ID: <CAJZ5v0jAdUDrmqdZOofD_SOybX_riGygebZg28K1+biwCUwdoA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] spi: qcom-geni: Fix missing error check on pm_runtime_get_sync()
+To: Praveen Talari <praveen.talari@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>, 
+	Stephen Boyd <swboyd@chromium.org>, Girish Mahadevan <girishm@codeaurora.org>, 
+	Alok Chauhan <alokc@codeaurora.org>, bjorn.andersson@oss.qualcomm.com, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
 	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
 	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
@@ -68,28 +65,102 @@ Cc: Dilip Kota <dkota@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 6, 2026 at 7:30=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
+On Mon, Jul 6, 2026 at 10:53=E2=80=AFAM Praveen Talari
+<praveen.talari@oss.qualcomm.com> wrote:
 >
-> On Mon, Jul 06, 2026 at 04:10:34PM +0200, Rafael J. Wysocki (Intel) wrote=
-:
-> > On Mon, Jul 6, 2026 at 3:21=E2=80=AFPM Mark Brown <broonie@kernel.org> =
-wrote:
+> spi_geni_init() calls pm_runtime_get_sync() to power up the device
+> before accessing hardware registers, but never checks the return value.
+> If the runtime resume fails, the function silently proceeds to read and
+> write hardware registers on a device that may not be powered up, leading
+> to register access faults.
 >
-> > > I've got a bunch of other stuff in flight for that driver - I'll need=
- to
-> > > check but just in case perhaps a tag I could pull in?
+> Fix this by replacing pm_runtime_get_sync() with the
+> PM_RUNTIME_ACQUIRE_IF_ENABLED() macro and checking the result via
+> PM_RUNTIME_ACQUIRE_ERR(), propagating any error back to the caller
+> immediately before any hardware access occurs.
 >
-> > I'm wondering though if the patches in the series really depend on each=
- other.
+> Since the macro handles its own cleanup on failure, the out_pm label and
+> the corresponding pm_runtime_put() call are no longer needed. Replace
+> all goto out_pm paths with direct return ret statements and remove the
+> label entirely.
 >
-> > There doesn't appear to be any code dependency between them.
->
-> That would also work, a bit annoying for any bisects possibly but so
-> long as we land both in the same release we should be good.
+> Fixes: 561de45f72bd ("spi: spi-geni-qcom: Add SPI driver support for GENI=
+ based QUP")
+> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
 
-So I've applied the first patch only as 7.3 material.
+Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-If you need it to be exposed on an immutable branch, please let me know.
+(no issues found)
 
-Thanks!
+> ---
+>  drivers/spi/spi-geni-qcom.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/spi/spi-geni-qcom.c b/drivers/spi/spi-geni-qcom.c
+> index 26e723cfea61..392accfd8515 100644
+> --- a/drivers/spi/spi-geni-qcom.c
+> +++ b/drivers/spi/spi-geni-qcom.c
+> @@ -613,25 +613,30 @@ static int spi_geni_init(struct spi_geni_master *ma=
+s)
+>         u32 spi_tx_cfg, fifo_disable;
+>         int ret =3D -ENXIO;
+>
+> -       pm_runtime_get_sync(mas->dev);
+> +       PM_RUNTIME_ACQUIRE_IF_ENABLED(mas->dev, pm);
+> +       ret =3D PM_RUNTIME_ACQUIRE_ERR(&pm);
+> +       if (ret < 0) {
+> +               dev_err(mas->dev, "Failed to resume and get %d\n", ret);
+> +               return ret;
+> +       }
+>
+>         proto =3D geni_se_read_proto(se);
+>
+>         if (spi->target) {
+>                 if (proto !=3D GENI_SE_SPI_SLAVE) {
+>                         dev_err(mas->dev, "Invalid proto %d\n", proto);
+> -                       goto out_pm;
+> +                       return ret;
+>                 }
+>                 spi_slv_setup(mas);
+>         } else if (proto =3D=3D GENI_SE_INVALID_PROTO) {
+>                 ret =3D geni_load_se_firmware(se, GENI_SE_SPI);
+>                 if (ret) {
+>                         dev_err(mas->dev, "spi master firmware load faile=
+d ret: %d\n", ret);
+> -                       goto out_pm;
+> +                       return ret;
+>                 }
+>         } else if (proto !=3D GENI_SE_SPI) {
+>                 dev_err(mas->dev, "Invalid proto %d\n", proto);
+> -               goto out_pm;
+> +               return ret;
+>         }
+>         mas->tx_fifo_depth =3D geni_se_get_tx_fifo_depth(se);
+>
+> @@ -664,7 +669,7 @@ static int spi_geni_init(struct spi_geni_master *mas)
+>                         dev_dbg(mas->dev, "Using GPI DMA mode for SPI\n")=
+;
+>                         break;
+>                 } else if (ret =3D=3D -EPROBE_DEFER) {
+> -                       goto out_pm;
+> +                       return ret;
+>                 }
+>                 /*
+>                  * in case of failure to get gpi dma channel, we can stil=
+l do the
+> @@ -693,10 +698,7 @@ static int spi_geni_init(struct spi_geni_master *mas=
+)
+>                 writel(spi_tx_cfg, se->base + SE_SPI_TRANS_CFG);
+>         }
+>
+> -out_pm:
+> -       pm_runtime_put(mas->dev);
+>         return ret;
+> -}
+>
+>  static unsigned int geni_byte_per_fifo_word(struct spi_geni_master *mas)
+>  {
+>
+> --
+> 2.34.1
+>
