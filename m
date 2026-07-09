@@ -1,113 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843FF4DC534;
-	Thu,  9 Jul 2026 17:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB444DA53C;
+	Thu,  9 Jul 2026 17:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783618736; cv=none; b=RjUdoKDhwLmSAMyjsJgDc3TG/WnjYnEMmM2Fa/AXwapRWzQoPuZP8HEKKoLqHNfqU87fLNfTItYm1yloK8nYy43MVVa6w8d9P+A9V958i+eBfqSY4R0u8/4XWKWOgLG6TJkjiUJCcSwRxOqEE9nrBg7nodvD1rRQBRAQ4G98Dpg=
+	t=1783619885; cv=none; b=HokdmHxoXksxEHW+he9eqMlJ3ru+YUHDkWdnvSCmAR4jGdYJFXtyD5kxFZkO65H3vSQgEuAYjZ+v0xZo6fbike6mKeLeEjb5W8ofPb4JZxzDPfqWsK9/U6PdxRUH4Vtrz+nEv+fN989yoB5TqQcczXvzDv1kJWVmPOterb/hHJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783618736; c=relaxed/simple;
-	bh=d/nBdYKTwprwwPJWcQhYAi+50uqZV7XmaVBvqS1J6Oc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TLxQpZNgSSUU7jq+aK79SlOnQlhamP7S/XwWQd/E/vne3nN2a4FTQcHANGsVovplgFCx12kmRxxKCOXChyVhWy7U7ci0YOovuUwYiTx5N8dpI80sJmS1ah1a9Mpw9vInJd7q5CZyg9EtbG0TJMwBNnUyHThnXtUawOdr7Ii0r3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jr0UF5V0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783619885; c=relaxed/simple;
+	bh=ueCfC8mj9W6I1SlYqEpl674vMNV2wFKokvVZLAzEXzA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zr/BJlkbfc31imioGeBGIU4shkOYceQysX/Vv51Ck3OoCxanRTkNf7FqbjBcsqc/GQCnonJFvw0as4s4Ji0q4NbFb1zmSx617DN0WsqovxeUs9aIP7MWHZ0pHz0oxNUaWFtnqvyTYVSJ7d1XgKzi0NuU06UMKxHhZKiMgiyPvKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PVsTXJsh; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jr0UF5V0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80DB1F00A3E;
-	Thu,  9 Jul 2026 17:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783618734;
-	bh=z+xPqrbAsOxm0DoB+mXHkly4JM60YdduBZSXbhphp04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jr0UF5V0p3i+9ZoqP0v0r2WyARA9522xwnGYD61df1lV1vCbW2OjbYUdWSaM+bUAd
-	 oWoi2JnH6QXswGH/TWXGVBUt+S7Dtih4h2f6oQnrIv+a+GdME1HCJLLEEQmeqQOKv7
-	 hVsIbj+o3cvsC7UmJvkHdaohkuU9ljjr7YINohew6ExMt/ZFmC/Sz+9Id3IL4ftMao
-	 r34QjORWG4vjo7UOzplInFPiSa0oWBzNteOD1SpDWDDa92xkOS8+xEvHRtzowTpq0Y
-	 PUx1rCK5Qnx1L8YCsWt2ULOe1XOXltJsamXa8GVj92V7aaCe+vG3BPVA3dJQDvqKmC
-	 ge2Iv5gC/uClw==
-Date: Thu, 9 Jul 2026 18:38:48 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Praveen Talari <praveen.talari@oss.qualcomm.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Girish Mahadevan <girishm@codeaurora.org>,
-	Alok Chauhan <alokc@codeaurora.org>,
-	bjorn.andersson@oss.qualcomm.com,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-	aniket.randive@oss.qualcomm.com,
-	chandana.chiluveru@oss.qualcomm.com,
-	jyothi.seerapu@oss.qualcomm.com, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] PM: runtime: Only set runtime_error on suspend
- callback failures
-Message-ID: <f199663d-cb74-4117-9dd8-f7384e74a87a@sirena.org.uk>
-References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
- <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-1-92feb5a7b926@oss.qualcomm.com>
- <ae915278-2f21-4bd0-8651-d2e02ac04aae@sirena.org.uk>
- <CAJZ5v0ga8qqYg79+hQVtO8T=FOCj8XLmTz3HpEKoOykV_K-HSQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PVsTXJsh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783619884; x=1815155884;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ueCfC8mj9W6I1SlYqEpl674vMNV2wFKokvVZLAzEXzA=;
+  b=PVsTXJsh6fU42lLh4QQE6DPqX9gOHnbjh4C7ahgq9rPY/1DldGvzAtOu
+   ip7hCLXdkE2dWWXbKZUh9TAT9OnyHMkIH3sy2HoDIMptgbqjb3pBjQ3vV
+   Z7FnbWmmbTl814a7FzD797g6m730A1aJ+bmHBw4clc/AsmE+x6eQDCvo7
+   j68HMLPGHghnuIXst+8a+k4wku2WjnplEhhQQDu0l+f0iMCv7fBl0ihZm
+   knag5MlROIsR0quqNSpCYbSczzWv7b3cvw27CPg8Up+5vlLulO0jK0FV6
+   GQzQnGFG9FUF2HB1d7B3b85u+u4KwlFqi1OZeAAgUqyy3MWLm3RsPYmeE
+   w==;
+X-CSE-ConnectionGUID: INIwS+g3TB+vWv9CYLm+gQ==
+X-CSE-MsgGUID: LVtG1VufTHybv/1l6OShEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88139590"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="88139590"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 10:58:04 -0700
+X-CSE-ConnectionGUID: hf/hEBL1SMaZOpk5XqzpzA==
+X-CSE-MsgGUID: mMZej/BNT82mbag9beBfMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="252920685"
+Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.111.142]) ([10.125.111.142])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 10:58:02 -0700
+Message-ID: <c4e18591-137f-4827-b635-a8662a44fe9d@intel.com>
+Date: Thu, 9 Jul 2026 10:58:00 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/Llcw7u8OMnNrmMC"
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0ga8qqYg79+hQVtO8T=FOCj8XLmTz3HpEKoOykV_K-HSQ@mail.gmail.com>
-X-Cookie: MS-DOS must die!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/10] mm/memory: add memory_block_aligned_range()
+ helper
+To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
+Cc: nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, kernel-team@meta.com, david@kernel.org,
+ osalvador@suse.de, gregkh@linuxfoundation.org, rafael@kernel.org,
+ dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com,
+ alison.schofield@intel.com, akpm@linux-foundation.org, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, shuah@kernel.org, iweiny@kernel.org,
+ Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
+References: <20260630211842.2252800-1-gourry@gourry.net>
+ <20260630211842.2252800-2-gourry@gourry.net>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20260630211842.2252800-2-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---/Llcw7u8OMnNrmMC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 09, 2026 at 07:35:18PM +0200, Rafael J. Wysocki (Intel) wrote:
-> On Thu, Jul 9, 2026 at 6:35=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
+On 6/30/26 2:18 PM, Gregory Price wrote:
+> Memory hotplug operations require ranges aligned to memory block
+> boundaries.  This is a generic operation for hotplug.
+> 
+> Add memory_block_aligned_range() as a common helper in <linux/memory.h>
+> that aligns the start address up and end address down to memory block
+> boundaries.  Guard against end underflow when the range falls below the
+> first memory block boundary, returning an empty range instead.
+> 
+> Update dax/kmem to use this helper.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-> > runtime_pm.rst still says
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-> >   * If the resume callback returns an error code, the PM core regards t=
-his as a
-> >     fatal error and will refuse to run the helper functions described i=
-n Section
-> >     4 for the device, until its status is directly set to either 'activ=
-e', or
-> >     'suspended' (by means of special helper functions provided by the P=
-M core
-> >     for this purpose).
+> ---
+>  drivers/dax/kmem.c     |  4 +---
+>  include/linux/memory.h | 27 +++++++++++++++++++++++++++
+>  2 files changed, 28 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/dax/kmem.c b/drivers/dax/kmem.c
+> index a18e2b968e4d..592171ec10f4 100644
+> --- a/drivers/dax/kmem.c
+> +++ b/drivers/dax/kmem.c
+> @@ -33,9 +33,7 @@ static int dax_kmem_range(struct dev_dax *dev_dax, int i, struct range *r)
+>  	struct dev_dax_range *dax_range = &dev_dax->ranges[i];
+>  	struct range *range = &dax_range->range;
+>  
+> -	/* memory-block align the hotplug range */
+> -	r->start = ALIGN(range->start, memory_block_size_bytes());
+> -	r->end = ALIGN_DOWN(range->end + 1, memory_block_size_bytes()) - 1;
+> +	*r = memory_block_aligned_range(range);
+>  	if (r->start >= r->end) {
+>  		r->start = range->start;
+>  		r->end = range->end;
+> diff --git a/include/linux/memory.h b/include/linux/memory.h
+> index 463dc02f6cff..1783299073e4 100644
+> --- a/include/linux/memory.h
+> +++ b/include/linux/memory.h
+> @@ -20,6 +20,7 @@
+>  #include <linux/compiler.h>
+>  #include <linux/mutex.h>
+>  #include <linux/memory_hotplug.h>
+> +#include <linux/range.h>
+>  
+>  #define MIN_MEMORY_BLOCK_SIZE     (1UL << SECTION_SIZE_BITS)
+>  
+> @@ -100,6 +101,32 @@ int arch_get_memory_phys_device(unsigned long start_pfn);
+>  unsigned long memory_block_size_bytes(void);
+>  int set_memory_block_size_order(unsigned int order);
+>  
+> +/**
+> + * memory_block_aligned_range - align a physical address range to memory blocks
+> + * @range: the input range to align
+> + *
+> + * Aligns the start address up and the end address down to memory block
+> + * boundaries. This is required for memory hotplug operations which must
+> + * operate on memory-block aligned ranges.
+> + *
+> + * Returns the aligned range. Callers should check that the returned
+> + * range is valid (aligned.start < aligned.end) before using it.
+> + */
+> +static inline struct range memory_block_aligned_range(const struct range *range)
+> +{
+> +	struct range aligned;
+> +
+> +	aligned.start = ALIGN(range->start, memory_block_size_bytes());
+> +	aligned.end = ALIGN_DOWN(range->end + 1, memory_block_size_bytes());
+> +	/* No whole block fits (e.g. range below the first boundary): empty. */
+> +	if (aligned.end <= aligned.start)
+> +		aligned.start = aligned.end;
+> +	else
+> +		aligned.end -= 1;
+> +
+> +	return aligned;
+> +}
+> +
+>  struct memory_notify {
+>  	unsigned long start_pfn;
+>  	unsigned long nr_pages;
 
-> > which needs an update now?
-
-> Yeah, it would be good to update this one.
-
-> That can be done in a separate patch though as far as I'm concerned.
-
-Oh, totally - didn't mean to suggest we should block the original
-change.
-
---/Llcw7u8OMnNrmMC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpP3KcACgkQJNaLcl1U
-h9Cs0gf/flegjsijkwicZIndylDYxISil3P2eLNwMvbiukKiLEGBGfM9/nNk+Kjb
-wgvh9F1Ov3Dy/Z/UBn24b/1bGwS9R/PWTccpI6ZmYDvesGQnf12CSeiVLYha7ESS
-ybJ565nJHSJN5SXWiySj5dJQB5286epdYfx38homHKz1aoK7KnCeCwcGwLkouvOW
-Uk/KWYn0BUw4BAjfQov+UkkPmrs6wt421YAFnzzdIyTOchNgvzYguWyjaLPay3U9
-OhdvP71afhbeEmM93DNLuVEVxMZ99KZCu2cp7lyhreCBD3XuZuXmhOQy5l48MJsI
-WH8YEI0kPIk5pmi3uHDY4nh0l7+oMQ==
-=BP5F
------END PGP SIGNATURE-----
-
---/Llcw7u8OMnNrmMC--
