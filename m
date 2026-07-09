@@ -1,125 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53D24E3783;
-	Thu,  9 Jul 2026 18:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA5F357CFD;
+	Thu,  9 Jul 2026 18:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783621764; cv=none; b=kms6ZVnxuyFrgHQUKQqfUVpX+4yvGqPHfll29liGXywZN+6Q54/a3qJ+A7ctiOHD2ng+lxraBiqvgi8xfIkvqQORnpFTaSVREmgwVDGLxLsad1nkYKpdv/5J/+j+nemBq67pGZJb5vWJ2kiUJI4kcrCve/nP2kmk9XHzPleh1dY=
+	t=1783621830; cv=none; b=IJ7RI7gBiOp0jwE4FssUTM2jV0zqrIPyEPtIprt/F69TydgDlTNVeEeVtLd8wMA7i9UNOA8iqqG5/kJ6DMsFKh9a4ZVPcfUVii4Vz8gKYC6Eht1lkSVNE43MNLukGllYa02tllaftZVZoat8AOSv0ciFb9bkNEUuvLgngMV7evc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783621764; c=relaxed/simple;
-	bh=gxwHzadL7UsOp1A4yt1lkHCLrDcNd4Psacp/We5Hu4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FXbvKKtc5jyZ4lIiPBkP1Li620cI01ENZa8BNH8bBdXxlLALga2qTfT6FgqYKxgPBw6d7tXFs8R02I41OCy5S/se/7OXtzpZbYupEhV1qQwCMqfiD7thOC53HAiZqC90GYI6k/9OZc8Xq6EE5DJ88Qm3U0hGtMYm3PjXZjIQ1wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xko9nxCY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783621830; c=relaxed/simple;
+	bh=sJrITh55upt9+7i4xO8v5KWYgInW0gtqD9Qlj0C5gCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=slY2YupNo2MLpeV1OXZL2TMVX6COScwIwdNvI2m1Ysu4+Tcw2wLPiff1X8C3/Dakjm7rDqTwLmtlC3uESwmtzm3nE7ITfOmSjYi8e8nVOs9BW2DmdJGHbhiXaFmzEdv1ZGRze8dqh0ZPEOnWbn1VX4F1hjhdBpcmAHIB9BN4f80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOzwTZsM; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xko9nxCY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8700C1F000E9;
-	Thu,  9 Jul 2026 18:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783621753;
-	bh=TabPWWStRvKtiXwg+LEf/C3NvzrtOeicayZoNxrbVxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Xko9nxCY6y+tc1YLTScES8TazWsq5OpuZq8Y1rlxhvZBHHn6kVj3Dsy13ei3NP6Mr
-	 pUOYjV70L7I0ngn2FNT2awsiYhvW8FiOImyUNVlTvWcoXbo8W6kGIXbaBgwsp4bC/F
-	 huA7eXBETurT+hhsigrr+sfGJYpkgrbPPi9YTlZlvGe3uEoohjpwLXgyWV0krZ/SVT
-	 TGoE3ofi5vn8NxPW2YTVyE/pfcEnXyWel27iPgVs0V+iuy/aDePrTqrgWOWGVPiBU4
-	 RHv74CU4K1tagxXhy2isvsdZRCgAkMcLbNQQtpd3MrxtXuXkNdO1qPlhNZBhAp8S+q
-	 3BiO9ujOijjSA==
-Date: Thu, 9 Jul 2026 19:29:06 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Praveen Talari <praveen.talari@oss.qualcomm.com>
-Cc: Dilip Kota <dkota@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
-	Girish Mahadevan <girishm@codeaurora.org>,
-	Alok Chauhan <alokc@codeaurora.org>,
-	bjorn.andersson@oss.qualcomm.com,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-	aniket.randive@oss.qualcomm.com,
-	chandana.chiluveru@oss.qualcomm.com,
-	jyothi.seerapu@oss.qualcomm.com, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] spi: qcom-geni: Fix missing error check on
- pm_runtime_get_sync()
-Message-ID: <2fe34b3c-11cf-417e-9440-75a5d6e3f4d7@sirena.org.uk>
-References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
- <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-2-92feb5a7b926@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOzwTZsM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783621827; x=1815157827;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=sJrITh55upt9+7i4xO8v5KWYgInW0gtqD9Qlj0C5gCY=;
+  b=jOzwTZsMeZzDN1W64ahfbX6+rhyHQVD2ThXdLkQa9Twq/BmS+7V329qV
+   JrYZeU/TEZgiSV20b+UjXeqjDP+6jL0/AaSSHLSZJa/LrLwxWqzsf+9Zy
+   wp9krvGZzcgjeO5dMHLC+iB7gPnF/676Zf7RQk/VXU8RjyUrxs16Y/ru+
+   kgeNDCOR3AS5pJApFVhqRrew1O0osjKnc2QBscl2bE4+S4mm8aoky6Sul
+   v+4SJux9PYuJQcp/avpD+JILq20fxZMdzibNh1qcCDDt8e7i5vSua12dR
+   6IdelnEG9JiokhEFffQQq0mLejc30WxIcI0mMSdwJegsps6FZMkQWgTkB
+   A==;
+X-CSE-ConnectionGUID: 5WsynPTkQnC2kQVWDawZFQ==
+X-CSE-MsgGUID: uZK6fC/tQc2Hte0gmNOqgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="88232217"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="88232217"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 11:30:27 -0700
+X-CSE-ConnectionGUID: CreSit38SEqhU34F5Ejwog==
+X-CSE-MsgGUID: GyVfq50gT2Gw6mAARUjGdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="256580746"
+Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.111.142]) ([10.125.111.142])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 11:30:24 -0700
+Message-ID: <6cc4354f-c494-4198-b1ad-a8b538aa1a77@intel.com>
+Date: Thu, 9 Jul 2026 11:30:23 -0700
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CeC8CvVPO3AHS8XP"
-Content-Disposition: inline
-In-Reply-To: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-2-92feb5a7b926@oss.qualcomm.com>
-X-Cookie: MS-DOS must die!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/10] mm/memory_hotplug: export
+ mhp_get_default_online_type
+To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
+Cc: nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-cxl@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, kernel-team@meta.com, david@kernel.org,
+ osalvador@suse.de, gregkh@linuxfoundation.org, rafael@kernel.org,
+ dakr@kernel.org, djbw@kernel.org, vishal.l.verma@intel.com,
+ alison.schofield@intel.com, akpm@linux-foundation.org, ljs@kernel.org,
+ liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, shuah@kernel.org, iweiny@kernel.org,
+ Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
+References: <20260630211842.2252800-1-gourry@gourry.net>
+ <20260630211842.2252800-5-gourry@gourry.net>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20260630211842.2252800-5-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---CeC8CvVPO3AHS8XP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 06, 2026 at 02:23:10PM +0530, Praveen Talari wrote:
-> spi_geni_init() calls pm_runtime_get_sync() to power up the device
-> before accessing hardware registers, but never checks the return value.
+On 6/30/26 2:18 PM, Gregory Price wrote:
+> Drivers which may pass hotplug policy down to DAX need MMOP_ symbols
+> and the mhp_get_default_online_type function for hotplug use cases.
+> 
+> Some drivers (cxl) co-mingle their hotplug and devdax use-cases into
+> the same driver code, and chose the dax_kmem path as the default driver
+> path - making it difficult to require hotplug as a predicate to building
+> the overall driver (it may break other non-hotplug use-cases).
+> 
+> Export mhp_get_default_online_type function to allow these drivers to
+> build when hotplug is disabled and still use the DAX use case.
+> 
+> In the built-out case we simply return MMOP_OFFLINE as it's
+> non-destructive.  The internal function can never return -1 either,
+> so we choose this to allow for defining the function with 'enum mmop'.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-> @@ -693,10 +698,7 @@ static int spi_geni_init(struct spi_geni_master *mas)
->  		writel(spi_tx_cfg, se->base + SE_SPI_TRANS_CFG);
->  	}
-> =20
-> -out_pm:
-> -	pm_runtime_put(mas->dev);
->  	return ret;
-> -}
-> =20
->  static unsigned int geni_byte_per_fifo_word(struct spi_geni_master *mas)
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
-The above breaks the build due to removing the closing brace for the
-function:
+> ---
+>  include/linux/memory_hotplug.h | 2 ++
+>  mm/memory_hotplug.c            | 1 +
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+> index 5d4b628c4a1f..4d51fcb93a37 100644
+> --- a/include/linux/memory_hotplug.h
+> +++ b/include/linux/memory_hotplug.h
+> @@ -317,6 +317,8 @@ extern struct zone *zone_for_pfn_range(enum mmop online_type,
+>  extern int arch_create_linear_mapping(int nid, u64 start, u64 size,
+>  				      struct mhp_params *params);
+>  void arch_remove_linear_mapping(u64 start, u64 size);
+> +#else
+> +static inline enum mmop mhp_get_default_online_type(void) { return MMOP_OFFLINE; }
+>  #endif /* CONFIG_MEMORY_HOTPLUG */
+>  
+>  #endif /* __LINUX_MEMORY_HOTPLUG_H */
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 6833208cc17c..494257054095 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -239,6 +239,7 @@ enum mmop mhp_get_default_online_type(void)
+>  
+>  	return mhp_default_online_type;
+>  }
+> +EXPORT_SYMBOL_GPL(mhp_get_default_online_type);
+>  
+>  void mhp_set_default_online_type(enum mmop online_type)
+>  {
 
-/build/stage/linux/drivers/spi/spi-geni-qcom.c: In function =E2=80=98spi_ge=
-ni_init=E2=80=99:
-/build/stage/linux/drivers/spi/spi-geni-qcom.c:712:21: error: invalid stora=
-ge class for function =E2=80=98geni_byte_per_fifo_word=E2=80=99
-  712 | static unsigned int geni_byte_per_fifo_word(struct spi_geni_master =
-*mas)
-      |                     ^~~~~~~~~~~~~~~~~~~~~~~
-/build/stage/linux/drivers/spi/spi-geni-qcom.c:726:13: error: invalid stora=
-ge class for function =E2=80=98geni_spi_handle_tx=E2=80=99
-  726 | static bool geni_spi_handle_tx(struct spi_geni_master *mas)
-      |             ^~~~~~~~~~~~~~~~~~
-/build/stage/linux/drivers/spi/spi-geni-qcom.c:764:13: error: invalid stora=
-ge class for function =E2=80=98geni_spi_handle_rx=E2=80=99
-  764 | static void geni_spi_handle_rx(struct spi_geni_master *mas)
-      |             ^~~~~~~~~~~~~~~~~~
-/build/stage/linux/drivers/spi/spi-geni-qcom.c:808:12: error: invalid stora=
-ge class for function =E2=80=98setup_se_xfer=E2=80=99
-  808 | static int setup_se_xfer(struct spi_transfer *xfer,
-
-and so on.
-
---CeC8CvVPO3AHS8XP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpP6HIACgkQJNaLcl1U
-h9BSzAf/SeXNxRk0EmmkgXQsQkbxwTQzUT3bKaWL/CX0xxNnaoR+ZYpK15jNuVng
-Yfnob+oGCKSZlpMlg89lOUMxWoWaZoXKHAF6ZATyxR3PWVR6yMMY0jicZZOQyBWW
-6A0Eobhjh2jAG4nk93TFi66m4oV1FAZg963+5wjcYBAYAkVqg/a2nGi/2eltJq2b
-tDBZ6jtcbdZke3STVUcQLpVOqGW84xFf9XY8krP8TZW9YoMByUKyzW7ZVQsST/3S
-oa539uAhRQZGCIy4OxQ9uF/CjNI8aykNtkWvFoc+0yS0onYsevbiNAlmZduzEQqt
-T4kDtaSZosyma7QWOe+uUhj8Pj0e1g==
-=d8m7
------END PGP SIGNATURE-----
-
---CeC8CvVPO3AHS8XP--
