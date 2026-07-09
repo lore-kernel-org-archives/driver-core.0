@@ -1,166 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05BA383C64
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9ECD3469E0
+	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783608910; cv=none; b=F9vk0b2FzA7gNmgbuuKSrOO6dseTud3WelQ2EhubXOgL/jKwMDvh5bOEnjgs8ERQpF1TXaE8YkPM6w+j537EIBx53a8Rp5S84WMvg8Da0zd5ALAutRE10NpB/NT2oMVF/d/tmF8Q4d9WOM1Bg3SKODiYwTMqspjHRKvSc4Gzh/c=
+	t=1783609035; cv=none; b=YlI95SY9W95oPTcwRbj6lwpVFnn5OtNPw65hSjFUaI1CDKPgIcWzRLfiN7sZpocfw0tNq6IhaD3JW2rYYVc4iK9lqPmu8Wu+4A9xyxhbznwM4lM4o/fhU0JpyRCsAaGFJ2yuLffdixIkOPeJT6E0SL0WrnLpmRcH5LPDKzRBjr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783608910; c=relaxed/simple;
-	bh=g+sC/QZblXYDIcB9ooulCSeC1E+X3/Fd4MPLeB2SQsM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QxZwAx40dBnboEUb2S83lNrZt1WdwFEHVHEYk+Rg+CSKY5CyYk2szhL2NH7Q0rIBc8A3mbVcD0KnR3uRAt1kRGaxf2MoEK6BzfC6Q/RkkqqseekN7V4jwRx1aSoLczGaqVAUhZp38eS574rU49vLarxevOBuQwKDQ94Yvc+mpYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZ+uRmPk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783609035; c=relaxed/simple;
+	bh=tjgdvByW5WBZqyhrd7wFuCriBR6z1oBevpMfu6TVGNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rG5aLTmTDBpUwLLdSRMtKbcFOyJwo5AXOXwYll1lqXSvxgD6JrJfO6Glub0DRW5Vm79HyB3uPFz1eIvJokvw8j/Gl0ErxUHtpxtSuQO599yU1/0ItSteEX22ARDjvyIxsgc61Wd2A1Qw8L1uTw25Y82E30Pjhq4dxqPP0Z+GsI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=ZTLBa0ce; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZ+uRmPk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8774C1F00ADB
-	for <driver-core@lists.linux.dev>; Thu,  9 Jul 2026 14:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783608908;
-	bh=+uWDUc/+B8Zcl3RjgjlcAl1XfyqZh6uKOMuQl+0chAo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=CZ+uRmPkArgS05FkAxTN/g1EJcQSaRs8dsL+F4Uujnmu94htT9jKoNWjcxH0hGaAM
-	 Sf1hkR2KF7IMxP8eTBaARyhpTX70W16qE4lh2fEvaK8Zeev/H+uKwIem1OhX8VkCf3
-	 5y+DH/OYNcOfP4oCjE35LUFb429cJDyNDD3Ft/8DO2gaBcbQoSs5W89AIglHIf6Zow
-	 RSSRot8AKZal/SBb2wkBogHeZxUlMMxWFutMvBimQbrR57brMo1OMEtNpCECFt4yHc
-	 PjHTXkPIi/LmfnRmfM/qFc/FXReMbJtO5tmsp31okTdinZWUPTV+rk8IFNLHLvcqtl
-	 o0y8R+Lfn6VGQ==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aeae771c49so2338720e87.3
-        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 07:55:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro97QozVuRVfhjbZ7Tc2ev+0G0SUcY42qymQV8UgrVS8fDeDlqa5iKzvB5/HaZKmDZ/yUro3WbwTW8uAg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyL5QZ3++iV0QywAGUcTY3R7XqXpCuYRPigTW5MGiqPlvITWkeM
-	n0IdAR9TZ9eZNtBkvYUJUXENBYv0E0qLPUafUUmz+oCrKndSPzILXo+j8Ucunol0j3VdjLIxeyZ
-	g17wjkpiREyKDdNUIojCeujdNLPNEz0c=
-X-Received: by 2002:ac2:5203:0:b0:5ae:c563:f611 with SMTP id
- 2adb3069b0e04-5b011463233mr1492320e87.36.1783608906969; Thu, 09 Jul 2026
- 07:55:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="ZTLBa0ce"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ee43b3e5abso6529456d6.3
+        for <driver-core@lists.linux.dev>; Thu, 09 Jul 2026 07:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1783609033; x=1784213833; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cUc0YxX2OnLyX2sI3kys65ZvVtk8+5Y5AOwoYWzDFOM=;
+        b=ZTLBa0ceG67g1q2FGpiKFLvVoxdq1Iy89naBq5rfMr3Lj8Yix8xtSeAus67hqa7WkS
+         6dcQ585CruB0sgTfylKOqVK8UXJ4+3truqTTwVUr1UQ4ttXgku8Uz9sdtu/T92PlQfVQ
+         2D5rckM/zadRQgXx6jbOXcze3WJ0vwhG8Q2lZ4LHUyojjhuS7dCiz6ttOWiJIS/cgZPR
+         v/SWOBBgpAGaZo8LmiUgwPHwiOfVXX0lSnKPKe3XUA2wDwADrX/fHDMTvyfybEkdFbCo
+         ENSyyxQegzG4+p9ZOo3VZjmeB2Nxvaio1KHzPu6EpB1wlkXfTasgTgSewb5YNFjkoBLT
+         jQig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783609033; x=1784213833;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cUc0YxX2OnLyX2sI3kys65ZvVtk8+5Y5AOwoYWzDFOM=;
+        b=CKUer7DU/x5VWENZAH8jjFH7GmvqwLXYY4rBw7rrmvEuDngWNB3iPbGL17NG9kqFZn
+         u6/FDaxcLojPYYLNfKO2QVPZd0naQI4mSLJbCwqhztB1tSygaID3RjYlodwdSS5Jab5A
+         Rw1mzT/iVHHm96G2iPO4DTi0iUYe8OKOn2HSoRf6OLv4E2nwcjjR0lqy3p+dvC1z9q+D
+         5SKyG9e0Ipz2ZNu1JDW2yxUjnPufkyu4rhFfSpNHLNoDrsH/R0NvNLbE7DuxLOFi6WFe
+         bk5NK/9TVlX41NVmnTa6BaCFku0hvpSzGiP+tPCD7iR+RpRoI9qfWK/snVNJJQOE0dT9
+         bkKA==
+X-Forwarded-Encrypted: i=1; AHgh+RoyA9OGiHPSuCReKLW24MfdpiNjL0JchJ0XgmIGzpSRWeV6K2JzY7ZFXXcd40KbheLLjBMKTCtzh9bB3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YztK7D1J65XpLGoFpliqIybRorQ4Yw4H41NC+wMORQUCpqUnXzo
+	Qhy8j5YtTFzRjJDYSV/NTUYVIpKmup20CaOJlwalT/XkEKC+9LXKp7+npSNLYqmoeb4=
+X-Gm-Gg: AfdE7cnBqVIzgDAa14jQo8gf5X4jxaV1WE3drjeqbixJIq7leJwXrcweELM5iWHqg0W
+	VGlNP+Hxa3XY/wx8kuGcoRm1kI19JreR2yFth1j3YeuVC5OWuQ1o8oeB2mPoUY4aY7TJLS68C2z
+	m3zPikvEV/93ydSfxMDDvKnREFFuN6x4zXL/B5vGIbc8YN2+HAhAsZDIbJnX8k7mCKXu6IPUHrA
+	/ndoW0O7Eb1L0/OthIsKXAp5ornh83hbWISx0goaNKtnLNjBqBg43aqBYRehEpbqOI1XvS0bm2W
+	qSKXiHtL+cWzjZpkdJs3SrA1I4OCZoVaL+LYst/GfIgAgkFj2n9/4+0MpJWN4UB+oGk4W8kySUP
+	xB2yeOcV0o4AMh+EIHthen+sOjNaGNyL2EPS5cYUfHwGY98XEsfF/mHDkS9ffvfwqFpcN8kcTv4
+	bQ28MkVyuRIX9Rkd6kLKcx7qk5397pMVAHTiUVNDODZeFMHDlBJYtGMecDtGCX1J0pjMY5
+X-Received: by 2002:a05:620a:460f:b0:92d:e54e:72db with SMTP id af79cd13be357-92ecf54a01bmr728326285a.22.1783609032712;
+        Thu, 09 Jul 2026 07:57:12 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90cedfe0sm1725553985a.43.2026.07.09.07.57.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 07:57:12 -0700 (PDT)
+Date: Thu, 9 Jul 2026 10:57:07 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Richard Cheng <icheng@nvidia.com>
+Cc: linux-mm@kvack.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com, david@kernel.org, osalvador@suse.de,
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	djbw@kernel.org, vishal.l.verma@intel.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, akpm@linux-foundation.org,
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+	shuah@kernel.org, iweiny@kernel.org,
+	Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH v6 09/10] dax/kmem: add sysfs interface for atomic
+ whole-device hotplug
+Message-ID: <ak-2w-aHp5huBa2N@gourry-fedora-PF4VCD3F>
+References: <20260630211842.2252800-1-gourry@gourry.net>
+ <20260630211842.2252800-10-gourry@gourry.net>
+ <ak9TSx-I-53dX6fx@MWDK4CY14F>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-0-92feb5a7b926@oss.qualcomm.com>
- <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-2-92feb5a7b926@oss.qualcomm.com>
-In-Reply-To: <20260706-fix_sticky_-einval_after_pm_runtime_api_failure-v3-2-92feb5a7b926@oss.qualcomm.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 9 Jul 2026 16:54:55 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jAdUDrmqdZOofD_SOybX_riGygebZg28K1+biwCUwdoA@mail.gmail.com>
-X-Gm-Features: AUfX_mxObOw8riju13AyHbeASLKZvtZGFB_mGMk6sFqZ8O5AcMDNT22UDuZo1rM
-Message-ID: <CAJZ5v0jAdUDrmqdZOofD_SOybX_riGygebZg28K1+biwCUwdoA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] spi: qcom-geni: Fix missing error check on pm_runtime_get_sync()
-To: Praveen Talari <praveen.talari@oss.qualcomm.com>
-Cc: Mark Brown <broonie@kernel.org>, Dilip Kota <dkota@codeaurora.org>, 
-	Stephen Boyd <swboyd@chromium.org>, Girish Mahadevan <girishm@codeaurora.org>, 
-	Alok Chauhan <alokc@codeaurora.org>, bjorn.andersson@oss.qualcomm.com, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Douglas Anderson <dianders@chromium.org>, linux-spi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, aniket.randive@oss.qualcomm.com, 
-	chandana.chiluveru@oss.qualcomm.com, jyothi.seerapu@oss.qualcomm.com, 
-	linux-pm@vger.kernel.org, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ak9TSx-I-53dX6fx@MWDK4CY14F>
 
-On Mon, Jul 6, 2026 at 10:53=E2=80=AFAM Praveen Talari
-<praveen.talari@oss.qualcomm.com> wrote:
->
-> spi_geni_init() calls pm_runtime_get_sync() to power up the device
-> before accessing hardware registers, but never checks the return value.
-> If the runtime resume fails, the function silently proceeds to read and
-> write hardware registers on a device that may not be powered up, leading
-> to register access faults.
->
-> Fix this by replacing pm_runtime_get_sync() with the
-> PM_RUNTIME_ACQUIRE_IF_ENABLED() macro and checking the result via
-> PM_RUNTIME_ACQUIRE_ERR(), propagating any error back to the caller
-> immediately before any hardware access occurs.
->
-> Since the macro handles its own cleanup on failure, the out_pm label and
-> the corresponding pm_runtime_put() call are no longer needed. Replace
-> all goto out_pm paths with direct return ret statements and remove the
-> label entirely.
->
-> Fixes: 561de45f72bd ("spi: spi-geni-qcom: Add SPI driver support for GENI=
- based QUP")
-> Signed-off-by: Praveen Talari <praveen.talari@oss.qualcomm.com>
+On Thu, Jul 09, 2026 at 04:07:31PM +0800, Richard Cheng wrote:
+> > +	if (dax_kmem_state_is_online(data->state)) {
+> > +		dev_warn(dev, "Hotplug regions stuck online until reboot\n");
+> > +		any_hotremove_failed = true;
+> > +		return;
+> 
+> Hi Gregory,
+> 
+> I suppose data->state is only updated when writing to the new daxX.Y/state file?
+> If the blocks are offlined through the old per-block interface, data->state
+> still says online and we will hit this early return.
+> Everything is leaked and a later rebind fails -EBUSY.
+> 
+> Current behavior is using remove_memory(), and it succeeds on offlined blocks
+> and fails safely with -EBUSY on online ones, no offlining from unbind context
+> either way.
+> 
+> Your changelog state "on unbind fallback to legacy if still online", but the
+> fallback only runs for data->state == MMOP_OFFLINE.
+> Maybe drop this early return and just try dax_kmem_remove_ranges() here too?
+> 
 
-Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Hm, I think you are right.  When doing some testing I bounced between
+tests which race with dax/state and block/state, and I missed the
+obvious case of the whole device being offline but dax/state being stale.
 
-(no issues found)
+I think this entire chunk actually just drops to:
 
-> ---
->  drivers/spi/spi-geni-qcom.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/spi/spi-geni-qcom.c b/drivers/spi/spi-geni-qcom.c
-> index 26e723cfea61..392accfd8515 100644
-> --- a/drivers/spi/spi-geni-qcom.c
-> +++ b/drivers/spi/spi-geni-qcom.c
-> @@ -613,25 +613,30 @@ static int spi_geni_init(struct spi_geni_master *ma=
-s)
->         u32 spi_tx_cfg, fifo_disable;
->         int ret =3D -ENXIO;
->
-> -       pm_runtime_get_sync(mas->dev);
-> +       PM_RUNTIME_ACQUIRE_IF_ENABLED(mas->dev, pm);
-> +       ret =3D PM_RUNTIME_ACQUIRE_ERR(&pm);
-> +       if (ret < 0) {
-> +               dev_err(mas->dev, "Failed to resume and get %d\n", ret);
-> +               return ret;
-> +       }
->
->         proto =3D geni_se_read_proto(se);
->
->         if (spi->target) {
->                 if (proto !=3D GENI_SE_SPI_SLAVE) {
->                         dev_err(mas->dev, "Invalid proto %d\n", proto);
-> -                       goto out_pm;
-> +                       return ret;
->                 }
->                 spi_slv_setup(mas);
->         } else if (proto =3D=3D GENI_SE_INVALID_PROTO) {
->                 ret =3D geni_load_se_firmware(se, GENI_SE_SPI);
->                 if (ret) {
->                         dev_err(mas->dev, "spi master firmware load faile=
-d ret: %d\n", ret);
-> -                       goto out_pm;
-> +                       return ret;
->                 }
->         } else if (proto !=3D GENI_SE_SPI) {
->                 dev_err(mas->dev, "Invalid proto %d\n", proto);
-> -               goto out_pm;
-> +               return ret;
->         }
->         mas->tx_fifo_depth =3D geni_se_get_tx_fifo_depth(se);
->
-> @@ -664,7 +669,7 @@ static int spi_geni_init(struct spi_geni_master *mas)
->                         dev_dbg(mas->dev, "Using GPI DMA mode for SPI\n")=
-;
->                         break;
->                 } else if (ret =3D=3D -EPROBE_DEFER) {
-> -                       goto out_pm;
-> +                       return ret;
->                 }
->                 /*
->                  * in case of failure to get gpi dma channel, we can stil=
-l do the
-> @@ -693,10 +698,7 @@ static int spi_geni_init(struct spi_geni_master *mas=
-)
->                 writel(spi_tx_cfg, se->base + SE_SPI_TRANS_CFG);
->         }
->
-> -out_pm:
-> -       pm_runtime_put(mas->dev);
->         return ret;
-> -}
->
->  static unsigned int geni_byte_per_fifo_word(struct spi_geni_master *mas)
->  {
->
-> --
-> 2.34.1
->
+dax_kmem_remove_ranges(dev_dax, data);
+
+And the internal error catches the condition to the log.
+
+Thanks! I will spin a new version next week.
+
+~Gregory
