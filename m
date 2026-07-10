@@ -1,46 +1,33 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2442342EEB7;
-	Fri, 10 Jul 2026 15:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2249043B4BC;
+	Fri, 10 Jul 2026 16:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783699072; cv=none; b=sKas006Fu/P15Au40WHHsgUApTw9GUGOowXk/4GJfjBFrKE8N5uuC1Jqxuew/rn3cBp9TtWyCW5ViDGXh5Kn1OnEv5VYG9r6jpKyuwbI28ikh9cnjqyHWGGkGTZwsam4V0pJlLFxiubOZsJBkflBg44ExWsl8NRVj1xpIZymo/4=
+	t=1783699525; cv=none; b=oIXTklmqbO61HApHEFCZLuxjfWQukoX0hQldxIhMU1IVM7nrT90ERecQPwbB0jmyr+C2iEh4zoh9umoIoptCTbi0iyrkImMPWGIU9RKsTYtXx4fC7IyQ47kmczUNvhjAaOvYPaC/FmI7Q5YPwCMPKGLK9CqPfLt92Kx8QmQUpZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783699072; c=relaxed/simple;
-	bh=DdZkj1t+YTdv4lhLH0M2y9omD0U+OijZxhEEAiSHUW0=;
+	s=arc-20240116; t=1783699525; c=relaxed/simple;
+	bh=rPJpoETGkG/MvZTRHUX7l2t9BB3nMCbvxTPR54TighI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MCBjPBl+G8aEAGTjkL6mPUPVKWXs18qDJboDs7EF4Z2ME+BH0i4rMHs4S1p+B2AHPCvY48GPT5ZlWBf42XCIyNVQt9j49qnSD1SkWIJcj0NzPyoB7spwx55dSLp0mqQDXRSRL/IIHu5I64jecxBAAOt9HXMZM5jO2YHJV5fd2eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QIpR1Grh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OusP/pyX; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=OVA+V4DCYVpgqx8PhM+baqInTpLLjZkC4637YtIqg2/dK1AJ8aQBMvYjPY6Lg2CxWRspujj01s83ush4DVQQC8xpNBDZFjIF3scJmoA56CQKZkMZ5GdA9E3jgPeczGXQAyDUCdoK2TjzpP8pyHRcwWMuyY/G+Xl/0k8jpYCPsFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZfZRKgcu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QIpR1Grh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OusP/pyX"
-Date: Fri, 10 Jul 2026 17:57:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783699069;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+PWBQnjpjM3noppY6fe5xm8QlJvFDQRgM8OSC4p6tbo=;
-	b=QIpR1GrhFCHRbIiqPrab0c6viqd3sfuUb8yHBKY9lyjKnfnMuTx6RWB1EtuZrNSZibkRKA
-	lKpF+Py03NcCqJV1FbA4UncwpvuojxHTnL4G0Ix0e3wXRDazRjLdKOi2s7f/FJCz6yBNq3
-	m2RYcuNwswQTsYZkikdLq3bmaQM9zj8F/qAz6W5tNX+PBCWNJNOBSwTC5LRFE9GliqKfv8
-	ghyu+JrG2Ie9yIfga2Ggluv1Ivgua+B2CFGR6kJ5Nu6ueuKO/l6FJRoOoCIUrynDlAwsvT
-	p0DSOnc6d4Jsvis5Gs5zCh8mjSwTFqPLTb4XthF2yFz1MNeDARRaiwBL36puiw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783699069;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+PWBQnjpjM3noppY6fe5xm8QlJvFDQRgM8OSC4p6tbo=;
-	b=OusP/pyXcFU/Govzi/x77zqVmOfBkl5Bpeqq46ohtMWLj7tL701EM9yr08qyUyNeG+xAiS
-	asLQ/QAYRp6owTBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZfZRKgcu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B899A1F000E9;
+	Fri, 10 Jul 2026 16:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783699516;
+	bh=/tvLFowctqq9owjKlKrlDlpQvpAhO46vDylrbgxG4dU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZfZRKgcuxyC7C6rubRqcw2w7Ut9UkCFLwzDMFusOo4BRlB4B27AhEGef+7KrruBkU
+	 tUBU5EdQFREq5HL7O1wIXEkuGft3SsEU5cukiBF3sVAqSj0MNEQJL6GbvMD4FeUdPX
+	 YCXvXiW+quNHOhVX6/DBPv+C+B2fmkeCz70jAeIo=
+Date: Fri, 10 Jul 2026 18:05:12 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Florian Bezdeka <florian.bezdeka@siemens.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
 	linux-rt-users@vger.kernel.org,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -50,7 +37,7 @@ Cc: Florian Bezdeka <florian.bezdeka@siemens.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Jan Kiszka <jan.kiszka@siemens.com>
 Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <20260710155747.0HAm5jm5@linutronix.de>
+Message-ID: <2026071052-backstage-skype-f22d@gregkh>
 References: <20260709143108.UYeCUUcd@linutronix.de>
  <2026070922-kilowatt-matador-5e1c@gregkh>
  <20260709152214.rH1O_8SM@linutronix.de>
@@ -62,11 +49,11 @@ List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260710115145.32729a7c@gandalf.local.home>
 
-On 2026-07-10 11:51:45 [-0400], Steven Rostedt wrote:
+On Fri, Jul 10, 2026 at 11:51:45AM -0400, Steven Rostedt wrote:
 > On Fri, 10 Jul 2026 09:23:16 +0200
 > Florian Bezdeka <florian.bezdeka@siemens.com> wrote:
 > 
@@ -78,11 +65,5 @@ On 2026-07-10 11:51:45 [-0400], Steven Rostedt wrote:
 > mainlined, it's not breaking any user space that uses only the mainline
 > kernel.
 
-And I am thinking about dropping it from -RT queue.
-The -RT queue has the 8250 (which days are numbered) and i915 which is
-making progress towards upstream. Therefore I want to clarify the status
-of this.
-
-> -- Steve
-
-Sebastian
+I never said I wouldn't take it, just that if I would, it has to be
+cleaned up...
