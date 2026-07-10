@@ -1,107 +1,112 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E0B3BD642
-	for <driver-core@lists.linux.dev>; Fri, 10 Jul 2026 07:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7754D3ADBAD
+	for <driver-core@lists.linux.dev>; Fri, 10 Jul 2026 07:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.64.228
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783667122; cv=none; b=qL1u+yuY9At31iUffYppQUm54tZ4TuwQeRGOXR4N3M6IBkxUagtxYbIEk09RgdGvahgeaqKJn2IplpHvANY5fMXKnPMgN5ZPq4Rxh8x9B/0+ItLKuglM673mtKMBb9EyBFA6c+1Rqw6XSHBTAhvMDWaPDxVEebtIi7/l+Dh84+c=
+	t=1783668226; cv=none; b=tv4VViHCv8z21H+SUFOXESVlFlcPlbzpTGP/wi8mIoG5UWXB/lDwWFV5cJ/Wwl8nfdfZOgNV6VfVU7EPS3egfBe8bUfH4v8rJAuuemSEHxXWPmBR4OQkN7TKrsDOM5P8crNHww4HPNthzh/lsYHMKha3ipcmpHQJw1rUumuw4lM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783667122; c=relaxed/simple;
-	bh=SSEFVYhF2Pg3TbzBC13FrS3vwkfQJZGZ4K20/HU793s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ehqrQQ7tNu+M+ELvcqs3ZNMuhFnfRTic83fa3hBh1bW+oEMQ0AZJ7jIJZNrqQGUpvHtdLrF37+AmVPJyJrbOPSiqo4CG+sm/yRrXJoYuTtnQ7jPNLNfuF6QeS/II+KUXjZButYwCE7hsgVemTbrnOOCtd47JvxC41auLJlAxjWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YEF1GnnX; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783668226; c=relaxed/simple;
+	bh=IOpv7B+XqxxUP6JaKskb5LnQnNg8HmLNK+R9eVVMLvY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Dacwzh71R2bKlIecRx5e/x7kza4PdLOosfkMokSKi23cQNCQpBOHI3Nwyowg4DM9LaMcDEkLeOtOzH2ssfSl6WN70bo8v/EP3M3j6j1OoUttNctRDLuqXWAyYHHQ6j35Q7Ae0r1f2PK61kaZFPn6MEw3+XDX8MTyrEntc9HtjNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=lPUm3ys8; arc=none smtp.client-ip=185.136.64.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YEF1GnnX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783667119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TBLtI1cgq6P50LRB2gR35deeL3jow5HhR1wudht4FTI=;
-	b=YEF1GnnXoRxftdBKMN9S9hsLuPWtkjaiuXv0RlanHMtFpBBEfHCw8vPdzFnMnNkZXK98IJ
-	PV+JrFRMe/k5D4L7eTQoomqIcymjloUn+qysnmL4o/H94kUlMTLC5u5wf6nnaS7t9RuHy2
-	TdnWORwCMaqCaH8X+NQgtj9WzoXMkRo=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-314-W_3kr6Y-PQuL2hj9SYXdzg-1; Fri, 10 Jul 2026 03:05:18 -0400
-X-MC-Unique: W_3kr6Y-PQuL2hj9SYXdzg-1
-X-Mimecast-MFC-AGG-ID: W_3kr6Y-PQuL2hj9SYXdzg_1783667117
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c15d4107068so69732866b.1
-        for <driver-core@lists.linux.dev>; Fri, 10 Jul 2026 00:05:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783667117; x=1784271917;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TBLtI1cgq6P50LRB2gR35deeL3jow5HhR1wudht4FTI=;
-        b=SjN8wdDu9VRh4+RuVIvc5CcYiV2eiAJ6MbZ1FClUeNoM6MJKmokwDHfhr3KHdaSl5O
-         7RKIpO9pQMlQctPS0ejRBpwrvgf8OO7hn2pgLHwueNjNpmHxz6YV92vGINKYK1nMNRZo
-         E2ligATnqpljFECxZqxVWt1wX6L095VIjY0Jb0DzIoWg9jUY4p89jL3d0ENPALT+Sy8p
-         VBOVCH455C38b60E7yPW0eE/TupGZ5Fx54fupRW947QjuKqTbtnceRYsvm44Z2GTUXCa
-         EhcG5rkqTZpyUt6giCAcYqB/FzuhPoz1ShkM4B0MU9mdhctsIPh+3g6ycN7uHWIfpi9p
-         sutA==
-X-Forwarded-Encrypted: i=1; AHgh+RofL2cxGuDiL/8Db0cq8Ipsb+pJP9lvOEuDKrSLo1FD+AxG+dXviRR8tHVqWQoiCsEwHR5vm7VByM0OQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxqaH0dQqpbTMf8tM4VAiImponNder+haOnGRYLZWmpP4nKMqs2
-	0+GQurk2tZrWTNjRbPjxbeJdOQ9+VDN4XI0psDOILkcAto817SVZklyfBA+1cuz1IOtupCVaD3w
-	IbNEkerZtzsdmfb3NYxn+Q5Y//9xULVgzRCrx/R006wKxHGCewm51Pyplb2/pFHRogOvLGkzmkY
-	AUgjJskBgtr8qpbvNJyzTuW5uOYHbvn6BqgArm8cw=
-X-Gm-Gg: AfdE7cnkMNzz7dWU80K0dgBtpVUWmNov0QqPpuGmzkJm+PI9uYlHMWHV92fy2r2XQzL
-	yxv7i4r3ygJdWAFWAuOyiTZEoA41TGDx48jD3QRuEPXEqsbVpoY6KJ6FiWBErO2CHOSzWTF6StF
-	bZCffKtQAE1YQZOnCgY2GiXEopaVNcWiOdz4TUvS+AxBBluaFdoQDKBCDq74D6KdrSQowRlNCYW
-	Cn/SfhD9YtGcRvYSzaYbJzHTA==
-X-Received: by 2002:a17:907:e153:b0:c12:b227:c0c8 with SMTP id a640c23a62f3a-c15ce128cecmr304103466b.50.1783667116717;
-        Fri, 10 Jul 2026 00:05:16 -0700 (PDT)
-X-Received: by 2002:a17:907:e153:b0:c12:b227:c0c8 with SMTP id
- a640c23a62f3a-c15ce128cecmr304102366b.50.1783667116222; Fri, 10 Jul 2026
- 00:05:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="lPUm3ys8"
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260710072317a0214a8b29000207dd
+        for <driver-core@lists.linux.dev>;
+        Fri, 10 Jul 2026 09:23:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=florian.bezdeka@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=IOpv7B+XqxxUP6JaKskb5LnQnNg8HmLNK+R9eVVMLvY=;
+ b=lPUm3ys8Lt3UervoAG53DZAGvuZsl5JBLleGryMrw1lWExvwUIg3gE9WbBcQnaS3zkHKaq
+ deASGHHiGWZCE/KZnGM5utLxiH20i+cxYVeBgHgcQssZ1MjBJQxGUg9aqTx0oWY2UhlIpo2p
+ 7agWSVT8t6q+iY/VY9q3+ZyUKqEX3jrZyKUmJyDlLm35pZDZ342lSvecd4/JMWx7NmJ+LTqz
+ VNsejp5fmb/frbe6e54unRthsF1GW/yIABk8fTYLwj6tW3Iu1b1MQ/eu+Pw4Os0PWISFfcZg
+ 4qyofeLiYowMjukE389zfO8vm5crsNQajnyOIwGE5YM3u3jRdxct2Jyg==;
+Message-ID: <748a489687000b21d0e8f961fc2f9f963b0bc1d1.camel@siemens.com>
+Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev, 
+	linux-rt-users@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>, Danilo
+ Krummrich <dakr@kernel.org>,  Peter Zijlstra <peterz@infradead.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,  Jan
+ Kiszka <jan.kiszka@siemens.com>
+Date: Fri, 10 Jul 2026 09:23:16 +0200
+In-Reply-To: <20260709152214.rH1O_8SM@linutronix.de>
+References: <20260709143108.UYeCUUcd@linutronix.de>
+	 <2026070922-kilowatt-matador-5e1c@gregkh>
+	 <20260709152214.rH1O_8SM@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260709143108.UYeCUUcd@linutronix.de> <2026070922-kilowatt-matador-5e1c@gregkh>
- <20260709152214.rH1O_8SM@linutronix.de> <ak_GDsJS6kVoUM2f@lysander>
-In-Reply-To: <ak_GDsJS6kVoUM2f@lysander>
-From: Tomas Glozar <tglozar@redhat.com>
-Date: Fri, 10 Jul 2026 09:05:04 +0200
-X-Gm-Features: AVVi8CeKVQ0uRzsjMytyaivMBV1vQN3ibqcr-YnmwljEDV3qGuwBSJSahwRmcYU
-Message-ID: <CAP4=nvQ1GNkD5h9Phr43Usm3pK9xQJT68eOPxoQ3kLMHE0v=Tw@mail.gmail.com>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-To: Clark Williams <williams@redhat.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev, 
-	linux-rt-users@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Danilo Krummrich <dakr@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: afK10jel_HuxafC7xekQu54NK_i6Twzh0lPR8mkqFdY_1783667117
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-68982:519-21489:flowmailer
 
-=C4=8Dt 9. 7. 2026 v 18:03 odes=C3=ADlatel Clark Williams <williams@redhat.=
-com> napsal:
->
-> > cyclictest (from rt-tests) is using this file but only while collecting
-> > system information, nothing else.
-> >       https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/tree/s=
-rc/lib/rt-utils.c#n528
->
-> I'll ask around, but I'm betting RTLA checks for this as well.
->
+On Thu, 2026-07-09 at 17:22 +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-07-09 16:46:19 [+0200], Greg Kroah-Hartman wrote:
+> > On Thu, Jul 09, 2026 at 04:31:08PM +0200, Sebastian Andrzej Siewior wro=
+te:
+> > > Hi,
+> > >=20
+> > > The following patch sat in the RT queue for almost 15years now. I can=
+'t
+> > > find its origin on the list.
+> > > All it does is adding /sys/kernel/realtime once PREEMPT_RT is enabled
+> > > and returns 1.
+> > >=20
+> > > Is this something that is still wanted and considered useful?
+> > > Is this something that can be expressed better by other means?
+> > >=20
+> > > There was an in person discussion about this and it was suggested to =
+add
+> > > /sys/kernel/realtime as a folder and having individual realtime featu=
+res
+> > > as files. I don't remember a single feature that would quality for th=
+is
+> > > today but who knows. This is all I remember so far.
+> > >=20
+> > > Now. Discussion go!
+> >=20
+> > At the very least, it's not ok as it's not documented in
+> > Documentation/ABI/ :)
+>=20
+> :)
+>=20
+> > But really, why is this needed?=C2=A0 Userspace shouldn't care, right?
+>=20
+> So there is Clark who needed it 15y ago for some udev rules. Maybe he
+> elaborate on that.
+>=20
+> There is custom "software" that is designed for realtime environment and
+> if it is run on a regular kernel then it missed its timing requirements
+> and the software goes usually in a fail state and people start debugging
+> what has happen. If this happens often enough (booting a non-RT kernel)
+> they tend to add a check so that the software complains early enough
+> since checking the kernel is usually the last thing that is done.
 
-RLTA doesn't check for a realtime kernel, neither using
-/sys/kernel/realtime nor PREEMPT_RT. The only mention of "non-rt" in
-the code is a comment saying you will only see softirqs on non-RT.
+That is an important point here, RT software should complain loudly when
+the environment / kernel is unexpected, so we need some kind of RT
+detection mechanism.
 
+uname might qualify, yes, but keep in mind that this sysfs based API is
+already used, so a removal might break applications. Yes, userspace can
+be fixed / adjusted, but it remains bad style, no?
 
-Tomas
+In any case we should clearly document the way how RT detection should
+be done - and make sure this mechanism is available in all supported
+stable/stable-rt trees.
 
+Florian
