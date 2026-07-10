@@ -1,87 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C349221D3E4;
-	Fri, 10 Jul 2026 14:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F297340281;
+	Fri, 10 Jul 2026 14:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783692595; cv=none; b=rArj6CV8zmGKEd2KEMM3QjBXRXRz48DKrJ5LQPT+K2oAJVNoCWATGUzox2l54Bq/RwEZiXAVRSJgRY6aXrWgg6nYfCNtdZ+6Y9HHVZbRtnL6JKjeSut+iJHmU3AxqrT+9psMipjXaSioywBwPCn5LMQJeiQ49/ONpGUxkavFgHM=
+	t=1783692999; cv=none; b=sc1N+rWrAjnPGJgvvVdTdTcRcIBEXqjt6hQlZKL5Cv8aOYE9QGWHKElNOMB/PO7D0nFGaIj3EKPT0z8LRgCyw1BPddvJ1MIoW4L7EP9QjS70Re9Fqc7yLqZB8gHwzE9/pk+ntSJUAKOamMCP7KIAgWFEsqIWZ1C6re+Q9xl1Usg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783692595; c=relaxed/simple;
-	bh=JMhdtMOLaUHWXqPIXTzBNMeZuvaIhZXyYL/o5sxmfz4=;
+	s=arc-20240116; t=1783692999; c=relaxed/simple;
+	bh=Grt3dMkSbw98F/PXlrModb7g7tMaqavUR5v7ca+Nfdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ET7QZ2lPgo2Irw7+T/cf+sarPdA+1JVvm1kSlqHZpXOxHYZdeJM0fLrb3B6jf/9IkEAc/28VaBeynhgy2Z9NsVx/7HoZGr6y+ZcarB+p8MLOeaV5svY1SQ2qQE86VhlWiYXqj4+EwGy5Us9aMHcEnZ0qXmixTUNDRkGYp4Sq0Ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kgmiif0J; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hYNFCbmImukZ+V1BTCACWeo0udKHGQuWjjbHEYsPlCVqyoWN9yztBAgfTvcns+Ob1zm5rVo9xX5p51W5FNCm/bk/fFOIJake2z9Y/2H4WmSv3juJLIo4GmSCEqwvX70OFZYLCYpXLwyJaExXV+kJu4fC7cVe9He6GzNZ3bwYzJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mp0sLUNW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kgmiif0J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7411F000E9;
-	Fri, 10 Jul 2026 14:09:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mp0sLUNW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7B01F000E9;
+	Fri, 10 Jul 2026 14:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783692593;
-	bh=h1xi3IKQjbdJ53JCv2L+jzRlcSu7ApiSTvfpodjcvtk=;
+	s=korg; t=1783692997;
+	bh=wBlFK0541y0Zc/79OGH2Qmor8SYhSUoS64EeY6OiQnk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kgmiif0JKq2HSeSzJ7OofwRSlUD94iS3uEV1tKQ943E0Dw5HJBa/NodJ+UjhAlKNH
-	 FGbXFGZ+JEAXY3Dr+tF4ssnWwH8WP2JApHQJxCeAynEVTGBtdWPwSFCDmJ7/fOYkFW
-	 Kncg2+p1T/D/wvPa/3glV7KVkw5wq6sn17XSngyM=
-Date: Fri, 10 Jul 2026 16:09:16 +0200
+	b=Mp0sLUNWJUriS9GasCZYYGX9cDD2E6Htf1I4L5b2Z4r8o9oI+vFCeiwYxQo09so1z
+	 mMLhynXQApdClVn5iNc5Kxn1uAwMdzFja3z/Dar0ICAVsOdBNk+tW90D41MVHpQMzy
+	 3Pj05EsVxckLT+UrHNlXw7+G5YWMtWCTUC7I+SLo=
+Date: Fri, 10 Jul 2026 16:16:33 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Peter Chen <peter.chen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev,
-	stable@vger.kernel.org, Manuel Ebner <manuelebner@mailbox.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Subject: Re: [PATCH v3 00/20] driver core: count references of the platform
- device's fwnode, not OF node
-Message-ID: <2026071001-limelight-stoppable-d7cb@gregkh>
-References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+To: Pavol Sakac <sakacpav@amazon.de>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Tejun Heo <tj@kernel.org>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	David Matlack <dmatlack@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Alexander Graf <graf@amazon.com>, linux-mm@kvack.org,
+	kexec@lists.infradead.org, nh-open-source@amazon.com
+Subject: Re: [RFC PATCH 00/14] driver core: defer per-VF sysfs creation for
+ fast SR-IOV bring-up
+Message-ID: <2026071004-strum-perkiness-5d9b@gregkh>
+References: <20260702174033.32116-1-sakacpav@amazon.de>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -90,42 +49,135 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+In-Reply-To: <20260702174033.32116-1-sakacpav@amazon.de>
 
-On Mon, Jul 06, 2026 at 02:44:12PM +0200, Bartosz Golaszewski wrote:
-> Platform device core provides helper interfaces for dealing with
-> dynamically created platform devices. Most users should use
-> platform_device_register_full() which encapsulates most of the
-> operations but some modules will want to use the split approach of
-> calling platform_device_alloc() + platform_device_add() separately for
-> various reasons.
-> 
-> With many platform devices now using dynamic software nodes as their
-> primary firmware nodes and with the platform device interface being
-> extended to also better cover the use-cases of secondary software nodes,
-> I believe it makes sense to switch to counting the references of all
-> kinds of firmware nodes.
-> 
-> To that end, I identified all users of platform_device_alloc() that also
-> assign dev.of_node or dev.fwnode manually. I noticed five cases where
-> the references are not increased as they should (patches 1-5 fix these
-> users) and provided three new functions in platform_device.h that now
-> become the preferred interfaces for assigning firmware nodes to dynamic
-> platform devices (in line with platform_device_add_data(),
-> platform_device_add_resources(), etc.). The bulk of the patches in this
-> series are small driver conversions to port all users to going through
-> the new functions that now encapsulate the refcount logic. With that
-> done, the final patch seamlessly switches to counting the references of
-> all firmware node types.
-> 
-> This effort is prerequisite of removing platform_device_release_full()
-> and unifying the release path for dynamic platform devices using
-> unmanaged software nodes.
-> 
-> Merging strategy: The entire series should go through the driver core
-> tree, possibly with an immutable branch provided to solve any potential
-> conflicts though these are rather unlikely.
+On Thu, Jul 02, 2026 at 07:40:19PM +0200, Pavol Sakac wrote:
+> Virtualization hardware keeps increasing in CPU-core and VF density.
+> Kernel is trending towards preserving VFs using LUO across a kexec
+> which will put SR-IOV in live-update hotpath. VFs must be re-added to
+> the sysfs tree, along with its supporting devices (e.g. vfio,
+> iommu_groups). On production hardware a single VF can consume ~80 kernfs
+> nodes. With thousands of VFs on modern hardware, hundreds of thousands
+> of kernfs nodes need to be created, which can add 100ms+ to the boot
+> time and to guest downtime.
 
-I've added this to the driver-core-testing branch now, thanks!
+Hundreds of thousands?  You have a hundred sysfs files per device?
+
+> Proposed here is a PoC of deferred materialization of sysfs files until
+> first access to avoid cost of kernfs node creation in hot path. In the
+> reproducer below using a synthetic VF to isolate the sysfs overhead,
+> the per-device sysfs-creation time is reduced by ~74%. It exploits the
+> expected access pattern of hypervisors, where only a subset of device
+> files need to be accessed to attach a VF to a VM on the hot path.
+
+Ick, that access pattern could change with other users, this feels very
+fragile.
+
+> To allow lazy init scheme, a minimal set of files and directories is
+> built per device: a device directory resolves directly to the device's
+> kobject and is used to materialize attributes at access time. The
+> access is trapped in kernfs at the dir-read or path-walk stage and
+> depending on the trigger, either the full directory or a single file is
+> materialized.
+> 
+> The changes are two logically distinct parts:
+> 
+>   1. Refactor of hardcoded device_add / iommu_group sysfs attribute
+>      creation to a table-driven form to allow walkability of all
+>      attributes and single point of definition for attributes
+>      regardless of lazy opt-in to avoid duplicate definitions and
+>      associated maintainability issues with it.
+
+This is probably a good idea anyway.  Want to just send this as a series
+to start with, so we can take that?
+
+>   2. Lazy-init infra to front-run access to device files at lookup/
+>      readdir time to trigger materialization. Opt-in per device: PCI VFs
+>      and VFIO devices opt in via device_set_sysfs_lazy(); iommu_group
+>      opts in at the kobject level.
+
+This is going to get complex.  Where exactly is the bottleneck?  I'm
+guessing that systems with that many devices also have many hundreds of
+CPUs, right?  Are we hitting a single lock somewhere?  There have been
+changes in kernfs in the past to split up the locks to be more
+fine-grained, perhaps that needs to continue to solve this?
+
+> As a PoC, the code does not yet follow this logical structure in the
+> commit sequence and likely does not yet cover all corner cases.
+> 
+> Synthetic reproducer measurements
+> ---------------------------------
+>   devices   per-dev time   total time       kernfs nodes (base -> lazy)
+>   -------   ------------   --------------   ----------------------------
+>      500    31.8->8.3 us    15.9-> 4.1 ms     36,417 ->  3,922  (72.8->7.8/dev)
+>     1000    33.2->8.7 us    33.2-> 8.7 ms     73,427 ->  8,432  (73.4->8.4/dev)
+>     2500    32.8->9.1 us    82.0->22.7 ms    184,421 -> 21,925  (73.8->8.8/dev)
+>     5000    33.0->8.7 us   165.1->43.5 ms    369,401 -> 44,406  (73.9->8.9/dev)
+> 
+> The reproducer is synthetic: an in-kernel module registers N unbound
+> platform devices (60 attributes / 4 groups, ~74 kernfs nodes each; no
+> config space, BARs, or probe) in one timed burst that models SR-IOV
+> enablement. It runs as a two-kernel A/B from one vanilla 7.1-rc2 tree
+> (eager baseline vs patched, plus a patched/opt-in-OFF arm), 20 runs per
+> point. Measures only sysfs-creation slice.
+
+I sure hope sr-iov devices are NOT platform devices.  If so, please go
+fix that up first :)
+
+> Deferral removes ~74% of the sysfs-creation time and ~88% of the kernfs
+> nodes. At 5000 devices that is 121.6 ms removed (165.1 -> 43.5 ms) and
+> ~325,000 fewer kernfs nodes (369,401 -> 44,406). The table-driven rework
+> adds a +7..+11% eager-path time overhead to non-opted devices.
+
+You're just deferring this work to happen later, so when is that
+"later"?  And what about multi-threaded probing of the bus, doesn't that
+speed stuff up too?
+
+> Available as a docker image that orchestrates builds in qemu guest and
+> prints results as a table (x86_64 Linux host with /dev/kvm assumed):
+> 
+>    docker run --device /dev/kvm ghcr.io/pavsa/linux-lazy-sysfs-vf-bench:7.1-rc2
+> 
+> Assumptions / Trade-offs
+> ------------------------
+> The saving depends on the access pattern of hypervisors, and on no
+> component walking the whole device tree on the hot path to avoid full
+> materialization. Both are expected to hold on optimized hypervisors.
+
+Hah, as if.  Many userspace tools, once a device is notified, walk the
+whole tree of it to read the attributes.  You are going to be fighting
+that problem constantly...
+
+> An actual production hypervisor was observed in local testing to
+> materialize an additional 5-10% of total nodes on average on the hot
+> path.
+> 
+> Overhead: +7..+11% eager-path time overhead applies to every non-opted
+> device going through device_add() as all struct devices traverse the
+> walker and can't be gated under a config option.
+> The lazy opt-in infra can be gated under config option to have zero
+> impact if disabled.
+
+Again, where exactly is the time being spent?  What lock is "hot"?
+
+> Final words
+> -----------
+> This is an RFC to first get feedback on the decisions taken at driver
+> core + kernfs level before engaging maintainers of other subsystems
+> if we want to pursue this further or pivot to something else.
+> 
+> The code is at a proof-of-concept quality written with AI assistance
+> with some known limitations with main target to gather potential
+> savings and initiate conversation.
+> 
+> Feedback appreciated for:
+> - table-driven attribute refactor targeting common device add path /
+>   suggestions for more efficient/less invasive approach
+
+What's wrong with the normal way attributes are defined and allocated?
+They should all be tables today, and the driver core creating them when
+needed, no individual driver should ever be doing that on its own.
+
+thanks,
 
 greg k-h
