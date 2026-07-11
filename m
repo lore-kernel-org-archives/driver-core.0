@@ -1,137 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9841D2C21E6;
-	Sat, 11 Jul 2026 16:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F69E4C6D;
+	Sat, 11 Jul 2026 18:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783786272; cv=none; b=Y/m1XE2+ipSB+nxNf2YabZzi7NcqmPw7yB9Mo4hb0on80LhbltnTapE1hTyxfPWwaritCXI73UP6algB3yFejW6ZC2D/obnfKSmXC3AHUYN5LcLSlBCO02OGK7113QehDYBXFm4a+YMrxACPySqGKcvboJEt8dC6pDvzIof3WyM=
+	t=1783792977; cv=none; b=fMHOSwglot8Vhd0POaRu4YDCCZzXOzRWZ9OKQYsA4qOckBK9hb7reOo5LNAbkjFNf5q/XEBCD2jMQbKbK1eAbHn4+Zaln9a+SA2Bkr44s3RFo7lrVZg3e26+qrV+csx2+FMxM/C6kb+mS9iCn7vQ/G5ZnubHTO+lo1k73rpaVV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783786272; c=relaxed/simple;
-	bh=PEmfnP3Viq0Iq57bVtkUe663Z9qvI2bWV0EPII+zm3M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uHD6SciXtHgrcJ6ILjhIZ4l72CVGGmf1WUKG251cfbcOz1otVtUoFYmXsXjhqh9yR6In/3pKB2LC7AsfDfGgpBxvDVh/o9JI7yuqFoFdddVgnaHH/9TX8ohvCWxXxZeVkfxyg63z/e5hR09j6mzsVEN9gdHjhm0w0BGX1uJrvp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lArd3Na1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783792977; c=relaxed/simple;
+	bh=1dhsOHCMqtGsC/1rZHjJgSfRl1ZkzY1Wamsmh41mQ0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AZ9KnV6xoyYlPRU3IbIl6pgg+0zOX/pInC11AFGWeFEb8sCYVuSMr1F6/HHourKgszPQGNrzooujPMBcgiMwy9BsEvX5y0Gky/hY1rjAk9KHVlUIwya2IdYPXNLaHYZk5ma1GCydOmBwH6qlJPxjVYVf4M0LSRvsGv2tcHYDFjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GbXnQdp/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lArd3Na1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5631F000E9;
-	Sat, 11 Jul 2026 16:11:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GbXnQdp/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FF7A1F000E9;
+	Sat, 11 Jul 2026 18:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783786271;
-	bh=l157i8Cbrra3gsqHh/wXLRqMCSqeyLs3OdEljp8wurU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lArd3Na1tBACCTa0rtlAkbcQ+djURemz6aRjlt6N0k/8t6r0PBRgovVvcyHCDbHzA
-	 LJwYirK/usCJULhtOoOIqTJDf9ZLKevYYc2OU8GG9bTsLm281wrQNBsbZF8u8B6LOC
-	 w8G3MjGwmEdaPpbIlk4SZBdIr/XLdvY8Km86tNKxbqPu+BCHBwyqaEXqLtUCW5kGAk
-	 mTs10adg9ucQ/28mQ4N/G7R9GfS7sJuMi4pzJgxHJ7r9v/9/rhbVh5Lv83aDCB/mG4
-	 CdVGUi5+2Z1raFOA8856mTZUnkfLayu7BgYnzHGHZgAEAXkMPpEbXMw72EsjOsfXsZ
-	 92Ix6+oXxDefA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Gary Guo <gary@garyguo.net>
-Cc: Alice Ryhl <aliceryhl@google.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
+	s=k20260515; t=1783792975;
+	bh=bZwg5+Tbow41wijWD1X/nTLMuAfhLgYtIt3qLRqlTzk=;
+	h=From:To:Cc:Subject:Date;
+	b=GbXnQdp/wzq2mjSw0QH0icHlqXiaAEZW5HeKLffVZ3zUd9RExtSkt/zcRXpfXNllD
+	 5hIwJBoMOZJJjO6lB6xQdfGUXPhVV15ULIUFISS3R20GCSNa48n0Hmi33UD3cFXAMZ
+	 /aHgFQEIHigtvM0BCWY6emtJ1xgJdmEdlzUE7SSiGoAD+ZBh0pe0983M9paDZQ/eQd
+	 X1eugoICkUY7g7ac2hQtyel/HSXs3HDeeWQaXHVN3fRVfnNCWHALG/hCcNz0H2Szf1
+	 wvQFVoD+d6yL35/4Yh1wozpInBCjHFNy3NbXAgU8uUIGmJYIHoFNWqTXuKNwrbQ6RO
+	 5ghm83c6ni2sw==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: driver-core@lists.linux.dev,
 	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
 	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
 	Benno Lossin <lossin@kernel.org>,
 	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
 	Trevor Gross <tmgross@umich.edu>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
 	Tamir Duberstein <tamird@kernel.org>,
-	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
 	Alexandre Courbot <acourbot@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Michal Wilczynski <m.wilczynski@samsung.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-pwm@vger.kernel.org,
-	Laura Nao <laura.nao@collabora.com>
-Subject: Re: [PATCH v6 00/20] rust: I/O type generalization and projection
-Date: Sat, 11 Jul 2026 18:10:36 +0200
-Message-ID: <20260711161035.370023-2-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
-References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
-X-Patch-Reply: applied
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH] rust: firmware: avoid UB in example by passing parameter
+Date: Sat, 11 Jul 2026 20:02:31 +0200
+Message-ID: <20260711180231.229525-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 06 Jul 2026 13:44:13 +0100, Gary Guo wrote:=0D
-> [PATCH v6 00/20] rust: I/O type generalization and projection=0D
-=0D
-Applied, thanks!=0D
-=0D
-  Branch: topic/rust_io-7.2-rc1=0D
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-=
-core.git=0D
-=0D
-[1/20] rust: io: add dynamically-sized `Region` type=0D
-      commit: 426c92ca1bdd=0D
-=0D
-      [ Add brief explanation on MIN_ALIGN. - Danilo ]=0D
-=0D
-[2/20] rust: io: add missing safety requirement in `IoCapable` methods=0D
-      commit: 65f6abf9fa81=0D
-[3/20] rust: io: restrict untyped IO access and `register!` to `Region`=0D
-      commit: 6461c5776bf0=0D
-[4/20] rust: io: implement `Io` on reference types instead=0D
-      commit: 46b1b54139c3=0D
-[5/20] rust: io: generalize `MmioRaw` to pointer to arbitrary type=0D
-      commit: 9734e905119c=0D
-[6/20] rust: io: rename `Mmio` to `MmioOwned`=0D
-      commit: 691c75967d44=0D
-[7/20] rust: io: implement `Mmio` as view type=0D
-      commit: 9f64c84af008=0D
-[8/20] rust: pci: io: make `ConfigSpace` a view=0D
-      commit: 6e5f28968d7b=0D
-[9/20] rust: io: use view types instead of addresses for `Io`=0D
-      commit: e0454ec1220c=0D
-[10/20] pwm: th1520: remove unnecessary `deref`=0D
-      commit: 0adc93b85374=0D
-[11/20] rust: io: remove `MmioOwned`=0D
-      commit: bed01ca9e9cf=0D
-[12/20] rust: io: move `Io` methods to extension trait=0D
-      commit: 9b36c13cbd4f=0D
-=0D
-      [ Add comment explaining the purpose of the Io blanket implementation=
-.=0D
-        - Danilo ]=0D
-=0D
-[13/20] rust: io: add projection macro and methods=0D
-      commit: 1f989555fe5c=0D
-[14/20] rust: io: add I/O backend for system memory with volatile access=0D
-      commit: 2fabff780785=0D
-[15/20] rust: io: implement a view type for `Coherent`=0D
-      commit: 1d409d1e7a87=0D
-[16/20] rust: io: add `read_val` and `write_val` functions on `Io`=0D
-      commit: 89814c42c19e=0D
-[17/20] gpu: nova-core: use I/O projection for cleaner encapsulation=0D
-      commit: 0722567f5085=0D
-[18/20] rust: dma: drop `dma_read!` and `dma_write!` API=0D
-      commit: 6ff7d69b7e6e=0D
-[19/20] rust: io: add copying methods=0D
-      commit: e7219e53c525=0D
-[20/20] rust: io: implement `IoSysMap`=0D
-      commit: 11a4784f902e=0D
-=0D
-The patches are in the topic/rust_io-7.2-rc1 topic branch and will be merge=
-d=0D
-into the corresponding target branch soon.=0D
+The `Firmware` example crafts an `ARef<Device>` using a null pointer,
+which breaks the safety requirements of `Device::get_device()`.
+
+Instead, pass an `ARef` via a parameter, which is simpler, avoids UB
+and removes an `unsafe` block.
+
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ rust/kernel/firmware.rs | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+index 71168d8004e2..3aa9de3c4a04 100644
+--- a/rust/kernel/firmware.rs
++++ b/rust/kernel/firmware.rs
+@@ -51,12 +51,9 @@ fn request_nowarn() -> Self {
+ /// # Examples
+ ///
+ /// ```no_run
+-/// # use kernel::{device::Device, firmware::Firmware};
+-///
+-/// # fn no_run() -> Result<(), Error> {
+-/// # // SAFETY: *NOT* safe, just for the example to get an `ARef<Device>` instance
+-/// # let dev = unsafe { Device::get_device(core::ptr::null_mut()) };
++/// # use kernel::{device::Device, firmware::Firmware, sync::aref::ARef};
+ ///
++/// # fn no_run(dev: ARef<Device>) -> Result<(), Error> {
+ /// let fw = Firmware::request(c"path/to/firmware.bin", &dev)?;
+ /// let blob = fw.data();
+ ///
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+-- 
+2.55.0
+
