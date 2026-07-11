@@ -1,115 +1,137 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1853C81B4
-	for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 13:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783776340; cv=pass; b=XuyD8Dktpm4XHj7mtktv+QkynRpebJbydCQLgl0SfX2adGcQg4ZDLCS4y/dbB72V8/KeSBBgAeb6LhuTDfB99BJMQ6w0T6kUREpEEML5tdqO8irck6oQBQwOl9f0CBOhp+zfe9HrPjSyr4zjvwwWy4X5+WZ07b8xwuaM8HCFae0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783776340; c=relaxed/simple;
-	bh=pEkxSRr2EbnFXPQ2EdilqMHjAbry4RBOsxKbRLH+d5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H6GUXz7VP1kZHQUSpeEQ0RYN2BDapr7M+BzqdKJPXN2HJ4EV5IJKdZ4fkJ3BFpsjD88F/3n8SjXu2IQUcBXN1YU7io/zGheuJjM2qd7nFCyiUOtzzL2EEK+815PRXDMi8XHBFFF74DnsLcKck9WtFOxWxI5QRTp1EByoju5PmD0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gkndY5IZ; arc=pass smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9841D2C21E6;
+	Sat, 11 Jul 2026 16:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783786272; cv=none; b=Y/m1XE2+ipSB+nxNf2YabZzi7NcqmPw7yB9Mo4hb0on80LhbltnTapE1hTyxfPWwaritCXI73UP6algB3yFejW6ZC2D/obnfKSmXC3AHUYN5LcLSlBCO02OGK7113QehDYBXFm4a+YMrxACPySqGKcvboJEt8dC6pDvzIof3WyM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783786272; c=relaxed/simple;
+	bh=PEmfnP3Viq0Iq57bVtkUe663Z9qvI2bWV0EPII+zm3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uHD6SciXtHgrcJ6ILjhIZ4l72CVGGmf1WUKG251cfbcOz1otVtUoFYmXsXjhqh9yR6In/3pKB2LC7AsfDfGgpBxvDVh/o9JI7yuqFoFdddVgnaHH/9TX8ohvCWxXxZeVkfxyg63z/e5hR09j6mzsVEN9gdHjhm0w0BGX1uJrvp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lArd3Na1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gkndY5IZ"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38115bbb83dso158510a91.3
-        for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 06:25:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783776337; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HwVgvtld5ZkTmF2jwSUf4awWQps204imOXUFh3aNfKVjQwGe7VqHvus0nzUf3W1C8f
-         EJT3P3eMEUgpUxS1Lrvv/dhjYBS0AslnXMng0TS/Aiw8qjxWYTi/TWmycFT18CXkG9p+
-         dZxDdCyZBf55jHY8Dgxu/g+2EEusP4ebRNxl0TXIvzh4+WBv7dX8L0/aSUUQN/HDrpaE
-         pw/F5DzlDG3yiB1pCGVlAi+haVi0fBVQvRS3hx70eD2p4HsDmZKo8oc/vzgE/rgMhdwW
-         FWCzVTf/hVfj8Wziyveaxr0+Wit/P79l64D8a1O2wLKp09F7Hc1HPGcJJe0it2rr5YnE
-         vJqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4MDHjptNq+liZGbFshQct9NdSgvqi1ccC95Z2kUxBDs=;
-        fh=BMQKEzfcNbX2M2t2wyx3n7ZPXlQ/bgXsA8oZPGhUxU0=;
-        b=bci6aD3ltsSqklAN/z9EKb2IVGgLl3z4KZPFRLGhACYWmfz0QeDeZGICrlcRBpb4a2
-         H2Uwi1H/DwxGMRUhP6hfGfwcUTl6yTvkXsyZXG48s1f0lVmhZ8hK5Mg0OGO9jE/vnE6m
-         yE4nyMkREkEOYJIdAms/TBlEk+QmLU99vRDRIXaqg1NTkIv9amMh5W6+pPh8B2SMMTvw
-         GnoGbzjtt/n1fhMFoxxwoA5v7ta7NyWGEWd/VBG3+rwvxeHrJePw+x1xndaUIDUd5qed
-         Ktg5YMvhDF6molDO4y4/hHSLh+2NB3QLb9IMingdHGd/pBNjGPG/IG0uQ91LzarGfBtF
-         8ZJw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783776337; x=1784381137; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4MDHjptNq+liZGbFshQct9NdSgvqi1ccC95Z2kUxBDs=;
-        b=gkndY5IZDHC+dwtgqKD9ddEnfLx25HGWR9ArowyK2GxOnjkjqbAWVn7OFIIyQj4nvo
-         MOGjX5mli6Evehco5bzOS9XR0BIdODbDPbA93u6SkQll4ERihG92gzGJ/kIpzBNHK3om
-         ydU6Ukb2DimVKRLS9wXXNLeHZeKbOdu2xNVOtAeUv8xsLlg/gFUiCXWM5Sw8PXco+XZJ
-         d1PWyFdCOax0NT6LX9RB/Pge1yRRuNeAblfyNxA/a9+GiO5JV9FxwAZ9DjuyhTsgnscp
-         uG+FlMca8j1Eix8DCFnftSlXFBVK1UTeS9+6z7d/MZjhUNWO/GoyRtHpx408Ui6rfiPy
-         hFeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783776337; x=1784381137;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4MDHjptNq+liZGbFshQct9NdSgvqi1ccC95Z2kUxBDs=;
-        b=pyrcwPkUOrNS2fSYLSLIQZrU8BbQq0eoneDAycs1eErbGEFTuY42NMH9yDCBPqXJG9
-         E/iX1U7VfBkRxCvZ5NC+Nmr6LWYxtsxf0YkvLY9kHMvTZVevLD1NyEIv88kMD1lwLiXJ
-         ei+GypOBn9ERq9UtJKAvhdFjx6kIy8XJQN2d7LPyAvlxIrhXDEhBal2flXAS8nLBhRHz
-         g5+URgmT4LprdHJTm3aYwF2eqAAFNck/Zu4llFAPW3ugjoP1xRmdPre8aspMRRTTXqCs
-         njOzpiP3/CFeFhKvCWorJMwL1tvRi+Yehb1Oz2NlxZFzECBK7tfN0CtzLH53+7k3Jm6w
-         IrIA==
-X-Forwarded-Encrypted: i=1; AHgh+RogtmlLiIHeS6WbI0e4w8SmlN20+INAoVnwrpuo7vu+EvWP2hRTUNMHTczlhcDpnJSPozrXC+3XpUh3uA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRIZVYFwO9CZRb9wKR3JUPPu0AjKg/0Q1418tfjKTMs3W6XiGY
-	y5asJidaSQBoh3vnLm19hDqBp5POnFgzxNOyViq3X+jHYajY3Cujfs0n/1ALX5kB4p2ioB2L5Qd
-	KkX+tT5cQQETrMvY/MqbYoo0ufZ2kpHQ=
-X-Gm-Gg: AfdE7cnhKGmDonyLnEyc31pvM7rlORbQoA6u8b6w5FO8dOBnBVhVSvgRRgC7C/FR4mf
-	5ojY/p0vnnwmSm/5WDNyEUdONKl168GuQsObumvKeJyXnLx4qc0fT5Zl3Wwc9rVAZROWfyWLJmI
-	qUemEnaSMGSnXpOnxyk12f1c5v1yfw+diI5bHlDtKvV5wxTrwwGaw9PWwIWKudaaQG/YUvBiwIb
-	nBKRDDmS7D8QnX0SQzsG1p0ec4N30WDJhGiGoNtd3YQqpr2ga9CIZsMYnixOvsJLoGw/T5kySmN
-	dyS7WqW7VEhiEt5//sqcJZfwsAPTImJpQGlOrHizaRsKcbkB/mw52j0dOPVwWshXA+JW/sVsE93
-	23Ko6QvJM3pjY
-X-Received: by 2002:a17:90b:3e48:b0:380:7688:fc06 with SMTP id
- 98e67ed59e1d1-38dc7849860mr2213763a91.8.1783776337508; Sat, 11 Jul 2026
- 06:25:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lArd3Na1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5631F000E9;
+	Sat, 11 Jul 2026 16:11:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783786271;
+	bh=l157i8Cbrra3gsqHh/wXLRqMCSqeyLs3OdEljp8wurU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=lArd3Na1tBACCTa0rtlAkbcQ+djURemz6aRjlt6N0k/8t6r0PBRgovVvcyHCDbHzA
+	 LJwYirK/usCJULhtOoOIqTJDf9ZLKevYYc2OU8GG9bTsLm281wrQNBsbZF8u8B6LOC
+	 w8G3MjGwmEdaPpbIlk4SZBdIr/XLdvY8Km86tNKxbqPu+BCHBwyqaEXqLtUCW5kGAk
+	 mTs10adg9ucQ/28mQ4N/G7R9GfS7sJuMi4pzJgxHJ7r9v/9/rhbVh5Lv83aDCB/mG4
+	 CdVGUi5+2Z1raFOA8856mTZUnkfLayu7BgYnzHGHZgAEAXkMPpEbXMw72EsjOsfXsZ
+	 92Ix6+oXxDefA==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Gary Guo <gary@garyguo.net>
+Cc: Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@kernel.org>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Michal Wilczynski <m.wilczynski@samsung.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-pwm@vger.kernel.org,
+	Laura Nao <laura.nao@collabora.com>
+Subject: Re: [PATCH v6 00/20] rust: I/O type generalization and projection
+Date: Sat, 11 Jul 2026 18:10:36 +0200
+Message-ID: <20260711161035.370023-2-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260710230428.865447-1-ttabi@nvidia.com> <20260710230428.865447-2-ttabi@nvidia.com>
-In-Reply-To: <20260710230428.865447-2-ttabi@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 11 Jul 2026 15:25:25 +0200
-X-Gm-Features: AUfX_mzK6nA89X8Ey2KmSvtSrtpGimxdsinkTI-BJ3XZkqZKpbmpJcngPawWU44
-Message-ID: <CANiq72nENzJejiO3pmV9FhRA+H+zvCtfzWY0=wbTERToceiu3g@mail.gmail.com>
-Subject: Re: [PATCH v5 1/8] rust: alloc: add Vec::zeroed method
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
-	rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
-	Gary Guo <gary@garyguo.net>, nova-gpu@lists.linux.dev, 
-	Alexandre Courbot <acourbot@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
-	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 11, 2026 at 1:05=E2=80=AFAM Timur Tabi <ttabi@nvidia.com> wrote=
-:
->
-> +    /// Creates a new [`Vec`] with `n` zero-initialized elements.
-> +    ///
-> +    /// New memory is allocated with `A` and the [`__GFP_ZERO`] flag.
-
-This may be obvious since we pass `flags` and the function only does
-this, but the sentence (here and in the commit message) sounds a bit
-like only that flag is used.
-
-Cheers,
-Miguel
+On Mon, 06 Jul 2026 13:44:13 +0100, Gary Guo wrote:=0D
+> [PATCH v6 00/20] rust: I/O type generalization and projection=0D
+=0D
+Applied, thanks!=0D
+=0D
+  Branch: topic/rust_io-7.2-rc1=0D
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-=
+core.git=0D
+=0D
+[1/20] rust: io: add dynamically-sized `Region` type=0D
+      commit: 426c92ca1bdd=0D
+=0D
+      [ Add brief explanation on MIN_ALIGN. - Danilo ]=0D
+=0D
+[2/20] rust: io: add missing safety requirement in `IoCapable` methods=0D
+      commit: 65f6abf9fa81=0D
+[3/20] rust: io: restrict untyped IO access and `register!` to `Region`=0D
+      commit: 6461c5776bf0=0D
+[4/20] rust: io: implement `Io` on reference types instead=0D
+      commit: 46b1b54139c3=0D
+[5/20] rust: io: generalize `MmioRaw` to pointer to arbitrary type=0D
+      commit: 9734e905119c=0D
+[6/20] rust: io: rename `Mmio` to `MmioOwned`=0D
+      commit: 691c75967d44=0D
+[7/20] rust: io: implement `Mmio` as view type=0D
+      commit: 9f64c84af008=0D
+[8/20] rust: pci: io: make `ConfigSpace` a view=0D
+      commit: 6e5f28968d7b=0D
+[9/20] rust: io: use view types instead of addresses for `Io`=0D
+      commit: e0454ec1220c=0D
+[10/20] pwm: th1520: remove unnecessary `deref`=0D
+      commit: 0adc93b85374=0D
+[11/20] rust: io: remove `MmioOwned`=0D
+      commit: bed01ca9e9cf=0D
+[12/20] rust: io: move `Io` methods to extension trait=0D
+      commit: 9b36c13cbd4f=0D
+=0D
+      [ Add comment explaining the purpose of the Io blanket implementation=
+.=0D
+        - Danilo ]=0D
+=0D
+[13/20] rust: io: add projection macro and methods=0D
+      commit: 1f989555fe5c=0D
+[14/20] rust: io: add I/O backend for system memory with volatile access=0D
+      commit: 2fabff780785=0D
+[15/20] rust: io: implement a view type for `Coherent`=0D
+      commit: 1d409d1e7a87=0D
+[16/20] rust: io: add `read_val` and `write_val` functions on `Io`=0D
+      commit: 89814c42c19e=0D
+[17/20] gpu: nova-core: use I/O projection for cleaner encapsulation=0D
+      commit: 0722567f5085=0D
+[18/20] rust: dma: drop `dma_read!` and `dma_write!` API=0D
+      commit: 6ff7d69b7e6e=0D
+[19/20] rust: io: add copying methods=0D
+      commit: e7219e53c525=0D
+[20/20] rust: io: implement `IoSysMap`=0D
+      commit: 11a4784f902e=0D
+=0D
+The patches are in the topic/rust_io-7.2-rc1 topic branch and will be merge=
+d=0D
+into the corresponding target branch soon.=0D
