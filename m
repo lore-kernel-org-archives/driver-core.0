@@ -1,423 +1,115 @@
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C56E37A84F
-	for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 07:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6EF22083
+	for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 08:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783756514; cv=none; b=M+lf7dn7QZuH+5b4G4ObEobRmLhHZ+t894bL/nuFDPL0VD5qUNBF0n3N+PpS5jZOHstwcUhUd3vsNsAlnmlG/Ylc93vHUuGNEuoazDK3WyCoYFxggXpuD2mJ76ZYLYYXB+ZF5m4hWoiACisLIvuKOfmc6sI/GhUUS1rDZVrYiw8=
+	t=1783758989; cv=none; b=KMpBbcRdUb1f91pN5qGJUQ+5GnQ/cDZTHCUy57cPmPvyF6YrZP8SlQB39Fk8Z/E7aCaUCamrkC7pkk2owD52CEI9xl7uXY+Zl2fEFfwdsAQ3pBJNfk6irAGoLpDjMTv9cGtRiDFsxA+vxCXgWBSOKpnNMdiNhZq2JWtGoh0BAIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783756514; c=relaxed/simple;
-	bh=HBnICb9o8Bnf0GYqEYrW27rcf8MP1F6H61vX58FDRik=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ljlKNzDCEqsfIqlHlc/cIJ76VdRP9mNbgjLwDtis3gPeJZLBgVzTybatigPWmMLDfxpE7EsEMRq3+tJ/R2Yh7xqIdEBR4/lCbySAXAiAoVlWVE5axeBNuI2L7YVXTKgHvvrYAQZPe8II2prR4AGm1YYDWWlTT5abx1RfBgjsEXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; arc=none smtp.client-ip=203.29.242.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
-	id 8F7151EA727; Sat, 11 Jul 2026 15:54:55 +0800 (AWST)
-X-Spam-Level: 
-Received: from [IPV6:2001:8003:8810:ea00::41b] (unknown [IPv6:2001:8003:8810:ea00::41b])
-	by sphereful.davidgow.net (Postfix) with ESMTPSA id 190871EA717;
-	Sat, 11 Jul 2026 15:54:49 +0800 (AWST)
-Message-ID: <2c9a2b8e-55ae-4f22-ae41-04aa404e0a93@davidgow.net>
-Date: Sat, 11 Jul 2026 15:54:49 +0800
+	s=arc-20240116; t=1783758989; c=relaxed/simple;
+	bh=ERp1QIJ3KEM1nNGDIwEWioJcD0DgL4jZVTqpkSpFmLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eSoIDcf1sYI/to3G+6hoxoye7stSJH4W7clJGeV8RTMgBCS+IPUTd6MSfJdjvBDJOPXrcMkWL3H+JsTvQVfcN3GK+4VyGrOdLB1K4a4/8fKt0cTDVrBu1opDq2wGiHYVdlQR6QIb2JxdyS25vtzVu28xUKnl9wIkkwu3FPhnzl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLJgJtcQ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLJgJtcQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783758988; x=1815294988;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ERp1QIJ3KEM1nNGDIwEWioJcD0DgL4jZVTqpkSpFmLQ=;
+  b=jLJgJtcQgr2W18esSFMufv4+xpDCxSQMT9Qprz0yMQd6iOKsLgZODPQg
+   s0WLHSy/JMJxv0AN1AeThZn1hAri6QNHakVwhRGe/2n27s/csEaK7fjIo
+   7iAXN1iwZvSeO18agCYdROMZpqF5SjWm4VSMpWeKU2weWHB6ZljLr48Za
+   2DnIqA8+qxr75PM7b5b1sg+XpbnW7yMvY6qYism2YbheZzkfjnyhkjgZb
+   A/KWzbtvkzbHPsj6mqf/qOWbTU0utDO8OMjRTc/8TALhbfkVT99P9NiSb
+   PrBnk+CNBRwj1/7QNqL7bfr2It2xZR1BDSPg1arbT8HZ7rODx5naFW3VG
+   Q==;
+X-CSE-ConnectionGUID: KW3CtcTbQ8mguE/OcZgaOQ==
+X-CSE-MsgGUID: 5g0zSF+rSDSXahqAmrqyFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101997550"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="101997550"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 01:36:27 -0700
+X-CSE-ConnectionGUID: 9vBWdhD+SqOP7/7A7vPBww==
+X-CSE-MsgGUID: 9mo3CRWPRbeFaszQSphnBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="251111669"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.254])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 01:36:23 -0700
+Date: Sat, 11 Jul 2026 11:36:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] software node: add fw_devlink support
+Message-ID: <alIAhDuSJDsvGIMV@ashevche-desk.local>
+References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com>
+ <20260710-swnode-fw-devlink-v3-2-993f31874e40@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] gpio: kunit: add test cases verifying swnode
- devlink support
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bartosz Golaszewski <brgl@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Linus Walleij <linusw@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
- driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
-References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com>
- <20260710-swnode-fw-devlink-v3-5-993f31874e40@oss.qualcomm.com>
-Content-Language: en-US
-From: David Gow <david@davidgow.net>
-In-Reply-To: <20260710-swnode-fw-devlink-v3-5-993f31874e40@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710-swnode-fw-devlink-v3-2-993f31874e40@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Le 10/07/2026 à 21:51, Bartosz Golaszewski a écrit :
-> The software node fw_devlink support already has its own kunit suite, but
-> that verifies the fwnode links in isolation. Add GPIO tests that prove
-> the ordering works in a real-life use-case: a GPIO consumer that
-> references its provider via a software node.
+On Fri, Jul 10, 2026 at 03:51:21PM +0200, Bartosz Golaszewski wrote:
+> Software nodes can be used to describe supplier-consumer relationships
+> between devices they represent using reference property entries. Unlike
+> for OF-nodes, driver core cannot yet use these references to create a
+> probe order that avoids needless probe deferrals on missing providers.
 > 
-> The first suite registers the provider's software node, adds the consumer
-> device first and checks that fw_devlink defers its probe until the
-> provider has been added and bound. The second covers the fallback:
-> with the provider's software node not yet registered no supplier link is
-> created, so the consumer probes, devm_gpiod_get() returns -EPROBE_DEFER
-> and the consumer only binds once the provider shows up.
+> Implement software_node_add_links() modelled on of_fwnode_add_links().
+> For every DEV_PROP_REF property we resolve each referenced supplier and
+> create an fwnode link from the node to it. The driver core later promotes
+> these to device links and defers the consumer until the suppliers are
+> ready.
 > 
-> While at it: the existing gpio_unbind_with_consumers() test keeps the
-> consumer bound while the provider goes away and then operates the orphaned
-> descriptor. With software nodes now being covered by fw_devlink that would
-> instead force-unbind the consumer along with the provider, so opt it out
-> by setting FWNODE_FLAG_LINKS_ADDED.
+> There's no allowlist like the one DT needs - devicetree phandles appear
+> in plenty of non-supplier contexts, but a software node only carries a
+> reference property when its author explicitly points at another node, so
+> we treat every reference as an intentional supplier dependency and link
+> all of them. Graph "remote-endpoint" references are skipped for now: they
+> go 2-ways between endpoint nodes and would create graph cycles without
+> the port-parent lifting DT does via get_con_dev(). References to
+> suppliers that aren't registered yet and self-references are ignored.
 > 
-> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
+> fw_devlink resolves the supplier device through fwnode->dev but the core
+> only records the owning device on the primary fwnode. When the software
+> node is a device's secondary fwnode, mirror the device pointer onto it in
+> software_node_notify() so the consumer can actually find the supplier
+> instead of deferring forever.
+> 
+> While at it: purge the fwnode links in software_node_release() now that
+> software nodes can own them.
 
-Working well under my test harness. Thanks!
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Tested-by: David Gow <david@davidgow.net>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Cheers,
--- David
-
->   drivers/gpio/gpiolib-kunit.c | 286 +++++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 279 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpio/gpiolib-kunit.c b/drivers/gpio/gpiolib-kunit.c
-> index 380b68f879e55433668353bb88067d561142a5bc..ad961cf97aee7b1b6e3fb64c9f5d52be25486253 100644
-> --- a/drivers/gpio/gpiolib-kunit.c
-> +++ b/drivers/gpio/gpiolib-kunit.c
-> @@ -3,6 +3,8 @@
->    * Copyright (C) Qualcomm Technologies, Inc. and/or its subsidiaries
->    */
->   
-> +#include <linux/cleanup.h>
-> +#include <linux/err.h>
->   #include <linux/fwnode.h>
->   #include <linux/gpio/consumer.h>
->   #include <linux/gpio/driver.h>
-> @@ -11,12 +13,16 @@
->   #include <linux/notifier.h>
->   #include <linux/platform_device.h>
->   #include <linux/property.h>
-> +#include <linux/types.h>
->   
-> +#include <kunit/fwnode.h>
->   #include <kunit/platform_device.h>
->   #include <kunit/test.h>
->   
->   #define GPIO_TEST_PROVIDER		"gpio-test-provider"
->   #define GPIO_SWNODE_TEST_CONSUMER	"gpio-swnode-test-consumer"
-> +#define GPIO_PROBE_ORDER_TEST_CONSUMER	"gpio-probe-order-test-consumer"
-> +#define GPIO_PROBE_DEFER_TEST_CONSUMER	"gpio-probe-defer-test-consumer"
->   #define GPIO_UNBIND_TEST_CONSUMER	"gpio-unbind-test-consumer"
->   
->   static int gpio_test_provider_get_direction(struct gpio_chip *gc, unsigned int offset)
-> @@ -213,6 +219,262 @@ static struct kunit_suite gpio_swnode_lookup_test_suite = {
->   	.test_cases = gpio_swnode_lookup_tests,
->   };
->   
-> +static void gpio_swnode_unregister_swnode(void *data)
-> +{
-> +	software_node_unregister(data);
-> +}
-> +
-> +struct gpio_probe_order_pdata {
-> +	unsigned int probe_count;
-> +	bool gpio_ok;
-> +};
-> +
-> +static const struct gpio_probe_order_pdata gpio_probe_order_pdata_template = {
-> +	.probe_count = 0,
-> +	.gpio_ok = false,
-> +};
-> +
-> +static int gpio_probe_order_consumer_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct gpio_probe_order_pdata *pdata = dev_get_platdata(dev);
-> +	struct gpio_desc *desc;
-> +
-> +	pdata->probe_count++;
-> +
-> +	desc = devm_gpiod_get(dev, "foo", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(desc))
-> +		return PTR_ERR(desc);
-> +
-> +	pdata->gpio_ok = true;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver gpio_probe_order_consumer_driver = {
-> +	.probe = gpio_probe_order_consumer_probe,
-> +	.driver = {
-> +		.name = GPIO_PROBE_ORDER_TEST_CONSUMER,
-> +	},
-> +};
-> +
-> +/*
-> + * Verify that fw_devlink orders the probe of a GPIO consumer after its
-> + * provider. The consumer references the provider through a software node and
-> + * is registered first. fw_devlink must defer it before its driver's probe()
-> + * is ever entered, so the consumer probes exactly once - only after the
-> + * provider is added and bound.
-> + */
-> +static void gpio_swnode_probe_order(struct kunit *test)
-> +{
-> +	struct property_entry properties[2] = { };
-> +	struct gpio_probe_order_pdata *pdata;
-> +	struct platform_device_info pdevinfo;
-> +	struct platform_device *prvd, *cons;
-> +	bool bound = false;
-> +	int ret;
-> +
-> +	ret = kunit_platform_driver_register(test, &gpio_test_provider_driver);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	ret = kunit_platform_driver_register(test, &gpio_probe_order_consumer_driver);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	ret = software_node_register(&gpio_test_provider_swnode);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	ret = kunit_add_action_or_reset(test, gpio_swnode_unregister_swnode,
-> +					(void *)&gpio_test_provider_swnode);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	properties[0] = PROPERTY_ENTRY_GPIO("foo-gpios",
-> +					    &gpio_test_provider_swnode,
-> +					    0, GPIO_ACTIVE_HIGH);
-> +
-> +	pdevinfo = (struct platform_device_info){
-> +		.name = GPIO_PROBE_ORDER_TEST_CONSUMER,
-> +		.id = PLATFORM_DEVID_NONE,
-> +		.data = &gpio_probe_order_pdata_template,
-> +		.size_data = sizeof(gpio_probe_order_pdata_template),
-> +		.properties = properties,
-> +	};
-> +
-> +	cons = kunit_platform_device_register_full(test, &pdevinfo);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cons);
-> +
-> +	wait_for_device_probe();
-> +	scoped_guard(device, &cons->dev)
-> +		bound = device_is_bound(&cons->dev);
-> +
-> +	KUNIT_ASSERT_FALSE(test, bound);
-> +
-> +	pdata = dev_get_platdata(&cons->dev);
-> +	KUNIT_ASSERT_EQ(test, pdata->probe_count, 0);
-> +	KUNIT_ASSERT_FALSE(test, pdata->gpio_ok);
-> +
-> +	pdevinfo = (struct platform_device_info){
-> +		.name = GPIO_TEST_PROVIDER,
-> +		.id = PLATFORM_DEVID_NONE,
-> +		.swnode = &gpio_test_provider_swnode,
-> +	};
-> +
-> +	prvd = kunit_platform_device_register_full(test, &pdevinfo);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, prvd);
-> +
-> +	wait_for_device_probe();
-> +
-> +	scoped_guard(device, &prvd->dev)
-> +		bound = device_is_bound(&prvd->dev);
-> +	KUNIT_ASSERT_TRUE(test, bound);
-> +
-> +	scoped_guard(device, &cons->dev)
-> +		bound = device_is_bound(&cons->dev);
-> +	KUNIT_ASSERT_TRUE(test, bound);
-> +
-> +	pdata = dev_get_platdata(&cons->dev);
-> +	KUNIT_ASSERT_EQ(test, pdata->probe_count, 1);
-> +	KUNIT_ASSERT_TRUE(test, pdata->gpio_ok);
-> +}
-> +
-> +struct gpio_probe_defer_pdata {
-> +	unsigned int probe_count;
-> +	int gpio_err;
-> +};
-> +
-> +static const struct gpio_probe_defer_pdata gpio_probe_defer_pdata_template = {
-> +	.probe_count = 0,
-> +	.gpio_err = 0,
-> +};
-> +
-> +static int gpio_probe_defer_consumer_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct gpio_probe_defer_pdata *pdata = dev_get_platdata(dev);
-> +	struct gpio_desc *desc;
-> +
-> +	pdata->probe_count++;
-> +
-> +	desc = devm_gpiod_get(dev, "foo", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(desc)) {
-> +		pdata->gpio_err = PTR_ERR(desc);
-> +		return pdata->gpio_err;
-> +	}
-> +
-> +	pdata->gpio_err = 0;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver gpio_probe_defer_consumer_driver = {
-> +	.probe = gpio_probe_defer_consumer_probe,
-> +	.driver = {
-> +		.name = GPIO_PROBE_DEFER_TEST_CONSUMER,
-> +	},
-> +};
-> +
-> +/*
-> + * Verify that a GPIO consumer referencing a provider whose software node is
-> + * not registered yet, defers its probe instead of failing.
-> + *
-> + * The provider software node is deliberately left unregistered when the
-> + * consumer is added. fw_devlink cannot resolve the reference, so it creates no
-> + * supplier link and does not order the consumer - the consumer's probe() runs
-> + * and reaches devm_gpiod_get(). The swnode GPIO lookup returns -ENOTCONN for a
-> + * reference to an unregistered node, which gpiolib maps to -EPROBE_DEFER. Once
-> + * the provider software node and device appear, the deferred consumer probes
-> + * again and binds.
-> + */
-> +static void gpio_swnode_probe_defer_on_unregistered(struct kunit *test)
-> +{
-> +	struct property_entry properties[2] = { };
-> +	struct gpio_probe_defer_pdata *pdata;
-> +	struct platform_device_info pdevinfo;
-> +	struct platform_device *prvd, *cons;
-> +	struct fwnode_handle *fwnode;
-> +	bool bound = false;
-> +	int ret;
-> +
-> +	ret = kunit_platform_driver_register(test, &gpio_test_provider_driver);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	ret = kunit_platform_driver_register(test, &gpio_probe_defer_consumer_driver);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	properties[0] = PROPERTY_ENTRY_GPIO("foo-gpios",
-> +					    &gpio_test_provider_swnode,
-> +					    0, GPIO_ACTIVE_HIGH);
-> +
-> +	pdevinfo = (struct platform_device_info){
-> +		.name = GPIO_PROBE_DEFER_TEST_CONSUMER,
-> +		.id = PLATFORM_DEVID_NONE,
-> +		.data = &gpio_probe_defer_pdata_template,
-> +		.size_data = sizeof(gpio_probe_defer_pdata_template),
-> +		.properties = properties,
-> +	};
-> +
-> +	cons = kunit_platform_device_register_full(test, &pdevinfo);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cons);
-> +
-> +	wait_for_device_probe();
-> +	scoped_guard(device, &cons->dev)
-> +		bound = device_is_bound(&cons->dev);
-> +
-> +	KUNIT_ASSERT_FALSE(test, bound);
-> +
-> +	pdata = dev_get_platdata(&cons->dev);
-> +	KUNIT_ASSERT_GT(test, pdata->probe_count, 0);
-> +	KUNIT_ASSERT_EQ(test, pdata->gpio_err, -EPROBE_DEFER);
-> +
-> +	fwnode = kunit_software_node_register(test, &gpio_test_provider_swnode);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
-> +
-> +	pdevinfo = (struct platform_device_info){
-> +		.name = GPIO_TEST_PROVIDER,
-> +		.id = PLATFORM_DEVID_NONE,
-> +		.swnode = &gpio_test_provider_swnode,
-> +	};
-> +
-> +	prvd = kunit_platform_device_register_full(test, &pdevinfo);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, prvd);
-> +
-> +	wait_for_device_probe();
-> +
-> +	scoped_guard(device, &prvd->dev)
-> +		bound = device_is_bound(&prvd->dev);
-> +	KUNIT_ASSERT_TRUE(test, bound);
-> +
-> +	scoped_guard(device, &cons->dev)
-> +		bound = device_is_bound(&cons->dev);
-> +	KUNIT_ASSERT_TRUE(test, bound);
-> +
-> +	pdata = dev_get_platdata(&cons->dev);
-> +	KUNIT_ASSERT_EQ(test, pdata->gpio_err, 0);
-> +}
-> +
-> +static int gpio_swnode_probe_order_test_init(struct kunit *test)
-> +{
-> +	/*
-> +	 * A prior test may have left a managed device link teardown queued on
-> +	 * the device_link_mq. Flush it so that software_node_register()
-> +	 * doesn't spuriously see the node as registered and fail with -EEXIST.
-> +	 */
-> +	device_link_wait_removal();
-> +
-> +	return 0;
-> +}
-> +
-> +static struct kunit_case gpio_swnode_probe_order_tests[] = {
-> +	KUNIT_CASE(gpio_swnode_probe_order),
-> +	KUNIT_CASE(gpio_swnode_probe_defer_on_unregistered),
-> +	{ }
-> +};
-> +
-> +static struct kunit_suite gpio_swnode_probe_order_test_suite = {
-> +	.name = "gpio-swnode-probe-order",
-> +	.test_cases = gpio_swnode_probe_order_tests,
-> +	.init = gpio_swnode_probe_order_test_init,
-> +};
-> +
->   static BLOCKING_NOTIFIER_HEAD(gpio_unbind_notifier);
->   
->   struct gpio_unbind_consumer_drvdata {
-> @@ -310,15 +572,24 @@ static void gpio_unbind_with_consumers(struct kunit *test)
->   					    0, GPIO_ACTIVE_HIGH);
->   	properties[1] = (struct property_entry){ };
->   
-> -	pdevinfo = (struct platform_device_info){
-> -		.name = GPIO_UNBIND_TEST_CONSUMER,
-> -		.id = PLATFORM_DEVID_NONE,
-> -		.properties = properties,
-> -	};
-> -
-> -	cons = kunit_platform_device_register_full(test, &pdevinfo);
-> +	/*
-> +	 * This test deliberately keeps the consumer bound while the provider
-> +	 * is unregistered. fw_devlink would force-unbind the consumer before
-> +	 * the provider so use the FWNODE_FLAG_LINKS_ADDED flag to opt out of
-> +	 * it as a workaround.
-> +	 */
-> +	cons = kunit_platform_device_alloc(test, GPIO_UNBIND_TEST_CONSUMER,
-> +					   PLATFORM_DEVID_NONE);
->   	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cons);
->   
-> +	ret = device_create_managed_software_node(&cons->dev, properties, NULL);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	fwnode_set_flag(dev_fwnode(&cons->dev), FWNODE_FLAG_LINKS_ADDED);
-> +
-> +	ret = kunit_platform_device_add(test, cons);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
->   	wait_for_device_probe();
->   	scoped_guard(device, &cons->dev)
->   		bound = device_is_bound(&cons->dev);
-> @@ -350,6 +621,7 @@ static struct kunit_suite gpio_unbind_with_consumers_test_suite = {
->   
->   kunit_test_suites(
->   	&gpio_swnode_lookup_test_suite,
-> +	&gpio_swnode_probe_order_test_suite,
->   	&gpio_unbind_with_consumers_test_suite,
->   );
->   
-> 
 
