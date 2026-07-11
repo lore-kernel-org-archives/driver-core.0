@@ -1,27 +1,27 @@
 Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367E835F5E1
-	for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 07:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2077381EB6
+	for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 07:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783756499; cv=none; b=PKi8o4trGkN01Iri1tUUPPtNyag34xF30AHVB4CiHQV/jSgP5O53g3cDQNfUd6cd9cwW/ktzzaM5mX70FTWD9v2bN2dCF234ze0Br+v94MOxm0xyKIKi7UhVyAwXtX4Npd1sWCFHydfKI3SJa02gaCz5+BGqv8iKR9hd0RgWejo=
+	t=1783756503; cv=none; b=q27IkwGqTyEB2HK7zKHYDQ/d2ZRK5wFKWjigIAUdjWnEejK3qTFtJ/8WB1zR91Ni/kMvd3oslmCHZ/0nZM8cJ9+N96dEbA2cT7yIuGF8PMsg4JIGJO5AHM1XmdX/bsUYRBVXFLmrwfAaacTlMYe+ZNZWtlHK1glsjZ+SB7+jL+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783756499; c=relaxed/simple;
-	bh=AVt5pKjQRYHCQxOiuhK3gxGkUjA/wr75dbeCZ6A0VwA=;
+	s=arc-20240116; t=1783756503; c=relaxed/simple;
+	bh=73dl4oaQT4KIkBOydXGjuAcZD0lIq6s5to74ZMYSHRA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GsJvS4dvl9mWOR8+15WRclJ9bAJNvXIklfuxh5ObrRsxjpurIhIwfnSct2J6QcyAyIqTCvPtd+RRgDGEIiy1B7ETFxjmqsMtAHrRUFKAkjlflvtlVMAZaBt3siTPViBuwB6RZHorm2HnSOu++hYKSA2Ww2bLYfpEwBnvbXl5TDY=
+	 In-Reply-To:Content-Type; b=XQDWqOmnUjnt3NpX7W8qytG1i2qXwnUxDNix5qbWvllpQVzSZ7OSEgbTo6rlLliOSlh73iG88D2E0g/jmAwep+DLg0ZkfD8a5IrDLsyHF15AgWbWsqCKV8D6hyOYDG9lzOOYu4C2Fxt9w1wMocwlp6lGQyDZftBW/3R87EZ/0A4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; arc=none smtp.client-ip=203.29.242.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
 Received: by sphereful.davidgow.net (Postfix, from userid 119)
-	id 089AB1EA630; Sat, 11 Jul 2026 15:54:50 +0800 (AWST)
+	id 4E8ED1EA714; Sat, 11 Jul 2026 15:54:53 +0800 (AWST)
 X-Spam-Level: 
 Received: from [IPV6:2001:8003:8810:ea00::41b] (unknown [IPv6:2001:8003:8810:ea00::41b])
-	by sphereful.davidgow.net (Postfix) with ESMTPSA id 936081EA6CA;
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id C62F91EA713;
 	Sat, 11 Jul 2026 15:54:46 +0800 (AWST)
-Message-ID: <21eb8388-df9b-4c53-8de9-5ed103892fec@davidgow.net>
-Date: Sat, 11 Jul 2026 15:54:43 +0800
+Message-ID: <7f5e3f36-3e6e-4fb1-8480-6bfcac5835fd@davidgow.net>
+Date: Sat, 11 Jul 2026 15:54:46 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -29,7 +29,8 @@ List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] kunit: provide a set of fwnode-oriented helpers
+Subject: Re: [PATCH v3 3/5] software node: add kunit tests for fw_devlink
+ support
 To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
  Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -45,198 +46,427 @@ Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
  kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
  driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
 References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com>
- <20260710-swnode-fw-devlink-v3-1-993f31874e40@oss.qualcomm.com>
+ <20260710-swnode-fw-devlink-v3-3-993f31874e40@oss.qualcomm.com>
 Content-Language: en-US
 From: David Gow <david@davidgow.net>
-In-Reply-To: <20260710-swnode-fw-devlink-v3-1-993f31874e40@oss.qualcomm.com>
+In-Reply-To: <20260710-swnode-fw-devlink-v3-3-993f31874e40@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+
+
 Le 10/07/2026 à 21:51, Bartosz Golaszewski a écrit :
-> Provide three new kunit-managed helpers for test cases that need to
-> register/create dynamic software nodes.
+> Add a kunit test suite for fw_devlink support for software nodes.
 > 
+> Most cases call add_links() directly and inspect the resulting fwnode
+> supplier/consumer lists: a single reference, multiple references, a
+> reference to an unregistered node, a "remote-endpoint" reference and a
+> reference array. The last case is end-to-end - it registers real consumer
+> and supplier platform devices together with their drivers, adds the
+> consumer first and checks that fw_devlink defers its probe until the
+> supplier has been bound.
+> 
+> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
 
-Thanks: these look good to me. I'm assuming they'll head in with the 
-rest of the series, rather than separately via the kselftest/kunit tree.
+Work fine here, thanks!
 
-Reviewed-by: David Gow <david@davidgow.net>
+Tested-by: David Gow <david@davidgow.net>
 
 Cheers,
 -- David
 
->   include/kunit/fwnode.h |  26 +++++++++++
->   lib/kunit/Makefile     |   1 +
->   lib/kunit/fwnode.c     | 116 +++++++++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 143 insertions(+)
+>   MAINTAINERS                             |   1 +
+>   drivers/base/test/Kconfig               |   5 +
+>   drivers/base/test/Makefile              |   2 +
+>   drivers/base/test/swnode-devlink-test.c | 339 ++++++++++++++++++++++++++++++++
+>   4 files changed, 347 insertions(+)
 > 
-> diff --git a/include/kunit/fwnode.h b/include/kunit/fwnode.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..239bc71eb5072ccead0beb51fc0882bab69c6877
-> --- /dev/null
-> +++ b/include/kunit/fwnode.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * KUnit resource management helpers for firmware nodes.
-> + *
-> + * Copyright (C) Qualcomm Technologies, Inc. and/or its subsidiaries
-> + */
-> +
-> +#ifndef _KUNIT_FWNODE_H
-> +#define _KUNIT_FWNODE_H
-> +
-> +struct kunit;
-> +struct fwnode_handle;
-> +struct property_entry;
-> +struct software_node;
-> +
-> +struct fwnode_handle *
-> +kunit_fwnode_create_software_node(struct kunit *test,
-> +				  const struct property_entry *properties,
-> +				  const struct fwnode_handle *parent);
-> +struct fwnode_handle *
-> +kunit_software_node_register(struct kunit *test,
-> +			     const struct software_node *node);
-> +int kunit_software_node_register_node_group(struct kunit *test,
-> +					    const struct software_node *const *nodes);
-> +
-> +#endif /* _KUNIT_FWNODE_H */
-> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-> index 2e8a6b71a2ab07a738964a7ef0f442fd53e085b1..204e02b10eba1030c6d511991fe2f6271de64603 100644
-> --- a/lib/kunit/Makefile
-> +++ b/lib/kunit/Makefile
-> @@ -11,6 +11,7 @@ kunit-objs +=				test.o \
->   					attributes.o \
->   					device.o \
->   					platform.o \
-> +					fwnode.o \
->   					bug.o
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4a8b0fd665ce2447c3e89784b142d998f7384b95..d7741614c941ceed9e46e9caea72bad77cfb7618 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -25105,6 +25105,7 @@ L:	linux-acpi@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/base/property.c
+>   F:	drivers/base/swnode.c
+> +F:	drivers/base/test/swnode-devlink-test.c
+>   F:	include/linux/fwnode.h
+>   F:	include/linux/property.h
 >   
->   ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
-> diff --git a/lib/kunit/fwnode.c b/lib/kunit/fwnode.c
+> diff --git a/drivers/base/test/Kconfig b/drivers/base/test/Kconfig
+> index 2756870615ccab67ec26d8671c1e4dba69342134..1ecf0791241a1b2eee7e1e787772217724abacb9 100644
+> --- a/drivers/base/test/Kconfig
+> +++ b/drivers/base/test/Kconfig
+> @@ -18,3 +18,8 @@ config DRIVER_PE_KUNIT_TEST
+>   	tristate "KUnit Tests for property entry API" if !KUNIT_ALL_TESTS
+>   	depends on KUNIT
+>   	default KUNIT_ALL_TESTS
+> +
+> +config DRIVER_SWNODE_KUNIT_TEST
+> +	tristate "KUnit Tests for software node fw_devlink links" if !KUNIT_ALL_TESTS
+> +	depends on KUNIT
+> +	default KUNIT_ALL_TESTS
+> diff --git a/drivers/base/test/Makefile b/drivers/base/test/Makefile
+> index e321dfc7e92266d2073d442f652cadb6e911dba5..9ced7bbd569fc49ba2719aa0cab57c7d8245dde1 100644
+> --- a/drivers/base/test/Makefile
+> +++ b/drivers/base/test/Makefile
+> @@ -6,3 +6,5 @@ obj-$(CONFIG_DM_KUNIT_TEST)	+= platform-device-test.o
+>   
+>   obj-$(CONFIG_DRIVER_PE_KUNIT_TEST) += property-entry-test.o
+>   CFLAGS_property-entry-test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+> +
+> +obj-$(CONFIG_DRIVER_SWNODE_KUNIT_TEST) += swnode-devlink-test.o
+> diff --git a/drivers/base/test/swnode-devlink-test.c b/drivers/base/test/swnode-devlink-test.c
 > new file mode 100644
-> index 0000000000000000000000000000000000000000..332490f07fae78e0fbf2930f9c80da0cc7dce028
+> index 0000000000000000000000000000000000000000..6f59f13214fcf39cebe02244bd0029470d3d104a
 > --- /dev/null
-> +++ b/lib/kunit/fwnode.c
-> @@ -0,0 +1,116 @@
-> +// SPDX-License-Identifier: GPL-2.0
+> +++ b/drivers/base/test/swnode-devlink-test.c
+> @@ -0,0 +1,339 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
 > +/*
 > + * Copyright (C) Qualcomm Technologies, Inc. and/or its subsidiaries
 > + */
+> +
+> +#include <linux/array_size.h>
+> +#include <linux/device.h>
+> +#include <linux/fwnode.h>
+> +#include <linux/list.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/property.h>
+> +#include <linux/time.h>
+> +#include <linux/types.h>
+> +#include <linux/wait.h>
 > +
 > +#include <kunit/fwnode.h>
+> +#include <kunit/platform_device.h>
 > +#include <kunit/test.h>
 > +
-> +#include <linux/fwnode.h>
-> +#include <linux/property.h>
-> +
-> +KUNIT_DEFINE_ACTION_WRAPPER(fwnode_remove_software_node_wrapper,
-> +			    fwnode_remove_software_node,
-> +			    struct fwnode_handle *);
-> +
-> +/**
-> + * kunit_fwnode_create_software_node() - Create a kunit-managed software node
-> + * @test: Test context
-> + * @properties: Properties to use to create the new software node
-> + * @parent: Parent of this software node
-> + *
-> + * Create a test-managed software node and return its firmware node handle.
-> + * The software node is removed after the test case completes.
-> + *
-> + * Returns:
-> + * Firmware node handle of the newly created software node or IS_ERR() on
-> + * failure.
-> + */
-> +struct fwnode_handle *
-> +kunit_fwnode_create_software_node(struct kunit *test,
-> +				  const struct property_entry *properties,
-> +				  const struct fwnode_handle *parent)
+> +static int swnode_count_suppliers(struct fwnode_handle *fwnode)
 > +{
+> +	struct fwnode_link *link;
+> +	unsigned int count = 0;
+> +
+> +	/*
+> +	 * The suppliers and consumers lists should typically only be accessed
+> +	 * with the fwnode_link_lock taken but it's private to the driver core.
+> +	 *
+> +	 * These are tests and at this point nobody should be modifying them so
+> +	 * let's just access the list.
+> +	 */
+> +	list_for_each_entry(link, &fwnode->suppliers, c_hook)
+> +		count++;
+> +
+> +	return count;
+> +}
+> +
+> +/* True if a supplier link con->sup exists, checked from both list ends. */
+> +static bool swnode_has_link(struct fwnode_handle *consumer,
+> +			    struct fwnode_handle *supplier)
+> +{
+> +	bool from_con = false, from_sup = false;
+> +	struct fwnode_link *link;
+> +
+
+Given there's a comment above in swnode_count_suppliers about these 
+lists needing (normally) to be behind fwnode_link_lock, is it worth 
+duplicating it for these loops here?
+
+> +	list_for_each_entry(link, &consumer->suppliers, c_hook) {
+> +		if (link->supplier == supplier && link->consumer == consumer)
+> +			from_con = true;
+> +	}
+> +
+> +	list_for_each_entry(link, &supplier->consumers, s_hook) {
+> +		if (link->supplier == supplier && link->consumer == consumer)
+> +			from_sup = true;
+> +	}
+> +
+> +	return from_con && from_sup;
+> +}
+> +
+> +/* A single reference creates exactly one supplier link, on both list ends. */
+> +static void swnode_devlink_test_single_ref(struct kunit *test)
+> +{
+> +	static const struct software_node supp_swnode = {
+> +		.name = "swnode-devlink-test-supplier",
+> +	};
+> +
+> +	struct fwnode_handle *cons_fwnode, *supp_fwnode;
+> +	int ret;
+> +
+> +	const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_REF("supplier", &supp_swnode),
+> +		{ }
+> +	};
+> +
+> +	supp_fwnode = kunit_software_node_register(test, &supp_swnode);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, supp_fwnode);
+> +
+> +	cons_fwnode = kunit_fwnode_create_software_node(test, props, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cons_fwnode);
+> +
+> +	ret = fwnode_call_int_op(cons_fwnode, add_links);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	KUNIT_EXPECT_EQ(test, swnode_count_suppliers(cons_fwnode), 1);
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(cons_fwnode, supp_fwnode));
+> +}
+> +
+> +/* Multiple distinct references create multiple supplier links. */
+> +static void swnode_devlink_test_multiple_refs(struct kunit *test)
+> +{
+> +	static const struct software_node supp1_swnode = {
+> +		.name = "swnode-devlink-test-supplier-1",
+> +	};
+> +	static const struct software_node supp2_swnode = {
+> +		.name = "swnode-devlink-test-supplier-2",
+> +	};
+> +	static const struct software_node *supp_nodes[] = {
+> +		&supp1_swnode, &supp2_swnode, NULL
+> +	};
+> +
+> +	const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_REF("foo", &supp1_swnode),
+> +		PROPERTY_ENTRY_REF("bar", &supp2_swnode),
+> +		{ }
+> +	};
+> +
 > +	struct fwnode_handle *fwnode;
 > +	int ret;
 > +
-> +	fwnode = fwnode_create_software_node(properties, parent);
-> +	if (IS_ERR(fwnode))
-> +		return fwnode;
+> +	ret = kunit_software_node_register_node_group(test, supp_nodes);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
 > +
-> +	ret = kunit_add_action_or_reset(test, fwnode_remove_software_node_wrapper,
-> +					fwnode);
-> +	if (ret)
-> +		return ERR_PTR(ret);
+> +	fwnode = kunit_fwnode_create_software_node(test, props, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
 > +
-> +	return fwnode;
+> +	ret = fwnode_call_int_op(fwnode, add_links);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	KUNIT_EXPECT_EQ(test, swnode_count_suppliers(fwnode), 2);
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(fwnode, software_node_fwnode(&supp1_swnode)));
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(fwnode, software_node_fwnode(&supp2_swnode)));
 > +}
-> +EXPORT_SYMBOL_GPL(kunit_fwnode_create_software_node);
 > +
-> +KUNIT_DEFINE_ACTION_WRAPPER(software_node_unregister_wrapper,
-> +			    software_node_unregister,
-> +			    const struct software_node *);
-> +
-> +/**
-> + * kunit_software_node_register() - Register a kunit-managed software node
-> + * @test: Test context
-> + * @swnode: Software node to register
-> + *
-> + * Register a test-managed software node and return its firmware node handle.
-> + * The software node is unregistered after the test case completes.
-> + *
-> + * Returns:
-> + * Firmware node handle of the registered software node or IS_ERR() on failure.
-> + */
-> +struct fwnode_handle *
-> +kunit_software_node_register(struct kunit *test,
-> +			     const struct software_node *swnode)
+> +/* A reference to an unregistered node creates no link (graceful skip). */
+> +static void swnode_devlink_test_unregistered_ref(struct kunit *test)
 > +{
+> +	static const struct software_node supp_swnode = {
+> +		.name = "swnode-devlink-test-supplier",
+> +	};
+> +
+> +	const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_REF("supplier", &supp_swnode),
+> +		{ }
+> +	};
+> +
 > +	struct fwnode_handle *fwnode;
 > +	int ret;
 > +
-> +	ret = software_node_register(swnode);
-> +	if (ret)
-> +		return ERR_PTR(ret);
+> +	fwnode = kunit_fwnode_create_software_node(test, props, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
 > +
-> +	fwnode = software_node_fwnode(swnode);
-> +	if (WARN_ON(!fwnode))
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	ret = kunit_add_action_or_reset(test, software_node_unregister_wrapper,
-> +					(void *)swnode);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return fwnode;
+> +	ret = fwnode_call_int_op(fwnode, add_links);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, swnode_count_suppliers(fwnode), 0);
 > +}
-> +EXPORT_SYMBOL_GPL(kunit_software_node_register);
 > +
-> +KUNIT_DEFINE_ACTION_WRAPPER(software_node_unregister_node_group_wrapper,
-> +			    software_node_unregister_node_group,
-> +			    const struct software_node *const *);
-> +
-> +/**
-> + * kunit_software_node_register_node_group() - Register a kunit-managed software node group
-> + * @test: Test context
-> + * @nodes: Software node group to register
-> + *
-> + * Register a test-managed software node group. The nodes are unregistered
-> + * after the test case completes.
-> + *
-> + * Returns:
-> + * 0 on success, negative error number on failure.
-> + */
-> +int kunit_software_node_register_node_group(struct kunit *test,
-> +					    const struct software_node *const *nodes)
+> +/* Graph "remote-endpoint" references are excluded. */
+> +static void swnode_devlink_test_remote_endpoint_excluded(struct kunit *test)
 > +{
+> +	static const struct software_node ep_swnode = {
+> +		.name = "swnode-devlink-test-end-point"
+> +	};
+> +
+> +	const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_REF("remote-endpoint", &ep_swnode),
+> +		{ }
+> +	};
+> +
+> +	struct fwnode_handle *cons_fwnode, *supp_fwnode;
 > +	int ret;
 > +
-> +	ret = software_node_register_node_group(nodes);
-> +	if (ret)
-> +		return ret;
+> +	supp_fwnode = kunit_software_node_register(test, &ep_swnode);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, supp_fwnode);
 > +
-> +	return kunit_add_action_or_reset(test, software_node_unregister_node_group_wrapper,
-> +					 (void *)nodes);
+> +	cons_fwnode = kunit_fwnode_create_software_node(test, props, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cons_fwnode);
+> +
+> +	ret = fwnode_call_int_op(cons_fwnode, add_links);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +	KUNIT_EXPECT_EQ(test, swnode_count_suppliers(cons_fwnode), 0);
 > +}
-> +EXPORT_SYMBOL_GPL(kunit_software_node_register_node_group);
+> +
+> +/* A reference array creates one link per registered element. */
+> +static void swnode_devlink_test_ref_array(struct kunit *test)
+> +{
+> +	static const struct software_node supp1_swnode = {
+> +		.name = "swnode-devlink-test-supplier-1",
+> +	};
+> +	static const struct software_node supp2_swnode = {
+> +		.name = "swnode-devlink-test-supplier-2",
+> +	};
+> +	static const struct software_node *supp_nodes[] = {
+> +		&supp1_swnode, &supp2_swnode, NULL
+> +	};
+> +	static const struct software_node_ref_args refs[] = {
+> +		SOFTWARE_NODE_REFERENCE(&supp1_swnode),
+> +		SOFTWARE_NODE_REFERENCE(&supp2_swnode, 4, 2),
+> +	};
+> +
+> +	const struct property_entry props[] = {
+> +		PROPERTY_ENTRY_REF_ARRAY("suppliers", refs),
+> +		{ }
+> +	};
+> +
+> +	struct fwnode_handle *fwnode;
+> +	int ret;
+> +
+> +	ret = kunit_software_node_register_node_group(test, supp_nodes);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	fwnode = kunit_fwnode_create_software_node(test, props, NULL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
+> +
+> +	ret = fwnode_call_int_op(fwnode, add_links);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+> +
+> +	KUNIT_EXPECT_EQ(test, swnode_count_suppliers(fwnode), 2);
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(fwnode, software_node_fwnode(&supp1_swnode)));
+> +	KUNIT_EXPECT_TRUE(test, swnode_has_link(fwnode, software_node_fwnode(&supp2_swnode)));
+> +}
+> +
+> +/*
+> + * End-to-end test: fw_devlink must defer a consumer's probe until its
+> + * supplier has probed.
+> + *
+> + * The reference created by software_node_add_links() is only useful if the
+> + * driver core promotes it to a real device_link and uses it to order probing.
+> + * This test drives actual probing through the platform bus and asserts the
+> + * supplier binds before the consumer.
+> + */
+> +
+> +#define SWNODE_DEVLINK_TEST_SUPPLIER	"swnode-link-supplier"
+> +#define SWNODE_DEVLINK_TEST_CONSUMER	"swnode-link-consumer"
+> +#define SWNODE_DEVLINK_TEST_TIMEOUT_MS	(2 * MSEC_PER_SEC)
+> +
+> +struct swnode_test_probe_order {
+> +	/* Names in the order their drivers' .probe ran. */
+> +	const char *probed[2];
+> +	unsigned int count;
+> +	wait_queue_head_t wq;
+> +};
+> +
+> +static int swnode_test_record_probe(struct platform_device *pdev)
+> +{
+> +	struct swnode_test_probe_order *order = platform_get_drvdata(pdev);
+> +
+> +	if (order && order->count < ARRAY_SIZE(order->probed)) {
+> +		order->probed[order->count++] = dev_name(&pdev->dev);
+> +		wake_up_interruptible(&order->wq);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver swnode_test_supplier_driver = {
+> +	.probe = swnode_test_record_probe,
+> +	.driver = {
+> +		.name = SWNODE_DEVLINK_TEST_SUPPLIER,
+> +	},
+> +};
+> +
+> +static struct platform_driver swnode_test_consumer_driver = {
+> +	.probe = swnode_test_record_probe,
+> +	.driver = {
+> +		.name = SWNODE_DEVLINK_TEST_CONSUMER,
+> +	},
+> +};
+> +
+> +static void swnode_devlink_test_probe_order(struct kunit *test)
+> +{
+> +	static const struct software_node supplier_swnode = {
+> +		.name = "swnode-devlink-test-supplier",
+> +	};
+> +
+> +	const struct property_entry consumer_props[] = {
+> +		PROPERTY_ENTRY_REF("supplier-ref", &supplier_swnode),
+> +		{ }
+> +	};
+> +
+> +	struct platform_device *supplier, *consumer;
+> +	struct swnode_test_probe_order *order;
+> +	struct fwnode_handle *fwnode;
+> +	int ret;
+> +
+> +	order = kunit_kzalloc(test, sizeof(*order), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, order);
+> +	init_waitqueue_head(&order->wq);
+> +
+> +	fwnode = kunit_software_node_register(test, &supplier_swnode);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
+> +
+> +	ret = kunit_platform_driver_register(test, &swnode_test_supplier_driver);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +	ret = kunit_platform_driver_register(test, &swnode_test_consumer_driver);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	supplier = kunit_platform_device_alloc(test, SWNODE_DEVLINK_TEST_SUPPLIER,
+> +					       PLATFORM_DEVID_NONE);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, supplier);
+> +	consumer = kunit_platform_device_alloc(test, SWNODE_DEVLINK_TEST_CONSUMER,
+> +					       PLATFORM_DEVID_NONE);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, consumer);
+> +
+> +	platform_set_drvdata(supplier, order);
+> +	platform_set_drvdata(consumer, order);
+> +
+> +	ret = device_add_software_node(&supplier->dev, &supplier_swnode);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +	ret = device_create_managed_software_node(&consumer->dev,
+> +						  consumer_props, NULL);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	ret = kunit_platform_device_add(test, consumer);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +	ret = kunit_platform_device_add(test, supplier);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	ret = wait_event_interruptible_timeout(order->wq,
+> +					       order->count == 2,
+> +					       msecs_to_jiffies(SWNODE_DEVLINK_TEST_TIMEOUT_MS));
+> +	KUNIT_ASSERT_GT(test, ret, 0);
+> +
+> +	KUNIT_EXPECT_STREQ(test, order->probed[0], SWNODE_DEVLINK_TEST_SUPPLIER);
+> +	KUNIT_EXPECT_STREQ(test, order->probed[1], SWNODE_DEVLINK_TEST_CONSUMER);
+> +
+> +	/* Tear down the consumer (and its device link) before the supplier. */
+> +	kunit_platform_device_unregister(test, consumer);
+> +
+> +	device_remove_software_node(&supplier->dev);
+> +}
+> +
+> +static struct kunit_case swnode_test_cases[] = {
+> +	KUNIT_CASE(swnode_devlink_test_single_ref),
+> +	KUNIT_CASE(swnode_devlink_test_multiple_refs),
+> +	KUNIT_CASE(swnode_devlink_test_unregistered_ref),
+> +	KUNIT_CASE(swnode_devlink_test_remote_endpoint_excluded),
+> +	KUNIT_CASE(swnode_devlink_test_ref_array),
+> +	KUNIT_CASE(swnode_devlink_test_probe_order),
+> +	{ }
+> +};
+> +
+> +static struct kunit_suite swnode_test_suite = {
+> +	.name = "software-node-links",
+> +	.test_cases = swnode_test_cases,
+> +};
+> +
+> +kunit_test_suite(swnode_test_suite);
+> +
+> +MODULE_DESCRIPTION("Test module for software node fw_devlink support");
+> +MODULE_AUTHOR("Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>");
+> +MODULE_LICENSE("GPL");
 > 
 
