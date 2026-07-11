@@ -1,335 +1,242 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2C1286A7;
-	Sat, 11 Jul 2026 02:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783735508; cv=pass; b=r9ccZUjCnwGgrt0hYNYuHGpEFOu6727RZb8pRI+JUxN+MHnqhVboTAb6B1P4Qfod1ZYT72KUjqPaftZWlXATgmVLXMGwDEFAYQGzXWUKBSnVNgj4Azb+JOzHhz5asyXPhjeAxzEk10lryNT/omWcRfpFko9jaV+/NefOUrjSSqo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783735508; c=relaxed/simple;
-	bh=in/+ZBP/VNtN9DiFiv6zUBxrlTruZ58XjuqQXGDk4xw=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=Cy7iJy4SxlHnIK6JjOo1y6+eNizvUaCHnPTSAFadlLJdK/s1eHCOsJ5CVfOzmg0KPeOXfxRvFNrRTCQZAQKNdqT038dlx959SqdlqPtTUjqzCQnbCGrXKBlzONrgv753qiSEiG/juN2N+66lTBTaV3aUOm7DD396BNhIqmM3yp8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=Hhf/cKNh; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Hhf/cKNh"
-ARC-Seal: i=1; a=rsa-sha256; t=1783735493; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=DFt5XI/uVIlPrhi6BtcY2PK8BsEqMJOrtwekYuk6TL6sy07VTBlZx1Tr+hAOkCbOyMI4B/bvU56tDDdNUDfqgZuD2hItRKzjFLrUtDzzWR3JGrBhCDNNffIwmL/0Y9uBdpWrB+S4xNfMiKrTxXNWKoeVKWIoFrlLo/3RR+mK4no=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783735493; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=GheCYDBFLZZB5JG+aBFxTpvjzySJCMbAaM1ydg78v1c=; 
-	b=H2N5ciVYyEmPE9quuYsVvUMqGWK3erEmjVvVcyKnBhxeYkaaAFhoLqeGF5/ECWW9kEZgQN2Vx36hOoYv0Wd3YUHKXcSIFNxhfSZ/bDvXkzhJXDdKEmTbmcF1TtWI4t5Y8PMsgud2jcUSdvoRWbuuBnc+lAcxWRzibKedAqLzKGI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783735493;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=GheCYDBFLZZB5JG+aBFxTpvjzySJCMbAaM1ydg78v1c=;
-	b=Hhf/cKNhwLOFWPO5pkhC2vRYS4duMk+TKKkU5qgJwH+JNY802v8BRlYuQpY88TLb
-	/Uc1sEkVnwvk2P4c8um7DvuDUYPD0ukW85yRP+uCfqWxmlqq4zGXRjllXYO2jBWg6XC
-	yPixNXDbcxX2j6q8iHLqMoJpjrBtmCRJwOo0wfFk=
-Received: by mx.zohomail.com with SMTPS id 1783735492286730.8704422431059;
-	Fri, 10 Jul 2026 19:04:52 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367E835F5E1
+	for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 07:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783756499; cv=none; b=PKi8o4trGkN01Iri1tUUPPtNyag34xF30AHVB4CiHQV/jSgP5O53g3cDQNfUd6cd9cwW/ktzzaM5mX70FTWD9v2bN2dCF234ze0Br+v94MOxm0xyKIKi7UhVyAwXtX4Npd1sWCFHydfKI3SJa02gaCz5+BGqv8iKR9hd0RgWejo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783756499; c=relaxed/simple;
+	bh=AVt5pKjQRYHCQxOiuhK3gxGkUjA/wr75dbeCZ6A0VwA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GsJvS4dvl9mWOR8+15WRclJ9bAJNvXIklfuxh5ObrRsxjpurIhIwfnSct2J6QcyAyIqTCvPtd+RRgDGEIiy1B7ETFxjmqsMtAHrRUFKAkjlflvtlVMAZaBt3siTPViBuwB6RZHorm2HnSOu++hYKSA2Ww2bLYfpEwBnvbXl5TDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id 089AB1EA630; Sat, 11 Jul 2026 15:54:50 +0800 (AWST)
+X-Spam-Level: 
+Received: from [IPV6:2001:8003:8810:ea00::41b] (unknown [IPv6:2001:8003:8810:ea00::41b])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 936081EA6CA;
+	Sat, 11 Jul 2026 15:54:46 +0800 (AWST)
+Message-ID: <21eb8388-df9b-4c53-8de9-5ed103892fec@davidgow.net>
+Date: Sat, 11 Jul 2026 15:54:43 +0800
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v6 18/20] rust: dma: drop `dma_read!` and `dma_write!` API
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260706-io_projection-v6-18-72cd5d055d54@garyguo.net>
-Date: Fri, 10 Jul 2026 23:04:32 -0300
-Cc: Alice Ryhl <aliceryhl@google.com>,
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] kunit: provide a set of fwnode-oriented helpers
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bartosz Golaszewski <brgl@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Tamir Duberstein <tamird@kernel.org>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Bjorn Helgaas <bhelgaas@google.com>,
- =?utf-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Alexandre Courbot <acourbot@nvidia.com>,
- David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- driver-core@lists.linux.dev,
- rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org,
- nova-gpu@lists.linux.dev,
- dri-devel@lists.freedesktop.org,
- linux-pwm@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <4990B3CF-C19E-4282-B749-D02ABECD59DC@collabora.com>
-References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
- <20260706-io_projection-v6-18-72cd5d055d54@garyguo.net>
-To: Gary Guo <gary@garyguo.net>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Linus Walleij <linusw@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-gpio@vger.kernel.org
+References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com>
+ <20260710-swnode-fw-devlink-v3-1-993f31874e40@oss.qualcomm.com>
+Content-Language: en-US
+From: David Gow <david@davidgow.net>
+In-Reply-To: <20260710-swnode-fw-devlink-v3-1-993f31874e40@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-
-> On 6 Jul 2026, at 09:44, Gary Guo <gary@garyguo.net> wrote:
->=20
-> The primitive read/write use case is covered by the `io_read!` and
-> `io_write!` macro. The non-primitive use case was finicky; they should
-> either be achieved using `CoherentBox` or `as_ref()/as_mut()` to =
-assert the
-> lack of concurrent access, or should be using memcpy-like APIs to =
-express
-> the non-atomic and tearable nature.
->=20
-> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
-> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
-> Signed-off-by: Gary Guo <gary@garyguo.net>
+Le 10/07/2026 à 21:51, Bartosz Golaszewski a écrit :
+> Provide three new kunit-managed helpers for test cases that need to
+> register/create dynamic software nodes.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
-> rust/kernel/dma.rs       | 128 =
------------------------------------------------
-> samples/rust/rust_dma.rs |  11 ++--
-> 2 files changed, 8 insertions(+), 131 deletions(-)
->=20
-> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-> index 1535bc6eec64..6e7ea3b72f2f 100644
-> --- a/rust/kernel/dma.rs
-> +++ b/rust/kernel/dma.rs
-> @@ -661,52 +661,6 @@ pub unsafe fn as_mut(&self) -> &mut T {
->         // SAFETY: per safety requirement.
->         unsafe { &mut *self.as_mut_ptr() }
->     }
-> -
-> -    /// Reads the value of `field` and ensures that its type is =
-[`FromBytes`].
-> -    ///
-> -    /// # Safety
-> -    ///
-> -    /// This must be called from the [`dma_read`] macro which ensures =
-that the `field` pointer is
-> -    /// validated beforehand.
-> -    ///
-> -    /// Public but hidden since it should only be used from =
-[`dma_read`] macro.
-> -    #[doc(hidden)]
-> -    pub unsafe fn field_read<F: FromBytes>(&self, field: *const F) -> =
-F {
-> -        // SAFETY:
-> -        // - By the safety requirements field is valid.
-> -        // - Using read_volatile() here is not sound as per the usual =
-rules, the usage here is
-> -        // a special exception with the following notes in place. =
-When dealing with a potential
-> -        // race from a hardware or code outside kernel (e.g. =
-user-space program), we need that
-> -        // read on a valid memory is not UB. Currently =
-read_volatile() is used for this, and the
-> -        // rationale behind is that it should generate the same code =
-as READ_ONCE() which the
-> -        // kernel already relies on to avoid UB on data races. Note =
-that the usage of
-> -        // read_volatile() is limited to this particular case, it =
-cannot be used to prevent
-> -        // the UB caused by racing between two kernel functions nor =
-do they provide atomicity.
-> -        unsafe { field.read_volatile() }
-> -    }
-> -
-> -    /// Writes a value to `field` and ensures that its type is =
-[`AsBytes`].
-> -    ///
-> -    /// # Safety
-> -    ///
-> -    /// This must be called from the [`dma_write`] macro which =
-ensures that the `field` pointer is
-> -    /// validated beforehand.
-> -    ///
-> -    /// Public but hidden since it should only be used from =
-[`dma_write`] macro.
-> -    #[doc(hidden)]
-> -    pub unsafe fn field_write<F: AsBytes>(&self, field: *mut F, val: =
-F) {
-> -        // SAFETY:
-> -        // - By the safety requirements field is valid.
-> -        // - Using write_volatile() here is not sound as per the =
-usual rules, the usage here is
-> -        // a special exception with the following notes in place. =
-When dealing with a potential
-> -        // race from a hardware or code outside kernel (e.g. =
-user-space program), we need that
-> -        // write on a valid memory is not UB. Currently =
-write_volatile() is used for this, and the
-> -        // rationale behind is that it should generate the same code =
-as WRITE_ONCE() which the
-> -        // kernel already relies on to avoid UB on data races. Note =
-that the usage of
-> -        // write_volatile() is limited to this particular case, it =
-cannot be used to prevent
-> -        // the UB caused by racing between two kernel functions nor =
-do they provide atomicity.
-> -        unsafe { field.write_volatile(val) }
-> -    }
-> }
->=20
-> impl<T: AsBytes + FromBytes> Coherent<T> {
-> @@ -1266,85 +1220,3 @@ fn as_view(self) -> CoherentView<'a, =
-Self::Target> {
->         }
->     }
-> }
-> -
-> -/// Reads a field of an item from an allocated region of structs.
-> -///
-> -/// The syntax is of the form `kernel::dma_read!(dma, proj)` where =
-`dma` is an expression evaluating
-> -/// to a [`Coherent`] and `proj` is a [projection =
-specification](kernel::ptr::project!).
-> -///
-> -/// # Examples
-> -///
-> -/// ```
-> -/// use kernel::device::Device;
-> -/// use kernel::dma::{attrs::*, Coherent};
-> -///
-> -/// struct MyStruct { field: u32, }
-> -///
-> -/// // SAFETY: All bit patterns are acceptable values for `MyStruct`.
-> -/// unsafe impl kernel::transmute::FromBytes for MyStruct{};
-> -/// // SAFETY: Instances of `MyStruct` have no uninitialized =
-portions.
-> -/// unsafe impl kernel::transmute::AsBytes for MyStruct{};
-> -///
-> -/// # fn test(alloc: &kernel::dma::Coherent<[MyStruct]>) -> Result {
-> -/// let whole =3D kernel::dma_read!(alloc, [try: 2]);
-> -/// let field =3D kernel::dma_read!(alloc, [panic: 1].field);
-> -/// # Ok::<(), Error>(()) }
-> -/// ```
-> -#[macro_export]
-> -macro_rules! dma_read {
-> -    ($dma:expr, $($proj:tt)*) =3D> {{
-> -        let dma =3D &$dma;
-> -        let ptr =3D $crate::ptr::project!(
-> -            $crate::dma::Coherent::as_ptr(dma), $($proj)*
-> -        );
-> -        // SAFETY: The pointer created by the projection is within =
-the DMA region.
-> -        unsafe { $crate::dma::Coherent::field_read(dma, ptr) }
-> -    }};
-> -}
-> -
-> -/// Writes to a field of an item from an allocated region of structs.
-> -///
-> -/// The syntax is of the form `kernel::dma_write!(dma, proj, val)` =
-where `dma` is an expression
-> -/// evaluating to a [`Coherent`], `proj` is a
-> -/// [projection specification](kernel::ptr::project!), and `val` is =
-the value to be written to the
-> -/// projected location.
-> -///
-> -/// # Examples
-> -///
-> -/// ```
-> -/// use kernel::device::Device;
-> -/// use kernel::dma::{attrs::*, Coherent};
-> -///
-> -/// struct MyStruct { member: u32, }
-> -///
-> -/// // SAFETY: All bit patterns are acceptable values for `MyStruct`.
-> -/// unsafe impl kernel::transmute::FromBytes for MyStruct{};
-> -/// // SAFETY: Instances of `MyStruct` have no uninitialized =
-portions.
-> -/// unsafe impl kernel::transmute::AsBytes for MyStruct{};
-> -///
-> -/// # fn test(alloc: &kernel::dma::Coherent<[MyStruct]>) -> Result {
-> -/// kernel::dma_write!(alloc, [try: 2].member, 0xf);
-> -/// kernel::dma_write!(alloc, [panic: 1], MyStruct { member: 0xf });
-> -/// # Ok::<(), Error>(()) }
-> -/// ```
-> -#[macro_export]
-> -macro_rules! dma_write {
-> -    (@parse [$dma:expr] [$($proj:tt)*] [, $val:expr]) =3D> {{
-> -        let dma =3D &$dma;
-> -        let ptr =3D $crate::ptr::project!(
-> -            mut $crate::dma::Coherent::as_mut_ptr(dma), $($proj)*
-> -        );
-> -        let val =3D $val;
-> -        // SAFETY: The pointer created by the projection is within =
-the DMA region.
-> -        unsafe { $crate::dma::Coherent::field_write(dma, ptr, val) }
-> -    }};
-> -    (@parse [$dma:expr] [$($proj:tt)*] [.$field:tt $($rest:tt)*]) =3D> =
-{
-> -        $crate::dma_write!(@parse [$dma] [$($proj)* .$field] =
-[$($rest)*])
-> -    };
-> -    (@parse [$dma:expr] [$($proj:tt)*] [[$flavor:ident: $index:expr] =
-$($rest:tt)*]) =3D> {
-> -        $crate::dma_write!(@parse [$dma] [$($proj)* [$flavor: =
-$index]] [$($rest)*])
-> -    };
-> -    ($dma:expr, $($rest:tt)*) =3D> {
-> -        $crate::dma_write!(@parse [$dma] [] [$($rest)*])
-> -    };
-> -}
-> diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
-> index 5046b4628d0e..4af46e99d2dd 100644
-> --- a/samples/rust/rust_dma.rs
-> +++ b/samples/rust/rust_dma.rs
-> @@ -12,6 +12,10 @@
->         Device,
->         DmaMask, //
->     },
-> +    io::{
-> +        io_project,
-> +        io_read, //
-> +    },
->     page, pci,
->     prelude::*,
->     scatterlist::{Owned, SGTable},
-> @@ -77,7 +81,8 @@ fn probe<'bound>(
->                 Coherent::zeroed_slice(pdev.as_ref(), =
-TEST_VALUES.len(), GFP_KERNEL)?;
->=20
->             for (i, value) in TEST_VALUES.into_iter().enumerate() {
-> -                kernel::dma_write!(ca, [try: i], =
-MyStruct::new(value.0, value.1));
-> +                // SAFETY: `ca` is not yet shared with device or =
-other threads.
-> +                unsafe { *io_project!(ca, [panic: i]).as_mut() =3D =
-MyStruct::new(value.0, value.1) };
->             }
->=20
->             let size =3D 4 * page::PAGE_SIZE;
-> @@ -97,8 +102,8 @@ fn probe<'bound>(
-> impl DmaSampleDriver {
->     fn check_dma(&self) {
->         for (i, value) in TEST_VALUES.into_iter().enumerate() {
-> -            let val0 =3D kernel::dma_read!(self.ca, [panic: i].h);
-> -            let val1 =3D kernel::dma_read!(self.ca, [panic: i].b);
-> +            let val0 =3D io_read!(self.ca, [panic: i].h);
-> +            let val1 =3D io_read!(self.ca, [panic: i].b);
->=20
->             assert_eq!(val0, value.0);
->             assert_eq!(val1, value.1);
->=20
-> --=20
-> 2.54.0
->=20
->=20
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Thanks: these look good to me. I'm assuming they'll head in with the 
+rest of the series, rather than separately via the kselftest/kunit tree.
+
+Reviewed-by: David Gow <david@davidgow.net>
+
+Cheers,
+-- David
+
+>   include/kunit/fwnode.h |  26 +++++++++++
+>   lib/kunit/Makefile     |   1 +
+>   lib/kunit/fwnode.c     | 116 +++++++++++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 143 insertions(+)
+> 
+> diff --git a/include/kunit/fwnode.h b/include/kunit/fwnode.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..239bc71eb5072ccead0beb51fc0882bab69c6877
+> --- /dev/null
+> +++ b/include/kunit/fwnode.h
+> @@ -0,0 +1,26 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * KUnit resource management helpers for firmware nodes.
+> + *
+> + * Copyright (C) Qualcomm Technologies, Inc. and/or its subsidiaries
+> + */
+> +
+> +#ifndef _KUNIT_FWNODE_H
+> +#define _KUNIT_FWNODE_H
+> +
+> +struct kunit;
+> +struct fwnode_handle;
+> +struct property_entry;
+> +struct software_node;
+> +
+> +struct fwnode_handle *
+> +kunit_fwnode_create_software_node(struct kunit *test,
+> +				  const struct property_entry *properties,
+> +				  const struct fwnode_handle *parent);
+> +struct fwnode_handle *
+> +kunit_software_node_register(struct kunit *test,
+> +			     const struct software_node *node);
+> +int kunit_software_node_register_node_group(struct kunit *test,
+> +					    const struct software_node *const *nodes);
+> +
+> +#endif /* _KUNIT_FWNODE_H */
+> diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> index 2e8a6b71a2ab07a738964a7ef0f442fd53e085b1..204e02b10eba1030c6d511991fe2f6271de64603 100644
+> --- a/lib/kunit/Makefile
+> +++ b/lib/kunit/Makefile
+> @@ -11,6 +11,7 @@ kunit-objs +=				test.o \
+>   					attributes.o \
+>   					device.o \
+>   					platform.o \
+> +					fwnode.o \
+>   					bug.o
+>   
+>   ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
+> diff --git a/lib/kunit/fwnode.c b/lib/kunit/fwnode.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..332490f07fae78e0fbf2930f9c80da0cc7dce028
+> --- /dev/null
+> +++ b/lib/kunit/fwnode.c
+> @@ -0,0 +1,116 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) Qualcomm Technologies, Inc. and/or its subsidiaries
+> + */
+> +
+> +#include <kunit/fwnode.h>
+> +#include <kunit/test.h>
+> +
+> +#include <linux/fwnode.h>
+> +#include <linux/property.h>
+> +
+> +KUNIT_DEFINE_ACTION_WRAPPER(fwnode_remove_software_node_wrapper,
+> +			    fwnode_remove_software_node,
+> +			    struct fwnode_handle *);
+> +
+> +/**
+> + * kunit_fwnode_create_software_node() - Create a kunit-managed software node
+> + * @test: Test context
+> + * @properties: Properties to use to create the new software node
+> + * @parent: Parent of this software node
+> + *
+> + * Create a test-managed software node and return its firmware node handle.
+> + * The software node is removed after the test case completes.
+> + *
+> + * Returns:
+> + * Firmware node handle of the newly created software node or IS_ERR() on
+> + * failure.
+> + */
+> +struct fwnode_handle *
+> +kunit_fwnode_create_software_node(struct kunit *test,
+> +				  const struct property_entry *properties,
+> +				  const struct fwnode_handle *parent)
+> +{
+> +	struct fwnode_handle *fwnode;
+> +	int ret;
+> +
+> +	fwnode = fwnode_create_software_node(properties, parent);
+> +	if (IS_ERR(fwnode))
+> +		return fwnode;
+> +
+> +	ret = kunit_add_action_or_reset(test, fwnode_remove_software_node_wrapper,
+> +					fwnode);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return fwnode;
+> +}
+> +EXPORT_SYMBOL_GPL(kunit_fwnode_create_software_node);
+> +
+> +KUNIT_DEFINE_ACTION_WRAPPER(software_node_unregister_wrapper,
+> +			    software_node_unregister,
+> +			    const struct software_node *);
+> +
+> +/**
+> + * kunit_software_node_register() - Register a kunit-managed software node
+> + * @test: Test context
+> + * @swnode: Software node to register
+> + *
+> + * Register a test-managed software node and return its firmware node handle.
+> + * The software node is unregistered after the test case completes.
+> + *
+> + * Returns:
+> + * Firmware node handle of the registered software node or IS_ERR() on failure.
+> + */
+> +struct fwnode_handle *
+> +kunit_software_node_register(struct kunit *test,
+> +			     const struct software_node *swnode)
+> +{
+> +	struct fwnode_handle *fwnode;
+> +	int ret;
+> +
+> +	ret = software_node_register(swnode);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	fwnode = software_node_fwnode(swnode);
+> +	if (WARN_ON(!fwnode))
+> +		return ERR_PTR(-ENOENT);
+> +
+> +	ret = kunit_add_action_or_reset(test, software_node_unregister_wrapper,
+> +					(void *)swnode);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return fwnode;
+> +}
+> +EXPORT_SYMBOL_GPL(kunit_software_node_register);
+> +
+> +KUNIT_DEFINE_ACTION_WRAPPER(software_node_unregister_node_group_wrapper,
+> +			    software_node_unregister_node_group,
+> +			    const struct software_node *const *);
+> +
+> +/**
+> + * kunit_software_node_register_node_group() - Register a kunit-managed software node group
+> + * @test: Test context
+> + * @nodes: Software node group to register
+> + *
+> + * Register a test-managed software node group. The nodes are unregistered
+> + * after the test case completes.
+> + *
+> + * Returns:
+> + * 0 on success, negative error number on failure.
+> + */
+> +int kunit_software_node_register_node_group(struct kunit *test,
+> +					    const struct software_node *const *nodes)
+> +{
+> +	int ret;
+> +
+> +	ret = software_node_register_node_group(nodes);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return kunit_add_action_or_reset(test, software_node_unregister_node_group_wrapper,
+> +					 (void *)nodes);
+> +}
+> +EXPORT_SYMBOL_GPL(kunit_software_node_register_node_group);
+> 
 
