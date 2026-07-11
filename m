@@ -1,67 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5E6303C87;
-	Sat, 11 Jul 2026 23:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5687D2F1FEC;
+	Sat, 11 Jul 2026 23:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783814245; cv=none; b=nylGXmBvkhppSs8FXrBnDBX4dhHGFuhkH5fM7BhEQCV0zdLMMXgPiTOSwcI4RtZHTJJHUBPxtTWSVjLNpTDvF+nhoMJnol3xm5tA/3Tff++HAdWPLulw9P2oTGNMHlTNnTFUcSrPE/2hUbA1NnQYaQ4I6Ll05gbZYY/xA8XkfVw=
+	t=1783814310; cv=none; b=eLReTjilniMRtGU4/mNRaQtJa/Zh1AA3Pyiqg88ogzrR6EjQRr9a/O9pws9tiN45G6b++N90/Xjeysa+Z3r1GhmYCSV+rxQLApQZkABWLga4Be/jOfeOyN0ZydfWSaHDTkWxZpiJgN3a/3sfJNS+1cgWyxbFrj3dwMIZDpm1Aag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783814245; c=relaxed/simple;
-	bh=TOcafgcPb9Mkhua90rvKOGXtW8w6dkJXDUJBpktI1tg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o0UH78Zfei84fafKzMsonpnX6zhe4NvboUA+Pga8nbjjeW7kze+oOkZgzIHnbCge0oHeswHGIo72eO6thQVSzkTul23GceDtqaP5r018SBiqIVq32wjJLikEYwEniD5aWK7Z7NdSzPIyX6O/XhNBKkcF5k90rly4qGui1cfusNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCvlbi3H; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783814310; c=relaxed/simple;
+	bh=RKukBuLquIHlnuBjPLWH6zWAGPo5LVl9KxagkhZRJYw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=rNWi3Gz1CBPn+NF97Ih8WFN15T1rU+ft2zeWT9Ndly4V4xCCwXbXkPtdop/Z+9DWR1JsQ4sW3wewe6PQ7tQGPyfPLy5kVWDYoOnOuIc22WCLVgva1BV0gfycziISSa2h9jMBeb5ajiABFv+0G/8Xpvfcl1KOpYlFq7PESbejzWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lz5oT4QQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCvlbi3H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA8F1F000E9;
-	Sat, 11 Jul 2026 23:57:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lz5oT4QQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E081F000E9;
+	Sat, 11 Jul 2026 23:58:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783814244;
-	bh=SV6kOZKN8Cz/MNuqHNMXnB9KS1bakeG1KEqjyHHuric=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QCvlbi3HnVRYWRDmXCiL6sBRIRj9WBnB0fI+/x8h02ekD7U30gBkoaWK5GWopuA6S
-	 tRyteN/KVsO/3+OSebaqM9I4U/sZRJqe/OuDc2ZsYZfu2H34fs2NI9aYg58aUWmjaQ
-	 33hXhMoRuIK+VSvUZuw9+3eMbhKxKQGouHwhdyqJMCqTa14Q6f8tlGT4ksYmpgyWKH
-	 UldoYuJMplRwyzXzMNV54fulalUoXE4Oys96FG46u4l23PXV8W57YyhWoAT5GsGzqk
-	 EiW9ME36/vtLHSHNM8SV45l8e6faoZT3IdjjIi9QDvUnrb4fzVUueW66cVg7MVHDr6
-	 obgaFcA72XbjA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH 1/2] firmware_loader: builtin: ignore 0-size firmware
-Date: Sun, 12 Jul 2026 01:57:19 +0200
-Message-ID: <20260711235719.734497-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260426043041.649202-1-dmitry.torokhov@gmail.com>
-References: <20260426043041.649202-1-dmitry.torokhov@gmail.com>
-X-Patch-Reply: applied
+	s=k20260515; t=1783814309;
+	bh=9i6EK1zfSxWdW1t4pcJC/6exj+j8G86l8fRJzqpPWTY=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=Lz5oT4QQlVHN/COXRhKOk4ioe7ggACqQPBI1kDRfDGcKuvrML7o2CdXo7uH0lftFL
+	 SuHZneJ/0bCWzBYlNrrkWBcn10W01fiXpzNjdqrTHwEjO/TQymUFg/lYfHSaeN4c4A
+	 s9tLs/GPVx/Pnu6paUoJL7nTyR4vZPdeo9J1zAtisuiUss0RcVQkFHp0YMDCOS1HpE
+	 pyEho2px2S+j/TbwPqZseO68lFqc3bhmvqCYVYsOleoAd0NJuJsIG5LricTtQ+0bGk
+	 eG+XQmyqf6pIQKfKuYqoihG5OoaueJJYW8vik0M/VYON45aByDuj1vQgQhUHhnvzHT
+	 WnsRovZMf4z9Q==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Sun, 12 Jul 2026 01:58:26 +0200
+Message-Id: <DJW5EBHLCXO4.PFQOK4M2ZZ48@kernel.org>
+Subject: Re: [PATCH 2/2] firmware_loader: builtin: fail build on empty
+ firmware
+Cc: "Luis Chamberlain" <mcgrof@kernel.org>, "Russ Weight"
+ <russ.weight@linux.dev>, <driver-core@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260426043041.649202-1-dmitry.torokhov@gmail.com>
+ <20260426043041.649202-2-dmitry.torokhov@gmail.com>
+In-Reply-To: <20260426043041.649202-2-dmitry.torokhov@gmail.com>
 
-On Sat, 25 Apr 2026 21:30:38 -0700, Dmitry Torokhov wrote:
-> [PATCH 1/2] firmware_loader: builtin: ignore 0-size firmware
+On Sun Apr 26, 2026 at 6:30 AM CEST, Dmitry Torokhov wrote:
+> +	if [ ! -s "$(fwdir)/$(FWNAME)" ]; then				 \
+> +		echo "error: empty firmware: $(fwdir)/$(FWNAME)" >&2	;\
+> +		exit							;\
 
-Applied, thanks!
+Shouldn't this be 'exit 1' to actually fail the build?
 
-  Branch: driver-core-testing
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
-
-[1/2] firmware_loader: builtin: ignore 0-size firmware
-      commit: d059966c0c7d
-
-The patch will appear in the next linux-next integration (typically within 24
-hours on weekdays).
-
-The patch is in the driver-core-testing branch and will be promoted to
-driver-core-next after validation.
+> +	fi								;\
