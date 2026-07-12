@@ -1,97 +1,69 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE0022083
-	for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 00:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A3222083;
+	Sun, 12 Jul 2026 00:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783815840; cv=none; b=jB6tU84xYtHMY507Qi9aUSIQvw+TdA/lVjSh+GoLKTnbJHJ0g2uTmW8iAUSGrvoDQ70mFBRKq7JfVLZODpKg6e/xXHjrCAeoS0RLYkzRwkSGB39Un5zWr0o5q29f9f5WW+LRCwuBup61bK0QyiRkiR70q1qWcY24DCXbk7l4liM=
+	t=1783816201; cv=none; b=ioRuT3xoEZICC3reCL8u6tCaj2nXfsnGiSuRmK5Jb5lIAxw3kwkg+CLZ0z9YkXusvE9YSUvRxoo8Xi/F3FSrXQVs4Qgcm6c1E8aIz3tY7Y2zNsdifsj8L3CpmDuEv5gvZi+1xxiR0dqptjKQhFLvVWWdsAmLpiDQCxAu66AxGtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783815840; c=relaxed/simple;
-	bh=bAEX6IrgDDFkv2APR0+bCQv7uhaJbAiYg7bB5M6IjJI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VC2E50+0Li2fPenre+AgcIHUMyyT8OONCqrzrZSMmn7nVnJj8iQzRQHeu8NWcbo0l7KNGi2EWosBMsANgSS3OcTxYPKkFp6iTtpAOdq3KLJVNBxqoLuNDgf3SNzMtqCUOBIgy4ahwWmnMKQ91rBoT4HEKEDjoUYP3i9FGP2jdKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NX9FLzMn; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783816201; c=relaxed/simple;
+	bh=R/8bHJU0K6l5Pmfvcx4vBa91J4Vw3e+jXc4U7+MYuY8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dalsWTd3FhI3J/7B966QE1LKxd7mfjUjYaomLaIg4hlmDHoPW0v8Y+9jvi0XPJKLrxTjH47fb5fKLHKmyq6wphCBxaFVYijVCV30ryEKx46R6aP1ex8WkL89OgE2oMU2Jkrg0Z6STXlMzFrO2kQXDXmD2uzyTBuxx/84S9wfHw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k/mw8SRr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NX9FLzMn"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so1330471a12.3
-        for <driver-core@lists.linux.dev>; Sat, 11 Jul 2026 17:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783815839; x=1784420639; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3ix8TBK7GOyTp1WMmZekQKMguwcNzpi3wCbkHSbHtB4=;
-        b=NX9FLzMnzIFp9wJryu0P1bC/Npt16+7hmzME2NmEDWjnQFE3+B2Eu1T2zTo/xtKn+7
-         b8P89dUqnV0hJAzDIrlKoDkN6TKpEaxZ5l+xHY9uUGGNDCdP9cqsV5gid32goa9a3z3z
-         G5S2Amq54ZG89vvp3pgzGfae9SiC641y+C2433/TReDHaBnMS2NhnT7hFhcQAC2Co+fT
-         VYJFli36XPN3iYuYNT9OGrJnlmTN6tufHVbdTnxJv5OHxLzOfIQeJUQ4iZHATqFgWMSZ
-         CPDgWj1D0Jsp8IWw4DMpEClSezzpTGrp9Ui2bPGtkqRNBQGRO4aiZGeOJTmhihvwo8ak
-         HSzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783815839; x=1784420639;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3ix8TBK7GOyTp1WMmZekQKMguwcNzpi3wCbkHSbHtB4=;
-        b=Pz0rIjKDjSpGP26kYqrF44VlckvFNby9yU6JMfz+PbmfC9D20B6WJz8ZD301uBBzh2
-         4Jk4Ookk46FZo/icNT1xN9D77X2cafUTsmgORdUr1zjndgQyg+/MBXqfB/lKTDl3O8d1
-         UgmmRVSUVAqQh7KeQ5eGGlScyStfh++lUeswJpVCsyJ5ivpv+jpUakjyjWYMvXf1kBa8
-         NK8r0ScHHeImCy473QwXpEFYrzSVYdUoO6aKmrcia/jveDm14KLUe42dN8wUG+ZAyraa
-         jzJAaiKWlgpGLrbKPx1UbgOU7Qw57EbXYOZW348eSWCCJ6qoSi8QGyifYzs1Tfwn1X8W
-         JsQA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro7WmdlJKtyiTBWidm1Q0GG8gh4CXyT2I8CLEISPZ5NOyHydXVFc9KQDWsvOdwUMMIKHvUuKpwFq/rvcw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+QdMdkEhoWIXr95ON+SRdgnIRE3f+55JIJGoNhye+JxRF9yOR
-	b8meN8Lzk3P+Nnd8MjTyHe7cYRxFrmSuCZTDcnNW/u1aAZTCjAOaBV2f
-X-Gm-Gg: AfdE7cmcuXyb6LXVx0KV/a3Yhn0CWOu7unlyDNerQeUVJoxNW5lwp3enXsgKDp2wzTz
-	T2140r1329evntUL2X2NxLeZnG9fYqhKnrI4cbRs4tHnQBe0XrCragy50ObaJQ1CQfrl/Ug5CAL
-	JwwIcZT/6+/nel4bTlZEbuFsK77axY2+2a2B1QfWMtcEvtlt0V5lARqu7KFuOSdhmI0/Dh4qDE6
-	i6F+XvB2LZQ4l4DQL+e1du43zW2eP7x48Ba2ZrJLtbXJYVvNxsV0KjXz3IMGF/MOzTxLykPsqnY
-	unARJpwubMgArWZYemxeKud6pfy799mQzH5sSN9fGYiqn5nZIa3zVXkNeveFVYX5phZ78QVrSCv
-	ZLHKKWxernwz2Lf8OMV5SFp/Cwwn1ceSxl1S8O2m1cPTA1lJbMwiY7nDD9ckODb+ZUdbhiBKYoA
-	1PlzmKru4NTc35q9zrj8nRgPF0ubrqJjbw3heqQHVEGTQbYNrG/TrK+Ww7mz8OIwc=
-X-Received: by 2002:a05:6a21:4d8f:b0:3c0:9c1a:894f with SMTP id adf61e73a8af0-3c110b33403mr4710043637.71.1783815839033;
-        Sat, 11 Jul 2026 17:23:59 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:c63e:9756:a95c:c75])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659c865asm59615501c88.11.2026.07.11.17.23.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 17:23:58 -0700 (PDT)
-Date: Sat, 11 Jul 2026 17:23:55 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, 
-	Russ Weight <russ.weight@linux.dev>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] firmware_loader: builtin: fail build on empty
- firmware
-Message-ID: <alLee0s4gtCM7dVj@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/mw8SRr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00B871F000E9;
+	Sun, 12 Jul 2026 00:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783816200;
+	bh=p+nzMPJIGtDi3AbPcBeXcFEjb5KIKDujiUZ556c0+7k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=k/mw8SRrKW4EjQn/bRiQKD06UHw/slK+WIKZm8729kS6z5hAGdNXhepJww0j5C6TP
+	 iAw5YrRBZq0dMfYR6Jv68A8mCFLQvV4dyxpq01GxACC1aKJjhsHWC0Prx9WPBoi9sX
+	 0WzwQ1pW+h9ydr4GMBmVugH0c9AJeHSKmY1eCngVfbKqnYeQrQHjcFg/oRcgHoKykB
+	 XyKwzjTszKGGUJssyoJVsM9r7y+Y5h/clAB9MgtnOHO39oPc9QL8A3aA1pb1uUWh6T
+	 BNL2m6he+zrdBBUM7htJCmpvFIxqVe4EjcB/EeueOo8S7bRj4ZRH3uGZdlgPVmi178
+	 39Pw9I+sVwZMw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Danilo Krummrich <dakr@kernel.org>,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH 1/2] firmware_loader: builtin: ignore 0-size firmware
+Date: Sun, 12 Jul 2026 02:29:56 +0200
+Message-ID: <20260712002956.772581-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260426043041.649202-1-dmitry.torokhov@gmail.com>
 References: <20260426043041.649202-1-dmitry.torokhov@gmail.com>
- <20260426043041.649202-2-dmitry.torokhov@gmail.com>
- <DJW5EBHLCXO4.PFQOK4M2ZZ48@kernel.org>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DJW5EBHLCXO4.PFQOK4M2ZZ48@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 12, 2026 at 01:58:26AM +0200, Danilo Krummrich wrote:
-> On Sun Apr 26, 2026 at 6:30 AM CEST, Dmitry Torokhov wrote:
-> > +	if [ ! -s "$(fwdir)/$(FWNAME)" ]; then				 \
-> > +		echo "error: empty firmware: $(fwdir)/$(FWNAME)" >&2	;\
-> > +		exit							;\
-> 
-> Shouldn't this be 'exit 1' to actually fail the build?
+On Sat, 25 Apr 2026 21:30:38 -0700, Dmitry Torokhov wrote:
+> [PATCH 1/2] firmware_loader: builtin: ignore 0-size firmware
 
-Yes, you are absolutely right. Do you want me to resend or you can fix
-it up on your end?
+Applied, thanks!
 
-Thanks.
+  Branch: driver-core-testing
+  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
 
--- 
-Dmitry
+[2/2] firmware_loader: builtin: fail build on empty firmware
+      commit: 1160c2208fab
+
+      [ Use 'exit 1' to properly fail the build. - Danilo ]
+
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patch is in the driver-core-testing branch and will be promoted to
+driver-core-next after validation.
