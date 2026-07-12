@@ -1,157 +1,165 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F88367B89
-	for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 16:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517471A239A;
+	Sun, 12 Jul 2026 16:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783875525; cv=none; b=pzOfBxls4Ey8SD6hXI2vMgWuW9GH8149XOHVairn7zNDVpQsZL/u5s3CO29/M0q31DPNiv54aH3vNvKLvg0ghiUSHnvRpRnCIG9kqOsBPgcC7cICpkSGZqvM2urkNwqMHRCEFB2qhaARlcQck7dvB0vTk1XStweOhAy+UHZdMEs=
+	t=1783875551; cv=none; b=ElcNqiuAHm+iNRM5xxsn46J/mIgtECp/bMaHdC/ff8+GkuCdPyxNtEquNuyUxl3va7+1v7Rz620r3dydJqJzihSnXFwL2t7XaopO9NndUaxyupxBe1jgQL/KKZ/LmFV8shqAbgzXfepubMAjkhG15rbiVHrgmjLRjK5RkUR3AwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783875525; c=relaxed/simple;
-	bh=swgmVY9FtI4pJ4eSMqifCns/lebL+9czFMeFZTNDdOY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IYq9XE45unf6uNNkp+qk/QIilrHKjoAR9/kQ47uXcvJOA8nLynLjG2HJXdPuO/ufP5GqRlhL7DkKdTcSD9kZBTd7Gmgwg3OpnjWJ0DyTBK3ldUp759deCUEkarQsY13hELaOiJXMABDJXAoyN7SrW4TtRJvNalNvqlw5X26UDCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=CFP0IaDN; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	s=arc-20240116; t=1783875551; c=relaxed/simple;
+	bh=mSp7DKzuJHsvVxwokX8VtjfogrcPbIQ5e7AR3Y3BA7E=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=ZhCg6gYZ94Myk1353wtaoLBKleFou4YjyrmBxEW4Llxim1Y5jDzKAeorPThWWnmUU3qmM0I0dhStTKer1G3XiU9LLxlg4gr/8mUVtX257O6Ob5ocSe/LCFKjIJDbLz+K6w+kZYFd+Zx4ez0CNtEmSi6VPTpY8bfwg2vbw6kIs7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jf3Nb94H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="CFP0IaDN"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id C508B240109
-	for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 18:58:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1783875521;
-	bh=WrFV3DYGEdX1yssc8kRGqHi4rldvULjAXPP84Ohqy4A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:To:Cc:Autocrypt:OpenPGP:From;
-	b=CFP0IaDNoZh/WaNXi8PsVYH+w4P6E8cIqbpwF6A8CwP3JDE79miLX4pKLZAm0+jCl
-	 /EZGdxb3AGgQwSQsaeOX43Davl6v/G1tAy0IXlME4Yg52UJvGYtgJwy6WwpvRoR8BP
-	 CIExaKpPmYhqDoEMg/I8G3OPy7Gu48misZqT2Y+0iODt7Zyhe3GeLGwFejjQTGJbN+
-	 XUIdlK8KI2LvZA63VEWACplQEgAA8ch683SeD713hDyQ4/axwlwpB2fGg/j1YZSO7l
-	 yMKCT9gwH2BrLzthEVa7CAr4oNGj/UdQ4uIKtBrT1sPeEsPGj9hoV7wCMpK02wpvEo
-	 4HQIp04c24Qrg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4gysGP71vNz6v0l;
-	Sun, 12 Jul 2026 18:58:37 +0200 (CEST)
-From: Markus Probst <markus.probst@posteo.de>
-Date: Sun, 12 Jul 2026 16:58:40 +0000
-Subject: [PATCH v13 3/3] MAINTAINERS: serdev: Add self for serdev
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jf3Nb94H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CE911F000E9;
+	Sun, 12 Jul 2026 16:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783875549;
+	bh=e1dmvE3Tlm+yvRV2mRiPOlbKn5bOWrgkA2i+qs4+eRI=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=jf3Nb94HJ4+X2dF/jEl7zUQEbDNo6GB9Tq03LorRZdwonP0lHMsBmz3Fv6fCRsLCV
+	 IDeCKkR6U0e7lufP/J2n4TC8Mqx+Wm8uN+PyESWtp5vhrevY03vekUe5ycBqJeI7n0
+	 waLcZlBx0eTHEafLCAI1lDs2aFxujINJhszYa+rOE5gRmPwREiSCymY3xYbGcWSEVU
+	 KJ70Isq7mj0rqrnyI/2FxiZ9pRbSvUhhz+pRGn0MVbEitS+O7PekvZGFR03ywwkgZk
+	 kybT94jnuKTVL1MXyJPj+6xV4H4QKn6Uv8w2rBiJW/6FH/GawOB0+r2hqUh65yADft
+	 P/Cza+VB4TBuA==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260712-rust_serdev-v13-3-2c4060bc8e30@posteo.de>
-References: <20260712-rust_serdev-v13-0-2c4060bc8e30@posteo.de>
-In-Reply-To: <20260712-rust_serdev-v13-0-2c4060bc8e30@posteo.de>
-To: Rob Herring <robh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Kari Argillander <kari.argillander@gmail.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Boqun Feng <boqun@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Boqun Feng <boqun@kernel.org>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
- Markus Probst <markus.probst@posteo.de>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=885;
- i=markus.probst@posteo.de; h=from:subject:message-id;
- bh=swgmVY9FtI4pJ4eSMqifCns/lebL+9czFMeFZTNDdOY=;
- b=owEBiAJ3/ZANAwAIATR2H/jnrUPSAcsmYgBqU8e1cVm2pRJGsy/rHT4RGT5iiImhRDxB663h4
- QKe1S8JnJqJAk4EAAEIADkWIQSCdBjE9KxY53IwxHM0dh/4561D0gUCalPHtRsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQNHYf+OetQ9JfFQ/4+7hfSOYVQVEPYPNEKHojF7bH25UKqor
- 3TewJIl2z3ilEtx5m9abP+ZDZ3H+yv8KVQuH3tLT/InPCDV71YlKu6kLkcepBWX6wGzC8rc/Clk
- +w6ksLNPeFVDlNeCFfpcrQSE0Jy3Frkkwm9HQ9hCSQ0XWq/9Vqc58sGYf2lNYx+N7SiPrA2Xa7l
- Kq+aY/SoD7JJXS04HwOSB70WYFOar3kPgrU6gdBr7yOGP+3Qd7kYUq8RUbpCNsh05yIuOQ6JLTr
- PEsQ6Br78pRb7Yig4+8kg5A0LrPNX9rqbBI44RluufCQLgMmOd5mK7jPKiHz5I6+1RZE4T+XuU7
- 4X+5AmZvNwbTBiTtoUBj1Te8ZzesyoSf6RUBJarAhXNBQjBXwudtk8IalRl/IcTwG9re89/iRhA
- FmC/goOBXqvkpwXJaEkQpHCbrHzzD+rw0jXFQvkxv5GCON1Eb/TEn7i43liNOIfg8cTvU6ArF9y
- seRXIkwhq4TNgfzNlqWNoT5iOdOyNYeimYjkU7TdsynRXOln4PRsqNYA/wdcpH4Bw3oMb3FfFR/
- oR+fkGbdxrmPPgUF1jJ+q1kmDwC2JEjfIMm+YcGP10qx6H5U/03qmI04iQUyMF/OvyMkIHNEQxi
- HPAthn6x0NpH5dVXeowcQG7QicExV99vpSzyzTr+NHLHJaLLU4A==
-X-Developer-Key: i=markus.probst@posteo.de; a=openpgp;
- fpr=827418C4F4AC58E77230C47334761FF8E7AD43D2
-Autocrypt: addr=markus.probst@posteo.de; prefer-encrypt=mutual;
-  keydata=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
-  aBeNN4ijKZchBXHPgVx+YtWRHfcm4l8=
-OpenPGP: url=https://posteo.de/keys/markus.probst@posteo.de.asc; preference=encrypt
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 12 Jul 2026 18:59:04 +0200
+Message-Id: <DJWR3RYAWYAI.LQC41HSN2I94@kernel.org>
+Subject: Re: [PATCH v3 0/5] software node: provide support for fw_devlink
+Cc: "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
+ <david@davidgow.net>, "Rae Moar" <raemoar63@gmail.com>, "Andy Shevchenko"
+ <andriy.shevchenko@linux.intel.com>, "Daniel Scally" <djrscally@gmail.com>,
+ "Heikki Krogerus" <heikki.krogerus@linux.intel.com>, "Sakari Ailus"
+ <sakari.ailus@linux.intel.com>, "Bartosz Golaszewski" <brgl@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Linus Walleij" <linusw@kernel.org>, "Dmitry Torokhov"
+ <dmitry.torokhov@gmail.com>, <linux-kernel@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
+ <linux-acpi@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <linux-gpio@vger.kernel.org>
+To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com>
+In-Reply-To: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com>
 
-Rob mentioned he needs to find someone else to maintain serdev.
+On Fri Jul 10, 2026 at 3:51 PM CEST, Bartosz Golaszewski wrote:
+> Bartosz Golaszewski (5):
+>       kunit: provide a set of fwnode-oriented helpers
+>       software node: add fw_devlink support
+>       software node: add kunit tests for fw_devlink support
+>       MAINTAINERS: add myself as reviewer of software node support
+>       gpio: kunit: add test cases verifying swnode devlink support
 
-Link: https://lore.kernel.org/rust-for-linux/20260430195858.GA1650658-robh@kernel.org/
-Link: https://lore.kernel.org/rust-for-linux/da85ceb81f51079d4a8248a1ffde6a27d2ef24ad.camel@posteo.de/
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Markus Probst <markus.probst@posteo.de>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Overall looks good, but I think the two issues pointed out by Sashiko are v=
+alid.
+In addition, I also found a memory leak in the gpiolib kunit test:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ed4f8f2f17d5..c2e3430ac213 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24561,7 +24561,7 @@ F:	drivers/iio/chemical/sps30_i2c.c
- F:	drivers/iio/chemical/sps30_serial.c
- 
- SERIAL DEVICE BUS
--M:	Rob Herring <robh@kernel.org>
-+M:	Markus Probst <markus.probst@posteo.de>
- L:	linux-serial@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/serial/serial.yaml
+	unreferenced object 0xffff88810296b2c0 (size 32):
+	  comm "kunit_try_catch", pid 1096, jiffies 4294694235
+	  hex dump (first 32 bytes):
+	    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+	    66 6f 6f 00 00 00 00 00 00 00 00 00 00 00 00 00  foo.............
+	  backtrace (crc a62f59c2):
+	    __kmalloc_noprof+0x216/0x510
+	    desc_set_label+0x46/0xc0
+	    gpiod_request_commit+0xd5/0x140
+	    gpiod_request+0x49/0x170
+	    gpiod_find_and_request+0x2be/0x520
+	    gpiod_get_index+0x56/0x70
+	    devm_gpiod_get+0x1b/0x90
+	    0xffffffffc0401ff8
+	    platform_probe+0x58/0x90
+	    really_probe+0x1bc/0x490
+	    __driver_probe_device+0xa2/0x140
+	    driver_probe_device+0x1e/0x110
+	    __device_attach_driver+0xc2/0x140
+	    bus_for_each_drv+0x117/0x170
+	    __device_attach+0xd5/0x1c0
+	    device_initial_probe+0x34/0x50
 
--- 
-2.54.0
+I came up with the following diff to resolve those issues.
 
+diff --git a/drivers/base/test/swnode-devlink-test.c b/drivers/base/test/sw=
+node-devlink-test.c
+index 6f59f13214fc..143b9c4047a0 100644
+--- a/drivers/base/test/swnode-devlink-test.c
++++ b/drivers/base/test/swnode-devlink-test.c
+@@ -17,6 +17,10 @@
+ #include <kunit/platform_device.h>
+ #include <kunit/test.h>
+
++KUNIT_DEFINE_ACTION_WRAPPER(device_remove_software_node_wrapper,
++                           device_remove_software_node,
++                           struct device *);
++
+ static int swnode_count_suppliers(struct fwnode_handle *fwnode)
+ {
+        struct fwnode_link *link;
+@@ -294,6 +298,9 @@ static void swnode_devlink_test_probe_order(struct kuni=
+t *test)
+
+        ret =3D device_add_software_node(&supplier->dev, &supplier_swnode);
+        KUNIT_ASSERT_EQ(test, ret, 0);
++       ret =3D kunit_add_action_or_reset(test, device_remove_software_node=
+_wrapper,
++                                       &supplier->dev);
++       KUNIT_ASSERT_EQ(test, ret, 0);
+        ret =3D device_create_managed_software_node(&consumer->dev,
+                                                  consumer_props, NULL);
+        KUNIT_ASSERT_EQ(test, ret, 0);
+@@ -313,8 +320,6 @@ static void swnode_devlink_test_probe_order(struct kuni=
+t *test)
+
+        /* Tear down the consumer (and its device link) before the supplier=
+. */
+        kunit_platform_device_unregister(test, consumer);
+-
+-       device_remove_software_node(&supplier->dev);
+ }
+
+ static struct kunit_case swnode_test_cases[] =3D {
+diff --git a/drivers/gpio/gpiolib-kunit.c b/drivers/gpio/gpiolib-kunit.c
+index ad961cf97aee..7798f8a8e602 100644
+--- a/drivers/gpio/gpiolib-kunit.c
++++ b/drivers/gpio/gpiolib-kunit.c
+@@ -449,6 +449,9 @@ static void gpio_swnode_probe_defer_on_unregistered(str=
+uct kunit *test)
+
+        pdata =3D dev_get_platdata(&cons->dev);
+        KUNIT_ASSERT_EQ(test, pdata->gpio_err, 0);
++
++       /* Tear down the consumer before the provider to free the GPIO. */
++       kunit_platform_device_unregister(test, cons);
+ }
+
+ static int gpio_swnode_probe_order_test_init(struct kunit *test)
+@@ -614,9 +617,17 @@ static struct kunit_case gpio_unbind_with_consumers_te=
+sts[] =3D {
+        { }
+ };
+
++static int gpio_unbind_test_init(struct kunit *test)
++{
++       device_link_wait_removal();
++
++       return 0;
++}
++
+ static struct kunit_suite gpio_unbind_with_consumers_test_suite =3D {
+        .name =3D "gpio-unbind-with-consumers",
+        .test_cases =3D gpio_unbind_with_consumers_tests,
++       .init =3D gpio_unbind_test_init,
+ };
+
+ kunit_test_suites(
