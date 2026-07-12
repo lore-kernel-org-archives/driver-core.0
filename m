@@ -1,245 +1,269 @@
-Received: from mail-10630.protonmail.ch (mail-10630.protonmail.ch [79.135.106.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48D73191D6
-	for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 11:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E6C2BEC2A
+	for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 13:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783856186; cv=none; b=UCC26UsVNbhm3PdtsJmTIyCBZ7a3V9WemfhzT4uwDu6kGjFCpvNX9qZuquQSbcu5JEwrSQ7E162jWGyxioHOqKWhq6p2f6R/fzwppM/bPEKG1kEwVAH/CFChN22SNy1mkUj1nZ45ARykg3dJdAyLwb2Ovbv+TwtejAl6qOGUCxE=
+	t=1783862367; cv=none; b=ZB5Msp5hBeHcrHlCE/KY9jTDLky5Mf8Uc59n50tbLWlAEOhCWPzIRdylhcbMpbmhZ1B2E1iiAQDG9CiTBhQkXhY6sZx92lD0eF6gjf8XTDjluHMrgkzFq3itXkXsr2yvaVzH3gDk3ZUbo0mnHmNIqlYdo4gbiMtEEnABGCh668k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783856186; c=relaxed/simple;
-	bh=MQgQ0IWFjAoCVpmJuvsFyksixFCSavh6UokVdFHNXp8=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=eQTW3uJe1x3YrzXTwY7r9bXvEI2wvZRe/WwNxb5M2of56vNaS0oG96qj6k1+GcY0mwYFQEtaVHHc1CbZ9JE7wL0E5+/FwaP8Kkzv+aArFMPoUb0lXi0tZMfubHXs7M53gFTvl1J07K3eYJ3WDqzyAWqjbP+fLKu/AwMKt2xdkt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=E8eegfOl; arc=none smtp.client-ip=79.135.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1783862367; c=relaxed/simple;
+	bh=GA2n3X3YYxv/xqLwggfAp+Psl9pqkPA1TJ/rGYjWIzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TOkTtC2nNXNJRFwlkEFk+meqshDbRKaaT30NLSq2/TG4gYAD4ATDv6l6+gKWQ56JWCs7EE9HI6Q/qzVE3cV3uruadmeGw90lHaDaLk2RSpa1XXRvEzjP7HsggyQy4z4QUecH4eiB6/OQ6LtEuIu+3qzZo4PXVXp22xJvEFAWD7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=g3yIfvuZ; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="E8eegfOl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=idjl6gsmt5bhdow5z6z2rvgixu.protonmail; t=1783856171; x=1784115371;
-	bh=G1MjZuFHK3Lys9+L8NuiAc1Kc/+5IEFQrCjyjzdi0vU=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=E8eegfOl9Gh4aaUqD7FvJxo8017Jtu/z1+HCzOzj+kNJfHmZPQdSsvm8ZnaFBZEST
-	 5TZbGrGkNUNY3S9P/kQbmldmR4OSgaAKu1QSHauuaN+omW2RbwWy+NcSk5UE97eYiq
-	 UmVr6MhbV4Ebh7eyxHDgZP3E1rViSKBKnDM3PD55hatcnFZqAEBD3bPhBDU3qA6XfZ
-	 To8Y0VorGq9h8pxVwWThv+QAit4hUNjTghazU/GbBv3H0w3/Jc8CJrhyYpB4J9HLuI
-	 IOlyoSmZmL5itAx19NZpw/IJS3aSNCDREvb1LMO3j9p1kYGZV1NGVh2UQTSRkqSv11
-	 wlnuU0dE7IcPQ==
-Date: Sun, 12 Jul 2026 11:36:05 +0000
-To: Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <daniel.almeida@collabora.com>, Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-From: Lorenzo Delgado <lnsdev@proton.me>
-Cc: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, Tamir Duberstein <tamird@kernel.org>, =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, Abdiel Janulgue <abdiel.janulgue@gmail.com>, Robin Murphy <robin.murphy@arm.com>, John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev, Lorenzo Delgado <lnsdev@proton.me>
-Subject: [PATCH] rust: io: convert ResourceSize into a transparent newtype
-Message-ID: <20260712113602.389060-1-lnsdev@proton.me>
-Feedback-ID: 53083996:user:proton
-X-Pm-Message-ID: edbbd905501a46a21956dba14434fbb5a51bd63e
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="g3yIfvuZ"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-92e4fd65b2bso121330185a.0
+        for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 06:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1783862364; x=1784467164; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=39bk0iOpnnnuS6FEq1W2d71iiM95MbzJdYJU5SoGT3c=;
+        b=g3yIfvuZDYuglaUbAwqsLYRb4xDk2ogwAjMexQhb4fWTA1N+rI9bWqPslCt6qg28BD
+         fHcFZyuVQG9CKc9hIc2Yxcvyq5WorugIilj6KBa2tqFJ6CxlKhhzlltSbstOYyw3XULi
+         vwfoFFCLPUiCT+4HVlmfqGWfznXojsQuKF9gWZs8CShqZIcT2aCvJQJ37/7xwmz1Br84
+         J43o1Ru13/pRAjt7vaUNUtFIiGGS0Xfvjx6r345yiJ6gD0brC2z4K37iOn2s3eCW6yTo
+         2OKiGUalu1NFbcEhYw43Tv0P0xYnLgyc7wlArT4cZY6WfK6NdlUJNAvN2tkq0TTDhRf7
+         qdwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783862364; x=1784467164;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=39bk0iOpnnnuS6FEq1W2d71iiM95MbzJdYJU5SoGT3c=;
+        b=pto7dq9FWDXurrR55Cu4W867qiHuT8kUQdXZAGLHL3O1IiuhFKkectRCCYHx0dOSkJ
+         oEG4DzZ0H8HrUp0HLV9zHqEqCwoDEUx4MTURsRsAlQC3Kkm77XEBHJim5jmXf+ov8uoq
+         j8T7TfCildDW+6ljMx9Cr9OXRB1mVYN1FMi0vBgrWLOR/Uz0ZAO9FF0AuMtL43uJkRg4
+         phhcQrSGnOGJvCtX+cCXtQdBAphuoX431JJcTf0ZsCGtFR6TBRwkr0PcQt24cmSH7IKL
+         v+93bV6cyi09hdQjIra336nLS9MFbyHidppRrIkf+QxFWwZ4gu1ZQZZa/uKbbg8flOym
+         ReJg==
+X-Forwarded-Encrypted: i=1; AHgh+RoiqBEL39BuqNctoYYfhcDkIDbbkwBGmbPvLzsV4BNPD52IAP32nMJ34+dI9iDOi3oXDtGIwkO+Am9xjw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxk8YThA2yr1TGHnG3ju0ypv/kAOeFrLHN1LrCqAA1NFzD2ATmF
+	rEe6KaVeJJTumcNt7WNP3NTkYOnzZ6HrMlhlOCimJ5ZBB9LDzJudpbMt2DeJ1BHtH8k=
+X-Gm-Gg: AfdE7ckoI09tsSLRrUwLaJ8L7VFn1pUbCPpfgZZ8gnJ/HPsL0fwQp0i8CFjIqAxD3Go
+	w6gp2JCdB978W1zdK5hkMqZUO9L2+W3Gj8As14f+mBfv2FhhJn3KSq8Py84du8PKTDgJFfe7sNK
+	fsz0/52nj4i9qux8uSjBjzoE+C8lL5bteFMrSP3RpGnAFYQZk+QN20jwm/eNBJfShkFPm/fzoFJ
+	V4FUUA0i+hxp9Yi/K9ZMVGq7ulOghjUIGWGo91OL9Zi5xCOP2GA2o4eTWjd6HknPeiFb4DSK0KR
+	WQcAfaBlwa6IeaT/CWorRjtGXnTyZlOPJLDITgMVAqqDlVSPmaf7gW29arjaUnrpBGuT9A71OU4
+	WVxCmv/bBihCIs2UJyPEkcxL5HiBoMgSSr1JtokrMrmsPRpvWeeEG0RqTnbHTDr8NzeS+AhS1ws
+	DgL6/DYlw52EWtkKiib/M9qQSQOVAaiwMuTIU+YA61P0LqVXULiuGjsdtZcb2oCAvbY7oj
+X-Received: by 2002:a05:620a:28cb:b0:92e:94a7:16e8 with SMTP id af79cd13be357-92ef2b354f5mr605721685a.15.1783862364130;
+        Sun, 12 Jul 2026 06:19:24 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b4b38dsm900591885a.10.2026.07.12.06.19.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2026 06:19:23 -0700 (PDT)
+Date: Sun, 12 Jul 2026 09:19:18 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Dan Williams (nvidia)" <djbw@kernel.org>
+Cc: linux-mm@kvack.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kernel-team@meta.com, david@kernel.org, osalvador@suse.de,
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	vishal.l.verma@intel.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, akpm@linux-foundation.org,
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+	shuah@kernel.org, iweiny@kernel.org,
+	Smita.KoralahalliChannabasappa@amd.com, apopple@nvidia.com
+Subject: Re: [PATCH v6 07/10] dax: plumb hotplug online_type through dax
+Message-ID: <alOUVvJCSQDO6yNn@gourry-fedora-PF4VCD3F>
+References: <20260630211842.2252800-1-gourry@gourry.net>
+ <20260630211842.2252800-8-gourry@gourry.net>
+ <6a5016bf71df4_3b7ee5100b3@djbw-dev.notmuch>
+ <alAb7Q_Ku5dVRKZ7@gourry-fedora-PF4VCD3F>
+ <alBLJoM86ujz5Fg1@gourry-fedora-PF4VCD3F>
+ <6a51920acece6_35cf3310061@djbw-dev.notmuch>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="1q15GSERqnHPArbK"
+Content-Disposition: inline
+In-Reply-To: <6a51920acece6_35cf3310061@djbw-dev.notmuch>
 
-`ResourceSize` was a bare type alias for `resource_size_t`, so it
-inherited every integer operation and `as` cast. That silently permits
-operations that are meaningless for the size of a hardware resource:
-mixing it with unrelated integers and truncating casts.
 
-Wrap it in a `#[repr(transparent)]` newtype so each conversion at a
-boundary becomes explicit and reviewable. The representation is
-unchanged, so this is ABI-identical; only the spelling at the FFI
-boundary changes. Provide the minimal conversion surface the call sites
-need: `from_raw`/`into_raw`, `From` in both directions, and a fallible
-`TryFrom<ResourceSize> for usize` for the page-count site that can
-truncate on 32-bit. Update the two producers, `Resource::size` and
-`SGEntry::dma_len`, and the `request_region` and nova-core consumers so
-the tree builds green. Add doctest examples for the new type.
+--1q15GSERqnHPArbK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1203
-Signed-off-by: Lorenzo Delgado <lnsdev@proton.me>
+On Fri, Jul 10, 2026 at 05:44:58PM -0700, Dan Williams (nvidia) wrote:
+> Gregory Price wrote:
+> > On Thu, Jul 09, 2026 at 06:08:45PM -0400, Gregory Price wrote:
+> > > On Thu, Jul 09, 2026 at 02:46:39PM -0700, Dan Williams (nvidia) wrote:
+> > > 
+> > > This was more a matter of having the DEFAULT set consistently across
+> > > the dax driver variant probe() functions to make the behavior explicit.
+> > > I didn't want an un-set value bug to creep in here somehow.
+> > > 
+> > > Happy to drop them if you think that's unneeded.
+> > > 
+> > 
+> > Ah
+> > 
+> > Not setting the value in each of those places is equivalent to setting
+> > MMOP_OFFLINE (0), so better to just set DEFAULT regardless.
+> > 
+> > So unless you have strong feelings i will keep them as-is.
+> 
+> Right, the mild feelings are only coming from the changelog mismatch
+> which says "Oh no, device-dax drivers can not specify their online type
+> besides the default" and all this series does is keep the status quo.
+> 
+> That can be had by just having unconditional:
+> 
+>      online_type = mhp_get_default_online_type();
+> 
+> ...in dev_dax_kmem_probe() and get rid of dev_dax->online_type until the
+> first user arrives. If you are respinning the series and that patch
+> drops, yay. If not, oh well.
+
+if you prefer, i can add the CXL build option to this series instead of
+the follow up (attached).  The code is fully contained in DAX anyway,
+and I have it sitting off in another branch anyway.
+
+I suppose with this, we can terminate the entire series and the first
+user that grows an opinion can add the following:
+
+cxl/cxl.h:
+    struct cxl_dax_region *cxlr_dax {
+    +   int online_type
+    };
+
+dax/cxl.c:
+   data.online_type = (cxlr_dax.online_type == DAX_ONLINE_DEFAULT) ?
+                      cxl_dax_online_type() : cxlr_dax.online_type;
+
+~Gregory
+
+--1q15GSERqnHPArbK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment;
+	filename=0001-dax-cxl-add-build-time-CXL-RAM-region-auto-online-po.patch
+
+From b2cb5c4f5f03dd698df97ae3db2c0207db4acd83 Mon Sep 17 00:00:00 2001
+From: Gregory Price <gourry@gourry.net>
+Date: Thu, 9 Jul 2026 19:31:28 -0700
+Subject: [PATCH] dax/cxl: add build-time CXL RAM region auto-online policy
+
+CXL devices using kmem follow the single global auto-online policy.
+
+On systems with multiple drivers using memory hotplug, this makes
+management more complex - a single special kmem device forces all
+kmem devices to be managed manually in userland.
+
+Add a build-time option to select CXL device online policy.
+
+  - System default   -> DAX_ONLINE_DEFAULT (default)
+  - Online           -> MMOP_ONLINE
+  - Online (movable) -> MMOP_ONLINE_MOVABLE
+  - Online (kernel)  -> MMOP_ONLINE_KERNEL
+  - Unplugged        -> DAX_KMEM_UNPLUGGED
+
+Default to system default to retain userland backward compatibility.
+
+Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
-An earlier attempt at this conversion was posted by Moritz Zielke [1]. This
-is a fresh, independent implementation that reuses none of that code; it
-additionally converts the nova-core consumer and adds doctest examples.
+ drivers/cxl/Kconfig | 41 +++++++++++++++++++++++++++++++++++++++++
+ drivers/dax/cxl.c   | 15 ++++++++++++++-
+ 2 files changed, 55 insertions(+), 1 deletion(-)
 
-[1] https://lore.kernel.org/all/20251203-res-size-newtype-v1-1-22ed0b8a7a18=
-@gmail.com/
-
- drivers/gpu/nova-core/firmware/gsp.rs |  2 +-
- rust/kernel/io.rs                     | 73 +++++++++++++++++++++++++--
- rust/kernel/io/resource.rs            |  6 +--
- rust/kernel/scatterlist.rs            |  2 +-
- 4 files changed, 74 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/nova-core/firmware/gsp.rs b/drivers/gpu/nova-core/=
-firmware/gsp.rs
-index 99a302bae567..d7593888e65b 100644
---- a/drivers/gpu/nova-core/firmware/gsp.rs
-+++ b/drivers/gpu/nova-core/firmware/gsp.rs
-@@ -175,7 +175,7 @@ pub(crate) fn radix3_dma_handle(&self) -> DmaAddress {
- fn map_into_lvl(sg_table: &SGTable<Owned<VVec<u8>>>, mut dst: VVec<u8>) ->=
- Result<VVec<u8>> {
-     for sg_entry in sg_table.iter() {
-         // Number of pages we need to map.
--        let num_pages =3D usize::from_safe_cast(sg_entry.dma_len()).div_ce=
-il(GSP_PAGE_SIZE);
-+        let num_pages =3D usize::try_from(sg_entry.dma_len())?.div_ceil(GS=
-P_PAGE_SIZE);
-=20
-         for i in 0..num_pages {
-             let entry =3D sg_entry.dma_address()
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index fcc7678fd9e3..ebf00b4536d6 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -6,9 +6,12 @@
-=20
- use crate::{
-     bindings,
-+    fmt,
-     prelude::*, //
- };
-=20
-+use core::num::TryFromIntError;
+diff --git a/drivers/cxl/Kconfig b/drivers/cxl/Kconfig
+index 80aeb0d556bd7..52450225dbb11 100644
+--- a/drivers/cxl/Kconfig
++++ b/drivers/cxl/Kconfig
+@@ -212,6 +212,47 @@ config CXL_REGION
+ 
+ 	  If unsure say 'y'
+ 
++choice
++	prompt "CXL Memory Hotplug Policy"
++	depends on CXL_REGION
++	default CXL_MEMHP_POLICY_SYSTEM_DEFAULT
++	help
++	  Select the online policy the CXL driver requests when a region is
++	  hotplugged as System RAM.
 +
- pub mod mem;
- pub mod poll;
- pub mod register;
-@@ -25,11 +28,73 @@
- /// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit archite=
-ctures.
- pub type PhysAddr =3D bindings::phys_addr_t;
-=20
--/// Resource Size type.
-+/// Resource size type.
- ///
--/// This is a type alias to either `u32` or `u64` depending on the config =
-option
--/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a u64 even on 32-bit archite=
-ctures.
--pub type ResourceSize =3D bindings::resource_size_t;
-+/// This wraps either `u32` or `u64` depending on the config option
-+/// `CONFIG_PHYS_ADDR_T_64BIT`, and it can be a `u64` even on 32-bit archi=
-tectures.
-+///
-+/// # Examples
-+///
-+/// ```
-+/// use kernel::io::ResourceSize;
-+///
-+/// let size =3D ResourceSize::from_raw(0x1000);
-+/// assert_eq!(size.into_raw(), 0x1000);
-+///
-+/// // Round-trips through the raw C type.
-+/// let raw: kernel::bindings::resource_size_t =3D size.into();
-+/// assert_eq!(ResourceSize::from(raw), size);
-+///
-+/// // Fallible conversion to `usize` (can truncate on 32-bit).
-+/// assert_eq!(usize::try_from(size)?, 0x1000);
-+/// # Ok::<(), core::num::TryFromIntError>(())
-+/// ```
-+#[repr(transparent)]
-+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-+pub struct ResourceSize(bindings::resource_size_t);
++	  If unsure, select "System default".
 +
-+impl ResourceSize {
-+    /// Creates a resource size from the raw C type.
-+    #[inline]
-+    pub const fn from_raw(value: bindings::resource_size_t) -> Self {
-+        Self(value)
-+    }
++config CXL_MEMHP_POLICY_SYSTEM_DEFAULT
++	bool "System default"
++	help
++	  Follow the system-wide memory hotplug policy.
 +
-+    /// Turns this resource size into the raw C type.
-+    #[inline]
-+    pub const fn into_raw(self) -> bindings::resource_size_t {
-+        self.0
-+    }
++config CXL_MEMHP_POLICY_ONLINE
++	bool "Online"
++	help
++	  Automatically online memory and let the kernel choose the zone.
++
++config CXL_MEMHP_POLICY_ONLINE_MOVABLE
++	bool "Online (movable)"
++	help
++	  Automatically online the memory into ZONE_MOVABLE. Choose this for
++	  memory that may need to be hotremoved later, or if you do not want
++	  unmovable, kernel allocations to land on this memory.
++
++config CXL_MEMHP_POLICY_ONLINE_KERNEL
++	bool "Online (kernel)"
++	help
++	  Automatically online the memory into ZONE_NORMAL. The kernel may
++	  place unmovable allocations on this memory.
++
++config CXL_MEMHP_POLICY_UNPLUGGED
++	bool "Unplugged"
++	help
++	  Create the dax/kmem device but add no memory at bind time.
++	  Choose this if a userland orchestrator will manage the device.
++
++endchoice
++
+ config CXL_REGION_INVALIDATION_TEST
+ 	bool "CXL: Region Cache Management Bypass (TEST)"
+ 	depends on CXL_REGION
+diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
+index 1a7ec62122134..15f70d578c22b 100644
+--- a/drivers/dax/cxl.c
++++ b/drivers/dax/cxl.c
+@@ -6,6 +6,19 @@
+ #include "../cxl/cxl.h"
+ #include "bus.h"
+ 
++static int cxl_dax_online_type(void)
++{
++	if (IS_ENABLED(CONFIG_CXL_MEMHP_POLICY_UNPLUGGED))
++		return DAX_KMEM_UNPLUGGED;
++	if (IS_ENABLED(CONFIG_CXL_MEMHP_POLICY_ONLINE))
++		return MMOP_ONLINE;
++	if (IS_ENABLED(CONFIG_CXL_MEMHP_POLICY_ONLINE_MOVABLE))
++		return MMOP_ONLINE_MOVABLE;
++	if (IS_ENABLED(CONFIG_CXL_MEMHP_POLICY_ONLINE_KERNEL))
++		return MMOP_ONLINE_KERNEL;
++	return DAX_ONLINE_DEFAULT;
 +}
 +
-+impl fmt::Debug for ResourceSize {
-+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-+        write!(f, "{:#x}", self.0)
-+    }
-+}
-+
-+impl From<bindings::resource_size_t> for ResourceSize {
-+    #[inline]
-+    fn from(value: bindings::resource_size_t) -> Self {
-+        Self::from_raw(value)
-+    }
-+}
-+
-+impl From<ResourceSize> for bindings::resource_size_t {
-+    #[inline]
-+    fn from(value: ResourceSize) -> Self {
-+        value.into_raw()
-+    }
-+}
-+
-+impl TryFrom<ResourceSize> for usize {
-+    type Error =3D TryFromIntError;
-+
-+    #[inline]
-+    fn try_from(value: ResourceSize) -> Result<Self, Self::Error> {
-+        Self::try_from(value.into_raw())
-+    }
-+}
-=20
- /// Raw representation of an MMIO region.
- ///
-diff --git a/rust/kernel/io/resource.rs b/rust/kernel/io/resource.rs
-index 17b0c174cfc5..a33a416b289a 100644
---- a/rust/kernel/io/resource.rs
-+++ b/rust/kernel/io/resource.rs
-@@ -58,7 +58,7 @@ fn drop(&mut self) {
-         };
-=20
-         // SAFETY: Safe as per the invariant of `Region`.
--        unsafe { release_fn(start, size) };
-+        unsafe { release_fn(start, size.into_raw()) };
-     }
- }
-=20
-@@ -114,7 +114,7 @@ pub fn request_region(
-             bindings::__request_region(
-                 self.0.get(),
-                 start,
--                size,
-+                size.into_raw(),
-                 name.as_char_ptr(),
-                 flags.0 as c_int,
-             )
-@@ -130,7 +130,7 @@ pub fn request_region(
-     pub fn size(&self) -> ResourceSize {
-         let inner =3D self.0.get();
-         // SAFETY: Safe as per the invariants of `Resource`.
--        unsafe { bindings::resource_size(inner) }
-+        ResourceSize::from_raw(unsafe { bindings::resource_size(inner) })
-     }
-=20
-     /// Returns the start address of the resource.
-diff --git a/rust/kernel/scatterlist.rs b/rust/kernel/scatterlist.rs
-index b83c468b5c63..5d67242befd8 100644
---- a/rust/kernel/scatterlist.rs
-+++ b/rust/kernel/scatterlist.rs
-@@ -93,7 +93,7 @@ pub fn dma_address(&self) -> dma::DmaAddress {
-     pub fn dma_len(&self) -> ResourceSize {
-         #[allow(clippy::useless_conversion)]
-         // SAFETY: `self.as_raw()` is a valid pointer to a `struct scatter=
-list`.
--        unsafe { bindings::sg_dma_len(self.as_raw()) }.into()
-+        ResourceSize::from_raw(unsafe { bindings::sg_dma_len(self.as_raw()=
-) }.into())
-     }
- }
-=20
-
-base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
---=20
-2.54.0
+ static int cxl_dax_region_probe(struct device *dev)
+ {
+ 	struct cxl_dax_region *cxlr_dax = to_cxl_dax_region(dev);
+@@ -27,7 +40,7 @@ static int cxl_dax_region_probe(struct device *dev)
+ 		.id = -1,
+ 		.size = range_len(&cxlr_dax->hpa_range),
+ 		.memmap_on_memory = true,
+-		.online_type = DAX_ONLINE_DEFAULT,
++		.online_type = cxl_dax_online_type(),
+ 	};
+ 
+ 	return PTR_ERR_OR_ZERO(devm_create_dev_dax(&data));
+-- 
+2.53.0-Meta
 
 
+--1q15GSERqnHPArbK--
