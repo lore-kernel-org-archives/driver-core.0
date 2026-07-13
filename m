@@ -1,63 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21C13793B0
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 09:45:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222513E3DAB
+	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 10:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783935922; cv=none; b=C0GHh6TZ3CofnNyM/AVY+kPf67jf7qoa2s7S3xiW5ZTxMX66FDOaG9bN8d5M8eW64sP4pSD1S15cdzNfiIhlbxppemqZFjUjSmf4xTr0Z5Ux95vrBdxMb1Ibupjp7EtU19GiLTqnvKSR0LDh8BVHt9N/aRcnhTjvHApfmGLNhn0=
+	t=1783938023; cv=none; b=u7CMeaK+38YLAJLsXfmRXZ6veEagw3ShgDBso1iGVXmSJoglBu2V5uWtaE//NC6xM+6psPep8LzfW7VVnQblI5Y5XSyfsVoLwceImzsPE2V9PTppHKSMPahpbiX4nhTQ8YmJxCLZ3AFKWDM3rF4pwyWzC8Uu6MBlb+cfcryusfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783935922; c=relaxed/simple;
-	bh=ouuxFsl/C/GRvSsCa/RAzwrn+V4qnHZ4qWG5NdgGvn4=;
+	s=arc-20240116; t=1783938023; c=relaxed/simple;
+	bh=kcn99Xy/3DudcybC0jtllxbvzn7qC6YvN7bxjIIy5So=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qLcmBrsIMwJJoEV3BT6W7dhf/eEkQpiO7itrhK6ZVvgZ1QfZjteyjO6i1PdGMzIW+AczmJFKiZNLN8hWYhIyKafq4dp8K2BQnKH8op7z079dP9i1/6sTRFpVjWtjVr7t0VmuD6DZvIiswm4ThwWDh5cIikGj5XIpYSBr/AJtdCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DI0ePzf7; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=JmVI/KboB34rbl0KwFpe/IlJ5/j4iO7//7W2OKStsN0Q7BbKBIQw/U2fjGhzqompNLdL4MILgn58HXP44B73CIwZMPyCNuFwH2GWbhFcjTjDbguRYwkNz/gatjFenLJtkLUIhgkruL+VZQvB69HYfttm4GXTLAG68nbI1FP/QEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wf1UkD1F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DI0ePzf7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B6051F0155D
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 09:45:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wf1UkD1F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE8E81F00ACA
+	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 10:20:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783935920;
-	bh=DnRuzPMU2XYhVlhKrVQWCQjUZH4SWa17UwUD0HEYcFM=;
+	s=k20260515; t=1783938021;
+	bh=E2Il11/mxE78nQhBlWi8jSDcSjyK2Ic0zf6JqsJx93g=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=DI0ePzf7r9OluhomKWRCs8fWlNMI7NWyPvEezI1JDCBeclDNCE+K+CYd3DSGiyWf5
-	 Ma8ZZae/0yb62BM/zkdMJBQ1RfDpIVgbCtQp8f4wq2xRQowJAsizxQDNE+ncB0sv/1
-	 9M3dPmnjS2OQjGZcIuqG0GZV6jl6j+Yo6zR4sJc2I4sqQZDk3H+O4qwbazZM5qiaEU
-	 dZKwjsvdrjpqNLBUKMucKfjZREnXdf1jmW8RtP+WiO0juEyWu17jPPy7HmT4LWraag
-	 jE2To8b0qeG+EqE7bSLj1e19kTcY/2bFNEjOteM2IaevLSdX2vgS7bTEPjFZtD8vbD
-	 qx3CW6TeTNBVQ==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39c923b8c2aso25746311fa.2
-        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 02:45:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rp+vcYkAfWodmFuuWPqEJiGsFgdGb6FpJwxCMX1NOaL4jaXH3i+/yJR0KHYQ30W8xLNSUFz8otAeh4Mew==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yytw5DX0r5OHHBkL2om8ZdirMGo0WGng7GDk3K6Q5+KUferK/G1
-	K3dzAQVF7pCsE10lPypi8PqgkV+Nx+ddDoHw74OHFJx2xxVlWxy6IwH8JHQhvmlKv6n78yJYW6M
-	gqzwcyUMdqpVW/BXONHXuNIsSbUtORvexSQHdhq9Q9w==
-X-Received: by 2002:a05:651c:154d:b0:39c:7200:b9b9 with SMTP id
- 38308e7fff4ca-39caa7feec7mr18650561fa.13.1783935919044; Mon, 13 Jul 2026
- 02:45:19 -0700 (PDT)
+	b=Wf1UkD1FP+Rahs3YaRe39uXTOXiCmBmEdY3pj/MHWA3iJZd+H83nbglaJ7xmp7GAn
+	 kbQ2pelhbolfoIVBdJ4hX6APi7hzmW6HBWrfwpk0qILjd9vIxgPmpCjIm4hgA8JafS
+	 Ogb0jamd4dhenaU7GJunZzz+cQ0aXi8SE6UGFwiYUgvWXySZ7PBCfvasMMvOlbQyfX
+	 OlHjfjoOmc5QiFPKQEgGN0zdqL1K0MJlJspaH1GEgX5uG3pW2Gg4t+xmNxw1Bti1gz
+	 WtdT/DzJWC8Wiag6O9dwC9PsfIA9/XRsiU9hoGMauH+nHwSpsr4s1ojo+7+DnDW6uC
+	 RsAYLLNRgV0mw==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39c9cbf0719so22583011fa.0
+        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 03:20:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rp3dhl263/oEdaRPOLHWmg3kvy/YxAbIefqjpPHIkffePyLahapM1cibF3Bd/QYfxTEqNLIZI2MUkRssQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYqlYYForpeo4dhvWEzPgqiyYDZGxhNrAW7Em97CSZNx/agH3X
+	aA3O1ExlELnzNiLA03YP0Ofl7Vm67LidDARltj3d5bI/kqsfN4mgBQiK5+JbvSZ7B90szR1aTEY
+	66o7KWUCYZ1Cy9sghO046NFjs0sKQc2e5eJzwW+zSqw==
+X-Received: by 2002:a2e:b8c3:0:b0:39c:6d3a:2dc6 with SMTP id
+ 38308e7fff4ca-39caa806714mr17361151fa.15.1783938020444; Mon, 13 Jul 2026
+ 03:20:20 -0700 (PDT)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 13 Jul 2026 02:45:17 -0700
+ HTTPREST; Mon, 13 Jul 2026 03:20:18 -0700
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 13 Jul 2026 02:45:17 -0700
+ HTTPREST; Mon, 13 Jul 2026 03:20:18 -0700
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <DJWR3RYAWYAI.LQC41HSN2I94@kernel.org>
+In-Reply-To: <CAMRc=MeW_pjczz-5L+p2tqPw4TfgVPmB7t_hXdtb9cX0BDSHuA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com> <DJWR3RYAWYAI.LQC41HSN2I94@kernel.org>
-Date: Mon, 13 Jul 2026 02:45:17 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MeW_pjczz-5L+p2tqPw4TfgVPmB7t_hXdtb9cX0BDSHuA@mail.gmail.com>
-X-Gm-Features: AVVi8CdMA5ntkCzUjXOel5q6wno_jfrPVuwP-CefgxTNanHUX3nTYq61gbKoPlU
-Message-ID: <CAMRc=MeW_pjczz-5L+p2tqPw4TfgVPmB7t_hXdtb9cX0BDSHuA@mail.gmail.com>
+References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com>
+ <DJWR3RYAWYAI.LQC41HSN2I94@kernel.org> <CAMRc=MeW_pjczz-5L+p2tqPw4TfgVPmB7t_hXdtb9cX0BDSHuA@mail.gmail.com>
+Date: Mon, 13 Jul 2026 03:20:18 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Mc7f7BDp5o-36ik6yHZSMQg3f2MNEpjurJ2x--BKga0Hw@mail.gmail.com>
+X-Gm-Features: AVVi8CclRsLtPY2fK5pxv1kXXcH67GXVTmR40NKDXmnFg0VoXAkCK1k3ECh2mL4
+Message-ID: <CAMRc=Mc7f7BDp5o-36ik6yHZSMQg3f2MNEpjurJ2x--BKga0Hw@mail.gmail.com>
 Subject: Re: [PATCH v3 0/5] software node: provide support for fw_devlink
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Rae Moar <raemoar63@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Linus Walleij <linusw@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
@@ -66,118 +68,45 @@ Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>,
 	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 12 Jul 2026 18:59:04 +0200, Danilo Krummrich <dakr@kernel.org> said:
-> On Fri Jul 10, 2026 at 3:51 PM CEST, Bartosz Golaszewski wrote:
->> Bartosz Golaszewski (5):
->>       kunit: provide a set of fwnode-oriented helpers
->>       software node: add fw_devlink support
->>       software node: add kunit tests for fw_devlink support
->>       MAINTAINERS: add myself as reviewer of software node support
->>       gpio: kunit: add test cases verifying swnode devlink support
+On Mon, 13 Jul 2026 11:45:17 +0200, Bartosz Golaszewski <brgl@kernel.org> said:
+> On Sun, 12 Jul 2026 18:59:04 +0200, Danilo Krummrich <dakr@kernel.org> said:
+>> On Fri Jul 10, 2026 at 3:51 PM CEST, Bartosz Golaszewski wrote:
+>>
+>>  static struct kunit_case swnode_test_cases[] = {
+>> diff --git a/drivers/gpio/gpiolib-kunit.c b/drivers/gpio/gpiolib-kunit.c
+>> index ad961cf97aee..7798f8a8e602 100644
+>> --- a/drivers/gpio/gpiolib-kunit.c
+>> +++ b/drivers/gpio/gpiolib-kunit.c
+>> @@ -449,6 +449,9 @@ static void gpio_swnode_probe_defer_on_unregistered(struct kunit *test)
+>>
+>>         pdata = dev_get_platdata(&cons->dev);
+>>         KUNIT_ASSERT_EQ(test, pdata->gpio_err, 0);
+>> +
+>> +       /* Tear down the consumer before the provider to free the GPIO. */
+>> +       kunit_platform_device_unregister(test, cons);
+>>  }
+>>
+>>  static int gpio_swnode_probe_order_test_init(struct kunit *test)
+>> @@ -614,9 +617,17 @@ static struct kunit_case gpio_unbind_with_consumers_tests[] = {
+>>         { }
+>>  };
+>>
+>> +static int gpio_unbind_test_init(struct kunit *test)
+>> +{
+>> +       device_link_wait_removal();
 >
-> Overall looks good, but I think the two issues pointed out by Sashiko are valid.
-> In addition, I also found a memory leak in the gpiolib kunit test:
+> Interestingly I noticed this in the GPIO test cases but not here...
 >
-> 	unreferenced object 0xffff88810296b2c0 (size 32):
-> 	  comm "kunit_try_catch", pid 1096, jiffies 4294694235
-> 	  hex dump (first 32 bytes):
-> 	    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> 	    66 6f 6f 00 00 00 00 00 00 00 00 00 00 00 00 00  foo.............
-> 	  backtrace (crc a62f59c2):
-> 	    __kmalloc_noprof+0x216/0x510
-> 	    desc_set_label+0x46/0xc0
-> 	    gpiod_request_commit+0xd5/0x140
-> 	    gpiod_request+0x49/0x170
-> 	    gpiod_find_and_request+0x2be/0x520
-> 	    gpiod_get_index+0x56/0x70
-> 	    devm_gpiod_get+0x1b/0x90
-> 	    0xffffffffc0401ff8
-> 	    platform_probe+0x58/0x90
-> 	    really_probe+0x1bc/0x490
-> 	    __driver_probe_device+0xa2/0x140
-> 	    driver_probe_device+0x1e/0x110
-> 	    __device_attach_driver+0xc2/0x140
-> 	    bus_for_each_drv+0x117/0x170
-> 	    __device_attach+0xd5/0x1c0
-> 	    device_initial_probe+0x34/0x50
+> I also think that we should call device_link_wait_removal() *before* and
+> *after* these cases to not affect other test suites - as pointed out by
+> sashiko too.
 >
-> I came up with the following diff to resolve those issues.
->
-> diff --git a/drivers/base/test/swnode-devlink-test.c b/drivers/base/test/swnode-devlink-test.c
-> index 6f59f13214fc..143b9c4047a0 100644
-> --- a/drivers/base/test/swnode-devlink-test.c
-> +++ b/drivers/base/test/swnode-devlink-test.c
-> @@ -17,6 +17,10 @@
->  #include <kunit/platform_device.h>
->  #include <kunit/test.h>
->
-> +KUNIT_DEFINE_ACTION_WRAPPER(device_remove_software_node_wrapper,
-> +                           device_remove_software_node,
-> +                           struct device *);
-> +
->  static int swnode_count_suppliers(struct fwnode_handle *fwnode)
->  {
->         struct fwnode_link *link;
-> @@ -294,6 +298,9 @@ static void swnode_devlink_test_probe_order(struct kunit *test)
->
->         ret = device_add_software_node(&supplier->dev, &supplier_swnode);
->         KUNIT_ASSERT_EQ(test, ret, 0);
-> +       ret = kunit_add_action_or_reset(test, device_remove_software_node_wrapper,
-> +                                       &supplier->dev);
-> +       KUNIT_ASSERT_EQ(test, ret, 0);
->         ret = device_create_managed_software_node(&consumer->dev,
->                                                   consumer_props, NULL);
->         KUNIT_ASSERT_EQ(test, ret, 0);
-> @@ -313,8 +320,6 @@ static void swnode_devlink_test_probe_order(struct kunit *test)
->
->         /* Tear down the consumer (and its device link) before the supplier. */
->         kunit_platform_device_unregister(test, consumer);
-> -
-> -       device_remove_software_node(&supplier->dev);
->  }
->
->  static struct kunit_case swnode_test_cases[] = {
-> diff --git a/drivers/gpio/gpiolib-kunit.c b/drivers/gpio/gpiolib-kunit.c
-> index ad961cf97aee..7798f8a8e602 100644
-> --- a/drivers/gpio/gpiolib-kunit.c
-> +++ b/drivers/gpio/gpiolib-kunit.c
-> @@ -449,6 +449,9 @@ static void gpio_swnode_probe_defer_on_unregistered(struct kunit *test)
->
->         pdata = dev_get_platdata(&cons->dev);
->         KUNIT_ASSERT_EQ(test, pdata->gpio_err, 0);
-> +
-> +       /* Tear down the consumer before the provider to free the GPIO. */
-> +       kunit_platform_device_unregister(test, cons);
->  }
->
->  static int gpio_swnode_probe_order_test_init(struct kunit *test)
-> @@ -614,9 +617,17 @@ static struct kunit_case gpio_unbind_with_consumers_tests[] = {
->         { }
->  };
->
-> +static int gpio_unbind_test_init(struct kunit *test)
-> +{
-> +       device_link_wait_removal();
 
-Interestingly I noticed this in the GPIO test cases but not here...
+Huh, that won't work because suite->exit() runs *before* kunit_cleanup(). Isn't
+it wrong? We do suite->init(), then schedule actions inside the test, it would
+make sense to then first call the release callbacks for resources and only
+after that call suite->exit()?
 
-I also think that we should call device_link_wait_removal() *before* and
-*after* these cases to not affect other test suites - as pointed out by
-sashiko too.
-
-Let me send a v4.
+Anyway, that's material for another series.
 
 Bart
-
-> +
-> +       return 0;
-> +}
-> +
->  static struct kunit_suite gpio_unbind_with_consumers_test_suite = {
->         .name = "gpio-unbind-with-consumers",
->         .test_cases = gpio_unbind_with_consumers_tests,
-> +       .init = gpio_unbind_test_init,
->  };
->
->  kunit_test_suites(
->
