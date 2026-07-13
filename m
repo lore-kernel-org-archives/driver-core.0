@@ -1,72 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE6A343D7B;
-	Mon, 13 Jul 2026 04:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEF6235C01
+	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 05:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783917862; cv=none; b=M4GP/7kJvFo62LBVMxvhwl1GcPiZaGNvteMFL89voEj3mlD/f/p0kpx3y8OfHd343pmC3hKSwsncEr0Tdj/bx2FXX67IRYvYlD42F95MOpO/JjLFEpM59oqMySyvRSxphNdooUiBrIgXlfJRWpGnUElwtErnrfX3Sn5a1ws87wo=
+	t=1783919034; cv=none; b=O38vrfvcaEJadb7xG7ONLKNU0m1LmV/LfpSXEw/xwiELZTZFbmQE3hQaDTerk8B2I3YqqNkE0e7SQKeqGoZO6kR/OVeTp/aHkvFkCqVlmcOs+Z4epr0f4P+3Dl8YikGe4pE9qLsRDKS610WwdBg0Xw6qn5zdW96UHWy6d0Jx/rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783917862; c=relaxed/simple;
-	bh=flHtV7i/w45C24KBq93t5+ErgpVF6y1re9TZkcn3DxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UFjlSWdZ9cPtNtuiWglLuSwkuoxq2FKQresK2VqKnun6KgJiOw3QGQ2Jy6wU9mHHJHbxYK8JEpu77YM9OJqPObvOeblWCkStKS3BhME4JrqCqq5fp8Gmmagz1rkkdP47ldV2ir1jjkweZh49bEvSBsahHIGjCDfKaZofKiLp3sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pRz8zTyp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783919034; c=relaxed/simple;
+	bh=rqn2PoF5poebkTCa6B8Yxh36blX/B8UQ1my3nZhOTFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sp0+LPzeME8z1w3duu1/JqPJQMtyAEFiLWQ6bG/sKH0xBS5d9MsWMgU0ukkRdIJq8yz5pOcUVmqEe8UF0ceB4XyLKYmOx9U6BsTwQqZ16uI4Sao29r4bBYJriitQePQfWmiShQpf3EM0Fu61zY0J1d1EDFp9KOwbqLudeTIZc5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rqSxJGIy; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pRz8zTyp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 661AB1F000E9;
-	Mon, 13 Jul 2026 04:44:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783917860;
-	bh=Ine80bMW4Ll1URmVddsaJdGPb3kOy4b70gjhwFhFvL8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=pRz8zTypbF8/C/bE+ZG57vdH0nK4Ws6utLVXpIk5LDf7fuNNc1SCb2TTpHQ38LQ9N
-	 P2RbwMBDet5buOdHxBzA+YRPm+989g6n5JZ2FdITaUBp/Pzt2O2AQPUgA5sCBbFUTM
-	 q/bib6ruQHnlaz2nR6O4pCBRIx94y63xUL6+uMRk=
-Date: Mon, 13 Jul 2026 06:44:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: driver-core@lists.linux.dev, Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>, Lyude Paul <lyude@redhat.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	Zijun Hu <quic_zijuhu@quicinc.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org
-Subject: Re: driver core: faux: Move a variable assignment behind a condition
- check in faux_device_destroy()
-Message-ID: <2026071305-retract-banker-c14e@gregkh>
-References: <1fe66c80-dfa5-4ef1-aec0-8f7fc3f2fe21@web.de>
- <2026071217-fruit-uphill-eb0d@gregkh>
- <d96e797a-2d06-42e0-a3de-972b4f71a5ef@web.de>
- <2026071222-barracuda-applause-51e8@gregkh>
- <16f32db1-03da-47be-ae6f-54304199a3f4@web.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rqSxJGIy"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cc97653887so30238925ad.1
+        for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 22:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783919032; x=1784523832; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rORoi9vSF7J7ID6gWdWITj/vYVWNW4l6d/liasSf3G0=;
+        b=rqSxJGIyqq0YAlI/X+6wfIOEdWx+6+8emmViAGyeaXjx34VQhU32VD0yqhGiYMpYY4
+         cE6EPkafMswkRs8pl1ok0hZOoORaIWbbJfMAWV/+eNnVdUYxTrxzo9JSV3RFe2oXHwsY
+         9CsyiuqkM8U9aZny1hjO9sj66MpyMFbltIGyFK2VToL8lSaV/esVXE0mse5h4YL5RcIq
+         Y4s0oQJjmnc1xyjTZkHkwGv9XTflmaOTVuUlFxW15CBI7KGhagBZQzpUDvL0XmWgdO24
+         EmuQSPA0KfWtLmNVG21uPhOmIYPkIQFa0HogtvwsiXyjSiLzCfIjsOFa+jPRFo3IN/s1
+         toPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783919032; x=1784523832;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rORoi9vSF7J7ID6gWdWITj/vYVWNW4l6d/liasSf3G0=;
+        b=YXn3jeETSwHSaMnNgK2aq6yb79pBKNgnmktv/29PYjbx/sXYZyL1Cmnj8/93HWF5cO
+         urlLwaF82ZOdAAUnatN0oBjeAooL/79N79gAyzC4THZcboU/B0mVNSH68B1YR4dRb9fw
+         P3GGiG/8/7FCSQXDLsTQL/BoIV6Q0h3cajwOaT25x6TqkSNuSqhGL5z1+e7CEuUO72i4
+         kwm2zo31TVQH+8DRzul4ywCghLA5jBKQDy3Ej8J3Sx1lu1Mwxn7Cvcwz3x5d6vAcmDnk
+         Nmgq4NebQ5+AjaomWhmZLMD4UrN5xB1neN2YsvgbD801XJvwkx0ghBCqD0ZUfnh1yOuD
+         4jIw==
+X-Forwarded-Encrypted: i=1; AHgh+RrbzQnuaSWW5wMkeqmZPDu9i7memY+YWwFMNVhZtDxx3M4c6jFeqauNMH3xPMKtFXt+mnedc5mPBpsHwA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQNJxI0Eiyk+qEJaIrDaL61zxUv8msWAtDJLQZw3ENuxcjSYCG
+	at3KZbQymJOzYFM1o/zW01p6y92zIgjv7ACTzESn0v/LIb9eUY0TCJUoQpCBh5qk
+X-Gm-Gg: AfdE7cmfSqk2P6eP6TiecEn28fSA7lrM/8mxHsL2ro3fyGc+XrP3B5rTnFxEbuoCh0o
+	ZFi6kKXGELnn3YoDiNmRTwvEKrtpuU1Biv+Zyv6ZvJfbBaZF8q+tCTVnSEeK4F28g+hVeHRUKVs
+	3k6S3MicpiO76xbgDuW4DiUk5vrWr7ZWNElXeOoHtS6S+AO3LChVyLQ3N1PqpckJGJ434RoTDMq
+	FsjJn9/IOEChPFSturFXP0EGr4w6FCkA6Kzzg48v7isjnDTZfukjKOmIsaLt+p2maIfDqGkboIe
+	4oS/n6NAocjnDtmAUz4Uu5IRsJI32JFuzjlqoDPCR01vigEqoRxREy/NJmFK5EeE1o6nW/gQRYi
+	DKF5Nk3DQjqg7JwVEJAoh0Ip1fgG5yeRwPxm5tCTDcoZ65N2HxIOkEazCv/B3JdRdoHZ354PmZU
+	TWZgbf40rOWqpZKkANVpPJsdQ3dWLNqm19ttDw+tRSlX4wPJT5gc/hGP+VMw==
+X-Received: by 2002:a05:6300:218c:b0:3bf:6c08:fb82 with SMTP id adf61e73a8af0-3c1109ecd0fmr8215956637.50.1783919032100;
+        Sun, 12 Jul 2026 22:03:52 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313c50c70c9sm21927368eec.29.2026.07.12.22.03.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jul 2026 22:03:51 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rafael@kernel.org
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/2] regmap: Improve error handling in regcache_sync()
+Date: Mon, 13 Jul 2026 12:03:10 +0700
+Message-ID: <20260713050312.38729-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <16f32db1-03da-47be-ae6f-54304199a3f4@web.de>
 
-On Sun, Jul 12, 2026 at 06:54:13PM +0200, Markus Elfring wrote:
-> …
-> >> Please take another look at related information sources.
-> >>
-> >> EXP34-C: Do not dereference null pointers
-> >> https://cmu-sei.github.io/secure-coding-standards/sei-cert-c-coding-standard/rules/expressions-exp/exp34-c/
-> >>
-> >>
-> >> See also:
-> >> https://lore.kernel.org/kernel-janitors/d7a8e34b-e490-47fc-b892-886e1c799c4f@web.de/
-> >> https://lkml.org/lkml/2026/7/2/2241
-> > 
-> > Please see the places in the past where I have rejected this very patch.
-> > Nothing has changed since then.
-> Can involved special development views be resolved better by applying scope-based resource management
-> for the affected function implementation?
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-*plonk*
+Hi all, 
+
+While working on a cleanup series converting mutex and spinlock usage
+to guard() helpers, I received review feedback that regcache_sync()
+still has a goto-based error path.
+
+https://lore.kernel.org/all/95f5d6ec-ecc5-4090-ac04-27cdcdc21b8a@sirena.org.uk/
+
+Since guard() helpers should not be mixed with goto-based cleanup, 
+I looked into whether the error handling could be simplified.
+
+During that review, I noticed two issues in the current implementation
+of regcache_sync():
+
+ 1. Cache synchronization errors can be overwritten by the result of
+    selector register updates.
+ 2. cache_dirty is not updated if rewriting a selector register fails,
+    leaving it inconsistent with the cache and hardware state. 
+
+Together, these changes make the failure semantics of regcache_sync() 
+clearer and eliminate the need for callers to invoke
+regcache_mark_dirty() after regcache_sync() fails.
+
+Best regards,
+Phuc
+
+bui duc phuc (2):
+  regcache: Preserve cache synchronization errors in regcache_sync()
+  regcache: Mark cache dirty if selector register rewrite fails
+
+ drivers/base/regmap/regcache.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
+
+-- 
+2.43.0
+
