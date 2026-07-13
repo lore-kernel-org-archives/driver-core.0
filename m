@@ -1,198 +1,168 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2A833E35C
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 06:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783924870; cv=pass; b=eu80rkjstWTe9Xh/RQKoQNSrRZiiCEBSSpq8AhjUTrggeu7CkbyxYW1OjPOTe16PYjY5X6zFFifE+k/KR+1RG8d7nFakmg6ccUgr1jOS7/WV2U9326YXeeml+I2lNMSVzNPUyTKnidbJnSKWi/JykLE9EE70WTMJtH2MFXiBVLY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783924870; c=relaxed/simple;
-	bh=SoNHDrWROasgfui4FF2PQ43gjyBa3I1JHB7dBso0fYU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tiOcSdyfYDdYO6tiMtICBCLxjIjcyoQXdKLUs2NginiRUMZoAd+x4PzD6woiN5lkSNrwqZbONz/BUq6mH+6ugpvyBVWdYZ09iYFVrDclLqOYoO47gJa7jwWigQOlw5jm60K2Ft4DH5MUPnV7DGRMBMPIfVF4mUAwTALmzv491Wo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Cnop1RJu; arc=pass smtp.client-ip=74.125.224.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E0A17A300;
+	Mon, 13 Jul 2026 06:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783925318; cv=none; b=oRl1LnOrfhCvn3mSqeTsL8Gb1X7mvFfoSnKVvXKY+WJG+T367NiizO5bLGVd+VKokZ8r0ukXMnjZLSwCLIunHlVAQV3EvistuSXIgF0RnB678DP3voR82OD6PVCX7MHyn9zl53dnP7FyzOqWASGYFm00xFFGFX0bPgJpO4b58Mo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783925318; c=relaxed/simple;
+	bh=aF47iLMPZHY8ikZj0/3fPMH5Q4mRqmYCLQexdlk5/mo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DM2NaLYTX50U/xxxow8Co3xi7FKy3Jd2dx4qGNtMMxPlnnMvvAeYDNH7rFHY1pXzmELRLrEYfRN+9SwAQyX86uhp27yqKJ8aMVuuEzk6C4Udq+YBzci42Hbdwaa6wXF16JLscvhLCK8Ligtz4anISVrTk6mLcJlN/wm2pzNzBdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Nk/H4GWE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Cnop1RJu"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-664d530fcfdso5009657d50.2
-        for <driver-core@lists.linux.dev>; Sun, 12 Jul 2026 23:41:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783924868; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pIzAxuC8htdQL7stctQjkbf1z6/COztyjQCwaVqWYwa7zCDyiqtMSHggZ2N4fTYPH4
-         LyPuBwAxfebLPMKPYO8Y13vFpzdE5fIWsE2p8pCkQmMwq4w72OKzpMyl4s+vmQLBZTbi
-         L89Nu6v2/DAWeZRz/UcUzPooy8mHT9rpVLs2bPyMi1ZGTvylECP1erRvRchEMXkMWCTt
-         aRwLReiKxXXVZqpVzI4yxt/3UgVbUg9ySQSGmgEmRu/FWbExRyspqtmRQywAOrLUxjNs
-         Kemykp0dAMjfK3npi4TcYIpsH+WW4jHGqr3e1p2mjzW4xTWgQcsGB1F7ZiTd4N4w7EPn
-         +6OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ALHFFl4QIG5q5cwsXiSsf9xTcJ7Y7YxsHiqneCAHa/Y=;
-        fh=dbIXqp5DShiv96YcdvttjFRr9wR1UztGGTJMZf/kAYM=;
-        b=jsGQerQtibBQz4UaYX3IwIj7UE1dWT22SK5URxK2qqtG0iEndEWUjYAdbV0VxcOir1
-         5RRuycjAdHJeglZbg2Uzud3tMEExeGO1Vhpt+5oFUGB52d7EpzIf5kCDqOfOm/t7byXR
-         3BSjEBwM91JOUVcgaUephHNDjtQoo20E8byV0AOo/AacSz74DFV3VPXQ/+px0HCYihwC
-         aIW+c9JQKzvP+SxyiEtlLaNHFJhfNDuYZYq6E9E+43SFYEePILKxoaelj9I9CcYFaanc
-         juACvFM/gXnRC1uGrKAXu91BTdgLZJm7lswUara4L7aNJvmlWjRMH+MpIH6UIq9p3ymf
-         3ICQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1783924868; x=1784529668; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ALHFFl4QIG5q5cwsXiSsf9xTcJ7Y7YxsHiqneCAHa/Y=;
-        b=Cnop1RJuNVoaQ4gcIiaDGVhc9jgEy8Jo3mNb90Jd3C6v0+NU3epgOfsYQKurjoC7xA
-         +scGheqUP2O8iuz6aySBFwPHR73cPbhol7FKCiG/Z2LvnghY2bflb3zxfpKkU4+lWZpF
-         hbSRx0YJ6OgrGOE6WqleO/HWUzNJuzEaGAa48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783924868; x=1784529668;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ALHFFl4QIG5q5cwsXiSsf9xTcJ7Y7YxsHiqneCAHa/Y=;
-        b=cxRTsGPboHHAO/2Gpcr5n3o0WCNbYGVqVrfgps3ujNRrFDUXcA9XAqn90hyixRRtax
-         nVZcPkQ/lQ695PLIZXSEIv+UbaduDYTPnMpKZ0wyU48AupI41XaTKwZ+bIY1WU3FnkFr
-         P9U2CJo1uT7ezFOOiAKNQ4IovFdoZk1PDYpUNe+iIzR0hiAjCRUKJ/SMyZT7Tko8ZErg
-         i/e4RT49xeKileeQRc3RORBeHrj/uC+LVauOv8XqIbjKCoLHxmK8XdygCyoEmgl3Ci9p
-         hM6YCI/Q2uRs5NNPdYXlh3Eviq2gyc8lTBDpzB1Z16haepGSCbJc/4mSYdXHzjt9OH7O
-         /6pQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoAJzNkq6BLRKlQHGTq1wzOdWO+hmCkZaCoKZTvXMZnMMYWWy4w83ZFlKQu1VIWbRxJzZ7GVkp8OrJ6zw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgUTCQZxwvA70HYxgu27sMwyJx6CKBkGoc8Lkvb2H3fLiF4j2K
-	jJitBu3Bn8r+kRozfb/1bPqs3Nau7WImpRvoeQT5ZzieL8yawX3ucEqJ7fYjgr1WQ9+GIc1SVkt
-	VFNUl43b9xGrMbEeStXTv02050rIJEtNXnHMJk9Sl
-X-Gm-Gg: AfdE7cmJuJ+FWvX6J30saibbBp8dVzMAd8V661AthQWEpWsl/X9/aqVohlN9VXNmGEn
-	qnVkJYNhFQVs4pH9nbkO6LkKR1IChsp/jQcOZuwBvqJqwqiM+ypRaDangVrUuaRFTmpjbabk9At
-	csmACcUCEi+G296NHYoOX8dNChmZBR8/+ThbhAFTDUepcKc1h9xMAeD6RzxyOihwt5IVSXTuG4H
-	3WADI/cy8aMG7YepqQGO1yZL3sBbsNoQj40rcoIvaUXHIzUrRmaprsS9toRoKSoif+VLPoBsZFI
-	u8Mjrs1h4UDLoMm5Nlgdeuy7+ekHVmChElJ6
-X-Received: by 2002:a05:690e:138f:b0:667:db66:eb59 with SMTP id
- 956f58d0204a3-667db66f471mr5286970d50.22.1783924867897; Sun, 12 Jul 2026
- 23:41:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Nk/H4GWE"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BF08C4AF0E;
+	Mon, 13 Jul 2026 06:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1783925318; bh=aF47iLMPZHY8ikZj0/3fPMH5Q4mRqmYCLQexdlk5/mo=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Nk/H4GWEC1G3ljwWjl/RPZn81zppqgdCuFj/5IPYiYXeNvKHJTSZHFIiNZz6JJw+o
+	 rXPZmS7XHUcvDY5Hny+iOmhuIaUDVXZshwLwsrOEQXadqbFOZZ76je6jrlE7Cuv5qK
+	 eBYuIcTbMfr2qMy4ZYo8ee1ARl+8CSOWcpqzxV2Q=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BF8EC44506;
+	Mon, 13 Jul 2026 06:48:38 +0000 (UTC)
+From: Alvin Sun <alvin.sun@linux.dev>
+Date: Mon, 13 Jul 2026 14:45:23 +0800
+Subject: [PATCH v8 02/10] rust: module: add `THIS_MODULE` const to
+ `ModuleMetadata` trait
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260709095726.704448-1-wenst@chromium.org> <20260709095726.704448-6-wenst@chromium.org>
- <2026071025-diffused-jersey-0d94@gregkh>
-In-Reply-To: <2026071025-diffused-jersey-0d94@gregkh>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 13 Jul 2026 14:40:56 +0800
-X-Gm-Features: AVVi8CffSvw8dKrdOHbSnASMEsx0puSGrR918doi02cLaaF9gK20T18TFDW9zpc
-Message-ID: <CAGXv+5EyJ3WewkWfEy=XNA=VoU4Fuhi2K6evkvFanWhVe8J=ag@mail.gmail.com>
-Subject: Re: [PATCH v4 05/14] usb: hub: Associate port@ fwnode with USB port device
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260713-fix-fops-owner-v8-2-2495cfa82d47@linux.dev>
+References: <20260713-fix-fops-owner-v8-0-2495cfa82d47@linux.dev>
+In-Reply-To: <20260713-fix-fops-owner-v8-0-2495cfa82d47@linux.dev>
+To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+ Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>, 
+ Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+ Igor Korotin <igor.korotin@linux.dev>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, 
+ Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
+ Carlos Llamas <cmllamas@google.com>
+Cc: rust-for-linux@vger.kernel.org, linux-modules@vger.kernel.org, 
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+ nova-gpu@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, linux-block@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-pci@vger.kernel.org, Alvin Sun <alvin.sun@linux.dev>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783925315; l=3594;
+ i=alvin.sun@linux.dev; s=20260317; h=from:subject:message-id;
+ bh=aF47iLMPZHY8ikZj0/3fPMH5Q4mRqmYCLQexdlk5/mo=;
+ b=KD3Zyzbn7jRK/dQ8MUOgMLyaZFAQKRhRfDNkn/mVbczDhNcrZ237isvWV08DsrpsF3AMGxM20
+ 7WzG/DPMcw0BvnQ8Tpl9jEZ2eFDxId3TevKsipUYKKjPOxnBesfhmpL
+X-Developer-Key: i=alvin.sun@linux.dev; a=ed25519;
+ pk=CHcwQp8GSoj25V/L1ZWNSQjWp9eSIb0s9LKr0Nm3WuE=
+X-Endpoint-Received: by B4 Relay for alvin.sun@linux.dev/20260317 with
+ auth_id=684
 
-On Fri, Jul 10, 2026 at 8:08=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Thu, Jul 09, 2026 at 05:57:10PM +0800, Chen-Yu Tsai wrote:
-> > When a USB hub port is connected to a connector in a firmware node
-> > graph, the port itself has a node in the graph.
-> >
-> > Associate the port's firmware node with the USB port's device,
-> > usb_port::dev. This is used in later changes for the M.2 slot power
-> > sequencing provider to match against the requesting port.
-> >
-> > To avoid potential conflicts with ACPI firmware nodes and then causing
-> > power management issues, only assign the firmware node if the hub's
-> > firmware node is not an ACPI firmware node.
-> >
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> > Changes since v3:
-> > - Added missing fwnode_handle_put()
-> >
-> > Changes since v2:
-> > - Skip assignment if hub firmware node is ACPI node
-> > ---
-> >  drivers/usb/core/port.c | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> >
-> > diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> > index b1364f0c384c..e8fb2acd77be 100644
-> > --- a/drivers/usb/core/port.c
-> > +++ b/drivers/usb/core/port.c
-> > @@ -7,6 +7,7 @@
-> >   * Author: Lan Tianyu <tianyu.lan@intel.com>
-> >   */
-> >
-> > +#include <linux/acpi.h>
-> >  #include <linux/kstrtox.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/string_choices.h>
-> > @@ -358,6 +359,11 @@ static void usb_port_device_release(struct device =
-*dev)
-> >  {
-> >       struct usb_port *port_dev =3D to_usb_port(dev);
-> >
-> > +     /*
-> > +      * At this point ACPI nodes and swnodes have been removed by
-> > +      * device_platform_notify_remove() in device_del().
-> > +      */
-> > +     fwnode_handle_put(dev_fwnode(dev));
-> >       kfree(port_dev->req);
-> >       kfree(port_dev);
-> >  }
-> > @@ -780,6 +786,13 @@ int usb_hub_create_port_device(struct usb_hub *hub=
-, int port1)
-> >       port_dev->dev.driver =3D &usb_port_driver;
-> >       dev_set_name(&port_dev->dev, "%s-port%d", dev_name(&hub->hdev->de=
-v),
-> >                       port1);
-> > +     /*
-> > +      * ACPI FW nodes are associated later when device_register() happ=
-ens.
-> > +      * Skip assigning one here to avoid potential conflicts.
-> > +      */
-> > +     if (!is_acpi_node(dev_fwnode(&hdev->dev)))
-> > +             device_set_node(&port_dev->dev,
-> > +                             fwnode_graph_get_port_by_id(dev_fwnode(&h=
-dev->dev), port1));
-> >       mutex_init(&port_dev->status_lock);
-> >       retval =3D device_register(&port_dev->dev);
-> >       if (retval) {
-> > @@ -852,6 +865,7 @@ int usb_hub_create_port_device(struct usb_hub *hub,=
- int port1)
-> >
-> >  void usb_hub_remove_port_device(struct usb_hub *hub, int port1)
-> >  {
-> > +     struct usb_device *hdev =3D hub->hdev;
-> >       struct usb_port *port_dev =3D hub->ports[port1 - 1];
-> >       struct usb_port *peer;
->
-> Is this last variable addition not needed here?  It's not used.
+Since `const_refs_to_static` has been stable as of the MSRV bump, a
+`ThisModule` pointer can now be used in const contexts.
 
-Indeed it is not used. It was left over from me figuring out how to release
-the fwnode handle. Will drop it in the next version.
+Add a `THIS_MODULE` const to the `ModuleMetadata` trait so that modules
+can provide their `ThisModule` pointer in const contexts such as static
+`file_operations`.
 
-I still have some other comments to cover. And I want to go through the
-code one more time to check Sashiko's concerns on the main patch
-"usb: hub: Power on connected M.2 E-key connectors with power sequencing AP=
-I".
+Add a `this_module()` helper to retrieve the `THIS_MODULE` pointer of a
+given module type, and update `__init` to use it instead of the
+`THIS_MODULE` static generated by the `module!` macro.
+
+The `static THIS_MODULE` generated by the `module!` macro is retained
+for backwards compatibility with existing users and removed in a later
+patch once all references have been migrated.
+
+Assisted-by: opencode:glm-5.2
+Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+Reviewed-by: Gary Guo <gary@garyguo.net>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
+---
+ rust/kernel/module.rs |  9 +++++++++
+ rust/macros/module.rs | 18 +++++++++++++++++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/rust/kernel/module.rs b/rust/kernel/module.rs
+index be242a82e86d2..d713705984477 100644
+--- a/rust/kernel/module.rs
++++ b/rust/kernel/module.rs
+@@ -42,6 +42,15 @@ fn init(module: &'static ThisModule) -> impl pin_init::PinInit<Self, crate::erro
+ pub trait ModuleMetadata {
+     /// The name of the module as specified in the `module!` macro.
+     const NAME: &'static crate::str::CStr;
++
++    /// The module's `THIS_MODULE` pointer.
++    const THIS_MODULE: ThisModule;
++}
++
++/// Returns a reference to the `THIS_MODULE` of the given module type.
++#[inline]
++pub const fn this_module<M: ModuleMetadata>() -> &'static ThisModule {
++    &M::THIS_MODULE
+ }
+ 
+ /// Equivalent to `THIS_MODULE` in the C API.
+diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+index 06c18e2075083..aa9a618d5d19e 100644
+--- a/rust/macros/module.rs
++++ b/rust/macros/module.rs
+@@ -519,6 +519,22 @@ pub(crate) fn module(info: ModuleInfo) -> Result<TokenStream> {
+ 
+         impl ::kernel::ModuleMetadata for #type_ {
+             const NAME: &'static ::kernel::str::CStr = #name_cstr;
++
++            #[cfg(MODULE)]
++            const THIS_MODULE: ::kernel::ThisModule = {
++                extern "C" {
++                    static __this_module: ::kernel::types::Opaque<::kernel::bindings::module>;
++                }
++
++                // SAFETY: `__this_module` is constructed by the kernel at load time
++                // and lives until the module is unloaded.
++                unsafe { ::kernel::ThisModule::from_ptr(__this_module.get()) }
++            };
++
++            #[cfg(not(MODULE))]
++            const THIS_MODULE: ::kernel::ThisModule = unsafe {
++                ::kernel::ThisModule::from_ptr(::core::ptr::null_mut())
++            };
+         }
+ 
+         // Double nested modules, since then nobody can access the public items inside.
+@@ -616,7 +632,7 @@ pub extern "C" fn #ident_exit() {
+                 /// This function must only be called once.
+                 unsafe fn __init() -> ::kernel::ffi::c_int {
+                     let initer = <super::super::LocalModule as ::kernel::InPlaceModule>::init(
+-                        &super::super::THIS_MODULE
++                        ::kernel::module::this_module::<super::super::LocalModule>()
+                     );
+                     // SAFETY: No data race, since `__MOD` can only be accessed by this module
+                     // and there only `__init` and `__exit` access it. These functions are only
+
+-- 
+2.43.0
 
 
-ChenYu
