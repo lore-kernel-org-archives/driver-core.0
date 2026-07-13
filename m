@@ -1,167 +1,183 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D97C3D5673
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 08:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783933076; cv=pass; b=R5LzPMwWswrqldB4w6Zqa9juXsGoA9Yz6cr9UtYYHFL1hANH9wqIsyDQ4TeyZeEi52keYCDn4G3mgSN1Viz7C6dI61n0A/RMz5E3rSqMCkvQRD0HCIQ1fZf2iqiufYqOFQTSe/MpjqVLb9lgmmZKKfTyuBEZnoyWMjxsL5PesII=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783933076; c=relaxed/simple;
-	bh=zGXlgemVtM/fd1QacjWZsPwmu1tJ8IeGxyTqkvyGisI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k5LtOBHXRYvQd69ZjVETYMgTpFQtIkVuhMyC6HR8IW6fTbghRm0rEt1Bl/mN0sPsHhNVOQP1UhSopC/QqRyEELu9WimL+Phb6OqbVCocYjsqEk2cOk9h6S4tmKmNvl7ID2zoDORBt14bajIbDm2ycFV2HyNxUV5nfs5F3Sv2zzg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tw4qg1dt; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21C13793B0
+	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 09:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783935922; cv=none; b=C0GHh6TZ3CofnNyM/AVY+kPf67jf7qoa2s7S3xiW5ZTxMX66FDOaG9bN8d5M8eW64sP4pSD1S15cdzNfiIhlbxppemqZFjUjSmf4xTr0Z5Ux95vrBdxMb1Ibupjp7EtU19GiLTqnvKSR0LDh8BVHt9N/aRcnhTjvHApfmGLNhn0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783935922; c=relaxed/simple;
+	bh=ouuxFsl/C/GRvSsCa/RAzwrn+V4qnHZ4qWG5NdgGvn4=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qLcmBrsIMwJJoEV3BT6W7dhf/eEkQpiO7itrhK6ZVvgZ1QfZjteyjO6i1PdGMzIW+AczmJFKiZNLN8hWYhIyKafq4dp8K2BQnKH8op7z079dP9i1/6sTRFpVjWtjVr7t0VmuD6DZvIiswm4ThwWDh5cIikGj5XIpYSBr/AJtdCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DI0ePzf7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tw4qg1dt"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4728c12ba97so1170075f8f.0
-        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 01:57:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783933071; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WTJAry+1hlQAF2jrEGBJz1u4P5kLor6T7ZwBzIEIm3rCNS6vdkWN72I9TyfxAOr7Cc
-         jR/DQgttSk1hbdU4z6QKJ99ejkjrJsIvvOh/MHqA2Tt8YfQdLEo4/mDycwh52HXozAfD
-         e5tnXr7j5vtGFjOenhf9oQDZ8OfSClS5o9gZiIWKiKHmpq7u5S27yT22ysuBozAWZ07S
-         fxZZKK+EXuDL0xjYbOWXodHZ5Y1xOBF3HFUd1uSvm6kB/fF798hdK3sQnLGRbNi90TBG
-         EXGsKCFXkWwJVg6wrFF8tFugYGrEQTK5MqRl52s6NqrOOpYFjwXizbJkIBxyMHPIK813
-         Q2nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Niw6ma3uSQo4Oag5BSyj5O/UfANxhnZNo3KLkxIFV/I=;
-        fh=ocpP1owTMNfQ4d3CLZqTUqyB3dNnw34o/1REaWgdD4Y=;
-        b=GUzH/47nE0oM5Kr8tBz8UBajtwRIkwE7kGcVtUYDZYx3bH1DS9yHcHQoxpEgV9tbWs
-         jG2kINjXCJg57cW9HK22kJZv2MucPB5XP2vyJz0w/giiYx7WW58/PjtqPKCdjFLZv0Ov
-         0EGgF4ks9j4HfZD1+pkfWxCqIlffpmk7Hjy0h1ArNcwCKF+/wixpUCiKeAN1T7f6/Jhl
-         5XjYcjYXSbg2paDXbbn7pBwyPoFkt/A0MOiNWm3ohnawJ0jRrZ6Vh5L6eNYhifVgnrxE
-         ltJDVpMWhtwJr7vNYKJbZ+c88yA+vb/qiZ9soqWkgJ6lvDbC5CrvCEV4hfQKkj521itK
-         E5AQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783933071; x=1784537871; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Niw6ma3uSQo4Oag5BSyj5O/UfANxhnZNo3KLkxIFV/I=;
-        b=tw4qg1dt6K86DP8dP3KqcoY7kwrq0jCrmnP98XpiNGOTOr7UFbeQLiiMiK30DPCyA1
-         kgHGALyeejimRS7/3N49tFK7Vqse9YqFjSbVGNs3xRIAfo2cr/mQiEsfkXBPdTj4cBLo
-         g3CszI4sSWUyWcz59XLLiAGAYw5T/jdOfpZlovdbrRbhrZCcXCoC0TRkfgBDxkvWfYeZ
-         HPGznq/yhQK1zTFsUGmPbjrOchFwXWF9D/Yth/sUoNolQZXfdnD6yN+jGxMB6D3bIgnp
-         BXPX5N+DAph9o2K29COBJ/uyf/18O6FdZAEpBgtbS/v4gnL3yeVzwROr2Molr9XyaK3g
-         H0Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783933071; x=1784537871;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Niw6ma3uSQo4Oag5BSyj5O/UfANxhnZNo3KLkxIFV/I=;
-        b=fC7yENJ9QAKdE06mVyCTpCFLSGEiB2QpK6pniZ7F2H5Z7B6KsLqkGIv+c3bngMX7s2
-         MGruo8wFkUMvj6AFlGiwd34ieQlWu2+zKLp8fGPLtpM2yvYEcFzW4hb5p13hNeeC22aw
-         peDUs7ifZfI7M5+BB0d+W8XI6wtskwej6NVR0CelQpH8loPhQL/b+faM+MRm6fUd1fi/
-         AiMh6Id43E56WsnoD0PKO2/qoVrUd2JyDzmUF9N9r2orjdG0aDRjQ8SW9Qtc5Zsz2PTc
-         3QwWSKhIcaUy9LU6CfHTg6uUfBtqfb/9CRrvO/XzUDBsj6H/RjkgNjagzeoGKnT1eH+F
-         v6zA==
-X-Forwarded-Encrypted: i=1; AHgh+RpQExgPblY9fB5LEVuFcbnJQheKs2uHLZU1AfQh5XH+B0YDZCsDlCIXnFJC/qpFufEavCmyst0NZL9UAw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw821IqsoN9ZY1UzmDrUccQpE6+qDlc946tpmsiSD6pGkeqQ6CO
-	PkuD6QrQCLrIiv+i88kd0PQT5UjBslIFLGLj4YBOhREC5xL8TQOPUSXQZ7uV0ww1Ym10zBCP3Jh
-	A3A4tQ2zG2fR5/VFZ/PueRDYMMj9pXJXpCTujo+le
-X-Gm-Gg: AfdE7cl/NWNTRIq3pxw/2H2jg5A3tqKnJ/QU9AjsjJSAD6xIOCFfnCNYNr3FSi2b699
-	Xa8pPBT63GjsoQzRyFfZPP+p8bfrapMUsdAbgX2R0PobsRRmKmHfD1VWAjJul0xbGiM3Fkcwt+a
-	N28ZJhRlpmsFYhpmdd65I3djvpujhRTwXoZZmVZq6bboCtdsSUmG8LrjWp4U7IJ3CChPz29fd9f
-	TolbyoOuLHrFWm1/9y2iOpCf8qpScjb0heCEWyZAVEXX9LgeSmu7w7J25W28TNZ/89s3spH6BaC
-	tZz6l8VREJbLNOTvnD1x2behGaw3l0c6nEU4kvQNC0rz/IqMyVU52/I+7vHXJqaLxtwruA==
-X-Received: by 2002:a5d:5850:0:b0:472:55a:ef9b with SMTP id
- ffacd0b85a97d-47f2dcac418mr8602513f8f.8.1783933070140; Mon, 13 Jul 2026
- 01:57:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DI0ePzf7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B6051F0155D
+	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 09:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783935920;
+	bh=DnRuzPMU2XYhVlhKrVQWCQjUZH4SWa17UwUD0HEYcFM=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=DI0ePzf7r9OluhomKWRCs8fWlNMI7NWyPvEezI1JDCBeclDNCE+K+CYd3DSGiyWf5
+	 Ma8ZZae/0yb62BM/zkdMJBQ1RfDpIVgbCtQp8f4wq2xRQowJAsizxQDNE+ncB0sv/1
+	 9M3dPmnjS2OQjGZcIuqG0GZV6jl6j+Yo6zR4sJc2I4sqQZDk3H+O4qwbazZM5qiaEU
+	 dZKwjsvdrjpqNLBUKMucKfjZREnXdf1jmW8RtP+WiO0juEyWu17jPPy7HmT4LWraag
+	 jE2To8b0qeG+EqE7bSLj1e19kTcY/2bFNEjOteM2IaevLSdX2vgS7bTEPjFZtD8vbD
+	 qx3CW6TeTNBVQ==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39c923b8c2aso25746311fa.2
+        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 02:45:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rp+vcYkAfWodmFuuWPqEJiGsFgdGb6FpJwxCMX1NOaL4jaXH3i+/yJR0KHYQ30W8xLNSUFz8otAeh4Mew==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yytw5DX0r5OHHBkL2om8ZdirMGo0WGng7GDk3K6Q5+KUferK/G1
+	K3dzAQVF7pCsE10lPypi8PqgkV+Nx+ddDoHw74OHFJx2xxVlWxy6IwH8JHQhvmlKv6n78yJYW6M
+	gqzwcyUMdqpVW/BXONHXuNIsSbUtORvexSQHdhq9Q9w==
+X-Received: by 2002:a05:651c:154d:b0:39c:7200:b9b9 with SMTP id
+ 38308e7fff4ca-39caa7feec7mr18650561fa.13.1783935919044; Mon, 13 Jul 2026
+ 02:45:19 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 13 Jul 2026 02:45:17 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 13 Jul 2026 02:45:17 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <DJWR3RYAWYAI.LQC41HSN2I94@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713-fix-fops-owner-v8-0-2495cfa82d47@linux.dev>
- <20260713-fix-fops-owner-v8-10-2495cfa82d47@linux.dev> <alSe6PsvdrSYP_Z0@google.com>
- <d7c1607f-ea74-442a-9700-7fc4f0c64b76@linux.dev>
-In-Reply-To: <d7c1607f-ea74-442a-9700-7fc4f0c64b76@linux.dev>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 13 Jul 2026 10:57:37 +0200
-X-Gm-Features: AUfX_mw1uUYgV4eMXkVflbUYoDKpPh-OOQHMx0yAVcG6yUMQsdEhmzk4SLg_fQ0
-Message-ID: <CAH5fLggszOnUm7Rykt41V91de8h9YVaZt49wr52i3t5-QV84Xg@mail.gmail.com>
-Subject: Re: [PATCH v8 10/10] rust: module: update MAINTAINERS to cover module.rs
-To: Alvin Sun <alvin.sun@linux.dev>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Rae Moar <raemoar63@gmail.com>, Breno Leitao <leitao@debian.org>, Jens Axboe <axboe@kernel.dk>, 
-	Dave Ertman <david.m.ertman@intel.com>, Leon Romanovsky <leon@kernel.org>, 
-	Igor Korotin <igor.korotin@linux.dev>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	=?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <brauner@kernel.org>, 
-	Carlos Llamas <cmllamas@google.com>, rust-for-linux@vger.kernel.org, 
-	linux-modules@vger.kernel.org, driver-core@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, nova-gpu@lists.linux.dev, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org
+References: <20260710-swnode-fw-devlink-v3-0-993f31874e40@oss.qualcomm.com> <DJWR3RYAWYAI.LQC41HSN2I94@kernel.org>
+Date: Mon, 13 Jul 2026 02:45:17 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MeW_pjczz-5L+p2tqPw4TfgVPmB7t_hXdtb9cX0BDSHuA@mail.gmail.com>
+X-Gm-Features: AVVi8CdMA5ntkCzUjXOel5q6wno_jfrPVuwP-CefgxTNanHUX3nTYq61gbKoPlU
+Message-ID: <CAMRc=MeW_pjczz-5L+p2tqPw4TfgVPmB7t_hXdtb9cX0BDSHuA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] software node: provide support for fw_devlink
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Rae Moar <raemoar63@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 13, 2026 at 10:48=E2=80=AFAM Alvin Sun <alvin.sun@linux.dev> wr=
-ote:
+On Sun, 12 Jul 2026 18:59:04 +0200, Danilo Krummrich <dakr@kernel.org> said:
+> On Fri Jul 10, 2026 at 3:51 PM CEST, Bartosz Golaszewski wrote:
+>> Bartosz Golaszewski (5):
+>>       kunit: provide a set of fwnode-oriented helpers
+>>       software node: add fw_devlink support
+>>       software node: add kunit tests for fw_devlink support
+>>       MAINTAINERS: add myself as reviewer of software node support
+>>       gpio: kunit: add test cases verifying swnode devlink support
 >
+> Overall looks good, but I think the two issues pointed out by Sashiko are valid.
+> In addition, I also found a memory leak in the gpiolib kunit test:
 >
-> On 7/13/26 16:16, Alice Ryhl wrote:
-> > On Mon, Jul 13, 2026 at 02:45:31PM +0800, Alvin Sun wrote:
-> >> Module types now live in `rust/kernel/module.rs` alongside
-> >> `rust/kernel/module_param.rs`. Update the MODULE SUPPORT file pattern
-> >> from `rust/kernel/module_param.rs` to `rust/kernel/module*.rs` so both
-> >> files are covered.
-> >>
-> >> Cc: Petr Pavlu <petr.pavlu@suse.com>
-> >> Assisted-by: opencode:glm-5.2
-> >> Link: https://lore.kernel.org/rust-for-linux/8ea21b29-9baf-4926-a16f-7=
-d21c5a1a1b8@suse.com
-> >> Signed-off-by: Alvin Sun <alvin.sun@linux.dev>
-> >> ---
-> >>   MAINTAINERS | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index e035a3be797c4..74733de3e41ee 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -17984,7 +17984,7 @@ F:   include/linux/module*.h
-> >>   F: kernel/module/
-> >>   F: lib/test_kmod.c
-> >>   F: lib/tests/module/
-> >> -F:  rust/kernel/module_param.rs
-> >> +F:  rust/kernel/module*.rs
-> >>   F: rust/macros/module.rs
-> >>   F: scripts/module*
-> >>   F: tools/testing/selftests/kmod/
-> > Is there a reason why this is a separate commit from the commit that
-> > introduces rust/kernel/module.rs file?
+> 	unreferenced object 0xffff88810296b2c0 (size 32):
+> 	  comm "kunit_try_catch", pid 1096, jiffies 4294694235
+> 	  hex dump (first 32 bytes):
+> 	    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> 	    66 6f 6f 00 00 00 00 00 00 00 00 00 00 00 00 00  foo.............
+> 	  backtrace (crc a62f59c2):
+> 	    __kmalloc_noprof+0x216/0x510
+> 	    desc_set_label+0x46/0xc0
+> 	    gpiod_request_commit+0xd5/0x140
+> 	    gpiod_request+0x49/0x170
+> 	    gpiod_find_and_request+0x2be/0x520
+> 	    gpiod_get_index+0x56/0x70
+> 	    devm_gpiod_get+0x1b/0x90
+> 	    0xffffffffc0401ff8
+> 	    platform_probe+0x58/0x90
+> 	    really_probe+0x1bc/0x490
+> 	    __driver_probe_device+0xa2/0x140
+> 	    driver_probe_device+0x1e/0x110
+> 	    __device_attach_driver+0xc2/0x140
+> 	    bus_for_each_drv+0x117/0x170
+> 	    __device_attach+0xd5/0x1c0
+> 	    device_initial_probe+0x34/0x50
 >
-> Gary asked the same on v6; `git log` shows MAINTAINERS changes are
-> conventionally
-> standalone commits with a `MAINTAINERS: ` prefix, so I kept it separate.
-> Gary agreed [1].
+> I came up with the following diff to resolve those issues.
 >
-> [1]:
-> https://lore.kernel.org/rust-for-linux/DJJ26195JBS9.D3DNLZPRJYO4@garyguo.=
-net/
+> diff --git a/drivers/base/test/swnode-devlink-test.c b/drivers/base/test/swnode-devlink-test.c
+> index 6f59f13214fc..143b9c4047a0 100644
+> --- a/drivers/base/test/swnode-devlink-test.c
+> +++ b/drivers/base/test/swnode-devlink-test.c
+> @@ -17,6 +17,10 @@
+>  #include <kunit/platform_device.h>
+>  #include <kunit/test.h>
+>
+> +KUNIT_DEFINE_ACTION_WRAPPER(device_remove_software_node_wrapper,
+> +                           device_remove_software_node,
+> +                           struct device *);
+> +
+>  static int swnode_count_suppliers(struct fwnode_handle *fwnode)
+>  {
+>         struct fwnode_link *link;
+> @@ -294,6 +298,9 @@ static void swnode_devlink_test_probe_order(struct kunit *test)
+>
+>         ret = device_add_software_node(&supplier->dev, &supplier_swnode);
+>         KUNIT_ASSERT_EQ(test, ret, 0);
+> +       ret = kunit_add_action_or_reset(test, device_remove_software_node_wrapper,
+> +                                       &supplier->dev);
+> +       KUNIT_ASSERT_EQ(test, ret, 0);
+>         ret = device_create_managed_software_node(&consumer->dev,
+>                                                   consumer_props, NULL);
+>         KUNIT_ASSERT_EQ(test, ret, 0);
+> @@ -313,8 +320,6 @@ static void swnode_devlink_test_probe_order(struct kunit *test)
+>
+>         /* Tear down the consumer (and its device link) before the supplier. */
+>         kunit_platform_device_unregister(test, consumer);
+> -
+> -       device_remove_software_node(&supplier->dev);
+>  }
+>
+>  static struct kunit_case swnode_test_cases[] = {
+> diff --git a/drivers/gpio/gpiolib-kunit.c b/drivers/gpio/gpiolib-kunit.c
+> index ad961cf97aee..7798f8a8e602 100644
+> --- a/drivers/gpio/gpiolib-kunit.c
+> +++ b/drivers/gpio/gpiolib-kunit.c
+> @@ -449,6 +449,9 @@ static void gpio_swnode_probe_defer_on_unregistered(struct kunit *test)
+>
+>         pdata = dev_get_platdata(&cons->dev);
+>         KUNIT_ASSERT_EQ(test, pdata->gpio_err, 0);
+> +
+> +       /* Tear down the consumer before the provider to free the GPIO. */
+> +       kunit_platform_device_unregister(test, cons);
+>  }
+>
+>  static int gpio_swnode_probe_order_test_init(struct kunit *test)
+> @@ -614,9 +617,17 @@ static struct kunit_case gpio_unbind_with_consumers_tests[] = {
+>         { }
+>  };
+>
+> +static int gpio_unbind_test_init(struct kunit *test)
+> +{
+> +       device_link_wait_removal();
 
-Ok, that's fine then.
+Interestingly I noticed this in the GPIO test cases but not here...
 
-Alice
+I also think that we should call device_link_wait_removal() *before* and
+*after* these cases to not affect other test suites - as pointed out by
+sashiko too.
+
+Let me send a v4.
+
+Bart
+
+> +
+> +       return 0;
+> +}
+> +
+>  static struct kunit_suite gpio_unbind_with_consumers_test_suite = {
+>         .name = "gpio-unbind-with-consumers",
+>         .test_cases = gpio_unbind_with_consumers_tests,
+> +       .init = gpio_unbind_test_init,
+>  };
+>
+>  kunit_test_suites(
+>
