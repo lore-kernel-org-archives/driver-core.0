@@ -1,116 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6DD3EB80D
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 11:46:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111DE3EFFB9;
+	Mon, 13 Jul 2026 11:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783943175; cv=none; b=cCWOlbBqnH9jChujStlvzu8nOmFkGk4Afd6wc5RNt5NzzYRtDYct4io0TVIa+VXqBKKhX0eCWh1UnFIqAFeMyCxfmwHxZGnjmZt3ZSV3piCT+5JLBBNx8dS5/c9/TbqEBCEByzwVBr2bS2wq4gRLz8+MIm3bisU2MT1c9FOkHMs=
+	t=1783943910; cv=none; b=D2RStMnw1wSYjEd0tMK7NgFpNoFwiJx0ij2ea/bR6769HQNKc2nCxOcMrqpcOhdKQSZLwg1wtxTCX+q9uAwFBsZi2uPX0kuoQvKJ+7bJt+JK0TATJERKPKzxPIWu01FR3npPo0HxfBpD3NZWFyQ7KnOzbdDAIodLlxEkxB66lUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783943175; c=relaxed/simple;
-	bh=pUgson4YtjyZJkYXfgKrgDqqtbvolnDsUl0y7l6996A=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DPkbasUptf146UoCGzI8kpT7y3yAVcwGTBpndnBdN00L83/aECeTD3tyaWvE8RT7m6BcHbmB/16pP0mO7aqIthLeF8El1HtdpQN0M8xeDQXMbV2piViUIhF0nTilTDCoDz3aVKBx+aBan7dkuxBrhIBAITjmoJMz0Z9cgBzU9UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWdUAQf9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783943910; c=relaxed/simple;
+	bh=9bbs8UX/297e1HapjI5HShVyBPRIxWU3JxIV15XlJo4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOqQLEakBklK0LuFC3hXsCkITCVDWnrsuWG0gwUppZWhCgRlRXLaHW2KgLUf72vMZoVgULzs2sOBQ3doB+ZB1v/+Y3KuOdtDTKO4e/TQ8i7XLffTuakaaNUCqWsqYTaGJzhHSwKvuTaSelyRyKBI8sH0sTCRIXFzugeURNj81r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U4jSutHR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWdUAQf9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E1871F00AC4
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 11:46:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U4jSutHR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 655211F000E9;
+	Mon, 13 Jul 2026 11:58:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783943174;
-	bh=pUgson4YtjyZJkYXfgKrgDqqtbvolnDsUl0y7l6996A=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=VWdUAQf9e6z492iLHTwF+zgr6Ghfv/3cx9kFuDR2CjswLfeiSSZKe4dW1HNqeaaU0
-	 pwYzbh0doLqMPrygIGXaKjATRIrp/HjlL06eI9vW2wLfYqW8KZTxZbL067vfY1GGL7
-	 HQvoyfQah/iXxpQF7uNQPSRcBEqjfeHK0A61mJuMQwUgAJmlMiUp6x68UfRNsxckvP
-	 t8sB8BwcCo9qdTMhCdPGAly5kv2+2i/aLE8z+JXpNpzCsSttO3bHCTMYQfTj/chkMB
-	 uDskYEPDGHYialWRG31dezVS87X6wDaFRELIraWcw7p4FIRf6Bqe26fC+4ICDHrEgs
-	 G7AYfGwVYcqhA==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39c7ce122c7so27806391fa.2
-        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 04:46:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqP1Gd8iIJ7Brb9An6wnRb2RYMNBb9ZmIuh2hUcnt/YrUXv9VDWi6NCKouBLe+0AZBLdJpqjGb06e/oYw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxyA99/tP8D2SpNjxSZ9+iFYftnDUAJru2HWATQ6qyRKf6JQSlp
-	Gr76M7mNh0RiNy1RY7R6wVtI01hKjl+DHHwUr3esuQQDNGXgjVM6l+sOonPxuKTTBi3HR3WE5kE
-	D0FsXjmilFjSFscOwspZ+RrTbfWfGH1tpHbzh90GWDA==
-X-Received: by 2002:a05:6512:3d1a:b0:5ae:b7ce:9ca5 with SMTP id
- 2adb3069b0e04-5b023664aedmr2156671e87.18.1783943172928; Mon, 13 Jul 2026
- 04:46:12 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 13 Jul 2026 04:46:11 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 13 Jul 2026 04:46:11 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260713-swnode-fw-devlink-v4-0-d4f2dee27ad9@oss.qualcomm.com>
+	s=k20260515; t=1783943908;
+	bh=LFdgWE8j2Fy/JAcHkvs2nspRxcxwJtn8agbgicSouxk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=U4jSutHRU0CtyfV1izwKsoNyGodc45+IQzbASX2BWOxgcMwf8X0iVe0Xk/u7FTyf1
+	 qozzuLOOHkCm69LyWQXR7giqz3XMlye1ATNVZnD1Gm0Yap0klPCHA+WxAphe/ZXXO0
+	 AGzGhzdVTwh24sSWLke1b6l+2UWQaZlr7+wpXX1SXgurTRNl/OM9PtiG4Qs/rVt6rl
+	 yAeRxVIGnM87P0zzViTGboxuq8NRFiLwr3mENy/a9V2YmjWJryA1JxgVMuBdHz0ix9
+	 Tzu4PKqqltggIgpq+F0IfTFcxtOqoxQtekbCIsn7eK5thvtpBCxRB5aFeP5Zbrd2Kz
+	 PO9707gwdPR7Q==
+Date: Mon, 13 Jul 2026 12:58:24 +0100
+From: Mark Brown <broonie@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH] regcache: disable cache_only before rewriting paging
+ registers
+Message-ID: <24ce60c7-5539-4fba-8bf3-3a10875c3b75@sirena.org.uk>
+References: <20260713073059.47914-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713-swnode-fw-devlink-v4-0-d4f2dee27ad9@oss.qualcomm.com>
-Date: Mon, 13 Jul 2026 04:46:11 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MfePNuHT8U2_mkH2akEZJJqbEOuXeQvT_NBiSXJsSEZBQ@mail.gmail.com>
-X-Gm-Features: AVVi8CfiAl3cJkdaaeyXnzNXa4IO8bwcddx2O2htTa3UP3J0TA6NO-proBdoNRQ
-Message-ID: <CAMRc=MfePNuHT8U2_mkH2akEZJJqbEOuXeQvT_NBiSXJsSEZBQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] software node: provide support for fw_devlink
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-gpio@vger.kernel.org, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Rae Moar <raemoar63@gmail.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="e6pyUuZX8ocioo3k"
+Content-Disposition: inline
+In-Reply-To: <20260713073059.47914-1-phucduc.bui@gmail.com>
+X-Cookie: Courage is grace under pressure.
 
-On Mon, 13 Jul 2026 13:14:43 +0200, Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> said:
-> Currently only devicetree systems have their devices' probe ordered
-> against their suppliers automatically by fw_devlink. Software nodes have
-> lately been used extensively treewide to describe references to resource
-> suppliers: most notably, the GPIO subsystem uses it in many places. Now
-> that the conversion of "dangling" GPIO chip software nodes to using real
-> links is almost done, it makes sense to ensure no needless probe
-> deferrals by implementing the add_links() callback from the fwnode
-> interface.
->
-> This series extends software node support to use fw_devlink and adds test
-> coverage for the new behaviour.
->
-> Patch 1 adds new kunit helpers that will be used later on for test
-> cases.
->
-> Patch 2 implements software_node_add_links() modelled on
-> of_fwnode_add_links(): for every reference property it resolves the
-> supplier and links to it. There's no allowlist like in DT - a software
-> node only carries a reference when its author explicitly wants one, so
-> every reference is an intentional supplier dependency. Graph
-> "remote-endpoint" references, unregistered supplier software nodes and
-> self-references are skipped. It also mirrors the device pointer onto a
-> secondary software node so fw_devlink can find the supplier device, and
-> purges the fwnode links on release.
->
-> Patches 3 and 5 add the tests: a kunit suite for the add_links() op
-> itself and GPIO tests for a real-life use-case: a GPIO consumer
-> referencing its provider via a software node.
->
-> Patch 4 proposes to add myself as a reviewer of software nodes.
->
-> Caveats: a supplier software node must be registered before the consumer
-> device is added, If the swnode is registered after the consumer was added,
-> add_links() has already run and set FWNODE_FLAG_LINKS_ADDED, so the late
-> supplier is missed. Graph/remote- endpoint ordering is left out for now as
-> well as there are no known users.
->
-> Merging strategy: with an Ack from Kunit maintainers, the entire series
-> can go through the driver core tree.
->
 
-Just a clarification: patch 5/5 will conflict with current gpio/for-next so
-this one would have to go through the GPIO tree. An immutable branch with
-commits 1-4 would be great.
+--e6pyUuZX8ocioo3k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Bart
+On Mon, Jul 13, 2026 at 02:30:58PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>=20
+> cache_only must be disabled before re-writing the paging selector
+> registers. Otherwise, _regmap_write() would update only the cache
+> and return without calling map->reg_write(), leaving the selector
+> register on the hardware unwritten and out of sync with the cache.
+
+No, any access to the hardware is buggy - the whole point of cache only
+mode is that we can't access the hardware.  The paging register is part
+of the context that needs to be rewritten when resyncing the cache.
+
+--e6pyUuZX8ocioo3k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpU0uAACgkQJNaLcl1U
+h9DE9Af+Pq0nfo6VnhRNOS1cwY5i6em3yrTF0hT50wAW0LjGCUY2/9hcsVnfKXKz
+PGxjGTa87Xme7A4cAXRmzGmkmZIRVTmGFAeegJvdaTWVNNf96M1bfNX/75ZmiOK+
+0R67wLyZfiKxoAbuJvtD4zFeYZ0bmhcVkr4FdxpCDTJcnnmR1MzlerXbsmkGCxiD
+02fS1R6CuVXf4YGDvgtjGrogJVSQ4N/b9sN9InsLlR4I+9ip2it4SOuoi0H99utO
+Bnn+dv/gvkrfGvBAgB6WMsRnen3CTj3zicOBMMs1sQi+5VYFtnJrtaT1rliiv/dE
+Ao5JA18BtqWbFbXHn6A4nWo+1E6x5g==
+=FLJF
+-----END PGP SIGNATURE-----
+
+--e6pyUuZX8ocioo3k--
