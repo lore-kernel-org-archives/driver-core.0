@@ -1,373 +1,261 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CCD3DE448
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 15:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783955550; cv=none; b=ublMWNHHvBhL8ylyuBnQOK6XvK5pmK982hUAEwQkGSoeRcFiB8nPmYQJi4Ta/ueOLe217l263+rf8lwNstEazlcA0/kqDumEheWomAhCCY4D7g/BDXuGrlbxMo7Cix2nP334/jtvQxxJP/2j0o1V3jNZrrGH3seKeSj+1soyP+M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783955550; c=relaxed/simple;
-	bh=oLwa7pZUr6doS0kE5wIzyXtRk9PkNeS7cvA7R3LQYdg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T13gW1rSFaNG1AumIIs7CJA2/Wgd8E6pW5SeBT6YU2y8ISNDA4z1d/TagBG+Qm76vJDGbEvPH3IuYz8Nq4r8eb0u8t5bKGGV3VmHGLirc8/GabvRkYYumYpPHflYGHX/+EfPLWD95iVcn+ncnjjnrgO8W1Xh3G/2giO8YNVF8d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jcRCB/7D; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Zs7J0mCm; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CF83438B5
+	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 15:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783957034; cv=fail; b=rA/pWJS7M4qZyI9+z/lilGccNuqLbE+Jc/G18wBgsPfoV+4PbysTCCwg2JgdIgNMJGfK5qxBvJD83b4dh5WV2qZbro7bsnnEgNxtRWYuVrBnRLrOeQH4ovflr11XUzT060qrVL+6WcAu0Fihmw13JlmKoWNolw7y/iy2CIir5R0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783957034; c=relaxed/simple;
+	bh=R6nyJ/BqbTsBFAFctaIqX5UZ8w3N2JaToHO9L7kWFsE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ugvpAXkaeB/vcmKVtd21yvZsiDX0JhDpezd52eSfRDjEqLBfAuc2PDgYFl2rYcgeYs9Cr8DAu6LlMTNNtSNxZau0vYN2Ky08ndt4NI1toHLbUBn+aoDY4Z3K8ogGQ3B68ETY3cpZ104Heg5aoxM6+SApS9TejTfArfEGKpvw5Ws=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=attJZrG2; arc=fail smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jcRCB/7D";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Zs7J0mCm"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66DF87mo1734689
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 15:12:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nAzeN59J0azB7+VxlBwnfSfYuZUkQq63rtSgGfRJFeY=; b=jcRCB/7DvOW944R/
-	sn83hdNJaSiW5aSaS+Bk7JS92KHNJVniy45ohZWgZim+NDIyllXCfeL0643JD6OB
-	jQiUD3NiPCq/ZkcQu6fwgtnRHKfOFfAbldYKMowgpaFzhNoFlNVI3ahliyR2ffYc
-	PaViAW2GryjCL39Tsb8bOCkcAxbkRhLEaV320yapgpfF90WqOXk+YG8VONOv061v
-	Q6wx5YdLDB/+iafOVGq6gd07pz+87PclsfgfoXKc1ZWdXY5kdD2TzCR6PquRcfnd
-	xGjxEdVIjtb4cPrwiAdZdhm0Hfqe2uNaWXfGvh03KDCXkvjygTm4Qw4+pH9saWbB
-	umxn8A==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fctc8j6gg-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 15:12:27 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c33f48ee4so48268891cf.1
-        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 08:12:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783955547; x=1784560347; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nAzeN59J0azB7+VxlBwnfSfYuZUkQq63rtSgGfRJFeY=;
-        b=Zs7J0mCmN1Pegvo36WvCKhYooQUoQUIJV5ZB3YtvgWymzq+1USvvOPuR/sNk4PxGpl
-         2YSwX8mSCQ88xx7DSAAISppaPmT2p/1MMwZO7WGaRTqqvVLeQlOBZ0r6FWYE+PYaVHfl
-         tD+oKn01nfNy+biJWDs/rFKh8yaCVqMe1o8SU2Kia8msplZ/tiW3hJqyAv3FS5elu1ro
-         ogbBK3YPyr4S5caodSoNTm5i4C/2qzi/ydtygZn73xP/kxJnfbWzPSTPZx9MSCyoLD/i
-         vJiBcBpu/9LXiidZ4oW3bKvg6VqFssnn24HUokABufpKcQPPQSxBAJBtMEHBM8O5tqMf
-         myNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783955547; x=1784560347;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nAzeN59J0azB7+VxlBwnfSfYuZUkQq63rtSgGfRJFeY=;
-        b=YLsOOg9WD2RwNXLIut8u0BJayPDWJ8OLdb/7KVjfmMG6K2iNP6r76ggWYqMnpU3X88
-         5/NVN9fJKRBvvtB90wPAsG1Q4qPZF3De04UT2lNfFxL/d1yK85/2CkG2xDbS64G5QfZ1
-         pd8aHpkNw4Ez2TtXA8vCWRa2SgiKUNN0LN8lEiLytOUeJdYojz/EA2xg6gRdNe0Q2ekZ
-         97K+RhQLw7wuxjux9XfI+nuk+7+xKLn/1rZAdySrNpDXKq73AnGybGqCTM9Q76s8LoQU
-         nfCLw8tBiUTeJDdpQ5YEtJpSolDPhsfykGGW2AJmdBsZLEAyVEEaLkO1NHDoAWJRTYR5
-         Nizw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrlzvgsvm1mVDlGWnBRXCLH+sM4j7aIbIy3NuG0VYzbz/NwYRSuQnU3D/e+K8ikGDq82TcArby3jblw2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyOKiSKb7RtM7uO4m2RzdwaGTC5eW0ra6w0NkdI2/vONznkyfAp
-	rZ0wVV0hQgrc9Rwau2zIOG4fLXJWBE5S2Ub/DIZ2Sf5uiLvlSAs40mOKpUES5D9T/bindgPk6KR
-	mQVr/4HBkVT95SXrNe4bUFADG2odBDNmBFXzZkhqZo8PrwK8ZyTMtlT7kKgzAPVrdRQ==
-X-Gm-Gg: AfdE7ckD8af+9DMCxqqLawY4AYWbtwpiU8qIhjiftTRo+nTCZxJ6DmpiHBeL2H3vgfC
-	Nqedu7ADSMjjfG24TqmFVxll4nP9wDbZEdyLobc3CDmSfElDTK6aZgYkrlJcMNAqeE9RZ5oGMuo
-	D3/5oLerUWX0iPbnNM9XltrXjKF50VQbclXPF+ubO4QjDhQ0y8nLUOJRs6xETJ/HROtY3ZyVigH
-	a85V3oj/NrtTuQLzdC0Bo/MJuMXgTKj2M0QJmv6R8dNvx5kcUae5M9HlUY/xW6nSf1lMutVzYVB
-	pNCWuxy2Dh0duvA2JONgPz4wcVie4Zs0nV4eL97X8Gg9BPzLYhUCIEINj3EQjBs7fBm3va6Vhii
-	a/mQpJ5IEcXt8TkF25x8ONXp5qGt0mAaSgXmfXbRJ
-X-Received: by 2002:ac8:7f89:0:b0:51a:8c97:938e with SMTP id d75a77b69052e-51cbf287e88mr96882191cf.69.1783955546684;
-        Mon, 13 Jul 2026 08:12:26 -0700 (PDT)
-X-Received: by 2002:ac8:7f89:0:b0:51a:8c97:938e with SMTP id d75a77b69052e-51cbf287e88mr96881541cf.69.1783955546045;
-        Mon, 13 Jul 2026 08:12:26 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:8881:83b8:89fa:1a2a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a558easm87956664f8f.27.2026.07.13.08.12.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 08:12:24 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 13 Jul 2026 17:12:00 +0200
-Subject: [PATCH v7 4/4] driver core: platform: tests: add test cases for
- correct swnode removal
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="attJZrG2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783957032; x=1815493032;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=R6nyJ/BqbTsBFAFctaIqX5UZ8w3N2JaToHO9L7kWFsE=;
+  b=attJZrG28yLAje/HnavtJM0HkpAWYIFZgNdIvuvJok/tSuEzTVS8sO1y
+   m//OhTwX4UvxcDcTtGILPvVDjwNrng/vvGZwqRSQja1hFBDqKKlIg9sqG
+   cMY5o3bxzX1ZcJvnvDgDQPP1ovkC67AH+Gs8jXu2TPP86hJ54xm2xAFSL
+   goMeogyU7oqRN9awC52fLGnfnM3YzOzVpmgZPagpuQrvECxlNDfQ2Yfra
+   mKvwFY9Iq2I1Ntm/+1q2gACJT0p961MuUj/6YyhmikjI5kcx7rhPTrThH
+   A2GeWOaZ7aMnE6BgHMcgiU9iRewHb6ZgYLFpPooaURRzsiQK0aoXrZr2X
+   A==;
+X-CSE-ConnectionGUID: 874/k52qTwGeN2wLL1HBqw==
+X-CSE-MsgGUID: QzxlFP7dSDKhX1oBmmmcMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87111964"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="87111964"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 08:37:12 -0700
+X-CSE-ConnectionGUID: U4A3VtJySr6HF3l+8DyMzQ==
+X-CSE-MsgGUID: Bg3GZXBhT52miZtESrBG8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="252199659"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 08:37:11 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 13 Jul 2026 08:37:10 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Mon, 13 Jul 2026 08:37:10 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.34) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Mon, 13 Jul 2026 08:37:10 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RNVZFoH+XWRkr/6NDQplxvvOODBgE4XCyg2ou6c+e382aTbBixziFHLp2CEBi6D1uGB8iKwOvwDw6PnWQiTOws/qL0Dk2rpW9DZ1vnyPnSTEXSKpMeF0GzcX7mxSABlLOa4AI+uUjozDpetT12fO5mivuoj+gNaofQo7+v3SX35J2CcdMwR2XIJrMHVjEaJI6f7BWmnGwlv3KrHJOw5LZclaeW4Ddexogzg0ZhrcohMhjnAjx4J1IMpLR6vA4tpPjDHRTftC9Fxj6FKZzbJvPjjMK/5Zp5ySwn+xiE5/rlhJVu3fugJGBCgiNh2bZhVrf61k8OxcTyWdNNoV83zcqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ixyguX0JXaggF3tL8/Oaj3kXP2ugDTf5VB9wKh9AOt0=;
+ b=nQ1ilUUca89MGOtzfszxyK9Wmp6rNlqO5VbuTOPUEfnJTZ/Zhxj1ahg7kQ/ql8VSbZUreXF3nbi4wp+Db5LWWWB4bHPf8xatczZRxR7g4URGhi55bSCFodkXEqgMRuAJ3O58DWZjBOmQCLsIcevFkkhRQz9qfhnuUS4HJ3IYexeVxwtNj2f1hHjyfSxj0PX9IVvX5aYrFWnWDnw1cZ7R71Br+eKFTKntUbOXqeYN0bDQv8VuHBLmmWese3IroK0hYfYf821ShPCpZSS4sux1WIDWpJAZ8zzwXEoba+ErGea9zFZgYaNJxPKEbvitqX3QPQTiu/yZpDak/hv/lkgU0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5073.namprd11.prod.outlook.com (2603:10b6:303:92::23)
+ by CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.19; Mon, 13 Jul
+ 2026 15:37:08 +0000
+Received: from CO1PR11MB5073.namprd11.prod.outlook.com
+ ([fe80::a153:939c:df8c:f4fe]) by CO1PR11MB5073.namprd11.prod.outlook.com
+ ([fe80::a153:939c:df8c:f4fe%4]) with mapi id 15.21.0202.018; Mon, 13 Jul 2026
+ 15:37:08 +0000
+Date: Mon, 13 Jul 2026 11:37:03 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, "Heikki
+ Krogerus" <heikki.krogerus@linux.intel.com>
+CC: Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede
+	<hansg@kernel.org>, Ilpo =?iso-8859-1?Q?J=E4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>, Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	"David Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, <brgl@kernel.org>,
+	<platform-driver-x86@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<driver-core@lists.linux.dev>
+Subject: Re: [PATCH v7 2/4] drm/xe/i2c: use
+ device_create_managed_software_node()
+Message-ID: <alUGHxyN6l7awuEn@intel.com>
+References: <20260713-swnode-remove-on-dev-unreg-v7-0-6d6bc448427a@oss.qualcomm.com>
+ <20260713-swnode-remove-on-dev-unreg-v7-2-6d6bc448427a@oss.qualcomm.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20260713-swnode-remove-on-dev-unreg-v7-2-6d6bc448427a@oss.qualcomm.com>
+X-ClientProxiedBy: SJ0PR03CA0062.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::7) To CO1PR11MB5073.namprd11.prod.outlook.com
+ (2603:10b6:303:92::23)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260713-swnode-remove-on-dev-unreg-v7-4-6d6bc448427a@oss.qualcomm.com>
-References: <20260713-swnode-remove-on-dev-unreg-v7-0-6d6bc448427a@oss.qualcomm.com>
-In-Reply-To: <20260713-swnode-remove-on-dev-unreg-v7-0-6d6bc448427a@oss.qualcomm.com>
-To: Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>,
-        =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>
-Cc: brgl@kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6684;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=oLwa7pZUr6doS0kE5wIzyXtRk9PkNeS7cvA7R3LQYdg=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqVQBNIfBh8eZoHsF8HLG+w8cZbCKKmZx4hpanR
- IC0jnASC8GJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCalUATQAKCRAFnS7L/zaE
- w+m4EACj7kCadQtPriMiLBsyh/UeZju0w3Z5woybvD2DUOzj/3xS8OhVCjG1jw4pXEMNjsWF7FE
- 25xld9nm/Vx8CURMNnyrdYLYP4sA9rMpvH09dbxgUyWKwAaX/0dTTfWITqeCgtVJpMvpy/gWt+i
- 1vBo0H/Xk/T9WpvZrUvwzsEdKd17lRXlSv+iu3JaIHmhHidGgkoN6pYxPyMNEjYO2jmXFbgtuso
- Co9zq0hChPyBScaGES4XUgTFXApYLBq1nHUc1MihSUrYvIXtOxs4c6KdHtzEwoGaWTzHukHKg5D
- eIXHliyqoXlTq8iUhPv+zWryvHiffyPz+ovpcHvjee9f4Sh6hgHTEmV5xNwi39W1sddnYQF5AoP
- a1rZT8YCTX+cb+e9tbb1u+7ICiZTmtjNi4/jGvpnilQ6dbB594mrW0VRESqh0GzV4B5YsScNhWC
- Ua+5s5CevweEZkMCVPyPokbahXHn1KH8jE6HXwB70l+/FzOuKmUC8C6trPXKcsYAxeWEOQtur5K
- UTchmQxsvIsB46bDeB4DYkcRiOSziygrE7nM+V3XI2qJqT7o4ASHt7NPxuQO5UccqU/4KIO9Rof
- K/sCY9GMVcEDo+EETlPdMj/xppbFdYHiUPbFv0rDYsrt0oIZXV0B63G9BEs5izCGywK8RvFRvqA
- kgq4M6heDWFlefg==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: jC_I-6hfCOSCW_-Hx0vTNG3v9rgyFWpq
-X-Proofpoint-ORIG-GUID: jC_I-6hfCOSCW_-Hx0vTNG3v9rgyFWpq
-X-Authority-Analysis: v=2.4 cv=UtRT8ewB c=1 sm=1 tr=0 ts=6a55005b cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
- a=zydxXWD-JFuk5BhJ14wA:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDE1OCBTYWx0ZWRfXxP/GkKleoFyv
- w8ET1phbNOgIOui/kuxJrZE0GKPZoJs2mAqjbOXH3FhxhRoM3uxFEhO6zWgxXzfmCXwJxZfDtmA
- 00yjoEYO6QshS8E6lHMgglzRzqewsrY=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDE1OCBTYWx0ZWRfX+25hzuoJEfTa
- B8ezI10UrJArmaTxfYRnMwkAvaInbvmRk/h96lZQxsUjf1q7zeVUBt2MW4zUjYISyO+m2p8EW86
- actyTlWxqlzPfRoDgv36MMdZAaJ3CwHo0Se5NO9keYrvHsT8jsjYgwoCMbRKXZ9lYuFoNfqGSGo
- 855XChMkTmiQDEYerNJroEQK6YQJmaCPyxAnZDyyXznnCzf/be/OTqigAR+Rn+/ZS5raPLxU997
- 7aK/KsrwNlxwHebrEidpqwXMh8nyK75d6jUD5reG/ac7GFXUHiX2iFukaf06GB/t8zbdokikzCz
- a26osI4CLr0RO5dn7BZpzCVSLuwX/yIJ3oiR1Q1d0r2n5yuOnGiXshW4y94jpuYIZDQze88SEuL
- chXTD/Ro7cYSHxDb+Ig9aX5fuPCHdugcVE8xEeLlkSs7toFx3i646UyLgWuI90J9BZZBN8xVxXy
- 3zly+wQxp/i0Ky2KfKQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-13_04,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 suspectscore=0 bulkscore=0 clxscore=1015
- impostorscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130158
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5073:EE_|CO1PR11MB5154:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cd405b3-a12a-416e-d8a0-08dee0f49900
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014|23010399003|22082099003|18002099003|11063799006|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info: GMDLK3WnjVR5zkrKUuVSXGIGVNc/CPeCBnxcAhR34nKNwNF9lXBbSVDMeSlYbE/wqxKZ04mOL7nXHl28aks3vFjyVkL4QuF6a9sVd0jaBwbxi/OMNd2j/PG7kI0ei9Qld4OuPh5gst65cqewOhWOgPqn2mioOmfxlCqjh/qXIP/lVm5XmJyaKY4FoVJruXGnVHyeJn+stv/HKZmvZ230f822x14o3V/iQCeApHhFw+HxMKBK1Z7kEXcvHi3auGv5K4VaQfJdSMrkPlY0IGiLlZWGipVRNW2+tFlZvJwI9ywBdpMrCNqhQ/OFvHjWLtf6r8O8SeVGa7L8LumndlOlQCyIuKBtpZC3t2B4xXxbI/MqmYj6Qy6uIh5LbYf42Eh25CskERKRW+ouMdW5njEnLo0dZtqE7s/fRui1RUz0WcFpo76/q9AZjVxN2ahR6x0XskUvFKwABuchHhv5KAzHdL/dK3N6+C5NW3xqymo4lNLILI4EdzJw4MxoX9vqTCbE9IroXXJttOUWyYxHgg5+BSttaHAMMXqrFlUVx6EOOM435s1XH3Zf4BRxKEPu0Szxzxnw6th20tGeeA5qU7Le7RVeJcNzATHgdDjqX23GpS882nhQiqkHF7b9hxqcnkdDTFCrCKRzNQZkx5CyBFVObc5CjsWdPBXwVndM8O6bgdU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5073.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(23010399003)(22082099003)(18002099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?udwFqtaZZWPCeeLqRFoxx50xhM/DKz+i35ZdNib1dfvX7vHZuYE21dK3ct7C?=
+ =?us-ascii?Q?qhLtONvMmnB44mLpVWKOkHKcJH/KEy2lnU9hGmE/8lRrroDDy+Zgs/Jei+3y?=
+ =?us-ascii?Q?tYwgl+es8j3ot5OsBKwYhj+OC+o5wvv6wJZcnDITBqF/SfHWuacWM/Syagyu?=
+ =?us-ascii?Q?1ssNDatTeGKNVHCJj+e0abvGVv3UPopXMaliwQ3Wxw0MmTN/EkS7herMtW0J?=
+ =?us-ascii?Q?5MRJpvaGjlmuquBtDLa+EWmlFFJv2o8fVrwQd1YRSJAD2v5cw6PFcDjQyezd?=
+ =?us-ascii?Q?pFpmiYs0Kw9yqSujZ0HXy4GwDfdZ2IHkD6O/eRVNYxyw5o4/OMN/+SxEO1zZ?=
+ =?us-ascii?Q?Wj5MVLiskh6XdaNEpSG82tqtdImJaa5rBizIG6JRr3cLgpWZIFRxBGXCDqya?=
+ =?us-ascii?Q?PNTXMtdA9z5vvaDZF/r7CsjnP4wEBja093HBroLBd/8JxYqD285fJf35+Q1+?=
+ =?us-ascii?Q?p5hXazqshDZSna5qaU7ga7j1UNJK1BajpmTiQIvrvrMRBYLbDe+Eh2XSI5Fs?=
+ =?us-ascii?Q?MX3aFYcTRvLshxHvgPCJwrzR67vU6pWs2C2zbYugFuzlWi7q5gsnPWPMR3x2?=
+ =?us-ascii?Q?KE/Kx+sxR2ntEQa2enBZXoPYwnT39M0/X3TD9wJ2L9xdromQ485TmqYGIM9j?=
+ =?us-ascii?Q?gh+5TiLLZbrwPO0hnopvTMj26z6XrVy4JTe6OpYHyoG0FaOo/lEgZ7xibXPE?=
+ =?us-ascii?Q?q8iiufTd1sEZGycQEThwXbSMB8Mf1IQ/cow5XhtSEhm8PdcHsnMgHFU4kEyQ?=
+ =?us-ascii?Q?0/ErHahMizWfBKBRv3BPRVAg6LpYQ86wxIJhUcN1+wprgKSBubUO7rU6q/IE?=
+ =?us-ascii?Q?y3l5muF7jICzXWG8G6l0bWZ2/SBUWEpXbcAF0T7lzGJnMEkZRvqVagVo6A1a?=
+ =?us-ascii?Q?gCGPipQ4q8g6qtoKe70qmkAyT98i3upxp0C7Omss5a+zLNg+tIsLuxaKiI59?=
+ =?us-ascii?Q?fz9VhFGR64ptBPZwP9JCEoi7VpYFIjZ5F2qU2K+bwiR34cp4QfAUSM9RqE/C?=
+ =?us-ascii?Q?KG0ItDY7SG4x2qxdLPmAOV4D4DiKt+l8cGOVjP7suQyXsjCs/SDO5YrVUCiR?=
+ =?us-ascii?Q?iK4rg1Ne6XcHyXZIoMLM2lGJPFHHHdpH2QGSEHQfsCsSKyERfpKKGmWjZsz9?=
+ =?us-ascii?Q?FK2D+i7ZSNtG/WlbqWVLt2HBTpWTDtKaJv1MSU73qD8ZR+5H3jDnFEZ9q2tt?=
+ =?us-ascii?Q?3jttRhBCdMJALrwd0Vp0HeCYctUGcHUUC2rBVQYiEw+L6/k0u1RgNy9uUQLs?=
+ =?us-ascii?Q?+h3iGH/aEFLYIE4F5lAhNhFVQfg7O6WFCStTWjeALuW7FQPYur3wjTDx77Ab?=
+ =?us-ascii?Q?gvq5MSkGcnG+08p2tdu+iY0gI4f7LEv6loPSuxbKsgwPD9U5f9Qwl/xxwbfc?=
+ =?us-ascii?Q?+ZxdZqw7CviQuuI83V8+h6gJqjbjB0hZ7Q4YTQ5et2Xgsm+ZTNzAeisVpiD8?=
+ =?us-ascii?Q?0eJhyPRhsMQ9oaZ8Aoc0Gi0beRUhMaZrkfNEKf32DHHn3mSeoZVxfNjmyLEc?=
+ =?us-ascii?Q?0e1+UTQNRivUaOCo/4CdQLP+7nJ05SYobo1FalOeDvCE1oFKSNX4hmC11G+g?=
+ =?us-ascii?Q?p4vM2nFAZypqElULFnPTndSMa1q5K3uStX00KKrcJsThtwQD2TbeH76afsfN?=
+ =?us-ascii?Q?hHp1XNb4RteY+dzEkg3I59rW7oSmAN18M8soqjSYM1uBTBI+uPwg13C2RoOe?=
+ =?us-ascii?Q?jiZvdPRaPJsxcgqpKReT9i4+u0TuHmDrPqbU87eC/HF0p1+xV/CxX5467/WR?=
+ =?us-ascii?Q?wMIR8Q9okw=3D=3D?=
+X-Exchange-RoutingPolicyChecked: LZ69VE0cR8Am5owj4cev/CnYdNpUeZDPYTq56TgWKYO8759xpEEdSlWv0aU5D1UrvrlOwdioZk58sOgZMN13OgbAeNLSflBDWECnI30/CgMOzVcyUf5NiEGTv/ZqlYx6NGUJx5NNlnUUwTngpWf0YLXj43yiQoWNaELATzY3iTjzOHF5XW8CogxBV8j+2Lm3xAy4bJMYFzzW4ARdh6im5p6FGp3bH6aCSOJBnjOhYcgWHNBoBLBDJ12BFptYxY3RtLYb7qtkQnxKPQVTt5w4cR1HEiW30vBDPAvaBJ6WCFcRbQDc+vkVQrDeYtkEyNSbIs0u0JEtgd+PqcmMiRBjAg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cd405b3-a12a-416e-d8a0-08dee0f49900
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5073.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2026 15:37:08.2737
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OSMFOvtC7IBVNFtw7c8SlPGKq5TViXqp+rvQYs7Yo6U+I3p6bjj1VWd5WC5Vpcr8ds/tvE3HDj59eEkwCCfHig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5154
+X-OriginatorOrg: intel.com
 
-Extend the kunit module for platform devices with test cases verifying
-that the same software node can be added to platform devices repeatedly.
+On Mon, Jul 13, 2026 at 05:11:58PM +0200, Bartosz Golaszewski wrote:
+> This driver intentionally uses the fine-grained approach to creating
+> platform devices. It assigns a software node as the primary firmware
+> node of the device it creates. Ahead of improving the reference counting
+> of platform device software nodes, switch to using
+> device_create_managed_software_node(). This way, we create a dynamic
+> software node whose life-time is tied to the device to which it's
+> assigned.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- drivers/base/test/platform-device-test.c | 180 +++++++++++++++++++++++++++++++
- 1 file changed, 180 insertions(+)
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-diff --git a/drivers/base/test/platform-device-test.c b/drivers/base/test/platform-device-test.c
-index 6355a2231b741791b54eb78af42e13f31f745184..9ce563f76aad6943472dc78f3639ea1a2d72dbde 100644
---- a/drivers/base/test/platform-device-test.c
-+++ b/drivers/base/test/platform-device-test.c
-@@ -1,12 +1,15 @@
- // SPDX-License-Identifier: GPL-2.0
- 
-+#include <kunit/fwnode.h>
- #include <kunit/platform_device.h>
- #include <kunit/resource.h>
- 
- #include <linux/device.h>
- #include <linux/device/bus.h>
-+#include <linux/fwnode.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- 
- #define DEVICE_NAME "test"
- 
-@@ -253,9 +256,186 @@ static struct kunit_suite platform_device_match_test_suite = {
- 	.test_cases = platform_device_match_tests,
- };
- 
-+static int platform_device_swnode_test_probe(struct platform_device *pdev)
-+{
-+	return 0;
-+}
-+
-+static struct platform_driver platform_swnode_test_driver = {
-+	.probe = platform_device_swnode_test_probe,
-+	.driver = {
-+		.name = DEVICE_NAME,
-+	},
-+};
-+
-+static const struct software_node platform_device_test_swnode = { };
-+
-+/*
-+ * Check that reusing a software node works correctly. If the call to
-+ * platform_device_register_full() fails after adding the secondary firmware
-+ * node, the software node must be unregistered in the device's release()
-+ * callback or the subsequent call to platform_device_register_full() will fail
-+ * with -EBUSY due to the software node already having been registered.
-+ */
-+static void platform_device_swnode_add_twice(struct kunit *test)
-+{
-+	struct platform_device_info pdevinfo;
-+	struct platform_device *pdev;
-+	struct fwnode_handle *fwnode;
-+	bool bound = false;
-+	int ret;
-+
-+	fwnode = kunit_kzalloc(test, sizeof(*fwnode), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
-+
-+	ret = kunit_platform_driver_register(test, &platform_swnode_test_driver);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	fwnode_init(fwnode, NULL);
-+	pdevinfo = (struct platform_device_info){
-+		.name = DEVICE_NAME,
-+		.id = PLATFORM_DEVID_NONE,
-+		.fwnode = fwnode,
-+		.swnode = &platform_device_test_swnode,
-+	};
-+
-+	pdev = platform_device_register_full(&pdevinfo);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
-+
-+	wait_for_device_probe();
-+	scoped_guard(device, &pdev->dev)
-+		bound = device_is_bound(&pdev->dev);
-+
-+	KUNIT_ASSERT_TRUE(test, bound);
-+
-+	platform_device_unregister(pdev);
-+
-+	pdev = platform_device_register_full(&pdevinfo);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
-+
-+	wait_for_device_probe();
-+	scoped_guard(device, &pdev->dev)
-+		bound = device_is_bound(&pdev->dev);
-+
-+	KUNIT_ASSERT_TRUE(test, bound);
-+
-+	platform_device_unregister(pdev);
-+}
-+
-+/*
-+ * Check that passing a software node as the primary firmware node of the
-+ * platform device does not result in it being unregistered by the call to
-+ * device_remove_software_node() in its release path.
-+ */
-+static void platform_device_swnode_as_primary(struct kunit *test)
-+{
-+	struct platform_device_info pdevinfo;
-+	struct platform_device *pdev;
-+	struct fwnode_handle *fwnode;
-+	bool bound = false;
-+	int ret;
-+
-+	ret = kunit_platform_driver_register(test, &platform_swnode_test_driver);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	fwnode = kunit_software_node_register(test, &platform_device_test_swnode);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
-+
-+	pdevinfo = (struct platform_device_info){
-+		.name = DEVICE_NAME,
-+		.id = PLATFORM_DEVID_NONE,
-+		.fwnode = fwnode,
-+	};
-+
-+	pdev = platform_device_register_full(&pdevinfo);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pdev);
-+
-+	wait_for_device_probe();
-+	scoped_guard(device, &pdev->dev)
-+		bound = device_is_bound(&pdev->dev);
-+
-+	KUNIT_ASSERT_TRUE(test, bound);
-+
-+	platform_device_unregister(pdev);
-+
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, software_node_fwnode(&platform_device_test_swnode));
-+}
-+
-+/*
-+ * Check that passing two software nodes to platform_device_register_full()
-+ * fails.
-+ */
-+static void platform_device_two_swnodes(struct kunit *test)
-+{
-+	static const struct property_entry properties[] = {
-+		PROPERTY_ENTRY_U32("foo", 42),
-+		{ }
-+	};
-+
-+	struct platform_device_info pdevinfo;
-+	struct platform_device *pdev;
-+	struct fwnode_handle *fwnode;
-+	int ret;
-+
-+	ret = kunit_platform_driver_register(test, &platform_swnode_test_driver);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	fwnode = kunit_software_node_register(test, &platform_device_test_swnode);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fwnode);
-+
-+	pdevinfo = (struct platform_device_info){
-+		.name = DEVICE_NAME,
-+		.id = PLATFORM_DEVID_NONE,
-+		.fwnode = fwnode,
-+		.swnode = &platform_device_test_swnode,
-+	};
-+
-+	pdev = platform_device_register_full(&pdevinfo);
-+	KUNIT_ASSERT_TRUE(test, IS_ERR(pdev));
-+	KUNIT_ASSERT_EQ_MSG(test, PTR_ERR(pdev), -EINVAL,
-+			    "Expected errno == -EINVAL, got: %pe", pdev);
-+
-+	pdevinfo = (struct platform_device_info){
-+		.name = DEVICE_NAME,
-+		.id = PLATFORM_DEVID_NONE,
-+		.swnode = &platform_device_test_swnode,
-+		.properties = properties,
-+	};
-+
-+	pdev = platform_device_register_full(&pdevinfo);
-+	KUNIT_ASSERT_TRUE(test, IS_ERR(pdev));
-+	KUNIT_ASSERT_EQ_MSG(test, PTR_ERR(pdev), -EINVAL,
-+			    "Expected errno == -EINVAL, got: %pe", pdev);
-+
-+	pdevinfo = (struct platform_device_info){
-+		.name = DEVICE_NAME,
-+		.id = PLATFORM_DEVID_NONE,
-+		.fwnode = fwnode,
-+		.properties = properties,
-+	};
-+
-+	pdev = platform_device_register_full(&pdevinfo);
-+	KUNIT_ASSERT_TRUE(test, IS_ERR(pdev));
-+	KUNIT_ASSERT_EQ_MSG(test, PTR_ERR(pdev), -EINVAL,
-+			    "Expected errno == -EINVAL, got: %pe", pdev);
-+}
-+
-+static struct kunit_case platform_device_swnode_tests[] = {
-+	KUNIT_CASE(platform_device_swnode_add_twice),
-+	KUNIT_CASE(platform_device_swnode_as_primary),
-+	KUNIT_CASE(platform_device_two_swnodes),
-+	{}
-+};
-+
-+static struct kunit_suite platform_device_swnode_test_suite = {
-+	.name = "platform-device-swnode",
-+	.test_cases = platform_device_swnode_tests,
-+};
-+
- kunit_test_suites(
- 	&platform_device_devm_test_suite,
- 	&platform_device_match_test_suite,
-+	&platform_device_swnode_test_suite,
- );
- 
- MODULE_DESCRIPTION("Test module for platform devices");
+> ---
+>  drivers/gpu/drm/xe/xe_i2c.c | 22 ++++++++--------------
+>  drivers/gpu/drm/xe/xe_i2c.h |  1 -
 
--- 
-2.47.3
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
+>  2 files changed, 8 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_i2c.c b/drivers/gpu/drm/xe/xe_i2c.c
+> index 3d80eafb9a1318996d10db11e14af4cfde07ba55..af6e973e5e68125a9c006bb646447ca6e377a6e6 100644
+> --- a/drivers/gpu/drm/xe/xe_i2c.c
+> +++ b/drivers/gpu/drm/xe/xe_i2c.c
+> @@ -93,13 +93,8 @@ static int xe_i2c_register_adapter(struct xe_i2c *i2c)
+>  {
+>  	struct pci_dev *pci = to_pci_dev(i2c->drm_dev);
+>  	struct platform_device *pdev;
+> -	struct fwnode_handle *fwnode;
+>  	int ret;
+>  
+> -	fwnode = fwnode_create_software_node(xe_i2c_adapter_properties, NULL);
+> -	if (IS_ERR(fwnode))
+> -		return PTR_ERR(fwnode);
+> -
+>  	/*
+>  	 * Not using platform_device_register_full() here because we don't have
+>  	 * a handle to the platform_device before it returns. xe_i2c_notifier()
+> @@ -107,10 +102,14 @@ static int xe_i2c_register_adapter(struct xe_i2c *i2c)
+>  	 * platform_device_register_full() is done.
+>  	 */
+>  	pdev = platform_device_alloc(adapter_name, pci_dev_id(pci));
+> -	if (!pdev) {
+> -		ret = -ENOMEM;
+> -		goto err_fwnode_remove;
+> -	}
+> +	if (!pdev)
+> +		return -ENOMEM;
+> +
+> +	ret = device_create_managed_software_node(&pdev->dev,
+> +						  xe_i2c_adapter_properties,
+> +						  NULL);
+> +	if (ret)
+> +		goto err_pdev_put;
+>  
+>  	if (i2c->adapter_irq) {
+>  		struct resource res;
+> @@ -123,8 +122,6 @@ static int xe_i2c_register_adapter(struct xe_i2c *i2c)
+>  	}
+>  
+>  	pdev->dev.parent = i2c->drm_dev;
+> -	platform_device_set_fwnode(pdev, fwnode);
+> -	i2c->adapter_node = fwnode;
+>  	i2c->pdev = pdev;
+>  
+>  	ret = platform_device_add(pdev);
+> @@ -135,8 +132,6 @@ static int xe_i2c_register_adapter(struct xe_i2c *i2c)
+>  
+>  err_pdev_put:
+>  	platform_device_put(pdev);
+> -err_fwnode_remove:
+> -	fwnode_remove_software_node(fwnode);
+>  
+>  	return ret;
+>  }
+> @@ -144,7 +139,6 @@ static int xe_i2c_register_adapter(struct xe_i2c *i2c)
+>  static void xe_i2c_unregister_adapter(struct xe_i2c *i2c)
+>  {
+>  	platform_device_unregister(i2c->pdev);
+> -	fwnode_remove_software_node(i2c->adapter_node);
+>  }
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/xe/xe_i2c.h b/drivers/gpu/drm/xe/xe_i2c.h
+> index 425d8160835f4648891ff75f2a9c06284241710e..b28229f056c5a664e1d41dc0cc1978782fe1c2f1 100644
+> --- a/drivers/gpu/drm/xe/xe_i2c.h
+> +++ b/drivers/gpu/drm/xe/xe_i2c.h
+> @@ -30,7 +30,6 @@ struct xe_i2c_endpoint {
+>  };
+>  
+>  struct xe_i2c {
+> -	struct fwnode_handle *adapter_node;
+>  	struct platform_device *pdev;
+>  	struct i2c_adapter *adapter;
+>  	struct i2c_client *client[XE_I2C_MAX_CLIENTS];
+> 
+> -- 
+> 2.47.3
+> 
