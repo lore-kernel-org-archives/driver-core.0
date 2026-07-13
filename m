@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46AB357CE0;
-	Mon, 13 Jul 2026 20:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295561E5714;
+	Mon, 13 Jul 2026 20:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783974548; cv=none; b=ZGewrwiaQRbuPIJPfzxXFM9I+tLRrbRn57viKxnkIDO92Cc5A861uVpxu7oDIKeUey9tfTkkD6L7LAoMXM+I2EhYJ9rNSVCsAzIQrc0X2C8kejrDNxRzWq9o6C4cHnvMMmTgNqVxhObS3FFYMtzZ4VhWt6uVNubNwrN23EU/60Y=
+	t=1783976122; cv=none; b=dFcEFDvC7FBfC0DdWgiQeP1QXzL5R//Lffj4LJ6V6WWevEmVhLomXrdNPqOfoQnDStv7K8L+tgnpvFriIp6eCPzAMjxQP99ToLu1uBeNzQZ/ZjN+DH4m2JhiQ3pLzX3quvEaiMWpfIg3XF7DKfNr7JP0vPc5u1IbVtJxtZOUN3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783974548; c=relaxed/simple;
-	bh=z9CfpkLtYoiBbZniUgf+0Qa1INUolTR9EyZFJaltEBU=;
+	s=arc-20240116; t=1783976122; c=relaxed/simple;
+	bh=2akodtkTAZQfy7wlbDYrvvBZDGFGBcbpeL4Zo3N4Czg=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=KU9qFB5rdcSsO30dHMTdNxTgSflPLAR6fZE0YRg/qnSEBjGxgaYoOx0Op/LSrSeZsgGM5B2xenGF+9T178so13X93oq3D9iNRapUY4hXUynV2ucY9m0HY47G2P/0HdED5CPtU4UWOr0VnH1cADKTem+Q9WTWWA+4J+nReWXkIq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RdmZ99nA; arc=none smtp.client-ip=100.103.45.18
+	 References:In-Reply-To; b=bGzKlp5Rh5JXjmwOuHlCRB1vTGkzGvTfCIUoVgXnouDHFXv3BZZNxT4yiACcPsp73WQmC+7dDwp9O7UC5EvtInxgvBcICFoLeV5jbaQ6yVCUejOm6cwVi0opKlt1PeuRYlIrM0b4nyCNEG7Gmo8pBRDTEDxR1LRYK11zmbulqCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ab/KX7/3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RdmZ99nA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04F301F000E9;
-	Mon, 13 Jul 2026 20:29:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ab/KX7/3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5AD1F000E9;
+	Mon, 13 Jul 2026 20:55:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783974547;
-	bh=fV7OXG0XY8ASWWbWgLtPwia7xSPFHx9Cd77aaSkr+gI=;
+	s=k20260515; t=1783976120;
+	bh=2akodtkTAZQfy7wlbDYrvvBZDGFGBcbpeL4Zo3N4Czg=;
 	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=RdmZ99nALpM8SurJ92B5g4eVuw4u6Sd5yULrVRX4pwkMKCkLXqljZPLDdITkMKfce
-	 0GUTr+YsugBMCjpHdiQdT9w2d3Gg8DpDJbaNo71lHltsP1vvUiur9uoZr/HiFQYILM
-	 4zxl7a5QnnNecDrQR5FzA3qTEL13V/T9RpxZxqjfj0vjUwYM3UlxIvklmmsCBZN4Wr
-	 l34mK+hPr0xOjOxd5jwQbqPc456BLFNsLOunY1Sz590IIcw8uIe/guBEDVHtT2sx6N
-	 mhDgPQbalDVo9pQwBVnA5TgL7pgkHzUYJacLXkZruRdBA7uivbUFeZQDVxBzfJ5VyX
-	 qWGWdwyDO5cdw==
+	b=ab/KX7/3kj6eSu9yd0+Yr4p9aGwZK9wqIFjFfXu6gNwAfT2fSzGJtJ/g+jre9JOe7
+	 GZ2bpi8HIWxeOehtyEa3KOs9uXTYg06NJpWP/FLuS+fGBKqWAEw13KC6WAlfXui9Ad
+	 azkONarL8pI6YC7sB6X8GN8m+0DjQ36cGAwSz2wKV53iZp4hFU5JHlNWb7EdRiajOS
+	 CnD9nfFerpJP3iRgDCQxwaPyepyCOzFPwpr6mWpYM8slSscTJoNHSPgec5MAq1wz7e
+	 m3UZ0k3YMRVMrwNN1xkbkPhU9K0vufjHt2j3+zQA2/F+umqJi3aMw4Akxs7e1O04pg
+	 EqWlwgQabQlfw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
@@ -34,16 +34,15 @@ List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 13 Jul 2026 22:29:01 +0200
-Message-Id: <DJXQ72BQ9CJY.3U4YFYKGYEEKU@kernel.org>
+Date: Mon, 13 Jul 2026 22:55:14 +0200
+Message-Id: <DJXQR57LG8IY.2FG6YY420VFYG@kernel.org>
 Subject: Re: [PATCH] rust: device: make lifetime on `Core` and
  `CoreInternal` invariant
-Cc: "Gary Guo" <gary@garyguo.net>, "Alice Ryhl" <aliceryhl@google.com>,
- "Alexandre Courbot" <acourbot@nvidia.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
  <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
  Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
  "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
@@ -51,48 +50,20 @@ Cc: "Gary Guo" <gary@garyguo.net>, "Alice Ryhl" <aliceryhl@google.com>,
  "Eliot Courtney" <ecourtney@nvidia.com>, <nova-gpu@lists.linux.dev>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>
-To: "Gary Guo" <gary@kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
 From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20260713201455.640151-1-gary@kernel.org>
-In-Reply-To: <20260713201455.640151-1-gary@kernel.org>
+ <DJXQ32PBP5Z8.2ADOOIWKYOLP5@garyguo.net>
+In-Reply-To: <DJXQ32PBP5Z8.2ADOOIWKYOLP5@garyguo.net>
 
-On Mon Jul 13, 2026 at 10:14 PM CEST, Gary Guo wrote:
-> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-> index b3c91731db45..b603b0bd2692 100644
-> --- a/drivers/gpu/nova-core/gpu.rs
-> +++ b/drivers/gpu/nova-core/gpu.rs
-> @@ -285,10 +285,10 @@ pub(crate) struct Gpu<'gpu> {
->  }
-> =20
->  impl<'gpu> Gpu<'gpu> {
-> -    pub(crate) fn new(
-> -        pdev: &'gpu pci::Device<device::Core<'_>>,
-> +    pub(crate) fn new<'a>(
-> +        pdev: &'gpu pci::Device<device::Core<'a>>,
->          bar: Bar0<'gpu>,
-> -    ) -> impl PinInit<Self, Error> + 'gpu {
-> +    ) -> impl PinInit<Self, Error> + use<'gpu, 'a> {
+On Mon Jul 13, 2026 at 10:23 PM CEST, Gary Guo wrote:
+> Actually, a more proper fix is to make `Device` invariant over their
+> context. It would require touching all `Device`, though.
+>
+> Danilo, let me know if you'd prefer that approach instead.
 
-Isn't that edition 2024 only?
-
->          try_pin_init!(Self {
->              device: pdev.as_ref(),
->              spec: Spec::new(pdev.as_ref(), bar).inspect(|spec| {
-
-I think you also need this hunk:
-
-diff --git a/samples/rust/rust_debugfs.rs b/samples/rust/rust_debugfs.rs
-index 1f59e08aaa4b..6fe94a73c52a 100644
---- a/samples/rust/rust_debugfs.rs
-+++ b/samples/rust/rust_debugfs.rs
-@@ -147,7 +147,7 @@ fn build_inner(dir: &Dir) -> impl PinInit<File<Mutex<In=
-ner>>> + '_ {
-         dir.read_write_file(c"pair", new_mutex!(Inner { x: 3, y: 10 }))
-     }
-
--    fn new<'a>(pdev: &'a platform::Device<Core<'_>>) -> impl PinInit<Self,=
- Error> + 'a {
-+    fn new<'a, 'b>(pdev: &'a platform::Device<Core<'b>>) -> impl PinInit<S=
-elf, Error> + use<'a, 'b> {
-         let debugfs =3D Dir::new(c"sample_debugfs");
-         let dev =3D pdev.as_ref();
+The bigger change is not a concern, but requiring every bus device implemen=
+tor
+to consider this is a bit of a concern. If we can enforce it in the driver =
+core
+code I'd prefer that.
