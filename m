@@ -1,153 +1,129 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4758036D9E0
-	for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 21:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783979938; cv=pass; b=RlP0RvmL5tjMQHfCgtID91F1C5RftNMNeDv7PtpBb9OVxFuKbnOKzQt4aB2RZLdIdt84IhBXLr1SDUvoFvVX8u1OR2xRr06/EhpJUHgpAdLQcvuAl7CQdFFtprwPduEsEF66ifljaSV1frHow/1eBew/4E8+EcB6h+peR0v6Wb4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783979938; c=relaxed/simple;
-	bh=WIUbZYJ+309w5zla7jZY6g9HS7Pxv1dZoyASymn4cIM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LLmCEh+b3dujUJ240Tfbw3HlQg40MhxyLIdlyuoLk1CG3CkxeEpnqwzX4XvUWMDqAOqcHJkSJNzvzfZYDhGb/MG+TEUBTwkbUDnXEMHptX6og0PMZXTmdmwuPi+Ckzj5JJO+RdgZJ/2Jtn+0k1/t6iP2DbD3l88s3MRkE3qbzg8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X94SgcbD; arc=pass smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8D435C19F;
+	Mon, 13 Jul 2026 22:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783982793; cv=none; b=tEAa3sX1WvpiqZT4ITtGieByjBRl/z2fJ4fDV1A4onRDFfW/x3uDmG+LPLfL6ULFfLe+Jk0cTN7Sk3Gu/U/0HRtXy2qQ2LNZOD5/nk6JVhLKmOYy1XpCjD5iMc9q/+sCnqEVpVDsjgwn3mm0AsUp5A0IFhLP9HqIuK8vO2EusUY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783982793; c=relaxed/simple;
+	bh=ki0rf5KXacbCrzLLJ68G/ZKvopgBN+PE/LQidwi3tPE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=Tc4gaUhL6M1kp2U6ACbV4Y3rphs/c9jtCnpvfN0cdhFreR57bY10nFLUBO3gPA08kBhMz8LSaGOIWqZl5LybbfV2dZ9tvqCGaJGGN2uXuw3m08MhPixes+t+61JOX00z6WpqGDgyhoZtGBSkgOKQ0kTAGpzaAqeoLjkgBdlhzzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDPceOJt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X94SgcbD"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-caf45fc5202so1316405a12.1
-        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 14:58:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783979937; cv=none;
-        d=google.com; s=arc-20260327;
-        b=c+2LcD5+h+uVdej8DXKx8pjwqo+a8jklRqbg8pxu1SYHu/R09RHggQ/uEuDujiBwm6
-         cWGg3Jpe7FzuQYnWcAPVkgJjSBk+xkRA1GObMagBAbldb9GG72+Qdk4h18oZDN9N5ZK8
-         5smeN1tIusTVlg8U1hLDOQE6Zyijh4QniQuWNggfWaff6bnXHhBf6bI91kyeDUpZAfei
-         syRzqlGt7aGGDMkZxFbB33rqwRP60tGy409J18Fq8XPlkRnhuI54woEnVVY1liUyHYUD
-         1vjV8b5szxF3UqvG0TmhgUQ8Temw8Mk2ngx8VIxeMHyknsDxvjN2gJHQfXSUnBnaM5I1
-         w5qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BOi6bjVo+cOAeW/LV1mZ6Z4AcBCaZONBPZFEyu6/DJ0=;
-        fh=qVQUWK2tjGQGbuOxxDXW8gII/GlTjajJ0h5ukWAJvbA=;
-        b=KuRRK27/YZ72WTv/C9zhQq+laf+KitoKdr3JpKbF5m11FU26hjWA1nWK0hW81n51it
-         PZMpbGEewXv8W70/xqWEnt3GWluLOhOHXNphgZOIbFx8OxF8V1t7GHY4rpXIOUGijjJ9
-         yZ2KExaq3FbJ9Ur2TEZZgQMfEzgRSu0BEochgXDjX5pD+R1DHQgeirwi3sY2FU8ieO31
-         tgOW4o37bWkc47kyC2uheYhbNQrJHq/uuirkmWDrchVBF7NG5PAxXjbCabiQHFjh3msu
-         9I2TkPJsUQzfDaA2RvgfQcmGDkoLLrLqjoU2iOjfFQijQYXOsA5EehHYI9udIPqoo7kG
-         ak3Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783979937; x=1784584737; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BOi6bjVo+cOAeW/LV1mZ6Z4AcBCaZONBPZFEyu6/DJ0=;
-        b=X94SgcbDSpZZ8tFXsI71Z8dW1Kh/l9FkcEkZPSMDJfTvlCxblGKH6Nr+EVtMP4uaVu
-         hwM3QQg+kMrTDrSHrpi6sMklcz9D0YeWPgY1h8wuCF9Wk7tGkWYS/kDS5xAGxFHZlv3+
-         NHItl8H+id4HAcadA/qCbIWVLaTTl8iiSGp3jZdr/oh+Q5ISrh4RRwBdFv2R7Srf+uea
-         4GtSjTveOjcz4/2qohC6QYnIVfUW6TIA4HGXOzskfLulHH/z1r4Bcc8IbUl7YfjPJHSM
-         1Y7xM4eiX1is6CTqWW4YMyrYXnn0HO+Ri0pjKCDIZAGtxdUP650jJJSr7dsjrEtN38u/
-         4ziw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783979937; x=1784584737;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=BOi6bjVo+cOAeW/LV1mZ6Z4AcBCaZONBPZFEyu6/DJ0=;
-        b=iFTvjWK5legdumwmQ/ti3N7gDzfg9rYqFHZkzYjVVpt0FliRHk4Es5xgC2NpJ8/brG
-         kXE7STxIchJrR0FpYzBPwelKqa8XaWUyTkEeRditdg5leY6S1NHSVMI5kqrzQtXiEYJM
-         8o1/OurFXunpIBUvbdQf/YhtCyzf1gtqHvq+ksHkK4sfQCiipPfW1I2NCzMEqOVYy1cv
-         P8CE4Qvk/uRp9HpjSLGgzotOPvupUacDrXAhGareMRtj43BIfo4+FMFi2dj1mLo1tEcp
-         3xcvc4mAj+zV3AwTUaNMIj6LTWRMiK4m/6qjc/fPQjPi8cwdC/rlOrG5Bzkxlae6+ctA
-         X9lA==
-X-Forwarded-Encrypted: i=1; AHgh+RpgGwwy38dL5wp2oBA4XTtoXhIsMJ09nPFA5yY23Zw1Zokj7yrZqx1V5/WAZHQeqSSgWF/ZzD1yVPMKxw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxN+uFTi8sP8UJUJqsePLQiGN+qKU85YKX7qVRU/VXAwCJvEy2g
-	C8DyliyNArS8cUgkNDarqK7IzUGlPBtJGQ4/rM/6zSR2NfbRzxCSUY9qd1pc5YX8uioXPkBGKbF
-	8QfnFvCRzb8I3+Iaj/J1eYORLnnBx0WA=
-X-Gm-Gg: AfdE7cmduy4yE2XPSFPFdnenTHoBEXxst/tSvAShgbVVTKG204z0Pe96D+cJB41yC+w
-	H8JZFHmkvw4Zp7ujT5u1az0kJuARDkSZvPTIMTZwIlYR7RpgIyCUz5eO5fkC05nKhISlFxFgG0h
-	FE4PAKpqPqQwsUmoe8rflYT4ZutzfcOgDxfe8roQx8r8znRBsl5ej8kj5xmQlbvy7ZL0mz5CDL/
-	Bohw11H/37lmgIAq+7qD3bACTq0ADkCIhMTX78xtpdeq/DJujy/ahWDUibUut91W27fw13xS1Vy
-	HUFl6ID5nnFU+z+xgEjX1kVNH1dGQSYyP1003q0cbpwK1+DnOL0xJno0wEx+cA==
-X-Received: by 2002:a05:6a21:6112:b0:3bf:aa1a:d2ef with SMTP id
- adf61e73a8af0-3c110e43a53mr10691389637.56.1783979936619; Mon, 13 Jul 2026
- 14:58:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDPceOJt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3EFD1F000E9;
+	Mon, 13 Jul 2026 22:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783982791;
+	bh=v/c9cJvLiRUh0chD13eoJnb/QVSK0PEeoY/ZOsgieZg=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=IDPceOJti8yjJTBHFR/PJstHcpy5h9nOpUFSwcTgPBT3+IeSs0qigOxd/Utj7ob/r
+	 616LSjIgzvakV7IRTDokAowfnRuKuyFD2ARi0jsLG1Qaq3QlQcsYqRUp1TRom5MIWz
+	 2znZQMzmZ3oZvtG1loeTGp57R4o6Dk1VQUFK9xP636/aeuem84FHzqwVc55gucAUeL
+	 hk/hgly4VxBVThEtB2B8QpRaq/PijFbG5KVzNtd/zfEAYm16zQC927QhbxsrIfVtXF
+	 1D/Y7O854UGxSn5pgCyRYMF5CMn6owa2l/GSTrDG+2QQNlKfJ60UtpqQPVprgTm363
+	 KQoips+yb76pw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260713073059.47914-1-phucduc.bui@gmail.com> <24ce60c7-5539-4fba-8bf3-3a10875c3b75@sirena.org.uk>
- <CAABR9nHfThjz99fVyoAZcSdOh09-n0_WfM2OWL4zkSZG5Pm7Dg@mail.gmail.com>
- <687d81be-566c-481a-9ece-08526c33ff91@sirena.org.uk> <CAABR9nHWV_qMWaYOeWroU6cPH3n3pDjbafHmXMeMVfiqC562Aw@mail.gmail.com>
- <41e52d6d-8f91-4685-b659-94d3844fa959@sirena.org.uk>
-In-Reply-To: <41e52d6d-8f91-4685-b659-94d3844fa959@sirena.org.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 14 Jul 2026 04:58:45 +0700
-X-Gm-Features: AVVi8Cff59Ge3ElQCY2MUosoZA3wVmmfW7BXxvdhKXRwHgJgsL8QQPHqIDCZRX4
-Message-ID: <CAABR9nH8oMXpp-_RFxFWWOWenaZ8XoD8Yr3KDh82RmffKWZRPQ@mail.gmail.com>
-Subject: Re: [PATCH] regcache: disable cache_only before rewriting paging registers
-To: Mark Brown <broonie@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org, 
-	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 14 Jul 2026 00:46:22 +0200
+Message-Id: <DJXT48G5GZAJ.346BAPDEQ53FT@kernel.org>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Tamir Duberstein" <tamird@kernel.org>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Michal Wilczynski" <m.wilczynski@samsung.com>,
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pwm@vger.kernel.org>, "Laura Nao" <laura.nao@collabora.com>, "Eliot
+ Courtney" <ecourtney@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>,
+ "Alistair Popple" <apopple@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v6 00/20] rust: I/O type generalization and projection
+References: <20260706-io_projection-v6-0-72cd5d055d54@garyguo.net>
+ <20260711161035.370023-2-dakr@kernel.org>
+In-Reply-To: <20260711161035.370023-2-dakr@kernel.org>
 
-Hi Mark,
-
-Thanks for the explanation.
-
+On Sat Jul 11, 2026 at 6:10 PM CEST, Danilo Krummrich wrote:
+> On Mon, 06 Jul 2026 13:44:13 +0100, Gary Guo wrote:
+>> [PATCH v6 00/20] rust: I/O type generalization and projection
 >
-> You might not bother setting cache only in the suspend/resume path if
-> you know nothing else from the driver will touch the device until resume
-> is completed, something else might block anything that would try to
-> write.
+> Applied, thanks!
+>
+>   Branch: topic/rust_io-7.2-rc1
+>   Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/drive=
+r-core.git
+>
+> [1/20] rust: io: add dynamically-sized `Region` type
+>       commit: 426c92ca1bdd
+>
+>       [ Add brief explanation on MIN_ALIGN. - Danilo ]
+>
+> [2/20] rust: io: add missing safety requirement in `IoCapable` methods
+>       commit: 65f6abf9fa81
+> [3/20] rust: io: restrict untyped IO access and `register!` to `Region`
+>       commit: 6461c5776bf0
+> [4/20] rust: io: implement `Io` on reference types instead
+>       commit: 46b1b54139c3
+> [5/20] rust: io: generalize `MmioRaw` to pointer to arbitrary type
+>       commit: 9734e905119c
+> [6/20] rust: io: rename `Mmio` to `MmioOwned`
+>       commit: 691c75967d44
+> [7/20] rust: io: implement `Mmio` as view type
+>       commit: 9f64c84af008
+> [8/20] rust: pci: io: make `ConfigSpace` a view
+>       commit: 6e5f28968d7b
+> [9/20] rust: io: use view types instead of addresses for `Io`
+>       commit: e0454ec1220c
+> [10/20] pwm: th1520: remove unnecessary `deref`
+>       commit: 0adc93b85374
+> [11/20] rust: io: remove `MmioOwned`
+>       commit: bed01ca9e9cf
+> [12/20] rust: io: move `Io` methods to extension trait
+>       commit: 9b36c13cbd4f
+>
+>       [ Add comment explaining the purpose of the Io blanket implementati=
+on.
+>         - Danilo ]
+>
+> [13/20] rust: io: add projection macro and methods
+>       commit: 1f989555fe5c
+> [14/20] rust: io: add I/O backend for system memory with volatile access
+>       commit: 2fabff780785
+> [15/20] rust: io: implement a view type for `Coherent`
+>       commit: 1d409d1e7a87
+> [16/20] rust: io: add `read_val` and `write_val` functions on `Io`
+>       commit: 89814c42c19e
+> [17/20] gpu: nova-core: use I/O projection for cleaner encapsulation
+>       commit: 0722567f5085
+> [18/20] rust: dma: drop `dma_read!` and `dma_write!` API
+>       commit: 6ff7d69b7e6e
+> [19/20] rust: io: add copying methods
+>       commit: e7219e53c525
+> [20/20] rust: io: implement `IoSysMap`
+>       commit: 11a4784f902e
+>
+> The patches are in the topic/rust_io-7.2-rc1 topic branch and will be mer=
+ged
+> into the corresponding target branch soon.
 
-Going back to the original motivation for this patch, I'm trying to better
-understand the intended semantics of regcache_sync().
-
-------------------
-if (!map->cache_bypass && !map->defer_caching) {
-    ret = regcache_write(map, reg, val);
-    if(ret != 0)
-           return ret;
-    if (map->cache_only) {
-           map->cache_dirty = true;
-           return 0;
-    }
-}
-
-ret = map->reg_write(context, reg, val);
-----------------------
-
-
-As described in the commit message, if regcache_sync() is called while
-cache_only is still enabled, it can return success even though the cache
-and the hardware are still out of sync, with cache_dirty remaining true.
-
-From the caller's perspective, that seems like a successful synchronization
-even though no synchronization actually occurred.
-
-From your explanation, I understand that some drivers intentionally do
-not use cache_only in their suspend/resume paths because another
-mechanism guarantees that no register accesses can occur while the
-device is suspended.
-
-If that's the case, then it seems that neither of these approaches would
-be appropriate:
-1. Automatically clearing cache_only before writing the selector register.
-2. Making regcache_sync() reject calls when cache_only is still enabled.
-
-Would it then be correct to understand that calling regcache_sync() while
-cache_only is still enabled is simply considered incorrect API usage,
-and that in such a case the responsibility lies with the caller, rather than
-regcache_sync() itself ?
-If so, would it make sense to document this requirement explicitly,
-or perhaps emit a warning when regcache_sync() is called while
-cache_only is still enabled?
-
-Best regards,
-Phuc
+Now in driver-core-next and drm-rust-next, thanks!
