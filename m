@@ -1,309 +1,149 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C599D360EC4
-	for <driver-core@lists.linux.dev>; Tue, 14 Jul 2026 01:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA32F28033B
+	for <driver-core@lists.linux.dev>; Tue, 14 Jul 2026 05:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783992988; cv=none; b=F64ihCQbpSBCDkHg3KW+bl/jNoYLXKI5cLcdQtWfV2vV2bGrRvWjVRirlQwrsUSwTyROjVJtztzY1iwz140HbZcSO9BEOJptbb5ODPifu+6s3tdhT7/NvcbsEqNHMzme1QWURg/ri8qUQFp4rl5a+KXBcratYUZjTKkNP/ZtHRI=
+	t=1784007807; cv=none; b=aKynnVYcCWny72JVUZRG1C6tNDzkjAKqQ3qiqLMOM3R9VvgnizCZf9ZWte53G2Ybb6N8WKiYT+hYO5gwIlud1ywKb7dF1rVvaF0Me9Xf+4mUEwUg26OS8XcZsXrQIEGtlrd33dv3T3ozAk72Ge3d5OAQPY7D6+CsuoQxQXXYywQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783992988; c=relaxed/simple;
-	bh=/GMpwucrukky4lwr3G7Boohqm2mU7H4miMN9FIddFyg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hPFnuSJC/Hpt8L7U0YQ40/eksUMdeM8FB9gyeOhirbyhfrCqt/9K4xNqbGMty2jrqVVMfwJTL105kbVCvMphQygtgGJMMbH5UV911TN41nrFPlMEGFz7PZvKC7oE+8oLhMpKeIJk+2Dn/kZUdmtz+KoUdaadltXJTagwArzyWa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aUS6joJS; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
+	s=arc-20240116; t=1784007807; c=relaxed/simple;
+	bh=1Kjdkp8811fKw5naGE2/8gYtqAiRI/sQ9d6SG+xGVaY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rcDPkT23fMZsaa9D+ugNlKpFpmIQkX06TizhFoHE/zk54REC4moO/QoNNxSmbOug12dw/4gzwLkSPAkujutkZR7GW8gYzfA1gAddME88VnUFhLHEHc7gG2gaZweOxGCKQlQuPFvmiFQTXrMMDzJhhFzd7VdFqAgvs/lQDH6eItc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=QJjtz/Gy; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aUS6joJS"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-69c2f98aa9fso4972340a12.2
-        for <driver-core@lists.linux.dev>; Mon, 13 Jul 2026 18:36:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783992985; x=1784597785; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=C+LtOw1NmXZBSXUehU4TQ+aS3E1k4d+esuXPBPSaUXo=;
-        b=aUS6joJSi9yi+s3GRjtmknt31CkYaOXJVymQBwC64zumNCjyzXLQd/KEfjxzQBBsvN
-         2v5RrGL0ORRIqTHMFY9OR/bgkOxAxKH1CbGY5GtWFK5EMygLV2Z4v7Rdu8QhuypVTQk1
-         YwYioxtUdU4cGCAE7OIB5UCX8+ATkiBYO3ncSJWqlnKjHr2hQxSE68Rf7CGI2/TTjluS
-         B7sxz1eokx2doYxsVDTLR4xlEVzOylVBAERuOEEQ1Mw9SX3QaLYYg9uxlqgmI4UGE0mb
-         LmpsSAK9TUNIdyPnAITNCr7MvxWYkJDPWK6kG84L9FZYTmyaZb+dc10ayq2/Eh0pMOWG
-         og4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783992985; x=1784597785;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=C+LtOw1NmXZBSXUehU4TQ+aS3E1k4d+esuXPBPSaUXo=;
-        b=Wn5dTd8BZVgpDk899LzPl22068YRqol1TtL99wTZHY9apMzqtQFRa6oZduPoDqgrSy
-         W6sQhDiV/TJIvMA39bXQlrPg2nlfZt33u0BMAUH2th3n4pp0Hd20B7fFJ25aTQDvEtR1
-         ePxSgQQncw9VTs2u3DVkVYwUcZqP6czR+iFksLPe8T0BYtJzhONoGrFcC/m1uT1ig7Ym
-         elWu7FFHQ+G3ERvaKZVyJgN5f+EGWCeGmbDiFai4lWc+rwEMClj21iZ4NOVtYDi/dAuk
-         3gi7v9YC0B9uwQg0KHe3DPSr69vrjK69Q5i7cV5huYvmaOuweV88anZBT8y++yngEbTK
-         FsfQ==
-X-Gm-Message-State: AOJu0YyN315x+gTr6m9/N8yD1B1ilFle+1s5Tqsg+oV8qBQph0NMc6hi
-	X56G7UI3a0qz+CC5gMXIhT8fbLvmGNh86cHdPNMcQ2OQEc3Jz02yhFeRX3jLl8doYcPveGexYsw
-	QuiwIoCAaM6wrWiSznrrfavnJJN1RFk/8iE+AfAdXMnqQN0dq7sYqdvKw+HMOSKNVZDRvkj6CLB
-	+RwCPB5zxYaxgMKl4wSir7cVGMaVcdoaVNLvFoeJ9B1T4iZ896MLjMGcC9H8k=
-X-Received: from ejcxo14.prod.google.com ([2002:a17:907:bb8e:b0:c16:2bc1:b997])
- (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:1c18:b0:c15:f360:6f29 with SMTP id a640c23a62f3a-c16619d7dbbmr55427066b.65.1783992984836;
- Mon, 13 Jul 2026 18:36:24 -0700 (PDT)
-Date: Tue, 14 Jul 2026 01:36:23 +0000
-In-Reply-To: <9huzech6xsrb.fsf@tarunix.c.googlers.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="QJjtz/Gy"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1784007799; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=5OhUCYn4VMczeW6+Hs2qEVU2fwWtgY327gqLrGfDlP4=;
+	b=QJjtz/Gyxf5BfYswxJlDth/oiNBXgRcyJfTciKo+Syz6RPlFSHkjGi3K/kv+vZsUoQwC5ntW3VZOLY80fFwBiR0s130t93bDJ1dPVkxyq+XbKOAAJ3B71vsOFca3AJALcBXUdwpKCNSFzKkSjMgK0HjKEf62jO8mXJltROeyzo0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=feng.tang@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X72yBLk_1784007798;
+Received: from localhost(mailfrom:feng.tang@linux.alibaba.com fp:SMTPD_---0X72yBLk_1784007798 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 14 Jul 2026 13:43:18 +0800
+From: Feng Tang <feng.tang@linux.alibaba.com>
+To: Sudeep Holla <sudeep.holla@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	Feng Tang <feng.tang@linux.alibaba.com>
+Subject: [PATCH v2] arch_topology: Introduce nr_possible_packages
+Date: Tue, 14 Jul 2026 13:43:17 +0800
+Message-Id: <20260714054317.73219-1-feng.tang@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260701135015.81937-1-djeffery@redhat.com> <20260701135015.81937-4-djeffery@redhat.com>
- <20260701141145.52A611F000E9@smtp.kernel.org> <9huzech6xsrb.fsf@tarunix.c.googlers.com>
-Message-ID: <9huzbjcaxsh4.fsf@tarunix.c.googlers.com>
-Subject: Re: [PATCH 3/5] driver core: async device shutdown infrastructure
-From: tarunsahu@google.com
-To: driver-core@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, David Jeffery <djeffery@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, Tarun Sahu <tarunsahu@google.com>, 
-	Pasha Tatashin <tatashin@google.com>, 
-	"=?utf-8?B?TWljaGHFgiBDxYJhcGnFhHNraQ==?=" <mclapinski@google.com>, Jordan Richards <jordanrichards@google.com>, 
-	Ewan Milne <emilne@redhat.com>, John Meneghini <jmeneghi@redhat.com>, 
-	"Lombardi, Maurizio" <mlombard@redhat.com>, Stuart Hayes <stuart.w.hayes@gmail.com>, 
-	Laurence Oberman <loberman@redhat.com>, Bart Van Assche <bvanassche@acm.org>, 
-	Bjorn Helgaas <helgaas@kernel.org>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	John Garry <john.g.garry@oracle.com>, kexec@lists.infradead.org, 
-	David Jeffery <djeffery@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+For multi-sockets platforms kernel or driver code may need the number
+of packages to chose different code directions. Some architecture
+already provides such kind of interface like x86, which is being used
+in its architecture code and drivers.
+
+Add similar interface 'nr_possible_packages' for platforms which can
+get package topology information by parsing ACPI tables in boot phase,
+which was verified to show the correct number of packages on some
+1-socket and 2-sockets production arm64 servers from different vendors.
+
+It has been used locally by some arm64 PMU driver, and cross-socket
+timer-consistency check code, which are to be posted.
+
+Signed-off-by: Feng Tang <feng.tang@linux.alibaba.com>
+---
+  since v1:
+      * fix the potential overflow issue for 32b package ID (Sudeep)
+	  * add real use case in commit log (Sudeep)
+
+  since RFC:
+      * use EXPORT_SYMBOL_GPL instead of EXPORT_SYMBOL (Greg)
+	  * change the possible max package ID to 2047 (Greg)
+	  * remove the CONFIG_ARM64/RISCV limit for 'nr_possible_packages' (Greg)
+
+  v1:  https://lore.kernel.org/lkml/20260515144435.93035-1-feng.tang@linux.alibaba.com/ 
+  RFC: https://lore.kernel.org/lkml/20260512150505.43871-1-feng.tang@linux.alibaba.com/ 
 
 
-+Adding folks from the original message. Unfortunately, Sashiko drops
-the people from the original message.
+ drivers/base/arch_topology.c  | 26 ++++++++++++++++++++++++++
+ include/linux/arch_topology.h |  5 +++++
+ 2 files changed, 31 insertions(+)
 
-Tarun Sahu <tarunsahu@google.com> writes:
+diff --git a/drivers/base/arch_topology.c b/drivers/base/arch_topology.c
+index 8c5e47c28d9a..2ee27cc05b6b 100644
+--- a/drivers/base/arch_topology.c
++++ b/drivers/base/arch_topology.c
+@@ -850,6 +850,29 @@ static bool __init acpi_cpu_is_threaded(int cpu)
+ 	return !!is_threaded;
+ }
+ 
++unsigned int nr_possible_packages __ro_after_init;
++EXPORT_SYMBOL(nr_possible_packages);
++
++static int package_ids[1 << CONFIG_NODES_SHIFT] __initdata;
++static inline void count_packages(unsigned int pkg_id)
++{
++	int max_packages = 1 << CONFIG_NODES_SHIFT;
++	int i;
++
++	/* This check will be skipped for the first caller */
++	for (i = 0; i < nr_possible_packages; i++)
++		if (package_ids[i] == pkg_id)
++			return;
++
++	if (nr_possible_packages == max_packages) {
++		pr_warn("Number of packages exceeds kernel NUMA node limits [%d]!\n",
++			max_packages);
++		return;
++	}
++
++	package_ids[nr_possible_packages++] = pkg_id;
++}
++
+ /*
+  * Propagate the topology information of the processor_topology_node tree to the
+  * cpu_topology array.
+@@ -912,6 +935,7 @@ __weak int __init parse_acpi_topology(void)
+ 		cpu_topology[cpu].cluster_id = topology_id;
+ 		topology_id = find_acpi_cpu_topology_package(cpu);
+ 		cpu_topology[cpu].package_id = topology_id;
++		count_packages(topology_id);
+ 	}
+ 
+ 	/*
+@@ -927,6 +951,8 @@ __weak int __init parse_acpi_topology(void)
+ 
+ 	cpu_smt_set_num_threads(max_smt_thread_num, max_smt_thread_num);
+ 	xa_destroy(&hetero_cpu);
++
++	pr_info("ACPI: System has %u Package(s) detected\n", nr_possible_packages);
+ 	return 0;
+ }
+ 
+diff --git a/include/linux/arch_topology.h b/include/linux/arch_topology.h
+index ebd7f8935f96..dee076cc9c7a 100644
+--- a/include/linux/arch_topology.h
++++ b/include/linux/arch_topology.h
+@@ -111,4 +111,9 @@ static inline bool topology_core_has_smt(int cpu) { return false; }
+ 
+ #endif /* CONFIG_GENERIC_ARCH_TOPOLOGY */
+ 
++
++#if defined(CONFIG_ARM64) || defined(CONFIG_RISCV)
++extern unsigned int nr_possible_packages;
++#endif
++
+ #endif /* _LINUX_ARCH_TOPOLOGY_H_ */
+-- 
+2.39.5 (Apple Git-154)
 
-> Hello,
->
-> These most of the errors are due to the device_add concurrently can add
-> the device and device_shutdown can access it. One of the reason I think
-> a device_add will be triggered while being shutdown is inserting the
-> physical PCI device or USB stick etc.
->
-> But During shutdown, addition of a new device is not valid. So we can
-> add a check something like
->
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 76ba02c26aa5..c3795fa1cc26 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -3650,6 +3650,13 @@ int device_add(struct device *dev)
->         if (!dev)
->                 goto done;
->
-> +       if (unlikely(system_state =3D=3D SYSTEM_HALT ||
-> +                    system_state =3D=3D SYSTEM_POWER_OFF ||
-> +                    system_state =3D=3D SYSTEM_RESTART)) {
-> +               error =3D -ESHUTDOWN;
-> +               goto done;
-> +       }
-> +
->         if (!dev->p) {
->                 error =3D device_private_init(dev);
->                 if (error)
->
-> We can also partially resolve the races partially by removing the manual
-> kfree(dev->p) from device_add() error path. As put_device free it
-> anyway when reference to devices reaches to 0. So if device_shutdown
-> path takes reference, dev->p will not be released. And few races will be
-> taken care of. But this will not resolve the deadlock and other races
-> like the above change.
->
-> removing the kfree(dev->p) from device_add can be a independent patch.
-> like:
->
-> diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index 4d026682944f..76ba02c26aa5 100644
-> --- a/drivers/base/core.c
-> +++ b/drivers/base/core.c
-> @@ -2614,6 +2614,7 @@ static void device_release(struct kobject *kobj)
->         struct device *dev =3D kobj_to_dev(kobj);
->         struct device_private *p =3D dev->p;
->
-> +       dev->p =3D NULL;
->         /*
->          * Some platform devices are driven without driver attached
->          * and managed resources may have been acquired.  Make sure
-> @@ -3824,8 +3825,6 @@ int device_add(struct device *dev)
->  parent_error:
->         put_device(parent);
->  name_error:
-> -       kfree(dev->p);
-> -       dev->p =3D NULL;
->         goto done;
->  }
->  EXPORT_SYMBOL_GPL(device_add);
->
->
-> ~Tarun
->
->
-> sashiko-bot@kernel.org writes:
->
->> Thank you for your contribution! Sashiko AI review found 4 potential iss=
-ue(s) to consider:
->> - [High] Modifying the core.async_shutdown module parameter during shutd=
-own causes synchronous suppliers to skip waiting for asynchronous consumers=
-.
->> - [High] Unregistered consumer devices will cause a NULL pointer derefer=
-ence during async shutdown dependency waiting.
->> - [High] Adding a new device with async shutdown enabled while its synch=
-ronous supplier is being processed leads to an unresolvable deadlock.
->> - [High] Dereferencing `dev->p->dead` without NULL checks causes a crash=
- if a concurrent `device_add()` fails.
->> --
->>
->> commit cf98cdf76df805443cc885868cb3d9e13da5501c
->> Author: David Jeffery <djeffery@redhat.com>
->>
->> driver core: async device shutdown infrastructure
->>
->> This commit allows devices to opt into asynchronous shutdown, executing =
-in
->> parallel with unrelated devices after their dependencies shut down. Sync=
-hronous
->> shutdown devices will wait for their asynchronous dependencies. The feat=
-ure is
->> enabled by default and can be toggled via the core.async_shutdown parame=
-ter.
->>
->>> diff --git a/drivers/base/core.c b/drivers/base/core.c
->>> --- a/drivers/base/core.c
->>> +++ b/drivers/base/core.c
->> [ ... ]
->>> +static bool wants_async_shutdown(struct device *dev)
->>> +{
->>> +	return async_shutdown && dev_async_shutdown(dev);
->>> +}
->>> +
->>> +static int wait_for_device_shutdown(struct device *dev, void *data)
->>> +{
->>> +	bool async =3D *(bool *)data;
->>> +
->>> +	if (async || wants_async_shutdown(dev))
->>> +		wait_for_completion(&dev->p->complete);
->>> +
->>> +	return 0;
->>> +}
->>
->> [Severity: High]
->> If a user-space process toggles the 0644 core.async_shutdown sysfs param=
-eter
->> from 1 to 0 during shutdown, could this cause synchronous suppliers to s=
-kip
->> waiting for their asynchronous consumers?
->>
->> If start_async_shutdown_devices() schedules an async consumer, and then =
-the
->> parameter is toggled before the sync loop processes its supplier, the ca=
-ll to
->> wants_async_shutdown(dev) here would evaluate to false.=20
->>
->> This would skip the wait_for_completion(), potentially causing the suppl=
-ier
->> (e.g., a PCI bus) to shut down while its consumer is still active.
->>
->> [Severity: High]
->> Could this result in a NULL pointer dereference if the consumer is not y=
-et
->> registered?
->>
->> The device_link_add() function allows creating links to consumer devices=
- that
->> haven't been registered yet, meaning their dev->p is NULL because
->> device_private_init() hasn't run.
->>
->> If wait_for_shutdown_dependencies() is called from the async pool, where=
- the
->> async argument is forced to true, the wait_for_completion() will
->> unconditionally evaluate &dev->p->complete, crashing on the NULL pointer=
-.
->>
->> [ ... ]
->>> +static void __shutdown_one_device(struct device *dev)
->>>  {
->>>  	if (dev->p->dead)
->>>  		return;
->>
->> [Severity: High]
->> Could this cause a NULL pointer dereference if a concurrent device_add()=
- fails?
->>
->> If a concurrent device_add() fails after calling kobject_add(), its erro=
-r path
->> calls kobject_del() and then frees and nullifies dev->p. Evaluating
->> dev->p->dead without checking if dev->p is valid could crash here.
->>
->> [ ... ]
->>> +static void start_async_shutdown_devices(void)
->>> +{
->>> +	struct device *dev, *next, *ndev, *needs_put =3D NULL;
->> [ ... ]
->>> +			needs_put =3D ndev;
->>> +			spin_lock(&devices_kset->list_lock);
->>> +			/*
->>> +			 * If the next device has been marked dead while the
->>> +			 * spinlock was released, it may no longer be on the
->>> +			 * devices_kset list. Restart the list walk to be safe
->>> +			 */
->>> +			if (ndev && ndev->p->dead)
->>> +				goto restart;
->>
->> [Severity: High]
->> Could ndev->p be NULL if a concurrent device_add() fails?
->>
->> If start_async_shutdown_devices() obtains a reference to next via
->> get_device(), and concurrently device_add() fails and clears dev->p,
->> reacquiring the lock and evaluating ndev->p->dead here could result in a=
- NULL
->> pointer dereference.
->>
->> [ ... ]
->>>  void device_shutdown(void)
->>>  {
->> [ ... ]
->>> -		shutdown_one_device(dev);
->>> +		if (!wants_async_shutdown(dev) || !shutdown_device_async(dev)) {
->>> +			wait_for_shutdown_dependencies(dev, false);
->>> +			shutdown_one_device(dev);
->>> +		}
->>> =20
->>>  		spin_lock(&devices_kset->list_lock);
->>>  	}
->>>  	spin_unlock(&devices_kset->list_lock);
->>
->> [Severity: High]
->> Can this sequence lead to an unresolvable deadlock if a new device is ad=
-ded
->> concurrently?
->>
->> If a new device 'C' with DEV_FLAG_ASYNC_SHUTDOWN is added via hotplug
->> after its synchronous supplier 'S' has already been popped from
->> devices_kset by this loop, 'C' is appended to devices_kset.
->>
->> 'S' will call wait_for_shutdown_dependencies() and find 'C', blocking on
->> wait_for_completion(&C->p->complete) because wants_async_shutdown(C) is =
-true.
->>
->> Since 'C' was added after start_async_shutdown_devices() ran, it is not
->> running in the async pool. Because the sync loop is blocked on 'S', it w=
-ill
->> never reach 'C' to start it, deadlocking the shutdown process permanentl=
-y.
->>
->> --=20
->> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260701135015.8=
-1937-1-djeffery@redhat.com?part=3D3
