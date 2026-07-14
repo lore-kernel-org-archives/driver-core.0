@@ -1,293 +1,153 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0E44D90DB
-	for <driver-core@lists.linux.dev>; Tue, 14 Jul 2026 16:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0202EB5B8;
+	Tue, 14 Jul 2026 17:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784047920; cv=none; b=XWjHcg6UV0mVqgd2lHsnhX5rL0wjDzmVVF3MxLEeoz9JONSueKEoTvIDb+2j6ZfWvR6KTQjoXXfZu6UiIKsI4VamiRiZJQuj+T+jDqTLfCYvq7+3dpK9xoZ4lyJtv9IeYyovnWU+lnusPj2LfzfaqEGaLCHiFg/QSAj8BxH4Gio=
+	t=1784051592; cv=none; b=DBnqP6rrPqm0TfsB9ZTKbap6BPaeMpm2bHKHgMrIlZo3lWBjCLQ6/ZRKJcvwcKL5GxPPPAe5LogDWr3Xj8rUFf0A6MK3TvX9p7dFaGGz9GfleMw7DZm54P+zByUV+Et1jmMpp9vl9D+0pf8xctHGjYkvRdP19TWvLaJGDlXE8+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784047920; c=relaxed/simple;
-	bh=0NYj325MCxYfzA0iMFtFlFNm7KVwpEWpQsm1qEOkdJ0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DBTRby7l4IcHrbTNqcM0o1M3BuAOEfRsxTzgKk8c87F+6E8sFoJMqiAnLxIQuIIUQpbQcuarbzVa3sukXcnk+VpbE7ZsZh1FdJCQ75dJTBvaTlmTkGR8+d+qNEO7tLIfvkRt066p+5wAATHE6EXCNiah2BikECZhefI9LPTCdhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ZiOS6GD2; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1784051592; c=relaxed/simple;
+	bh=tAmRuwe4iOiZT6cYgNdW2yQayZgtadz1k07EyAMjkzs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=bzEqVeUUKMbi3eE47a0PmjhKZpH0JB+39u02wmxkREAKN+iEpnG75uaRneRPgGhMSjm7XZkclXsEIaJ3a7OoLA1DI+Nz+60AGQSoxlmY9HV7NZ5aPmlT8hKFIUoc5VabOMh4R1+7HvBtZnhi08GRsqYVrW8Twqqj6+zBgF1zf+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QKLP/USo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ZiOS6GD2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1784047914;
-	bh=0NYj325MCxYfzA0iMFtFlFNm7KVwpEWpQsm1qEOkdJ0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ZiOS6GD2z8CvGbtL0moHrrPujbDO5n6tgv6RfCwYJrs1wGp6CPFXJIc5ew43nmhV2
-	 0to+rX9ljKOqdVHsN/XqIZzsELt5CLzdYptOivPMSQ3cIQ+Nd7lHJF5El9WRcmWJUA
-	 SMS1lP7vprHJQLaGAhwBfMpj4StwXZx/qNXkRmpQ=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Tue, 14 Jul 2026 18:51:49 +0200
-Subject: [PATCH 2/3] drivers: perf: Use __DEVICE_ATTR() macro to initialize
- dev_ext_attribute
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QKLP/USo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33C71F000E9;
+	Tue, 14 Jul 2026 17:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784051589;
+	bh=fo4ZCxgBFuMzvv8i+e0hgQz7BHe+qOPEpLPG7BxIRjo=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=QKLP/USoaDZQRALN2GqyPg7rpQJZEJLlGfakooKdTCqcfJgRnsFVZZm5ffeC5wBIu
+	 FwuUZpuM+hr6OGA5Ltfsg+Js7hrmu6CQAqHMobIpgc1Y00Nucqf5Dm+Ip9ZIpBUWyQ
+	 7ZmKsm8CE60AygzxIZkzp5k5u2UCRcS6H9BaYY2ivLecPdovJzsdqzalBfLE0t5G+t
+	 dccwmjPP1xdmB8eJYiRPS/5skhlXjezkI6T9+WIrBbgl9hbPUPZ7Vi5DF8rw/BYJuk
+	 r74Nf0ZwCX4FqoHL27lsky7LQQp9hh2tzBnABa/fy0iu8Ory6c3vh559LoZ64yjcHz
+	 1kt1lvN3FNJlw==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260714-sysfs-const-attr-dev_ext_attr-v1-2-6b2c0435d621@weissschuh.net>
-References: <20260714-sysfs-const-attr-dev_ext_attr-v1-0-6b2c0435d621@weissschuh.net>
-In-Reply-To: <20260714-sysfs-const-attr-dev_ext_attr-v1-0-6b2c0435d621@weissschuh.net>
-To: Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron <jic23@kernel.org>, 
- Yushan Wang <wangyushan12@huawei.com>, Jijie Shao <shaojijie@huawei.com>, 
- Khuong Dinh <khuong@os.amperecomputing.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
- linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, driver-core@lists.linux.dev, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784047913; l=9437;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=0NYj325MCxYfzA0iMFtFlFNm7KVwpEWpQsm1qEOkdJ0=;
- b=taFfFE7aDqhB7yKmzGYYYePgDR3Gq0wU8bj7GfGE+vF5SobjgvamevsFQjF1lGuaA4rzQZtbQ
- g8UOoXRQfZaBitkIOv3PDEqpf2XYWku0enMWHxYIssSWEOwfK+bF7zt
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 14 Jul 2026 19:53:03 +0200
+Message-Id: <DJYHI6W0VJ73.NP4QFGU57J50@kernel.org>
+Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
+ abstractions
+Cc: "Oliver Neukum" <oneukum@suse.com>, "Colin Braun"
+ <colinbrauncl@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Mathias Nyman" <mathias.nyman@intel.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-media@vger.kernel.org>, "Colin Braun"
+ <colin.braun.cl@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Alan Stern" <stern@rowland.harvard.edu>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+ <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
+ <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org> <alVEUR0JrF1ga3S8@pendragon>
+ <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
+ <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
+ <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
+ <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
+In-Reply-To: <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
 
-The upcoming constification of the device_show_*() callback
-signatures requires the users to handle the transition automatically.
+(Cc: driver-core)
 
-Switch to the __DEVICE_ATTR() macro which can do this.
+On Tue Jul 14, 2026 at 6:26 PM CEST, Alan Stern wrote:
+> I don't see why Rust needs to distinguish between a USB device that is=20
+> bound and one that is unbound.  There isn't much you can do with one=20
+> that can't be done with the other.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/perf/arm-cci.c                      |  2 +-
- drivers/perf/arm-ccn.c                      |  2 +-
- drivers/perf/arm_cspmu/arm_cspmu.h          |  2 +-
- drivers/perf/arm_dsu_pmu.c                  |  2 +-
- drivers/perf/cxl_pmu.c                      | 10 +++++-----
- drivers/perf/fujitsu_uncore_pmu.c           |  2 +-
- drivers/perf/hisilicon/hisi_pcie_pmu.c      |  2 +-
- drivers/perf/hisilicon/hisi_uncore_pmu.h    |  6 +++---
- drivers/perf/hisilicon/hns3_pmu.c           |  6 +++---
- drivers/perf/nvidia_t410_c2c_pmu.c          |  2 +-
- drivers/perf/nvidia_t410_cmem_latency_pmu.c | 12 ++++++------
- drivers/perf/qcom_l3_pmu.c                  |  8 ++++----
- drivers/perf/xgene_pmu.c                    |  2 +-
- 13 files changed, 29 insertions(+), 29 deletions(-)
+It has nothing to do with Rust, those driver lifecycle rules exist regardle=
+ss
+and they are present universally, including in C.
 
-diff --git a/drivers/perf/arm-cci.c b/drivers/perf/arm-cci.c
-index 1cc3214d6b6d..374a00ae4e48 100644
---- a/drivers/perf/arm-cci.c
-+++ b/drivers/perf/arm-cci.c
-@@ -132,7 +132,7 @@ static ssize_t __maybe_unused cci_pmu_event_show(struct device *dev,
- 
- #define CCI_EXT_ATTR_ENTRY(_name, _func, _config) 				\
- 	&((struct dev_ext_attribute[]) {					\
--		{ __ATTR(_name, S_IRUGO, _func, NULL), (void *)_config }	\
-+		{ __DEVICE_ATTR(_name, S_IRUGO, _func, NULL), (void *)_config }	\
- 	})[0].attr.attr
- 
- #define CCI_FORMAT_EXT_ATTR_ENTRY(_name, _config) \
-diff --git a/drivers/perf/arm-ccn.c b/drivers/perf/arm-ccn.c
-index 8af3563fdf60..955cb5c2b77b 100644
---- a/drivers/perf/arm-ccn.c
-+++ b/drivers/perf/arm-ccn.c
-@@ -217,7 +217,7 @@ static void arm_ccn_pmu_config_set(u64 *config, u32 node_xp, u32 type, u32 port)
- 
- #define CCN_FORMAT_ATTR(_name, _config) \
- 	struct dev_ext_attribute arm_ccn_pmu_format_attr_##_name = \
--			{ __ATTR(_name, S_IRUGO, device_show_string, \
-+			{ __DEVICE_ATTR(_name, S_IRUGO, device_show_string, \
- 			NULL), _config }
- 
- static CCN_FORMAT_ATTR(node, "config:0-7");
-diff --git a/drivers/perf/arm_cspmu/arm_cspmu.h b/drivers/perf/arm_cspmu/arm_cspmu.h
-index 3fc5c8d77266..841b04ea02a4 100644
---- a/drivers/perf/arm_cspmu/arm_cspmu.h
-+++ b/drivers/perf/arm_cspmu/arm_cspmu.h
-@@ -23,7 +23,7 @@
- #define ARM_CSPMU_EXT_ATTR(_name, _func, _config)			\
- 	(&((struct dev_ext_attribute[]){				\
- 		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
- 			.var = (void *)_config				\
- 		}							\
- 	})[0].attr.attr)
-diff --git a/drivers/perf/arm_dsu_pmu.c b/drivers/perf/arm_dsu_pmu.c
-index 32b0dd7c693b..1d7def95645f 100644
---- a/drivers/perf/arm_dsu_pmu.c
-+++ b/drivers/perf/arm_dsu_pmu.c
-@@ -69,7 +69,7 @@
- #define DSU_EXT_ATTR(_name, _func, _config)		\
- 	(&((struct dev_ext_attribute[]) {				\
- 		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
- 			.var = (void *)_config				\
- 		}							\
- 	})[0].attr.attr)
-diff --git a/drivers/perf/cxl_pmu.c b/drivers/perf/cxl_pmu.c
-index 68a54d97d2a8..4ab3360a9004 100644
---- a/drivers/perf/cxl_pmu.c
-+++ b/drivers/perf/cxl_pmu.c
-@@ -209,11 +209,11 @@ static int cxl_pmu_parse_caps(struct device *dev, struct cxl_pmu_info *info)
- }
- 
- #define CXL_PMU_FORMAT_ATTR(_name, _format)\
--	(&((struct dev_ext_attribute[]) {					\
--		{								\
--			.attr = __ATTR(_name, 0444, device_show_string, NULL),	\
--			.var = (void *)_format					\
--		}								\
-+	(&((struct dev_ext_attribute[]) {						\
-+		{									\
-+			.attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL),	\
-+			.var = (void *)_format						\
-+		}									\
- 		})[0].attr.attr)
- 
- enum {
-diff --git a/drivers/perf/fujitsu_uncore_pmu.c b/drivers/perf/fujitsu_uncore_pmu.c
-index c3c6f56474ad..b83fdaf59324 100644
---- a/drivers/perf/fujitsu_uncore_pmu.c
-+++ b/drivers/perf/fujitsu_uncore_pmu.c
-@@ -292,7 +292,7 @@ static void fujitsu_uncore_event_read(struct perf_event *event)
- 
- #define UNCORE_PMU_FORMAT_ATTR(_name, _config)				      \
- 	(&((struct dev_ext_attribute[]) {				      \
--		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),      \
-+		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL), \
- 		  .var = (void *)_config, }				      \
- 	})[0].attr.attr)
- 
-diff --git a/drivers/perf/hisilicon/hisi_pcie_pmu.c b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-index c5394d007b61..2dc19b7c8cbf 100644
---- a/drivers/perf/hisilicon/hisi_pcie_pmu.c
-+++ b/drivers/perf/hisilicon/hisi_pcie_pmu.c
-@@ -110,7 +110,7 @@ static ssize_t hisi_pcie_event_sysfs_show(struct device *dev, struct device_attr
- 
- #define HISI_PCIE_PMU_FORMAT_ATTR(_name, _format)                              \
- 	(&((struct dev_ext_attribute[]){                                       \
--		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),       \
-+		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL),\
- 		  .var = (void *)_format }                                     \
- 	})[0].attr.attr)
- 
-diff --git a/drivers/perf/hisilicon/hisi_uncore_pmu.h b/drivers/perf/hisilicon/hisi_uncore_pmu.h
-index 3ffe6acda653..a4cb9ed7ea20 100644
---- a/drivers/perf/hisilicon/hisi_uncore_pmu.h
-+++ b/drivers/perf/hisilicon/hisi_uncore_pmu.h
-@@ -27,9 +27,9 @@
- #define HISI_MAX_COUNTERS	0x18
- #define to_hisi_pmu(p)	(container_of(p, struct hisi_pmu, pmu))
- 
--#define HISI_PMU_ATTR(_name, _func, _config)				\
--	(&((struct dev_ext_attribute[]) {				\
--		{ __ATTR(_name, 0444, _func, NULL), (void *)_config }   \
-+#define HISI_PMU_ATTR(_name, _func, _config)				     \
-+	(&((struct dev_ext_attribute[]) {				     \
-+		{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config } \
- 	})[0].attr.attr)
- 
- #define HISI_PMU_FORMAT_ATTR(_name, _config)		\
-diff --git a/drivers/perf/hisilicon/hns3_pmu.c b/drivers/perf/hisilicon/hns3_pmu.c
-index c157f3572cae..88a1129e9b90 100644
---- a/drivers/perf/hisilicon/hns3_pmu.c
-+++ b/drivers/perf/hisilicon/hns3_pmu.c
-@@ -405,9 +405,9 @@ static ssize_t hns3_pmu_filter_mode_show(struct device *dev,
- 	return len;
- }
- 
--#define HNS3_PMU_ATTR(_name, _func, _config)				\
--	(&((struct dev_ext_attribute[]) {				\
--		{ __ATTR(_name, 0444, _func, NULL), (void *)_config }	\
-+#define HNS3_PMU_ATTR(_name, _func, _config)				     \
-+	(&((struct dev_ext_attribute[]) {				     \
-+		{ __DEVICE_ATTR(_name, 0444, _func, NULL), (void *)_config } \
- 	})[0].attr.attr)
- 
- #define HNS3_PMU_FORMAT_ATTR(_name, _format) \
-diff --git a/drivers/perf/nvidia_t410_c2c_pmu.c b/drivers/perf/nvidia_t410_c2c_pmu.c
-index 411987153ff3..930cb3e8aad2 100644
---- a/drivers/perf/nvidia_t410_c2c_pmu.c
-+++ b/drivers/perf/nvidia_t410_c2c_pmu.c
-@@ -545,7 +545,7 @@ static struct attribute_group nv_c2c_pmu_peer_attr_group = {
- #define NV_C2C_PMU_EXT_ATTR(_name, _func, _config)			\
- 	(&((struct dev_ext_attribute[]){				\
- 		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),\
- 			.var = (void *)_config				\
- 		}							\
- 	})[0].attr.attr)
-diff --git a/drivers/perf/nvidia_t410_cmem_latency_pmu.c b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-index acb8f5571522..d6e02b70a7cf 100644
---- a/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-+++ b/drivers/perf/nvidia_t410_cmem_latency_pmu.c
-@@ -435,12 +435,12 @@ static struct attribute_group cmem_lat_pmu_identifier_attr_group = {
- 
- /* Format attributes. */
- 
--#define NV_PMU_EXT_ATTR(_name, _func, _config)			\
--	(&((struct dev_ext_attribute[]){				\
--		{							\
--			.attr = __ATTR(_name, 0444, _func, NULL),	\
--			.var = (void *)_config				\
--		}							\
-+#define NV_PMU_EXT_ATTR(_name, _func, _config)					\
-+	(&((struct dev_ext_attribute[]){					\
-+		{								\
-+			.attr = __DEVICE_ATTR(_name, 0444, _func, NULL),	\
-+			.var = (void *)_config					\
-+		}								\
- 	})[0].attr.attr)
- 
- static struct attribute *cmem_lat_pmu_formats[] = {
-diff --git a/drivers/perf/qcom_l3_pmu.c b/drivers/perf/qcom_l3_pmu.c
-index 66e6cabd6fff..d5aa6ace847a 100644
---- a/drivers/perf/qcom_l3_pmu.c
-+++ b/drivers/perf/qcom_l3_pmu.c
-@@ -609,10 +609,10 @@ static void qcom_l3_cache__event_read(struct perf_event *event)
- 
- /* formats */
- 
--#define L3CACHE_PMU_FORMAT_ATTR(_name, _config)				      \
--	(&((struct dev_ext_attribute[]) {				      \
--		{ .attr = __ATTR(_name, 0444, device_show_string, NULL),      \
--		  .var = (void *) _config, }				      \
-+#define L3CACHE_PMU_FORMAT_ATTR(_name, _config)				        \
-+	(&((struct dev_ext_attribute[]) {				        \
-+		{ .attr = __DEVICE_ATTR(_name, 0444, device_show_string, NULL), \
-+		  .var = (void *) _config, }				        \
- 	})[0].attr.attr)
- 
- static struct attribute *qcom_l3_cache_pmu_formats[] = {
-diff --git a/drivers/perf/xgene_pmu.c b/drivers/perf/xgene_pmu.c
-index 33b5497bdc06..3f23611fd4c7 100644
---- a/drivers/perf/xgene_pmu.c
-+++ b/drivers/perf/xgene_pmu.c
-@@ -164,7 +164,7 @@ enum xgene_pmu_dev_type {
-  */
- #define XGENE_PMU_FORMAT_ATTR(_name, _config)		\
- 	(&((struct dev_ext_attribute[]) {		\
--		{ .attr = __ATTR(_name, S_IRUGO, device_show_string, NULL), \
-+		{ .attr = __DEVICE_ATTR(_name, S_IRUGO, device_show_string, NULL), \
- 		  .var = (void *) _config, }		\
- 	})[0].attr.attr)
- 
+The only difference is that in C all the responsibility to enforce them is
+usually on the driver -- e.g. by creating, destroying and calling things in=
+ the
+correct order in probe() and remove() -- and a lot of drivers have bugs in =
+this
+regard as a consequence.
 
--- 
-2.55.0
+With Rust we can enforce those rules with the help of the type system at co=
+mpile
+time; device context states are a part of that.
 
+> Similarly, I don't see why Rust needs to distinguish between an=20
+> interface that is bound and one that isn't.
+>
+> Even from the point of view of the device core, a device that is bound=20
+> to a driver is the same kind of data structure as one that isn't bound;=
+=20
+> the only difference is whether the ->driver pointer is set.
+
+This is a huge understatement.
+
+The state of a device being bound to a driver defines which entity (i.e. wh=
+ich
+driver) is in charge of operating the underlying device, and thus defines w=
+ho
+owns the device (associated) resources.
+
+Many APIs rely on this, as in they only guarantee valid behavior when calle=
+d
+from a scope where the device is guaranteed to be bound to a driver, or IOW
+where a driver can prove that it actually operates the device.
+
+Drivers must only acquire device resources when they are actually bound to =
+the
+corresponding device, and must hand them back before the device is unbound.=
+ The
+devres API, for instance, exists for this fundamental reason.
+
+For instance, we can't have drivers manage IRQs, mess with I/O memory, prog=
+ram
+IOMMU page tables (e.g. through DMA APIs), etc. for devices they are not bo=
+und
+to and hence are not allowed to operate (anymore).
+
+Those device resources all have a lifetime that is tied to the lifetime of =
+the
+device being bound to a driver.
+
+Consequently, any asynchronous scopes such as IOCTLs from class device
+registrations, IRQs, work queued on workqueues, etc. must all be synchroniz=
+ed in
+some way such that those asynchronous scopes do not access device resources=
+ that
+have already been destroyed on driver unbind.
+
+Or in other words, they must be synchronized against the "bound" scope, whi=
+ch is
+exactly what the Device<Bound> type state in Rust represents.
+
+So, again, all those lifetime rules around the driver lifecycle exist
+universally, it's just that in Rust we enforce them through the type system=
+.
+
+For instance, tying it back to USB, we don't want that a usb_driver still m=
+esses
+with a usb_interface, e.g. initiating transfers after it has been unbound f=
+rom
+the interface and hence must not operate it anymore. This can easily happen=
+ if
+e.g. a class device registration is not properly synchronized and the drive=
+r
+still receives IOCTLs after driver unbind. In Rust we know through the "Bou=
+nd"
+type state which scope provides the guarantee that the device is still boun=
+d,
+such that mistakes like this become impossible.
