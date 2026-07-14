@@ -1,96 +1,107 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29073769EF;
-	Tue, 14 Jul 2026 11:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC0E363C60;
+	Tue, 14 Jul 2026 11:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784027243; cv=none; b=f21m3+9TT6Xz6vrc+1C//CrPhNbaiNEGGRcJ9davnA1Hjn6rL3bzp8hQDpPtJnoEDP+N9jv7352HMCM5sxnOIr15NU1zwCSZ1k4goktDQJc9d/GGJOpE7VEl4JMXBv5TnQASVB3CpXTMhzucOX4uUNAtE9ddRQMJ/hzb56GkKTw=
+	t=1784028185; cv=none; b=hq2AN6y4Unlt1tHMk+/IH8VQoyn14kbvfoQ5VCAFJjl+lLGmVCMUBPpLYtIpj1e8NO11CTf0Hij1jfi4dWQov9DrM0oN1kS6h4NOS7vY9liFBKECpPwYswdEtptpvmCpERj4tNZgl2teErjRhG/tbhQdmiLoS8jmow0XTMwEWxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784027243; c=relaxed/simple;
-	bh=5Gic6jFqDAw2jFM2Jd/b6j2X3I/6cTrDW6/5MaQqIHI=;
+	s=arc-20240116; t=1784028185; c=relaxed/simple;
+	bh=IVtuCHKxfhQiyj+PwJ/rYkJNdabtaOoLclCc0A023x0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EyzTFvJumc8VrDlR+mo/OeYChbPaluKdkYZIKJdymkOjLY2Y6Inf+nUgQNdtM2WFNjlHq0EciUmrqfbQ28dwlMDdxN5OUUMOicdlQuLikFirxewmd/PfT6/jNaFDTZ18HTWfoeg60hc3lMUOrzwXzluU/+augT5ZlQuM/8iqgR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nKWMmgeO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=c3tDafPm; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=bowYuSKvQbcU4rSLfVdbWHZWZEYNf5QBESvHEGUQysgux7BzwpZd0Pu7tMFYVJG/eb4hyLuYTjkgVlguKIEP4543Jbh2NvcN9JfWlsWJVQQ9w01XUSS7yhA4w33vlyWADxeTtkX4dOLn0bPVEritcdvaN+kHfWSjUYlzMsRoeiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YDhw+GiU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nKWMmgeO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="c3tDafPm"
-Date: Tue, 14 Jul 2026 13:07:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784027239;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Gic6jFqDAw2jFM2Jd/b6j2X3I/6cTrDW6/5MaQqIHI=;
-	b=nKWMmgeOZusGz4tUgy+jHb8f7dPLZ6VmnGW/lJa6oQfWarzLUflFbamW/ZR1RsNbBnu43L
-	9Qwg8/+OsvuWBSp4e23ZNGDzVih7J7h3DZYae6lHi1IO0ah/xSAPjkPofGtRDmqk9ofnvF
-	G1WmNrle4tTx2BDqy+qtMg4TuTSoR70R70aF9YFEGzxxuzNqRG2NVPKYp2nEbQ2QIArpV+
-	U7XIClgPkKwYdq6Sqrw1uCC3Cdf+2SQJJkBk1fV8VawzRb1ldJ1UhZHjnIETEHEkM+l1Cr
-	DGNnMiFN8bvQW8fj+1xZ0vQcHOLKVbf6E2OIbFuhbEMBqZSVcO+G1BuA6BHZlA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784027239;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Gic6jFqDAw2jFM2Jd/b6j2X3I/6cTrDW6/5MaQqIHI=;
-	b=c3tDafPmqOjhcblwv6ldGP21Lj7aKhxu0ykVLDb560LIUJ8tcB6SNF/u6uo8PqjAfVqy2L
-	30NxFxsnSeF12qDQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Florian Bezdeka <florian.bezdeka@siemens.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <20260714110718.E5qV5-Hf@linutronix.de>
-References: <20260709143108.UYeCUUcd@linutronix.de>
- <2026070922-kilowatt-matador-5e1c@gregkh>
- <20260709152214.rH1O_8SM@linutronix.de>
- <748a489687000b21d0e8f961fc2f9f963b0bc1d1.camel@siemens.com>
- <20260710115145.32729a7c@gandalf.local.home>
- <ae96c274f166301aba762d97caccddf176ad7968.camel@siemens.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YDhw+GiU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 293AF1F000E9;
+	Tue, 14 Jul 2026 11:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784028184;
+	bh=IVtuCHKxfhQiyj+PwJ/rYkJNdabtaOoLclCc0A023x0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YDhw+GiUAo5ZwGwFsF6ltQkil1zROVdv34ktdSZ7WlYZEEaiEeEMV2NH+PPGZjSK4
+	 b2Zm0QRMwOeAEelHdJvnL0dDLWnByyBMBhoV21CXqs6dABu5HRm/GIriZbmV2NARMS
+	 EhpIja8cMNlkZwoqTQW7fGKxn+/KaJGh6VJP2Sc/H6faLHmRhXEzrNey0oecQnI6TA
+	 YgAcen5uTSnWbRPMLJEvN3/gk+B0+y0y+NqolpCZcSITCGWCBZ/E10CysMBqHfpEq4
+	 Qgawp44l11eLnN3klGBQajiYqrdQdpuyieY2SAYEJNqaqH3qtUVCIw2Emv5NnxNg1j
+	 yDY/8CdUFoP+Q==
+Date: Tue, 14 Jul 2026 12:23:00 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, rafael@kernel.org,
+	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH] regcache: disable cache_only before rewriting paging
+ registers
+Message-ID: <6bf54da6-10ce-46dd-aea0-9e7fc64e7006@sirena.org.uk>
+References: <20260713073059.47914-1-phucduc.bui@gmail.com>
+ <24ce60c7-5539-4fba-8bf3-3a10875c3b75@sirena.org.uk>
+ <CAABR9nHfThjz99fVyoAZcSdOh09-n0_WfM2OWL4zkSZG5Pm7Dg@mail.gmail.com>
+ <687d81be-566c-481a-9ece-08526c33ff91@sirena.org.uk>
+ <CAABR9nHWV_qMWaYOeWroU6cPH3n3pDjbafHmXMeMVfiqC562Aw@mail.gmail.com>
+ <41e52d6d-8f91-4685-b659-94d3844fa959@sirena.org.uk>
+ <CAABR9nH8oMXpp-_RFxFWWOWenaZ8XoD8Yr3KDh82RmffKWZRPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QPyssLpscz2ovqC5"
 Content-Disposition: inline
-In-Reply-To: <ae96c274f166301aba762d97caccddf176ad7968.camel@siemens.com>
+In-Reply-To: <CAABR9nH8oMXpp-_RFxFWWOWenaZ8XoD8Yr3KDh82RmffKWZRPQ@mail.gmail.com>
+X-Cookie: Neutrinos have bad breadth.
 
-On 2026-07-10 18:01:20 [+0200], Florian Bezdeka wrote:
-> Depends on what you consider a valid update scenario. Updating from 6.1-
-> rt with sysfs available to something like 6.18 (no sysfs anymore) will
-> still break - as long as you do not (force) update userspace in
-> lockstep.
 
-v6.1-RT to v6-18 no-rt will not provide the file. Also will not provide
-ARM, PowerPC or 8250-nbcon support. So it is not just that single thing
-that you "lose" if you don't apply the RT patch. It is just what you
-notice because you don't use the other things.
+--QPyssLpscz2ovqC5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> I learned meanwhile that our detection moved to uname meanwhile, so this
-> is not a problem for us anymore.
+On Tue, Jul 14, 2026 at 04:58:45AM +0700, Bui Duc Phuc wrote:
 
-Okay. So you yelled loudly that you need it, now not anymore.
+> As described in the commit message, if regcache_sync() is called while
+> cache_only is still enabled, it can return success even though the cache
+> and the hardware are still out of sync, with cache_dirty remaining true.
 
-So can we state that this it does not provide anything of value, is not
-considered needed and can be dropped?
+> From the caller's perspective, that seems like a successful synchronization
+> even though no synchronization actually occurred.
 
-Clark, what is the status on your end?
+Right, we didn't explicitly add a check for that - I guess it never
+occurred to anyone to do so since it's such a nonsensical thing to do.
 
-I can postpone this and get back in a month or so if we need thinking
-time.
+> If that's the case, then it seems that neither of these approaches would
+> be appropriate:
+> 1. Automatically clearing cache_only before writing the selector register.
+> 2. Making regcache_sync() reject calls when cache_only is still enabled.
 
-> Florian
+Probably 2 is better.
 
-Sebastian
+> Would it then be correct to understand that calling regcache_sync() while
+> cache_only is still enabled is simply considered incorrect API usage,
+> and that in such a case the responsibility lies with the caller, rather than
+> regcache_sync() itself ?
+
+> If so, would it make sense to document this requirement explicitly,
+> or perhaps emit a warning when regcache_sync() is called while
+> cache_only is still enabled?
+
+Yes.
+
+--QPyssLpscz2ovqC5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpWHBMACgkQJNaLcl1U
+h9ALrwf+M4HHv10fB2erJIDBGPXWjrEenjjATrBanf/kmYaMYBKry8Lscz/kPbJ2
+KdUm7B4oKZGCJUNp+493OG3jm6s0O1RNLnZpG14ltq16J5K9/Kv1+T9yxHZ49Ux3
+MQaCYJ1z8RGZvQ6Mxfx0Em6uysvbVDtw2ApRPBdTs3k2iXMYA6AkzfwYgtv6rH1s
+vAk1Q2hWiYdAcQ6OzIExpkJj9k0qh3SSG2vRlDmoCn18A699u6vy/U7WDEpq2ycQ
+KDqaJsGRxXisTnPHaFlchYdgRbA6LDxzJWSJ17iDu1q3ss4wqVaStRwuP4pQGKpZ
+M/lKaWInUK6ZlCtjgqKrm4DygU8Q1Q==
+=Ff1R
+-----END PGP SIGNATURE-----
+
+--QPyssLpscz2ovqC5--
