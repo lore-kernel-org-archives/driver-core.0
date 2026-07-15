@@ -1,93 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EE13B0AE9;
-	Wed, 15 Jul 2026 03:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738F53B3BF3
+	for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 05:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784086720; cv=none; b=cQl1ksX83dz8OY3/koS/MkUtklX141bk1yYCPNEwMUNxy2q6fbhModVDXYkHVACcvn2oJ4FWN3R8LyMHF9O0/KzVw2sVaNGoIDQ6xdR4iXSvwCcPyRPICdDR1mUowrtuVyh6Xa74CBp32APh/JL6O7XpAjYzRIQTqe4I8+h2cFk=
+	t=1784092888; cv=none; b=IHgGh3iyrYYzHmSOpwTVGT6010ljxydzE+vtO/ZKBZiYT8YQ4NpAKpkARSWg5YlSGeDF833mow78//yErL1AddzKoO965tElc/ayqVWdQDi6Ip6P9tShr8H5478tnZwlogVXvOQTde+F9h6QuCIIBIkOJ6je32y8lFwCp7UphtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784086720; c=relaxed/simple;
-	bh=TqsCUluC18meCS4YmKRlVVSyC/XfelGm2jVOFMs+an4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sdYVBDFfcDe8GPfBXQ7ltlXR322NPKwr8Nj2bs4nA2VhvVirgMtmy9TOePioYriTWC+JicAmNsVFWzhg+FYMP+kt5aD3sMELbYU71I4C/SuB0WfY4S9yLn9/mOUFav6s4hiBsLjCo/Sn7zQrRUm8Ls3W9+nK7b17nQc8vtKk4zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eruO3s3I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784092888; c=relaxed/simple;
+	bh=QAy3B3MklhFRzHR5NCSvyukg6irF2NiZNYxJpFKqBwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i81GD2jAibT3BDvksWUqjqx3cK2U254fndjB8pn9MBNEZf+TMJ0M39k4Ek8/DJfaEEnA/jM/dbqhY1fOFcC0PMQrSllb+1+HZi3+UBljFriuwXpa/8L8dhKClNpGOqJq+Y4pJTH/6GrvOdwhb86s8x7NwiNeoK4J9eW1B83rhHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OiWkIZT5; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eruO3s3I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD84B1F000E9;
-	Wed, 15 Jul 2026 03:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784086702;
-	bh=vHSwHOAnKKuCtTdxbnWKpynBVvQ0SGMVv3laL9+whDE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eruO3s3Ia3FxGRpWUJqw/aKt5Qhq7a0O046iUoSmkf1egqujCkkOWNDt3aYiSPlQb
-	 GRDCxpJ6ZH+/Kc9SDxgkO2xmW7O44Munp3NFCNPx2T8kmmeUcMtIf/cnra68Br0Wek
-	 NYY0VFr2jWqDavQt4gJW95uhx3OJunvf4uIS7BHRSQjq3TJeKaxkQuEajo18e/3IMr
-	 gpjtHfTnsuziuPwqKrGAGzh2tFpPkso1YDrZFuMYdshOmRTxD6pXHFpW4b22uI+VHI
-	 GsZDmktjePxVBET+rOtQnQGMuswodqwJk0vRXfrAClVvi8KFXjSFVQOTTIbX7FdbP4
-	 k1LtASxpyXjYg==
-Date: Wed, 15 Jul 2026 03:38:17 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OiWkIZT5"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-381c51fde6bso4942685a91.2
+        for <driver-core@lists.linux.dev>; Tue, 14 Jul 2026 22:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784092887; x=1784697687; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xva9OEHtElI637gwa1y8PL7T5tTmT5JPvH9nn3h7WxM=;
+        b=OiWkIZT5nWXJB/qNMmTyQ7MLvERGvfH273t9A6MgJEC0R7YafTVbQlFhtGihpqOkEM
+         wso8DAuRWq9o2FL2be6ziz7xv2tJdrEiYAIMQ8zE3pEMhWLluO2GH/nhl4IUQYCtu2Gx
+         Sua6jVUw1ivsVUsV50Ed9jXeXPGDakBa4c/bQlYOJhzAE66mlUoeinrXJOR9WjV2b1eF
+         4a0Mx3AljTOatx4mZM1aNArzxVVTPn4iWolCLFcHrBslBQzwGqtVQZsh04KLP+m/nbLP
+         jLP7z9QMwHvItb0zlRtDXPrBmIptcFlHtSfzg3Ypf5eR34Vegpe7ok44Wb/SxNB+4kg6
+         T7bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784092887; x=1784697687;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xva9OEHtElI637gwa1y8PL7T5tTmT5JPvH9nn3h7WxM=;
+        b=hua3F91mhz1UXdrlaVRh4yLzmKbbEoyNO1u8FZY/g03/4fWO26URibn4A8qsqwkBQa
+         FLgeWard/UdE+gye6q/lH7NzoHcEba06peZQyQ5VKe4kBmr/zo4AwKRiTm6RszDR7MH3
+         dsjmaxg1SKOtUuaUWmH63JhBxW8IH6SOkh0F45CobkJq4CUHjQLFoU+Dy69LIacMti0s
+         ayuM+RfVTVWfPZSConMj+5veogaIQ3uwWvBXv3352MedxLStXs65J29iDYH6AqwRbaWF
+         B6Vyhz12n3LKtPjhhdIg170FsUfqedUeC1ZOFBilMUD9UxzvH2b3v71w828TcGppWK9W
+         z6Ng==
+X-Forwarded-Encrypted: i=1; AHgh+Rp0EgE3U5glNE65xL8gs2iCVqYUY1y8remCpR2IGx2CBTYbATMnXcdCGiKP9CQco+rzXBDS5EesC85p1Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAYc3MYgNv4H/dR/YL+800SdN/ZBnisdjCIWcd6iqvsNbk2urN
+	jdJbpMqdflyXXFwxqR7iG/NLwxZP7k4ELDqfSwnrj9DAPDPrDec1kF9l
+X-Gm-Gg: AfdE7ckVU3BOkG5p0S9SYIXehwYKboZ2Yl8ZUP+wO1Ime+QiKM1VTE359YJ8FhN3Gsb
+	pH6EGm6kRvZ+M6LYGdW/tKyKdPwKTseO6DyeincuyK5TRG2JTh6igEeIWd8JvhT4FVxR3d8jgXX
+	+6uFT46DmhZn2X+Bqi3wFTyvOkjmwy/4Fun+VeXSS8zpm9b+aL+w7guNZuJLguLBSRrFWMEKjc+
+	Yb/NIc6CMyzAZvIDeDkG2z8KsPCuGXqyJqwlfuPb1IEY0b1838brdCwK4OkG88EWxOCFAdSD6hg
+	pCtjIvfsA9lGjpM7Do1kX35VZEMnvNSrpERzktckmyE+8pipECHKI3N3IwLhn5DcO+SzQ50mhJT
+	gRdWGDnWwOo7wnn2sF+3QwzGDvijH8QFyimz8iXNOeaG7LnXTvVPK5QVuQwVYqelettRzd6VkoA
+	wO/SoNnzXtH/di80bVEh5VfTVofad/jzDF2I2AuZ1vfqjSrwQ=
+X-Received: by 2002:a17:90b:380a:b0:36d:b9c5:e8f6 with SMTP id 98e67ed59e1d1-38e2a0016a6mr1302665a91.19.1784092886758;
+        Tue, 14 Jul 2026 22:21:26 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e1730acfesm2419782a91.14.2026.07.14.22.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 22:21:26 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Pavel Machek <pavel@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	driver-core@lists.linux.dev, tfiga@chromium.org,
-	senozhatsky@chromium.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v6 0/2] PM: dpm_watchdog: Improve DPM watchdog
- configurability
-Message-ID: <alcAqfM9mgAVXVWD@google.com>
-References: <20260708043317.2980098-1-tzungbi@kernel.org>
+	rafael@kernel.org
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] regcache: Warn if regcache_sync() is called in cache_only mode
+Date: Wed, 15 Jul 2026 12:21:00 +0700
+Message-ID: <20260715052100.24983-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260708043317.2980098-1-tzungbi@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 08, 2026 at 04:33:15AM +0000, Tzung-Bi Shih wrote:
-> This series improves the configurability of the DPM watchdog.
-> 
-> Currently, the DPM watchdog is always enabled if compiled in.  Also, the
-> module parameters defined in drivers/base/power/main.c use the generic
-> and non-descriptive "main" prefix.
-> 
-> This series addresses these limitations.
-> 
-> Patch 1 renames the module parameter prefix for
-> drivers/base/power/main.c from "main" to "pm".
-> 
-> Patch 2 introduces the "dpm_watchdog_enabled" module parameter to allow
-> enabling/disabling the watchdog at boot time and runtime.  It also adds
-> CONFIG_DPM_WATCHDOG_ENABLED to set the default value of the module
-> parameter at compile time.
-> 
-> The primary motivation for this configurability revolves around Android
-> GKI (Generic Kernel Image).  We want to enable CONFIG_DPM_WATCHDOG in
-> the GKI so the feature is available.  However, because the GKI is shared
-> across many different devices, we don't want to inadvertently affect
-> devices that are unaware of this feature.  This provides a way to
-> compile it in, but keep it disabled by default for those devices via the
-> kernel command line or module parameters.
-> 
-> To maintain backward compatibility, CONFIG_DPM_WATCHDOG_ENABLED relies
-> on `default y`.  Previously, the DPM watchdog was always active if
-> CONFIG_DPM_WATCHDOG was set.  Defaulting this new option to 'y' ensures
-> that the behavior remains unchanged for existing users and defconfigs
-> when they upgrade.
-> ---
-> v6:
-> - Change the prefix "pm_sleep" -> "pm".
-> 
-> v5: https://lore.kernel.org/all/20260701045640.3130090-1-tzungbi@kernel.org
-> - Rebase to v7.2-rc1.
-> - Fix Signed-off-by lines.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Since there was no further feedback on v5, I'm sending out v6.  Any feedback
-would be appreciated.
+Calling regcache_sync() while cache_only is enabled is invalid API
+usage, since writes are intentionally kept in the cache and cannot
+be synchronized to hardware.
+Document that callers must disable cache_only before calling
+regcache_sync(), and reject incorrect usage with a WARN_ON() and
+-EINVAL.
+
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ drivers/base/regmap/regcache.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
+index 96cdae25b9c4..d786cc8bf4d8 100644
+--- a/drivers/base/regmap/regcache.c
++++ b/drivers/base/regmap/regcache.c
+@@ -397,6 +397,10 @@ static int rbtree_all(const void *key, const struct rb_node *node)
+  * volatile.  In general drivers can choose not to use the provided
+  * syncing functionality if they so require.
+  *
++ * This pushes cached changes made while cache_only (e.g. suspend) down
++ * to hardware. The caller must clear cache_only first, or writes will
++ * only update the cache.
++ *
+  * Return a negative value on failure, 0 on success.
+  */
+ int regcache_sync(struct regmap *map)
+@@ -411,6 +415,9 @@ int regcache_sync(struct regmap *map)
+ 	if (WARN_ON(map->cache_type == REGCACHE_NONE))
+ 		return -EINVAL;
+ 
++	if (WARN_ON(map->cache_only))
++		return -EINVAL;
++
+ 	BUG_ON(!map->cache_ops);
+ 
+ 	map->lock(map->lock_arg);
+-- 
+2.43.0
+
