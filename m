@@ -1,277 +1,271 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010037.outbound.protection.outlook.com [52.101.201.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D883EB106
-	for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 08:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784105738; cv=none; b=pjUWcINeoGSH0Hab6rCVXZVQbrJy740BQK1LryozAYgwbdvEfUSuhYy0etMHd3VUe8cxyl/8p5E9An43dRce8eP1QOBGptrwDN88D49OUMPSyP0hrfgpererXgyRmHX7AacQF0tnoyFbQXdk+sXnHR0w8jmAcz/ABTA9xvGulTs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784105738; c=relaxed/simple;
-	bh=YJyU75cpPuviW3DeoVCtVsycwY35EMz4CrOCdWp2v74=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YZr57sX0RLM1qg/Jg6eDIfgz/rv9ka9DeaveysIDPAuXjUEz5GctYdmUWGOVAkLsHmPO8gly2Pzbqz5vymfuwe3bhq/6yKZtdrXGd+bfVevnOpLd6K8RJMQC2kULT9yvx1H74x2M9DS87LVIc5bsjJZU80GecUXAyO6rT0NAE0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H7P8aBYT; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D4139EF27;
+	Wed, 15 Jul 2026 09:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784106298; cv=fail; b=P5/MfjLwBb/kP1wRCF7Al5pnRUV/NmAcXflKRHJ4MTI3wRCgDA4daPUcR3XHA1GfOHEbXlnbU6F9k30ihdLOF/Cgd6UC5XbJ5aHn5RLsQY/k8EMh5RKHPkUVPi17xuxrzVArb0FAOh7gvvj/CWu46DAjE7DCcb/q6PJzhwIRImw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784106298; c=relaxed/simple;
+	bh=1hpfV5XcVcT8oC2a3wdc1IGVB2Qit9aiblxeuub/Jcc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZTAN3wKi6QwQTp/ryVIsUmpysdMYkafAIQh4FhP6cMBQc61hMoAI6dKfE0iFgRtm9GphiITelRBhH6wguNU9qaPa2X6GYkFJq8i+F7yoh3hXZj0jMU3uJHJ45X/d7vmuBZ7VVhaZzs8aDsX5T/Jwm4PJix7pb7oKdrBE8kSKHDE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=t5NVh0S3; arc=fail smtp.client-ip=52.101.201.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H7P8aBYT"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-84a652535dcso370561b3a.3
-        for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 01:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784105733; x=1784710533; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fzcA9TG2yqej8iZO6JRem4wjlVQiv9Z5qdYjer6rUOE=;
-        b=H7P8aBYT0vOqZ8D4QmGBEiZahr5o7/SY6gthcyb07iS4xgKHTsuIZCTy37hI9r0U6y
-         ayRMDjOiMmCzo+5Vk0UWSHf0Gexv4TzzDb9xzwZ2+rT1/Tzj5kuKHZDtucg2qyBuwptr
-         1GI0xojHhqWuInUQVTufFtqa9MJkk+AXvMKBw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784105733; x=1784710533;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fzcA9TG2yqej8iZO6JRem4wjlVQiv9Z5qdYjer6rUOE=;
-        b=EDa7ThnnWpVgUw7Z0G9dyhenEWAQ96nBFOESwyDz8Cu6jGHRMMcCP1/jx+R8DvdwsK
-         gIJ5YWdjitRP+DOboCf8pm25bIYQQvGvkJbWvtyIsI6yNV3CCU/gubqUAZN6dhr63gCO
-         4pEks/Zzpx3a/M+yxAFIipNRjlliS4gPerCBMLnDZuBexNUqqtNRLfC8xvvZz4iG4FtE
-         7eg8mM0I8liAppJRse+z6r6ux5RUhNQTYSV7F4JiXiOsxFIAdL7Medw23lhl6InmNFRA
-         k4bLi4ef/f/KbatY9aD4YSlDWCmtoTA1f12kF4kcFfFvAgEV+Q4d6ZZpNO1leJ6JEFEv
-         LaZg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro05R6pX9dXSg4oAxLx2VURKpRtCRI8iI8Fvgg4KecEF5+WNfhWOw8mCpXndYniTMxHekqLTaxDa3gyCA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBaCZMKTfVBjm4h7n44azkoFqle7IOqtEfHlNS1ARdWvLS9+ci
-	b+TA01uU9qDTR5SjGdicIRJ2Jcu0Dwes/APb+u8cJBrGxp0MVOzZh4oELg5QTlggEg==
-X-Gm-Gg: AfdE7clTV71UG6xqQLJ4PiKsQ6/lbtqhET5MucKfM195Bff42ahV2SvibG/Al2+5RiJ
-	tTo8VxeR4kKmULiDXCCqh9Hh3E1G52RRRNB9eXusb+sqe7BBBR+rx53/PYO3w5tk+a6evBkqf5a
-	BoeCkcn2bhLZ+lkgZya7PHXNXQGdE2U/Oo31TKKKqMGMoinSzxfetSKqfCqVfMEZP0zKa3SUVYj
-	67X9SZWzgk5KSsrkO6ybEtCFLuCzZvHxlz1DG7EMdZHAC5Uk2i8FGTcRz+CvMmpzs8xb4NqbPyU
-	yC9LPxdgqJ4/sLPxRC2laViSG0R2hjzsL1hMMll5n52iUTPCyayTC/GX/efkEZp0+3moOt3fzDQ
-	9z1VI42S1SvD0L5nw63qaky4SaTSs3vGjgVamxUuZ0lpuONtMEtEHZtmeGNFWTwkAOCKg0OdLj4
-	+baJVzhUHw0vgLUsZ1/W6LBR2rdXRpTT6vKhMJjAflFWGGoDz66+WUs/8iNi+LrV/OGBQvMw==
-X-Received: by 2002:a05:6a00:368d:b0:848:56ff:6ced with SMTP id d2e1a72fcca58-84a6723d613mr1884956b3a.8.1784105733495;
-        Wed, 15 Jul 2026 01:55:33 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:47d7:4aa5:a6f8:2279])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f819117sm2757491b3a.59.2026.07.15.01.55.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 01:55:33 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Wei Deng <wei.deng@oss.qualcomm.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v5 16/16] arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
-Date: Wed, 15 Jul 2026 16:53:46 +0800
-Message-ID: <20260715085348.3457359-17-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.141.g00534a21ce-goog
-In-Reply-To: <20260715085348.3457359-1-wenst@chromium.org>
-References: <20260715085348.3457359-1-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="t5NVh0S3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xxbLo8WtpxQkYpdFMH2nXrz/Iude5OjU+abbqBJheeP0bwLSPt/dHPpJAt3CNZ/JZdBopU03CfESRf3u70nn3cFFp0H05yq2FFZH5AlMlYgdk8iwbbqOeWfev9G3tKn+WJ5NSoPTGLsmLu//hopq7bakXGE/e5JH+QcFpedyzNPodmg1j+qk9YMUogLhggRMLKPdgwDCjze9c5g7p0bxB5eXjNrGlDTNeaoG8JH5LOpMJpAVklu3xj3Sv/2XdOfuMSup62+1X+5DxbldJEsNdm7eqhLdxn+EsGtx2+4/FTnuV+lFqcGjiIBLep+7K96IltAE0ANgAdZ5X/5JzSmapg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jPHHpAziTS0HMIm1cnPUXH7B+7vy8UN1kIcjWXtz2V0=;
+ b=uBOICatd2sbfoolZGstbH3p8wtXnc1tbVveLHg3vYYahs4QRTxUCB09+905TEljCxpOXIUERWNiKPbsjlfXv5hF9rap04rCEFdTJ/09HbhIXomX+NRuAKifBzt6iC+Kr8+1HLMd+h3hm+QAFba131B2FmFigEf3wUAlhyECyZjXlMr4sIn/xXU4JBjLusXRTiOnhr8ocIR/cq5MqogXmpoXLGJv9Ylm06/f2cs7oc5L8OIkAQBZQrLiW+ngYzj2JVv9vQCDZUaOOXlAGq2QyWwsZBKv3fFbtcrBqbOXW1hJVB+PUVvGJaBTQizNwQ9/il4mO4WNrxhSHjoeDtRQNCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jPHHpAziTS0HMIm1cnPUXH7B+7vy8UN1kIcjWXtz2V0=;
+ b=t5NVh0S366D/CeJGeVJ7EJrTQy5xilLxdDSQyn8TK5FvNK+o9KWScF6fI1jxPdxvCLf8cBSZEEE3neJ9u2MZWIzlmkCrdCYmB+f25K7HtdIuxhYa3mFCioFXNk0lIDKctGVviuUq3Zsf1taKgIwainfSPWzdkFZXo8MAJRPj4D4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA1PR12MB999228.namprd12.prod.outlook.com
+ (2603:10b6:806:4db::10) by MW6PR12MB8951.namprd12.prod.outlook.com
+ (2603:10b6:303:244::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.18; Wed, 15 Jul
+ 2026 09:04:53 +0000
+Received: from SA1PR12MB999228.namprd12.prod.outlook.com
+ ([fe80::4dba:119e:8e7c:37b3]) by SA1PR12MB999228.namprd12.prod.outlook.com
+ ([fe80::4dba:119e:8e7c:37b3%4]) with mapi id 15.21.0223.008; Wed, 15 Jul 2026
+ 09:04:52 +0000
+Message-ID: <0cc44c9e-fc2a-4c95-a574-de833117f6dc@amd.com>
+Date: Wed, 15 Jul 2026 19:04:44 +1000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] Device Evidence and Trust for PCI Security Protocol
+ (TDISP)
+To: Jason Gunthorpe <jgg@ziepe.ca>, "Dan Williams (nvidia)" <djbw@kernel.org>
+Cc: linux-coco@lists.linux.dev, linux-pci@vger.kernel.org,
+ driver-core@lists.linux.dev, ankita@nvidia.com,
+ Aaron Tomlin <atomlin@atomlin.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Daniel Gomez <da.gomez@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ Donald Hunter <donald.hunter@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jakub Kicinski <kuba@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Lukas Wunner <lukas@wunner.de>, Petr Pavlu <petr.pavlu@suse.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, Sami Tolvanen <samitolvanen@google.com>,
+ Samuel Ortiz <sameo@rivosinc.com>, Saravana Kannan <saravanak@google.com>,
+ Will Deacon <will@kernel.org>, Xu Yilun <yilun.xu@linux.intel.com>
+References: <20260705220819.2472765-1-djbw@kernel.org>
+ <20260706125140.GB107792@ziepe.ca>
+ <6a4c163072c60_174db6100c4@djbw-dev.notmuch>
+ <20260707124321.GF118978@ziepe.ca>
+ <6a4d95fcc92c2_2f05d5100f7@djbw-dev.notmuch>
+ <20260708143153.GH118978@ziepe.ca>
+ <6a4f0b35683b4_353c8910011@djbw-dev.notmuch>
+ <20260709133601.GJ118978@ziepe.ca>
+Content-Language: en-US
+From: Alexey Kardashevskiy <aik@amd.com>
+In-Reply-To: <20260709133601.GJ118978@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SY5P300CA0069.AUSP300.PROD.OUTLOOK.COM
+ (2603:10c6:10:247::7) To SA1PR12MB999228.namprd12.prod.outlook.com
+ (2603:10b6:806:4db::10)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR12MB999228:EE_|MW6PR12MB8951:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c50ec3b-782e-4dba-fabe-08dee25021ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|7416014|1800799024|6133799003|21046099003|11063799006|56012099006|18002099003|3023799007|22082099003|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	8l4jFKksxr+Pl20e0NqFnQADVAZ4I17j/0cd1yj9j7XOmZ6QeTFdcTLv/AFB/48FX5My/Mx21BkVv+iaDnjIVUYSejPYP5Jw7TuTu4u4dgS8FRu2YHpXEtmZfer/sVltnmZUs0znZZORDqujQ116VWzeikdYXDymZb4O/+8ra0Y6elJBm4JsuRUN8jGnCIvUlnc1NBtAITM9jv1OtY1VUoMBMfQ6AULvu0+hFoCbJBg5oPahvAqoTvjEVsbV1B8SdtOJaDEY3sudvEb/PZoY//h68S6ZFjyE610bWfyj5Wbbz5dRYogYahrF8OVPseoQyg7JZeVTeraPzGUnQOkiTsV0NZ7Q2c3lM36cpykNeNuehWLf2bFPaxM1IgxUpc9YG4JLn/oN703+zKUkZFZGtFJnDeDrHtqV+UF6iZ0uL82PdWz07DD0EQPUOHVGY4aoc+XFs8tB8rF2E5wkF6EcmPr/NOELTfgETGI/0sPB8R/A72PU9MgKnOxZHSXTkHYdTVW/xvzUFc3M3rwtL6NA6oy7lsR0CoQmdhyaYuyTYOnWRRdiHPyfSVAFXwX1ytywuIga/0tB3tQwrIIXQgZSxEsF0Ul/v8GnWLR1K6F1JBSrbBkANl+51HHtQMPvMyrtCvRgMwltBrODP5RkqC61Aj8Z8HEooShKP/HS2stm9W0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB999228.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(7416014)(1800799024)(6133799003)(21046099003)(11063799006)(56012099006)(18002099003)(3023799007)(22082099003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RnZXbVlEV2sxUmJGZllRNVBVckg2UG82ajNxTUI2Tll0TmQvK0NrOWhZc3l4?=
+ =?utf-8?B?REhhaUZCSlpoUmgxV2pyOGo3Yzd4TEJhRFZiZExXZGplZkVabEhnaUtncEow?=
+ =?utf-8?B?aG9ENWNVOEhFa3VOVG1rWEg2bWxpekhJclZXdm5BV0pUZmFjdUdWY1JWOG1R?=
+ =?utf-8?B?NFlxdWN2clN4MjRNZWVLWlI2dWxmUDZ0YSt0MGNpUXB4TzdQVzhYT3pRcDJp?=
+ =?utf-8?B?TWZQdEFPL0oyeHIxRjB3aWRGckNPQ2loSWRxcjR0clE4N0drMVkzcXY5dDJO?=
+ =?utf-8?B?UE1vTkJ0VGxXV2tNQVFqTE5xV3Ywak5Qb1dhd1RycDloZEhnSXNkb29xNUdo?=
+ =?utf-8?B?bXNOcWpqOVErcFo2NVlPTWFhWjNxcEw5eVdDRXNPMmFmaVgyZW0wYm1EQmpz?=
+ =?utf-8?B?U2ZJUEhpODVrd3h1M1pVaTc1UHRSYnl2bzZXWE9mckp0THY2OEtVZTFNdzc1?=
+ =?utf-8?B?cS9DcGpiZ1FEbmIvbTJpKy9nUnVta1Bvd2VjQlVBTDFhQVlSdC9FRGduUHVl?=
+ =?utf-8?B?T2JPL2hDdWJwQTVRVS9XZWI2YkVEUDZrcnNtR01FS2V0dWJpb2hqZ1VHa204?=
+ =?utf-8?B?RGM1TWNBTTExTEZDWFdKV3dMQjdlZ0ZNMy9Ta01lOVFZOVZGcHZ5MEVoS1NJ?=
+ =?utf-8?B?ZzN5Z2RidlQwRVBXOWFtYU5ScGE5V2drVzVocjBhVllxL09yZm9ITWwrOWk1?=
+ =?utf-8?B?TDVKNVo2WHlLSW1JQjczU1RCdjEwWGF5OWh5MjFoVDJncjRSQnZsc280QkZU?=
+ =?utf-8?B?aXo3a3c3ekhSMi9YNk40OVd1VzNhS3pTMzVROWw2UFlxRy9GUjdQUExmTmw1?=
+ =?utf-8?B?VmVJRFFBVXhDNENLTTFpQlBzTGZRc0dRb0JMWDNDVTU0aHU5K3NRdnJFTGJ1?=
+ =?utf-8?B?eDFhOS85V1k4UmEyczVDZ0kvNVJscXY5QmxXbFNpQ0hJM0l0a3VQaUNEL1dV?=
+ =?utf-8?B?U3g2TlhxRWYwVEpVZ1hhS21xMDlKUjJ6ZmhIcVVMbzg0Wi9na3BmU2Q5NXJn?=
+ =?utf-8?B?RTVRWCtUS1YzTUd2ZGozcmU0Snl3NENPQ2R2WFhVUzlJUXZlVkszMVN2Rm1r?=
+ =?utf-8?B?YzJQN0RiSThhR3dPaXJTUXdZUGo1OGNHVEtSRFlRVTl2cHRqYXFXM0xRMDVK?=
+ =?utf-8?B?Q1J4eFgwdEhCdHc1UVZITTdyY25PemM1NFFqL3dTbVo5VFc0VGRPUDIrejNU?=
+ =?utf-8?B?VU41RmJQOEIwM04yWlY1R3d2QWJNN2h6NVFrS2JzVE12c0xFWnBON1lFUmNp?=
+ =?utf-8?B?a295TnZFbmttMkdCSE52ekNMSnMxSEo1Y1djMURBUjlwVDA1TVFlWmVmbjVD?=
+ =?utf-8?B?NEVzcDFjS0FmczYwTzNrb1I2SVRpaFVpcDk1cHVESXhMaWhEcTk4cm5namxR?=
+ =?utf-8?B?WWFXMENFSXN6NmFIM0hHVWd2d3J4eWd0OUMzTG9DUHR5aFQ5TTV5SkNEbmc5?=
+ =?utf-8?B?ZHZYU3dwTWlHZVJTVW1VbVNwcDVPOWx0cTJ1T0dhd0huNERCL1JVemc2SitW?=
+ =?utf-8?B?NUpxNXVoZExZZXlxYzMxMWRjNzFGdWJsUXpUME5UUXYxdlpkeHhRdlpPQkVl?=
+ =?utf-8?B?SmhQaUpnL0pBVmt3aUQ0S2ZqM0ZwZGZ6TW9JaVF4dGhlVzNVTlFQZ2tsTnRS?=
+ =?utf-8?B?Q2lXeWI3NG5GbVdhd2lGZ1VuVFlPNDNMakx2eWJLOFBHOEZOQTQ5cXRhS3Vl?=
+ =?utf-8?B?Nk90b3NDWGhBV0dCeVlrNWYwdGJhVVh5SEVvWStlZGdiVjRhRUFJREhsYzZh?=
+ =?utf-8?B?SldJbVJoUGlzQUlyYXVDRy9GNkpidmMycTRHMCtzdEoxTDFGNnRLWThzY28z?=
+ =?utf-8?B?K0JMUXBIU3U5SkowakRaYlZLK1U5NUYrUm44cUp1OC9PVUVEdzk2bmNBSG4w?=
+ =?utf-8?B?NzFDMkhNS3UyUzV4TXUvaklsZUk2c3BwemVBYXZud09UTW52VjdKZGh6c3Rt?=
+ =?utf-8?B?a2llRDNwR2pWOVZRRUt4OUZNNVNVc3EvWTM5Sk44TnFWTWVhRGxGV1RFU0g5?=
+ =?utf-8?B?S3dBUDdIdWxLQmQ4eHJvQStUUzlwekZWQzFMMnBvejA1NmFlb0xlaXh0blFz?=
+ =?utf-8?B?TCtpTjZkRW4zbjVpYk11WVBxc2h4SjBjWDJvYnJCUTdRQnVqcEZoVkN1OWxH?=
+ =?utf-8?B?WkY3ZVZkb2hndzE0N0sxV2YwaDY2OENwRFRYTWJCdVlrZmw2Y2xaN1RZenRy?=
+ =?utf-8?B?eVp6emxGQ08wMTBTQ3dqalZSamZadnVHL2xLMExOek5jOTJFeHVnaTVyQ0k4?=
+ =?utf-8?B?ZHJnV2lWeGV1eklhQmNiMWszcGluYVY2NW5xblBmZXlMTEhZcGNQUW1RWHBa?=
+ =?utf-8?B?Tlg5eTZLNTdiUTFicXY3Y0lnZGlNcmhIcXVmU3d1SmFMeDg1RVVYUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c50ec3b-782e-4dba-fabe-08dee25021ef
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB999228.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 09:04:52.8537
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TgtFVSBZl3jNStv8gC7vNBt01lbqkW6ba6x2Ek0nKPxK/aODzKYD+sf3R7q2tM5ZTPzSF12mOwAMQQb3AFL2cw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8951
 
-The MT8188 Geralt design features a chip-on-board WiFi/BT solution. This
-is a M.2 E-key WiFi/BT board layout directly inserted into the mainboard
-design. The connections to the rest of the board are almost the same as
-if it were a separate M.2 card. The only addition is the PMU_EN pin on
-the chip; on M.2 cards this would be tied to the primary power source.
+On 9/7/26 23:36, Jason Gunthorpe wrote:
+> On Wed, Jul 08, 2026 at 07:45:09PM -0700, Dan Williams (nvidia) wrote:
+>>> force_dma_unencrypted() does not *prevent* device access to private
+>>> memory and provides no security properties on its own. It's only
+>>> purpose is to inform the DMA API what the HW restrictions are for
+>>> doing DMA.
+>>
+>> Right, to be clear, this mode's security properties come from never
+>> asking the TSM to enable private DMA while the device is in RUN.
+> 
+> Ok, that's a twist I hadn't thought about. I don't see a reason to
+> support a driver probed with RUN but T=1 DMA disabled by the TSM.
 
-Model the chip-on-board WiFi/BT solution as a M.2 E-key slot with PCIe,
-USB and auxiliary signals. The PMU_EN pin, which enables the internal
-power controls and regulators, is modeled as a regulator fed by the
-pp3300_wlan regulator. Since power sequencing is now correctly modeled
-using the M.2 E-key slot, drop the "regulator-always-on" property one
-pp3300_wlan regulator. Also drop the comment in xhci2 saying "MT7921's
-power is controlled by PCIe".
+afaik you cannot have RUN and T=0 DMA at the same time. You can though have C=0 (i.e. IOMMU <-> memory in the plain).
 
-Also drop the voltage range on the pp3300_wlan regulator. This
-"regulator" is just a load switch and does not provide any regulation.
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v2:
-- Drop default GPIO output state from kill pins pinconfig
----
- .../boot/dts/mediatek/mt8188-geralt.dtsi      | 92 ++++++++++++++++++-
- 1 file changed, 88 insertions(+), 4 deletions(-)
+> Still, if we do this, I think having the TSM deal with it is probably
+> better than making a cross product of the trust level, something like:
+> 
+>   echo only-shared-dma > $pdev/tsm/accept
+> 
+> So maybe accept should be tweaked:
+> 
+>   echo full > $pdev/tsm/accept
+> 
+> ? It doesn't matter much
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi b/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-index dee946309121..73b5c0fdeae6 100644
---- a/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-@@ -88,13 +88,11 @@ pp3300_z1: regulator-pp3300-z1 {
- 	pp3300_wlan: regulator-pp3300-wlan {
- 		compatible = "regulator-fixed";
- 		regulator-name = "pp3300_wlan";
--		regulator-always-on;
--		regulator-min-microvolt = <3300000>;
--		regulator-max-microvolt = <3300000>;
- 		enable-active-high;
- 		gpio = <&pio 12 GPIO_ACTIVE_HIGH>;
- 		pinctrl-0 = <&wlan_en>;
- 		pinctrl-names = "default";
-+		/* load switch */
- 		vin-supply = <&pp3300_z1>;
- 	};
- 
-@@ -161,6 +159,17 @@ ppvar_mipi_disp_avee: regulator-ppvar-mipi-disp-avee {
- 		vin-supply = <&pp5000_z1>;
- 	};
- 
-+	/* PMU_EN pin controls internal regulators and power sequence */
-+	wlan_pmu: regulator-wlan-pmu {
-+		compatible = "regulator-fixed";
-+		regulator-name = "wlan-pmu";
-+		enable-active-high;
-+		gpio = <&pio 145 GPIO_ACTIVE_HIGH>;
-+		pinctrl-0 = <&wlan_pmu_en>;
-+		pinctrl-names = "default";
-+		vin-supply = <&pp3300_wlan>;
-+	};
-+
- 	reserved_memory: reserved-memory {
- 		#address-cells = <2>;
- 		#size-cells = <2>;
-@@ -195,6 +204,39 @@ adsp_dma_mem: memory@61000000 {
- 			no-map;
- 		};
- 	};
-+
-+	wifi-bt-connector {
-+		compatible = "pcie-m2-e-connector";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&m2_e_key_kill_pins>;
-+		vpcie1v8-supply = <&mt6359_vcn18_ldo_reg>;
-+		vpcie3v3-supply = <&wlan_pmu>;
-+		w-disable1-gpios = <&pio 13 GPIO_ACTIVE_LOW>;
-+		w-disable2-gpios = <&pio 14 GPIO_ACTIVE_LOW>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			/* PCIe for WiFi */
-+			port@0 {
-+				reg = <0>;
-+
-+				wifi_ep: endpoint {
-+					remote-endpoint = <&pcie_ep>;
-+				};
-+			};
-+
-+			/* USB for Bluetooth */
-+			port@2 {
-+				reg = <2>;
-+
-+				bt_ep: endpoint {
-+					remote-endpoint = <&usb2_ep>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &adsp {
-@@ -659,6 +701,22 @@ &pcie {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pcie_pins>;
- 	status = "okay";
-+
-+	pcie@0 {
-+		compatible = "pciclass,0604";
-+		reg = <0 0 0 0 0>;
-+		device_type = "pci";
-+		num-lanes = <1>;
-+		#address-cells = <3>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		port {
-+			pcie_ep: endpoint {
-+				remote-endpoint = <&wifi_ep>;
-+			};
-+		};
-+	};
- };
- 
- &pciephy {
-@@ -1002,6 +1060,13 @@ pins-bus {
- 		};
- 	};
- 
-+	m2_e_key_kill_pins: m2-e-key-kill-pins {
-+		pins-kill {
-+			pinmux = <PINMUX_GPIO13__FUNC_B_GPIO13>,
-+				 <PINMUX_GPIO14__FUNC_B_GPIO14>;
-+		};
-+	};
-+
- 	mipi_disp_avdd_en: mipi-disp-avdd-en-pins {
- 		pins-en-ppvar-mipi-disp {
- 			pinmux = <PINMUX_GPIO3__FUNC_B_GPIO3>;
-@@ -1174,6 +1239,13 @@ pins-bus {
- 		};
- 	};
- 
-+	wlan_pmu_en: wlan-pmu-en-pins {
-+		pins-wlan-pmu-en {
-+			pinmux = <PINMUX_GPIO145__FUNC_B_GPIO145>;
-+			output-low;
-+		};
-+	};
-+
- 	wlan_en: wlan-en-pins {
- 		pins-en-pp3300-wlan {
- 			pinmux = <PINMUX_GPIO12__FUNC_B_GPIO12>;
-@@ -1417,10 +1489,22 @@ vdosys1_ep_ext: endpoint@1 {
- };
- 
- &xhci2 {
--	/* no power supply since MT7921's power is controlled by PCIe */
- 	/* MT7921's USB BT has issues with USB2 LPM */
- 	usb2-lpm-disable;
- 	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			usb2_ep: endpoint {
-+				remote-endpoint = <&bt_ep>;
-+			};
-+		};
-+	};
- };
- 
- #include <arm/cros-ec-keyboard.dtsi>
+I configure my hw to allow "accept" (== T=1 for DMA and MMIO) but still only allow unencrypted guest memory for DMA (set vTOM to 0 to say "all unencrypted) if the driver was loaded with "trust" other than "full" (and this series does not call the enable_dma() hook if not "full", Dan is changing it though) so the module parameter works...
+
+>>>> echo 1 > $pdev/tsm/accept
+>>>
+>>> And now it is RUN. So I don't see the issue with enabling DMA at the
+>>> same time as gonig to RUN? (though defering it to driver probe would
+>>> be a very nice touch as well)
+>>
+>> It requires "accept" to consider the trust level. E.g. what does it mean
+>> to do something like change requirements after accept?
+> 
+>> echo full $pdev/trust
+>> echo 1 > $pdev/tsm/accept
+>> echo adversary > $pdev/trust
+> 
+>> In that scenario this now adversary device may have been allowed to
+>> operate without an enforcing vIOMMU, and needs to unlock the device to
+>> correct that.
+> 
+> If accept enables DMA then it is up to userspace to ensure all policy
+> objectives are met before accepting, not after.
+> 
+> I think the statement kernel makes to userspace is the moment it
+> writes trust or accept the kernel is free to take action on it. ie
+> don't write a trust or accept until you mean it.
+> 
+>>>> There are also buses and paravisors that may know that private-DMA is
+>>>> enabled for a device by construction. In that case it is also a "trusted
+>>>> to access" signal, and not a "required to access" signal.
+>>>
+>>> In this case they wire force_dma_unencrypted()=false.
+>>
+>> Yeah, I just need a scheme where modular bus providers do not end up
+>> compromising the private / unexported method of changing the flag that
+>> force_dma_unencrypted() consumes.
+> 
+> Yeah, the bus and TSM really have to control this property, it is like
+> the other DMA attributes (eg dma seg boundary, etc)
+> 
+>>> At least if we omit the double check it can be fairly easy to add in
+>>> later if it really was needed for some time of use reason.
+>>
+>> As long as IOMMU presence can be enumerated prior to acceptance, T=1
+>> always includes private DMA, and the T=1 status is tracked independent
+>> of the trust level then yes, the cross product can be avoided.
+> 
+> Ok. iommu has to be setup the moment the struct device is created, it
+> can't add on later. I *think* the iommu related sysfs ordering is done
+> properly before any uevents, but I haven't validated that.
+> 
+>> 'struct device' grows some "request" policy for trust and T=1 that can
+>> be changed by modules etc. 'struct device_private' grows the operational
+>> trust level stable under device_lock() and a new flag to reflect T=1.
+> 
+> I guess
+>   - The active trust level should be RO visible to the driver, iommu, etc
+>     It should be stable under a bound driver
+> 
+>   - The "dma require unencrypted" property needs to RO visible to the
+>     DMA API and stable under a bound driver. This would input where
+>     force_dma_unecrpyted() is in the flow [the name should align with
+>     all the other per-device DMA API specific properties like seg
+>     limit, boundary, mask, etc]
+> 
+>   - The requested trust policy should be internal to the driver core and
+>     be converted to the active trust level right before probe
+> 
+>   - We should have ways to enable/disable all DMA before/after probe,
+
+"echo 1 > unlock" should do that (but also stops encrypted MMIO) or we want a finer knob?
+
+>     including both TSM and IOMMU approaches
+> Broadly all busses get some way to convert the requested trust policy
+> to the active trust level (eg by mixing in ACPI, etc, etc)
+> 
+> All busses get some way to set the "dma require unencrypted" property
+> 
+> IOMMU and drivers should be sensitive to the trust level
+> 
+> TSM is sensitive to accept, not the trust level
+
+This makes the module's "trust" parameter useless, right?
+
+
+> Userspace must ensure any security policy is met before accepting or
+> binding.
+> 
+> ??
+> 
+> Jason
+
 -- 
-2.55.0.795.g602f6c329a-goog
+Alexey
 
