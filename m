@@ -1,141 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587AF30EF63
-	for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 13:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB2D30E0F2;
+	Wed, 15 Jul 2026 13:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784123531; cv=none; b=hutGEx0evXU3v8ELsvfkWkmyRii4VAjuvK/ZSmX/grMqVyX+doIP4SKWG5T871aROlnGjG2IEhNu9l6joKZvgNIchx2ElvWXGwMAFWJwdB1Fq+uyLUQp/hqaV5lq7Gv4C9ZKLi1nEd5Uh5AnypVC7/SXoYYbLm3zHrVD2BNwcsY=
+	t=1784123907; cv=none; b=M0dkX+Um05rovq7D1tXZu4wdtdURSerQWIp1hz71g+ksf8m8/HEeRltZTIaIeTjX/jm6jlXuJLYWPgCT5VsFW8YavJwndDkCoFFaR6WwDX22zExEbMiGmoHesmbwTXV6T9e+E3ChvZwZksISrhAJPkBuc1tvGgtfGS7tGMHpVnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784123531; c=relaxed/simple;
-	bh=bKwjUHwKtVYGmEPODLjinnmorK8YfWqZz5++Fo4yjMU=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FyyHmoBjNDc6C4MFteqvJcrzQiVac56EgZaXMUXRnriRWBBOCd6as3z4uE5eFdKkslSHhU2v1em8oMPpJ/7RQ1mk002t92nSUzdTRnmUIlcVXYXXqNv27OoSimyS5zUrv6FOyk70+p7uQ3qdVWiOndLiZIdWjYkmik664P5sgBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Obd1kB0R; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784123907; c=relaxed/simple;
+	bh=sHLqqDZkJ2tlxEeUvgqPT6v+Fg5cAKsrdTpYK8t8x4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ErFGYYtsZzO4XfSVhVN0RDtLm9Ame7o2DsA1AWPl2jbJDvGgtzWyv24cELts3BqtWAEmBr8Nn0fHAKnV3pSPstrTAycf7OVoTf9WUS6HoIwygG1T6JA68hpH0EPvBKu+rjAbZys3DcmTGCQFNgqntNXWYCN5bOf7HDGKhYyvfaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=r07IYSKR; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Obd1kB0R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16AE71F00AC4
-	for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 13:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784123530;
-	bh=azN6PoEIS9LfZk2P/YaRoMe+czqWWeq+Sdt+A5Yl6qs=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=Obd1kB0RmSScjgzeb59fQpD62Fu23+y3VjrRAj05lzZVP+1Sn8vuVs+qemxHdKhks
-	 PKYATOCRXroNFprLz1coLTe1H05bTB/pW6c2WKi0voRd73qFjDC0JTlwwSx7IzrHnv
-	 CbJz0Wzo95M70WmZS+GqedhIO9MWpCKbBvWW1fR6zp8x6kqwko5qognaGsbMDlzFrH
-	 SpwMXiUYpauHqKf5t0h5pX8ZPWusEImpvt6k31oFekMvB3kD73YgVatF0sGB8fKVVr
-	 RQeyY0zLICOuoNPQNsH/xeDt5vZrA2LbM8sEZ66aR+AOGgs7qil4o1FQy02FSbG0DL
-	 TppZ/70E9iEtw==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c9107baa7so55275071fa.3
-        for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 06:52:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoekWZaMp4e4FQVOn3UHBOUGWjLdW7xPDQ1Uj/+Ro481o6Tj1W6GC3031UkE4S4BZhspJhQYOTMhG2dzA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzjRRmozQmLSnw4GTsu3rNy4dw1W6jF+HsScn/XoD9pZqqQxUmB
-	r+ex62rJXEtj76PVlFwaQu8OXzJb+/o1y5zB7GIvEyTX1p/asf/xwEcVuvQTgZyodylEXCaWWIh
-	tnEr8uhCWQS0QHLFc5cEB5gNcOsGleJGhEmGcGudNfw==
-X-Received: by 2002:a05:651c:1601:b0:39d:b075:87a3 with SMTP id
- 38308e7fff4ca-39db6d599bcmr6782921fa.26.1784123528581; Wed, 15 Jul 2026
- 06:52:08 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 15 Jul 2026 06:52:07 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 15 Jul 2026 06:52:07 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <DJXNZLE3L756.K5DYSTKM1UHT@kernel.org>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="r07IYSKR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=a8B2tayrs+3I50qzhmAeIrxQaupDS+93Mjr4Vc8x3LE=; b=r07IYSKReo64wWS7QSGop24hLl
+	L8Byh1+QgPpO7t4MLJflOnSHSVtgd0daCJCojgIvimhIF7itC4OT2laYTl1Okhr+cv/62zIzhD4yx
+	f9DR8ds6bQg/EdyOaHKCoapGyVS/YhQUrAOu4JNRb//8zKXh6G02tltfDg4S0LTxFeFIejJdsuRtZ
+	XrI1PDow3klQzkdnJfp+j75L5zEEFI+MwMUylBn/J/LwcQmiax91IaHAMZGFsx7q2KE7aXw8pC/dQ
+	uf6PhqZFvLR4Vxb3rhx+BZ11acVA3RNQ0s0kS0Ir6vw2dcexPjRfSt5FKEr/eaaq84ZKVTAQwc0W7
+	wOBGyTVw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wk07p-00369x-0s;
+	Wed, 15 Jul 2026 13:58:13 +0000
+Date: Wed, 15 Jul 2026 06:58:08 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sudeep Holla <sudeep.holla@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Pierre Gondois <pierre.gondois@arm.com>, driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v2] cacheinfo: don't propagate DT/ACPI error when arch
+ supplies info (arm64)
+Message-ID: <aleRvqKHtn280O5m@gmail.com>
+References: <20260611-cacheinfo-v2-1-6069ef066cf3@debian.org>
+ <20260612-jumping-spaniel-of-expertise-cbadcd@sudeepholla>
+ <2026061242-riverbed-drench-1e2a@gregkh>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713-swnode-remove-on-dev-unreg-v7-0-6d6bc448427a@oss.qualcomm.com>
- <20260713-swnode-remove-on-dev-unreg-v7-3-6d6bc448427a@oss.qualcomm.com> <DJXNZLE3L756.K5DYSTKM1UHT@kernel.org>
-Date: Wed, 15 Jul 2026 06:52:07 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MfOipGdiGXNgVrJVO8QOivQ-=8k3sX-nMfTS0DvdZcFnw@mail.gmail.com>
-X-Gm-Features: AUfX_mwLjyY3AEZtFtbz482J96bfO_ODnTKAvgp169Ox6LYhT2Q7uUCdbTAQuQk
-Message-ID: <CAMRc=MfOipGdiGXNgVrJVO8QOivQ-=8k3sX-nMfTS0DvdZcFnw@mail.gmail.com>
-Subject: Re: [PATCH v7 3/4] driver core: platform: unify release path
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, brgl@kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026061242-riverbed-drench-1e2a@gregkh>
+X-Debian-User: leitao
 
-On Mon, 13 Jul 2026 20:45:13 +0200, Danilo Krummrich <dakr@kernel.org> said:
-> On Mon Jul 13, 2026 at 5:11 PM CEST, Bartosz Golaszewski wrote:
->> @@ -599,6 +599,7 @@ static void platform_device_release(struct device *dev)
->>  	struct platform_object *pa = container_of(dev, struct platform_object,
->>  						  pdev.dev);
->>
->> +	device_remove_software_node(dev);
->>  	fwnode_handle_put(pa->pdev.dev.fwnode);
->
-> This technically changes the semantics of platform_device_set_fwnode():
->
-> Previously it took an additional reference count for the fwnode pointer passed
-> to it. But now, *iff* the fwnode is a software node it consumes the callers
-> reference count, which for obvious reasons isn't great.
->
-> Now, platform_device_set_fwnode() is unused now, so we could just get rid of it,
-> which also gets us rid of its asymmetric semantics.
->
+Greg,
 
-Ideally we should convert all users of platform_device_set_of_node() to
-platform_device_set_fwnode() and remove the former instead of the latter.
+On Fri, Jun 12, 2026 at 04:14:55PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Jun 12, 2026 at 01:48:36PM +0100, Sudeep Holla wrote:
+> > Greg,
+> > 
+> > Can you pick up this one as part of your next round of fixes if any or
+> > for v7.2 ?
+> 
+> I'll get to it after 7.2-rc1 is out, thanks.
 
-I agree it's not optimal for it to be unused now but I can start converting
-the users of platform_device_set_of_node() once this one's in the driver core
-tree.
+Is this a good time to pick this one?
 
-> However, couldn't we also just move the if (is_software_node(pdevinfo->fwnode))
-> conditional up here, such that we have:
->
-> 	device_remove_software_node(dev);
-> 	if (!is_software_node(dev->fwnode))
-> 	    fwnode_handle_put(pa->pdev.dev.fwnode);
->
-> This way, the swnode special case would go away. Well, at least the "two
-> reference counts" special case.
->
-
-Sounds good.
-
-> Another special case I just noticed still remains, but is independent of this
-> change:
->
-> If platform_device_set_fwnode() or platform_device_set_of_node() is called for a
-> device that already has a swnode set, we only call fwnode_handle_put(), but
-> software_node_notify_remove() etc. isn't called.
->
-> Of course that never happens, but it is an inconsistency in the API. Now, it
-> seems that neither platform_device_set_fwnode() (which we should remove anyway),
-> nor platform_device_set_of_node() is ever called with a fwnode already set.
->
-> So, either we have to special case platform_device_set_of_node() too (for the
-> case that a swnode is set already), or just require that the function must only
-> be called when no node has been set, as all users already do; I'd go for the
-> latter.
-
-This sounds good too and it should be easy to implement another test case while
-at it.
-
->
-> If my proposal about moving the is_software_node() check into
-> platform_device_release() holds, it would probably be good to just add those
-> patches in a subsequent version, otherwise I'm happy to pull this in as is and
-> address the other stuff subsequently.
->
-
-As I said: I prefer to keep platform_device_set_fwnode() and work on using it
-exclusively and drop platform_device_set_of_node(). If this is not urgent then
-it can wait until v7.3-rc1 where we'd have all this upstream, then I could send
-individual patches per subsystem tree and we'd drop
-platform_device_set_of_node() once there are no more users. Does it sound fine?
-
-Bart
+Thanks,
+--breno
