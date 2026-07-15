@@ -1,87 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFE441A912;
-	Wed, 15 Jul 2026 17:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F1148C409;
+	Wed, 15 Jul 2026 17:23:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784135906; cv=none; b=ghGqZCREiIcVp0HJA+AYIP7c97eFqY6X0AEHKQIJZTPMjwU29XFn0W6fqjwZWqrnJkFDTOsxdTGOd4Dc5V5PEuqL5Ia0CUieejYf1jW7lVR0+ddGVUVbCJXsh1KdztFg9YJH8bERSy1rBrea00JR/N/nHz5kGwS1RgNXbYk00ns=
+	t=1784136217; cv=none; b=E0eD49vqqIVDPCguPkbZATh7L9OnGwb1iX5x9jzsqB2G7xNgGvepSxMxy0Ci8TLbWVQmIOmmjTVgUXZTbj7GBaW2/RsNn8vn4XHIxw/nhiGM2laoU7z0KeUSJ03Bk+BTQtMWrWoVmTCNyoVs7myAE0u1brMz0NoQovZ09q2gRRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784135906; c=relaxed/simple;
-	bh=Y6YCGKF2DUsNUvejqIjzPZGdYAWhHQ186qovA6chMUg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XCVH86jDBH0cXceLk2/u3bU6RrcJQF1H3bFA7Wh+MWOr/IefBHX0OCM0Czsx3y/WJ/+kFiymWfaSCsSw1lITmZIAk4XhHYLmCzyx+BKIuPQa84aF8lAoguVUVgAbsTTJFF0yWsZ8aRhzQ0r7i1z+U+D20Ylfwp/c3zDdplUyBlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D14F1F000E9;
-	Wed, 15 Jul 2026 17:18:22 +0000 (UTC)
-Date: Wed, 15 Jul 2026 12:18:21 -0500
-From: Clark Williams <clark.williams@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Florian Bezdeka <florian.bezdeka@siemens.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	driver-core@lists.linux.dev, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Clark Williams <williams@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [RFC PATCH] sysfs: Add /sys/kernel/realtime entry
-Message-ID: <alfA3ZaM1kmFaicG@demetrius>
-References: <20260709143108.UYeCUUcd@linutronix.de>
- <2026070922-kilowatt-matador-5e1c@gregkh>
- <20260709152214.rH1O_8SM@linutronix.de>
- <748a489687000b21d0e8f961fc2f9f963b0bc1d1.camel@siemens.com>
- <20260710115145.32729a7c@gandalf.local.home>
- <ae96c274f166301aba762d97caccddf176ad7968.camel@siemens.com>
- <20260714110718.E5qV5-Hf@linutronix.de>
+	s=arc-20240116; t=1784136217; c=relaxed/simple;
+	bh=L0wkqo4KUYcHS6VZ5fRQYES8pttt+S9Qc9kHjKeNR1Q=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=R1hxvsmz+WL/ceiinWeegbyusiawVTvv52fTJrh9emsgKaNeZ9owEWKC8+LlHRpvF95ZxNYWk3cqqLqhJRt5u/tuIQK0w4y4jgguprIJ5FUjj57Hbk2hpMcpZ0PTUY8J8ZcBlU/l+J+ufdbTyWEzqQw95hVKI081Sg0GhjP0gyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPCfzYoC; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPCfzYoC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F5F1F000E9;
+	Wed, 15 Jul 2026 17:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784136208;
+	bh=ujP1MX1m0F7lY0EVxoTxuksu+kJ0FJohzc6DKlIxI7A=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=oPCfzYoCxbGZ8CE387ANje0YnTXuMG+yyMQs8NR2Pew4L3J9USgr46EzJB+6YEemz
+	 55tJbdrXfSZ/5P8+k+xsA+Bo4PsaAnchN82YYYTYTnhs739yWzxk3FfncukbCe3CHb
+	 dGcUyQPWC6L0PE9dgk3TlA9D4LycAggonSJDOZj4OvhrLJGV2XaI/k07o6hHGW/Aoy
+	 jNgByT/zcqWhtfIB9nKX3If938faJXjqWbAmKYwCyIRN5BjdVlm+8TFPMyIchV703Z
+	 F1ILKZEiZLUhS3awcMw70IOYvVfwJ0aFmXTbN7tv3JPivckWs5rBGdmOxmRMzvEqDu
+	 8Vy5pqCZg2biQ==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714110718.E5qV5-Hf@linutronix.de>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 15 Jul 2026 19:23:25 +0200
+Message-Id: <DJZBI1NIB539.2WG8TLYV4ZXDV@kernel.org>
+Subject: Re: [PATCH] firmware: maintain a firmware list
+Cc: <gregkh@linuxfoundation.org>, <mcgrof@kernel.org>, <rafael@kernel.org>,
+ <russ.weight@linux.dev>, <linux-kernel@vger.kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Corentin Labbe" <clabbe@baylibre.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260715131325.26099-1-clabbe@baylibre.com>
+In-Reply-To: <20260715131325.26099-1-clabbe@baylibre.com>
 
-On Tue, Jul 14, 2026 at 01:07:18PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-07-10 18:01:20 [+0200], Florian Bezdeka wrote:
-> > Depends on what you consider a valid update scenario. Updating from 6.1-
-> > rt with sysfs available to something like 6.18 (no sysfs anymore) will
-> > still break - as long as you do not (force) update userspace in
-> > lockstep.
-> 
-> v6.1-RT to v6-18 no-rt will not provide the file. Also will not provide
-> ARM, PowerPC or 8250-nbcon support. So it is not just that single thing
-> that you "lose" if you don't apply the RT patch. It is just what you
-> notice because you don't use the other things.
-> 
-> > I learned meanwhile that our detection moved to uname meanwhile, so this
-> > is not a problem for us anymore.
-> 
-> Okay. So you yelled loudly that you need it, now not anymore.
-> 
-> So can we state that this it does not provide anything of value, is not
-> considered needed and can be dropped?
-> 
-> Clark, what is the status on your end?
-> 
+(Cc: driver-core; please make sure to Cc all relevant mailing lists)
 
-I still carry it in v6.1-rt and v6.6-rt and don't really see a reason
-not to. I don't believe it's a security risk since a write to
-/sys/kernel/realtime gets ignored; it's just there to say that this is a
-PREEMPT_RT kernel. 
+On Wed Jul 15, 2026 at 3:13 PM CEST, Corentin Labbe wrote:
+> From: Corentin LABBE <clabbe@baylibre.com>
+>
+> Checking if some firmware is missing need to check dmesg for error messag=
+e,
+> and on some machine this information could be lost since dmesg uses a rin=
+g buffer.
+> Having the list of all firmware requests is useful in many situations,
+> like selecting the minimal list when doing some buildroot config
+> or reducing the size of linux-firmware on gentoo via saveconfig.
 
-So, I'm ambivalent on the keep or drop question. I'll go ahead and clean
-up what I'm carrying in v6.1-rt and v6.6-rt and if we decide to keep it
-I'll send you the updated changes. 
+The proposed implementation aside, I don't see why this needs a new kernel
+interface.
 
-Clark
+  - Why can't you use 'modinfo -F firmware' for all compiled modules?
 
--- 
-The United States Coast Guard
-Ruining Natural Selection since 1790
+  - Don't you have a journal persisting the dmesg logs?
+
+  - Why can't you use kprobe_event on the kernel command line if you really=
+ need
+    a runtime trace?
+
+Untested, but something like
+
+	kprobe_event=3Dp:fw_req,_request_firmware,name=3D+0(%si):string
+
+should work I think.
+
+Thanks,
+Danilo
