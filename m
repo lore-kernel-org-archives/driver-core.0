@@ -1,159 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18E4435AAB
-	for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 13:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587AF30EF63
+	for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 13:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784121932; cv=none; b=WMbdG3NVi+3DZvT1w1IbQJ1c/PpV0UcGNbl/nLXfdjJr2E6wdxuUnuBPlU1EALCHKWxK1S1TopU5VlI0IDMinU0FhtpMs6vvp8d4UNaN63MV/WZIihwwKtTr8oCSIVUAqjRqSTWaL5vAo8No3JfKQE4Vu0HGNDCGAQ6IQ9xMzbA=
+	t=1784123531; cv=none; b=hutGEx0evXU3v8ELsvfkWkmyRii4VAjuvK/ZSmX/grMqVyX+doIP4SKWG5T871aROlnGjG2IEhNu9l6joKZvgNIchx2ElvWXGwMAFWJwdB1Fq+uyLUQp/hqaV5lq7Gv4C9ZKLi1nEd5Uh5AnypVC7/SXoYYbLm3zHrVD2BNwcsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784121932; c=relaxed/simple;
-	bh=FoJio/rVwDwRIkKJBPFy4VQTYHNnMkd8RIsGPHmXYtU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=llqLdWayjYGjdbbIWjlS4W8NkRrS6lJOifaX0mMIlBDJH4bzYtVN19sUlNwyZQrGpI4N8bHwiyur/5tWCggMVG+oZDYmFUXTzjQ3gCPoRLBgGrS744DtFUpAQZJZ++/6L43uoPn0+NJO/HeJo7vi+l9BborKh5liAldCGR1rVws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iCq6MiM6; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1784123531; c=relaxed/simple;
+	bh=bKwjUHwKtVYGmEPODLjinnmorK8YfWqZz5++Fo4yjMU=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FyyHmoBjNDc6C4MFteqvJcrzQiVac56EgZaXMUXRnriRWBBOCd6as3z4uE5eFdKkslSHhU2v1em8oMPpJ/7RQ1mk002t92nSUzdTRnmUIlcVXYXXqNv27OoSimyS5zUrv6FOyk70+p7uQ3qdVWiOndLiZIdWjYkmik664P5sgBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Obd1kB0R; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCq6MiM6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784121929; x=1815657929;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FoJio/rVwDwRIkKJBPFy4VQTYHNnMkd8RIsGPHmXYtU=;
-  b=iCq6MiM6nn2AeLFK6OdwsJdOFMnlX+WY9pnlFHFqfhwnJ8ZcgSf+X4cg
-   p0EfxQ//JjeDT/UrQADlffD2F4iICH30ANU+2ekCs/6yMO/HP51GhbFdz
-   OU1reXn25uNMthXeEFBQRTVp+VUmihqqg8Oxogr9ipe4xQgY3fzRO62hX
-   v1aRm1jGC7iRgApwiF4b5SwBaoD6v+MAE04FWmXRl6dZZmAdSq8RAxpXq
-   d+hgbqjdm336zFswdjKxprjp8gdBhqytjlQnDBVovf7a51xz2DHiHSmJW
-   QWsDQ6x2OSJhU4dcKfDrwgs5j4bXNHJAOErneQc3i+A1CfFl5mUlobrcz
-   A==;
-X-CSE-ConnectionGUID: JXnB2IM5Tc+JNiAYLIfOrg==
-X-CSE-MsgGUID: VxdH54Q8T866RzY0E8zoVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="88661394"
-X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="88661394"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 06:25:28 -0700
-X-CSE-ConnectionGUID: 9Wz6tj6iT3aKtxwO1JLjGw==
-X-CSE-MsgGUID: 7GiJrNRMTn+eeKAn9h7sFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="258139844"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.129])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 06:25:22 -0700
-Date: Wed, 15 Jul 2026 16:25:20 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v5 10/16] usb: hub: Power on connected M.2 E-key
- connectors with power sequencing API
-Message-ID: <aleKQKH2V-ck-SX6@ashevche-desk.local>
-References: <20260715085348.3457359-1-wenst@chromium.org>
- <20260715085348.3457359-11-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Obd1kB0R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16AE71F00AC4
+	for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 13:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784123530;
+	bh=azN6PoEIS9LfZk2P/YaRoMe+czqWWeq+Sdt+A5Yl6qs=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Obd1kB0RmSScjgzeb59fQpD62Fu23+y3VjrRAj05lzZVP+1Sn8vuVs+qemxHdKhks
+	 PKYATOCRXroNFprLz1coLTe1H05bTB/pW6c2WKi0voRd73qFjDC0JTlwwSx7IzrHnv
+	 CbJz0Wzo95M70WmZS+GqedhIO9MWpCKbBvWW1fR6zp8x6kqwko5qognaGsbMDlzFrH
+	 SpwMXiUYpauHqKf5t0h5pX8ZPWusEImpvt6k31oFekMvB3kD73YgVatF0sGB8fKVVr
+	 RQeyY0zLICOuoNPQNsH/xeDt5vZrA2LbM8sEZ66aR+AOGgs7qil4o1FQy02FSbG0DL
+	 TppZ/70E9iEtw==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c9107baa7so55275071fa.3
+        for <driver-core@lists.linux.dev>; Wed, 15 Jul 2026 06:52:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoekWZaMp4e4FQVOn3UHBOUGWjLdW7xPDQ1Uj/+Ro481o6Tj1W6GC3031UkE4S4BZhspJhQYOTMhG2dzA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzjRRmozQmLSnw4GTsu3rNy4dw1W6jF+HsScn/XoD9pZqqQxUmB
+	r+ex62rJXEtj76PVlFwaQu8OXzJb+/o1y5zB7GIvEyTX1p/asf/xwEcVuvQTgZyodylEXCaWWIh
+	tnEr8uhCWQS0QHLFc5cEB5gNcOsGleJGhEmGcGudNfw==
+X-Received: by 2002:a05:651c:1601:b0:39d:b075:87a3 with SMTP id
+ 38308e7fff4ca-39db6d599bcmr6782921fa.26.1784123528581; Wed, 15 Jul 2026
+ 06:52:08 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 15 Jul 2026 06:52:07 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 15 Jul 2026 06:52:07 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <DJXNZLE3L756.K5DYSTKM1UHT@kernel.org>
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260715085348.3457359-11-wenst@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260713-swnode-remove-on-dev-unreg-v7-0-6d6bc448427a@oss.qualcomm.com>
+ <20260713-swnode-remove-on-dev-unreg-v7-3-6d6bc448427a@oss.qualcomm.com> <DJXNZLE3L756.K5DYSTKM1UHT@kernel.org>
+Date: Wed, 15 Jul 2026 06:52:07 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MfOipGdiGXNgVrJVO8QOivQ-=8k3sX-nMfTS0DvdZcFnw@mail.gmail.com>
+X-Gm-Features: AUfX_mwLjyY3AEZtFtbz482J96bfO_ODnTKAvgp169Ox6LYhT2Q7uUCdbTAQuQk
+Message-ID: <CAMRc=MfOipGdiGXNgVrJVO8QOivQ-=8k3sX-nMfTS0DvdZcFnw@mail.gmail.com>
+Subject: Re: [PATCH v7 3/4] driver core: platform: unify release path
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, brgl@kernel.org, platform-driver-x86@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, driver-core@lists.linux.dev, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 15, 2026 at 04:53:40PM +0800, Chen-Yu Tsai wrote:
-> The new M.2 E-key connector can have a USB connection. For the USB device
-> on this connector to work, its power must be enabled and the W_DISABLE2#
-> signal deasserted. The connector driver handles this and provides a
-> toggle over the power sequencing API.
-> 
-> This feature currently only supports a directly connected (no mux in
-> between) M.2 E-key connector. Existing USB connector types are not
-> covered. The USB A connector was recently added to the onboard devices
-> driver. USB B connectors have historically been managed by the USB
-> gadget or dual-role device controller drivers. USB C connectors are
-> handled by TCPM drivers.
-> 
-> The power sequencing API does not know whether a power sequence provider
-> is not needed or not available yet, so we only request it for connectors
-> that we know need it, which at this time is just the E-key connector.
-> 
-> On the USB side, the port firmware node (if present) is tied to the
-> usb_port device. This device is used to acquire the power sequencing
-> descriptor. This allows the provider to tell the different ports on one
-> hub apart.
-> 
-> This feature is not implemented in the onboard USB devices driver. The
-> power sequencing API expects the consumer device to make the request,
-> but there is no device node to instantiate a platform device to tie
-> the driver to. The connector is not a child node of the USB host or
-> hub, and the graph connection is from a USB port to the connector.
-> And the connector itself already has a driver.
-> 
-> Power sequencing is not directly enabled in the connector driver as
-> that would completely decouple the timing of it from the USB subsystem.
-> It would not be possible for the USB subsystem to toggle the power
-> for a power cycle or to disable the port.
+On Mon, 13 Jul 2026 20:45:13 +0200, Danilo Krummrich <dakr@kernel.org> said:
+> On Mon Jul 13, 2026 at 5:11 PM CEST, Bartosz Golaszewski wrote:
+>> @@ -599,6 +599,7 @@ static void platform_device_release(struct device *dev)
+>>  	struct platform_object *pa = container_of(dev, struct platform_object,
+>>  						  pdev.dev);
+>>
+>> +	device_remove_software_node(dev);
+>>  	fwnode_handle_put(pa->pdev.dev.fwnode);
+>
+> This technically changes the semantics of platform_device_set_fwnode():
+>
+> Previously it took an additional reference count for the fwnode pointer passed
+> to it. But now, *iff* the fwnode is a software node it consumes the callers
+> reference count, which for obvious reasons isn't great.
+>
+> Now, platform_device_set_fwnode() is unused now, so we could just get rid of it,
+> which also gets us rid of its asymmetric semantics.
+>
 
-...
+Ideally we should convert all users of platform_device_set_of_node() to
+platform_device_set_fwnode() and remove the former instead of the latter.
 
-> static void usb_port_device_release(struct device *dev)
+I agree it's not optimal for it to be unused now but I can start converting
+the users of platform_device_set_of_node() once this one's in the driver core
+tree.
 
->  	fwnode_handle_put(dev_fwnode(dev));
-> +	/* usb_hub_create_port_device() could leave an error value */
-> +	if (!IS_ERR(port_dev->pwrseq))
-> +		pwrseq_put(port_dev->pwrseq);
+> However, couldn't we also just move the if (is_software_node(pdevinfo->fwnode))
+> conditional up here, such that we have:
+>
+> 	device_remove_software_node(dev);
+> 	if (!is_software_node(dev->fwnode))
+> 	    fwnode_handle_put(pa->pdev.dev.fwnode);
+>
+> This way, the swnode special case would go away. Well, at least the "two
+> reference counts" special case.
+>
 
-Hmm... I would rather make pwrseq_put() NULL and error pointer-aware, so
-it will be no-op in such cases. But I think Bart has his own opinion about
-this.
+Sounds good.
 
->  	kfree(port_dev->req);
->  	kfree(port_dev);
->  }
+> Another special case I just noticed still remains, but is independent of this
+> change:
+>
+> If platform_device_set_fwnode() or platform_device_set_of_node() is called for a
+> device that already has a swnode set, we only call fwnode_handle_put(), but
+> software_node_notify_remove() etc. isn't called.
+>
+> Of course that never happens, but it is an inconsistency in the API. Now, it
+> seems that neither platform_device_set_fwnode() (which we should remove anyway),
+> nor platform_device_set_of_node() is ever called with a fwnode already set.
+>
+> So, either we have to special case platform_device_set_of_node() too (for the
+> case that a swnode is set already), or just require that the function must only
+> be called when no node has been set, as all users already do; I'd go for the
+> latter.
 
->  		put_device(&port_dev->dev);
-> +		hub->ports[port1 - 1] = NULL;
->  		return retval;
->  	}
+This sounds good too and it should be easy to implement another test case while
+at it.
 
-...
+>
+> If my proposal about moving the is_software_node() check into
+> platform_device_release() holds, it would probably be good to just add those
+> patches in a subsequent version, otherwise I'm happy to pull this in as is and
+> address the other stuff subsequently.
+>
 
-> int usb_hub_create_port_device(struct usb_hub *hub, int port1)
+As I said: I prefer to keep platform_device_set_fwnode() and work on using it
+exclusively and drop platform_device_set_of_node(). If this is not urgent then
+it can wait until v7.3-rc1 where we'd have all this upstream, then I could send
+individual patches per subsystem tree and we'd drop
+platform_device_set_of_node() once there are no more users. Does it sound fine?
 
-> +	port_dev->pwrseq = usb_hub_port_pwrseq_get(port_dev);
-> +	if (IS_ERR(port_dev->pwrseq)) {
-> +		retval = dev_err_probe(&port_dev->dev, PTR_ERR(port_dev->pwrseq),
-> +				       "failed to get power sequencing descriptor\n");
-> +		goto err_put_kn;
-
-OTOH, how pwrseq can be non-NULL and at the same time port be created?
-
-> +	}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Bart
