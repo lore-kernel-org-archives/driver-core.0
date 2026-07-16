@@ -1,205 +1,153 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FB7400985
-	for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 10:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784197378; cv=none; b=CuIbROiYCxas11zFW/2YZ6DojQabf5excBMGfsj8dLVNTZMc5Bsne4qJX++ySoyfVMmAFjAO9XRkgG6TqUryac/wLd+2NM5fQD9qbNbqg1/gWzFOo865aGkqZOL9DDw4MeDsS/3Hs+MV9f9AFZ6Pd/Yzw/HCN7ysjr+iO6hmu1A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784197378; c=relaxed/simple;
-	bh=CEB7cSB5VZeuvZcE2U7qcb4DmzUSxIr4fcv6Fn/xfYs=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=SUMqDD1C9x55X23f7mao2p3pqWg5cC58ntyZrE+dLsyViy6zKw1o7KPE8eIpuCWL3InSppb5Nhz95kptQq125qQDptuAqvf0QRwTEfpA4BeCwYRzJTcGRSRlu0hlQG+zjnuDuCgYMUDMy5kgjDWCZK3CTdELbmguJF/yoIlx7Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N1XWSBYE; arc=none smtp.client-ip=209.85.221.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC02F41A55B
+	for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 12:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784204298; cv=pass; b=Jh8UHkQ7yi8x4EIQaAmc2hS9zLSZfqBpxWB4vu/46bWcq3ty4+Oi0IQaybcPdWiXinIChikJJx1beSwluKQjGSZXNyepdO9GwNUZluvnmQsl3ycRmIii6ZAgiDZfTZlyTfjXuKvkYv6TTjhKCNr3an7+43d3/SIni+EXBkRqieE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784204298; c=relaxed/simple;
+	bh=qeCZE0Y3mr/J0JsfPOHL/DiAQ1YvkRmztyR1MwtxFq0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B1rlANNRE5pZrgN8ul9pnb/SgQwLJrZS9c9+SCO/7Vnth2kgicOalCabnmhtvqN0NKDElD04Mckt2mhbEm4c53bTnmDwNpBSJk848ZcfrLO3baxcSw3YXFTcF1EmA7/qwIyn5gV6RqCdl/pkKUR5yb7jDnieoT5KhUhDIdTxllc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gbAk3sQS; arc=pass smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N1XWSBYE"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-47f24a50f0cso5569978f8f.3
-        for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 03:22:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gbAk3sQS"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-ca6bda96134so407208a12.3
+        for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 05:18:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784204293; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qe7Rez9OOGNfJz9XAYLir1G3GqTodXvs4NMVMzrVnP6kGfz0sVz5p+OktuBZ/MqmHc
+         qKJc06ahvKRXe/QVX0njtSW+REP7qZ/A+pdoMgpbKoATNj8I8qZClRXDGI/DMhLZjuLB
+         JPOGvE2gOMztud42VrPeKNsJqnLeekkV5DTfnLT2jGz1S/ru+CKgehHf5EceJddT2ql2
+         qwKULjLIRKqiU9BrV6R6/1lo6VBlgRhR3UQygJQGGzU69Bg5Ye84KGfDAOAF+5Rymt9t
+         CR8Zch0Ze0Q+aTWxR5UCPVI3P/BHb3ozgH5tNHMa8+t2arMWV7h6kWAOjn25dajDlu05
+         Zanw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=c918aQ7k7uX1GyNkZQnbAfatOcsaumnLiScuoFWDMmw=;
+        fh=jlmzumFG9wDlvyOSTuBuj8tCgzSdl1EYAM2MJgigQTw=;
+        b=BhJQOVMxsbFtH84uHL470usesba7XWBqAHi9+ONwCF5RlDgPIkgEtdqlmwih70zA9U
+         Y5Rev6o+MjBHZTMKXVedBwdW4WTFpInoMGq/l8W9rw7OYQ857HijIsgw8YuybKCxDW/c
+         VvHKSLnsSuyhLkYAOuHY2W8QEcbrFH22PZofRsGGSVRQTQogKSQwm1kszZKGYRce0AKv
+         IBiyxABqrTuNzfQO/zb4aBn2x9Q6+RygYtuonB3PeAKW81qG4opd5il9TuGmhqKzz6/Z
+         V5PoN7CrHNTv5ko+QX9uxhCcA+GkWIsFAu9CPT8RjRD1VtDKi53T+f7HQnVivVA55iTq
+         vdtA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784197374; x=1784802174; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l4LZHVP1BW407EGuW6dnUL3Kfk1zeC5bbxSp3F5DgwI=;
-        b=N1XWSBYEibNc1eUQxUF/+o5AnLxVCOUJNNZjX54IZkcrUdfKw3e17tqvUNKo655xQH
-         9h/KnXk53Kg4KOOB36Sknfqbx119QIqnVAp1Cs1k7P1tZnbhD6OGDUVgVDxJCXvPnXir
-         Ixo7RDOIhuqYMcNlk5qzNoGuNPrSj7CRTQF0MrKONudnUQXi0xzG3S/3mKjJ87BlEX6e
-         tpHq/y/zd3egAy8Ogto2b91TG1C0mSTLoSXZicP2FwDdQFGAjlArIdevYfYlEo1xDM8m
-         i248h35IM7pQeqUCBxH5D1RgN8IfAGAJubeC+G2X7BpRoY6VntnbMmG1cnmsLf7XXTPb
-         9+8A==
+        d=gmail.com; s=20251104; t=1784204293; x=1784809093; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=c918aQ7k7uX1GyNkZQnbAfatOcsaumnLiScuoFWDMmw=;
+        b=gbAk3sQSmYDWmerBBAycS51fSJO06MAoxUOmZWLnmcz0tasI+xMPczr/5z9MPnlXdN
+         1Q8zcamv4k5rzVz40AZo2abiVic13Vpu+lGeViNYYuvbNpX1IYhjDUGEd6hIxBHrRHbo
+         NXRZ0t11at/2lUdLHjF157V3Pw/rPqTydG6LPIpppWP2C9xzBOcbiYtSQgt5iwXZ1dqI
+         g57v+oiIkr8THABznd62Z6PO3jc70r0hmad+Hxvx0Z0uVl61OO17RrbOm66q4yOMemyh
+         l6KFlPCVElOWpnYjL5uhb89pSLWHp+ErIB5eZTM+I/7HLcQeeGlyexQVJmevbf9ZhHCN
+         mvDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784197374; x=1784802174;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
+        d=1e100.net; s=20251104; t=1784204293; x=1784809093;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=l4LZHVP1BW407EGuW6dnUL3Kfk1zeC5bbxSp3F5DgwI=;
-        b=dJ7aC4Hiy8rEGFXn9wJEbxuJ2nZB3lvEt8bgrxcbor981KbOIh9JoBmGShEoGwSOn0
-         DnP8NnwwtCZL+Sp3zbQMUZtrT3hCHOtoszoRPdrWbWetjpiQxMWZHwmW/PN2sI39cpkY
-         wNuOfnGn2rEMsO9WdcI1qy5QkP3QHB6KGdaSWdCuIpP+dvEvrEgp2j/UIxv53i3Bi/0N
-         v66BbjFo4RF6TqJu0ztPjJv83A+R+eRKXOzd0v0rsRSrghwyD//B0N+YBM6/X1ZzlnmE
-         C6QJZE+buZCDBdyhlEaEYzmyl7pcFko+cr7QU62TK3DYKCP+gN+LV6ryYJu4uQDVcRNe
-         Ji5w==
-X-Gm-Message-State: AOJu0YyNSHusgAi5pkJZDUdX43Mv4nIiF/7uUmNO+haodI23sfn3m/Bs
-	3YEW8HSopS+UlXPNKppjxXrFeD4xq2CO4DH59J1ru6gA84WEo+oi40zrn2iz8MftXjqZCRpcK3E
-	AqO3OV7B+igQrp3UjMQ==
-X-Received: from wrwa16.prod.google.com ([2002:a5d:53d0:0:b0:478:b7dc:65f])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a5d:64e5:0:b0:47e:81aa:3822 with SMTP id ffacd0b85a97d-47f4fd1fe44mr7437542f8f.42.1784197373274;
- Thu, 16 Jul 2026 03:22:53 -0700 (PDT)
-Date: Thu, 16 Jul 2026 10:22:43 +0000
+        bh=c918aQ7k7uX1GyNkZQnbAfatOcsaumnLiScuoFWDMmw=;
+        b=MSktGzmgJ3Ow2SRoP3G3MnizudhMFEfbVfYErf3juoYvnV/jWNf2A0m+iSQapX5Hil
+         JzpQuaZMY+rEdMkw3t3Lkf7S9UU1KMf7FdCjGTacvNjhVzmxDMfizypnIStetBaZ/OmK
+         dWASXIGYMsF4KiiPmnyFFAZHlFOAgENaDhT+HIFnrMunebzGOb7F+1gk1kRK3Fdnq0P3
+         AfEapQN0/RJScGwQR9fEmlHbueyAUu6cr0PVbjkIx00jWNFd0LdtNcNrMVcEjxqrHgZz
+         tKxIvtbxRUaAWVV9esyaJbq8BtDSOx8OmoKnJ1lfUErbWklbtxcE2S6das3iVgqn23po
+         EvKQ==
+X-Forwarded-Encrypted: i=1; AHgh+Roqmlz4cWX5lnqhPbURpYM2U00OlTCohT2UL8i+K13ifS5WQkAA20PLtV8+3Qd0UzBwiZX5cpToH0qwRA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyD7vjBW321SKgjrvK/ycnA8Je+T9CVHpqUYOoru0gXsTnzFTFE
+	38+BrjtUNyqWt2yIyPZCqW2KQ9p4w5qh02UXI6rwR7A/G3LIPuf2Xys2pJXp2W5EXsHi0jA7bsK
+	sy1RR4jGSWUo0qL6Gopd0yXWeDnu91Eg=
+X-Gm-Gg: AfdE7clMHb9hJpZ9638yHeFvBEqe58pBfr7CRCH/F3K4+vVFDcxZ4+EVCHM2jrLUHZ3
+	uifps522FGG2SHc9aF4dmmmsrB2EYggssnWZx9SbKa5YvbxczcSZRB08gN08Q3oh1HG7w6YzeGl
+	T9aNdHKWJjFYX3IgzAG7nCIboqkaPnLMSyGFtsIO7ihdWW1Ek+AAVVsQEsKdNUre7CtMSllZmtm
+	3KMFo38OstbBojAKUcmuqCLE5XeQ6ISKjoEyWQKLAJtNbvC3zqNkQ0KAityvWNH4G5b3fWyvp9m
+	Yf7turJ0m8fZA/OgxL/0ASA+WVE02cFWQJZSh0pLnyLAVt6bIDjoPAlDXe552dPa0ab94pSPIxG
+	TLA==
+X-Received: by 2002:a17:90b:4c0f:b0:37d:f70f:fbf8 with SMTP id
+ 98e67ed59e1d1-38dc76069b8mr14068130a91.0.1784204292951; Thu, 16 Jul 2026
+ 05:18:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAPKwWGoC/x2MwQqAIBAFfyX23IJ6KOpXooNsr1ooDY0Ion9PO
- g7MzEMZSZGprx5KuDRrDAVsXZGsPixgnQqTM64xrW14KpKAz+R144xdJW4xsBXj4Dp4KzOV+Ei Y9f7Hw/i+H7ui3LFoAAAA
-X-Change-Id: 20260716-device-trail-semicolon-1c02e29ea1cf
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4264; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=CEB7cSB5VZeuvZcE2U7qcb4DmzUSxIr4fcv6Fn/xfYs=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBqWLD1ZEdWyiv8/XGg2gs9Lu+iwlm/WL70pP1cZ
- /pV+LIAqbCJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaliw9QAKCRAEWL7uWMY5
- Rk6jEACcW8b4A/RlINCpHGoMmXGQcgHokZ8vPjmXpT9qRxwwmJE83jpOLI+MPs584bexMND7BP0
- m4poFxC9crPBJcsIGBUepVSsjH61PFcD6nTLnP2EZTjeQY5LYrSWjq+n4uDee6kqQceqHiiq0nL
- wk8JXBN5ijd24PXxo4tonmxfVWiwCXkuBewwDNfiBrDoFTdDxB2bl+fQYglhz+8+Re8qSYanve+
- D1ONODxgnK6pNq1qh/hFlr1UisNsM8iuqTUdaxD1q7Szc7SkLNz/tyPiP+dmc8pZJ+OU+LHsRwF
- jm3H/mG9xzWkxIeMhNiBvbw4lqISgpgUv9tLcyjZtYTt92XrR5gzjgCJPbxlm4mxQbQg5mCoDh6
- 5Na2xrtLZXiziyI1t08go0olRltnhWq0tHgOrg26gw2contCSpehq0tQq5cZ1IRO0K6Zk1oIQkW
- YQWk0Thc0GdZoYZPtcQpD5Uaew4Vb7Cm+uPK9vhbAKls/nSsAVqLtYTd6g3hJ4FnFQcuvn2R9cj
- +PIrDAQdTywUe3s5uaupHRGQTie/QP9qhIrdv8VrLV/Coqk6jqpxshtWhHs0MHh3QdPZYUfwKza
- t2Qrv8MVTp0jCxigYYlcWjPAr34FiF1C38Mw6d6tZEo412IAQQuuJHR40wo480sUmovZH+IF4Cl FzbB+ES4KqcHlTg==
-X-Mailer: b4 0.14.3
-Message-ID: <20260716-device-trail-semicolon-v1-1-f48e9dcfae15@google.com>
-Subject: [PATCH] rust: device: avoid trailing ; in printing macros
-From: Alice Ryhl <aliceryhl@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+MIME-Version: 1.0
+References: <20260716-device-trail-semicolon-v1-1-f48e9dcfae15@google.com>
+In-Reply-To: <20260716-device-trail-semicolon-v1-1-f48e9dcfae15@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 16 Jul 2026 14:17:59 +0200
+X-Gm-Features: AUfX_myevnsR5Su-h4NLGTu3-mxvvsCDC3uCj12Aik5QGhF3XPcyxIyrYw2aShM
+Message-ID: <CANiq72n3BYGfB9VvLk4-bBQzGy9YhDxFvCrjkjJqBbcJa5YRYw@mail.gmail.com>
+Subject: Re: [PATCH] rust: device: avoid trailing ; in printing macros
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, "=?utf-8?q?Onur_=C3=96zkan?=" <work@onurozkan.dev>
-Cc: driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="utf-8"
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, driver-core@lists.linux.dev, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-These macros are used like expressions, so they should must not emit a
-semicolon. This is being turned into a hard error in a future release of
-Rust.
+On Thu, Jul 16, 2026 at 12:22=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> =
+wrote:
+>
+> These macros are used like expressions, so they should must not emit a
+> semicolon. This is being turned into a hard error in a future release of
+> Rust.
+>
+> error: trailing semicolon in macro used in expression position
+>   --> drivers/gpu/nova-core/firmware/fsp.rs:79:34
+>    |
+> 79 |                 .inspect_err(|_| dev_err!(dev, "FMC firmware missing=
+ '{}' section\n", name))
+>    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^
+>    |
+>    =3D warning: this was previously accepted by the compiler but is being=
+ phased out; it will become a hard error in a future release!
+>    =3D note: for more information, see issue #79813 <https://github.com/r=
+ust-lang/rust/issues/79813>
+>    =3D note: this error originates in the macro `dev_err` (in Nightly bui=
+lds, run with -Z macro-backtrace for more info)
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 5c7ca6fa603f ("rust: add `dev_*` print macros.")
+> Link: https://github.com/rust-lang/rust/issues/79813
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-error: trailing semicolon in macro used in expression position
-  --> drivers/gpu/nova-core/firmware/fsp.rs:79:34
-   |
-79 |                 .inspect_err(|_| dev_err!(dev, "FMC firmware missing '{}' section\n", name))
-   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = warning: this was previously accepted by the compiler but is being phased out; it will become a hard error in a future release!
-   = note: for more information, see issue #79813 <https://github.com/rust-lang/rust/issues/79813>
-   = note: this error originates in the macro `dev_err` (in Nightly builds, run with -Z macro-backtrace for more info)
+I was doubly surprised since upstream made it a warning by default a
+long time ago, and yet we didn't see it; and since I hadn't seen in my
+CI even yesterday.
 
-Cc: stable@vger.kernel.org
-Fixes: 5c7ca6fa603f ("rust: add `dev_*` print macros.")
-Link: https://github.com/rust-lang/rust/issues/79813
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
- rust/kernel/device.rs | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+It turns out this just landed into today's nightly:
 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 645afc49a27d..1a38b3bbdfb7 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -708,9 +708,7 @@ macro_rules! impl_device_context_into_aref {
- #[macro_export]
- macro_rules! dev_printk {
-     ($method:ident, $dev:expr, $($f:tt)*) => {
--        {
--            $crate::device::Device::$method($dev.as_ref(), $crate::prelude::fmt!($($f)*))
--        }
-+        $crate::device::Device::$method($dev.as_ref(), $crate::prelude::fmt!($($f)*))
-     }
- }
- 
-@@ -737,7 +735,7 @@ macro_rules! dev_printk {
- /// ```
- #[macro_export]
- macro_rules! dev_emerg {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_emerg, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_emerg, $($f)*) }
- }
- 
- /// Prints an alert-level message (level 1) prefixed with device information.
-@@ -763,7 +761,7 @@ macro_rules! dev_emerg {
- /// ```
- #[macro_export]
- macro_rules! dev_alert {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_alert, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_alert, $($f)*) }
- }
- 
- /// Prints a critical-level message (level 2) prefixed with device information.
-@@ -789,7 +787,7 @@ macro_rules! dev_alert {
- /// ```
- #[macro_export]
- macro_rules! dev_crit {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_crit, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_crit, $($f)*) }
- }
- 
- /// Prints an error-level message (level 3) prefixed with device information.
-@@ -815,7 +813,7 @@ macro_rules! dev_crit {
- /// ```
- #[macro_export]
- macro_rules! dev_err {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_err, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_err, $($f)*) }
- }
- 
- /// Prints a warning-level message (level 4) prefixed with device information.
-@@ -841,7 +839,7 @@ macro_rules! dev_err {
- /// ```
- #[macro_export]
- macro_rules! dev_warn {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_warn, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_warn, $($f)*) }
- }
- 
- /// Prints a notice-level message (level 5) prefixed with device information.
-@@ -867,7 +865,7 @@ macro_rules! dev_warn {
- /// ```
- #[macro_export]
- macro_rules! dev_notice {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_notice, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_notice, $($f)*) }
- }
- 
- /// Prints an info-level message (level 6) prefixed with device information.
-@@ -893,7 +891,7 @@ macro_rules! dev_notice {
- /// ```
- #[macro_export]
- macro_rules! dev_info {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_info, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_info, $($f)*) }
- }
- 
- /// Prints a debug-level message (level 7) prefixed with device information.
-@@ -919,5 +917,5 @@ macro_rules! dev_info {
- /// ```
- #[macro_export]
- macro_rules! dev_dbg {
--    ($($f:tt)*) => { $crate::dev_printk!(pr_dbg, $($f)*); }
-+    ($($f:tt)*) => { $crate::dev_printk!(pr_dbg, $($f)*) }
- }
+Link: https://github.com/rust-lang/rust/pull/159222
 
----
-base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
-change-id: 20260716-device-trail-semicolon-1c02e29ea1cf
+  The semicolon_in_expressions_from_macros lint previously
+  suppressed warnings about non-local macros. This masks
+  a lint that will subsequently become a hard error.
 
-Best regards,
--- 
-Alice Ryhl <aliceryhl@google.com>
+So that explains it. And this is the one that will make it a hard error:
 
+Link: https://github.com/rust-lang/rust/pull/159218
+
+Ok, I will land this into `rust-fixes` then, and send the PR during
+the weekend after tomorrow's -next.
+
+Cheers,
+Miguel
