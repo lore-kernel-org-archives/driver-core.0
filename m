@@ -1,147 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7193C35E1A6
-	for <driver-core@lists.linux.dev>; Thu, 16 Jul 2026 17:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A6C4314B8;
+	Thu, 16 Jul 2026 18:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784223262; cv=none; b=JQrxQxg8YaKSy1skrSViAx/H5imArOjz9+P6+b7MFYbkSDyl6Cwxlg6gz4cRsQ+kP2OpBduUtLZelwfuxW4Qi+YK+p1xa2vLM7KWQSgZssyzGQWeuZJgXSHG5uk81kLXUkZzXJurvn5SRjZbFbO8RD6UINaH3GYDhx/TQBGaFHs=
+	t=1784227559; cv=none; b=B6ngwq2SD33gbi8lWtu6CKBNx5/zLjAUhvrfqb7lmXN3qhl8DScdwTiHm47fidBzGnYET4GlbjEpNEl5fJki2Icw0uDIOGPXfgdUuzmTu2jU89zhLR/MRBNsIv7YQLHB0D2cCc0tsoBYOfz9BZobIlsgTlCrRZCI+GDQWqohoLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784223262; c=relaxed/simple;
-	bh=LdUVk/NYwiBLxejC3EguQWO9elJf87/PL/iYCAtTcfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjhTAbm9TWjHy+LZaaT5LLS6mbmpqZ0pKVPkZC5tZvA2iTPW+/fSKvQdmnv5nu5UnsaogLvjsaFBhi3ml403bS9XHdbeM6O5YR1zdjEpVp1D9cLSC2hJzhGjbYRFrR9sDhScJ2a/XswVU23cCJ0G5AV4fZlRy+alXmTQvNpzn0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKgCzg6D; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1784227559; c=relaxed/simple;
+	bh=9jcnThpKqbhDe2vR4tcH2u1qIOXqXogFJxOSgKo7grk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=L26RUSwmWu3Znw00tBEOJmVcb7abr+k+icZn3O9BhOJzICkMBtRLJnlJfOLgWfkSCPxrgrYtKEz5CaoSTDUn2OPed71oQGe8l+jpImgERpOwyQIWa0pjmIYvF/JYqivNVzh1P2hU+2N4HQx+2PJw5b20UysQnOdKGoZnYPXuk6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iqNXCG6W; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKgCzg6D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784223260; x=1815759260;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=LdUVk/NYwiBLxejC3EguQWO9elJf87/PL/iYCAtTcfo=;
-  b=mKgCzg6DcKtyYDsHoeqsXbHDrViEp97nshLRTEah6+ewLEyMLNM711NM
-   vxNmN3yNxHsYsatOLZb3KF4ZKWpd+urNWxCzNbEE6WJfHNle3bdSGWyyz
-   jmicErUrYh2TDFisdE001Q6pKH7DNGKxrtnnFvmVZwCOrm/jKOwYZlE/M
-   2/UFGnh83NoX38556M7jC3rLuUGfog+xELfHvCwVtcOs7GziXPQK+pCkc
-   k70kHQdYxrPzNFlP1N7dbXVLho3Odlxak0OtH4hVhIdlPpTdnwCayLEIG
-   w/FVpeOJdA0Hs0h7uyUWkIFaMICrmU512F1FGAgbnYHA4+uNJXjd51Mh6
-   g==;
-X-CSE-ConnectionGUID: LvNE8eznTjCsUTJK224zSg==
-X-CSE-MsgGUID: p72ibGR+Rf+CmcZoMBZrnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="85009572"
-X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="85009572"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:34:20 -0700
-X-CSE-ConnectionGUID: G088pS9JRWCNCTzsqTnKsA==
-X-CSE-MsgGUID: jHS8gdqYTkewW49IH6KeVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="260157517"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.26])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:34:14 -0700
-Date: Thu, 16 Jul 2026 20:34:11 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v5 10/16] usb: hub: Power on connected M.2 E-key
- connectors with power sequencing API
-Message-ID: <alkWE-bQ9gGIXIJj@ashevche-desk.local>
-References: <20260715085348.3457359-1-wenst@chromium.org>
- <20260715085348.3457359-11-wenst@chromium.org>
- <aleKQKH2V-ck-SX6@ashevche-desk.local>
- <CAGXv+5Ed9Cn-NeHiXJ58er7NJs1P2ZUMrjqYac-gSky-TNV8Lw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iqNXCG6W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 354741F000E9;
+	Thu, 16 Jul 2026 18:45:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784227558;
+	bh=DuoNaGIN8f48jgsgNG0uOaD3zoy5Zi5FE8xyU8niMU0=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=iqNXCG6W4aVbGcQoI02uJfp1rQKwNlXn3FMqszesspi7ygp41Hmt8WDec6FRC1u/G
+	 vdUZuAbiknFAo13+y/0T2d8lyPKyRvoYCXjDSZPxLlYYlBjBDVLGjQwPObJT5QOf3M
+	 M2vujRg5bSnAWCb1mecF2EN2c9Fn+l60yEpeJFukWuYOaOknAyLv5EoBZq29FQdBN+
+	 YyZop6852wVPs1uWHLqUH5fSN5ggebg9dicFNKTIkytw40mmeENWGLzKc5o24rXs5b
+	 0NnnD/Nt2bAYMi603BgXJiq5xca8cLpjm0ixHcel+pFDFP9oHe1av3g6qocOv6Bohl
+	 m8Waf9jqlXGVg==
 Precedence: bulk
 X-Mailing-List: driver-core@lists.linux.dev
 List-Id: <driver-core.lists.linux.dev>
 List-Subscribe: <mailto:driver-core+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:driver-core+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5Ed9Cn-NeHiXJ58er7NJs1P2ZUMrjqYac-gSky-TNV8Lw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 16 Jul 2026 20:45:52 +0200
+Message-Id: <DK07VQ14YCY4.13KSVBNXSSA5J@kernel.org>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] rust: device: avoid trailing ; in printing macros
+References: <20260716-device-trail-semicolon-v1-1-f48e9dcfae15@google.com>
+ <CANiq72n3BYGfB9VvLk4-bBQzGy9YhDxFvCrjkjJqBbcJa5YRYw@mail.gmail.com>
+ <DK01JT88NEI6.1TTJR16A61780@kernel.org>
+ <CANiq72=OKHJo0Shzb_h1OuzmTVLqn6qPJsA_AhJAWOfQATbYDQ@mail.gmail.com>
+In-Reply-To: <CANiq72=OKHJo0Shzb_h1OuzmTVLqn6qPJsA_AhJAWOfQATbYDQ@mail.gmail.com>
 
-On Thu, Jul 16, 2026 at 06:02:38PM +0800, Chen-Yu Tsai wrote:
-> On Wed, Jul 15, 2026 at 9:25 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Wed, Jul 15, 2026 at 04:53:40PM +0800, Chen-Yu Tsai wrote:
+On Thu Jul 16, 2026 at 4:28 PM CEST, Miguel Ojeda wrote:
+> Thanks, no worries, I will take it -- this kind of fix makes more
+> sense in `rust-fixes` since they are treewide, i.e. it could have
+> triggered in more places at the same time since they changer the
+> compiler, and I have other few in the branch accumulated for Rust
+> 1.99.0.
+>
+> (An Acked-by is always nice of course!)
 
-...
+I don't understand the rationale about being treewide. This patch only touc=
+hes
+rust/kernel/device.rs.
 
+(Even if there would have been other subsystems running into the same condi=
+tion,
+it would have produced independent patches, which could be - but don't have=
+ to
+be - sent in a treewide series.)
 
-> > >       fwnode_handle_put(dev_fwnode(dev));
-> > > +     /* usb_hub_create_port_device() could leave an error value */
-> > > +     if (!IS_ERR(port_dev->pwrseq))
-> > > +             pwrseq_put(port_dev->pwrseq);
-> >
-> > Hmm... I would rather make pwrseq_put() NULL and error pointer-aware, so
-> > it will be no-op in such cases. But I think Bart has his own opinion about
-> > this.
-> >
-> > >       kfree(port_dev->req);
-> > >       kfree(port_dev);
-> > >  }
-> >
-> > >               put_device(&port_dev->dev);
-> > > +             hub->ports[port1 - 1] = NULL;
-> > >               return retval;
-> > >       }
+I'm obviously fine with the patch and I also don't mind if you take it if y=
+ou
+prefer to, thus:
 
-...
+	Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-> > > int usb_hub_create_port_device(struct usb_hub *hub, int port1)
-> >
-> > > +     port_dev->pwrseq = usb_hub_port_pwrseq_get(port_dev);
-> > > +     if (IS_ERR(port_dev->pwrseq)) {
-> > > +             retval = dev_err_probe(&port_dev->dev, PTR_ERR(port_dev->pwrseq),
-> > > +                                    "failed to get power sequencing descriptor\n");
-> > > +             goto err_put_kn;
-> >
-> > OTOH, how pwrseq can be non-NULL and at the same time port be created?
-> 
-> I assume by non-NULL you mean returning an error?
-> 
-> device_register(&port_dev->dev) is called some lines above this.
-> 
-> usb_port is weird in that usb_hub_create_port_device() does a bunch
-> of stuff that is normally done in a driver's probe function. However
-> usb_port's driver is just a stub driver add for userspace compatibility
-> reasons. See commit d99f6b4130877 ("usb: rename usb_port device objects").
-> 
-> So at this point the usb_port device has been added to the driver model.
-> Or we can just zero out port_dev->pwrseq instead? I guess that is cleaner
-> than having some weird check in the release function.
+But, if I may be honest, the way this is presented feels as if the driver-c=
+ore
+maintainers never had a say in the logistics in the first place, which does=
+n't
+feel right.
 
-So, why do we need to assign the error pointer to the field directly then?
-Make a local variable and assign it if and only if there is no error pointer
-in it. Would it work?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Also what makes this patch urgent in a way that waiting for an ACK to be gi=
+ven
+before applying wasn't an option?
